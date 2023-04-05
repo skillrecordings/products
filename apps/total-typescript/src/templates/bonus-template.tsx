@@ -18,10 +18,10 @@ import {ModuleNavigator} from './workshop-template'
 import Balancer from 'react-wrap-balancer'
 import Spinner from 'components/spinner'
 
-const PlaylistTemplate: React.FC<{
-  playlist: Module
-}> = ({playlist}) => {
-  const {title, body, ogImage, description} = playlist
+const BonusTemplate: React.FC<{
+  bonus: Module
+}> = ({bonus}) => {
+  const {title, body, ogImage, description} = bonus
   const pageTitle = `${title}`
 
   return (
@@ -37,7 +37,7 @@ const PlaylistTemplate: React.FC<{
       }}
     >
       <CourseMeta title={pageTitle} description={description} />
-      <Header playlist={playlist} />
+      <Header bonus={bonus} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <article className="prose prose-lg w-full max-w-none px-5 text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
           <PortableText
@@ -45,19 +45,19 @@ const PlaylistTemplate: React.FC<{
             components={portableTextComponents({loadingIndicator: <Spinner />})}
           />
         </article>
-        {playlist && <ModuleNavigator module={playlist} />}
+        {bonus && <ModuleNavigator module={bonus} />}
       </main>
     </Layout>
   )
 }
 
-export default PlaylistTemplate
+export default BonusTemplate
 
-const Header: React.FC<{playlist: Module}> = ({playlist}) => {
-  const {title, slug, sections, image, github} = playlist
+const Header: React.FC<{bonus: Module}> = ({bonus}) => {
+  const {title, slug, sections, image, github} = bonus
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
-      slug: playlist.slug.current,
+      slug: bonus.slug.current,
     })
 
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
@@ -65,17 +65,17 @@ const Header: React.FC<{playlist: Module}> = ({playlist}) => {
   const nextLesson = moduleProgress?.nextLesson
 
   const firstSection = first<Section>(sections)
-  const firstLesson = first<Lesson>(firstSection?.lessons || playlist.lessons)
+  const firstLesson = first<Lesson>(firstSection?.lessons || bonus.lessons)
 
   return (
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-8 sm:pt-8 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
-            href="/playlists"
+            href="/bonuses"
             className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300"
           >
-            Playlist
+            Bonus
           </Link>
           <h1 className="text-center font-text text-4xl font-bold sm:text-5xl md:text-left lg:text-6xl">
             <Balancer>{title}</Balancer>
@@ -99,7 +99,7 @@ const Header: React.FC<{playlist: Module}> = ({playlist}) => {
                 href={
                   firstSection && sections
                     ? {
-                        pathname: '/playlists/[module]/[section]/[lesson]',
+                        pathname: '/bonuses/[module]/[section]/[lesson]',
                         query: {
                           module: slug.current,
                           section: isModuleInProgress
@@ -111,7 +111,7 @@ const Header: React.FC<{playlist: Module}> = ({playlist}) => {
                         },
                       }
                     : {
-                        pathname: '/playlists/[module]/[lesson]',
+                        pathname: '/bonuses/[module]/[lesson]',
                         query: {
                           module: slug.current,
                           lesson: isModuleInProgress

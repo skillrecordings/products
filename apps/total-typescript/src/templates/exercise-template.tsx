@@ -31,6 +31,7 @@ import {
 import ExerciseOverlay from 'components/exercise-overlay'
 import Spinner from 'components/spinner'
 import {getExerciseGitHubUrl} from 'exercise/get-exercise-github-url'
+import pluralize from 'pluralize'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -46,7 +47,7 @@ const ExerciseTemplate: React.FC<{
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
   //TODO path here could also include module slug and section (as appropriate)
-  const path = `/${module.moduleType}s`
+  const path = `/${pluralize(module.moduleType)}`
   const {data: session} = useSession()
   const {data: products} = trpc.products.getProducts.useQuery()
   const activeProduct = products?.products[0]

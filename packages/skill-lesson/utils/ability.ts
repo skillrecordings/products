@@ -61,7 +61,7 @@ const canViewWorkshop = ({
   purchasedModules = [],
 }: ViewerAbilityInput) => {
   const contentIsWorkshop =
-    module?.moduleType === 'workshop' || module?.moduleType === 'playlist'
+    module?.moduleType === 'workshop' || module?.moduleType === 'bonus'
 
   if (!contentIsWorkshop || !lesson) {
     return false
@@ -86,7 +86,9 @@ const canViewWorkshop = ({
     modulePurchase.find((purchase) => {
       return (
         (purchase?.bulkCouponId === null && purchase?.status === 'Valid') ||
-        (purchase?.status === 'Restricted' && purchase?.country === country)
+        (purchase?.status === 'Restricted' &&
+          purchase?.country === country &&
+          module.moduleType !== 'bonus')
       )
     }),
   )
@@ -154,21 +156,35 @@ export function defineRulesForPurchases(
         )
       })
 
+    console.log({purchasedModules, modulePurchase, viewerAbilityInput})
+
     const userHasPurchaseWithAccess = modulePurchase.map((purchase) => {
       if (purchase?.bulkCouponId !== null) {
         return {valid: false, reason: 'bulk_purchase'}
       }
-      if (
-        purchase.status === 'Valid' ||
-        (purchase.status === 'Restricted' && purchase.country === country)
-      ) {
-        return {valid: true}
-      }
+
       if (purchase.status === 'Restricted' && purchase.country !== country) {
         return {valid: false, reason: 'region_restricted'}
       }
+
+      console.log({status: purchase.status, country: purchase.country, module})
+
+      if (purchase.status === 'Restricted' && module.moduleType === 'bonus') {
+        return {valid: false, reason: 'region_restricted'}
+      }
+
+      if (
+        purchase.status === 'Valid' ||
+        (purchase.status === 'Restricted' &&
+          purchase.country === country &&
+          module.moduleType !== 'bonus')
+      ) {
+        return {valid: true}
+      }
       return {valid: false, reason: 'unknown'}
     })
+
+    console.log({userHasPurchaseWithAccess})
 
     if (userHasPurchaseWithAccess.some((purchase) => purchase.valid)) {
       can('view', 'Content')
