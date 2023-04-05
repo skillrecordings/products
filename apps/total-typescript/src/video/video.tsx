@@ -82,7 +82,7 @@ export const Video: React.FC<
             hidden: displayOverlay,
           })}
         >
-          {canShowVideo && !loadingVideoResource ? (
+          {canShowVideo && videoResource?.muxPlaybackId ? (
             <MuxPlayer
               ref={ref}
               {...(muxPlayerProps as MuxPlayerProps)}
