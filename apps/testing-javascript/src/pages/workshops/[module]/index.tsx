@@ -1,10 +1,19 @@
-import * as React from 'react'
+import React from 'react'
+import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {type Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {type SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getAllWorkshops, getWorkshopBySlug} from '../../../lib/resources'
+import {getAllWorkshops, getWorkshop} from 'lib/resources'
 import WorkshopTemplate from '../../../templates/workshop-template'
 
+import {trpc} from '../../../trpc/trpc.client'
+import {useRouter} from 'next/router'
+import {ModuleProgressProvider} from 'utils/module-progress'
+
+export const USER_ID_QUERY_PARAM_KEY = 'learner'
+
 export const getStaticProps: GetStaticProps = async ({params}) => {
-  const workshop = await getWorkshopBySlug(params?.module as string)
+  const workshop = await getWorkshop(params?.module as string)
 
   return {
     props: {workshop},
@@ -15,13 +24,29 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const workshops = await getAllWorkshops()
   const paths = workshops.map((workshop: any) => ({
-    params: {module: workshop.slug},
+    params: {module: workshop.slug.current},
   }))
   return {paths, fallback: 'blocking'}
 }
 
-const WorkshopPage: React.FC<any> = ({workshop}) => {
-  return <WorkshopTemplate workshop={workshop} />
+const WorkshopPage: React.FC<{
+  workshop: Module & {
+    description: string
+    ogImage: string
+    sections: Section[]
+    product: SanityProduct
+  }
+}> = ({workshop}) => {
+  const router = useRouter()
+  const {data: commerceProps} = trpc.pricing.propsForCommerce.useQuery(
+    router.query,
+  )
+  // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
+  return (
+    <ModuleProgressProvider moduleSlug={workshop.slug.current}>
+      <WorkshopTemplate workshop={workshop} commerceProps={commerceProps} />
+    </ModuleProgressProvider>
+  )
 }
 
 export default WorkshopPage

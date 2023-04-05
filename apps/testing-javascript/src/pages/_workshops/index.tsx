@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import {SanityDocument} from '@sanity/client'
 import {isEmpty} from 'lodash'
 import {PortableText} from '@portabletext/react'
 
@@ -10,7 +9,6 @@ import Layout from 'components/layout'
 import PortableTextComponents from 'components/portable-text'
 
 export async function getStaticProps() {
-  // TODO: need to get the product ID from upper level
   const product = await getProductById('product-273899')
   return {
     props: {product},
@@ -18,7 +16,7 @@ export async function getStaticProps() {
   }
 }
 
-const WorkshopsIndex: React.FC<{product: SanityDocument[]}> = ({product}) => {
+const WorkshopsIndex: React.FC<{product: any}> = ({product}) => {
   return (
     <Layout>
       <main className="relative z-10 flex flex-col items-center justify-center py-20">
@@ -33,7 +31,6 @@ const WorkshopsIndex: React.FC<{product: SanityDocument[]}> = ({product}) => {
           {!isEmpty(product[0]) && (
             <div className="space-y-8">
               {product[0].modules.map((module: any) => {
-                console.log({module})
                 return (
                   <div
                     key={module.slug}
@@ -62,7 +59,7 @@ const WorkshopsIndex: React.FC<{product: SanityDocument[]}> = ({product}) => {
                         </Link>
                       </h3>
                       <div className="text-gray-600 font-mono text-sm">
-                        {module?.sections[0]?.lessons.length} lessons
+                        {module?.lessons.length} lessons
                       </div>
                       <div>{module.description}</div>
                       <article className="prose w-full max-w-none pb-10 text-gray-900 lg:max-w-xl">

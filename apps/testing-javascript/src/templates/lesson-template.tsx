@@ -1,39 +1,88 @@
 import * as React from 'react'
-import Link from 'next/link'
-import {useRouter} from 'next/router'
-import {PortableText} from '@portabletext/react'
-import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
-
 import Layout from 'components/layout'
-import PortableTextComponents from 'components/portable-text'
+import {ArticleJsonLd} from '@skillrecordings/next-seo'
+import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {useRouter} from 'next/router'
+import {LessonDescription} from 'video/lesson-description'
+import {LessonTitle} from 'video/lesson-title'
+import LessonAssets from 'video/lesson-assets'
+import {VideoTranscript} from 'video/video-transcript'
+import {Video} from 'video/video'
+import {LargeScreenModuleLessonList} from 'video/module-lesson-list/large-screen-module-lesson-list'
+import {MobileModuleLessonList} from 'video/module-lesson-list/mobile-module-lesson-list'
+// import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
+import {trpc} from 'trpc/trpc.client'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {
+  ExerciseLink,
+  ExplainerLink,
+  ProblemLink,
+  SolutionLink,
+} from 'video/module-lesson-list/lesson-list'
+// import ExerciseOverlay from 'components/exercise-overlay'
+import Spinner from 'components/spinner'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import MuxPlayer, {
+  type MuxPlayerRefAttributes,
+  type MuxPlayerProps,
+} from '@mux/mux-player-react'
 
-const WorkshopTemplate: React.FC<any> = ({lesson, module, transcript}) => {
+const ExerciseTemplate: React.FC<{
+  transcript: any[]
+  tutorialFiles?: any
+}> = ({transcript, tutorialFiles}) => {
   const router = useRouter()
+  const {
+    muxPlayerProps,
+    displayOverlay,
+    nextExercise,
+    nextExerciseStatus,
+    canShowVideo,
+    loadingUserStatus,
+    nextSection,
+  } = useMuxPlayer()
+  const {videoResource, loadingVideoResource} = useVideoResource()
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
+  const {lesson, section, module} = useLesson()
+  const {videoResourceId} = useVideoResource()
+  const {title, description: exerciseDescription} = lesson
+  const {ogImage, description: moduleDescription} = module
+  const pageTitle = `${title}`
+  const pageDescription = exerciseDescription || moduleDescription
+  const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
+  //TODO path here could also include module slug and section (as appropriate)
+  const path = `/${module.moduleType}s`
+  // const {data: resources, status: resourcesStatus} =
+  //   trpc.resources.byExerciseSlug.useQuery({
+  //     slug: router.query.lesson as string,
+  //     type: lesson._type,
+  //   })
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
-      path="/workshops"
+      path={path}
       exerciseSlug={router.query.lesson as string}
     >
-      <Layout>
-        <main className="relative z-10 flex flex-col items-center justify-center py-20">
-          <div className="container">
-            <h1 className="text-4xl mb-4 text-primary-500 font-bold">
-              {lesson.title}
-            </h1>
-            <article className="prose w-full max-w-none pb-10 text-gray-900 lg:max-w-xl mb-4">
-              <PortableText
-                value={lesson.body}
-                components={PortableTextComponents}
-              />
-            </article>
-          </div>
-        </main>
+      <Layout
+        meta={
+          {title: pageTitle, ...shareCard, description: pageDescription} as any
+        }
+        navClassName="mx-auto flex w-full items-center justify-between px-5"
+      >
+        <MuxPlayer
+          ref={muxPlayerRef}
+          {...(muxPlayerProps as MuxPlayerProps)}
+          playbackId={videoResource?.muxPlaybackId}
+        />
       </Layout>
     </VideoProvider>
   )
 }
 
-export default WorkshopTemplate
+export default ExerciseTemplate
