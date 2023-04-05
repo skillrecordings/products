@@ -22,7 +22,12 @@ export const VideoResourceProvider: React.FC<VideoResourceProviderProps> = ({
   children,
 }) => {
   const {data: videoResource, status} =
-    trpcSkillLessons.videoResource.byId.useQuery({id: videoResourceId})
+    trpcSkillLessons.videoResource.byId.useQuery(
+      {id: videoResourceId},
+      {
+        refetchOnWindowFocus: false,
+      },
+    )
 
   const context = {
     videoResourceId,
