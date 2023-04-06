@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {User} from '@skillrecordings/database'
+import Layout from 'components/layout'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllLessons, getLesson} from 'lib/lessons'
@@ -38,12 +39,15 @@ const LessonPage: React.FC<{
   module: Module
   videoResourceId: string
 }> = ({lesson, module, videoResourceId}) => {
+  console.log({lesson})
   return (
-    <LessonProvider lesson={lesson} module={module}>
-      <VideoResourceProvider videoResourceId={videoResourceId}>
-        <LessonTemplate />
-      </VideoResourceProvider>
-    </LessonProvider>
+    <Layout>
+      <LessonProvider lesson={lesson} module={module}>
+        <VideoResourceProvider videoResourceId={videoResourceId}>
+          <LessonTemplate />
+        </VideoResourceProvider>
+      </LessonProvider>
+    </Layout>
   )
 }
 
