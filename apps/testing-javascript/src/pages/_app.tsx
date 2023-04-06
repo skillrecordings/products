@@ -13,10 +13,9 @@ import config from '../config'
 
 import {trpc} from 'trpc/trpc.client'
 
-initNProgress()
-
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()
+  initNProgress()
   return (
     <>
       <DefaultSeo {...config} />
