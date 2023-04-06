@@ -15,7 +15,7 @@ export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const lesson = await getLesson(params?.lesson as string)
-  const module = await getPlaylist('test-node-js-backends-1f90')
+  const module = await getPlaylist(lesson.module.module.slug.current as string)
   return {
     props: {module, lesson, videoResourceId: lesson.videoResourceId},
     revalidate: 10,
