@@ -27,7 +27,10 @@ export async function getMiddlewareResponse(req: NextRequest) {
   let response = NextResponse.next()
   const token = await getToken({req})
 
-  if (req.nextUrl.pathname.includes('/admin')) {
+  if (
+    req.nextUrl.pathname.includes('/admin') ||
+    req.nextUrl.pathname.includes('/tips')
+  ) {
     try {
       const user = UserSchema.parse(token)
       const ability = getCurrentAbility({user})
