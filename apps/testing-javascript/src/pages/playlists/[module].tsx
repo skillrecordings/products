@@ -38,7 +38,7 @@ const WorkshopPage: React.FC<{
             <ul>
               {section.lessons?.map((lesson) => {
                 return (
-                  <li key={lesson._key}>
+                  <li key={lesson._id}>
                     <Link href={`/lessons/${lesson.slug}`}>{lesson.title}</Link>
                   </li>
                 )
