@@ -18,6 +18,7 @@ const LessonTemplate = () => {
   const {muxPlayerProps} = useMuxPlayer()
   const {videoResource, loadingVideoResource} = useVideoResource()
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
+  const {lesson, module} = useLesson()
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -28,6 +29,14 @@ const LessonTemplate = () => {
         {...(muxPlayerProps as MuxPlayerProps)}
         playbackId={videoResource?.muxPlaybackId}
       />
+      <div className="container">
+        <h2 className="mt-8 text-xl">
+          module: <b>{module?.title}</b>
+        </h2>
+        <h2 className="mt-8 text-xl">
+          lesson: <b>{lesson?.title}</b>
+        </h2>
+      </div>
     </VideoProvider>
   )
 }
