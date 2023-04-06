@@ -5,6 +5,7 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {getPlaylist, getAllPlaylists} from '../../lib/playlists'
 import Link from 'next/link'
+import Layout from 'components/layout'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const workshop = await getPlaylist(params?.module as string)
@@ -29,7 +30,7 @@ const WorkshopPage: React.FC<{
   workshop: Module
 }> = ({workshop}) => {
   return (
-    <div>
+    <Layout>
       {workshop?.sections?.map((section) => {
         return (
           <div key={section.slug}>
@@ -46,7 +47,7 @@ const WorkshopPage: React.FC<{
           </div>
         )
       })}
-    </div>
+    </Layout>
   )
 }
 
