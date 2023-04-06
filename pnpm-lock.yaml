@@ -1534,6 +1534,7 @@ importers:
 
   apps/testing-javascript:
     specifiers:
+      '@heroicons/react': ^1.0.6
       '@mdx-js/loader': ^2.1.2
       '@mdx-js/mdx': ^2.1.2
       '@mdx-js/react': ^2.1.2
@@ -1543,6 +1544,7 @@ importers:
       '@next/env': ^12.2.2
       '@next/mdx': ^12.2.4
       '@portabletext/react': ^1.0.6
+      '@radix-ui/react-navigation-menu': ^1.1.1
       '@sanity/block-tools': ^3.2.3
       '@sanity/client': ^4.0.1
       '@sanity/code-input': ^3.0.1
@@ -1605,6 +1607,8 @@ importers:
       prettier: ^2.6.2
       react: 18.2.0
       react-dom: 18.2.0
+      react-hook-form: ^7.29.0
+      react-hot-toast: ^2.2.0
       react-icons: ^4.7.1
       sanity: ^3.0.0
       sanity-plugin-cloudinary: ^1.0.1
@@ -1616,6 +1620,7 @@ importers:
       webpack: ^5.73.0
       zod: ^3.20.2
     dependencies:
+      '@heroicons/react': 1.0.6_react@18.2.0
       '@mdx-js/loader': 2.1.5_webpack@5.73.0
       '@mdx-js/mdx': 2.1.5
       '@mdx-js/react': 2.1.5_react@18.2.0
@@ -1624,6 +1629,7 @@ importers:
       '@next-auth/prisma-adapter': 1.0.3_next-auth@4.19.2
       '@next/mdx': 12.3.4_wuv4qx5dshjptmdbtsqqkih5iu
       '@portabletext/react': 1.0.6_react@18.2.0
+      '@radix-ui/react-navigation-menu': 1.1.1_biqbaboplfbrettd7655fr4n2y
       '@sanity/block-tools': 3.2.5
       '@sanity/client': 4.0.1
       '@sanity/code-input': 3.0.1_44semxve3hfsjb2sdqqh3byqfa
@@ -1662,6 +1668,8 @@ importers:
       nodemailer-postmark-transport: 5.2.1_nodemailer@6.7.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-hook-form: 7.29.0_react@18.2.0
+      react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       react-icons: 4.7.1_react@18.2.0
       sanity: 3.2.5_34p3kynx32jfaofqogjlofkdsy
       sanity-plugin-cloudinary: 1.0.1_lwfue5ecbqwevxpjdqp6room4e
