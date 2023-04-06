@@ -115,6 +115,7 @@ export const updateVideoResourceWithTranscriptOrderId = async ({
   muxAsset,
   duration,
 }: UpdateVideoResourceAsset) => {
+  console.info('update Sanity document:', sanityDocumentId)
   return sanityWriteClient
     .patch(sanityDocumentId)
     .set({

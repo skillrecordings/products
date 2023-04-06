@@ -42,6 +42,9 @@ module.exports = {
             p: {
               color: theme('colors.gray.300'),
             },
+            strong: {
+              color: theme('colors.gray.200'),
+            },
             'code::before': {
               content: "''",
             },

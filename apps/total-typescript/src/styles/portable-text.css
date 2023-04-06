@@ -9,6 +9,9 @@
       @apply flex items-center gap-3 pt-5 text-gray-200;
       [data-image] {
         @apply flex items-center justify-center overflow-hidden rounded-full;
+        img {
+          @apply my-0;
+        }
       }
       [data-name] {
         @apply font-normal text-gray-200;

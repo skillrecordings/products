@@ -21,6 +21,9 @@ import {SanityDocument} from '@sanity/client'
 import {InvoiceCard} from 'pages/invoices'
 import {MailIcon} from '@heroicons/react/solid'
 import {getProduct} from 'path-to-purchase-react/products.server'
+import {trpc} from 'trpc/trpc.client'
+import {isEmpty} from 'lodash'
+import {Transfer} from 'purchase-transfer/purchase-transfer'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context
@@ -109,6 +112,34 @@ const InlineTeamInvite = ({
   )
 }
 
+const PurchaseTransfer: React.FC<{
+  bulkCouponId?: string
+  purchase: {id: string; userId: string | null}
+}> = ({bulkCouponId, purchase}) => {
+  const {data: purchaseUserTransfers, refetch} =
+    trpc.purchaseUserTransfer.forPurchaseId.useQuery({
+      id: purchase.id,
+      sourceUserId: purchase.userId || undefined,
+    })
+
+  if (bulkCouponId) return null
+  if (isEmpty(purchaseUserTransfers)) return null
+
+  return (
+    <div>
+      <h2 className="pb-2 text-sm font-semibold uppercase tracking-wide">
+        Transfer this purchase to another email address
+      </h2>
+      {purchaseUserTransfers && (
+        <Transfer
+          purchaseUserTransfers={purchaseUserTransfers}
+          refetch={refetch}
+        />
+      )}
+    </div>
+  )
+}
+
 type ThankYouProps = {
   email: string
   product: SanityDocument
@@ -159,7 +190,7 @@ export const LoginLink: React.FC<{email: string}> = ({email}) => {
             got sent.
           </Balancer>
         </h2>
-        <div className="mb-3 inline-flex items-center gap-2 rounded-lg bg-cyan-300 py-2 px-4 text-gray-900 shadow-lg shadow-cyan-600/20">
+        <div className="mb-3 inline-flex items-center gap-2 rounded-lg bg-cyan-300 px-4 py-2 text-gray-900 shadow-lg shadow-cyan-600/20">
           <MailIcon className="h-5 w-5 flex-shrink-0 text-cyan-600" />{' '}
           <strong className="inline-block break-all font-semibold">
             Email sent to: {email}
@@ -252,7 +283,7 @@ const ThanksVerify: React.FC<
   return (
     <>
       <Layout footer={null} meta={{title: 'Purchase Successful'}}>
-        <main className="mx-auto flex w-full max-w-3xl flex-col gap-8 py-24 px-5">
+        <main className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-5 py-24">
           <ThankYou
             title={title}
             byline={byline}
@@ -269,6 +300,7 @@ const ThanksVerify: React.FC<
               purchase={{product: {name: stripeProductName}, ...purchase}}
             />
           </div>
+          <PurchaseTransfer purchase={purchase} />
         </main>
       </Layout>
     </>
