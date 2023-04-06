@@ -16,20 +16,7 @@ export const getLesson = async (
       description,
       "slug": slug.current,
       body,
-      "module": *[_type in ["explainer"] && slug.current == $slug][0]{
-        _id,
-        title,
-          "slug": slug.current,
-        "section": *[_type in ['section'] && references(^._id)][0]._id,
-      }
-      | {
-        ...,
-        "module": *[_type in ['module'] && references(^.section)][0] {
-          _id,
-          slug,
-          title
-        }
-      },
+      "section": *[_type in ['section'] && references(^._id)][0]._id,
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
       "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
@@ -40,10 +27,16 @@ export const getLesson = async (
         title,
         description,
         body,
-        "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "slug": slug.current,
+      }
+    } | {
+      ...,
+      "module": *[_type in ['module'] && references(^.section)][0] {
+        _id,
+        slug,
+        title
       }
     }`,
     {slug},
