@@ -33,6 +33,9 @@ async function createMuxAsset({
 }) {
   if (!muxAsset?.muxAssetId) {
     const {Video} = new Mux()
+
+    console.info('creating mux asset for:', originalMediaUrl)
+
     const newMuxAsset = await Video.Assets.create({
       input: originalMediaUrl,
       playback_policy: ['public'],

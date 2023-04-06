@@ -55,11 +55,14 @@ export async function orderTranscript(
   const headers = new Headers()
   headers.append('Content-Type', 'application/json')
 
+  console.info('ordering transcript for media:', originalMediaUrl)
+
   return await fetch(url, {
     method: 'POST',
     headers,
   }).then(async (response) => {
     const order = await response.json()
+    console.info('Castingwords response received:', JSON.stringify(order))
     return CastingWordsOrderResponseSchema.parse(order)
   })
 }
