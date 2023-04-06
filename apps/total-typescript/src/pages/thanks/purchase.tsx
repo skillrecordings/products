@@ -122,8 +122,6 @@ const PurchaseTransfer: React.FC<{
       sourceUserId: purchase.userId || undefined,
     })
 
-  console.log({purchaseUserTransfers, purchase})
-
   if (bulkCouponId) return null
   if (isEmpty(purchaseUserTransfers)) return null
 
