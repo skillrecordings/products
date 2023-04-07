@@ -100,7 +100,7 @@ export const getPlaylist = async (slug: string) =>
           },
           "resources": resources[@->._type in ['linkResource']]->
         },
-        "image": image.asset->url
+        "image": image.url
     }`,
     {slug: `${slug}`},
   )

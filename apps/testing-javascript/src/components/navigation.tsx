@@ -31,15 +31,16 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
       aria-label="top"
       className="relative top-0 z-50 w-full bg-white py-3 shadow-xl shadow-gray-200/20 print:hidden sm:py-4 md:text-sm lg:text-base"
     >
-      <div
-        className={cx(className, {
-          'mx-auto flex max-w-screen-lg items-center justify-between gap-2 px-5 sm:gap-0':
-            !className,
-        })}
-      >
-        <NavLogo />
-        <DesktopNav />
-        <MobileNav />
+      <div className="container max-w-6xl">
+        <div
+          className={cx(className, {
+            'flex items-center justify-between gap-2 sm:gap-0': !className,
+          })}
+        >
+          <NavLogo />
+          <DesktopNav />
+          <MobileNav />
+        </div>
       </div>
     </nav>
   )
