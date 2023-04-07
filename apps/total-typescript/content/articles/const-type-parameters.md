@@ -1,5 +1,13 @@
 # Const type parameters bring 'as const' to functions
 
+I got a message from my friend Tom on Twitter the other day:
+
+https://twitter.com/tomus_sherman/status/1644407618016890880
+
+<!-- Embed the tweet if possible! Or copy the text. -->
+
+Turns out he hadn't made it up.
+
 TypeScript 5.0 introduced a brand-new piece of syntax to the language: `const` type parameters.
 
 ```ts
