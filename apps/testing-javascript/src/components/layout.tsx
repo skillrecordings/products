@@ -48,7 +48,9 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         noindex={noIndex}
       />
       {!noNav && <Navigation className={navClassName} />}
-      <div className={cx('flex flex-col flex-grow', className)}>{children}</div>
+      <div className={cx('flex flex-col flex-grow', className)}>
+        <div className="container max-w-6xl">{children}</div>
+      </div>
     </div>
   )
 }
