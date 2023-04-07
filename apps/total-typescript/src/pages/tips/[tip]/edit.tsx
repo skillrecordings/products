@@ -1,7 +1,32 @@
 import Layout from 'components/app/layout'
 import * as React from 'react'
 import VideoUploader from 'module-builder/video-uploader'
-export default function Adminpage() {
+import {NextPageContext} from 'next'
+import {sanityWriteClient} from '../../../utils/sanity-server'
+import {PortableTextEditor} from '@sanity/portable-text-editor'
+
+export async function getServerSideProps(context: NextPageContext) {
+  const {query} = context
+  const {tip} = query
+  const tipData = await sanityWriteClient.fetch(
+    `*[_type == "tip" && slug.current == $slug][0]`,
+    {slug: tip},
+  )
+
+  if (!tipData) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      tip: tipData,
+    },
+  }
+}
+
+export default function Adminpage({tip}: {tip: any}) {
   return (
     <Layout>
       <header className="relative flex flex-col items-center justify-center overflow-hidden px-5 pt-12">

@@ -43,6 +43,7 @@
     "@reach/utils": "^0.16.0",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^3.3.3",
+    "@sanity/portable-text-editor": "^3.8.3",
     "@sanity/webhook": "^1.0.2",
     "@sentry/nextjs": "^7.9.0",
     "@skillrecordings/ability": "workspace:*",
