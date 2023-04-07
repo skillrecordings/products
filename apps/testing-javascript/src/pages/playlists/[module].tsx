@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 
 import {User} from '@skillrecordings/database'
 import {GetStaticPaths, GetStaticProps} from 'next'
@@ -29,11 +30,26 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const WorkshopPage: React.FC<{
   workshop: Module
 }> = ({workshop}) => {
+  console.log({workshop})
   return (
     <Layout>
       {workshop?.sections?.map((section) => {
         return (
-          <div key={section.slug}>
+          <div
+            key={section.slug}
+            className="max-w-3xl mx-auto py-5 flex flex-col items-center"
+          >
+            {workshop?.image ? (
+              <div className="w-full max-w-xs">
+                <Image
+                  src={workshop?.image}
+                  alt={workshop?.title}
+                  title={workshop?.title}
+                  width={340}
+                  height={340}
+                />
+              </div>
+            ) : null}
             <h2 className="font-bold">{section.title}</h2>
             <ul>
               {section.lessons?.map((lesson) => {
