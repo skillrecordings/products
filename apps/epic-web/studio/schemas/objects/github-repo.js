@@ -11,7 +11,7 @@ export default {
       name: 'repo',
       title: 'Repository',
       type: 'string',
-      description: 'without https://github.com/pro-tailwind/',
+      description: 'without https://github.com/epicweb-dev/',
     },
   ],
 }
