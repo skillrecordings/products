@@ -77,7 +77,7 @@
     "@vercel/og": "^0.1.0",
     "@xstate/react": "=1.5.1",
     "aws-sdk": "^2.1197.0",
-    "axios": "^0.26.0",
+    "axios": "^0.26.1",
     "classnames": "^2.3.1",
     "cookie": "^0.5.0",
     "date-fns": "^2.28.0",

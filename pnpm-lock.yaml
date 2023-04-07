@@ -455,6 +455,7 @@ importers:
       '@trpc/next': '=10.7.0'
       '@trpc/react-query': '=10.7.0'
       '@trpc/server': '=10.7.0'
+      '@types/axios': ^0.14.0
       '@types/cookie': ^0.4.1
       '@types/js-cookie': ^3.0.2
       '@types/jsonwebtoken': ^8.5.8
@@ -467,8 +468,12 @@ importers:
       '@types/nprogress': ^0.2.0
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
+      '@types/shortid': ^0.0.29
       '@types/speakingurl': ^13.0.3
+      '@types/uuid': ^8.3.4
       autoprefixer: ^10.4.12
+      aws-sdk: ^2.1197.0
+      axios: ^0.26.1
       classnames: ^2.3.1
       cloudinary: ^1.29.0
       date-fns: ^2.28.0
@@ -477,6 +482,7 @@ importers:
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
       feed: ^4.2.2
+      file-extension: ^4.0.5
       focus-visible: ^5.2.0
       framer-motion: ^8.4.3
       groq: ^2.15.0
@@ -498,6 +504,7 @@ importers:
       react-tweet-embed: ^2.0.0
       react-use: ^17.4.0
       refractor: ^4.8.0
+      shortid: ^2.2.16
       speakingurl: ^14.0.1
       starfield-react: 3.1.0-dev-5
       superjson: '=1.11.0'
@@ -505,6 +512,7 @@ importers:
       tailwind-scrollbar: ^3.0.0
       tailwindcss: ^3.3.0
       typescript: ^4.9.4
+      uuid: ^8.3.2
       webpack: ^5.73.0
       zod: ^3.19.1
     dependencies:
@@ -538,12 +546,18 @@ importers:
       '@trpc/next': 10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju
       '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
+      '@types/axios': 0.14.0
       '@types/lodash': 4.14.179
+      '@types/shortid': 0.0.29
+      '@types/uuid': 8.3.4
+      aws-sdk: 2.1300.0
+      axios: 0.26.1
       classnames: 2.3.1
       cloudinary: 1.29.0
       date-fns: 2.28.0
       dexie: 3.2.2
       feed: 4.2.2
+      file-extension: 4.0.5
       focus-visible: 5.2.0
       framer-motion: 8.4.3_biqbaboplfbrettd7655fr4n2y
       groq: 2.15.0
@@ -561,10 +575,12 @@ importers:
       react-tweet-embed: 2.0.0_react@18.2.0
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
       refractor: 4.8.0
+      shortid: 2.2.16
       speakingurl: 14.0.1
       starfield-react: 3.1.0-dev-5_biqbaboplfbrettd7655fr4n2y
       superjson: 1.11.0
       tailwind-fluid-typography: 1.3.0_tailwindcss@3.3.0
+      uuid: 8.3.2
       zod: 3.19.1
     devDependencies:
       '@next/env': 12.3.0
@@ -1832,7 +1848,7 @@ importers:
       '@xstate/react': '=1.5.1'
       autoprefixer: ^10.4.2
       aws-sdk: ^2.1197.0
-      axios: ^0.26.0
+      axios: ^0.26.1
       classnames: ^2.3.1
       cookie: ^0.5.0
       date-fns: ^2.28.0
@@ -9118,7 +9134,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.5_webpack@4.46.0
+      '@mdx-js/loader': 2.1.5_webpack@5.73.0
       '@mdx-js/react': 2.1.5_react@18.2.0
     dev: false
 
@@ -12457,10 +12473,9 @@ packages:
     resolution: {integrity: sha512-KqQnQbdYE54D7oa/UmYVMZKq7CO4l8DEENzOKc4aBRwxCXSlJXGz83flFx5L7AWrOQnmuN3kVsRdt+GZPPjiVQ==}
     deprecated: This is a stub types definition for axios (https://github.com/mzabriskie/axios). axios provides its own type definitions, so you don't need @types/axios installed!
     dependencies:
-      axios: 0.27.2
+      axios: 1.3.5
     transitivePeerDependencies:
       - debug
-    dev: true
 
   /@types/babel__core/7.1.16:
     resolution: {integrity: sha512-EAEHtisTMM+KaKwfWdC3oyllIqswlznXCIVCt7/oRNrh+DhgT4UEBNC/jlADNjvw7UnfbcdkGQcPVZ1xYiLcrQ==}
@@ -13073,7 +13088,6 @@ packages:
 
   /@types/shortid/0.0.29:
     resolution: {integrity: sha512-9BCYD9btg2CY4kPcpMQ+vCR8U6V8f/KvixYD5ZbxoWlkhddNF5IeZMVL3p+QFUkg+Hb+kPAG9Jgk4bnnF1v/Fw==}
-    dev: true
 
   /@types/speakingurl/13.0.3:
     resolution: {integrity: sha512-nBHZAaNTEw1YG3ROL7HtTp7HjW8HD7DuFYbWoonUKTZHj7eyOt4vPzyMcc3+xgWNv7xi2rziaiBXHIq6wBeyrw==}
@@ -14708,7 +14722,7 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
     transitivePeerDependencies:
       - debug
 
@@ -14723,8 +14737,18 @@ packages:
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2_debug@2.6.9
+      follow-redirects: 1.15.2
       form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios/1.3.5:
+    resolution: {integrity: sha512-glL/PvG/E+xCWwV8S6nCHcrfg1exGx7vxyUIivIA1iL7BIh6bePylCfVHwp6k13ao7SATxB6imau2kqY+I67kw==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
 
@@ -19648,7 +19672,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
 
   /follow-redirects/1.15.2_debug@2.6.9:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -19671,6 +19694,7 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.4
+    dev: false
 
   /fontkit-next/1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
@@ -25255,7 +25279,7 @@ packages:
       '@panva/hkdf': 1.0.1
       cookie: 0.5.0
       jose: 4.11.1
-      next: 13.1.2_x6hpkaqu4dxwl4unajq2h7dx44
+      next: 13.1.2_biqbaboplfbrettd7655fr4n2y
       nodemailer: 6.7.2
       oauth: 0.9.15
       openid-client: 5.1.4
@@ -25563,6 +25587,7 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    dev: true
 
   /nice-try/1.0.5:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
@@ -28003,7 +28028,6 @@ packages:
 
   /proxy-from-env/1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
-    dev: false
 
   /prr/1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
@@ -31411,6 +31435,7 @@ packages:
       '@babel/core': 7.16.5
       client-only: 0.0.1
       react: 18.2.0
+    dev: true
 
   /styled-jsx/5.1.1_react@18.2.0:
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
