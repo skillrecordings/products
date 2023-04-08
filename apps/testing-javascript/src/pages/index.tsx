@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
-      <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center flex-grow">
+      <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center grow">
         Hi! 👋
       </h1>
       <ul>
