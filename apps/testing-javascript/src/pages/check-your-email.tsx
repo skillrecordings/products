@@ -12,7 +12,7 @@ const CheckYourEmail = () => {
 
   return (
     <Layout footer={null} meta={{title: `Check your email`}}>
-      <main className="relative flex flex-grow flex-col items-center justify-center px-5 pt-5 pb-16">
+      <main className="relative flex grow flex-col items-center justify-center px-5 pt-5 pb-16">
         <div className="mx-auto flex w-full max-w-md flex-col items-center gap-5 text-center">
           <h1 className="text-center font-heading text-3xl font-extrabold leading-9 sm:text-4xl lg:text-5xl">
             Check your email
