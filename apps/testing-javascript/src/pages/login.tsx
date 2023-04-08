@@ -32,7 +32,7 @@ const Login: React.FC<React.PropsWithChildren<{csrfToken: string}>> = ({
 
   return (
     <Layout footer={null} meta={{title}}>
-      <div className="relative mx-auto flex w-full flex-grow flex-col items-center justify-center p-5 py-40">
+      <div className="relative mx-auto flex w-full grow flex-col items-center justify-center p-5 py-40">
         <main className="relative z-10 mb-10 flex w-full max-w-lg flex-col items-center rounded-xl border border-gray-100 bg-white p-8 shadow-2xl shadow-blue-800/50 sm:mx-auto sm:p-14">
           <div className="-mt-28 w-24">
             <Image
