@@ -21,7 +21,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: [...defaultTheme.fontFamily.sans],
+        sans: ['TT Commons W01 Regular', ...defaultTheme.fontFamily.sans],
       },
       colors: {},
       typography: (theme) => ({
