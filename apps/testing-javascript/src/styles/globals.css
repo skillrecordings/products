@@ -6,7 +6,22 @@
 @import './nprogress.css';
 
 @tailwind utilities;
+@import './fonts.css';
 @import './focus-visible.css';
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+  body {
+    @apply text-xl leading-normal;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: 'TT Commons W01 Medium';
+  }
+}
 
 html,
 body,
