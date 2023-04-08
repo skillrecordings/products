@@ -5,7 +5,7 @@ import config from 'config'
 const ConfirmSubscriptionPage = () => {
   return (
     <Layout meta={{title: 'Confirm your subscription'}}>
-      <main className="flex-grow flex items-center justify-center flex-col px-5">
+      <main className="grow flex items-center justify-center flex-col px-5">
         <Image />
         <div className="max-w-screen-sm text-center font-light">
           {/* <p className="sm:text-xl">
