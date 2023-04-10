@@ -10,6 +10,7 @@ import {User} from '@skillrecordings/database'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 import {getPlaylist, getAllPlaylists} from 'lib/playlists'
+import {ModuleProgressProvider, useModuleProgress} from 'utils/module-progress'
 import Layout from 'components/layout'
 import Icon from 'components/icons'
 
@@ -76,89 +77,94 @@ const WorkshopPage: React.FC<{
   workshop: Module
 }> = ({workshop}) => {
   const lessons = workshop?.sections?.[0]?.lessons || []
+  const moduleProgress = useModuleProgress()
+  console.log({moduleProgress})
+
   return (
-    <Layout>
-      {workshop?.sections?.map((section) => {
-        return (
-          <div
-            key={section.slug}
-            className="max-w-3xl mx-auto py-5 flex flex-col items-center"
-          >
-            {workshop?.image ? (
-              <div className="w-full max-w-[340px]">
-                <Image
-                  src={workshop?.image}
-                  alt={workshop?.title}
-                  title={workshop?.title}
-                  width={340}
-                  height={340}
-                  priority
+    <ModuleProgressProvider moduleSlug={workshop.slug.current as string}>
+      <Layout>
+        {workshop?.sections?.map((section) => {
+          return (
+            <div
+              key={section.slug}
+              className="max-w-3xl mx-auto py-5 flex flex-col items-center"
+            >
+              {workshop?.image ? (
+                <div className="w-full max-w-[340px]">
+                  <Image
+                    src={workshop?.image}
+                    alt={workshop?.title}
+                    title={workshop?.title}
+                    width={340}
+                    height={340}
+                    priority
+                  />
+                </div>
+              ) : null}
+              <h2 className="text-5xl mt-12">{section.title}</h2>
+              <div className="mt-7 flex items-center space-x-6">
+                <div className="space-x-2 flex items-center text-base">
+                  <Icon name="lesson" className="w-[22px] h-[22px]" />
+                  <span>
+                    {workshop?.sections?.[0]?.lessons?.length} video lessons
+                  </span>
+                </div>
+                <div className="space-x-2 flex items-center text-base">
+                  <Icon name="duration" className="w-[22px] h-[22px]" />
+                  <span>Xh XXm of learning material</span>
+                </div>
+              </div>
+              <Link
+                href="/"
+                className="space-x-4 flex items-center bg-gray-100 text-black px-6 py-2 rounded-md mt-7 hover:bg-gray-200 duration-100 min-h-[50px]"
+              >
+                <Icon name="play" className="w-[10px] h-[10px]" />
+                <span>Start Watching</span>
+              </Link>
+              <div className="mt-7 text-[22px]">
+                <PortableText
+                  value={workshop.body}
+                  components={{
+                    list: {
+                      bullet: ({children}) => (
+                        <ul className="space-y-5 mt-6">{children}</ul>
+                      ),
+                    },
+                    listItem: {
+                      bullet: ({children}) => (
+                        <li className="flex items-center space-x-3">
+                          <Icon
+                            name="check-circle"
+                            className="w-[23px] h-[23px] text-[#5cc7c7]"
+                          />
+                          <span>{children}</span>
+                        </li>
+                      ),
+                    },
+                  }}
                 />
               </div>
-            ) : null}
-            <h2 className="text-5xl mt-12">{section.title}</h2>
-            <div className="mt-7 flex items-center space-x-6">
-              <div className="space-x-2 flex items-center text-base">
-                <Icon name="lesson" className="w-[22px] h-[22px]" />
-                <span>
-                  {workshop?.sections?.[0]?.lessons?.length} video lessons
-                </span>
+              <div className="mt-20 pt-10 border-t border-black/[.08] w-full">
+                <h3 className="uppercase opacity-60 text-base font-sans tracking-wider">
+                  lessons
+                </h3>
+                {lessons && (
+                  <ul className="mt-10">
+                    {lessons.map((lesson, index) => (
+                      <LessonItem
+                        key={lesson._id}
+                        lesson={lesson}
+                        index={index}
+                      />
+                    ))}
+                  </ul>
+                )}
               </div>
-              <div className="space-x-2 flex items-center text-base">
-                <Icon name="duration" className="w-[22px] h-[22px]" />
-                <span>Xh XXm of learning material</span>
-              </div>
             </div>
-            <Link
-              href="/"
-              className="space-x-4 flex items-center bg-gray-100 text-black px-6 py-2 rounded-md mt-7 hover:bg-gray-200 duration-100 min-h-[50px]"
-            >
-              <Icon name="play" className="w-[10px] h-[10px]" />
-              <span>Start Watching</span>
-            </Link>
-            <div className="mt-7 text-[22px]">
-              <PortableText
-                value={workshop.body}
-                components={{
-                  list: {
-                    bullet: ({children}) => (
-                      <ul className="space-y-5 mt-6">{children}</ul>
-                    ),
-                  },
-                  listItem: {
-                    bullet: ({children}) => (
-                      <li className="flex items-center space-x-3">
-                        <Icon
-                          name="check-circle"
-                          className="w-[23px] h-[23px] text-[#5cc7c7]"
-                        />
-                        <span>{children}</span>
-                      </li>
-                    ),
-                  },
-                }}
-              />
-            </div>
-            <div className="mt-20 pt-10 border-t border-black/[.08] w-full">
-              <h3 className="uppercase opacity-60 text-base font-sans tracking-wider">
-                lessons
-              </h3>
-              {lessons && (
-                <ul className="mt-10">
-                  {lessons.map((lesson, index) => (
-                    <LessonItem
-                      key={lesson._id}
-                      lesson={lesson}
-                      index={index}
-                    />
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-        )
-      })}
-    </Layout>
+          )
+        })}
+      </Layout>
+    </ModuleProgressProvider>
   )
 }
 
