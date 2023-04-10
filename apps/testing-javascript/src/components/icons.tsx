@@ -27,7 +27,7 @@ const Icons = {
     <g>
       <path
         stroke="currentColor"
-        stroke-width="53.895"
+        strokeWidth="53.895"
         d="M512 32c265.097 0 480 214.902 480 480S777.098 992 512 992C246.903 992 32 777.098 32 512S246.902 32 512 32z"
       />
       <path
