@@ -171,14 +171,16 @@ const ExerciseTemplate: React.FC<{
             <article className="relative flex-shrink-0 sm:bg-black/20 2xl:bg-transparent">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-6 2xl:max-w-xl">
                 <LessonTitle />
-                <GitHubLink
-                  exercise={lesson}
-                  module={module}
-                  loadingIndicator={<Spinner className="h-7 w-7" />}
-                  url={exerciseGitHubUrl}
-                  file={openFile}
-                  repository={module?.github?.repo}
-                />
+                {openFile && (
+                  <GitHubLink
+                    exercise={lesson}
+                    module={module}
+                    loadingIndicator={<Spinner className="h-7 w-7" />}
+                    url={exerciseGitHubUrl}
+                    file={openFile}
+                    repository={module?.github?.repo}
+                  />
+                )}
                 <LessonDescription
                   productName={activeProduct?.name || module.title}
                   loadingIndicator={<Spinner />}
