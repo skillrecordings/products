@@ -4,6 +4,7 @@ import tutorials from './structure/tutorials'
 import workshops from './structure/workshops'
 import pricing from './structure/pricing'
 import products from './structure/products'
+import testimonials from './structure/testimonials'
 
 const hiddenDocTypes = (listItem: any) =>
   !['module', 'tip', 'pricing', 'products', 'article'].includes(
@@ -22,6 +23,8 @@ export default (S: any) =>
       S.divider(),
       tips(S),
       articles(S),
+      S.divider(),
+      testimonials(S),
       S.divider(),
       ...S.documentTypeListItems().filter(hiddenDocTypes),
     ])
