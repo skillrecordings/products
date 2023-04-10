@@ -278,7 +278,7 @@ const MobileNav = () => {
                     <MobileNavLink
                       path="/playlists"
                       label="Pro Workshops"
-                      icon={<Icon name="Trophy" className="text-[#F8A729]" />}
+                      // icon={<Icon name="Trophy" className="text-[#F8A729]" />}
                     />
                     {/* <MobileNavLink
                       path="/tutorials"
