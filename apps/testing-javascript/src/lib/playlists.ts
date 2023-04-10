@@ -88,6 +88,7 @@ export const getPlaylist = async (slug: string) =>
             _updatedAt,
             title,
             description,
+            body,
             "slug": slug.current,
             "solution": resources[@._type == 'solution'][0]{
               _key,
