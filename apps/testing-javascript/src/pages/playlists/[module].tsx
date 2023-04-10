@@ -1,12 +1,17 @@
 import React from 'react'
-import Image from 'next/image'
-
-import {User} from '@skillrecordings/database'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {getPlaylist, getAllPlaylists} from '../../lib/playlists'
+import Image from 'next/image'
 import Link from 'next/link'
+import {
+  PortableText,
+  PortableTextComponents as PortableTextComponentsType,
+} from '@portabletext/react'
+import {User} from '@skillrecordings/database'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+
+import {getPlaylist, getAllPlaylists} from 'lib/playlists'
 import Layout from 'components/layout'
+import Icon from 'components/icons'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const workshop = await getPlaylist(params?.module as string)
@@ -40,7 +45,7 @@ const WorkshopPage: React.FC<{
             className="max-w-3xl mx-auto py-5 flex flex-col items-center"
           >
             {workshop?.image ? (
-              <div className="w-full max-w-xs">
+              <div className="w-full max-w-[340px]">
                 <Image
                   src={workshop?.image}
                   alt={workshop?.title}
@@ -50,7 +55,41 @@ const WorkshopPage: React.FC<{
                 />
               </div>
             ) : null}
-            <h2 className="font-bold">{section.title}</h2>
+            <h2 className="text-5xl mt-12">{section.title}</h2>
+            <div className="mt-7 flex items-center space-x-6">
+              <div className="space-x-2 flex items-center text-base">
+                <Icon name="lesson" className="w-5 h-5" />
+                <span>
+                  {workshop?.sections?.[0]?.lessons?.length} video lessons
+                </span>
+              </div>
+              <div className="space-x-2 flex items-center text-base">
+                <Icon name="duration" className="w-5 h-5" />
+                <span>Xh XXm of learning material</span>
+              </div>
+            </div>
+            <Link
+              href="/"
+              className="space-x-4 inline-flex items-center bg-gray-100 text-black px-6 py-3 rounded-md mt-7 hover:bg-gray-200 duration-100"
+            >
+              <Icon name="play" className="w-[10px] h-[10px]" />
+              <span>Start Watching</span>
+            </Link>
+            <div className="mt-7 text-[22px]">
+              <PortableText
+                value={workshop.body}
+                components={{
+                  listItem: {
+                    bullet: ({children}) => (
+                      <li>
+                        <Icon name="check-circle" className="w-6 h-6" />{' '}
+                        {children}
+                      </li>
+                    ),
+                  },
+                }}
+              />
+            </div>
             <ul>
               {section.lessons?.map((lesson) => {
                 return (
