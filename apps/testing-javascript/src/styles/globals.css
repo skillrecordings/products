@@ -14,12 +14,12 @@
     @apply antialiased;
   }
   body {
-    @apply text-xl leading-normal;
+    @apply text-xl leading-normal text-body font-tt-regular;
   }
   h1,
   h2,
   h3 {
-    font-family: 'TT Commons W01 Medium';
+    @apply font-tt-medium;
   }
 }
 
