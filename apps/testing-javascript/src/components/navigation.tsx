@@ -29,7 +29,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
   return (
     <nav
       aria-label="top"
-      className="relative top-0 z-50 w-full bg-white py-3 shadow-xl shadow-gray-200/20 print:hidden sm:py-4 md:text-sm lg:text-base"
+      className="relative top-0 z-50 w-full bg-white py-3 shadow-xl shadow-gray-200/20 print:hidden sm:py-5 md:text-sm lg:text-base"
     >
       <div className="container max-w-6xl">
         <div
@@ -56,7 +56,7 @@ const DesktopNav = () => {
       <NavSlots>
         <NavLink
           path="/playlists"
-          icon={<Icon name="Trophy" className="text-[#F8A729]" />}
+          // icon={<Icon name="Trophy" className="text-[#F8A729]" />}
           label={
             <>
               <span className="hidden lg:inline-block">Pro</span> Workshops
@@ -169,7 +169,7 @@ const NavLogo = () => {
       aria-label="Pro Tailwind Home"
       passHref
       tabIndex={router.pathname === '/' ? -1 : 0}
-      className="font-heading text-xl font-black sm:text-2xl"
+      className="shrink-0 flex"
     >
       <Image
         src={require('../../public/assets/logo-full.svg')}
