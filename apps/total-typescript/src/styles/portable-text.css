@@ -133,3 +133,40 @@ pre[data-codeblock] {
     @apply before:content-['↑'];
   }
 }
+
+[data-body-tweet] {
+  @apply rounded-lg border-none bg-gray-800 p-5 !not-italic text-white;
+  [data-header] {
+    @apply flex w-full items-start justify-between;
+  }
+  a {
+    @apply !no-underline;
+  }
+  a:hover {
+    @apply underline;
+  }
+  [data-author] {
+    @apply flex items-center justify-center gap-2;
+    img {
+      @apply my-0 rounded-full;
+    }
+    [data-name] {
+      @apply flex flex-col leading-tight text-white;
+    }
+    [data-handle] {
+      @apply text-sm opacity-60;
+    }
+  }
+  svg {
+    @apply text-[rgb(29,155,240)];
+  }
+  [data-body] {
+    @apply prose my-0 max-w-none border-none pl-0 font-normal not-italic leading-tight sm:prose-lg prose-p:text-gray-200 prose-p:first-of-type:mt-0 prose-p:last-of-type:mb-0 prose-a:text-cyan-300 prose-code:bg-gray-700;
+  }
+}
+[data-body-tweet]
+  [data-body]
+  :where(blockquote p:first-of-type):not(:where([class~='not-prose']
+      *))::before {
+  @apply hidden;
+}

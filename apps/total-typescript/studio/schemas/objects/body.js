@@ -117,6 +117,7 @@ export default {
     {type: 'divider'},
     {type: 'grid'},
     {type: 'bodyTestimonial'},
+    {type: 'bodyTweet'},
   ],
   inputComponent: CustomEditor,
 }
