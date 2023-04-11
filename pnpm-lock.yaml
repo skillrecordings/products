@@ -501,6 +501,7 @@ importers:
       postcss: ^8.4.14
       prettier: ^2.6.2
       react: 18.2.0
+      react-device-detect: ^2.2.2
       react-dom: 18.2.0
       react-hook-form: ^7.29.0
       react-hot-toast: ^2.2.0
@@ -577,6 +578,7 @@ importers:
       nodemailer-postmark-transport: 5.2.1_nodemailer@6.7.2
       pluralize: 8.0.0
       react: 18.2.0
+      react-device-detect: 2.2.2_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
       react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y

@@ -70,6 +70,7 @@
     "nodemailer-postmark-transport": "^5.2.1",
     "pluralize": "^8.0.0",
     "react": "18.2.0",
+    "react-device-detect": "^2.2.2",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.29.0",
     "react-hot-toast": "^2.2.0",
