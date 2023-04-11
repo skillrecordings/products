@@ -32,8 +32,9 @@ import SelfRedeemButton from 'team/self-redeem-button'
 import {useSession} from 'next-auth/react'
 import Balancer from 'react-wrap-balancer'
 import {Pricing} from 'path-to-purchase-react/pricing'
-import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
+import {usePriceCheck} from 'path-to-purchase-react/pricing-check-context'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import pluralize from 'pluralize'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{dismissable?: boolean}>
@@ -254,6 +255,14 @@ const BlockedOverlay: React.FC<{product: SanityProduct}> = ({product}) => {
       productId: product?.productId,
     })
   const productImage = product?.image?.url || product?.image || module?.image
+  const workshops =
+    product.modules &&
+    product.modules.filter(({moduleType}) => moduleType === 'workshop')
+  const bonuses =
+    product.modules &&
+    product.modules.filter(({moduleType}) => moduleType === 'bonus')
+  const {merchantCoupon} = usePriceCheck()
+  const showBonuses = bonuses && !Boolean(merchantCoupon)
 
   return product ? (
     <div data-video-overlay="blocked" id="video-overlay">
@@ -362,7 +371,6 @@ const BlockedOverlay: React.FC<{product: SanityProduct}> = ({product}) => {
                   ) : (
                     <h2 data-title="">Level up your {module.title}</h2>
                   )}
-
                   <h3 data-description="">
                     <Balancer>
                       {canViewRegionRestriction ? (
@@ -380,48 +388,69 @@ const BlockedOverlay: React.FC<{product: SanityProduct}> = ({product}) => {
                       )}
                     </Balancer>
                   </h3>
-                  {product?.modules && (
+                  {workshops && (
                     <>
                       <div data-includes="">
-                        Includes all{' '}
-                        {
-                          product.modules.filter(
-                            ({moduleType}) => moduleType === 'workshop',
-                          ).length
-                        }{' '}
-                        workshops:
+                        Includes all {workshops.length} workshops
+                        {showBonuses ? (
+                          <span data-bonus="">
+                            {' '}
+                            + {bonuses.length > 1 ? bonuses.length : ''}{' '}
+                            {pluralize('bonus', bonuses.length)}:
+                          </span>
+                        ) : (
+                          ':'
+                        )}
                       </div>
                       <div data-modules="">
-                        {product.modules
-                          .filter(({moduleType}) => moduleType === 'workshop')
-                          .map((module) => {
-                            return (
-                              <Link
-                                href={`/workshops/${module.slug}`}
-                                target="_blank"
-                              >
-                                <Image
-                                  src={module.image.url}
-                                  alt={`${module.title} workshop`}
-                                  width={60}
-                                  height={60}
-                                />
-                              </Link>
-                            )
-                          })}
+                        {workshops.map((module) => {
+                          return (
+                            <Link
+                              data-type={module.moduleType}
+                              href={`/workshops/${module.slug}`}
+                              target="_blank"
+                            >
+                              <Image
+                                src={module.image.url}
+                                alt={`${module.title} workshop`}
+                                width={60}
+                                height={60}
+                              />
+                            </Link>
+                          )
+                        })}
+                        {showBonuses && (
+                          <>
+                            <span>+</span>
+                            {bonuses.map((module) => {
+                              return (
+                                <Link
+                                  data-type={module.moduleType}
+                                  href={`/bonuses/${module.slug}`}
+                                  target="_blank"
+                                >
+                                  <Image
+                                    src={module.image.url}
+                                    alt={`${module.title} workshop`}
+                                    width={60}
+                                    height={60}
+                                  />
+                                </Link>
+                              )
+                            })}
+                          </>
+                        )}
                       </div>
                     </>
                   )}
                 </div>
                 <div data-col="2">
-                  <PriceCheckProvider>
-                    {product && (
-                      <Pricing
-                        product={product}
-                        canViewRegionRestriction={canViewRegionRestriction}
-                      />
-                    )}
-                  </PriceCheckProvider>
+                  {product && (
+                    <Pricing
+                      product={product}
+                      canViewRegionRestriction={canViewRegionRestriction}
+                    />
+                  )}
                 </div>
               </div>
             )}

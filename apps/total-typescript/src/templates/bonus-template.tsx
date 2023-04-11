@@ -73,7 +73,7 @@ const Header: React.FC<{bonus: Module}> = ({bonus}) => {
         <div className="w-full text-center md:text-left">
           <Link
             href="/bonuses"
-            className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300"
+            className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-yellow-200"
           >
             Bonus
           </Link>
