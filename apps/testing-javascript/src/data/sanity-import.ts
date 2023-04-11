@@ -128,6 +128,16 @@ const ExplainerSchema = z.object({
 })
 type Explainer = z.infer<typeof ExplainerSchema>
 
+const SectionSchema = z.object({
+  _id: z.string(),
+  _type: z.literal('section'),
+  slug: SanitySlugSchema,
+  title: z.string(),
+  resources: SanityReferenceSchema.array(),
+  body: SanityBlockSchema.optional(),
+})
+type Section = z.infer<typeof SectionSchema>
+
 const WorkshopSchema = z.object({
   _id: z.string(),
   _type: z.literal('module'),
@@ -227,9 +237,15 @@ const buildCastingWordsBlock = (
   transcript: string,
   srt_text: string,
 ): CastingWords => {
+  let srt = srt_text
+
+  if (srt_text.startsWith('WEBVTT\n\n')) {
+    srt = srt_text.replace(/^WEBVTT\n\n/, '')
+  }
+
   return {
     transcript: buildBlock(transcript),
-    srt: srt_text,
+    srt,
   }
 }
 
@@ -545,6 +561,12 @@ const importCourseData = async () => {
   // ** Workshops (Courses) **
   // *************************
 
+  let sectionCount = 0
+
+  const sectionPayloads: {
+    [sectionSlug: string]: {sectionPayload: Section; sanityId: string}
+  } = {}
+
   const workshopPayloads: {
     [courseSlug: string]: {workshopPayload: Workshop; sanityId: string}
   } = {}
@@ -575,17 +597,37 @@ const importCourseData = async () => {
       },
     )
 
-    const workshopSanityId = `course-${eggheadId}`
+    const sectionSlug = `section-${sectionCount.toString().padStart(2, '0')}`
+    const sanitySectionId = sectionSlug
+
+    const section: Section = {
+      _id: sanitySectionId,
+      _type: 'section',
+      slug: buildSlug(sectionSlug),
+      title, // same as workshop title
+      body: buildBlock(description), // same as workshop body
+      resources: sanityLessonRefs,
+    }
+
+    const sanitySectionRef: SanityReference[] = [
+      {
+        _type: 'reference',
+        _key: buildId('section-key'),
+        _ref: sanitySectionId,
+      },
+    ]
+
+    const sanityWorkshopId = `course-${eggheadId}`
 
     const workshop: Workshop = {
-      _id: workshopSanityId,
+      _id: sanityWorkshopId,
       _type: 'module',
       moduleType: 'workshop',
       state: 'published',
       slug: buildSlug(courseSlug),
       title,
       description: '',
-      resources: sanityLessonRefs,
+      resources: sanitySectionRef,
       body: buildBlock(description),
       image: {
         _type: 'externalImage',
@@ -593,11 +635,29 @@ const importCourseData = async () => {
       },
     }
 
+    sectionPayloads[sectionSlug] = {
+      sectionPayload: section,
+      sanityId: sanitySectionId,
+    }
+
     workshopPayloads[courseSlug] = {
       workshopPayload: workshop,
-      sanityId: workshopSanityId,
+      sanityId: sanityWorkshopId,
     }
+
+    sectionCount += 1
   }
+
+  await sleep(250)
+  const listOfSectionPayloads: Section[] = Object.entries(sectionPayloads).map(
+    (tuple) => {
+      const [_slug, data] = tuple
+      return data.sectionPayload
+    },
+  )
+  const resultOfSectionCreates: any = await writeObjectsToSanity(
+    listOfSectionPayloads,
+  )
 
   // SECOND, post a bulk create request to Sanity API for Workshops
   await sleep(250)
@@ -684,6 +744,7 @@ const importCourseData = async () => {
     resultOfVideoResourceCreates,
   )
   writeJsonToFile('resultOfExplainerCreates.json', resultOfExplainerCreates)
+  writeJsonToFile('resultOfSectionCreates.json', resultOfSectionCreates)
   writeJsonToFile('resultOfWorkshopCreates.json', resultOfWorkshopCreates)
   writeJsonToFile('resultOfProductCreates.json', resultOfProductCreates)
 
