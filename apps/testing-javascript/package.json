@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "next dev -p 3018",
     "dev:sanity": "sanity dev",
+    "dev:stripe": "stripe listen --forward-to localhost:3018/api/skill/webhook/stripe",
     "build": "next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "start": "next start -p 3018",
