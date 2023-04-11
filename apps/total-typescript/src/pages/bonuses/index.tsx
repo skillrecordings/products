@@ -24,7 +24,7 @@ const PlaylistsPage: React.FC<{playlists: SanityDocument[]}> = ({
         title: `Total TypeScript Bonus Content from Matt Pocock`,
         description: `Total TypeScript Bonus Content that will help you learn how to use TypeScript as a professional web developer through exercise driven examples.`,
         ogImage: {
-          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1677565087/playlists-card_2x_p19pbj.png',
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1681208741/bonuses-card_2x_bvmiya.png',
         },
       }}
     >

@@ -4,6 +4,7 @@ import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {getAllWorkshops} from 'lib/workshops'
+import {getAllBonuses} from 'lib/bonuses'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Balancer from 'react-wrap-balancer'
 
@@ -11,14 +12,18 @@ const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/total-typescript/i
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
+  const bonuses = await getAllBonuses()
 
   return {
-    props: {modules: workshops.reverse()},
+    props: {modules: workshops.reverse(), bonuses: bonuses.reverse()},
     revalidate: 10,
   }
 }
 
-const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
+const WorkshopsPage: React.FC<{
+  modules: SanityDocument[]
+  bonuses: SanityDocument[]
+}> = ({modules, bonuses}) => {
   return (
     <Layout
       meta={{
@@ -38,103 +43,25 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
         </p>
         {modules && (
           <ul className="flex max-w-screen-md flex-col gap-5 px-5 pt-10 sm:gap-8 sm:pt-20">
-            {modules.map(
-              ({title, slug, image, description, sections, state}, i) => {
-                return (
-                  <li
-                    key={slug.current}
-                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-8 shadow-2xl md:flex-row"
-                  >
-                    <div className="flex flex-shrink-0 items-center justify-center">
-                      <Image
-                        src={`https://res.cloudinary.com/dg3gyk0gu/image/fetch/h_600/f_auto/${image}`}
-                        alt={title}
-                        width={300}
-                        quality={100}
-                        height={300}
-                      />
-                    </div>
-                    <div className="w-full">
-                      {state === 'draft' ? (
-                        <h2 className="text-3xl font-semibold sm:text-4xl">
-                          {title}
-                        </h2>
-                      ) : (
-                        <Link
-                          href={{
-                            pathname: '/workshops/[module]',
-                            query: {
-                              module: slug.current,
-                            },
-                          }}
-                        >
-                          <h2 className="text-3xl font-semibold hover:underline sm:text-4xl">
-                            {title}
-                          </h2>
-                        </Link>
-                      )}
-                      <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
-                        {state === 'draft' ? (
-                          <span className="mr-3 rounded-full bg-gray-700 px-2 py-0.5 font-sans font-semibold uppercase text-gray-200">
-                            Coming Soon
-                          </span>
-                        ) : (
-                          i === 0 && (
-                            <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
-                              New
-                            </span>
-                          )
-                        )}
-                        {sections && state !== 'draft' ? (
-                          <>
-                            {sections.length} sections,{' '}
-                            {sections.reduce(
-                              (acc: number, section: {lessons?: any[]}) =>
-                                section.lessons?.length
-                                  ? section.lessons?.length + acc
-                                  : acc,
-                              0,
-                            )}{' '}
-                            exercises
-                          </>
-                        ) : (
-                          <br />
-                        )}
-                      </div>
-
-                      {description && (
-                        <p className="text-gray-300">{description}</p>
-                      )}
-                      {state !== 'draft' && (
-                        <Link
-                          href={{
-                            pathname: '/workshops/[module]',
-                            query: {
-                              module: slug.current,
-                            },
-                          }}
-                          className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
-                          onClick={() => {
-                            track('clicked view workshop module', {
-                              module: slug.current,
-                            })
-                          }}
-                        >
-                          <span className="pr-2">View</span>
-                          <span
-                            aria-hidden="true"
-                            className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
-                          >
-                            →
-                          </span>
-                        </Link>
-                      )}
-                    </div>
-                    <StripesLeft className="absolute left-0 top-0 hidden w-5 md:block" />
-                  </li>
-                )
-              },
+            {modules.map((module, i) => {
+              return (
+                <WorkshopTeaser
+                  key={module.slug.current}
+                  module={module}
+                  i={i}
+                />
+              )
+            })}
+            {bonuses && (
+              <div className="mb-6 mt-10 flex items-center justify-center border-t border-gray-800">
+                <span className="absolute bg-gray-900 px-2.5 text-sm font-medium uppercase tracking-wide text-gray-400">
+                  bonuses
+                </span>
+              </div>
             )}
+            {bonuses.map((module, i) => {
+              return <BonusTeaser key={module.slug.current} module={module} />
+            })}
           </ul>
         )}
       </main>
@@ -147,6 +74,163 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
         className="-z-10 object-contain"
       />
     </Layout>
+  )
+}
+
+const WorkshopTeaser: React.FC<{module: SanityDocument; i: number}> = ({
+  module,
+  i,
+}) => {
+  const {title, slug, image, description, sections, state} = module
+  return (
+    <li className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-8 shadow-2xl md:flex-row">
+      <div className="flex flex-shrink-0 items-center justify-center">
+        <Image
+          src={`https://res.cloudinary.com/dg3gyk0gu/image/fetch/h_600/f_auto/${image}`}
+          alt={title}
+          width={300}
+          quality={100}
+          height={300}
+        />
+      </div>
+      <div className="w-full">
+        {state === 'draft' ? (
+          <h2 className="text-3xl font-semibold sm:text-4xl">
+            <Balancer>{title}</Balancer>
+          </h2>
+        ) : (
+          <Link
+            href={{
+              pathname: '/workshops/[module]',
+              query: {
+                module: slug.current,
+              },
+            }}
+          >
+            <h2 className="text-3xl font-semibold hover:underline sm:text-4xl">
+              <Balancer>{title}</Balancer>
+            </h2>
+          </Link>
+        )}
+        <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-cyan-300">
+          {state === 'draft' ? (
+            <span className="mr-3 rounded-full bg-gray-700 px-2 py-0.5 font-sans font-semibold uppercase text-gray-200">
+              Coming Soon
+            </span>
+          ) : (
+            i === 0 && (
+              <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
+                New
+              </span>
+            )
+          )}
+          {sections && state !== 'draft' ? (
+            <>
+              {sections.length} sections,{' '}
+              {sections.reduce(
+                (acc: number, section: {lessons?: any[]}) =>
+                  section.lessons?.length ? section.lessons?.length + acc : acc,
+                0,
+              )}{' '}
+              exercises
+            </>
+          ) : (
+            <br />
+          )}
+        </div>
+        {description && <p className="text-gray-300">{description}</p>}
+        {state !== 'draft' && (
+          <Link
+            href={{
+              pathname: '/workshops/[module]',
+              query: {
+                module: slug.current,
+              },
+            }}
+            className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
+            onClick={() => {
+              track('clicked view workshop module', {
+                module: slug.current,
+              })
+            }}
+          >
+            <span className="pr-2">View</span>
+            <span
+              aria-hidden="true"
+              className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
+            >
+              →
+            </span>
+          </Link>
+        )}
+      </div>
+      <StripesLeft className="absolute left-0 top-0 hidden w-5 md:block" />
+    </li>
+  )
+}
+
+const BonusTeaser: React.FC<{module: SanityDocument}> = ({module}) => {
+  const {title, slug, image, description, sections, lessons, state} = module
+  if (state === 'draft') return null
+
+  return (
+    <li className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-8 shadow-2xl md:flex-row">
+      <div className="flex flex-shrink-0 items-center justify-center">
+        <Image
+          src={`https://res.cloudinary.com/dg3gyk0gu/image/fetch/h_600/f_auto/${image}`}
+          alt={title}
+          width={300}
+          quality={100}
+          height={300}
+        />
+      </div>
+      <div className="w-full">
+        <span className="mb-3 inline-flex rounded-full bg-yellow-200/10 px-2.5 py-0.5 text-sm font-semibold uppercase tracking-wide text-yellow-200">
+          Bonus
+        </span>
+        <Link
+          href={{
+            pathname: '/bonuses/[module]',
+            query: {
+              module: slug.current,
+            },
+          }}
+        >
+          <h2 className="text-3xl font-semibold hover:underline sm:text-4xl">
+            <Balancer>{title}</Balancer>
+          </h2>
+        </Link>
+        <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-gray-400">
+          {lessons.length} videos
+        </div>
+        {description && <p className="text-gray-300">{description}</p>}
+        {state !== 'draft' && (
+          <Link
+            href={{
+              pathname: '/bonuses/[module]',
+              query: {
+                module: slug.current,
+              },
+            }}
+            className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
+            onClick={() => {
+              track('clicked view workshop module', {
+                module: slug.current,
+              })
+            }}
+          >
+            <span className="pr-2">View</span>
+            <span
+              aria-hidden="true"
+              className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
+            >
+              →
+            </span>
+          </Link>
+        )}
+      </div>
+      <StripesLeft className="absolute left-0 top-0 hidden w-5 md:block" />
+    </li>
   )
 }
 

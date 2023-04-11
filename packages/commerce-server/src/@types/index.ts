@@ -45,7 +45,7 @@ export type SanityProduct = {
   }
   modules: {
     slug: string
-    moduleType: 'workshop' | 'playlist'
+    moduleType: 'workshop' | 'playlist' | 'bonus'
     title: string
     state?: 'draft' | 'published'
     image: {

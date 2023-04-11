@@ -74,15 +74,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   allowPurchase = false,
   canViewRegionRestriction = false,
 }) => {
-  const [merchantCoupon, setMerchantCoupon] = React.useState<{
-    id: string
-    type: string
-  }>()
   const [quantity, setQuantity] = React.useState(1)
   const [isBuyingForTeam, setIsBuyingForTeam] = React.useState(false)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, action} = product
-  const {addPrice, isDowngrade} = usePriceCheck()
+  const {addPrice, isDowngrade, merchantCoupon, setMerchantCoupon} =
+    usePriceCheck()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
 
@@ -136,6 +133,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
       })
     }
   }
+
+  const workshops = modules.filter((module) => module.moduleType === 'workshop')
+  const bonuses = modules.filter((module) => module.moduleType === 'bonus')
 
   return (
     <div id="main-pricing">
@@ -360,8 +360,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           {showPPPBox && !canViewRegionRestriction && (
             <RegionalPricingBox
               pppCoupon={pppCoupon || merchantCoupon}
-              activeCoupon={merchantCoupon}
-              setActiveCoupon={setMerchantCoupon}
+              merchantCoupon={merchantCoupon}
+              setMerchantCoupon={setMerchantCoupon}
               index={index}
             />
           )}
@@ -391,12 +391,50 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               </div>
             ) : null}
             <div data-main="">
-              <strong>Workshops</strong>
-              {modules && (
-                <ul data-workshops="" role="list">
-                  {modules
-                    .filter((module) => module.moduleType === 'workshop')
-                    .map((module) => {
+              {bonuses && !Boolean(merchantCoupon) && (
+                <div data-bonuses="">
+                  <ul role="list">
+                    {bonuses.map((module) => {
+                      const getLabelForState = (state: any) => {
+                        switch (state) {
+                          case 'draft':
+                            return 'Coming soon'
+                          default:
+                            return ''
+                        }
+                      }
+                      return (
+                        <li key={module.title}>
+                          {module.image && (
+                            <div data-image="" aria-hidden="true">
+                              <Image
+                                src={module.image.url}
+                                layout="fill"
+                                alt={module.title}
+                                aria-hidden="true"
+                              />
+                            </div>
+                          )}
+                          <div>
+                            <p>
+                              <strong>Bonus</strong>
+                              {module.title}
+                            </p>
+                            <div data-state={module.state}>
+                              {getLabelForState(module.state)}
+                            </div>
+                          </div>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              )}
+              {workshops && (
+                <div data-workshops="">
+                  <strong>Workshops</strong>
+                  <ul role="list">
+                    {workshops.map((module) => {
                       const getLabelForState = (state: any) => {
                         switch (state) {
                           case 'draft':
@@ -426,19 +464,20 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                         </li>
                       )
                     })}
-                </ul>
+                  </ul>
+                </div>
               )}
               {features && (
-                <>
+                <div data-features="">
                   <strong>Features</strong>
-                  <ul data-features="" role="list">
+                  <ul role="list">
                     {features.map((feature: {value: string}) => (
                       <li key={feature.value}>
                         <p>{feature.value}</p>
                       </li>
                     ))}
                   </ul>
-                </>
+                </div>
               )}
             </div>
           </div>
@@ -515,14 +554,14 @@ type RegionalPricingBoxProps = {
     country: string
     percentageDiscount: number
   }
-  activeCoupon: any
-  setActiveCoupon: (coupon: any) => void
+  merchantCoupon: any
+  setMerchantCoupon: (coupon: any) => void
   index: number
 }
 
 const RegionalPricingBox: React.FC<
   React.PropsWithChildren<RegionalPricingBoxProps>
-> = ({pppCoupon, activeCoupon, setActiveCoupon, index}) => {
+> = ({pppCoupon, merchantCoupon, setMerchantCoupon, index}) => {
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
 
   if (!pppCoupon.country) {
@@ -555,11 +594,11 @@ const RegionalPricingBox: React.FC<
       <label>
         <input
           type="checkbox"
-          checked={Boolean(activeCoupon)}
+          checked={Boolean(merchantCoupon)}
           onChange={() => {
-            activeCoupon
-              ? setActiveCoupon(undefined)
-              : setActiveCoupon(pppCoupon)
+            merchantCoupon
+              ? setMerchantCoupon(undefined)
+              : setMerchantCoupon(pppCoupon as any)
           }}
         />
         <span>Activate {percentOff}% off with regional pricing</span>
