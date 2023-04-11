@@ -161,7 +161,7 @@ pre[data-codeblock] {
     @apply text-[rgb(29,155,240)];
   }
   [data-body] {
-    @apply prose prose-lg my-0 max-w-none border-none pl-0 font-normal not-italic leading-tight prose-p:text-gray-200 prose-p:first-of-type:mt-0 prose-p:last-of-type:mb-0 prose-a:text-cyan-300 prose-code:bg-gray-700;
+    @apply prose my-0 max-w-none border-none pl-0 font-normal not-italic leading-tight sm:prose-lg prose-p:text-gray-200 prose-p:first-of-type:mt-0 prose-p:last-of-type:mb-0 prose-a:text-cyan-300 prose-code:bg-gray-700;
   }
 }
 [data-body-tweet]
