@@ -43,7 +43,12 @@ export default defineType({
       of: [
         defineArrayMember({
           type: 'reference',
-          to: [{type: 'exercise'}, {type: 'explainer'}, {type: 'linkResource'}],
+          to: [
+            {title: 'Exercise', type: 'exercise'},
+            {title: 'Explainer', type: 'explainer'},
+            {title: 'Interview', type: 'interview'},
+            {type: 'linkResource'},
+          ],
         }),
       ],
     }),

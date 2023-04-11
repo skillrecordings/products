@@ -2,6 +2,7 @@
 import cta from './documents/cta'
 import exercise from './documents/exercise'
 import explainer from './documents/explainer'
+import interview from './documents/interview'
 import section from './documents/section'
 import module from './documents/module'
 import videoResource from './documents/videoResource'
@@ -39,6 +40,7 @@ export const schemaTypes = [
   module,
   exercise,
   explainer,
+  interview,
   videoResource,
   linkResource,
   tip,

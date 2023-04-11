@@ -5,8 +5,7 @@ export default defineType({
   name: 'exercise',
   type: 'document',
   title: 'Exercise',
-  description:
-    'A type of Lesson that has 2-parts, a problem (the exercise) and a solution.',
+  description: 'A type of Lesson',
   icon: MdOutlineWorkspaces,
   preview: {
     select: {
@@ -40,6 +39,19 @@ export default defineType({
       options: {
         source: 'title',
         maxLength: 96,
+      },
+    }),
+    defineField({
+      name: 'exerciseType',
+      title: 'Exercise Type',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      options: {
+        list: [
+          {title: 'Solution', value: 'solution'},
+          {title: 'Xtra Solution', value: 'xtraSolution'},
+          {title: 'Break', value: 'break'},
+        ],
       },
     }),
     defineField({
