@@ -22,6 +22,7 @@ import article from './documents/article'
 import body from './objects/body'
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
+import bodyTweet from './objects/bodyTweet'
 import callout from './objects/callout'
 import divider from './objects/divider'
 import externalImage from './objects/externalImage'
@@ -64,6 +65,7 @@ export default createSchema({
     body,
     bodyVideo,
     bodyImage,
+    bodyTweet,
     callout,
     divider,
     externalImage,

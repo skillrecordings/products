@@ -54,7 +54,16 @@ export const getArticle = async (
         description,
         "image": image.asset->url,
         summary,
-        body
+        body[]{
+          ...,
+          _type == "bodyTweet" => {
+            ...,
+            author {
+              ...,
+              "avatar": avatar.asset->url,
+            }
+        }
+        },
     }`,
     {slug: `${slug}`},
   )
