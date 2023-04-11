@@ -93,13 +93,13 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               <div className="flex items-center gap-3">
                 <div className="flex items-center justify-center overflow-hidden rounded-full">
                   <Image
-                    src={require('../../public/matt-pocock.jpeg')}
-                    alt="Matt Pocock"
+                    src={require('../../public/kent-c-dodds.png')}
+                    alt="Kent C. Dodds"
                     width={48}
                     height={48}
                   />
                 </div>
-                <span>Matt Pocock</span>
+                <span>Kent C. Dodds</span>
               </div>
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
@@ -171,14 +171,6 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
           </div>
         )}
       </header>
-      <Image
-        layout="fill"
-        aria-hidden="true"
-        alt=""
-        src={require('../../public/assets/landing/bg-divider-3.png')}
-        objectPosition={'top'}
-        className="-z-10 object-contain"
-      />
     </>
   )
 }
