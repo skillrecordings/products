@@ -74,10 +74,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   couponId,
   allowPurchase = false,
 }) => {
-  const [merchantCoupon, setMerchantCoupon] = React.useState<{
-    id: string
-    type: string
-  }>()
   const [quantity, setQuantity] = React.useState(1)
   const [isBuyingForTeam, setIsBuyingForTeam] = React.useState(false)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
@@ -92,7 +88,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     features,
     action,
   } = product
-  const {addPrice, isDowngrade} = usePriceCheck()
+  const {addPrice, isDowngrade, merchantCoupon, setMerchantCoupon} =
+    usePriceCheck()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
 
@@ -350,7 +347,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         )}
         <div data-pricing-footer="">
           {product.description && !purchased && (
-            <div className="prose prose-sm mx-auto max-w-sm px-5 prose-p:text-gray-200 sm:prose-base">
+            <div className="prose prose-sm mx-auto max-w-sm px-5 sm:prose-base prose-p:text-gray-200">
               <ReactMarkdown>{product.description}</ReactMarkdown>
             </div>
           )}
@@ -569,8 +566,8 @@ const Ribbon: React.FC<React.PropsWithChildren<RibbonProps>> = ({
   appliedMerchantCoupon,
 }) => {
   return (
-    <div className="absolute -top-3 -right-3 aspect-square w-32 overflow-hidden rounded">
-      <div className="absolute top-0 left-0 h-3 w-3 bg-amber-500"></div>
+    <div className="absolute -right-3 -top-3 aspect-square w-32 overflow-hidden rounded">
+      <div className="absolute left-0 top-0 h-3 w-3 bg-amber-500"></div>
       <div className="absolute bottom-0 right-0 h-3 w-3 bg-amber-500"></div>
       <div className="absolute bottom-0 right-0 h-6 w-[141.42%] origin-bottom-right rotate-45 bg-amber-300">
         <div className="flex flex-col items-center py-1 text-xs font-bold uppercase text-black">
