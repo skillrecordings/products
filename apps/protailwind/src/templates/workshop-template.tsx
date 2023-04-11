@@ -278,7 +278,7 @@ const Header: React.FC<
                 </div>
               ) : null}
             </div>
-            <div className="flex items-center justify-center gap-3 pt-8 md:justify-start">
+            <div className="mt-8 flex min-h-[3.25rem] items-center justify-center gap-3 md:justify-start">
               {firstSection && purchased && (
                 <Link
                   href={{
