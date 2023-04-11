@@ -4,6 +4,12 @@
 // of Epic React data. Also, be sure to set `MUX_ACCESS_TOKEN` and
 // `MUX_SECRET_KEY` in your `.env.local` environment variables file.
 //
+// This script is idempotent, so it can be run multiple times and only
+// unprocessed videos will be uploaded. The Mux API sometimes starts returning
+// 429 errors after ~150 assets. In that case you'd need to rerun and the
+// script will pick up where it left off based on the results of the
+// `mux-upload.json` file.
+//
 // Execute the Mux Asset Upload script with:
 //
 // ```
@@ -100,7 +106,7 @@ const uploadMuxAssets = async () => {
     }
   }
 
-  const uniqueEntries = Object.entries(uniqueLessons).slice(0, 1)
+  const uniqueEntries = Object.entries(uniqueLessons)
 
   for (const entry of uniqueEntries) {
     const [slug, media_url] = entry
