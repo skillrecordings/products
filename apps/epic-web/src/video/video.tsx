@@ -43,10 +43,14 @@ export const Video: React.FC<
       displayOverlay,
       nextExercise,
       nextExerciseStatus,
-      canShowVideo,
       loadingUserStatus,
       nextSection,
     } = useMuxPlayer()
+
+    // this should come from useMuxPlayer
+    const canShowVideo = true
+
+    console.log({canShowVideo, videoResource})
 
     return (
       <>

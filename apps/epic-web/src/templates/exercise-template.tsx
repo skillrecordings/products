@@ -38,6 +38,8 @@ const ExerciseTemplate: React.FC<{
   const {videoResourceId} = useVideoResource()
   const {title, description: exerciseDescription} = lesson
 
+  console.log({videoResourceId})
+
   const {ogImage, description: moduleDescription} = module
   const pageTitle = `${title}`
   const pageDescription = exerciseDescription || moduleDescription
