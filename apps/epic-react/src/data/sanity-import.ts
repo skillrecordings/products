@@ -17,6 +17,9 @@ import Mux from '@mux/mux-node'
 import {v4 as uuidv4} from 'uuid'
 import {z} from 'zod'
 import last from 'lodash/last'
+import groupBy from 'lodash/groupBy'
+import sortBy from 'lodash/sortBy'
+import slugify from 'slugify'
 
 require('dotenv-flow').config({
   default_node_env: 'development',
@@ -36,6 +39,37 @@ function sleep(ms: number) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms)
   })
+}
+
+// copied from https://github.com/eggheadio/epic-react-gatsby/blob/main/plugins/gatsby-source-egghead-epic-react/lib/parse-epic-react.js
+function parseEpicReactTitle(title: string, seperator = `~`) {
+  const [contentId, contentSection, contentLabel, contentDetail] =
+    title.split(seperator)
+  return {contentId, contentSection, contentLabel, contentDetail}
+}
+
+function resourceSlugFromTitle(title: string) {
+  const {contentSection, contentLabel} = parseEpicReactTitle(title)
+  return slugify(
+    contentLabel
+      ? `${contentSection && contentSection.toLowerCase()} ${
+          contentLabel && contentLabel.toLowerCase()
+        }`
+      : `${contentSection && contentSection.toLowerCase()}`,
+    {
+      remove: /[*+~.()'"!:@]/g,
+    },
+  )
+}
+
+function collectionSlugfromTitle(title: string) {
+  return slugify(title.toLowerCase(), {
+    remove: /[*+~.()'"!:@]/g,
+  })
+}
+
+function sectionSlugfromTitle(title: string) {
+  return collectionSlugfromTitle(title)
 }
 
 const SanitySlugSchema = z.object({
@@ -71,24 +105,6 @@ const CastingWordsSchema = z
     srt: z.string(),
   })
   .nullish()
-  .transform((data) => {
-    if (data === null || data === undefined) {
-      return data
-    }
-
-    const {srt, ...rest} = data
-
-    if (srt.startsWith('WEBVTT\n\n')) {
-      const updatedSrt = srt.replace(/^WEBVTT\n\n/, '')
-
-      return {
-        ...rest,
-        srt: updatedSrt,
-      }
-    } else {
-      return data
-    }
-  })
 
 const VideoResourceSchema = z.object({
   _id: z.string(),
@@ -227,9 +243,15 @@ const buildCastingWordsBlock = (
   transcript: string,
   srt_text: string,
 ): CastingWords => {
+  let srt = srt_text
+
+  if (srt_text.startsWith('WEBVTT\n\n')) {
+    srt = srt_text.replace(/^WEBVTT\n\n/, '')
+  }
+
   return {
     transcript: buildBlock(transcript),
-    srt: srt_text,
+    srt,
   }
 }
 
@@ -251,6 +273,7 @@ const importCourseData = async () => {
     id: z.coerce.string(),
     slug: z.string(),
     title: z.string(),
+    full_title: z.string(),
     description: z.coerce.string(),
     media_url: z.string(),
     transcript: z.string().nullable(),
@@ -300,10 +323,17 @@ const importCourseData = async () => {
   type ProductData = z.infer<typeof ProductDataSchema>
   const uniqueProducts: {[productSlug: string]: ProductData} = {}
   const CourseDataSchema = courseSchema.merge(
-    z.object({lessonSlugs: z.string().array()}),
+    z.object({sectionSlugs: z.string().array()}),
   )
   type CourseData = z.infer<typeof CourseDataSchema>
   const uniqueCourses: {[courseSlug: string]: CourseData} = {}
+  const uniqueSections: {
+    [sectionSlug: string]: {
+      lessonSlugs: string[]
+      sectionLabel: string
+      sectionNumber: number
+    }
+  } = {}
   type LessonData = z.infer<typeof lessonSchema>
   const uniqueLessons: {[lessonSlug: string]: LessonData} = {}
 
@@ -314,52 +344,73 @@ const importCourseData = async () => {
 
     const {slug: productSlug} = parsedProduct
 
-    // ignore courses with the following slugs because they are the Series
-    // duplicates. The up-to-date courses are Playlist records with the other
-    // slugs.
-    // Series.where(id: [214, 406, 223, 407, 409, 408, 246, 410]).pluck(:slug)
-    const ignoredCourseSlugs = [
-      'static-analysis-testing-javascript-applications-71c1',
-      'test-node-js-backends',
-      'use-dom-testing-library-to-test-any-js-framework',
-      'install-configure-and-script-cypress-for-javascript-web-applications-8184',
-      'test-react-components-with-jest-and-react-testing-library-30af',
-      'configure-jest-for-testing-javascript-applications-b3674a',
-      'javascript-mocking-fundamentals',
-      'fundamentals-of-testing-in-javascript',
-    ]
-
-    const allowedCourses = product.courses.filter((course) => {
-      return !ignoredCourseSlugs.includes(course.slug)
+    const courseSlugs = parsedProduct.courses.map((course) => {
+      return collectionSlugfromTitle(course.title)
     })
-
-    const courseSlugs = allowedCourses.map((course) => course.slug)
 
     uniqueProducts[productSlug] = {
       courseSlugs,
       ...parsedProduct,
     }
 
-    for (const course of allowedCourses) {
-      const courseSlug = course.slug as string
+    for (const course of parsedProduct.courses) {
+      const courseSlug = collectionSlugfromTitle(course.title)
 
       if (uniqueCourses[courseSlug] === undefined) {
         uniqueCourses[courseSlug] = {
-          lessonSlugs: course.lessons.map((lesson) => lesson.slug),
+          lessonSlugs: course.lessons.map((lesson) => {
+            return resourceSlugFromTitle(lesson.full_title)
+          }),
           ...course,
         }
       }
 
-      for (const lesson of course.lessons) {
-        const parsedLesson = lessonSchema.parse(lesson)
+      // const lessonFullTitles = course.lessons.map(lesson => lesson.full_title)
+      const lessonsWithSectionMetadata = course.lessons.map((lesson) => {
+        const {contentId, contentSection: sectionLabel} = parseEpicReactTitle(
+          lesson.full_title,
+        )
+        const sectionNumber = Number.parseInt(contentId.split('-')[2])
 
-        const {slug: lessonSlug} = parsedLesson
-
-        if (uniqueLessons[lessonSlug]) {
-          break
+        return {
+          ...lesson,
+          sectionLabel,
+          sectionNumber,
         }
+      })
+      const lessonsBySection = groupBy(
+        lessonsWithSectionMetadata,
+        'sectionNumber',
+      )
+      const sectionedLessons = sortBy(
+        Object.entries<typeof lessonsWithSectionMetadata>(lessonsBySection),
+        0,
+      )
 
-        uniqueLessons[lessonSlug] = parsedLesson
+      for (const sectionTuple of sectionedLessons) {
+        const [_sectionNumber, lessons] = sectionTuple
+
+        const {sectionLabel, sectionNumber} = lessons[0]
+        const sectionSlug = sectionSlugfromTitle(sectionLabel)
+
+        if (uniqueSections[sectionSlug] !== undefined) {
+          throw `Encountered the same section slug twice (${sectionSlug})`
+        }
+        // create the section
+
+        // create the lessons
+        for (const lesson of lessons) {
+          const parsedLesson = lessonSchema.parse(lesson)
+
+          const {full_title} = parsedLesson
+          const lessonSlug = resourceSlugFromTitle(full_title)
+
+          if (uniqueLessons[lessonSlug]) {
+            break
+          }
+
+          uniqueLessons[lessonSlug] = parsedLesson
+        }
       }
     }
   }
@@ -514,7 +565,10 @@ const importCourseData = async () => {
 
     const videoResourceId = muxVideoResources[lessonSlug].muxVideoResourceId
 
-    const {title, description, id: eggheadId} = lessonData
+    const {full_title, description, id: eggheadId} = lessonData
+
+    const {contentSection, contentLabel: title} =
+      parseEpicReactTitle(full_title)
 
     const explainerSanityId = `lesson-${eggheadId}`
 
@@ -573,6 +627,27 @@ const importCourseData = async () => {
       square_cover_large_url,
     } = courseData
 
+    // const sectionSlug = slugify(section title)
+    const sectionSlug = sectionSlugfromTitle()
+    const sanitySectionId = sectionSlug
+
+    const section: Section = {
+      _id: sanitySectionId,
+      _type: 'section',
+      slug: buildSlug(sectionSlug),
+      title,
+      body: buildBlock(description),
+      resources: sanityLessonRefs,
+    }
+
+    const sanitySectionRef: SanityReference[] = [
+      {
+        _type: 'reference',
+        _key: buildId('section-key'),
+        _ref: sanitySectionId,
+      },
+    ]
+
     const sanityLessonIds = lessonSlugs.map((lessonSlug) => {
       return explainerPayloads[lessonSlug].sanityId
     })
@@ -589,12 +664,14 @@ const importCourseData = async () => {
 
     const workshopSanityId = `course-${eggheadId}`
 
+    const workshopSlug = buildSlug(courseSlug)
+
     const workshop: Workshop = {
       _id: workshopSanityId,
       _type: 'module',
       moduleType: 'workshop',
       state: 'published',
-      slug: buildSlug(courseSlug),
+      slug: workshopSlug,
       title,
       description: '',
       resources: sanityLessonRefs,
@@ -659,7 +736,7 @@ const importCourseData = async () => {
 
     const productSanityId = `product-${eggheadId}`
 
-    const product: Product = {
+    const product: Product = ProductSchema.parse({
       _id: productSanityId,
       _type: 'product',
       productId: productSanityId,
@@ -670,7 +747,7 @@ const importCourseData = async () => {
         _type: 'externalImage',
         url: square_cover_large_url,
       },
-    }
+    })
 
     productPayloads[productSlug] = {
       productPayload: product,
