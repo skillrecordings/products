@@ -17,7 +17,7 @@ import {
 } from './video-overlays'
 
 type VideoProps = {
-  product: SanityProduct
+  product?: SanityProduct
   exerciseOverlayRenderer: () => void
   loadingIndicator: React.ReactElement
 }
@@ -61,9 +61,9 @@ export const Video: React.FC<
                     {isExercise ? (
                       canShowVideo ? (
                         exerciseOverlayRenderer()
-                      ) : (
+                      ) : product ? (
                         <BlockedOverlay product={product} />
-                      )
+                      ) : null
                     ) : (
                       <DefaultOverlay />
                     )}
@@ -92,9 +92,9 @@ export const Video: React.FC<
             <>
               {loadingUserStatus || loadingVideoResource ? (
                 <LoadingOverlay loadingIndicator={loadingIndicator} />
-              ) : (
+              ) : product ? (
                 <BlockedOverlay product={product} />
-              )}
+              ) : null}
             </>
           )}
         </div>
