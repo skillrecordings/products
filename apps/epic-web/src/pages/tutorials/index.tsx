@@ -31,21 +31,18 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
   return (
     <Layout
       meta={{
-        title: `Free TypeScript Tutorials from Matt Pocock`,
-        description: `Free TypeScript tutorials by Matt Pocock that will help you learn how to use TypeScript as a professional web developer through exercise driven examples.`,
-        ogImage: {
-          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1663164063/tutorials-card_2x_gsi059.png',
-        },
+        title: `Free Web Development Tutorials from Kent C. Dodds`,
+        description: `Free Web Development tutorials by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
       }}
     >
       <main className="relative z-10 flex flex-col items-center justify-center py-32 sm:py-40">
         <h1 className="px-5 text-center font-heading text-5xl font-bold sm:text-5xl">
-          Free TypeScript Tutorials
+          Free Web Development Tutorials
         </h1>
         <p className="max-w-lg px-5 pt-8 text-center text-lg text-rose-100/90">
           <Balancer>
-            A collection of free, exercise-driven, in-depth TypeScript tutorials
-            for you to use on your journey to TypeScript wizardry.
+            A collection of free, exercise-driven, in-depth Web Development
+            tutorials.
           </Balancer>
         </p>
         {tutorials && (
@@ -56,15 +53,17 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                   key={slug.current}
                   className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-10 shadow-2xl md:flex-row"
                 >
-                  <div className="flex flex-shrink-0 items-center justify-center">
-                    <Image
-                      src={image}
-                      alt={title}
-                      width={300}
-                      quality={100}
-                      height={300}
-                    />
-                  </div>
+                  {image && (
+                    <div className="flex flex-shrink-0 items-center justify-center">
+                      <Image
+                        src={image}
+                        alt={title}
+                        width={300}
+                        quality={100}
+                        height={300}
+                      />
+                    </div>
+                  )}
                   <div>
                     <Link
                       href={{
@@ -113,14 +112,6 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
           </ul>
         )}
       </main>
-      <Image
-        layout="fill"
-        aria-hidden="true"
-        alt=""
-        src={require('../../../public/assets/landing/bg-divider-3.png')}
-        objectPosition={'top'}
-        className="-z-10 object-contain"
-      />
     </Layout>
   )
 }
