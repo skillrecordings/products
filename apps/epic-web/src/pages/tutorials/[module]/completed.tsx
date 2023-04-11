@@ -247,16 +247,6 @@ const CertificateImage: React.FC<CertificateImageProps> = ({
           )}
         </div>
       )}
-      <Image
-        src={require('../../../../public/assets/landing/bg-divider-5.png')}
-        layout="fill"
-        objectFit="contain"
-        objectPosition="bottom"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none select-none"
-        quality={100}
-      />
     </div>
   )
 }
