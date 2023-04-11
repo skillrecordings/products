@@ -1796,8 +1796,15 @@ importers:
       '@reach/auto-id': ^0.16.0
       '@reach/utils': ^0.16.0
       '@sanity/block-content-to-react': ^3.0.0
+      '@sanity/block-tools': 3.8.3
       '@sanity/client': ^3.3.3
+      '@sanity/code-input': ^4.1.0
       '@sanity/portable-text-editor': ^3.8.3
+      '@sanity/schema': 3.8.3
+      '@sanity/slate-react': 2.30.1
+      '@sanity/types': 3.8.3
+      '@sanity/ui': ^1.3.0
+      '@sanity/util': 3.8.3
       '@sanity/webhook': ^1.0.2
       '@sentry/nextjs': ^7.9.0
       '@skillrecordings/ability': workspace:*
@@ -1846,6 +1853,7 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/react-scroll': ^1.8.3
       '@types/shortid': ^0.0.29
+      '@types/styled-components': ^5.1.26
       '@types/uuid': ^8.3.4
       '@types/ws': ^8.5.3
       '@vercel/og': ^0.1.0
@@ -1894,7 +1902,9 @@ importers:
       react-use: ^17.3.2
       react-use-clipboard: ^1.0.7
       react-wrap-balancer: ^0.2.4
+      rxjs: ^7.8.0
       shortid: ^2.2.16
+      styled-components: ^5.3.6
       superjson: '=1.11.0'
       tailwind-scrollbar: ^3.0.0
       tailwindcss: ^3.3.0
@@ -1933,8 +1943,15 @@ importers:
       '@reach/auto-id': 0.16.0_biqbaboplfbrettd7655fr4n2y
       '@reach/utils': 0.16.0_biqbaboplfbrettd7655fr4n2y
       '@sanity/block-content-to-react': 3.0.0_react@18.2.0
+      '@sanity/block-tools': 3.8.3
       '@sanity/client': 3.3.3
-      '@sanity/portable-text-editor': 3.8.3_biqbaboplfbrettd7655fr4n2y
+      '@sanity/code-input': 4.1.0_2zpt4ilzykmne4yndyzrqd4gdm
+      '@sanity/portable-text-editor': 3.8.3_cqtqtcaqdwtl72brpteczjdiui
+      '@sanity/schema': 3.8.3
+      '@sanity/slate-react': 2.30.1_biqbaboplfbrettd7655fr4n2y
+      '@sanity/types': 3.8.3
+      '@sanity/ui': 1.3.1_2zpt4ilzykmne4yndyzrqd4gdm
+      '@sanity/util': 3.8.3
       '@sanity/webhook': 1.0.2
       '@sentry/nextjs': 7.9.0_yyyy4pzm4s53stcrpmxgxwxfve
       '@skillrecordings/ability': link:../../packages/ability
@@ -2003,7 +2020,9 @@ importers:
       react-use: 17.3.2_biqbaboplfbrettd7655fr4n2y
       react-use-clipboard: 1.0.8_biqbaboplfbrettd7655fr4n2y
       react-wrap-balancer: 0.2.4_react@18.2.0
+      rxjs: 7.8.0
       shortid: 2.2.16
+      styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
       superjson: 1.11.0
       tailwindcss-radix: 2.8.0
       uuid: 8.3.2
@@ -2034,6 +2053,7 @@ importers:
       '@types/react-dom': 18.0.6
       '@types/react-scroll': 1.8.3
       '@types/shortid': 0.0.29
+      '@types/styled-components': 5.1.26
       '@types/uuid': 8.3.4
       '@types/ws': 8.5.3
       autoprefixer: 10.4.7_postcss@8.4.14
@@ -7173,6 +7193,15 @@ packages:
       '@codemirror/state': 0.19.9
       '@lezer/css': 0.15.2
 
+  /@codemirror/lang-css/6.1.1:
+    resolution: {integrity: sha512-P6jdNEHyRcqqDgbvHYyC9Wxkek0rnG3a9aVSRi4a7WrjPbQtBTaOmvYpXmm13zZMAatO4Oqpac+0QZs7sy+LnQ==}
+    dependencies:
+      '@codemirror/autocomplete': 6.4.0
+      '@codemirror/language': 6.4.0
+      '@codemirror/state': 6.2.0
+      '@lezer/css': 1.1.1
+    dev: false
+
   /@codemirror/lang-html/0.19.4:
     resolution: {integrity: sha512-GpiEikNuCBeFnS+/TJSeanwqaOfNm8Kkp9WpVNEPZCLyW1mAMCuFJu/3xlWYeWc778Hc3vJqGn3bn+cLNubgCA==}
     dependencies:
@@ -7184,6 +7213,27 @@ packages:
       '@codemirror/state': 0.19.9
       '@lezer/common': 0.15.12
       '@lezer/html': 0.15.1
+
+  /@codemirror/lang-html/6.4.3:
+    resolution: {integrity: sha512-VKzQXEC8nL69Jg2hvAFPBwOdZNvL8tMFOrdFwWpU+wc6a6KEkndJ/19R5xSaglNX6v2bttm8uIEFYxdQDcIZVQ==}
+    dependencies:
+      '@codemirror/autocomplete': 6.4.0
+      '@codemirror/lang-css': 6.1.1
+      '@codemirror/lang-javascript': 6.1.2
+      '@codemirror/language': 6.4.0
+      '@codemirror/state': 6.2.0
+      '@codemirror/view': 6.7.3
+      '@lezer/common': 1.0.2
+      '@lezer/css': 1.1.1
+      '@lezer/html': 1.3.4
+    dev: false
+
+  /@codemirror/lang-java/6.0.1:
+    resolution: {integrity: sha512-OOnmhH67h97jHzCuFaIEspbmsT98fNdhVhmA3zCxW0cn7l8rChDhZtwiwJ/JOKXgfm4J+ELxQihxaI7bj7mJRg==}
+    dependencies:
+      '@codemirror/language': 6.4.0
+      '@lezer/java': 1.0.3
+    dev: false
 
   /@codemirror/lang-javascript/0.19.7:
     resolution: {integrity: sha512-DL9f3JLqOEHH9cIwEqqjnP5bkjdVXeECksLtV+/MbPm+l4H+AG+PkwZaJQ2oR1GfPZKh8MVSIE94aGWNkJP8WQ==}
@@ -7208,6 +7258,44 @@ packages:
       '@lezer/javascript': 1.4.1
     dev: false
 
+  /@codemirror/lang-json/6.0.1:
+    resolution: {integrity: sha512-+T1flHdgpqDDlJZ2Lkil/rLiRy684WMLc74xUnjJH48GQdfJo/pudlTRreZmKwzP8/tGdKf83wlbAdOCzlJOGQ==}
+    dependencies:
+      '@codemirror/language': 6.4.0
+      '@lezer/json': 1.0.0
+    dev: false
+
+  /@codemirror/lang-markdown/6.1.0:
+    resolution: {integrity: sha512-HQDJg1Js19fPKKsI3Rp1X0J6mxyrRy2NX6+Evh0+/jGm6IZHL5ygMGKBYNWKXodoDQFvgdofNRG33gWOwV59Ag==}
+    dependencies:
+      '@codemirror/lang-html': 6.4.3
+      '@codemirror/language': 6.4.0
+      '@codemirror/state': 6.2.0
+      '@codemirror/view': 6.7.3
+      '@lezer/common': 1.0.2
+      '@lezer/markdown': 1.0.2
+    dev: false
+
+  /@codemirror/lang-php/6.0.1:
+    resolution: {integrity: sha512-ublojMdw/PNWa7qdN5TMsjmqkNuTBD3k6ndZ4Z0S25SBAiweFGyY68AS3xNcIOlb6DDFDvKlinLQ40vSLqf8xA==}
+    dependencies:
+      '@codemirror/lang-html': 6.4.3
+      '@codemirror/language': 6.4.0
+      '@codemirror/state': 6.2.0
+      '@lezer/common': 1.0.2
+      '@lezer/php': 1.0.1
+    dev: false
+
+  /@codemirror/lang-sql/6.4.0:
+    resolution: {integrity: sha512-UWGK1+zc9+JtkiT+XxHByp4N6VLgLvC2x0tIudrJG26gyNtn0hWOVoB0A8kh/NABPWkKl3tLWDYf2qOBJS9Zdw==}
+    dependencies:
+      '@codemirror/autocomplete': 6.4.0
+      '@codemirror/language': 6.4.0
+      '@codemirror/state': 6.2.0
+      '@lezer/highlight': 1.1.3
+      '@lezer/lr': 1.3.1
+    dev: false
+
   /@codemirror/language/0.19.10:
     resolution: {integrity: sha512-yA0DZ3RYn2CqAAGW62VrU8c4YxscMQn45y/I9sjBlqB1e2OTQLg4CCkMBuMSLXk4xaqjlsgazeOQWaJQOKfV8Q==}
     dependencies:
@@ -7226,6 +7314,12 @@ packages:
       '@lezer/highlight': 1.1.3
       '@lezer/lr': 1.3.1
       style-mod: 4.0.0
+    dev: false
+
+  /@codemirror/legacy-modes/6.3.2:
+    resolution: {integrity: sha512-ki5sqNKWzKi5AKvpVE6Cna4Q+SgxYuYVLAZFSsMjGBWx5qSVa+D+xipix65GS3f2syTfAD9pXKMX4i4p49eneQ==}
+    dependencies:
+      '@codemirror/language': 6.4.0
     dev: false
 
   /@codemirror/lint/0.19.6:
@@ -8560,6 +8654,13 @@ packages:
     dependencies:
       '@lezer/lr': 0.15.8
 
+  /@lezer/css/1.1.1:
+    resolution: {integrity: sha512-mSjx+unLLapEqdOYDejnGBokB5+AiJKZVclmud0MKQOKx3DLJ5b5VTCstgDDknR6iIV4gVrN6euzsCnj0A2gQA==}
+    dependencies:
+      '@lezer/highlight': 1.1.3
+      '@lezer/lr': 1.3.1
+    dev: false
+
   /@lezer/highlight/1.1.3:
     resolution: {integrity: sha512-3vLKLPThO4td43lYRBygmMY18JN3CPh9w+XS2j8WC30vR4yZeFG4z1iFe4jXE43NtGqe//zHW5q8ENLlHvz9gw==}
     dependencies:
@@ -8571,6 +8672,21 @@ packages:
     dependencies:
       '@lezer/lr': 0.15.8
 
+  /@lezer/html/1.3.4:
+    resolution: {integrity: sha512-HdJYMVZcT4YsMo7lW3ipL4NoyS2T67kMPuSVS5TgLGqmaCjEU/D6xv7zsa1ktvTK5lwk7zzF1e3eU6gBZIPm5g==}
+    dependencies:
+      '@lezer/common': 1.0.2
+      '@lezer/highlight': 1.1.3
+      '@lezer/lr': 1.3.1
+    dev: false
+
+  /@lezer/java/1.0.3:
+    resolution: {integrity: sha512-kKN17wmgP1cgHb8juR4pwVSPMKkDMzY/lAPbBsZ1fpXwbk2sg3N1kIrf0q+LefxgrANaQb/eNO7+m2QPruTFng==}
+    dependencies:
+      '@lezer/highlight': 1.1.3
+      '@lezer/lr': 1.3.1
+    dev: false
+
   /@lezer/javascript/0.15.3:
     resolution: {integrity: sha512-8jA2NpOfpWwSPZxRhd9BxK2ZPvGd7nLE3LFTJ5AbMhXAzMHeMjneV6GEVd7dAIee85dtap0jdb6bgOSO0+lfwA==}
     dependencies:
@@ -8578,6 +8694,13 @@ packages:
 
   /@lezer/javascript/1.4.1:
     resolution: {integrity: sha512-Hqx36DJeYhKtdpc7wBYPR0XF56ZzIp0IkMO/zNNj80xcaFOV4Oj/P7TQc/8k2TxNhzl7tV5tXS8ZOCPbT4L3nA==}
+    dependencies:
+      '@lezer/highlight': 1.1.3
+      '@lezer/lr': 1.3.1
+    dev: false
+
+  /@lezer/json/1.0.0:
+    resolution: {integrity: sha512-zbAuUY09RBzCoCA3lJ1+ypKw5WSNvLqGMtasdW6HvVOqZoCpPr8eWrsGnOVWGKGn8Rh21FnrKRVlJXrGAVUqRw==}
     dependencies:
       '@lezer/highlight': 1.1.3
       '@lezer/lr': 1.3.1
@@ -8592,6 +8715,20 @@ packages:
     resolution: {integrity: sha512-+GymJB/+3gThkk2zHwseaJTI5oa4AuOuj1I2LCslAVq1dFZLSX8SAe4ZlJq1TjezteDXtF/+d4qeWz9JvnrG9Q==}
     dependencies:
       '@lezer/common': 1.0.2
+    dev: false
+
+  /@lezer/markdown/1.0.2:
+    resolution: {integrity: sha512-8CY0OoZ6V5EzPjSPeJ4KLVbtXdLBd8V6sRCooN5kHnO28ytreEGTyrtU/zUwo/XLRzGr/e1g44KlzKi3yWGB5A==}
+    dependencies:
+      '@lezer/common': 1.0.2
+      '@lezer/highlight': 1.1.3
+    dev: false
+
+  /@lezer/php/1.0.1:
+    resolution: {integrity: sha512-aqdCQJOXJ66De22vzdwnuC502hIaG9EnPK2rSi+ebXyUd+j7GAX1mRjWZOVOmf3GST1YUfUCu6WXDiEgDGOVwA==}
+    dependencies:
+      '@lezer/highlight': 1.1.3
+      '@lezer/lr': 1.3.1
     dev: false
 
   /@manypkg/cli/0.19.1:
@@ -10888,12 +11025,48 @@ packages:
       - react-is
     dev: false
 
-  /@sanity/color/2.1.11:
-    resolution: {integrity: sha512-ZComCEDE7Y5xu/+BksJDVkAffawRWrJvoI7VdIA+szhqzYQWgLRLfsr+UBkYZMtb9a+8HyUm6Uqoo028GNGREQ==}
-    dev: true
+  /@sanity/code-input/4.1.0_2zpt4ilzykmne4yndyzrqd4gdm:
+    resolution: {integrity: sha512-Zox7rCVj7OBCYtpQloV6Fw2MamcmEu8GTTZTQMaTcD27ySvuQ5yvpvAolXToakjb2o08hlwK5svKjFlSRfjjcQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: ^18
+      react-dom: ^18
+      sanity: ^3
+      styled-components: ^5.2
+    dependencies:
+      '@codemirror/autocomplete': 6.4.0
+      '@codemirror/commands': 6.2.0
+      '@codemirror/lang-html': 6.4.3
+      '@codemirror/lang-java': 6.0.1
+      '@codemirror/lang-javascript': 6.1.2
+      '@codemirror/lang-json': 6.0.1
+      '@codemirror/lang-markdown': 6.1.0
+      '@codemirror/lang-php': 6.0.1
+      '@codemirror/lang-sql': 6.4.0
+      '@codemirror/language': 6.4.0
+      '@codemirror/legacy-modes': 6.3.2
+      '@codemirror/search': 6.2.3
+      '@codemirror/state': 6.2.0
+      '@codemirror/view': 6.7.3
+      '@juggle/resize-observer': 3.3.1
+      '@lezer/highlight': 1.1.3
+      '@sanity/icons': 2.2.2_react@18.2.0
+      '@sanity/incompatible-plugin': 1.0.4_biqbaboplfbrettd7655fr4n2y
+      '@sanity/ui': 1.3.1_2zpt4ilzykmne4yndyzrqd4gdm
+      '@uiw/codemirror-themes': 4.19.11
+      '@uiw/react-codemirror': 4.19.7_pcbegg3kgob43pbchw6ytohx4u
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
+    transitivePeerDependencies:
+      - react-is
+    dev: false
 
   /@sanity/color/2.2.2:
     resolution: {integrity: sha512-ksIqx1pCH5HTfLTykj1HT1P2wfgYxwyoOnBRssJYLV0YZe3YP+WWe483JKTDPfOVM4qyz/lUZ3If3L7x/BNyew==}
+
+  /@sanity/color/2.2.5:
+    resolution: {integrity: sha512-tTi22KoKuER3sldXYl4c1Dq2zU7tMLDkljFiaUKVkBbu4PBvRGCFw75kXZnD2b4Bsp6vin+7sI+AKdCKRhfRuw==}
     dev: false
 
   /@sanity/diff/3.2.5:
@@ -11104,7 +11277,7 @@ packages:
       - supports-color
     dev: false
 
-  /@sanity/portable-text-editor/3.8.3_biqbaboplfbrettd7655fr4n2y:
+  /@sanity/portable-text-editor/3.8.3_cqtqtcaqdwtl72brpteczjdiui:
     resolution: {integrity: sha512-uTO0p8O9NPo374E5TEIiLBQ/NTvBQPrwKFbE4NjRBo3LqiKc/gYK67VU9fN04US8MfozERYrwcAlF2I232QmKw==}
     engines: {node: '>=14.18.0'}
     peerDependencies:
@@ -11121,7 +11294,9 @@ packages:
       is-hotkey: 0.1.8
       lodash: 4.17.21
       react: 18.2.0
+      rxjs: 7.8.0
       slate: 0.81.1
+      styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-dom
       - supports-color
@@ -11155,6 +11330,25 @@ packages:
       - supports-color
     dev: false
 
+  /@sanity/slate-react/2.30.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Go/4QxOcIwEV4Kn33tOhzx4zEPPcE0sWXRcn7d3wrbHujSvF19L/fh7K9rHYTkBJW9C9sKuoWx6nTX7UojklWA==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+      slate: '>=0.65.3'
+    dependencies:
+      '@types/is-hotkey': 0.1.7
+      '@types/lodash': 4.14.191
+      direction: 1.0.4
+      is-hotkey: 0.1.8
+      is-plain-object: 5.0.0
+      lodash: 4.17.21
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      scroll-into-view-if-needed: 2.2.31
+      tiny-invariant: 1.0.6
+    dev: false
+
   /@sanity/slate-react/2.30.1_kszcqu3z6pwjlrzimxd2uxu72m:
     resolution: {integrity: sha512-Go/4QxOcIwEV4Kn33tOhzx4zEPPcE0sWXRcn7d3wrbHujSvF19L/fh7K9rHYTkBJW9C9sKuoWx6nTX7UojklWA==}
     peerDependencies:
@@ -11184,7 +11378,7 @@ packages:
       styled-components: ^5.3.0
     dependencies:
       '@sanity/incompatible-plugin': 1.0.4_biqbaboplfbrettd7655fr4n2y
-      '@sanity/ui': 1.2.0_2zpt4ilzykmne4yndyzrqd4gdm
+      '@sanity/ui': 1.3.1_2zpt4ilzykmne4yndyzrqd4gdm
       react: 18.2.0
       sanity: 3.2.5_z4un7qnaa7wwj3f2uxtandoqfq
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
@@ -11201,7 +11395,7 @@ packages:
     resolution: {integrity: sha512-opsUt96xJy6j8LVw8L96HMCyF84Li9p4CNUZEUyKEa63nfG4IYD6fNY5ISiBthkw1os/J6E5EQfjkvME84seQA==}
     dependencies:
       '@sanity/client': 3.4.1
-      '@sanity/color': 2.1.11
+      '@sanity/color': 2.2.2
       '@types/react': 17.0.45
       rxjs: 6.6.7
     transitivePeerDependencies:
@@ -11304,6 +11498,26 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-refractor: 2.1.7_react@18.2.0
+    dev: false
+
+  /@sanity/ui/1.3.1_2zpt4ilzykmne4yndyzrqd4gdm:
+    resolution: {integrity: sha512-0xiFa5fBJp6flwqo9EO1C/dmOIvMTULoIlytooxFhK9D+T0hNGBa/u81G4v4lRiEKRJVOhF/1vlOaIIj0FXneg==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: ^18
+      react-dom: ^18
+      react-is: ^18
+      styled-components: ^5.2
+    dependencies:
+      '@floating-ui/react-dom': 1.1.1_biqbaboplfbrettd7655fr4n2y
+      '@sanity/color': 2.2.5
+      '@sanity/icons': 2.2.2_react@18.2.0
+      csstype: 3.1.1
+      framer-motion: 9.1.7_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-refractor: 2.1.7_react@18.2.0
+      styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   /@sanity/util/3.2.5:
@@ -12620,6 +12834,13 @@ packages:
     dependencies:
       '@types/unist': 2.0.6
 
+  /@types/hoist-non-react-statics/3.3.1:
+    resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
+    dependencies:
+      '@types/react': 18.0.27
+      hoist-non-react-statics: 3.3.2
+    dev: true
+
   /@types/html-to-text/8.1.0:
     resolution: {integrity: sha512-54YF2fGmN4g62/w+T85uQ8n0FyBhMY5cjKZ1imsbIh4Pgbeno1mAaQktC/pv/+C2ToUYkTZis9ADgn9GRRz9nQ==}
     dev: true
@@ -13037,7 +13258,7 @@ packages:
     dependencies:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
-      csstype: 3.0.11
+      csstype: 3.1.1
 
   /@types/react/18.0.27:
     resolution: {integrity: sha512-3vtRKHgVxu3Jp9t718R9BuzoD4NcQ8YJ5XRzsSKxNDiDonD2MXIT1TmSkenxuCycZJoQT5d2vE8LwWJxBC1gmA==}
@@ -13101,6 +13322,14 @@ packages:
 
   /@types/stack-utils/2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
+
+  /@types/styled-components/5.1.26:
+    resolution: {integrity: sha512-KuKJ9Z6xb93uJiIyxo/+ksS7yLjS1KzG6iv5i78dhVg/X3u5t1H7juRWqVmodIdz6wGVaIApo1u01kmFRdJHVw==}
+    dependencies:
+      '@types/hoist-non-react-statics': 3.3.1
+      '@types/react': 18.0.27
+      csstype: 3.1.1
+    dev: true
 
   /@types/svg-to-pdfkit/0.1.0:
     resolution: {integrity: sha512-zlsSPfZzGu/gbrTZQuiFqXswL1noRUjYXqQE4i5/fc2pMU5pkLsZtXeCQ1Bu05YIwswGF5XFwN3307RlQoioeQ==}
@@ -13732,13 +13961,14 @@ packages:
       '@ucast/mongo': 2.4.2
     dev: false
 
-  /@uiw/codemirror-extensions-basic-setup/4.19.7_r5d3jlum5gwy6jsylajaj62gpe:
+  /@uiw/codemirror-extensions-basic-setup/4.19.7_b75jqe4w7qgjwbqfbsbdvntkte:
     resolution: {integrity: sha512-pk0JTFJAZOGxouBB1pdBtb59qKibO9DW4hER4VSFGBGW3TBDeXUwL/gKujhRpySHG2MtG09cgt4a3XOFIWwXTw==}
     peerDependencies:
       '@codemirror/autocomplete': '>=6.0.0'
       '@codemirror/commands': '>=6.0.0'
       '@codemirror/language': '>=6.0.0'
       '@codemirror/search': '>=6.0.0'
+      '@codemirror/state': '>=6.0.0'
       '@codemirror/view': '>=6.0.0'
     dependencies:
       '@codemirror/autocomplete': 6.4.0
@@ -13746,6 +13976,14 @@ packages:
       '@codemirror/language': 6.4.0
       '@codemirror/lint': 6.1.0
       '@codemirror/search': 6.2.3
+      '@codemirror/state': 6.2.0
+      '@codemirror/view': 6.7.3
+    dev: false
+
+  /@uiw/codemirror-themes/4.19.11:
+    resolution: {integrity: sha512-4bh0vfkqeVJ7L2aGimKXqQtaoSEe/1xZb9nkGn35V5daHXkxRhb+BRFMOSrMsjGm74hM+dvYi5iH8HXVsvjJrQ==}
+    dependencies:
+      '@codemirror/language': 6.4.0
       '@codemirror/state': 6.2.0
       '@codemirror/view': 6.7.3
     dev: false
@@ -13762,7 +14000,7 @@ packages:
       '@codemirror/state': 6.2.0
       '@codemirror/theme-one-dark': 6.1.0
       '@codemirror/view': 6.7.3
-      '@uiw/codemirror-extensions-basic-setup': 4.19.7_r5d3jlum5gwy6jsylajaj62gpe
+      '@uiw/codemirror-extensions-basic-setup': 4.19.7_b75jqe4w7qgjwbqfbsbdvntkte
       codemirror: 6.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -19886,6 +20124,19 @@ packages:
       '@emotion/is-prop-valid': 0.8.8
     dev: false
 
+  /framer-motion/9.1.7_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-nKxBkIO4IPkMEqcBbbATxsVjwPYShKl051yhBv9628iAH6JLeHD0siBHxkL62oQzMC1+GNX73XtPjgP753ufuw==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      tslib: 2.4.0
+    optionalDependencies:
+      '@emotion/is-prop-valid': 0.8.8
+    dev: false
+
   /framesync/6.0.1:
     resolution: {integrity: sha512-fUY88kXvGiIItgNC7wcTOl0SNRCVXMKSWW2Yzfmn7EKNc+MpCzcz9DhdHcdjbrtN3c6R4H5dTY2jiCpPdysEjA==}
     dependencies:
@@ -20040,7 +20291,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -20939,7 +21190,6 @@ packages:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
     dependencies:
       react-is: 16.13.1
-    dev: false
 
   /homedir-polyfill/1.0.3:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}

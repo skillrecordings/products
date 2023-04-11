@@ -1,0 +1,263 @@
+import React, {useCallback, useMemo, useRef, useState, useEffect} from 'react'
+import styled from 'styled-components'
+import {Subject} from 'rxjs'
+import {
+  PortableTextBlock,
+  PortableTextObject,
+  PortableTextTextBlock,
+} from '@sanity/types'
+
+import {portableTextType} from './schema'
+import {
+  BlockDecoratorRenderProps,
+  BlockListItemRenderProps,
+  BlockRenderProps,
+  BlockStyleRenderProps,
+  EditorChange,
+  EditorSelection,
+  HotkeyOptions,
+  Patch,
+  PortableTextEditable,
+  PortableTextEditor,
+  RenderBlockFunction,
+  RenderChildFunction,
+} from '@sanity/portable-text-editor'
+import {createKeyGenerator} from './keyGenerator'
+import {Box, Card} from '@sanity/ui'
+import {PortableTextSpan} from '@portabletext/types'
+
+export const HOTKEYS: HotkeyOptions = {
+  marks: {
+    'mod+b': 'strong',
+    'mod+i': 'em',
+  },
+  custom: {
+    'mod+l': (e, editor) => {
+      e.preventDefault()
+      PortableTextEditor.toggleList(editor, 'number')
+    },
+  },
+}
+
+export const BlockObject = styled.div`
+  border: ${(props: BlockRenderProps) =>
+    props.focused ? '1px solid blue' : '1px solid transparent'};
+  background: ${(props: BlockRenderProps) =>
+    props.selected ? '#eeeeff' : 'transparent'};
+  padding: 2em;
+`
+
+function getRandomColor() {
+  const letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
+}
+
+const renderPlaceholder = () => 'Type here!'
+
+type PortableTextCodeObject = PortableTextObject & {
+  code: string
+}
+
+export const Editor = ({
+  value,
+  onMutation,
+  editorId,
+  patches$,
+  selection,
+}: {
+  value: PortableTextBlock[] | undefined | null
+  onMutation: (mutatingPatches: Patch[]) => void
+  editorId: string
+  patches$: Subject<{
+    patches: Patch[]
+    snapshot: PortableTextBlock[] | undefined
+  }>
+  selection: EditorSelection | null
+}) => {
+  const [selectionValue, setSelectionValue] = useState<EditorSelection | null>(
+    selection,
+  )
+  const selectionString = useMemo(
+    () => JSON.stringify(selectionValue),
+    [selectionValue],
+  )
+  const editor = useRef<PortableTextEditor>(null)
+  const keyGenFn = useMemo(
+    () => createKeyGenerator(editorId.substring(0, 1)),
+    [editorId],
+  )
+
+  const renderBlock: RenderBlockFunction = useCallback((props) => {
+    const {value: block, schemaType, children} = props
+    console.log(
+      'renderBlock',
+      block,
+      schemaType,
+      children,
+      editor.current?.schemaTypes,
+    )
+    if (editor.current) {
+      const textType = editor.current.schemaTypes.block
+      console.log({schemaType, textType, bl: editor.current.schemaTypes})
+
+      // Text blocks
+      if (schemaType.name === textType.name) {
+        return (
+          <div className="mb-5">
+            <div>{children}</div>
+          </div>
+        )
+      }
+
+      if (schemaType.name === 'code') {
+        const codeBlock = block as PortableTextCodeObject
+        return (
+          <div className="mb-5">
+            <pre>
+              <code>{codeBlock.code}</code>
+            </pre>
+          </div>
+        )
+      }
+      // Object blocks
+      return (
+        <div className="mb-5">
+          <BlockObject {...props}>
+            <>{JSON.stringify(block)}</>
+          </BlockObject>
+        </div>
+      )
+    }
+    return children
+  }, [])
+
+  const renderChild: RenderChildFunction = useCallback((props) => {
+    const {schemaType, children} = props
+    if (editor.current) {
+      const textType = editor.current.schemaTypes.span
+
+      // Text spans
+      if (schemaType.name === textType.name) {
+        return children
+      }
+      // Inline objects
+    }
+    return children
+  }, [])
+
+  const renderDecorator = useCallback((props: BlockDecoratorRenderProps) => {
+    const {value: mark, children} = props
+    switch (mark) {
+      case 'strong':
+        return <strong>{children}</strong>
+      case 'em':
+        return <em>{children}</em>
+      case 'code':
+        return <code>{children}</code>
+      case 'underline':
+        return <u>{children}</u>
+      case 'strike-through':
+        return <s>{children}</s>
+      default:
+        return children
+    }
+  }, [])
+
+  const renderStyle = useCallback((props: BlockStyleRenderProps) => {
+    return props.children
+  }, [])
+
+  const handleChange = useCallback(
+    (change: EditorChange): void => {
+      switch (change.type) {
+        case 'selection':
+          setSelectionValue(change.selection)
+          break
+        case 'mutation':
+          onMutation(change.patches)
+          break
+        case 'patch':
+        case 'blur':
+        case 'focus':
+        case 'invalidValue':
+        case 'loading':
+        case 'ready':
+        case 'unset':
+        case 'value':
+          break
+        default:
+          throw new Error(`Unhandled editor change ${JSON.stringify(change)}`)
+      }
+    },
+    [onMutation],
+  )
+
+  const renderListItem = useCallback((props: BlockListItemRenderProps) => {
+    const {level, schemaType, value: listType, children} = props
+    const listStyleType = schemaType.value === 'number' ? 'decimal' : 'inherit'
+    return (
+      <li style={{listStyleType, paddingLeft: `${level * 10}pt`}}>
+        {children}
+      </li>
+    )
+  }, [])
+
+  const [readOnly, setReadOnly] = useState(false)
+
+  const editable = useMemo(
+    () => (
+      <PortableTextEditable
+        renderPlaceholder={renderPlaceholder}
+        hotkeys={HOTKEYS}
+        renderBlock={renderBlock}
+        renderDecorator={renderDecorator}
+        renderChild={renderChild}
+        renderListItem={renderListItem}
+        renderStyle={renderStyle}
+        selection={selection}
+        spellCheck
+      />
+    ),
+    [
+      renderBlock,
+      renderChild,
+      renderDecorator,
+      renderListItem,
+      renderStyle,
+      selection,
+    ],
+  )
+
+  // Make sure that the test editor is focused and out of "readOnly mode".
+  useEffect(() => {
+    if (editor.current) {
+      PortableTextEditor.focus(editor.current)
+    }
+  }, [editor])
+
+  const handleToggleReadOnly = useCallback(() => {
+    setReadOnly(!readOnly)
+  }, [readOnly])
+
+  if (!editorId) {
+    return null
+  }
+
+  return (
+    <PortableTextEditor
+      ref={editor}
+      schemaType={portableTextType}
+      onChange={handleChange}
+      patches$={patches$}
+      value={value ? value : undefined}
+      keyGenerator={keyGenFn}
+      readOnly={readOnly}
+    >
+      <div className="border-2 border-gray-600 p-4">{editable}</div>
+    </PortableTextEditor>
+  )
+}
