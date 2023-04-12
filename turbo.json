@@ -6,7 +6,7 @@
       "outputs": []
     },
     "build": {
-      "dependsOn": ["^build", "^generate", "generate"],
+      "dependsOn": ["^build", "^generate", "generate", "prebuild"],
       "outputs": ["dist/**", ".next/**"]
     },
     "@skillrecordings/config#build": {
