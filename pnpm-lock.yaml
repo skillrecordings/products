@@ -946,11 +946,14 @@ importers:
       mdx-prism: ^0.3.4
       memoizee: ^0.4.15
       memoizerific: ^1.11.3
-      next: ^12.3.0
+      mjml: ^4.12.0
+      next: ^13.1.2
+      next-auth: ^4.19.2
       next-compose-plugins: ^2.2.1
       next-seo: ^5.5.0
-      next-sitemap: ^3.1.22
+      next-sitemap: ^3.0.5
       next-svgr: ^0.0.2
+      node-fetch: ^2.6.7
       postcss: ^8.4.16
       postcss-nested: ^5.0.6
       postcss-preset-env: ^7.7.2
@@ -1010,10 +1013,13 @@ importers:
       mdx-prism: 0.3.4
       memoizee: 0.4.15
       memoizerific: 1.11.3
-      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
-      next-seo: 5.15.0_azq6kxkn3od7qdylwkyksrwopy
-      next-sitemap: 3.1.55_next@12.3.1
+      mjml: 4.12.0
+      next: 13.1.2_biqbaboplfbrettd7655fr4n2y
+      next-auth: 4.19.2_7jnwqgtpcnwg4nzft4b6xlzlfi
+      next-seo: 5.15.0_7jnwqgtpcnwg4nzft4b6xlzlfi
+      next-sitemap: 3.1.55_next@13.1.2
       next-svgr: 0.0.2
+      node-fetch: 2.6.7
       prism-react-renderer: 1.3.5_react@18.2.0
       query-string: 7.1.1
       react: 18.2.0
@@ -12127,7 +12133,7 @@ packages:
       '@reach/utils': 0.13.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      tslib: 2.4.0
+      tslib: 2.5.0
     dev: false
 
   /@reach/auto-id/0.16.0_biqbaboplfbrettd7655fr4n2y:
@@ -12150,7 +12156,7 @@ packages:
       '@reach/utils': 0.17.0_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      tslib: 2.4.0
+      tslib: 2.5.0
     dev: false
 
   /@reach/descendants/0.17.0_biqbaboplfbrettd7655fr4n2y:
@@ -12162,7 +12168,7 @@ packages:
       '@reach/utils': 0.17.0_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      tslib: 2.4.0
+      tslib: 2.5.0
     dev: false
 
   /@reach/dialog/0.16.2_63dfw6rfgd64rl77ptfma4cvt4:
@@ -12211,7 +12217,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       tiny-warning: 1.0.3
-      tslib: 2.4.0
+      tslib: 2.5.0
     dev: false
 
   /@reach/skip-nav/0.16.0_biqbaboplfbrettd7655fr4n2y:
@@ -12265,7 +12271,7 @@ packages:
       '@types/warning': 3.0.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      tslib: 2.4.0
+      tslib: 2.5.0
       warning: 4.0.3
     dev: false
 
@@ -12289,7 +12295,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       tiny-warning: 1.0.3
-      tslib: 2.4.0
+      tslib: 2.5.0
     dev: false
 
   /@react-hook/event/1.2.3_react@18.2.0:
@@ -23284,7 +23290,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       style-value-types: 5.0.0
-      tslib: 2.4.0
+      tslib: 2.5.0
     optionalDependencies:
       '@emotion/is-prop-valid': 0.8.8
     dev: false
@@ -28909,6 +28915,7 @@ packages:
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
+    dev: false
 
   /minimist/1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
@@ -29348,7 +29355,7 @@ packages:
     resolution: {integrity: sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==}
     hasBin: true
     dependencies:
-      minimist: 1.2.6
+      minimist: 1.2.8
 
   /mmd-parser/1.0.4:
     resolution: {integrity: sha512-Qi0VCU46t2IwfGv5KF0+D/t9cizcDug7qnNoy9Ggk7aucp0tssV8IwTMkBlDbm+VqAf3cdQHTCARKSsuS2MYFg==}
@@ -29735,19 +29742,19 @@ packages:
       - supports-color
     dev: false
 
-  /next-seo/5.15.0_azq6kxkn3od7qdylwkyksrwopy:
+  /next-seo/5.15.0_7jnwqgtpcnwg4nzft4b6xlzlfi:
     resolution: {integrity: sha512-LGbcY91yDKGMb7YI+28n3g+RuChUkt6pXNpa8FkfKkEmNiJkeRDEXTnnjVtwT9FmMhG6NH8qwHTelGrlYm9rgg==}
     peerDependencies:
       next: ^8.1.1-canary.54 || >=9.0.0
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
+      next: 13.1.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /next-sitemap/3.1.55_next@12.3.1:
+  /next-sitemap/3.1.55_next@13.1.2:
     resolution: {integrity: sha512-ZjkRfkqoSLbU+e8W9TWWe0zfOGNA47lpvm35kNcUCmj73gpLX2PIn51gwHT/B6bgGVAFYY0OXixJDrxIIwcEHw==}
     engines: {node: '>=14.18'}
     hasBin: true
@@ -29757,7 +29764,7 @@ packages:
     dependencies:
       '@corex/deepmerge': 4.0.29
       minimist: 1.2.8
-      next: 12.3.1_biqbaboplfbrettd7655fr4n2y
+      next: 13.1.2_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   /next-sitemap/3.1.7_6rw52dn6h5rb5c4lgmx2je4lea:
