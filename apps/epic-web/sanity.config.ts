@@ -9,8 +9,8 @@ import {taxonomyManager} from 'sanity-plugin-taxonomy-manager'
 
 export default defineConfig({
   name: 'default',
-  title: '{{appName}}',
-  projectId: 'sanity_product_id',
+  title: 'Epic Web Dev',
+  projectId: 'i1a93n76',
   dataset: 'production',
   plugins: [
     deskTool({structure: deskStructure}),

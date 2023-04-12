@@ -1,9 +1,9 @@
 import {defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'github',
+  name: 'gridItem',
   type: 'object',
-  title: 'GitHub',
+  title: 'Grid Item',
   fields: [
     defineField({
       name: 'title',
@@ -11,9 +11,9 @@ export default defineType({
       type: 'string',
     }),
     defineField({
-      name: 'repo',
-      title: 'Repository',
-      type: 'string',
+      name: 'body',
+      title: 'Body',
+      type: 'body',
     }),
   ],
 })
