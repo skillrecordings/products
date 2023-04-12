@@ -11,7 +11,7 @@
     "build": "NODE_ENV=production next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "start": "next start -p 3035",
-    "test": "jest --watch",
+    "test": "pnpm --version",
     "repos": "kit ./scripts/repos.js",
     "og-image": "kit generate-open-graph-image",
     "get-scripts": "kit get-scripts",
@@ -28,7 +28,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.1",
     "@heroicons/react": "^2.0.11",
-    "@johnlindquist/kit": "0.18.3",
+    "@johnlindquist/kit": "0.48.27",
     "@octokit/rest": "^19.0.3",
     "@sindresorhus/slugify": "^2.1.0",
     "@supabase/supabase-js": "^2.0.5",
