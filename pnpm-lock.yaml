@@ -1591,6 +1591,7 @@ importers:
       '@next/mdx': ^12.2.4
       '@portabletext/react': ^1.0.6
       '@radix-ui/react-navigation-menu': ^1.1.1
+      '@radix-ui/react-switch': ^1.0.1
       '@sanity/block-tools': ^3.2.3
       '@sanity/client': ^4.0.1
       '@sanity/code-input': ^3.0.1
@@ -1637,6 +1638,7 @@ importers:
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
       feed: ^4.2.2
+      framer-motion: ^10.11.6
       groq: ^2.15.0
       jest: ^27.5.1
       jest-mock-extended: ^2.0.4
@@ -1676,6 +1678,7 @@ importers:
       '@next/mdx': 12.3.4_wuv4qx5dshjptmdbtsqqkih5iu
       '@portabletext/react': 1.0.6_react@18.2.0
       '@radix-ui/react-navigation-menu': 1.1.1_biqbaboplfbrettd7655fr4n2y
+      '@radix-ui/react-switch': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@sanity/block-tools': 3.2.5
       '@sanity/client': 4.0.1
       '@sanity/code-input': 3.0.1_44semxve3hfsjb2sdqqh3byqfa
@@ -1702,6 +1705,7 @@ importers:
       classnames: 2.3.1
       date-fns: 2.28.0
       feed: 4.2.2
+      framer-motion: 10.11.6_biqbaboplfbrettd7655fr4n2y
       groq: 2.15.0
       lodash: 4.17.21
       micromark: 3.1.0
@@ -15487,7 +15491,7 @@ packages:
       react: 18.2.0
       react-ace: 10.1.0_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
-      sanity: 3.2.5_shczhbm3p5l37poee5bnpnaupi
+      sanity: 3.2.5_34p3kynx32jfaofqogjlofkdsy
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-is
@@ -16047,7 +16051,7 @@ packages:
       '@sanity/incompatible-plugin': 1.0.4_biqbaboplfbrettd7655fr4n2y
       '@sanity/ui': 1.2.0_2zpt4ilzykmne4yndyzrqd4gdm
       react: 18.2.0
-      sanity: 3.2.5_z4un7qnaa7wwj3f2uxtandoqfq
+      sanity: 3.2.5_34p3kynx32jfaofqogjlofkdsy
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-dom
@@ -17372,7 +17376,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.3.0_ra2vnoek4vhbzktaezawwqbin4
+      tailwindcss: 3.3.0_postcss@8.4.20
 
   /@tanstack/match-sorter-utils/8.7.6:
     resolution:
@@ -29867,8 +29871,13 @@ packages:
       three: 0.134.0
     dev: false
 
+<<<<<<< HEAD
   /framer-motion/10.12.2_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-DD3Ieqy4pjmL0qBtfNMqnU/IONchUqnhHtgFtu0Nq5jw7bhkksD/Cs4cNhLYd1vs7iB8Q+WInxuBeMmzIoA5Xg==}
+=======
+  /framer-motion/10.11.6_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-QXfnUzPQqbJEnWpmtPaRB4OCuyH44uCys5Agg44LEQvItKTg0bou57WuhsNVuEyVCnMoAhrtRYiKeG/vAz6bFw==}
+>>>>>>> 62a308b6 (ModuleProgress: wip)
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
@@ -29974,7 +29983,7 @@ packages:
       hey-listen: 1.0.8
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      tslib: 2.4.0
+      tslib: 2.5.0
     optionalDependencies:
       '@emotion/is-prop-valid': 0.8.8
     dev: false
@@ -38752,7 +38761,7 @@ packages:
       '@panva/hkdf': 1.0.1
       cookie: 0.5.0
       jose: 4.11.1
-      next: 13.1.2_x6hpkaqu4dxwl4unajq2h7dx44
+      next: 13.1.2_biqbaboplfbrettd7655fr4n2y
       nodemailer: 6.7.2
       oauth: 0.9.15
       openid-client: 5.1.4
@@ -39154,6 +39163,7 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    dev: true
 
   /nice-try/1.0.5:
     resolution:
@@ -46308,7 +46318,7 @@ packages:
       nanoid: 3.3.4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      sanity: 3.2.5_z4un7qnaa7wwj3f2uxtandoqfq
+      sanity: 3.2.5_34p3kynx32jfaofqogjlofkdsy
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
       video.js: 7.21.1
     transitivePeerDependencies:
@@ -48802,6 +48812,7 @@ packages:
       '@babel/core': 7.16.5
       client-only: 0.0.1
       react: 18.2.0
+    dev: true
 
   /styled-jsx/5.1.1_react@18.2.0:
     resolution:
