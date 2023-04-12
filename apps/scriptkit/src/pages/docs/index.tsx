@@ -42,8 +42,12 @@ const Docs: FunctionComponent<React.PropsWithChildren<DocsProps>> = ({
                 <h4 className="text-lg font-bold">{name}</h4>
                 {docs.map((doc) => {
                   return (
-                    <Link key={doc.command} href={`/docs/${doc.command}`}>
-                      <a className="block px-2 py-0.5 text-md">{doc.title}</a>
+                    <Link
+                      key={doc.command}
+                      href={`/docs/${doc.command}`}
+                      className="block px-2 py-0.5 text-md"
+                    >
+                      {doc.title}
                     </Link>
                   )
                 })}

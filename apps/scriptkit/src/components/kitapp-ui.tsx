@@ -64,16 +64,15 @@ const KitAppUI: React.FC<React.PropsWithChildren<Props>> = ({scripts}) => {
             {scripts?.map((script: LoadedScript) => {
               return (
                 <li className="" key={script.command}>
-                  <Link href={`/${script.user}/${script.command}`}>
-                    <a
-                      onMouseOver={() => setHovered(script.command)}
-                      className="flex flex-col px-3 py-2 bg-transparent bg-opacity-5 hover:bg-white hover:bg-opacity-5 group"
-                    >
-                      <div>{script.title}</div>
-                      <p className="text-xs group-hover:text-yellow-500 group-hover:opacity-100 opacity-70">
-                        {script.description}
-                      </p>
-                    </a>
+                  <Link
+                    href={`/${script.user}/${script.command}`}
+                    onMouseOver={() => setHovered(script.command)}
+                    className="flex flex-col px-3 py-2 bg-transparent bg-opacity-5 hover:bg-white hover:bg-opacity-5 group"
+                  >
+                    <div>{script.title}</div>
+                    <p className="text-xs group-hover:text-yellow-500 group-hover:opacity-100 opacity-70">
+                      {script.description}
+                    </p>
                   </Link>
                 </li>
               )

@@ -18,10 +18,8 @@ LinkGrid.Link = function Link({title, description, href, icon}) {
         <Icon icon={icon} className="h-8 w-8" />
         <h2 className="mt-4 font-display text-base text-slate-900 dark:text-white">
           <NextLink href={href}>
-            <a>
-              <span className="absolute -inset-px rounded-xl" />
-              {title}
-            </a>
+            <span className="absolute -inset-px rounded-xl" />
+            {title}
           </NextLink>
         </h2>
         <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">

@@ -20,10 +20,12 @@ const Docs: FunctionComponent<React.PropsWithChildren<DiscussionsProps>> = ({
     <Layout className="blog">
       <main className="max-w-screen-lg mx-auto flex-grow w-full">
         {discussions.map((discussion) => (
-          <Link key={discussion.url} href={`/guide/${discussion.command}`}>
-            <a className="md:text-3xl text-2xl font-bold leading-tight text-white hover:underline flex flex-row px-2 pb-2">
-              {discussion.title}
-            </a>
+          <Link
+            key={discussion.url}
+            href={`/guide/${discussion.command}`}
+            className="md:text-3xl text-2xl font-bold leading-tight text-white hover:underline flex flex-row px-2 pb-2"
+          >
+            {discussion.title}
           </Link>
         ))}
       </main>
