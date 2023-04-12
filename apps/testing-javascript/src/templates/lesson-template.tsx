@@ -1,18 +1,19 @@
 import * as React from 'react'
-import Layout from 'components/layout'
-import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
-import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
-import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import MuxPlayer, {
   type MuxPlayerRefAttributes,
   type MuxPlayerProps,
 } from '@mux/mux-player-react'
-import LessonCompletionToggle from 'components/video/lesson-completion-toggle'
+import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {ArticleJsonLd} from '@skillrecordings/next-seo'
+
+import {trpc} from 'trpc/trpc.client'
 
 const LessonTemplate = () => {
   const router = useRouter()
@@ -20,6 +21,7 @@ const LessonTemplate = () => {
   const {videoResource, loadingVideoResource} = useVideoResource()
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {lesson, module} = useLesson()
+  const addProgressMutation = trpc.progress.add.useMutation()
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -31,11 +33,47 @@ const LessonTemplate = () => {
         playbackId={videoResource?.muxPlaybackId}
       />
       <div className="mt-8">
-        <LessonCompletionToggle />
+        <button
+          data-action="continue"
+          onClick={() => {
+            addProgressMutation.mutate(
+              {lessonSlug: router.query.lesson as string},
+              // {
+              //   onSettled: (data, error, variables, context) => {
+              //     handleContinue({
+              //       router,
+              //       module,
+              //       nextExercise,
+              //       handlePlay,
+              //       path,
+              //       section,
+              //     })
+              //   },
+              // },
+            )
+          }}
+        >
+          Complete & Continue{' '}
+          <span aria-hidden="true" data-icon="">
+            →
+          </span>
+        </button>
       </div>
       <div className="container">
         <h2 className="mt-8 text-xl">
-          module: <b>{module?.title}</b>
+          module:{' '}
+          <b>
+            <Link
+              href={{
+                pathname: '/playlists/[module]',
+                query: {
+                  module: module.slug.current,
+                },
+              }}
+            >
+              {module?.title}
+            </Link>
+          </b>
         </h2>
         <h2 className="mt-8 text-xl">
           lesson: <b>{lesson?.title}</b>

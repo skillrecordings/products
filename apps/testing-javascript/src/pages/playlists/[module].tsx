@@ -37,7 +37,12 @@ const LessonItem: React.FC<{lesson: any; index: number}> = ({
   lesson,
   index,
 }) => {
-  const {title, isCompleted, slug, body} = lesson
+  const {title, slug, body} = lesson
+  const moduleProgress = useModuleProgress()
+  const isLessonCompleted = moduleProgress?.lessons.find(
+    (progressLesson) =>
+      progressLesson.id === lesson._id && progressLesson.lessonCompleted,
+  )
   return (
     <li className="border-b border-black/[.05] last-of-type:border-none pb-8 mb-10 space-y-4">
       <h3 className="text-[28px] max-w-[473px] leading-tight">
@@ -51,7 +56,7 @@ const LessonItem: React.FC<{lesson: any; index: number}> = ({
         </div>
       )}
       <div className="flex items-center space-x-5">
-        {!isCompleted && (
+        {isLessonCompleted && (
           <div className="flex items-center text-base">
             <Icon name="check-circle-fill" className="w-5 h-5 ml-4 mr-2" />
             <span className="uppercase tracking-wider">completed</span>
@@ -62,7 +67,7 @@ const LessonItem: React.FC<{lesson: any; index: number}> = ({
           className="space-x-4 flex items-center bg-gray-100 text-black px-6 py-2 rounded-md hover:bg-gray-200 duration-100 min-h-[50px]"
         >
           <Icon name="play" className="w-[10px] h-[10px]" />
-          <span>{isCompleted ? 'Rewatch Lesson' : 'Watch Lesson'}</span>
+          <span>{isLessonCompleted ? 'Rewatch Lesson' : 'Watch Lesson'}</span>
         </Link>
         <div className="space-x-2 flex items-center text-base">
           <Icon name="duration" className="w-5 h-5 text-gray-400" />
@@ -77,8 +82,6 @@ const WorkshopPage: React.FC<{
   workshop: Module
 }> = ({workshop}) => {
   const lessons = workshop?.sections?.[0]?.lessons || []
-  const moduleProgress = useModuleProgress()
-  console.log({moduleProgress})
 
   return (
     <ModuleProgressProvider moduleSlug={workshop.slug.current as string}>
