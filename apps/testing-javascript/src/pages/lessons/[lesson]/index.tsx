@@ -1,16 +1,16 @@
 import React from 'react'
-
-import {User} from '@skillrecordings/database'
-import Layout from 'components/layout'
-import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getAllLessons, getLesson} from 'lib/lessons'
-import {getPlaylist} from 'lib/playlists'
+import {User} from '@skillrecordings/database'
+import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {LessonResource} from '@skillrecordings/types'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import LessonTemplate from 'templates/lesson-template'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+
+import {getAllLessons, getLesson} from 'lib/lessons'
+import {getPlaylist} from 'lib/playlists'
+import Layout from 'components/layout'
+import LessonTemplate from 'templates/lesson-template'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
@@ -41,7 +41,6 @@ const LessonPage: React.FC<{
   module: Module
   videoResourceId: string
 }> = ({lesson, module, videoResourceId}) => {
-  console.log({lessons: lesson})
   return (
     <Layout>
       <LessonProvider lesson={lesson} module={module} section={lesson.section}>

@@ -12,6 +12,7 @@ import MuxPlayer, {
   type MuxPlayerRefAttributes,
   type MuxPlayerProps,
 } from '@mux/mux-player-react'
+import {trpc} from 'trpc/trpc.client'
 
 const LessonTemplate = () => {
   const router = useRouter()
@@ -19,10 +20,14 @@ const LessonTemplate = () => {
   const {videoResource, loadingVideoResource} = useVideoResource()
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {lesson, module} = useLesson()
+  const addProgressMutation = trpc.progress.add.useMutation()
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
       exerciseSlug={router.query.lesson as string}
+      onModuleEnded={async () => {
+        addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
+      }}
     >
       <MuxPlayer
         ref={muxPlayerRef}
