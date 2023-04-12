@@ -6,7 +6,7 @@ import {getScript, getScriptPaths} from 'lib/get-user-scripts'
 import ScriptMarkdown from 'components/script-markdown'
 import {Extension, LoadedScript} from 'utils/types'
 import Link from 'components/link'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import InstallScriptButton from 'components/scripts/install-script-button'
 import CommentIcon from '../../../public/assets/icons/comment.svg'
 

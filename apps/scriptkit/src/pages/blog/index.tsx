@@ -10,7 +10,7 @@ import {
 } from 'lib/get-discussions'
 import {LoadedScript} from 'utils/types'
 import BlogTeaser from 'components/blog/teaser'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 const Blog: FunctionComponent<React.PropsWithChildren<DiscussionsProps>> = ({
   discussions,

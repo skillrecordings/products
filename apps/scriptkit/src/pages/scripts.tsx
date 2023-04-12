@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {getAllScriptsGroupedByUser, UserScripts} from 'lib/get-user-scripts'
 import InstallScriptButton from 'components/scripts/install-script-button'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Layout from 'layouts'
 import Link from 'components/link'
 import {LoadedScript} from 'utils/types'
