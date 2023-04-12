@@ -2,13 +2,13 @@ INSERT INTO MerchantAccount (id, status, identifier, label) VALUES
 ("pt_d99e565c-c58b-4514-bcd8-2840930ed001", 1, "acct_1KoAP2KXqbBrKxVR", "stripe");
 
 INSERT INTO Product (id, name, status) VALUES
-('pt_f452e1fb-a36a-4b19-8cf0-5f2114a00a68', "Multi-Style Tailwind Components Workshop", 1);
+('pt_2102da80-fbe9-4672-81dc-ded13097b1fe', "Multi-Style Tailwind Components Workshop", 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
-('pt_27df20cf-24ac-4e81-959c-9c126a6c2065', "pt_d99e565c-c58b-4514-bcd8-2840930ed001", 'pt_f452e1fb-a36a-4b19-8cf0-5f2114a00a68', 1, "prod_N6XWQtN1itHCSg");
+('pt_27df20cf-24ac-4e81-959c-9c126a6c2065', "pt_d99e565c-c58b-4514-bcd8-2840930ed001", 'pt_2102da80-fbe9-4672-81dc-ded13097b1fe', 1, "prod_N6XWQtN1itHCSg");
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
-('pt_634f67f6-8e05-4372-b9ef-0d2e674bcacf', 'pt_f452e1fb-a36a-4b19-8cf0-5f2114a00a68', 'Multi-Style Tailwind Components Workshop', 1, 79);
+('pt_634f67f6-8e05-4372-b9ef-0d2e674bcacf', 'pt_2102da80-fbe9-4672-81dc-ded13097b1fe', 'Multi-Style Tailwind Components Workshop', 1, 79);
 
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('pt_4d94ce1c-440f-4423-b2f2-a91be924e72e', 'pt_27df20cf-24ac-4e81-959c-9c126a6c2065', 'pt_d99e565c-c58b-4514-bcd8-2840930ed001', 1, "pt_634f67f6-8e05-4372-b9ef-0d2e674bcacf", "price_1MMKRRKXqbBrKxVRIPPtJOR7");
