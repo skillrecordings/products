@@ -41,7 +41,6 @@ const LessonPage: React.FC<{
   module: Module
   videoResourceId: string
 }> = ({lesson, module, videoResourceId}) => {
-  console.log({lessons: lesson})
   return (
     <Layout>
       <LessonProvider lesson={lesson} module={module} section={lesson.section}>
