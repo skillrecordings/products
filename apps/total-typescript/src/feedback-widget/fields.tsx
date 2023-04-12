@@ -131,7 +131,7 @@ export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
                     {getEmoji(emotion).image}
                   </RadioGroup.Label>
                   {checked && (
-                    <CheckIcon className="absolute right-1 bottom-1 h-4 w-4 text-gray-100" />
+                    <CheckIcon className="absolute bottom-1 right-1 h-4 w-4 text-gray-100" />
                   )}
                 </>
               )}
@@ -143,10 +143,14 @@ export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
   )
 }
 
-export const CategoryField: React.FC<React.PropsWithChildren<any>> = (
-  props,
-) => {
-  const [field] = useField({name: props.name})
+export const CategoryField: React.FC<
+  React.PropsWithChildren<{
+    name: string
+    categories?: string[]
+    id: string
+  }>
+> = ({name, categories = ['general', 'help', 'code'], id}, ...rest) => {
+  const [field] = useField({name})
   return (
     <div>
       <label
@@ -156,15 +160,17 @@ export const CategoryField: React.FC<React.PropsWithChildren<any>> = (
         Category
       </label>
       <RadioGroup
-        {...props}
+        {...rest}
+        name={name}
+        id={id}
         value={field.value}
         onChange={(value: string) => {
-          field.onChange({target: {value, name: props.name}})
+          field.onChange({target: {value, name: name}})
         }}
       >
         <RadioGroup.Label className="sr-only">Pick a category</RadioGroup.Label>
         <div className="flex items-center space-x-3">
-          {['general', 'help'].map((category) => (
+          {categories.map((category) => (
             <RadioGroup.Option
               key={category}
               value={category}
@@ -179,7 +185,7 @@ export const CategoryField: React.FC<React.PropsWithChildren<any>> = (
                   ? 'bg-gray-600 bg-opacity-75 text-white shadow-inner hover:bg-gray-600'
                   : 'bg-gray-800 hover:bg-gray-700/80'
               }
-              relative flex cursor-pointer rounded-lg border border-gray-700 px-5 py-4 transition focus:outline-none`
+              relative flex cursor-pointer rounded-lg border border-gray-700 px-4 py-3.5 transition focus:outline-none`
               }
             >
               {({checked}) => (
@@ -192,7 +198,7 @@ export const CategoryField: React.FC<React.PropsWithChildren<any>> = (
                     {category}
                   </RadioGroup.Label>
                   {checked && (
-                    <CheckIcon className="absolute right-1 bottom-1 h-4 w-4 text-gray-100" />
+                    <CheckIcon className="absolute bottom-1 right-1 h-4 w-4 text-gray-100" />
                   )}
                 </>
               )}
