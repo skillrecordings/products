@@ -3,34 +3,25 @@ import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {getExercise} from 'lib/exercises'
-import path from 'path'
-import {walk} from 'utils/code-editor-content'
-import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
+import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from 'video/module-progress'
+import {getSection} from 'lib/sections'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const lessonSLug = params?.lesson as string
+  const lessonSlug = params?.lesson as string
   const sectionSlug = params?.section as string
 
   const module = await getTutorial(params?.module as string)
   const section = await getSection(sectionSlug)
-  const lesson = await getExercise(lessonSLug)
-
-  const tutorialDirectory = path.join(
-    process.cwd(),
-    'src/exercise/sandpack/parcel',
-  )
-  const tutorialFiles = walk(tutorialDirectory)
+  const lesson = await getExercise(lessonSlug, false)
 
   return {
     props: {
       lesson,
-      section,
       module,
-      tutorialFiles,
+      section,
       transcript: lesson.transcript,
       videoResourceId: lesson.videoResourceId,
     },
@@ -41,7 +32,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const tutorials = await getAllTutorials()
 
-  // flatMap to extract lessons in sections from tutorials
   const paths = tutorials.flatMap((tutorial: any) => {
     return (
       tutorial.sections?.flatMap((section: any) => {
@@ -65,7 +55,6 @@ const ExercisePage: React.FC<any> = ({
   lesson,
   module,
   section,
-  tutorialFiles,
   transcript,
   videoResourceId,
 }) => {
@@ -73,10 +62,7 @@ const ExercisePage: React.FC<any> = ({
     <ModuleProgressProvider moduleSlug={module.slug.current}>
       <LessonProvider lesson={lesson} module={module} section={section}>
         <VideoResourceProvider videoResourceId={videoResourceId}>
-          <ExerciseTemplate
-            transcript={transcript}
-            tutorialFiles={tutorialFiles}
-          />
+          <ExerciseTemplate transcript={transcript} />
         </VideoResourceProvider>
       </LessonProvider>
     </ModuleProgressProvider>
