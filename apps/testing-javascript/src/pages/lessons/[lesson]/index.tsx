@@ -10,6 +10,7 @@ import {LessonResource} from '@skillrecordings/types'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import LessonTemplate from 'templates/lesson-template'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
@@ -35,13 +36,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const LessonPage: React.FC<{
   lesson: LessonResource & {
     _type: string
+    section: Section
   }
   module: Module
   videoResourceId: string
 }> = ({lesson, module, videoResourceId}) => {
+  console.log({lessons: lesson})
   return (
     <Layout>
-      <LessonProvider lesson={lesson} module={module}>
+      <LessonProvider lesson={lesson} module={module} section={lesson.section}>
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <LessonTemplate />
         </VideoResourceProvider>
