@@ -33,4 +33,4 @@ for (let courseSlug of slugs.split(',')) {
   courses.push(course)
 }
 
-await outputJson(path.resolve('public', 'data', 'courses.json'), courses)
+await outputJson(projectPath('public', 'data', 'courses.json'), courses)
