@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev -p 3035",
-    "prebuild": "yarn docs-data && yarn share-data && yarn guide-data && yarn announcements-data && yarn hot-data && yarn course-data",
+    "prebuild": "pnpm docs-data && pnpm share-data && pnpm guide-data && pnpm announcements-data && pnpm hot-data && pnpm course-data",
     "build": "NODE_ENV=production next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "start": "next start -p 3035",
@@ -16,14 +16,14 @@
     "og-image": "kit generate-open-graph-image",
     "get-scripts": "kit get-scripts",
     "write-discussion-data": "kit write-discussion-data",
-    "share-data": "yarn write-discussion-data Share",
-    "guide-data": "yarn write-discussion-data Guide",
-    "docs-data": "yarn write-discussion-data Docs",
+    "share-data": "pnpm write-discussion-data Share",
+    "guide-data": "pnpm write-discussion-data Guide",
+    "docs-data": "pnpm write-discussion-data Docs",
     "hot-data": "kit update-hot",
-    "announcements-data": "yarn write-discussion-data Announcements",
+    "announcements-data": "pnpm write-discussion-data Announcements",
     "write-repo-scripts-data": "kit write-repo-scripts-data",
     "write-course-data": "kit write-course-data",
-    "course-data": "yarn write-course-data script-kit-showcase-for-optimizing-your-everyday-workflows-e20ceab4"
+    "course-data": "pnpm write-course-data script-kit-showcase-for-optimizing-your-everyday-workflows-e20ceab4"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.1",
