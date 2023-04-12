@@ -15,9 +15,7 @@ const DiscussionPost = ({
   <div key={url} className="discussion">
     {link ? (
       <Link href={`/${link}/${command}`}>
-        <a>
-          <h2>{title}</h2>
-        </a>
+        <h2>{title}</h2>
       </Link>
     ) : (
       <h2>{title}</h2>

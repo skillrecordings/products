@@ -233,19 +233,18 @@ const Home: FunctionComponent<React.PropsWithChildren<HomeProps>> = ({
                 .map((link) => {
                   return (
                     <li key={link.url}>
-                      <Link href={link.url}>
-                        <a
-                          target="_blank"
-                          className="group bg-gradient-to-l from-transparent to-transparent hover:from-gray-900 bg-opacity-5 flex sm:py-4 py-3 pl-6 text-lg border-b border-white border-opacity-10 relative transition-all ease-in-out duration-300"
-                        >
-                          <span className="absolute left-0 pr-3 transform group-hover:text-transparent text-yellow-300 group-hover:translate-x-2 -translate-x-0 transition-all duration-200 ease-in-out">
-                            ▪︎
-                          </span>
-                          <span className="absolute left-0 pr-3 transform group-hover:text-yellow-300 text-transparent group-hover:-translate-x-1 -translate-x-4 transition-all duration-200 ease-in-out">
-                            →
-                          </span>
-                          <span>{link.label}</span>
-                        </a>
+                      <Link
+                        href={link.url}
+                        target="_blank"
+                        className="group bg-gradient-to-l from-transparent to-transparent hover:from-gray-900 bg-opacity-5 flex sm:py-4 py-3 pl-6 text-lg border-b border-white border-opacity-10 relative transition-all ease-in-out duration-300"
+                      >
+                        <span className="absolute left-0 pr-3 transform group-hover:text-transparent text-yellow-300 group-hover:translate-x-2 -translate-x-0 transition-all duration-200 ease-in-out">
+                          ▪︎
+                        </span>
+                        <span className="absolute left-0 pr-3 transform group-hover:text-yellow-300 text-transparent group-hover:-translate-x-1 -translate-x-4 transition-all duration-200 ease-in-out">
+                          →
+                        </span>
+                        <span>{link.label}</span>
                       </Link>
                     </li>
                   )

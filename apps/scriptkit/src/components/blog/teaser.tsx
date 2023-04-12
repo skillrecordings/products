@@ -16,8 +16,9 @@ const BlogTeaser: React.FC<{discussion: LoadedScript}> = ({discussion}) => {
               slug: command,
             },
           }}
+          className="hover:underline hover:decoration-gray-400"
         >
-          <a className="hover:underline hover:decoration-gray-400">{title}</a>
+          {title}
         </Link>
       </h2>
       {createdAt && (
