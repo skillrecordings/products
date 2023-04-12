@@ -1,38 +1,30 @@
 import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
-import {getExercise} from 'lib/exercises'
-import path from 'path'
-import {walk} from 'utils/code-editor-content'
-import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {getExercise, Exercise} from 'lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
+import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from 'video/module-progress'
+import {getSection} from 'lib/sections'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const lessonSLug = params?.lesson as string
+  const exerciseSlug = params?.lesson as string
   const sectionSlug = params?.section as string
 
   const module = await getTutorial(params?.module as string)
+  const exercise = await getExercise(exerciseSlug)
   const section = await getSection(sectionSlug)
-  const lesson = await getExercise(lessonSLug)
-
-  const tutorialDirectory = path.join(
-    process.cwd(),
-    'src/exercise/sandpack/parcel',
-  )
-  const tutorialFiles = walk(tutorialDirectory)
 
   return {
     props: {
-      lesson,
-      section,
+      solution: exercise.solution,
       module,
-      tutorialFiles,
-      transcript: lesson.transcript,
-      videoResourceId: lesson.videoResourceId,
+      section,
+      transcript: exercise.solution?.transcript,
+      videoResourceId: exercise.solution?.videoResourceId,
     },
     revalidate: 10,
   }
@@ -41,18 +33,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const tutorials = await getAllTutorials()
 
-  // flatMap to extract lessons in sections from tutorials
   const paths = tutorials.flatMap((tutorial: any) => {
     return (
       tutorial.sections?.flatMap((section: any) => {
         return (
-          section.lessons?.map((lesson: any) => ({
-            params: {
-              module: tutorial.slug.current,
-              section: section.slug,
-              lesson: lesson.slug,
-            },
-          })) || []
+          section.lessons
+            ?.filter(({_type}: Lesson) => _type === 'exercise')
+            .map((exercise: Exercise) => ({
+              params: {
+                module: tutorial.slug.current,
+                section: section.slug,
+                lesson: exercise.slug,
+              },
+            })) || []
         )
       }) || []
     )
@@ -61,26 +54,22 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-const ExercisePage: React.FC<any> = ({
-  lesson,
+const ExerciseSolution: React.FC<any> = ({
+  solution,
   module,
   section,
-  tutorialFiles,
   transcript,
   videoResourceId,
 }) => {
   return (
     <ModuleProgressProvider moduleSlug={module.slug.current}>
-      <LessonProvider lesson={lesson} module={module} section={section}>
+      <LessonProvider lesson={solution} module={module} section={section}>
         <VideoResourceProvider videoResourceId={videoResourceId}>
-          <ExerciseTemplate
-            transcript={transcript}
-            tutorialFiles={tutorialFiles}
-          />
+          <ExerciseTemplate transcript={transcript} />
         </VideoResourceProvider>
       </LessonProvider>
     </ModuleProgressProvider>
   )
 }
 
-export default ExercisePage
+export default ExerciseSolution
