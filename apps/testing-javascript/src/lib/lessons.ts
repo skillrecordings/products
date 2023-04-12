@@ -16,7 +16,11 @@ export const getLesson = async (
       description,
       "slug": slug.current,
       body,
-      "section": *[_type in ['section'] && references(^._id)][0]._id,
+      "section": *[_type in ['section'] && references(^._id)][0]{
+        _id,
+        "slug": slug.current,
+        title
+      },
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
       "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
@@ -33,7 +37,7 @@ export const getLesson = async (
       }
     } | {
       ...,
-      "module": *[_type in ['module'] && references(^.section)][0] {
+      "module": *[_type in ['module'] && references(^.section._id)][0] {
         _id,
         slug,
         title
