@@ -83,4 +83,4 @@ for await (let repo of repos) {
   }
 }
 
-await outputJson(path.resolve('public', 'data', 'repo-scripts.json'), scripts)
+await outputJson(projectPath('public', 'data', 'repo-scripts.json'), scripts)
