@@ -6,11 +6,11 @@
     "node": ">16.x"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3035",
     "prebuild": "yarn docs-data && yarn share-data && yarn guide-data && yarn announcements-data && yarn hot-data && yarn course-data",
     "build": "NODE_ENV=production next build",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "start": "next start",
+    "start": "next start -p 3035",
     "test": "jest --watch",
     "repos": "kit ./scripts/repos.js",
     "og-image": "kit generate-open-graph-image",
