@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 
