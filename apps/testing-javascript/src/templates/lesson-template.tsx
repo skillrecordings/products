@@ -12,6 +12,7 @@ import MuxPlayer, {
   type MuxPlayerRefAttributes,
   type MuxPlayerProps,
 } from '@mux/mux-player-react'
+import LessonCompletionToggle from 'components/video/lesson-completion-toggle'
 
 const LessonTemplate = () => {
   const router = useRouter()
@@ -29,6 +30,9 @@ const LessonTemplate = () => {
         {...(muxPlayerProps as MuxPlayerProps)}
         playbackId={videoResource?.muxPlaybackId}
       />
+      <div className="mt-8">
+        <LessonCompletionToggle />
+      </div>
       <div className="container">
         <h2 className="mt-8 text-xl">
           module: <b>{module?.title}</b>
