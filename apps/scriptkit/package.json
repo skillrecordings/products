@@ -11,7 +11,7 @@
     "build": "NODE_ENV=production next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "start": "next start -p 3035",
-    "test": "jest --watch",
+    "test": "pnpm --version",
     "repos": "kit ./scripts/repos.js",
     "og-image": "kit generate-open-graph-image",
     "get-scripts": "kit get-scripts",
