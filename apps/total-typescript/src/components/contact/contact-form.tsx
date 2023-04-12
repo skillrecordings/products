@@ -45,7 +45,7 @@ const ContactForm = () => {
       onSubmit={submitFeedbackForm}
       enableReinitialize
     >
-      {({errors, touched, isSubmitting}) => (
+      {({errors, touched, isSubmitting, values}) => (
         <Form className="flex flex-col space-y-5">
           <ContactEmailField errors={errors} touched={touched} />
           <FeedbackField
@@ -55,9 +55,13 @@ const ContactForm = () => {
             isSubmitted={isSubmitted}
             showMarkdown={false}
           />
-          <div className="flex w-full flex-col space-y-5 md:flex-row md:space-y-0 md:space-x-10">
+          <div className="flex w-full flex-col space-y-5 md:flex-row md:space-x-10 md:space-y-0">
             <EmotionField name="context.emotion" id="context.emotion" />
-            <CategoryField name="context.category" id="context.category" />
+            <CategoryField
+              categories={['general', 'help']}
+              name="context.category"
+              id="context.category"
+            />
           </div>
           <SubmitButton isSubmitting={isSubmitting}>Send message</SubmitButton>
           {isSubmitted && (

@@ -64,7 +64,7 @@ export type SendFeedbackFromUserOptions = {
 
 export type FeedbackContext = {
   url?: string
-  category?: 'general' | 'help'
+  category?: 'general' | 'help' | 'code'
   emotion?:
     | ':heart_eyes:'
     | ':unicorn_face:'
