@@ -980,7 +980,7 @@ importers:
       tree-cli: ^0.6.7
       ts-node: ^10.9.1
       twitter-lite: ^1.1.0
-      typescript: ^4.7.4
+      typescript: ^4.9.4
       yarn-upgrade-all: ^0.7.1
     dependencies:
       '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
@@ -12892,7 +12892,7 @@ packages:
       react: 18.2.0
       react-ace: 10.1.0_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
-      sanity: 3.2.5_shczhbm3p5l37poee5bnpnaupi
+      sanity: 3.2.5_34p3kynx32jfaofqogjlofkdsy
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-is
