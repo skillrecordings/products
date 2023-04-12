@@ -1,24 +1,31 @@
-import {MdOutlineGroupWork} from 'react-icons/md'
+import {MdOutlineWorkspaces} from 'react-icons/md'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'section',
+  name: 'exercise',
   type: 'document',
-  title: 'Workshop Section',
-  description: 'A named group of resources within a module.',
-  icon: MdOutlineGroupWork,
+  title: 'Exercise',
+  description:
+    'A type of Lesson that has 2-parts, a problem (the exercise) and a solution.',
+  icon: MdOutlineWorkspaces,
   preview: {
     select: {
       title: 'title',
     },
     prepare({title}) {
       return {
-        media: MdOutlineGroupWork,
-        title: `${title} (Section)`,
+        media: MdOutlineWorkspaces,
+        title: `${title} (Exercise)`,
       }
     },
   },
   fields: [
+    defineField({
+      name: 'label',
+      title: 'Label',
+      type: 'string',
+      hidden: true,
+    }),
     defineField({
       name: 'title',
       title: 'Title',
@@ -39,17 +46,17 @@ export default defineType({
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      description: 'Lessons in the section',
       of: [
         defineArrayMember({
+          title: 'Video Resource',
           type: 'reference',
-          to: [
-            {type: 'exercise'},
-            {type: 'explainer'},
-            {type: 'lesson'},
-            {type: 'linkResource'},
-          ],
+          to: [{type: 'videoResource'}],
         }),
+        defineArrayMember({type: 'solution'}),
+        defineArrayMember({type: 'muxVideo'}),
+        defineArrayMember({type: 'stackblitz'}),
+        defineArrayMember({type: 'testimonial'}),
+        defineArrayMember({type: 'linkResource'}),
       ],
     }),
     defineField({
@@ -63,17 +70,6 @@ export default defineType({
       description: 'Used as a short "SEO" summary on Twitter cards etc.',
       type: 'text',
       validation: (Rule) => Rule.max(160),
-    }),
-    defineField({
-      name: 'concepts',
-      title: 'Concepts',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'skosConcept'}],
-        }),
-      ],
     }),
   ],
 })

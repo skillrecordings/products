@@ -1,24 +1,29 @@
-import {MdOutlineGroupWork} from 'react-icons/md'
+import {MdAutoFixHigh} from 'react-icons/md'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'section',
-  type: 'document',
-  title: 'Workshop Section',
-  description: 'A named group of resources within a module.',
-  icon: MdOutlineGroupWork,
+  name: 'solution',
+  type: 'object',
+  title: 'Solution to Exercise',
+  icon: MdAutoFixHigh,
   preview: {
     select: {
       title: 'title',
     },
     prepare({title}) {
       return {
-        media: MdOutlineGroupWork,
-        title: `${title} (Section)`,
+        media: MdAutoFixHigh,
+        title: `${title} (Solution)`,
       }
     },
   },
   fields: [
+    defineField({
+      name: 'label',
+      title: 'Label',
+      type: 'string',
+      hidden: true,
+    }),
     defineField({
       name: 'title',
       title: 'Title',
@@ -39,17 +44,14 @@ export default defineType({
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      description: 'Lessons in the section',
       of: [
         defineArrayMember({
+          title: 'Video Resource',
           type: 'reference',
-          to: [
-            {type: 'exercise'},
-            {type: 'explainer'},
-            {type: 'lesson'},
-            {type: 'linkResource'},
-          ],
+          to: [{type: 'videoResource'}],
         }),
+        defineArrayMember({type: 'muxVideo'}),
+        defineArrayMember({type: 'stackblitz'}),
       ],
     }),
     defineField({
@@ -59,21 +61,10 @@ export default defineType({
     }),
     defineField({
       name: 'description',
-      title: 'Short Description',
+      title: 'Summary',
       description: 'Used as a short "SEO" summary on Twitter cards etc.',
       type: 'text',
       validation: (Rule) => Rule.max(160),
-    }),
-    defineField({
-      name: 'concepts',
-      title: 'Concepts',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'skosConcept'}],
-        }),
-      ],
     }),
   ],
 })
