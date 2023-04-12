@@ -21,7 +21,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const tutorialDirectory = path.join(
     process.cwd(),
-    'src/video/exercise/sandpack/parcel',
+    'src/exercise/sandpack/parcel',
   )
   const tutorialFiles = walk(tutorialDirectory)
 

@@ -1,16 +1,22 @@
-import React from 'react'
+import React, {Dispatch, SetStateAction} from 'react'
 import type {FormattedPrice} from '@skillrecordings/commerce-server/dist/@types'
 
 type PricingContextType = {
   addPrice: (price: FormattedPrice, productId: string) => void
   isDowngrade: (price?: FormattedPrice) => boolean
   isDiscount: (price?: FormattedPrice) => boolean
+  merchantCoupon?: {id: string; type: string}
+  setMerchantCoupon: Dispatch<
+    SetStateAction<{id: string; type: string} | undefined>
+  >
 }
 
 const defaultPriceCheckContext: PricingContextType = {
   addPrice: () => {},
   isDowngrade: () => false,
   isDiscount: () => false,
+  merchantCoupon: undefined,
+  setMerchantCoupon: () => {},
 }
 
 /**
@@ -65,12 +71,19 @@ export const PriceCheckProvider: React.FC<React.PropsWithChildren<any>> = ({
     return price.unitPrice > price.calculatedPrice
   }, [])
 
+  const [merchantCoupon, setMerchantCoupon] = React.useState<{
+    id: string
+    type: string
+  }>()
+
   return (
     <PriceCheckContext.Provider
       value={{
         addPrice,
         isDowngrade,
         isDiscount,
+        merchantCoupon,
+        setMerchantCoupon,
       }}
     >
       {children}

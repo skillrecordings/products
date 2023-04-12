@@ -15,6 +15,7 @@ import {
   LoadingOverlay,
   FinishedSectionOverlay,
 } from './video-overlays'
+import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
 
 type VideoProps = {
   product: SanityProduct
@@ -50,54 +51,57 @@ export const Video: React.FC<
 
     return (
       <>
-        {displayOverlay && (
-          <>
-            {nextExerciseStatus === 'loading' ? (
-              <LoadingOverlay loadingIndicator={loadingIndicator} />
-            ) : (
-              <>
-                {nextExercise ? (
-                  <>
-                    {isExercise ? (
-                      canShowVideo ? (
-                        exerciseOverlayRenderer()
-                      ) : (
-                        <BlockedOverlay product={product} />
-                      )
-                    ) : (
-                      <DefaultOverlay />
-                    )}
-                  </>
-                ) : nextSection ? (
-                  <FinishedSectionOverlay />
-                ) : (
-                  <FinishedOverlay />
-                )}
-              </>
-            )}
-          </>
-        )}
-        <div
-          className={cx('relative flex w-full items-center justify-center', {
-            hidden: displayOverlay,
-          })}
-        >
-          {Boolean(canShowVideo && videoResource?.muxPlaybackId) ? (
-            <MuxPlayer
-              ref={ref}
-              {...(muxPlayerProps as MuxPlayerProps)}
-              playbackId={videoResource?.muxPlaybackId}
-            />
-          ) : (
+        <PriceCheckProvider>
+          {displayOverlay && (
             <>
-              {loadingUserStatus || loadingVideoResource ? (
+              {nextExerciseStatus === 'loading' ? (
                 <LoadingOverlay loadingIndicator={loadingIndicator} />
               ) : (
-                <BlockedOverlay product={product} />
+                <>
+                  {nextExercise ? (
+                    <>
+                      {isExercise ? (
+                        canShowVideo ? (
+                          exerciseOverlayRenderer()
+                        ) : (
+                          <BlockedOverlay product={product} />
+                        )
+                      ) : (
+                        <DefaultOverlay />
+                      )}
+                    </>
+                  ) : nextSection ? (
+                    <FinishedSectionOverlay />
+                  ) : (
+                    <FinishedOverlay />
+                  )}
+                </>
               )}
             </>
           )}
-        </div>
+
+          <div
+            className={cx('relative flex w-full items-center justify-center', {
+              hidden: displayOverlay,
+            })}
+          >
+            {Boolean(canShowVideo && videoResource?.muxPlaybackId) ? (
+              <MuxPlayer
+                ref={ref}
+                {...(muxPlayerProps as MuxPlayerProps)}
+                playbackId={videoResource?.muxPlaybackId}
+              />
+            ) : (
+              <>
+                {loadingUserStatus || loadingVideoResource ? (
+                  <LoadingOverlay loadingIndicator={loadingIndicator} />
+                ) : (
+                  <BlockedOverlay product={product} />
+                )}
+              </>
+            )}
+          </div>
+        </PriceCheckProvider>
       </>
     )
   },
