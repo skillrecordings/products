@@ -256,10 +256,10 @@ const BlockedOverlay: React.FC<{product: SanityProduct}> = ({product}) => {
     })
   const productImage = product?.image?.url || product?.image || module?.image
   const workshops =
-    product.modules &&
+    product?.modules &&
     product.modules.filter(({moduleType}) => moduleType === 'workshop')
   const bonuses =
-    product.modules &&
+    product?.modules &&
     product.modules.filter(({moduleType}) => moduleType === 'bonus')
   const {merchantCoupon} = usePriceCheck()
   const showBonuses = bonuses && !Boolean(merchantCoupon)
