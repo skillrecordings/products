@@ -1,5 +1,6 @@
 import React from 'react'
 import * as Yup from 'yup'
+import cx from 'classnames'
 import {CategoryField, EmotionField, FeedbackField} from './fields'
 import {useFeedback} from './feedback-context'
 import {Formik, Form, FormikHelpers} from 'formik'
@@ -8,6 +9,7 @@ import {XCircleIcon} from '@heroicons/react/outline'
 import Spinner from 'components/spinner'
 import {FeedbackContext} from '@skillrecordings/skill-api'
 import {useFeedbackForm} from './use-feedback-form'
+import Link from 'next/link'
 
 export type FeedbackFormValues = {
   text: string
@@ -30,22 +32,51 @@ export const FeedbackForm: React.FC<
       validationSchema={FeedbackValidationSchema}
       onSubmit={submitFeedbackForm}
     >
-      {({errors, touched, isSubmitting}) => (
-        <Form className="flex flex-col space-y-5">
-          <FeedbackField
-            errors={errors}
-            touched={touched}
-            isSubmitted={isSubmitted}
-          />
-          <div className="flex w-full flex-col space-y-5 md:flex-row md:space-y-0 md:space-x-10">
-            <EmotionField name="context.emotion" id="context.emotion" />
-            <CategoryField name="context.category" id="context.category" />
-          </div>
-          <SubmitButton isSubmitting={isSubmitting}>Send feedback</SubmitButton>
-          {isSubmitted && <ConfirmationMessage />}
-          {error && <ErrorMessage>{error}</ErrorMessage>}
-        </Form>
-      )}
+      {({errors, touched, isSubmitting, values}) => {
+        const isCodeQuestion = values.context.category === 'code'
+
+        return (
+          <Form className="flex flex-col space-y-5">
+            <div
+              className={cx({'pointer-events-none blur-sm': isCodeQuestion})}
+            >
+              {' '}
+              <FeedbackField
+                errors={errors}
+                touched={touched}
+                isSubmitted={isSubmitted}
+              />
+            </div>
+            <div className="flex w-full flex-col space-y-5 md:flex-row md:space-x-10 md:space-y-0">
+              <div
+                className={cx({'pointer-events-none blur-sm': isCodeQuestion})}
+              >
+                <EmotionField name="context.emotion" id="context.emotion" />
+              </div>
+              <CategoryField name="context.category" id="context.category" />
+            </div>
+            {isCodeQuestion ? (
+              <div className="pt-0.5 text-center">
+                If you have any TypeScript/code related question or need help
+                solving an exercise,{' '}
+                <Link
+                  className="font-medium text-cyan-300 hover:underline"
+                  href="/discord"
+                  target="_blank"
+                >
+                  ask on my Discord server ↗︎
+                </Link>
+              </div>
+            ) : (
+              <SubmitButton isSubmitting={isSubmitting}>
+                Send feedback
+              </SubmitButton>
+            )}
+            {isSubmitted && <ConfirmationMessage />}
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+          </Form>
+        )
+      }}
     </Formik>
   )
 }
@@ -104,7 +135,7 @@ export const SubmitButton: React.FC<
     <button
       type="submit"
       disabled={isSubmitting}
-      className="inline-flex justify-center rounded-lg border border-transparent bg-gradient-to-b from-cyan-400 to-cyan-500 py-3 px-4 text-base font-semibold text-black transition focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 hover:bg-cyan-300 hover:shadow-lg hover:brightness-110"
+      className="inline-flex justify-center rounded-lg border border-transparent bg-gradient-to-b from-cyan-400 to-cyan-500 px-4 py-3 text-base font-semibold text-black transition focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 hover:bg-cyan-300 hover:shadow-lg hover:brightness-110"
     >
       {isSubmitting ? (
         <>
