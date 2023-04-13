@@ -181,7 +181,7 @@
     "@types/svg-to-pdfkit": "^0.1.0",
     "assert": "^2.0.0",
     "commander": "^8.3.0",
-    "concurrently": "^7.2.2",
+    "concurrently": "^8.0.1",
     "csstype": "^3.0.11",
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
