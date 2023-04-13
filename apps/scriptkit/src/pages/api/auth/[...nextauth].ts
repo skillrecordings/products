@@ -19,7 +19,6 @@ const providers = [
 
 export const nextAuthOptions: NextAuthOptions = createOptions({
   theme: productTheme,
-  providers,
 })
 
 export default async function NextAuthEndpoint(
@@ -33,7 +32,6 @@ export default async function NextAuthEndpoint(
       createOptions({
         req,
         theme: productTheme,
-        providers,
       }),
     ),
   )

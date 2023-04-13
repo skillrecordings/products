@@ -966,11 +966,14 @@ importers:
       query-string: ^7.1.1
       react: ^18.2.0
       react-dom: ^18.2.0
+      react-hook-form: ^7.29.0
+      react-hot-toast: ^2.2.0
       react-lottie-player: ^1.4.3
       react-markdown: ^8.0.3
       react-syntax-highlighter: ^15.5.0
       react-test-renderer: ^18.2.0
       react-use: ^17.4.0
+      react-wrap-balancer: ^0.2.4
       rehype: ^12.0.1
       rehype-raw: ^6.0.0
       remark-code-titles: ^0.1.2
@@ -1032,10 +1035,13 @@ importers:
       query-string: 7.1.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-hook-form: 7.29.0_react@18.2.0
+      react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       react-lottie-player: 1.5.4_react@18.2.0
       react-markdown: 8.0.4_3stiutgnnbnfnf3uowm5cip22i
       react-syntax-highlighter: 15.5.0_react@18.2.0
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
+      react-wrap-balancer: 0.2.4_react@18.2.0
       rehype: 12.0.1
       rehype-raw: 6.1.1
       remark-code-titles: 0.1.2
@@ -14546,7 +14552,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_ra2vnoek4vhbzktaezawwqbin4
 
   /@tanstack/match-sorter-utils/8.7.6:
     resolution: {integrity: sha512-2AMpRiA6QivHOUiBpQAVxjiHAA68Ei23ZUMNaRJrN6omWiSFLoYrxGcT6BXtuzp0Jw4h6HZCmGGIM/gbwebO2A==}
@@ -17589,7 +17595,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
     transitivePeerDependencies:
       - debug
     dev: false
@@ -17612,7 +17618,7 @@ packages:
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -17621,7 +17627,7 @@ packages:
   /axios/1.3.5:
     resolution: {integrity: sha512-glL/PvG/E+xCWwV8S6nCHcrfg1exGx7vxyUIivIA1iL7BIh6bePylCfVHwp6k13ao7SATxB6imau2kqY+I67kw==}
     dependencies:
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -23373,6 +23379,15 @@ packages:
 
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
+
+  /follow-redirects/1.15.2:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
 
   /follow-redirects/1.15.2_debug@2.6.9:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -32168,6 +32183,7 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.1
+    dev: false
 
   /postcss-import/14.1.0_postcss@8.4.14:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
@@ -32214,6 +32230,7 @@ packages:
       postcss: ^8.3.3
     dependencies:
       camelcase-css: 2.0.1
+    dev: false
 
   /postcss-js/4.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
@@ -32440,6 +32457,7 @@ packages:
       postcss: ^8.2.14
     dependencies:
       postcss-selector-parser: 6.0.11
+    dev: false
 
   /postcss-nested/6.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
@@ -37752,6 +37770,7 @@ packages:
       sucrase: 3.31.0
     transitivePeerDependencies:
       - ts-node
+    dev: false
 
   /tailwindcss/3.3.0_postcss@8.4.14:
     resolution: {integrity: sha512-hOXlFx+YcklJ8kXiCAfk/FMyr4Pm9ck477G0m/us2344Vuj355IpoEDB5UmGAsSpTBmr+4ZhjzW04JuFXkb/fw==}
