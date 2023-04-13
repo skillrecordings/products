@@ -38,11 +38,7 @@ yarn-error.log*
 
 # vercel
 .vercel
-.history
-.scripts
-.clj-kondo
-bin
-logs
+
 
 # Sentry
 .sentryclirc
