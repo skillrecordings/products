@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import React from 'react'
 import sponsorsData from '../../public/data/sponsors.json'
 
@@ -20,8 +20,8 @@ const Sponsors = () => {
             >
               <Image
                 src={image.url}
-                width={image.width}
-                height={image.height}
+                width={Number(image.width)}
+                height={Number(image.height)}
                 alt={company}
               />
             </a>
