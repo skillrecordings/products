@@ -145,7 +145,7 @@ export async function getStaticProps(context: any) {
 }
 
 export async function getStaticPaths() {
-  return await getScriptPaths()
+  return (await getScriptPaths()) as any
 }
 
 export default ScriptComponent

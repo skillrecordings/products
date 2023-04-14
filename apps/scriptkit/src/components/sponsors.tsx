@@ -1,6 +1,6 @@
 import Image from 'next/legacy/image'
 import React from 'react'
-import sponsorsData from '../../public/data/sponsors.json'
+import sponsorsData from '../data/sponsors.json'
 
 const Sponsors = () => {
   return process.env.NEXT_PUBLIC_SPONSORSHIP_URL ? (
