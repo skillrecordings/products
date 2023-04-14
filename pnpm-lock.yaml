@@ -936,7 +936,10 @@ importers:
       '@types/react': ^18.0.17
       '@types/react-lottie': ^1.2.6
       '@types/react-syntax-highlighter': ^15.5.4
+      '@types/shortid': ^0.0.29
+      '@types/uuid': ^8.3.4
       '@vercel/og': ^0.1.0
+      aws-sdk: ^2.1197.0
       axios: ^0.27.2
       babel-jest: ^28.1.3
       classnames: ^2.3.1
@@ -950,6 +953,7 @@ importers:
       dotenv-flow: ^3.2.0
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
+      file-extension: ^4.0.5
       focus-visible: ^5.2.0
       framer-motion: ^7.3.2
       fs-extra: ^10.1.0
@@ -1000,6 +1004,7 @@ importers:
       sanity: ^3.0.0
       sanity-plugin-cloudinary: ^1.0.1
       sharp: ^0.30.7
+      shortid: ^2.2.16
       simplebar-react: ^2.4.1
       slugify: ^1.6.5
       styled-components: ^5.2
@@ -1008,6 +1013,7 @@ importers:
       ts-node: ^10.9.1
       twitter-lite: ^1.1.0
       typescript: ^4.9.4
+      uuid: ^8.3.2
       yarn-upgrade-all: ^0.7.1
     dependencies:
       '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
@@ -1029,7 +1035,10 @@ importers:
       '@supabase/supabase-js': 2.19.0
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.3.0
       '@tailwindcss/typography': 0.5.9_tailwindcss@3.3.0
+      '@types/shortid': 0.0.29
+      '@types/uuid': 8.3.4
       '@vercel/og': 0.1.0
+      aws-sdk: 2.1300.0
       axios: 0.27.2
       classnames: 2.3.1
       client-oauth2: 4.3.3
@@ -1040,6 +1049,7 @@ importers:
       date-fns: 2.29.3
       discord.js: 14.9.0
       dotenv-flow: 3.2.0
+      file-extension: 4.0.5
       focus-visible: 5.2.0
       framer-motion: 7.10.3_biqbaboplfbrettd7655fr4n2y
       fs-extra: 10.1.0
@@ -1080,11 +1090,13 @@ importers:
       sanity: 3.2.5_z765n46jyysyfgk6yot2s5acla
       sanity-plugin-cloudinary: 1.0.1_lwfue5ecbqwevxpjdqp6room4e
       sharp: 0.30.7
+      shortid: 2.2.16
       simplebar-react: 2.4.3_biqbaboplfbrettd7655fr4n2y
       slugify: 1.6.6
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
       tree-cli: 0.6.7
       twitter-lite: 1.1.0
+      uuid: 8.3.2
     devDependencies:
       '@babel/plugin-transform-react-jsx': 7.19.0
       '@testing-library/jest-dom': 5.16.5
@@ -12942,7 +12954,7 @@ packages:
       react: 18.2.0
       react-ace: 10.1.0_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
-      sanity: 3.2.5_shczhbm3p5l37poee5bnpnaupi
+      sanity: 3.2.5_z765n46jyysyfgk6yot2s5acla
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-is
@@ -13396,7 +13408,7 @@ packages:
       '@sanity/incompatible-plugin': 1.0.4_biqbaboplfbrettd7655fr4n2y
       '@sanity/ui': 1.2.0_2zpt4ilzykmne4yndyzrqd4gdm
       react: 18.2.0
-      sanity: 3.2.5_z4un7qnaa7wwj3f2uxtandoqfq
+      sanity: 3.2.5_z765n46jyysyfgk6yot2s5acla
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-dom
@@ -14373,7 +14385,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_ra2vnoek4vhbzktaezawwqbin4
 
   /@tanstack/match-sorter-utils/8.7.6:
     resolution: {integrity: sha512-2AMpRiA6QivHOUiBpQAVxjiHAA68Ei23ZUMNaRJrN6omWiSFLoYrxGcT6BXtuzp0Jw4h6HZCmGGIM/gbwebO2A==}
@@ -15700,7 +15712,6 @@ packages:
 
   /@types/shortid/0.0.29:
     resolution: {integrity: sha512-9BCYD9btg2CY4kPcpMQ+vCR8U6V8f/KvixYD5ZbxoWlkhddNF5IeZMVL3p+QFUkg+Hb+kPAG9Jgk4bnnF1v/Fw==}
-    dev: true
 
   /@types/speakingurl/13.0.3:
     resolution: {integrity: sha512-nBHZAaNTEw1YG3ROL7HtTp7HjW8HD7DuFYbWoonUKTZHj7eyOt4vPzyMcc3+xgWNv7xi2rziaiBXHIq6wBeyrw==}
@@ -16459,7 +16470,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.19.6_@babel+core@7.20.12
       magic-string: 0.27.0
       react-refresh: 0.14.0
-      vite: 4.0.4_@types+node@17.0.41
+      vite: 4.0.4_@types+node@18.11.18
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -31980,6 +31991,7 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.1
+    dev: false
 
   /postcss-import/14.1.0_postcss@8.4.14:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
@@ -32026,6 +32038,7 @@ packages:
       postcss: ^8.3.3
     dependencies:
       camelcase-css: 2.0.1
+    dev: false
 
   /postcss-js/4.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
@@ -32252,6 +32265,7 @@ packages:
       postcss: ^8.2.14
     dependencies:
       postcss-selector-parser: 6.0.11
+    dev: false
 
   /postcss-nested/6.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
@@ -35505,7 +35519,7 @@ packages:
       nanoid: 3.3.4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      sanity: 3.2.5_z4un7qnaa7wwj3f2uxtandoqfq
+      sanity: 3.2.5_z765n46jyysyfgk6yot2s5acla
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
       video.js: 7.21.1
     transitivePeerDependencies:
@@ -37697,6 +37711,7 @@ packages:
       sucrase: 3.31.0
     transitivePeerDependencies:
       - ts-node
+    dev: false
 
   /tailwindcss/3.3.0_postcss@8.4.14:
     resolution: {integrity: sha512-hOXlFx+YcklJ8kXiCAfk/FMyr4Pm9ck477G0m/us2344Vuj355IpoEDB5UmGAsSpTBmr+4ZhjzW04JuFXkb/fw==}
