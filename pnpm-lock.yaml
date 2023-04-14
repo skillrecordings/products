@@ -1586,7 +1586,6 @@ importers:
       '@mdx-js/mdx': ^2.1.2
       '@mdx-js/react': ^2.1.2
       '@mux/mux-node': ^7.0.0
-      '@mux/mux-player-react': 1.8.0
       '@next-auth/prisma-adapter': ^1.0.3
       '@next/env': ^12.2.2
       '@next/mdx': ^12.2.4
@@ -1674,7 +1673,6 @@ importers:
       '@mdx-js/mdx': 2.1.5
       '@mdx-js/react': 2.1.5_react@18.2.0
       '@mux/mux-node': 7.3.0
-      '@mux/mux-player-react': 1.8.0_5d4wf3yo6k5smpa3kasqkeetaq
       '@next-auth/prisma-adapter': 1.0.3_next-auth@4.19.2
       '@next/mdx': 12.3.4_wuv4qx5dshjptmdbtsqqkih5iu
       '@portabletext/react': 1.0.6_react@18.2.0
