@@ -111,7 +111,7 @@ const TipTemplate: React.FC<{
         ]}
         datePublished={tip._updatedAt || new Date().toISOString()}
         authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
-        description={tip.description || 'Tailwind Tip'}
+        description={tip.description || 'Epic Web Tip'}
       />
       <Layout
         meta={{
@@ -133,14 +133,14 @@ const TipTemplate: React.FC<{
             <div className="mx-auto w-full max-w-screen-xl pb-5">
               <div className="flex flex-col gap-0 sm:gap-10 md:flex-row">
                 <div className="w-full">
-                  <h1 className="inline-flex w-full max-w-2xl items-baseline font-heading text-3xl font-black lg:text-4xl">
+                  <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
                     {tip.title}
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
                   {tipCompleted ? (
                     <div
                       aria-hidden="true"
-                      className="flex items-center gap-1 pt-6 pb-[20px]"
+                      className="flex items-center gap-1 pb-[20px] pt-6"
                     >
                       <Icon
                         name="Checkmark"
@@ -157,7 +157,7 @@ const TipTemplate: React.FC<{
                   )}
                   {tip.body && (
                     <>
-                      <div className="prose w-full max-w-none pb-5 pt-5 prose-headings:font-medium prose-p:text-gray-200 lg:prose-lg">
+                      <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg prose-headings:font-medium prose-p:text-gray-200">
                         <PortableText
                           value={tip.body}
                           components={PortableTextComponents}
@@ -279,7 +279,7 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
 }) => {
   return (
     <section className="mx-auto h-full w-full rounded-xl bg-white p-5 shadow-2xl shadow-gray-500/20 sm:p-10">
-      <h2 className="pt-3 font-heading text-2xl font-black text-black">
+      <h2 className="font-heading pt-3 text-2xl font-black text-black">
         More Tips
       </h2>
       <div className="flex flex-col pt-4">
@@ -311,9 +311,9 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   return (
     <div
       id="video-overlay"
-      className="relative top-0 left-0 flex w-full items-center justify-center border-t border-gray-700/80 bg-gray-900 shadow-2xl shadow-gray-500/20 lg:aspect-video xl:rounded-b-xl"
+      className="relative left-0 top-0 flex w-full items-center justify-center border-t border-gray-700/80 bg-gray-900 shadow-2xl shadow-gray-500/20 lg:aspect-video xl:rounded-b-xl"
     >
-      <div className="absolute top-8 right-8 z-50 flex items-center justify-center gap-3">
+      <div className="absolute right-8 top-8 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
           Replay <span aria-hidden="true">↺</span>
         </button>
@@ -375,10 +375,10 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
             handlePlay()
           })
       }}
-      className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg bg-gray-900 p-8 text-left font-medium leading-tight text-gray-100 border border-gray-700/80"
+      className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg border border-gray-700/80 bg-gray-900 p-8 text-left font-medium leading-tight text-gray-100"
     >
       <div className="relative z-10 flex flex-col">
-        <span className="pb-1 font-heading text-xs font-bold uppercase tracking-wide text-gray-400">
+        <span className="font-heading pb-1 text-xs font-bold uppercase tracking-wide text-gray-400">
           Tip
         </span>
         <span className="font-medium">
@@ -420,7 +420,7 @@ const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
       href={`https://twitter.com/i/status/${tweet}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="mb-5 mt-2 relative inline-flex flex-shrink-0 items-center justify-center before:absolute before:w-0 hover:before:w-full bg-gray-700 before:h-full before:bg-gray-600 before:z-[-1] ease-in-out duration-300 before:transition-all before:ease-in-out before:duration-300 transition-all before:left-0 before:top-0 py-4 px-5 font-semibold text-white  focus-visible:ring-white hover:brightness-110 space-x-2"
+      className="relative mb-5 mt-2 inline-flex flex-shrink-0 items-center justify-center space-x-2 bg-gray-700 px-5 py-4 font-semibold text-white transition-all duration-300 ease-in-out before:absolute before:left-0 before:top-0 before:z-[-1] before:h-full before:w-0 before:bg-gray-600 before:transition-all before:duration-300 before:ease-in-out  focus-visible:ring-white hover:brightness-110 hover:before:w-full"
       onClick={() => {
         track('clicked reply on twitter')
       }}
@@ -442,7 +442,7 @@ const SubscribeForm = ({
   return (
     <div
       id="tip"
-      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-700/80 px-3 pt-4 pb-5 md:flex-row md:pb-3 md:pt-3 2xl:px-0"
+      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-700/80 px-3 pb-5 pt-4 md:flex-row md:pb-3 md:pt-3 2xl:px-0"
     >
       <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
         <div
