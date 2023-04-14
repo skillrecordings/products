@@ -82,6 +82,42 @@ function sectionSlugFromTitle(title: string) {
   return collectionSlugfromTitle(title)
 }
 
+type MuxAssetsThatNeedSRT = {
+  [lessonSlug: string]: {muxAssetId: string; srtUrl: string | null}
+}
+
+const SanityApi = (function () {
+  const writeObjects = async (objects: Object[]): Promise<{_id: string}> => {
+    const mutations = objects.map((object: Object) => {
+      return {
+        createOrReplace: object,
+      }
+    })
+
+    const response = await fetch(
+      `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/mutate/${DATASET}`,
+      {
+        method: 'post',
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${EDITOR_TOKEN}`,
+        },
+        body: JSON.stringify({mutations}),
+      },
+    ).then((response: any) => response.json())
+
+    if (response?.message === 'no Route matched with those values') {
+      throw new Error(`Failed to write data to Sanity: ${response.message}`)
+    }
+
+    return response
+  }
+
+  return {
+    writeObjects,
+  }
+})()
+
 const MuxData = (function () {
   // this depends on the original (egghead-rails) lesson slugs
   const muxUploadPath = './mux-upload.json'
@@ -101,8 +137,35 @@ const MuxData = (function () {
   // cross-reference.
   let playbackIds = playbackFileSchema.parse(readJsonData(muxUploadPath))
 
+  const addMissingVideoSrtTracks = async (
+    muxAssetsThatNeedSRT: MuxAssetsThatNeedSRT,
+  ) => {
+    // add the SRT tracks to the Mux assets as well
+    for (const subtitleData of Object.entries(muxAssetsThatNeedSRT)) {
+      const [_, {muxAssetId, srtUrl}] = subtitleData
+
+      if (srtUrl !== null) {
+        await Video.Assets.createTrack(muxAssetId, {
+          url: srtUrl,
+          type: 'text',
+          text_type: 'subtitles',
+          closed_captions: false,
+          language_code: 'en-US',
+          name: 'English',
+          passthrough: 'English',
+        })
+
+        // throttle the Mux API to ~1 RPS
+        // "Requests against the all other General Data APIs are rate limited
+        // to a sustained 5 request per second (RPS)"
+        await sleep(1000)
+      }
+    }
+  }
+
   return {
     playbackIds,
+    addMissingVideoSrtTracks,
   }
 })()
 
@@ -519,9 +582,7 @@ const SanityData = (function () {
     const {lessonTitlesWithOriginalOrder, lessonMetadataById, muxPlaybackIds} =
       data
 
-    const muxAssetsThatNeedSRT: {
-      [lessonSlug: string]: {muxAssetId: string; srtUrl: string | null}
-    } = {}
+    const muxAssetsThatNeedSRT: MuxAssetsThatNeedSRT = {}
 
     const videoResourceBundles: {[lessonId: string]: VideoResource} = {}
 
@@ -1058,13 +1119,21 @@ const SanityData = (function () {
       moduleBundlesById,
     })
 
-    // To send batched creates to Sanity:
-    // TODO: Iterate over Object.entries(videoResourceBundles)
-    // TODO: Iterate over Object.entries(lessonBundlesById)
+    const videoResources = Object.values(videoResourceBundles)
+    await SanityApi.writeObjects(videoResources)
 
-    // TODO: Build the Product bundles based on something from LessonExport
+    const lessons = Object.values(lessonBundlesById)
+    await SanityApi.writeObjects(lessons)
+
+    await SanityApi.writeObjects(sectionBundles)
+
+    const modules = Object.values(moduleBundlesById)
+    await SanityApi.writeObjects(modules)
+
+    await SanityApi.writeObjects(productBundles)
 
     // TODO: process muxAssetsThatNeedSRT with calls to Mux Video API
+    await MuxData.addMissingVideoSrtTracks(muxAssetsThatNeedSRT)
   } catch (error) {
     console.error(`Error: ${error}`)
   }
