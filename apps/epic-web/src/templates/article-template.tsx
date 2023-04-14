@@ -1,7 +1,6 @@
 import React from 'react'
 import Layout from 'components/app/layout'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import cx from 'classnames'
 import {PortableText, toPlainText} from '@portabletext/react'
 import {useRouter} from 'next/router'
 import KentImage from '../../public/kent-c-dodds.png'
@@ -28,7 +27,7 @@ const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
     estimatedReadingTime,
     ogImage: _ogImage,
   } = article
-  const image = article?.imageNew
+  const image = article?.image?.secure_url
   const ogImage = {url: _ogImage?.secure_url, alt: title}
   const pageDescription =
     description || `${toPlainText(body).substring(0, 157)}...`
@@ -53,7 +52,7 @@ const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
         estimatedReadingTime={estimatedReadingTime}
         image={image}
       />
-      <TableOfContents article={article} />
+      {/* <TableOfContents article={article} /> */}
       <Body value={body} />
       <Share title={title} />
       <AboutKent />
@@ -79,7 +78,7 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="relative mx-auto w-full max-w-screen-lg">
-      <div className="relative flex w-full flex-col items-center justify-center pb-16 pt-24">
+      <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-24">
         <div className="flex flex-grow items-center justify-center">
           <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-3xl md:font-medium">
             {title}
@@ -87,7 +86,7 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
       {image && (
-        <div className="relative aspect-video h-full w-full overflow-hidden rounded-lg">
+        <div className="relative aspect-video h-full w-full overflow-hidden sm:rounded-lg">
           <Image
             src={image}
             priority
@@ -98,7 +97,7 @@ const Header: React.FC<HeaderProps> = ({
           />
         </div>
       )}
-      <div className="flex w-full max-w-screen-lg items-center justify-between gap-10 pt-8 text-gray-300 md:gap-16">
+      <div className="flex w-full max-w-screen-lg items-center justify-between gap-10 px-5 pt-8 text-base text-gray-700 dark:text-gray-300 sm:px-0 sm:text-base md:gap-16">
         <div className="col-span-2 flex items-center justify-center gap-3 md:justify-start">
           <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-800">
             <Image
@@ -110,7 +109,7 @@ const Header: React.FC<HeaderProps> = ({
               quality={100}
             />
           </div>
-          <div className="text-lg font-semibold text-gray-100">
+          <div className="text-lg font-semibold text-gray-700 dark:text-gray-100">
             Kent C. Dodds
           </div>
         </div>
@@ -134,7 +133,7 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
   const [starfieldSpeed, setStarfieldSpeed] = React.useState(0.5)
   return (
     <section
-      className="relative flex flex-col items-center justify-center bg-black/40 px-5 py-16 md:py-40"
+      className="relative flex flex-col items-center justify-center bg-gray-100 px-5 py-16 dark:bg-black/40 md:pb-40 md:pt-32"
       id="article"
     >
       <div className="max-w-sm text-center">
@@ -171,14 +170,14 @@ const AboutKent = () => {
       </div>
       <div className="text-center md:text-left">
         <p className="pb-3 text-xl font-semibold">Written by Kent C. Dodds</p>
-        <p className="text-lg text-yellow-50 text-opacity-80">
+        <p className="text-lg text-gray-800 text-opacity-80 dark:text-gray-300">
           Kent is a world renowned speaker, teacher, and trainer and he's
           actively involved in the open source community as a maintainer and
           contributor of hundreds of popular npm packages. He is the creator of{' '}
           <a
             href="https://epicreact.dev"
             target="_blank"
-            className="text-brand text-opacity-100 hover:underline"
+            className="text-indigo-500 text-opacity-100 hover:underline dark:text-brand"
             rel="noreferrer"
           >
             EpicReact.Dev
@@ -187,7 +186,7 @@ const AboutKent = () => {
           <a
             href="https://testingjavascript.com"
             target="_blank"
-            className="text-brand text-opacity-100 hover:underline"
+            className="text-indigo-500 text-opacity-100 hover:underline dark:text-brand"
             rel="noreferrer"
           >
             TestingJavaScript.com
@@ -201,7 +200,7 @@ const AboutKent = () => {
 
 const Body: React.FC<{value: any[]}> = ({value}) => {
   return (
-    <main className="prose mx-auto w-full max-w-3xl px-5 py-8 text-lg dark:prose-invert md:prose-xl prose-code:break-words md:py-16 md:prose-code:break-normal">
+    <main className="invert-svg prose mx-auto w-full max-w-3xl px-5 py-8 text-lg dark:prose-invert md:prose-xl prose-code:break-words md:py-16 md:prose-code:break-normal">
       <PortableText
         value={value}
         components={portableTextComponents({loadingIndicator: <Spinner />})}

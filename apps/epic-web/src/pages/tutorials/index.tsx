@@ -34,7 +34,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         description: `Free Web Development tutorials by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
       }}
     >
-      <main className="relative z-10 flex flex-col items-center justify-center py-24">
+      <main className="relative z-10 flex flex-col items-center justify-center py-10 md:py-24">
         <h1 className="font-heading px-5 text-center text-3xl font-bold sm:text-4xl">
           Free Web Development Tutorials
         </h1>

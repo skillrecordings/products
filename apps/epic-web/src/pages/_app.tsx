@@ -1,10 +1,8 @@
-import React from 'react'
 import {AppProps} from 'next/app'
 import Script from 'next/script'
 import type {Session} from 'next-auth'
 import '../styles/globals.css'
 import {ConvertkitProvider} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {SessionProvider} from 'next-auth/react'
 import {usePageview} from '@skillrecordings/analytics'
 import {initNProgress} from '@skillrecordings/react'
@@ -12,9 +10,8 @@ import {DefaultSeo} from '@skillrecordings/next-seo'
 import {trpc} from 'trpc/trpc.client'
 import config from '../config'
 import {ThemeProvider} from 'next-themes'
-import {Inter, DM_Sans, JetBrains_Mono} from '@next/font/google'
+import {DM_Sans, JetBrains_Mono} from '@next/font/google'
 
-const inter = Inter({subsets: ['latin'], variable: '--font-inter'})
 const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-dmsans',

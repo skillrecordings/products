@@ -379,7 +379,7 @@ const ModuleSection: React.FC<{
     <li key={section.slug}>
       <Accordion.Item value={section.slug}>
         <Accordion.Header className="relative z-10 overflow-hidden rounded-lg bg-white shadow-2xl shadow-black/10 dark:bg-gray-900">
-          <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-gray-200/50 bg-white px-3 py-2.5 text-left text-lg font-medium leading-tight shadow-lg transition hover:bg-gray-100 dark:border-white/5 dark:bg-gray-800/20 dark:hover:bg-gray-800/40">
+          <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-gray-200/50 bg-white px-3 py-3 text-left text-lg font-medium leading-tight shadow-lg transition hover:bg-gray-100 dark:border-white/5 dark:bg-gray-800/20 dark:hover:bg-gray-800/40">
             <Balancer>{section.title}</Balancer>
             <div className="flex items-center">
               {isSectionCompleted && (

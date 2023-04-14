@@ -64,11 +64,6 @@ export default defineType({
       type: 'cloudinary.asset',
     }),
     defineField({
-      name: 'imageNew',
-      title: 'Image (To be removed)',
-      type: 'image',
-    }),
-    defineField({
       name: 'ogImage',
       title: 'Open Graph Image',
       type: 'cloudinary.asset',

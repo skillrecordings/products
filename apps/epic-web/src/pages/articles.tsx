@@ -40,12 +40,12 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
           {title} <span className="font-normal">by Kent C. Dodds</span>
         </h1>
       </header>
-      <main className="mx-auto grid w-full max-w-4xl grid-cols-2 flex-col gap-5 px-5 pb-24">
+      <main className="mx-auto grid w-full max-w-4xl grid-cols-1 flex-col gap-5 px-5 pb-24 sm:grid-cols-2">
         {publishedArticles.map((article) => {
           const {
             title,
             image,
-            imageNew,
+
             slug,
             description,
             estimatedReadingTime,
@@ -60,14 +60,14 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                     article: slug,
                   })
                 }}
-                className="relative flex h-full w-full flex-col overflow-hidden border border-gray-200  transition hover:bg-gray-100/80 dark:border-gray-800 dark:hover:bg-gray-900/40 sm:rounded-lg"
+                className="group relative flex h-full w-full flex-col overflow-hidden rounded-lg transition hover:bg-gray-100/80 dark:hover:bg-gray-900/40"
               >
-                {imageNew && (
+                {image?.secure_url && (
                   <div className="relative aspect-video h-full">
-                    <Image src={imageNew} alt="" fill />
+                    <Image src={image.secure_url} alt="" fill />
                   </div>
                 )}
-                <div className="flex h-full flex-col justify-between px-5 py-8 md:px-8">
+                <div className="flex h-full flex-col justify-between rounded-b-lg border-x border-b border-gray-200 px-5 py-8 dark:border-gray-800 md:px-8">
                   <div className="relative z-10">
                     <h2 className="text-2xl font-bold">{title}</h2>
                     {description && (
@@ -77,7 +77,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                     )}
                   </div>
                   <div className="relative z-10 flex w-full flex-col items-start justify-between space-y-10 pt-8 md:flex-row md:items-center md:space-y-0">
-                    <div className="flex items-center gap-8 text-sm text-gray-700 dark:text-gray-300 md:text-base">
+                    <div className="flex w-full items-center gap-10 text-sm text-gray-700 dark:text-gray-300">
                       <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
                           <Image

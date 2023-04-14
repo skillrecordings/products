@@ -21,7 +21,6 @@ export const ArticleSchema = z.object({
     .partial()
     .optional()
     .nullable(),
-  imageNew: z.string().optional().nullable(),
   ogImage: z
     .object({
       secure_url: z.string(),
@@ -50,7 +49,6 @@ export const getAllArticles = async (): Promise<Article[]> => {
         description,
         body,
         image,
-        "imageNew": imageNew.asset->url,
         ogImage,
         "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 ),
         resources[]->{
@@ -74,7 +72,6 @@ export const getArticle = async (slug: string): Promise<Article> => {
         description,
         body,
         image,
-        "imageNew": imageNew.asset->url,
         ogImage,
         "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 ),
         resources[]->{
