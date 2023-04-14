@@ -99,7 +99,7 @@ const Header: React.FC<HeaderProps> = ({
       )}
       <div className="flex w-full max-w-screen-lg items-center justify-between gap-10 px-5 pt-8 text-base text-gray-700 dark:text-gray-300 sm:px-0 sm:text-base md:gap-16">
         <div className="col-span-2 flex items-center justify-center gap-3 md:justify-start">
-          <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-800">
+          <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
             <Image
               priority={true}
               src={KentImage}
@@ -159,7 +159,7 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
 const AboutKent = () => {
   return (
     <section className="mx-auto flex w-full max-w-screen-md flex-col items-center gap-10 px-5 py-16 md:flex-row md:py-24">
-      <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-black/50">
+      <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
         <Image
           src={KentImage}
           width={140}
