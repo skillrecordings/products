@@ -350,7 +350,6 @@ const portableTextComponents = ({
         )
       },
       bodyImage: ({value}: BodyImageProps) => {
-        console.log({value})
         return <BodyImage value={value} loadingIndicator={loadingIndicator} />
       },
       code: ({value}: CodeProps) => {

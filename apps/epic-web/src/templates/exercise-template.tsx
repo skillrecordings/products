@@ -38,8 +38,6 @@ const ExerciseTemplate: React.FC<{
   const {videoResourceId} = useVideoResource()
   const {title, description: exerciseDescription} = lesson
 
-  console.log({videoResourceId})
-
   const {ogImage, description: moduleDescription} = module
   const pageTitle = `${title}`
   const pageDescription = exerciseDescription || moduleDescription
@@ -97,6 +95,7 @@ const ExerciseTemplate: React.FC<{
     >
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
+        navigationClassName="max-w-none border-none"
       >
         <ArticleJsonLd
           url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${lesson.slug}`}
@@ -114,8 +113,8 @@ const ExerciseTemplate: React.FC<{
             module={module}
             path={path}
           />
-          <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
-            <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
+          <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-gray-200 dark:border-gray-900 2xl:flex 2xl:max-w-none">
+            <div className="flex flex-col border-gray-200 dark:border-gray-900 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video
                 ref={muxPlayerRef}
                 exerciseOverlayRenderer={() => <ExerciseOverlay />}
@@ -127,14 +126,14 @@ const ExerciseTemplate: React.FC<{
                 section={section}
                 path={path}
               />
-              <div className="relative hidden flex-grow 2xl:block 2xl:bg-black/20">
+              <div className="relative hidden flex-grow border-t border-gray-200 dark:border-gray-900 2xl:block">
                 <VideoTranscript
                   transcript={transcript}
                   muxPlayerRef={muxPlayerRef}
                 />
               </div>
             </div>
-            <article className="relative flex-shrink-0 sm:bg-black/20 2xl:bg-transparent">
+            <article className="relative flex-shrink-0">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-6 2xl:max-w-xl">
                 <LessonTitle />
                 <LessonDescription

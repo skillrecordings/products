@@ -1,67 +1,170 @@
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
+import ColorModeToggle from 'components/color-mode-toggle'
+import cx from 'classnames'
+import {twMerge} from 'tailwind-merge'
 
-const Navigation = () => {
+type NavigationProps = {
+  className?: string
+}
+
+const Navigation: React.FC<NavigationProps> = ({className}) => {
   const {pathname, asPath} = useRouter()
   const isRoot = pathname === '/'
 
   const tipsAllowed = process.env.NEXT_PUBLIC_TIPS_ALLOWED === 'true'
 
   return (
-    <nav aria-label="top" className="lg:w-16 w-full shrink-0">
-      <div className="lg:w-16 w-full lg:h-screen lg:fixed bg-brand text-black z-10 flex lg:flex-col flex-row justify-between">
+    <div className="flex items-center justify-center px-5">
+      <nav
+        aria-label="top"
+        className={twMerge(
+          'z-10 mx-auto flex w-full max-w-screen-lg items-center justify-between border-b border-gray-100 py-2.5 text-sm dark:border-gray-800/60',
+          className,
+        )}
+      >
         <Link
           href="/"
           aria-current={isRoot}
           tabIndex={isRoot ? -1 : 0}
           passHref
+          className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-lg font-bold tracking-tight text-transparent dark:from-white dark:to-gray-400"
         >
-          <div
-            aria-hidden="true"
-            className="lg:p-2 p-1 lg:hover:p-3 hover:p-2 transition-all font-mono uppercase font-bold text-sm text-center leading-none lg:h-16 lg:w-full w-12 h-12 items-center justify-center bg-white/90 grid grid-cols-2 relative"
+          EpicWeb.Dev
+        </Link>
+        <div className="flex items-center justify-center gap-2 font-medium">
+          <Link
+            href="/articles"
+            className="flex items-center gap-1 rounded-md px-2.5 py-1 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
+            passHref
+            onClick={() => {
+              track('clicked Articles from navigation', {
+                page: asPath,
+              })
+            }}
           >
-            <span>E</span>
-            <span>P</span>
-            <span>I</span>
-            <span>C</span>
-          </div>
-          <div className="sr-only">Epic Web Dev</div>
-        </Link>
-        <div className="lg:block hidden pl-14 whitespace-nowrap lg:-rotate-90 uppercase font-mono font-semibold text-xs">
-          New Learning Experience by Kent C. Dodds
-        </div>
-      </div>
-      <div className="absolute lg:right-7 lg:top-5 right-4 top-3.5 lg:text-white text-black z-10 flex space-x-8">
-        <Link
-          href="/articles"
-          passHref
-          onClick={() => {
-            track('clicked Articles from navigation', {
-              page: asPath,
-            })
-          }}
-          className="flex items-center lg:font-medium font-semibold before:content-[''''] before:absolute lg:text-base text-sm before:w-1 before:h-1 before:bg-brand before:-ml-2.5 hover:underline decoration-white/40"
-        >
-          Articles
-        </Link>
-        {tipsAllowed && (
+            <ArticlesIcon /> Articles
+          </Link>
+          <Link
+            href="/tutorials"
+            className="flex items-center gap-1 rounded-md px-2.5 py-1 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
+            passHref
+            onClick={() => {
+              track('clicked Free Tutorials from navigation', {
+                page: asPath,
+              })
+            }}
+          >
+            <TutorialsIcon /> Free Tutorials
+          </Link>
           <Link
             href="/tips"
+            className="flex items-center gap-1 rounded-md px-2.5 py-1 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
             passHref
             onClick={() => {
               track('clicked Tips from navigation', {
                 page: asPath,
               })
             }}
-            className="flex items-center lg:font-medium font-semibold before:content-[''''] before:absolute lg:text-base text-sm before:w-1 before:h-1 before:bg-brand before:-ml-2.5 hover:underline decoration-white/40"
           >
-            Tips
+            <TipsIcon /> Tips
           </Link>
-        )}
-      </div>
-    </nav>
+          <div className="flex items-center justify-center pl-3">
+            <ColorModeToggle />
+          </div>
+        </div>
+      </nav>
+    </div>
   )
 }
 
 export default Navigation
+
+const ArticlesIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-4 text-indigo-500 dark:text-indigo-300"
+      viewBox="0 0 24 24"
+    >
+      <title>document-copy</title>
+      <g
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+        strokeWidth="2"
+        fill="none"
+        stroke="currentColor"
+        strokeMiterlimit="10"
+      >
+        <rect x="2" y="5" width="16" height="18"></rect>{' '}
+        <polyline points=" 5,1 22,1 22,21 " stroke="currentColor"></polyline>{' '}
+        <line x1="6" y1="10" x2="14" y2="10"></line>{' '}
+        <line x1="6" y1="14" x2="14" y2="14"></line>{' '}
+        <line x1="6" y1="18" x2="10" y2="18"></line>
+      </g>
+    </svg>
+  )
+}
+
+const TutorialsIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-4 text-orange-500 dark:text-orange-300"
+      viewBox="0 0 24 24"
+    >
+      <title>box-caret-right</title>
+      <g
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+        strokeWidth="2"
+        fill="none"
+        stroke="currentColor"
+        strokeMiterlimit="10"
+      >
+        <polygon points="9 16 9 8 15 12 9 16" stroke="currentColor"></polygon>
+        <rect x="2" y="2" width="20" height="20" rx="2"></rect>
+      </g>
+    </svg>
+  )
+}
+
+const TipsIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-4 text-sky-500 dark:text-sky-300"
+      viewBox="0 0 24 24"
+    >
+      <title>pacman</title>
+      <g
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+        strokeWidth="2"
+        fill="none"
+        stroke="currentColor"
+        strokeMiterlimit="10"
+      >
+        <path
+          d="M12,12l9.519-5.5a11,11,0,1,0,0,10.992Z"
+          strokeLinecap="butt"
+        ></path>
+        <circle
+          cx="22"
+          cy="12"
+          r="2"
+          stroke="none"
+          fill="currentColor"
+        ></circle>
+        <circle
+          cx="12.5"
+          cy="6.5"
+          r="1.5"
+          fill="currentColor"
+          stroke="none"
+        ></circle>
+      </g>
+    </svg>
+  )
+}

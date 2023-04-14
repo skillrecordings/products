@@ -202,11 +202,12 @@ const FinishedOverlay = () => {
   )
 }
 
-const BlockedOverlay: React.FC<{product: SanityProduct}> = ({product}) => {
+const BlockedOverlay: React.FC<{product?: SanityProduct}> = ({product}) => {
   const {lesson, module} = useLesson()
   const {refetch: refetchSubscriber} = useConvertkit()
   const {videoResourceId} = useVideoResource()
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
+
   const {refetchAbility, ability} = useMuxPlayer()
   const {data: ctaText} = useQuery(
     [`exercise-free-tutorial`, lesson.slug, module.slug.current],
@@ -251,11 +252,11 @@ const BlockedOverlay: React.FC<{product: SanityProduct}> = ({product}) => {
   // const {data: purchaseDetails} = trpc.purchases.getLastPurchase.useQuery()
   const {data: purchaseDetails} =
     trpc.purchases.getPurchaseByProductId.useQuery({
-      productId: product?.productId,
+      productId: product?.productId as string,
     })
   const productImage = product?.image?.url || product?.image || module?.image
 
-  return product ? (
+  return (
     <div data-video-overlay="blocked" id="video-overlay">
       <Image
         data-thumbnail=""
@@ -278,7 +279,9 @@ const BlockedOverlay: React.FC<{product: SanityProduct}> = ({product}) => {
                   alt={module.title}
                 />
               )}
-              <h2 data-title="">Level up with {module.title}</h2>
+              <h2 data-title="">
+                <Balancer>Level up with "{module.title}"</Balancer>
+              </h2>
               <h3 data-subtitle="">
                 Access all lessons in this {module.moduleType}.
               </h3>
@@ -298,7 +301,7 @@ const BlockedOverlay: React.FC<{product: SanityProduct}> = ({product}) => {
           </div>
           <div data-col="2">
             <div data-markdown="">
-              <h3 data-title="">This is a free tutorial.</h3>
+              <h3 data-title="">This is a free tutorial</h3>
               {ctaText && <PortableText value={ctaText} />}
             </div>
           </div>
@@ -344,7 +347,7 @@ const BlockedOverlay: React.FC<{product: SanityProduct}> = ({product}) => {
                   Invite your team
                 </Link>
               </div>
-            ) : (
+            ) : product ? (
               <div data-pricing="">
                 <div data-col="1">
                   {productImage && (
@@ -424,13 +427,11 @@ const BlockedOverlay: React.FC<{product: SanityProduct}> = ({product}) => {
                   </PriceCheckProvider>
                 </div>
               </div>
-            )}
+            ) : null}
           </div>
         </>
       )}
     </div>
-  ) : (
-    <LoadingOverlay />
   )
 }
 

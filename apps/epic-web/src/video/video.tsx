@@ -45,12 +45,8 @@ export const Video: React.FC<
       nextExerciseStatus,
       loadingUserStatus,
       nextSection,
+      canShowVideo,
     } = useMuxPlayer()
-
-    // this should come from useMuxPlayer
-    const canShowVideo = true
-
-    console.log({canShowVideo, videoResource})
 
     return (
       <>
@@ -65,9 +61,9 @@ export const Video: React.FC<
                     {isExercise ? (
                       canShowVideo ? (
                         exerciseOverlayRenderer()
-                      ) : product ? (
+                      ) : (
                         <BlockedOverlay product={product} />
-                      ) : null
+                      )
                     ) : (
                       <DefaultOverlay />
                     )}
@@ -96,9 +92,9 @@ export const Video: React.FC<
             <>
               {loadingUserStatus || loadingVideoResource ? (
                 <LoadingOverlay loadingIndicator={loadingIndicator} />
-              ) : product ? (
+              ) : (
                 <BlockedOverlay product={product} />
-              ) : null}
+              )}
             </>
           )}
         </div>

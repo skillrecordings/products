@@ -4,13 +4,19 @@
 @import './quiz.css';
 @import './nprogress.css';
 @import './prism-theme.css';
+@import './portable-text.css';
+@import './video/github-link.css';
+@import './video/lesson-completion-toggle.css';
+@import './video/lesson-description.css';
+@import './video/lesson-title.css';
+@import './video/module-lesson-list.css';
+@import './video/video-overlays.css';
+@import './video/video-transcript.css';
 
 @tailwind utilities;
-@import './focus-visible.css';
 
 :root {
-  color-scheme: dark;
-  @apply selection:bg-brand selection:text-black;
+  @apply selection:bg-indigo-500 selection:text-white;
 }
 
 .no-marker {
@@ -19,13 +25,40 @@
   }
 }
 
+.prose > pre > code {
+  @apply !bg-transparent;
+}
+
 mux-player {
   aspect-ratio: 16 / 9;
   width: 100%;
   height: auto;
-  @apply relative overflow-hidden;
+  margin-bottom: -6px;
+}
+
+mux-player::part(center play button) {
+  @apply sm:scale-50;
 }
 
 mux-player::part(vertical-layer) {
   background-color: rgba(0, 0, 0, 0);
+}
+
+.noise {
+  background-image: url('/assets/stars-in-distance@2x.png');
+}
+
+.dark {
+  .bg-gradient-radial {
+    background: radial-gradient(circle at 50% 50%, #282644 0%, #0b0617 100%);
+  }
+}
+.light {
+  .bg-gradient-radial {
+    background: radial-gradient(
+      circle at 50% 50%,
+      #e2dcef 0%,
+      transparent 100%
+    );
+  }
 }

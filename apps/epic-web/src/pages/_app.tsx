@@ -3,34 +3,50 @@ import {AppProps} from 'next/app'
 import Script from 'next/script'
 import type {Session} from 'next-auth'
 import '../styles/globals.css'
-import '../styles/fonts.css'
-import 'focus-visible'
 import {ConvertkitProvider} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {SessionProvider} from 'next-auth/react'
 import {usePageview} from '@skillrecordings/analytics'
 import {initNProgress} from '@skillrecordings/react'
 import {DefaultSeo} from '@skillrecordings/next-seo'
-
 import {trpc} from 'trpc/trpc.client'
 import config from '../config'
+import {ThemeProvider} from 'next-themes'
+import {Inter, DM_Sans, JetBrains_Mono} from '@next/font/google'
 
-const queryClient = new QueryClient()
-
-initNProgress()
+const inter = Inter({subsets: ['latin'], variable: '--font-inter'})
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dmsans',
+  weight: ['400', '500', '700'],
+})
+const jetBransMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrainsmono',
+})
 
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()
+  initNProgress()
   return (
     <>
       <DefaultSeo {...config} />
-      <SessionProvider session={pageProps.session} refetchInterval={0}>
-        <QueryClientProvider client={queryClient}>
+      <ThemeProvider
+        attribute="class"
+        enableSystem={false}
+        defaultTheme="dark"
+        disableTransitionOnChange={true}
+      >
+        <SessionProvider session={pageProps.session} refetchInterval={0}>
           <ConvertkitProvider>
-            <Component {...pageProps} />
+            <div
+              className={`${dmSans.variable} ${jetBransMono.variable} bg-gray-50 font-sans text-gray-800 antialiased dark:bg-gray-950 dark:text-gray-200`}
+            >
+              <Component {...pageProps} />
+            </div>
           </ConvertkitProvider>
-        </QueryClientProvider>
-      </SessionProvider>
+        </SessionProvider>
+      </ThemeProvider>
       {process.env.NODE_ENV !== 'development' && (
         <>
           <Script
