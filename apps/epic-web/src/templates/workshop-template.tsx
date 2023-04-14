@@ -229,7 +229,7 @@ export const ModuleNavigator: React.FC<{
   return moduleProgressStatus === 'success' ? (
     <nav
       aria-label={`${moduleType} navigator`}
-      className="w-full bg-black/20 px-5 py-8 lg:max-w-xs lg:bg-transparent lg:px-0 lg:py-0"
+      className="w-full bg-black/20 px-5 py-8 lg:max-w-sm lg:bg-transparent lg:px-0 lg:py-0"
     >
       {sections && sections.length > 1 && (
         <Accordion.Root
@@ -240,7 +240,7 @@ export const ModuleNavigator: React.FC<{
           <div className="flex w-full items-center justify-between pb-3">
             <h2 className="text-2xl font-semibold">Contents</h2>
             <h3
-              className="cursor-pointer font-mono text-sm font-semibold uppercase text-gray-300"
+              className="cursor-pointer font-mono text-sm font-semibold uppercase text-gray-500 dark:text-gray-400"
               onClick={() => {
                 setOpenedSections(
                   !isEmpty(openedSections)
@@ -344,9 +344,11 @@ const ModuleNavigatorSkeleton: React.FC<{
       {sections?.map((section) => {
         return (
           <div key={section._id} className="flex flex-col gap-3 pb-5">
-            <div className="h-4 w-5/6 rounded-full bg-gray-700" />
+            <div className="h-4 w-5/6 rounded-full bg-gray-200 dark:bg-gray-900" />
             {section?.lessons?.map(() => {
-              return <div className="h-3 rounded-full bg-gray-800" />
+              return (
+                <div className="h-3 rounded-full bg-gray-200 dark:bg-gray-900" />
+              )
             })}
           </div>
         )
@@ -354,7 +356,7 @@ const ModuleNavigatorSkeleton: React.FC<{
       {lessons?.map((lesson) => {
         return (
           <div key={lesson._id} className="flex flex-col">
-            <div className="h-5 rounded-full bg-gray-700" />
+            <div className="h-5 rounded-full bg-gray-200 dark:bg-gray-900" />
           </div>
         )
       })}
@@ -376,13 +378,13 @@ const ModuleSection: React.FC<{
   return (
     <li key={section.slug}>
       <Accordion.Item value={section.slug}>
-        <Accordion.Header className="relative z-10 overflow-hidden rounded-lg bg-gray-900">
-          <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 px-3 py-2.5 text-left text-lg font-medium leading-tight shadow-lg transition hover:bg-gray-800/40">
+        <Accordion.Header className="relative z-10 overflow-hidden rounded-lg bg-white shadow-2xl shadow-black/10 dark:bg-gray-900">
+          <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-gray-200/50 bg-white px-3 py-2.5 text-left text-lg font-medium leading-tight shadow-lg transition hover:bg-gray-100 dark:border-white/5 dark:bg-gray-800/20 dark:hover:bg-gray-800/40">
             <Balancer>{section.title}</Balancer>
             <div className="flex items-center">
               {isSectionCompleted && (
                 <CheckIcon
-                  className="mr-2 h-4 w-4 text-teal-400"
+                  className="mr-2 h-4 w-4 text-emerald-500 dark:text-emerald-300"
                   aria-hidden="true"
                 />
               )}
@@ -394,7 +396,7 @@ const ModuleSection: React.FC<{
           </Accordion.Trigger>
           <div
             aria-hidden="true"
-            className={`absolute left-0 top-0 h-full bg-white/5`}
+            className={`absolute left-0 top-0 h-full bg-black/5 dark:bg-white/5`}
             style={{width: `${sectionPercentComplete}%`}}
           />
         </Accordion.Header>
@@ -543,7 +545,7 @@ const ModuleSectionContent: React.FC<{
   const {lessons} = section
 
   return lessons ? (
-    <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pb-3 pt-7">
+    <ul className="-mt-5 rounded-b-lg border border-gray-200/50 bg-gray-100 pb-3 pt-7 dark:border-white/5 dark:bg-black/20">
       {lessons.map((exercise: Lesson, i: number) => {
         return (
           <ModuleLesson

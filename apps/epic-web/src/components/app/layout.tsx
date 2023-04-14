@@ -9,6 +9,7 @@ type LayoutProps = {
   noIndex?: boolean
   className?: string
   children?: any
+  navigationClassName?: string
 }
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
@@ -16,6 +17,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   className,
   meta,
   noIndex,
+  navigationClassName,
 }) => {
   const {
     title,
@@ -28,7 +30,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   } = meta || {}
 
   return (
-    <div className="relative flex lg:flex-row flex-col">
+    <>
       <NextSeo
         title={title}
         description={description}
@@ -63,13 +65,13 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
           },
         }}
       />
-      <Navigation />
+      <Navigation className={navigationClassName} />
       <div
-        className={cx('flex flex-col flex-grow h-full min-h-screen', className)}
+        className={cx('flex h-full min-h-screen flex-grow flex-col', className)}
       >
         {children}
       </div>
-    </div>
+    </>
   )
 }
 

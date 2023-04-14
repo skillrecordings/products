@@ -10,7 +10,7 @@ export const LessonDescription: React.FC<{
   loadingIndicator: React.ReactElement
 }> = ({productName, loadingIndicator}) => {
   const {canShowVideo, loadingUserStatus} = useMuxPlayer()
-  const {lesson} = useLesson()
+  const {lesson, module} = useLesson()
   const {body} = lesson
 
   const displayedBody = canShowVideo ? body : take(body, 3)
@@ -32,12 +32,16 @@ export const LessonDescription: React.FC<{
       )}
       {!canShowVideo && !loadingUserStatus && (
         <div data-cta="">
-          <p>
-            This {lesson._type} is part of{' '}
-            <Link href={'/buy'}>{productName}</Link> and can be unlocked
-            immediately after purchase. Already purchased?{' '}
-            <Link href="/login">Log in here.</Link>
-          </p>
+          {module.moduleType === 'workshop' ? (
+            <p>
+              This {lesson._type} is part of{' '}
+              <Link href={'/buy'}>{productName}</Link> and can be unlocked
+              immediately after purchase. Already purchased?{' '}
+              <Link href="/login">Log in here.</Link>
+            </p>
+          ) : (
+            <p>Subscribe to unlock this {lesson._type}.</p>
+          )}
         </div>
       )}
     </div>

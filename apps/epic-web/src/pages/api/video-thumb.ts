@@ -13,6 +13,7 @@ const videoThumb = async (req: NextApiRequest, res: NextApiResponse) => {
     )
 
     const blob = await response.blob()
+    console.log({blob})
 
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=59')
     res.setHeader(

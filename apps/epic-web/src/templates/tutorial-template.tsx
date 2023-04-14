@@ -27,7 +27,7 @@ const TutorialTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full pt-20 lg:max-w-4xl lg:pb-24"
+      className="mx-auto w-full max-w-screen-lg pt-10 sm:pt-16 lg:pb-24"
       meta={{
         title: pageTitle,
         description,
@@ -41,7 +41,7 @@ const TutorialTemplate: React.FC<{
       <Header tutorial={tutorial} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="px-5">
-          <article className="prose prose-lg w-full max-w-none text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
+          <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
             <PortableText
               value={body}
               components={portableTextComponents({
@@ -77,21 +77,21 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-8 sm:pt-8 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 sm:pb-16 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
             href="/tutorials"
-            className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300"
+            className="inline-block pb-4 font-mono text-sm font-bold uppercase tracking-wide text-orange-500 dark:text-orange-300"
           >
-            Tutorial
+            Free Tutorial
           </Link>
-          <h1 className="text-center font-text text-4xl font-bold sm:text-5xl md:text-left lg:text-6xl">
+          <h1 className="font-text text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
             <Balancer>{title}</Balancer>
           </h1>
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
               <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center overflow-hidden rounded-full">
+                <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-900">
                   <Image
                     src={require('../../public/kent-c-dodds.png')}
                     alt="Kent C. Dodds"
@@ -129,7 +129,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                       }
                 }
                 className={cx(
-                  'flex w-full items-center justify-center rounded bg-cyan-400 px-5 py-4 font-semibold leading-tight text-black transition hover:bg-cyan-300 md:w-auto',
+                  'flex w-full items-center justify-center rounded-md border border-gray-900 bg-gray-900 px-5 py-4 font-semibold leading-tight text-white transition hover:border-gray-800 hover:bg-gray-800 dark:border-gray-100 dark:bg-gray-100 dark:text-black dark:hover:border-gray-200 dark:hover:bg-gray-200 md:w-auto',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },
@@ -145,8 +145,8 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               </Link>
               {github?.repo && (
                 <a
-                  className="flex w-full items-center justify-center gap-2 rounded-md border-2 border-gray-800 px-5 py-4 font-medium leading-tight transition hover:bg-gray-800 md:w-auto"
-                  href={`https://github.com/total-typescript/${github.repo}`}
+                  className="flex w-full items-center justify-center gap-2 rounded-md border border-gray-300 px-5 py-4 font-medium leading-tight transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 md:w-auto"
+                  href={`https://github.com/epicweb-dev/${github.repo}`}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
                   }}
@@ -160,12 +160,12 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
           </div>
         </div>
         {image && (
-          <div className="flex flex-shrink-0 items-center justify-center lg:-mr-16">
+          <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0 lg:-mr-5">
             <Image
               src={image}
               alt={title}
-              width={400}
-              height={400}
+              width={360}
+              height={360}
               quality={100}
             />
           </div>
