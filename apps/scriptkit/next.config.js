@@ -6,6 +6,7 @@ const IMAGE_HOST_DOMAINS = ['res.cloudinary.com', 'github.com']
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+  transpilePackages: ['@skillrecordings/skill-lesson'],
   reactStrictMode: true,
   images: {
     domains: IMAGE_HOST_DOMAINS,

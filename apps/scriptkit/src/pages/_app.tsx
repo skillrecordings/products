@@ -7,6 +7,8 @@ import SEO from '../../next-seo.json'
 import '../styles/tailwind.css'
 import {slugifyWithCounter} from '@sindresorhus/slugify'
 import Layout from '../layouts'
+import {SessionProvider} from 'next-auth/react'
+import {ConvertkitProvider} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 function getNodeText(node: any) {
   let text = ''
@@ -60,11 +62,15 @@ function MyApp({Component, pageProps}: any) {
       : []
 
     return (
-      <Layout className="doc">
-        <main className="max-w-screen-lg mx-auto flex-grow w-full pt-8 px-5">
-          <Component {...pageProps} />
-        </main>
-      </Layout>
+      <SessionProvider session={pageProps.session} refetchInterval={0}>
+        <ConvertkitProvider>
+          <Layout className="doc">
+            <main className="max-w-screen-lg mx-auto flex-grow w-full pt-8 px-5">
+              <Component {...pageProps} />
+            </main>
+          </Layout>
+        </ConvertkitProvider>
+      </SessionProvider>
     )
   }
 

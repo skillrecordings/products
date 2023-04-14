@@ -46,10 +46,13 @@ export const writeTranscriptToVideoResource = async (
   )
 
   const {_id, castingwords, muxAsset} = document
+  let assetDuration = 0
 
   if (muxAsset) {
     const {Video} = new Mux()
-    const {tracks} = await Video.Assets.get(muxAsset.muxAssetId)
+    const {tracks, duration} = await Video.Assets.get(muxAsset.muxAssetId)
+
+    assetDuration = duration || 0
 
     const existingSubtitle = tracks?.find(
       (track: any) => track.name === 'English',
@@ -71,6 +74,7 @@ export const writeTranscriptToVideoResource = async (
   return sanityWriteClient
     .patch(_id)
     .set({
+      duration: assetDuration,
       castingwords: {
         ...castingwords,
         transcript: [
