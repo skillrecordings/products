@@ -29,17 +29,13 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
       meta={{
         title: `Epic Web Dev Tips by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
         description: pageDescription,
-        ogImage: {
-          url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1667503658/tips/card_2x_ld2v6w.png',
-          alt: process.env.NEXT_PUBLIC_SITE_TITLE,
-        },
       }}
-      className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pt-20 lg:pb-24"
+      className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pb-24 lg:pt-20"
     >
       {tipsAllowed ? (
         <>
           <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
-            <h1 className="text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
+            <h1 className="font-heading text-center text-4xl font-black sm:text-5xl lg:text-6xl">
               Tips
             </h1>
             <p className="max-w-md pt-8 text-center text-lg text-gray-600 lg:text-xl">
@@ -113,15 +109,15 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
       <div className="flex h-full w-full flex-col items-start p-8">
         <div className="flex items-center gap-2" aria-hidden="true">
           {tipCompleted && (
-            <div className="rounded-full bg-gray-100 px-2 py-1 font-heading text-xs font-bold uppercase leading-none tracking-wider text-gray-500">
+            <div className="font-heading rounded-full bg-gray-100 px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-gray-500">
               Watched
             </div>
           )}
-          <div className="rounded-full bg-amber-100 px-2 py-1 font-heading text-xs font-bold uppercase leading-none tracking-wider text-amber-500">
+          <div className="font-heading rounded-full bg-amber-100 px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-amber-500">
             Tip
           </div>
         </div>
-        <h2 className="pt-2 text-base font-semibold leading-tight sm:text-xl text-black">
+        <h2 className="pt-2 text-base font-semibold leading-tight text-black sm:text-xl">
           <Link
             href={{
               pathname: '/tips/[tip]',
@@ -205,7 +201,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
           </div>
         </button>
       </header>
-      <h2 className="text-black font-bold leading-tight sm:text-lg">
+      <h2 className="font-bold leading-tight text-black sm:text-lg">
         <Link
           href={{
             pathname: '/tips/[tip]',
