@@ -1,12 +1,17 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 .mdx-data
+/.idea
 # dependencies
 /node_modules
 /.pnp
 .pnp.js
+.env
+/src/generated
+/generated
 
 # testing
 /coverage
+/test-results
 
 # next.js
 /.next/
@@ -26,20 +31,23 @@ yarn-error.log*
 
 # local env files
 .env.local
+.env.local.backup
 .env.development.local
 .env.test.local
 .env.production.local
 
 # vercel
 .vercel
+
+#scriptkit
 .history
-.env
 .scripts
 .clj-kondo
 bin
 logs
-.env
-.env.local
-.env.development
-.env.test
-.env.production
+
+# Sentry
+.sentryclirc
+
+# sanity
+.sanity

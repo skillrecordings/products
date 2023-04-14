@@ -22,6 +22,7 @@
   },
   "include": [
     "next-env.d.ts",
+    "process.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "src/pages/api/opengraph/[folder]"
