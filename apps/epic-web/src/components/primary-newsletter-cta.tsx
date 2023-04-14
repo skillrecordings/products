@@ -48,7 +48,7 @@ export const PrimaryNewsletterCta: React.FC<
           </Button>
         }
       />
-      <p className="pt-8 opacity-80 text-sm text-center">
+      <p className="pt-8 text-center text-sm text-gray-600 dark:text-gray-400">
         I respect your privacy. Unsubscribe at any time.
       </p>
     </>

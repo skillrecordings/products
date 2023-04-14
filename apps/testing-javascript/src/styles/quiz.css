@@ -41,7 +41,7 @@
       @apply mr-2;
     }
     p {
-      @apply flex-grow leading-tight;
+      @apply grow leading-tight;
     }
     span {
       @apply px-2 py-1 text-xs leading-none rounded-full;

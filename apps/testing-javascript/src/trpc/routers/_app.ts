@@ -3,11 +3,13 @@ import {
   router,
   skillLessonRouter,
 } from '@skillrecordings/skill-lesson'
-import {abilities} from './abilities'
+import {abilitiesRouter} from './abilities'
+import {moduleProgressRouter} from './module-progress'
 
 export const appRouter = mergeRouters(
   router({
-    abilities: abilities,
+    abilities: abilitiesRouter,
+    moduleProgress: moduleProgressRouter,
   }),
   skillLessonRouter,
 )

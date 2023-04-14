@@ -36,7 +36,7 @@
     "@sanity/code-input": "^3.0.1",
     "@sanity/icons": "^2.2.2",
     "@sanity/ui": "^1.0.12",
-    "@sanity/vision": "^3.0.0",
+    "@sanity/vision": "^3.8.3",
     "@sanity/webhook": "^1.0.2",
     "@sentry/nextjs": "^7.9.0",
     "@skillrecordings/analytics": "workspace:*",

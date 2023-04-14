@@ -1,10 +1,11 @@
 import React from 'react'
-
-import {User} from '@skillrecordings/database'
 import {GetStaticPaths, GetStaticProps} from 'next'
+import {User} from '@skillrecordings/database'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {getPlaylist, getAllPlaylists} from '../../lib/playlists'
-import Link from 'next/link'
+
+import {getPlaylist, getAllPlaylists} from 'lib/playlists'
+import {ModuleProgressProvider} from 'utils/module-progress'
+import WorkshopTemplate from 'templates/workshop-template'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const workshop = await getPlaylist(params?.module as string)
@@ -29,24 +30,9 @@ const WorkshopPage: React.FC<{
   workshop: Module
 }> = ({workshop}) => {
   return (
-    <div>
-      {workshop?.sections?.map((section) => {
-        return (
-          <div key={section.slug}>
-            <h2 className="font-bold">{section.title}</h2>
-            <ul>
-              {section.lessons?.map((lesson) => {
-                return (
-                  <li key={lesson._key}>
-                    <Link href={`/lessons/${lesson.slug}`}>{lesson.title}</Link>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        )
-      })}
-    </div>
+    <ModuleProgressProvider moduleSlug={workshop.slug.current as string}>
+      <WorkshopTemplate workshop={workshop} />
+    </ModuleProgressProvider>
   )
 }
 

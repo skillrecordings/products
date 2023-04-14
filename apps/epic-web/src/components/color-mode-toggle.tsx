@@ -1,5 +1,5 @@
 import React from 'react'
-import {motion} from 'framer-motion'
+import {AnimatePresence, motion} from 'framer-motion'
 import {useTheme} from 'next-themes'
 
 const transition = {
@@ -21,7 +21,11 @@ const ColorModeToggle = () => {
         setTheme(theme === 'light' ? 'dark' : 'light')
       }}
     >
-      {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+      {theme === 'dark' ? (
+        <SunIcon mounted={mounted} />
+      ) : (
+        <MoonIcon mounted={mounted} />
+      )}
       <span className="sr-only">
         switch to {theme === 'dark' ? 'light' : 'dark'} mode
       </span>
@@ -31,7 +35,7 @@ const ColorModeToggle = () => {
 
 export default ColorModeToggle
 
-export const SunIcon = () => {
+export const SunIcon: React.FC<{mounted: boolean}> = ({mounted}) => {
   const whileTap = {scale: 0.95, rotate: 15}
 
   const raysVariants = {
@@ -101,7 +105,7 @@ export const SunIcon = () => {
   )
 }
 
-export const MoonIcon = () => {
+export const MoonIcon: React.FC<{mounted: boolean}> = ({mounted}) => {
   const variants = {
     initial: {scale: 0.6, rotate: 90},
     animate: {scale: 1, rotate: 0, transition},

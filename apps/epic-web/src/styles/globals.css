@@ -55,10 +55,14 @@ mux-player::part(vertical-layer) {
 }
 .light {
   .bg-gradient-radial {
-    background: radial-gradient(
-      circle at 50% 50%,
-      #e2dcef 0%,
-      transparent 100%
-    );
+    background: radial-gradient(circle at 50% 50%, #fff 0%, transparent 100%);
+  }
+}
+
+.light {
+  .invert-svg {
+    img[src$='.svg'] {
+      filter: invert(1);
+    }
   }
 }

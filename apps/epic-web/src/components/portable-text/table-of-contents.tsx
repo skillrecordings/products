@@ -64,10 +64,10 @@ const TableOfContents: React.FC<{article: Article}> = ({article}) => {
         {props.outline.map((heading: any) => {
           const {subheadings} = heading
           return (
-            <li key={heading._key} className="sm:text-xl text-lg">
+            <li key={heading._key} className="text-lg sm:text-xl">
               <Link
                 href={'#' + heading.slug}
-                className="hover:underline inline-flex sm:py-2 py-1 font-medium"
+                className="inline-flex py-1 font-medium hover:underline sm:py-2"
               >
                 {getChildrenText(heading)}
               </Link>
@@ -78,7 +78,7 @@ const TableOfContents: React.FC<{article: Article}> = ({article}) => {
                       <li key={subheading._key}>
                         <Link
                           href={'#' + subheading.slug}
-                          className="pl-6 inline-flex border-l border-gray-700 hover:underline sm:py-2 py-1 font-normal opacity-90"
+                          className="inline-flex border-l border-gray-700 py-1 pl-6 font-normal opacity-90 hover:underline sm:py-2"
                         >
                           {getChildrenText(subheading)}
                         </Link>
@@ -97,7 +97,7 @@ const TableOfContents: React.FC<{article: Article}> = ({article}) => {
   if (outline.length === 0) return null
 
   return (
-    <div className="flex items-center justify-center left-0 bottom-0 w-full border-b border-gray-800/80">
+    <div className="bottom-0 left-0 mt-10 flex w-full items-center justify-center">
       <details
         onClick={() => {
           track(`clicked on article's table of contents`, {
@@ -105,17 +105,17 @@ const TableOfContents: React.FC<{article: Article}> = ({article}) => {
           })
         }}
         aria-label="On this page"
-        className="group marker:text-transparent no-marker font-medium sm:text-xl text-lg max-w-screen-md w-full mx-auto pl-5"
+        className="no-marker group mx-auto w-full max-w-screen-lg text-lg font-medium marker:text-transparent sm:text-xl"
       >
-        <summary className="hover:cursor-pointer flex items-center gap-5">
+        <summary className="flex items-center gap-5 hover:cursor-pointer">
           <span
             aria-hidden="true"
-            className="border-x border-gray-800 opacity-60 group-hover:opacity-100 h-16 px-5 group-hover:bg-gray-800/40 flex items-center justify-center transition"
+            className="flex h-16 items-center justify-center px-5 opacity-60 transition group-hover:opacity-100"
           >
-            <ChevronDownIcon className="group-open:hidden w-4 h-4" />
-            <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
+            <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
+            <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
           </span>
-          <span className="text-gray-400 group-hover:text-gray-200 transition uppercase text-base sm:py-5 py-3">
+          <span className="py-3 text-base uppercase text-gray-500 transition group-hover:text-gray-200 dark:text-gray-400 sm:py-5">
             On this page
           </span>
         </summary>

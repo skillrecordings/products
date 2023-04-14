@@ -2,15 +2,15 @@ import React from 'react'
 
 const AboutKent = () => {
   return (
-    <section className="flex md:flex-row flex-col px-5 items-center justify-center w-full max-w-4xl mx-auto gap-16">
+    <section className="mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-10 px-5 pb-32 sm:gap-16 md:flex-row">
       <img
         src="/kent-c-dodds.png"
         width={200}
         height={200}
-        className="rounded-full bg-black/50"
+        className="rounded-full bg-gray-200 dark:bg-gray-800"
         alt="Kent C. Dodds"
       />
-      <div className="prose lg:prose-lg prose-a:underline prose-a:decoration-white/30 prose-a:underline-offset-2 hover:prose-a:decoration-brand prose-a:transition">
+      <div className="prose dark:prose-invert lg:prose-lg prose-a:underline prose-a:decoration-gray-300 prose-a:underline-offset-2 prose-a:transition hover:prose-a:decoration-indigo-300">
         <p>
           Kent C. Dodds is a world renowned speaker, teacher, and trainer and
           he&#39;s actively involved in the{' '}
@@ -27,13 +27,18 @@ const AboutKent = () => {
             EpicReact.Dev
           </a>{' '}
           and{' '}
-          <a href="https://testingjavascript.com" target="_blank" rel="noreferrer">
+          <a
+            href="https://testingjavascript.com"
+            target="_blank"
+            rel="noreferrer"
+          >
             TestingJavaScript.com
           </a>
           . He&#39;s an instructor on{' '}
           <a
             href="https://egghead.io/q/resources-by-kent-c-dodds"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             egghead.io
           </a>{' '}

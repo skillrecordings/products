@@ -12,11 +12,23 @@ module.exports = {
     './node_modules/@skillrecordings/player/dist/**/*.js',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        md: '1.5rem',
+      },
+    },
     extend: {
       fontFamily: {
-        sans: [...defaultTheme.fontFamily.sans],
+        sans: ['TT Commons W01 Regular', ...defaultTheme.fontFamily.sans],
+        'tt-light': 'TT Commons W01 Light',
+        'tt-regular': 'TT Commons W01 Regular',
+        'tt-medium': 'TT Commons W01 Medium',
       },
-      colors: {},
+      colors: {
+        body: '#1b1b1f',
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {},

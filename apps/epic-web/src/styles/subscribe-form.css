@@ -1,18 +1,19 @@
 #primary-newsletter-cta {
   [data-sr-convertkit-subscribe-form] {
-    @apply flex flex-col gap-4;
+    @apply mx-auto flex w-full max-w-md flex-col gap-4;
     [data-sr-input] {
-      @apply w-full rounded-sm border border-gray-800 bg-gray-800/50 p-5 text-lg;
+      @apply w-full rounded-md border border-gray-300 bg-gray-200 px-4 py-4 text-lg dark:border-gray-800 dark:bg-gray-800;
     }
     [data-sr-input-label] {
-      @apply inline-block w-full pb-1 text-gray-300;
+      @apply inline-block w-full pb-1 text-gray-600 dark:text-gray-300;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-sm bg-gradient-to-tr from-cyan-600 to-cyan-500 py-5 px-8 text-xl font-semibold shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
+      @apply relative mt-2 flex items-center justify-center rounded-md bg-indigo-500 px-8 py-5 text-xl font-semibold text-white shadow-2xl transition focus-visible:ring-white hover:brightness-110;
       svg {
         @apply h-7 w-7;
       }
     }
+
     [data-sr-button][disabled] {
     }
   }
@@ -26,13 +27,13 @@
   [data-sr-convertkit-subscribe-form] {
     @apply flex w-full max-w-sm flex-col gap-4 text-left;
     [data-sr-input] {
-      @apply w-full rounded-md border border-gray-700 bg-gray-800 focus-visible:outline focus-visible:outline-indigo-400 px-3 py-3 text-base;
+      @apply w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-3 text-base focus-visible:outline focus-visible:outline-indigo-400;
     }
     [data-sr-input-label] {
-      @apply inline-block w-full pb-1 text-gray-300 text-base;
+      @apply inline-block w-full pb-1 text-base text-gray-300;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-md bg-gradient-to-tr from-indigo-500 to-indigo-600 py-4 px-5 text-lg font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
+      @apply relative mt-2 flex items-center justify-center rounded-md bg-gradient-to-tr from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
       svg {
         @apply h-7 w-7;
       }
@@ -72,7 +73,7 @@
       @apply sr-only;
     }
     [data-sr-button] {
-      @apply relative flex flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 py-2 px-5 text-lg font-semibold shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
+      @apply relative flex flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 px-5 py-2 text-lg font-semibold shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
       svg {
         @apply h-7 w-7;
       }
@@ -92,16 +93,16 @@
   }
 }
 
-#article-cta {
+#article {
   [data-sr-convertkit-subscribe-form] {
-    @apply relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center gap-2 text-left md:flex-row md:items-end;
+    @apply relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center gap-2 text-left md:flex-row md:items-end;
     [data-sr-input-wrapper] {
       @apply w-full;
     }
     [data-sr-input-wrapper]:first-of-type {
     }
     [data-sr-input] {
-      @apply w-full rounded-md border border-gray-800 bg-gray-900 px-3 py-2 text-lg;
+      @apply w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-3 text-lg dark:border-gray-800 dark:bg-gray-900;
     }
 
     [data-sr-input-label] {
@@ -111,7 +112,7 @@
       @apply hidden;
     }
     [data-sr-button] {
-      @apply relative mt-5 flex flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-t from-cyan-500 to-cyan-300 py-2 px-5 text-lg font-semibold text-black shadow-2xl shadow-black/80 transition focus-visible:ring-white hover:brightness-125 md:mt-0;
+      @apply relative mt-5 flex w-full flex-shrink-0 items-center justify-center rounded-md border border-indigo-500 bg-indigo-500 px-6 py-3 text-lg font-semibold text-white shadow-2xl shadow-black/80 transition focus-visible:ring-white hover:brightness-125 sm:w-auto md:mt-0;
       svg {
         @apply h-7 w-7;
       }

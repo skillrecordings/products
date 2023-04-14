@@ -6,4 +6,42 @@
 @import './nprogress.css';
 
 @tailwind utilities;
+@import './fonts.css';
 @import './focus-visible.css';
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+  body {
+    @apply text-xl leading-normal text-body font-tt-regular;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-tt-medium;
+  }
+}
+
+html,
+body,
+#root {
+  color-scheme: light;
+}
+
+.no-marker {
+  ::-webkit-details-marker {
+    display: none;
+  }
+}
+
+mux-player {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  @apply relative overflow-hidden;
+}
+
+mux-player::part(vertical-layer) {
+  background-color: rgba(0, 0, 0, 0);
+}
