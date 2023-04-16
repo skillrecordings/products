@@ -14,28 +14,28 @@ const ColorModeToggle = () => {
   React.useEffect(() => {
     setMounted(true)
   }, [])
-  return mounted ? (
+
+  return (
     <button
       className="rounded-full p-2 text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
       onClick={() => {
-        setTheme(theme === 'light' ? 'dark' : 'light')
+        mounted && setTheme(theme === 'light' ? 'dark' : 'light')
       }}
     >
-      {theme === 'dark' ? (
-        <SunIcon mounted={mounted} />
-      ) : (
-        <MoonIcon mounted={mounted} />
+      {!mounted && <SunIcon />}
+      {mounted && theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+      {mounted && (
+        <span className="sr-only">
+          switch to {theme === 'dark' ? 'light' : 'dark'} mode
+        </span>
       )}
-      <span className="sr-only">
-        switch to {theme === 'dark' ? 'light' : 'dark'} mode
-      </span>
     </button>
-  ) : null
+  )
 }
 
 export default ColorModeToggle
 
-export const SunIcon: React.FC<{mounted: boolean}> = ({mounted}) => {
+export const SunIcon = () => {
   const whileTap = {scale: 0.95, rotate: 15}
 
   const raysVariants = {
@@ -105,7 +105,7 @@ export const SunIcon: React.FC<{mounted: boolean}> = ({mounted}) => {
   )
 }
 
-export const MoonIcon: React.FC<{mounted: boolean}> = ({mounted}) => {
+export const MoonIcon = () => {
   const variants = {
     initial: {scale: 0.6, rotate: 90},
     animate: {scale: 1, rotate: 0, transition},

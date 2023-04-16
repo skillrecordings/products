@@ -102,17 +102,17 @@
     [data-sr-input-wrapper]:first-of-type {
     }
     [data-sr-input] {
-      @apply w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-3 text-lg dark:border-gray-800 dark:bg-gray-900;
+      @apply w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-3 text-lg placeholder:text-gray-500 dark:border-gray-800 dark:bg-gray-900 dark:placeholder:text-gray-400;
     }
 
     [data-sr-input-label] {
-      @apply block pb-1 text-gray-300;
+      @apply block pb-1 text-gray-700 dark:text-gray-300;
     }
     abbr {
       @apply hidden;
     }
     [data-sr-button] {
-      @apply relative mt-5 flex w-full flex-shrink-0 items-center justify-center rounded-md border border-indigo-500 bg-indigo-500 px-6 py-3 text-lg font-semibold text-white shadow-2xl shadow-black/80 transition focus-visible:ring-white hover:brightness-125 sm:w-auto md:mt-0;
+      @apply relative mt-5 flex w-full flex-shrink-0 items-center justify-center rounded-md border border-indigo-500 bg-indigo-500 px-6 py-3 text-lg font-semibold text-white shadow-xl shadow-black/10 transition focus-visible:ring-white hover:brightness-125 sm:w-auto md:mt-0;
       svg {
         @apply h-7 w-7;
       }

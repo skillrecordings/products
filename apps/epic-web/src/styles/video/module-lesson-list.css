@@ -1,19 +1,19 @@
 /* module lesson list */
 [data-module-lesson-list-header] {
-  @apply relative z-50 hidden w-full flex-shrink-0 border-t border-r dark:border-gray-900 border-gray-200 lg:block lg:max-w-[280px] xl:max-w-xs;
+  @apply relative z-50 hidden w-full flex-shrink-0 border-r border-t border-gray-200 dark:border-gray-900 lg:block lg:max-w-[280px] xl:max-w-xs;
   [data-sticky-container] {
     @apply top-0 lg:sticky;
     [data-content-wrapper] {
       @apply top-0 z-10 lg:sticky;
       [data-content] {
-        @apply relative flex items-center gap-3 border-b dark:border-gray-900 border-gray-200 p-4 pt-2 pb-4;
+        @apply relative flex items-center gap-3 border-b border-gray-200 p-4 pb-4 pt-2 dark:border-gray-900;
         [data-image] {
           @apply relative z-10;
         }
         [data-title] {
           @apply relative z-10;
           [data-type] {
-            @apply font-mono text-xs font-semibold uppercase hover:underline dark:text-gray-400 text-gray-600;
+            @apply font-mono text-xs font-semibold uppercase text-gray-600 hover:underline dark:text-gray-400;
           }
           span {
             @apply pl-1 text-xs opacity-60;
@@ -28,12 +28,12 @@
       }
     }
     [data-fadeout] {
-      @apply pointer-events-none absolute bottom-0 left-0 z-20 h-16 w-full bg-gradient-to-t dark:from-gray-950 from-gray-50 to-transparent;
+      @apply pointer-events-none absolute bottom-0 left-0 z-20 h-16 w-full bg-gradient-to-t from-gray-50 to-transparent dark:from-gray-950;
     }
   }
 }
 [data-mobile-module-lesson-list] {
-  @apply block border-t-2 dark:border-gray-900 border-gray-100 lg:hidden;
+  @apply block border-t-2 border-gray-100 dark:border-gray-900 lg:hidden;
   ::-webkit-details-marker {
     display: none;
   }
@@ -48,14 +48,14 @@
   }
 }
 [data-module-lesson-list] {
-  @apply relative h-[400px] overflow-y-auto pb-16 scrollbar-thin dark:scrollbar-thumb-gray-800/70 dark:hover:scrollbar-thumb-gray-700 scrollbar-thumb-gray-200/70 hover:scrollbar-thumb-gray-300 lg:h-[calc(100vh-102px)];
+  @apply relative h-[400px] overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-200/70 hover:scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-800/70 dark:hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-102px)];
   /* sections */
   [data-sections] {
     @apply relative;
     [data-accordion-header] {
       @apply sticky top-0 z-10 overflow-hidden;
       [data-accordion-trigger] {
-        @apply dark:text-gray-300 dark:bg-gray-950 bg-gray-50 text-gray-700 dark:hover:text-white hover:text-gray-900 relative z-10 flex w-full gap-1.5 items-center justify-between border-b border-gray-200 dark:border-gray-900 py-3 pl-4 pr-4 text-left text-base font-semibold leading-tight transition hover:bg-gray-100 dark:hover:bg-gray-800;
+        @apply relative z-10 flex w-full items-center justify-between gap-1.5 border-b border-gray-200 bg-gray-50 py-3 pl-4 pr-4 text-left text-base font-semibold leading-tight text-gray-700 transition hover:bg-gray-100 hover:text-gray-900 dark:border-gray-900 dark:bg-gray-950 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white;
         [data-icons] {
           @apply flex items-center;
         }
@@ -66,11 +66,11 @@
           @apply relative h-3 w-3 opacity-50 transition group-radix-state-open:rotate-180;
         }
         [data-active-section-indicator] {
-          @apply mr-2 h-1 w-1 animate-pulse rounded-full dark:bg-indigo-300 bg-indigo-500 opacity-75 duration-1000;
+          @apply mr-2 h-1 w-1 animate-pulse rounded-full bg-indigo-500 opacity-75 duration-1000 dark:bg-indigo-300;
         }
       }
       [data-accordion-trigger][data-state='open'] {
-        @apply dark:text-white text-gray-900 dark:bg-gray-900 bg-white;
+        @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-white;
         [data-chevron-down-icon] {
           @apply rotate-180 opacity-80;
         }
@@ -81,12 +81,12 @@
         }
       }
       [data-section-progress] {
-        @apply absolute left-0 top-0 h-full dark:bg-gray-900 bg-gray-200;
+        @apply absolute left-0 top-0 h-full bg-gray-200 dark:bg-gray-900;
       }
     }
     [data-accordion-content] {
       ul:first-child {
-        @apply flex flex-col border-b dark:border-gray-900 border-gray-200 text-base;
+        @apply flex flex-col border-b border-gray-200 text-base dark:border-gray-900;
       }
     }
   }
@@ -99,26 +99,26 @@
     @apply opacity-80 hover:opacity-100;
   }
   [data-lesson][data-is-expanded='false'] {
-    @apply text-gray-700 dark:text-gray-300 hover:opacity-100 hover:text-gray-900;
+    @apply text-gray-700 hover:text-gray-900 hover:opacity-100 dark:text-gray-300;
   }
   [data-lesson][data-is-expanded='true'] {
-    @apply dark:bg-gray-900 bg-white shadow-xl shadow-gray-500/5 text-indigo-600 dark:text-indigo-300 opacity-100;
+    @apply bg-white text-indigo-600 opacity-100 shadow-xl shadow-gray-500/5 dark:bg-gray-900 dark:text-indigo-300;
   }
   [data-lesson] {
     [data-lesson-title] {
-      @apply flex items-center px-4 py-3 font-medium leading-tight dark:hover:bg-gray-900 hover:bg-gray-100/80;
+      @apply flex items-center px-4 py-3 font-medium leading-tight hover:bg-gray-100/80 dark:hover:bg-gray-900;
       [data-check-icon] {
-        @apply mr-[7.5px] -ml-1 h-4 w-4 flex-shrink-0 text-emerald-500 dark:text-emerald-300;
+        @apply -ml-1 mr-[7.5px] h-4 w-4 flex-shrink-0 text-emerald-500 dark:text-emerald-300;
       }
       [data-index] {
-        @apply pr-3 text-[10px] font-mono opacity-50;
+        @apply pr-3 font-mono text-[10px] opacity-50;
       }
     }
     ul {
       /* problem */
       [data-problem] {
         a {
-          @apply flex w-full items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-gray-800/50 hover:text-white;
+          @apply flex w-full items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-gray-800/50 hover:text-white;
         }
         a[data-is-active='true'] {
           @apply border-orange-400 bg-gray-800/80 text-white;
@@ -129,11 +129,11 @@
       }
       /* exercise */
       [data-exercise-is-loading] {
-        @apply flex w-full items-center border-l-4 border-transparent py-2 px-8 text-base font-medium;
+        @apply flex w-full items-center border-l-4 border-transparent px-8 py-2 text-base font-medium;
       }
       [data-exercise] {
         a {
-          @apply flex w-full items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-gray-800/50 hover:text-white;
+          @apply flex w-full items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-gray-800/50 hover:text-white;
         }
         a[data-is-active='true'] {
           @apply border-indigo-400 bg-gray-800/80 text-white;
@@ -145,7 +145,7 @@
       /* solution */
       [data-solution] {
         a {
-          @apply flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-gray-800/50 hover:text-white;
+          @apply flex items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-gray-800/50 hover:text-white;
         }
         a[data-is-active='true'] {
           @apply border-cyan-400 bg-gray-800/80 text-white;
@@ -157,7 +157,7 @@
       /* explainer */
       [data-explainer] {
         a {
-          @apply flex items-center border-l-4 py-2 px-8 text-base font-medium transition hover:bg-gray-800/50 hover:text-white;
+          @apply flex items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-gray-800/50 hover:text-white;
         }
         a[data-is-active='true'] {
           @apply border-indigo-400 bg-gray-800/80 text-white;
@@ -170,22 +170,22 @@
   }
   /* section resources */
   [data-section-resources] {
-    @apply bg-black/30 pt-1 pb-8;
+    @apply bg-gray-100 pb-8 pt-1 dark:bg-black/30;
     [data-label] {
-      @apply px-5 pt-4 pb-2 text-xs font-medium uppercase tracking-wide text-gray-300;
+      @apply px-5 pb-2 pt-4 text-xs font-medium uppercase tracking-wide text-gray-700 dark:text-gray-300;
     }
     ul {
-      @apply flex flex-col divide-y divide-gray-800/0 text-lg;
+      @apply flex flex-col divide-y divide-gray-200 text-lg dark:divide-gray-800;
       li {
         @apply pt-2;
         a {
-          @apply flex items-center px-4 py-2 font-semibold leading-tight hover:bg-gray-800/40;
+          @apply flex items-center px-4 py-2 font-semibold leading-tight hover:bg-white dark:hover:bg-gray-900;
           svg {
             @apply mr-3 h-3 w-3 flex-shrink-0 text-gray-500;
           }
         }
         p {
-          @apply pl-10 pr-3 text-sm italic text-gray-400;
+          @apply pl-10 pr-3 text-sm italic text-gray-600 dark:text-gray-400;
         }
       }
     }

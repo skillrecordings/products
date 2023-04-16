@@ -45,7 +45,7 @@
 }
 
 pre[data-codeblock] {
-  @apply relative -mx-5 rounded-none bg-gray-800 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 hover:scrollbar-thumb-gray-700 dark:bg-gray-800 sm:mx-0 sm:rounded-lg;
+  @apply relative -mx-5 rounded-none bg-gray-900 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 hover:scrollbar-thumb-gray-700 dark:bg-gray-800 dark:bg-gray-800/50 sm:mx-0 sm:rounded-lg;
   [data-highlighted-line] {
     @apply before:pointer-events-none before:absolute before:left-0 before:h-7 before:w-full before:bg-white/30 before:mix-blend-overlay before:content-[''];
   }

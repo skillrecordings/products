@@ -29,7 +29,7 @@ const Share: React.FC<{title: string}> = ({title}) => {
             </span>
           </p>
         </div>
-        <div className="flex w-full items-center justify-center divide-x divide-gray-200 border-t border-gray-900 pt-0 dark:divide-gray-700 sm:w-auto md:border-transparent">
+        <div className="flex w-full items-center justify-center divide-x divide-gray-200 border-t border-gray-200 pt-0 dark:divide-gray-700 dark:border-gray-700 sm:w-auto md:border-transparent">
           <Twitter
             className={shareButtonClassName}
             svgClassName="w-4 h-4"
