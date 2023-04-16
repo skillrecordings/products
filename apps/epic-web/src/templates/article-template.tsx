@@ -80,7 +80,7 @@ const Header: React.FC<HeaderProps> = ({
     <header className="relative mx-auto w-full max-w-screen-lg">
       <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-24">
         <div className="flex flex-grow items-center justify-center">
-          <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-3xl md:font-medium">
+          <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-2xl sm:fluid-3xl md:font-medium">
             {title}
           </h1>
         </div>
@@ -97,7 +97,7 @@ const Header: React.FC<HeaderProps> = ({
           />
         </div>
       )}
-      <div className="flex w-full max-w-screen-lg items-center justify-between gap-10 px-5 pt-8 text-base text-gray-700 dark:text-gray-300 sm:px-0 sm:text-base md:gap-16">
+      <div className="flex w-full max-w-screen-lg flex-col gap-5 px-5 pt-8 text-base text-gray-700 dark:text-gray-300 sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:text-base md:gap-16 lg:px-0">
         <div className="col-span-2 flex items-center justify-center gap-3 md:justify-start">
           <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
             <Image
@@ -113,12 +113,12 @@ const Header: React.FC<HeaderProps> = ({
             Kent C. Dodds
           </div>
         </div>
-        <div className="flex items-center justify-end gap-16">
-          <div className="flex w-auto flex-shrink-0 flex-col justify-center">
+        <div className="flex items-center justify-center gap-8 text-center sm:justify-end sm:gap-16 sm:text-left">
+          <div className="flex flex-shrink-0 flex-col justify-center text-sm sm:w-auto sm:text-base">
             <span className="font-semibold">Time to read</span>~
             {estimatedReadingTime} minutes
           </div>
-          <div className="flex w-auto flex-shrink-0 flex-col">
+          <div className="flex flex-shrink-0 flex-col text-sm sm:w-auto sm:text-base">
             <span className="font-semibold">Published</span>
             {format(new Date(_updatedAt), 'dd MMMM, y')}
           </div>
@@ -133,12 +133,12 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
   const [starfieldSpeed, setStarfieldSpeed] = React.useState(0.5)
   return (
     <section
-      className="relative flex flex-col items-center justify-center bg-gray-100 px-5 py-16 dark:bg-black/40 md:pb-40 md:pt-32"
+      className="relative flex flex-col items-center justify-center bg-gray-100 px-5 py-16 dark:bg-black/40 md:pb-32 md:pt-24"
       id="article"
     >
       <div className="max-w-sm text-center">
         <p className="pb-5 text-4xl font-bold">Stay up to date</p>
-        <p className="pb-16 text-lg opacity-80">
+        <p className="pb-10 text-lg opacity-80">
           Subscribe to the newsletter to stay up to date with articles, courses
           and much more!
         </p>
@@ -200,7 +200,7 @@ const AboutKent = () => {
 
 const Body: React.FC<{value: any[]}> = ({value}) => {
   return (
-    <main className="invert-svg prose mx-auto w-full max-w-3xl px-5 py-8 text-lg dark:prose-invert md:prose-xl prose-code:break-words md:py-16 md:prose-code:break-normal">
+    <main className="invert-svg prose mx-auto w-full max-w-3xl px-5 py-8 dark:prose-invert md:prose-xl prose-code:break-words md:py-16 md:prose-code:break-normal">
       <PortableText
         value={value}
         components={portableTextComponents({loadingIndicator: <Spinner />})}

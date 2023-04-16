@@ -64,7 +64,13 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
               >
                 {image?.secure_url && (
                   <div className="relative aspect-video h-full">
-                    <Image src={image.secure_url} alt="" fill />
+                    <Image
+                      src={image.secure_url}
+                      alt=""
+                      fill
+                      priority
+                      sizes="(max-width: 768px) 418px, (max-width: 1200px) 418px, 280px"
+                    />
                   </div>
                 )}
                 <div className="flex h-full flex-col justify-between rounded-b-lg border-x border-b border-gray-200 px-5 py-8 dark:border-gray-800 md:px-8">
