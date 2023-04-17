@@ -6,11 +6,12 @@ import {useRouter} from 'next/router'
 import qs from 'query-string'
 
 type LayoutProps = {
-  meta?: NextSeoProps & {user?: string; author?: string}
+  meta?: NextSeoProps & {user?: string; author?: string; ogImage?: any}
   className?: string
   withFooter?: boolean
   navClassName?: string
   style?: {}
+  navigationClassName?: string
 }
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
@@ -20,6 +21,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   navClassName = '',
   meta,
   style,
+  navigationClassName,
 }) => {
   const {title, description, user, author, twitter, additionalMetaTags} =
     meta || {}

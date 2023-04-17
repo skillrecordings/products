@@ -107,7 +107,7 @@
     "zod": "^3.19.1"
   },
   "devDependencies": {
-    "@next/env": "^12.2.2",
+    "@next/env": "^13.1.2",
     "@portabletext/types": "^1.0.3",
     "@sanity/types": "^2.29.5",
     "@skillrecordings/scripts": "workspace:*",

@@ -3,8 +3,16 @@
 @tailwind utilities;
 
 @import 'simplebar-react/dist/simplebar.min.css';
+@import './subscribe-form.css';
 @import './fonts/index.css';
 @import './convertkit.css';
+@import './video/github-link.css';
+@import './video/lesson-completion-toggle.css';
+@import './video/lesson-description.css';
+@import './video/lesson-title.css';
+@import './video/module-lesson-list.css';
+@import './video/video-overlays.css';
+@import './video/video-transcript.css';
 
 ::selection {
   @apply bg-yellow-400 text-yellow-900;

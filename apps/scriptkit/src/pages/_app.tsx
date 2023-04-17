@@ -3,12 +3,13 @@ import {AppProps} from 'next/app'
 import '../styles/globals.css'
 import 'focus-visible'
 import {DefaultSeo} from 'next-seo'
-import SEO from '../../next-seo.json'
+import SEO from '../data/next-seo.json'
 import '../styles/tailwind.css'
 import {slugifyWithCounter} from '@sindresorhus/slugify'
 import Layout from '../layouts'
 import {SessionProvider} from 'next-auth/react'
 import {ConvertkitProvider} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import {trpc} from 'trpc/trpc.client'
 
 function getNodeText(node: any) {
   let text = ''
@@ -77,9 +78,13 @@ function MyApp({Component, pageProps}: any) {
   return (
     <>
       <DefaultSeo {...SEO} />
-      <Component {...pageProps} markdoc={pageProps} />
+      <SessionProvider session={pageProps.session} refetchInterval={0}>
+        <ConvertkitProvider>
+          <Component {...pageProps} markdoc={pageProps} />
+        </ConvertkitProvider>
+      </SessionProvider>
     </>
   )
 }
 
-export default MyApp
+export default trpc.withTRPC(MyApp)

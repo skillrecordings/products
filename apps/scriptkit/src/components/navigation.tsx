@@ -2,7 +2,7 @@ import * as React from 'react'
 import Link from 'components/link'
 // import Logo from 'images/logo.svg'
 import {Disclosure} from '@headlessui/react'
-import {Bars3Icon, XMarkIcon} from '@heroicons/react/20/solid'
+import {ViewBoardsIcon, XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
 import classNames from 'classnames'
 import {useRouter} from 'next/router'
@@ -54,9 +54,12 @@ function Navigation({className = ''}: NavigationProps) {
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                    <XIcon className="block h-6 w-6" aria-hidden="true" />
                   ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                    <ViewBoardsIcon
+                      className="block h-6 w-6"
+                      aria-hidden="true"
+                    />
                   )}
                 </Disclosure.Button>
               </div>

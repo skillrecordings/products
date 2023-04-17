@@ -1,6 +1,10 @@
 const withSvgr = require('next-svgr')
 
-const IMAGE_HOST_DOMAINS = ['res.cloudinary.com', 'github.com']
+const IMAGE_HOST_DOMAINS = [
+  'res.cloudinary.com',
+  'github.com',
+  process.env.NEXT_PUBLIC_HOST,
+]
 
 /**
  * @type {import('next').NextConfig}
