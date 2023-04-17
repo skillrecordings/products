@@ -480,7 +480,7 @@ const ModuleLesson = ({
         className={cx(
           'group inline-flex w-full flex-col justify-center py-2.5 pl-3.5 pr-3 text-base font-medium',
           {
-            'bg-gradient-to-r from-cyan-300/5 to-transparent':
+            'bg-gradient-to-r from-white to-transparent dark:from-indigo-300/10':
               isNextLesson && completedLessons && completedLessons.length > 0,
             'rounded-md': !isInSection,
           },
@@ -499,9 +499,9 @@ const ModuleLesson = ({
           <div className="flex items-center gap-1 pb-1">
             <ArrowRightIcon
               aria-hidden="true"
-              className="-ml-1 mr-1.5 h-4 w-4 text-cyan-300"
+              className="-ml-1 mr-1.5 h-4 w-4 text-indigo-600 dark:text-indigo-300"
             />
-            <div className="font-mono text-xs font-semibold uppercase tracking-wide text-cyan-300">
+            <div className="font-mono text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-300">
               CONTINUE
             </div>
           </div>
@@ -511,7 +511,7 @@ const ModuleLesson = ({
             <>
               {isExerciseCompleted ? (
                 <CheckIcon
-                  className="-ml-1 mr-[11.5px] h-4 w-4 text-teal-400"
+                  className="-ml-1 mr-[11.5px] h-4 w-4 text-emerald-500 dark:text-emerald-400"
                   aria-hidden="true"
                 />
               ) : (

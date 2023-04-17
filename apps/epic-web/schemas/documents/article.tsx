@@ -79,14 +79,11 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      media: 'image.asset.url',
     },
     prepare(selection) {
-      const {title, media} = selection
-
+      const {title} = selection
       return {
         title,
-        media: media && <img src={media} alt={title} />,
       }
     },
   },

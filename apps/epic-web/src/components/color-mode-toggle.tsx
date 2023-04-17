@@ -22,7 +22,6 @@ const ColorModeToggle = () => {
         mounted && setTheme(theme === 'light' ? 'dark' : 'light')
       }}
     >
-      {!mounted && <SunIcon />}
       {mounted && theme === 'dark' ? <SunIcon /> : <MoonIcon />}
       {mounted && (
         <span className="sr-only">
