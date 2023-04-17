@@ -8,13 +8,13 @@ import common from '../text/common'
 import Balancer from 'react-wrap-balancer'
 
 export const PrimaryNewsletterCta: React.FC<
-  React.PropsWithChildren<unknown>
-> = ({children}) => {
+  React.PropsWithChildren<{id?: string}>
+> = ({children, id = 'subscribe'}) => {
   const router = useRouter()
   return (
     <section
       aria-label="Subscribe"
-      id="subscribe"
+      id={id}
       className="text-center flex flex-col items-center justify-center relative z-10"
     >
       {children ? (
@@ -26,7 +26,6 @@ export const PrimaryNewsletterCta: React.FC<
           </h2>
           <h3 className="text-xl pt-8 max-w-md w-full mb-16">
             <Balancer>
-              {' '}
               Want to be the first to know when the next course is released?
               Sign up below.
             </Balancer>
