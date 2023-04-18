@@ -1,7 +1,6 @@
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
-import {useDeviceDetect} from 'hooks/use-device-detect'
 import {useRouter} from 'next/router'
-import {handleContinue} from 'video/video-overlays'
+import {handleContinue} from '@skillrecordings/skill-lesson/video/video-overlays'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 

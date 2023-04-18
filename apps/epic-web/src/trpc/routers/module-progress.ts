@@ -4,7 +4,7 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {prisma} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
-import {ModuleProgressSchema} from '../../video/module-progress'
+import {ModuleProgressSchema} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getModule} from '@skillrecordings/skill-lesson/lib/modules'
 
 export const moduleProgressRouter = router({

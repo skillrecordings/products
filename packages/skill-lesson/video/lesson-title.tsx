@@ -1,4 +1,4 @@
-import {useLesson} from 'hooks/use-lesson'
+import {useLesson} from '../hooks/use-lesson'
 import Balancer from 'react-wrap-balancer'
 
 export const LessonTitle = () => {

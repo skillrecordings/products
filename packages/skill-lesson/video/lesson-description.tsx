@@ -1,9 +1,9 @@
 import {PortableText} from '@portabletext/react'
 import {take} from 'lodash'
 import Link from 'next/link'
-import {portableTextComponents} from 'portable-text'
-import {useMuxPlayer} from 'hooks/use-mux-player'
-import {useLesson} from 'hooks/use-lesson'
+import {portableTextComponents} from '../portable-text'
+import {useMuxPlayer} from '../hooks/use-mux-player'
+import {useLesson} from '../hooks/use-lesson'
 
 export const LessonDescription: React.FC<{
   productName: string

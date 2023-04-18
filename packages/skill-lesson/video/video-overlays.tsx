@@ -6,30 +6,30 @@ import {NextRouter, useRouter} from 'next/router'
 import ReactMarkdown from 'react-markdown'
 import snakeCase from 'lodash/snakeCase'
 import Image from 'next/image'
-import {useMuxPlayer} from 'hooks/use-mux-player'
+import {useMuxPlayer} from '../hooks/use-mux-player'
 import {CodeIcon, XIcon} from '@heroicons/react/solid'
-import {track} from 'utils/analytics'
+import {track} from '../utils/analytics'
 import {setUserId} from '@amplitude/analytics-browser'
-import {sanityClient} from 'utils/sanity-client'
+import {sanityClient} from '../utils/sanity-client'
 import {PortableText} from '@portabletext/react'
-import {trpc} from '../trpc/trpc.client'
+import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import Link from 'next/link'
 import first from 'lodash/first'
-import {useLesson} from 'hooks/use-lesson'
-import {useVideoResource} from 'hooks/use-video-resource'
-import {getBaseUrl} from 'utils/get-base-url'
+import {useLesson} from '../hooks/use-lesson'
+import {useVideoResource} from '../hooks/use-video-resource'
+import {getBaseUrl} from '../utils/get-base-url'
 import {useQuery} from '@tanstack/react-query'
-import {Lesson} from 'schemas/lesson'
-import {confirmSubscriptionToast, useConvertkit} from 'hooks/use-convertkit'
-import {Module} from 'schemas/module'
-import {Section} from 'schemas/section'
-import {Exercise} from 'schemas/exercise'
-import {handlePlayFromBeginning} from 'utils/handle-play-from-beginning'
-import SelfRedeemButton from 'team/self-redeem-button'
+import {Lesson} from '../schemas/lesson'
+import {confirmSubscriptionToast, useConvertkit} from '../hooks/use-convertkit'
+import {Module} from '../schemas/module'
+import {Section} from '../schemas/section'
+import {Exercise} from '../schemas/exercise'
+import {handlePlayFromBeginning} from '../utils/handle-play-from-beginning'
+import SelfRedeemButton from '../team/self-redeem-button'
 import {useSession} from 'next-auth/react'
 import Balancer from 'react-wrap-balancer'
-import {Pricing} from 'path-to-purchase/pricing'
-import {PriceCheckProvider} from 'path-to-purchase/pricing-check-context'
+import {Pricing} from '../path-to-purchase/pricing'
+import {PriceCheckProvider} from '../path-to-purchase/pricing-check-context'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 
 const OverlayWrapper: React.FC<
@@ -68,7 +68,7 @@ const DefaultOverlay = () => {
   const {lesson, module, section} = useLesson()
   const router = useRouter()
   const {image} = module
-  const addProgressMutation = trpc.progress.add.useMutation()
+  const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
 
   return (
     <OverlayWrapper data-video-overlay="default">
@@ -409,7 +409,7 @@ const InviteTeam: React.FC<{product?: SanityProduct}> = ({product}) => {
   const {module} = useLesson()
   const {data: session} = useSession()
   const {data: purchaseDetails} =
-    trpc.purchases.getPurchaseByProductId.useQuery({
+    trpcSkillLessons.purchases.getPurchaseByProductId.useQuery({
       productId: product?.productId as string,
     })
 
@@ -488,7 +488,7 @@ const FinishedSectionOverlay = () => {
   const {nextSection, path, handlePlay} = useMuxPlayer()
   const {lesson, module} = useLesson()
   const {image} = module
-  const addProgressMutation = trpc.progress.add.useMutation()
+  const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
   const nextExercise = first(nextSection?.lessons) as Lesson
   const router = useRouter()
 

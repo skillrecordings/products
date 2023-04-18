@@ -1,11 +1,11 @@
 import {publicProcedure, router} from '../../'
 import {z} from 'zod'
-import {Section} from 'schemas/section'
-import {Lesson} from 'schemas/lesson'
+import {Section} from '../../schemas/section'
+import {Lesson} from '../../schemas/lesson'
 import {prisma} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
-import {ModuleProgressSchema} from 'video/module-progress'
-import {getModule} from 'lib/modules'
+import {ModuleProgressSchema} from '../../video/module-progress'
+import {getModule} from '../../lib/modules'
 
 export const moduleProgressRouter = router({
   bySlug: publicProcedure

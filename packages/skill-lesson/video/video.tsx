@@ -4,9 +4,9 @@ import MuxPlayer, {
   type MuxPlayerRefAttributes,
   type MuxPlayerProps,
 } from '@mux/mux-player-react'
-import {useMuxPlayer} from 'hooks/use-mux-player'
-import {useVideoResource} from 'hooks/use-video-resource'
-import {useLesson} from 'hooks/use-lesson'
+import {useMuxPlayer} from '../hooks/use-mux-player'
+import {useVideoResource} from '../hooks/use-video-resource'
+import {useLesson} from '../hooks/use-lesson'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {
   BlockedOverlay,
