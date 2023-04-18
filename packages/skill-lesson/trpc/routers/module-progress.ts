@@ -1,4 +1,4 @@
-import {publicProcedure, router} from '../../'
+import {publicProcedure, router} from '../trpc.server'
 import {z} from 'zod'
 import {Section} from '../../schemas/section'
 import {Lesson} from '../../schemas/lesson'
