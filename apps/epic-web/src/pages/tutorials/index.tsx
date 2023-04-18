@@ -33,9 +33,12 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
       meta={{
         title: `Free Web Development Tutorials from Kent C. Dodds`,
         description: `Free Web Development tutorials by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
+        ogImage: {
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1681815745/epicweb.dev/tutorials/card_2x.png',
+        },
       }}
     >
-      <main className="relative z-10 flex flex-col items-center justify-center py-10 md:py-24">
+      <main className="relative z-10 flex flex-col items-center justify-center pb-8 pt-10 md:pb-5 md:pt-16">
         <h1 className="font-heading px-5 text-center text-3xl font-bold sm:text-4xl">
           Free Web Development Tutorials
         </h1>
@@ -51,7 +54,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
               return (
                 <li key={slug.current}>
                   <Link
-                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-xl border border-gray-200 bg-gradient-to-tr p-10 shadow-2xl shadow-gray-600/20 transition hover:bg-gray-100/80 dark:border-gray-700/50 dark:shadow-none dark:hover:bg-gray-900/40 md:flex-row"
+                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-xl border border-gray-200 bg-gradient-to-tr p-10 shadow-2xl shadow-gray-500/20 transition dark:border-gray-700/50 dark:shadow-none dark:hover:bg-gray-900/40 md:flex-row"
                     href={{
                       pathname: '/tutorials/[module]',
                       query: {

@@ -13,8 +13,6 @@ type NavigationProps = {
 const Navigation: React.FC<NavigationProps> = ({className}) => {
   const {pathname, asPath} = useRouter()
   const isRoot = pathname === '/'
-
-  const tipsAllowed = process.env.NEXT_PUBLIC_TIPS_ALLOWED === 'true'
   const [menuOpen, setMenuOpen] = React.useState(false)
 
   return (
@@ -44,7 +42,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
                 className="flex items-center gap-1 rounded-md px-2.5 py-1 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
                 passHref
                 onClick={() => {
-                  track('clicked Articles from navigation', {
+                  track(`clicked ${label} from navigation`, {
                     page: asPath,
                   })
                 }}
@@ -57,19 +55,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
             <ColorModeToggle />
           </div>
         </div>
-        <NavToggle
-          isMenuOpened={menuOpen}
-          setMenuOpened={setMenuOpen}
-          // menuControls={}
-        />
-        {/* <button
-          className="relative z-10 flex p-1 sm:hidden"
-          onClick={() => {
-            setMenuOpen(!menuOpen)
-          }}
-        >
-          {menuOpen ? <CrossIcon /> : <HamburgerMenuIcon />}
-        </button> */}
+        <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
         {menuOpen && (
           <div className="absolute left-0 top-0 flex w-full flex-col gap-2 bg-white px-3 pb-5 pt-16 text-lg font-semibold backdrop-blur-sm dark:bg-black/80 sm:hidden">
             {links.map(({label, href, icon}) => {
@@ -80,7 +66,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
                   className="flex items-center gap-2 rounded-md px-2.5 py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
                   passHref
                   onClick={() => {
-                    track('clicked Articles from navigation', {
+                    track(`clicked ${label} from navigation`, {
                       page: asPath,
                     })
                   }}
@@ -228,6 +214,11 @@ const links = [
     icon: <TutorialsIcon />,
     href: '/tutorials',
   },
+  {
+    label: 'Tips',
+    icon: <TipsIcon />,
+    href: '/tips',
+  },
 ]
 
 type NavToggleProps = {
@@ -239,7 +230,7 @@ type NavToggleProps = {
 const NavToggle: React.FC<NavToggleProps> = ({
   isMenuOpened,
   setMenuOpened,
-  // menuControls,
+  menuControls,
 }) => {
   const path01Variants = {
     open: {d: 'M3.06061 2.99999L21.0606 21'},

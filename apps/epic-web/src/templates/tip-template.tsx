@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import Layout from 'components/app/layout'
-import {TipPageProps} from 'pages/tips/[tip]'
 import MuxPlayer, {
   MuxPlayerProps,
   MuxPlayerRefAttributes,
@@ -34,7 +33,6 @@ import {
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import PortableTextComponents from 'video/portable-text'
 import Icon from 'components/icons'
 import {
   useMuxPlayer,
@@ -44,6 +42,8 @@ import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-re
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {trpc} from '../trpc/trpc.client'
+import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
+import Spinner from 'components/spinner'
 
 const TipTemplate: React.FC<{
   tip: Tip
@@ -63,7 +63,6 @@ const TipTemplate: React.FC<{
 
   const ogImage = getOgImage({
     title: tip.title,
-    image: `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
   })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
@@ -119,8 +118,9 @@ const TipTemplate: React.FC<{
           ogImage,
           description: tip.description ?? '',
         }}
+        navigationClassName="max-w-screen-xl dark:border-transparent border-transparent"
       >
-        <main className="mx-auto w-full pt-16">
+        <main className="mx-auto w-full pt-0">
           <div className="relative z-10 flex items-center justify-center">
             <div className="flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
@@ -129,9 +129,9 @@ const TipTemplate: React.FC<{
               )}
             </div>
           </div>
-          <article className="relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 xl:border-gray-800 xl:pt-16">
+          <article className="relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 xl:border-gray-800 xl:pt-10">
             <div className="mx-auto w-full max-w-screen-xl pb-5">
-              <div className="flex flex-col gap-0 sm:gap-10 md:flex-row">
+              <div className="flex flex-col gap-0 sm:gap-10 xl:flex-row">
                 <div className="w-full">
                   <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
                     {tip.title}
@@ -152,20 +152,26 @@ const TipTemplate: React.FC<{
                     </div>
                   ) : (
                     <Hr
-                      className={tipCompleted ? 'bg-emerald-400' : 'bg-brand'}
+                      className={
+                        tipCompleted
+                          ? 'bg-emerald-400'
+                          : 'bg-indigo-500 dark:bg-indigo-400'
+                      }
                     />
                   )}
                   {tip.body && (
                     <>
-                      <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg prose-headings:font-medium prose-p:text-gray-200">
+                      <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert lg:prose-lg">
                         <PortableText
                           value={tip.body}
-                          components={PortableTextComponents}
+                          components={portableTextComponents({
+                            loadingIndicator: <Spinner />,
+                          })}
                         />
                       </div>
                       <Hr
                         className={
-                          tipCompleted ? 'bg-emerald-400' : 'bg-cyan-400'
+                          tipCompleted ? 'bg-emerald-400' : 'bg-indigo-400'
                         }
                       />
                     </>
@@ -180,12 +186,16 @@ const TipTemplate: React.FC<{
                   )}
                 </div>
                 <div className="w-full">
-                  <div className="prose w-full max-w-none pb-5 font-medium sm:prose-lg">
-                    <PortableText
-                      value={tip.summary}
-                      components={PortableTextComponents}
-                    />
-                  </div>
+                  {tip.summary && (
+                    <div className="prose w-full max-w-none pb-5 font-medium sm:prose-lg">
+                      <PortableText
+                        value={tip.summary}
+                        components={portableTextComponents({
+                          loadingIndicator: <Spinner />,
+                        })}
+                      />
+                    </div>
+                  )}
                   {tweet && <ReplyOnTwitter tweet={tweet} />}
                   {tip.body && <RelatedTips currentTip={tip} tips={tips} />}
                 </div>
@@ -218,7 +228,7 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
       {displayOverlay && <TipOverlay tips={tips} />}
       <div
         className={cx(
-          'flex items-center justify-center  overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b-xl',
+          'flex items-center justify-center  overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-md',
           {
             hidden: displayOverlay,
           },
@@ -241,8 +251,8 @@ const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
   const {handlePlay, video} = useMuxPlayer()
   return (
     <section aria-label="transcript">
-      <h2 className="font-heading text-2xl font-black">Transcript</h2>
-      <div className="prose prose-sm max-w-none pt-4 sm:prose">
+      <h2 className="text-2xl font-bold">Transcript</h2>
+      <div className="prose prose-sm max-w-none pt-4 dark:prose-invert sm:prose-base">
         <PortableText
           value={transcript}
           components={
@@ -278,10 +288,8 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   tips,
 }) => {
   return (
-    <section className="mx-auto h-full w-full rounded-xl bg-white p-5 shadow-2xl shadow-gray-500/20 sm:p-10">
-      <h2 className="font-heading pt-3 text-2xl font-black text-black">
-        More Tips
-      </h2>
+    <section className="mx-auto h-full w-full md:pl-3">
+      <h2 className="font-heading pt-2 text-2xl font-black">More Tips</h2>
       <div className="flex flex-col pt-4">
         {tips
           .filter((tip) => tip.slug !== currentTip.slug)
@@ -294,12 +302,7 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
 }
 
 const Hr: React.FC<{className?: string}> = ({className}) => {
-  return (
-    <div
-      className={cx('my-8 h-1 w-8 rounded-full', className)}
-      aria-hidden="true"
-    />
-  )
+  return <div className={cx('my-8 h-1 w-8', className)} aria-hidden="true" />
 }
 
 const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
@@ -307,11 +310,11 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   const {lesson, module} = useLesson()
 
   const buttonStyles =
-    'py-2 px-3 font-medium rounded-full flex items-center gap-1 hover:bg-gray-100 bg-white transition text-gray-900'
+    'py-2 px-3 font-medium rounded-md flex items-center gap-1 hover:bg-gray-700 bg-gray-800 transition text-gray-200'
   return (
     <div
       id="video-overlay"
-      className="relative left-0 top-0 flex w-full items-center justify-center border-t border-gray-700/80 bg-gray-900 shadow-2xl shadow-gray-500/20 lg:aspect-video xl:rounded-b-xl"
+      className="relative left-0 top-0 flex w-full items-center justify-center bg-gray-950 dark:bg-black/40 lg:aspect-video xl:rounded-md"
     >
       <div className="absolute right-8 top-8 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
@@ -332,9 +335,9 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
           Dismiss <XIcon className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
-      <div className="ft-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-5 text-center text-lg leading-relaxed lg:absolute">
+      <div className="ft-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-2 text-center text-lg leading-relaxed lg:absolute">
         {/* <ShareTip lesson={tip} /> */}
-        <div className="grid h-full grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 ">
+        <div className="grid h-full w-full grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {take(
             shuffle(
               tips.filter((suggestedTip) => suggestedTip.slug !== lesson.slug),
@@ -359,58 +362,60 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   }`
 
   return (
-    <button
-      key={suggestedTip.slug}
-      onClick={() => {
-        track('clicked suggested tip thumbnail', {
-          lesson: suggestedTip.slug,
-        })
+    <div className="aspect-video">
+      <button
+        key={suggestedTip.slug}
+        onClick={() => {
+          track('clicked suggested tip thumbnail', {
+            lesson: suggestedTip.slug,
+          })
 
-        router
-          .push({
-            pathname: '/tips/[tip]',
-            query: {tip: suggestedTip.slug},
-          })
-          .then(() => {
-            handlePlay()
-          })
-      }}
-      className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg border border-gray-700/80 bg-gray-900 p-8 text-left font-medium leading-tight text-gray-100"
-    >
-      <div className="relative z-10 flex flex-col">
-        <span className="font-heading pb-1 text-xs font-bold uppercase tracking-wide text-gray-400">
-          Tip
-        </span>
-        <span className="font-medium">
-          {suggestedTip.title}{' '}
-          {tipCompleted && <span className="sr-only">(watched)</span>}
-        </span>
-      </div>
-      <Image
-        src={thumbnail}
-        alt=""
-        aria-hidden="true"
-        layout="fill"
-        className="blur-xs z-0 object-cover opacity-50 brightness-50"
-        quality={100}
-      />
-      <div
-        className="absolute left-0 top-0 flex h-full w-full items-start justify-end p-5"
-        aria-hidden="true"
+          router
+            .push({
+              pathname: '/tips/[tip]',
+              query: {tip: suggestedTip.slug},
+            })
+            .then(() => {
+              handlePlay()
+            })
+        }}
+        className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg border border-gray-800 bg-gray-900 p-8 text-left font-medium leading-tight text-gray-100"
       >
-        {tipCompleted ? (
-          <>
-            <CheckCircleIcon
-              className="absolute h-10 w-10 text-teal-400 transition group-hover:opacity-0"
-              aria-hidden="true"
-            />
-            <PlayIcon className="h-10 w-10 flex-shrink-0 scale-50 text-teal-400 opacity-0 transition group-hover:scale-100 group-hover:opacity-100" />
-          </>
-        ) : (
-          <PlayIcon className="h-10 w-10 flex-shrink-0 scale-50 text-gray-300 opacity-0 transition group-hover:scale-100 group-hover:opacity-100" />
-        )}
-      </div>
-    </button>
+        <div className="relative z-10 flex flex-col">
+          <span className="font-heading pb-1 text-xs font-bold uppercase tracking-wide text-gray-400">
+            Tip
+          </span>
+          <span className="font-medium">
+            {suggestedTip.title}{' '}
+            {tipCompleted && <span className="sr-only">(watched)</span>}
+          </span>
+        </div>
+        <Image
+          src={thumbnail}
+          alt=""
+          aria-hidden="true"
+          layout="fill"
+          className="blur-xs z-0 object-cover opacity-50 brightness-50"
+          quality={100}
+        />
+        <div
+          className="absolute left-0 top-0 flex h-full w-full items-start justify-end p-5"
+          aria-hidden="true"
+        >
+          {tipCompleted ? (
+            <>
+              <CheckCircleIcon
+                className="absolute h-10 w-10 text-teal-400 transition group-hover:opacity-0"
+                aria-hidden="true"
+              />
+              <PlayIcon className="h-10 w-10 flex-shrink-0 scale-50 text-teal-400 opacity-0 transition group-hover:scale-100 group-hover:opacity-100" />
+            </>
+          ) : (
+            <PlayIcon className="h-10 w-10 flex-shrink-0 scale-50 text-gray-300 opacity-0 transition group-hover:scale-100 group-hover:opacity-100" />
+          )}
+        </div>
+      </button>
+    </div>
   )
 }
 

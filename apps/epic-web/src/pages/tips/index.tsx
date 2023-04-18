@@ -1,12 +1,13 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {getAllTips, getTip, Tip} from 'lib/tips'
+import {getAllTips, Tip} from 'lib/tips'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
 import {useTipComplete} from '../../hooks/use-tip-complete'
 import Icon from 'components/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import Balancer from 'react-wrap-balancer'
 
 export async function getStaticProps() {
   const tips = await getAllTips()
@@ -20,35 +21,32 @@ type TipsIndex = {
   tips: Tip[]
 }
 
-const pageDescription = 'A collection of valuable tips.'
+const pageDescription = 'A collection of valuable Web Development tips.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
-  const tipsAllowed = process.env.NEXT_PUBLIC_TIPS_ALLOWED === 'true'
   return (
     <Layout
       meta={{
         title: `Epic Web Dev Tips by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
         description: pageDescription,
+        ogImage: {
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1681815772/epicweb.dev/tips/card_2x.png',
+        },
       }}
-      className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pb-24 lg:pt-20"
     >
-      {tipsAllowed ? (
-        <>
-          <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
-            <h1 className="font-heading text-center text-4xl font-black sm:text-5xl lg:text-6xl">
-              Tips
-            </h1>
-            <p className="max-w-md pt-8 text-center text-lg text-gray-600 lg:text-xl">
-              {pageDescription}
-            </p>
-          </header>
-          <main className="relative z-10 mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
-            {tips.map((tip) => {
-              return <TipCard tip={tip} key={tip.slug} />
-            })}
-          </main>
-        </>
-      ) : null}
+      <main className="relative z-10 flex flex-col items-center justify-center pb-8 pt-10 md:pb-5 md:pt-16">
+        <h1 className="font-heading px-5 text-center text-3xl font-bold sm:text-4xl">
+          Tips
+        </h1>
+        <p className="max-w-lg px-5 pb-16 pt-8 text-center text-lg text-gray-600 dark:text-gray-400">
+          <Balancer>{pageDescription}</Balancer>
+        </p>
+        <div className="mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
+          {tips.map((tip) => {
+            return <TipCard tip={tip} key={tip.slug} />
+          })}
+        </div>
+      </main>
     </Layout>
   )
 }
@@ -64,8 +62,8 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
-    <article className="flex flex-col items-center overflow-hidden rounded-xl bg-white shadow-2xl shadow-gray-500/20">
-      <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-gray-100">
+    <article className="flex flex-col items-center overflow-hidden rounded-xl border border-transparent bg-white shadow-2xl shadow-gray-500/20 dark:border-gray-800 dark:bg-transparent dark:shadow-black/50">
+      <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-transparent dark:border-gray-800">
         <button
           onClick={() => {
             router
@@ -113,11 +111,11 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
               Watched
             </div>
           )}
-          <div className="font-heading rounded-full bg-amber-100 px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-amber-500">
+          <div className="font-heading rounded-full bg-sky-400/20 px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-sky-600 dark:text-sky-400">
             Tip
           </div>
         </div>
-        <h2 className="pt-2 text-base font-semibold leading-tight text-black sm:text-xl">
+        <h2 className="pt-2 text-base font-semibold leading-tight sm:text-xl">
           <Link
             href={{
               pathname: '/tips/[tip]',
@@ -163,7 +161,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
                 return videoElement?.play()
               })
           }}
-          className="group relative flex items-center justify-center overflow-hidden rounded shadow-xl shadow-gray-500/20"
+          className="group relative flex items-center justify-center overflow-hidden"
         >
           <span className="sr-only">
             Play {title}{' '}
@@ -176,7 +174,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
               width={240 / 1.5}
               height={135 / 1.5}
               aria-hidden="true"
-              className="brightness-75 transition duration-300 ease-in-out group-hover:scale-110"
+              className="rounded brightness-75 transition duration-300 ease-in-out group-hover:scale-110"
             />
           </div>
           <div
@@ -201,7 +199,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
           </div>
         </button>
       </header>
-      <h2 className="font-bold leading-tight text-black sm:text-lg">
+      <h2 className="font-bold leading-tight sm:text-lg">
         <Link
           href={{
             pathname: '/tips/[tip]',
@@ -211,7 +209,8 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
           }}
           className="inline-flex items-start gap-1 hover:underline"
         >
-          {title} {tipCompleted && <span className="sr-only">(watched)</span>}
+          <Balancer>{title}</Balancer>{' '}
+          {tipCompleted && <span className="sr-only">(watched)</span>}
         </Link>
       </h2>
     </article>
