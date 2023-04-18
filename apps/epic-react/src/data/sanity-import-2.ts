@@ -1122,6 +1122,7 @@ const SanityData = (function () {
   const assembleSanityProduct = (
     productData: ProProduct | StandardProduct | BasicProduct,
     moduleBundlesById: ModuleBundlesById,
+    productId: string,
   ) => {
     const {courses, id, title, description, square_cover_large_url} =
       productData
@@ -1134,11 +1135,11 @@ const SanityData = (function () {
       }
     })
 
-    const proProductId = `product-${id}`
+    const internalProductId = `product-${id}`
     return SanitySchemas.ProductSchema.parse({
-      _id: proProductId,
+      _id: internalProductId,
       _type: 'product',
-      productId: proProductId,
+      productId,
       title: title,
       description: description || '',
       modules: proModuleRefs,
@@ -1157,10 +1158,19 @@ const SanityData = (function () {
   }) => {
     const {proProduct, standardProduct, basicProduct, moduleBundlesById} = data
 
+    // `Product.id` in database should correspond to Sanity `Product.productId`
+    const proProductId = 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38' // -> Epic React Pro
+    const standardProductId = 'kcd_8acc60f1-8c3f-4093-b20d-f60fc6e0cf61' // -> Epic React Standard
+    const basicProductId = 'kcd_910c9191-5a69-4019-ad1d-c55bea7e9714' // -> Epic React Basic
+
     const products = [
-      assembleSanityProduct(proProduct, moduleBundlesById),
-      assembleSanityProduct(standardProduct, moduleBundlesById),
-      assembleSanityProduct(basicProduct, moduleBundlesById),
+      assembleSanityProduct(proProduct, moduleBundlesById, proProductId),
+      assembleSanityProduct(
+        standardProduct,
+        moduleBundlesById,
+        standardProductId,
+      ),
+      assembleSanityProduct(basicProduct, moduleBundlesById, basicProductId),
     ]
 
     return products
