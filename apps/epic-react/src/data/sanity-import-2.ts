@@ -280,6 +280,55 @@ const LessonExport = (function () {
     }, {})
   }
 
+  const codeUrlsForCourses = z
+    .object({id: z.string(), code_url: z.string().nullable()})
+    .transform((val) => {
+      return {id: val.id, codeUrl: val.code_url}
+    })
+    .array()
+    .parse([
+      {
+        id: '378811',
+        code_url: null,
+      },
+      {
+        id: '375657',
+        code_url: 'https://github.com/kentcdodds/react-fundamentals',
+      },
+      {
+        id: '375655',
+        code_url: 'https://github.com/kentcdodds/react-hooks',
+      },
+      {
+        id: '375658',
+        code_url: 'https://github.com/kentcdodds/advanced-react-hooks',
+      },
+      {
+        id: '375659',
+        code_url: 'https://github.com/kentcdodds/advanced-react-patterns',
+      },
+      {
+        id: '375662',
+        code_url: 'https://github.com/kentcdodds/react-performance',
+      },
+      {
+        id: '375671',
+        code_url: 'https://github.com/kentcdodds/testing-react-apps',
+      },
+      {
+        id: '375675',
+        code_url: 'https://github.com/kentcdodds/react-suspense',
+      },
+      {
+        id: '386702',
+        code_url: 'https://github.com/kentcdodds/bookshelf',
+      },
+      {
+        id: '395825',
+        code_url: null,
+      },
+    ])
+
   const LessonSchema = z.object({
     id: z.coerce.string(),
     slug: z.string(),
@@ -354,6 +403,7 @@ const LessonExport = (function () {
 
   return {
     readAndParse,
+    codeUrlsForCourses,
   }
 })()
 
@@ -476,6 +526,12 @@ const SanitySchemas = (function () {
     description: z.string(),
     body: SanityBlockSchema.optional(),
     image: ExternalImageSchema,
+    github: z
+      .object({
+        _type: z.literal('github'),
+        repo: z.string(),
+      })
+      .optional(),
   })
 
   const ProductSchema = z.object({
@@ -865,6 +921,8 @@ const SanityData = (function () {
       courseMetadataById,
     } = data
 
+    const codeUrls = LessonExport.codeUrlsForCourses
+
     // build up Section and Module(Workshop) bundles
     const sectionBundles: Section[] = []
     const moduleBundlesById: {[courseId: string]: Module} = {}
@@ -885,6 +943,9 @@ const SanityData = (function () {
         square_cover_large_url,
       } = courseMetadataById[courseId]
       const moduleSanityId = `module-${eggheadId}`
+      const {codeUrl} = LessonExport.codeUrlsForCourses.find(
+        ({id}) => id === courseId,
+      ) || {codeUrl: null}
 
       const specialCaseModules = [
         'welcome-to-epic-react',
@@ -892,6 +953,28 @@ const SanityData = (function () {
       ]
 
       type SanityResourceRef = Module['resources'][0]
+
+      type ModuleWithoutResources = Omit<Module, 'resources'>
+      const moduleBeforeResources: ModuleWithoutResources = {
+        _id: moduleSanityId,
+        _type: 'module',
+        moduleType: 'workshop',
+        state: 'published',
+        slug: SanityHelper.buildSlug(moduleSlug),
+        title,
+        description: '',
+        body: SanityHelper.buildBlock(description),
+        image: {
+          _type: 'externalImage',
+          url: square_cover_large_url,
+        },
+        ...(Boolean(codeUrl) && {
+          github: {
+            _type: 'github',
+            repo: codeUrl || '',
+          },
+        }),
+      }
 
       if (specialCaseModules.includes(lessonTitlesByCourse[0].moduleSlug)) {
         // create a Module and load up the resources with this set of
@@ -908,19 +991,8 @@ const SanityData = (function () {
           })
 
         const module: Module = {
-          _id: moduleSanityId,
-          _type: 'module',
-          moduleType: 'workshop',
-          state: 'published',
-          slug: SanityHelper.buildSlug(moduleSlug),
-          title,
-          description: '',
+          ...moduleBeforeResources,
           resources: sanityLessonRefs,
-          body: SanityHelper.buildBlock(description),
-          image: {
-            _type: 'externalImage',
-            url: square_cover_large_url,
-          },
         }
 
         moduleBundlesById[courseId] = SanitySchemas.ModuleSchema.parse(module)
@@ -1022,19 +1094,8 @@ const SanityData = (function () {
 
         // build up module with references
         const module: Module = {
-          _id: moduleSanityId,
-          _type: 'module',
-          moduleType: 'workshop',
-          state: 'published',
-          slug: SanityHelper.buildSlug(moduleSlug),
-          title,
-          description: '',
+          ...moduleBeforeResources,
           resources: sortedModuleReferences,
-          body: SanityHelper.buildBlock(description),
-          image: {
-            _type: 'externalImage',
-            url: square_cover_large_url,
-          },
         }
 
         moduleBundlesById[courseId] = SanitySchemas.ModuleSchema.parse(module)
