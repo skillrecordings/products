@@ -333,7 +333,7 @@ const ModuleNavigatorSkeleton: React.FC<{
   return (
     <div
       role="status"
-      className="flex w-full animate-pulse flex-col gap-3 lg:max-w-xs"
+      className="flex w-full animate-pulse flex-col gap-3 lg:max-w-sm"
     >
       <div className="flex w-full items-center justify-between pb-3">
         <h2 className="text-2xl font-semibold">Contents</h2>

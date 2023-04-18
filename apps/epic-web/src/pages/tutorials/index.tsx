@@ -5,6 +5,7 @@ import {getAllTutorials} from 'lib/tutorials'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
+import pluralize from 'pluralize'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -91,7 +92,13 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           <span>Kent C. Dodds</span>
                         </div>
                         {'・'}
-                        <div>{sectionsFlatMap(sections).length} exercises</div>
+                        <div>
+                          {sectionsFlatMap(sections).length}{' '}
+                          {pluralize(
+                            sectionsFlatMap(sections)[0]._type,
+                            sectionsFlatMap(sections).length,
+                          )}
+                        </div>
                       </div>
                       {description && (
                         <p className="text-gray-300">{description}</p>

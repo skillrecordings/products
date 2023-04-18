@@ -4,7 +4,7 @@
 }
 
 #nprogress .bar {
-  @apply dark:bg-indigo-300 bg-indigo-500;
+  @apply bg-indigo-500 dark:bg-indigo-300/50;
 
   position: fixed;
   z-index: 1031;

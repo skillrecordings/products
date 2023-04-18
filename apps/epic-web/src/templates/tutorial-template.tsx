@@ -97,6 +97,8 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                     alt="Kent C. Dodds"
                     width={48}
                     height={48}
+                    priority
+                    placeholder="blur"
                   />
                 </div>
                 <span>Kent C. Dodds</span>
@@ -162,6 +164,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
         {image && (
           <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0 lg:-mr-5">
             <Image
+              priority
               src={image}
               alt={title}
               width={360}

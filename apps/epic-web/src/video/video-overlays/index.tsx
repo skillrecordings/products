@@ -83,6 +83,7 @@ const DefaultOverlay = () => {
           aria-hidden="true"
           width={220}
           height={220}
+          priority
         />
       )}
 
@@ -167,7 +168,13 @@ const FinishedOverlay = () => {
 
   return (
     <OverlayWrapper data-video-overlay="finished">
-      <p data-title="">Share this {module.moduleType} with your friends</p>
+      <h2>
+        <span>Great job!</span>{' '}
+        <Balancer>
+          You've finished "{module.title}" {module.moduleType}.
+        </Balancer>
+      </h2>
+      <p data-title="">Share with your friends</p>
       <div data-share-actions="">
         <Twitter link={shareUrl} message={shareMessage} data-action="share">
           Twitter

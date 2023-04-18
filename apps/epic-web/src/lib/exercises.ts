@@ -7,14 +7,14 @@ export const ExerciseSchema = z
   .object({
     _id: z.string().optional(),
     _key: z.string().optional(),
-    stackblitz: z.nullable(z.string()).optional(),
+    github: z.nullable(z.string()).optional(),
     videoResourceId: z.nullable(z.string()).optional(),
     transcript: z.nullable(z.any().array()).optional(),
     solution: z.nullable(
       z
         .object({
           _key: z.string(),
-          stackblitz: z.nullable(z.string()).optional(),
+          github: z.nullable(z.string()).optional(),
           videoResourceId: z.nullable(z.string()).optional(),
           transcript: z.nullable(z.any().array()).optional(),
         })
@@ -72,7 +72,7 @@ export const getExercise = async (
       description,
       "slug": slug.current,
       body,
-      "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+      "github": resources[@._type == 'github'][0].url,
       "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
       "solution": resources[@._type == 'solution'][0]{

@@ -2,13 +2,13 @@
   @apply flex w-full items-center justify-center py-12;
 }
 [data-github-link] {
-  @apply mt-6 pb-4;
+  @apply mt-4 pb-4;
   [data-content] {
     @apply flex items-center gap-2;
     a {
-      @apply inline-flex items-center gap-4 rounded-md border border-gray-700/50 bg-gray-800/50 px-4 py-3 text-lg font-medium text-white transition hover:bg-slate-800/90;
+      @apply inline-flex items-center gap-3 rounded-md border border-gray-200 bg-white px-4 py-3 pr-5 text-lg font-medium text-gray-800 transition hover:bg-gray-100 dark:border-gray-700/50 dark:bg-gray-800/50 dark:text-gray-200 dark:hover:bg-gray-800/90;
       svg {
-        @apply h-14 w-14 flex-shrink-0 rounded-full bg-black/30 p-2;
+        @apply h-8 w-8 flex-shrink-0;
       }
       div {
       }

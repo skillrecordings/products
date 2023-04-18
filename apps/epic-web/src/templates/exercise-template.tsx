@@ -28,6 +28,7 @@ import {
 import ExerciseOverlay from 'components/exercise-overlay'
 import Spinner from 'components/spinner'
 import pluralize from 'pluralize'
+import GitHubLink from '../video/github-link'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -47,7 +48,8 @@ const ExerciseTemplate: React.FC<{
   const {data: session} = useSession()
 
   const addProgressMutation = trpc.progress.add.useMutation()
-
+  const {data: lessonResources, status: lessonResourcesStatus} =
+    trpc.lessonResources.byLessonSlug.useQuery({slug: lesson.slug})
   const lessonResourceRenderer = (
     path: string,
     module: Module,
@@ -136,12 +138,22 @@ const ExerciseTemplate: React.FC<{
             <article className="relative flex-shrink-0">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-6 2xl:max-w-xl">
                 <LessonTitle />
+                {lessonResources?.github && (
+                  <GitHubLink
+                    exercise={lesson}
+                    loadingIndicator={<Spinner />}
+                    module={module}
+                    url={lessonResources.github}
+                    repository="Code"
+                  />
+                )}
                 <LessonDescription
                   productName={module.title}
                   loadingIndicator={<Spinner />}
                 />
                 {(lesson._type === 'solution' ||
-                  lesson._type === 'explainer') &&
+                  lesson._type === 'explainer' ||
+                  lesson._type === 'lesson') &&
                   session && <LessonCompletionToggle />}
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">

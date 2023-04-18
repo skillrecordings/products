@@ -28,6 +28,9 @@
 .prose > pre > code {
   @apply !bg-transparent;
 }
+pre > code {
+  @apply !bg-transparent;
+}
 
 mux-player {
   aspect-ratio: 16 / 9;

@@ -27,7 +27,6 @@ export const LessonList: React.FC<{
   const activeElRef = React.useRef<HTMLDivElement>(null)
   const sections = module.sections
   const lessons = currentSection ? currentSection.lessons : module.lessons
-
   const hasSectionResources =
     currentSection?.resources && currentSection?.resources?.length > 0
 
@@ -96,6 +95,7 @@ export const LessonList: React.FC<{
             collapsible
             onValueChange={handleOnAccordionValueChange}
             defaultValue={openedSection}
+            value={openedSection}
           >
             <ul data-sections="">
               {sections.map((section) => {
@@ -104,7 +104,7 @@ export const LessonList: React.FC<{
                     lessonResourceRenderer={lessonResourceRenderer}
                     path={path}
                     section={section}
-                    key={section.slug}
+                    key={section._id}
                     openedSection={openedSection}
                     currentSection={currentSection}
                     module={module}
