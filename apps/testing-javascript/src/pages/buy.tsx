@@ -55,7 +55,7 @@ const Buy: React.FC<CommerceProps> = ({
       className="py-16"
     >
       <header>
-        <h1 className="px-5 pb-10 text-center font-heading text-4xl font-black tracking-tight sm:text-5xl">
+        <h1 className="px-5 pb-10 text-center font-heading text-4xl sm:text-5xl">
           Start testing like a pro
         </h1>
       </header>
