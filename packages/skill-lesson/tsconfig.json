@@ -4,8 +4,6 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": ["dom", "ES2019"],
-    "baseUrl": ".",
-    "rootDir": ".",
     "module": "ESNext",
     "target": "es6",
     "composite": false,

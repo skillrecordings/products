@@ -1,9 +1,9 @@
 import * as React from 'react'
 import {LessonList} from './lesson-list'
 import ModuleLessonListHeader from './module-lesson-list-header'
-import {Module} from 'schemas/module'
-import {Section} from 'schemas/section'
-import {Lesson} from 'schemas/lesson'
+import {Module} from '../../schemas/module'
+import {Section} from '../../schemas/section'
+import {Lesson} from '../../schemas/lesson'
 
 export const LargeScreenModuleLessonList: React.FC<{
   lessonResourceRenderer: (

@@ -2,7 +2,6 @@ import {httpBatchLink, loggerLink} from '@trpc/client'
 import {createTRPCNext} from '@trpc/next'
 import {inferRouterInputs, inferRouterOutputs} from '@trpc/server'
 import superjson from 'superjson'
-
 import {getBaseUrl} from './get-base-url'
 import {SkillLessonRouter} from '../trpc/routers/_skill-lesson-router'
 

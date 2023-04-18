@@ -1,21 +1,20 @@
 import * as React from 'react'
 import Layout from 'components/app/layout'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import Image from 'next/legacy/image'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {Video} from 'video/video'
+import {Video} from '@skillrecordings/skill-lesson/video/video'
 import {useRouter} from 'next/router'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import {LargeScreenModuleLessonList} from 'video/module-lesson-list/large-screen-module-lesson-list'
-import {MobileModuleLessonList} from 'video/module-lesson-list/mobile-module-lesson-list'
-import {LessonDescription} from '../video/lesson-description'
-import {LessonTitle} from 'video/lesson-title'
-import {VideoTranscript} from 'video/video-transcript'
+import {LargeScreenModuleLessonList} from '@skillrecordings/skill-lesson/video/module-lesson-list/large-screen-module-lesson-list'
+import {MobileModuleLessonList} from '@skillrecordings/skill-lesson/video/module-lesson-list/mobile-module-lesson-list'
+import {LessonDescription} from '@skillrecordings/skill-lesson/video/lesson-description'
+import {LessonTitle} from '@skillrecordings/skill-lesson/video/lesson-title'
+import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
-import {trpc} from '../trpc/trpc.client'
-import LessonCompletionToggle from 'video/lesson-completion-toggle'
+import {trpc} from 'trpc/trpc.client'
+import LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
 import {useSession} from 'next-auth/react'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
@@ -24,11 +23,11 @@ import {
   ExplainerLink,
   ProblemLink,
   SolutionLink,
-} from 'video/module-lesson-list/lesson-list'
+} from '@skillrecordings/skill-lesson/video/module-lesson-list/lesson-list'
 import ExerciseOverlay from 'components/exercise-overlay'
 import Spinner from 'components/spinner'
 import pluralize from 'pluralize'
-import GitHubLink from '../video/github-link'
+import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]

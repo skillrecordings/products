@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {z} from 'zod'
-import {trpc} from 'trpc/trpc.client'
+import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 
 export const ModuleProgressContext = React.createContext<
   ModuleProgress | null | undefined
@@ -14,9 +14,10 @@ export const ModuleProgressProvider: React.FC<React.PropsWithChildren<any>> = ({
   children,
   moduleSlug,
 }) => {
-  const {data: moduleProgress} = trpc.moduleProgress.bySlug.useQuery({
-    slug: moduleSlug,
-  })
+  const {data: moduleProgress} =
+    trpcSkillLessons.moduleProgress.bySlug.useQuery({
+      slug: moduleSlug,
+    })
 
   return (
     <ModuleProgressContext.Provider value={moduleProgress}>

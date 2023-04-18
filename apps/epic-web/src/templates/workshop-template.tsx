@@ -22,9 +22,9 @@ import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-tex
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import * as process from 'process'
-import {trpc} from '../trpc/trpc.client'
+import {trpc} from 'trpc/trpc.client'
 import Balancer from 'react-wrap-balancer'
-import {useModuleProgress} from '../video/module-progress'
+import {useModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
 import WorkshopCertificate from 'certificate/workshop-certificate'
 import {capitalize} from 'lodash'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
@@ -345,9 +345,12 @@ const ModuleNavigatorSkeleton: React.FC<{
         return (
           <div key={section._id} className="flex flex-col gap-3 pb-5">
             <div className="h-4 w-5/6 rounded-full bg-gray-200 dark:bg-gray-900" />
-            {section?.lessons?.map(() => {
+            {section?.lessons?.map((lesson) => {
               return (
-                <div className="h-3 rounded-full bg-gray-200 dark:bg-gray-900" />
+                <div
+                  key={lesson._id}
+                  className="h-3 rounded-full bg-gray-200 dark:bg-gray-900"
+                />
               )
             })}
           </div>

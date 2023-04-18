@@ -1,8 +1,8 @@
 import React from 'react'
 import {z} from 'zod'
 import {useDebounce} from '@skillrecordings/react'
-import {PriceDisplay} from 'path-to-purchase/pricing'
-import {trpc} from 'trpc/trpc.client'
+import {PriceDisplay} from '../path-to-purchase/pricing'
+import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 
 const buildFormActionPath = (params: {
   userId: string
@@ -29,11 +29,12 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
   const [quantity, setQuantity] = React.useState(5)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
 
-  const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery({
-    productId,
-    userId,
-    quantity: debouncedQuantity,
-  })
+  const {data: formattedPrice, status} =
+    trpcSkillLessons.pricing.formatted.useQuery({
+      productId,
+      userId,
+      quantity: debouncedQuantity,
+    })
 
   const formActionPath = buildFormActionPath({
     userId,

@@ -24,8 +24,8 @@ import {shuffle, take} from 'lodash'
 import {track} from '../utils/analytics'
 import Image from 'next/legacy/image'
 import {getOgImage} from 'utils/get-og-image'
-import {useTipComplete} from '../hooks/use-tip-complete'
-import {localProgressDb} from '../utils/dexie'
+import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
+import {localProgressDb} from '@skillrecordings/skill-lesson/utils/dexie'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
@@ -41,7 +41,7 @@ import {
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
-import {trpc} from '../trpc/trpc.client'
+import {trpc} from 'trpc/trpc.client'
 import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import Spinner from 'components/spinner'
 

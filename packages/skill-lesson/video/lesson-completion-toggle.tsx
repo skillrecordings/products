@@ -1,6 +1,6 @@
 import * as Switch from '@radix-ui/react-switch'
-import {useLesson} from 'hooks/use-lesson'
-import {trpc} from 'trpc/trpc.client'
+import {useLesson} from '../hooks/use-lesson'
+import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useRouter} from 'next/router'
 import {motion} from 'framer-motion'
 import toast from 'react-hot-toast'
@@ -13,18 +13,18 @@ const LessonCompletionToggle = () => {
     data: moduleProgress,
     status: moduleProgressStatus,
     isFetching,
-  } = trpc.moduleProgress.bySlug.useQuery({
+  } = trpcSkillLessons.moduleProgress.bySlug.useQuery({
     slug: module.slug.current,
   })
 
-  const toggleProgressMutation = trpc.progress.toggle.useMutation()
+  const toggleProgressMutation = trpcSkillLessons.progress.toggle.useMutation()
   const completedLessons = moduleProgress?.lessons.filter(
-    (l) => l.lessonCompleted,
+    (l: any) => l.lessonCompleted,
   )
 
   // cannot use id because lesson from useLesson returns solution resource when on solution page
   const isLessonCompleted = Boolean(
-    completedLessons?.find(({id, slug}) => slug === lessonSlug),
+    completedLessons?.find(({id, slug}: any) => slug === lessonSlug),
   )
 
   const handleToggleLessonProgress = () => {

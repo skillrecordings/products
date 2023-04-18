@@ -12,7 +12,7 @@ export class MySubClassedDexie extends Dexie {
   progress!: Table<ProgressEvent>
 
   constructor() {
-    super('epic-web')
+    super(process.env.NEXT_PUBLIC_APP_NAME as string)
     this.version(1).stores({
       progress: '++id, eventName, lesson, module',
     })

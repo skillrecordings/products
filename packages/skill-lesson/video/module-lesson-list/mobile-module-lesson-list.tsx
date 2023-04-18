@@ -3,9 +3,9 @@ import capitalize from 'lodash/capitalize'
 import Balancer from 'react-wrap-balancer'
 import ModuleLessonListHeader from './module-lesson-list-header'
 import {LessonList} from './lesson-list'
-import {Module} from 'schemas/module'
-import {Section} from 'schemas/section'
-import {Lesson} from 'schemas/lesson'
+import {Module} from '../../schemas/module'
+import {Section} from '../../schemas/section'
+import {Lesson} from '../../schemas/lesson'
 
 export const MobileModuleLessonList: React.FC<{
   lessonResourceRenderer: (

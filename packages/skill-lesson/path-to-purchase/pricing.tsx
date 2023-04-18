@@ -9,24 +9,24 @@ import {getCouponLabel} from './get-coupon-label'
 import {useDebounce} from '@skillrecordings/react'
 import {QueryStatus} from '@tanstack/react-query'
 import SaleCountdown from './sale-countdown'
-import Spinner from 'spinner'
+import Spinner from '../spinner'
 import Image from 'next/legacy/image'
 import find from 'lodash/find'
 import {Purchase} from '@skillrecordings/database'
 import ReactMarkdown from 'react-markdown'
-import {isSellingLive} from 'utils/is-selling-live'
+import {isSellingLive} from '../utils/is-selling-live'
 import {MailIcon} from '@heroicons/react/solid'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
 } from '@skillrecordings/convertkit-react-ui'
-import {useConvertkit} from 'hooks/use-convertkit'
+import {useConvertkit} from '../hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
-import {track} from 'utils/analytics'
+import {track} from '../utils/analytics'
 import {useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'
-import {trpc} from 'trpc/trpc.client'
+import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import Balancer from 'react-wrap-balancer'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
@@ -86,24 +86,26 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
 
-  const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery(
-    {
-      productId,
-      userId,
-      quantity: debouncedQuantity,
-      couponId,
-      merchantCoupon,
-    },
-    {
-      onSuccess: (formattedPrice) => {
-        addPrice(formattedPrice, productId)
+  const {data: formattedPrice, status} =
+    trpcSkillLessons.pricing.formatted.useQuery(
+      {
+        productId,
+        userId,
+        quantity: debouncedQuantity,
+        couponId,
+        merchantCoupon,
       },
-    },
-  )
+      {
+        onSuccess: (formattedPrice) => {
+          addPrice(formattedPrice, productId)
+        },
+      },
+    )
 
-  const {data: purchaseToUpgrade} = trpc.purchases.getPurchaseById.useQuery({
-    purchaseId: formattedPrice?.upgradeFromPurchaseId,
-  })
+  const {data: purchaseToUpgrade} =
+    trpcSkillLessons.purchases.getPurchaseById.useQuery({
+      purchaseId: formattedPrice?.upgradeFromPurchaseId,
+    })
 
   const isRestrictedUpgrade = purchaseToUpgrade?.status === 'Restricted'
 
