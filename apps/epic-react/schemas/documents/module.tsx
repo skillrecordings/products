@@ -79,11 +79,7 @@ export default defineType({
       title: 'Body',
       type: 'body',
     }),
-    defineField({
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-    }),
+    defineField({name: 'image', title: 'Image', type: 'externalImage'}),
     defineField({
       name: 'ogImage',
       title: 'Share card URL',
@@ -100,7 +96,7 @@ export default defineType({
     select: {
       type: 'moduleType',
       title: 'title',
-      media: 'image.asset.url',
+      media: 'image.url',
     },
     prepare(selection) {
       const {title, media, type} = selection

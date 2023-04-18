@@ -20,6 +20,7 @@ import csvParser from 'csv-parser'
 import last from 'lodash/last'
 import groupBy from 'lodash/groupBy'
 import sortBy from 'lodash/sortBy'
+import chunk from 'lodash/chunk'
 import slugify from 'slugify'
 
 require('dotenv-flow').config({
@@ -46,10 +47,26 @@ function sleep(ms: number) {
   })
 }
 
-const readJsonData = (path: string) => {
-  let fileData = fs.readFileSync(path)
-  return JSON.parse(fileData.toString())
-}
+const JsonData = (function () {
+  const read = (path: string) => {
+    let fileData = fs.readFileSync(path)
+    return JSON.parse(fileData.toString())
+  }
+
+  const write = (path: string, data: Object) => {
+    try {
+      fs.writeFileSync(path, JSON.stringify(data, null, 2), 'utf8')
+      console.log('Data successfully saved to disk')
+    } catch (error) {
+      console.log('An error has occurred ', error)
+    }
+  }
+
+  return {
+    read,
+    write,
+  }
+})()
 
 // copied from https://github.com/eggheadio/epic-react-gatsby/blob/main/plugins/gatsby-source-egghead-epic-react/lib/parse-epic-react.js
 function parseEpicReactTitle(title: string, seperator = `~`) {
@@ -79,7 +96,9 @@ function collectionSlugfromTitle(title: string) {
 }
 
 function sectionSlugFromTitle(title: string) {
-  return collectionSlugfromTitle(title)
+  // preemptively replace `/` with `-`
+  const cleanTitle = title.replace(/\//, '-')
+  return collectionSlugfromTitle(cleanTitle)
 }
 
 type MuxAssetsThatNeedSRT = {
@@ -122,11 +141,18 @@ const MuxData = (function () {
   // this depends on the original (egghead-rails) lesson slugs
   const muxUploadPath = './mux-upload.json'
 
-  const playbackIdSchema = z.object({
-    playbackId: z.array(z.object({policy: z.string(), id: z.string()})),
-    assetId: z.string(),
-    mediaUrl: z.string(),
-  })
+  const playbackIdSchema = z
+    .object({
+      playbackId: z.array(z.object({policy: z.string(), id: z.string()})),
+      assetId: z.string(),
+      mediaUrl: z.string(),
+    })
+    .transform((val) => {
+      return {
+        ...val,
+        playbackId: val.playbackId[0].id,
+      }
+    })
   const playbackFileSchema = z.record(playbackIdSchema)
   // .transform((val) => {
   //   return Object.entries(val)
@@ -135,7 +161,7 @@ const MuxData = (function () {
   // Read and parse data file containing Mux playback IDs for each lesson
   // Note: these are tied to their original egghead slugs, use those to
   // cross-reference.
-  let playbackIds = playbackFileSchema.parse(readJsonData(muxUploadPath))
+  let playbackIds = playbackFileSchema.parse(JsonData.read(muxUploadPath))
 
   const addMissingVideoSrtTracks = async (
     muxAssetsThatNeedSRT: MuxAssetsThatNeedSRT,
@@ -259,7 +285,7 @@ const LessonExport = (function () {
     slug: z.string(),
     title: z.string(),
     full_title: z.string(),
-    description: z.coerce.string(),
+    description: z.string().nullable(),
     media_url: z.string(),
     transcript: z.string().nullable(),
     subtitles_url: z.string().nullable(),
@@ -284,7 +310,7 @@ const LessonExport = (function () {
         'Epic React Pro',
         'Epic React Standard',
       ]),
-      description: z.string(),
+      description: z.string().nullable(),
       slug: z.string(),
       courses: CourseSchema.array(),
       square_cover_large_url: z.string(),
@@ -292,7 +318,7 @@ const LessonExport = (function () {
     .passthrough()
 
   const readAndParse = (filePath: string) => {
-    const unparsedProducts = readJsonData(filePath)
+    const unparsedProducts = JsonData.read(filePath)
 
     const basicProduct = ProductSchema.parse(
       unparsedProducts.find(
@@ -568,10 +594,19 @@ const SanityData = (function () {
             srt_text,
           },
         }
+      } else {
+        return {
+          status: 'IGNORE' as const,
+          data: {
+            muxAssetId: assetId,
+            srtUrl: subtitles_url,
+            srt_text,
+          },
+        }
       }
     }
 
-    return {status: 'IGNORE' as const}
+    return {status: 'NOT_FOUND' as const}
   }
 
   const bundleVideoResources = async (data: {
@@ -592,7 +627,7 @@ const SanityData = (function () {
       const metadata = lessonMetadataById[id]
       const muxData = muxPlaybackIds[metadata.slug]
 
-      const muxPlaybackId = muxData.playbackId[0].id
+      const muxPlaybackId = muxData.playbackId
       const videoTitle = last(muxData.mediaUrl.split('/')) || muxData.mediaUrl
 
       const muxVideoResourceId = `mux-video-${muxData.assetId}`
@@ -728,7 +763,7 @@ const SanityData = (function () {
         title,
         slug: SanityHelper.buildSlug(lessonTitle.generatedLessonSlug),
         description: '',
-        body: SanityHelper.buildBlock(description),
+        body: SanityHelper.buildBlock(description || ''),
         resources: [
           {
             _type: 'reference' as const,
@@ -813,8 +848,6 @@ const SanityData = (function () {
       }
     }
 
-    // TODO: Need to probably surface the `_id` values for each lesson along
-    // with the its eggheadId so that they are tied together.
     return lessonBundlesById
   }
 
@@ -901,18 +934,21 @@ const SanityData = (function () {
           'sectionLabel',
         )
 
+        const indexedModuleResources: Array<{
+          lessonSortIndex: number
+          ref: SanityResourceRef
+        }> = []
+
         for (const sectionedLessonTitlesTuple of Object.entries(
           lessonTitlesBySection,
         )) {
           const [sectionLabel, lessonTitlesBySection] =
             sectionedLessonTitlesTuple
 
-          const indexedModuleResources: Array<{
-            lessonSortIndex: number
-            ref: SanityResourceRef
-          }> = []
-
           if (lessonTitlesBySection.length === 1) {
+            // single lesson sections are typically intros, outros, or one-off
+            // explainers, and don't need to be put in a section. Instead, add
+            // them directly to the module.
             const {id, lessonType, originalOrder} = lessonTitlesBySection[0]
             const sanityLessonId = lessonBundlesById[id]['_id']
             const ref = {
@@ -956,6 +992,7 @@ const SanityData = (function () {
               _type: 'section',
               slug: SanityHelper.buildSlug(sectionSlug),
               title: sectionLabel,
+              description: '',
               body: SanityHelper.buildBlock(''),
               resources: sortedSectionReferences,
             })
@@ -976,31 +1013,31 @@ const SanityData = (function () {
             const msg = `Empty lesson collection encountered for moduleSlug: ${moduleSlug}, sectionLabel: ${sectionLabel}`
             throw new Error(msg)
           }
-
-          const sortedModuleReferences = sortBy(
-            indexedModuleResources,
-            'lessonSortIndex',
-          ).map(({ref}) => ref)
-
-          // build up module with references
-          const module: Module = {
-            _id: moduleSanityId,
-            _type: 'module',
-            moduleType: 'workshop',
-            state: 'published',
-            slug: SanityHelper.buildSlug(moduleSlug),
-            title,
-            description: '',
-            resources: sortedModuleReferences,
-            body: SanityHelper.buildBlock(description),
-            image: {
-              _type: 'externalImage',
-              url: square_cover_large_url,
-            },
-          }
-
-          moduleBundlesById[courseId] = SanitySchemas.ModuleSchema.parse(module)
         }
+
+        const sortedModuleReferences = sortBy(
+          indexedModuleResources,
+          'lessonSortIndex',
+        ).map(({ref}) => ref)
+
+        // build up module with references
+        const module: Module = {
+          _id: moduleSanityId,
+          _type: 'module',
+          moduleType: 'workshop',
+          state: 'published',
+          slug: SanityHelper.buildSlug(moduleSlug),
+          title,
+          description: '',
+          resources: sortedModuleReferences,
+          body: SanityHelper.buildBlock(description),
+          image: {
+            _type: 'externalImage',
+            url: square_cover_large_url,
+          },
+        }
+
+        moduleBundlesById[courseId] = SanitySchemas.ModuleSchema.parse(module)
       }
     }
 
@@ -1042,7 +1079,7 @@ const SanityData = (function () {
       _type: 'product',
       productId: proProductId,
       title: title,
-      description: description,
+      description: description || '',
       modules: proModuleRefs,
       image: {
         _type: 'externalImage',
@@ -1119,20 +1156,36 @@ const SanityData = (function () {
       moduleBundlesById,
     })
 
+    // ************************************************
+    // ** Write all of the data to Sanity (in order) **
+    // ************************************************
+
     const videoResources = Object.values(videoResourceBundles)
-    await SanityApi.writeObjects(videoResources)
+    let videoResourceResponse = []
+    for (const videoResourceChunk of chunk(videoResources, 50)) {
+      const response = await SanityApi.writeObjects(videoResourceChunk)
+      videoResourceResponse.push(response)
+    }
 
     const lessons = Object.values(lessonBundlesById)
-    await SanityApi.writeObjects(lessons)
+    const lessonResponse = await SanityApi.writeObjects(lessons)
 
-    await SanityApi.writeObjects(sectionBundles)
+    const sectionResponse = await SanityApi.writeObjects(sectionBundles)
 
     const modules = Object.values(moduleBundlesById)
-    await SanityApi.writeObjects(modules)
+    const moduleResponse = await SanityApi.writeObjects(modules)
 
-    await SanityApi.writeObjects(productBundles)
+    const productResponse = await SanityApi.writeObjects(productBundles)
 
-    // TODO: process muxAssetsThatNeedSRT with calls to Mux Video API
+    JsonData.write('sanity-import-responses.json', {
+      videoResourceResponse,
+      lessonResponse,
+      sectionResponse,
+      moduleResponse,
+      productResponse,
+    })
+
+    // Update Mux Video Assets that are missing the SRT Track
     await MuxData.addMissingVideoSrtTracks(muxAssetsThatNeedSRT)
   } catch (error) {
     console.error(`Error: ${error}`)
