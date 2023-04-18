@@ -62,20 +62,20 @@ const Buy: React.FC<CommerceProps> = ({
       <main>
         <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-          <div data-pricing-container="">
+          <div className="flex flex-col lg:flex-row justify-center space-y-6 lg:space-y-0 lg:space-x-6">
             {products.map((product, i) => {
               return (
-                <div>111</div>
-                // <Pricing
-                //   key={product.name}
-                //   userId={userId}
-                //   product={product}
-                //   purchased={purchasedProductIds.includes(product.productId)}
-                //   purchases={purchases}
-                //   index={i}
-                //   couponId={couponId}
-                //   allowPurchase={allowPurchase}
-                // />
+                // <div key={product.productId}>111</div>
+                <Pricing
+                  key={product.name}
+                  userId={userId}
+                  product={product}
+                  purchased={purchasedProductIds.includes(product.productId)}
+                  purchases={purchases}
+                  index={i}
+                  couponId={couponId}
+                  allowPurchase={allowPurchase}
+                />
               )
             })}
           </div>

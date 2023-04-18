@@ -6,14 +6,17 @@ const productsQuery = groq`*[_type == "product"] | order(_createdAt desc) {
   _type,
   _updatedAt,
   title,
+  "name": title,
   productId,
   description,
-  "image": image.url,
+  image,
   "modules": modules[@->._type == 'module']->{
     _id,
     _type,
     title,
-    "image": image.url
+    image,
+    "slug": slug.current,
+    state
   }
 }`
 // const productsQuery = groq`*[_type == "module" && moduleType == 'workshop' && !(null in resources[].productId)] | order(_createdAt desc) {
