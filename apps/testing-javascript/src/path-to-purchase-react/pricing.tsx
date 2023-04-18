@@ -14,15 +14,15 @@ import Image from 'next/legacy/image'
 import find from 'lodash/find'
 import {Purchase} from '@skillrecordings/database'
 // import ReactMarkdown from 'react-markdown'
-import {MailIcon} from '@heroicons/react/solid'
-import {
-  redirectUrlBuilder,
-  SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit-react-ui'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+// import {MailIcon} from '@heroicons/react/solid'
+// import {
+//   redirectUrlBuilder,
+//   SubscribeToConvertkitForm,
+// } from '@skillrecordings/convertkit-react-ui'
+// import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 // import {setUserId} from '@amplitude/analytics-browser'
-import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {useRouter} from 'next/router'
+// import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+// import {useRouter} from 'next/router'
 import * as Switch from '@radix-ui/react-switch'
 import {trpc} from 'trpc/trpc.client'
 // import Balancer from 'react-wrap-balancer'
@@ -90,8 +90,16 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   } = product
   const {addPrice, isDowngrade, merchantCoupon, setMerchantCoupon} =
     usePriceCheck()
-  const {subscriber, loadingSubscriber} = useConvertkit()
-  const router = useRouter()
+  // const {subscriber, loadingSubscriber} = useConvertkit()
+  // const router = useRouter()
+
+  console.log({
+    productId,
+    userId,
+    quantity,
+    couponId,
+    merchantCoupon,
+  })
 
   const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery(
     {
@@ -108,7 +116,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     },
   )
 
-  const defaultCoupon = formattedPrice?.defaultCoupon
+  // const defaultCoupon = formattedPrice?.defaultCoupon
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
   const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
@@ -124,25 +132,25 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     (allowPurchase || isSellingLive) &&
     !isBuyingForTeam
 
-  const handleOnSuccess = (subscriber: any, email?: string) => {
-    if (subscriber) {
-      const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
-        confirmToast: 'true',
-      })
-      // email && setUserId(email)
-      track('subscribed to email list', {
-        location: 'pricing',
-      })
-      router.push(redirectUrl).then(() => {
-        router.reload()
-      })
-    }
-  }
+  // const handleOnSuccess = (subscriber: any, email?: string) => {
+  //   if (subscriber) {
+  //     const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
+  //       confirmToast: 'true',
+  //     })
+  //     // email && setUserId(email)
+  //     track('subscribed to email list', {
+  //       location: 'pricing',
+  //     })
+  //     router.push(redirectUrl).then(() => {
+  //       router.reload()
+  //     })
+  //   }
+  // }
 
   return (
-    <div data-pricing-product={index}>
+    <div className="w-full max-w-sm">
       {image && (
-        <div data-pricing-product-image="">
+        <div className="relative mx-auto -mb-32 h-56 w-56">
           <Image
             priority
             src={image.url}
@@ -173,7 +181,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               </div>
             )}
             <PriceDisplay status={status} formattedPrice={formattedPrice} />
-            <div data-byline="">Full access</div>
+            {/* <div data-byline="">Full access</div> */}
             {/* {(isSellingLive || allowPurchase) && (
               <SaleCountdown
                 data-pricing-product-sale-countdown=""
@@ -329,14 +337,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               </form>
             </div>
           )
-        ) : (
-          <div data-purchased-container="">
-            <div data-unavailable="">Coming Soon</div>
-            {!subscriber && !loadingSubscriber && (
-              <SubscribeForm handleOnSuccess={handleOnSuccess} />
-            )}
-          </div>
-        )}
+        ) : null}
         {showPPPBox && (
           <RegionalPricingBox
             pppCoupon={pppCoupon || merchantCoupon}
@@ -351,7 +352,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               {/* <ReactMarkdown>{product.description}</ReactMarkdown> */}
             </div>
           )}
-          {!purchased && (
+          {/* {!purchased && (
             <div data-guarantee="">
               <Image
                 src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
@@ -360,7 +361,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 alt="Money Back Guarantee"
               />
             </div>
-          )}
+          )} */}
           {modules || features ? (
             <div data-header="">
               <div>
@@ -385,7 +386,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     return (
                       <li key={module.title}>
                         {module.image && (
-                          <div data-image="" aria-hidden="true">
+                          <div className="relative z-10" aria-hidden="true">
                             <Image
                               src={module.image.url}
                               layout="fill"
@@ -577,33 +578,3 @@ const RegionalPricingBox: React.FC<
 //     </div>
 //   )
 // }
-
-const SubscribeForm = ({
-  handleOnSuccess,
-}: {
-  handleOnSuccess: (subscriber: any, email?: string) => void
-}) => {
-  return (
-    <div
-      id="pricing"
-      className="flex w-full max-w-sm flex-col items-center justify-between"
-    >
-      <div className="inline-flex flex-shrink-0 items-center gap-2 pb-5 text-base font-medium leading-tight">
-        <div
-          aria-hidden="true"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/10"
-        >
-          <MailIcon className="h-5 w-5 text-blue-500" />
-        </div>
-        {/* <Balancer>Get notified when this workshop is released</Balancer> */}
-      </div>
-      <SubscribeToConvertkitForm
-        formId={3843826}
-        actionLabel="Subscribe to get notified"
-        onSuccess={(subscriber, email) => {
-          return handleOnSuccess(subscriber, email)
-        }}
-      />
-    </div>
-  )
-}
