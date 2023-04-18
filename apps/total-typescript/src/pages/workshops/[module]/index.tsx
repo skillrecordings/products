@@ -6,7 +6,7 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import WorkshopTemplate from '../../../templates/workshop-template'
 import {getAllWorkshops, getWorkshop} from '../../../lib/workshops'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {ModuleProgressProvider} from 'video/module-progress'
+import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 

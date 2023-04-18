@@ -2,7 +2,7 @@ import React from 'react'
 
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {ModuleProgressProvider} from 'video/module-progress'
+import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getAllBonuses, getBonus} from '../../../lib/bonuses'
 import BonusTemplate from '../../../templates/bonus-template'
 

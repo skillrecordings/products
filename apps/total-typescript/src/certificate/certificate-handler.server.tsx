@@ -1,7 +1,7 @@
 import {getModule} from '@skillrecordings/skill-lesson/lib/modules'
 import {ImageResponse} from '@vercel/og'
 import {NextRequest} from 'next/server'
-import {getProduct} from 'path-to-purchase-react/products.server'
+import {getProduct} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
 
 const magnatHeadFont = fetch(
   new URL(

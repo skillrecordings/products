@@ -3,7 +3,7 @@ import TutorialTemplate from 'templates/tutorial-template'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {ModuleProgressProvider} from 'video/module-progress'
+import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
