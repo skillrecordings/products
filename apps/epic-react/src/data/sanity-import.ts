@@ -4,7 +4,12 @@
 // of Epic React data. Also, be sure to set `SANITY_EDITOR_TOKEN` in your
 // `.env.local` environment variables file.
 //
-// Execute the Mux Asset Upload script with:
+// Place the `mux-upload.json` file in the same directory that you are
+// executing this script. That file needs to contain the structured playback ID
+// references from the Mux upload of video assets. More on that here:
+// https://roamresearch.com/#/app/egghead/page/EKaxH7VAP
+//
+// Execute the Sanity Import script with:
 //
 // ```
 // npx ts-node --files --skipProject src/data/sanity-import.ts
