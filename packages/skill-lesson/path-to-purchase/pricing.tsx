@@ -75,16 +75,13 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   allowPurchase = false,
   canViewRegionRestriction = false,
 }) => {
-  const [merchantCoupon, setMerchantCoupon] = React.useState<{
-    id: string
-    type: string
-  }>()
   const [quantity, setQuantity] = React.useState(1)
   const [isBuyingForTeam, setIsBuyingForTeam] = React.useState(false)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, lessons, action, title} =
     product
-  const {addPrice, isDowngrade} = usePriceCheck()
+  const {addPrice, isDowngrade, merchantCoupon, setMerchantCoupon} =
+    usePriceCheck()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
 
@@ -378,8 +375,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           {showPPPBox && !canViewRegionRestriction && (
             <RegionalPricingBox
               pppCoupon={pppCoupon || merchantCoupon}
-              activeCoupon={merchantCoupon}
-              setActiveCoupon={setMerchantCoupon}
+              merchantCoupon={merchantCoupon}
+              setMerchantCoupon={setMerchantCoupon}
               index={index}
             />
           )}
@@ -574,20 +571,19 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
     </div>
   )
 }
-
 type RegionalPricingBoxProps = {
   pppCoupon: {
     country: string
     percentageDiscount: number
   }
-  activeCoupon: any
-  setActiveCoupon: (coupon: any) => void
+  merchantCoupon: any
+  setMerchantCoupon: (coupon: any) => void
   index: number
 }
 
 const RegionalPricingBox: React.FC<
   React.PropsWithChildren<RegionalPricingBoxProps>
-> = ({pppCoupon, activeCoupon, setActiveCoupon, index}) => {
+> = ({pppCoupon, merchantCoupon, setMerchantCoupon, index}) => {
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
 
   if (!pppCoupon.country) {
@@ -620,11 +616,11 @@ const RegionalPricingBox: React.FC<
       <label>
         <input
           type="checkbox"
-          checked={Boolean(activeCoupon)}
+          checked={Boolean(merchantCoupon)}
           onChange={() => {
-            activeCoupon
-              ? setActiveCoupon(undefined)
-              : setActiveCoupon(pppCoupon)
+            merchantCoupon
+              ? setMerchantCoupon(undefined)
+              : setMerchantCoupon(pppCoupon as any)
           }}
         />
         <span>Activate {percentOff}% off with regional pricing</span>
