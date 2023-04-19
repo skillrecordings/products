@@ -1174,7 +1174,7 @@ const SanityData = (function () {
 
     const videoResources = Object.values(videoResourceBundles)
     let videoResourceResponse = []
-    for (const videoResourceChunk of chunk(videoResources, 50)) {
+    for (const videoResourceChunk of chunk(videoResources, 25)) {
       const response = await SanityApi.writeObjects(videoResourceChunk)
       videoResourceResponse.push(response)
     }
