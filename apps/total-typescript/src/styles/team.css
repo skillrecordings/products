@@ -7,6 +7,15 @@
   }
 }
 
+/* Purchase detail page reset */
+
+#purchase-detail {
+  [data-invite-team] {
+    /* reset styles because it is rendered within a card */
+    @apply flex w-full flex-col rounded-none border-none bg-transparent p-0 py-3 shadow-none;
+  }
+}
+
 /* Shared form component */
 
 [data-invite-team] {

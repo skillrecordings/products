@@ -271,7 +271,6 @@ const ManageTeam: React.FC<{
         session={session}
         purchase={purchase}
         existingPurchase={existingPurchase}
-        className="flex w-full flex-col py-3"
       />
     </div>
   )
