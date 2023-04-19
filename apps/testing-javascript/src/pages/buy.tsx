@@ -27,14 +27,6 @@ const Buy: React.FC<CommerceProps> = ({
   couponIdFromCoupon,
   allowPurchase,
 }) => {
-  console.log({
-    couponFromCode,
-    products,
-    userId,
-    purchases,
-    couponIdFromCoupon,
-    allowPurchase,
-  })
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} =
     useCoupon(couponFromCode)
 
