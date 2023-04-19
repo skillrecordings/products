@@ -28,6 +28,7 @@ import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import Balancer from 'react-wrap-balancer'
+import BuyMoreSeats from '../team/buy-more-seats'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -74,15 +75,13 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   allowPurchase = false,
   canViewRegionRestriction = false,
 }) => {
-  const [merchantCoupon, setMerchantCoupon] = React.useState<{
-    id: string
-    type: string
-  }>()
   const [quantity, setQuantity] = React.useState(1)
   const [isBuyingForTeam, setIsBuyingForTeam] = React.useState(false)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
-  const {productId, name, image, modules, features, action} = product
-  const {addPrice, isDowngrade} = usePriceCheck()
+  const {productId, name, image, modules, features, lessons, action, title} =
+    product
+  const {addPrice, isDowngrade, merchantCoupon, setMerchantCoupon} =
+    usePriceCheck()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
 
@@ -139,6 +138,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     }
   }
 
+  const workshops = modules?.filter(
+    (module) => module.moduleType === 'workshop',
+  )
+  const bonuses = modules?.filter((module) => module.moduleType === 'bonus')
+
   return (
     <div id="main-pricing">
       <div data-pricing-product={index}>
@@ -156,12 +160,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           </div>
         )}
         <article>
-          {/* {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
-          <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
-        )} */}
           {(isSellingLive || allowPurchase) && !purchased ? (
             <div data-pricing-product-header="">
-              <h4 data-name-badge="">{name}</h4>
+              <p data-name-badge="">{name}</p>
+              {title && (
+                <h2 data-title>
+                  <Balancer>{title}</Balancer>
+                </h2>
+              )}
               <PriceDisplay status={status} formattedPrice={formattedPrice} />
               {isRestrictedUpgrade ? (
                 <div data-byline="">All region access</div>
@@ -169,20 +175,30 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 <div data-byline="">Full access</div>
               )}
             </div>
-          ) : (
-            <div data-pricing-product-header="" />
-          )}
+          ) : null}
           {purchased ? (
             <>
               <div data-pricing-product-header="">
-                <h4 data-name-badge="">{name}</h4>
+                <p data-name-badge="">{name}</p>
+                {title && (
+                  <h2 data-title>
+                    <Balancer>{title}</Balancer>
+                  </h2>
+                )}
               </div>
               <div data-purchased-container="">
                 <div data-purchased="">
                   <CheckCircleIcon aria-hidden="true" /> Purchased
                 </div>
+                <div data-buy-more-seats="">
+                  <BuyMoreSeats
+                    productId={productId}
+                    userId={userId as string}
+                    buttonLabel="Buy more seats"
+                  />
+                </div>
               </div>
-              <div className="flex justify-center">
+              {/* <div className="flex justify-center">
                 <Link
                   href={{
                     pathname: '/team/buy-more-seats',
@@ -205,7 +221,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     →
                   </span>
                 </Link>
-              </div>
+              </div> */}
             </>
           ) : isSellingLive || allowPurchase ? (
             isDowngrade(formattedPrice) ? (
@@ -266,65 +282,61 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                         For my team
                       </button>
                     </div>
-                    {isBuyingForTeam &&
-                      productId ===
-                        process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID && (
-                        <div data-quantity-input="">
-                          <label>
-                            <span>Team Seats</span>
-                            <button
-                              type="button"
-                              aria-label="decrease seat quantity by one"
-                              className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
-                              onClick={() => {
-                                if (quantity === 1) return
-                                setQuantity(quantity - 1)
-                              }}
-                            >
-                              -
-                            </button>
-                            <input
-                              type="number"
-                              min={1}
-                              max={100}
-                              step={1}
-                              onChange={(e) => {
-                                const quantity = Number(e.target.value)
-                                setMerchantCoupon(undefined)
-                                setQuantity(
-                                  quantity < 1
-                                    ? 1
-                                    : quantity > 100
-                                    ? 100
-                                    : quantity,
-                                )
-                              }}
-                              onKeyDown={(e) => {
-                                // don't allow decimal
-                                if (e.key === ',') {
-                                  e.preventDefault()
-                                }
-                              }}
-                              inputMode="numeric"
-                              pattern="[0-9]*"
-                              value={quantity}
-                              id={`${quantity}-${name}`}
-                              required={true}
-                            />
-                            <button
-                              type="button"
-                              aria-label="increase seat quantity by one"
-                              className="flex h-full items-center justify-center rounded bg-gray-800/50 px-3 py-2 font-mono sm:hidden"
-                              onClick={() => {
-                                if (quantity === 100) return
-                                setQuantity(quantity + 1)
-                              }}
-                            >
-                              +
-                            </button>
-                          </label>
+                    {isBuyingForTeam && (
+                      <div data-quantity-input="">
+                        <div>
+                          <label>Team Seats</label>
+                          <button
+                            type="button"
+                            aria-label="decrease seat quantity by one"
+                            onClick={() => {
+                              if (quantity === 1) return
+                              setQuantity(quantity - 1)
+                            }}
+                          >
+                            -
+                          </button>
+                          <input
+                            type="number"
+                            min={1}
+                            max={100}
+                            step={1}
+                            onChange={(e) => {
+                              const quantity = Number(e.target.value)
+                              setMerchantCoupon(undefined)
+                              setQuantity(
+                                quantity < 1
+                                  ? 1
+                                  : quantity > 100
+                                  ? 100
+                                  : quantity,
+                              )
+                            }}
+                            onKeyDown={(e) => {
+                              // don't allow decimal
+                              if (e.key === ',') {
+                                e.preventDefault()
+                              }
+                            }}
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            value={quantity}
+                            id={`${quantity}-${name}`}
+                            required={true}
+                          />
+                          <button
+                            type="button"
+                            aria-label="increase seat quantity by one"
+                            onClick={() => {
+                              if (quantity === 100) return
+                              setQuantity(quantity + 1)
+                            }}
+                          >
+                            +
+                          </button>
                         </div>
-                      )}
+                      </div>
+                    )}
                     <button
                       data-pricing-product-checkout-button=""
                       type="submit"
@@ -333,9 +345,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       <span>
                         {formattedPrice?.upgradeFromPurchaseId
                           ? `Upgrade Now`
-                          : action || `Become a TypeScript Wizard`}
+                          : action || `Buy Now`}
                       </span>
                     </button>
+                    <span data-guarantee="">30-Day Money-Back Guarantee</span>
                   </fieldset>
                 </form>
               </div>
@@ -362,8 +375,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           {showPPPBox && !canViewRegionRestriction && (
             <RegionalPricingBox
               pppCoupon={pppCoupon || merchantCoupon}
-              activeCoupon={merchantCoupon}
-              setActiveCoupon={setMerchantCoupon}
+              merchantCoupon={merchantCoupon}
+              setMerchantCoupon={setMerchantCoupon}
               index={index}
             />
           )}
@@ -376,7 +389,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 </div>
               )}
             {(isSellingLive || allowPurchase) && !purchased && (
-              <div className="flex justify-center pt-8 align-middle">
+              <div data-guarantee-image="">
                 <Image
                   src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
                   width={130}
@@ -393,12 +406,50 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               </div>
             ) : null}
             <div data-main="">
-              <strong>Workshops</strong>
-              {modules && (
-                <ul data-workshops="" role="list">
-                  {modules
-                    .filter((module) => module.moduleType === 'workshop')
-                    .map((module) => {
+              {bonuses && !Boolean(merchantCoupon) && (
+                <div data-bonuses="">
+                  <ul role="list">
+                    {bonuses.map((module) => {
+                      const getLabelForState = (state: any) => {
+                        switch (state) {
+                          case 'draft':
+                            return 'Coming soon'
+                          default:
+                            return ''
+                        }
+                      }
+                      return (
+                        <li key={module.title}>
+                          {module.image && (
+                            <div data-image="" aria-hidden="true">
+                              <Image
+                                src={module.image.url}
+                                layout="fill"
+                                alt={module.title}
+                                aria-hidden="true"
+                              />
+                            </div>
+                          )}
+                          <div>
+                            <p>
+                              <strong>Bonus</strong>
+                              {module.title}
+                            </p>
+                            <div data-state={module.state}>
+                              {getLabelForState(module.state)}
+                            </div>
+                          </div>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              )}
+              {workshops && (
+                <div data-workshops="">
+                  <strong>Workshops</strong>
+                  <ul role="list">
+                    {workshops.map((module) => {
                       const getLabelForState = (state: any) => {
                         switch (state) {
                           case 'draft':
@@ -428,7 +479,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                         </li>
                       )
                     })}
-                </ul>
+                  </ul>
+                </div>
               )}
               {features && (
                 <>
@@ -441,6 +493,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     ))}
                   </ul>
                 </>
+              )}
+              {product.slug && lessons && (
+                <div data-contents="">
+                  {lessons ? `${lessons?.length} lessons` : null}
+                  <Link href={`/workshops/${product.slug}`}>
+                    View contents <span aria-hidden="true">→</span>
+                  </Link>
+                </div>
               )}
             </div>
           </div>
@@ -511,20 +571,19 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
     </div>
   )
 }
-
 type RegionalPricingBoxProps = {
   pppCoupon: {
     country: string
     percentageDiscount: number
   }
-  activeCoupon: any
-  setActiveCoupon: (coupon: any) => void
+  merchantCoupon: any
+  setMerchantCoupon: (coupon: any) => void
   index: number
 }
 
 const RegionalPricingBox: React.FC<
   React.PropsWithChildren<RegionalPricingBoxProps>
-> = ({pppCoupon, activeCoupon, setActiveCoupon, index}) => {
+> = ({pppCoupon, merchantCoupon, setMerchantCoupon, index}) => {
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
 
   if (!pppCoupon.country) {
@@ -557,37 +616,15 @@ const RegionalPricingBox: React.FC<
       <label>
         <input
           type="checkbox"
-          checked={Boolean(activeCoupon)}
+          checked={Boolean(merchantCoupon)}
           onChange={() => {
-            activeCoupon
-              ? setActiveCoupon(undefined)
-              : setActiveCoupon(pppCoupon)
+            merchantCoupon
+              ? setMerchantCoupon(undefined)
+              : setMerchantCoupon(pppCoupon as any)
           }}
         />
         <span>Activate {percentOff}% off with regional pricing</span>
       </label>
-    </div>
-  )
-}
-
-type RibbonProps = {
-  appliedMerchantCoupon: {
-    type: string
-  }
-}
-
-const Ribbon: React.FC<React.PropsWithChildren<RibbonProps>> = ({
-  appliedMerchantCoupon,
-}) => {
-  return (
-    <div className="absolute -right-3 -top-3 aspect-square w-32 overflow-hidden rounded">
-      <div className="absolute left-0 top-0 h-3 w-3 bg-amber-500"></div>
-      <div className="absolute bottom-0 right-0 h-3 w-3 bg-amber-500"></div>
-      <div className="absolute bottom-0 right-0 h-6 w-[141.42%] origin-bottom-right rotate-45 bg-amber-300">
-        <div className="flex flex-col items-center py-1 text-xs font-bold uppercase text-black">
-          {getCouponLabel(appliedMerchantCoupon?.type)}
-        </div>
-      </div>
     </div>
   )
 }

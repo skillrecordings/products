@@ -11,10 +11,10 @@ import NewsletterSubscribeForm from 'components/subscribe-form'
 import LandingCopy from 'components/landing-copy.mdx'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
-import {getActiveProducts} from '../path-to-purchase-react/products.server'
+import {getActiveProducts} from 'server/products.server'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
-import {useCoupon} from '../path-to-purchase-react/use-coupon'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})

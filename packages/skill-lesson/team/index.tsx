@@ -15,7 +15,6 @@ type InviteTeamProps = {
   }
   session: any
   setPersonalPurchase: (props: any) => void
-  className?: string
 }
 
 const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
@@ -23,7 +22,6 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   existingPurchase,
   session,
   setPersonalPurchase,
-  className = 'flex flex-col rounded-lg border border-gray-700/30 bg-gray-800 p-5 shadow-xl shadow-black/10',
 }) => {
   const [selfRedemptionSucceeded, setSelfRedemptionSucceeded] =
     React.useState<boolean>(false)
@@ -68,12 +66,9 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   const userEmail = session?.user?.email
 
   return (
-    <div className={className}>
-      <p className="py-3">
-        You have{' '}
-        <strong className="font-semibold">
-          {numberOfRedemptionsLeft} seats left
-        </strong>
+    <div data-invite-team="">
+      <p data-title="">
+        You have <strong>{numberOfRedemptionsLeft} seats left</strong>
         .<br />
         {usedCount > 0 &&
           `Your team has already redeemed ${usedCount} of ${maxUses} seats. `}
@@ -83,17 +78,15 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
       </p>
       {bulkCouponId && (
         <>
-          <div className="w-full ">
+          <div data-copy-invite-link-container="">
             <CopyInviteLink
               bulkCouponId={bulkCouponId}
               disabled={!hasRedemptionsLeft}
             />
           </div>
           {canRedeem && (
-            <div className="mt-5 flex flex-col items-center gap-3 border-t border-gray-900 pt-5 sm:mt-8 sm:flex-row sm:justify-between">
-              <p className="flex items-center gap-1 font-semibold">
-                Or get access yourself
-              </p>
+            <div data-redeem="">
+              <p data-title="">Or get access yourself</p>
               <SelfRedeemButton
                 bulkCouponId={bulkCouponId}
                 userEmail={userEmail}

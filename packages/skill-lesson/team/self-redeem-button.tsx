@@ -12,23 +12,13 @@ const SelfRedeemButton: React.FC<
     disabled: boolean
     className?: string
   }>
-> = ({
-  userEmail,
-  bulkCouponId,
-  onSuccess,
-  disabled,
-  className = `border border-cyan-500 transition text-cyan-400 px-4 py-2 rounded-md font-medium ${
-    disabled ? 'cursor-not-allowed opacity-30' : 'hover:bg-cyan-600/20'
-  }`,
-  children,
-}) => {
+> = ({userEmail, bulkCouponId, onSuccess, disabled, children}) => {
   const [isLoading, setIsLoading] = React.useState(false)
   return (
     <Button
       data-self-redeem-button=""
       isLoading={isLoading}
       disabled={disabled || !userEmail}
-      className={className}
       onClick={() => {
         if (userEmail) {
           setIsLoading(true)

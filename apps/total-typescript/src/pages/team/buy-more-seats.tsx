@@ -127,7 +127,7 @@ const BuyMoreSeatsPage: React.FC<
   React.PropsWithChildren<BuyMoreSeatsPageProps>
 > = ({product, userId}) => {
   const {description, title, id, image, features, modules} = product
-  console.log({product})
+
   return (
     <Layout
       meta={{

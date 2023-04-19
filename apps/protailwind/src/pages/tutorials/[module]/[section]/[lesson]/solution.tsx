@@ -7,7 +7,7 @@ import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {getSection} from 'lib/sections'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {ModuleProgressProvider} from 'video/module-progress'
+import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context

@@ -17,11 +17,11 @@ const Card: React.FC<
   const Title = (props: any) =>
     React.createElement(title.as, props, `${title.content}`)
   return (
-    <div className="w-full rounded-lg border border-gray-700/30 bg-gray-800 p-5 text-white shadow-xl shadow-black/10">
-      <div className="flex items-center gap-3 text-xl font-semibold">
+    <div data-team-card="">
+      <div data-title="">
         {icon} <Title />
       </div>
-      <div className="pt-3">{children}</div>
+      <div data-content="">{children}</div>
     </div>
   )
 }

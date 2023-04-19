@@ -20,12 +20,18 @@ const buildFormActionPath = (params: {
   return `/api/skill/checkout/stripe?${queryParamString}`
 }
 
-const buyMoreSeatsSchema = z.object({productId: z.string(), userId: z.string()})
+const buyMoreSeatsSchema = z.object({
+  productId: z.string(),
+  userId: z.string(),
+  buttonLabel: z.string().default('Buy').nullish(),
+})
 type BuyMoreSeatsProps = z.infer<typeof buyMoreSeatsSchema>
 
-const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
-  const {productId, userId} = buyMoreSeatsSchema.parse(props)
-
+const BuyMoreSeats = ({
+  productId,
+  userId,
+  buttonLabel = 'Buy',
+}: BuyMoreSeatsProps) => {
   const [quantity, setQuantity] = React.useState(5)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
 
@@ -43,15 +49,22 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
   })
 
   return (
-    <form className="pt-3" action={formActionPath} method="POST">
-      <fieldset
-        id="team-upgrade-pricing-inline"
-        className="flex w-full items-center justify-between"
-      >
-        <label className="inline-flex items-center gap-3">
-          <span className="opacity-80">Seats</span>
+    <form data-buy-more-seats-form="" action={formActionPath} method="POST">
+      <fieldset id="team-upgrade-pricing-inline">
+        <div data-seats-form="">
+          <label>Seats</label>
+          <button
+            type="button"
+            aria-label="decrease seat quantity by one"
+            onClick={() => {
+              if (quantity === 1) return
+              setQuantity(quantity - 1)
+            }}
+          >
+            -
+          </button>
           <input
-            defaultValue={quantity}
+            value={quantity}
             required={true}
             type="number"
             min={1}
@@ -61,21 +74,23 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
               const newQuantity = Number(e.target.value)
               setQuantity(newQuantity)
             }}
-            className="rounded-md border border-gray-800 bg-gray-900 py-2 pl-3 font-mono font-bold"
           />
-        </label>
-        <div data-pricing-product="">
-          <div
-            data-pricing-product-header=""
-            className="flex items-center gap-5"
+          <button
+            type="button"
+            aria-label="increase seat quantity by one"
+            onClick={() => {
+              if (quantity === 100) return
+              setQuantity(quantity + 1)
+            }}
           >
+            +
+          </button>
+        </div>
+        <div data-pricing-product="">
+          <div data-pricing-product-header="">
             <PriceDisplay status={status} formattedPrice={formattedPrice} />
-            <button
-              className="rounded-md bg-cyan-400 px-5 py-2 font-medium text-black transition hover:bg-cyan-300"
-              type="submit"
-              disabled={false}
-            >
-              Buy
+            <button type="submit" disabled={false}>
+              {buttonLabel}
             </button>
           </div>
         </div>
