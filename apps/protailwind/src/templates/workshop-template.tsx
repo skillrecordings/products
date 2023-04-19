@@ -19,13 +19,13 @@ import {
 import {trpc} from 'trpc/trpc.client'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
-import {Pricing} from 'path-to-purchase-react/pricing'
+import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {
   CommerceProps,
   SanityProduct,
 } from '@skillrecordings/commerce-server/dist/@types'
-import {useCoupon} from 'path-to-purchase-react/use-coupon'
-import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import Spinner from 'components/spinner'
 import {BadgeCheckIcon} from '@heroicons/react/outline'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'

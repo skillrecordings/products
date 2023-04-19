@@ -80,11 +80,11 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
   )
 
   return (
-    <Layout
-      meta={{title: 'Invite your team to Testing Accessibility'}}
-      className="bg-noise"
-    >
-      <main className="mx-auto flex w-full max-w-xl flex-grow flex-col items-center justify-center gap-3 p-5 py-16 text-gray-900">
+    <Layout meta={{title: 'Invite your team to Total TypeScript'}}>
+      <main
+        data-team-page=""
+        className="mx-auto flex w-full max-w-xl flex-grow flex-col items-center justify-center gap-3 p-5 py-16 text-gray-900"
+      >
         <Card
           title={{as: 'h1', content: 'Invite your team'}}
           icon={
@@ -92,7 +92,6 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
           }
         >
           <InviteTeam
-            className=""
             session={session}
             purchase={purchase}
             existingPurchase={existingPurchase}

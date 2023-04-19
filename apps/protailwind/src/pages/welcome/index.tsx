@@ -11,7 +11,7 @@ import Layout from 'components/layout'
 import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
 import {first, isString} from 'lodash'
-import InviteTeam from 'team'
+import InviteTeam from '@skillrecordings/skill-lesson/team'
 import {InvoiceCard} from 'pages/invoices'
 import MuxPlayer from '@mux/mux-player-react'
 import {getAllWorkshops} from 'lib/workshops'
@@ -159,7 +159,7 @@ const Welcome: React.FC<
       footer={null}
     >
       <main
-        className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 pt-10 pb-32"
+        className="mx-auto flex w-full flex-grow flex-col items-center justify-center px-5 pb-32 pt-10"
         id="welcome"
       >
         <div className="flex w-full max-w-screen-md flex-col gap-3">

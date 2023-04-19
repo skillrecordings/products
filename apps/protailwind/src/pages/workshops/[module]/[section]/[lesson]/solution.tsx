@@ -1,8 +1,7 @@
 import React from 'react'
 import ExerciseTemplate from 'templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getAllTutorials, getTutorial} from 'lib/tutorials'
-import {Exercise, getExercise} from 'lib/exercises'
+import {getExercise} from 'lib/exercises'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {getAllWorkshops, getWorkshop} from '../../../../../lib/workshops'
@@ -10,7 +9,7 @@ import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
 import path from 'path'
 import {walk} from '../../../../../utils/code-editor-content'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {ModuleProgressProvider} from 'video/module-progress'
+import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context

@@ -408,7 +408,7 @@ const InviteTeam: React.FC<{product?: SanityProduct}> = ({product}) => {
   const {refetchAbility} = useMuxPlayer()
   const {module} = useLesson()
   const {data: session} = useSession()
-  const {data: purchaseDetails} =
+  const {data: purchaseDetails, status} =
     trpcSkillLessons.purchases.getPurchaseByProductId.useQuery({
       productId: product?.productId as string,
     })
@@ -432,6 +432,7 @@ const InviteTeam: React.FC<{product?: SanityProduct}> = ({product}) => {
           claimed a seat for yourself yet.
         </Balancer>
       </h3>
+
       {purchaseDetails?.purchase?.bulkCoupon?.id &&
         !purchaseDetails?.existingPurchase && (
           <SelfRedeemButton

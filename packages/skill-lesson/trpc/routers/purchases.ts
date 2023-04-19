@@ -51,7 +51,7 @@ export const purchasesRouter = router({
       if (token && token.sub) {
         const purchases = (await getPurchasesForUser(token.id as string)) || []
         const currentPurchase = purchases.find((purchase) => {
-          purchase.productId === input.productId
+          return purchase.productId === input.productId
         })
 
         if (currentPurchase) {

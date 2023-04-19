@@ -14,7 +14,7 @@ import {
   NEW_INDIVIDUAL_PURCHASE,
 } from '@skillrecordings/types'
 import {getSdk, Purchase} from '@skillrecordings/database'
-import CopyInviteLink from 'team/copy-invite-link'
+import CopyInviteLink from '@skillrecordings/skill-lesson/team/copy-invite-link'
 import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
 import {PawTrail} from './redeem'
@@ -164,7 +164,7 @@ const LoginLink: React.FC<{email: string}> = ({email}) => {
             Please check your inbox for a <i>login link</i> that just got sent.
           </Balancer>
         </h2>
-        <div className="mb-3 inline-flex items-center gap-1 rounded-lg bg-white/20 py-3 px-4">
+        <div className="mb-3 inline-flex items-center gap-1 rounded-lg bg-white/20 px-4 py-3">
           <MailIcon className="h-5 w-5 flex-shrink-0" />{' '}
           <strong className="inline-block break-all font-semibold">
             Email sent to: {email}
@@ -256,7 +256,7 @@ const ThanksVerify: React.FC<
   return (
     <>
       <Layout footer={null} meta={{title: 'Purchase Successful'}}>
-        <main className="mx-auto flex w-full max-w-screen-md flex-col gap-8 py-10 px-5">
+        <main className="mx-auto flex w-full max-w-screen-md flex-col gap-8 px-5 py-10">
           <ThankYou
             title={title}
             byline={byline}
