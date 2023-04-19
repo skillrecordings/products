@@ -124,6 +124,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     (allowPurchase || isSellingLive) &&
     !isBuyingForTeam
 
+  console.log({pppCoupon})
+  console.log({merchantCoupon})
+  console.log({showPPPBox})
+
   // const handleOnSuccess = (subscriber: any, email?: string) => {
   //   if (subscriber) {
   //     const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
