@@ -8,6 +8,7 @@
 @tailwind utilities;
 @import './fonts.css';
 @import './focus-visible.css';
+@import './pricing.css';
 
 @layer base {
   html {

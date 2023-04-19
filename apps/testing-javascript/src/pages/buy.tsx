@@ -54,7 +54,7 @@ const Buy: React.FC<CommerceProps> = ({
       <main>
         <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-          <div className="flex flex-col lg:flex-row justify-center space-y-6 lg:space-y-0 lg:space-x-6">
+          <div className="flex flex-col lg:flex-row justify-center gap-6">
             {products.map((product, i) => {
               return (
                 <Pricing
