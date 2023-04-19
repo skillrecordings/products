@@ -9,7 +9,7 @@ import {moduleProgressRouter} from './module-progress'
 export const appRouter = mergeRouters(
   router({
     abilities: abilitiesRouter,
-    moduleProgress: moduleProgressRouter,
+    // moduleProgress: moduleProgressRouter,
   }),
   skillLessonRouter,
 )
