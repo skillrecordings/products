@@ -69,26 +69,6 @@ const JsonData = (function () {
 })()
 
 // copied from https://github.com/eggheadio/epic-react-gatsby/blob/main/plugins/gatsby-source-egghead-epic-react/lib/parse-epic-react.js
-function parseEpicReactTitle(title: string, seperator = `~`) {
-  const [contentId, contentSection, contentLabel, contentDetail] =
-    title.split(seperator)
-  return {contentId, contentSection, contentLabel, contentDetail}
-}
-
-function resourceSlugFromTitle(title: string) {
-  const {contentSection, contentLabel} = parseEpicReactTitle(title)
-  return slugify(
-    contentLabel
-      ? `${contentSection && contentSection.toLowerCase()} ${
-          contentLabel && contentLabel.toLowerCase()
-        }`
-      : `${contentSection && contentSection.toLowerCase()}`,
-    {
-      remove: /[*+~.()'"!:@]/g,
-    },
-  )
-}
-
 function collectionSlugfromTitle(title: string) {
   return slugify(title.toLowerCase(), {
     remove: /[*+~.()'"!:@]/g,
@@ -436,7 +416,6 @@ const SanitySchemas = (function () {
       _key: z.string(),
     }),
   )
-  // type SanityBlock = z.infer<typeof SanityBlockSchema>
 
   const CastingWordsSchema = z
     .object({
@@ -751,49 +730,6 @@ const SanityData = (function () {
       lessonMetadataById,
       videoResourceIds,
     } = data
-
-    // const lessonTypes = {
-    //   'intro': {
-    //     type: 'explainer',
-    //     subType: 'sectionIntro',
-    //     schema: SanitySchemas.ExplainerSchema
-    //   },
-    //   'module-intro': {
-    //     type: 'explainer',
-    //     subType: 'moduleIntro',
-    //     schema: SanitySchemas.ExplainerSchema
-    //   },
-    //   'module-outro': {
-    //     type: 'explainer',
-    //     subType: 'moduleOutro',
-    //     schema: SanitySchemas.ExplainerSchema
-    //   },
-    //   'explainer': {
-    //     type: 'explainer',
-    //     subType: 'general',
-    //     schema: SanitySchemas.ExplainerSchema
-    //   },
-    //   'interview': {
-    //     type: 'interview',
-    //     subType: undefined,
-    //     schema: SanitySchemas.InterviewSchema
-    //   },
-    //   'solution': {
-    //     type: 'exercise',
-    //     subType: 'solution',
-    //     schema: SanitySchemas.ExerciseSchema
-    //   },
-    //   'xtra-solution': {
-    //     type: 'exercise',
-    //     subType: 'xtraSolution',
-    //     schema: SanitySchemas.ExerciseSchema
-    //   },
-    //   'break': {
-    //     type: 'exercise',
-    //     subType: 'break',
-    //     schema: SanitySchemas.ExerciseSchema
-    //   }
-    // }
 
     type Exercise = z.infer<typeof SanitySchemas.ExerciseSchema>
     type Explainer = z.infer<typeof SanitySchemas.ExplainerSchema>
