@@ -4,7 +4,7 @@
 // of Testing JavaScript data. Also, be sure to set `SANITY_EDITOR_TOKEN` in
 // your `.env.local` environment variables file.
 //
-// Execute the Mux Asset Upload script with:
+// Execute the Sanity Import script with:
 //
 // ```
 // npx ts-node --files --skipProject src/data/sanity-import.ts
@@ -647,10 +647,23 @@ const importCourseData = async () => {
 
     const productSanityId = `product-${eggheadId}`
 
+    let productId = ''
+    switch (title) {
+      case 'Basic Testing':
+        productId = 'kcd_da6ab36c-b091-4f6f-90aa-d7db2fc798ff'
+        break
+      case 'Standard Testing':
+        productId = 'kcd_fb976b99-0633-4329-bbfb-f5f76dc278b3'
+        break
+      case 'Pro Testing':
+        productId = 'kcd_4f0b26ee-d61d-4245-a204-26f5774355a5'
+        break
+    }
+
     const product: Product = {
       _id: productSanityId,
       _type: 'product',
-      productId: productSanityId,
+      productId,
       title,
       description,
       modules: sanityWorkshopRefs,
