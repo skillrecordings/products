@@ -140,9 +140,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   // }
 
   return (
-    <div className="w-full max-w-sm">
+    <div data-pricing-product-name={product.name}>
       {image && (
-        <div className="relative mx-auto -mb-32 h-56 w-56">
+        <div data-pricing-image-container>
           <Image
             priority
             src={image.url}
@@ -159,8 +159,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
         )} */}
         {!purchased && (
-          <div data-pricing-product-header="">
-            <p data-name-badge="">{name}</p>
+          <div>
             {title && <h2 data-title>{title}</h2>}
             {instructor && (
               <div data-instructor="">
