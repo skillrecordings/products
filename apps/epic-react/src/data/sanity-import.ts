@@ -687,7 +687,7 @@ const SanityData = (function () {
         _id: muxVideoResourceId,
         _type: 'videoResource',
         title: videoTitle,
-        slug: SanityHelper.buildSlug(metadata.slug),
+        slug: SanityHelper.buildSlug(generatedLessonSlug),
         originalMediaUrl: muxData.mediaUrl,
         castingwords: SanityHelper.buildCastingWordsBlock(
           transcript,
