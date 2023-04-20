@@ -10,7 +10,7 @@ import {MDXProvider} from '@mdx-js/react'
 import {MDXComponents} from 'components/mdx'
 import {SessionProvider} from 'next-auth/react'
 import * as amplitude from '@amplitude/analytics-browser'
-import {FeedbackProvider} from 'feedback-widget/feedback-context'
+import {FeedbackProvider} from '@skillrecordings/feedback-widget'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 
 import config from '../config'
