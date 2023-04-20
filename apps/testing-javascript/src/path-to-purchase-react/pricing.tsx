@@ -131,6 +131,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     !isDowngrade(formattedPrice) &&
     (allowPurchase || isSellingLive) &&
     !isBuyingForTeam
+  console.log({pppCoupon})
+  console.log({merchantCoupon})
 
   // const handleOnSuccess = (subscriber: any, email?: string) => {
   //   if (subscriber) {
@@ -515,6 +517,7 @@ type RegionalPricingBoxProps = {
 const RegionalPricingBox: React.FC<
   React.PropsWithChildren<RegionalPricingBoxProps>
 > = ({pppCoupon, activeCoupon, setActiveCoupon, index}) => {
+  console.log({activeCoupon})
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
 
   if (!pppCoupon.country) {
