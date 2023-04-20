@@ -36,7 +36,6 @@ function getFirstPPPCoupon(availableCoupons: any[] = []) {
 
 const formatUsd = (amount: number = 0) => {
   const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
     currency: 'USD',
   })
   const formattedPrice = formatter.format(amount).split('.')
@@ -133,10 +132,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     (allowPurchase || isSellingLive) &&
     !isBuyingForTeam
 
-  console.log({pppCoupon})
-  console.log({merchantCoupon})
-  console.log({showPPPBox})
-
   // const handleOnSuccess = (subscriber: any, email?: string) => {
   //   if (subscriber) {
   //     const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
@@ -153,10 +148,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   // }
 
   return (
-    <div
-      data-pricing-product-name={product.name}
-      className="bg-white border border-gray-300"
-    >
+    <div data-pricing-product-name={product.name}>
       {image && (
         <div data-pricing-image-container>
           <Image
@@ -176,16 +168,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         )} */}
         {!purchased && (
           <div>
-            {title && <h2 data-title>{title}</h2>}
-            {instructor && (
-              <div data-instructor="">
-                {instructor.image && (
-                  <div data-instructor-image="">
-                    <Image src={instructor.image} width={60} height={60} />
-                  </div>
-                )}
-                {instructor.name && <span>{instructor.name}</span>}
-              </div>
+            {title && (
+              <h2 className="font-tt-regular uppercase text-base text-zinc-500 text-center tracking-wider">
+                {title}
+              </h2>
             )}
             <PriceDisplay status={status} formattedPrice={formattedPrice} />
             {/* <div data-byline="">Full access</div> */}
@@ -329,7 +315,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     </div>
                   )}
                   <button
-                    data-pricing-product-checkout-button=""
+                    data-pricing-product-checkout-button={product.name}
                     type="submit"
                     disabled={status === 'loading' || status === 'error'}
                   >
@@ -339,7 +325,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                         : action || `Buy Now`}
                     </span>
                   </button>
-                  <span data-guarantee="">30-Day Money-Back Guarantee</span>
                 </fieldset>
               </form>
             </div>
@@ -369,14 +354,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               />
             </div>
           )} */}
-          {modules || features ? (
+          {/* {modules || features ? (
             <div data-header="">
               <div>
                 <span>includes</span>
               </div>
             </div>
-          ) : null}
-          <div data-main="">
+          ) : null} */}
+          <div className="mt-6">
             {modules && (
               <>
                 <strong>Workshops</strong>
@@ -466,16 +451,27 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
     appliedMerchantCoupon && `${percentOff}% off of $${fullPrice}`
 
   return (
-    <div data-price-container={status}>
+    <div className="flex justify-center mt-6">
       {status === 'loading' ? (
-        <div data-loading-price="">
+        <div className="flex items-center justify-center min-h-[60px]">
           <span className="sr-only">Loading price</span>
           <Spinner aria-hidden="true" className="h-8 w-8" />
         </div>
       ) : (
         <>
-          <div aria-live="polite" data-price="">
-            <sup aria-hidden="true">US</sup>
+          <div
+            aria-live="polite"
+            className="flex items-center text-6xl font-tt-demibold"
+          >
+            <span
+              aria-hidden="true"
+              className="text-base font-tt-regular opacity-60"
+            >
+              USD
+            </span>
+            <span aria-hidden="true" className="mx-1 text-2xl opacity-60">
+              $
+            </span>
             {formattedPrice?.calculatedPrice &&
               formatUsd(formattedPrice?.calculatedPrice).dollars}
             <span className="sup text-sm" aria-hidden="true">

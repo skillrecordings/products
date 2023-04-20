@@ -47,14 +47,17 @@ const Buy: React.FC<CommerceProps> = ({
       className="py-16"
     >
       <header>
-        <h1 className="px-5 pb-10 text-center font-heading text-4xl sm:text-5xl">
+        <h1 className="px-5 text-center font-heading text-4xl sm:text-5xl">
           Start testing like a pro
         </h1>
+        <h3 className="text-center mb-10 mt-4 font-tt-regular text-2xl opacity-80">
+          Buy once. Forever yours.
+        </h3>
       </header>
       <main>
         <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-          <div className="flex flex-col lg:flex-row justify-center gap-6">
+          <div className="flex flex-col lg:flex-row justify-center gap-6 mt-32">
             {products.map((product, i) => {
               return (
                 <Pricing
