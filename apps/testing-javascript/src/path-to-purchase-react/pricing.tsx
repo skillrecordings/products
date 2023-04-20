@@ -89,6 +89,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   } = product
   const {addPrice, isDowngrade, merchantCoupon, setMerchantCoupon} =
     usePriceCheck()
+  const isProTesting = product.name === 'Pro Testing'
   // const {subscriber, loadingSubscriber} = useConvertkit()
   // const router = useRouter()
 
@@ -111,15 +112,15 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
   // DON'T DELETE IT!!!
-  const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
-  // const pppCoupon = {
-  //   id: 'kcd_8c0e64f6-0082-4775-a161-96b6e5732696',
-  //   status: 1,
-  //   merchantAccountId: 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e',
-  //   percentageDiscount: '0.65',
-  //   type: 'ppp',
-  //   country: 'UA',
-  // }
+  // const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
+  const pppCoupon = {
+    id: 'kcd_8c0e64f6-0082-4775-a161-96b6e5732696',
+    status: 1,
+    merchantAccountId: 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e',
+    percentageDiscount: 0.65,
+    type: 'ppp',
+    country: 'UA',
+  }
 
   // if there is no available coupon, hide the box (it's not a toggle)
   // only show the box if ppp coupon is available
@@ -131,8 +132,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     !isDowngrade(formattedPrice) &&
     (allowPurchase || isSellingLive) &&
     !isBuyingForTeam
-  console.log({pppCoupon})
-  console.log({merchantCoupon})
+  // console.log({showPPPBox})
+  // console.log({ooo: isProTesting})
 
   // const handleOnSuccess = (subscriber: any, email?: string) => {
   //   if (subscriber) {
@@ -452,6 +453,9 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
   const percentOffLabel =
     appliedMerchantCoupon && `${percentOff}% off of $${fullPrice}`
 
+  console.log('appliedMerchantCoupon:', appliedMerchantCoupon)
+  console.log('isDiscount(formattedPrice):', isDiscount(formattedPrice))
+
   return (
     <div className="flex justify-center mt-6">
       {status === 'loading' ? (
@@ -517,7 +521,6 @@ type RegionalPricingBoxProps = {
 const RegionalPricingBox: React.FC<
   React.PropsWithChildren<RegionalPricingBoxProps>
 > = ({pppCoupon, activeCoupon, setActiveCoupon, index}) => {
-  console.log({activeCoupon})
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
 
   if (!pppCoupon.country) {
