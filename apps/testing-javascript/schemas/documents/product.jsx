@@ -22,6 +22,11 @@ export default {
       rows: 3,
     },
     {
+      name: 'summary',
+      title: 'Summary',
+      type: 'body',
+    },
+    {
       name: 'features',
       title: 'Features',
       type: 'array',
