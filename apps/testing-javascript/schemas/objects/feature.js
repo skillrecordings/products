@@ -5,8 +5,16 @@ export default {
   fields: [
     {
       name: 'value',
-      type: 'string',
       title: 'Value',
+      type: 'string',
+    },
+    {
+      name: 'isEmphasized',
+      title: 'Is feature emphasized?',
+      type: 'boolean',
     },
   ],
+  initialValue: {
+    isEmphasized: false,
+  },
 }

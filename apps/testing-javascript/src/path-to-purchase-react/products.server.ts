@@ -9,7 +9,10 @@ const productsQuery = groq`*[_type == "product"] | order(_createdAt desc) {
   "name": title,
   productId,
   description,
+  summary,
   image,
+  action,
+  features,
   "modules": modules[@->._type == 'module']->{
     _id,
     _type,
