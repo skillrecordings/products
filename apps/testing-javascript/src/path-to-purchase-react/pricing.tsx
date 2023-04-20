@@ -111,7 +111,16 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   // const defaultCoupon = formattedPrice?.defaultCoupon
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
+  // DON'T DELETE IT!!!
   const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
+  // const pppCoupon = {
+  //   id: 'kcd_8c0e64f6-0082-4775-a161-96b6e5732696',
+  //   status: 1,
+  //   merchantAccountId: 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e',
+  //   percentageDiscount: '0.65',
+  //   type: 'ppp',
+  //   country: 'UA',
+  // }
 
   // if there is no available coupon, hide the box (it's not a toggle)
   // only show the box if ppp coupon is available
@@ -144,7 +153,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   // }
 
   return (
-    <div data-pricing-product-name={product.name}>
+    <div
+      data-pricing-product-name={product.name}
+      className="bg-white border border-gray-300"
+    >
       {image && (
         <div data-pricing-image-container>
           <Image
@@ -519,13 +531,14 @@ const RegionalPricingBox: React.FC<
   const percentOff = Math.floor(pppCoupon.percentageDiscount * 100)
 
   return (
-    <div data-ppp-container={index}>
+    <div className="bg-gray-100 p-5 m-4">
       <div data-ppp-header="">
         <strong>
           We noticed that you're from{' '}
           <img
             src={`https://hardcore-golick-433858.netlify.app/image?code=${countryCode}`}
             alt={`${country} flag`}
+            className="w-[18px] h-[14px] inline-block"
           />{' '}
           {country}. To help facilitate global learning, we are offering
           purchasing power parity pricing.
@@ -536,7 +549,7 @@ const RegionalPricingBox: React.FC<
         </p>
         <p>If that is something that you need:</p>
       </div>
-      <label>
+      <label className="text-sm">
         <input
           type="checkbox"
           checked={Boolean(activeCoupon)}
