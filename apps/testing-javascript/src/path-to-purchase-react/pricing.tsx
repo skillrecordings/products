@@ -49,7 +49,7 @@ const formatUsd = (amount: number = 0) => {
 }
 
 type PricingProps = {
-  product: SanityProduct & {summary: any}
+  product: SanityProduct
   purchased?: boolean
   purchases?: Purchase[]
   userId?: string
@@ -137,7 +137,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     !purchased &&
     !isDowngrade(formattedPrice) &&
     (allowPurchase || isSellingLive) &&
-    !isBuyingForTeam
+    !isBuyingForTeam &&
+    isProTesting
 
   // const handleOnSuccess = (subscriber: any, email?: string) => {
   //   if (subscriber) {
@@ -153,8 +154,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   //     })
   //   }
   // }
-
-  console.log({product})
 
   return (
     <div data-pricing-component data-pricing-product-name={product.name}>
