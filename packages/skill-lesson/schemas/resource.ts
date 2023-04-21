@@ -7,7 +7,7 @@ export const ResourceSchema = z.object({
   slug: z.string(),
   videoResourceId: z.nullable(z.string().optional()),
   description: z.nullable(z.string()).optional(),
-  body: z.nullable(z.any().array().optional()),
+  body: z.nullable(z.any().array().optional().or(z.string().optional())),
 })
 
 export type Resource = z.infer<typeof ResourceSchema>

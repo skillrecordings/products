@@ -69,6 +69,12 @@ async function run(): Promise<void> {
     },
     {
       type: 'text',
+      name: 'sanityProjectId',
+      message: `What is the Sanity Project ID for this product?`,
+      initial: 'fr5ycba3',
+    },
+    {
+      type: 'text',
       name: 'firstName',
       message: `What is our partner's first name?`,
       initial: 'First',
@@ -102,6 +108,12 @@ async function run(): Promise<void> {
       name: 'keywords',
       message: `What keywords describe this product? (comma seperated)`,
       initial: 'web development, programming, javascript',
+    },
+    {
+      type: 'text',
+      name: 'primaryColor',
+      message: `What is the primary color for this product? (hex code)`,
+      initial: '#ff6347',
     },
     {
       type: 'text',
