@@ -1,4 +1,8 @@
 import * as React from 'react'
+import {
+  PortableText,
+  PortableTextComponents as PortableTextComponentsType,
+} from '@portabletext/react'
 import {usePriceCheck} from './pricing-check-context'
 import type {
   SanityProduct,
@@ -44,7 +48,7 @@ const formatUsd = (amount: number = 0) => {
 }
 
 type PricingProps = {
-  product: SanityProduct
+  product: SanityProduct & {summary: any}
   purchased?: boolean
   purchases?: Purchase[]
   userId?: string
@@ -86,6 +90,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     lessons,
     features,
     action,
+    summary,
   } = product
   const {addPrice, isDowngrade, merchantCoupon, setMerchantCoupon} =
     usePriceCheck()
@@ -132,8 +137,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     !isDowngrade(formattedPrice) &&
     (allowPurchase || isSellingLive) &&
     !isBuyingForTeam
-  // console.log({showPPPBox})
-  // console.log({ooo: isProTesting})
 
   // const handleOnSuccess = (subscriber: any, email?: string) => {
   //   if (subscriber) {
@@ -150,7 +153,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   //   }
   // }
 
-  console.log({pppCoupon, merchantCoupon})
+  console.log({product})
 
   return (
     <div data-pricing-component data-pricing-product-name={product.name}>
@@ -341,6 +344,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             </div>
           )
         ) : null}
+        {summary && (
+          <div className="mt-6">
+            <PortableText value={summary} />
+          </div>
+        )}
         {showPPPBox && (
           <RegionalPricingBox
             pppCoupon={pppCoupon || merchantCoupon}
@@ -571,6 +579,7 @@ const RegionalPricingBox: React.FC<
               ? setActiveCoupon(undefined)
               : setActiveCoupon(pppCoupon)
           }}
+          className="relative top-1"
         />
         <span>Activate {percentOff}% off with regional pricing</span>
       </label>
