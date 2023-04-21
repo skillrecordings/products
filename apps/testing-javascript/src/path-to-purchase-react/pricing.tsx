@@ -112,15 +112,15 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
   // DON'T DELETE IT!!!
-  // const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
-  const pppCoupon = {
-    id: 'kcd_8c0e64f6-0082-4775-a161-96b6e5732696',
-    status: 1,
-    merchantAccountId: 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e',
-    percentageDiscount: 0.65,
-    type: 'ppp',
-    country: 'UA',
-  }
+  const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
+  // const pppCoupon = {
+  //   id: 'kcd_8c0e64f6-0082-4775-a161-96b6e5732696',
+  //   status: 1,
+  //   merchantAccountId: 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e',
+  //   percentageDiscount: 0.65,
+  //   type: 'ppp',
+  //   country: 'UA',
+  // }
 
   // if there is no available coupon, hide the box (it's not a toggle)
   // only show the box if ppp coupon is available
@@ -441,13 +441,13 @@ type PriceDisplayProps = {
 export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
   const {isDiscount} = usePriceCheck()
 
-  // const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
-  const appliedMerchantCoupon = {
-    id: 'kcd_8c0e64f6-0082-4775-a161-96b6e5732696',
-    status: 1,
-    percentageDiscount: 0.65,
-    type: 'ppp',
-  }
+  const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
+  // const appliedMerchantCoupon = {
+  //   id: 'kcd_8c0e64f6-0082-4775-a161-96b6e5732696',
+  //   status: 1,
+  //   percentageDiscount: 0.65,
+  //   type: 'ppp',
+  // }
 
   const fullPrice =
     (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
