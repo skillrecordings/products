@@ -8,7 +8,7 @@
     url('/fonts/941bd4ef-6d96-4cc3-b891-b967fb693919.woff') format('woff'),
     url('/fonts/5f1e8809-7611-4a41-befc-5f06b2aa9505.ttf') format('truetype');
 }
-@font-face {
+/*@font-face {
   font-family: 'TT Commons W01 Italic';
   src: url('/fonts/3106bbcb-56c1-4e83-b553-bb7cd1bcfcfd.eot?#iefix');
   src: url('/fonts/3106bbcb-56c1-4e83-b553-bb7cd1bcfcfd.eot?#iefix')
@@ -18,7 +18,7 @@
     url('/fonts/4c95b6ba-c225-4a0e-a1ec-c42a606c767e.ttf') format('truetype');
   font-style: italic;
   font-weight: normal;
-}
+}*/
 @font-face {
   font-family: 'TT Commons W01 Medium';
   src: url('/fonts/ac6370eb-cce9-4261-8b5c-475bbb657e8a.eot?#iefix');
@@ -28,7 +28,7 @@
     url('/fonts/5df2ffcf-6190-4c99-adea-e678cb3fcad8.woff') format('woff'),
     url('/fonts/eb338cd1-3f81-494f-9a49-49e21a67e800.ttf') format('truetype');
 }
-@font-face {
+/*@font-face {
   font-family: 'TT Commons W01 Medium Italic';
   src: url('/fonts/099c5b70-43c2-4548-8bb6-1e208fb9b2d6.eot?#iefix');
   src: url('/fonts/099c5b70-43c2-4548-8bb6-1e208fb9b2d6.eot?#iefix')
@@ -36,7 +36,7 @@
     url('/fonts/d8328db0-291a-49a6-b1be-c536b148631b.woff2') format('woff2'),
     url('/fonts/e361a9bd-5062-4404-9551-a13c790004d8.woff') format('woff'),
     url('/fonts/8d387f92-ce38-4617-b180-7435bee3d135.ttf') format('truetype');
-}
+}*/
 @font-face {
   font-family: 'TT Commons W01 DemiBold';
   src: url('/fonts/5abaccb8-d24f-4872-bfc0-fed2b26803b6.eot?#iefix');
@@ -47,7 +47,7 @@
     url('/fonts/4d7286fe-c113-4311-ba60-d896a1f8a845.ttf') format('truetype');
   font-weight: bold;
 }
-@font-face {
+/*@font-face {
   font-family: 'TT Commons W01 DemiBold Italic';
   src: url('/fonts/2039be5a-8f2b-44c0-a8df-2400ed51cf16.eot?#iefix');
   src: url('/fonts/2039be5a-8f2b-44c0-a8df-2400ed51cf16.eot?#iefix')
@@ -55,8 +55,8 @@
     url('/fonts/7122cc8e-be40-4a15-9e42-d1ebfbfbf489.woff2') format('woff2'),
     url('/fonts/84992851-2bdb-4c30-8ce1-e1e8647c2490.woff') format('woff'),
     url('/fonts/a9f8b439-d72f-4a49-92cd-48c2fa3ff8a7.ttf') format('truetype');
-}
-@font-face {
+}*/
+/*@font-face {
   font-family: 'TT Commons W01 Bold';
   src: url('/fonts/4a186b8c-534e-43fc-ad4f-06d017fe4ee3.eot?#iefix');
   src: url('/fonts/4a186b8c-534e-43fc-ad4f-06d017fe4ee3.eot?#iefix')
@@ -73,7 +73,7 @@
     url('/fonts/8a68de60-0c44-4992-8a05-80c97a643f67.woff2') format('woff2'),
     url('/fonts/30e3bc72-8997-4603-a269-bdce818aeda0.woff') format('woff'),
     url('/fonts/89a58437-1681-44db-9a20-279ebfe5ea70.ttf') format('truetype');
-}
+}*/
 @font-face {
   font-family: 'TT Commons W01 Light';
   src: url('/fonts/c9e392d0-3aeb-4c6d-87ca-382d1b42723e.eot?#iefix');
@@ -83,7 +83,7 @@
     url('/fonts/499f3b52-6c48-40e5-9a4a-7d76f57bc82d.woff') format('woff'),
     url('/fonts/4cc0babc-6792-4bd9-bef6-8ae57d3ea8cf.ttf') format('truetype');
 }
-@font-face {
+/*@font-face {
   font-family: 'TT Commons W01 Light Italic';
   src: url('/fonts/50fb3409-69a1-4213-836e-37c50a9760f3.eot?#iefix');
   src: url('/fonts/50fb3409-69a1-4213-836e-37c50a9760f3.eot?#iefix')
@@ -91,4 +91,4 @@
     url('/fonts/b80c2579-e59b-4af1-8f54-fd347d603443.woff2') format('woff2'),
     url('/fonts/5a43ad8c-6cf5-42b9-864f-660f0cfcd4f3.woff') format('woff'),
     url('/fonts/d2d9fe97-1247-4fed-ba96-bf284006ff2f.ttf') format('truetype');
-}
+}*/
