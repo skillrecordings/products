@@ -245,6 +245,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       }
                       onCheckedChange={() => {
                         setIsBuyingForTeam(!isBuyingForTeam)
+                        setMerchantCoupon(undefined)
                         isBuyingForTeam ? setQuantity(1) : setQuantity(5)
                       }}
                       checked={isBuyingForTeam}
@@ -257,6 +258,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       type="button"
                       onClick={() => {
                         setIsBuyingForTeam(true)
+                        setMerchantCoupon(undefined)
                         setQuantity(5)
                       }}
                     >
