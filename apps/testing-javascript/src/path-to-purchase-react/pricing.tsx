@@ -98,6 +98,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const isProTesting = product.name === 'Pro Testing'
   // const {subscriber, loadingSubscriber} = useConvertkit()
   // const router = useRouter()
+  console.log('isProTesting:', isProTesting)
 
   const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery(
     {
@@ -584,11 +585,20 @@ const RegionalPricingBox: React.FC<
         <input
           type="checkbox"
           checked={Boolean(activeCoupon)}
-          onChange={() => {
-            isProTesting && activeCoupon
-              ? setActiveCoupon(undefined)
-              : setActiveCoupon(pppCoupon)
-          }}
+          // onChange={() => {
+          //   isProTesting && activeCoupon
+          //     ? setActiveCoupon(undefined)
+          //     : setActiveCoupon(pppCoupon)
+          // }}
+          onChange={
+            isProTesting
+              ? () => {
+                  activeCoupon
+                    ? setActiveCoupon(undefined)
+                    : setActiveCoupon(pppCoupon)
+                }
+              : () => {}
+          }
           className="relative top-0.5 mr-2"
         />
         <span>Activate {percentOff}% off with regional pricing</span>
