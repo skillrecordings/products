@@ -254,6 +254,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       role="button"
                       type="button"
                       onClick={() => {
+                        setMerchantCoupon(undefined)
                         setIsBuyingForTeam(true)
                         setQuantity(5)
                       }}
