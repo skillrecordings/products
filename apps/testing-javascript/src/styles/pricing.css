@@ -1,5 +1,5 @@
 [data-pricing-product-name] {
-  @apply w-full px-6 max-w-[300px] relative rounded-lg border border-zinc-100 bg-white;
+  @apply w-full px-6 pb-6 max-w-[300px] relative rounded-lg border border-zinc-100 bg-white;
 }
 
 [data-pricing-image-container] {
@@ -39,6 +39,12 @@
   @apply px-5 py-4 text-xl leading-snug bg-gradient-to-b from-[#ffc26a] to-[#ffa82e] text-white border-none;
   box-shadow: inset 1px -1px 3px 0 #f0a233;
   text-shadow: 0 1px 2px #c98b33;
+}
+[data-pricing-product-checkout-button='Standard Testing'][type='submit'] {
+  @apply px-5 py-3 text-xl leading-snug text-[#A0A1AD] hover:bg-gradient-to-b from-[#A0A1AD] to-[#90919D] hover:text-white border border-[#A0A1AD];
+}
+[data-pricing-product-checkout-button='Basic Testing'][type='submit'] {
+  @apply px-5 py-3 text-xl leading-snug text-[#C77D5F] hover:bg-gradient-to-b from-[#C77D5F] to-[#AB6B51] hover:text-white border border-[#C77D5F];
 }
 
 [data-pricing-component] {
