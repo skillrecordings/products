@@ -1,3 +1,4 @@
+import React from 'react'
 import * as Switch from '@radix-ui/react-switch'
 import {useLesson} from '../hooks/use-lesson'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
@@ -6,6 +7,7 @@ import {motion} from 'framer-motion'
 import toast from 'react-hot-toast'
 
 const LessonCompletionToggle = () => {
+  const utils = trpcSkillLessons.useContext()
   const {module} = useLesson()
   const router = useRouter()
   const lessonSlug = router.query.lesson
@@ -27,13 +29,25 @@ const LessonCompletionToggle = () => {
     completedLessons?.find(({id, slug}: any) => slug === lessonSlug),
   )
 
+  const [optimisticallyToggled, setOptimisticallyToggled] = React.useState(
+    isLessonCompleted || false,
+  )
+
   const handleToggleLessonProgress = () => {
+    setOptimisticallyToggled(!optimisticallyToggled)
+
     return toggleProgressMutation.mutate(
-      {lessonSlug: lessonSlug as string},
+      {
+        lessonSlug: lessonSlug as string,
+      },
       {
         onError: (error) => {
+          setOptimisticallyToggled((value) => !value)
           toast.error(`Error setting lesson progress.`)
           console.debug(error.message)
+        },
+        onSuccess: () => {
+          utils.invalidate()
         },
       },
     )
@@ -48,7 +62,8 @@ const LessonCompletionToggle = () => {
           <Switch.Root
             disabled={isFetching}
             onClick={handleToggleLessonProgress}
-            checked={moduleProgressStatus === 'success' && isLessonCompleted}
+            checked={optimisticallyToggled}
+            // checked={moduleProgressStatus === 'success' && isLessonCompleted}
           >
             <Switch.Thumb />
           </Switch.Root>
