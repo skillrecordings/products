@@ -1,4 +1,5 @@
 import {Purchase} from '@skillrecordings/database'
+import type {PortableTextBlock} from '@portabletext/types'
 
 export type FormattedPrice = {
   id: string
@@ -43,6 +44,7 @@ export type SanityProduct = {
     url: string
     alt: string
   }
+  summary?: PortableTextBlock
   modules: {
     slug: string
     moduleType: 'workshop' | 'playlist' | 'bonus'
