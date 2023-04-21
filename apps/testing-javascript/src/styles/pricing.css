@@ -1,5 +1,5 @@
 [data-pricing-product-name] {
-  @apply w-full px-8 max-w-[300px] relative rounded-lg border border-zinc-100 bg-white;
+  @apply w-full px-6 max-w-[300px] relative rounded-lg border border-zinc-100 bg-white;
 }
 
 [data-pricing-image-container] {
