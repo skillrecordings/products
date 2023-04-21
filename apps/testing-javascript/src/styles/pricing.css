@@ -40,3 +40,18 @@
   box-shadow: inset 1px -1px 3px 0 #f0a233;
   text-shadow: 0 1px 2px #c98b33;
 }
+
+[data-pricing-component] {
+  button[role='switch'] {
+    @apply relative h-6 w-[47px] rounded-full border border-gray-300/50 bg-gray-200 shadow-md shadow-gray-300/30 transition hover:bg-gray-300/50;
+    span {
+      @apply block h-[18px] w-[18px] translate-x-[2px] rounded-full bg-gray-500 shadow-sm shadow-gray-300/50 transition-all will-change-transform group-hover:bg-gray-300;
+    }
+  }
+  button[role='switch'][data-state='checked'] {
+    @apply bg-gray-200 hover:bg-gray-300/50;
+    span {
+      @apply translate-x-[25px] bg-blue-500 group-hover:bg-indigo-400;
+    }
+  }
+}
