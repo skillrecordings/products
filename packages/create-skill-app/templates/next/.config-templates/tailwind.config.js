@@ -17,7 +17,14 @@ module.exports = {
       fontFamily: {
         sans: [...defaultTheme.fontFamily.sans],
       },
-      colors: {},
+      colors: {
+        brand: {
+          primary: '{{primaryColor}}',
+        },
+      },
+      screens: {
+        '2xl': '1820px',
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {},

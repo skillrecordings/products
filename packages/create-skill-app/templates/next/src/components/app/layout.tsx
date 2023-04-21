@@ -1,9 +1,11 @@
 import React, {FunctionComponent} from 'react'
-import {NextSeo} from '@skillrecordings/next-seo'
-import cx from 'classnames'
+import {NextSeo, type NextSeoProps} from '@skillrecordings/next-seo'
+import {twMerge} from 'tailwind-merge'
+import Navigation from './navigation'
+import Footer from './footer'
 
 type LayoutProps = {
-  meta?: any
+  meta?: NextSeoProps & {titleAppendSiteName?: boolean}
   noIndex?: boolean
   className?: string
   nav?: React.ReactElement | null
@@ -16,18 +18,16 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   className,
   meta,
   noIndex,
-  nav,
-  footer,
 }) => {
   const {
     title,
     description,
+    openGraph,
     titleAppendSiteName = true,
-    url,
-    type = 'website',
-    ogImage,
-    date,
+    defaultTitle = process.env.NEXT_PUBLIC_SITE_TITLE,
   } = meta || {}
+
+  const {url} = openGraph || {}
 
   return (
     <div className="relative">
@@ -39,26 +39,20 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
             ? `%s | ${process.env.NEXT_PUBLIC_SITE_TITLE}`
             : undefined
         }
-        openGraph={{
-          title,
-          description,
-          type,
-          url,
-          images: ogImage ? [ogImage] : undefined,
-          article: {
-            publishedTime: date,
-          },
-        }}
+        openGraph={openGraph}
         canonical={url}
         noindex={noIndex}
       />
-      {/* {nav ? nav : isNull(nav) ? null : <Navigation />} */}
+      <Navigation />
       <div
-        className={cx('flex flex-col flex-grow h-full min-h-screen', className)}
+        className={twMerge(
+          'flex h-full min-h-screen flex-grow flex-col',
+          className,
+        )}
       >
         {children}
-        {/* {footer ? footer : isNull(footer) ? null : <Footer />} */}
       </div>
+      <Footer />
     </div>
   )
 }
