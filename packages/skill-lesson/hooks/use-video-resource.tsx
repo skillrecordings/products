@@ -29,8 +29,6 @@ export const VideoResourceProvider: React.FC<VideoResourceProviderProps> = ({
       },
     )
 
-  console.log({videoResource, status})
-
   const context = {
     videoResourceId,
     videoResource,
