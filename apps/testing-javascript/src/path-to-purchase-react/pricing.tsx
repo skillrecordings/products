@@ -3,7 +3,11 @@ import {
   PortableText,
   PortableTextComponents as PortableTextComponentsType,
 } from '@portabletext/react'
-import {usePriceCheck} from './pricing-check-context'
+import Link from 'next/link'
+import * as Switch from '@radix-ui/react-switch'
+import Image from 'next/legacy/image'
+import find from 'lodash/find'
+import {Purchase} from '@skillrecordings/database'
 import type {
   SanityProduct,
   FormattedPrice,
@@ -14,9 +18,7 @@ import {useDebounce} from '@skillrecordings/react'
 import {QueryStatus} from '@tanstack/react-query'
 // import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
-import Image from 'next/legacy/image'
-import find from 'lodash/find'
-import {Purchase} from '@skillrecordings/database'
+import {usePriceCheck} from './pricing-check-context'
 // import ReactMarkdown from 'react-markdown'
 // import {MailIcon} from '@heroicons/react/solid'
 // import {
@@ -27,12 +29,11 @@ import {Purchase} from '@skillrecordings/database'
 // import {setUserId} from '@amplitude/analytics-browser'
 // import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 // import {useRouter} from 'next/router'
-import * as Switch from '@radix-ui/react-switch'
 import {trpc} from 'trpc/trpc.client'
 // import Balancer from 'react-wrap-balancer'
 import {isSellingLive} from './is-selling-live'
 // import BuyMoreSeats from 'team/buy-more-seats'
-import Link from 'next/link'
+import Icon from 'components/icons'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -383,9 +384,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           <div className="mt-6">
             {modules && (
               <>
-                <strong>Workshops</strong>
-                <ul data-workshops="" role="list">
+                <h4 className="font-tt-demibold">Workshops</h4>
+                <ul className="text-lg space-y-2 mt-1" role="list">
                   {modules.map((module) => {
+                    console.log({module})
                     const getLabelForState = (state: any) => {
                       switch (state) {
                         case 'draft':
@@ -395,9 +397,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       }
                     }
                     return (
-                      <li key={module.title}>
+                      <li key={module.title} className="flex">
                         {module.image && (
-                          <div className="relative z-10" aria-hidden="true">
+                          <div
+                            className="relative top-0.5 z-10 w-8 h-8 shrink-0 mr-3"
+                            aria-hidden="true"
+                          >
                             <Image
                               src={module.image.url}
                               layout="fill"
@@ -420,10 +425,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             )}
             {features && (
               <>
-                <strong>Features</strong>
-                <ul data-features="" role="list">
+                <h4 className="font-tt-demibold mt-6">Features</h4>
+                <ul className="leading-tight space-y-2 mt-1" role="list">
                   {features.map((feature: {value: string}) => (
-                    <li key={feature.value}>
+                    <li key={feature.value} className="flex">
+                      <Icon
+                        name="check-circle"
+                        className="w-5 h-5 mr-2 shrink-0 mt-0.5 text-checkmark"
+                      />
                       <p>{feature.value}</p>
                     </li>
                   ))}
@@ -552,7 +561,7 @@ const RegionalPricingBox: React.FC<
   const percentOff = Math.floor(pppCoupon.percentageDiscount * 100)
 
   return (
-    <div className="bg-gray-100 p-5 m-4">
+    <div className="bg-gray-100 p-5 my-4">
       <div data-ppp-header="">
         <strong>
           We noticed that you're from{' '}
@@ -579,7 +588,7 @@ const RegionalPricingBox: React.FC<
               ? setActiveCoupon(undefined)
               : setActiveCoupon(pppCoupon)
           }}
-          className="relative top-1"
+          className="relative top-0.5 mr-2"
         />
         <span>Activate {percentOff}% off with regional pricing</span>
       </label>

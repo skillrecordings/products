@@ -29,6 +29,7 @@ module.exports = {
       },
       colors: {
         body: '#1b1b1f',
+        checkmark: '#5cc7c7',
       },
       typography: (theme) => ({
         DEFAULT: {
