@@ -3112,6 +3112,7 @@ importers:
   packages/commerce-server:
     specifiers:
       '@casl/ability': ^6.0.0
+      '@portabletext/types': ^1.0.3
       '@skillrecordings/database': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/stripe-sdk': workspace:*
@@ -3139,6 +3140,7 @@ importers:
       stripe: 8.209.0
       zod: 3.19.1
     devDependencies:
+      '@portabletext/types': 1.0.3
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': link:../tsconfig
       '@skillrecordings/types': link:../types
