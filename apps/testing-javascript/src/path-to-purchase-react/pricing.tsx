@@ -355,6 +355,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             activeCoupon={merchantCoupon}
             setActiveCoupon={setMerchantCoupon}
             index={index}
+            isProTesting={isProTesting}
           />
         )}
         <div data-pricing-footer="">
@@ -543,11 +544,12 @@ type RegionalPricingBoxProps = {
   activeCoupon: any
   setActiveCoupon: (coupon: any) => void
   index: number
+  isProTesting: boolean
 }
 
 const RegionalPricingBox: React.FC<
   React.PropsWithChildren<RegionalPricingBoxProps>
-> = ({pppCoupon, activeCoupon, setActiveCoupon, index}) => {
+> = ({pppCoupon, activeCoupon, setActiveCoupon, index, isProTesting}) => {
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
 
   if (!pppCoupon.country) {
@@ -583,7 +585,7 @@ const RegionalPricingBox: React.FC<
           type="checkbox"
           checked={Boolean(activeCoupon)}
           onChange={() => {
-            activeCoupon
+            isProTesting && activeCoupon
               ? setActiveCoupon(undefined)
               : setActiveCoupon(pppCoupon)
           }}
