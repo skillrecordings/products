@@ -150,6 +150,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   //   }
   // }
 
+  console.log({pppCoupon, merchantCoupon})
+
   return (
     <div data-pricing-component data-pricing-product-name={product.name}>
       {image && (
@@ -254,7 +256,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       role="button"
                       type="button"
                       onClick={() => {
-                        setMerchantCoupon(undefined)
                         setIsBuyingForTeam(true)
                         setQuantity(5)
                       }}
@@ -463,9 +464,6 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
 
   const percentOffLabel =
     appliedMerchantCoupon && `${percentOff}% off of $${fullPrice}`
-
-  console.log('appliedMerchantCoupon:', appliedMerchantCoupon)
-  console.log('isDiscount(formattedPrice):', isDiscount(formattedPrice))
 
   return (
     <div className="flex justify-center mt-6">
