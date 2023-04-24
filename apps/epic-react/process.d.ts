@@ -23,6 +23,9 @@ const envVariables = z.object({
   NEXT_PUBLIC_PRODUCT_NAME: z.string(),
   STRIPE_SECRET_TOKEN: z.string(),
   SANITY_IMPORT_DATA_FILE_PATH: z.string(),
+  NEXT_PUBLIC_SANITY_API_VERSION: z.string(),
+  NEXT_PUBLIC_SANITY_PROJECT_ID: z.string(),
+  NEXT_PUBLIC_SANITY_DATASET_ID: z.string(),
 })
 
 envVariables.parse(process.env)
