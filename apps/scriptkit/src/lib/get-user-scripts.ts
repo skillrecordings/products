@@ -80,29 +80,53 @@ export async function getScript(
   return scripts.find((d) => user === d.user && command === d.command)
 }
 
-export async function getLatestRelease() {
+type PromiseType<T extends Promise<any>> = T extends Promise<infer U>
+  ? U
+  : never
+
+type ListReleasesReturnType = PromiseType<
+  ReturnType<typeof octokit.repos.listReleases>
+>
+
+let releases: ListReleasesReturnType['data'] = []
+export async function getReleases() {
+  if (releases.length) {
+    return releases
+  }
   const releaseResponse = await octokit.repos.listReleases({
     owner: 'johnlindquist',
     repo: 'kitapp',
+    per_page: 100,
   })
 
-  const releases = releaseResponse.data
+  releases = releaseResponse.data
+  console.log(`Releases`, releases.length)
+
+  return releases
+}
+
+export async function getLatestRelease() {
+  const releases = await getReleases()
 
   const mainRelease = releases.find(
-    (release: any) =>
+    (release) =>
       !release?.name?.includes('beta') &&
       !release?.name?.includes('alpha') &&
       !release.prerelease &&
-      release?.assets?.find((a: any) => a.name.includes('dmg')),
+      release?.assets?.find((a) => a.name.includes('dmg')),
   )
 
+  console.log(`Mac Intel Main Release:`, mainRelease)
+
   const release = mainRelease?.assets.find(
-    (asset: any) =>
+    (asset) =>
       !asset?.name?.includes('beta') &&
       !asset?.name?.includes('alpha') &&
       !asset?.name?.includes('arm') &&
       asset?.name?.endsWith('.dmg'),
   )
+
+  console.log(`Mac Intel Release:`, release)
 
   return release
 }
@@ -110,87 +134,78 @@ export async function getLatestRelease() {
 // export const getLatestReleaseMemo = memoizerific(1)(getLatestRelease)
 
 export async function getLatestAppleSiliconRelease() {
-  const releaseResponse = await octokit.repos.listReleases({
-    owner: 'johnlindquist',
-    repo: 'kitapp',
-  })
-
-  const releases = releaseResponse.data
-
-  console.log(releases.map((r) => r.name))
+  const releases = await getReleases()
 
   const mainRelease = releases.find(
-    (release: any) =>
+    (release) =>
       !release?.name?.includes('beta') &&
       !release?.name?.includes('alpha') &&
       !release.prerelease &&
-      release?.assets?.find((a: any) => a.name.includes('dmg')),
+      release?.assets?.find((a) => a.name.includes('dmg')),
   )
 
+  console.log(`Apple Silicon Main Release:`, mainRelease)
+
   const release = mainRelease?.assets.find(
-    (asset: any) =>
+    (asset) =>
       !asset?.name?.includes('beta') &&
       !asset?.name?.includes('alpha') &&
       asset?.name?.includes('arm') &&
       asset?.name?.endsWith('.dmg'),
   )
 
+  console.log(`Apple Silicon Release:`, release)
+
   return release
 }
 
 export async function getLatestWindowsPreviewRelease() {
-  const releaseResponse = await octokit.repos.listReleases({
-    owner: 'johnlindquist',
-    repo: 'kitapp',
-  })
-
-  const releases = releaseResponse.data
-
-  console.log(releases.map((r) => r.name))
+  const releases = await getReleases()
 
   const mainRelease = releases.find(
-    (release: any) =>
+    (release) =>
       !release?.name?.includes('beta') &&
       !release?.name?.includes('alpha') &&
       !release.prerelease &&
-      release?.assets?.find((a: any) => a.name.includes('exe')),
+      release?.assets?.find((a) => a.name.includes('exe')),
   )
 
+  console.log(`Windows Preview Main Release:`, mainRelease)
+
   const release = mainRelease?.assets.find(
-    (asset: any) =>
+    (asset) =>
       !asset?.name?.includes('beta') &&
       !asset?.name?.includes('alpha') &&
       !asset?.name?.includes('arm') &&
       asset?.name?.endsWith('.exe'),
   )
 
+  console.log(`Windows Releases:`, release)
+
   return release
 }
 
 export async function getLatestLinuxRelease() {
-  const releaseResponse = await octokit.repos.listReleases({
-    owner: 'johnlindquist',
-    repo: 'kitapp',
-  })
-
-  const releases = releaseResponse.data
-
-  console.log(releases.map((r) => r.name))
+  const releases = await getReleases()
 
   const mainRelease = releases.find(
-    (release: any) =>
+    (release) =>
       !release?.name?.includes('beta') &&
       !release?.name?.includes('alpha') &&
       !release.prerelease &&
-      release?.assets?.find((a: any) => a.name.includes('exe')),
+      release?.assets?.find((a) => a.name.includes('exe')),
   )
 
+  console.log(`Linux Main Release:`, mainRelease)
+
   const release = mainRelease?.assets.find(
-    (asset: any) =>
+    (asset) =>
       !asset?.name?.includes('beta') &&
       !asset?.name?.includes('alpha') &&
       asset?.name?.endsWith('AppImage'),
   )
+
+  console.log(`Linux Release:`, release)
 
   return release
 }
