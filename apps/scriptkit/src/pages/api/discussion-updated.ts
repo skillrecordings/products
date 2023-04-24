@@ -25,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       res.send(response.data)
     } else {
       const response = await axios.post(
-        process.env.KIT_NEW_DISCUSSION_DEPLOY_HOOK,
+        process.env.KIT_NEW_DISCUSSION_DEPLOY_HOOK as string,
         {},
       )
 
