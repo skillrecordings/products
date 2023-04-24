@@ -153,7 +153,6 @@ const PortableTextComponents: PortableTextComponents = {
   types: {
     bodyGrid: ({value}: any) => {
       const {items} = value
-      console.log({value})
       return (
         <div
           className={cx(`grid gap-5 overflow-x-auto auto-cols-fr`, {
