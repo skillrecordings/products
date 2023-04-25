@@ -1,0 +1,373 @@
+courseId,id,moduleSlug,generatedLessonSlug,sectionLabel,itemLabel,lessonType
+378811,7768,welcome-to-epic-react,welcome-to-epic-react,Welcome to Epic React,,explainer
+378811,7757,welcome-to-epic-react,project-readmes-and-pre-reqs,Project READMEs and Pre Reqs,,explainer
+378811,7758,welcome-to-epic-react,clone-and-setup,Clone and Setup,,explainer
+378811,7759,welcome-to-epic-react,running-the-epic-react-workshop-app,Running the Epic React Workshop App,,explainer
+378811,7762,welcome-to-epic-react,file-structure,File Structure,,explainer
+378811,7760,welcome-to-epic-react,running-tests,Running Tests,,explainer
+378811,7761,welcome-to-epic-react,example-runthrough,Example Runthrough,,explainer
+375657,7741,react-fundamentals,react-fundamentals-welcome,React Fundamentals Welcome,,module-intro
+375657,6829,react-fundamentals,basic-js-hello-world-intro,"Basic JS ""Hello World""",Intro,intro
+375657,6830,react-fundamentals,basic-js-hello-world-solution,"Basic JS ""Hello World""",Solution,solution
+375657,6831,react-fundamentals,basic-js-hello-world-extra-credit-solution,"Basic JS ""Hello World""",Extra Credit Solution,xtra-solution
+375657,6865,react-fundamentals,intro-to-raw-react-apis-intro,Intro to Raw React APIs,Intro,intro
+375657,6867,react-fundamentals,intro-to-raw-react-apis-solution,Intro to Raw React APIs,Solution,solution
+375657,6868,react-fundamentals,intro-to-raw-react-apis-extra-credit-solution,Intro to Raw React APIs,Extra Credit Solution,xtra-solution
+375657,7774,react-fundamentals,intro-to-raw-react-apis-break-time,Intro to Raw React APIs,Break Time,break
+375657,6869,react-fundamentals,using-jsx-intro,Using JSX,Intro,intro
+375657,6871,react-fundamentals,using-jsx-solution,Using JSX,Solution,solution
+375657,6872,react-fundamentals,using-jsx-extra-credit-solution-01,Using JSX,Extra Credit Solution 01,xtra-solution
+375657,6873,react-fundamentals,using-jsx-extra-credit-solution-02,Using JSX,Extra Credit Solution 02,xtra-solution
+375657,6874,react-fundamentals,creating-custom-components-intro,Creating Custom Components,Intro,intro
+375657,6875,react-fundamentals,creating-custom-components-solution,Creating Custom Components,Solution,solution
+375657,6876,react-fundamentals,creating-custom-components-extra-credit-solution-01,Creating Custom Components,Extra Credit Solution 01,xtra-solution
+375657,6877,react-fundamentals,creating-custom-components-extra-credit-solution-02,Creating Custom Components,Extra Credit Solution 02,xtra-solution
+375657,6879,react-fundamentals,creating-custom-components-extra-credit-solution-03,Creating Custom Components,Extra Credit Solution 03,xtra-solution
+375657,6880,react-fundamentals,creating-custom-components-extra-credit-solution-04,Creating Custom Components,Extra Credit Solution 04,xtra-solution
+375657,6881,react-fundamentals,creating-custom-components-extra-credit-solution-05,Creating Custom Components,Extra Credit Solution 05,xtra-solution
+375657,6882,react-fundamentals,styling-intro,Styling,Intro,intro
+375657,6883,react-fundamentals,styling-solution,Styling,Solution,solution
+375657,6884,react-fundamentals,styling-extra-credit-solution-01,Styling,Extra Credit Solution 01,xtra-solution
+375657,6886,react-fundamentals,styling-extra-credit-solution-02,Styling,Extra Credit Solution 02,xtra-solution
+375657,7775,react-fundamentals,styling-break-time,Styling,Break Time,break
+375657,6887,react-fundamentals,forms-intro,Forms,Intro,intro
+375657,6888,react-fundamentals,forms-solution,Forms,Solution,solution
+375657,6889,react-fundamentals,forms-extra-credit-solution-01,Forms,Extra Credit Solution 01,xtra-solution
+375657,6891,react-fundamentals,forms-extra-credit-solution-02,Forms,Extra Credit Solution 02,xtra-solution
+375657,6894,react-fundamentals,forms-extra-credit-solution-03,Forms,Extra Credit Solution 03,xtra-solution
+375657,6895,react-fundamentals,rendering-arrays-intro,Rendering Arrays,Intro,intro
+375657,6897,react-fundamentals,rendering-arrays-solution,Rendering Arrays,Solution,solution
+375657,6898,react-fundamentals,rendering-arrays-extra-credit-solution-01,Rendering Arrays,Extra Credit Solution 01,xtra-solution
+375657,7749,react-fundamentals,react-fundamentals-outro,React Fundamentals Outro,,module-outro
+375655,7742,react-hooks,react-hooks-welcome,React Hooks Welcome,,module-intro
+375655,6864,react-hooks,usestate-greeting-intro,useState: greeting,Intro,intro
+375655,6878,react-hooks,usestate-greeting-solution,useState: greeting,Solution,solution
+375655,6885,react-hooks,usestate-greeting-extra-credit-solution,useState: greeting,Extra Credit Solution,xtra-solution
+375655,6890,react-hooks,useeffect-persistent-state-intro,useEffect: persistent state,Intro,intro
+375655,6893,react-hooks,useeffect-persistent-state-solution,useEffect: persistent state,Solution,solution
+375655,6896,react-hooks,useeffect-persistent-state-extra-credit-solution-1,useEffect: persistent state,Extra Credit Solution 1,xtra-solution
+375655,6899,react-hooks,useeffect-persistent-state-extra-credit-solution-2,useEffect: persistent state,Extra Credit Solution 2,xtra-solution
+375655,6900,react-hooks,useeffect-persistent-state-extra-credit-solution-3,useEffect: persistent state,Extra Credit Solution 3,xtra-solution
+375655,6901,react-hooks,useeffect-persistent-state-extra-credit-solution-4,useEffect: persistent state,Extra Credit Solution 4,xtra-solution
+375655,6902,react-hooks,hooks-flow,Hooks Flow,,explainer
+375655,6903,react-hooks,lifting-state-intro,Lifting state,Intro,intro
+375655,6904,react-hooks,lifting-state-solution,Lifting state,Solution,solution
+375655,6905,react-hooks,lifting-state-extra-credit-solution,Lifting state,Extra Credit Solution,xtra-solution
+375655,6906,react-hooks,usestate-tic-tac-toe-intro,useState: tic tac toe,Intro,intro
+375655,6907,react-hooks,usestate-tic-tac-toe-solution,useState: tic tac toe,Solution,solution
+375655,6908,react-hooks,usestate-tic-tac-toe-extra-credit-solution-1,useState: tic tac toe,Extra Credit Solution 1,xtra-solution
+375655,6909,react-hooks,usestate-tic-tac-toe-extra-credit-solution-2,useState: tic tac toe,Extra Credit Solution 2,xtra-solution
+375655,6910,react-hooks,usestate-tic-tac-toe-extra-credit-solution-3,useState: tic tac toe,Extra Credit Solution 3,xtra-solution
+375655,6911,react-hooks,usestate-tic-tac-toe-class-refactor,useState: tic tac toe,Class Refactor,explainer
+375655,6912,react-hooks,useref-and-useeffect-dom-interaction-intro,useRef and useEffect: DOM interaction,Intro,intro
+375655,6913,react-hooks,useref-and-useeffect-dom-interaction-solution,useRef and useEffect: DOM interaction,Solution,solution
+375655,6914,react-hooks,useref-and-useeffect-dom-interaction-class-refactor,useRef and useEffect: DOM interaction,Class Refactor,explainer
+375655,7776,react-hooks,useref-and-useeffect-dom-interaction-break-time,useRef and useEffect: DOM interaction,Break Time,break
+375655,6915,react-hooks,useeffect-http-requests-intro,useEffect: HTTP requests,Intro,intro
+375655,6916,react-hooks,useeffect-http-requests-solution,useEffect: HTTP requests,Solution,solution
+375655,6917,react-hooks,useeffect-http-requests-extra-credit-solution-1,useEffect: HTTP requests,Extra Credit Solution 1,xtra-solution
+375655,6918,react-hooks,useeffect-http-requests-extra-credit-solution-2,useEffect: HTTP requests,Extra Credit Solution 2,xtra-solution
+375655,6919,react-hooks,useeffect-http-requests-extra-credit-solution-3,useEffect: HTTP requests,Extra Credit Solution 3,xtra-solution
+375655,6920,react-hooks,useeffect-http-requests-extra-credit-solution-4,useEffect: HTTP requests,Extra Credit Solution 4,xtra-solution
+375655,6921,react-hooks,useeffect-http-requests-extra-credit-solution-5,useEffect: HTTP requests,Extra Credit Solution 5,xtra-solution
+375655,6922,react-hooks,useeffect-http-requests-extra-credit-solution-6,useEffect: HTTP requests,Extra Credit Solution 6,xtra-solution
+375655,6924,react-hooks,useeffect-http-requests-extra-credit-solution-7,useEffect: HTTP requests,Extra Credit Solution 7,xtra-solution
+375655,6925,react-hooks,useeffect-http-requests-extra-credit-solution-8,useEffect: HTTP requests,Extra Credit Solution 8,xtra-solution
+375655,7750,react-hooks,react-hooks-outro,React Hooks Outro,,module-outro
+375658,7743,advanced-react-hooks,advanced-react-hooks-welcome,Advanced React Hooks Welcome,,module-intro
+375658,6844,advanced-react-hooks,usereducer-simple-counter-intro,useReducer: simple Counter,Intro,intro
+375658,6845,advanced-react-hooks,usereducer-simple-counter-solution,useReducer: simple Counter,Solution,solution
+375658,6847,advanced-react-hooks,usereducer-simple-counter-extra-credit-solution-1,useReducer: simple Counter,Extra Credit Solution 1,xtra-solution
+375658,6846,advanced-react-hooks,usereducer-simple-counter-extra-credit-solution-2,useReducer: simple Counter,Extra Credit Solution 2,xtra-solution
+375658,6848,advanced-react-hooks,usereducer-simple-counter-extra-credit-solution-3,useReducer: simple Counter,Extra Credit Solution 3,xtra-solution
+375658,6849,advanced-react-hooks,usereducer-simple-counter-extra-credit-solution-4,useReducer: simple Counter,Extra Credit Solution 4,xtra-solution
+375658,6850,advanced-react-hooks,usecallback-custom-hooks-intro,useCallback: custom hooks,Intro,intro
+375658,6851,advanced-react-hooks,usecallback-custom-hooks-solution,useCallback: custom hooks,Solution,solution
+375658,6852,advanced-react-hooks,usecallback-custom-hooks-extra-credit-solution-1,useCallback: custom hooks,Extra Credit Solution 1,xtra-solution
+375658,6853,advanced-react-hooks,usecallback-custom-hooks-extra-credit-solution-2,useCallback: custom hooks,Extra Credit Solution 2,xtra-solution
+375658,6854,advanced-react-hooks,usecallback-custom-hooks-extra-credit-solution-3,useCallback: custom hooks,Extra Credit Solution 3,xtra-solution
+375658,7841,advanced-react-hooks,usecallback-custom-hooks-break-time,useCallback: custom hooks,Break Time,break
+375658,6855,advanced-react-hooks,usecontext-simple-counter-intro,useContext: simple Counter,Intro,intro
+375658,6856,advanced-react-hooks,usecontext-simple-counter-solution,useContext: simple Counter,Solution,solution
+375658,6857,advanced-react-hooks,usecontext-simple-counter-extra-credit-solution-1,useContext: simple Counter,Extra Credit Solution 1,xtra-solution
+375658,6858,advanced-react-hooks,usecontext-simple-counter-extra-credit-solution-2,useContext: simple Counter,Extra Credit Solution 2,xtra-solution
+375658,6859,advanced-react-hooks,uselayouteffect-auto-growing-textarea-intro,useLayoutEffect: auto-growing textarea,Intro,intro
+375658,6860,advanced-react-hooks,uselayouteffect-auto-growing-textarea-solution,useLayoutEffect: auto-growing textarea,Solution,solution
+375658,6861,advanced-react-hooks,useimperativehandle-scroll-to-top/bottom-intro,useImperativeHandle: scroll to top/bottom,Intro,intro
+375658,6862,advanced-react-hooks,useimperativehandle-scroll-to-top/bottom-solution,useImperativeHandle: scroll to top/bottom,Solution,solution
+375658,6863,advanced-react-hooks,usedebugvalue-usemedia-intro,useDebugValue: useMedia,Intro,intro
+375658,6866,advanced-react-hooks,usedebugvalue-usemedia-solution,useDebugValue: useMedia,Solution,solution
+375658,6870,advanced-react-hooks,usedebugvalue-usemedia-extra-credit-solution-1,useDebugValue: useMedia,Extra Credit Solution 1,xtra-solution
+375658,7751,advanced-react-hooks,advanced-react-hooks-outro,Advanced React Hooks Outro,,module-outro
+375659,7744,advanced-react-patterns,advanced-react-patterns-welcome,Advanced React Patterns Welcome,,module-intro
+375659,6927,advanced-react-patterns,context-module-functions-intro,Context Module Functions,Intro,intro
+375659,6928,advanced-react-patterns,context-module-functions-solution,Context Module Functions,Solution,solution
+375659,6929,advanced-react-patterns,compound-components-intro,Compound Components,Intro,intro
+375659,6931,advanced-react-patterns,compound-components-solution,Compound Components,Solution,solution
+375659,6932,advanced-react-patterns,compound-components-extra-credit-solution-1,Compound Components,Extra Credit Solution 1,xtra-solution
+375659,6933,advanced-react-patterns,flexible-compound-components-intro,Flexible Compound Components,Intro,intro
+375659,6935,advanced-react-patterns,flexible-compound-components-solution,Flexible Compound Components,Solution,solution
+375659,6934,advanced-react-patterns,flexible-compound-components-extra-credit-solution-1,Flexible Compound Components,Extra Credit Solution 1,xtra-solution
+375659,7842,advanced-react-patterns,flexible-compound-components-break-time,Flexible Compound Components,Break Time,break
+375659,6938,advanced-react-patterns,prop-collections-and-getters-intro,Prop Collections and Getters,Intro,intro
+375659,6939,advanced-react-patterns,prop-collections-and-getters-solution,Prop Collections and Getters,Solution,solution
+375659,6941,advanced-react-patterns,prop-collections-and-getters-extra-credit-solution-1,Prop Collections and Getters,Extra Credit Solution 1,xtra-solution
+375659,6942,advanced-react-patterns,state-reducer-intro,State Reducer,Intro,intro
+375659,6943,advanced-react-patterns,state-reducer-solution,State Reducer,Solution,solution
+375659,6947,advanced-react-patterns,state-reducer-extra-credit-solution-1,State Reducer,Extra Credit Solution 1,xtra-solution
+375659,6948,advanced-react-patterns,state-reducer-extra-credit-solution-2,State Reducer,Extra Credit Solution 2,xtra-solution
+375659,6950,advanced-react-patterns,control-props-intro,Control Props,Intro,intro
+375659,6951,advanced-react-patterns,control-props-solution,Control Props,Solution,solution
+375659,6952,advanced-react-patterns,control-props-extra-credit-solution-1,Control Props,Extra Credit Solution 1,xtra-solution
+375659,6953,advanced-react-patterns,control-props-extra-credit-solution-2,Control Props,Extra Credit Solution 2,xtra-solution
+375659,6954,advanced-react-patterns,control-props-extra-credit-solution-3,Control Props,Extra Credit Solution 3,xtra-solution
+375659,6956,advanced-react-patterns,control-props-extra-credit-solution-4,Control Props,Extra Credit Solution 4,xtra-solution
+375659,7752,advanced-react-patterns,advanced-react-patterns-outro,Advanced React Patterns Outro,,module-outro
+375662,7745,react-performance,react-performance-welcome,React Performance Welcome,,module-intro
+375662,6923,react-performance,code-splitting-intro,Code Splitting,Intro,intro
+375662,6926,react-performance,code-splitting-solution,Code Splitting,Solution,solution
+375662,6937,react-performance,code-splitting-extra-credit-solution-1,Code Splitting,Extra Credit Solution 1,xtra-solution
+375662,6940,react-performance,code-splitting-extra-credit-solution-2,Code Splitting,Extra Credit Solution 2,xtra-solution
+375662,6930,react-performance,code-splitting-suspense-position,Code Splitting,Suspense Position,explainer
+375662,6936,react-performance,code-splitting-coverage-tool,Code Splitting,Coverage Tool,explainer
+375662,6944,react-performance,usememo-for-expensive-calculations-intro,useMemo for Expensive Calculations,Intro,intro
+375662,6949,react-performance,usememo-for-expensive-calculations-solution,useMemo for Expensive Calculations,Solution,solution
+375662,6955,react-performance,usememo-for-expensive-calculations-extra-credit-solution-1,useMemo for Expensive Calculations,Extra Credit Solution 1,xtra-solution
+375662,6959,react-performance,usememo-for-expensive-calculations-extra-credit-solution-2,useMemo for Expensive Calculations,Extra Credit Solution 2,xtra-solution
+375662,6961,react-performance,reactmemo-for-reducing-re-renders-intro,React.memo for Reducing re-renders,Intro,intro
+375662,6962,react-performance,reactmemo-for-reducing-re-renders-solution,React.memo for Reducing re-renders,Solution,solution
+375662,6966,react-performance,reactmemo-for-reducing-re-renders-extra-credit-solution-1,React.memo for Reducing re-renders,Extra Credit Solution 1,xtra-solution
+375662,6968,react-performance,reactmemo-for-reducing-re-renders-extra-credit-solution-2,React.memo for Reducing re-renders,Extra Credit Solution 2,xtra-solution
+375662,7843,react-performance,reactmemo-for-reducing-re-renders-break-time,React.memo for Reducing re-renders,Break Time,break
+375662,6971,react-performance,window-large-lists-with-react-virtual-intro,Window Large Lists with react-virtual,Intro,intro
+375662,6974,react-performance,window-large-lists-with-react-virtual-solution,Window Large Lists with react-virtual,Solution,solution
+375662,6978,react-performance,optimize-context-value-intro,Optimize Context Value,Intro,intro
+375662,6984,react-performance,optimize-context-value-solution,Optimize Context Value,Solution,solution
+375662,6985,react-performance,optimize-context-value-extra-credit-solution-1,Optimize Context Value,Extra Credit Solution 1,xtra-solution
+375662,6987,react-performance,fix-perf-death-by-a-thousand-cuts-intro,Fix Perf Death by a Thousand Cuts,Intro,intro
+375662,7005,react-performance,fix-perf-death-by-a-thousand-cuts-solution,Fix Perf Death by a Thousand Cuts,Solution,solution
+375662,7011,react-performance,fix-perf-death-by-a-thousand-cuts-extra-credit-solution-1,Fix Perf Death by a Thousand Cuts,Extra Credit Solution 1,xtra-solution
+375662,7027,react-performance,fix-perf-death-by-a-thousand-cuts-extra-credit-solution-2,Fix Perf Death by a Thousand Cuts,Extra Credit Solution 2,xtra-solution
+375662,7029,react-performance,fix-perf-death-by-a-thousand-cuts-extra-credit-solution-3,Fix Perf Death by a Thousand Cuts,Extra Credit Solution 3,xtra-solution
+375662,7030,react-performance,fix-perf-death-by-a-thousand-cuts-extra-credit-solution-4,Fix Perf Death by a Thousand Cuts,Extra Credit Solution 4,xtra-solution
+375662,7031,react-performance,production-performance-monitoring-intro,Production Performance Monitoring,Intro,intro
+375662,7035,react-performance,production-performance-monitoring-solution,Production Performance Monitoring,Solution,solution
+375662,7753,react-performance,react-performance-outro,React Performance Outro,,module-outro
+375671,7746,testing-react-apps,testing-react-apps-welcome,Testing React Apps Welcome,,module-intro
+375671,6945,testing-react-apps,simple-test-with-reactdom-intro,Simple Test with ReactDOM,Intro,intro
+375671,6946,testing-react-apps,simple-test-with-reactdom-solution-1,Simple Test with ReactDOM,Solution 1,solution
+375671,6957,testing-react-apps,simple-test-with-reactdom-solution-2,Simple Test with ReactDOM,Solution 2,solution
+375671,6958,testing-react-apps,simple-test-with-reactdom-solution-3,Simple Test with ReactDOM,Solution 3,solution
+375671,6960,testing-react-apps,simple-test-with-reactdom-solution-4,Simple Test with ReactDOM,Solution 4,solution
+375671,6963,testing-react-apps,simple-test-with-reactdom-extra-credit-solution-1,Simple Test with ReactDOM,Extra Credit Solution 1,xtra-solution
+375671,6964,testing-react-apps,simple-test-with-react-testing-library-intro,Simple Test with React Testing Library,Intro,intro
+375671,6965,testing-react-apps,simple-test-with-react-testing-library-solution-1,Simple Test with React Testing Library,Solution 1,solution
+375671,6967,testing-react-apps,simple-test-with-react-testing-library-solution-2,Simple Test with React Testing Library,Solution 2,solution
+375671,6969,testing-react-apps,simple-test-with-react-testing-library-extra-credit-solution-1,Simple Test with React Testing Library,Extra Credit Solution 1,xtra-solution
+375671,6970,testing-react-apps,avoid-implementation-details-intro,Avoid Implementation Details,Intro,intro
+375671,6972,testing-react-apps,avoid-implementation-details-solution,Avoid Implementation Details,Solution,solution
+375671,6973,testing-react-apps,avoid-implementation-details-extra-credit-solution-1,Avoid Implementation Details,Extra Credit Solution 1,xtra-solution
+375671,7844,testing-react-apps,avoid-implementation-details-break-time,Avoid Implementation Details,Break Time,break
+375671,6975,testing-react-apps,form-testing-intro,Form Testing,Intro,intro
+375671,6980,testing-react-apps,form-testing-solution-1,Form Testing,Solution 1,solution
+375671,6991,testing-react-apps,form-testing-extra-credit-solution-1,Form Testing,Extra Credit Solution 1,xtra-solution
+375671,6988,testing-react-apps,form-testing-extra-credit-solution-2,Form Testing,Extra Credit Solution 2,xtra-solution
+375671,6989,testing-react-apps,form-testing-extra-credit-solution-3,Form Testing,Extra Credit Solution 3,xtra-solution
+375671,6990,testing-react-apps,form-testing-extra-credit-solution-4,Form Testing,Extra Credit Solution 4,xtra-solution
+375671,6992,testing-react-apps,mocking-http-requests-intro,Mocking HTTP Requests,Intro,intro
+375671,6993,testing-react-apps,mocking-http-requests-solution-1,Mocking HTTP Requests,Solution 1,solution
+375671,6994,testing-react-apps,mocking-http-requests-solution-2,Mocking HTTP Requests,Solution 2,solution
+375671,6995,testing-react-apps,mocking-http-requests-extra-credit-solution-1,Mocking HTTP Requests,Extra Credit Solution 1,xtra-solution
+375671,7049,testing-react-apps,mocking-http-requests-extra-credit-solution-2,Mocking HTTP Requests,Extra Credit Solution 2,xtra-solution
+375671,7050,testing-react-apps,mocking-http-requests-extra-credit-solution-3,Mocking HTTP Requests,Extra Credit Solution 3,xtra-solution
+375671,7051,testing-react-apps,mocking-http-requests-extra-credit-solution-4,Mocking HTTP Requests,Extra Credit Solution 4,xtra-solution
+375671,6996,testing-react-apps,mocking-browser-apis-and-modules-intro,Mocking Browser APIs and Modules,Intro,intro
+375671,6997,testing-react-apps,mocking-browser-apis-and-modules-solution-1,Mocking Browser APIs and Modules,Solution 1,solution
+375671,6998,testing-react-apps,mocking-browser-apis-and-modules-solution-2,Mocking Browser APIs and Modules,Solution 2,solution
+375671,6999,testing-react-apps,mocking-browser-apis-and-modules-extra-credit-solution-1,Mocking Browser APIs and Modules,Extra Credit Solution 1,xtra-solution
+375671,7845,testing-react-apps,mocking-browser-apis-and-modules-break-time,Mocking Browser APIs and Modules,Break Time,break
+375671,7000,testing-react-apps,context-and-custom-render-method-intro,Context and Custom Render Method,Intro,intro
+375671,7007,testing-react-apps,context-and-custom-render-method-solution,Context and Custom Render Method,Solution,solution
+375671,7010,testing-react-apps,context-and-custom-render-method-extra-credit-solution-1,Context and Custom Render Method,Extra Credit Solution 1,xtra-solution
+375671,7013,testing-react-apps,context-and-custom-render-method-extra-credit-solution-2,Context and Custom Render Method,Extra Credit Solution 2,xtra-solution
+375671,7028,testing-react-apps,context-and-custom-render-method-extra-credit-solution-3,Context and Custom Render Method,Extra Credit Solution 3,xtra-solution
+375671,7032,testing-react-apps,testing-custom-hooks-intro,Testing Custom Hooks,Intro,intro
+375671,7033,testing-react-apps,testing-custom-hooks-solution,Testing Custom Hooks,Solution,solution
+375671,7034,testing-react-apps,testing-custom-hooks-extra-credit-solution-1,Testing Custom Hooks,Extra Credit Solution 1,xtra-solution
+375671,7037,testing-react-apps,testing-custom-hooks-extra-credit-solution-2,Testing Custom Hooks,Extra Credit Solution 2,xtra-solution
+375671,7038,testing-react-apps,testing-custom-hooks-extra-credit-solution-3,Testing Custom Hooks,Extra Credit Solution 3,xtra-solution
+375671,7754,testing-react-apps,testing-react-apps-outro,Testing React Apps Outro,,module-outro
+375675,7747,react-suspense,react-suspense-welcome,React Suspense Welcome,,module-intro
+375675,6976,react-suspense,concurrent-mode,Concurrent Mode,,explainer
+375675,6977,react-suspense,simple-data-fetching-intro,Simple Data-Fetching,Intro,intro
+375675,6979,react-suspense,simple-data-fetching-solution,Simple Data-Fetching,Solution,solution
+375675,6981,react-suspense,simple-data-fetching-extra-credit-solution-1,Simple Data-Fetching,Extra Credit Solution 1,xtra-solution
+375675,6982,react-suspense,simple-data-fetching-extra-credit-solution-2,Simple Data-Fetching,Extra Credit Solution 2,xtra-solution
+375675,6983,react-suspense,simple-data-fetching-extra-credit-solution-3,Simple Data-Fetching,Extra Credit Solution 3,xtra-solution
+375675,7001,react-suspense,render-as-you-fetch-intro,Render as You Fetch,Intro,intro
+375675,7002,react-suspense,render-as-you-fetch-solution,Render as You Fetch,Solution,solution
+375675,7003,react-suspense,render-as-you-fetch-extra-credit-solution-1,Render as You Fetch,Extra Credit Solution 1,xtra-solution
+375675,7004,react-suspense,usetransition-intro,useTransition,Intro,intro
+375675,7006,react-suspense,usetransition-solution,useTransition,Solution,solution
+375675,7008,react-suspense,usetransition-extra-credit-solution-1,useTransition,Extra Credit Solution 1,xtra-solution
+375675,7009,react-suspense,usetransition-extra-credit-solution-2,useTransition,Extra Credit Solution 2,xtra-solution
+375675,7846,react-suspense,usetransition-break-time,useTransition,Break Time,break
+375675,7012,react-suspense,cache-resources-intro,Cache Resources,Intro,intro
+375675,7014,react-suspense,cache-resources-solution,Cache Resources,Solution,solution
+375675,7015,react-suspense,cache-resources-extra-credit-solution-1,Cache Resources,Extra Credit Solution 1,xtra-solution
+375675,7016,react-suspense,cache-resources-extra-credit-solution-2,Cache Resources,Extra Credit Solution 2,xtra-solution
+375675,7017,react-suspense,cache-resources-extra-credit-solution-3,Cache Resources,Extra Credit Solution 3,xtra-solution
+375675,7018,react-suspense,suspense-image-intro,Suspense Image,Intro,intro
+375675,7019,react-suspense,suspense-image-solution,Suspense Image,Solution,solution
+375675,7020,react-suspense,suspense-image-extra-credit-solution-1,Suspense Image,Extra Credit Solution 1,xtra-solution
+375675,7021,react-suspense,suspense-image-extra-credit-solution-2,Suspense Image,Extra Credit Solution 2,xtra-solution
+375675,7853,react-suspense,suspense-image-break-time,Suspense Image,Break Time,break
+375675,7022,react-suspense,suspense-with-a-custom-hook-intro,Suspense with a Custom Hook,Intro,intro
+375675,7023,react-suspense,suspense-with-a-custom-hook-solution,Suspense with a Custom Hook,Solution,solution
+375675,7024,react-suspense,suspense-with-a-custom-hook-extra-credit-solution-1,Suspense with a Custom Hook,Extra Credit Solution 1,xtra-solution
+375675,7025,react-suspense,coordinate-suspending-components-with-suspenselist-intro,Coordinate Suspending Components with SuspenseList,Intro,intro
+375675,7026,react-suspense,coordinate-suspending-components-with-suspenselist-solution,Coordinate Suspending Components with SuspenseList,Solution,solution
+375675,7755,react-suspense,react-suspense-outro,React Suspense Outro,,module-outro
+386702,7748,build-an-epic-react-app,build-an-epic-react-app-welcome,Build an Epic React App Welcome,,module-intro
+386702,7780,build-an-epic-react-app,walkthrough-of-project-setup,Walkthrough of Project Setup,,explainer
+386702,7082,build-an-epic-react-app,render-a-react-app-intro,Render a React App,Intro,intro
+386702,7083,build-an-epic-react-app,render-a-react-app-solution,Render a React App,Solution,solution
+386702,7084,build-an-epic-react-app,render-a-react-app-extra-credit-solution-01,Render a React App,Extra Credit Solution 01,xtra-solution
+386702,7085,build-an-epic-react-app,render-a-react-app-extra-credit-solution-02,Render a React App,Extra Credit Solution 02,xtra-solution
+386702,7086,build-an-epic-react-app,add-styles-intro,Add Styles,Intro,intro
+386702,7088,build-an-epic-react-app,add-styles-solution-01,Add Styles,Solution 01,solution
+386702,7093,build-an-epic-react-app,add-styles-solution-02,Add Styles,Solution 02,solution
+386702,7094,build-an-epic-react-app,add-styles-solution-03,Add Styles,Solution 03,solution
+386702,7096,build-an-epic-react-app,add-styles-extra-credit-solution-01,Add Styles,Extra Credit Solution 01,xtra-solution
+386702,7098,build-an-epic-react-app,add-styles-extra-credit-solution-02,Add Styles,Extra Credit Solution 02,xtra-solution
+386702,7103,build-an-epic-react-app,add-styles-extra-credit-solution-03,Add Styles,Extra Credit Solution 03,xtra-solution
+386702,7111,build-an-epic-react-app,make-http-requests-intro,Make HTTP Requests,Intro,intro
+386702,7112,build-an-epic-react-app,make-http-requests-solution-01,Make HTTP Requests,Solution 01,solution
+386702,7113,build-an-epic-react-app,make-http-requests-solution-02,Make HTTP Requests,Solution 02,solution
+386702,7114,build-an-epic-react-app,make-http-requests-extra-credit-solution-01,Make HTTP Requests,Extra Credit Solution 01,xtra-solution
+386702,7115,build-an-epic-react-app,make-http-requests-extra-credit-solution-02,Make HTTP Requests,Extra Credit Solution 02,xtra-solution
+386702,7847,build-an-epic-react-app,make-http-requests-break-time,Make HTTP Requests,Break Time,break
+386702,7116,build-an-epic-react-app,authentication-intro,Authentication,Intro,intro
+386702,7117,build-an-epic-react-app,authentication-solution,Authentication,Solution,solution
+386702,7118,build-an-epic-react-app,authentication-extra-credit-solution-01,Authentication,Extra Credit Solution 01,xtra-solution
+386702,7119,build-an-epic-react-app,authentication-extra-credit-solution-02,Authentication,Extra Credit Solution 02,xtra-solution
+386702,7120,build-an-epic-react-app,authentication-extra-credit-solution-03,Authentication,Extra Credit Solution 03,xtra-solution
+386702,7121,build-an-epic-react-app,authentication-extra-credit-solution-04,Authentication,Extra Credit Solution 04,xtra-solution
+386702,7122,build-an-epic-react-app,routing-intro,Routing,Intro,intro
+386702,7123,build-an-epic-react-app,routing-solution,Routing,Solution,solution
+386702,7124,build-an-epic-react-app,routing-extra-credit-solution-01,Routing,Extra Credit Solution-01,xtra-solution
+386702,7125,build-an-epic-react-app,routing-extra-credit-solution-02,Routing,Extra Credit Solution-02,xtra-solution
+386702,7126,build-an-epic-react-app,cache-management-intro,Cache Management,Intro,intro
+386702,7129,build-an-epic-react-app,cache-management-solution-01,Cache Management,Solution 01,solution
+386702,7133,build-an-epic-react-app,cache-management-solution-02,Cache Management,Solution 02,solution
+386702,7135,build-an-epic-react-app,cache-management-solution-03,Cache Management,Solution 03,solution
+386702,7137,build-an-epic-react-app,cache-management-solution-04,Cache Management,Solution 04,solution
+386702,7139,build-an-epic-react-app,cache-management-solution-05,Cache Management,Solution 05,solution
+386702,7141,build-an-epic-react-app,cache-management-solution-06,Cache Management,Solution 06,solution
+386702,7142,build-an-epic-react-app,cache-management-solution-07,Cache Management,Solution 07,solution
+386702,7143,build-an-epic-react-app,cache-management-solution-08,Cache Management,Solution 08,solution
+386702,7848,build-an-epic-react-app,cache-management-break-time-01,Cache Management,Break Time 01,break
+386702,7144,build-an-epic-react-app,cache-management-solution-09,Cache Management,Solution 09,solution
+386702,7146,build-an-epic-react-app,cache-management-solution-10,Cache Management,Solution 10,solution
+386702,7147,build-an-epic-react-app,cache-management-extra-credit-solution-01-01,Cache Management,Extra Credit Solution 01-01,xtra-solution
+386702,7150,build-an-epic-react-app,cache-management-extra-credit-solution-01-02,Cache Management,Extra Credit Solution 01-02,xtra-solution
+386702,7152,build-an-epic-react-app,cache-management-extra-credit-solution-01-03,Cache Management,Extra Credit Solution 01-03,xtra-solution
+386702,7154,build-an-epic-react-app,cache-management-extra-credit-solution-01-04,Cache Management,Extra Credit Solution 01-04,xtra-solution
+386702,7156,build-an-epic-react-app,cache-management-extra-credit-solution-01-05,Cache Management,Extra Credit Solution 01-05,xtra-solution
+386702,7158,build-an-epic-react-app,cache-management-extra-credit-solution-01-06,Cache Management,Extra Credit Solution 01-06,xtra-solution
+386702,7161,build-an-epic-react-app,cache-management-extra-credit-solution-02,Cache Management,Extra Credit Solution 02,xtra-solution
+386702,7163,build-an-epic-react-app,cache-management-extra-credit-solution-03-01,Cache Management,Extra Credit Solution 03-01,xtra-solution
+386702,7849,build-an-epic-react-app,cache-management-break-time-02,Cache Management,Break Time 02,break
+386702,7164,build-an-epic-react-app,cache-management-extra-credit-solution-03-02,Cache Management,Extra Credit Solution 03-02,xtra-solution
+386702,7165,build-an-epic-react-app,cache-management-extra-credit-solution-04,Cache Management,Extra Credit Solution 04,xtra-solution
+386702,7166,build-an-epic-react-app,cache-management-extra-credit-solution-05,Cache Management,Extra Credit Solution 05,xtra-solution
+386702,7167,build-an-epic-react-app,cache-management-extra-credit-solution-06,Cache Management,Extra Credit Solution 06,xtra-solution
+386702,7168,build-an-epic-react-app,cache-management-extra-credit-solution-07,Cache Management,Extra Credit Solution 07,xtra-solution
+386702,7087,build-an-epic-react-app,context-intro,Context,Intro,intro
+386702,7089,build-an-epic-react-app,context-solution-01,Context,Solution 01,solution
+386702,7090,build-an-epic-react-app,context-solution-02,Context,Solution 02,solution
+386702,7091,build-an-epic-react-app,context-solution-03,Context,Solution 03,solution
+386702,7092,build-an-epic-react-app,context-solution-04,Context,Solution 04,solution
+386702,7095,build-an-epic-react-app,context-extra-credit-solution-01,Context,Extra Credit Solution 01,xtra-solution
+386702,7097,build-an-epic-react-app,context-extra-credit-solution-02,Context,Extra Credit Solution 02,xtra-solution
+386702,7099,build-an-epic-react-app,context-extra-credit-solution-03,Context,Extra Credit Solution 03,xtra-solution
+386702,7100,build-an-epic-react-app,context-extra-credit-solution-04,Context,Extra Credit Solution 04,xtra-solution
+386702,7101,build-an-epic-react-app,compound-components-intro,Compound Components,Intro,intro
+386702,7102,build-an-epic-react-app,compound-components-solution,Compound Components,Solution,solution
+386702,7104,build-an-epic-react-app,compound-components-extra-credit-solution-01,Compound Components,Extra Credit Solution 01,xtra-solution
+386702,7105,build-an-epic-react-app,compound-components-extra-credit-solution-02,Compound Components,Extra Credit Solution 02,xtra-solution
+386702,7850,build-an-epic-react-app,compound-components-break-time,Compound Components,Break Time,break
+386702,7106,build-an-epic-react-app,performance-intro,Performance,Intro,intro
+386702,7107,build-an-epic-react-app,performance-solution,Performance,Solution,solution
+386702,7108,build-an-epic-react-app,performance-extra-credit-solution-01,Performance,Extra Credit Solution 01,xtra-solution
+386702,7109,build-an-epic-react-app,performance-extra-credit-solution-02,Performance,Extra Credit Solution 02,xtra-solution
+386702,7127,build-an-epic-react-app,performance-extra-credit-solution-03-01,Performance,Extra Credit Solution 03-01,xtra-solution
+386702,7128,build-an-epic-react-app,performance-extra-credit-solution-03-02,Performance,Extra Credit Solution 03-02,xtra-solution
+386702,7130,build-an-epic-react-app,performance-extra-credit-solution-03-03,Performance,Extra Credit Solution 03-03,xtra-solution
+386702,7131,build-an-epic-react-app,performance-extra-credit-solution-03-04,Performance,Extra Credit Solution 03-04,xtra-solution
+386702,7136,build-an-epic-react-app,render-as-you-fetch-intro,Render as You Fetch,Intro,intro
+386702,7138,build-an-epic-react-app,render-as-you-fetch-solution,Render as You Fetch,Solution,solution
+386702,7140,build-an-epic-react-app,render-as-you-fetch-extra-credit-solution-01,Render as You Fetch,Extra Credit Solution 01,xtra-solution
+386702,7145,build-an-epic-react-app,unit-testing-intro,Unit Testing,Intro,intro
+386702,7148,build-an-epic-react-app,unit-testing-solution-01,Unit Testing,Solution 01,solution
+386702,7149,build-an-epic-react-app,unit-testing-solution-02,Unit Testing,Solution 02,solution
+386702,7151,build-an-epic-react-app,unit-testing-solution-03,Unit Testing,Solution 03,solution
+386702,7153,build-an-epic-react-app,unit-testing-solution-04,Unit Testing,Solution 04,solution
+386702,7155,build-an-epic-react-app,unit-testing-solution-05,Unit Testing,Solution 05,solution
+386702,7157,build-an-epic-react-app,unit-testing-extra-credit-solution-01-01,Unit Testing,Extra Credit Solution 01-01,xtra-solution
+386702,7159,build-an-epic-react-app,unit-testing-extra-credit-solution-01-02,Unit Testing,Extra Credit Solution 01-02,xtra-solution
+386702,7160,build-an-epic-react-app,unit-testing-extra-credit-solution-02,Unit Testing,Extra Credit Solution 02,xtra-solution
+386702,7162,build-an-epic-react-app,testing-hooks-and-components-intro,Testing Hooks and Components,Intro,intro
+386702,7169,build-an-epic-react-app,testing-hooks-and-components-solution-01,Testing Hooks and Components,Solution 01,solution
+386702,7170,build-an-epic-react-app,testing-hooks-and-components-solution-02,Testing Hooks and Components,Solution 02,solution
+386702,7171,build-an-epic-react-app,testing-hooks-and-components-solution-03,Testing Hooks and Components,Solution 03,solution
+386702,7172,build-an-epic-react-app,testing-hooks-and-components-solution-04,Testing Hooks and Components,Solution 04,solution
+386702,7173,build-an-epic-react-app,testing-hooks-and-components-solution-05,Testing Hooks and Components,Solution 05,solution
+386702,7174,build-an-epic-react-app,testing-hooks-and-components-solution-06,Testing Hooks and Components,Solution 06,solution
+386702,7175,build-an-epic-react-app,testing-hooks-and-components-solution-07,Testing Hooks and Components,Solution 07,solution
+386702,7176,build-an-epic-react-app,testing-hooks-and-components-solution-08,Testing Hooks and Components,Solution 08,solution
+386702,7177,build-an-epic-react-app,testing-hooks-and-components-solution-09,Testing Hooks and Components,Solution 09,solution
+386702,7178,build-an-epic-react-app,testing-hooks-and-components-solution-10,Testing Hooks and Components,Solution 10,solution
+386702,7179,build-an-epic-react-app,testing-hooks-and-components-extra-credit-solution-01,Testing Hooks and Components,Extra Credit Solution 01,xtra-solution
+386702,7851,build-an-epic-react-app,testing-hooks-and-components-break-time,Testing Hooks and Components,Break Time,break
+386702,7180,build-an-epic-react-app,integration-testing-intro,Integration Testing,Intro,intro
+386702,7181,build-an-epic-react-app,integration-testing-solution-01,Integration Testing,Solution 01,solution
+386702,7182,build-an-epic-react-app,integration-testing-solution-02,Integration Testing,Solution 02,solution
+386702,7183,build-an-epic-react-app,integration-testing-solution-03,Integration Testing,Solution 03,solution
+386702,7184,build-an-epic-react-app,integration-testing-solution-04,Integration Testing,Solution 04,solution
+386702,7185,build-an-epic-react-app,integration-testing-solution-05,Integration Testing,Solution 05,solution
+386702,7186,build-an-epic-react-app,integration-testing-solution-06,Integration Testing,Solution 06,solution
+386702,7187,build-an-epic-react-app,integration-testing-extra-credit-solution-01,Integration Testing,Extra Credit Solution 01,xtra-solution
+386702,7188,build-an-epic-react-app,integration-testing-extra-credit-solution-02,Integration Testing,Extra Credit Solution 02,xtra-solution
+386702,7189,build-an-epic-react-app,integration-testing-extra-credit-solution-03-01,Integration Testing,Extra Credit Solution 03-01,xtra-solution
+386702,7190,build-an-epic-react-app,integration-testing-extra-credit-solution-03-02,Integration Testing,Extra Credit Solution 03-02,xtra-solution
+386702,7191,build-an-epic-react-app,integration-testing-extra-credit-solution-04,Integration Testing,Extra Credit Solution 04,xtra-solution
+386702,7192,build-an-epic-react-app,integration-testing-extra-credit-solution-05-01,Integration Testing,Extra Credit Solution 05-01,xtra-solution
+386702,7193,build-an-epic-react-app,integration-testing-extra-credit-solution-05-02,Integration Testing,Extra Credit Solution 05-02,xtra-solution
+386702,7194,build-an-epic-react-app,integration-testing-extra-credit-solution-05-03,Integration Testing,Extra Credit Solution 05-03,xtra-solution
+386702,7195,build-an-epic-react-app,integration-testing-extra-credit-solution-05-04,Integration Testing,Extra Credit Solution 05-04,xtra-solution
+386702,7196,build-an-epic-react-app,integration-testing-extra-credit-solution-05-05,Integration Testing,Extra Credit Solution 05-05,xtra-solution
+386702,7197,build-an-epic-react-app,integration-testing-extra-credit-solution-06,Integration Testing,Extra Credit Solution 06,xtra-solution
+386702,7198,build-an-epic-react-app,integration-testing-extra-credit-solution-07-01,Integration Testing,Extra Credit Solution 07-01,xtra-solution
+386702,7199,build-an-epic-react-app,integration-testing-extra-credit-solution-07-02,Integration Testing,Extra Credit Solution 07-02,xtra-solution
+386702,7200,build-an-epic-react-app,integration-testing-extra-credit-solution-07-03,Integration Testing,Extra Credit Solution 07-03,xtra-solution
+386702,7852,build-an-epic-react-app,integration-testing-break-time,Integration Testing,Break Time,break
+386702,7201,build-an-epic-react-app,e2e-testing-intro,E2E Testing,Intro,intro
+386702,7202,build-an-epic-react-app,e2e-testing-solution-01,E2E Testing,Solution 01,solution
+386702,7203,build-an-epic-react-app,e2e-testing-solution-02,E2E Testing,Solution 02,solution
+386702,7204,build-an-epic-react-app,e2e-testing-solution-03,E2E Testing,Solution 03,solution
+386702,7205,build-an-epic-react-app,e2e-testing-solution-04,E2E Testing,Solution 04,solution
+386702,7756,build-an-epic-react-app,build-an-epic-react-app-outro,Build an Epic React App Outro,,interview
+395825,7723,epic-react-expert-interviews,creating-open-source-libraries-with-tanner-linsley,Creating Open Source Libraries with Tanner Linsley,,interview
+395825,7724,epic-react-expert-interviews,animations-and-interactions-with-josh-comeau,Animations and Interactions with Josh Comeau,,interview
+395825,7725,epic-react-expert-interviews,nextjs-and-vercel-with-guillermo-rauch,Next.js and Vercel with Guillermo Rauch,,interview
+395825,7727,epic-react-expert-interviews,building-react-based-design-systems-with-ben-ilegbodu,Building React-based Design Systems with Ben Ilegbodu,,interview
+395825,7728,epic-react-expert-interviews,the-react-ecosystem-with-tejas-kumar,The React Ecosystem with Tejas Kumar,,interview
+395825,7729,epic-react-expert-interviews,encapsulation-and-styling-with-michael-chan,Encapsulation and Styling with Michael Chan,,interview
+395825,7730,epic-react-expert-interviews,3d-animation-in-the-browser-with-paul-henschel,3D Animation in the Browser with Paul Henschel,,interview
+395825,7731,epic-react-expert-interviews,best-practices-for-maintainers-with-jenn-creighton,Best Practices for Maintainers with Jenn Creighton,,interview
+395825,7732,epic-react-expert-interviews,breaking-into-tech-with-samantha-bretous,Breaking into Tech with Samantha Bretous,,interview
+395825,7733,epic-react-expert-interviews,best-practices-of-server-side-rendering-with-monica-powell,Best Practices of Server-Side Rendering with Monica Powell,,interview
+395825,7734,epic-react-expert-interviews,mock-service-worker-msw-with-artem-zakharchenko,Mock Service Worker (MSW) with Artem Zakharchenko,,interview
+395825,7735,epic-react-expert-interviews,react-and-react-native-documentation-with-rachel-nabors,React and React Native documentation with Rachel Nabors,,interview
+395825,7726,epic-react-expert-interviews,react-developer-tools-with-brian-vaughn,React Developer Tools with Brian Vaughn,,interview

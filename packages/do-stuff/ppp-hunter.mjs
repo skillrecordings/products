@@ -44,8 +44,6 @@ for (const merchantCharge of merchantCharges) {
   const discount = lineItem?.discounts?.[0]
   const stripeCouponId = discount?.discount.coupon.id
 
-  console.log(merchantCharge.purchase[0].id, merchantCharge.purchase[0].createdAt, merchantCharge.purchase[0].country)
-
   if(stripeCouponId) {
     const stripeCoupon = await stripe.coupons.retrieve(stripeCouponId)
     if(stripeCoupon.metadata?.type === 'ppp') {
@@ -58,8 +56,6 @@ for (const merchantCharge of merchantCharges) {
             country: metadata.country,
           }
         })
-
-        console.log(purchase)
       }
     }
   }

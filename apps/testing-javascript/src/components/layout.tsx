@@ -50,7 +50,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       {!noNav && <Navigation className={navClassName} />}
       <div
         className={cx(
-          'relative z-50 flex min-h-[calc(100vh-100px)] flex-grow flex-col sm:min-h-[calc(100vh-87px)] bg-white',
+          'flex min-h-[calc(100vh-100px)] flex-grow flex-col sm:min-h-[calc(100vh-87px)]',
           className,
         )}
       >

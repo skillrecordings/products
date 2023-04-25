@@ -25,9 +25,11 @@ module.exports = {
         'tt-light': 'TT Commons W01 Light',
         'tt-regular': 'TT Commons W01 Regular',
         'tt-medium': 'TT Commons W01 Medium',
+        'tt-demibold': 'TT Commons W01 DemiBold',
       },
       colors: {
         body: '#1b1b1f',
+        checkmark: '#5cc7c7',
       },
       typography: (theme) => ({
         DEFAULT: {

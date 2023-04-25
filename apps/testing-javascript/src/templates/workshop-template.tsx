@@ -29,7 +29,7 @@ const LessonItem: React.FC<{lesson: any; index: number}> = ({
           <span className="font-tt-light">{index + 1}.</span> {title}
         </Link>
       </h3>
-      {body[0].children[0].text && (
+      {body && (
         <div className="mt-7 text-[22px]">
           <PortableText value={body} />
         </div>
@@ -75,7 +75,7 @@ const WorkshopTemplate: React.FC<{
             {workshop?.image ? (
               <div className="w-full max-w-[340px]">
                 <Image
-                  src={workshop?.image}
+                  src={workshop.image}
                   alt={workshop?.title}
                   title={workshop?.title}
                   width={340}

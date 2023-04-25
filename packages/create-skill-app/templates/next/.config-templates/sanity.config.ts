@@ -10,7 +10,7 @@ import {taxonomyManager} from 'sanity-plugin-taxonomy-manager'
 export default defineConfig({
   name: 'default',
   title: '{{appName}}',
-  projectId: 'sanity_product_id',
+  projectId: '{{sanityProjectId}}',
   dataset: 'production',
   plugins: [
     deskTool({structure: deskStructure}),

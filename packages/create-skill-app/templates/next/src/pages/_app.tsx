@@ -7,14 +7,11 @@ import {usePageview} from '@skillrecordings/analytics'
 import {initNProgress} from '@skillrecordings/react'
 import {DefaultSeo} from '@skillrecordings/next-seo'
 import {MDXProvider} from '@mdx-js/react'
-import {MDXComponents} from 'components/mdx'
 import {SessionProvider} from 'next-auth/react'
 import * as amplitude from '@amplitude/analytics-browser'
-import {FeedbackProvider} from 'feedback-widget/feedback-context'
+import {FeedbackProvider} from '@skillrecordings/feedback-widget'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
-
 import config from '../config'
-
 import {trpc} from 'trpc/trpc.client'
 import Script from 'next/script'
 import {Session} from 'next-auth'
@@ -36,7 +33,7 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
       <FeedbackProvider>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <ConvertkitProvider>
-            <MDXProvider components={MDXComponents}>
+            <MDXProvider>
               <Component {...pageProps} />
             </MDXProvider>
           </ConvertkitProvider>

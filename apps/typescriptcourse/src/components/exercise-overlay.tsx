@@ -76,7 +76,7 @@ const DefaultOverlay = () => {
       {image && (
         <div className="hidden items-center justify-center sm:flex sm:w-40 lg:w-auto">
           <Image
-            src={image}
+            src={image as string}
             alt=""
             aria-hidden="true"
             width={220}
@@ -263,7 +263,7 @@ const BlockedOverlay: React.FC = () => {
           {module.image && (
             <div className="relative ">
               <Image
-                src={module.image}
+                src={module.image as string}
                 width={120}
                 height={120}
                 alt={module.title}
