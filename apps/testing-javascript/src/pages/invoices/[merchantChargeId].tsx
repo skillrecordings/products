@@ -41,6 +41,17 @@ const Invoice: React.FC<
     setIsMounted(true)
   }, [])
 
+  const textAreaRef = React.useRef<HTMLTextAreaElement>(null)
+  const resizeTextArea = () => {
+    if (textAreaRef?.current) {
+      textAreaRef.current.style.height = 'auto'
+      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px'
+    }
+  }
+  React.useEffect(() => {
+    resizeTextArea()
+  }, [invoiceMetadata])
+
   const router = useRouter()
 
   const {data: chargeDetails, status} = trpc.invoices.getChargeDetails.useQuery(
@@ -139,7 +150,7 @@ const Invoice: React.FC<
                 972-992-5951
               </div>
             </div>
-            <div className="grid grid-cols-3 pb-64">
+            <div className="grid grid-cols-3 pb-24">
               <div className="col-span-2">
                 <p className="mb-2 text-2xl font-bold">Invoice</p>
                 Invoice ID: <strong>{merchantChargeId}</strong>
@@ -173,8 +184,9 @@ const Invoice: React.FC<
                 {isMounted && (
                   <>
                     <textarea
+                      ref={textAreaRef}
                       aria-label="Invoice notes"
-                      className="form-textarea mt-4 h-full w-full rounded-md border-2 border-indigo-500 bg-gray-50 p-3 placeholder-gray-700 print:hidden print:border-none print:bg-transparent print:p-0"
+                      className="form-textarea mt-4 min-h-[6rem] resize-none w-full rounded-md border-2 border-indigo-500 bg-gray-50 p-3 placeholder-gray-700 print:hidden print:border-none print:bg-transparent print:p-0 overflow-y-hidden"
                       value={invoiceMetadata}
                       onChange={(e) => setInvoiceMetadata(e.target.value)}
                       placeholder="Enter additional info here (optional)"

@@ -18,7 +18,6 @@ import {getSdk, Purchase} from '@skillrecordings/database'
 import CopyInviteLink from '@skillrecordings/skill-lesson/team/copy-invite-link'
 import Image from 'next/legacy/image'
 // import Balancer from 'react-wrap-balancer'
-import {PawTrail} from './redeem'
 import {first} from 'lodash'
 // import {getAllWorkshops} from 'lib/workshops'
 import {getActiveProducts} from 'server/products.server'
@@ -155,7 +154,7 @@ const ThankYou: React.FC<ThankYouProps> = ({title, byline, product, email}) => {
 
 const LoginLink: React.FC<{email: string}> = ({email}) => {
   return (
-    <div className="relative mx-auto flex w-full items-center justify-between gap-5 overflow-hidden rounded-xl bg-brand-red p-7 text-white shadow-2xl shadow-gray-400/20 selection:bg-white selection:text-brand-red sm:p-12">
+    <div className="relative mx-auto flex w-full items-center justify-between gap-5 overflow-hidden rounded-xl bg-brand-red p-7 shadow-2xl shadow-gray-400/20 selection:bg-white selection:text-brand-red sm:p-12">
       <div className="relative z-10">
         <p className="inline-flex rounded-full bg-white px-3 py-1 font-heading text-xs font-black uppercase text-brand-red sm:text-sm">
           Final step
@@ -171,14 +170,13 @@ const LoginLink: React.FC<{email: string}> = ({email}) => {
             Email sent to: {email}
           </strong>
         </div>
-        <p className="mx-auto text-sm font-medium leading-relaxed text-white sm:text-base">
+        <p className="mx-auto text-sm font-medium leading-relaxed sm:text-base">
           As a final step to access the course you need to check your inbox (
           <strong>{email}</strong>) where you will find an email from{' '}
           <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a link
           to access your purchase and start learning.
         </p>
       </div>
-      <PawTrail />
     </div>
   )
 }
