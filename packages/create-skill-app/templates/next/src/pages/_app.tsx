@@ -11,9 +11,7 @@ import {SessionProvider} from 'next-auth/react'
 import * as amplitude from '@amplitude/analytics-browser'
 import {FeedbackProvider} from '@skillrecordings/feedback-widget'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
-
 import config from '../config'
-
 import {trpc} from 'trpc/trpc.client'
 import Script from 'next/script'
 import {Session} from 'next-auth'
