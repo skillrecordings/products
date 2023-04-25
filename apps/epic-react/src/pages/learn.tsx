@@ -6,6 +6,24 @@ import {z} from 'zod'
 
 type ProductModules = z.infer<typeof ProductModulesSchema>
 
+const LessonListing = (props: {
+  lesson: {title: string; slug: string}
+  moduleSlug: string
+}) => {
+  const {lesson, moduleSlug} = props
+
+  return (
+    <li>
+      <a
+        href={`${moduleSlug}/${lesson.slug}`}
+        className="font-semibold underline"
+      >
+        {lesson.title}
+      </a>
+    </li>
+  )
+}
+
 export const getServerSideProps: GetServerSideProps<ProductModules> = async ({
   params,
 }) => {
@@ -61,14 +79,10 @@ const Modules = ({
                               <ul className="mt-1 list-inside list-decimal pl-6">
                                 {sectionResources.map((lesson) => {
                                   return (
-                                    <li>
-                                      <a
-                                        href={`${module.slug}/${lesson.slug}`}
-                                        className="font-semibold underline"
-                                      >
-                                        {lesson.title}
-                                      </a>
-                                    </li>
+                                    <LessonListing
+                                      lesson={lesson}
+                                      moduleSlug={module.slug.current}
+                                    />
                                   )
                                 })}
                               </ul>
@@ -76,14 +90,10 @@ const Modules = ({
                           )
                         } else {
                           return (
-                            <li className="mt-1 font-medium">
-                              <a
-                                href={`${module.slug}/${resource.slug}`}
-                                className="font-semibold underline"
-                              >
-                                {resource.title}
-                              </a>
-                            </li>
+                            <LessonListing
+                              lesson={resource}
+                              moduleSlug={module.slug.current}
+                            />
                           )
                         }
                       })}

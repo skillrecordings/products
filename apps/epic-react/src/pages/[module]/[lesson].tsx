@@ -3,7 +3,7 @@ import Layout from 'components/layout'
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next'
 import {z} from 'zod'
 import {getLesson, LessonSchema} from 'lib/lessons'
-import {getModule} from 'lib/modules'
+import {getModule, ModuleSchema} from 'lib/modules'
 import {
   VideoResourceProvider,
   useVideoResource,
@@ -12,14 +12,9 @@ import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
 
-// type LessonProps = {
-//   lesson: {title: string; description: string | null}
-//   module: {title: string}
-// }
-
 const LessonPropsSchema = z.object({
   lesson: LessonSchema,
-  module: z.object({title: z.string()}),
+  module: ModuleSchema,
 })
 type LessonProps = z.infer<typeof LessonPropsSchema>
 
@@ -53,6 +48,7 @@ const Lesson = ({
   module,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   console.log({body: lesson.body})
+
   return (
     <Layout meta={{title: 'Confirm your subscription'}}>
       <main className="flex flex-grow flex-col items-center justify-center px-5">
