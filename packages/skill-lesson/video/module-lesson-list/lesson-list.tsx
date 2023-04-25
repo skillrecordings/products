@@ -89,31 +89,55 @@ export const LessonList: React.FC<{
   return (
     <div ref={scrollContainerRef} data-module-lesson-list="">
       <nav aria-label="lesson list">
-        {sections && sections.length > 1 ? (
-          <Accordion.Root
-            type="single"
-            collapsible
-            onValueChange={handleOnAccordionValueChange}
-            defaultValue={openedSection}
-            value={openedSection}
-          >
-            <ul data-sections="">
-              {sections.map((section) => {
-                return (
-                  <Section
-                    lessonResourceRenderer={lessonResourceRenderer}
-                    path={path}
-                    section={section}
-                    key={section._id}
-                    openedSection={openedSection}
-                    currentSection={currentSection}
-                    module={module}
-                    ref={activeElRef}
-                  />
-                )
-              })}
-            </ul>
-          </Accordion.Root>
+        {sections ? (
+          <>
+            {sections.length > 1 ? (
+              <Accordion.Root
+                type="single"
+                collapsible
+                onValueChange={handleOnAccordionValueChange}
+                defaultValue={openedSection}
+                value={openedSection}
+              >
+                <ul data-sections="">
+                  {sections.map((section) => {
+                    return (
+                      <Section
+                        lessonResourceRenderer={lessonResourceRenderer}
+                        path={path}
+                        section={section}
+                        key={section._id}
+                        openedSection={openedSection}
+                        currentSection={currentSection}
+                        module={module}
+                        ref={activeElRef}
+                      />
+                    )
+                  })}
+                </ul>
+              </Accordion.Root>
+            ) : (
+              <ul data-single-section="">
+                {sections[0].lessons?.map((lesson: Lesson, index: number) => {
+                  return (
+                    <Lesson
+                      lessonResourceRenderer={lessonResourceRenderer}
+                      section={sections ? sections[0] : undefined}
+                      lesson={lesson}
+                      module={module}
+                      path={path}
+                      ref={activeElRef}
+                      index={index}
+                      key={lesson._id}
+                    />
+                  )
+                })}
+                {hasSectionResources && (
+                  <SectionResources section={currentSection} module={module} />
+                )}
+              </ul>
+            )}
+          </>
         ) : (
           <ul data-single-section="">
             {lessons?.map((lesson: Lesson, index: number) => {

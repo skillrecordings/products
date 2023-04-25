@@ -6,6 +6,17 @@
 @import './tips.css';
 @import './nprogress.css';
 
+@import './video/github-link.css';
+@import './video/lesson-completion-toggle.css';
+@import './video/lesson-description.css';
+@import './video/lesson-title.css';
+@import './video/module-lesson-list.css';
+@import './video/video-overlays.css';
+@import './video/video-transcript.css';
+@import './video/module-navigator.css';
+
+@import '@code-hike/mdx/dist/index.css';
+
 @tailwind utilities;
 @import './focus-visible.css';
 

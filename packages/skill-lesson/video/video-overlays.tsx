@@ -268,7 +268,7 @@ const BlockedOverlay: React.FC<{product?: SanityProduct}> = ({product}) => {
         <>
           <div data-subscribe="">
             <div data-col="1">
-              {module.image && (
+              {module?.image && (
                 <Image
                   data-image=""
                   src={module.image}
@@ -447,7 +447,7 @@ const InviteTeam: React.FC<{product?: SanityProduct}> = ({product}) => {
 
   return (
     <div data-team-purchase="">
-      {module.image && (
+      {module?.image && (
         <Image
           data-image=""
           src={module.image}
