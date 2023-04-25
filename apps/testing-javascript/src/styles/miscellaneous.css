@@ -1,0 +1,11 @@
+[data-copy-invite-link] {
+  div {
+    @apply flex;
+  }
+  input {
+    @apply grow;
+  }
+  button {
+    @apply shrink-0 ml-3;
+  }
+}
