@@ -4,14 +4,14 @@ import {getAllTips, getTip, Tip} from 'lib/tips'
 import TipTemplate from 'templates/tip-template'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
-import {serialize} from 'next-mdx-remote/serialize'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   try {
     const tip = await getTip(params?.tip as string)
     const tips = await getAllTips()
-    const tipBody = tip.body && (await serialize(tip.body))
+    const tipBody = tip.body && (await serializeMDX(tip.body))
 
     return {
       props: {

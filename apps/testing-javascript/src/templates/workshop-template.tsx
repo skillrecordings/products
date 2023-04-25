@@ -75,7 +75,7 @@ const WorkshopTemplate: React.FC<{
             {workshop?.image ? (
               <div className="w-full max-w-[340px]">
                 <Image
-                  src={workshop?.image}
+                  src={workshop.image}
                   alt={workshop?.title}
                   title={workshop?.title}
                   width={340}

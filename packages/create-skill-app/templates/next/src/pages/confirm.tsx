@@ -11,7 +11,7 @@ const ConfirmSubscriptionPage = () => {
           {/* <p className="sm:text-xl">
             Thanks so much for signing up! There’s one last step.
           </p> */}
-          <h1 className="font-heading py-8 text-4xl font-bold lg:text-5xl">
+          <h1 className="py-8 text-4xl font-bold lg:text-5xl">
             Please check your inbox for an email that just got sent.
           </h1>
           <p className="mx-auto pb-8 leading-relaxed sm:text-xl">

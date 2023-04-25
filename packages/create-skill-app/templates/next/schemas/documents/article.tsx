@@ -52,7 +52,7 @@ export default defineType({
       title: 'Body',
       type: 'text',
       rows: 20,
-      description: 'MDX is supported.',
+      description: 'Body in MDX',
       validation: (rule) => rule.required(),
     }),
     defineField({

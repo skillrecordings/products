@@ -162,10 +162,7 @@ const ExerciseTemplate: React.FC<{
                 path={path}
               />
               <div className="relative hidden flex-grow 2xl:block 2xl:bg-black/20">
-                <VideoTranscript
-                  transcript={transcript}
-                  muxPlayerRef={muxPlayerRef}
-                />
+                <VideoTranscript transcript={transcript} />
               </div>
             </div>
             <article className="relative flex-shrink-0 sm:bg-black/20 2xl:bg-transparent">
@@ -190,10 +187,7 @@ const ExerciseTemplate: React.FC<{
                   session && <LessonCompletionToggle />}
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
-                <VideoTranscript
-                  transcript={transcript}
-                  muxPlayerRef={muxPlayerRef}
-                />
+                <VideoTranscript transcript={transcript} />
               </div>
               <Image
                 src={require('../../public/assets/landing/bg-divider-6.png')}

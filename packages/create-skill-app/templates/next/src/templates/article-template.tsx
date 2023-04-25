@@ -12,7 +12,8 @@ import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Balancer from 'react-wrap-balancer'
 import config from 'config'
-import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 
 const ArticleTemplate: React.FC<{
   article: Article
@@ -176,7 +177,7 @@ const AboutAuthor: React.FC<{author: string}> = ({author}) => {
 const Body: React.FC<{mdx: MDXRemoteSerializeResult}> = ({mdx}) => {
   return (
     <main className="prose mx-auto w-full max-w-3xl px-5 py-8 md:prose-lg prose-code:break-words md:py-16 md:prose-code:break-normal">
-      <MDXRemote {...mdx} />
+      <MDX contents={mdx} />
     </main>
   )
 }

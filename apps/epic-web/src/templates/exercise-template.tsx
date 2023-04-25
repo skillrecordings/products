@@ -128,10 +128,7 @@ const ExerciseTemplate: React.FC<{
                 path={path}
               />
               <div className="relative hidden flex-grow border-t border-gray-200 dark:border-gray-900 2xl:block">
-                <VideoTranscript
-                  transcript={transcript}
-                  muxPlayerRef={muxPlayerRef}
-                />
+                <VideoTranscript transcript={transcript} />
               </div>
             </div>
             <article className="relative flex-shrink-0">
@@ -156,10 +153,7 @@ const ExerciseTemplate: React.FC<{
                   session && <LessonCompletionToggle />}
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
-                <VideoTranscript
-                  transcript={transcript}
-                  muxPlayerRef={muxPlayerRef}
-                />
+                <VideoTranscript transcript={transcript} />
               </div>
             </article>
           </main>

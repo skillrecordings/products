@@ -53,6 +53,12 @@ const canViewTutorial = ({user, subscriber, module}: ViewerAbilityInput) => {
   return contentIsTutorial && Boolean(viewer)
 }
 
+const canViewTip = ({lesson}: ViewerAbilityInput) => {
+  const contentIsTip = lesson?._type === 'tip'
+
+  return contentIsTip
+}
+
 const canViewWorkshop = ({
   user,
   module,
@@ -206,6 +212,10 @@ export function defineRulesForPurchases(
   }
 
   if (isFreelyVisible(viewerAbilityInput)) {
+    can('view', 'Content')
+  }
+
+  if (canViewTip(viewerAbilityInput)) {
     can('view', 'Content')
   }
 

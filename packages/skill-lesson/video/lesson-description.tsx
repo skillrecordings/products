@@ -4,23 +4,33 @@ import Link from 'next/link'
 import {portableTextComponents} from '../portable-text'
 import {useMuxPlayer} from '../hooks/use-mux-player'
 import {useLesson} from '../hooks/use-lesson'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '../markdown/mdx'
 
 export const LessonDescription: React.FC<{
+  lessonMDXBody?: MDXRemoteSerializeResult
+  lessonBodyPreview?: MDXRemoteSerializeResult
   productName: string
   loadingIndicator: React.ReactElement
-}> = ({productName, loadingIndicator}) => {
+}> = ({productName, loadingIndicator, lessonMDXBody, lessonBodyPreview}) => {
   const {canShowVideo, loadingUserStatus} = useMuxPlayer()
   const {lesson, module} = useLesson()
   const {body} = lesson
 
   const displayedBody = canShowVideo ? body : take(body, 3)
+  const mdx = canShowVideo ? lessonMDXBody : lessonBodyPreview
+
   return (
     <div data-lesson-description="">
       <div data-content="" data-content-visible={canShowVideo.toString()}>
-        <PortableText
-          value={displayedBody}
-          components={portableTextComponents({loadingIndicator})}
-        />
+        {lessonMDXBody ? (
+          <MDX contents={mdx as MDXRemoteSerializeResult} />
+        ) : (
+          <PortableText
+            value={displayedBody}
+            components={portableTextComponents({loadingIndicator})}
+          />
+        )}
       </div>
       {!canShowVideo && loadingUserStatus && (
         <div role="status">

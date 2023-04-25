@@ -2,13 +2,13 @@ import React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {type Article, getAllArticles, getArticle} from 'lib/articles'
 import ArticleTemplate from 'templates/article-template'
-import {serialize} from 'next-mdx-remote/serialize'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const article = await getArticle(params?.article as string)
-  const mdx = await serialize(article.body)
+  const mdx = await serializeMDX(article.body)
   return {
     props: {article, mdx},
     revalidate: 10,

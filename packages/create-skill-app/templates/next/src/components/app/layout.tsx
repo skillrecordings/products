@@ -11,6 +11,14 @@ type LayoutProps = {
   nav?: React.ReactElement | null
   footer?: React.ReactElement | null
   children?: any
+  withNavigation?: boolean
+  withFooter?: boolean
+  navigationProps?: {
+    className?: string
+  }
+  footerProps?: {
+    className?: string
+  }
 }
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
@@ -18,6 +26,10 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   className,
   meta,
   noIndex,
+  withNavigation = true,
+  withFooter = true,
+  navigationProps,
+  footerProps,
 }) => {
   const {
     title,
@@ -43,7 +55,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         canonical={url}
         noindex={noIndex}
       />
-      <Navigation />
+      {withNavigation && <Navigation {...navigationProps} />}
       <div
         className={twMerge(
           'flex h-full min-h-screen flex-grow flex-col',
@@ -52,7 +64,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       >
         {children}
       </div>
-      <Footer />
+      {withFooter && <Footer {...footerProps} />}
     </div>
   )
 }

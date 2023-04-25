@@ -7,7 +7,7 @@ import MuxPlayer, {
   MuxPlayerRefAttributes,
 } from '@mux/mux-player-react'
 import {Tip} from 'lib/tips'
-
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {useRouter} from 'next/router'
 import {
   XIcon,
@@ -38,8 +38,9 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {trpc} from 'trpc/trpc.client'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {getMarkdownComponents} from '@skillrecordings/skill-lesson/markdown/markdown-components'
+import Link from 'next/link'
 
 const TipTemplate: React.FC<{
   tip: Tip
@@ -55,6 +56,7 @@ const TipTemplate: React.FC<{
   const {data: tipResources} = trpc.tipResources.bySlug.useQuery({
     slug: tip.slug,
   })
+  const moreTips = tips.filter((otherTip) => otherTip._id !== tip._id)
 
   const tweet = tipResources?.tweetId
 
@@ -121,7 +123,7 @@ const TipTemplate: React.FC<{
         <main className="mx-auto w-full pt-0">
           <div className="relative z-10 flex items-center justify-center">
             <div className="flex w-full max-w-screen-xl flex-col">
-              <Video ref={muxPlayerRef} tips={tips} />
+              <Video ref={muxPlayerRef} tips={moreTips} />
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
@@ -151,7 +153,7 @@ const TipTemplate: React.FC<{
                 {tipBody && (
                   <>
                     <div className="prose w-full max-w-none pb-5 pt-5">
-                      <MDXRemote {...tipBody} />
+                      <MDX contents={tipBody} />
                     </div>
                   </>
                 )}
@@ -166,9 +168,11 @@ const TipTemplate: React.FC<{
                 {tweet && <ReplyOnTwitter tweet={tweet} />}
               </div>
             </div>
-            <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
-              <RelatedTips currentTip={tip} tips={tips} />
-            </div>
+            {moreTips && moreTips.length > 0 && (
+              <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
+                <MoreTips currentTip={tip} tips={moreTips} />
+              </div>
+            )}
           </article>
         </main>
       </Layout>
@@ -204,38 +208,53 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
 const Transcript: React.FC<{
   transcript: string
   muxPlayerRef: RefObject<MuxPlayerRefAttributes | null>
-}> = ({transcript, muxPlayerRef}) => {
-  const {handlePlay, video} = useMuxPlayer()
-  const components = getMarkdownComponents({muxPlayerRef, handlePlay})
+}> = ({transcript}) => {
+  const {handlePlay, canShowVideo, muxPlayerRef} = useMuxPlayer()
+  const markdownComponents = getMarkdownComponents({
+    handlePlay,
+    canShowVideo,
+    muxPlayerRef,
+  })
   return (
     <section aria-label="transcript">
       <h2 className="text-2xl font-bold">Transcript</h2>
       <div className="prose max-w-none pt-4">
-        <ReactMarkdown components={components}>{transcript}</ReactMarkdown>
+        <ReactMarkdown components={markdownComponents}>
+          {transcript}
+        </ReactMarkdown>
       </div>
     </section>
   )
 }
 
-const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
+const MoreTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   currentTip,
   tips,
 }) => {
   return (
     <section>
       <h2 className="pt-2 text-2xl font-bold">More Tips</h2>
-      <div className="flex flex-col pt-4">
+      <ul className="flex flex-col pt-4">
         {tips
-          .filter((tip) => tip.slug !== currentTip.slug)
+          .filter((tip) => tip._id !== currentTip._id)
           .map((tip) => {
             return (
-              <div>
-                {tip.title}
-                {/* <TipTeaser key={tip.slug} tip={tip} /> */}
-              </div>
+              <li key={tip._id}>
+                <Link
+                  className="underline"
+                  href={{
+                    pathname: '/tips/[tip]',
+                    query: {
+                      tip: tip.slug,
+                    },
+                  }}
+                >
+                  {tip.title}
+                </Link>
+              </li>
             )
           })}
-      </div>
+      </ul>
     </section>
   )
 }
@@ -273,12 +292,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
       <div className="ft-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-2 text-center text-lg leading-relaxed lg:absolute">
         {/* <ShareTip lesson={tip} /> */}
         <div className="grid h-full w-full grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          {take(
-            shuffle(
-              tips.filter((suggestedTip) => suggestedTip.slug !== lesson.slug),
-            ),
-            9,
-          ).map((tip) => (
+          {take(shuffle(tips), 9).map((tip) => (
             <VideoOverlayTipCard suggestedTip={tip} />
           ))}
         </div>
