@@ -5,6 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import config from 'config'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import Header from 'components/app/header'
+import {getOgImage} from 'utils/get-og-image'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const articles = await getAllArticles()
@@ -16,11 +18,18 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
+  const title = 'Articles'
+
   return (
-    <Layout meta={{title: 'Articles'}}>
-      <header className="px-5 py-24">
-        <h1 className="text-center text-4xl font-bold">Articles</h1>
-      </header>
+    <Layout
+      meta={{
+        title,
+        openGraph: {
+          images: [getOgImage({title})],
+        },
+      }}
+    >
+      <Header title={title} />
       <main className="mx-auto w-full max-w-screen-lg px-5">
         <ul className="grid grid-cols-2 justify-center gap-5">
           {articles.map((article) => {

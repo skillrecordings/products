@@ -42,14 +42,8 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
       </header>
       <main className="mx-auto grid w-full max-w-4xl grid-cols-1 flex-col gap-5 px-5 pb-24 sm:grid-cols-2">
         {publishedArticles.map((article) => {
-          const {
-            title,
-            image,
-
-            slug,
-            description,
-            estimatedReadingTime,
-          } = article
+          const {title, image, slug, description, estimatedReadingTime} =
+            article
           return (
             <article key={slug}>
               <Link

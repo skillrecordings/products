@@ -143,10 +143,7 @@ const ExerciseTemplate: React.FC<{
                 path={path}
               />
               <div className="hidden 2xl:block">
-                <VideoTranscript
-                  transcript={transcript}
-                  muxPlayerRef={muxPlayerRef}
-                />
+                <VideoTranscript transcript={transcript} />
               </div>
             </div>
             <article className="relative flex-shrink-0 border-gray-200/60 sm:bg-gray-100 2xl:h-full 2xl:border-l 2xl:bg-transparent 2xl:shadow-2xl 2xl:shadow-gray-300/40">
@@ -159,10 +156,7 @@ const ExerciseTemplate: React.FC<{
                 />
               </div>
               <div className="relative z-10 block 2xl:hidden">
-                <VideoTranscript
-                  transcript={transcript}
-                  muxPlayerRef={muxPlayerRef}
-                />
+                <VideoTranscript transcript={transcript} />
               </div>
             </article>
           </main>

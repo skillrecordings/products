@@ -5,6 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import config from 'config'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import Header from 'components/app/header'
+import {getOgImage} from 'utils/get-og-image'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const tips = await getAllTips()
@@ -16,11 +18,18 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 const Tips: React.FC<{tips: Tip[]}> = ({tips}) => {
+  const title = 'Tips'
+
   return (
-    <Layout meta={{title: 'Tips'}}>
-      <header className="px-5 py-24">
-        <h1 className="text-center text-4xl font-bold">Tips</h1>
-      </header>
+    <Layout
+      meta={{
+        title,
+        openGraph: {
+          images: [getOgImage({title})],
+        },
+      }}
+    >
+      <Header title={title} />
       <main className="mx-auto w-full max-w-screen-lg px-5">
         <ul className="flex flex-wrap justify-center gap-5">
           {tips.map((tip) => {

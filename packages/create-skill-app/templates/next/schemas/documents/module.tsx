@@ -65,9 +65,10 @@ export default defineType({
           title: 'Exercise, Sections and Explainers',
           type: 'reference',
           to: [
+            {title: 'Lesson', type: 'lesson'},
             {title: 'Exercise', type: 'exercise'},
-            {title: 'Section', type: 'section'},
             {title: 'Explainer', type: 'explainer'},
+            {title: 'Section', type: 'section'},
             {type: 'linkResource'},
           ],
         }),
@@ -75,18 +76,24 @@ export default defineType({
     }),
     defineField({
       name: 'body',
+      description: 'Body in MDX',
       title: 'Body',
-      type: 'body',
+      type: 'text',
+      rows: 20,
     }),
     defineField({
       name: 'image',
-      title: 'Image',
-      type: 'image',
+      title: 'Module Image',
+      description:
+        'Used as a module illustration. Aspect ratio should be 1:1 (square).',
+      type: 'cloudinary.asset',
     }),
     defineField({
       name: 'ogImage',
-      title: 'Share card URL',
-      type: 'url',
+      title: 'Open Graph Image',
+      description:
+        'Used as a preview image on Twitter cards etc. Size should be 1200×630.',
+      type: 'cloudinary.asset',
     }),
     defineField({
       name: 'description',
@@ -99,13 +106,13 @@ export default defineType({
     select: {
       type: 'moduleType',
       title: 'title',
-      media: 'image.asset.url',
+      media: 'image',
     },
     prepare(selection) {
       const {title, media, type} = selection
       return {
         title: `${title} ${capitalize(type)}`,
-        media: media && <img src={media} alt={title} />,
+        media: media && <img src={media.secure_url} alt={title} />,
       }
     },
   },

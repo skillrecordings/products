@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^1.3.0",
+    "@code-hike/mdx": "^0.8.2",
     "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.6",
     "@mdx-js/loader": "^2.1.2",
@@ -89,7 +90,8 @@
     "react-wrap-balancer": "^0.2.4",
     "react-markdown": "^8.0.6",
     "next-mdx-remote": "^4.1.0",
-    "@vercel/og": "^0.1.0"
+    "@vercel/og": "^0.1.0",
+    "pluralize": "^8.0.0"
   },
   "devDependencies": {
     "@next/env": "^12.2.2",
@@ -108,6 +110,7 @@
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "dotenv-flow": "^3.2.0",
+    "@types/pluralize": "^0.0.29",
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
     "jest": "^27.5.1",
