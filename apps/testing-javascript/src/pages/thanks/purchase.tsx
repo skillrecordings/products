@@ -62,14 +62,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     checkoutSessionId: session_id as string,
   })
 
-  // const workshops = await getAllWorkshops()
-  // const product = first(
-  //   workshops.filter(
-  //     (workshop: SanityDocument) =>
-  //       workshop.product.productId === purchase.productId,
-  //   ),
-  // )
-
   const products = await getActiveProducts()
   const purchasedProduct = first(
     products.filter(
