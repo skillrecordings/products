@@ -7,7 +7,7 @@ import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 
 import Layout from 'components/layout'
 import {Pricing} from 'path-to-purchase-react/pricing'
-import {getActiveProducts} from 'path-to-purchase-react/products.server'
+import {getActiveProducts} from 'server/products.server'
 import {useCoupon} from 'path-to-purchase-react/use-coupon'
 import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
 
