@@ -2109,6 +2109,7 @@ importers:
       '@sanity/vision': ^3.0.0
       '@sentry/nextjs': ^7.9.0
       '@sentry/tracing': ^7.9.0
+      '@skillrecordings/ability': workspace:*
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/convertkit-react-ui': workspace:*
@@ -2167,6 +2168,8 @@ importers:
       react-hook-form: ^7.29.0
       react-hot-toast: ^2.2.0
       react-icons: ^4.7.1
+      react-use: ^17.4.0
+      react-wrap-balancer: ^0.2.4
       sanity: ^3.0.0
       sanity-plugin-cloudinary: ^1.0.1
       styled-components: ^5.2
@@ -2196,6 +2199,7 @@ importers:
       '@sanity/vision': 3.2.5_2zpt4ilzykmne4yndyzrqd4gdm
       '@sentry/nextjs': 7.9.0_tosdbwrqkngvi22aqgwiik23xe
       '@sentry/tracing': 7.9.0
+      '@skillrecordings/ability': link:../../packages/ability
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
       '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
@@ -2230,6 +2234,8 @@ importers:
       react-hook-form: 7.29.0_react@18.2.0
       react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       react-icons: 4.7.1_react@18.2.0
+      react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
+      react-wrap-balancer: 0.2.4_react@18.2.0
       sanity: 3.2.5_34p3kynx32jfaofqogjlofkdsy
       sanity-plugin-cloudinary: 1.0.1_lwfue5ecbqwevxpjdqp6room4e
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
@@ -17639,14 +17645,13 @@ packages:
       '@ucast/mongo': 2.4.2
     dev: false
 
-  /@uiw/codemirror-extensions-basic-setup/4.19.7_b75jqe4w7qgjwbqfbsbdvntkte:
+  /@uiw/codemirror-extensions-basic-setup/4.19.7_r5d3jlum5gwy6jsylajaj62gpe:
     resolution: {integrity: sha512-pk0JTFJAZOGxouBB1pdBtb59qKibO9DW4hER4VSFGBGW3TBDeXUwL/gKujhRpySHG2MtG09cgt4a3XOFIWwXTw==}
     peerDependencies:
       '@codemirror/autocomplete': '>=6.0.0'
       '@codemirror/commands': '>=6.0.0'
       '@codemirror/language': '>=6.0.0'
       '@codemirror/search': '>=6.0.0'
-      '@codemirror/state': '>=6.0.0'
       '@codemirror/view': '>=6.0.0'
     dependencies:
       '@codemirror/autocomplete': 6.4.0
@@ -17678,7 +17683,7 @@ packages:
       '@codemirror/state': 6.2.0
       '@codemirror/theme-one-dark': 6.1.0
       '@codemirror/view': 6.7.3
-      '@uiw/codemirror-extensions-basic-setup': 4.19.7_b75jqe4w7qgjwbqfbsbdvntkte
+      '@uiw/codemirror-extensions-basic-setup': 4.19.7_r5d3jlum5gwy6jsylajaj62gpe
       codemirror: 6.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -24990,7 +24995,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4

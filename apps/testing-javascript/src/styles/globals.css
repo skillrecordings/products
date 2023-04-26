@@ -9,6 +9,7 @@
 @import './fonts.css';
 @import './focus-visible.css';
 @import './pricing.css';
+@import './miscellaneous.css';
 
 @layer base {
   html {
