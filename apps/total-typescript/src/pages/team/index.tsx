@@ -12,6 +12,9 @@ import {getToken} from 'next-auth/jwt'
 import {getSdk} from '@skillrecordings/database'
 import Card from '@skillrecordings/skill-lesson/team/card'
 import InviteTeam from '@skillrecordings/skill-lesson/team'
+import {ClaimedTeamSeats} from '@skillrecordings/skill-lesson/team/claimed-team-seats'
+import {ChevronRightIcon, DocumentTextIcon} from '@heroicons/react/solid'
+import Link from 'next/link'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const token = await getToken({req})
@@ -59,6 +62,7 @@ type TeamPageProps = {
     merchantChargeId: string | null
     bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
     product: {id: string; name: string}
+    totalAmount: number
   }
   existingPurchase: {
     id: string
@@ -103,6 +107,40 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
           icon={<TicketIcon className="w-5 text-cyan-500" aria-hidden="true" />}
         >
           <BuyMoreSeats productId={purchase.product.id} userId={userId} />
+        </Card>
+        {purchase && (
+          <div data-team-card="">
+            <div data-content="">
+              <div className="flex w-full gap-2 pb-4">
+                <div>
+                  <DocumentTextIcon aria-hidden className="w-6 text-cyan-500" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold leading-tight">
+                    Invoices
+                  </h2>
+                </div>
+              </div>
+              <Link
+                href={`/invoices`}
+                className="ml-8 mt-5 flex flex-shrink-0 items-center justify-end rounded-md bg-cyan-300/20 px-4 py-2.5 text-sm font-semibold text-cyan-300 transition hover:bg-cyan-300/30 sm:ml-0 sm:mt-0 sm:justify-center"
+              >
+                <span className="pr-0.5">View Invoices</span>
+                <ChevronRightIcon aria-hidden="true" className="w-4" />
+              </Link>
+            </div>
+          </div>
+        )}
+        <Card
+          title={{content: 'Claimed Seats', as: 'h2'}}
+          icon={<TicketIcon className="w-5 text-cyan-500" aria-hidden="true" />}
+        >
+          <ClaimedTeamSeats
+            session={session}
+            purchase={purchase}
+            existingPurchase={existingPurchase}
+            setPersonalPurchase={setPersonalPurchase}
+          />
         </Card>
       </main>
     </Layout>
