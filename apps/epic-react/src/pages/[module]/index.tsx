@@ -1,22 +1,37 @@
 import React from 'react'
 import Layout from 'components/layout'
-import {NextPage, GetServerSideProps} from 'next'
+import {InferGetServerSidePropsType, GetServerSideProps} from 'next'
+import {z} from 'zod'
+import {getModule, ModuleSchema} from 'lib/modules'
+import {ModuleListing} from 'components/module-listing'
+import {PortableText} from '@portabletext/react'
 
-export const getServerSideProps: GetServerSideProps = async ({params}) => {
+const ModulePageParamsSchema = z
+  .object({
+    module: z.string(),
+  })
+  .transform(({module}) => {
+    return {moduleSlug: module}
+  })
+
+export const getServerSideProps: GetServerSideProps<{
+  module: z.infer<typeof ModuleSchema>
+}> = async ({params}) => {
+  const {moduleSlug} = ModulePageParamsSchema.parse(params)
+
+  const module = await getModule(moduleSlug)
+
   return {
     props: {
-      module: {
-        lessons: [],
-        title: params?.module,
-      },
+      module,
     },
   }
 }
 
-const Module: NextPage<{module: {title: string; lessons: Array<Object>}}> = ({
+const Module = ({
   module,
-}) => {
-  const {title, lessons} = module
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const {title} = module
 
   return (
     <Layout meta={{title: 'Confirm your subscription'}}>
@@ -25,9 +40,12 @@ const Module: NextPage<{module: {title: string; lessons: Array<Object>}}> = ({
           <h1 className="font-heading py-8 text-4xl font-bold lg:text-5xl">
             {title}
           </h1>
-          <p className="mx-auto pb-8 leading-relaxed sm:text-xl">
-            There are {lessons.length} lessons in this module.
-          </p>
+          <div className="mb-2">
+            <PortableText value={module.body} />
+          </div>
+          <div className="flex flex-col items-start justify-start text-left">
+            <ModuleListing module={module} />
+          </div>
         </div>
       </main>
     </Layout>

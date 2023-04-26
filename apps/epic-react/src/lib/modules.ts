@@ -13,6 +13,7 @@ export const ModuleSchema = z.object({
   state: z.string(),
   moduleType: z.string(),
   description: z.string().nullable(),
+  body: z.array(z.any()),
   github: z
     .object({
       repo: z.string(),
@@ -62,8 +63,9 @@ const productModulesQuery = groq`*[_type == "product" && productId == $productId
     _id,
     _type,
     title,
-    description,
     slug,
+    description,
+    body,
     state,
     moduleType,
     github,
@@ -152,6 +154,7 @@ export const getModule = async (slug: string) => {
       moduleType,
       github,
       description,
+      body,
       _updatedAt,
       "square_cover_large_url": image.url,
       "resources": resources[@->._type in ['section', 'exercise', 'explainer', 'interview']]->{

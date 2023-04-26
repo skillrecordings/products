@@ -3,26 +3,9 @@ import Layout from 'components/layout'
 import {InferGetServerSidePropsType, GetServerSideProps} from 'next'
 import {getProductModules, ProductModulesSchema} from 'lib/modules'
 import {z} from 'zod'
+import {ModuleListing} from 'components/module-listing'
 
 type ProductModules = z.infer<typeof ProductModulesSchema>
-
-const LessonListing = (props: {
-  lesson: {title: string; slug: string}
-  moduleSlug: string
-}) => {
-  const {lesson, moduleSlug} = props
-
-  return (
-    <li>
-      <a
-        href={`${moduleSlug}/${lesson.slug}`}
-        className="font-semibold underline"
-      >
-        {lesson.title}
-      </a>
-    </li>
-  )
-}
 
 export const getServerSideProps: GetServerSideProps<ProductModules> = async ({
   params,
@@ -59,49 +42,9 @@ const Modules = ({
             There are {modules.length} modules in this product.
           </p>
           <div className="flex flex-col items-start justify-start text-left">
-            <ul className="list-none pl-0">
-              {modules.map((module) => {
-                return (
-                  <li className="mb-4 text-lg font-semibold">
-                    {module.title}
-                    <ul className="mt-2 list-inside list-disc pl-4">
-                      {module.resources.map((resource) => {
-                        if (resource._type === 'section') {
-                          // asserting that this should be defined in this case
-                          const sectionResources =
-                            resource.resources as NonNullable<
-                              typeof resource.resources
-                            >
-
-                          return (
-                            <li className="mt-1 font-medium">
-                              {resource.title}
-                              <ul className="mt-1 list-inside list-decimal pl-6">
-                                {sectionResources.map((lesson) => {
-                                  return (
-                                    <LessonListing
-                                      lesson={lesson}
-                                      moduleSlug={module.slug.current}
-                                    />
-                                  )
-                                })}
-                              </ul>
-                            </li>
-                          )
-                        } else {
-                          return (
-                            <LessonListing
-                              lesson={resource}
-                              moduleSlug={module.slug.current}
-                            />
-                          )
-                        }
-                      })}
-                    </ul>
-                  </li>
-                )
-              })}
-            </ul>
+            {modules.map((module) => {
+              return <ModuleListing module={module} />
+            })}
           </div>
         </div>
       </main>
