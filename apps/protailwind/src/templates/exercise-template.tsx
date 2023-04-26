@@ -6,12 +6,12 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {useRouter} from 'next/router'
-import {LessonDescription} from 'video/lesson-description'
-import {LessonTitle} from 'video/lesson-title'
-import {VideoTranscript} from 'video/video-transcript'
-import {Video} from 'video/video'
-import {LargeScreenModuleLessonList} from 'video/module-lesson-list/large-screen-module-lesson-list'
-import {MobileModuleLessonList} from 'video/module-lesson-list/mobile-module-lesson-list'
+import {LessonDescription} from '@skillrecordings/skill-lesson/video/lesson-description'
+import {LessonTitle} from '@skillrecordings/skill-lesson/video/lesson-title'
+import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
+import {Video} from '@skillrecordings/skill-lesson/video/video'
+import {LargeScreenModuleLessonList} from '@skillrecordings/skill-lesson/video/module-lesson-list/large-screen-module-lesson-list'
+import {MobileModuleLessonList} from '@skillrecordings/skill-lesson/video/module-lesson-list/mobile-module-lesson-list'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
 import {trpc} from 'trpc/trpc.client'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
@@ -22,12 +22,12 @@ import {
   ExplainerLink,
   ProblemLink,
   SolutionLink,
-} from 'video/module-lesson-list/lesson-list'
+} from '@skillrecordings/skill-lesson/video/module-lesson-list/lesson-list'
 import ExerciseOverlay from 'components/exercise-overlay'
 import Spinner from 'components/spinner'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
-import GitHubLink from 'video/github-link'
+import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 import GitpodLink from 'components/gitpod-link'
 
 const ExerciseTemplate: React.FC<{
@@ -143,10 +143,7 @@ const ExerciseTemplate: React.FC<{
                 path={path}
               />
               <div className="hidden 2xl:block">
-                <VideoTranscript
-                  transcript={transcript}
-                  muxPlayerRef={muxPlayerRef}
-                />
+                <VideoTranscript transcript={transcript} />
               </div>
             </div>
             <article className="relative flex-shrink-0 border-gray-200/60 sm:bg-gray-100 2xl:h-full 2xl:border-l 2xl:bg-transparent 2xl:shadow-2xl 2xl:shadow-gray-300/40">
@@ -159,10 +156,7 @@ const ExerciseTemplate: React.FC<{
                 />
               </div>
               <div className="relative z-10 block 2xl:hidden">
-                <VideoTranscript
-                  transcript={transcript}
-                  muxPlayerRef={muxPlayerRef}
-                />
+                <VideoTranscript transcript={transcript} />
               </div>
             </article>
           </main>

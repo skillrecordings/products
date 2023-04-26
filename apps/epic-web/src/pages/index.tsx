@@ -3,107 +3,103 @@ import Layout from 'components/app/layout'
 import {getPage} from 'lib/pages'
 import type {NextPage} from 'next'
 import {useReducedMotion, motion} from 'framer-motion'
-import {PortableText} from '@portabletext/react'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import AboutKent from 'components/about-kent'
-import Starfield from 'components/starfield'
+import Balancer from 'react-wrap-balancer'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {track} from 'utils/analytics'
-
-export async function getStaticProps() {
-  const page = await getPage('/')
-
-  return {
-    props: {page},
-    revalidate: 10,
-  }
-}
+import Image from 'next/image'
+import LandingCopy from 'components/landing-copy.mdx'
 
 const Index: NextPage<any> = ({page}) => {
-  const [starfieldSpeed, setStarfieldSpeed] = React.useState(0.5)
-  const {body} = page
   const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
-    <Layout>
+    <Layout navigationClassName="w-full absolute top-0">
       <Header />
-      <main className="sm:pb-48 pb-24">
-        <Article body={body} />
-        <Subscribe
-          subscriber={subscriber}
-          setStarfieldSpeed={setStarfieldSpeed}
-        />
+      <main className="">
+        <Article />
+        <Subscribe subscriber={subscriber} />
         <AboutKent />
       </main>
-      <Starfield speed={starfieldSpeed} />
+      {/* <Starfield speed={starfieldSpeed} /> */}
     </Layout>
   )
 }
 
-const Article: React.FC<{body: any}> = ({body}) => {
+const Article = () => {
   return (
-    <article className="px-5 prose max-w-none prose-p:mx-auto md:prose-xl xl:prose-h2:mt-0 sm:prose-lg prose-p:max-w-2xl mx-auto sm:prose-p:py-2 prose-headings:text-center prose-headings:py-16 xl:prose-headings:fluid-2xl xl:prose-h3:text-3xl prose-h3:pt-0 prose-h3:pb-4 prose-h3:max-w-2xl prose-h3:mx-auto prose-h3:text-left sm:prose-h3:text-2xl prose-h3:text-xl">
-      <PortableText value={body} />
+    <article className="prose mx-auto max-w-none px-5 pt-16 dark:prose-invert sm:prose-xl md:prose-xl prose-headings:text-center prose-headings:font-bold prose-p:mx-auto prose-p:max-w-2xl">
+      {/* <article className="pt-16 px-5 dark:prose-em:text-gray-200 prose-em:text-gray-800 sm:prose-p:font-light prose max-w-none prose-p:mx-auto md:prose-xl dark:prose-p:text-gray-300 prose-p:text-gray-800 xl:prose-h2:mt-0 sm:prose-xl prose-p:max-w-2xl mx-auto prose-headings:text-center prose-headings:font-normal prose-headings:py-16 xl:prose-headings:fluid-3xl xl:prose-h3:text-3xl prose-h3:pt-0 prose-h3:pb-4 prose-h3:max-w-2xl prose-h3:mx-auto prose-h3:text-left sm:prose-h3:text-2xl prose-h3:text-xl"> */}
+      <LandingCopy />
+      {/* <PortableText value={body} /> */}
     </article>
   )
 }
 
 const Header = () => {
-  const shouldReduceMotion = useReducedMotion()
   return (
-    <header className="min-h-[70vh] flex items-center justify-center py-32">
-      <div className="text-center mx-auto">
-        <h1 className="fluid-3xl lg:w-[35ch] lg:px-16 px-5 font-bold leading-tight">
-          Everything You Need to Know to Ship{' '}
-          <motion.span className="relative">
-            Modern Full-Stack
-            <motion.div
-              animate={shouldReduceMotion ? {} : {width: ['0%', '100%']}}
-              transition={{
-                delay: 0.5,
-                type: 'spring',
-                duration: 1,
-              }}
-              initial={{width: shouldReduceMotion ? '100%' : '0%'}}
-              className="h-px bg-amber-200 w-full absolute bottom-0 left-0 lg:inline-block hidden"
-            />
-          </motion.span>{' '}
-          Web Applications
+    <header className="bg-gradient-radial relative flex min-h-screen flex-col items-center justify-center py-10">
+      <div className="relative mx-auto text-center">
+        <h1 className="g:px-16 max-w-3xl px-5 font-bold fluid-3xl sm:leading-tight">
+          <span className="inline-flex pb-4 font-mono text-sm font-semibold uppercase tracking-wide text-orange-500 dark:text-yellow-200">
+            Everything You Need to Know to
+          </span>
+          <Balancer>Ship Modern Full-Stack Web Applications</Balancer>
         </h1>
       </div>
+      <div className="flex h-full w-full select-none items-center justify-center">
+        <div className="flex h-full w-full items-center justify-center">
+          <Image
+            src={require('../../public/assets/hero/debris-front.png')}
+            alt=""
+            className="pointer-events-none absolute"
+            width={800}
+          />
+          <Image
+            src={require('../../public/assets/hero/rocket.png')}
+            alt=""
+            width={700}
+            className="pointer-events-none relative z-10"
+            quality={100}
+            priority
+          />
+          <Image
+            src={require('../../public/assets/hero/debris-back.png')}
+            alt=""
+            className="pointer-events-none absolute"
+            width={700}
+          />
+        </div>
+      </div>
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 h-1/3 w-full select-none bg-gradient-to-b from-transparent to-gray-50 dark:to-gray-950"
+        aria-hidden
+      />
     </header>
   )
 }
 
 type SubscribeProps = {
   subscriber: any
-  setStarfieldSpeed: (speed: number) => void
 }
 
-const Subscribe: React.FC<SubscribeProps> = ({
-  subscriber,
-  setStarfieldSpeed,
-}) => {
+const Subscribe: React.FC<SubscribeProps> = ({subscriber}) => {
   return (
     <section
       aria-label="Newsletter sign-up"
-      className="pt-10 sm:pb-48 pb-24"
+      className="pb-32 pt-10"
       id="primary-newsletter-cta"
     >
       {!subscriber ? (
         <PrimaryNewsletterCta
-          setStarfieldSpeed={setStarfieldSpeed}
           onSubmit={() => {
             track('subscribed from landing page')
           }}
         />
       ) : (
-        <div className="lg:text-4xl sm:text-3xl text-2xl font-bold text-center">
-          You're subscribed{' '}
-          <span aria-hidden="true" className="text-brand">
-            ✧
-          </span>{' '}
-          Thanks!
+        <div className="text-center text-2xl font-bold sm:text-3xl lg:text-4xl">
+          You're subscribed <span aria-hidden="true">✧</span> Thanks!
         </div>
       )}
     </section>

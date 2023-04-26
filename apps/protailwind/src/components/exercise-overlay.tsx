@@ -9,7 +9,7 @@ import isEmpty from 'lodash/isEmpty'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {handleContinue} from 'video/video-overlays'
+import {handleContinue} from '@skillrecordings/skill-lesson/video/video-overlays'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('../exercise/sandpack/repl'),

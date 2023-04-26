@@ -3,6 +3,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
 
 module.exports = {
+  darkMode: 'class',
   content: [
     './src/**/*.tsx',
     './src/**/*.mdx',
@@ -16,44 +17,66 @@ module.exports = {
     fluidTypography: {},
     extend: {
       fontFamily: {
-        sans: ['Space Grotesk', ...defaultTheme.fontFamily.sans],
-        mono: ['Azeret Mono', ...defaultTheme.fontFamily.mono],
+        sans: ['var(--font-dmsans)', ...defaultTheme.fontFamily.sans],
+        // sans: ['Neogrotesk', ...defaultTheme.fontFamily.sans],
+        mono: ['var(--font-jetbrainsmono)', ...defaultTheme.fontFamily.mono],
       },
       colors: {
+        // black: '#0B0617',
+        // black: '#000110',
         brand: colors.amber[200],
-        gray: colors.zinc,
+        // gray: {
+        //   50: '#FBFBFC',
+        //   100: '#EFEEF1',
+        //   200: '#D7D5DD',
+        //   300: '#BEBBC9',
+        //   400: '#A6A2B4',
+        //   500: '#8E88A0',
+        //   600: '#766F8B',
+        //   700: '#605B71',
+        //   800: '#4A4658',
+        //   900: '#35323E',
+        //   950: '#292730',
+        // },
+        gray: {
+          ...colors.gray,
+          950: '#080B16',
+        },
+      },
+      screens: {
+        '2xl': '1820px',
       },
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            '*': {color: theme('colors.yellow.50')},
-            color: theme('colors.yellow.50'),
-            a: {
-              color: `${theme('colors.brand')} !important`,
-              textDecoration: 'none !important',
-            },
-            'a:hover': {
-              textDecoration: 'underline !important',
-            },
-            ol: {
-              'li::marker': {color: theme('colors.brand')},
-            },
-            ul: {
-              'li::marker': {color: theme('colors.brand')},
+            color: theme('colors.gray.800'),
+            'h1, h2, h3, h4': {
+              color: theme('colors.gray.900'),
             },
             'code::before': {
-              content: '""',
+              content: "''",
             },
             'code::after': {
-              content: '""',
+              content: "''",
             },
             code: {
-              background: theme('colors.gray.700'),
-              padding: '1px 3px',
-              borderRadius: 3,
-              fontSize: '80% !important',
-              fontWeight: 500,
-              color: theme('colors.white'),
+              fontSize: theme('fontSize.sm'),
+              padding: theme('spacing.1'),
+              borderRadius: theme('borderRadius.sm'),
+              color: theme('colors.gray.800'),
+              backgroundColor: theme('colors.gray.200'),
+            },
+          },
+        },
+        invert: {
+          css: {
+            color: theme('colors.gray.200'),
+            'h1, h2, h3, h4': {
+              color: theme('colors.gray.100'),
+            },
+            code: {
+              color: theme('colors.gray.200'),
+              backgroundColor: theme('colors.gray.800'),
             },
           },
         },
@@ -65,5 +88,6 @@ module.exports = {
     require('@tailwindcss/typography'),
     require('tailwind-fluid-typography'),
     require('tailwind-scrollbar'),
+    require('tailwindcss-radix'),
   ],
 }

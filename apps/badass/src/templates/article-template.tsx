@@ -23,7 +23,6 @@ const ArticleTemplate: React.FC<
   React.PropsWithChildren<ArticleTemplateProps>
 > = ({article}) => {
   const {title, description, body, _createdAt: date, video} = article
-  console.log({video})
   const shortDescription =
     description || (body && toPlainText(body).substring(0, 157) + '...')
 

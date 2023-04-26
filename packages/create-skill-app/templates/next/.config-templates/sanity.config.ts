@@ -5,17 +5,19 @@ import {schemaTypes} from './schemas'
 import deskStructure from './schemas/deskStructure'
 import {codeInput} from '@sanity/code-input'
 import {cloudinarySchemaPlugin} from 'sanity-plugin-cloudinary'
+import {taxonomyManager} from 'sanity-plugin-taxonomy-manager'
 
 export default defineConfig({
   name: 'default',
   title: '{{appName}}',
-  projectId: 'sanity_product_id',
+  projectId: '{{sanityProjectId}}',
   dataset: 'production',
   plugins: [
     deskTool({structure: deskStructure}),
     visionTool(),
     codeInput(),
     cloudinarySchemaPlugin(),
+    taxonomyManager(),
   ],
   schema: {
     types: schemaTypes,

@@ -31,6 +31,8 @@ export async function lookupUser({
         purchases: {
           select: {
             id: true,
+            country: true,
+            status: true,
             merchantCharge: {
               select: {
                 id: true,

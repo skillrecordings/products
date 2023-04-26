@@ -7,8 +7,8 @@ import Layout from 'components/app/layout'
 import {getToken} from 'next-auth/jwt'
 import Image from 'next/legacy/image'
 import {motion, useScroll, useTransform} from 'framer-motion'
-import {PricingTiers} from '../../path-to-purchase-react/product-tiers'
-import {getProductBySlug} from '../../path-to-purchase-react/products.server'
+import {PricingTiers} from '@skillrecordings/skill-lesson/path-to-purchase/product-tiers'
+import {getProductBySlug} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
 
 const ProductPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponFromCode,

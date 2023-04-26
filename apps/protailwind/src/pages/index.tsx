@@ -11,10 +11,10 @@ import NewsletterSubscribeForm from 'components/subscribe-form'
 import LandingCopy from 'components/landing-copy.mdx'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
-import {getActiveProducts} from '../path-to-purchase-react/products.server'
+import {getActiveProducts} from 'server/products.server'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
-import {useCoupon} from '../path-to-purchase-react/use-coupon'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
@@ -62,7 +62,7 @@ export default Home
 
 const Header = () => {
   return (
-    <header className="w-full px-8 pt-10 pb-16 sm:pt-28 sm:pb-28">
+    <header className="w-full px-8 pb-16 pt-10 sm:pb-28 sm:pt-28">
       <div className="mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center gap-16 md:flex-row">
         <div className="flex w-80 items-center justify-center md:w-auto lg:flex-shrink-0">
           <Image
@@ -87,8 +87,7 @@ const HeaderContent = () => {
         <span className="text-brand-red">Concepts & Patterns</span>
       </h1>
       <p className="max-w-sm pt-5 text-center text-lg sm:text-xl md:text-left">
-        Increase development velocity and craft sustainable systems for your
-        team
+        Ride the wave of productivity, craft sustainable systems for your team.
       </p>
       <Instructor />
     </div>
@@ -119,7 +118,7 @@ const Copy = () => {
 
 const Bio = () => {
   return (
-    <section className="relative z-10 -mt-24 flex items-center justify-center py-10 px-5 sm:py-16 md:mt-0 lg:py-24">
+    <section className="relative z-10 -mt-24 flex items-center justify-center px-5 py-10 sm:py-16 md:mt-0 lg:py-24">
       <div className="flex max-w-screen-sm flex-col items-center justify-center gap-10 md:max-w-screen-md md:flex-row md:items-start">
         <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-md shadow-xl ring-4 ring-white/30">
           <Image

@@ -4,7 +4,7 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 export default defineType({
   name: 'section',
   type: 'document',
-  title: 'Section',
+  title: 'Workshop Section',
   description: 'A named group of resources within a module.',
   icon: MdOutlineGroupWork,
   preview: {
@@ -39,18 +39,25 @@ export default defineType({
       name: 'resources',
       title: 'Resources',
       type: 'array',
-      description: 'Exercises, Explainers, or Link Resources in the Section',
+      description: 'Lessons in the section',
       of: [
         defineArrayMember({
           type: 'reference',
-          to: [{type: 'exercise'}, {type: 'explainer'}, {type: 'linkResource'}],
+          to: [
+            {type: 'exercise'},
+            {type: 'explainer'},
+            {type: 'lesson'},
+            {type: 'linkResource'},
+          ],
         }),
       ],
     }),
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'body',
+      description: 'Body in MDX',
+      type: 'text',
+      rows: 20,
     }),
     defineField({
       name: 'description',
@@ -58,6 +65,17 @@ export default defineType({
       description: 'Used as a short "SEO" summary on Twitter cards etc.',
       type: 'text',
       validation: (Rule) => Rule.max(160),
+    }),
+    defineField({
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        }),
+      ],
     }),
   ],
 })

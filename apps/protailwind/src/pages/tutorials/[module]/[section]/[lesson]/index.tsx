@@ -8,7 +8,7 @@ import {walk} from 'utils/code-editor-content'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
-import {ModuleProgressProvider} from 'video/module-progress'
+import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -21,7 +21,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const tutorialDirectory = path.join(
     process.cwd(),
-    'src/video/exercise/sandpack/parcel',
+    'src/exercise/sandpack/parcel',
   )
   const tutorialFiles = walk(tutorialDirectory)
 

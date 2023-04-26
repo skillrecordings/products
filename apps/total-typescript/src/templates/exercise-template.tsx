@@ -4,20 +4,20 @@ import Layout from 'components/app/layout'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import Image from 'next/legacy/image'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {Video} from 'video/video'
-import GitHubLink from '../video/github-link'
+import {Video} from '@skillrecordings/skill-lesson/video/video'
+import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 import {useRouter} from 'next/router'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import {LargeScreenModuleLessonList} from 'video/module-lesson-list/large-screen-module-lesson-list'
-import {MobileModuleLessonList} from 'video/module-lesson-list/mobile-module-lesson-list'
-import {LessonDescription} from '../video/lesson-description'
-import {LessonTitle} from 'video/lesson-title'
-import {VideoTranscript} from 'video/video-transcript'
+import {LargeScreenModuleLessonList} from '@skillrecordings/skill-lesson/video/module-lesson-list/large-screen-module-lesson-list'
+import {MobileModuleLessonList} from '@skillrecordings/skill-lesson/video/module-lesson-list/mobile-module-lesson-list'
+import {LessonDescription} from '@skillrecordings/skill-lesson/video/lesson-description'
+import {LessonTitle} from '@skillrecordings/skill-lesson/video/lesson-title'
+import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
 import {trpc} from '../trpc/trpc.client'
-import LessonCompletionToggle from 'video/lesson-completion-toggle'
+import LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
 import {useSession} from 'next-auth/react'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
@@ -27,7 +27,7 @@ import {
   ExplainerLink,
   ProblemLink,
   SolutionLink,
-} from 'video/module-lesson-list/lesson-list'
+} from '@skillrecordings/skill-lesson/video/module-lesson-list/lesson-list'
 import ExerciseOverlay from 'components/exercise-overlay'
 import Spinner from 'components/spinner'
 import {getExerciseGitHubUrl} from 'exercise/get-exercise-github-url'
@@ -162,23 +162,22 @@ const ExerciseTemplate: React.FC<{
                 path={path}
               />
               <div className="relative hidden flex-grow 2xl:block 2xl:bg-black/20">
-                <VideoTranscript
-                  transcript={transcript}
-                  muxPlayerRef={muxPlayerRef}
-                />
+                <VideoTranscript transcript={transcript} />
               </div>
             </div>
             <article className="relative flex-shrink-0 sm:bg-black/20 2xl:bg-transparent">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-6 2xl:max-w-xl">
                 <LessonTitle />
-                <GitHubLink
-                  exercise={lesson}
-                  module={module}
-                  loadingIndicator={<Spinner className="h-7 w-7" />}
-                  url={exerciseGitHubUrl}
-                  file={openFile}
-                  repository={module?.github?.repo}
-                />
+                {openFile && (
+                  <GitHubLink
+                    exercise={lesson}
+                    module={module}
+                    loadingIndicator={<Spinner className="h-7 w-7" />}
+                    url={exerciseGitHubUrl}
+                    file={openFile}
+                    repository={module?.github?.repo}
+                  />
+                )}
                 <LessonDescription
                   productName={activeProduct?.name || module.title}
                   loadingIndicator={<Spinner />}
@@ -188,10 +187,7 @@ const ExerciseTemplate: React.FC<{
                   session && <LessonCompletionToggle />}
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
-                <VideoTranscript
-                  transcript={transcript}
-                  muxPlayerRef={muxPlayerRef}
-                />
+                <VideoTranscript transcript={transcript} />
               </div>
               <Image
                 src={require('../../public/assets/landing/bg-divider-6.png')}

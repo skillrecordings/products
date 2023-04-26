@@ -3,6 +3,10 @@
  */
 import * as trpcNext from '@trpc/server/adapters/next'
 import {createContext} from '@skillrecordings/skill-lesson/trpc/trpc-context'
+// import {
+//   SkillLessonRouter,
+//   skillLessonRouter,
+// } from '@skillrecordings/skill-lesson/trpc/routers/_skill-lesson-router'
 import {AppRouter, appRouter} from 'trpc/routers/_app'
 import {nextAuthOptions} from '../auth/[...nextauth]'
 

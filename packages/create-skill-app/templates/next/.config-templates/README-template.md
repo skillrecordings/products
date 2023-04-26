@@ -21,6 +21,7 @@ Missing system dependencies should be installed. They will be assumed below.
 ## Serverless Access
 
 You may need access to the following serverless accounts to run the app:
+
 - Stripe (for Stripe env vars and Stripe CLI)
 - Vercel (for env vars, e.g. `POSTMARK_KEY`)
 - Planetscale (if needed) or use MySQL in Docker
@@ -41,13 +42,13 @@ pnpm install
 
 Copy the template `.env.local.template` file to `.env.local` and `.env.template` to `.env`
 
-🔒 `env.local` contains local __private environment variables__
+🔒 `env.local` contains local **private environment variables**
 
-* `ALGOLIA_API_WRITE_KEY`: Required when running `pnpm build` which invokes `next build` which use `NODE_ENV=production`.
-* `CONVERTKIT_API_SECRET`: not required for local development unless actively working on ConvertKit integration. Can be found in 1password.
-* `POSTMARK_KEY`: not required to run in dev, but enables email sending from local environment. Can be found in 1password.
-* `STRIPE_SECRET_TOKEN`: Not required unless you need to make an end to end purchase. Can be found in 1password.
-* `STRIPE_WEBHOOK_SECRET`: Not required unless you need to make a purchase. This value can be acquired by running `pnpm dev:stripe` and observing it there. The value is stable for your local `stripe` cli installation.
+- `ALGOLIA_API_WRITE_KEY`: Required when running `pnpm build` which invokes `next build` which use `NODE_ENV=production`.
+- `CONVERTKIT_API_SECRET`: not required for local development unless actively working on ConvertKit integration. Can be found in 1password.
+- `POSTMARK_KEY`: not required to run in dev, but enables email sending from local environment. Can be found in 1password.
+- `STRIPE_SECRET_TOKEN`: Not required unless you need to make an end to end purchase. Can be found in 1password.
+- `STRIPE_WEBHOOK_SECRET`: Not required unless you need to make a purchase. This value can be acquired by running `pnpm dev:stripe` and observing it there. The value is stable for your local `stripe` cli installation.
 
 👋 `.env` is **required by Prisma** and **only** contains `DATABASE_URL`. The full contents
 of this file by default are are:
@@ -293,3 +294,11 @@ pscale database restore-dump {{appName}} next-steps --dir ./seed_data/pscale_dat
 ## Edit content
 
 Edit workshops with Sanity at [{{appName}}.sanity.studio](https://{{appName}}.sanity.studio/).
+
+## Edit content schema
+
+You can make changes to Sanity schema by editing contents inside `schema` directory. To run local version of Sanity:
+
+```
+pnpm dev:sanity
+```

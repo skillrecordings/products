@@ -1,28 +1,20 @@
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import type {NextPage} from 'next'
-import {trpc} from '../trpc/trpc.client'
-import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
-
-const useAbilities = () => {
-  const {data: abilityRules} = trpc.abilities.getAbilities.useQuery()
-
-  return createAppAbility(abilityRules || [])
-}
+import LandingCopy from 'components/landing-copy.mdx'
+import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 
 const Home: NextPage = () => {
-  const ability = useAbilities()
-  const canViewTeam = ability.can('view', 'Team')
-  const canViewInvoice = ability.can('view', 'Invoice')
-
   return (
     <Layout>
-      <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center flex-grow">
-        Hi! 👋
-      </h1>
-      <ul>
-        <li>Can View Invoice: {canViewInvoice ? 'true' : 'false'}</li>
-        <li>Can View Team: {canViewTeam ? 'true' : 'false'}</li>
-      </ul>
+      <header className="mx-auto flex w-full max-w-screen-lg items-center justify-center text-center">
+        <h1 className="py-24 text-6xl font-bold">Hi! 👋</h1>
+      </header>
+      <main>
+        <article className="prose mx-auto w-full max-w-2xl sm:prose-lg">
+          <LandingCopy />
+        </article>
+        <PrimaryNewsletterCta className="pt-20" />
+      </main>
     </Layout>
   )
 }

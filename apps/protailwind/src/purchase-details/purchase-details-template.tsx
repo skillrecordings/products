@@ -5,12 +5,12 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {find, first, get, indexOf, isArray, isEmpty} from 'lodash'
 import {format} from 'date-fns'
 import {trpc} from 'trpc/trpc.client'
-import BuyMoreSeats from 'team/buy-more-seats'
+import BuyMoreSeats from '@skillrecordings/skill-lesson/team/buy-more-seats'
 import Balancer from 'react-wrap-balancer'
 import Layout from 'components/layout'
 import Link from 'next/link'
 import Image from 'next/image'
-import InviteTeam from 'team'
+import InviteTeam from '@skillrecordings/skill-lesson/team'
 import {useSession} from 'next-auth/react'
 import {Icon, type IconNames} from '@skillrecordings/skill-lesson/icons'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -258,7 +258,6 @@ const ManageTeam: React.FC<{
         session={session}
         purchase={purchase}
         existingPurchase={existingPurchase}
-        className="flex w-full flex-col py-3"
       />
     </div>
   )

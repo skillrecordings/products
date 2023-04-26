@@ -9,13 +9,14 @@
 @import './portable-text.css';
 @import '../purchase-details/purchase-details.css';
 @import '@skillrecordings/feedback-widget/dist/styles.css';
+@import './team.css';
 
-@import '../video/module-lesson-list/styles.css';
-@import '../video/video-overlays/styles.css';
-@import '../video/lesson-description/styles.css';
-@import '../video/lesson-title/styles.css';
-@import '../video/video-transcript/styles.css';
-@import '../video/github-link/styles.css';
+@import './video/module-lesson-list.css';
+@import './video/video-overlays.css';
+@import './video/lesson-description.css';
+@import './video/lesson-title.css';
+@import './video/video-transcript.css';
+@import './video/github-link.css';
 
 @tailwind utilities;
 

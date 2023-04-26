@@ -8,7 +8,7 @@ import WorkshopTemplate from '../../../templates/workshop-template'
 
 import {trpc} from '../../../trpc/trpc.client'
 import {useRouter} from 'next/router'
-import {ModuleProgressProvider} from 'video/module-progress'
+import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 

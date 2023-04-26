@@ -62,7 +62,9 @@ export default defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'body',
+      description: 'Body in MDX',
+      type: 'text',
+      rows: 20,
     }),
     defineField({
       name: 'description',

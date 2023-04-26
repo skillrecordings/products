@@ -23,7 +23,7 @@ const DialogComp: React.FC<React.PropsWithChildren<DialogProps>> = ({
         <Dialog.Content
           // onPointerDownOutside={handleCloseDialog}
           onEscapeKeyDown={handleCloseDialog}
-          className="fixed top-1/2 left-1/2 z-50 max-h-[85vh] w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border border-gray-800 bg-gray-900 p-5 shadow-2xl shadow-black/50"
+          className="fixed left-1/2 top-1/2 z-50 max-h-[85vh] w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border border-gray-800 bg-gray-900 p-5 shadow-2xl shadow-black/50"
         >
           <CloseButton
             ref={closeButtonRef}
@@ -46,7 +46,7 @@ type CloseButtonProps = {
 const CloseButton = React.forwardRef<HTMLButtonElement, CloseButtonProps>(
   ({handleCloseDialog}, ref) => {
     return (
-      <div className="absolute top-2 right-2">
+      <div className="absolute right-2 top-2">
         <button
           ref={ref}
           type="button"

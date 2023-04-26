@@ -1,11 +1,11 @@
 import React from 'react'
 import Layout from 'components/app/layout'
 import {GetServerSideProps} from 'next'
-import BuyMoreSeats from 'team/buy-more-seats'
+import BuyMoreSeats from '@skillrecordings/skill-lesson/team/buy-more-seats'
 import {TicketIcon} from '@heroicons/react/outline'
 import {getToken} from 'next-auth/jwt'
 import {getSdk} from '@skillrecordings/database'
-import Card from 'team/card'
+import Card from '@skillrecordings/skill-lesson/team/card'
 import {z} from 'zod'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
@@ -127,7 +127,7 @@ const BuyMoreSeatsPage: React.FC<
   React.PropsWithChildren<BuyMoreSeatsPageProps>
 > = ({product, userId}) => {
   const {description, title, id, image, features, modules} = product
-  console.log({product})
+
   return (
     <Layout
       meta={{

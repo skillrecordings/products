@@ -18,6 +18,7 @@ import yaml from 'refractor/lang/yaml'
 import css from 'refractor/lang/css'
 import jsx from 'refractor/lang/jsx'
 import tsx from 'refractor/lang/tsx'
+import {Icon} from '../icons'
 
 Refractor.registerLanguage(js)
 Refractor.registerLanguage(css)
@@ -110,6 +111,46 @@ const InternalLink: React.FC<InternalLinkProps> = ({value, children}) => {
     >
       {children}
     </Link>
+  )
+}
+
+type BodyTweetProps = {
+  value: {
+    text: any[]
+    url: string
+    author: {
+      name: string
+      handle: string
+      avatar: string
+    }
+  }
+}
+
+const BodyTweet: React.FC<BodyTweetProps> = ({value}) => {
+  const {text, url, author} = value
+  const {avatar, name, handle} = author
+  return (
+    <blockquote data-body-tweet="">
+      <div data-header="">
+        <a
+          href={`https://twitter.com/${handle}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-author=""
+        >
+          <Image src={avatar} alt={name} width={48} height={48} />
+          <div data-name="">
+            {name} <div data-handle="">@{handle}</div>
+          </div>
+        </a>
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          <Icon name="Twitter" size="20" />
+        </a>
+      </div>
+      <div data-body="">
+        <PortableText value={text} />
+      </div>
+    </blockquote>
   )
 }
 
@@ -243,6 +284,9 @@ const portableTextComponents = ({
       },
     },
     types: {
+      bodyTweet: ({value}: BodyTweetProps) => {
+        return <BodyTweet value={value} />
+      },
       bodyHlsVideo: ({value}: BodyVideoProps) => {
         const {url, title, caption} = value
         return (
@@ -306,7 +350,6 @@ const portableTextComponents = ({
         )
       },
       bodyImage: ({value}: BodyImageProps) => {
-        console.log({value})
         return <BodyImage value={value} loadingIndicator={loadingIndicator} />
       },
       code: ({value}: CodeProps) => {

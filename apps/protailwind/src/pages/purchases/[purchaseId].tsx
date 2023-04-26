@@ -4,7 +4,7 @@ import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-serve
 import PurchaseDetailsTemplate, {
   type PurchaseDetailsProps,
 } from 'purchase-details/purchase-details-template'
-import {getActiveProduct} from 'path-to-purchase-react/products.server'
+import {getActiveProduct} from 'server/products.server'
 import {getSdk} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
 import isString from 'lodash/isString'

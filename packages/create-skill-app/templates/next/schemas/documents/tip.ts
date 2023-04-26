@@ -46,12 +46,14 @@ export default defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'body',
+      type: 'text',
+      rows: 10,
     }),
     defineField({
       name: 'summary',
       title: 'Summary',
-      type: 'body',
+      type: 'text',
+      rows: 5,
     }),
     defineField({
       name: 'description',

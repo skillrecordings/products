@@ -1,5 +1,5 @@
 import {publicProcedure, router} from '@skillrecordings/skill-lesson'
-import {getActiveProducts} from 'path-to-purchase-react/products.server'
+import {getActiveProducts} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
 
 export const productsRouter = router({
   getProducts: publicProcedure.query(async () => {

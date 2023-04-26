@@ -1,6 +1,24 @@
 import {serve} from 'inngest/next'
-import {convertkitSurveyAnswered} from '@skillrecordings/inngest'
+import {convertkitSurveyAnswered, inngest} from '@skillrecordings/inngest'
 
-export default serve(process.env.NEXT_PUBLIC_SITE_TITLE, [
-  convertkitSurveyAnswered,
-])
+type HelloWorld = {
+  name: 'test/hello.world'
+  data: {
+    name: string
+    email: string
+  }
+}
+type Events = {
+  'test/hello.world': HelloWorld
+}
+
+const helloWorld = inngest.createFunction(
+  {name: 'Hello Worldzzzz'},
+  {event: 'test/hello.world'},
+  async ({event, step}) => {
+    await step.sleep('1s')
+    return {event, body: 'Hello, World!'}
+  },
+)
+
+export default serve(inngest, [convertkitSurveyAnswered, helloWorld])
