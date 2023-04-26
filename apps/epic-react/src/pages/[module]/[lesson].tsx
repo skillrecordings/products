@@ -10,7 +10,6 @@ import {
 } from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
-import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
 
 const LessonPropsSchema = z.object({
   lesson: LessonSchema,
@@ -76,14 +75,12 @@ const Lesson = ({
 const LessonTemplate = ({transcript}: {transcript: any[]}) => {
   const {videoResourceId, videoResource} = useVideoResource()
 
-  const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
-
   return (
     <div>
       <p>Video Resource ID: {videoResourceId}</p>
       <p>Render video here...</p>
       <div className="relative flex-grow 2xl:block 2xl:bg-black/20">
-        <VideoTranscript transcript={transcript} muxPlayerRef={muxPlayerRef} />
+        <VideoTranscript transcript={transcript} />
       </div>
     </div>
   )
