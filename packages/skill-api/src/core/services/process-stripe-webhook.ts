@@ -5,6 +5,7 @@ import {recordNewPurchase, stripe} from '@skillrecordings/commerce-server'
 import {buffer} from 'micro'
 import {postSaleToSlack, sendServerEmail} from '../../server'
 import {convertkitTagPurchase} from './convertkit'
+import {inngest} from '@skillrecordings/inngest'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -42,6 +43,13 @@ export async function processStripeWebhooks({
         const {user, purchase, purchaseInfo} = await recordNewPurchase(
           event.data.object.id,
         )
+
+        await inngest.send({
+          name: 'stripe/checkout.session.completed',
+          data: {
+            checkoutSessionId: event.data.object.id,
+          },
+        })
 
         if (!user) throw new Error('no-user-created')
 

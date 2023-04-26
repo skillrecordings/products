@@ -2636,6 +2636,7 @@ importers:
       '@types/lodash': ^4.14.179
       '@types/mdx': ^2.0.2
       '@types/mdx-js__react': ^1.5.5
+      '@types/micro': ^7.3.7
       '@types/mjml': ^4.7.0
       '@types/node': ^17.0.0
       '@types/nodemailer': ^6.4.4
@@ -2669,6 +2670,7 @@ importers:
       jsonwebtoken: ^8.5.1
       lint-staged: ^11.2.6
       lodash: ^4.17.21
+      micro: ^9.3.4
       mjml: ^4.12.0
       msw: ^0.35.0
       next: ^13.1.2
@@ -2761,6 +2763,7 @@ importers:
       '@trpc/next': 10.7.0_ugkwfq4p7rtp4nzc2ulppxnmju
       '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
+      '@types/micro': 7.3.7
       '@types/pluralize': 0.0.29
       '@vercel/og': 0.1.0
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
@@ -2781,6 +2784,7 @@ importers:
       js-cookie: 3.0.1
       jsonwebtoken: 8.5.1
       lodash: 4.17.21
+      micro: 9.3.4
       mjml: 4.12.0
       next: 13.1.2_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.19.2_7jnwqgtpcnwg4nzft4b6xlzlfi
@@ -3677,22 +3681,42 @@ importers:
 
   packages/inngest:
     specifiers:
+      '@skillrecordings/commerce-server': workspace:*
+      '@skillrecordings/database': workspace:*
       '@skillrecordings/tsconfig': workspace:*
+      '@types/date-fns': ^2.6.0
+      '@types/mjml': ^4.7.0
       '@types/node': ^18.11.18
+      '@types/nodemailer': ^6.4.4
+      date-fns: ^2.29.3
       eslint: ^8.12.0
       eslint-config-custom: workspace:*
       inngest: ^1.7.1
+      mjml: ^4.12.0
+      next-auth: ^4.19.2
+      nodemailer: ^6.7.2
+      nodemailer-postmark-transport: ^5.2.1
       rimraf: ^3.0.2
       tsup: ^5.11.13
       tsx: ^3.7.1
       typescript: ^4.9.4
     dependencies:
+      '@skillrecordings/commerce-server': link:../commerce-server
+      '@skillrecordings/database': link:../database
+      '@types/date-fns': 2.6.0
+      date-fns: 2.29.3
       inngest: 1.7.1_typescript@4.9.4
+      mjml: 4.12.0
+      next-auth: 4.19.2_nodemailer@6.7.2
     devDependencies:
       '@skillrecordings/tsconfig': link:../tsconfig
+      '@types/mjml': 4.7.0
       '@types/node': 18.11.18
+      '@types/nodemailer': 6.4.4
       eslint: 8.26.0
       eslint-config-custom: link:../eslint-config-custom
+      nodemailer: 6.7.2
+      nodemailer-postmark-transport: 5.2.1_nodemailer@6.7.2
       rimraf: 3.0.2
       tsup: 5.12.9_typescript@4.9.4
       tsx: 3.8.0
@@ -4062,7 +4086,7 @@ importers:
       '@types/lodash': ^4.14.179
       '@types/micro': ^7.3.7
       '@types/mjml': ^4.7.0
-      '@types/node': ^17.0.0
+      '@types/node': ^18.11.18
       '@types/nodemailer': ^6.4.4
       '@types/oauth': ^0.9.1
       '@types/pluralize': ^0.0.29
@@ -4145,7 +4169,7 @@ importers:
       '@types/lodash': 4.14.180
       '@types/micro': 7.3.7
       '@types/mjml': 4.7.0
-      '@types/node': 17.0.41
+      '@types/node': 18.15.11
       '@types/nodemailer': 6.4.4
       '@types/oauth': 0.9.1
       '@types/pluralize': 0.0.29
@@ -11575,7 +11599,7 @@ packages:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
-      '@mdx-js/loader': 2.1.5_webpack@5.73.0
+      '@mdx-js/loader': 2.1.5_webpack@4.46.0
       '@mdx-js/react': 2.1.5_react@18.2.0
     dev: false
 
@@ -12030,7 +12054,7 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
-      '@types/node': 18.11.18
+      '@types/node': 18.15.11
       playwright-core: 1.25.2
     dev: false
 
@@ -15390,7 +15414,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.14
 
   /@tanstack/match-sorter-utils/8.7.6:
     resolution: {integrity: sha512-2AMpRiA6QivHOUiBpQAVxjiHAA68Ei23ZUMNaRJrN6omWiSFLoYrxGcT6BXtuzp0Jw4h6HZCmGGIM/gbwebO2A==}
@@ -16097,7 +16121,7 @@ packages:
   /@types/cors/2.8.13:
     resolution: {integrity: sha512-RG8AStHlUiV5ysZQKq97copd2UmVYw3/pRMLefISZ3S1hK104Cwm7iLQ3fTKx+lsUH2CE8FlLaYeEA2LSeqYUA==}
     dependencies:
-      '@types/node': 18.11.18
+      '@types/node': 18.15.11
     dev: true
 
   /@types/cross-spawn/6.0.0:
@@ -16105,6 +16129,13 @@ packages:
     dependencies:
       '@types/node': 18.11.18
     dev: true
+
+  /@types/date-fns/2.6.0:
+    resolution: {integrity: sha512-9DSw2ZRzV0Tmpa6PHHJbMcZn79HHus+BBBohcOaDzkK/G3zMjDUDYjJIWBFLbkh+1+/IOS0A59BpQfdr37hASg==}
+    deprecated: This is a stub types definition for date-fns (https://github.com/date-fns/date-fns). date-fns provides its own type definitions, so you don't need @types/date-fns installed!
+    dependencies:
+      date-fns: 2.29.3
+    dev: false
 
   /@types/debug/4.1.7:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
@@ -16187,7 +16218,7 @@ packages:
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 18.11.18
+      '@types/node': 18.15.11
     dev: true
 
   /@types/glob/7.2.0:
@@ -16308,7 +16339,7 @@ packages:
   /@types/jsonfile/6.1.1:
     resolution: {integrity: sha512-GSgiRCVeapDN+3pqA35IkQwasaCh/0YFH5dEF6S88iDvEn901DjOeH3/QPY+XYP1DFzDZPvIvfeEgk+7br5png==}
     dependencies:
-      '@types/node': 18.11.18
+      '@types/node': 18.15.11
 
   /@types/jsonwebtoken/8.5.8:
     resolution: {integrity: sha512-zm6xBQpFDIDM6o9r6HSgDeIcLy82TKWctCXEPbJJcXb5AKmi5BNNdLXneixK4lplX3PqIVcwLBCGE/kAGnlD4A==}
@@ -16395,8 +16426,7 @@ packages:
   /@types/micro/7.3.7:
     resolution: {integrity: sha512-MFsX7eCj0Tg3TtphOQvANNvNtFpya+s/rYOCdV6o+DFjOQPFi2EVRbBALjbbgZTXUaJP1Q281MJiJOD40d0UxQ==}
     dependencies:
-      '@types/node': 18.11.18
-    dev: true
+      '@types/node': 18.15.11
 
   /@types/minimatch/3.0.5:
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
@@ -16480,7 +16510,7 @@ packages:
   /@types/oauth/0.9.1:
     resolution: {integrity: sha512-a1iY62/a3yhZ7qH7cNUsxoI3U/0Fe9+RnuFrpTKr+0WVOzbKlSLojShCKe20aOD1Sppv+i8Zlq0pLDuTJnwS4A==}
     dependencies:
-      '@types/node': 18.11.18
+      '@types/node': 18.15.11
     dev: true
 
   /@types/orderedmap/1.0.0:
@@ -16500,7 +16530,7 @@ packages:
   /@types/pdfkit/0.12.6:
     resolution: {integrity: sha512-G7X9Q5sJ2cwOBOR3NcfsjdS+rvYsv3xjiccLTvQ9jZ2A2yaC3jfMd1AfXALetR+QSjogRLurSUEn3TyVWCDvIw==}
     dependencies:
-      '@types/node': 18.11.18
+      '@types/node': 18.15.11
     dev: true
 
   /@types/phoenix/1.5.6:
@@ -18484,7 +18514,7 @@ packages:
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -25844,7 +25874,7 @@ packages:
     resolution: {integrity: sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==}
 
   /http-errors/1.6.2:
-    resolution: {integrity: sha1-CgAsyFcHGSp+eUbO7cERVfYOxzY=}
+    resolution: {integrity: sha512-STnYGcKMXL9CGdtpeTFnLmgMSHTTNQJSHxiC4DETHKf934Q160Ht5pljrNeH24S0O9xUN+9vsDJZdZtk5js6Ww==}
     engines: {node: '>= 0.6'}
     dependencies:
       depd: 1.1.1
@@ -28795,7 +28825,7 @@ packages:
       libqp: 1.1.0
 
   /libqp/1.1.0:
-    resolution: {integrity: sha1-9ebgatdLeU+1tbZpiL9yjvHe2+g=}
+    resolution: {integrity: sha512-4Rgfa0hZpG++t1Vi2IiqXG9Ad1ig4QTmtuZF946QJP4bPqOYC78ixUXgz5TW/wE7lNaNKlplSYTxQ+fR2KZ0EA==}
 
   /lie/3.1.1:
     resolution: {integrity: sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==}
@@ -31092,6 +31122,29 @@ packages:
       uuid: 8.3.2
     dev: false
 
+  /next-auth/4.19.2_nodemailer@6.7.2:
+    resolution: {integrity: sha512-6V2YG3IJQVhgCAH7mvT3yopTW92gMdUrcwGX7NQ0dCreT/+axGua/JmVdarjec0C/oJukKpIYRgjMlV+L5ZQOQ==}
+    peerDependencies:
+      next: ^12.2.5 || ^13
+      nodemailer: ^6.6.5
+      react: ^17.0.2 || ^18
+      react-dom: ^17.0.2 || ^18
+    peerDependenciesMeta:
+      nodemailer:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.20.7
+      '@panva/hkdf': 1.0.1
+      cookie: 0.5.0
+      jose: 4.11.1
+      nodemailer: 6.7.2
+      oauth: 0.9.15
+      openid-client: 5.1.4
+      preact: 10.7.2
+      preact-render-to-string: 5.2.0_preact@10.7.2
+      uuid: 8.3.2
+    dev: false
+
   /next-auth/4.19.2_whnhemnugukbk4tae5epazu3ke:
     resolution: {integrity: sha512-6V2YG3IJQVhgCAH7mvT3yopTW92gMdUrcwGX7NQ0dCreT/+axGua/JmVdarjec0C/oJukKpIYRgjMlV+L5ZQOQ==}
     peerDependencies:
@@ -33244,6 +33297,7 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.1
+    dev: false
 
   /postcss-import/14.1.0_postcss@8.4.14:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
@@ -33290,6 +33344,7 @@ packages:
       postcss: ^8.3.3
     dependencies:
       camelcase-css: 2.0.1
+    dev: false
 
   /postcss-js/4.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
@@ -33516,6 +33571,7 @@ packages:
       postcss: ^8.2.14
     dependencies:
       postcss-selector-parser: 6.0.11
+    dev: false
 
   /postcss-nested/6.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
@@ -37956,7 +38012,7 @@ packages:
     resolution: {integrity: sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==}
 
   /setprototypeof/1.0.3:
-    resolution: {integrity: sha1-ZlZ+NwQ+608E2RvWWMDL77VbjgQ=}
+    resolution: {integrity: sha512-9jphSf3UbIgpOX/RKvX02iw/rN2TKdusnsPpGfO/rkcsrd+IRqgHZb4VGnmL0Cynps8Nj2hN45wsi30BzrHDIw==}
     dev: false
 
   /setprototypeof/1.2.0:
@@ -39228,7 +39284,7 @@ packages:
     peerDependencies:
       tailwindcss: 3.x
     dependencies:
-      tailwindcss: 3.3.0_ra2vnoek4vhbzktaezawwqbin4
+      tailwindcss: 3.3.0_postcss@8.4.14
     dev: true
 
   /tailwindcss-radix/2.8.0:
@@ -39268,6 +39324,7 @@ packages:
       sucrase: 3.31.0
     transitivePeerDependencies:
       - ts-node
+    dev: false
 
   /tailwindcss/3.3.0_postcss@8.4.14:
     resolution: {integrity: sha512-hOXlFx+YcklJ8kXiCAfk/FMyr4Pm9ck477G0m/us2344Vuj355IpoEDB5UmGAsSpTBmr+4ZhjzW04JuFXkb/fw==}

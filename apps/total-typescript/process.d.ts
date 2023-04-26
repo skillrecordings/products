@@ -16,6 +16,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_GOOGLE_ANALYTICS: string
     EMAIL_SERVER_PORT: number
     NEXT_PUBLIC_AMPLITUDE_API_KEY: string
+    DROPBOX_WEBHOOK_SECRET: string
     SANITY_WEBHOOK_SECRET: string
     CASTINGWORDS_API_TOKEN: string
     MUX_TOKEN_ID: string
