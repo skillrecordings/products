@@ -123,3 +123,14 @@
     @apply cursor-not-allowed opacity-30;
   }
 }
+
+/* Claimed seats */
+
+[data-claimed-seats-team] {
+  [data-claimed-seat] {
+    @apply text-gray-300;
+  }
+  [data-claimed-seat=''] {
+    @apply inline-flex items-center gap-1.5 before:translate-y-[2px] before:content-[url("/assets/check.svg")];
+  }
+}
