@@ -8,7 +8,7 @@ import Icon from './icons'
 // import {track} from 'utils/analytics'
 import {signOut, useSession} from 'next-auth/react'
 import toast from 'react-hot-toast'
-// import {isSellingLive} from 'path-to-purchase-react/is-selling-live'
+import {isSellingLive} from '@skillrecordings/skill-lesson/utils/is-selling-live'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {trpc} from '../trpc/trpc.client'
@@ -213,11 +213,11 @@ const AccountDropdown = () => {
             className="absolute top-full left-0 w-full rounded-b"
           >
             <ul className="flex w-full flex-col items-start rounded-b-lg bg-white p-1 text-sm shadow-2xl shadow-gray-900/20 lg:text-base">
-              {/* {canViewInvoice && (
+              {canViewInvoice && (
                 <li className="w-full">
                   <DropdownLink href="/purchases">Purchases</DropdownLink>
                 </li>
-              )} */}
+              )}
               {/* <li className="w-full">
                 <DropdownLink href="/faq">FAQ</DropdownLink>
               </li> */}
@@ -232,25 +232,25 @@ const AccountDropdown = () => {
   )
 }
 
-// const DropdownLink: React.FC<
-//   React.PropsWithChildren<LinkProps & {className?: string}>
-// > = ({href, ...props}) => {
-//   const router = useRouter()
-//   const isActive = router.asPath === href
+const DropdownLink: React.FC<
+  React.PropsWithChildren<LinkProps & {className?: string}>
+> = ({href, ...props}) => {
+  const router = useRouter()
+  const isActive = router.asPath === href
 
-//   return (
-//     <NextLink href={href} passHref legacyBehavior>
-//       <NavigationMenu.Link
-//         active={isActive}
-//         {...props}
-//         className={cx(
-//           'flex w-full rounded-full px-3 py-2 transition hover:bg-gray-100',
-//           props.className,
-//         )}
-//       />
-//     </NextLink>
-//   )
-// }
+  return (
+    <NextLink href={href} passHref legacyBehavior>
+      <NavigationMenu.Link
+        active={isActive}
+        {...props}
+        className={cx(
+          'flex w-full rounded-full px-3 py-2 transition hover:bg-gray-100',
+          props.className,
+        )}
+      />
+    </NextLink>
+  )
+}
 
 const MobileNav = () => {
   const ability = useAbilities()
@@ -302,13 +302,13 @@ const MobileNav = () => {
                           Account
                         </div>
                         <ul>
-                          {/* {canViewInvoice && (
+                          {canViewInvoice && (
                             <MobileNavLink
                               path="/purchases"
                               label="Purchases"
                             />
                           )}
-                          <MobileNavLink
+                          {/* <MobileNavLink
                             label="Send Feedback"
                             onClick={() => {
                               setIsFeedbackDialogOpen(true, 'navigation')
