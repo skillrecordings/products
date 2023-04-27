@@ -9,7 +9,7 @@
     "dev": "next dev -p 3035",
     "dev:sanity": "sanity dev",
     "prebuild": "",
-    "build": "pnpm docs-data && pnpm share-data && pnpm guide-data && pnpm announcements-data && pnpm hot-data && pnpm course-data && NODE_ENV=production next build",
+    "build": "NODE_ENV=production next build && pnpm docs-data && pnpm share-data && pnpm guide-data && pnpm announcements-data && pnpm hot-data && pnpm course-data",
     "postbuild": "NODE_ENV=production next-sitemap",
     "start": "next start -p 3035",
     "repos": "kit ./scripts/repos.js",
