@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "next dev -p 3035",
     "dev:sanity": "sanity dev",
-    "prebuild": "pnpm docs-data && pnpm share-data && pnpm guide-data && pnpm announcements-data && pnpm hot-data && pnpm course-data",
-    "build": "NODE_ENV=production next build",
+    "prebuild": "",
+    "build": "NODE_ENV=production next build && pnpm docs-data && pnpm share-data && pnpm guide-data && pnpm announcements-data && pnpm hot-data && pnpm course-data",
     "postbuild": "NODE_ENV=production next-sitemap",
     "start": "next start -p 3035",
     "repos": "kit ./scripts/repos.js",
@@ -66,7 +66,6 @@
     "@slack/web-api": "^6.7.2",
     "@supabase/supabase-js": "^2.0.5",
     "@tailwindcss/forms": "^0.5.3",
-
     "@tailwindcss/typography": "^0.5.7",
     "@tanstack/react-query": "^4.20.4",
     "@trpc/client": "=10.7.0",
