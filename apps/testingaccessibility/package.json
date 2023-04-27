@@ -100,7 +100,7 @@
     "dotenv-flow": "^3.2.0",
     "feed": "^4.2.2",
     "formik": "2.2.9",
-    "framer-motion": "^8.4.3",
+    "framer-motion": "^10.12.4",
     "groq": "^2.15.0",
     "html-to-text": "^8.2.0",
     "lodash": "^4.17.21",
