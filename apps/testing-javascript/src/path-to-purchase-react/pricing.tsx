@@ -31,7 +31,7 @@ import {usePriceCheck} from './pricing-check-context'
 // import {useRouter} from 'next/router'
 import {trpc} from 'trpc/trpc.client'
 // import Balancer from 'react-wrap-balancer'
-import {isSellingLive} from './is-selling-live'
+import {isSellingLive} from '@skillrecordings/skill-lesson/utils/is-selling-live'
 // import BuyMoreSeats from 'team/buy-more-seats'
 import Icon from 'components/icons'
 
