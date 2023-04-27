@@ -17,8 +17,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   const sessionToken = await getToken({req})
   const {purchaseId, welcome} = query
 
-  console.log({sessionToken})
-
   const {getProduct, getPurchase, getUserById, getPurchaseDetails} = getSdk()
 
   if (purchaseId && sessionToken && isString(sessionToken?.sub)) {
@@ -91,14 +89,6 @@ const PurchaseDetail: React.FC<PurchaseDetailsProps> = ({
   sanityProduct,
   existingPurchase,
 }) => {
-  console.log({
-    welcome,
-    product,
-    user,
-    purchase,
-    sanityProduct,
-    existingPurchase,
-  })
   return (
     <PurchaseDetailsTemplate
       welcome={welcome}
