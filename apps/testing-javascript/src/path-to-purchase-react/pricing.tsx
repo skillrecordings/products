@@ -95,10 +95,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   } = product
   const {addPrice, isDowngrade, merchantCoupon, setMerchantCoupon} =
     usePriceCheck()
-  const isProTesting = product.name === 'Pro Testing'
   // const {subscriber, loadingSubscriber} = useConvertkit()
   // const router = useRouter()
-  console.log('isProTesting:', isProTesting)
 
   const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery(
     {
@@ -138,8 +136,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     !purchased &&
     !isDowngrade(formattedPrice) &&
     (allowPurchase || isSellingLive) &&
-    !isBuyingForTeam &&
-    isProTesting
+    !isBuyingForTeam
 
   // const handleOnSuccess = (subscriber: any, email?: string) => {
   //   if (subscriber) {
@@ -356,7 +353,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             activeCoupon={merchantCoupon}
             setActiveCoupon={setMerchantCoupon}
             index={index}
-            isProTesting={isProTesting}
           />
         )}
         <div data-pricing-footer="">
@@ -388,7 +384,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 <h4 className="font-tt-demibold">Workshops</h4>
                 <ul className="text-lg space-y-2 mt-1" role="list">
                   {modules.map((module) => {
-                    console.log({module})
                     const getLabelForState = (state: any) => {
                       switch (state) {
                         case 'draft':
@@ -545,12 +540,11 @@ type RegionalPricingBoxProps = {
   activeCoupon: any
   setActiveCoupon: (coupon: any) => void
   index: number
-  isProTesting: boolean
 }
 
 const RegionalPricingBox: React.FC<
   React.PropsWithChildren<RegionalPricingBoxProps>
-> = ({pppCoupon, activeCoupon, setActiveCoupon, index, isProTesting}) => {
+> = ({pppCoupon, activeCoupon, setActiveCoupon, index}) => {
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
 
   if (!pppCoupon.country) {
@@ -585,20 +579,11 @@ const RegionalPricingBox: React.FC<
         <input
           type="checkbox"
           checked={Boolean(activeCoupon)}
-          // onChange={() => {
-          //   isProTesting && activeCoupon
-          //     ? setActiveCoupon(undefined)
-          //     : setActiveCoupon(pppCoupon)
-          // }}
-          onChange={
-            isProTesting
-              ? () => {
-                  activeCoupon
-                    ? setActiveCoupon(undefined)
-                    : setActiveCoupon(pppCoupon)
-                }
-              : () => {}
-          }
+          onChange={() => {
+            activeCoupon
+              ? setActiveCoupon(undefined)
+              : setActiveCoupon(pppCoupon)
+          }}
           className="relative top-0.5 mr-2"
         />
         <span>Activate {percentOff}% off with regional pricing</span>

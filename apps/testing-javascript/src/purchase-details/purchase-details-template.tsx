@@ -58,7 +58,6 @@ const PurchaseDetailsTemplate: React.FC<PurchaseDetailsProps> = ({
   sanityProduct,
   existingPurchase,
 }) => {
-  console.log({sanityProduct})
   const ability = useAbilities()
   const canInviteTeam = ability.can('invite', 'Team')
   const canViewContent = ability.can('view', 'Content')

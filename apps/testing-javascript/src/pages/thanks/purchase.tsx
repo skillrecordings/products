@@ -200,7 +200,6 @@ const ThanksVerify: React.FC<
   stripeProductName,
   purchase,
 }) => {
-  console.log({product})
   let byline = null
   let title = `Thank you for purchasing ${stripeProductName}`
   let loginLink = null
