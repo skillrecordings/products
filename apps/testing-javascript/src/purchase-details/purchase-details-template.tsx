@@ -13,7 +13,7 @@ import Image from 'next/image'
 import InviteTeam from '@skillrecordings/skill-lesson/team'
 import {useSession} from 'next-auth/react'
 import {Icon, type IconNames} from '@skillrecordings/skill-lesson/icons'
-// import * as Dialog from '@radix-ui/react-dialog'
+import * as Dialog from '@radix-ui/react-dialog'
 import {XIcon} from '@heroicons/react/solid'
 // import {Transfer} from 'purchase-transfer/purchase-transfer'
 
@@ -215,7 +215,7 @@ const BuySeats: React.FC<{
       <p className="pb-5">
         Get your team to level up with Tailwind Multi-Theme Strategy Workshop
       </p>
-      {/* <Dialog.Root>
+      <Dialog.Root>
         <Dialog.Trigger className="group flex items-center gap-2 rounded-full bg-sky-500 px-5 py-2.5 font-heading font-semibold text-white transition hover:bg-sky-600">
           Buy more seats
         </Dialog.Trigger>
@@ -229,7 +229,7 @@ const BuySeats: React.FC<{
             <XIcon className="h-5 w-5" />
           </Dialog.Close>
         </Dialog.Content>
-      </Dialog.Root> */}
+      </Dialog.Root>
     </div>
   )
 }
