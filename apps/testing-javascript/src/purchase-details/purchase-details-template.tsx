@@ -70,14 +70,14 @@ const PurchaseDetailsTemplate: React.FC<PurchaseDetailsProps> = ({
       {welcome ? <WelcomeHeader /> : null}
       <div className="mx-auto w-full max-w-3xl py-16" id="purchase-detail">
         <main className="flex flex-col items-start gap-10 bg-gray-50 md:flex-row">
-          {/* <Image
+          <Image
             src={sanityProduct.image.url}
             alt=""
             aria-hidden="true"
             width={200}
             height={200}
             className="flex-shrink-0"
-          /> */}
+          />
           <div className="w-full">
             <p className="pb-3 font-heading font-extrabold uppercase text-sky-500">
               Your purchase details for
@@ -89,7 +89,7 @@ const PurchaseDetailsTemplate: React.FC<PurchaseDetailsProps> = ({
               <Row label="Invoice" icon="Receipt">
                 <InvoiceLink merchantChargeId={purchase.merchantChargeId} />
               </Row>
-              {canInviteTeam && (
+              {canInviteTeam && purchase?.bulkCoupon && (
                 <ManageTeam
                   purchase={purchase}
                   email={user.email}
