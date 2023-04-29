@@ -166,7 +166,7 @@ const NavLogo = () => {
   return (
     <Link
       href="/"
-      aria-label="Pro Tailwind Home"
+      aria-label="Testing Javascript Home"
       passHref
       tabIndex={router.pathname === '/' ? -1 : 0}
       className="shrink-0 flex"

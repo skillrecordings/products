@@ -45,7 +45,7 @@ const productQuery = groq`*[_type == "product" && productId == $productId][0] {
   }
 }`
 
-export const getActiveProducts = async () =>
+export const getAllProducts = async () =>
   await sanityClient.fetch(productsQuery)
 
 export const getActiveProduct = async (productId: string) => {

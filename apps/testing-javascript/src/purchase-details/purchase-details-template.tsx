@@ -15,7 +15,7 @@ import {useSession} from 'next-auth/react'
 import {Icon, type IconNames} from '@skillrecordings/skill-lesson/icons'
 import * as Dialog from '@radix-ui/react-dialog'
 import {XIcon} from '@heroicons/react/solid'
-// import {Transfer} from 'purchase-transfer/purchase-transfer'
+import {Transfer} from 'purchase-transfer/purchase-transfer'
 
 export type PurchaseDetailsProps = {
   welcome: boolean
@@ -167,13 +167,12 @@ const PurchaseTransfer: React.FC<{purchase: {id: string}}> = ({purchase}) => {
         purchase to another email address
       </div>
       <div className="w-full text-left font-medium">
-        {
-          purchaseUserTransfers && <div>transfer</div>
-          // <Transfer
-          //   purchaseUserTransfers={purchaseUserTransfers}
-          //   refetch={refetch}
-          // />
-        }
+        {purchaseUserTransfers && (
+          <Transfer
+            purchaseUserTransfers={purchaseUserTransfers}
+            refetch={refetch}
+          />
+        )}
       </div>
     </div>
   ) : null
@@ -190,7 +189,7 @@ const WelcomeHeader = () => {
       /> */}
       <div className="absolute z-10 w-full px-5 pt-40">
         <h1 className="font-heading text-3xl font-black sm:text-4xl md:text-5xl">
-          <Balancer>Welcome to Pro Tailwind!</Balancer>
+          <Balancer>Welcome to Testing Javascript!</Balancer>
         </h1>
         <p className="pt-3 sm:text-lg">
           <Balancer>
@@ -213,7 +212,7 @@ const BuySeats: React.FC<{
       className="flex max-w-xs flex-col items-center text-center"
     >
       <p className="pb-5">
-        Get your team to level up with Tailwind Multi-Theme Strategy Workshop
+        Get your team to level up with Testing Javascript Pro
       </p>
       <Dialog.Root>
         <Dialog.Trigger className="group flex items-center gap-2 rounded-full bg-sky-500 px-5 py-2.5 font-heading font-semibold text-white transition hover:bg-sky-600">
@@ -354,7 +353,7 @@ const getCompletedLessons = ({
 }
 
 const Share = () => {
-  const tweet = `https://twitter.com/intent/tweet/?text=Pro Tailwind by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.protailwind.com%2F`
+  const tweet = `https://twitter.com/intent/tweet/?text=Testing Javascript by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.testingjavascript.com%2F`
   return (
     <div className="flex flex-col items-center justify-center gap-5 text-center">
       <p>
