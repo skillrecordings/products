@@ -17,10 +17,9 @@ import {
 import {getSdk, Purchase} from '@skillrecordings/database'
 import CopyInviteLink from '@skillrecordings/skill-lesson/team/copy-invite-link'
 import Image from 'next/legacy/image'
-// import Balancer from 'react-wrap-balancer'
+import Balancer from 'react-wrap-balancer'
 import {first} from 'lodash'
-// import {getAllWorkshops} from 'lib/workshops'
-import {getActiveProducts} from 'server/products.server'
+import {getAllProducts} from 'server/products.server'
 import {SanityDocument} from '@sanity/client'
 import {InvoiceCard} from 'pages/invoices'
 import {MailIcon} from '@heroicons/react/solid'
@@ -61,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     checkoutSessionId: session_id as string,
   })
 
-  const products = await getActiveProducts()
+  const products = await getAllProducts()
   const purchasedProduct = first(
     products.filter(
       (product: SanityProduct) => product.productId === purchase.productId,
@@ -160,9 +159,9 @@ const LoginLink: React.FC<{email: string}> = ({email}) => {
           Final step
         </p>
         <h2 className="mx-auto py-5 font-heading text-2xl font-black sm:text-3xl lg:text-4xl">
-          {/* <Balancer> */}
-          Please check your inbox for a <i>login link</i> that just got sent.
-          {/* </Balancer> */}
+          <Balancer>
+            Please check your inbox for a <i>login link</i> that just got sent.
+          </Balancer>
         </h2>
         <div className="mb-3 inline-flex items-center gap-1 rounded-lg bg-white/20 px-4 py-3">
           <MailIcon className="h-5 w-5 flex-shrink-0" />{' '}
