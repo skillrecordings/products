@@ -1,6 +1,5 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {SanityDocument} from '@sanity/client'
 import {getAllTutorials} from 'lib/tutorials'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
@@ -8,6 +7,7 @@ import Balancer from 'react-wrap-balancer'
 import Header from 'components/app/header'
 import pluralize from 'pluralize'
 import {getOgImage} from 'utils/get-og-image'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -27,7 +27,7 @@ const sectionsFlatMap = (sections: any[]) => {
   return map
 }
 
-const Tutorials: React.FC<{tutorials: SanityDocument[]}> = ({tutorials}) => {
+const Tutorials: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
   const title = 'Free Tutorials'
 
   return (
@@ -76,11 +76,12 @@ const Tutorials: React.FC<{tutorials: SanityDocument[]}> = ({tutorials}) => {
                             New
                           </span>
                         )}
-                        {sectionsFlatMap(sections).length}{' '}
-                        {pluralize(
-                          sectionsFlatMap(sections)[0]._type,
-                          sectionsFlatMap(sections).length,
-                        )}
+                        {sections && sectionsFlatMap(sections).length}{' '}
+                        {sections &&
+                          pluralize(
+                            sectionsFlatMap(sections)[0]._type,
+                            sectionsFlatMap(sections).length,
+                          )}
                       </div>
                       {description && (
                         <p className="text-gray-300">{description}</p>

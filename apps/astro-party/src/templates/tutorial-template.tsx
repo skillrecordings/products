@@ -96,7 +96,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               <div className="flex items-center gap-3">
                 <div className="flex items-center justify-center overflow-hidden rounded-full">
                   <Image
-                    src={require('../../public/instructor.jpg')}
+                    src={require('../../public/jason-lengstorf.jpg')}
                     alt={config.author}
                     width={48}
                     height={48}

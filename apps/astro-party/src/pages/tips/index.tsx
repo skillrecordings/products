@@ -57,7 +57,7 @@ const Tips: React.FC<{tips: Tip[]}> = ({tips}) => {
                     </div>
                     <div className="flex items-center gap-1.5">
                       <Image
-                        src={require('../../../public/instructor.jpg')}
+                        src={require('../../../public/jason-lengstorf.jpg')}
                         alt={config.author}
                         width={40}
                         height={40}

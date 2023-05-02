@@ -4,7 +4,7 @@
 }
 
 #nprogress .bar {
-  @apply bg-brand-primary;
+  @apply bg-brand-primary-light;
   position: fixed;
   z-index: 1031;
   top: 0;

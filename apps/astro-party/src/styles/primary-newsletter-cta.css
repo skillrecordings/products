@@ -14,7 +14,13 @@
       @apply opacity-50;
     }
     [data-sr-button] {
-      @apply relative z-10 mt-4 flex h-full items-center justify-center rounded-full bg-black py-5 font-heading text-2xl font-bold text-white transition before:absolute before:z-0 before:h-full before:w-full before:translate-y-2 before:rounded-full before:border-4 before:border-black before:bg-transparent before:transition before:content-[''] hover:brightness-110;
+      @apply relative z-10 mt-4 flex h-full items-center justify-center rounded-full bg-black py-5 font-heading text-2xl font-bold text-white transition after:absolute after:-z-10 after:h-full after:w-full after:translate-y-2 after:rounded-full after:border-4 after:border-black after:transition after:content-[''] hover:-rotate-1 hover:scale-105;
+      svg {
+        @apply h-6 w-6;
+      }
+    }
+    p {
+      @apply pt-5 text-center text-lg font-medium;
     }
   }
 }

@@ -15,11 +15,17 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        heading: ['var(--font-fredoka)', ...defaultTheme.fontFamily.sans],
+        heading: ['var(--font-cooper)', ...defaultTheme.fontFamily.sans],
+        fun: ['var(--font-cooper-goodtime)', ...defaultTheme.fontFamily.sans],
+        rounded: ['var(--font-fredoka)', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         brand: {
-          primary: '#7EF298',
+          primary: '#00924E',
+          'primary-light': '#00A156',
+          yellow: '#FFE242',
+          blue: '#AFEFFF',
+          red: '#EB5228',
         },
       },
       screens: {

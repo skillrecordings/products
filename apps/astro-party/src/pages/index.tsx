@@ -4,66 +4,90 @@ import type {NextPage} from 'next'
 import Balancer from 'react-wrap-balancer'
 import LandingCopy from 'components/landing-copy.mdx'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
-import {motion} from 'framer-motion'
-import {useAnimatedColor} from 'hooks/use-animated-color'
+import Image from 'next/image'
 
 const Home: NextPage = () => {
-  const animatedColor = useAnimatedColor()
-
   return (
     <Layout
       withFooter={false}
       navigationProps={{
-        className: 'absolute px-20 top-10 w-full max-w-none text-white',
+        className:
+          'xl:fixed absolute sm:px-10 px-5 top-5 w-full max-w-none text-white sm:justify-start justify-center',
       }}
+      className="overflow-hidden bg-brand-primary"
     >
-      <motion.div
-        style={
-          {
-            // backgroundColor: animatedColor,
-          }
-        }
-        animate={{
-          backgroundColor: [
-            '#F45328',
-            '#ED5C75',
-            '#D541EF',
-            '#16A0D0',
-            '#06AE59',
-          ],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          repeatType: 'mirror',
-          type: 'linear',
-        }}
-      >
-        <motion.header className="mx-auto flex w-full flex-grow items-center justify-center rounded-lg pb-32 pt-72 text-center text-white">
-          <h1 className="max-w-4xl font-heading text-7xl font-extrabold">
-            <Balancer>
-              Learn to Develop Fast and Modern Websites with Astro
-            </Balancer>
-          </h1>
-        </motion.header>
-        <main className="">
-          <div className="mx-auto w-full max-w-4xl rounded-full border-4 border-black bg-white px-24 py-80">
-            <article
-              className={`prose prose-lg mx-auto w-full max-w-3xl font-heading sm:prose-xl first-letter:float-left first-letter:pr-3 first-letter:text-7xl first-letter:font-bold prose-p:font-normal prose-p:text-black`}
-            >
-              <LandingCopy />
-            </article>
+      <header className="relative z-10 mx-auto flex w-full flex-grow flex-col items-center justify-center rounded-lg py-32 text-white">
+        <h1 className="max-w-3xl text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
+          <Balancer>
+            <span className="block pb-4 font-rounded text-xl font-bold uppercase tracking-wide text-brand-yellow sm:text-2xl lg:text-3xl">
+              Learn How to Make
+            </span>{' '}
+            Fast and Modern Websites with Astro
+          </Balancer>
+        </h1>
+        <Image
+          src={require('../../public/assets/hero-illustration@2x.png')}
+          alt=""
+          aria-hidden="true"
+          width={800}
+          height={800}
+          quality={100}
+          placeholder="blur"
+          className="pointer-events-none mt-24 scale-150 select-none sm:mt-0 sm:scale-100"
+          priority
+        />
+      </header>
+      <main className="-mx-2 -mt-64 flex flex-col items-center sm:-mt-96">
+        <div className="relative flex w-full max-w-4xl flex-col items-center rounded-full border-4 border-black bg-white px-8 pb-96 pt-40 sm:mx-auto sm:px-24">
+          <div className="relative z-20 flex items-center gap-3 pb-16 font-rounded text-2xl font-semibold leading-none">
+            <Image
+              className="rounded-full border-[3px] border-black"
+              width={100}
+              height={100}
+              src={require('../../public/jason-lengstorf.png')}
+              placeholder="blur"
+              priority
+              alt="Jason Lengstorf"
+            />
+            <div>
+              <span className="block pl-0.5 text-lg font-medium text-brand-red">
+                Astro courses by
+              </span>
+              <span>Jason Lengstorf</span>
+            </div>
           </div>
-          <PrimaryNewsletterCta className="py-40">
-            <h2 className="max-w-4xl pb-20 text-center font-heading text-6xl font-bold text-white">
-              <Balancer>
-                Get the latest Astro news, tutorials, and updates delivered to
-                your inbox.
-              </Balancer>
-            </h2>
-          </PrimaryNewsletterCta>
-        </main>
-      </motion.div>
+          <article className="prose mx-auto w-full max-w-2xl font-sans sm:prose-lg lg:prose-xl first-letter:float-left first-letter:pr-3 first-letter:pt-1.5 first-letter:font-heading first-letter:text-5xl first-letter:font-bold prose-headings:font-heading prose-headings:font-extrabold prose-p:text-black sm:first-letter:pt-1 sm:first-letter:text-6xl lg:first-letter:pt-0 lg:first-letter:text-7xl">
+            <LandingCopy />
+          </article>
+          <div className="pointer-events-none absolute bottom-0 flex aspect-square w-full max-w-none select-none items-center justify-center overflow-hidden rounded-b-full">
+            <Image
+              className="absolute bottom-[-38px] max-w-none"
+              src={require('../../public/assets/rainbow@2x.png')}
+              width={480}
+              // fill
+              priority
+              alt=""
+              aria-hidden="true"
+            />
+          </div>
+          <Image
+            className="pointer-events-none absolute bottom-[-140px] ml-28 select-none"
+            src={require('../../public/assets/ghost-hanging@2x.png')}
+            width={270}
+            height={442}
+            priority
+            alt=""
+            aria-hidden="true"
+          />
+        </div>
+        <PrimaryNewsletterCta className="w-full px-5 pb-40 pt-56">
+          <h2 className="max-w-3xl pb-10 text-center font-heading text-3xl font-black text-white sm:pb-20 sm:text-4xl lg:text-5xl">
+            <Balancer>
+              Get the latest Astro tutorials and tips delivered to your inbox.
+            </Balancer>
+          </h2>
+        </PrimaryNewsletterCta>
+      </main>
     </Layout>
   )
 }

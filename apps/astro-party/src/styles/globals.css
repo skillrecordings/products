@@ -16,9 +16,14 @@
 @import './video/module-navigator.css';
 
 @import '@code-hike/mdx/dist/index.css';
+@import url('https://fast.fonts.net/t/1.css?apiType=css&projectid=86246456-290f-4415-a71d-1ea53f9afeff');
 
 @tailwind utilities;
 @import './focus-visible.css';
+
+body {
+  @apply text-black selection:bg-brand-primary-light;
+}
 
 mux-player {
   aspect-ratio: 16 / 9;
