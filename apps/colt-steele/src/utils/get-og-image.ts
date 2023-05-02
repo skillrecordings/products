@@ -1,10 +1,25 @@
-export const getOgImage = (title: string, image?: string, url?: string) => {
-  url = url
-    ? url
-    : process.env.NEXT_PUBLIC_OG_IMAGE_URI
-    ? process.env.NEXT_PUBLIC_OG_IMAGE_URI +
-      `?title=${encodeURI(title)}${image ? `&image=${image}` : ''}`
-    : process.env.NEXT_PUBLIC_DEFAULT_OG_IMAGE_URL
+type OgImageUrlOptions = {
+  title: string
+  image?: string
+  byline?: string
+  type?: string
+}
+
+const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/total-typescript/image/fetch/dpr_auto,f_auto,q_auto:good/`
+
+export const getOgImage = (options: OgImageUrlOptions) => {
+  const {title, image, byline, type} = options
+
+  const query = new URLSearchParams({
+    ...(image && {image}),
+    ...(byline && {byline}),
+    ...(type && {type}),
+    title: title,
+  })
+  const url =
+    (process.env.NODE_ENV === 'development' ? '' : CLOUDINARY_FETCH_BASE_URL) +
+    process.env.NEXT_PUBLIC_OG_IMAGE_URI +
+    `?${query.toString()}`
 
   return {
     url,

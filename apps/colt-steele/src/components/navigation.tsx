@@ -1,6 +1,7 @@
+import * as React from 'react'
 import Link from 'next/link'
 
-const Navigation = () => {
+const Navigation = (props: {className: string}) => {
   return (
     <nav
       aria-label="top"
