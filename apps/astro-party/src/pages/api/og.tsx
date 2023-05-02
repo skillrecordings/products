@@ -37,27 +37,28 @@ export default async function handler(req: NextRequest) {
 
     return new ImageResponse(
       (
-        <div tw="flex w-full relative justify-center text-black items-center h-full px-20 justify-between bg-[#00A156]">
-          <div tw="flex-1 flex flex-col justify-between h-full pt-16 pb-16 relative">
-            <div
-              tw="text-center flex flex-col uppercase font-bold"
-              style={{fontSize: 40, fontFamily: 'Fredoka', lineHeight: 0.95}}
-            >
-              <div>Astro</div>
-              <div>Party</div>
-            </div>
-            <div tw="flex flex-col">
-              {hasByline && (
-                <p tw="uppercase text-3xl  font-semibold">{byline}</p>
-              )}
-              <p
-                style={{lineHeight: 1.1, fontFamily: 'Cooper'}}
-                tw="text-8xl tracking-tight font-medium leading-tight pr-10 -mt-2"
+        <div tw="flex w-full h-full">
+          <div tw="flex w-full justify-center text-black items-center h-full px-20 justify-between bg-[#00A156]">
+            <div tw="flex-1 flex flex-col justify-between h-full pt-16 pb-16 relative">
+              <div
+                tw="text-center flex flex-col uppercase font-bold"
+                style={{fontSize: 40, fontFamily: 'Fredoka', lineHeight: 0.95}}
               >
-                {title}
-              </p>
-            </div>
-            {/* {!hasImage && (
+                <div>Astro</div>
+                <div>Party</div>
+              </div>
+              <div tw="flex flex-col">
+                {hasByline && (
+                  <p tw="uppercase text-3xl  font-semibold">{byline}</p>
+                )}
+                <p
+                  style={{lineHeight: 1.1, fontFamily: 'Cooper'}}
+                  tw="text-8xl tracking-tight font-medium leading-tight pr-10 -mt-2"
+                >
+                  {title}
+                </p>
+              </div>
+              {/* {!hasImage && (
               <div tw="flex items-center absolute right-14 top-12">
                 <img
                   src={`${process.env.NEXT_PUBLIC_URL}/jason-lengstorf.jpg`}
@@ -71,12 +72,13 @@ export default async function handler(req: NextRequest) {
                 </p>
               </div>
             )} */}
-          </div>
-          {hasImage && image && (
-            <div tw="flex items-center justify-center flex-shrink-0 pr-10">
-              <img src={image} width={500} height={500} />
             </div>
-          )}
+            {hasImage && image && (
+              <div tw="flex items-center justify-center flex-shrink-0 pr-10">
+                <img src={image} width={500} height={500} />
+              </div>
+            )}
+          </div>
         </div>
       ),
       {
