@@ -37,12 +37,7 @@ export default async function handler(req: NextRequest) {
 
     return new ImageResponse(
       (
-        <div
-          style={{
-            fontFamily: 'DM Sans',
-          }}
-          tw="flex w-full relative justify-center text-black items-center h-full pl-16 justify-between bg-[#00A156]"
-        >
+        <div tw="flex w-full relative justify-center text-black items-center h-full pl-16 justify-between bg-[#00A156]">
           <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-16 relative">
             <p
               tw="text-center flex flex-col uppercase font-bold"
