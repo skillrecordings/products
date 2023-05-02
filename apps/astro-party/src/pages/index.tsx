@@ -51,7 +51,7 @@ const Home: NextPage = () => {
             />
             <div>
               <span className="block pl-0.5 text-lg font-medium text-brand-red">
-                Astro courses by
+                Learn Astro with
               </span>
               <span>Jason Lengstorf</span>
             </div>
