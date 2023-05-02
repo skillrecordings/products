@@ -27,9 +27,7 @@ const TutorialTemplate: React.FC<{
   const {title, ogImage, image, description, testimonials} = tutorial
   const pageTitle = `${title} Tutorial`
   const shareCard = ogImage
-    ? typeof ogImage === 'string'
-      ? ogImage
-      : ogImage.secure_url
+    ? ogImage
     : getOgImage({
         title,
         image: image ? image : undefined,

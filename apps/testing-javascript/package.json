@@ -54,7 +54,7 @@
     "classnames": "^2.3.1",
     "date-fns": "^2.28.0",
     "feed": "^4.2.2",
-    "framer-motion": "^10.11.6",
+    "framer-motion": "^10.12.4",
     "groq": "^2.15.0",
     "lodash": "^4.17.21",
     "micromark": "^3.1.0",

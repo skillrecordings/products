@@ -58,7 +58,7 @@
     "@trpc/react-query": "=10.7.0",
     "@trpc/server": "=10.7.0",
     "classnames": "^2.3.1",
-    "framer-motion": "^8.4.3",
+    "framer-motion": "^10.12.4",
     "date-fns": "^2.28.0",
     "feed": "^4.2.2",
     "formik": "2.2.9",

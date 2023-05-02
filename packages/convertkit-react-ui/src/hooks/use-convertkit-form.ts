@@ -45,6 +45,9 @@ export function useConvertkitForm({
           const subscriber: ConvertkitSubscriber = response.data
           onSuccess(subscriber, email)
           setStatus('success')
+          if (!subscriber) {
+            setStatus('error')
+          }
         })
         .catch((error) => {
           onError(error)
