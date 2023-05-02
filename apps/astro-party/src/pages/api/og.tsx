@@ -37,15 +37,15 @@ export default async function handler(req: NextRequest) {
 
     return new ImageResponse(
       (
-        <div tw="flex w-full relative justify-center text-black items-center h-full pl-16 justify-between bg-[#00A156]">
-          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-16 relative">
-            <p
+        <div tw="flex w-full relative justify-center text-black items-center h-full px-20 justify-between bg-[#00A156]">
+          <div tw="flex-1 flex flex-col justify-between h-full pt-16 pb-16 relative">
+            <div
               tw="text-center flex flex-col uppercase font-bold"
               style={{fontSize: 40, fontFamily: 'Fredoka', lineHeight: 0.95}}
             >
               <div>Astro</div>
               <div>Party</div>
-            </p>
+            </div>
             <div tw="flex flex-col">
               {hasByline && (
                 <p tw="uppercase text-3xl  font-semibold">{byline}</p>
