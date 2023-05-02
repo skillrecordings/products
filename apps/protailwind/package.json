@@ -99,7 +99,7 @@
     "file-extension": "^4.0.5",
     "focus-visible": "^5.2.0",
     "formik": "2.2.9",
-    "framer-motion": "^8.4.3",
+    "framer-motion": "^10.12.4",
     "framer-motion-3d": "^6.4.1",
     "groq": "^2.15.0",
     "js-cookie": "^3.0.1",

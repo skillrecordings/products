@@ -30,7 +30,7 @@ export const PriceCheckContext = React.createContext(defaultPriceCheckContext)
 
 export const PriceCheckProvider: React.FC<React.PropsWithChildren<any>> = ({
   children,
-  purchasedProductIds,
+  purchasedProductsIds,
 }) => {
   const [prices, setPrices] = React.useState<any>({})
 
@@ -46,11 +46,15 @@ export const PriceCheckProvider: React.FC<React.PropsWithChildren<any>> = ({
 
   const isDowngrade = React.useCallback(
     (price?: FormattedPrice) => {
-      if (!price || !purchasedProductIds || purchasedProductIds.length === 0) {
+      if (
+        !price ||
+        !purchasedProductsIds ||
+        purchasedProductsIds.length === 0
+      ) {
         return false
       }
 
-      for (const productId of purchasedProductIds) {
+      for (const productId of purchasedProductsIds) {
         for (const key in prices) {
           if (key === productId) {
             if (prices[key].unitPrice > price.unitPrice) {
