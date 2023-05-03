@@ -39,6 +39,7 @@ const Invoice: React.FC<
   const [isMounted, setIsMounted] = React.useState(false)
   React.useEffect(() => {
     setIsMounted(true)
+    resizeTextArea()
   }, [])
 
   const textAreaRef = React.useRef<HTMLTextAreaElement>(null)
@@ -50,7 +51,9 @@ const Invoice: React.FC<
   }
   React.useEffect(() => {
     resizeTextArea()
-  }, [invoiceMetadata])
+  })
+
+  console.log('rerender')
 
   const router = useRouter()
 
