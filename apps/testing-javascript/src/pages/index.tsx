@@ -20,9 +20,7 @@ import {getAllProducts} from 'server/products.server'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
-  console.log('TOKEEEEN:', token)
-  const {products = []} = await getAllProducts()
-
+  const products = await getAllProducts()
   return await propsForCommerce({query, token, products})
 }
 
@@ -32,7 +30,7 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = (props) => {
     couponFromCode,
     purchases = [],
     userId,
-    products,
+    products = [],
     couponIdFromCoupon,
     defaultCoupon,
   } = props
