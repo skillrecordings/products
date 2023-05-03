@@ -47,6 +47,7 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = (props) => {
   }, [router])
 
   const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
+  console.log({couponFromCode})
   console.log({redeemableCoupon})
 
   // const ability = useAbilities()
