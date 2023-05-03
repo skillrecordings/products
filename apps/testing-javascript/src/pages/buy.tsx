@@ -8,7 +8,8 @@ import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import Layout from 'components/layout'
 import {Pricing} from 'path-to-purchase-react/pricing'
 import {getAllProducts} from 'server/products.server'
-import {useCoupon} from 'path-to-purchase-react/use-coupon'
+// import {useCoupon} from 'path-to-purchase-react/use-coupon'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
