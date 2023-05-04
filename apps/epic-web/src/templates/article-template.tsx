@@ -14,6 +14,7 @@ import Share from 'components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import Spinner from 'components/spinner'
+import AboutKent from 'components/about-kent'
 
 const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
   const router = useRouter()
@@ -54,7 +55,7 @@ const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
       {/* <TableOfContents article={article} /> */}
       <Body value={body} />
       <Share title={title} />
-      <AboutKent />
+      <AboutKent title="Written by Kent C. Dodds" className="mt-16" />
       {!subscriber && <CTA article={article} />}
     </Layout>
   )
@@ -151,48 +152,6 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
         setStarfieldSpeed={setStarfieldSpeed}
       />
       <Starfield className="absolute" speed={starfieldSpeed} />
-    </section>
-  )
-}
-
-const AboutKent = () => {
-  return (
-    <section className="mx-auto flex w-full max-w-screen-md flex-col items-center gap-10 px-5 py-16 md:flex-row md:py-24">
-      <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
-        <Image
-          src={KentImage}
-          width={140}
-          height={140}
-          alt="Kent C. Dodds"
-          className="aspect-square"
-        />
-      </div>
-      <div className="text-center md:text-left">
-        <p className="pb-3 text-xl font-semibold">Written by Kent C. Dodds</p>
-        <p className="text-lg text-gray-800 text-opacity-80 dark:text-gray-300">
-          Kent is a world renowned speaker, teacher, and trainer and he's
-          actively involved in the open source community as a maintainer and
-          contributor of hundreds of popular npm packages. He is the creator of{' '}
-          <a
-            href="https://epicreact.dev"
-            target="_blank"
-            className="text-indigo-500 text-opacity-100 hover:underline dark:text-brand"
-            rel="noreferrer"
-          >
-            EpicReact.Dev
-          </a>{' '}
-          and{' '}
-          <a
-            href="https://testingjavascript.com"
-            target="_blank"
-            className="text-indigo-500 text-opacity-100 hover:underline dark:text-brand"
-            rel="noreferrer"
-          >
-            TestingJavaScript.com
-          </a>
-          .
-        </p>
-      </div>
     </section>
   )
 }
