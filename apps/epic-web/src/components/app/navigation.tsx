@@ -220,13 +220,13 @@ const links = [
     icon: <TipsIcon />,
     href: '/tips',
   },
-  {
-    label: 'Events',
-    icon: (
-      <CalendarIcon className="w-[18px] text-rose-400 dark:text-rose-300" />
-    ),
-    href: '/events',
-  },
+  // {
+  //   label: 'Events',
+  //   icon: (
+  //     <CalendarIcon className="w-[18px] text-rose-400 dark:text-rose-300" />
+  //   ),
+  //   href: '/events',
+  // },
 ]
 
 type NavToggleProps = {
