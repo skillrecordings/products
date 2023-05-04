@@ -53,8 +53,6 @@ const Invoice: React.FC<
     resizeTextArea()
   })
 
-  console.log('rerender')
-
   const router = useRouter()
 
   const {data: chargeDetails, status} = trpc.invoices.getChargeDetails.useQuery(
