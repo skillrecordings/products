@@ -90,7 +90,7 @@
     "file-extension": "^4.0.5",
     "focus-visible": "^5.2.0",
     "formik": "2.2.9",
-    "framer-motion": "^7.3.2",
+    "framer-motion": "^10.12.4",
     "fs-extra": "^10.1.0",
     "graphql": "^16.5.0",
     "graphql-request": "^4.3.0",
