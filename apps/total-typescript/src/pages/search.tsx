@@ -1,72 +1,84 @@
 import * as React from 'react'
-import {getProviders, signIn} from 'next-auth/react'
-import {GetServerSideProps} from 'next'
 import Layout from 'components/app/layout'
-import {Icon} from '@skillrecordings/skill-lesson/icons'
-import {getToken} from 'next-auth/jwt'
-import {trpc} from '../trpc/trpc.client'
-import {isEmpty} from 'lodash'
-import Image from 'next/image'
+import {BookIcon, KeyIcon} from 'components/app/navigation'
 import Balancer from 'react-wrap-balancer'
+import {trpc} from '../trpc/trpc.client'
 import pluralize from 'pluralize'
 import Link from 'next/link'
+import {
+  FireIcon,
+  PuzzleIcon,
+  PlayIcon,
+  SearchIcon,
+  LightBulbIcon,
+  SparklesIcon,
+} from '@heroicons/react/solid'
+import {} from '@heroicons/react/outline'
+import {useRouter} from 'next/router'
 
-const Profile: React.FC<React.PropsWithChildren<{providers: any}>> = ({
+const Search: React.FC<React.PropsWithChildren<{providers: any}>> = ({
   providers,
 }) => {
   const [query, setQuery] = React.useState('')
   const debouncedQuery = useDebounce(query, 500)
+  const router = useRouter()
 
-  const {data: searchResults} = trpc.search.resultsForQuery.useQuery({
-    query: debouncedQuery,
-  })
+  React.useEffect(() => {
+    router.query.q && setQuery(router.query.q.toString())
+  }, [router])
+
+  const {data: searchResults, status: searchResultsStatus} =
+    trpc.search.resultsForQuery.useQuery({
+      query: debouncedQuery,
+    })
 
   return (
-    <Layout footer={null} meta={{title: 'Search Total TypeScript'}}>
-      <div className="relative mx-auto flex w-full flex-grow flex-col items-center justify-center pb-16 pt-16 text-white sm:p-5 sm:pt-40 md:pb-40">
-        <Image
-          src={require('../../public/assets/landing/bg-divider-3.png')}
-          fill={true}
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none select-none object-contain object-top"
-        />
-        <main className="relative z-10 rounded-lg border-gray-800 p-5 shadow-black/60 sm:mx-auto sm:border sm:bg-gray-800/90 sm:p-10 sm:shadow-2xl">
-          <div className="relative z-10 mx-auto flex w-20 max-w-sm items-center justify-center sm:-mt-24 sm:w-full">
-            <Image
-              placeholder="blur"
-              src={require('../../public/assets/gem.png')}
-              alt=""
-              quality={100}
-              width={120}
-              height={120}
-              priority
-              aria-hidden="true"
-            />
-          </div>
-          <h1 className="pt-3 text-center font-text text-4xl font-extrabold leading-9 sm:pt-8 sm:text-4xl">
-            Search Total TypeScript
-          </h1>
-          <div className="pt-8 sm:mx-auto sm:w-full sm:max-w-md sm:pt-10 sm:text-lg">
-            <form method="post" action="/api/auth/signin/email">
-              <label
-                htmlFor="email"
-                className="block pb-1 leading-5 text-gray-200"
-              >
-                Search
-              </label>
-              <div className="relative mt-1 rounded-md shadow-sm">
-                <input
-                  className="mb-3 block w-full rounded-md border border-white border-opacity-20 bg-gray-900 py-4 pl-10 text-white placeholder-gray-400 focus:border-cyan-300 focus:ring-0"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                />
+    <Layout
+      meta={{
+        title: 'Search Total TypeScript',
+        ogImage: {
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1683201813/search-card_2x_j4swt1.png',
+        },
+      }}
+    >
+      <main className="relative z-10 mx-auto w-full max-w-4xl py-20 sm:py-24">
+        <h1 className="px-3 pt-3 text-center font-text text-2xl font-semibold leading-9 sm:pt-8 sm:text-left sm:text-3xl lg:px-0">
+          Search Total TypeScript
+        </h1>
+        <div className="w-full px-3 pt-5 sm:text-lg lg:px-0">
+          <form onSubmit={(e) => e.preventDefault()}>
+            <label htmlFor="search" className="sr-only">
+              Search
+            </label>
+            <div className="relative mt-1 rounded-md shadow-sm">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                <SearchIcon className="h-5 w-5 text-gray-500" />
               </div>
-            </form>
-          </div>
+              <input
+                type="search"
+                id="search"
+                placeholder="Search"
+                className="mb-3 block w-full rounded-md border border-gray-700/40 bg-gray-800 py-3 pl-11 pr-4 text-white placeholder-gray-400 focus:border-cyan-300 focus:ring-0"
+                value={query}
+                onChange={(e) => {
+                  e.target.value === ''
+                    ? router.push(router.pathname)
+                    : router.push(router.pathname, {
+                        query: {q: e.target.value},
+                      })
+                  return setQuery(e.target.value)
+                }}
+              />
+            </div>
+          </form>
+        </div>
 
+        <ul className="divide-y divide-gray-800">
+          {!searchResults && <Skeleton />}
           {searchResults?.map((result: any) => {
             let resourceSlug = ''
+
+            if (!result) return null
 
             switch (result._type) {
               case 'tip':
@@ -80,15 +92,22 @@ const Profile: React.FC<React.PropsWithChildren<{providers: any}>> = ({
                   result.slug.current
                 }`
                 break
+              case 'bonus':
+                resourceSlug = `/bonuses/${result.slug.current}`
+                break
               case 'exercise':
-                resourceSlug = `/${pluralize(result.module.moduleType)}/${
-                  result.module.slug.current
-                }/${result.section.slug}/${result.slug.current}`
+                resourceSlug =
+                  result.module &&
+                  `/${pluralize(result.module.moduleType)}/${
+                    result.module.slug.current
+                  }/${result.section.slug}/${result.slug.current}`
                 break
               case 'explainer':
-                resourceSlug = `/${pluralize(result.module.moduleType)}/${
-                  result.module.slug.current
-                }/${result.section.slug}/${result.slug.current}`
+                resourceSlug =
+                  result.module &&
+                  `/${pluralize(result.module.moduleType)}/${
+                    result.module.slug.current
+                  }/${result.section.slug}/${result.slug.current}`
                 break
               default:
                 resourceSlug = `/${pluralize(result._type)}/${
@@ -96,31 +115,38 @@ const Profile: React.FC<React.PropsWithChildren<{providers: any}>> = ({
                 }`
             }
 
-            return (
-              <div className="flex items-center justify-between border-b border-gray-800 py-3">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <Link
-                      className="font-semibold hover:underline"
-                      href={resourceSlug}
-                    >
-                      {result.title}{' '}
-                      {result._type === 'module'
-                        ? `(${result.moduleType})`
-                        : `(${result._type})`}
-                    </Link>
+            return resourceSlug ? (
+              <li key={resourceSlug}>
+                <Link
+                  className="flex w-full items-center justify-between gap-5 px-5 py-3.5 font-medium text-gray-200 transition hover:bg-gray-800/20 hover:text-white"
+                  href={resourceSlug}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="flex-shrink-0" aria-hidden="true">
+                      {getIcon(
+                        result._type === 'module'
+                          ? result.moduleType
+                          : result._type,
+                      )}
+                    </span>
+                    <Balancer>{result.title} </Balancer>
                   </div>
-                </div>
-              </div>
-            )
+                  <div className="w-16 justify-self-end font-mono text-xs font-normal uppercase text-gray-400 sm:w-24">
+                    {result._type === 'module'
+                      ? `${result.moduleType}`
+                      : `${result._type}`}
+                  </div>
+                </Link>
+              </li>
+            ) : null
           })}
-        </main>
-      </div>
+        </ul>
+      </main>
     </Layout>
   )
 }
 
-export default Profile
+export default Search
 
 function useDebounce(value: string = '', delay: number) {
   // State and setters for debounced value
@@ -141,4 +167,62 @@ function useDebounce(value: string = '', delay: number) {
     [value, delay], // Only re-call effect if value or delay changes
   )
   return debouncedValue
+}
+
+const getIcon = (_type: string) => {
+  switch (_type) {
+    case 'tip':
+      return <FireIcon className="h-5 w-5 text-orange-400" aria-hidden="true" />
+      break
+    case 'article':
+      return <BookIcon />
+      break
+    case 'tutorial':
+      return <PlayIcon className="h-5 w-5 text-cyan-300" aria-hidden="true" />
+      break
+    case 'workshop':
+      return <KeyIcon />
+      break
+    case 'exercise':
+      return <PuzzleIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+      break
+    case 'explainer':
+      return (
+        <LightBulbIcon
+          className="h-5 w-5 text-emerald-400"
+          aria-hidden="true"
+        />
+      )
+      break
+    default:
+      return (
+        <SparklesIcon className="h-5 w-5 text-pink-400" aria-hidden="true" />
+      )
+      break
+  }
+}
+
+const Skeleton = () => {
+  return (
+    <>
+      {new Array(5).fill(null).map((_, i) => {
+        return (
+          <>
+            <li
+              key={i}
+              className="flex h-[52px] w-full animate-pulse items-center bg-gray-800/20 px-5"
+            >
+              <span className="h-4 w-48 rounded-md bg-gray-800/50" />
+            </li>
+            <li
+              key={i + 'b'}
+              className="flex h-[52px] w-full animate-pulse items-center bg-gray-800/20 px-5"
+            >
+              <span className="h-4 w-32 rounded-md bg-gray-800/50" />
+            </li>
+          </>
+        )
+      })}
+    </>
+  )
 }
