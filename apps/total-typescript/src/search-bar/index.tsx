@@ -88,10 +88,6 @@ const GlobalSearchBar = () => {
             </Command.Item>
           ) : null
         })}
-        {/* <Command.Item>a</Command.Item>
-          <Command.Item>b</Command.Item>
-          <Command.Separator />
-          <Command.Item>c</Command.Item> */}
       </Command.List>
     </Command.Dialog>
   )
