@@ -19,6 +19,8 @@
 @import './video/video-overlays.css';
 @import './video/video-transcript.css';
 
+@import '../search-bar/cmdk.css';
+
 @tailwind utilities;
 @import './focus-visible.css';
 
