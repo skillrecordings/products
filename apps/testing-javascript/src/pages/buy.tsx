@@ -4,12 +4,12 @@ import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 
 import Layout from 'components/layout'
-import {Pricing} from 'path-to-purchase-react/pricing'
+import {Pricing} from 'path-to-purchase/pricing'
 import {getAllProducts} from 'server/products.server'
-import {useCoupon} from 'path-to-purchase-react/use-coupon'
-import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context

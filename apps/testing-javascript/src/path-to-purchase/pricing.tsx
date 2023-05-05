@@ -18,7 +18,7 @@ import {useDebounce} from '@skillrecordings/react'
 import {QueryStatus} from '@tanstack/react-query'
 // import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
-import {usePriceCheck} from './pricing-check-context'
+import {usePriceCheck} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 // import ReactMarkdown from 'react-markdown'
 // import {MailIcon} from '@heroicons/react/solid'
 // import {
