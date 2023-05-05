@@ -122,14 +122,14 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
             <NavLink
               label={
                 <>
-                  <span
+                  {/* <span
                     className={cx('hidden ', {
                       'xl:inline-block': isMinified,
                       'lg:inline-block': !isMinified,
                     })}
                   >
                     Send
-                  </span>{' '}
+                  </span>{' '} */}
                   Feedback
                 </>
               }
@@ -266,7 +266,7 @@ const NavLink: React.FC<
           onClick={onClick}
           aria-current={isActive ? 'page' : undefined}
           className={cx(
-            'flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-2.5 lg:px-3 lg:text-base',
+            'flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-2.5 lg:px-2.5 lg:text-base',
             className,
           )}
         >
@@ -281,7 +281,7 @@ const NavLink: React.FC<
         href={path}
         passHref
         className={cx(
-          'flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-2.5 lg:px-3 lg:text-base',
+          'flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-2.5 lg:px-2.5 lg:text-base',
           className,
         )}
         onClick={() => {
@@ -379,7 +379,7 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
       <span
         aria-hidden={!isMinified}
         className={cx('text-base', {
-          hidden: !isMinified,
+          'hidden md:block lg:hidden': !isMinified,
           'hidden sm:hidden md:block 2xl:hidden': isMinified,
         })}
       >
@@ -388,6 +388,7 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
       <span
         aria-hidden={isMinified}
         className={cx('mr-0.5 font-light opacity-90', {
+          'block md:hidden lg:block': !isMinified,
           'md:hidden xl:hidden 2xl:block': isMinified,
         })}
       >
@@ -396,6 +397,7 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
       <span
         aria-hidden={isMinified}
         className={cx({
+          'block md:hidden lg:block': !isMinified,
           'md:hidden xl:hidden 2xl:block': isMinified,
         })}
       >
@@ -474,7 +476,7 @@ const SearchBar: React.FC<{isMinified?: boolean | undefined}> = ({
 
   return (
     <button
-      className="flex items-center rounded-md bg-gray-800/50 px-2.5 py-2 text-sm font-normal text-gray-400 transition hover:bg-gray-800/75 sm:px-2 sm:py-2 sm:text-base md:ml-1 md:gap-2 md:px-2 lg:ml-3 lg:gap-5 lg:px-2"
+      className="flex items-center rounded-md bg-gray-800/50 px-2.5 py-2 text-sm font-normal text-gray-400 transition hover:bg-gray-800/75 sm:px-2 sm:py-2 sm:text-base md:ml-1 md:gap-2 md:px-2 lg:ml-1 lg:gap-5 lg:px-2"
       onClick={() => {
         setOpenSearchBar(!isSearchBarOpen)
       }}
