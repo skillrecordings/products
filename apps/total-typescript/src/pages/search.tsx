@@ -16,9 +16,7 @@ import {
 import {} from '@heroicons/react/outline'
 import {useRouter} from 'next/router'
 
-const Search: React.FC<React.PropsWithChildren<{providers: any}>> = ({
-  providers,
-}) => {
+const Search: React.FC = () => {
   const [query, setQuery] = React.useState('')
   const debouncedQuery = useDebounce(query, 500)
   const router = useRouter()
@@ -27,10 +25,9 @@ const Search: React.FC<React.PropsWithChildren<{providers: any}>> = ({
     router.query.q && setQuery(router.query.q.toString())
   }, [router])
 
-  const {data: searchResults, status: searchResultsStatus} =
-    trpc.search.resultsForQuery.useQuery({
-      query: debouncedQuery,
-    })
+  const {data: searchResults} = trpc.search.resultsForQuery.useQuery({
+    query: debouncedQuery,
+  })
 
   return (
     <Layout
@@ -76,44 +73,8 @@ const Search: React.FC<React.PropsWithChildren<{providers: any}>> = ({
         <ul className="divide-y divide-gray-800">
           {!searchResults && <Skeleton />}
           {searchResults?.map((result: any) => {
-            let resourceSlug = ''
-
             if (!result) return null
-
-            switch (result._type) {
-              case 'tip':
-                resourceSlug = `/tips/${result.slug.current}`
-                break
-              case 'article':
-                resourceSlug = `/${result.slug.current}`
-                break
-              case 'module':
-                resourceSlug = `/${pluralize(result.moduleType)}/${
-                  result.slug.current
-                }`
-                break
-              case 'bonus':
-                resourceSlug = `/bonuses/${result.slug.current}`
-                break
-              case 'exercise':
-                resourceSlug =
-                  result.module &&
-                  `/${pluralize(result.module.moduleType)}/${
-                    result.module.slug.current
-                  }/${result.section.slug}/${result.slug.current}`
-                break
-              case 'explainer':
-                resourceSlug =
-                  result.module &&
-                  `/${pluralize(result.module.moduleType)}/${
-                    result.module.slug.current
-                  }/${result.section.slug}/${result.slug.current}`
-                break
-              default:
-                resourceSlug = `/${pluralize(result._type)}/${
-                  result.slug.current
-                }`
-            }
+            const resourceSlug = getResourceSlug(result)
 
             return resourceSlug ? (
               <li key={resourceSlug}>
@@ -148,7 +109,7 @@ const Search: React.FC<React.PropsWithChildren<{providers: any}>> = ({
 
 export default Search
 
-function useDebounce(value: string = '', delay: number) {
+export function useDebounce(value: string = '', delay: number) {
   // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = React.useState(value)
   React.useEffect(
@@ -169,7 +130,7 @@ function useDebounce(value: string = '', delay: number) {
   return debouncedValue
 }
 
-const getIcon = (_type: string) => {
+export const getIcon = (_type: string) => {
   switch (_type) {
     case 'tip':
       return <FireIcon className="h-5 w-5 text-orange-400" aria-hidden="true" />
@@ -225,4 +186,39 @@ const Skeleton = () => {
       })}
     </>
   )
+}
+
+export const getResourceSlug = (result: any) => {
+  let resourceSlug = ''
+  switch (result._type) {
+    case 'tip':
+      resourceSlug = `/tips/${result.slug.current}`
+      break
+    case 'article':
+      resourceSlug = `/${result.slug.current}`
+      break
+    case 'module':
+      resourceSlug = `/${pluralize(result.moduleType)}/${result.slug.current}`
+      break
+    case 'bonus':
+      resourceSlug = `/bonuses/${result.slug.current}`
+      break
+    case 'exercise':
+      resourceSlug =
+        result.module &&
+        `/${pluralize(result.module.moduleType)}/${
+          result.module.slug.current
+        }/${result.section.slug}/${result.slug.current}`
+      break
+    case 'explainer':
+      resourceSlug =
+        result.module &&
+        `/${pluralize(result.module.moduleType)}/${
+          result.module.slug.current
+        }/${result.section.slug}/${result.slug.current}`
+      break
+    default:
+      resourceSlug = `/${pluralize(result._type)}/${result.slug.current}`
+  }
+  return resourceSlug
 }

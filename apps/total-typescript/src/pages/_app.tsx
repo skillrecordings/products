@@ -15,8 +15,8 @@ import {SessionProvider} from 'next-auth/react'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import * as amplitude from '@amplitude/analytics-browser'
 import {FeedbackProvider} from 'feedback-widget/feedback-context'
-
 import {trpc} from 'trpc/trpc.client'
+import {SearchProvider} from 'search-bar/use-search-bar'
 
 amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
 
@@ -31,7 +31,9 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <ConvertkitProvider>
             <MDXProvider components={MDXComponents}>
-              <Component {...pageProps} />
+              <SearchProvider>
+                <Component {...pageProps} />
+              </SearchProvider>
             </MDXProvider>
           </ConvertkitProvider>
           <ReactQueryDevtools initialIsOpen={false} />

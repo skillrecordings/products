@@ -9,6 +9,7 @@ import {Survey} from '../../offer/survey'
 import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
 import {useFeedback} from '../../feedback-widget/feedback-context'
 import Footer from 'components/app/footer'
+import GlobalSearchBar from 'search-bar'
 
 type LayoutProps = {
   meta?: any
@@ -65,6 +66,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         canonical={url}
         noindex={noIndex}
       />
+      <GlobalSearchBar />
       <Toaster position="top-center" />
       {isFeedbackDialogOpen && feedbackComponent}
       {nav ? nav : isNull(nav) ? null : <Navigation />}
