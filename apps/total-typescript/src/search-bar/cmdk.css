@@ -3,8 +3,6 @@
   padding: 8px;
   border-radius: 12px;
   overflow: hidden;
-  font-family: var(--font-sans);
-  border: 1px solid var(--gray6);
   transition: transform 100ms ease;
 }
 
@@ -74,7 +72,6 @@
   gap: 8px;
 
   kbd {
-    font-family: var(--font-sans);
     font-size: 12px;
     min-width: 20px;
     padding: 4px;
