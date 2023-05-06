@@ -314,8 +314,14 @@ const StartLearning: React.FC<{
           lessons,
           find(lessons, {_id: get(first(completedLessons), 'lessonId')}),
         ) + 1
-      ]
+      ] || first(lessons)
     : first(lessons)
+
+  console.log({
+    module: product.slug,
+    section: first(sections)?.slug,
+    lesson: nextLesson?.slug,
+  })
 
   return (
     <>
