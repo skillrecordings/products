@@ -6,6 +6,8 @@ import {trpc} from 'trpc/trpc.client'
 import {useRouter} from 'next/router'
 import {SearchIcon} from '@heroicons/react/solid'
 import {useSearchBar} from './use-search-bar'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {debounce} from 'lodash'
 
 const GlobalSearchBar = () => {
   const [query, setQuery] = React.useState('')
@@ -15,6 +17,14 @@ const GlobalSearchBar = () => {
   })
 
   const {open, setOpen} = useSearchBar()
+
+  React.useEffect(() => {
+    if (debouncedQuery) {
+      track('searched cmdk', {
+        query: debouncedQuery,
+      })
+    }
+  }, [debouncedQuery])
 
   // Toggle the menu when ⌘K is pressed
   React.useEffect(() => {
@@ -43,7 +53,9 @@ const GlobalSearchBar = () => {
         <SearchIcon className="absolute ml-2 h-5 w-5" />
         <Command.Input
           value={query}
-          onValueChange={(e) => setQuery(e)}
+          onValueChange={(e) => {
+            setQuery(e)
+          }}
           autoFocus
           placeholder="Search Total TypeScript..."
         />
@@ -67,6 +79,16 @@ const GlobalSearchBar = () => {
               value={resourceSlug}
               key={resourceSlug}
               onSelect={(value) => {
+                track('clicked cmdk result', {
+                  ...(result._type === 'module'
+                    ? {
+                        moduleType: result.moduleType,
+                      }
+                    : {}),
+                  type: result._type,
+                  slug: result.slug.current,
+                })
+                setOpen(false)
                 router.push(value)
               }}
             >
