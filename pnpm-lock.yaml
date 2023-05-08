@@ -1769,199 +1769,6 @@ importers:
       prettier: 2.7.1
       prettier-plugin-tailwindcss: 0.2.5_prettier@2.7.1
 
-  apps/skill-template:
-    specifiers:
-      '@amplitude/analytics-browser': ^1.3.0
-      '@headlessui/react': ^1.6.1
-      '@heroicons/react': ^1.0.6
-      '@mdx-js/loader': ^2.1.2
-      '@mdx-js/mdx': ^2.1.2
-      '@mdx-js/react': ^2.1.2
-      '@mux/mux-node': ^6.3.0
-      '@mux/mux-player-react': 1.8.0
-      '@next-auth/prisma-adapter': ^1.0.3
-      '@next/env': ^12.2.2
-      '@next/mdx': ^12.2.4
-      '@portabletext/react': ^1.0.6
-      '@radix-ui/react-accordion': ^1.0.0
-      '@radix-ui/react-alert-dialog': ^0.1.7
-      '@radix-ui/react-dialog': ^0.1.7
-      '@radix-ui/react-dropdown-menu': ^1.0.0
-      '@radix-ui/react-navigation-menu': ^1.1.1
-      '@radix-ui/react-switch': ^1.0.1
-      '@sanity/block-tools': ^3.2.3
-      '@sanity/client': ^4.0.1
-      '@sanity/code-input': ^3.0.1
-      '@sanity/icons': ^2.2.2
-      '@sanity/ui': ^1.0.12
-      '@sanity/vision': ^3.0.0
-      '@sentry/nextjs': ^7.9.0
-      '@sentry/tracing': ^7.9.0
-      '@skillrecordings/analytics': workspace:*
-      '@skillrecordings/commerce-server': workspace:*
-      '@skillrecordings/convertkit-react-ui': workspace:*
-      '@skillrecordings/database': workspace:*
-      '@skillrecordings/next-seo': workspace:*
-      '@skillrecordings/quiz': workspace:*
-      '@skillrecordings/react': workspace:*
-      '@skillrecordings/scripts': workspace:*
-      '@skillrecordings/skill-api': workspace:*
-      '@skillrecordings/skill-lesson': workspace:*
-      '@skillrecordings/tsconfig': workspace:*
-      '@skillrecordings/types': workspace:*
-      '@slack/web-api': ^6.7.2
-      '@tailwindcss/typography': ^0.5.9
-      '@tanstack/react-query': ^4.20.4
-      '@tanstack/react-query-devtools': ^4.24.10
-      '@tiptap/extension-highlight': ^2.0.0-beta.33
-      '@tiptap/extension-link': ^2.0.0-beta.37
-      '@tiptap/extension-typography': ^2.0.0-beta.20
-      '@tiptap/react': ^2.0.0-beta.109
-      '@tiptap/starter-kit': ^2.0.0-beta.184
-      '@trpc/client': '=10.7.0'
-      '@trpc/next': '=10.7.0'
-      '@trpc/react-query': '=10.7.0'
-      '@trpc/server': '=10.7.0'
-      '@types/cookie': ^0.4.1
-      '@types/jsonwebtoken': ^8.5.8
-      '@types/mdx': ^2.0.2
-      '@types/mdx-js__react': ^1.5.5
-      '@types/mjml': ^4.7.0
-      '@types/node': ^17.0.0
-      '@types/nodemailer': ^6.4.4
-      '@types/nprogress': ^0.2.0
-      '@types/react': ^18.0.15
-      '@types/react-dom': ^18.0.6
-      classnames: ^2.3.1
-      date-fns: ^2.28.0
-      dotenv-flow: ^3.2.0
-      eslint: ^8.19.0
-      eslint-config-custom: workspace:*
-      feed: ^4.2.2
-      formik: 2.2.9
-      groq: ^2.15.0
-      jest: ^27.5.1
-      jest-mock-extended: ^2.0.4
-      lodash: ^4.17.21
-      micromark: ^3.1.0
-      mjml: ^4.12.0
-      next: ^13.3.4
-      next-auth: ^4.19.2
-      next-sitemap: ^3.0.5
-      nodemailer: ^6.7.2
-      nodemailer-postmark-transport: ^5.2.1
-      postcss: ^8.4.14
-      prettier: ^2.6.2
-      prettier-plugin-tailwindcss: ^0.2.5
-      react: 18.2.0
-      react-dom: 18.2.0
-      react-icons: ^4.7.1
-      sanity: ^3.0.0
-      sanity-plugin-cloudinary: ^1.0.1
-      superjson: '=1.11.0'
-      tailwind-scrollbar: ^3.0.0
-      tailwindcss: ^3.3.0
-      tailwindcss-radix: ^2.8.0
-      typescript: ^4.9.4
-      webpack: ^5.73.0
-      yup: ^0.32.11
-    dependencies:
-      '@amplitude/analytics-browser': 1.3.0
-      '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
-      '@heroicons/react': 1.0.6_react@18.2.0
-      '@mdx-js/loader': 2.1.5_webpack@5.73.0
-      '@mdx-js/mdx': 2.1.5
-      '@mdx-js/react': 2.1.5_react@18.2.0
-      '@mux/mux-node': 6.3.1
-      '@mux/mux-player-react': 1.8.0_kc75ilbx26tqgkdq4zo4n4icae
-      '@next-auth/prisma-adapter': 1.0.3_next-auth@4.19.2
-      '@next/mdx': 12.3.4_wuv4qx5dshjptmdbtsqqkih5iu
-      '@portabletext/react': 1.0.6_react@18.2.0
-      '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
-      '@radix-ui/react-alert-dialog': 0.1.7_5ndqzdd6t4rivxsukjv3i3ak2q
-      '@radix-ui/react-dialog': 0.1.7_5ndqzdd6t4rivxsukjv3i3ak2q
-      '@radix-ui/react-dropdown-menu': 1.0.0_5ndqzdd6t4rivxsukjv3i3ak2q
-      '@radix-ui/react-navigation-menu': 1.1.1_biqbaboplfbrettd7655fr4n2y
-      '@radix-ui/react-switch': 1.0.1_biqbaboplfbrettd7655fr4n2y
-      '@sanity/block-tools': 3.9.1
-      '@sanity/client': 4.0.1
-      '@sanity/code-input': 3.0.1_kotc6sw5zkvdt4e6tb66cxqt5y
-      '@sanity/icons': 2.3.1_react@18.2.0
-      '@sanity/ui': 1.3.2_biqbaboplfbrettd7655fr4n2y
-      '@sanity/vision': 3.9.1_biqbaboplfbrettd7655fr4n2y
-      '@sentry/nextjs': 7.9.0_oilmktkiimi6ixv3ewupi7yx54
-      '@sentry/tracing': 7.9.0
-      '@skillrecordings/analytics': link:../../packages/analytics
-      '@skillrecordings/commerce-server': link:../../packages/commerce-server
-      '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui
-      '@skillrecordings/database': link:../../packages/database
-      '@skillrecordings/next-seo': link:../../packages/next-seo
-      '@skillrecordings/quiz': link:../../packages/quiz
-      '@skillrecordings/react': link:../../packages/react
-      '@skillrecordings/skill-api': link:../../packages/skill-api
-      '@skillrecordings/skill-lesson': link:../../packages/skill-lesson
-      '@slack/web-api': 6.7.2
-      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
-      '@tanstack/react-query-devtools': 4.24.10_fu3ixcwltlssi3ozitelgaebme
-      '@tiptap/extension-highlight': 2.0.0-beta.33
-      '@tiptap/extension-link': 2.0.0-beta.37
-      '@tiptap/extension-typography': 2.0.0-beta.20
-      '@tiptap/react': 2.0.0-beta.109_biqbaboplfbrettd7655fr4n2y
-      '@tiptap/starter-kit': 2.0.0-beta.184
-      '@trpc/client': 10.7.0_@trpc+server@10.7.0
-      '@trpc/next': 10.7.0_3jqssa5ypexp5aj3osdnamk3ya
-      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
-      '@trpc/server': 10.7.0
-      classnames: 2.3.1
-      date-fns: 2.29.3
-      feed: 4.2.2
-      formik: 2.2.9_react@18.2.0
-      groq: 2.15.0
-      lodash: 4.17.21
-      micromark: 3.1.0
-      mjml: 4.12.0
-      next: 13.4.1_biqbaboplfbrettd7655fr4n2y
-      next-auth: 4.19.2_d3mn2soiezojghpjix6rgrfgpi
-      next-sitemap: 3.1.55_lcjjl2ugwapdd6ufrhji4mhham
-      nodemailer: 6.7.2
-      nodemailer-postmark-transport: 5.2.1_nodemailer@6.7.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-icons: 4.7.1_react@18.2.0
-      sanity: 3.9.1_z4un7qnaa7wwj3f2uxtandoqfq
-      sanity-plugin-cloudinary: 1.1.1_kotc6sw5zkvdt4e6tb66cxqt5y
-      superjson: 1.11.0
-      tailwindcss-radix: 2.8.0
-      yup: 0.32.11
-    devDependencies:
-      '@next/env': 12.3.1
-      '@skillrecordings/scripts': link:../../packages/scripts
-      '@skillrecordings/tsconfig': link:../../packages/tsconfig
-      '@skillrecordings/types': link:../../packages/types
-      '@tailwindcss/typography': 0.5.9_tailwindcss@3.3.0
-      '@types/cookie': 0.4.1
-      '@types/jsonwebtoken': 8.5.8
-      '@types/mdx': 2.0.2
-      '@types/mdx-js__react': 1.5.5
-      '@types/mjml': 4.7.0
-      '@types/node': 17.0.41
-      '@types/nodemailer': 6.4.4
-      '@types/nprogress': 0.2.0
-      '@types/react': 18.0.27
-      '@types/react-dom': 18.0.6
-      dotenv-flow: 3.2.0
-      eslint: 8.26.0
-      eslint-config-custom: link:../../packages/eslint-config-custom
-      jest: 27.5.1
-      jest-mock-extended: 2.0.7_4usku544k6bo6scvxbnytgz2pi
-      postcss: 8.4.20
-      prettier: 2.7.1
-      prettier-plugin-tailwindcss: 0.2.5_prettier@2.7.1
-      tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0_postcss@8.4.20
-      typescript: 4.9.4
-      webpack: 5.73.0
-
   apps/skillrecordings:
     specifiers:
       '@babel/plugin-transform-react-jsx': ^7.16.0
@@ -11893,10 +11700,6 @@ packages:
   /@next/env/13.1.2:
     resolution: {integrity: sha512-PpT4UZIX66VMTqXt4HKEJ+/PwbS+tWmmhZlazaws1a+dbUA5pPdjntQ46Jvj616i3ZKN9doS9LHx3y50RLjAWg==}
 
-  /@next/env/13.4.1:
-    resolution: {integrity: sha512-eD6WCBMFjLFooLM19SIhSkWBHtaFrZFfg2Cxnyl3vS3DAdFRfnx5TY2RxlkuKXdIRCC0ySbtK9JXXt8qLCqzZg==}
-    dev: false
-
   /@next/eslint-plugin-next/12.3.1:
     resolution: {integrity: sha512-sw+lTf6r6P0j+g/n9y4qdWWI2syPqZx+uc0+B/fRENqfR3KpSid6MIKqc9gNwGhJASazEQ5b3w8h4cAET213jw==}
     dependencies:
@@ -12029,15 +11832,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@next/swc-darwin-arm64/13.4.1:
-    resolution: {integrity: sha512-eF8ARHtYfnoYtDa6xFHriUKA/Mfj/cCbmKb3NofeKhMccs65G6/loZ15a6wYCCx4rPAd6x4t1WmVYtri7EdeBg==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@next/swc-darwin-x64/12.3.1:
     resolution: {integrity: sha512-9S6EVueCVCyGf2vuiLiGEHZCJcPAxglyckTZcEwLdJwozLqN0gtS0Eq0bQlGS3dH49Py/rQYpZ3KVWZ9BUf/WA==}
     engines: {node: '>= 10'}
@@ -12053,15 +11847,6 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    optional: true
-
-  /@next/swc-darwin-x64/13.4.1:
-    resolution: {integrity: sha512-7cmDgF9tGWTgn5Gw+vP17miJbH4wcraMHDCOHTYWkO/VeKT73dUWG23TNRLfgtCNSPgH4V5B4uLHoZTanx9bAw==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@next/swc-freebsd-x64/12.3.1:
@@ -12115,15 +11900,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@next/swc-linux-arm64-gnu/13.4.1:
-    resolution: {integrity: sha512-qwJqmCri2ie8aTtE5gjTSr8S6O8B67KCYgVZhv9gKH44yvc/zXbAY8u23QGULsYOyh1islWE5sWfQNLOj9iryg==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@next/swc-linux-arm64-musl/12.3.1:
     resolution: {integrity: sha512-2WEasRxJzgAmP43glFNhADpe8zB7kJofhEAVNbDJZANp+H4+wq+/cW1CdDi8DqjkShPEA6/ejJw+xnEyDID2jg==}
     engines: {node: '>= 10'}
@@ -12139,15 +11915,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    optional: true
-
-  /@next/swc-linux-arm64-musl/13.4.1:
-    resolution: {integrity: sha512-qcC54tWNGDv/VVIFkazxhqH1Bnagjfs4enzELVRlUOoJPD2BGJTPI7z08pQPbbgxLtRiu8gl2mXvpB8WlOkMeA==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@next/swc-linux-x64-gnu/12.3.1:
@@ -12167,15 +11934,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@next/swc-linux-x64-gnu/13.4.1:
-    resolution: {integrity: sha512-9TeWFlpLsBosZ+tsm/rWBaMwt5It9tPH8m3nawZqFUUrZyGRfGcI67js774vtx0k3rL9qbyY6+3pw9BCVpaYUA==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@next/swc-linux-x64-musl/12.3.1:
     resolution: {integrity: sha512-xoEWQQ71waWc4BZcOjmatuvPUXKTv6MbIFzpm4LFeCHsg2iwai0ILmNXf81rJR+L1Wb9ifEke2sQpZSPNz1Iyg==}
     engines: {node: '>= 10'}
@@ -12191,15 +11949,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    optional: true
-
-  /@next/swc-linux-x64-musl/13.4.1:
-    resolution: {integrity: sha512-sNDGaWmSqTS4QRUzw61wl4mVPeSqNIr1OOjLlQTRuyInxMxtqImRqdvzDvFTlDfdeUMU/DZhWGYoHrXLlZXe6A==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@next/swc-win32-arm64-msvc/12.3.1:
@@ -12219,15 +11968,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@next/swc-win32-arm64-msvc/13.4.1:
-    resolution: {integrity: sha512-+CXZC7u1iXdLRudecoUYbhbsXpglYv8KFYsFxKBPn7kg+bk7eJo738wAA4jXIl8grTF2mPdmO93JOQym+BlYGA==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@next/swc-win32-ia32-msvc/12.3.1:
     resolution: {integrity: sha512-Kny5JBehkTbKPmqulr5i+iKntO5YMP+bVM8Hf8UAmjSMVo3wehyLVc9IZkNmcbxi+vwETnQvJaT5ynYBkJ9dWA==}
     engines: {node: '>= 10'}
@@ -12245,15 +11985,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@next/swc-win32-ia32-msvc/13.4.1:
-    resolution: {integrity: sha512-vIoXVVc7UYO68VwVMDKwJC2+HqAZQtCYiVlApyKEeIPIQpz2gpufzGxk1z3/gwrJt/kJ5CDZjlhYDCzd3hdz+g==}
-    engines: {node: '>= 10'}
-    cpu: [ia32]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@next/swc-win32-x64-msvc/12.3.1:
     resolution: {integrity: sha512-W1ijvzzg+kPEX6LAc+50EYYSEo0FVu7dmTE+t+DM4iOLqgGHoW9uYSz9wCVdkXOEEMP9xhXfGpcSxsfDucyPkA==}
     engines: {node: '>= 10'}
@@ -12269,15 +12000,6 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    optional: true
-
-  /@next/swc-win32-x64-msvc/13.4.1:
-    resolution: {integrity: sha512-n8V5ImLQZibKTu10UUdI3nIeTLkliEXe628qxqW9v8My3BAH2a7H0SaCqkV2OgqFnn8sG1wxKYw9/SNJ632kSA==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@nicolo-ribaudo/chokidar-2/2.1.8-no-fsevents.3:
@@ -14218,27 +13940,6 @@ packages:
       - react-is
     dev: false
 
-  /@sanity/code-input/3.0.1_kotc6sw5zkvdt4e6tb66cxqt5y:
-    resolution: {integrity: sha512-45EsvoBHP1jTSS87T4pxNj3qzAeSmA9TlPavgb9XagiNjy970nAYYQvggpg/46zu0BJMz2YnzXPAAc0kkHYhtA==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      react: ^18
-      react-dom: ^18
-      sanity: ^3.0.0
-      styled-components: ^5.2.0
-    dependencies:
-      '@sanity/icons': 2.3.1_react@18.2.0
-      '@sanity/incompatible-plugin': 1.0.4_biqbaboplfbrettd7655fr4n2y
-      '@sanity/ui': 1.3.2_biqbaboplfbrettd7655fr4n2y
-      ace-builds: 1.15.0
-      react: 18.2.0
-      react-ace: 10.1.0_biqbaboplfbrettd7655fr4n2y
-      react-dom: 18.2.0_react@18.2.0
-      sanity: 3.9.1_z4un7qnaa7wwj3f2uxtandoqfq
-    transitivePeerDependencies:
-      - react-is
-    dev: false
-
   /@sanity/code-input/3.0.1_lwfue5ecbqwevxpjdqp6room4e:
     resolution: {integrity: sha512-45EsvoBHP1jTSS87T4pxNj3qzAeSmA9TlPavgb9XagiNjy970nAYYQvggpg/46zu0BJMz2YnzXPAAc0kkHYhtA==}
     engines: {node: '>=14'}
@@ -15717,35 +15418,6 @@ packages:
       - supports-color
     dev: false
 
-  /@sentry/nextjs/7.9.0_oilmktkiimi6ixv3ewupi7yx54:
-    resolution: {integrity: sha512-yToPcsoMwfFyUS7STmJdwbE6JxlUHaxxnO8Qwpu9jFF2dH925r3MBWkwR1H2wfR1GbOLVwGUmQIdL1LAR8novw==}
-    engines: {node: '>=8'}
-    peerDependencies:
-      next: ^10.0.8 || ^11.0 || ^12.0
-      react: 15.x || 16.x || 17.x || 18.x
-      webpack: '>= 4.0.0'
-    peerDependenciesMeta:
-      webpack:
-        optional: true
-    dependencies:
-      '@sentry/core': 7.9.0
-      '@sentry/hub': 7.9.0
-      '@sentry/integrations': 7.9.0
-      '@sentry/node': 7.9.0
-      '@sentry/react': 7.9.0_react@18.2.0
-      '@sentry/tracing': 7.9.0
-      '@sentry/types': 7.9.0
-      '@sentry/utils': 7.9.0
-      '@sentry/webpack-plugin': 1.19.0
-      next: 13.4.1_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      tslib: 1.14.1
-      webpack: 5.73.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
-
   /@sentry/nextjs/7.9.0_tosdbwrqkngvi22aqgwiik23xe:
     resolution: {integrity: sha512-yToPcsoMwfFyUS7STmJdwbE6JxlUHaxxnO8Qwpu9jFF2dH925r3MBWkwR1H2wfR1GbOLVwGUmQIdL1LAR8novw==}
     engines: {node: '>=8'}
@@ -16281,12 +15953,6 @@ packages:
     resolution: {integrity: sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==}
     dependencies:
       tslib: 2.5.0
-
-  /@swc/helpers/0.5.1:
-    resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
-    dependencies:
-      tslib: 2.5.0
-    dev: false
 
   /@szmarczak/http-timer/1.1.2:
     resolution: {integrity: sha512-XIB2XbzHTN6ieIjfIMV9hlVcfPU26s2vafYWQcZHWXHOxiaRZYEDKEwdl129Zyg50+foYV2jCgtrqSA6qNuNSA==}
@@ -16868,27 +16534,6 @@ packages:
       '@trpc/server': 10.7.0
     dependencies:
       '@trpc/server': 10.7.0
-    dev: false
-
-  /@trpc/next/10.7.0_3jqssa5ypexp5aj3osdnamk3ya:
-    resolution: {integrity: sha512-ZLY4J9IgEHN2op0UM14NCwCDyodRUw8Pmxgnpr62+UMIhDll6uggb2an8Op87l9EeYdKhKe2VavDWphI8vFGgw==}
-    peerDependencies:
-      '@tanstack/react-query': ^4.3.8
-      '@trpc/client': 10.7.0
-      '@trpc/react-query': ^10.0.0-proxy-beta.21
-      '@trpc/server': 10.7.0
-      next: '*'
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
-      '@trpc/client': 10.7.0_@trpc+server@10.7.0
-      '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
-      '@trpc/server': 10.7.0
-      next: 13.4.1_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-ssr-prepass: 1.5.0_react@18.2.0
     dev: false
 
   /@trpc/next/10.7.0_d3ztwackgnqsj6s7tqkdtmz3oe:
@@ -25302,18 +24947,6 @@ packages:
     dependencies:
       debug: 2.6.9
 
-  /follow-redirects/1.15.2_debug@4.3.4:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.4
-    dev: false
-
   /fontkit-next/1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
     dependencies:
@@ -25786,7 +25419,7 @@ packages:
       create-error-class: 3.0.2
       debug: 4.3.4
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 5.0.0
@@ -25809,7 +25442,7 @@ packages:
     dependencies:
       debug: 4.3.4
       decompress-response: 7.0.0
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       into-stream: 6.0.0
       is-plain-object: 5.0.0
       is-retry-allowed: 2.2.0
@@ -32087,32 +31720,6 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /next-auth/4.19.2_d3mn2soiezojghpjix6rgrfgpi:
-    resolution: {integrity: sha512-6V2YG3IJQVhgCAH7mvT3yopTW92gMdUrcwGX7NQ0dCreT/+axGua/JmVdarjec0C/oJukKpIYRgjMlV+L5ZQOQ==}
-    peerDependencies:
-      next: ^12.2.5 || ^13
-      nodemailer: ^6.6.5
-      react: ^17.0.2 || ^18
-      react-dom: ^17.0.2 || ^18
-    peerDependenciesMeta:
-      nodemailer:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.20.7
-      '@panva/hkdf': 1.0.1
-      cookie: 0.5.0
-      jose: 4.11.1
-      next: 13.4.1_biqbaboplfbrettd7655fr4n2y
-      nodemailer: 6.7.2
-      oauth: 0.9.15
-      openid-client: 5.1.4
-      preact: 10.7.2
-      preact-render-to-string: 5.2.0_preact@10.7.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      uuid: 8.3.2
-    dev: false
-
   /next-auth/4.19.2_whnhemnugukbk4tae5epazu3ke:
     resolution: {integrity: sha512-6V2YG3IJQVhgCAH7mvT3yopTW92gMdUrcwGX7NQ0dCreT/+axGua/JmVdarjec0C/oJukKpIYRgjMlV+L5ZQOQ==}
     peerDependencies:
@@ -32202,20 +31809,6 @@ packages:
       '@next/env': 12.3.1
       minimist: 1.2.8
       next: 13.1.2_biqbaboplfbrettd7655fr4n2y
-    dev: false
-
-  /next-sitemap/3.1.55_lcjjl2ugwapdd6ufrhji4mhham:
-    resolution: {integrity: sha512-ZjkRfkqoSLbU+e8W9TWWe0zfOGNA47lpvm35kNcUCmj73gpLX2PIn51gwHT/B6bgGVAFYY0OXixJDrxIIwcEHw==}
-    engines: {node: '>=14.18'}
-    hasBin: true
-    peerDependencies:
-      '@next/env': '*'
-      next: '*'
-    dependencies:
-      '@corex/deepmerge': 4.0.29
-      '@next/env': 12.3.1
-      minimist: 1.2.8
-      next: 13.4.1_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   /next-sitemap/3.1.55_qzmmcn6byxg2j2hy7c3csxpwzm:
@@ -32502,51 +32095,6 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
-
-  /next/13.4.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-JBw2kAIyhKDpjhEWvNVoFeIzNp9xNxg8wrthDOtMctfn3EpqGCmW0FSviNyGgOSOSn6zDaX48pmvbdf6X2W9xA==}
-    engines: {node: '>=16.8.0'}
-    hasBin: true
-    peerDependencies:
-      '@opentelemetry/api': ^1.1.0
-      fibers: '>= 3.1.0'
-      node-sass: ^6.0.0 || ^7.0.0
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      sass: ^1.3.0
-    peerDependenciesMeta:
-      '@opentelemetry/api':
-        optional: true
-      fibers:
-        optional: true
-      node-sass:
-        optional: true
-      sass:
-        optional: true
-    dependencies:
-      '@next/env': 13.4.1
-      '@swc/helpers': 0.5.1
-      busboy: 1.6.0
-      caniuse-lite: 1.0.30001419
-      postcss: 8.4.14
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      styled-jsx: 5.1.1_react@18.2.0
-      zod: 3.21.4
-    optionalDependencies:
-      '@next/swc-darwin-arm64': 13.4.1
-      '@next/swc-darwin-x64': 13.4.1
-      '@next/swc-linux-arm64-gnu': 13.4.1
-      '@next/swc-linux-arm64-musl': 13.4.1
-      '@next/swc-linux-x64-gnu': 13.4.1
-      '@next/swc-linux-x64-musl': 13.4.1
-      '@next/swc-win32-arm64-msvc': 13.4.1
-      '@next/swc-win32-ia32-msvc': 13.4.1
-      '@next/swc-win32-x64-msvc': 13.4.1
-    transitivePeerDependencies:
-      - '@babel/core'
-      - babel-plugin-macros
-    dev: false
 
   /nice-try/1.0.5:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
