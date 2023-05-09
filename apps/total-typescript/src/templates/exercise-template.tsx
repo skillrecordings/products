@@ -53,6 +53,9 @@ const ExerciseTemplate: React.FC<{
   const activeProduct = products?.products[0]
 
   const addProgressMutation = trpc.progress.add.useMutation()
+  const completeModuleMutation = trpc.convertkit.completeModule.useMutation()
+  const startModuleMutation = trpc.convertkit.startModule.useMutation()
+
   const {data: stackblitz, status: stackblitzStatus} =
     trpc.stackblitz.byExerciseSlug.useQuery({
       slug: router.query.lesson as string,
@@ -116,8 +119,22 @@ const ExerciseTemplate: React.FC<{
       muxPlayerRef={muxPlayerRef}
       exerciseSlug={router.query.lesson as string}
       path={path}
+      onModuleStarted={async () => {
+        startModuleMutation.mutate({
+          module: {
+            moduleType: module.moduleType,
+            slug: module.slug.current as string,
+          },
+        })
+      }}
       onModuleEnded={async () => {
         addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
+        completeModuleMutation.mutate({
+          module: {
+            moduleType: module.moduleType,
+            slug: module.slug.current as string,
+          },
+        })
       }}
     >
       <Layout
