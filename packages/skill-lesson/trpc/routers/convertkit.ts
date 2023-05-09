@@ -174,4 +174,32 @@ export const convertkitRouter = router({
 
       await setConvertkitSubscriberFields(subscriber, completedModuleField)
     }),
+  startModule: publicProcedure
+    .input(
+      z.object({
+        module: z.object({
+          slug: z.string(),
+          moduleType: z.string(),
+        }),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
+      const {module} = input
+      const startedModuleField = {
+        // ex: started_zod_tutorial: 2022-09-02
+        [`started_${snakeCase(module.slug)}_${
+          module.moduleType
+        }`.toLowerCase()]: new Date().toISOString().slice(0, 10),
+      }
+      const subscriberCookie = ctx.req.cookies['ck_subscriber']
+
+      if (!subscriberCookie) {
+        console.debug('no subscriber cookie')
+        return {error: 'no subscriber found'}
+      }
+
+      const subscriber = SubscriberSchema.parse(JSON.parse(subscriberCookie))
+
+      await setConvertkitSubscriberFields(subscriber, startedModuleField)
+    }),
 })
