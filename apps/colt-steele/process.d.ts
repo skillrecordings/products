@@ -22,5 +22,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_PRODUCT_NAME: string
     STRIPE_SECRET_TOKEN: string
     CASTINGWORDS_API_TOKEN: string
+    SANITY_WEBHOOK_SECRET: string
   }
 }
