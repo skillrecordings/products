@@ -45,12 +45,16 @@ import {
   XIcon,
 } from '@heroicons/react/solid'
 import Spinner from 'components/spinner'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 
 const TipTemplate: React.FC<{
   tip: Tip
+  tipBody: MDXRemoteSerializeResult
   tips: Tip[]
   transcript: any[]
-}> = ({tip, tips}) => {
+}> = ({tip, tipBody, tips}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
@@ -121,7 +125,7 @@ const TipTemplate: React.FC<{
           description: tip.description ?? '',
         }}
       >
-        <main className="mx-auto w-full pt-16">
+        <main id="tip" className="mx-auto w-full pt-16">
           <div className="relative z-10 flex items-center justify-center">
             <div className="flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
@@ -153,24 +157,16 @@ const TipTemplate: React.FC<{
                     </div>
                   ) : (
                     <Hr
-                      className={tipCompleted ? 'bg-emerald-400' : 'bg-brand'}
+                      className={
+                        tipCompleted ? 'bg-emerald-400' : 'bg-amber-300'
+                      }
                     />
                   )}
-                  {tip.body && (
+                  {tipBody && (
                     <>
                       <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg prose-headings:font-medium prose-p:text-gray-200">
-                        <PortableText
-                          value={tip.body}
-                          components={portableTextComponents({
-                            loadingIndicator: <Spinner />,
-                          })}
-                        />
+                        <MDX contents={tipBody} />
                       </div>
-                      <Hr
-                        className={
-                          tipCompleted ? 'bg-emerald-400' : 'bg-cyan-400'
-                        }
-                      />
                     </>
                   )}
                   {tip.transcript && tip.body && (
@@ -239,41 +235,13 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
   )
 })
 
-const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
+const Transcript: React.FC<{transcript: string; muxPlayerRef: any}> = ({
   transcript,
   muxPlayerRef,
 }) => {
-  const {handlePlay, video} = useMuxPlayer()
   return (
     <section aria-label="transcript">
-      <h2 className="font-heading text-2xl font-black">Transcript</h2>
-      <div className="prose prose-sm max-w-none pt-4 sm:prose">
-        <PortableText
-          value={transcript}
-          components={
-            {
-              marks: {
-                timestamp: ({value}: any) => {
-                  const {timestamp} = value
-                  return video ? (
-                    <button
-                      className="after:content-[' '] inline-block underline after:inline-block"
-                      onClick={() => {
-                        muxPlayerRef.current.currentTime =
-                          hmsToSeconds(timestamp)
-                        handlePlay()
-                        window.scrollTo({top: 80})
-                      }}
-                    >
-                      {timestamp}
-                    </button>
-                  ) : null
-                },
-              },
-            } as PortableTextComponentsType
-          }
-        />
-      </div>
+      <VideoTranscript transcript={transcript} />
     </section>
   )
 }
@@ -282,11 +250,14 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   currentTip,
   tips,
 }) => {
+  const relatedTips = tips.filter((tip) => tip.slug !== currentTip.slug)
+
+  if (relatedTips.length === 0) {
+    return null
+  }
   return (
-    <section className="mx-auto h-full w-full rounded-xl bg-white p-5 shadow-2xl shadow-gray-500/20 sm:p-10">
-      <h2 className="font-heading pt-3 text-2xl font-black text-black">
-        More Tips
-      </h2>
+    <section className="mx-auto h-full w-full rounded-xl p-5 shadow-gray-500/20 sm:p-10">
+      <h2 className="font-semibold pt-3 sm:text-2xl text-xl">More Tips</h2>
       <div className="flex flex-col pt-4">
         {tips
           .filter((tip) => tip.slug !== currentTip.slug)
@@ -456,7 +427,7 @@ const SubscribeForm = ({
         >
           <MailIcon className="h-5 w-5 text-brand" />
         </div>{' '}
-        New EpicWeb tips delivered to your inbox
+        New ScriptKit tips delivered to your inbox
       </div>
       <SubscribeToConvertkitForm
         actionLabel="Subscribe for ScriptKit tips"
