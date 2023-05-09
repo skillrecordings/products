@@ -154,7 +154,7 @@
 
     /* ——— HEADER ——— */
     [data-sr-quiz-question-header] {
-      @apply prose prose-lg w-full max-w-none border-b border-gray-700/50 p-4 font-medium leading-normal transition-all;
+      @apply prose prose-lg w-full max-w-none border-b border-gray-700/50 p-4 font-medium leading-normal transition-all prose-p:first-of-type:my-0;
 
       pre {
         @apply p-0;
@@ -169,7 +169,7 @@
       }
     }
     [data-sr-quiz-question-error] {
-      @apply bg-white/5 py-2 px-3 text-sm text-gray-300;
+      @apply bg-white/5 px-3 py-2 text-sm text-gray-300;
     }
     /* ——— CHOICES ——— */
     [data-sr-quiz-question-choices] {

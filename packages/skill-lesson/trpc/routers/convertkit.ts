@@ -2,11 +2,13 @@ import {z} from 'zod'
 import {answerSurvey, markLessonComplete} from '../../lib/convertkit'
 import {
   fetchSubscriber,
+  setConvertkitSubscriberFields,
   updateSubscriber,
 } from '@skillrecordings/convertkit-sdk'
 import {serialize} from 'cookie'
 import {SubscriberSchema} from '../../schemas/subscriber'
 import {publicProcedure, router} from '../trpc.server'
+import {snakeCase} from 'lodash'
 
 export const convertkitRouter = router({
   updateName: publicProcedure
@@ -143,5 +145,33 @@ export const convertkitRouter = router({
       ctx.res.setHeader('Set-Cookie', convertkitCookie)
 
       return updatedSubscriber
+    }),
+  completeModule: publicProcedure
+    .input(
+      z.object({
+        module: z.object({
+          slug: z.string(),
+          moduleType: z.string(),
+        }),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
+      const {module} = input
+      const completedModuleField = {
+        // ex: completed_zod_tutorial: 2022-09-02
+        [`completed_${snakeCase(module.slug)}_${
+          module.moduleType
+        }`.toLowerCase()]: new Date().toISOString().slice(0, 10),
+      }
+      const subscriberCookie = ctx.req.cookies['ck_subscriber']
+
+      if (!subscriberCookie) {
+        console.debug('no subscriber cookie')
+        return {error: 'no subscriber found'}
+      }
+
+      const subscriber = SubscriberSchema.parse(JSON.parse(subscriberCookie))
+
+      await setConvertkitSubscriberFields(subscriber, completedModuleField)
     }),
 })

@@ -126,7 +126,7 @@ export async function setConvertkitSubscriberFields(
 }
 
 export async function createConvertkitCustomField(
-  questionId: string,
+  customField: string,
   subscriber: {fields: Record<string, string | null>},
 ) {
   try {
@@ -135,9 +135,11 @@ export async function createConvertkitCustomField(
       return
     }
 
-    const fieldExists = !isEmpty(
-      find(Object.keys(subscriber.fields), (field) => field === questionId),
-    )
+    const fieldExists =
+      subscriber &&
+      !isEmpty(
+        find(Object.keys(subscriber.fields), (field) => field === customField),
+      )
 
     if (!fieldExists) {
       await fetch(`${convertkitBaseUrl}/custom_fields`, {
@@ -147,12 +149,13 @@ export async function createConvertkitCustomField(
         },
         body: JSON.stringify({
           api_secret: process.env.CONVERTKIT_API_SECRET,
-          label: questionId,
+          label: customField,
         }),
       })
     }
   } catch (e) {
-    console.debug(`convertkit field not created: ${questionId}`)
+    console.log({e})
+    console.debug(`convertkit field not created: ${customField}`)
   }
 }
 
