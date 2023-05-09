@@ -1,10 +1,10 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {SanityDocument} from '@sanity/client'
 import {getAllTutorials} from 'lib/tutorials'
 import Link from 'next/link'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -24,9 +24,7 @@ const sectionsFlatMap = (sections: any[]) => {
   return map
 }
 
-const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
-  tutorials,
-}) => {
+const TutorialsPage: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
   console.log(tutorials)
   return (
     <Layout
@@ -56,15 +54,17 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                   key={slug.current}
                   className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-10 shadow-2xl md:flex-row"
                 >
-                  <div className="flex flex-shrink-0 items-center justify-center">
-                    <Image
-                      src={image}
-                      alt={title}
-                      width={300}
-                      quality={100}
-                      height={300}
-                    />
-                  </div>
+                  {image && (
+                    <div className="flex flex-shrink-0 items-center justify-center">
+                      <Image
+                        src={image}
+                        alt={title}
+                        width={300}
+                        quality={100}
+                        height={300}
+                      />
+                    </div>
+                  )}
                   <div>
                     <Link
                       href={{
@@ -77,13 +77,15 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                     >
                       {title}
                     </Link>
-                    <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-cyan-300">
+                    <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-cyan-300">
                       {i === 0 && (
                         <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
                           New
                         </span>
                       )}
-                      {sectionsFlatMap(sections).length} exercises
+                      {sections && (
+                        <>{sectionsFlatMap(sections).length} exercises</>
+                      )}
                     </div>
                     {description && (
                       <p className="text-gray-300">{description}</p>

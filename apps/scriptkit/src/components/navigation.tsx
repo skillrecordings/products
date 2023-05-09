@@ -2,13 +2,15 @@ import * as React from 'react'
 import Link from 'components/link'
 // import Logo from 'images/logo.svg'
 import {Disclosure} from '@headlessui/react'
-import {ViewBoardsIcon, XIcon} from '@heroicons/react/solid'
+import {MenuIcon, ViewBoardsIcon, XIcon} from '@heroicons/react/solid'
 import cx from 'classnames'
 import classNames from 'classnames'
 import {useRouter} from 'next/router'
 import Logo from './logo'
+import {twMerge} from 'tailwind-merge'
 
 const navItems = [
+  {name: 'Free Tutorials', href: '/tutorials'},
   {name: 'Community Scripts', href: '/scripts'},
   {name: 'Docs', href: 'https://github.com/johnlindquist/kit/blob/main/API.md'},
   {
@@ -31,8 +33,13 @@ function Navigation({className = ''}: NavigationProps) {
   return (
     <Disclosure as="nav">
       {({open}) => (
-        <div className={className}>
-          <div className="w-full max-w-screen-lg py-2 mx-auto relative z-10">
+        <>
+          <div
+            className={twMerge(
+              'w-full max-w-screen-lg py-2 mx-auto relative z-10',
+              className,
+            )}
+          >
             <div className="relative flex items-center justify-between h-16">
               <Link href="/">
                 <a className="flex items-center">
@@ -49,22 +56,19 @@ function Navigation({className = ''}: NavigationProps) {
                   </div>
                 </a>
               </Link>
-              <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
+              <div className="absolute inset-y-0 right-0 flex items-center md:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XIcon className="block h-6 w-6" aria-hidden="true" />
                   ) : (
-                    <ViewBoardsIcon
-                      className="block h-6 w-6"
-                      aria-hidden="true"
-                    />
+                    <MenuIcon className="block h-6 w-6" aria-hidden="true" />
                   )}
                 </Disclosure.Button>
               </div>
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-end">
-                <div className="hidden sm:block sm:ml-6">
+                <div className="hidden md:block sm:ml-6">
                   <div className="flex space-x-2">
                     {navItems.map((item) => {
                       const current = router.asPath === item.href
@@ -116,7 +120,7 @@ function Navigation({className = ''}: NavigationProps) {
               })}
             </div>
           </Disclosure.Panel>
-        </div>
+        </>
       )}
     </Disclosure>
   )

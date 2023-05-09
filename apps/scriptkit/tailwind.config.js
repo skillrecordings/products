@@ -15,6 +15,9 @@ module.exports = {
   theme: {
     fluidTypography: {},
     extend: {
+      screens: {
+        '2xl': '1820px',
+      },
       lineHeight: {
         tighter: 1.1,
       },

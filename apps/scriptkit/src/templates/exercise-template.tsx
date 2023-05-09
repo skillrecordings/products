@@ -1,37 +1,41 @@
 import * as React from 'react'
 import Layout from 'layouts'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {Video} from 'video/video'
+import {Video} from '@skillrecordings/skill-lesson/video/video'
 import {useRouter} from 'next/router'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import {LargeScreenModuleLessonList} from 'video/module-lesson-list/large-screen-module-lesson-list'
-import {MobileModuleLessonList} from 'video/module-lesson-list/mobile-module-lesson-list'
-import {LessonDescription} from '../video/lesson-description'
-import {LessonTitle} from 'video/lesson-title'
-import {VideoTranscript} from 'video/video-transcript'
+import {LargeScreenModuleLessonList} from '@skillrecordings/skill-lesson/video/module-lesson-list/large-screen-module-lesson-list'
+import {MobileModuleLessonList} from '@skillrecordings/skill-lesson/video/module-lesson-list/mobile-module-lesson-list'
+import {LessonDescription} from '@skillrecordings/skill-lesson/video/lesson-description'
+import {LessonTitle} from '@skillrecordings/skill-lesson/video/lesson-title'
+import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
 import {trpc} from '../trpc/trpc.client'
-import LessonCompletionToggle from 'video/lesson-completion-toggle'
+import LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
 import {useSession} from 'next-auth/react'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {
+  ExerciseLink,
   ExplainerLink,
   ProblemLink,
   SolutionLink,
-} from 'video/module-lesson-list/lesson-list'
+} from '@skillrecordings/skill-lesson/video/module-lesson-list/lesson-list'
 import ExerciseOverlay from 'components/exercise-overlay'
 import Spinner from 'components/spinner'
 import pluralize from 'pluralize'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 
 const ExerciseTemplate: React.FC<{
-  transcript: any[]
-}> = ({transcript}) => {
+  transcript: string
+  lessonBody: MDXRemoteSerializeResult
+  lessonBodyPreview: MDXRemoteSerializeResult
+}> = ({transcript, lessonBody, lessonBodyPreview}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const router = useRouter()
   const {lesson, section, module} = useLesson()
@@ -94,12 +98,14 @@ const ExerciseTemplate: React.FC<{
       }}
     >
       <Layout
+        withFooter={false}
         meta={{
           title: pageTitle,
           ...shareCard,
           description: pageDescription as string,
         }}
-        navigationClassName="max-w-none border-none"
+        className="px-0"
+        navClassName="max-w-none px-5 border-none"
       >
         <ArticleJsonLd
           url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${lesson.slug}`}
@@ -117,8 +123,8 @@ const ExerciseTemplate: React.FC<{
             module={module}
             path={path}
           />
-          <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-gray-200 dark:border-gray-900 2xl:flex 2xl:max-w-none">
-            <div className="flex flex-col border-gray-200 dark:border-gray-900 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
+          <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-gray-900 2xl:flex 2xl:max-w-none">
+            <div className="flex flex-col border-gray-900 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video
                 ref={muxPlayerRef}
                 exerciseOverlayRenderer={() => <ExerciseOverlay />}
@@ -130,29 +136,27 @@ const ExerciseTemplate: React.FC<{
                 section={section}
                 path={path}
               />
-              <div className="relative hidden flex-grow border-t border-gray-200 dark:border-gray-900 2xl:block">
-                <VideoTranscript
-                  transcript={transcript}
-                  muxPlayerRef={muxPlayerRef}
-                />
+              <div className="relative hidden flex-grow border-t border-gray-900 2xl:block">
+                <VideoTranscript transcript={transcript} />
               </div>
             </div>
             <article className="relative flex-shrink-0">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-6 2xl:max-w-xl">
                 <LessonTitle />
-                <LessonDescription
-                  productName={module.title}
-                  loadingIndicator={<Spinner />}
-                />
+                {lessonBody && (
+                  <LessonDescription
+                    lessonBodyPreview={lessonBodyPreview}
+                    lessonMDXBody={lessonBody}
+                    productName={module.title}
+                    loadingIndicator={<Spinner />}
+                  />
+                )}
                 {(lesson._type === 'solution' ||
                   lesson._type === 'explainer') &&
                   session && <LessonCompletionToggle />}
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
-                <VideoTranscript
-                  transcript={transcript}
-                  muxPlayerRef={muxPlayerRef}
-                />
+                <VideoTranscript transcript={transcript} />
               </div>
             </article>
           </main>

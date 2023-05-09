@@ -10,6 +10,7 @@
 @import './focus-visible.css';
 @import './pricing.css';
 @import './miscellaneous.css';
+@import './team.css';
 
 @layer base {
   html {

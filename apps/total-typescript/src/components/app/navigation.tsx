@@ -1,10 +1,12 @@
 import React from 'react'
 import {NextRouter, useRouter} from 'next/router'
+import {useCommandState} from 'cmdk'
 import {
   ChevronDownIcon,
   FireIcon,
   MenuIcon,
   PlayIcon,
+  SearchIcon,
 } from '@heroicons/react/solid'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import cx from 'classnames'
@@ -16,6 +18,7 @@ import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import {signOut, useSession} from 'next-auth/react'
 import toast from 'react-hot-toast'
 import {useFeedback} from '../../feedback-widget/feedback-context'
+import {useSearchBar} from 'search-bar/use-search-bar'
 
 type Props = {
   className?: string
@@ -63,7 +66,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
     <ul className={cx('hidden w-full items-center justify-between md:flex')}>
       <div className="flex h-full items-center">
         <hr
-          className="ml-4 mr-1 h-1/4 w-px border-transparent bg-gray-700 lg:ml-6 lg:mr-2"
+          className="ml-4 mr-1 h-1/4 w-px border-transparent bg-gray-700 lg:ml-5 lg:mr-2"
           aria-hidden="true"
         />
         <NavLink
@@ -109,11 +112,8 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
             <FireIcon className="h-5 w-5 text-orange-400" aria-hidden="true" />
           }
         />
-        <NavLink
-          path="/articles"
-          label="Articles"
-          icon={<BookIcon aria-hidden="true" />}
-        />
+        <NavLink path="/articles" label="Articles" icon={<BookIcon />} />
+        <SearchBar isMinified={isMinified} />
       </div>
       <div className="flex h-full items-center justify-center">
         {status === 'unauthenticated' && <NavLink path="/faq" label="FAQ" />}
@@ -122,14 +122,14 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
             <NavLink
               label={
                 <>
-                  <span
+                  {/* <span
                     className={cx('hidden ', {
                       'xl:inline-block': isMinified,
                       'lg:inline-block': !isMinified,
                     })}
                   >
                     Send
-                  </span>{' '}
+                  </span>{' '} */}
                   Feedback
                 </>
               }
@@ -162,6 +162,9 @@ const MobileNav = () => {
         {status === 'unauthenticated' ? (
           <NavLink path="/login" label="Log in" />
         ) : null}
+        <li className="px-1">
+          <SearchBar />
+        </li>
         <li className="h-full">
           <NavigationMenu.Root delayDuration={0} className="flex h-full">
             <NavigationMenu.List className="flex h-full items-center justify-center">
@@ -263,7 +266,7 @@ const NavLink: React.FC<
           onClick={onClick}
           aria-current={isActive ? 'page' : undefined}
           className={cx(
-            'flex h-full items-center gap-0.5 rounded-md py-2 px-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-3 lg:px-3 lg:text-base',
+            'flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-2.5 lg:px-2.5 lg:text-base',
             className,
           )}
         >
@@ -278,7 +281,7 @@ const NavLink: React.FC<
         href={path}
         passHref
         className={cx(
-          'flex h-full items-center gap-0.5 rounded-md py-2 px-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-3 lg:px-3 lg:text-base',
+          'flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-2.5 lg:px-2.5 lg:text-base',
           className,
         )}
         onClick={() => {
@@ -368,7 +371,7 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
       passHref
       aria-label={`${config.title} Home`}
       className={cx(
-        'group group flex h-full flex-shrink-0 items-center font-text text-xl font-semibold text-white md:text-lg lg:text-xl',
+        'group group flex h-full flex-shrink-0 items-center font-text text-base font-semibold text-white md:text-lg lg:text-xl',
         className,
       )}
       tabIndex={router.pathname === '/' ? -1 : 0}
@@ -376,8 +379,8 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
       <span
         aria-hidden={!isMinified}
         className={cx('text-base', {
-          hidden: !isMinified,
-          'hidden sm:hidden md:block xl:hidden': isMinified,
+          'hidden md:block lg:hidden': !isMinified,
+          'hidden sm:hidden md:block 2xl:hidden': isMinified,
         })}
       >
         TT.
@@ -385,7 +388,8 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
       <span
         aria-hidden={isMinified}
         className={cx('mr-0.5 font-light opacity-90', {
-          'md:hidden xl:block 2xl:block': isMinified,
+          'block md:hidden lg:block': !isMinified,
+          'md:hidden xl:hidden 2xl:block': isMinified,
         })}
       >
         Total
@@ -393,7 +397,8 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
       <span
         aria-hidden={isMinified}
         className={cx({
-          'md:hidden xl:block 2xl:block': isMinified,
+          'block md:hidden lg:block': !isMinified,
+          'md:hidden xl:hidden 2xl:block': isMinified,
         })}
       >
         TypeScript
@@ -431,7 +436,7 @@ const AccountDropdown = () => {
             <NavigationMenu.Content
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
-              className="absolute top-full left-0 w-full rounded-b"
+              className="absolute left-0 top-full w-full rounded-b"
             >
               <ul className="flex w-full flex-col items-start rounded-b bg-gray-800 p-1 text-sm lg:text-base">
                 {canViewTeam && (
@@ -461,6 +466,46 @@ const AccountDropdown = () => {
         </NavigationMenu.List>
       </NavigationMenu.Root>
     </li>
+  )
+}
+
+const SearchBar: React.FC<{isMinified?: boolean | undefined}> = ({
+  isMinified,
+}) => {
+  const {open: isSearchBarOpen, setOpen: setOpenSearchBar} = useSearchBar()
+
+  return (
+    <button
+      className="flex items-center rounded-md bg-gray-800/50 px-2.5 py-2 text-sm font-normal text-gray-400 transition hover:bg-gray-800/75 sm:px-2 sm:py-2 sm:text-base md:ml-1 md:gap-2 md:px-2 lg:ml-1 lg:gap-5 lg:px-2"
+      onClick={() => {
+        setOpenSearchBar(!isSearchBarOpen)
+      }}
+    >
+      <div className="flex items-center gap-1">
+        <SearchIcon className="h-4 w-4 text-gray-200" aria-hidden="true" />
+        <span
+          className={cx('', {
+            'block md:hidden lg:hidden xl:block': isMinified,
+            'block md:hidden lg:block': !isMinified,
+          })}
+        >
+          Search
+        </span>
+      </div>
+      <div
+        className={cx(
+          'hidden items-center gap-0.5 rounded border border-gray-800 px-1 font-mono text-sm font-normal text-gray-300 md:flex',
+          {
+            'bg-gray-800/75': !isSearchBarOpen,
+            'bg-gray-700/75': isSearchBarOpen,
+          },
+        )}
+        aria-label="shortcut"
+      >
+        <span>⌘</span>
+        <span>K</span>
+      </div>
+    </button>
   )
 }
 
