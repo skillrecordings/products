@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import pluralize from 'pluralize'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -67,7 +68,7 @@ const TutorialsPage: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
                       </div>
                     )}{' '}
                     {i === 0 && (
-                      <span className="absolute right-5 top-5 rounded-full border border-gray-200 bg-transparent px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:border-transparent dark:bg-gray-900 dark:text-indigo-300">
+                      <span className="absolute right-5 top-5 rounded-full border px-2 py-0.5 text-xs font-semibold uppercase tracking-wider border-transparent bg-gray-900 text-amber-300">
                         New
                       </span>
                     )}
@@ -88,11 +89,12 @@ const TutorialsPage: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
                           <span>John Lindquist</span>
                         </div>
                         {'・'}
-                        {sections && (
-                          <div>
-                            {sectionsFlatMap(sections).length} exercises
-                          </div>
-                        )}
+                        {sections && sectionsFlatMap(sections).length}{' '}
+                        {sections &&
+                          pluralize(
+                            sectionsFlatMap(sections)[0]._type,
+                            sectionsFlatMap(sections).length,
+                          )}
                       </div>
                       {description && (
                         <p className="text-gray-300">{description}</p>
