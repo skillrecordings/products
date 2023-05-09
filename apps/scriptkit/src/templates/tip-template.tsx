@@ -27,7 +27,7 @@ import {
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import PortableTextComponents from 'video/portable-text'
+import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import Icon from 'components/icons'
 import {
   useMuxPlayer,
@@ -44,6 +44,7 @@ import {
   PlayIcon,
   XIcon,
 } from '@heroicons/react/solid'
+import Spinner from 'components/spinner'
 
 const TipTemplate: React.FC<{
   tip: Tip
@@ -160,7 +161,9 @@ const TipTemplate: React.FC<{
                       <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg prose-headings:font-medium prose-p:text-gray-200">
                         <PortableText
                           value={tip.body}
-                          components={PortableTextComponents}
+                          components={portableTextComponents({
+                            loadingIndicator: <Spinner />,
+                          })}
                         />
                       </div>
                       <Hr
@@ -183,7 +186,9 @@ const TipTemplate: React.FC<{
                   <div className="prose w-full max-w-none pb-5 font-medium sm:prose-lg">
                     <PortableText
                       value={tip.summary}
-                      components={PortableTextComponents}
+                      components={portableTextComponents({
+                        loadingIndicator: <Spinner />,
+                      })}
                     />
                   </div>
                   {tweet && <ReplyOnTwitter tweet={tweet} />}
