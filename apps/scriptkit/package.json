@@ -148,7 +148,11 @@
     "twitter-lite": "^1.1.0",
     "uuid": "^8.3.2",
     "yup": "^0.32.11",
-    "zod": "3.19.1"
+    "zod": "3.19.1",
+    "sanity-plugin-taxonomy-manager": "^2.0.4",
+    "next-mdx-remote": "^4.1.0",
+    "@sanity/webhook": "^1.0.2",
+    "@code-hike/mdx": "^0.8.2"
   },
   "devDependencies": {
     "@next/env": "^13.1.2",

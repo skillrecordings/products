@@ -1,18 +1,24 @@
 import React from 'react'
 import {GetStaticPaths, GetStaticProps, NextPage} from 'next'
-import {getAllTips, getTip, Tip} from 'lib/tips'
+import {getAllTips, getTip, type Tip} from 'lib/tips'
 import TipTemplate from 'templates/tip-template'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   try {
     const tip = await getTip(params?.tip as string)
     const tips = await getAllTips()
+    const tipBody =
+      tip.body &&
+      (await serializeMDX(tip.body, {theme: 'material-theme-darker'}))
 
     return {
       props: {
         tip,
+        tipBody,
         tips,
         transcript: tip.transcript,
         videoResourceId: tip.videoResourceId,
@@ -37,6 +43,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export type TipPageProps = {
   tip: Tip
+  tipBody: MDXRemoteSerializeResult
   tips: Tip[]
   transcript: any[]
   videoResourceId: string
@@ -44,6 +51,7 @@ export type TipPageProps = {
 
 const TipPage: NextPage<TipPageProps> = ({
   tip,
+  tipBody,
   tips,
   transcript,
   videoResourceId,
@@ -60,7 +68,12 @@ const TipPage: NextPage<TipPageProps> = ({
   return (
     <LessonProvider lesson={tip} module={module}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
-        <TipTemplate tip={tip} tips={tips} transcript={transcript} />
+        <TipTemplate
+          tip={tip}
+          tipBody={tipBody}
+          tips={tips}
+          transcript={transcript}
+        />
       </VideoResourceProvider>
     </LessonProvider>
   )

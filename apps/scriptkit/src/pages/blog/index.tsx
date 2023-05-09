@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Layout from 'layouts'
-
 import {
   Category,
   DiscussionsProps,
@@ -27,16 +26,6 @@ const Blog: FunctionComponent<React.PropsWithChildren<DiscussionsProps>> = ({
           return <BlogTeaser key={discussion.url} discussion={discussion} />
         })}
       </main>
-      <Image
-        className="-z-10"
-        src={require('../../../public/assets/gradient-bg-1.png')}
-        alt=""
-        aria-hidden="true"
-        layout="fill"
-        objectPosition="top center"
-        objectFit="contain"
-        quality={100}
-      />
     </Layout>
   )
 }

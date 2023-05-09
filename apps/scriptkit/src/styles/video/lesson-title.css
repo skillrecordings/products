@@ -1,5 +1,5 @@
 h1[data-lesson-title] {
-  @apply pb-5 pt-3 text-3xl font-bold sm:text-4xl xl:text-[2.65rem] 2xl:text-4xl;
+  @apply pb-5 pt-5 text-3xl font-bold sm:text-4xl xl:text-[2.65rem] 2xl:text-4xl;
 }
 
 [data-lesson-badge] {
@@ -18,5 +18,5 @@ h1[data-lesson-title] {
   @apply bg-sky-500/20 text-sky-200;
 }
 [data-lesson-badge='lesson'] {
-  @apply bg-indigo-500/20 dark:text-indigo-400 text-indigo-500;
+  @apply bg-amber-500/20 dark:text-amber-400 text-amber-500;
 }

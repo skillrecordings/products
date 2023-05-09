@@ -1342,6 +1342,7 @@ importers:
     specifiers:
       '@amplitude/analytics-browser': ^1.3.0
       '@babel/plugin-transform-react-jsx': ^7.18.10
+      '@code-hike/mdx': ^0.8.2
       '@headlessui/react': ^1.7.1
       '@heroicons/react': '=1.0.6'
       '@johnlindquist/kit': 0.48.49
@@ -1364,6 +1365,7 @@ importers:
       '@sanity/icons': ^2.2.2
       '@sanity/ui': ^1.0.12
       '@sanity/vision': ^3.0.0
+      '@sanity/webhook': ^1.0.2
       '@sentry/nextjs': ^7.9.0
       '@sindresorhus/slugify': ^2.1.0
       '@skillrecordings/analytics': workspace:*
@@ -1445,6 +1447,7 @@ importers:
       next: ^13.1.2
       next-auth: ^4.19.2
       next-compose-plugins: ^2.2.1
+      next-mdx-remote: ^4.1.0
       next-seo: ^5.5.0
       next-sitemap: ^3.0.5
       next-svgr: ^0.0.2
@@ -1479,6 +1482,7 @@ importers:
       remark-slug: ^7.0.1
       sanity: ^3.0.0
       sanity-plugin-cloudinary: ^1.0.1
+      sanity-plugin-taxonomy-manager: ^2.0.4
       sharp: ^0.30.7
       shortid: ^2.2.16
       simplebar-react: ^2.4.1
@@ -1500,6 +1504,7 @@ importers:
       zod: 3.19.1
     dependencies:
       '@amplitude/analytics-browser': 1.3.0
+      '@code-hike/mdx': 0.8.2_react@18.2.0
       '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
       '@johnlindquist/kit': 0.48.49
@@ -1520,6 +1525,7 @@ importers:
       '@sanity/icons': 2.2.2_react@18.2.0
       '@sanity/ui': 1.2.0_2zpt4ilzykmne4yndyzrqd4gdm
       '@sanity/vision': 3.2.5_2zpt4ilzykmne4yndyzrqd4gdm
+      '@sanity/webhook': 1.0.2
       '@sentry/nextjs': 7.9.0_next@13.1.2+react@18.2.0
       '@sindresorhus/slugify': 2.1.1
       '@skillrecordings/analytics': link:../../packages/analytics
@@ -1574,6 +1580,7 @@ importers:
       mjml: 4.12.0
       next: 13.1.2_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.19.2_7jnwqgtpcnwg4nzft4b6xlzlfi
+      next-mdx-remote: 4.1.0_biqbaboplfbrettd7655fr4n2y
       next-seo: 5.15.0_7jnwqgtpcnwg4nzft4b6xlzlfi
       next-sitemap: 3.1.55_qzmmcn6byxg2j2hy7c3csxpwzm
       next-svgr: 0.0.2
@@ -1603,6 +1610,7 @@ importers:
       remark-slug: 7.0.1
       sanity: 3.2.5_z765n46jyysyfgk6yot2s5acla
       sanity-plugin-cloudinary: 1.0.1_lwfue5ecbqwevxpjdqp6room4e
+      sanity-plugin-taxonomy-manager: 2.0.4_lsm4uyjtdihfblgjzvowrxnevq
       sharp: 0.30.7
       shortid: 2.2.16
       simplebar-react: 2.4.3_biqbaboplfbrettd7655fr4n2y
@@ -14233,6 +14241,58 @@ packages:
       - supports-color
     dev: false
 
+  /@sanity/form-builder/2.35.7_uzkadyugscbibgo6xwbyewzpjq:
+    resolution: {integrity: sha512-EjjAHojCQDU3q7BJfdL0LV1lSCxD0YtiDh8181q31+Q6W3DNcwRUwaK5dTzjnsXJBuLK7bP6IddJv6xjNNr/Pw==}
+    peerDependencies:
+      prop-types: ^15.6 || ^16
+      react: ^16.9 || ^17
+      react-dom: ^16.9 || ^17
+      styled-components: ^5.2.0
+    dependencies:
+      '@reach/auto-id': 0.13.2_biqbaboplfbrettd7655fr4n2y
+      '@sanity/asset-utils': 1.3.0
+      '@sanity/base': 2.35.7_2zpt4ilzykmne4yndyzrqd4gdm
+      '@sanity/block-tools': 2.35.0
+      '@sanity/client': 3.4.1
+      '@sanity/color': 2.2.5
+      '@sanity/generate-help-url': 3.0.0
+      '@sanity/icons': 1.3.10_react@18.2.0
+      '@sanity/image-url': 1.0.2
+      '@sanity/imagetool': 2.35.3_2zpt4ilzykmne4yndyzrqd4gdm
+      '@sanity/initial-value-templates': 2.35.3_react@18.2.0
+      '@sanity/mutator': 2.33.2
+      '@sanity/portable-text-editor': 3.0.0-v3-pte.88_zd6skqab2rm35qma53bmg7gtte
+      '@sanity/schema': 2.35.0
+      '@sanity/types': 2.35.0
+      '@sanity/ui': 0.37.22_2zpt4ilzykmne4yndyzrqd4gdm
+      '@sanity/util': 2.35.0
+      '@sanity/uuid': 3.0.1
+      attr-accept: 1.1.3
+      date-fns: 2.29.3
+      debug: 3.2.7
+      diff-match-patch: 1.0.5
+      exif-component: 1.0.1
+      get-random-values: 1.2.2
+      lodash: 4.17.21
+      nano-pubsub: 2.0.1
+      pretty-bytes: 4.0.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-fast-compare: 3.2.0
+      react-focus-lock: 2.9.2_3stiutgnnbnfnf3uowm5cip22i
+      react-is: 17.0.2
+      react-rx: 1.0.1_react@18.2.0+rxjs@6.6.7
+      react-sortable-hoc: 1.11.0_biqbaboplfbrettd7655fr4n2y
+      rxjs: 6.6.7
+      scroll-into-view-if-needed: 2.2.31
+      shallow-equals: 1.0.0
+      speakingurl: 13.0.0
+      styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
+    transitivePeerDependencies:
+      - '@types/react'
+      - supports-color
+    dev: false
+
   /@sanity/generate-help-url/0.140.0:
     resolution: {integrity: sha512-H/G/WA9S22TXcXST52CIiTsHx3S2hH0gvK7LnI5w76vfKS0obnDPh8jrPg4xeNRYGPuV9MHYRlyERGpRGoo4Qw==}
     dev: false
@@ -14759,7 +14819,7 @@ packages:
       '@sanity/incompatible-plugin': 1.0.4_biqbaboplfbrettd7655fr4n2y
       '@sanity/ui': 1.3.2_2zpt4ilzykmne4yndyzrqd4gdm
       react: 18.2.0
-      sanity: 3.2.5_z4un7qnaa7wwj3f2uxtandoqfq
+      sanity: 3.2.5_z765n46jyysyfgk6yot2s5acla
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-dom
@@ -37455,7 +37515,7 @@ packages:
       nanoid: 3.3.4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      sanity: 3.2.5_z4un7qnaa7wwj3f2uxtandoqfq
+      sanity: 3.2.5_z765n46jyysyfgk6yot2s5acla
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
       video.js: 7.21.1
     transitivePeerDependencies:
@@ -37519,6 +37579,30 @@ packages:
       react: 18.2.0
       react-icons: 4.7.1_react@18.2.0
       sanity: 3.8.3_shczhbm3p5l37poee5bnpnaupi
+    transitivePeerDependencies:
+      - '@types/react'
+      - prop-types
+      - react-dom
+      - react-is
+      - styled-components
+      - supports-color
+    dev: false
+
+  /sanity-plugin-taxonomy-manager/2.0.4_lsm4uyjtdihfblgjzvowrxnevq:
+    resolution: {integrity: sha512-dZvoYBp4SSqUz6Yumc43uzV4baJovEJfiWkyk71IC7Ws+Sgl+BAs8IQ0UJ+KVBbLoko09nqAxCE+j0L0eG48Xw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: ^18
+      sanity: ^3.0.0
+    dependencies:
+      '@reach/auto-id': 0.16.0_biqbaboplfbrettd7655fr4n2y
+      '@sanity/base': 2.35.7_2zpt4ilzykmne4yndyzrqd4gdm
+      '@sanity/form-builder': 2.35.7_uzkadyugscbibgo6xwbyewzpjq
+      '@sanity/incompatible-plugin': 1.0.4_biqbaboplfbrettd7655fr4n2y
+      '@sanity/ui': 1.2.0_2zpt4ilzykmne4yndyzrqd4gdm
+      react: 18.2.0
+      react-icons: 4.7.1_react@18.2.0
+      sanity: 3.2.5_z765n46jyysyfgk6yot2s5acla
     transitivePeerDependencies:
       - '@types/react'
       - prop-types

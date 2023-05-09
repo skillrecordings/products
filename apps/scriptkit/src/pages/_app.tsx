@@ -66,9 +66,7 @@ function MyApp({Component, pageProps}: any) {
       <SessionProvider session={pageProps.session} refetchInterval={0}>
         <ConvertkitProvider>
           <Layout className="doc">
-            <main className="max-w-screen-lg mx-auto flex-grow w-full pt-8 px-5">
-              <Component {...pageProps} />
-            </main>
+            <Component {...pageProps} />
           </Layout>
         </ConvertkitProvider>
       </SessionProvider>
