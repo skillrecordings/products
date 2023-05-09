@@ -249,8 +249,9 @@ const BlockedOverlay: React.FC<{product?: SanityProduct}> = ({product}) => {
 
   const startedLearningField = {
     // ex: started_zod_tutorial: 2022-09-02
-    [`started_${snakeCase(module.title)}_${module.moduleType}`.toLowerCase()]:
-      new Date().toISOString().slice(0, 10),
+    [`started_${snakeCase(module.slug.current as string)}_${
+      module.moduleType
+    }`.toLowerCase()]: new Date().toISOString().slice(0, 10),
   }
   const canViewTeam = ability.can('view', 'Team')
 
