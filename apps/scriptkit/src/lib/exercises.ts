@@ -9,7 +9,7 @@ export const ExerciseSchema = z
     _key: z.string().optional(),
     stackblitz: z.nullable(z.string()).optional(),
     videoResourceId: z.nullable(z.string()).optional(),
-    transcript: z.nullable(z.any().array()).optional(),
+    transcript: z.nullable(z.string()).optional(),
     solution: z.nullable(
       z
         .object({

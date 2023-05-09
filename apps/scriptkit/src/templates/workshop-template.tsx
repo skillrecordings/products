@@ -19,7 +19,7 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import * as process from 'process'
 import {trpc} from '../trpc/trpc.client'
 import Balancer from 'react-wrap-balancer'
-import {useModuleProgress} from '../video/module-progress'
+import {useModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
 import WorkshopCertificate from 'certificate/workshop-certificate'
 import {capitalize} from 'lodash'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
@@ -41,7 +41,6 @@ const WorkshopTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full pt-20 lg:max-w-4xl lg:pb-24"
       meta={{
         title: pageTitle,
         description: description as string,

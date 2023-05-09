@@ -11,8 +11,9 @@ import testimonial from './documents/testimonial'
 import pricing from './documents/pricing'
 import product from './documents/product'
 import article from './documents/article'
+import page from './documents/page'
+import lesson from './documents/lesson'
 // —— objects
-// body
 import body from './objects/body'
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
@@ -26,15 +27,16 @@ import grid from './objects/grid'
 import gridItem from './objects/gridItem'
 import stackblitz from './objects/stackblitz'
 import solution from './objects/resources/solution'
-import github from './objects/github'
+import githubRepo from './objects/github-repo'
 import muxAsset from './objects/muxAsset'
 import castingwordsTranscript from './objects/castingwordsTranscript'
 import tweet from './objects/tweet'
 import bodyTestimonial from './objects/bodyTestimonial'
 import feature from './objects/feature'
+import github from './objects/resources/github'
 
 export const schemaTypes = [
-  // documents
+  // —— documents
   cta,
   module,
   exercise,
@@ -47,7 +49,9 @@ export const schemaTypes = [
   pricing,
   product,
   article,
-  // objects
+  page,
+  lesson,
+  // —— objects
   body,
   bodyVideo,
   bodyImage,
@@ -60,6 +64,7 @@ export const schemaTypes = [
   grid,
   gridItem,
   stackblitz,
+  githubRepo,
   github,
   solution,
   muxAsset,

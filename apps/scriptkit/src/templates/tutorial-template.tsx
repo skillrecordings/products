@@ -1,33 +1,31 @@
 import React from 'react'
 import Layout from 'layouts'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import Link from 'next/link'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
-import {PortableText} from '@portabletext/react'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {trpc} from 'trpc/trpc.client'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {first} from 'lodash'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
-import {ModuleNavigator} from './workshop-template'
+import ModuleNavigator from '@skillrecordings/skill-lesson/video/module-navigator'
 import Balancer from 'react-wrap-balancer'
 import Testimonials from 'testimonials'
-import Spinner from 'components/spinner'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
-}> = ({tutorial}) => {
+  tutorialBody: MDXRemoteSerializeResult
+}> = ({tutorial, tutorialBody}) => {
   const {title, body, ogImage, image, description = '', testimonials} = tutorial
   const pageTitle = `${title} Tutorial`
-
   return (
     <Layout
-      className="mx-auto w-full max-w-screen-lg pt-10 sm:pt-16 lg:pb-24"
       meta={{
         title: pageTitle,
         description: description as string,
@@ -39,15 +37,10 @@ const TutorialTemplate: React.FC<{
     >
       <CourseMeta title={pageTitle} description={description} />
       <Header tutorial={tutorial} />
-      <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <div className="px-5">
-          <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
-            <PortableText
-              value={body}
-              components={portableTextComponents({
-                loadingIndicator: <Spinner />,
-              })}
-            />
+      <main className="relative z-10 flex flex-col gap-10 lg:flex-row max-w-screen-lg mx-auto w-full">
+        <div>
+          <article className="prose prose-lg w-full max-w-none lg:max-w-xl">
+            {tutorialBody && <MDX contents={tutorialBody} />}
           </article>
           {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
@@ -77,21 +70,21 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 sm:pb-16 md:flex-row">
+      <header className="sm:pt-16 pt-10 max-w-screen-lg mx-auto w-full relative z-10 flex sm:gap-10 flex-col-reverse items-center justify-between pb-10 sm:pb-16 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
             href="/tutorials"
-            className="inline-block pb-4 font-mono text-sm font-bold uppercase tracking-wide text-orange-500 dark:text-orange-300"
+            className="inline-block pb-4 font-mono text-sm font-bold uppercase tracking-wide text-amber-300"
           >
             Free Tutorial
           </Link>
-          <h1 className="font-text text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
+          <h1 className="font-text text-center text-3xl font-bold sm:text-4xl md:text-left lg:text-5xl">
             <Balancer>{title}</Balancer>
           </h1>
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
               <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-900">
+                <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-900">
                   <Image
                     src={require('../../public/john-lindquist.jpeg')}
                     alt="John Lindquist"
@@ -129,7 +122,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                       }
                 }
                 className={cx(
-                  'flex w-full items-center justify-center rounded-md border border-gray-900 bg-gray-900 px-5 py-4 font-semibold leading-tight text-white transition hover:border-gray-800 hover:bg-gray-800 dark:border-gray-100 dark:bg-gray-100 dark:text-black dark:hover:border-gray-200 dark:hover:bg-gray-200 md:w-auto',
+                  'flex w-full items-center justify-center rounded-md px-5 py-4 font-semibold leading-tight transition bg-gradient-to-b from-amber-300 to-amber-400 via-amber-300 border border-amber-500/20 hover:brightness-110 text-black hover:bg-amber-400 md:w-auto',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },
@@ -145,7 +138,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               </Link>
               {github?.repo && (
                 <a
-                  className="flex w-full items-center justify-center gap-2 rounded-md border border-gray-300 px-5 py-4 font-medium leading-tight transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 md:w-auto"
+                  className="flex w-full items-center justify-center gap-2 rounded-md border px-5 py-4 font-medium leading-tight transition border-gray-800 hover:bg-gray-800 md:w-auto"
                   href={`https://github.com/scriptkitapp/${github.repo}`}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
@@ -160,7 +153,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
           </div>
         </div>
         {image && (
-          <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0 lg:-mr-5">
+          <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0">
             <Image
               src={image}
               alt={title}

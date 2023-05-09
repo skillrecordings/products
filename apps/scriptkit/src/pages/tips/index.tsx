@@ -1,10 +1,10 @@
 import React from 'react'
 import Layout from 'layouts'
-import {getAllTips, getTip, Tip} from 'lib/tips'
+import {getAllTips, type Tip} from 'lib/tips'
 import Link from 'next/link'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {useRouter} from 'next/router'
-import {useTipComplete} from 'hooks/use-tip-complete'
+import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 import Icon from 'components/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
@@ -142,7 +142,6 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   }`
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
-  // const tipCompleted = false
 
   return (
     <article className="flex items-center gap-5 py-4">

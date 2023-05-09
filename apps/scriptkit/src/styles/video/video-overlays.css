@@ -13,7 +13,7 @@
 [data-video-overlay='default'] {
   @apply px-5;
   [data-image] {
-    @apply hidden items-center justify-center sm:flex sm:w-40 lg:w-auto;
+    @apply hidden items-center justify-center sm:flex sm:w-40 lg:w-40;
   }
   [data-title] {
     @apply pt-4 text-xl font-semibold sm:text-3xl;
@@ -35,7 +35,7 @@
       }
     }
     [data-action='continue'] {
-      @apply rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3;
+      @apply rounded bg-amber-300 text-black px-3 py-1 text-lg font-semibold transition hover:bg-amber-200 sm:px-5 sm:py-3;
       [data-icon] {
       }
     }
@@ -140,6 +140,9 @@
   }
 }
 [data-video-overlay='finished'] {
+  h2 {
+    @apply pb-5 sm:text-lg text-gray-300 max-w-lg text-center;
+  }
   @apply px-5 pt-10 sm:pt-0;
   [data-title] {
     @apply text-2xl font-semibold sm:text-3xl sm:font-bold;

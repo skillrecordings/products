@@ -7,6 +7,7 @@ import config from 'config'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Header from 'components/app/header'
 import {getOgImage} from 'utils/get-og-image'
+import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const tips = await getAllTips()

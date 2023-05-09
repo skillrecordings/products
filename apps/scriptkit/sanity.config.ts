@@ -5,21 +5,20 @@ import {schemaTypes} from './schemas'
 import deskStructure from './schemas/deskStructure'
 import {codeInput} from '@sanity/code-input'
 import {cloudinarySchemaPlugin} from 'sanity-plugin-cloudinary'
+import {taxonomyManager} from 'sanity-plugin-taxonomy-manager'
 
 export default defineConfig({
   name: 'default',
   title: 'scriptkit',
-
   projectId: 'rgjexias',
   dataset: 'production',
-
   plugins: [
     deskTool({structure: deskStructure}),
     visionTool(),
     codeInput(),
     cloudinarySchemaPlugin(),
+    taxonomyManager(),
   ],
-
   schema: {
     types: schemaTypes,
   },

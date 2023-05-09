@@ -6,7 +6,7 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] | o
   _type,
   title,
   slug,
-  "image": image.asset->url,
+  "image": image.secure_url,
   _updatedAt,
   _createdAt,
   description,
@@ -52,20 +52,11 @@ export const getTutorial = async (slug: string) =>
       moduleType,
       _id,
       github,
-      ogImage,
+      "ogImage": ogImage.secure_url,
       description,
       _updatedAt,
-      "image": image.asset->url,
-      body[]{
-        ...,
-        _type == "bodyTestimonial" => {
-          "body": testimonial->body,
-          "author": testimonial->author {
-            "image": image.asset->url,
-            name
-          }
-        }
-      },
+      "image": image.secure_url,
+      body,
       "testimonials": resources[@->._type == 'testimonial']->{
         _id,
         _type,
