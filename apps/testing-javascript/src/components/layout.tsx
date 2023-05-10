@@ -24,8 +24,11 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   } = meta || {}
 
   return (
-    <div className="relative">
-      <Toaster position="top-center" />
+    <div className="relative bg-white">
+      <Toaster
+        position="top-center"
+        containerStyle={{background: 'transparent'}}
+      />
       <NextSeo
         title={title}
         description={description}

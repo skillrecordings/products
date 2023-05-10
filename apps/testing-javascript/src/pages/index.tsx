@@ -10,6 +10,8 @@ import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coup
 import {getCurrentAbility} from '@skillrecordings/ability'
 import {getAllProducts} from 'server/products.server'
 
+import LandingTemplate from 'templates/landing-template'
+
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const sessionToken = await getToken({req})
   const ability = getCurrentAbility(sessionToken as any)
@@ -70,7 +72,8 @@ const Home: React.FC<
 
   return (
     <Layout>
-      <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center grow">
+      <LandingTemplate isPro={canViewContent} />
+      {/* <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center grow">
         Hi! 👋
       </h1>
       <p>
@@ -86,7 +89,7 @@ const Home: React.FC<
       <p>
         <b>hasAvailableSeats:</b> {hasAvailableSeats ? 'true' : 'false'}
       </p>
-      {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+      {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
     </Layout>
   )
 }
