@@ -20,9 +20,9 @@ const Home: NextPage = () => {
         <h1 className="max-w-3xl text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
           <Balancer>
             <span className="block pb-4 font-rounded text-xl font-bold uppercase tracking-wide text-brand-yellow sm:text-2xl lg:text-3xl">
-              Learn How to Make
+              Astro came to party
             </span>{' '}
-            Fast and Modern Websites with Astro
+            Build and ship for the web so fast it sounds fake
           </Balancer>
         </h1>
         <Image
@@ -38,7 +38,7 @@ const Home: NextPage = () => {
         />
       </header>
       <main className="-mx-2 -mt-64 flex flex-col items-center sm:-mt-96">
-        <div className="relative flex w-full max-w-4xl flex-col items-center rounded-full border-4 border-black bg-white px-8 pb-96 pt-40 sm:mx-auto sm:px-24">
+        <div className="relative flex w-full max-w-4xl flex-col items-center rounded-full border-4 border-black bg-white px-8 pb-96 pt-40 prose-ul:pl-4 prose-li:marker:text-brand-primary sm:mx-auto sm:px-24">
           <div className="relative z-20 flex items-center gap-3 pb-16 font-rounded text-2xl font-semibold leading-none">
             <Image
               className="rounded-full border-[3px] border-black"
@@ -56,7 +56,7 @@ const Home: NextPage = () => {
               <span>Jason Lengstorf</span>
             </div>
           </div>
-          <article className="prose mx-auto w-full max-w-2xl font-sans sm:prose-lg lg:prose-xl first-letter:float-left first-letter:pr-3 first-letter:pt-1.5 first-letter:font-heading first-letter:text-5xl first-letter:font-bold prose-headings:font-heading prose-headings:font-extrabold prose-p:text-black sm:first-letter:pt-1 sm:first-letter:text-6xl lg:first-letter:pt-0 lg:first-letter:text-7xl">
+          <article className="prose mx-auto w-full max-w-2xl font-sans sm:prose-lg lg:prose-xl first-letter:float-left first-letter:pr-3 first-letter:pt-1.5 first-letter:font-heading first-letter:text-5xl first-letter:font-bold prose-headings:pb-6 prose-headings:text-center prose-headings:font-rounded prose-headings:font-semibold prose-p:text-black prose-li:text-black sm:first-letter:pt-1 sm:first-letter:text-6xl lg:first-letter:pt-0 lg:first-letter:text-7xl">
             <LandingCopy />
           </article>
           <div className="pointer-events-none absolute bottom-0 flex aspect-square w-full max-w-none select-none items-center justify-center overflow-hidden rounded-b-full">
@@ -74,7 +74,7 @@ const Home: NextPage = () => {
             className="pointer-events-none absolute bottom-[-140px] ml-28 select-none"
             src={require('../../public/assets/ghost-hanging@2x.png')}
             width={270}
-            height={442}
+            // height={442}
             priority
             alt=""
             aria-hidden="true"

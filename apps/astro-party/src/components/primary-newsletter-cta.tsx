@@ -66,7 +66,7 @@ export const PrimaryNewsletterCta: React.FC<
       />
       <p
         data-nospam=""
-        className="w-full pt-10 text-center text-base font-medium"
+        className="w-full pt-10 text-center text-base font-medium text-white"
       >
         <Balancer>I respect your privacy. Unsubscribe at any time.</Balancer>
       </p>
@@ -76,7 +76,7 @@ export const PrimaryNewsletterCta: React.FC<
 
 const SubmitButton: React.FC<any> = ({isLoading}) => {
   const [hovered, setHovered] = React.useState(false)
-  const isAnimating = hovered || isLoading
+  const isAnimating = true
   return (
     <button
       onMouseOver={() => {
@@ -112,6 +112,7 @@ const SubmitButton: React.FC<any> = ({isLoading}) => {
         >
           {new Array(4).fill(null).map((_, i) => (
             <svg
+              key={i}
               xmlns="http://www.w3.org/2000/svg"
               width="768"
               height="108"
@@ -134,49 +135,49 @@ const SubmitButton: React.FC<any> = ({isLoading}) => {
                 <path
                   fill="#EB5228"
                   stroke="#000"
-                  stroke-width="2"
+                  strokeWidth="2"
                   d="M52 1h32L34 107H2L52 1Z"
                 />
                 <path
                   fill="#F5D000"
                   stroke="#000"
-                  stroke-width="2"
+                  strokeWidth="2"
                   d="M84 1h32L66 107H34L84 1Zm128 0h32l-50 106h-32L212 1Zm128 0h32l-50 106h-32L340 1Zm128 0h32l-50 106h-32L468 1Zm128 0h32l-50 106h-32L596 1Zm128 0h32l-50 106h-32L724 1Z"
                 />
                 <path
                   fill="#009A51"
                   stroke="#000"
-                  stroke-width="2"
+                  strokeWidth="2"
                   d="M244 1h32l-50 106h-32L244 1ZM116 1h32L98 107H66L116 1Zm256 0h32l-50 106h-32L372 1Zm128 0h32l-50 106h-32L500 1Zm128 0h32l-50 106h-32L628 1Zm128 0h32l-50 106h-32L756 1Z"
                 />
                 <path
                   fill="#6D92F4"
                   stroke="#000"
-                  stroke-width="2"
+                  strokeWidth="2"
                   d="M148 1h32l-50 106H98L148 1Zm128 0h32l-50 106h-32L276 1Z"
                 />
                 <path
                   fill="#EB5228"
                   stroke="#000"
-                  stroke-width="2"
+                  strokeWidth="2"
                   d="M180 1h32l-50 106h-32L180 1Z"
                 />
                 <path
                   fill="#009A51"
                   stroke="#000"
-                  stroke-width="2"
+                  strokeWidth="2"
                   d="M-12 1h32l-50 106h-32L-12 1Z"
                 />
                 <path
                   fill="#6D92F4"
                   stroke="#000"
-                  stroke-width="2"
+                  strokeWidth="2"
                   d="M20 1h32L2 107h-32L20 1Zm384 0h32l-50 106h-32L404 1Zm128 0h32l-50 106h-32L532 1Zm128 0h32l-50 106h-32L660 1Zm128 0h32l-50 106h-32L788 1Z"
                 />
                 <path
                   fill="#EB5228"
                   stroke="#000"
-                  stroke-width="2"
+                  strokeWidth="2"
                   d="M308 1h32l-50 106h-32L308 1Zm128 0h32l-50 106h-32L436 1Zm128 0h32l-50 106h-32L564 1Zm128 0h32l-50 106h-32L692 1Z"
                 />
               </g>

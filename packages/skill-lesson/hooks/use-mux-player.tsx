@@ -50,6 +50,7 @@ type VideoProviderProps = {
   muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>
   onEnded?: () => Promise<any>
   onModuleEnded?: () => Promise<any>
+  onModuleStarted?: () => Promise<any>
 }
 
 export const VideoProvider: React.FC<
@@ -60,6 +61,7 @@ export const VideoProvider: React.FC<
   path = '',
   onEnded = async () => {},
   onModuleEnded = async () => {},
+  onModuleStarted = async () => {},
   exerciseSlug,
 }) => {
   const router = useRouter()
@@ -143,6 +145,9 @@ export const VideoProvider: React.FC<
 
   const isModuleComplete =
     nextExerciseStatus !== 'loading' && !nextExercise && !nextSection
+  const isFirstLessonInModule =
+    (module.lessons && module.lessons[0].slug === lesson.slug) ||
+    (section?.lessons && section?.lessons[0].slug === lesson.slug)
 
   const onEndedCallback = React.useCallback(async () => {
     exitFullscreen()
@@ -153,6 +158,10 @@ export const VideoProvider: React.FC<
       moduleType: module.moduleType,
       lessonType: lesson._type,
     })
+
+    if (isFirstLessonInModule && onModuleStarted) {
+      await onModuleStarted()
+    }
 
     if (isModuleComplete && onModuleEnded) {
       await onModuleEnded()
