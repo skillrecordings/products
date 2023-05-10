@@ -1,19 +1,20 @@
-import {MdOutlineLightbulb} from 'react-icons/md'
+import {MdOutlineGroupWork} from 'react-icons/md'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'tip',
+  name: 'section',
   type: 'document',
-  title: 'Tip',
-  icon: MdOutlineLightbulb,
+  title: 'Workshop Section',
+  description: 'A named group of resources within a module.',
+  icon: MdOutlineGroupWork,
   preview: {
     select: {
       title: 'title',
     },
     prepare({title}) {
       return {
-        media: MdOutlineLightbulb,
-        title: `${title} (Tip)`,
+        media: MdOutlineGroupWork,
+        title: `${title} (Section)`,
       }
     },
   },
@@ -22,7 +23,7 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.max(90),
     }),
     defineField({
       name: 'slug',
@@ -38,23 +39,25 @@ export default defineType({
       name: 'resources',
       title: 'Resources',
       type: 'array',
+      description: 'Lessons in the section',
       of: [
-        defineArrayMember({type: 'reference', to: [{type: 'videoResource'}]}),
-        defineArrayMember({type: 'tweet'}),
+        defineArrayMember({
+          type: 'reference',
+          to: [
+            {type: 'exercise'},
+            {type: 'explainer'},
+            {type: 'lesson'},
+            {type: 'linkResource'},
+          ],
+        }),
       ],
     }),
     defineField({
       name: 'body',
-      description: 'Body in MDX',
       title: 'Body',
+      description: 'Body in MDX',
       type: 'text',
-      rows: 10,
-    }),
-    defineField({
-      name: 'summary',
-      title: 'Summary',
-      type: 'text',
-      rows: 5,
+      rows: 20,
     }),
     defineField({
       name: 'description',
@@ -62,6 +65,17 @@ export default defineType({
       description: 'Used as a short "SEO" summary on Twitter cards etc.',
       type: 'text',
       validation: (Rule) => Rule.max(160),
+    }),
+    defineField({
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        }),
+      ],
     }),
   ],
 })

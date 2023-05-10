@@ -1,4 +1,5 @@
 import {MdArticle} from 'react-icons/md'
+import {defineType} from 'sanity'
 
 const articles = (S) =>
   S.listItem()

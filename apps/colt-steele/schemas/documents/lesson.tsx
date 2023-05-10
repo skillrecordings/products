@@ -1,19 +1,21 @@
-import {MdOutlineLightbulb} from 'react-icons/md'
+import {MdOutlineExtension} from 'react-icons/md'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'tip',
+  name: 'lesson',
   type: 'document',
-  title: 'Tip',
-  icon: MdOutlineLightbulb,
+  title: 'Lesson',
+  description:
+    'A type of Lesson that has only one part (one video), there is not solution',
+  icon: MdOutlineExtension,
   preview: {
     select: {
       title: 'title',
     },
     prepare({title}) {
       return {
-        media: MdOutlineLightbulb,
-        title: `${title} (Tip)`,
+        media: MdOutlineExtension,
+        title: `${title} (Lesson)`,
       }
     },
   },
@@ -22,7 +24,7 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.max(90),
     }),
     defineField({
       name: 'slug',
@@ -39,22 +41,34 @@ export default defineType({
       title: 'Resources',
       type: 'array',
       of: [
-        defineArrayMember({type: 'reference', to: [{type: 'videoResource'}]}),
-        defineArrayMember({type: 'tweet'}),
+        defineArrayMember({
+          title: 'Video Resource',
+          type: 'reference',
+          to: [{type: 'videoResource'}],
+        }),
+        defineArrayMember({
+          title: 'GitHub',
+          type: 'github',
+        }),
       ],
     }),
     defineField({
       name: 'body',
-      description: 'Body in MDX',
       title: 'Body',
+      description: 'Body in MDX',
       type: 'text',
-      rows: 10,
+      rows: 20,
     }),
     defineField({
-      name: 'summary',
-      title: 'Summary',
-      type: 'text',
-      rows: 5,
+      name: 'concepts',
+      title: 'Concepts',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'skosConcept'}],
+        },
+      ],
     }),
     defineField({
       name: 'description',
