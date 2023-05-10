@@ -1,15 +1,24 @@
 import React, {FunctionComponent} from 'react'
-import {NextSeo} from '@skillrecordings/next-seo'
-import cx from 'classnames'
+import {NextSeo, type NextSeoProps} from '@skillrecordings/next-seo'
+import {twMerge} from 'tailwind-merge'
 import Navigation from './navigation'
+// import Footer from './footer'
 
 type LayoutProps = {
-  meta?: any
+  meta?: NextSeoProps & {titleAppendSiteName?: boolean}
   noIndex?: boolean
   className?: string
   nav?: React.ReactElement | null
   footer?: React.ReactElement | null
   children?: any
+  withNavigation?: boolean
+  withFooter?: boolean
+  navigationProps?: {
+    className?: string
+  }
+  footerProps?: {
+    className?: string
+  }
 }
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
@@ -17,18 +26,20 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   className,
   meta,
   noIndex,
-  nav,
-  footer,
+  withNavigation = true,
+  withFooter = true,
+  navigationProps,
+  footerProps,
 }) => {
   const {
     title,
     description,
-    titleAppendSiteName = false,
-    url,
-    type = 'website',
-    ogImage,
-    date,
+    openGraph,
+    titleAppendSiteName = true,
+    defaultTitle = process.env.NEXT_PUBLIC_SITE_TITLE,
   } = meta || {}
+
+  const {url} = openGraph || {}
 
   return (
     <div className="relative">
@@ -40,26 +51,20 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
             ? `%s | ${process.env.NEXT_PUBLIC_SITE_TITLE}`
             : undefined
         }
-        openGraph={{
-          title,
-          description,
-          type,
-          url,
-          images: ogImage ? [ogImage] : undefined,
-          article: {
-            publishedTime: date,
-          },
-        }}
+        openGraph={openGraph}
         canonical={url}
         noindex={noIndex}
       />
-      <Navigation />
+      {withNavigation && <Navigation {...navigationProps} />}
       <div
-        className={cx('flex flex-col flex-grow h-full min-h-screen', className)}
+        className={twMerge(
+          'flex h-full min-h-screen flex-grow flex-col',
+          className,
+        )}
       >
         {children}
-        {/* {footer ? footer : isNull(footer) ? null : <Footer />} */}
       </div>
+      {/* {withFooter && <Footer {...footerProps} />} */}
     </div>
   )
 }

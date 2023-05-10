@@ -1,28 +1,36 @@
-import {MdOutlineLightbulb} from 'react-icons/md'
+import {MdOutlineWorkspaces} from 'react-icons/md'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'tip',
+  name: 'exercise',
   type: 'document',
-  title: 'Tip',
-  icon: MdOutlineLightbulb,
+  title: 'Exercise',
+  description:
+    'A type of Lesson that has 2-parts, a problem (the exercise) and a solution.',
+  icon: MdOutlineWorkspaces,
   preview: {
     select: {
       title: 'title',
     },
     prepare({title}) {
       return {
-        media: MdOutlineLightbulb,
-        title: `${title} (Tip)`,
+        media: MdOutlineWorkspaces,
+        title: `${title} (Exercise)`,
       }
     },
   },
   fields: [
     defineField({
+      name: 'label',
+      title: 'Label',
+      type: 'string',
+      hidden: true,
+    }),
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.max(90),
     }),
     defineField({
       name: 'slug',
@@ -39,22 +47,24 @@ export default defineType({
       title: 'Resources',
       type: 'array',
       of: [
-        defineArrayMember({type: 'reference', to: [{type: 'videoResource'}]}),
-        defineArrayMember({type: 'tweet'}),
+        defineArrayMember({
+          title: 'Video Resource',
+          type: 'reference',
+          to: [{type: 'videoResource'}],
+        }),
+        defineArrayMember({type: 'solution'}),
+        defineArrayMember({type: 'muxVideo'}),
+        defineArrayMember({type: 'stackblitz'}),
+        defineArrayMember({type: 'testimonial'}),
+        defineArrayMember({type: 'linkResource'}),
       ],
     }),
     defineField({
       name: 'body',
-      description: 'Body in MDX',
       title: 'Body',
+      description: 'Body in MDX',
       type: 'text',
-      rows: 10,
-    }),
-    defineField({
-      name: 'summary',
-      title: 'Summary',
-      type: 'text',
-      rows: 5,
+      rows: 20,
     }),
     defineField({
       name: 'description',

@@ -1,28 +1,34 @@
-import {MdOutlineLightbulb} from 'react-icons/md'
+import {MdAutoFixHigh} from 'react-icons/md'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'tip',
-  type: 'document',
-  title: 'Tip',
-  icon: MdOutlineLightbulb,
+  name: 'solution',
+  type: 'object',
+  title: 'Solution to Exercise',
+  icon: MdAutoFixHigh,
   preview: {
     select: {
       title: 'title',
     },
     prepare({title}) {
       return {
-        media: MdOutlineLightbulb,
-        title: `${title} (Tip)`,
+        media: MdAutoFixHigh,
+        title: `${title} (Solution)`,
       }
     },
   },
   fields: [
     defineField({
+      name: 'label',
+      title: 'Label',
+      type: 'string',
+      hidden: true,
+    }),
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.max(90),
     }),
     defineField({
       name: 'slug',
@@ -39,26 +45,23 @@ export default defineType({
       title: 'Resources',
       type: 'array',
       of: [
-        defineArrayMember({type: 'reference', to: [{type: 'videoResource'}]}),
-        defineArrayMember({type: 'tweet'}),
+        defineArrayMember({
+          title: 'Video Resource',
+          type: 'reference',
+          to: [{type: 'videoResource'}],
+        }),
+        defineArrayMember({type: 'muxVideo'}),
+        defineArrayMember({type: 'stackblitz'}),
       ],
     }),
     defineField({
       name: 'body',
-      description: 'Body in MDX',
       title: 'Body',
-      type: 'text',
-      rows: 10,
-    }),
-    defineField({
-      name: 'summary',
-      title: 'Summary',
-      type: 'text',
-      rows: 5,
+      type: 'body',
     }),
     defineField({
       name: 'description',
-      title: 'Short Description',
+      title: 'Summary',
       description: 'Used as a short "SEO" summary on Twitter cards etc.',
       type: 'text',
       validation: (Rule) => Rule.max(160),
