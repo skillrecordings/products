@@ -7,10 +7,10 @@ import Link from 'next/link'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 export async function getStaticProps() {
-  const workshops = await getAllPlaylists()
+  const playlists = await getAllPlaylists()
 
   return {
-    props: {modules: workshops.reverse()},
+    props: {modules: playlists.reverse()},
     revalidate: 10,
   }
 }

@@ -1,22 +1,28 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import {SanityDocument} from '@sanity/client'
 
 import LandingCopy from 'components/landing-copy.mdx'
 
 type LandingTemplateProps = {
   isPro: boolean
+  playlists: SanityDocument[]
 }
 
-const LandingNonPro = ({}) => {
-  return <div></div>
-}
+// const LandingNonPro = ({}) => {
+//   return <div></div>
+// }
 
-const LandingPro = ({}) => {
-  return <div></div>
-}
+// const LandingPro = ({}) => {
+//   return <div></div>
+// }
 
-const LandingTemplate: React.FC<LandingTemplateProps> = ({isPro}) => {
+const LandingTemplate: React.FC<LandingTemplateProps> = ({
+  isPro,
+  playlists,
+}) => {
+  console.log({playlists, isPro})
   return (
     <div className="pt-10">
       <h1 className="text-center font-heading text-4xl md:text-6xl sm:text-5xl">
@@ -44,8 +50,22 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({isPro}) => {
           height={760}
           alt="Trophy"
         />
-        <div className="prose md:prose-md">
+        <div className="prose md:prose-md mt-32">
           <LandingCopy />
+        </div>
+        <div className="mt-16">
+          <h2 className="text-center text-3xl">video goes here</h2>
+        </div>
+        <div className="mt-36 flex flex-col items-center">
+          <Image
+            src="/images/illos/code-bits-1.png"
+            alt="Code Bits"
+            width={300}
+            height={83}
+          />
+          <h1 className="text-center font-heading text-4xl md:text-6xl sm:text-5xl mt-14">
+            What's in Testing JavaScript?
+          </h1>
         </div>
       </div>
 
