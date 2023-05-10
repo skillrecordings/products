@@ -4,16 +4,20 @@ import type {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
+import {SanityDocument} from '@sanity/client'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import {getCurrentAbility} from '@skillrecordings/ability'
-import {getAllProducts} from 'server/products.server'
+import {getAllProducts, getActiveProduct} from 'server/products.server'
+import {getAllPlaylists} from 'lib/playlists'
 
 import LandingTemplate from 'templates/landing-template'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const sessionToken = await getToken({req})
+  const playlists = await getAllPlaylists()
+
   const ability = getCurrentAbility(sessionToken as any)
   const canViewContent = ability.can('view', 'Content')
   const hasChargesForPurchases = ability.can('view', 'Invoice')
@@ -26,6 +30,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   return {
     props: {
       commerceProps: commerceProps,
+      playlists,
       canViewContent,
       hasChargesForPurchases,
       hasBulkPurchase,
@@ -37,6 +42,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 const Home: React.FC<
   React.PropsWithChildren<{
     commerceProps: CommerceProps
+    playlists: SanityDocument[]
     canViewContent: boolean
     hasChargesForPurchases: boolean
     hasBulkPurchase: boolean
@@ -44,6 +50,7 @@ const Home: React.FC<
   }>
 > = ({
   commerceProps,
+  playlists,
   canViewContent,
   hasChargesForPurchases,
   hasBulkPurchase,
@@ -72,7 +79,7 @@ const Home: React.FC<
 
   return (
     <Layout>
-      <LandingTemplate isPro={canViewContent} />
+      <LandingTemplate isPro={canViewContent} playlists={playlists} />
       {/* <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center grow">
         Hi! 👋
       </h1>
