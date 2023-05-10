@@ -17,7 +17,7 @@
     @apply antialiased;
   }
   body {
-    @apply text-xl leading-normal text-body font-tt-regular;
+    @apply text-xl md:text-2xl leading-normal text-body font-tt-regular;
   }
   h1,
   h2,

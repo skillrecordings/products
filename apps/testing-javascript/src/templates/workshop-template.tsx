@@ -30,7 +30,7 @@ const LessonItem: React.FC<{lesson: any; index: number}> = ({
         </Link>
       </h3>
       {body && (
-        <div className="mt-7 text-[22px]">
+        <div className="mt-7">
           <PortableText value={body} />
         </div>
       )}
@@ -108,7 +108,7 @@ const WorkshopTemplate: React.FC<{
               <Icon name="play" className="w-[10px] h-[10px]" />
               <span>{nextLessonSlug ? 'Continue' : 'Start'} Watching</span>
             </Link>
-            <div className="mt-7 text-[22px]">
+            <div className="mt-7">
               <PortableText
                 value={workshop.body}
                 components={{
