@@ -22,7 +22,7 @@
 @import './focus-visible.css';
 
 body {
-  @apply text-black selection:bg-brand-primary-light;
+  @apply text-black selection:bg-brand-primary-light selection:text-white;
 }
 
 mux-player {
