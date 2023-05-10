@@ -38,7 +38,7 @@ export type Article = z.infer<typeof ArticleSchema>
 
 export const getAllArticles = async (): Promise<Article[]> => {
   const articles =
-    await sanityClient.fetch(groq`*[_type == "article"] | order(_createdAt asc) {
+    await sanityClient.fetch(groq`*[_type == "article"] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,
