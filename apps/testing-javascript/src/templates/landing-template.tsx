@@ -4,6 +4,7 @@ import Image from 'next/image'
 import {SanityDocument} from '@sanity/client'
 import type {TestimonialProps, FaqProps} from '@types'
 import Balancer from 'react-wrap-balancer'
+import MuxPlayer from '@mux/mux-player-react'
 
 import LandingCopy from 'components/landing-copy.mdx'
 import Testimonials from 'components/testimonials'
@@ -67,7 +68,7 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
         </div>
       </div>
       <div className="container max-w-6xl mt-20">
-        <div className="bg-gray-600 text-white mb-32">video goes here</div>
+        <MuxPlayer playbackId="lZ7JLEsycJZ1hi9D02NlGo701t2IILWuXssviaT9fy8u8" />
         <div className="mt-36 flex flex-col items-center">
           <Image
             src="/images/illos/code-bits-1.png"
