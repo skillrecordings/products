@@ -4,19 +4,71 @@ import type {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
+import {SanityDocument} from '@sanity/client'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {getCurrentAbility} from '@skillrecordings/ability'
+import {getAllProducts, getActiveProduct} from 'server/products.server'
+import {getAllPlaylists} from 'lib/playlists'
+import {getAllTestimonials} from 'lib/testimonials'
+import {getAllFaqs} from 'lib/faqs'
+import type {TestimonialProps, FaqProps} from '@types'
 
-import {getAllProducts} from 'server/products.server'
+import LandingTemplate from 'templates/landing-template'
+import Testimonials from 'components/testimonials'
+import Faqs from 'components/faqs'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+  const sessionToken = await getToken({req})
+  const testimonials = await getAllTestimonials()
+  const faqs = await getAllFaqs()
+  const playlists = await getAllPlaylists()
+
+  const ability = getCurrentAbility(sessionToken as any)
+  const canViewContent = ability.can('view', 'Content')
+  const hasChargesForPurchases = ability.can('view', 'Invoice')
+  const hasBulkPurchase = ability.can('view', 'Team')
+  const hasAvailableSeats = ability.can('invite', 'Team')
+
   const token = await getToken({req})
   const products = await getAllProducts()
-  return await propsForCommerce({query, token, products})
+  const commerceProps = await propsForCommerce({query, token, products})
+  return {
+    props: {
+      commerceProps: commerceProps,
+      playlists,
+      testimonials,
+      faqs,
+      canViewContent,
+      hasChargesForPurchases,
+      hasBulkPurchase,
+      hasAvailableSeats,
+    },
+  }
 }
 
-const Home: React.FC<React.PropsWithChildren<CommerceProps>> = (props) => {
+const Home: React.FC<
+  React.PropsWithChildren<{
+    commerceProps: CommerceProps
+    playlists: SanityDocument[]
+    testimonials: TestimonialProps[]
+    faqs: FaqProps[]
+    canViewContent: boolean
+    hasChargesForPurchases: boolean
+    hasBulkPurchase: boolean
+    hasAvailableSeats: boolean
+  }>
+> = ({
+  commerceProps,
+  playlists,
+  testimonials,
+  faqs,
+  canViewContent,
+  hasChargesForPurchases,
+  hasBulkPurchase,
+  hasAvailableSeats,
+}) => {
   const router = useRouter()
   const {
     couponFromCode,
@@ -25,7 +77,7 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = (props) => {
     products = [],
     couponIdFromCoupon,
     defaultCoupon,
-  } = props
+  } = commerceProps
 
   React.useEffect(() => {
     const {query} = router
@@ -40,10 +92,30 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = (props) => {
 
   return (
     <Layout>
-      <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center grow">
+      <LandingTemplate isPro={canViewContent} playlists={playlists} />
+      <Testimonials
+        testimonials={testimonials}
+        title="What other developers are saying"
+        className="mt-20 md:mt-24 lg:mt-32"
+      />
+      <Faqs faqs={faqs} className="mt-20 md:mt-24 lg:mt-32" />
+      {/* <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center grow">
         Hi! 👋
       </h1>
-      {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+      <p>
+        <b>canViewContent:</b> {canViewContent ? 'true' : 'false'}
+      </p>
+      <p>
+        <b>hasChargesForPurchases:</b>{' '}
+        {hasChargesForPurchases ? 'true' : 'false'}
+      </p>
+      <p>
+        <b>hasBulkPurchase:</b> {hasBulkPurchase ? 'true' : 'false'}
+      </p>
+      <p>
+        <b>hasAvailableSeats:</b> {hasAvailableSeats ? 'true' : 'false'}
+      </p>
+      {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
     </Layout>
   )
 }

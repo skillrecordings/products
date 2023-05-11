@@ -1,5 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
+
+const fontLight = 'TT Commons W01 Light'
+const fontRegular = 'TT Commons W01 Regular'
+const fontMedium = 'TT Commons W01 Medium'
+const fontDemiBold = 'TT Commons W01 DemiBold'
 
 module.exports = {
   content: [
@@ -21,19 +27,68 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['TT Commons W01 Regular', ...defaultTheme.fontFamily.sans],
-        'tt-light': 'TT Commons W01 Light',
-        'tt-regular': 'TT Commons W01 Regular',
-        'tt-medium': 'TT Commons W01 Medium',
-        'tt-demibold': 'TT Commons W01 DemiBold',
+        sans: [fontRegular, ...defaultTheme.fontFamily.sans],
+        'tt-light': fontLight,
+        'tt-regular': fontRegular,
+        'tt-medium': fontMedium,
+        'tt-demibold': fontDemiBold,
       },
       colors: {
         body: '#1b1b1f',
         checkmark: '#5cc7c7',
+        'brand-orange': '#ffa82e',
       },
       typography: (theme) => ({
         DEFAULT: {
-          css: {},
+          css: {
+            fontSize: '1.25rem',
+            lineHeight: '1.75rem',
+            'h1, h2, h3': {
+              fontFamily: fontMedium,
+              fontWeight: theme('fontWeight.normal'),
+            },
+            a: {
+              color: colors.blue['600'],
+            },
+            ul: {
+              listStyle: 'none',
+              padding: 0,
+              li: {
+                padding: 0,
+                marginTop: '20px',
+                marginBottom: '10px',
+                'p, span': {
+                  marginTop: 0,
+                  marginBottom: 0,
+                },
+                svg: {
+                  marginTop: '6px',
+                  marginBottom: 0,
+                },
+              },
+            },
+            'code::before': {
+              content: '',
+            },
+            'code::after': {
+              content: '',
+            },
+          },
+        },
+        md: {
+          css: {
+            fontSize: '1.375rem',
+            lineHeight: '2rem',
+            ul: {
+              li: {
+                marginTop: '20px',
+                marginBottom: '10px',
+                svg: {
+                  marginTop: '4px',
+                },
+              },
+            },
+          },
         },
       }),
     },
