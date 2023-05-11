@@ -16,8 +16,6 @@ import {getAllFaqs} from 'lib/faqs'
 import type {TestimonialProps, FaqProps} from '@types'
 
 import LandingTemplate from 'templates/landing-template'
-import Testimonials from 'components/testimonials'
-import Faqs from 'components/faqs'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const sessionToken = await getToken({req})
@@ -92,30 +90,13 @@ const Home: React.FC<
 
   return (
     <Layout>
-      <LandingTemplate isPro={canViewContent} playlists={playlists} />
-      <Testimonials
+      <LandingTemplate
+        isPro={canViewContent}
+        playlists={playlists}
         testimonials={testimonials}
-        title="What other developers are saying"
-        className="mt-20 md:mt-24 lg:mt-32"
+        faqs={faqs}
       />
-      <Faqs faqs={faqs} className="mt-20 md:mt-24 lg:mt-32" />
-      {/* <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center grow">
-        Hi! 👋
-      </h1>
-      <p>
-        <b>canViewContent:</b> {canViewContent ? 'true' : 'false'}
-      </p>
-      <p>
-        <b>hasChargesForPurchases:</b>{' '}
-        {hasChargesForPurchases ? 'true' : 'false'}
-      </p>
-      <p>
-        <b>hasBulkPurchase:</b> {hasBulkPurchase ? 'true' : 'false'}
-      </p>
-      <p>
-        <b>hasAvailableSeats:</b> {hasAvailableSeats ? 'true' : 'false'}
-      </p>
-      {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
+      {/* {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
     </Layout>
   )
 }
