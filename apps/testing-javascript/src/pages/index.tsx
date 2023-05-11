@@ -11,11 +11,14 @@ import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coup
 import {getCurrentAbility} from '@skillrecordings/ability'
 import {getAllProducts, getActiveProduct} from 'server/products.server'
 import {getAllPlaylists} from 'lib/playlists'
+import {getAllTestimonials} from 'lib/testimonials'
 
 import LandingTemplate from 'templates/landing-template'
+import Testimonials from 'components/testimonials'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const sessionToken = await getToken({req})
+  const testimonials = await getAllTestimonials()
   const playlists = await getAllPlaylists()
 
   const ability = getCurrentAbility(sessionToken as any)
@@ -31,6 +34,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
     props: {
       commerceProps: commerceProps,
       playlists,
+      testimonials,
       canViewContent,
       hasChargesForPurchases,
       hasBulkPurchase,
@@ -43,6 +47,8 @@ const Home: React.FC<
   React.PropsWithChildren<{
     commerceProps: CommerceProps
     playlists: SanityDocument[]
+    // TODO Testimonials type
+    testimonials: any[]
     canViewContent: boolean
     hasChargesForPurchases: boolean
     hasBulkPurchase: boolean
@@ -51,6 +57,7 @@ const Home: React.FC<
 > = ({
   commerceProps,
   playlists,
+  testimonials,
   canViewContent,
   hasChargesForPurchases,
   hasBulkPurchase,
@@ -80,6 +87,11 @@ const Home: React.FC<
   return (
     <Layout>
       <LandingTemplate isPro={canViewContent} playlists={playlists} />
+      <Testimonials
+        testimonials={testimonials}
+        title="What other developers are saying"
+        className="mt-32"
+      />
       {/* <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center grow">
         Hi! 👋
       </h1>
