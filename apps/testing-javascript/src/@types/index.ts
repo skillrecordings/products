@@ -1,4 +1,5 @@
 import {StaticImageData} from 'next/legacy/image'
+import type {PortableTextBlock} from '@portabletext/types'
 import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
 
 export type Contributor = {
@@ -46,4 +47,9 @@ export type TestimonialProps = {
     title: string
     imageUrl: string
   }
+}
+
+export type FaqProps = {
+  question: string
+  answer: PortableTextBlock
 }

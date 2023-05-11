@@ -1,7 +1,5 @@
 import * as React from 'react'
-import {capitalize, truncate} from 'lodash'
 import {MdQuestionAnswer} from 'react-icons/md'
-import {toPlainText} from '@portabletext/react'
 
 export default {
   name: 'testimonial',

@@ -12,14 +12,17 @@ import {getCurrentAbility} from '@skillrecordings/ability'
 import {getAllProducts, getActiveProduct} from 'server/products.server'
 import {getAllPlaylists} from 'lib/playlists'
 import {getAllTestimonials} from 'lib/testimonials'
-import type {TestimonialProps} from '@types'
+import {getAllFaqs} from 'lib/faqs'
+import type {TestimonialProps, FaqProps} from '@types'
 
 import LandingTemplate from 'templates/landing-template'
 import Testimonials from 'components/testimonials'
+import Faqs from 'components/faqs'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const sessionToken = await getToken({req})
   const testimonials = await getAllTestimonials()
+  const faqs = await getAllFaqs()
   const playlists = await getAllPlaylists()
 
   const ability = getCurrentAbility(sessionToken as any)
@@ -36,6 +39,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
       commerceProps: commerceProps,
       playlists,
       testimonials,
+      faqs,
       canViewContent,
       hasChargesForPurchases,
       hasBulkPurchase,
@@ -49,6 +53,7 @@ const Home: React.FC<
     commerceProps: CommerceProps
     playlists: SanityDocument[]
     testimonials: TestimonialProps[]
+    faqs: FaqProps[]
     canViewContent: boolean
     hasChargesForPurchases: boolean
     hasBulkPurchase: boolean
@@ -58,6 +63,7 @@ const Home: React.FC<
   commerceProps,
   playlists,
   testimonials,
+  faqs,
   canViewContent,
   hasChargesForPurchases,
   hasBulkPurchase,
@@ -90,8 +96,9 @@ const Home: React.FC<
       <Testimonials
         testimonials={testimonials}
         title="What other developers are saying"
-        className="mt-32"
+        className="mt-20 md:mt-24 lg:mt-32"
       />
+      <Faqs faqs={faqs} className="mt-20 md:mt-24 lg:mt-32" />
       {/* <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center grow">
         Hi! 👋
       </h1>

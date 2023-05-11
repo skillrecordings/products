@@ -22,7 +22,6 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
   isPro,
   playlists,
 }) => {
-  console.log({playlists, isPro})
   return (
     <div className="pt-10">
       <h1 className="text-center font-heading text-4xl md:text-6xl sm:text-5xl">

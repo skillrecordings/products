@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
 
 const fontLight = 'TT Commons W01 Light'
 const fontRegular = 'TT Commons W01 Regular'
@@ -46,6 +47,9 @@ module.exports = {
               fontFamily: fontMedium,
               fontWeight: theme('fontWeight.normal'),
             },
+            a: {
+              color: colors.blue['600'],
+            },
             ul: {
               listStyle: 'none',
               padding: 0,
@@ -73,7 +77,7 @@ module.exports = {
         },
         md: {
           css: {
-            fontSize: '1.5rem',
+            fontSize: '1.375rem',
             lineHeight: '2rem',
             ul: {
               li: {
