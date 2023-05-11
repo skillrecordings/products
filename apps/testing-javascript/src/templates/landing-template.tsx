@@ -89,14 +89,13 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
         <div className="bg-gray-600 text-white my-32">
           Start testing like a pro
         </div>
+        <Testimonials
+          testimonials={testimonials}
+          title="What other developers are saying"
+          className="mt-20 md:mt-24 lg:mt-32"
+        />
+        <Faqs faqs={faqs} className="mt-20 md:mt-24 lg:mt-32" />
       </div>
-
-      <Testimonials
-        testimonials={testimonials}
-        title="What other developers are saying"
-        className="mt-20 md:mt-24 lg:mt-32"
-      />
-      <Faqs faqs={faqs} className="mt-20 md:mt-24 lg:mt-32" />
     </div>
   )
 }
