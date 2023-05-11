@@ -57,7 +57,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
           className,
         )}
       >
-        <div className="container max-w-6xl">{children}</div>
+        {children}
       </div>
     </div>
   )

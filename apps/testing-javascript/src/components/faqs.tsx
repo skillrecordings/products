@@ -8,7 +8,7 @@ const Faqs: React.FunctionComponent<{
   className?: string
 }> = ({faqs, className = ''}) => {
   return (
-    <div className={cx(className)}>
+    <section className={cx(className)}>
       <div className="container max-w-6xl">
         <h2 className="text-3xl md:text-4xl lg:text-5xl">FAQ</h2>
         <div className="grid md:grid-cols-2 md:gap-x-20 gap-y-10 md:gap-y-8 mt-4 md:mt-6 lg:mt-8">
@@ -25,7 +25,7 @@ const Faqs: React.FunctionComponent<{
           })}
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 
