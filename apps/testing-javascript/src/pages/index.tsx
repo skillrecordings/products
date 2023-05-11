@@ -12,6 +12,7 @@ import {getCurrentAbility} from '@skillrecordings/ability'
 import {getAllProducts, getActiveProduct} from 'server/products.server'
 import {getAllPlaylists} from 'lib/playlists'
 import {getAllTestimonials} from 'lib/testimonials'
+import type {TestimonialProps} from '@types'
 
 import LandingTemplate from 'templates/landing-template'
 import Testimonials from 'components/testimonials'
@@ -47,8 +48,7 @@ const Home: React.FC<
   React.PropsWithChildren<{
     commerceProps: CommerceProps
     playlists: SanityDocument[]
-    // TODO Testimonials type
-    testimonials: any[]
+    testimonials: TestimonialProps[]
     canViewContent: boolean
     hasChargesForPurchases: boolean
     hasBulkPurchase: boolean

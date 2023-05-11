@@ -38,3 +38,12 @@ export type LayoutProps = {
   defaultCoupon?: DefaultCoupon
   children?: any
 }
+
+export type TestimonialProps = {
+  text: string
+  author: {
+    name: string
+    title: string
+    imageUrl: string
+  }
+}
