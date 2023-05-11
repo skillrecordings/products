@@ -1,11 +1,10 @@
 import * as React from 'react'
 import cx from 'classnames'
-import {PortableText} from '@portabletext/react'
 import Image from 'next/image'
+import type {TestimonialProps} from '@types'
 
 const Testimonials: React.FunctionComponent<{
-  // TODO Testimonials type
-  testimonials: any[]
+  testimonials: TestimonialProps[]
   title: string
   className?: string
 }> = ({testimonials, title, className = ''}) => {
