@@ -14,7 +14,7 @@ import Balancer from 'react-wrap-balancer'
 import Spinner from './spinner'
 
 type PrimaryNewsletterCtaProps = {
-  onSuccess?: () => void
+  onSuccess?: (subscriber: ConvertkitSubscriber | undefined) => void
   title?: string
   byline?: string
   actionLabel?: string
@@ -36,15 +36,18 @@ export const PrimaryNewsletterCta: React.FC<
   byline = common['primary-newsletter-byline'],
   actionLabel = common['primary-newsletter-button-cta-label'],
   trackProps = {event: 'subscribed', params: {}},
-  onSuccess = (subscriber: ConvertkitSubscriber | undefined) => {
-    if (subscriber) {
-      track(trackProps.event as string, trackProps.params)
-      const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
-      router.push(redirectUrl)
-    }
-  },
+  onSuccess,
 }) => {
   const router = useRouter()
+  onSuccess = onSuccess
+    ? onSuccess
+    : (subscriber: ConvertkitSubscriber | undefined) => {
+        if (subscriber) {
+          track(trackProps.event as string, trackProps.params)
+          const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
+          router.push(redirectUrl)
+        }
+      }
   return (
     <section
       id={id}
