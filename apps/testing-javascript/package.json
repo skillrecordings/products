@@ -82,6 +82,7 @@
   },
   "devDependencies": {
     "@next/env": "^12.2.2",
+    "@portabletext/types": "^1.0.3",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",

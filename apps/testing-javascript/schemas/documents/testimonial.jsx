@@ -1,7 +1,5 @@
 import * as React from 'react'
-import {capitalize, truncate} from 'lodash'
 import {MdQuestionAnswer} from 'react-icons/md'
-import {toPlainText} from '@portabletext/react'
 
 export default {
   name: 'testimonial',
@@ -10,9 +8,9 @@ export default {
   icon: MdQuestionAnswer,
   fields: [
     {
-      name: 'body',
-      title: 'Testimonial',
-      type: 'body',
+      name: 'text',
+      title: 'Text',
+      type: 'string',
       validation: (Rule) => Rule.required(),
     },
     {
@@ -37,23 +35,16 @@ export default {
         },
       ],
     },
-    {
-      name: 'external_url',
-      title: 'External URL',
-      type: 'url',
-    },
   ],
   preview: {
     select: {
-      title: 'body',
+      title: 'text',
       media: 'author.image.asset.url',
     },
     prepare(selection) {
-      const {title, media, type} = selection
+      const {media, title} = selection
       return {
-        title: `${truncate(toPlainText(title), {
-          length: 60,
-        })} ${capitalize(type)}`,
+        title: title,
         media: media && <img src={media} alt={title} />,
       }
     },
