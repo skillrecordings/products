@@ -66,21 +66,31 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
           </div>
         </div>
       </div>
+      <div className="container max-w-6xl mt-20">
+        <div className="bg-gray-600 text-white mb-32">video goes here</div>
+        <div className="mt-36 flex flex-col items-center">
+          <Image
+            src="/images/illos/code-bits-1.png"
+            alt="Code Bits"
+            width={300}
+            height={83}
+          />
+          <h1 className="text-center font-heading text-4xl md:text-6xl sm:text-5xl mt-14">
+            What's in Testing JavaScript?
+          </h1>
+          <div className="bg-gray-600 text-white mt-20 w-full">modules</div>
+        </div>
+        <div className="bg-gray-600 text-white mt-20 w-full">interviews</div>
+        <div className="bg-gray-600 text-white mt-20 w-full">printables</div>
+      </div>
       <Greeting className="mt-20" />
-      <div className="mt-16">
-        <h2 className="text-center text-3xl">video goes here</h2>
+
+      <div className="container max-w-6xl">
+        <div className="bg-gray-600 text-white my-32">
+          Start testing like a pro
+        </div>
       </div>
-      <div className="mt-36 flex flex-col items-center">
-        <Image
-          src="/images/illos/code-bits-1.png"
-          alt="Code Bits"
-          width={300}
-          height={83}
-        />
-        <h1 className="text-center font-heading text-4xl md:text-6xl sm:text-5xl mt-14">
-          What's in Testing JavaScript?
-        </h1>
-      </div>
+
       <Testimonials
         testimonials={testimonials}
         title="What other developers are saying"
