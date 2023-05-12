@@ -2,7 +2,9 @@ import * as React from 'react'
 import cx from 'classnames'
 import Image from 'next/image'
 
-const Printables = ({className = ''}) => {
+const Printables: React.FunctionComponent<{
+  className?: string
+}> = ({className}) => {
   return (
     <section className={cx(className)}>
       <h2 className="text-3xl md:text-4xl lg:text-5xl">Printables</h2>

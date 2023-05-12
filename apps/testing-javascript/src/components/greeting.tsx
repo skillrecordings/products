@@ -5,7 +5,7 @@ import Balancer from 'react-wrap-balancer'
 
 const Faqs: React.FunctionComponent<{
   className?: string
-}> = ({className = ''}) => {
+}> = ({className}) => {
   return (
     <section className={cx('bg-gray-100', className)}>
       <div className="container max-w-6xl">
