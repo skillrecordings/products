@@ -8,7 +8,7 @@ export const getLesson = async (
   includeMedia: boolean = true,
 ): Promise<any> => {
   const exercise = await sanityClient.fetch(
-    `*[_type in ['exercise', 'explainer', 'interview'] && slug.current == $slug][0]{
+    `*[_type in ['explainer'] && slug.current == $slug][0]{
       _id,
       _type,
       _updatedAt,
@@ -50,8 +50,7 @@ export const getLesson = async (
 }
 
 export const getAllLessons = async (): Promise<any[]> => {
-  const lessons =
-    await sanityClient.fetch(groq`*[_type in ['exercise', 'explainer', 'interview']]{
+  const lessons = await sanityClient.fetch(groq`*[_type in ['explainer']]{
       _id,
       _type,
       _updatedAt,
@@ -76,3 +75,5 @@ export const getAllLessons = async (): Promise<any[]> => {
 
   return lessons
 }
+
+// ['exercise', 'explainer', 'interview']
