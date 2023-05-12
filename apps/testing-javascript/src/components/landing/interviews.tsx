@@ -126,7 +126,7 @@ const Interviews: React.FunctionComponent<{
           {multipleInterviews.map((multipleInterview) => {
             return (
               <MultipleInterview
-                key={multipleInterview.slug}
+                key={multipleInterview.slug.current}
                 interview={multipleInterview}
                 proTestingPurchased={proTestingPurchased}
               />
@@ -139,7 +139,7 @@ const Interviews: React.FunctionComponent<{
           {plainInterviews.map((plainInterview) => {
             return (
               <PlainInterview
-                key={plainInterview.slug}
+                key={plainInterview.slug.current}
                 interview={plainInterview}
                 proTestingPurchased={proTestingPurchased}
               />
