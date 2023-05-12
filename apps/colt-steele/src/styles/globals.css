@@ -1,9 +1,10 @@
 @tailwind base;
 
 @tailwind components;
-@import './primary-newsletter-cta.css';
+@import './subscribe-form.css';
 @import './nprogress.css';
 @import './fonts.css';
+@import './prism.css';
 
 @tailwind utilities;
 @import './focus-visible.css';

@@ -9,7 +9,7 @@ import Balancer from 'react-wrap-balancer'
 
 export const PrimaryNewsletterCta: React.FC<
   React.PropsWithChildren<{id?: string}>
-> = ({children, id = 'subscribe'}) => {
+> = ({children, id = 'primary-newsletter-cta'}) => {
   const router = useRouter()
   return (
     <section
