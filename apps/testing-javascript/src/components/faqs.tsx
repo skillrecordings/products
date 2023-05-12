@@ -6,7 +6,7 @@ import type {FaqProps} from '@types'
 const Faqs: React.FunctionComponent<{
   faqs: FaqProps[]
   className?: string
-}> = ({faqs, className = ''}) => {
+}> = ({faqs, className}) => {
   return (
     <section className={cx(className)}>
       <h2 className="text-3xl md:text-4xl lg:text-5xl">FAQ</h2>
