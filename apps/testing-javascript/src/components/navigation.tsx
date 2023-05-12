@@ -172,7 +172,7 @@ const NavLogo = () => {
       className="shrink-0 flex"
     >
       <Image
-        src={require('../../public/assets/logo-full.svg')}
+        src={require('../../public/images/logos/logo-full.svg')}
         alt="testing javascript logo"
         width={212}
         height={47}
