@@ -188,9 +188,9 @@ const WelcomeHeader = () => {
         className="relative z-0"
       /> */}
       <div className="absolute z-10 w-full px-5 pt-40">
-        <h1 className="font-heading text-3xl font-black sm:text-4xl md:text-5xl">
+        <h2 className="font-heading text-3xl font-black sm:text-4xl md:text-5xl">
           <Balancer>Welcome to Testing Javascript!</Balancer>
-        </h1>
+        </h2>
         <p className="pt-3 sm:text-lg">
           <Balancer>
             You can find details about your purchase below. Happy learning!
