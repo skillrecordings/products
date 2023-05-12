@@ -19,16 +19,16 @@ const Testimonials: React.FunctionComponent<{
               <div className="mt-5 flex md:items-center space-x-4 md:space-x-5">
                 <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden shrink-0 mt-2 md:mt-0">
                   <Image
-                    src={testimonial.author.imageUrl}
-                    alt={testimonial.author.name}
+                    src={testimonial.image.url}
+                    alt={testimonial.image.alt}
                     width={100}
                     height={100}
                   />
                 </div>
                 <div>
-                  <h3 className="text-2xl">{testimonial.author.name}</h3>
+                  <h3 className="text-2xl">{testimonial.name}</h3>
                   <p className="mt-1 text-base opacity-80">
-                    {testimonial.author.title}
+                    {testimonial.title}
                   </p>
                 </div>
               </div>

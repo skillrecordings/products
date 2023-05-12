@@ -42,14 +42,28 @@ export type LayoutProps = {
 
 export type TestimonialProps = {
   text: string
-  author: {
-    name: string
-    title: string
-    imageUrl: string
+  name: string
+  title: string
+  image: {
+    url: string
+    alt: string
   }
 }
 
 export type FaqProps = {
   question: string
   answer: PortableTextBlock
+}
+
+export type InterviewProps = {
+  double: boolean
+  description: PortableTextBlock
+  title: string
+  slug: string
+  portraits: {
+    image1: {
+      alt: string
+      url: string
+    }
+  }
 }

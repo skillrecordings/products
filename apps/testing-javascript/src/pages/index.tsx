@@ -14,7 +14,8 @@ import {getAllProducts, getActiveProduct} from 'server/products.server'
 import {getAllPlaylists} from 'lib/playlists'
 import {getAllTestimonials} from 'lib/testimonials'
 import {getAllFaqs} from 'lib/faqs'
-import type {TestimonialProps, FaqProps} from '@types'
+import {getAllInterviews} from 'lib/interviews'
+import type {TestimonialProps, FaqProps, InterviewProps} from '@types'
 
 import LandingTemplate from 'templates/landing-template'
 
@@ -23,6 +24,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const testimonials = await getAllTestimonials()
   const faqs = await getAllFaqs()
   const playlists = await getAllPlaylists()
+  const interviews = await getAllInterviews()
 
   const ability = getCurrentAbility(sessionToken as any)
   const canViewContent = ability.can('view', 'Content')
@@ -43,6 +45,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
       playlists,
       testimonials,
       faqs,
+      interviews,
       canViewContent,
       hasChargesForPurchases,
       hasBulkPurchase,
@@ -57,6 +60,7 @@ const Home: React.FC<
     playlists: SanityDocument[]
     testimonials: TestimonialProps[]
     faqs: FaqProps[]
+    interviews: InterviewProps[]
     canViewContent: boolean
     hasChargesForPurchases: boolean
     hasBulkPurchase: boolean
@@ -67,6 +71,7 @@ const Home: React.FC<
   playlists,
   testimonials,
   faqs,
+  interviews,
   canViewContent,
   hasChargesForPurchases,
   hasBulkPurchase,
@@ -108,6 +113,7 @@ const Home: React.FC<
         playlists={playlists}
         testimonials={testimonials}
         faqs={faqs}
+        interviews={interviews}
         proTestingPurchased={proTestingPurchased}
       />
       {/* {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
