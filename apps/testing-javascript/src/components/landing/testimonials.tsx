@@ -10,8 +10,10 @@ const Testimonials: React.FunctionComponent<{
 }> = ({testimonials, title, className = ''}) => {
   return (
     <section className={cx(className)}>
-      <h2 className="text-3xl md:text-4xl lg:text-5xl">{title}</h2>
-      <div className="grid md:grid-cols-2 md:gap-x-20 gap-y-10 md:gap-y-8 mt-4 md:mt-6 lg:mt-8">
+      <h2 className="text-3xl md:text-4xl lg:text-5xl text-center lg:text-start">
+        {title}
+      </h2>
+      <div className="grid md:grid-cols-2 md:gap-x-20 gap-y-10 md:gap-y-8 mt-4 md:mt-10 lg:mt-8">
         {testimonials.map((testimonial, i) => {
           return (
             <div key={i}>

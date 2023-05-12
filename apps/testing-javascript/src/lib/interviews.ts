@@ -7,7 +7,7 @@ export const getAllInterviews = async () =>
   _type,
   title,
   description,
-  image,
+  portraits,
   slug,
-  isDouble
+  isMultiple
 }`)

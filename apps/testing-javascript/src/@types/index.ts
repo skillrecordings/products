@@ -56,12 +56,16 @@ export type FaqProps = {
 }
 
 export type InterviewProps = {
-  double: boolean
+  isMultiple: boolean
   description: PortableTextBlock
   title: string
   slug: string
   portraits: {
     image1: {
+      alt: string
+      url: string
+    }
+    image2?: {
       alt: string
       url: string
     }
