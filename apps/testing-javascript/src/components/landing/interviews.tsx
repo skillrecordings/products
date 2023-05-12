@@ -21,7 +21,7 @@ const PlainInterview: React.FC<{
   )
   const TitleElem = () => <Balancer>{interview.title}</Balancer>
   return (
-    <div className="flex flex-col lg:flex-row space-y-8 lg:space-x-6 lg:space-y-0">
+    <div className="flex flex-col items-center lg:items-start lg:flex-row space-y-4 lg:space-x-6 lg:space-y-0">
       <div className="w-32 h-32 overflow-hidden rounded-md shrink-0 mt-1">
         {proTestingPurchased ? (
           <Link href={`/interviews/${interview.slug}`}>
@@ -31,7 +31,7 @@ const PlainInterview: React.FC<{
           <ImageElem />
         )}
       </div>
-      <div>
+      <div className="text-center lg:text-start">
         <h3 className="text-xl font-tt-demibold">
           {proTestingPurchased ? (
             <Link href={`/interviews/${interview.slug}`}>
@@ -42,7 +42,9 @@ const PlainInterview: React.FC<{
           )}
         </h3>
         <div className="mt-1 text-lg leading-normal">
-          <PortableText value={interview.description} />
+          <Balancer>
+            <PortableText value={interview.description} />
+          </Balancer>
         </div>
       </div>
     </div>
@@ -77,7 +79,7 @@ const MultipleInterview: React.FC<{
   )
   const TitleElem = () => <Balancer>{interview.title}</Balancer>
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-2 place-items-start">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-4 md:gap-y-6 lg:gap-y-0 gap-x-2 place-items-start">
       <div className="shrink-0 lg:mt-2 flex justify-center w-full">
         {proTestingPurchased ? (
           <Link href={`/interviews/${interview.slug}`} className="flex">
@@ -87,7 +89,7 @@ const MultipleInterview: React.FC<{
           <ImageElem />
         )}
       </div>
-      <div className="pl-6">
+      <div className="lg:pl-6 text-center lg:text-start w-full max-w-2xl mx-auto lg:w-auto">
         <h3 className="text-3xl font-tt-demibold">
           {proTestingPurchased ? (
             <Link href={`/interviews/${interview.slug}`}>
@@ -98,7 +100,9 @@ const MultipleInterview: React.FC<{
           )}
         </h3>
         <div className="mt-1 text-lg leading-normal">
-          <PortableText value={interview.description} />
+          <Balancer>
+            <PortableText value={interview.description} />
+          </Balancer>
         </div>
       </div>
     </div>
@@ -135,7 +139,7 @@ const Interviews: React.FunctionComponent<{
         </div>
       )}
       {!isEmpty(plainInterviews) && (
-        <div className="grid md:grid-cols-2 md:gap-x-16 gap-y-10 md:gap-y-8 mt-10 md:mt-14 lg:mt-16">
+        <div className="grid md:grid-cols-2 md:gap-x-8 lg:gap-x-16 gap-y-10 md:gap-y-16 mt-10 md:mt-14 lg:mt-16">
           {plainInterviews.map((plainInterview) => {
             return (
               <PlainInterview
@@ -148,7 +152,7 @@ const Interviews: React.FunctionComponent<{
         </div>
       )}
       {proTestingPurchased && (
-        <div className="mt-6 text-center">
+        <div className="mt-12 text-center">
           <a
             href={process.env.NEXT_PUBLIC_PRINTABLES_DOWNLOAD_URL}
             target="_blank"
