@@ -11,6 +11,7 @@ import Testimonials from 'components/landing/testimonials'
 import Faqs from 'components/landing/faqs'
 import Greeting from 'components/landing/greeting'
 import Printables from 'components/landing/printables'
+import Interviews from 'components/landing/interviews'
 
 type LandingTemplateProps = {
   isPro: boolean
@@ -29,7 +30,6 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
   interviews,
   proTestingPurchased,
 }) => {
-  console.log({interviews})
   return (
     <div className="pt-10">
       <div className="container max-w-6xl">
@@ -78,12 +78,24 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
             width={300}
             height={83}
           />
-          <h1 className="text-center font-heading text-4xl md:text-6xl sm:text-5xl mt-14">
+          <h2 className="text-center font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl mt-14">
             What's in Testing JavaScript?
-          </h1>
+          </h2>
           <div className="bg-gray-600 text-white mt-20 w-full">modules</div>
         </div>
-        <div className="bg-gray-600 text-white mt-20 w-full">interviews</div>
+        <div className="mt-14">
+          <h2 className="text-center font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-xl mx-auto">
+            <Balancer>Gain insight from industry experts.</Balancer>
+          </h2>
+          <h3 className="font-tt-regular text-center text-xl md:text-2xl lg:text-3xl opacity-80 mt-6 md:mt-10">
+            Exclusive Pro Testing Bonus Content
+          </h3>
+        </div>
+        <Interviews
+          proTestingPurchased={proTestingPurchased}
+          interviews={interviews}
+          className="mt-20"
+        />
         <Printables
           proTestingPurchased={proTestingPurchased}
           className="mt-20"

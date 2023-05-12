@@ -26,8 +26,8 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'isDouble',
-      title: 'Is it interview with two?',
+      name: 'isMultiple',
+      title: 'Is it multiple interview?',
       type: 'boolean',
       initialValue: false,
     },
@@ -47,7 +47,7 @@ export default {
           title: 'Image 2',
           type: 'externalImage',
           hidden: ({document}) => {
-            return !document.isDouble
+            return !document.isMultiple
           },
         },
       ],
