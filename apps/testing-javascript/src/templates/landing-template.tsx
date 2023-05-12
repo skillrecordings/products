@@ -2,7 +2,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {SanityDocument} from '@sanity/client'
-import type {TestimonialProps, FaqProps} from '@types'
+import type {TestimonialProps, FaqProps, InterviewProps} from '@types'
 import Balancer from 'react-wrap-balancer'
 import MuxPlayer from '@mux/mux-player-react'
 
@@ -17,6 +17,7 @@ type LandingTemplateProps = {
   playlists: SanityDocument[]
   testimonials: TestimonialProps[]
   faqs: FaqProps[]
+  interviews: InterviewProps[]
   proTestingPurchased: boolean
 }
 
@@ -25,8 +26,10 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
   playlists,
   testimonials,
   faqs,
+  interviews,
   proTestingPurchased,
 }) => {
+  console.log({interviews})
   return (
     <div className="pt-10">
       <div className="container max-w-6xl">

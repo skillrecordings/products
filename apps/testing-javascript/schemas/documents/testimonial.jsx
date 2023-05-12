@@ -14,32 +14,28 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'author',
-      title: 'Author',
-      type: 'object',
-      fields: [
-        {
-          name: 'name',
-          title: 'Name',
-          type: 'string',
-        },
-        {
-          name: 'title',
-          title: 'Title',
-          type: 'string',
-        },
-        {
-          name: 'image',
-          title: 'Image',
-          type: 'image',
-        },
-      ],
+      name: 'name',
+      title: 'Author name',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'title',
+      title: 'Author title',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'image',
+      title: 'Author portrait',
+      type: 'externalImage',
+      validation: (Rule) => Rule.required(),
     },
   ],
   preview: {
     select: {
       title: 'text',
-      media: 'author.image.asset.url',
+      media: 'image.url',
     },
     prepare(selection) {
       const {media, title} = selection
