@@ -4,7 +4,8 @@ import Image from 'next/image'
 
 const Printables: React.FunctionComponent<{
   className?: string
-}> = ({className}) => {
+  proTestingPurchased: boolean
+}> = ({className, proTestingPurchased}) => {
   return (
     <section className={cx(className)}>
       <h2 className="text-3xl md:text-4xl lg:text-5xl">Printables</h2>
@@ -25,6 +26,18 @@ const Printables: React.FunctionComponent<{
           )
         })}
       </div>
+      {proTestingPurchased && (
+        <div className="mt-6 text-center">
+          <a
+            href={process.env.NEXT_PUBLIC_PRINTABLES_DOWNLOAD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 font-tt-medium hover:underline"
+          >
+            Download PDFs
+          </a>
+        </div>
+      )}
     </section>
   )
 }
