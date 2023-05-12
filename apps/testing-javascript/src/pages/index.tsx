@@ -2,6 +2,7 @@ import * as React from 'react'
 import Layout from 'components/layout'
 import type {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
+import {isEmpty} from 'lodash'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
 import {SanityDocument} from '@sanity/client'
@@ -80,7 +81,14 @@ const Home: React.FC<
     couponIdFromCoupon,
     defaultCoupon,
   } = commerceProps
-  console.log({purchases})
+
+  const proTestingPurchased =
+    canViewContent &&
+    !isEmpty(
+      purchases.filter(
+        (item) => item.productId === 'kcd_4f0b26ee-d61d-4245-a204-26f5774355a5',
+      ),
+    )
 
   React.useEffect(() => {
     const {query} = router
@@ -100,6 +108,7 @@ const Home: React.FC<
         playlists={playlists}
         testimonials={testimonials}
         faqs={faqs}
+        proTestingPurchased={proTestingPurchased}
       />
       {/* {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
     </Layout>
