@@ -10,6 +10,7 @@ import LandingCopy from 'components/landing-copy.mdx'
 import Testimonials from 'components/testimonials'
 import Faqs from 'components/faqs'
 import Greeting from 'components/greeting'
+import Printables from 'components/printables'
 
 type LandingTemplateProps = {
   isPro: boolean
@@ -82,7 +83,7 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
           <div className="bg-gray-600 text-white mt-20 w-full">modules</div>
         </div>
         <div className="bg-gray-600 text-white mt-20 w-full">interviews</div>
-        <div className="bg-gray-600 text-white mt-20 w-full">printables</div>
+        <Printables className="mt-20" />
       </div>
       <Greeting className="mt-20" />
 
