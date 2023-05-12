@@ -19,14 +19,6 @@ type LandingTemplateProps = {
   faqs: FaqProps[]
 }
 
-// const LandingNonPro = ({}) => {
-//   return <div></div>
-// }
-
-// const LandingPro = ({}) => {
-//   return <div></div>
-// }
-
 const LandingTemplate: React.FC<LandingTemplateProps> = ({
   isPro,
   playlists,
@@ -62,6 +54,7 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
             width={742}
             height={760}
             alt="Trophy"
+            priority
           />
           <div className="prose md:prose-md mt-32">
             <LandingCopy />
@@ -69,7 +62,10 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
         </div>
       </div>
       <div className="container max-w-6xl mt-20">
-        <MuxPlayer playbackId="lZ7JLEsycJZ1hi9D02NlGo701t2IILWuXssviaT9fy8u8" />
+        <MuxPlayer
+          streamType="on-demand"
+          playbackId="lZ7JLEsycJZ1hi9D02NlGo701t2IILWuXssviaT9fy8u8"
+        />
         <div className="mt-36 flex flex-col items-center">
           <Image
             src="/images/illos/code-bits-1.png"

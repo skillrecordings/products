@@ -31,10 +31,14 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 
   const token = await getToken({req})
   const products = await getAllProducts()
-  const commerceProps = await propsForCommerce({query, token, products})
+  const {props: commerceProps} = await propsForCommerce({
+    query,
+    token,
+    products,
+  })
   return {
     props: {
-      commerceProps: commerceProps,
+      commerceProps,
       playlists,
       testimonials,
       faqs,
@@ -76,6 +80,7 @@ const Home: React.FC<
     couponIdFromCoupon,
     defaultCoupon,
   } = commerceProps
+  console.log({purchases})
 
   React.useEffect(() => {
     const {query} = router
