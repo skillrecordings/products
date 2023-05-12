@@ -6,11 +6,11 @@ import type {TestimonialProps, FaqProps, InterviewProps} from '@types'
 import Balancer from 'react-wrap-balancer'
 import MuxPlayer from '@mux/mux-player-react'
 
-import LandingCopy from 'components/landing-copy.mdx'
-import Testimonials from 'components/testimonials'
-import Faqs from 'components/faqs'
-import Greeting from 'components/greeting'
-import Printables from 'components/printables'
+import LandingCopy from 'components/landing/landing-copy.mdx'
+import Testimonials from 'components/landing/testimonials'
+import Faqs from 'components/landing/faqs'
+import Greeting from 'components/landing/greeting'
+import Printables from 'components/landing/printables'
 
 type LandingTemplateProps = {
   isPro: boolean
