@@ -5,10 +5,8 @@ export const getAllTestimonials = async () =>
   await sanityClient.fetch(groq`*[_type == "testimonial"] | order(_createdAt asc) {
   _id,
   _type,
-  "author": {
-    "name": author.name,
-    "title": author.title,
-    "imageUrl": author.image.asset->url
-  },
-  text
+  name,
+  title,
+  text,
+  image
 }`)

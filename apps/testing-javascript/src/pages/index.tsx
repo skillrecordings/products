@@ -2,6 +2,7 @@ import * as React from 'react'
 import Layout from 'components/layout'
 import type {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
+import {isEmpty} from 'lodash'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
 import {SanityDocument} from '@sanity/client'
@@ -13,17 +14,17 @@ import {getAllProducts, getActiveProduct} from 'server/products.server'
 import {getAllPlaylists} from 'lib/playlists'
 import {getAllTestimonials} from 'lib/testimonials'
 import {getAllFaqs} from 'lib/faqs'
-import type {TestimonialProps, FaqProps} from '@types'
+import {getAllInterviews} from 'lib/interviews'
+import type {TestimonialProps, FaqProps, InterviewProps} from '@types'
 
 import LandingTemplate from 'templates/landing-template'
-import Testimonials from 'components/testimonials'
-import Faqs from 'components/faqs'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const sessionToken = await getToken({req})
   const testimonials = await getAllTestimonials()
   const faqs = await getAllFaqs()
   const playlists = await getAllPlaylists()
+  const interviews = await getAllInterviews()
 
   const ability = getCurrentAbility(sessionToken as any)
   const canViewContent = ability.can('view', 'Content')
@@ -33,13 +34,18 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 
   const token = await getToken({req})
   const products = await getAllProducts()
-  const commerceProps = await propsForCommerce({query, token, products})
+  const {props: commerceProps} = await propsForCommerce({
+    query,
+    token,
+    products,
+  })
   return {
     props: {
-      commerceProps: commerceProps,
+      commerceProps,
       playlists,
       testimonials,
       faqs,
+      interviews,
       canViewContent,
       hasChargesForPurchases,
       hasBulkPurchase,
@@ -54,6 +60,7 @@ const Home: React.FC<
     playlists: SanityDocument[]
     testimonials: TestimonialProps[]
     faqs: FaqProps[]
+    interviews: InterviewProps[]
     canViewContent: boolean
     hasChargesForPurchases: boolean
     hasBulkPurchase: boolean
@@ -64,6 +71,7 @@ const Home: React.FC<
   playlists,
   testimonials,
   faqs,
+  interviews,
   canViewContent,
   hasChargesForPurchases,
   hasBulkPurchase,
@@ -79,6 +87,14 @@ const Home: React.FC<
     defaultCoupon,
   } = commerceProps
 
+  const proTestingPurchased =
+    canViewContent &&
+    !isEmpty(
+      purchases.filter(
+        (item) => item.productId === 'kcd_4f0b26ee-d61d-4245-a204-26f5774355a5',
+      ),
+    )
+
   React.useEffect(() => {
     const {query} = router
     if (query.message) {
@@ -92,30 +108,15 @@ const Home: React.FC<
 
   return (
     <Layout>
-      <LandingTemplate isPro={canViewContent} playlists={playlists} />
-      <Testimonials
+      <LandingTemplate
+        isPro={canViewContent}
+        playlists={playlists}
         testimonials={testimonials}
-        title="What other developers are saying"
-        className="mt-20 md:mt-24 lg:mt-32"
+        faqs={faqs}
+        interviews={interviews}
+        proTestingPurchased={proTestingPurchased}
       />
-      <Faqs faqs={faqs} className="mt-20 md:mt-24 lg:mt-32" />
-      {/* <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center grow">
-        Hi! 👋
-      </h1>
-      <p>
-        <b>canViewContent:</b> {canViewContent ? 'true' : 'false'}
-      </p>
-      <p>
-        <b>hasChargesForPurchases:</b>{' '}
-        {hasChargesForPurchases ? 'true' : 'false'}
-      </p>
-      <p>
-        <b>hasBulkPurchase:</b> {hasBulkPurchase ? 'true' : 'false'}
-      </p>
-      <p>
-        <b>hasAvailableSeats:</b> {hasAvailableSeats ? 'true' : 'false'}
-      </p>
-      {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
+      {/* {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
     </Layout>
   )
 }
