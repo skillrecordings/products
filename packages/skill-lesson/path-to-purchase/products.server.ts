@@ -48,10 +48,38 @@ export const getProductBySlug = async (productSlug: string) => {
     alt
   },
   modules[]->{
+    "slug": slug.current,
     moduleType,
     title,
     "image": image.asset->{url, alt},
-    state
+    state,
+    "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson', 'interview']]->{"slug": slug.current,...},
+    "sections": resources[@->._type == 'section']->{
+    _id,
+    _type,
+    _updatedAt,
+    title,
+    description,
+    "slug": slug.current,
+    "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson', 'interview']]->{
+      _id,
+      _type,
+      _updatedAt,
+      "slug": slug.current,
+      title,
+      description,
+      "slug": slug.current,
+      "solution": resources[@._type == 'solution'][0]{
+        _key,
+        _type,
+        "_updatedAt": ^._updatedAt,
+        title,
+        description,
+        "slug": slug.current,
+      }
+    },
+    "resources": resources[@->._type in ['linkResource']]->
+  }
   },
   features[]{
     value

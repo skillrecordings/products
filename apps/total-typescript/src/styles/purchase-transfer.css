@@ -39,3 +39,16 @@
     @apply flex flex-col gap-3 rounded-lg border-none bg-transparent p-0 shadow-none;
   }
 }
+
+/* Route: /products/[slug] */
+
+[data-product-page] {
+  #purchase-transfer {
+    [data-transfer-state] {
+      @apply border-transparent bg-transparent p-0;
+      p {
+        @apply font-normal text-gray-300;
+      }
+    }
+  }
+}
