@@ -61,7 +61,6 @@ export const getServerSideProps: GetServerSideProps = async ({
         // product is pricing document in sanity
         (data) => data.products[0],
       )
-      console.log({sanityProduct})
 
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
       return {
