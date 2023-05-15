@@ -30,20 +30,6 @@ import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import Balancer from 'react-wrap-balancer'
 import BuyMoreSeats from '../team/buy-more-seats'
 
-function getFirstPPPCoupon(availableCoupons: any[] = []) {
-  return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
-}
-
-const formatUsd = (amount: number = 0) => {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  })
-  const formattedPrice = formatter.format(amount).split('.')
-
-  return {dollars: formattedPrice[0], cents: formattedPrice[1]}
-}
-
 type PricingProps = {
   product: SanityProduct
   purchased?: boolean
@@ -53,6 +39,11 @@ type PricingProps = {
   couponId?: string
   allowPurchase?: boolean
   canViewRegionRestriction?: boolean
+  options?: {
+    withImage?: boolean
+    withGuaranteeBadge?: boolean
+    isPPPEnabled?: boolean
+  }
 }
 
 /**
@@ -74,7 +65,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   couponId,
   allowPurchase = false,
   canViewRegionRestriction = false,
+  options = {withImage: true, isPPPEnabled: false, withGuaranteeBadge: true},
 }) => {
+  const {withImage, isPPPEnabled, withGuaranteeBadge} = options
   const [quantity, setQuantity] = React.useState(1)
   const [isBuyingForTeam, setIsBuyingForTeam] = React.useState(false)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
@@ -146,7 +139,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   return (
     <div id="main-pricing">
       <div data-pricing-product={index}>
-        {image && (
+        {withImage && image && (
           <div data-pricing-product-image="">
             <Image
               priority
@@ -172,7 +165,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               {isRestrictedUpgrade ? (
                 <div data-byline="">All region access</div>
               ) : (
-                <div data-byline="">Full access</div>
+                <div data-byline="">
+                  {appliedMerchantCoupon ? 'Regional access' : 'Full access'}
+                </div>
               )}
             </div>
           ) : null}
@@ -348,7 +343,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                           : action || `Buy Now`}
                       </span>
                     </button>
-                    <span data-guarantee="">30-Day Money-Back Guarantee</span>
+                    {withGuaranteeBadge && (
+                      <span data-guarantee="">30-Day Money-Back Guarantee</span>
+                    )}
                   </fieldset>
                 </form>
               </div>
@@ -374,6 +371,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           )}
           {showPPPBox && !canViewRegionRestriction && (
             <RegionalPricingBox
+              isPPPEnabled={isPPPEnabled}
               pppCoupon={pppCoupon || merchantCoupon}
               merchantCoupon={merchantCoupon}
               setMerchantCoupon={setMerchantCoupon}
@@ -388,16 +386,18 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   <ReactMarkdown>{product.description}</ReactMarkdown>
                 </div>
               )}
-            {(isSellingLive || allowPurchase) && !purchased && (
-              <div data-guarantee-image="">
-                <Image
-                  src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
-                  width={130}
-                  height={130}
-                  alt="Money Back Guarantee"
-                />
-              </div>
-            )}
+            {(isSellingLive || allowPurchase) &&
+              !purchased &&
+              withGuaranteeBadge && (
+                <div data-guarantee-image="">
+                  <Image
+                    src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+                    width={130}
+                    height={130}
+                    alt="Money Back Guarantee"
+                  />
+                </div>
+              )}
             {modules || features ? (
               <div data-header="">
                 <div>
@@ -579,12 +579,24 @@ type RegionalPricingBoxProps = {
   merchantCoupon: any
   setMerchantCoupon: (coupon: any) => void
   index: number
+  isPPPEnabled?: boolean
 }
 
 const RegionalPricingBox: React.FC<
   React.PropsWithChildren<RegionalPricingBoxProps>
-> = ({pppCoupon, merchantCoupon, setMerchantCoupon, index}) => {
+> = ({
+  pppCoupon,
+  merchantCoupon,
+  setMerchantCoupon,
+  index,
+  isPPPEnabled = false,
+}) => {
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
+  React.useEffect(() => {
+    if (isPPPEnabled) {
+      setMerchantCoupon(pppCoupon as any)
+    }
+  }, [isPPPEnabled, pppCoupon, setMerchantCoupon])
 
   if (!pppCoupon.country) {
     console.error('No country found for PPP coupon', {pppCoupon})
@@ -660,4 +672,18 @@ const SubscribeForm = ({
       />
     </div>
   )
+}
+
+export function getFirstPPPCoupon(availableCoupons: any[] = []) {
+  return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
+}
+
+const formatUsd = (amount: number = 0) => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  })
+  const formattedPrice = formatter.format(amount).split('.')
+
+  return {dollars: formattedPrice[0], cents: formattedPrice[1]}
 }

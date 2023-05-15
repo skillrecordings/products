@@ -55,14 +55,19 @@ export const getAllProducts = async () => {
     groq`*[_type == 'product'][]{
     _id,
     title,
+    description,
+    productId,
+    "slug": slug.current,
+    _id,
     image {
       url,
       alt
     },
-    productId,
     "modules" : modules[]->{
-    _id,
-    "slug": slug.current}
+      title,
+      "slug": slug.current,
+      "image": image.asset->{url, alt},
+    }
     }`,
   )
   return products

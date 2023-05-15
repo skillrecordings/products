@@ -38,7 +38,7 @@ import {
 } from '@skillrecordings/convertkit-react-ui'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
-import {ArticleJsonLd} from '@skillrecordings/next-seo'
+import {ArticleJsonLd, VideoJsonLd} from '@skillrecordings/next-seo'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
@@ -104,6 +104,15 @@ const TipTemplate: React.FC<{
         datePublished={tip._updatedAt || new Date().toISOString()}
         authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
         description={tip.description || 'Total TypeScript Tip'}
+      />
+      <VideoJsonLd
+        name={tip.title}
+        description={tip.description || 'Total TypeScript Tip'}
+        uploadDate={tip._updatedAt || new Date().toISOString()}
+        thumbnailUrls={[
+          `https://image.mux.com/${tip.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+        ]}
+        contentUrl={`https://stream.mux.com/${tip.muxPlaybackId}/medium.mp4`}
       />
       <Layout
         meta={{
