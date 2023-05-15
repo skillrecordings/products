@@ -158,6 +158,9 @@
     }
   }
   [data-claimed-seats-team] {
+    [data-claimed-seat] {
+      @apply text-cyan-200;
+    }
     svg {
       @apply w-4;
     }

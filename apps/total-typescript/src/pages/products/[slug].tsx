@@ -13,6 +13,7 @@ import {getProductBySlug} from '@skillrecordings/skill-lesson/path-to-purchase/p
 import ProductTemplate from 'templates/product-template'
 import PurchasedProductTemplate from 'templates/purchased-product-template'
 import {getSdk} from '@skillrecordings/database'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
@@ -88,7 +89,9 @@ const ProductPage: React.FC<ProductPageProps> = (props) => {
   return (
     <>
       {hasPurchasedCurrentProduct ? (
-        <PurchasedProductTemplate {...props} />
+        <PriceCheckProvider purchasedProductIds={[props.product.productId]}>
+          <PurchasedProductTemplate {...props} />
+        </PriceCheckProvider>
       ) : (
         <ProductTemplate {...props} />
       )}

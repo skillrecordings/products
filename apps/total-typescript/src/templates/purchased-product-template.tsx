@@ -14,12 +14,19 @@ import {ClaimedTeamSeats} from '@skillrecordings/skill-lesson/team/claimed-team-
 import pluralize from 'pluralize'
 import {Transfer} from 'purchase-transfer/purchase-transfer'
 import cx from 'classnames'
-import {SanityProductModule} from '@skillrecordings/commerce-server/dist/@types'
+import {
+  FormattedPrice,
+  SanityProduct,
+  SanityProductModule,
+} from '@skillrecordings/commerce-server/dist/@types'
 import {
   ModuleProgressProvider,
   useModuleProgress,
 } from '@skillrecordings/skill-lesson/video/module-progress'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {usePriceCheck} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {PriceDisplay} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
+import {QueryStatus} from '@tanstack/react-query'
 
 const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   purchases = [],
@@ -51,6 +58,17 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
         ),
       ).length,
     )
+  const {merchantCoupon} = usePriceCheck()
+  const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery({
+    productId: product.productId,
+    userId,
+    quantity: 1,
+    merchantCoupon: merchantCoupon || undefined,
+  })
+  const {data: purchaseToUpgrade} = trpc.purchases.getPurchaseById.useQuery({
+    purchaseId: formattedPrice?.upgradeFromPurchaseId,
+  })
+  const isRestrictedUpgrade = purchaseToUpgrade?.status === 'Restricted'
 
   return (
     <Layout meta={{title: product.name}}>
@@ -58,7 +76,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
         data-product-page=""
         className="mx-auto flex w-full flex-col-reverse gap-10 lg:flex-row"
       >
-        <aside className="flex flex-shrink-0 flex-col items-center border-t border-gray-900 bg-black/30 py-10 pl-5 pr-5 lg:mt-16 lg:min-h-screen lg:w-4/12 lg:items-end lg:pl-8 lg:pr-16">
+        <aside className="-mb-16 flex flex-shrink-0 flex-col items-center border-t border-gray-900 bg-black/30 py-10 pl-5 pr-5 md:mb-0 lg:mt-16 lg:min-h-screen lg:w-4/12 lg:items-end lg:pl-8 lg:pr-16">
           <Image
             src={product.image.url}
             alt={product.name}
@@ -97,36 +115,51 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
             </p>
           </header>
           <div className="pt-10">
-            <h2 className="pb-2 text-lg font-medium sm:text-xl">Purchases</h2>
-            <Purchases
-              purchasesForCurrentProduct={purchasesForCurrentProduct}
-            />
             {purchase.bulkCoupon && (
-              <>
-                <h2 className="border-t border-gray-800 pb-2 pt-10 text-lg font-medium sm:text-xl">
-                  Invite your team
-                </h2>
-                <InviteTeam
-                  session={session}
-                  purchase={purchasesForCurrentProduct[0]}
-                  existingPurchase={existingPurchase}
-                  setPersonalPurchase={setPersonalPurchase}
-                />
-                <h2 className="mt-10 flex border-t border-gray-800 pb-2 pt-10 text-lg font-medium sm:text-xl">
-                  Registered team members
-                </h2>
-                <ClaimedTeamSeats
-                  session={session}
-                  purchase={purchase}
-                  existingPurchase={existingPurchase}
-                  setPersonalPurchase={setPersonalPurchase}
-                />
-              </>
+              <div className="flex flex-col border-t border-gray-800 pt-10 lg:flex-row lg:gap-10">
+                <div className="lg:w-2/3">
+                  <h2 className="pb-2 text-lg font-medium sm:text-xl">
+                    Invite your team
+                  </h2>
+                  <InviteTeam
+                    session={session}
+                    purchase={purchasesForCurrentProduct[0]}
+                    existingPurchase={existingPurchase}
+                    setPersonalPurchase={setPersonalPurchase}
+                  />
+                </div>
+                <div className="mt-10 border-t border-gray-800 pt-10 lg:mt-0 lg:w-1/3 lg:border-transparent lg:pt-0">
+                  <h2 className="pb-5 text-lg font-medium sm:text-xl">
+                    Team members
+                  </h2>
+                  <ClaimedTeamSeats
+                    session={session}
+                    purchase={purchase}
+                    existingPurchase={existingPurchase}
+                    setPersonalPurchase={setPersonalPurchase}
+                  />
+                </div>
+              </div>
             )}
             <h2 className="mt-10 flex border-t border-gray-800 pb-3 pt-10 text-lg font-medium sm:text-xl">
-              Buy more seats
+              Upgrade
             </h2>
-            <BuyMoreSeats productId={purchase.productId} userId={userId} />
+            <Upgrade
+              purchaseToUpgrade={purchaseToUpgrade}
+              formattedPrice={formattedPrice}
+              formattedPriceStatus={status}
+              product={product}
+              purchase={purchase}
+              userId={purchase.userId}
+            />
+            {!isRestrictedUpgrade && (
+              <>
+                <h2 className="mt-10 flex border-t border-gray-800 pb-3 pt-10 text-lg font-medium sm:text-xl">
+                  Buy more seats
+                </h2>
+                <BuyMoreSeats productId={purchase.productId} userId={userId} />
+              </>
+            )}
             {isTransferAvailable && purchaseUserTransfers && (
               <>
                 <h2 className="mt-10 flex border-t border-gray-800 pb-3 pt-10 text-lg font-medium sm:text-xl">
@@ -138,6 +171,12 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 />
               </>
             )}
+            <h2 className="mt-10 flex border-t border-gray-800 pb-3 pt-10 text-lg font-medium sm:text-xl">
+              Purchases
+            </h2>
+            <Purchases
+              purchasesForCurrentProduct={purchasesForCurrentProduct}
+            />
           </div>
         </article>
       </main>
@@ -146,6 +185,56 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
 }
 
 export default PurchasedProductTemplate
+
+const Upgrade: React.FC<{
+  purchase: Purchase
+  product: SanityProduct
+  userId: string | undefined
+  purchaseToUpgrade: any
+  formattedPrice: FormattedPrice | undefined
+  formattedPriceStatus: QueryStatus
+}> = ({
+  purchaseToUpgrade,
+  formattedPrice,
+  product,
+  userId,
+  formattedPriceStatus,
+}) => {
+  const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
+
+  return (
+    <div>
+      <p className="pb-3 text-gray-300">
+        You've purchased a regional license for lower price. You can upgrade to
+        get full access to all materials and bonuses from anywhere in the world.
+      </p>
+      <form
+        action={`/api/skill/checkout/stripe?productId=${
+          formattedPrice?.id
+        }&couponId=${appliedMerchantCoupon?.id}&bulk=false&quantity=1${
+          userId ? `&userId=${userId}` : ``
+        }${
+          formattedPrice?.upgradeFromPurchaseId
+            ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
+            : ``
+        }`}
+        method="POST"
+        className="mt-4 flex items-center gap-3"
+      >
+        <PriceDisplay
+          formattedPrice={formattedPrice}
+          status={formattedPriceStatus}
+        />
+        <button
+          type="submit"
+          className="rounded bg-cyan-300 px-3 py-2 font-semibold text-black"
+        >
+          Upgrade to full license
+        </button>
+      </form>
+    </div>
+  )
+}
 
 const ModuleItem: React.FC<{
   module: SanityProductModule
@@ -318,7 +407,9 @@ const PurchaseRow: React.FC<{purchase: Purchase}> = ({purchase}) => {
         <Price amount={Number(purchase.totalAmount)} />
       </td>
       <td className="whitespace-nowrap px-3 py-4 text-base text-gray-300">
-        {purchase.status}
+        {purchase.status === 'Restricted'
+          ? 'Region restricted'
+          : purchase.status}
       </td>
       <td className="whitespace-nowrap px-3 py-4 text-base">
         <Link
@@ -355,13 +446,19 @@ const Row: React.FC<
   ) : null
 }
 
-export const Price: React.FC<{amount: number}> = ({amount}) => {
+export const Price: React.FC<{
+  amount: number
+  className?: string
+  withUsd?: boolean
+}> = ({amount, className = '', withUsd = true}) => {
   const {dollars, cents} = formatUsd(amount)
   return (
-    <div>
-      <span className="pr-1">USD</span>
-      <span>{dollars}</span>
-      <sup className="!top-0 text-xs">{cents}</sup>
+    <div className={className}>
+      {withUsd && (
+        <sup className="relative !top-0.5 pr-0.5 text-gray-300">USD</sup>
+      )}
+      <span className="font-medium">{dollars}</span>
+      <sup className="!top-0.5 pl-0.5 text-xs text-gray-300">{cents}</sup>
     </div>
   )
 }
@@ -370,7 +467,7 @@ export const DatePurchased: React.FC<{date: string}> = ({date}) => {
   return <>{format(new Date(date), 'MMMM dd, y')}</>
 }
 
-const formatUsd = (amount: number = 0) => {
+export const formatUsd = (amount: number = 0) => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
