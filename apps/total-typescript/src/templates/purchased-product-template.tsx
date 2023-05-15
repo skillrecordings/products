@@ -141,18 +141,21 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 </div>
               </div>
             )}
-            <h2 className="mt-10 flex border-t border-gray-800 pb-3 pt-10 text-lg font-medium sm:text-xl">
-              Upgrade
-            </h2>
-            <Upgrade
-              purchaseToUpgrade={purchaseToUpgrade}
-              formattedPrice={formattedPrice}
-              formattedPriceStatus={status}
-              product={product}
-              purchase={purchase}
-              userId={purchase.userId}
-            />
-            {!isRestrictedUpgrade && (
+            {isRestrictedUpgrade ? (
+              <>
+                <h2 className="mt-10 flex border-t border-gray-800 pb-3 pt-10 text-lg font-medium sm:text-xl">
+                  Upgrade
+                </h2>
+                <Upgrade
+                  purchaseToUpgrade={purchaseToUpgrade}
+                  formattedPrice={formattedPrice}
+                  formattedPriceStatus={status}
+                  product={product}
+                  purchase={purchase}
+                  userId={purchase.userId}
+                />
+              </>
+            ) : (
               <>
                 <h2 className="mt-10 flex border-t border-gray-800 pb-3 pt-10 text-lg font-medium sm:text-xl">
                   Buy more seats
