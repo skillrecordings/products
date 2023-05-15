@@ -98,7 +98,6 @@ const TipTemplate: React.FC<{
       })
       .then(console.debug)
   }
-  console.log(getBaseUrl())
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
