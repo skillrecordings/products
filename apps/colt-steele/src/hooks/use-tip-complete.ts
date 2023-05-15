@@ -1,6 +1,6 @@
 import {useQuery} from '@tanstack/react-query'
 import {z} from 'zod'
-import {localProgressDb} from '../utils/dexie'
+import {localProgressDb} from '@skillrecordings/skill-lesson/utils/dexie'
 
 export const TipEventSchema = z.object({
   lesson: z.string(),

@@ -45,7 +45,6 @@ import {trpc} from 'trpc/trpc.client'
 import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import Spinner from 'components/spinner'
 import {MDXRemote} from 'next-mdx-remote'
-import PortableTextComponents from 'components/portable-text'
 
 const TipTemplate: React.FC<{
   tip: Tip
