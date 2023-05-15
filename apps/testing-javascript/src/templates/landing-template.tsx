@@ -106,13 +106,14 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
         />
       </div>
       <Greeting className="mt-20" />
-
-      <div className="container max-w-6xl">
-        <PricingSection commerceProps={commerceProps} className="mt-28" />
+      <PricingSection
+        commerceProps={commerceProps}
+        className="mt-16 md:mt-24 lg:mt-28 bg-gradient-to-b from-white to-zinc-50"
+      />
+      <div className="container max-w-6xl mt-24 md:mt-28 lg:mt-36">
         <Testimonials
           testimonials={testimonials}
           title="What other developers are saying"
-          className="mt-20 md:mt-24 lg:mt-32"
         />
         <Faqs faqs={faqs} className="mt-20 md:mt-24 lg:mt-32" />
       </div>

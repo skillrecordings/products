@@ -90,9 +90,9 @@ const MultipleInterview: React.FC<{
         )}
       </div>
       <div className="lg:pl-6 text-center lg:text-start w-full max-w-2xl mx-auto lg:w-auto">
-        <h3 className="text-3xl font-tt-demibold">
+        <h3 className="text-xl md:text-2xl lg:text-3xl font-tt-demibold">
           {proTestingPurchased ? (
-            <Link href={`/interviews/${interview.slug}`}>
+            <Link href={`/interviews/${interview.slug}`} className="block">
               <TitleElem />
             </Link>
           ) : (
