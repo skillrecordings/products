@@ -66,6 +66,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   }`
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
+  console.log(thumbnail)
 
   return (
     <article className="flex flex-col items-center overflow-hidden rounded-xl bg-white shadow-2xl shadow-gray-500/20">

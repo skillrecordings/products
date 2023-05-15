@@ -18,6 +18,9 @@ const Navigation: React.FC<{className?: string}> = ({className}) => {
           <Link href="/" className="inline-flex flex-col">
             <div className="text-2xl font-semibold">Colt Steele</div>
           </Link>
+          <div className="font-mono text-xs opacity-60 -translate-y-1">
+            Digital Garden
+          </div>
         </div>
 
         <Link href="/tips" className="inline-flex flex-col text-right ml-auto">
