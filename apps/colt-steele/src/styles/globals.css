@@ -5,6 +5,7 @@
 @import './nprogress.css';
 @import './fonts.css';
 @import './prism.css';
+@import '@code-hike/mdx/dist/index.css';
 
 @tailwind utilities;
 @import './focus-visible.css';

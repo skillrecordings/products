@@ -44,14 +44,16 @@ import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {trpc} from 'trpc/trpc.client'
 import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import Spinner from 'components/spinner'
-import {MDXRemote} from 'next-mdx-remote'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 
 const TipTemplate: React.FC<{
   tip: Tip
   tips: Tip[]
-  source: any
-  transcript: any
-}> = ({tip, tips, source, transcript}) => {
+  tipBody: MDXRemoteSerializeResult
+  transcript: any[]
+}> = ({tip, tips, tipBody}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
@@ -158,11 +160,10 @@ const TipTemplate: React.FC<{
                       }
                     />
                   )}
-
-                  {source && (
+                  {tipBody && (
                     <>
-                      <div className="prose w-full max-w-none pb-5 pt-5  lg:prose-lg text-gray-800">
-                        <MDXRemote {...source} />
+                      <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg text-gray-800">
+                        <MDX contents={tipBody} />
                       </div>
                       <Hr
                         className={
@@ -171,13 +172,12 @@ const TipTemplate: React.FC<{
                       />
                     </>
                   )}
-
-                  {transcript && source && (
+                  {tip.transcript && tip.body && (
                     <div className="w-full max-w-2xl pt-5">
-                      <h2 className="text-2xl font-bold">Transcript</h2>
-                      <div className="prose  max-w-none pt-4  ">
-                        <MDXRemote {...transcript} />
-                      </div>
+                      <Transcript
+                        transcript={tip.transcript}
+                        muxPlayerRef={muxPlayerRef}
+                      />
                     </div>
                   )}
                 </div>
@@ -200,10 +200,10 @@ const TipTemplate: React.FC<{
             <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
               {tip.transcript && !tip.body && (
                 <div className="w-full max-w-2xl pt-5">
-                  <h2 className="text-2xl font-bold">Transcript</h2>
-                  <div className="prose  max-w-none pt-4  ">
-                    <MDXRemote {...transcript} />
-                  </div>
+                  <Transcript
+                    transcript={tip.transcript}
+                    muxPlayerRef={muxPlayerRef}
+                  />
                 </div>
               )}
               {!tip.body && <RelatedTips currentTip={tip} tips={tips} />}
@@ -239,6 +239,17 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
     </div>
   )
 })
+
+const Transcript: React.FC<{transcript: string; muxPlayerRef: any}> = ({
+  transcript,
+  muxPlayerRef,
+}) => {
+  return (
+    <section aria-label="transcript">
+      <VideoTranscript transcript={transcript} />
+    </section>
+  )
+}
 
 const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   currentTip,
