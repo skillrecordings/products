@@ -26,14 +26,18 @@ const pageDescription = 'A collection of valuable tips for your daily workflow.'
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
   return (
     <Layout
-      // meta={{
-      //   title: `Tailwind Tips by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
-      //   description: pageDescription,
-      //   ogImage: {
-      //     url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1667503658/tips/card_2x_ld2v6w.png',
-      //     alt: 'Tailwind Tips by Simon Vrachliotis',
-      //   },
-      // }}
+      meta={{
+        title: `Colt Steele Tips`,
+        description: pageDescription,
+        openGraph: {
+          images: [
+            {
+              url: 'https://res.cloudinary.com/dwppkb069/image/upload/v1684185486/ogImages/tips-ogimage_trnnf0.png',
+              alt: 'Colt Steele Tips',
+            },
+          ],
+        },
+      }}
       className="sm:pt-18 flex flex-col items-center pb-8 pt-8 lg:pb-24 lg:pt-20"
     >
       <header className="relative z-10 flex flex-col items-center px-5 pb-8 text-center">
