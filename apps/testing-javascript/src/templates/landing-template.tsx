@@ -3,9 +3,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {SanityDocument} from '@sanity/client'
 import type {TestimonialProps, FaqProps, InterviewProps} from '@types'
+import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import Balancer from 'react-wrap-balancer'
 import MuxPlayer from '@mux/mux-player-react'
 
+import PricingSection from 'components/pricing-section'
 import LandingCopy from 'components/landing/landing-copy.mdx'
 import Testimonials from 'components/landing/testimonials'
 import Faqs from 'components/landing/faqs'
@@ -19,6 +21,7 @@ type LandingTemplateProps = {
   testimonials: TestimonialProps[]
   faqs: FaqProps[]
   interviews: InterviewProps[]
+  commerceProps: CommerceProps
   proTestingPurchased: boolean
 }
 
@@ -28,6 +31,7 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
   testimonials,
   faqs,
   interviews,
+  commerceProps,
   proTestingPurchased,
 }) => {
   return (
@@ -104,9 +108,7 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
       <Greeting className="mt-20" />
 
       <div className="container max-w-6xl">
-        <div className="bg-gray-600 text-white my-32">
-          Start testing like a pro
-        </div>
+        <PricingSection commerceProps={commerceProps} className="mt-28" />
         <Testimonials
           testimonials={testimonials}
           title="What other developers are saying"
