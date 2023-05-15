@@ -142,8 +142,6 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   const {tipCompleted} = useTipComplete(tip.slug)
   // const tipCompleted = false
 
-  console.log(thumbnail)
-
   return (
     <article className="flex items-center gap-5 py-4">
       <header className="flex-shrink-0">
