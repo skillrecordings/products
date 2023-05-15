@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {useFileChange} from './use-file-change'
 import {uploadToS3} from './upload-file'
+import {useDropzone} from 'react-dropzone'
 
 const VideoUploader = () => {
   const {
@@ -12,6 +13,11 @@ const VideoUploader = () => {
     handleFileChange,
   } = useFileChange()
   const [s3FileUrl, setS3FileUrl] = React.useState('')
+
+  const onDrop = React.useCallback((acceptedFiles: any) => {
+    console.log(acceptedFiles)
+  }, [])
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -39,6 +45,15 @@ const VideoUploader = () => {
     <>
       <div className="w-full">
         <div className="mt-40 flex flex-col items-center justify-center">
+          <div {...getRootProps()}>
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <p>Drop the files here ...</p>
+            ) : (
+              <p>Drag 'n' drop some files here, or click to select files</p>
+            )}
+          </div>
+
           <h1 className="max-w-xl text-3xl">
             Upload files using the input below:
           </h1>

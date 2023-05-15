@@ -1,6 +1,6 @@
-import sanityClient from '@sanity/client'
+import {createClient} from '@sanity/client'
 
-export const sanityWriteClient = sanityClient({
+export const sanityWriteClient = createClient({
   projectId: 'z9io1e0u',
   dataset: 'production',
   useCdn: false, // `false` if you want to ensure fresh data

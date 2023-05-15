@@ -2786,6 +2786,7 @@ importers:
       react-countdown: ^2.3.5
       react-device-detect: ^2.2.2
       react-dom: 18.2.0
+      react-dropzone: ^14.2.3
       react-hook-form: ^7.29.0
       react-hot-toast: ^2.2.0
       react-markdown: ^8.0.4
@@ -2905,6 +2906,7 @@ importers:
       react-countdown: 2.3.5_biqbaboplfbrettd7655fr4n2y
       react-device-detect: 2.2.2_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
+      react-dropzone: 14.2.3_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
       react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       react-markdown: 8.0.4_3hx2ussxxho4jajbwrd6gq34qe
@@ -4770,7 +4772,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       '@amplitude/types': 1.10.2
-      tslib: 2.4.0
+      tslib: 2.5.0
     dev: false
 
   /@ampproject/remapping/2.2.0:
@@ -11857,7 +11859,7 @@ packages:
       '@mdx-js/react':
         optional: true
     dependencies:
-      '@mdx-js/loader': 2.1.5_webpack@5.73.0
+      '@mdx-js/loader': 2.1.5_webpack@4.46.0
       '@mdx-js/react': 2.1.5_react@18.2.0
       source-map: 0.7.4
     dev: false
@@ -15919,7 +15921,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.14
 
   /@tanstack/match-sorter-utils/8.7.6:
     resolution: {integrity: sha512-2AMpRiA6QivHOUiBpQAVxjiHAA68Ei23ZUMNaRJrN6omWiSFLoYrxGcT6BXtuzp0Jw4h6HZCmGGIM/gbwebO2A==}
@@ -18956,6 +18958,11 @@ packages:
       core-js: 2.6.12
     dev: false
 
+  /attr-accept/2.2.2:
+    resolution: {integrity: sha512-7prDjvt9HmqiZ0cl5CRjtS84sEyhsHP2coDkaZKRKVfCDo9s7iw7ChVmar78Gu9pC4SoR/28wFu/G5JJhTnqEg==}
+    engines: {node: '>=4'}
+    dev: false
+
   /autoprefixer/10.4.12:
     resolution: {integrity: sha512-WrCGV9/b97Pa+jtwf5UGaRjgQIg7OK3D06GnoYoZNcG1Xb8Gt3EfuKjlhh9i/VtT16g6PYjZ69jdJ2g8FxSC4Q==}
     engines: {node: ^10 || ^12 || >=14}
@@ -19085,7 +19092,7 @@ packages:
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -24713,6 +24720,13 @@ packages:
       webpack: 5.73.0
     dev: true
 
+  /file-selector/0.6.0:
+    resolution: {integrity: sha512-QlZ5yJC0VxHxQQsQhXvBaC7VRJ2uaxTf+Tfpu4Z/OcVQJVpZO+DGU0rkoVW5ce2SccxugvpBJoMvUs59iILYdw==}
+    engines: {node: '>= 12'}
+    dependencies:
+      tslib: 2.5.0
+    dev: false
+
   /file-type/18.2.1:
     resolution: {integrity: sha512-Yw5MtnMv7vgD2/6Bjmmuegc8bQEVA9GmAyaR18bMYWKqsWDG9wgYZ1j4I6gNMF5Y5JBDcUcjRQqNQx7Y8uotcg==}
     engines: {node: '>=14.16'}
@@ -24918,6 +24932,18 @@ packages:
         optional: true
     dependencies:
       debug: 2.6.9
+
+  /follow-redirects/1.15.2_debug@4.3.4:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.4
+    dev: false
 
   /fontkit-next/1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
@@ -25414,7 +25440,7 @@ packages:
     dependencies:
       debug: 4.3.4
       decompress-response: 7.0.0
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       into-stream: 6.0.0
       is-plain-object: 5.0.0
       is-retry-allowed: 2.2.0
@@ -31630,6 +31656,7 @@ packages:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+    dev: false
 
   /nanomatch/1.2.13:
     resolution: {integrity: sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA==}
@@ -33905,6 +33932,7 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.1
+    dev: false
 
   /postcss-import/14.1.0_postcss@8.4.14:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
@@ -33951,6 +33979,7 @@ packages:
       postcss: ^8.3.3
     dependencies:
       camelcase-css: 2.0.1
+    dev: false
 
   /postcss-js/4.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
@@ -34177,6 +34206,7 @@ packages:
       postcss: ^8.2.14
     dependencies:
       postcss-selector-parser: 6.0.11
+    dev: false
 
   /postcss-nested/6.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
@@ -34640,6 +34670,7 @@ packages:
       nanoid: 3.3.6
       picocolors: 1.0.0
       source-map-js: 1.0.2
+    dev: false
 
   /postmark/2.9.5:
     resolution: {integrity: sha512-F27gc6wrxdn7GADodGpECoWez7FK2Pdach7A9ni5vVZiYz1YUY7T68nvVCzxrbWCjOS7ZujyclYlq1C0a4ar1w==}
@@ -35414,6 +35445,18 @@ packages:
       react: 18.2.0
       scheduler: 0.23.0
 
+  /react-dropzone/14.2.3_react@18.2.0:
+    resolution: {integrity: sha512-O3om8I+PkFKbxCukfIR3QAGftYXDZfOE2N1mr/7qebQJHs7U+/RSL/9xomJNpRg9kM5h9soQSdf0Gc7OHF5Fug==}
+    engines: {node: '>= 10.13'}
+    peerDependencies:
+      react: '>= 16.8 || 18.0.0'
+    dependencies:
+      attr-accept: 2.2.2
+      file-selector: 0.6.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
   /react-error-boundary/3.1.3_react@18.2.0:
     resolution: {integrity: sha512-A+F9HHy9fvt9t8SNDlonq01prnU8AmkjvGKV4kk8seB9kU3xMEO8J/PQlLVmoOIDODl5U2kufSBs4vrWIqhsAA==}
     engines: {node: '>=10', npm: '>=6'}
@@ -35928,7 +35971,7 @@ packages:
       '@types/react': 18.0.15
       react: 18.2.0
       react-style-singleton: 2.2.1_3hx2ussxxho4jajbwrd6gq34qe
-      tslib: 2.4.0
+      tslib: 2.5.0
     dev: false
 
   /react-remove-scroll-bar/2.3.3_3stiutgnnbnfnf3uowm5cip22i:
@@ -36192,7 +36235,7 @@ packages:
       get-nonce: 1.0.1
       invariant: 2.2.4
       react: 18.2.0
-      tslib: 2.4.0
+      tslib: 2.5.0
     dev: false
 
   /react-style-singleton/2.2.1_3stiutgnnbnfnf3uowm5cip22i:
@@ -39890,7 +39933,7 @@ packages:
     peerDependencies:
       tailwindcss: 3.x
     dependencies:
-      tailwindcss: 3.3.0_postcss@8.4.20
+      tailwindcss: 3.3.0_postcss@8.4.14
     dev: true
 
   /tailwindcss-radix/2.8.0:
@@ -39930,6 +39973,7 @@ packages:
       sucrase: 3.31.0
     transitivePeerDependencies:
       - ts-node
+    dev: false
 
   /tailwindcss/3.3.0_postcss@8.4.14:
     resolution: {integrity: sha512-hOXlFx+YcklJ8kXiCAfk/FMyr4Pm9ck477G0m/us2344Vuj355IpoEDB5UmGAsSpTBmr+4ZhjzW04JuFXkb/fw==}
@@ -41541,7 +41585,7 @@ packages:
     dependencies:
       '@types/react': 18.0.15
       react: 18.2.0
-      tslib: 2.4.0
+      tslib: 2.5.0
     dev: false
 
   /use-callback-ref/1.3.0_3stiutgnnbnfnf3uowm5cip22i:
@@ -41628,7 +41672,7 @@ packages:
       '@types/react': 18.0.15
       detect-node-es: 1.1.0
       react: 18.2.0
-      tslib: 2.4.0
+      tslib: 2.5.0
     dev: false
 
   /use-sidecar/1.1.2_3stiutgnnbnfnf3uowm5cip22i:
