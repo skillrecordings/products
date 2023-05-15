@@ -10,3 +10,15 @@
     }
   }
 }
+
+#tip {
+  [data-video-transcript] {
+    @apply mx-auto px-0 pt-9 pb-0 max-w-none;
+    [data-title] {
+      @apply flex items-baseline text-xl mb-0 font-semibold sm:text-2xl;
+    }
+    [data-transcript] {
+      @apply pt-0;
+    }
+  }
+}

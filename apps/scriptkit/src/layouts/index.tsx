@@ -4,6 +4,7 @@ import Footer from 'components/footer'
 import Navigation from 'components/navigation'
 import {useRouter} from 'next/router'
 import qs from 'query-string'
+import {twMerge} from 'tailwind-merge'
 
 type LayoutProps = {
   meta?: NextSeoProps & {user?: string; author?: string; ogImage?: any}
@@ -11,7 +12,6 @@ type LayoutProps = {
   withFooter?: boolean
   navClassName?: string
   style?: {}
-  navigationClassName?: string
 }
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
@@ -21,10 +21,16 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   navClassName = '',
   meta,
   style,
-  navigationClassName,
 }) => {
-  const {title, description, user, author, twitter, additionalMetaTags} =
-    meta || {}
+  const {
+    title,
+    description,
+    user,
+    author,
+    twitter,
+    additionalMetaTags,
+    ogImage,
+  } = meta || {}
 
   const router = useRouter()
   const query = {title, user, author}
@@ -57,13 +63,18 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
           url,
           images: opengraphImage
             ? [{url: opengraphImage, width: 1200, height: 630}]
+            : ogImage
+            ? [{url: ogImage.url, width: 1200, height: 630}]
             : undefined,
         }}
         additionalMetaTags={additionalMetaTags}
       />
-      <div className="flex flex-col min-h-screen px-5" style={style}>
+      <div
+        className={twMerge('flex flex-col min-h-screen px-5', className)}
+        style={style}
+      >
         <Navigation className={navClassName} />
-        <div className={`flex-grow ${className}`}>{children}</div>
+        <div className="flex-grow">{children}</div>
         {withFooter && <Footer />}
       </div>
     </>

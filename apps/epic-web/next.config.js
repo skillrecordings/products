@@ -39,7 +39,13 @@ const nextConfig = {
     domains: IMAGE_HOST_DOMAINS,
   },
   async redirects() {
-    return []
+    return [
+      {
+        source: '/stack',
+        destination: '/epic-stack',
+        permanent: false,
+      },
+    ]
   },
 }
 

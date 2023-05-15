@@ -1,6 +1,6 @@
 import ConvertKitForm from 'convertkit-react/bin/convertkit-react.esm'
 
-const CK_FORM_ID = 2216586
+const CK_FORM_ID = Number(process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM)
 
 type SubscribeToConvertkitFormProps = {
   className?: string

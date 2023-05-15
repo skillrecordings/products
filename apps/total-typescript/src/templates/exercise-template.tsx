@@ -2,7 +2,7 @@ import * as React from 'react'
 import Navigation from 'components/app/navigation'
 import Layout from 'components/app/layout'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {Video} from '@skillrecordings/skill-lesson/video/video'
 import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
@@ -53,6 +53,9 @@ const ExerciseTemplate: React.FC<{
   const activeProduct = products?.products[0]
 
   const addProgressMutation = trpc.progress.add.useMutation()
+  const completeModuleMutation = trpc.convertkit.completeModule.useMutation()
+  const startModuleMutation = trpc.convertkit.startModule.useMutation()
+
   const {data: stackblitz, status: stackblitzStatus} =
     trpc.stackblitz.byExerciseSlug.useQuery({
       slug: router.query.lesson as string,
@@ -116,8 +119,22 @@ const ExerciseTemplate: React.FC<{
       muxPlayerRef={muxPlayerRef}
       exerciseSlug={router.query.lesson as string}
       path={path}
+      onModuleStarted={async () => {
+        startModuleMutation.mutate({
+          module: {
+            moduleType: module.moduleType,
+            slug: module.slug.current as string,
+          },
+        })
+      }}
       onModuleEnded={async () => {
         addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
+        completeModuleMutation.mutate({
+          module: {
+            moduleType: module.moduleType,
+            slug: module.slug.current as string,
+          },
+        })
       }}
     >
       <Layout

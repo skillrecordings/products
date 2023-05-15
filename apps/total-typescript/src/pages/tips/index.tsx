@@ -1,11 +1,11 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {getAllTips, Tip} from 'lib/tips'
+import {getAllTips, type Tip} from 'lib/tips'
 import Link from 'next/link'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {CheckCircleIcon, PlayIcon} from '@heroicons/react/solid'
 import {useRouter} from 'next/router'
-import {useTipComplete} from '../../hooks/use-tip-complete'
+import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 import Balancer from 'react-wrap-balancer'
 
 export async function getStaticProps() {
@@ -37,7 +37,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
       }}
       className="flex flex-col items-center pb-24"
     >
-      <header className="relative z-10 flex flex-col items-center pt-28 pb-16 text-center sm:pt-32 lg:pt-40 lg:pb-24">
+      <header className="relative z-10 flex flex-col items-center pb-16 pt-28 text-center sm:pt-32 lg:pb-24 lg:pt-40">
         <h1 className="text-center font-heading text-4xl font-bold sm:text-5xl">
           TypeScript Tips
         </h1>

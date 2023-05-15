@@ -1,28 +1,122 @@
+import * as React from 'react'
 import Layout from 'components/layout'
-import type {NextPage} from 'next'
-import {trpc} from '../trpc/trpc.client'
-import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import type {GetServerSideProps} from 'next'
+import {getToken} from 'next-auth/jwt'
+import {isEmpty} from 'lodash'
+import {useRouter} from 'next/router'
+import toast from 'react-hot-toast'
+import {SanityDocument} from '@sanity/client'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
+import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {getCurrentAbility} from '@skillrecordings/ability'
+import {getAllProducts, getActiveProduct} from 'server/products.server'
+import {getAllPlaylists} from 'lib/playlists'
+import {getAllTestimonials} from 'lib/testimonials'
+import {getAllFaqs} from 'lib/faqs'
+import {getAllInterviews} from 'lib/interviews'
+import type {TestimonialProps, FaqProps, InterviewProps} from '@types'
 
-const useAbilities = () => {
-  const {data: abilityRules} = trpc.abilities.getAbilities.useQuery()
+import LandingTemplate from 'templates/landing-template'
 
-  return createAppAbility(abilityRules || [])
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+  const sessionToken = await getToken({req})
+  const testimonials = await getAllTestimonials()
+  const faqs = await getAllFaqs()
+  const playlists = await getAllPlaylists()
+  const interviews = await getAllInterviews()
+
+  const ability = getCurrentAbility(sessionToken as any)
+  const canViewContent = ability.can('view', 'Content')
+  const hasChargesForPurchases = ability.can('view', 'Invoice')
+  const hasBulkPurchase = ability.can('view', 'Team')
+  const hasAvailableSeats = ability.can('invite', 'Team')
+
+  const token = await getToken({req})
+  const products = await getAllProducts()
+  const {props: commerceProps} = await propsForCommerce({
+    query,
+    token,
+    products,
+  })
+  return {
+    props: {
+      commerceProps,
+      playlists,
+      testimonials,
+      faqs,
+      interviews,
+      canViewContent,
+      hasChargesForPurchases,
+      hasBulkPurchase,
+      hasAvailableSeats,
+    },
+  }
 }
 
-const Home: NextPage = () => {
-  const ability = useAbilities()
-  const canViewTeam = ability.can('view', 'Team')
-  const canViewInvoice = ability.can('view', 'Invoice')
+const Home: React.FC<
+  React.PropsWithChildren<{
+    commerceProps: CommerceProps
+    playlists: SanityDocument[]
+    testimonials: TestimonialProps[]
+    faqs: FaqProps[]
+    interviews: InterviewProps[]
+    canViewContent: boolean
+    hasChargesForPurchases: boolean
+    hasBulkPurchase: boolean
+    hasAvailableSeats: boolean
+  }>
+> = ({
+  commerceProps,
+  playlists,
+  testimonials,
+  faqs,
+  interviews,
+  canViewContent,
+  hasChargesForPurchases,
+  hasBulkPurchase,
+  hasAvailableSeats,
+}) => {
+  const router = useRouter()
+  const {
+    couponFromCode,
+    purchases = [],
+    userId,
+    products = [],
+    couponIdFromCoupon,
+    defaultCoupon,
+  } = commerceProps
+
+  const proTestingPurchased =
+    canViewContent &&
+    !isEmpty(
+      purchases.filter(
+        (item) => item.productId === 'kcd_4f0b26ee-d61d-4245-a204-26f5774355a5',
+      ),
+    )
+
+  React.useEffect(() => {
+    const {query} = router
+    if (query.message) {
+      toast(query.message as string, {
+        icon: '✅',
+      })
+    }
+  }, [router])
+
+  const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
 
   return (
     <Layout>
-      <h1 className="text-4xl text-primary-500 font-bold flex items-center justify-center grow">
-        Hi! 👋
-      </h1>
-      <ul>
-        <li>Can View Invoice: {canViewInvoice ? 'true' : 'false'}</li>
-        <li>Can View Team: {canViewTeam ? 'true' : 'false'}</li>
-      </ul>
+      <LandingTemplate
+        isPro={canViewContent}
+        playlists={playlists}
+        testimonials={testimonials}
+        faqs={faqs}
+        interviews={interviews}
+        proTestingPurchased={proTestingPurchased}
+      />
+      {/* {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
     </Layout>
   )
 }

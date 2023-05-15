@@ -8,6 +8,8 @@ import videoResource from './documents/videoResource'
 import linkResource from './documents/linkResource'
 import tip from './documents/tip'
 import testimonial from './documents/testimonial'
+import faq from './documents/faq'
+import interview from './documents/interview'
 import pricing from './documents/pricing'
 import product from './documents/product'
 import article from './documents/article'
@@ -43,6 +45,8 @@ export const schemaTypes = [
   linkResource,
   tip,
   testimonial,
+  faq,
+  interview,
   section,
   pricing,
   product,

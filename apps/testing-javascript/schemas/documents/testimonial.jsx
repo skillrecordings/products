@@ -1,7 +1,5 @@
 import * as React from 'react'
-import {capitalize, truncate} from 'lodash'
 import {MdQuestionAnswer} from 'react-icons/md'
-import {toPlainText} from '@portabletext/react'
 
 export default {
   name: 'testimonial',
@@ -10,50 +8,39 @@ export default {
   icon: MdQuestionAnswer,
   fields: [
     {
-      name: 'body',
-      title: 'Testimonial',
-      type: 'body',
+      name: 'text',
+      title: 'Text',
+      type: 'string',
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'author',
-      title: 'Author',
-      type: 'object',
-      fields: [
-        {
-          name: 'name',
-          title: 'Name',
-          type: 'string',
-        },
-        {
-          name: 'title',
-          title: 'Title',
-          type: 'string',
-        },
-        {
-          name: 'image',
-          title: 'Image',
-          type: 'image',
-        },
-      ],
+      name: 'name',
+      title: 'Author name',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
     },
     {
-      name: 'external_url',
-      title: 'External URL',
-      type: 'url',
+      name: 'title',
+      title: 'Author title',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'image',
+      title: 'Author portrait',
+      type: 'externalImage',
+      validation: (Rule) => Rule.required(),
     },
   ],
   preview: {
     select: {
-      title: 'body',
-      media: 'author.image.asset.url',
+      title: 'text',
+      media: 'image.url',
     },
     prepare(selection) {
-      const {title, media, type} = selection
+      const {media, title} = selection
       return {
-        title: `${truncate(toPlainText(title), {
-          length: 60,
-        })} ${capitalize(type)}`,
+        title: title,
         media: media && <img src={media} alt={title} />,
       }
     },

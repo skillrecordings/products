@@ -7,7 +7,7 @@ const NewsletterPage = () => {
   const ogImage = getOgImage(title)
 
   return (
-    <Layout meta={{title, ogImage}} className="w-full">
+    <Layout meta={{title, openGraph: {images: [ogImage]}}} className="w-full">
       <main className="w-full mx-auto">
         <PrimaryNewsletterCta />
       </main>

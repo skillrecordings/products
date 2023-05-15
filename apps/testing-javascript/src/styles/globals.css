@@ -10,13 +10,14 @@
 @import './focus-visible.css';
 @import './pricing.css';
 @import './miscellaneous.css';
+@import './team.css';
 
 @layer base {
   html {
     @apply antialiased;
   }
   body {
-    @apply text-xl leading-normal text-body font-tt-regular;
+    @apply text-xl md:text-[1.375rem] leading-normal text-body font-tt-regular;
   }
   h1,
   h2,

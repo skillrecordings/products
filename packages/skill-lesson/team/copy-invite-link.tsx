@@ -11,7 +11,7 @@ const CopyInviteLink: React.FC<
 
   return (
     <div data-copy-invite-link="">
-      <label htmlFor="inviteLink">Invite Share Link</label>
+      <label htmlFor="inviteLink">Invite link</label>
       <div>
         <input
           readOnly

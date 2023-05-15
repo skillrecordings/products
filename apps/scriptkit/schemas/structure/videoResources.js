@@ -1,9 +1,9 @@
-import {HiOutlinePuzzle} from 'react-icons/hi'
+import {HiPlay} from 'react-icons/hi'
 
 const exercises = (S) =>
   S.listItem()
     .title('Videos')
-    .icon(HiOutlinePuzzle)
+    .icon(HiPlay)
     .child(S.documentTypeList('videoResource').title('All Videos'))
 
 export default exercises

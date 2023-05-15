@@ -4,17 +4,17 @@ import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 
 import Layout from 'components/layout'
-import {Pricing} from 'path-to-purchase-react/pricing'
-import {getActiveProducts} from 'server/products.server'
-import {useCoupon} from 'path-to-purchase-react/use-coupon'
-import {PriceCheckProvider} from 'path-to-purchase-react/pricing-check-context'
+import {Pricing} from 'path-to-purchase/pricing'
+import {getAllProducts} from 'server/products.server'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
   const token = await getToken({req})
-  const products = await getActiveProducts()
+  const products = await getAllProducts()
 
   return await propsForCommerce({query, token, products})
 }
@@ -33,15 +33,16 @@ const Buy: React.FC<CommerceProps> = ({
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
 
-  const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+  const purchasedProductsIds = purchases.map((purchase) => purchase.productId)
 
   return (
     <Layout
       meta={{
         title: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE} Workshops`,
+        // TODO: Use correct image and alt here
         ogImage: {
           url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1673953704/buy-card_2x.png',
-          alt: 'Professional Tailwind CSS Workshops',
+          alt: 'Testing Javascript Workshops',
         },
       }}
       className="py-16"
@@ -55,7 +56,7 @@ const Buy: React.FC<CommerceProps> = ({
         </h3>
       </header>
       <main>
-        <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+        <PriceCheckProvider purchasedProductsIds={purchasedProductsIds}>
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
           <div className="flex flex-col lg:flex-row justify-center gap-6 mt-32 items-start">
             {products.map((product, i) => {
@@ -64,7 +65,7 @@ const Buy: React.FC<CommerceProps> = ({
                   key={product.name}
                   userId={userId}
                   product={product}
-                  purchased={purchasedProductIds.includes(product.productId)}
+                  purchased={purchasedProductsIds.includes(product.productId)}
                   purchases={purchases}
                   index={i}
                   couponId={couponId}

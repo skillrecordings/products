@@ -1,10 +1,10 @@
 import React from 'react'
 import Layout from 'layouts'
-import {getAllTips, getTip, Tip} from 'lib/tips'
+import {getAllTips, type Tip} from 'lib/tips'
 import Link from 'next/link'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {useRouter} from 'next/router'
-import {useTipComplete} from 'hooks/use-tip-complete'
+import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 import Icon from 'components/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
@@ -23,32 +23,26 @@ type TipsIndex = {
 const pageDescription = 'A collection of valuable tips.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
-  const tipsAllowed = process.env.NEXT_PUBLIC_TIPS_ALLOWED === 'true'
   return (
     <Layout
       meta={{
-        title: `EpicScriptKit Tips by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
+        title: `ScriptKit Tips by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
         description: pageDescription,
       }}
-      className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pb-24 lg:pt-20"
     >
-      {tipsAllowed ? (
-        <>
-          <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
-            <h1 className="font-heading text-center text-4xl font-black sm:text-5xl lg:text-6xl">
-              Tips
-            </h1>
-            <p className="max-w-md pt-8 text-center text-lg text-gray-600 lg:text-xl">
-              {pageDescription}
-            </p>
-          </header>
-          <main className="relative z-10 mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
-            {tips.map((tip) => {
-              return <TipCard tip={tip} key={tip.slug} />
-            })}
-          </main>
-        </>
-      ) : null}
+      <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
+        <h1 className="font-heading text-center text-4xl font-black sm:text-5xl lg:text-6xl">
+          Tips
+        </h1>
+        <p className="max-w-md pt-8 text-center text-lg text-gray-600 lg:text-xl">
+          {pageDescription}
+        </p>
+      </header>
+      <main className="relative z-10 mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
+        {tips.map((tip) => {
+          return <TipCard tip={tip} key={tip.slug} />
+        })}
+      </main>
     </Layout>
   )
 }
@@ -64,8 +58,8 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
-    <article className="flex flex-col items-center overflow-hidden rounded-xl bg-white shadow-2xl shadow-gray-500/20">
-      <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-gray-100">
+    <article className="flex flex-col items-center overflow-hidden rounded-xl border border-gray-900">
+      <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-gray-900">
         <button
           onClick={() => {
             router
@@ -117,7 +111,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
             Tip
           </div>
         </div>
-        <h2 className="pt-2 text-base font-semibold leading-tight text-black sm:text-xl">
+        <h2 className="pt-2 text-base font-semibold leading-tight text-white sm:text-xl">
           <Link
             href={{
               pathname: '/tips/[tip]',
@@ -142,7 +136,6 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   }`
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
-  // const tipCompleted = false
 
   return (
     <article className="flex items-center gap-5 py-4">

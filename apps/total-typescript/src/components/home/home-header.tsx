@@ -24,7 +24,7 @@ const ExpertTitle = () => {
 export const Header = ({level}: {level?: SkillLevel}) => {
   const Title = level && level.rank > 3 ? ExpertTitle : DefaultTitle
   return (
-    <header className="relative flex flex-col items-center justify-center overflow-hidden px-5">
+    <header className="relative flex flex-col items-center justify-center overflow-hidden px-5 pt-24 sm:pt-0">
       <div className="relative z-10 flex w-full max-w-screen-lg flex-col-reverse items-center lg:min-h-[80vh] lg:flex-row">
         <div className="relative z-10 max-w-2xl pb-10 lg:py-48 lg:pb-48">
           <h1 className="mt-16 w-full max-w-[14ch] font-heading text-4xl font-normal leading-[1.25] sm:mt-0 sm:text-5xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.15] xl:text-6xl xl:leading-[1.15]">

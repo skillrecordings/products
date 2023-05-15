@@ -1,0 +1,50 @@
+@tailwind base;
+
+@tailwind components;
+@import './quiz.css';
+@import './primary-newsletter-cta.css';
+@import './tips.css';
+@import './nprogress.css';
+
+@import './video/github-link.css';
+@import './video/lesson-completion-toggle.css';
+@import './video/lesson-description.css';
+@import './video/lesson-title.css';
+@import './video/module-lesson-list.css';
+@import './video/video-overlays.css';
+@import './video/video-transcript.css';
+@import './video/module-navigator.css';
+
+@import '@code-hike/mdx/dist/index.css';
+@import url('https://fast.fonts.net/t/1.css?apiType=css&projectid=86246456-290f-4415-a71d-1ea53f9afeff');
+
+@tailwind utilities;
+@import './focus-visible.css';
+
+body {
+  @apply text-black selection:bg-brand-primary-light selection:text-white;
+}
+
+mux-player {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  margin-bottom: -6px;
+}
+
+mux-player::part(center play button) {
+  @apply sm:scale-50;
+}
+
+mux-player::part(vertical-layer) {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+body {
+  cursor: url('/cursor-pointer.svg'), auto;
+}
+
+button,
+a {
+  cursor: url('/cursor-hand.svg'), auto;
+}

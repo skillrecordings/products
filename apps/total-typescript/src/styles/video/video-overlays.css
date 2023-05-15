@@ -54,10 +54,10 @@
         @apply relative;
       }
       [data-title] {
-        @apply text-4xl font-semibold;
+        @apply text-3xl font-semibold;
       }
       [data-subtitle] {
-        @apply pb-5 text-xl;
+        @apply pb-5 text-lg;
       }
       [data-nospam] {
         @apply pt-2 text-base opacity-80;
@@ -67,7 +67,7 @@
   [data-col='2'] {
     @apply sm:pr-5;
     [data-markdown] {
-      @apply prose relative flex w-full max-w-2xl flex-col border-gray-700/50 bg-gray-800 p-5 text-white shadow-2xl xl:prose-lg 2xl:prose-base before:absolute before:left-1/2 before:top-[-8px] before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50 before:bg-gray-800 before:content-[''] prose-p:mb-0 prose-p:text-gray-300 sm:rounded-lg sm:border xl:max-w-lg xl:bg-transparent xl:before:hidden xl:prose-p:mb-0 2xl:prose-p:mb-0;
+      @apply prose prose-sm relative flex w-full max-w-2xl flex-col border-gray-700/50 bg-gray-800 p-5 text-white shadow-2xl xl:prose-lg 2xl:prose-base before:absolute before:left-1/2 before:top-[-8px] before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50 before:bg-gray-800 before:content-[''] prose-p:mb-0 prose-p:text-gray-300 sm:rounded-lg sm:border xl:max-w-lg xl:bg-transparent xl:before:hidden xl:prose-p:mb-0 2xl:prose-p:mb-0;
       [data-title] {
         @apply mt-0 text-2xl font-semibold sm:text-3xl;
       }

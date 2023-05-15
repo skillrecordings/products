@@ -1,0 +1,151 @@
+import Image from 'next/legacy/image'
+import {CheckMarkItem, QuestionMarkItem} from 'components/lists'
+
+## Why bother testing your JavaScript?
+
+When a user encounters a bug they look like this: 🤬
+
+Bugs grind work to a halt.
+
+Bugs cause financial harm.
+
+Every single time a bug is encountered, user trust erodes.
+
+Bugs are bad.
+
+And who gets blamed?
+
+**You.**
+
+The developer.
+
+You _know_ you should squash bugs before your code is deployed.
+
+You _know_ you need to ship code that:
+
+<ul>
+  <CheckMarkItem>
+    Takes every opportunity to guarantee that it works.
+  </CheckMarkItem>
+  <CheckMarkItem>Doesn’t punish users with unnecessary bugs.</CheckMarkItem>
+  <CheckMarkItem>
+    Doesn’t play whack-a-mole with features, fixing one thing only to break
+    another.
+  </CheckMarkItem>
+  <CheckMarkItem>
+    Is maintainable and understandable to your co-workers.
+  </CheckMarkItem>
+</ul>
+
+A professional ships working code. Code that works.
+
+We’re talking about **code that is well tested**. Only through testing can you confidently deliver confident, professional code.
+
+Why aren’t you testing code that users rely on?
+
+When code fails on your users, have you failed to do your job?
+
+You should do your job as well as possible and test, right?
+
+Right.
+
+Just one problem...
+
+## “Testing takes too much time and effort.”
+
+**There’s no time.** You’re busy already.
+
+**There’s no obvious ROI.** You can’t get the buy-in or budget for testing efforts.
+
+**There’s no way to test everything.** Most testing is click click clicking around every turn of your application. It takes forever and feels like a waste of time—time you want to spend shipping new features, not QAing.
+
+Nobody has time for that. But one way or another, your application **will** be tested. If not by you, then by your users.
+
+**Cross your fingers and push to prod.**
+
+So... click click click hope for the best? That’s what we’re doing?
+
+If we want to ship high-quality, well-tested JavaScript applications there has to be a better way.
+
+## Imagine outsourcing the heavy lifting of testing your application.
+
+You're a developer.
+
+You know humans are bad at complex, repetitive tasks.
+
+You also know that **_computers_ are very, very good at complex, repetitive tasks.**
+
+Professional developers use computers to automate testing of critical paths, behaviors, and all the little things—over and over and over again, all day and all night.
+
+That’s how professional developers get things done... and done well.
+
+**Automated tests are the pro move.**
+
+**Automated tests are your backup, your muscle.**
+
+**Automated tests are your secret weapon...**
+
+But before you can _build_ those tests, you need to know:
+
+<ul>
+  <QuestionMarkItem>_What should I test?_</QuestionMarkItem>
+  <QuestionMarkItem>_When do I test it?_</QuestionMarkItem>
+  <QuestionMarkItem>_Do I need 100% coverage?_</QuestionMarkItem>
+  <QuestionMarkItem>_How many tests are enough?_</QuestionMarkItem>
+</ul>
+
+You could scour the internet to find the right alchemy of testing tools and techniques — or you could skip the analysis paralysis and go right to application success with a proven testing method.
+
+<div className="mt-8 mx-auto max-w-[300px] w-full">
+  <Image
+    className="rounded-xl shadow-2xl"
+    src={require('../../../public/images/illos/the-testing-trophy.png')}
+    placeholder="blur"
+    quality={100}
+    alt="screenshot of booking UI app we will be building"
+  />
+</div>
+
+By using this proven testing method, you’ll layer these techniques:
+
+<ul>
+  <CheckMarkItem>
+    **Use a static type system and a linter** to capture basic errors like typos
+    and syntax.
+  </CheckMarkItem>
+  <CheckMarkItem>
+    **Write effective unit tests** that target the critical behavior and
+    functionality of your application.
+  </CheckMarkItem>
+  <CheckMarkItem>
+    **Develop integration tests** to audit your application holistically and
+    make sure everything works together correctly in harmony.
+  </CheckMarkItem>
+  <CheckMarkItem>
+    **Create end-to-end (e2e) functional tests** for automated click-testing of
+    critical paths instead of relying on your users to do it for you.
+  </CheckMarkItem>
+</ul>
+
+These four layers of automated testing give you the playbook to ship professional JavaScript applications with confidence, speed, and money savings. Every time.
+
+## One professional method of testing every JavaScript application
+
+This course will apply the four-layer testing method to a React application, but this foundational strategy can be applied across any JavaScript framework: **Angular, Vue, legacy Backbone apps, even frameworks and libraries we haven’t met yet.**
+
+Following this course, you’ll be equipped to:
+
+<ul>
+  <CheckMarkItem>
+    deliver solid features that work for users as expected
+  </CheckMarkItem>
+  <CheckMarkItem>choose the best tools for the job</CheckMarkItem>
+  <CheckMarkItem>
+    communicate more effectively with your coworkers
+  </CheckMarkItem>
+  <CheckMarkItem>
+    be a more confident, professional JavaScript developer
+  </CheckMarkItem>
+</ul>
+
+Learn the professional method for JavaScript testing and always ship high quality software like the professional you are.

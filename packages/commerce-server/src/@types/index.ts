@@ -45,16 +45,7 @@ export type SanityProduct = {
     alt: string
   }
   summary?: PortableTextBlock
-  modules: {
-    slug: string
-    moduleType: 'workshop' | 'playlist' | 'bonus'
-    title: string
-    state?: 'draft' | 'published'
-    image: {
-      url: string
-      alt: string
-    }
-  }[]
+  modules: SanityProductModule[]
   lessons?: {
     title: string
     state?: 'draft' | 'published'
@@ -70,4 +61,38 @@ export type SanityProduct = {
     name: string
     image: string
   }
+}
+
+export type SanityProductModule = {
+  slug: string
+  moduleType: 'workshop' | 'playlist' | 'bonus'
+  title: string
+  state?: 'draft' | 'published'
+  image: {
+    url: string
+    alt: string
+  }
+  sections?: {
+    _id: string
+    title: string
+    slug: string
+    lessons?: {
+      title: string
+      state?: 'draft' | 'published'
+      slug: string
+      image: {
+        url: string
+        alt: string
+      }
+    }[]
+  }[]
+  lessons?: {
+    title: string
+    state?: 'draft' | 'published'
+    slug: string
+    image: {
+      url: string
+      alt: string
+    }
+  }[]
 }

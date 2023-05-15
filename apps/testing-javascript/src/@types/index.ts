@@ -1,4 +1,5 @@
 import {StaticImageData} from 'next/legacy/image'
+import type {PortableTextBlock} from '@portabletext/types'
 import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
 
 export type Contributor = {
@@ -37,4 +38,36 @@ export type LayoutProps = {
   footer?: React.ReactElement | null
   defaultCoupon?: DefaultCoupon
   children?: any
+}
+
+export type TestimonialProps = {
+  text: string
+  name: string
+  title: string
+  image: {
+    url: string
+    alt: string
+  }
+}
+
+export type FaqProps = {
+  question: string
+  answer: PortableTextBlock
+}
+
+export type InterviewProps = {
+  isMultiple: boolean
+  description: PortableTextBlock
+  title: string
+  slug: string
+  portraits: {
+    image1: {
+      alt: string
+      url: string
+    }
+    image2?: {
+      alt: string
+      url: string
+    }
+  }
 }

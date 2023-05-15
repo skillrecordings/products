@@ -50,6 +50,29 @@ export const getProducts = async (productIds: string[]) => {
   return products
 }
 
+export const getAllProducts = async () => {
+  const products = await sanityClient.fetch(
+    groq`*[_type == 'product'][]{
+    _id,
+    title,
+    description,
+    productId,
+    "slug": slug.current,
+    _id,
+    image {
+      url,
+      alt
+    },
+    "modules" : modules[]->{
+      title,
+      "slug": slug.current,
+      "image": image.asset->{url, alt},
+    }
+    }`,
+  )
+  return products
+}
+
 export const getModuleProducts = async (productIds: string[]) => {
   const products = await sanityClient.fetch(
     groq`*[_type == "module" && moduleType == 'workshop' && !(null in resources[].productId)] | order(_createdAt desc) {

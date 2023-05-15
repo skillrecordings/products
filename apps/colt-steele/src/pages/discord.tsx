@@ -9,8 +9,12 @@ const Discord = () => {
     <Layout
       meta={{
         title: 'Join Colt Steele on Discord',
-        ogImage: {
-          url: `${process.env.NEXT_PUBLIC_URL}/discord-card@2x.png`,
+        openGraph: {
+          images: [
+            {
+              url: `${process.env.NEXT_PUBLIC_URL}/discord-card@2x.png`,
+            },
+          ],
         },
       }}
     >

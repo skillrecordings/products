@@ -1,9 +1,7 @@
 import React from 'react'
-import SelfRedeemButton from './self-redeem-button'
-import CopyInviteLink from './copy-invite-link'
-import {z} from 'zod'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import Spinner from '../spinner'
+import {isEmpty} from 'lodash'
 
 type ClaimedTeamSeatsProps = {
   purchase: {
@@ -26,22 +24,24 @@ export const ClaimedTeamSeats: React.FC<
     couponId: purchase?.bulkCoupon?.id,
   })
 
-  console.log(claims)
-
   return (
     <div data-claimed-seats-team="">
       {status === 'loading' ? (
-        <div data-loading-price="">
-          <span className="sr-only">Loading price</span>
-          <Spinner aria-hidden="true" className="h-8 w-8" />
+        <div>
+          <span className="sr-only">Loading claimed seats</span>
+          <Spinner aria-hidden="true" className="h-6 w-6" />
         </div>
       ) : (
         <>
-          {claims?.map((claim) => (
-            <div data-invite-team-table-row="" key={claim.user?.email}>
-              <div data-invite-team-table-cell="">{claim.user?.email}</div>
-            </div>
-          ))}
+          {!isEmpty(claims) ? (
+            claims?.map((claim) => (
+              <div data-claimed-seat="" key={claim.user?.email}>
+                {claim.user?.email}
+              </div>
+            ))
+          ) : (
+            <div data-claimed-seat="empty">No one has claimed a seat yet.</div>
+          )}
         </>
       )}
     </div>
