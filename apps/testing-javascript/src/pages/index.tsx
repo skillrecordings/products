@@ -115,6 +115,7 @@ const Home: React.FC<
         faqs={faqs}
         interviews={interviews}
         proTestingPurchased={proTestingPurchased}
+        commerceProps={commerceProps}
       />
       {/* {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
     </Layout>
