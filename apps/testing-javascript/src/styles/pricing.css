@@ -1,5 +1,5 @@
 [data-pricing-product-name] {
-  @apply w-full px-6 pb-6 sm:max-w-[350px] lg:max-w-[300px] relative rounded-lg border border-zinc-100 bg-white;
+  @apply w-full px-6 pb-6 max-w-[400px] lg:max-w-[350px] relative rounded-lg border border-zinc-100 bg-white;
 }
 
 [data-pricing-image-container] {
@@ -7,7 +7,7 @@
 }
 
 [data-pricing-product-name='Pro Testing'] {
-  @apply order-first lg:order-2 max-w-[350px] shrink-0 pt-28 border-none;
+  @apply order-first lg:order-2 shrink-0 pt-28 border-none;
   box-shadow: 0 10px 100px -10px rgba(0, 0, 0, 0.1);
   [data-pricing-image-container] {
     @apply w-52 h-52 top-[-106px];
