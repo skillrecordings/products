@@ -136,7 +136,7 @@ const TipTemplate: React.FC<{
           <article className="relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 xl:border-gray-800 xl:pt-10">
             <div className="mx-auto w-full max-w-screen-xl pb-5">
               <div className="flex flex-col gap-0 sm:gap-10 xl:grid grid-cols-5">
-                <div className="col-span-3 xl:pl-5">
+                <div className="col-span-3 xl:pl-5 flex flex-col items-start">
                   <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-4xl font-black sm:text-5xl lg:text-6xl text-gray-800">
                     <Balancer>{tip.title}</Balancer>
                     {tipCompleted && <span className="sr-only">(watched)</span>}
@@ -154,7 +154,7 @@ const TipTemplate: React.FC<{
                   )}
                   {tipBody && (
                     <>
-                      <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg text-gray-800">
+                      <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg text-gray-800 lg:prose-h2:text-4xl lg:prose-h3:text-3xl lg:prose-h4:text-2xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl">
                         <MDX contents={tipBody} />
                       </div>
                       <Hr className="bg-brand-red" />

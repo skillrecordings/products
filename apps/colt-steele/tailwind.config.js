@@ -56,12 +56,12 @@ module.exports = {
     require('@tailwindcss/typography'),
     function ({addComponents}) {
       addComponents({
-        '.prose h1': {fontSize: '2.75rem', color: colors.stone[800]},
-        '.prose h2': {fontSize: '2.33rem', color: colors.stone[800]},
-        '.prose h3': {fontSize: '2rem', color: colors.stone[800]},
-        '.prose h4': {fontSize: '1.75rem', color: colors.stone[800]},
-        '.prose h5': {fontSize: '1.5rem', color: colors.stone[800]},
-        '.prose h6': {fontSize: '1.25rem', color: colors.stone[800]},
+        '.prose h1': {color: colors.stone[800]},
+        '.prose h2': {color: colors.stone[800]},
+        '.prose h3': {color: colors.stone[800]},
+        '.prose h4': {color: colors.stone[800]},
+        '.prose h5': {color: colors.stone[800]},
+        '.prose h6': {color: colors.stone[800]},
       })
     },
     require('tailwind-scrollbar'),
