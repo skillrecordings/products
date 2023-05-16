@@ -32,18 +32,22 @@
     @apply duration-200 block;
   }
 }
-[data-pricing-product-checkout-button]:hover span {
+[data-pricing-product-checkout-button]:hover span,
+[data-pricing-buy-more-seats]:hover span {
   @apply scale-105;
 }
-[data-pricing-product-checkout-button='Pro Testing'][type='submit'] {
+[data-pricing-product-checkout-button='Pro Testing'][type='submit'],
+[data-pricing-buy-more-seats='Pro Testing'] {
   @apply px-5 py-4 text-xl leading-snug bg-gradient-to-b from-[#ffc26a] to-[#ffa82e] text-white border-none;
   box-shadow: inset 1px -1px 3px 0 #f0a233;
   text-shadow: 0 1px 2px #c98b33;
 }
-[data-pricing-product-checkout-button='Standard Testing'][type='submit'] {
+[data-pricing-product-checkout-button='Standard Testing'][type='submit'],
+[data-pricing-buy-more-seats='Standard Testing'] {
   @apply px-5 py-3 text-xl leading-snug text-[#A0A1AD] hover:bg-gradient-to-b from-[#A0A1AD] to-[#90919D] hover:text-white border border-[#A0A1AD];
 }
-[data-pricing-product-checkout-button='Basic Testing'][type='submit'] {
+[data-pricing-product-checkout-button='Basic Testing'][type='submit'],
+[data-pricing-buy-more-seats='Basic Testing'] {
   @apply px-5 py-3 text-xl leading-snug text-[#C77D5F] hover:bg-gradient-to-b from-[#C77D5F] to-[#AB6B51] hover:text-white border border-[#C77D5F];
 }
 
