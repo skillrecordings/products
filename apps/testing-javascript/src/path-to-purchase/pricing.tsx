@@ -4,6 +4,7 @@ import {
   PortableTextComponents as PortableTextComponentsType,
 } from '@portabletext/react'
 import Link from 'next/link'
+import cx from 'classnames'
 import * as Switch from '@radix-ui/react-switch'
 import Image from 'next/legacy/image'
 import find from 'lodash/find'
@@ -426,16 +427,24 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             {features && (
               <>
                 <h4 className="font-tt-demibold mt-6">Features</h4>
-                <ul className="leading-tight space-y-2 mt-1" role="list">
-                  {features.map((feature: {value: string}) => (
-                    <li key={feature.value} className="flex">
-                      <Icon
-                        name="check-circle"
-                        className="w-5 h-5 mr-2 shrink-0 mt-0.5 text-checkmark"
-                      />
-                      <p>{feature.value}</p>
-                    </li>
-                  ))}
+                <ul className="leading-snug space-y-3 mt-1" role="list">
+                  {features.map((feature: any) => {
+                    return (
+                      <li key={feature.value} className="flex">
+                        <Icon
+                          name="check-circle"
+                          className="w-5 h-5 mr-2 shrink-0 mt-1 text-checkmark"
+                        />
+                        <p
+                          className={cx({
+                            'font-tt-demibold': feature.isEmphasized,
+                          })}
+                        >
+                          {feature.value}
+                        </p>
+                      </li>
+                    )
+                  })}
                 </ul>
               </>
             )}
