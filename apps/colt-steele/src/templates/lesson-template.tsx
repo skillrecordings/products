@@ -31,6 +31,7 @@ import Spinner from 'components/spinner'
 import pluralize from 'pluralize'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {getOgImage} from 'utils/get-og-image'
 
 const LessonTemplate: React.FC<{
   transcript: string
@@ -106,7 +107,10 @@ const LessonTemplate: React.FC<{
         meta={{
           title: pageTitle,
           ...shareCard,
-          openGraph: {description: pageDescription as string},
+          openGraph: {
+            description: pageDescription as string,
+            images: [getOgImage({title})],
+          },
         }}
         navigationProps={{className: 'w-full max-w-none'}}
         withFooter={false}
@@ -145,12 +149,12 @@ const LessonTemplate: React.FC<{
                 section={section}
                 path={path}
               />
-              <div className="relative hidden flex-grow 2xl:block">
+              <div className="relative hidden flex-grow 2xl:block pt-10">
                 <VideoTranscript transcript={transcript} />
               </div>
             </div>
             <article className="relative flex-shrink-0 2xl:w-full 2xl:max-w-md">
-              <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-6 2xl:max-w-xl">
+              <div className="relative z-10 mx-auto max-w-4xl py-5 sm:px-8 px-5 lg:py-6 2xl:max-w-xl">
                 <LessonTitle />
                 {/* {openFile && (
                   <GitHubLink
@@ -171,9 +175,9 @@ const LessonTemplate: React.FC<{
                 {(lesson._type === 'solution' ||
                   lesson._type === 'explainer') &&
                   session && <LessonCompletionToggle />}
-              </div>
-              <div className="relative z-10 block flex-grow 2xl:hidden">
-                <VideoTranscript transcript={transcript} />
+                <div className="relative z-10 block flex-grow 2xl:hidden pt-10">
+                  <VideoTranscript transcript={transcript} />
+                </div>
               </div>
             </article>
           </main>

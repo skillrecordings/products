@@ -29,6 +29,9 @@ module.exports = {
           cola: '#383529',
         },
       },
+      screens: {
+        '2xl': '1820px',
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {

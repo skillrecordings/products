@@ -19,7 +19,7 @@
             @apply pl-1 text-xs text-gray-400;
           }
           h2 {
-            @apply w-full text-2xl font-semibold leading-none;
+            @apply w-full text-2xl font-heading font-bold leading-none;
             a {
               @apply hover:underline;
             }
@@ -48,12 +48,12 @@
   }
 }
 [data-module-lesson-list] {
-  @apply relative h-[400px] overflow-y-auto bg-gray-100 pb-16 scrollbar-thin scrollbar-thumb-gray-800/70 hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-116px)];
+  @apply relative h-[400px] overflow-y-auto bg-gray-100 pb-16 scrollbar-thin scrollbar-thumb-gray-800/70 hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-128px)];
   /* sections */
   [data-sections] {
     @apply relative;
     [data-accordion-header] {
-      @apply sticky top-0 z-10 overflow-hidden bg-white;
+      @apply sticky top-0 z-10 overflow-hidden;
       [data-accordion-trigger] {
         @apply relative z-10 flex w-full items-center justify-between border-b border-gray-100 bg-white py-3 pl-3 pr-4 text-left text-lg font-semibold leading-tight transition hover:bg-gray-50;
         [data-icons] {
@@ -121,10 +121,10 @@
       /* problem */
       [data-problem] {
         a {
-          @apply flex w-full items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-gray-800/50 hover:text-white;
+          @apply flex w-full items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-brand-cultured;
         }
         a[data-is-active='true'] {
-          @apply border-orange-400 bg-gray-800/80 text-white;
+          @apply border-brand-red bg-white hover:bg-brand-cultured;
         }
         a[data-is-active='false'] {
           @apply border-transparent;
@@ -136,7 +136,7 @@
       }
       [data-exercise] {
         a {
-          @apply flex w-full items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-gray-800/50 hover:text-white;
+          @apply flex w-full items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-brand-cultured;
         }
         a[data-is-active='true'] {
           @apply border-indigo-400 bg-gray-800/80 text-white;
@@ -148,7 +148,7 @@
       /* solution */
       [data-solution] {
         a {
-          @apply flex items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-gray-800/50 hover:text-white;
+          @apply flex items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-brand-cultured;
         }
         a[data-is-active='true'] {
           @apply border-cyan-400 bg-gray-800/80 text-white;
