@@ -32,7 +32,7 @@ import {usePriceCheck} from '@skillrecordings/skill-lesson/path-to-purchase/pric
 import {trpc} from 'trpc/trpc.client'
 // import Balancer from 'react-wrap-balancer'
 import {isSellingLive} from '@skillrecordings/skill-lesson/utils/is-selling-live'
-// import BuyMoreSeats from 'team/buy-more-seats'
+import BuyMoreSeats from './buy-more-seats'
 import Icon from 'components/icons'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
@@ -199,9 +199,13 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               <div data-purchased="">
                 <CheckCircleIcon aria-hidden="true" /> Purchased
               </div>
-              {/* <div className="flex flex-col justify-center">
-                <BuyMoreSeats productId={productId} userId={userId as string} />
-              </div> */}
+              <div className="flex flex-col justify-center">
+                <BuyMoreSeats
+                  productName={name}
+                  productId={productId}
+                  userId={userId as string}
+                />
+              </div>
             </div>
           </>
         ) : isSellingLive || allowPurchase ? (
