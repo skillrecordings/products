@@ -8,7 +8,6 @@ type LayoutProps = {
   meta?: NextSeoProps & {titleAppendSiteName?: boolean}
   noIndex?: boolean
   className?: string
-  nav?: React.ReactElement | null
   footer?: React.ReactElement | null
   children?: any
   withNavigation?: boolean
@@ -27,8 +26,8 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   meta,
   noIndex,
   withNavigation = true,
-  withFooter = true,
   navigationProps,
+  withFooter = true,
   footerProps,
 }) => {
   const {
