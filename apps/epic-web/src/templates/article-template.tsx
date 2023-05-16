@@ -76,6 +76,8 @@ const Header: React.FC<HeaderProps> = ({
   _updatedAt,
   image,
 }) => {
+  const router = useRouter()
+
   return (
     <header className="relative mx-auto w-full max-w-screen-lg">
       <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-24">
@@ -86,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
       {image && (
-        <div className="relative aspect-video h-full w-full overflow-hidden sm:rounded-lg">
+        <div className="relative flex aspect-video h-full w-full items-center justify-center overflow-hidden sm:rounded-lg">
           <Image
             src={image}
             priority
@@ -95,6 +97,12 @@ const Header: React.FC<HeaderProps> = ({
             quality={100}
             fill
           />
+          {router.asPath === '/epic-stack' && (
+            <iframe
+              className="absolute h-[calc(100%-32px)] w-[calc(100%-32px)] rounded-md shadow-2xl shadow-black/50"
+              src={`https://www.youtube.com/embed/yMK5SVRASxM?autoplay=1&origin=${process.env.NEXT_PUBLIC_URL}`}
+            />
+          )}
         </div>
       )}
       <div className="flex w-full max-w-screen-lg flex-col gap-5 px-5 pt-8 text-base text-gray-700 dark:text-gray-300 sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:text-base md:gap-16 lg:px-0">

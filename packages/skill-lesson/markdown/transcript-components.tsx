@@ -1,14 +1,14 @@
 import {hmsToSeconds} from '@skillrecordings/time'
 
 /**
- * @name getMarkdownComponents
+ * @name getTranscriptComponents
  * @returns {object} markdown components
  * @example
- * const components = getMarkdownComponents()
+ * const components = getTranscriptComponents()
  * // <ReactMarkdown components={components}>{transcript}</ReactMarkdown>
  */
 
-const getMarkdownComponents = ({
+const getTranscriptComponents = ({
   handlePlay,
   canShowVideo,
   muxPlayerRef,
@@ -55,4 +55,4 @@ const getMarkdownComponents = ({
   }
 }
 
-export {getMarkdownComponents}
+export {getTranscriptComponents}

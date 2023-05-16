@@ -32,7 +32,7 @@ import {
 } from '@skillrecordings/convertkit-react-ui'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
-import {ArticleJsonLd} from '@skillrecordings/next-seo'
+import {ArticleJsonLd, VideoJsonLd} from '@skillrecordings/next-seo'
 import Icon from 'components/icons'
 import {
   useMuxPlayer,
@@ -112,6 +112,15 @@ const TipTemplate: React.FC<{
         authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
         description={tip.description || 'Epic Web Tip'}
       />
+      <VideoJsonLd
+        name={tip.title}
+        description={tip.description || 'Epic Web Tip'}
+        uploadDate={tip._updatedAt || new Date().toISOString()}
+        thumbnailUrls={[
+          `https://image.mux.com/${tip.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+        ]}
+        contentUrl={`https://stream.mux.com/${tip.muxPlaybackId}/medium.mp4`}
+      />
       <Layout
         meta={{
           title: tip.title,
@@ -131,8 +140,8 @@ const TipTemplate: React.FC<{
           </div>
           <article className="relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 xl:border-gray-800 xl:pt-10">
             <div className="mx-auto w-full max-w-screen-xl pb-5">
-              <div className="flex flex-col gap-0 sm:gap-10 xl:flex-row">
-                <div className="w-full">
+              <div className="flex w-full grid-cols-5 flex-col gap-0 sm:gap-10 xl:grid">
+                <div className="col-span-3">
                   <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
                     {tip.title}
                     {tipCompleted && <span className="sr-only">(watched)</span>}
@@ -185,7 +194,7 @@ const TipTemplate: React.FC<{
                     </div>
                   )}
                 </div>
-                <div className="w-full">
+                <div className="col-span-2">
                   {tip.summary && (
                     <div className="prose w-full max-w-none pb-5 font-medium sm:prose-lg">
                       <PortableText
