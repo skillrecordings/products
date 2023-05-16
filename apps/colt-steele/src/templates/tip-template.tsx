@@ -313,11 +313,9 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   const {handlePlay} = useMuxPlayer()
   const {tipCompleted} = useTipComplete(suggestedTip.slug)
 
-  const thumbnail =
-    'https://image.mux.com/mGkFtt83VDgDvmf4xRrCs6IOdzVDhXaEtqJe02CXT01PM/thumbnail.png?width=480&height=384&fit_mode=preserve'
-  // const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-  //   suggestedTip.videoResourceId
-  // }`
+  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
+    suggestedTip.videoResourceId
+  }`
 
   return (
     <div className="aspect-[16/12]">
