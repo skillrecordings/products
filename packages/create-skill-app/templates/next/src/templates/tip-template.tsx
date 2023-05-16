@@ -39,7 +39,7 @@ import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {trpc} from 'trpc/trpc.client'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import {getMarkdownComponents} from '@skillrecordings/skill-lesson/markdown/markdown-components'
+import {getTranscriptComponents} from '@skillrecordings/skill-lesson/markdown/markdown-components'
 import Link from 'next/link'
 
 const TipTemplate: React.FC<{
@@ -221,7 +221,7 @@ const Transcript: React.FC<{
   muxPlayerRef: RefObject<MuxPlayerRefAttributes | null>
 }> = ({transcript}) => {
   const {handlePlay, canShowVideo, muxPlayerRef} = useMuxPlayer()
-  const markdownComponents = getMarkdownComponents({
+  const markdownComponents = getTranscriptComponents({
     handlePlay,
     canShowVideo,
     muxPlayerRef,
