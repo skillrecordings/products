@@ -12,6 +12,7 @@ export const TipSchema = z.object({
   description: z.nullable(z.string()).optional(),
   body: z.string().nullable().optional(),
   summary: z.any().array().nullable().optional(),
+  muxPlaybackId: z.nullable(z.string()).optional(),
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
@@ -33,6 +34,7 @@ export const getAllTips = async (): Promise<Tip[]> => {
         summary,
         body,
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId
@@ -53,6 +55,7 @@ export const getTip = async (slug: string): Promise<Tip> => {
         summary,
         body,
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId

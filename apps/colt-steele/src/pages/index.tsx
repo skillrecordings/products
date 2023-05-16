@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import type {NextPage} from 'next'
 import Image from 'next/image'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
@@ -38,7 +38,13 @@ const Home: NextPage = () => {
   })
 
   return (
-    <Layout className="overflow-x-hidden" navigationProps={{className: 'pb-4'}}>
+    <Layout
+      className="overflow-x-hidden"
+      navigationProps={{
+        className: 'sm:px-6',
+        wrapperClassName: 'bg-transparent',
+      }}
+    >
       <div className="relative z-10 bg-brand-cultured sm:px-5 sm:pb-5">
         <header className="bg-brand-bone flex items-center justify-center sm:h-[calc(100vh-2.5rem)] h-screen overflow-hidden relative">
           <Image

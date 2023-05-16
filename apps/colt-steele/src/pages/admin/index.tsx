@@ -1,4 +1,4 @@
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import * as React from 'react'
 import VideoUploader from 'module-builder/video-uploader'
 export default function Adminpage() {

@@ -14,6 +14,7 @@ type LayoutProps = {
   withFooter?: boolean
   navigationProps?: {
     className?: string
+    wrapperClassName?: string
   }
   footerProps?: {
     className?: string

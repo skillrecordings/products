@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import MuxPlayer, {
   MuxPlayerProps,
   MuxPlayerRefAttributes,
@@ -124,7 +124,7 @@ const TipTemplate: React.FC<{
         }}
         navigationProps={{className: 'max-w-screen-xl'}}
       >
-        <main className="mx-auto w-full pt-4">
+        <main className="mx-auto w-full">
           <div className="relative z-10 flex items-center justify-center">
             <div className="flex w-full max-w-screen-xl xl:px-5 flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
@@ -137,16 +137,16 @@ const TipTemplate: React.FC<{
             <div className="mx-auto w-full max-w-screen-xl pb-5">
               <div className="flex flex-col gap-0 sm:gap-10 xl:grid grid-cols-5">
                 <div className="col-span-3 xl:pl-5">
-                  <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-4xl font-black lg:text-5xl text-gray-800">
+                  <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-4xl font-black sm:text-5xl lg:text-6xl text-gray-800">
                     <Balancer>{tip.title}</Balancer>
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
                   {tipCompleted ? (
                     <div
                       aria-hidden="true"
-                      className="inline-flex mt-5 mb-8 items-center gap-0.5 rounded-full bg-brand-red/20 px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-brand-red"
+                      className="inline-flex mt-5 mb-8 items-center gap-1 rounded-sm bg-brand-yellow/10 px-3 py-2 text-xs font-bold uppercase leading-none tracking-wider text-amber-600"
                     >
-                      <Icon name="Checkmark" className="h-4 w-4" />
+                      <Icon name="Checkmark" className="h-3 w-3" />
                       Watched
                     </div>
                   ) : (
@@ -212,7 +212,7 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
       {displayOverlay && <TipOverlay tips={tips} />}
       <div
         className={cx(
-          'flex items-center justify-center  overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-md',
+          'flex items-center justify-center overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b-md',
           {
             hidden: displayOverlay,
           },
@@ -313,9 +313,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   const {handlePlay} = useMuxPlayer()
   const {tipCompleted} = useTipComplete(suggestedTip.slug)
 
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-    suggestedTip.videoResourceId
-  }`
+  const thumbnail = `https://image.mux.com/${suggestedTip.muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
 
   return (
     <div className="aspect-[16/12]">

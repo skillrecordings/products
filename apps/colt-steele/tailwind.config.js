@@ -23,6 +23,7 @@ module.exports = {
         gray: colors.stone,
         brand: {
           red: '#DC6D53',
+          yellow: '#DBA856',
           bone: '#E0DEC5',
           cultured: '#F8F7F3',
           cola: '#383529',

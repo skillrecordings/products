@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import {getAllTips, Tip} from 'lib/tips'
 import Balancer from 'react-wrap-balancer'
 import Link from 'next/link'
@@ -8,6 +8,7 @@ import {useRouter} from 'next/router'
 import {useTipComplete} from '../../hooks/use-tip-complete'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import Header from 'components/app/header'
 
 export async function getStaticProps() {
   const tips = await getAllTips()
@@ -40,16 +41,9 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
           ],
         },
       }}
-      className="sm:pt-18 flex flex-col items-center pb-8 pt-8 lg:pb-24 lg:pt-8"
+      className="flex flex-col items-center pb-8 lg:pb-24"
     >
-      <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
-        <h1 className="text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
-          Tips
-        </h1>
-        <p className="max-w-lg pt-8 text-center text-brand-cola/75 lg:text-xl">
-          <Balancer>{pageDescription}</Balancer>
-        </p>
-      </header>
+      <Header title="Tips" subtitle={pageDescription} image="quote-2@2x.png" />
       <main className="relative z-10 mx-auto grid w-full max-w-screen-lg grid-cols-1 sm:gap-8 gap-5 px-5 md:grid-cols-2">
         {tips.map((tip) => {
           return <TipCard tip={tip} key={tip.slug} />
@@ -62,16 +56,14 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
 export default TipsIndex
 
 const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
-  const {title} = tip
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-    tip?.videoResourceId
-  }`
+  const {title, muxPlaybackId} = tip
+  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
 
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
-    <article className="flex flex-col items-center overflow-hidden rounded-xl bg-white shadow-2xl shadow-gray-500/20">
+    <article className="flex flex-col items-center overflow-hidden">
       <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-gray-100">
         <button
           onClick={() => {
@@ -102,7 +94,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
               objectFit="cover"
               layout="fill"
               aria-hidden="true"
-              className="brightness-90 transition duration-500 ease-in-out group-hover:scale-105"
+              className="brightness-90 transition duration-500 ease-in-out group-hover:scale-105 rounded"
             />
           </div>
           <div
@@ -111,20 +103,24 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
           >
             <Icon name="Playmark" size="24" />
           </div>
+          <div
+            className="flex absolute bottom-3 right-3 items-center gap-2"
+            aria-hidden="true"
+          >
+            {tipCompleted && (
+              <div
+                aria-hidden="true"
+                className="inline-flex items-center gap-1 rounded-sm bg-white px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-gray-600"
+              >
+                <Icon name="Checkmark" className="h-3 w-3" />
+                Watched
+              </div>
+            )}
+          </div>
         </button>
       </header>
-      <div className="flex h-full w-full flex-col items-start p-8">
-        <div className="flex items-center gap-2" aria-hidden="true">
-          <div className="rounded-full bg-gray-400/20 px-2 py-1 font-mono text-xs font-bold uppercase leading-none tracking-wider text-gray-600">
-            Video
-          </div>
-          {tipCompleted && (
-            <div className="rounded-full bg-brand-red/20 px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-brand-red">
-              Watched
-            </div>
-          )}
-        </div>
-        <h2 className="pt-2 text-base font-semibold leading-tight sm:text-xl">
+      <div className="flex h-full w-full flex-col items-start py-4">
+        <h2 className="text-base font-semibold leading-tight sm:text-xl">
           <Link
             href={{
               pathname: '/tips/[tip]',
@@ -143,10 +139,8 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
 }
 
 export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
-  const {title} = tip
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-    tip?.videoResourceId
-  }`
+  const {title, muxPlaybackId} = tip
+  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
 
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)

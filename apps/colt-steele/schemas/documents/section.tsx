@@ -4,7 +4,7 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 export default defineType({
   name: 'section',
   type: 'document',
-  title: 'Workshop Section',
+  title: 'Section',
   description: 'A named group of resources within a module.',
   icon: MdOutlineGroupWork,
   preview: {

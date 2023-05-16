@@ -1,4 +1,4 @@
-import Layout from 'components/layout'
+import Layout from 'components/app/layout'
 import {getOgImage} from 'utils/get-og-image'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 
