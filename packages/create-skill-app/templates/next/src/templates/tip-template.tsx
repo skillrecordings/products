@@ -27,7 +27,7 @@ import {
 } from '@skillrecordings/convertkit-react-ui'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
-import {ArticleJsonLd} from '@skillrecordings/next-seo'
+import {ArticleJsonLd, VideoJsonLd} from '@skillrecordings/next-seo'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {
   useMuxPlayer,
@@ -110,6 +110,17 @@ const TipTemplate: React.FC<{
         datePublished={tip._updatedAt || new Date().toISOString()}
         authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
         description={tip.description || 'Epic Web Tip'}
+      />
+      <VideoJsonLd
+        name={tip.title}
+        description={
+          tip.description || `${process.env.NEXT_PUBLIC_SITE_TITLE} Tip`
+        }
+        uploadDate={tip._updatedAt || new Date().toISOString()}
+        thumbnailUrls={[
+          `https://image.mux.com/${tip.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+        ]}
+        contentUrl={`https://stream.mux.com/${tip.muxPlaybackId}/medium.mp4`}
       />
       <Layout
         meta={{
