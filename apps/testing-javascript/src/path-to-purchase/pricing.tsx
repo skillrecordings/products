@@ -274,7 +274,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   {isBuyingForTeam && (
                     <div className="mb-5 flex w-full flex-col items-center justify-center">
                       <div className="flex items-center justify-center gap-1 text-lg font-tt-medium">
-                        <label className="opacity-80 flex items-center space-x-3">
+                        <label className="opacity-70 flex items-center space-x-3">
                           <span>Team Seats</span>
                           <button
                             type="button"

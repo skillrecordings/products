@@ -37,7 +37,7 @@ export const PrimaryNewsletterCta: React.FC<
         }}
         actionLabel={`${common['primary-newsletter-button-cta-label']} →`}
       />
-      <p className="pt-8 opacity-80 text-sm">
+      <p className="pt-8 opacity-70 text-sm">
         We respect your privacy. Unsubscribe at any time.
       </p>
     </section>

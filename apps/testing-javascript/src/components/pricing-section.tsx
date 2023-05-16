@@ -37,7 +37,7 @@ const PricingSection: React.FC<{
           <h2 className="text-center font-heading text-4xl sm:text-5xl lg:text-6xl">
             <Balancer>Start testing like a pro</Balancer>
           </h2>
-          <h3 className="text-center mb-10 mt-4 font-tt-regular text-xl sm:text-2xl opacity-80">
+          <h3 className="text-center mb-10 mt-4 font-tt-regular text-xl sm:text-2xl opacity-70">
             Buy once. Forever yours.
           </h3>
         </header>
