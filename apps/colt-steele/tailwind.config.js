@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: [
@@ -19,6 +20,7 @@ module.exports = {
         heading: ['Coranto Headline', ...defaultTheme.fontFamily.serif],
       },
       colors: {
+        gray: colors.stone,
         brand: {
           red: '#DC6D53',
           bone: '#E0DEC5',
@@ -28,10 +30,40 @@ module.exports = {
       },
       typography: (theme) => ({
         DEFAULT: {
-          css: {},
+          css: {
+            'h1, h2, h3, h4': {
+              fontFamily: theme('fontFamily.heading').join(', '),
+            },
+            'code::before': {
+              content: '',
+            },
+            'code::after': {
+              content: '',
+            },
+            code: {
+              background: theme('colors.white'),
+              borderRadius: theme('borderRadius.md'),
+              boxShadow: `0px 0.3px 2.4px rgba(0, 0, 0, 0.02), 0px 0.8px 5.9px rgba(0, 0, 0, 0.028), 0px 1.5px 11px rgba(0, 0, 0, 0.035), 0px 2.7px 19.7px rgba(0, 0, 0, 0.042), 0px 5px 36.8px rgba(0, 0, 0, 0.05), 0px 12px 88px rgba(0, 0, 0, 0.07)`,
+              padding: `3px 5px`,
+            },
+          },
         },
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [
+    require('@tailwindcss/typography'),
+    function ({addComponents}) {
+      addComponents({
+        '.prose h1': {fontSize: '2.75rem', color: colors.stone[800]},
+        '.prose h2': {fontSize: '2.33rem', color: colors.stone[800]},
+        '.prose h3': {fontSize: '2rem', color: colors.stone[800]},
+        '.prose h4': {fontSize: '1.75rem', color: colors.stone[800]},
+        '.prose h5': {fontSize: '1.5rem', color: colors.stone[800]},
+        '.prose h6': {fontSize: '1.25rem', color: colors.stone[800]},
+      })
+    },
+    require('tailwind-scrollbar'),
+    require('tailwindcss-radix'),
+  ],
 }

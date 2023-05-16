@@ -3,6 +3,7 @@ import Layout from 'components/layout'
 import type {NextPage} from 'next'
 import Image from 'next/image'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
+
 import {
   easeInOut,
   motion,
@@ -37,8 +38,8 @@ const Home: NextPage = () => {
   })
 
   return (
-    <Layout className="overflow-x-hidden">
-      <div className="relative z-10 bg-brand-cultured sm:p-5">
+    <Layout className="overflow-x-hidden" navigationProps={{className: 'pb-4'}}>
+      <div className="relative z-10 bg-brand-cultured sm:px-5 sm:pb-5">
         <header className="bg-brand-bone flex items-center justify-center sm:h-[calc(100vh-2.5rem)] h-screen overflow-hidden relative">
           <Image
             src={require('../../public/assets/hero@2x.png')}
@@ -52,7 +53,7 @@ const Home: NextPage = () => {
           />
         </header>
       </div>
-      <main>
+      <main className="font-serif">
         <article className="px-5 prose prose-lg sm:prose-2xl max-w-2xl mx-auto sm:prose-p:font-light prose-p:text-brand-cola prose-headings:text-brand-cola sm:pt-24 pt-10">
           <motion.p
             {...motionProps}
@@ -148,7 +149,7 @@ const Home: NextPage = () => {
                 alt=""
                 aria-hidden
                 fill
-                className="object-contain object-bottom z-0"
+                className="object-contain object-bottom z-0 select-none pointer-events-none"
               />
             </div>
           </div>

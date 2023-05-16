@@ -1,13 +1,47 @@
 @tailwind base;
 
 @tailwind components;
-@import './primary-newsletter-cta.css';
+@import './subscribe-form.css';
 @import './nprogress.css';
 @import './fonts.css';
+@import './prism.css';
+@import './tips.css';
+@import '@code-hike/mdx/dist/index.css';
+
+@import './video/github-link.css';
+@import './video/lesson-completion-toggle.css';
+@import './video/lesson-description.css';
+@import './video/lesson-title.css';
+@import './video/module-lesson-list.css';
+@import './video/video-overlays.css';
+@import './video/video-transcript.css';
+@import './video/module-navigator.css';
 
 @tailwind utilities;
 @import './focus-visible.css';
 
+mux-player {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  margin-bottom: -6px;
+}
+
+mux-player::part(center play button) {
+  @apply sm:scale-50;
+}
+
+mux-player::part(vertical-layer) {
+  background-color: rgba(0, 0, 0, 0);
+}
+
 ::selection {
   @apply bg-brand-bone;
+}
+
+.ch-codeblock {
+  box-shadow: 0px 0.3px 2.1px rgba(0, 0, 0, 0.014),
+    0px 0.8px 5px rgba(0, 0, 0, 0.02), 0px 1.5px 9.4px rgba(0, 0, 0, 0.025),
+    0px 2.7px 16.8px rgba(0, 0, 0, 0.03), 0px 5px 31.3px rgba(0, 0, 0, 0.036),
+    0px 12px 75px rgba(0, 0, 0, 0.05);
 }
