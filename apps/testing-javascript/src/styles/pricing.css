@@ -32,6 +32,9 @@
     @apply duration-200 block;
   }
 }
+[data-pricing-buy-more-seats] {
+  @apply font-tt-demibold text-xl leading-snug w-full;
+}
 [data-pricing-product-checkout-button]:hover span,
 [data-pricing-buy-more-seats]:hover span {
   @apply scale-105;

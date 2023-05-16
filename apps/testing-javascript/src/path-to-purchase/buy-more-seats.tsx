@@ -20,10 +20,7 @@ const BuySeats: React.FC<{
         </p>
       </Balancer>
       <Dialog.Root>
-        <Dialog.Trigger
-          data-pricing-buy-more-seats={productName}
-          className="px-5 py-4 text-xl leading-snug bg-gradient-to-b from-[#ffc26a] to-[#ffa82e] text-white border-none rounded-md w-full font-tt-demibold"
-        >
+        <Dialog.Trigger data-pricing-buy-more-seats={productName}>
           <span className="block duration-200">Buy more seats</span>
         </Dialog.Trigger>
         <Dialog.Overlay className="fixed inset-0 z-10 bg-black/50 backdrop-blur-sm" />

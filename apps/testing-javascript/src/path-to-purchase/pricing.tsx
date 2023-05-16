@@ -361,11 +361,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           />
         )}
         <div data-pricing-footer="">
-          {product.description && !purchased && (
+          {/* {product.description && !purchased && (
             <div className="prose prose-sm mx-auto max-w-sm px-5 sm:prose-base prose-p:text-gray-200">
-              {/* <ReactMarkdown>{product.description}</ReactMarkdown> */}
+              <ReactMarkdown>{product.description}</ReactMarkdown>
             </div>
-          )}
+          )} */}
           {/* {!purchased && (
             <div data-guarantee="">
               <Image
