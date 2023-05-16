@@ -23,6 +23,7 @@ const Header: React.FC<React.PropsWithChildren<HeaderProps>> = ({
             alt=""
             aria-hidden="true"
             className="w-full max-w-[200px] absolute sm:-top-16 -top-5"
+            priority
           />
         )}
         <h1 className="text-center font-heading text-5xl font-black sm:text-5xl lg:text-6xl">
