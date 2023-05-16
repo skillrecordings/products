@@ -10,22 +10,25 @@ const Navigation: React.FC<{className?: string}> = ({className}) => {
       <nav
         aria-label="top"
         className={twMerge(
-          'mx-auto flex max-w-screen-lg items-center justify-between gap-2 px-5 sm:gap-0 pt-4 ',
+          'mx-auto flex items-center justify-between gap-2 px-5 sm:gap-0 pt-4',
           className,
         )}
       >
         <div className="flex-1">
-          <Link href="/" className="inline-flex flex-col">
-            <div className="text-2xl font-semibold">Colt Steele</div>
+          <Link href="/" className="inline-flex flex-col font-serif">
+            <>
+              <div className="text-2xl font-semibold">Colt Steele</div>
+              <div className="font-mono text-xs opacity-60 -translate-y-1">
+                Digital Garden
+              </div>
+            </>
           </Link>
-          <div className="font-mono text-xs opacity-60 -translate-y-1">
-            Digital Garden
-          </div>
         </div>
-
-        <Link href="/tips" className="inline-flex flex-col text-right ml-auto">
-          <div className="text-2xl font-semibold">Tips</div>
-        </Link>
+        <div>
+          <Link href="/tips" className="inline-flex flex-col">
+            Tips
+          </Link>
+        </div>
       </nav>
     </>
   )

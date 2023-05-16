@@ -13,7 +13,10 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     const tips = await getAllTips()
     const tipBody =
       tip.body &&
-      (await serializeMDX(tip.body, {theme: 'material-theme-darker'}))
+      (await serializeMDX(tip.body, {
+        theme: 'light-plus',
+        showCopyButton: true,
+      }))
 
     return {
       props: {

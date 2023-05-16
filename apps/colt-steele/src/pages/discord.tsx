@@ -23,7 +23,7 @@ const Discord = () => {
           <div>
             <DiscordIcon className="w-16 mb-5" />
           </div>
-          <h1 className="sm:text-5xl text-3xl font-bold">
+          <h1 className="font-heading sm:text-5xl text-3xl font-bold w-full">
             <Balancer>Join Colt Steele on Discord</Balancer>
           </h1>
           <h2 className="lg:text-xl text-lg pt-8 max-w-md w-full mb-10 opacity-80">

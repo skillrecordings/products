@@ -23,6 +23,7 @@
     "@mdx-js/react": "^2.1.2",
     "@mux/mux-node": "^7.3.0",
     "@mux/mux-player-react": "1.8.0",
+    "tailwindcss-radix": "^2.8.0",
     "@next-auth/prisma-adapter": "^1.0.3",
     "@next/mdx": "^13.4.2",
     "@portabletext/react": "^1.0.6",

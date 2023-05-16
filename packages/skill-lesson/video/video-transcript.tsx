@@ -22,15 +22,10 @@ export const VideoTranscript: React.FC<{
 
   return (
     <div data-video-transcript="">
-      <h2 className="text-2xl font-bold" data-title="">
-        Transcript
-      </h2>
+      <h2 data-title="">Transcript</h2>
       <div data-transcript="">
         {typeof transcript === 'string' ? (
-          <ReactMarkdown
-            className="prose max-w-none pt-4"
-            components={markdownComponents}
-          >
+          <ReactMarkdown components={markdownComponents}>
             {transcript}
           </ReactMarkdown>
         ) : (

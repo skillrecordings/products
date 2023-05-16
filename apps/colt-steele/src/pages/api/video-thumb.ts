@@ -12,6 +12,10 @@ const videoThumb = async (req: NextApiRequest, res: NextApiResponse) => {
       `https://image.mux.com/${videoResource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
     )
 
+    console.log(
+      `https://image.mux.com/${videoResource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+    )
+
     const blob = await response.blob()
 
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=59')

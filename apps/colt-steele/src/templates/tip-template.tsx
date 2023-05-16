@@ -5,6 +5,7 @@ import MuxPlayer, {
   MuxPlayerProps,
   MuxPlayerRefAttributes,
 } from '@mux/mux-player-react'
+import Balancer from 'react-wrap-balancer'
 import {Tip} from 'lib/tips'
 import {
   PortableText,
@@ -121,10 +122,11 @@ const TipTemplate: React.FC<{
           openGraph: {images: [ogImage]},
           description: tip.description ?? '',
         }}
+        navigationProps={{className: 'max-w-screen-xl'}}
       >
         <main className="mx-auto w-full pt-4">
           <div className="relative z-10 flex items-center justify-center">
-            <div className="flex w-full max-w-screen-xl flex-col">
+            <div className="flex w-full max-w-screen-xl xl:px-5 flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
@@ -133,42 +135,29 @@ const TipTemplate: React.FC<{
           </div>
           <article className="relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 xl:border-gray-800 xl:pt-10">
             <div className="mx-auto w-full max-w-screen-xl pb-5">
-              <div className="flex flex-col gap-0 sm:gap-10 xl:flex-row">
-                <div className="w-full">
-                  <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
-                    {tip.title}
+              <div className="flex flex-col gap-0 sm:gap-10 xl:grid grid-cols-5">
+                <div className="col-span-3 xl:pl-5">
+                  <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-4xl font-black lg:text-5xl text-gray-800">
+                    <Balancer>{tip.title}</Balancer>
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
                   {tipCompleted ? (
                     <div
                       aria-hidden="true"
-                      className="flex items-center gap-1 pb-[20px] pt-6"
+                      className="inline-flex mt-5 mb-8 items-center gap-0.5 rounded-full bg-brand-red/20 px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-brand-red"
                     >
-                      <Icon
-                        name="Checkmark"
-                        className="h-5 w-5 text-emerald-600"
-                      />
-                      <span className="font-heading text-sm font-black uppercase text-emerald-600 opacity-90">
-                        Watched
-                      </span>
+                      <Icon name="Checkmark" className="h-4 w-4" />
+                      Watched
                     </div>
                   ) : (
-                    <Hr
-                      className={
-                        tipCompleted ? 'bg-emerald-400' : 'bg-brand-red'
-                      }
-                    />
+                    <Hr className="bg-brand-red" />
                   )}
                   {tipBody && (
                     <>
                       <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg text-gray-800">
                         <MDX contents={tipBody} />
                       </div>
-                      <Hr
-                        className={
-                          tipCompleted ? 'bg-emerald-400' : 'bg-brand-red'
-                        }
-                      />
+                      <Hr className="bg-brand-red" />
                     </>
                   )}
                   {tip.transcript && tip.body && (
@@ -180,7 +169,7 @@ const TipTemplate: React.FC<{
                     </div>
                   )}
                 </div>
-                <div className="w-full">
+                <div className="col-span-2">
                   {tip.summary && (
                     <div className="prose w-full max-w-none pb-5 font-medium sm:prose-lg">
                       <PortableText
@@ -277,13 +266,13 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   const {lesson, module} = useLesson()
 
   const buttonStyles =
-    'py-2 px-3 font-medium rounded-md flex items-center gap-1 hover:bg-gray-700 bg-gray-800 transition text-gray-200'
+    'py-2 px-3 font-medium rounded-md flex items-center gap-1 bg-gray-100 hover:bg-gray-200 transition'
   return (
     <div
       id="video-overlay"
-      className="relative left-0 top-0 flex w-full items-center justify-center bg-gray-950 dark:bg-black/40 lg:aspect-video xl:rounded-md"
+      className="relative left-0 top-0 flex w-full items-center justify-center shadow-2xl shadow-black/10 bg-white lg:aspect-video xl:rounded-md"
     >
-      <div className="absolute right-8 top-8 z-50 flex items-center justify-center gap-3">
+      <div className="absolute right-5 top-5 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
           Replay <span aria-hidden="true">↺</span>
         </button>
@@ -302,9 +291,9 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
           Dismiss <XIcon className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
-      <div className="ft-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-2 text-center text-lg leading-relaxed lg:absolute">
+      <div className="ft-0 top-0 z-20 sm:px-16 px-5 flex h-full w-full flex-col items-center justify-center p-2 text-center text-lg leading-relaxed lg:absolute">
         {/* <ShareTip lesson={tip} /> */}
-        <div className="grid h-full w-full grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid h-full w-full grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
           {take(
             shuffle(
               tips.filter((suggestedTip) => suggestedTip.slug !== lesson.slug),
@@ -324,12 +313,14 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   const {handlePlay} = useMuxPlayer()
   const {tipCompleted} = useTipComplete(suggestedTip.slug)
 
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-    suggestedTip.videoResourceId
-  }`
+  const thumbnail =
+    'https://image.mux.com/mGkFtt83VDgDvmf4xRrCs6IOdzVDhXaEtqJe02CXT01PM/thumbnail.png?width=480&height=384&fit_mode=preserve'
+  // const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
+  //   suggestedTip.videoResourceId
+  // }`
 
   return (
-    <div className="aspect-video">
+    <div className="aspect-[16/12]">
       <button
         key={suggestedTip.slug}
         onClick={() => {
@@ -346,13 +337,19 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
               handlePlay()
             })
         }}
-        className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg border border-gray-800 bg-gray-900 p-8 text-left font-medium leading-tight text-gray-100"
+        className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg border border-gray-200 bg-white text-left font-medium leading-tight text-gray-100"
       >
-        <div className="relative z-10 flex flex-col">
-          <span className="font-heading pb-1 text-xs font-bold uppercase tracking-wide text-gray-400">
+        <div className="bg-white text-black absolute left-0 bottom-0 p-5 relative z-10 flex flex-col w-full">
+          <span className="font-mono pb-1 text-xs font-bold uppercase tracking-wide">
             Tip
           </span>
-          <span className="font-medium">
+          <span className="font-medium truncate">
+            {tipCompleted && (
+              <Icon
+                name="Checkmark"
+                className="w-4 text-gray-600 inline-block pr-1"
+              />
+            )}
             {suggestedTip.title}{' '}
             {tipCompleted && <span className="sr-only">(watched)</span>}
           </span>
@@ -362,25 +359,9 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
           alt=""
           aria-hidden="true"
           layout="fill"
-          className="blur-xs z-0 object-cover opacity-50 brightness-50"
+          className="blur-xs z-0 object-cover brightness-90 transition"
           quality={100}
         />
-        <div
-          className="absolute left-0 top-0 flex h-full w-full items-start justify-end p-5"
-          aria-hidden="true"
-        >
-          {tipCompleted ? (
-            <>
-              <CheckCircleIcon
-                className="absolute h-10 w-10 text-teal-400 transition group-hover:opacity-0"
-                aria-hidden="true"
-              />
-              <PlayIcon className="h-10 w-10 flex-shrink-0 scale-50 text-teal-400 opacity-0 transition group-hover:scale-100 group-hover:opacity-100" />
-            </>
-          ) : (
-            <PlayIcon className="h-10 w-10 flex-shrink-0 scale-50 text-gray-300 opacity-0 transition group-hover:scale-100 group-hover:opacity-100" />
-          )}
-        </div>
       </button>
     </div>
   )

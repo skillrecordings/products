@@ -1,6 +1,7 @@
 import React from 'react'
 import Layout from 'components/layout'
 import {getAllTips, Tip} from 'lib/tips'
+import Balancer from 'react-wrap-balancer'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
@@ -21,7 +22,8 @@ type TipsIndex = {
   tips: Tip[]
 }
 
-const pageDescription = 'A collection of valuable tips for your daily workflow.'
+const pageDescription =
+  'A collection of programming tips for your daily workflow.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
   return (
@@ -38,17 +40,17 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
           ],
         },
       }}
-      className="sm:pt-18 flex flex-col items-center pb-8 pt-8 lg:pb-24 lg:pt-20"
+      className="sm:pt-18 flex flex-col items-center pb-8 pt-8 lg:pb-24 lg:pt-8"
     >
-      <header className="relative z-10 flex flex-col items-center px-5 pb-8 text-center">
+      <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
         <h1 className="text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
           Tips
         </h1>
-        <p className="max-w-md pt-8 text-center text-lg text-gray-600 lg:text-xl">
-          {pageDescription}
+        <p className="max-w-lg pt-8 text-center text-brand-cola/75 lg:text-xl">
+          <Balancer>{pageDescription}</Balancer>
         </p>
       </header>
-      <main className="relative z-10 mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
+      <main className="relative z-10 mx-auto grid w-full max-w-screen-lg grid-cols-1 sm:gap-8 gap-5 px-5 md:grid-cols-2">
         {tips.map((tip) => {
           return <TipCard tip={tip} key={tip.slug} />
         })}
@@ -61,12 +63,13 @@ export default TipsIndex
 
 const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {title} = tip
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-    tip?.videoResourceId
-  }`
+  // const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
+  //   tip?.videoResourceId
+  // }`
+  const thumbnail =
+    'https://image.mux.com/mGkFtt83VDgDvmf4xRrCs6IOdzVDhXaEtqJe02CXT01PM/thumbnail.png?width=720&height=576&fit_mode=preserve'
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
-  console.log(thumbnail)
 
   return (
     <article className="flex flex-col items-center overflow-hidden rounded-xl bg-white shadow-2xl shadow-gray-500/20">
@@ -104,7 +107,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
             />
           </div>
           <div
-            className="absolute flex items-center justify-center rounded-full text-white opacity-100 drop-shadow-xl duration-500 ease-in-out group-hover:opacity-100"
+            className="bg-white w-16 h-16 pl-1 group-hover:scale-100 scale-75 absolute flex items-center justify-center rounded-full text-black opacity-100 drop-shadow-xl duration-500 ease-in-out group-hover:opacity-100"
             aria-hidden="true"
           >
             <Icon name="Playmark" size="24" />
@@ -113,14 +116,14 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
       </header>
       <div className="flex h-full w-full flex-col items-start p-8">
         <div className="flex items-center gap-2" aria-hidden="true">
+          <div className="rounded-full bg-gray-400/20 px-2 py-1 font-mono text-xs font-bold uppercase leading-none tracking-wider text-gray-600">
+            Video
+          </div>
           {tipCompleted && (
-            <div className="rounded-full bg-gray-100 px-2 py-1 font-heading text-xs font-bold uppercase leading-none tracking-wider text-gray-500">
+            <div className="rounded-full bg-brand-red/20 px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-brand-red">
               Watched
             </div>
           )}
-          <div className="rounded-full bg-brand-red bg-opacity-25 px-2 py-1 font-heading text-xs font-bold uppercase leading-none tracking-wider text-brand-red">
-            Tip
-          </div>
         </div>
         <h2 className="pt-2 text-base font-semibold leading-tight sm:text-xl">
           <Link
@@ -142,9 +145,10 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
 
 export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   const {title} = tip
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-    tip?.videoResourceId
-  }`
+  // const thumbnail = `/api/video-thumb?videoResourceId=${tip?.videoResourceId}`
+  const thumbnail =
+    'https://image.mux.com/mGkFtt83VDgDvmf4xRrCs6IOdzVDhXaEtqJe02CXT01PM/thumbnail.png?width=480&height=384&fit_mode=preserve'
+
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
 
@@ -180,27 +184,18 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
               width={240 / 1.5}
               height={135 / 1.5}
               aria-hidden="true"
-              className="brightness-75 transition duration-300 ease-in-out group-hover:scale-110"
+              className="brightness-90 transition duration-300 ease-in-out group-hover:scale-110"
             />
           </div>
+
           <div
-            className="absolute flex scale-50 items-center justify-center text-white opacity-100 transition"
+            className="absolute w-12 h-12 rounded-full bg-white flex scale-50 items-center justify-center text-gray-900 opacity-100 transition"
             aria-hidden="true"
           >
             {tipCompleted ? (
-              <>
-                <Icon
-                  name="Checkmark"
-                  className="absolute h-10 w-10 text-white transition group-hover:opacity-0"
-                  aria-hidden="true"
-                />
-                <Icon
-                  name="Playmark"
-                  className="absolute h-8 w-8 text-white opacity-0 transition group-hover:opacity-100"
-                />
-              </>
+              <Icon name="Checkmark" className="w-6 h-6 inline-block" />
             ) : (
-              <Icon name="Playmark" className="h-8 w-8" />
+              <Icon name="Playmark" className="h-5 w-5 ml-0.5" />
             )}
           </div>
         </button>
@@ -213,9 +208,10 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
               tip: tip.slug,
             },
           }}
-          className="inline-flex items-start gap-1 hover:underline"
+          className="inline-flex items-start leading-tight gap-1 hover:underline"
         >
-          {title} {tipCompleted && <span className="sr-only">(watched)</span>}
+          <Balancer>{title}</Balancer>{' '}
+          {tipCompleted && <span className="sr-only">(watched)</span>}
         </Link>
       </h2>
     </article>
