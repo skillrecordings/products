@@ -410,7 +410,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     <li key={feature.value} className="flex">
                       <Icon
                         name="check-circle"
-                        className="w-5 h-5 mr-2 shrink-0 mt-1 text-checkmark"
+                        className="w-5 h-5 mr-2 shrink-0 mt-1 text-tjs-green"
                       />
                       <p
                         className={cx({
