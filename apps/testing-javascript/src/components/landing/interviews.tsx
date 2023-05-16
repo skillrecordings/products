@@ -113,7 +113,7 @@ const Interviews: React.FunctionComponent<{
   proTestingPurchased: boolean
   interviews: InterviewProps[]
   className?: string
-}> = ({proTestingPurchased, interviews, className = ''}) => {
+}> = ({proTestingPurchased, interviews, className}) => {
   const plainInterviews = interviews.filter(
     (interview) => !interview.isMultiple,
   )
