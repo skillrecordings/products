@@ -1,7 +1,10 @@
+import {MdFeedback} from 'react-icons/md'
+
 export default {
   name: 'cta',
   title: 'CTA',
   type: 'document',
+  icon: MdFeedback,
   fields: [
     {
       name: 'title',
