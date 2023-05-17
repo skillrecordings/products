@@ -16,7 +16,10 @@ async function createCastingWordsOrder({
   castingwords: {orderId: string; transcript: any[]; audioFileId: number}
 }) {
   if (!castingwords?.orderId && !castingwords?.transcript) {
+    console.info('creating castingwords order for:', originalMediaUrl)
     return await orderTranscript(originalMediaUrl)
+  } else {
+    console.info('castingwords order already exists')
   }
 
   return {order: castingwords.orderId, audiofiles: [castingwords.audioFileId]}
@@ -48,6 +51,8 @@ async function createMuxAsset({
         return playback_id.policy === 'public'
       })?.id,
     }
+  } else {
+    console.info('mux asset already exists', muxAsset.muxAssetId)
   }
 
   return {...muxAsset, duration}
