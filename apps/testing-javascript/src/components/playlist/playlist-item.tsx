@@ -5,6 +5,9 @@ import Image from 'next/image'
 import {SanityDocument} from '@sanity/client'
 import Balancer from 'react-wrap-balancer'
 import {PortableText} from '@portabletext/react'
+import * as Dialog from '@radix-ui/react-dialog'
+import {XIcon} from '@heroicons/react/solid'
+import MuxPlayer from '@mux/mux-player-react'
 
 import Icon from 'components/icons'
 import {useModuleProgress} from 'utils/module-progress'
@@ -43,13 +46,23 @@ const PlaylistItem: React.FC<{
           )}
         </div>
         {!purchased && (
-          <Link
-            href="/"
-            className="space-x-4 inline-flex items-center bg-gray-100 text-black px-6 py-2 rounded-md mt-7 hover:bg-gray-200 duration-100 min-h-[50px]"
-          >
-            <Icon name="play" className="w-[10px] h-[10px]" />
-            <span>Preview Course</span>
-          </Link>
+          <Dialog.Root>
+            <Dialog.Trigger className="space-x-4 inline-flex items-center bg-gray-100 text-black px-6 py-2 rounded-md mt-7 hover:bg-gray-200 duration-100 min-h-[50px] self-center">
+              <Icon name="play" className="w-[10px] h-[10px]" />
+              <span>Preview Course</span>
+            </Dialog.Trigger>
+            <Dialog.Overlay className="fixed inset-0 z-10 bg-black/50 backdrop-blur-sm" />
+            <Dialog.Content className="fixed left-1/2 top-1/2 z-40 w-full -translate-x-1/2 -translate-y-1/2 container max-w-6xl">
+              <MuxPlayer
+                streamType="on-demand"
+                playbackId="lZ7JLEsycJZ1hi9D02NlGo701t2IILWuXssviaT9fy8u8"
+              />
+              <Dialog.Close className="absolute right-7 -top-14 rounded-full px-3 py-1 space-x-2 flex items-center bg-gray-100 hover:bg-white duration-200">
+                <span>close</span>
+                <XIcon className="h-5 w-5" />
+              </Dialog.Close>
+            </Dialog.Content>
+          </Dialog.Root>
         )}
       </div>
       <div>
@@ -143,7 +156,7 @@ const PlaylistItem: React.FC<{
           </Link>
         )}
         {playlist?.body && (
-          <div className="mt-7">
+          <div className="mt-7 prose md:prose-md">
             <PortableText
               value={playlist.body}
               components={{

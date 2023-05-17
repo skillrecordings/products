@@ -12,6 +12,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   description,
   state,
   body,
+  preview,
   "sections": resources[@->._type == 'section']->{
     _id,
     _type,
@@ -60,6 +61,7 @@ export const getPlaylist = async (slug: string) =>
             }
           }
         },
+        preview,
         moduleType,
         _id,
         github,
