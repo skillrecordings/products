@@ -3,7 +3,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {SanityDocument} from '@sanity/client'
 import type {TestimonialProps, FaqProps, InterviewProps} from '@types'
-import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import type {
+  CommerceProps,
+  SanityProduct,
+} from '@skillrecordings/commerce-server/dist/@types'
 import Balancer from 'react-wrap-balancer'
 import MuxPlayer from '@mux/mux-player-react'
 
@@ -14,23 +17,26 @@ import Faqs from 'components/landing/faqs'
 import Greeting from 'components/landing/greeting'
 import Printables from 'components/landing/printables'
 import Interviews from 'components/landing/interviews'
+import WhatIsInTestingJavascript from 'components/landing/what-is-in-testing-javascript'
 
 type LandingTemplateProps = {
-  isPro: boolean
+  canViewContent: boolean
   playlists: SanityDocument[]
   testimonials: TestimonialProps[]
   faqs: FaqProps[]
   interviews: InterviewProps[]
+  mostValuedProduct: SanityProduct
   commerceProps: CommerceProps
   proTestingPurchased: boolean
 }
 
 const LandingTemplate: React.FC<LandingTemplateProps> = ({
-  isPro,
+  canViewContent,
   playlists,
   testimonials,
   faqs,
   interviews,
+  mostValuedProduct,
   commerceProps,
   proTestingPurchased,
 }) => {
@@ -42,7 +48,7 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
             Learn the smart, efficient way to test any JavaScript application.
           </Balancer>
         </h1>
-        <h3 className="flex justify-center items-center text-center mt-5 before:block before:bg-brand-orange before:w-4 before:h-[2px] before:mr-2 after:block after:bg-brand-orange after:w-4 after:h-[2px] after:ml-2 text-sm md:text-xl">
+        <h3 className="flex justify-center items-center text-center mt-5 before:block before:bg-tjs-orange before:w-4 before:h-[2px] before:mr-2 after:block after:bg-tjs-orange after:w-4 after:h-[2px] after:ml-2 text-sm md:text-xl">
           YOUR ESSENTIAL GUIDE TO FLAWLESS TESTING
         </h3>
         <div className="flex justify-center items-center space-x-3 text-sm md:text-base mt-6">
@@ -75,23 +81,17 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
           streamType="on-demand"
           playbackId="lZ7JLEsycJZ1hi9D02NlGo701t2IILWuXssviaT9fy8u8"
         />
-        <div className="mt-36 flex flex-col items-center">
-          <Image
-            src="/images/illos/code-bits-1.png"
-            alt="Code Bits"
-            width={300}
-            height={83}
-          />
-          <h2 className="text-center font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl mt-14">
-            What's in Testing JavaScript?
-          </h2>
-          <div className="bg-gray-600 text-white mt-20 w-full">modules</div>
-        </div>
+        <WhatIsInTestingJavascript
+          canViewContent={canViewContent}
+          mostValuedProduct={mostValuedProduct}
+          playlists={playlists}
+          className="lg:mt-32"
+        />
         <div className="mt-14">
-          <h2 className="text-center font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-xl mx-auto">
+          <h2 className="text-center font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-2xl mx-auto">
             <Balancer>Gain insight from industry experts.</Balancer>
           </h2>
-          <h3 className="font-tt-regular text-center text-xl md:text-2xl lg:text-3xl opacity-80 mt-6 md:mt-10">
+          <h3 className="font-tt-regular text-center text-xl md:text-2xl lg:text-3xl opacity-70 mt-6 md:mt-10">
             Exclusive Pro Testing Bonus Content
           </h3>
         </div>

@@ -35,8 +35,8 @@ module.exports = {
       },
       colors: {
         body: '#1b1b1f',
-        'tjs-green': '#5cc7c7',
-        'brand-orange': '#ffa82e',
+        'tjs-green': '#3ac0c0',
+        'tjs-orange': '#ffa82e',
       },
       typography: (theme) => ({
         DEFAULT: {
