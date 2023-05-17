@@ -6,21 +6,18 @@ import {
   HiLink,
 } from 'react-icons/hi'
 import {defineArrayMember, defineField} from 'sanity'
-// import {BlockEditor} from 'part:@sanity/form-builder'
-// import {handlePaste} from '../../customization/onPaste'
+import CommentBlockEditor from '../components/CustomRichTextEditor'
 
-// const CustomEditor = forwardRef((props, ref) => (
-//   <BlockEditor {...props} ref={ref} onPaste={handlePaste} />
-// ))
-
-// TODO: Exercises (don't have to have solutions), Challenges (always have solutions, sometimes multiple parts)
 export default defineField({
-  // inputComponent: CustomEditor,
   title: 'Body in PT',
   name: 'body',
   type: 'array',
+  components: {
+    // TODO: This is not working
+    // input: CommentBlockEditor,
+  },
   of: [
-    {
+    defineArrayMember({
       type: 'block',
       // styles: [
       //   {title: 'Normal', value: 'normal'},
@@ -34,7 +31,7 @@ export default defineField({
       // ],
       marks: {
         annotations: [
-          {
+          defineArrayMember({
             name: 'link',
             type: 'object',
             title: 'External link',
@@ -52,8 +49,8 @@ export default defineField({
                 type: 'boolean',
               },
             ],
-          },
-          {
+          }),
+          defineArrayMember({
             name: 'internalLink',
             type: 'object',
             title: 'Internal link',
@@ -66,8 +63,8 @@ export default defineField({
                 to: [{type: 'exercise'}, {type: 'module'}],
               },
             ],
-          },
-          {
+          }),
+          defineArrayMember({
             name: 'emoji',
             type: 'object',
             title: 'Emoji',
@@ -87,8 +84,8 @@ export default defineField({
                 ],
               },
             ],
-          },
-          {
+          }),
+          defineArrayMember({
             name: 'timestamp',
             type: 'object',
             title: 'Timestamp',
@@ -101,17 +98,17 @@ export default defineField({
                 validation: (Rule) => Rule.required(),
               },
             ],
-          },
+          }),
         ],
       },
-    },
-    {type: 'bodyImage'},
-    {type: 'bodyVideo'},
-    {type: 'code'},
-    {type: 'callout'},
-    {type: 'divider'},
-    {type: 'grid'},
-    {type: 'bodyTestimonial'},
-    {type: 'bodyTweet'},
+    }),
+    defineArrayMember({type: 'bodyImage'}),
+    defineArrayMember({type: 'bodyVideo'}),
+    defineArrayMember({type: 'code'}),
+    defineArrayMember({type: 'callout'}),
+    defineArrayMember({type: 'divider'}),
+    defineArrayMember({type: 'grid'}),
+    defineArrayMember({type: 'bodyTestimonial'}),
+    defineArrayMember({type: 'bodyTweet'}),
   ],
 })
