@@ -73,6 +73,7 @@ export default {
             {title: 'Interview', type: 'interview'},
             {title: 'Testimonial', type: 'testimonial'},
             {type: 'linkResource'},
+            {title: 'CTA', type: 'cta'},
           ],
         },
       ],
