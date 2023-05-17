@@ -13,6 +13,11 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'expiresAt',
+      title: 'Expires At',
+      type: 'date',
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
