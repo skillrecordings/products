@@ -21,12 +21,26 @@ const PlaylistItem: React.FC<{
     <li className="flex flex-col items-center md:items-start space-y-6 md:space-y-0 md:flex-row md:space-x-8 lg:space-x-12">
       <div className="flex flex-col item-center shrink-0 space-y-8">
         <div className="w-48 lg:w-60">
-          <Image
-            src={playlist.image}
-            alt={playlist.title}
-            width={250}
-            height={250}
-          />
+          {purchased ? (
+            <Link
+              href={`/playlists/${playlist.slug.current}`}
+              className="block"
+            >
+              <Image
+                src={playlist.image}
+                alt={playlist.title}
+                width={250}
+                height={250}
+              />
+            </Link>
+          ) : (
+            <Image
+              src={playlist.image}
+              alt={playlist.title}
+              width={250}
+              height={250}
+            />
+          )}
         </div>
         {!purchased && (
           <Link
@@ -40,7 +54,16 @@ const PlaylistItem: React.FC<{
       </div>
       <div>
         <h3 className="text-3xl md:text-4xl">
-          <Balancer>{playlist.title}</Balancer>
+          {purchased ? (
+            <Link
+              href={`/playlists/${playlist.slug.current}`}
+              className="hover:underline"
+            >
+              <Balancer>{playlist.title}</Balancer>
+            </Link>
+          ) : (
+            <Balancer>{playlist.title}</Balancer>
+          )}
         </h3>
         {!purchased && (
           <div className="space-y-4">
