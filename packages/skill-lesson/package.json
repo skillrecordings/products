@@ -62,7 +62,7 @@
     "lodash": "^4.17.21",
     "mjml": "^4.12.0",
     "next": "^13.4.2",
-    "next-auth": "^4.19.2",
+    "next-auth": "^4.22.1",
     "next-mdx-remote": "^4.1.0",
     "pluralize": "^8.0.0",
     "react": "18.2.0",

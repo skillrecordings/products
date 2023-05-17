@@ -68,10 +68,12 @@ async function SkillRecordingsNextHandler(
       res.status(302).setHeader('Location', handler.redirect)
       return res.end()
     }
-    return res.json({url: handler.redirect})
+    res.json({url: handler.redirect})
+  } else {
+    res.json(handler.body)
   }
 
-  return res.json(handler.body)
+  res.end()
 }
 
 function SkillRecordings(options: SkillRecordingsOptions): any

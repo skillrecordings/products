@@ -52,6 +52,7 @@ const Navigation: React.FC<{className?: string; wrapperClassName?: string}> = ({
                 router.asPath === href || router.pathname === href
               return (
                 <Link
+                  key={href}
                   href={href}
                   className={cx(
                     'inline-flex font-mono text-xs uppercase font-semibold text-gray-600 hover:text-black decoration-gray-400 underline-offset-2',

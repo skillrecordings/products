@@ -37,7 +37,7 @@
     "groq": "^2.15.0",
     "mjml": "^4.12.0",
     "next": "^13.4.2",
-    "next-auth": "^4.19.2",
+    "next-auth": "^4.22.1",
     "next-sitemap": "^3.0.5",
     "nodemailer": "^6.7.2",
     "nodemailer-postmark-transport": "^5.2.1",
