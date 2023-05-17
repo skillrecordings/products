@@ -14,7 +14,8 @@
     "lint": "eslint ./src --fix"
   },
   "dependencies": {
-    "inngest": "^1.7.1"
+    "inngest": "^1.9.0",
+    "next-auth": "^4.19.2"
   },
   "devDependencies": {
     "@skillrecordings/tsconfig": "workspace:*",

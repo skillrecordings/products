@@ -95,7 +95,7 @@
     "formik": "2.2.9",
     "framer-motion": "^10.12.4",
     "groq": "^2.15.0",
-    "inngest": "^1.7.1",
+    "inngest": "^1.9.0",
     "js-cookie": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "langchain": "^0.0.75",

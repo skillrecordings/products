@@ -5,6 +5,7 @@ import {recordNewPurchase, stripe} from '@skillrecordings/commerce-server'
 import {buffer} from 'micro'
 import {postSaleToSlack, sendServerEmail} from '../../server'
 import {convertkitTagPurchase} from './convertkit'
+import {inngest} from '../../inngest/post-purchase'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -39,29 +40,38 @@ export async function processStripeWebhooks({
       event = stripe.webhooks.constructEvent(buf, sig as string, webhookSecret)
 
       if (event.type === 'checkout.session.completed') {
-        const {user, purchase, purchaseInfo} = await recordNewPurchase(
-          event.data.object.id,
-        )
-
-        if (!user) throw new Error('no-user-created')
-
-        const email = user.email as string
-
-        // TODO: Send different email type for upgrades
-
-        if (nextAuthOptions) {
-          await sendServerEmail({
-            email,
-            callbackUrl: `${process.env.NEXT_PUBLIC_URL}/welcome?purchaseId=${purchase.id}`,
-            nextAuthOptions,
-            type: 'purchase',
+        if (process.env.INNGEST_EVENT_KEY) {
+          await inngest.send({
+            name: 'commerce/purchase.completed',
+            data: {
+              stripeCheckoutSessionId: event.data.object.id,
+            },
           })
         } else {
-          console.warn('⛔️ not sending email: no nextAuthOptions found')
-        }
+          const {user, purchase, purchaseInfo} = await recordNewPurchase(
+            event.data.object.id,
+          )
 
-        await convertkitTagPurchase(email, purchase)
-        await postSaleToSlack(purchaseInfo, purchase)
+          if (!user) throw new Error('no-user-created')
+
+          const email = user.email as string
+
+          // TODO: Send different email type for upgrades
+
+          if (nextAuthOptions) {
+            await sendServerEmail({
+              email,
+              callbackUrl: `${process.env.NEXT_PUBLIC_URL}/welcome?purchaseId=${purchase.id}`,
+              nextAuthOptions,
+              type: 'purchase',
+            })
+          } else {
+            console.warn('⛔️ not sending email: no nextAuthOptions found')
+          }
+
+          await convertkitTagPurchase(email, purchase)
+          await postSaleToSlack(purchaseInfo, purchase)
+        }
 
         return {
           status: 200,

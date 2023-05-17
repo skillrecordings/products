@@ -8,6 +8,7 @@ import {
 } from 'langchain/prompts'
 
 import {ConversationChain} from 'langchain/chains'
+import {commercePostPurchase} from '@skillrecordings/skill-api'
 
 type SummaryInputEvent = {
   name: 'api/chat.submitted'
@@ -97,4 +98,8 @@ RULES:
   },
 )
 
-export default serve(inngest, [convertkitSurveyAnswered, summarizeInput])
+export default serve(inngest, [
+  convertkitSurveyAnswered,
+  summarizeInput,
+  commercePostPurchase,
+])

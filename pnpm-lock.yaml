@@ -2786,7 +2786,7 @@ importers:
       formik: 2.2.9
       framer-motion: ^10.12.4
       groq: ^2.15.0
-      inngest: ^1.7.1
+      inngest: ^1.9.0
       js-cookie: ^3.0.1
       jsonwebtoken: ^8.5.1
       langchain: ^0.0.75
@@ -2913,7 +2913,7 @@ importers:
       formik: 2.2.9_react@18.2.0
       framer-motion: 10.12.4_biqbaboplfbrettd7655fr4n2y
       groq: 2.15.0
-      inngest: 1.7.1_typescript@4.9.4
+      inngest: 1.9.0_typescript@4.9.4
       js-cookie: 3.0.1
       jsonwebtoken: 8.5.1
       langchain: 0.0.75_axios@1.4.0
@@ -3823,13 +3823,15 @@ importers:
       '@types/node': ^18.11.18
       eslint: ^8.12.0
       eslint-config-custom: workspace:*
-      inngest: ^1.7.1
+      inngest: ^1.9.0
+      next-auth: ^4.19.2
       rimraf: ^3.0.2
       tsup: ^5.11.13
       tsx: ^3.7.1
       typescript: ^4.9.4
     dependencies:
-      inngest: 1.7.1_typescript@4.9.4
+      inngest: 1.9.0_typescript@4.9.4
+      next-auth: 4.19.2
     devDependencies:
       '@skillrecordings/tsconfig': link:../tsconfig
       '@types/node': 18.11.18
@@ -4225,6 +4227,7 @@ importers:
       handlebars: ^4.7.7
       html-to-text: ^8.2.0
       i: ^0.3.7
+      inngest: ^1.9.0
       jest-mock-extended: ^2.0.7
       lodash: ^4.17.21
       micro: ^9.3.4
@@ -4260,6 +4263,7 @@ importers:
       groq: 2.15.0
       handlebars: 4.7.7
       html-to-text: 8.2.0
+      inngest: 1.9.0_typescript@4.9.4
       lodash: 4.17.21
       micro: 9.3.4
       mjml: 4.12.0
@@ -13859,7 +13863,7 @@ packages:
   /@sanity/bifur-client/0.3.1:
     resolution: {integrity: sha512-GlY9+tUmM0Vye64BHwIYLOivuRL37ucW/sj/D9MYqBmjgBnTRrjfmg8NR7qoodZuJ5nYJ5qpGMsVIBLP4Plvnw==}
     dependencies:
-      nanoid: 3.3.4
+      nanoid: 3.3.6
       rxjs: 7.8.0
     dev: false
 
@@ -25224,6 +25228,7 @@ packages:
         optional: true
     dependencies:
       debug: 2.6.9
+    dev: false
 
   /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -25684,7 +25689,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2_debug@2.6.9
+      follow-redirects: 1.15.2_debug@4.3.4
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -27015,8 +27020,8 @@ packages:
       css-in-js-utils: 2.0.1
     dev: false
 
-  /inngest/1.7.1_typescript@4.9.4:
-    resolution: {integrity: sha512-HfXM6bbP0kkAAMA9HrD07ZEg+0hWlBLhl2bzf8HNjTNUHKTgvUeRAoHebjxLNwQcSxz0yGNd858cNfawUJ4VcQ==}
+  /inngest/1.9.0_typescript@4.9.4:
+    resolution: {integrity: sha512-F1iVUrdx3xi1O/IMnMWJf+s9zUjrruNmT5prLCUFYqZt+oa1PWYEJoJEOu+Tol5eB6QnoWN69R1AnjMJg85zLw==}
     engines: {node: '>=14'}
     hasBin: true
     peerDependencies:
@@ -27024,6 +27029,7 @@ packages:
     dependencies:
       buffer: 6.0.3
       canonicalize: 1.0.8
+      chalk: 4.1.2
       cross-fetch: 3.1.5
       h3: 1.1.0
       hash.js: 1.1.7
@@ -32164,6 +32170,28 @@ packages:
     dev: false
     optional: true
 
+  /next-auth/4.19.2:
+    resolution: {integrity: sha512-6V2YG3IJQVhgCAH7mvT3yopTW92gMdUrcwGX7NQ0dCreT/+axGua/JmVdarjec0C/oJukKpIYRgjMlV+L5ZQOQ==}
+    peerDependencies:
+      next: ^12.2.5 || ^13
+      nodemailer: ^6.6.5
+      react: ^17.0.2 || ^18
+      react-dom: ^17.0.2 || ^18
+    peerDependenciesMeta:
+      nodemailer:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.20.7
+      '@panva/hkdf': 1.0.1
+      cookie: 0.5.0
+      jose: 4.11.1
+      oauth: 0.9.15
+      openid-client: 5.1.4
+      preact: 10.7.2
+      preact-render-to-string: 5.2.0_preact@10.7.2
+      uuid: 8.3.2
+    dev: false
+
   /next-auth/4.19.2_7na3tfldvrlsrvgk4khfk6ttve:
     resolution: {integrity: sha512-6V2YG3IJQVhgCAH7mvT3yopTW92gMdUrcwGX7NQ0dCreT/+axGua/JmVdarjec0C/oJukKpIYRgjMlV+L5ZQOQ==}
     peerDependencies:
@@ -32179,7 +32207,7 @@ packages:
       '@panva/hkdf': 1.0.1
       cookie: 0.5.0
       jose: 4.11.1
-      next: 13.4.2_x6hpkaqu4dxwl4unajq2h7dx44
+      next: 13.4.2_biqbaboplfbrettd7655fr4n2y
       nodemailer: 6.7.2
       oauth: 0.9.15
       openid-client: 5.1.4
@@ -32611,6 +32639,7 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    dev: true
 
   /nice-try/1.0.5:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
@@ -40350,6 +40379,7 @@ packages:
       '@babel/core': 7.16.5
       client-only: 0.0.1
       react: 18.2.0
+    dev: true
 
   /styled-jsx/5.1.1_react@18.2.0:
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
