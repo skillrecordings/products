@@ -115,7 +115,6 @@
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
     "@tailwindcss/typography": "^0.5.9",
-    "@types/axios": "^0.14.0",
     "@types/cookie": "^0.4.1",
     "@types/js-cookie": "^3.0.2",
     "@types/jsonwebtoken": "^8.5.8",

@@ -971,7 +971,6 @@ importers:
       '@trpc/next': '=10.7.0'
       '@trpc/react-query': '=10.7.0'
       '@trpc/server': '=10.7.0'
-      '@types/axios': ^0.14.0
       '@types/cookie': ^0.4.1
       '@types/js-cookie': ^3.0.2
       '@types/jsonwebtoken': ^8.5.8
@@ -1153,7 +1152,6 @@ importers:
       '@skillrecordings/tsconfig': link:../../packages/tsconfig
       '@skillrecordings/types': link:../../packages/types
       '@tailwindcss/typography': 0.5.9_tailwindcss@3.3.0
-      '@types/axios': 0.14.0
       '@types/cookie': 0.4.1
       '@types/js-cookie': 3.0.2
       '@types/jsonwebtoken': 8.5.8
@@ -1462,7 +1460,6 @@ importers:
       '@trpc/next': '=10.7.0'
       '@trpc/react-query': '=10.7.0'
       '@trpc/server': '=10.7.0'
-      '@types/axios': ^0.14.0
       '@types/cookie': ^0.5.1
       '@types/cors': ^2.8.12
       '@types/fs-extra': ^9.0.13
@@ -1705,7 +1702,6 @@ importers:
       '@skillrecordings/types': link:../../packages/types
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
-      '@types/axios': 0.14.0
       '@types/cookie': 0.5.1
       '@types/cors': 2.8.13
       '@types/fs-extra': 9.0.13
@@ -3133,7 +3129,6 @@ importers:
       '@trpc/next': '=10.7.0'
       '@trpc/react-query': '=10.7.0'
       '@trpc/server': '=10.7.0'
-      '@types/axios': ^0.14.0
       '@types/cookie': ^0.4.1
       '@types/isomorphic-fetch': ^0.0.35
       '@types/jest': ^27.5.2
@@ -3323,7 +3318,6 @@ importers:
       '@tailwindcss/typography': 0.5.9_tailwindcss@3.3.0
       '@testing-library/jest-dom': 5.15.0
       '@testing-library/react': 12.1.2_biqbaboplfbrettd7655fr4n2y
-      '@types/axios': 0.14.0
       '@types/cookie': 0.4.1
       '@types/isomorphic-fetch': 0.0.35
       '@types/jest': 27.5.2
@@ -14076,7 +14070,7 @@ packages:
       react: 18.2.0
       react-ace: 10.1.0_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
-      sanity: 3.8.3_ppvhipyfvk2nzgxwoato6b45ea
+      sanity: 3.8.3_shczhbm3p5l37poee5bnpnaupi
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-is
@@ -14815,7 +14809,7 @@ packages:
       '@sanity/incompatible-plugin': 1.0.4_biqbaboplfbrettd7655fr4n2y
       '@sanity/ui': 1.3.2_2zpt4ilzykmne4yndyzrqd4gdm
       react: 18.2.0
-      sanity: 3.8.3_ppvhipyfvk2nzgxwoato6b45ea
+      sanity: 3.8.3_shczhbm3p5l37poee5bnpnaupi
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-dom
@@ -16534,15 +16528,6 @@ packages:
     resolution: {integrity: sha512-GUDuJURF0YiJZ+CBjNQA0+vbP/VHlJbB0sFqkzsV7EcOPRfurVonXpXKAt3w8qIjM1TEzpz6hc6POocPvHOS3w==}
     dependencies:
       '@types/retry': 0.12.0
-    dev: true
-
-  /@types/axios/0.14.0:
-    resolution: {integrity: sha512-KqQnQbdYE54D7oa/UmYVMZKq7CO4l8DEENzOKc4aBRwxCXSlJXGz83flFx5L7AWrOQnmuN3kVsRdt+GZPPjiVQ==}
-    deprecated: This is a stub types definition for axios (https://github.com/mzabriskie/axios). axios provides its own type definitions, so you don't need @types/axios installed!
-    dependencies:
-      axios: 1.4.0
-    transitivePeerDependencies:
-      - debug
     dev: true
 
   /@types/babel__core/7.1.16:
@@ -19056,6 +19041,7 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: false
 
   /axobject-query/2.2.0:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
@@ -24992,6 +24978,7 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.34
+    dev: false
 
   /form-urlencoded/2.0.9:
     resolution: {integrity: sha512-fWUzNiOnYa126vFAT6TFXd1mhJrvD8IqmQ9ilZPjkLYQfaRreBr5fIUoOpPlWtqaAG64nzoE7u5zSetifab9IA==}
@@ -35308,6 +35295,7 @@ packages:
 
   /proxy-from-env/1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
+    dev: false
 
   /prr/1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
@@ -37683,7 +37671,7 @@ packages:
       nanoid: 3.3.4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      sanity: 3.8.3_ppvhipyfvk2nzgxwoato6b45ea
+      sanity: 3.8.3_shczhbm3p5l37poee5bnpnaupi
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-is

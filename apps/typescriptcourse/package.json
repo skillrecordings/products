@@ -137,7 +137,6 @@
     "@tailwindcss/typography": "^0.5.9",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
-    "@types/axios": "^0.14.0",
     "@types/cookie": "^0.4.1",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^27.5.2",
