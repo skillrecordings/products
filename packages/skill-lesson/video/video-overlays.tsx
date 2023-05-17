@@ -72,13 +72,23 @@ const ModuleCtaProvider: React.FC<React.PropsWithChildren<any>> = ({
   const {module} = useLesson()
   const {cta} = module
 
+  const expiresAt = cta?.expiresAt && new Date(cta.expiresAt)
+
+  if (!cta) {
+    return children
+  }
+
+  if (expiresAt && expiresAt < new Date()) {
+    return children
+  }
+
   return (
     <div data-video-overlay-with-cta="">
       <div data-content="">{children}</div>
-      {cta && (
+      {cta.body && (
         <div data-cta="">
           <PortableText
-            value={cta}
+            value={cta.body}
             components={portableTextComponents({
               loadingIndicator: <Spinner />,
             })}
