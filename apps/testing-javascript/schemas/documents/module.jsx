@@ -77,6 +77,11 @@ export default {
       title: 'Body',
       type: 'body',
     },
+    {
+      name: 'preview',
+      title: 'Preview Course video slug',
+      type: 'string',
+    },
     {name: 'image', title: 'Image', type: 'externalImage'},
     {
       name: 'ogImage',
