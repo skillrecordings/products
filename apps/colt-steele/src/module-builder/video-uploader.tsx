@@ -23,7 +23,9 @@ const VideoUploader = () => {
           onUploadProgress: (progressEvent) => {
             console.log(
               'progressEvent',
-              progressEvent.loaded / progressEvent.total,
+              progressEvent.total
+                ? progressEvent.loaded / progressEvent.total
+                : 0,
             )
           },
         })

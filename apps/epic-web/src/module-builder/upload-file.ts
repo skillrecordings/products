@@ -11,7 +11,7 @@ export async function uploadToS3({
 }: {
   fileType: string
   fileContents: File
-  onUploadProgress: (progressEvent: {loaded: number; total: number}) => void
+  onUploadProgress: (progressEvent: {loaded: number; total?: number}) => void
 }) {
   const presignedPostUrl = await getPresignedPostUrl(
     fileType,

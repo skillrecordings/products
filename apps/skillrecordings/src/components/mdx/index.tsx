@@ -22,7 +22,7 @@ const TweetWrapper = (props: any) => {
   ) : null
 }
 
-const mdxComponents = () => {
+const mdxComponents: any = () => {
   return {
     Tweet: (props: any) => <TweetWrapper {...props} />,
     Image,
