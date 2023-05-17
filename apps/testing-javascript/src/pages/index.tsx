@@ -7,7 +7,10 @@ import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
 import {SanityDocument} from '@sanity/client'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
-import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {
+  CommerceProps,
+  SanityProduct,
+} from '@skillrecordings/commerce-server/dist/@types'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import {getCurrentAbility} from '@skillrecordings/ability'
 import {getAllProducts, getActiveProduct} from 'server/products.server'
@@ -39,6 +42,26 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
     token,
     products,
   })
+  const purchasedProductsIds =
+    commerceProps.purchases?.map((purchase) => purchase.productId) || []
+
+  const modulesAmount: {productId: string; modulesAmount: number}[] =
+    await Promise.all(
+      purchasedProductsIds.map(
+        async (
+          productId,
+        ): Promise<{productId: string; modulesAmount: number}> => {
+          const product = await getActiveProduct(productId)
+          return {productId: productId, modulesAmount: product?.modules?.length}
+        },
+      ),
+    )
+  const mostValuedProductId = modulesAmount.sort((a, b) => {
+    return b.modulesAmount - a.modulesAmount
+  })[0]?.productId
+  const mostValuedProduct = mostValuedProductId
+    ? await getActiveProduct(mostValuedProductId)
+    : null
   return {
     props: {
       commerceProps,
@@ -46,6 +69,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
       testimonials,
       faqs,
       interviews,
+      mostValuedProduct,
       canViewContent,
       hasChargesForPurchases,
       hasBulkPurchase,
@@ -61,6 +85,7 @@ const Home: React.FC<
     testimonials: TestimonialProps[]
     faqs: FaqProps[]
     interviews: InterviewProps[]
+    mostValuedProduct: SanityProduct
     canViewContent: boolean
     hasChargesForPurchases: boolean
     hasBulkPurchase: boolean
@@ -72,6 +97,7 @@ const Home: React.FC<
   testimonials,
   faqs,
   interviews,
+  mostValuedProduct,
   canViewContent,
   hasChargesForPurchases,
   hasBulkPurchase,
@@ -109,13 +135,14 @@ const Home: React.FC<
   return (
     <Layout>
       <LandingTemplate
-        isPro={canViewContent}
+        canViewContent={canViewContent}
         playlists={playlists}
         testimonials={testimonials}
         faqs={faqs}
         interviews={interviews}
         proTestingPurchased={proTestingPurchased}
         commerceProps={commerceProps}
+        mostValuedProduct={mostValuedProduct}
       />
       {/* {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
     </Layout>
