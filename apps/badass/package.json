@@ -50,7 +50,7 @@
     "@stripe/stripe-js": "^1.21.1",
     "@xstate/react": "=1.5.1",
     "autoprefixer": "^10.4.2",
-    "axios": "^0.26.0",
+    "axios": "^1.4.0",
     "classnames": "^2.3.1",
     "client-oauth2": "^4.3.3",
     "clsx": "^1.1.1",

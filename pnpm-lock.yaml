@@ -101,7 +101,7 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/shortid': ^0.0.29
       '@vercel/og': ^0.5.4
-      axios: ^0.26.1
+      axios: ^1.4.0
       classnames: ^2.3.1
       date-fns: ^2.28.0
       dotenv-flow: ^3.2.0
@@ -198,7 +198,7 @@ importers:
       '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
       '@vercel/og': 0.5.4
-      axios: 0.26.1
+      axios: 1.4.0
       classnames: 2.3.1
       date-fns: 2.29.3
       feed: 4.2.2
@@ -308,7 +308,7 @@ importers:
       '@xstate/react': '=1.5.1'
       assert: ^2.0.0
       autoprefixer: ^10.4.2
-      axios: ^0.26.0
+      axios: ^1.4.0
       classnames: ^2.3.1
       client-oauth2: ^4.3.3
       clsx: ^1.1.1
@@ -385,7 +385,7 @@ importers:
       '@stripe/stripe-js': 1.21.1
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       autoprefixer: 10.4.7_postcss@8.4.14
-      axios: 0.26.1
+      axios: 1.4.0
       classnames: 2.3.1
       client-oauth2: 4.3.3
       clsx: 1.1.1
@@ -535,7 +535,7 @@ importers:
       '@types/shortid': ^0.0.29
       '@types/speakingurl': ^13.0.3
       '@vercel/og': ^0.5.4
-      axios: ^0.26.1
+      axios: ^1.4.0
       classnames: ^2.3.1
       date-fns: ^2.28.0
       dotenv-flow: ^3.2.0
@@ -637,7 +637,7 @@ importers:
       '@types/shortid': 0.0.29
       '@types/speakingurl': 13.0.3
       '@vercel/og': 0.5.4
-      axios: 0.26.1
+      axios: 1.4.0
       classnames: 2.3.1
       date-fns: 2.28.0
       feed: 4.2.2
@@ -992,7 +992,7 @@ importers:
       '@vercel/og': ^0.5.4
       autoprefixer: ^10.4.12
       aws-sdk: ^2.1197.0
-      axios: ^0.26.1
+      axios: ^1.4.0
       classnames: ^2.3.1
       cloudinary: ^1.29.0
       date-fns: ^2.28.0
@@ -1096,7 +1096,7 @@ importers:
       '@trpc/server': 10.7.0
       '@vercel/og': 0.5.4
       aws-sdk: 2.1300.0
-      axios: 0.26.1
+      axios: 1.4.0
       classnames: 2.3.1
       cloudinary: 1.29.0
       date-fns: 2.28.0
@@ -1251,7 +1251,7 @@ importers:
       '@xstate/react': '=1.5.1'
       autoprefixer: ^10.4.2
       aws-sdk: ^2.1197.0
-      axios: ^0.26.0
+      axios: ^1.4.0
       classnames: ^2.3.1
       date-fns: ^2.28.0
       dexie: ^3.2.2
@@ -1340,7 +1340,7 @@ importers:
       '@trpc/server': 10.7.0
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       aws-sdk: 2.1300.0
-      axios: 0.26.1
+      axios: 1.4.0
       classnames: 2.3.1
       date-fns: 2.28.0
       dexie: 3.2.2
@@ -1753,7 +1753,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.33.0
       '@typescript-eslint/parser': ^5.33.0
       autoprefixer: ^10.4.7
-      axios: ^0.26.0
+      axios: ^1.4.0
       eslint: 8.22.0
       eslint-config-custom: workspace:*
       eslint-config-next: 12.3.1
@@ -1776,7 +1776,7 @@ importers:
       '@trpc/next': 10.7.0_d3ztwackgnqsj6s7tqkdtmz3oe
       '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
-      axios: 0.26.1
+      axios: 1.4.0
       lodash: 4.17.21
       next: 12.3.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -1880,7 +1880,7 @@ importers:
       '@xstate/react': '=1.5.1'
       assert: ^2.0.0
       autoprefixer: ^10.4.2
-      axios: ^0.26.0
+      axios: ^1.4.0
       babel-jest: ^27.5.1
       classnames: ^2.3.1
       client-oauth2: ^4.3.3
@@ -1940,7 +1940,7 @@ importers:
       '@stripe/stripe-js': 1.21.1
       '@xstate/react': 1.5.1_3hx2ussxxho4jajbwrd6gq34qe
       autoprefixer: 10.4.7_postcss@8.4.14
-      axios: 0.26.1
+      axios: 1.4.0
       classnames: 2.3.1
       client-oauth2: 4.3.3
       cookie: 0.5.0
@@ -2463,7 +2463,7 @@ importers:
       algoliasearch: ^4.13.0
       assert: ^2.0.0
       autoprefixer: ^10.4.2
-      axios: ^0.26.0
+      axios: ^1.4.0
       classnames: ^2.3.1
       commander: ^8.3.0
       concurrently: ^7.2.2
@@ -2582,7 +2582,7 @@ importers:
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       algoliasearch: 4.13.0
       autoprefixer: 10.4.7_postcss@8.4.14
-      axios: 0.26.1
+      axios: 1.4.0
       classnames: 2.3.1
       cookie: 0.5.0
       date-fns: 2.28.0
@@ -2770,7 +2770,7 @@ importers:
       '@xstate/react': '=1.5.1'
       autoprefixer: ^10.4.2
       aws-sdk: ^2.1197.0
-      axios: ^0.26.1
+      axios: ^1.4.0
       classnames: ^2.3.1
       cmdk: ^0.2.0
       cookie: ^0.5.0
@@ -2788,6 +2788,7 @@ importers:
       inngest: ^1.7.1
       js-cookie: ^3.0.1
       jsonwebtoken: ^8.5.1
+      langchain: ^0.0.75
       lint-staged: ^11.2.6
       lodash: ^4.17.21
       mjml: ^4.12.0
@@ -2796,6 +2797,7 @@ importers:
       next-auth: ^4.19.2
       next-sitemap: ^3.0.5
       node-fetch: ^2.6.7
+      openai: ^3.2.1
       pluralize: ^8.0.0
       postcss: ^8.4.14
       prettier: ^2.6.2
@@ -2886,7 +2888,7 @@ importers:
       '@vercel/og': 0.5.4
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       aws-sdk: 2.1300.0
-      axios: 0.26.1
+      axios: 1.4.0
       classnames: 2.3.1
       cmdk: 0.2.0_bb2bxwco6ptpubzwpazr52qf6i
       cookie: 0.5.0
@@ -2902,12 +2904,14 @@ importers:
       inngest: 1.7.1_typescript@4.9.4
       js-cookie: 3.0.1
       jsonwebtoken: 8.5.1
+      langchain: 0.0.75_axios@1.4.0
       lodash: 4.17.21
       mjml: 4.12.0
       next: 13.4.2_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.19.2_cmp7sjki5xcmfyvhcokzzink7a
       next-sitemap: 3.1.7_64lvmbxg7kfuxcccmtzbtvp4om
       node-fetch: 2.6.7
+      openai: 3.2.1
       pluralize: 8.0.0
       query-string: 7.1.1
       react: 18.2.0
@@ -3148,7 +3152,7 @@ importers:
       '@xstate/react': '=1.5.1'
       assert: ^2.0.0
       autoprefixer: ^10.4.2
-      axios: ^0.26.0
+      axios: ^1.4.0
       classnames: ^2.3.1
       client-oauth2: ^4.3.3
       commander: ^8.3.0
@@ -3256,7 +3260,7 @@ importers:
       '@types/jsonwebtoken': 8.5.8
       '@xstate/react': 1.5.1_bpg42ha2il6pcyn3wrx2rxrchm
       autoprefixer: 10.4.7_postcss@8.4.14
-      axios: 0.26.1
+      axios: 1.4.0
       classnames: 2.3.1
       client-oauth2: 4.3.3
       cookie: 0.5.0
@@ -3519,7 +3523,7 @@ importers:
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
       '@types/yup': ^0.29.13
-      axios: ^0.26.0
+      axios: ^1.4.0
       cookie: ^0.5.0
       esbuild-node-tsc: ^1.6.1
       eslint: ^8.19.0
@@ -3536,10 +3540,10 @@ importers:
       yup: ^0.32.11
     dependencies:
       '@reach/dialog': 0.16.2_63dfw6rfgd64rl77ptfma4cvt4
-      '@skillrecordings/axios': 0.0.2_axios@0.26.1
+      '@skillrecordings/axios': 0.0.2_axios@1.4.0
       '@skillrecordings/config': link:../config
       '@skillrecordings/react': link:../react
-      axios: 0.26.1
+      axios: 1.4.0
       cookie: 0.5.0
       formik: 2.2.9_react@18.2.0
       js-cookie: 3.0.1
@@ -3973,7 +3977,7 @@ importers:
       '@types/react-syntax-highlighter': ^13.5.2
       '@xstate/react': '=1.5.1'
       assert: ^2.0.0
-      axios: ^0.26.0
+      axios: ^1.4.0
       esbuild-node-tsc: ^1.6.1
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
@@ -3997,11 +4001,11 @@ importers:
       '@reach/utils': 0.16.0_biqbaboplfbrettd7655fr4n2y
       '@skillrecordings/analytics': 0.0.6_next@13.4.2+react@18.2.0
       '@skillrecordings/auth': 0.0.6_next@13.4.2
-      '@skillrecordings/axios': 0.0.2_axios@0.26.1
+      '@skillrecordings/axios': 0.0.2_axios@1.4.0
       '@skillrecordings/config': link:../config
       '@skillrecordings/convertkit-react-ui': link:../convertkit-react-ui
       '@skillrecordings/react': link:../react
-      axios: 0.26.1
+      axios: 1.4.0
       eslint-config-custom: link:../eslint-config-custom
       formik: 2.2.9_react@18.2.0
       query-string: 7.1.1
@@ -4061,7 +4065,7 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/react-syntax-highlighter': ^13.5.2
       '@xstate/react': '=1.5.1'
-      axios: ^0.26.0
+      axios: ^1.4.0
       esbuild-node-tsc: ^1.6.1
       eslint: ^8.19.0
       eslint-config-custom: workspace:*
@@ -4087,12 +4091,12 @@ importers:
       '@skillrecordings/ability': link:../ability
       '@skillrecordings/analytics': link:../analytics
       '@skillrecordings/auth': 0.0.6_next@13.4.2
-      '@skillrecordings/axios': 0.0.2_axios@0.26.1
+      '@skillrecordings/axios': 0.0.2_axios@1.4.0
       '@skillrecordings/commerce-server': link:../commerce-server
       '@skillrecordings/config': link:../config
       '@skillrecordings/database': link:../database
       '@skillrecordings/next-seo': link:../next-seo
-      axios: 0.26.1
+      axios: 1.4.0
       formik: 2.2.9_react@18.2.0
       nprogress: 0.2.0
       prism-react-renderer: 1.2.1_react@18.2.0
@@ -4785,6 +4789,15 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.1.1
       '@jridgewell/trace-mapping': 0.3.13
+
+  /@anthropic-ai/sdk/0.4.3:
+    resolution: {integrity: sha512-SZrlXvjUUYT9rPmSzlTtmVk1OjVNpkCzILRluhiYwNcxXfQyvPJDi0CI6PyymygcgtqEF5EVqhKmC/PtPsNEIw==}
+    dependencies:
+      '@fortaine/fetch-event-source': 3.0.6
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+    dev: false
 
   /@asbjorn/eslint-plugin-groq/2.0.0:
     resolution: {integrity: sha512-dIR4FB4yBoA/WZEsgagmcnwllRH+qkDS8/YxVgLlsoL+IZb6RXtBDThoGKZye/OryAlEGLQP6aaWHtlxAflgyA==}
@@ -9700,6 +9713,10 @@ packages:
       - '@algolia/client-search'
     dev: false
 
+  /@dqbd/tiktoken/1.0.7:
+    resolution: {integrity: sha512-bhR5k5W+8GLzysjk8zTMVygQZsgvf7W1F0IlL4ZQ5ugjo5rCyiwGM5d8DYriXspytfu98tv59niang3/T+FoDw==}
+    dev: false
+
   /@emotion/babel-plugin-jsx-pragmatic/0.1.5_@babel+core@7.16.5:
     resolution: {integrity: sha512-y+3AJ0SItMDaAgGPVkQBC/S/BaqaPACkQ6MyCI2CUlrjTxKttTVfD3TMtcs7vLEcLxqzZ1xiG0vzwCXjhopawQ==}
     peerDependencies:
@@ -10336,6 +10353,11 @@ packages:
       '@floating-ui/dom': 1.1.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@fortaine/fetch-event-source/3.0.6:
+    resolution: {integrity: sha512-621GAuLMvKtyZQ3IA6nlDWhV1V/7PGOTNIGLUifxt0KzM+dZIweJ6F3XvQF3QnqeNfS1N7WQ0Kil1Di/lhChEw==}
+    engines: {node: '>=16.15'}
     dev: false
 
   /@frontapp/plugin-sdk/1.4.0:
@@ -15532,13 +15554,13 @@ packages:
       - debug
     dev: false
 
-  /@skillrecordings/axios/0.0.2_axios@0.26.1:
+  /@skillrecordings/axios/0.0.2_axios@1.4.0:
     resolution: {integrity: sha512-7BsZf5HQNa+uJ25sJmCd9lP6QAwzdXjVo213DHwiOuoLUM1i0EuqUTaD0T1IU7a/ab0qu/EJ0V852YyLABG9TA==}
     peerDependencies:
       axios: ^0.26.0
     dependencies:
       '@skillrecordings/config': 0.0.1
-      axios: 0.26.1
+      axios: 1.4.0
     dev: false
 
   /@skillrecordings/config/0.0.1:
@@ -18997,7 +19019,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
     transitivePeerDependencies:
       - debug
     dev: false
@@ -19005,14 +19027,14 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
     transitivePeerDependencies:
       - debug
 
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
     transitivePeerDependencies:
       - debug
     dev: false
@@ -19029,12 +19051,11 @@ packages:
   /axios/1.4.0:
     resolution: {integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
-    dev: true
 
   /axobject-query/2.2.0:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
@@ -19664,6 +19685,10 @@ packages:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
 
+  /binary-search/1.3.6:
+    resolution: {integrity: sha512-nbE1WxOTTrUWIfsfZ4aHGYu5DOuNkbxGokjV6Z2kxfJK3uaAb8zNK1muzOeipoLHZjInT4Br88BHpzevc681xA==}
+    dev: false
+
   /binaryextensions/2.3.0:
     resolution: {integrity: sha512-nAihlQsYGyc5Bwq6+EsubvANYGExeJKHDO3RjnvwU042fawQTQfM3Kxn7IHUXQOz4bzfwsGYYHGSvXyW4zOGLg==}
     engines: {node: '>=0.8'}
@@ -19798,6 +19823,10 @@ packages:
     resolution: {integrity: sha512-oTKjJdShmDuGW94SyyaoQvAjf30dZaHnjJ8uAF+u2/vGJkJbJPJAT1gDiOJP5v1Zb6f9KEyW/1HpuaWIXtGHPg==}
     dependencies:
       base64-js: 1.5.1
+    dev: false
+
+  /browser-or-node/2.1.1:
+    resolution: {integrity: sha512-8CVjaLJGuSKMVTxJ2DpBl5XnlNDiT4cQFeuCJJrvJmts9YrTZDizTX7PjC2s6W4x+MBGZeEY6dGMrF04/6Hgqg==}
     dev: false
 
   /browser-pack/6.1.0:
@@ -24445,6 +24474,10 @@ packages:
       transformify: 0.1.2
     dev: false
 
+  /expr-eval/2.0.2:
+    resolution: {integrity: sha512-4EMSHGOPSwAfBiibw3ndnP0AvjDWLsMvGOvWEZ2F96IGk0bIVdjQisOHxReSkE13mHcfbuCiXw+G4y0zv6N8Eg==}
+    dev: false
+
   /ext/1.6.0:
     resolution: {integrity: sha512-sdBImtzkq2HpkdRLtlLWDa6w4DX22ijZLKx8BMPUuKe1c5lbN6xwQDQCxSfxBQnHZ13ls/FH0MQZx/q/gr6FQg==}
     dependencies:
@@ -24797,6 +24830,11 @@ packages:
       flatted: 3.2.4
       rimraf: 3.0.2
 
+  /flat/5.0.2:
+    resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
+    hasBin: true
+    dev: false
+
   /flatted/2.0.2:
     resolution: {integrity: sha512-r5wGx7YeOwNWNlCA0wQ86zKyDLMQr+/RB8xy74M4hTphfmjlijTSSXGuH8rnvKZnfT9i+75zmd8jcKdMR4O6jA==}
     dev: false
@@ -24842,6 +24880,7 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
 
   /follow-redirects/1.15.2_debug@2.6.9:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -24853,6 +24892,17 @@ packages:
         optional: true
     dependencies:
       debug: 2.6.9
+
+  /follow-redirects/1.15.2_debug@4.3.4:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.4
 
   /fontkit-next/1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
@@ -25275,7 +25325,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -25326,7 +25376,7 @@ packages:
       create-error-class: 3.0.2
       debug: 4.3.4
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 5.0.0
@@ -25349,7 +25399,7 @@ packages:
     dependencies:
       debug: 4.3.4
       decompress-response: 7.0.0
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       into-stream: 6.0.0
       is-plain-object: 5.0.0
       is-retry-allowed: 2.2.0
@@ -26796,6 +26846,10 @@ packages:
     dependencies:
       is-alphabetical: 2.0.1
       is-decimal: 2.0.1
+    dev: false
+
+  /is-any-array/2.0.1:
+    resolution: {integrity: sha512-UtilS7hLRu++wb/WBAw9bNuP1Eg04Ivn1vERJck8zJthEvXCBEBpGR/33u/xLKWEQf95803oalHrVDptcAvFdQ==}
     dev: false
 
   /is-arguments/1.1.1:
@@ -29143,6 +29197,11 @@ packages:
     engines: {'0': node >= 0.2.0}
     dev: false
 
+  /jsonpointer/5.0.1:
+    resolution: {integrity: sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /jsonwebtoken/8.5.1:
     resolution: {integrity: sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==}
     engines: {node: '>=4', npm: '>=1.4.28'}
@@ -29281,6 +29340,128 @@ packages:
     dependencies:
       inherits: 2.0.4
       stream-splicer: 2.0.1
+    dev: false
+
+  /langchain/0.0.75_axios@1.4.0:
+    resolution: {integrity: sha512-5bulBe3pEDnCuO3W84E+pmns6+7oKdNomsApPD1PqjplEwT3szSYaY8bvqJVxYz2Hq1wcS3sL1OyL9rbC/s0NA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@aws-sdk/client-dynamodb': ^3.310.0
+      '@aws-sdk/client-lambda': ^3.310.0
+      '@aws-sdk/client-s3': ^3.310.0
+      '@clickhouse/client': ^0.0.14
+      '@getmetal/metal-sdk': '*'
+      '@huggingface/inference': ^1.5.1
+      '@opensearch-project/opensearch': '*'
+      '@pinecone-database/pinecone': '*'
+      '@supabase/supabase-js': ^2.10.0
+      '@tensorflow-models/universal-sentence-encoder': '*'
+      '@tensorflow/tfjs-converter': '*'
+      '@tensorflow/tfjs-core': '*'
+      '@zilliz/milvus2-sdk-node': ^2.2.0
+      axios: '*'
+      cheerio: ^1.0.0-rc.12
+      chromadb: ^1.4.0
+      cohere-ai: ^5.0.2
+      d3-dsv: ^2.0.0
+      epub2: ^3.0.1
+      hnswlib-node: ^1.4.2
+      html-to-text: ^9.0.5
+      mammoth: '*'
+      mongodb: ^5.2.0
+      pdf-parse: 1.1.1
+      playwright: ^1.32.1
+      puppeteer: ^19.7.2
+      redis: ^4.6.4
+      replicate: ^0.9.0
+      srt-parser-2: ^1.2.2
+      typeorm: ^0.3.12
+      weaviate-ts-client: ^1.0.0
+    peerDependenciesMeta:
+      '@aws-sdk/client-dynamodb':
+        optional: true
+      '@aws-sdk/client-lambda':
+        optional: true
+      '@aws-sdk/client-s3':
+        optional: true
+      '@clickhouse/client':
+        optional: true
+      '@getmetal/metal-sdk':
+        optional: true
+      '@huggingface/inference':
+        optional: true
+      '@opensearch-project/opensearch':
+        optional: true
+      '@pinecone-database/pinecone':
+        optional: true
+      '@supabase/supabase-js':
+        optional: true
+      '@tensorflow-models/universal-sentence-encoder':
+        optional: true
+      '@tensorflow/tfjs-converter':
+        optional: true
+      '@tensorflow/tfjs-core':
+        optional: true
+      '@zilliz/milvus2-sdk-node':
+        optional: true
+      axios:
+        optional: true
+      cheerio:
+        optional: true
+      chromadb:
+        optional: true
+      cohere-ai:
+        optional: true
+      d3-dsv:
+        optional: true
+      epub2:
+        optional: true
+      hnswlib-node:
+        optional: true
+      html-to-text:
+        optional: true
+      mammoth:
+        optional: true
+      mongodb:
+        optional: true
+      pdf-parse:
+        optional: true
+      playwright:
+        optional: true
+      puppeteer:
+        optional: true
+      redis:
+        optional: true
+      replicate:
+        optional: true
+      srt-parser-2:
+        optional: true
+      typeorm:
+        optional: true
+      weaviate-ts-client:
+        optional: true
+    dependencies:
+      '@anthropic-ai/sdk': 0.4.3
+      '@dqbd/tiktoken': 1.0.7
+      ansi-styles: 5.2.0
+      axios: 1.4.0
+      binary-extensions: 2.2.0
+      browser-or-node: 2.1.1
+      expr-eval: 2.0.2
+      flat: 5.0.2
+      jsonpointer: 5.0.1
+      ml-distance: 4.0.0
+      object-hash: 3.0.0
+      openai: 3.2.1
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      uuid: 9.0.0
+      yaml: 2.2.1
+      zod: 3.21.4
+      zod-to-json-schema: 3.21.1_zod@3.21.4
+    transitivePeerDependencies:
+      - debug
+      - encoding
     dev: false
 
   /language-subtag-registry/0.3.21:
@@ -31315,6 +31496,37 @@ packages:
     dependencies:
       minimist: 1.2.8
 
+  /ml-array-mean/1.1.6:
+    resolution: {integrity: sha512-MIdf7Zc8HznwIisyiJGRH9tRigg3Yf4FldW8DxKxpCCv/g5CafTw0RRu51nojVEOXuCQC7DRVVu5c7XXO/5joQ==}
+    dependencies:
+      ml-array-sum: 1.1.6
+    dev: false
+
+  /ml-array-sum/1.1.6:
+    resolution: {integrity: sha512-29mAh2GwH7ZmiRnup4UyibQZB9+ZLyMShvt4cH4eTK+cL2oEMIZFnSyB3SS8MlsTh6q/w/yh48KmqLxmovN4Dw==}
+    dependencies:
+      is-any-array: 2.0.1
+    dev: false
+
+  /ml-distance-euclidean/2.0.0:
+    resolution: {integrity: sha512-yC9/2o8QF0A3m/0IXqCTXCzz2pNEzvmcE/9HFKOZGnTjatvBbsn4lWYJkxENkA4Ug2fnYl7PXQxnPi21sgMy/Q==}
+    dev: false
+
+  /ml-distance/4.0.0:
+    resolution: {integrity: sha512-zj7+UGZpHk3uL7n79XTfGNUjIGnhLn8xVvrxYvBHvXFxo3jq1q+/UjP311hZxnLVhbxbXCjUniThX8gozjacYA==}
+    dependencies:
+      ml-array-mean: 1.1.6
+      ml-distance-euclidean: 2.0.0
+      ml-tree-similarity: 1.0.0
+    dev: false
+
+  /ml-tree-similarity/1.0.0:
+    resolution: {integrity: sha512-XJUyYqjSuUQkNQHMscr6tcjldsOoAekxADTplt40QKfwW6nd++1wHWV9AArl0Zvw/TIHgNaZZNvr8QGvE8wLRg==}
+    dependencies:
+      binary-search: 1.3.6
+      num-sort: 2.1.0
+    dev: false
+
   /mmd-parser/1.0.4:
     resolution: {integrity: sha512-Qi0VCU46t2IwfGv5KF0+D/t9cizcDug7qnNoy9Ggk7aucp0tssV8IwTMkBlDbm+VqAf3cdQHTCARKSsuS2MYFg==}
     dev: false
@@ -31630,7 +31842,7 @@ packages:
       '@panva/hkdf': 1.0.1
       cookie: 0.5.0
       jose: 4.11.1
-      next: 13.4.2_biqbaboplfbrettd7655fr4n2y
+      next: 13.4.2_x6hpkaqu4dxwl4unajq2h7dx44
       nodemailer: 6.7.2
       oauth: 0.9.15
       openid-client: 5.1.4
@@ -32062,7 +32274,6 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
-    dev: true
 
   /nice-try/1.0.5:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
@@ -32343,6 +32554,11 @@ packages:
     dependencies:
       boolbase: 1.0.0
 
+  /num-sort/2.1.0:
+    resolution: {integrity: sha512-1MQz1Ed8z2yckoBeSfkQHHO9K1yDRxxtotKSJ9yvcTUUxSvfvzEq5GwBrjjHEpMlq/k5gvXdmJ1SbYxWtpNoVg==}
+    engines: {node: '>=8'}
+    dev: false
+
   /number-is-nan/1.0.1:
     resolution: {integrity: sha512-4jbtZXNAsfZbAHiiqjLPBiCl16dES1zI4Hpzzxw61Tk+loF+sBDBKx1ICKKKwIqQ7M0mFn1TmkN7euSncWgHiQ==}
     engines: {node: '>=0.10.0'}
@@ -32583,6 +32799,15 @@ packages:
       define-lazy-prop: 3.0.0
       is-inside-container: 1.0.0
       is-wsl: 2.2.0
+    dev: false
+
+  /openai/3.2.1:
+    resolution: {integrity: sha512-762C9BNlJPbjjlWZi4WYK9iM2tAVAv0uUp1UmI34vb0CN5T2mjB/qM6RYBmNKMh/dN9fC+bxqPwWJZUTWW052A==}
+    dependencies:
+      axios: 0.26.1
+      form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /openid-client/5.1.4:
@@ -39587,7 +39812,6 @@ packages:
       '@babel/core': 7.16.5
       client-only: 0.0.1
       react: 18.2.0
-    dev: true
 
   /styled-jsx/5.1.1_react@18.2.0:
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
@@ -41700,6 +41924,11 @@ packages:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
 
+  /uuid/9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
+
   /uvu/0.5.2:
     resolution: {integrity: sha512-m2hLe7I2eROhh+tm3WE5cTo/Cv3WQA7Oc9f7JB6uWv+/zVKvfAm53bMyOoGOSZeQ7Ov2Fu9pLhFr7p07bnT20w==}
     engines: {node: '>=8'}
@@ -42658,6 +42887,14 @@ packages:
       formik: 2.2.9_react@18.2.0
       react: 18.2.0
       zod: 3.19.1
+    dev: false
+
+  /zod-to-json-schema/3.21.1_zod@3.21.4:
+    resolution: {integrity: sha512-y5g0MPxDq+YG/T+cHGPYH4PcBpyCqwK6wxeJ76MR563y0gk/14HKfebq8xHiItY7lkc9GDFygCnkvNDTvAhYAg==}
+    peerDependencies:
+      zod: ^3.21.4
+    dependencies:
+      zod: 3.21.4
     dev: false
 
   /zod/3.19.1:

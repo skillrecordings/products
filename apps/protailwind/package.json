@@ -91,7 +91,7 @@
     "@trpc/server": "=10.7.0",
     "@xstate/react": "=1.5.1",
     "aws-sdk": "^2.1197.0",
-    "axios": "^0.26.0",
+    "axios": "^1.4.0",
     "classnames": "^2.3.1",
     "date-fns": "^2.28.0",
     "dexie": "^3.2.2",
