@@ -29,7 +29,7 @@ const Printables: React.FunctionComponent<{
         })}
       </div>
       {proTestingPurchased && (
-        <div className="mt-6 text-center">
+        <div className="mt-12 text-center">
           <a
             href={process.env.NEXT_PUBLIC_PRINTABLES_DOWNLOAD_URL}
             target="_blank"

@@ -7,7 +7,7 @@ const Testimonials: React.FunctionComponent<{
   testimonials: TestimonialProps[]
   title: string
   className?: string
-}> = ({testimonials, title, className = ''}) => {
+}> = ({testimonials, title, className}) => {
   return (
     <section className={cx(className)}>
       <h2 className="text-3xl md:text-4xl lg:text-5xl text-center lg:text-start">
@@ -29,7 +29,7 @@ const Testimonials: React.FunctionComponent<{
                 </div>
                 <div>
                   <h3 className="text-2xl">{testimonial.name}</h3>
-                  <p className="mt-1 text-base opacity-80">
+                  <p className="mt-1 text-base opacity-70">
                     {testimonial.title}
                   </p>
                 </div>

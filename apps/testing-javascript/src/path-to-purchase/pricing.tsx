@@ -4,6 +4,7 @@ import {
   PortableTextComponents as PortableTextComponentsType,
 } from '@portabletext/react'
 import Link from 'next/link'
+import cx from 'classnames'
 import * as Switch from '@radix-ui/react-switch'
 import Image from 'next/legacy/image'
 import find from 'lodash/find'
@@ -32,7 +33,7 @@ import {usePriceCheck} from '@skillrecordings/skill-lesson/path-to-purchase/pric
 import {trpc} from 'trpc/trpc.client'
 // import Balancer from 'react-wrap-balancer'
 import {isSellingLive} from '@skillrecordings/skill-lesson/utils/is-selling-live'
-// import BuyMoreSeats from 'team/buy-more-seats'
+import BuyMoreSeats from './buy-more-seats'
 import Icon from 'components/icons'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
@@ -199,9 +200,13 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               <div data-purchased="">
                 <CheckCircleIcon aria-hidden="true" /> Purchased
               </div>
-              {/* <div className="flex flex-col justify-center">
-                <BuyMoreSeats productId={productId} userId={userId as string} />
-              </div> */}
+              <div className="flex flex-col justify-center">
+                <BuyMoreSeats
+                  productName={name}
+                  productId={productId}
+                  userId={userId as string}
+                />
+              </div>
             </div>
           </>
         ) : isSellingLive || allowPurchase ? (
@@ -269,7 +274,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   {isBuyingForTeam && (
                     <div className="mb-5 flex w-full flex-col items-center justify-center">
                       <div className="flex items-center justify-center gap-1 text-lg font-tt-medium">
-                        <label className="opacity-80 flex items-center space-x-3">
+                        <label className="opacity-70 flex items-center space-x-3">
                           <span>Team Seats</span>
                           <button
                             type="button"
@@ -355,95 +360,79 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             index={index}
           />
         )}
-        <div data-pricing-footer="">
-          {product.description && !purchased && (
-            <div className="prose prose-sm mx-auto max-w-sm px-5 sm:prose-base prose-p:text-gray-200">
-              {/* <ReactMarkdown>{product.description}</ReactMarkdown> */}
-            </div>
-          )}
-          {/* {!purchased && (
-            <div data-guarantee="">
-              <Image
-                src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
-                width={130}
-                height={130}
-                alt="Money Back Guarantee"
-              />
-            </div>
-          )} */}
-          {/* {modules || features ? (
-            <div data-header="">
-              <div>
-                <span>includes</span>
-              </div>
-            </div>
-          ) : null} */}
-          <div className="mt-6">
-            {modules && (
-              <>
-                <h4 className="font-tt-demibold">Workshops</h4>
-                <ul className="text-lg space-y-2 mt-1" role="list">
-                  {modules.map((module) => {
-                    const getLabelForState = (state: any) => {
-                      switch (state) {
-                        case 'draft':
-                          return 'Coming soon'
-                        default:
-                          return ''
-                      }
+        <div className="mt-6">
+          {modules && (
+            <>
+              <h4 className="font-tt-demibold">Workshops</h4>
+              <ul className="text-lg space-y-2 mt-1" role="list">
+                {modules.map((module) => {
+                  const getLabelForState = (state: any) => {
+                    switch (state) {
+                      case 'draft':
+                        return 'Coming soon'
+                      default:
+                        return ''
                     }
-                    return (
-                      <li key={module.title} className="flex">
-                        {module.image && (
-                          <div
-                            className="relative top-0.5 z-10 w-8 h-8 shrink-0 mr-3"
+                  }
+                  return (
+                    <li key={module.title} className="flex">
+                      {module.image && (
+                        <div
+                          className="relative top-0.5 z-10 w-8 h-8 shrink-0 mr-3"
+                          aria-hidden="true"
+                        >
+                          <Image
+                            src={module.image.url}
+                            layout="fill"
+                            alt={module.title}
                             aria-hidden="true"
-                          >
-                            <Image
-                              src={module.image.url}
-                              layout="fill"
-                              alt={module.title}
-                              aria-hidden="true"
-                            />
-                          </div>
-                        )}
-                        <div>
-                          <p>{module.title}</p>
-                          <div data-state={module.state}>
-                            {getLabelForState(module.state)}
-                          </div>
+                          />
                         </div>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </>
-            )}
-            {features && (
-              <>
-                <h4 className="font-tt-demibold mt-6">Features</h4>
-                <ul className="leading-tight space-y-2 mt-1" role="list">
-                  {features.map((feature: {value: string}) => (
+                      )}
+                      <div>
+                        <p>{module.title}</p>
+                        <div data-state={module.state}>
+                          {getLabelForState(module.state)}
+                        </div>
+                      </div>
+                    </li>
+                  )
+                })}
+              </ul>
+            </>
+          )}
+          {features && (
+            <>
+              <h4 className="font-tt-demibold mt-6 md:mt-10">Features</h4>
+              <ul className="leading-snug space-y-3 mt-1" role="list">
+                {features.map((feature: any) => {
+                  return (
                     <li key={feature.value} className="flex">
                       <Icon
                         name="check-circle"
-                        className="w-5 h-5 mr-2 shrink-0 mt-0.5 text-checkmark"
+                        className="w-5 h-5 mr-2 shrink-0 mt-1 text-tjs-green"
                       />
-                      <p>{feature.value}</p>
+                      <p
+                        className={cx({
+                          'font-tt-demibold': feature.isEmphasized,
+                        })}
+                      >
+                        {feature.value}
+                      </p>
                     </li>
-                  ))}
-                </ul>
-              </>
-            )}
-            {product.slug && lessons && (
-              <div data-contents="">
-                {lessons ? `${lessons?.length} lessons` : null}
-                <Link href={`/workshops/${product.slug}`}>
-                  View contents <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            )}
-          </div>
+                  )
+                })}
+              </ul>
+            </>
+          )}
+          {product.slug && lessons && (
+            <div data-contents="">
+              {lessons ? `${lessons?.length} lessons` : null}
+              <Link href={`/workshops/${product.slug}`}>
+                View contents <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          )}
         </div>
       </article>
     </div>
@@ -459,12 +448,6 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
   const {isDiscount} = usePriceCheck()
 
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
-  // const appliedMerchantCoupon = {
-  //   id: 'kcd_8c0e64f6-0082-4775-a161-96b6e5732696',
-  //   status: 1,
-  //   percentageDiscount: 0.65,
-  //   type: 'ppp',
-  // }
 
   const fullPrice =
     (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
@@ -591,25 +574,3 @@ const RegionalPricingBox: React.FC<
     </div>
   )
 }
-
-// type RibbonProps = {
-//   appliedMerchantCoupon: {
-//     type: string
-//   }
-// }
-
-// const Ribbon: React.FC<React.PropsWithChildren<RibbonProps>> = ({
-//   appliedMerchantCoupon,
-// }) => {
-//   return (
-//     <div className="absolute -right-3 -top-3 aspect-square w-32 overflow-hidden rounded">
-//       <div className="absolute left-0 top-0 h-3 w-3 bg-amber-500"></div>
-//       <div className="absolute bottom-0 right-0 h-3 w-3 bg-amber-500"></div>
-//       <div className="absolute bottom-0 right-0 h-6 w-[141.42%] origin-bottom-right rotate-45 bg-amber-300">
-//         <div className="flex flex-col items-center py-1 text-xs font-bold uppercase text-black">
-//           {getCouponLabel(appliedMerchantCoupon?.type)}
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
