@@ -29,12 +29,11 @@ import SelfRedeemButton from '../team/self-redeem-button'
 import {useSession} from 'next-auth/react'
 import Balancer from 'react-wrap-balancer'
 import {Pricing} from '../path-to-purchase/pricing'
-import {
-  PriceCheckProvider,
-  usePriceCheck,
-} from '../path-to-purchase/pricing-check-context'
+import {usePriceCheck} from '../path-to-purchase/pricing-check-context'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import pluralize from 'pluralize'
+import {portableTextComponents} from '../portable-text'
+import Spinner from '../spinner'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{dismissable?: boolean}>
@@ -67,6 +66,39 @@ const OverlayWrapper: React.FC<
   )
 }
 
+const ModuleCtaProvider: React.FC<React.PropsWithChildren<any>> = ({
+  children,
+}) => {
+  const {module} = useLesson()
+  const {cta} = module
+
+  const expiresAt = cta?.expiresAt && new Date(cta.expiresAt)
+
+  if (!cta) {
+    return children
+  }
+
+  if (expiresAt && expiresAt < new Date()) {
+    return children
+  }
+
+  return (
+    <div data-video-overlay-with-cta="">
+      <div data-content="">{children}</div>
+      {cta.body && (
+        <div data-cta="">
+          <PortableText
+            value={cta.body}
+            components={portableTextComponents({
+              loadingIndicator: <Spinner />,
+            })}
+          />
+        </div>
+      )}
+    </div>
+  )
+}
+
 const DefaultOverlay = () => {
   const {nextExercise, path, handlePlay} = useMuxPlayer()
   const {lesson, module, section} = useLesson()
@@ -76,88 +108,90 @@ const DefaultOverlay = () => {
 
   return (
     <OverlayWrapper data-video-overlay="default">
-      {image && (
-        <Image
-          data-image=""
-          src={image}
-          alt=""
-          aria-hidden="true"
-          width={220}
-          height={220}
-          priority
-        />
-      )}
-      <p data-title="">
-        <span data-byline="">Up next:</span> {nextExercise?.title}
-      </p>
-      <div data-actions="">
-        <button
-          data-action="replay"
-          onClick={() => {
-            track('clicked replay', {
-              lesson: lesson.slug,
-              module: module.slug.current,
-              location: 'exercise',
-              moduleType: module.moduleType,
-              lessonType: lesson._type,
-            })
-            handlePlay()
-          }}
-        >
-          <span data-icon="" aria-hidden="true">
-            ↺
-          </span>{' '}
-          Replay
-        </button>
-        {lesson._type === 'solution' && (
-          <Link
-            data-action="try-again"
-            href={router.asPath.replace('solution', 'exercise')}
-          >
-            <CodeIcon data-icon="" aria-hidden="true" />
-            Try Again
-          </Link>
+      <ModuleCtaProvider>
+        {image && (
+          <Image
+            data-image=""
+            src={image}
+            alt=""
+            aria-hidden="true"
+            width={220}
+            height={220}
+            priority
+          />
         )}
-        <button
-          data-action="continue"
-          onClick={() => {
-            track('clicked complete', {
-              lesson: router.query.lesson as string,
-              module: module.slug.current,
-              location: 'exercise',
-              moduleType: module.moduleType,
-              lessonType: lesson._type,
-            })
-            addProgressMutation.mutate(
-              {lessonSlug: router.query.lesson as string},
-              {
-                onSettled: (data, error, variables, context) => {
-                  handleContinue({
-                    router,
-                    module,
-                    nextExercise,
-                    handlePlay,
-                    path,
-                    section,
-                  })
+        <p data-title="">
+          <span data-byline="">Up next:</span> {nextExercise?.title}
+        </p>
+        <div data-actions="">
+          <button
+            data-action="replay"
+            onClick={() => {
+              track('clicked replay', {
+                lesson: lesson.slug,
+                module: module.slug.current,
+                location: 'exercise',
+                moduleType: module.moduleType,
+                lessonType: lesson._type,
+              })
+              handlePlay()
+            }}
+          >
+            <span data-icon="" aria-hidden="true">
+              ↺
+            </span>{' '}
+            Replay
+          </button>
+          {lesson._type === 'solution' && (
+            <Link
+              data-action="try-again"
+              href={router.asPath.replace('solution', 'exercise')}
+            >
+              <CodeIcon data-icon="" aria-hidden="true" />
+              Try Again
+            </Link>
+          )}
+          <button
+            data-action="continue"
+            onClick={() => {
+              track('clicked complete', {
+                lesson: router.query.lesson as string,
+                module: module.slug.current,
+                location: 'exercise',
+                moduleType: module.moduleType,
+                lessonType: lesson._type,
+              })
+              addProgressMutation.mutate(
+                {lessonSlug: router.query.lesson as string},
+                {
+                  onSettled: (data, error, variables, context) => {
+                    handleContinue({
+                      router,
+                      module,
+                      nextExercise,
+                      handlePlay,
+                      path,
+                      section,
+                    })
+                  },
                 },
-              },
-            )
-          }}
-        >
-          Complete & Continue{' '}
-          <span aria-hidden="true" data-icon="">
-            →
-          </span>
-        </button>
-      </div>
+              )
+            }}
+          >
+            Complete & Continue{' '}
+            <span aria-hidden="true" data-icon="">
+              →
+            </span>
+          </button>
+        </div>
+      </ModuleCtaProvider>
     </OverlayWrapper>
   )
 }
 
 const FinishedOverlay = () => {
   const {path, handlePlay} = useMuxPlayer()
-  const {module, section} = useLesson()
+  const {module, section, lesson} = useLesson()
 
   const router = useRouter()
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
@@ -167,43 +201,45 @@ const FinishedOverlay = () => {
 
   return (
     <OverlayWrapper data-video-overlay="finished">
-      <h2>
-        <span>Great job!</span>{' '}
-        <Balancer>
-          You've finished "{module.title}" {module.moduleType}.
-        </Balancer>
-      </h2>
-      <p data-title="">Share with your friends</p>
-      <div data-share-actions="">
-        <Twitter link={shareUrl} message={shareMessage} data-action="share">
-          Twitter
-        </Twitter>
-        <Facebook link={shareUrl} message={shareMessage} data-action="share">
-          Facebook
-        </Facebook>
-        <LinkedIn link={shareUrl} message={shareMessage} data-action="share">
-          LinkedIn
-        </LinkedIn>
-      </div>
-      <div data-actions="">
-        <button data-action="replay" onClick={handlePlay}>
-          Replay <span aria-hidden="true">↺</span>
-        </button>
-        <button
-          data-action="restart"
-          onClick={() =>
-            handlePlayFromBeginning({
-              router,
-              module,
-              section,
-              path,
-              handlePlay,
-            })
-          }
-        >
-          Play from beginning
-        </button>
-      </div>
+      <ModuleCtaProvider>
+        <h2>
+          <span>Great job!</span>{' '}
+          <Balancer>
+            You've finished "{module.title}" {module.moduleType}.
+          </Balancer>
+        </h2>
+        <p data-title="">Share with your friends</p>
+        <div data-share-actions="">
+          <Twitter link={shareUrl} message={shareMessage} data-action="share">
+            Twitter
+          </Twitter>
+          <Facebook link={shareUrl} message={shareMessage} data-action="share">
+            Facebook
+          </Facebook>
+          <LinkedIn link={shareUrl} message={shareMessage} data-action="share">
+            LinkedIn
+          </LinkedIn>
+        </div>
+        <div data-actions="">
+          <button
+            data-action="restart"
+            onClick={() =>
+              handlePlayFromBeginning({
+                router,
+                module,
+                section,
+                path,
+                handlePlay,
+              })
+            }
+          >
+            Play from beginning
+          </button>
+          <button data-action="replay" onClick={handlePlay}>
+            <span aria-hidden="true">↺</span> Replay
+          </button>
+        </div>
+      </ModuleCtaProvider>
     </OverlayWrapper>
   )
 }

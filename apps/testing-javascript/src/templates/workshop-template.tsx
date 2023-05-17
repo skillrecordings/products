@@ -106,7 +106,12 @@ const WorkshopTemplate: React.FC<{
               className="space-x-4 flex items-center bg-gray-100 text-black px-6 py-2 rounded-md mt-7 hover:bg-gray-200 duration-100 min-h-[50px]"
             >
               <Icon name="play" className="w-[10px] h-[10px]" />
-              <span>{nextLessonSlug ? 'Continue' : 'Start'} Watching</span>
+              <span>
+                {nextLessonSlug && nextLessonSlug !== firstLessonSlug
+                  ? 'Continue'
+                  : 'Start'}{' '}
+                Watching
+              </span>
             </Link>
             <div className="mt-7">
               <PortableText

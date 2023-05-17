@@ -3,38 +3,29 @@ import Image from 'next/image'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
-import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
-import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
-import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 
 import Layout from 'components/layout'
-import {Pricing} from 'path-to-purchase/pricing'
+import PricingSection from 'components/pricing-section'
 import {getAllProducts} from 'server/products.server'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
   const token = await getToken({req})
   const products = await getAllProducts()
+  const {props: commerceProps} = await propsForCommerce({
+    query,
+    token,
+    products,
+  })
 
-  return await propsForCommerce({query, token, products})
+  return {
+    props: {
+      commerceProps,
+    },
+  }
 }
 
-const Buy: React.FC<CommerceProps> = ({
-  couponFromCode,
-  products,
-  userId,
-  purchases = [],
-  couponIdFromCoupon,
-  allowPurchase,
-}) => {
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} =
-    useCoupon(couponFromCode)
-
-  const couponId =
-    couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
-
-  const purchasedProductsIds = purchases.map((purchase) => purchase.productId)
-
+const Buy: React.FC<any> = ({commerceProps}) => {
   return (
     <Layout
       meta={{
@@ -47,43 +38,9 @@ const Buy: React.FC<CommerceProps> = ({
       }}
       className="py-16"
     >
-      <header>
-        <h1 className="px-5 text-center font-heading text-4xl sm:text-5xl">
-          Start testing like a pro
-        </h1>
-        <h3 className="text-center mb-10 mt-4 font-tt-regular text-2xl opacity-80">
-          Buy once. Forever yours.
-        </h3>
-      </header>
-      <main>
-        <PriceCheckProvider purchasedProductsIds={purchasedProductsIds}>
-          {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-          <div className="flex flex-col lg:flex-row justify-center gap-6 mt-32 items-start">
-            {products.map((product, i) => {
-              return (
-                <Pricing
-                  key={product.name}
-                  userId={userId}
-                  product={product}
-                  purchased={purchasedProductsIds.includes(product.productId)}
-                  purchases={purchases}
-                  index={i}
-                  couponId={couponId}
-                  allowPurchase={allowPurchase}
-                />
-              )
-            })}
-          </div>
-        </PriceCheckProvider>
-        {/* <div className="flex w-full items-center justify-center pt-16">
-          <Image
-            src={require('../../public/assets/money-back-guarantee-badge.svg')}
-            width={130}
-            height={130}
-            alt="30-Day Money-Back Guarantee"
-          />
-        </div> */}
-      </main>
+      <div className="container max-w-6xl pt-16">
+        <PricingSection commerceProps={commerceProps} />
+      </div>
     </Layout>
   )
 }

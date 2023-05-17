@@ -59,7 +59,9 @@ export type InterviewProps = {
   isMultiple: boolean
   description: PortableTextBlock
   title: string
-  slug: string
+  slug: {
+    current: string
+  }
   portraits: {
     image1: {
       alt: string

@@ -11,6 +11,7 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && s
   _createdAt,
   description,
   state,
+  "cta": resources[@->._type == 'cta'][0]->{body, expiresAt},
   "sections": resources[@->._type == 'section']->{
     _id,
     _type,
@@ -56,6 +57,7 @@ export const getTutorial = async (slug: string) =>
       description,
       _updatedAt,
       "image": image.asset->url,
+      "cta": resources[@->._type == 'cta'][0]->{body, expiresAt},
       body[]{
         ...,
         _type == "bodyTestimonial" => {

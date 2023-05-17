@@ -12,6 +12,12 @@ export const ModuleSchema = z
     ogImage: z.string().nullish(),
     image: z.string().nullish(),
     product: z.object({productId: z.string()}).nullish(),
+    cta: z
+      .object({
+        body: z.array(z.any()).or(z.string()).nullish(),
+        expiresAt: z.string().nullish(),
+      })
+      .nullish(),
     github: z
       .object({
         repo: z.string().nullish(),

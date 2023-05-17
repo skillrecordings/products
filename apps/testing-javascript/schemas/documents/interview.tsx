@@ -22,8 +22,12 @@ export default {
     {
       name: 'slug',
       title: 'Slug',
-      type: 'string',
+      type: 'slug',
       validation: (Rule) => Rule.required(),
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
     },
     {
       name: 'isMultiple',

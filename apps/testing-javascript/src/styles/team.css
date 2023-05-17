@@ -77,7 +77,7 @@
     [data-seats-form] {
       @apply inline-flex items-center gap-3;
       label {
-        @apply opacity-80;
+        @apply opacity-70;
       }
       input {
         @apply rounded-md border border-gray-800 bg-gray-900 py-2 pl-3 font-mono font-bold;

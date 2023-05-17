@@ -111,6 +111,12 @@ You can use [Table Plus](https://tableplus.com/) or any other MySQL client to co
 
 Edit workshops with Sanity at [totaltypescript.sanity.studio](https://totaltypescript.sanity.studio/).
 
+Run Sanity Studio:
+
+```bash
+pnpm dev:sanity
+```
+
 ## Stripe
 
 The server-side packages will need the `STRIPE_SECRET_TOKEN` and `STRIPE_WEBHOOK_SECRET` defined in the environment for Stripe to work for the commerce flows.

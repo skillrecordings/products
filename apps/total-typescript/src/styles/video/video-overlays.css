@@ -1,3 +1,16 @@
+[data-video-overlay-with-cta] {
+  @apply relative flex h-full w-full flex-row items-center justify-between;
+  [data-content] {
+    @apply !relative flex h-full w-full flex-col items-center justify-center text-center text-lg leading-relaxed;
+  }
+  [data-cta] {
+    @apply prose prose-sm z-20 hidden h-full w-full max-w-[300px] flex-col items-center justify-center overflow-hidden border border-white/10 bg-gray-800/40 px-5 lg:flex;
+    [data-image] {
+      @apply hidden items-center justify-center sm:flex sm:w-40 lg:w-auto;
+    }
+  }
+}
+
 [data-video-overlay-wrapper] {
   @apply relative left-0 top-0 flex aspect-video w-full items-center justify-center bg-[#070B16];
   [data-dismiss] {
@@ -11,7 +24,7 @@
   }
 }
 [data-video-overlay='default'] {
-  @apply px-5;
+  @apply px-5 sm:px-0;
   [data-image] {
     @apply hidden items-center justify-center sm:flex sm:w-40 lg:w-auto;
   }
@@ -22,7 +35,7 @@
     @apply font-normal text-gray-200;
   }
   [data-actions] {
-    @apply flex flex-wrap items-center justify-center gap-3 py-4 sm:py-8;
+    @apply flex scale-100 flex-wrap items-center justify-center gap-3 pt-4 sm:scale-75 sm:pt-4 lg:pt-0 xl:scale-100 xl:pt-4;
     [data-action='replay'] {
       @apply rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3;
       [data-icon] {
@@ -148,23 +161,30 @@
   }
 }
 [data-video-overlay='finished'] {
-  @apply px-5 pt-10 sm:pt-0;
+  @apply px-5 sm:px-0;
+  h2 {
+    @apply flex w-full flex-col items-center text-center text-xl;
+  }
   [data-title] {
-    @apply font-text text-2xl font-semibold sm:text-3xl sm:font-bold;
+    @apply hidden;
   }
   [data-share-actions] {
-    @apply flex items-center gap-2 py-8;
+    @apply absolute bottom-0 left-0 flex w-full items-center justify-center py-1.5 sm:bg-gray-800/50;
     [data-action='share'] {
-      @apply flex items-center gap-2 rounded bg-gray-800 px-3 py-2 hover:bg-gray-700;
+      @apply flex items-center gap-2 rounded bg-gray-800 px-3 py-1 text-sm font-medium hover:bg-gray-700;
     }
   }
+  [data-share-actions]:before {
+    content: 'Share with your friends:';
+    @apply hidden px-2 text-left leading-tight sm:block sm:text-sm;
+  }
   [data-actions] {
-    @apply flex items-center justify-center divide-x divide-gray-700;
-    [data-action='replay'] {
-      @apply px-3 py-1 text-lg font-semibold transition hover:bg-gray-900 sm:px-5 sm:py-3;
-    }
+    @apply flex items-center justify-center gap-4;
     [data-action='restart'] {
-      @apply px-3 py-1 text-lg font-semibold transition hover:bg-gray-900 sm:px-5 sm:py-3;
+      @apply hidden;
+    }
+    [data-action='replay'] {
+      @apply absolute left-3 top-3 flex items-center gap-2 rounded bg-gray-800 px-3 py-2 hover:bg-gray-700;
     }
   }
 }
