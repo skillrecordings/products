@@ -1,9 +1,9 @@
-import {MdFeaturedPlayList} from 'react-icons/md'
+import {MdStar} from 'react-icons/md'
 
 const bonuses = (S) =>
   S.listItem()
-    .title('Playlists')
-    .icon(MdFeaturedPlayList)
+    .title('Bonuses')
+    .icon(MdStar)
     .child(
       S.documentTypeList('module')
         .filter('moduleType == "bonus"')
