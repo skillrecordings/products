@@ -5,6 +5,7 @@ import {
   HiOutlineClock,
   HiLink,
 } from 'react-icons/hi'
+import {defineArrayMember, defineField} from 'sanity'
 // import {BlockEditor} from 'part:@sanity/form-builder'
 // import {handlePaste} from '../../customization/onPaste'
 
@@ -13,7 +14,7 @@ import {
 // ))
 
 // TODO: Exercises (don't have to have solutions), Challenges (always have solutions, sometimes multiple parts)
-export default {
+export default defineField({
   // inputComponent: CustomEditor,
   title: 'Body in PT',
   name: 'body',
@@ -113,4 +114,4 @@ export default {
     {type: 'bodyTestimonial'},
     {type: 'bodyTweet'},
   ],
-}
+})
