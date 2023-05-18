@@ -94,7 +94,7 @@
     "mdast-util-to-markdown": "^1.2.6",
     "mdx-prism": "^0.3.4",
     "mjml": "^4.12.0",
-    "next": "^13.4.3-canary.2",
+    "next": "^13.4.2",
     "next-auth": "^4.22.1",
     "next-sitemap": "^3.0.5",
     "next-themes": "^0.2.1",

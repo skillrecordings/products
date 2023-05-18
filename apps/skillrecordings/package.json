@@ -62,7 +62,7 @@
     "lodash": "^4.17.21",
     "mdx-embed": "^0.0.22",
     "mdx-prism": "^0.3.4",
-    "next": "^13.4.3-canary.2",
+    "next": "^13.4.2",
     "next-sitemap": "^3.0.5",
     "next-themes": "^0.2.1",
     "pluralize": "^8.0.0",
