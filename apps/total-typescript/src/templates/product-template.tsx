@@ -1,11 +1,11 @@
 import React from 'react'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {Element} from 'react-scroll'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import Image from 'next/legacy/image'
 import {motion, useScroll, useTransform} from 'framer-motion'
 import {PricingTiers} from '@skillrecordings/skill-lesson/path-to-purchase/product-tiers'
-import {ProductPageProps} from 'pages/products/[slug]'
+import {ProductPageProps} from '@/pages/products/[slug]'
 
 const ProductTemplate: React.FC<ProductPageProps> = ({
   products,

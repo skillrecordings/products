@@ -1,4 +1,4 @@
-import {getTutorial} from 'lib/tutorials'
+import {getTutorial} from '@/lib/tutorials'
 import {NextResponse} from 'next/server'
 
 export const sectionlessPattern =

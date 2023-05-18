@@ -3,7 +3,7 @@ import {type Testimonial} from '@skillrecordings/skill-lesson/schemas/testimonia
 import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {PortableText} from '@portabletext/react'
 import Image from 'next/image'
-import Spinner from 'components/spinner'
+import Spinner from '@/components/spinner'
 
 type TestimonialsProps = {
   testimonials: Testimonial[]

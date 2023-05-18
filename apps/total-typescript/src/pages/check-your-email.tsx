@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import Image from 'next/legacy/image'
 import toast from 'react-hot-toast'
 
@@ -15,7 +15,7 @@ const CheckYourEmail = () => {
       footer={null}
       meta={{title: `Log in to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
     >
-      <main className="relative flex flex-grow flex-col items-center justify-center bg-black/40 px-5 pt-5 pb-16 text-white">
+      <main className="relative flex flex-grow flex-col items-center justify-center bg-black/40 px-5 pb-16 pt-5 text-white">
         <Image
           src={require('../../public/assets/landing/bg-divider-3.png')}
           layout="fill"

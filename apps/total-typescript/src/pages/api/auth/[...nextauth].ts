@@ -27,7 +27,7 @@ export default async function NextAuthEndpoint(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  return withSentry(
+  withSentry(
     NextAuth(
       req,
       res,

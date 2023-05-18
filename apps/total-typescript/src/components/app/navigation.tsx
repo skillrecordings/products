@@ -10,7 +10,7 @@ import {
 } from '@heroicons/react/solid'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import cx from 'classnames'
-import config from 'config'
+import config from '@/config'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {trpc} from '../../trpc/trpc.client'
 import NextLink, {type LinkProps} from 'next/link'
@@ -18,7 +18,7 @@ import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import {signOut, useSession} from 'next-auth/react'
 import toast from 'react-hot-toast'
 import {useFeedback} from '../../feedback-widget/feedback-context'
-import {useSearchBar} from 'search-bar/use-search-bar'
+import {useSearchBar} from '@/search-bar/use-search-bar'
 
 type Props = {
   className?: string

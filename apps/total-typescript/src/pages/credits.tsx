@@ -1,9 +1,9 @@
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import drop from 'lodash/drop'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import {TwitterIcon} from './welcome'
-import {team, instructor, description} from 'components/credits'
+import {team, instructor, description} from '@/components/credits'
 import cx from 'classnames'
 import Balancer from 'react-wrap-balancer'
 
@@ -48,12 +48,12 @@ const Instructor = () => {
           />
         </div>
       )}
-      <div className="py-24 px-10">
+      <div className="px-10 py-24">
         <h2 className="font-text text-5xl font-bold">{instructor?.name}</h2>
         <h3 className="text-lg text-cyan-300">{instructor?.role}</h3>
         {instructor?.description && (
           <Balancer>
-            <ReactMarkdown className="prose pt-5 prose-p:text-gray-200 sm:prose-lg">
+            <ReactMarkdown className="prose pt-5 sm:prose-lg prose-p:text-gray-200">
               {instructor.description}
             </ReactMarkdown>
           </Balancer>
@@ -126,11 +126,11 @@ const Team = () => {
 
 const Header = () => {
   return (
-    <header className="mx-auto flex w-full max-w-screen-xl flex-col justify-between px-5 pt-32 pb-16 sm:flex-row sm:pb-32 sm:pt-48">
+    <header className="mx-auto flex w-full max-w-screen-xl flex-col justify-between px-5 pb-16 pt-32 sm:flex-row sm:pb-32 sm:pt-48">
       <h1 className="w-full pb-10 font-heading text-5xl font-semibold text-gray-100 sm:text-6xl">
         <Balancer>Humans behind Total TypeScript</Balancer>
       </h1>
-      <div className="prose max-w-xl prose-p:text-gray-300 sm:prose-xl">
+      <div className="prose max-w-xl sm:prose-xl prose-p:text-gray-300">
         <p>
           Bringing Total TypeScript to you is a collaboration between Matt
           Pocock and the team behind{' '}

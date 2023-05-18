@@ -10,8 +10,8 @@ import {
 } from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
 import {getProductBySlug} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
-import ProductTemplate from 'templates/product-template'
-import PurchasedProductTemplate from 'templates/purchased-product-template'
+import ProductTemplate from '@/templates/product-template'
+import PurchasedProductTemplate from '@/templates/purchased-product-template'
 import {getSdk} from '@skillrecordings/database'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 

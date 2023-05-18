@@ -3,7 +3,7 @@ import {GetServerSideProps} from 'next'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import PurchaseDetailsTemplate, {
   type PurchaseDetailsProps,
-} from 'purchase-details/purchase-details-template'
+} from '@/purchase-details/purchase-details-template'
 import {getActiveProducts} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
 import {getSdk} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'

@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {GetServerSideProps} from 'next'
 import BuyMoreSeats from '@skillrecordings/skill-lesson/team/buy-more-seats'
 import {TicketIcon} from '@heroicons/react/outline'

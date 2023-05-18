@@ -1,10 +1,10 @@
 import React from 'react'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
-import {getAllWorkshops} from 'lib/workshops'
-import {getAllBonuses} from 'lib/bonuses'
+import {getAllWorkshops} from '@/lib/workshops'
+import {getAllBonuses} from '@/lib/bonuses'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Balancer from 'react-wrap-balancer'
 

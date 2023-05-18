@@ -10,7 +10,7 @@ import * as React from 'react'
 import {SkillLevel} from './home/use-skill-level'
 import {MDXComponents} from './mdx'
 import {snakeCase} from 'lodash'
-import {Article} from 'lib/articles'
+import {Article} from '@/lib/articles'
 
 const handleOnSuccess = (
   router: NextRouter,
@@ -94,7 +94,7 @@ export const ArticleNewsletterCta: React.FC<{article?: Article}> = ({
       <h2 className="text-center font-text text-3xl font-semibold lg:text-4xl">
         Become a TypeScript Wizard
       </h2>
-      <p className="mx-auto w-full max-w-xs pt-5 pb-10 text-center text-lg text-cyan-200">
+      <p className="mx-auto w-full max-w-xs pb-10 pt-5 text-center text-lg text-cyan-200">
         Stay up-to-date on the latest news and updates from the world of
         TypeScript.
       </p>
@@ -116,7 +116,7 @@ const PointingArrow = () => {
   return (
     <svg
       aria-hidden="true"
-      className="absolute bottom-3 z-0 translate-x-24 md:-top-32 md:-right-12 md:hidden md:translate-x-0 lg:block"
+      className="absolute bottom-3 z-0 translate-x-24 md:-right-12 md:-top-32 md:hidden md:translate-x-0 lg:block"
       xmlns="http://www.w3.org/2000/svg"
       width="128"
       height="177"

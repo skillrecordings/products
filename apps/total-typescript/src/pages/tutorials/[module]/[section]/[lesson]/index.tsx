@@ -1,12 +1,12 @@
 import React from 'react'
-import ExerciseTemplate from 'templates/exercise-template'
+import ExerciseTemplate from '@/templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getAllTutorials, getTutorial} from 'lib/tutorials'
-import {getExercise} from 'lib/exercises'
+import {getAllTutorials, getTutorial} from '@/lib/tutorials'
+import {getExercise} from '@/lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
-import {getSection} from 'lib/sections'
+import {getSection} from '@/lib/sections'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context

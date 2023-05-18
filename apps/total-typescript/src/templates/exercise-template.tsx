@@ -1,6 +1,6 @@
 import * as React from 'react'
-import Navigation from 'components/app/navigation'
-import Layout from 'components/app/layout'
+import Navigation from '@/components/app/navigation'
+import Layout from '@/components/app/layout'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import Image from 'next/image'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
@@ -28,9 +28,9 @@ import {
   ProblemLink,
   SolutionLink,
 } from '@skillrecordings/skill-lesson/video/module-lesson-list/lesson-list'
-import ExerciseOverlay from 'components/exercise-overlay'
-import Spinner from 'components/spinner'
-import {getExerciseGitHubUrl} from 'exercise/get-exercise-github-url'
+import ExerciseOverlay from '@/components/exercise-overlay'
+import Spinner from '@/components/spinner'
+import {getExerciseGitHubUrl} from '@/exercise/get-exercise-github-url'
 import pluralize from 'pluralize'
 
 const ExerciseTemplate: React.FC<{

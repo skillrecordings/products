@@ -1,6 +1,6 @@
 import React from 'react'
-import Layout from 'components/app/layout'
-import Spinner from 'components/spinner'
+import Layout from '@/components/app/layout'
+import Spinner from '@/components/spinner'
 import queryString from 'query-string'
 import toast from 'react-hot-toast'
 import Image from 'next/legacy/image'
@@ -9,10 +9,10 @@ import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-serve
 import {getSdk, User} from '@skillrecordings/database'
 import {SanityDocument} from '@sanity/client'
 import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
-import {getTutorial} from 'lib/tutorials'
+import {getTutorial} from '@/lib/tutorials'
 import {GetServerSideProps} from 'next'
 import {get, isEmpty} from 'lodash'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import {
   FieldValues,
   SubmitHandler,
@@ -166,7 +166,7 @@ const UpdateSubscriberNameForm: React.FC<{
 
   return (
     <>
-      <h3 className="py-6 px-5 text-xl font-medium tracking-tight sm:text-2xl">
+      <h3 className="px-5 py-6 text-xl font-medium tracking-tight sm:text-2xl">
         Update your name on the certificate
       </h3>
       <form

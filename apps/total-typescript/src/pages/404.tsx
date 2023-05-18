@@ -1,4 +1,4 @@
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import Image from 'next/legacy/image'
 
 const NotFound = () => {

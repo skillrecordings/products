@@ -1,5 +1,5 @@
 import Balancer from 'react-wrap-balancer'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import Link from 'next/link'
 import Image from 'next/image'
 import {GetServerSideProps} from 'next'
@@ -62,7 +62,7 @@ const Banner = () => {
           aria-hidden="true"
           priority
         />
-        <div className="pl-5 pt-5 pb-10 sm:py-8 sm:pl-0 sm:pb-5 sm:pr-8">
+        <div className="pb-10 pl-5 pt-5 sm:py-8 sm:pb-5 sm:pl-0 sm:pr-8">
           <h1 className="text-3xl font-bold leading-tight sm:leading-tight">
             <Balancer>Become a TypeScript Wizard</Balancer>
           </h1>

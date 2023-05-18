@@ -1,6 +1,6 @@
 import {serve} from 'inngest/next'
 import {convertkitSurveyAnswered, inngest} from '@skillrecordings/inngest'
-import {ChatOpenAI} from 'langchain/chat_models'
+import {ChatOpenAI} from 'langchain/chat_models/openai'
 import {
   ChatPromptTemplate,
   HumanMessagePromptTemplate,
