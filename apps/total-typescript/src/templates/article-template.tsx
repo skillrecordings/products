@@ -15,7 +15,7 @@ import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-tex
 import Spinner from 'components/spinner'
 
 type ArticleTemplateProps = {
-  article: Article
+  article: Omit<Article, '_type' | '_id' | 'state'>
   articles: Article[]
 }
 

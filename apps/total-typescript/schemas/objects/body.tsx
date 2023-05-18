@@ -64,6 +64,22 @@ export default defineField({
               },
             ],
           }),
+          // Possible addition! To be discussed
+          // defineArrayMember({
+          //   name: 'conceptLink',
+          //   type: 'object',
+          //   title: 'Concept link',
+          //   icon: HiLink,
+          //   fields: [
+          //     {
+          //       name: 'concept',
+          //       type: 'reference',
+          //       title: 'Concept',
+          //       to: [{type: 'skosConcept'}],
+          //       validation: (Rule) => Rule.required(),
+          //     },
+          //   ],
+          // }),
           defineArrayMember({
             name: 'emoji',
             type: 'object',
