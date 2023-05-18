@@ -1193,8 +1193,8 @@ importers:
       '@codesandbox/sandpack-react': ^1.17.0
       '@codesandbox/sandpack-themes': ^1.17.0
       '@heroicons/react': ^1.0.6
-      '@mdx-js/loader': ^2.1.5
-      '@mdx-js/react': ^2.1.5
+      '@mdx-js/loader': ^2.3.0
+      '@mdx-js/react': ^2.3.0
       '@monaco-editor/react': ^4.4.6
       '@mux/mux-node': ^6.3.0
       '@mux/mux-player-react': 1.8.0
@@ -1303,12 +1303,12 @@ importers:
       '@codesandbox/sandpack-react': 1.20.9_biqbaboplfbrettd7655fr4n2y
       '@codesandbox/sandpack-themes': 1.19.0
       '@heroicons/react': 1.0.6_react@18.2.0
-      '@mdx-js/loader': 2.1.5
-      '@mdx-js/react': 2.1.5_react@18.2.0
+      '@mdx-js/loader': 2.3.0
+      '@mdx-js/react': 2.3.0_react@18.2.0
       '@monaco-editor/react': 4.4.6_6vrjaj6ridxbohi43n7zt4gn7q
       '@mux/mux-node': 6.3.0
       '@mux/mux-player-react': 1.8.0_v7vsrdtui4d36prbwvdnlb7tpq
-      '@next/mdx': 13.4.2_wuv4qx5dshjptmdbtsqqkih5iu
+      '@next/mdx': 13.4.2_msthxdjvrhmdkfpqqalumiidgq
       '@portabletext/react': 1.0.6_react@18.2.0
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-alert-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
@@ -2702,9 +2702,9 @@ importers:
       '@headlessui/react': ^1.6.1
       '@heroicons/react': ^1.0.6
       '@hookform/resolvers': ^2.9.8
-      '@mdx-js/loader': ^2.1.5
-      '@mdx-js/mdx': ^2.1.5
-      '@mdx-js/react': ^2.1.5
+      '@mdx-js/loader': ^2.3.0
+      '@mdx-js/mdx': ^2.3.0
+      '@mdx-js/react': ^2.3.0
       '@mux/mux-node': ^6.3.0
       '@mux/mux-player-react': 1.8.0
       '@next/env': ^12.2.2
@@ -2854,12 +2854,12 @@ importers:
       '@headlessui/react': 1.6.1_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
       '@hookform/resolvers': 2.9.8_react-hook-form@7.29.0
-      '@mdx-js/loader': 2.1.5_webpack@4.46.0
-      '@mdx-js/mdx': 2.1.5
-      '@mdx-js/react': 2.1.5_react@18.2.0
+      '@mdx-js/loader': 2.3.0_webpack@4.46.0
+      '@mdx-js/mdx': 2.3.0
+      '@mdx-js/react': 2.3.0_react@18.2.0
       '@mux/mux-node': 6.3.0
       '@mux/mux-player-react': 1.8.0_v7vsrdtui4d36prbwvdnlb7tpq
-      '@next/mdx': 13.4.2_wuv4qx5dshjptmdbtsqqkih5iu
+      '@next/mdx': 13.4.2_msthxdjvrhmdkfpqqalumiidgq
       '@portabletext/react': 1.0.6_react@18.2.0
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-alert-dialog': 0.1.7_bb2bxwco6ptpubzwpazr52qf6i
@@ -11145,18 +11145,6 @@ packages:
       - supports-color
     dev: false
 
-  /@mdx-js/loader/2.1.5_webpack@4.46.0:
-    resolution: {integrity: sha512-oXjfTa/iAcMmW8DdQ+hQFodPCLqw5VKT2yoZkLwrZfPVVpUgKrI+5/ZePYq328xxtAUStZmR3ed0PWJrwd5Pkg==}
-    peerDependencies:
-      webpack: '>=4'
-    dependencies:
-      '@mdx-js/mdx': 2.1.5
-      source-map: 0.7.3
-      webpack: 4.46.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@mdx-js/loader/2.1.5_webpack@5.73.0:
     resolution: {integrity: sha512-oXjfTa/iAcMmW8DdQ+hQFodPCLqw5VKT2yoZkLwrZfPVVpUgKrI+5/ZePYq328xxtAUStZmR3ed0PWJrwd5Pkg==}
     peerDependencies:
@@ -11165,6 +11153,29 @@ packages:
       '@mdx-js/mdx': 2.1.5
       source-map: 0.7.3
       webpack: 5.73.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@mdx-js/loader/2.3.0:
+    resolution: {integrity: sha512-IqsscXh7Q3Rzb+f5DXYk0HU71PK+WuFsEhf+mSV3fOhpLcEpgsHvTQ2h0T6TlZ5gHOaBeFjkXwB52by7ypMyNg==}
+    peerDependencies:
+      webpack: '>=4'
+    dependencies:
+      '@mdx-js/mdx': 2.1.5
+      source-map: 0.7.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@mdx-js/loader/2.3.0_webpack@4.46.0:
+    resolution: {integrity: sha512-IqsscXh7Q3Rzb+f5DXYk0HU71PK+WuFsEhf+mSV3fOhpLcEpgsHvTQ2h0T6TlZ5gHOaBeFjkXwB52by7ypMyNg==}
+    peerDependencies:
+      webpack: '>=4'
+    dependencies:
+      '@mdx-js/mdx': 2.1.5
+      source-map: 0.7.4
+      webpack: 4.46.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -11266,6 +11277,30 @@ packages:
       - supports-color
     dev: false
 
+  /@mdx-js/mdx/2.3.0:
+    resolution: {integrity: sha512-jLuwRlz8DQfQNiUCJR50Y09CGPq3fLtmtUQfVrj79E0JWu3dvsVcxVIcfhR5h0iXu+/z++zDrYeiJqifRynJkA==}
+    dependencies:
+      '@types/estree-jsx': 1.0.0
+      '@types/mdx': 2.0.2
+      estree-util-build-jsx: 2.0.0
+      estree-util-is-identifier-name: 2.0.0
+      estree-util-to-js: 1.1.0
+      estree-walker: 3.0.1
+      hast-util-to-estree: 2.0.2
+      markdown-extensions: 1.1.1
+      periscopic: 3.0.4
+      remark-mdx: 2.0.0
+      remark-parse: 10.0.0
+      remark-rehype: 10.1.0
+      unified: 10.1.2
+      unist-util-position-from-estree: 1.1.1
+      unist-util-stringify-position: 3.0.0
+      unist-util-visit: 4.1.0
+      vfile: 5.3.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@mdx-js/react/1.6.22_react@18.2.0:
     resolution: {integrity: sha512-TDoPum4SHdfPiGSAaRBw7ECyI8VaHpK8GJugbJIJuqyh6kzw9ZLJZW3HGL3NNrJGxcAixUvqROm+YuQOo5eXtg==}
     peerDependencies:
@@ -11285,6 +11320,16 @@ packages:
 
   /@mdx-js/react/2.1.5_react@18.2.0:
     resolution: {integrity: sha512-3Az1I6SAWA9R38rYjz5rXBrGKeZhq96CSSyQtqY+maPj8stBsoUH5pNcmIixuGkufYsh8F5+ka2CVPo2fycWZw==}
+    peerDependencies:
+      react: '>=16'
+    dependencies:
+      '@types/mdx': 2.0.2
+      '@types/react': 18.0.27
+      react: 18.2.0
+    dev: false
+
+  /@mdx-js/react/2.3.0_react@18.2.0:
+    resolution: {integrity: sha512-zQH//gdOmuu7nt2oJR29vFhDv88oGPmVw6BggmrHeMI+xgEkp1B2dX9/bMBSYtK0dyLX/aOmesKS09g222K1/g==}
     peerDependencies:
       react: '>=16'
     dependencies:
@@ -11635,6 +11680,22 @@ packages:
     dependencies:
       '@mdx-js/loader': 2.1.3_webpack@5.73.0
       '@mdx-js/react': 2.1.3_react@18.2.0
+      source-map: 0.7.4
+    dev: false
+
+  /@next/mdx/13.4.2_msthxdjvrhmdkfpqqalumiidgq:
+    resolution: {integrity: sha512-AT/gxEGkKOwceFSTvoa97vAJh0KsDcw+oW1UFTW4e0zcJCmvieniJoq+JHLMzKoyfC9VjozeCR9yGAchZrli1A==}
+    peerDependencies:
+      '@mdx-js/loader': '>=0.15.0'
+      '@mdx-js/react': '>=0.15.0'
+    peerDependenciesMeta:
+      '@mdx-js/loader':
+        optional: true
+      '@mdx-js/react':
+        optional: true
+    dependencies:
+      '@mdx-js/loader': 2.3.0
+      '@mdx-js/react': 2.3.0_react@18.2.0
       source-map: 0.7.4
     dev: false
 
@@ -24241,8 +24302,8 @@ packages:
     resolution: {integrity: sha512-ORs1Rt/uQTqUKjDdGCyrtYxbazf5umATSf/K4qxjmZHORR6HJk+2s/2Pqe+Kk49HHINC/xNIrGfgh8sZcll0ng==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
-      acorn: 8.8.1
-      acorn-jsx: 5.3.2_acorn@8.8.1
+      acorn: 8.8.2
+      acorn-jsx: 5.3.2_acorn@8.8.2
       eslint-visitor-keys: 3.3.0
     dev: true
 
@@ -25012,7 +25073,6 @@ packages:
         optional: true
     dependencies:
       debug: 2.6.9
-    dev: false
 
   /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -25474,7 +25534,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -29569,7 +29629,7 @@ packages:
   /load-egghead-notes-mdx-url/0.1.1:
     resolution: {integrity: sha512-/YJ8RmQUH8kwQbWCeN3MA1Aj3GHlQvfp75b5kweoNDdW+MK104bCmshvpV8jkxZLGppFTU+nKJptWefWTyWxNQ==}
     dependencies:
-      '@mdx-js/mdx': 2.1.5
+      '@mdx-js/mdx': 2.3.0
       isomorphic-fetch: 3.0.0
       mdast-util-to-markdown: 0.6.5
       remark-frontmatter: 3.0.0
@@ -31760,7 +31820,7 @@ packages:
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
       jose: 4.14.4
-      next: 13.4.2_biqbaboplfbrettd7655fr4n2y
+      next: 13.4.2_x6hpkaqu4dxwl4unajq2h7dx44
       nodemailer: 6.7.2
       oauth: 0.9.15
       openid-client: 5.4.2
@@ -32192,7 +32252,6 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
-    dev: true
 
   /nice-try/1.0.5:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
@@ -39981,7 +40040,6 @@ packages:
       '@babel/core': 7.16.5
       client-only: 0.0.1
       react: 18.2.0
-    dev: true
 
   /styled-jsx/5.1.1_react@18.2.0:
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
@@ -40487,7 +40545,7 @@ packages:
     hasBin: true
     dependencies:
       '@jridgewell/source-map': 0.3.2
-      acorn: 8.8.1
+      acorn: 8.8.2
       commander: 2.20.3
       source-map-support: 0.5.21
 
