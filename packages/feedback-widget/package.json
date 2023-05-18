@@ -41,7 +41,7 @@
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
     "@tiptap/core": "^2.0.0-beta.181",
-    "@types/jest": "^27.5.2",
+    "@types/jest": "^29.5.1",
     "@types/node": "^17.0.0",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",

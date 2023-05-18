@@ -1,6 +1,10 @@
 /**
  * @jest-environment jsdom
  */
+
+// TODO: Fix this test
+// It's failing because of the useQuestion hook and its Sandpack imports
+
 import * as React from 'react'
 import {QuestionResource} from '@skillrecordings/types'
 import {useQuestion} from '../index'
