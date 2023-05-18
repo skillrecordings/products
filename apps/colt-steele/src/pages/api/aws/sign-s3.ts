@@ -32,7 +32,7 @@ const signedUrl = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const params = {
         Bucket: options.bucket,
-        Key: `epic-web/${filename}`,
+        Key: `colt-steele/${filename}`,
         Expires: 60,
         ContentType: contentType,
         ACL: options.ACL,
