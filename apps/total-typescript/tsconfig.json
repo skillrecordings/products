@@ -6,6 +6,7 @@
   "compilerOptions": {
     "baseUrl": "./src/",
     "outDir": "dist",
+      "rootDir": "src",
     "incremental": true,
     "plugins": [
       {
@@ -18,7 +19,6 @@
     "src",
     "next-env.d.ts",
     "process.d.ts",
-    "globals.d.ts",
-    ".next/types/**/*.ts"
+    "globals.d.ts"
   ]
 }
