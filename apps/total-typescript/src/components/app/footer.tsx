@@ -1,17 +1,9 @@
-import React from 'react'
-import cx from 'classnames'
-import Link from 'next/link'
-import {useRouter} from 'next/router'
-import {signOut, useSession} from 'next-auth/react'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {BookIcon, KeyIcon} from 'components/app/navigation'
-import {
-  ChevronDownIcon,
-  FireIcon,
-  MenuIcon,
-  PlayIcon,
-} from '@heroicons/react/solid'
+import cx from 'classnames'
 import Image from 'next/image'
+import Link from 'next/link'
+import {usePathname} from 'next/navigation'
+import React from 'react'
 
 type FooterProps = {
   className?: string
@@ -86,8 +78,8 @@ const NavLink: React.FC<
     onClick?: () => void
   }>
 > = ({onClick, label, icon, path, className}) => {
-  const router = useRouter()
-  const isActive = router.pathname === path
+  const pathname = usePathname()
+  const isActive = pathname === path
   if (onClick) {
     return (
       <li className="">

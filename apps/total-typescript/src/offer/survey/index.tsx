@@ -1,29 +1,31 @@
+'use client'
+
 import {useSurveyPopupOfferMachine} from 'offer/use-survey-popup-offer-machine'
 import * as React from 'react'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {trpc} from '../../trpc/trpc.client'
 import {SurveyMachineContext} from './survey-machine'
 import {QuestionResource} from '@skillrecordings/types'
-import {useRouter} from 'next/router'
 import {SurveyPopup} from './survey-popup'
 import {surveyConfig} from './survey-config'
 import {Identify, identify} from '@amplitude/analytics-browser'
+import {usePathname} from 'next/navigation'
 
 export const Survey = ({
   excludePages = ['/confirm', '/workshops', '/buy'],
 }: {
   excludePages?: string[]
 }) => {
-  function isPathValid(path: string, excludePages: string[]) {
+  function isPathValid(path: string | null, excludePages: string[]) {
     for (const pathElement of excludePages) {
-      if (path.includes(pathElement)) {
+      if (path && path.includes(pathElement)) {
         return false
       }
     }
     return true
   }
-  const router = useRouter()
-  const pathIsValid = isPathValid(router.asPath, excludePages)
+  const pathname = usePathname()
+  const pathIsValid = isPathValid(pathname, excludePages)
   const answerSurveyMutation = trpc.convertkit.answerSurvey.useMutation()
   const {currentOffer, currentOfferId, isPopupOpen, sendToMachine} =
     useSurveyPopupOfferMachine()

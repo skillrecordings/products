@@ -1,5 +1,4 @@
 import React from 'react'
-import {NextRouter, useRouter} from 'next/router'
 import {useCommandState} from 'cmdk'
 import {
   ChevronDownIcon,
@@ -19,6 +18,7 @@ import {signOut, useSession} from 'next-auth/react'
 import toast from 'react-hot-toast'
 import {useFeedback} from '../../feedback-widget/feedback-context'
 import {useSearchBar} from 'search-bar/use-search-bar'
+import {usePathname} from 'next/navigation'
 
 type Props = {
   className?: string
@@ -257,8 +257,8 @@ const NavLink: React.FC<
     onClick?: () => void
   }>
 > = ({onClick, label, icon, path, className}) => {
-  const router = useRouter()
-  const isActive = router.pathname === path
+  const pathname = usePathname()
+  const isActive = pathname === path
   if (onClick) {
     return (
       <li className="">
@@ -343,8 +343,8 @@ const MobileNavLink: React.FC<
 const DropdownLink: React.FC<
   React.PropsWithChildren<LinkProps & {className?: string}>
 > = ({href, ...props}) => {
-  const router = useRouter()
-  const isActive = router.asPath === href
+  const pathname = usePathname()
+  const isActive = pathname === href
 
   return (
     <NextLink href={href} passHref legacyBehavior>
@@ -364,7 +364,7 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
   className,
   isMinified,
 }) => {
-  const router = useRouter()
+  const pathname = usePathname()
   return (
     <NextLink
       href="/"
@@ -374,7 +374,7 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
         'group group flex h-full flex-shrink-0 items-center font-text text-base font-semibold text-white md:text-lg lg:text-xl',
         className,
       )}
-      tabIndex={router.pathname === '/' ? -1 : 0}
+      tabIndex={pathname === '/' ? -1 : 0}
     >
       <span
         aria-hidden={!isMinified}
@@ -509,7 +509,7 @@ const SearchBar: React.FC<{isMinified?: boolean | undefined}> = ({
   )
 }
 
-export const handleLogOut = async (router: NextRouter) => {
+export const handleLogOut = async () => {
   const data = await signOut({
     redirect: false,
     callbackUrl: '/',
@@ -518,12 +518,11 @@ export const handleLogOut = async (router: NextRouter) => {
 }
 
 const LogOutButton: React.FC<{className?: string}> = ({className}) => {
-  const router = useRouter()
   return (
     <NavigationMenu.Link asChild>
       <button
         onClick={async () => {
-          await handleLogOut(router)
+          await handleLogOut()
           toast.success('Logged out successfully')
         }}
         className={

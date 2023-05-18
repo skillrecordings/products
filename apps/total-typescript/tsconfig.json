@@ -7,12 +7,19 @@
     "baseUrl": "./src/",
     "rootDir": "src",
     "outDir": "dist",
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "src",
     "next-env.d.ts",
     "process.d.ts",
-    "globals.d.ts"
+    "globals.d.ts",
+    ".next/types/**/*.ts"
   ]
 }

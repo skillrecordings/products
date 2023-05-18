@@ -1,13 +1,14 @@
-import {useRouter} from 'next/router'
 import React from 'react'
 import {FormikHelpers} from 'formik'
 import {sendFeedback} from '@skillrecordings/skill-api/dist/client'
 import {FeedbackFormValues} from './form'
+import {usePathname} from 'next/navigation'
 
 export const useFeedbackForm = ({location}: {location: string}) => {
-  const router = useRouter()
   const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
   const [error, setError] = React.useState<string>()
+
+  const pathname = usePathname()
 
   const submitFeedbackForm = React.useCallback(
     async (
@@ -36,7 +37,7 @@ export const useFeedbackForm = ({location}: {location: string}) => {
     context: {
       category: 'general',
       emotion: ':wave:',
-      url: `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
+      url: `${process.env.NEXT_PUBLIC_URL}${pathname}`,
       location,
     },
   }

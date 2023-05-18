@@ -1,3 +1,5 @@
+'use client'
+
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {useMachine} from '@xstate/react'
 import {offerMachine} from './offer-machine'

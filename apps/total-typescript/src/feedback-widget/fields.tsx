@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import {useEditor, EditorContent} from '@tiptap/react'
 import {CheckIcon} from '@heroicons/react/solid'

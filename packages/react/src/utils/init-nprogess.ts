@@ -2,7 +2,7 @@ import Router from 'next/router'
 import NProgress from 'nprogress'
 
 export function initNProgress() {
-  let timer: any
+  let timer: NodeJS.Timeout
   const delay = 500
   NProgress.configure({showSpinner: false, trickleSpeed: 100})
 
