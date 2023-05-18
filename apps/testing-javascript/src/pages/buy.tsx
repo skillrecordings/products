@@ -36,11 +36,11 @@ const Buy: React.FC<any> = ({commerceProps}) => {
           alt: 'Testing Javascript Workshops',
         },
       }}
-      className="py-16"
     >
-      <div className="container max-w-6xl pt-16">
-        <PricingSection commerceProps={commerceProps} />
-      </div>
+      <PricingSection
+        commerceProps={commerceProps}
+        className="mt-12 mb-28 md:mt-14 lg:mt-16 lg:mb-32"
+      />
     </Layout>
   )
 }
