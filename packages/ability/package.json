@@ -18,9 +18,9 @@
   },
   "devDependencies": {
     "@skillrecordings/database": "workspace:*",
-    "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/scripts": "workspace:*",
-    "@types/jest": "^27.5.2",
+    "@skillrecordings/tsconfig": "workspace:*",
+    "@types/jest": "^29.5.1",
     "@types/node": "^18.6.1",
     "eslint": "^8.12.0",
     "eslint-config-custom": "workspace:*",

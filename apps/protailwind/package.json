@@ -138,7 +138,7 @@
     "@skillrecordings/types": "workspace:*",
     "@tailwindcss/typography": "^0.5.9",
     "@types/cookie": "^0.4.1",
-    "@types/jest": "^27.5.2",
+    "@types/jest": "^29.5.1",
     "@types/js-cookie": "^3.0.2",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/lodash": "^4.14.179",
