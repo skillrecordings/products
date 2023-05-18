@@ -93,7 +93,7 @@
   [data-single-section] {
     @apply flex flex-col divide-y divide-gray-800/0 text-base;
     [data-lesson][data-is-expanded='true'] {
-      @apply bg-white;
+      @apply bg-gray-200/70;
     }
   }
   /* lesson */
@@ -121,10 +121,10 @@
       /* problem */
       [data-problem] {
         a {
-          @apply flex w-full items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-brand-cultured;
+          @apply flex w-full items-center border-l-4 px-8 py-2 text-base font-medium transition hover:text-black;
         }
         a[data-is-active='true'] {
-          @apply border-brand-red bg-white hover:bg-brand-cultured;
+          @apply border-transparent bg-white font-semibold text-black;
         }
         a[data-is-active='false'] {
           @apply border-transparent;
@@ -136,10 +136,10 @@
       }
       [data-exercise] {
         a {
-          @apply flex w-full items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-brand-cultured;
+          @apply flex w-full items-center border-l-4 px-8 py-2 text-base font-medium transition hover:text-black;
         }
         a[data-is-active='true'] {
-          @apply border-indigo-400 bg-gray-800/80 text-white;
+          @apply border-transparent bg-white;
         }
         a[data-is-active='false'] {
           @apply border-transparent;
@@ -148,10 +148,10 @@
       /* solution */
       [data-solution] {
         a {
-          @apply flex items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-brand-cultured;
+          @apply flex items-center border-l-4 px-8 py-2 text-base font-medium transition hover:text-black;
         }
         a[data-is-active='true'] {
-          @apply border-cyan-400 bg-gray-800/80 text-white;
+          @apply border-transparent bg-white;
         }
         a[data-is-active='false'] {
           @apply border-transparent;
@@ -163,7 +163,7 @@
           @apply flex items-center border-l-4 px-8 py-2 text-base font-medium transition hover:bg-gray-800/50 hover:text-white;
         }
         a[data-is-active='true'] {
-          @apply border-indigo-400 bg-gray-800/80 text-white;
+          @apply border-transparent bg-white;
         }
         a[data-is-active='false'] {
           @apply border-transparent;

@@ -47,17 +47,17 @@
     @apply object-contain object-top opacity-25 blur-sm contrast-125;
   }
   [data-subscribe] {
-    @apply z-20 flex h-full w-full max-w-sm flex-shrink-0 flex-col items-center justify-center p-5 pb-10 text-center text-lg leading-relaxed sm:p-5 sm:pb-16;
+    @apply z-20 flex h-full w-full max-w-sm flex-shrink-0 flex-col items-center justify-center p-5 text-center text-lg leading-relaxed;
     [data-col='1'] {
       @apply flex w-full flex-col items-center justify-center gap-2;
       [data-image] {
         @apply relative w-28;
       }
       [data-title] {
-        @apply pt-3 text-3xl font-semibold;
+        @apply pt-3 text-3xl font-semibold font-heading;
       }
       [data-subtitle] {
-        @apply pb-3 text-xl text-gray-300;
+        @apply pb-3 text-base font-normal text-gray-300;
       }
       [data-nospam] {
         @apply pt-2 text-sm opacity-80;

@@ -7,7 +7,7 @@ import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-vid
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from 'lib/sections'
-import {serialize} from 'next-mdx-remote/serialize'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {Resource} from '@skillrecordings/skill-lesson/schemas/resource'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
@@ -21,9 +21,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const module = await getTutorial(params?.module as string)
   const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSlug, false)
-  const lessonBody = lesson.body && (await serialize(lesson.body))
+  const lessonBody = lesson.body && (await serializeMDX(lesson.body))
   const lessonBodyPreview =
-    lesson.body && (await serialize(lesson.body.substring(0, 300)))
+    lesson.body && (await serializeMDX(lesson.body.substring(0, 300)))
 
   return {
     props: {

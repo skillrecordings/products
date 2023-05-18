@@ -25,15 +25,15 @@
 
 #video-overlay {
   [data-sr-convertkit-subscribe-form] {
-    @apply flex w-full max-w-sm flex-col gap-4 text-left;
+    @apply flex w-full max-w-sm flex-col gap-3 text-left;
     [data-sr-input] {
-      @apply w-full rounded-md border border-gray-200 bg-gray-100 px-3 py-3 text-black placeholder:text-gray-500;
+      @apply w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-2.5 text-white placeholder:text-gray-300;
     }
     [data-sr-input-label] {
-      @apply inline-block w-full pb-1 text-gray-200;
+      @apply inline-block w-full pb-1 text-gray-200 text-sm;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-full bg-brand-red py-4 px-5 font-semibold text-white shadow-2xl shadow-gray-500/10 ring-offset-1 transition hover:brightness-110;
+      @apply relative mt-2 flex items-center justify-center rounded-md bg-brand-red py-4 px-5 font-semibold text-white shadow-2xl shadow-gray-500/10 ring-offset-1 transition hover:brightness-110;
       svg {
         @apply h-7 w-7;
       }

@@ -12,7 +12,7 @@ import {Resource} from '@skillrecordings/skill-lesson/schemas/resource'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
-import {serialize} from 'next-mdx-remote/serialize'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -23,10 +23,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const exercise = await getExercise(exerciseSlug)
   const section = await getSection(sectionSlug)
   const solutionBody =
-    exercise.solution.body && (await serialize(exercise.solution.body))
+    exercise.solution.body && (await serializeMDX(exercise.solution.body))
   const solutionBodyPreview =
     exercise.solution.body &&
-    (await serialize(exercise.solution.body.substring(0, 300)))
+    (await serializeMDX(exercise.solution.body.substring(0, 300)))
 
   return {
     props: {
