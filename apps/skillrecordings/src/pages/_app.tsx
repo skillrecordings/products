@@ -8,6 +8,13 @@ import 'focus-visible'
 import {ConvertkitProvider} from '@skillrecordings/convertkit-react-ui'
 import {MDXProvider} from '@mdx-js/react'
 import mdxComponents from 'components/mdx'
+import {Inter} from 'next/font/google'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
 declare global {
   interface Window {
@@ -26,7 +33,9 @@ function MyApp({Component, pageProps}: AppProps) {
       <ConvertkitProvider>
         <ThemeProvider attribute="class" enableSystem>
           <MDXProvider components={mdxComponents}>
-            <Component {...pageProps} />
+            <div className={`${inter.variable} font-sans`}>
+              <Component {...pageProps} />
+            </div>
           </MDXProvider>
         </ThemeProvider>
       </ConvertkitProvider>

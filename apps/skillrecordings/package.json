@@ -46,6 +46,7 @@
     "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/time": "workspace:*",
+    "@skillrecordings/skill-lesson": "workspace:*",
     "@stripe/stripe-js": "^1.21.1",
     "@xstate/react": "=1.5.1",
     "autoprefixer": "^10.4.2",
@@ -81,7 +82,8 @@
     "remark-slug": "^7.0.1",
     "slugify": "^1.6.2",
     "stripe": "^8.186.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "@next/font": "13.4.2"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.16.0",

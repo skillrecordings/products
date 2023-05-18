@@ -31,7 +31,7 @@ module.exports = {
         gray: colors.zinc,
       },
       fontFamily: {
-        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        sans: ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
         display: ['Trailers', ...defaultTheme.fontFamily.sans],
       },
       typography: (theme) => ({

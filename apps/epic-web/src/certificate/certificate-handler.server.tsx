@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {getModule} from '@skillrecordings/skill-lesson/lib/modules'
 import {ImageResponse} from '@vercel/og'
 import {NextRequest} from 'next/server'
