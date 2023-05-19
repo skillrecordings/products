@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/legacy/image'

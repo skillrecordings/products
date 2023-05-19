@@ -2,32 +2,52 @@
   "name": "scriptkit.com",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": ">16.x"
-  },
   "scripts": {
-    "dev": "next dev -p 3035",
-    "dev:sanity": "sanity dev",
+    "announcements-data": "pnpm write-discussion-data Announcements",
     "prebuild": "",
     "build": "pnpm docs-data && pnpm share-data && pnpm guide-data && pnpm announcements-data && pnpm hot-data && pnpm course-data && NODE_ENV=production next build",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "start": "next start -p 3035",
-    "repos": "kit ./scripts/repos.js",
-    "og-image": "kit generate-open-graph-image",
-    "get-scripts": "kit get-scripts",
-    "write-discussion-data": "kit write-discussion-data",
-    "share-data": "pnpm write-discussion-data Share",
-    "guide-data": "pnpm write-discussion-data Guide",
-    "docs-data": "pnpm write-discussion-data Docs",
-    "hot-data": "kit update-hot",
-    "announcements-data": "pnpm write-discussion-data Announcements",
-    "write-repo-scripts-data": "kit write-repo-scripts-data",
-    "write-course-data": "kit write-course-data",
     "course-data": "pnpm write-course-data script-kit-showcase-for-optimizing-your-everyday-workflows-e20ceab4",
-    "db:studio": "prisma studio",
+    "db:generate": "pnpm -w generate",
     "db:push": "prisma db push",
     "db:start": "docker compose up -d",
-    "db:generate": "pnpm -w generate"
+    "db:studio": "prisma studio",
+    "dev": "next dev -p 3035",
+    "dev:sanity": "sanity dev",
+    "docs-data": "pnpm write-discussion-data Docs",
+    "get-scripts": "kit get-scripts",
+    "guide-data": "pnpm write-discussion-data Guide",
+    "hot-data": "kit update-hot",
+    "og-image": "kit generate-open-graph-image",
+    "repos": "kit ./scripts/repos.js",
+    "share-data": "pnpm write-discussion-data Share",
+    "start": "next start -p 3035",
+    "write-course-data": "kit write-course-data",
+    "write-discussion-data": "kit write-discussion-data",
+    "write-repo-scripts-data": "kit write-repo-scripts-data"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write"
+    ],
+    "src/**/*.{ts,tsx,md,mdx,js}": [
+      "prettier --write"
+    ]
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^1.3.0",
@@ -105,7 +125,7 @@
     "memoizerific": "^1.11.3",
     "micromark": "^3.1.0",
     "mjml": "^4.12.0",
-    "next": "^13.4.2",
+    "next": "^13.4.3",
     "next-auth": "^4.22.1",
     "next-mdx-remote": "^4.1.0",
     "next-seo": "^5.5.0",
@@ -170,9 +190,9 @@
     "@types/jsonfile": "^6.1.0",
     "@types/lodash": "^4.14.182",
     "@types/memoizee": "^0.4.8",
-    "@types/node": "^18.6.5",
+    "@types/node": "^18.16.13",
     "@types/pluralize": "^0.0.29",
-    "@types/react": "^18.0.17",
+    "@types/react": "^18.2.6",
     "@types/react-lottie": "^1.2.6",
     "@types/react-syntax-highlighter": "^15.5.4",
     "@types/speakingurl": "^13.0.3",
@@ -192,31 +212,11 @@
     "styled-components": "^5.2",
     "tailwindcss": "^3.1.8",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.4",
+    "typescript": "5.1.1-rc",
     "yarn-upgrade-all": "^0.7.1"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,json,md}": [
-      "prettier --write"
-    ],
-    "src/**/*.{ts,tsx,md,mdx,js}": [
-      "prettier --write"
-    ]
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": false,
-    "jsxBracketSameLine": false
+  "engines": {
+    "node": ">16.x"
   },
   "prisma": {
     "schema": "../../packages/database/prisma/schema.prisma"

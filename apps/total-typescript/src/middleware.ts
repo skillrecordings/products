@@ -3,8 +3,11 @@ import {
   getMiddlewareResponse,
   SITE_ROOT_PATH,
 } from './server/get-middleware-response'
-import {getTutorial} from 'lib/tutorials'
-import {legacySectionlessRedirect, sectionlessPattern} from 'lib/middleware.lib'
+import {getTutorial} from '@/lib/tutorials'
+import {
+  legacySectionlessRedirect,
+  sectionlessPattern,
+} from '@/lib/middleware.lib'
 
 const PUBLIC_FILE = /\.(.*)$/
 

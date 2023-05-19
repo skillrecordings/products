@@ -1,7 +1,7 @@
 import React from 'react'
 import queryString from 'query-string'
 import {removeQueryParamsFromRouter} from '@skillrecordings/react'
-import {USER_ID_QUERY_PARAM_KEY} from 'pages/tutorials/[module]'
+import {USER_ID_QUERY_PARAM_KEY} from '@/pages/tutorials/[module]'
 import {useRouter} from 'next/router'
 import isEmpty from 'lodash/isEmpty'
 

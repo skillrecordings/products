@@ -4,7 +4,7 @@ import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-serve
 import {getSdk} from '@skillrecordings/database'
 import {GetServerSideProps} from 'next'
 import {format} from 'date-fns'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import Link from 'next/link'
 import {getToken} from 'next-auth/jwt'
 import {Purchase} from '@skillrecordings/database'
@@ -37,7 +37,7 @@ const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
 }) => {
   return (
     <Layout meta={{title: 'Invoices'}}>
-      <main className="mx-auto flex h-full w-full max-w-2xl flex-grow flex-col py-24 px-5 sm:py-32">
+      <main className="mx-auto flex h-full w-full max-w-2xl flex-grow flex-col px-5 py-24 sm:py-32">
         <h1 className="pb-4 font-text text-3xl font-medium text-white">
           Your Invoices
         </h1>

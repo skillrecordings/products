@@ -2,8 +2,8 @@ import {
   CastingWordsOrderResponseSchema,
   getSRTText,
   getTranscriptText,
-} from 'lib/castingwords'
-import {sanityWriteClient} from 'utils/sanity-server'
+} from '@/lib/castingwords'
+import {sanityWriteClient} from '@/utils/sanity-server'
 import {z} from 'zod'
 import {uniqueId} from 'lodash'
 import first from 'lodash/first'

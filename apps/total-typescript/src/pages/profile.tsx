@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {getProviders, signIn} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {getToken} from 'next-auth/jwt'
 import {trpc} from '../trpc/trpc.client'

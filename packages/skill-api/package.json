@@ -1,10 +1,10 @@
 {
   "name": "@skillrecordings/skill-api",
   "version": "0.0.1",
+  "private": true,
   "description": "",
   "license": "ISC",
   "author": "Skill Recordings Inc.",
-  "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -19,8 +19,8 @@
     "lint": "eslint src config",
     "prepublishOnly": "pnpm build",
     "test": "jest",
-    "watch:js": "tsc --watch",
-    "watch:css": "postcss --config config/postcss.config.js --watch src/**/*.css --base src --dir ."
+    "watch:css": "postcss --config config/postcss.config.js --watch src/**/*.css --base src --dir .",
+    "watch:js": "tsc --watch"
   },
   "eslintIgnore": [
     "./*.d.ts",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.16.3",
-    "@sanity/client": "^3.4.1",
+    "@sanity/client": "^4.0.1",
     "@skillrecordings/commerce-server": "workspace:*",
     "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/database": "workspace:*",
@@ -73,12 +73,12 @@
     "@types/lodash": "^4.14.179",
     "@types/micro": "^7.3.7",
     "@types/mjml": "^4.7.0",
-    "@types/node": "^17.0.0",
+    "@types/node": "^18.16.13",
     "@types/nodemailer": "^6.4.4",
     "@types/oauth": "^0.9.1",
     "@types/pluralize": "^0.0.29",
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "^18.0.6",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
     "@types/sanitize-html": "^2.6.2",
     "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.2",
@@ -90,7 +90,7 @@
     "i": "^0.3.7",
     "jest-mock-extended": "^3.0.4",
     "msw": "^0.35.0",
-    "next": "^13.4.2",
+    "next": "^13.4.3",
     "next-auth": "^4.22.1",
     "nodemailer": "^6.7.2",
     "nodemailer-postmark-transport": "^5.2.1",
@@ -98,7 +98,7 @@
     "postcss-cli": "^9.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "^4.9.4",
+    "typescript": "5.1.1-rc",
     "whatwg-fetch": "^3.6.2"
   },
   "peerDependencies": {

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {signOut, useSession} from 'next-auth/react'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {BookIcon, KeyIcon} from 'components/app/navigation'
+import {BookIcon, KeyIcon} from '@/components/app/navigation'
 import {
   ChevronDownIcon,
   FireIcon,
