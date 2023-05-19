@@ -48,7 +48,7 @@
     "esbuild-node-tsc": "^1.6.1",
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
-    "next": "^13.4.2",
+    "next": "^13.4.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.43.4",
