@@ -4,6 +4,8 @@ import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {getAllWorkshops} from '../../lib/workshops'
+import PageHeadline from 'components/page-headline'
+import PageSubheadline from 'components/page-subheadline'
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
@@ -30,14 +32,12 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
       }
     >
       <main className="relative z-10 flex flex-col items-center justify-center py-20">
-        <h1 className="text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
-          Professional Tailwind Workshops
-        </h1>
-        <p className="max-w-md pt-8 text-center text-lg text-brand-red">
+        <PageHeadline>Professional Tailwind Workshops</PageHeadline>
+        <PageSubheadline>
           A collection of professional, exercise-driven, in-depth, self-paced
           Tailwind workshops to help you learn how to use Tailwind as a
           professional web developer.
-        </p>
+        </PageSubheadline>
         {workshops && (
           <ul className="flex max-w-screen-md flex-col gap-8 px-3 pt-20">
             {workshops.map(
@@ -118,7 +118,7 @@ const WorkshopsPage: React.FC<{workshops: SanityDocument[]}> = ({
                               module: slug.current,
                             },
                           }}
-                          className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition"
+                          className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition hover:brightness-110"
                         >
                           View{' '}
                           <span
