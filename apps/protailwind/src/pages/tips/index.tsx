@@ -7,6 +7,8 @@ import {useRouter} from 'next/router'
 import {useTipComplete} from '../../hooks/use-tip-complete'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import PageHeadline from 'components/page-headline'
+import PageSubheadline from 'components/page-subheadline'
 
 export async function getStaticProps() {
   const tips = await getAllTips()
@@ -38,12 +40,8 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
       className="sm:pt-18 flex flex-col items-center pb-16 pt-16 lg:pb-24 lg:pt-20"
     >
       <header className="relative z-10 flex flex-col items-center px-5 pb-16 text-center">
-        <h1 className="text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
-          Tailwind Tips
-        </h1>
-        <p className="max-w-md pt-8 text-center text-lg text-gray-600 lg:text-xl">
-          {pageDescription}
-        </p>
+        <PageHeadline>Tailwind Tips</PageHeadline>
+        <PageSubheadline>{pageDescription}</PageSubheadline>
       </header>
       <main className="relative z-10 mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
         {tips.map((tip) => {

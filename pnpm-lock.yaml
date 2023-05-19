@@ -534,7 +534,9 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/shortid': ^0.0.29
       '@types/speakingurl': ^13.0.3
+      '@types/uuid': 8.3.4
       '@vercel/og': ^0.5.4
+      aws-sdk: 2.1197.0
       axios: ^1.4.0
       classnames: ^2.3.1
       date-fns: ^2.28.0
@@ -580,6 +582,7 @@ importers:
       tailwindcss: ^3.3.0
       tailwindcss-radix: ^2.8.0
       typescript: 5.1.1-rc
+      uuid: 8.3.2
       webpack: ^5.73.0
       yup: ^0.32.11
       zod: 3.19.1
@@ -638,7 +641,9 @@ importers:
       '@types/lodash': 4.14.194
       '@types/shortid': 0.0.29
       '@types/speakingurl': 13.0.3
+      '@types/uuid': 8.3.4
       '@vercel/og': 0.5.4
+      aws-sdk: 2.1197.0
       axios: 1.4.0
       classnames: 2.3.1
       date-fns: 2.28.0
@@ -675,6 +680,7 @@ importers:
       superjson: 1.11.0
       tailwind-merge: 1.12.0
       tailwindcss-radix: 2.8.0
+      uuid: 8.3.2
       yup: 0.32.11
       zod: 3.19.1
     devDependencies:
@@ -4804,7 +4810,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       '@amplitude/types': 1.10.2
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /@ampproject/remapping/2.2.1:
@@ -13249,7 +13255,7 @@ packages:
       '@reach/utils': 0.17.0_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /@reach/descendants/0.17.0_biqbaboplfbrettd7655fr4n2y:
@@ -13261,7 +13267,7 @@ packages:
       '@reach/utils': 0.17.0_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /@reach/dialog/0.16.2_63dfw6rfgd64rl77ptfma4cvt4:
@@ -13310,7 +13316,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       tiny-warning: 1.0.3
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /@reach/skip-nav/0.16.0_biqbaboplfbrettd7655fr4n2y:
@@ -13388,7 +13394,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       tiny-warning: 1.0.3
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /@react-hook/event/1.2.3_react@18.2.0:
@@ -13930,7 +13936,7 @@ packages:
       react: 18.2.0
       react-ace: 10.1.0_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
-      sanity: 3.8.3_shczhbm3p5l37poee5bnpnaupi
+      sanity: 3.8.3_ppvhipyfvk2nzgxwoato6b45ea
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-is
@@ -14859,7 +14865,7 @@ packages:
       '@sanity/incompatible-plugin': 1.0.4_biqbaboplfbrettd7655fr4n2y
       '@sanity/ui': 1.3.3_2zpt4ilzykmne4yndyzrqd4gdm
       react: 18.2.0
-      sanity: 3.8.3_shczhbm3p5l37poee5bnpnaupi
+      sanity: 3.8.3_ppvhipyfvk2nzgxwoato6b45ea
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-dom
@@ -16780,7 +16786,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 18.15.11
+      '@types/node': 20.2.0
       '@types/responselike': 1.0.0
     dev: true
 
@@ -17120,7 +17126,7 @@ packages:
   /@types/minipass/3.1.2:
     resolution: {integrity: sha512-foLGjgrJkUjLG/o2t2ymlZGEoBNBa/TfoUZ7oCTkOjP1T43UGBJspovJou/l3ZuHvye2ewR5cZNtp2zyWgILMA==}
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 20.2.0
     dev: true
 
   /@types/mjml-core/4.7.1:
@@ -19297,6 +19303,22 @@ packages:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
 
+  /aws-sdk/2.1197.0:
+    resolution: {integrity: sha512-BUxYU+gzxCylEM37NeGcS5kWotXVmKrOBG9+/+U+tnOTW7/3yNBrBfhPrs5IgMhm7H38CLWgOqwJaGDlYzwH/Q==}
+    engines: {node: '>= 10.0.0'}
+    dependencies:
+      buffer: 4.9.2
+      events: 1.1.1
+      ieee754: 1.1.13
+      jmespath: 0.16.0
+      querystring: 0.2.0
+      sax: 1.2.1
+      url: 0.10.3
+      util: 0.12.4
+      uuid: 8.0.0
+      xml2js: 0.4.19
+    dev: false
+
   /aws-sdk/2.1300.0:
     resolution: {integrity: sha512-1pz/+Kot+kTiH0WDH5A8Ao06dwz73xX6oCIpTbGTt/AKdmGTC8aAkMbk+KXoQatJSsQyqqxrtWIeKIQUaeUYDw==}
     engines: {node: '>= 10.0.0'}
@@ -20242,7 +20264,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001488
+      caniuse-lite: 1.0.30001419
       electron-to-chromium: 1.4.284
       node-releases: 2.0.6
       update-browserslist-db: 1.0.10_browserslist@4.21.1
@@ -20252,7 +20274,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001488
+      caniuse-lite: 1.0.30001419
       electron-to-chromium: 1.4.284
       node-releases: 2.0.6
       update-browserslist-db: 1.0.10_browserslist@4.21.4
@@ -25137,7 +25159,7 @@ packages:
     resolution: {integrity: sha512-YtHxjX7a0IC0ZACL5wsX8QdncXofWpGPNoVMuI/nZUrPGp6LmNI6+D5j0pPj+v8Kw5EpweA+T5yImK0rnWf7oQ==}
     engines: {node: '>=10'}
     dependencies:
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /focus-visible/5.2.0:
@@ -32234,7 +32256,7 @@ packages:
       '@next/env': 13.4.2
       '@swc/helpers': 0.5.1
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001488
+      caniuse-lite: 1.0.30001419
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -32278,7 +32300,7 @@ packages:
       '@next/env': 13.4.2
       '@swc/helpers': 0.5.1
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001488
+      caniuse-lite: 1.0.30001419
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -32323,7 +32345,7 @@ packages:
       '@next/env': 13.4.2
       '@swc/helpers': 0.5.1
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001488
+      caniuse-lite: 1.0.30001419
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -36189,7 +36211,7 @@ packages:
       '@types/react': 18.0.15
       react: 18.2.0
       react-style-singleton: 2.2.1_3hx2ussxxho4jajbwrd6gq34qe
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /react-remove-scroll-bar/2.3.3_3stiutgnnbnfnf3uowm5cip22i:
@@ -36205,7 +36227,7 @@ packages:
       '@types/react': 18.0.27
       react: 18.2.0
       react-style-singleton: 2.2.1_3stiutgnnbnfnf3uowm5cip22i
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /react-remove-scroll-bar/2.3.3_7v64pk2mkrohwh22gx7lrz5ive:
@@ -36221,7 +36243,7 @@ packages:
       '@types/react': 18.0.18
       react: 18.2.0
       react-style-singleton: 2.2.1_7v64pk2mkrohwh22gx7lrz5ive
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /react-remove-scroll-bar/2.3.3_s3k22s5ab4eu26xuel7hiaraxy:
@@ -36237,7 +36259,7 @@ packages:
       '@types/react': 18.2.6
       react: 18.2.0
       react-style-singleton: 2.2.1_s3k22s5ab4eu26xuel7hiaraxy
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /react-remove-scroll/2.4.3_3hx2ussxxho4jajbwrd6gq34qe:
@@ -36488,7 +36510,7 @@ packages:
       get-nonce: 1.0.1
       invariant: 2.2.4
       react: 18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /react-style-singleton/2.2.1_3stiutgnnbnfnf3uowm5cip22i:
@@ -36505,7 +36527,7 @@ packages:
       get-nonce: 1.0.1
       invariant: 2.2.4
       react: 18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /react-style-singleton/2.2.1_7v64pk2mkrohwh22gx7lrz5ive:
@@ -36522,7 +36544,7 @@ packages:
       get-nonce: 1.0.1
       invariant: 2.2.4
       react: 18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /react-style-singleton/2.2.1_s3k22s5ab4eu26xuel7hiaraxy:
@@ -36539,7 +36561,7 @@ packages:
       get-nonce: 1.0.1
       invariant: 2.2.4
       react: 18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /react-syntax-highlighter/15.4.4_react@18.2.0:
@@ -37882,7 +37904,7 @@ packages:
       nanoid: 3.3.6
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      sanity: 3.8.3_shczhbm3p5l37poee5bnpnaupi
+      sanity: 3.8.3_ppvhipyfvk2nzgxwoato6b45ea
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
     transitivePeerDependencies:
       - react-is
@@ -40105,7 +40127,7 @@ packages:
     resolution: {integrity: sha512-BBByVyqKEBY2GNQDLmfwL1RtfsPmjForD+up7tu+P7KYxxvwEzF1gM2Iv4npfOQevGaBmR70sxIWRwn7utS5pg==}
     engines: {node: ^8.1 || >=10.*}
     dependencies:
-      '@types/node': 20.2.0
+      '@types/node': 18.11.18
       qs: 6.10.1
     dev: false
 
@@ -42105,7 +42127,7 @@ packages:
     dependencies:
       '@types/react': 18.0.15
       react: 18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /use-callback-ref/1.3.0_3stiutgnnbnfnf3uowm5cip22i:
@@ -42120,7 +42142,7 @@ packages:
     dependencies:
       '@types/react': 18.0.27
       react: 18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /use-callback-ref/1.3.0_7v64pk2mkrohwh22gx7lrz5ive:
@@ -42135,7 +42157,7 @@ packages:
     dependencies:
       '@types/react': 18.0.18
       react: 18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /use-callback-ref/1.3.0_s3k22s5ab4eu26xuel7hiaraxy:
@@ -42150,7 +42172,7 @@ packages:
     dependencies:
       '@types/react': 18.2.6
       react: 18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /use-device-pixel-ratio/1.1.2_react@18.2.0:
@@ -42220,7 +42242,7 @@ packages:
       '@types/react': 18.0.15
       detect-node-es: 1.1.0
       react: 18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /use-sidecar/1.1.2_3stiutgnnbnfnf3uowm5cip22i:
@@ -42236,7 +42258,7 @@ packages:
       '@types/react': 18.0.27
       detect-node-es: 1.1.0
       react: 18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /use-sidecar/1.1.2_7v64pk2mkrohwh22gx7lrz5ive:
@@ -42252,7 +42274,7 @@ packages:
       '@types/react': 18.0.18
       detect-node-es: 1.1.0
       react: 18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /use-sidecar/1.1.2_s3k22s5ab4eu26xuel7hiaraxy:
@@ -42268,7 +42290,7 @@ packages:
       '@types/react': 18.2.6
       detect-node-es: 1.1.0
       react: 18.2.0
-      tslib: 2.5.0
+      tslib: 2.4.0
     dev: false
 
   /use-subscription/1.5.1_react@18.2.0:

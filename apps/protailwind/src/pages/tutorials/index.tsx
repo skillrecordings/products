@@ -4,6 +4,8 @@ import {SanityDocument} from '@sanity/client'
 import {getAllTutorials} from 'lib/tutorials'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
+import PageSubheadline from 'components/page-subheadline'
+import PageHeadline from 'components/page-headline'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -30,13 +32,11 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
       }
     >
       <main className="relative z-10 flex flex-col items-center justify-center py-20">
-        <h1 className="text-center font-heading text-4xl font-black sm:text-5xl lg:text-6xl">
-          Free Tailwind Tutorials
-        </h1>
-        <p className="max-w-sm pt-8 text-center text-lg text-brand-red">
+        <PageHeadline>Free Tailwind Tutorials</PageHeadline>
+        <PageSubheadline>
           A collection of free, exercise-driven, in-depth Tailwind tutorials for
           you to use on your journey to Tailwind wizardry.
-        </p>
+        </PageSubheadline>
         {tutorials && (
           <ul className="flex max-w-screen-md flex-col gap-8 px-3 pt-20">
             {tutorials.map(({title, slug, image, description, sections}, i) => {
@@ -57,7 +57,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                     )}
                   </div>
                   <div className="pr:0 m-10 md:m-0 md:pr-10">
-                    <div className="pt-4 pb-3 font-mono text-xs font-semibold uppercase text-gray-600 ">
+                    <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-gray-600 ">
                       {i === 0 && (
                         <span className="mr-3 rounded-full bg-gray-100 px-2 py-0.5 font-sans font-semibold uppercase text-gray-700">
                           New
@@ -92,7 +92,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           module: slug.current,
                         },
                       }}
-                      className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition"
+                      className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition hover:brightness-110"
                     >
                       View{' '}
                       <span

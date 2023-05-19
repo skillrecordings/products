@@ -6,6 +6,7 @@ import Markdown from 'react-markdown'
 import {GetStaticProps} from 'next'
 import {Article, getAllArticles} from '../lib/articles'
 import {toPlainText} from '@portabletext/react'
+import PageHeadline from 'components/page-headline'
 
 const meta = {
   title: 'Tailwind Articles',
@@ -18,10 +19,8 @@ type ArticlesProps = {
 const Articles: React.FC<ArticlesProps> = ({articles}) => {
   return (
     <Layout meta={meta} className="overflow-hidden">
-      <header className="relative overflow-hidden px-5 pt-16 pb-10 sm:pb-20 sm:pt-24">
-        <h1 className="mx-auto max-w-screen-md text-center font-heading text-3xl font-black leading-none sm:text-4xl lg:text-5xl">
-          {meta.title}
-        </h1>
+      <header className="relative overflow-hidden px-5 pb-10 pt-16 sm:pb-20 sm:pt-20">
+        <PageHeadline>{meta.title}</PageHeadline>
       </header>
       <main className="flex-grow px-5">
         <div className="mx-auto w-full max-w-screen-lg pb-16">
@@ -78,9 +77,15 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                             <Link
                               href={`/${slug}`}
                               passHref
-                              className="rounded-full bg-sky-500 px-5 py-3 text-white transition hover:bg-sky-600"
+                              className="group my-4 inline-block gap-2 rounded-full bg-brand-red px-4 py-2 font-medium text-white transition hover:brightness-110"
                             >
-                              View article
+                              Read article{' '}
+                              <span
+                                aria-hidden="true"
+                                className="text-white/90 transition group-hover:text-white"
+                              >
+                                →
+                              </span>
                             </Link>
                             <div className="text-sm text-gray-700">
                               Time to read: ~{estimatedReadingTime}m
