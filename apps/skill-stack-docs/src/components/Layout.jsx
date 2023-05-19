@@ -23,6 +23,15 @@ const navigation = [
       { title: 'Sanity', href: '/docs/sanity' },
     ],
   },
+  {
+    title: 'Support',
+    links: [
+      {
+        title: 'Quotes, Purchase Orders, and Invoices',
+        href: '/docs/purchase-orders',
+      },
+    ],
+  },
 ]
 
 function GitHubIcon(props) {
