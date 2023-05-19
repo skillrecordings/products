@@ -1,6 +1,6 @@
 import React from 'react'
-import Layout from 'components/app/layout'
-import {getAllTips, type Tip} from 'lib/tips'
+import Layout from '@/components/app/layout'
+import {getAllTips, type Tip} from '@/lib/tips'
 import Link from 'next/link'
 import Image from 'next/image'
 import {CheckCircleIcon, PlayIcon} from '@heroicons/react/solid'

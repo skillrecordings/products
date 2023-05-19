@@ -11,7 +11,7 @@
 // ```
 
 import fs from 'fs'
-import Mux, {AssetError} from '@mux/mux-node'
+import Mux from '@mux/mux-node'
 import fetch from 'node-fetch'
 
 require('dotenv-flow').config()
@@ -71,7 +71,7 @@ const uploadMuxAssets = async () => {
   }
 
   const runningLessonListing: {[key: string]: Object} = muxUploadsData
-  const errors: {[key: string]: AssetError} = {}
+  const errors: {[key: string]: any} = {}
 
   const uniqueLessons: {[key: string]: string} = {}
 

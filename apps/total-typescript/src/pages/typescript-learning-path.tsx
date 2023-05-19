@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
 import Link from 'next/link'

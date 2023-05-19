@@ -1,6 +1,6 @@
 import * as React from 'react'
-import Layout from 'components/app/layout'
-import {BookIcon, KeyIcon} from 'components/app/navigation'
+import Layout from '@/components/app/layout'
+import {BookIcon, KeyIcon} from '@/components/app/navigation'
 import Balancer from 'react-wrap-balancer'
 import {trpc} from '../trpc/trpc.client'
 import pluralize from 'pluralize'

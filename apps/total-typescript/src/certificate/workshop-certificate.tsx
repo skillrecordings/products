@@ -2,7 +2,7 @@ import React from 'react'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {LockClosedIcon} from '@heroicons/react/solid'
 import Image from 'next/image'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import cx from 'classnames'
 import Balancer from 'react-wrap-balancer'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -17,7 +17,7 @@ const WorkshopCertificate: React.FC<{workshop: Module}> = ({workshop}) => {
 
   return moduleProgressStatus === 'success' ? (
     <Dialog.Root>
-      <div className="flex w-full flex-col items-start justify-center py-8 px-5  sm:max-w-sm lg:px-0">
+      <div className="flex w-full flex-col items-start justify-center px-5 py-8  sm:max-w-sm lg:px-0">
         <h2 className="flex items-center gap-1 pb-2 text-2xl font-semibold">
           Certificate
         </h2>

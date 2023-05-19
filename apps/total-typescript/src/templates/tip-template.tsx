@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {
   useMuxPlayer,
   VideoProvider,
@@ -9,13 +9,13 @@ import MuxPlayer, {
   MuxPlayerProps,
   MuxPlayerRefAttributes,
 } from '@mux/mux-player-react'
-import {Tip} from 'lib/tips'
+import {Tip} from '@/lib/tips'
 import {
   PortableText,
   PortableTextComponents as PortableTextComponentsType,
 } from '@portabletext/react'
 import {hmsToSeconds} from '@skillrecordings/time'
-import {TipTeaser} from 'pages/tips'
+import {TipTeaser} from '@/pages/tips'
 import {useRouter} from 'next/router'
 import {
   XIcon,
@@ -27,9 +27,9 @@ import {
 import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outline'
 import {shuffle, take} from 'lodash'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import Navigation from 'components/app/navigation'
+import Navigation from '@/components/app/navigation'
 import Image from 'next/legacy/image'
-import {getOgImage} from 'utils/get-og-image'
+import {getOgImage} from '@/utils/get-og-image'
 import {useTipComplete} from '../hooks/use-tip-complete'
 import {localProgressDb} from '../utils/dexie'
 import {
@@ -42,7 +42,7 @@ import {ArticleJsonLd, VideoJsonLd} from '@skillrecordings/next-seo'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
-import Spinner from 'components/spinner'
+import Spinner from '@/components/spinner'
 
 const TipTemplate: React.FC<{
   tip: Tip

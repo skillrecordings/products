@@ -1,4 +1,4 @@
-import {useSurveyPopupOfferMachine} from 'offer/use-survey-popup-offer-machine'
+import {useSurveyPopupOfferMachine} from '@/offer/use-survey-popup-offer-machine'
 import * as React from 'react'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {trpc} from '../../trpc/trpc.client'

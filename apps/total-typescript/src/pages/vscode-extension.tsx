@@ -1,6 +1,6 @@
-import Layout from 'components/app/layout'
-import {ArticleNewsletterCta} from 'components/primary-newsletter-cta'
-import Share from 'components/share'
+import Layout from '@/components/app/layout'
+import {ArticleNewsletterCta} from '@/components/primary-newsletter-cta'
+import Share from '@/components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import Image from 'next/legacy/image'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
@@ -26,7 +26,7 @@ const ExtensionPage = () => {
       }}
       className="bg-black/10"
     >
-      <header className="flex flex-col items-center justify-center px-5 pt-32 pb-10 text-center">
+      <header className="flex flex-col items-center justify-center px-5 pb-10 pt-32 text-center">
         <Image
           src={require('../../public/assets/extension/extension-icon-expanded@2x.png')}
           alt=""
@@ -71,7 +71,7 @@ const ExtensionPage = () => {
         </div>
       </header>
       <main className="relative flex w-full flex-col gap-10 overflow-hidden bg-gray-900 py-16 lg:gap-24">
-        <div className="absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         <section className="mx-auto flex max-w-screen-xl flex-col-reverse items-center justify-center lg:flex-row">
           <div className="max-w-xl p-6 sm:p-10 lg:max-w-none xl:p-24">

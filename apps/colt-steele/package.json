@@ -2,16 +2,19 @@
   "name": "colt-steele",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3033",
-    "dev:sanity": "sanity dev",
     "build": "next build",
     "postbuild": "NODE_ENV=production next-sitemap",
-    "start": "next start -p 3033",
-    "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
-    "db:studio": "prisma studio",
     "db:push": "prisma db push",
     "db:schema": "prisma migrate dev --create-only",
-    "db:start": "docker compose up -d"
+    "db:start": "docker compose up -d",
+    "db:studio": "prisma studio",
+    "dev": "next dev -p 3033",
+    "dev:sanity": "sanity dev",
+    "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
+    "start": "next start -p 3033"
+  },
+  "jest": {
+    "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^1.3.0",
@@ -83,7 +86,7 @@
     "lodash": "^4.17.21",
     "micromark": "^3.1.0",
     "mjml": "^4.12.0",
-    "next": "^13.4.2",
+    "next": "^13.4.3",
     "next-auth": "^4.22.1",
     "next-mdx-remote": "^4.1.0",
     "next-sitemap": "^3.0.5",
@@ -122,12 +125,12 @@
     "@types/mdx": "^2.0.2",
     "@types/mdx-js__react": "^1.5.5",
     "@types/mjml": "^4.7.0",
-    "@types/node": "^17.0.0",
+    "@types/node": "^18.16.13",
     "@types/nodemailer": "^6.4.4",
     "@types/nprogress": "^0.2.0",
     "@types/pluralize": "^0.0.29",
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "^18.0.6",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
     "dotenv-flow": "^3.2.0",
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
@@ -136,11 +139,8 @@
     "postcss": "^8.4.14",
     "prettier": "^2.6.2",
     "tailwindcss": "^3.3.0",
-    "typescript": "^4.9.4",
+    "typescript": "5.1.1-rc",
     "webpack": "^5.73.0"
-  },
-  "jest": {
-    "preset": "@skillrecordings/scripts/jest/next"
   },
   "prisma": {
     "schema": "../../packages/database/prisma/schema.prisma"

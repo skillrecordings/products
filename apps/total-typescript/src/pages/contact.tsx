@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Image from 'next/legacy/image'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import ContactForm from '../components/contact/contact-form'
-import {getOgImage} from 'utils/get-og-image'
+import {getOgImage} from '@/utils/get-og-image'
 
 const ContactFormPage: React.FC<React.PropsWithChildren<unknown>> = () => {
   const ogImage = getOgImage({title: 'Contact'})

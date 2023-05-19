@@ -2,8 +2,8 @@ import {GetServerSideProps} from 'next'
 import {Feed} from 'feed'
 import config from '../config'
 import {getAllTutorials} from '../lib/tutorials'
-import {getAllTips} from 'lib/tips'
-import {getAllArticles} from 'lib/articles'
+import {getAllTips} from '@/lib/tips'
+import {getAllArticles} from '@/lib/articles'
 
 const hostUrl = process.env.NEXT_PUBLIC_URL
 

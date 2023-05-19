@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {
   getSdk,
   Purchase,
@@ -9,7 +9,7 @@ import {
   User,
 } from '@skillrecordings/database'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
-import {trpc} from '../../trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 
@@ -46,7 +46,9 @@ const Welcome = ({
 }) => {
   const utils = trpc.useContext()
   const router = useRouter()
+
   const acceptTransferMutation = trpc.purchaseUserTransfer.accept.useMutation({
+    // @ts-ignore
     onSettled: async (data, error, variables, context) => {
       await utils.purchaseUserTransfer.invalidate()
       data && router.push(`/welcome?purchaseId=${data?.newPurchase.id}`)
@@ -79,7 +81,7 @@ const Welcome = ({
                     purchaseUserTransferId: data?.id,
                   })
               }}
-              className="w-full rounded bg-blue-600 py-2 px-4 font-bold text-white hover:bg-blue-700"
+              className="w-full rounded bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700"
               disabled={!data}
             >
               accept this transfer

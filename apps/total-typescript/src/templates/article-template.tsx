@@ -1,18 +1,18 @@
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {Article} from 'lib/articles'
+import {Article} from '@/lib/articles'
 import {PortableText, toPlainText} from '@portabletext/react'
 import Image from 'next/legacy/image'
-import Share from 'components/share'
+import Share from '@/components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {
   ArticleNewsletterCta,
   PrimaryNewsletterCta,
-} from 'components/primary-newsletter-cta'
+} from '@/components/primary-newsletter-cta'
 import {format} from 'date-fns'
-import {ArticleTeaser} from 'pages/articles'
+import {ArticleTeaser} from '@/pages/articles'
 import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
-import Spinner from 'components/spinner'
+import Spinner from '@/components/spinner'
 
 type ArticleTemplateProps = {
   article: Article

@@ -1,18 +1,18 @@
 {
   "name": "badass-courses",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "",
-  "main": "package.json",
-  "author": "Joel Hooks <joel@egghead.io>",
-  "license": "UNLICENSED",
-  "scripts": {
-    "start": "sanity start",
-    "build": "sanity build"
-  },
   "keywords": [
     "sanity"
   ],
+  "license": "UNLICENSED",
+  "author": "Joel Hooks <joel@egghead.io>",
+  "main": "package.json",
+  "scripts": {
+    "build": "sanity build",
+    "start": "sanity start"
+  },
   "dependencies": {
     "@portabletext/react": "^1.0.6",
     "@sanity/base": "^2.29.5",

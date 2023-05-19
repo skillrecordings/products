@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {Html, Head, Main, NextScript} from 'next/document'
-import Fonts from 'utils/fonts'
+import Fonts from '@/utils/fonts'
 
 export default function Document() {
   return (

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {
   convertToSerializeForNextResponse,
   determinePurchaseType,
@@ -18,12 +18,12 @@ import CopyInviteLink from '@skillrecordings/skill-lesson/team/copy-invite-link'
 import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
 import {SanityDocument} from '@sanity/client'
-import {InvoiceCard} from 'pages/invoices'
+import {InvoiceCard} from '@/pages/invoices'
 import {MailIcon} from '@heroicons/react/solid'
 import {getProduct} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import {isEmpty} from 'lodash'
-import {Transfer} from 'purchase-transfer/purchase-transfer'
+import {Transfer} from '@/purchase-transfer/purchase-transfer'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context

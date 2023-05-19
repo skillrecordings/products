@@ -3,7 +3,7 @@
  */
 import * as trpcNext from '@trpc/server/adapters/next'
 import {createContext} from '@skillrecordings/skill-lesson'
-import {AppRouter, appRouter} from 'trpc/routers/_app'
+import {AppRouter, appRouter} from '@/trpc/routers/_app'
 import {nextAuthOptions} from '../auth/[...nextauth]'
 
 export default trpcNext.createNextApiHandler<AppRouter>({

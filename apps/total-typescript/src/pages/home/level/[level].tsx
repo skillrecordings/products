@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
-import {HomeTemplate} from 'templates/home-template'
+import {HomeTemplate} from '@/templates/home-template'
 import {getToken} from 'next-auth/jwt'
 import {getActiveProducts} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
 import {propsForCommerce} from '@skillrecordings/commerce-server'

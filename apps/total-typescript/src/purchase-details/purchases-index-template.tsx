@@ -1,12 +1,12 @@
 import {ArrowRightIcon} from '@heroicons/react/solid'
 import {Purchase} from '@skillrecordings/database'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import Link from 'next/link'
 import {
   DatePurchased,
   InvoiceLink,
   Price,
-} from 'purchase-details/purchase-details-template'
+} from '@/purchase-details/purchase-details-template'
 import Balancer from 'react-wrap-balancer'
 import Image from 'next/image'
 
@@ -38,12 +38,12 @@ const PurchasesIndexTemplate: React.FC<PurchasesIndexProps> = ({purchases}) => {
           </Balancer>
         </h2>
       </header>
-      <main className="mx-auto flex w-full max-w-2xl flex-col gap-8 py-16 px-5">
+      <main className="mx-auto flex w-full max-w-2xl flex-col gap-8 px-5 py-16">
         {purchases
           ?.filter((p) => !p.redeemedBulkCouponId)
           .map((purchase) => {
             return (
-              <article className="rounded-lg border border-gray-700/50 bg-gray-800 px-8 pt-8 pb-5 shadow-2xl shadow-black/20">
+              <article className="rounded-lg border border-gray-700/50 bg-gray-800 px-8 pb-5 pt-8 shadow-2xl shadow-black/20">
                 <h2 className="font-heading text-2xl font-extrabold sm:text-3xl">
                   <Balancer>
                     <Link

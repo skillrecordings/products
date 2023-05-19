@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {find, get, isNull, isString} from 'lodash'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {GetServerSideProps} from 'next'

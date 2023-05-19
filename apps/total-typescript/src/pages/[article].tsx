@@ -1,6 +1,6 @@
-import {Article, getAllArticles, getArticle} from 'lib/articles'
+import {Article, getAllArticles, getArticle} from '@/lib/articles'
 import {GetStaticPaths, GetStaticProps, NextPage} from 'next'
-import ArticleTemplate from 'templates/article-template'
+import ArticleTemplate from '@/templates/article-template'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const article = await getArticle(params?.article as string)

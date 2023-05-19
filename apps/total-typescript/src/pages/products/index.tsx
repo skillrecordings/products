@@ -1,4 +1,4 @@
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
 import {
   CommerceProps,
@@ -15,8 +15,8 @@ import {Purchase} from '@skillrecordings/database'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
-import {trpc} from 'trpc/trpc.client'
-import Spinner from 'components/spinner'
+import {trpc} from '@/trpc/trpc.client'
+import Spinner from '@/components/spinner'
 import {
   PriceDisplay,
   getFirstPPPCoupon,
