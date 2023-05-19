@@ -34,7 +34,7 @@ export const Signature = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="mx-auto w-24"
+      className="mx-auto w-36"
       fill="none"
       viewBox="0 0 88 54"
     >

@@ -9,6 +9,7 @@ import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import Image from 'next/image'
+import PageHeadline from 'components/page-headline'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
@@ -46,18 +47,16 @@ const Buy: React.FC<CommerceProps> = ({
       className="py-16"
     >
       <header>
-        <h1 className="px-5 pb-10 text-center font-heading text-4xl font-black tracking-tight sm:text-5xl">
-          Level Up at Tailwind CSS
-        </h1>
+        <PageHeadline>Level Up at Tailwind CSS</PageHeadline>
       </header>
-      <main>
+      <main className="mt-8">
         <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
           <div data-pricing-container="">
             {products.map((product, i) => {
               return (
                 <Pricing
-                  key={product.name}
+                  key={product.title}
                   userId={userId}
                   product={product}
                   purchased={purchasedProductIds.includes(product.productId)}
