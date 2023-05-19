@@ -17,6 +17,8 @@ import {type Article} from 'lib/articles'
 import {format} from 'date-fns'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import Spinner from 'components/spinner'
+import PageHeadline from 'components/page-headline'
+import PageSubheadline from 'components/page-subheadline'
 
 type ArticleTemplateProps = {
   article: Article
@@ -125,14 +127,8 @@ const Header: React.FC<Article> = ({
           </a>
         </Link> */}
         <div className="flex flex-col items-center justify-center pb-24 pt-10 text-center">
-          <h1 className="mx-auto py-4 font-heading text-3xl font-black leading-none sm:text-4xl lg:text-5xl">
-            {title}
-          </h1>
-          {subtitle && (
-            <h2 className="mx-auto max-w-md pt-5 text-lg font-medium leading-tight text-brand-red sm:text-xl">
-              {subtitle}
-            </h2>
-          )}
+          <PageHeadline>{title}</PageHeadline>
+          {subtitle && <PageSubheadline>{subtitle}</PageSubheadline>}
         </div>
         <div className="flex w-full max-w-screen-md flex-wrap items-center justify-center gap-10 leading-none sm:justify-between sm:text-lg">
           <Author />
@@ -187,7 +183,7 @@ const Signature = () => {
   return (
     <svg
       aria-hidden="true"
-      className="mt-8 w-28 text-gray-800"
+      className="group mt-8 w-40 text-gray-800"
       viewBox="0 0 102 55"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -197,6 +193,7 @@ const Signature = () => {
         fill="currentColor"
       />
       <path
+        className="origin-right transition group-hover:scale-110 group-hover:text-brand-red"
         d="M92.3631 19.5639L93.1941 19.499C93.6629 17.986 94.1201 17.0076 96.0775 13.8308C97.4038 11.6817 97.7532 10.4627 97.6552 9.20743C97.5336 7.65164 96.0552 6.48645 94.5348 6.60522C93.421 6.69223 92.4574 7.33669 91.9107 8.53557C91.2022 7.43475 90.1503 6.94773 89.0542 7.03335C87.4984 7.15489 86.2542 8.53276 86.3757 10.0885C86.4765 11.3791 87.105 12.5929 88.6508 14.3932C91.0588 17.2112 91.6228 18.0565 92.3631 19.5639ZM92.6496 17.994C92.0745 17.0073 91.219 15.8468 90.0859 14.5479C88.9514 13.2313 88.2185 12.2747 87.905 11.6767C87.5914 11.0786 87.4058 10.5239 87.3658 10.0112C87.287 9.00348 88.1238 8.10212 89.1315 8.0234C90.1039 7.94744 91.0295 8.63998 91.5958 10.1966L92.4975 10.1262C92.7895 8.62701 93.5867 7.67537 94.6121 7.59527C95.6375 7.51516 96.5864 8.27704 96.6651 9.28477C96.7065 9.81515 96.6107 10.4096 96.3761 11.0505C96.1416 11.6914 95.569 12.7855 94.6377 14.2991C93.7065 15.8126 93.0212 17.0579 92.6496 17.994Z"
         fill="currentColor"
       />
