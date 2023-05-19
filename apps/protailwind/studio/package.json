@@ -1,18 +1,18 @@
 {
   "name": "protailwind",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "",
-  "main": "package.json",
-  "author": "Vojta Holik <vojta@egghead.io>",
-  "license": "UNLICENSED",
-  "scripts": {
-    "start": "sanity start",
-    "build": "sanity build"
-  },
   "keywords": [
     "sanity"
   ],
+  "license": "UNLICENSED",
+  "author": "Vojta Holik <vojta@egghead.io>",
+  "main": "package.json",
+  "scripts": {
+    "build": "sanity build",
+    "start": "sanity start"
+  },
   "dependencies": {
     "@sanity/base": "^2.35.2",
     "@sanity/code-input": "^2.36.0",

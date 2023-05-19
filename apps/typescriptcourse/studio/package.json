@@ -1,18 +1,18 @@
 {
   "name": "typescript-course",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "",
-  "main": "package.json",
-  "author": "Lauro Silva <lauro@egghead.io>",
-  "license": "UNLICENSED",
-  "scripts": {
-    "start": "sanity start",
-    "build": "sanity build"
-  },
   "keywords": [
     "sanity"
   ],
+  "license": "UNLICENSED",
+  "author": "Lauro Silva <lauro@egghead.io>",
+  "main": "package.json",
+  "scripts": {
+    "build": "sanity build",
+    "start": "sanity start"
+  },
   "dependencies": {
     "@sanity/base": "^2.30.1",
     "@sanity/code-input": "^2.30.1",

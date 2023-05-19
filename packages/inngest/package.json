@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@skillrecordings/tsconfig": "workspace:*",
-    "@types/node": "^18.11.18",
+    "@types/node": "^18.16.13",
     "eslint": "^8.12.0",
     "eslint-config-custom": "workspace:*",
     "rimraf": "^3.0.2",

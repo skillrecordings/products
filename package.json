@@ -12,8 +12,8 @@
   "main": "index.js",
   "scripts": {
     "build": "turbo run generate build postbuild",
-    "build:dev": "turbo run build test lint",
     "build:ci": "turbo run generate test lint",
+    "build:dev": "turbo run build test lint",
     "changeset": "changeset",
     "clean": "rm -rf node_modules && pnpm -r exec -- rm -rf .turbo node_modules .next dist",
     "format": "pnpm run format:index && pnpm run format:src",
