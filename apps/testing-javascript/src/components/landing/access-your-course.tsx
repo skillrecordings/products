@@ -9,6 +9,7 @@ import {XIcon} from '@heroicons/react/solid'
 import MuxPlayer from '@mux/mux-player-react'
 
 import Icon from 'components/icons'
+import CertificateForm from 'components/certificate-form'
 
 const AccessYourCourse: React.FunctionComponent<{
   product: SanityProduct
@@ -84,6 +85,12 @@ const AccessYourCourse: React.FunctionComponent<{
               </div>
             </div>
           </Balancer>
+          <Dialog.Root>
+            <Dialog.Trigger data-download-certificate-button className="mt-8">
+              <span>Download Course Completion Certificate</span>
+            </Dialog.Trigger>
+            <CertificateForm />
+          </Dialog.Root>
           <Dialog.Root>
             <Dialog.Trigger className="space-x-4 inline-flex items-center bg-gray-100 text-black px-6 py-2 rounded-md mt-7 md:mt-10 lg:mt-16 hover:bg-gray-200 duration-100 min-h-[50px] self-center border-gray-200 border">
               <Icon name="play" className="w-[10px] h-[10px]" />

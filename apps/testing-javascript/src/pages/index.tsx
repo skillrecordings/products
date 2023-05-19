@@ -24,6 +24,7 @@ import LandingTemplate from 'templates/landing-template'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const sessionToken = await getToken({req})
+
   const testimonials = await getAllTestimonials()
   const faqs = await getAllFaqs()
   const playlists = await getAllPlaylists()
