@@ -74,7 +74,7 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
               alt="Trophy"
               priority
             />
-            <div className="prose md:prose-md mt-32">
+            <div className="prose md:prose-md mt-16 lg:mt-32">
               <LandingCopy />
             </div>
           </div>

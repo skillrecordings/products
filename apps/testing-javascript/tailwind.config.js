@@ -49,7 +49,13 @@ module.exports = {
               fontWeight: theme('fontWeight.normal'),
             },
             a: {
-              color: colors.blue['600'],
+              color: '#1b1b1f',
+              borderBottom: '2px solid #ffe4a4',
+              textDecoration: 'none',
+              transitionDuration: '200ms',
+              '&:hover': {
+                backgroundColor: '#ffe4a4',
+              },
             },
             ul: {
               listStyle: 'none',

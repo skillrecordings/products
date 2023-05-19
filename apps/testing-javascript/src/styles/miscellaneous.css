@@ -9,3 +9,15 @@
     @apply shrink-0 ml-3;
   }
 }
+
+[data-download-certificate-button][type='button'] {
+  @apply rounded border duration-200 font-tt-demibold flex justify-center px-2 w-full sm:w-auto sm:px-6 py-3 text-lg sm:text-xl leading-snug bg-gradient-to-b from-[#ffc26a] to-[#ffa82e] text-white border-none self-center;
+  box-shadow: inset 1px -1px 3px 0 #f0a233;
+  text-shadow: 0 1px 2px #c98b33;
+}
+[data-download-certificate-button] span {
+  @apply duration-200 block;
+}
+[data-download-certificate-button]:hover span {
+  @apply scale-105;
+}
