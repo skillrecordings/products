@@ -90,7 +90,7 @@ export default {
       of: [
         {
           type: 'reference',
-          to: [{type: 'skosConcept'}],
+          to: [{type: 'concept'}],
         },
       ],
     },

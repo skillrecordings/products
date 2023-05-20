@@ -1,16 +1,23 @@
 import * as React from 'react'
 import {Suspense} from 'react'
 import {sanityWriteClient} from '../../utils/sanity-server'
+import Link from 'next/link'
 
 const ConceptList = async () => {
-  const concepts = await sanityWriteClient.fetch(`*[_type == 'skosConcept']`)
+  const concepts = await sanityWriteClient.fetch(`*[_type == 'concept']`)
 
   return (
     <>
       <ul>
-        {concepts.map((concept: {_id: string; prefLabel: string}) => (
-          <li key={concept._id}>{concept.prefLabel}</li>
-        ))}
+        {concepts.map(
+          (concept: {_id: string; title: string; slug: {current: string}}) => (
+            <li key={concept._id}>
+              <Link href={`/concepts/${concept.slug.current}`}>
+                {concept.title}
+              </Link>
+            </li>
+          ),
+        )}
       </ul>
     </>
   )
