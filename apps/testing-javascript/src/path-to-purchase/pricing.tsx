@@ -11,7 +11,6 @@ import type {
   FormattedPrice,
 } from '@skillrecordings/commerce-server/dist/@types'
 import {CheckCircleIcon} from '@heroicons/react/outline'
-import {useDebounce} from '@skillrecordings/react'
 import {QueryStatus} from '@tanstack/react-query'
 import Spinner from 'components/spinner'
 import {usePriceCheck} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
@@ -19,6 +18,7 @@ import {trpc} from 'trpc/trpc.client'
 import {isSellingLive} from '@skillrecordings/skill-lesson/utils/is-selling-live'
 import BuyMoreSeats from './buy-more-seats'
 import Icon from 'components/icons'
+import {useDebounce} from '@skillrecordings/skill-lesson/hooks/use-debounce'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false

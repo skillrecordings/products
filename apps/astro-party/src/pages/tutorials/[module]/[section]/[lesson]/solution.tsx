@@ -23,10 +23,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const exercise = await getExercise(exerciseSlug)
   const section = await getSection(sectionSlug)
   const solutionBody =
-    exercise.solution.body && (await serialize(exercise.solution.body))
+    exercise?.solution?.body &&
+    (await serialize(String(exercise.solution.body)))
   const solutionBodyPreview =
-    exercise.solution.body &&
-    (await serialize(exercise.solution.body.substring(0, 300)))
+    exercise?.solution?.body &&
+    (await serialize(String(exercise.solution.body).substring(0, 300)))
 
   return {
     props: {

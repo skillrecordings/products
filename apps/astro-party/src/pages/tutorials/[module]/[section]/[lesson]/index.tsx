@@ -21,9 +21,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const module = await getTutorial(params?.module as string)
   const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSlug, false)
-  const lessonBody = lesson.body && (await serialize(lesson.body))
+  const lessonBody = lesson.body && (await serialize(String(lesson.body)))
   const lessonBodyPreview =
-    lesson.body && (await serialize(lesson.body.substring(0, 300)))
+    lesson.body && (await serialize(String(lesson.body).substring(0, 300)))
 
   return {
     props: {
