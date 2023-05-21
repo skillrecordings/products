@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "tsc --jsx react-jsx --outDir dist & pnpm build:css",
-    "build:css": "cp src/styles.css dist/styles.css",
+    "build:css": "copyfiles --flat ./src/styles.css ./dist/",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "tsc -w & pnpm watch:css",
     "lint": "TIMING=1 eslint src --fix",
@@ -45,6 +45,7 @@
     "@types/node": "^18.16.13",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
+    "copyfiles": "^2.4.1",
     "esbuild-node-tsc": "^1.6.1",
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
