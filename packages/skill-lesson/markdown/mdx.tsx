@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {CH} from '@code-hike/mdx/components'
 

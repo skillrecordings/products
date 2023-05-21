@@ -1,5 +1,5 @@
 import React from 'react'
-import Countdown, {zeroPad, CountdownRenderProps} from 'react-countdown'
+import Countdown, {type CountdownRenderProps} from 'react-countdown'
 
 const SaleCountdown: React.FC<React.PropsWithChildren<any>> = ({
   coupon,

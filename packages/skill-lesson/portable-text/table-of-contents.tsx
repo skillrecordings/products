@@ -1,5 +1,5 @@
-import React from 'react'
-import {PortableTextProps} from '@portabletext/react'
+import * as React from 'react'
+import {type PortableTextProps} from '@portabletext/react'
 import speakingurl from 'speakingurl'
 import Link from 'next/link'
 

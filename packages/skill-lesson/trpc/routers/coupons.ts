@@ -1,6 +1,5 @@
-import {getSdk, Purchase, prisma} from '@skillrecordings/database'
+import {type Purchase, prisma} from '@skillrecordings/database'
 import {publicProcedure, router} from '../trpc.server'
-import {get, isEmpty, last} from 'lodash'
 import {getToken} from 'next-auth/jwt'
 import {z} from 'zod'
 

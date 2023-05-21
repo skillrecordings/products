@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {track} from '../../utils/analytics'
-import {Module} from '../../schemas/module'
+import {type Module} from '../../schemas/module'
 import pluralize from 'pluralize'
 
 type SidebarProps = {

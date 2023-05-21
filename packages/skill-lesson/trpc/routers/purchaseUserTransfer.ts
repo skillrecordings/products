@@ -6,17 +6,16 @@ import {
   type PurchaseUserTransferState,
 } from '@skillrecordings/database'
 
-import {NextAuthOptions, type Theme} from 'next-auth'
+import {type NextAuthOptions, type Theme} from 'next-auth'
 import process from 'process'
 import {format} from 'date-fns'
 import {getToken} from 'next-auth/jwt'
 import {type Stripe, stripe} from '@skillrecordings/commerce-server'
 import {
-  HTMLEmailParams,
+  type HTMLEmailParams,
   sendServerEmail,
-  TextEmailParams,
+  type TextEmailParams,
 } from '@skillrecordings/skill-api'
-import {getBaseUrl} from '../../utils/get-base-url'
 import {publicProcedure, router} from '../trpc.server'
 import mjml2html from 'mjml'
 

@@ -1,6 +1,6 @@
 import {PrismaClient} from '@skillrecordings/database'
-import * as trpc from '@trpc/server'
-import * as trpcNext from '@trpc/server/adapters/next'
+import {inferAsyncReturnType} from '@trpc/server'
+import {type CreateNextContextOptions} from '@trpc/server/adapters/next'
 
 const prisma = new PrismaClient({
   log:
@@ -16,7 +16,7 @@ export const createContext = async ({
   req,
   res,
   nextAuthOptions,
-}: trpcNext.CreateNextContextOptions & {nextAuthOptions?: any}) => {
+}: CreateNextContextOptions & {nextAuthOptions?: any}) => {
   return {
     req,
     res,
@@ -25,4 +25,4 @@ export const createContext = async ({
   }
 }
 
-export type TrpcContext = trpc.inferAsyncReturnType<typeof createContext>
+export type TrpcContext = inferAsyncReturnType<typeof createContext>

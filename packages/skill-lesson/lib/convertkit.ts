@@ -2,7 +2,7 @@ import {
   formatDate,
   setConvertkitSubscriberFields,
 } from '@skillrecordings/convertkit-sdk'
-import {Subscriber} from '../schemas/subscriber'
+import {type Subscriber} from '../schemas/subscriber'
 import {inngest} from '@skillrecordings/inngest'
 
 export const transformSlugsToConvertkitField = ({

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import cx from 'classnames'
 import {Pricing} from './pricing'
 import {useCoupon} from './use-coupon'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'

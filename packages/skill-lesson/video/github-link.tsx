@@ -2,8 +2,8 @@ import * as React from 'react'
 import {track} from '../utils/analytics'
 import {Icon} from '../icons'
 import {useMuxPlayer} from '../hooks/use-mux-player'
-import {Lesson} from '../schemas/lesson'
-import {Module} from '../schemas/module'
+import {type Lesson} from '../schemas/lesson'
+import {type Module} from '../schemas/module'
 
 const GitHubLink: React.FC<{
   exercise: Lesson

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {type Section} from '../../schemas/section'
 import {type Module} from '../../schemas/module'
 import {type Lesson} from '../../schemas/lesson'

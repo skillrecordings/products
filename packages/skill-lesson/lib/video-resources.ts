@@ -1,5 +1,8 @@
 import groq from 'groq'
-import {VideoResource, VideoResourceSchema} from '../schemas/video-resource'
+import {
+  type VideoResource,
+  VideoResourceSchema,
+} from '../schemas/video-resource'
 import {sanityClient} from '../utils/sanity-client'
 
 export const getVideoResource = async (id: string): Promise<VideoResource> => {

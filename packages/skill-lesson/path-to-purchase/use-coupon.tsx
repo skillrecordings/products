@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import RedeemDialog from './redeem-dialog'
 
 type CouponValidator = {isValid: boolean; id: string; isRedeemable: boolean}

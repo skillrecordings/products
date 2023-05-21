@@ -1,6 +1,6 @@
-import {NextRouter, useRouter} from 'next/router'
-import {Section} from '../schemas/section'
-import {Module} from '../schemas/module'
+import {type NextRouter, useRouter} from 'next/router'
+import {type Section} from '../schemas/section'
+import {type Module} from '../schemas/module'
 
 export const pathnameForPath = ({
   section,

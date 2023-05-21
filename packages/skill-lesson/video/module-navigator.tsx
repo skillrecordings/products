@@ -1,11 +1,11 @@
 import {capitalize, first, isEmpty} from 'lodash'
-import {Module} from '../schemas/module'
+import {type Module} from '../schemas/module'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import Balancer from 'react-wrap-balancer'
 import React from 'react'
 import * as Accordion from '@radix-ui/react-accordion'
-import {Section} from '../schemas/section'
-import {Lesson} from '../schemas/lesson'
+import {type Section} from '../schemas/section'
+import {type Lesson} from '../schemas/lesson'
 import {useModuleProgress} from './module-progress'
 import {
   ArrowRightIcon,

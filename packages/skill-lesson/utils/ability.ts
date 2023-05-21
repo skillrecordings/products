@@ -1,10 +1,10 @@
 import {
-  MongoAbility,
+  type MongoAbility,
   createMongoAbility,
-  CreateAbility,
+  type CreateAbility,
   AbilityBuilder,
 } from '@casl/ability'
-import {SanityDocument} from '@sanity/client'
+import {type SanityDocument} from '@sanity/client'
 import z from 'zod'
 import {hasAvailableSeats, hasBulkPurchase} from '@skillrecordings/ability'
 

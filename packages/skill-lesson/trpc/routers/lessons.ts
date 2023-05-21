@@ -1,5 +1,5 @@
 import {z} from 'zod'
-import {SanityDocument} from '@sanity/client'
+import {type SanityDocument} from '@sanity/client'
 import find from 'lodash/find'
 import indexOf from 'lodash/indexOf'
 import {publicProcedure, router} from '../trpc.server'

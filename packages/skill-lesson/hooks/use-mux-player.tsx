@@ -1,9 +1,9 @@
-import React from 'react'
+import * as React from 'react'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import {useRouter} from 'next/router'
 import {
-  MuxPlayerRefAttributes,
+  type MuxPlayerRefAttributes,
   type MuxPlayerProps,
 } from '@mux/mux-player-react/*'
 import {useVideoResource} from './use-video-resource'
@@ -18,11 +18,11 @@ import {
 } from './use-player-prefs'
 import {getNextSection} from '../utils/get-next-section'
 import {type AppAbility, createAppAbility} from '../utils/ability'
-import {Lesson} from '../schemas/lesson'
+import {type Lesson} from '../schemas/lesson'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useConvertkit} from './use-convertkit'
 import {useGlobalPlayerShortcuts} from './use-global-player-shortcut'
-import {Section} from '../schemas/section'
+import {type Section} from '../schemas/section'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any

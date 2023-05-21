@@ -1,7 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 import {type Lesson} from '../schemas/lesson'
-import {Section} from '../schemas/section'
-import {Module} from '../schemas/module'
+import {type Section} from '../schemas/section'
+import {type Module} from '../schemas/module'
 
 type LessonContextType = {
   lesson: Lesson

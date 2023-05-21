@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {type VideoResource} from '../schemas/video-resource'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 

@@ -1,4 +1,4 @@
-import {NextApiRequest} from 'next'
+import {type NextApiRequest} from 'next'
 import {SubscriberSchema} from '../schemas/subscriber'
 import {fetchSubscriber} from '@skillrecordings/convertkit-sdk'
 

@@ -4342,7 +4342,7 @@ importers:
       mjml: ^4.12.0
       next: ^13.4.3
       next-auth: ^4.22.1
-      next-mdx-remote: ^4.1.0
+      next-mdx-remote: ^4.4.1
       pluralize: ^8.0.0
       react: 18.2.0
       react-countdown: ^2.3.5
@@ -4412,7 +4412,7 @@ importers:
       mjml: 4.12.0
       next: 13.4.3_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.22.1_o6dt4yn4syzkhlixdxt4y57rzi
-      next-mdx-remote: 4.1.0_biqbaboplfbrettd7655fr4n2y
+      next-mdx-remote: 4.4.1_biqbaboplfbrettd7655fr4n2y
       pluralize: 8.0.0
       react: 18.2.0
       react-countdown: 2.3.5_biqbaboplfbrettd7655fr4n2y
