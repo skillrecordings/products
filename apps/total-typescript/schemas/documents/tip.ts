@@ -12,7 +12,19 @@ export default {
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
-
+    {
+      name: 'state',
+      title: 'Current State',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'draft',
+      options: {
+        list: [
+          {title: 'draft', value: 'draft'},
+          {title: 'published', value: 'published'},
+        ],
+      },
+    },
     {
       name: 'slug',
       title: 'Slug',
@@ -46,7 +58,7 @@ export default {
       of: [
         {
           type: 'reference',
-          to: [{type: 'skosConcept'}],
+          to: [{type: 'concept'}],
         },
       ],
     },

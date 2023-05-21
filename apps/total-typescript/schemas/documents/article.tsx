@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {MdOutlineArticle} from 'react-icons/md'
 
 export default {
@@ -64,7 +64,7 @@ export default {
       of: [
         {
           type: 'reference',
-          to: [{type: 'skosConcept'}],
+          to: [{type: 'concept'}],
         },
       ],
     },

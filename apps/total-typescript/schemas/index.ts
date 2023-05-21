@@ -12,6 +12,7 @@ import testimonial from './documents/testimonial'
 import pricing from './documents/pricing'
 import product from './documents/product'
 import article from './documents/article'
+import concept from './documents/concept'
 // —— objects
 // body
 import body from './objects/body'
@@ -50,6 +51,7 @@ export const schemaTypes = [
   pricing,
   product,
   article,
+  concept,
   // objects
   body,
   bodyVideo,
