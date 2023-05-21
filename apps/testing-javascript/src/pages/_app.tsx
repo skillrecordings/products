@@ -6,12 +6,12 @@ import '../styles/globals.css'
 import 'focus-visible'
 import {ConvertkitProvider} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {usePageview} from '@skillrecordings/analytics'
-import {initNProgress} from '@skillrecordings/react'
 import {DefaultSeo} from '@skillrecordings/next-seo'
 
 import config from '../config'
 
 import {trpc} from 'trpc/trpc.client'
+import {initNProgress} from '@skillrecordings/skill-lesson/utils/init-nprogess'
 
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()

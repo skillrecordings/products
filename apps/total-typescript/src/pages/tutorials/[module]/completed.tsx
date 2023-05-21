@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const {getUserByEmail} = getSdk()
   const user =
-    subscriber && (await getUserByEmail(get(subscriber, 'email_address')))
+    subscriber && (await getUserByEmail(get(subscriber, 'email_address', '')))
 
   if (!tutorial) {
     return {

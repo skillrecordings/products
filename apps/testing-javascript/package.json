@@ -31,7 +31,7 @@
     "@radix-ui/react-dialog": "^0.1.7",
     "@radix-ui/react-navigation-menu": "^1.1.1",
     "@radix-ui/react-switch": "^1.0.1",
-    "@sanity/block-tools": "^3.2.3",
+    "@sanity/block-tools": "^3.11.1",
     "@sanity/client": "^4.0.1",
     "@sanity/code-input": "^3.0.1",
     "@sanity/icons": "^2.2.2",
@@ -45,8 +45,6 @@
     "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",
-    "@skillrecordings/quiz": "workspace:*",
-    "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/skill-lesson": "workspace:*",
     "@slack/web-api": "^6.7.2",
@@ -67,6 +65,7 @@
     "next": "^13.4.3",
     "next-auth": "^4.22.1",
     "next-sitemap": "^3.0.5",
+    "nprogress": "^0.2.0",
     "node-fetch": "^2.6.7",
     "nodemailer": "^6.7.2",
     "nodemailer-postmark-transport": "^5.2.1",
@@ -80,9 +79,10 @@
     "sanity": "^3.0.0",
     "sanity-plugin-cloudinary": "^1.1.1",
     "styled-components": "^5.2",
+    "styled-jsx": "5.1.1",
     "superjson": "=1.11.0",
     "uuid": "^8.3.2",
-    "zod": "^3.19.1"
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@next/env": "^12.2.2",

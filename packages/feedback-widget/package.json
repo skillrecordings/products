@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "tsc --jsx react-jsx --outDir dist & pnpm build:css",
-    "build:css": "sass --style expanded src/styles.css dist/styles.css",
+    "build:css": "cp src/styles.css dist/styles.css",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "tsc -w & pnpm watch:css",
     "lint": "TIMING=1 eslint src --fix",
@@ -51,7 +51,6 @@
     "next": "^13.4.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "sass": "^1.43.4",
     "typescript": "5.1.1-rc"
   },
   "peerDependencies": {
