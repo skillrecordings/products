@@ -1,19 +1,15 @@
-import React from 'react'
+import * as React from 'react'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import NextLink, {type LinkProps} from 'next/link'
 import {NextRouter, useRouter} from 'next/router'
 import cx from 'classnames'
-import Icon from './icons'
-// import {track} from 'utils/analytics'
 import {signOut, useSession} from 'next-auth/react'
 import toast from 'react-hot-toast'
-import {isSellingLive} from '@skillrecordings/skill-lesson/utils/is-selling-live'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {trpc} from '../trpc/trpc.client'
 import {ChevronDownIcon, MenuIcon} from '@heroicons/react/solid'
-// import {useFeedback} from '@skillrecordings/feedback-widget'
 
 type NavigationProps = {
   className?: string

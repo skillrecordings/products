@@ -1,6 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
-import {GetServerSideProps} from 'next'
+import {type GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 

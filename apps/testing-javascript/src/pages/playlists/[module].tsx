@@ -1,7 +1,7 @@
-import React from 'react'
+import * as React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {User} from '@skillrecordings/database'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {type User} from '@skillrecordings/database'
+import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 import {getPlaylist, getAllPlaylists} from 'lib/playlists'
 import {ModuleProgressProvider} from 'utils/module-progress'

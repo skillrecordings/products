@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {getCsrfToken, getProviders} from 'next-auth/react'
 import {useForm} from 'react-hook-form'
-import {GetServerSideProps} from 'next'
+import {type GetServerSideProps} from 'next'
 import Image from 'next/legacy/image'
 import Layout from 'components/layout'
 import {useRouter} from 'next/router'

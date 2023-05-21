@@ -9,9 +9,6 @@ import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
-import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import {ArticleJsonLd} from '@skillrecordings/next-seo'
 
 import {trpc} from 'trpc/trpc.client'
 

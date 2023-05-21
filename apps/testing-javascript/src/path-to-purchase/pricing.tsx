@@ -1,37 +1,21 @@
 import * as React from 'react'
-import {
-  PortableText,
-  PortableTextComponents as PortableTextComponentsType,
-} from '@portabletext/react'
+import {PortableText} from '@portabletext/react'
 import Link from 'next/link'
 import cx from 'classnames'
 import * as Switch from '@radix-ui/react-switch'
 import Image from 'next/legacy/image'
 import find from 'lodash/find'
-import {Purchase} from '@skillrecordings/database'
+import type {Purchase} from '@skillrecordings/database'
 import type {
   SanityProduct,
   FormattedPrice,
 } from '@skillrecordings/commerce-server/dist/@types'
 import {CheckCircleIcon} from '@heroicons/react/outline'
-// import {getCouponLabel} from './get-coupon-label'
 import {useDebounce} from '@skillrecordings/react'
 import {QueryStatus} from '@tanstack/react-query'
-// import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
 import {usePriceCheck} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
-// import ReactMarkdown from 'react-markdown'
-// import {MailIcon} from '@heroicons/react/solid'
-// import {
-//   redirectUrlBuilder,
-//   SubscribeToConvertkitForm,
-// } from '@skillrecordings/convertkit-react-ui'
-// import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-// import {setUserId} from '@amplitude/analytics-browser'
-// import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-// import {useRouter} from 'next/router'
 import {trpc} from 'trpc/trpc.client'
-// import Balancer from 'react-wrap-balancer'
 import {isSellingLive} from '@skillrecordings/skill-lesson/utils/is-selling-live'
 import BuyMoreSeats from './buy-more-seats'
 import Icon from 'components/icons'

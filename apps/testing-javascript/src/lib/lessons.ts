@@ -1,7 +1,5 @@
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
-import z from 'zod'
-import {ResourceSchema} from '@skillrecordings/skill-lesson/schemas/resource'
 
 export const getLesson = async (
   slug: string,

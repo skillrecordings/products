@@ -1,10 +1,9 @@
 import {ArrowRightIcon} from '@heroicons/react/solid'
-import {Purchase} from '@skillrecordings/database'
+import type {Purchase} from '@skillrecordings/database'
 import Layout from 'components/layout'
 import Link from 'next/link'
 import {DatePurchased, Price} from 'purchase-details/purchase-details-template'
 import Balancer from 'react-wrap-balancer'
-import Image from 'next/image'
 
 export type PurchasesIndexProps = {
   purchases: Purchase &

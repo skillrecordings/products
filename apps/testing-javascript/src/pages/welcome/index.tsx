@@ -5,7 +5,7 @@ import {
 } from '@skillrecordings/commerce-server'
 import type {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {useSession} from 'next-auth/react'
-import {GetServerSideProps} from 'next'
+import {type GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import Layout from 'components/layout'
 import {getSdk, prisma} from '@skillrecordings/database'

@@ -4,7 +4,7 @@ import Layout from 'components/layout'
 import {
   convertToSerializeForNextResponse,
   determinePurchaseType,
-  PurchaseType,
+  type PurchaseType,
   stripeData,
 } from '@skillrecordings/commerce-server'
 import type {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
@@ -20,7 +20,7 @@ import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
 import {first} from 'lodash'
 import {getAllProducts} from 'server/products.server'
-import {SanityDocument} from '@sanity/client'
+import {type SanityDocument} from '@sanity/client'
 import {InvoiceCard} from 'pages/invoices'
 import {MailIcon} from '@heroicons/react/solid'
 

@@ -1,5 +1,5 @@
 import SkillRecordings, {
-  SkillRecordingsOptions,
+  type SkillRecordingsOptions,
 } from '@skillrecordings/skill-api'
 import {nextAuthOptions} from '../auth/[...nextauth]'
 

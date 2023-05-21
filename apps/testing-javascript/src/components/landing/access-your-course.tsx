@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Link from 'next/link'
 import cx from 'classnames'
 import Balancer from 'react-wrap-balancer'
 import Image from 'next/image'

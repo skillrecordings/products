@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import BuyMoreSeats from '@skillrecordings/skill-lesson/team/buy-more-seats'
 import Balancer from 'react-wrap-balancer'
 import * as Dialog from '@radix-ui/react-dialog'

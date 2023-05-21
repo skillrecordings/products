@@ -1,7 +1,6 @@
 import * as React from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
-import {SanityDocument} from '@sanity/client'
+import type {SanityDocument} from '@sanity/client'
 import type {TestimonialProps, FaqProps, InterviewProps} from '@types'
 import type {
   CommerceProps,

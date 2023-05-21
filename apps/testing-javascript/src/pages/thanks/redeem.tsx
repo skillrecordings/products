@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {GetServerSideProps} from 'next'
+import {type GetServerSideProps} from 'next'
 import {getSdk} from '@skillrecordings/database'
 import Layout from 'components/layout'
 import {MailIcon} from '@heroicons/react/solid'

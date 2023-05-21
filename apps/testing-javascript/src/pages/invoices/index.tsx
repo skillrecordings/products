@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {ChevronRightIcon, DocumentTextIcon} from '@heroicons/react/solid'
+import {DocumentTextIcon} from '@heroicons/react/solid'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {getSdk} from '@skillrecordings/database'
 import {GetServerSideProps} from 'next'

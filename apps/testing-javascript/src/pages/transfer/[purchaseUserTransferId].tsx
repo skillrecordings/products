@@ -1,12 +1,12 @@
 import * as React from 'react'
-import {GetServerSideProps} from 'next'
+import {type GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import Layout from 'components/layout'
 import {
   getSdk,
-  Purchase,
-  PurchaseUserTransfer,
-  User,
+  type Purchase,
+  type PurchaseUserTransfer,
+  type User,
 } from '@skillrecordings/database'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {trpc} from '../../trpc/trpc.client'

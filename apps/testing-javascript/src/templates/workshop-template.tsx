@@ -1,12 +1,9 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import {
-  PortableText,
-  PortableTextComponents as PortableTextComponentsType,
-} from '@portabletext/react'
-import {User} from '@skillrecordings/database'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {PortableText} from '@portabletext/react'
+import type {User} from '@skillrecordings/database'
+import type {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 import {useModuleProgress} from 'utils/module-progress'
 import Layout from 'components/layout'

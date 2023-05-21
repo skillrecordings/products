@@ -1,8 +1,7 @@
 import React from 'react'
 import Layout from 'components/layout'
-import {SanityDocument} from '@sanity/client'
+import {type SanityDocument} from '@sanity/client'
 import {getAllPlaylists} from 'lib/playlists'
-import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 

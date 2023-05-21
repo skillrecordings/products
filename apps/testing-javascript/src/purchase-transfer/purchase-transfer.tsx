@@ -1,7 +1,7 @@
+import * as React from 'react'
 import {trpc} from '../trpc/trpc.client'
 import {useForm} from 'react-hook-form'
-import {PurchaseUserTransfer} from '@skillrecordings/database'
-import * as React from 'react'
+import type {PurchaseUserTransfer} from '@skillrecordings/database'
 
 type PurchaseTransferFormData = {
   email: string

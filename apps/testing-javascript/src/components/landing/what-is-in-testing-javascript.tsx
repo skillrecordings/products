@@ -1,7 +1,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 import Image from 'next/image'
-import {SanityDocument} from '@sanity/client'
+import type {SanityDocument} from '@sanity/client'
 import Balancer from 'react-wrap-balancer'
 import type {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 

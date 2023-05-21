@@ -5,9 +5,9 @@ import {getToken} from 'next-auth/jwt'
 import {isEmpty} from 'lodash'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
-import {SanityDocument} from '@sanity/client'
+import {type SanityDocument} from '@sanity/client'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
-import {
+import type {
   CommerceProps,
   SanityProduct,
 } from '@skillrecordings/commerce-server/dist/@types'

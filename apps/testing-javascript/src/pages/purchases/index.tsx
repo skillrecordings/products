@@ -1,12 +1,10 @@
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {getSdk} from '@skillrecordings/database'
-import {GetServerSideProps} from 'next'
+import {type GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import PurchasesIndexTemplate, {
   type PurchasesIndexProps,
 } from 'purchase-details/purchases-index-template'
-
-import {getActiveProduct} from 'server/products.server'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,

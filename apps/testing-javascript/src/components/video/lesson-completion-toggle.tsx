@@ -2,7 +2,6 @@ import * as Switch from '@radix-ui/react-switch'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {trpc} from 'trpc/trpc.client'
 import {useRouter} from 'next/router'
-import {motion} from 'framer-motion'
 import toast from 'react-hot-toast'
 
 const LessonCompletionToggle = () => {
