@@ -155,7 +155,8 @@
     "prettier-plugin-tailwindcss": "^0.2.5",
     "tailwind-scrollbar": "^3.0.0",
     "tailwindcss": "^3.3.0",
-    "typescript": "5.1.1-rc"
+    "typescript": "5.1.1-rc",
+    "webpack": "^5.73.0"
   },
   "prisma": {
     "schema": "../../packages/database/prisma/schema.prisma"

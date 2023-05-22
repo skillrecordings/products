@@ -118,6 +118,7 @@
     "prettier": "^2.6.2",
     "react-test-renderer": "^17.0.2",
     "tailwindcss": "^3.3.0",
-    "typescript": "5.1.1-rc"
+    "typescript": "5.1.1-rc",
+    "webpack": "^5.73.0"
   }
 }
