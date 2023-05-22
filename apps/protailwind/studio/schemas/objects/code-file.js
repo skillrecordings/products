@@ -26,7 +26,7 @@ export default {
     {
       name: 'active',
       title: 'Visible in editor',
-      descriptio: 'Whether to show this file in the editor.',
+      description: 'Whether to show this file in the editor.',
       type: 'boolean',
     },
   ],

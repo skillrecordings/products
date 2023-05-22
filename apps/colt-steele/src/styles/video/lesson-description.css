@@ -1,6 +1,6 @@
 [data-lesson-description] {
   [data-content] {
-    @apply prose lg:prose-lg 2xl:prose-base sm:prose-h2:text-4xl relative max-w-none lg:prose-h2:text-4xl lg:prose-h3:text-3xl lg:prose-h4:text-2xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl;
+    @apply prose lg:prose-lg 2xl:prose-base sm:prose-h2:text-4xl relative max-w-none lg:prose-h2:text-3xl lg:prose-h3:text-2xl lg:prose-h4:text-xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl;
   }
   [data-content-visible='false'] {
     @apply after:absolute after:bottom-0 after:left-0 after:h-1/2 after:w-full after:bg-gradient-to-b after:from-transparent after:via-white after:to-white after:content-[""];

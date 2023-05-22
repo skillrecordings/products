@@ -4,6 +4,7 @@ import Image from 'next/legacy/image'
 import {track} from '../../utils/analytics'
 import {type Module} from '../../schemas/module'
 import pluralize from 'pluralize'
+import Balancer from 'react-wrap-balancer'
 
 type SidebarProps = {
   module: Module
@@ -48,7 +49,7 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
                     {pluralize(module.moduleType)}
                   </Link>
                   <span>/</span>
-                  <h2>
+                  <Balancer as="h2">
                     <Link
                       href={{
                         pathname: `${path}/[module]`,
@@ -63,7 +64,7 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
                     >
                       {module.title}
                     </Link>
-                  </h2>
+                  </Balancer>
                 </div>
               </div>
             </div>

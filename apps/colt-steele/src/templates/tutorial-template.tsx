@@ -149,7 +149,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                       }
                 }
                 className={cx(
-                  'flex w-full items-center justify-center rounded bg-brand-red px-5 py-4 font-semibold leading-tight text-white transition hover:brightness-110 md:w-auto',
+                  'flex w-full items-center justify-center rounded bg-brand-red px-5 py-4 border border-brand-red font-semibold leading-tight text-white transition hover:brightness-110 md:w-auto',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },
@@ -165,15 +165,15 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               </Link>
               {github?.repo && (
                 <a
-                  className="flex w-full items-center justify-center gap-2 rounded-md border-2 border-gray-800 px-5 py-4 font-medium leading-tight transition hover:bg-gray-800 md:w-auto"
-                  href={`https://github.com/total-typescript/${github.repo}`}
+                  className="flex w-full items-center gap-2 justify-center rounded bg-transparent border border-black px-5 py-4 font-semibold leading-tight text-black transition md:w-auto"
+                  href={github.repo}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
                   }}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Icon name="Github" size="24" /> Code
+                  <Icon name="Github" size="20" /> Code
                 </a>
               )}
             </div>

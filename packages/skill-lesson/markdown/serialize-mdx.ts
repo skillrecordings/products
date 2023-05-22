@@ -29,6 +29,7 @@ const serializeMDX = async (
 ): Promise<MDXRemoteSerializeResult> => {
   const mdxContent = await serialize(text, {
     mdxOptions: {
+      useDynamicImport: true,
       remarkPlugins: [
         [
           remarkCodeHike,
@@ -40,7 +41,6 @@ const serializeMDX = async (
           },
         ],
       ],
-      useDynamicImport: true,
     },
   })
   return mdxContent

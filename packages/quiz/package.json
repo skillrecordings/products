@@ -40,7 +40,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@codesandbox/sandpack-react": "^1.17.0",
+    "@codesandbox/sandpack-react": "^2.6.5",
     "@skillrecordings/scripts": "^0.0.5",
     "@skillrecordings/tsconfig": "^0.0.5",
     "@skillrecordings/types": "^0.0.5",
@@ -70,7 +70,7 @@
     "xstate": "=4.23.1"
   },
   "peerDependencies": {
-    "@codesandbox/sandpack-react": "^1.17.0",
+    "@codesandbox/sandpack-react": "^2.6.5",
     "@xstate/react": "=1.5.1",
     "lodash": "^4.17.21",
     "next": ">= 11.1.2 < 13",

@@ -34,6 +34,7 @@ import tweet from './objects/tweet'
 import bodyTestimonial from './objects/bodyTestimonial'
 import feature from './objects/feature'
 import github from './objects/resources/github'
+import sandpack from './objects/sandpack'
 
 export const schemaTypes = [
   // —— documents
@@ -72,4 +73,5 @@ export const schemaTypes = [
   tweet,
   bodyTestimonial,
   feature,
+  sandpack,
 ]

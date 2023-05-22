@@ -150,7 +150,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               {github?.repo && (
                 <a
                   className="flex w-full items-center justify-center gap-2 rounded-md border-2 border-gray-800 px-5 py-4 font-medium leading-tight transition hover:bg-gray-800 md:w-auto"
-                  href={`https://github.com/total-typescript/${github.repo}`}
+                  href={github.repo}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
                   }}

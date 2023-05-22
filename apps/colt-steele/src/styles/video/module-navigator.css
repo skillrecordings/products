@@ -39,7 +39,7 @@
       }
 
       [data-lessons] {
-        @apply -mt-5 rounded-b-lg border border-gray-200 bg-gray-50 pb-3 pt-7;
+        @apply -mt-5 rounded-b-lg border border-gray-200 bg-stone-50 pb-3 pt-7;
       }
     }
     [data-lesson] {
