@@ -1,8 +1,10 @@
 import React from 'react'
+import cx from 'classnames'
 import {PortableText, toPlainText} from '@portabletext/react'
 import {LinkedIn, Twitter} from '@skillrecordings/react'
 import {CalendarIcon} from '@heroicons/react/outline'
 import {SanityDocument} from '@sanity/client'
+import Markdown from 'react-markdown'
 import {useRouter} from 'next/router'
 import {format} from 'date-fns'
 import JoelHooksHeadshotImage from '../../public/joel-hooks.jpg'
@@ -22,7 +24,7 @@ type ArticleTemplateProps = {
 const ArticleTemplate: React.FC<
   React.PropsWithChildren<ArticleTemplateProps>
 > = ({article}) => {
-  const {title, description, body, _createdAt: date, video} = article
+  const {title, description, body, _createdAt: date, video, image} = article
   const shortDescription =
     description || (body && toPlainText(body).substring(0, 157) + '...')
 
@@ -43,11 +45,16 @@ const ArticleTemplate: React.FC<
         },
       }}
     >
-      <Header title={title} date={date} />
+      <Header
+        title={title}
+        date={date}
+        image={image}
+        description={shortDescription}
+      />
       <main>
-        <div className="max-w-screen-md mx-auto w-full">
-          <div className="md:pt-16 pt-10 lg:px-0 px-5 pb-16">
-            <article className="prose first-letter:text-6xl first-letter:pr-3 first-letter:-mt-0.5 first-letter:font-expanded first-letter:float-left first-letter:text-badass-pink-500 lg:prose-xl sm:prose-lg md:prose-code:text-sm max-w-none prose-p:text-neutral-200 prose-pre:prose-code:bg-transparent prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded lg:prose-code:text-[78%] sm:prose-code:text-[80%]">
+        <div className="mx-auto w-full max-w-screen-md">
+          <div className="px-5 pb-16 pt-10 md:pt-16 lg:px-0">
+            <article className="prose max-w-none sm:prose-lg lg:prose-xl first-letter:float-left first-letter:-mt-0.5 first-letter:pr-3 first-letter:font-expanded first-letter:text-6xl first-letter:text-badass-pink-500 prose-p:text-neutral-200 prose-code:rounded prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-pre:prose-code:bg-transparent sm:prose-code:text-[80%] md:prose-code:text-sm lg:prose-code:text-[78%]">
               {video ? (
                 <>
                   <MuxVideo
@@ -75,29 +82,82 @@ const ArticleTemplate: React.FC<
 export default ArticleTemplate
 
 const Header: React.FC<
-  React.PropsWithChildren<{title: string; date: string}>
-> = ({title, date}) => {
+  React.PropsWithChildren<{
+    title: string
+    date: string
+    image?: string
+    description: any
+  }>
+> = ({title, date, image, description}) => {
   return (
-    <header className="flex items-center justify-center pt-5 pb-10">
-      <div className="flex flex-col items-center px-5">
-        <h1 className="max-w-4xl sm:text-5xl text-4xl font-heading sm:leading-tight leading-tight text-center py-16">
+    <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-10 pt-5 md:flex-row">
+      {image && (
+        <div className="w-4/6 md:w-1/2">
+          <Image src={image} alt={title} width={628} height={627} />
+        </div>
+      )}
+      <div
+        className={cx(
+          'flex flex-col items-center',
+          image && 'w-full md:w-1/2 md:items-start',
+        )}
+      >
+        <h1
+          className={cx(
+            'w-full max-w-4xl font-heading text-4xl leading-tight sm:text-5xl sm:leading-tight',
+            image ? 'pt-4 text-center md:text-left' : 'pt-16 text-center',
+          )}
+        >
           <Balancer>{title}</Balancer>
         </h1>
-        <div className="flex flex-col items-center w-full">
-          <div className="flex gap-10 pt-10 justify-center items-center w-full">
-            <Author />
-            <time dateTime={date} className="flex items-center">
-              <CalendarIcon aria-hidden="true" className="w-5" />{' '}
-              <span className="sr-only">published on </span>
-              <span className="pl-1">
-                {format(new Date(date), 'dd MMMM, y')}
-              </span>
-            </time>
-          </div>
+        {description && (
+          <Markdown
+            className={cx(
+              'prose mt-4 max-w-sm text-center',
+              image && 'md:text-left',
+            )}
+          >
+            {description}
+          </Markdown>
+        )}
+        <div
+          className={cx(
+            'mt-12 flex w-full items-center gap-10',
+            image ? 'justify-center md:justify-start' : 'justify-center',
+          )}
+        >
+          <Author />
+          <time dateTime={date} className="flex items-center">
+            <CalendarIcon aria-hidden="true" className="w-5" />{' '}
+            <span className="sr-only">published on </span>
+            <span className="pl-1">{format(new Date(date), 'dd MMMM, y')}</span>
+          </time>
         </div>
       </div>
     </header>
   )
+}
+
+{
+  /* <header className="flex items-center justify-center pt-5 pb-10">
+  <div className="flex flex-col items-center px-5">
+    <h1 className="max-w-4xl sm:text-5xl text-4xl font-heading sm:leading-tight leading-tight text-center py-16">
+      <Balancer>{title}</Balancer>
+    </h1>
+    <div className="flex flex-col items-center w-full">
+      <div className="flex gap-10 pt-10 justify-center items-center w-full">
+        <Author />
+        <time dateTime={date} className="flex items-center">
+          <CalendarIcon aria-hidden="true" className="w-5" />{' '}
+          <span className="sr-only">published on </span>
+          <span className="pl-1">
+            {format(new Date(date), 'dd MMMM, y')}
+          </span>
+        </time>
+      </div>
+    </div>
+  </div>
+</header> */
 }
 
 const Share: React.FC<React.PropsWithChildren<{title: string}>> = ({title}) => {
