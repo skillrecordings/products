@@ -4,8 +4,7 @@ import EmailCourseTemplate from '../templates/email-course'
 
 export const meta = {
   title: 'Build a TypeScript Project from Scratch',
-  headline:
-    'Learn How to Build Cutting-Edge <span className="bg-gradient-to-l from-white to-blue-300 bg-clip-text text-transparent decoration-clone">Typescript Projects</span> From Scratch',
+  headline: 'Learn How to Build Cutting-Edge <span className="bg-gradient-to-l from-white to-blue-300 bg-clip-text text-transparent decoration-clone">Typescript Projects</span> From Scratch',
   description: config.description,
   titleAppendSiteName: false,
   url: config.siteUrl,
@@ -16,11 +15,12 @@ export const meta = {
   formImage: require('../../public/images/emails/build-ts-project-from-scratch/thumb@2x.png'),
   ckFormId: 3071912, // 02 Build TS Project
   formHeadline: 'Start Building a TypeScript Project Today',
-  formSubHeadline:
-    '5 email lessons delivered over 5 days that will give you a taste of real-world TypeScript!',
+  formSubHeadline: '5 email lessons delivered over 5 days that will give you a taste of real-world TypeScript!',
 }
 
-export default EmailCourseTemplate
+export default ({ children }) => (
+<EmailCourseTemplate meta={meta}>{children}</EmailCourseTemplate>
+);
 
 Proficiency in a language also includes knowing how to share code.
 

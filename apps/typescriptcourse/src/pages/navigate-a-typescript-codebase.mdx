@@ -4,8 +4,7 @@ import EmailCourseTemplate from '../templates/email-course'
 
 export const meta = {
   title: 'Learn How to Navigate a TypeScript Codebase',
-  headline:
-    'Learn How to Navigate a <span className="bg-gradient-to-l from-white to-cyan-200 bg-clip-text text-transparent decoration-clone">TypeScript Codebase</span> Effectively',
+  headline: 'Learn How to Navigate a <span className="bg-gradient-to-l from-white to-cyan-200 bg-clip-text text-transparent decoration-clone">TypeScript Codebase</span> Effectively',
   description: config.description,
   titleAppendSiteName: false,
   url: config.siteUrl,
@@ -16,11 +15,12 @@ export const meta = {
   formImage: require('../../public/images/emails/navigate-ts-codebase/thumb@2x.png'),
   ckFormId: 3071917, // 03 Navigate a TS Codebase
   formHeadline: 'Navigate a TypeScript codebase effectively today',
-  formSubHeadline:
-    '5 email lessons delivered over 5 days that will give you a taste of real-world TypeScript!',
+  formSubHeadline: '5 email lessons delivered over 5 days that will give you a taste of real-world TypeScript!',
 }
 
-export default EmailCourseTemplate
+export default ({ children }) => (
+<EmailCourseTemplate meta={meta}>{children}</EmailCourseTemplate>
+);
 
 Do you remember the last time you jumped into a new large codebase?
 

@@ -3,10 +3,8 @@ import {first} from 'lodash'
 import EmailCourseTemplate from '../templates/email-course'
 
 export const meta = {
-  title:
-    'Get Familiar with TypeScript by Migrating an OSS JS Project to TypeScript',
-  headline:
-    'Get Familiar with TypeScript by <span className="bg-gradient-to-l from-sky-50 to-yellow-200 bg-clip-text text-transparent decoration-clone">Migrating an OSS JS</span> Project to TypeScript',
+  title: 'Get Familiar with TypeScript by Migrating an OSS JS Project to TypeScript',
+  headline: 'Get Familiar with TypeScript by <span className="bg-gradient-to-l from-sky-50 to-yellow-200 bg-clip-text text-transparent decoration-clone">Migrating an OSS JS</span> Project to TypeScript',
   description: config.description,
   titleAppendSiteName: false,
   url: config.siteUrl,
@@ -17,11 +15,12 @@ export const meta = {
   formImage: require('../../public/images/emails/migrate-js-project-to-ts/thumb@2x.png'),
   ckFormId: 3071907, // 01 Migrate to TS
   formHeadline: 'Start Using TypeScript Today',
-  formSubHeadline:
-    '3 email lessons delivered over 3 days that will give you a taste of real-world TypeScript!',
+  formSubHeadline: '3 email lessons delivered over 3 days that will give you a taste of real-world TypeScript!',
 }
 
-export default EmailCourseTemplate
+export default ({ children }) => (
+<EmailCourseTemplate meta={meta}>{children}</EmailCourseTemplate>
+);
 
 Doing a big TypeScript migration in a short time frame is a recipe for disaster.
 
