@@ -102,7 +102,7 @@ const ExerciseOverlay: React.FC<{}> = ({}) => {
                       or
                     </p>
                     <a
-                      href={resources.github}
+                      href={resources.github.repo}
                       target="_blank"
                       className="flex items-center gap-2 rounded-full bg-gray-800 px-3 py-1 text-lg font-semibold text-white transition hover:brightness-125 sm:px-5 sm:py-3"
                       rel="noreferrer"
