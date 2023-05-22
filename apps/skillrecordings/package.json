@@ -37,9 +37,9 @@
     "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
-    "@mdx-js/react": "^1.6.22",
+    "@mdx-js/react": "^2.3.0",
     "@next/font": "13.4.2",
-    "@next/mdx": "^13.4.2",
+    "@next/mdx": "^13.4.3",
     "@reach/dialog": "^0.16.2",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/config": "workspace:*",
@@ -87,7 +87,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.16.0",
-    "@mdx-js/loader": "^1.6.22",
+    "@mdx-js/loader": "^2.3.0",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
