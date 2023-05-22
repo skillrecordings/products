@@ -32,6 +32,7 @@ import pluralize from 'pluralize'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {getOgImage} from 'utils/get-og-image'
+import ExerciseOverlay from 'components/exercise-overlay'
 
 const LessonTemplate: React.FC<{
   transcript: string
@@ -53,6 +54,11 @@ const LessonTemplate: React.FC<{
   const {data: session} = useSession()
 
   const addProgressMutation = trpc.progress.add.useMutation()
+  const {data: resources, status: resourcesStatus} =
+    trpc.lessonResources.byExerciseSlug.useQuery({
+      slug: router.query.lesson as string,
+      type: lesson._type,
+    })
 
   const lessonResourceRenderer = (
     path: string,
@@ -60,6 +66,7 @@ const LessonTemplate: React.FC<{
     lesson: Lesson,
     section?: Section,
   ) => {
+    const hasSandpackResource = resources?.sandpack
     return (
       <>
         {lesson._type === 'exercise' && (
@@ -70,6 +77,18 @@ const LessonTemplate: React.FC<{
               section={section}
               path={path}
             />
+            {resourcesStatus === 'loading' ? (
+              <li data-exercise-is-loading="">Exercise</li>
+            ) : (
+              hasSandpackResource && (
+                <ExerciseLink
+                  module={module}
+                  lesson={lesson}
+                  section={section}
+                  path={path}
+                />
+              )
+            )}
             <SolutionLink
               module={module}
               lesson={lesson}
@@ -89,10 +108,6 @@ const LessonTemplate: React.FC<{
       </>
     )
   }
-  // const {exerciseGitHubUrl, openFile} = getExerciseGitHubUrl({
-  //   stackblitz,
-  //   module,
-  // })
 
   return (
     <VideoProvider
@@ -136,11 +151,7 @@ const LessonTemplate: React.FC<{
               <Video
                 ref={muxPlayerRef}
                 product={module.product as SanityProduct}
-                exerciseOverlayRenderer={() => (
-                  <div className="flex items-center justify-center text-center text-2xl font-bold text-red-500">
-                    TBD
-                  </div>
-                )}
+                exerciseOverlayRenderer={() => <ExerciseOverlay />}
                 loadingIndicator={<Spinner />}
               />
               <MobileModuleLessonList
@@ -156,16 +167,15 @@ const LessonTemplate: React.FC<{
             <article className="relative flex-shrink-0 2xl:w-full 2xl:max-w-md">
               <div className="relative z-10 mx-auto max-w-4xl py-5 sm:px-8 px-5 lg:py-6 2xl:max-w-xl">
                 <LessonTitle />
-                {/* {openFile && (
+                {resources?.github?.repo && (
                   <GitHubLink
                     exercise={lesson}
                     module={module}
                     loadingIndicator={<Spinner className="h-7 w-7" />}
-                    url={exerciseGitHubUrl}
-                    file={openFile}
-                    repository={module?.github?.repo}
+                    url={resources?.github?.repo}
+                    repository="Code"
                   />
-                )} */}
+                )}
                 <LessonDescription
                   lessonMDXBody={lessonBody}
                   lessonBodyPreview={lessonBodyPreview}

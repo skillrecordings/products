@@ -45,3 +45,9 @@ mux-player::part(vertical-layer) {
     0px 2.7px 16.8px rgba(0, 0, 0, 0.03), 0px 5px 31.3px rgba(0, 0, 0, 0.036),
     0px 12px 75px rgba(0, 0, 0, 0.05);
 }
+
+.cm-editor {
+  [data-focus-visible-added] {
+    @apply outline-none ring-0 border-none;
+  }
+}

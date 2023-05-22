@@ -57,6 +57,7 @@ export default defineType({
         defineArrayMember({type: 'stackblitz'}),
         defineArrayMember({type: 'testimonial'}),
         defineArrayMember({type: 'linkResource'}),
+        defineArrayMember({type: 'githubRepo'}),
       ],
     }),
     defineField({

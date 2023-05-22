@@ -7,14 +7,34 @@ export const ExerciseSchema = z
   .object({
     _id: z.string().optional(),
     _key: z.string().optional(),
-    github: z.nullable(z.string()).optional(),
+    github: z
+      .nullable(
+        z.object({
+          repo: z.string(),
+        }),
+      )
+      .optional(),
     videoResourceId: z.nullable(z.string()).optional(),
     transcript: z.nullable(z.any().array()).or(z.string()).optional(),
+    sandpack: z
+      .nullable(
+        z.object({
+          files: z.any().array(),
+        }),
+      )
+      .optional(),
     solution: z.nullable(
       z
         .object({
+          _type: z.string(),
           _key: z.string(),
-          github: z.nullable(z.string()).optional(),
+          github: z
+            .nullable(
+              z.object({
+                repo: z.string(),
+              }),
+            )
+            .optional(),
           videoResourceId: z.nullable(z.string()).optional(),
           transcript: z.nullable(z.any().array().or(z.string())).optional(),
         })
@@ -43,11 +63,14 @@ export const getExerciseMedia = async (exerciseSlug: string) => {
       "slug": slug.current,
       body,
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+      "sandpack": resources[@._type == 'sandpack'][0],
       "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
       "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      "github": resources[@._type == 'githubRepo'][0],
       "solution": resources[@._type == 'solution'][0]{
         body,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+        "github": resources[@._type == 'githubRepo'][0],
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "slug": slug.current,
@@ -72,9 +95,10 @@ export const getExercise = async (
       description,
       "slug": slug.current,
       body,
-      "github": resources[@._type == 'github'][0].url,
+      "github": resources[@._type == 'githubRepo'][0],
       "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      "sandpack": resources[@._type == 'sandpack'][0],
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
@@ -85,6 +109,7 @@ export const getExercise = async (
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+        "github": resources[@._type == 'githubRepo'][0],
         "slug": slug.current,
       }
     }`,

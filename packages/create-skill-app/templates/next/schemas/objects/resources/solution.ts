@@ -52,6 +52,7 @@ export default defineType({
         }),
         defineArrayMember({type: 'muxVideo'}),
         defineArrayMember({type: 'stackblitz'}),
+        defineArrayMember({type: 'githubRepo'}),
       ],
     }),
     defineField({

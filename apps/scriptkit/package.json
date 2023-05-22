@@ -127,7 +127,7 @@
     "mjml": "^4.12.0",
     "next": "^13.4.3",
     "next-auth": "^4.22.1",
-    "next-mdx-remote": "^4.1.0",
+    "next-mdx-remote": "^4.2.0",
     "next-seo": "^5.5.0",
     "next-sitemap": "^3.0.5",
     "next-svgr": "^0.0.2",
