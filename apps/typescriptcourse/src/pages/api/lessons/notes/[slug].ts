@@ -165,7 +165,7 @@ const parseMdxNotesFile = async (text: string) => {
     remarkPlugins: [extractNotes],
   })
 
-  return mdxCompiler.process(file).then((file: any) => {
+  return mdxCompiler.process(file as any).then((file: any) => {
     function convertHMS(timeString: string) {
       let seconds = 0
       const arr = timeString.split(':')
