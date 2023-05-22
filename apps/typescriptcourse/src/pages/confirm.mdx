@@ -6,14 +6,11 @@ import {motion} from 'framer-motion'
 export const firstName = config.openGraph.profile.firstName
 export const supportEmail = config.email
 
-<p
-  animate={{opacity: [0, 1], y: [-10, 0]}}
-  className="opacity-80 text-blue-200 md:text-base text-sm"
->Just one last step and you’re signed up...</p>
+<p className="max-w-sm mx-auto opacity-80 text-blue-200 md:text-base text-sm">Just one last step and you’re signed up...</p>
 
 <h1
   animate={{opacity: [0, 1], y: [10, 0]}}
-  className="md:text-4xl text-2xl pb-8 pt-4"
+  className="max-w-sm mx-auto md:text-4xl text-2xl pb-8 pt-4"
 >Please{' '} <strong className="font-semibold bg-gradient-to-l from-sky-50 to-fuchsia-200 bg-clip-text text-transparent decoration-clone">click the confirmation link</strong>{' '}  in an email that just got sent.</h1>
 
 <EmailConfirmImage />
@@ -21,7 +18,7 @@ export const supportEmail = config.email
 <Signature />
 
 export const EmailConfirmImage = () => (
-  <div >
+  <div className="max-w-sm mx-auto">
     <Image
       src={require('../../public/images/emails/email-confirm@2x.png')}
       width={956 / 2.5}
