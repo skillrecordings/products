@@ -304,8 +304,8 @@ const PortableTextComponents: PortableTextComponents = {
             src={image}
             alt=""
             aria-hidden="true"
-            width={100 / 1.2}
-            height={66 / 1.2}
+            width={260}
+            height={80}
           />
         </div>
       ) : (
