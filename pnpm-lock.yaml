@@ -2756,7 +2756,7 @@ importers:
       msw: ^0.35.0
       next: ^13.4.3
       next-auth: ^4.22.1
-      next-mdx-remote: ^4.2.0
+      next-mdx-remote: ^4.4.1
       next-sitemap: ^3.0.5
       node-fetch: ^2.6.7
       openai: ^3.2.1
@@ -2891,7 +2891,7 @@ importers:
       mjml: 4.12.0
       next: 13.4.3_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.22.1_o6dt4yn4syzkhlixdxt4y57rzi
-      next-mdx-remote: 4.2.0_biqbaboplfbrettd7655fr4n2y
+      next-mdx-remote: 4.4.1_biqbaboplfbrettd7655fr4n2y
       next-sitemap: 3.1.55_m3h7ahnezxgu32xc2apml6h7z4
       node-fetch: 2.6.7
       openai: 3.2.1
@@ -26894,7 +26894,7 @@ packages:
       micromark-util-normalize-identifier: 1.0.0
       micromark-util-symbol: 1.0.0
       micromark-util-types: 1.0.1
-      unist-util-stringify-position: 3.0.0
+      unist-util-stringify-position: 3.0.3
       uvu: 0.5.2
     transitivePeerDependencies:
       - supports-color
@@ -26985,7 +26985,7 @@ packages:
       parse-entities: 4.0.0
       stringify-entities: 4.0.2
       unist-util-remove-position: 4.0.1
-      unist-util-stringify-position: 3.0.0
+      unist-util-stringify-position: 3.0.3
       vfile-message: 3.1.4
     dev: false
 
@@ -28573,6 +28573,23 @@ packages:
 
   /next-mdx-remote/4.2.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-X5RhD7f7b78pH2abbuusObSGgII5l54OdusS/2iXljN7WN1cel6ToLlZeCZcyxx9cR4wmBGQYGongIttDYNmAA==}
+    engines: {node: '>=14', npm: '>=7'}
+    peerDependencies:
+      react: '>=16.x <=18.x'
+      react-dom: '>=16.x <=18.x'
+    dependencies:
+      '@mdx-js/mdx': 2.3.0
+      '@mdx-js/react': 2.3.0_react@18.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      vfile: 5.3.7
+      vfile-matter: 3.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /next-mdx-remote/4.4.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-1BvyXaIou6xy3XoNF4yaMZUCb6vD2GTAa5ciOa6WoO+gAUTYsb1K4rI/HSC2ogAWLrb/7VSV52skz07vOzmqIQ==}
     engines: {node: '>=14', npm: '>=7'}
     peerDependencies:
       react: '>=16.x <=18.x'
@@ -36082,7 +36099,7 @@ packages:
       is-buffer: 2.0.5
       is-plain-obj: 4.0.0
       trough: 2.0.2
-      vfile: 5.3.5
+      vfile: 5.3.7
     dev: false
 
   /unified/9.2.0:
@@ -36708,7 +36725,7 @@ packages:
     resolution: {integrity: sha512-UUjZYIOg9lDRwwiBAuezLIsu9KlXntdxwG+nXnjuQAHvBpcX3x0eN8h+I7TkY5nkCXj+cWVp4ZqebtGBvok8ww==}
     dependencies:
       '@types/unist': 2.0.6
-      unist-util-stringify-position: 3.0.0
+      unist-util-stringify-position: 3.0.3
     dev: false
 
   /vfile-message/3.1.4:
