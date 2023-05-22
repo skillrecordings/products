@@ -45,7 +45,7 @@ const Home: NextPage = () => {
         wrapperClassName: 'bg-transparent',
       }}
     >
-      <div className="relative z-10 bg-brand-cultured sm:px-5 sm:pb-5">
+      <div className="relative z-10 bg-gray-100 sm:px-5 sm:pb-5">
         <header className="bg-brand-bone flex items-center justify-center sm:h-[calc(100vh-2.5rem)] h-screen overflow-hidden relative">
           <Image
             src={require('../../public/assets/hero@2x.png')}

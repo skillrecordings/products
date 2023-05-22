@@ -369,6 +369,7 @@ const Lesson = React.forwardRef<
     return (
       <li
         data-lesson=""
+        data-type={lesson._type}
         data-is-lesson-completed={isLessonCompleted}
         data-is-expanded={isExpanded}
       >
