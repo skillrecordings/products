@@ -1,9 +1,7 @@
 import * as React from 'react'
 import matter from 'gray-matter'
-import {PostBody} from '@/app/concepts/[slug]/components/post-body'
 import {sanityWriteClient} from '@/utils/sanity-server'
 import Markdown from 'react-markdown'
-import {MDXComponents} from '@/components/mdx'
 
 async function getConcept(slug: string) {
   const postContent = await sanityWriteClient.fetch(
