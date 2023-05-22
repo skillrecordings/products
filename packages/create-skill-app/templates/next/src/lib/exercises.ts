@@ -18,12 +18,10 @@ export const ExerciseSchema = z
           videoResourceId: z.nullable(z.string()).optional(),
           transcript: z.nullable(z.any().array().or(z.string())).optional(),
         })
-        // @ts-ignore
         .merge(ResourceSchema)
         .optional(),
     ),
   })
-  // @ts-ignore
   .merge(ResourceSchema)
 
 export type Exercise = z.infer<typeof ExerciseSchema>
