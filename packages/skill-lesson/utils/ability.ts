@@ -127,7 +127,6 @@ const isFreelyVisible = ({
   isSolution,
 }: ViewerAbilityInput) => {
   const lessons = section ? section.lessons : module?.lessons || []
-  console.log({lesson})
   const isFirstLesson =
     (lesson?._type === 'exercise' ||
       lesson?._type === 'explainer' ||
