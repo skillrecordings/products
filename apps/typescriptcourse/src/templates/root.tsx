@@ -17,8 +17,8 @@ import Bio from 'components/bio'
 
 const HomeTemplate: React.FC<
   React.PropsWithChildren<EmailCourseTemplateProps>
-> = ({meta, children}) => {
-  const {headline, formImage, ckFormId, formHeadline, formSubHeadline} = meta
+> = ({meta = {}, children}) => {
+  const {ckFormId, formSubHeadline} = meta
   const router = useRouter()
 
   React.useEffect(() => {
