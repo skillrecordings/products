@@ -85,10 +85,10 @@ const Header: React.FC<
   React.PropsWithChildren<{
     title: string
     date: string
-    image?: string
+    image?: any
     description: any
   }>
-> = ({title, date, image, description}) => {
+> = ({title, date, image = null, description}) => {
   return (
     <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-10 pt-5 md:flex-row">
       {image && (
