@@ -22,6 +22,8 @@ import season from './documents/podcastSeason'
 // objects
 import bodyVideo from './objects/bodyVideo'
 import bodyImage from './objects/bodyImage'
+import bodyImageFloated from './objects/bodyImageFloated'
+import specialHeading from './objects/specialHeading.js'
 import tweet from './objects/tweet'
 import bodyContributorProfile from './objects/bodyContributorProfile'
 import bodyClientProfile from './objects/bodyClientProfile'
@@ -66,6 +68,8 @@ export default createSchema({
     tweet,
     bodyVideo,
     bodyImage,
+    bodyImageFloated,
+    specialHeading,
     bodyGrid,
     mediaCaption,
     externalImage,

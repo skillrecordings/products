@@ -42,18 +42,18 @@ const Video: React.FC<{url: string; title: string}> = ({url, title}) => {
   return (
     <div className="">
       {title && (
-        <strong className="font-semibold inline-block pb-2">
+        <strong className="inline-block pb-2 font-semibold">
           <span className="sr-only">Video:</span> {title}
         </strong>
       )}
       <div
         ref={fullscreenWrapperRef}
         className={cx('w-full', {
-          'absolute top-0 left-0 z-50': isFullscreen,
+          'absolute left-0 top-0 z-50': isFullscreen,
           relative: !isFullscreen,
         })}
       >
-        <div className="rounded-md overflow-hidden">
+        <div className="overflow-hidden rounded-md">
           <Player
             enableGlobalShortcuts={false}
             aria-label={title}
@@ -77,7 +77,7 @@ const BodyImage = ({value}: BodyImageProps) => {
   const {url, width, height} = image
   return (
     <figure
-      className={cx('flex flex-col items-center justify-center relative', {
+      className={cx('relative flex flex-col items-center justify-center', {
         'bg-white/10': isLoading,
       })}
     >
@@ -92,12 +92,43 @@ const BodyImage = ({value}: BodyImageProps) => {
         quality={100}
         className="rounded-md"
       />
-      {isLoading && <Spinner className="w-8 h-8 absolute" />}
+      {isLoading && <Spinner className="absolute h-8 w-8" />}
       {caption && (
         <figcaption>
           <PortableText value={caption} />
         </figcaption>
       )}
+    </figure>
+  )
+}
+
+const BodyImageFloated = ({value}: BodyImageFloatedProps) => {
+  const {floatSide, image, width, height} = value
+  const [isLoading, setIsLoading] = React.useState<boolean>(true)
+  if (!image) return <figure>⚠️ missing image</figure>
+  const {url, alt} = image
+  return (
+    <figure
+      className={cx(
+        'relative flex flex-col items-center justify-center',
+        {
+          'bg-white/10': isLoading,
+        },
+        floatSide === 'right' ? 'float-right ml-4' : 'float-left mr-4',
+      )}
+    >
+      <Image
+        onLoadingComplete={() => {
+          setIsLoading(false)
+        }}
+        src={url}
+        alt={alt}
+        width={width}
+        height={height}
+        quality={100}
+        className="rounded-md"
+      />
+      {isLoading && <Spinner className="absolute h-8 w-8" />}
     </figure>
   )
 }
@@ -120,7 +151,7 @@ const PortableTextComponents: PortableTextComponents = {
     },
     blockquote: ({children, value}) => {
       return (
-        <blockquote className="not-prose p-5 border-badass-yellow-500 border-l-[3px] bg-white/10 text-gray-200 relative not-italic font-normal">
+        <blockquote className="not-prose relative border-l-[3px] border-badass-yellow-500 bg-white/10 p-5 font-normal not-italic text-gray-200">
           {children}
         </blockquote>
       )
@@ -155,9 +186,9 @@ const PortableTextComponents: PortableTextComponents = {
       const {items} = value
       return (
         <div
-          className={cx(`grid gap-5 overflow-x-auto auto-cols-fr`, {
-            'sm:grid-cols-2 grid-cols-1': items.length === 2,
-            'md:grid-cols-3 sm:grid-cols-2 grid-cols-1': items.length === 3,
+          className={cx(`grid auto-cols-fr gap-5 overflow-x-auto`, {
+            'grid-cols-1 sm:grid-cols-2': items.length === 2,
+            'grid-cols-1 sm:grid-cols-2 md:grid-cols-3': items.length === 3,
           })}
         >
           {items.map((item: any) => {
@@ -186,9 +217,9 @@ const PortableTextComponents: PortableTextComponents = {
               className="flex-shrink-0 rounded"
             />
           )}
-          <div className="flex flex-col w-full">
+          <div className="flex w-full flex-col">
             <span className="text-3xl font-semibold">{name}</span>
-            <span className="text-lg text-gray-300 pt-3">
+            <span className="pt-3 text-lg text-gray-300">
               <Balancer>{description}</Balancer>
             </span>
           </div>
@@ -198,19 +229,19 @@ const PortableTextComponents: PortableTextComponents = {
     bodyContributorProfile: ({value}: any) => {
       const {name, description, image} = value
       return (
-        <div className="flex items-center p-5 gap-5 bg-white/10 rounded">
+        <div className="flex items-center gap-5 rounded bg-white/10 p-5">
           {image && (
             <Image
               src={image}
               alt={name}
               width={60}
               height={60}
-              className="flex-shrink-0 rounded-full !my-0"
+              className="!my-0 flex-shrink-0 rounded-full"
             />
           )}
-          <div className="flex flex-col w-full">
+          <div className="flex w-full flex-col">
             <span className="text-xl font-semibold">{name}</span>
-            <span className="text-base opacity-80 leading-tight pt-1">
+            <span className="pt-1 text-base leading-tight opacity-80">
               <Balancer>{description}</Balancer>
             </span>
           </div>
@@ -224,8 +255,8 @@ const PortableTextComponents: PortableTextComponents = {
           tweetId={tweetId}
           options={{theme: 'dark'}}
           placeholder={
-            <div className="aspect-square w-full h-full flex items-center justify-center">
-              <Spinner className="w-5 h-5" />
+            <div className="flex aspect-square h-full w-full items-center justify-center">
+              <Spinner className="h-5 w-5" />
             </div>
           }
         />
@@ -244,13 +275,13 @@ const PortableTextComponents: PortableTextComponents = {
               aria-label="Video transcript"
               role="contentinfo"
             >
-              <summary className="inline-flex space-x-2 items-center cursor-pointer text-gray-600 hover:text-gray-800 transition">
+              <summary className="inline-flex cursor-pointer items-center space-x-2 text-gray-600 transition hover:text-gray-800">
                 <span
                   aria-hidden="true"
-                  className="group-hover:bg-gray-50 p-1 rounded-full border border-gray-200 flex items-center justify-center transition"
+                  className="flex items-center justify-center rounded-full border border-gray-200 p-1 transition group-hover:bg-gray-50"
                 >
-                  <ChevronDownIcon className="group-open:hidden w-4 h-4" />
-                  <ChevronUpIcon className="group-open:block hidden w-4 h-4" />
+                  <ChevronDownIcon className="h-4 w-4 group-open:hidden" />
+                  <ChevronUpIcon className="hidden h-4 w-4 group-open:block" />
                 </span>
                 <span className="text-base">Video Transcript</span>
               </summary>
@@ -263,6 +294,9 @@ const PortableTextComponents: PortableTextComponents = {
       )
     },
     bodyImage: ({value}: BodyImageProps) => <BodyImage value={value} />,
+    bodyImageFloated: ({value}: BodyImageFloatedProps) => (
+      <BodyImageFloated value={value} />
+    ),
     code: ({value}: CodeProps) => {
       const {language, code, highlightedLines} = value
       return (
@@ -277,7 +311,7 @@ const PortableTextComponents: PortableTextComponents = {
       const {body, type} = value
       return (
         <div
-          className={cx(`p-5 sm:my-8 my-4 rounded-md`, getCalloutStyles(type))}
+          className={cx(`my-4 rounded-md p-5 sm:my-8`, getCalloutStyles(type))}
         >
           <div>
             <span
@@ -299,7 +333,7 @@ const PortableTextComponents: PortableTextComponents = {
     divider: ({value}: DividerProps) => {
       const {image} = value
       return image ? (
-        <div className="flex items-center justify-center pt-10">
+        <div className="clear-both flex items-center justify-center pt-10">
           <Image
             src={image}
             alt=""
@@ -312,6 +346,14 @@ const PortableTextComponents: PortableTextComponents = {
         <hr />
       )
     },
+    specialHeading: ({value}: SpecialHeadingProps) => {
+      const {text} = value
+      return (
+        <h3 className="clear-both font-condensed text-[2rem] text-yellow-300">
+          {text}
+        </h3>
+      )
+    },
   },
 }
 
@@ -321,6 +363,10 @@ type EmojiProps = PortableTextMarkComponentProps<any>
 
 type DividerProps = {
   value: {image?: string}
+}
+
+type SpecialHeadingProps = {
+  value: {text: string}
 }
 
 type CalloutProps = {
@@ -347,6 +393,18 @@ type BodyImageProps = {
       width: number
       height: number
     }
+  }
+}
+
+type BodyImageFloatedProps = {
+  value: {
+    floatSide: string
+    image: {
+      url: string
+      alt: string
+    }
+    width: number
+    height: number
   }
 }
 
