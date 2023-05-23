@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Layout from '@/components/app/layout'
 import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
+import {ReactMarkdown} from 'react-markdown/lib/react-markdown'
 
 export async function getStaticProps() {
   const concepts = await getAllConcepts()
@@ -18,22 +19,28 @@ export async function getStaticProps() {
 const ConceptList = ({concepts}: {concepts: Concept[]}) => {
   return (
     <>
-      <ul>
+      <ul className="flex flex-col divide-y divide-gray-800/75">
         {concepts.map((concept: Concept) => (
           <li key={concept.slug.current}>
-            <h2 className="text-base font-medium leading-tight sm:text-xl">
-              <Link
-                href={{
-                  pathname: '/concepts/[slug]',
-                  query: {
-                    slug: concept.slug.current,
-                  },
-                }}
-                className="w-full gap-1 hover:underline"
+            <Link
+              href={{
+                pathname: '/concepts/[slug]',
+                query: {
+                  slug: concept.slug.current,
+                },
+              }}
+              className="group inline-flex w-full items-center justify-between px-5 py-4 transition hover:bg-gray-500/5"
+            >
+              <h2 className="w-full text-base font-medium leading-tight sm:text-xl">
+                <ReactMarkdown>{concept.title}</ReactMarkdown>
+              </h2>
+              <div
+                aria-hidden="true"
+                className="-translate-x-5 text-gray-400 opacity-0 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100"
               >
-                <Balancer>{concept.title}</Balancer>
-              </Link>
-            </h2>
+                →
+              </div>
+            </Link>
           </li>
         ))}
       </ul>
@@ -47,21 +54,24 @@ export default function ConceptsIndex({concepts}: {concepts: Concept[]}) {
   return (
     <Layout
       meta={{
-        title: 'TypeScript Tips by Matt Pocock',
+        title: 'TypeScript Concepts by Matt Pocock',
         description: pageDescription,
         ogImage: {
-          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1663921088/tips/card_2x_b9zrcx.png',
-          alt: 'TypeScript Tips by Matt Pocock',
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1684835626/concepts-card_2x_qqrc5r.png',
+          alt: 'TypeScript Concepts by Matt Pocock',
         },
       }}
       className="flex flex-col items-center pb-24"
     >
       <header className="relative z-10 flex flex-col items-center pb-16 pt-28 text-center sm:pt-32 lg:pb-24 lg:pt-40">
-        <h1 className="text-center font-heading text-4xl font-bold sm:text-5xl">
-          TypeScript Concepts
+        <h1 className="text-center font-heading text-2xl font-medium text-cyan-300 sm:text-3xl">
+          TypeScript{' '}
+          <span className="-mt-2 block text-5xl font-bold text-white sm:text-6xl">
+            Concepts
+          </span>
         </h1>
       </header>
-      <main className="relative z-10 mx-auto flex w-full max-w-screen-md flex-col px-3 sm:px-5">
+      <main className="relative z-10 mx-auto flex w-full max-w-xl flex-col sm:px-5">
         <ConceptList concepts={concepts} />
       </main>
       <Image
