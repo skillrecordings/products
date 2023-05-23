@@ -88,6 +88,8 @@ export default {
       },
     },
     {type: 'bodyImage'},
+    {type: 'bodyImageFloated'},
+    {type: 'specialHeading'},
     {type: 'bodyVideo'},
     {type: 'code'},
     {type: 'callout'},

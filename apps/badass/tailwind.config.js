@@ -80,6 +80,12 @@ module.exports = {
             'code::after': {
               content: "''",
             },
+            'h1, h2': {
+              fontFamily: 'Espiritu Regular',
+            },
+            h2: {
+              fontSize: '2.5rem',
+            },
           },
         },
       }),
