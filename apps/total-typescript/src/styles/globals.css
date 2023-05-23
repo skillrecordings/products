@@ -2,6 +2,7 @@
 @import './fonts.css';
 
 @tailwind components;
+@import '@code-hike/mdx/dist/index.css';
 @import './survey.css';
 @import './newsletter.css';
 @import './nprogress.css';
@@ -23,6 +24,14 @@
 
 @tailwind utilities;
 @import './focus-visible.css';
+
+/* code-hike code blocks */
+.prose .ch-code {
+  @apply bg-white/5 !important;
+}
+.prose .ch-codeblock {
+  @apply shadow-none;
+}
 
 body {
   @apply overflow-y-scroll;

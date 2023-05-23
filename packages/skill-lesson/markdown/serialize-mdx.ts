@@ -1,5 +1,6 @@
 import {remarkCodeHike} from '@code-hike/mdx'
 import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {SerializeOptions} from 'next-mdx-remote/dist/types'
 import {serialize} from 'next-mdx-remote/serialize'
 import defaultTheme from 'shiki/themes/github-dark.json'
 
@@ -10,6 +11,7 @@ import defaultTheme from 'shiki/themes/github-dark.json'
  * @param {ShikiTheme} options.theme - The theme to use for syntax highlighting, defaults to `github-dark`
  * @param {boolean} options.lineNumbers - Whether to render line numbers, defaults to `false`
  * @param {boolean} options.showCopyButton - Whether to render a copy button, defaults to `false`
+ * @param {scope} options.scope - Pass-through variables for use in the MDX content
  * @see themes https://github.com/shikijs/shiki/blob/main/docs/themes.md
  * @returns {Promise<MDXRemoteSerializeResult>} The serialized MDX
  * @example
@@ -25,9 +27,16 @@ const serializeMDX = async (
     theme,
     lineNumbers,
     showCopyButton,
-  }: {theme?: ShikiTheme; lineNumbers?: boolean; showCopyButton?: boolean} = {},
+    scope,
+  }: {
+    theme?: ShikiTheme
+    lineNumbers?: boolean
+    showCopyButton?: boolean
+    scope?: Record<string, unknown>
+  } = {},
 ): Promise<MDXRemoteSerializeResult> => {
   const mdxContent = await serialize(text, {
+    scope: scope ? scope : undefined,
     mdxOptions: {
       useDynamicImport: true,
       remarkPlugins: [
