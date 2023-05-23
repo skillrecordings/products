@@ -61,7 +61,7 @@ export default function ConceptsIndex({concepts}: {concepts: Concept[]}) {
           alt: 'TypeScript Concepts by Matt Pocock',
         },
       }}
-      className="flex flex-col items-center pb-24"
+      className="flex min-h-full flex-col items-center pb-24"
     >
       <header className="relative z-10 flex flex-col items-center pb-16 pt-28 text-center sm:pt-32 lg:pb-24 lg:pt-40">
         <h1 className="text-center font-heading text-2xl font-medium text-cyan-300 sm:text-3xl">
