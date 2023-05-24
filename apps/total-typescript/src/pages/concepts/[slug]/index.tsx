@@ -17,6 +17,10 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const {data, content} = matter(concept?.body || '')
   const conceptBodySerialized = await serializeMDX(content, {
     scope: data,
+    useShikiTwoslash: true,
+    syntaxHighlighterOptions: {
+      theme: 'dark-plus',
+    },
   })
 
   return {
@@ -47,11 +51,11 @@ export default function TipPage({
   const ogImage = getOgImage({title: concept.title})
   return (
     <Layout
+      className="min-h-full"
       meta={{
         title: concept.title,
         ogImage,
       }}
-      className="bg-black/40"
     >
       <header className="relative z-10 mx-auto flex w-full max-w-3xl flex-col justify-center px-5 pb-8 pt-24 sm:pb-10 sm:pt-32">
         <Link
@@ -67,12 +71,18 @@ export default function TipPage({
         </div>
       </header>
       <main className="relative z-10 pt-5">
-        <div className="prose relative z-10 mx-auto w-full max-w-3xl px-5 sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition prose-pre:bg-gray-700 hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
+        <div className="prose relative z-10 mx-auto w-full max-w-3xl px-5 sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200">
           <MDX contents={conceptBodySerialized} />
         </div>
-        <section className="relative z-10 overflow-hidden px-5 pb-24">
-          <Share title={concept.title} contentType="TypeScript Concept" />
-          {!subscriber && !loadingSubscriber && <ArticleNewsletterCta />}
+        <section className="relative z-10 -mb-16 overflow-hidden pb-0 sm:mb-0">
+          <div className="py-10">
+            <Share title={concept.title} contentType="TypeScript Concept" />
+          </div>
+          {!subscriber && !loadingSubscriber && (
+            <div className="w-full bg-white/5 px-5 pb-20 sm:mb-0">
+              <ArticleNewsletterCta />
+            </div>
+          )}
         </section>
       </main>
     </Layout>
