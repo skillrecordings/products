@@ -14,7 +14,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     const tipBody =
       tip.body &&
       (await serializeMDX(tip.body, {
-        codeHikePluginOptions: {theme: 'material-theme-darker'},
+        syntaxHighlighterOptions: {theme: 'material-theme-darker'},
       }))
 
     return {

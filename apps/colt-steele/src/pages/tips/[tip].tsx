@@ -5,16 +5,17 @@ import TipTemplate from 'templates/tip-template'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   try {
     const tip = await getTip(params?.tip as string)
     const tips = await getAllTips()
+
     const tipBody =
       tip.body &&
       (await serializeMDX(tip.body, {
-        codeHikePluginOptions: {
+        syntaxHighlighterOptions: {
           theme: 'light-plus',
           showCopyButton: true,
         },

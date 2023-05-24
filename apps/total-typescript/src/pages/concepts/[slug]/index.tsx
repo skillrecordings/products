@@ -17,8 +17,8 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const {data, content} = matter(concept?.body || '')
   const conceptBodySerialized = await serializeMDX(content, {
     scope: data,
-    syntaxHighlighter: 'shiki-twoslash',
-    shikiTwoslashPluginOptions: {
+    useShikiTwoslash: true,
+    syntaxHighlighterOptions: {
       theme: 'dark-plus',
     },
   })
