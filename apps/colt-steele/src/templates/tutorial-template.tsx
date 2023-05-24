@@ -49,7 +49,7 @@ const TutorialTemplate: React.FC<{
     >
       <CourseMeta title={pageTitle} description={description} />
       <Header tutorial={tutorial} />
-      <main className="relative px-5 z-10 mx-auto flex flex-col max-w-screen-lg justify-between lg:gap-16 gap-5 lg:flex-row">
+      <main className="relative px-5 z-10 mx-auto flex flex-col max-w-screen-lg justify-between lg:gap-16 gap-5 lg:flex-row sm:pb-24">
         <article className="prose w-full max-w-none col-span-7">
           {tutorialBody && <MDX contents={tutorialBody} />}
         </article>
@@ -82,10 +82,10 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
   return (
     <>
       <header className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col-reverse items-center justify-between px-5 pb-16 pt-8 sm:pb-8 md:flex-row">
-        <div className="w-full pt-8 text-center sm:pt-0 md:text-left">
+        <div className="w-full pt-8 sm:pt-0">
           <Link
             href="/tutorials"
-            className="pb-2 inline-block font-mono text-sm font-bold uppercase text-brand-red"
+            className="pb-2 inline-block font-mono text-sm font-bold uppercase text-brand-red w-full md:text-left text-center"
           >
             Free Tutorial
           </Link>
@@ -93,7 +93,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
             <Balancer>{title}</Balancer>
           </h1>
           <div className="w-full pt-8 text-base">
-            <div className="flex gap-8 leading-tight items-center">
+            <div className="flex gap-8 leading-tight items-center md:justify-start justify-center">
               <div className="flex items-center gap-2">
                 <div className="flex items-center justify-center overflow-hidden rounded-full">
                   <Image
