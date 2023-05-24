@@ -1,5 +1,5 @@
 [data-module-navigator] {
-  @apply w-full flex-shrink-0 px-5 py-8 lg:max-w-[420px] lg:px-0 lg:py-0;
+  @apply w-full flex-shrink-0 py-8 lg:max-w-[420px] lg:py-0;
   [data-module-navigator-header] {
     @apply flex w-full items-center justify-between pb-3;
     /* Contents */
