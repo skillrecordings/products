@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const solutionBody =
     typeof exercise?.solution?.body === 'string' &&
     (await serializeMDX(exercise.solution.body, {
-      codeHikePluginOptions: {
+      syntaxHighlighterOptions: {
         theme: 'light-plus',
         showCopyButton: true,
       },
@@ -33,7 +33,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const solutionBodyPreview =
     typeof exercise?.solution?.body === 'string' &&
     (await serializeMDX(exercise.solution.body.substring(0, 300), {
-      codeHikePluginOptions: {
+      syntaxHighlighterOptions: {
         theme: 'light-plus',
         showCopyButton: true,
       },

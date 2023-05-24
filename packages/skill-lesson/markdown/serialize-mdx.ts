@@ -1,21 +1,24 @@
-import remarkShikiTwoslash, {type Options} from 'remark-shiki-twoslash'
-import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
-import defaultTheme from 'shiki/themes/github-dark.json'
-import {serialize} from 'next-mdx-remote/serialize'
+import remarkShikiTwoslash, {
+  type Options as RemarkShikiTwoslashOptions,
+} from 'remark-shiki-twoslash'
 import {remarkCodeHike} from '@code-hike/mdx'
-import {nodeTypes} from '@mdx-js/mdx'
+import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
+// import {SerializeOptions} from 'next-mdx-remote/dist/types'
+import {serialize} from 'next-mdx-remote/serialize'
+import defaultTheme from 'shiki/themes/github-dark.json'
 import rehypeRaw from 'rehype-raw'
+import {nodeTypes} from '@mdx-js/mdx'
 
 /**
- * Serialize MDX with next-mdx-remote. Uses Code Hike or Shiki Twoslash for syntax highlighting.
+ * Serialize MDX with next-mdx-remote. Uses remark-code-hike for syntax highlighting.
  * @param {string} text - The text to serialize
- * @param {object} options - The options object
+ * @param {boolean} useShikiTwoslash - Whether to use remark-shiki-twoslash instead of remark-code-hike, defaults to `false`
+ * @param {SyntaxHighlighterOptions} syntaxHighlighterOptions - The options to pass to the remarkCodeHike or remarkShikiTwoslash plugin
+ * @param {ShikiTheme} options.theme - The theme to use for syntax highlighting, defaults to `github-dark`
+ * @param {boolean} options.lineNumbers - Whether to render line numbers, defaults to `false`
+ * @param {boolean} options.showCopyButton - Whether to render a copy button, defaults to `false`
  * @param {scope} options.scope - Pass-through variables for use in the MDX content
- * @param {SyntaxHighlighter} options.syntaxHighlighter - Choose between `code-hike` or `shiki-twoslash`, defaults to `code-hike`
- * @param {ShikiTwoslashPluginOptions} options.shikiTwoslashPluginOptions - Shiki Twoslash options
- * @param {CodeHikePluginOptions} options.codeHikePluginOptions - Code Hike options
- * @param {ShikiTheme} options.highlighterOptions.theme - The theme to use for syntax highlighting, defaults to `github-dark`
- * @see themes Shiki themes https://github.com/shikijs/shiki/blob/main/docs/themes.md
+ * @see themes https://github.com/shikijs/shiki/blob/main/docs/themes.md
  * @returns {Promise<MDXRemoteSerializeResult>} The serialized MDX
  * @example
  * const mdx = await serializeMDX('# Hello World')
@@ -24,80 +27,85 @@ import rehypeRaw from 'rehype-raw'
  * const mdx = await serializeMDX('# Hello World', {theme: 'github-light', lineNumbers: true, showCopyButton: true})
  */
 
-type SerializeMDXProps = {
-  scope?: Record<string, unknown>
-  syntaxHighlighter?: SyntaxHighlighter
-  shikiTwoslashPluginOptions?: ShikiTwoslashPluginOptions
-  codeHikePluginOptions?: CodeHikePluginOptions
-}
-
-type SyntaxHighlighter = 'code-hike' | 'shiki-twoslash'
-
-type CodeHikePluginOptions = {
+type RemarkCodeHikePluginOptions = {
   theme?: ShikiTheme
   lineNumbers?: boolean
   showCopyButton?: boolean
+  autoImport?: boolean
 }
 
-type ShikiTwoslashPluginOptions = {
+type RemarkShikiTwoslashPluginOptions = {
   theme?: ShikiTheme
-} & Options
+} & RemarkShikiTwoslashOptions
+
+type SerializeMDXProps = {
+  scope?: Record<string, unknown>
+  useShikiTwoslash?: boolean
+  syntaxHighlighterOptions?: SyntaxHighlighterOptions
+}
+
+type SyntaxHighlighterOptions =
+  | RemarkCodeHikePluginOptions
+  | RemarkShikiTwoslashPluginOptions
 
 const serializeMDX = async (
   text: string,
-  {
-    scope,
-    syntaxHighlighter = 'code-hike',
-    shikiTwoslashPluginOptions,
-    codeHikePluginOptions,
-  }: SerializeMDXProps = {},
+  {scope, syntaxHighlighterOptions, useShikiTwoslash}: SerializeMDXProps = {},
 ): Promise<MDXRemoteSerializeResult> => {
-  const highlighterOptions =
-    syntaxHighlighter === 'code-hike'
-      ? codeHikePluginOptions
-      : shikiTwoslashPluginOptions
+  const {theme} = syntaxHighlighterOptions || {}
 
-  const theme = highlighterOptions?.theme
-    ? require(`shiki/themes/${highlighterOptions.theme}.json`)
-    : defaultTheme
+  if (useShikiTwoslash) {
+    const mdxContent = await serialize(text, {
+      scope,
+      mdxOptions: {
+        // useDynamicImport: true,
+        rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}]],
+        remarkPlugins: [
+          [
+            remarkShikiTwoslash,
+            {
+              theme: theme
+                ? require(`shiki/themes/${theme}.json`)
+                : defaultTheme,
+              ...syntaxHighlighterOptions,
+            } as RemarkShikiTwoslashPluginOptions,
+          ],
+        ],
+      },
+    })
+    return mdxContent
+  } else {
+    const lineNumbers =
+      syntaxHighlighterOptions && 'lineNumbers' in syntaxHighlighterOptions
+        ? syntaxHighlighterOptions.lineNumbers
+        : false
 
-  const lineNumbers =
-    highlighterOptions && 'lineNumbers' in highlighterOptions
-      ? highlighterOptions.lineNumbers
-      : false
-
-  const showCopyButton =
-    highlighterOptions && 'showCopyButton' in highlighterOptions
-      ? highlighterOptions.showCopyButton
-      : false
-
-  const mdxContent = await serialize(text, {
-    scope: scope ? scope : undefined,
-    mdxOptions: {
-      useDynamicImport: true,
-      rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}]],
-      remarkPlugins: [
-        syntaxHighlighter === 'code-hike'
-          ? [
-              remarkCodeHike,
-              {
-                theme,
-                lineNumbers,
-                showCopyButton,
-                ...highlighterOptions,
-              },
-            ]
-          : [
-              remarkShikiTwoslash,
-              {
-                theme,
-                ...highlighterOptions,
-              },
-            ],
-      ],
-    },
-  })
-  return mdxContent
+    const showCopyButton =
+      syntaxHighlighterOptions && 'showCopyButton' in syntaxHighlighterOptions
+        ? syntaxHighlighterOptions.showCopyButton
+        : false
+    const mdxContent = await serialize(text, {
+      scope,
+      mdxOptions: {
+        useDynamicImport: true,
+        remarkPlugins: [
+          [
+            remarkCodeHike,
+            {
+              theme: theme
+                ? require(`shiki/themes/${theme}.json`)
+                : defaultTheme,
+              autoImport: false,
+              lineNumbers,
+              showCopyButton,
+              // ...syntaxHighlighterOptions,
+            } as RemarkCodeHikePluginOptions,
+          ],
+        ],
+      },
+    })
+    return mdxContent
+  }
 }
 
 export default serializeMDX
