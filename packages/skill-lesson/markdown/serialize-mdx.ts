@@ -47,7 +47,7 @@ const serializeMDX = async (
   text: string,
   {
     scope,
-    syntaxHighlighter,
+    syntaxHighlighter = 'code-hike',
     shikiTwoslashPluginOptions,
     codeHikePluginOptions,
   }: SerializeMDXProps = {},
