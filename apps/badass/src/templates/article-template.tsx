@@ -148,28 +148,6 @@ const Header: React.FC<
   )
 }
 
-{
-  /* <header className="flex items-center justify-center pt-5 pb-10">
-  <div className="flex flex-col items-center px-5">
-    <h1 className="max-w-4xl sm:text-5xl text-4xl font-heading sm:leading-tight leading-tight text-center py-16">
-      <Balancer>{title}</Balancer>
-    </h1>
-    <div className="flex flex-col items-center w-full">
-      <div className="flex gap-10 pt-10 justify-center items-center w-full">
-        <Author />
-        <time dateTime={date} className="flex items-center">
-          <CalendarIcon aria-hidden="true" className="w-5" />{' '}
-          <span className="sr-only">published on </span>
-          <span className="pl-1">
-            {format(new Date(date), 'dd MMMM, y')}
-          </span>
-        </time>
-      </div>
-    </div>
-  </div>
-</header> */
-}
-
 const Share: React.FC<React.PropsWithChildren<{title: string}>> = ({title}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
