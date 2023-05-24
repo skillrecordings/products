@@ -132,7 +132,7 @@ const Header: React.FC<
         )}
         <div
           className={cx(
-            'mt-12 flex w-full items-center gap-10',
+            'mt-12 flex w-full items-center gap-7 sm:gap-10',
             image ? 'justify-center md:justify-start' : 'justify-center',
           )}
         >
