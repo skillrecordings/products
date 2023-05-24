@@ -24,7 +24,15 @@ type ArticleTemplateProps = {
 const ArticleTemplate: React.FC<
   React.PropsWithChildren<ArticleTemplateProps>
 > = ({article}) => {
-  const {title, description, body, _createdAt: date, video, image} = article
+  const {
+    title,
+    description,
+    body,
+    _createdAt: date,
+    video,
+    image,
+    ogImage,
+  } = article
   const shortDescription =
     description || (body && toPlainText(body).substring(0, 157) + '...')
 
@@ -41,7 +49,9 @@ const ArticleTemplate: React.FC<
         },
         url: `${process.env.NEXT_PUBLIC_URL}/${article.slug}`,
         ogImage: {
-          url: `https://badass-ogimage.vercel.app/api/card?title=${title}`,
+          url:
+            ogImage ||
+            `https://badass-ogimage.vercel.app/api/card?title=${title}`,
         },
       }}
     >
