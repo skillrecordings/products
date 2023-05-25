@@ -11,7 +11,6 @@
 @import './purchase-transfer.css';
 @import './portable-text.css';
 @import './team.css';
-@import './shiki-twoslash.css';
 
 @import './video/github-link.css';
 @import './video/lesson-completion-toggle.css';
@@ -22,6 +21,12 @@
 @import './video/video-transcript.css';
 
 @import '../search-bar/cmdk.css';
+
+/* NOTE: 
+shiki-twoslash styles are imported 
+only on pages that actually use it since 
+it doesn't go along well with prism-theme.css */
+/* @import './shiki-twoslash.css'; */
 
 @tailwind utilities;
 @import './focus-visible.css';
