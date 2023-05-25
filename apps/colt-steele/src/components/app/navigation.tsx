@@ -5,10 +5,10 @@ import {NextRouter, useRouter} from 'next/router'
 import cx from 'classnames'
 
 const links = [
-  // {
-  //   label: 'Free Tutorials',
-  //   href: '/tutorials',
-  // },
+  {
+    label: 'Free Tutorials',
+    href: '/tutorials',
+  },
   {
     label: 'Tips',
     href: '/tips',
