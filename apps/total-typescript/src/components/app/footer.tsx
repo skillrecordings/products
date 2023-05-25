@@ -39,6 +39,7 @@ const Footer: React.FC<FooterProps> = ({className}) => {
               <NavLink path="/tutorials" label="Free Tutorials" />
               <NavLink path="/tips" label="Tips" />
               <NavLink path="/articles" label="Articles" />
+              <NavLink path="/concepts" label="Concepts" />
               <NavLink path="/search" label="Search" />
             </ul>
           </div>
