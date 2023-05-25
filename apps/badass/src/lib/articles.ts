@@ -17,6 +17,7 @@ export const ArticleSchema = z.object({
     .optional()
     .nullable(),
   image: z.nullable(z.string()).optional(),
+  ogImage: z.nullable(z.string()).optional(),
   description: z.nullable(z.string()).optional(),
   body: z.any().array().nullable().optional(),
   summary: z.any().array().nullable().optional(),
@@ -40,7 +41,8 @@ export const getAllArticles = async (): Promise<Article[]> => {
         description,
         "image": image.asset->url,
         summary,
-        body
+        body,
+        "ogImage": ogImage.asset->url
   }`)
 
   return ArticlesSchema.parse(articles)
@@ -65,7 +67,8 @@ export const getArticle = async (
         description,
         "image": image.asset->url,
         summary,
-        body
+        body,
+        "ogImage": ogImage.url
     }`,
     {slug: `${slug}`},
   )

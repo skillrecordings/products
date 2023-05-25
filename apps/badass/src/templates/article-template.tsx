@@ -24,7 +24,15 @@ type ArticleTemplateProps = {
 const ArticleTemplate: React.FC<
   React.PropsWithChildren<ArticleTemplateProps>
 > = ({article}) => {
-  const {title, description, body, _createdAt: date, video, image} = article
+  const {
+    title,
+    description,
+    body,
+    _createdAt: date,
+    video,
+    image,
+    ogImage,
+  } = article
   const shortDescription =
     description || (body && toPlainText(body).substring(0, 157) + '...')
 
@@ -41,7 +49,9 @@ const ArticleTemplate: React.FC<
         },
         url: `${process.env.NEXT_PUBLIC_URL}/${article.slug}`,
         ogImage: {
-          url: `https://badass-ogimage.vercel.app/api/card?title=${title}`,
+          url:
+            ogImage ||
+            `https://badass-ogimage.vercel.app/api/card?title=${title}`,
         },
       }}
     >
@@ -122,7 +132,7 @@ const Header: React.FC<
         )}
         <div
           className={cx(
-            'mt-12 flex w-full items-center gap-10',
+            'mt-12 flex w-full items-center gap-7 sm:gap-10',
             image ? 'justify-center md:justify-start' : 'justify-center',
           )}
         >
@@ -136,28 +146,6 @@ const Header: React.FC<
       </div>
     </header>
   )
-}
-
-{
-  /* <header className="flex items-center justify-center pt-5 pb-10">
-  <div className="flex flex-col items-center px-5">
-    <h1 className="max-w-4xl sm:text-5xl text-4xl font-heading sm:leading-tight leading-tight text-center py-16">
-      <Balancer>{title}</Balancer>
-    </h1>
-    <div className="flex flex-col items-center w-full">
-      <div className="flex gap-10 pt-10 justify-center items-center w-full">
-        <Author />
-        <time dateTime={date} className="flex items-center">
-          <CalendarIcon aria-hidden="true" className="w-5" />{' '}
-          <span className="sr-only">published on </span>
-          <span className="pl-1">
-            {format(new Date(date), 'dd MMMM, y')}
-          </span>
-        </time>
-      </div>
-    </div>
-  </div>
-</header> */
 }
 
 const Share: React.FC<React.PropsWithChildren<{title: string}>> = ({title}) => {

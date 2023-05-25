@@ -32,7 +32,7 @@ type SectionProps = {
   padding?: boolean
 }
 
-const Section: React.FC<React.PropsWithChildren<SectionProps>> = ({
+export const Section: React.FC<React.PropsWithChildren<SectionProps>> = ({
   children,
   image,
   className,
@@ -67,7 +67,7 @@ type BlockquoteProps = {
   children: React.ReactNode
 }
 
-const Blockquote: React.FC<React.PropsWithChildren<BlockquoteProps>> = ({
+export const Blockquote: React.FC<React.PropsWithChildren<BlockquoteProps>> = ({
   children,
 }) => {
   return <blockquote className="not-prose">{children}</blockquote>
@@ -81,13 +81,9 @@ type TestimonialProps = {
   avatar?: string
 }
 
-const Testimonial: React.FC<React.PropsWithChildren<TestimonialProps>> = ({
-  children,
-  author,
-  className,
-  iconClassName,
-  avatar,
-}) => {
+export const Testimonial: React.FC<
+  React.PropsWithChildren<TestimonialProps>
+> = ({children, author, className, iconClassName, avatar}) => {
   return (
     <div className="not-prose">
       <blockquote
@@ -134,9 +130,9 @@ const Testimonial: React.FC<React.PropsWithChildren<TestimonialProps>> = ({
 
 type DividerProps = 'trees' | 'route'
 
-const Divider: React.FC<React.PropsWithChildren<{type: DividerProps}>> = ({
-  type,
-}) => {
+export const Divider: React.FC<
+  React.PropsWithChildren<{type: DividerProps}>
+> = ({type}) => {
   const getImageForType = (type: DividerProps) => {
     switch (type) {
       case 'trees':
@@ -166,7 +162,7 @@ type ListProps = {
   children: React.ReactNode
 }
 
-const ListOfQuestions: React.FC<React.PropsWithChildren<ListProps>> = ({
+export const ListOfQuestions: React.FC<React.PropsWithChildren<ListProps>> = ({
   children,
 }) => {
   const childrenArr = React.Children.toArray(children)
@@ -198,7 +194,7 @@ type PlansGridProps = {
   }[]
 }
 
-const PlansGrid: React.FC<React.PropsWithChildren<PlansGridProps>> = ({
+export const PlansGrid: React.FC<React.PropsWithChildren<PlansGridProps>> = ({
   columns,
 }) => {
   return (
@@ -238,7 +234,9 @@ type StepsProps = {
   }[]
 }
 
-const Steps: React.FC<React.PropsWithChildren<StepsProps>> = ({data}) => {
+export const Steps: React.FC<React.PropsWithChildren<StepsProps>> = ({
+  data,
+}) => {
   return (
     <div className="not-prose max-w-screen-sm mx-auto px-5">
       <ul className="space-y-12">
@@ -269,13 +267,13 @@ type StepProps = {
   title: string
 }
 
-const Step: React.FC<React.PropsWithChildren<StepProps>> = ({title}) => {
+export const Step: React.FC<React.PropsWithChildren<StepProps>> = ({title}) => {
   return <li>{title}</li>
 }
 
 type WorkshopsListProps = {}
 
-const WorkshopsList: React.FC<
+export const WorkshopsList: React.FC<
   React.PropsWithChildren<WorkshopsListProps>
 > = () => {
   return (

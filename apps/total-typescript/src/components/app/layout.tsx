@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
 import Navigation from '@/components/app/navigation'
-import cx from 'classnames'
+import {twMerge} from 'tailwind-merge'
 import isNull from 'lodash/isNull'
 import {Toaster} from 'react-hot-toast'
 import {useRouter} from 'next/router'
@@ -31,6 +31,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
 }) => {
   const router = useRouter()
   const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
+
   const {
     title,
     description,
@@ -71,8 +72,8 @@ const Layout: FunctionComponent<LayoutProps> = ({
       {isFeedbackDialogOpen && feedbackComponent}
       {nav ? nav : isNull(nav) ? null : <Navigation />}
       <div
-        className={cx(
-          'flex h-full min-h-screen flex-grow flex-col ',
+        className={twMerge(
+          'flex h-full min-h-screen flex-grow flex-col',
           className,
         )}
       >

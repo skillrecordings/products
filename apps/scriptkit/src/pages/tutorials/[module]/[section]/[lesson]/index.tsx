@@ -24,7 +24,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const lessonBody =
     typeof lesson.body === 'string' &&
     lesson.body &&
-    (await serializeMDX(lesson.body, {theme: 'material-theme-darker'}))
+    (await serializeMDX(lesson.body, {
+      syntaxHighlighterOptions: {theme: 'material-theme-darker'},
+    }))
   const lessonBodyPreview =
     typeof lesson.body === 'string' &&
     lesson.body &&

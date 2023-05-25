@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^1.3.0",
-    "@code-hike/mdx": "0.8.2",
     "@codesandbox/sandpack-react": "^2.6.5",
     "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.6",
@@ -90,6 +89,7 @@
     "next": "^13.4.3",
     "next-auth": "^4.22.1",
     "next-mdx-remote": "=4.2.0",
+    "remark-shiki-twoslash": "^3.1.3",
     "next-sitemap": "^3.0.5",
     "nodemailer": "^6.7.2",
     "nodemailer-postmark-transport": "^5.2.1",

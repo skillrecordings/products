@@ -25,14 +25,18 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const solutionBody =
     typeof exercise?.solution?.body === 'string' &&
     (await serializeMDX(exercise.solution.body, {
-      theme: 'light-plus',
-      showCopyButton: true,
+      syntaxHighlighterOptions: {
+        theme: 'light-plus',
+        showCopyButton: true,
+      },
     }))
   const solutionBodyPreview =
     typeof exercise?.solution?.body === 'string' &&
     (await serializeMDX(exercise.solution.body.substring(0, 300), {
-      theme: 'light-plus',
-      showCopyButton: true,
+      syntaxHighlighterOptions: {
+        theme: 'light-plus',
+        showCopyButton: true,
+      },
     }))
 
   return {
