@@ -58,16 +58,16 @@ const serializeMDX = async (
     const mdxContent = await serialize(text, {
       scope,
       mdxOptions: {
-        // useDynamicImport: true,
+        useDynamicImport: true,
         rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}]],
         remarkPlugins: [
           [
             remarkShikiTwoslash,
             {
+              ...syntaxHighlighterOptions,
               theme: theme
                 ? require(`shiki/themes/${theme}.json`)
                 : defaultTheme,
-              ...syntaxHighlighterOptions,
             } as RemarkShikiTwoslashPluginOptions,
           ],
         ],
