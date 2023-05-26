@@ -18,10 +18,14 @@ const trackRoute = async (req: NextApiRequest, res: NextApiResponse) => {
   // Get track event and properties from request body
   const {event, properties, device}: TrackPayload = req.body
   console.debug(`track ${event}`, properties, device)
-  track(event, properties, device)
+  const response = await track(event, properties, device).promise.catch(
+    (err) => {
+      console.error(err)
+      res.status(500).json({error: err})
+    },
+  )
 
-  // Send back a 200 response
-  res.status(200).json({status: 'ok'})
+  res.status(200).json(response)
 }
 
 export default trackRoute
