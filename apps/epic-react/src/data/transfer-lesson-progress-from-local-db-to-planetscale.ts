@@ -15,6 +15,7 @@
 import fs from 'fs'
 import {z} from 'zod'
 import chunk from 'lodash/chunk'
+import last from 'lodash/last'
 import {prisma as localPrismaClient} from '@skillrecordings/database'
 import {PrismaClient} from '@prisma/client'
 
@@ -65,16 +66,6 @@ type Options = {
 }
 
 const chunkRecords = <T>(records: Array<T>): Array<[Array<T>, number]> => {
-  // const indexer = <T>(
-  //   result: Array<[Array<T>, number]>,
-  //   value: Array<T>,
-  //   index: number,
-  // ) => {
-  //   const tuple: [Array<T>, number] = [value, index]
-  //   return [...result, tuple]
-  // }
-
-  // return reduce(chunk(records, 1000), indexer, [])
   return chunk(records, 1000).map((recordChunk, index) => [recordChunk, index])
 }
 
@@ -169,65 +160,107 @@ const transferLessonProgress = async () => {
 
   console.log(`There are ${datesWithProgress.length} dates to process`)
 
-  for (const dateWithProgress of datesWithProgress) {
-    // if we have a starting point, then there are dates we have already
-    // processed that we can skip past.
-    if (!!startingPoint && dateWithProgress.date < startingPoint) {
-      continue
+  let zeroRecordRetries = 0
+  let numberOfResultsProcessedThisRun = 0
+  let mostRecentDateProcessed: string | null = null
+
+  while (true) {
+    const justStartingScript = mostRecentDateProcessed === null
+    // Conditions when the keepProcessing would switch to `false`:
+    if (!justStartingScript) {
+      const lastDateToProcess = last(datesWithProgress)?.date
+
+      // - if everything has been processed
+      //   keep going if we haven't processed the last date to process
+      if (mostRecentDateProcessed === lastDateToProcess) {
+        console.log('* BREAK - we have processed the last date.')
+        break
+      }
+
+      // - if the previous run processed 0 records (or last 3 runs?)
+      if (zeroRecordRetries === 3 && numberOfResultsProcessedThisRun === 0) {
+        zeroRecordRetries += 1
+
+        if (zeroRecordRetries >= 3) {
+          console.log('* BREAK - we did not process any new records last run')
+
+          fs.writeFileSync(
+            startingPointFile,
+            `${startingPoint},${startingCursor}`,
+          )
+
+          break
+        }
+      }
     }
 
-    console.log(`- Now processing ${dateWithProgress.date}`)
+    numberOfResultsProcessedThisRun = 0
 
-    try {
-      const recordsForGivenDate: any = await localPrismaClient.$queryRaw`
+    for (const dateWithProgress of datesWithProgress) {
+      // if we have a starting point, then there are dates we have already
+      // processed that we can skip past.
+      if (!!startingPoint && dateWithProgress.date < startingPoint) {
+        continue
+      }
+
+      console.log(`- Now processing ${dateWithProgress.date}`)
+
+      mostRecentDateProcessed = dateWithProgress.date
+
+      try {
+        const recordsForGivenDate: any = await localPrismaClient.$queryRaw`
         select *
           from LessonProgress
         where date(createdAt) = ${dateWithProgress.date}
         order by createdAt asc;
       `
 
-      const parsedLessonProgressRecords =
-        LessonProgressRecordsSchema.parse(recordsForGivenDate)
+        const parsedLessonProgressRecords =
+          LessonProgressRecordsSchema.parse(recordsForGivenDate)
 
-      console.log(
-        `  there are ${parsedLessonProgressRecords.length} for this date`,
-      )
-
-      const options = {
-        startingCursor,
-        startingPoint,
-        currentPoint: dateWithProgress.date,
-      }
-
-      const createResult = await createManyInChunks(
-        parsedLessonProgressRecords,
-        options,
-      )
-
-      console.log(`  created ${createResult.count} new records`)
-
-      if (createResult.status === 'failure') {
         console.log(
-          `  failed during batch inserts at cursor ${createResult.cursor}`,
+          `  there are ${parsedLessonProgressRecords.length} for this date`,
         )
 
-        fs.writeFileSync(
-          startingPointFile,
-          `${dateWithProgress.date},${createResult.cursor || 0}`,
+        const options = {
+          startingCursor,
+          startingPoint,
+          currentPoint: dateWithProgress.date,
+        }
+
+        const createResult = await createManyInChunks(
+          parsedLessonProgressRecords,
+          options,
         )
 
-        process.exit(1)
+        console.log(`  created ${createResult.count} new records`)
+
+        if (createResult.status === 'failure') {
+          console.log(
+            `  failed during batch inserts at cursor ${createResult.cursor}`,
+          )
+
+          startingPoint = dateWithProgress.date
+          startingCursor = createResult.cursor || 0
+
+          break
+        }
+
+        zeroRecordRetries = 0
+        numberOfResultsProcessedThisRun += createResult.count
+
+        // if this succeeds, great continue,
+        // if it fails, record the date because we want to pick up where we left off
+      } catch (e) {
+        console.log(`  failed outside of a batch create in the outer try/catch`)
+
+        startingPoint = dateWithProgress.date
+        // we can't know what the cursor is here, it should probably be reset
+        // to 0
+        startingCursor = 0
+
+        break
       }
-
-      // if this succeeds, great continue,
-      // if it fails, record the date because we want to pick up where we left off
-    } catch (e) {
-      console.log(`Error: ${e}`)
-
-      // write this to a file
-      fs.writeFileSync(startingPointFile, dateWithProgress.date)
-
-      throw e
     }
   }
 }
