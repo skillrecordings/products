@@ -21,6 +21,7 @@ export default async function handleCreateOgImage(req: NextRequest) {
     const title = searchParams.get('title')
     const subtitle = searchParams.get('subtitle')
     const image = searchParams.get('image')
+    console.log({image})
 
     const OgImageTemplate = () => {
       const backgroundImage =
@@ -43,8 +44,8 @@ export default async function handleCreateOgImage(req: NextRequest) {
               }}
             />
           ) : (
-            <div tw="flex w-80 absolute top-20 right-8">
-              <img src={backgroundImage} alt="" tw="block w-full" />
+            <div tw="flex w-64 absolute top-0 right-0">
+              <Image src={backgroundImage} width={248} height={358} alt="" />
             </div>
           )}
           <div tw="pl-8 pt-20 flex flex-col relative">
