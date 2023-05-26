@@ -1,12 +1,22 @@
 // Running this script (Epic React):
 //
-// TODO: Update these details!!!
-// Ensure you have the `PURCHASE_DATA_IMPORT_FILE_PATH` env var (in
-// `.env.local`) set to the location of the Epic React purchase data JSON
-// export. If this file hasn't been exported yet, follow the instructions here:
-// https://github.com/skillrecordings/egghead-rails/blob/main/docs/export-kcd-products-data.md
+// 1) ensure you have loaded all the exported LessonProgress data into a
+// local/docker DB at 3309.
+// 2) ensure there is a connection open to PlanetScale at 3399. If this is a
+// test run, then make sure you are pointing at a non-main branch. If it is a
+// production run, ensure you are pointing at main.
 //
-// Execute the Purchase Import like so:
+// ```
+// # not prod
+// $ pscale connect kcd-products staging-er-data --port 3399 --host "::1"
+//
+// # prod
+// $ pscale connect kcd-products main --port 3399 --host "::1"
+// ```
+//
+// 3) `rm starting-point.txt` if it exists, you only want that for restarting
+// the script at an intermediate point.
+// 4) run the script with `npx` like so:
 //
 // ```
 // npx ts-node --files --skipProject src/data/transfer-lesson-progress-from-local-db-to-planetscale.ts
