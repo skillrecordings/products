@@ -46,7 +46,7 @@ const ArticleTemplate: React.FC<
     shareCardSubtitle &&
     `/api/og-image/?title=${encodeURI(shareCardTitle)}&subtitle=${encodeURI(
       shareCardSubtitle,
-    )}${shareCardImage ? `&image=${shareCardImage || image}` : ''}`
+    )}${shareCardImage || image ? `&image=${shareCardImage || image}` : ''}`
 
   const shareCardUrlFallback = `https://badass-ogimage.vercel.app/api/card?title=${title}`
 
