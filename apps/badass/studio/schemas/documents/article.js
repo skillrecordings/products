@@ -70,6 +70,32 @@ export default {
       description: '1200x630',
     },
     {
+      name: 'ogImageData',
+      title: 'Share Card data',
+      type: 'object',
+      fields: [
+        {
+          name: 'title',
+          title: 'Title',
+          type: 'string',
+          // validation: (Rule) => Rule.required().max(30),
+          description: 'max 30 chars',
+        },
+        {
+          name: 'subtitle',
+          title: 'Subtitle',
+          type: 'string',
+          // validation: (Rule) => Rule.required(),
+        },
+        {
+          name: 'ogImage',
+          title: 'Image',
+          type: 'externalImage',
+          description: 'Optional. 628x628 px',
+        },
+      ],
+    },
+    {
       name: 'description',
       title: 'Short Description',
       description: 'Used as a short "SEO" summary on Twitter cards etc.',
