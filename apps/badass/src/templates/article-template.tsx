@@ -31,12 +31,22 @@ const ArticleTemplate: React.FC<
     _createdAt: date,
     video,
     image,
-    ogImage,
-    // ogImageData,
+    shareCardData,
   } = article
-  // const {title: ogImageTitle, subtitle: ogImageSubtitle, image} = ogImageData
+  const {
+    title: shareCardTitle,
+    subtitle: shareCardSubtitle,
+    image: shareCardImage,
+  } = shareCardData
   const shortDescription =
     description || (body && toPlainText(body).substring(0, 157) + '...')
+
+  const shareCardUrl =
+    shareCardTitle &&
+    shareCardSubtitle &&
+    `/api/og-image/?title=${encodeURI(shareCardTitle)}&subtitle=${encodeURI(
+      shareCardSubtitle,
+    )}${shareCardImage ? `&image=${shareCardImage}` : ''}`
 
   return (
     <Layout
@@ -52,21 +62,9 @@ const ArticleTemplate: React.FC<
         url: `${process.env.NEXT_PUBLIC_URL}/${article.slug}`,
         ogImage: {
           url:
-            ogImage ||
+            shareCardUrl ||
             `https://badass-ogimage.vercel.app/api/card?title=${title}`,
         },
-        // url: `${process.env.NEXT_PUBLIC_URL}/${article.slug}`,
-        // ogImage: {
-        //   url: `/api/og-image/?${
-        //     shareCardData?.title
-        //       ? `title=${encodeURI(shareCardData.title)}`
-        //       : ''
-        //   }${
-        //     shareCardData?.subtitle
-        //       ? `&subtitle=${encodeURI(shareCardData.subtitle)}`
-        //       : ''
-        //   }${image ? `&image=${image}` : ''}`,
-        // },
       }}
     >
       <Header
