@@ -48,6 +48,8 @@ const ArticleTemplate: React.FC<
       shareCardSubtitle,
     )}${shareCardImage ? `&image=${shareCardImage}` : ''}`
 
+  const shareCardUrlFallback = `https://badass-ogimage.vercel.app/api/card?title=${title}`
+
   return (
     <Layout
       className="overflow-hidden"
@@ -61,9 +63,7 @@ const ArticleTemplate: React.FC<
         },
         url: `${process.env.NEXT_PUBLIC_URL}/${article.slug}`,
         ogImage: {
-          url:
-            shareCardUrl ||
-            `https://badass-ogimage.vercel.app/api/card?title=${title}`,
+          url: shareCardUrl || shareCardUrlFallback,
         },
       }}
     >
