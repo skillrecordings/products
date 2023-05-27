@@ -67,7 +67,6 @@ export default async function handleCreateOgImage(req: NextRequest) {
                   tw="text-8xl text-white"
                   style={{
                     fontFamily: 'Espiritu Regular',
-                    wordBreak: 'break-all',
                   }}
                 >
                   {decodeURI(title)}
