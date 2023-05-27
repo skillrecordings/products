@@ -69,7 +69,7 @@ export default async function handleCreateOgImage(req: NextRequest) {
                     fontFamily: 'Espiritu Regular',
                   }}
                 >
-                  {decodeURI(title)}
+                  {title}
                   {/* <Balancer>{decodeURI(title)}</Balancer> */}
                 </h2>
               )}
@@ -78,7 +78,7 @@ export default async function handleCreateOgImage(req: NextRequest) {
                   tw="text-[2.5rem] text-[#FDB854] tracking-wide"
                   style={{fontFamily: 'Espiritu Condensed'}}
                 >
-                  {decodeURI(subtitle)}
+                  {subtitle}
                 </h3>
               )}
             </div>
