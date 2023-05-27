@@ -16,6 +16,11 @@ export const ArticleSchema = z.object({
     })
     .optional()
     .nullable(),
+  ogImageData: z.object({
+    title: z.nullable(z.string()).optional(),
+    subtitle: z.nullable(z.string()).optional(),
+    ogImage: z.nullable(z.string()).optional(),
+  }),
   image: z.nullable(z.string()).optional(),
   ogImage: z.nullable(z.string()).optional(),
   description: z.nullable(z.string()).optional(),
@@ -42,7 +47,12 @@ export const getAllArticles = async (): Promise<Article[]> => {
         "image": image.asset->url,
         summary,
         body,
-        "ogImage": ogImage.asset->url
+        "ogImage": ogImage.url,
+        "ogImageData": {
+          "title": ogImageData.title,
+          "subtitle": ogImageData.subtitle,
+          "ogImage": ogImageData.ogImage.url
+        }
   }`)
 
   return ArticlesSchema.parse(articles)
@@ -68,7 +78,12 @@ export const getArticle = async (
         "image": image.asset->url,
         summary,
         body,
-        "ogImage": ogImage.url
+        "ogImage": ogImage.url,
+        "ogImageData": {
+          "title": ogImageData.title,
+          "subtitle": ogImageData.subtitle,
+          "ogImage": ogImageData.ogImage.url
+        }
     }`,
     {slug: `${slug}`},
   )
