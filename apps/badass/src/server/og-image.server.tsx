@@ -1,7 +1,6 @@
 import {ImageResponse} from '@vercel/og'
-import Image from 'next/image'
 import {type NextRequest} from 'next/server'
-import Balancer from 'react-wrap-balancer'
+// import Balancer from 'react-wrap-balancer'
 
 const fontRegular = fetch(
   new URL('../../public/fonts/Espiritu-Regular.woff', import.meta.url),
@@ -31,20 +30,18 @@ export default async function handleCreateOgImage(req: NextRequest) {
           tw="flex w-full relative h-full"
           style={{backgroundColor: '#040308'}}
         >
-          {/* &image=https%3A%2F%2Fres.cloudinary.com%2Fbadass-courses%2Fimage%2Fupload%2Fv1684982685%2Fog-images%2Ftest2_gp06g1.png */}
           {image ? (
             <div
-              tw="flex w-[760px] h-full absolute right-0 top-0"
+              tw="flex w-[630px] h-[630px] absolute right-0 top-0"
               style={{
                 backgroundImage: `url(${image})`,
+                backgroundPosition: 'right 50px',
                 backgroundRepeat: 'no-repeat',
-                backgroundSize: '100%',
-                backgroundPosition: '0 0',
               }}
             />
           ) : (
             <div tw="flex w-80 absolute top-20 right-8">
-              <img src={backgroundImage} alt="" tw="block w-full" />
+              <img src={backgroundImage} alt="" tw="flex w-full" />
             </div>
           )}
           <div tw="pl-8 pt-20 flex flex-col relative">
@@ -52,7 +49,7 @@ export default async function handleCreateOgImage(req: NextRequest) {
               <img
                 src="https://res.cloudinary.com/badass-courses/image/upload/v1684983712/og-images/skull_2x_pk3ph8.png"
                 alt="badass logo"
-                tw="block h-[128px] w-[128px]"
+                tw="flex h-[128px] w-[128px]"
               />
               <div tw="flex items-baseline">
                 <div tw="text-[3rem] text-white leading-none">Badass</div>
@@ -64,20 +61,27 @@ export default async function handleCreateOgImage(req: NextRequest) {
                 </div>
               </div>
             </div>
-            <div tw="flex flex-col items-center max-w-[880px] text-center">
-              <h2
-                tw="text-8xl text-white"
-                style={{fontFamily: 'Espiritu Regular'}}
-              >
-                {title}
-                {/* <Balancer>{title}</Balancer> */}
-              </h2>
-              <h3
-                tw="text-[2.5rem] text-[#FDB854] tracking-wide"
-                style={{fontFamily: 'Espiritu Condensed'}}
-              >
-                {subtitle}
-              </h3>
+            <div tw="flex flex-col items-center w-[880px] text-center">
+              {title && (
+                <h2
+                  tw="text-8xl text-white"
+                  style={{
+                    fontFamily: 'Espiritu Regular',
+                    wordBreak: 'break-all',
+                  }}
+                >
+                  {decodeURI(title)}
+                  {/* <Balancer>{decodeURI(title)}</Balancer> */}
+                </h2>
+              )}
+              {subtitle && (
+                <h3
+                  tw="text-[2.5rem] text-[#FDB854] tracking-wide"
+                  style={{fontFamily: 'Espiritu Condensed'}}
+                >
+                  {decodeURI(subtitle)}
+                </h3>
+              )}
             </div>
           </div>
         </div>

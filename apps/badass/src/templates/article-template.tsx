@@ -32,7 +32,9 @@ const ArticleTemplate: React.FC<
     video,
     image,
     ogImage,
+    // ogImageData,
   } = article
+  // const {title: ogImageTitle, subtitle: ogImageSubtitle, image} = ogImageData
   const shortDescription =
     description || (body && toPlainText(body).substring(0, 157) + '...')
 
@@ -53,6 +55,18 @@ const ArticleTemplate: React.FC<
             ogImage ||
             `https://badass-ogimage.vercel.app/api/card?title=${title}`,
         },
+        // url: `${process.env.NEXT_PUBLIC_URL}/${article.slug}`,
+        // ogImage: {
+        //   url: `/api/og-image/?${
+        //     shareCardData?.title
+        //       ? `title=${encodeURI(shareCardData.title)}`
+        //       : ''
+        //   }${
+        //     shareCardData?.subtitle
+        //       ? `&subtitle=${encodeURI(shareCardData.subtitle)}`
+        //       : ''
+        //   }${image ? `&image=${image}` : ''}`,
+        // },
       }}
     >
       <Header
