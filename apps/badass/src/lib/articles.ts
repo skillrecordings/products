@@ -22,7 +22,6 @@ export const ArticleSchema = z.object({
     image: z.nullable(z.string()).optional(),
   }),
   image: z.nullable(z.string()).optional(),
-  ogImage: z.nullable(z.string()).optional(),
   description: z.nullable(z.string()).optional(),
   body: z.any().array().nullable().optional(),
   summary: z.any().array().nullable().optional(),
@@ -47,7 +46,6 @@ export const getAllArticles = async (): Promise<Article[]> => {
         "image": image.asset->url,
         summary,
         body,
-        "ogImage": ogImage.url,
         "shareCardData": {
           "title": ogImageData.title,
           "subtitle": ogImageData.subtitle,
@@ -78,7 +76,6 @@ export const getArticle = async (
         "image": image.asset->url,
         summary,
         body,
-        "ogImage": ogImage.url,
         "shareCardData": {
           "title": ogImageData.title,
           "subtitle": ogImageData.subtitle,
