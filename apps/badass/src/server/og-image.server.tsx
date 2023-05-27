@@ -37,6 +37,7 @@ export default async function handleCreateOgImage(req: NextRequest) {
                 backgroundImage: `url(${image})`,
                 backgroundPosition: 'right 50px',
                 backgroundRepeat: 'no-repeat',
+                backgroundSize: '100% 100%',
               }}
             />
           ) : (
