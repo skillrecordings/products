@@ -64,14 +64,8 @@ export default {
       type: 'body',
     },
     {
-      name: 'ogImage',
-      title: 'Share Card',
-      type: 'externalImage',
-      description: '1200x630',
-    },
-    {
-      name: 'ogImageData',
-      title: 'Share Card data',
+      name: 'shareCardDetails',
+      title: 'Share Card details',
       type: 'object',
       fields: [
         {
@@ -86,7 +80,7 @@ export default {
           type: 'string',
         },
         {
-          name: 'ogImage',
+          name: 'image',
           title: 'Image',
           type: 'externalImage',
           description: 'Optional. Should have 1:1 aspect ratio',

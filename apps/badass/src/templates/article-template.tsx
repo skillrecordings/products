@@ -3,7 +3,6 @@ import cx from 'classnames'
 import {PortableText, toPlainText} from '@portabletext/react'
 import {LinkedIn, Twitter} from '@skillrecordings/react'
 import {CalendarIcon} from '@heroicons/react/outline'
-import {SanityDocument} from '@sanity/client'
 import Markdown from 'react-markdown'
 import {useRouter} from 'next/router'
 import {format} from 'date-fns'
@@ -31,13 +30,14 @@ const ArticleTemplate: React.FC<
     _createdAt: date,
     video,
     image,
-    shareCardData,
+    shareCardDetails,
   } = article
   const {
     title: shareCardTitle,
     subtitle: shareCardSubtitle,
     image: shareCardImage,
-  } = shareCardData
+  } = shareCardDetails
+
   const shortDescription =
     description || (body && toPlainText(body).substring(0, 157) + '...')
 
