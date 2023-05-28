@@ -16,7 +16,7 @@ export const ArticleSchema = z.object({
     })
     .optional()
     .nullable(),
-  shareCardData: z.object({
+  shareCardDetails: z.object({
     title: z.nullable(z.string()).optional(),
     subtitle: z.nullable(z.string()).optional(),
     image: z.nullable(z.string()).optional(),
@@ -46,10 +46,10 @@ export const getAllArticles = async (): Promise<Article[]> => {
         "image": image.asset->url,
         summary,
         body,
-        "shareCardData": {
-          "title": ogImageData.title,
-          "subtitle": ogImageData.subtitle,
-          "image": ogImageData.ogImage.url
+        "shareCardDetails": {
+          "title": shareCardDetails.title,
+          "subtitle": shareCardDetails.subtitle,
+          "image": shareCardDetails.image.url
         }
   }`)
 
@@ -76,10 +76,10 @@ export const getArticle = async (
         "image": image.asset->url,
         summary,
         body,
-        "shareCardData": {
-          "title": ogImageData.title,
-          "subtitle": ogImageData.subtitle,
-          "image": ogImageData.ogImage.url
+        "shareCardDetails": {
+          "title": shareCardDetails.title,
+          "subtitle": shareCardDetails.subtitle,
+          "image": shareCardDetails.image.url
         }
     }`,
     {slug: `${slug}`},
