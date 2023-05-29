@@ -11,8 +11,8 @@ export const ArticleSchema = z.object({
   slug: z.string(),
   image: z.nullable(z.string()).optional(),
   description: z.nullable(z.string()).optional(),
-  body: z.any().array().nullable().optional(),
-  summary: z.any().array().nullable().optional(),
+  body: z.string().nullable().optional(),
+  summary: z.string().nullable().optional(),
   state: z.enum(['published', 'draft']),
 })
 
@@ -54,16 +54,7 @@ export const getArticle = async (
         description,
         "image": image.asset->url,
         summary,
-        body[]{
-          ...,
-          _type == "bodyTweet" => {
-            ...,
-            author {
-              ...,
-              "avatar": avatar.asset->url,
-            }
-        }
-        },
+        body
     }`,
     {slug: `${slug}`},
   )

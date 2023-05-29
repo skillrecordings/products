@@ -1,9 +1,10 @@
-import {toPlainText} from '@portabletext/react'
 import Layout from '@/components/app/layout'
 import {Article, getAllArticles} from '@/lib/articles'
 import {drop, first} from 'lodash'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
+import ReactMarkdown from 'react-markdown'
+import cx from 'classnames'
 
 export async function getStaticProps() {
   const articles = await getAllArticles()
@@ -42,8 +43,8 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
         {latestArticle && (
           <article className="w-full" key={latestArticle.slug}>
             <Link href={latestArticle.slug} className="group block">
-              <div className="relative aspect-video overflow-hidden rounded-lg border border-gray-800/60 sm:border-none">
-                {latestArticle.image && (
+              {latestArticle.image && (
+                <div className="relative aspect-video overflow-hidden rounded-lg border border-gray-800/60 sm:border-none">
                   <Image
                     className="scale-150 transition duration-500 ease-in-out sm:scale-100 sm:group-hover:scale-105"
                     src={latestArticle.image}
@@ -53,18 +54,29 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
                     quality={100}
                     priority
                   />
+                </div>
+              )}
+              <h2
+                className={cx(
+                  'max-w-3xl font-text text-3xl font-bold sm:text-4xl',
+                  {
+                    'pt-10': latestArticle.image,
+                  },
                 )}
-              </div>
-              <h2 className="max-w-3xl pt-10 font-text text-3xl font-bold sm:text-4xl">
+              >
                 {latestArticle.title}
               </h2>
-              <p className="max-w-xl pt-5 leading-relaxed text-gray-300">
-                {latestArticle.summary
-                  ? toPlainText(latestArticle.summary)
-                  : latestArticle.body
-                  ? toPlainText(latestArticle.body).slice(0, 400)
-                  : ''}
-              </p>
+              <div className="max-w-xl pt-5 leading-relaxed text-gray-300">
+                {latestArticle.summary ? (
+                  <ReactMarkdown>{latestArticle.summary}</ReactMarkdown>
+                ) : latestArticle.body ? (
+                  <ReactMarkdown>
+                    {latestArticle.body.slice(0, 400)}
+                  </ReactMarkdown>
+                ) : (
+                  ''
+                )}
+              </div>
               <Author />
             </Link>
           </article>
@@ -85,18 +97,13 @@ type ArticleTeaserProps = {
 }
 
 export const ArticleTeaser: React.FC<ArticleTeaserProps> = ({article}) => {
-  const {title, summary: _summary, body, image} = article
-  const summary = _summary
-    ? toPlainText(_summary)
-    : body
-    ? toPlainText(body).slice(0, 400)
-    : ''
+  const {title, summary, body, image} = article
 
   return (
     <article className="w-full">
       <Link href={article.slug} className="group block">
-        <div className="relative aspect-video overflow-hidden rounded-lg border border-gray-800/60">
-          {image && (
+        {image && (
+          <div className="relative aspect-video overflow-hidden rounded-lg border border-gray-800/60">
             <Image
               className="scale-150 transition duration-500 ease-in-out sm:scale-125 sm:group-hover:scale-150"
               src={image}
@@ -105,10 +112,30 @@ export const ArticleTeaser: React.FC<ArticleTeaserProps> = ({article}) => {
               layout="fill"
               quality={100}
             />
+          </div>
+        )}
+        <h2 className="pt-5 font-text text-3xl font-bold">{title}</h2>
+        <div className="pt-3 leading-relaxed text-gray-300">
+          {summary ? (
+            <ReactMarkdown
+              components={{
+                a: ({children}) => <span>{children}</span>,
+              }}
+            >
+              {summary}
+            </ReactMarkdown>
+          ) : body ? (
+            <ReactMarkdown
+              components={{
+                a: ({children}) => <span>{children}</span>,
+              }}
+            >
+              {body.slice(0, 400)}
+            </ReactMarkdown>
+          ) : (
+            ''
           )}
         </div>
-        <h2 className="pt-5 font-text text-3xl font-bold">{title}</h2>
-        <p className="pt-3 leading-relaxed text-gray-300">{summary}</p>
         <Author />
       </Link>
     </article>
