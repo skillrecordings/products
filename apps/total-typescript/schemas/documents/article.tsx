@@ -45,12 +45,12 @@ export default {
     {
       name: 'body',
       title: 'Body',
-      type: 'body',
+      type: 'markdown',
     },
     {
       name: 'summary',
       title: 'Summary',
-      type: 'body',
+      type: 'markdown',
     },
     {
       name: 'image',

@@ -23,9 +23,8 @@
 @import '../search-bar/cmdk.css';
 
 /* NOTE: 
-shiki-twoslash styles are imported 
-only on pages that actually use it since 
-it doesn't go along well with prism-theme.css */
+shiki-twoslash styles are imported on page level
+since they tend to clash with prism-theme.css */
 /* @import './shiki-twoslash.css'; */
 
 @tailwind utilities;
