@@ -76,7 +76,7 @@ pre.twoslash data-lsp:hover::before {
   position: absolute;
   transform: translate(0, 1rem);
 
-  background-color: #3f3f3f;
+  @apply bg-gray-600;
   color: #fff;
   text-align: left;
   padding: 5px 8px;
@@ -157,13 +157,13 @@ pre .error-behind {
   display: block;
 }
 pre .error {
+  @apply bg-gray-700 text-red-50;
   position: absolute;
-  background-color: #fee;
-  border-left: 2px solid #bf1818;
+  border-left: 4px solid #bf1818;
   /* Give the space to the error code */
   display: flex;
   align-items: center;
-  color: black;
+  
 }
 pre .error .code {
   display: none;
@@ -171,7 +171,7 @@ pre .error .code {
 pre .error-behind {
   user-select: none;
   visibility: transparent;
-  color: #fee;
+  @apply text-red-900;
 }
 /* Queries */
 pre .arrow {
@@ -298,16 +298,16 @@ pre .logger svg {
   margin-right: 9px;
 }
 pre .logger.error-log {
-  background-color: #fee;
-  border-left: 2px solid #bf1818;
+  @apply bg-gray-700;
+  border-left: 4px solid #bf1818;
 }
 pre .logger.warn-log {
   background-color: #ffe;
-  border-left: 2px solid #eae662;
+  border-left: 4px solid #eae662;
 }
 pre .logger.log-log {
   background-color: #e9e9e9;
-  border-left: 2px solid #ababab;
+  border-left: 4px solid #ababab;
 }
 pre .logger.log-log svg {
   margin-left: 6px;
