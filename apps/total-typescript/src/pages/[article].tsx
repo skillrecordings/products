@@ -1,6 +1,8 @@
 import {Article, getAllArticles, getArticle} from '@/lib/articles'
 import {GetStaticPaths, GetStaticProps, NextPage} from 'next'
 import ArticleTemplate from '@/templates/article-template'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const article = await getArticle(params?.article as string)
@@ -10,6 +12,16 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       notFound: true,
     }
   }
+  const articleBody =
+    article.body &&
+    (await serializeMDX(article.body, {
+      useShikiTwoslash: true,
+      syntaxHighlighterOptions: {
+        theme: 'dark-plus',
+      },
+    }))
+
+  console.log(articleBody)
 
   const articles = (await getAllArticles()).filter(
     (a) => a.slug !== article.slug,
@@ -18,6 +30,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   return {
     props: {
       article,
+      articleBody,
       articles,
     },
     revalidate: 10,
@@ -35,10 +48,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export type ArticlePageProps = {
   article: Article
   articles: Article[]
+  articleBody: MDXRemoteSerializeResult
 }
 
-const Article: NextPage<ArticlePageProps> = ({article, articles}) => {
-  return <ArticleTemplate article={article} articles={articles} />
+const Article: NextPage<ArticlePageProps> = ({
+  article,
+  articleBody,
+  articles,
+}) => {
+  return (
+    <ArticleTemplate
+      article={article}
+      articleBody={articleBody}
+      articles={articles}
+    />
+  )
 }
 
 export default Article

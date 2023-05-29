@@ -1,26 +1,26 @@
 import Layout from '@/components/app/layout'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {Article} from '@/lib/articles'
-import {PortableText, toPlainText} from '@portabletext/react'
 import Image from 'next/legacy/image'
 import Share from '@/components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import {
-  ArticleNewsletterCta,
-  PrimaryNewsletterCta,
-} from '@/components/primary-newsletter-cta'
+import {ArticleNewsletterCta} from '@/components/primary-newsletter-cta'
 import {format} from 'date-fns'
 import {ArticleTeaser} from '@/pages/articles'
-import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
-import Spinner from '@/components/spinner'
+import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import removeMarkdown from 'remove-markdown'
+import '@/styles/shiki-twoslash.css'
 
 type ArticleTemplateProps = {
   article: Article
   articles: Article[]
+  articleBody: MDXRemoteSerializeResult
 }
 
 const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   article,
+  articleBody,
   articles,
 }) => {
   const {body, title, slug, _createdAt, _updatedAt, image, description} =
@@ -29,7 +29,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   const articleDescription = description
     ? description
     : body
-    ? toPlainText(body).slice(0, 160)
+    ? removeMarkdown(body.slice(0, 160))
     : ''
 
   return (
@@ -92,10 +92,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       </header>
       <main className="relative z-10 pt-5">
         <div className="prose relative z-10 mx-auto w-full max-w-3xl px-5 sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
-          <PortableText
-            value={body}
-            components={portableTextComponents({loadingIndicator: <Spinner />})}
-          />
+          {articleBody && <MDX contents={articleBody} />}
           <div className="flex w-36 -rotate-6 gap-2 pt-10 text-gray-400">
             —
             <Image

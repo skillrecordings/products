@@ -19,6 +19,8 @@ export const searchRouter = router({
       || _type match "module"
       || description match $searchQuery
       || pt::text(body) match $searchQuery
+      || body match $searchQuery
+      || boost(body match $searchQuery + "*", 0.5)
       || boost(pt::text(body) match $searchQuery + "*", 0.5)
       || boost(pt::text(transcript) match $searchQuery, 0.5)
 
