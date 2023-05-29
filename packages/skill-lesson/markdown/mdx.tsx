@@ -1,8 +1,12 @@
 import * as React from 'react'
 import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {CH} from '@code-hike/mdx/components'
+import mdxComponents from './mdx-components'
 
-const components = {CH}
+const components = {
+  CH,
+  ...mdxComponents,
+}
 
 /**
  * Renders compiled source from @skillrecordings/skill-lesson/markdown/serialize-mdx

@@ -21,8 +21,6 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       },
     }))
 
-  console.log(articleBody)
-
   const articles = (await getAllArticles()).filter(
     (a) => a.slug !== article.slug,
   )
