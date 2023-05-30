@@ -46,7 +46,7 @@ type SerializeMDXProps = {
 
 type SyntaxHighlighterOptions =
   | RemarkCodeHikePluginOptions
-  | RemarkShikiTwoslashPluginOptions
+  | Omit<RemarkShikiTwoslashPluginOptions, 'langs'>
 
 const serializeMDX = async (
   text: string,
@@ -68,6 +68,7 @@ const serializeMDX = async (
               theme: theme
                 ? require(`shiki/themes/${theme}.json`)
                 : defaultTheme,
+              langs: ['tsx', 'typescript', 'javascript', 'jsx', 'json'],
             } as RemarkShikiTwoslashPluginOptions,
           ],
         ],
