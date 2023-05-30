@@ -41,14 +41,16 @@ import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd, VideoJsonLd} from '@skillrecordings/next-seo'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
-import Spinner from '@/components/spinner'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 
 const TipTemplate: React.FC<{
   tip: Tip
+  tipBodySerialized: MDXRemoteSerializeResult
+  tipSummarySerialized: MDXRemoteSerializeResult
   tips: Tip[]
   transcript: any[]
-}> = ({tip, tips, transcript}) => {
+}> = ({tip, tips, transcript, tipBodySerialized, tipSummarySerialized}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
@@ -159,15 +161,16 @@ const TipTemplate: React.FC<{
                       }
                     />
                   )}
-                  {tip.body && (
+                  {tipBodySerialized && (
                     <>
                       <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg prose-headings:font-medium prose-p:text-gray-200">
-                        <PortableText
+                        <MDX contents={tipBodySerialized} />
+                        {/* <PortableText
                           value={tip.body}
                           components={portableTextComponents({
                             loadingIndicator: <Spinner />,
                           })}
-                        />
+                        /> */}
                       </div>
                       <Hr
                         className={
@@ -187,12 +190,15 @@ const TipTemplate: React.FC<{
                 </div>
                 <div className="w-full">
                   <div className="prose prose-lg w-full max-w-none pb-5 font-medium lg:prose-xl prose-p:text-gray-200">
-                    <PortableText
+                    {tipSummarySerialized && (
+                      <MDX contents={tipSummarySerialized} />
+                    )}
+                    {/* <PortableText
                       value={tip.summary}
                       components={portableTextComponents({
                         loadingIndicator: <Spinner />,
                       })}
-                    />
+                    /> */}
                   </div>
                   <ReplyOnTwitter tweet={tweet} />
                   {tip.body && <RelatedTips currentTip={tip} tips={tips} />}

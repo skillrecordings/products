@@ -4,14 +4,32 @@ import {getAllTips, getTip, type Tip} from '@/lib/tips'
 import TipTemplate from '@/templates/tip-template'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const tip = await getTip(params?.tip as string)
   const tips = await getAllTips()
+  const tipBodySerialized =
+    tip.body &&
+    (await serializeMDX(tip.body, {
+      syntaxHighlighterOptions: {
+        theme: 'dark-plus',
+      },
+    }))
+  const tipSummarySerialized =
+    tip.summary &&
+    (await serializeMDX(tip.summary, {
+      syntaxHighlighterOptions: {
+        theme: 'dark-plus',
+      },
+    }))
 
   return {
     props: {
       tip,
+      tipBodySerialized,
+      tipSummarySerialized,
       tips,
       videoResourceId: tip.videoResourceId,
       transcript: tip.transcript,
@@ -33,6 +51,8 @@ export type TipPageProps = {
   tips: Tip[]
   videoResourceId: string
   transcript: any[]
+  tipBodySerialized: MDXRemoteSerializeResult
+  tipSummarySerialized: MDXRemoteSerializeResult
 }
 
 const TipPage: NextPage<TipPageProps> = ({
@@ -40,6 +60,8 @@ const TipPage: NextPage<TipPageProps> = ({
   tips,
   videoResourceId,
   transcript,
+  tipBodySerialized,
+  tipSummarySerialized,
 }) => {
   const module: any = {
     slug: {
@@ -52,7 +74,13 @@ const TipPage: NextPage<TipPageProps> = ({
   return (
     <LessonProvider lesson={tip} module={module}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
-        <TipTemplate tip={tip} tips={tips} transcript={transcript} />
+        <TipTemplate
+          tip={tip}
+          tips={tips}
+          transcript={transcript}
+          tipBodySerialized={tipBodySerialized}
+          tipSummarySerialized={tipSummarySerialized}
+        />
       </VideoResourceProvider>
     </LessonProvider>
   )
