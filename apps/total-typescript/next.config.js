@@ -50,6 +50,7 @@ const nextConfig = {
         './node_modules/shiki/languages/*',
       ],
     },
+    outputFileTracingRoot: __dirname,
   },
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
