@@ -58,8 +58,7 @@ export default defineType({
     defineField({
       name: 'bodyMDX',
       title: 'Body',
-      type: 'text',
-      rows: 20,
+      type: 'markdown',
       description: 'Body in MDX',
     }),
     defineField({

@@ -83,6 +83,7 @@
     "sanity": "^3.9.0",
     "sanity-plugin-cloudinary": "^1.1.1",
     "sanity-plugin-taxonomy-manager": "^2.0.4",
+    "sanity-plugin-markdown": "^4.1.0",
     "tailwindcss-radix": "^2.8.0",
     "shortid": "^2.2.16",
     "superjson": "=1.11.0",

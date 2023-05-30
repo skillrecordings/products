@@ -47,14 +47,12 @@ export default defineType({
       name: 'body',
       description: 'Body in MDX',
       title: 'Body',
-      type: 'text',
-      rows: 10,
+      type: 'markdown',
     }),
     defineField({
       name: 'summary',
       title: 'Summary',
-      type: 'text',
-      rows: 5,
+      type: 'markdown',
     }),
     defineField({
       name: 'description',

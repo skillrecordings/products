@@ -13,7 +13,7 @@ export default defineType({
     defineField({
       name: 'body',
       title: 'Testimonial',
-      type: 'text',
+      type: 'markdown',
       validation: (Rule) => Rule.required(),
     }),
     defineField({

@@ -104,5 +104,11 @@ const serializers = {
         ? `<a href="${href}" target="_blank" rel="noopener">${children}</a>`
         : `[${children}](${href})`
     },
+    externalLink: ({mark, children}: any) => {
+      const {blank, href} = mark
+      return blank
+        ? `<a href="${href}" target="_blank" rel="noopener">${children}</a>`
+        : `[${children}](${href})`
+    },
   },
 }

@@ -24,9 +24,8 @@ export default defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'text',
+      type: 'markdown',
       description: 'Body in MDX',
-      rows: 20,
       validation: (Rule) => Rule.required(),
     }),
 

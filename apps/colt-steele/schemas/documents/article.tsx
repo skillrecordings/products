@@ -50,8 +50,7 @@ export default defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'text',
-      rows: 20,
+      type: 'markdown',
       description: 'Body in MDX',
       validation: (rule) => rule.required(),
     }),
@@ -59,7 +58,7 @@ export default defineType({
       name: 'summary',
       title: 'Summary',
       description: 'Used in teaser card on Articles index page.',
-      type: 'text',
+      type: 'markdown',
     }),
     defineField({
       name: 'image',
