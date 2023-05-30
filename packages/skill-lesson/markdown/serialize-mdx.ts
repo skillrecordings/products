@@ -69,11 +69,33 @@ const serializeMDX = async (
                 ? require(`shiki/themes/${theme}.json`)
                 : defaultTheme,
               langs: [
-                require('./shiki-langs/tsx.tmLanguage.json'),
-                require('./shiki-langs/typescript.tmLanguage.json'),
-                require('./shiki-langs/javascript.tmLanguage.json'),
-                require('./shiki-langs/jsx.tmLanguage.json'),
-                require('./shiki-langs/json.tmLanguage.json'),
+                {
+                  id: 'typescript',
+                  scopeName: 'source.ts',
+                  aliases: ['ts'],
+                  grammar: require('./shiki-langs/typescript.tmLanguage.json'),
+                },
+                {
+                  id: 'javascript',
+                  scopeName: 'source.js',
+                  aliases: ['js'],
+                  grammar: require('./shiki-langs/javascript.tmLanguage.json'),
+                },
+                {
+                  id: 'tsx',
+                  scopeName: 'source.tsx',
+                  grammar: require('./shiki-langs/tsx.tmLanguage.json'),
+                },
+                {
+                  id: 'jsx',
+                  scopeName: 'source.js.jsx',
+                  grammar: require('./shiki-langs/jsx.tmLanguage.json'),
+                },
+                {
+                  id: 'json',
+                  scopeName: 'source.json',
+                  grammar: require('./shiki-langs/json.tmLanguage.json'),
+                },
               ],
             } satisfies RemarkShikiTwoslashPluginOptions,
           ],
