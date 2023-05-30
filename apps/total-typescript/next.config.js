@@ -7,7 +7,6 @@ const withMDX = require('@next/mdx')({
 })
 
 const {withSentryConfig} = require('@sentry/nextjs')
-const path = require('path')
 
 const sentryWebpackPluginOptions = process.env.SENTRY_AUTH_TOKEN && {
   // Additional config options for the Sentry Webpack plugin. Keep in mind that
@@ -39,7 +38,16 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
     mdxRs: true,
-    outputFileTracingRoot: path.join(__dirname, '../..'),
+    outputFileTracingIncludes: {
+      '/[article]': [
+        '../node_modules/typescript/**',
+        '../node_modules/shiki/**',
+      ],
+      '/concepts/[slug]': [
+        '../node_modules/typescript/**',
+        '../node_modules/shiki/**',
+      ],
+    },
   },
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
