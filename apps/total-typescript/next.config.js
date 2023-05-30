@@ -40,17 +40,16 @@ const nextConfig = {
     mdxRs: true,
     outputFileTracingIncludes: {
       '/[article]': [
-        './node_modules/typescript/**',
-        './node_modules/shiki/themes/*',
-        './node_modules/shiki/languages/*',
+        '../node_modules/typescript/**',
+        '../node_modules/shiki/themes/*',
+        '../node_modules/shiki/languages/*',
       ],
       '/concepts/[slug]': [
-        './node_modules/typescript/**',
-        './node_modules/shiki/themes/*',
-        './node_modules/shiki/languages/*',
+        '../node_modules/typescript/**',
+        '../node_modules/shiki/themes/*',
+        '../node_modules/shiki/languages/*',
       ],
     },
-    outputFileTracingRoot: __dirname,
   },
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
