@@ -165,12 +165,6 @@ const TipTemplate: React.FC<{
                     <>
                       <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg prose-headings:font-medium prose-p:text-gray-200">
                         <MDX contents={tipBodySerialized} />
-                        {/* <PortableText
-                          value={tip.body}
-                          components={portableTextComponents({
-                            loadingIndicator: <Spinner />,
-                          })}
-                        /> */}
                       </div>
                       <Hr
                         className={
@@ -193,12 +187,6 @@ const TipTemplate: React.FC<{
                     {tipSummarySerialized && (
                       <MDX contents={tipSummarySerialized} />
                     )}
-                    {/* <PortableText
-                      value={tip.summary}
-                      components={portableTextComponents({
-                        loadingIndicator: <Spinner />,
-                      })}
-                    /> */}
                   </div>
                   <ReplyOnTwitter tweet={tweet} />
                   {tip.body && <RelatedTips currentTip={tip} tips={tips} />}
