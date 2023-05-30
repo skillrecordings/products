@@ -68,8 +68,14 @@ const serializeMDX = async (
               theme: theme
                 ? require(`shiki/themes/${theme}.json`)
                 : defaultTheme,
-              langs: ['tsx', 'typescript', 'javascript', 'jsx', 'json'],
-            } as RemarkShikiTwoslashPluginOptions,
+              langs: [
+                require('./shiki-langs/tsx.tmLanguage.json'),
+                require('./shiki-langs/typescript.tmLanguage.json'),
+                require('./shiki-langs/javascript.tmLanguage.json'),
+                require('./shiki-langs/jsx.tmLanguage.json'),
+                require('./shiki-langs/json.tmLanguage.json'),
+              ],
+            } satisfies RemarkShikiTwoslashPluginOptions,
           ],
         ],
       },
@@ -100,7 +106,7 @@ const serializeMDX = async (
               lineNumbers,
               showCopyButton,
               // ...syntaxHighlighterOptions,
-            } as RemarkCodeHikePluginOptions,
+            } satisfies RemarkCodeHikePluginOptions,
           ],
         ],
       },
