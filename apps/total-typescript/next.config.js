@@ -35,7 +35,22 @@ const nextConfig = {
   transpilePackages: ['@skillrecordings/skill-lesson'],
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   eslint: {ignoreDuringBuilds: true},
-  experimental: {scrollRestoration: true, mdxRs: true},
+  experimental: {
+    scrollRestoration: true,
+    mdxRs: true,
+    outputFileTracingIncludes: {
+      '/[article]': [
+        './node_modules/typescript/**',
+        './node_modules/shiki/themes/*',
+        './node_modules/shiki/languages/*',
+      ],
+      '/concepts/[slug]': [
+        './node_modules/typescript/**',
+        './node_modules/shiki/themes/*',
+        './node_modules/shiki/languages/*',
+      ],
+    },
+  },
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
   images: {
