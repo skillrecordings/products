@@ -10,13 +10,13 @@ import {Transaction} from '@sanity/client'
 type Doc = {
   _id: string
   _rev: string
-  body: any[]
+  summary: any[]
 }
 
 type DocPatch = {
   id: string
   patch: {
-    set: {body: string}
+    set: {summary: string}
     unset: string[]
     ifRevisionID: string
   }
@@ -29,18 +29,18 @@ const client = getCliClient()
 // Fetch the documents we want to migrate, and return only the fields we need.
 const fetchDocuments = () =>
   client.fetch(
-    `*[_type == 'article' && defined(body)][0...100] {_id, _rev, body}`,
+    `*[_type == 'tip' && defined(summary)][0...100] {_id, _rev, summary}`,
   )
 
 // Build a patch for each document, represented as a tuple of `[documentId, patch]`
 const buildPatches = (docs: Doc[]) =>
   docs.map((doc: Doc): any => {
-    const bodyMarkdown = BlocksToMarkdown(doc.body, {serializers})
+    const bodyMarkdown = BlocksToMarkdown(doc.summary, {serializers})
     console.log({bodyMarkdown})
     return {
       id: doc._id,
       patch: {
-        set: {body: bodyMarkdown},
+        set: {summary: bodyMarkdown},
         // this will cause the migration to fail if any of the documents has been
         // modified since it was fetched.
         ifRevisionID: doc._rev,
@@ -109,6 +109,9 @@ const serializers = {
       return blank
         ? `<a href="${href}" target="_blank" rel="noopener">${children}</a>`
         : `[${children}](${href})`
+    },
+    undefined: () => {
+      return ''
     },
   },
 }
