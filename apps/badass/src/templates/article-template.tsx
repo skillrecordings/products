@@ -69,12 +69,7 @@ const ArticleTemplate: React.FC<
         },
       }}
     >
-      <Header
-        title={title}
-        date={date}
-        image={image}
-        description={shortDescription}
-      />
+      <Header title={title} date={date} image={image} />
       <main>
         <div className="mx-auto w-full max-w-screen-md">
           <div className="px-5 pb-16 pt-10 md:pt-16 lg:px-0">
@@ -110,9 +105,8 @@ const Header: React.FC<
     title: string
     date: string
     image?: any
-    description: any
   }>
-> = ({title, date, image = null, description}) => {
+> = ({title, date, image}) => {
   return (
     <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-10 pt-5 md:flex-row">
       {image && (
@@ -134,16 +128,6 @@ const Header: React.FC<
         >
           <Balancer>{title}</Balancer>
         </h1>
-        {description && (
-          <Markdown
-            className={cx(
-              'prose mt-4 max-w-sm text-center',
-              image && 'md:text-left',
-            )}
-          >
-            {description}
-          </Markdown>
-        )}
         <div
           className={cx(
             'mt-12 flex w-full items-center gap-7 sm:gap-10',
