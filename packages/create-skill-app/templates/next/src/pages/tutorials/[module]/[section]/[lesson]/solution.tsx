@@ -1,13 +1,13 @@
 import React from 'react'
-import LessonTemplate from 'templates/lesson-template'
+import LessonTemplate from '@/templates/lesson-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {getAllTutorials, getTutorial} from 'lib/tutorials'
-import {getExercise, Exercise} from 'lib/exercises'
+import {getAllTutorials, getTutorial} from '@/lib/tutorials'
+import {getExercise, Exercise} from '@/lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
-import {getSection} from 'lib/sections'
+import {getSection} from '@/lib/sections'
 import {Resource} from '@skillrecordings/skill-lesson/schemas/resource'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
@@ -23,9 +23,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const exercise = await getExercise(exerciseSlug)
   const section = await getSection(sectionSlug)
   const solutionBody =
-    exercise.solution.body && (await serializeMDX(exercise.solution.body))
+    exercise?.solution?.body &&
+    typeof exercise.solution.body === 'string' &&
+    (await serializeMDX(exercise.solution.body))
   const solutionBodyPreview =
-    exercise.solution.body &&
+    exercise?.solution?.body &&
+    typeof exercise.solution.body === 'string' &&
     (await serializeMDX(exercise.solution.body.substring(0, 300)))
 
   return {

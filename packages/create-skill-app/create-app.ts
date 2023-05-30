@@ -117,6 +117,9 @@ export async function createApp({
         case 'deskStructure.ts': {
           return path.join('schemas', 'deskStructure.ts')
         }
+        case 'globals.css': {
+          return path.join('src/styles', 'globals.css')
+        }
         default: {
           return templateName
         }

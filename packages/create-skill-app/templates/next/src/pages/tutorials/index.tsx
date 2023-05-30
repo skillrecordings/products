@@ -1,13 +1,13 @@
 import React from 'react'
-import Layout from 'components/app/layout'
-import {getAllTutorials} from 'lib/tutorials'
+import Layout from '@/components/app/layout'
+import {getAllTutorials} from '@/lib/tutorials'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import Link from 'next/link'
 import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
-import Header from 'components/app/header'
+import Header from '@/components/app/header'
 import pluralize from 'pluralize'
-import {getOgImage} from 'utils/get-og-image'
+import {getOgImage} from '@/utils/get-og-image'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -70,9 +70,9 @@ const Tutorials: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
                       <h2 className="text-3xl font-bold">
                         <Balancer>{title}</Balancer>
                       </h2>
-                      <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-brand-primary">
+                      <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-primary">
                         {i === 0 && (
-                          <span className="mr-3 rounded-full bg-brand-primary px-2 py-0.5 font-mono font-semibold uppercase text-white">
+                          <span className="mr-3 rounded-full bg-primary px-2 py-0.5 font-mono font-semibold uppercase text-white">
                             New
                           </span>
                         )}

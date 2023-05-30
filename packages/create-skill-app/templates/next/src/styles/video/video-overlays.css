@@ -35,7 +35,7 @@
       }
     }
     [data-action='continue'] {
-      @apply rounded bg-brand-primary px-3 py-1 text-lg font-semibold text-white transition hover:brightness-110 sm:px-5 sm:py-3;
+      @apply rounded bg-primary px-3 py-1 text-lg font-semibold text-white transition hover:brightness-110 sm:px-5 sm:py-3;
       [data-icon] {
       }
     }
@@ -87,12 +87,12 @@
         @apply max-w-xl pb-5 pt-3 text-lg text-gray-300;
       }
       [data-self-redeem-button] {
-        @apply rounded-lg border-none bg-brand-primary px-5 py-3 text-base font-semibold text-white transition hover:brightness-110;
+        @apply rounded-lg border-none bg-primary px-5 py-3 text-base font-semibold text-white transition hover:brightness-110;
       }
       [data-self-redeem-button][disabled] {
       }
       [data-invite-team] {
-        @apply rounded-lg border border-brand-primary bg-transparent px-5 py-3 text-base font-semibold text-white transition hover:brightness-110;
+        @apply rounded-lg border border-primary bg-transparent px-5 py-3 text-base font-semibold text-white transition hover:brightness-110;
       }
     }
     [data-pricing] {
@@ -191,7 +191,7 @@
       }
     }
     [data-action='continue'] {
-      @apply rounded bg-brand-primary px-3 py-1 text-lg font-semibold transition hover:brightness-110 sm:px-5 sm:py-3;
+      @apply rounded bg-primary px-3 py-1 text-lg font-semibold transition hover:brightness-110 sm:px-5 sm:py-3;
     }
   }
 }

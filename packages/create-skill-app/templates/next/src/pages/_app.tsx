@@ -12,9 +12,11 @@ import * as amplitude from '@amplitude/analytics-browser'
 import {FeedbackProvider} from '@skillrecordings/feedback-widget'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import config from '../config'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import Script from 'next/script'
 import {Session} from 'next-auth'
+import {ThemeProvider} from '@skillrecordings/skill-lesson/hooks/use-theme'
+import {theme} from '@/styles/theme'
 
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
   amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
@@ -30,16 +32,18 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   return (
     <>
       <DefaultSeo {...config} />
-      <FeedbackProvider>
-        <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <ConvertkitProvider>
-            <MDXProvider>
-              <Component {...pageProps} />
-            </MDXProvider>
-          </ConvertkitProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </SessionProvider>
-      </FeedbackProvider>
+      <ThemeProvider theme={theme}>
+        <FeedbackProvider>
+          <SessionProvider session={pageProps.session} refetchInterval={0}>
+            <ConvertkitProvider>
+              <MDXProvider>
+                <Component {...pageProps} />
+              </MDXProvider>
+            </ConvertkitProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </SessionProvider>
+        </FeedbackProvider>
+      </ThemeProvider>
       {isGoogleAnalyticsAvailable && (
         <>
           <Script

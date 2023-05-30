@@ -11,7 +11,7 @@
       @apply opacity-50;
     }
     [data-sr-button] {
-      @apply mt-4 flex items-center justify-center rounded-md bg-brand-primary py-4 font-bold text-white transition focus-visible:ring-brand-primary hover:brightness-110;
+      @apply mt-4 flex items-center justify-center rounded-md bg-primary py-4 font-bold text-white transition focus-visible:ring-ring hover:brightness-110;
     }
   }
 }
@@ -32,7 +32,7 @@
       @apply opacity-50;
     }
     [data-sr-button] {
-      @apply mt-2 flex items-center justify-center rounded-md bg-brand-primary py-3 font-bold text-white transition focus-visible:ring-brand-primary hover:brightness-110;
+      @apply mt-2 flex items-center justify-center rounded-md bg-primary py-3 font-bold text-white transition focus-visible:ring-ring hover:brightness-110;
     }
   }
 }

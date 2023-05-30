@@ -1,12 +1,12 @@
 import React, {RefObject} from 'react'
 import cx from 'classnames'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import ReactMarkdown from 'react-markdown'
 import MuxPlayer, {
   MuxPlayerProps,
   MuxPlayerRefAttributes,
 } from '@mux/mux-player-react'
-import {Tip} from 'lib/tips'
+import {Tip} from '@/lib/tips'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {useRouter} from 'next/router'
 import {
@@ -18,7 +18,7 @@ import {
 } from '@heroicons/react/solid'
 import {shuffle, take} from 'lodash'
 import Image from 'next/legacy/image'
-import {getOgImage} from 'utils/get-og-image'
+import {getOgImage} from '@/utils/get-og-image'
 import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 import {localProgressDb} from '@skillrecordings/skill-lesson/utils/dexie'
 import {
@@ -36,7 +36,7 @@ import {
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {getTranscriptComponents} from '@skillrecordings/skill-lesson/markdown/transcript-components'
@@ -412,9 +412,9 @@ const SubscribeForm = ({
       <div className="inline-flex flex-shrink-0 items-center gap-3">
         <div
           aria-hidden="true"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-brand-primary/10"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/10"
         >
-          <MailIcon className="h-5 w-5 text-brand-primary" />
+          <MailIcon className="h-5 w-5 text-primary" />
         </div>
         New {process.env.NEXT_PUBLIC_SITE_TITLE} tips delivered to your inbox
       </div>
