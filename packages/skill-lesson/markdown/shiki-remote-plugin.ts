@@ -36,27 +36,28 @@ export interface ShikiRemotePluginOptions {
 
 let highlighter: Highlighter | undefined = undefined
 
+const prepHighlighter = async (theme: string | undefined) => {
+  if (!highlighter) {
+    highlighter = await getHighlighter({
+      theme: theme ? require(`shiki/themes/${theme}.json`) : defaultTheme,
+    })
+  }
+}
+
 export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
   return async (ast) => {
     await visitCodeNodes(ast, async (node) => {
       const code = node.value
 
       try {
-        if (!highlighter) {
-          highlighter = await getHighlighter({
-            theme: opts.theme
-              ? require(`shiki/themes/${opts.theme}.json`)
-              : defaultTheme,
-          })
-        }
-
         /**
          * We only need to call the remote service when necessary:
          * when 'twoslash' is specified in the code fence. Otherwise,
          * we can just use shiki
          */
         if (!node.meta?.includes('twoslash')) {
-          const html = await highlighter.codeToHtml(code, {
+          await prepHighlighter(opts.theme)
+          const html = await highlighter!.codeToHtml(code, {
             lang: node.lang ?? undefined,
           })
 
