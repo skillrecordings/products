@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   render,
   Mjml,
@@ -16,9 +15,8 @@ import {
   MjmlFont,
   MjmlDivider,
 } from 'mjml-react'
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {MDXRemote, type MDXRemoteSerializeResult} from 'next-mdx-remote'
 import Refractor from 'react-refractor'
-import {MDXRemote} from 'next-mdx-remote'
 
 import typescript from 'refractor/lang/typescript'
 import tsx from 'refractor/lang/tsx'
@@ -36,7 +34,7 @@ Refractor.registerLanguage(json)
 
 export const getEmailHtml = (
   emailBodySerialized: MDXRemoteSerializeResult,
-  email: {title: string; body: string} | any,
+  emailMeta: {title: string; body: string} | any,
 ) => {
   const {html, errors} = render(
     <Mjml>
@@ -48,7 +46,7 @@ export const getEmailHtml = (
           name="Inter"
           href="https://fonts.googleapis.com/css2?family=Inter:400;500;600;700"
         />
-        <MjmlTitle>{email.title}</MjmlTitle>
+        <MjmlTitle>{emailMeta.title}</MjmlTitle>
         {/* {description && <MjmlPreview>{description}</MjmlPreview>} */}
         <MjmlStyle>{prism}</MjmlStyle>
         <MjmlRaw>
@@ -56,7 +54,7 @@ export const getEmailHtml = (
             {`
           <!--[if mso]>
           <style type="text/css">
-          body, table, td, a {font-family: Helvetica, sans-serif !important;}
+          body, table, td, a {font-family: Inter, Helvetica, sans-serif !important;}
           </style>
           <![endif]>
           `}
@@ -186,7 +184,11 @@ export const getEmailHtml = (
       </MjmlBody>
     </Mjml>,
   )
-  return {html, errors}
+  if (html) {
+    return {html, errors}
+  } else {
+    return {html: '', errors: []}
+  }
 }
 
 // This Prism theme is used for syntax highlighting in emails.

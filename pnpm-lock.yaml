@@ -2769,6 +2769,7 @@ importers:
       lodash: ^4.17.21
       micromark: ^3.1.0
       mjml: ^4.12.0
+      mjml-react: ^2.0.8
       msw: ^0.35.0
       next: ^13.4.3
       next-auth: ^4.22.1
@@ -2909,6 +2910,7 @@ importers:
       lodash: 4.17.21
       micromark: 3.1.0
       mjml: 4.12.0
+      mjml-react: 2.0.8_ailtjjlsqvu2thdobeyj5nn3lq
       next: 13.4.3_biqbaboplfbrettd7655fr4n2y
       next-auth: 4.22.1_o6dt4yn4syzkhlixdxt4y57rzi
       next-mdx-remote: 4.2.0_biqbaboplfbrettd7655fr4n2y
@@ -4435,6 +4437,7 @@ importers:
       '@types/js-cookie': 3.0.2
       '@types/lodash': 4.14.194
       '@types/mjml': 4.7.0
+      '@types/mjml-react': 2.0.6
       '@types/pluralize': 0.0.29
       '@types/react': 18.2.6
       '@types/react-dom': 18.2.4
@@ -4478,7 +4481,6 @@ importers:
       yup: 0.32.11
       zod: 3.21.4
     devDependencies:
-      '@types/mjml-react': 2.0.6
       '@types/nprogress': 0.2.0
 
   packages/stripe-sdk:
@@ -14370,7 +14372,7 @@ packages:
     resolution: {integrity: sha512-pOYAX16xjkWNHWPNETfDYiUGYYwHQeuhtrUFDVCWh49zisgkLRG9kA3W9324Kc+KmO+xQp2LQldTVprhJ7ZMbw==}
     dependencies:
       '@types/react': 18.2.6
-    dev: true
+    dev: false
 
   /@types/mjml/4.7.0:
     resolution: {integrity: sha512-aWWu8Lxq2SexXGs+lBPRUpN3kFf0sDRo3Y4jz7BQ15cQvMfyZOadgFJsNlHmDqI6D2Qjx0PIK+1f9IMXgq9vTA==}

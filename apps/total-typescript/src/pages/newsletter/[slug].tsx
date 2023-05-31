@@ -1,3 +1,4 @@
+// NOTE: mjml-react must be installed in the root of the app for it to build
 import React from 'react'
 import matter from 'gray-matter'
 import Balancer from 'react-wrap-balancer'
@@ -17,21 +18,19 @@ import toast from 'react-hot-toast'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const email = await getEmail(params?.slug as string)
-
+  const emails = await getAllEmails()
   const {data, content} = matter(email?.body || '')
-
   const emailBodySerialized = await serialize(content, {
     scope: {...data, subscriber: 'there'},
   })
 
-  const {html, errors} = getEmailHtml(emailBodySerialized, email)
+  // const {html, errors} = getEmailHtml(emailBodySerialized, email)
+  // const {html, errors} = {html: '', errors: []}
 
-  if (errors) {
+  const {html, errors} = getEmailHtml(emailBodySerialized, email)
+  if (errors.length) {
     console.debug({errors})
   }
-
-  const emails = await getAllEmails()
-
   return {
     props: {
       email,
@@ -131,7 +130,9 @@ export default function EmailPage({
               </button>
             </div>
             <div className="px-5 pb-5 pt-3 selection:bg-blue-500 selection:text-white">
-              <div dangerouslySetInnerHTML={{__html: emailHtml}} />
+              {emailHtml && (
+                <div dangerouslySetInnerHTML={{__html: emailHtml}} />
+              )}
               <div className="flex flex-col space-y-3 py-3">
                 <small>
                   <span className="text-blue-500 underline">​Unsubscribe</span>{' '}
