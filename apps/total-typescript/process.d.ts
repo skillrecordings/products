@@ -1,5 +1,5 @@
 declare namespace NodeJS {
-  export interface ProcessEnv {
+  interface ProcessEnv {
     NEXTAUTH_URL: string
     NEXTAUTH_SECRET: string
     NEXT_PUBLIC_SITE_TITLE: string
@@ -26,5 +26,7 @@ declare namespace NodeJS {
     SLACK_TOKEN: string
     GITHUB_ID: string
     GITHUB_SECRET: string
+    SHIKI_AUTH_TOKEN: string
+    SHIKI_ENDPOINT: string
   }
 }
