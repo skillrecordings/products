@@ -1,13 +1,11 @@
-import remarkShikiTwoslash, {
-  type Options as RemarkShikiTwoslashOptions,
-} from 'remark-shiki-twoslash'
 import {remarkCodeHike} from '@code-hike/mdx'
 import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
 // import {SerializeOptions} from 'next-mdx-remote/dist/types'
-import {serialize} from 'next-mdx-remote/serialize'
-import defaultTheme from 'shiki/themes/github-dark.json'
-import rehypeRaw from 'rehype-raw'
 import {nodeTypes} from '@mdx-js/mdx'
+import {serialize} from 'next-mdx-remote/serialize'
+import rehypeRaw from 'rehype-raw'
+import defaultTheme from 'shiki/themes/github-dark.json'
+import {shikiRemotePlugin} from './shiki-remote-plugin'
 
 /**
  * Serialize MDX with next-mdx-remote. Uses remark-code-hike for syntax highlighting.
@@ -34,19 +32,13 @@ type RemarkCodeHikePluginOptions = {
   autoImport?: boolean
 }
 
-type RemarkShikiTwoslashPluginOptions = {
-  theme?: ShikiTheme
-} & RemarkShikiTwoslashOptions
-
 type SerializeMDXProps = {
   scope?: Record<string, unknown>
   useShikiTwoslash?: boolean
   syntaxHighlighterOptions?: SyntaxHighlighterOptions
 }
 
-type SyntaxHighlighterOptions =
-  | RemarkCodeHikePluginOptions
-  | RemarkShikiTwoslashPluginOptions
+type SyntaxHighlighterOptions = RemarkCodeHikePluginOptions
 
 const serializeMDX = async (
   text: string,
@@ -60,17 +52,7 @@ const serializeMDX = async (
       mdxOptions: {
         useDynamicImport: true,
         rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}]],
-        remarkPlugins: [
-          [
-            remarkShikiTwoslash,
-            {
-              ...syntaxHighlighterOptions,
-              theme: theme
-                ? require(`shiki/themes/${theme}.json`)
-                : defaultTheme,
-            } as RemarkShikiTwoslashPluginOptions,
-          ],
-        ],
+        remarkPlugins: [shikiRemotePlugin],
       },
     })
     return mdxContent
