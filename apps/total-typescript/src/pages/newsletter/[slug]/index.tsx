@@ -79,7 +79,7 @@ export default function EmailPage({
         ogImage,
       }}
     >
-      <header className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col justify-center pb-8 pt-16 sm:pb-5 sm:pt-24">
+      <header className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col justify-center px-5 pb-6 pt-20 sm:pb-5 sm:pt-24">
         <Link
           href={'/newsletter'}
           className="inline-flex text-sm text-gray-400 transition hover:text-white sm:text-base"
@@ -88,8 +88,8 @@ export default function EmailPage({
         </Link>
       </header>
       <main className="relative z-10 text-black">
-        <article className="mx-auto flex h-full w-full max-w-screen-lg">
-          <aside className="w-full max-w-[260px] rounded-l-lg bg-white/90 py-5">
+        <article className="mx-auto flex h-full w-full max-w-screen-lg flex-col-reverse px-5 lg:flex-row">
+          <aside className="w-full rounded-b-lg bg-white/90 py-3.5 lg:max-w-[260px] lg:rounded-l-lg lg:rounded-r-none">
             {emails ? (
               <ul>
                 {emails.map((email: Email) => {
@@ -116,8 +116,8 @@ export default function EmailPage({
               <div>No emails</div>
             )}
           </aside>
-          <div className="flex w-full flex-col items-center justify-center rounded-r-lg border-l border-gray-200 bg-white shadow-2xl">
-            <div className="flex w-full flex-row items-center justify-between gap-10 border-b border-gray-100 p-5">
+          <div className="flex w-full flex-col items-center justify-center rounded-t-lg border-l border-gray-200 bg-white shadow-2xl lg:rounded-l-none lg:rounded-r-lg">
+            <div className="flex w-full flex-col items-center justify-between gap-10 border-b border-gray-100 p-5 sm:flex-row">
               <div className="flex items-center space-x-2">
                 <div className="text-gray-600">Subject: </div>
                 <div className="font-medium">{email.title}</div>
