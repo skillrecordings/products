@@ -48,6 +48,12 @@ export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
         })
       }
 
+      /**
+       * We only need to call the remote service when necessary:
+       * when 'twoslash' is specified in the code fence. Otherwise,
+       * we can just run renderCodeToHTML which just acts like a
+       * normal syntax highlighter without twoslash's magic powers.
+       */
       if (!node.meta?.includes('twoslash')) {
         const html = await renderCodeToHTML(
           code,
