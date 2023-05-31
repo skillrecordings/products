@@ -1,6 +1,197 @@
-// This theme is used for syntax highlighting in emails.
+import React from 'react'
+import {
+  render,
+  Mjml,
+  MjmlText,
+  MjmlAttributes,
+  MjmlAll,
+  MjmlHead,
+  MjmlTitle,
+  MjmlStyle,
+  MjmlBody,
+  MjmlSection,
+  MjmlColumn,
+  MjmlSpacer,
+  MjmlRaw,
+  MjmlFont,
+  MjmlDivider,
+} from 'mjml-react'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import Refractor from 'react-refractor'
+import {MDXRemote} from 'next-mdx-remote'
 
-export const prism = `
+import typescript from 'refractor/lang/typescript'
+import tsx from 'refractor/lang/tsx'
+import jsx from 'refractor/lang/jsx'
+import javascript from 'refractor/lang/javascript'
+import markdown from 'refractor/lang/markdown'
+import json from 'refractor/lang/json'
+
+Refractor.registerLanguage(tsx)
+Refractor.registerLanguage(typescript)
+Refractor.registerLanguage(javascript)
+Refractor.registerLanguage(jsx)
+Refractor.registerLanguage(markdown)
+Refractor.registerLanguage(json)
+
+export const getEmailHtml = (
+  emailBodySerialized: MDXRemoteSerializeResult,
+  email: {title: string; body: string} | any,
+) => {
+  const {html, errors} = render(
+    <Mjml>
+      <MjmlAttributes>
+        <MjmlAll fontFamily="Inter, sans-serif" />
+      </MjmlAttributes>
+      <MjmlHead>
+        <MjmlFont
+          name="Inter"
+          href="https://fonts.googleapis.com/css2?family=Inter:400;500;600;700"
+        />
+        <MjmlTitle>{email.title}</MjmlTitle>
+        {/* {description && <MjmlPreview>{description}</MjmlPreview>} */}
+        <MjmlStyle>{prism}</MjmlStyle>
+        <MjmlRaw>
+          <style type="text/css">
+            {`
+          <!--[if mso]>
+          <style type="text/css">
+          body, table, td, a {font-family: Helvetica, sans-serif !important;}
+          </style>
+          <![endif]>
+          `}
+          </style>
+        </MjmlRaw>
+        <MjmlRaw>
+          <meta name="color-scheme" content="light" />
+          <meta name="supported-color-schemes" content="light" />
+        </MjmlRaw>
+      </MjmlHead>
+      <MjmlBody>
+        <MjmlSection>
+          <MjmlColumn>
+            <MDXRemote
+              {...emailBodySerialized}
+              components={{
+                p: ({children}: any) => (
+                  <MjmlText
+                    fontFamily="Inter, Helvetica, Arial, sans-serif"
+                    fontSize="16px"
+                    lineHeight="1.5"
+                  >
+                    {children}
+                  </MjmlText>
+                ),
+                a: ({children, href}: any) => {
+                  return (
+                    <MjmlText fontFamily="Inter, Helvetica, Arial, sans-serif">
+                      <a
+                        style={{
+                          color: '#3b82f6',
+                          textDecoration: 'underline',
+                        }}
+                        href={href}
+                      >
+                        {children}
+                      </a>
+                    </MjmlText>
+                  )
+                },
+                code: ({children}: any) => (
+                  <MjmlRaw>
+                    <code
+                      style={{
+                        background: '#f1f1f1',
+                        padding: '2px 3px',
+                        borderRadius: 1,
+                      }}
+                    >
+                      {children}
+                    </code>
+                  </MjmlRaw>
+                ),
+                hr: () => (
+                  <>
+                    <MjmlSpacer />
+                    <MjmlDivider
+                      border-width="1px"
+                      border-style="dashed"
+                      border-color="lightgrey"
+                    />
+                    <MjmlSpacer />
+                  </>
+                ),
+                h1: ({children}: any) => (
+                  <MjmlText
+                    fontWeight={800}
+                    fontFamily="Inter, Helvetica, Arial, sans-serif"
+                    fontSize="32px"
+                  >
+                    {children}
+                  </MjmlText>
+                ),
+                h2: ({children}: any) => (
+                  <MjmlText
+                    paddingTop={48}
+                    fontWeight={800}
+                    fontFamily="Inter, Helvetica, Arial, sans-serif"
+                    fontSize="24px"
+                  >
+                    {children}
+                  </MjmlText>
+                ),
+                h3: ({children}: any) => (
+                  <MjmlText
+                    paddingTop={32}
+                    fontWeight={800}
+                    fontFamily="Inter, Helvetica, Arial, sans-serif"
+                    fontSize="20px"
+                  >
+                    {children}
+                  </MjmlText>
+                ),
+                pre: ({children}: any) => {
+                  return (
+                    <MjmlText>
+                      <div
+                        style={{
+                          color: '#fff',
+                          fontSize: '15px',
+                          padding: '16px',
+                          whiteSpace: 'break-spaces',
+                          wordBreak: 'break-word',
+                          wordSpacing: 'normal',
+                          borderRadius: 4,
+                          background: '#011627',
+                          margin: '0 auto',
+                          width: 'auto',
+                        }}
+                      >
+                        <Refractor
+                          inline
+                          value={children.props.children}
+                          language={children.props.className.replace(
+                            'language-',
+                            '',
+                          )}
+                        />
+                      </div>
+                    </MjmlText>
+                  )
+                },
+              }}
+            />
+          </MjmlColumn>
+        </MjmlSection>
+      </MjmlBody>
+    </Mjml>,
+  )
+  return {html, errors}
+}
+
+// This Prism theme is used for syntax highlighting in emails.
+
+const prism = `
 
 code {
   background: rgba(0,0,0,0.1);
