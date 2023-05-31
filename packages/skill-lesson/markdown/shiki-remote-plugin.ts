@@ -1,4 +1,6 @@
 import type {Transformer} from 'unified'
+import {Highlighter, getHighlighter} from 'shiki'
+import defaultTheme from 'shiki/themes/github-dark.json'
 
 interface MarkdownNode {
   type: string
@@ -7,8 +9,8 @@ interface MarkdownNode {
 
 interface CodeNode extends MarkdownNode {
   value: string
-  lang: string
-  meta: string
+  lang: string | null
+  meta: string | null
 }
 
 const visitCodeNodes = async (
@@ -32,10 +34,37 @@ export interface ShikiRemotePluginOptions {
   theme?: string
 }
 
+let highlighter: Highlighter | undefined = undefined
+
 export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
   return async (ast) => {
     await visitCodeNodes(ast, async (node) => {
       const code = node.value
+
+      if (!highlighter) {
+        highlighter = await getHighlighter({
+          theme: opts.theme
+            ? require(`shiki/themes/${opts.theme}.json`)
+            : defaultTheme,
+        })
+      }
+
+      /**
+       * We only need to call the remote service when necessary:
+       * when 'twoslash' is specified in the code fence. Otherwise,
+       * we can just use shiki
+       */
+      if (!node.meta?.includes('twoslash')) {
+        const html = await highlighter.codeToHtml(code, {
+          lang: node.lang ?? undefined,
+        })
+
+        node.type = 'html'
+        node.value = html
+        node.children = []
+
+        return
+      }
 
       try {
         const response = await fetch(opts.endpoint, {
