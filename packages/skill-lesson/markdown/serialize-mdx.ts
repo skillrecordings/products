@@ -5,7 +5,10 @@ import {nodeTypes} from '@mdx-js/mdx'
 import {serialize} from 'next-mdx-remote/serialize'
 import rehypeRaw from 'rehype-raw'
 import defaultTheme from 'shiki/themes/github-dark.json'
-import {shikiRemotePlugin} from './shiki-remote-plugin'
+import {
+  ShikiRemotePluginOptions,
+  shikiRemotePlugin,
+} from './shiki-remote-plugin'
 
 /**
  * Serialize MDX with next-mdx-remote. Uses remark-code-hike for syntax highlighting.
@@ -34,25 +37,33 @@ type RemarkCodeHikePluginOptions = {
 
 type SerializeMDXProps = {
   scope?: Record<string, unknown>
-  useShikiTwoslash?: boolean
-  syntaxHighlighterOptions?: SyntaxHighlighterOptions
-}
-
-type SyntaxHighlighterOptions = RemarkCodeHikePluginOptions
+} & (
+  | {
+      useShikiTwoslash: true
+      syntaxHighlighterOptions: ShikiRemotePluginOptions
+    }
+  | {
+      useShikiTwoslash?: false
+      syntaxHighlighterOptions?: RemarkCodeHikePluginOptions
+    }
+)
 
 const serializeMDX = async (
   text: string,
   {scope, syntaxHighlighterOptions, useShikiTwoslash}: SerializeMDXProps = {},
 ): Promise<MDXRemoteSerializeResult> => {
-  const {theme} = syntaxHighlighterOptions || {}
-
   if (useShikiTwoslash) {
     const mdxContent = await serialize(text, {
       scope,
       mdxOptions: {
         useDynamicImport: true,
         rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}]],
-        remarkPlugins: [shikiRemotePlugin],
+        remarkPlugins: [
+          [
+            shikiRemotePlugin,
+            syntaxHighlighterOptions satisfies ShikiRemotePluginOptions,
+          ],
+        ],
       },
     })
     return mdxContent
@@ -66,6 +77,8 @@ const serializeMDX = async (
       syntaxHighlighterOptions && 'showCopyButton' in syntaxHighlighterOptions
         ? syntaxHighlighterOptions.showCopyButton
         : false
+
+    const theme = syntaxHighlighterOptions?.theme
     const mdxContent = await serialize(text, {
       scope,
       mdxOptions: {

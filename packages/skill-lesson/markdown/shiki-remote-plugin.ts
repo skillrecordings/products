@@ -26,23 +26,29 @@ const visitCodeNodes = async (
   }
 }
 
-export function shikiRemotePlugin(): Transformer {
+export interface ShikiRemotePluginOptions {
+  endpoint: string
+  authorization: string
+  theme?: string
+}
+
+export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
   return async (ast) => {
     await visitCodeNodes(ast, async (node) => {
       const code = node.value
 
-      const endpoint = 'https://shiki-service.fly.dev/v1'
-
       try {
-        const response = await fetch(endpoint, {
+        const response = await fetch(opts.endpoint, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: opts.authorization,
           },
           body: JSON.stringify({
             code,
             lang: node.lang,
             meta: node.meta,
+            theme: opts.theme,
           }),
         })
 
