@@ -23,14 +23,12 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const emailBodySerialized = await serialize(content, {
     scope: {...data, subscriber: 'there'},
   })
-
-  // const {html, errors} = getEmailHtml(emailBodySerialized, email)
-  // const {html, errors} = {html: '', errors: []}
-
   const {html, errors} = getEmailHtml(emailBodySerialized, email)
+
   if (errors.length) {
     console.debug({errors})
   }
+
   return {
     props: {
       email,

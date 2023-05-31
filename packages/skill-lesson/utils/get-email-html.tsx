@@ -17,7 +17,6 @@ import {
 } from 'mjml-react'
 import {MDXRemote, type MDXRemoteSerializeResult} from 'next-mdx-remote'
 import Refractor from 'react-refractor'
-
 import typescript from 'refractor/lang/typescript'
 import tsx from 'refractor/lang/tsx'
 import jsx from 'refractor/lang/jsx'
