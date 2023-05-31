@@ -36,9 +36,9 @@ export const getEmailHtml = (
   emailMeta: {title: string; body: string} | any,
 ) => {
   const {html, errors} = render(
-    <Mjml>
+    <Mjml lang="en">
       <MjmlAttributes>
-        <MjmlAll fontFamily="Inter, sans-serif" />
+        <MjmlAll fontFamily="Inter, sans-serif" lineHeight="1.65" />
       </MjmlAttributes>
       <MjmlHead>
         <MjmlFont
@@ -74,7 +74,7 @@ export const getEmailHtml = (
                   <MjmlText
                     fontFamily="Inter, Helvetica, Arial, sans-serif"
                     fontSize="16px"
-                    lineHeight="1.5"
+                    lineHeight="1.65"
                   >
                     {children}
                   </MjmlText>
@@ -150,29 +150,13 @@ export const getEmailHtml = (
                 pre: ({children}: any) => {
                   return (
                     <MjmlText>
-                      <div
-                        style={{
-                          color: '#fff',
-                          fontSize: '15px',
-                          padding: '16px',
-                          whiteSpace: 'break-spaces',
-                          wordBreak: 'break-word',
-                          wordSpacing: 'normal',
-                          borderRadius: 4,
-                          background: '#011627',
-                          margin: '0 auto',
-                          width: 'auto',
-                        }}
-                      >
-                        <Refractor
-                          inline
-                          value={children.props.children}
-                          language={children.props.className.replace(
-                            'language-',
-                            '',
-                          )}
-                        />
-                      </div>
+                      <Refractor
+                        value={children.props.children}
+                        language={children.props.className.replace(
+                          'language-',
+                          '',
+                        )}
+                      />
                     </MjmlText>
                   )
                 },
@@ -193,14 +177,15 @@ export const getEmailHtml = (
 // This Prism theme is used for syntax highlighting in emails.
 
 const prism = `
-
+pre {
+  font-family: monospace;
+  padding: 16px;
+}
 code {
   background: rgba(0,0,0,0.1);
   padding: 1px 2px;
-  font-size: 90%;
 }
 pre > code {
-  
   color: #fff;
 }
   code,
@@ -212,7 +197,7 @@ pre > code {
       white-space: break-spaces;
       word-spacing: normal;
       word-break: break-word;
-    line-height: 1.5;
+    line-height: 1.75;
     -moz-tab-size: 2;
     -o-tab-size: 2;
     tab-size: 2;
@@ -220,6 +205,10 @@ pre > code {
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
+    font-size: 15px;
+    border-radius: 5px;
+    background: #111827;
+    
   }
 
   
