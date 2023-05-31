@@ -2805,7 +2805,6 @@ importers:
       sanity-plugin-markdown: ^4.1.0
       sanity-plugin-taxonomy-manager: ^2.1.0
       shiki: ^0.14.1
-      shiki-twoslash: ^3.1.2
       shortid: ^2.2.16
       styled-components: ^5.2
       superjson: '=1.11.0'
@@ -2943,7 +2942,6 @@ importers:
       sanity-plugin-markdown: 4.1.0_ups4cjzypceh3qowrcfl6zxuf4
       sanity-plugin-taxonomy-manager: 2.1.0_dip56lwnvfz4ckm4qbnc7lwrci
       shiki: 0.14.1
-      shiki-twoslash: 3.1.2_typescript@5.1.1-rc
       shortid: 2.2.16
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
       superjson: 1.11.0
@@ -16161,7 +16159,7 @@ packages:
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -21572,6 +21570,16 @@ packages:
   /focus-visible/5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
 
+  /follow-redirects/1.15.2:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
   /follow-redirects/1.15.2_debug@2.6.9:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
@@ -21582,18 +21590,6 @@ packages:
         optional: true
     dependencies:
       debug: 2.6.9
-
-  /follow-redirects/1.15.2_debug@4.3.4:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.4
-    dev: false
 
   /fontkit-next/1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
@@ -22027,7 +22023,7 @@ packages:
       create-error-class: 3.0.2
       debug: 4.3.4
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 5.0.0
