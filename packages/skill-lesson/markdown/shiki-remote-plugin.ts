@@ -41,29 +41,34 @@ export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
     await visitCodeNodes(ast, async (node) => {
       const code = node.value
 
-      if (!highlighter) {
-        highlighter = await getHighlighter({
-          theme: opts.theme
-            ? require(`shiki/themes/${opts.theme}.json`)
-            : defaultTheme,
-        })
-      }
+      try {
+        if (!highlighter) {
+          highlighter = await getHighlighter({
+            theme: opts.theme
+              ? require(`shiki/themes/${opts.theme}.json`)
+              : defaultTheme,
+          })
+        }
 
-      /**
-       * We only need to call the remote service when necessary:
-       * when 'twoslash' is specified in the code fence. Otherwise,
-       * we can just use shiki
-       */
-      if (!node.meta?.includes('twoslash')) {
-        const html = await highlighter.codeToHtml(code, {
-          lang: node.lang ?? undefined,
-        })
+        /**
+         * We only need to call the remote service when necessary:
+         * when 'twoslash' is specified in the code fence. Otherwise,
+         * we can just use shiki
+         */
+        if (!node.meta?.includes('twoslash')) {
+          const html = await highlighter.codeToHtml(code, {
+            lang: node.lang ?? undefined,
+          })
 
-        node.type = 'html'
-        node.value = html
-        node.children = []
+          node.type = 'html'
+          node.value = html
+          node.children = []
 
-        return
+          return
+        }
+      } catch (e) {
+        console.error('Local shiki failed, falling back to remote')
+        console.error(e)
       }
 
       try {
