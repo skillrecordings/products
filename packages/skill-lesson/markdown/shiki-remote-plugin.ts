@@ -1,4 +1,5 @@
 import type {Transformer} from 'unified'
+import {createShikiHighlighter, renderCodeToHTML} from 'shiki-twoslash'
 
 interface MarkdownNode {
   type: string
@@ -8,7 +9,7 @@ interface MarkdownNode {
 interface CodeNode extends MarkdownNode {
   value: string
   lang: string
-  meta: string
+  meta: string | null
 }
 
 const visitCodeNodes = async (
@@ -32,10 +33,38 @@ export interface ShikiRemotePluginOptions {
   theme?: string
 }
 
+type Highlighter = Awaited<ReturnType<typeof createShikiHighlighter>>
+
+let highlighter: Highlighter | undefined = undefined
+
 export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
   return async (ast) => {
     await visitCodeNodes(ast, async (node) => {
       const code = node.value
+
+      if (!highlighter) {
+        highlighter = await createShikiHighlighter({
+          theme: opts.theme || 'dark-plus',
+        })
+      }
+
+      if (!node.meta?.includes('twoslash')) {
+        const html = await renderCodeToHTML(
+          code,
+          node.lang,
+          {},
+          {
+            themeName: opts.theme || 'dark-plus',
+          },
+          highlighter,
+        )
+
+        node.type = 'html'
+        node.value = html
+        node.children = []
+
+        return
+      }
 
       try {
         const response = await fetch(opts.endpoint, {
