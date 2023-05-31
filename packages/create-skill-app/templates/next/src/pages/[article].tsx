@@ -1,7 +1,7 @@
 import React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {type Article, getAllArticles, getArticle} from 'lib/articles'
-import ArticleTemplate from 'templates/article-template'
+import {type Article, getAllArticles, getArticle} from '@/lib/articles'
+import ArticleTemplate from '@/templates/article-template'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 

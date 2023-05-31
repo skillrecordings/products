@@ -112,8 +112,8 @@ async function run(): Promise<void> {
     {
       type: 'text',
       name: 'primaryColor',
-      message: `What is the primary color for this product? (hex code)`,
-      initial: '#FEA111',
+      message: `What is the primary color for this product? (in HSL format)`,
+      initial: '227 100% 63%',
     },
     {
       type: 'text',

@@ -1,6 +1,6 @@
 import React from 'react'
-import TutorialTemplate from 'templates/tutorial-template'
-import {getAllTutorials, getTutorial} from 'lib/tutorials'
+import TutorialTemplate from '@/templates/tutorial-template'
+import {getAllTutorials, getTutorial} from '@/lib/tutorials'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'

@@ -1,12 +1,12 @@
-import Layout from 'components/app/layout'
-import {getAllTips, type Tip} from 'lib/tips'
+import Layout from '@/components/app/layout'
+import {getAllTips, type Tip} from '@/lib/tips'
 import {GetStaticProps} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import config from 'config'
+import config from '@/config'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import Header from 'components/app/header'
-import {getOgImage} from 'utils/get-og-image'
+import Header from '@/components/app/header'
+import {getOgImage} from '@/utils/get-og-image'
 import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 
 export const getStaticProps: GetStaticProps = async (context) => {

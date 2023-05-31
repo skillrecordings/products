@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
@@ -7,17 +7,18 @@ import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {first} from 'lodash'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
 import ModuleNavigator from '@skillrecordings/skill-lesson/video/module-navigator'
 import Balancer from 'react-wrap-balancer'
-import config from 'config'
+import config from '@/config'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import {getOgImage} from 'utils/get-og-image'
+import {getOgImage} from '@/utils/get-og-image'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {Button} from '@skillrecordings/skill-lesson/ui/button'
 // import Testimonials from 'testimonials'
 
 const TutorialTemplate: React.FC<{
@@ -84,7 +85,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
         <div className="w-full pt-8 text-center sm:pt-0 md:text-left">
           <Link
             href="/tutorials"
-            className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-brand-primary"
+            className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-primary"
           >
             Tutorial
           </Link>
@@ -107,46 +108,45 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               </div>
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
-              <Link
-                href={
-                  firstSection && sections
-                    ? {
-                        pathname: '/tutorials/[module]/[section]/[lesson]',
-                        query: {
-                          module: slug.current,
-                          section: isModuleInProgress
-                            ? nextSection?.slug
-                            : firstSection.slug,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
-                        },
-                      }
-                    : {
-                        pathname: '/tutorials/[module]/[lesson]',
-                        query: {
-                          module: slug.current,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
-                        },
-                      }
-                }
-                className={cx(
-                  'flex w-full items-center justify-center rounded bg-brand-primary px-5 py-4 font-semibold leading-tight text-white transition hover:brightness-110 md:w-auto',
-                  {
+              <Button size="lg" asChild>
+                <Link
+                  href={
+                    firstSection && sections
+                      ? {
+                          pathname: '/tutorials/[module]/[section]/[lesson]',
+                          query: {
+                            module: slug.current,
+                            section: isModuleInProgress
+                              ? nextSection?.slug
+                              : firstSection.slug,
+                            lesson: isModuleInProgress
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
+                          },
+                        }
+                      : {
+                          pathname: '/tutorials/[module]/[lesson]',
+                          query: {
+                            module: slug.current,
+                            lesson: isModuleInProgress
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
+                          },
+                        }
+                  }
+                  className={cx({
                     'animate-pulse': moduleProgressStatus === 'loading',
-                  },
-                )}
-                onClick={() => {
-                  track('clicked start learning', {module: slug.current})
-                }}
-              >
-                {isModuleInProgress ? 'Continue' : 'Start'} Learning
-                <span className="pl-2" aria-hidden="true">
-                  →
-                </span>
-              </Link>
+                  })}
+                  onClick={() => {
+                    track('clicked start learning', {module: slug.current})
+                  }}
+                >
+                  {isModuleInProgress ? 'Continue' : 'Start'} Learning
+                  <span className="pl-2" aria-hidden="true">
+                    →
+                  </span>
+                </Link>
+              </Button>
               {github?.repo && (
                 <a
                   className="flex w-full items-center justify-center gap-2 rounded-md border-2 border-gray-800 px-5 py-4 font-medium leading-tight transition hover:bg-gray-800 md:w-auto"

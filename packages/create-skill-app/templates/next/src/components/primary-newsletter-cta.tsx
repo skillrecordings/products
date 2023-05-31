@@ -8,6 +8,7 @@ import common from '../text/common'
 import {type ConvertkitSubscriber} from '@skillrecordings/convertkit-react-ui/dist/types'
 import {twMerge} from 'tailwind-merge'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {Button} from '@skillrecordings/skill-lesson/ui/button'
 
 type PrimaryNewsletterCtaProps = {
   onSuccess?: () => void
@@ -58,7 +59,13 @@ export const PrimaryNewsletterCta: React.FC<
       <SubscribeToConvertkitForm
         onSuccess={onSuccess}
         actionLabel={actionLabel}
+        submitButtonElem={
+          <Button type="submit" size="lg" variant="default">
+            {actionLabel}
+          </Button>
+        }
       />
+      <div className="h-10 w-10" />
       <p data-nospam="" className="pt-8 text-center text-sm opacity-80">
         We respect your privacy. Unsubscribe at any time.
       </p>

@@ -2,11 +2,12 @@ import React from 'react'
 import {getCsrfToken, getProviders, signIn} from 'next-auth/react'
 import {useForm} from 'react-hook-form'
 import {GetServerSideProps} from 'next'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import Balancer from 'react-wrap-balancer'
+import {Button} from '@skillrecordings/skill-lesson/ui/button'
 
 const Login: React.FC<
   React.PropsWithChildren<{csrfToken: string; providers: any}>
@@ -48,9 +49,9 @@ const Login: React.FC<
       withFooter={false}
       meta={{title: `Log in to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}
     >
-      <div className="relative mx-auto flex w-full flex-grow flex-col items-center sm:justify-center justify-start sm:pb-16 pb-10 px-5 sm:pt-0 pt-14">
-        <main className="relative z-10 max-w-xl w-full mx-auto">
-          <h1 className="text-center font-text text-3xl font-bold sm:text-4xl">
+      <div className="relative mx-auto flex w-full flex-grow flex-col items-center justify-start px-5 pb-10 pt-14 sm:justify-center sm:pb-16 sm:pt-0">
+        <main className="relative z-10 mx-auto w-full max-w-xl">
+          <h1 className="font-text text-center text-3xl font-bold sm:text-4xl">
             Log In
           </h1>
           {query?.error === 'Verification' ? (
@@ -96,31 +97,32 @@ const Login: React.FC<
                   type="email"
                   required={true}
                   placeholder="you@example.com"
-                  className="mb-3 block w-full rounded-md bg-gray-200 py-4 pl-10 placeholder:text-gray-500 font-medium"
+                  className="mb-3 block w-full rounded-md bg-gray-200 py-4 pl-10 font-medium placeholder:text-gray-500"
                   {...register('email', {required: true})}
                 />
               </div>
-              <button className="hover:brightness-110 transition bg-brand-primary text-white rounded-md px-8 py-4 w-full font-semibold">
+              <Button size="lg" type="submit">
                 Email me a login link
-              </button>
+              </Button>
             </form>
           </div>
           {githubProvider ? (
             <div className="flex flex-col items-center sm:text-lg">
               <span className="py-5">or</span>
-              <button
+              <Button
+                size="lg"
+                variant="ghost"
                 onClick={() =>
                   signIn(githubProvider.id, {
                     callbackUrl: '/',
                   })
                 }
-                className="hover:brightness-110 transition border border-brand-primary text-brand-primary bg-transparent rounded-md px-8 py-4 w-full font-semibold mt-5"
               >
                 <span className="mr-2 flex items-center justify-center">
                   <Icon name="Github" size="20" />
                 </span>
                 Log in with {githubProvider.name}
-              </button>
+              </Button>
             </div>
           ) : null}
         </main>

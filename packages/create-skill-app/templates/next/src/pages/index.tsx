@@ -1,7 +1,7 @@
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import type {NextPage} from 'next'
-import LandingCopy from 'components/landing-copy.mdx'
-import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
+import LandingCopy from '@/components/landing-copy.mdx'
+import {PrimaryNewsletterCta} from '@/components/primary-newsletter-cta'
 
 const Home: NextPage = () => {
   return (

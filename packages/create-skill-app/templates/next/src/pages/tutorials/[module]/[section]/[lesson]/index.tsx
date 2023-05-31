@@ -1,12 +1,12 @@
 import React from 'react'
-import LessonTemplate from 'templates/lesson-template'
+import LessonTemplate from '@/templates/lesson-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getAllTutorials, getTutorial} from 'lib/tutorials'
-import {getExercise} from 'lib/exercises'
+import {getAllTutorials, getTutorial} from '@/lib/tutorials'
+import {getExercise} from '@/lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
-import {getSection} from 'lib/sections'
+import {getSection} from '@/lib/sections'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {Resource} from '@skillrecordings/skill-lesson/schemas/resource'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
@@ -21,9 +21,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const module = await getTutorial(params?.module as string)
   const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSlug, false)
-  const lessonBody = lesson.body && (await serializeMDX(lesson.body))
+  const lessonBody =
+    lesson.body &&
+    typeof lesson.body === 'string' &&
+    (await serializeMDX(lesson.body))
   const lessonBodyPreview =
-    lesson.body && (await serializeMDX(lesson.body.substring(0, 300)))
+    lesson.body &&
+    typeof lesson.body === 'string' &&
+    (await serializeMDX(lesson.body.substring(0, 300)))
 
   return {
     props: {

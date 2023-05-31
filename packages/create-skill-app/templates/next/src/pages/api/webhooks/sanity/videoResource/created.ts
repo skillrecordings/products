@@ -1,8 +1,8 @@
 import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
-import {orderTranscript} from 'lib/castingwords'
-import {updateVideoResourceWithTranscriptOrderId} from 'lib/sanity'
+import {orderTranscript} from '@/lib/castingwords'
+import {updateVideoResourceWithTranscriptOrderId} from '@/lib/sanity'
 import * as Sentry from '@sentry/nextjs'
 import Mux from '@mux/mux-node'
 

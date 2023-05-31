@@ -3,6 +3,13 @@ import {NextSeo, type NextSeoProps} from '@skillrecordings/next-seo'
 import {twMerge} from 'tailwind-merge'
 import Navigation from './navigation'
 import Footer from './footer'
+import {Inter} from 'next/font/google'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sans',
+})
 
 type LayoutProps = {
   meta?: NextSeoProps & {titleAppendSiteName?: boolean}
@@ -42,7 +49,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   const {url} = openGraph || {}
 
   return (
-    <div className="relative">
+    <div className={`relative ${inter.variable} font-sans`}>
       <NextSeo
         title={title}
         description={description}
