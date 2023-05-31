@@ -13,6 +13,7 @@ import pricing from './documents/pricing'
 import product from './documents/product'
 import article from './documents/article'
 import concept from './documents/concept'
+import email from './documents/email'
 // —— objects
 // body
 import body from './objects/body'
@@ -52,6 +53,7 @@ export const schemaTypes = [
   product,
   article,
   concept,
+  email,
   // objects
   body,
   bodyVideo,
