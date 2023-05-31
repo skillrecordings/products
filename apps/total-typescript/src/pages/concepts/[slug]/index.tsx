@@ -21,6 +21,8 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     useShikiTwoslash: true,
     syntaxHighlighterOptions: {
       theme: 'dark-plus',
+      authorization: process.env.SHIKI_AUTH_TOKEN,
+      endpoint: process.env.SHIKI_ENDPOINT,
     },
   })
 
