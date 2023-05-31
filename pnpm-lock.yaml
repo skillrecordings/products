@@ -2789,13 +2789,11 @@ importers:
       react-hot-toast: ^2.2.0
       react-icons: ^4.7.1
       react-markdown: ^8.0.4
-      react-refractor: ^2.1.7
       react-rewards: ^2.0.3
       react-scroll: ^1.8.6
       react-use: ^17.3.2
       react-use-clipboard: ^1.0.7
       react-wrap-balancer: ^0.2.4
-      refractor: ^4.5.0
       rehype-autolink-headings: ^6.1.1
       rehype-slug: ^5.1.0
       remark-gfm: ^3.0.1
@@ -2927,13 +2925,11 @@ importers:
       react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       react-icons: 4.7.1_react@18.2.0
       react-markdown: 8.0.6_s3k22s5ab4eu26xuel7hiaraxy
-      react-refractor: 2.1.7_react@18.2.0
       react-rewards: 2.0.3_biqbaboplfbrettd7655fr4n2y
       react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
       react-use-clipboard: 1.0.8_biqbaboplfbrettd7655fr4n2y
       react-wrap-balancer: 0.2.4_react@18.2.0
-      refractor: 4.8.0
       rehype-autolink-headings: 6.1.1
       rehype-slug: 5.1.0
       remark-gfm: 3.0.1

@@ -11,7 +11,6 @@ import {ArticleNewsletterCta} from '@/components/primary-newsletter-cta'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import Link from 'next/link'
 import {getOgImage} from '@/utils/get-og-image'
-
 import {serialize} from 'next-mdx-remote/serialize'
 import {useCopyToClipboard} from 'react-use'
 import toast from 'react-hot-toast'
