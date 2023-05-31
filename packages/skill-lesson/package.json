@@ -93,7 +93,9 @@
     "typescript": "5.1.1-rc",
     "unified": "^10.1.2",
     "yup": "^0.32.11",
-    "zod": "^3.21.4"
+    "zod": "^3.21.4",
+    "mjml-react": "^2.0.8",
+    "@types/mjml-react": "^2.0.6"
   },
   "devDependencies": {
     "@types/nprogress": "^0.2.0"

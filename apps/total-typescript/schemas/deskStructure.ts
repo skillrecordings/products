@@ -10,6 +10,7 @@ import explainers from './structure/explainers'
 import exercises from './structure/exercises'
 import sections from './structure/sections'
 import links from './structure/links'
+import emails from './structure/emails'
 
 import videoResources from './structure/videoResources'
 
@@ -28,6 +29,7 @@ const hiddenDocTypes = (listItem: any) =>
     'section',
     'linkResource',
     'interview',
+    'email',
   ].includes(listItem.getId())
 
 export default (S: any) =>
@@ -42,6 +44,7 @@ export default (S: any) =>
       articles(S),
       tips(S),
       bonuses(S),
+      emails(S),
       S.divider(),
       videoResources(S),
       exercises(S),
