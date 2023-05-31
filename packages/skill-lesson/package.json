@@ -86,7 +86,6 @@
     "refractor": "^4.5.0",
     "rehype-raw": "^6.1.1",
     "shiki": "^0.14.1",
-    "shiki-twoslash": "^3.1.2",
     "speakingurl": "^14.0.1",
     "styled-jsx": "5.1.1",
     "superjson": "=1.11.0",

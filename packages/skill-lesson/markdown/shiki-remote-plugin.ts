@@ -1,5 +1,6 @@
 import type {Transformer} from 'unified'
-import {createShikiHighlighter, renderCodeToHTML} from 'shiki-twoslash'
+import {Highlighter, getHighlighter} from 'shiki'
+import defaultTheme from 'shiki/themes/github-dark.json'
 
 interface MarkdownNode {
   type: string
@@ -8,7 +9,7 @@ interface MarkdownNode {
 
 interface CodeNode extends MarkdownNode {
   value: string
-  lang: string
+  lang: string | null
   meta: string | null
 }
 
@@ -33,8 +34,6 @@ export interface ShikiRemotePluginOptions {
   theme?: string
 }
 
-type Highlighter = Awaited<ReturnType<typeof createShikiHighlighter>>
-
 let highlighter: Highlighter | undefined = undefined
 
 export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
@@ -43,27 +42,22 @@ export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
       const code = node.value
 
       if (!highlighter) {
-        highlighter = await createShikiHighlighter({
-          theme: opts.theme || 'dark-plus',
+        highlighter = await getHighlighter({
+          theme: opts.theme
+            ? require(`shiki/themes/${opts.theme}.json`)
+            : defaultTheme,
         })
       }
 
       /**
        * We only need to call the remote service when necessary:
        * when 'twoslash' is specified in the code fence. Otherwise,
-       * we can just run renderCodeToHTML which just acts like a
-       * normal syntax highlighter without twoslash's magic powers.
+       * we can just use shiki
        */
       if (!node.meta?.includes('twoslash')) {
-        const html = await renderCodeToHTML(
-          code,
-          node.lang,
-          {},
-          {
-            themeName: opts.theme || 'dark-plus',
-          },
-          highlighter,
-        )
+        const html = await highlighter.codeToHtml(code, {
+          lang: node.lang ?? undefined,
+        })
 
         node.type = 'html'
         node.value = html
