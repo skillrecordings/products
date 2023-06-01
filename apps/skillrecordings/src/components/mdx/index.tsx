@@ -1,32 +1,20 @@
 import * as React from 'react'
-import {useTheme} from 'next-themes'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
-import Blockquote from './blockquote'
 import ContributorProfile from './contributor-profile'
 import ClientProfile from './client-profile'
-import {Tweet} from '../../mdx-embed'
-
-const TweetWrapper = (props: any) => {
-  const {resolvedTheme} = useTheme()
-  const [mounted, setMounted] = React.useState<boolean>(false)
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  return mounted ? (
-    <div className="rounded-xl overflow-hidden">
-      <Tweet {...props} theme={resolvedTheme} />
-    </div>
-  ) : null
-}
 
 const mdxComponents: any = () => {
   return {
-    Tweet: (props: any) => <TweetWrapper {...props} />,
     Image,
-    blockquote: (props: any) => <Blockquote {...props} />,
+    Blockquote: (props: any) => {
+      const [hasMounted, setHasMounted] = React.useState(false)
+      React.useEffect(() => {
+        setHasMounted(true)
+      }, [])
+      const tweet = React.createElement('blockquote', props, props.children)
+      return hasMounted ? tweet : null
+    },
     ContributorProfile,
     ClientProfile,
     Link,

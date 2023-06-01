@@ -13,6 +13,12 @@ const CaseStudyTemplate: React.FC<
   const router = useRouter()
   const shareUrl = `https://${config.siteUrl}${router.pathname}`
   const shareMessage = `${title}, case study by ${config.twitter.handle}`
+
+  const [hasMounted, setHasMounted] = React.useState(false)
+  React.useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
   return (
     <Layout meta={meta}>
       <article>

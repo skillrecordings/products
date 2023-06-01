@@ -19,7 +19,13 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <script
+            async
+            src="https://platform.twitter.com/widgets.js"
+            // charset="utf-8"
+          ></script>
+        </Head>
         <body className="text-black dark:bg-gray-900 bg-gray-50 dark:text-white">
           <Main />
           <NextScript />
