@@ -108,6 +108,8 @@
     "next-auth": "^4.22.1",
     "next-sitemap": "^3.0.5",
     "node-fetch": "^2.6.7",
+    "nodemailer": "^6.7.2",
+    "nodemailer-postmark-transport": "^5.2.1",
     "react": "18.2.0",
     "react-countdown": "^2.3.5",
     "react-dom": "18.2.0",
