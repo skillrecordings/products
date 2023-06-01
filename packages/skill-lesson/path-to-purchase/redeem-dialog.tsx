@@ -42,24 +42,21 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
     },
   })
   return (
-    <AlertDialogPrimitive.Root open={open}>
+    <AlertDialogPrimitive.Root data-redeem-dialog="" open={open}>
       <Content>
-        <AlertDialogPrimitive.Title className="px-8 pt-8 text-xl font-bold ">
+        <AlertDialogPrimitive.Title data-title="">
           Do you want to redeem this coupon?
         </AlertDialogPrimitive.Title>
-        <AlertDialogPrimitive.Description className="border-b border-gray-700/50 px-8 pt-4 pb-8 text-gray-200">
+        <AlertDialogPrimitive.Description data-description="">
           Enter the email address you wish to be associated with your license.
           We recommend using an email address you will have access to for years
           to come. Please triple check the address!
         </AlertDialogPrimitive.Description>
-        <form onSubmit={formik.handleSubmit} className="py-4 px-8">
-          <div className="mt-2 flex flex-col">
-            <label htmlFor="email" className="pb-1">
-              Email address
-            </label>
+        <form onSubmit={formik.handleSubmit}>
+          <div data-email="">
+            <label htmlFor="email">Email address</label>
             <input
               required
-              className="rounded-sm border border-gray-800 bg-gray-900 px-4 py-2 focus-visible:border-transparent"
               id="email"
               type="email"
               onChange={formik.handleChange}
@@ -67,7 +64,7 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
               placeholder="you@example.com"
             />
           </div>
-          <div className="flex w-full justify-end gap-3 py-8">
+          <div data-actions="">
             <AlertDialogPrimitive.Cancel asChild>
               <button
                 onClick={(e) => {
@@ -75,16 +72,13 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
                   const pathname = router.asPath.replace(`?code=${code}`, '')
                   router.push(pathname)
                 }}
-                className="flex rounded-sm bg-gray-700 py-2 px-4 text-sm font-medium text-gray-300 hover:bg-gray-600"
+                data-cancel=""
               >
                 Cancel
               </button>
             </AlertDialogPrimitive.Cancel>
             <AlertDialogPrimitive.Action asChild>
-              <button
-                className="transitions flex rounded-sm border border-transparent bg-cyan-300 py-2 px-4 text-sm font-medium text-black shadow-sm focus:outline-none focus:ring-white hover:brightness-105"
-                type="submit"
-              >
+              <button data-submit="" type="submit">
                 Yes, Claim License
               </button>
             </AlertDialogPrimitive.Action>
@@ -103,11 +97,8 @@ const Content: React.FC<React.PropsWithChildren<unknown>> = ({
 }) => {
   return (
     <AlertDialogPrimitive.Portal>
-      <AlertDialogPrimitive.Overlay className="fixed inset-0 z-40 bg-black bg-opacity-30 backdrop-blur-sm" />
-      <AlertDialogPrimitive.Content
-        className="animate-fade-in-out fixed top-1/2 left-1/2 z-50 w-full max-w-[95%] -translate-x-1/2 -translate-y-1/2 rounded-md bg-gray-800 shadow-xl sm:max-w-md"
-        {...props}
-      >
+      <AlertDialogPrimitive.Overlay data-redeem-dialog-overlay="" />
+      <AlertDialogPrimitive.Content data-redeem-dialog-content="" {...props}>
         {children}
       </AlertDialogPrimitive.Content>
     </AlertDialogPrimitive.Portal>
