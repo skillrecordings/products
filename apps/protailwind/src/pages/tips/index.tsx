@@ -43,7 +43,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
         <PageHeadline>Tailwind Tips</PageHeadline>
         <PageSubheadline>{pageDescription}</PageSubheadline>
       </header>
-      <main className="relative z-10 mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
+      <main className="relative z-10 mx-auto grid w-full max-w-screen-md gap-5 px-5">
         {tips.map((tip) => {
           return <TipCard tip={tip} key={tip.slug} />
         })}
@@ -61,8 +61,8 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
-    <article className="flex flex-col items-center overflow-hidden rounded-xl bg-white shadow-2xl shadow-gray-500/20">
-      <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-gray-100">
+    <article className="flex flex-col overflow-hidden rounded-xl bg-white p-5 shadow-2xl shadow-gray-500/20 sm:flex-row sm:items-center sm:p-8">
+      <header className="relative flex aspect-video w-48 flex-shrink-0 items-center justify-center overflow-hidden rounded">
         <button
           onClick={() => {
             router
@@ -79,7 +79,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
                 return videoElement?.play()
               })
           }}
-          className="group  flex items-center justify-center"
+          className="group flex items-center justify-center"
         >
           <span className="sr-only">
             Play {title}{' '}
@@ -92,7 +92,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
               objectFit="cover"
               layout="fill"
               aria-hidden="true"
-              className="brightness-90 transition duration-500 ease-in-out group-hover:scale-105"
+              className="scale-[1.01] brightness-90 transition duration-300 ease-in-out group-hover:scale-105"
             />
           </div>
           <div
@@ -103,7 +103,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
           </div>
         </button>
       </header>
-      <div className="flex h-full w-full flex-col items-start p-8">
+      <div className="mt-4 flex h-full w-full flex-col items-start sm:mt-0 sm:px-8">
         <div className="flex items-center gap-2" aria-hidden="true">
           {tipCompleted && (
             <div className="rounded-full bg-gray-100 px-2 py-1 font-heading text-xs font-bold uppercase leading-none tracking-wider text-gray-500">
@@ -170,7 +170,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
               width={240 / 1.5}
               height={135 / 1.5}
               aria-hidden="true"
-              className="brightness-75 transition duration-300 ease-in-out group-hover:scale-110"
+              className="scale-[1.01] brightness-75 transition duration-300 ease-in-out group-hover:scale-110"
             />
           </div>
           <div

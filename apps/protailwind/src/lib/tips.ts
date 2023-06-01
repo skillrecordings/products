@@ -34,7 +34,7 @@ export type Tip = z.infer<typeof TipSchema>
 
 export const getAllTips = async (): Promise<Tip[]> => {
   const tips =
-    await sanityClient.fetch(groq`*[_type == "tip"] | order(_createdAt asc) {
+    await sanityClient.fetch(groq`*[_type == "tip"] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,
