@@ -37,8 +37,8 @@
     "preset": "@skillrecordings/scripts/jest/next"
   },
   "dependencies": {
-    "@mdx-js/react": "^2.3.0",
     "@mdx-js/mdx": "^2.3.0",
+    "@mdx-js/react": "^2.3.0",
     "@next/font": "13.4.2",
     "@next/mdx": "^13.4.3",
     "@reach/dialog": "^0.16.2",
