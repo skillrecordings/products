@@ -129,6 +129,8 @@
     "next-mdx-remote": "=4.2.0",
     "next-sitemap": "^3.0.5",
     "node-fetch": "^2.6.7",
+    "nodemailer": "^6.7.2",
+    "nodemailer-postmark-transport": "^5.2.1",
     "openai": "^3.2.1",
     "pluralize": "^8.0.0",
     "query-string": "^7.1.1",
