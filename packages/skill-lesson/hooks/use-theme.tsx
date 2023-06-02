@@ -3,18 +3,23 @@ import {type VariantProps, type CxReturn} from 'class-variance-authority'
 import {type ClassProp} from 'class-variance-authority/dist/types'
 import {defaultButtonVariants} from '../ui/button'
 import {defaultTheme} from '../ui/utils'
+import {defaultLabelVariants} from '../ui/label'
 
 type ThemeContextType = {
   buttonVariants?: (
     props: VariantProps<typeof defaultButtonVariants> & ClassProp,
   ) => CxReturn
-  input?: string
+  labelVariants?: (
+    props?: VariantProps<typeof defaultLabelVariants> & ClassProp,
+  ) => CxReturn
 }
 
-export const ThemeContext = React.createContext({} as ThemeContextType)
+export const ThemeContext = React.createContext(
+  defaultTheme as ThemeContextType,
+)
 
 type ThemeProviderProps = {
-  theme: ThemeContextType
+  theme?: ThemeContextType
   children: React.ReactNode
 }
 
