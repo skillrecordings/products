@@ -19,6 +19,7 @@ const LessonTemplate = () => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {lesson, module} = useLesson()
   const addProgressMutation = trpc.progress.add.useMutation()
+  const {data: defaultProduct} = trpc.products.getDefaultProduct()
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
