@@ -24,9 +24,15 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {products = []} = await getActiveProducts()
   const tutorials =
     await sanityClient.fetch(groq`*[_type == "module" && moduleType == 'tutorial' && state == 'published'] | order(_createdAt desc) {
+    _id,
     title,
     "slug": slug.current,
     "image": image.asset->url,
+    "sections": resources[@->._type == 'section']->{
+    _id,
+    "lessons": resources[@->._type in ['exercise', 'explainer']]->{      
+    },
+  }
   }`)
   const {props: commerceProps} = await propsForCommerce({
     query,
@@ -71,12 +77,8 @@ const Home: React.FC<
     <Layout meta={{titleAppendSiteName: false}} defaultCoupon={defaultCoupon}>
       <Header />
       <main>
-        <section>
-          {tutorials.map((tutorial) => {
-            return <ResourceTeaser resource={tutorial} />
-          })}
-        </section>
         <Copy />
+        <FreeTutorials tutorials={tutorials} />
         <NewsletterSubscribeForm />
         <Bio />
       </main>
@@ -86,6 +88,21 @@ const Home: React.FC<
 }
 
 export default Home
+
+const FreeTutorials: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
+  return (
+    <section className="w-fll mx-auto mb-5 max-w-screen-lg">
+      <h2 className="-mb-8 px-5 font-heading text-3xl font-extrabold">
+        Free Tailwind Tutorials
+      </h2>
+      <div className="mx-auto flex w-full flex-row gap-6 overflow-x-auto py-16 pl-5 pr-10 sm:px-5">
+        {tutorials.map((tutorial) => {
+          return <ResourceTeaser key={tutorial._id} resource={tutorial} />
+        })}
+      </div>
+    </section>
+  )
+}
 
 const Header = () => {
   return (
