@@ -1,11 +1,11 @@
 import * as React from 'react'
 import {
-  redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit-react-ui'
+  redirectUrlBuilder,
+} from '@skillrecordings/skill-lesson/ui/convertkit-subscribe-form'
 import {useRouter} from 'next/router'
 import common from '../text/common'
-import {type ConvertkitSubscriber} from '@skillrecordings/convertkit-react-ui/dist/types'
+import {type Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import {twMerge} from 'tailwind-merge'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Button} from '@skillrecordings/skill-lesson/ui/button'
@@ -33,15 +33,16 @@ export const PrimaryNewsletterCta: React.FC<
   byline = common['primary-newsletter-byline'],
   actionLabel = common['primary-newsletter-button-cta-label'],
   trackProps = {event: 'subscribed', params: {}},
-  onSuccess = (subscriber: ConvertkitSubscriber | undefined) => {
+  onSuccess,
+}) => {
+  const router = useRouter()
+  const handleOnSuccess = (subscriber: Subscriber | undefined) => {
     if (subscriber) {
       track(trackProps.event as string, trackProps.params)
       const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
       router.push(redirectUrl)
     }
-  },
-}) => {
-  const router = useRouter()
+  }
   return (
     <section
       id={id}
@@ -57,13 +58,8 @@ export const PrimaryNewsletterCta: React.FC<
         </div>
       )}
       <SubscribeToConvertkitForm
-        onSuccess={onSuccess}
+        onSuccess={onSuccess ? onSuccess : handleOnSuccess}
         actionLabel={actionLabel}
-        submitButtonElem={
-          <Button type="submit" size="lg" variant="default">
-            {actionLabel}
-          </Button>
-        }
       />
       <div className="h-10 w-10" />
       <p data-nospam="" className="pt-8 text-center text-sm opacity-80">

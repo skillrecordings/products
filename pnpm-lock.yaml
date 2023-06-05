@@ -4354,6 +4354,7 @@ importers:
       '@radix-ui/react-accordion': ^1.0.0
       '@radix-ui/react-alert-dialog': ^0.1.7
       '@radix-ui/react-dialog': ^0.1.7
+      '@radix-ui/react-label': ^2.0.2
       '@radix-ui/react-slot': ^1.0.2
       '@radix-ui/react-switch': ^1.0.1
       '@sanity/client': ^4.0.1
@@ -4386,6 +4387,7 @@ importers:
       '@types/react-dom': ^18.2.4
       '@types/speakingurl': ^13.0.3
       '@vercel/og': ^0.5.4
+      axios: ^1.4.0
       class-variance-authority: ^0.6.0
       classnames: ^2.3.1
       clsx: ^1.2.1
@@ -4397,6 +4399,7 @@ importers:
       groq: ^2.15.0
       js-cookie: ^3.0.1
       lodash: ^4.17.21
+      lucide-react: ^0.224.0
       mjml: ^4.12.0
       mjml-react: ^2.0.8
       next: ^13.4.3
@@ -4406,6 +4409,7 @@ importers:
       nodemailer-postmark-transport: ^5.2.1
       nprogress: ^0.2.0
       pluralize: ^8.0.0
+      query-string: ^7.1.1
       react: 18.2.0
       react-countdown: ^2.3.5
       react-dom: 18.2.0
@@ -4438,6 +4442,7 @@ importers:
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-alert-dialog': 0.1.7_tqcjxml4rosq5qpg5cznikfcd4
       '@radix-ui/react-dialog': 0.1.7_tqcjxml4rosq5qpg5cznikfcd4
+      '@radix-ui/react-label': 2.0.2_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@radix-ui/react-slot': 1.0.2_s3k22s5ab4eu26xuel7hiaraxy
       '@radix-ui/react-switch': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@sanity/client': 4.0.1
@@ -4469,6 +4474,7 @@ importers:
       '@types/react-dom': 18.2.4
       '@types/speakingurl': 13.0.3
       '@vercel/og': 0.5.4
+      axios: 1.4.0
       class-variance-authority: 0.6.0_typescript@5.1.1-rc
       classnames: 2.3.1
       clsx: 1.2.1
@@ -4480,6 +4486,7 @@ importers:
       groq: 2.15.0
       js-cookie: 3.0.1
       lodash: 4.17.21
+      lucide-react: 0.224.0_react@18.2.0
       mjml: 4.12.0
       mjml-react: 2.0.8_ailtjjlsqvu2thdobeyj5nn3lq
       next: 13.4.3_biqbaboplfbrettd7655fr4n2y
@@ -4489,6 +4496,7 @@ importers:
       nodemailer-postmark-transport: 5.2.1_nodemailer@6.7.2
       nprogress: 0.2.0
       pluralize: 8.0.0
+      query-string: 7.1.1
       react: 18.2.0
       react-countdown: 2.3.5_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
@@ -11129,6 +11137,27 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@radix-ui/react-label/2.0.2_lhsvdmrfrkqkmxtqosqgyd3k4i:
+    resolution: {integrity: sha512-N5ehvlM7qoTLx7nWPodsPYPgMzA5WM8zZChQg8nyFJKnDO5WHdba1vv5/H6IO5LtJMfD2Q3wh1qHFGNtK0w3bQ==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.5
+      '@radix-ui/react-primitive': 1.0.3_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@types/react': 18.2.6
+      '@types/react-dom': 18.2.4
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /@radix-ui/react-menu/1.0.0_tqcjxml4rosq5qpg5cznikfcd4:
     resolution: {integrity: sha512-icW4C64T6nHh3Z4Q1fxO1RlSShouFF4UpUmPV8FLaJZfphDljannKErDuALDx4ClRLihAPZ9i+PrLNPoWS2DMA==}
     peerDependencies:
@@ -11286,6 +11315,27 @@ packages:
     dependencies:
       '@babel/runtime': 7.21.5
       '@radix-ui/react-slot': 1.0.1_react@18.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@radix-ui/react-primitive/1.0.3_lhsvdmrfrkqkmxtqosqgyd3k4i:
+    resolution: {integrity: sha512-yi58uVyoAcK/Nq1inRY56ZSjKypBNKTa/1mcL8qdl6oJeEaDbOldlzrGn7P6Q3Id5d+SYNGc5AJgc4vGhjs5+g==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.5
+      '@radix-ui/react-slot': 1.0.2_s3k22s5ab4eu26xuel7hiaraxy
+      '@types/react': 18.2.6
+      '@types/react-dom': 18.2.4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -14042,7 +14092,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 20.2.0
+      '@types/node': 20.2.1
       '@types/responselike': 1.0.0
     dev: true
 
@@ -14390,7 +14440,7 @@ packages:
   /@types/minipass/3.1.2:
     resolution: {integrity: sha512-foLGjgrJkUjLG/o2t2ymlZGEoBNBa/TfoUZ7oCTkOjP1T43UGBJspovJou/l3ZuHvye2ewR5cZNtp2zyWgILMA==}
     dependencies:
-      '@types/node': 20.2.0
+      '@types/node': 20.2.1
     dev: true
 
   /@types/mjml-core/4.7.1:
@@ -18753,10 +18803,6 @@ packages:
     resolution: {integrity: sha512-YV/0HQHreRwKb7uBopyIkLG17jG6Sv2qUchk9qSoVJ2f+flwRsPNBO0hAnjt6mTNYUT+vw9Gy2ihXg4sUWPi2w==}
     dependencies:
       character-entities: 2.0.1
-
-  /decode-uri-component/0.2.0:
-    resolution: {integrity: sha512-hjf+xovcEn31w/EUYdTXQh/8smFL/dzYjohQGEIgjyNavaJfBY2p5F527Bo1VPATxv0VYTUC2bOcXvqFwk78Og==}
-    engines: {node: '>=0.10'}
 
   /decode-uri-component/0.2.2:
     resolution: {integrity: sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==}
@@ -26346,6 +26392,14 @@ packages:
     resolution: {integrity: sha512-Pn9cox5CsMYngeDbmChANltQl+5pi6XmTrraMSzhPmMBbmgcxmqWry0U3PGapCU1yB4/LqCcom7qhHZiF/jGfQ==}
     dev: false
 
+  /lucide-react/0.224.0_react@18.2.0:
+    resolution: {integrity: sha512-2QuPhbEAicN1Ak9DSeViYhZLYogW54e802IFDasoy/AXKGrnzTcBLQM8gidXbOd2DSWbrLHDgN6n4340QzyujQ==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /lz-string/1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
     hasBin: true
@@ -30895,7 +30949,7 @@ packages:
     resolution: {integrity: sha512-MplouLRDHBZSG9z7fpuAAcI7aAYjDLhtsiVZsevsfaHWDS2IDdORKbSd1kWUA+V4zyva/HZoSfpwnYMMQDhb0w==}
     engines: {node: '>=6'}
     dependencies:
-      decode-uri-component: 0.2.0
+      decode-uri-component: 0.2.2
       filter-obj: 1.1.0
       split-on-first: 1.1.0
       strict-uri-encode: 2.0.0

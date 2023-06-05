@@ -7,6 +7,7 @@ import config from '@/config'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Header from '@/components/app/header'
 import {getOgImage} from '@/utils/get-og-image'
+import Balancer from 'react-wrap-balancer'
 import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -53,7 +54,9 @@ const Tips: React.FC<{tips: Tip[]}> = ({tips}) => {
                 >
                   <article className="mx-auto w-full max-w-screen-md">
                     <div className="py-5">
-                      <h2 className="text-3xl font-bold">{title}</h2>
+                      <h2 className="text-3xl font-bold">
+                        <Balancer>{title}</Balancer>
+                      </h2>
                       {summary && <p>{summary}</p>}
                     </div>
                     <div className="flex items-center gap-1.5">

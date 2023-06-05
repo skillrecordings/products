@@ -1,15 +1,12 @@
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
-import {ConvertkitSubscriber} from '../types'
+import {type Subscriber} from '../schemas/subscriber'
 import {
   CONVERTKIT_SIGNUP_FORM,
   CONVERTKIT_SUBSCRIBE_API_URL,
 } from '@skillrecordings/config'
 
-/**
- * @deprecated use @skillrecordings/skill-lesson/hooks/use-convertkit-form instead
- **/
 export function useConvertkitForm({
   submitUrl = process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL ||
     CONVERTKIT_SUBSCRIBE_API_URL,
@@ -20,7 +17,7 @@ export function useConvertkitForm({
 }: {
   submitUrl?: string
   formId?: number
-  onSuccess: (subscriber: ConvertkitSubscriber, email?: string) => void
+  onSuccess: (subscriber: Subscriber, email?: string) => void
   onError: (error?: any) => void
   fields?: any
 }): {
@@ -45,14 +42,14 @@ export function useConvertkitForm({
       return axios
         .post(submitUrl, {email, first_name, form: formId, fields})
         .then((response: any) => {
-          const subscriber: ConvertkitSubscriber = response.data
+          const subscriber: Subscriber = response.data
           onSuccess(subscriber, email)
           setStatus('success')
           if (!subscriber) {
             setStatus('error')
           }
         })
-        .catch((error) => {
+        .catch((error: Error) => {
           onError(error)
           setStatus('error')
           console.log(error)
