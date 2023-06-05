@@ -1,5 +1,5 @@
 import * as React from 'react'
-
+import Balancer from 'react-wrap-balancer'
 import {cn} from './utils'
 
 const Card = React.forwardRef<
@@ -32,7 +32,7 @@ CardHeader.displayName = 'CardHeader'
 const CardTitle = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLHeadingElement>
->(({className, ...props}, ref) => (
+>(({className, children, ...props}, ref) => (
   <h3
     ref={ref}
     className={cn(
@@ -40,19 +40,23 @@ const CardTitle = React.forwardRef<
       className,
     )}
     {...props}
-  />
+  >
+    <Balancer>{children}</Balancer>
+  </h3>
 ))
 CardTitle.displayName = 'CardTitle'
 
 const CardDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
->(({className, ...props}, ref) => (
+>(({className, children, ...props}, ref) => (
   <p
     ref={ref}
     className={cn('text-sm text-muted-foreground', className)}
     {...props}
-  />
+  >
+    <Balancer>{children}</Balancer>
+  </p>
 ))
 CardDescription.displayName = 'CardDescription'
 

@@ -24,6 +24,7 @@
     "@skillrecordings/axios": "=0.0.2",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/react": "workspace:*",
+    "@skillrecordings/skill-lesson": "workspace:*",
     "axios": "^1.4.0",
     "cookie": "^0.5.0",
     "formik": "2.2.9",

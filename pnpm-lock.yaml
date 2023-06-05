@@ -3792,6 +3792,7 @@ importers:
       '@skillrecordings/config': workspace:*
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
+      '@skillrecordings/skill-lesson': workspace:*
       '@skillrecordings/tsconfig': workspace:*
       '@skillrecordings/types': workspace:*
       '@types/cookie': ^0.4.1
@@ -3823,6 +3824,7 @@ importers:
       '@skillrecordings/axios': 0.0.2_axios@1.4.0
       '@skillrecordings/config': link:../config
       '@skillrecordings/react': link:../react
+      '@skillrecordings/skill-lesson': link:../skill-lesson
       axios: 1.4.0
       cookie: 0.5.0
       formik: 2.2.9_react@18.2.0
@@ -4626,6 +4628,7 @@ importers:
       '@types/react-dom': ^18.2.4
       '@types/speakingurl': ^13.0.3
       '@vercel/og': ^0.5.4
+      axios: ^1.4.0
       class-variance-authority: ^0.6.0
       classnames: ^2.3.1
       clsx: ^1.2.1
@@ -4637,6 +4640,7 @@ importers:
       groq: ^2.15.0
       js-cookie: ^3.0.1
       lodash: ^4.17.21
+      lucide-react: ^0.224.0
       mjml: ^4.12.0
       mjml-react: ^2.0.8
       next: ^13.4.3
@@ -4646,6 +4650,7 @@ importers:
       nodemailer-postmark-transport: ^5.2.1
       nprogress: ^0.2.0
       pluralize: ^8.0.0
+      query-string: ^7.1.1
       react: 18.2.0
       react-countdown: ^2.3.5
       react-dom: 18.2.0
@@ -4710,6 +4715,7 @@ importers:
       '@types/react-dom': 18.2.4
       '@types/speakingurl': 13.0.3
       '@vercel/og': 0.5.4
+      axios: 1.4.0
       class-variance-authority: 0.6.0_typescript@5.1.1-rc
       classnames: 2.3.1
       clsx: 1.2.1
@@ -4721,6 +4727,7 @@ importers:
       groq: 2.15.0
       js-cookie: 3.0.1
       lodash: 4.17.21
+      lucide-react: 0.224.0_react@18.2.0
       mjml: 4.12.0
       mjml-react: 2.0.8_ailtjjlsqvu2thdobeyj5nn3lq
       next: 13.4.3_biqbaboplfbrettd7655fr4n2y
@@ -4730,6 +4737,7 @@ importers:
       nodemailer-postmark-transport: 5.2.1_nodemailer@6.7.2
       nprogress: 0.2.0
       pluralize: 8.0.0
+      query-string: 7.1.1
       react: 18.2.0
       react-countdown: 2.3.5_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
@@ -16928,7 +16936,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2_debug@2.6.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -16936,7 +16944,7 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
     transitivePeerDependencies:
       - debug
 
@@ -16960,7 +16968,7 @@ packages:
   /axios/1.4.0:
     resolution: {integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==}
     dependencies:
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -19546,10 +19554,6 @@ packages:
     resolution: {integrity: sha512-YV/0HQHreRwKb7uBopyIkLG17jG6Sv2qUchk9qSoVJ2f+flwRsPNBO0hAnjt6mTNYUT+vw9Gy2ihXg4sUWPi2w==}
     dependencies:
       character-entities: 2.0.1
-
-  /decode-uri-component/0.2.0:
-    resolution: {integrity: sha512-hjf+xovcEn31w/EUYdTXQh/8smFL/dzYjohQGEIgjyNavaJfBY2p5F527Bo1VPATxv0VYTUC2bOcXvqFwk78Og==}
-    engines: {node: '>=0.10'}
 
   /decode-uri-component/0.2.2:
     resolution: {integrity: sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==}
@@ -22445,8 +22449,9 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
 
-  /follow-redirects/1.15.2_debug@4.3.4:
+  /follow-redirects/1.15.2_debug@2.6.9:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
     peerDependencies:
@@ -22455,7 +22460,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.4
+      debug: 2.6.9
 
   /fontkit-next/1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
@@ -22838,7 +22843,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 3.3.0
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -22864,7 +22869,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -22889,7 +22894,7 @@ packages:
       create-error-class: 3.0.2
       debug: 4.3.4
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 5.0.0
@@ -22912,7 +22917,7 @@ packages:
     dependencies:
       debug: 4.3.4
       decompress-response: 7.0.0
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2_debug@2.6.9
       into-stream: 6.0.0
       is-plain-object: 5.0.0
       is-retry-allowed: 2.2.0
@@ -32241,7 +32246,7 @@ packages:
     resolution: {integrity: sha512-MplouLRDHBZSG9z7fpuAAcI7aAYjDLhtsiVZsevsfaHWDS2IDdORKbSd1kWUA+V4zyva/HZoSfpwnYMMQDhb0w==}
     engines: {node: '>=6'}
     dependencies:
-      decode-uri-component: 0.2.0
+      decode-uri-component: 0.2.2
       filter-obj: 1.1.0
       split-on-first: 1.1.0
       strict-uri-encode: 2.0.0

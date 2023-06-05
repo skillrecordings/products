@@ -14,9 +14,7 @@ type ThemeContextType = {
   ) => CxReturn
 }
 
-export const ThemeContext = React.createContext(
-  defaultTheme as ThemeContextType,
-)
+export const ThemeContext = React.createContext({} as ThemeContextType)
 
 type ThemeProviderProps = {
   theme?: ThemeContextType

@@ -1,7 +1,12 @@
 import * as React from 'react'
-import {Input, Button} from '@skillrecordings/react/dist/components'
-import {ConvertkitSubscriber} from '../../types'
-import {useConvertkitForm} from '../../hooks/use-convertkit-form'
+import {Input} from './input'
+import {Label} from './label'
+import {Button} from './button'
+import {type Subscriber} from '../schemas/subscriber'
+import {useConvertkitForm} from '../hooks/use-convertkit-form'
+import queryString from 'query-string'
+import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
+import Spinner from '../spinner'
 
 export type SubscribeFormProps = {
   actionLabel?: string
@@ -9,7 +14,7 @@ export type SubscribeFormProps = {
   errorMessage?: string | React.ReactElement
   submitButtonElem?: React.ReactElement
   onError?: (error?: any) => void
-  onSuccess?: (subscriber?: ConvertkitSubscriber, email?: string) => void
+  onSuccess?: (subscriber?: Subscriber, email?: string) => void
   formId?: number
   subscribeApiURL?: string
   id?: string
@@ -18,8 +23,6 @@ export type SubscribeFormProps = {
 }
 
 /**
- * @deprecated use @skillrecordings/skill-lesson/ui/convertkit-subscribe-form instead
- *
  * This form posts to a designated api URL (assumes `/api/convertkit/subscribe
  * by default`)
  *
@@ -84,16 +87,25 @@ export const SubscribeToConvertkitForm: React.FC<
       onSubmit={handleSubmit}
       {...rest}
     >
+      <Label
+        data-sr-input-label=""
+        htmlFor={id ? `first_name_${id}` : 'first_name'}
+      >
+        First Name
+      </Label>
       <Input
-        label="First Name"
+        className="h-auto"
         name="first_name"
         id={id ? `first_name_${id}` : 'first_name'}
         onChange={handleChange}
         placeholder="Preferred name"
         type="text"
       />
+      <Label data-sr-input-label="" htmlFor={id ? `email_${id}` : 'email'}>
+        Email*
+      </Label>
       <Input
-        label="Email"
+        className="h-auto"
         name="email"
         id={id ? `email_${id}` : 'email'}
         onChange={handleChange}
@@ -107,8 +119,13 @@ export const SubscribeToConvertkitForm: React.FC<
           type: 'submit',
         })
       ) : (
-        <Button isLoading={isSubmitting} type="submit">
-          {actionLabel}
+        <Button
+          variant="default"
+          size="lg"
+          disabled={Boolean(isSubmitting)}
+          type="submit"
+        >
+          {!isSubmitting ? <Spinner /> : actionLabel}
         </Button>
       )}
       {status === 'success' &&
@@ -128,3 +145,21 @@ export const SubscribeToConvertkitForm: React.FC<
 }
 
 export default SubscribeToConvertkitForm
+
+export const redirectUrlBuilder = (
+  subscriber: Subscriber,
+  path: string,
+  queryParams?: {
+    [key: string]: string
+  },
+) => {
+  const url = queryString.stringifyUrl({
+    url: path,
+    query: {
+      [CK_SUBSCRIBER_KEY]: subscriber.id,
+      email: subscriber.email_address,
+      ...queryParams,
+    },
+  })
+  return url
+}
