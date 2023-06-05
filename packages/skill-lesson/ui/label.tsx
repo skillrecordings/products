@@ -14,12 +14,13 @@ const Label = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
     VariantProps<typeof defaultLabelVariants>
 >(({className, ...props}, ref) => {
-  const {labelVariants} = useTheme()
+  const {variants} = useTheme()
+  const {label} = variants || {}
   return (
     <LabelPrimitive.Root
       data-sr-label=""
       ref={ref}
-      className={cn(labelVariants && labelVariants(), className)}
+      className={cn(label && label(), className)}
       {...props}
     />
   )

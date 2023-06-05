@@ -41,13 +41,15 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({className, variant, size, asChild = false, ...props}, ref) => {
     const Comp = asChild ? Slot : 'button'
-    const {buttonVariants} = useTheme()
+    const {variants} = useTheme()
 
     return (
       <Comp
         data-sr-button=""
         className={cn(
-          buttonVariants && buttonVariants({variant, size, className}),
+          variants?.button
+            ? variants.button({variant, size, className})
+            : defaultButtonVariants({variant, size, className}),
         )}
         ref={ref}
         {...props}
