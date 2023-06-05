@@ -1,8 +1,8 @@
 import * as React from 'react'
-import {type VariantProps, type CxReturn} from 'class-variance-authority'
+import {type VariantProps, type CxReturn, cva} from 'class-variance-authority'
 import {type ClassProp} from 'class-variance-authority/dist/types'
-import {defaultButtonVariants} from '../ui/button'
 
+import {defaultButtonVariants} from '../ui/button'
 import {defaultLabelVariants} from '../ui/label'
 import {defaultInputVariants} from '../ui/input'
 
@@ -16,13 +16,13 @@ export const DEFAULT_THEME: ThemeContextType = {
 
 type ThemeContextType = {
   variants: {
-    button?: (
+    button: (
       props: VariantProps<typeof defaultButtonVariants> & ClassProp,
     ) => CxReturn
-    label?: (
+    label: (
       props?: VariantProps<typeof defaultLabelVariants> & ClassProp,
     ) => CxReturn
-    input?: (
+    input: (
       props?: VariantProps<typeof defaultInputVariants> & ClassProp,
     ) => CxReturn
   }
@@ -40,7 +40,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   children,
 }) => {
   const context = {
-    ...DEFAULT_THEME,
     ...theme,
   }
 

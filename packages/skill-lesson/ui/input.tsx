@@ -13,12 +13,12 @@ export interface InputProps
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({className, type, ...props}, ref) => {
     const {variants} = useTheme()
-    const {input} = variants || {}
+
     return (
       <input
         data-sr-input=""
         type={type}
-        className={cn(input && input(), className)}
+        className={cn(defaultInputVariants(), variants.input(), className)}
         ref={ref}
         {...props}
       />

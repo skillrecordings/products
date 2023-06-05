@@ -60,11 +60,6 @@ export const PrimaryNewsletterCta: React.FC<
       <SubscribeToConvertkitForm
         onSuccess={onSuccess ? onSuccess : handleOnSuccess}
         actionLabel={actionLabel}
-        submitButtonElem={
-          <Button type="submit" size="lg" variant="default">
-            {actionLabel}
-          </Button>
-        }
       />
       <div className="h-10 w-10" />
       <p data-nospam="" className="pt-8 text-center text-sm opacity-80">

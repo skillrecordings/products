@@ -125,7 +125,7 @@ export const SubscribeToConvertkitForm: React.FC<
           disabled={Boolean(isSubmitting)}
           type="submit"
         >
-          {!isSubmitting ? <Spinner /> : actionLabel}
+          {isSubmitting ? <Spinner /> : actionLabel}
         </Button>
       )}
       {status === 'success' &&
