@@ -7,6 +7,7 @@ module.exports = {
   darkMode: ['class'],
   content: [
     './src/**/*.tsx',
+    './src/**/*.ts',
     './src/**/*.mdx',
     './node_modules/@skillrecordings/commerce/dist/**/*.js',
     './node_modules/@skillrecordings/react/dist/**/*.js',
