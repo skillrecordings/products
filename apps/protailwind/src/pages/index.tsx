@@ -1,5 +1,4 @@
 import React from 'react'
-import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
 import Image from 'next/legacy/image'
 import Layout from 'components/layout'
@@ -15,17 +14,40 @@ import {getActiveProducts} from 'server/products.server'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import groq from 'groq'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+import ResourceTeaser from 'components/resource-teaser'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
   const {products = []} = await getActiveProducts()
+  const tutorials =
+    await sanityClient.fetch(groq`*[_type == "module" && moduleType == 'tutorial' && state == 'published'] | order(_createdAt desc) {
+    title,
+    "slug": slug.current,
+    "image": image.asset->url,
+  }`)
+  const {props: commerceProps} = await propsForCommerce({
+    query,
+    token,
+    products,
+  })
 
-  return await propsForCommerce({query, token, products})
+  return {
+    props: {
+      ...commerceProps,
+      tutorials,
+    },
+  }
 }
 
-const Home: React.FC<React.PropsWithChildren<CommerceProps>> = (props) => {
+const Home: React.FC<
+  React.PropsWithChildren<CommerceProps & {tutorials: Module[]}>
+> = (props) => {
   const router = useRouter()
   const {
+    tutorials,
     couponFromCode,
     purchases = [],
     userId,
@@ -49,6 +71,11 @@ const Home: React.FC<React.PropsWithChildren<CommerceProps>> = (props) => {
     <Layout meta={{titleAppendSiteName: false}} defaultCoupon={defaultCoupon}>
       <Header />
       <main>
+        <section>
+          {tutorials.map((tutorial) => {
+            return <ResourceTeaser resource={tutorial} />
+          })}
+        </section>
         <Copy />
         <NewsletterSubscribeForm />
         <Bio />
