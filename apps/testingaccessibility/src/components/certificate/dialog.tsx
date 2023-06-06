@@ -14,7 +14,7 @@ const CertificateDialog: React.FC<
 > = ({handleCloseDialog, module, isOpen, children}) => {
   return (
     <Dialog
-      title="Get your certificate"
+      title={`Get your certificate for completing the ${module.title} workshop`}
       isOpen={isOpen}
       handleCloseDialog={handleCloseDialog}
     >

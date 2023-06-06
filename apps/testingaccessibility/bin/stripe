@@ -7,7 +7,7 @@
 
 # Ensure the script can access the environment variables
 export $(egrep -v '^#' .env.local | xargs)
-endpoint="http://localhost:$LOCALHOST_PORT/api/skill/webhook/stripe"
+endpoint="http://localhost:3013/api/skill/webhook/stripe"
 
 envFileName=".env.local"
 webhookSecretLabel="STRIPE_WEBHOOK_SECRET"
