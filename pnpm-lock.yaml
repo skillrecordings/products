@@ -2440,6 +2440,7 @@ importers:
       '@types/sanitize-html': ^2.6.2
       '@types/speakingurl': ^13.0.3
       '@types/svg-to-pdfkit': ^0.1.0
+      '@vercel/og': ^0.5.4
       '@xstate/react': '=1.5.1'
       algoliasearch: ^4.13.0
       assert: ^2.0.0
@@ -2560,6 +2561,7 @@ importers:
       '@tiptap/extension-typography': 2.0.0-beta.20_o5tsmp445vozplpzqkrs3pmjeq
       '@tiptap/react': 2.0.0-beta.109_cpkpnzstpcbd5lz5ghf7pjwsmy
       '@tiptap/starter-kit': 2.0.0-beta.184
+      '@vercel/og': 0.5.4
       '@xstate/react': 1.5.1_r6la6firnj3tcautn7dvxr76kq
       algoliasearch: 4.13.0
       autoprefixer: 10.4.12_postcss@8.4.23
