@@ -3,12 +3,10 @@ import Layout from '@/components/app/layout'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
-import {PortableText} from '@portabletext/react'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from '@/utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {trpc} from '@/trpc/trpc.client'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {first} from 'lodash'
@@ -16,11 +14,13 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
 import {ModuleNavigator} from './workshop-template'
 import Balancer from 'react-wrap-balancer'
-import Spinner from '@/components/spinner'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 
 const BonusTemplate: React.FC<{
   bonus: Module
-}> = ({bonus}) => {
+  bonusBodySerialized: MDXRemoteSerializeResult
+}> = ({bonus, bonusBodySerialized}) => {
   const {title, body, ogImage, description} = bonus
   const pageTitle = `${title}`
 
@@ -40,10 +40,7 @@ const BonusTemplate: React.FC<{
       <Header bonus={bonus} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <article className="prose prose-lg w-full max-w-none px-5 text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
-          <PortableText
-            value={body}
-            components={portableTextComponents({loadingIndicator: <Spinner />})}
-          />
+          <MDX contents={bonusBodySerialized} />
         </article>
         {bonus && <ModuleNavigator module={bonus} />}
       </main>
