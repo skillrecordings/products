@@ -99,7 +99,7 @@ const ModuleCtaProvider: React.FC<React.PropsWithChildren<any>> = ({
   )
 }
 
-const DefaultOverlay = () => {
+const DefaultOverlay = ({customContinueHandler}: any) => {
   const {nextExercise, path, handlePlay} = useMuxPlayer()
   const {lesson, module, section} = useLesson()
   const router = useRouter()
@@ -165,14 +165,23 @@ const DefaultOverlay = () => {
                 {lessonSlug: router.query.lesson as string},
                 {
                   onSettled: (data, error, variables, context) => {
-                    handleContinue({
-                      router,
-                      module,
-                      nextExercise,
-                      handlePlay,
-                      path,
-                      section,
-                    })
+                    customContinueHandler
+                      ? customContinueHandler({
+                          router,
+                          module,
+                          nextExercise,
+                          handlePlay,
+                          path,
+                          section,
+                        })
+                      : handleContinue({
+                          router,
+                          module,
+                          nextExercise,
+                          handlePlay,
+                          path,
+                          section,
+                        })
                   },
                 },
               )
@@ -189,11 +198,12 @@ const DefaultOverlay = () => {
   )
 }
 
-const FinishedOverlay = () => {
+const FinishedOverlay = ({customPlayFromBeginningHandler}: any) => {
   const {path, handlePlay} = useMuxPlayer()
   const {module, section, lesson} = useLesson()
-
   const router = useRouter()
+  const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
+
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   const shareButtonStyles =
@@ -223,15 +233,37 @@ const FinishedOverlay = () => {
         <div data-actions="">
           <button
             data-action="restart"
-            onClick={() =>
-              handlePlayFromBeginning({
-                router,
-                module,
-                section,
-                path,
-                handlePlay,
+            onClick={() => {
+              track('clicked complete', {
+                lesson: router.query.lesson as string,
+                module: module.slug.current,
+                location: 'exercise',
+                moduleType: module.moduleType,
+                lessonType: lesson._type,
               })
-            }
+              addProgressMutation.mutate(
+                {lessonSlug: router.query.lesson as string},
+                {
+                  onSettled: (data, error, variables, context) => {
+                    customPlayFromBeginningHandler
+                      ? customPlayFromBeginningHandler({
+                          router,
+                          module,
+                          section,
+                          path,
+                          handlePlay,
+                        })
+                      : handlePlayFromBeginning({
+                          router,
+                          module,
+                          section,
+                          path,
+                          handlePlay,
+                        })
+                  },
+                },
+              )
+            }}
           >
             Play from beginning
           </button>

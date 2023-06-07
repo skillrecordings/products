@@ -21,6 +21,8 @@ type VideoProps = {
   product?: SanityProduct
   exerciseOverlayRenderer: () => void
   loadingIndicator: React.ReactElement
+  customContinueHandler: any
+  customPlayFromBeginningHandler: any
 }
 
 export const Video: React.FC<
@@ -33,6 +35,8 @@ export const Video: React.FC<
       product,
       exerciseOverlayRenderer = () => <DefaultOverlay />,
       loadingIndicator,
+      customContinueHandler,
+      customPlayFromBeginningHandler,
     },
     ref,
   ) => {
@@ -67,13 +71,19 @@ export const Video: React.FC<
                           <BlockedOverlay product={product} />
                         )
                       ) : (
-                        <DefaultOverlay />
+                        <DefaultOverlay
+                          customContinueHandler={customContinueHandler}
+                        />
                       )}
                     </>
                   ) : nextSection ? (
                     <FinishedSectionOverlay />
                   ) : (
-                    <FinishedOverlay />
+                    <FinishedOverlay
+                      customPlayFromBeginningHandler={
+                        customPlayFromBeginningHandler
+                      }
+                    />
                   )}
                 </>
               )}
