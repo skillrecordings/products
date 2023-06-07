@@ -9,6 +9,7 @@ import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-vid
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import truncateMarkdown from 'markdown-truncate'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -29,11 +30,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }))
   const solutionBodyPreviewSerialized =
     typeof solution?.body === 'string' &&
-    (await serializeMDX(solution.body.substring(0, 300), {
-      syntaxHighlighterOptions: {
-        theme: 'dark-plus',
+    (await serializeMDX(
+      truncateMarkdown(solution.body, {limit: 300, ellipsis: false}),
+      {
+        syntaxHighlighterOptions: {
+          theme: 'dark-plus',
+        },
       },
-    }))
+    ))
 
   return {
     props: {
