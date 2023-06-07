@@ -44,12 +44,15 @@ import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {trpc} from 'trpc/trpc.client'
 import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import Spinner from 'components/spinner'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 
 const TipTemplate: React.FC<{
   tip: Tip
+  tipBodySerialized: MDXRemoteSerializeResult
   tips: Tip[]
   transcript: any[]
-}> = ({tip, tips}) => {
+}> = ({tip, tipBodySerialized, tips}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
@@ -171,12 +174,7 @@ const TipTemplate: React.FC<{
                   {tip.body && (
                     <>
                       <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert lg:prose-lg">
-                        <PortableText
-                          value={tip.body}
-                          components={portableTextComponents({
-                            loadingIndicator: <Spinner />,
-                          })}
-                        />
+                        <MDX contents={tipBodySerialized} />
                       </div>
                       <Hr
                         className={
