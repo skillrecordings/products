@@ -2275,6 +2275,7 @@ importers:
       styled-jsx: 5.1.1
       superjson: '=1.11.0'
       tailwindcss: ^3.3.0
+      tailwindcss-radix: ^2.8.0
       typescript: 5.1.1-rc
       uuid: ^8.3.2
       webpack: ^5.73.0
@@ -2342,6 +2343,7 @@ importers:
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
       styled-jsx: 5.1.1_react@18.2.0
       superjson: 1.11.0
+      tailwindcss-radix: 2.8.0
       uuid: 8.3.2
       zod: 3.21.4
     devDependencies:
@@ -2371,7 +2373,7 @@ importers:
       jest-mock-extended: 3.0.4_lourqem7oeylemhnc3pwen4rq4
       postcss: 8.4.23
       prettier: 2.7.1
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
