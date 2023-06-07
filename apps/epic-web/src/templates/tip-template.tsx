@@ -237,45 +237,6 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
   )
 })
 
-// const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
-//   transcript,
-//   muxPlayerRef,
-// }) => {
-//   const {handlePlay, video} = useMuxPlayer()
-//   return (
-//     <section aria-label="transcript">
-//       <h2 className="text-2xl font-bold">Transcript</h2>
-//       <div className="prose prose-sm max-w-none pt-4 dark:prose-invert sm:prose-base">
-//         <PortableText
-//           value={transcript}
-//           components={
-//             {
-//               marks: {
-//                 timestamp: ({value}: any) => {
-//                   const {timestamp} = value
-//                   return video ? (
-//                     <button
-//                       className="after:content-[' '] inline-block underline after:inline-block"
-//                       onClick={() => {
-//                         muxPlayerRef.current.currentTime =
-//                           hmsToSeconds(timestamp)
-//                         handlePlay()
-//                         window.scrollTo({top: 80})
-//                       }}
-//                     >
-//                       {timestamp}
-//                     </button>
-//                   ) : null
-//                 },
-//               },
-//             } as PortableTextComponentsType
-//           }
-//         />
-//       </div>
-//     </section>
-//   )
-// }
-
 const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   currentTip,
   tips,
