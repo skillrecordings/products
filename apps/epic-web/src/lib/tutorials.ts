@@ -56,16 +56,7 @@ export const getTutorial = async (slug: string) =>
       description,
       _updatedAt,
       "image": image.asset->url,
-      body[]{
-        ...,
-        _type == "bodyTestimonial" => {
-          "body": testimonial->body,
-          "author": testimonial->author {
-            "image": image.asset->url,
-            name
-          }
-        }
-      },
+      body,
       "testimonials": resources[@->._type == 'testimonial']->{
         _id,
         _type,

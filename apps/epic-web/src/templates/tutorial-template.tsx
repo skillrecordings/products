@@ -18,10 +18,13 @@ import {ModuleNavigator} from './workshop-template'
 import Balancer from 'react-wrap-balancer'
 import Testimonials from 'testimonials'
 import Spinner from 'components/spinner'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
-}> = ({tutorial}) => {
+  tutorialBodySerialized: MDXRemoteSerializeResult
+}> = ({tutorial, tutorialBodySerialized}) => {
   const {title, body, ogImage, image, description, testimonials} = tutorial
   const pageTitle = `${title} Tutorial`
 
@@ -42,12 +45,7 @@ const TutorialTemplate: React.FC<{
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="px-5">
           <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
-            <PortableText
-              value={body}
-              components={portableTextComponents({
-                loadingIndicator: <Spinner />,
-              })}
-            />
+            <MDX contents={tutorialBodySerialized} />
           </article>
           {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
