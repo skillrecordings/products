@@ -21,7 +21,7 @@ export default defineType({
     defineField({
       name: 'transcript',
       title: 'Transcript',
-      type: 'body',
+      type: 'text',
     }),
     defineField({
       title: 'SRT',

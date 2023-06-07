@@ -24,7 +24,7 @@ export const TipSchema = z.object({
     .optional()
     .nullable(),
   videoResourceId: z.nullable(z.string()).optional(),
-  transcript: z.nullable(z.any().array()),
+  transcript: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
 })
 

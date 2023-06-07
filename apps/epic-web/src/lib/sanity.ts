@@ -73,24 +73,27 @@ export const writeTranscriptToVideoResource = async (
     .set({
       castingwords: {
         ...castingwords,
-        transcript: [
-          {
-            style: 'normal',
-            _type: 'block',
-            // TODO: Programmatically create an array of blocks for each paragraph break in the transcript
-            // how does this format in Portable Text?
-            children: [
-              {
-                _type: 'span',
-                marks: [],
-                _key: uniqueId('body-key-'),
-                text: transcript,
-              },
-            ],
-            markDefs: [],
-            _key: uniqueId('block-key-'),
-          },
-        ],
+        // We've started using plain text instead of Portable Text for the transcript
+        transcript: transcript,
+        // This is a portable text version of the transcript
+        // [
+        //   {
+        //     style: 'normal',
+        //     _type: 'block',
+        //     // TODO: Programmatically create an array of blocks for each paragraph break in the transcript
+        //     // how does this format in Portable Text?
+        //     children: [
+        //       {
+        //         _type: 'span',
+        //         marks: [],
+        //         _key: uniqueId('body-key-'),
+        //         text: transcript,
+        //       },
+        //     ],
+        //     markDefs: [],
+        //     _key: uniqueId('block-key-'),
+        //   },
+        // ],
         srt: srt,
       },
     })
