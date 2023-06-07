@@ -6,6 +6,7 @@ import {getAllArticles, type Article} from 'lib/articles'
 import Link from 'next/link'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
+import readingTime from 'reading-time'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const articles = await getAllArticles()
@@ -42,8 +43,8 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
       </header>
       <main className="mx-auto grid w-full max-w-4xl grid-cols-1 flex-col gap-5 px-5 pb-24 sm:grid-cols-2">
         {publishedArticles.map((article) => {
-          const {title, image, slug, description, estimatedReadingTime} =
-            article
+          const {title, image, slug, description, body} = article
+          const estimatedReadingTime = readingTime(body)
           return (
             <article key={slug}>
               <Link
@@ -93,8 +94,8 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                         </div>
                       </div>
                       <div>
-                        <div className="block font-bold">Time to read</div>~
-                        {estimatedReadingTime} minutes
+                        <div className="block font-bold">Time to read</div>~{' '}
+                        {estimatedReadingTime.minutes.toFixed(0)} minutes
                       </div>
                     </div>
                   </div>

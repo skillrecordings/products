@@ -2,13 +2,27 @@ import React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {type Article, getAllArticles, getArticle} from 'lib/articles'
 import ArticleTemplate from 'templates/article-template'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import readingTime from 'reading-time'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const article = await getArticle(params?.article as string)
+  const articleBodySerialized = await serializeMDX(article.body, {
+    syntaxHighlighterOptions: {
+      theme: 'material-theme-palenight',
+      showCopyButton: true,
+    },
+  })
+  const estimatedReadingTime = readingTime(article.body)
 
   return {
-    props: {article},
+    props: {
+      article,
+      articleBodySerialized,
+      estimatedReadingTime: estimatedReadingTime.minutes.toFixed(0),
+    },
     revalidate: 10,
   }
 }
@@ -21,8 +35,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {paths, fallback: false}
 }
 
-const Article: React.FC<{article: Article}> = ({article}) => {
-  return article ? <ArticleTemplate article={article} /> : null
+const Article: React.FC<{
+  article: Article
+  articleBodySerialized: MDXRemoteSerializeResult
+  estimatedReadingTime: number
+}> = ({article, articleBodySerialized, estimatedReadingTime}) => {
+  return article ? (
+    <ArticleTemplate
+      article={article}
+      articleBodySerialized={articleBodySerialized}
+      estimatedReadingTime={estimatedReadingTime}
+    />
+  ) : null
 }
 
 export default Article
