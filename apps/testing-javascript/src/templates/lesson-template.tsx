@@ -12,6 +12,10 @@ import {
 } from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {
+  customPlayFromBeginningHandler,
+  customContinueHandler,
+} from 'utils/custom-handlers'
 
 import {trpc} from 'trpc/trpc.client'
 import Spinner from 'components/spinner'
@@ -33,6 +37,7 @@ const LessonTemplate = () => {
   const {lesson, module} = useLesson()
   const addProgressMutation = trpc.progress.add.useMutation()
   const {data: defaultProduct} = trpc.products.getDefaultProduct.useQuery()
+  console.log({module})
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -46,11 +51,13 @@ const LessonTemplate = () => {
               product={defaultProduct}
               exerciseOverlayRenderer={() => <div>DIIIIIV</div>}
               loadingIndicator={<Spinner />}
+              customContinueHandler={customContinueHandler}
+              customPlayFromBeginningHandler={customPlayFromBeginningHandler}
             />
           </div>
-          <div className="shrink-0">
+          {/* <div className="shrink-0">
             <Playlist />
-          </div>
+          </div> */}
         </section>
 
         <div className="mt-8">
