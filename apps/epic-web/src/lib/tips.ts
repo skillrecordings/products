@@ -11,7 +11,7 @@ export const TipSchema = z.object({
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
   body: z.string().optional(),
-  summary: z.any().array().nullable().optional(),
+  summary: z.string().optional(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   sandpack: z
     .array(
