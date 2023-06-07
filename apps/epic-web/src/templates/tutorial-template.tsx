@@ -3,12 +3,10 @@ import Layout from 'components/app/layout'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
-import {PortableText} from '@portabletext/react'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {trpc} from 'trpc/trpc.client'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {first} from 'lodash'
@@ -17,7 +15,6 @@ import cx from 'classnames'
 import {ModuleNavigator} from './workshop-template'
 import Balancer from 'react-wrap-balancer'
 import Testimonials from 'testimonials'
-import Spinner from 'components/spinner'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 
@@ -25,7 +22,7 @@ const TutorialTemplate: React.FC<{
   tutorial: Module
   tutorialBodySerialized: MDXRemoteSerializeResult
 }> = ({tutorial, tutorialBodySerialized}) => {
-  const {title, body, ogImage, image, description, testimonials} = tutorial
+  const {title, ogImage, description, testimonials} = tutorial
   const pageTitle = `${title} Tutorial`
 
   return (

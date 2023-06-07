@@ -29,7 +29,7 @@ const client = getCliClient()
 // Fetch the documents we want to migrate, and return only the fields we need.
 const fetchDocuments = () =>
   client.fetch(
-    `*[_type == 'module' && defined(body)][0...100] {_id, _rev, body}`,
+    `*[_type in ['lesson', 'exercise', 'explainer', 'section'] && defined(body)][0...100] {_id, _rev, body}`,
   )
 
 // Build a patch for each document, represented as a tuple of `[documentId, patch]`
