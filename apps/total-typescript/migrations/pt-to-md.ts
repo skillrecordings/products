@@ -10,13 +10,13 @@ import {Transaction} from '@sanity/client'
 type Doc = {
   _id: string
   _rev: string
-  summary: any[]
+  body: any[]
 }
 
 type DocPatch = {
   id: string
   patch: {
-    set: {summary: string}
+    set: {body: string}
     unset: string[]
     ifRevisionID: string
   }
@@ -28,19 +28,26 @@ const client = getCliClient()
 
 // Fetch the documents we want to migrate, and return only the fields we need.
 const fetchDocuments = () =>
-  client.fetch(
-    `*[_type == 'tip' && defined(summary)][0...100] {_id, _rev, summary}`,
-  )
+  client.fetch(`*[_type == 'module' && defined(body)][0...1] {_id, _rev, body[]{
+    ...,
+    _type == "bodyTestimonial" => {
+      "body": testimonial->body,
+      "author": testimonial->author {
+        "image": image.asset->url,
+        name
+      }
+    }
+  }}`)
 
 // Build a patch for each document, represented as a tuple of `[documentId, patch]`
 const buildPatches = (docs: Doc[]) =>
   docs.map((doc: Doc): any => {
-    const bodyMarkdown = BlocksToMarkdown(doc.summary, {serializers})
+    const bodyMarkdown = BlocksToMarkdown(doc.body, {serializers})
     console.log({bodyMarkdown})
     return {
       id: doc._id,
       patch: {
-        set: {summary: bodyMarkdown},
+        set: {body: bodyMarkdown},
         // this will cause the migration to fail if any of the documents has been
         // modified since it was fetched.
         ifRevisionID: doc._rev,
@@ -87,9 +94,37 @@ const serializers = {
       `![${node.alt || ''}](${getImageUrl({options: {}, node})})`,
     // From @sanity/code-input
     code: ({node}: any) => `\`\`\`${node.language || ''}\n${node.code}\n\`\`\``,
-    bodyTweet: ({node}: any) => `Tweet from ${node.tweet.handle}`,
+    bodyTweet: ({node}: any) =>
+      `<Tweet text="${BlocksToMarkdown(node.tweet.body)}" url="${
+        node.tweet.url
+      }" author={{avatar: "${node.tweet.author.avatar}", name: "${
+        node.tweet.author.name
+      }", handle: "${node.tweet.author.handle}"}}> from ${
+        node.tweet.handle
+      } />`,
     bodyImage: ({node}: any) =>
       `![${node.image.alt ? node.image.alt : ''}](${node.image.url})`,
+    bodyVideo: ({node}: any) => {
+      const {url, title} = node
+      return url
+        ? title
+          ? `<Video url="${url}" title="${title}" />`
+          : `<Video url="${url}" />`
+        : ''
+    },
+    bodyTestimonial: ({node}: any) => {
+      return node.author.image
+        ? `<Testimonial author={{name: "${node.author.name}", image: "${node.author.image}"}}>${node.body}</Testimonial>`
+        : `<Testimonial author={{name: "${node.author.name}"}}>${node.body}</Testimonial>`
+    },
+    callout: ({node}: any) => {
+      const {body} = node
+      return `${BlocksToMarkdown(body)}`
+    },
+    divider: () => `---`,
+    // undefined: () => {
+    //   return ''
+    // },
   },
   marks: {
     internalLink: ({mark, children}: any) => {
@@ -109,6 +144,9 @@ const serializers = {
       return blank
         ? `<a href="${href}" target="_blank" rel="noopener">${children}</a>`
         : `[${children}](${href})`
+    },
+    emoji: ({mark, children}: any) => {
+      return `${children}`
     },
     undefined: () => {
       return ''

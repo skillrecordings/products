@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
-import {PortableText} from '@portabletext/react'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from '@/utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
@@ -18,7 +17,6 @@ import {
   LockClosedIcon,
 } from '@heroicons/react/solid'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import * as process from 'process'
@@ -29,12 +27,14 @@ import WorkshopCertificate from '@/certificate/workshop-certificate'
 import {capitalize} from 'lodash'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import Testimonials from '@/testimonials'
-import Spinner from '@/components/spinner'
 import pluralize from 'pluralize'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
-}> = ({workshop}) => {
+  workshopBodySerialized: MDXRemoteSerializeResult
+}> = ({workshop, workshopBodySerialized}) => {
   const {title, body, ogImage, testimonials, description} = workshop
   const pageTitle = `${title} Workshop`
 
@@ -55,12 +55,7 @@ const WorkshopTemplate: React.FC<{
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="px-5">
           <article className="prose prose-lg w-full max-w-none text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
-            <PortableText
-              value={body}
-              components={portableTextComponents({
-                loadingIndicator: <Spinner />,
-              })}
-            />
+            <MDX contents={workshopBodySerialized} />
           </article>
           {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
