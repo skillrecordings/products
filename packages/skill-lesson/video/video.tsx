@@ -21,8 +21,8 @@ type VideoProps = {
   product?: SanityProduct
   exerciseOverlayRenderer: () => void
   loadingIndicator: React.ReactElement
-  customContinueHandler: any
-  customPlayFromBeginningHandler: any
+  customContinueHandler?: any
+  customPlayFromBeginningHandler?: any
 }
 
 export const Video: React.FC<
