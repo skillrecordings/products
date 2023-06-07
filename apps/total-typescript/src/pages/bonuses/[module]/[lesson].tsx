@@ -6,6 +6,7 @@ import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-vid
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getAllBonuses, getBonus} from '@/lib/bonuses'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -13,10 +14,27 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const module = await getBonus(params?.module as string)
   const lesson = await getExercise(exerciseSlug)
+  const lessonBodySerialized =
+    typeof lesson.body === 'string' &&
+    (await serializeMDX(lesson.body, {
+      syntaxHighlighterOptions: {
+        theme: 'dark-plus',
+        showCopyButton: true,
+      },
+    }))
+  const lessonBodyPreviewSerialized =
+    typeof lesson.body === 'string' &&
+    (await serializeMDX(lesson.body.substring(0, 300), {
+      syntaxHighlighterOptions: {
+        theme: 'dark-plus',
+      },
+    }))
 
   return {
     props: {
       lesson,
+      lessonBodySerialized,
+      lessonBodyPreviewSerialized,
       module,
       transcript: lesson.transcript,
       videoResourceId: lesson.videoResourceId,
@@ -47,6 +65,8 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 
 const VideoPage: React.FC<any> = ({
   lesson,
+  lessonBodySerialized,
+  lessonBodyPreviewSerialized,
   module,
   transcript,
   videoResourceId,
@@ -55,7 +75,11 @@ const VideoPage: React.FC<any> = ({
     <ModuleProgressProvider moduleSlug={module.slug.current}>
       <LessonProvider lesson={lesson} module={module}>
         <VideoResourceProvider videoResourceId={videoResourceId}>
-          <ExerciseTemplate transcript={transcript} />
+          <ExerciseTemplate
+            transcript={transcript}
+            lessonBodySerialized={lessonBodySerialized}
+            lessonBodyPreviewSerialized={lessonBodyPreviewSerialized}
+          />
         </VideoResourceProvider>
       </LessonProvider>
     </ModuleProgressProvider>

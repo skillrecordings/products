@@ -32,10 +32,13 @@ import ExerciseOverlay from '@/components/exercise-overlay'
 import Spinner from '@/components/spinner'
 import {getExerciseGitHubUrl} from '@/exercise/get-exercise-github-url'
 import pluralize from 'pluralize'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
-}> = ({transcript}) => {
+  lessonBodySerialized: MDXRemoteSerializeResult
+  lessonBodyPreviewSerialized: MDXRemoteSerializeResult
+}> = ({transcript, lessonBodySerialized, lessonBodyPreviewSerialized}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const router = useRouter()
   const {lesson, section, module} = useLesson()
@@ -196,6 +199,8 @@ const ExerciseTemplate: React.FC<{
                   />
                 )}
                 <LessonDescription
+                  lessonMDXBody={lessonBodySerialized}
+                  lessonBodyPreview={lessonBodyPreviewSerialized}
                   productName={activeProduct?.name || module.title}
                   loadingIndicator={<Spinner />}
                 />

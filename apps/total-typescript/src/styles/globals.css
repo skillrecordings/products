@@ -32,10 +32,10 @@ since they tend to clash with prism-theme.css */
 @import './focus-visible.css';
 
 /* code-hike code blocks */
-.prose .ch-code {
+.ch-code {
   @apply bg-white/5 !important;
 }
-.prose .ch-codeblock {
+.ch-codeblock {
   @apply shadow-none;
 }
 
