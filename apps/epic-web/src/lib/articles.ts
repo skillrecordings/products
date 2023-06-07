@@ -10,7 +10,7 @@ export const ArticleSchema = z.object({
   title: z.string(),
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
-  body: z.any().array(),
+  body: z.string(),
   state: z.enum(['published', 'draft']),
   image: z
     .object({
@@ -29,7 +29,6 @@ export const ArticleSchema = z.object({
     .optional()
     .nullable(),
   resources: z.any().array().nullable(),
-  estimatedReadingTime: z.number(),
 })
 
 export const ArticlesSchema = z.array(ArticleSchema)
@@ -50,7 +49,6 @@ export const getAllArticles = async (): Promise<Article[]> => {
         body,
         image,
         ogImage,
-        "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 ),
         resources[]->{
           ...
         }
@@ -73,7 +71,6 @@ export const getArticle = async (slug: string): Promise<Article> => {
         body,
         image,
         ogImage,
-        "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 ),
         resources[]->{
           ...
         }

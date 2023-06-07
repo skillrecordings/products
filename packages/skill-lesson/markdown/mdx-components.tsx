@@ -39,9 +39,37 @@ const Tweet: React.FC<TweetProps> = ({text, url, author}) => {
   )
 }
 
+type VideoProps = {
+  url: string
+  title?: string
+}
+
+const Video: React.FC<VideoProps> = ({url, title}) => {
+  return (
+    <figure data-body-video="" className="video">
+      <video
+        autoPlay={false}
+        loop={true}
+        controls={true}
+        className="rounded-md"
+      >
+        <source src={url} type="video/mp4" />
+      </video>
+      {title && (
+        <div className="pt-2 pb-4 text-base font-medium text-slate-400">
+          {title}
+        </div>
+      )}
+    </figure>
+  )
+}
+
 const mdxComponents = {
   Tweet: ({text, url, author}: TweetProps) => {
     return <Tweet text={text} url={url} author={author} />
+  },
+  Video: ({url, title}: VideoProps) => {
+    return <Video url={url} title={title} />
   },
 }
 

@@ -12,6 +12,7 @@
 @import './video/module-lesson-list.css';
 @import './video/video-overlays.css';
 @import './video/video-transcript.css';
+@import '@code-hike/mdx/dist/index.css';
 
 @tailwind utilities;
 
@@ -23,6 +24,18 @@
   ::-webkit-details-marker {
     display: none;
   }
+}
+
+/* code-hike code blocks */
+.prose .ch-code {
+  @apply bg-gray-900 dark:bg-gray-900 !important;
+}
+.prose .ch-codeblock {
+  @apply shadow-none;
+}
+
+.prose .ch-code-scroll-parent {
+  @apply leading-relaxed;
 }
 
 .prose > pre > code {
