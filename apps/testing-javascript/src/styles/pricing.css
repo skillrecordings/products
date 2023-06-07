@@ -64,7 +64,7 @@
   button[role='switch'][data-state='checked'] {
     @apply bg-gray-200 hover:bg-gray-300/50;
     span {
-      @apply translate-x-[25px] bg-blue-500 group-hover:bg-indigo-400;
+      @apply translate-x-[25px] bg-tjs-orange group-hover:bg-indigo-400;
     }
   }
 }
