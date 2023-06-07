@@ -58,54 +58,6 @@ const LessonTemplate = () => {
             <Playlist />
           </div> */}
         </section>
-
-        <div className="mt-8">
-          <button
-            data-action="continue"
-            onClick={() => {
-              addProgressMutation.mutate(
-                {lessonSlug: router.query.lesson as string},
-                // {
-                //   onSettled: (data, error, variables, context) => {
-                //     handleContinue({
-                //       router,
-                //       module,
-                //       nextExercise,
-                //       handlePlay,
-                //       path,
-                //       section,
-                //     })
-                //   },
-                // },
-              )
-            }}
-          >
-            Complete & Continue{' '}
-            <span aria-hidden="true" data-icon="">
-              →
-            </span>
-          </button>
-        </div>
-        <div className="">
-          <h2 className="mt-8 text-xl">
-            module:{' '}
-            <b>
-              <Link
-                href={{
-                  pathname: '/playlists/[module]',
-                  query: {
-                    module: module.slug.current,
-                  },
-                }}
-              >
-                {module?.title}
-              </Link>
-            </b>
-          </h2>
-          <h2 className="mt-8 text-xl">
-            lesson: <b>{lesson?.title}</b>
-          </h2>
-        </div>
       </div>
     </VideoProvider>
   )
