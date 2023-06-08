@@ -5,22 +5,9 @@ import {orderTranscript} from 'lib/castingwords'
 import {updateVideoResourceWithTranscriptOrderId} from 'lib/sanity'
 import * as Sentry from '@sentry/nextjs'
 import {createMuxAsset} from '@skillrecordings/skill-lesson/lib/mux'
+import {createCastingWordsOrder} from '@skillrecordings/skill-lesson/lib/casting-words'
 
 const secret = process.env.SANITY_WEBHOOK_SECRET
-
-async function createCastingWordsOrder({
-  originalMediaUrl,
-  castingwords,
-}: {
-  originalMediaUrl: string
-  castingwords: {orderId: string; transcript: any[]; audioFileId: number}
-}) {
-  if (!castingwords?.orderId && !castingwords?.transcript) {
-    return await orderTranscript(originalMediaUrl)
-  }
-
-  return {order: castingwords.orderId, audiofiles: [castingwords.audioFileId]}
-}
 
 /**
  * link to webhook {@link} https://www.sanity.io/organizations/om9qNpcXE/project/z9io1e0u/api/webhooks/xV5ZY6656qclI76i
