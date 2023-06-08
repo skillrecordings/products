@@ -58,16 +58,7 @@ export const getTutorial = async (slug: string) =>
       _updatedAt,
       "image": image.asset->url,
       "cta": resources[@->._type == 'cta'][0]->{body, expiresAt},
-      body[]{
-        ...,
-        _type == "bodyTestimonial" => {
-          "body": testimonial->body,
-          "author": testimonial->author {
-            "image": image.asset->url,
-            name
-          }
-        }
-      },
+      body,
       "testimonials": resources[@->._type == 'testimonial']->{
         _id,
         _type,

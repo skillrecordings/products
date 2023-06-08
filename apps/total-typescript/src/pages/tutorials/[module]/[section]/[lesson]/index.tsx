@@ -7,6 +7,8 @@ import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-vid
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from '@/lib/sections'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import truncateMarkdown from 'markdown-truncate'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -16,10 +18,30 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const module = await getTutorial(params?.module as string)
   const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSlug, false)
+  const lessonBodySerialized =
+    typeof lesson.body === 'string' &&
+    (await serializeMDX(lesson.body, {
+      syntaxHighlighterOptions: {
+        theme: 'dark-plus',
+        showCopyButton: true,
+      },
+    }))
+  const lessonBodyPreviewSerialized =
+    typeof lesson.body === 'string' &&
+    (await serializeMDX(
+      truncateMarkdown(lesson.body, {limit: 300, ellipsis: false}),
+      {
+        syntaxHighlighterOptions: {
+          theme: 'dark-plus',
+        },
+      },
+    ))
 
   return {
     props: {
       lesson,
+      lessonBodySerialized,
+      lessonBodyPreviewSerialized,
       module,
       section,
       transcript: lesson.transcript,
@@ -53,6 +75,8 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 
 const ExercisePage: React.FC<any> = ({
   lesson,
+  lessonBodySerialized,
+  lessonBodyPreviewSerialized,
   module,
   section,
   transcript,
@@ -62,7 +86,11 @@ const ExercisePage: React.FC<any> = ({
     <ModuleProgressProvider moduleSlug={module.slug.current}>
       <LessonProvider lesson={lesson} module={module} section={section}>
         <VideoResourceProvider videoResourceId={videoResourceId}>
-          <ExerciseTemplate transcript={transcript} />
+          <ExerciseTemplate
+            transcript={transcript}
+            lessonBodySerialized={lessonBodySerialized}
+            lessonBodyPreviewSerialized={lessonBodyPreviewSerialized}
+          />
         </VideoResourceProvider>
       </LessonProvider>
     </ModuleProgressProvider>

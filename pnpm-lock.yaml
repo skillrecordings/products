@@ -2793,6 +2793,7 @@ importers:
       langchain: ^0.0.75
       lint-staged: ^11.2.6
       lodash: ^4.17.21
+      markdown-truncate: ^1.1.0
       micromark: ^3.1.0
       mjml: ^4.12.0
       mjml-react: ^2.0.8
@@ -2936,6 +2937,7 @@ importers:
       jsonwebtoken: 8.5.1
       langchain: 0.0.75_axios@1.4.0
       lodash: 4.17.21
+      markdown-truncate: 1.1.0
       micromark: 3.1.0
       mjml: 4.12.0
       mjml-react: 2.0.8_ailtjjlsqvu2thdobeyj5nn3lq
@@ -3017,7 +3019,7 @@ importers:
       prettier: 2.7.1
       prettier-plugin-tailwindcss: 0.2.5_prettier@2.7.1
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -15303,13 +15305,14 @@ packages:
       '@ucast/mongo': 2.4.2
     dev: false
 
-  /@uiw/codemirror-extensions-basic-setup/4.19.7_r5d3jlum5gwy6jsylajaj62gpe:
+  /@uiw/codemirror-extensions-basic-setup/4.19.7_b75jqe4w7qgjwbqfbsbdvntkte:
     resolution: {integrity: sha512-pk0JTFJAZOGxouBB1pdBtb59qKibO9DW4hER4VSFGBGW3TBDeXUwL/gKujhRpySHG2MtG09cgt4a3XOFIWwXTw==}
     peerDependencies:
       '@codemirror/autocomplete': '>=6.0.0'
       '@codemirror/commands': '>=6.0.0'
       '@codemirror/language': '>=6.0.0'
       '@codemirror/search': '>=6.0.0'
+      '@codemirror/state': '>=6.0.0'
       '@codemirror/view': '>=6.0.0'
     dependencies:
       '@codemirror/autocomplete': 6.4.0
@@ -15341,7 +15344,7 @@ packages:
       '@codemirror/state': 6.2.0
       '@codemirror/theme-one-dark': 6.1.0
       '@codemirror/view': 6.7.3
-      '@uiw/codemirror-extensions-basic-setup': 4.19.7_r5d3jlum5gwy6jsylajaj62gpe
+      '@uiw/codemirror-extensions-basic-setup': 4.19.7_b75jqe4w7qgjwbqfbsbdvntkte
       codemirror: 6.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -16239,14 +16242,14 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
     transitivePeerDependencies:
       - debug
 
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -16254,7 +16257,7 @@ packages:
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -16263,7 +16266,7 @@ packages:
   /axios/1.4.0:
     resolution: {integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -21683,6 +21686,18 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
+
+  /follow-redirects/1.15.2_debug@2.6.9:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 2.6.9
 
   /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -22103,7 +22118,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -22151,7 +22166,7 @@ packages:
     dependencies:
       debug: 4.3.4
       decompress-response: 7.0.0
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2_debug@2.6.9
       into-stream: 6.0.0
       is-plain-object: 5.0.0
       is-retry-allowed: 2.2.0
@@ -26506,6 +26521,10 @@ packages:
 
   /markdown-table/3.0.3:
     resolution: {integrity: sha512-Z1NL3Tb1M9wH4XESsCDEksWoKTdlUafKc4pt0GRwjUyXaCFZ+dc3g2erqB6zm3szA2IUSi7VnPI+o/9jnxh9hw==}
+    dev: false
+
+  /markdown-truncate/1.1.0:
+    resolution: {integrity: sha512-totIV8266I//yl7sxCW6xv08T28Yva6a1czpnHlE6scwFOr9yoIbLvzeIp64M3MMyOwo3WX4MVQ+lMQHXAP/ow==}
     dev: false
 
   /marked/4.3.0:

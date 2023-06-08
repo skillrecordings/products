@@ -7,14 +7,17 @@ import WorkshopTemplate from '../../../templates/workshop-template'
 import {getAllWorkshops, getWorkshop} from '../../../lib/workshops'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const workshop = await getWorkshop(params?.module as string)
+  const workshopBodySerialized = await serializeMDX(workshop.body)
 
   return {
-    props: {workshop},
+    props: {workshop, workshopBodySerialized},
     revalidate: 10,
   }
 }
@@ -31,11 +34,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const WorkshopPage: React.FC<{
   workshop: Module
-}> = ({workshop}) => {
+  workshopBodySerialized: MDXRemoteSerializeResult
+}> = ({workshop, workshopBodySerialized}) => {
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
   return (
     <ModuleProgressProvider moduleSlug={workshop.slug.current}>
-      <WorkshopTemplate workshop={workshop} />
+      <WorkshopTemplate
+        workshop={workshop}
+        workshopBodySerialized={workshopBodySerialized}
+      />
     </ModuleProgressProvider>
   )
 }

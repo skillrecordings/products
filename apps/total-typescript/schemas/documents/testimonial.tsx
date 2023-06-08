@@ -12,7 +12,7 @@ export default {
     {
       name: 'body',
       title: 'Testimonial',
-      type: 'body',
+      type: 'markdown',
       validation: (Rule) => Rule.required(),
     },
     {
@@ -57,8 +57,8 @@ export default {
     prepare(selection) {
       const {title, media, type} = selection
       return {
-        title: `${truncate(toPlainText(title), {
-          length: 60,
+        title: `${truncate(title, {
+          length: 24,
         })} ${capitalize(type)}`,
         media: media && <img src={media} alt={title} />,
       }

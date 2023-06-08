@@ -64,12 +64,59 @@ const Video: React.FC<VideoProps> = ({url, title}) => {
   )
 }
 
+type TestimonialProps = {
+  author: {
+    name: string
+    image: string
+  }
+}
+
+const Testimonial: React.FC<React.PropsWithChildren<TestimonialProps>> = ({
+  children,
+  author,
+}) => {
+  return (
+    <div data-body-testimonial="">
+      <div data-content="">
+        <blockquote>{children}</blockquote>
+        {author?.name && (
+          <div data-author="">
+            {author.image ? (
+              <div data-image="">
+                <Image
+                  src={author.image}
+                  alt={author.name}
+                  width={40}
+                  height={40}
+                />
+              </div>
+            ) : (
+              '— '
+            )}
+            <span data-name="">{author.name}</span>
+          </div>
+        )}
+      </div>
+      <div data-border="" aria-hidden="true" />
+      <div data-quote="" aria-hidden="true">
+        ”
+      </div>
+    </div>
+  )
+}
+
 const mdxComponents = {
   Tweet: ({text, url, author}: TweetProps) => {
     return <Tweet text={text} url={url} author={author} />
   },
   Video: ({url, title}: VideoProps) => {
     return <Video url={url} title={title} />
+  },
+  Testimonial: ({
+    children,
+    author,
+  }: React.PropsWithChildren<TestimonialProps>) => {
+    return <Testimonial author={author}>{children}</Testimonial>
   },
 }
 
