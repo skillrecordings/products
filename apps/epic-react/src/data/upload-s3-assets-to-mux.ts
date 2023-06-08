@@ -89,6 +89,7 @@ const uploadMuxAssets = async () => {
     const asset = await Video.Assets.create({
       input: media_url,
       playback_policy: ['public'],
+      mp4_support: 'standard',
     })
 
     if (asset.errors) {
