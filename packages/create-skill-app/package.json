@@ -24,7 +24,7 @@
     "build": "pnpm release",
     "clean": "rimraf ./dist/ && rimraf ./node_modules/",
     "dev": "pnpm prerelease && ncc build ./index.ts -w -o dist/",
-    "prepublishOnly": "cd ../../ && turbo run build",
+    "prepublishOnly": "cd ../../ && turbo run build --filter=create-skill-app",
     "prerelease": "rimraf ./dist/",
     "release": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register"
   },
