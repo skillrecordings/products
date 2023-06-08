@@ -3,7 +3,7 @@ import {type Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 
-export const customPlayFromBeginningHandler = ({
+export const customPlayFromBeginningHandler = async ({
   router,
   section,
   module,
