@@ -50,7 +50,7 @@ export type TipPageProps = {
   tip: Tip
   tips: Tip[]
   videoResourceId: string
-  transcript: any[]
+  transcript: string
   tipBodySerialized: MDXRemoteSerializeResult
   tipSummarySerialized: MDXRemoteSerializeResult
 }

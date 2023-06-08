@@ -14,7 +14,7 @@ export const TipSchema = z.object({
   stackblitz: z.nullable(z.string()).optional(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   videoResourceId: z.nullable(z.string()).optional(),
-  transcript: z.nullable(z.any().array()),
+  transcript: z.nullable(z.string()).optional(),
   tweetId: z.string(),
 })
 

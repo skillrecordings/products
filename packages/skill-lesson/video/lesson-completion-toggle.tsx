@@ -68,9 +68,10 @@ const LessonCompletionToggle = () => {
           >
             <Switch.Thumb />
           </Switch.Root>
-          {isFetching && (
+          {/* {isFetching && (
             <motion.div
               data-loading-indicator=""
+              initial={{width: '0%', opacity: 0.2}}
               animate={{
                 width: ['0%', '100%', '100%'],
                 opacity: [0.2, 1, 0],
@@ -83,7 +84,7 @@ const LessonCompletionToggle = () => {
               }}
               aria-hidden="true"
             />
-          )}
+          )} */}
         </label>
       </form>
     </div>

@@ -10,11 +10,6 @@ import MuxPlayer, {
   MuxPlayerRefAttributes,
 } from '@mux/mux-player-react'
 import {Tip} from '@/lib/tips'
-import {
-  PortableText,
-  PortableTextComponents as PortableTextComponentsType,
-} from '@portabletext/react'
-import {hmsToSeconds} from '@skillrecordings/time'
 import {TipTeaser} from '@/pages/tips'
 import {useRouter} from 'next/router'
 import {
@@ -43,13 +38,14 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 
 const TipTemplate: React.FC<{
   tip: Tip
   tipBodySerialized: MDXRemoteSerializeResult
   tipSummarySerialized: MDXRemoteSerializeResult
   tips: Tip[]
-  transcript: any[]
+  transcript: string
 }> = ({tip, tips, transcript, tipBodySerialized, tipSummarySerialized}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {subscriber, loadingSubscriber} = useConvertkit()
@@ -96,7 +92,12 @@ const TipTemplate: React.FC<{
   }
 
   return (
-    <VideoProvider muxPlayerRef={muxPlayerRef} onEnded={handleVideoEnded}>
+    <VideoProvider
+      muxPlayerRef={muxPlayerRef}
+      onEnded={handleVideoEnded}
+      exerciseSlug={tip.slug}
+      path="/tips"
+    >
       <ArticleJsonLd
         url={`${process.env.NEXT_PUBLIC_URL}/tips/${tip.slug}`}
         title={tip.title}
@@ -124,7 +125,7 @@ const TipTemplate: React.FC<{
         }}
         nav={<Navigation className="relative flex lg:relative" />}
       >
-        <main className="mx-auto w-full">
+        <main id="tip" className="mx-auto w-full">
           <div className="relative z-10 flex items-center justify-center bg-gradient-to-b from-black/30 to-gray-900">
             <div className="-mb-1.5 flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
@@ -173,12 +174,9 @@ const TipTemplate: React.FC<{
                       />
                     </>
                   )}
-                  {transcript && (
+                  {tip.transcript && (
                     <div className="w-full max-w-2xl pt-5">
-                      <Transcript
-                        transcript={transcript}
-                        muxPlayerRef={muxPlayerRef}
-                      />
+                      <VideoTranscript transcript={tip.transcript} />
                     </div>
                   )}
                 </div>
@@ -194,12 +192,9 @@ const TipTemplate: React.FC<{
               </div>
             </div>
             <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 pt-10 sm:pt-10 md:flex-row">
-              {transcript && !tip.body && (
+              {tip.transcript && !tip.body && (
                 <div className="w-full max-w-2xl pt-5">
-                  <Transcript
-                    transcript={transcript}
-                    muxPlayerRef={muxPlayerRef}
-                  />
+                  <VideoTranscript transcript={tip.transcript} />
                 </div>
               )}
               {!tip.body && <RelatedTips currentTip={tip} tips={tips} />}
@@ -241,45 +236,6 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
     </div>
   )
 })
-
-const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
-  transcript,
-  muxPlayerRef,
-}) => {
-  const {handlePlay, video} = useMuxPlayer()
-  return (
-    <section aria-label="transcript">
-      <h2 className="text-2xl font-semibold">Transcript</h2>
-      <div className="prose max-w-none pt-4 sm:prose-lg prose-p:text-gray-300">
-        <PortableText
-          value={transcript}
-          components={
-            {
-              marks: {
-                timestamp: ({value}: any) => {
-                  const {timestamp} = value
-                  return video ? (
-                    <button
-                      className="after:content-[' '] inline-block underline after:inline-block"
-                      onClick={() => {
-                        muxPlayerRef.current.currentTime =
-                          hmsToSeconds(timestamp)
-                        handlePlay()
-                        window.scrollTo({top: 80})
-                      }}
-                    >
-                      {timestamp}
-                    </button>
-                  ) : null
-                },
-              },
-            } as PortableTextComponentsType
-          }
-        />
-      </div>
-    </section>
-  )
-}
 
 const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   currentTip,
@@ -431,10 +387,7 @@ const SubscribeForm = ({
   handleOnSuccess: (subscriber: any, email?: string) => void
 }) => {
   return (
-    <div
-      id="tip"
-      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-800 px-3 pb-3 pt-2 md:flex-row md:pt-1 2xl:px-0"
-    >
+    <div className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-800 px-3 pb-3 pt-2 md:flex-row md:pt-1 2xl:px-0">
       <div className="inline-flex items-center gap-2 text-lg font-medium leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
         <div
           aria-hidden="true"
