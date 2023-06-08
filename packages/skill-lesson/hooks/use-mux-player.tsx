@@ -23,6 +23,10 @@ import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useConvertkit} from './use-convertkit'
 import {useGlobalPlayerShortcuts} from './use-global-player-shortcut'
 import {type Section} from '../schemas/section'
+import {defaultHandleContinue} from '../video/default-handle-continue'
+import {handlePlayFromBeginning as defaultHandlePlayFromBeginning} from '../utils/handle-play-from-beginning'
+import {type NextRouter} from 'next/router'
+import {type Module} from '../schemas/module'
 
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
@@ -40,6 +44,21 @@ type VideoContextType = {
   loadingUserStatus: boolean
   ability: AppAbility
   muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>
+  handleContinue: (options: {
+    router: NextRouter
+    module: Module
+    section?: Section | null
+    nextExercise?: Lesson | null
+    handlePlay: () => void
+    path: string
+  }) => Promise<any>
+  handlePlayFromBeginning: (options: {
+    router: NextRouter
+    section?: Section
+    module: Module
+    path: string
+    handlePlay: () => void
+  }) => Promise<any>
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -51,6 +70,21 @@ type VideoProviderProps = {
   onEnded?: () => Promise<any>
   onModuleEnded?: () => Promise<any>
   onModuleStarted?: () => Promise<any>
+  handleContinue?: (options: {
+    router: NextRouter
+    module: Module
+    section?: Section | null
+    nextExercise?: Lesson | null
+    handlePlay: () => void
+    path: string
+  }) => Promise<any>
+  handlePlayFromBeginning?: (options: {
+    router: NextRouter
+    section?: Section
+    module: Module
+    path: string
+    handlePlay: () => void
+  }) => Promise<any>
 }
 
 export const VideoProvider: React.FC<
@@ -62,6 +96,8 @@ export const VideoProvider: React.FC<
   onEnded = async () => {},
   onModuleEnded = async () => {},
   onModuleStarted = async () => {},
+  handleContinue = defaultHandleContinue,
+  handlePlayFromBeginning = defaultHandlePlayFromBeginning,
   exerciseSlug,
 }) => {
   const router = useRouter()
@@ -236,6 +272,8 @@ export const VideoProvider: React.FC<
     ability,
     loadingUserStatus,
     muxPlayerRef,
+    handleContinue,
+    handlePlayFromBeginning,
   }
   return (
     <VideoContext.Provider value={context}>{children}</VideoContext.Provider>

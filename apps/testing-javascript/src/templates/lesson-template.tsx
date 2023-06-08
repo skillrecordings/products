@@ -41,6 +41,8 @@ const LessonTemplate = () => {
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
       exerciseSlug={router.query.lesson as string}
+      handleContinue={customContinueHandler}
+      handlePlayFromBeginning={customPlayFromBeginningHandler}
     >
       <div className="container max-w-6xl">
         <section className="flex">
@@ -50,8 +52,6 @@ const LessonTemplate = () => {
               product={defaultProduct}
               exerciseOverlayRenderer={() => <div>DIIIIIV</div>}
               loadingIndicator={<Spinner />}
-              customContinueHandler={customContinueHandler}
-              customPlayFromBeginningHandler={customPlayFromBeginningHandler}
             />
           </div>
           {/* <div className="shrink-0">

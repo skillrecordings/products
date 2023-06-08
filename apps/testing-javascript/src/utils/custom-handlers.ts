@@ -16,7 +16,7 @@ export const customPlayFromBeginningHandler = ({
   path: string
   handlePlay: () => void
 }) => {
-  router
+  return router
     .push({
       query: {
         lesson:

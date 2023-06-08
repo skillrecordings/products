@@ -9,7 +9,6 @@ import isEmpty from 'lodash/isEmpty'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {handleContinue} from '@skillrecordings/skill-lesson/video/video-overlays'
 
 const SandpackEditor: React.ComponentType<any> = dynamic(
   () => import('../exercise/sandpack/repl'),
@@ -160,7 +159,8 @@ const ExerciseOverlay: React.FC<{tutorialFiles: any}> = ({tutorialFiles}) => {
 export default ExerciseOverlay
 
 const Actions = () => {
-  const {nextExercise, path, handlePlay, muxPlayerRef} = useMuxPlayer()
+  const {nextExercise, path, handlePlay, muxPlayerRef, handleContinue} =
+    useMuxPlayer()
   const {lesson, module, section} = useLesson()
   const router = useRouter()
 
