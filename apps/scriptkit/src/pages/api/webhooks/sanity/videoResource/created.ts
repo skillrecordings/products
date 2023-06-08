@@ -1,10 +1,10 @@
 import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
-import {updateVideoResourceWithTranscriptOrderId} from 'lib/sanity'
 import * as Sentry from '@sentry/nextjs'
 import {createCastingWordsOrder} from '@skillrecordings/skill-lesson/lib/casting-words'
 import {createMuxAsset} from '@skillrecordings/skill-lesson/lib/mux'
+import {updateVideoResourceWithTranscriptOrderId} from '@skillrecordings/skill-lesson/lib/sanity'
 
 const secret = process.env.SANITY_WEBHOOK_SECRET
 

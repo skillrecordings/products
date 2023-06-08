@@ -9,8 +9,6 @@ import {createMuxAsset} from '@skillrecordings/skill-lesson/lib/mux'
 const secret = process.env.SANITY_WEBHOOK_SECRET
 
 /**
- * link to webhook {@link} https://www.sanity.io/organizations/om9qNpcXE/project/z9io1e0u/api/webhooks/xV5ZY6656qclI76i
- *
  * @param req
  * @param res
  */

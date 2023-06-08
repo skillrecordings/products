@@ -1,3 +1,5 @@
+import Mux from '@mux/mux-node'
+
 export async function createMuxAsset({
   originalMediaUrl,
   muxAsset,

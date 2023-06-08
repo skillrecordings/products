@@ -35,7 +35,7 @@
     "@next/mdx": "^13.4.3",
     "@portabletext/react": "^1.0.6",
     "@reach/dialog": "^0.16.2",
-    "@sanity/client": "^3.3.3",
+    "@sanity/client": "^6.1.1",
     "@sentry/nextjs": "^7.9.0",
     "@sentry/tracing": "^7.9.0",
     "@skillrecordings/config": "workspace:*",

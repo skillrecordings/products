@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/nextjs'
 import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {z} from 'zod'
-import {writeTranscriptToVideoResource} from '@/lib/sanity'
+import {writeTranscriptToVideoResource} from '@skillrecordings/skill-lesson/lib/sanity'
 
 const CastingwordsWebhookBody = z.object({
   audiofile: z.string(),

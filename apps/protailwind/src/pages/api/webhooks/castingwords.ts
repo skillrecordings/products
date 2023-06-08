@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/nextjs'
 import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {z} from 'zod'
-import {writeTranscriptToVideoResource} from 'lib/sanity'
+import {writeTranscriptToVideoResource} from '@skillrecordings/skill-lesson/lib/sanity'
 
 const CastingwordsWebhookBody = z.object({
   audiofile: z.string(),
@@ -17,7 +17,7 @@ const castingwordsWebhookReceiver = async (
     if (req.body.event === 'TRANSCRIPT_COMPLETE') {
       try {
         const {audiofile, order} = CastingwordsWebhookBody.parse(req.body)
-        await writeTranscriptToVideoResource(audiofile, order)
+        await writeTranscriptToVideoResource(audiofile, order, true)
         res.status(200).json({message: 'video resource updated'})
       } catch (e) {
         Sentry.captureException(e)
