@@ -42,6 +42,7 @@ async function createMuxAsset({
     const newMuxAsset = await Video.Assets.create({
       input: originalMediaUrl,
       playback_policy: ['public'],
+      mp4_support: 'standard',
     })
 
     return {

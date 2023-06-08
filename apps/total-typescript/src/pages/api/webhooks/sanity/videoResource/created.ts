@@ -4,7 +4,7 @@ import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import {orderTranscript} from '@/lib/castingwords'
 import {updateVideoResourceWithTranscriptOrderId} from '@/lib/sanity'
 import * as Sentry from '@sentry/nextjs'
-import Mux from '@mux/mux-node'
+import {createMuxAsset} from '@skillrecordings/skill-lesson/lib/mux'
 
 const secret = process.env.SANITY_WEBHOOK_SECRET
 
@@ -20,34 +20,6 @@ async function createCastingWordsOrder({
   }
 
   return {order: castingwords.orderId, audiofiles: [castingwords.audioFileId]}
-}
-
-async function createMuxAsset({
-  originalMediaUrl,
-  muxAsset,
-  duration,
-}: {
-  originalMediaUrl: string
-  muxAsset: {muxAssetId: string; muxPlaybackId: string}
-  duration: number
-}) {
-  if (!muxAsset?.muxAssetId) {
-    const {Video} = new Mux()
-    const newMuxAsset = await Video.Assets.create({
-      input: originalMediaUrl,
-      playback_policy: ['public'],
-    })
-
-    return {
-      duration: newMuxAsset.duration,
-      muxAssetId: newMuxAsset.id,
-      muxPlaybackId: newMuxAsset.playback_ids?.find((playback_id) => {
-        return playback_id.policy === 'public'
-      })?.id,
-    }
-  }
-
-  return {...muxAsset, duration}
 }
 
 /**
