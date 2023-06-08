@@ -15,8 +15,15 @@ import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import Spinner from 'components/spinner'
 import AboutKent from 'components/about-kent'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import removeMarkdown from 'remove-markdown'
 
-const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
+const ArticleTemplate: React.FC<{
+  article: Article
+  articleBodySerialized: MDXRemoteSerializeResult
+  estimatedReadingTime: number
+}> = ({article, articleBodySerialized, estimatedReadingTime}) => {
   const router = useRouter()
   const {
     title,
@@ -24,13 +31,12 @@ const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
     body,
     _updatedAt,
     _createdAt,
-    estimatedReadingTime,
     ogImage: _ogImage,
   } = article
   const image = article?.image?.secure_url
   const ogImage = {url: _ogImage?.secure_url, alt: title}
   const pageDescription =
-    description || `${toPlainText(body).substring(0, 157)}...`
+    description || `${removeMarkdown(body).substring(0, 157)}...`
   const author = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
   const {subscriber, loadingSubscriber} = useConvertkit()
@@ -53,7 +59,9 @@ const ArticleTemplate: React.FC<{article: Article}> = ({article}) => {
         image={image}
       />
       {/* <TableOfContents article={article} /> */}
-      <Body value={body} />
+      <main className="invert-svg prose mx-auto w-full max-w-3xl px-5 py-8 dark:prose-invert md:prose-xl prose-code:break-words prose-pre:bg-gray-900 prose-pre:leading-relaxed md:py-16 md:prose-code:break-normal">
+        <MDX contents={articleBodySerialized} />
+      </main>
       <Share title={title} />
       <AboutKent title="Written by Kent C. Dodds" className="mt-16" />
       {!subscriber && <CTA article={article} />}
@@ -123,7 +131,7 @@ const Header: React.FC<HeaderProps> = ({
         </div>
         <div className="flex items-center justify-center gap-8 text-center sm:justify-end sm:gap-16 sm:text-left">
           <div className="flex flex-shrink-0 flex-col justify-center text-sm sm:w-auto sm:text-base">
-            <span className="font-semibold">Time to read</span>~
+            <span className="font-semibold">Time to read</span>~{' '}
             {estimatedReadingTime} minutes
           </div>
           <div className="flex flex-shrink-0 flex-col text-sm sm:w-auto sm:text-base">

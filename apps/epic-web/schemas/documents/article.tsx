@@ -50,13 +50,13 @@ export default defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'body',
+      type: 'markdown',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'summary',
       title: 'Summary',
-      type: 'body',
+      type: 'markdown',
     }),
     defineField({
       name: 'image',
