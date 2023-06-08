@@ -6,6 +6,12 @@ import {Article, getAllArticles, getArticle} from 'lib/articles'
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const article = await getArticle(params?.article as string)
 
+  if (!article) {
+    return {
+      notFound: true,
+    }
+  }
+
   return {
     props: {
       article,

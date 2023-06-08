@@ -60,7 +60,7 @@ export const getArticle = async (
   slug: string,
 ): Promise<Article | undefined> => {
   const article = await sanityClient.fetch(
-    groq`*[_type == "article"  && state == 'published' && slug.current == $slug][0] {
+    groq`*[_type == "article" && slug.current == $slug][0] {
         _id,
         _type,
         _updatedAt,
