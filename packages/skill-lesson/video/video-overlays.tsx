@@ -2,7 +2,7 @@ import * as React from 'react'
 import {type SanityDocument} from '@sanity/client'
 import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit-react-ui'
 import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
-import {type NextRouter, useRouter} from 'next/router'
+import {useRouter} from 'next/router'
 import ReactMarkdown from 'react-markdown'
 import snakeCase from 'lodash/snakeCase'
 import Image from 'next/image'
@@ -21,10 +21,6 @@ import {getBaseUrl} from '../utils/get-base-url'
 import {useQuery} from '@tanstack/react-query'
 import {type Lesson} from '../schemas/lesson'
 import {confirmSubscriptionToast, useConvertkit} from '../hooks/use-convertkit'
-import {type Module} from '../schemas/module'
-import {type Section} from '../schemas/section'
-import {type Exercise} from '../schemas/exercise'
-import {handlePlayFromBeginning} from '../utils/handle-play-from-beginning'
 import SelfRedeemButton from '../team/self-redeem-button'
 import {useSession} from 'next-auth/react'
 import Balancer from 'react-wrap-balancer'
@@ -99,8 +95,8 @@ const ModuleCtaProvider: React.FC<React.PropsWithChildren<any>> = ({
   )
 }
 
-const DefaultOverlay = ({customContinueHandler}: any) => {
-  const {nextExercise, path, handlePlay} = useMuxPlayer()
+const DefaultOverlay = () => {
+  const {nextExercise, path, handlePlay, handleContinue} = useMuxPlayer()
   const {lesson, module, section} = useLesson()
   const router = useRouter()
   const {image} = module
@@ -165,23 +161,14 @@ const DefaultOverlay = ({customContinueHandler}: any) => {
                 {lessonSlug: router.query.lesson as string},
                 {
                   onSettled: (data, error, variables, context) => {
-                    customContinueHandler
-                      ? customContinueHandler({
-                          router,
-                          module,
-                          nextExercise,
-                          handlePlay,
-                          path,
-                          section,
-                        })
-                      : handleContinue({
-                          router,
-                          module,
-                          nextExercise,
-                          handlePlay,
-                          path,
-                          section,
-                        })
+                    handleContinue({
+                      router,
+                      module,
+                      nextExercise,
+                      handlePlay,
+                      path,
+                      section,
+                    })
                   },
                 },
               )
@@ -198,8 +185,8 @@ const DefaultOverlay = ({customContinueHandler}: any) => {
   )
 }
 
-const FinishedOverlay = ({customPlayFromBeginningHandler}: any) => {
-  const {path, handlePlay} = useMuxPlayer()
+const FinishedOverlay = () => {
+  const {path, handlePlay, handlePlayFromBeginning} = useMuxPlayer()
   const {module, section, lesson} = useLesson()
   const router = useRouter()
   const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
@@ -245,21 +232,13 @@ const FinishedOverlay = ({customPlayFromBeginningHandler}: any) => {
                 {lessonSlug: router.query.lesson as string},
                 {
                   onSettled: (data, error, variables, context) => {
-                    customPlayFromBeginningHandler
-                      ? customPlayFromBeginningHandler({
-                          router,
-                          module,
-                          section,
-                          path,
-                          handlePlay,
-                        })
-                      : handlePlayFromBeginning({
-                          router,
-                          module,
-                          section,
-                          path,
-                          handlePlay,
-                        })
+                    handlePlayFromBeginning({
+                      router,
+                      module,
+                      section,
+                      path,
+                      handlePlay,
+                    })
                   },
                 },
               )
@@ -587,7 +566,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
 }
 
 const FinishedSectionOverlay = () => {
-  const {nextSection, path, handlePlay} = useMuxPlayer()
+  const {nextSection, path, handlePlay, handleContinue} = useMuxPlayer()
   const {lesson, module} = useLesson()
   const {image} = module
   const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
@@ -681,86 +660,4 @@ export {
   BlockedOverlay,
   LoadingOverlay,
   OverlayWrapper,
-}
-
-export const handleContinue = async ({
-  router,
-  module,
-  section,
-  nextExercise,
-  handlePlay,
-  path,
-}: {
-  router: NextRouter
-  module: Module
-  section?: Section | null
-  nextExercise?: Lesson | null
-  handlePlay: () => void
-  path: string
-}) => {
-  if (nextExercise?._type === 'solution') {
-    if (section) {
-      const exercise =
-        section.lessons &&
-        section.lessons.find((exercise: Exercise) => {
-          const solution = exercise.solution
-          return solution?._key === nextExercise._key
-        })
-
-      return (
-        exercise &&
-        (await router
-          .push({
-            query: {
-              module: module.slug.current,
-              section: section.slug,
-              lesson: exercise.slug,
-            },
-
-            pathname: `${path}/[module]/[section]/[lesson]/solution`,
-          })
-          .then(() => handlePlay()))
-      )
-    } else {
-      const exercise =
-        module.lessons &&
-        module.lessons.find((exercise: Exercise) => {
-          const solution = exercise.solution
-          return solution?._key === nextExercise._key
-        })
-
-      return (
-        exercise &&
-        (await router
-          .push({
-            query: {
-              module: module.slug.current,
-              lesson: exercise.slug,
-            },
-
-            pathname: `${path}/[module]/[lesson]/solution`,
-          })
-          .then(() => handlePlay()))
-      )
-    }
-  }
-  if (section) {
-    return await router
-      .push({
-        query: {
-          module: module.slug.current,
-          section: section.slug,
-          lesson: nextExercise?.slug,
-        },
-        pathname: `${path}/[module]/[section]/[lesson]`,
-      })
-      .then(() => handlePlay())
-  } else {
-    return await router
-      .push({
-        query: {module: module.slug.current, lesson: nextExercise?.slug},
-        pathname: `${path}/[module]/[lesson]`,
-      })
-      .then(() => handlePlay())
-  }
 }

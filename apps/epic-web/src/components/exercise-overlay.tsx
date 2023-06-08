@@ -1,6 +1,5 @@
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useRouter} from 'next/router'
-import {handleContinue} from '@skillrecordings/skill-lesson/video/video-overlays'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 
@@ -27,7 +26,8 @@ const ExerciseOverlay = () => {
 export default ExerciseOverlay
 
 const Actions = () => {
-  const {nextExercise, path, handlePlay, muxPlayerRef} = useMuxPlayer()
+  const {nextExercise, path, handlePlay, muxPlayerRef, handleContinue} =
+    useMuxPlayer()
   const {lesson, module, section} = useLesson()
   const router = useRouter()
 

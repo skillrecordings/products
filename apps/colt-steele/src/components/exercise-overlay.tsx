@@ -8,7 +8,6 @@ import Balancer from 'react-wrap-balancer'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {handleContinue} from '@skillrecordings/skill-lesson/video/video-overlays'
 import {Sandpack} from '@codesandbox/sandpack-react'
 
 const ExerciseOverlay: React.FC<{}> = ({}) => {
@@ -123,7 +122,8 @@ const ExerciseOverlay: React.FC<{}> = ({}) => {
 export default ExerciseOverlay
 
 const Actions = () => {
-  const {nextExercise, path, handlePlay, muxPlayerRef} = useMuxPlayer()
+  const {nextExercise, path, handlePlay, muxPlayerRef, handleContinue} =
+    useMuxPlayer()
   const {lesson, module, section} = useLesson()
   const router = useRouter()
 

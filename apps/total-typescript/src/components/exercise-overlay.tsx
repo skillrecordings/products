@@ -2,7 +2,7 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useDeviceDetect} from '@/hooks/use-device-detect'
 import {useRouter} from 'next/router'
 import {trpc} from '@/trpc/trpc.client'
-import {handleContinue} from '@skillrecordings/skill-lesson/video/video-overlays'
+import {defaultHandleContinue} from '@skillrecordings/skill-lesson/video/default-handle-continue'
 import {getExerciseGitHubUrl} from '@/exercise/get-exercise-github-url'
 import {StackBlitzIframe} from '@/exercise/stackblitz-iframe'
 import {ExclamationIcon} from '@heroicons/react/solid'
@@ -143,7 +143,8 @@ const ExerciseOverlay = () => {
 export default ExerciseOverlay
 
 const Actions = () => {
-  const {nextExercise, path, handlePlay, muxPlayerRef} = useMuxPlayer()
+  const {nextExercise, path, handlePlay, muxPlayerRef, handleContinue} =
+    useMuxPlayer()
   const {lesson, module, section} = useLesson()
   const router = useRouter()
 
