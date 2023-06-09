@@ -1,4 +1,12 @@
 import {z} from 'zod'
+import {NextApiRequest, NextApiResponse} from 'next'
+import {writeTranscriptToVideoResource} from './sanity'
+import * as Sentry from '@sentry/nextjs'
+
+export const CastingwordsWebhookBody = z.object({
+  audiofile: z.string(),
+  order: z.string(),
+})
 
 export async function getTranscriptText(audiofile: string) {
   return await fetch(
@@ -22,6 +30,10 @@ export function buildCastingwordsOrderUrl({
   skus: string[]
   originalMediaUrl: string
 }) {
+  if (!process.env.CASTINGWORDS_API_TOKEN) {
+    throw new Error('Missing CASTINGWORDS_API_TOKEN')
+  }
+
   // https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
   const urlParams = new URLSearchParams()
 
@@ -60,7 +72,44 @@ export async function orderTranscript(
     headers,
   }).then(async (response) => {
     const order = await response.json()
-    console.log('castingwords', {order})
     return CastingWordsOrderResponseSchema.parse(order)
   })
+}
+
+export async function createCastingWordsOrder({
+  originalMediaUrl,
+  castingwords,
+}: {
+  originalMediaUrl: string
+  castingwords: {orderId: string; transcript: any[]; audioFileId: number}
+}) {
+  if (!castingwords?.orderId && !castingwords?.transcript) {
+    return await orderTranscript(originalMediaUrl)
+  }
+
+  return {order: castingwords.orderId, audiofiles: [castingwords.audioFileId]}
+}
+
+export const castingwordsWebhookReceiver = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
+  if (req.method === 'POST') {
+    if (req.body.event === 'TRANSCRIPT_COMPLETE') {
+      try {
+        const {audiofile, order} = CastingwordsWebhookBody.parse(req.body)
+        await writeTranscriptToVideoResource(audiofile, order, true)
+        res.status(200).json({message: 'video resource updated'})
+      } catch (e) {
+        Sentry.captureException(e)
+        res.status(500).json({
+          message: `Invalid query for Sanity document`,
+        })
+      }
+    } else {
+      res.status(200).end()
+    }
+  } else {
+    res.status(404).end()
+  }
 }

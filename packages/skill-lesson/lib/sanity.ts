@@ -2,7 +2,7 @@ import {
   CastingWordsOrderResponseSchema,
   getSRTText,
   getTranscriptText,
-} from './casting-words'
+} from './castingwords'
 import {z} from 'zod'
 import first from 'lodash/first'
 import groq from 'groq'
