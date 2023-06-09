@@ -10,12 +10,7 @@ import {Transaction} from '@sanity/client'
 type Doc = {
   _id: string
   _rev: string
-  castingwords: {
-    transcript: any[]
-    srt: string
-    audioFileId: string
-    orderId: string
-  }
+  castingwords: {transcript: any[]}
 }
 
 type DocPatch = {
@@ -40,10 +35,11 @@ const fetchDocuments = () =>
 // Build a patch for each document, represented as a tuple of `[documentId, patch]`
 const buildPatches = (docs: Doc[]) =>
   docs.map((doc: Doc): any => {
+    // const body = doc.body
     const transcript = doc.castingwords.transcript
-    const srt = doc.castingwords.srt
-    const audioFileId = doc.castingwords.audioFileId
-    const orderId = doc.castingwords.orderId
+    // const srt = doc.castingwords.srt
+    // const audioFileId = doc.castingwords.audioFileId
+    // const orderId = doc.castingwords.orderId
 
     const isArray = Array.isArray(transcript)
     if (isArray) {
@@ -124,7 +120,7 @@ const serializers = {
     },
     callout: ({node}: any) => {
       const {body} = node
-      return `${BlocksToMarkdown(body)}`
+      return `> ${BlocksToMarkdown(body, {serializers})}`
     },
     divider: () => `---`,
   },
@@ -138,15 +134,11 @@ const serializers = {
     link: ({mark, children}: any) => {
       // Read https://css-tricks.com/use-target_blank/
       const {blank, href} = mark
-      return blank
-        ? `<a href="${href}" target="_blank" rel="noopener">${children}</a>`
-        : `[${children}](${href})`
+      return blank ? `[${children}](${href})` : `[${children}](${href})`
     },
     externalLink: ({mark, children}: any) => {
       const {blank, href} = mark
-      return blank
-        ? `<a href="${href}" target="_blank" rel="noopener">${children}</a>`
-        : `[${children}](${href})`
+      return blank ? `[${children}](${href})` : `[${children}](${href})`
     },
     emoji: ({mark, children}: any) => {
       return `${children}`

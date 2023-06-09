@@ -29,7 +29,7 @@ const hiddenDocTypes = (listItem: any) =>
     'section',
     'linkResource',
     'interview',
-    'email',
+    'mail',
   ].includes(listItem.getId())
 
 export default (S: any) =>

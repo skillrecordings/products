@@ -58,12 +58,14 @@ export default {
         {type: 'stackblitz'},
         {type: 'testimonial'},
         {type: 'linkResource'},
+        {type: 'github'},
+        {type: 'gitpod'},
       ],
     },
     {
       name: 'body',
       title: 'Body',
-      type: 'body',
+      type: 'markdown',
     },
     {
       name: 'concepts',
