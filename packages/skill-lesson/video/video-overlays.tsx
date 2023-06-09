@@ -403,7 +403,7 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
         <h3 data-description="">
           <Balancer>
             {canViewRegionRestriction ? (
-              <div data-markdown="">
+              <div data-restriction-copy="">
                 Your license is restricted to a specific region. You can upgrade
                 to an unrestricted license to view this lesson anywhere.
               </div>
