@@ -48,7 +48,7 @@ export const handlePlayFromBeginning = ({
   path: string
   handlePlay: () => void
 }) => {
-  router
+  return router
     .push({
       pathname: pathnameForPath({section, path}),
       query: getRouteQuery({section, module}),
