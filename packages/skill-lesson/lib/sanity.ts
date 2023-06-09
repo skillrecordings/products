@@ -13,6 +13,7 @@ import {sanityWriteClient} from '../utils/sanity-server'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {createMuxAsset} from './mux'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
+import * as Sentry from '@sentry/nextjs'
 
 const VideoResourceSchema = z.object({
   _id: z.string(),
