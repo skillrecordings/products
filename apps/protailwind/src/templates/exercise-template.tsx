@@ -29,11 +29,19 @@ import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 import GitpodLink from 'components/gitpod-link'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 
 const ExerciseTemplate: React.FC<{
+  lessonBodySerialized: MDXRemoteSerializeResult
+  lessonBodyPreviewSerialized: MDXRemoteSerializeResult
   transcript: any[]
   tutorialFiles?: any
-}> = ({transcript, tutorialFiles}) => {
+}> = ({
+  transcript,
+  tutorialFiles,
+  lessonBodySerialized,
+  lessonBodyPreviewSerialized,
+}) => {
   const router = useRouter()
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {lesson, section, module} = useLesson()
@@ -151,6 +159,8 @@ const ExerciseTemplate: React.FC<{
                 <LessonTitle />
                 <LessonAssets />
                 <LessonDescription
+                  lessonBodyPreview={lessonBodyPreviewSerialized}
+                  lessonMDXBody={lessonBodySerialized}
                   productName={module.title}
                   loadingIndicator={<Spinner />}
                 />

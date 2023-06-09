@@ -1,14 +1,9 @@
 import React from 'react'
-import {
-  portableTextComponents,
-  TableOfContents,
-} from '@skillrecordings/skill-lesson/portable-text'
 import Layout from 'components/layout'
 import Share from 'components/share'
 import isEmpty from 'lodash/isEmpty'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
-import {PortableText, toPlainText} from '@portabletext/react'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import SubscribeForm from 'components/subscribe-form'
 import {getOgImage} from 'utils/get-og-image'
@@ -16,19 +11,25 @@ import {isBrowser} from 'utils/is-browser'
 import {type Article} from 'lib/articles'
 import {format} from 'date-fns'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import Spinner from 'components/spinner'
 import PageHeadline from 'components/page-headline'
 import PageSubheadline from 'components/page-subheadline'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 
 type ArticleTemplateProps = {
   article: Article
+  articleBodySerialized: MDXRemoteSerializeResult
+  estimatedReadingTime: number
   hasSubscribed: boolean
 }
 
-const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
+const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
+  article,
+  articleBodySerialized,
+  estimatedReadingTime,
+}) => {
   const {title, metaTitle, description, body, date, related} = article
-  const shortDescription =
-    description || toPlainText(body).substring(0, 150) + '...'
+  const shortDescription = description || body.substring(0, 150) + '...'
   const ogImage = getOgImage({title})
   const {subscriber, loadingSubscriber} = useConvertkit()
 
@@ -47,19 +48,14 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({article}) => {
       }}
     >
       <ArticleMeta article={article} shortDescription={shortDescription} />
-      <Header {...article} />
+      <Header {...article} estimatedReadingTime={estimatedReadingTime} />
       <main>
-        <div className="border-t border-gray-200/60 bg-gray-50 px-5 shadow-lg shadow-black/5 lg:px-0">
+        {/* <div className="border-t border-gray-200/60 bg-gray-50 px-5 shadow-lg shadow-black/5 lg:px-0">
           <TableOfContents value={body} />
-        </div>
+        </div> */}
         <div className="mx-auto w-full max-w-screen-md px-5 pb-10 sm:pb-24 sm:pt-10 lg:px-0">
           <article className="prose max-w-none pt-8 sm:prose-lg  prose-headings:font-black prose-a:text-blue-600 prose-a:transition prose-code:text-[70%] md:prose-code:text-[80%] md:prose-code:text-sm lg:prose-code:text-[80%]">
-            <PortableText
-              value={body}
-              components={portableTextComponents({
-                loadingIndicator: <Spinner />,
-              })}
-            />
+            <MDX contents={articleBodySerialized} />
           </article>
           <Signature />
         </div>
@@ -109,7 +105,7 @@ const RelatedResources: React.FC<{
   ) : null
 }
 
-const Header: React.FC<Article> = ({
+const Header: React.FC<Article & {estimatedReadingTime: number}> = ({
   title,
   subtitle,
   date,
@@ -139,7 +135,7 @@ const Header: React.FC<Article> = ({
               </div>
               <div>
                 <span className="text-gray-500">~</span>
-                {estimatedReadingTime}m
+                {estimatedReadingTime} minutes
               </div>
             </div>
             <time dateTime={date}>

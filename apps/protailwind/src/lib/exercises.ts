@@ -18,7 +18,7 @@ export const ExerciseSchema = z
       .optional()
       .nullable(),
     videoResourceId: z.nullable(z.string()).optional(),
-    transcript: z.nullable(z.any().array()).optional(),
+    transcript: z.nullable(z.string()).optional(),
     figma: z
       .object({
         url: z.string(),
@@ -41,7 +41,7 @@ export const ExerciseSchema = z
       .object({
         _key: z.string(),
         videoResourceId: z.nullable(z.string()).optional(),
-        transcript: z.nullable(z.any().array()).optional(),
+        transcript: z.nullable(z.string()).optional(),
         github: z
           .object({
             url: z.string(),
@@ -71,20 +71,7 @@ export const getExercise = async (slug: string): Promise<Exercise> => {
       title,
       description,
       "slug": slug.current,
-       body[]{
-        ...,
-        markDefs[]{
-          ...,
-          _type == "internalLink" => {
-            "_id": @.reference->_id,
-            "slug": @.reference->slug.current,
-            "type": @.reference->_type,
-            "module": *[_type=='module'][0]{
-              "slug": slug.current,
-            }
-          }
-        }
-      },
+       body,
       "sandpack": resources[@._type == 'sandpack'][0].files[]{
           file,
           "code": code.code,

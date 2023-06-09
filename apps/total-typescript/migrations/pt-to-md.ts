@@ -10,13 +10,18 @@ import {Transaction} from '@sanity/client'
 type Doc = {
   _id: string
   _rev: string
-  solution: {body: any[]}
+  castingwords: {
+    transcript: any[]
+    srt: string
+    audioFileId: string
+    orderId: string
+  }
 }
 
 type DocPatch = {
   id: string
   patch: {
-    set: {solution: {body: string}}
+    set: {castingwords: {transcript: string}}
     unset: string[]
     ifRevisionID: string
   }
@@ -29,22 +34,41 @@ const client = getCliClient()
 // Fetch the documents we want to migrate, and return only the fields we need.
 const fetchDocuments = () =>
   client.fetch(
-    `*[_type == 'exercise' && defined(resources)][1...100] {_id, _rev, "solution": resources[@._type == 'solution'][0]{body}}`,
+    `*[_type == 'videoResource' && defined(castingwords.transcript)] {_id, _rev, castingwords {transcript}}`,
   )
 
 // Build a patch for each document, represented as a tuple of `[documentId, patch]`
 const buildPatches = (docs: Doc[]) =>
   docs.map((doc: Doc): any => {
-    const bodyMarkdown = BlocksToMarkdown(doc.solution.body, {serializers})
-    console.log({bodyMarkdown})
-    return {
-      id: doc._id,
-      patch: {
-        set: {'resources[@._type=="solution"].body': bodyMarkdown},
-        // this will cause the migration to fail if any of the documents has been
-        // modified since it was fetched.
-        ifRevisionID: doc._rev,
-      },
+    const transcript = doc.castingwords.transcript
+    const srt = doc.castingwords.srt
+    const audioFileId = doc.castingwords.audioFileId
+    const orderId = doc.castingwords.orderId
+
+    const isArray = Array.isArray(transcript)
+    if (isArray) {
+      const bodyMarkdown = BlocksToMarkdown(transcript, {serializers})
+      console.log('is array', {bodyMarkdown})
+      return {
+        id: doc._id,
+        patch: {
+          set: {'castingwords.transcript': bodyMarkdown},
+          // this will cause the migration to fail if any of the documents has been
+          // modified since it was fetched.
+          ifRevisionID: doc._rev,
+        },
+      }
+    } else {
+      console.log('is not array', {transcript})
+      return {
+        id: doc._id,
+        patch: {
+          set: {'castingwords.transcript': transcript},
+          // this will cause the migration to fail if any of the documents has been
+          // modified since it was fetched.
+          ifRevisionID: doc._rev,
+        },
+      }
     }
   })
 
@@ -87,14 +111,7 @@ const serializers = {
       `![${node.alt || ''}](${getImageUrl({options: {}, node})})`,
     // From @sanity/code-input
     code: ({node}: any) => `\`\`\`${node.language || ''}\n${node.code}\n\`\`\``,
-    bodyTweet: ({node}: any) =>
-      `<Tweet text="${BlocksToMarkdown(node.tweet.body)}" url="${
-        node.tweet.url
-      }" author={{avatar: "${node.tweet.author.avatar}", name: "${
-        node.tweet.author.name
-      }", handle: "${node.tweet.author.handle}"}}> from ${
-        node.tweet.handle
-      } />`,
+    bodyTweet: ({node}: any) => `Tweet from ${node.tweet.handle}`,
     bodyImage: ({node}: any) =>
       `![${node.image.alt ? node.image.alt : ''}](${node.image.url})`,
     bodyVideo: ({node}: any) => {
@@ -105,21 +122,14 @@ const serializers = {
           : `<Video url="${url}" />`
         : ''
     },
-    bodyTestimonial: ({node}: any) => {
-      return node.author.image
-        ? `<Testimonial author={{name: "${node.author.name}", image: "${node.author.image}"}}>${node.body}</Testimonial>`
-        : `<Testimonial author={{name: "${node.author.name}"}}>${node.body}</Testimonial>`
-    },
     callout: ({node}: any) => {
       const {body} = node
       return `${BlocksToMarkdown(body)}`
     },
     divider: () => `---`,
-    // undefined: () => {
-    //   return ''
-    // },
   },
   marks: {
+    timestamp: ({mark, children}: any) => `${children}`,
     internalLink: ({mark, children}: any) => {
       const {slug = {}} = mark
       const href = `/${slug.current}`

@@ -52,16 +52,7 @@ export const getTutorial = async (slug: string) =>
         title,
         state,
         slug,
-        body[]{
-          ...,
-          _type == "bodyTestimonial" => {
-            "body": testimonial->body,
-            "author": testimonial->author {
-              "image": image.asset->url,
-              name
-            }
-        }
-        },
+        body,
         moduleType,
         _id,
         github,
