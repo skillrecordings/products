@@ -106,6 +106,9 @@
         }
         [data-description] {
           @apply w-full pb-10 pt-3 text-lg opacity-90;
+          [data-restriction-copy] {
+            @apply text-white;
+          }
           [data-markdown] {
             @apply prose w-full prose-p:text-gray-300;
           }
