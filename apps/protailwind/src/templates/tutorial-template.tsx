@@ -15,6 +15,8 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {WorkshopSectionNavigator} from './workshop-template'
 import {trpc} from 'trpc/trpc.client'
 import Spinner from 'components/spinner'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module & {
@@ -22,7 +24,8 @@ const TutorialTemplate: React.FC<{
     ogImage: string
     sections: Section[]
   }
-}> = ({tutorial}) => {
+  tutorialBodySerialized: MDXRemoteSerializeResult
+}> = ({tutorial, tutorialBodySerialized}) => {
   const {title, body, ogImage, description} = tutorial
   const pageTitle = `${title} Tutorial`
 
@@ -44,10 +47,7 @@ const TutorialTemplate: React.FC<{
       <Header tutorial={tutorial} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <article className="prose prose-lg w-full max-w-none lg:max-w-xl">
-          <PortableText
-            value={body}
-            components={portableTextComponents({loadingIndicator: <Spinner />})}
-          />
+          <MDX contents={tutorialBodySerialized} />
         </article>
         <div className="lg:max-w-sm">
           <WorkshopSectionNavigator

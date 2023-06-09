@@ -109,11 +109,14 @@
     "groq": "^2.15.0",
     "js-cookie": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "markdown-truncate": "^1.1.0",
     "mjml": "^4.12.0",
     "monaco-editor": "^0.34.1",
     "monaco-tailwindcss": "^0.5.0",
     "next": "^13.4.3",
     "next-auth": "^4.22.1",
+    "next-mdx-remote": "=4.2.0",
     "next-sitemap": "^3.0.5",
     "node-fetch": "^2.6.7",
     "nodemailer": "^6.7.2",
@@ -128,6 +131,7 @@
     "react-rewards": "^2.0.3",
     "react-use": "^17.3.2",
     "react-wrap-balancer": "^0.2.4",
+    "reading-time": "^1.5.0",
     "sanity": "^3.11.1",
     "sanity-plugin-cloudinary": "^1.1.1",
     "sanity-plugin-markdown": "^4.1.0",
@@ -140,8 +144,7 @@
     "whatwg-fetch": "^3.6.2",
     "xstate": "=4.23.1",
     "yup": "^0.32.11",
-    "zod": "^3.21.4",
-    "lodash": "^4.17.21"
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@next/env": "^12.2.3",

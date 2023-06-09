@@ -9,14 +9,20 @@ import WorkshopTemplate from '../../../templates/workshop-template'
 import {trpc} from '../../../trpc/trpc.client'
 import {useRouter} from 'next/router'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const workshop = await getWorkshop(params?.module as string)
-
+  const workshopBodySerialized = await serializeMDX(workshop.body, {
+    syntaxHighlighterOptions: {
+      theme: 'one-dark-pro',
+    },
+  })
   return {
-    props: {workshop},
+    props: {workshop, workshopBodySerialized},
     revalidate: 10,
   }
 }
@@ -36,7 +42,8 @@ const WorkshopPage: React.FC<{
     sections: Section[]
     product: SanityProduct
   }
-}> = ({workshop}) => {
+  workshopBodySerialized: MDXRemoteSerializeResult
+}> = ({workshop, workshopBodySerialized}) => {
   const router = useRouter()
   const {data: commerceProps} = trpc.pricing.propsForCommerce.useQuery(
     router.query,
@@ -44,7 +51,11 @@ const WorkshopPage: React.FC<{
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
   return (
     <ModuleProgressProvider moduleSlug={workshop.slug.current}>
-      <WorkshopTemplate workshop={workshop} commerceProps={commerceProps} />
+      <WorkshopTemplate
+        workshop={workshop}
+        workshopBodySerialized={workshopBodySerialized}
+        commerceProps={commerceProps}
+      />
     </ModuleProgressProvider>
   )
 }

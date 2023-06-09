@@ -47,12 +47,13 @@ export default {
         {type: 'linkResource'},
         {type: 'sandpack'},
         {type: 'github'},
+        {type: 'gitpod'},
       ],
     },
     {
       name: 'body',
       title: 'Body',
-      type: 'body',
+      type: 'markdown',
     },
     {
       name: 'concepts',

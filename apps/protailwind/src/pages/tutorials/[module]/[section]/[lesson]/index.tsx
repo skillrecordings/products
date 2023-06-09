@@ -9,6 +9,8 @@ import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {getSection} from '@skillrecordings/skill-lesson/lib/sections'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import truncateMarkdown from 'markdown-truncate'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -18,7 +20,23 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const module = await getTutorial(params?.module as string)
   const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSLug)
-
+  const lessonBodySerialized =
+    typeof lesson.body === 'string' &&
+    (await serializeMDX(lesson.body, {
+      syntaxHighlighterOptions: {
+        theme: 'one-dark-pro',
+      },
+    }))
+  const lessonBodyPreviewSerialized =
+    typeof lesson.body === 'string' &&
+    (await serializeMDX(
+      truncateMarkdown(lesson.body, {limit: 300, ellipsis: false}),
+      {
+        syntaxHighlighterOptions: {
+          theme: 'dark-plus',
+        },
+      },
+    ))
   const tutorialDirectory = path.join(
     process.cwd(),
     'src/exercise/sandpack/parcel',
@@ -28,6 +46,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       lesson,
+      lessonBodySerialized,
+      lessonBodyPreviewSerialized,
       section,
       module,
       tutorialFiles,
@@ -63,6 +83,8 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 
 const ExercisePage: React.FC<any> = ({
   lesson,
+  lessonBodySerialized,
+  lessonBodyPreviewSerialized,
   module,
   section,
   tutorialFiles,
@@ -76,6 +98,8 @@ const ExercisePage: React.FC<any> = ({
           <ExerciseTemplate
             transcript={transcript}
             tutorialFiles={tutorialFiles}
+            lessonBodySerialized={lessonBodySerialized}
+            lessonBodyPreviewSerialized={lessonBodyPreviewSerialized}
           />
         </VideoResourceProvider>
       </LessonProvider>

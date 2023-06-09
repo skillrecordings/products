@@ -4,7 +4,6 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import cx from 'classnames'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
-import {PortableText} from '@portabletext/react'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from 'utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
@@ -18,7 +17,6 @@ import {
 } from '@heroicons/react/solid'
 import {trpc} from 'trpc/trpc.client'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {
   CommerceProps,
@@ -32,6 +30,8 @@ import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {capitalize} from 'lodash'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module & {
@@ -40,8 +40,9 @@ const WorkshopTemplate: React.FC<{
     sections: Section[]
     product: SanityProduct
   }
+  workshopBodySerialized: MDXRemoteSerializeResult
   commerceProps?: CommerceProps
-}> = ({workshop, commerceProps}) => {
+}> = ({workshop, workshopBodySerialized, commerceProps}) => {
   const {title, body, ogImage, description, product} = workshop
   const pageTitle = `${title} Workshop`
   const purchasedProductIds =
@@ -79,12 +80,7 @@ const WorkshopTemplate: React.FC<{
       >
         <div className="pt-10 lg:max-w-xl lg:pt-0">
           <article className="prose w-full max-w-none pb-10 text-gray-900 lg:max-w-xl">
-            <PortableText
-              value={body}
-              components={portableTextComponents({
-                loadingIndicator: <Spinner />,
-              })}
-            />
+            <MDX contents={workshopBodySerialized} />
           </article>
           {workshop && !hasPurchased && (
             <WorkshopSectionNavigator

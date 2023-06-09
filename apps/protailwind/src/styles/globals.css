@@ -1,5 +1,6 @@
 @tailwind base;
 @tailwind components;
+@import '@code-hike/mdx/dist/index.css';
 @import './subscribe-form.css';
 @import './quiz.css';
 @import './prism.css';
@@ -20,6 +21,14 @@
 @import './video/github-link.css';
 
 @tailwind utilities;
+
+/* code-hike code blocks */
+.ch-code {
+  @apply bg-gray-900 !important;
+}
+.ch-codeblock {
+  @apply shadow-none;
+}
 
 html,
 body,

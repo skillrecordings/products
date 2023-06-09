@@ -1,21 +1,26 @@
 import React from 'react'
 
 import TutorialTemplate from 'templates/tutorial-template'
-import {User} from '@skillrecordings/database'
-import {SanityDocument} from '@sanity/client'
 import {getAllTutorials, getTutorial} from 'lib/tutorials'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const tutorial = await getTutorial(params?.module as string)
+  const tutorialBodySerialized = await serializeMDX(tutorial.body, {
+    syntaxHighlighterOptions: {
+      theme: 'one-dark-pro',
+    },
+  })
 
   return {
-    props: {tutorial},
+    props: {tutorial, tutorialBodySerialized},
     revalidate: 10,
   }
 }
@@ -34,12 +39,16 @@ const TutorialPage: React.FC<{
     ogImage: string
     sections: Section[]
   }
-}> = ({tutorial}) => {
+  tutorialBodySerialized: MDXRemoteSerializeResult
+}> = ({tutorial, tutorialBodySerialized}) => {
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
 
   return (
     <ModuleProgressProvider moduleSlug={tutorial.slug.current}>
-      <TutorialTemplate tutorial={tutorial} />
+      <TutorialTemplate
+        tutorial={tutorial}
+        tutorialBodySerialized={tutorialBodySerialized}
+      />
     </ModuleProgressProvider>
   )
 }

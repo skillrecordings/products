@@ -38,7 +38,7 @@ export default {
     {
       name: 'body',
       title: 'Body',
-      type: 'body',
+      type: 'markdown',
     },
     {
       name: 'concepts',
