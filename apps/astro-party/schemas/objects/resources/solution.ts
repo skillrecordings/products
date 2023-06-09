@@ -57,7 +57,7 @@ export default defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'body',
+      type: 'markdown',
     }),
     defineField({
       name: 'description',

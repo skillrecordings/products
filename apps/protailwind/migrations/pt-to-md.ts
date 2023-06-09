@@ -10,13 +10,13 @@ import {Transaction} from '@sanity/client'
 type Doc = {
   _id: string
   _rev: string
-  castingwords: {transcript: any[]}
+  solution: {body: any[]}
 }
 
 type DocPatch = {
   id: string
   patch: {
-    set: {castingwords: {transcript: string}}
+    set: {solution: {body: string}}
     unset: string[]
     ifRevisionID: string
   }
@@ -29,37 +29,37 @@ const client = getCliClient()
 // Fetch the documents we want to migrate, and return only the fields we need.
 const fetchDocuments = () =>
   client.fetch(
-    `*[_type == 'videoResource' && defined(castingwords.transcript)] {_id, _rev, castingwords {transcript}}`,
+    `*[_type == 'exercise' && defined(resources[@._type == 'solution'][0].body)] {_id, _rev, "solution": resources[@._type == 'solution'][0]{body}}`,
   )
 
 // Build a patch for each document, represented as a tuple of `[documentId, patch]`
 const buildPatches = (docs: Doc[]) =>
   docs.map((doc: Doc): any => {
-    // const body = doc.body
-    const transcript = doc.castingwords.transcript
+    const body = doc.solution.body
+    // const transcript = doc.castingwords.transcript
     // const srt = doc.castingwords.srt
     // const audioFileId = doc.castingwords.audioFileId
     // const orderId = doc.castingwords.orderId
 
-    const isArray = Array.isArray(transcript)
+    const isArray = Array.isArray(body)
     if (isArray) {
-      const bodyMarkdown = BlocksToMarkdown(transcript, {serializers})
+      const bodyMarkdown = BlocksToMarkdown(body, {serializers})
       console.log('is array', {bodyMarkdown})
       return {
         id: doc._id,
         patch: {
-          set: {'castingwords.transcript': bodyMarkdown},
+          set: {'resources[@._type=="solution"].body': bodyMarkdown},
           // this will cause the migration to fail if any of the documents has been
           // modified since it was fetched.
           ifRevisionID: doc._rev,
         },
       }
     } else {
-      console.log('is not array', {transcript})
+      console.log('is not array', {body})
       return {
         id: doc._id,
         patch: {
-          set: {'castingwords.transcript': transcript},
+          set: {'resources[@._type=="solution"].body': body},
           // this will cause the migration to fail if any of the documents has been
           // modified since it was fetched.
           ifRevisionID: doc._rev,
