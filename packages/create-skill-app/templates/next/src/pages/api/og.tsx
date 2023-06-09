@@ -1,7 +1,7 @@
 // @ts-nocheck
 import {ImageResponse} from '@vercel/og'
 import {NextRequest} from 'next/server'
-import appConfig from 'config'
+import appConfig from '@/config'
 
 export const config = {
   runtime: 'edge',
