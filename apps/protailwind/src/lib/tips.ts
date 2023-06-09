@@ -10,8 +10,8 @@ export const TipSchema = z.object({
   title: z.string(),
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
-  body: z.any().array().nullable().optional(),
-  summary: z.any().array().nullable().optional(),
+  body: z.string().nullable().optional(),
+  summary: z.string().nullable().optional(),
   sandpack: z
     .array(
       z.object({
@@ -24,7 +24,7 @@ export const TipSchema = z.object({
     .nullable(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   videoResourceId: z.nullable(z.string()).optional(),
-  transcript: z.nullable(z.any().array()),
+  transcript: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
 })
 

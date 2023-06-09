@@ -45,12 +45,17 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {trpc} from '../trpc/trpc.client'
 import Spinner from 'components/spinner'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 
 const TipTemplate: React.FC<{
   tip: Tip
+  tipBodySerialized: MDXRemoteSerializeResult
+  tipSummarySerialized: MDXRemoteSerializeResult
   tips: Tip[]
   transcript: any[]
-}> = ({tip, tips}) => {
+}> = ({tip, tipBodySerialized, tipSummarySerialized, tips}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
@@ -121,7 +126,7 @@ const TipTemplate: React.FC<{
           description: tip.description ?? '',
         }}
       >
-        <main className="mx-auto w-full">
+        <main id="tip" className="mx-auto w-full">
           <div className="relative z-10 flex items-center justify-center bg-gradient-to-b from-gray-100 to-gray-50">
             <div className="flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
@@ -162,12 +167,7 @@ const TipTemplate: React.FC<{
                   {tip.body && (
                     <>
                       <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg prose-headings:font-medium prose-p:text-gray-600">
-                        <PortableText
-                          value={tip.body}
-                          components={portableTextComponents({
-                            loadingIndicator: <Spinner />,
-                          })}
-                        />
+                        <MDX contents={tipBodySerialized} />
                       </div>
                       <Hr
                         className={
@@ -178,22 +178,16 @@ const TipTemplate: React.FC<{
                   )}
                   {tip.transcript && tip.body && (
                     <div className="w-full max-w-2xl pt-5">
-                      <Transcript
-                        transcript={tip.transcript}
-                        muxPlayerRef={muxPlayerRef}
-                      />
+                      <VideoTranscript transcript={tip.transcript} />
                     </div>
                   )}
                 </div>
                 <div className="w-full">
-                  <div className="prose w-full max-w-none pb-5 font-medium sm:prose-lg prose-p:text-gray-800">
-                    <PortableText
-                      value={tip.summary}
-                      components={portableTextComponents({
-                        loadingIndicator: <Spinner />,
-                      })}
-                    />
-                  </div>
+                  {tip.summary && (
+                    <div className="prose w-full max-w-none pb-5 font-medium sm:prose-lg prose-p:text-gray-800">
+                      <MDX contents={tipSummarySerialized} />
+                    </div>
+                  )}
                   {tweet && <ReplyOnTwitter tweet={tweet} />}
                   {tip.body && <RelatedTips currentTip={tip} tips={tips} />}
                 </div>
@@ -202,10 +196,7 @@ const TipTemplate: React.FC<{
             <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
               {tip.transcript && !tip.body && (
                 <div className="w-full max-w-2xl pt-5">
-                  <Transcript
-                    transcript={tip.transcript}
-                    muxPlayerRef={muxPlayerRef}
-                  />
+                  <VideoTranscript transcript={tip.transcript} />
                 </div>
               )}
               {!tip.body && <RelatedTips currentTip={tip} tips={tips} />}
@@ -241,45 +232,6 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
     </div>
   )
 })
-
-const Transcript: React.FC<{transcript: any[]; muxPlayerRef: any}> = ({
-  transcript,
-  muxPlayerRef,
-}) => {
-  const {handlePlay, video} = useMuxPlayer()
-  return (
-    <section aria-label="transcript">
-      <h2 className="font-heading text-2xl font-black">Transcript</h2>
-      <div className="prose prose-sm max-w-none pt-4 sm:prose prose-p:text-gray-700">
-        <PortableText
-          value={transcript}
-          components={
-            {
-              marks: {
-                timestamp: ({value}: any) => {
-                  const {timestamp} = value
-                  return video ? (
-                    <button
-                      className="after:content-[' '] inline-block underline after:inline-block"
-                      onClick={() => {
-                        muxPlayerRef.current.currentTime =
-                          hmsToSeconds(timestamp)
-                        handlePlay()
-                        window.scrollTo({top: 80})
-                      }}
-                    >
-                      {timestamp}
-                    </button>
-                  ) : null
-                },
-              },
-            } as PortableTextComponentsType
-          }
-        />
-      </div>
-    </section>
-  )
-}
 
 const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   currentTip,
@@ -443,10 +395,7 @@ const SubscribeForm = ({
   handleOnSuccess: (subscriber: any, email?: string) => void
 }) => {
   return (
-    <div
-      id="tip"
-      className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-200 px-3 pb-5 pt-4 md:flex-row md:pb-3 md:pt-3 2xl:px-0"
-    >
+    <div className="flex w-full flex-col items-center justify-between gap-5 border-b border-gray-200 px-3 pb-5 pt-4 md:flex-row md:pb-3 md:pt-3 2xl:px-0">
       <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
         <div
           aria-hidden="true"

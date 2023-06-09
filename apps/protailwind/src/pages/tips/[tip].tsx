@@ -4,15 +4,33 @@ import {getAllTips, getTip, Tip} from 'lib/tips'
 import TipTemplate from 'templates/tip-template'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   try {
     const tip = await getTip(params?.tip as string)
     const tips = await getAllTips()
+    const tipBodySerialized =
+      tip.body &&
+      (await serializeMDX(tip.body, {
+        syntaxHighlighterOptions: {
+          theme: 'one-dark-pro',
+        },
+      }))
+    const tipSummarySerialized =
+      tip.summary &&
+      (await serializeMDX(tip.summary, {
+        syntaxHighlighterOptions: {
+          theme: 'one-dark-pro',
+        },
+      }))
 
     return {
       props: {
         tip,
+        tipBodySerialized,
+        tipSummarySerialized,
         tips,
         transcript: tip.transcript,
         videoResourceId: tip.videoResourceId,
@@ -37,6 +55,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export type TipPageProps = {
   tip: Tip
+  tipBodySerialized: MDXRemoteSerializeResult
+  tipSummarySerialized: MDXRemoteSerializeResult
   tips: Tip[]
   transcript: any[]
   videoResourceId: string
@@ -44,6 +64,8 @@ export type TipPageProps = {
 
 const TipPage: NextPage<TipPageProps> = ({
   tip,
+  tipBodySerialized,
+  tipSummarySerialized,
   tips,
   transcript,
   videoResourceId,
@@ -60,7 +82,13 @@ const TipPage: NextPage<TipPageProps> = ({
   return (
     <LessonProvider lesson={tip} module={module}>
       <VideoResourceProvider videoResourceId={videoResourceId}>
-        <TipTemplate tip={tip} tips={tips} transcript={transcript} />
+        <TipTemplate
+          tip={tip}
+          tipBodySerialized={tipBodySerialized}
+          tipSummarySerialized={tipSummarySerialized}
+          tips={tips}
+          transcript={transcript}
+        />
       </VideoResourceProvider>
     </LessonProvider>
   )

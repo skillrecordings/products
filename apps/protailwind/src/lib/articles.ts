@@ -8,7 +8,7 @@ export const ArticleSchema = z.object({
   subtitle: z.string().optional(),
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
-  body: z.any().array(),
+  body: z.string(),
   date: z.string(),
   related: z
     .object({
@@ -20,7 +20,6 @@ export const ArticleSchema = z.object({
   ogImage: z.object({
     url: z.string(),
   }),
-  estimatedReadingTime: z.string(),
   state: z.enum(['published', 'draft']),
 })
 
@@ -37,7 +36,6 @@ export async function getAllArticles() {
     state,
     image,
     date,
-    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 )
 }`)
 }
 
@@ -59,7 +57,6 @@ export async function getArticle(slug: string) {
     ogImage{
       url
     },
-    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 )
     }`,
     {
       slug,
