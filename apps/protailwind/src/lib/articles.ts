@@ -21,19 +21,20 @@ export const ArticleSchema = z.object({
     url: z.string(),
   }),
   estimatedReadingTime: z.string(),
+  state: z.enum(['published', 'draft']),
 })
 
 export type Article = z.infer<typeof ArticleSchema>
 
 export async function getAllArticles() {
-  return await sanityClient.fetch(groq`*[_type == "article" && published == true] | order(date asc){
+  return await sanityClient.fetch(groq`*[_type == "article"] | order(date asc){
     _updatedAt,
     title,
     subtitle,
     'slug': slug.current,
     description,
     body,
-    published,
+    state,
     image,
     date,
     "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 )
