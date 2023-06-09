@@ -4371,6 +4371,8 @@ importers:
       '@radix-ui/react-slot': ^1.0.2
       '@radix-ui/react-switch': ^1.0.1
       '@sanity/client': ^6.1.1
+      '@sanity/webhook': ^1.0.2
+      '@sentry/nextjs': ^7.9.0
       '@skillrecordings/ability': workspace:*
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/commerce-server': workspace:*
@@ -4460,6 +4462,8 @@ importers:
       '@radix-ui/react-slot': 1.0.2_s3k22s5ab4eu26xuel7hiaraxy
       '@radix-ui/react-switch': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@sanity/client': 6.1.1
+      '@sanity/webhook': 1.1.0
+      '@sentry/nextjs': 7.9.0_next@13.4.3+react@18.2.0
       '@skillrecordings/ability': link:../ability
       '@skillrecordings/analytics': link:../analytics
       '@skillrecordings/commerce-server': link:../commerce-server
@@ -12930,6 +12934,34 @@ packages:
       '@sentry/utils': 7.9.0
       localforage: 1.10.0
       tslib: 1.14.1
+    dev: false
+
+  /@sentry/nextjs/7.9.0_next@13.4.3+react@18.2.0:
+    resolution: {integrity: sha512-yToPcsoMwfFyUS7STmJdwbE6JxlUHaxxnO8Qwpu9jFF2dH925r3MBWkwR1H2wfR1GbOLVwGUmQIdL1LAR8novw==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      next: ^10.0.8 || ^11.0 || ^12.0
+      react: 15.x || 16.x || 17.x || 18.x
+      webpack: '>= 4.0.0'
+    peerDependenciesMeta:
+      webpack:
+        optional: true
+    dependencies:
+      '@sentry/core': 7.9.0
+      '@sentry/hub': 7.9.0
+      '@sentry/integrations': 7.9.0
+      '@sentry/node': 7.9.0
+      '@sentry/react': 7.9.0_react@18.2.0
+      '@sentry/tracing': 7.9.0
+      '@sentry/types': 7.9.0
+      '@sentry/utils': 7.9.0
+      '@sentry/webpack-plugin': 1.19.0
+      next: 13.4.3_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      tslib: 1.14.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /@sentry/nextjs/7.9.0_yujcdcfzvr4y2jq2smavc2apve:
@@ -34383,7 +34415,7 @@ packages:
     peerDependencies:
       tailwindcss: '>=1.2.0'
     dependencies:
-      tailwindcss: 3.3.0_ts-node@10.9.1
+      tailwindcss: 3.3.0
     dev: false
 
   /tailwind-merge/1.12.0:
