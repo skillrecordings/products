@@ -50,7 +50,6 @@ export default defineType({
           type: 'reference',
           to: [{type: 'videoResource'}],
         }),
-        defineArrayMember({type: 'muxVideo'}),
         defineArrayMember({type: 'stackblitz'}),
         defineArrayMember({type: 'githubRepo'}),
       ],

@@ -24,7 +24,6 @@ import callout from './objects/callout'
 import divider from './objects/divider'
 import externalImage from './objects/externalImage'
 import mediaCaption from './objects/mediaCaption'
-import muxVideo from './objects/resources/muxVideo'
 import videoOptions from './objects/videoOptions'
 import grid from './objects/grid'
 import gridItem from './objects/gridItem'
@@ -63,7 +62,6 @@ export const schemaTypes = [
   divider,
   externalImage,
   mediaCaption,
-  muxVideo,
   videoOptions,
   grid,
   gridItem,

@@ -53,7 +53,6 @@ export default defineType({
           to: [{type: 'videoResource'}],
         }),
         defineArrayMember({type: 'solution'}),
-        defineArrayMember({type: 'muxVideo'}),
         defineArrayMember({type: 'stackblitz'}),
         defineArrayMember({type: 'testimonial'}),
         defineArrayMember({type: 'linkResource'}),

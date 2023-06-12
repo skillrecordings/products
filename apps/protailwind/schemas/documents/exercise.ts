@@ -41,7 +41,6 @@ export default {
           to: [{type: 'videoResource'}],
         },
         {type: 'solution'},
-        {type: 'muxVideo'},
         {type: 'stackblitz'},
         {type: 'testimonial'},
         {type: 'linkResource'},
