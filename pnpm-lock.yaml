@@ -1863,6 +1863,7 @@ importers:
       remark-slug: ^7.0.1
       sanity: ^3.0.0
       sanity-plugin-cloudinary: ^1.0.1
+      sanity-plugin-markdown: ^4.1.0
       sanity-plugin-taxonomy-manager: ^2.0.4
       sharp: ^0.30.7
       shortid: ^2.2.16
@@ -1995,6 +1996,7 @@ importers:
       remark-slug: 7.0.1
       sanity: 3.11.1_jbf7pcmrvaz77s25fyc7acyk5e
       sanity-plugin-cloudinary: 1.1.1_ecibswst7ydwolhw5bcgy3tnny
+      sanity-plugin-markdown: 4.1.0_so2kxzfdzfe3krvcyryuder5oi
       sanity-plugin-taxonomy-manager: 2.1.0_dip56lwnvfz4ckm4qbnc7lwrci
       sharp: 0.30.7
       shortid: 2.2.16
