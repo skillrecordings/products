@@ -54,7 +54,6 @@ export default {
           type: 'reference',
           to: [{type: 'videoResource'}],
         },
-        {type: 'muxVideo'},
         {type: 'stackblitz'},
         {type: 'testimonial'},
         {type: 'linkResource'},

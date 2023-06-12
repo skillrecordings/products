@@ -38,7 +38,6 @@ export default {
           type: 'reference',
           to: [{type: 'videoResource'}],
         },
-        {type: 'muxVideo'},
         {type: 'stackblitz'},
       ],
     },
