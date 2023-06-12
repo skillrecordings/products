@@ -98,7 +98,7 @@ export const castingwordsWebhookReceiver = async (
     if (req.body.event === 'TRANSCRIPT_COMPLETE') {
       try {
         const {audiofile, order} = CastingwordsWebhookBody.parse(req.body)
-        await writeTranscriptToVideoResource(audiofile, order, true)
+        await writeTranscriptToVideoResource(audiofile, order)
         res.status(200).json({message: 'video resource updated'})
       } catch (e) {
         Sentry.captureException(e)
