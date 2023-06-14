@@ -1,5 +1,5 @@
 [data-body-blockquote] {
-  @apply flex before:w-1 shrink-0 before:rounded-full;
+  @apply flex shrink-0 before:w-1 before:rounded-full;
   &[data-body-blockquote-color='green'] {
     @apply before:bg-green-500;
   }
@@ -8,5 +8,8 @@
   }
   &[data-body-blockquote-color='red'] {
     @apply before:bg-red-400;
+  }
+  &[data-body-blockquote-color='pink'] {
+    @apply before:bg-pink-600;
   }
 }
