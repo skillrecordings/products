@@ -36,24 +36,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   let query = gql`
     query {
       user(login: "johnlindquist") {
-        sponsorshipsAsMaintainer(
-          first: 100
-          activeOnly: true
-          includePrivate: true
-        ) {
-          nodes {
-            sponsorEntity {
-              __typename
+        ... on Sponsorable {
+          sponsors(first: 100) {
+            totalCount
+            nodes {
               ... on User {
+                __typename
+                login
                 id
                 databaseId
-                login
               }
-
               ... on Organization {
+                __typename
+                login
                 id
                 databaseId
-                login
               }
             }
           }
@@ -63,13 +60,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   `
 
   let response = await client.request(query)
+
   if (response.error) {
     res.status(500).json({error: response.error})
   }
 
-  let sponsors = response.user.sponsorshipsAsMaintainer.nodes.map(
-    (n: any) => n.sponsorEntity,
-  )
+  let sponsors = response.user.sponsors.nodes.map((n: any) => n)
 
   let isSponsor = sponsors.find((s: any) => {
     return s.id === node_id && s.login === login && s.databaseId === id
