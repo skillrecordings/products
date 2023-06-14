@@ -71,7 +71,7 @@ async function run(): Promise<void> {
       type: 'text',
       name: 'sanityProjectId',
       message: `What is the Sanity Project ID for this product?`,
-      initial: 'fr5ycba3',
+      initial: 'z7r4ejeg',
     },
     {
       type: 'text',

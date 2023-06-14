@@ -46,8 +46,7 @@ export default defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'text',
-      rows: 10,
+      type: 'markdown',
     }),
     defineField({
       name: 'summary',

@@ -161,6 +161,7 @@
     "sanity": "^3.0.0",
     "sanity-plugin-cloudinary": "^1.0.1",
     "sanity-plugin-taxonomy-manager": "^2.0.4",
+    "sanity-plugin-markdown": "^4.1.0",
     "sharp": "^0.30.7",
     "shortid": "^2.2.16",
     "simplebar-react": "^2.4.1",

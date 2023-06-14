@@ -66,7 +66,6 @@ export default defineType({
           type: 'reference',
           to: [{type: 'videoResource'}],
         }),
-        defineArrayMember({type: 'muxVideo'}),
         defineArrayMember({type: 'stackblitz'}),
         defineArrayMember({type: 'testimonial'}),
         defineArrayMember({type: 'linkResource'}),
@@ -76,8 +75,7 @@ export default defineType({
       name: 'body',
       title: 'Body',
       description: 'Body in MDX',
-      type: 'text',
-      rows: 20,
+      type: 'markdown',
     }),
     defineField({
       name: 'description',

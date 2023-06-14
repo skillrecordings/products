@@ -394,19 +394,18 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
             aria-hidden="true"
           />
         )}
-        {canViewRegionRestriction ? (
-          <h2 data-title="">Your License is Region Restricted</h2>
-        ) : (
-          <h2 data-title="">Level up your {module.title}</h2>
-        )}
+        <h2 data-title="">
+          <Balancer>
+            {canViewRegionRestriction
+              ? 'Your License is Region Restricted'
+              : `Level up your ${module.title}`}
+          </Balancer>
+        </h2>
 
         <h3 data-description="">
           <Balancer>
             {canViewRegionRestriction ? (
-              <div data-markdown="">
-                Your license is restricted to a specific region. You can upgrade
-                to an unrestricted license to view this lesson anywhere.
-              </div>
+              'Your license is restricted to a specific region. You can upgrade to an unrestricted license to view this lesson anywhere.'
             ) : product.description ? (
               <ReactMarkdown data-markdown="">
                 {product.description}
