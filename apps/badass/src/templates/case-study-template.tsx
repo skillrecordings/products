@@ -11,17 +11,21 @@ import Layout from 'components/layout'
 import Image from 'next/image'
 import {SmallCallToActionForm} from '../components/call-to-action-form'
 import {genericCallToActionContent} from '../components/landing-content'
+import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import mdxComponents from 'components/mdx/components'
 
 import Balancer from 'react-wrap-balancer'
 import type {CaseStudy} from 'lib/case-studies'
 
 type CaseStudyTemplateProps = {
   caseStudy: CaseStudy
+  caseStudyBodySerialized: MDXRemoteSerializeResult
 }
 
 const CaseStudyTemplate: React.FC<
   React.PropsWithChildren<CaseStudyTemplateProps>
-> = ({caseStudy}) => {
+> = ({caseStudy, caseStudyBodySerialized}) => {
   const {title, description, body, image, _createdAt: date} = caseStudy
 
   const shortDescription =
@@ -49,7 +53,11 @@ const CaseStudyTemplate: React.FC<
         <div className="max-w-screen-md mx-auto w-full">
           <div className="md:pt-16 pt-10 lg:px-0 px-5 pb-16">
             <article className="prose lg:prose-xl sm:prose-lg md:prose-code:text-sm max-w-none prose-p:text-neutral-200 prose-pre:prose-code:bg-transparent prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded lg:prose-code:text-[78%] sm:prose-code:text-[80%]">
-              <PortableText value={body} components={PortableTextComponents} />
+              <MDX
+                components={mdxComponents}
+                contents={caseStudyBodySerialized}
+              />
+              {/* <PortableText value={body} components={PortableTextComponents} /> */}
             </article>
           </div>
         </div>
