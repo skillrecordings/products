@@ -1,4 +1,4 @@
-import {sanityClient} from '../utils/sanity-client'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 
@@ -12,7 +12,7 @@ export const CaseStudySchema = z.object({
   image: z.nullable(z.string()).optional(),
   description: z.nullable(z.string()).optional(),
   body: z.any().array().nullable().optional(),
-  markdownBody: z.string().nullable().optional(),
+  markdownBody: z.string(),
   summary: z.any().array().nullable().optional(),
   state: z.enum(['published', 'draft']),
 })
@@ -37,13 +37,10 @@ export const getAllCaseStudies = async (): Promise<CaseStudy[]> => {
         body,
         markdownBody
   }`)
-
   return CaseStudiesSchema.parse(caseStudies)
 }
 
-export const getCaseStudy = async (
-  slug: string,
-): Promise<CaseStudy | undefined> => {
+export const getCaseStudy = async (slug: string): Promise<CaseStudy> => {
   const caseStudy = await sanityClient.fetch(
     groq`*[_type == "caseStudy" && slug.current == $slug][0] {
         _id,
@@ -85,10 +82,7 @@ export const getCaseStudy = async (
         }
       },
     }`,
-    {slug: `${slug}`},
+    {slug},
   )
-  if (!caseStudy) {
-    return undefined
-  }
   return CaseStudySchema.parse(caseStudy)
 }

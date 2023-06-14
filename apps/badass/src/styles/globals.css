@@ -2,6 +2,7 @@
 @import '~@skillrecordings/player/dist/skillrecordings-player.css';
 @import '~@reach/dialog/styles.css';
 @import './fonts.css';
+@import './mdx-components.css';
 
 @tailwind base;
 @tailwind components;
