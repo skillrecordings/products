@@ -49,9 +49,14 @@ export default {
     },
     {
       name: 'body',
-      title: 'Article Body',
+      title: 'Case Study Body',
       type: 'body',
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'markdownBody',
+      title: 'Markdown Case Study Body',
+      type: 'markdown',
     },
     {
       name: 'image',
