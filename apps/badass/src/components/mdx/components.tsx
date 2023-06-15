@@ -42,6 +42,38 @@ const BodyImage: React.FC<BodyImageProps> = ({
   )
 }
 
+type TeamMemberCardProps = {
+  imageUrl: string
+  name: string
+  title: string
+}
+
+const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
+  imageUrl,
+  name,
+  title,
+}) => {
+  return (
+    <div data-team-member-card="" className="not-prose">
+      <div data-team-member-image="">
+        <Image src={imageUrl} width={120} height={120} alt={name} />
+      </div>
+      <div data-team-member-info="">
+        <h4 data-team-member-name>{name}</h4>
+        <p data-team-member-title>{title}</p>
+      </div>
+    </div>
+  )
+}
+
+type RelatedTeamMembersProps = {
+  children: TeamMemberCardProps[]
+}
+
+const RelatedTeamMembers: React.FC<React.PropsWithChildren> = ({children}) => {
+  return <div data-related-team-members="">{children}</div>
+}
+
 const mdxComponents = {
   BodyBlockquote: ({
     children,
@@ -56,6 +88,12 @@ const mdxComponents = {
     alt,
   }: React.PropsWithChildren<BodyImageProps>) => {
     return <BodyImage src={src} width={width} height={height} alt={alt} />
+  },
+  TeamMemberCard: ({imageUrl, name, title}: TeamMemberCardProps) => {
+    return <TeamMemberCard imageUrl={imageUrl} name={name} title={title} />
+  },
+  RelatedTeamMembers: ({children}: React.PropsWithChildren) => {
+    return <RelatedTeamMembers>{children}</RelatedTeamMembers>
   },
 }
 

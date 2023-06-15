@@ -20,3 +20,23 @@
 [data-body-image] {
   @apply lg:-mx-14;
 }
+
+[data-team-member-card] {
+  @apply flex overflow-hidden rounded-xl grow max-w-[50%] bg-[#1E1C20];
+  [data-team-member-image] {
+    @apply shrink-0 w-[120px] h-[120px];
+  }
+  [data-team-member-info] {
+    @apply flex flex-col items-start justify-center pl-4;
+  }
+  [data-team-member-name] {
+    @apply text-neutral-200 font-heading leading-normal;
+  }
+  [data-team-member-title] {
+    @apply text-badass-gray leading-tight text-lg;
+  }
+}
+
+[data-related-team-members] {
+  @apply flex gap-4 flex-wrap justify-center;
+}
