@@ -12,32 +12,50 @@ module.exports = {
     './node_modules/@skillrecordings/convertkit/dist/**/*.js',
     './node_modules/@skillrecordings/quiz/dist/**/*.js',
     './node_modules/@skillrecordings/player/dist/**/*.js',
+    './node_modules/@skillrecordings/skill-lesson/ui/**/*.tsx',
   ],
   theme: {
     fluidTypography: {},
     extend: {
       fontFamily: {
         sans: ['var(--font-dmsans)', ...defaultTheme.fontFamily.sans],
-        // sans: ['Neogrotesk', ...defaultTheme.fontFamily.sans],
         mono: ['var(--font-jetbrainsmono)', ...defaultTheme.fontFamily.mono],
       },
       colors: {
-        // black: '#0B0617',
-        // black: '#000110',
         brand: colors.amber[200],
-        // gray: {
-        //   50: '#FBFBFC',
-        //   100: '#EFEEF1',
-        //   200: '#D7D5DD',
-        //   300: '#BEBBC9',
-        //   400: '#A6A2B4',
-        //   500: '#8E88A0',
-        //   600: '#766F8B',
-        //   700: '#605B71',
-        //   800: '#4A4658',
-        //   900: '#35323E',
-        //   950: '#292730',
-        // },
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
         gray: {
           ...colors.gray,
           950: '#080B16',

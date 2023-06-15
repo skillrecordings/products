@@ -2,7 +2,6 @@ import * as React from 'react'
 import {Slot} from '@radix-ui/react-slot'
 import {cva, type VariantProps} from 'class-variance-authority'
 import {cn} from './utils'
-import {useTheme} from '../hooks/use-theme'
 
 const defaultButtonVariants = cva(
   'relative inline-flex items-center justify-center rounded-md text-base font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background',
@@ -41,15 +40,11 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({className, variant, size, asChild = false, ...props}, ref) => {
     const Comp = asChild ? Slot : 'button'
-    const {variants} = useTheme()
 
     return (
       <Comp
         data-sr-button=""
-        className={cn(
-          variants.button({variant, size, className}),
-          defaultButtonVariants({variant, size, className}),
-        )}
+        className={cn(defaultButtonVariants({variant, size, className}))}
         ref={ref}
         {...props}
       />

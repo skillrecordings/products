@@ -10,6 +10,9 @@ export const config = {
     '/tutorials/([^/]+/[^/]+(?:/exercise)?(?:/solution)?)',
     '/tips/new',
     '/tips/:path/edit',
+    '/creator/tip/new',
+    '/creator/tips',
+    '/creator/tips/:path',
   ],
 }
 
