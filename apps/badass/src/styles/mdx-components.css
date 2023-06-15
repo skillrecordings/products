@@ -1,15 +1,18 @@
 [data-body-blockquote] {
   @apply flex shrink-0 before:w-1 before:rounded-full;
   &[data-body-blockquote-color='green'] {
-    @apply before:bg-green-500;
+    @apply before:bg-badass-green-500;
   }
   &[data-body-blockquote-color='blue'] {
     @apply before:bg-badass-neutral-500;
   }
   &[data-body-blockquote-color='red'] {
-    @apply before:bg-red-400;
+    @apply before:bg-badass-red-400;
   }
   &[data-body-blockquote-color='pink'] {
-    @apply before:bg-pink-600;
+    @apply before:bg-badass-pink-500;
+  }
+  &[data-body-blockquote-color='yellow'] {
+    @apply before:bg-badass-yellow-500;
   }
 }
