@@ -16,3 +16,7 @@
     @apply before:bg-badass-yellow-500;
   }
 }
+
+[data-body-image] {
+  @apply lg:-mx-14;
+}
