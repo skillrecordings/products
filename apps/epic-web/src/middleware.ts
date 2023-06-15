@@ -8,11 +8,7 @@ export const config = {
     '/',
     '/admin',
     '/tutorials/([^/]+/[^/]+(?:/exercise)?(?:/solution)?)',
-    '/tips/new',
-    '/tips/:path/edit',
-    '/creator/tip/new',
-    '/creator/tips',
-    '/creator/tips/:path',
+    '/creator/tips/:path*',
   ],
 }
 
