@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import Balancer from 'react-wrap-balancer'
 
 type QuoteProps = {
-  color: 'blue' | 'green' | 'red' | 'pink'
+  color: 'blue' | 'green' | 'red' | 'pink' | 'yellow'
 }
 
 const Quote: React.FC<React.PropsWithChildren<QuoteProps>> = ({
