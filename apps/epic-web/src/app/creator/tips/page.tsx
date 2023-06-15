@@ -20,7 +20,7 @@ const CreatorTipsIndex = async () => {
       <header className="flex w-full items-center justify-between pb-10">
         <h1 className="text-4xl font-bold">Tips</h1>
         <Link
-          href={`/creator/tip/new`}
+          href={`/creator/tips/new`}
           className="flex items-center justify-center rounded-md bg-black px-3 py-2 text-center font-semibold text-white"
         >
           New Tip
@@ -38,7 +38,7 @@ const CreatorTipsIndex = async () => {
                   return (
                     <li key={tip._id}>
                       <Link
-                        href={`creator/tip/${tip.slug}`}
+                        href={`creator/tips/${tip.slug}`}
                         className="text-lg font-medium hover:underline"
                       >
                         {tip.title}
