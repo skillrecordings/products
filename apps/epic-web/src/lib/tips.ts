@@ -8,7 +8,7 @@ export const TipSchema = z.object({
   _type: z.string(),
   _updatedAt: z.string().optional(),
   _createdAt: z.string().optional(),
-  title: z.string().optional(),
+  title: z.string(),
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
   body: z.string().optional(),

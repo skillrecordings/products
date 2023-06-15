@@ -73,6 +73,7 @@ export const tipsRouter = router({
             _id: `tip-${id}`,
             _type: 'tip',
             state: 'new',
+            title: 'New Tip',
             slug: {
               current: id,
             },

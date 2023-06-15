@@ -66,7 +66,7 @@ const TipTemplate: React.FC<{
   const tweet = tipResources?.tweetId
 
   const ogImage = getOgImage({
-    title: tip.title,
+    title: tip.title || 'tip',
   })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
@@ -108,7 +108,7 @@ const TipTemplate: React.FC<{
     >
       <ArticleJsonLd
         url={`${process.env.NEXT_PUBLIC_URL}/tips/${tip.slug}`}
-        title={tip.title}
+        title={tip.title || 'tip'}
         images={[
           `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
         ]}
@@ -117,7 +117,7 @@ const TipTemplate: React.FC<{
         description={tip.description || 'Epic Web Tip'}
       />
       <VideoJsonLd
-        name={tip.title}
+        name={tip.title || 'tip'}
         description={tip.description || 'Epic Web Tip'}
         uploadDate={tip._updatedAt || new Date().toISOString()}
         thumbnailUrls={[
