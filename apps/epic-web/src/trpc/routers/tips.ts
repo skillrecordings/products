@@ -105,7 +105,7 @@ export const tipsRouter = router({
         .optional(),
     )
     .query(async ({input}) => {
-      const tips = await getAllTips()
+      const tips = await getAllTips(false)
 
       const tipGroups = groupBy(tips, 'state')
       const tipGroupsArray = Object.entries(tipGroups).map(([key, value]) => {
