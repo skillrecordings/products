@@ -2,14 +2,13 @@ import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import Balancer from 'react-wrap-balancer'
 
-type QuoteProps = {
+type BodyBlockquoteProps = {
   color: 'blue' | 'green' | 'red' | 'pink' | 'yellow'
 }
 
-const Quote: React.FC<React.PropsWithChildren<QuoteProps>> = ({
-  children,
-  color,
-}) => {
+const BodyBlockquote: React.FC<
+  React.PropsWithChildren<BodyBlockquoteProps>
+> = ({children, color}) => {
   return (
     <div
       data-body-blockquote=""
@@ -23,9 +22,40 @@ const Quote: React.FC<React.PropsWithChildren<QuoteProps>> = ({
   )
 }
 
+type BodyImageProps = {
+  src: string
+  width: number
+  height: number
+  alt?: string
+}
+
+const BodyImage: React.FC<BodyImageProps> = ({
+  src,
+  width,
+  height,
+  alt = '',
+}) => {
+  return (
+    <div data-body-image="">
+      <Image src={src} width={width} height={height} alt={alt} />
+    </div>
+  )
+}
+
 const mdxComponents = {
-  Quote: ({children, color}: React.PropsWithChildren<QuoteProps>) => {
-    return <Quote color={color}>{children}</Quote>
+  BodyBlockquote: ({
+    children,
+    color,
+  }: React.PropsWithChildren<BodyBlockquoteProps>) => {
+    return <BodyBlockquote color={color}>{children}</BodyBlockquote>
+  },
+  BodyImage: ({
+    src,
+    width,
+    height,
+    alt,
+  }: React.PropsWithChildren<BodyImageProps>) => {
+    return <BodyImage src={src} width={width} height={height} alt={alt} />
   },
 }
 
