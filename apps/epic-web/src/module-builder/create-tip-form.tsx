@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import {TipSchema} from 'lib/tips'
 import {Button, Input, Progress} from '@skillrecordings/skill-lesson/ui'
 import {
   Form,
@@ -18,16 +17,18 @@ import {z} from 'zod'
 import MuxPlayer from '@mux/mux-player-react'
 import {useFileChange} from './use-file-change'
 import {uploadToS3} from './upload-file'
+import {trpc} from 'trpc/trpc.client'
+import {useRouter} from 'next/router'
 
 const CreateTipForm: React.FC = () => {
   const formSchema = z.object({
-    title: z.string().optional(),
     video: z.string().optional(),
   })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {},
   })
+  const router = useRouter()
 
   const {
     fileError,
@@ -39,32 +40,29 @@ const CreateTipForm: React.FC = () => {
   } = useFileChange()
   const [s3FileUrl, setS3FileUrl] = React.useState('')
   const [progress, setProgress] = React.useState(0)
+  const {mutate: createTip} = trpc.tips.create.useMutation()
 
-  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    // TODO:
-    // - navigate to /tips/[slug]/status when complete (creator view)
-    // - announce in LC that creator has uploaded a new video, provide link to /tips/[slug]/edit and raw s3 url in announcement
-    // - (?) create videoResource in Sanity  with s3FileUrl
-    // - (?) create new tip in Sanity with videoResource and title
-
+  const handleSubmit = async () => {
     try {
       if (fileType && fileContents) {
         const filePath = await uploadToS3({
           fileType,
           fileContents,
           onUploadProgress: (progressEvent) => {
-            console.log(
-              'progressEvent',
-              progressEvent.total
-                ? progressEvent.loaded / progressEvent.total
-                : 0,
-            )
             setProgress(progressEvent.loaded / progressEvent.total!)
           },
         })
-        console.log({filePath})
-        fileDispatch({type: 'RESET_FILE_STATE'})
-        setS3FileUrl(filePath)
+        createTip(
+          {
+            s3Url: filePath,
+            fileName,
+          },
+          {
+            onSettled: (data) => {
+              router.push(`/creator/tips/${data?.slug}`)
+            },
+          },
+        )
       }
     } catch (err) {
       console.log('error is', err)
@@ -76,24 +74,10 @@ const CreateTipForm: React.FC = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
           <FormField
-            control={form.control}
-            name="title"
-            render={({field}) => (
-              <FormItem>
-                <FormLabel>Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="Title" {...field} />
-                </FormControl>
-                <FormDescription>Optional</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
             name="video"
             render={({field}) => (
               <FormItem>
-                <FormLabel>Video</FormLabel>
+                <FormLabel>Video File to Upload</FormLabel>
                 <FormControl>
                   <Input
                     type="file"
@@ -128,7 +112,9 @@ const CreateTipForm: React.FC = () => {
   )
 }
 
-export default CreateTipForm
+export default () => {
+  return <CreateTipForm />
+}
 
 export const Video: React.FC<{playbackId: string | undefined | null}> = ({
   playbackId,

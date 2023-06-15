@@ -33,6 +33,8 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
         enableSystem={false}
         defaultTheme="dark"
         disableTransitionOnChange={true}
+        // @ts-ignore
+        forcedTheme={Component.theme || null}
       >
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <ConvertkitProvider>

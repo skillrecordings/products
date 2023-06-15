@@ -1,13 +1,14 @@
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
+import {pickBy} from 'lodash'
 
 export const TipSchema = z.object({
   _id: z.string(),
   _type: z.string(),
   _updatedAt: z.string().optional(),
   _createdAt: z.string().optional(),
-  title: z.string(),
+  title: z.string().optional(),
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
   body: z.string().optional(),
@@ -76,5 +77,5 @@ export const getTip = async (slug: string): Promise<Tip> => {
     {slug},
   )
 
-  return TipSchema.parse(tip)
+  return TipSchema.parse(pickBy(tip))
 }
