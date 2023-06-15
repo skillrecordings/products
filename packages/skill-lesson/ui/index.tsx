@@ -1,6 +1,8 @@
 import {Button} from './button'
 import {Input} from './input'
 import {Label} from './label'
+import {Textarea} from './textarea'
+import {Progress} from './progress'
 import {
   Card,
   CardContent,
@@ -14,6 +16,8 @@ export {
   Button,
   Input,
   Label,
+  Textarea,
+  Progress,
   Card,
   CardContent,
   CardDescription,

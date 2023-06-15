@@ -1,5 +1,7 @@
+'use client'
+
 import * as React from 'react'
-import {type VariantProps, type CxReturn, cva} from 'class-variance-authority'
+import {type VariantProps, type CxReturn} from 'class-variance-authority'
 import {type ClassProp} from 'class-variance-authority/dist/types'
 
 import {defaultButtonVariants} from '../ui/button'

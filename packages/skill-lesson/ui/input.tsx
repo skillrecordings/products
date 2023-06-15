@@ -1,6 +1,5 @@
 import * as React from 'react'
 import {cn} from './utils'
-import {useTheme} from '../hooks/use-theme'
 import {cva} from 'class-variance-authority'
 
 const defaultInputVariants = cva(
@@ -12,13 +11,11 @@ export interface InputProps
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({className, type, ...props}, ref) => {
-    const {variants} = useTheme()
-
     return (
       <input
         data-sr-input=""
         type={type}
-        className={cn(defaultInputVariants(), variants.input(), className)}
+        className={cn(defaultInputVariants(), className)}
         ref={ref}
         {...props}
       />

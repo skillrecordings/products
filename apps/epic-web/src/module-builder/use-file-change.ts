@@ -1,3 +1,5 @@
+'use client'
+
 import {useReducer} from 'react'
 
 const initialFileState = {
@@ -22,6 +24,7 @@ export function useFileChange() {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileObj = event.target.files && event.target.files[0]
+
     if (!fileObj) {
       return
     }
@@ -46,7 +49,8 @@ export function useFileChange() {
     // }
 
     // eslint-disable-next-line no-param-reassign
-    event.target.value = ''
+    // Commenting this out because having the file name in native input field is actually useful
+    // event.target.value = ''
 
     fileDispatch({
       type: 'FILE_CHANGE_SUCCESS',

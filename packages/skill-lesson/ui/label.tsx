@@ -1,8 +1,8 @@
+'use client'
+
 import * as React from 'react'
 import * as LabelPrimitive from '@radix-ui/react-label'
 import {cva, type VariantProps} from 'class-variance-authority'
-import {useTheme} from '../hooks/use-theme'
-
 import {cn} from './utils'
 
 const defaultLabelVariants = cva(
@@ -14,13 +14,11 @@ const Label = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
     VariantProps<typeof defaultLabelVariants>
 >(({className, ...props}, ref) => {
-  const {variants} = useTheme()
-
   return (
     <LabelPrimitive.Root
       data-sr-label=""
       ref={ref}
-      className={cn(defaultLabelVariants(), variants.label(), className)}
+      className={cn(defaultLabelVariants(), className)}
       {...props}
     />
   )
