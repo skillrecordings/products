@@ -15,8 +15,11 @@ import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import MuxPlayer from '@mux/mux-player-react'
+import {trpc} from 'trpc/trpc.client'
+import {useRouter} from 'next/router'
 
 const EditTipForm: React.FC<{tip: Tip}> = ({tip}) => {
+  const router = useRouter()
   const formSchema = TipSchema
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -24,10 +27,26 @@ const EditTipForm: React.FC<{tip: Tip}> = ({tip}) => {
       ...tip,
     },
   })
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    // TODO: Use Sanity Write Client to update tip
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  const {mutate: updateTip} = trpc.tips.update.useMutation()
+
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await updateTip(
+        {
+          _id: tip._id,
+          title: values.title,
+          slug: values.slug,
+          body: values.body,
+        },
+        {
+          onSuccess: (data) => {
+            router.push(`/creator/tips/${data.slug}`)
+          },
+        },
+      )
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

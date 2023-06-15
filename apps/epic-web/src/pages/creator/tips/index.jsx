@@ -1,22 +1,13 @@
-import React from 'react'
-import {Metadata} from 'next'
-import {getAllTips} from 'lib/tips'
-import {groupBy} from 'lodash'
 import Link from 'next/link'
+import React from 'react'
+import {trpc} from '../../../trpc/trpc.client'
+import TipCreatorLayout from '../../../module-builder/tip-creator-layout'
 
-export const metadata: Metadata = {
-  title: 'Tips',
-}
-
-const CreatorTipsIndex = async () => {
-  const tips = await getAllTips()
-  const tipGroups = groupBy(tips, 'state')
-  const tipGroupsArray = Object.entries(tipGroups).map(([key, value]) => {
-    return {state: key, tips: value}
-  })
+const CreatorTipsIndex = () => {
+  const {data: tips} = trpc.tips.all.useQuery()
 
   return (
-    <>
+    <TipCreatorLayout>
       <header className="flex w-full items-center justify-between pb-10">
         <h1 className="text-4xl font-bold">Tips</h1>
         <Link
@@ -27,7 +18,7 @@ const CreatorTipsIndex = async () => {
         </Link>
       </header>
       <ul>
-        {tipGroupsArray.map((tipGroup) => {
+        {tips?.map((tipGroup) => {
           return (
             <li key={tipGroup.state} className="py-3">
               <h2 className="pb-3 font-mono font-bold uppercase text-gray-600">
@@ -38,7 +29,7 @@ const CreatorTipsIndex = async () => {
                   return (
                     <li key={tip._id}>
                       <Link
-                        href={`creator/tips/${tip.slug}`}
+                        href={`/creator/tips/${tip.slug}`}
                         className="text-lg font-medium hover:underline"
                       >
                         {tip.title}
@@ -51,8 +42,10 @@ const CreatorTipsIndex = async () => {
           )
         })}
       </ul>
-    </>
+    </TipCreatorLayout>
   )
 }
+
+CreatorTipsIndex.theme = 'light'
 
 export default CreatorTipsIndex
