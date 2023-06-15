@@ -42,9 +42,11 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
           <Balancer>{pageDescription}</Balancer>
         </p>
         <div className="mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
-          {tips.map((tip) => {
-            return <TipCard tip={tip} key={tip.slug} />
-          })}
+          {tips
+            .filter(({state}) => state === 'published')
+            .map((tip) => {
+              return <TipCard tip={tip} key={tip.slug} />
+            })}
         </div>
       </main>
     </Layout>

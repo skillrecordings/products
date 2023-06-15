@@ -13,6 +13,7 @@ export const TipSchema = z.object({
   body: z.string().optional(),
   summary: z.string().optional().nullable(),
   muxPlaybackId: z.nullable(z.string()).optional(),
+  state: z.enum(['new', 'processing', 'reviewing', 'published', 'retired']),
   sandpack: z
     .array(
       z.object({
@@ -40,6 +41,7 @@ export const getAllTips = async (): Promise<Tip[]> => {
         _updatedAt,
         _createdAt,
         title,
+        state,
         description,
         summary,
         body,
@@ -61,6 +63,7 @@ export const getTip = async (slug: string): Promise<Tip> => {
         _updatedAt,
         _createdAt,
         title,
+        state,
         description,
         summary,
         body,
