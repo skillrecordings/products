@@ -10,6 +10,8 @@ import {
   TweetEmbedProps,
   SkeletonHandSeparator,
   SkeletonHandSeparatorProps,
+  IntroduceCard,
+  IntroduceCardProps,
 } from './components'
 
 const mdxComponents = {
@@ -33,6 +35,9 @@ const mdxComponents = {
   },
   SkeletonHandSeparator: ({number}: SkeletonHandSeparatorProps) => {
     return <SkeletonHandSeparator number={number} />
+  },
+  IntroduceCard: ({image, name, title}: IntroduceCardProps) => {
+    return <IntroduceCard image={image} name={name} title={title} />
   },
 }
 

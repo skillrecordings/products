@@ -46,3 +46,22 @@
   [data-skeleton-hand-separator-image-holder] {
   }
 }
+
+[data-introduce-card] {
+  @apply flex items-end;
+  [data-introduce-card-image] {
+    @apply shrink-0 w-64;
+  }
+  [data-introduce-card-info] {
+    @apply flex flex-col items-start justify-center pl-4 mb-20 space-y-2;
+  }
+  [data-introduce-card-heading] {
+    @apply font-script text-badass-pink-500 text-[2rem] leading-none;
+  }
+  [data-introduce-card-name] {
+    @apply text-white font-heading leading-normal text-[2rem];
+  }
+  [data-introduce-card-title] {
+    @apply text-badass-gray leading-tight text-xl;
+  }
+}
