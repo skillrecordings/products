@@ -98,19 +98,13 @@ const processNewTip = inngest.createFunction(
 
     if (transcript) {
       await step.run('Update Video Resource with Transcript', async () => {
-        await sanityWriteClient
+        return await sanityWriteClient
           .patch(event.data.videoResourceId)
           .set({
             transcript: {
               text: transcript.data.transcript.text,
               srt: transcript.data.transcript.srt,
             },
-          })
-          .commit()
-        return await sanityWriteClient
-          .patch(event.data.tipId)
-          .set({
-            state: 'reviewing',
           })
           .commit()
       })
@@ -130,7 +124,7 @@ const processNewTip = inngest.createFunction(
         )
       })
 
-      const llmSuggestions = await step.waitForEvent(
+      const llmResponse = await step.waitForEvent(
         'tip/video.llm.suggestions.created',
         {
           match: 'data.videoResourceId',
@@ -138,7 +132,25 @@ const processNewTip = inngest.createFunction(
         },
       )
 
-      return {llmSuggestions, transcript}
+      if (llmResponse) {
+        await step.run('Update Tip with Generated Text', async () => {
+          const title = llmResponse.data.llmSuggestions?.titles?.[0]
+          const body = llmResponse.data.llmSuggestions?.body
+          const description = llmResponse.data.llmSuggestions?.descriptions?.[0]
+          return await sanityWriteClient
+            .patch(event.data.tipId)
+            .set({
+              title,
+              description,
+              body,
+              state: 'reviewing',
+            })
+            .commit()
+        })
+        return {llmSuggestions: llmResponse.data.llmSuggestions, transcript}
+      } else {
+        return {transcript, llmSuggestions: null}
+      }
     } else {
       throw new Error('Transcript not created within 24 hours')
     }
