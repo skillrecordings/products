@@ -87,6 +87,7 @@
     "formik": "2.2.9",
     "framer-motion": "^10.12.4",
     "groq": "^2.15.0",
+    "inngest": "^2.0.2",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "mjml": "^4.12.0",

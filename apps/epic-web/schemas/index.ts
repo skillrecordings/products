@@ -30,10 +30,12 @@ import solution from './objects/resources/solution'
 import githubRepo from './objects/github-repo'
 import muxAsset from './objects/muxAsset'
 import castingwordsTranscript from './objects/castingwordsTranscript'
+import castingwordsOrder from './objects/castingwordsTranscript'
 import tweet from './objects/tweet'
 import bodyTestimonial from './objects/bodyTestimonial'
 import feature from './objects/feature'
 import github from './objects/resources/github'
+import transcript from './objects/transcript'
 
 export const schemaTypes = [
   // —— documents
@@ -69,6 +71,8 @@ export const schemaTypes = [
   solution,
   muxAsset,
   castingwordsTranscript,
+  castingwordsOrder,
+  transcript,
   tweet,
   bodyTestimonial,
   feature,

@@ -115,7 +115,7 @@
     "framer-motion": "^10.12.4",
     "gray-matter": "^4.0.3",
     "groq": "^2.15.0",
-    "inngest": "^1.7.1",
+    "inngest": "^2.0.2",
     "install": "^0.13.0",
     "js-cookie": "^3.0.1",
     "jsonwebtoken": "^8.5.1",

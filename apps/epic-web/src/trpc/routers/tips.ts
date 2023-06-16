@@ -10,6 +10,7 @@ import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-serv
 import {groupBy} from 'lodash'
 import {getToken} from 'next-auth/jwt'
 import {v4} from 'uuid'
+import {inngest} from 'utils/inngest.server'
 
 export const tipsRouter = router({
   update: publicProcedure
@@ -86,9 +87,17 @@ export const tipsRouter = router({
             ],
           })
 
-          console.log({tipResource})
+          const tip = await getTip(tipResource.slug.current)
 
-          return await getTip(tipResource.slug.current)
+          inngest.send({
+            name: 'tip/video.uploaded',
+            data: {
+              tipId: tip._id,
+              videoResourceId: newVideoResource._id,
+            },
+          })
+
+          return tip
         } else {
           throw new Error('Could not create video resource')
         }
