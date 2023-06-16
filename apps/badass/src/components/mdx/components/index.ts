@@ -17,3 +17,8 @@ export {
   default as SkeletonHandSeparator,
   type SkeletonHandSeparatorProps,
 } from './skeleton-hand-separator'
+
+export {
+  default as IntroduceCard,
+  type IntroduceCardProps,
+} from './introduce-card'
