@@ -40,7 +40,7 @@ const processNewTip = inngest.createFunction(
   {name: 'Process New Tip Video'},
   {event: 'tip/video.uploaded'}, // The event that will trigger this function
   async ({event, step}) => {
-    step.run('Update Tip Status', async () => {
+    await step.run('Update Tip Status', async () => {
       return await sanityWriteClient
         .patch(event.data.tipId)
         .set({
@@ -49,7 +49,7 @@ const processNewTip = inngest.createFunction(
         .commit()
     })
 
-    step.run('Create a Mux Asset', async () => {
+    await step.run('Create a Mux Asset', async () => {
       const videoResource = await sanityWriteClient.fetch(
         `*[_id == $videoResourceId][0]`,
         {
@@ -72,7 +72,7 @@ const processNewTip = inngest.createFunction(
         .commit()
     })
 
-    step.run('Initiate Transcript Order via Deepgram', async () => {
+    await step.run('Initiate Transcript Order via Deepgram', async () => {
       const videoResource = await sanityWriteClient.fetch(
         `*[_id == $videoResourceId][0]`,
         {
@@ -80,7 +80,7 @@ const processNewTip = inngest.createFunction(
         },
       )
       const {originalMediaUrl, _id} = videoResource
-      return await fetch(
+      fetch(
         `https://deepgram-wrangler.skillstack.workers.dev/transcript?videoUrl=${originalMediaUrl}&videoResourceId=${_id}`,
         {
           method: 'POST',
@@ -116,7 +116,7 @@ const processNewTip = inngest.createFunction(
       })
 
       await step.run('Process LLM Suggestions', async () => {
-        return await fetch(
+        fetch(
           `https://deepgram-wrangler.skillstack.workers.dev/tipMetadataLLM?videoResourceId=${event.data.videoResourceId}`,
           {
             method: 'POST',
