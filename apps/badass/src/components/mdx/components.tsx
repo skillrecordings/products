@@ -1,6 +1,9 @@
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import Balancer from 'react-wrap-balancer'
+import {TwitterTweetEmbed} from 'react-twitter-embed'
+
+import Spinner from 'components/spinner'
 
 type BodyBlockquoteProps = {
   color: 'blue' | 'green' | 'red' | 'pink' | 'yellow'
@@ -66,12 +69,35 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
   )
 }
 
-type RelatedTeamMembersProps = {
-  children: TeamMemberCardProps[]
-}
+// type RelatedTeamMembersProps = {
+//   children: TeamMemberCardProps[]
+// }
 
 const RelatedTeamMembers: React.FC<React.PropsWithChildren> = ({children}) => {
   return <div data-related-team-members="">{children}</div>
+}
+
+type TweetEmbedProps = {
+  tweetId: string
+}
+
+const TweetEmbed: React.FC<TweetEmbedProps> = ({tweetId}) => {
+  return (
+    <TwitterTweetEmbed
+      tweetId={tweetId}
+      options={{
+        theme: 'dark',
+        cards: 'hidden',
+        width: 550,
+        align: 'center',
+      }}
+      placeholder={
+        <div className="flex aspect-square h-full w-full items-center justify-center">
+          <Spinner className="h-5 w-5" />
+        </div>
+      }
+    />
+  )
 }
 
 const mdxComponents = {
@@ -94,6 +120,9 @@ const mdxComponents = {
   },
   RelatedTeamMembers: ({children}: React.PropsWithChildren) => {
     return <RelatedTeamMembers>{children}</RelatedTeamMembers>
+  },
+  TweetEmbed: ({tweetId}: TweetEmbedProps) => {
+    return <TweetEmbed tweetId={tweetId} />
   },
 }
 
