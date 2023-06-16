@@ -72,7 +72,7 @@ const processNewTip = inngest.createFunction(
         .commit()
     })
 
-    await step.run('Initiate Transcript Order via Deepgram', async () => {
+    step.run('Initiate Transcript Order via Deepgram', async () => {
       const videoResource = await sanityWriteClient.fetch(
         `*[_id == $videoResourceId][0]`,
         {
@@ -109,7 +109,7 @@ const processNewTip = inngest.createFunction(
           .commit()
       })
 
-      await step.run('Process LLM Suggestions', async () => {
+      step.run('Process LLM Suggestions', async () => {
         fetch(
           `https://deepgram-wrangler.skillstack.workers.dev/tipMetadataLLM?videoResourceId=${event.data.videoResourceId}`,
           {
