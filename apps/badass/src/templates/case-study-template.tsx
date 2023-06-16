@@ -1,12 +1,8 @@
 import React from 'react'
-import {PortableText, toPlainText} from '@portabletext/react'
+import {toPlainText} from '@portabletext/react'
 import {LinkedIn, Twitter} from '@skillrecordings/react'
-// import {CalendarIcon} from '@heroicons/react/outline'
-// import {SanityDocument} from '@sanity/client'
 import {useRouter} from 'next/router'
-// import {format} from 'date-fns'
 import JoelHooksHeadshotImage from '../../public/joel-hooks.jpg'
-// import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/layout'
 import Image from 'next/image'
 import {SmallCallToActionForm} from '../components/call-to-action-form'
@@ -57,7 +53,6 @@ const CaseStudyTemplate: React.FC<
                 components={mdxComponents}
                 contents={caseStudyBodySerialized}
               />
-              {/* <PortableText value={body} components={PortableTextComponents} /> */}
             </article>
           </div>
         </div>

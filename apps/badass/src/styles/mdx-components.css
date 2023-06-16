@@ -22,12 +22,12 @@
 }
 
 [data-team-member-card] {
-  @apply flex overflow-hidden rounded-xl grow max-w-[50%] bg-[#1E1C20];
+  @apply flex overflow-hidden rounded-xl grow max-w-[calc(50%-8px)] bg-[#1E1C20];
   [data-team-member-image] {
     @apply shrink-0 w-[120px] h-[120px];
   }
   [data-team-member-info] {
-    @apply flex flex-col items-start justify-center pl-4;
+    @apply flex flex-col items-start justify-center px-4;
   }
   [data-team-member-name] {
     @apply text-neutral-200 font-heading leading-normal;
