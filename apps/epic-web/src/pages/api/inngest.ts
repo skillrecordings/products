@@ -40,6 +40,15 @@ const processNewTip = inngest.createFunction(
   {name: 'Process New Tip Video'},
   {event: 'tip/video.uploaded'}, // The event that will trigger this function
   async ({event, step}) => {
+    step.run('Update Tip Status', async () => {
+      return await sanityWriteClient
+        .patch(event.data.tipId)
+        .set({
+          state: 'processing',
+        })
+        .commit()
+    })
+
     step.run('Create a Mux Asset', async () => {
       const videoResource = await sanityWriteClient.fetch(
         `*[_id == $videoResourceId][0]`,
@@ -89,13 +98,19 @@ const processNewTip = inngest.createFunction(
 
     if (transcript) {
       await step.run('Update Video Resource with Transcript', async () => {
-        return await sanityWriteClient
+        await sanityWriteClient
           .patch(event.data.videoResourceId)
           .set({
             transcript: {
               text: transcript.data.transcript.text,
               srt: transcript.data.transcript.srt,
             },
+          })
+          .commit()
+        return await sanityWriteClient
+          .patch(event.data.tipId)
+          .set({
+            state: 'reviewing',
           })
           .commit()
       })
@@ -127,24 +142,6 @@ const processNewTip = inngest.createFunction(
     } else {
       throw new Error('Transcript not created within 24 hours')
     }
-
-    // step 2: create transcript using deepgram api
-
-    // Send the user a welcome email
-    // await step.run('Send welcome email', () => sendEmail({ email: event.data.email, template: 'welcome' }))
-    // Wait for the user to create an order, by waiting and
-    // matching on another event
-    // const order = await step.waitForEvent('app/order.created', {
-    // 	match: 'data.user.id',
-    // 	timeout: '24h',
-    // })
-    // if (!order) {
-    // 	// User didn't create an order within 24 hours; send
-    // 	// them an activation email
-    // 	await step.run('Send activation email', async () => {
-    // 		// Some code here
-    // 	})
-    // }
   },
 )
 
