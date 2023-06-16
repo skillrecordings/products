@@ -54,6 +54,16 @@ const CaseStudyTemplate: React.FC<
                 contents={caseStudyBodySerialized}
               />
             </article>
+            <div className="flex justify-center mt-28">
+              <div className="max-w-[9rem]">
+                <Image
+                  src="/assets/thank-you.png"
+                  width={294}
+                  height={64}
+                  alt="Thank you"
+                />
+              </div>
+            </div>
           </div>
         </div>
         <section data-article="">
