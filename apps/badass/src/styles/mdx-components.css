@@ -40,3 +40,9 @@
 [data-related-team-members] {
   @apply flex gap-4 flex-wrap justify-center;
 }
+
+[data-skeleton-hand-separator] {
+  @apply flex justify-center;
+  [data-skeleton-hand-separator-image-holder] {
+  }
+}

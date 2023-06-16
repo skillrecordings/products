@@ -12,3 +12,8 @@ export {
 } from './team-members'
 
 export {default as TweetEmbed, type TweetEmbedProps} from './tweet-embed'
+
+export {
+  default as SkeletonHandSeparator,
+  type SkeletonHandSeparatorProps,
+} from './skeleton-hand-separator'
