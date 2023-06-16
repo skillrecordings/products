@@ -8,6 +8,8 @@ import {
   TeamMemberCardProps,
   TweetEmbed,
   TweetEmbedProps,
+  SkeletonHandSeparator,
+  SkeletonHandSeparatorProps,
 } from './components'
 
 const mdxComponents = {
@@ -28,6 +30,9 @@ const mdxComponents = {
   },
   TweetEmbed: ({tweetId}: TweetEmbedProps) => {
     return <TweetEmbed tweetId={tweetId} />
+  },
+  SkeletonHandSeparator: ({number}: SkeletonHandSeparatorProps) => {
+    return <SkeletonHandSeparator number={number} />
   },
 }
 
