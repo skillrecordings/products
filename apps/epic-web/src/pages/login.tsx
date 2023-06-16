@@ -8,6 +8,7 @@ import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import Balancer from 'react-wrap-balancer'
+import {Button, Input, Label} from '@skillrecordings/skill-lesson/ui'
 
 const Login: React.FC<
   React.PropsWithChildren<{csrfToken: string; providers: any}>
@@ -46,9 +47,40 @@ const Login: React.FC<
 
   return (
     <Layout meta={{title: 'Log in to Epic Web'}}>
-      <div className="relative mx-auto flex w-full flex-grow flex-col items-center justify-center pb-16 pt-16 text-white sm:p-5 sm:pt-40 md:pb-40">
-        <main className="relative z-10 rounded-lg border-gray-800 p-5 shadow-black/60 sm:mx-auto sm:border sm:bg-gray-800/90 sm:p-10 sm:shadow-2xl">
-          <h1 className="pt-3 text-center font-text text-4xl font-extrabold leading-9 sm:pt-8 sm:text-4xl">
+      <div className="relative mx-auto flex w-full flex-grow flex-col items-center justify-start pb-16 pt-24 sm:p-5 sm:pt-32">
+        <main>
+          <svg
+            className="mx-auto h-12 w-12"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 44 44"
+          >
+            <path
+              fill="url(#a)"
+              fillRule="evenodd"
+              d="M37.353 14.034a17.503 17.503 0 0 1 1.867 7.886c0 9.71-7.9 17.61-17.61 17.61-1.09 0-2.14-.11-3.18-.3.14-12.55 6.82-20.95 6.82-20.95S16.84 24.96 4.3 25.1c-.19-1.03-.3-2.09-.3-3.18 0-9.71 7.9-17.61 17.61-17.61 2.832 0 5.51.672 7.883 1.865L33.72 4.02A21.485 21.485 0 0 0 21.61.3C9.7.3 0 10 0 21.91s9.7 21.61 21.61 21.61 21.61-9.7 21.61-21.61a21.49 21.49 0 0 0-3.713-12.099l-2.154 4.223Z"
+              clipRule="evenodd"
+            />
+            <path
+              fill="currentColor"
+              d="m27.3 16.23-1.55-5.32L43.5.03 32.61 17.78l-5.31-1.55Z"
+            />
+            <defs>
+              <linearGradient
+                id="a"
+                x1="30.56"
+                x2="12.71"
+                y1="12.96"
+                y2="30.82"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#4F75FF" />
+                <stop offset="1" stop-color="#30AFFF" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          <h1 className="font-text pt-3 text-center text-4xl font-extrabold leading-9 sm:pt-8 sm:text-4xl">
             Log in to Epic Web
           </h1>
           {query?.error === 'Verification' ? (
@@ -69,17 +101,12 @@ const Login: React.FC<
           ) : null}
           <div className="pt-8 sm:mx-auto sm:w-full sm:max-w-md sm:pt-10 sm:text-lg">
             <form method="post" action="/api/auth/signin/email">
-              <label
-                htmlFor="email"
-                className="block pb-1 leading-5 text-gray-200"
-              >
-                Email address
-              </label>
+              <Label htmlFor="email">Email address</Label>
               <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
               <div className="relative mt-1 rounded-md shadow-sm">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <svg
-                    className="h-5 w-5 text-white/50"
+                    className="h-5 w-5"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -89,18 +116,16 @@ const Login: React.FC<
                     <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                   </svg>
                 </div>
-                <input
+                <Input
                   id="email"
                   type="email"
                   required={true}
                   placeholder="you@example.com"
-                  className="mb-3 block w-full rounded-md border border-white border-opacity-20 bg-gray-900 py-4 pl-10 text-white placeholder-gray-400 focus:border-cyan-300 focus:ring-0"
+                  className="pl-10"
                   {...register('email', {required: true})}
                 />
               </div>
-              <button className="mt-5 flex w-full items-center justify-center rounded-md border border-transparent bg-gradient-to-b from-cyan-400 to-cyan-500 px-5 py-4 font-semibold text-black shadow-xl shadow-black/20 transition focus:outline-none focus:ring-2 focus:ring-cyan-100 hover:brightness-110">
-                Email me a login link
-              </button>
+              <Button className="mt-4 w-full">Email me a login link</Button>
             </form>
           </div>
           {githubProvider ? (

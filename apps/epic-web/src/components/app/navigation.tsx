@@ -5,11 +5,19 @@ import {track} from 'utils/analytics'
 import ColorModeToggle from 'components/color-mode-toggle'
 import {twMerge} from 'tailwind-merge'
 import {AnimationControls, motion, useAnimationControls} from 'framer-motion'
-import {CalendarIcon} from '@heroicons/react/outline'
+import {createAppAbility} from '@skillrecordings/skill-lesson'
+import {trpc} from 'trpc/trpc.client'
 
 type NavigationProps = {
   className?: string
 }
+
+// TODO: Figure out why this makes the app crash
+// const useAbilities = () => {
+//   const {data: abilityRules} = trpc.abilities.getAbilities.useQuery()
+
+//   return createAppAbility(abilityRules || [])
+// }
 
 const Navigation: React.FC<NavigationProps> = ({className}) => {
   const {pathname, asPath} = useRouter()
@@ -35,7 +43,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
           EpicWeb<span className="text-[12px]">.dev</span>
         </Link>
         <div className="hidden items-center justify-center gap-2 font-medium sm:flex">
-          {links.map(({label, href, icon}) => {
+          {getNavigationLinks().map(({label, href, icon}) => {
             return (
               <Link
                 key={href}
@@ -52,6 +60,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
               </Link>
             )
           })}
+
           <div className="flex items-center justify-center pl-1">
             <ColorModeToggle />
           </div>
@@ -59,7 +68,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
         <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
         {menuOpen && (
           <div className="absolute left-0 top-0 flex w-full flex-col gap-2 bg-white px-3 pb-5 pt-16 text-lg font-semibold shadow-2xl shadow-black/20 backdrop-blur-sm dark:bg-black/80 dark:shadow-black/60 sm:hidden">
-            {links.map(({label, href, icon}) => {
+            {getNavigationLinks().map(({label, href, icon}) => {
               return (
                 <Link
                   key={href}
@@ -204,30 +213,35 @@ export const CrossIcon = () => {
   )
 }
 
-const links = [
-  {
-    label: 'Articles',
-    icon: <ArticlesIcon />,
-    href: '/articles',
-  },
-  {
-    label: 'Free Tutorials',
-    icon: <TutorialsIcon />,
-    href: '/tutorials',
-  },
-  {
-    label: 'Tips',
-    icon: <TipsIcon />,
-    href: '/tips',
-  },
-  // {
-  //   label: 'Events',
-  //   icon: (
-  //     <CalendarIcon className="w-[18px] text-rose-400 dark:text-rose-300" />
-  //   ),
-  //   href: '/events',
-  // },
-]
+const getNavigationLinks = () => {
+  // const ability = useAbilities()
+  const canCreateContent = false // ability.can('create', 'Content')
+
+  return [
+    {
+      label: 'Articles',
+      icon: <ArticlesIcon />,
+      href: '/articles',
+    },
+    {
+      label: 'Free Tutorials',
+      icon: <TutorialsIcon />,
+      href: '/tutorials',
+    },
+    {
+      label: 'Tips',
+      icon: <TipsIcon />,
+      href: canCreateContent ? '/creator/tips' : '/tips',
+    },
+    // {
+    //   label: 'Events',
+    //   icon: (
+    //     <CalendarIcon className="w-[18px] text-rose-400 dark:text-rose-300" />
+    //   ),
+    //   href: '/events',
+    // },
+  ]
+}
 
 type NavToggleProps = {
   isMenuOpened: boolean

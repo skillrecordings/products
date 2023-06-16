@@ -153,6 +153,7 @@ const MobileNav = () => {
   const ability = useAbilities()
   const canViewTeam = ability.can('view', 'Team')
   const canViewInvoice = ability.can('view', 'Invoice')
+
   const {status} = useSession()
   const {setIsFeedbackDialogOpen} = useFeedback()
 

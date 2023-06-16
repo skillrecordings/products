@@ -16,7 +16,7 @@ export const tipsRouter = router({
     .input(
       z.object({
         slug: z.string(),
-        body: z.string().optional(),
+        body: z.string().optional().nullable(),
         title: z.string().optional(),
         _id: z.string(),
       }),

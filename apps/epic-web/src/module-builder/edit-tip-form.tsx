@@ -89,16 +89,19 @@ const EditTipForm: React.FC<{tip: Tip}> = ({tip}) => {
               <FormItem>
                 <FormLabel>Body</FormLabel>
                 <FormControl>
-                  <Textarea rows={16} placeholder="Body" {...field} />
+                  <Textarea
+                    rows={16}
+                    placeholder="Body"
+                    {...field}
+                    value={field.value || ''}
+                  />
                 </FormControl>
                 <FormDescription>This is the tip body in MDX.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button className="bg-black text-white" type="submit">
-            Save
-          </Button>
+          <Button type="submit">Save</Button>
         </form>
       </Form>
     </>

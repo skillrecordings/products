@@ -87,20 +87,27 @@ const CreateTipForm: React.FC = () => {
                     onChange={handleFileChange}
                   />
                 </FormControl>
-                <FormDescription>Required</FormDescription>
+                <FormDescription>
+                  {form.formState.isSubmitting ? (
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="w-6 flex-shrink-0 text-xs">
+                        {(progress * 100).toFixed(0)}%
+                      </div>
+                      <Progress
+                        value={Number((progress * 100).toFixed(0))}
+                        max={100}
+                      />
+                    </div>
+                  ) : (
+                    'Required'
+                  )}
+                </FormDescription>
                 <FormMessage>{fileError && <div>{fileError}</div>}</FormMessage>
               </FormItem>
             )}
           />
-          <div className="flex items-center justify-between gap-3">
-            <Progress value={Number((progress * 100).toFixed(0))} max={100} />
-            <div className="w-28 flex-shrink-0 text-sm font-medium uppercase">
-              {(progress * 100).toFixed(0)}% uploaded
-            </div>
-          </div>
           <Button
             disabled={!fileContents || form.formState.isSubmitting}
-            className="bg-black text-white"
             type="submit"
           >
             Continue
@@ -114,19 +121,4 @@ const CreateTipForm: React.FC = () => {
 
 export default () => {
   return <CreateTipForm />
-}
-
-export const Video: React.FC<{playbackId: string | undefined | null}> = ({
-  playbackId,
-}) => {
-  return (
-    <>
-      {playbackId && (
-        <MuxPlayer
-          className="overflow-hidden rounded"
-          playbackId={playbackId}
-        />
-      )}
-    </>
-  )
 }

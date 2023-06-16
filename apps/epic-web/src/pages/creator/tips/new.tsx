@@ -1,26 +1,30 @@
 import React from 'react'
 import CreateTipForm from 'module-builder/create-tip-form'
-import TipCreatorLayout from 'module-builder/tip-creator-layout'
+import Layout from 'components/app/layout'
+import {Alert, AlertDescription} from '@skillrecordings/skill-lesson/ui'
+import {AlertTitle} from '@skillrecordings/skill-lesson/ui'
+import {GrInfo} from 'react-icons/gr'
 
 const NewTip = () => {
   return (
-    <TipCreatorLayout>
-      <header>
-        <h1 className="text-4xl font-bold">
-          Upload Your Video Create a New Tip
-        </h1>
+    <Layout>
+      <header className="py-10">
+        <h1 className="text-center text-3xl font-bold">Create a New Tip</h1>
       </header>
-      <main className="pt-8">
-        <p className="pb-3">
-          When your video upload has been completed you will be able to addd a
-          tile and additional details to your tip.
-        </p>
+      <main className="mx-auto w-full max-w-lg px-3">
+        <Alert>
+          <GrInfo className="h-4 w-4 dark:invert" />
+          <AlertTitle>First upload a video</AlertTitle>
+          <AlertDescription>
+            When your video upload has been completed you will be able to addd a
+            tile and additional details to your tip.
+          </AlertDescription>
+        </Alert>
+        <br />
         <CreateTipForm />
       </main>
-    </TipCreatorLayout>
+    </Layout>
   )
 }
-
-NewTip.theme = 'light'
 
 export default NewTip

@@ -3,6 +3,8 @@ import {Input} from './input'
 import {Label} from './label'
 import {Textarea} from './textarea'
 import {Progress} from './progress'
+import {Skeleton} from './skeleton'
+import {Alert, AlertDescription, AlertTitle} from './alert'
 import {
   Card,
   CardContent,
@@ -18,6 +20,10 @@ export {
   Label,
   Textarea,
   Progress,
+  Skeleton,
+  Alert,
+  AlertDescription,
+  AlertTitle,
   Card,
   CardContent,
   CardDescription,
