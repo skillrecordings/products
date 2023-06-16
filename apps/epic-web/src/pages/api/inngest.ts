@@ -79,7 +79,7 @@ const processNewTip = inngest.createFunction(
             'Content-Type': 'application/json',
           },
         },
-      )
+      ).then((res) => res.json())
     })
 
     const transcript = await step.waitForEvent('tip/video.transcript.created', {
@@ -102,7 +102,7 @@ const processNewTip = inngest.createFunction(
 
       await step.run('Process LLM Suggestions', async () => {
         return await fetch(
-          `https://deepgram-wrangler.skillstack.workers.dev/?videoResourceId=${event.data.videoResourceId}`,
+          `https://deepgram-wrangler.skillstack.workers.dev/tipMetadataLLM?videoResourceId=${event.data.videoResourceId}`,
           {
             method: 'POST',
             headers: {
