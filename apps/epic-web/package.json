@@ -12,7 +12,8 @@
     "dev:sanity": "sanity dev",
     "dev:setup": "vercel env pull .env.local && sed -i.bak '/^VERCEL/d' .env.local",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
-    "start": "next start -p 3021"
+    "start": "next start -p 3021",
+    "test": "jest"
   },
   "prettier": {
     "bracketSpacing": false,
@@ -78,7 +79,7 @@
     "axios": "^1.4.0",
     "class-variance-authority": "^0.6.0",
     "classnames": "^2.3.1",
-    "cloudinary": "^1.29.0",
+    "cloudinary": "^1.35.0",
     "date-fns": "^2.28.0",
     "dexie": "^3.2.2",
     "feed": "^4.2.2",
@@ -139,6 +140,7 @@
     "@skillrecordings/types": "workspace:*",
     "@tailwindcss/typography": "^0.5.9",
     "@types/cookie": "^0.4.1",
+    "@types/jest": "^29.5.1",
     "@types/js-cookie": "^3.0.2",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/lodash": "4.14.179",
@@ -161,6 +163,7 @@
     "eslint": "^8.19.0",
     "eslint-config-custom": "workspace:*",
     "jest": "^29.5.0",
+    "jest-fetch-mock": "^3.0.3",
     "jest-mock-extended": "^3.0.4",
     "postcss": "^8.4.14",
     "prettier": "^2.6.2",

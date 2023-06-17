@@ -26,5 +26,8 @@ declare namespace NodeJS {
     POSTMARK_KEY: string
     NEXT_PUBLIC_PRODUCT_NAME: string
     STRIPE_SECRET_TOKEN: string
+    CLOUDINARY_API_KEY: string
+    CLOUDINARY_API_SECRET: string
+    CLOUDINARY_VIDEO_BUCKET_NAME: string
   }
 }

@@ -28,5 +28,7 @@ declare namespace NodeJS {
     GITHUB_SECRET: string
     SHIKI_AUTH_TOKEN: string
     SHIKI_ENDPOINT: string
+    CLOUDINARY_API_KEY: string
+    CLOUDINARY_API_SECRET: string
   }
 }

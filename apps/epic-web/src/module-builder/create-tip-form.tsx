@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, {BaseSyntheticEvent, SyntheticEvent} from 'react'
 import {Button, Input, Progress} from '@skillrecordings/skill-lesson/ui'
 import {
   Form,
@@ -19,8 +19,15 @@ import {useFileChange} from './use-file-change'
 import {uploadToS3} from './upload-file'
 import {trpc} from 'trpc/trpc.client'
 import {useRouter} from 'next/router'
+import axios from 'axios'
+import {v4} from 'uuid'
+import {processFile} from 'module-builder/cloudinary-video-uploader'
+
+type CreateTipFormState = 'idle' | 'ready' | 'uploading' | 'success' | 'error'
 
 const CreateTipForm: React.FC = () => {
+  const [state, setState] = React.useState('idle')
+
   const formSchema = z.object({
     video: z.string().optional(),
   })
@@ -42,19 +49,22 @@ const CreateTipForm: React.FC = () => {
   const [progress, setProgress] = React.useState(0)
   const {mutate: createTip} = trpc.tips.create.useMutation()
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (values?: any, event?: BaseSyntheticEvent) => {
     try {
       if (fileType && fileContents) {
-        const filePath = await uploadToS3({
-          fileType,
+        setState('uploading')
+        const uploadResponse: {secure_url: string} = await processFile(
           fileContents,
-          onUploadProgress: (progressEvent) => {
-            setProgress(progressEvent.loaded / progressEvent.total!)
+          (progress) => {
+            setProgress(progress)
           },
-        })
+        )
+
+        setState('success')
+
         createTip(
           {
-            s3Url: filePath,
+            s3Url: uploadResponse.secure_url,
             fileName,
           },
           {
@@ -65,8 +75,28 @@ const CreateTipForm: React.FC = () => {
         )
       }
     } catch (err) {
+      setState('error')
       console.log('error is', err)
     }
+  }
+
+  let buttonText
+
+  switch (state) {
+    case 'ready':
+      buttonText = `Upload ${fileName}`
+      break
+    case 'uploading':
+      buttonText = `Uploading ${fileName}`
+      break
+    case 'success':
+      buttonText = `Processing ${fileName}`
+      break
+    case 'error':
+      buttonText = `Error Uploading ${fileName}`
+      break
+    default:
+      buttonText = `Select a Video File Above`
   }
 
   return (
@@ -84,11 +114,15 @@ const CreateTipForm: React.FC = () => {
                     accept="video/*"
                     id="video"
                     {...field}
-                    onChange={handleFileChange}
+                    onChange={(e) => {
+                      handleFileChange(e)
+                      field.onChange(e)
+                      setState('ready')
+                    }}
                   />
                 </FormControl>
                 <FormDescription>
-                  {form.formState.isSubmitting ? (
+                  {form.formState.isSubmitting || state === 'success' ? (
                     <div className="flex items-center justify-between gap-3">
                       <div className="w-6 flex-shrink-0 text-xs">
                         {(progress * 100).toFixed(0)}%
@@ -107,12 +141,15 @@ const CreateTipForm: React.FC = () => {
             )}
           />
           <Button
-            disabled={!fileContents || form.formState.isSubmitting}
+            disabled={
+              !fileContents ||
+              form.formState.isSubmitting ||
+              state === 'success'
+            }
             type="submit"
           >
-            Continue
+            {buttonText}
           </Button>
-          <div className="flex font-mono text-sm">{s3FileUrl}</div>
         </form>
       </Form>
     </>

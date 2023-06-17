@@ -998,6 +998,7 @@ importers:
       '@trpc/react-query': '=10.7.0'
       '@trpc/server': '=10.7.0'
       '@types/cookie': ^0.4.1
+      '@types/jest': ^29.5.1
       '@types/js-cookie': ^3.0.2
       '@types/jsonwebtoken': ^8.5.8
       '@types/lodash': 4.14.179
@@ -1021,7 +1022,7 @@ importers:
       axios: ^1.4.0
       class-variance-authority: ^0.6.0
       classnames: ^2.3.1
-      cloudinary: ^1.29.0
+      cloudinary: ^1.35.0
       date-fns: ^2.28.0
       dexie: ^3.2.2
       dotenv-flow: ^3.2.0
@@ -1035,6 +1036,7 @@ importers:
       groq: ^2.15.0
       inngest: ^2.0.2
       jest: ^29.5.0
+      jest-fetch-mock: ^3.0.3
       jest-mock-extended: ^3.0.4
       js-cookie: ^3.0.1
       lodash: ^4.17.21
@@ -1192,6 +1194,7 @@ importers:
       '@skillrecordings/types': link:../../packages/types
       '@tailwindcss/typography': 0.5.9_tailwindcss@3.3.0
       '@types/cookie': 0.4.1
+      '@types/jest': 29.5.1
       '@types/js-cookie': 3.0.2
       '@types/jsonwebtoken': 8.5.8
       '@types/lodash': 4.14.179
@@ -1214,6 +1217,7 @@ importers:
       eslint: 8.26.0
       eslint-config-custom: link:../../packages/eslint-config-custom
       jest: 29.5.0_@types+node@18.16.13
+      jest-fetch-mock: 3.0.3
       jest-mock-extended: 3.0.4_lourqem7oeylemhnc3pwen4rq4
       postcss: 8.4.23
       prettier: 2.7.1
@@ -16113,13 +16117,14 @@ packages:
       '@ucast/mongo': 2.4.2
     dev: false
 
-  /@uiw/codemirror-extensions-basic-setup/4.19.7_r5d3jlum5gwy6jsylajaj62gpe:
+  /@uiw/codemirror-extensions-basic-setup/4.19.7_b75jqe4w7qgjwbqfbsbdvntkte:
     resolution: {integrity: sha512-pk0JTFJAZOGxouBB1pdBtb59qKibO9DW4hER4VSFGBGW3TBDeXUwL/gKujhRpySHG2MtG09cgt4a3XOFIWwXTw==}
     peerDependencies:
       '@codemirror/autocomplete': '>=6.0.0'
       '@codemirror/commands': '>=6.0.0'
       '@codemirror/language': '>=6.0.0'
       '@codemirror/search': '>=6.0.0'
+      '@codemirror/state': '>=6.0.0'
       '@codemirror/view': '>=6.0.0'
     dependencies:
       '@codemirror/autocomplete': 6.4.0
@@ -16151,7 +16156,7 @@ packages:
       '@codemirror/state': 6.2.0
       '@codemirror/theme-one-dark': 6.1.0
       '@codemirror/view': 6.7.3
-      '@uiw/codemirror-extensions-basic-setup': 4.19.7_r5d3jlum5gwy6jsylajaj62gpe
+      '@uiw/codemirror-extensions-basic-setup': 4.19.7_b75jqe4w7qgjwbqfbsbdvntkte
       codemirror: 6.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -19193,7 +19198,6 @@ packages:
       node-fetch: 2.6.7
     transitivePeerDependencies:
       - encoding
-    dev: false
 
   /cross-spawn/5.1.0:
     resolution: {integrity: sha512-pTgQJ5KC0d2hcY8eyL1IzlBPYjTkyH72XRZPnLyKus2mBfNjQs3klqbJU2VILqZryAZUt9JOb3h/mWMy23/f5A==}
@@ -25650,6 +25654,15 @@ packages:
 
   /jest-expect-message/1.1.3:
     resolution: {integrity: sha512-bTK77T4P+zto+XepAX3low8XVQxDgaEqh3jSTQOG8qvPpD69LsIdyJTa+RmnJh3HNSzJng62/44RPPc7OIlFxg==}
+    dev: true
+
+  /jest-fetch-mock/3.0.3:
+    resolution: {integrity: sha512-Ux1nWprtLrdrH4XwE7O7InRY6psIi3GOsqNESJgMJ+M5cv4A8Lh7SN9d2V2kKRZ8ebAfcd1LNyZguAOb6JiDqw==}
+    dependencies:
+      cross-fetch: 3.1.5
+      promise-polyfill: 8.3.0
+    transitivePeerDependencies:
+      - encoding
     dev: true
 
   /jest-get-type/25.2.6:
@@ -32124,6 +32137,10 @@ packages:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
     engines: {node: '>=0.4.0'}
     dev: false
+
+  /promise-polyfill/8.3.0:
+    resolution: {integrity: sha512-H5oELycFml5yto/atYqmjyigJoAo3+OXwolYiH7OfQuYlAqhxNvTfiNMbV9hsC6Yp83yE5r2KTVmtrG6R9i6Pg==}
+    dev: true
 
   /prompts/2.1.0:
     resolution: {integrity: sha512-+x5TozgqYdOwWsQFZizE/Tra3fKvAoy037kOyU6cgz84n8f6zxngLOV4O32kTwt9FcLCxAqw0P/c8rOr9y+Gfg==}
