@@ -80,7 +80,7 @@ const processNewTip = inngest.createFunction(
         },
       )
       const {originalMediaUrl, _id} = videoResource
-      return await fetch(
+      fetch(
         `https://deepgram-wrangler.skillstack.workers.dev/transcript?videoUrl=${originalMediaUrl}&videoResourceId=${_id}`,
         {
           method: 'POST',
@@ -88,12 +88,12 @@ const processNewTip = inngest.createFunction(
             'Content-Type': 'application/json',
           },
         },
-      ).then((res) => res.json())
+      )
     })
 
     const transcript = await step.waitForEvent('tip/video.transcript.created', {
       match: 'data.videoResourceId',
-      timeout: '2h',
+      timeout: '24h',
     })
 
     if (transcript) {
@@ -109,7 +109,7 @@ const processNewTip = inngest.createFunction(
           .commit()
       })
 
-      await step.run('Submit Transcript for LLM Suggestions', async () => {
+      await step.run('Process LLM Suggestions', async () => {
         fetch(
           `https://deepgram-wrangler.skillstack.workers.dev/tipMetadataLLM?videoResourceId=${event.data.videoResourceId}`,
           {
@@ -128,7 +128,7 @@ const processNewTip = inngest.createFunction(
         'tip/video.llm.suggestions.created',
         {
           match: 'data.videoResourceId',
-          timeout: '2h',
+          timeout: '24h',
         },
       )
 
