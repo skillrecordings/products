@@ -49,7 +49,7 @@ const processNewTip = inngest.createFunction(
         .commit()
     })
 
-    step.run('Create a Mux Asset', async () => {
+    await step.run('Create a Mux Asset', async () => {
       const videoResource = await sanityWriteClient.fetch(
         `*[_id == $videoResourceId][0]`,
         {
@@ -72,7 +72,7 @@ const processNewTip = inngest.createFunction(
         .commit()
     })
 
-    step.run('Initiate Transcript Order via Deepgram', async () => {
+    await step.run('Initiate Transcript Order via Deepgram', async () => {
       const videoResource = await sanityWriteClient.fetch(
         `*[_id == $videoResourceId][0]`,
         {
@@ -109,7 +109,7 @@ const processNewTip = inngest.createFunction(
           .commit()
       })
 
-      step.run('Submit Transcript for LLM Suggestions', () => {
+      await step.run('Submit Transcript for LLM Suggestions', async () => {
         fetch(
           `https://deepgram-wrangler.skillstack.workers.dev/tipMetadataLLM?videoResourceId=${event.data.videoResourceId}`,
           {
