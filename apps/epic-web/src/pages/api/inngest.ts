@@ -109,7 +109,7 @@ const processNewTip = inngest.createFunction(
           .commit()
       })
 
-      await step.run('Process LLM Suggestions', async () => {
+      await step.run('Send Transcript for LLM Suggestions', async () => {
         fetch(
           `https://deepgram-wrangler.skillstack.workers.dev/tipMetadataLLM?videoResourceId=${event.data.videoResourceId}`,
           {
