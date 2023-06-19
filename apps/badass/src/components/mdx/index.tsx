@@ -12,6 +12,8 @@ import {
   SkeletonHandSeparatorProps,
   IntroduceCard,
   IntroduceCardProps,
+  LaunchResults,
+  LaunchResultsProps,
 } from './components'
 
 const mdxComponents = {
@@ -38,6 +40,19 @@ const mdxComponents = {
   },
   IntroduceCard: ({image, name, title}: IntroduceCardProps) => {
     return <IntroduceCard image={image} name={name} title={title} />
+  },
+  LaunchResults: ({
+    firstDay,
+    firstWeek,
+    firstFourMonths,
+  }: LaunchResultsProps) => {
+    return (
+      <LaunchResults
+        firstDay={firstDay}
+        firstWeek={firstWeek}
+        firstFourMonths={firstFourMonths}
+      />
+    )
   },
 }
 

@@ -22,3 +22,8 @@ export {
   default as IntroduceCard,
   type IntroduceCardProps,
 } from './introduce-card'
+
+export {
+  default as LaunchResults,
+  type LaunchResultsProps,
+} from './launch-results'
