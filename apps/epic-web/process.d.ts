@@ -29,5 +29,7 @@ declare namespace NodeJS {
     CLOUDINARY_API_KEY: string
     CLOUDINARY_API_SECRET: string
     CLOUDINARY_VIDEO_BUCKET_NAME: string
+    GITHUB_SECRET: string
+    GITHUB_ID: string
   }
 }
