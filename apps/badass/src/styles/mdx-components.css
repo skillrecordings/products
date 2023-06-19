@@ -69,3 +69,31 @@
     @apply text-badass-gray leading-tight text-xl;
   }
 }
+
+[data-launch-results] {
+  @apply flex flex-col md:flex-row justify-between mb-12;
+  [data-launch-results-item] {
+    @apply flex flex-col items-center md:w-1/3;
+    [data-launch-results-item-value] {
+      @apply text-[6rem] font-condensed inline-block;
+    }
+    [data-launch-results-item-title] {
+      @apply text-badass-gray font-mono uppercase text-base opacity-70;
+    }
+  }
+  [data-launch-results-item='day'] {
+    [data-launch-results-item-value] {
+      @apply text-badass-cyan-500;
+    }
+  }
+  [data-launch-results-item='week'] {
+    [data-launch-results-item-value] {
+      @apply text-badass-red-400;
+    }
+  }
+  [data-launch-results-item='months'] {
+    [data-launch-results-item-value] {
+      @apply text-badass-pink-500;
+    }
+  }
+}
