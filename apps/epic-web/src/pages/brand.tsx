@@ -9,14 +9,14 @@ const BrandPage = () => {
   return (
     <Layout
       meta={{
-        title: 'Branding Assets',
+        title: 'Brand Assets',
         ogImage: {
           url: 'https://res.cloudinary.com/epic-web/image/upload/v1687188572/brand-card_2x.png',
         },
       }}
     >
       <header className="mx-auto w-full max-w-screen-lg px-5 pb-3 pt-10 sm:pb-5 sm:pt-20">
-        <h1 className="text-center text-3xl font-bold">Branding Assets</h1>
+        <h1 className="text-center text-3xl font-bold">Brand Assets</h1>
       </header>
       <main className="mx-auto w-full max-w-screen-lg px-5 pb-32 pt-10">
         <h2 className="w-full border-b border-black/5 pb-2 text-2xl font-bold dark:border-white/5">
