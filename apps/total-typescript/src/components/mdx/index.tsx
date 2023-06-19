@@ -1,7 +1,11 @@
 import React from 'react'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import cx from 'classnames'
 import Balancer from 'react-wrap-balancer'
+import {Twitter, CopyToClipboard} from '@skillrecordings/react'
+import Link from 'next/link'
+import toast from 'react-hot-toast'
+import {useRouter} from 'next/router'
 
 export const MDXComponents = {
   TypeError: (props: TypeErrorProps) => <TypeError {...props} />,
@@ -114,7 +118,7 @@ const Section: React.FC<any> = ({
 
 const ErrorFromHell: React.FC<any> = ({children}) => {
   return (
-    <div className="relative mx-auto mt-16 max-w-3xl rounded-md border-2 border-[#E11D48] border-opacity-20 bg-[#1C1427] py-10 px-12 text-left font-mono text-sm leading-relaxed">
+    <div className="relative mx-auto mt-16 max-w-3xl rounded-md border-2 border-[#E11D48] border-opacity-20 bg-[#1C1427] px-12 py-10 text-left font-mono text-sm leading-relaxed">
       <div className="relative z-10">{children}</div>
       <div className="pointer-events-none absolute left-[-85px] top-[-178px] select-none">
         <DecorativeImage
@@ -123,7 +127,7 @@ const ErrorFromHell: React.FC<any> = ({children}) => {
           height={868 / 2}
         />
       </div>
-      <div className="pointer-events-none absolute right-[-45px] bottom-[-30px] select-none">
+      <div className="pointer-events-none absolute bottom-[-30px] right-[-45px] select-none">
         <DecorativeImage
           src="/assets/landing/flame-corner-right@2x.png"
           width={482 / 2}
@@ -144,7 +148,7 @@ const Testimonial: React.FC<
   return (
     <div className="not-prose">
       <blockquote className="relative flex h-full flex-col justify-between rounded-md border border-gray-800 p-5 sm:p-8">
-        <div className="font-normal before:absolute before:right-8 before:bottom-9 before:flex before:items-center before:justify-center before:font-heading before:text-3xl before:font-extrabold before:leading-none before:text-cyan-300 before:content-['”']">
+        <div className="font-normal before:absolute before:bottom-9 before:right-8 before:flex before:items-center before:justify-center before:font-heading before:text-3xl before:font-extrabold before:leading-none before:text-cyan-300 before:content-['”']">
           {children}
         </div>
         {author?.name && (
@@ -192,4 +196,48 @@ const Module: React.FC<React.PropsWithChildren<any>> = ({
       </div>
     </div>
   )
+}
+
+export const ShareImageMDX: React.FC<{src: string}> = ({src}) => {
+  const router = useRouter()
+
+  return src ? (
+    <section className="not-prose flex flex-col p-5 sm:-mx-5">
+      <div className="relative flex items-center justify-center">
+        <Link
+          href={src}
+          passHref
+          target="_blank"
+          rel="noopener"
+          className="scale-90 rounded-xl border border-white/5 hover:cursor-pointer"
+        >
+          <img
+            src={src}
+            alt=""
+            aria-hidden
+            className="relative  transform rounded-xl  shadow-2xl transition-all duration-500 ease-in-out"
+          />
+          <div className="pointer-events-none absolute left-0 top-0 h-full w-full  rounded-xl bg-gradient-to-tr from-transparent to-white/40 mix-blend-overlay" />
+        </Link>
+      </div>
+      <div className="-mt-24 flex w-full items-center justify-center gap-5 rounded-lg border border-white/5 bg-white/5 pb-10 pt-24">
+        <Twitter
+          svgClassName="text-cyan-500 w-4 h-4"
+          className="mt-0 flex items-center gap-1.5 text-base text-gray-300 transition hover:text-white"
+          link={process.env.NEXT_PUBLIC_URL + router.asPath}
+          message={''}
+        >
+          Share on Twitter
+        </Twitter>
+        <CopyToClipboard
+          link={src}
+          className="text-base text-gray-300 transition hover:text-white"
+          svgClassName="hidden"
+          onSuccess={() => toast.success('Copied')}
+        >
+          Copy image url
+        </CopyToClipboard>
+      </div>
+    </section>
+  ) : null
 }
