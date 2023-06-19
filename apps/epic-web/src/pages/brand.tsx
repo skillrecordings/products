@@ -136,7 +136,7 @@ const BrandPage = () => {
         </h2>
         <section className="space-y-12 pt-12">
           <article>
-            <h3 className="pb-2 text-sm font-semibold uppercase tracking-wide text-black">
+            <h3 className="pb-2 text-sm font-semibold uppercase tracking-wide">
               Logomark
             </h3>
             <Grid>
@@ -151,10 +151,10 @@ const BrandPage = () => {
             </Grid>
           </article>
           <article className="">
-            <h3 className="pb-2 text-sm font-semibold uppercase tracking-wide text-black">
+            <h3 className="pb-2 text-sm font-semibold uppercase tracking-wide">
               Horizontal Version
             </h3>
-            <h4 className="pb-2 pt-2 text-xs font-semibold uppercase tracking-wide text-gray-600">
+            <h4 className="pb-2 pt-2 text-xs font-semibold uppercase tracking-wide opacity-80">
               Grayscale
             </h4>
             <Grid>
@@ -167,7 +167,7 @@ const BrandPage = () => {
                 logo={<EpicStackHorizontal variant="dark" />}
               />
             </Grid>
-            <h4 className="pb-2 pt-8 text-xs font-semibold uppercase tracking-wide text-gray-600">
+            <h4 className="pb-2 pt-8 text-xs font-semibold uppercase tracking-wide opacity-80">
               Color
             </h4>
             <Grid>
@@ -186,10 +186,10 @@ const BrandPage = () => {
             </Grid>
           </article>
           <article>
-            <h3 className="pb-2 text-sm font-semibold uppercase tracking-wide text-black">
+            <h3 className="pb-2 text-sm font-semibold uppercase tracking-wide">
               Vertical Version
             </h3>
-            <h4 className="pb-2 pt-2 text-xs font-semibold uppercase tracking-wide text-gray-600">
+            <h4 className="pb-2 pt-2 text-xs font-semibold uppercase tracking-wide opacity-80">
               Grayscale
             </h4>
             <Grid>
@@ -202,7 +202,7 @@ const BrandPage = () => {
                 logo={<EpicStackVertical variant="dark" />}
               />
             </Grid>
-            <h4 className="pb-2 pt-8 text-xs font-semibold uppercase tracking-wide text-gray-600">
+            <h4 className="pb-2 pt-8 text-xs font-semibold uppercase tracking-wide opacity-80">
               Color
             </h4>
             <Grid>
