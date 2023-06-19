@@ -23,7 +23,7 @@ const SkeletonHandSeparator: React.FC<SkeletonHandSeparatorProps> = ({
   const handNumber = isNumber(number) && `hand-${number}`
   const data = handNumber && images[handNumber as keyof imagesObjType]
   return data ? (
-    <div data-skeleton-hand-separator="">
+    <div data-skeleton-hand-separator="" className="not-prose">
       <div data-skeleton-hand-separator-image-holder="">
         <Image
           src={data.imageUrl}
