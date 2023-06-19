@@ -127,7 +127,7 @@ const processNewTip = inngest.createFunction(
         return await Video.Assets.createTrack(
           videoResource.muxAsset.muxAssetId,
           {
-            url: `https://www.epicreact.dev/api/videoResource/${videoResource._id}/srt`,
+            url: `https://www.epicweb.dev/api/videoResource/${videoResource._id}/srt`,
             type: 'text',
             text_type: 'subtitles',
             closed_captions: false,
