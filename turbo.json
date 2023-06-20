@@ -8,7 +8,7 @@
     },
     "build": {
       "dependsOn": ["^build", "^generate", "generate"],
-      "outputs": ["dist/**", ".next/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "@skillrecordings/config#build": {
       "dependsOn": ["^build", "generate"],
