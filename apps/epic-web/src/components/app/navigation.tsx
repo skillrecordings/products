@@ -20,7 +20,7 @@ type NavigationProps = {
 // }
 
 const Navigation: React.FC<NavigationProps> = ({className}) => {
-  const {pathname, asPath} = useRouter()
+  const {pathname, asPath, push} = useRouter()
   const isRoot = pathname === '/'
   const [menuOpen, setMenuOpen] = React.useState(false)
 
@@ -39,6 +39,10 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
           tabIndex={isRoot ? -1 : 0}
           passHref
           className="relative z-10 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-lg font-bold tracking-tight text-transparent dark:from-white dark:to-gray-400"
+          onContextMenu={(event) => {
+            event.preventDefault();
+            push('/brand')
+          }}
         >
           EpicWeb<span className="text-[12px]">.dev</span>
         </Link>
