@@ -11,6 +11,7 @@ import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import removeMarkdown from 'remove-markdown'
 import '@/styles/shiki-twoslash.css'
+import {ShareImageMDX} from '@/components/mdx'
 
 type ArticleTemplateProps = {
   article: Article
@@ -92,7 +93,12 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       </header>
       <main className="relative z-10 pt-5">
         <div className="prose relative z-10 mx-auto w-full max-w-3xl px-5 sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
-          {articleBody && <MDX contents={articleBody} />}
+          {articleBody && (
+            <MDX
+              contents={articleBody}
+              components={{ShareImage: ShareImageMDX}}
+            />
+          )}
           <div className="flex w-36 -rotate-6 gap-2 pt-10 text-gray-400">
             —
             <Image

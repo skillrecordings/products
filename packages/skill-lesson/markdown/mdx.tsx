@@ -1,9 +1,13 @@
 import * as React from 'react'
-import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {
+  MDXRemote,
+  MDXRemoteSerializeResult,
+  type MDXRemoteProps,
+} from 'next-mdx-remote'
 import {CH} from '@code-hike/mdx/components'
 import mdxComponents from './mdx-components'
 
-const components = {
+const defaultComponents = {
   CH,
   ...mdxComponents,
 }
@@ -15,8 +19,16 @@ const components = {
  * @returns <MDXRemote components={components} {...contents} />
  */
 
-const MDX: React.FC<{contents: MDXRemoteSerializeResult}> = ({contents}) => {
-  return <MDXRemote components={components} {...contents} />
+const MDX: React.FC<{
+  contents: MDXRemoteSerializeResult
+  components?: MDXRemoteProps['components']
+}> = ({contents, components}) => {
+  return (
+    <MDXRemote
+      components={{...defaultComponents, ...components}}
+      {...contents}
+    />
+  )
 }
 
 export default MDX

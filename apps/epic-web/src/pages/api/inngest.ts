@@ -2,6 +2,7 @@ import {serve} from 'inngest/next'
 import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-server'
 import {createMuxAsset} from '@skillrecordings/skill-lesson/lib/mux'
 import {inngest} from 'utils/inngest.server'
+import Mux from '@mux/mux-node'
 
 type NewTipVideo = {
   name: 'tip/video.uploaded'
@@ -36,6 +37,12 @@ export type IngestEvents = {
   'tip/video.llm.suggestions.created': LLMSuggestionsCreated
 }
 
+async function getVideoResource(videoResourceId: string) {
+  return await sanityWriteClient.fetch(`*[_id == $videoResourceId][0]`, {
+    videoResourceId,
+  })
+}
+
 const processNewTip = inngest.createFunction(
   {name: 'Process New Tip Video'},
   {event: 'tip/video.uploaded'}, // The event that will trigger this function
@@ -50,12 +57,7 @@ const processNewTip = inngest.createFunction(
     })
 
     await step.run('Create a Mux Asset', async () => {
-      const videoResource = await sanityWriteClient.fetch(
-        `*[_id == $videoResourceId][0]`,
-        {
-          videoResourceId: event.data.videoResourceId,
-        },
-      )
+      const videoResource = await getVideoResource(event.data.videoResourceId)
       const {originalMediaUrl, muxAsset, duration, _id} = videoResource
       const {duration: assetDuration, ...newMuxAsset} = await createMuxAsset({
         originalMediaUrl,
@@ -73,12 +75,7 @@ const processNewTip = inngest.createFunction(
     })
 
     await step.run('Initiate Transcript Order via Deepgram', async () => {
-      const videoResource = await sanityWriteClient.fetch(
-        `*[_id == $videoResourceId][0]`,
-        {
-          videoResourceId: event.data.videoResourceId,
-        },
-      )
+      const videoResource = await getVideoResource(event.data.videoResourceId)
       const {originalMediaUrl, _id} = videoResource
       fetch(
         `https://deepgram-wrangler.skillstack.workers.dev/transcript?videoUrl=${originalMediaUrl}&videoResourceId=${_id}`,
@@ -107,6 +104,38 @@ const processNewTip = inngest.createFunction(
             },
           })
           .commit()
+      })
+
+      await step.run('Update Mux with SRT', async () => {
+        const videoResource = await getVideoResource(event.data.videoResourceId)
+        const {Video} = new Mux()
+        const {tracks} = await Video.Assets.get(
+          videoResource.muxAsset.muxAssetId,
+        )
+
+        const existingSubtitle = tracks?.find(
+          (track: any) => track.name === 'English',
+        )
+
+        if (existingSubtitle) {
+          await Video.Assets.deleteTrack(
+            videoResource.muxAsset.muxAssetId,
+            existingSubtitle.id,
+          )
+        }
+
+        return await Video.Assets.createTrack(
+          videoResource.muxAsset.muxAssetId,
+          {
+            url: `https://www.epicweb.dev/api/videoResource/${videoResource._id}/srt`,
+            type: 'text',
+            text_type: 'subtitles',
+            closed_captions: false,
+            language_code: 'en-US',
+            name: 'English',
+            passthrough: 'English',
+          },
+        )
       })
 
       await step.run('Send Transcript for LLM Suggestions', async () => {
