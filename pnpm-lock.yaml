@@ -1058,7 +1058,7 @@ importers:
       react-dom: 18.2.0
       react-hook-form: ^7.29.0
       react-hot-toast: ^2.2.0
-      react-icons: ^4.7.1
+      react-icons: ^4.9.0
       react-markdown: ^8.0.6
       react-refractor: ^2.1.7
       react-tweet-embed: ^2.0.0
@@ -1161,7 +1161,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.29.0_react@18.2.0
       react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
-      react-icons: 4.7.1_react@18.2.0
+      react-icons: 4.9.0_react@18.2.0
       react-markdown: 8.0.6_s3k22s5ab4eu26xuel7hiaraxy
       react-refractor: 2.1.7_react@18.2.0
       react-tweet-embed: 2.0.0_react@18.2.0
@@ -32625,6 +32625,14 @@ packages:
 
   /react-icons/4.7.1_react@18.2.0:
     resolution: {integrity: sha512-yHd3oKGMgm7zxo3EA7H2n7vxSoiGmHk5t6Ou4bXsfcgWyhfDKMpyKfhHR6Bjnn63c+YXBLBPUql9H4wPJM6sXw==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /react-icons/4.9.0_react@18.2.0:
+    resolution: {integrity: sha512-ijUnFr//ycebOqujtqtV9PFS7JjhWg0QU6ykURVHuL4cbofvRCf3f6GMn9+fBktEFQOIVZnuAYLZdiyadRQRFg==}
     peerDependencies:
       react: '*'
     dependencies:
