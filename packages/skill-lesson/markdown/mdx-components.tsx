@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import {Icon} from '../icons'
 import ReactMarkdown from 'react-markdown'
+import MuxPlayer from '@mux/mux-player-react'
 
 type TweetProps = {
   text: string
@@ -64,6 +65,16 @@ const Video: React.FC<VideoProps> = ({url, title}) => {
   )
 }
 
+type MuxVideoProps = {
+  playbackId: string
+}
+
+const MuxVideo: React.FC<MuxVideoProps> = ({playbackId}) => {
+  return playbackId ? (
+    <MuxPlayer data-body-video="" playbackId={playbackId} />
+  ) : null
+}
+
 type TestimonialProps = {
   author: {
     name: string
@@ -117,6 +128,9 @@ const mdxComponents = {
     author,
   }: React.PropsWithChildren<TestimonialProps>) => {
     return <Testimonial author={author}>{children}</Testimonial>
+  },
+  MuxVideo: ({playbackId}: MuxVideoProps) => {
+    return <MuxVideo playbackId={playbackId} />
   },
 }
 

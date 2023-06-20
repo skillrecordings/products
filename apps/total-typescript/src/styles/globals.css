@@ -65,6 +65,10 @@ mux-player::part(vertical-layer) {
   background-color: rgba(0, 0, 0, 0);
 }
 
+[data-body-video] {
+  @apply overflow-hidden rounded-md;
+}
+
 code {
   @apply rounded-md bg-gray-800/90 px-1.5 py-0.5 text-[85%];
 }
