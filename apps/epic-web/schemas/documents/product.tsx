@@ -17,7 +17,31 @@ export default defineType({
       type: 'string',
     }),
     defineField({
-      name: 'description',
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      validation: (Rule) => Rule.required(),
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
+    }),
+    defineField({
+      name: 'state',
+      title: 'Current State',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'draft',
+      options: {
+        list: [
+          {title: 'draft', value: 'draft'},
+          {title: 'active', value: 'active'},
+          {title: 'unavailable', value: 'unavailable'},
+        ],
+      },
+    }),
+    defineField({
+      name: 'body',
       title: 'Description',
       type: 'text',
       rows: 3,

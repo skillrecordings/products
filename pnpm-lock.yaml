@@ -977,6 +977,7 @@ importers:
       '@sanity/vision': ^3.9.1
       '@sanity/webhook': ^1.0.2
       '@sentry/nextjs': ^7.9.0
+      '@skillrecordings/ability': workspace:*
       '@skillrecordings/analytics': workspace:*
       '@skillrecordings/commerce-server': workspace:*
       '@skillrecordings/convertkit-react-ui': workspace:*
@@ -1113,6 +1114,7 @@ importers:
       '@sanity/vision': 3.11.1_2zpt4ilzykmne4yndyzrqd4gdm
       '@sanity/webhook': 1.1.0
       '@sentry/nextjs': 7.9.0_yujcdcfzvr4y2jq2smavc2apve
+      '@skillrecordings/ability': link:../../packages/ability
       '@skillrecordings/analytics': link:../../packages/analytics
       '@skillrecordings/commerce-server': link:../../packages/commerce-server
       '@skillrecordings/convertkit-react-ui': link:../../packages/convertkit-react-ui

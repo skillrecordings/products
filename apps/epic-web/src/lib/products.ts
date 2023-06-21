@@ -1,0 +1,38 @@
+import z from 'zod'
+import groq from 'groq'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+
+export const ProductSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  _updatedAt: z.string(),
+  _createdAt: z.string(),
+  title: z.string(),
+  slug: z.string(),
+  productId: z.string().optional(),
+  body: z.nullable(z.string()).optional(),
+  state: z.enum(['published', 'draft']),
+})
+
+export const ProductsSchema = z.array(ProductSchema)
+
+export type Product = z.infer<typeof ProductSchema>
+
+export async function getProduct(productId: string): Promise<Product> {
+  const product = await sanityClient.fetch(
+    groq`*[_type == "product" && productId == $productId][0] {
+        _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        productId,
+        title,
+        state,
+        "slug": slug.current,
+        body
+  }`,
+    {productId},
+  )
+
+  return ProductSchema.parse(product)
+}

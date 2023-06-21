@@ -101,15 +101,17 @@ export const pricing = router({
         code: z.string().optional(),
         coupon: z.string().optional(),
         allowPurchase: z.string().optional(),
+        productId: z.string().optional(),
       }),
     )
     .query(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
       const {products} = await getActiveProducts()
+
       const {props} = await propsForCommerce({
         query: input,
         token,
-        products,
+        products: input.productId ? [{productId: input.productId}] : products,
       })
       return props
     }),
