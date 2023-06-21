@@ -14,7 +14,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
   return (
     <div data-team-member-card="" className="not-prose">
       <div data-team-member-image="">
-        <Image src={imageUrl} width={120} height={120} alt={name} />
+        <Image src={imageUrl} fill={true} alt={name} />
       </div>
       <div data-team-member-info="">
         <h4 data-team-member-name>{name}</h4>
