@@ -22,7 +22,14 @@ type CaseStudyTemplateProps = {
 const CaseStudyTemplate: React.FC<
   React.PropsWithChildren<CaseStudyTemplateProps>
 > = ({caseStudy, caseStudyBodySerialized}) => {
-  const {title, description, body, image, _createdAt: date} = caseStudy
+  const {
+    title,
+    description,
+    body,
+    heroImage,
+    _createdAt: date,
+    partnerName,
+  } = caseStudy
 
   const shortDescription =
     description || (body && toPlainText(body).substring(0, 157) + '...')
@@ -44,7 +51,12 @@ const CaseStudyTemplate: React.FC<
         },
       }}
     >
-      <Header title={title} image={image} />
+      <Header
+        title={title}
+        image={heroImage}
+        date={date}
+        partnerName={partnerName}
+      />
       <main data-template-case-study="">
         <div className="max-w-screen-md lg:max-w-[880px] lg:px-14 mx-auto w-full">
           <div className="md:pt-16 pt-10 lg:px-0 px-5 pb-16">
@@ -77,23 +89,42 @@ const CaseStudyTemplate: React.FC<
 export default CaseStudyTemplate
 
 const Header: React.FC<
-  React.PropsWithChildren<{title: string; image: string | null | undefined}>
-> = ({title, image}) => {
+  React.PropsWithChildren<{
+    title: string
+    image: string | null | undefined
+    date: string
+    partnerName: string
+  }>
+> = ({title, image, date, partnerName}) => {
+  const dateObject = new Date(date)
+  const formattedDate = new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    year: 'numeric',
+  }).format(dateObject)
   return (
-    <header className="flex items-center justify-center pb-24 bg-badass-neutral-1000 aspect-video max-h-[calc(100vh-120px)] relative">
-      {image && (
-        <Image
-          src={image}
-          fill
-          className="object-contain"
-          alt=""
-          aria-hidden="true"
-        />
-      )}
-      <div className="flex flex-col items-center px-5 w-full relative z-10">
-        <h1 className="max-w-screen-lg drop-shadow-2xl shadow-black w-full sm:text-6xl text-3xl font-heading uppercase sm:leading-tight leading-tight text-center">
+    <header className="flex items-center max-w-7xl mx-auto w-full">
+      <div className="w-1/2">
+        {image && (
+          <Image
+            src={image}
+            alt=""
+            aria-hidden="true"
+            width={1320}
+            height={1320}
+          />
+        )}
+      </div>
+      <div className="w-1/2 pl-24">
+        <h3 className="text-badass-red-400 font-script text-[2.5rem]">
+          Case Study
+        </h3>
+        <h2 className="font-heading text-5xl leading-tight">
           <Balancer>{title}</Balancer>
-        </h1>
+        </h2>
+        <div className="font-mono uppercase opacity-70 mt-4">
+          client: {partnerName} &middot; published:{formattedDate}
+          {}
+        </div>
       </div>
     </header>
   )
