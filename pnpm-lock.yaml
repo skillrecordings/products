@@ -261,7 +261,7 @@ importers:
       prettier: 2.7.1
       prettier-plugin-tailwindcss: 0.2.5_prettier@2.7.1
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -468,7 +468,7 @@ importers:
       postcss-preset-env: 7.7.2_postcss@8.4.23
       prettier: 2.7.1
       react-test-renderer: 17.0.2_react@18.2.0
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -544,7 +544,7 @@ importers:
       '@types/react-dom': ^18.2.4
       '@types/shortid': ^0.0.29
       '@types/speakingurl': ^13.0.3
-      '@types/uuid': 8.3.4
+      '@types/uuid': ^9.0.2
       '@vercel/og': ^0.5.4
       aws-sdk: 2.1197.0
       axios: ^1.4.0
@@ -594,7 +594,7 @@ importers:
       tailwindcss: ^3.3.0
       tailwindcss-radix: ^2.8.0
       typescript: 5.1.1-rc
-      uuid: 8.3.2
+      uuid: ^9.0.0
       webpack: ^5.73.0
       yup: ^0.32.11
       zod: ^3.21.4
@@ -653,7 +653,7 @@ importers:
       '@types/lodash': 4.14.194
       '@types/shortid': 0.0.29
       '@types/speakingurl': 13.0.3
-      '@types/uuid': 8.3.4
+      '@types/uuid': 9.0.2
       '@vercel/og': 0.5.4
       aws-sdk: 2.1197.0
       axios: 1.4.0
@@ -694,7 +694,7 @@ importers:
       superjson: 1.11.0
       tailwind-merge: 1.12.0
       tailwindcss-radix: 2.8.0
-      uuid: 8.3.2
+      uuid: 9.0.0
       yup: 0.32.11
       zod: 3.21.4
     devDependencies:
@@ -721,7 +721,7 @@ importers:
       jest-mock-extended: 3.0.4_lourqem7oeylemhnc3pwen4rq4
       postcss: 8.4.23
       prettier: 2.7.1
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -792,7 +792,7 @@ importers:
       '@types/react-dom': ^18.2.4
       '@types/stream-chain': ^2.0.1
       '@types/stream-json': ^1.7.3
-      '@types/uuid': ^8.3.4
+      '@types/uuid': ^9.0.2
       classnames: ^2.3.1
       csv-parser: ^3.0.0
       date-fns: ^2.28.0
@@ -831,7 +831,7 @@ importers:
       tailwindcss-radix: ^2.8.0
       ts-node: ^10.9.1
       typescript: 5.1.1-rc
-      uuid: ^8.3.2
+      uuid: ^9.0.0
       webpack: ^5.73.0
       yup: ^0.32.11
       zod: ^3.21.4
@@ -923,7 +923,7 @@ importers:
       '@types/react-dom': 18.2.4
       '@types/stream-chain': 2.0.1
       '@types/stream-json': 1.7.3
-      '@types/uuid': 8.3.4
+      '@types/uuid': 9.0.2
       csv-parser: 3.0.0
       dotenv-flow: 3.2.0
       eslint: 8.26.0
@@ -939,10 +939,10 @@ importers:
       stream-chain: 2.2.5
       stream-json: 1.7.5
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0_3fojqsmttcn75cbnzsztj3o6qa
+      tailwindcss: 3.3.0_ts-node@10.9.1
       ts-node: 10.9.1_m5zxhvpm775j2y7tyimpt7bfse
       typescript: 5.1.1-rc
-      uuid: 8.3.2
+      uuid: 9.0.0
       webpack: 5.73.0
       zod: 3.21.4
 
@@ -1017,7 +1017,7 @@ importers:
       '@types/remove-markdown': ^0.3.0
       '@types/shortid': ^0.0.29
       '@types/speakingurl': ^13.0.3
-      '@types/uuid': ^8.3.4
+      '@types/uuid': ^9.0.2
       '@vercel/og': ^0.5.4
       autoprefixer: ^10.4.12
       aws-sdk: ^2.1197.0
@@ -1085,7 +1085,7 @@ importers:
       tailwindcss: ^3.3.0
       tailwindcss-radix: ^2.8.0
       typescript: 5.1.1-rc
-      uuid: ^8.3.2
+      uuid: ^9.0.0
       webpack: ^5.73.0
       yup: ^0.32.11
       zod: ^3.21.4
@@ -1187,7 +1187,7 @@ importers:
       tailwind-fluid-typography: 1.3.0_tailwindcss@3.3.0
       tailwind-merge: 1.12.0
       tailwindcss-radix: 2.8.0
-      uuid: 8.3.2
+      uuid: 9.0.0
       yup: 0.32.11
       zod: 3.21.4
     devDependencies:
@@ -1217,7 +1217,7 @@ importers:
       '@types/remove-markdown': 0.3.1
       '@types/shortid': 0.0.29
       '@types/speakingurl': 13.0.3
-      '@types/uuid': 8.3.4
+      '@types/uuid': 9.0.2
       autoprefixer: 10.4.12_postcss@8.4.23
       dotenv-flow: 3.2.0
       eslint: 8.26.0
@@ -1229,7 +1229,7 @@ importers:
       prettier: 2.7.1
       prettier-plugin-tailwindcss: 0.2.5_prettier@2.7.1
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -1302,7 +1302,7 @@ importers:
       '@types/react': ^18.2.6
       '@types/react-dom': ^18.2.4
       '@types/shortid': ^0.0.29
-      '@types/uuid': ^8.3.4
+      '@types/uuid': ^9.0.2
       '@xstate/react': '=1.5.1'
       autoprefixer: ^10.4.2
       aws-sdk: ^2.1197.0
@@ -1358,7 +1358,7 @@ importers:
       tailwindcss: ^3.3.0
       tailwindcss-radix: ^2.8.0
       typescript: 5.1.1-rc
-      uuid: ^8.3.2
+      uuid: ^9.0.0
       webpack: ^5.73.0
       whatwg-fetch: ^3.6.2
       xstate: '=4.23.1'
@@ -1459,7 +1459,7 @@ importers:
       styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
       superjson: 1.11.0
       tailwindcss-radix: 2.8.0
-      uuid: 8.3.2
+      uuid: 9.0.0
       whatwg-fetch: 3.6.2
       xstate: 4.23.1
       yup: 0.32.11
@@ -1484,7 +1484,7 @@ importers:
       '@types/react': 18.2.6
       '@types/react-dom': 18.2.4
       '@types/shortid': 0.0.29
-      '@types/uuid': 8.3.4
+      '@types/uuid': 9.0.2
       autoprefixer: 10.4.12_postcss@8.4.23
       eslint: 8.26.0
       eslint-config-custom: link:../../packages/eslint-config-custom
@@ -1492,7 +1492,7 @@ importers:
       postcss: 8.4.23
       prettier-plugin-tailwindcss: 0.2.5
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -1731,7 +1731,7 @@ importers:
       prettier: 2.8.8
       prettier-plugin-tailwindcss: 0.2.5_prettier@2.8.8
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -1804,7 +1804,7 @@ importers:
       '@types/react-syntax-highlighter': ^15.5.4
       '@types/shortid': ^0.0.29
       '@types/speakingurl': ^13.0.3
-      '@types/uuid': ^8.3.4
+      '@types/uuid': ^9.0.2
       '@vercel/og': ^0.5.4
       aws-sdk: ^2.1197.0
       axios: ^0.27.2
@@ -1898,7 +1898,7 @@ importers:
       ts-node: ^10.9.1
       twitter-lite: ^1.1.0
       typescript: 5.1.1-rc
-      uuid: ^8.3.2
+      uuid: ^9.0.0
       webpack: ^5.73.0
       yarn-upgrade-all: ^0.7.1
       yup: ^0.32.11
@@ -1950,7 +1950,7 @@ importers:
       '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
       '@types/shortid': 0.0.29
-      '@types/uuid': 8.3.4
+      '@types/uuid': 9.0.2
       '@vercel/og': 0.5.4
       aws-sdk: 2.1300.0
       axios: 0.27.2
@@ -2028,7 +2028,7 @@ importers:
       tailwindcss-radix: 2.8.0
       tree-cli: 0.6.7
       twitter-lite: 1.1.0
-      uuid: 8.3.2
+      uuid: 9.0.0
       yup: 0.32.11
       zod: 3.21.4
     devDependencies:
@@ -2066,7 +2066,7 @@ importers:
       postcss-preset-env: 7.7.2_postcss@8.4.23
       prettier: 2.7.1
       react-test-renderer: 18.2.0_react@18.2.0
-      tailwindcss: 3.3.0_3fojqsmttcn75cbnzsztj3o6qa
+      tailwindcss: 3.3.0_ts-node@10.9.1
       ts-node: 10.9.1_m5zxhvpm775j2y7tyimpt7bfse
       typescript: 5.1.1-rc
       webpack: 5.73.0
@@ -2286,7 +2286,7 @@ importers:
       postcss-preset-env: 7.7.2_postcss@8.4.23
       prettier: 2.7.1
       react-test-renderer: 17.0.2_react@18.2.0
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -2475,7 +2475,7 @@ importers:
       jest-mock-extended: 3.0.4_lourqem7oeylemhnc3pwen4rq4
       postcss: 8.4.23
       prettier: 2.7.1
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -2533,7 +2533,7 @@ importers:
       '@types/nprogress': ^0.2.0
       '@types/react': ^18.2.6
       '@types/react-dom': ^18.2.4
-      '@types/uuid': ^8.3.4
+      '@types/uuid': ^9.0.2
       '@vercel/og': ^0.5.4
       classnames: ^2.3.1
       date-fns: ^2.28.0
@@ -2572,7 +2572,7 @@ importers:
       tailwindcss: ^3.3.0
       tailwindcss-radix: ^2.8.0
       typescript: 5.1.1-rc
-      uuid: ^8.3.2
+      uuid: ^9.0.0
       webpack: ^5.73.0
       zod: ^3.21.4
     dependencies:
@@ -2639,7 +2639,7 @@ importers:
       styled-jsx: 5.1.1_react@18.2.0
       superjson: 1.11.0
       tailwindcss-radix: 2.8.0
-      uuid: 8.3.2
+      uuid: 9.0.0
       zod: 3.21.4
     devDependencies:
       '@next/env': 12.3.1
@@ -2660,7 +2660,7 @@ importers:
       '@types/nprogress': 0.2.0
       '@types/react': 18.2.6
       '@types/react-dom': 18.2.4
-      '@types/uuid': 8.3.4
+      '@types/uuid': 9.0.2
       dotenv-flow: 3.2.0
       eslint: 8.26.0
       eslint-config-custom: link:../../packages/eslint-config-custom
@@ -2668,7 +2668,7 @@ importers:
       jest-mock-extended: 3.0.4_lourqem7oeylemhnc3pwen4rq4
       postcss: 8.4.23
       prettier: 2.7.1
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -2971,7 +2971,7 @@ importers:
       postcss-preset-env: 7.7.2_postcss@8.4.23
       prettier: 2.7.1
       react-test-renderer: 17.0.2_react@18.2.0
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -3060,7 +3060,7 @@ importers:
       '@types/react-scroll': ^1.8.3
       '@types/remove-markdown': ^0.3.0
       '@types/shortid': ^0.0.29
-      '@types/uuid': ^8.3.4
+      '@types/uuid': ^9.0.2
       '@types/ws': ^8.5.3
       '@vercel/og': ^0.5.4
       '@xstate/react': '=1.5.1'
@@ -3139,7 +3139,7 @@ importers:
       tailwindcss: ^3.3.0
       tailwindcss-radix: ^2.8.0
       typescript: ^5.1.1-rc
-      uuid: ^8.3.2
+      uuid: ^9.0.0
       webpack: ^5.73.0
       whatwg-fetch: ^3.6.2
       ws: ^8.8.1
@@ -3276,7 +3276,7 @@ importers:
       superjson: 1.11.0
       tailwind-merge: 1.12.0
       tailwindcss-radix: 2.8.0
-      uuid: 8.3.2
+      uuid: 9.0.0
       whatwg-fetch: 3.6.2
       ws: 8.13.0
       xstate: 4.23.1
@@ -3305,7 +3305,7 @@ importers:
       '@types/react-scroll': 1.8.3
       '@types/remove-markdown': 0.3.1
       '@types/shortid': 0.0.29
-      '@types/uuid': 8.3.4
+      '@types/uuid': 9.0.2
       '@types/ws': 8.5.4
       autoprefixer: 10.4.12_postcss@8.4.23
       eslint: 8.26.0
@@ -3316,7 +3316,7 @@ importers:
       prettier: 2.7.1
       prettier-plugin-tailwindcss: 0.2.5_prettier@2.7.1
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -3431,7 +3431,7 @@ importers:
       jest-mock-extended: 3.0.4_lourqem7oeylemhnc3pwen4rq4
       postcss: 8.4.23
       prettier: 2.7.1
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -3698,7 +3698,7 @@ importers:
       postcss-preset-env: 7.7.2_postcss@8.4.23
       prettier: 2.7.1
       react-test-renderer: 17.0.2_react@18.2.0
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -4011,7 +4011,7 @@ importers:
       '@prisma/client': ^4.5.0
       '@skillrecordings/tsconfig': workspace:*
       '@types/node': ^18.16.13
-      '@types/uuid': ^8.3.4
+      '@types/uuid': ^9.0.2
       eslint: ^8.12.0
       eslint-config-custom: workspace:*
       i: ^0.3.7
@@ -4028,7 +4028,7 @@ importers:
     devDependencies:
       '@skillrecordings/tsconfig': link:../tsconfig
       '@types/node': 18.16.13
-      '@types/uuid': 8.3.4
+      '@types/uuid': 9.0.2
       eslint: 8.26.0
       eslint-config-custom: link:../eslint-config-custom
       i: 0.3.7
@@ -4546,7 +4546,7 @@ importers:
       '@types/react': ^18.2.6
       '@types/react-dom': ^18.2.4
       '@types/sanitize-html': ^2.6.2
-      '@types/uuid': ^8.3.4
+      '@types/uuid': ^9.0.2
       autoprefixer: ^10.4.2
       babel-plugin-jsx-pragmatic: ^1.0.2
       babel-preset-preact: ^2.0.0
@@ -4580,7 +4580,7 @@ importers:
       sanitize-html: ^2.7.0
       styled-jsx: 5.1.1
       typescript: 5.1.1-rc
-      uuid: ^8.3.2
+      uuid: ^9.0.0
       whatwg-fetch: ^3.6.2
     dependencies:
       '@babel/runtime': 7.21.5
@@ -4605,7 +4605,7 @@ importers:
       preact-render-to-string: 5.2.0_preact@10.7.2
       sanitize-html: 2.7.0
       styled-jsx: 5.1.1_react@18.2.0
-      uuid: 8.3.2
+      uuid: 9.0.0
     devDependencies:
       '@babel/cli': 7.17.10
       '@babel/plugin-proposal-optional-catch-binding': 7.16.7
@@ -4630,7 +4630,7 @@ importers:
       '@types/react': 18.2.6
       '@types/react-dom': 18.2.4
       '@types/sanitize-html': 2.6.2
-      '@types/uuid': 8.3.4
+      '@types/uuid': 9.0.2
       autoprefixer: 10.4.12_postcss@8.4.23
       babel-plugin-jsx-pragmatic: 1.0.2
       babel-preset-preact: 2.0.0
@@ -14299,7 +14299,7 @@ packages:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.3.0_3fojqsmttcn75cbnzsztj3o6qa
+      tailwindcss: 3.3.0_ts-node@10.9.1
     dev: false
 
   /@tailwindcss/typography/0.5.9_tailwindcss@3.3.0:
@@ -15674,6 +15674,10 @@ packages:
 
   /@types/uuid/8.3.4:
     resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
+    dev: false
+
+  /@types/uuid/9.0.2:
+    resolution: {integrity: sha512-kNnC1GFBLuhImSnV7w4njQkUiJi0ZXUycu1rUaouPqiKlXkh77JKgdRnTAp1x5eBwcIwbtI+3otwzuIDEuDoxQ==}
 
   /@types/validate-npm-package-name/3.0.0:
     resolution: {integrity: sha512-iFNNIrEaJH1lbPiyX+O/QyxSbKxrTjdNBVZGckt+iEL9So0hdZNBL68sOfHnt2txuUD8UJXvmKv/1DkgkebgUg==}
@@ -29304,7 +29308,7 @@ packages:
       semver: 7.5.1
       sift-string: 0.0.2
       stringify-object: 4.0.1
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
       tmp-cache: 1.1.0
       vscode-languageserver-textdocument: 1.0.7
     transitivePeerDependencies:
@@ -31305,14 +31309,15 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.2
+    dev: false
 
-  /postcss-import/14.1.0_postcss@8.4.23:
+  /postcss-import/14.1.0_postcss@8.4.24:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       postcss: ^8.0.0
     dependencies:
-      postcss: 8.4.23
+      postcss: 8.4.24
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.2
@@ -31325,14 +31330,6 @@ packages:
       postcss: 8.4.23
     dev: true
 
-  /postcss-js/4.0.0:
-    resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
-    engines: {node: ^12 || ^14 || >= 16}
-    peerDependencies:
-      postcss: ^8.3.3
-    dependencies:
-      camelcase-css: 2.0.1
-
   /postcss-js/4.0.0_postcss@8.4.23:
     resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
     engines: {node: ^12 || ^14 || >= 16}
@@ -31341,6 +31338,16 @@ packages:
     dependencies:
       camelcase-css: 2.0.1
       postcss: 8.4.23
+    dev: false
+
+  /postcss-js/4.0.0_postcss@8.4.24:
+    resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
+    engines: {node: ^12 || ^14 || >= 16}
+    peerDependencies:
+      postcss: ^8.3.3
+    dependencies:
+      camelcase-css: 2.0.1
+      postcss: 8.4.24
 
   /postcss-lab-function/4.2.0_postcss@8.4.23:
     resolution: {integrity: sha512-Zb1EO9DGYfa3CP8LhINHCcTTCTLI+R3t7AX2mKsDzdgVQ/GkCpHOTgOr6HBHslP7XDdVbqgHW5vvRPMdVANQ8w==}
@@ -31367,8 +31374,9 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       yaml: 1.10.2
+    dev: true
 
-  /postcss-load-config/3.1.4_3fojqsmttcn75cbnzsztj3o6qa:
+  /postcss-load-config/3.1.4_nbsflw7wuoau4kvqfjfb4lghv4:
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
     engines: {node: '>= 10'}
     peerDependencies:
@@ -31381,7 +31389,7 @@ packages:
         optional: true
     dependencies:
       lilconfig: 2.1.0
-      postcss: 8.4.23
+      postcss: 8.4.24
       ts-node: 10.9.1_m5zxhvpm775j2y7tyimpt7bfse
       yaml: 1.10.2
 
@@ -31399,6 +31407,23 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.23
+      yaml: 1.10.2
+    dev: true
+
+  /postcss-load-config/3.1.4_postcss@8.4.24:
+    resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
+    engines: {node: '>= 10'}
+    peerDependencies:
+      postcss: '>=8.0.9'
+      ts-node: '>=9.0.0'
+    peerDependenciesMeta:
+      postcss:
+        optional: true
+      ts-node:
+        optional: true
+    dependencies:
+      lilconfig: 2.1.0
+      postcss: 8.4.24
       yaml: 1.10.2
 
   /postcss-logical/5.0.4_postcss@8.4.23:
@@ -31497,14 +31522,6 @@ packages:
       postcss-selector-parser: 6.0.11
     dev: true
 
-  /postcss-nested/6.0.0:
-    resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
-    engines: {node: '>=12.0'}
-    peerDependencies:
-      postcss: ^8.2.14
-    dependencies:
-      postcss-selector-parser: 6.0.11
-
   /postcss-nested/6.0.0_postcss@8.4.23:
     resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
     engines: {node: '>=12.0'}
@@ -31512,6 +31529,16 @@ packages:
       postcss: ^8.2.14
     dependencies:
       postcss: 8.4.23
+      postcss-selector-parser: 6.0.11
+    dev: false
+
+  /postcss-nested/6.0.0_postcss@8.4.24:
+    resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
+    engines: {node: '>=12.0'}
+    peerDependencies:
+      postcss: ^8.2.14
+    dependencies:
+      postcss: 8.4.24
       postcss-selector-parser: 6.0.11
 
   /postcss-nesting/10.1.10_postcss@8.4.23:
@@ -31823,6 +31850,14 @@ packages:
 
   /postcss/8.4.23:
     resolution: {integrity: sha512-bQ3qMcpF6A/YjR55xtoTr0jGOlnPOKAIMdOWiv0EIT6HVPEaJiJB4NLljSbiHoC2RX7DN5Uvjtpbg1NPdwv1oA==}
+    engines: {node: ^10 || ^12 || >=14}
+    dependencies:
+      nanoid: 3.3.6
+      picocolors: 1.0.0
+      source-map-js: 1.0.2
+
+  /postcss/8.4.24:
+    resolution: {integrity: sha512-M0RzbcI0sO/XJNucsGjvWU9ERWxb/ytp1w6dKtxTKgixdtQDq4rmx/g8W1hnaheq9jgwL/oyEdH5Bc4WwJKMqg==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.6
@@ -36085,7 +36120,7 @@ packages:
     peerDependencies:
       tailwindcss: '>=1.2.0'
     dependencies:
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
     dev: false
 
   /tailwind-merge/1.12.0:
@@ -36098,7 +36133,7 @@ packages:
     peerDependencies:
       tailwindcss: 3.x
     dependencies:
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
     dev: true
 
   /tailwindcss-animate/1.0.6_tailwindcss@3.3.0:
@@ -36106,7 +36141,7 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
     dependencies:
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
     dev: false
 
   /tailwindcss-radix/2.8.0:
@@ -36117,8 +36152,6 @@ packages:
     resolution: {integrity: sha512-hOXlFx+YcklJ8kXiCAfk/FMyr4Pm9ck477G0m/us2344Vuj355IpoEDB5UmGAsSpTBmr+4ZhjzW04JuFXkb/fw==}
     engines: {node: '>=12.13.0'}
     hasBin: true
-    peerDependencies:
-      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
@@ -36134,11 +36167,11 @@ packages:
       normalize-path: 3.0.0
       object-hash: 3.0.0
       picocolors: 1.0.0
-      postcss: 8.4.23
-      postcss-import: 14.1.0
-      postcss-js: 4.0.0
-      postcss-load-config: 3.1.4
-      postcss-nested: 6.0.0
+      postcss: 8.4.24
+      postcss-import: 14.1.0_postcss@8.4.24
+      postcss-js: 4.0.0_postcss@8.4.24
+      postcss-load-config: 3.1.4_postcss@8.4.24
+      postcss-nested: 6.0.0_postcss@8.4.24
       postcss-selector-parser: 6.0.11
       postcss-value-parser: 4.2.0
       quick-lru: 5.1.1
@@ -36147,12 +36180,10 @@ packages:
     transitivePeerDependencies:
       - ts-node
 
-  /tailwindcss/3.3.0_3fojqsmttcn75cbnzsztj3o6qa:
+  /tailwindcss/3.3.0_ts-node@10.9.1:
     resolution: {integrity: sha512-hOXlFx+YcklJ8kXiCAfk/FMyr4Pm9ck477G0m/us2344Vuj355IpoEDB5UmGAsSpTBmr+4ZhjzW04JuFXkb/fw==}
     engines: {node: '>=12.13.0'}
     hasBin: true
-    peerDependencies:
-      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
@@ -36168,45 +36199,11 @@ packages:
       normalize-path: 3.0.0
       object-hash: 3.0.0
       picocolors: 1.0.0
-      postcss: 8.4.23
-      postcss-import: 14.1.0_postcss@8.4.23
-      postcss-js: 4.0.0_postcss@8.4.23
-      postcss-load-config: 3.1.4_3fojqsmttcn75cbnzsztj3o6qa
-      postcss-nested: 6.0.0_postcss@8.4.23
-      postcss-selector-parser: 6.0.11
-      postcss-value-parser: 4.2.0
-      quick-lru: 5.1.1
-      resolve: 1.22.2
-      sucrase: 3.31.0
-    transitivePeerDependencies:
-      - ts-node
-
-  /tailwindcss/3.3.0_postcss@8.4.23:
-    resolution: {integrity: sha512-hOXlFx+YcklJ8kXiCAfk/FMyr4Pm9ck477G0m/us2344Vuj355IpoEDB5UmGAsSpTBmr+4ZhjzW04JuFXkb/fw==}
-    engines: {node: '>=12.13.0'}
-    hasBin: true
-    peerDependencies:
-      postcss: ^8.0.9
-    dependencies:
-      arg: 5.0.2
-      chokidar: 3.5.3
-      color-name: 1.1.4
-      didyoumean: 1.2.2
-      dlv: 1.1.3
-      fast-glob: 3.2.12
-      glob-parent: 6.0.2
-      is-glob: 4.0.3
-      jiti: 1.18.2
-      lilconfig: 2.1.0
-      micromatch: 4.0.5
-      normalize-path: 3.0.0
-      object-hash: 3.0.0
-      picocolors: 1.0.0
-      postcss: 8.4.23
-      postcss-import: 14.1.0_postcss@8.4.23
-      postcss-js: 4.0.0_postcss@8.4.23
-      postcss-load-config: 3.1.4_postcss@8.4.23
-      postcss-nested: 6.0.0_postcss@8.4.23
+      postcss: 8.4.24
+      postcss-import: 14.1.0_postcss@8.4.24
+      postcss-js: 4.0.0_postcss@8.4.24
+      postcss-load-config: 3.1.4_nbsflw7wuoau4kvqfjfb4lghv4
+      postcss-nested: 6.0.0_postcss@8.4.24
       postcss-selector-parser: 6.0.11
       postcss-value-parser: 4.2.0
       quick-lru: 5.1.1
@@ -37741,7 +37738,6 @@ packages:
   /uuid/9.0.0:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
-    dev: false
 
   /uvu/0.5.2:
     resolution: {integrity: sha512-m2hLe7I2eROhh+tm3WE5cTo/Cv3WQA7Oc9f7JB6uWv+/zVKvfAm53bMyOoGOSZeQ7Ov2Fu9pLhFr7p07bnT20w==}
@@ -37914,7 +37910,7 @@ packages:
     dependencies:
       '@types/node': 18.16.13
       esbuild: 0.16.17
-      postcss: 8.4.23
+      postcss: 8.4.24
       resolve: 1.22.2
       rollup: 3.11.0
     optionalDependencies:

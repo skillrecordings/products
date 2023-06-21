@@ -118,7 +118,7 @@
     "@types/react-dom": "^18.2.4",
     "@types/stream-chain": "^2.0.1",
     "@types/stream-json": "^1.7.3",
-    "@types/uuid": "^8.3.4",
+    "@types/uuid": "^9.0.2",
     "csv-parser": "^3.0.0",
     "dotenv-flow": "^3.2.0",
     "eslint": "^8.19.0",
@@ -137,7 +137,7 @@
     "tailwindcss": "^3.3.0",
     "ts-node": "^10.9.1",
     "typescript": "5.1.1-rc",
-    "uuid": "^8.3.2",
+    "uuid": "^9.0.0",
     "webpack": "^5.73.0",
     "zod": "^3.21.4"
   },
