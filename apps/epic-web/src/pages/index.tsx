@@ -50,6 +50,9 @@ const Header = () => {
         className="mx-auto object-cover object-top"
         alt=""
         quality={100}
+        aria-hidden
+        priority
+        placeholder="blur"
       />
       <div className="absolute bottom-0 left-0 h-32 w-full bg-gradient-to-b from-transparent dark:to-background" />
     </header>

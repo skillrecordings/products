@@ -84,6 +84,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           width={240}
                           quality={100}
                           height={240}
+                          priority
                         />
                       </div>
                     )}{' '}
