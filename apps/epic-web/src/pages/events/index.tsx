@@ -37,7 +37,7 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
         },
       }}
     >
-      <header className="mx-auto w-full max-w-3xl px-5 pb-3 pt-5 sm:pb-10 sm:pt-16">
+      <header className="mx-auto w-full max-w-3xl px-5 pb-3 pt-28 sm:pb-10 sm:pt-32">
         <h1 className="text-lg font-semibold">
           {title} <span className="font-normal">with Kent C. Dodds</span>
         </h1>

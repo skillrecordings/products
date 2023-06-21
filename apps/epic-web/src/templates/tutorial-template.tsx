@@ -27,7 +27,7 @@ const TutorialTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full max-w-screen-lg pt-10 sm:pt-16 lg:pb-24"
+      className="mx-auto w-full max-w-screen-lg pt-10 sm:pt-24 lg:pb-24"
       meta={{
         title: pageTitle,
         description,
@@ -76,7 +76,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
         <div className="w-full text-center md:text-left">
           <Link
             href="/tutorials"
-            className="inline-block pb-4 font-mono text-sm font-bold uppercase tracking-wide text-orange-500 dark:text-orange-300"
+            className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-rose-500 dark:text-rose-400"
           >
             Free Tutorial
           </Link>
@@ -126,7 +126,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                       }
                 }
                 className={cx(
-                  'flex w-full items-center justify-center rounded-md border border-gray-900 bg-gray-900 px-5 py-4 font-semibold leading-tight text-white transition hover:border-gray-800 hover:bg-gray-800 dark:border-gray-100 dark:bg-gray-100 dark:text-black dark:hover:border-gray-200 dark:hover:bg-gray-200 md:w-auto',
+                  'relative flex items-center justify-center rounded-md border border-white/5 bg-gradient-to-b from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },

@@ -2,7 +2,7 @@ import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
 import {Toaster} from 'react-hot-toast'
 import Navigation from 'components/app/navigation'
-import cx from 'classnames'
+import {twMerge} from 'tailwind-merge'
 
 type LayoutProps = {
   meta?: any
@@ -10,6 +10,7 @@ type LayoutProps = {
   className?: string
   children?: any
   navigationClassName?: string
+  navigationSize?: 'sm' | 'md' | 'lg'
 }
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
@@ -18,6 +19,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   meta,
   noIndex,
   navigationClassName,
+  navigationSize,
 }) => {
   const {
     title,
@@ -65,10 +67,10 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
           },
         }}
       />
-      <Navigation className={navigationClassName} />
+      <Navigation className={navigationClassName} size={navigationSize} />
       <div
-        className={cx(
-          'flex h-full min-h-[calc(100vh-51px)] flex-grow flex-col',
+        className={twMerge(
+          'flex h-full min-h-[calc(100vh-80px)] flex-grow flex-col pt-[80px]',
           className,
         )}
       >

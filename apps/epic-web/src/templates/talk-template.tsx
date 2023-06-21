@@ -6,11 +6,7 @@ import MuxPlayer, {
   MuxPlayerRefAttributes,
 } from '@mux/mux-player-react'
 import {Tip} from 'lib/tips'
-import {
-  PortableText,
-  PortableTextComponents as PortableTextComponentsType,
-} from '@portabletext/react'
-import {hmsToSeconds} from '@skillrecordings/time'
+
 import {TipTeaser} from 'pages/tips'
 import {useRouter} from 'next/router'
 import {
@@ -47,26 +43,22 @@ import Spinner from 'components/spinner'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
+import {Talk} from 'lib/talks'
 
-const TipTemplate: React.FC<{
-  tip: Tip
-  tipBodySerialized: MDXRemoteSerializeResult
-  tips: Tip[]
-  transcript: any[]
-}> = ({tip, tipBodySerialized, tips}) => {
+const TalkTemplate: React.FC<{
+  talk: Talk
+  talkBodySerialized: MDXRemoteSerializeResult
+  talks: Talk[]
+  transcript: string
+}> = ({talk, talkBodySerialized, talks}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
-  const {tipCompleted} = useTipComplete(tip.slug)
+  const {tipCompleted} = useTipComplete(talk.slug)
   const {videoResourceId} = useVideoResource()
-  const {data: tipResources} = trpc.tipResources.bySlug.useQuery({
-    slug: tip.slug,
-  })
-
-  const tweet = tipResources?.tweetId
 
   const ogImage = getOgImage({
-    title: tip.title || 'tip',
+    title: talk.title || 'talk',
   })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
@@ -76,11 +68,11 @@ const TipTemplate: React.FC<{
       })
       email && setUserId(email)
       track('subscribed to email list', {
-        lesson: tip.slug,
-        module: 'tips',
-        location: 'below tip video',
-        moduleType: 'tip',
-        lessonType: 'tip',
+        lesson: talk.slug,
+        module: 'talks',
+        location: 'below talk video',
+        moduleType: 'talk',
+        lessonType: 'talk',
       })
       router.push(redirectUrl).then(() => {
         router.reload()
@@ -92,8 +84,8 @@ const TipTemplate: React.FC<{
     await localProgressDb.progress
       .add({
         eventName: 'completed video',
-        module: 'tips',
-        lesson: tip.slug,
+        module: 'talks',
+        lesson: talk.slug,
         createdOn: new Date(),
       })
       .then(console.debug)
@@ -103,50 +95,51 @@ const TipTemplate: React.FC<{
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
       onEnded={handleVideoEnded}
-      exerciseSlug={tip.slug}
-      path="/tips"
+      exerciseSlug={talk.slug}
+      path="/talks"
     >
       <ArticleJsonLd
-        url={`${process.env.NEXT_PUBLIC_URL}/tips/${tip.slug}`}
-        title={tip.title || 'tip'}
+        url={`${process.env.NEXT_PUBLIC_URL}/talks/${talk.slug}`}
+        title={talk.title || 'talk'}
         images={[
           `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
         ]}
-        datePublished={tip._updatedAt || new Date().toISOString()}
+        datePublished={talk._updatedAt || new Date().toISOString()}
         authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
-        description={tip.description || 'Epic Web Tip'}
+        description={talk.description || 'Epic Web Talk'}
       />
       <VideoJsonLd
-        name={tip.title || 'tip'}
-        description={tip.description || 'Epic Web Tip'}
-        uploadDate={tip._updatedAt || new Date().toISOString()}
+        name={talk.title || 'talk'}
+        description={talk.description || 'Epic Web Talk'}
+        uploadDate={talk._updatedAt || new Date().toISOString()}
         thumbnailUrls={[
-          `https://image.mux.com/${tip.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+          `https://image.mux.com/${talk.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
         ]}
-        contentUrl={`https://stream.mux.com/${tip.muxPlaybackId}/medium.mp4`}
+        contentUrl={`https://stream.mux.com/${talk.muxPlaybackId}/medium.mp4`}
       />
       <Layout
         meta={{
-          title: tip.title,
+          title: talk.title,
           ogImage,
-          description: tip.description ?? '',
+          description: talk.description ?? '',
         }}
+        navigationClassName="max-w-screen-xl dark:border-transparent border-transparent"
       >
-        <main className="mx-auto w-full" id="tip">
+        <main className="mx-auto w-full pt-0" id="talk">
           <div className="relative z-10 flex items-center justify-center">
             <div className="flex w-full max-w-screen-xl flex-col">
-              <Video ref={muxPlayerRef} tips={tips} />
+              <Video ref={muxPlayerRef} talks={talks} />
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
             </div>
           </div>
           <article className="relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 xl:border-gray-800 xl:pt-10">
-            <div className="mx-auto w-full max-w-screen-lg pb-5 lg:px-5">
+            <div className="mx-auto w-full max-w-screen-xl pb-5">
               <div className="flex w-full grid-cols-5 flex-col gap-0 sm:gap-10 xl:grid">
                 <div className="col-span-3">
                   <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
-                    {tip.title}
+                    {talk.title}
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
                   {tipCompleted ? (
@@ -171,10 +164,10 @@ const TipTemplate: React.FC<{
                       }
                     />
                   )}
-                  {tip.body && (
+                  {talk.body && (
                     <>
                       <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert lg:prose-lg">
-                        <MDX contents={tipBodySerialized} />
+                        <MDX contents={talkBodySerialized} />
                       </div>
                       <Hr
                         className={
@@ -183,26 +176,25 @@ const TipTemplate: React.FC<{
                       />
                     </>
                   )}
-                  {tip.transcript && tip.body && (
+                  {talk.transcript && talk.body && (
                     <div className="w-full max-w-2xl pt-5">
-                      <VideoTranscript transcript={tip.transcript} />
+                      <VideoTranscript transcript={talk.transcript} />
                     </div>
                   )}
                 </div>
                 <div className="col-span-2">
                   {/* TODO: might want to add summary? */}
-                  {tweet && <ReplyOnTwitter tweet={tweet} />}
-                  {tip.body && <RelatedTips currentTip={tip} tips={tips} />}
+                  {/* {talk.body && <RelatedTips currentTip={tip} tips={tips} />} */}
                 </div>
               </div>
             </div>
             <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
-              {tip.transcript && !tip.body && (
+              {talk.transcript && !talk.body && (
                 <div className="w-full max-w-2xl pt-5">
-                  <VideoTranscript transcript={tip.transcript} />
+                  <VideoTranscript transcript={talk.transcript} />
                 </div>
               )}
-              {!tip.body && <RelatedTips currentTip={tip} tips={tips} />}
+              {/* {!tip.body && <RelatedTips currentTip={tip} tips={tips} />} */}
             </div>
           </article>
         </main>
@@ -211,16 +203,16 @@ const TipTemplate: React.FC<{
   )
 }
 
-const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
+const Video: React.FC<any> = React.forwardRef(({talks}, ref: any) => {
   const {muxPlayerProps, displayOverlay} = useMuxPlayer()
   const {videoResource} = useVideoResource()
 
   return (
     <div className="relative">
-      {displayOverlay && <TipOverlay tips={tips} />}
+      {displayOverlay && <TipOverlay talks={talks} />}
       <div
         className={cx(
-          'flex items-center justify-center  overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b-md',
+          'flex items-center justify-center  overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-md',
           {
             hidden: displayOverlay,
           },
@@ -258,7 +250,7 @@ const Hr: React.FC<{className?: string}> = ({className}) => {
   return <div className={cx('my-8 h-1 w-8', className)} aria-hidden="true" />
 }
 
-const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
+const TipOverlay: React.FC<{talks: Talk[]}> = ({talks}) => {
   const {setDisplayOverlay, handlePlay} = useMuxPlayer()
   const {lesson, module} = useLesson()
 
@@ -293,11 +285,13 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
         <div className="grid h-full w-full grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {take(
             shuffle(
-              tips.filter((suggestedTip) => suggestedTip.slug !== lesson.slug),
+              talks.filter(
+                (suggestedTalk) => suggestedTalk.slug !== lesson.slug,
+              ),
             ),
             9,
-          ).map((tip) => (
-            <VideoOverlayTipCard suggestedTip={tip} />
+          ).map((talk) => (
+            <VideoOverlayTipCard suggestedTip={talk} />
           ))}
         </div>
       </div>
@@ -398,7 +392,7 @@ const SubscribeForm = ({
   handleOnSuccess: (subscriber: any, email?: string) => void
 }) => {
   return (
-    <div className="mx-auto flex w-full max-w-lg flex-col items-center justify-between gap-5 border-b border-gray-100 px-3 pb-5 pt-4 dark:border-white/5 md:pb-3 md:pt-3 lg:max-w-none lg:flex-row 2xl:px-0">
+    <div className="mx-auto flex w-full max-w-lg flex-col items-center justify-between gap-5 border-b border-gray-200 px-3 pb-5 pt-4 dark:border-gray-700/80 md:pb-3 md:pt-3 lg:max-w-none lg:flex-row 2xl:px-0">
       <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
         <div
           aria-hidden="true"
@@ -406,10 +400,10 @@ const SubscribeForm = ({
         >
           <MailIcon className="h-5 w-5 text-blue-500 dark:text-blue-400" />
         </div>{' '}
-        New EpicWeb tips delivered to your inbox
+        New Epic Talks delivered to your inbox
       </div>
       <SubscribeToConvertkitForm
-        actionLabel="Subscribe for EpicWeb tips"
+        actionLabel="Subscribe to EpicWeb.dev"
         onSuccess={(subscriber, email) => {
           return handleOnSuccess(subscriber, email)
         }}
@@ -418,4 +412,4 @@ const SubscribeForm = ({
   )
 }
 
-export default TipTemplate
+export default TalkTemplate

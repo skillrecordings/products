@@ -1,10 +1,10 @@
 /* module lesson list */
 [data-module-lesson-list-header] {
-  @apply relative z-50 hidden w-full flex-shrink-0 border-r border-t border-gray-200 dark:border-gray-900 lg:block lg:max-w-[280px] xl:max-w-xs;
+  @apply sticky top-12 z-50 hidden w-full flex-shrink-0 self-start border-r border-t border-gray-200 dark:border-gray-900 lg:block lg:h-[calc(100vh-48px)] lg:max-w-[280px] xl:max-w-xs;
   [data-sticky-container] {
-    @apply top-0 lg:sticky;
+    /* @apply top-12 lg:sticky; */
     [data-content-wrapper] {
-      @apply top-0 z-10 lg:sticky;
+      @apply top-0 z-10;
       [data-content] {
         @apply relative flex items-center gap-3 border-b border-gray-200 p-4 pb-4 pt-2 dark:border-gray-900;
         [data-image] {
@@ -48,7 +48,7 @@
   }
 }
 [data-module-lesson-list] {
-  @apply relative h-[400px] overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-200/70 hover:scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-800/70 dark:hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-102px)];
+  @apply relative overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-200/70 hover:scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-800/70 dark:hover:scrollbar-thumb-gray-700;
   /* sections */
   [data-sections] {
     @apply relative;

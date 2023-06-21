@@ -10,7 +10,7 @@ export const VideoTranscript: React.FC<{
   transcript: string | any[]
 }> = ({transcript}) => {
   const {handlePlay, canShowVideo, muxPlayerRef} = useMuxPlayer()
-  const markdownComponents = getTranscriptComponents({
+  const transcriptMarkdownComponent = getTranscriptComponents({
     handlePlay,
     canShowVideo,
     muxPlayerRef,
@@ -25,7 +25,7 @@ export const VideoTranscript: React.FC<{
       <h2 data-title="">Transcript</h2>
       <div data-transcript="">
         {typeof transcript === 'string' ? (
-          <ReactMarkdown components={markdownComponents}>
+          <ReactMarkdown components={transcriptMarkdownComponent}>
             {transcript}
           </ReactMarkdown>
         ) : (

@@ -12,6 +12,7 @@ import videoResources from './structure/videoResources'
 import sections from './structure/sections'
 import links from './structure/links'
 import events from './structure/events'
+import talks from './structure/talks'
 
 const hiddenDocTypes = (listItem: any) =>
   ![
@@ -28,6 +29,7 @@ const hiddenDocTypes = (listItem: any) =>
     'section',
     'linkResource',
     'event',
+    'talk',
   ].includes(listItem.getId())
 
 export default (S: any) =>
@@ -43,6 +45,7 @@ export default (S: any) =>
       pages(S),
       tips(S),
       events(S),
+      talks(S),
       S.divider(),
       lessons(S),
       exercises(S),

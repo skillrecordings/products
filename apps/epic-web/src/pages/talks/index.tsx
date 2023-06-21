@@ -8,45 +8,45 @@ import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-comple
 import Icon from 'components/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import Balancer from 'react-wrap-balancer'
+import {getAllTalks, Talk} from 'lib/talks'
 
 export async function getStaticProps() {
-  const tips = await getAllTips()
+  const talks = await getAllTalks()
   return {
-    props: {tips},
+    props: {talks},
     revalidate: 10,
   }
 }
 
-type TipsIndex = {
-  tips: Tip[]
+type TalksIndex = {
+  talks: Talk[]
 }
 
-const pageDescription = 'A collection of valuable Web Development tips.'
+const pageDescription = 'A collection of valuable Web Development talks.'
 
-const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
+const TalksIndex: React.FC<TalksIndex> = ({talks}) => {
   return (
     <Layout
       meta={{
-        title: `Epic Web Dev Tips by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
+        title: `Epic Web Dev Talks by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
         description: pageDescription,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1681815772/epicweb.dev/tips/card_2x.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1681815772/epicweb.dev/talks/card_2x.png',
         },
       }}
     >
-      <header className="mx-auto flex w-full max-w-4xl flex-col items-center space-y-3 px-5 py-16 text-center">
-        <h1 className="mx-auto text-center text-4xl font-semibold">Tips</h1>
-        <h2 className="w-full max-w-md text-base text-gray-600 dark:text-gray-500">
+      <main className="relative z-10 flex flex-col items-center justify-center pb-8 pt-10 md:pb-5 md:pt-16">
+        <h1 className="font-heading px-5 text-center text-3xl font-bold sm:text-4xl">
+          Talks
+        </h1>
+        <p className="max-w-lg px-5 pb-16 pt-8 text-center text-lg text-gray-600 dark:text-gray-400">
           <Balancer>{pageDescription}</Balancer>
-        </h2>
-      </header>
-
-      <main className="relative z-10 flex flex-col items-center justify-center pb-16">
+        </p>
         <div className="mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
-          {tips
+          {talks
             .filter(({state}) => state === 'published')
-            .map((tip) => {
-              return <TipCard tip={tip} key={tip.slug} />
+            .map((talk) => {
+              return <TalkCard talk={talk} key={talk.slug} />
             })}
         </div>
       </main>
@@ -54,17 +54,17 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
   )
 }
 
-export default TipsIndex
+export default TalksIndex
 
-const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
-  const {title} = tip
-  const muxPlaybackId = tip?.muxPlaybackId
+const TalkCard: React.FC<{talk: Talk}> = ({talk}) => {
+  const {title} = talk
+  const muxPlaybackId = talk?.muxPlaybackId
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
   // const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
   //   tip?.videoResourceId
   // }`
   const router = useRouter()
-  const {tipCompleted} = useTipComplete(tip.slug)
+  const {tipCompleted} = useTipComplete(talk.slug)
 
   return (
     <article className="flex flex-col items-center overflow-hidden rounded-xl border border-transparent bg-white shadow-2xl shadow-gray-500/20 dark:border-gray-800 dark:bg-transparent dark:shadow-black/50">
@@ -75,7 +75,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
               .push({
                 pathname: '/tips/[tip]',
                 query: {
-                  tip: tip.slug,
+                  tip: talk.slug,
                 },
               })
               .then(() => {
@@ -125,7 +125,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
             href={{
               pathname: '/tips/[tip]',
               query: {
-                tip: tip.slug,
+                tip: talk.slug,
               },
             }}
             className="inline-flex items-start gap-1 hover:underline"

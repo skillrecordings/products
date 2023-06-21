@@ -1,6 +1,7 @@
 import React from 'react'
 import {AnimatePresence, motion} from 'framer-motion'
 import {useTheme} from 'next-themes'
+import {twMerge} from 'tailwind-merge'
 
 const transition = {
   type: 'spring',
@@ -8,7 +9,7 @@ const transition = {
   damping: 10,
 }
 
-const ColorModeToggle = () => {
+const ColorModeToggle: React.FC<{className?: string}> = ({className}) => {
   const {theme, setTheme} = useTheme()
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => {
@@ -17,7 +18,10 @@ const ColorModeToggle = () => {
 
   return (
     <button
-      className="rounded-full p-2 text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+      className={twMerge(
+        'rounded-full p-2 text-gray-700 hover:text-gray-900 dark:bg-transparent dark:text-gray-300 dark:hover:text-white',
+        className,
+      )}
       onClick={() => {
         mounted && setTheme(theme === 'light' ? 'dark' : 'light')
       }}

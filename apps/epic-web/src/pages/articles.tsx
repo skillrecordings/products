@@ -36,12 +36,12 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
         },
       }}
     >
-      <header className="mx-auto w-full max-w-4xl px-5 pb-3 pt-5 sm:pb-10 sm:pt-16">
+      <header className="mx-auto w-full max-w-screen-lg px-5 pb-3 pt-5 sm:pb-5 sm:pt-8">
         <h1 className="text-lg font-semibold">
           {title} <span className="font-normal">by Kent C. Dodds</span>
         </h1>
       </header>
-      <main className="mx-auto grid w-full max-w-4xl grid-cols-1 flex-col gap-5 px-5 pb-24 sm:grid-cols-2">
+      <main className="mx-auto grid w-full max-w-screen-lg grid-cols-1 flex-col gap-5 px-5 pb-24 sm:grid-cols-2">
         {publishedArticles.map((article) => {
           const {title, image, slug, description, body} = article
           const estimatedReadingTime = readingTime(body)

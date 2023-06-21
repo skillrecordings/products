@@ -14,6 +14,7 @@ import article from './documents/article'
 import page from './documents/page'
 import lesson from './documents/lesson'
 import event from './documents/event'
+import talk from './documents/talk'
 // —— objects
 import body from './objects/body'
 import bodyVideo from './objects/bodyVideo'
@@ -54,6 +55,7 @@ export const schemaTypes = [
   page,
   lesson,
   event,
+  talk,
   // —— objects
   body,
   bodyVideo,

@@ -6,6 +6,12 @@ import Link from 'next/link'
 import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
 import pluralize from 'pluralize'
+import {
+  redirectUrlBuilder,
+  SubscribeToConvertkitForm,
+} from '@skillrecordings/convertkit-react-ui'
+import {useRouter} from 'next/router'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -28,6 +34,9 @@ const sectionsFlatMap = (sections: any[]) => {
 const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
   tutorials,
 }) => {
+  const router = useRouter()
+  const {subscriber, loadingSubscriber} = useConvertkit()
+
   return (
     <Layout
       meta={{
@@ -38,23 +47,28 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         },
       }}
     >
-      <main className="relative z-10 flex flex-col items-center justify-center pb-8 pt-10 md:pb-5 md:pt-16">
-        <h1 className="font-heading px-5 text-center text-3xl font-bold sm:text-4xl">
-          Free Web Development Tutorials
+      {' '}
+      <header className="mx-auto flex w-full max-w-4xl flex-col items-center space-y-3 px-5 pt-16 text-center">
+        <h1 className="mx-auto text-center text-4xl font-semibold">
+          <span className="block text-xs uppercase tracking-widest text-gray-500">
+            Free
+          </span>{' '}
+          Web Development Tutorials
         </h1>
-        <p className="max-w-lg px-5 pt-8 text-center text-lg text-gray-600 dark:text-gray-400">
+        <h2 className="w-full max-w-md text-base text-gray-600 dark:text-gray-500">
           <Balancer>
-            A collection of free, exercise-driven, in-depth Web Development
-            tutorials.
+            A collection of exercise-driven, in-depth Web Development tutorials.
           </Balancer>
-        </p>
+        </h2>
+      </header>
+      <main className="relative z-10 flex flex-col items-center justify-center pt-16 md:pb-5">
         {tutorials && (
-          <ul className="flex max-w-screen-md flex-col gap-5 px-5 pt-10 sm:gap-8 sm:pt-20">
+          <ul className="grid w-full max-w-screen-lg grid-cols-1 flex-col gap-5 px-5 sm:gap-8 lg:grid-cols-2">
             {tutorials.map(({title, slug, image, description, sections}, i) => {
               return (
                 <li key={slug.current}>
                   <Link
-                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-xl border border-gray-200 bg-gradient-to-tr p-10 shadow-2xl shadow-gray-500/20 transition dark:border-gray-700/50 dark:shadow-none dark:hover:bg-gray-900/40 md:flex-row"
+                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-xl bg-white p-10 drop-shadow-sm transition hover:bg-gray-100 dark:border-transparent dark:bg-white/5 dark:hover:bg-white/10"
                     href={{
                       pathname: '/tutorials/[module]',
                       query: {
@@ -67,24 +81,25 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                         <Image
                           src={image}
                           alt={title}
-                          width={220}
+                          width={240}
                           quality={100}
-                          height={220}
+                          height={240}
                         />
                       </div>
                     )}{' '}
-                    {i === 0 && (
-                      <span className="absolute right-5 top-5 rounded-full border border-gray-200 bg-transparent px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:border-transparent dark:bg-gray-900 dark:text-indigo-300">
-                        New
-                      </span>
-                    )}
                     <div>
-                      <h2 className="text-2xl font-semibold sm:text-3xl">
+                      {' '}
+                      {i === 0 && (
+                        <span className="rounded-full border border-gray-200 bg-transparent px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:border-transparent dark:bg-amber-400/20 dark:text-amber-300">
+                          New
+                        </span>
+                      )}
+                      <h3 className="mt-3 w-full max-w-xl text-2xl font-semibold sm:text-3xl">
                         <Balancer>{title}</Balancer>
-                      </h2>
+                      </h3>
                       <div className="flex items-center gap-3 pt-4 text-gray-600 dark:text-gray-400">
                         <div className="flex items-center justify-center gap-2 overflow-hidden rounded-full">
-                          <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-900">
+                          <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-background">
                             <Image
                               src={require('../../../public/kent-c-dodds.png')}
                               alt="Kent C. Dodds"
@@ -111,6 +126,25 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                 </li>
               )
             })}
+            <li
+              id="tutorials-index"
+              className="relative flex flex-col items-center justify-center gap-10 overflow-hidden rounded-xl border-2 border-dashed p-10 text-xl text-gray-600 transition dark:border-white/5 dark:text-gray-400"
+            >
+              <h3>More tutorials coming soon!</h3>
+              {!subscriber && (
+                <SubscribeToConvertkitForm
+                  onSuccess={(subscriber: any) => {
+                    if (subscriber) {
+                      const redirectUrl = redirectUrlBuilder(
+                        subscriber,
+                        '/confirm',
+                      )
+                      router.push(redirectUrl)
+                    }
+                  }}
+                />
+              )}
+            </li>
           </ul>
         )}
       </main>

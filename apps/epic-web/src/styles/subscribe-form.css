@@ -58,22 +58,59 @@
 
 #tip {
   [data-sr-convertkit-subscribe-form] {
-    @apply flex w-full flex-col gap-2 text-left md:flex-row;
+    @apply flex w-full flex-col gap-2 text-left lg:flex-row;
     [data-sr-input-wrapper] {
       @apply w-full;
     }
     [data-sr-input-wrapper]:first-of-type {
-      @apply md:w-2/3;
+      @apply lg:w-2/3;
     }
     [data-sr-input] {
-      @apply w-full rounded-md border border-gray-800 bg-gray-800/50 px-3 py-2 text-lg;
+      @apply w-full rounded-md border border-gray-300/75 bg-gray-100 px-3 py-2 text-base shadow-inner dark:border-gray-800 dark:bg-gray-800/50;
     }
 
     [data-sr-input-label] {
       @apply sr-only;
     }
     [data-sr-button] {
-      @apply relative flex flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-tr from-cyan-600 to-cyan-500 px-5 py-2 text-lg font-semibold shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
+      @apply relative flex flex-shrink-0 items-center justify-center rounded-md border border-blue-700/30 bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-2 text-base font-semibold text-white transition focus-visible:ring-white hover:brightness-110;
+      svg {
+        @apply h-7 w-7;
+      }
+    }
+    [data-sr-button][disabled] {
+    }
+  }
+  [data-sr-convertkit-subscribe-form='success'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-sr-convertkit-subscribe-form='error'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+}
+
+#talk {
+  [data-sr-convertkit-subscribe-form] {
+    @apply flex w-full flex-col gap-2 text-left lg:flex-row;
+    [data-sr-input-wrapper] {
+      @apply w-full;
+    }
+    [data-sr-input-wrapper]:first-of-type {
+      @apply lg:w-2/3;
+    }
+    [data-sr-input] {
+      @apply w-full rounded-md border border-gray-300/75 bg-gray-100 px-3 py-2 text-base shadow-inner dark:border-gray-800 dark:bg-gray-800/50;
+    }
+
+    [data-sr-input-label] {
+      @apply sr-only;
+    }
+    [data-sr-button] {
+      @apply relative flex flex-shrink-0 items-center justify-center rounded-md border border-blue-700/30 bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-2 text-base font-semibold text-white transition focus-visible:ring-white hover:brightness-110;
       svg {
         @apply h-7 w-7;
       }
@@ -129,5 +166,38 @@
     p {
       @apply py-2 text-center;
     }
+  }
+}
+
+#tutorials-index {
+  [data-sr-convertkit-subscribe-form] {
+    @apply flex w-full max-w-sm scale-90 flex-col gap-4 text-left;
+    [data-sr-input] {
+      @apply w-full rounded-md border px-3 py-3 text-base focus-visible:outline focus-visible:outline-indigo-400 dark:border-gray-700 dark:bg-gray-800;
+    }
+    [data-sr-input-label] {
+      @apply inline-block w-full pb-1 text-base text-gray-600 dark:text-gray-300;
+    }
+    [data-sr-button] {
+      @apply relative mt-2 flex items-center justify-center rounded-md border border-white/5 bg-gradient-to-b from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110;
+      svg {
+        @apply h-7 w-7;
+      }
+    }
+    [data-sr-button][disabled] {
+    }
+  }
+  [data-sr-convertkit-subscribe-form='success'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-sr-convertkit-subscribe-form='error'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-nospam] {
+    @apply text-sm text-gray-400;
   }
 }
