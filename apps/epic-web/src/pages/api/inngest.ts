@@ -23,6 +23,15 @@ type TranscriptCreatedEvent = {
   }
 }
 
+type SRTReadyEvent = {
+  name: 'tip/video.srt.ready'
+  data: {
+    srt: string
+    muxAssetId: string
+    videoResourceId: string
+  }
+}
+
 type LLMSuggestionsCreated = {
   name: 'tip/video.llm.suggestions.created'
   data: {
@@ -34,6 +43,7 @@ type LLMSuggestionsCreated = {
 export type IngestEvents = {
   'tip/video.uploaded': NewTipVideo
   'tip/video.transcript.created': TranscriptCreatedEvent
+  'tip/video.srt.ready': SRTReadyEvent
   'tip/video.llm.suggestions.created': LLMSuggestionsCreated
 }
 
@@ -42,6 +52,65 @@ async function getVideoResource(videoResourceId: string) {
     videoResourceId,
   })
 }
+
+const addSrtToMuxAsset = inngest.createFunction(
+  {name: 'Add SRT to Mux Asset'},
+  {event: 'tip/video.srt.ready'},
+  async ({event, step}) => {
+    const muxAssetStatus = await step.run(
+      'Check if Mux Asset is Ready',
+      async () => {
+        const {Video} = new Mux()
+        const {status} = await Video.Assets.get(event.data.muxAssetId)
+        return status
+      },
+    )
+
+    if (muxAssetStatus === 'ready') {
+      await step.run(
+        'Check for existing subtitles in Mux and remove if found',
+        async () => {
+          const {Video} = new Mux()
+          const {tracks} = await Video.Assets.get(event.data.muxAssetId)
+
+          const existingSubtitle = tracks?.find(
+            (track: any) => track.name === 'English',
+          )
+
+          if (existingSubtitle) {
+            return await Video.Assets.deleteTrack(
+              event.data.muxAssetId,
+              existingSubtitle.id,
+            )
+          } else {
+            return 'No existing subtitle found.'
+          }
+        },
+      )
+
+      await step.run('Update Mux with SRT', async () => {
+        const {Video} = new Mux()
+        return await Video.Assets.createTrack(event.data.muxAssetId, {
+          url: `https://www.epicweb.dev/api/videoResource/${event.data.videoResourceId}/srt`,
+          type: 'text',
+          text_type: 'subtitles',
+          closed_captions: false,
+          language_code: 'en-US',
+          name: 'English',
+          passthrough: 'English',
+        })
+      })
+    } else {
+      await step.sleep(60000)
+      await step.run('Re-run After Cooldown', async () => {
+        return await inngest.send({
+          name: 'tip/video.srt.ready',
+          data: event.data,
+        })
+      })
+    }
+  },
+)
 
 const processNewTip = inngest.createFunction(
   {name: 'Process New Tip Video'},
@@ -113,47 +182,15 @@ const processNewTip = inngest.createFunction(
           .commit()
       })
 
-      await step.run(
-        'Check for existing subtitles in Mux and remove if found',
-        async () => {
-          const videoResource = await getVideoResource(
-            event.data.videoResourceId,
-          )
-          const {Video} = new Mux()
-          const {tracks} = await Video.Assets.get(
-            videoResource.muxAsset.muxAssetId,
-          )
-
-          const existingSubtitle = tracks?.find(
-            (track: any) => track.name === 'English',
-          )
-
-          if (existingSubtitle) {
-            return await Video.Assets.deleteTrack(
-              videoResource.muxAsset.muxAssetId,
-              existingSubtitle.id,
-            )
-          } else {
-            return 'No existing subtitle found.'
-          }
-        },
-      )
-
-      await step.run('Update Mux with SRT', async () => {
-        const videoResource = await getVideoResource(event.data.videoResourceId)
-        const {Video} = new Mux()
-        return await Video.Assets.createTrack(
-          videoResource.muxAsset.muxAssetId,
-          {
-            url: `https://www.epicweb.dev/api/videoResource/${videoResource._id}/srt`,
-            type: 'text',
-            text_type: 'subtitles',
-            closed_captions: false,
-            language_code: 'en-US',
-            name: 'English',
-            passthrough: 'English',
+      await step.run('Notify SRT is Ready to Add to Mux Asset', async () => {
+        return await inngest.send({
+          name: 'tip/video.srt.ready',
+          data: {
+            muxAssetId: newMuxAsset.id,
+            videoResourceId: event.data.videoResourceId,
+            srt: transcript.data.transcript.srt,
           },
-        )
+        })
       })
 
       await step.run('Send Transcript for LLM Suggestions', async () => {
@@ -204,4 +241,4 @@ const processNewTip = inngest.createFunction(
   },
 )
 
-export default serve(inngest, [processNewTip])
+export default serve(inngest, [processNewTip, addSrtToMuxAsset])
