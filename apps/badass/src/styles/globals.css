@@ -52,6 +52,6 @@ but it will still show up on keyboard focus.
 
 [data-template-case-study] {
   .prose h3 {
-    text-align: center;
+    @apply text-center mb-12;
   }
 }
