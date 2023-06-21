@@ -15,8 +15,7 @@
     "test": "jest"
   },
   "jest": {
-    "preset": "@skillrecordings/scripts/jest/node",
-    "testEnvironment": "node"
+    "preset": "@skillrecordings/scripts/jest/node"
   },
   "dependencies": {
     "@casl/ability": "^6.0.0",
