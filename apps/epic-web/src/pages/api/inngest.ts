@@ -125,7 +125,7 @@ const processNewTip = inngest.createFunction(
         .commit()
     })
 
-    const newMuxAsset: any = await step.run('Create a Mux Asset', async () => {
+    const newMuxAsset = await step.run('Create a Mux Asset', async () => {
       const videoResource = await getVideoResource(event.data.videoResourceId)
       const {originalMediaUrl, muxAsset, duration} = videoResource
       return await createMuxAsset({
@@ -186,7 +186,7 @@ const processNewTip = inngest.createFunction(
         return await inngest.send({
           name: 'tip/video.srt.ready',
           data: {
-            muxAssetId: newMuxAsset.id,
+            muxAssetId: newMuxAsset.muxAssetId,
             videoResourceId: event.data.videoResourceId,
             srt: transcript.data.transcript.srt,
           },
