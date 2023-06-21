@@ -1,36 +1,55 @@
 import React from 'react'
+import {useTheme} from 'next-themes'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
 import ColorModeToggle from 'components/color-mode-toggle'
 import {twMerge} from 'tailwind-merge'
-import {AnimationControls, motion, useAnimationControls} from 'framer-motion'
+import cx from 'classnames'
+import {
+  AnimationControls,
+  motion,
+  useAnimationControls,
+  useScroll,
+  useTransform,
+} from 'framer-motion'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {trpc} from 'trpc/trpc.client'
 
 type NavigationProps = {
   className?: string
+  size?: 'sm' | 'md' | 'lg'
 }
 
-// TODO: Figure out why this makes the app crash
 const useAbilities = () => {
   const {data: abilityRules} = trpc.abilities.getAbilities.useQuery()
 
   return createAppAbility(abilityRules || [])
 }
 
-const Navigation: React.FC<NavigationProps> = ({className}) => {
+const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
   const {pathname, asPath, push} = useRouter()
   const isRoot = pathname === '/'
   const [menuOpen, setMenuOpen] = React.useState(false)
   const navigationLinks = useNavigationLinks()
+  const {scrollY} = useScroll()
+  const navHeight = useTransform(
+    scrollY,
+    // Map x from these values:
+    [0, 500],
+    // Into these values:
+    [80, 48],
+  )
+
+  const [hoveredNavItemIndex, setHoveredNavItemIndex] = React.useState(-1)
 
   return (
-    <div className="fixed left-0 top-0 z-20 flex w-full items-center justify-center border-b border-foreground/5 bg-background/80 backdrop-blur-md dark:bg-background/60">
-      <nav
+    <div className="fixed left-0 top-0 z-50 flex w-full items-center justify-center border-b border-foreground/5 bg-white/95 backdrop-blur-md dark:bg-background/60">
+      <motion.nav
         aria-label="top"
+        style={{height: size === 'sm' ? 48 : navHeight}}
         className={twMerge(
-          'mx-auto flex h-12 w-full max-w-screen-lg justify-between px-3 text-sm',
+          'mx-auto flex w-full max-w-screen-lg items-center justify-between px-3 text-sm',
           className,
         )}
       >
@@ -49,12 +68,25 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
             <Logo />
           </Link>
           <div className="hidden items-center justify-start gap-2 pl-5 font-medium sm:flex">
-            {navigationLinks.map(({label, href, icon}) => {
+            {navigationLinks.map(({label, href, icon}, i) => {
+              const isOvershadowed =
+                hoveredNavItemIndex !== i && hoveredNavItemIndex !== -1
               return (
                 <Link
+                  onMouseEnter={() => {
+                    setHoveredNavItemIndex(i)
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredNavItemIndex(-1)
+                  }}
                   key={href}
                   href={href}
-                  className="flex items-center gap-1 rounded-md px-2.5 py-1 transition hover:bg-gray-300/10 dark:hover:bg-white/10"
+                  className={cx(
+                    'group flex items-center gap-1 rounded-md px-2.5 py-1 transition',
+                    {
+                      'opacity-60': isOvershadowed,
+                    },
+                  )}
                   passHref
                   onClick={() => {
                     track(`clicked ${label} from navigation`, {
@@ -62,16 +94,22 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
                     })
                   }}
                 >
-                  {icon} {label}
+                  {icon(
+                    (hoveredNavItemIndex === i ||
+                      asPath === href ||
+                      asPath.includes(href)) &&
+                      !isOvershadowed,
+                  )}{' '}
+                  {label}
                 </Link>
               )
             })}
           </div>
         </div>
-        <div className="flex items-center justify-center pl-1">
-          <ColorModeToggle />
+        <div className="flex items-center justify-center pr-5 sm:pr-0">
+          <ColorModeToggle className="hidden sm:block" />
+          <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
         </div>
-        <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
         {menuOpen && (
           <div className="absolute left-0 top-0 flex w-full flex-col gap-2 bg-white px-3 pb-5 pt-20 text-lg font-semibold shadow-2xl shadow-black/20 backdrop-blur-sm dark:bg-black/80 dark:shadow-black/60 sm:hidden">
             {navigationLinks.map(({label, href, icon}) => {
@@ -87,7 +125,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
                     })
                   }}
                 >
-                  {icon} {label}
+                  {icon(true)} {label}
                 </Link>
               )
             })}
@@ -96,84 +134,114 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
             </div>
           </div>
         )}
-      </nav>
+      </motion.nav>
     </div>
   )
 }
 
 export default Navigation
 
-export const ArticlesIcon = () => {
+type IconProps = {
+  isHovered: boolean
+  theme: 'light' | 'dark'
+}
+
+export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="w-4 text-indigo-500 dark:text-indigo-300"
-      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      viewBox="0 0 18 18"
     >
-      <title>document-copy</title>
-      <g
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-        strokeWidth="2"
-        fill="none"
-        stroke="currentColor"
-        strokeMiterlimit="10"
-      >
-        <rect x="2" y="5" width="16" height="18"></rect>{' '}
-        <polyline points=" 5,1 22,1 22,21 " stroke="currentColor"></polyline>{' '}
-        <line x1="6" y1="10" x2="14" y2="10"></line>{' '}
-        <line x1="6" y1="14" x2="14" y2="14"></line>{' '}
-        <line x1="6" y1="18" x2="10" y2="18"></line>
-      </g>
+      <path
+        fill="url(#a)"
+        d="M15.742.676a.375.375 0 0 0-.367-.301H2.625a.374.374 0 0 0-.368.301l-.75 3.75a.374.374 0 0 0 .368.449h.75a.375.375 0 0 0 .371-.322C3.01 4.46 3.347 2.25 5.25 2.25H7.5v12.302a1.41 1.41 0 0 1-1.232 1.396l-1.44.18a.375.375 0 0 0-.328.372v.75c0 .207.168.375.375.375h8.25a.375.375 0 0 0 .375-.375v-.75a.375.375 0 0 0-.329-.372l-1.44-.18a1.409 1.409 0 0 1-1.231-1.396V2.25h2.25c1.893 0 2.24 2.21 2.254 2.303a.375.375 0 0 0 .37.322h.75a.374.374 0 0 0 .368-.449l-.75-3.75Z"
+      />
+      <defs>
+        <linearGradient
+          id="a"
+          x1="9"
+          x2="9"
+          y1=".375"
+          y2="17.625"
+          gradientUnits="userSpaceOnUse"
+        >
+          <motion.stop
+            animate={{
+              stopColor: isHovered
+                ? '#FF9254'
+                : theme === 'light'
+                ? '#C2C4CF'
+                : '#5B5E71',
+            }}
+            // stop-color="#5B5E71"
+          />
+          <motion.stop
+            animate={{
+              stopColor: isHovered
+                ? '#F8965F'
+                : theme === 'light'
+                ? '#C2C4CF'
+                : '#393A46',
+            }}
+            offset="1"
+            // stop-color="#393A46"
+          />
+        </linearGradient>
+      </defs>
     </svg>
   )
 }
 
-export const TutorialsIcon = () => {
+export const TutorialsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="w-4 text-orange-500 dark:text-orange-300"
-      viewBox="0 0 24 24"
-      aria-hidden
+      width="22"
+      height="16"
+      fill="none"
+      viewBox="0 0 22 16"
     >
-      <title>box-caret-right</title>
-      <g
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-        strokeWidth="2"
-        fill="none"
-        stroke="currentColor"
-        strokeMiterlimit="10"
-      >
-        <polygon points="9 16 9 8 15 12 9 16" stroke="currentColor" />
-        <rect x="2" y="2" width="20" height="20" rx="2" />
-      </g>
-    </svg>
-  )
-}
-
-export const TipsIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-4 text-sky-500 dark:text-sky-300"
-      viewBox="0 0 24 24"
-      aria-hidden
-    >
-      <title>pacman</title>
-      <g
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-        strokeWidth="2"
-        fill="none"
-        stroke="currentColor"
-        strokeMiterlimit="10"
-      >
-        <path d="M12,12l9.519-5.5a11,11,0,1,0,0,10.992Z" strokeLinecap="butt" />
-        <circle cx="22" cy="12" r="2" stroke="none" fill="currentColor" />
-        <circle cx="12.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
-      </g>
+      <path
+        fill="url(#tutorialsGradient)"
+        fill-rule="evenodd"
+        d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3Zm6 11.44V4.56a.3.3 0 0 1 .466-.25l5.16 3.44a.3.3 0 0 1 0 .5l-5.16 3.44A.3.3 0 0 1 9 11.44Z"
+        clip-rule="evenodd"
+      />
+      <defs>
+        <linearGradient
+          id="tutorialsGradient"
+          x1="11"
+          x2="11"
+          y1="0"
+          y2="16"
+          gradientUnits="userSpaceOnUse"
+        >
+          <motion.stop
+            animate={{
+              stopColor: isHovered
+                ? '#FF5F5F'
+                : theme === 'light'
+                ? '#C2C4CF'
+                : '#5B5E71',
+            }}
+            stop-color="#5B5E71"
+          />
+          <motion.stop
+            animate={{
+              stopColor: isHovered
+                ? '#F33D3D'
+                : theme === 'light'
+                ? '#C2C4CF'
+                : '#393A46',
+            }}
+            offset="1"
+            stop-color="#393A46"
+          />
+        </linearGradient>
+      </defs>
     </svg>
   )
 }
@@ -222,27 +290,33 @@ export const CrossIcon = () => {
 const useNavigationLinks = () => {
   const ability = useAbilities()
   const canCreateContent = ability.can('create', 'Content')
-
+  const {theme} = useTheme()
   return [
     {
-      label: 'Articles',
-      icon: <ArticlesIcon />,
-      href: '/articles',
+      label: 'Tips',
+      icon: (isHovered: boolean) => (
+        <TipsIcon isHovered={isHovered} theme={theme} />
+      ),
+      href: canCreateContent ? '/creator/tips' : '/tips',
     },
     {
       label: 'Free Tutorials',
-      icon: <TutorialsIcon />,
+      icon: (isHovered: boolean) => (
+        <TutorialsIcon isHovered={isHovered} theme={theme} />
+      ),
       href: '/tutorials',
     },
     {
-      label: 'Tips',
-      icon: <TipsIcon />,
-      href: canCreateContent ? '/creator/tips' : '/tips',
+      label: 'Articles',
+      icon: (isHovered: boolean) => (
+        <ArticlesIcon isHovered={isHovered} theme={theme} />
+      ),
+      href: '/articles',
     },
     // {
-    //   label: 'Events',
-    //   icon: (
-    //     <CalendarIcon className="w-[18px] text-rose-400 dark:text-rose-300" />
+    //   label: 'Live Events',
+    //   icon: (isHovered: boolean) => (
+    //     <EventsIcon isHovered={isHovered} theme={theme} />
     //   ),
     //   href: '/events',
     // },
@@ -274,7 +348,7 @@ const NavToggle: React.FC<NavToggleProps> = ({
 
   return (
     <button
-      className="absolute right-1 top-1.5 z-10 flex h-12 w-12 items-center justify-center p-1 sm:hidden"
+      className="absolute z-10 flex h-12 w-12 items-center justify-center p-1 sm:hidden"
       onClick={async () => {
         // menuControls.start(isMenuOpened ? 'close' : 'open')
         setMenuOpened(!isMenuOpened)
@@ -309,7 +383,7 @@ const NavToggle: React.FC<NavToggleProps> = ({
   )
 }
 
-const Logo = () => {
+export const Logo = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -357,6 +431,108 @@ const Logo = () => {
         >
           <stop stopColor="#4F75FF" />
           <stop offset="1" stopColor="#30AFFF" />
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}
+
+const EventsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      fill="none"
+      viewBox="0 0 18 18"
+    >
+      <g clip-path="url(#a)">
+        <path
+          fill="url(#b)"
+          d="M17.586 3.08a.756.756 0 0 0-.784.07l-4.8 3.6V4.5a3 3 0 0 0-3-3H3a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3v-2.25l4.8 3.6a.748.748 0 0 0 .786.07.751.751 0 0 0 .414-.67V3.75a.751.751 0 0 0-.414-.67Z"
+        />
+      </g>
+      <defs>
+        <linearGradient
+          id="b"
+          x1="9"
+          x2="9"
+          y1="1.5"
+          y2="16.5"
+          gradientUnits="userSpaceOnUse"
+        >
+          <motion.stop
+            animate={{
+              stopColor: isHovered
+                ? '#1BD3C8'
+                : theme === 'light'
+                ? '#C2C4CF'
+                : '#5B5E71',
+            }}
+          />
+          <motion.stop
+            animate={{
+              stopColor: isHovered
+                ? '#14C5C5'
+                : theme === 'light'
+                ? '#C2C4CF'
+                : '#393A46',
+            }}
+            offset="1"
+            stop-color="#393A46"
+          />
+        </linearGradient>
+        <clipPath id="a">
+          <path fill="#fff" d="M0 0h18v18H0z" />
+        </clipPath>
+      </defs>
+    </svg>
+  )
+}
+
+export const TipsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="12"
+      fill="none"
+      viewBox="0 0 18 12"
+    >
+      <motion.path
+        fill={`url(#tipsGradient)`}
+        d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
+      />
+      ) : (
+      <motion.path
+        fill={`url(#tips)`}
+        d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
+      />
+      <defs>
+        <linearGradient
+          id="tipsGradient"
+          x1="12.5"
+          x2="-.5"
+          y1="-2"
+          y2="14.5"
+          gradientUnits="userSpaceOnUse"
+        >
+          <motion.stop
+            animate={{
+              stopColor: isHovered
+                ? '#30B0FF'
+                : theme === 'light'
+                ? '#C2C4CF'
+                : '#5B5E71',
+            }}
+            stopColor={'#5B5E71'}
+          />
+          <motion.stop
+            offset="1"
+            stopColor={
+              isHovered ? '#5075FF' : theme === 'light' ? '#A4A5AF' : '#393A46'
+            }
+          />
         </linearGradient>
       </defs>
     </svg>

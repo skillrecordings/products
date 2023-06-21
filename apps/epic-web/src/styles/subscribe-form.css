@@ -168,3 +168,36 @@
     }
   }
 }
+
+#tutorials-index {
+  [data-sr-convertkit-subscribe-form] {
+    @apply flex w-full max-w-sm scale-90 flex-col gap-4 text-left;
+    [data-sr-input] {
+      @apply w-full rounded-md border px-3 py-3 text-base focus-visible:outline focus-visible:outline-indigo-400 dark:border-gray-700 dark:bg-gray-800;
+    }
+    [data-sr-input-label] {
+      @apply inline-block w-full pb-1 text-base text-gray-600 dark:text-gray-300;
+    }
+    [data-sr-button] {
+      @apply relative mt-2 flex items-center justify-center rounded-md border border-white/5 bg-gradient-to-b from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110;
+      svg {
+        @apply h-7 w-7;
+      }
+    }
+    [data-sr-button][disabled] {
+    }
+  }
+  [data-sr-convertkit-subscribe-form='success'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-sr-convertkit-subscribe-form='error'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-nospam] {
+    @apply text-sm text-gray-400;
+  }
+}

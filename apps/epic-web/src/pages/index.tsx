@@ -14,7 +14,7 @@ const Index: NextPage<any> = ({page}) => {
   const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
-    <Layout navigationClassName="w-full fixed top-0 sm:text-white">
+    <Layout navigationClassName="">
       <Header />
       <main className="">
         <Article />

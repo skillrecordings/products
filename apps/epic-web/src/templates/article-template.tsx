@@ -88,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="relative mx-auto w-full max-w-screen-lg">
-      <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-24">
+      <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-16">
         <div className="flex flex-grow items-center justify-center">
           <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-2xl sm:fluid-3xl md:font-medium">
             {title}

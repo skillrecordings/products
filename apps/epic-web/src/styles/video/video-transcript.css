@@ -1,5 +1,5 @@
 [data-video-transcript] {
-  @apply mx-auto max-w-4xl p-5 py-16;
+  @apply mx-auto max-w-4xl p-5 py-16 opacity-75 transition hover:opacity-100 2xl:opacity-100;
   [data-title] {
     @apply flex items-baseline text-2xl font-semibold sm:text-3xl;
   }
