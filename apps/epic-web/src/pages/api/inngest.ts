@@ -47,6 +47,10 @@ export type IngestEvents = {
   'tip/video.llm.suggestions.created': LLMSuggestionsCreated
 }
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 async function getVideoResource(videoResourceId: string) {
   return await sanityWriteClient.fetch(`*[_id == $videoResourceId][0]`, {
     videoResourceId,
@@ -194,7 +198,7 @@ const processNewTip = inngest.createFunction(
       })
 
       await step.run('Send Transcript for LLM Suggestions', async () => {
-        return await fetch(
+        fetch(
           `https://deepgram-wrangler.skillstack.workers.dev/tipMetadataLLM?videoResourceId=${event.data.videoResourceId}`,
           {
             method: 'POST',
@@ -206,6 +210,8 @@ const processNewTip = inngest.createFunction(
             }),
           },
         )
+        await sleep(1000)
+        return 'Transcript sent to LLM'
       })
 
       const llmResponse = await step.waitForEvent(
