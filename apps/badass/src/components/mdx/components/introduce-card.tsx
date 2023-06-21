@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Balancer from 'react-wrap-balancer'
 
 export type IntroduceCardProps = {
   image: {
@@ -24,7 +25,9 @@ export const IntroduceCard: React.FC<IntroduceCardProps> = ({
       <div data-introduce-card-info="">
         <h3 data-introduce-card-heading="">Introducing</h3>
         <h4 data-introduce-card-name="">{name}</h4>
-        <p data-introduce-card-title="">{title}</p>
+        <p data-introduce-card-title="">
+          <Balancer>{title}</Balancer>
+        </p>
       </div>
     </div>
   )

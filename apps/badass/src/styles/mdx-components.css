@@ -1,3 +1,10 @@
+[data-template-case-study] {
+  .prose h3 {
+    @apply text-center;
+    /* @apply text-center mb-12; */
+  }
+}
+
 [data-body-blockquote] {
   @apply flex shrink-0 before:w-1 before:rounded-full my-16;
   &[data-body-blockquote-color='green'] {
@@ -46,8 +53,9 @@
 }
 
 [data-skeleton-hand-separator] {
-  @apply flex justify-center mt-32;
+  @apply flex justify-center mt-24 md:mt-28 lg:mt-32;
   [data-skeleton-hand-separator-image-holder] {
+    @apply w-40 md:w-64;
   }
 }
 
