@@ -26,7 +26,7 @@
 }
 
 [data-team-member-card] {
-  @apply flex overflow-hidden rounded-xl grow max-w-[calc(50%-8px)] bg-[#1E1C20];
+  @apply flex overflow-hidden rounded-xl grow md:max-w-[calc(50%-8px)] bg-[#1E1C20];
   [data-team-member-image] {
     @apply shrink-0 w-[120px] h-[120px];
   }
@@ -42,7 +42,7 @@
 }
 
 [data-related-team-members] {
-  @apply flex gap-4 flex-wrap justify-center my-16;
+  @apply flex flex-col md:flex-row gap-4 flex-wrap justify-center my-16;
 }
 
 [data-skeleton-hand-separator] {
