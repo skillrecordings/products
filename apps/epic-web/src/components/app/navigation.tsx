@@ -15,6 +15,8 @@ import {
 } from 'framer-motion'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {trpc} from 'trpc/trpc.client'
+import Gravatar from 'react-gravatar'
+import {useSession} from 'next-auth/react'
 
 type NavigationProps = {
   className?: string
@@ -42,6 +44,7 @@ const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
   )
 
   const [hoveredNavItemIndex, setHoveredNavItemIndex] = React.useState(-1)
+  const {data: sessionData, status: sessionStatus} = useSession()
 
   return (
     <div className="fixed left-0 top-0 z-50 flex w-full items-center justify-center border-b border-foreground/5 bg-white/95 backdrop-blur-md dark:bg-background/60">
@@ -107,6 +110,16 @@ const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
           </div>
         </div>
         <div className="flex items-center justify-center pr-5 sm:pr-0">
+          {sessionData?.user?.email && (
+            <div className="flex items-center space-x-1">
+              <Gravatar
+                className="h-8 w-8 rounded-full"
+                email={sessionData?.user?.email}
+                default="mp"
+              />
+              <span className="text-sm">{sessionData?.user?.name}</span>
+            </div>
+          )}
           <ColorModeToggle className="hidden sm:block" />
           <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
         </div>
@@ -206,9 +219,9 @@ export const TutorialsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
     >
       <path
         fill="url(#tutorialsGradient)"
-        fill-rule="evenodd"
+        fillRule="evenodd"
         d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3Zm6 11.44V4.56a.3.3 0 0 1 .466-.25l5.16 3.44a.3.3 0 0 1 0 .5l-5.16 3.44A.3.3 0 0 1 9 11.44Z"
-        clip-rule="evenodd"
+        clipRule="evenodd"
       />
       <defs>
         <linearGradient
