@@ -38,7 +38,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         },
       }}
     >
-      <main className="relative z-10 flex flex-col items-center justify-center pb-8 pt-10 md:pb-5 md:pt-16">
+      <main className="relative z-10 flex flex-col items-center justify-center pb-8 pt-10 md:pb-5 md:pt-28">
         <h1 className="font-heading px-5 text-center text-3xl font-bold sm:text-4xl">
           Free Web Development Tutorials
         </h1>

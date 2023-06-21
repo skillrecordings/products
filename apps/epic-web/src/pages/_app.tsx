@@ -39,7 +39,7 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <ConvertkitProvider>
             <div
-              className={`${dmSans.variable} ${jetBransMono.variable} bg-gray-50 font-sans text-gray-800 antialiased dark:bg-gray-950 dark:text-gray-200`}
+              className={`${dmSans.variable} ${jetBransMono.variable} font-sans antialiased`}
             >
               <Component {...pageProps} />
             </div>

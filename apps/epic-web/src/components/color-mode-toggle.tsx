@@ -17,7 +17,7 @@ const ColorModeToggle = () => {
 
   return (
     <button
-      className="rounded-full p-2 text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+      className="rounded-full bg-background p-2 text-gray-700 hover:text-gray-900 dark:bg-transparent dark:text-gray-300 dark:hover:text-white"
       onClick={() => {
         mounted && setTheme(theme === 'light' ? 'dark' : 'light')
       }}

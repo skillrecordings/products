@@ -36,7 +36,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
         },
       }}
     >
-      <header className="mx-auto w-full max-w-4xl px-5 pb-3 pt-5 sm:pb-10 sm:pt-16">
+      <header className="mx-auto w-full max-w-4xl px-5 pb-3 pt-5 sm:pb-10 sm:pt-24">
         <h1 className="text-lg font-semibold">
           {title} <span className="font-normal">by Kent C. Dodds</span>
         </h1>

@@ -4,9 +4,21 @@
     @apply flex items-baseline text-2xl font-semibold sm:text-3xl;
   }
   [data-transcript] {
-    @apply dark:prose-invert prose max-w-none pt-4 sm:prose-lg;
+    @apply prose max-w-none pt-4 dark:prose-invert sm:prose-lg;
     [data-timestamp] {
       @apply inline-block underline after:inline-block after:content-['_'];
     }
+  }
+}
+
+#tip {
+  [data-video-transcript] {
+    @apply p-0;
+  }
+}
+
+#talk {
+  [data-video-transcript] {
+    @apply p-0;
   }
 }

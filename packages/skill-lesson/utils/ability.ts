@@ -59,6 +59,12 @@ const canViewTip = ({lesson}: ViewerAbilityInput) => {
   return contentIsTip
 }
 
+const canViewTalk = ({lesson}: ViewerAbilityInput) => {
+  const contentIsTalk = lesson?._type === 'talk'
+
+  return contentIsTalk
+}
+
 const canViewWorkshop = ({
   user,
   module,
@@ -217,6 +223,10 @@ export function defineRulesForPurchases(
   }
 
   if (canViewTip(viewerAbilityInput)) {
+    can('view', 'Content')
+  }
+
+  if (canViewTalk(viewerAbilityInput)) {
     can('view', 'Content')
   }
 
