@@ -37,6 +37,7 @@ import bodyTestimonial from './objects/bodyTestimonial'
 import feature from './objects/feature'
 import github from './objects/resources/github'
 import transcript from './objects/transcript'
+import sellable from './objects/sellable'
 
 export const schemaTypes = [
   // —— documents
@@ -78,4 +79,5 @@ export const schemaTypes = [
   tweet,
   bodyTestimonial,
   feature,
+  sellable,
 ]

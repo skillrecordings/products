@@ -1,6 +1,6 @@
 import React from 'react'
 import {MdOutlineArticle} from 'react-icons/md'
-import {defineField, defineType} from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'event',
@@ -47,6 +47,15 @@ export default defineType({
         timeStep: 15,
       },
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'resources',
+      title: 'Resources',
+      type: 'array',
+      of: [
+        defineArrayMember({type: 'sellable', title: 'Sellable Resource'}),
+        defineArrayMember({type: 'reference', to: {type: 'videoResource'}}),
+      ],
     }),
     defineField({
       name: 'state',

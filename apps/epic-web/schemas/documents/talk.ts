@@ -55,7 +55,7 @@ export default defineType({
       title: 'Resources',
       type: 'array',
       of: [
-        defineArrayMember({type: 'reference', to: [{type: 'videoResource'}]}),
+        defineArrayMember({type: 'reference', to: {type: 'videoResource'}}),
         defineArrayMember({type: 'tweet'}),
       ],
     }),
