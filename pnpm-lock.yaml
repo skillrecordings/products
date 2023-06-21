@@ -261,7 +261,7 @@ importers:
       prettier: 2.7.1
       prettier-plugin-tailwindcss: 0.2.5_prettier@2.7.1
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -468,7 +468,7 @@ importers:
       postcss-preset-env: 7.7.2_postcss@8.4.23
       prettier: 2.7.1
       react-test-renderer: 17.0.2_react@18.2.0
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -721,7 +721,7 @@ importers:
       jest-mock-extended: 3.0.4_lourqem7oeylemhnc3pwen4rq4
       postcss: 8.4.23
       prettier: 2.7.1
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -939,7 +939,7 @@ importers:
       stream-chain: 2.2.5
       stream-json: 1.7.5
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0_ts-node@10.9.1
+      tailwindcss: 3.3.0_3fojqsmttcn75cbnzsztj3o6qa
       ts-node: 10.9.1_m5zxhvpm775j2y7tyimpt7bfse
       typescript: 5.1.1-rc
       uuid: 8.3.2
@@ -1492,7 +1492,7 @@ importers:
       postcss: 8.4.23
       prettier-plugin-tailwindcss: 0.2.5
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -1731,7 +1731,7 @@ importers:
       prettier: 2.8.8
       prettier-plugin-tailwindcss: 0.2.5_prettier@2.8.8
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -2066,7 +2066,7 @@ importers:
       postcss-preset-env: 7.7.2_postcss@8.4.23
       prettier: 2.7.1
       react-test-renderer: 18.2.0_react@18.2.0
-      tailwindcss: 3.3.0_ts-node@10.9.1
+      tailwindcss: 3.3.0_3fojqsmttcn75cbnzsztj3o6qa
       ts-node: 10.9.1_m5zxhvpm775j2y7tyimpt7bfse
       typescript: 5.1.1-rc
       webpack: 5.73.0
@@ -2286,7 +2286,7 @@ importers:
       postcss-preset-env: 7.7.2_postcss@8.4.23
       prettier: 2.7.1
       react-test-renderer: 17.0.2_react@18.2.0
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -2475,7 +2475,7 @@ importers:
       jest-mock-extended: 3.0.4_lourqem7oeylemhnc3pwen4rq4
       postcss: 8.4.23
       prettier: 2.7.1
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -2668,7 +2668,7 @@ importers:
       jest-mock-extended: 3.0.4_lourqem7oeylemhnc3pwen4rq4
       postcss: 8.4.23
       prettier: 2.7.1
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -2971,7 +2971,7 @@ importers:
       postcss-preset-env: 7.7.2_postcss@8.4.23
       prettier: 2.7.1
       react-test-renderer: 17.0.2_react@18.2.0
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -3316,7 +3316,7 @@ importers:
       prettier: 2.7.1
       prettier-plugin-tailwindcss: 0.2.5_prettier@2.7.1
       tailwind-scrollbar: 3.0.0_tailwindcss@3.3.0
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -3431,7 +3431,7 @@ importers:
       jest-mock-extended: 3.0.4_lourqem7oeylemhnc3pwen4rq4
       postcss: 8.4.23
       prettier: 2.7.1
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -3698,7 +3698,7 @@ importers:
       postcss-preset-env: 7.7.2_postcss@8.4.23
       prettier: 2.7.1
       react-test-renderer: 17.0.2_react@18.2.0
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       typescript: 5.1.1-rc
       webpack: 5.73.0
 
@@ -3793,6 +3793,7 @@ importers:
       date-fns: ^2.28.0
       eslint: ^8.12.0
       eslint-config-custom: workspace:*
+      jest: ^29.5.0
       lodash: ^4.17.21
       rimraf: ^3.0.2
       stripe: ^8.186.1
@@ -3818,6 +3819,7 @@ importers:
       '@types/node': 18.16.13
       eslint: 8.26.0
       eslint-config-custom: link:../eslint-config-custom
+      jest: 29.5.0_@types+node@18.16.13
       rimraf: 3.0.2
       tsup: 5.12.9_typescript@5.1.1-rc
       tsx: 3.8.0
@@ -4019,10 +4021,10 @@ importers:
       tsup: ^5.11.13
       tsx: ^3.7.1
       typescript: 5.1.1-rc
-      uuid: ^8.3.2
+      uuid: ^9.0.0
     dependencies:
       '@prisma/client': 4.5.0_prisma@4.5.0
-      uuid: 8.3.2
+      uuid: 9.0.0
     devDependencies:
       '@skillrecordings/tsconfig': link:../tsconfig
       '@types/node': 18.16.13
@@ -14297,7 +14299,7 @@ packages:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.3.0_ts-node@10.9.1
+      tailwindcss: 3.3.0_3fojqsmttcn75cbnzsztj3o6qa
     dev: false
 
   /@tailwindcss/typography/0.5.9_tailwindcss@3.3.0:
@@ -14309,7 +14311,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.3.0_postcss@8.4.23
+      tailwindcss: 3.3.0
 
   /@tanstack/match-sorter-utils/8.7.6:
     resolution: {integrity: sha512-2AMpRiA6QivHOUiBpQAVxjiHAA68Ei23ZUMNaRJrN6omWiSFLoYrxGcT6BXtuzp0Jw4h6HZCmGGIM/gbwebO2A==}
@@ -16129,13 +16131,14 @@ packages:
       '@ucast/mongo': 2.4.2
     dev: false
 
-  /@uiw/codemirror-extensions-basic-setup/4.19.7_r5d3jlum5gwy6jsylajaj62gpe:
+  /@uiw/codemirror-extensions-basic-setup/4.19.7_b75jqe4w7qgjwbqfbsbdvntkte:
     resolution: {integrity: sha512-pk0JTFJAZOGxouBB1pdBtb59qKibO9DW4hER4VSFGBGW3TBDeXUwL/gKujhRpySHG2MtG09cgt4a3XOFIWwXTw==}
     peerDependencies:
       '@codemirror/autocomplete': '>=6.0.0'
       '@codemirror/commands': '>=6.0.0'
       '@codemirror/language': '>=6.0.0'
       '@codemirror/search': '>=6.0.0'
+      '@codemirror/state': '>=6.0.0'
       '@codemirror/view': '>=6.0.0'
     dependencies:
       '@codemirror/autocomplete': 6.4.0
@@ -16167,7 +16170,7 @@ packages:
       '@codemirror/state': 6.2.0
       '@codemirror/theme-one-dark': 6.1.0
       '@codemirror/view': 6.7.3
-      '@uiw/codemirror-extensions-basic-setup': 4.19.7_r5d3jlum5gwy6jsylajaj62gpe
+      '@uiw/codemirror-extensions-basic-setup': 4.19.7_b75jqe4w7qgjwbqfbsbdvntkte
       codemirror: 6.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -17070,14 +17073,14 @@ packages:
   /axios/0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
     transitivePeerDependencies:
       - debug
 
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
     transitivePeerDependencies:
       - debug
     dev: false
@@ -17094,7 +17097,7 @@ packages:
   /axios/1.4.0:
     resolution: {integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -22582,6 +22585,7 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
 
   /follow-redirects/1.15.2_debug@2.6.9:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
@@ -22593,7 +22597,6 @@ packages:
         optional: true
     dependencies:
       debug: 2.6.9
-    dev: false
 
   /fontkit-next/1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
@@ -23002,7 +23005,7 @@ packages:
       create-error-class: 3.0.2
       debug: 2.6.9
       decompress-response: 6.0.0
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
       form-urlencoded: 2.0.9
       into-stream: 3.1.0
       is-plain-object: 2.0.4
@@ -23025,7 +23028,7 @@ packages:
     dependencies:
       debug: 4.3.4
       decompress-response: 7.0.0
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@2.6.9
       into-stream: 6.0.0
       is-plain-object: 5.0.0
       is-retry-allowed: 2.2.0
@@ -29301,7 +29304,7 @@ packages:
       semver: 7.5.1
       sift-string: 0.0.2
       stringify-object: 4.0.1
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
       tmp-cache: 1.1.0
       vscode-languageserver-textdocument: 1.0.7
     transitivePeerDependencies:
@@ -31302,7 +31305,6 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.2
-    dev: false
 
   /postcss-import/14.1.0_postcss@8.4.23:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
@@ -31322,6 +31324,14 @@ packages:
     dependencies:
       postcss: 8.4.23
     dev: true
+
+  /postcss-js/4.0.0:
+    resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
+    engines: {node: ^12 || ^14 || >= 16}
+    peerDependencies:
+      postcss: ^8.3.3
+    dependencies:
+      camelcase-css: 2.0.1
 
   /postcss-js/4.0.0_postcss@8.4.23:
     resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
@@ -31357,7 +31367,6 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       yaml: 1.10.2
-    dev: true
 
   /postcss-load-config/3.1.4_3fojqsmttcn75cbnzsztj3o6qa:
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
@@ -31487,6 +31496,14 @@ packages:
       postcss: 8.4.23
       postcss-selector-parser: 6.0.11
     dev: true
+
+  /postcss-nested/6.0.0:
+    resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
+    engines: {node: '>=12.0'}
+    peerDependencies:
+      postcss: ^8.2.14
+    dependencies:
+      postcss-selector-parser: 6.0.11
 
   /postcss-nested/6.0.0_postcss@8.4.23:
     resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
@@ -36089,7 +36106,7 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
     dependencies:
-      tailwindcss: 3.3.0
+      tailwindcss: 3.3.0_postcss@8.4.23
     dev: false
 
   /tailwindcss-radix/2.8.0:
@@ -36100,6 +36117,42 @@ packages:
     resolution: {integrity: sha512-hOXlFx+YcklJ8kXiCAfk/FMyr4Pm9ck477G0m/us2344Vuj355IpoEDB5UmGAsSpTBmr+4ZhjzW04JuFXkb/fw==}
     engines: {node: '>=12.13.0'}
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
+    dependencies:
+      arg: 5.0.2
+      chokidar: 3.5.3
+      color-name: 1.1.4
+      didyoumean: 1.2.2
+      dlv: 1.1.3
+      fast-glob: 3.2.12
+      glob-parent: 6.0.2
+      is-glob: 4.0.3
+      jiti: 1.18.2
+      lilconfig: 2.1.0
+      micromatch: 4.0.5
+      normalize-path: 3.0.0
+      object-hash: 3.0.0
+      picocolors: 1.0.0
+      postcss: 8.4.23
+      postcss-import: 14.1.0
+      postcss-js: 4.0.0
+      postcss-load-config: 3.1.4
+      postcss-nested: 6.0.0
+      postcss-selector-parser: 6.0.11
+      postcss-value-parser: 4.2.0
+      quick-lru: 5.1.1
+      resolve: 1.22.2
+      sucrase: 3.31.0
+    transitivePeerDependencies:
+      - ts-node
+
+  /tailwindcss/3.3.0_3fojqsmttcn75cbnzsztj3o6qa:
+    resolution: {integrity: sha512-hOXlFx+YcklJ8kXiCAfk/FMyr4Pm9ck477G0m/us2344Vuj355IpoEDB5UmGAsSpTBmr+4ZhjzW04JuFXkb/fw==}
+    engines: {node: '>=12.13.0'}
+    hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
@@ -36118,7 +36171,7 @@ packages:
       postcss: 8.4.23
       postcss-import: 14.1.0_postcss@8.4.23
       postcss-js: 4.0.0_postcss@8.4.23
-      postcss-load-config: 3.1.4_postcss@8.4.23
+      postcss-load-config: 3.1.4_3fojqsmttcn75cbnzsztj3o6qa
       postcss-nested: 6.0.0_postcss@8.4.23
       postcss-selector-parser: 6.0.11
       postcss-value-parser: 4.2.0
@@ -36153,38 +36206,6 @@ packages:
       postcss-import: 14.1.0_postcss@8.4.23
       postcss-js: 4.0.0_postcss@8.4.23
       postcss-load-config: 3.1.4_postcss@8.4.23
-      postcss-nested: 6.0.0_postcss@8.4.23
-      postcss-selector-parser: 6.0.11
-      postcss-value-parser: 4.2.0
-      quick-lru: 5.1.1
-      resolve: 1.22.2
-      sucrase: 3.31.0
-    transitivePeerDependencies:
-      - ts-node
-
-  /tailwindcss/3.3.0_ts-node@10.9.1:
-    resolution: {integrity: sha512-hOXlFx+YcklJ8kXiCAfk/FMyr4Pm9ck477G0m/us2344Vuj355IpoEDB5UmGAsSpTBmr+4ZhjzW04JuFXkb/fw==}
-    engines: {node: '>=12.13.0'}
-    hasBin: true
-    dependencies:
-      arg: 5.0.2
-      chokidar: 3.5.3
-      color-name: 1.1.4
-      didyoumean: 1.2.2
-      dlv: 1.1.3
-      fast-glob: 3.2.12
-      glob-parent: 6.0.2
-      is-glob: 4.0.3
-      jiti: 1.18.2
-      lilconfig: 2.1.0
-      micromatch: 4.0.5
-      normalize-path: 3.0.0
-      object-hash: 3.0.0
-      picocolors: 1.0.0
-      postcss: 8.4.23
-      postcss-import: 14.1.0_postcss@8.4.23
-      postcss-js: 4.0.0_postcss@8.4.23
-      postcss-load-config: 3.1.4_3fojqsmttcn75cbnzsztj3o6qa
       postcss-nested: 6.0.0_postcss@8.4.23
       postcss-selector-parser: 6.0.11
       postcss-value-parser: 4.2.0

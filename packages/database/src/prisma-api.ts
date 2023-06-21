@@ -1,5 +1,5 @@
 import {Context, defaultContext} from './context'
-import {v4} from 'uuid'
+import {v4 as uuidv4} from 'uuid'
 import {Prisma, Purchase, PurchaseUserTransferState, User} from '@prisma/client'
 
 type SDKOptions = {ctx?: Context}
@@ -416,8 +416,8 @@ export function getSdk(
       // we are using uuids so we can generate this!
       // this is needed because the following actions
       // are dependant
-      const merchantChargeId = v4()
-      const purchaseId = v4()
+      const merchantChargeId = uuidv4()
+      const purchaseId = uuidv4()
 
       const merchantCharge = ctx.prisma.merchantCharge.create({
         data: {
@@ -473,7 +473,7 @@ export function getSdk(
 
       if (isBulkPurchase) {
         bulkCouponId =
-          existingBulkCoupon !== null ? existingBulkCoupon.id : v4()
+          existingBulkCoupon !== null ? existingBulkCoupon.id : uuidv4()
 
         // Create or Update Bulk Coupon Record
         if (existingBulkCoupon) {
@@ -503,7 +503,7 @@ export function getSdk(
         }
       }
 
-      const merchantSessionId = v4()
+      const merchantSessionId = uuidv4()
 
       const merchantSession = ctx.prisma.merchantSession.create({
         data: {
