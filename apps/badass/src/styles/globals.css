@@ -49,9 +49,3 @@ but it will still show up on keyboard focus.
   border-radius: 13px;
   @apply overflow-hidden;
 }
-
-[data-template-case-study] {
-  .prose h3 {
-    @apply text-center mb-12;
-  }
-}
