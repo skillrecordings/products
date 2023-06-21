@@ -20,7 +20,7 @@ const useAbilities = () => {
 }
 
 const Navigation: React.FC<NavigationProps> = ({className}) => {
-  const {pathname, asPath} = useRouter()
+  const {pathname, asPath, push} = useRouter()
   const isRoot = pathname === '/'
   const [menuOpen, setMenuOpen] = React.useState(false)
   const navigationLinks = useNavigationLinks()
@@ -41,6 +41,10 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
             tabIndex={isRoot ? -1 : 0}
             passHref
             className="relative z-10 text-lg font-bold tracking-tight text-[##333753] dark:from-white dark:to-gray-400 dark:text-white"
+            onContextMenu={(event) => {
+              event.preventDefault()
+              push('/brand')
+            }}
           >
             <Logo />
           </Link>

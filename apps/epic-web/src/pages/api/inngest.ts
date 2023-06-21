@@ -56,20 +56,25 @@ const processNewTip = inngest.createFunction(
         .commit()
     })
 
-    await step.run('Create a Mux Asset', async () => {
+    const newMuxAsset: any = await step.run('Create a Mux Asset', async () => {
       const videoResource = await getVideoResource(event.data.videoResourceId)
-      const {originalMediaUrl, muxAsset, duration, _id} = videoResource
-      const {duration: assetDuration, ...newMuxAsset} = await createMuxAsset({
+      const {originalMediaUrl, muxAsset, duration} = videoResource
+      return await createMuxAsset({
         originalMediaUrl,
         muxAsset,
         duration,
       })
+    })
+
+    await step.run('Sync Asset with Sanity', async () => {
+      const videoResource = await getVideoResource(event.data.videoResourceId)
+      const {duration: assetDuration, ...muxAsset} = newMuxAsset
 
       return await sanityWriteClient
-        .patch(_id)
+        .patch(videoResource._id)
         .set({
-          duration,
-          muxAsset: newMuxAsset,
+          duration: assetDuration,
+          muxAsset,
         })
         .commit()
     })
@@ -77,7 +82,7 @@ const processNewTip = inngest.createFunction(
     await step.run('Initiate Transcript Order via Deepgram', async () => {
       const videoResource = await getVideoResource(event.data.videoResourceId)
       const {originalMediaUrl, _id} = videoResource
-      fetch(
+      return await fetch(
         `https://deepgram-wrangler.skillstack.workers.dev/transcript?videoUrl=${originalMediaUrl}&videoResourceId=${_id}`,
         {
           method: 'POST',
@@ -87,6 +92,8 @@ const processNewTip = inngest.createFunction(
         },
       )
     })
+
+    // Promise.all|race to wait for multiple events
 
     const transcript = await step.waitForEvent('tip/video.transcript.created', {
       match: 'data.videoResourceId',
@@ -106,24 +113,35 @@ const processNewTip = inngest.createFunction(
           .commit()
       })
 
+      await step.run(
+        'Check for existing subtitles in Mux and remove if found',
+        async () => {
+          const videoResource = await getVideoResource(
+            event.data.videoResourceId,
+          )
+          const {Video} = new Mux()
+          const {tracks} = await Video.Assets.get(
+            videoResource.muxAsset.muxAssetId,
+          )
+
+          const existingSubtitle = tracks?.find(
+            (track: any) => track.name === 'English',
+          )
+
+          if (existingSubtitle) {
+            return await Video.Assets.deleteTrack(
+              videoResource.muxAsset.muxAssetId,
+              existingSubtitle.id,
+            )
+          } else {
+            return 'No existing subtitle found.'
+          }
+        },
+      )
+
       await step.run('Update Mux with SRT', async () => {
         const videoResource = await getVideoResource(event.data.videoResourceId)
         const {Video} = new Mux()
-        const {tracks} = await Video.Assets.get(
-          videoResource.muxAsset.muxAssetId,
-        )
-
-        const existingSubtitle = tracks?.find(
-          (track: any) => track.name === 'English',
-        )
-
-        if (existingSubtitle) {
-          await Video.Assets.deleteTrack(
-            videoResource.muxAsset.muxAssetId,
-            existingSubtitle.id,
-          )
-        }
-
         return await Video.Assets.createTrack(
           videoResource.muxAsset.muxAssetId,
           {
@@ -139,7 +157,7 @@ const processNewTip = inngest.createFunction(
       })
 
       await step.run('Send Transcript for LLM Suggestions', async () => {
-        fetch(
+        return await fetch(
           `https://deepgram-wrangler.skillstack.workers.dev/tipMetadataLLM?videoResourceId=${event.data.videoResourceId}`,
           {
             method: 'POST',

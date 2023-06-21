@@ -70,6 +70,22 @@ INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifie
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 ('kcd_0234be80-b95f-4418-8420-b6a2a6839d3d', 'kcd_910c9191-5a69-4019-ad1d-c55bea7e9714', 'Epic React Basic', 1, 119);
 
+
+
+INSERT INTO Product (id, name, status) VALUES
+('kcd_product-f000186d-78c2-4b02-a763-85b2e5feec7b', "Full-Stack Workshop Series Vol 1", 1);
+
+INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
+('kcd_merchant_product_9ea5d6d2-57f9-43c1-b4d2-07f1693b464f', "kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e", 'kcd_product-f000186d-78c2-4b02-a763-85b2e5feec7b', 1, "prod_O7TG5fydlJVgna");
+
+INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
+('kcd_price_c58128e5-0b93-4640-a0b4-a4bb73d9b0ec', 'kcd_product-f000186d-78c2-4b02-a763-85b2e5feec7b', 'Full-Stack Workshop Series Vol 1', 1, 1999);
+
+INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
+('kcd_merchant_price_03412634-4ea0-4588-bb5d-eb72e23f63d7', 'kcd_merchant_product_9ea5d6d2-57f9-43c1-b4d2-07f1693b464f', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, "kcd_price_c58128e5-0b93-4640-a0b4-a4bb73d9b0ec", "price_1NLEKNIugVgg5liQDAI8BlJ0");
+
+
+
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('kcd_39db1207-07c1-469c-9851-f237ab3abe00', 'kcd_8082cc16-de5a-4646-af70-1a609273818d', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, "kcd_0234be80-b95f-4418-8420-b6a2a6839d3d", "price_1MZI35IugVgg5liQ1YoDFak5");
 
