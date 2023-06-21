@@ -72,11 +72,16 @@ export const getTip = async (slug: string): Promise<Tip> => {
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
-        "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+        "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+        "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId
     }`,
     {slug},
   )
+
+  if (tip.legacyTranscript && !tip.transcript) {
+    tip.transcript = tip.legacyTranscript
+  }
 
   return TipSchema.parse(pickBy(tip))
 }

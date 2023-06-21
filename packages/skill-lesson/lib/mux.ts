@@ -1,5 +1,7 @@
 import Mux from '@mux/mux-node'
 
+type MuxAsset = {muxAssetId: string; muxPlaybackId?: string; duration?: number}
+
 export async function createMuxAsset({
   originalMediaUrl,
   muxAsset,
@@ -8,7 +10,7 @@ export async function createMuxAsset({
   originalMediaUrl: string
   muxAsset: {muxAssetId: string; muxPlaybackId: string}
   duration: number
-}) {
+}): Promise<MuxAsset> {
   if (!muxAsset?.muxAssetId) {
     const {Video} = new Mux()
     const newMuxAsset = await Video.Assets.create({

@@ -23,6 +23,15 @@ type TranscriptCreatedEvent = {
   }
 }
 
+type SRTReadyEvent = {
+  name: 'tip/video.srt.ready'
+  data: {
+    srt: string
+    muxAssetId: string
+    videoResourceId: string
+  }
+}
+
 type LLMSuggestionsCreated = {
   name: 'tip/video.llm.suggestions.created'
   data: {
@@ -34,7 +43,12 @@ type LLMSuggestionsCreated = {
 export type IngestEvents = {
   'tip/video.uploaded': NewTipVideo
   'tip/video.transcript.created': TranscriptCreatedEvent
+  'tip/video.srt.ready': SRTReadyEvent
   'tip/video.llm.suggestions.created': LLMSuggestionsCreated
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 async function getVideoResource(videoResourceId: string) {
@@ -42,6 +56,65 @@ async function getVideoResource(videoResourceId: string) {
     videoResourceId,
   })
 }
+
+const addSrtToMuxAsset = inngest.createFunction(
+  {name: 'Add SRT to Mux Asset'},
+  {event: 'tip/video.srt.ready'},
+  async ({event, step}) => {
+    const muxAssetStatus = await step.run(
+      'Check if Mux Asset is Ready',
+      async () => {
+        const {Video} = new Mux()
+        const {status} = await Video.Assets.get(event.data.muxAssetId)
+        return status
+      },
+    )
+
+    if (muxAssetStatus === 'ready') {
+      await step.run(
+        'Check for existing subtitles in Mux and remove if found',
+        async () => {
+          const {Video} = new Mux()
+          const {tracks} = await Video.Assets.get(event.data.muxAssetId)
+
+          const existingSubtitle = tracks?.find(
+            (track: any) => track.name === 'English',
+          )
+
+          if (existingSubtitle) {
+            return await Video.Assets.deleteTrack(
+              event.data.muxAssetId,
+              existingSubtitle.id,
+            )
+          } else {
+            return 'No existing subtitle found.'
+          }
+        },
+      )
+
+      await step.run('Update Mux with SRT', async () => {
+        const {Video} = new Mux()
+        return await Video.Assets.createTrack(event.data.muxAssetId, {
+          url: `https://www.epicweb.dev/api/videoResource/${event.data.videoResourceId}/srt`,
+          type: 'text',
+          text_type: 'subtitles',
+          closed_captions: false,
+          language_code: 'en-US',
+          name: 'English',
+          passthrough: 'English',
+        })
+      })
+    } else {
+      await step.sleep(60000)
+      await step.run('Re-run After Cooldown', async () => {
+        return await inngest.send({
+          name: 'tip/video.srt.ready',
+          data: event.data,
+        })
+      })
+    }
+  },
+)
 
 const processNewTip = inngest.createFunction(
   {name: 'Process New Tip Video'},
@@ -56,7 +129,7 @@ const processNewTip = inngest.createFunction(
         .commit()
     })
 
-    const newMuxAsset: any = await step.run('Create a Mux Asset', async () => {
+    const newMuxAsset = await step.run('Create a Mux Asset', async () => {
       const videoResource = await getVideoResource(event.data.videoResourceId)
       const {originalMediaUrl, muxAsset, duration} = videoResource
       return await createMuxAsset({
@@ -97,7 +170,7 @@ const processNewTip = inngest.createFunction(
 
     const transcript = await step.waitForEvent('tip/video.transcript.created', {
       match: 'data.videoResourceId',
-      timeout: '24h',
+      timeout: '1h',
     })
 
     if (transcript) {
@@ -113,51 +186,24 @@ const processNewTip = inngest.createFunction(
           .commit()
       })
 
-      await step.run(
-        'Check for existing subtitles in Mux and remove if found',
-        async () => {
-          const videoResource = await getVideoResource(
-            event.data.videoResourceId,
-          )
-          const {Video} = new Mux()
-          const {tracks} = await Video.Assets.get(
-            videoResource.muxAsset.muxAssetId,
-          )
-
-          const existingSubtitle = tracks?.find(
-            (track: any) => track.name === 'English',
-          )
-
-          if (existingSubtitle) {
-            return await Video.Assets.deleteTrack(
-              videoResource.muxAsset.muxAssetId,
-              existingSubtitle.id,
-            )
-          } else {
-            return 'No existing subtitle found.'
-          }
-        },
-      )
-
-      await step.run('Update Mux with SRT', async () => {
-        const videoResource = await getVideoResource(event.data.videoResourceId)
-        const {Video} = new Mux()
-        return await Video.Assets.createTrack(
-          videoResource.muxAsset.muxAssetId,
-          {
-            url: `https://www.epicweb.dev/api/videoResource/${videoResource._id}/srt`,
-            type: 'text',
-            text_type: 'subtitles',
-            closed_captions: false,
-            language_code: 'en-US',
-            name: 'English',
-            passthrough: 'English',
+      await step.run('Notify SRT is Ready to Add to Mux Asset', async () => {
+        return await inngest.send({
+          name: 'tip/video.srt.ready',
+          data: {
+            muxAssetId: newMuxAsset.muxAssetId,
+            videoResourceId: event.data.videoResourceId,
+            srt: transcript.data.transcript.srt,
           },
-        )
+        })
       })
 
       await step.run('Send Transcript for LLM Suggestions', async () => {
-        return await fetch(
+        // this step initiates a call to worker and then doesn't bother waiting for a response
+        // the sleep is just a small hedge to make sure we don't close the connection immediately
+        // but the worker seems to run just fine if we don't bother waiting for a response
+        // this isn't great, really, but waiting for the worker response times it out consistently
+        // even with shorter content
+        fetch(
           `https://deepgram-wrangler.skillstack.workers.dev/tipMetadataLLM?videoResourceId=${event.data.videoResourceId}`,
           {
             method: 'POST',
@@ -169,13 +215,15 @@ const processNewTip = inngest.createFunction(
             }),
           },
         )
+        await sleep(1000)
+        return 'Transcript sent to LLM'
       })
 
       const llmResponse = await step.waitForEvent(
         'tip/video.llm.suggestions.created',
         {
           match: 'data.videoResourceId',
-          timeout: '24h',
+          timeout: '1h',
         },
       )
 
@@ -199,9 +247,9 @@ const processNewTip = inngest.createFunction(
         return {transcript, llmSuggestions: null}
       }
     } else {
-      throw new Error('Transcript not created within 24 hours')
+      throw new Error('Transcript not created within 1 hours')
     }
   },
 )
 
-export default serve(inngest, [processNewTip])
+export default serve(inngest, [processNewTip, addSrtToMuxAsset])
