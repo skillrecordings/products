@@ -170,7 +170,7 @@ const processNewTip = inngest.createFunction(
 
     const transcript = await step.waitForEvent('tip/video.transcript.created', {
       match: 'data.videoResourceId',
-      timeout: '24h',
+      timeout: '1h',
     })
 
     if (transcript) {
@@ -198,6 +198,11 @@ const processNewTip = inngest.createFunction(
       })
 
       await step.run('Send Transcript for LLM Suggestions', async () => {
+        // this step initiates a call to worker and then doesn't bother waiting for a response
+        // the sleep is just a small hedge to make sure we don't close the connection immediately
+        // but the worker seems to run just fine if we don't bother waiting for a response
+        // this isn't great, really, but waiting for the worker response times it out consistently
+        // even with shorter content
         fetch(
           `https://deepgram-wrangler.skillstack.workers.dev/tipMetadataLLM?videoResourceId=${event.data.videoResourceId}`,
           {
@@ -218,7 +223,7 @@ const processNewTip = inngest.createFunction(
         'tip/video.llm.suggestions.created',
         {
           match: 'data.videoResourceId',
-          timeout: '24h',
+          timeout: '1h',
         },
       )
 
@@ -242,7 +247,7 @@ const processNewTip = inngest.createFunction(
         return {transcript, llmSuggestions: null}
       }
     } else {
-      throw new Error('Transcript not created within 24 hours')
+      throw new Error('Transcript not created within 1 hours')
     }
   },
 )
