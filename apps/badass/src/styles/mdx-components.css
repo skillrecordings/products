@@ -6,7 +6,10 @@
 }
 
 [data-body-blockquote] {
-  @apply flex shrink-0 before:w-1 before:rounded-full my-16;
+  @apply flex before:shrink-0 before:w-1 before:rounded-full my-16;
+  blockquote {
+    @apply grow;
+  }
   &[data-body-blockquote-color='green'] {
     @apply before:bg-badass-green-500;
   }
@@ -33,9 +36,9 @@
 }
 
 [data-team-member-card] {
-  @apply flex overflow-hidden rounded-xl grow md:max-w-[calc(50%-8px)] bg-[#1E1C20];
+  @apply flex overflow-hidden rounded-2xl grow md:max-w-[calc(50%-8px)] bg-[#1E1C20];
   [data-team-member-image] {
-    @apply shrink-0 w-[120px] h-[120px];
+    @apply shrink-0 w-[120px] h-[120px] relative;
   }
   [data-team-member-info] {
     @apply flex flex-col items-start justify-center px-4;
