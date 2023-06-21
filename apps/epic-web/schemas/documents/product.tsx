@@ -42,9 +42,17 @@ export default defineType({
     }),
     defineField({
       name: 'body',
-      title: 'Description',
+      title: 'Body',
+      type: 'text',
+      rows: 20,
+    }),
+    defineField({
+      name: 'description',
+      title: 'Short Description',
+      description: 'Used as a short "SEO" summary on Twitter cards etc.',
       type: 'text',
       rows: 3,
+      validation: (Rule) => Rule.max(160),
     }),
     defineField({
       name: 'features',
