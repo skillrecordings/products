@@ -7,7 +7,7 @@ import {format} from 'date-fns'
 import {type CaseStudy, getAllCaseStudies} from 'lib/case-studies'
 import Image from 'next/legacy/image'
 import Stars from '../../../public/assets/stars-1@2x.png'
-import {Author} from 'templates/case-study-template'
+import JoelHooksHeadshotImage from '../../../public/joel-hooks.jpg'
 
 const meta = {
   title: 'Badass Partners',
@@ -82,6 +82,24 @@ const CaseStudies: React.FC<React.PropsWithChildren<CaseStudiesProps>> = ({
         </div>
       </main>
     </Layout>
+  )
+}
+
+const Author = () => {
+  return (
+    <div className="flex items-center">
+      <Image
+        src={JoelHooksHeadshotImage}
+        alt="Joel Hooks"
+        width={48}
+        height={48}
+        placeholder="blur"
+        priority
+        loading="eager"
+        className="rounded-full"
+      />
+      <span className="pl-2 font-medium leading-tight">Joel Hooks</span>
+    </div>
   )
 }
 
