@@ -57,7 +57,7 @@ const CaseStudyTemplate: React.FC<
       <main data-template-case-study="">
         <div className="max-w-screen-md lg:max-w-[880px] lg:px-14 mx-auto w-full">
           <div className="md:pt-16 pt-10 lg:px-0 px-5 pb-16">
-            <article className="prose lg:prose-xl sm:prose-lg md:prose-code:text-sm max-w-none prose-p:text-neutral-200 prose-pre:prose-code:bg-transparent prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded lg:prose-code:text-[78%] sm:prose-code:text-[80%] first-letter:text-badass-pink-500 first-letter:text-[4rem] first-letter:float-left first-letter:leading-none first-letter:font-expanded first-letter:mr-3 mb-2 font-medium">
+            <article className="prose lg:prose-xl sm:prose-lg md:prose-code:text-sm max-w-none prose-p:text-neutral-200 prose-pre:prose-code:bg-transparent prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded lg:prose-code:text-[78%] sm:prose-code:text-[80%] first-letter:text-badass-pink-500 first-letter:text-[2rem] md:first-letter:text-[3rem] lg:first-letter:text-[4rem] first-letter:float-left first-letter:leading-none first-letter:font-expanded first-letter:mr-2 md:first-letter:mr-3 mb-2 font-medium">
               <MDX
                 components={mdxComponents}
                 contents={caseStudyBodySerialized}
@@ -99,8 +99,8 @@ const Header: React.FC<
     year: 'numeric',
   }).format(dateObject)
   return (
-    <header className="flex items-center max-w-7xl mx-auto w-full">
-      <div className="w-1/2">
+    <header className="flex flex-col md:flex-row items-center max-w-7xl mx-auto w-full px-5">
+      <div className="w-full md:w-2/5 lg:w-1/2 shrink-0">
         {image && (
           <Image
             src={image}
@@ -111,15 +111,15 @@ const Header: React.FC<
           />
         )}
       </div>
-      <div className="w-1/2 pl-24">
-        <h3 className="text-badass-red-400 font-script text-[2.5rem]">
+      <div className="md:w-3/5 lg:w-1/2 md:pl-10 lg:pl-16 xl:pl-24 shrink-0">
+        <h3 className="text-badass-red-400 font-script text-2xl md:text-3xl lg:text-[2.5rem]">
           Case Study
         </h3>
-        <h2 className="font-heading text-5xl leading-tight">
+        <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl leading-tight mt-2 md:mt-2">
           <Balancer>{title}</Balancer>
         </h2>
-        <div className="font-mono uppercase opacity-70 mt-4">
-          client: {partnerName} &middot; published:{formattedDate}
+        <div className="font-mono uppercase opacity-70 mt-4 lg:mt-6 text-xs lg:text-sm xl:text-base">
+          client: {partnerName} &middot; published: {formattedDate}
           {}
         </div>
       </div>
