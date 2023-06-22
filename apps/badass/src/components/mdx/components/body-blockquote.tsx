@@ -11,7 +11,9 @@ const BodyBlockquote: React.FC<
       data-body-blockquote-color={color}
       className="not-prose"
     >
-      <blockquote className="pl-6 py-4">{children}</blockquote>
+      <blockquote className="pl-6 py-4 italic text-neutral-200">
+        {children}
+      </blockquote>
     </div>
   )
 }

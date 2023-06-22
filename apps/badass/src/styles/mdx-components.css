@@ -1,6 +1,6 @@
 [data-template-case-study] {
   .prose h3 {
-    @apply text-center;
+    @apply text-center text-neutral-200 mb-6 md:mb-10 lg:mb-12;
     /* @apply text-center mb-12; */
   }
 }
