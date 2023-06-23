@@ -121,3 +121,13 @@
     }
   }
 }
+
+[data-accented-title] {
+  @apply my-16 md:my-20 lg:my-24 flex justify-center;
+  [data-accented-title-wrapper] {
+    @apply flex justify-center text-badass-green-400 max-w-sm before:leading-none after:leading-none before:content-["s"] before:font-symbol after:content-["t"] after:font-symbol before:text-7xl after:text-7xl text-center space-x-3;
+  }
+  [data-accented-title-text] {
+    @apply flex justify-center text-[1.75rem] font-condensed text-badass-green-400 leading-[1.1];
+  }
+}

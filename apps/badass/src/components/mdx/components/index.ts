@@ -32,3 +32,8 @@ export {
   default as LaunchResults,
   type LaunchResultsProps,
 } from './launch-results'
+
+export {
+  default as AccentedTitle,
+  type AccentedTitleProps,
+} from './accented-title'
