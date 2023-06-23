@@ -24,6 +24,7 @@ const CaseStudyTemplate: React.FC<
     description,
     body,
     heroImage,
+    ogImage,
     _createdAt: date,
     partnerName,
   } = caseStudy
@@ -44,7 +45,9 @@ const CaseStudyTemplate: React.FC<
         },
         url: `${process.env.NEXT_PUBLIC_URL}/partners/${caseStudy.slug}`,
         ogImage: {
-          url: `https://badass-ogimage.vercel.app/api/card?title=${title}`,
+          url:
+            ogImage ||
+            `https://badass-ogimage.vercel.app/api/card?title=${title}`,
         },
       }}
     >

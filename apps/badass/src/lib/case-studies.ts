@@ -11,6 +11,7 @@ export const CaseStudySchema = z.object({
   slug: z.string(),
   partnerName: z.string(),
   image: z.nullable(z.string()).optional(),
+  ogImage: z.nullable(z.string()).optional(),
   heroImage: z.nullable(z.string()).optional(),
   description: z.nullable(z.string()).optional(),
   body: z.any().array().nullable().optional(),
@@ -37,6 +38,7 @@ export const getAllCaseStudies = async (): Promise<CaseStudy[]> => {
         description,
         "image": image.asset->url,
         "heroImage": heroImage.url,
+        "ogImage": ogImage.url,
         summary,
         body,
         markdownBody
@@ -58,6 +60,7 @@ export const getCaseStudy = async (slug: string): Promise<CaseStudy> => {
         description,
         "image": image.asset->url,
         "heroImage": heroImage.url,
+        "ogImage": ogImage.url,
         summary,
         markdownBody,
         body[]{
