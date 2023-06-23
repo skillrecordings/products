@@ -16,6 +16,8 @@ import {
   LaunchResultsProps,
   ImageWithCaption,
   ImageWithCaptionProps,
+  AccentedTitle,
+  AccentedTitleProps,
 } from './components'
 
 const mdxComponents = {
@@ -74,6 +76,9 @@ const mdxComponents = {
         firstFourMonths={firstFourMonths}
       />
     )
+  },
+  AccentedTitle: ({title}: AccentedTitleProps) => {
+    return <AccentedTitle title={title} />
   },
 }
 
