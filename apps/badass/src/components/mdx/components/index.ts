@@ -6,6 +6,11 @@ export {
 export {default as BodyImage, type BodyImageProps} from './body-image'
 
 export {
+  default as ImageWithCaption,
+  type ImageWithCaptionProps,
+} from './image-with-caption'
+
+export {
   default as RelatedTeamMembers,
   TeamMemberCard,
   type TeamMemberCardProps,

@@ -14,6 +14,8 @@ import {
   IntroduceCardProps,
   LaunchResults,
   LaunchResultsProps,
+  ImageWithCaption,
+  ImageWithCaptionProps,
 } from './components'
 
 const mdxComponents = {
@@ -25,6 +27,25 @@ const mdxComponents = {
   },
   BodyImage: ({src, width, height, alt}: BodyImageProps) => {
     return <BodyImage src={src} width={width} height={height} alt={alt} />
+  },
+  ImageWithCaption: ({
+    src,
+    width,
+    height,
+    alt,
+    captionTitle,
+    captionSubtitle,
+  }: ImageWithCaptionProps) => {
+    return (
+      <ImageWithCaption
+        src={src}
+        width={width}
+        height={height}
+        alt={alt}
+        captionTitle={captionTitle}
+        captionSubtitle={captionSubtitle}
+      />
+    )
   },
   TeamMemberCard: ({imageUrl, name, title}: TeamMemberCardProps) => {
     return <TeamMemberCard imageUrl={imageUrl} name={name} title={title} />

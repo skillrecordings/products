@@ -31,6 +31,19 @@
   @apply lg:-mx-14;
 }
 
+[data-image-with-captions] {
+  @apply flex justify-center relative my-20 md:my-28 lg:my-32 pb-16 md:pb-0;
+  [data-image-with-captions-holder] {
+    @apply absolute bottom-0 left-0 right-0 px-8 pb-4 text-center space-y-4 md:space-y-6;
+  }
+  [data-image-with-captions-title] {
+    @apply text-badass-yellow-300 font-condensed text-[1.75rem] leading-tight;
+  }
+  [data-image-with-captions-subtitle] {
+    @apply text-badass-gray italic font-sans font-normal;
+  }
+}
+
 [data-tweet-embed] {
   @apply my-16;
 }
