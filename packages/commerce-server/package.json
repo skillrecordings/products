@@ -15,8 +15,7 @@
     "test": "jest"
   },
   "jest": {
-    "preset": "@skillrecordings/scripts/jest/node",
-    "testEnvironment": "node"
+    "preset": "@skillrecordings/scripts/jest/node"
   },
   "dependencies": {
     "@casl/ability": "^6.0.0",
@@ -37,6 +36,7 @@
     "@types/node": "^18.16.13",
     "eslint": "^8.12.0",
     "eslint-config-custom": "workspace:*",
+    "jest": "^29.5.0",
     "rimraf": "^3.0.2",
     "tsup": "^5.11.13",
     "tsx": "^3.7.1",

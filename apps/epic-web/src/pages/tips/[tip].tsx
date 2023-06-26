@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
         tip,
         tipBodySerialized,
         tips,
-        transcript: tip.transcript,
+        ...(tip.transcript && {transcript: tip.transcript}),
         videoResourceId: tip.videoResourceId,
       },
       revalidate: 10,

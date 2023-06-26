@@ -30,7 +30,7 @@
             }
           }
           [data-price-container] {
-            @apply flex items-center justify-center gap-0.5 pt-6 ;
+            @apply flex items-center justify-center gap-0.5 pt-6;
             sup {
               @apply -translate-y-1 pr-1 align-sub text-base font-black text-gray-900;
             }
@@ -73,7 +73,7 @@
               @apply pb-4 text-base font-medium;
             }
             [data-number] {
-              @apply  text-3xl font-black leading-none;
+              @apply text-3xl font-black leading-none;
             }
             [data-label] {
               @apply pt-1 text-xs font-semibold uppercase tracking-wide opacity-75;
@@ -241,6 +241,177 @@
     }
   }
 
+  [data-event] {
+    /* ⭐️ To target specific workshop: [data-workshop="workshop-slug"] */
+    [data-pricing-container] {
+    }
+    #main-pricing {
+      [data-pricing-product] {
+        [data-pricing-product-image] {
+        }
+        article {
+          @apply border-none bg-background pb-8 pt-0 shadow-none !important;
+        }
+        [data-pricing-product-header] {
+          [data-byline] {
+            @apply hidden;
+          }
+          [data-name-badge] {
+          }
+          [data-price-container] {
+            @apply flex h-[76px] items-center justify-center gap-0.5;
+            sup {
+              @apply align-sub text-base font-black text-gray-500;
+            }
+            [data-price] {
+              @apply flex text-5xl font-black text-foreground;
+            }
+            span {
+              @apply -mt-2 pl-0.5 align-sub text-gray-500;
+            }
+            [data-price-discounted] {
+              @apply -mt-1.5 flex flex-col items-center pl-3 font-sans text-lg font-semibold;
+
+              [data-full-price] {
+                @apply relative flex text-xl leading-none text-gray-600 before:absolute before:left-0 before:top-1/2 before:h-0.5 before:w-full before:bg-gray-700/80 dark:text-gray-400;
+
+                span {
+                  @apply text-xs leading-none text-gray-500 dark:text-gray-300;
+                }
+              }
+              [data-percent-off] {
+                @apply text-base text-blue-600 dark:text-blue-400;
+              }
+            }
+          }
+          [data-price-container='loading'] {
+            @apply flex h-[76px] items-center;
+          }
+          [data-price-container='error'] {
+            @apply hidden;
+          }
+          [data-pricing-product-sale-countdown] {
+            @apply mt-5 flex w-full flex-col rounded-lg border border-gray-200 px-3 py-5 text-center;
+            [data-grid] {
+              @apply mx-auto grid max-w-[300px] grid-cols-4 items-center justify-center gap-3 tabular-nums tracking-tight;
+            }
+            [data-title] {
+              @apply pb-4 text-sm font-medium sm:text-base;
+            }
+            [data-number] {
+              @apply text-2xl font-black leading-none sm:text-3xl;
+            }
+            [data-label] {
+              @apply pt-1 text-xs font-semibold uppercase tracking-wide opacity-75;
+            }
+          }
+        }
+        [data-purchased-container] {
+          [data-purchased] {
+            @apply mb-5 flex items-center gap-1 border-b border-gray-100 pb-5  text-lg font-black;
+            svg {
+              @apply h-8 w-8 text-sky-500;
+            }
+          }
+          [data-unavailable] {
+            @apply py-4 text-center  text-lg font-bold text-blue-500;
+          }
+          #team-upgrade-pricing-inline {
+            [data-pricing-product-header] {
+              [data-price] {
+                @apply text-3xl;
+              }
+            }
+          }
+        }
+        [data-purchase-container] {
+          @apply pt-8;
+          form {
+            fieldset {
+              [data-guarantee] {
+                @apply block pt-3 text-center text-xs text-gray-600 dark:text-gray-400;
+              }
+              legend {
+              }
+              [data-team-switch] {
+                @apply flex items-center justify-center gap-2 pb-3.5 text-sm;
+                label {
+                  @apply sr-only;
+                }
+                button[role='button'] {
+                  @apply text-foreground underline-offset-2 transition hover:underline;
+                }
+                button[role='switch'] {
+                  @apply relative h-6 w-[47px] rounded-full border border-gray-300/50 bg-gray-200 shadow-md shadow-gray-300/30 transition hover:bg-gray-300/50  hover:radix-state-checked:bg-gray-300/50 dark:border-white/5 dark:bg-gray-800 dark:shadow-black/20 dark:radix-state-checked:bg-gray-700;
+                  span {
+                    @apply block h-[18px] w-[18px] translate-x-[2px] rounded-full bg-blue-500 shadow-sm shadow-black/20 transition-all will-change-transform group-hover:bg-gray-300 radix-state-checked:translate-x-[25px] radix-state-checked:bg-blue-500 group-hover:radix-state-checked:bg-indigo-400 dark:bg-blue-500;
+                  }
+                }
+              }
+              [data-quantity-input] {
+                @apply mb-5 flex w-full flex-col items-center justify-center px-5 xl:px-12;
+                div {
+                  @apply flex items-center gap-1 text-sm font-medium;
+                  label {
+                    @apply mr-3 opacity-80;
+                  }
+                  input {
+                    @apply max-w-[70px] rounded-md border border-gray-200 bg-gray-200/60 py-2 pl-3 font-mono font-bold ring-blue-500 dark:border-white/5 dark:bg-gray-800;
+                  }
+                  button {
+                    @apply flex h-full items-center justify-center rounded bg-gray-200/60 px-3 py-2 font-mono sm:hidden;
+                  }
+                }
+              }
+            }
+            [data-pricing-product-checkout-button] {
+              @apply flex w-full items-center justify-center rounded-md border border-white/5 bg-gradient-to-b from-blue-500 to-blue-600 px-4 py-4 text-center font-semibold text-white shadow-lg ring-offset-1 transition ease-in-out focus-visible:ring-blue-600 disabled:cursor-wait hover:shadow-gray-600/20 hover:brightness-110;
+
+              span {
+                @apply relative z-10;
+              }
+            }
+
+            [data-pricing-product-checkout-button]:disabled {
+              @apply cursor-wait;
+            }
+          }
+        }
+
+        [data-ppp-container] {
+          @apply pt-5 text-sm;
+          [data-ppp-header] {
+            strong {
+              img {
+                @apply inline-block;
+              }
+            }
+            p {
+              @apply pt-3;
+            }
+          }
+          label {
+            @apply mt-5 flex cursor-pointer items-center gap-2 rounded-md bg-gray-100 p-3 transition hover:bg-gray-200/60;
+            input {
+            }
+            span {
+              @apply font-semibold;
+            }
+          }
+        }
+
+        [data-guarantee] {
+          @apply hidden;
+          /* @apply flex justify-center pt-8 align-middle; */
+        }
+
+        [data-pricing-footer] {
+          @apply hidden;
+        }
+      }
+    }
+  }
+
   [data-workshop] {
     /* ⭐️ To target specific workshop: [data-workshop="workshop-slug"] */
     [data-pricing-product] {
@@ -255,7 +426,7 @@
         [data-name-badge] {
         }
         [data-price-container] {
-          @apply flex items-center justify-center gap-0.5 ;
+          @apply flex items-center justify-center gap-0.5;
           sup {
             @apply pt-1.5 align-sub text-base font-black text-gray-500;
           }
@@ -295,7 +466,7 @@
             @apply pb-4 text-sm font-medium sm:text-base;
           }
           [data-number] {
-            @apply  text-2xl font-black leading-none sm:text-3xl;
+            @apply text-2xl font-black leading-none sm:text-3xl;
           }
           [data-label] {
             @apply pt-1 text-xs font-semibold uppercase tracking-wide opacity-75;
@@ -423,7 +594,7 @@
         [data-name-badge] {
         }
         [data-price-container] {
-          @apply flex items-center justify-center gap-0.5 ;
+          @apply flex items-center justify-center gap-0.5;
           sup {
             @apply -translate-y-2 align-sub text-base font-black text-gray-300;
           }
@@ -458,7 +629,7 @@
             @apply pb-4 text-sm font-medium sm:text-base;
           }
           [data-number] {
-            @apply  text-2xl font-black leading-none sm:text-3xl;
+            @apply text-2xl font-black leading-none sm:text-3xl;
           }
           [data-label] {
             @apply pt-1 text-xs font-semibold uppercase tracking-wide opacity-75;
@@ -619,7 +790,7 @@
           sup {
             @apply pr-1 align-sub;
           }
-          @apply  text-3xl font-black;
+          @apply text-3xl font-black;
           span {
             @apply align-super text-sm;
           }

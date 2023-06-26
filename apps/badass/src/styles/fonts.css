@@ -1,4 +1,12 @@
 @font-face {
+  font-family: 'DM Mono';
+  src: url('/fonts/DMMono-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
   font-family: 'Espiritu Dingbats';
   src: url('/fonts/Espiritu-Dingbats.woff2') format('woff2'),
     url('/fonts/Espiritu-Dingbats.woff') format('woff');

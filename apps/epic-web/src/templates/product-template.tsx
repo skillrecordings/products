@@ -30,10 +30,11 @@ const ProductTemplate: React.FC<{
   const router = useRouter()
   const {title, _updatedAt, _createdAt, slug} = product
 
-  const {data: commerceProps} = trpc.pricing.propsForCommerce.useQuery({
-    ...router.query,
-    productId: product.productId,
-  })
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({
+      ...router.query,
+      productId: product.productId,
+    })
 
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
@@ -42,16 +43,15 @@ const ProductTemplate: React.FC<{
     commerceProps?.couponFromCode,
   )
 
-  const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery({
-    productId: product.productId as string,
-    quantity: 1,
-  })
+  const {data: formattedPrice, status: formattedPriceStatus} =
+    trpc.pricing.formatted.useQuery({
+      productId: product.productId as string,
+      quantity: 1,
+    })
 
   const couponId =
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
-
-  console.log(commerceProps, formattedPrice)
 
   const image = ''
 
@@ -64,9 +64,12 @@ const ProductTemplate: React.FC<{
   return (
     <Layout meta={{title, description: pageDescription}}>
       <Header title={title} image={image} />
-      <main className="mx-auto w-full max-w-3xl px-5 py-8 md:py-16">
+      <main
+        data-event=""
+        className="mx-auto w-full max-w-3xl px-5 py-8 md:py-16"
+      >
         <Body mdx={mdx} />
-        <div className="flex w-full items-center justify-center pb-16 pt-24 text-lg font-semibold">
+        <div className="flex w-full items-center justify-center pt-10">
           <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
             {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
             <div data-pricing-container="">

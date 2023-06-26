@@ -1,7 +1,7 @@
-import client from '@sanity/client'
+import {createClient} from '@sanity/client'
 import type {SanityClient} from '@sanity/client'
 
-export const sanityClient: SanityClient = client({
+export const sanityClient: SanityClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET_ID,
   useCdn: true, // `false` if you want to ensure fresh data
