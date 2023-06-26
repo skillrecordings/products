@@ -70,6 +70,15 @@ const addSrtToMuxAsset = inngest.createFunction(
       },
     )
 
+    await step.run('Update Video Resource Status', async () => {
+      return await sanityWriteClient
+        .patch(event.data.videoResourceId)
+        .set({
+          state: muxAssetStatus,
+        })
+        .commit()
+    })
+
     if (muxAssetStatus === 'ready') {
       await step.run(
         'Check for existing subtitles in Mux and remove if found',
@@ -104,6 +113,10 @@ const addSrtToMuxAsset = inngest.createFunction(
           passthrough: 'English',
         })
       })
+
+      // await step.run('Notify in Slack', async () => {
+      //
+      // })
     } else {
       await step.sleep(60000)
       await step.run('Re-run After Cooldown', async () => {

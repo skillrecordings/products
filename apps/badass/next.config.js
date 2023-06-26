@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
+const withMDX = require('@next/mdx')({
+  extension: /\.mdx?$/,
+  options: {
+    providerImportSource: '@mdx-js/react',
+  },
+})
 
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
@@ -9,6 +15,7 @@ const IMAGE_HOST_DOMAINS = [
 ]
 
 const nextConfig = {
+  transpilePackages: ['@skillrecordings/skill-lesson'],
   eslint: {ignoreDuringBuilds: true},
   experimental: {scrollRestoration: true},
   productionBrowserSourceMaps: true,
@@ -21,4 +28,6 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+const configWithPlugins = withMDX(nextConfig)
+
+module.exports = configWithPlugins

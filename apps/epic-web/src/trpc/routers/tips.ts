@@ -63,6 +63,7 @@ export const tipsRouter = router({
         const newVideoResource = await sanityWriteClient.create({
           _id: `videoResource-${v4()}`,
           _type: 'videoResource',
+          state: 'new',
           title: input.fileName,
           originalMediaUrl: input.s3Url,
         })

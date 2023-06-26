@@ -24,6 +24,12 @@ export default {
       },
     },
     {
+      name: 'partnerName',
+      title: 'Partner name',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: 'state',
       title: 'Current State',
       type: 'string',
@@ -49,14 +55,25 @@ export default {
     },
     {
       name: 'body',
-      title: 'Article Body',
+      title: 'Case Study Body',
       type: 'body',
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'markdownBody',
+      title: 'Markdown Case Study Body',
+      type: 'markdown',
     },
     {
       name: 'image',
       title: 'Image',
       type: 'image',
+    },
+    {
+      name: 'heroImage',
+      title: 'New external hero image',
+      type: 'externalImage',
+      description: 'Hero image',
     },
     {
       name: 'summary',

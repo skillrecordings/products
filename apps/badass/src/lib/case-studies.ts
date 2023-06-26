@@ -1,4 +1,4 @@
-import {sanityClient} from '../utils/sanity-client'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 
@@ -9,9 +9,13 @@ export const CaseStudySchema = z.object({
   _createdAt: z.string(),
   title: z.string(),
   slug: z.string(),
+  partnerName: z.string(),
   image: z.nullable(z.string()).optional(),
+  ogImage: z.nullable(z.string()).optional(),
+  heroImage: z.nullable(z.string()).optional(),
   description: z.nullable(z.string()).optional(),
   body: z.any().array().nullable().optional(),
+  markdownBody: z.string(),
   summary: z.any().array().nullable().optional(),
   state: z.enum(['published', 'draft']),
 })
@@ -28,20 +32,21 @@ export const getAllCaseStudies = async (): Promise<CaseStudy[]> => {
         _updatedAt,
         _createdAt,
         "slug": slug.current,
+        partnerName,
         title,
         state,
         description,
         "image": image.asset->url,
+        "heroImage": heroImage.url,
+        "ogImage": ogImage.url,
         summary,
-        body
+        body,
+        markdownBody
   }`)
-
   return CaseStudiesSchema.parse(caseStudies)
 }
 
-export const getCaseStudy = async (
-  slug: string,
-): Promise<CaseStudy | undefined> => {
+export const getCaseStudy = async (slug: string): Promise<CaseStudy> => {
   const caseStudy = await sanityClient.fetch(
     groq`*[_type == "caseStudy" && slug.current == $slug][0] {
         _id,
@@ -49,11 +54,15 @@ export const getCaseStudy = async (
         _updatedAt,
         _createdAt,
         "slug": slug.current,
+        partnerName,
         title,
         state,
         description,
         "image": image.asset->url,
+        "heroImage": heroImage.url,
+        "ogImage": ogImage.url,
         summary,
+        markdownBody,
         body[]{
         ...,
         markDefs[]{
@@ -82,10 +91,7 @@ export const getCaseStudy = async (
         }
       },
     }`,
-    {slug: `${slug}`},
+    {slug},
   )
-  if (!caseStudy) {
-    return undefined
-  }
   return CaseStudySchema.parse(caseStudy)
 }
