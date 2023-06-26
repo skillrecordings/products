@@ -478,6 +478,7 @@ importers:
       '@codesandbox/sandpack-react': ^2.6.5
       '@headlessui/react': ^1.6.1
       '@heroicons/react': ^1.0.6
+      '@hookform/resolvers': ^2.9.8
       '@mdx-js/loader': ^2.3.0
       '@mdx-js/mdx': ^2.3.0
       '@mdx-js/react': ^2.3.0
@@ -558,6 +559,7 @@ importers:
       formik: 2.2.9
       framer-motion: ^10.12.4
       groq: ^2.15.0
+      inngest: ^2.0.2
       jest: ^29.5.0
       jest-mock-extended: ^3.0.4
       js-cookie: ^3.0.1
@@ -603,6 +605,7 @@ importers:
       '@codesandbox/sandpack-react': 2.6.5_biqbaboplfbrettd7655fr4n2y
       '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 1.0.6_react@18.2.0
+      '@hookform/resolvers': 2.9.8_react-hook-form@7.29.0
       '@mdx-js/loader': 2.3.0_webpack@5.73.0
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0_react@18.2.0
@@ -664,6 +667,7 @@ importers:
       formik: 2.2.9_react@18.2.0
       framer-motion: 10.12.4_biqbaboplfbrettd7655fr4n2y
       groq: 2.15.0
+      inngest: 2.0.2_typescript@5.1.1-rc
       js-cookie: 3.0.1
       lodash: 4.17.21
       micromark: 3.1.0
