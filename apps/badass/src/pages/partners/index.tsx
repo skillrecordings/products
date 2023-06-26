@@ -25,7 +25,7 @@ const CaseStudies: React.FC<React.PropsWithChildren<CaseStudiesProps>> = ({
 }) => {
   return (
     <Layout meta={meta} className="overflow-hidden">
-      <header className="sm:py-10 py-24 px-16 relative">
+      <header className="sm:py-10 py-24 px-4 md:px-16 relative">
         <Image
           src={Stars}
           alt=""
@@ -34,7 +34,7 @@ const CaseStudies: React.FC<React.PropsWithChildren<CaseStudiesProps>> = ({
           className="sm:object-contain object-scale-down sm:scale-100 scale-50 pointer-events-none select-none"
         />
         <h1 className="relative z-10 max-w-screen-md font-expanded bg-gradient-to-tr from-badass-pink-500/80 via-badass-pink-400/50 to-badass-black bg-clip-text text-transparent font-bold mx-auto leading-none text-center text-3xl sm:text-4xl lg:text-5xl">
-          Badass Articles
+          Badass Partners
         </h1>
       </header>
       <main className="px-3 flex-grow">
