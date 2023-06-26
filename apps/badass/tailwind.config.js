@@ -88,6 +88,9 @@ module.exports = {
             h2: {
               fontSize: '2.5rem',
             },
+            strong: {
+              fontWeight: 700,
+            },
           },
         },
       }),

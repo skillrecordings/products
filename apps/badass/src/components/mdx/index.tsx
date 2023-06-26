@@ -18,6 +18,8 @@ import {
   ImageWithCaptionProps,
   AccentedTitle,
   AccentedTitleProps,
+  TeamMembersBlock,
+  TeamMembersBlockProps,
 } from './components'
 
 const mdxComponents = {
@@ -79,6 +81,15 @@ const mdxComponents = {
   },
   AccentedTitle: ({title}: AccentedTitleProps) => {
     return <AccentedTitle title={title} />
+  },
+  TeamMembersBlock: ({description, members, title}: TeamMembersBlockProps) => {
+    return (
+      <TeamMembersBlock
+        description={description}
+        members={members}
+        title={title}
+      />
+    )
   },
 }
 
