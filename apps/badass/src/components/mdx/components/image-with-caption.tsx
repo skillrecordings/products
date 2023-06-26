@@ -20,14 +20,16 @@ const ImageWithCaption: React.FC<ImageWithCaptionProps> = ({
   return (
     <div data-image-with-captions="" className="not-prose">
       <Image src={src} width={width} height={height} alt={alt} />
-      <div data-image-with-captions-holder>
-        {captionTitle && (
-          <h3 data-image-with-captions-title="">{captionTitle}</h3>
-        )}
-        {captionSubtitle && (
-          <h4 data-image-with-captions-subtitle="">{captionSubtitle}</h4>
-        )}
-      </div>
+      {(captionTitle || captionSubtitle) && (
+        <div data-image-with-captions-holder>
+          {captionTitle && (
+            <h3 data-image-with-captions-title="">{captionTitle}</h3>
+          )}
+          {captionSubtitle && (
+            <h4 data-image-with-captions-subtitle="">{captionSubtitle}</h4>
+          )}
+        </div>
+      )}
     </div>
   )
 }

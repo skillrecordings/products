@@ -37,3 +37,8 @@ export {
   default as AccentedTitle,
   type AccentedTitleProps,
 } from './accented-title'
+
+export {
+  default as TeamMembersBlock,
+  type TeamMembersBlockProps,
+} from './team-members-block'
