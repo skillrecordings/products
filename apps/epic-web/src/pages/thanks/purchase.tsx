@@ -87,7 +87,7 @@ const InlineTeamInvite = ({
       <h2 className="font-heading pb-2 text-sm font-black uppercase">
         Invite your team
       </h2>
-      <div className="flex flex-col rounded-lg border border-gray-100 bg-white p-5 shadow-xl shadow-gray-400/5">
+      <div className="flex flex-col rounded-lg border border-gray-100 p-5 shadow-xl shadow-gray-400/5">
         <p className="pb-2 font-semibold">
           You have purchased {seatsPurchased} seats.
         </p>
@@ -146,9 +146,9 @@ const ThankYou: React.FC<ThankYouProps> = ({title, byline, product, email}) => {
 
 const LoginLink: React.FC<{email: string}> = ({email}) => {
   return (
-    <div className="bg-brand-red selection:text-brand-red relative mx-auto flex w-full items-center justify-between gap-5 overflow-hidden rounded-xl p-7 text-white shadow-2xl shadow-gray-400/20 selection:bg-white sm:p-12">
+    <div className="bg-brand-red selection:text-brand-red relative mx-auto flex w-full items-center justify-between gap-5 overflow-hidden rounded-xl p-7 shadow-2xl shadow-gray-400/20 selection:bg-white sm:p-12">
       <div className="relative z-10">
-        <p className="font-heading text-brand-red inline-flex rounded-full bg-white px-3 py-1 text-xs font-black uppercase sm:text-sm">
+        <p className="font-heading text-brand-red inline-flex rounded-full px-3 py-1 text-xs font-black uppercase sm:text-sm">
           Final step
         </p>
         <h2 className="font-heading mx-auto py-5 text-2xl font-black sm:text-3xl lg:text-4xl">
@@ -162,7 +162,7 @@ const LoginLink: React.FC<{email: string}> = ({email}) => {
             Email sent to: {email}
           </strong>
         </div>
-        <p className="mx-auto text-sm font-medium leading-relaxed text-white sm:text-base">
+        <p className="mx-auto text-sm font-medium leading-relaxed sm:text-base">
           As a final step to access the course you need to check your inbox (
           <strong>{email}</strong>) where you will find an email from{' '}
           <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a link

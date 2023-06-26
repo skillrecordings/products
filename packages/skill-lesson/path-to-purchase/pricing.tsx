@@ -42,6 +42,7 @@ type PricingProps = {
     withImage?: boolean
     withGuaranteeBadge?: boolean
     isPPPEnabled?: boolean
+    teamQuantityLimit?: number
   }
 }
 
@@ -66,7 +67,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   canViewRegionRestriction = false,
   options = {withImage: true, isPPPEnabled: false, withGuaranteeBadge: true},
 }) => {
-  const {withImage, isPPPEnabled, withGuaranteeBadge} = options
+  const {
+    withImage,
+    isPPPEnabled,
+    withGuaranteeBadge,
+    teamQuantityLimit = 100,
+  } = options
   const [quantity, setQuantity] = React.useState(1)
   const [isBuyingForTeam, setIsBuyingForTeam] = React.useState(false)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
@@ -293,7 +299,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                           <input
                             type="number"
                             min={1}
-                            max={100}
+                            max={teamQuantityLimit}
                             step={1}
                             onChange={(e) => {
                               const quantity = Number(e.target.value)
