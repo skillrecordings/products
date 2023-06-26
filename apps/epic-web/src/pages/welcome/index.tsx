@@ -162,7 +162,7 @@ const Welcome: React.FC<
           <div className="flex flex-col gap-10">
             <div>
               <h2 className="font-heading pb-2 text-sm font-black uppercase">
-                Share Pro Tailwind
+                Share {purchase.product.name}
               </h2>
               <Share productName={purchase.product.name} />
             </div>
@@ -261,9 +261,9 @@ const Invite: React.FC<React.PropsWithChildren<any>> = ({
 const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
   productName,
 }) => {
-  const tweet = `https://twitter.com/intent/tweet/?text=Pro Tailwind by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.protailwind.com%2F`
+  const tweet = `https://twitter.com/intent/tweet/?text=Epic Web by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🚀 https%3A%2F%2Fwww.epicweb.dev%2F`
   return (
-    <div className="flex flex-col justify-between gap-5 rounded-lg border border-gray-100 bg-white px-5 py-6 shadow-xl shadow-gray-400/5 sm:flex-row sm:items-center">
+    <div className="flex flex-col justify-between gap-5 rounded-lg border border-gray-100  px-5 py-6 shadow-xl shadow-gray-400/5 sm:flex-row sm:items-center">
       <p>
         Tell your friends about {process.env.NEXT_PUBLIC_SITE_TITLE},{' '}
         <br className="hidden sm:block" />

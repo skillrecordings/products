@@ -1,22 +1,12 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {EventJsonLd} from '@skillrecordings/next-seo'
 import {useRouter} from 'next/router'
 import Balancer from 'react-wrap-balancer'
-import {format} from 'date-fns'
 import Image from 'next/image'
 import Share from 'components/share'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import AboutKent from 'components/about-kent'
-import Script from 'next/script'
-import {
-  CalendarIcon,
-  ClockIcon,
-  LocationMarkerIcon,
-} from '@heroicons/react/outline'
-import {getOgImage} from 'utils/get-og-image'
 import {Product} from 'lib/products'
 import {trpc} from 'trpc/trpc.client'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
@@ -84,6 +74,7 @@ const ProductTemplate: React.FC<{
                     index={i}
                     couponId={couponId}
                     allowPurchase={true}
+                    options={{withGuaranteeBadge: false, teamQuantityLimit: 10}}
                   />
                 )
               })}
