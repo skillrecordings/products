@@ -87,7 +87,7 @@ const InlineTeamInvite = ({
       <h2 className="font-heading pb-2 text-sm font-black uppercase">
         Invite your team
       </h2>
-      <div className="flex flex-col rounded-lg border border-gray-100 p-5 shadow-xl shadow-gray-400/5">
+      <div className="flex flex-col rounded-lg border border-indigo-600 p-5">
         <p className="pb-2 font-semibold">
           You have purchased {seatsPurchased} seats.
         </p>
@@ -123,7 +123,7 @@ const ThankYou: React.FC<ThankYouProps> = ({title, byline, product, email}) => {
         {product?.image && (
           <div className="flex flex-shrink-0 items-center justify-center">
             <Image
-              src={product.image}
+              src={product.image.url}
               alt={product.title}
               width={250}
               height={250}
@@ -146,7 +146,7 @@ const ThankYou: React.FC<ThankYouProps> = ({title, byline, product, email}) => {
 
 const LoginLink: React.FC<{email: string}> = ({email}) => {
   return (
-    <div className="bg-brand-red selection:text-brand-red relative mx-auto flex w-full items-center justify-between gap-5 overflow-hidden rounded-xl p-7 shadow-2xl shadow-gray-400/20 selection:bg-white sm:p-12">
+    <div className="selection:text-brand-red relative mx-auto flex w-full items-center justify-between gap-5 overflow-hidden rounded-xl bg-gray-200 p-7 dark:bg-gray-900 sm:p-12">
       <div className="relative z-10">
         <p className="font-heading text-brand-red inline-flex rounded-full px-3 py-1 text-xs font-black uppercase sm:text-sm">
           Final step
@@ -156,9 +156,9 @@ const LoginLink: React.FC<{email: string}> = ({email}) => {
             Please check your inbox for a <i>login link</i> that just got sent.
           </Balancer>
         </h2>
-        <div className="mb-3 inline-flex items-center gap-1 rounded-lg bg-white/20 px-4 py-3">
+        <div className="mb-3 inline-flex items-center gap-1 rounded-lg bg-white px-4 py-3 dark:bg-gray-800">
           <MailIcon className="h-5 w-5 flex-shrink-0" />{' '}
-          <strong className="inline-block break-all font-semibold">
+          <strong className="inline-block break-all font-semibold ">
             Email sent to: {email}
           </strong>
         </div>
