@@ -29,6 +29,43 @@ const useAbilities = () => {
   return createAppAbility(abilityRules || [])
 }
 
+const useNavigationLinks = () => {
+  const ability = useAbilities()
+  const canCreateContent = ability.can('create', 'Content')
+  const {theme} = useTheme()
+
+  return [
+    {
+      label: 'Tips',
+      icon: (isHovered: boolean) => (
+        <TipsIcon isHovered={isHovered} theme={theme} />
+      ),
+      href: canCreateContent ? '/creator/tips' : '/tips',
+    },
+    {
+      label: 'Free Tutorials',
+      icon: (isHovered: boolean) => (
+        <TutorialsIcon isHovered={isHovered} theme={theme} />
+      ),
+      href: '/tutorials',
+    },
+    {
+      label: 'Articles',
+      icon: (isHovered: boolean) => (
+        <ArticlesIcon isHovered={isHovered} theme={theme} />
+      ),
+      href: '/articles',
+    },
+    // {
+    //   label: 'Live Events',
+    //   icon: (isHovered: boolean) => (
+    //     <EventsIcon isHovered={isHovered} theme={theme} />
+    //   ),
+    //   href: '/events',
+    // },
+  ]
+}
+
 const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
   const {pathname, asPath, push} = useRouter()
   const isRoot = pathname === '/'
@@ -37,7 +74,7 @@ const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
   const {scrollY} = useScroll()
   const navHeight = useTransform(
     scrollY,
-    // Map x from these values:
+    // Map y from these values:
     [0, 500],
     // Into these values:
     [80, 48],
@@ -45,9 +82,13 @@ const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
 
   const [hoveredNavItemIndex, setHoveredNavItemIndex] = React.useState(-1)
   const {data: sessionData, status: sessionStatus} = useSession()
+  const [hasMounted, setMounted] = React.useState(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
-    <div className="fixed left-0 top-0 z-50 flex w-full items-center justify-center border-b border-foreground/5 bg-white/95 backdrop-blur-md dark:bg-background/60">
+    <div className="fixed left-0 top-0 z-50 flex w-full items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md dark:bg-background/90 dark:shadow-xl dark:shadow-black/50">
       <motion.nav
         aria-label="top"
         style={{height: size === 'sm' ? 48 : navHeight}}
@@ -62,7 +103,7 @@ const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
             aria-current={isRoot}
             tabIndex={isRoot ? -1 : 0}
             passHref
-            className="relative z-10 text-lg font-bold tracking-tight text-[##333753] dark:from-white dark:to-gray-400 dark:text-white"
+            className="relative z-10 text-lg font-bold tracking-tight text-[#333753] dark:from-white dark:to-gray-400 dark:text-white"
             onContextMenu={(event) => {
               event.preventDefault()
               push('/brand')
@@ -72,13 +113,16 @@ const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
           </Link>
           <div className="hidden items-center justify-start gap-2 pl-5 font-medium sm:flex">
             {navigationLinks.map(({label, href, icon}, i) => {
-              const isOvershadowed =
-                hoveredNavItemIndex !== i && hoveredNavItemIndex !== -1
+              const isOvershadowed = false
+              // (hoveredNavItemIndex !== i && hoveredNavItemIndex !== -1)
+
               return (
                 <Link
-                  onMouseEnter={() => {
+                  onMouseOver={() => {
                     setHoveredNavItemIndex(i)
                   }}
+                  // onMouseEnter={() => {
+                  // }}
                   onMouseLeave={() => {
                     setHoveredNavItemIndex(-1)
                   }}
@@ -92,6 +136,7 @@ const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
                   )}
                   passHref
                   onClick={() => {
+                    setHoveredNavItemIndex(i)
                     track(`clicked ${label} from navigation`, {
                       page: asPath,
                     })
@@ -251,7 +296,6 @@ export const TutorialsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
                 : '#393A46',
             }}
             offset="1"
-            stop-color="#393A46"
           />
         </linearGradient>
       </defs>
@@ -298,42 +342,6 @@ export const CrossIcon = () => {
       />
     </svg>
   )
-}
-
-const useNavigationLinks = () => {
-  const ability = useAbilities()
-  const canCreateContent = ability.can('create', 'Content')
-  const {theme} = useTheme()
-  return [
-    {
-      label: 'Tips',
-      icon: (isHovered: boolean) => (
-        <TipsIcon isHovered={isHovered} theme={theme} />
-      ),
-      href: canCreateContent ? '/creator/tips' : '/tips',
-    },
-    {
-      label: 'Free Tutorials',
-      icon: (isHovered: boolean) => (
-        <TutorialsIcon isHovered={isHovered} theme={theme} />
-      ),
-      href: '/tutorials',
-    },
-    {
-      label: 'Articles',
-      icon: (isHovered: boolean) => (
-        <ArticlesIcon isHovered={isHovered} theme={theme} />
-      ),
-      href: '/articles',
-    },
-    // {
-    //   label: 'Live Events',
-    //   icon: (isHovered: boolean) => (
-    //     <EventsIcon isHovered={isHovered} theme={theme} />
-    //   ),
-    //   href: '/events',
-    // },
-  ]
 }
 
 type NavToggleProps = {

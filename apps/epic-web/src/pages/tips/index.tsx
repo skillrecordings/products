@@ -8,6 +8,7 @@ import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-comple
 import Icon from 'components/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import Balancer from 'react-wrap-balancer'
+import {Card, CardContent, CardHeader} from '@skillrecordings/skill-lesson/ui'
 
 export async function getStaticProps() {
   const tips = await getAllTips()
@@ -40,9 +41,8 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
           <Balancer>{pageDescription}</Balancer>
         </h2>
       </header>
-
       <main className="relative z-10 flex flex-col items-center justify-center pb-16">
-        <div className="mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
+        <div className="mx-auto grid w-full max-w-screen-xl grid-cols-1 gap-5 px-5 md:grid-cols-2 lg:grid-cols-3">
           {tips
             .filter(({state}) => state === 'published')
             .map((tip) => {
@@ -60,15 +60,12 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {title} = tip
   const muxPlaybackId = tip?.muxPlaybackId
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
-  // const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-  //   tip?.videoResourceId
-  // }`
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
-    <article className="flex flex-col items-center overflow-hidden rounded-xl border border-transparent bg-white shadow-2xl shadow-gray-500/20 dark:border-gray-800 dark:bg-transparent dark:shadow-black/50">
-      <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-transparent dark:border-gray-800">
+    <Card className="relative flex flex-col items-center overflow-hidden rounded-xl border border-transparent bg-white shadow-2xl shadow-gray-500/20 dark:border-gray-800 dark:bg-gray-400/5 dark:shadow-black/50">
+      <CardHeader className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-transparent dark:border-gray-800">
         <button
           onClick={() => {
             router
@@ -98,7 +95,6 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
               objectFit="cover"
               layout="fill"
               aria-hidden="true"
-              className="brightness-90 transition duration-500 ease-in-out group-hover:scale-105"
             />
           </div>
           <div
@@ -108,9 +104,12 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
             <Icon className="h-6 w-6" name="Playmark" />
           </div>
         </button>
-      </header>
-      <div className="flex h-full w-full flex-col items-start p-8">
-        <div className="flex items-center gap-2" aria-hidden="true">
+      </CardHeader>
+      <CardContent className="flex h-full w-full flex-col items-start p-6">
+        <div
+          className="absolute right-5 top-5 z-20 flex items-center gap-2"
+          aria-hidden="true"
+        >
           {tipCompleted && (
             <div className="font-heading rounded-full bg-gray-100 px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-gray-500">
               Watched
@@ -120,7 +119,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
             Tip
           </div>
         </div>
-        <h2 className="pt-2 text-base font-semibold leading-tight sm:text-xl">
+        <h2 className="text-base font-semibold leading-tight sm:text-xl">
           <Link
             href={{
               pathname: '/tips/[tip]',
@@ -128,13 +127,13 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
                 tip: tip.slug,
               },
             }}
-            className="inline-flex items-start gap-1 hover:underline"
+            className="inline-flex items-start gap-1 decoration-gray-300 hover:underline dark:decoration-gray-600"
           >
             {title} {tipCompleted && <span className="sr-only">(watched)</span>}
           </Link>
         </h2>
-      </div>
-    </article>
+      </CardContent>
+    </Card>
   )
 }
 
@@ -146,7 +145,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   // const tipCompleted = false
 
   return (
-    <article className="flex items-center gap-5 py-4">
+    <article className="flex items-center gap-4 py-3">
       <header className="flex-shrink-0">
         <button
           onClick={() => {
@@ -164,7 +163,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
                 return videoElement?.play()
               })
           }}
-          className="group relative flex items-center justify-center overflow-hidden"
+          className="group relative flex items-center justify-center overflow-hidden rounded"
         >
           <span className="sr-only">
             Play {title}{' '}
@@ -174,10 +173,10 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             <Image
               src={thumbnail}
               alt=""
-              width={240 / 1.5}
-              height={135 / 1.5}
+              width={240 / 2}
+              height={135 / 2}
               aria-hidden="true"
-              className="rounded brightness-75 transition duration-300 ease-in-out group-hover:scale-110"
+              className=" brightness-75 transition duration-300 ease-in-out group-hover:scale-110"
             />
           </div>
           <div
@@ -202,7 +201,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
           </div>
         </button>
       </header>
-      <h2 className="font-bold leading-tight sm:text-lg">
+      <h2 className="font-bold  sm:text-lg">
         <Link
           href={{
             pathname: '/tips/[tip]',
@@ -210,7 +209,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
               tip: tip.slug,
             },
           }}
-          className="inline-flex items-start gap-1 hover:underline"
+          className="inline-flex items-start gap-1 leading-tight hover:underline"
         >
           <Balancer>{title}</Balancer>{' '}
           {tipCompleted && <span className="sr-only">(watched)</span>}

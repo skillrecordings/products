@@ -2,7 +2,6 @@ import React from 'react'
 import {GetStaticProps} from 'next'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
-import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-server'
 import {getProduct, Product} from 'lib/products'
 import ProductTemplate from 'templates/product-template'
 

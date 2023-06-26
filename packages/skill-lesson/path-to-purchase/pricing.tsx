@@ -307,8 +307,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                               setQuantity(
                                 quantity < 1
                                   ? 1
-                                  : quantity > 100
-                                  ? 100
+                                  : quantity > teamQuantityLimit
+                                  ? teamQuantityLimit
                                   : quantity,
                               )
                             }}

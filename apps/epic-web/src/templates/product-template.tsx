@@ -12,13 +12,14 @@ import {trpc} from 'trpc/trpc.client'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import RemoveMarkdown from 'remove-markdown'
 
 const ProductTemplate: React.FC<{
   product: Product
   mdx: MDXRemoteSerializeResult
 }> = ({product, mdx}) => {
   const router = useRouter()
-  const {title, _updatedAt, _createdAt, slug} = product
+  const {title, image, body, _updatedAt, _createdAt, slug} = product
 
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
@@ -43,23 +44,20 @@ const ProductTemplate: React.FC<{
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
 
-  const image = ''
-
-  const pageDescription = mdx
-    ? `${mdx.compiledSource.substring(0, 157)}...`
+  const pageDescription = body
+    ? `${RemoveMarkdown(body).substring(0, 157)}...`
     : undefined
   const author = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
 
   return (
     <Layout meta={{title, description: pageDescription}}>
-      <Header title={title} image={image} />
-      <main
-        data-event=""
-        className="mx-auto w-full max-w-3xl px-5 py-8 md:py-16"
-      >
-        <Body mdx={mdx} />
-        <div className="flex w-full items-center justify-center pt-10">
+      <Header title={title} image={image?.url} />
+      <main data-event="">
+        <article className="mx-auto w-full max-w-screen-md px-10 py-8 md:py-16">
+          <Body mdx={mdx} />
+        </article>
+        <div className="mt-24 flex w-full items-center justify-center pb-16">
           <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
             {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
             <div data-pricing-container="">
@@ -74,7 +72,10 @@ const ProductTemplate: React.FC<{
                     index={i}
                     couponId={couponId}
                     allowPurchase={true}
-                    options={{withGuaranteeBadge: false, teamQuantityLimit: 10}}
+                    options={{
+                      withGuaranteeBadge: false,
+                      teamQuantityLimit: 10,
+                    }}
                   />
                 )
               })}
@@ -82,7 +83,7 @@ const ProductTemplate: React.FC<{
           </PriceCheckProvider>
         </div>
       </main>
-      <Share contentType="Live Workshop" title={title} />
+      {/* <Share contentType="Live Workshop" title={title} /> */}
       <AboutKent title="Hosted by Kent C. Dodds" className="mt-16" />
     </Layout>
   )
@@ -152,10 +153,34 @@ const Header: React.FC<HeaderProps> = ({title, image}) => {
   )
 }
 
+const mdxComponents = {
+  PictureOfKent: ({children}: {children?: React.ReactElement}) => {
+    return (
+      <div className="flex flex-col items-center gap-10 py-16 md:flex-row md:items-start">
+        <div className="flex flex-shrink-0 flex-col items-center">
+          <Image
+            width={150}
+            height={150}
+            placeholder="blur"
+            priority
+            className="!my-0 rounded-full bg-gray-100 dark:bg-gray-800"
+            src={require('../../public/kent-c-dodds.png')}
+            alt="Kent C. Dodds"
+          />
+          <span className="pt-3 font-bold">Kent C. Dodds</span>
+        </div>
+        <div className="prose w-full dark:prose-invert sm:text-lg">
+          {children}
+        </div>
+      </div>
+    )
+  },
+}
+
 const Body: React.FC<{mdx: MDXRemoteSerializeResult}> = ({mdx}) => {
   return (
-    <article className="invert-svg prose mx-auto w-full max-w-none dark:prose-invert md:prose-xl prose-code:break-words md:prose-code:break-normal">
-      <MDX contents={mdx} />
+    <article className="invert-svg prose mx-auto w-full max-w-none dark:prose-invert md:prose-lg prose-code:break-words md:prose-code:break-normal">
+      <MDX contents={mdx} components={mdxComponents} />
     </article>
   )
 }
