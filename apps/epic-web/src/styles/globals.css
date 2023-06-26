@@ -13,6 +13,7 @@
 @import './video/video-overlays.css';
 @import './video/video-transcript.css';
 @import '@code-hike/mdx/dist/index.css';
+@import './team.css';
 @import './commerce.css';
 
 @tailwind utilities;

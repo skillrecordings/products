@@ -60,7 +60,7 @@ export const InvoiceCard: React.FC<{purchase: Purchase | any}> = ({
 }) => {
   return (
     <Link href={`/invoices/${purchase.merchantChargeId}`} className="group">
-      <div className="flex items-start rounded-lg border border-gray-100 px-5 py-6 shadow-xl shadow-gray-400/5">
+      <div className="flex items-start rounded-lg border border-indigo-600 px-5 py-6 shadow-xl ">
         <div>
           <DocumentTextIcon aria-hidden className="w-6 text-sky-500" />
         </div>
