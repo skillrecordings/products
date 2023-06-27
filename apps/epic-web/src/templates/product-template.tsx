@@ -172,9 +172,10 @@ const Header: React.FC<HeaderProps> = ({title, hasPurchased}) => {
           {hasPurchased && (
             <Link
               href="/purchases"
-              className="flex items-center gap-1.5 rounded-md bg-teal-400/20 py-0.5 pl-1.5 pr-2 text-teal-300 transition hover:bg-teal-400/30"
+              className="flex items-center gap-1.5 rounded-md bg-teal-400/30 py-0.5 pl-1.5 pr-2 font-medium text-teal-600 transition hover:bg-teal-400/40 dark:bg-teal-400/20 dark:text-teal-300 dark:hover:bg-teal-400/30"
             >
-              <CheckCircleIcon className="h-5 w-5 text-teal-400" /> Purchased
+              <CheckCircleIcon className="h-5 w-5 text-teal-500 dark:text-teal-400" />{' '}
+              Purchased
             </Link>
           )}
           <h1
