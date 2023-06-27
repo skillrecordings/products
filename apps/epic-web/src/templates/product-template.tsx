@@ -100,7 +100,7 @@ const ProductTemplate: React.FC<{
         },
       }}
     >
-      <Header title={title} image={image?.url} hasPurchased={hasPurchased} />
+      <Header title={title} hasPurchased={hasPurchased} />
       <main data-event="">
         <article className="mx-auto w-full max-w-screen-md px-10 py-8 md:py-10">
           <Body mdx={mdx} />
