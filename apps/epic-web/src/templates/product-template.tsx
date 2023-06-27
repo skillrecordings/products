@@ -22,17 +22,21 @@ const workshops = [
     date: 'Tuesday, July 18th & Thursday, July 20th',
     time: '9am-2pm (Pacific)',
     image:
-      'https://res.cloudinary.com/epic-web/image/upload/v1687859599/workshop-image-full-stack-foundations_2x.png',
+      'https://res.cloudinary.com/epic-web/image/upload/v1687868258/workshop-image-full-stack-foundations_2x.png',
   },
   {
     title: 'Professional Web Forms',
     date: 'Tuesday, July 25th',
     time: '9am-2pm (Pacific)',
+    image:
+      'https://res.cloudinary.com/epic-web/image/upload/v1687868258/workshop-image-professional-web-forms_2x.png',
   },
   {
     title: 'Data Modeling Deep Dive',
     date: 'Thursday, July 27th',
     time: '9am-2pm (Pacific)',
+    image:
+      'https://res.cloudinary.com/epic-web/image/upload/v1687868258/workshop-image-data-modeling-deep-dive_2x.png',
   },
   {
     title: 'Authentication Strategies & Implementation',
@@ -182,36 +186,33 @@ const Header: React.FC<HeaderProps> = ({title, image}) => {
         className="-my-16 grid scale-75 cursor-default grid-cols-2 gap-2 pb-10 sm:my-0 sm:scale-100 md:grid-cols-4"
       >
         <div className="col-span-2 flex h-full w-full items-center justify-center rounded-lg border border-gray-100 bg-white p-5 text-center shadow-xl shadow-gray-500/10 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/80 md:col-span-1">
-          <Balancer>
-            Join me for Eight Full-Day Workshops experienced over four weeks. 🔥
-          </Balancer>
+          Join me for Eight Full-Day Workshops experienced over four weeks. 🔥
         </div>
         {workshops.map(({title, date, time, image}, i) => {
           return (
             <motion.div
-              whileHover={{
-                scale: 1.02,
-              }}
               className={cx(
-                'flex h-full w-full flex-col gap-8 rounded-lg border border-gray-100 bg-white p-8 shadow-xl shadow-gray-500/10 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/80 sm:flex-row sm:items-center',
+                'flex h-full w-full gap-8 rounded-lg border border-gray-100 bg-white p-8 shadow-xl shadow-gray-500/10 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/80',
                 {
-                  'col-span-2 md:col-span-3': i === 0,
-                  'col-span-1 md:col-span-2': i !== 0,
+                  'col-span-2 flex-row items-center md:col-span-3': i === 0,
+                  'col-span-1 flex-col sm:items-center md:col-span-2 md:flex-row':
+                    i !== 0,
                 },
               )}
             >
               {image && (
                 <Image
+                  className="w-[140px] md:w-24 lg:w-auto"
                   src={image}
                   alt={title}
-                  width={136}
-                  height={108}
+                  width={140}
+                  height={140}
                   priority
                 />
               )}
               <div>
                 <h2 className="text-lg font-bold leading-tight sm:text-xl lg:text-2xl">
-                  {title}
+                  <Balancer>{title}</Balancer>
                 </h2>
                 <time
                   dateTime={`${date}, ${time}`}
