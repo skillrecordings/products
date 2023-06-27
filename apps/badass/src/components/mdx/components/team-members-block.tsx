@@ -23,7 +23,7 @@ const TeamMembersBlock: React.FC<TeamMembersBlockProps> = ({
           <div data-team-members-portraits="">
             {members.map((member, i) => {
               return (
-                <div data-team-member-portrait="">
+                <div key={i} data-team-member-portrait="">
                   <Image
                     src={member.portrait}
                     alt="Team Member Portrait"
@@ -38,7 +38,7 @@ const TeamMembersBlock: React.FC<TeamMembersBlockProps> = ({
             <div data-team-members-names="">
               {members.map((member, i) => {
                 return (
-                  <span data-team-member-name="">
+                  <span key={i} data-team-member-name="">
                     {member.name}
                     {i < members.length - 2 && ', '}
                     {i == members.length - 2 && ' & '}

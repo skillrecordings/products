@@ -16,7 +16,7 @@ const Navigation = () => {
       <div className="flex items-center w-full h-full max-w-screen-xl mx-auto justify-between">
         <NavLogo />
         <DesktopNav />
-        {/* <MobileNav /> */}
+        <MobileNav />
       </div>
     </nav>
   )
@@ -46,7 +46,7 @@ const NavLogo = () => {
 
 const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
-    <div className={cx('flex w-full pl-5 gap-2 h-full justify-end')}>
+    <div className={cx('w-full pl-5 gap-2 h-full justify-end hidden sm:flex')}>
       <NavSlots>
         <NavLink href="/podcast/course-builders">
           <span
@@ -65,6 +65,15 @@ const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
             h
           </span>{' '}
           Articles
+        </NavLink>
+        <NavLink href="/partners">
+          <span
+            aria-hidden="true"
+            className="sm:text-4xl text-2xl text-badass-red-400 font-symbol mr-1.5"
+          >
+            d
+          </span>{' '}
+          Partners
         </NavLink>
       </NavSlots>
     </div>
@@ -104,6 +113,13 @@ const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
                   {(props) => (
                     <MenuLink href="/articles" {...props}>
                       Articles
+                    </MenuLink>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {(props) => (
+                    <MenuLink href="/partners" {...props}>
+                      Partners
                     </MenuLink>
                   )}
                 </Menu.Item>
