@@ -295,20 +295,20 @@
           [data-price-container='success'] {
             @apply pt-5;
           }
-          [data-pricing-product-sale-countdown] {
-            @apply mt-5 flex w-full flex-col rounded-lg border border-gray-200 px-3 py-5 text-center;
-            [data-grid] {
-              @apply mx-auto grid max-w-[300px] grid-cols-4 items-center justify-center gap-3 tabular-nums tracking-tight;
-            }
-            [data-title] {
-              @apply pb-4 text-sm font-medium sm:text-base;
-            }
-            [data-number] {
-              @apply text-2xl font-black leading-none sm:text-3xl;
-            }
-            [data-label] {
-              @apply pt-1 text-xs font-semibold uppercase tracking-wide opacity-75;
-            }
+        }
+        [data-pricing-product-sale-countdown] {
+          @apply mt-5 flex w-full flex-col bg-gray-100 px-3 py-5 text-center dark:bg-gray-900;
+          [data-grid] {
+            @apply mx-auto grid max-w-[300px] grid-cols-4 items-center justify-center gap-3 tabular-nums tracking-tight !important;
+          }
+          [data-title] {
+            @apply pb-4 text-sm font-medium sm:text-base;
+          }
+          [data-number] {
+            @apply text-2xl font-black leading-none sm:text-3xl;
+          }
+          [data-label] {
+            @apply pt-1 text-xs font-semibold uppercase tracking-wide opacity-75;
           }
         }
         [data-purchased-container] {

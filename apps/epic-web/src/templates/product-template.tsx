@@ -24,7 +24,7 @@ const workshops = [
     date: 'Tuesday, July 18th & Thursday, July 20th',
     time: '9am-3pm (Mountain)',
     image:
-      'https://res.cloudinary.com/epic-web/image/upload/v1687868258/workshop-image-full-stack-foundations_2x.png',
+      'https://res.cloudinary.com/epic-web/image/upload/v1687876115/workshop-image-full-stack-foundations_2x.png',
   },
   {
     title: 'Professional Web Forms',
