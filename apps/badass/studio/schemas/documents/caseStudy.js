@@ -55,19 +55,15 @@ export default {
     },
     {
       name: 'body',
-      title: 'Case Study Body',
+      title: 'Case Study Body - (outdated)',
       type: 'body',
       validation: (Rule) => Rule.required(),
     },
     {
       name: 'markdownBody',
-      title: 'Markdown Case Study Body',
+      title: 'Case Study Body',
       type: 'markdown',
-    },
-    {
-      name: 'image',
-      title: 'Image',
-      type: 'image',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'heroImage',
@@ -108,7 +104,7 @@ export default {
   preview: {
     select: {
       title: 'title',
-      media: 'image.asset.url',
+      media: 'heroImage.url',
     },
     prepare(selection) {
       const {media, title} = selection
