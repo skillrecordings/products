@@ -13,6 +13,37 @@ import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import RemoveMarkdown from 'remove-markdown'
+import cx from 'classnames'
+
+const workshops = [
+  {
+    title: 'Full Stack Foundations',
+    date: 'Tuesday, July 18th & Thursday, July 20th',
+    time: '9am-2pm (Pacific)',
+    image:
+      'https://res.cloudinary.com/epic-web/image/upload/v1687859599/workshop-image-full-stack-foundations_2x.png',
+  },
+  {
+    title: 'Professional Web Forms',
+    date: 'Tuesday, July 25th',
+    time: '9am-2pm (Pacific)',
+  },
+  {
+    title: 'Data Modeling Deep Dive',
+    date: 'Thursday, July 27th',
+    time: '9am-2pm (Pacific)',
+  },
+  {
+    title: 'Authentication Strategies & Implementation',
+    date: 'Tuesday, August 1st & Thursday, August 3rd',
+    time: '9am-2pm (Pacific)',
+  },
+  {
+    title: 'Web Application Testing',
+    date: 'Tuesday, August 8th & Thursday, August 10th',
+    time: '9am-2pm (Pacific)',
+  },
+]
 
 const ProductTemplate: React.FC<{
   product: Product
@@ -122,7 +153,7 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({title, image}) => {
   return (
-    <header className="relative mx-auto w-full max-w-screen-lg">
+    <header className="relative mx-auto w-full max-w-screen-lg px-2">
       <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-28">
         <div className="flex flex-grow items-center justify-center">
           <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-2xl sm:fluid-3xl">
@@ -130,17 +161,103 @@ const Header: React.FC<HeaderProps> = ({title, image}) => {
           </h1>
         </div>
       </div>
+      <div className="pointer-events-none -my-16 grid scale-75 grid-cols-1 gap-2 sm:my-0 sm:scale-100 md:grid-cols-2">
+        {workshops.map(({title, date, time, image}, i) => {
+          return (
+            <div
+              className={cx(
+                'flex h-full w-full items-center gap-8 rounded-lg border border-gray-100 bg-white p-8 shadow-xl shadow-gray-500/10 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/80',
+                {
+                  'col-span-1 md:col-span-2': i === 0,
+                },
+              )}
+            >
+              {image && (
+                <Image
+                  src={image}
+                  alt={title}
+                  width={136}
+                  height={108}
+                  priority
+                />
+              )}
+              <div>
+                <h2 className="text-xl font-bold sm:text-2xl">{title}</h2>
+                <time
+                  dateTime={`${date}, ${time}`}
+                  className="flex flex-col space-y-1 pt-3"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <svg
+                      width="17"
+                      height="16"
+                      viewBox="0 0 17 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 6H16"
+                        stroke="#8F939F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M14.5 3H2.5C2.10218 3 1.72064 3.15804 1.43934 3.43934C1.15804 3.72064 1 4.10218 1 4.5V13.5C1 13.8978 1.15804 14.2794 1.43934 14.5607C1.72064 14.842 2.10218 15 2.5 15H14.5C14.8978 15 15.2794 14.842 15.5607 14.5607C15.842 14.2794 16 13.8978 16 13.5V4.5C16 4.10218 15.842 3.72064 15.5607 3.43934C15.2794 3.15804 14.8978 3 14.5 3Z"
+                        stroke="#8F939F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M5 1V3"
+                        stroke="#8F939F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12 1V3"
+                        stroke="#8F939F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <span className="text-gray-800 dark:text-gray-300">
+                      {date}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <svg
+                      width="17"
+                      height="17"
+                      viewBox="0 0 17 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8.5 16C12.6421 16 16 12.6421 16 8.5C16 4.35786 12.6421 1 8.5 1C4.35786 1 1 4.35786 1 8.5C1 12.6421 4.35786 16 8.5 16Z"
+                        stroke="#8F939F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M8.5 3.5V8.5H13.5"
+                        stroke="#8F939F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+
+                    <span className="text-gray-800 dark:text-gray-300">
+                      {time}
+                    </span>
+                  </div>
+                </time>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
       {/* {image && (
-        <div className="relative aspect-video h-full w-full overflow-hidden sm:rounded-lg">
-          <Image
-            src={image}
-            priority
-            alt=""
-            aria-hidden="true"
-            quality={100}
-            fill
-          />
-        </div>
       )} */}
       {/*<div className="flex w-full max-w-screen-lg flex-col justify-center gap-5 px-5 text-base text-gray-700 dark:text-gray-300 sm:flex-row sm:items-center sm:gap-10 sm:text-base md:gap-16 lg:px-0">*/}
       {/*  <div className="flex flex-col items-center justify-center gap-3 text-center font-medium sm:gap-10 sm:text-left lg:flex-row">*/}
