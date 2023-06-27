@@ -22,33 +22,33 @@ const workshops = [
   {
     title: 'Full Stack Foundations',
     date: 'Tuesday, July 18th & Thursday, July 20th',
-    time: '9am-2pm (Pacific)',
+    time: '9am-3pm (Mountain)',
     image:
       'https://res.cloudinary.com/epic-web/image/upload/v1687868258/workshop-image-full-stack-foundations_2x.png',
   },
   {
     title: 'Professional Web Forms',
     date: 'Tuesday, July 25th',
-    time: '9am-2pm (Pacific)',
+    time: '9am-3pm (Mountain)',
     image:
       'https://res.cloudinary.com/epic-web/image/upload/v1687868258/workshop-image-professional-web-forms_2x.png',
   },
   {
     title: 'Data Modeling Deep Dive',
     date: 'Thursday, July 27th',
-    time: '9am-2pm (Pacific)',
+    time: '9am-3pm (Mountain)',
     image:
       'https://res.cloudinary.com/epic-web/image/upload/v1687868258/workshop-image-data-modeling-deep-dive_2x.png',
   },
   {
     title: 'Authentication Strategies & Implementation',
     date: 'Tuesday, August 1st & Thursday, August 3rd',
-    time: '9am-2pm (Pacific)',
+    time: '9am-3pm (Mountain)',
   },
   {
     title: 'Web Application Testing',
     date: 'Tuesday, August 8th & Thursday, August 10th',
-    time: '9am-2pm (Pacific)',
+    time: '9am-3pm (Mountain)',
   },
 ]
 
