@@ -15,6 +15,7 @@
 @import '@code-hike/mdx/dist/index.css';
 @import './team.css';
 @import './commerce.css';
+@import '../purchase-details/purchase-details.css';
 
 @tailwind utilities;
 

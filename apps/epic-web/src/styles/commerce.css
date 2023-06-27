@@ -794,7 +794,7 @@
       span {
       }
       input {
-        @apply selection:bg-sky-500 focus-visible:ring-sky-500;
+        @apply selection:bg-primary focus-visible:ring-primary;
       }
     }
     [data-pricing-product-header] {
@@ -828,7 +828,7 @@
       }
     }
     button {
-      @apply mt-3 w-full rounded-full bg-sky-500 hover:bg-sky-600;
+      @apply mt-3 w-full rounded-full bg-primary text-white;
     }
   }
 }

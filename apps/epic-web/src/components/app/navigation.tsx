@@ -82,10 +82,13 @@ const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
 
   const [hoveredNavItemIndex, setHoveredNavItemIndex] = React.useState(-1)
   const {data: sessionData, status: sessionStatus} = useSession()
-  const [hasMounted, setMounted] = React.useState(false)
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({})
+  const isLoadingUserInfo =
+    sessionStatus === 'loading' || commercePropsStatus === 'loading'
+
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
 
   return (
     <div className="fixed left-0 top-0 z-50 flex w-full items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md dark:bg-background/90 dark:shadow-xl dark:shadow-black/50 print:hidden">
@@ -155,14 +158,31 @@ const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
           </div>
         </div>
         <div className="flex items-center justify-center pr-5 sm:pr-0">
-          {sessionData?.user?.email && (
-            <div className="flex items-center space-x-1">
+          {!isLoadingUserInfo && (
+            <div className="mr-3 flex items-center space-x-1">
               <Gravatar
                 className="h-8 w-8 rounded-full"
-                email={sessionData?.user?.email}
+                email={sessionData?.user?.email || ''}
                 default="mp"
               />
-              <span className="text-sm">{sessionData?.user?.name}</span>
+              <div className="flex flex-col">
+                <span className="text-sm font-bold leading-tight">
+                  {sessionData?.user?.name}
+                </span>
+                {purchasedProductIds.length > 0 && (
+                  <Link
+                    href="/purchases"
+                    className={cx(
+                      'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
+                      {
+                        underline: pathname === '/purchases',
+                      },
+                    )}
+                  >
+                    Your Purchases
+                  </Link>
+                )}
+              </div>
             </div>
           )}
           <ColorModeToggle className="hidden sm:block" />

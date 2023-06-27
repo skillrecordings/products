@@ -15,6 +15,8 @@ import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coup
 import RemoveMarkdown from 'remove-markdown'
 import cx from 'classnames'
 import {motion, useScroll, useTransform} from 'framer-motion'
+import {CheckCircleIcon} from '@heroicons/react/solid'
+import Link from 'next/link'
 
 const workshops = [
   {
@@ -56,7 +58,6 @@ const ProductTemplate: React.FC<{
 }> = ({product, mdx}) => {
   const router = useRouter()
   const {title, image, body, _updatedAt, _createdAt, slug} = product
-  const isCouponQueryPresent = router.query.coupon
 
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
@@ -86,6 +87,7 @@ const ProductTemplate: React.FC<{
     : undefined
   const author = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
+  const hasPurchased = purchasedProductIds.includes(product.productId)
 
   return (
     <Layout
@@ -98,7 +100,7 @@ const ProductTemplate: React.FC<{
         },
       }}
     >
-      <Header title={title} image={image?.url} />
+      <Header title={title} image={image?.url} hasPurchased={hasPurchased} />
       <main data-event="">
         <article className="mx-auto w-full max-w-screen-md px-10 py-8 md:py-10">
           <Body mdx={mdx} />
@@ -150,16 +152,12 @@ export default ProductTemplate
 
 type HeaderProps = {
   title: string
-  // startsAt: string
-  // endsAt: string
-  // timezone: string | undefined | null
-  image?: string | undefined
+  hasPurchased: boolean
 }
 
-const Header: React.FC<HeaderProps> = ({title, image}) => {
-  const ref = React.useRef(null)
+const Header: React.FC<HeaderProps> = ({title, hasPurchased}) => {
   const {scrollY} = useScroll()
-  const rotateX = useTransform(
+  const headerScrollRotation = useTransform(
     scrollY,
     // Map y from these values:
     [0, 600],
@@ -168,10 +166,26 @@ const Header: React.FC<HeaderProps> = ({title, image}) => {
   )
 
   return (
-    <header ref={ref} className="relative mx-auto w-full max-w-screen-lg px-2">
-      <div className="relative flex w-full flex-col items-center justify-center pb-24 pt-10 sm:pb-24 sm:pt-24">
-        <div className="flex flex-grow items-center justify-center">
-          <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-2xl sm:fluid-3xl">
+    <header className="relative mx-auto w-full max-w-screen-lg px-2">
+      <div className="relative flex w-full flex-col items-center justify-center pb-24 pt-10 sm:pb-24 sm:pt-16">
+        <div className="flex flex-grow flex-col items-center justify-center">
+          {hasPurchased && (
+            <Link
+              href="/purchases"
+              className="flex items-center gap-1.5 rounded-md bg-teal-400/20 py-0.5 pl-1.5 pr-2 text-teal-300 transition hover:bg-teal-400/30"
+            >
+              <CheckCircleIcon className="h-5 w-5 text-teal-400" /> Purchased
+            </Link>
+          )}
+          <h1
+            className={cx(
+              'w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-2xl sm:fluid-3xl',
+              {
+                'pt-12': !hasPurchased,
+                'pt-5': hasPurchased,
+              },
+            )}
+          >
             <Balancer>{title}</Balancer>
           </h1>
         </div>
@@ -180,8 +194,7 @@ const Header: React.FC<HeaderProps> = ({title, image}) => {
         style={{
           transformOrigin: 'top center',
           transformPerspective: 300,
-          rotateX: rotateX,
-          // opacity: scrollYProgress,
+          rotateX: headerScrollRotation,
         }}
         className="-my-16 grid scale-75 cursor-default grid-cols-2 gap-2 pb-10 sm:my-0 sm:scale-100 md:grid-cols-4"
       >

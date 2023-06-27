@@ -81,13 +81,13 @@ const PurchaseDetailsTemplate: React.FC<PurchaseDetailsProps> = ({
             />
           )}
           <div className="w-full">
-            <p className="font-heading pb-3 font-extrabold uppercase text-sky-500">
+            <p className="pb-3 font-extrabold uppercase text-primary">
               Your purchase details for
             </p>
-            <h1 className="font-heading text-4xl font-black">
+            <h1 className="text-4xl font-black">
               <Balancer>{product.name}</Balancer>
             </h1>
-            <div className="-mx-3 flex flex-col items-center justify-center divide-y divide-slate-200 pt-10">
+            <div className="-mx-3 flex flex-col items-center justify-center divide-y divide-gray-200 pt-10 dark:divide-gray-800">
               <Row label="Invoice" icon="Receipt">
                 <InvoiceLink merchantChargeId={purchase.merchantChargeId} />
               </Row>
@@ -113,11 +113,12 @@ const PurchaseDetailsTemplate: React.FC<PurchaseDetailsProps> = ({
               )}
               {((sanityProduct && purchase.status === 'Valid') ||
                 (purchase.status === 'Restricted' && personalPurchase) ||
-                canViewContent) && (
-                <Row label="Progress" icon="PlayOutline">
-                  <Progress sanityProduct={sanityProduct} />
-                </Row>
-              )}
+                canViewContent) &&
+                sanityProduct?.lessons && (
+                  <Row label="Progress" icon="PlayOutline">
+                    <Progress sanityProduct={sanityProduct} />
+                  </Row>
+                )}
               {!purchase.bulkCoupon && <PurchaseTransfer purchase={purchase} />}
             </div>
           </div>
@@ -184,8 +185,8 @@ const WelcomeHeader = () => {
   return (
     <header className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#31AEF6] pb-32 text-center text-white sm:pb-10">
       <div className="absolute z-10 w-full px-5 pt-40">
-        <h1 className="font-heading text-3xl font-black sm:text-4xl md:text-5xl">
-          <Balancer>Welcome to Pro Tailwind!</Balancer>
+        <h1 className=" text-3xl font-black sm:text-4xl md:text-5xl">
+          <Balancer>Welcome to Epic Web Dev!</Balancer>
         </h1>
         <p className="pt-3 sm:text-lg">
           <Balancer>
@@ -207,20 +208,18 @@ const BuySeats: React.FC<{
       id="buy-more-seats-modal"
       className="flex max-w-xs flex-col items-center text-center"
     >
-      <p className="pb-5">
-        Get your team to level up with Tailwind Multi-Theme Strategy Workshop
-      </p>
+      <p className="pb-5">Get your team to level up with {productName}</p>
       <Dialog.Root>
-        <Dialog.Trigger className="font-heading group flex items-center gap-2 rounded-full bg-sky-500 px-5 py-2.5 font-semibold text-white transition hover:bg-sky-600">
+        <Dialog.Trigger className="group flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 font-semibold text-white transition">
           Buy more seats
         </Dialog.Trigger>
         <Dialog.Overlay className="fixed inset-0 z-10 bg-black/50 backdrop-blur-sm" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 z-40 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg  px-6 py-8 shadow-2xl shadow-gray-500/10">
-          <Dialog.Title className="font-heading pb-5 text-center text-2xl font-black leading-tight">
+        <Dialog.Content className="fixed left-1/2 top-1/2 z-40 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-background px-6 py-8 text-black text-foreground shadow-2xl shadow-gray-500/10">
+          <Dialog.Title className=" pb-5 text-center text-2xl font-black leading-tight">
             <Balancer>Buy more seats for {productName}</Balancer>
           </Dialog.Title>
           <BuyMoreSeats productId={productId} userId={userId} />
-          <Dialog.Close className="absolute right-2 top-2 rounded-full p-2 hover:bg-gray-100">
+          <Dialog.Close className="absolute right-2 top-2 rounded-full p-2">
             <XIcon className="h-5 w-5" />
           </Dialog.Close>
         </Dialog.Content>
@@ -266,7 +265,7 @@ const InvoiceLink: React.FC<{merchantChargeId: string | null}> = ({
   const canViewInvoice = ability.can('view', 'Invoice')
   return canViewInvoice ? (
     <Link
-      className="text-sky-500 underline"
+      className="text-primary underline"
       href={{
         pathname: '/invoices/[merchantChargeId]',
         query: {
@@ -355,7 +354,7 @@ const getCompletedLessons = ({
 }
 
 const Share = () => {
-  const tweet = `https://twitter.com/intent/tweet/?text=Pro Tailwind by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.protailwind.com%2F`
+  const tweet = `https://twitter.com/intent/tweet/?text=EpicWeb.dev by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.epicweb.dev%2F`
   return (
     <div className="flex flex-col items-center justify-center gap-5 text-center">
       <p>
@@ -370,7 +369,7 @@ const Share = () => {
         href={tweet}
         rel="noopener noreferrer"
         target="_blank"
-        className="font-heading group flex items-center gap-2 rounded-full border border-sky-500 px-5 py-2.5 font-semibold text-sky-500 transition hover:bg-sky-500 hover:text-white"
+        className=" group flex items-center gap-2 rounded-full border border-sky-500 px-5 py-2.5 font-semibold text-sky-500 transition hover:bg-sky-500 hover:text-white"
       >
         <Icon name="Twitter" className="fill-sky-500 group-hover:fill-white" />{' '}
         Share with your friends!
@@ -390,6 +389,7 @@ const Progress: React.FC<{
   const {lessons} = sanityProduct
   const {data: userProgress} = trpc.progress.get.useQuery()
   const completedLessons = getCompletedLessons({userProgress, lessons})
+
   return (
     <div className="flex items-center gap-2">
       {completedLessons?.length}/{lessons.length} lessons completed

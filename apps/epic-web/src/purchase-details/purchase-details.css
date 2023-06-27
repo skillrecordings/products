@@ -3,7 +3,7 @@
     [data-transfer-state] {
       @apply flex flex-col gap-3;
       p {
-        @apply font-medium text-gray-700;
+        @apply text-gray-700 dark:text-gray-300;
       }
       button {
         @apply py-2.5 text-sm shadow-none;
@@ -19,7 +19,7 @@
     }
     [data-transfer-state='INITIATED'] {
       h2 {
-        @apply text-base font-medium text-gray-700 before:mr-1 before:animate-pulse before:rounded-full before:px-1 before:text-xl before:content-["📧"];
+        @apply text-base font-medium text-gray-700 before:mr-1 before:animate-pulse before:rounded-full before:px-1 before:text-xl before:content-["📧"] dark:text-gray-300;
       }
       button {
         @apply self-start bg-gray-300 text-black;

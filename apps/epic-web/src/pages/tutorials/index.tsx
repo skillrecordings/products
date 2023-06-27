@@ -55,7 +55,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
           </span>{' '}
           Web Development Tutorials
         </h1>
-        <h2 className="w-full max-w-md text-base text-gray-600 dark:text-gray-500">
+        <h2 className="w-full max-w-md text-base text-gray-600 dark:text-gray-400">
           <Balancer>
             A collection of exercise-driven, in-depth Web Development tutorials.
           </Balancer>
