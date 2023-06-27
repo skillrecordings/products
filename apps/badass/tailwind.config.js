@@ -91,6 +91,12 @@ module.exports = {
             strong: {
               fontWeight: 700,
             },
+            ol: {
+              fontStyle: 'italic',
+            },
+            'ol > li::marker': {
+              color: 'white',
+            },
           },
         },
       }),

@@ -20,6 +20,8 @@ import {
   AccentedTitleProps,
   TeamMembersBlock,
   TeamMembersBlockProps,
+  CalloutTitle,
+  CalloutTitleProps,
 } from './components'
 
 const mdxComponents = {
@@ -79,8 +81,11 @@ const mdxComponents = {
       />
     )
   },
-  AccentedTitle: ({title}: AccentedTitleProps) => {
-    return <AccentedTitle title={title} />
+  AccentedTitle: ({text, color}: AccentedTitleProps) => {
+    return <AccentedTitle text={text} color={color} />
+  },
+  CalloutTitle: ({text, color}: CalloutTitleProps) => {
+    return <CalloutTitle text={text} color={color} />
   },
   TeamMembersBlock: ({description, members, title}: TeamMembersBlockProps) => {
     return (

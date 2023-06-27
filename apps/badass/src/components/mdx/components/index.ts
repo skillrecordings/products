@@ -42,3 +42,5 @@ export {
   default as TeamMembersBlock,
   type TeamMembersBlockProps,
 } from './team-members-block'
+
+export {default as CalloutTitle, type CalloutTitleProps} from './callout-title'
