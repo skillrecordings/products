@@ -158,11 +158,11 @@ const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
           </div>
         </div>
         <div className="flex items-center justify-center pr-5 sm:pr-0">
-          {!isLoadingUserInfo && (
+          {!isLoadingUserInfo && sessionData?.user?.email && (
             <div className="mr-3 flex items-center space-x-1">
               <Gravatar
                 className="h-8 w-8 rounded-full"
-                email={sessionData?.user?.email || ''}
+                email={sessionData?.user?.email}
                 default="mp"
               />
               <div className="flex flex-col">
