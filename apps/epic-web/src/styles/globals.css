@@ -19,7 +19,7 @@
 @tailwind utilities;
 
 :root {
-  @apply selection:bg-indigo-500 selection:text-white;
+  @apply selection:bg-primary selection:text-white;
 }
 
 .no-marker {

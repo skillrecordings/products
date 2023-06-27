@@ -88,7 +88,7 @@ const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
   }, [])
 
   return (
-    <div className="fixed left-0 top-0 z-50 flex w-full items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md dark:bg-background/90 dark:shadow-xl dark:shadow-black/50">
+    <div className="fixed left-0 top-0 z-50 flex w-full items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md dark:bg-background/90 dark:shadow-xl dark:shadow-black/50 print:hidden">
       <motion.nav
         aria-label="top"
         style={{height: size === 'sm' ? 48 : navHeight}}

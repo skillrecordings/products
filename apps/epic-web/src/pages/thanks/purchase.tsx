@@ -125,8 +125,9 @@ const ThankYou: React.FC<ThankYouProps> = ({title, byline, product, email}) => {
             <Image
               src={product.image.url}
               alt={product.title}
-              width={250}
-              height={250}
+              width={140}
+              height={140}
+              priority
             />
           </div>
         )}
@@ -146,14 +147,15 @@ const ThankYou: React.FC<ThankYouProps> = ({title, byline, product, email}) => {
 
 const LoginLink: React.FC<{email: string}> = ({email}) => {
   return (
-    <div className="selection:text-brand-red relative mx-auto flex w-full items-center justify-between gap-5 overflow-hidden rounded-xl bg-gray-200 p-7 dark:bg-gray-900 sm:p-12">
+    <div className="relative mx-auto flex w-full items-center justify-between gap-5 overflow-hidden rounded-xl border border-gray-100 bg-white p-7 dark:border-gray-800 dark:bg-gray-900 sm:p-12">
       <div className="relative z-10">
-        <p className="font-heading text-brand-red inline-flex rounded-full px-3 py-1 text-xs font-black uppercase sm:text-sm">
+        <p className="inline-flex rounded-full bg-primary px-3 py-1 text-xs font-black uppercase text-white sm:text-sm">
           Final step
         </p>
         <h2 className="font-heading mx-auto py-5 text-2xl font-black sm:text-3xl lg:text-4xl">
           <Balancer>
-            Please check your inbox for a <i>login link</i> that just got sent.
+            Please check your inbox for a <strong>login link</strong> that just
+            got sent.
           </Balancer>
         </h2>
         <div className="mb-3 inline-flex items-center gap-1 rounded-lg bg-white px-4 py-3 dark:bg-gray-800">

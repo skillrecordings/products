@@ -246,12 +246,13 @@
     [data-pricing-container] {
       @apply flex flex-col items-center;
     }
+
     #main-pricing {
       [data-pricing-product] {
         [data-pricing-product-image] {
         }
         article {
-          @apply -mt-20 border border-foreground/10 bg-background pb-8 pt-0 shadow-none;
+          @apply -mt-16 border border-foreground/10 bg-background pb-8 pt-10 shadow-none;
         }
         [data-pricing-product-header] {
           [data-byline] {
@@ -291,6 +292,9 @@
           [data-price-container='error'] {
             @apply hidden;
           }
+          [data-price-container='success'] {
+            @apply pt-5;
+          }
           [data-pricing-product-sale-countdown] {
             @apply mt-5 flex w-full flex-col rounded-lg border border-gray-200 px-3 py-5 text-center;
             [data-grid] {
@@ -308,8 +312,20 @@
           }
         }
         [data-purchased-container] {
+          #team-upgrade-pricing-inline {
+            @apply flex flex-col justify-center;
+            [data-pricing-product-header] {
+              @apply flex w-full flex-col justify-center;
+              [data-price] {
+                @apply text-3xl;
+              }
+              button {
+                @apply border border-primary bg-transparent text-primary shadow-none dark:brightness-125;
+              }
+            }
+          }
           [data-purchased] {
-            @apply mb-5 flex items-center gap-1 border-b border-gray-100 pb-5  text-lg font-black;
+            @apply mb-5 flex items-center gap-1 border-b border-gray-100 pb-5 text-lg  font-black dark:border-gray-800;
             svg {
               @apply h-8 w-8 text-sky-500;
             }
@@ -335,7 +351,7 @@
               legend {
               }
               [data-team-switch] {
-                @apply flex items-center justify-center gap-2 pb-3.5 text-sm;
+                @apply flex items-center justify-center gap-2 pb-5 text-sm;
                 label {
                   @apply sr-only;
                 }
@@ -366,7 +382,7 @@
               }
             }
             [data-pricing-product-checkout-button] {
-              @apply flex w-full items-center justify-center rounded-md border border-white/5 bg-gradient-to-b from-blue-500 to-blue-600 px-4 py-4 text-center font-semibold text-white shadow-lg ring-offset-1 transition ease-in-out focus-visible:ring-blue-600 disabled:cursor-wait hover:shadow-gray-600/20 hover:brightness-110;
+              @apply flex w-full items-center justify-center rounded-md border border-blue-400/20 bg-gradient-to-b from-blue-500 to-blue-600 px-4 py-4 text-center font-semibold text-white shadow-lg ring-offset-1 transition ease-in-out focus-visible:ring-blue-600 disabled:cursor-wait hover:shadow-gray-600/20 hover:brightness-110;
 
               span {
                 @apply relative z-10;

@@ -20,6 +20,7 @@ const ProductTemplate: React.FC<{
 }> = ({product, mdx}) => {
   const router = useRouter()
   const {title, image, body, _updatedAt, _createdAt, slug} = product
+  const isCouponQueryPresent = router.query.coupon
 
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
@@ -51,16 +52,36 @@ const ProductTemplate: React.FC<{
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
 
   return (
-    <Layout meta={{title, description: pageDescription}}>
+    <Layout
+      meta={{
+        title,
+        description: pageDescription,
+        ogImage: {
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1687853482/card-full-stack-workshop-series-vol-1_2x.png',
+          alt: title,
+        },
+      }}
+    >
       <Header title={title} image={image?.url} />
       <main data-event="">
-        <article className="mx-auto w-full max-w-screen-md px-10 py-8 md:py-16">
+        <article className="mx-auto w-full max-w-screen-md px-10 py-8 md:py-10">
           <Body mdx={mdx} />
         </article>
-        <div className="mt-24 flex w-full items-center justify-center pb-16">
+        <div className="mt-10 flex w-full items-center justify-center pb-16">
           <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
             {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
             <div data-pricing-container="">
+              {image && (
+                <Image
+                  className="relative z-10"
+                  src={image.url}
+                  alt=""
+                  aria-hidden="true"
+                  width={100}
+                  height={100}
+                  priority
+                />
+              )}
               {commerceProps?.products.map((product, i) => {
                 return (
                   <Pricing
@@ -102,14 +123,14 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({title, image}) => {
   return (
     <header className="relative mx-auto w-full max-w-screen-lg">
-      <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-24">
+      <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-28">
         <div className="flex flex-grow items-center justify-center">
           <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-2xl sm:fluid-3xl">
             <Balancer>{title}</Balancer>
           </h1>
         </div>
       </div>
-      {image && (
+      {/* {image && (
         <div className="relative aspect-video h-full w-full overflow-hidden sm:rounded-lg">
           <Image
             src={image}
@@ -120,7 +141,7 @@ const Header: React.FC<HeaderProps> = ({title, image}) => {
             fill
           />
         </div>
-      )}
+      )} */}
       {/*<div className="flex w-full max-w-screen-lg flex-col justify-center gap-5 px-5 text-base text-gray-700 dark:text-gray-300 sm:flex-row sm:items-center sm:gap-10 sm:text-base md:gap-16 lg:px-0">*/}
       {/*  <div className="flex flex-col items-center justify-center gap-3 text-center font-medium sm:gap-10 sm:text-left lg:flex-row">*/}
       {/*    <div className="flex items-center gap-2">*/}
