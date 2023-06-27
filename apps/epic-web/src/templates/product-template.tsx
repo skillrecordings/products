@@ -14,6 +14,7 @@ import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import RemoveMarkdown from 'remove-markdown'
 import cx from 'classnames'
+import {motion, useScroll, useTransform} from 'framer-motion'
 
 const workshops = [
   {
@@ -152,23 +153,50 @@ type HeaderProps = {
 }
 
 const Header: React.FC<HeaderProps> = ({title, image}) => {
+  const ref = React.useRef(null)
+  const {scrollY} = useScroll()
+  const rotateX = useTransform(
+    scrollY,
+    // Map y from these values:
+    [0, 600],
+    // Into these values:
+    ['0deg', '-3deg'],
+  )
+
   return (
-    <header className="relative mx-auto w-full max-w-screen-lg px-2">
-      <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-28">
+    <header ref={ref} className="relative mx-auto w-full max-w-screen-lg px-2">
+      <div className="relative flex w-full flex-col items-center justify-center pb-24 pt-10 sm:pb-24 sm:pt-24">
         <div className="flex flex-grow items-center justify-center">
           <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-2xl sm:fluid-3xl">
             <Balancer>{title}</Balancer>
           </h1>
         </div>
       </div>
-      <div className="pointer-events-none -my-16 grid scale-75 grid-cols-1 gap-2 sm:my-0 sm:scale-100 md:grid-cols-2">
+      <motion.div
+        style={{
+          transformOrigin: 'top center',
+          transformPerspective: 300,
+          rotateX: rotateX,
+          // opacity: scrollYProgress,
+        }}
+        className="-my-16 grid scale-75 cursor-default grid-cols-2 gap-2 pb-10 sm:my-0 sm:scale-100 md:grid-cols-4"
+      >
+        <div className="col-span-2 flex h-full w-full items-center justify-center rounded-lg border border-gray-100 bg-white p-5 text-center shadow-xl shadow-gray-500/10 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/80 md:col-span-1">
+          <Balancer>
+            Join me for Eight Full-Day Workshops experienced over four weeks. 🔥
+          </Balancer>
+        </div>
         {workshops.map(({title, date, time, image}, i) => {
           return (
-            <div
+            <motion.div
+              whileHover={{
+                scale: 1.02,
+              }}
               className={cx(
-                'flex h-full w-full items-center gap-8 rounded-lg border border-gray-100 bg-white p-8 shadow-xl shadow-gray-500/10 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/80',
+                'flex h-full w-full flex-col gap-8 rounded-lg border border-gray-100 bg-white p-8 shadow-xl shadow-gray-500/10 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/80 sm:flex-row sm:items-center',
                 {
-                  'col-span-1 md:col-span-2': i === 0,
+                  'col-span-2 md:col-span-3': i === 0,
+                  'col-span-1 md:col-span-2': i !== 0,
                 },
               )}
             >
@@ -182,13 +210,16 @@ const Header: React.FC<HeaderProps> = ({title, image}) => {
                 />
               )}
               <div>
-                <h2 className="text-xl font-bold sm:text-2xl">{title}</h2>
+                <h2 className="text-lg font-bold leading-tight sm:text-xl lg:text-2xl">
+                  {title}
+                </h2>
                 <time
                   dateTime={`${date}, ${time}`}
-                  className="flex flex-col space-y-1 pt-3"
+                  className="flex flex-col space-y-1 pt-3 text-sm sm:text-base"
                 >
                   <div className="flex items-center gap-1.5">
                     <svg
+                      className="flex-shrink-0"
                       width="17"
                       height="16"
                       viewBox="0 0 17 16"
@@ -226,6 +257,7 @@ const Header: React.FC<HeaderProps> = ({title, image}) => {
                   </div>
                   <div className="flex items-center gap-1.5">
                     <svg
+                      className="flex-shrink-0"
                       width="17"
                       height="17"
                       viewBox="0 0 17 17"
@@ -252,10 +284,10 @@ const Header: React.FC<HeaderProps> = ({title, image}) => {
                   </div>
                 </time>
               </div>
-            </div>
+            </motion.div>
           )
         })}
-      </div>
+      </motion.div>
 
       {/* {image && (
       )} */}
