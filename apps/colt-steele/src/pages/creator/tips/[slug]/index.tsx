@@ -57,7 +57,7 @@ const TipActions: React.FC<{tip: Tip | undefined; className?: string}> = ({
     >
       <Button variant="link" size="sm" asChild className="gap-2">
         <Link
-          href={`https://epic-web.sanity.studio/desk/tips;${tip?._id}`}
+          href={`https://colt-steele.sanity.studio/desk/tips;${tip?._id}`}
           target="_blank"
           className="gap-0.5"
         >

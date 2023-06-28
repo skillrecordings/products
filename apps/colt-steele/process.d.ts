@@ -23,5 +23,8 @@ declare namespace NodeJS {
     STRIPE_SECRET_TOKEN: string
     CASTINGWORDS_API_TOKEN: string
     SANITY_WEBHOOK_SECRET: string
+    CLOUDINARY_API_KEY: string
+    CLOUDINARY_API_SECRET: string
+    CLOUDINARY_VIDEO_BUCKET_NAME: string
   }
 }
