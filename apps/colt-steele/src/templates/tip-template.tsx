@@ -7,20 +7,9 @@ import MuxPlayer, {
 } from '@mux/mux-player-react'
 import Balancer from 'react-wrap-balancer'
 import {Tip} from 'lib/tips'
-import {
-  PortableText,
-  PortableTextComponents as PortableTextComponentsType,
-} from '@portabletext/react'
-import {hmsToSeconds} from '@skillrecordings/time'
 import {TipTeaser} from 'pages/tips'
 import {useRouter} from 'next/router'
-import {
-  XIcon,
-  ChatAltIcon,
-  PlayIcon,
-  CheckCircleIcon,
-  MailIcon,
-} from '@heroicons/react/solid'
+import {XIcon, ChatAltIcon, MailIcon} from '@heroicons/react/solid'
 import {shuffle, take} from 'lodash'
 import {track} from '../utils/analytics'
 import Image from 'next/legacy/image'
@@ -43,8 +32,6 @@ import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-re
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {trpc} from 'trpc/trpc.client'
-import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
-import Spinner from 'components/spinner'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
@@ -53,8 +40,9 @@ const TipTemplate: React.FC<{
   tip: Tip
   tips: Tip[]
   tipBody: MDXRemoteSerializeResult
+  tipSummary: MDXRemoteSerializeResult
   transcript: any[]
-}> = ({tip, tips, tipBody}) => {
+}> = ({tip, tips, tipBody, tipSummary}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
@@ -170,14 +158,9 @@ const TipTemplate: React.FC<{
                   )}
                 </div>
                 <div className="col-span-2">
-                  {tip.summary && (
+                  {tipSummary && (
                     <div className="prose w-full max-w-none pb-5 font-medium sm:prose-lg">
-                      <PortableText
-                        value={tip.summary}
-                        components={portableTextComponents({
-                          loadingIndicator: <Spinner />,
-                        })}
-                      />
+                      <MDX contents={tipSummary} />
                     </div>
                   )}
                   {tweet && <ReplyOnTwitter tweet={tweet} />}
