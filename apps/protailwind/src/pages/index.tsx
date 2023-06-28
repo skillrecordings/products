@@ -172,7 +172,7 @@ const Copy = () => {
 
 const Bio = () => {
   return (
-    <section className="group/signature prose relative z-10 mx-auto -mt-32 max-w-screen-lg px-5 py-10 sm:prose-lg sm:py-16 md:mt-0 lg:py-24">
+    <section className="group/signature prose relative z-10 mx-auto -mt-32 max-w-screen-lg px-10 py-10 sm:prose-lg sm:py-16 md:mt-0 md:px-0 lg:py-24">
       <div className="flex flex-col items-center gap-8 md:flex-row md:items-start md:gap-12">
         <div className="w-64 shrink-0">
           <Image
