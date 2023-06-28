@@ -3,6 +3,7 @@ import {NextSeo} from '@skillrecordings/next-seo'
 import {Toaster} from 'react-hot-toast'
 import Navigation from 'components/app/navigation'
 import {twMerge} from 'tailwind-merge'
+import {useCtaActive} from 'pages/full-stack-workshop-series-vol-1'
 
 type LayoutProps = {
   meta?: any
@@ -10,6 +11,7 @@ type LayoutProps = {
   className?: string
   children?: any
   navigationClassName?: string
+  navigationContainerClassName?: string
   navigationSize?: 'sm' | 'md' | 'lg'
 }
 
@@ -19,6 +21,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   meta,
   noIndex,
   navigationClassName,
+  navigationContainerClassName,
   navigationSize,
 }) => {
   const {
@@ -30,6 +33,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
     ogImage,
     date,
   } = meta || {}
+  const isCtaActive = useCtaActive()
 
   return (
     <>
@@ -67,12 +71,20 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
           },
         }}
       />
-      <Navigation className={navigationClassName} size={navigationSize} />
+      <Navigation
+        className={navigationClassName}
+        size={navigationSize}
+        navigationContainerClassName={navigationContainerClassName}
+      />
       <div
         className={twMerge(
-          'flex h-full min-h-[calc(100vh-80px)] flex-grow flex-col pt-[80px]',
+          'relative flex h-full flex-grow flex-col',
           className,
         )}
+        style={{
+          minHeight: isCtaActive ? 'calc(100vh - 112px)' : 'calc(100vh - 80px)',
+          paddingTop: isCtaActive ? '112px' : '80px',
+        }}
       >
         {children}
       </div>
