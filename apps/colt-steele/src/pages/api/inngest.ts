@@ -104,7 +104,7 @@ const addSrtToMuxAsset = inngest.createFunction(
       await step.run('Update Mux with SRT', async () => {
         const {Video} = new Mux()
         return await Video.Assets.createTrack(event.data.muxAssetId, {
-          url: `https://www.epicweb.dev/api/videoResource/${event.data.videoResourceId}/srt`,
+          url: `https://www.coltsteele.com/api/videoResource/${event.data.videoResourceId}/srt`,
           type: 'text',
           text_type: 'subtitles',
           closed_captions: false,
