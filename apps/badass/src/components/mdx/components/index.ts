@@ -37,3 +37,10 @@ export {
   default as AccentedTitle,
   type AccentedTitleProps,
 } from './accented-title'
+
+export {
+  default as TeamMembersBlock,
+  type TeamMembersBlockProps,
+} from './team-members-block'
+
+export {default as CalloutTitle, type CalloutTitleProps} from './callout-title'

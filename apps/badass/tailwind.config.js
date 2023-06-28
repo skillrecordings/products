@@ -88,6 +88,15 @@ module.exports = {
             h2: {
               fontSize: '2.5rem',
             },
+            strong: {
+              fontWeight: 700,
+            },
+            ol: {
+              fontStyle: 'italic',
+            },
+            'ol > li::marker': {
+              color: 'white',
+            },
           },
         },
       }),
