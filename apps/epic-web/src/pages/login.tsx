@@ -45,6 +45,7 @@ const Login: React.FC<
   }, [router])
 
   const githubProvider = providers.github
+  const discordProvider = providers.discord
 
   return (
     <Layout meta={{title: 'Log in to Epic Web'}}>
@@ -144,6 +145,25 @@ const Login: React.FC<
                   <Icon name="Github" size="20" />
                 </span>
                 Log in with {githubProvider.name}
+              </Button>
+            </div>
+          ) : null}
+          {discordProvider ? (
+            <div className="flex flex-col items-center sm:text-lg">
+              <span className="py-5 text-sm opacity-60"></span>
+              <Button
+                className="w-full"
+                variant="outline"
+                onClick={() =>
+                  signIn(discordProvider.id, {
+                    callbackUrl: '/',
+                  })
+                }
+              >
+                <span className="mr-2 flex items-center justify-center">
+                  <Icon name="Discord" size="20" />
+                </span>
+                Log in with {discordProvider.name}
               </Button>
             </div>
           ) : null}
