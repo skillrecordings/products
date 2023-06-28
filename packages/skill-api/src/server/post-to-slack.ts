@@ -115,10 +115,9 @@ export async function postSaleToSlack(
         attachments: [
           {
             fallback: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
-            text: `Somebody bought ${purchaseInfo.quantity} ${pluralize(
-              'copy',
-              purchaseInfo.quantity,
-            )} of ${
+            text: `Somebody (${purchaseInfo.email}) bought ${
+              purchaseInfo.quantity
+            } ${pluralize('copy', purchaseInfo.quantity)} of ${
               purchaseInfo.stripeProduct.name
             } for ${`$${purchase.totalAmount}`}${
               isEmpty(purchase.upgradedFromId) ? '' : ' as an upgrade'

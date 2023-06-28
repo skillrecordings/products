@@ -24,6 +24,12 @@ export default {
       },
     },
     {
+      name: 'partnerName',
+      title: 'Partner name',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: 'state',
       title: 'Current State',
       type: 'string',
@@ -49,14 +55,21 @@ export default {
     },
     {
       name: 'body',
-      title: 'Article Body',
+      title: 'Case Study Body - (outdated)',
       type: 'body',
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'image',
-      title: 'Image',
-      type: 'image',
+      name: 'markdownBody',
+      title: 'Case Study Body',
+      type: 'markdown',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'heroImage',
+      title: 'New external hero image',
+      type: 'externalImage',
+      description: 'Hero image',
     },
     {
       name: 'summary',
@@ -91,7 +104,7 @@ export default {
   preview: {
     select: {
       title: 'title',
-      media: 'image.asset.url',
+      media: 'heroImage.url',
     },
     prepare(selection) {
       const {media, title} = selection

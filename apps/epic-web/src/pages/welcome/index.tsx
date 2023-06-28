@@ -162,7 +162,7 @@ const Welcome: React.FC<
           <div className="flex flex-col gap-10">
             <div>
               <h2 className="font-heading pb-2 text-sm font-black uppercase">
-                Share Pro Tailwind
+                Share {purchase.product.name}
               </h2>
               <Share productName={purchase.product.name} />
             </div>
@@ -189,9 +189,6 @@ const Welcome: React.FC<
             )}
             {isTransferAvailable && purchaseUserTransfers && (
               <div>
-                <h2 className="font-heading pb-2 text-sm font-black uppercase">
-                  Transfer this purchase to another email address
-                </h2>
                 <Transfer
                   purchaseUserTransfers={purchaseUserTransfers}
                   refetch={refetch}
@@ -213,16 +210,17 @@ const Header: React.FC<
     product?: SanityDocument
   }>
 > = ({upgrade, purchase, product, personalPurchase}) => {
+  console.log(product?.image)
   return (
     <header>
       <div className="flex flex-col items-center gap-10 pb-8 sm:flex-row">
         {product?.image && (
           <div className="flex flex-shrink-0 items-center justify-center">
             <Image
-              src={product.image}
+              src={product.image.url}
               alt={product.title}
-              width={250}
-              height={250}
+              width={140}
+              height={140}
             />
           </div>
         )}
@@ -261,9 +259,9 @@ const Invite: React.FC<React.PropsWithChildren<any>> = ({
 const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
   productName,
 }) => {
-  const tweet = `https://twitter.com/intent/tweet/?text=Pro Tailwind by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.protailwind.com%2F`
+  const tweet = `https://twitter.com/intent/tweet/?text=Epic Web by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🚀 https%3A%2F%2Fwww.epicweb.dev%2F`
   return (
-    <div className="flex flex-col justify-between gap-5 rounded-lg border border-gray-100 bg-white px-5 py-6 shadow-xl shadow-gray-400/5 sm:flex-row sm:items-center">
+    <div className="flex flex-col justify-between gap-5 rounded-lg border border-gray-100 bg-white px-5 py-6 shadow-xl dark:border-gray-800 dark:bg-gray-900 sm:flex-row sm:items-center">
       <p>
         Tell your friends about {process.env.NEXT_PUBLIC_SITE_TITLE},{' '}
         <br className="hidden sm:block" />
@@ -276,7 +274,7 @@ const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
         href={tweet}
         rel="noopener noreferrer"
         target="_blank"
-        className="font-heading flex items-center gap-2 self-start rounded-full border border-sky-500 px-5 py-2.5 font-semibold text-sky-500 transition hover:bg-sky-500 hover:text-white"
+        className="font-heading flex items-center gap-2 self-start rounded-md border border-sky-500 px-5 py-2.5 font-semibold text-sky-500 transition hover:bg-sky-500 hover:text-white dark:border-sky-400 dark:text-sky-400 dark:hover:bg-sky-400/10"
       >
         <TwitterIcon /> Share with your friends!
       </a>

@@ -25,7 +25,7 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
 }) => {
   return (
     <Layout meta={meta} className="overflow-hidden">
-      <header className="sm:py-10 py-24 px-16 relative">
+      <header className="sm:py-10 py-24 px-4 md:px-16 relative">
         <Image
           src={Stars}
           alt=""

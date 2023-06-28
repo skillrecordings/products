@@ -61,6 +61,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['DM Sans', ...defaultTheme.fontFamily.sans],
+        mono: ['DM Mono'],
         symbol: ['Espiritu Dingbats', ...defaultTheme.fontFamily.sans],
         condensed: ['Espiritu Condensed', ...defaultTheme.fontFamily.sans],
         script: ['Espiritu Script', ...defaultTheme.fontFamily.sans],
@@ -80,11 +81,21 @@ module.exports = {
             'code::after': {
               content: "''",
             },
-            'h1, h2': {
+            'h1, h2, h3': {
               fontFamily: 'Espiritu Regular',
+              fontWeight: 'normal',
             },
             h2: {
               fontSize: '2.5rem',
+            },
+            strong: {
+              fontWeight: 700,
+            },
+            ol: {
+              fontStyle: 'italic',
+            },
+            'ol > li::marker': {
+              color: 'white',
             },
           },
         },

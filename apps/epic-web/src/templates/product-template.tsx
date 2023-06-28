@@ -1,34 +1,63 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {EventJsonLd} from '@skillrecordings/next-seo'
 import {useRouter} from 'next/router'
 import Balancer from 'react-wrap-balancer'
-import {format} from 'date-fns'
 import Image from 'next/image'
 import Share from 'components/share'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import AboutKent from 'components/about-kent'
-import Script from 'next/script'
-import {
-  CalendarIcon,
-  ClockIcon,
-  LocationMarkerIcon,
-} from '@heroicons/react/outline'
-import {getOgImage} from 'utils/get-og-image'
 import {Product} from 'lib/products'
 import {trpc} from 'trpc/trpc.client'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import RemoveMarkdown from 'remove-markdown'
+import cx from 'classnames'
+import {motion, useScroll, useTransform} from 'framer-motion'
+import {CheckCircleIcon} from '@heroicons/react/solid'
+import Link from 'next/link'
+
+const workshops = [
+  {
+    title: 'Full Stack Foundations',
+    date: 'Tuesday, July 18th & Thursday, July 20th',
+    time: '9am-3pm (Mountain)',
+    image:
+      'https://res.cloudinary.com/epic-web/image/upload/v1687876115/workshop-image-full-stack-foundations_2x.png',
+  },
+  {
+    title: 'Professional Web Forms',
+    date: 'Tuesday, July 25th',
+    time: '9am-3pm (Mountain)',
+    image:
+      'https://res.cloudinary.com/epic-web/image/upload/v1687868258/workshop-image-professional-web-forms_2x.png',
+  },
+  {
+    title: 'Data Modeling Deep Dive',
+    date: 'Thursday, July 27th',
+    time: '9am-3pm (Mountain)',
+    image:
+      'https://res.cloudinary.com/epic-web/image/upload/v1687868258/workshop-image-data-modeling-deep-dive_2x.png',
+  },
+  {
+    title: 'Authentication Strategies & Implementation',
+    date: 'Tuesday, August 1st & Thursday, August 3rd',
+    time: '9am-3pm (Mountain)',
+  },
+  {
+    title: 'Web Application Testing',
+    date: 'Tuesday, August 8th & Thursday, August 10th',
+    time: '9am-3pm (Mountain)',
+  },
+]
 
 const ProductTemplate: React.FC<{
   product: Product
   mdx: MDXRemoteSerializeResult
 }> = ({product, mdx}) => {
   const router = useRouter()
-  const {title, _updatedAt, _createdAt, slug} = product
+  const {title, image, body, _updatedAt, _createdAt, slug} = product
 
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
@@ -53,26 +82,44 @@ const ProductTemplate: React.FC<{
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
 
-  const image = ''
-
-  const pageDescription = mdx
-    ? `${mdx.compiledSource.substring(0, 157)}...`
+  const pageDescription = body
+    ? `${RemoveMarkdown(body).substring(0, 157)}...`
     : undefined
   const author = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
+  const hasPurchased = purchasedProductIds.includes(product.productId)
 
   return (
-    <Layout meta={{title, description: pageDescription}}>
-      <Header title={title} image={image} />
-      <main
-        data-event=""
-        className="mx-auto w-full max-w-3xl px-5 py-8 md:py-16"
-      >
-        <Body mdx={mdx} />
-        <div className="flex w-full items-center justify-center pt-10">
+    <Layout
+      meta={{
+        title,
+        description: pageDescription,
+        ogImage: {
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1687853482/card-full-stack-workshop-series-vol-1_2x.png',
+          alt: title,
+        },
+      }}
+    >
+      <Header title={title} hasPurchased={hasPurchased} />
+      <main data-event="">
+        <article className="mx-auto w-full max-w-screen-md px-10 py-8 md:py-10">
+          <Body mdx={mdx} />
+        </article>
+        <div className="mt-10 flex w-full items-center justify-center pb-16">
           <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
             {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
             <div data-pricing-container="">
+              {image && (
+                <Image
+                  className="relative z-10"
+                  src={image.url}
+                  alt=""
+                  aria-hidden="true"
+                  width={100}
+                  height={100}
+                  priority
+                />
+              )}
               {commerceProps?.products.map((product, i) => {
                 return (
                   <Pricing
@@ -84,6 +131,10 @@ const ProductTemplate: React.FC<{
                     index={i}
                     couponId={couponId}
                     allowPurchase={true}
+                    options={{
+                      withGuaranteeBadge: false,
+                      teamQuantityLimit: 10,
+                    }}
                   />
                 )
               })}
@@ -91,7 +142,7 @@ const ProductTemplate: React.FC<{
           </PriceCheckProvider>
         </div>
       </main>
-      <Share contentType="Live Workshop" title={title} />
+      {/* <Share contentType="Live Workshop" title={title} /> */}
       <AboutKent title="Hosted by Kent C. Dodds" className="mt-16" />
     </Layout>
   )
@@ -101,34 +152,160 @@ export default ProductTemplate
 
 type HeaderProps = {
   title: string
-  // startsAt: string
-  // endsAt: string
-  // timezone: string | undefined | null
-  image?: string | undefined
+  hasPurchased: boolean
 }
 
-const Header: React.FC<HeaderProps> = ({title, image}) => {
+const Header: React.FC<HeaderProps> = ({title, hasPurchased}) => {
+  const {scrollY} = useScroll()
+  const headerScrollRotation = useTransform(
+    scrollY,
+    // Map y from these values:
+    [0, 600],
+    // Into these values:
+    ['0deg', '-3deg'],
+  )
+
   return (
-    <header className="relative mx-auto w-full max-w-screen-lg">
-      <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-24">
-        <div className="flex flex-grow items-center justify-center">
-          <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-2xl sm:fluid-3xl">
+    <header className="relative mx-auto w-full max-w-screen-lg px-2">
+      <div className="relative flex w-full flex-col items-center justify-center pb-24 pt-10 sm:pb-24 sm:pt-16">
+        <div className="flex flex-grow flex-col items-center justify-center">
+          {hasPurchased && (
+            <Link
+              href="/purchases"
+              className="flex items-center gap-1.5 rounded-md bg-teal-400/30 py-0.5 pl-1.5 pr-2 font-medium text-teal-600 transition hover:bg-teal-400/40 dark:bg-teal-400/20 dark:text-teal-300 dark:hover:bg-teal-400/30"
+            >
+              <CheckCircleIcon className="h-5 w-5 text-teal-500 dark:text-teal-400" />{' '}
+              Purchased
+            </Link>
+          )}
+          <h1
+            className={cx(
+              'w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-2xl sm:fluid-3xl',
+              {
+                'pt-12': !hasPurchased,
+                'pt-5': hasPurchased,
+              },
+            )}
+          >
             <Balancer>{title}</Balancer>
           </h1>
         </div>
       </div>
-      {image && (
-        <div className="relative aspect-video h-full w-full overflow-hidden sm:rounded-lg">
-          <Image
-            src={image}
-            priority
-            alt=""
-            aria-hidden="true"
-            quality={100}
-            fill
-          />
+      <motion.div
+        style={{
+          transformOrigin: 'top center',
+          transformPerspective: 300,
+          rotateX: headerScrollRotation,
+        }}
+        className="-my-16 grid scale-75 cursor-default grid-cols-2 gap-2 pb-10 sm:my-0 sm:scale-100 md:grid-cols-4"
+      >
+        <div className="col-span-2 flex h-full w-full items-center justify-center rounded-lg border border-gray-100 bg-white p-5 text-center shadow-xl shadow-gray-500/10 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/80 md:col-span-1">
+          Join me for Eight Full-Day Workshops experienced over four weeks. 🔥
         </div>
-      )}
+        {workshops.map(({title, date, time, image}, i) => {
+          return (
+            <motion.div
+              className={cx(
+                'flex h-full w-full gap-8 rounded-lg border border-gray-100 bg-white p-8 shadow-xl shadow-gray-500/10 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/80',
+                {
+                  'col-span-2 flex-row items-center md:col-span-3': i === 0,
+                  'col-span-1 flex-col sm:items-center md:col-span-2 md:flex-row':
+                    i !== 0,
+                },
+              )}
+            >
+              {image && (
+                <Image
+                  className="w-[140px] md:w-24 lg:w-auto"
+                  src={image}
+                  alt={title}
+                  width={140}
+                  height={140}
+                  priority
+                />
+              )}
+              <div>
+                <h2 className="text-lg font-bold leading-tight sm:text-xl lg:text-2xl">
+                  <Balancer>{title}</Balancer>
+                </h2>
+                <time
+                  dateTime={`${date}, ${time}`}
+                  className="flex flex-col space-y-1 pt-3 text-sm sm:text-base"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <svg
+                      className="flex-shrink-0"
+                      width="17"
+                      height="16"
+                      viewBox="0 0 17 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 6H16"
+                        stroke="#8F939F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M14.5 3H2.5C2.10218 3 1.72064 3.15804 1.43934 3.43934C1.15804 3.72064 1 4.10218 1 4.5V13.5C1 13.8978 1.15804 14.2794 1.43934 14.5607C1.72064 14.842 2.10218 15 2.5 15H14.5C14.8978 15 15.2794 14.842 15.5607 14.5607C15.842 14.2794 16 13.8978 16 13.5V4.5C16 4.10218 15.842 3.72064 15.5607 3.43934C15.2794 3.15804 14.8978 3 14.5 3Z"
+                        stroke="#8F939F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M5 1V3"
+                        stroke="#8F939F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12 1V3"
+                        stroke="#8F939F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <span className="text-gray-800 dark:text-gray-300">
+                      {date}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <svg
+                      className="flex-shrink-0"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 17 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8.5 16C12.6421 16 16 12.6421 16 8.5C16 4.35786 12.6421 1 8.5 1C4.35786 1 1 4.35786 1 8.5C1 12.6421 4.35786 16 8.5 16Z"
+                        stroke="#8F939F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M8.5 3.5V8.5H13.5"
+                        stroke="#8F939F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+
+                    <span className="text-gray-800 dark:text-gray-300">
+                      {time}
+                    </span>
+                  </div>
+                </time>
+              </div>
+            </motion.div>
+          )
+        })}
+      </motion.div>
+
+      {/* {image && (
+      )} */}
       {/*<div className="flex w-full max-w-screen-lg flex-col justify-center gap-5 px-5 text-base text-gray-700 dark:text-gray-300 sm:flex-row sm:items-center sm:gap-10 sm:text-base md:gap-16 lg:px-0">*/}
       {/*  <div className="flex flex-col items-center justify-center gap-3 text-center font-medium sm:gap-10 sm:text-left lg:flex-row">*/}
       {/*    <div className="flex items-center gap-2">*/}
@@ -161,10 +338,34 @@ const Header: React.FC<HeaderProps> = ({title, image}) => {
   )
 }
 
+const mdxComponents = {
+  PictureOfKent: ({children}: {children?: React.ReactElement}) => {
+    return (
+      <div className="flex flex-col items-center gap-10 py-16 md:flex-row md:items-start">
+        <div className="flex flex-shrink-0 flex-col items-center">
+          <Image
+            width={150}
+            height={150}
+            placeholder="blur"
+            priority
+            className="!my-0 rounded-full bg-gray-100 dark:bg-gray-800"
+            src={require('../../public/kent-c-dodds.png')}
+            alt="Kent C. Dodds"
+          />
+          <span className="pt-3 font-bold">Kent C. Dodds</span>
+        </div>
+        <div className="prose w-full dark:prose-invert sm:text-lg">
+          {children}
+        </div>
+      </div>
+    )
+  },
+}
+
 const Body: React.FC<{mdx: MDXRemoteSerializeResult}> = ({mdx}) => {
   return (
-    <article className="invert-svg prose mx-auto w-full max-w-none dark:prose-invert md:prose-xl prose-code:break-words md:prose-code:break-normal">
-      <MDX contents={mdx} />
+    <article className="invert-svg prose mx-auto w-full max-w-none dark:prose-invert md:prose-lg prose-code:break-words md:prose-code:break-normal">
+      <MDX contents={mdx} components={mdxComponents} />
     </article>
   )
 }

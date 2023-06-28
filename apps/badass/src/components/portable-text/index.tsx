@@ -193,12 +193,12 @@ const PortableTextComponents: PortableTextComponents = {
         >
           {items.map((item: any) => {
             return (
-              <>
+              <div key={item._key}>
                 <PortableText
                   components={PortableTextComponents}
                   value={item}
                 />
-              </>
+              </div>
             )
           })}
         </div>

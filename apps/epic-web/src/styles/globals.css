@@ -13,12 +13,14 @@
 @import './video/video-overlays.css';
 @import './video/video-transcript.css';
 @import '@code-hike/mdx/dist/index.css';
+@import './team.css';
 @import './commerce.css';
+@import '../purchase-details/purchase-details.css';
 
 @tailwind utilities;
 
 :root {
-  @apply selection:bg-indigo-500 selection:text-white;
+  @apply selection:bg-primary selection:text-white;
 }
 
 .no-marker {

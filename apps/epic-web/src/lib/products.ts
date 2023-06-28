@@ -9,6 +9,12 @@ export const ProductSchema = z.object({
   _createdAt: z.string(),
   title: z.string(),
   slug: z.string(),
+  image: z
+    .object({
+      url: z.string(),
+      alt: z.string().optional(),
+    })
+    .optional(),
   productId: z.string().optional(),
   body: z.nullable(z.string()).optional(),
   state: z.enum(['published', 'draft']),
@@ -27,6 +33,7 @@ export async function getProduct(productId: string): Promise<Product> {
         _createdAt,
         productId,
         title,
+        image,
         state,
         "slug": slug.current,
         body

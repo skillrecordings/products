@@ -42,6 +42,7 @@ const CountdownRenderer: React.FC<
           <p className="pb-5 font-medium">Hurry! Price goes up in:</p>
           <div
             aria-hidden="true"
+            data-grid=""
             className="mx-auto grid max-w-[300px] grid-cols-4 items-center justify-center gap-2 tabular-nums tracking-tight"
           >
             <div className="flex flex-col">

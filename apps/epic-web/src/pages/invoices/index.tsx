@@ -60,15 +60,15 @@ export const InvoiceCard: React.FC<{purchase: Purchase | any}> = ({
 }) => {
   return (
     <Link href={`/invoices/${purchase.merchantChargeId}`} className="group">
-      <div className="flex items-start rounded-lg border border-gray-100 bg-white px-5 py-6 shadow-xl shadow-gray-400/5">
+      <div className="flex items-start rounded-lg border border-gray-100 bg-white px-5 py-6 dark:border-gray-800 dark:bg-gray-900">
         <div>
-          <DocumentTextIcon aria-hidden className="w-6 text-sky-500" />
+          <DocumentTextIcon aria-hidden className="w-6 text-primary" />
         </div>
         <div className="flex w-full flex-col justify-between gap-2 pl-2 sm:flex-row sm:items-center">
           <div className="font-semibold group-hover:underline">
             Invoice: {purchase?.product?.name}
           </div>
-          <div className="flex flex-wrap text-sm text-gray-600 md:pr-2">
+          <div className="flex flex-wrap text-sm md:pr-2">
             <span className="after:content-['・']">
               {Intl.NumberFormat('en-US', {
                 style: 'currency',

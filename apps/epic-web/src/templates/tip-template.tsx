@@ -288,9 +288,9 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
           Dismiss <XIcon className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
-      <div className="ft-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-2 text-center text-lg leading-relaxed lg:absolute">
+      <div className="ft-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center text-center text-lg leading-relaxed lg:absolute">
         {/* <ShareTip lesson={tip} /> */}
-        <div className="grid h-full w-full grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid h-auto w-full grid-cols-1 items-center justify-center sm:grid-cols-2 lg:grid-cols-3">
           {take(
             shuffle(
               tips.filter((suggestedTip) => suggestedTip.slug !== lesson.slug),
@@ -310,9 +310,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   const {handlePlay} = useMuxPlayer()
   const {tipCompleted} = useTipComplete(suggestedTip.slug)
 
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
-    suggestedTip.videoResourceId
-  }`
+  const thumbnail = `https://image.mux.com/${suggestedTip.muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
 
   return (
     <div className="aspect-video">
@@ -332,7 +330,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
               handlePlay()
             })
         }}
-        className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg border border-gray-800 bg-gray-900 p-8 text-left font-medium leading-tight text-gray-100"
+        className="group relative z-0 flex h-full w-full items-end justify-start overflow-hidden rounded-lg border border-gray-800 bg-gray-900 p-8 text-left font-medium leading-tight text-gray-100"
       >
         <div className="relative z-10 flex flex-col">
           <span className="font-heading pb-1 text-xs font-bold uppercase tracking-wide text-gray-400">

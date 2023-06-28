@@ -52,14 +52,14 @@ const PurchaseTransferForm = ({
         Email:
       </label>
       <input
-        className="w-full rounded-md bg-gray-200/60 px-3 py-2 shadow-inner placeholder:text-gray-500"
+        className="w-full rounded-md border border-gray-100 bg-gray-200/60 px-3 py-2 shadow-inner placeholder:text-gray-500 dark:border-gray-800 dark:bg-gray-900 dark:placeholder:text-gray-400"
         type="email"
         {...register('email', {required: true})}
         placeholder="somebody@example.com"
       />
       {errors.email && <span>This field is required</span>}
       <button
-        className="bg-brand-red relative flex flex-shrink-0 items-center justify-center rounded-full px-5 py-2 font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
+        className="relative flex flex-shrink-0 items-center justify-center rounded-md bg-primary px-5 py-2 font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
         type="submit"
         disabled={isLoading}
       >
