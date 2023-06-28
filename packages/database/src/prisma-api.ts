@@ -163,6 +163,7 @@ export function getSdk(
       code?: string
       couponId?: string
     }) {
+      if (!code && !couponId) return null
       return await ctx.prisma.coupon.findFirst({
         where: {
           OR: [
@@ -661,7 +662,6 @@ export function getSdk(
 
         const {merchantCoupon: defaultMerchantCoupon, ...defaultCoupon} =
           activeSaleCoupon
-
         if (validForProductId) return {defaultMerchantCoupon, defaultCoupon}
       }
     },
