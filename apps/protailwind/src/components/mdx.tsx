@@ -35,9 +35,9 @@ export const InlineTestimonial: React.FC<
     )
   }
   return (
-    <div className="not-prose py-10">
-      <blockquote className="flex flex-col items-center justify-center space-y-6">
-        <span className="w-full max-w-xl text-center text-xl font-semibold italic sm:text-2xl">
+    <div className="not-prose relative rounded-xl bg-white p-8 shadow-lg ring-1 ring-black/5">
+      <blockquote className="flex flex-col items-start justify-center space-y-8 before:absolute before:left-4 before:top-0 before:font-serif before:text-[240px] before:leading-none before:opacity-[0.08] before:content-['“']">
+        <span className="w-full max-w-xl text-lg font-medium italic sm:ml-4 sm:mt-4 sm:text-2xl md:text-3xl">
           <Balancer>{children}</Balancer>
         </span>
         {url ? (
@@ -45,12 +45,12 @@ export const InlineTestimonial: React.FC<
             href={url}
             rel="noopener noreferrer"
             target="_blank"
-            className="group flex items-center gap-2.5 text-left"
+            className="group flex items-center gap-4 text-left"
           >
             <Author />
           </a>
         ) : (
-          <div className="flex items-center gap-2.5 text-left">
+          <div className="flex items-center gap-4 text-left">
             <Author />
           </div>
         )}
