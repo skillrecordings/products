@@ -13,7 +13,7 @@ const NewTip = () => {
       </header>
       <main className="mx-auto w-full max-w-lg px-3">
         <Alert>
-          <GrInfo className="h-4 w-4 dark:invert" />
+          <GrInfo className="h-4 w-4 text-foreground" />
           <AlertTitle>First upload a video</AlertTitle>
           <AlertDescription>
             When your video upload has been completed you will be able to addd a
