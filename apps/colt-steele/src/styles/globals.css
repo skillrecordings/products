@@ -6,6 +6,8 @@
 @import './fonts.css';
 @import './prism.css';
 @import './tips.css';
+@import './login.css';
+
 @import '@code-hike/mdx/dist/index.css';
 
 @import './video/github-link.css';

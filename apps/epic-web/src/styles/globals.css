@@ -16,6 +16,7 @@
 @import './team.css';
 @import './commerce.css';
 @import '../purchase-details/purchase-details.css';
+@import './login.css';
 
 @tailwind utilities;
 

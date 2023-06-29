@@ -12,6 +12,7 @@
 @import '@skillrecordings/feedback-widget/dist/styles.css';
 @import './team.css';
 @import './redeem-dialog.css';
+@import './login.css';
 
 @import './video/module-lesson-list.css';
 @import './video/video-overlays.css';

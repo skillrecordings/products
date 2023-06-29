@@ -1,0 +1,50 @@
+[data-login-template] {
+  @apply relative mx-auto flex w-full flex-grow flex-col items-center justify-center p-5 pb-16 pt-16 text-white sm:pt-40 md:pb-40;
+  [data-title] {
+    @apply pt-3 text-center font-text text-4xl font-extrabold leading-9 sm:pt-8 sm:text-4xl;
+  }
+  [data-verification-error] {
+    @apply max-w-sm pt-4 text-center sm:mx-auto sm:w-full sm:pt-8;
+  }
+  [data-form] {
+    @apply w-full pt-8 sm:mx-auto sm:max-w-sm sm:pt-10 sm:text-lg;
+
+    [data-input-container] {
+      @apply relative mt-1 rounded-md shadow-sm;
+      [data-icon] {
+        @apply pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3;
+        svg {
+          @apply h-5 w-5;
+        }
+      }
+      [data-input] {
+        @apply mb-3 block w-full rounded-md border border-white border-opacity-20 bg-gray-900 py-5 pl-10 text-base text-white placeholder-gray-400 focus:border-cyan-300 focus-visible:ring-offset-0;
+      }
+    }
+    [data-button] {
+      @apply mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-gradient-to-b from-cyan-400 to-cyan-500 px-5 py-5 font-semibold text-black shadow-xl shadow-black/20 transition focus:outline-none focus:ring-2 focus:ring-cyan-100 hover:brightness-110;
+    }
+  }
+  [data-separator] {
+    @apply py-5 text-center text-sm opacity-60;
+  }
+  [data-providers-container] {
+    @apply mx-auto w-full space-y-2 sm:max-w-sm;
+    [data-button] {
+      @apply flex w-full items-center justify-center rounded-md border border-transparent bg-gray-700 px-5 py-5 font-semibold text-white shadow-xl shadow-black/20 transition focus:outline-none focus:ring-2 focus:ring-cyan-100 hover:brightness-110;
+    }
+  }
+}
+
+[data-check-your-email] {
+  @apply relative flex flex-grow flex-col items-center justify-center px-5 pb-16 pt-5;
+  [data-container] {
+    @apply mx-auto flex w-full max-w-md flex-col items-center gap-5 text-center;
+  }
+  [data-title] {
+    @apply text-center font-text text-3xl font-extrabold leading-9 sm:text-4xl lg:text-5xl;
+  }
+  [data-message] {
+    @apply max-w-sm text-lg text-gray-300;
+  }
+}
