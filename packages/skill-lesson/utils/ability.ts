@@ -49,8 +49,9 @@ type ViewerAbilityInput = {
 const canViewTutorial = ({user, subscriber, module}: ViewerAbilityInput) => {
   const contentIsTutorial = module?.moduleType === 'tutorial'
   const viewer = user || subscriber
+  const isSoftBlockEnabled = process.env.NEXT_PUBLIC_SOFT_EMAIL_BLOCK === 'true'
 
-  return contentIsTutorial && Boolean(viewer)
+  return (contentIsTutorial && Boolean(viewer)) || isSoftBlockEnabled
 }
 
 const canViewTip = ({lesson}: ViewerAbilityInput) => {
