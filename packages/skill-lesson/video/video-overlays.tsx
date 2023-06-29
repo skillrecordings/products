@@ -65,32 +65,76 @@ const OverlayWrapper: React.FC<
 const ModuleCtaProvider: React.FC<React.PropsWithChildren<any>> = ({
   children,
 }) => {
-  const {module} = useLesson()
-  const {cta} = module
+  const {module, lesson} = useLesson()
+  const {subscriber, loadingSubscriber} = useConvertkit()
+  const {cta: moduleCta} = module
+  const isSoftBlockEnabled = process.env.NEXT_PUBLIC_SOFT_EMAIL_BLOCK === 'true'
+  const expiresAt = moduleCta?.expiresAt && new Date(moduleCta.expiresAt)
+  const {data: softBlockCta, status: softBlockCtaStatus} = useQuery(
+    [`exercise-free-tutorial`, lesson.slug, module.slug.current],
+    async () => {
+      return sanityClient
+        .fetch(
+          `
+      *[_type == 'cta' && slug.current == "subscribe"][0]{
+        body
+      }
+    `,
+        )
+        .then((response: SanityDocument) => response.body)
+    },
+  )
 
-  const expiresAt = cta?.expiresAt && new Date(cta.expiresAt)
-
-  if (!cta) {
+  if (!moduleCta && !isSoftBlockEnabled) {
     return children
   }
 
-  if (expiresAt && expiresAt < new Date()) {
+  if (expiresAt && expiresAt < new Date() && !isSoftBlockEnabled) {
     return children
   }
 
   return (
     <div data-video-overlay-with-cta="">
       <div data-content="">{children}</div>
-      {cta.body && (
+      {isSoftBlockEnabled && !loadingSubscriber && !subscriber?.id ? (
         <div data-cta="">
-          <PortableText
-            value={cta.body}
-            components={portableTextComponents({
-              loadingIndicator: <Spinner />,
-            })}
-          />
+          {softBlockCtaStatus === 'loading' && <Spinner />}
+          {softBlockCta ? (
+            <>
+              {typeof softBlockCta === 'string' ? (
+                <ReactMarkdown>{softBlockCta}</ReactMarkdown>
+              ) : (
+                <PortableText
+                  value={softBlockCta}
+                  components={portableTextComponents({
+                    loadingIndicator: <Spinner />,
+                  })}
+                />
+              )}
+            </>
+          ) : (
+            <p>
+              <Balancer>
+                Be the first to know when the next course is released.
+              </Balancer>
+            </p>
+          )}
+          <Subscribe actionLabel="Subscribe" />
         </div>
-      )}
+      ) : moduleCta?.body ? (
+        <div data-cta="">
+          {typeof moduleCta.body === 'string' ? (
+            <ReactMarkdown>{moduleCta.body}</ReactMarkdown>
+          ) : (
+            <PortableText
+              value={moduleCta.body}
+              components={portableTextComponents({
+                loadingIndicator: <Spinner />,
+              })}
+            />
+          )}
+        </div>
+      ) : null}
     </div>
   )
 }
@@ -117,7 +161,9 @@ const DefaultOverlay = () => {
           />
         )}
         <p data-title="">
-          <span data-byline="">Up next:</span> {nextExercise?.title}
+          <Balancer>
+            <span data-byline="">Up next:</span> {nextExercise?.title}
+          </Balancer>
         </p>
         <div data-actions="">
           <button
@@ -257,7 +303,6 @@ const FinishedOverlay = () => {
 
 const BlockedOverlay: React.FC<{product?: SanityProduct}> = ({product}) => {
   const {lesson, module} = useLesson()
-  const {refetch: refetchSubscriber} = useConvertkit()
   const {videoResourceId} = useVideoResource()
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
 
@@ -279,27 +324,6 @@ const BlockedOverlay: React.FC<{product?: SanityProduct}> = ({product}) => {
     },
   )
 
-  const handleOnSuccess = async (subscriber: any, email?: string) => {
-    if (subscriber) {
-      email && setUserId(email)
-      refetchSubscriber()
-      track('subscribed to email list', {
-        lesson: lesson.slug,
-        module: module.slug.current,
-        location: 'exercise',
-        moduleType: module.moduleType,
-        lessonType: lesson._type,
-      })
-      confirmSubscriptionToast()
-    }
-  }
-
-  const startedLearningField = {
-    // ex: started_zod_tutorial: 2022-09-02
-    [`started_${snakeCase(module.slug.current as string)}_${
-      module.moduleType
-    }`.toLowerCase()]: new Date().toISOString().slice(0, 10),
-  }
   const canViewTeam = ability.can('view', 'Team')
 
   return (
@@ -331,17 +355,7 @@ const BlockedOverlay: React.FC<{product?: SanityProduct}> = ({product}) => {
               <h3 data-subtitle="">
                 Access all lessons in this {module.moduleType}.
               </h3>
-              <SubscribeToConvertkitForm
-                successMessage="Thanks! You're being redirected..."
-                subscribeApiURL={
-                  process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL
-                }
-                actionLabel="Continue Watching"
-                fields={startedLearningField}
-                onSuccess={(subscriber, email) => {
-                  return handleOnSuccess(subscriber, email)
-                }}
-              />
+              <Subscribe />
               <p data-nospam="">No spam, unsubscribe at any time.</p>
             </div>
           </div>
@@ -511,7 +525,6 @@ const InviteTeam: React.FC<{product?: SanityProduct}> = ({product}) => {
           claimed a seat for yourself yet.
         </Balancer>
       </h3>
-
       {purchaseDetails?.purchase?.bulkCoupon?.id &&
         !purchaseDetails?.existingPurchase && (
           <SelfRedeemButton
@@ -659,4 +672,43 @@ export {
   BlockedOverlay,
   LoadingOverlay,
   OverlayWrapper,
+}
+
+const Subscribe: React.FC<{actionLabel?: string}> = ({
+  actionLabel = 'Continue Watching',
+}) => {
+  const {lesson, module} = useLesson()
+  const {refetch: refetchSubscriber} = useConvertkit()
+  const handleOnSuccess = async (subscriber: any, email?: string) => {
+    if (subscriber) {
+      email && setUserId(email)
+      refetchSubscriber()
+      track('subscribed to email list', {
+        lesson: lesson.slug,
+        module: module.slug.current,
+        location: 'exercise',
+        moduleType: module.moduleType,
+        lessonType: lesson._type,
+      })
+      confirmSubscriptionToast()
+    }
+  }
+
+  const startedLearningField = {
+    // ex: started_zod_tutorial: 2022-09-02
+    [`started_${snakeCase(module.slug.current as string)}_${
+      module.moduleType
+    }`.toLowerCase()]: new Date().toISOString().slice(0, 10),
+  }
+  return (
+    <SubscribeToConvertkitForm
+      successMessage="Thanks! You're being redirected..."
+      subscribeApiURL={process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL}
+      actionLabel={actionLabel}
+      fields={startedLearningField}
+      onSuccess={(subscriber, email) => {
+        return handleOnSuccess(subscriber, email)
+      }}
+    />
+  )
 }
