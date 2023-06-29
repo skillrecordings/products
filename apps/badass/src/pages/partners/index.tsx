@@ -4,13 +4,8 @@ import Layout from 'components/layout'
 import Link from 'next/link'
 import Balancer from 'react-wrap-balancer'
 import cx from 'classnames'
-import Markdown from 'react-markdown'
 import {GetStaticProps} from 'next'
-import {format} from 'date-fns'
 import {type CaseStudy, getAllCaseStudies} from 'lib/case-studies'
-// import Image from 'next/legacy/image'
-import Stars from '../../../public/assets/stars-1@2x.png'
-import JoelHooksHeadshotImage from '../../../public/joel-hooks.jpg'
 import {SmallCallToActionForm} from 'components/call-to-action-form'
 import {genericCallToActionContent} from 'components/landing-content'
 
@@ -55,38 +50,6 @@ const CaseStudies: React.FC<React.PropsWithChildren<CaseStudiesProps>> = ({
                     partnerName={partnerName}
                     isOdd={i % 2 == 0}
                   />
-                  // <div key={slug} className="sm:gap-5 gap-3 flex">
-                  //   <i
-                  //     aria-hidden="true"
-                  //     className="font-symbol sm:text-5xl text-4xl text-badass-yellow-300"
-                  //   >
-                  //     o
-                  //   </i>
-                  //   <div className="flex w-full sm:justify-between justify-left">
-                  //     <div>
-                  //       <Link
-                  //         href={`/partners/${slug}`}
-                  //         passHref
-                  //         className="group block"
-                  //       >
-                  //         <h2 className="group-hover:underline md:text-4xl sm:text-3xl text-xl font-heading">
-                  //           {title}
-                  //         </h2>
-                  //       </Link>
-                  //       <div className="flex items-center pt-5 gap-8">
-                  //         <Author />
-                  //         <time dateTime={date} className="block opacity-80">
-                  //           {format(new Date(date), 'dd MMMM, y')}
-                  //         </time>
-                  //       </div>
-                  //       {description && (
-                  //         <Markdown className="prose pt-3 pb-6">
-                  //           {description}
-                  //         </Markdown>
-                  //       )}
-                  //     </div>
-                  //   </div>
-                  // </div>
                 )
               },
             )}
@@ -97,24 +60,6 @@ const CaseStudies: React.FC<React.PropsWithChildren<CaseStudiesProps>> = ({
     </Layout>
   )
 }
-
-// const Author = () => {
-//   return (
-//     <div className="flex items-center">
-//       <Image
-//         src={JoelHooksHeadshotImage}
-//         alt="Joel Hooks"
-//         width={48}
-//         height={48}
-//         placeholder="blur"
-//         priority
-//         loading="eager"
-//         className="rounded-full"
-//       />
-//       <span className="pl-2 font-medium leading-tight">Joel Hooks</span>
-//     </div>
-//   )
-// }
 
 const CaseStudyCard: React.FC<any> = ({
   image,
