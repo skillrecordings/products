@@ -98,7 +98,7 @@ const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 w-full bg-black ring-1 ring-black ring-opacity-5 focus:outline-none left-0 border-b border-badass-gray/50">
+            <Menu.Items className="absolute right-0 w-full bg-black ring-1 ring-black ring-opacity-5 focus:outline-none left-0 border-b border-badass-gray-300/50">
               <div className="px-6 py-12 space-y-12 bg-black">
                 <Menu.Item>
                   {(props) => (
@@ -170,7 +170,7 @@ const NavLink: React.FC<
       aria-current={isActive ? 'page' : undefined}
       className={cx(
         'relative h-full font-heading flex items-center justify-center group transition outline-none hover:opacity-100 opacity-90',
-        isActive ? 'text-white' : 'text-badass-gray',
+        isActive ? 'text-white' : 'text-badass-gray-300',
       )}
       {...props}
     >
@@ -179,7 +179,7 @@ const NavLink: React.FC<
         name={iconName}
         className={cx(
           'w-5 h-5 shrink-0 mr-1.5',
-          isActive ? iconColor : 'text-badass-gray',
+          isActive ? iconColor : 'text-badass-gray-300',
         )}
       />
       {children}

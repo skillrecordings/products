@@ -118,12 +118,11 @@ const Header: React.FC<
         <h3 className="text-badass-red-400 font-script text-2xl md:text-3xl lg:text-[2.5rem]">
           Case Study
         </h3>
-        <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl leading-tight md:leading-tight lg:leading-tight mt-2 md:mt-2">
+        <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl leading-tight md:leading-tight lg:leading-tight mt-2">
           <Balancer>{title}</Balancer>
         </h2>
         <div className="font-mono uppercase opacity-70 mt-4 lg:mt-6 text-xs lg:text-sm xl:text-base">
           client: {partnerName} &middot; published: {formattedDate}
-          {}
         </div>
       </div>
     </header>

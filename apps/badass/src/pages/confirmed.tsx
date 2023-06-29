@@ -44,7 +44,7 @@ const Confirmed = () => {
             <span className="underline underline-offset-4 decoration-badass-green-400/60 hover:decoration-badass-green-400">
               Twitter
             </span>{' '}
-            <sup className="text-badass-gray text-lg">@badass_courses</sup>
+            <sup className="text-badass-gray-300 text-lg">@badass_courses</sup>
           </a>
         </motion.h1>
       </div>

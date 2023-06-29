@@ -42,7 +42,7 @@
     @apply text-badass-yellow-300 font-condensed text-[1.75rem] leading-tight;
   }
   [data-image-with-caption-subtitle] {
-    @apply text-badass-gray italic font-sans font-normal;
+    @apply text-badass-gray-300 italic font-sans font-normal;
   }
 }
 
@@ -64,7 +64,7 @@
     @apply text-neutral-200 font-heading leading-normal;
   }
   [data-team-member-title] {
-    @apply text-badass-gray leading-tight text-lg;
+    @apply text-badass-gray-300 leading-tight text-lg;
   }
 }
 
@@ -97,7 +97,7 @@
     @apply text-white font-heading leading-normal text-xl md:text-[2rem];
   }
   [data-introduce-card-title] {
-    @apply text-badass-gray leading-tight text-sm md:text-xl;
+    @apply text-badass-gray-300 leading-tight text-sm md:text-xl;
   }
 }
 
@@ -110,7 +110,7 @@
       @apply text-[6rem] font-condensed inline-block;
     }
     [data-launch-results-item-title] {
-      @apply text-badass-gray font-mono uppercase text-base opacity-70;
+      @apply text-badass-gray-300 font-mono uppercase text-base opacity-70;
     }
   }
   [data-launch-results-item='day'] {
@@ -162,7 +162,7 @@
     @apply text-xl font-heading mt-3;
   }
   [data-team-members-title] {
-    @apply text-badass-gray text-lg font-normal;
+    @apply text-badass-gray-300 text-lg font-normal;
   }
   [data-team-members-info-wrapper] {
     @apply mt-8;
