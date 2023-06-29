@@ -563,8 +563,8 @@ const EpicWebHorizontal: React.FC<{
           y2="49.431"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#4F75FF" />
-          <stop offset="1" stop-color="#30AFFF" />
+          <stop stopColor="#4F75FF" />
+          <stop offset="1" stopColor="#30AFFF" />
         </linearGradient>
       </defs>
     </svg>

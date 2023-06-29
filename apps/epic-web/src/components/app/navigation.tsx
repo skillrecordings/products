@@ -294,7 +294,6 @@ export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
                 ? '#C2C4CF'
                 : '#5B5E71',
             }}
-            // stop-color="#5B5E71"
           />
           <motion.stop
             animate={{
@@ -305,7 +304,6 @@ export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
                 : '#393A46',
             }}
             offset="1"
-            // stop-color="#393A46"
           />
         </linearGradient>
       </defs>
@@ -345,7 +343,7 @@ export const TutorialsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
                 ? '#C2C4CF'
                 : '#5B5E71',
             }}
-            stop-color="#5B5E71"
+            stopColor="#5B5E71"
           />
           <motion.stop
             animate={{
@@ -560,7 +558,7 @@ const EventsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
                 : '#393A46',
             }}
             offset="1"
-            stop-color="#393A46"
+            stopColor="#393A46"
           />
         </linearGradient>
         <clipPath id="a">
