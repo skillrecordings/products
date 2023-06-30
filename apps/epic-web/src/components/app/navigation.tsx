@@ -94,8 +94,7 @@ const Navigation: React.FC<NavigationProps> = ({
     <>
       <div
         className={twMerge(
-          // backdrop-blur-md
-          'fixed left-0 top-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 dark:bg-background/90 dark:shadow-xl dark:shadow-black/50 print:hidden',
+          'fixed left-0 top-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md dark:bg-background/90 dark:shadow-xl dark:shadow-black/50 print:hidden',
           navigationContainerClassName,
         )}
       >
@@ -170,8 +169,7 @@ const Navigation: React.FC<NavigationProps> = ({
             <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
           </div>
           {menuOpen && (
-            // backdrop-blur-sm
-            <div className="absolute left-0 top-0 flex w-full flex-col gap-2 bg-white px-3 pb-5 pt-20 text-2xl font-medium shadow-2xl shadow-black/20 dark:bg-black/90 dark:shadow-black/60 sm:hidden">
+            <div className="absolute left-0 top-0 flex w-full flex-col gap-2 bg-white px-3 pb-5 pt-20 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:bg-black/90 dark:shadow-black/60 sm:hidden">
               {navigationLinks.map(({label, href, icon}) => {
                 return (
                   <Link
