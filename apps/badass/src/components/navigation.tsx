@@ -161,7 +161,9 @@ const NavLink: React.FC<
   }>
 > = ({href, iconName, iconColor, children, ...props}) => {
   const router = useRouter()
-  const isActive = href.endsWith(router.pathname)
+  console.log({router})
+  console.log({href})
+  const isActive = router.asPath.includes(href)
 
   return (
     <Link
@@ -169,7 +171,7 @@ const NavLink: React.FC<
       passHref
       aria-current={isActive ? 'page' : undefined}
       className={cx(
-        'relative h-full font-heading flex items-center justify-center group transition outline-none hover:opacity-100 opacity-90',
+        'relative h-full font-heading flex items-center justify-center group transition outline-none hover:opacity-100 opacity-90 group',
         isActive ? 'text-white' : 'text-badass-gray-300',
       )}
       {...props}
@@ -178,7 +180,7 @@ const NavLink: React.FC<
         aria-hidden="true"
         name={iconName}
         className={cx(
-          'w-5 h-5 shrink-0 mr-1.5',
+          `w-5 h-5 shrink-0 mr-1.5 duration-500`,
           isActive ? iconColor : 'text-badass-gray-300',
         )}
       />
