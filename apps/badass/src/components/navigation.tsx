@@ -180,8 +180,10 @@ const NavLink: React.FC<
       passHref
       aria-current={isActive ? 'page' : undefined}
       className={cx(
-        'relative h-full font-heading flex items-center justify-center group transition outline-none hover:opacity-100 opacity-90 group',
-        isActive ? 'text-white' : 'text-badass-gray-300',
+        'relative h-full font-heading flex items-center justify-center group transition outline-none group',
+        isActive
+          ? 'text-white'
+          : 'text-badass-gray-300 hover:opacity-100 opacity-90',
       )}
       {...props}
     >

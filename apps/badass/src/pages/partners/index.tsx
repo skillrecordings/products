@@ -83,7 +83,7 @@ const CaseStudyCard: React.FC<any> = ({
       )}
     >
       <div className="shrink-0 md:w-1/2 flex justify-center md:px-6">
-        <div className="max-w-[75%] md:max-w-none">
+        <div className="max-w-[75%] md:max-w-none backdrop-grayscale">
           <Image src={image} alt="image" width={440} height={440} />
         </div>
       </div>
