@@ -68,7 +68,8 @@ const ModuleCtaProvider: React.FC<React.PropsWithChildren<any>> = ({
   const {module, lesson} = useLesson()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const {cta: moduleCta} = module
-  const isSoftBlockEnabled = process.env.NEXT_PUBLIC_SOFT_EMAIL_BLOCK === 'true'
+  const emailIsNotRequiredToWatch =
+    process.env.NEXT_PUBLIC_TUTORIALS_EMAIL_NOT_REQUIRED === 'true'
   const expiresAt = moduleCta?.expiresAt && new Date(moduleCta.expiresAt)
   const {data: softBlockCta, status: softBlockCtaStatus} = useQuery(
     [`exercise-free-tutorial`, lesson.slug, module.slug.current],
@@ -85,18 +86,18 @@ const ModuleCtaProvider: React.FC<React.PropsWithChildren<any>> = ({
     },
   )
 
-  if (!moduleCta && !isSoftBlockEnabled) {
+  if (!moduleCta && !emailIsNotRequiredToWatch) {
     return children
   }
 
-  if (expiresAt && expiresAt < new Date() && !isSoftBlockEnabled) {
+  if (expiresAt && expiresAt < new Date() && !emailIsNotRequiredToWatch) {
     return children
   }
 
   return (
     <div data-video-overlay-with-cta="">
       <div data-content="">{children}</div>
-      {isSoftBlockEnabled && !loadingSubscriber && !subscriber?.id ? (
+      {emailIsNotRequiredToWatch && !loadingSubscriber && !subscriber?.id ? (
         <div data-cta="">
           {softBlockCtaStatus === 'loading' && <Spinner />}
           {softBlockCta ? (

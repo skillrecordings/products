@@ -49,9 +49,10 @@ type ViewerAbilityInput = {
 const canViewTutorial = ({user, subscriber, module}: ViewerAbilityInput) => {
   const contentIsTutorial = module?.moduleType === 'tutorial'
   const viewer = user || subscriber
-  const isSoftBlockEnabled = process.env.NEXT_PUBLIC_SOFT_EMAIL_BLOCK === 'true'
+  const emailIsNotRequiredToWatch =
+    process.env.NEXT_PUBLIC_TUTORIALS_EMAIL_NOT_REQUIRED === 'true'
 
-  return (contentIsTutorial && Boolean(viewer)) || isSoftBlockEnabled
+  return (contentIsTutorial && Boolean(viewer)) || emailIsNotRequiredToWatch
 }
 
 const canViewTip = ({lesson}: ViewerAbilityInput) => {
