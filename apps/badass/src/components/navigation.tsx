@@ -51,21 +51,24 @@ const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
         <NavLink
           href="/partners"
           iconName="case-studies"
-          iconColor="text-badass-red-500"
+          iconColorClass="text-badass-red-500"
+          iconColorHoverClass="group-hover:text-badass-red-500"
         >
           Case Studies
         </NavLink>
         <NavLink
           href="/podcast/course-builders"
           iconName="podcast"
-          iconColor="text-badass-yellow-500"
+          iconColorClass="text-badass-yellow-500"
+          iconColorHoverClass="group-hover:text-badass-yellow-500"
         >
           Podcast
         </NavLink>
         <NavLink
           href="/articles"
           iconName="articles"
-          iconColor="text-badass-pink-500"
+          iconColorClass="text-badass-pink-500"
+          iconColorHoverClass="group-hover:text-badass-pink-500"
         >
           Articles
         </NavLink>
@@ -157,12 +160,18 @@ const NavLink: React.FC<
   React.PropsWithChildren<{
     href: string
     iconName: IconNames
-    iconColor: string
+    iconColorClass: string
+    iconColorHoverClass: string
   }>
-> = ({href, iconName, iconColor, children, ...props}) => {
+> = ({
+  href,
+  iconName,
+  iconColorClass,
+  iconColorHoverClass,
+  children,
+  ...props
+}) => {
   const router = useRouter()
-  console.log({router})
-  console.log({href})
   const isActive = router.asPath.includes(href)
 
   return (
@@ -180,8 +189,8 @@ const NavLink: React.FC<
         aria-hidden="true"
         name={iconName}
         className={cx(
-          `w-5 h-5 shrink-0 mr-1.5 duration-500`,
-          isActive ? iconColor : 'text-badass-gray-300',
+          `w-5 h-5 shrink-0 mr-1.5 duration-150`,
+          isActive ? iconColorClass : iconColorHoverClass,
         )}
       />
       {children}
