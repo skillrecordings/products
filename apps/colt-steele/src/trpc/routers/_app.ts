@@ -6,12 +6,14 @@ import {
 import {abilities} from './abilities'
 import {tipResourcesRouter} from './tip-resources'
 import {lessonResourcesRouter} from './lesson-resources'
+import {tipsRouter} from './tips'
 
 export const appRouter = mergeRouters(
   router({
     abilities: abilities,
     tipResources: tipResourcesRouter,
     lessonResources: lessonResourcesRouter,
+    tips: tipsRouter,
   }),
   skillLessonRouter,
 )

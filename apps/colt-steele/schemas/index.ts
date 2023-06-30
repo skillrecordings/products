@@ -34,6 +34,7 @@ import bodyTestimonial from './objects/bodyTestimonial'
 import feature from './objects/feature'
 import github from './objects/resources/github'
 import sandpack from './objects/sandpack'
+import transcript from './objects/transcript'
 
 export const schemaTypes = [
   // —— documents
@@ -72,4 +73,5 @@ export const schemaTypes = [
   bodyTestimonial,
   feature,
   sandpack,
+  transcript,
 ]

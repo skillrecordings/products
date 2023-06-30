@@ -49,6 +49,11 @@ export default defineType({
       type: 'castingwordsTranscript',
     }),
     defineField({
+      name: 'transcript',
+      title: 'Transcript',
+      type: 'transcript',
+    }),
+    defineField({
       name: 'duration',
       title: 'Duration',
       type: 'number',

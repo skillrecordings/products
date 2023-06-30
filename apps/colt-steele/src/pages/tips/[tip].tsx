@@ -20,13 +20,22 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
           showCopyButton: true,
         },
       }))
+    const tipSummary = tip.summary
+      ? await serializeMDX(tip.summary, {
+          syntaxHighlighterOptions: {
+            theme: 'light-plus',
+            showCopyButton: true,
+          },
+        })
+      : null
 
     return {
       props: {
         tip,
         tips,
         tipBody,
-        transcript: tip.transcript,
+        tipSummary,
+        ...(tip.transcript && {transcript: tip.transcript}),
         videoResourceId: tip.videoResourceId,
       },
       revalidate: 10,
@@ -51,6 +60,7 @@ export type TipPageProps = {
   tip: Tip
   tips: Tip[]
   tipBody: MDXRemoteSerializeResult
+  tipSummary: MDXRemoteSerializeResult
   transcript: any[]
   videoResourceId: string
 }
@@ -60,6 +70,7 @@ const TipPage: NextPage<TipPageProps> = ({
   tips,
   transcript,
   tipBody,
+  tipSummary,
   videoResourceId,
 }) => {
   const module: any = {
@@ -77,6 +88,7 @@ const TipPage: NextPage<TipPageProps> = ({
         <TipTemplate
           tip={tip}
           tipBody={tipBody}
+          tipSummary={tipSummary}
           tips={tips}
           transcript={transcript}
         />
