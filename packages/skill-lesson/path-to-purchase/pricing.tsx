@@ -515,7 +515,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   )
 }
 
-type PriceDisplayProps = {
+export type PriceDisplayProps = {
   status: QueryStatus
   formattedPrice?: FormattedPrice
 }
@@ -683,7 +683,7 @@ export function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
 }
 
-const formatUsd = (amount: number = 0) => {
+export const formatUsd = (amount: number = 0) => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',

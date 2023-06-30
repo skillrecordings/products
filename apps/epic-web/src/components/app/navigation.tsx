@@ -87,20 +87,15 @@ const Navigation: React.FC<NavigationProps> = ({
   )
 
   const [hoveredNavItemIndex, setHoveredNavItemIndex] = React.useState(-1)
-  const {data: sessionData, status: sessionStatus} = useSession()
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({})
-  const isLoadingUserInfo =
-    sessionStatus === 'loading' || commercePropsStatus === 'loading'
-
-  const purchasedProductIds =
-    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
 
   return (
     <>
       <div
         className={twMerge(
-          'fixed left-0 top-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md dark:bg-background/90 dark:shadow-xl dark:shadow-black/50 print:hidden',
+          // backdrop-blur-md
+          'fixed left-0 top-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 dark:bg-background/90 dark:shadow-xl dark:shadow-black/50 print:hidden',
           navigationContainerClassName,
         )}
       >
@@ -169,38 +164,14 @@ const Navigation: React.FC<NavigationProps> = ({
             </div>
           </div>
           <div className="flex items-center justify-end">
-            {!isLoadingUserInfo && sessionData?.user?.email && (
-              <div className="mr-3 hidden items-center space-x-1 sm:flex">
-                <Gravatar
-                  className="h-8 w-8 rounded-full"
-                  email={sessionData?.user?.email}
-                  default="mp"
-                />
-                <div className="flex flex-col">
-                  <span className="text-sm font-bold leading-tight">
-                    {sessionData?.user?.name}
-                  </span>
-                  {purchasedProductIds.length > 0 && (
-                    <Link
-                      href="/purchases"
-                      className={cx(
-                        'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
-                        {
-                          underline: pathname === '/purchases',
-                        },
-                      )}
-                    >
-                      Your Purchases
-                    </Link>
-                  )}
-                </div>
-              </div>
-            )}
+            <Login />
+            <User />
             <ColorModeToggle className="hidden sm:block" />
             <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
           </div>
           {menuOpen && (
-            <div className="absolute left-0 top-0 flex w-full flex-col gap-2 bg-white px-3 pb-5 pt-20 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-sm dark:bg-black/90 dark:shadow-black/60 sm:hidden">
+            // backdrop-blur-sm
+            <div className="absolute left-0 top-0 flex w-full flex-col gap-2 bg-white px-3 pb-5 pt-20 text-2xl font-medium shadow-2xl shadow-black/20 dark:bg-black/90 dark:shadow-black/60 sm:hidden">
               {navigationLinks.map(({label, href, icon}) => {
                 return (
                   <Link
@@ -220,33 +191,8 @@ const Navigation: React.FC<NavigationProps> = ({
               })}
 
               <div className="flex w-full items-center justify-between px-3 pt-5 text-lg">
-                {!isLoadingUserInfo && sessionData?.user?.email && (
-                  <div className="flex items-center space-x-1 sm:hidden">
-                    <Gravatar
-                      className="h-8 w-8 rounded-full"
-                      email={sessionData?.user?.email}
-                      default="mp"
-                    />
-                    <div className="flex flex-col">
-                      <span className="text-sm font-bold leading-tight">
-                        {sessionData?.user?.name}
-                      </span>
-                      {purchasedProductIds.length > 0 && (
-                        <Link
-                          href="/purchases"
-                          className={cx(
-                            'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
-                            {
-                              underline: pathname === '/purchases',
-                            },
-                          )}
-                        >
-                          Your Purchases
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                )}
+                <Login />
+                <User />
                 <ColorModeToggle />
               </div>
             </div>
@@ -262,6 +208,74 @@ export default Navigation
 type IconProps = {
   isHovered: boolean
   theme: 'light' | 'dark'
+}
+
+const User = () => {
+  const {pathname} = useRouter()
+  const {data: sessionData, status: sessionStatus} = useSession()
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({})
+  const isLoadingUserInfo =
+    sessionStatus === 'loading' || commercePropsStatus === 'loading'
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+
+  return (
+    <>
+      {isLoadingUserInfo || !sessionData?.user?.email ? null : (
+        <div className="mr-3 hidden items-center space-x-1 sm:flex">
+          <Gravatar
+            className="h-8 w-8 rounded-full"
+            email={sessionData?.user?.email}
+            default="mp"
+          />
+          <div className="flex flex-col">
+            <span className="text-sm font-bold leading-tight">
+              {sessionData?.user?.name}
+            </span>
+            {purchasedProductIds.length > 0 && (
+              <Link
+                href="/products?s=purchased"
+                className={cx(
+                  'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
+                  {
+                    underline: pathname === '/products',
+                  },
+                )}
+              >
+                My Purchases
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
+const Login = () => {
+  const {pathname} = useRouter()
+  const {data: sessionData, status: sessionStatus} = useSession()
+  const isLoadingUserInfo = sessionStatus === 'loading'
+
+  return (
+    <>
+      {isLoadingUserInfo || sessionData?.user?.email ? null : (
+        <Link
+          href="/login"
+          className={cx(
+            'group flex items-center gap-1 rounded-md px-2.5 py-1 transition hover:opacity-100',
+            {
+              'underline opacity-100': pathname === '/login',
+              'opacity-75': pathname !== '/login',
+            },
+          )}
+        >
+          Log in
+        </Link>
+      )}
+    </>
+  )
 }
 
 export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {

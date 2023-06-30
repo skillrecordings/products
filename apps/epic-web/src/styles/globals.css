@@ -122,7 +122,7 @@ mux-player::part(vertical-layer) {
   }
 
   .dark {
-    --background: 227 47% 6%;
+    --background: 227.1 46.7% 5.9%;
     --foreground: 220 13% 91%;
 
     --muted: 223 47% 11%;
@@ -131,25 +131,25 @@ mux-player::part(vertical-layer) {
     --popover: 224 71% 4%;
     --popover-foreground: 215 20.2% 65.1%;
 
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
+    --card: 227 29% 10%;
+    --card-foreground: 220 13% 91%;
 
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
+    --border: 228 18% 19%;
+    --input: 228 18% 19%;
 
     --primary: 227 100% 65.5%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 222.2 47.4% 13.2%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 228 18% 19%;
+    --secondary-foreground: 220 13% 91%;
 
-    --accent: 216 34% 17%;
+    --accent: 228 18% 19%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
 
-    --ring: 216 34% 17%;
+    --ring: 227 100% 65.5%;
 
     --radius: 0.5rem;
   }

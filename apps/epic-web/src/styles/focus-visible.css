@@ -14,5 +14,5 @@
 */
 
 [data-js-focus-visible] [data-focus-visible-added] {
-  @apply outline-brand;
+  @apply ring-2 ring-ring ring-offset-2;
 }
