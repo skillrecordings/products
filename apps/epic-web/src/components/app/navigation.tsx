@@ -17,9 +17,11 @@ import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {trpc} from 'trpc/trpc.client'
 import Gravatar from 'react-gravatar'
 import {useSession} from 'next-auth/react'
+import {WorkshopSeriesNavCta} from 'pages/full-stack-workshop-series-vol-1'
 
 type NavigationProps = {
   className?: string
+  navigationContainerClassName?: string
   size?: 'sm' | 'md' | 'lg'
 }
 
@@ -66,7 +68,11 @@ const useNavigationLinks = () => {
   ]
 }
 
-const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
+const Navigation: React.FC<NavigationProps> = ({
+  className,
+  size = 'md',
+  navigationContainerClassName,
+}) => {
   const {pathname, asPath, push} = useRouter()
   const isRoot = pathname === '/'
   const [menuOpen, setMenuOpen] = React.useState(false)
@@ -81,139 +87,119 @@ const Navigation: React.FC<NavigationProps> = ({className, size = 'md'}) => {
   )
 
   const [hoveredNavItemIndex, setHoveredNavItemIndex] = React.useState(-1)
-  const {data: sessionData, status: sessionStatus} = useSession()
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({})
-  const isLoadingUserInfo =
-    sessionStatus === 'loading' || commercePropsStatus === 'loading'
-
-  const purchasedProductIds =
-    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
 
   return (
-    <div className="fixed left-0 top-0 z-50 flex w-full items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md dark:bg-background/90 dark:shadow-xl dark:shadow-black/50 print:hidden">
-      <motion.nav
-        aria-label="top"
-        style={{height: size === 'sm' ? 48 : navHeight}}
+    <>
+      <div
         className={twMerge(
-          'mx-auto flex w-full max-w-screen-lg items-center justify-between px-3 text-sm',
-          className,
+          // backdrop-blur-md
+          'fixed left-0 top-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 dark:bg-background/90 dark:shadow-xl dark:shadow-black/50 print:hidden',
+          navigationContainerClassName,
         )}
       >
-        <div className="flex items-center gap-2">
-          <Link
-            href="/"
-            aria-current={isRoot}
-            tabIndex={isRoot ? -1 : 0}
-            passHref
-            className="relative z-10 text-lg font-bold tracking-tight text-[#333753] dark:from-white dark:to-gray-400 dark:text-white"
-            onContextMenu={(event) => {
-              event.preventDefault()
-              push('/brand')
-            }}
-          >
-            <Logo />
-          </Link>
-          <div className="hidden items-center justify-start gap-2 pl-5 font-medium sm:flex">
-            {navigationLinks.map(({label, href, icon}, i) => {
-              const isOvershadowed = false
-              // (hoveredNavItemIndex !== i && hoveredNavItemIndex !== -1)
+        <WorkshopSeriesNavCta />
+        <motion.nav
+          aria-label="top"
+          style={{height: size === 'sm' ? 48 : navHeight}}
+          className={twMerge(
+            'relative mx-auto flex w-full max-w-screen-lg items-center justify-between px-3 text-sm',
+            className,
+          )}
+        >
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              aria-current={isRoot}
+              tabIndex={isRoot ? -1 : 0}
+              passHref
+              className="relative z-10 text-lg font-bold tracking-tight text-[#333753] dark:from-white dark:to-gray-400 dark:text-white"
+              onContextMenu={(event) => {
+                event.preventDefault()
+                push('/brand')
+              }}
+            >
+              <Logo />
+            </Link>
+            <div className="hidden items-center justify-start gap-2 pl-5 font-medium sm:flex">
+              {navigationLinks.map(({label, href, icon}, i) => {
+                const isOvershadowed = false
+                // (hoveredNavItemIndex !== i && hoveredNavItemIndex !== -1)
 
-              return (
-                <Link
-                  onMouseOver={() => {
-                    setHoveredNavItemIndex(i)
-                  }}
-                  // onMouseEnter={() => {
-                  // }}
-                  onMouseLeave={() => {
-                    setHoveredNavItemIndex(-1)
-                  }}
-                  key={href}
-                  href={href}
-                  className={cx(
-                    'group flex items-center gap-1 rounded-md px-2.5 py-1 transition',
-                    {
-                      'opacity-60': isOvershadowed,
-                    },
-                  )}
-                  passHref
-                  onClick={() => {
-                    setHoveredNavItemIndex(i)
-                    track(`clicked ${label} from navigation`, {
-                      page: asPath,
-                    })
-                  }}
-                >
-                  {icon(
-                    (hoveredNavItemIndex === i ||
-                      asPath === href ||
-                      asPath.includes(href)) &&
-                      !isOvershadowed,
-                  )}{' '}
-                  {label}
-                </Link>
-              )
-            })}
-          </div>
-        </div>
-        <div className="flex items-center justify-center pr-5 sm:pr-0">
-          {!isLoadingUserInfo && sessionData?.user?.email && (
-            <div className="mr-3 flex items-center space-x-1">
-              <Gravatar
-                className="h-8 w-8 rounded-full"
-                email={sessionData?.user?.email}
-                default="mp"
-              />
-              <div className="flex flex-col">
-                <span className="text-sm font-bold leading-tight">
-                  {sessionData?.user?.name}
-                </span>
-                {purchasedProductIds.length > 0 && (
+                return (
                   <Link
-                    href="/purchases"
+                    onMouseOver={() => {
+                      setHoveredNavItemIndex(i)
+                    }}
+                    onMouseLeave={() => {
+                      setHoveredNavItemIndex(-1)
+                    }}
+                    key={href}
+                    href={href}
                     className={cx(
-                      'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
+                      'group flex items-center gap-1 rounded-md px-2.5 py-1 transition',
                       {
-                        underline: pathname === '/purchases',
+                        'opacity-60': isOvershadowed,
                       },
                     )}
+                    passHref
+                    onClick={() => {
+                      setHoveredNavItemIndex(i)
+                      track(`clicked ${label} from navigation`, {
+                        page: asPath,
+                      })
+                    }}
                   >
-                    Your Purchases
+                    {icon(
+                      (hoveredNavItemIndex === i ||
+                        asPath === href ||
+                        asPath.includes(href)) &&
+                        !isOvershadowed,
+                    )}{' '}
+                    {label}
                   </Link>
-                )}
+                )
+              })}
+            </div>
+          </div>
+          <div className="flex items-center justify-end">
+            <Login />
+            <User />
+            <ColorModeToggle className="hidden sm:block" />
+            <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
+          </div>
+          {menuOpen && (
+            // backdrop-blur-sm
+            <div className="absolute left-0 top-0 flex w-full flex-col gap-2 bg-white px-3 pb-5 pt-20 text-2xl font-medium shadow-2xl shadow-black/20 dark:bg-black/90 dark:shadow-black/60 sm:hidden">
+              {navigationLinks.map(({label, href, icon}) => {
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="flex items-center rounded-md py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
+                    passHref
+                    onClick={() => {
+                      track(`clicked ${label} from navigation`, {
+                        page: asPath,
+                      })
+                    }}
+                  >
+                    {icon(true)} {label}
+                  </Link>
+                )
+              })}
+
+              <div className="flex w-full items-center justify-between px-3 pt-5 text-lg">
+                <Login />
+                <User />
+                <ColorModeToggle />
               </div>
             </div>
           )}
-          <ColorModeToggle className="hidden sm:block" />
-          <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
-        </div>
-        {menuOpen && (
-          <div className="absolute left-0 top-0 flex w-full flex-col gap-2 bg-white px-3 pb-5 pt-20 text-lg font-semibold shadow-2xl shadow-black/20 backdrop-blur-sm dark:bg-black/80 dark:shadow-black/60 sm:hidden">
-            {navigationLinks.map(({label, href, icon}) => {
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  className="flex items-center gap-2 rounded-md px-2.5 py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
-                  passHref
-                  onClick={() => {
-                    track(`clicked ${label} from navigation`, {
-                      page: asPath,
-                    })
-                  }}
-                >
-                  {icon(true)} {label}
-                </Link>
-              )
-            })}
-            <div className="flex w-full pt-5">
-              <ColorModeToggle />
-            </div>
-          </div>
-        )}
-      </motion.nav>
-    </div>
+        </motion.nav>
+      </div>
+    </>
   )
 }
 
@@ -222,6 +208,74 @@ export default Navigation
 type IconProps = {
   isHovered: boolean
   theme: 'light' | 'dark'
+}
+
+const User = () => {
+  const {pathname} = useRouter()
+  const {data: sessionData, status: sessionStatus} = useSession()
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({})
+  const isLoadingUserInfo =
+    sessionStatus === 'loading' || commercePropsStatus === 'loading'
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+
+  return (
+    <>
+      {isLoadingUserInfo || !sessionData?.user?.email ? null : (
+        <div className="mr-3 hidden items-center space-x-1 sm:flex">
+          <Gravatar
+            className="h-8 w-8 rounded-full"
+            email={sessionData?.user?.email}
+            default="mp"
+          />
+          <div className="flex flex-col">
+            <span className="text-sm font-bold leading-tight">
+              {sessionData?.user?.name}
+            </span>
+            {purchasedProductIds.length > 0 && (
+              <Link
+                href="/products?s=purchased"
+                className={cx(
+                  'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
+                  {
+                    underline: pathname === '/products',
+                  },
+                )}
+              >
+                My Purchases
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
+const Login = () => {
+  const {pathname} = useRouter()
+  const {data: sessionData, status: sessionStatus} = useSession()
+  const isLoadingUserInfo = sessionStatus === 'loading'
+
+  return (
+    <>
+      {isLoadingUserInfo || sessionData?.user?.email ? null : (
+        <Link
+          href="/login"
+          className={cx(
+            'group flex items-center gap-1 rounded-md px-2.5 py-1 transition hover:opacity-100',
+            {
+              'underline opacity-100': pathname === '/login',
+              'opacity-75': pathname !== '/login',
+            },
+          )}
+        >
+          Log in
+        </Link>
+      )}
+    </>
+  )
 }
 
 export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
@@ -254,7 +308,6 @@ export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
                 ? '#C2C4CF'
                 : '#5B5E71',
             }}
-            // stop-color="#5B5E71"
           />
           <motion.stop
             animate={{
@@ -265,7 +318,6 @@ export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
                 : '#393A46',
             }}
             offset="1"
-            // stop-color="#393A46"
           />
         </linearGradient>
       </defs>
@@ -305,7 +357,7 @@ export const TutorialsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
                 ? '#C2C4CF'
                 : '#5B5E71',
             }}
-            stop-color="#5B5E71"
+            stopColor="#5B5E71"
           />
           <motion.stop
             animate={{
@@ -520,7 +572,7 @@ const EventsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
                 : '#393A46',
             }}
             offset="1"
-            stop-color="#393A46"
+            stopColor="#393A46"
           />
         </linearGradient>
         <clipPath id="a">

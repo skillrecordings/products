@@ -13,6 +13,16 @@ import {
   CardHeader,
   CardTitle,
 } from './card'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from './select'
 
 export {
   Button,
@@ -30,4 +40,12 @@ export {
   CardFooter,
   CardHeader,
   CardTitle,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
 }

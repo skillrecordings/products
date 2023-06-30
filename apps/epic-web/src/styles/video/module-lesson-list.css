@@ -1,6 +1,6 @@
 /* module lesson list */
 [data-module-lesson-list-header] {
-  @apply sticky top-12 z-50 hidden w-full flex-shrink-0 self-start border-r border-t border-gray-200 dark:border-gray-900 lg:block lg:h-[calc(100vh-48px)] lg:max-w-[280px] xl:max-w-xs;
+  @apply sticky top-0 z-50 hidden w-full flex-shrink-0 self-start border-r border-t border-gray-200 dark:border-gray-900 lg:block lg:h-[calc(100vh-48px)] lg:max-w-[280px] xl:max-w-xs;
   [data-sticky-container] {
     /* @apply top-12 lg:sticky; */
     [data-content-wrapper] {

@@ -100,6 +100,7 @@ const ExerciseTemplate: React.FC<{
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
         navigationClassName="max-w-none"
+        navigationContainerClassName="relative"
         navigationSize="sm"
         className="pt-0"
       >
@@ -113,7 +114,7 @@ const ExerciseTemplate: React.FC<{
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
           description={pageDescription || ''}
         />
-        <div className="relative flex flex-grow flex-col pt-12 lg:flex-row">
+        <div className="relative flex flex-grow flex-col lg:flex-row">
           <LargeScreenModuleLessonList
             lessonResourceRenderer={lessonResourceRenderer}
             module={module}

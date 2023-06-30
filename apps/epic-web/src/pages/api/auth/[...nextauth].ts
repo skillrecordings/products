@@ -3,6 +3,7 @@ import {createOptions} from '@skillrecordings/skill-api'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {withSentry} from '@sentry/nextjs'
 import GitHubProvider from 'next-auth/providers/github'
+import DiscordProvider from 'next-auth/providers/discord'
 
 const productTheme: Theme = {
   colorScheme: 'auto',
@@ -13,6 +14,11 @@ const providers = [
   GitHubProvider({
     clientId: process.env.GITHUB_ID,
     clientSecret: process.env.GITHUB_SECRET,
+    allowDangerousEmailAccountLinking: true,
+  }),
+  DiscordProvider({
+    clientId: process.env.DISCORD_CLIENT_ID,
+    clientSecret: process.env.DISCORD_CLIENT_SECRET,
     allowDangerousEmailAccountLinking: true,
   }),
 ]

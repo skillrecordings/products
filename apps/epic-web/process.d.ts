@@ -31,5 +31,7 @@ declare namespace NodeJS {
     CLOUDINARY_VIDEO_BUCKET_NAME: string
     GITHUB_SECRET: string
     GITHUB_ID: string
+    DISCORD_CLIENT_ID: string
+    DISCORD_CLIENT_SECRET: string
   }
 }

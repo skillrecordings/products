@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from '@/components/app/layout'
+import Layout from 'components/layout'
 import {GetServerSideProps} from 'next'
 import {getCsrfToken, getProviders} from 'next-auth/react'
 import LoginTemplate, {
@@ -21,22 +21,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const LoginPage: React.FC<LoginTemplateProps> = ({csrfToken, providers}) => {
   return (
-    <Layout meta={{title: `Log in to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}>
+    <Layout meta={{title: `Log in to Pro Tailwind`}}>
       <LoginTemplate
         csrfToken={csrfToken}
         providers={providers}
-        title={`Log in to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}
+        title={`Log in to Pro Tailwind`}
         image={
-          <div className="relative z-10 mx-auto flex w-20 max-w-sm items-center justify-center sm:-mt-24 sm:w-full">
+          <div className="w-32">
             <Image
-              placeholder="blur"
-              src={require('../../public/assets/gem.png')}
-              alt=""
-              quality={100}
-              width={120}
-              height={120}
+              src={require('../../public/assets/waving-corgi.svg')}
               priority
-              aria-hidden="true"
+              alt="waving corgi"
             />
           </div>
         }
