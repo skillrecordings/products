@@ -87,12 +87,24 @@ const mdxComponents = {
   CalloutTitle: ({text, color}: CalloutTitleProps) => {
     return <CalloutTitle text={text} color={color} />
   },
-  TeamMembersBlock: ({description, members, title}: TeamMembersBlockProps) => {
+  TeamMembersBlock: ({
+    description,
+    title,
+    name,
+    portrait,
+    portraitWidth,
+    portraitHeight,
+    multiple,
+  }: TeamMembersBlockProps) => {
     return (
       <TeamMembersBlock
         description={description}
-        members={members}
         title={title}
+        name={name}
+        portrait={portrait}
+        portraitWidth={portraitWidth}
+        portraitHeight={portraitHeight}
+        multiple={multiple}
       />
     )
   },

@@ -152,13 +152,10 @@
   [data-team-members-description] {
     @apply font-bold;
   }
-  [data-team-members-portraits] {
-    @apply flex;
-  }
   [data-team-member-portrait] {
-    @apply rounded-full border-2 border-black w-14 h-14 overflow-hidden -ml-2 first:ml-0 shrink-0;
+    @apply rounded-full h-14 overflow-hidden shrink-0;
   }
-  [data-team-members-names] {
+  [data-team-member-name] {
     @apply text-xl font-heading mt-3;
   }
   [data-team-members-title] {
@@ -169,7 +166,7 @@
   }
   [data-team-members-info-wrapper='flex'] {
     @apply flex space-x-2;
-    [data-team-members-names] {
+    [data-team-member-name] {
       @apply mt-0;
     }
   }
