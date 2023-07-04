@@ -78,13 +78,13 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       />
       <div
         className={twMerge(
-          'relative flex h-full flex-grow flex-col',
+          `relative flex h-full flex-grow flex-col ${
+            isCtaActive
+              ? 'min-h-[calc(100vh-112px)]'
+              : 'min-h-[calc(100vh-80px)]'
+          } ${isCtaActive ? 'pt-[112px]' : 'pt-[80px]'}`,
           className,
         )}
-        style={{
-          minHeight: isCtaActive ? 'calc(100vh - 112px)' : 'calc(100vh - 80px)',
-          paddingTop: isCtaActive ? '112px' : '80px',
-        }}
       >
         {children}
       </div>
