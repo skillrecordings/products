@@ -2,6 +2,11 @@
   .prose > h3 {
     @apply text-center text-neutral-200 mb-6 md:mb-10 lg:mb-12;
   }
+  &[data-case-study='Launching Epic React'] {
+    a {
+      @apply text-badass-green-500;
+    }
+  }
 }
 
 /* BodyBlockquote */
@@ -49,6 +54,14 @@
 /* TweetEmbed */
 [data-tweet-embed] {
   @apply my-16;
+}
+
+/* TweetEmbed Double */
+[data-tweet-embed-double] {
+  @apply my-16 grid md:grid-cols-2 gap-4;
+  [data-tweet-embed] {
+    @apply my-0;
+  }
 }
 
 /* MemberCard */
@@ -179,6 +192,9 @@
     @apply text-white text-[2.5rem] font-heading leading-tight;
     &[data-callout-title-color='pink'] {
       @apply text-badass-pink-400;
+    }
+    &[data-callout-title-color='cyan'] {
+      @apply text-badass-cyan-500;
     }
   }
 }

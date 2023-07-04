@@ -19,6 +19,11 @@ export {
 export {default as TweetEmbed, type TweetEmbedProps} from './tweet-embed'
 
 export {
+  default as TweetEmbedDouble,
+  type TweetEmbedDoubleProps,
+} from './tweet-embed-double'
+
+export {
   default as SkeletonHandSeparator,
   type SkeletonHandSeparatorProps,
 } from './skeleton-hand-separator'
