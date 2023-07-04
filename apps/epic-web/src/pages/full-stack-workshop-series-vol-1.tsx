@@ -34,7 +34,7 @@ const workshops = [
     date: 'Tuesday, July 25th',
     time: '9am-3pm (Mountain)',
     image:
-      'https://res.cloudinary.com/epic-web/image/upload/v1687868258/workshop-image-professional-web-forms_2x.png',
+      'https://res.cloudinary.com/epic-web/image/upload/v1688457467/workshop-image-professional-web-forms_2x.png',
   },
   {
     title: 'Data Modeling Deep Dive',
@@ -52,6 +52,8 @@ const workshops = [
     title: 'Web Application Testing',
     date: 'Tuesday, August 8th & Thursday, August 10th',
     time: '9am-3pm (Mountain)',
+    image:
+      'https://res.cloudinary.com/epic-web/image/upload/v1688457467/workshop-image-web-application-testing_2x.png',
   },
 ]
 
