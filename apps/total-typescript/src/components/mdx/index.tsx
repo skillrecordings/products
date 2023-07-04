@@ -1,11 +1,12 @@
 import React from 'react'
-import Image from 'next/image'
+import Image, {ImageProps} from 'next/image'
 import cx from 'classnames'
 import Balancer from 'react-wrap-balancer'
 import {Twitter, CopyToClipboard} from '@skillrecordings/react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'
+import {twMerge} from 'tailwind-merge'
 
 export const MDXComponents = {
   TypeError: (props: TypeErrorProps) => <TypeError {...props} />,
@@ -69,6 +70,7 @@ const SectionHeading: React.FC<any> = ({
     <div className="not-prose flex flex-col items-center px-5 pb-5 sm:pb-16">
       {dividerTop && (
         <DecorativeImage
+          alt=""
           src={dividerTop}
           width={1440 / 2}
           height={217 / 2}
@@ -85,6 +87,7 @@ const SectionHeading: React.FC<any> = ({
       </h2>
       {dividerBottom && (
         <DecorativeImage
+          alt=""
           src={dividerBottom}
           width={1440 / 2}
           height={217 / 2}
@@ -102,14 +105,18 @@ const Section: React.FC<any> = ({
   className,
 }) => {
   return (
-    <section className={cx('relative w-full overflow-hidden', className)}>
+    <section className={twMerge('relative w-full overflow-hidden', className)}>
       {slot}
       <div className={cx('relative z-10')}>{children}</div>
       {backgroundImage && (
         <DecorativeImage
           src={backgroundImage}
-          layout="fill"
-          className="pointer-events-none z-0 select-none object-cover lg:object-contain"
+          fill
+          alt=""
+          style={{
+            marginTop: '0 !important',
+          }}
+          className="pointer-events-none z-0 mt-0 select-none object-cover object-top lg:object-contain"
         />
       )}
     </section>
@@ -122,6 +129,7 @@ const ErrorFromHell: React.FC<any> = ({children}) => {
       <div className="relative z-10">{children}</div>
       <div className="pointer-events-none absolute left-[-85px] top-[-178px] select-none">
         <DecorativeImage
+          alt=""
           src="/assets/landing/flame-corner-left@2x.png"
           width={970 / 2}
           height={868 / 2}
@@ -129,6 +137,7 @@ const ErrorFromHell: React.FC<any> = ({children}) => {
       </div>
       <div className="pointer-events-none absolute bottom-[-30px] right-[-45px] select-none">
         <DecorativeImage
+          alt=""
           src="/assets/landing/flame-corner-right@2x.png"
           width={482 / 2}
           height={868 / 2}
@@ -138,8 +147,8 @@ const ErrorFromHell: React.FC<any> = ({children}) => {
   )
 }
 
-const DecorativeImage: React.FC<any> = (props) => {
-  return <Image alt="" aria-hidden="true" quality={100} priority {...props} />
+const DecorativeImage: React.FC<ImageProps> = (props) => {
+  return <Image aria-hidden="true" quality={100} priority {...props} />
 }
 
 const Testimonial: React.FC<
