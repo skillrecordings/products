@@ -3,7 +3,7 @@ import {NextSeo} from '@skillrecordings/next-seo'
 import {Toaster} from 'react-hot-toast'
 import Navigation from 'components/app/navigation'
 import {twMerge} from 'tailwind-merge'
-import {useCtaActive} from 'pages/full-stack-workshop-series-vol-1'
+import {useWorkshopCta} from 'pages/full-stack-workshop-series-vol-1'
 
 type LayoutProps = {
   meta?: any
@@ -33,7 +33,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
     ogImage,
     date,
   } = meta || {}
-  const isCtaActive = useCtaActive()
+  const isCtaActive = useWorkshopCta()
 
   return (
     <>
