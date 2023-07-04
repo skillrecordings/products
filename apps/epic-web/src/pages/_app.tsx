@@ -17,6 +17,7 @@ const dmSans = DM_Sans({
   variable: '--font-dmsans',
   weight: ['400', '500', '700'],
 })
+
 const jetBransMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-jetbrainsmono',

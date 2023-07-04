@@ -395,9 +395,9 @@ export const WorkshopSeriesNavCta = () => {
     >
       <div className="mx-auto flex w-full max-w-screen-lg items-center justify-center space-x-2 px-0 text-xs font-medium sm:space-x-4 sm:px-3 sm:text-sm">
         <p className="w-full sm:w-auto">
-          <Balancer>
-            <strong>Full Stack Workshop Series Vol 1.</strong> now scheduled!
-          </Balancer>
+          {/* <Balancer> */}
+          <strong>Full Stack Workshop Series Vol 1.</strong> now scheduled!
+          {/* </Balancer> */}
         </p>
         <div className="flex-shrink-0 underline">Grab your ticket</div>
       </div>

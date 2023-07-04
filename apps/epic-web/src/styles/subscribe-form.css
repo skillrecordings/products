@@ -2,13 +2,13 @@
   [data-sr-convertkit-subscribe-form] {
     @apply mx-auto flex w-full max-w-md flex-col gap-4;
     [data-sr-input] {
-      @apply w-full rounded-md border border-gray-300 bg-gray-200 px-4 py-4 text-lg dark:border-gray-800 dark:bg-gray-800;
+      @apply w-full rounded-md border border-gray-300 bg-gray-200 px-4 py-4 text-lg placeholder-gray-500 dark:border-white/20 dark:bg-white/10 dark:placeholder-gray-400;
     }
     [data-sr-input-label] {
       @apply inline-block w-full pb-1 text-gray-600 dark:text-gray-300;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-md bg-indigo-500 px-8 py-5 text-xl font-semibold text-white shadow-2xl transition focus-visible:ring-white hover:brightness-110;
+      @apply relative mt-2 flex items-center justify-center rounded-md bg-primary px-8 py-8 text-xl font-semibold text-white shadow-2xl transition hover:brightness-110;
       svg {
         @apply h-7 w-7;
       }

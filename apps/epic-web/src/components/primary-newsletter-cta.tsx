@@ -5,8 +5,8 @@ import {
   useConvertkitForm,
 } from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
-import {Button} from '@skillrecordings/react'
 import {track} from 'utils/analytics'
+import {Button} from '@skillrecordings/skill-lesson/ui'
 
 type PrimaryNewsletterCtaProps = {
   setStarfieldSpeed?: (s: number) => void
