@@ -36,6 +36,7 @@ type PricingProps = {
   userId?: string
   index?: number
   couponId?: string
+  cancelUrl?: string
   allowPurchase?: boolean
   canViewRegionRestriction?: boolean
   options?: {
@@ -65,6 +66,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   couponId,
   allowPurchase = false,
   canViewRegionRestriction = false,
+  cancelUrl,
   options = {withImage: true, isPPPEnabled: false, withGuaranteeBadge: true},
 }) => {
   const {
@@ -239,7 +241,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     formattedPrice?.upgradeFromPurchaseId
                       ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
                       : ``
-                  }`}
+                  }${cancelUrl ? `&cancelUrl=${cancelUrl}` : ``}`}
                   method="POST"
                 >
                   <fieldset>

@@ -110,6 +110,7 @@ const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
   const author = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
   const hasPurchased = purchasedProductIds.includes(product.productId)
+  const cancelUrl = process.env.NEXT_PUBLIC_URL + router.asPath
 
   return (
     <Layout
@@ -145,7 +146,8 @@ const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
               {commerceProps?.products.map((product, i) => {
                 return (
                   <Pricing
-                    key={product.title}
+                    cancelUrl={cancelUrl}
+                    key={product.productId}
                     userId={commerceProps?.userId}
                     product={product}
                     purchased={purchasedProductIds.includes(product.productId)}
@@ -361,7 +363,7 @@ const Body: React.FC<{mdx: MDXRemoteSerializeResult}> = ({mdx}) => {
   )
 }
 
-export const useCtaActive = () => {
+export const useWorkshopCta = () => {
   const router = useRouter()
   const expiresAt = new Date(1689624000000)
   const now = new Date()
@@ -380,7 +382,7 @@ export const useCtaActive = () => {
 }
 
 export const WorkshopSeriesNavCta = () => {
-  const isCtaActive = useCtaActive()
+  const isCtaActive = useWorkshopCta()
   if (!isCtaActive) return null
 
   return (

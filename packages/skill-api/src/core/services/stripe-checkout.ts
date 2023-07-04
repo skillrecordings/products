@@ -39,6 +39,7 @@ export async function stripeCheckout({
         userId,
         upgradeFromPurchaseId,
         bulk = false,
+        cancelUrl = `${req.headers.origin}/buy`,
       } = req.query
 
       const quantity = Number(queryQuantity)
@@ -211,7 +212,7 @@ export async function stripeCheckout({
         expires_at: TWELVE_FOUR_HOURS_FROM_NOW,
         mode: 'payment',
         success_url: successUrl,
-        cancel_url: `${req.headers.origin}/buy`,
+        cancel_url: cancelUrl,
         ...(customerId && {customer: customerId}),
         metadata,
         payment_intent_data: {
