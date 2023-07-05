@@ -47,6 +47,8 @@ const workshops = [
     title: 'Authentication Strategies & Implementation',
     date: 'Tuesday, August 1st & Thursday, August 3rd',
     time: '9am-3pm (Mountain)',
+    image:
+      'https://res.cloudinary.com/epic-web/image/upload/v1688549362/workshop-image-authentication-strategies-and-implementation_2x.png',
   },
   {
     title: 'Web Application Testing',
@@ -227,6 +229,7 @@ const Header: React.FC<HeaderProps> = ({title, hasPurchased}) => {
         {workshops.map(({title, date, time, image}, i) => {
           return (
             <motion.div
+              key={title}
               className={cx(
                 'flex h-full w-full gap-8 rounded-lg border border-gray-100 bg-white p-8 shadow-xl shadow-gray-500/10 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/80',
                 {

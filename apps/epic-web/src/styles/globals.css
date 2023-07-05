@@ -17,6 +17,7 @@
 @import './commerce.css';
 @import '../purchase-details/purchase-details.css';
 @import './login.css';
+@import './redeem-dialog.css';
 
 @tailwind utilities;
 

@@ -9,7 +9,7 @@ export function useCoupon(coupon?: CouponValidator) {
     setTimeout(() => {
       setValidCoupon(Boolean(coupon && coupon.isValid))
     }, 0)
-  }, [])
+  }, [coupon])
 
   return {
     validCoupon,

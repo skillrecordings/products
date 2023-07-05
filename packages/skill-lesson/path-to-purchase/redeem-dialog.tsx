@@ -96,11 +96,11 @@ const Content: React.FC<React.PropsWithChildren<unknown>> = ({
   ...props
 }) => {
   return (
-    <AlertDialogPrimitive.Portal>
+    <>
       <AlertDialogPrimitive.Overlay data-redeem-dialog-overlay="" />
       <AlertDialogPrimitive.Content data-redeem-dialog-content="" {...props}>
         {children}
       </AlertDialogPrimitive.Content>
-    </AlertDialogPrimitive.Portal>
+    </>
   )
 }
