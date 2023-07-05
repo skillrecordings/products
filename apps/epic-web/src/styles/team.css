@@ -19,7 +19,7 @@
 /* Shared form component */
 
 [data-invite-team] {
-  @apply flex flex-col rounded-lg border border-gray-700/30 bg-gray-800 p-5 shadow-xl shadow-black/10;
+  @apply flex flex-col rounded-lg border border-border bg-background p-5;
   [data-title] {
     @apply py-3;
     /* 3 seats left */
@@ -30,17 +30,21 @@
   [data-copy-invite-link-container] {
     @apply w-full;
     [data-copy-invite-link] {
-      /* optional */
+      button {
+        @apply rounded bg-primary text-white;
+      }
     }
   }
   [data-redeem] {
-    @apply mt-5 flex flex-col items-center gap-3 border-t border-gray-700/60 pt-5 sm:mt-8 sm:flex-row sm:justify-between;
+    @apply mt-5 flex flex-col items-center gap-3 border-t border-border pt-5 sm:mt-8 sm:flex-row sm:justify-between;
     [data-title] {
       /* Or get access yourself */
       @apply flex items-center gap-1 font-semibold;
     }
     [data-self-redeem-button] {
-      /* optional */
+      button {
+        @apply rounded border border-primary text-primary;
+      }
     }
   }
 }
@@ -62,7 +66,7 @@
 /* Self redeem button */
 
 [data-self-redeem-button] {
-  @apply rounded-md border border-indigo-600 px-4 py-2 font-medium text-indigo-400 transition hover:bg-indigo-600/20;
+  @apply rounded bg-secondary px-4 py-2 font-medium transition;
 }
 [data-self-redeem-button][disabled] {
   @apply cursor-not-allowed opacity-30;
@@ -111,7 +115,7 @@
     @apply flex gap-3 pt-2;
   }
   input {
-    @apply w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-sm font-semibold shadow-inner selection:bg-indigo-500 selection:text-white dark:border-gray-800 dark:bg-gray-900 dark:text-white;
+    @apply w-full rounded-md border border-gray-200 bg-gray-100 px-3 py-2 text-sm font-semibold shadow-inner selection:bg-indigo-500 selection:text-white dark:border-gray-800 dark:bg-gray-900 dark:text-white;
   }
   input[disabled] {
     @apply opacity-50;
@@ -128,7 +132,7 @@
 
 [data-claimed-seats-team] {
   [data-claimed-seat] {
-    @apply text-gray-300;
+    @apply opacity-80;
   }
   [data-claimed-seat=''] {
     @apply inline-flex items-center gap-1.5 before:translate-y-[2px] before:content-[url("/assets/check.svg")];
@@ -155,6 +159,9 @@
       input {
         @apply border-gray-800 bg-gray-800/50 font-medium selection:text-black;
       }
+      button {
+        @apply border border-primary bg-transparent text-primary;
+      }
     }
   }
   [data-claimed-seats-team] {
@@ -173,7 +180,18 @@
         [data-pricing-product-header] {
           @apply flex;
           [data-price-container] {
-            @apply w-32;
+            @apply flex items-center;
+            [data-price] {
+              @apply flex items-center space-x-3 text-xl font-bold;
+              [data-price-discounted] {
+                [data-full-price] {
+                  @apply text-base leading-tight line-through;
+                }
+                [data-percent-off] {
+                  @apply flex-shrink-0 text-base text-primary;
+                }
+              }
+            }
           }
           [data-price-container='loading'] {
             @apply flex items-center justify-center;
@@ -183,7 +201,7 @@
           }
         }
         button[type='submit'] {
-          @apply font-semibold;
+          @apply rounded bg-primary font-semibold text-white;
         }
       }
     }

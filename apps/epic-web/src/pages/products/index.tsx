@@ -55,10 +55,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return commerceProps
 }
 
-type PurchaseWithProduct = Purchase & {
+export type PurchaseWithProduct = Purchase & {
   id: string
-  bulkCoupon: string
-  product: {name: string}
+  bulkCoupon: {
+    id: string
+    maxUses: number
+    usedCount: number
+  }
+  product: {name: string; id: string}
   createdAt: string
   totalAmount: number
   redeemedBulkCouponId: string | null
@@ -139,7 +143,10 @@ const ProductCard: React.FC<{
         {purchase ? (
           <>
             <Button variant="secondary" size="sm" asChild>
-              <Link href={`/purchases/${purchase.id}`}>
+              <Link
+                href={`/products/${product.slug}`}
+                // href={`/purchases/${purchase.id}`}
+              >
                 {purchase.bulkCoupon ? 'Manage' : 'Details'}
               </Link>
             </Button>

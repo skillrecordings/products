@@ -23,6 +23,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from './select'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from './table'
 
 export {
   Button,
@@ -48,4 +57,11 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 }
