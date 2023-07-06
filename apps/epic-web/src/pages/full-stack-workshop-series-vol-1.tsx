@@ -15,11 +15,12 @@ import cx from 'classnames'
 import {motion, useScroll, useTransform} from 'framer-motion'
 import {CheckCircleIcon} from '@heroicons/react/solid'
 import Link from 'next/link'
-import {GetStaticProps} from 'next'
+import {GetServerSideProps} from 'next'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {getProduct, Product} from 'lib/products'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {prisma} from '@skillrecordings/database'
 
 const workshops = [
   {
@@ -59,26 +60,48 @@ const workshops = [
   },
 ]
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const product = await getProduct(
-    'kcd_product-f000186d-78c2-4b02-a763-85b2e5feec7b',
-  )
+export const getServerSideProps: GetServerSideProps = async () => {
+  const productId = 'kcd_product-f000186d-78c2-4b02-a763-85b2e5feec7b'
+  const sanityProduct = await getProduct(productId)
 
-  const mdx = product.body && (await serializeMDX(product.body))
+  const purchaseCount = await prisma.purchase.count({
+    where: {
+      productId,
+    },
+  })
+
+  const product = await prisma.product.findUnique({
+    where: {
+      id: productId,
+    },
+    select: {
+      quantityAvailable: true,
+    },
+  })
+
+  const mdx = sanityProduct.body && (await serializeMDX(sanityProduct.body))
   return {
-    props: {product, mdx},
-    revalidate: 10,
+    props: {
+      product: sanityProduct,
+      mdx,
+      purchaseCount,
+      quantityAvailable: product?.quantityAvailable,
+    },
   }
 }
 
 type ProductPageProps = {
   product: Product
   mdx: MDXRemoteSerializeResult
+  purchaseCount: number
+  quantityAvailable: number
 }
 
 const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
   product,
   mdx,
+  purchaseCount,
+  quantityAvailable,
 }) => {
   const router = useRouter()
   const {title, image, body, _updatedAt, _createdAt, slug} = product
@@ -109,8 +132,7 @@ const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
   const pageDescription = body
     ? `${RemoveMarkdown(body).substring(0, 157)}...`
     : undefined
-  const author = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
-  const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
+
   const hasPurchased = purchasedProductIds.includes(product.productId)
   const cancelUrl = process.env.NEXT_PUBLIC_URL + router.asPath
 
@@ -128,45 +150,52 @@ const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
       <Header title={title} hasPurchased={hasPurchased} />
       <main data-event="">
         <article className="mx-auto w-full max-w-screen-md px-10 py-8 md:py-10">
-          <Body mdx={mdx} />
+          {mdx && <Body mdx={mdx} />}
         </article>
-        <div className="mt-10 flex w-full items-center justify-center pb-16">
-          <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-            {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-            <div data-pricing-container="">
-              {image && (
-                <Image
-                  className="relative z-10"
-                  src={image.url}
-                  alt=""
-                  aria-hidden="true"
-                  width={100}
-                  height={100}
-                  priority
-                />
-              )}
-              {commerceProps?.products.map((product, i) => {
-                return (
-                  <Pricing
-                    cancelUrl={cancelUrl}
-                    key={product.productId}
-                    userId={commerceProps?.userId}
-                    product={product}
-                    purchased={purchasedProductIds.includes(product.productId)}
-                    purchases={commerceProps?.purchases || []}
-                    index={i}
-                    couponId={couponId}
-                    allowPurchase={true}
-                    options={{
-                      withGuaranteeBadge: false,
-                      teamQuantityLimit: 10,
-                    }}
+        {purchaseCount < quantityAvailable ? (
+          <div className="mt-10 flex w-full items-center justify-center pb-16">
+            <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+              {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+              <div data-pricing-container="">
+                {image && (
+                  <Image
+                    className="relative z-10"
+                    src={image.url}
+                    alt=""
+                    aria-hidden="true"
+                    width={100}
+                    height={100}
+                    priority
                   />
-                )
-              })}
-            </div>
-          </PriceCheckProvider>
-        </div>
+                )}
+                {commerceProps?.products.map((product, i) => {
+                  return (
+                    <Pricing
+                      cancelUrl={cancelUrl}
+                      key={product.productId}
+                      userId={commerceProps?.userId}
+                      product={product}
+                      purchased={purchasedProductIds.includes(
+                        product.productId,
+                      )}
+                      purchases={commerceProps?.purchases || []}
+                      index={i}
+                      couponId={couponId}
+                      allowPurchase={true}
+                      options={{
+                        withGuaranteeBadge: false,
+                        teamQuantityLimit:
+                          quantityAvailable > 5 ? 5 : quantityAvailable,
+                      }}
+                    />
+                  )
+                })}
+              </div>
+            </PriceCheckProvider>
+          </div>
+        ) : (
+          <div>This Workshop Series is Sold Out</div>
+        )}
       </main>
       {/* <Share contentType="Live Workshop" title={title} /> */}
       <AboutKent title="Hosted by Kent C. Dodds" className="mt-16" />

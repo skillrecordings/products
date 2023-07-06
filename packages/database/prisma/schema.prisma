@@ -186,6 +186,7 @@ model Product {
   merchantProducts MerchantProduct[]
   prices           Price[]
   purchases        Purchase[]
+  quantityAvailable Int                @default(-1)
   upgradableTo     UpgradableProducts[] @relation("UpgradeToProduct")
   upgradableFrom   UpgradableProducts[] @relation("UpgradeFromProduct")
 }
