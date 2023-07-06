@@ -32676,7 +32676,7 @@ packages:
     dependencies:
       object-assign: 4.1.1
       react: 18.2.0
-      react-is: 18.2.0
+      react-is: 17.0.2
     dev: true
 
   /react-simplemde-editor/5.2.0_biqbaboplfbrettd7655fr4n2y:
