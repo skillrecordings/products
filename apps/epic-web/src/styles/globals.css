@@ -65,21 +65,6 @@ mux-player::part(vertical-layer) {
   background-color: rgba(0, 0, 0, 0);
 }
 
-.noise {
-  background-image: url('/assets/stars-in-distance@2x.png');
-}
-
-.dark {
-  .bg-gradient-radial {
-    background: radial-gradient(circle at 50% 50%, #282644 0%, #0b0617 100%);
-  }
-}
-.light {
-  .bg-gradient-radial {
-    background: radial-gradient(circle at 50% 50%, #fff 0%, transparent 100%);
-  }
-}
-
 .light {
   .invert-svg {
     img[src$='.svg'] {

@@ -103,7 +103,7 @@ export const SubscribeToConvertkitForm: React.FC<
       />
       {submitButtonElem ? (
         React.cloneElement(submitButtonElem, {
-          isLoading: isSubmitting,
+          // isLoading: isSubmitting,
           type: 'submit',
         })
       ) : (

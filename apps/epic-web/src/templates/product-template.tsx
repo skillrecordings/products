@@ -146,7 +146,7 @@ const Purchases: React.FC<
             <TableHead className="w-[150px]">Amount</TableHead>
             <TableHead>Date</TableHead>
             <TableHead>Seats</TableHead>
-            <TableHead>Type</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead className="text-right">Invoice</TableHead>
           </TableRow>
         </TableHeader>
