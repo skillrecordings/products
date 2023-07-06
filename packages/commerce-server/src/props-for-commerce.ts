@@ -1,5 +1,5 @@
 import {ParsedUrlQuery} from 'querystring'
-import {Purchase, getSdk} from '@skillrecordings/database'
+import {Purchase, getSdk, prisma} from '@skillrecordings/database'
 import {convertToSerializeForNextResponse} from './prisma-next-serializer'
 import {getCouponForCode} from './get-coupon-for-code'
 import type {SanityProduct} from './@types'
@@ -23,7 +23,6 @@ export async function propsForCommerce({
   const purchases = token?.sub
     ? await getPurchasesForUser(token.sub as string)
     : false
-
 
   const couponIdFromCoupon = (query.coupon as string) || couponFromCode?.id
   const defaultCoupons = !token
