@@ -6,6 +6,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   _type,
   title,
   slug,
+  moduleType,
   "image": image.asset->url,
   _updatedAt,
   _createdAt,
