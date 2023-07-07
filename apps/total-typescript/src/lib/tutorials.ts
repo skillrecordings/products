@@ -6,6 +6,7 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && s
   _type,
   title,
   slug,
+  moduleType,
   "image": image.asset->url,
   _updatedAt,
   _createdAt,
