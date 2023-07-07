@@ -323,6 +323,7 @@ const mockProduct = {
   createdAt: new Date(),
   key: 'hey',
   status: 1,
+  quantityAvailable: -1,
 }
 
 const mockPrice = {
