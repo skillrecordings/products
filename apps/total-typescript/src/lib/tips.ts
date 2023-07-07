@@ -5,6 +5,7 @@ import z from 'zod'
 export const TipSchema = z.object({
   _id: z.string(),
   _type: z.string(),
+  _createdAt: z.string(),
   _updatedAt: z.string().optional(),
   title: z.string(),
   slug: z.string(),
@@ -27,6 +28,7 @@ export const getAllTips = async (): Promise<Tip[]> => {
     await sanityClient.fetch(groq`*[_type == "tip"] | order(_createdAt asc) {
         _id,
         _type,
+        _createdAt,
         _updatedAt,
         title,
         description,
