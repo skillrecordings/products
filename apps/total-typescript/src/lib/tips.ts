@@ -5,7 +5,7 @@ import z from 'zod'
 export const TipSchema = z.object({
   _id: z.string(),
   _type: z.string(),
-  _createdAt: z.string(),
+  _createdAt: z.string().optional(),
   _updatedAt: z.string().optional(),
   title: z.string(),
   slug: z.string(),
