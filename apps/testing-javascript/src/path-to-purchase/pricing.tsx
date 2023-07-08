@@ -112,16 +112,23 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   //   country: 'UA',
   // }
 
-  // if there is no available coupon, hide the box (it's not a toggle)
-  // only show the box if ppp coupon is available
-  // do not show the box if purchased
-  // do not show the box if it's a downgrade
-  const showPPPBox =
-    Boolean(pppCoupon || merchantCoupon?.type === 'ppp') &&
-    !purchased &&
-    !isDowngrade(formattedPrice) &&
-    (allowPurchase || isSellingLive) &&
-    !isBuyingForTeam
+  const showPPPBox = (() => {
+    // Cannot have already purchased and purchase of this product must be enabled
+    const allowedToPurchase = !purchased && (allowPurchase || isSellingLive)
+
+    // Ensure a valid PPP coupon is present
+    const pppCouponIsPresent = Boolean(
+      pppCoupon || merchantCoupon?.type === 'ppp',
+    )
+
+    // PPP is only valid for individual purchases (not team) and cannot be a downgrade
+    const canBePurchasedWithPPPDiscount =
+      !isDowngrade(formattedPrice) && !isBuyingForTeam
+
+    return (
+      allowedToPurchase && pppCouponIsPresent && canBePurchasedWithPPPDiscount
+    )
+  })()
 
   // const handleOnSuccess = (subscriber: any, email?: string) => {
   //   if (subscriber) {
