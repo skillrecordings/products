@@ -2,7 +2,7 @@
   .prose > h3 {
     @apply text-center text-neutral-200 mb-6 md:mb-10 lg:mb-12;
   }
-  &[data-case-study='Launching Epic React'] {
+  &[data-template-case-study='Launching Epic React'] {
     a {
       @apply text-badass-green-500;
     }
