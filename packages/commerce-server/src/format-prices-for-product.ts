@@ -51,8 +51,13 @@ export async function formatPricesForProduct(
     userId,
   } = noContextOptions
 
-  const {getProduct, getMerchantCoupon, getCoupon, getPrice, getPurchase} =
-    getSdk({ctx})
+  const {
+    getProduct,
+    getMerchantCoupon,
+    couponForIdOrCode,
+    getPrice,
+    getPurchase,
+  } = getSdk({ctx})
 
   const upgradeFromPurchase = upgradeFromPurchaseId
     ? await getPurchase({
@@ -158,11 +163,12 @@ export async function formatPricesForProduct(
 
   // no ppp or bulk if you're applying a code
   if (code) {
-    const coupon = await getCoupon({where: {code}})
+    const coupon = await couponForIdOrCode({code})
 
-    if (!coupon) throw new PriceFormattingError(`no-coupon`, noContextOptions)
+    if (!coupon || !coupon.merchantCoupon)
+      throw new PriceFormattingError(`no-coupon`, noContextOptions)
 
-    if (coupon) {
+    if (coupon && coupon.merchantCoupon) {
       if (coupon.restrictedToProductId !== productId) {
         throw new PriceFormattingError(
           'coupon-not-valid-for-product',
@@ -170,9 +176,11 @@ export async function formatPricesForProduct(
         )
       }
 
+      const {merchantCoupon} = coupon
+
       const calculatedPrice = getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: coupon.percentageDiscount.toNumber(),
+        percentOfDiscount: merchantCoupon.percentageDiscount.toNumber(),
         ...(upgradeFromPurchase && {
           fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
         }),
@@ -181,7 +189,7 @@ export async function formatPricesForProduct(
       return {
         ...defaultPriceProduct,
         calculatedPrice,
-        appliedMerchantCoupon: coupon,
+        appliedMerchantCoupon: merchantCoupon,
         ...(upgradeFromPurchase && {
           upgradeFromPurchaseId,
         }),
@@ -297,7 +305,9 @@ async function couponForType(
       where: {type, percentageDiscount},
     })) || []
 
-  return merchantCoupons.map((coupon: any) => {
+  type MerchantCoupon = (typeof merchantCoupons)[0]
+
+  return merchantCoupons.map((coupon: MerchantCoupon) => {
     // for pricing we don't need the identifier so strip it here
     const {identifier, ...rest} = coupon
     return {...rest, ...(country && {country})}

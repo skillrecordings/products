@@ -1,13 +1,18 @@
-import {Purchase} from '@skillrecordings/database'
+import {Purchase, MerchantCoupon, Coupon} from '@skillrecordings/database'
 import type {PortableTextBlock} from '@portabletext/types'
+
+type MinimalMerchantCoupon = Omit<
+  MerchantCoupon,
+  'identifier' | 'merchantAccountId'
+>
 
 export type FormattedPrice = {
   id: string
   quantity: number
   unitPrice: number
   calculatedPrice: number
-  availableCoupons: any[]
-  appliedMerchantCoupon?: any
+  availableCoupons: Array<Omit<MerchantCoupon, 'identifier'> | undefined>
+  appliedMerchantCoupon?: MinimalMerchantCoupon
   upgradeFromPurchaseId?: string
   defaultCoupon?: {
     expires?: string

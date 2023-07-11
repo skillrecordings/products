@@ -33,6 +33,7 @@ export async function getActiveMerchantCoupon({
     couponIsValid(incomingCoupon) &&
     defaultMerchantCoupon
   ) {
+    // use whichever coupon provides the bigger discount
     const {merchantCoupon: incomingMerchantCoupon} = incomingCoupon
     if (
       incomingMerchantCoupon.percentageDiscount >
