@@ -8,6 +8,8 @@ import {
   TeamMemberCardProps,
   TweetEmbed,
   TweetEmbedProps,
+  TweetEmbedDouble,
+  TweetEmbedDoubleProps,
   SkeletonHandSeparator,
   SkeletonHandSeparatorProps,
   IntroduceCard,
@@ -62,6 +64,9 @@ const mdxComponents = {
   TweetEmbed: ({tweetId}: TweetEmbedProps) => {
     return <TweetEmbed tweetId={tweetId} />
   },
+  TweetEmbedDouble: ({tweetId_1, tweetId_2}: TweetEmbedDoubleProps) => {
+    return <TweetEmbedDouble tweetId_1={tweetId_1} tweetId_2={tweetId_2} />
+  },
   SkeletonHandSeparator: ({number}: SkeletonHandSeparatorProps) => {
     return <SkeletonHandSeparator number={number} />
   },
@@ -84,15 +89,30 @@ const mdxComponents = {
   AccentedTitle: ({text, color}: AccentedTitleProps) => {
     return <AccentedTitle text={text} color={color} />
   },
-  CalloutTitle: ({text, color}: CalloutTitleProps) => {
-    return <CalloutTitle text={text} color={color} />
+  CalloutTitle: ({
+    children,
+    color,
+  }: React.PropsWithChildren<CalloutTitleProps>) => {
+    return <CalloutTitle color={color}>{children}</CalloutTitle>
   },
-  TeamMembersBlock: ({description, members, title}: TeamMembersBlockProps) => {
+  TeamMembersBlock: ({
+    description,
+    title,
+    name,
+    portrait,
+    portraitWidth,
+    portraitHeight,
+    multiple,
+  }: TeamMembersBlockProps) => {
     return (
       <TeamMembersBlock
         description={description}
-        members={members}
         title={title}
+        name={name}
+        portrait={portrait}
+        portraitWidth={portraitWidth}
+        portraitHeight={portraitHeight}
+        multiple={multiple}
       />
     )
   },

@@ -2,6 +2,11 @@
   .prose > h3 {
     @apply text-center text-neutral-200 mb-6 md:mb-10 lg:mb-12;
   }
+  &[data-template-case-study='Launching Epic React'] {
+    a {
+      @apply text-badass-green-500;
+    }
+  }
 }
 
 /* BodyBlockquote */
@@ -42,13 +47,21 @@
     @apply text-badass-yellow-300 font-condensed text-[1.75rem] leading-tight;
   }
   [data-image-with-caption-subtitle] {
-    @apply text-badass-gray italic font-sans font-normal;
+    @apply text-badass-gray-300 italic font-sans font-normal;
   }
 }
 
 /* TweetEmbed */
 [data-tweet-embed] {
   @apply my-16;
+}
+
+/* TweetEmbed Double */
+[data-tweet-embed-double] {
+  @apply my-16 grid md:grid-cols-2 gap-4;
+  [data-tweet-embed] {
+    @apply my-0;
+  }
 }
 
 /* MemberCard */
@@ -64,7 +77,7 @@
     @apply text-neutral-200 font-heading leading-normal;
   }
   [data-team-member-title] {
-    @apply text-badass-gray leading-tight text-lg;
+    @apply text-badass-gray-300 leading-tight text-lg;
   }
 }
 
@@ -97,7 +110,7 @@
     @apply text-white font-heading leading-normal text-xl md:text-[2rem];
   }
   [data-introduce-card-title] {
-    @apply text-badass-gray leading-tight text-sm md:text-xl;
+    @apply text-badass-gray-300 leading-tight text-sm md:text-xl;
   }
 }
 
@@ -110,7 +123,7 @@
       @apply text-[6rem] font-condensed inline-block;
     }
     [data-launch-results-item-title] {
-      @apply text-badass-gray font-mono uppercase text-base opacity-70;
+      @apply text-badass-gray-300 font-mono uppercase text-base opacity-70;
     }
   }
   [data-launch-results-item='day'] {
@@ -152,24 +165,21 @@
   [data-team-members-description] {
     @apply font-bold;
   }
-  [data-team-members-portraits] {
-    @apply flex;
-  }
   [data-team-member-portrait] {
-    @apply rounded-full border-2 border-black w-14 h-14 overflow-hidden -ml-2 first:ml-0 shrink-0;
+    @apply rounded-full h-14 overflow-hidden shrink-0;
   }
-  [data-team-members-names] {
+  [data-team-member-name] {
     @apply text-xl font-heading mt-3;
   }
   [data-team-members-title] {
-    @apply text-badass-gray text-lg font-normal;
+    @apply text-badass-gray-300 text-lg font-normal;
   }
   [data-team-members-info-wrapper] {
     @apply mt-8;
   }
   [data-team-members-info-wrapper='flex'] {
     @apply flex space-x-2;
-    [data-team-members-names] {
+    [data-team-member-name] {
       @apply mt-0;
     }
   }
@@ -182,6 +192,9 @@
     @apply text-white text-[2.5rem] font-heading leading-tight;
     &[data-callout-title-color='pink'] {
       @apply text-badass-pink-400;
+    }
+    &[data-callout-title-color='cyan'] {
+      @apply text-badass-cyan-500;
     }
   }
 }
