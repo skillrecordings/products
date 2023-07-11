@@ -67,6 +67,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const purchaseCount = await prisma.purchase.count({
     where: {
       productId,
+      status: {
+        in: ['VALID', 'RESTRICTED'],
+      },
     },
   })
 
