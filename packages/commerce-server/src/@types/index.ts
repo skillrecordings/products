@@ -1,8 +1,10 @@
-import {Purchase, MerchantCoupon, Coupon} from '@skillrecordings/database'
+import {Purchase, MerchantCoupon} from '@skillrecordings/database'
 import type {PortableTextBlock} from '@portabletext/types'
 
+type MerchantCouponWithCountry = MerchantCoupon & {country?: string | undefined}
+
 type MinimalMerchantCoupon = Omit<
-  MerchantCoupon,
+  MerchantCouponWithCountry,
   'identifier' | 'merchantAccountId'
 >
 
@@ -11,7 +13,9 @@ export type FormattedPrice = {
   quantity: number
   unitPrice: number
   calculatedPrice: number
-  availableCoupons: Array<Omit<MerchantCoupon, 'identifier'> | undefined>
+  availableCoupons: Array<
+    Omit<MerchantCouponWithCountry, 'identifier'> | undefined
+  >
   appliedMerchantCoupon?: MinimalMerchantCoupon
   upgradeFromPurchaseId?: string
   defaultCoupon?: {
