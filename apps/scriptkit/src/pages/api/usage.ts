@@ -20,7 +20,7 @@ const trackRoute = async (req: NextApiRequest, res: NextApiResponse) => {
   console.debug(`track ${event}`, properties, device)
 
   // Timeout in ms
-  const timeout = 400
+  const timeout = 200
 
   const trackPromise = track(event, properties, device).promise
 
