@@ -14,30 +14,18 @@ type TrackPayload = {
   }
 }
 
-const trackRoute = async (req: NextApiRequest, res: NextApiResponse) => {
+const trackRoute = (req: NextApiRequest, res: NextApiResponse) => {
   // Get track event and properties from request body
   const {event, properties, device}: TrackPayload = req.body
   console.debug(`track ${event}`, properties, device)
 
-  // Timeout in ms
-  const timeout = 200
+  // Start the track request but don't wait for it
+  track(event, properties, device).promise.catch((err) => {
+    console.error(err)
+  })
 
-  const trackPromise = track(event, properties, device).promise
-
-  const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('Request timed out')), timeout),
-  )
-
-  const response = await Promise.race([trackPromise, timeoutPromise]).catch(
-    (err) => {
-      console.error(err)
-      res.status(500).json({error: err.message})
-    },
-  )
-
-  if (response) {
-    res.status(200).json(response)
-  }
+  // Immediately send back a success status
+  res.status(200).json({message: 'Track request started'})
 }
 
 export default trackRoute
