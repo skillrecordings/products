@@ -86,7 +86,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
 
   const percentOff = appliedMerchantCoupon
-    ? Math.floor(appliedMerchantCoupon.percentageDiscount * 100)
+    ? Math.floor(+appliedMerchantCoupon.percentageDiscount * 100)
     : formattedPrice && isDiscount(formattedPrice)
     ? Math.floor(
         (formattedPrice.calculatedPrice / formattedPrice.unitPrice) * 100,
@@ -120,9 +120,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         />
       </div>
       <article className="bg-white rounded-md flex flex-col items-center justify-center">
-        {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
-          <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
-        )}
+        {!!appliedMerchantCoupon ||
+          (isDiscount(formattedPrice) && (
+            <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
+          ))}
         <div className={cx('pt-24 flex flex-col items-center')}>
           <h4
             data-pricing-product-name-badge={index}
@@ -375,9 +376,11 @@ const RegionalPricingBox: React.FC<
 }
 
 type RibbonProps = {
-  appliedMerchantCoupon: {
-    type: string
-  }
+  appliedMerchantCoupon:
+    | {
+        type: string | undefined
+      }
+    | undefined
 }
 
 const Ribbon: React.FC<React.PropsWithChildren<RibbonProps>> = ({
