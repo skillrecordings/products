@@ -53,6 +53,9 @@ const formatUsd = (amount: number = 0) => {
   const formattedPrice = formatter.format(amount).split('.')
 
   let cents: string | undefined = undefined
+  // Only set `cents` if we have a non-zero value. This preserves the existing
+  // behavior where cents only gets displayed if it is something other than
+  // `00`.
   if (Number.parseInt(formattedPrice[1]) !== 0) {
     cents = formattedPrice[1]
   }
