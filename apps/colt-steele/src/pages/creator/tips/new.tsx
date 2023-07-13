@@ -16,7 +16,7 @@ const NewTip = () => {
           <GrInfo className="h-4 w-4 text-foreground" />
           <AlertTitle>First upload a video</AlertTitle>
           <AlertDescription>
-            When your video upload has been completed you will be able to addd a
+            When your video upload has been completed you will be able to add a
             tile and additional details to your tip.
           </AlertDescription>
         </Alert>
