@@ -48,10 +48,16 @@ function getFirstPPPCoupon(
 const formatUsd = (amount: number = 0) => {
   const formatter = new Intl.NumberFormat('en-US', {
     currency: 'USD',
+    minimumFractionDigits: 2,
   })
   const formattedPrice = formatter.format(amount).split('.')
 
-  return {dollars: formattedPrice[0], cents: formattedPrice[1]}
+  let cents: string | undefined = undefined
+  if (Number.parseInt(formattedPrice[1]) !== 0) {
+    cents = formattedPrice[1]
+  }
+
+  return {dollars: formattedPrice[0], cents}
 }
 
 type PricingProps = {
