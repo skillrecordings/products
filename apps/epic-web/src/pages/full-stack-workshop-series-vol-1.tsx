@@ -155,10 +155,10 @@ const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
         <article className="mx-auto w-full max-w-screen-md px-10 py-8 md:py-10">
           {mdx && <Body mdx={mdx} />}
         </article>
+        {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
         {purchaseCount < quantityAvailable ? (
           <div className="mt-10 flex w-full items-center justify-center pb-16">
             <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-              {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
               <div data-pricing-container="">
                 {image && (
                   <Image
