@@ -23,6 +23,7 @@ import {
 } from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import Link from 'next/link'
 import {CheckCircleIcon} from '@heroicons/react/outline'
+import {CheckIcon} from '@heroicons/react/solid'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const products = await getAllProducts()
@@ -46,12 +47,14 @@ const ProductsIndex: React.FC<ProductsIndexProps> = ({
   userId,
 }) => {
   const purchasedProductIds = purchases?.map((purchase) => purchase.productId)
-
+  console.log('products query:', products)
   return (
     <Layout meta={{title: `${process.env.NEXT_PUBLIC_SITE_TITLE} Products`}}>
       <header className="mx-auto flex w-full max-w-4xl flex-col justify-center px-5 pb-5 pt-32">
-        <h1 className="text-2xl font-semibold">Products</h1>
-        <h2 className="text-gray-300">
+        <h1 className="mb-4 text-center font-heading text-5xl font-semibold">
+          Total TypeScript Products
+        </h1>
+        <h2 className="text-center text-xl text-gray-300">
           <Balancer>
             All {process.env.NEXT_PUBLIC_SITE_TITLE} products that you can buy
             today to level up at TypeScript.
@@ -60,12 +63,20 @@ const ProductsIndex: React.FC<ProductsIndexProps> = ({
       </header>
       <main
         id="products-index-page"
-        className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-5"
+        className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-5 pt-16"
       >
         <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
           <Products products={products} userId={userId} purchases={purchases} />
         </PriceCheckProvider>
       </main>
+      <Image
+        layout="fill"
+        aria-hidden="true"
+        alt=""
+        src={require('../../../public/assets/landing/bg-divider-3.png')}
+        objectPosition={'top'}
+        className="-z-10 object-contain"
+      />
     </Layout>
   )
 }
@@ -75,6 +86,7 @@ export default ProductsIndex
 const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
   const [isPPPEnabled, setIsPPPEnabled] = React.useState(false)
   const {setMerchantCoupon} = usePriceCheck()
+  console.log(products)
   return (
     <>
       {products?.map((product) => {
@@ -89,7 +101,7 @@ const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
         )
       })}
       <div className="flex w-full items-center justify-end border-t border-gray-800 pb-16 pt-3">
-        <label className="flex cursor-pointer items-center gap-1.5 text-gray-300 transition hover:text-white">
+        {/* <label className="flex cursor-pointer items-center gap-1.5 text-gray-300 transition hover:text-white">
           <input
             value={isPPPEnabled ? 'on' : 'off'}
             type="checkbox"
@@ -99,7 +111,7 @@ const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
             }}
           />
           <span>Enable regional pricing</span>
-        </label>
+        </label> */}
       </div>
     </>
   )
@@ -161,8 +173,8 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
   }, [isPPPAvailable, pppCoupon, isPPPEnabled, setMerchantCoupon])
 
   return (
-    <article className="border-t border-gray-800 pt-8">
-      <div className="flex grid-cols-5 flex-col md:grid">
+    <div className="rounded-md border border-gray-700/50 bg-black/20 p-8 px-2 py-0.5 shadow-2xl">
+      <div className="mt-4 flex grid-cols-5 flex-col md:grid">
         <aside className="col-span-2">
           {product.image && (
             <Image
@@ -174,6 +186,18 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
           )}
         </aside>
         <div className="col-span-3 flex flex-col gap-3 py-5 pl-3 pr-8 pt-5 md:pt-12">
+          <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-cyan-300">
+            {product.slug === 'core-volume-react-bundle' ? (
+              <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
+                FEATURED PRODUCT
+              </span>
+            ) : product.slug === 'advanced-react-with-typescript' ? (
+              <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
+                NEW
+              </span>
+            ) : null}
+          </div>
+
           <h3 className="font-text text-4xl font-bold">
             <Link
               href={{
@@ -214,24 +238,49 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
           <p className="w-full text-gray-300">
             <Balancer>{product.description}</Balancer>
           </p>
+          {product.modules?.length > 1 && (
+            <>
+              <h4 className="pt-5 text-sm font-semibold uppercase text-gray-300">
+                Includes
+              </h4>
+              <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2">
+                {product.modules.map((module) => {
+                  return (
+                    <div className="flex w-full flex-row items-center gap-2">
+                      {module.image && (
+                        <Image
+                          src={module.image.url}
+                          alt={module.title}
+                          width={72}
+                          height={72}
+                        />
+                      )}
+                      <span className="w-full leading-tight text-gray-200">
+                        {module.slug === 'typescript-expert-interviews' ? (
+                          <h3 className="font-semibold text-yellow-200">
+                            Bonus🎁
+                          </h3>
+                        ) : null}
+                        <Balancer>{module.title}</Balancer>
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            </>
+          )}
           <h4 className="pt-5 text-sm font-semibold uppercase text-gray-300">
-            Contents
+            Features
           </h4>
-          <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2">
-            {product.modules.map((module) => {
+          <div className="grid grid-cols-2 gap-4">
+            {product.features?.map((feature) => {
               return (
-                <div className="flex w-full flex-row items-center gap-2">
-                  {module.image && (
-                    <Image
-                      src={module.image.url}
-                      alt={module.title}
-                      width={72}
-                      height={72}
-                    />
-                  )}
-                  <h4 className="w-full leading-tight text-gray-200">
-                    <Balancer>{module.title}</Balancer>
-                  </h4>
+                <div className="flex items-center space-x-2 text-sm">
+                  <CheckIcon
+                    className="h-4 w-4 text-cyan-300"
+                    aria-hidden="true"
+                  />{' '}
+                  <span>{feature.value}</span>
                 </div>
               )
             })}
@@ -239,6 +288,6 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
         </div>
       </div>
       <footer className="flex items-center px-5 py-3"></footer>
-    </article>
+    </div>
   )
 }

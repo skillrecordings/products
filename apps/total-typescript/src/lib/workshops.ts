@@ -12,6 +12,9 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   _createdAt,
   description,
   state,
+  'product': *[_type=='product' && references(^._id)][1]{
+    "slug": slug.current,
+  },
   "sections": resources[@->._type == 'section']->{
     _id,
     _type,
@@ -92,7 +95,10 @@ export const getWorkshop = async (slug: string) =>
           },
           "resources": resources[@->._type in ['linkResource']]->
         },
-        "image": image.asset->url
+        "image": image.asset->url, 
+        'product': *[_type=='product' && references(^._id)][1]{
+          "slug": slug.current,
+        }
     }`,
     {slug: `${slug}`},
   )
