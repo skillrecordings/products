@@ -9,7 +9,7 @@ export async function getStaticProps() {
   const playlists = await getAllPlaylists()
 
   return {
-    props: {modules: playlists.reverse()},
+    props: {modules: playlists},
     revalidate: 10,
   }
 }
