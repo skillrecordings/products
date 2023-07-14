@@ -2,8 +2,6 @@ import React from 'react'
 import Layout from 'components/layout'
 import {type SanityDocument} from '@sanity/client'
 import {getAllPlaylists} from 'lib/playlists'
-import Link from 'next/link'
-import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Playlist from 'components/playlist'
 
 export async function getStaticProps() {
