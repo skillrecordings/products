@@ -8,6 +8,7 @@ import {PortableText} from '@portabletext/react'
 import * as Dialog from '@radix-ui/react-dialog'
 import {XIcon} from '@heroicons/react/solid'
 import MuxPlayer from '@mux/mux-player-react'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 import Icon from 'components/icons'
 import {useModuleProgress} from 'utils/module-progress'
@@ -164,6 +165,11 @@ const PlaylistItem: React.FC<{
                 : `/lessons/${firstLessonSlug}`
             }
             className="space-x-4 inline-flex items-center bg-gray-100 text-black px-6 py-2 rounded-md mt-7 hover:bg-gray-200 duration-100 min-h-[50px]"
+            onClick={() => {
+              track('clicked view workshop module', {
+                module: playlist.slug.current,
+              })
+            }}
           >
             <Icon name="play" className="w-[10px] h-[10px]" />
             <span>
