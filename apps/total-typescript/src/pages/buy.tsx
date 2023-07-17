@@ -4,11 +4,23 @@ import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {Element} from 'react-scroll'
 import {PricingTiers} from '@skillrecordings/skill-lesson/path-to-purchase/product-tiers'
+import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import Layout from '@/components/app/layout'
 import {getToken} from 'next-auth/jwt'
-import {getActiveProducts} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
 import Image from 'next/legacy/image'
 import {motion, useScroll, useTransform} from 'framer-motion'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
+import cx from 'classnames'
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const {req, query} = context
+
+  const token = await getToken({req})
+  const products = await getAllProducts()
+
+  return await propsForCommerce({query, token, products})
+}
 
 const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponFromCode,
@@ -21,6 +33,16 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
 }) => {
   const {scrollYProgress} = useScroll()
   const y = useTransform(scrollYProgress, [0, 1], [0, -100])
+
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} =
+    useCoupon(couponFromCode)
+
+  const couponId =
+    couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
+
+  const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+
+  console.log(products)
 
   return (
     <Layout
@@ -59,16 +81,40 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
             quality={100}
           />
         </motion.div>
-        <section className="px-5 pt-8">
-          <Element name="buy" aria-hidden="true" />
-          <PricingTiers
-            products={products}
-            userId={userId}
-            purchases={purchases}
-            couponIdFromCoupon={couponIdFromCoupon}
-            couponFromCode={couponFromCode}
-            allowPurchase={allowPurchase}
-          />
+        <section className="px-5 pt-28">
+          <div className="grid gap-40 lg:flex lg:gap-8 xl:gap-16">
+            {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+            {products?.map((product, i) => {
+              const isFirst = i === 1
+              const isLast = i === products.length - 1
+              const isPro = !isFirst && !isLast
+
+              return (
+                <div
+                  key={product.name}
+                  className={cx('transition hover:opacity-100', {
+                    'mx-auto max-w-sm origin-top-right opacity-90 lg:mt-16 lg:scale-95':
+                      isFirst,
+                    'mx-auto max-w-sm origin-top-left opacity-80 lg:mt-28 lg:scale-[80%]':
+                      isLast,
+                    // switch up order when stacked vertically
+                    'row-start-1 origin-top xl:scale-105': isPro,
+                    'row-start-3': isLast,
+                  })}
+                >
+                  <Element name="buy" aria-hidden="true" />
+                  <Pricing
+                    userId={userId}
+                    product={product}
+                    purchased={purchasedProductIds.includes(product.productId)}
+                    purchases={purchases}
+                    index={i}
+                    couponId={couponId}
+                  />
+                </div>
+              )
+            })}
+          </div>
         </section>
       </main>
       <Image
@@ -85,12 +131,3 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
 }
 
 export default Buy
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {req, query} = context
-
-  const token = await getToken({req})
-  const {products = []} = await getActiveProducts()
-
-  return await propsForCommerce({query, token, products})
-}
