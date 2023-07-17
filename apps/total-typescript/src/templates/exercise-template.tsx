@@ -33,6 +33,7 @@ import Spinner from '@/components/spinner'
 import {getExerciseGitHubUrl} from '@/exercise/get-exercise-github-url'
 import pluralize from 'pluralize'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -52,8 +53,6 @@ const ExerciseTemplate: React.FC<{
   //TODO path here could also include module slug and section (as appropriate)
   const path = `/${pluralize(module.moduleType)}`
   const {data: session} = useSession()
-  const {data: products} = trpc.products.getProducts.useQuery()
-  const activeProduct = products?.products[0]
 
   const addProgressMutation = trpc.progress.add.useMutation()
   const completeModuleMutation = trpc.convertkit.completeModule.useMutation()
@@ -171,7 +170,7 @@ const ExerciseTemplate: React.FC<{
             <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video
                 ref={muxPlayerRef}
-                product={activeProduct}
+                product={module.product as SanityProduct}
                 exerciseOverlayRenderer={() => <ExerciseOverlay />}
                 loadingIndicator={<Spinner />}
               />
@@ -201,7 +200,7 @@ const ExerciseTemplate: React.FC<{
                 <LessonDescription
                   lessonMDXBody={lessonBodySerialized}
                   lessonBodyPreview={lessonBodyPreviewSerialized}
-                  productName={activeProduct?.name || module.title}
+                  productName={module.title}
                   loadingIndicator={<Spinner />}
                 />
                 {(lesson._type === 'solution' ||
