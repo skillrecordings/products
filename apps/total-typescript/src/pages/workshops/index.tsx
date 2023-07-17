@@ -24,8 +24,6 @@ const WorkshopsPage: React.FC<{
   modules: SanityDocument[]
   bonuses: SanityDocument[]
 }> = ({modules, bonuses}) => {
-  console.log('this are the modules with product: ', modules)
-  console.log(modules)
   const coreVolumeWorkshops = modules.filter(
     (module) => module.product.slug === 'core-volume',
   )
@@ -48,56 +46,6 @@ const WorkshopsPage: React.FC<{
           </Balancer>
         </p>
         {modules && (
-          // <ul className="flex max-w-screen-md flex-col gap-5 px-5 pt-10 sm:gap-8 sm:pt-20">
-          //   <div>
-          //     {coreVolumeWorkshops.length > 0 && (
-          //       <div>
-          //         <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-cyan-300">
-          //           <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
-          //             FEATURED
-          //           </span>
-          //         </div>
-          //         <h2 className="pb-8 font-heading text-4xl font-bold sm:text-4xl">
-          //           Core Volume
-          //         </h2>
-          //         {coreVolumeWorkshops.map((module, i) => (
-          //           <WorkshopTeaser
-          //             key={module.slug.current}
-          //             module={module}
-          //             i={i}
-          //           />
-          //         ))}
-          //         {bonuses && (
-          //           <div className="mb-6 mt-10 flex items-center justify-center border-t border-gray-800">
-          //             <span className="absolute bg-gray-900 px-2.5 text-sm font-medium uppercase tracking-wide text-gray-400">
-          //               bonuses
-          //             </span>
-          //           </div>
-          //         )}
-          //         {bonuses.map((module, i) => {
-          //           return (
-          //             <BonusTeaser key={module.slug.current} module={module} />
-          //           )
-          //         })}
-          //       </div>
-          //     )}
-          //     {modules
-          //       .filter((module) => module.product.slug !== 'core-volume')
-          //       .map((module, i) => (
-          //         <div className="pt-8" key={module.slug.current}>
-          //           <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-cyan-300">
-          //             <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
-          //               NEW
-          //             </span>
-          //           </div>
-          //           <h2 className="pb-8 font-heading text-4xl font-bold sm:text-4xl">
-          //             Standalone Workshops
-          //           </h2>
-          //           <WorkshopTeaser module={module} i={i} />
-          //         </div>
-          //       ))}
-          //   </div>
-          // </ul>
           <ul className="flex max-w-screen-md flex-col px-5 pt-10 sm:pt-20">
             <div className="space-y-5 sm:space-y-8">
               {coreVolumeWorkshops.length > 0 && (
