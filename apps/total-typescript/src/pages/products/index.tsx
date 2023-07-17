@@ -47,7 +47,6 @@ const ProductsIndex: React.FC<ProductsIndexProps> = ({
   userId,
 }) => {
   const purchasedProductIds = purchases?.map((purchase) => purchase.productId)
-  console.log('products query:', products)
   return (
     <Layout meta={{title: `${process.env.NEXT_PUBLIC_SITE_TITLE} Products`}}>
       <header className="mx-auto flex w-full max-w-4xl flex-col justify-center px-5 pb-5 pt-32">
