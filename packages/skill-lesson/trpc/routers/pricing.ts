@@ -12,7 +12,7 @@ import {getToken} from 'next-auth/jwt'
 
 const merchantCouponSchema = z.object({
   id: z.string(),
-  type: z.string(),
+  type: z.string().nullable(),
 })
 
 const PricingFormattedInputSchema = z.object({

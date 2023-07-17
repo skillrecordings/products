@@ -531,7 +531,7 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
     (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
 
   const percentOff = appliedMerchantCoupon
-    ? Math.floor(appliedMerchantCoupon.percentageDiscount * 100)
+    ? Math.floor(+appliedMerchantCoupon.percentageDiscount * 100)
     : formattedPrice && isDiscount(formattedPrice)
     ? Math.floor(
         ((formattedPrice.unitPrice - formattedPrice.calculatedPrice) /

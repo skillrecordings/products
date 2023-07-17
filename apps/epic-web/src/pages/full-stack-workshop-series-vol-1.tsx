@@ -155,10 +155,10 @@ const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
         <article className="mx-auto w-full max-w-screen-md px-10 py-8 md:py-10">
           {mdx && <Body mdx={mdx} />}
         </article>
+        {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
         {purchaseCount < quantityAvailable ? (
           <div className="mt-10 flex w-full items-center justify-center pb-16">
             <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-              {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
               <div data-pricing-container="">
                 {image && (
                   <Image
@@ -197,7 +197,21 @@ const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
             </PriceCheckProvider>
           </div>
         ) : (
-          <div>This Workshop Series is Sold Out</div>
+          <>
+            <div className="mx-auto w-full max-w-screen-md px-20 py-8 md:py-10">
+              <div className="col-span-2 flex  items-center justify-center rounded-lg border border-gray-100 bg-white p-5 text-center text-xl font-semibold shadow-xl shadow-gray-500/10 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/80 md:col-span-1">
+                <Image
+                  className="mr-4"
+                  src="https://res.cloudinary.com/epic-web/image/upload/v1687853986/logo-full-stack-workshop-series.png"
+                  alt={title}
+                  width={70}
+                  height={70}
+                  priority
+                />
+                This Workshop Series is Sold Out
+              </div>
+            </div>
+          </>
         )}
       </main>
       {/* <Share contentType="Live Workshop" title={title} /> */}

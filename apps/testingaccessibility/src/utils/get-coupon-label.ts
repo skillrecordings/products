@@ -1,4 +1,4 @@
-export const getCouponLabel = (couponType: string) => {
+export const getCouponLabel = (couponType: string | undefined) => {
   switch (couponType) {
     case 'special':
       return 'Special Discount'
