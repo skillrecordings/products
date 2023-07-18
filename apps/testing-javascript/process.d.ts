@@ -27,6 +27,7 @@ const envVariables = z.object({
   POSTMARK_KEY: z.string(),
   NEXT_PUBLIC_PRODUCT_NAME: z.string(),
   STRIPE_SECRET_TOKEN: z.string(),
+  NEXT_PUBLIC_DEFAULT_PRODUCT_ID: z.string(),
 })
 
 envVariables.parse(process.env)

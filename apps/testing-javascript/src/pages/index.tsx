@@ -118,7 +118,7 @@ const Home: React.FC<
     canViewContent &&
     !isEmpty(
       purchases.filter(
-        (item) => item.productId === 'kcd_4f0b26ee-d61d-4245-a204-26f5774355a5',
+        (item) => item.productId === process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
       ),
     )
 
