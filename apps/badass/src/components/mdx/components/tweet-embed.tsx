@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import {TwitterTweetEmbed} from 'react-twitter-embed'
 
 import Spinner from 'components/spinner'

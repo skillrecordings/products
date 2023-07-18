@@ -5,7 +5,7 @@ import cx from 'classnames'
 import * as Switch from '@radix-ui/react-switch'
 import Image from 'next/legacy/image'
 import find from 'lodash/find'
-import type {Purchase} from '@skillrecordings/database'
+import type {Purchase, MerchantCoupon} from '@skillrecordings/database'
 import type {
   SanityProduct,
   FormattedPrice,
@@ -20,17 +20,47 @@ import BuyMoreSeats from './buy-more-seats'
 import Icon from 'components/icons'
 import {useDebounce} from '@skillrecordings/skill-lesson/hooks/use-debounce'
 
-function getFirstPPPCoupon(availableCoupons: any[] = []) {
-  return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
+type MinimalMerchantCoupon = Omit<
+  MerchantCoupon & {
+    country?: string
+  },
+  'identifier'
+>
+
+function getFirstPPPCoupon(
+  availableCoupons: Array<MinimalMerchantCoupon | undefined> = [],
+  merchantCoupon: MinimalMerchantCoupon | undefined,
+) {
+  const availablePPPCoupon = find(
+    availableCoupons,
+    (coupon) => coupon?.type === 'ppp',
+  )
+
+  let merchantPPPCoupon: MinimalMerchantCoupon | undefined = undefined
+
+  if (merchantCoupon?.type === 'ppp') {
+    merchantPPPCoupon = merchantCoupon
+  }
+
+  return availablePPPCoupon || merchantPPPCoupon
 }
 
 const formatUsd = (amount: number = 0) => {
   const formatter = new Intl.NumberFormat('en-US', {
     currency: 'USD',
+    minimumFractionDigits: 2,
   })
   const formattedPrice = formatter.format(amount).split('.')
 
-  return {dollars: formattedPrice[0], cents: formattedPrice[1]}
+  let cents: string | undefined = undefined
+  // Only set `cents` if we have a non-zero value. This preserves the existing
+  // behavior where cents only gets displayed if it is something other than
+  // `00`.
+  if (Number.parseInt(formattedPrice[1]) !== 0) {
+    cents = formattedPrice[1]
+  }
+
+  return {dollars: formattedPrice[0], cents}
 }
 
 type PricingProps = {
@@ -102,7 +132,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
   // DON'T DELETE IT!!!
-  const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
+  const pppCoupon = getFirstPPPCoupon(
+    formattedPrice?.availableCoupons,
+    merchantCoupon,
+  )
   // const pppCoupon = {
   //   id: 'kcd_8c0e64f6-0082-4775-a161-96b6e5732696',
   //   status: 1,
@@ -112,16 +145,21 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   //   country: 'UA',
   // }
 
-  // if there is no available coupon, hide the box (it's not a toggle)
-  // only show the box if ppp coupon is available
-  // do not show the box if purchased
-  // do not show the box if it's a downgrade
-  const showPPPBox =
-    Boolean(pppCoupon || merchantCoupon?.type === 'ppp') &&
-    !purchased &&
-    !isDowngrade(formattedPrice) &&
-    (allowPurchase || isSellingLive) &&
-    !isBuyingForTeam
+  const showPPPBox = (() => {
+    // Cannot have already purchased and purchase of this product must be enabled
+    const allowedToPurchase = !purchased && (allowPurchase || isSellingLive)
+
+    // Ensure a valid PPP coupon is present
+    const pppCouponIsPresent = Boolean(pppCoupon)
+
+    // PPP is only valid for individual purchases (not team) and cannot be a downgrade
+    const canBePurchasedWithPPPDiscount =
+      !isDowngrade(formattedPrice) && !isBuyingForTeam
+
+    return (
+      allowedToPurchase && pppCouponIsPresent && canBePurchasedWithPPPDiscount
+    )
+  })()
 
   // const handleOnSuccess = (subscriber: any, email?: string) => {
   //   if (subscriber) {
@@ -338,7 +376,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         )}
         {showPPPBox && (
           <RegionalPricingBox
-            pppCoupon={pppCoupon || merchantCoupon}
+            pppCoupon={pppCoupon}
             activeCoupon={merchantCoupon}
             setActiveCoupon={setMerchantCoupon}
             index={index}
@@ -437,7 +475,7 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
     (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
 
   const percentOff = appliedMerchantCoupon
-    ? Math.floor(appliedMerchantCoupon.percentageDiscount * 100)
+    ? Math.floor(+appliedMerchantCoupon.percentageDiscount * 100)
     : formattedPrice && isDiscount(formattedPrice)
     ? Math.floor(
         (formattedPrice.calculatedPrice / formattedPrice.unitPrice) * 100,
@@ -500,12 +538,9 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
 }
 
 type RegionalPricingBoxProps = {
-  pppCoupon: {
-    country: string
-    percentageDiscount: number
-  }
+  pppCoupon: MinimalMerchantCoupon | undefined
   activeCoupon: any
-  setActiveCoupon: (coupon: any) => void
+  setActiveCoupon: (coupon: MinimalMerchantCoupon | undefined) => void
   index: number
 }
 
@@ -514,14 +549,14 @@ const RegionalPricingBox: React.FC<
 > = ({pppCoupon, activeCoupon, setActiveCoupon, index}) => {
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
 
-  if (!pppCoupon.country) {
+  if (!pppCoupon?.country) {
     console.error('No country found for PPP coupon', {pppCoupon})
     return null
   }
 
   const countryCode = pppCoupon.country
   const country = regionNames.of(countryCode)
-  const percentOff = Math.floor(pppCoupon.percentageDiscount * 100)
+  const percentOff = Math.floor(+pppCoupon.percentageDiscount * 100)
 
   return (
     <div className="bg-gray-100 p-5 my-4">

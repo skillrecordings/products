@@ -212,7 +212,7 @@ test('available ppp coupons should have country "IN" set', async () => {
     ctx,
   })
 
-  expect(first(product?.availableCoupons).country).toBe('IN')
+  expect(first(product?.availableCoupons)?.country).toBe('IN')
 })
 
 test('available ppp coupons should have country "IN" set with active sale', async () => {
@@ -227,7 +227,7 @@ test('available ppp coupons should have country "IN" set with active sale', asyn
     ctx,
   })
 
-  expect(first(product?.availableCoupons).country).toBe('IN')
+  expect(first(product?.availableCoupons)?.country).toBe('IN')
 })
 
 test('sale coupon should have id property when ppp available', async () => {
@@ -243,7 +243,7 @@ test('sale coupon should have id property when ppp available', async () => {
     ctx,
   })
 
-  expect(product.appliedMerchantCoupon.id).toBeDefined()
+  expect(product.appliedMerchantCoupon?.id).toBeDefined()
 })
 
 test('product should have applied coupon present if "IN" and valid couponId', async () => {
@@ -285,7 +285,7 @@ test('applied ppp coupon should have id property', async () => {
     ctx,
   })
 
-  expect(product.appliedMerchantCoupon.id).toBeDefined()
+  expect(product.appliedMerchantCoupon?.id).toBeDefined()
 })
 
 test('applies fixed discount for previous purchase', async () => {
@@ -323,6 +323,7 @@ const mockProduct = {
   createdAt: new Date(),
   key: 'hey',
   status: 1,
+  quantityAvailable: -1,
 }
 
 const mockPrice = {

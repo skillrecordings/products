@@ -1,11 +1,11 @@
 import * as React from 'react'
-import {MenuIcon} from '@heroicons/react/solid'
 import {Menu, Transition} from '@headlessui/react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import cx from 'classnames'
 import Image from 'next/legacy/image'
 import SkullLogo from '../../public/assets/skull@2x.png'
+import Icon, {IconNames} from 'components/icons'
 
 const Navigation = () => {
   return (
@@ -48,32 +48,29 @@ const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
     <div className={cx('w-full pl-5 gap-2 h-full justify-end hidden sm:flex')}>
       <NavSlots>
-        <NavLink href="/podcast/course-builders">
-          <span
-            aria-hidden="true"
-            className="sm:text-4xl text-2xl text-badass-yellow-300 font-symbol mr-1.5"
-          >
-            z
-          </span>{' '}
+        <NavLink
+          href="/partners"
+          iconName="case-studies"
+          iconColorClass="text-badass-red-500"
+          iconColorHoverClass="group-hover:text-badass-red-500"
+        >
+          Case Studies
+        </NavLink>
+        <NavLink
+          href="/podcast/course-builders"
+          iconName="podcast"
+          iconColorClass="text-badass-yellow-500"
+          iconColorHoverClass="group-hover:text-badass-yellow-500"
+        >
           Podcast
         </NavLink>
-        <NavLink href="/articles">
-          <span
-            aria-hidden="true"
-            className="sm:text-4xl text-2xl text-badass-pink-400 font-symbol mr-1.5"
-          >
-            h
-          </span>{' '}
+        <NavLink
+          href="/articles"
+          iconName="articles"
+          iconColorClass="text-badass-pink-500"
+          iconColorHoverClass="group-hover:text-badass-pink-500"
+        >
           Articles
-        </NavLink>
-        <NavLink href="/partners">
-          <span
-            aria-hidden="true"
-            className="sm:text-4xl text-2xl text-badass-red-400 font-symbol mr-1.5"
-          >
-            d
-          </span>{' '}
-          Partners
         </NavLink>
       </NavSlots>
     </div>
@@ -82,14 +79,18 @@ const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
 
 const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
   return (
-    <Menu as="div" className="sm:hidden relative inline-block text-left z-10">
+    <Menu as="div" className="sm:hidden inline-block text-left z-20">
       {({open}) => (
         <>
           <Menu.Button className="flex items-center justify-center p-2 outline-none rounded-md">
             <span className="sr-only">
               {open ? 'Close' : 'Open'} Site Navigation
             </span>
-            <MenuIcon aria-hidden="true" className="w-6" />
+            <Icon
+              aria-hidden="true"
+              name={open ? 'close' : 'menu'}
+              className="w-6 h-6 shrink-0 text-white"
+            />
           </Menu.Button>
           <Transition
             as={React.Fragment}
@@ -100,11 +101,28 @@ const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 mt-1 w-48 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <div className="px-1 py-1">
+            <Menu.Items className="absolute right-0 w-full bg-black ring-1 ring-black ring-opacity-5 focus:outline-none left-0 border-b border-badass-gray-300/50">
+              <div className="px-6 py-12 space-y-12 bg-black">
+                <Menu.Item>
+                  {(props) => (
+                    <MenuLink href="/partners" {...props}>
+                      <Icon
+                        aria-hidden="true"
+                        name="case-studies"
+                        className="w-8 h-8 shrink-0 text-badass-red-500 mr-1.5"
+                      />
+                      Case Studies
+                    </MenuLink>
+                  )}
+                </Menu.Item>
                 <Menu.Item>
                   {(props) => (
                     <MenuLink href="/podcast/course-builders" {...props}>
+                      <Icon
+                        aria-hidden="true"
+                        name="podcast"
+                        className="w-8 h-8 shrink-0 text-badass-yellow-500 mr-1.5"
+                      />
                       Podcast
                     </MenuLink>
                   )}
@@ -112,14 +130,12 @@ const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
                 <Menu.Item>
                   {(props) => (
                     <MenuLink href="/articles" {...props}>
+                      <Icon
+                        aria-hidden="true"
+                        name="articles"
+                        className="w-8 h-8 shrink-0 text-badass-pink-500 mr-1.5"
+                      />
                       Articles
-                    </MenuLink>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {(props) => (
-                    <MenuLink href="/partners" {...props}>
-                      Partners
                     </MenuLink>
                   )}
                 </Menu.Item>
@@ -140,13 +156,23 @@ const NavSlots: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   )
 }
 
-const NavLink: React.FC<React.PropsWithChildren<{href: string}>> = ({
+const NavLink: React.FC<
+  React.PropsWithChildren<{
+    href: string
+    iconName: IconNames
+    iconColorClass: string
+    iconColorHoverClass: string
+  }>
+> = ({
   href,
+  iconName,
+  iconColorClass,
+  iconColorHoverClass,
   children,
   ...props
 }) => {
   const router = useRouter()
-  const isActive = href.endsWith(router.pathname)
+  const isActive = router.asPath.includes(href)
 
   return (
     <Link
@@ -154,13 +180,21 @@ const NavLink: React.FC<React.PropsWithChildren<{href: string}>> = ({
       passHref
       aria-current={isActive ? 'page' : undefined}
       className={cx(
-        'relative h-full font-heading flex items-center justify-center group transition outline-none hover:opacity-100 opacity-90',
-        {
-          'first-letter:text-pink-500': isActive,
-        },
+        'relative h-full font-heading flex items-center justify-center group transition outline-none group',
+        isActive
+          ? 'text-white'
+          : 'text-badass-gray-300 hover:opacity-100 opacity-90',
       )}
       {...props}
     >
+      <Icon
+        aria-hidden="true"
+        name={iconName}
+        className={cx(
+          `w-5 h-5 shrink-0 mr-1.5 duration-150`,
+          isActive ? iconColorClass : iconColorHoverClass,
+        )}
+      />
       {children}
     </Link>
   )
@@ -180,9 +214,10 @@ const MenuLink = React.forwardRef<HTMLAnchorElement, MenuLinkProps>(
         href={href}
         passHref
         ref={ref}
-        className={`${
-          active ? 'bg-gray-100' : 'text-gray-900'
-        } group flex w-full items-center rounded-md px-2 py-2`}
+        className={cx(
+          'font-heading flex items-center space-x-2 text-2xl',
+          active ? 'text-white' : 'text-badass-gray',
+        )}
         {...rest}
       >
         {children}

@@ -98,7 +98,6 @@ const Navigation: React.FC<NavigationProps> = ({
           navigationContainerClassName,
         )}
       >
-        <WorkshopSeriesNavCta />
         <motion.nav
           aria-label="top"
           style={{height: size === 'sm' ? 48 : navHeight}}

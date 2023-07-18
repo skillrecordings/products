@@ -131,9 +131,9 @@ const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
         className="font-symbol sm:pb-32 pb-24 text-2xl sm:scale-90 scale-75"
         aria-hidden="true"
       >
-        <span className="inline-block rotate-180 text-badass-gray">!</span>{' '}
+        <span className="inline-block rotate-180 text-badass-gray-300">!</span>{' '}
         <span className="text-badass-yellow-300 text-4xl">*</span>{' '}
-        <span className=" text-badass-gray">!</span>
+        <span className=" text-badass-gray-300">!</span>
       </div> */}
       <h2 className=" text-badass-pink-300 sm:text-2xl text-xl">
         {content.caption}
@@ -161,7 +161,7 @@ const ProjectsSection: React.FC<React.PropsWithChildren<any>> = ({content}) => {
                   </Link>
                 </h3>
               </div>
-              {/* <p className="text-badass-gray">{byline}</p> */}
+              {/* <p className="text-badass-gray-300">{byline}</p> */}
               <div className="sm:p-10 p-5 pb-8 w-full gap-5 text-sm flex sm:flex-row flex-col items-center sm:justify-between justify-center">
                 <div className="">
                   {instructor && (

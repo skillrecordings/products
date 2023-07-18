@@ -41,6 +41,9 @@ export const getProducts = async (productIds: string[]) => {
     productId,
     "modules" : modules[]->{
     _id,
+    "features" : features[]{
+    value
+   },
     "slug": slug.current}
     }`,
     {
@@ -67,7 +70,10 @@ export const getAllProducts = async () => {
       title,
       "slug": slug.current,
       "image": image.asset->{url, alt},
-    }
+    }, 
+    "features" : features[]{
+    value
+   }
     }`,
   )
   return products
