@@ -170,7 +170,7 @@ pre .error .code {
 pre .error-behind {
   user-select: none;
   visibility: transparent;
-  @apply text-red-900;
+  @apply text-transparent;
 }
 /* Queries */
 pre .arrow {
@@ -188,7 +188,7 @@ pre .arrow {
   width: 8px;
 }
 pre .popover {
-  @apply bg-gray-700 text-gray-100;
+  @apply text-gray-100 bg-gray-700;
   margin-bottom: 10px;
   display: inline-block;
   padding: 0 0.5rem 0.3rem;
