@@ -25,7 +25,7 @@ const WorkshopsPage: React.FC<{
   bonuses: SanityDocument[]
 }> = ({modules, bonuses}) => {
   const coreVolumeWorkshops = modules.filter(
-    (module) => module.product.slug === 'core-volume',
+    (module) => module.product?.slug === 'core-volume',
   )
 
   return (
@@ -80,7 +80,7 @@ const WorkshopsPage: React.FC<{
                 </div>
               )}
               {modules
-                .filter((module) => module.product.slug !== 'core-volume')
+                .filter((module) => module.product?.slug !== 'core-volume')
                 .map((module, i) => (
                   <div className="mb-5" key={module.slug.current}>
                     <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-cyan-300">
