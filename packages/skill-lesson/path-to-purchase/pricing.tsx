@@ -173,7 +173,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 <div data-byline="">All region access</div>
               ) : (
                 <div data-byline="">
-                  {appliedMerchantCoupon ? 'Regional access' : 'Full access'}
+                  {appliedMerchantCoupon?.type === 'ppp'
+                    ? 'Regional access'
+                    : 'Full access'}
                 </div>
               )}
             </div>
