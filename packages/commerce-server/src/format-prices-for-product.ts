@@ -35,6 +35,9 @@ type FormatPricesForProductOptions = {
  * Creates a verified price for a given product based on the unit price
  * of the product, coupons, and other factors.
  *
+ * 30 minute loom walkthrough of this function:
+ * https://www.loom.com/share/8cbd2213d44145dea51590b380f5d0d7?sid=bec3caeb-b742-4425-ae6e-81ca98c88f91
+ *
  * @param {FormatPricesForProductOptions} options the Prisma context
  */
 export async function formatPricesForProduct(
@@ -65,6 +68,7 @@ export async function formatPricesForProduct(
           id: upgradeFromPurchaseId,
         },
         select: {
+          id: true,
           bulkCoupon: {
             select: {
               id: true,
@@ -140,6 +144,7 @@ export async function formatPricesForProduct(
     availableCoupons: [],
     ...(upgradeFromPurchase && {
       upgradeFromPurchaseId,
+      upgradeFromPurchase,
     }),
   }
 
@@ -157,6 +162,7 @@ export async function formatPricesForProduct(
       appliedMerchantCoupon: appliedMerchantCoupon,
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
+        upgradeFromPurchase,
       }),
     }
   }
@@ -192,6 +198,7 @@ export async function formatPricesForProduct(
         appliedMerchantCoupon: merchantCoupon,
         ...(upgradeFromPurchase && {
           upgradeFromPurchaseId,
+          upgradeFromPurchase,
         }),
       }
     }
@@ -220,6 +227,7 @@ export async function formatPricesForProduct(
       appliedMerchantCoupon: merchantCouponWithoutIdentifier,
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
+        upgradeFromPurchase,
       }),
     }
   } else if (
@@ -251,6 +259,7 @@ export async function formatPricesForProduct(
       availableCoupons: pppCoupons,
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
+        upgradeFromPurchase,
       }),
     }
   } else if (pppAvailable) {
@@ -273,6 +282,7 @@ export async function formatPricesForProduct(
       availableCoupons: pppCoupons,
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
+        upgradeFromPurchase,
       }),
     }
   } else if (bulkDiscountAvailable) {
