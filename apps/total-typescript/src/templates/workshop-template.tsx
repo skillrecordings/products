@@ -30,13 +30,21 @@ import Testimonials from '@/testimonials'
 import pluralize from 'pluralize'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
+import {useRouter} from 'next/router'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
   workshopBodySerialized: MDXRemoteSerializeResult
-}> = ({workshop, workshopBodySerialized}) => {
-  const {title, body, ogImage, testimonials, description} = workshop
+  product?: SanityProduct
+}> = ({workshop, workshopBodySerialized, product}) => {
+  const {title, ogImage, testimonials, description, slug} = workshop
   const pageTitle = `${title} Workshop`
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({productId: product?.productId})
+  const router = useRouter()
 
   return (
     <Layout
@@ -52,7 +60,10 @@ const WorkshopTemplate: React.FC<{
     >
       <CourseMeta title={pageTitle} description={description} />
       <Header module={workshop} />
-      <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
+      <main
+        data-workshop-template={slug.current}
+        className="relative z-10 flex flex-col gap-5 lg:flex-row"
+      >
         <div className="px-5">
           <article className="prose prose-lg w-full max-w-none text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
             <MDX contents={workshopBodySerialized} />
@@ -62,6 +73,23 @@ const WorkshopTemplate: React.FC<{
           )}
         </div>
         <div className="w-full lg:max-w-xs">
+          {product && (
+            <PriceCheckProvider
+              purchasedProductIds={commerceProps?.purchases?.map((p) => p.id)}
+            >
+              <Pricing
+                product={product}
+                allowPurchase={commerceProps?.allowPurchase}
+                cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
+                purchases={commerceProps?.purchases}
+                userId={commerceProps?.userId}
+                options={{
+                  withGuaranteeBadge: true,
+                  withImage: false,
+                }}
+              />
+            </PriceCheckProvider>
+          )}
           {workshop && <ModuleNavigator module={workshop} />}
           <WorkshopCertificate workshop={workshop} />
         </div>
