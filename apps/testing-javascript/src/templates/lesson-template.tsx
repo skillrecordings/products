@@ -49,13 +49,13 @@ const LessonTemplate = () => {
             />
           </div>
         </main>
-        <div className="flex flex-col lg:flex-row mt-16">
-          <div className="grow">
+        <div className="flex flex-col-reverse lg:flex-row mt-16">
+          <div className="grow mt-16 lg:mt-0">
             <article>
               <VideoTranscript transcript={videoResource?.transcript || ''} />
             </article>
           </div>
-          <div className="w-full max-w-[350px] shrink-0 lg:ml-8">
+          <div className="w-full lg:max-w-[350px] shrink-0 lg:ml-8">
             <LessonsSidebar lesson={lesson} module={module} />
           </div>
         </div>
