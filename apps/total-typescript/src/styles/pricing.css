@@ -316,6 +316,9 @@
       }
       /* Countdown box */
       [data-pricing-product-sale-countdown] {
+        [data-grid] {
+          @apply mx-auto pb-6 grid max-w-[300px] grid-cols-4 items-center justify-center gap-3 tabular-nums tracking-tight;
+        }
       }
     }
   }
@@ -489,6 +492,8 @@
       }
       [data-pricing-product-sale-countdown] {
         @apply px-0 pb-3;
+
+
 
         div[class='w-full rounded-lg text-center'] {
           @apply flex flex-row;
