@@ -125,11 +125,23 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
                       purchases={purchases}
                       index={i}
                       couponId={couponId}
+                      options={{
+                        withGuaranteeBadge: false,
+                        withImage: true,
+                      }}
                     />
                   </div>
                 </PriceCheckProvider>
               )
             })}
+          </div>
+          <div className="flex justify-center pt-32 align-middle">
+            <Image
+              src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+              width={150}
+              height={150}
+              alt="Money Back Guarantee"
+            />
           </div>
         </section>
       </main>
