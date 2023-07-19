@@ -14,7 +14,24 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   state,
   'product': *[_type=='product' && references(^._id)][]{
     "slug": slug.current,
-    state
+    state,
+    productId,
+    description,
+    action,
+    image {
+      url,
+      alt
+    },
+    modules[]->{
+      "slug": slug.current,
+      moduleType,
+      title,
+      "image": image.asset->{url, alt},
+      state,
+    },
+    features[]{
+      value
+    }
   },
   "sections": resources[@->._type == 'section']->{
     _id,
@@ -97,9 +114,28 @@ export const getWorkshop = async (slug: string) =>
           "resources": resources[@->._type in ['linkResource']]->
         },
         "image": image.asset->url, 
-        'product': *[_type=='product' && references(^._id)][0]{
+        // get product that includes current workshop and has lowest amount of modules
+        'product': *[_type == 'product' && references(^._id)] | order(count(modules) asc)[0]{
+          "name": title,
           "slug": slug.current,
-        }
+          productId,
+          description,
+          action,
+          image {
+            url,
+            alt
+          },
+          modules[]->{
+            "slug": slug.current,
+            moduleType,
+            title,
+            "image": image.asset->{url, alt},
+            state,
+          },
+          features[]{
+            value
+          }
+        },
     }`,
     {slug: `${slug}`},
   )

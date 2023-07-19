@@ -144,7 +144,7 @@
         }
       }
       [data-col='2'] {
-        @apply w-full lg:w-auto;
+        @apply w-full;
       }
     }
   }
