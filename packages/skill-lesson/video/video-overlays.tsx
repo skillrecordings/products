@@ -391,8 +391,9 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
   const bonuses =
     product?.modules &&
     product.modules.filter(({moduleType}) => moduleType === 'bonus')
+
   const {merchantCoupon} = usePriceCheck()
-  const showBonuses = bonuses && !Boolean(merchantCoupon)
+  const showBonuses = bonuses?.length && !Boolean(merchantCoupon)
 
   if (!product) return null
 
@@ -433,7 +434,8 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
         {workshops && (
           <>
             <div data-includes="">
-              Includes all {workshops.length} workshops
+              Includes {workshops.length > 1 && 'all'} {workshops.length}{' '}
+              {pluralize('workshop', workshops.length)}
               {showBonuses ? (
                 <span data-bonus="">
                   {' '}
@@ -448,12 +450,13 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
               {workshops.map((module) => {
                 return (
                   <Link
+                    key={module.slug}
                     data-type={module.moduleType}
                     href={`/workshops/${module.slug}`}
                     target="_blank"
                   >
                     <Image
-                      src={module.image.url}
+                      src={module.image?.url ?? module.image}
                       alt={`${module.title} workshop`}
                       width={60}
                       height={60}
@@ -461,18 +464,19 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
                   </Link>
                 )
               })}
-              {showBonuses && (
+              {showBonuses ? (
                 <>
                   <span>+</span>
                   {bonuses.map((module) => {
                     return (
                       <Link
+                        key={module.slug}
                         data-type={module.moduleType}
                         href={`/bonuses/${module.slug}`}
                         target="_blank"
                       >
                         <Image
-                          src={module.image.url}
+                          src={module.image?.url ?? module.image}
                           alt={`${module.title} workshop`}
                           width={60}
                           height={60}
@@ -481,7 +485,7 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
                     )
                   })}
                 </>
-              )}
+              ) : null}
             </div>
           </>
         )}
@@ -491,6 +495,7 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
           <Pricing
             product={product}
             canViewRegionRestriction={canViewRegionRestriction}
+            cancelUrl={window.location.toString()}
           />
         )}
       </div>
