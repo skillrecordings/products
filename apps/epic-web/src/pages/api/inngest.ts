@@ -225,6 +225,7 @@ const processNewTip = inngest.createFunction(
             },
             body: JSON.stringify({
               transcript: transcript.data.transcript.text,
+              tipId: event.data.tipId,
             }),
           },
         )
