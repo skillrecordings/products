@@ -319,6 +319,43 @@
       }
     }
   }
+  /* WORKSHOP TEMPLATE PRICING WIDGET */
+  [data-workshop-template] {
+    #main-pricing {
+      @apply mb-8;
+      [data-pricing-product] {
+        @apply mx-auto w-full;
+        article {
+          @apply w-full pt-0;
+          [data-pricing-product-header] {
+            @apply pt-5;
+            [data-name-badge] {
+              @apply hidden;
+            }
+          }
+          [data-purchase-container] {
+          }
+          [data-ppp-container] {
+            @apply mb-0;
+          }
+          [data-pricing-footer] {
+            div:first-of-type {
+              @apply hidden;
+            }
+            [data-guarantee-image] {
+              @apply mx-auto w-28 pb-8;
+            }
+            [data-header] {
+              @apply hidden;
+            }
+            [data-main] {
+              @apply hidden;
+            }
+          }
+        }
+      }
+    }
+  }
 
   #pricing {
     [data-sr-convertkit-subscribe-form] {
