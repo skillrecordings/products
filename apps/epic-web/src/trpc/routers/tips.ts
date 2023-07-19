@@ -12,7 +12,7 @@ import {getToken} from 'next-auth/jwt'
 import {v4} from 'uuid'
 import {inngest} from 'utils/inngest.server'
 import slugify from '@sindresorhus/slugify'
-import {nanoid} from 'nanoid'
+import {customAlphabet} from 'nanoid'
 
 export const tipsRouter = router({
   update: publicProcedure
@@ -74,13 +74,18 @@ export const tipsRouter = router({
         if (newVideoResource._id) {
           const id = v4()
 
+          const nanoid = customAlphabet(
+            '1234567890abcdefghijklmnopqrstuvwxyz',
+            5,
+          )
+
           const tipResource = await sanityWriteClient.create({
             _id: `tip-${id}`,
             _type: 'tip',
             state: 'new',
             title: input.title,
             slug: {
-              current: `${slugify(input.title)}~${nanoid(5)}`,
+              current: `${slugify(input.title)}~${nanoid()}`,
             },
             resources: [
               {

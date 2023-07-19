@@ -14,13 +14,9 @@ import {
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
-import MuxPlayer from '@mux/mux-player-react'
 import {useFileChange} from './use-file-change'
-import {uploadToS3} from './upload-file'
 import {trpc} from 'trpc/trpc.client'
 import {useRouter} from 'next/router'
-import axios from 'axios'
-import {v4} from 'uuid'
 import {processFile} from 'module-builder/cloudinary-video-uploader'
 
 type CreateTipFormState = 'idle' | 'ready' | 'uploading' | 'success' | 'error'
@@ -34,7 +30,9 @@ const CreateTipForm: React.FC = () => {
   })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues: {
+      title: '',
+    },
   })
   const router = useRouter()
 
@@ -120,6 +118,7 @@ const CreateTipForm: React.FC = () => {
                     {...field}
                     required={true}
                     maxLength={90}
+                    onChange={field.onChange}
                     placeholder="A good title for your tip!"
                   />
                 </FormControl>
