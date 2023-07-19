@@ -649,6 +649,11 @@ export function getSdk(
           expires: {
             gte: new Date(),
           },
+          ...(productIds && {
+            restrictedToProductId: {
+              in: productIds,
+            },
+          }),
         },
         include: {
           merchantCoupon: true,
