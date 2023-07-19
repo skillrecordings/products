@@ -12,6 +12,7 @@ import {motion, useScroll, useTransform} from 'framer-motion'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
 import cx from 'classnames'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
@@ -42,7 +43,18 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
 
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
 
-  console.log(products)
+  const sortedProductsByName = products.sort((a, b) => {
+    if (a.title === 'Core Volume') {
+      return -1
+    }
+    if (b.title === 'Core Volume + React Bundle') {
+      return 0
+    }
+    if (b.title === 'Advanced React with TypeScript') {
+      return 1
+    }
+    return 0
+  })
 
   return (
     <Layout
@@ -81,37 +93,41 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
             quality={100}
           />
         </motion.div>
-        <section className="px-5 pt-28">
+        <section className="px-5 pt-40">
           <div className="grid gap-40 lg:flex lg:gap-8 xl:gap-16">
             {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-            {products?.map((product, i) => {
-              const isFirst = i === 1
-              const isLast = i === products.length - 1
+            {sortedProductsByName?.map((product, i) => {
+              const isFirst = products.length > 1 && i === 0
+              const isLast = products.length > 1 && i === products.length - 1
               const isPro = !isFirst && !isLast
 
               return (
-                <div
-                  key={product.name}
-                  className={cx('transition hover:opacity-100', {
-                    'mx-auto max-w-sm origin-top-right opacity-90 lg:mt-16 lg:scale-95':
-                      isFirst,
-                    'mx-auto max-w-sm origin-top-left opacity-80 lg:mt-28 lg:scale-[80%]':
-                      isLast,
-                    // switch up order when stacked vertically
-                    'row-start-1 origin-top xl:scale-105': isPro,
-                    'row-start-3': isLast,
-                  })}
-                >
-                  <Element name="buy" aria-hidden="true" />
-                  <Pricing
-                    userId={userId}
-                    product={product}
-                    purchased={purchasedProductIds.includes(product.productId)}
-                    purchases={purchases}
-                    index={i}
-                    couponId={couponId}
-                  />
-                </div>
+                <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+                  <div
+                    key={product.name}
+                    className={cx('transition hover:opacity-100', {
+                      'mx-auto max-w-sm origin-top-right opacity-90 lg:mt-16 lg:scale-95':
+                        isFirst,
+                      'mx-auto max-w-sm origin-top-left opacity-80 lg:mt-28 lg:scale-[80%]':
+                        isLast,
+                      // switch up order when stacked vertically
+                      'row-start-1 origin-top xl:scale-105': isPro,
+                      'row-start-3': isLast,
+                    })}
+                  >
+                    <Element name="buy" aria-hidden="true" />
+                    <Pricing
+                      userId={userId}
+                      product={product}
+                      purchased={purchasedProductIds.includes(
+                        product.productId,
+                      )}
+                      purchases={purchases}
+                      index={i}
+                      couponId={couponId}
+                    />
+                  </div>
+                </PriceCheckProvider>
               )
             })}
           </div>

@@ -69,6 +69,7 @@ export const getAllProducts = async () => {
     },
     "modules" : modules[]->{
       title,
+      moduleType,
       "slug": slug.current,
       "image": image.asset->{url, alt},
     }, 
