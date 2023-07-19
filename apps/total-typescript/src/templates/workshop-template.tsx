@@ -65,7 +65,7 @@ const WorkshopTemplate: React.FC<{
       }}
     >
       <CourseMeta title={pageTitle} description={description} />
-      <Header module={workshop} />
+      <Header module={workshop} hasPurchased={hasPurchased} product={product} />
       <main
         data-workshop-template={slug.current}
         className="relative z-10 flex flex-col gap-5 lg:flex-row"
@@ -127,7 +127,9 @@ export default WorkshopTemplate
 
 const Header: React.FC<{
   module: Module
-}> = ({module}) => {
+  product?: SanityProduct
+  hasPurchased: boolean
+}> = ({module, product, hasPurchased = false}) => {
   const {title, slug, sections, image, github} = module
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
@@ -200,16 +202,24 @@ const Header: React.FC<{
                       }
                 }
                 className={cx(
-                  'flex w-full items-center justify-center rounded bg-cyan-400 px-5 py-4 font-semibold leading-tight text-black transition hover:bg-cyan-300 md:w-auto',
+                  'flex w-full min-w-[208px] items-center justify-center rounded  px-5 py-4 font-semibold leading-tight transition  md:w-auto',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
+                    'bg-cyan-400 text-black hover:bg-cyan-300':
+                      hasPurchased || !product,
+                    'bg-cyan-300/20 text-cyan-300 hover:bg-cyan-300/30':
+                      !hasPurchased && product,
                   },
                 )}
                 onClick={() => {
                   track('clicked start learning', {module: slug.current})
                 }}
               >
-                {isModuleInProgress ? 'Continue' : 'Start'} Learning
+                {hasPurchased || !product ? (
+                  <>{isModuleInProgress ? 'Continue' : 'Start'} Learning</>
+                ) : (
+                  <>Preview</>
+                )}
                 <span className="pl-2" aria-hidden="true">
                   →
                 </span>
