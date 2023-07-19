@@ -34,6 +34,7 @@ import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {useRouter} from 'next/router'
+import {Skeleton} from '@skillrecordings/skill-lesson/ui'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -45,6 +46,11 @@ const WorkshopTemplate: React.FC<{
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({productId: product?.productId})
   const router = useRouter()
+  const hasPurchased = Boolean(
+    commerceProps?.purchases?.find(
+      (purchase) => purchase.productId === product?.productId,
+    ),
+  )
 
   return (
     <Layout
@@ -73,24 +79,43 @@ const WorkshopTemplate: React.FC<{
           )}
         </div>
         <div className="w-full lg:max-w-xs">
-          {product && (
-            <PriceCheckProvider
-              purchasedProductIds={commerceProps?.purchases?.map((p) => p.id)}
-            >
-              <Pricing
-                product={product}
-                allowPurchase={commerceProps?.allowPurchase}
-                cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
-                purchases={commerceProps?.purchases}
-                userId={commerceProps?.userId}
-                options={{
-                  withGuaranteeBadge: true,
-                  withImage: false,
-                }}
-              />
-            </PriceCheckProvider>
+          {product && commercePropsStatus === 'loading' ? (
+            <div className="mb-8 flex flex-col space-y-2" role="status">
+              <div className="sr-only">Loading commerce details</div>
+              {new Array(8).fill(null).map((_, i) => (
+                <Skeleton key={i} className="h-3 w-full bg-gray-800" />
+              ))}
+            </div>
+          ) : (
+            <>
+              {!hasPurchased && product && (
+                <PriceCheckProvider
+                  purchasedProductIds={commerceProps?.purchases?.map(
+                    (p) => p.id,
+                  )}
+                >
+                  <Pricing
+                    product={product}
+                    allowPurchase={commerceProps?.allowPurchase}
+                    cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
+                    purchases={commerceProps?.purchases}
+                    userId={commerceProps?.userId}
+                    options={{
+                      withGuaranteeBadge: true,
+                      withImage: false,
+                    }}
+                  />
+                </PriceCheckProvider>
+              )}
+              {hasPurchased && product && (
+                <div className="mb-8 flex w-full items-center justify-center gap-2 rounded-lg bg-gray-800 p-5 text-lg text-cyan-300">
+                  <Icon name="Checkmark" />
+                  Purchased
+                </div>
+              )}
+              {workshop && <ModuleNavigator module={workshop} />}
+            </>
           )}
-          {workshop && <ModuleNavigator module={workshop} />}
           <WorkshopCertificate workshop={workshop} />
         </div>
       </main>
