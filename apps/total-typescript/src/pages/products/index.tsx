@@ -62,7 +62,7 @@ const ProductsIndex: React.FC<ProductsIndexProps> = ({
       </header>
       <main
         id="products-index-page"
-        className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-5 pt-16"
+        className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-5 py-16"
       >
         <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
           <Products products={products} userId={userId} purchases={purchases} />
@@ -85,7 +85,7 @@ export default ProductsIndex
 const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
   const [isPPPEnabled, setIsPPPEnabled] = React.useState(false)
   const {setMerchantCoupon} = usePriceCheck()
-  console.log(products)
+
   return (
     <>
       {products?.map((product) => {
@@ -99,8 +99,8 @@ const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
           />
         )
       })}
-      <div className="flex w-full items-center justify-end border-t border-gray-800 pb-16 pt-3">
-        {/* <label className="flex cursor-pointer items-center gap-1.5 text-gray-300 transition hover:text-white">
+      {/* <div className="flex w-full items-center justify-end border-t border-gray-800 pb-16 pt-3">
+        <label className="flex cursor-pointer items-center gap-1.5 text-gray-300 transition hover:text-white">
           <input
             value={isPPPEnabled ? 'on' : 'off'}
             type="checkbox"
@@ -110,8 +110,8 @@ const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
             }}
           />
           <span>Enable regional pricing</span>
-        </label> */}
-      </div>
+        </label>
+      </div> */}
     </>
   )
 }

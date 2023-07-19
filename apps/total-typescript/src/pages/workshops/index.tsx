@@ -24,9 +24,20 @@ const WorkshopsPage: React.FC<{
   modules: SanityDocument[]
   bonuses: SanityDocument[]
 }> = ({modules, bonuses}) => {
-  const coreVolumeWorkshops = modules.filter(
-    (module) => module.product?.slug === 'core-volume',
+  const coreVolumeWorkshops = modules.filter((module) =>
+    module.product.find(({slug}: {slug: string}) => slug === 'core-volume'),
   )
+
+  const standaloneWorkshops = modules.filter((module) => {
+    // filter out core-volume product
+    const coreVolume = module.product.find(
+      ({slug}: {slug: string}) => slug === 'core-volume',
+    )
+    if (coreVolume) {
+      return false
+    }
+    return true
+  })
 
   return (
     <Layout
@@ -79,21 +90,19 @@ const WorkshopsPage: React.FC<{
                   })}
                 </div>
               )}
-              {modules
-                .filter((module) => module.product?.slug !== 'core-volume')
-                .map((module, i) => (
-                  <div className="mb-5" key={module.slug.current}>
-                    <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-cyan-300">
-                      <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
-                        NEW
-                      </span>
-                    </div>
-                    <h2 className="pb-8 font-heading text-4xl font-bold sm:text-4xl">
-                      Standalone Workshops
-                    </h2>
-                    <WorkshopTeaser module={module} i={i} />
+              {standaloneWorkshops.map((module, i) => (
+                <div className="mb-5" key={module.slug.current}>
+                  <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-cyan-300">
+                    <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
+                      NEW
+                    </span>
                   </div>
-                ))}
+                  <h2 className="pb-8 font-heading text-4xl font-bold sm:text-4xl">
+                    Standalone Workshops
+                  </h2>
+                  <WorkshopTeaser module={module} i={i} />
+                </div>
+              ))}
             </div>
           </ul>
         )}
