@@ -11,6 +11,8 @@ import {groupBy} from 'lodash'
 import {getToken} from 'next-auth/jwt'
 import {v4} from 'uuid'
 import {inngest} from 'utils/inngest.server'
+import slugify from '@sindresorhus/slugify'
+import {nanoid} from 'nanoid'
 
 export const tipsRouter = router({
   update: publicProcedure
@@ -49,6 +51,7 @@ export const tipsRouter = router({
       z.object({
         s3Url: z.string(),
         fileName: z.string().nullable(),
+        title: z.string(),
       }),
     )
     .mutation(async ({ctx, input}) => {
@@ -75,9 +78,9 @@ export const tipsRouter = router({
             _id: `tip-${id}`,
             _type: 'tip',
             state: 'new',
-            title: 'New Tip',
+            title: input.title,
             slug: {
-              current: id,
+              current: `${slugify(input.title)}~${nanoid(5)}`,
             },
             resources: [
               {

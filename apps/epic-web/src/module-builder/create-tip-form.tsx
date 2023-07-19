@@ -30,6 +30,7 @@ const CreateTipForm: React.FC = () => {
 
   const formSchema = z.object({
     video: z.string().optional(),
+    title: z.string().nonempty(),
   })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,13 +63,17 @@ const CreateTipForm: React.FC = () => {
 
         setState('success')
 
+        console.log({values})
+
         createTip(
           {
             s3Url: uploadResponse.secure_url,
             fileName,
+            title: values.title,
           },
           {
             onSettled: (data) => {
+              console.log('tip creation settled', data)
               router.push(`/creator/tips/${data?.slug}`)
             },
           },
@@ -103,6 +108,25 @@ const CreateTipForm: React.FC = () => {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
+          <FormField
+            name="title"
+            render={({field}) => (
+              <FormItem>
+                <FormLabel>Title of your Tip</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    id="title"
+                    {...field}
+                    required={true}
+                    maxLength={90}
+                    placeholder="A good title for your tip!"
+                  />
+                </FormControl>
+                <FormDescription>Required</FormDescription>
+              </FormItem>
+            )}
+          />
           <FormField
             name="video"
             render={({field}) => (
