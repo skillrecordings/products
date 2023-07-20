@@ -296,7 +296,7 @@ test('applies fixed discount for previous purchase', async () => {
     totalAmount: new Prisma.Decimal(25),
   }
   // @ts-ignore
-  mockCtx.prisma.purchase.findUnique.mockResolvedValue(mockPurchase)
+  mockCtx.prisma.purchase.findFirst.mockResolvedValue(mockPurchase)
 
   const product = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,

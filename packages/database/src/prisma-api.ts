@@ -325,8 +325,8 @@ export function getSdk(
         include: {bulkCouponPurchases: {select: {bulkCouponId: true}}},
       })
     },
-    async getPurchase(args: Prisma.PurchaseFindUniqueArgs) {
-      return await ctx.prisma.purchase.findUnique(args)
+    async getPurchase(args: Prisma.PurchaseFindFirstArgs) {
+      return await ctx.prisma.purchase.findFirst(args)
     },
     async getPurchasesForUser(userId?: string) {
       const purchases = userId
