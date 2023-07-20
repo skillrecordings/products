@@ -93,14 +93,6 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
             quality={100}
           />
         </motion.div>
-        <div className="flex justify-center pt-6 align-middle">
-          <Image
-            src="https://res.cloudinary.com/total-typescript/image/upload/v1689864739/money-back-guarantee-large_l3sikc.png"
-            width={400}
-            height={150}
-            alt="Money Back Guarantee"
-          />
-        </div>
         <section className="px-5 pt-20">
           <div className="grid gap-40 lg:flex lg:gap-8 xl:gap-16">
             {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
@@ -133,10 +125,6 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
                       purchases={purchases}
                       index={i}
                       couponId={couponId}
-                      options={{
-                        withGuaranteeBadge: false,
-                        withImage: true,
-                      }}
                     />
                   </div>
                 </PriceCheckProvider>
