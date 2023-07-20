@@ -123,7 +123,7 @@
     "@types/shortid": "^0.0.29",
     "dotenv-flow": "^3.2.0",
     "eslint": "^8.19.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "jest": "^27.5.1",
     "jest-mock-extended": "^2.0.4",
     "postcss": "^8.4.14",

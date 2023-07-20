@@ -48,7 +48,7 @@
     "copyfiles": "^2.4.1",
     "esbuild-node-tsc": "^1.6.1",
     "eslint": "^8.19.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "next": "^13.4.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",

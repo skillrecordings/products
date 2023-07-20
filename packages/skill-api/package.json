@@ -85,7 +85,7 @@
     "babel-preset-preact": "^2.0.0",
     "cssnano": "^5.0.12",
     "eslint": "^8.19.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "i": "^0.3.7",
     "jest-mock-extended": "^3.0.4",
     "msw": "^0.35.0",

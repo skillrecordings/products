@@ -32,7 +32,7 @@
     "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "axios": "^1.4.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "formik": "2.2.9",
     "query-string": "^7.1.1",
     "react-markdown": "^6.0.3",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@codesandbox/sandpack-react": "^2.6.5",
-    "@skillrecordings/scripts": "^0.0.5",
+    "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "^0.0.5",
     "@skillrecordings/types": "^0.0.5",
     "@testing-library/jest-dom": "^5.16.5",

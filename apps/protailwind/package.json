@@ -169,7 +169,7 @@
     "@types/uuid": "^9.0.2",
     "autoprefixer": "^10.4.2",
     "eslint": "^8.19.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "msw": "^0.35.0",
     "postcss": "^8.4.14",
     "prettier-plugin-tailwindcss": "^0.2.5",
