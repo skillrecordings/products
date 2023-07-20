@@ -12,6 +12,9 @@ import {MDXComponents} from '../components/mdx'
 import {isSellingLive} from '@/utils/is-selling-live'
 import {SubscribeToNewsletter} from '@/components/home/home-newsletter-cta'
 import Balancer from 'react-wrap-balancer'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
+import cx from 'classnames'
 
 export const HomeTemplate: React.FC<
   React.PropsWithChildren<CommerceProps & {level?: string}>
@@ -25,7 +28,22 @@ export const HomeTemplate: React.FC<
   defaultCoupon,
 }) => {
   const skillLevel = useSkillLevel(level)
-  const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} =
+    useCoupon(couponFromCode)
+  const couponId =
+    couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
+  const sortedProductsByName = products.sort((a, b) => {
+    if (a.title === 'Core Volume') {
+      return -1
+    }
+    if (b.title === 'Core Volume + React Bundle') {
+      return 0
+    }
+    if (b.title === 'Advanced React with TypeScript') {
+      return 1
+    }
+    return 0
+  })
   return (
     <Layout
       meta={{
@@ -65,14 +83,40 @@ export const HomeTemplate: React.FC<
                 className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
                 quality={100}
               />
-              <Element name="buy" aria-hidden="true" />
-              <PricingTiers
-                products={products}
-                userId={userId}
-                purchases={purchases}
-                couponIdFromCoupon={couponIdFromCoupon}
-                couponFromCode={couponFromCode}
-              />
+              <section className="px-5 pb-20 pt-40">
+                <div className="grid gap-40 lg:flex lg:gap-8 xl:gap-16">
+                  {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+                  {sortedProductsByName?.map((product, i) => {
+                    const isFirst = products.length > 1 && i === 0
+                    const isLast =
+                      products.length > 1 && i === products.length - 1
+                    const isPro = !isFirst && !isLast
+
+                    return (
+                      <div
+                        key={product.name}
+                        className={cx('transition hover:opacity-100', {
+                          'mx-auto max-w-sm origin-top-right opacity-90 lg:mt-16 lg:scale-95':
+                            isFirst,
+                          'mx-auto max-w-sm origin-top-left opacity-80 lg:mt-28 lg:scale-[80%]':
+                            isLast,
+                          // switch up order when stacked vertically
+                          'row-start-1 origin-top xl:scale-105': isPro,
+                          'row-start-3': isLast,
+                        })}
+                      >
+                        <Element name="buy" aria-hidden="true" />
+                        <Pricing
+                          product={product}
+                          userId={userId}
+                          purchases={purchases}
+                          couponId={couponId}
+                        />
+                      </div>
+                    )
+                  })}
+                </div>
+              </section>
             </div>
           </MDXComponents.Section>
         ) : (

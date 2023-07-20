@@ -2,13 +2,13 @@ import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
-import {getActiveProducts} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
 import * as React from 'react'
 import {HomeTemplate} from '../templates/home-template'
+import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
-  const {products = []} = await getActiveProducts()
+  const products = await getAllProducts()
 
   return await propsForCommerce({query, token, products})
 }
