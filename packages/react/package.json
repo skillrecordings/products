@@ -1,6 +1,6 @@
 {
   "name": "@skillrecordings/react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "license": "ISC",
   "author": "Joel Hooks",
@@ -59,7 +59,7 @@
     "@xstate/react": "=1.5.1",
     "esbuild-node-tsc": "^1.6.1",
     "eslint": "^8.19.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "lodash": "^4.17.21",
     "msw": "^0.35.0",
     "next": "^13.4.8",

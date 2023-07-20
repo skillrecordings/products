@@ -36,7 +36,7 @@
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "eslint": "^8.19.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "jest-localstorage-mock": "^2.4.14",
     "next": "^13.4.8",
     "react": "18.2.0",

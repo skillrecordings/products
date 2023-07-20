@@ -1,6 +1,6 @@
 {
   "name": "@skillrecordings/inngest",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -20,7 +20,7 @@
     "@skillrecordings/tsconfig": "workspace:*",
     "@types/node": "^18.16.13",
     "eslint": "^8.12.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "rimraf": "^3.0.2",
     "tsup": "^5.11.13",
     "tsx": "^3.7.1",

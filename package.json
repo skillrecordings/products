@@ -52,7 +52,7 @@
     "@changesets/cli": "^2.26.1",
     "@manypkg/cli": "^0.19.2",
     "eslint": "^8.41.0",
-    "eslint-config-custom": "workspace:0.0.0",
+    "eslint-config-skill-recordings": "workspace:*",
     "husky": "^7.0.4",
     "lint-staged": "^11.2.6",
     "plop": "^2.7.6",

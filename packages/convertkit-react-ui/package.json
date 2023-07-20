@@ -1,6 +1,6 @@
 {
   "name": "@skillrecordings/convertkit-react-ui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "license": "ISC",
   "author": "Joel Hooks",
@@ -47,7 +47,7 @@
     "@types/yup": "^0.29.13",
     "esbuild-node-tsc": "^1.6.1",
     "eslint": "^8.19.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "framer-motion": "^10.12.4",
     "next": "^13.4.8",
     "react": "18.2.0",

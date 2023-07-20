@@ -198,7 +198,7 @@
     "@types/ws": "^8.5.3",
     "autoprefixer": "^10.4.2",
     "eslint": "^8.19.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "lint-staged": "^11.2.6",
     "msw": "^0.35.0",
     "postcss": "^8.4.14",

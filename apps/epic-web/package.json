@@ -168,7 +168,7 @@
     "autoprefixer": "^10.4.12",
     "dotenv-flow": "^3.2.0",
     "eslint": "^8.19.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "jest": "^29.5.0",
     "jest-fetch-mock": "^3.0.3",
     "jest-mock-extended": "^3.0.4",

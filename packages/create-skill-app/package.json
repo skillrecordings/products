@@ -1,6 +1,6 @@
 {
   "name": "create-skill-app",
-  "version": "12.2.9",
+  "version": "13.4.0",
   "description": "Create Next.js-powered React apps for Skill Recordings produces with one command",
   "keywords": [
     "react",

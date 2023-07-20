@@ -1,6 +1,6 @@
 {
   "name": "@skillrecordings/types",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -26,7 +26,7 @@
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "eslint": "^8.19.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "typescript": "5.1.1-rc"
   },
   "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"

@@ -35,7 +35,7 @@
     "@types/lodash": "^4.14.179",
     "@types/node": "^18.16.13",
     "eslint": "^8.12.0",
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-skill-recordings": "workspace:*",
     "jest": "^29.5.0",
     "rimraf": "^3.0.2",
     "tsup": "^5.11.13",
