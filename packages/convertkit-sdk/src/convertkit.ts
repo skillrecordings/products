@@ -127,7 +127,7 @@ export async function setConvertkitSubscriberFields(
 
 export async function createConvertkitCustomField(
   customField: string,
-  subscriber: {fields: Record<string, string | null>},
+  subscriber: {fields: Record<string, string | null>; id: string | number},
 ) {
   try {
     if (!process.env.CONVERTKIT_API_SECRET) {
@@ -135,8 +135,10 @@ export async function createConvertkitCustomField(
       return
     }
 
+    subscriber = await fetchSubscriber(subscriber.id)
+
     const fieldExists =
-      subscriber &&
+      subscriber?.fields &&
       !isEmpty(
         find(Object.keys(subscriber.fields), (field) => field === customField),
       )
@@ -226,7 +228,7 @@ export const getSubscriberByEmail = async (email: string) => {
   return subscriber
 }
 
-export async function fetchSubscriber(convertkitId: string) {
+export async function fetchSubscriber(convertkitId: string | number) {
   if (!process.env.CONVERTKIT_API_SECRET) {
     console.warn('set CONVERTKIT_API_SECRET')
     return

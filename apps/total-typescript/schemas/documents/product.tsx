@@ -16,6 +16,11 @@ export default {
       type: 'string',
     },
     {
+      name: 'convertkitPurchasedTagId',
+      title: 'Convertkit Purchase Tag ID',
+      type: 'string',
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',

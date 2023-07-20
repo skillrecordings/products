@@ -8,11 +8,42 @@ import {Purchase} from '@skillrecordings/database'
 import {sanityClient} from '../../../lib/sanity-client'
 import groq from 'groq'
 
+/**
+ * @deprecated we purchase products not modules, modules belong to products
+ */
+const moduleProductQuery = groq`*[_type == "module" && moduleType == 'workshop' && $productId in resources[].productId][0] {
+  _id,
+  "slug": resources[@._type == 'product'][0].slug,
+  resources[]->,
+  "productId": resources[@._type == 'product'][0].productId,
+  "convertkitPurchasedTagId": resources[@._type == 'product'][0].convertkitPurchasedTagId,
+}`
+
+const productQuery = groq`*[_type == "product" && $productId == productId][0] {
+  _id,
+  slug,
+  resources[]->,
+  productId,
+  convertkitPurchasedTagId,
+}`
+
+async function getSanityProduct(productId: string) {
+  let sanityProduct = await sanityClient.fetch(productQuery, {
+    productId,
+  })
+
+  if (!sanityProduct) {
+    sanityProduct = await sanityClient.fetch(moduleProductQuery, {
+      productId,
+    })
+  }
+  return sanityProduct
+}
+
 export async function convertkitTagPurchase(email: string, purchase: Purchase) {
   try {
-    const sanityProduct = await sanityClient.fetch(productQuery, {
-      productId: purchase.productId,
-    })
+    const sanityProduct = await getSanityProduct(purchase.productId)
+
     const convertkitPurchasedTagId =
       sanityProduct?.convertkitPurchasedTagId ||
       process.env.CONVERTKIT_PURCHASED_TAG_ID
@@ -23,8 +54,9 @@ export async function convertkitTagPurchase(email: string, purchase: Purchase) {
 
     const subscriber = await tagSubscriber(email, convertkitPurchasedTagId)
 
-    const purchasedOnFieldName =
-      process.env.CONVERTKIT_PURCHASED_ON_FIELD_NAME || 'purchased_on'
+    const purchasedOnFieldName = sanityProduct
+      ? `purchased_${sanityProduct.slug.current.replace(/-/gi, '_')}_on`
+      : process.env.CONVERTKIT_PURCHASED_ON_FIELD_NAME || 'purchased_on'
 
     await setConvertkitSubscriberFields(subscriber, {
       [purchasedOnFieldName]: format(new Date(), 'yyyy-mm-dd HH:MM'),
@@ -49,10 +81,3 @@ export async function convertkitTagPurchase(email: string, purchase: Purchase) {
 
   return true
 }
-
-const productQuery = groq`*[_type == "module" && moduleType == 'workshop' && $productId in resources[].productId][0] {
-  _id,
-  resources[]->,
-  "productId": resources[@._type == 'product'][0].productId,
-  "convertkitPurchasedTagId": resources[@._type == 'product'][0].convertkitPurchasedTagId,
-}`
