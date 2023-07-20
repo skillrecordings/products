@@ -4340,7 +4340,7 @@ importers:
       '@skillrecordings/react': workspace:*
       '@skillrecordings/scripts': workspace:*
       '@skillrecordings/tsconfig': ^0.0.5
-      '@skillrecordings/types': ^0.0.5
+      '@skillrecordings/types': workspace:*
       '@testing-library/jest-dom': ^5.16.5
       '@testing-library/react': ^14.0.0
       '@testing-library/react-hooks': ^8.0.1
@@ -4394,7 +4394,7 @@ importers:
       '@codesandbox/sandpack-react': 2.6.5_biqbaboplfbrettd7655fr4n2y
       '@skillrecordings/scripts': link:../scripts
       '@skillrecordings/tsconfig': 0.0.5
-      '@skillrecordings/types': 0.0.5
+      '@skillrecordings/types': link:../types
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 14.0.0_biqbaboplfbrettd7655fr4n2y
       '@testing-library/react-hooks': 8.0.1_vwm56pewxizjzye5i4fty6c2rm
@@ -13764,6 +13764,7 @@ packages:
 
   /@skillrecordings/types/0.0.5:
     resolution: {integrity: sha512-fWBj5hKs1lPGC0AJ8JPw/RWaNpagf5kU7t0fKdG0WqemN/c2dNchVwzjKtt3249VKpQVh53btZpZNLknPI2d6g==}
+    dev: false
 
   /@slack/logger/3.0.0:
     resolution: {integrity: sha512-DTuBFbqu4gGfajREEMrkq5jBhcnskinhr4+AnfJEk48zhVeEv3XnUKGIX98B74kxhYsIMfApGGySTn7V3b5yBA==}

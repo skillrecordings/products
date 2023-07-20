@@ -43,7 +43,7 @@
     "@codesandbox/sandpack-react": "^2.6.5",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "^0.0.5",
-    "@skillrecordings/types": "^0.0.5",
+    "@skillrecordings/types": "workspace:*",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/react-hooks": "^8.0.1",

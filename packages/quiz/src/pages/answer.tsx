@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {QuestionResource, QuestionSet} from '@skillrecordings/types'
 import questionToShow from '../components/question-to-show'
 import useQuestion from '../hooks/use-question'
 import {useRouter} from 'next/router'
@@ -7,6 +6,7 @@ import {QuizConfig} from '../config'
 import keys from 'lodash/keys'
 import get from 'lodash/get'
 import Link from 'next/link'
+import type {QuestionResource, QuestionSet} from '@skillrecordings/types'
 
 type AnswerProps = {
   questionSet: QuestionSet
