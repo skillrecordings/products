@@ -6,13 +6,11 @@ import {useSkillLevel} from '@/components/home/use-skill-level'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {Element} from 'react-scroll'
-import {PricingTiers} from '@skillrecordings/skill-lesson/path-to-purchase/product-tiers'
 import Image from 'next/legacy/image'
 import {MDXComponents} from '../components/mdx'
 import {isSellingLive} from '@/utils/is-selling-live'
 import {SubscribeToNewsletter} from '@/components/home/home-newsletter-cta'
 import Balancer from 'react-wrap-balancer'
-import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import cx from 'classnames'
 
@@ -83,7 +81,15 @@ export const HomeTemplate: React.FC<
                 className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
                 quality={100}
               />
-              <section className="px-5 pb-20 pt-40">
+              <div className="flex justify-center pt-6 align-middle">
+                <Image
+                  src="https://res.cloudinary.com/total-typescript/image/upload/v1689864739/money-back-guarantee-large_l3sikc.png"
+                  width={400}
+                  height={150}
+                  alt="Money Back Guarantee"
+                />
+              </div>
+              <section className="px-5 pt-20">
                 <div className="grid gap-40 lg:flex lg:gap-8 xl:gap-16">
                   {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
                   {sortedProductsByName?.map((product, i) => {
@@ -111,6 +117,10 @@ export const HomeTemplate: React.FC<
                           userId={userId}
                           purchases={purchases}
                           couponId={couponId}
+                          options={{
+                            withGuaranteeBadge: false,
+                            withImage: true,
+                          }}
                         />
                       </div>
                     )
