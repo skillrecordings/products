@@ -1,6 +1,6 @@
 {
   "name": "@skillrecordings/player",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
   "main": "./dist/index.js",
