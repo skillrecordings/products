@@ -5,6 +5,7 @@ import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import {FormattedPrice} from './@types'
 import {Purchase} from '@prisma/client'
 import {getStripeSdk} from '@skillrecordings/stripe-sdk'
+import * as console from 'console'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
@@ -34,57 +35,22 @@ type FormatPricesForProductOptions = {
 }
 
 async function getFixedDiscountForUpgrade({
-  upgradeFromPurchaseId,
+  upgradeProductId,
   ctx = defaultContext,
 }: {
-  upgradeFromPurchaseId: string
+  upgradeProductId: string
   ctx: Context
 }) {
-  let unitPrice = 0
-  const {getPurchase} = getSdk({ctx})
-
-  const {getCheckoutSession} = getStripeSdk()
-  const upgradeFromPurchase = await getPurchase({
-    where: {
-      id: upgradeFromPurchaseId,
-    },
-    select: {
-      id: true,
-      bulkCoupon: {
-        select: {
-          id: true,
-        },
+  const {getPrice} = getSdk({ctx})
+  if (upgradeProductId) {
+    const price = await getPrice({
+      where: {
+        productId: upgradeProductId,
       },
-      redeemedBulkCouponId: true,
-      totalAmount: true,
-      productId: true,
-    },
-  })
-
-  if (upgradeFromPurchase && upgradeFromPurchase?.redeemedBulkCouponId) {
-    const parentPurchase: (Purchase & {merchantSession: any}) | null =
-      (await getPurchase({
-        where: {
-          bulkCouponId: upgradeFromPurchase.redeemedBulkCouponId,
-        },
-        include: {
-          merchantCharge: true,
-          merchantSession: true,
-        },
-      })) as any
-    if (parentPurchase?.merchantSession?.identifier) {
-      const charge = await getCheckoutSession(
-        parentPurchase.merchantSession.identifier,
-      )
-      if (charge.line_items) {
-        const {quantity, amount_total} = charge.line_items.data[0]
-        unitPrice = quantity ? amount_total / 100 / quantity : 0
-      }
-    }
-  } else if (upgradeFromPurchase) {
-    unitPrice = +upgradeFromPurchase.totalAmount
+    })
+    return price?.unitAmount.toNumber() || 0
   }
-  return unitPrice
+  return 0
 }
 
 /**
@@ -137,8 +103,11 @@ export async function formatPricesForProduct(
       })
     : false
 
-  const fixedDiscountForUpgrade = upgradeFromPurchaseId
-    ? await getFixedDiscountForUpgrade({upgradeFromPurchaseId, ctx})
+  const fixedDiscountForUpgrade = upgradeFromPurchase
+    ? await getFixedDiscountForUpgrade({
+        upgradeProductId: upgradeFromPurchase.productId,
+        ctx,
+      })
     : 0
 
   const product = await getProduct({
