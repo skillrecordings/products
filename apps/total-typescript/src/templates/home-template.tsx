@@ -13,6 +13,7 @@ import {SubscribeToNewsletter} from '@/components/home/home-newsletter-cta'
 import Balancer from 'react-wrap-balancer'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import cx from 'classnames'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 
 export const HomeTemplate: React.FC<
   React.PropsWithChildren<CommerceProps & {level?: string}>
@@ -42,6 +43,8 @@ export const HomeTemplate: React.FC<
     }
     return 0
   })
+  const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+
   return (
     <Layout
       meta={{
@@ -94,31 +97,35 @@ export const HomeTemplate: React.FC<
                     const isPro = !isFirst && !isLast
 
                     return (
-                      <div
-                        key={product.name}
-                        className={cx('transition hover:opacity-100', {
-                          'mx-auto max-w-sm origin-top-right opacity-90 lg:mt-16 lg:scale-95':
-                            isFirst,
-                          'mx-auto max-w-sm origin-top-left opacity-80 lg:mt-28 lg:scale-[80%]':
-                            isLast,
-                          // switch up order when stacked vertically
-                          'row-start-1 origin-top xl:scale-105': isPro,
-                          'row-start-3': isLast,
-                        })}
+                      <PriceCheckProvider
+                        purchasedProductIds={purchasedProductIds}
                       >
-                        <Element name="buy" aria-hidden="true" />
-                        <Pricing
-                          index={i}
-                          product={product}
-                          userId={userId}
-                          purchases={purchases}
-                          couponId={couponId}
-                          options={{
-                            withGuaranteeBadge: true,
-                            withImage: true,
-                          }}
-                        />
-                      </div>
+                        <div
+                          key={product.name}
+                          className={cx('transition hover:opacity-100', {
+                            'mx-auto max-w-sm origin-top-right opacity-90 lg:mt-16 lg:scale-95':
+                              isFirst,
+                            'mx-auto max-w-sm origin-top-left opacity-80 lg:mt-28 lg:scale-[80%]':
+                              isLast,
+                            // switch up order when stacked vertically
+                            'row-start-1 origin-top xl:scale-105': isPro,
+                            'row-start-3': isLast,
+                          })}
+                        >
+                          <Element name="buy" aria-hidden="true" />
+                          <Pricing
+                            index={i}
+                            product={product}
+                            userId={userId}
+                            purchases={purchases}
+                            couponId={couponId}
+                            options={{
+                              withGuaranteeBadge: true,
+                              withImage: true,
+                            }}
+                          />
+                        </div>
+                      </PriceCheckProvider>
                     )
                   })}
                 </div>
