@@ -46,11 +46,18 @@ const WorkshopTemplate: React.FC<{
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({productId: product?.productId})
   const router = useRouter()
-  const hasPurchased = Boolean(
-    commerceProps?.purchases?.find(
-      (purchase) => purchase.productId === product?.productId,
-    ),
-  )
+
+  const useAbilities = () => {
+    const {data: abilityRules, status: abilityRulesStatus} =
+      trpc.modules.rules.useQuery({
+        moduleSlug: workshop.slug.current,
+        moduleType: workshop.moduleType,
+      })
+    return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
+  }
+  const {ability, abilityRulesStatus} = useAbilities()
+
+  const canView = ability.can('view', 'Content')
 
   return (
     <Layout
@@ -65,7 +72,7 @@ const WorkshopTemplate: React.FC<{
       }}
     >
       <CourseMeta title={pageTitle} description={description} />
-      <Header module={workshop} hasPurchased={hasPurchased} product={product} />
+      <Header module={workshop} hasPurchased={canView} product={product} />
       <main
         data-workshop-template={slug.current}
         className="relative z-10 flex flex-col gap-5 lg:flex-row"
@@ -88,7 +95,7 @@ const WorkshopTemplate: React.FC<{
             </div>
           ) : (
             <>
-              {!hasPurchased && product && (
+              {!canView && product && (
                 <PriceCheckProvider
                   purchasedProductIds={commerceProps?.purchases?.map(
                     (p) => p.id,
@@ -107,7 +114,7 @@ const WorkshopTemplate: React.FC<{
                   />
                 </PriceCheckProvider>
               )}
-              {hasPurchased && product && (
+              {canView && product && (
                 <div className="mb-8 flex w-full items-center justify-center gap-2 rounded-lg bg-gray-800 p-5 text-lg text-cyan-300">
                   <Icon name="Checkmark" />
                   Purchased
