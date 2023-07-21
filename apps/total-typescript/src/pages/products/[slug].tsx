@@ -14,6 +14,8 @@ import ProductTemplate from '@/templates/product-template'
 import PurchasedProductTemplate from '@/templates/purchased-product-template'
 import {getSdk} from '@skillrecordings/database'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {getWorkshop} from '@/lib/workshops'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
@@ -21,6 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const token = await getToken({req})
   const product = await getProductBySlug(params?.slug as string)
+  const workshop = await getWorkshop(params?.slug as string)
 
   if (!product) {
     return {
@@ -35,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   })
 
   if (!token?.sub) {
-    return commerceProps
+    return {props: {...commerceProps.props, workshop}}
   }
 
   const purchaseForProduct = commerceProps.props.purchases?.find(
@@ -45,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   )
 
   if (!purchaseForProduct) {
-    return commerceProps
+    return {props: {...commerceProps.props, workshop}}
   }
 
   const {purchase, existingPurchase} = await getPurchaseDetails(
@@ -59,6 +62,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       hasPurchasedCurrentProduct: Boolean(purchase),
       existingPurchase: convertToSerializeForNextResponse(existingPurchase),
       product,
+      workshop,
     },
   }
 }
@@ -81,10 +85,12 @@ export type ProductPageProps = {
   existingPurchase: {id: string; product: {id: string; name: string}}
   purchases: Purchase[]
   hasPurchasedCurrentProduct: boolean
+  workshop?: Module
 } & CommerceProps
 
 const ProductPage: React.FC<ProductPageProps> = (props) => {
-  const {hasPurchasedCurrentProduct} = props
+  const {workshop, hasPurchasedCurrentProduct} = props
+  console.log({workshop})
 
   return (
     <>
