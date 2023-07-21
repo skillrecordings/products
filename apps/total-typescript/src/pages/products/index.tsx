@@ -24,6 +24,7 @@ import {
 import Link from 'next/link'
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {CheckIcon} from '@heroicons/react/solid'
+import ReactMarkdown from 'react-markdown'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const products = await getAllProducts()
@@ -235,7 +236,11 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
             )}
           </div>
           <p className="w-full text-gray-300">
-            <Balancer>{product.description}</Balancer>
+            <Balancer>
+              <ReactMarkdown className="prose pt-5 sm:prose-lg prose-p:text-gray-200">
+                {product.description || ''}
+              </ReactMarkdown>
+            </Balancer>
           </p>
           {product.modules?.length > 1 && (
             <>
