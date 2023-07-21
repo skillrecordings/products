@@ -8,9 +8,7 @@ import '@sentry/tracing'
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
 
 Sentry.init({
-  dsn:
-    SENTRY_DSN ||
-    'https://1ad2329b75594ad99571494334778d4e@o1184810.ingest.sentry.io/6303096',
+  dsn: SENTRY_DSN,
   // Adjust this value in production, or use tracesSampler for greater control
   tracesSampleRate: 0.2,
   // ...
