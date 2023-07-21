@@ -118,6 +118,9 @@ export const HomeTemplate: React.FC<
                             product={product}
                             userId={userId}
                             purchases={purchases}
+                            purchased={purchasedProductIds.includes(
+                              product.productId,
+                            )}
                             couponId={couponId}
                             options={{
                               withGuaranteeBadge: true,
