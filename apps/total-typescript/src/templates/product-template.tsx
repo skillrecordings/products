@@ -15,6 +15,7 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
   defaultCoupon,
   purchases = [],
   userId,
+  workshop,
 }) => {
   const {scrollYProgress} = useScroll()
   const y = useTransform(scrollYProgress, [0, 1], [0, -100])
@@ -30,7 +31,9 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
               alt: 'Golden Ticket',
             }
           : {
-              url: 'https://res.cloudinary.com/total-typescript/image/upload/v1670407830/pricing/card_2x_isoiaa.png',
+              url: workshop
+                ? workshop.ogImage
+                : 'https://res.cloudinary.com/total-typescript/image/upload/v1670407830/pricing/card_2x_isoiaa.png',
               alt: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}`,
             },
       }}
