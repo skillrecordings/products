@@ -253,7 +253,7 @@ const Header: React.FC<
           </div>
         )}
         <div className="flex w-full flex-col items-center text-center sm:items-start sm:text-left">
-          <h1 className="w-full font-text text-4xl font-black sm:text-4xl lg:text-5xl">
+          <h1 className="w-full font-text text-3xl font-bold sm:text-3xl lg:text-4xl">
             <span className="block pb-4 font-sans text-sm font-semibold uppercase tracking-wide text-cyan-300">
               {upgrade ? `You've Upgraded ` : `Welcome to `}
             </span>

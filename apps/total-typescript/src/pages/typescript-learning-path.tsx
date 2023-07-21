@@ -56,7 +56,7 @@ const TypeScriptLearningPath = () => {
             </div>
             <div>
               <h2>Total Time Required</h2>
-              <p>22—52 hours (varies)</p>
+              <p>22—65 hours (varies)</p>
             </div>
           </div>
           <h2>Curriculum</h2>
@@ -341,7 +341,7 @@ const TypeScriptLearningPath = () => {
             meta="10 exercises"
             weeks={[
               {
-                index: '13 (bonus)',
+                index: '13',
                 title: (
                   <Link
                     href="/tutorials/zod"
@@ -351,6 +351,92 @@ const TypeScriptLearningPath = () => {
                   </Link>
                 ),
                 topics: ['Runtime checking', 'Transforming data'],
+              },
+            ]}
+          />
+        </Section>
+        <Section week="14-15" align="start">
+          <Module
+            slug="/tutorials/react-with-typescript"
+            type="tutorial"
+            title="React"
+            image="https://res.cloudinary.com/total-typescript/image/upload/v1688690090/react-tutorial-typescript_qc2dhs.png"
+            meta="21 exercises"
+            weeks={[
+              {
+                index: 14,
+                title: (
+                  <Link
+                    href="tutorials/react-with-typescript/introduction/adding-react-to-a-typescript-project"
+                    className="text-cyan-300 underline"
+                  >
+                    Exercises 1—10
+                  </Link>
+                ),
+                topics: [
+                  'Adding React to a TypeScript Project',
+                  'JSX Types',
+                  'Components',
+                ],
+              },
+              {
+                index: 15,
+                title: (
+                  <Link
+                    href="/ttutorials/react-with-typescript/hooks/properly-typing-usestate"
+                    className="text-cyan-300 underline"
+                  >
+                    Exercises 11—21
+                  </Link>
+                ),
+                topics: ['Hooks'],
+              },
+            ]}
+          />
+        </Section>
+        <Section week="16-18" align="end">
+          <Module
+            slug="/workshops/advanced-react-with-typescript"
+            type="workshop"
+            title="Advanced React with TypeScript"
+            image="https://res.cloudinary.com/total-typescript/image/upload/v1689110162/React_Workshop_2x_jrqlux.png"
+            meta="55 exercises"
+            weeks={[
+              {
+                index: 16,
+                title: (
+                  <Link
+                    href="/workshops/advanced-react-with-typescript/advanced-props/type-checking-react-props-with-discriminated-unions"
+                    className="text-cyan-300 underline"
+                  >
+                    Section 1 & 2
+                  </Link>
+                ),
+                topics: ['Advanced Props', 'Using Generics with Components'],
+              },
+              {
+                index: 17,
+                title: (
+                  <Link
+                    href="/tutorials/zod"
+                    className="text-cyan-300 underline"
+                  >
+                    Section 3 & 4
+                  </Link>
+                ),
+                topics: ['Advanced Hooks', 'Types'],
+              },
+              {
+                index: 18,
+                title: (
+                  <Link
+                    href="/tutorials/zod"
+                    className="text-cyan-300 underline"
+                  >
+                    Section 5 & 6
+                  </Link>
+                ),
+                topics: ['Advanced Patterns', 'External Libraries'],
               },
             ]}
           />
@@ -468,18 +554,18 @@ const CoreVolume = () => {
   return (
     <div className="not-prose -mx-5 flex flex-col items-center justify-center gap-10 border-y border-gray-800 p-8 py-10 sm:rounded-lg sm:border md:-mx-8 md:flex-row md:p-5">
       <Image
-        src="https://res.cloudinary.com/total-typescript/image/upload/v1676015688/core-volume_2x_wt7jnc.png"
+        src="https://res.cloudinary.com/total-typescript/image/upload/v1689196988/Bundle_eus1ua.png"
         aria-hidden="true"
         alt=""
-        width={300}
-        height={300}
+        width={900}
+        height={900}
       />
 
       <div className="flex w-full flex-col items-center text-center md:items-start md:text-left">
         <div className="font-mono text-sm font-semibold uppercase text-cyan-300">
           Total TypeScript
         </div>
-        <h3 className="font-text text-4xl font-bold">Core Volume</h3>
+        <h3 className="font-text text-4xl font-bold">Bundle</h3>
         <ul className="flex w-full flex-col gap-1.5 pt-10 text-lg text-gray-200 sm:text-base md:w-auto md:pt-5">
           <li className='inline-flex items-center gap-1 before:text-cyan-300 before:content-["✓"]'>
             Type Transformations
@@ -493,9 +579,12 @@ const CoreVolume = () => {
           <li className='inline-flex items-center gap-1 before:text-cyan-300 before:content-["✓"]'>
             TypeScript Expert Interviews
           </li>
+          <li className='inline-flex items-center gap-1 before:text-cyan-300 before:content-["✓"]'>
+            Advanced React with TypeScript
+          </li>
         </ul>
         <Link
-          href="/#buy"
+          href="/buy"
           className="mt-8 inline-block w-full rounded bg-gradient-to-t from-cyan-400 to-cyan-300 px-4 py-3 font-medium text-black transition hover:brightness-110 md:mt-5 md:w-auto md:py-2"
         >
           Be a TypeScript Wizard →

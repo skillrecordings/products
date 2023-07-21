@@ -24,4 +24,4 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 ('tt_price_21e98913-32fa-4150-9c65-ad4c6fc5dbeb', 'tt_product_79434686-6437-48ac-956e-1357aba87672', 'Core Volume React Bundle', 1, 790);
 
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
-('tt_merchant_price_5a01cbbe-f0a9-4bda-adbb-80122abff505', 'tt_merchant_product_5d6a33cf-9780-4a07-a4f7-ea95d69a8cab', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, "tt_price_21e98913-32fa-4150-9c65-ad4c6fc5dbeb", "price_1NT9GgAozSgJZBRPnclsNBwz");
+('tt_merchant_price_5a01cbbe-f0a9-4bda-adbb-80122abff505', 'tt_merchant_product_5d6a33cf-9780-4a07-a4f7-ea95d69a8cab', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, "tt_price_21e98913-32fa-4150-9c65-ad4c6fc5dbeb", "price_1NViIsAozSgJZBRPWXXULskq");

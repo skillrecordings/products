@@ -24,7 +24,9 @@ export const moduleProgressRouter = router({
 
       const allModuleLessons =
         module.sections.length > 0
-          ? module.sections.flatMap((section: Section) => section.lessons)
+          ? module.sections
+              .filter((section: Section) => section?.lessons?.length)
+              .flatMap((section: Section) => section.lessons)
           : module.lessons
 
       const lessonIds = allModuleLessons.map((lesson: Lesson) => lesson._id)
@@ -49,40 +51,42 @@ export const moduleProgressRouter = router({
         }
       })
 
-      const moduleProgressSections = module.sections.map((section: Section) => {
-        const sectionProgressLessons =
-          section.lessons?.map((lesson: Lesson) => {
-            return {
-              id: lesson._id,
-              slug: lesson.slug,
-              lessonCompleted: Boolean(
-                moduleLessonProgress.find(
-                  (progress) =>
-                    progress.lessonId === lesson._id && progress.completedAt,
+      const moduleProgressSections = module.sections
+        .filter((section: Section) => section.lessons)
+        .map((section: Section) => {
+          const sectionProgressLessons =
+            section.lessons?.map((lesson: Lesson) => {
+              return {
+                id: lesson._id,
+                slug: lesson.slug,
+                lessonCompleted: Boolean(
+                  moduleLessonProgress.find(
+                    (progress) =>
+                      progress.lessonId === lesson._id && progress.completedAt,
+                  ),
                 ),
-              ),
-            }
-          }) || []
+              }
+            }) || []
 
-        return {
-          id: section._id,
-          slug: section.slug,
-          sectionCompleted: sectionProgressLessons.every(
-            (lesson) => lesson.lessonCompleted,
-          ),
-          percentComplete: Math.round(
-            (sectionProgressLessons.filter((lesson) => lesson.lessonCompleted)
-              .length /
-              sectionProgressLessons.length) *
-              100,
-          ),
-          completedLessonCount: sectionProgressLessons.filter(
-            (lesson) => lesson.lessonCompleted,
-          ).length,
-          lessonCount: sectionProgressLessons.length,
-          lessons: sectionProgressLessons,
-        }
-      })
+          return {
+            id: section._id,
+            slug: section.slug,
+            sectionCompleted: sectionProgressLessons.every(
+              (lesson) => lesson.lessonCompleted,
+            ),
+            percentComplete: Math.round(
+              (sectionProgressLessons.filter((lesson) => lesson.lessonCompleted)
+                .length /
+                sectionProgressLessons.length) *
+                100,
+            ),
+            completedLessonCount: sectionProgressLessons.filter(
+              (lesson) => lesson.lessonCompleted,
+            ).length,
+            lessonCount: sectionProgressLessons.length,
+            lessons: sectionProgressLessons,
+          }
+        })
 
       return ModuleProgressSchema.parse({
         moduleId: module._id,

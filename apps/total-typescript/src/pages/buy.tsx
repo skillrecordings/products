@@ -93,7 +93,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
             quality={100}
           />
         </motion.div>
-        <section className="px-5 pt-40">
+        <section className="px-5 pt-20">
           <div className="grid gap-40 lg:flex lg:gap-8 xl:gap-16">
             {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
             {sortedProductsByName?.map((product, i) => {

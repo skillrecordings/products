@@ -32,6 +32,13 @@
   }
 
   #main-pricing {
+    [data-pricing-product='1'] {
+      article {
+        [data-pricing-product-header] {
+          @apply pt-12;
+        }
+      }
+    }
     [data-pricing-product] {
       @apply relative flex w-full max-w-[406px] flex-col items-center justify-center rounded-md border border-gray-800 bg-gray-900 shadow-2xl;
 
@@ -41,10 +48,19 @@
 
       article {
         @apply relative z-10 pt-16;
+        [data-pricing-footer] {
+          [data-guarantee-image] {
+            @apply hidden;
+          }
+        }
       }
 
       [data-pricing-product-header] {
         @apply flex flex-col items-center pt-24;
+
+        [data-title] {
+          @apply w-full text-center font-medium text-cyan-200;
+        }
 
         [data-byline] {
           @apply pt-2 text-base font-medium text-gray-200;
@@ -84,6 +100,9 @@
 
       [data-purchase-container] {
         @apply mb-6;
+        [data-guarantee] {
+          @apply block pt-3 text-center text-sm text-gray-200;
+        }
       }
 
       [data-purchased-container] {
@@ -317,7 +336,7 @@
       /* Countdown box */
       [data-pricing-product-sale-countdown] {
         [data-grid] {
-          @apply mx-auto pb-6 grid max-w-[300px] grid-cols-4 items-center justify-center gap-3 tabular-nums tracking-tight;
+          @apply mx-auto grid max-w-[300px] grid-cols-4 items-center justify-center gap-3 pb-6 tabular-nums tracking-tight;
         }
       }
     }
@@ -328,31 +347,46 @@
       @apply mb-8;
       [data-pricing-product] {
         @apply mx-auto w-full;
+        [data-pricing-product-image] {
+          @apply mt-10 w-44;
+        }
         article {
-          @apply w-full pt-0;
+          @apply w-full pt-24;
           [data-pricing-product-header] {
             @apply pt-5;
             [data-name-badge] {
-              @apply hidden;
+              /* @apply hidden; */
             }
           }
           [data-purchase-container] {
           }
           [data-ppp-container] {
-            @apply mb-0;
+            /* @apply mb-0; */
           }
           [data-pricing-footer] {
             div:first-of-type {
-              @apply hidden;
+              /* @apply hidden; */
             }
             [data-guarantee-image] {
               @apply mx-auto w-28 pb-8;
             }
             [data-header] {
-              @apply hidden;
+              /* @apply hidden; */
             }
             [data-main] {
-              @apply hidden;
+              /* @apply hidden; */
+              div > strong {
+                @apply block;
+              }
+              p > strong {
+                @apply block;
+              }
+              strong {
+                @apply hidden;
+              }
+              [data-features] {
+                @apply hidden;
+              }
             }
           }
         }
@@ -492,8 +526,6 @@
       }
       [data-pricing-product-sale-countdown] {
         @apply px-0 pb-3;
-
-
 
         div[class='w-full rounded-lg text-center'] {
           @apply flex flex-row;

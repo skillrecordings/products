@@ -58,17 +58,26 @@ const WorkshopsPage: React.FC<{
         </p>
         {modules && (
           <ul className="flex max-w-screen-md flex-col px-5 pt-10 sm:pt-20">
-            <div className="space-y-5 sm:space-y-8">
+            <div className="space-y-14">
+              {standaloneWorkshops.map((module, i) => (
+                <WorkshopTeaser
+                  module={module}
+                  i={i}
+                  key={module.slug.current}
+                />
+              ))}
               {coreVolumeWorkshops.length > 0 && (
                 <div>
-                  <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-cyan-300">
-                    <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
-                      FEATURED
-                    </span>
+                  <div className="flex w-full items-center space-x-2 pb-3">
+                    <h2 className="text-xl font-medium text-gray-300 sm:text-2xl">
+                      Core Volume
+                    </h2>
+                    <div className="font-mono text-xs font-semibold uppercase text-cyan-300">
+                      <span className="rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
+                        FEATURED
+                      </span>
+                    </div>
                   </div>
-                  <h2 className="pb-8 font-heading text-4xl font-bold sm:text-4xl">
-                    Core Volume
-                  </h2>
                   {coreVolumeWorkshops.map((module, i) => (
                     <div className="mb-5" key={module.slug.current}>
                       <WorkshopTeaser module={module} i={i} />
@@ -90,19 +99,6 @@ const WorkshopsPage: React.FC<{
                   })}
                 </div>
               )}
-              {standaloneWorkshops.map((module, i) => (
-                <div className="mb-5" key={module.slug.current}>
-                  <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-cyan-300">
-                    <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
-                      NEW
-                    </span>
-                  </div>
-                  <h2 className="pb-8 font-heading text-4xl font-bold sm:text-4xl">
-                    Standalone Workshops
-                  </h2>
-                  <WorkshopTeaser module={module} i={i} />
-                </div>
-              ))}
             </div>
           </ul>
         )}
@@ -125,7 +121,7 @@ const WorkshopTeaser: React.FC<{module: SanityDocument; i: number}> = ({
 }) => {
   const {title, slug, image, description, sections, state} = module
   return (
-    <li className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-8 shadow-2xl md:flex-row">
+    <li className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-gray-800/20 p-8 shadow-2xl md:flex-row">
       <div className="flex flex-shrink-0 items-center justify-center">
         <Image
           src={`https://res.cloudinary.com/dg3gyk0gu/image/fetch/h_600/f_auto/${image}`}
@@ -216,7 +212,7 @@ const BonusTeaser: React.FC<{module: SanityDocument}> = ({module}) => {
   if (state === 'draft') return null
 
   return (
-    <li className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-8 shadow-2xl md:flex-row">
+    <li className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-gray-800/20 p-8 shadow-2xl md:flex-row">
       <div className="flex flex-shrink-0 items-center justify-center">
         <Image
           src={`https://res.cloudinary.com/dg3gyk0gu/image/fetch/h_600/f_auto/${image}`}
