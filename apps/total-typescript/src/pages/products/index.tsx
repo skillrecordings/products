@@ -50,11 +50,11 @@ const ProductsIndex: React.FC<ProductsIndexProps> = ({
   const purchasedProductIds = purchases?.map((purchase) => purchase.productId)
   return (
     <Layout meta={{title: `${process.env.NEXT_PUBLIC_SITE_TITLE} Products`}}>
-      <header className="mx-auto flex w-full max-w-4xl flex-col justify-center px-5 pb-5 pt-32">
-        <h1 className="mb-4 text-center font-heading text-5xl font-semibold">
+      <header className="mx-auto flex w-full max-w-4xl flex-col justify-center px-5 pb-5 pt-32 sm:pt-40">
+        <h1 className="mb-4 text-center font-heading text-4xl font-semibold sm:text-5xl">
           Total TypeScript Products
         </h1>
-        <h2 className="text-center text-xl text-gray-300">
+        <h2 className="text-center text-gray-300 sm:text-xl">
           <Balancer>
             All {process.env.NEXT_PUBLIC_SITE_TITLE} products that you can buy
             today to level up at TypeScript.
@@ -101,7 +101,7 @@ const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
         )
       })}
       {/* <div className="flex w-full items-center justify-end border-t border-gray-800 pb-16 pt-3">
-        <label className="flex cursor-pointer items-center gap-1.5 text-gray-300 transition hover:text-white">
+        <label>
           <input
             value={isPPPEnabled ? 'on' : 'off'}
             type="checkbox"
@@ -173,7 +173,9 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
   }, [isPPPAvailable, pppCoupon, isPPPEnabled, setMerchantCoupon])
 
   return (
-    <div className="rounded-md border border-gray-700/50 bg-black/20 p-8 px-2 py-0.5 shadow-2xl">
+    <div
+    // className="rounded-md border border-gray-700/20 bg-gray-800/20 p-8 px-2 py-0.5 shadow-2xl"
+    >
       <div className="mt-4 flex grid-cols-5 flex-col md:grid">
         <aside className="col-span-2">
           {product.image && (
@@ -182,11 +184,12 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
               alt={product.title || `Product image`}
               width={300}
               height={300}
+              className="mx-auto"
             />
           )}
         </aside>
-        <div className="col-span-3 flex flex-col gap-3 py-5 pl-3 pr-8 pt-5 md:pt-12">
-          <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-cyan-300">
+        <div className="col-span-3 flex flex-col items-center gap-3 py-5 pt-5 sm:items-start sm:pl-3 sm:pr-8 md:pt-5">
+          <div className="font-mono text-xs font-semibold uppercase text-cyan-300">
             {product.slug === 'core-volume-react-bundle' ? (
               <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
                 FEATURED PRODUCT
@@ -198,7 +201,7 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
             ) : null}
           </div>
 
-          <h3 className="font-text text-4xl font-bold">
+          <h3 className="text-center font-text text-3xl font-bold sm:text-left sm:text-4xl">
             <Link
               href={{
                 pathname: '/products/[slug]',
@@ -219,10 +222,15 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
             ) : (
               <>
                 {status === 'success' ? (
-                  <PriceDisplay
-                    status={status}
-                    formattedPrice={formattedPrice}
-                  />
+                  <div>
+                    <PriceDisplay
+                      status={status}
+                      formattedPrice={formattedPrice}
+                    />
+                    {appliedMerchantCoupon?.type === 'ppp'
+                      ? 'Regional access'
+                      : null}
+                  </div>
                 ) : (
                   <div
                     role="status"
@@ -237,12 +245,12 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
           </div>
           <div className="w-full text-gray-300">
             <Balancer>
-              <ReactMarkdown className="prose pt-5 sm:prose-lg prose-p:text-gray-200">
+              <ReactMarkdown className="prose w-full max-w-none pt-5 sm:prose-lg prose-p:text-gray-200">
                 {product.description || ''}
               </ReactMarkdown>
             </Balancer>
           </div>
-          {product.modules?.length > 1 && (
+          {product.modules?.length && (
             <>
               <h4 className="pt-5 text-sm font-semibold uppercase text-gray-300">
                 Includes
@@ -250,7 +258,15 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
               <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2">
                 {product.modules.map((module) => {
                   return (
-                    <div className="flex w-full flex-row items-center gap-2">
+                    <Link
+                      href={{
+                        pathname: '/workshops/[slug]',
+                        query: {
+                          slug: module.slug,
+                        },
+                      }}
+                      className="group flex w-full flex-row items-center gap-2"
+                    >
                       {module.image && (
                         <Image
                           src={module.image.url}
@@ -259,7 +275,7 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
                           height={72}
                         />
                       )}
-                      <span className="w-full leading-tight text-gray-200">
+                      <span className="w-full leading-tight text-gray-200 transition group-hover:text-white group-hover:underline">
                         {module.slug === 'typescript-expert-interviews' ? (
                           <h3 className="font-semibold text-yellow-200">
                             Bonus🎁
@@ -267,7 +283,7 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
                         ) : null}
                         <Balancer>{module.title}</Balancer>
                       </span>
-                    </div>
+                    </Link>
                   )
                 })}
               </div>
@@ -279,7 +295,7 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
           <div className="grid grid-cols-2 gap-4">
             {product.features?.map((feature) => {
               return (
-                <div className="flex items-center space-x-2 text-sm">
+                <div className="flex items-center space-x-2 text-base text-gray-300">
                   <CheckIcon
                     className="h-4 w-4 text-cyan-300"
                     aria-hidden="true"
