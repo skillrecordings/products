@@ -79,6 +79,8 @@ export type PurchaseInfo = {
   stripeProduct: Stripe.Product
 }
 
+export const NO_ASSOCIATED_PRODUCT = 'no-associated-product'
+
 export async function recordNewPurchase(checkoutSessionId: string): Promise<{
   user: any
   purchase: Purchase
@@ -114,7 +116,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
 
   if (!merchantProduct)
     throw new PurchaseError(
-      `no-associated-product`,
+      NO_ASSOCIATED_PRODUCT,
       checkoutSessionId,
       email,
       stripeProductId,
