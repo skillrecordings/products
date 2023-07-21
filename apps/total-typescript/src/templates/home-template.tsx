@@ -72,7 +72,10 @@ export const HomeTemplate: React.FC<
             <h2 className="mx-auto max-w-screen-lg px-3 text-center font-heading text-3xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
               <Balancer>Your Total TypeScript Adventure Starts Now</Balancer>
             </h2>
-            <div className="flex w-full flex-col items-center pt-5" id="buy">
+            <div
+              className="flex w-full flex-col items-center pb-32 pt-12"
+              id="buy"
+            >
               <Image
                 src={require('../../public/assets/landing/bg-divider-5.png')}
                 alt=""
@@ -105,12 +108,13 @@ export const HomeTemplate: React.FC<
                       >
                         <Element name="buy" aria-hidden="true" />
                         <Pricing
+                          index={i}
                           product={product}
                           userId={userId}
                           purchases={purchases}
                           couponId={couponId}
                           options={{
-                            withGuaranteeBadge: false,
+                            withGuaranteeBadge: true,
                             withImage: true,
                           }}
                         />
@@ -119,6 +123,15 @@ export const HomeTemplate: React.FC<
                   })}
                 </div>
               </section>
+            </div>
+            <div className="flex w-full items-center justify-center pt-16">
+              <Image
+                src="https://res.cloudinary.com/total-typescript/image/upload/v1689864739/money-back-guarantee-large_l3sikc.png"
+                alt="30-Day Money Back Guarantee"
+                width={700 / 1.7}
+                height={252 / 1.7}
+                priority
+              />
             </div>
           </MDXComponents.Section>
         ) : (
@@ -135,6 +148,7 @@ export const HomeTemplate: React.FC<
             quality={100}
           />
         </div>
+
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       </main>
     </Layout>

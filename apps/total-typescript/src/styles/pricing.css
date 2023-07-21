@@ -32,6 +32,13 @@
   }
 
   #main-pricing {
+    [data-pricing-product='1'] {
+      article {
+        [data-pricing-product-header] {
+          @apply pt-12;
+        }
+      }
+    }
     [data-pricing-product] {
       @apply relative flex w-full max-w-[406px] flex-col items-center justify-center rounded-md border border-gray-800 bg-gray-900 shadow-2xl;
 
@@ -41,10 +48,19 @@
 
       article {
         @apply relative z-10 pt-16;
+        [data-pricing-footer] {
+          [data-guarantee-image] {
+            @apply hidden;
+          }
+        }
       }
 
       [data-pricing-product-header] {
         @apply flex flex-col items-center pt-24;
+
+        [data-title] {
+          @apply w-full text-center font-medium text-cyan-200;
+        }
 
         [data-byline] {
           @apply pt-2 text-base font-medium text-gray-200;
@@ -84,6 +100,9 @@
 
       [data-purchase-container] {
         @apply mb-6;
+        [data-guarantee] {
+          @apply block pt-3 text-center text-sm text-gray-200;
+        }
       }
 
       [data-purchased-container] {
@@ -317,7 +336,7 @@
       /* Countdown box */
       [data-pricing-product-sale-countdown] {
         [data-grid] {
-          @apply mx-auto pb-6 grid max-w-[300px] grid-cols-4 items-center justify-center gap-3 tabular-nums tracking-tight;
+          @apply mx-auto grid max-w-[300px] grid-cols-4 items-center justify-center gap-3 pb-6 tabular-nums tracking-tight;
         }
       }
     }
@@ -492,8 +511,6 @@
       }
       [data-pricing-product-sale-countdown] {
         @apply px-0 pb-3;
-
-
 
         div[class='w-full rounded-lg text-center'] {
           @apply flex flex-row;
