@@ -114,8 +114,9 @@ export const getWorkshop = async (slug: string) =>
           "resources": resources[@->._type in ['linkResource']]->
         },
         "image": image.asset->url, 
-        // get product that includes current workshop and has lowest amount of modules
-        'product': *[_type == 'product' && references(^._id)] | order(count(modules) asc)[0]{
+        // get product that includes current workshop and has
+        // the largest number of modules so we can assume it's a bundle
+        'product': *[_type == 'product' && references(^._id)] | order(count(modules) desc)[0]{
           "name": title,
           "slug": slug.current,
           productId,

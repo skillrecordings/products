@@ -40,7 +40,8 @@ const WorkshopTemplate: React.FC<{
   workshop: Module
   workshopBodySerialized: MDXRemoteSerializeResult
   product?: SanityProduct
-}> = ({workshop, workshopBodySerialized, product}) => {
+}> = ({workshop, workshopBodySerialized}) => {
+  const product = workshop.product
   const {title, ogImage, testimonials, description, slug} = workshop
   const pageTitle = `${title} Workshop`
   const {data: commerceProps, status: commercePropsStatus} =
@@ -72,7 +73,11 @@ const WorkshopTemplate: React.FC<{
       }}
     >
       <CourseMeta title={pageTitle} description={description} />
-      <Header module={workshop} hasPurchased={canView} product={product} />
+      <Header
+        module={workshop}
+        hasPurchased={canView}
+        product={product as SanityProduct}
+      />
       <main
         data-workshop-template={slug.current}
         className="relative z-10 flex flex-col gap-5 lg:flex-row"
@@ -102,14 +107,14 @@ const WorkshopTemplate: React.FC<{
                   )}
                 >
                   <Pricing
-                    product={product}
+                    product={product as SanityProduct}
                     allowPurchase={commerceProps?.allowPurchase}
                     cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
                     purchases={commerceProps?.purchases}
                     userId={commerceProps?.userId}
                     options={{
                       withGuaranteeBadge: true,
-                      withImage: false,
+                      withImage: true,
                     }}
                   />
                 </PriceCheckProvider>
