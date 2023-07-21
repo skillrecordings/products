@@ -127,7 +127,7 @@ const ErrorFromHell: React.FC<any> = ({children}) => {
   return (
     <div className="relative mx-auto mt-16 max-w-3xl rounded-md border-2 border-[#E11D48] border-opacity-20 bg-[#1C1427] px-12 py-10 text-left font-mono text-sm leading-relaxed">
       <div className="relative z-10">{children}</div>
-      <div className="pointer-events-none absolute left-[-85px] top-[-178px] select-none">
+      <div className="pointer-events-none absolute left-[-85px] top-[-206px] select-none">
         <DecorativeImage
           alt=""
           src="/assets/landing/flame-corner-left@2x.png"
@@ -135,7 +135,7 @@ const ErrorFromHell: React.FC<any> = ({children}) => {
           height={868 / 2}
         />
       </div>
-      <div className="pointer-events-none absolute bottom-[-30px] right-[-45px] select-none">
+      <div className="pointer-events-none absolute bottom-[-52px] right-[-45px] select-none">
         <DecorativeImage
           alt=""
           src="/assets/landing/flame-corner-right@2x.png"
