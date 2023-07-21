@@ -60,12 +60,11 @@ const WorkshopsPage: React.FC<{
           <ul className="flex max-w-screen-md flex-col px-5 pt-10 sm:pt-20">
             <div className="space-y-14">
               {standaloneWorkshops.map((module, i) => (
-                <div className="mb-5" key={module.slug.current}>
-                  <h2 className="pb-3 text-xl font-medium text-gray-300 sm:text-2xl">
-                    Standalone Workshops
-                  </h2>
-                  <WorkshopTeaser module={module} i={i} />
-                </div>
+                <WorkshopTeaser
+                  module={module}
+                  i={i}
+                  key={module.slug.current}
+                />
               ))}
               {coreVolumeWorkshops.length > 0 && (
                 <div>
@@ -122,7 +121,7 @@ const WorkshopTeaser: React.FC<{module: SanityDocument; i: number}> = ({
 }) => {
   const {title, slug, image, description, sections, state} = module
   return (
-    <li className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-8 shadow-2xl md:flex-row">
+    <li className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-gray-800/20 p-8 shadow-2xl md:flex-row">
       <div className="flex flex-shrink-0 items-center justify-center">
         <Image
           src={`https://res.cloudinary.com/dg3gyk0gu/image/fetch/h_600/f_auto/${image}`}
@@ -213,7 +212,7 @@ const BonusTeaser: React.FC<{module: SanityDocument}> = ({module}) => {
   if (state === 'draft') return null
 
   return (
-    <li className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-8 shadow-2xl md:flex-row">
+    <li className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-gray-800/20 p-8 shadow-2xl md:flex-row">
       <div className="flex flex-shrink-0 items-center justify-center">
         <Image
           src={`https://res.cloudinary.com/dg3gyk0gu/image/fetch/h_600/f_auto/${image}`}
