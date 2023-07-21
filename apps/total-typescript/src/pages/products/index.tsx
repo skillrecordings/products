@@ -235,13 +235,13 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
               </>
             )}
           </div>
-          <p className="w-full text-gray-300">
+          <div className="w-full text-gray-300">
             <Balancer>
               <ReactMarkdown className="prose pt-5 sm:prose-lg prose-p:text-gray-200">
                 {product.description || ''}
               </ReactMarkdown>
             </Balancer>
-          </p>
+          </div>
           {product.modules?.length > 1 && (
             <>
               <h4 className="pt-5 text-sm font-semibold uppercase text-gray-300">
