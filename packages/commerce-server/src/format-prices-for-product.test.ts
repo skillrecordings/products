@@ -299,13 +299,13 @@ test('applies fixed discount for previous purchase', async () => {
   mockCtx.prisma.purchase.findFirst.mockResolvedValue(mockPurchase)
 
   const product = await formatPricesForProduct({
-    productId: DEFAULT_PRODUCT_ID,
+    productId: UPGRADE_PRODUCT_ID,
     upgradeFromPurchaseId: UPGRADE_PURCHASE_ID,
     ctx,
   })
 
   const expectedPrice = mockPrice.unitAmount
-    .minus(mockPurchase.totalAmount)
+    .minus(mockPrice.unitAmount)
     .toNumber()
 
   expect(expectedPrice).toBe(product?.calculatedPrice)
@@ -313,12 +313,22 @@ test('applies fixed discount for previous purchase', async () => {
 
 const UPGRADE_PURCHASE_ID = 'upgrade-product-id'
 const DEFAULT_PRODUCT_ID = 'default-product-id'
+const UPGRADE_PRODUCT_ID = 'upgrade-product-id'
 const VALID_INDIA_COUPON_ID = 'valid-india-coupon-id'
 const SITE_SALE_COUPON_ID = 'valid-site-coupon-id'
 const LARGE_SITE_SALE_COUPON_ID = 'valid-jumbo-coupon-id'
 
 const mockProduct = {
   id: DEFAULT_PRODUCT_ID,
+  name: 'professional',
+  createdAt: new Date(),
+  key: 'hey',
+  status: 1,
+  quantityAvailable: -1,
+}
+
+const mockUpgradeProduct = {
+  id: UPGRADE_PRODUCT_ID,
   name: 'professional',
   createdAt: new Date(),
   key: 'hey',
@@ -333,6 +343,15 @@ const mockPrice = {
   productId: DEFAULT_PRODUCT_ID,
   nickname: 'bah',
   unitAmount: new Prisma.Decimal(100),
+}
+
+const mockUpgradePrice = {
+  id: 'price-id',
+  createdAt: new Date(),
+  status: 1,
+  productId: UPGRADE_PRODUCT_ID,
+  nickname: 'bah',
+  unitAmount: new Prisma.Decimal(200),
 }
 
 function mockDefaultProduct() {
