@@ -6,6 +6,7 @@ import {add} from 'date-fns'
 import {getCalculatedPriced, stripe} from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
 import {NextApiRequest} from 'next'
+import {getFixedDiscountForUpgrade} from '@skillrecordings/commerce-server/src'
 
 export class CheckoutError extends Error {
   couponId?: string
@@ -125,12 +126,18 @@ export async function stripeCheckout({
       )
 
       if (isUpgrade && upgradeFromPurchase && loadedProduct && customerId) {
+        const fixedDiscountForUpgrade = upgradeFromPurchase
+          ? await getFixedDiscountForUpgrade({
+              upgradeProductId: upgradeFromPurchase.productId,
+            })
+          : 0
+
         const fullPrice = loadedProduct.prices?.[0].unitAmount.toNumber()
         const calculatedPrice = getCalculatedPriced({
           unitPrice: fullPrice,
           percentOfDiscount: stripeCouponPercentOff || 0,
           quantity: 1,
-          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+          fixedDiscount: fixedDiscountForUpgrade,
         })
 
         const upgradeFromRegionRestriction =

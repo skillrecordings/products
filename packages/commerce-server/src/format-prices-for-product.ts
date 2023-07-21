@@ -34,12 +34,12 @@ type FormatPricesForProductOptions = {
   userId?: string
 }
 
-async function getFixedDiscountForUpgrade({
+export async function getFixedDiscountForUpgrade({
   upgradeProductId,
   ctx = defaultContext,
 }: {
   upgradeProductId: string
-  ctx: Context
+  ctx?: Context
 }) {
   const {getPrice} = getSdk({ctx})
   if (upgradeProductId) {
