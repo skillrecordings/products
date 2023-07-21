@@ -43,8 +43,8 @@ const PurchasesIndexTemplate: React.FC<PurchasesIndexProps> = ({purchases}) => {
           ?.filter((p) => !p.redeemedBulkCouponId)
           .map((purchase) => {
             return (
-              <article className="rounded-lg border border-gray-700/50 bg-gray-800 px-8 pb-5 pt-8 shadow-2xl shadow-black/20">
-                <h2 className="font-heading text-2xl font-extrabold sm:text-3xl">
+              <article className="rounded-lg border border-gray-700/50 bg-gray-800 px-8 pb-5 pt-5 shadow-2xl shadow-black/20">
+                <h2 className="text-xl font-semibold sm:text-2xl">
                   <Balancer>
                     <Link
                       href={`/purchases/${purchase.id}`}
@@ -55,7 +55,7 @@ const PurchasesIndexTemplate: React.FC<PurchasesIndexProps> = ({purchases}) => {
                     </Link>
                   </Balancer>
                 </h2>
-                <div className="mt-8 flex w-full flex-col justify-between gap-5 border-t border-dotted border-gray-700 pt-4 sm:flex-row sm:items-center sm:gap-0">
+                <div className="mt-5 flex w-full flex-col justify-between gap-5 border-t border-dotted border-gray-700 pt-4 sm:flex-row sm:items-center sm:gap-0">
                   <div className="flex items-center text-gray-300">
                     <InvoiceLink merchantChargeId={purchase.merchantChargeId} />
                     {' ・ '}
