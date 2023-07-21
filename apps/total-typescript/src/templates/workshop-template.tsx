@@ -319,10 +319,16 @@ export const ModuleNavigator: React.FC<{
           </div>
           <ul className="flex flex-col gap-2">
             {sections.map((section: Section, i: number) => {
-              return (
+              return section.lessons?.length ? (
                 <ModuleSection
                   key={section.slug}
                   section={section}
+                  module={module}
+                />
+              ) : (
+                <ModuleSection
+                  key={section.slug}
+                  section={{title: `${section.title} (coming soon)`} as Section}
                   module={module}
                 />
               )
@@ -451,10 +457,12 @@ const ModuleSection: React.FC<{
                   aria-hidden="true"
                 />
               )}
-              <ChevronDownIcon
-                className="relative h-3 w-3 opacity-70 transition group-hover:opacity-100 group-radix-state-open:rotate-180"
-                aria-hidden="true"
-              />
+              {section.lessons?.length && (
+                <ChevronDownIcon
+                  className="relative h-3 w-3 opacity-70 transition group-hover:opacity-100 group-radix-state-open:rotate-180"
+                  aria-hidden="true"
+                />
+              )}
             </div>
           </Accordion.Trigger>
           <div
