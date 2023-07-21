@@ -3,6 +3,9 @@ import {getBulkDiscountPercent} from './bulk-coupon'
 import {getCalculatedPriced} from './get-calculated-price'
 import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import {FormattedPrice} from './@types'
+import {Purchase} from '@prisma/client'
+import {getStripeSdk} from '@skillrecordings/stripe-sdk'
+import * as console from 'console'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
@@ -29,6 +32,25 @@ type FormatPricesForProductOptions = {
   ctx?: Context
   upgradeFromPurchaseId?: string
   userId?: string
+}
+
+async function getFixedDiscountForUpgrade({
+  upgradeProductId,
+  ctx = defaultContext,
+}: {
+  upgradeProductId: string
+  ctx: Context
+}) {
+  const {getPrice} = getSdk({ctx})
+  if (upgradeProductId) {
+    const price = await getPrice({
+      where: {
+        productId: upgradeProductId,
+      },
+    })
+    return price?.unitAmount.toNumber() || 0
+  }
+  return 0
 }
 
 /**
@@ -74,11 +96,19 @@ export async function formatPricesForProduct(
               id: true,
             },
           },
+          redeemedBulkCouponId: true,
           totalAmount: true,
           productId: true,
         },
       })
     : false
+
+  const fixedDiscountForUpgrade = upgradeFromPurchase
+    ? await getFixedDiscountForUpgrade({
+        upgradeProductId: upgradeFromPurchase.productId,
+        ctx,
+      })
+    : 0
 
   const product = await getProduct({
     where: {id: productId},
@@ -137,7 +167,7 @@ export async function formatPricesForProduct(
     calculatedPrice: getCalculatedPriced({
       unitPrice: price.unitAmount.toNumber(),
       ...(upgradeFromPurchase && {
-        fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+        fixedDiscount: fixedDiscountForUpgrade,
       }),
       quantity,
     }),
@@ -155,7 +185,7 @@ export async function formatPricesForProduct(
         unitPrice: defaultPriceProduct.unitPrice,
         percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
         ...(upgradeFromPurchase && {
-          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+          fixedDiscount: fixedDiscountForUpgrade,
         }),
         quantity,
       }),
@@ -188,7 +218,7 @@ export async function formatPricesForProduct(
         unitPrice: defaultPriceProduct.unitPrice,
         percentOfDiscount: merchantCoupon.percentageDiscount.toNumber(),
         ...(upgradeFromPurchase && {
-          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+          fixedDiscount: fixedDiscountForUpgrade,
         }),
       })
 
@@ -221,7 +251,7 @@ export async function formatPricesForProduct(
         unitPrice: defaultPriceProduct.unitPrice,
         percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
         ...(upgradeFromPurchase && {
-          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+          fixedDiscount: fixedDiscountForUpgrade,
         }),
       }),
       appliedMerchantCoupon: merchantCouponWithoutIdentifier,
@@ -252,7 +282,7 @@ export async function formatPricesForProduct(
         unitPrice: defaultPriceProduct.unitPrice,
         percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
         ...(upgradeFromPurchase && {
-          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+          fixedDiscount: fixedDiscountForUpgrade,
         }),
       }),
       appliedMerchantCoupon: merchantCouponWithoutIdentifier,
@@ -276,7 +306,7 @@ export async function formatPricesForProduct(
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
         ...(upgradeFromPurchase && {
-          fixedDiscount: upgradeFromPurchase.totalAmount.toNumber(),
+          fixedDiscount: fixedDiscountForUpgrade,
         }),
       }),
       availableCoupons: pppCoupons,

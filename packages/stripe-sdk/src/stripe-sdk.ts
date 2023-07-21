@@ -6,6 +6,11 @@ export function getStripeSdk(
   {ctx = defaultContext}: SDKOptions = {ctx: defaultContext},
 ) {
   return {
+    async getCharge(chargeId: string) {
+      return await ctx.stripe.charges.retrieve(chargeId, {
+        expand: ['customer', 'invoice.subscription', 'invoice.lines'],
+      })
+    },
     async getCheckoutSession(checkoutSessionId: string) {
       return await ctx.stripe.checkout.sessions.retrieve(checkoutSessionId, {
         expand: [
