@@ -28,6 +28,7 @@ import Link from 'next/link'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import Balancer from 'react-wrap-balancer'
 import BuyMoreSeats from '../team/buy-more-seats'
+import first from 'lodash/first'
 
 type PricingProps = {
   product: SanityProduct
@@ -142,6 +143,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     (module) => module.moduleType === 'workshop',
   )
   const bonuses = modules?.filter((module) => module.moduleType === 'bonus')
+  const upgradedProductPrice = formattedPrice?.upgradedProduct
+    ? first(formattedPrice?.upgradedProduct?.prices)?.unitAmount || 0
+    : 0
 
   return (
     <div id="main-pricing">
@@ -168,16 +172,30 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   <Balancer>{title}</Balancer>
                 </h2>
               )}
-              <PriceDisplay status={status} formattedPrice={formattedPrice} />
+              <PriceDisplay
+                status={status}
+                formattedPrice={formattedPrice}
+                upgradedProductPrice={upgradedProductPrice}
+              />
               {isRestrictedUpgrade ? (
                 <div data-byline="">All region access</div>
               ) : (
                 <div data-byline="">
                   {appliedMerchantCoupon?.type === 'ppp'
                     ? 'Regional access'
+                    : formattedPrice?.upgradeFromPurchaseId
+                    ? `Upgrade Pricing`
                     : 'Full access'}
                 </div>
               )}
+              {formattedPrice?.upgradeFromPurchaseId &&
+                upgradedProductPrice > 0 && (
+                  <div data-byline="">
+                    {`${formatUsd(upgradedProductPrice).dollars}.${
+                      formatUsd(upgradedProductPrice).cents
+                    } credit applied`}
+                  </div>
+                )}
             </div>
           ) : null}
           {purchased ? (
@@ -522,15 +540,21 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
 export type PriceDisplayProps = {
   status: QueryStatus
   formattedPrice?: FormattedPrice
+  upgradedProductPrice?: number
 }
 
-export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
+export const PriceDisplay = ({
+  status,
+  formattedPrice,
+  upgradedProductPrice = 0,
+}: PriceDisplayProps) => {
   const {isDiscount} = usePriceCheck()
 
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
   const fullPrice =
-    (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
+    (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0) -
+    upgradedProductPrice
 
   const percentOff = appliedMerchantCoupon
     ? Math.floor(+appliedMerchantCoupon.percentageDiscount * 100)

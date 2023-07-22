@@ -22,6 +22,9 @@ export type FormattedPrice = {
     expires?: string
     percentageDiscount: string
   }
+  upgradedProduct?: {
+    prices: {unitAmount: number}[]
+  }
 }
 
 export type CouponForCode = {

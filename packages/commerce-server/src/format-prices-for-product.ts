@@ -103,6 +103,18 @@ export async function formatPricesForProduct(
       })
     : false
 
+  const upgradedProduct = upgradeFromPurchase
+    ? await getProduct({
+        where: {
+          id: upgradeFromPurchase.productId,
+        },
+        select: {
+          id: true,
+          prices: true,
+        },
+      })
+    : null
+
   const fixedDiscountForUpgrade = upgradeFromPurchase
     ? await getFixedDiscountForUpgrade({
         upgradeProductId: upgradeFromPurchase.productId,
@@ -175,6 +187,7 @@ export async function formatPricesForProduct(
     ...(upgradeFromPurchase && {
       upgradeFromPurchaseId,
       upgradeFromPurchase,
+      upgradedProduct,
     }),
   }
 
@@ -193,6 +206,7 @@ export async function formatPricesForProduct(
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
         upgradeFromPurchase,
+        upgradedProduct,
       }),
     }
   }
@@ -229,6 +243,7 @@ export async function formatPricesForProduct(
         ...(upgradeFromPurchase && {
           upgradeFromPurchaseId,
           upgradeFromPurchase,
+          upgradedProduct,
         }),
       }
     }
@@ -258,6 +273,7 @@ export async function formatPricesForProduct(
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
         upgradeFromPurchase,
+        upgradedProduct,
       }),
     }
   } else if (
@@ -290,6 +306,7 @@ export async function formatPricesForProduct(
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
         upgradeFromPurchase,
+        upgradedProduct,
       }),
     }
   } else if (pppAvailable) {
@@ -313,6 +330,7 @@ export async function formatPricesForProduct(
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
         upgradeFromPurchase,
+        upgradedProduct,
       }),
     }
   } else if (bulkDiscountAvailable) {
