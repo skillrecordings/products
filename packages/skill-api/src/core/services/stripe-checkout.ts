@@ -8,6 +8,58 @@ import {getToken} from 'next-auth/jwt'
 import {NextApiRequest} from 'next'
 import {getFixedDiscountForUpgrade} from '@skillrecordings/commerce-server/src'
 
+/**
+ * Given a specific user we want to lookup their Stripe
+ * customer ID and if one doesn't exist we will
+ * create it.
+ * @param userId
+ */
+async function findOrCreateStripeCustomerId(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId as string,
+    },
+    include: {
+      merchantCustomers: true,
+    },
+  })
+
+  if (user) {
+    const customerId =
+      user && user.merchantCustomers
+        ? first(user.merchantCustomers)?.identifier
+        : false
+
+    if (customerId) {
+      return customerId
+    } else {
+      const merchantAccount = await prisma.merchantAccount.findFirst({
+        where: {
+          status: 1,
+          label: 'stripe',
+        },
+      })
+      if (merchantAccount) {
+        const customer = await stripe.customers.create({
+          email: user.email,
+          metadata: {
+            userId: user.id,
+          },
+        })
+        await prisma.merchantCustomer.create({
+          data: {
+            identifier: customer.id,
+            merchantAccountId: merchantAccount.id,
+            userId,
+          },
+        })
+        return customer.id
+      }
+    }
+  }
+  return false
+}
+
 export class CheckoutError extends Error {
   couponId?: string
   productId: string
@@ -79,10 +131,9 @@ export async function stripeCheckout({
             })
           : false
 
-      const customerId =
-        user && user.merchantCustomers
-          ? first(user.merchantCustomers)?.identifier
-          : false
+      const customerId = user
+        ? await findOrCreateStripeCustomerId(user.id)
+        : false
 
       const loadedProduct = await prisma.product.findFirst({
         where: {id: productId as string},
