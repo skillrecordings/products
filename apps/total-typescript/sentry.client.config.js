@@ -9,7 +9,9 @@ const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
 
 Sentry.init({
   integrations: [new BrowserTracing()],
-  dsn: SENTRY_DSN,
+  dsn:
+    SENTRY_DSN ||
+    'https://936f0f7cc2484582b9a4ed2b8381248d@o1184810.ingest.sentry.io/6763299',
   // Adjust this value in production, or use tracesSampler for greater control
   tracesSampleRate: 0.2,
   // ...
