@@ -144,8 +144,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   )
   const bonuses = modules?.filter((module) => module.moduleType === 'bonus')
   const upgradedProductPrice = formattedPrice?.upgradedProduct
-    ? first(formattedPrice?.upgradedProduct?.prices)?.unitAmount?.toNumber() ||
-      0
+    ? first(formattedPrice?.upgradedProduct?.prices)?.unitAmount || 0
     : 0
 
   return (
