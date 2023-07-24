@@ -7,6 +7,7 @@ export const ArticleSchema = z.object({
   metaTitle: z.string().optional(),
   subtitle: z.string().optional(),
   slug: z.string(),
+  summary: z.string().optional(),
   description: z.nullable(z.string()).optional(),
   body: z.string(),
   date: z.string(),
@@ -26,12 +27,12 @@ export const ArticleSchema = z.object({
 export type Article = z.infer<typeof ArticleSchema>
 
 export async function getAllArticles() {
-  return await sanityClient.fetch(groq`*[_type == "article"] | order(date asc){
+  return await sanityClient.fetch(groq`*[_type == "article"] | order(date desc){
     _updatedAt,
     title,
     subtitle,
     'slug': slug.current,
-    description,
+    summary,
     body,
     state,
     image,
