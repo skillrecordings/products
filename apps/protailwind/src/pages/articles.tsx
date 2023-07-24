@@ -6,6 +6,7 @@ import {GetStaticProps} from 'next'
 import {Article, getAllArticles} from '../lib/articles'
 import PageHeadline from 'components/page-headline'
 import readingTime from 'reading-time'
+import {format} from 'date-fns'
 
 const meta = {
   title: 'Tailwind Articles',
@@ -27,9 +28,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
             {isEmpty(articles) ? (
               <h3>Sorry, there are no articles yet</h3>
             ) : (
-              articles.map(({title, slug, description, body, subtitle}) => {
-                const shortDescription =
-                  description || body.substring(0, 190) + '...'
+              articles.map(({title, slug, summary, body, subtitle, date}) => {
                 const estimatedReadingTime = readingTime(body)
 
                 return (
@@ -48,23 +47,15 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                             {title}
                           </Link>
                         </h2>
+                        <time
+                          dateTime={date}
+                          className="mt-4 block font-semibold text-gray-500"
+                        >
+                          Posted on {format(new Date(date), 'do MMMM, y')}
+                        </time>
                         <h3 className="pt-3 text-xl font-medium text-gray-700">
                           {subtitle}
                         </h3>
-                        <p className="pt-5 font-normal text-gray-600">
-                          {shortDescription}
-                        </p>
-                        {/* <time
-                            dateTime={date}
-                            className="block pt-1 font-semibold pb-5 text-gray-500"
-                          >
-                            {format(new Date(date), 'dd MMMM, y')}
-                          </time> */}
-                        {/* {description && (
-                            <Markdown className="prose pt-3 pb-6">
-                              {description}
-                            </Markdown>
-                          )} */}
                         <div className="mt-6 flex w-full items-center justify-between space-x-5">
                           <Link
                             href={`/${slug}`}
