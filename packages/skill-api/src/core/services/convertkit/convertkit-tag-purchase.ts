@@ -41,6 +41,9 @@ async function getSanityProduct(productId: string) {
 }
 
 export async function convertkitTagPurchase(email: string, purchase: Purchase) {
+  // skip CK tagging in development
+  if (process.env.NODE_ENV === 'development') return
+
   try {
     const sanityProduct = await getSanityProduct(purchase.productId)
 
