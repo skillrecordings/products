@@ -143,9 +143,22 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     (module) => module.moduleType === 'workshop',
   )
   const bonuses = modules?.filter((module) => module.moduleType === 'bonus')
+
+  function getUnitPrice(formattedPrice: FormattedPrice) {
+    const price = first(formattedPrice?.upgradedProduct?.prices)
+    if (typeof price?.unitAmount === 'string') {
+      return Number(price?.unitAmount)
+    } else if (typeof price?.unitAmount === 'number') {
+      return price?.unitAmount
+    } else if (typeof price?.unitAmount?.toNumber === 'function') {
+      return price?.unitAmount?.toNumber()
+    } else {
+      return 0
+    }
+  }
+
   const upgradedProductPrice = formattedPrice?.upgradedProduct
-    ? first(formattedPrice?.upgradedProduct?.prices)?.unitAmount?.toNumber() ||
-      0
+    ? getUnitPrice(formattedPrice)
     : 0
 
   return (
