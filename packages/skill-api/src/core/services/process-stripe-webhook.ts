@@ -1,10 +1,15 @@
 import {SkillRecordingsHandlerParams} from '../types'
 import {OutgoingResponse} from '../index'
 import {getSdk, prisma} from '@skillrecordings/database'
-import {recordNewPurchase, stripe} from '@skillrecordings/commerce-server'
+import {
+  recordNewPurchase,
+  stripe,
+  NO_ASSOCIATED_PRODUCT,
+} from '@skillrecordings/commerce-server'
 import {buffer} from 'micro'
 import {postSaleToSlack, sendServerEmail} from '../../server'
 import {convertkitTagPurchase} from './convertkit'
+import Sentry from '../../lib/sentry'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -129,10 +134,22 @@ export async function processStripeWebhooks({
         }
       }
     } catch (err: any) {
-      console.error(err)
-      return {
-        status: 400,
-        body: `Webhook Error: ${err.message}`,
+      // To avoid making too much noise in Stripe, we are going to report a
+      // instance of No Associated Product to Sentry and then return a 200
+      // response from here.
+      if (err.message === NO_ASSOCIATED_PRODUCT) {
+        Sentry.captureException(err)
+
+        return {
+          status: 200,
+          body: 'not handled',
+        }
+      } else {
+        console.error(err)
+        return {
+          status: 400,
+          body: `Webhook Error: ${err.message}`,
+        }
       }
     }
   } catch (error: any) {
