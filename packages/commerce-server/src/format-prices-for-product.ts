@@ -5,7 +5,6 @@ import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import {FormattedPrice} from './@types'
 import {Purchase} from '@prisma/client'
 import {getStripeSdk} from '@skillrecordings/stripe-sdk'
-import * as console from 'console'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
