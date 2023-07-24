@@ -138,7 +138,7 @@ export async function processStripeWebhooks({
       // instance of No Associated Product to Sentry and then return a 200
       // response from here.
       if (err.message === NO_ASSOCIATED_PRODUCT) {
-        // Sentry.captureException(err)
+        Sentry.captureException(err)
 
         return {
           status: 200,
