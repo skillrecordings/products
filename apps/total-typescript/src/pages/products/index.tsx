@@ -247,29 +247,7 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
                 <div className="flex gap-1 text-lg text-gray-300">
                   <CheckCircleIcon className="w-5" /> Purchased
                 </div>
-              ) : (
-                <>
-                  {status === 'success' ? (
-                    <div>
-                      <PriceDisplay
-                        status={status}
-                        formattedPrice={formattedPrice}
-                      />
-                      {appliedMerchantCoupon?.type === 'ppp'
-                        ? 'Regional access'
-                        : null}
-                    </div>
-                  ) : (
-                    <div
-                      role="status"
-                      aria-label="loading price"
-                      className="flex h-9 w-24 animate-pulse items-center justify-center rounded bg-gradient-to-l from-gray-700 to-gray-600"
-                    >
-                      <Spinner className="w-4" />
-                    </div>
-                  )}
-                </>
-              )}
+              ) : null}
             </div>
           </div>
 
