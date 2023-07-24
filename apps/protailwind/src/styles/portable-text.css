@@ -1,3 +1,45 @@
+[data-body-video] {
+  @apply aspect-video h-full w-full rounded;
+}
+
+[data-body-tweet] {
+  @apply rounded-lg border-none bg-white p-5 !not-italic text-gray-900 shadow-2xl shadow-gray-400/10;
+  [data-header] {
+    @apply flex w-full items-start justify-between;
+  }
+  a {
+    @apply !no-underline;
+  }
+  a:hover {
+    @apply underline;
+  }
+  [data-author] {
+    @apply flex items-center justify-center gap-2;
+    img {
+      @apply my-0 rounded-full;
+    }
+    [data-name] {
+      @apply flex flex-col leading-tight text-gray-900;
+    }
+    [data-handle] {
+      @apply text-sm opacity-60;
+    }
+  }
+  svg {
+    @apply text-[rgb(29,155,240)];
+  }
+  [data-body] {
+    @apply prose my-0 max-w-none border-none pl-0 font-normal not-italic leading-tight sm:prose-lg prose-p:text-gray-900 prose-p:first-of-type:mt-0 prose-p:last-of-type:mb-0 prose-a:text-sky-500 prose-code:bg-gray-700 sm:leading-normal;
+  }
+}
+[data-body-tweet]
+  [data-body]
+  :where(blockquote p:first-of-type):not(
+    :where([class~='not-prose'] *)
+  )::before {
+  @apply hidden;
+}
+
 [data-body-testimonial] {
   @apply relative -mx-5 overflow-hidden bg-gray-200/60 py-5 pl-5 pr-5 font-medium sm:mx-0 sm:rounded-md sm:pl-8 sm:pr-6;
   [data-content] {

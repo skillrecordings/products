@@ -65,6 +65,23 @@ const Video: React.FC<VideoProps> = ({url, title}) => {
   )
 }
 
+type YouTubeProps = {
+  videoId: string
+}
+
+const YouTube: React.FC<YouTubeProps> = ({videoId}) => {
+  return (
+    <iframe
+      data-body-video=""
+      src={`https://www.youtube.com/embed/${videoId}`}
+      title="YouTube video player"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      frameBorder={0}
+      allowFullScreen
+    ></iframe>
+  )
+}
+
 type MuxVideoProps = {
   playbackId: string
 }
@@ -131,6 +148,9 @@ const mdxComponents = {
   },
   MuxVideo: ({playbackId}: MuxVideoProps) => {
     return <MuxVideo playbackId={playbackId} />
+  },
+  YouTube: ({videoId}: YouTubeProps) => {
+    return <YouTube videoId={videoId} />
   },
 }
 

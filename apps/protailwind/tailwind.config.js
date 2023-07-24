@@ -18,6 +18,7 @@ module.exports = {
     './node_modules/@skillrecordings/convertkit/dist/**/*.js',
     './node_modules/@skillrecordings/quiz/dist/**/*.js',
     './node_modules/@skillrecordings/player/dist/**/*.js',
+    './node_modules/@skillrecordings/skill-lesson/markdown/**/*.tsx',
   ],
   theme: {
     extend: {
