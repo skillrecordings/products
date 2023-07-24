@@ -3,10 +3,13 @@ import {SkillRecordingsHandlerParams} from '../types'
 import {getSdk, prisma} from '@skillrecordings/database'
 import {first} from 'lodash'
 import {add} from 'date-fns'
-import {getCalculatedPriced, stripe} from '@skillrecordings/commerce-server'
+import {
+  getCalculatedPriced,
+  stripe,
+  getFixedDiscountForUpgrade,
+} from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
 import {NextApiRequest} from 'next'
-import {getFixedDiscountForUpgrade} from '@skillrecordings/commerce-server/src'
 
 /**
  * Given a specific user we want to lookup their Stripe
