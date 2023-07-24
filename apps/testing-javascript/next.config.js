@@ -25,7 +25,6 @@ const IMAGE_HOST_DOMAINS = [
   `d2eip9sf3oo6c2.cloudfront.net`,
   `cdn.sanity.io`,
   'image.mux.com',
-  'testingjavascript.com',
   process.env.NEXT_PUBLIC_HOST,
 ]
 
