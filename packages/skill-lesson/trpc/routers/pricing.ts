@@ -3,6 +3,7 @@ import {getSdk} from '@skillrecordings/database'
 import {
   formatPricesForProduct,
   getActiveMerchantCoupon,
+  getValidPurchases,
   propsForCommerce,
 } from '@skillrecordings/commerce-server'
 import {find} from 'lodash'
@@ -33,19 +34,20 @@ const checkForAnyAvailableUpgrades = async ({
 }: {
   upgradeFromPurchaseId: string | undefined
   productId: string
-  purchases: Array<{id: string; productId: string}>
+  purchases: Array<{id: string; productId: string; status: string}>
   country: string
 }) => {
   if (upgradeFromPurchaseId) return upgradeFromPurchaseId
 
   const {availableUpgradesForProduct} = getSdk()
+  const validPurchases = getValidPurchases(purchases)
 
   const availableUpgrades = await availableUpgradesForProduct(
-    purchases,
+    validPurchases,
     productId,
   )
 
-  return find(purchases, (purchase) => {
+  return find(validPurchases, (purchase) => {
     const upgradeProductIds = availableUpgrades.map(
       (upgrade) => upgrade.upgradableFrom.id,
     )
@@ -131,7 +133,9 @@ export const pricing = router({
       const token = await getToken({req: ctx.req})
 
       const {getPurchasesForUser} = getSdk()
-      const purchases = await getPurchasesForUser(userId || token?.sub || '')
+      const purchases = getValidPurchases(
+        await getPurchasesForUser(userId || token?.sub || ''),
+      )
 
       const country =
         (ctx.req.headers['x-vercel-ip-country'] as string) ||

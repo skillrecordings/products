@@ -176,6 +176,8 @@ export async function stripeCheckout({
         add(new Date(), {hours: 12}).getTime() / 1000,
       )
 
+      console.log({upgradeFromPurchaseId})
+
       if (isUpgrade && upgradeFromPurchase && loadedProduct && customerId) {
         const fixedDiscountForUpgrade = upgradeFromPurchase
           ? await getFixedDiscountForUpgrade({

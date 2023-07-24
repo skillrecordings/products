@@ -5,6 +5,7 @@ import {getSdk, Purchase} from '@skillrecordings/database'
 import {
   getActiveMerchantCoupon,
   formatPricesForProduct,
+  getValidPurchases,
 } from '@skillrecordings/commerce-server'
 
 type OptionsForFormatPrices = {
@@ -41,7 +42,7 @@ export const formatPrices = async (options: OptionsForFormatPrices) => {
 
   const upgradeFromPurchaseId = _upgradeFromPurchaseId
     ? _upgradeFromPurchaseId
-    : find(purchases, (purchase) => {
+    : find(getValidPurchases(purchases), (purchase) => {
         const upgradeProductIds = availableUpgrades.map(
           (upgrade) => upgrade.upgradableFrom.id,
         )
