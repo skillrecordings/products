@@ -16,7 +16,6 @@ import {
   customPlayFromBeginningHandler,
   customContinueHandler,
 } from 'utils/custom-handlers'
-import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 
 import {trpc} from 'trpc/trpc.client'
 import Spinner from 'components/spinner'
@@ -46,8 +45,8 @@ const LessonTemplate = () => {
       handlePlayFromBeginning={customPlayFromBeginningHandler}
     >
       <div className="container max-w-6xl">
-        <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
-          <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
+        <section className="flex">
+          <div className="grow">
             <Video
               ref={muxPlayerRef}
               product={defaultProduct}
@@ -55,20 +54,10 @@ const LessonTemplate = () => {
               loadingIndicator={<Spinner />}
             />
           </div>
-        </main>
-        <div className="relative hidden flex-grow 2xl:block">
-          <VideoTranscript transcript={videoResource?.transcript || ''} />
-        </div>
-        <article className="relative flex-shrink-0 2xl:bg-transparent">
-          <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-6 2xl:max-w-xl">
-            <div className="relative z-10 block flex-grow 2xl:hidden">
-              <VideoTranscript transcript={videoResource?.transcript || ''} />
-            </div>
-          </div>
-        </article>
-        {/* <div className="shrink-0">
+          {/* <div className="shrink-0">
             <Playlist />
           </div> */}
+        </section>
       </div>
     </VideoProvider>
   )
