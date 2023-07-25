@@ -218,7 +218,6 @@ export async function stripeCheckout({
           coupon: coupon.id,
         })
       } else if (merchantCoupon && merchantCoupon.identifier) {
-        console.log('BLAH')
         // no ppp for bulk purchases
         const isNotPPP = merchantCoupon.type !== 'ppp'
         if (isNotPPP || quantity === 1) {
