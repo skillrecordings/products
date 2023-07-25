@@ -173,16 +173,15 @@ export async function formatPricesForProduct(
     ? appliedMerchantCoupon.percentageDiscount.toNumber() < bulkCouponPercent
     : true
 
+  const pppConditionsMet =
+    quantity === 1 && pppDiscountPercent > 0 && appliedMerchantCouponLessThanPPP
+
   // if they have a purchase then verify they've used a PPP coupon
   // otherwise proceed with default conditions
-  const pppAvailable = userPurchases.length
-    ? hasPurchaseWithPPP &&
-      quantity === 1 &&
-      pppDiscountPercent > 0 &&
-      appliedMerchantCouponLessThanPPP
-    : quantity === 1 &&
-      pppDiscountPercent > 0 &&
-      appliedMerchantCouponLessThanPPP
+  const pppAvailable =
+    userPurchases.length > 0
+      ? hasPurchaseWithPPP && pppConditionsMet
+      : pppConditionsMet
 
   const bulkDiscountAvailable =
     bulkCouponPercent > 0 && appliedMerchantCouponLessThanBulk && !pppApplied
