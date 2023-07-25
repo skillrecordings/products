@@ -311,6 +311,36 @@ test('applies fixed discount for previous purchase', async () => {
   expect(expectedPrice).toBe(product?.calculatedPrice)
 })
 
+test('PPP coupon not available for non-ppp purchasers', async () => {
+  const mockPurchases = [
+    {
+      status: 'Valid',
+    },
+    {
+      status: 'Valid',
+    },
+  ]
+
+  mockCtx.prisma.merchantCoupon.findMany.mockResolvedValue([MOCK_INDIA_COUPON])
+
+  // @ts-ignore
+  mockCtx.prisma.purchase.findMany.mockResolvedValue(mockPurchases)
+
+  // @ts-ignore
+  mockCtx.prisma.user.findFirst.mockResolvedValue({
+    id: 'default-user',
+  })
+
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    userId: 'default-user',
+    country: 'IN',
+    ctx,
+  })
+
+  expect(product.availableCoupons.length).toBe(0)
+})
+
 const UPGRADE_PURCHASE_ID = 'upgrade-product-id'
 const DEFAULT_PRODUCT_ID = 'default-product-id'
 const UPGRADE_PRODUCT_ID = 'upgrade-product-id'
