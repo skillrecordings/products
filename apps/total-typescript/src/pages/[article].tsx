@@ -23,9 +23,10 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       },
     }))
 
-  const articles = (await getAllArticles()).filter(
-    (a) => a.slug !== article.slug,
-  )
+  // Fetch first 6 articles only
+  const articles = (await getAllArticles())
+    .filter((a) => a.slug !== article.slug)
+    .slice(0, 6)
 
   return {
     props: {
