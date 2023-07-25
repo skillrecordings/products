@@ -179,12 +179,11 @@ export async function stripeCheckout({
         add(new Date(), {hours: 12}).getTime() / 1000,
       )
 
-      console.log({upgradeFromPurchaseId})
-
       if (isUpgrade && upgradeFromPurchase && loadedProduct && customerId) {
         const fixedDiscountForUpgrade = upgradeFromPurchase
           ? await getFixedDiscountForUpgrade({
               upgradeProductId: upgradeFromPurchase.productId,
+              upgradeFromPurchase,
             })
           : 0
 
@@ -219,6 +218,7 @@ export async function stripeCheckout({
           coupon: coupon.id,
         })
       } else if (merchantCoupon && merchantCoupon.identifier) {
+        console.log('BLAH')
         // no ppp for bulk purchases
         const isNotPPP = merchantCoupon.type !== 'ppp'
         if (isNotPPP || quantity === 1) {

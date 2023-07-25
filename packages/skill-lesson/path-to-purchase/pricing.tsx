@@ -203,6 +203,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 </div>
               )}
               {formattedPrice?.upgradeFromPurchaseId &&
+                !isRestrictedUpgrade &&
                 upgradedProductPrice > 0 && (
                   <div data-byline="">
                     {`${formatUsd(upgradedProductPrice).dollars}.${

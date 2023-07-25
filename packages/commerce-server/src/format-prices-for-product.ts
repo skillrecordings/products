@@ -35,19 +35,25 @@ type FormatPricesForProductOptions = {
 
 export async function getFixedDiscountForUpgrade({
   upgradeProductId,
+  upgradeFromPurchase,
   ctx = defaultContext,
 }: {
   upgradeProductId: string
+  upgradeFromPurchase?: Purchase
   ctx?: Context
 }) {
-  const {getPrice} = getSdk({ctx})
-  if (upgradeProductId) {
-    const price = await getPrice({
-      where: {
-        productId: upgradeProductId,
-      },
-    })
-    return price?.unitAmount.toNumber() || 0
+  if (upgradeFromPurchase?.status === 'Restricted') {
+    return upgradeFromPurchase?.totalAmount.toNumber() || 0
+  } else {
+    const {getPrice} = getSdk({ctx})
+    if (upgradeProductId) {
+      const price = await getPrice({
+        where: {
+          productId: upgradeProductId,
+        },
+      })
+      return price?.unitAmount.toNumber() || 0
+    }
   }
   return 0
 }
@@ -99,6 +105,7 @@ export async function formatPricesForProduct(
           redeemedBulkCouponId: true,
           totalAmount: true,
           productId: true,
+          status: true,
         },
       })
     : false
@@ -118,6 +125,7 @@ export async function formatPricesForProduct(
   const fixedDiscountForUpgrade = upgradeFromPurchase
     ? await getFixedDiscountForUpgrade({
         upgradeProductId: upgradeFromPurchase.productId,
+        upgradeFromPurchase,
         ctx,
       })
     : 0
