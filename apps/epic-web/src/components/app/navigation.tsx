@@ -18,6 +18,8 @@ import {trpc} from 'trpc/trpc.client'
 import Gravatar from 'react-gravatar'
 import {useSession} from 'next-auth/react'
 import {WorkshopSeriesNavCta} from 'pages/full-stack-workshop-series-vol-1'
+import {useMedia} from 'react-use'
+import {cn} from '@skillrecordings/skill-lesson/ui/utils'
 
 type NavigationProps = {
   className?: string
@@ -85,6 +87,7 @@ const Navigation: React.FC<NavigationProps> = ({
     // Into these values:
     [80, 48],
   )
+  const isSmScreen = useMedia('(max-width: 640px)', false)
 
   const [hoveredNavItemIndex, setHoveredNavItemIndex] = React.useState(-1)
   const {data: commerceProps, status: commercePropsStatus} =
@@ -100,7 +103,7 @@ const Navigation: React.FC<NavigationProps> = ({
       >
         <motion.nav
           aria-label="top"
-          style={{height: size === 'sm' ? 48 : navHeight}}
+          style={{height: size === 'sm' || isSmScreen ? 48 : navHeight}}
           className={twMerge(
             'relative mx-auto flex w-full max-w-screen-lg items-center justify-between px-3 text-sm',
             className,
@@ -162,13 +165,13 @@ const Navigation: React.FC<NavigationProps> = ({
             </div>
           </div>
           <div className="flex items-center justify-end">
-            <Login />
+            <Login className="hidden sm:flex" />
             <User />
             <ColorModeToggle className="hidden sm:block" />
             <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
           </div>
           {menuOpen && (
-            <div className="absolute left-0 top-0 flex w-full flex-col gap-2 bg-white px-3 pb-5 pt-20 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:bg-black/90 dark:shadow-black/60 sm:hidden">
+            <div className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100 bg-white px-3 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-black/90 dark:shadow-black/60 sm:hidden">
               {navigationLinks.map(({label, href, icon}) => {
                 return (
                   <Link
@@ -250,7 +253,7 @@ const User = () => {
   )
 }
 
-const Login = () => {
+const Login: React.FC<{className?: string}> = ({className}) => {
   const {pathname} = useRouter()
   const {data: sessionData, status: sessionStatus} = useSession()
   const isLoadingUserInfo = sessionStatus === 'loading'
@@ -260,12 +263,13 @@ const Login = () => {
       {isLoadingUserInfo || sessionData?.user?.email ? null : (
         <Link
           href="/login"
-          className={cx(
-            'group flex items-center gap-1 rounded-md px-2.5 py-1 transition hover:opacity-100',
+          className={cn(
+            'hover:opacity-100flex group items-center gap-1 rounded-md px-2.5 py-1 transition',
             {
               'underline opacity-100': pathname === '/login',
               'opacity-75': pathname !== '/login',
             },
+            className,
           )}
         >
           Log in

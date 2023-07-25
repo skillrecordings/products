@@ -81,8 +81,8 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
           `relative flex h-full flex-grow flex-col ${
             isCtaActive
               ? 'min-h-[calc(100vh-112px)]'
-              : 'min-h-[calc(100vh-80px)]'
-          } ${isCtaActive ? 'pt-[112px]' : 'pt-[80px]'}`,
+              : 'min-h-[calc(100vh-48px)] sm:min-h-[calc(100vh-80px)]'
+          } ${isCtaActive ? 'pt-[112px]' : 'pt-[48px] sm:pt-[80px]'}`,
           className,
         )}
       >
