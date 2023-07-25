@@ -81,6 +81,7 @@ export async function formatPricesForProduct(
     couponForIdOrCode,
     getPrice,
     getPurchase,
+    getPurchasesForUser,
   } = getSdk({ctx})
 
   const upgradeFromPurchase = upgradeFromPurchaseId
@@ -120,6 +121,12 @@ export async function formatPricesForProduct(
         ctx,
       })
     : 0
+
+  const userPurchases = await getPurchasesForUser(userId)
+
+  const hasPurchaseWithPPP = userPurchases.find(
+    (purchase) => purchase.status === 'Restricted',
+  )
 
   const product = await getProduct({
     where: {id: productId},
@@ -166,8 +173,17 @@ export async function formatPricesForProduct(
     ? appliedMerchantCoupon.percentageDiscount.toNumber() < bulkCouponPercent
     : true
 
-  const pppAvailable =
-    quantity === 1 && pppDiscountPercent > 0 && appliedMerchantCouponLessThanPPP
+  // if they have a purchase then verify they've used a PPP coupon
+  // otherwise proceed with default conditions
+  const pppAvailable = userPurchases.length
+    ? hasPurchaseWithPPP &&
+      quantity === 1 &&
+      pppDiscountPercent > 0 &&
+      appliedMerchantCouponLessThanPPP
+    : quantity === 1 &&
+      pppDiscountPercent > 0 &&
+      appliedMerchantCouponLessThanPPP
+
   const bulkDiscountAvailable =
     bulkCouponPercent > 0 && appliedMerchantCouponLessThanBulk && !pppApplied
 
