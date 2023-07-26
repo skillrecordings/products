@@ -6,7 +6,6 @@ export type BodyBlockquoteProps = {
 const BodyBlockquote: React.FC<
   React.PropsWithChildren<BodyBlockquoteProps>
 > = ({children, color, subtitle}) => {
-  console.log({subtitle})
   return (
     <div
       data-body-blockquote=""
