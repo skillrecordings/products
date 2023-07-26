@@ -75,7 +75,7 @@ export const PriceCheckProvider: React.FC<React.PropsWithChildren<any>> = ({
     if (!price) {
       return false
     }
-    return price.unitPrice > price.calculatedPrice
+    return price.fullPrice > price.calculatedPrice
   }, [])
 
   const [merchantCoupon, setMerchantCoupon] = React.useState<
