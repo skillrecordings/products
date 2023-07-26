@@ -30,6 +30,12 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'publishedDate',
+      title: 'Published at',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: 'state',
       title: 'Current State',
       type: 'string',
@@ -67,9 +73,8 @@ export default {
     },
     {
       name: 'heroImage',
-      title: 'New external hero image',
+      title: 'Hero image',
       type: 'externalImage',
-      description: 'Hero image',
     },
     {
       name: 'summary',
@@ -80,7 +85,7 @@ export default {
       name: 'ogImage',
       title: 'Share Card',
       type: 'externalImage',
-      description: '1200x630',
+      description: '1200x628',
     },
     {
       name: 'description',

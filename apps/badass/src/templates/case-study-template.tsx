@@ -27,6 +27,7 @@ const CaseStudyTemplate: React.FC<
     ogImage,
     _createdAt: date,
     partnerName,
+    publishedDate,
   } = caseStudy
 
   const shortDescription =
@@ -54,7 +55,7 @@ const CaseStudyTemplate: React.FC<
       <Header
         title={title}
         image={heroImage}
-        date={date}
+        publishedDate={publishedDate}
         partnerName={partnerName}
       />
       <main data-template-case-study={title}>
@@ -92,15 +93,10 @@ const Header: React.FC<
   React.PropsWithChildren<{
     title: string
     image: string | null | undefined
-    date: string
+    publishedDate: string
     partnerName: string
   }>
-> = ({title, image, date, partnerName}) => {
-  const dateObject = new Date(date)
-  const formattedDate = new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-    year: 'numeric',
-  }).format(dateObject)
+> = ({title, image, publishedDate, partnerName}) => {
   return (
     <header className="flex flex-col md:flex-row items-center max-w-7xl mx-auto w-full px-5">
       <div className="w-full md:w-2/5 lg:w-1/2 shrink-0">
@@ -122,7 +118,7 @@ const Header: React.FC<
           <Balancer>{title}</Balancer>
         </h2>
         <div className="font-mono uppercase opacity-70 mt-4 lg:mt-6 text-xs lg:text-sm xl:text-base">
-          client: {partnerName} &middot; published: {formattedDate}
+          client: {partnerName} &middot; published: {publishedDate}
         </div>
       </div>
     </header>
