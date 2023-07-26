@@ -4,7 +4,6 @@ import {getCalculatedPriced} from './get-calculated-price'
 import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import {FormattedPrice} from './@types'
 import {Purchase} from '@prisma/client'
-import {getStripeSdk} from '@skillrecordings/stripe-sdk'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
@@ -173,8 +172,15 @@ export async function formatPricesForProduct(
     ? appliedMerchantCoupon.percentageDiscount.toNumber() < bulkCouponPercent
     : true
 
+  const hasNonPPPPurchases = userPurchases.some(
+    (purchase) => purchase.status === 'Valid',
+  )
+
   const pppConditionsMet =
-    quantity === 1 && pppDiscountPercent > 0 && appliedMerchantCouponLessThanPPP
+    pppDiscountPercent > 0 &&
+    quantity === 1 &&
+    !hasNonPPPPurchases &&
+    appliedMerchantCouponLessThanPPP
 
   const hasPurchaseWithPPP = userPurchases.some(
     (purchase) =>
