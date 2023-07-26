@@ -3,6 +3,7 @@ import {usePriceCheck} from './pricing-check-context'
 import type {
   SanityProduct,
   FormattedPrice,
+  SanityProductModule,
 } from '@skillrecordings/commerce-server/dist/@types'
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {useDebounce} from '@skillrecordings/react'
@@ -29,6 +30,7 @@ import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import Balancer from 'react-wrap-balancer'
 import BuyMoreSeats from '../team/buy-more-seats'
 import first from 'lodash/first'
+import {AnimatePresence, motion} from 'framer-motion'
 
 type PricingProps = {
   product: SanityProduct
@@ -161,6 +163,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     ? getUnitPrice(formattedPrice)
     : 0
 
+  const [isBuyingMoreSeats, setIsBuyingMoreSeats] = React.useState(false)
+
   return (
     <div id="main-pricing">
       <div data-pricing-product={index}>
@@ -227,38 +231,37 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 <div data-purchased="">
                   <CheckCircleIcon aria-hidden="true" /> Purchased
                 </div>
-                <div data-buy-more-seats="">
-                  <BuyMoreSeats
-                    productId={productId}
-                    userId={userId as string}
-                    buttonLabel="Buy more seats"
-                  />
+                <div
+                  data-buy-more-seats={
+                    isBuyingMoreSeats ? 'active' : 'inactive'
+                  }
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsBuyingMoreSeats(!isBuyingMoreSeats)
+                    }}
+                  >
+                    {isBuyingMoreSeats ? '← Back' : 'Buy more seats'}
+                  </button>
+                  <AnimatePresence>
+                    {isBuyingMoreSeats && (
+                      <motion.div
+                        initial={{x: '100%', opacity: 0}}
+                        animate={{x: '0%', opacity: 1}}
+                        exit={{x: '-100%', opacity: 0}}
+                        transition={{}}
+                      >
+                        <BuyMoreSeats
+                          productId={productId}
+                          userId={userId as string}
+                          buttonLabel="Buy more seats"
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
-              {/* <div className="flex justify-center">
-                <Link
-                  href={{
-                    pathname: '/team/buy-more-seats',
-                    query: {
-                      productId: productId,
-                    },
-                  }}
-                  className="group mt-5 inline-block gap-2 rounded bg-gray-800 py-2 pl-4 pr-6 font-medium transition hover:bg-gray-700"
-                  onClick={() => {
-                    track('clicked buy more seats', {
-                      location: 'pricing',
-                    })
-                  }}
-                >
-                  <span className="pr-2">Buy More Seats</span>
-                  <span
-                    aria-hidden="true"
-                    className="absolute text-gray-300 transition group-hover:translate-x-1 group-hover:text-white"
-                  >
-                    →
-                  </span>
-                </Link>
-              </div> */}
             </>
           ) : isSellingLive || allowPurchase ? (
             isDowngrade(formattedPrice) ? (
@@ -452,35 +455,22 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 <div data-bonuses="">
                   <ul role="list">
                     {bonuses.map((module) => {
-                      const getLabelForState = (state: any) => {
-                        switch (state) {
-                          case 'draft':
-                            return 'Coming soon'
-                          default:
-                            return ''
-                        }
-                      }
-                      return (
-                        <li key={module.title}>
-                          {module.image && (
-                            <div data-image="" aria-hidden="true">
-                              <Image
-                                src={module.image.url}
-                                layout="fill"
-                                alt={module.title}
-                                aria-hidden="true"
-                              />
-                            </div>
-                          )}
-                          <div>
-                            <p>
-                              <strong>Bonus</strong>
-                              {module.title}
-                            </p>
-                            <div data-state={module.state}>
-                              {getLabelForState(module.state)}
-                            </div>
-                          </div>
+                      return purchased ? (
+                        <li key={module.slug}>
+                          <Link
+                            href={{
+                              pathname: `/bonuses/[slug]`,
+                              query: {
+                                slug: module.slug,
+                              },
+                            }}
+                          >
+                            <WorkshopListItem module={module} />
+                          </Link>
+                        </li>
+                      ) : (
+                        <li key={module.slug}>
+                          <WorkshopListItem module={module} key={module.slug} />
                         </li>
                       )
                     })}
@@ -492,32 +482,22 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   <strong>Workshops</strong>
                   <ul role="list">
                     {workshops.map((module) => {
-                      const getLabelForState = (state: any) => {
-                        switch (state) {
-                          case 'draft':
-                            return 'Coming soon'
-                          default:
-                            return ''
-                        }
-                      }
-                      return (
-                        <li key={module.title}>
-                          {module.image && (
-                            <div data-image="" aria-hidden="true">
-                              <Image
-                                src={module.image.url}
-                                layout="fill"
-                                alt={module.title}
-                                aria-hidden="true"
-                              />
-                            </div>
-                          )}
-                          <div>
-                            <p>{module.title}</p>
-                            <div data-state={module.state}>
-                              {getLabelForState(module.state)}
-                            </div>
-                          </div>
+                      return purchased ? (
+                        <li key={module.slug}>
+                          <Link
+                            href={{
+                              pathname: `/workshops/[slug]`,
+                              query: {
+                                slug: module.slug,
+                              },
+                            }}
+                          >
+                            <WorkshopListItem module={module} />
+                          </Link>
+                        </li>
+                      ) : (
+                        <li key={module.slug}>
+                          <WorkshopListItem module={module} key={module.slug} />
                         </li>
                       )
                     })}
@@ -549,6 +529,40 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         </article>
       </div>
     </div>
+  )
+}
+
+const WorkshopListItem: React.FC<{module: SanityProductModule}> = ({
+  module,
+}) => {
+  const getLabelForState = (state: any) => {
+    switch (state) {
+      case 'draft':
+        return 'Coming soon'
+      default:
+        return ''
+    }
+  }
+  return (
+    <>
+      {module.image && (
+        <div data-image="" aria-hidden="true">
+          <Image
+            src={module.image.url}
+            layout="fill"
+            alt={module.title}
+            aria-hidden="true"
+          />
+        </div>
+      )}
+      <div>
+        <p>
+          {module.moduleType === 'bonus' && <strong>Bonus</strong>}
+          {module.title}
+        </p>
+        <div data-state={module.state}>{getLabelForState(module.state)}</div>
+      </div>
+    </>
   )
 }
 

@@ -65,6 +65,9 @@
         [data-byline] {
           @apply pt-2 text-base font-medium text-gray-200;
         }
+        [data-byline]:last-of-type {
+          @apply pt-0 text-cyan-200;
+        }
 
         [data-name-badge] {
           @apply inline-flex rounded-full px-4 py-1 pb-1.5 text-sm font-semibold uppercase tracking-wide text-cyan-300 drop-shadow-md;
@@ -95,6 +98,7 @@
         }
 
         [data-price-container='loading'] {
+          @apply flex h-[56px] items-center justify-center;
         }
       }
 
@@ -106,17 +110,38 @@
       }
 
       [data-purchased-container] {
-        @apply w-full px-5;
+        @apply w-full overflow-hidden;
+
+        [data-buy-more-seats] {
+          @apply mt-5 flex w-full flex-col items-center justify-center py-2 transition;
+          button {
+            @apply rounded-md bg-white/5 px-5 py-3 text-cyan-200 transition hover:bg-white/10;
+          }
+        }
+
+        [data-buy-more-seats='active'] {
+          @apply bg-white/5;
+          button {
+            @apply bg-transparent hover:bg-transparent;
+          }
+        }
+
         [data-buy-more-seats-form] {
-          @apply px-0 pt-0;
+          @apply px-0 pb-5 pt-0;
           #team-upgrade-pricing-inline {
-            @apply flex flex-col justify-center;
+            @apply flex w-full flex-col justify-center;
             [data-pricing-product] {
-              @apply border-none bg-transparent shadow-none;
+              @apply w-full border-none bg-transparent shadow-none;
               [data-pricing-product-header] {
                 @apply w-full pt-0;
+                [data-price-container] {
+                  @apply w-full;
+                }
+                [data-price-container='loading'] {
+                  @apply flex h-[56px] items-center justify-center !important;
+                }
                 button[type='submit'] {
-                  @apply w-full border-2 border-cyan-300 bg-transparent py-4 text-lg text-cyan-300 hover:bg-cyan-300 hover:text-black;
+                  @apply w-full border-2 border-cyan-300 bg-transparent py-4 text-lg text-cyan-300 no-underline hover:bg-cyan-300 hover:text-black;
                 }
               }
             }
@@ -124,7 +149,7 @@
         }
 
         [data-purchased] {
-          @apply my-8 flex w-full items-center justify-center gap-1 rounded-md bg-cyan-300/20 px-5 py-5 text-center text-lg font-semibold text-cyan-300 shadow-inner after:hidden;
+          @apply mt-5 flex w-full items-center justify-center gap-1 px-5 text-center text-xl font-medium text-white after:hidden;
 
           svg {
             @apply mt-0.5 h-6 w-6;
@@ -236,7 +261,11 @@
             ul {
               @apply space-y-2;
             }
-            li {
+            a {
+              @apply hover:underline;
+            }
+            li,
+            a {
               @apply flex items-center;
 
               [data-image] {
@@ -267,7 +296,11 @@
             ul {
               @apply space-y-2;
             }
-            li {
+            a {
+              @apply hover:underline;
+            }
+            li,
+            a {
               @apply flex items-center;
 
               [data-image] {
