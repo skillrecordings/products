@@ -36,6 +36,7 @@ const CaseStudies: React.FC<React.PropsWithChildren<CaseStudiesProps>> = ({
                   description,
                   _createdAt: date,
                   heroImage,
+                  publishedDate,
                   partnerName,
                 },
                 i: number,
@@ -46,7 +47,7 @@ const CaseStudies: React.FC<React.PropsWithChildren<CaseStudiesProps>> = ({
                     image={heroImage}
                     title={title}
                     slug={slug}
-                    date={date}
+                    publishedDate={publishedDate}
                     partnerName={partnerName}
                     isOdd={i % 2 == 0}
                   />
@@ -65,15 +66,10 @@ const CaseStudyCard: React.FC<any> = ({
   image,
   title,
   slug,
-  date,
+  publishedDate,
   partnerName,
   isOdd,
 }) => {
-  const dateObject = new Date(date)
-  const formattedDate = new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-    year: 'numeric',
-  }).format(dateObject)
   return (
     <Link
       href={`/partners/${slug}`}
@@ -90,16 +86,16 @@ const CaseStudyCard: React.FC<any> = ({
       <div
         className={cx(
           'md:w-1/2 shrink-0 md:px-6 text-center md:text-left',
-          isOdd ? 'md:pl-10' : 'lg:pl-10 xl:pl-20',
+          isOdd ? 'md:pl-6' : 'lg:pl-10 xl:pl-20',
         )}
       >
         <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl leading-tight md:leading-tight lg:leading-tight mt-2 md:mt-0">
           <Balancer>{title}</Balancer>
         </h2>
-        <div className="font-mono uppercase opacity-70 mt-4 lg:mt-6 text-xs lg:text-sm xl:text-base flex flex-col md:flex-row items-center">
+        <div className="font-mono uppercase opacity-70 mt-4 lg:mt-6 text-xs lg:text-sm xl:text-base flex flex-col lg:flex-row items-center md:items-start">
           <span>client: {partnerName}</span>
-          <span className="hidden md:inline"> &middot; </span>
-          <span>published: {formattedDate}</span>
+          <span className="hidden lg:inline lg:mx-3"> &middot; </span>
+          <span>published: {publishedDate}</span>
         </div>
       </div>
     </Link>
