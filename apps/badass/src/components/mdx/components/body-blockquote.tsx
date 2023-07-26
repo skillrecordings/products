@@ -1,10 +1,12 @@
 export type BodyBlockquoteProps = {
   color: 'blue' | 'green' | 'red' | 'pink' | 'yellow'
+  subtitle?: string
 }
 
 const BodyBlockquote: React.FC<
   React.PropsWithChildren<BodyBlockquoteProps>
-> = ({children, color}) => {
+> = ({children, color, subtitle}) => {
+  console.log({subtitle})
   return (
     <div
       data-body-blockquote=""
@@ -13,6 +15,9 @@ const BodyBlockquote: React.FC<
     >
       <blockquote className="pl-6 py-4 italic text-neutral-200">
         {children}
+        {subtitle && (
+          <span className="block mt-10 text-badass-gray-300">{subtitle}</span>
+        )}
       </blockquote>
     </div>
   )
