@@ -28,6 +28,7 @@ export function getSdk(
           merchantChargeId: true,
           createdAt: true,
           totalAmount: true,
+          country: true,
           bulkCoupon: {
             select: {
               id: true,
