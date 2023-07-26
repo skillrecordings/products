@@ -58,6 +58,7 @@ const WorkshopTemplate: React.FC<{
   }
   const {ability, abilityRulesStatus} = useAbilities()
 
+  const canViewRegionRestriction = ability.can('view', 'RegionRestriction')
   const canView = ability.can('view', 'Content')
 
   return (
@@ -83,6 +84,12 @@ const WorkshopTemplate: React.FC<{
         className="relative z-10 flex flex-col gap-5 lg:flex-row"
       >
         <div className="px-5">
+          {product && (
+            <RegionRestrictedBanner
+              workshop={workshop}
+              productId={product?.productId}
+            />
+          )}
           <article className="prose prose-lg w-full max-w-none text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
             <MDX contents={workshopBodySerialized} />
           </article>
@@ -107,6 +114,7 @@ const WorkshopTemplate: React.FC<{
                   )}
                 >
                   <Pricing
+                    canViewRegionRestriction={canViewRegionRestriction}
                     product={product as SanityProduct}
                     allowPurchase={commerceProps?.allowPurchase}
                     cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
@@ -136,6 +144,61 @@ const WorkshopTemplate: React.FC<{
 }
 
 export default WorkshopTemplate
+
+const RegionRestrictedBanner: React.FC<{
+  workshop: Module
+  productId: string
+}> = ({workshop, productId}) => {
+  const useAbilities = () => {
+    const {data: abilityRules, status: abilityRulesStatus} =
+      trpc.modules.rules.useQuery({
+        moduleSlug: workshop.slug.current,
+        moduleType: workshop.moduleType,
+      })
+    return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
+  }
+  const {data: purchaseData} = trpc.purchases.getPurchaseByProductId.useQuery({
+    productId: productId,
+  })
+  const {ability} = useAbilities()
+  const canViewRegionRestriction = ability.can('view', 'RegionRestriction')
+  const countryCode = purchaseData?.purchase?.country
+  const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
+  const country = countryCode && regionNames.of(countryCode)
+
+  return canViewRegionRestriction ? (
+    <div
+      className="mb-5 flex items-start space-x-4 rounded-md bg-white/5 p-5 text-lg"
+      role="alert"
+    >
+      <div className="flex items-center justify-center rounded-full bg-yellow-200/10 p-3">
+        <LockClosedIcon className="h-5 w-5 text-yellow-200" />
+      </div>
+      <div className="flex flex-col space-y-3 pt-2">
+        <p className="font-medium">
+          Your license is restricted to{' '}
+          {country ? (
+            <>
+              <img
+                className="inline-block"
+                src={`https://hardcore-golick-433858.netlify.app/image?code=${countryCode}`}
+                alt={`${country} flag`}
+              />{' '}
+              {country}
+            </>
+          ) : (
+            'a specific region'
+          )}
+          .
+        </p>
+        <p className="text-gray-200">
+          You can upgrade to an unrestricted license to view this workshop
+          anywhere.
+        </p>
+      </div>
+    </div>
+  ) : null
+}
 
 const Header: React.FC<{
   module: Module
