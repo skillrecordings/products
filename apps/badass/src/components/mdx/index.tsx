@@ -30,8 +30,13 @@ const mdxComponents = {
   BodyBlockquote: ({
     children,
     color,
+    subtitle,
   }: React.PropsWithChildren<BodyBlockquoteProps>) => {
-    return <BodyBlockquote color={color}>{children}</BodyBlockquote>
+    return (
+      <BodyBlockquote color={color} subtitle={subtitle}>
+        {children}
+      </BodyBlockquote>
+    )
   },
   BodyImage: ({src, width, height, alt}: BodyImageProps) => {
     return <BodyImage src={src} width={width} height={height} alt={alt} />
