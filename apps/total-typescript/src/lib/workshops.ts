@@ -63,6 +63,36 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
 export const getAllWorkshops = async () =>
   await sanityClient.fetch(workshopsQuery)
 
+export const getWorkshopProducts = async (slug: string) =>
+  await sanityClient.fetch(
+    groq`*[_type == "module" && moduleType == 'workshop' && slug.current == $slug][0]{
+    "id": _id,
+    slug,
+    'products': *[_type == 'product' && references(^._id)] | order(count(modules) desc)[]{
+      "name": title,
+      "slug": slug.current,
+      productId,
+      description,
+      action,
+      image {
+        url,
+        alt
+      },
+      modules[]->{
+        "slug": slug.current,
+        moduleType,
+        title,
+        "image": image.asset->{url, alt},
+        state,
+      },
+      features[]{
+        value
+      }
+    },
+  }`,
+    {slug: `${slug}`},
+  )
+
 export const getWorkshop = async (slug: string) =>
   await sanityClient.fetch(
     groq`*[_type == "module" && moduleType == 'workshop' && slug.current == $slug][0]{

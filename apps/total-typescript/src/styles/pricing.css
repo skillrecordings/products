@@ -381,10 +381,13 @@
       [data-pricing-product] {
         @apply mx-auto w-full;
         [data-pricing-product-image] {
-          @apply mt-10 w-44;
+          @apply mt-14 w-32 transition;
+        }
+        [data-pricing-product-image]:has(img[alt='bundle']) {
+          @apply w-48;
         }
         article {
-          @apply w-full pt-24;
+          @apply w-full pt-32;
           [data-pricing-product-header] {
             @apply pt-5;
             [data-name-badge] {

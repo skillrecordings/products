@@ -35,17 +35,22 @@ import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {useRouter} from 'next/router'
 import {Skeleton} from '@skillrecordings/skill-lesson/ui'
+import {cn} from '@skillrecordings/skill-lesson/ui/utils'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
   workshopBodySerialized: MDXRemoteSerializeResult
   product?: SanityProduct
-}> = ({workshop, workshopBodySerialized}) => {
+  workshopProducts?: SanityProduct[]
+}> = ({workshop, workshopBodySerialized, workshopProducts}) => {
   const product = workshop.product
   const {title, ogImage, testimonials, description, slug} = workshop
   const pageTitle = `${title} Workshop`
+  const [productForPurchase, setProductForPurchase] = React.useState(product)
   const {data: commerceProps, status: commercePropsStatus} =
-    trpc.pricing.propsForCommerce.useQuery({productId: product?.productId})
+    trpc.pricing.propsForCommerce.useQuery({
+      productId: productForPurchase?.productId,
+    })
   const router = useRouter()
 
   const useAbilities = () => {
@@ -61,6 +66,7 @@ const WorkshopTemplate: React.FC<{
   const canViewRegionRestriction = ability.can('view', 'RegionRestriction')
   const canView = ability.can('view', 'Content')
 
+  console.log({workshopProducts})
   return (
     <Layout
       className="mx-auto w-full pt-20 lg:max-w-4xl lg:pb-24"
@@ -98,6 +104,32 @@ const WorkshopTemplate: React.FC<{
           )}
         </div>
         <div className="w-full lg:max-w-xs">
+          <div className="flex items-center justify-center gap-1">
+            {workshopProducts?.map((product) => {
+              return (
+                <button
+                  className={cn(
+                    'rounded-t-md px-5 py-2 text-gray-300 transition hover:bg-white/5',
+                    {
+                      'bg-white/10 text-white hover:bg-white/10':
+                        productForPurchase?.productId === product?.productId,
+                    },
+                  )}
+                  onClick={() => {
+                    setProductForPurchase(product)
+                  }}
+                >
+                  {product.modules?.length > 1 ? (
+                    <>
+                      Bundle Deal <span>⭐️</span>
+                    </>
+                  ) : (
+                    <>Standalone</>
+                  )}
+                </button>
+              )
+            })}
+          </div>
           {product && commercePropsStatus === 'loading' ? (
             <div className="mb-8 flex flex-col space-y-2" role="status">
               <div className="sr-only">Loading commerce details</div>
@@ -115,7 +147,7 @@ const WorkshopTemplate: React.FC<{
                 >
                   <Pricing
                     canViewRegionRestriction={canViewRegionRestriction}
-                    product={product as SanityProduct}
+                    product={productForPurchase as SanityProduct}
                     allowPurchase={commerceProps?.allowPurchase}
                     cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
                     purchases={commerceProps?.purchases}
