@@ -48,9 +48,12 @@
       }
     }
     [data-action='continue'] {
-      @apply rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3;
+      @apply flex items-center gap-1 rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3;
       [data-icon] {
       }
+    }
+    [data-action='continue']:disabled {
+      @apply cursor-wait;
     }
   }
 }
@@ -211,7 +214,12 @@
       }
     }
     [data-action='continue'] {
-      @apply rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3;
+      @apply flex items-center gap-1 rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3;
+      [data-icon] {
+      }
+    }
+    [data-action='continue']:disabled {
+      @apply cursor-wait;
     }
   }
 }
