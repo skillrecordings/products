@@ -196,6 +196,9 @@ const DefaultOverlay = () => {
           )}
           <button
             data-action="continue"
+            disabled={
+              addProgressMutation.isLoading || addProgressMutation.isSuccess
+            }
             onClick={() => {
               track('clicked complete', {
                 lesson: router.query.lesson as string,
@@ -219,12 +222,24 @@ const DefaultOverlay = () => {
                   },
                 },
               )
+              // handleContinue({
+              //   router,
+              //   module,
+              //   nextExercise,
+              //   handlePlay,
+              //   path,
+              //   section,
+              // })
             }}
           >
             Complete & Continue{' '}
-            <span aria-hidden="true" data-icon="">
-              →
-            </span>
+            {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
+              <Spinner className="w-3 h-3 inline-block" />
+            ) : (
+              <span aria-hidden="true" data-icon="">
+                →
+              </span>
+            )}
           </button>
         </div>
       </ModuleCtaProvider>
@@ -636,6 +651,9 @@ const FinishedSectionOverlay = () => {
         {/* )} */}
         <button
           data-action="continue"
+          disabled={
+            addProgressMutation.isLoading || addProgressMutation.isSuccess
+          }
           onClick={() => {
             track('clicked complete', {
               lesson: lesson.slug,
@@ -662,9 +680,13 @@ const FinishedSectionOverlay = () => {
           }}
         >
           Complete & Continue{' '}
-          <span data-icon="" aria-hidden="true">
-            →
-          </span>
+          {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
+            <Spinner className="w-3 h-3 inline-block" />
+          ) : (
+            <span aria-hidden="true" data-icon="">
+              →
+            </span>
+          )}
         </button>
       </div>
     </OverlayWrapper>

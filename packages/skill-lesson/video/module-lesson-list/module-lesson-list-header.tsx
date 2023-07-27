@@ -24,14 +24,16 @@ const ModuleLessonListHeader: React.FC<SidebarProps> = ({
             <div data-content-wrapper="">
               <div data-content="">
                 {module?.image && (
-                  <Image
-                    src={module.image}
-                    width={120}
-                    height={120}
-                    alt={module.title}
-                    quality={100}
-                    data-image=""
-                  />
+                  <div data-image="">
+                    <Image
+                      src={module.image}
+                      width={120}
+                      height={120}
+                      alt={module.title}
+                      quality={100}
+                      priority
+                    />
+                  </div>
                 )}
                 <div data-title="">
                   <Link
