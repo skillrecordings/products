@@ -2,33 +2,44 @@
   .prose > h3 {
     @apply text-center text-neutral-200 mb-6 md:mb-10 lg:mb-12;
   }
-  &[data-template-case-study='Launching Epic React'] {
-    a {
-      @apply text-badass-green-500;
-    }
+}
+[data-template-case-study='epic-react'],
+[data-template-case-study='testing-accessibility'] {
+  a {
+    @apply text-badass-green-500;
   }
 }
 
 /* BodyBlockquote */
 [data-body-blockquote] {
-  @apply flex before:shrink-0 before:w-1 before:rounded-full my-16;
+  @apply flex my-16;
   blockquote {
-    @apply grow;
+    @apply before:shrink-0 before:w-1 before:rounded-full grow pl-6 py-4 italic text-neutral-200 relative before:absolute before:left-0 before:h-full before:top-0;
   }
   &[data-body-blockquote-color='green'] {
-    @apply before:bg-badass-green-500;
+    blockquote {
+      @apply before:bg-badass-green-500;
+    }
   }
   &[data-body-blockquote-color='blue'] {
-    @apply before:bg-badass-neutral-500;
+    blockquote {
+      @apply before:bg-badass-neutral-500;
+    }
   }
   &[data-body-blockquote-color='red'] {
-    @apply before:bg-badass-red-400;
+    blockquote {
+      @apply before:bg-badass-red-400;
+    }
   }
   &[data-body-blockquote-color='pink'] {
-    @apply before:bg-badass-pink-500;
+    blockquote {
+      @apply before:bg-badass-pink-500;
+    }
   }
   &[data-body-blockquote-color='yellow'] {
-    @apply before:bg-badass-yellow-500;
+    blockquote {
+      @apply before:bg-badass-yellow-500;
+    }
   }
 }
 
