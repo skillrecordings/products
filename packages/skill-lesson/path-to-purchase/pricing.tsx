@@ -109,10 +109,13 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
       purchaseId: formattedPrice?.upgradeFromPurchaseId,
     })
 
-  const isRestrictedUpgrade = purchaseToUpgrade?.status === 'Restricted'
-
   const defaultCoupon = formattedPrice?.defaultCoupon
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
+
+  const isRestrictedUpgrade =
+    purchaseToUpgrade?.status === 'Restricted' &&
+    appliedMerchantCoupon &&
+    appliedMerchantCoupon.type !== 'ppp'
 
   const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
 

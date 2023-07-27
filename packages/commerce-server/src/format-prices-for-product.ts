@@ -4,7 +4,6 @@ import {getCalculatedPriced} from './get-calculated-price'
 import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import {FormattedPrice} from './@types'
 import {Purchase} from '@prisma/client'
-import {getStripeSdk} from '@skillrecordings/stripe-sdk'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
@@ -42,18 +41,14 @@ export async function getFixedDiscountForUpgrade({
   upgradeFromPurchase?: Purchase
   ctx?: Context
 }) {
-  if (upgradeFromPurchase?.status === 'Restricted') {
-    return upgradeFromPurchase?.totalAmount.toNumber() || 0
-  } else {
-    const {getPrice} = getSdk({ctx})
-    if (upgradeProductId) {
-      const price = await getPrice({
-        where: {
-          productId: upgradeProductId,
-        },
-      })
-      return price?.unitAmount.toNumber() || 0
-    }
+  const {getPrice} = getSdk({ctx})
+  if (upgradeProductId) {
+    const price = await getPrice({
+      where: {
+        productId: upgradeProductId,
+      },
+    })
+    return price?.unitAmount.toNumber() || 0
   }
   return 0
 }
@@ -132,10 +127,6 @@ export async function formatPricesForProduct(
 
   const userPurchases = await getPurchasesForUser(userId)
 
-  const hasPurchaseWithPPP = userPurchases.find(
-    (purchase) => purchase.status === 'Restricted',
-  )
-
   const product = await getProduct({
     where: {id: productId},
     include: {
@@ -181,15 +172,28 @@ export async function formatPricesForProduct(
     ? appliedMerchantCoupon.percentageDiscount.toNumber() < bulkCouponPercent
     : true
 
+  const hasNonPPPPurchases = userPurchases.some(
+    (purchase) => purchase.status === 'Valid',
+  )
+
   const pppConditionsMet =
-    quantity === 1 && pppDiscountPercent > 0 && appliedMerchantCouponLessThanPPP
+    pppDiscountPercent > 0 &&
+    quantity === 1 &&
+    !hasNonPPPPurchases &&
+    appliedMerchantCouponLessThanPPP
+
+  const hasPurchaseWithPPP = userPurchases.some(
+    (purchase) =>
+      purchase.status === 'Restricted' &&
+      upgradeFromPurchase &&
+      purchase.productId === upgradeFromPurchase?.productId,
+  )
 
   // if they have a purchase then verify they've used a PPP coupon
   // otherwise proceed with default conditions
-  const pppAvailable =
-    userPurchases.length > 0
-      ? hasPurchaseWithPPP && pppConditionsMet
-      : pppConditionsMet
+  const pppAvailable = upgradeFromPurchase
+    ? hasPurchaseWithPPP && pppConditionsMet
+    : pppConditionsMet
 
   const bulkDiscountAvailable =
     bulkCouponPercent > 0 && appliedMerchantCouponLessThanBulk && !pppApplied
@@ -287,6 +291,35 @@ export async function formatPricesForProduct(
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
         percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
+        ...(upgradeFromPurchase && {
+          fixedDiscount: fixedDiscountForUpgrade,
+        }),
+      }),
+      appliedMerchantCoupon: merchantCouponWithoutIdentifier,
+      ...(upgradeFromPurchase && {
+        upgradeFromPurchaseId,
+        upgradeFromPurchase,
+        upgradedProduct,
+      }),
+    }
+  } else if (hasPurchaseWithPPP && upgradeFromPurchase) {
+    const {getMerchantCoupons} = getSdk({ctx})
+    const merchantCoupons =
+      (await getMerchantCoupons({
+        where: {type: 'ppp', percentageDiscount: pppDiscountPercent},
+      })) || []
+
+    await getMerchantCoupon({where: {id: merchantCouponId}})
+
+    const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
+      merchantCoupons[0]
+
+    return {
+      ...defaultPriceProduct,
+      calculatedPrice: getCalculatedPriced({
+        unitPrice: defaultPriceProduct.unitPrice,
+        percentOfDiscount:
+          merchantCouponWithoutIdentifier.percentageDiscount.toNumber(),
         ...(upgradeFromPurchase && {
           fixedDiscount: fixedDiscountForUpgrade,
         }),
