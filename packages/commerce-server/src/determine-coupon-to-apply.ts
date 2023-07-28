@@ -129,9 +129,10 @@ const getPPPDetails = ({
 
   const expectedPPPDiscountPercent = getPPPDiscountPercent(country)
 
-  const hasNonPPPPurchases = userPurchases.some(
+  const hasMadeNonPPPDiscountedPurchase = userPurchases.some(
     (purchase) => purchase.status === 'Valid',
   )
+  const hasOnlyPPPDiscountedPurchases = !hasMadeNonPPPDiscountedPurchase
 
   const appliedMerchantCouponLessThanPPP = appliedMerchantCoupon
     ? appliedMerchantCoupon.percentageDiscount.toNumber() <
@@ -141,14 +142,11 @@ const getPPPDetails = ({
   const pppConditionsMet =
     expectedPPPDiscountPercent > 0 &&
     quantity === 1 &&
-    !hasNonPPPPurchases &&
+    hasOnlyPPPDiscountedPurchases &&
     appliedMerchantCouponLessThanPPP
 
-  // if they have a purchase then verify they've used a PPP coupon
-  // otherwise proceed with default conditions
-  const pppAvailable = purchaseToBeUpgraded
-    ? hasPurchaseWithPPP && pppConditionsMet
-    : pppConditionsMet
+  // TODO: Does there actually have to be a PPP coupon available for this condition to be satisfied?
+  const pppAvailable = pppConditionsMet
 
   // Build `details` with all kinds of intermediate stuff as part of this refactoring
   const pppApplied =
