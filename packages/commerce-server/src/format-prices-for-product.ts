@@ -198,28 +198,12 @@ export async function formatPricesForProduct(
     : undefined
 
   // pick the bigger discount during a sale
-  const appliedMerchantCouponLessThanPPP = appliedMerchantCoupon
-    ? appliedMerchantCoupon.percentageDiscount.toNumber() < pppDiscountPercent
-    : true
+  // const appliedMerchantCouponLessThanPPP = appliedMerchantCoupon
+  //   ? appliedMerchantCoupon.percentageDiscount.toNumber() < pppDiscountPercent
+  //   : true
   const appliedMerchantCouponLessThanBulk = appliedMerchantCoupon
     ? appliedMerchantCoupon.percentageDiscount.toNumber() < bulkCouponPercent
     : true
-
-  const hasNonPPPPurchases = userPurchases.some(
-    (purchase) => purchase.status === 'Valid',
-  )
-
-  const pppConditionsMet =
-    pppDiscountPercent > 0 &&
-    quantity === 1 &&
-    !hasNonPPPPurchases &&
-    appliedMerchantCouponLessThanPPP
-
-  // if they have a purchase then verify they've used a PPP coupon
-  // otherwise proceed with default conditions
-  const pppAvailable = upgradeFromPurchase
-    ? result?.pppDetails.hasPurchaseWithPPP && pppConditionsMet
-    : pppConditionsMet
 
   const bulkDiscountAvailable =
     bulkCouponPercent > 0 &&
@@ -366,7 +350,7 @@ export async function formatPricesForProduct(
   } else if (
     appliedMerchantCoupon &&
     appliedMerchantCoupon.type === 'special' &&
-    pppAvailable
+    result?.pppDetails.pppAvailable
   ) {
     // PPP + site coupon
     const pppCoupons = await couponForType(
@@ -396,7 +380,7 @@ export async function formatPricesForProduct(
         upgradedProduct,
       }),
     }
-  } else if (pppAvailable) {
+  } else if (result?.pppDetails.pppAvailable) {
     // no PPP for bulk
     const pppCoupons = await couponForType(
       'ppp',

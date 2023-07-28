@@ -59,10 +59,8 @@ export const determineCouponToApply = async (
     userId,
     purchaseToBeUpgraded,
   } = DetermineCouponToApplyParamsSchema.parse(params)
-
-  if (merchantCouponId === undefined) {
-    return undefined
-  }
+  // TODO: What are the lookups and logic checks we can
+  // skip when there is no appliedMerchantCouponId?
 
   const {getMerchantCoupon, getPurchasesForUser} = getSdk({ctx: prismaCtx})
 
@@ -71,15 +69,6 @@ export const determineCouponToApply = async (
   })
 
   const userPurchases = await getPurchasesForUser(userId)
-
-  // TODO: Revisit exactly what this condition means, it may be
-  // the case that it can be replaced with the `hasNonPPPPurchases` condition
-  const hasPurchaseWithPPP = userPurchases.some(
-    (purchase) =>
-      purchase.status === 'Restricted' &&
-      purchaseToBeUpgraded &&
-      purchase.productId === purchaseToBeUpgraded?.productId,
-  )
 
   // NOTE: `pppApplied` vs `pppAvailable`
 
@@ -91,7 +80,8 @@ export const determineCouponToApply = async (
     appliedMerchantCoupon,
     country,
     quantity,
-    hasPurchaseWithPPP,
+    purchaseToBeUpgraded,
+    userPurchases,
   })
 
   // NOTE: maybe return an 'error' result instead of throwing?
@@ -103,12 +93,17 @@ export const determineCouponToApply = async (
   return {pppDetails}
 }
 
+type UserPurchases = Awaited<
+  ReturnType<ReturnType<typeof getSdk>['getPurchasesForUser']>
+>
+const UserPurchasesSchema: z.ZodType<UserPurchases> = z.any()
 const MerchantCouponSchema: z.ZodType<MerchantCoupon> = z.any()
 const GetPPPDetailsParamsSchema = z.object({
   appliedMerchantCoupon: MerchantCouponSchema.nullable(),
   quantity: z.number(),
   country: z.string(),
-  hasPurchaseWithPPP: z.boolean(),
+  purchaseToBeUpgraded: PurchaseSchema.nullable(),
+  userPurchases: UserPurchasesSchema,
 })
 type GetPPPDetailsParams = z.infer<typeof GetPPPDetailsParamsSchema>
 
@@ -120,10 +115,50 @@ const getPPPDetails = ({
   appliedMerchantCoupon,
   country,
   quantity,
-  hasPurchaseWithPPP,
+  purchaseToBeUpgraded,
+  userPurchases,
 }: GetPPPDetailsParams) => {
+  // TODO: Revisit exactly what this condition means, it may be
+  // the case that it can be replaced with the `hasNonPPPPurchases` condition
+  const hasPurchaseWithPPP = userPurchases.some(
+    (purchase) =>
+      purchase.status === 'Restricted' &&
+      purchaseToBeUpgraded &&
+      purchase.productId === purchaseToBeUpgraded?.productId,
+  )
+
+  const expectedPPPDiscountPercent = getPPPDiscountPercent(country)
+
+  const hasNonPPPPurchases = userPurchases.some(
+    (purchase) => purchase.status === 'Valid',
+  )
+
+  const appliedMerchantCouponLessThanPPP = appliedMerchantCoupon
+    ? appliedMerchantCoupon.percentageDiscount.toNumber() <
+      expectedPPPDiscountPercent
+    : true
+
+  const pppConditionsMet =
+    expectedPPPDiscountPercent > 0 &&
+    quantity === 1 &&
+    !hasNonPPPPurchases &&
+    appliedMerchantCouponLessThanPPP
+
+  // if they have a purchase then verify they've used a PPP coupon
+  // otherwise proceed with default conditions
+  const pppAvailable = purchaseToBeUpgraded
+    ? hasPurchaseWithPPP && pppConditionsMet
+    : pppConditionsMet
+
+  // Build `details` with all kinds of intermediate stuff as part of this refactoring
+  const pppApplied =
+    quantity === 1 &&
+    appliedMerchantCoupon?.type === 'ppp' &&
+    expectedPPPDiscountPercent > 0
+
   const baseDetails = {
     pppApplied: false,
+    pppAvailable,
     hasPurchaseWithPPP,
   }
   if (appliedMerchantCoupon?.type !== 'ppp') {
@@ -133,9 +168,7 @@ const getPPPDetails = ({
     }
   }
 
-  const expectedPPPDiscountPercent = getPPPDiscountPercent(country)
-
-  // Check PPP coupon validity
+  // Check *applied* PPP coupon validity
   const couponPercentDoesNotMatchCountry =
     expectedPPPDiscountPercent !==
     appliedMerchantCoupon.percentageDiscount.toNumber()
@@ -147,18 +180,14 @@ const getPPPDetails = ({
     couponPercentOutOfRange ||
     pppAppliedToBulkPurchase
 
-  // Build `details` with all kinds of intermediate stuff as part of this refactoring
-  const pppApplied =
-    quantity === 1 &&
-    appliedMerchantCoupon?.type === 'ppp' &&
-    expectedPPPDiscountPercent > 0
-
-  const details = {...baseDetails, pppApplied}
+  const details = {...baseDetails, pppApplied, pppAvailable}
 
   if (invalidCoupon) {
     return {
       status: INVALID_PPP,
       ...details,
+      pppApplied: false,
+      appliedMerchantCoupon: null,
     }
   }
 
