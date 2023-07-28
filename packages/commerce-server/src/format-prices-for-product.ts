@@ -113,7 +113,6 @@ export async function formatPricesForProduct(
     couponForIdOrCode,
     getPrice,
     getPurchase,
-    getPurchasesForUser,
   } = getSdk({ctx})
 
   const upgradeFromPurchase = upgradeFromPurchaseId
