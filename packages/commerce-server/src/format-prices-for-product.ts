@@ -5,6 +5,10 @@ import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import type {Purchase, Product} from '@skillrecordings/database'
 import {FormattedPrice} from './@types'
 import isEmpty from 'lodash/isEmpty'
+import {
+  determineCouponToApply,
+  MerchantCouponError,
+} from './determine-coupon-to-apply'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
@@ -182,15 +186,29 @@ export async function formatPricesForProduct(
   const pppDiscountPercent = getPPPDiscountPercent(country)
   const bulkCouponPercent = getBulkDiscountPercent(seatCount)
 
+  let result: Awaited<ReturnType<typeof determineCouponToApply>> = undefined
+
+  try {
+    result = await determineCouponToApply({
+      prismaCtx: ctx,
+      merchantCouponId,
+      country,
+      quantity,
+      userId,
+    })
+  } catch (error) {
+    if (error instanceof MerchantCouponError) {
+      throw new PriceFormattingError(error.message, noContextOptions)
+    } else {
+      // otherwise, re-throw this same error
+      throw error
+    }
+  }
+
   // if there's a coupon implied because an id is passed in, load it to verify
   const appliedMerchantCoupon = merchantCouponId
     ? await getMerchantCoupon({where: {id: merchantCouponId}})
     : undefined
-
-  const pppApplied =
-    quantity === 1 &&
-    appliedMerchantCoupon?.type === 'ppp' &&
-    pppDiscountPercent > 0
 
   // pick the bigger discount during a sale
   const appliedMerchantCouponLessThanPPP = appliedMerchantCoupon
@@ -224,7 +242,9 @@ export async function formatPricesForProduct(
     : pppConditionsMet
 
   const bulkDiscountAvailable =
-    bulkCouponPercent > 0 && appliedMerchantCouponLessThanBulk && !pppApplied
+    bulkCouponPercent > 0 &&
+    appliedMerchantCouponLessThanBulk &&
+    !result?.pppDetails.pppApplied
 
   const unitPrice: number = price.unitAmount.toNumber()
   const fullPrice: number = unitPrice * quantity - fixedDiscountForUpgrade
@@ -305,7 +325,7 @@ export async function formatPricesForProduct(
         }),
       }
     }
-  } else if (appliedMerchantCoupon && pppApplied) {
+  } else if (appliedMerchantCoupon && result?.pppDetails.pppApplied) {
     const invalidCoupon =
       pppDiscountPercent !== appliedMerchantCoupon.percentageDiscount.toNumber()
 
