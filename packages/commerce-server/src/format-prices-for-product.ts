@@ -5,10 +5,7 @@ import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import type {Purchase, Product} from '@skillrecordings/database'
 import {FormattedPrice} from './@types'
 import isEmpty from 'lodash/isEmpty'
-import {
-  determineCouponToApply,
-  MerchantCouponError,
-} from './determine-coupon-to-apply'
+import {determineCouponToApply} from './determine-coupon-to-apply'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
@@ -186,25 +183,14 @@ export async function formatPricesForProduct(
   const pppDiscountPercent = getPPPDiscountPercent(country)
   const bulkCouponPercent = getBulkDiscountPercent(seatCount)
 
-  let result: Awaited<ReturnType<typeof determineCouponToApply>> = undefined
-
-  try {
-    result = await determineCouponToApply({
-      prismaCtx: ctx,
-      merchantCouponId,
-      country,
-      quantity,
-      userId,
-      purchaseToBeUpgraded: upgradeFromPurchase,
-    })
-  } catch (error) {
-    if (error instanceof MerchantCouponError) {
-      throw new PriceFormattingError(error.message, noContextOptions)
-    } else {
-      // otherwise, re-throw this same error
-      throw error
-    }
-  }
+  const result = await determineCouponToApply({
+    prismaCtx: ctx,
+    merchantCouponId,
+    country,
+    quantity,
+    userId,
+    purchaseToBeUpgraded: upgradeFromPurchase,
+  })
 
   // if there's a coupon implied because an id is passed in, load it to verify
   const appliedMerchantCoupon = merchantCouponId
