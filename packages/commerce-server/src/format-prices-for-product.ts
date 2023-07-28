@@ -195,6 +195,7 @@ export async function formatPricesForProduct(
       country,
       quantity,
       userId,
+      purchaseToBeUpgraded: upgradeFromPurchase,
     })
   } catch (error) {
     if (error instanceof MerchantCouponError) {
@@ -228,17 +229,10 @@ export async function formatPricesForProduct(
     !hasNonPPPPurchases &&
     appliedMerchantCouponLessThanPPP
 
-  const hasPurchaseWithPPP = userPurchases.some(
-    (purchase) =>
-      purchase.status === 'Restricted' &&
-      upgradeFromPurchase &&
-      purchase.productId === upgradeFromPurchase?.productId,
-  )
-
   // if they have a purchase then verify they've used a PPP coupon
   // otherwise proceed with default conditions
   const pppAvailable = upgradeFromPurchase
-    ? hasPurchaseWithPPP && pppConditionsMet
+    ? result?.pppDetails.hasPurchaseWithPPP && pppConditionsMet
     : pppConditionsMet
 
   const bulkDiscountAvailable =
@@ -354,7 +348,7 @@ export async function formatPricesForProduct(
         upgradedProduct,
       }),
     }
-  } else if (hasPurchaseWithPPP && upgradeFromPurchase) {
+  } else if (result?.pppDetails.hasPurchaseWithPPP && upgradeFromPurchase) {
     const {getMerchantCoupons} = getSdk({ctx})
     const merchantCoupons =
       (await getMerchantCoupons({

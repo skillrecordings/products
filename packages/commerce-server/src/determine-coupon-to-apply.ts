@@ -1,6 +1,6 @@
 import {z} from 'zod'
 import {Context, getSdk} from '@skillrecordings/database'
-import type {MerchantCoupon} from '@skillrecordings/database'
+import type {MerchantCoupon, Purchase} from '@skillrecordings/database'
 import {getPPPDiscountPercent} from './parity-coupon'
 
 export class MerchantCouponError extends Error {
@@ -11,6 +11,7 @@ export class MerchantCouponError extends Error {
 }
 
 const PrismaCtxSchema: z.ZodType<Context> = z.any()
+const PurchaseSchema: z.ZodType<Purchase> = z.any()
 
 const DetermineCouponToApplyParamsSchema = z.object({
   prismaCtx: PrismaCtxSchema,
@@ -18,6 +19,7 @@ const DetermineCouponToApplyParamsSchema = z.object({
   country: z.string(),
   quantity: z.number(),
   userId: z.string().optional(),
+  purchaseToBeUpgraded: PurchaseSchema.nullable(),
 })
 
 type DetermineCouponToApplyParams = z.infer<
@@ -49,8 +51,14 @@ const NONE_TYPE = 'none' as const
 export const determineCouponToApply = async (
   params: DetermineCouponToApplyParams,
 ) => {
-  const {prismaCtx, merchantCouponId, country, quantity, userId} =
-    DetermineCouponToApplyParamsSchema.parse(params)
+  const {
+    prismaCtx,
+    merchantCouponId,
+    country,
+    quantity,
+    userId,
+    purchaseToBeUpgraded,
+  } = DetermineCouponToApplyParamsSchema.parse(params)
 
   if (merchantCouponId === undefined) {
     return undefined
@@ -64,13 +72,27 @@ export const determineCouponToApply = async (
 
   const userPurchases = await getPurchasesForUser(userId)
 
+  // TODO: Revisit exactly what this condition means, it may be
+  // the case that it can be replaced with the `hasNonPPPPurchases` condition
+  const hasPurchaseWithPPP = userPurchases.some(
+    (purchase) =>
+      purchase.status === 'Restricted' &&
+      purchaseToBeUpgraded &&
+      purchase.productId === purchaseToBeUpgraded?.productId,
+  )
+
   // NOTE: `pppApplied` vs `pppAvailable`
 
   // QUESTION: Should this include `applied` and `available`?
   // Then, for example, if we determine that PPP isn't valid because of
   // the quantity, then we remove PPP Coupon from both the `applied` and
   // `available` coupon result.
-  const pppDetails = getPPPDetails({appliedMerchantCoupon, country, quantity})
+  const pppDetails = getPPPDetails({
+    appliedMerchantCoupon,
+    country,
+    quantity,
+    hasPurchaseWithPPP,
+  })
 
   // NOTE: maybe return an 'error' result instead of throwing?
   if (pppDetails.status === INVALID_PPP) {
@@ -86,6 +108,7 @@ const GetPPPDetailsParamsSchema = z.object({
   appliedMerchantCoupon: MerchantCouponSchema.nullable(),
   quantity: z.number(),
   country: z.string(),
+  hasPurchaseWithPPP: z.boolean(),
 })
 type GetPPPDetailsParams = z.infer<typeof GetPPPDetailsParamsSchema>
 
@@ -97,11 +120,16 @@ const getPPPDetails = ({
   appliedMerchantCoupon,
   country,
   quantity,
+  hasPurchaseWithPPP,
 }: GetPPPDetailsParams) => {
+  const baseDetails = {
+    pppApplied: false,
+    hasPurchaseWithPPP,
+  }
   if (appliedMerchantCoupon?.type !== 'ppp') {
     return {
+      ...baseDetails,
       status: NO_PPP,
-      pppApplied: false,
     }
   }
 
@@ -125,7 +153,7 @@ const getPPPDetails = ({
     appliedMerchantCoupon?.type === 'ppp' &&
     expectedPPPDiscountPercent > 0
 
-  const details = {pppApplied}
+  const details = {...baseDetails, pppApplied}
 
   if (invalidCoupon) {
     return {
