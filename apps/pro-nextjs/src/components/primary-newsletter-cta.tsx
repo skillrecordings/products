@@ -29,7 +29,7 @@ export const PrimaryNewsletterCta: React.FC<
   children,
   className,
   id = 'primary-newsletter-cta',
-  title = common['primary-newsletter-tittle'],
+  title = common['primary-newsletter-title'],
   byline = common['primary-newsletter-byline'],
   actionLabel = common['primary-newsletter-button-cta-label'],
   trackProps = {event: 'subscribed', params: {}},
