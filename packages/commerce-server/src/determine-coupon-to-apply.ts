@@ -70,18 +70,17 @@ export const determineCouponToApply = async (
 
   const userPurchases = await getPurchasesForUser(userId)
 
-  // NOTE: `pppApplied` vs `pppAvailable`
-
   // QUESTION: Should this include `applied` and `available`?
   // Then, for example, if we determine that PPP isn't valid because of
   // the quantity, then we remove PPP Coupon from both the `applied` and
   // `available` coupon result.
-  const pppDetails = getPPPDetails({
+  const pppDetails = await getPPPDetails({
     appliedMerchantCoupon,
     country,
     quantity,
     purchaseToBeUpgraded,
     userPurchases,
+    prismaCtx,
   })
 
   // NOTE: maybe return an 'error' result instead of throwing?
@@ -90,7 +89,31 @@ export const determineCouponToApply = async (
   //     throw new MerchantCouponError('coupon-not-valid-for-ppp')
   //   }
 
-  return {pppDetails}
+  let couponToApply: MerchantCoupon | null = null
+  if (pppDetails.status === VALID_PPP) {
+    couponToApply = pppDetails.pppCouponToBeApplied
+  } else {
+    couponToApply = appliedMerchantCoupon
+  }
+
+  // Narrow appliedCouponType to a union of consts
+  const appliedCouponType = z
+    .string()
+    .nullish()
+    .transform((couponType) => {
+      if (couponType === PPP_TYPE) {
+        return PPP_TYPE
+      } else if (couponType === SPECIAL_TYPE) {
+        return SPECIAL_TYPE
+      } else if (couponType === BULK_TYPE) {
+        return BULK_TYPE
+      } else {
+        return NONE_TYPE
+      }
+    })
+    .parse(couponToApply?.type)
+
+  return {pppDetails, appliedMerchantCoupon: couponToApply, appliedCouponType}
 }
 
 type UserPurchases = Awaited<
@@ -104,6 +127,7 @@ const GetPPPDetailsParamsSchema = z.object({
   country: z.string(),
   purchaseToBeUpgraded: PurchaseSchema.nullable(),
   userPurchases: UserPurchasesSchema,
+  prismaCtx: PrismaCtxSchema,
 })
 type GetPPPDetailsParams = z.infer<typeof GetPPPDetailsParamsSchema>
 
@@ -111,12 +135,13 @@ const NO_PPP = 'NO_PPP' as const
 const INVALID_PPP = 'INVALID_PPP' as const
 const VALID_PPP = 'VALID_PPP' as const
 
-const getPPPDetails = ({
+const getPPPDetails = async ({
   appliedMerchantCoupon,
   country,
   quantity,
   purchaseToBeUpgraded,
   userPurchases,
+  prismaCtx,
 }: GetPPPDetailsParams) => {
   // TODO: Revisit exactly what this condition means, it may be
   // the case that it can be replaced with the `hasNonPPPPurchases` condition
@@ -127,13 +152,33 @@ const getPPPDetails = ({
       purchase.productId === purchaseToBeUpgraded?.productId,
   )
 
-  const expectedPPPDiscountPercent = getPPPDiscountPercent(country)
-
   const hasMadeNonPPPDiscountedPurchase = userPurchases.some(
     (purchase) => purchase.status === 'Valid',
   )
   const hasOnlyPPPDiscountedPurchases = !hasMadeNonPPPDiscountedPurchase
 
+  const expectedPPPDiscountPercent = getPPPDiscountPercent(country)
+
+  const shouldLookupPPPMerchantCouponForUpgrade =
+    appliedMerchantCoupon === null &&
+    purchaseToBeUpgraded !== null &&
+    hasOnlyPPPDiscountedPurchases
+
+  let pppMerchantCouponForUpgrade: MerchantCoupon | null = null
+  if (shouldLookupPPPMerchantCouponForUpgrade) {
+    pppMerchantCouponForUpgrade = await lookupApplicablePPPMerchantCoupon({
+      prismaCtx,
+      pppDiscountPercent: expectedPPPDiscountPercent,
+    })
+  }
+
+  const pppCouponToBeApplied =
+    (appliedMerchantCoupon?.type === PPP_TYPE && appliedMerchantCoupon) ||
+    pppMerchantCouponForUpgrade
+
+  // TODO: Move this sort of price comparison to the parent method, for the
+  // purposes of this method we'll just assume that if the PPP looks
+  // good and can be applied, then it is a candidate.
   const appliedMerchantCouponLessThanPPP = appliedMerchantCoupon
     ? appliedMerchantCoupon.percentageDiscount.toNumber() <
       expectedPPPDiscountPercent
@@ -159,7 +204,7 @@ const getPPPDetails = ({
     pppAvailable,
     hasPurchaseWithPPP,
   }
-  if (appliedMerchantCoupon?.type !== 'ppp') {
+  if (pppCouponToBeApplied === null) {
     return {
       ...baseDetails,
       status: NO_PPP,
@@ -169,7 +214,7 @@ const getPPPDetails = ({
   // Check *applied* PPP coupon validity
   const couponPercentDoesNotMatchCountry =
     expectedPPPDiscountPercent !==
-    appliedMerchantCoupon.percentageDiscount.toNumber()
+    pppCouponToBeApplied.percentageDiscount.toNumber()
   const couponPercentOutOfRange =
     expectedPPPDiscountPercent <= 0 || expectedPPPDiscountPercent >= 1
   const pppAppliedToBulkPurchase = quantity > 1
@@ -185,12 +230,48 @@ const getPPPDetails = ({
       status: INVALID_PPP,
       ...details,
       pppApplied: false,
-      appliedMerchantCoupon: null,
+      pppCouponToBeApplied: null,
     }
   }
 
   return {
     status: VALID_PPP,
     ...details,
+    pppCouponToBeApplied,
   }
+}
+
+const LookupApplicablePPPMerchantCouponParamsSchema = z.object({
+  prismaCtx: PrismaCtxSchema,
+  pppDiscountPercent: z.number(),
+})
+type LookupApplicablePPPMerchantCouponParams = z.infer<
+  typeof LookupApplicablePPPMerchantCouponParamsSchema
+>
+
+// TODO: Should we pass in the `country` and verify that the PPP
+// discount percentage for that country matches the discount we
+// are about to apply?
+const lookupApplicablePPPMerchantCoupon = async (
+  params: LookupApplicablePPPMerchantCouponParams,
+) => {
+  const {prismaCtx, pppDiscountPercent} =
+    LookupApplicablePPPMerchantCouponParamsSchema.parse(params)
+
+  const {getMerchantCoupon} = getSdk({ctx: prismaCtx})
+  const pppMerchantCoupon = await getMerchantCoupon({
+    where: {type: PPP_TYPE, percentageDiscount: pppDiscountPercent},
+  })
+
+  // early return if there is no PPP coupon that fits the bill
+  // report this to Sentry? Seems like a bug if we aren't able to find one.
+  if (pppMerchantCoupon === null) return null
+
+  // Going to skip trimming down the coupon attributes for the time being.
+  //   const {identifier, merchantAccountId, ...minimalPPPMerchantCoupon} =
+  //     pppMerchantCoupon
+
+  // TODO: Mix in the `country`, seems like downstream wants the
+  // `country` bundled in with the rest of the PPP coupon
+  return pppMerchantCoupon
 }

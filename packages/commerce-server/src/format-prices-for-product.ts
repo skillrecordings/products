@@ -182,19 +182,15 @@ export async function formatPricesForProduct(
   const pppDiscountPercent = getPPPDiscountPercent(country)
   const bulkCouponPercent = getBulkDiscountPercent(seatCount)
 
-  const result = await determineCouponToApply({
-    prismaCtx: ctx,
-    merchantCouponId,
-    country,
-    quantity,
-    userId,
-    purchaseToBeUpgraded: upgradeFromPurchase,
-  })
-
-  // if there's a coupon implied because an id is passed in, load it to verify
-  const appliedMerchantCoupon = merchantCouponId
-    ? await getMerchantCoupon({where: {id: merchantCouponId}})
-    : undefined
+  const {appliedMerchantCoupon, appliedCouponType, ...result} =
+    await determineCouponToApply({
+      prismaCtx: ctx,
+      merchantCouponId,
+      country,
+      quantity,
+      userId,
+      purchaseToBeUpgraded: upgradeFromPurchase,
+    })
 
   // pick the bigger discount during a sale
   // const appliedMerchantCouponLessThanPPP = appliedMerchantCoupon
@@ -288,16 +284,7 @@ export async function formatPricesForProduct(
         }),
       }
     }
-  } else if (appliedMerchantCoupon && result?.pppDetails.pppApplied) {
-    const invalidCoupon =
-      pppDiscountPercent !== appliedMerchantCoupon.percentageDiscount.toNumber()
-
-    if (invalidCoupon || appliedMerchantCoupon.type !== 'ppp')
-      throw new PriceFormattingError(
-        'coupon-not-valid-for-ppp',
-        noContextOptions,
-      )
-
+  } else if (appliedCouponType === 'ppp' && appliedMerchantCoupon) {
     const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
       appliedMerchantCoupon
 
@@ -306,35 +293,6 @@ export async function formatPricesForProduct(
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
         percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
-        ...(upgradeFromPurchase && {
-          fixedDiscount: fixedDiscountForUpgrade,
-        }),
-      }),
-      appliedMerchantCoupon: merchantCouponWithoutIdentifier,
-      ...(upgradeFromPurchase && {
-        upgradeFromPurchaseId,
-        upgradeFromPurchase,
-        upgradedProduct,
-      }),
-    }
-  } else if (result?.pppDetails.hasPurchaseWithPPP && upgradeFromPurchase) {
-    const {getMerchantCoupons} = getSdk({ctx})
-    const merchantCoupons =
-      (await getMerchantCoupons({
-        where: {type: 'ppp', percentageDiscount: pppDiscountPercent},
-      })) || []
-
-    await getMerchantCoupon({where: {id: merchantCouponId}})
-
-    const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
-      merchantCoupons[0]
-
-    return {
-      ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount:
-          merchantCouponWithoutIdentifier.percentageDiscount.toNumber(),
         ...(upgradeFromPurchase && {
           fixedDiscount: fixedDiscountForUpgrade,
         }),
