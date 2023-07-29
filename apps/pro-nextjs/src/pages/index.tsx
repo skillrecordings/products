@@ -7,7 +7,9 @@ const Home: NextPage = () => {
   return (
     <Layout>
       <header className="mx-auto flex w-full max-w-screen-lg items-center justify-center text-center">
-        <h1 className="py-24 text-6xl font-bold">Hi! 👋</h1>
+        <h1 className="py-24 text-6xl font-bold">
+          Your No-BS Solution for Enterprise-Ready Next.js Applications
+        </h1>
       </header>
       <main>
         <article className="prose mx-auto w-full max-w-2xl sm:prose-lg">
