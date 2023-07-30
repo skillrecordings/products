@@ -198,7 +198,7 @@ export async function formatPricesForProduct(
       }),
       quantity,
     }),
-    availableCoupons: [],
+    availableCoupons: result.availableCoupons,
     ...(upgradeFromPurchase && {
       upgradeFromPurchaseId,
       upgradeFromPurchase,
@@ -287,14 +287,6 @@ export async function formatPricesForProduct(
     appliedMerchantCoupon.type === 'special' &&
     result?.pppDetails.pppAvailable
   ) {
-    // PPP + site coupon
-    const pppCoupons = await couponForType(
-      'ppp',
-      pppDiscountPercent,
-      ctx,
-      country,
-    )
-
     const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
       appliedMerchantCoupon
 
@@ -308,7 +300,7 @@ export async function formatPricesForProduct(
         }),
       }),
       appliedMerchantCoupon: merchantCouponWithoutIdentifier,
-      availableCoupons: pppCoupons,
+      availableCoupons: result.availableCoupons,
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
         upgradeFromPurchase,
@@ -316,14 +308,6 @@ export async function formatPricesForProduct(
       }),
     }
   } else if (result?.pppDetails.pppAvailable) {
-    // no PPP for bulk
-    const pppCoupons = await couponForType(
-      'ppp',
-      pppDiscountPercent,
-      ctx,
-      country,
-    )
-
     return {
       ...defaultPriceProduct,
       calculatedPrice: getCalculatedPriced({
@@ -332,7 +316,7 @@ export async function formatPricesForProduct(
           fixedDiscount: fixedDiscountForUpgrade,
         }),
       }),
-      availableCoupons: pppCoupons,
+      availableCoupons: result.availableCoupons,
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
         upgradeFromPurchase,

@@ -114,6 +114,11 @@ export const determineCouponToApply = async (
     couponToApply = candidateMerchantCoupon
   }
 
+  // It is only every PPP that ends up in the Available Coupons
+  // list because with Special and Bulk, we auto-apply those if
+  // they are the best discount.
+  const availableCoupons = pppDetails.availableCoupons
+
   // Narrow appliedCouponType to a union of consts
   const appliedCouponType = z
     .string()
@@ -136,6 +141,7 @@ export const determineCouponToApply = async (
     bulkDiscountDetails,
     appliedMerchantCoupon: couponToApply,
     appliedCouponType,
+    availableCoupons,
   }
 }
 
@@ -223,10 +229,21 @@ const getPPPDetails = async ({
     appliedMerchantCoupon?.type === 'ppp' &&
     expectedPPPDiscountPercent > 0
 
+  let availableCoupons: Awaited<ReturnType<typeof couponForType>> = []
+  if (pppConditionsMet) {
+    availableCoupons = await couponForType(
+      PPP_TYPE,
+      expectedPPPDiscountPercent,
+      prismaCtx,
+      country,
+    )
+  }
+
   const baseDetails = {
     pppApplied: false,
     pppAvailable,
     hasPurchaseWithPPP,
+    availableCoupons,
   }
   if (pppCouponToBeApplied === null) {
     return {
@@ -255,6 +272,7 @@ const getPPPDetails = async ({
       ...details,
       pppApplied: false,
       pppCouponToBeApplied: null,
+      availableCoupons: [],
     }
   }
 
@@ -366,4 +384,23 @@ const getQualifyingSeatCount = async ({
     bulkPurchase?.bulkCoupon?.maxUses || 0
 
   return newPurchaseQuantity + existingSeatsPurchasedForThisProduct
+}
+
+async function couponForType(
+  type: string,
+  percentageDiscount: number,
+  prismaCtx: Context,
+  country?: string,
+) {
+  const {getMerchantCoupons} = getSdk({ctx: prismaCtx})
+  const merchantCoupons =
+    (await getMerchantCoupons({
+      where: {type, percentageDiscount},
+    })) || []
+
+  return merchantCoupons.map((coupon: MerchantCoupon) => {
+    // for pricing we don't need the identifier so strip it here
+    const {identifier, ...rest} = coupon
+    return {...rest, ...(country && {country})}
+  })
 }
