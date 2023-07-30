@@ -1,5 +1,4 @@
 import {getPPPDiscountPercent} from './parity-coupon'
-import {getBulkDiscountPercent} from './bulk-coupon'
 import {getCalculatedPriced} from './get-calculated-price'
 import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import type {Purchase, Product} from '@skillrecordings/database'
@@ -170,18 +169,9 @@ export async function formatPricesForProduct(
 
   if (!price) throw new PriceFormattingError(`no-price-found`, noContextOptions)
 
-  // Determine if the user has an existing bulk purchase of this product.
-  // If so, we can compute tiered pricing based on their existing seats purchased.
-  const seatCount = await getQualifyingSeatCount({
-    userId,
-    productId: product.id,
-    newPurchaseQuantity: quantity,
-    ctx,
-  })
-
   const pppDiscountPercent = getPPPDiscountPercent(country)
-  const bulkCouponPercent = getBulkDiscountPercent(seatCount)
 
+  // TODO: give this function a better name like, `determineCouponDetails`
   const {appliedMerchantCoupon, appliedCouponType, ...result} =
     await determineCouponToApply({
       prismaCtx: ctx,
@@ -189,21 +179,9 @@ export async function formatPricesForProduct(
       country,
       quantity,
       userId,
+      productId: product.id,
       purchaseToBeUpgraded: upgradeFromPurchase,
     })
-
-  // pick the bigger discount during a sale
-  // const appliedMerchantCouponLessThanPPP = appliedMerchantCoupon
-  //   ? appliedMerchantCoupon.percentageDiscount.toNumber() < pppDiscountPercent
-  //   : true
-  const appliedMerchantCouponLessThanBulk = appliedMerchantCoupon
-    ? appliedMerchantCoupon.percentageDiscount.toNumber() < bulkCouponPercent
-    : true
-
-  const bulkDiscountAvailable =
-    bulkCouponPercent > 0 &&
-    appliedMerchantCouponLessThanBulk &&
-    !result?.pppDetails.pppApplied
 
   const unitPrice: number = price.unitAmount.toNumber()
   const fullPrice: number = unitPrice * quantity - fixedDiscountForUpgrade
@@ -361,8 +339,12 @@ export async function formatPricesForProduct(
         upgradedProduct,
       }),
     }
-  } else if (bulkDiscountAvailable) {
-    const bulkCoupons = await couponForType('bulk', bulkCouponPercent, ctx)
+  } else if (result.bulkDiscountDetails.bulkDiscountAvailable) {
+    const bulkCoupons = await couponForType(
+      'bulk',
+      result.bulkDiscountDetails.bulkCouponPercent,
+      ctx,
+    )
     const bulkCoupon = bulkCoupons[0]
 
     return {
@@ -398,27 +380,4 @@ async function couponForType(
     const {identifier, ...rest} = coupon
     return {...rest, ...(country && {country})}
   })
-}
-
-const getQualifyingSeatCount = async ({
-  userId,
-  productId: purchasingProductId,
-  newPurchaseQuantity,
-  ctx,
-}: {
-  userId: string | undefined
-  productId: string
-  newPurchaseQuantity: number
-  ctx: Context
-}) => {
-  const {getPurchasesForUser} = getSdk({ctx})
-  const userPurchases = await getPurchasesForUser(userId)
-  const bulkPurchase = userPurchases.find(
-    ({productId, bulkCoupon}) =>
-      productId === purchasingProductId && Boolean(bulkCoupon),
-  )
-  const existingSeatsPurchasedForThisProduct =
-    bulkPurchase?.bulkCoupon?.maxUses || 0
-
-  return newPurchaseQuantity + existingSeatsPurchasedForThisProduct
 }

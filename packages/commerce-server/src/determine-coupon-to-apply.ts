@@ -2,6 +2,7 @@ import {z} from 'zod'
 import {Context, getSdk} from '@skillrecordings/database'
 import type {MerchantCoupon, Purchase} from '@skillrecordings/database'
 import {getPPPDiscountPercent} from './parity-coupon'
+import {getBulkDiscountPercent} from './bulk-coupon'
 
 // export class MerchantCouponError extends Error {
 //   constructor(message: string) {
@@ -19,6 +20,7 @@ const DetermineCouponToApplyParamsSchema = z.object({
   country: z.string(),
   quantity: z.number(),
   userId: z.string().optional(),
+  productId: z.string(),
   purchaseToBeUpgraded: PurchaseSchema.nullable(),
 })
 
@@ -57,6 +59,7 @@ export const determineCouponToApply = async (
     country,
     quantity,
     userId,
+    productId,
     purchaseToBeUpgraded,
   } = DetermineCouponToApplyParamsSchema.parse(params)
   // TODO: What are the lookups and logic checks we can
@@ -81,6 +84,15 @@ export const determineCouponToApply = async (
     purchaseToBeUpgraded,
     userPurchases,
     prismaCtx,
+  })
+
+  const bulkDiscountDetails = await getBulkCouponDetails({
+    prismaCtx,
+    userId,
+    productId,
+    quantity,
+    appliedMerchantCoupon,
+    pppApplied: pppDetails.pppApplied,
   })
 
   // NOTE: maybe return an 'error' result instead of throwing?
@@ -113,7 +125,12 @@ export const determineCouponToApply = async (
     })
     .parse(couponToApply?.type)
 
-  return {pppDetails, appliedMerchantCoupon: couponToApply, appliedCouponType}
+  return {
+    pppDetails,
+    bulkDiscountDetails,
+    appliedMerchantCoupon: couponToApply,
+    appliedCouponType,
+  }
 }
 
 type UserPurchases = Awaited<
@@ -274,4 +291,72 @@ const lookupApplicablePPPMerchantCoupon = async (
   // TODO: Mix in the `country`, seems like downstream wants the
   // `country` bundled in with the rest of the PPP coupon
   return pppMerchantCoupon
+}
+
+const GetBulkCouponDetailsParamsSchema = z.object({
+  prismaCtx: PrismaCtxSchema,
+  userId: z.string().optional(),
+  productId: z.string(),
+  quantity: z.number(),
+  appliedMerchantCoupon: MerchantCouponSchema.nullable(),
+  pppApplied: z.boolean(),
+})
+type GetBulkCouponDetailsParams = z.infer<
+  typeof GetBulkCouponDetailsParamsSchema
+>
+const getBulkCouponDetails = async (params: GetBulkCouponDetailsParams) => {
+  const {
+    prismaCtx,
+    userId,
+    productId,
+    quantity,
+    appliedMerchantCoupon,
+    pppApplied,
+  } = GetBulkCouponDetailsParamsSchema.parse(params)
+
+  // Determine if the user has an existing bulk purchase of this product.
+  // If so, we can compute tiered pricing based on their existing seats purchased.
+  const seatCount = await getQualifyingSeatCount({
+    userId,
+    productId,
+    newPurchaseQuantity: quantity,
+    prismaCtx,
+  })
+
+  const bulkCouponPercent = getBulkDiscountPercent(seatCount)
+
+  const appliedMerchantCouponLessThanBulk = appliedMerchantCoupon
+    ? appliedMerchantCoupon.percentageDiscount.toNumber() < bulkCouponPercent
+    : true
+
+  const bulkDiscountAvailable =
+    bulkCouponPercent > 0 && appliedMerchantCouponLessThanBulk && !pppApplied // this condition seems irrelevant, if quantity > 1 OR seatCount > 1
+
+  return {
+    bulkDiscountAvailable,
+    bulkCouponPercent,
+  }
+}
+
+const getQualifyingSeatCount = async ({
+  userId,
+  productId: purchasingProductId,
+  newPurchaseQuantity,
+  prismaCtx,
+}: {
+  userId: string | undefined
+  productId: string
+  newPurchaseQuantity: number
+  prismaCtx: Context
+}) => {
+  const {getPurchasesForUser} = getSdk({ctx: prismaCtx})
+  const userPurchases = await getPurchasesForUser(userId)
+  const bulkPurchase = userPurchases.find(
+    ({productId, bulkCoupon}) =>
+      productId === purchasingProductId && Boolean(bulkCoupon),
+  )
+  const existingSeatsPurchasedForThisProduct =
+    bulkPurchase?.bulkCoupon?.maxUses || 0
+
+  return newPurchaseQuantity + existingSeatsPurchasedForThisProduct
 }
