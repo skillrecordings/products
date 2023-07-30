@@ -67,7 +67,7 @@ export const determineCouponToApply = async (
 
   const {getMerchantCoupon, getPurchasesForUser} = getSdk({ctx: prismaCtx})
 
-  const appliedMerchantCoupon = await getMerchantCoupon({
+  const candidateMerchantCoupon = await getMerchantCoupon({
     where: {id: merchantCouponId},
   })
 
@@ -78,7 +78,7 @@ export const determineCouponToApply = async (
   // the quantity, then we remove PPP Coupon from both the `applied` and
   // `available` coupon result.
   const pppDetails = await getPPPDetails({
-    appliedMerchantCoupon,
+    appliedMerchantCoupon: candidateMerchantCoupon,
     country,
     quantity,
     purchaseToBeUpgraded,
@@ -91,7 +91,7 @@ export const determineCouponToApply = async (
     userId,
     productId,
     quantity,
-    appliedMerchantCoupon,
+    appliedMerchantCoupon: candidateMerchantCoupon,
     pppApplied: pppDetails.pppApplied,
   })
 
@@ -105,7 +105,7 @@ export const determineCouponToApply = async (
   if (pppDetails.status === VALID_PPP) {
     couponToApply = pppDetails.pppCouponToBeApplied
   } else {
-    couponToApply = appliedMerchantCoupon
+    couponToApply = candidateMerchantCoupon
   }
 
   // Narrow appliedCouponType to a union of consts
