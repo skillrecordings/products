@@ -8,7 +8,7 @@ import type {PortableTextBlock} from '@portabletext/types'
 
 type MerchantCouponWithCountry = MerchantCoupon & {country?: string | undefined}
 
-type MinimalMerchantCoupon = Omit<
+export type MinimalMerchantCoupon = Omit<
   MerchantCouponWithCountry,
   'identifier' | 'merchantAccountId'
 >

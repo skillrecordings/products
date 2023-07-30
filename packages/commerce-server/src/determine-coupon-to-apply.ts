@@ -3,6 +3,7 @@ import {Context, getSdk} from '@skillrecordings/database'
 import type {MerchantCoupon, Purchase} from '@skillrecordings/database'
 import {getPPPDiscountPercent} from './parity-coupon'
 import {getBulkDiscountPercent} from './bulk-coupon'
+import type {MinimalMerchantCoupon} from './@types'
 
 // export class MerchantCouponError extends Error {
 //   constructor(message: string) {
@@ -107,9 +108,11 @@ export const determineCouponToApply = async (
   //     throw new MerchantCouponError('coupon-not-valid-for-ppp')
   //   }
 
-  let couponToApply: MerchantCoupon | null = null
+  let couponToApply: MinimalMerchantCoupon | null = null
   if (pppDetails.status === VALID_PPP) {
     couponToApply = pppDetails.pppCouponToBeApplied
+  } else if (bulkDiscountDetails.bulkDiscountAvailable) {
+    couponToApply = bulkDiscountDetails.bulkCouponToBeApplied
   } else {
     couponToApply = candidateMerchantCoupon
   }
@@ -350,12 +353,12 @@ const getBulkCouponDetails = async (params: GetBulkCouponDetailsParams) => {
 
   const bulkCouponPercent = getBulkDiscountPercent(seatCount)
 
-  const appliedMerchantCouponLessThanBulk = appliedMerchantCoupon
-    ? appliedMerchantCoupon.percentageDiscount.toNumber() < bulkCouponPercent
-    : true
+  const bulkDiscountIsBetter =
+    (appliedMerchantCoupon?.percentageDiscount.toNumber() || 0) <
+    bulkCouponPercent
 
   const bulkDiscountAvailable =
-    bulkCouponPercent > 0 && appliedMerchantCouponLessThanBulk && !pppApplied // this condition seems irrelevant, if quantity > 1 OR seatCount > 1
+    bulkCouponPercent > 0 && bulkDiscountIsBetter && !pppApplied // this condition seems irrelevant, if quantity > 1 OR seatCount > 1
 
   const bulkCoupons = await couponForType(
     BULK_TYPE,
@@ -367,7 +370,7 @@ const getBulkCouponDetails = async (params: GetBulkCouponDetailsParams) => {
   return {
     bulkDiscountAvailable,
     bulkCouponPercent,
-    bulkCoupon,
+    bulkCouponToBeApplied: bulkCoupon,
   }
 }
 

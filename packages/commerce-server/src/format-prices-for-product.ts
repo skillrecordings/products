@@ -259,34 +259,10 @@ export async function formatPricesForProduct(
         }),
       }
     }
-  } else if (appliedCouponType === 'ppp' && appliedMerchantCoupon) {
-    const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
-      appliedMerchantCoupon
-
-    return {
-      ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
-        ...(upgradeFromPurchase && {
-          fixedDiscount: fixedDiscountForUpgrade,
-        }),
-      }),
-      appliedMerchantCoupon: merchantCouponWithoutIdentifier,
-      ...(upgradeFromPurchase && {
-        upgradeFromPurchaseId,
-        upgradeFromPurchase,
-        upgradedProduct,
-      }),
-    }
   } else if (
     appliedMerchantCoupon &&
-    appliedMerchantCoupon.type === 'special' &&
-    result?.pppDetails.pppAvailable
+    (appliedCouponType === 'ppp' || appliedCouponType === 'special')
   ) {
-    const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
-      appliedMerchantCoupon
-
     return {
       ...defaultPriceProduct,
       calculatedPrice: getCalculatedPriced({
@@ -295,9 +271,9 @@ export async function formatPricesForProduct(
         ...(upgradeFromPurchase && {
           fixedDiscount: fixedDiscountForUpgrade,
         }),
+        quantity, // if PPP is applied, we know this will be 1
       }),
-      appliedMerchantCoupon: merchantCouponWithoutIdentifier,
-      availableCoupons: result.availableCoupons,
+      appliedMerchantCoupon,
       ...(upgradeFromPurchase && {
         upgradeFromPurchaseId,
         upgradeFromPurchase,
@@ -321,7 +297,7 @@ export async function formatPricesForProduct(
       }),
     }
   } else if (result.bulkDiscountDetails.bulkDiscountAvailable) {
-    const bulkCoupon = result.bulkDiscountDetails.bulkCoupon
+    const bulkCoupon = result.bulkDiscountDetails.bulkCouponToBeApplied
 
     return {
       ...defaultPriceProduct,
