@@ -1,4 +1,3 @@
-import {getPPPDiscountPercent} from './parity-coupon'
 import {getCalculatedPriced} from './get-calculated-price'
 import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import type {Purchase, Product} from '@skillrecordings/database'
@@ -168,8 +167,6 @@ export async function formatPricesForProduct(
   const price = await getPrice({where: {productId}})
 
   if (!price) throw new PriceFormattingError(`no-price-found`, noContextOptions)
-
-  const pppDiscountPercent = getPPPDiscountPercent(country)
 
   // TODO: give this function a better name like, `determineCouponDetails`
   const {appliedMerchantCoupon, appliedCouponType, ...result} =
