@@ -324,12 +324,7 @@ export async function formatPricesForProduct(
       }),
     }
   } else if (result.bulkDiscountDetails.bulkDiscountAvailable) {
-    const bulkCoupons = await couponForType(
-      'bulk',
-      result.bulkDiscountDetails.bulkCouponPercent,
-      ctx,
-    )
-    const bulkCoupon = bulkCoupons[0]
+    const bulkCoupon = result.bulkDiscountDetails.bulkCoupon
 
     return {
       ...defaultPriceProduct,
@@ -343,25 +338,4 @@ export async function formatPricesForProduct(
   }
 
   return defaultPriceProduct
-}
-
-async function couponForType(
-  type: string,
-  percentageDiscount: number,
-  ctx: Context,
-  country?: string,
-) {
-  const {getMerchantCoupons} = getSdk({ctx})
-  const merchantCoupons =
-    (await getMerchantCoupons({
-      where: {type, percentageDiscount},
-    })) || []
-
-  type MerchantCoupon = (typeof merchantCoupons)[0]
-
-  return merchantCoupons.map((coupon: MerchantCoupon) => {
-    // for pricing we don't need the identifier so strip it here
-    const {identifier, ...rest} = coupon
-    return {...rest, ...(country && {country})}
-  })
 }

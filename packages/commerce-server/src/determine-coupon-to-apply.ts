@@ -357,9 +357,17 @@ const getBulkCouponDetails = async (params: GetBulkCouponDetailsParams) => {
   const bulkDiscountAvailable =
     bulkCouponPercent > 0 && appliedMerchantCouponLessThanBulk && !pppApplied // this condition seems irrelevant, if quantity > 1 OR seatCount > 1
 
+  const bulkCoupons = await couponForType(
+    BULK_TYPE,
+    bulkCouponPercent,
+    prismaCtx,
+  )
+  const bulkCoupon = bulkCoupons[0]
+
   return {
     bulkDiscountAvailable,
     bulkCouponPercent,
+    bulkCoupon,
   }
 }
 
