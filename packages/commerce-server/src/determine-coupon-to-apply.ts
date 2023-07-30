@@ -71,6 +71,11 @@ export const determineCouponToApply = async (
     where: {id: merchantCouponId},
   })
 
+  const specialMerchantCouponToApply =
+    candidateMerchantCoupon?.type === SPECIAL_TYPE
+      ? candidateMerchantCoupon
+      : null
+
   const userPurchases = await getPurchasesForUser(userId)
 
   // QUESTION: Should this include `applied` and `available`?
@@ -78,6 +83,7 @@ export const determineCouponToApply = async (
   // the quantity, then we remove PPP Coupon from both the `applied` and
   // `available` coupon result.
   const pppDetails = await getPPPDetails({
+    specialMerchantCoupon: specialMerchantCouponToApply,
     appliedMerchantCoupon: candidateMerchantCoupon,
     country,
     quantity,
@@ -139,6 +145,7 @@ type UserPurchases = Awaited<
 const UserPurchasesSchema: z.ZodType<UserPurchases> = z.any()
 const MerchantCouponSchema: z.ZodType<MerchantCoupon> = z.any()
 const GetPPPDetailsParamsSchema = z.object({
+  specialMerchantCoupon: MerchantCouponSchema.nullable(),
   appliedMerchantCoupon: MerchantCouponSchema.nullable(),
   quantity: z.number(),
   country: z.string(),
@@ -153,6 +160,7 @@ const INVALID_PPP = 'INVALID_PPP' as const
 const VALID_PPP = 'VALID_PPP' as const
 
 const getPPPDetails = async ({
+  specialMerchantCoupon,
   appliedMerchantCoupon,
   country,
   quantity,
@@ -196,16 +204,15 @@ const getPPPDetails = async ({
   // TODO: Move this sort of price comparison to the parent method, for the
   // purposes of this method we'll just assume that if the PPP looks
   // good and can be applied, then it is a candidate.
-  const appliedMerchantCouponLessThanPPP = appliedMerchantCoupon
-    ? appliedMerchantCoupon.percentageDiscount.toNumber() <
-      expectedPPPDiscountPercent
-    : true
+  const pppDiscountIsBetter =
+    (specialMerchantCoupon?.percentageDiscount.toNumber() || 0) <
+    expectedPPPDiscountPercent
 
   const pppConditionsMet =
     expectedPPPDiscountPercent > 0 &&
     quantity === 1 &&
     hasOnlyPPPDiscountedPurchases &&
-    appliedMerchantCouponLessThanPPP
+    pppDiscountIsBetter
 
   // TODO: Does there actually have to be a PPP coupon available for this condition to be satisfied?
   const pppAvailable = pppConditionsMet
