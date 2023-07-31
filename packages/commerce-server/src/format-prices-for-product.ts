@@ -183,6 +183,7 @@ export async function formatPricesForProduct(
   const unitPrice: number = price.unitAmount.toNumber()
   const fullPrice: number = unitPrice * quantity - fixedDiscountForUpgrade
 
+  // Once the `if(code)` block below is removed, we can collapse this with the else block.
   let defaultPriceProduct: FormattedPrice = {
     ...product,
     quantity,
@@ -202,6 +203,8 @@ export async function formatPricesForProduct(
   }
 
   // no ppp or bulk if you're applying a code
+  // TODO: I believe nowhere in the codebase actually sends in a
+  // `code` to this function, so we can do away with this logic.
   if (code) {
     const coupon = await couponForIdOrCode({code})
 
