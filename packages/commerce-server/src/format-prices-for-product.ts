@@ -260,6 +260,15 @@ export async function formatPricesForProduct(
     const percentOfDiscount =
       appliedMerchantCoupon?.percentageDiscount.toNumber()
 
+    const upgradeDetails =
+      upgradeFromPurchase !== null
+        ? {
+            upgradeFromPurchaseId,
+            upgradeFromPurchase,
+            upgradedProduct,
+          }
+        : {}
+
     return {
       ...defaultPriceProduct,
       calculatedPrice: getCalculatedPriced({
@@ -269,11 +278,7 @@ export async function formatPricesForProduct(
         quantity, // if PPP is applied, we know this will be 1
       }),
       appliedMerchantCoupon,
-      ...(upgradeFromPurchase && {
-        upgradeFromPurchaseId,
-        upgradeFromPurchase,
-        upgradedProduct,
-      }),
+      ...upgradeDetails,
     }
   } else if (result?.pppDetails.pppAvailable) {
     return {
