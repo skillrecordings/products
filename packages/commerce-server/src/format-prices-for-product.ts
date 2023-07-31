@@ -25,7 +25,6 @@ type FormatPricesForProductOptions = {
   productId: string
   country?: string
   quantity?: number
-  code?: string
   merchantCouponId?: string
   ctx?: Context
   upgradeFromPurchaseId?: string
@@ -99,7 +98,6 @@ export async function formatPricesForProduct(
     productId,
     country = 'US',
     quantity = 1,
-    code,
     merchantCouponId,
     upgradeFromPurchaseId,
     userId,
@@ -202,68 +200,27 @@ export async function formatPricesForProduct(
     }),
   }
 
-  // no ppp or bulk if you're applying a code
-  // TODO: I believe nowhere in the codebase actually sends in a
-  // `code` to this function, so we can do away with this logic.
-  if (code) {
-    const coupon = await couponForIdOrCode({code})
+  const percentOfDiscount = appliedMerchantCoupon?.percentageDiscount.toNumber()
 
-    if (!coupon || !coupon.merchantCoupon)
-      throw new PriceFormattingError(`no-coupon`, noContextOptions)
-
-    if (coupon && coupon.merchantCoupon) {
-      if (coupon.restrictedToProductId !== productId) {
-        throw new PriceFormattingError(
-          'coupon-not-valid-for-product',
-          noContextOptions,
-        )
-      }
-
-      const {merchantCoupon} = coupon
-
-      const calculatedPrice = getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: merchantCoupon.percentageDiscount.toNumber(),
-        fixedDiscount: fixedDiscountForUpgrade,
-      })
-
-      return {
-        ...defaultPriceProduct,
-        calculatedPrice,
-        appliedMerchantCoupon: merchantCoupon,
-        ...(upgradeFromPurchase && {
+  const upgradeDetails =
+    upgradeFromPurchase !== null && appliedCouponType !== 'bulk' // we don't handle bulk with upgrades (yet), so be explicit here
+      ? {
           upgradeFromPurchaseId,
           upgradeFromPurchase,
           upgradedProduct,
-        }),
-      }
-    }
-  } else {
-    const percentOfDiscount =
-      appliedMerchantCoupon?.percentageDiscount.toNumber()
+        }
+      : {}
 
-    const upgradeDetails =
-      upgradeFromPurchase !== null && appliedCouponType !== 'bulk' // we don't handle bulk with upgrades (yet), so be explicit here
-        ? {
-            upgradeFromPurchaseId,
-            upgradeFromPurchase,
-            upgradedProduct,
-          }
-        : {}
-
-    return {
-      ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount,
-        fixedDiscount: fixedDiscountForUpgrade, // if not upgrade, we know this will be 0
-        quantity, // if PPP is applied, we know this will be 1
-      }),
-      availableCoupons: result.availableCoupons,
-      appliedMerchantCoupon,
-      ...upgradeDetails,
-    }
+  return {
+    ...defaultPriceProduct,
+    calculatedPrice: getCalculatedPriced({
+      unitPrice: defaultPriceProduct.unitPrice,
+      percentOfDiscount,
+      fixedDiscount: fixedDiscountForUpgrade, // if not upgrade, we know this will be 0
+      quantity, // if PPP is applied, we know this will be 1
+    }),
+    availableCoupons: result.availableCoupons,
+    appliedMerchantCoupon,
+    ...upgradeDetails,
   }
-
-  return defaultPriceProduct
 }
