@@ -103,13 +103,7 @@ export async function formatPricesForProduct(
     userId,
   } = noContextOptions
 
-  const {
-    getProduct,
-    getMerchantCoupon,
-    couponForIdOrCode,
-    getPrice,
-    getPurchase,
-  } = getSdk({ctx})
+  const {getProduct, getPrice, getPurchase} = getSdk({ctx})
 
   const upgradeFromPurchase = upgradeFromPurchaseId
     ? await getPurchase({
@@ -181,25 +175,6 @@ export async function formatPricesForProduct(
   const unitPrice: number = price.unitAmount.toNumber()
   const fullPrice: number = unitPrice * quantity - fixedDiscountForUpgrade
 
-  // Once the `if(code)` block below is removed, we can collapse this with the else block.
-  let defaultPriceProduct: FormattedPrice = {
-    ...product,
-    quantity,
-    unitPrice,
-    fullPrice,
-    calculatedPrice: getCalculatedPriced({
-      unitPrice: price.unitAmount.toNumber(),
-      fixedDiscount: fixedDiscountForUpgrade,
-      quantity,
-    }),
-    availableCoupons: result.availableCoupons,
-    ...(upgradeFromPurchase && {
-      upgradeFromPurchaseId,
-      upgradeFromPurchase,
-      upgradedProduct,
-    }),
-  }
-
   const percentOfDiscount = appliedMerchantCoupon?.percentageDiscount.toNumber()
 
   const upgradeDetails =
@@ -212,9 +187,12 @@ export async function formatPricesForProduct(
       : {}
 
   return {
-    ...defaultPriceProduct,
+    ...product,
+    quantity,
+    unitPrice,
+    fullPrice,
     calculatedPrice: getCalculatedPriced({
-      unitPrice: defaultPriceProduct.unitPrice,
+      unitPrice,
       percentOfDiscount,
       fixedDiscount: fixedDiscountForUpgrade, // if not upgrade, we know this will be 0
       quantity, // if PPP is applied, we know this will be 1
