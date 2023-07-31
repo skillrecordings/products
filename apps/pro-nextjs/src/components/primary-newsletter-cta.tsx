@@ -80,7 +80,11 @@ export const PrimaryNewsletterCta: React.FC<
         onSuccess={onSuccess ? onSuccess : handleOnSuccess}
         actionLabel={actionLabel}
         submitButtonElem={
-          <Button size="lg" className="hover:brightness-110">
+          <Button
+            size="lg"
+            className="shadow-2xl shadow-black/20 hover:brightness-110"
+            type="submit"
+          >
             {common['primary-newsletter-button-cta-label']}
           </Button>
         }

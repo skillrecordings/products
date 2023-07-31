@@ -8,7 +8,7 @@ const ConfirmedSubscriptionPage = () => {
     <Layout>
       <main className="flex flex-grow flex-col items-center justify-center px-5">
         <Image />
-        <div className="max-w-lg text-center font-light">
+        <div className="max-w-lg text-center">
           <h1 className="py-8 text-3xl font-medium lg:text-4xl">
             You're Confirmed!
           </h1>

@@ -61,8 +61,8 @@ const AboutJack: React.FC<{title?: string; className?: string}> = ({
       />
 
       <div className="text-left">
-        <p className="pb-3 text-xl font-normal">{title}</p>
-        <p className="font-light sm:text-lg sm:leading-relaxed">
+        <p className="pb-3 text-xl font-medium">{title}</p>
+        <p className="sm:text-lg sm:leading-relaxed">
           Jack Herrington is a Full Stack Principal Engineer who orchestrated
           the rollout of React/NextJS at Walmart Labs and Nike. He is also the
           "Blue Collar Coder" on YouTube where he posts weekly videos on

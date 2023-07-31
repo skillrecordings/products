@@ -11,7 +11,7 @@
       @apply opacity-50;
     }
     [data-sr-button] {
-      @apply mt-4;
+      @apply mt-4 cursor-pointer hover:cursor-pointer;
     }
   }
 }

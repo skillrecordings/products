@@ -8,7 +8,7 @@ const ConfirmSubscriptionPage = () => {
     <Layout meta={{title: 'Confirm your subscription'}}>
       <main className="flex flex-grow flex-col items-center justify-center px-5">
         <Image />
-        <div className="max-w-screen-sm text-center font-light">
+        <div className="max-w-screen-sm text-center">
           {/* <p className="sm:text-xl">
             Thanks so much for signing up! There’s one last step.
           </p> */}

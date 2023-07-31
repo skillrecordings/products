@@ -90,11 +90,9 @@ module.exports = {
         DEFAULT: {
           css: {
             'p, li, ul, blockquote, ol': {
-              fontWeight: 300,
               color: theme('colors.foreground'),
             },
             strong: {
-              fontWeight: 400,
               color: theme('colors.foreground'),
             },
           },
