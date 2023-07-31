@@ -142,7 +142,7 @@ export const determineCouponToApply = async (
   return {
     pppDetails,
     bulkDiscountDetails,
-    appliedMerchantCoupon: couponToApply,
+    appliedMerchantCoupon: couponToApply || undefined,
     appliedCouponType,
     availableCoupons,
   }

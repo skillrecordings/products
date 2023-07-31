@@ -253,15 +253,12 @@ export async function formatPricesForProduct(
         }),
       }
     }
-  } else if (
-    appliedMerchantCoupon &&
-    (appliedCouponType === 'ppp' || appliedCouponType === 'special')
-  ) {
+  } else if (appliedMerchantCoupon) {
     const percentOfDiscount =
       appliedMerchantCoupon?.percentageDiscount.toNumber()
 
     const upgradeDetails =
-      upgradeFromPurchase !== null
+      upgradeFromPurchase !== null && appliedCouponType !== 'bulk' // we don't handle bulk with upgrades, so be explicit here
         ? {
             upgradeFromPurchaseId,
             upgradeFromPurchase,
@@ -295,18 +292,6 @@ export async function formatPricesForProduct(
         upgradeFromPurchase,
         upgradedProduct,
       }),
-    }
-  } else if (result.bulkDiscountDetails.bulkDiscountAvailable) {
-    const bulkCoupon = result.bulkDiscountDetails.bulkCouponToBeApplied
-
-    return {
-      ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: bulkCoupon.percentageDiscount.toNumber(),
-        quantity,
-      }),
-      ...(bulkCoupon && {appliedMerchantCoupon: bulkCoupon}),
     }
   }
 
