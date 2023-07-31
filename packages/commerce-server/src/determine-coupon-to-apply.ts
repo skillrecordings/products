@@ -263,9 +263,8 @@ type LookupApplicablePPPMerchantCouponParams = z.infer<
   typeof LookupApplicablePPPMerchantCouponParamsSchema
 >
 
-// TODO: Should we pass in the `country` and verify that the PPP
-// discount percentage for that country matches the discount we
-// are about to apply?
+// TODO: Should we cross-check the incoming `pppDiscountPercent` with
+// the `discountPercentage` that was applied to the original purchase?
 const lookupApplicablePPPMerchantCoupon = async (
   params: LookupApplicablePPPMerchantCouponParams,
 ) => {
@@ -281,12 +280,6 @@ const lookupApplicablePPPMerchantCoupon = async (
   // report this to Sentry? Seems like a bug if we aren't able to find one.
   if (pppMerchantCoupon === null) return null
 
-  // Going to skip trimming down the coupon attributes for the time being.
-  //   const {identifier, merchantAccountId, ...minimalPPPMerchantCoupon} =
-  //     pppMerchantCoupon
-
-  // TODO: Mix in the `country`, seems like downstream wants the
-  // `country` bundled in with the rest of the PPP coupon
   return pppMerchantCoupon
 }
 
