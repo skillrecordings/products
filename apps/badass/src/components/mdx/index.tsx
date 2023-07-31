@@ -1,3 +1,4 @@
+import {title} from 'process'
 import {
   BodyBlockquote,
   BodyBlockquoteProps,
@@ -81,8 +82,18 @@ const mdxComponents = {
   TweetEmbedDouble: ({tweetId_1, tweetId_2}: TweetEmbedDoubleProps) => {
     return <TweetEmbedDouble tweetId_1={tweetId_1} tweetId_2={tweetId_2} />
   },
-  SkeletonHandSeparator: ({number}: SkeletonHandSeparatorProps) => {
-    return <SkeletonHandSeparator number={number} />
+  SkeletonHandSeparator: ({
+    number,
+    title,
+    subtitle,
+  }: SkeletonHandSeparatorProps) => {
+    return (
+      <SkeletonHandSeparator
+        number={number}
+        title={title}
+        subtitle={subtitle}
+      />
+    )
   },
   IntroduceCard: ({image, name, title}: IntroduceCardProps) => {
     return <IntroduceCard image={image} name={name} title={title} />
@@ -117,6 +128,8 @@ const mdxComponents = {
     portraitWidth,
     portraitHeight,
     multiple,
+    reducedBottomMargin,
+    reducedTopMargin,
   }: TeamMembersBlockProps) => {
     return (
       <TeamMembersBlock
@@ -127,6 +140,8 @@ const mdxComponents = {
         portraitWidth={portraitWidth}
         portraitHeight={portraitHeight}
         multiple={multiple}
+        reducedBottomMargin={reducedBottomMargin}
+        reducedTopMargin={reducedTopMargin}
       />
     )
   },
