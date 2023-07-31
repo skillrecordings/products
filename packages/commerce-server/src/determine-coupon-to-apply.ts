@@ -106,7 +106,6 @@ export const determineCouponToApply = async (
     .parse(couponToApply?.type)
 
   return {
-    pppDetails,
     appliedMerchantCoupon: couponToApply || undefined,
     appliedCouponType,
     availableCoupons,
@@ -201,7 +200,6 @@ const getPPPDetails = async ({
   const baseDetails = {
     pppApplied: false,
     pppCouponToBeApplied: null,
-    pppAvailable: pppConditionsMet,
     availableCoupons,
   }
   if (pppCouponToBeApplied === null) {
