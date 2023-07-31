@@ -190,9 +190,7 @@ export async function formatPricesForProduct(
     fullPrice,
     calculatedPrice: getCalculatedPriced({
       unitPrice: price.unitAmount.toNumber(),
-      ...(upgradeFromPurchase && {
-        fixedDiscount: fixedDiscountForUpgrade,
-      }),
+      fixedDiscount: fixedDiscountForUpgrade,
       quantity,
     }),
     availableCoupons: result.availableCoupons,
@@ -209,9 +207,7 @@ export async function formatPricesForProduct(
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
         percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
-        ...(upgradeFromPurchase && {
-          fixedDiscount: fixedDiscountForUpgrade,
-        }),
+        fixedDiscount: fixedDiscountForUpgrade,
         quantity,
       }),
       appliedMerchantCoupon: appliedMerchantCoupon,
@@ -243,9 +239,7 @@ export async function formatPricesForProduct(
       const calculatedPrice = getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
         percentOfDiscount: merchantCoupon.percentageDiscount.toNumber(),
-        ...(upgradeFromPurchase && {
-          fixedDiscount: fixedDiscountForUpgrade,
-        }),
+        fixedDiscount: fixedDiscountForUpgrade,
       })
 
       return {
@@ -263,14 +257,15 @@ export async function formatPricesForProduct(
     appliedMerchantCoupon &&
     (appliedCouponType === 'ppp' || appliedCouponType === 'special')
   ) {
+    const percentOfDiscount =
+      appliedMerchantCoupon?.percentageDiscount.toNumber()
+
     return {
       ...defaultPriceProduct,
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
-        ...(upgradeFromPurchase && {
-          fixedDiscount: fixedDiscountForUpgrade,
-        }),
+        percentOfDiscount,
+        fixedDiscount: fixedDiscountForUpgrade,
         quantity, // if PPP is applied, we know this will be 1
       }),
       appliedMerchantCoupon,
