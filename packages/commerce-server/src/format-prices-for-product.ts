@@ -253,7 +253,7 @@ export async function formatPricesForProduct(
         }),
       }
     }
-  } else if (appliedMerchantCoupon) {
+  } else {
     const percentOfDiscount =
       appliedMerchantCoupon?.percentageDiscount.toNumber()
 
@@ -271,27 +271,12 @@ export async function formatPricesForProduct(
       calculatedPrice: getCalculatedPriced({
         unitPrice: defaultPriceProduct.unitPrice,
         percentOfDiscount,
-        fixedDiscount: fixedDiscountForUpgrade,
+        fixedDiscount: fixedDiscountForUpgrade, // if not upgrade, we know this will be 0
         quantity, // if PPP is applied, we know this will be 1
       }),
+      availableCoupons: result.availableCoupons,
       appliedMerchantCoupon,
       ...upgradeDetails,
-    }
-  } else if (result?.pppDetails.pppAvailable) {
-    return {
-      ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        ...(upgradeFromPurchase && {
-          fixedDiscount: fixedDiscountForUpgrade,
-        }),
-      }),
-      availableCoupons: result.availableCoupons,
-      ...(upgradeFromPurchase && {
-        upgradeFromPurchaseId,
-        upgradeFromPurchase,
-        upgradedProduct,
-      }),
     }
   }
 
