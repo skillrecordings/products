@@ -86,7 +86,10 @@ export const PrimaryNewsletterCta: React.FC<
         }
       />
       <div className="h-10 w-10" />
-      <p data-nospam="" className="pt-8 text-center text-sm opacity-80">
+      <p
+        data-nospam=""
+        className="pt-2 text-center text-sm font-light opacity-80"
+      >
         We respect your privacy. Unsubscribe at any time.
       </p>
     </section>
