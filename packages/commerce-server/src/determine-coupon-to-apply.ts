@@ -27,23 +27,6 @@ const PPP_TYPE = 'ppp' as const
 const BULK_TYPE = 'bulk' as const
 const NONE_TYPE = 'none' as const
 
-// We are trying to determine:
-// - what coupon is validly applied
-//   - type
-//   - merchantCoupon object
-// - what other coupons are available
-//   e.g. site-wide defaults, but PPP is available
-// -
-
-// If the coupon to be applied is PPP, but PPP is invalid, then
-// return `NONE_TYPE` and `undefined` for the `appliedMerchantCoupon`
-
-// If the applied coupon (e.g. site-wide discount) provides a greater
-// discount than PPP would be able to, then we don't even offer PPP.
-
-// If the applied coupon (e.g. site-wide discount) provides a greater
-// discount than BULK would be able to, then we don't apply bulk discount.
-
 export const determineCouponToApply = async (
   params: DetermineCouponToApplyParams,
 ) => {
@@ -72,10 +55,6 @@ export const determineCouponToApply = async (
 
   const userPurchases = await getPurchasesForUser(userId)
 
-  // QUESTION: Should this include `applied` and `available`?
-  // Then, for example, if we determine that PPP isn't valid because of
-  // the quantity, then we remove PPP Coupon from both the `applied` and
-  // `available` coupon result.
   const pppDetails = await getPPPDetails({
     specialMerchantCoupon: specialMerchantCouponToApply,
     appliedMerchantCoupon: candidateMerchantCoupon,
@@ -105,7 +84,7 @@ export const determineCouponToApply = async (
   }
 
   // It is only every PPP that ends up in the Available Coupons
-  // list because with Special and Bulk, we auto-apply those if
+  // list because with Special and Bulk we auto-apply those if
   // they are the best discount.
   const availableCoupons = pppDetails.availableCoupons
 
@@ -219,6 +198,9 @@ const getPPPDetails = async ({
     appliedMerchantCoupon?.type === 'ppp' &&
     expectedPPPDiscountPercent > 0
 
+  // NOTE: PPP coupons are only *available* if the conditions are met
+  // which includes that the PPP discount will be better than any
+  // site-wide default coupon.
   let availableCoupons: Awaited<ReturnType<typeof couponForType>> = []
   if (pppConditionsMet) {
     availableCoupons = await couponForType(

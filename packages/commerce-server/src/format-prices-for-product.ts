@@ -240,7 +240,7 @@ export async function formatPricesForProduct(
       appliedMerchantCoupon?.percentageDiscount.toNumber()
 
     const upgradeDetails =
-      upgradeFromPurchase !== null && appliedCouponType !== 'bulk' // we don't handle bulk with upgrades, so be explicit here
+      upgradeFromPurchase !== null && appliedCouponType !== 'bulk' // we don't handle bulk with upgrades (yet), so be explicit here
         ? {
             upgradeFromPurchaseId,
             upgradeFromPurchase,
