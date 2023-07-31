@@ -139,4 +139,33 @@ export const progressRouter = router({
       return lessonProgress || []
     }
   }),
+  clear: publicProcedure
+    .input(
+      z.object({
+        lessons: z.array(
+          z.object({
+            id: z.string(),
+            slug: z.string(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
+      const token = await getToken({req: ctx.req})
+      const lessons = input.lessons
+      if (token) {
+        try {
+          const {clearLessonProgressForUser} = getSdk()
+          await clearLessonProgressForUser({
+            userId: token.id as string,
+            lessons: lessons,
+          })
+        } catch (error) {
+          console.error(error)
+          let message = 'Unknown Error'
+          if (error instanceof Error) message = error.message
+          return {error: message}
+        }
+      }
+    }),
 })

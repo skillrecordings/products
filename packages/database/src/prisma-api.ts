@@ -246,6 +246,36 @@ export function getSdk(
       }
       return lessonProgress
     },
+    async clearLessonProgressForUser({
+      userId,
+      lessons,
+    }: {
+      userId: string
+      lessons: {id: string; slug: string}[]
+    }) {
+      const lessonProgress = await ctx.prisma.lessonProgress.findMany({
+        where: {
+          userId,
+          lessonId: {
+            in: lessons.map(({id}) => id),
+          },
+        },
+      })
+
+      const now = new Date()
+
+      await Promise.all(
+        lessonProgress.map((progress) => {
+          return ctx.prisma.lessonProgress.update({
+            where: {id: progress.id},
+            data: {
+              completedAt: null,
+              updatedAt: now,
+            },
+          })
+        }),
+      )
+    },
     async toggleLessonProgressForUser({
       userId,
       lessonId,
