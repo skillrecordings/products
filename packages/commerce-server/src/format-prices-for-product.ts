@@ -198,10 +198,14 @@ export async function formatPricesForProduct(
   const bulkDiscountAvailable =
     bulkCouponPercent > 0 && appliedMerchantCouponLessThanBulk && !pppApplied
 
+  const unitPrice: number = price.unitAmount.toNumber()
+  const fullPrice: number = unitPrice * quantity - fixedDiscountForUpgrade
+
   let defaultPriceProduct: FormattedPrice = {
     ...product,
     quantity,
-    unitPrice: price.unitAmount.toNumber(),
+    unitPrice,
+    fullPrice,
     calculatedPrice: getCalculatedPriced({
       unitPrice: price.unitAmount.toNumber(),
       ...(upgradeFromPurchase && {
