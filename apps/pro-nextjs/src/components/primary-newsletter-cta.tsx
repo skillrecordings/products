@@ -9,6 +9,8 @@ import {type Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import {twMerge} from 'tailwind-merge'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Button} from '@skillrecordings/skill-lesson/ui/button'
+import Image from 'next/image'
+import Balancer from 'react-wrap-balancer'
 
 type PrimaryNewsletterCtaProps = {
   onSuccess?: () => void
@@ -17,6 +19,7 @@ type PrimaryNewsletterCtaProps = {
   actionLabel?: string
   id?: string
   className?: string
+  image?: () => React.ReactNode
   trackProps?: {
     event?: string
     params?: Record<string, string>
@@ -34,6 +37,19 @@ export const PrimaryNewsletterCta: React.FC<
   actionLabel = common['primary-newsletter-button-cta-label'],
   trackProps = {event: 'subscribed', params: {}},
   onSuccess,
+  image = () => (
+    <Image
+      src={require('../../public/skyscaper-2.jpg')}
+      alt=""
+      aria-hidden
+      priority
+      placeholder="blur"
+      width={380}
+      height={380}
+      quality={100}
+      className="mx-auto"
+    />
+  ),
 }) => {
   const router = useRouter()
   const handleOnSuccess = (subscriber: Subscriber | undefined) => {
@@ -47,19 +63,27 @@ export const PrimaryNewsletterCta: React.FC<
     <section
       id={id}
       aria-label="Newsletter sign-up"
-      className={twMerge('flex flex-col items-center', className)}
+      className={twMerge('flex flex-col items-center px-5', className)}
     >
+      {image()}
       {children ? (
         children
       ) : (
-        <div className="pb-8">
-          <h2 className="text-center text-4xl font-bold">{title}</h2>
-          <h3 className="pt-4 text-center text-lg">{byline}</h3>
+        <div className="max-w-2xl pb-8">
+          <h2 className="text-center text-3xl font-medium sm:text-4xl">
+            <Balancer>{title}</Balancer>
+          </h2>
+          <h3 className="pt-4 text-center text-lg opacity-75">{byline}</h3>
         </div>
       )}
       <SubscribeToConvertkitForm
         onSuccess={onSuccess ? onSuccess : handleOnSuccess}
         actionLabel={actionLabel}
+        submitButtonElem={
+          <Button size="lg" className="hover:brightness-110">
+            {common['primary-newsletter-button-cta-label']}
+          </Button>
+        }
       />
       <div className="h-10 w-10" />
       <p data-nospam="" className="pt-8 text-center text-sm opacity-80">

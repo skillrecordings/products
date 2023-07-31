@@ -70,6 +70,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
+        heading: ['var(--font-heading)', ...fontFamily.sans],
       },
       keyframes: {
         'accordion-down': {
@@ -87,7 +88,16 @@ module.exports = {
       },
       typography: (theme) => ({
         DEFAULT: {
-          css: {},
+          css: {
+            'p, li, ul, blockquote, ol': {
+              fontWeight: 300,
+              color: theme('colors.foreground'),
+            },
+            strong: {
+              fontWeight: 400,
+              color: theme('colors.foreground'),
+            },
+          },
         },
       }),
     },

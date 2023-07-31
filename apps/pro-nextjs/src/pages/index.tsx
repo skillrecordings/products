@@ -10,19 +10,32 @@ import Image from 'next/image'
 const Home: NextPage = () => {
   return (
     <Layout>
-      <header className="mx-auto flex w-full max-w-screen-lg items-center justify-center text-center">
-        <Balancer>
-          <h1 className="py-24 text-6xl font-bold">
-            The No-BS Solution for Enterprise-Ready Next.js Applications
-          </h1>
-        </Balancer>
+      <header className="mx-auto flex w-full flex-col items-center justify-center pb-16 pt-5 text-center sm:pb-24 sm:pt-14">
+        <Image
+          src={require('../../public/skyscaper-4.jpg')}
+          alt=""
+          aria-hidden
+          priority
+          placeholder="blur"
+          width={320}
+          height={320}
+          quality={100}
+          className="mx-auto"
+        />
+        <div className="max-w-screen-sm">
+          <Balancer>
+            <h1 className="text-3xl font-medium sm:text-4xl">
+              The No-BS Solution for Enterprise-Ready Next.js Applications
+            </h1>
+          </Balancer>
+        </div>
       </header>
       <main>
-        <article className="prose mx-auto w-full max-w-2xl px-3 sm:prose-lg">
+        <article className="prose prose-lg mx-auto w-full max-w-2xl px-5 md:prose-xl">
           <LandingCopy />
-          <AboutJack />
         </article>
-        <PrimaryNewsletterCta className="pt-20" />
+        <AboutJack />
+        <PrimaryNewsletterCta className="pb-40" />
       </main>
     </Layout>
   )
@@ -34,7 +47,7 @@ const AboutJack: React.FC<{title?: string; className?: string}> = ({
   return (
     <section
       className={
-        'mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-10 px-5 pb-16 sm:gap-16 md:flex-row'
+        'mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-10 px-5 py-16 sm:gap-16 md:flex-row'
       }
     >
       <Image
@@ -45,9 +58,9 @@ const AboutJack: React.FC<{title?: string; className?: string}> = ({
         className="aspect-square rounded-full"
       />
 
-      <div className="text-center md:text-left">
-        <p className="pb-3 text-xl font-semibold">{title}</p>
-        <p className="text-lg text-gray-800 text-opacity-80 dark:text-gray-300">
+      <div className="text-left">
+        <p className="pb-3 text-xl font-normal">{title}</p>
+        <p className="font-light leading-relaxed sm:text-lg">
           Jack Herrington is a Full Stack Principal Engineer who orchestrated
           the rollout of React/NextJS at Walmart Labs and Nike. He is also the
           "Blue Collar Coder" on YouTube where he posts weekly videos on
