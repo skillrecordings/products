@@ -189,9 +189,6 @@ const getPPPDetails = async ({
     hasOnlyPPPDiscountedPurchases &&
     pppDiscountIsBetter
 
-  // TODO: Does there actually have to be a PPP coupon available for this condition to be satisfied?
-  const pppAvailable = pppConditionsMet
-
   // Build `details` with all kinds of intermediate stuff as part of this refactoring
   const pppApplied =
     quantity === 1 &&
@@ -213,7 +210,8 @@ const getPPPDetails = async ({
 
   const baseDetails = {
     pppApplied: false,
-    pppAvailable,
+    pppCouponToBeApplied: null,
+    pppAvailable: pppConditionsMet,
     hasPurchaseWithPPP,
     availableCoupons,
   }
@@ -236,21 +234,18 @@ const getPPPDetails = async ({
     couponPercentOutOfRange ||
     pppAppliedToBulkPurchase
 
-  const details = {...baseDetails, pppApplied, pppAvailable}
-
   if (invalidCoupon) {
     return {
+      ...baseDetails,
       status: INVALID_PPP,
-      ...details,
-      pppApplied: false,
-      pppCouponToBeApplied: null,
       availableCoupons: [],
     }
   }
 
   return {
+    ...baseDetails,
     status: VALID_PPP,
-    ...details,
+    pppApplied,
     pppCouponToBeApplied,
   }
 }
