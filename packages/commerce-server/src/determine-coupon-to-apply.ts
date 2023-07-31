@@ -143,15 +143,6 @@ const getPPPDetails = async ({
   userPurchases,
   prismaCtx,
 }: GetPPPDetailsParams) => {
-  // TODO: Revisit exactly what this condition means, it may be
-  // the case that it can be replaced with the `hasNonPPPPurchases` condition
-  const hasPurchaseWithPPP = userPurchases.some(
-    (purchase) =>
-      purchase.status === 'Restricted' &&
-      purchaseToBeUpgraded &&
-      purchase.productId === purchaseToBeUpgraded?.productId,
-  )
-
   const hasMadeNonPPPDiscountedPurchase = userPurchases.some(
     (purchase) => purchase.status === 'Valid',
   )
@@ -212,7 +203,6 @@ const getPPPDetails = async ({
     pppApplied: false,
     pppCouponToBeApplied: null,
     pppAvailable: pppConditionsMet,
-    hasPurchaseWithPPP,
     availableCoupons,
   }
   if (pppCouponToBeApplied === null) {
