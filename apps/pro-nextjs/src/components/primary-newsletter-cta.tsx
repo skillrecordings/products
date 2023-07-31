@@ -39,7 +39,7 @@ export const PrimaryNewsletterCta: React.FC<
   onSuccess,
   image = () => (
     <Image
-      src={require('../../public/skyscaper-2.jpg')}
+      src={require('../../public/skyscaper-5.jpg')}
       alt=""
       aria-hidden
       priority

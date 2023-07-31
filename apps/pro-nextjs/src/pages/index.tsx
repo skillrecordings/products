@@ -17,8 +17,8 @@ const Home: NextPage = () => {
           aria-hidden
           priority
           placeholder="blur"
-          width={320}
-          height={320}
+          width={350}
+          height={350}
           quality={100}
           className="mx-auto"
         />
