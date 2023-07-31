@@ -5,6 +5,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
+import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import {isBrowser} from '@/utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import first from 'lodash/first'
@@ -97,7 +98,7 @@ const WorkshopTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        <div className="w-full lg:max-w-xs">
+        <div className="flex w-full flex-col lg:max-w-xs">
           {product && commercePropsStatus === 'loading' ? (
             <div className="mb-8 flex flex-col space-y-2" role="status">
               <div className="sr-only">Loading commerce details</div>
@@ -136,6 +137,7 @@ const WorkshopTemplate: React.FC<{
               {workshop && <ModuleNavigator module={workshop} />}
             </>
           )}
+          <ResetProgress module={workshop} />
           <WorkshopCertificate workshop={workshop} />
         </div>
       </main>
@@ -199,6 +201,99 @@ const RegionRestrictedBanner: React.FC<{
     </div>
   ) : null
 }
+
+// const ProgressReset: React.FC<{module: Module; className?: string}> = ({
+//   module,
+//   className,
+// }) => {
+//   const progressResetMutation = trpc.progress.clear.useMutation()
+//   const [open, setOpen] = React.useState(false)
+
+//   const {data: moduleProgress, status: moduleProgressStatus} =
+//     trpc.moduleProgress.bySlug.useQuery({
+//       slug: module.slug.current,
+//     })
+
+//   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
+
+//   const lessons = module.sections?.map((section) => section.lessons).flat()
+
+//   const handleProgressReset: React.MouseEventHandler<HTMLButtonElement> = (
+//     e,
+//   ) => {
+//     if (lessons) {
+//       e.currentTarget.disabled = true
+//       progressResetMutation.mutate(
+//         {
+//           lessons: lessons.map((lesson) => ({
+//             id: lesson?._id as string,
+//             slug: lesson?.slug as string,
+//           })),
+//         },
+//         {
+//           onSuccess: () => {
+//             setOpen(false)
+//             toast.success('Progress reset!')
+//           },
+//         },
+//       )
+//     } else {
+//       toast.error('No lessons found')
+//     }
+//   }
+
+//   return (
+//     <Dialog.Root open={open} onOpenChange={setOpen}>
+//       {moduleProgressStatus === 'success' && isModuleInProgress && (
+//         <Dialog.Trigger
+//           className={cn(
+//             'inline-block self-end text-sm opacity-80 transition hover:underline hover:opacity-100',
+//             className,
+//           )}
+//         >
+//           Reset Progress
+//         </Dialog.Trigger>
+//       )}
+//       <Dialog.Portal>
+//         <Dialog.Overlay className="fixed inset-0 z-30 bg-black/20 backdrop-blur-sm" />
+//         <Dialog.Content className="fixed left-[50%] top-[50%] z-50 max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] border border-gray-700/50 bg-gray-800 p-[25px] shadow-2xl shadow-black/40 focus:outline-none">
+//           <Dialog.Title className="border-b border-gray-700/50 pb-8 pr-10 text-lg">
+//             Are you sure you want to{' '}
+//             <strong className="font-semibold">reset all your progress</strong>{' '}
+//             in {module.title} {module.moduleType}?{' '}
+//             <span className="block pt-5">This cannot be undone.</span>
+//           </Dialog.Title>
+//           <div className="flex items-center space-x-2 pt-6">
+//             <button
+//               className="rounded-md bg-rose-500 px-4 py-2 text-white transition disabled:cursor-wait disabled:opacity-60 hover:bg-rose-600"
+//               onClick={handleProgressReset}
+//               type="button"
+//             >
+//               Reset progress
+//             </button>
+//             <Dialog.Close asChild>
+//               <button
+//                 className="rounded-md bg-gray-700 px-4 py-2 text-white transition hover:bg-gray-600"
+//                 type="button"
+//               >
+//                 Cancel
+//               </button>
+//             </Dialog.Close>
+//           </div>
+//           <Dialog.Close asChild>
+//             <button
+//               type="button"
+//               className="absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full opacity-60 transition focus:shadow-[0_0_0_2px] focus:outline-none hover:opacity-100"
+//               aria-label="Close"
+//             >
+//               <XIcon className="w-5" aria-hidden="true" />
+//             </button>
+//           </Dialog.Close>
+//         </Dialog.Content>
+//       </Dialog.Portal>
+//     </Dialog.Root>
+//   )
+// }
 
 const Header: React.FC<{
   module: Module
