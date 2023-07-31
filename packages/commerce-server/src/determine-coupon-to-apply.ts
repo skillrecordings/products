@@ -65,7 +65,7 @@ export const determineCouponToApply = async (
     prismaCtx,
   })
 
-  const bulkDiscountDetails = await getBulkCouponDetails({
+  const bulkCouponToBeApplied = await getBulkCouponDetails({
     prismaCtx,
     userId,
     productId,
@@ -77,8 +77,8 @@ export const determineCouponToApply = async (
   let couponToApply: MinimalMerchantCoupon | null = null
   if (pppDetails.status === VALID_PPP) {
     couponToApply = pppDetails.pppCouponToBeApplied
-  } else if (bulkDiscountDetails.bulkDiscountAvailable) {
-    couponToApply = bulkDiscountDetails.bulkCouponToBeApplied
+  } else if (bulkCouponToBeApplied) {
+    couponToApply = bulkCouponToBeApplied
   } else {
     couponToApply = candidateMerchantCoupon
   }
@@ -107,7 +107,6 @@ export const determineCouponToApply = async (
 
   return {
     pppDetails,
-    bulkDiscountDetails,
     appliedMerchantCoupon: couponToApply || undefined,
     appliedCouponType,
     availableCoupons,
@@ -307,17 +306,17 @@ const getBulkCouponDetails = async (params: GetBulkCouponDetailsParams) => {
   const bulkDiscountAvailable =
     bulkCouponPercent > 0 && bulkDiscountIsBetter && !pppApplied // this condition seems irrelevant, if quantity > 1 OR seatCount > 1
 
-  const bulkCoupons = await couponForType(
-    BULK_TYPE,
-    bulkCouponPercent,
-    prismaCtx,
-  )
-  const bulkCoupon = bulkCoupons[0]
+  if (bulkDiscountAvailable) {
+    const bulkCoupons = await couponForType(
+      BULK_TYPE,
+      bulkCouponPercent,
+      prismaCtx,
+    )
+    const bulkCoupon = bulkCoupons[0]
 
-  return {
-    bulkDiscountAvailable,
-    bulkCouponPercent,
-    bulkCouponToBeApplied: bulkCoupon,
+    return bulkCoupon
+  } else {
+    return null
   }
 }
 
