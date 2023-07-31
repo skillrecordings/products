@@ -201,24 +201,6 @@ export async function formatPricesForProduct(
     }),
   }
 
-  if (appliedMerchantCoupon?.type === 'special') {
-    defaultPriceProduct = {
-      ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
-        fixedDiscount: fixedDiscountForUpgrade,
-        quantity,
-      }),
-      appliedMerchantCoupon: appliedMerchantCoupon,
-      ...(upgradeFromPurchase && {
-        upgradeFromPurchaseId,
-        upgradeFromPurchase,
-        upgradedProduct,
-      }),
-    }
-  }
-
   // no ppp or bulk if you're applying a code
   if (code) {
     const coupon = await couponForIdOrCode({code})
