@@ -24,7 +24,7 @@ const Home: NextPage = () => {
         />
         <div className="max-w-screen-sm">
           <Balancer>
-            <h1 className="text-3xl font-medium sm:text-4xl">
+            <h1 className="bg-gradient-to-tl from-foreground to-gray-600 bg-clip-text text-center text-3xl font-medium text-transparent sm:text-4xl">
               The No-BS Solution for Enterprise-Ready Next.js Applications
             </h1>
           </Balancer>
