@@ -2,7 +2,7 @@
   [data-sr-convertkit-subscribe-form] {
     @apply mx-auto flex w-full max-w-[340px] flex-col;
     [data-sr-input] {
-      @apply py-3;
+      @apply py-3 text-base;
     }
     [data-sr-input-label] {
       @apply mt-3 inline-block pb-1 text-base font-medium;

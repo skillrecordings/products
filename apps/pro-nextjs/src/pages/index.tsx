@@ -47,7 +47,7 @@ const AboutJack: React.FC<{title?: string; className?: string}> = ({
   return (
     <section
       className={
-        'mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-10 px-5 py-24 sm:gap-10 md:flex-row'
+        'mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-10 px-5 pb-5 pt-5 sm:gap-10 sm:pb-24 sm:pt-24 md:flex-row'
       }
     >
       <Image
