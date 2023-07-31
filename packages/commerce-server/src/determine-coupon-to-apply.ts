@@ -5,13 +5,6 @@ import {getPPPDiscountPercent} from './parity-coupon'
 import {getBulkDiscountPercent} from './bulk-coupon'
 import type {MinimalMerchantCoupon} from './@types'
 
-// export class MerchantCouponError extends Error {
-//   constructor(message: string) {
-//     super(message)
-//     this.name = 'PriceFormattingError'
-//   }
-// }
-
 const PrismaCtxSchema: z.ZodType<Context> = z.any()
 const PurchaseSchema: z.ZodType<Purchase> = z.any()
 
@@ -101,12 +94,6 @@ export const determineCouponToApply = async (
     appliedMerchantCoupon: candidateMerchantCoupon,
     pppApplied: pppDetails.pppApplied,
   })
-
-  // NOTE: maybe return an 'error' result instead of throwing?
-  //   if (pppDetails.status === INVALID_PPP) {
-  //     // Throw coupon error and then repackage in caller as a PriceFormattingError
-  //     throw new MerchantCouponError('coupon-not-valid-for-ppp')
-  //   }
 
   let couponToApply: MinimalMerchantCoupon | null = null
   if (pppDetails.status === VALID_PPP) {
