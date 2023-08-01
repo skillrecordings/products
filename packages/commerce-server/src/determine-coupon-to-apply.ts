@@ -44,9 +44,11 @@ export const determineCouponToApply = async (
 
   const {getMerchantCoupon, getPurchasesForUser} = getSdk({ctx: prismaCtx})
 
-  const candidateMerchantCoupon = await getMerchantCoupon({
-    where: {id: merchantCouponId},
-  })
+  const candidateMerchantCoupon = merchantCouponId
+    ? await getMerchantCoupon({
+        where: {id: merchantCouponId},
+      })
+    : null
 
   const specialMerchantCouponToApply =
     candidateMerchantCoupon?.type === SPECIAL_TYPE
