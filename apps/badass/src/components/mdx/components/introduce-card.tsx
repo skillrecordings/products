@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
 
 export type IntroduceCardProps = {
+  id?: string
   image: {
     imageUrl: string
     width: number
@@ -12,13 +13,15 @@ export type IntroduceCardProps = {
 }
 
 export const IntroduceCard: React.FC<IntroduceCardProps> = ({
+  id,
   image,
   name,
   title,
 }) => {
+  console.log({id})
   const {imageUrl, width, height} = image
   return (
-    <div data-introduce-card="" className="not-prose">
+    <div data-introduce-card="" className="not-prose" {...(id ? {id} : {})}>
       <div data-introduce-card-image="">
         <Image src={imageUrl} width={width} height={height} alt={name} />
       </div>
