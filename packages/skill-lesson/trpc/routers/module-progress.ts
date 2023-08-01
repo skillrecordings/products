@@ -104,7 +104,9 @@ export const moduleProgressRouter = router({
         percentComplete: Math.round(
           (moduleLessonProgress.length / allModuleLessons.length) * 100,
         ),
-        completedLessonCount: moduleLessonProgress.length,
+        completedLessonCount: moduleLessonProgress.filter(
+          (lesson) => lesson.completedAt,
+        ).length,
         lessonCount: allModuleLessons.length,
         lessons: moduleProgressLessons,
         sections: moduleProgressSections,

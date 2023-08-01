@@ -99,6 +99,7 @@
 @import './video/module-lesson-list.css';
 @import './video/video-overlays.css';
 @import './video/video-transcript.css';
+@import './video/reset-progress.css';
 
 @import '../search-bar/cmdk.css';
 

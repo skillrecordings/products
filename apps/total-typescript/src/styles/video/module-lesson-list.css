@@ -6,12 +6,12 @@
     [data-content-wrapper] {
       @apply top-0 z-10 bg-gradient-to-t from-transparent via-gray-900 to-gray-900 lg:sticky;
       [data-content] {
-        @apply relative flex items-center gap-5 border-b border-gray-800 bg-gray-900 px-3 py-1;
+        @apply relative flex items-center gap-3 border-b border-gray-800 bg-gray-900 px-3 py-1;
         background-image: url('/assets/landing/bg-divider-6.png');
         background-position: center;
         background-size: cover;
         [data-image] {
-          @apply relative z-10;
+          @apply relative z-10 flex max-w-[100px] items-center justify-center;
         }
         [data-title] {
           @apply relative z-10 -translate-y-0.5;
@@ -51,7 +51,7 @@
   }
 }
 [data-module-lesson-list] {
-  @apply relative h-[400px] overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-800/70 hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-102px)];
+  @apply relative h-[400px] overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-800/70 hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-121px)];
   /* sections */
   [data-sections] {
     @apply relative;

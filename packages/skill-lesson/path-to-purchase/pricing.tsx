@@ -193,11 +193,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   <Balancer>{title}</Balancer>
                 </h2>
               )}
-              <PriceDisplay
-                status={status}
-                formattedPrice={formattedPrice}
-                upgradedProductPrice={upgradedProductPrice}
-              />
+              <PriceDisplay status={status} formattedPrice={formattedPrice} />
               {isRestrictedUpgrade ? (
                 <div data-byline="">All region access</div>
               ) : (
@@ -572,21 +568,14 @@ const WorkshopListItem: React.FC<{module: SanityProductModule}> = ({
 export type PriceDisplayProps = {
   status: QueryStatus
   formattedPrice?: FormattedPrice
-  upgradedProductPrice?: number
 }
 
-export const PriceDisplay = ({
-  status,
-  formattedPrice,
-  upgradedProductPrice = 0,
-}: PriceDisplayProps) => {
+export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
   const {isDiscount} = usePriceCheck()
 
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
-  const fullPrice =
-    (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0) -
-    upgradedProductPrice
+  const fullPrice = formattedPrice?.fullPrice
 
   const percentOff = appliedMerchantCoupon
     ? Math.floor(+appliedMerchantCoupon.percentageDiscount * 100)
@@ -638,6 +627,7 @@ export const PriceDisplay = ({
     </div>
   )
 }
+
 type RegionalPricingBoxProps = {
   pppCoupon: {
     country: string

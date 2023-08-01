@@ -5,6 +5,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
+import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import {isBrowser} from '@/utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import first from 'lodash/first'
@@ -168,6 +169,7 @@ const WorkshopTemplate: React.FC<{
               {workshop && <ModuleNavigator module={workshop} />}
             </>
           )}
+          <ResetProgress module={workshop} />
           <WorkshopCertificate workshop={workshop} />
         </div>
       </main>
