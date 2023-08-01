@@ -13,6 +13,10 @@
   @apply selection:bg-badass-pink-500 selection:text-black;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   @apply antialiased bg-black text-white font-sans;
 }

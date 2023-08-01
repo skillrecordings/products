@@ -49,3 +49,5 @@ export {
 } from './team-members-block'
 
 export {default as CalloutTitle, type CalloutTitleProps} from './callout-title'
+
+export {default as Toc, TocItem, type TocItemProps} from './toc'

@@ -25,6 +25,9 @@ import {
   TeamMembersBlockProps,
   CalloutTitle,
   CalloutTitleProps,
+  Toc,
+  TocItem,
+  TocItemProps,
 } from './components'
 
 const mdxComponents = {
@@ -83,20 +86,22 @@ const mdxComponents = {
     return <TweetEmbedDouble tweetId_1={tweetId_1} tweetId_2={tweetId_2} />
   },
   SkeletonHandSeparator: ({
+    id,
     number,
     title,
     subtitle,
   }: SkeletonHandSeparatorProps) => {
     return (
       <SkeletonHandSeparator
+        id={id}
         number={number}
         title={title}
         subtitle={subtitle}
       />
     )
   },
-  IntroduceCard: ({image, name, title}: IntroduceCardProps) => {
-    return <IntroduceCard image={image} name={name} title={title} />
+  IntroduceCard: ({id, image, name, title}: IntroduceCardProps) => {
+    return <IntroduceCard id={id} image={image} name={name} title={title} />
   },
   LaunchResults: ({
     firstDay,
@@ -144,6 +149,12 @@ const mdxComponents = {
         reducedTopMargin={reducedTopMargin}
       />
     )
+  },
+  Toc: ({children}: React.PropsWithChildren) => {
+    return <Toc>{children}</Toc>
+  },
+  TocItem: ({title, anchor}: TocItemProps) => {
+    return <TocItem title={title} anchor={anchor} />
   },
 }
 

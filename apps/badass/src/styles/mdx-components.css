@@ -1,3 +1,7 @@
+.with-first-letter {
+  @apply first-letter:text-badass-pink-500 first-letter:text-[2.5rem] md:first-letter:text-[3rem] lg:first-letter:text-[4rem] first-letter:float-left first-letter:leading-none first-letter:font-expanded first-letter:mr-2 md:first-letter:mr-3;
+}
+
 [data-template-case-study] {
   .prose > h3 {
     @apply text-center text-neutral-200 mb-6 md:mb-10 lg:mb-12;
@@ -239,4 +243,26 @@
       @apply text-badass-cyan-500;
     }
   }
+}
+
+/* TOC */
+[data-toc] {
+  @apply my-6;
+}
+[data-toc-title] {
+  @apply text-2xl font-heading mb-4;
+}
+[data-toc-items-list] {
+  list-style: none;
+  counter-reset: my-awesome-skeleton-counter -1;
+  @apply divide-y divide-[#5a5a5a];
+}
+[data-toc-items-list] li a {
+  counter-increment: my-awesome-skeleton-counter;
+  @apply flex items-center py-3 text-white duration-100 hover:text-badass-green-500;
+}
+[data-toc-items-list] li a::before {
+  content: counter(my-awesome-skeleton-counter);
+  font-feature-settings: 'ss02' on;
+  @apply flex items-center w-10 h-[44px] mx-2 font-symbol text-[2.5rem] leading-none;
 }

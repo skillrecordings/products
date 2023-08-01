@@ -14,12 +14,14 @@ type imagesObjType = {
 }
 
 export type SkeletonHandSeparatorProps = {
+  id?: string
   number: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
   title: string
   subtitle: string
 }
 
 const SkeletonHandSeparator: React.FC<SkeletonHandSeparatorProps> = ({
+  id,
   number,
   title,
   subtitle,
@@ -27,7 +29,11 @@ const SkeletonHandSeparator: React.FC<SkeletonHandSeparatorProps> = ({
   const handNumber = isNumber(number) && `hand-${number}`
   const data = handNumber && images[handNumber as keyof imagesObjType]
   return data ? (
-    <div data-skeleton-hand-separator="" className="not-prose">
+    <div
+      data-skeleton-hand-separator=""
+      className="not-prose"
+      {...(id ? {id} : {})}
+    >
       <div data-skeleton-hand-separator-image-holder="">
         <Image
           src={data.imageUrl}
