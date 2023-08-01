@@ -72,7 +72,7 @@ export const determineCouponToApply = async (
     userId,
     productId,
     quantity,
-    appliedMerchantCoupon: candidateMerchantCoupon,
+    appliedMerchantCoupon: specialMerchantCouponToApply,
     pppApplied: pppDetails.pppApplied,
   })
 
@@ -82,7 +82,7 @@ export const determineCouponToApply = async (
   } else if (bulkCouponToBeApplied) {
     couponToApply = bulkCouponToBeApplied
   } else {
-    couponToApply = candidateMerchantCoupon
+    couponToApply = specialMerchantCouponToApply
   }
 
   // It is only every PPP that ends up in the Available Coupons
@@ -164,8 +164,9 @@ const getPPPDetails = async ({
   }
 
   const pppCouponToBeApplied =
-    (appliedMerchantCoupon?.type === PPP_TYPE && appliedMerchantCoupon) ||
-    pppMerchantCouponForUpgrade
+    appliedMerchantCoupon?.type === PPP_TYPE
+      ? appliedMerchantCoupon
+      : pppMerchantCouponForUpgrade
 
   // TODO: Move this sort of price comparison to the parent method, for the
   // purposes of this method we'll just assume that if the PPP looks
@@ -214,7 +215,7 @@ const getPPPDetails = async ({
   // Check *applied* PPP coupon validity
   const couponPercentDoesNotMatchCountry =
     expectedPPPDiscountPercent !==
-    pppCouponToBeApplied.percentageDiscount.toNumber()
+    pppCouponToBeApplied?.percentageDiscount.toNumber()
   const couponPercentOutOfRange =
     expectedPPPDiscountPercent <= 0 || expectedPPPDiscountPercent >= 1
   const pppAppliedToBulkPurchase = quantity > 1

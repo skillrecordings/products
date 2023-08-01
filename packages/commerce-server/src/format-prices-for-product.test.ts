@@ -275,6 +275,25 @@ test('product should calculate discount if country is "IN" and couponId', async 
   expect(expectedPrice).toBe(product?.calculatedPrice)
 })
 
+test('PPP should be un-applied if quantity is over 1', async () => {
+  mockDefaultProduct()
+  mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(MOCK_INDIA_COUPON)
+
+  const quantity = 3
+
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    merchantCouponId: VALID_INDIA_COUPON_ID,
+    country: 'IN',
+    quantity,
+    ctx,
+  })
+
+  const expectedPrice = 100 * quantity
+
+  expect(expectedPrice).toBe(product?.calculatedPrice)
+})
+
 test('applied ppp coupon should have id property', async () => {
   mockDefaultProduct()
   mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(MOCK_INDIA_COUPON)
