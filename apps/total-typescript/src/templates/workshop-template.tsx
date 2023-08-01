@@ -36,7 +36,6 @@ import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {useRouter} from 'next/router'
 import {Skeleton} from '@skillrecordings/skill-lesson/ui'
-import {cn} from '@skillrecordings/skill-lesson/ui/utils'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -47,10 +46,9 @@ const WorkshopTemplate: React.FC<{
   const product = workshop.product
   const {title, ogImage, testimonials, description, slug} = workshop
   const pageTitle = `${title} Workshop`
-  const [productForPurchase, setProductForPurchase] = React.useState(product)
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
-      productId: productForPurchase?.productId,
+      productId: product?.productId,
     })
   const router = useRouter()
 
@@ -67,7 +65,6 @@ const WorkshopTemplate: React.FC<{
   const canViewRegionRestriction = ability.can('view', 'RegionRestriction')
   const canView = ability.can('view', 'Content')
 
-  console.log({workshopProducts})
   return (
     <Layout
       className="mx-auto w-full pt-20 lg:max-w-4xl lg:pb-24"
@@ -94,7 +91,9 @@ const WorkshopTemplate: React.FC<{
           {product && (
             <RegionRestrictedBanner
               workshop={workshop}
-              productId={product?.productId}
+              productIds={workshopProducts?.map(
+                (product) => product?.productId,
+              )}
             />
           )}
           <article className="prose prose-lg w-full max-w-none text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
@@ -105,63 +104,48 @@ const WorkshopTemplate: React.FC<{
           )}
         </div>
         <div className="w-full lg:max-w-xs">
-          <div className="flex items-center justify-center gap-1">
-            {workshopProducts?.map((product) => {
-              return (
-                <button
-                  className={cn(
-                    'rounded-t-md px-5 py-2 text-gray-300 transition hover:bg-white/5',
-                    {
-                      'bg-white/10 text-white hover:bg-white/10':
-                        productForPurchase?.productId === product?.productId,
-                    },
-                  )}
-                  onClick={() => {
-                    setProductForPurchase(product)
-                  }}
-                >
-                  {product.modules?.length > 1 ? (
-                    <>
-                      Bundle Deal <span>⭐️</span>
-                    </>
-                  ) : (
-                    <>Standalone</>
-                  )}
-                </button>
-              )
-            })}
-          </div>
           {product && commercePropsStatus === 'loading' ? (
-            <div className="mb-8 flex flex-col space-y-2" role="status">
+            <div className="mb-8 flex flex-col gap-2" role="status">
               <div className="sr-only">Loading commerce details</div>
-              {new Array(8).fill(null).map((_, i) => (
-                <Skeleton key={i} className="h-3 w-full bg-gray-800" />
+              {new Array(5).fill(null).map((_, i) => (
+                <Skeleton
+                  key={i}
+                  className="h-[60px] w-full rounded-lg bg-gray-800"
+                />
               ))}
             </div>
           ) : (
             <>
               {!canView && product && (
-                <PriceCheckProvider
-                  purchasedProductIds={commerceProps?.purchases?.map(
-                    (p) => p.id,
-                  )}
-                >
-                  <Pricing
-                    canViewRegionRestriction={canViewRegionRestriction}
-                    product={productForPurchase as SanityProduct}
-                    allowPurchase={commerceProps?.allowPurchase}
-                    cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
-                    purchases={commerceProps?.purchases}
-                    userId={commerceProps?.userId}
-                    options={{
-                      withGuaranteeBadge: true,
-                      withImage: true,
-                    }}
-                  />
-                </PriceCheckProvider>
+                <>
+                  {workshopProducts?.map((product) => {
+                    return (
+                      <PriceCheckProvider
+                        purchasedProductIds={commerceProps?.purchases?.map(
+                          (p) => p.id,
+                        )}
+                      >
+                        <Pricing
+                          canViewRegionRestriction={canViewRegionRestriction}
+                          product={product}
+                          allowPurchase={commerceProps?.allowPurchase}
+                          cancelUrl={
+                            process.env.NEXT_PUBLIC_URL + router.asPath
+                          }
+                          purchases={commerceProps?.purchases}
+                          userId={commerceProps?.userId}
+                          options={{
+                            withGuaranteeBadge: true,
+                            withImage: true,
+                          }}
+                        />
+                      </PriceCheckProvider>
+                    )
+                  })}
+                </>
               )}
               {canView && product && (
-                <div className="mb-8 flex w-full items-center justify-center gap-2 rounded-lg bg-gray-800 p-5 text-lg text-cyan-300">
+                <div className="mb-8 flex w-full items-center justify-center gap-2 rounded-lg bg-gray-800 p-4 text-lg text-cyan-300">
                   <Icon name="Checkmark" />
                   Purchased
                 </div>
@@ -181,8 +165,8 @@ export default WorkshopTemplate
 
 const RegionRestrictedBanner: React.FC<{
   workshop: Module
-  productId: string
-}> = ({workshop, productId}) => {
+  productIds?: string[]
+}> = ({workshop, productIds}) => {
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
@@ -191,12 +175,14 @@ const RegionRestrictedBanner: React.FC<{
       })
     return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
   }
-  const {data: purchaseData} = trpc.purchases.getPurchaseByProductId.useQuery({
-    productId: productId,
-  })
+  const {data: purchasesData} =
+    trpc.purchases.getPurchasesByProductIds.useQuery({
+      productIds: productIds || [],
+    })
+
   const {ability} = useAbilities()
   const canViewRegionRestriction = ability.can('view', 'RegionRestriction')
-  const countryCode = purchaseData?.purchase?.country
+  const countryCode = purchasesData?.find((p) => p.country !== 'US')?.country
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
   const country = countryCode && regionNames.of(countryCode)
 

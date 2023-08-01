@@ -52,6 +52,9 @@
           [data-guarantee-image] {
             @apply hidden;
           }
+          [data-description] {
+            @apply prose prose-sm mx-auto max-w-sm px-5 sm:prose-base prose-p:text-gray-200;
+          }
         }
       }
 
@@ -234,7 +237,7 @@
 
       [data-pricing-footer] {
         [data-header] {
-          @apply w-full pt-8;
+          @apply w-full;
 
           div {
             @apply relative flex items-center justify-center before:absolute before:left-0 before:h-px before:w-full before:bg-gray-800 before:content-[''];
@@ -376,6 +379,33 @@
   }
   /* WORKSHOP TEMPLATE PRICING WIDGET */
   [data-workshop-template] {
+    [data-ppp-container] {
+      @apply mx-auto mb-5 w-full rounded-md border border-gray-800 bg-gray-900 p-4 shadow-xl sm:p-5;
+
+      [data-ppp-header] {
+        @apply w-full space-y-4;
+
+        strong {
+          @apply font-medium;
+
+          img {
+            @apply inline-block;
+          }
+        }
+        p {
+        }
+      }
+      label {
+        @apply mt-5 flex cursor-pointer gap-2 rounded-md border border-gray-700 bg-gray-700/20 p-3 font-medium tabular-nums accent-cyan-400 transition hover:bg-gray-700/60;
+
+        input {
+        }
+
+        span {
+          @apply leading-tight;
+        }
+      }
+    }
     #main-pricing {
       @apply mb-8;
       [data-pricing-product] {
@@ -397,9 +427,21 @@
           [data-purchase-container] {
           }
           [data-ppp-container] {
-            /* @apply mb-0; */
+            @apply rounded-none border-x-0 border-b-0 border-t border-gray-800 bg-transparent px-4 py-0 pt-4 text-sm text-gray-300 shadow-none;
+            img {
+              @apply w-3;
+            }
+            label {
+              @apply pl-3;
+              span {
+                @apply text-sm;
+              }
+            }
           }
           [data-pricing-footer] {
+            [data-description] {
+              @apply hidden;
+            }
             div:first-of-type {
               /* @apply hidden; */
             }
@@ -410,7 +452,8 @@
               /* @apply hidden; */
             }
             [data-main] {
-              /* @apply hidden; */
+              @apply px-4 pb-4 pt-0;
+
               div > strong {
                 @apply block;
               }
@@ -422,6 +465,29 @@
               }
               [data-features] {
                 @apply hidden;
+              }
+              [data-bonuses] {
+                strong {
+                  @apply pb-0 text-xs;
+                }
+                p {
+                  @apply text-base leading-tight;
+                }
+                [data-image] {
+                  @apply h-12 w-12;
+                }
+              }
+              [data-workshops] {
+                @apply mt-2;
+                p {
+                  @apply text-base leading-tight;
+                }
+                strong {
+                  @apply hidden;
+                }
+                [data-image] {
+                  @apply h-12 w-12;
+                }
               }
             }
           }

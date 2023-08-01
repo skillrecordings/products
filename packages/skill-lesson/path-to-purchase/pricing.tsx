@@ -70,7 +70,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   allowPurchase = false,
   canViewRegionRestriction = false,
   cancelUrl,
-  options = {withImage: true, isPPPEnabled: false, withGuaranteeBadge: true},
+  options = {
+    withImage: true,
+    isPPPEnabled: false,
+    withGuaranteeBadge: true,
+  },
 }) => {
   const {
     withImage,
@@ -426,7 +430,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             {product.description &&
               (isSellingLive || allowPurchase) &&
               !purchased && (
-                <div className="prose prose-sm mx-auto max-w-sm px-5 sm:prose-base prose-p:text-gray-200">
+                <div data-description="">
                   <ReactMarkdown>{product.description}</ReactMarkdown>
                 </div>
               )}

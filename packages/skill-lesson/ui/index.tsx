@@ -6,6 +6,12 @@ import {Progress} from './progress'
 import {Skeleton} from './skeleton'
 import {Alert, AlertDescription, AlertTitle} from './alert'
 import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from './tooltip'
+import {
   Card,
   CardContent,
   CardDescription,
@@ -48,4 +54,8 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
 }

@@ -38,6 +38,25 @@ export const purchasesRouter = router({
       }
     }
   }),
+  getPurchasesByProductIds: publicProcedure
+    .input(
+      z.object({
+        productIds: z.array(z.string()),
+      }),
+    )
+    .query(async ({ctx, input}) => {
+      const token = await getToken({req: ctx.req})
+      const {getPurchasesForUser} = getSdk()
+
+      if (token && token.sub) {
+        const purchases = (await getPurchasesForUser(token.id as string)) || []
+        const currentPurchases = purchases.filter((purchase) => {
+          return input.productIds.includes(purchase.productId)
+        })
+
+        return currentPurchases
+      }
+    }),
   getPurchaseByProductId: publicProcedure
     .input(
       z.object({
