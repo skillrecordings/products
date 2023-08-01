@@ -261,8 +261,15 @@
   counter-increment: my-awesome-skeleton-counter;
   @apply flex items-center py-3 text-white duration-100 hover:text-badass-green-500;
 }
+[data-toc-items-list] li a span {
+  @apply grow;
+}
 [data-toc-items-list] li a::before {
   content: counter(my-awesome-skeleton-counter);
   font-feature-settings: 'ss02' on;
-  @apply flex items-center w-10 h-[44px] mx-2 font-symbol text-[2.5rem] leading-none;
+  @apply flex items-center w-10 h-[44px] mx-2 font-symbol text-[2.5rem] leading-none shrink-0;
+}
+
+[data-toc-items-list] li a::after {
+  @apply flex items-center w-10 h-10 font-symbol content-["-"] text-[2.5rem] shrink-0 leading-none ml-4;
 }
