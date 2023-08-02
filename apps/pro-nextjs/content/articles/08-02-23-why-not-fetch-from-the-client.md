@@ -4,7 +4,7 @@ Question: Why not just fetch all the data from the client? Why do we need to fet
 
 Answer: There are several key advantages to fetching data on the server:
 
-- **It's Usually Faster** - NextJS servers are usually deployed in the same Virtual Private Cluster (VPC) as the microservices they call. This means that the network latency between the NextJS server and the microservices is very low. This is not the case for the client. A customer web client can be anywhere, and the network latency between the client and the microservices is much higher. This means that fetching data on the server is usually faster than fetching it on the client.
+- **It's Usually Faster** - NextJS servers are usually deployed in the same Virtual Private Cloud (VPC) as the microservices they call. This means that the network latency between the NextJS server and the microservices is very low. This is not the case for the client. A customer web client can be anywhere, and the network latency between the client and the microservices is much higher. This means that fetching data on the server is usually faster than fetching it on the client.
 
 - **Microservices Stay Behind the Firewall** - If only the NextJS server (or other microservices) can talk to the microservices then those microservices can stay behind the firewall. This means the surface area of attacks is limited to just the NextJS server itself. To make the API calls from the client we would have to expose the microservices to the public internet, which expands the security risk.
 
