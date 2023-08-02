@@ -9,7 +9,7 @@ export const config = {
 
 const dmSansFont = fetch(
   new URL(
-    '../../../public/fonts/034a240e-f841-4345-959f-cf75a47c0116.ttf',
+    '../../styles/fonts/034a240e-f841-4345-959f-cf75a47c0116.ttf',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
