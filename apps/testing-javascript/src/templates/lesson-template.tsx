@@ -31,6 +31,7 @@ const LessonTemplate = () => {
   const {lesson, module} = useLesson()
   const addProgressMutation = trpc.progress.add.useMutation()
   const {data: defaultProduct} = trpc.products.getDefaultProduct.useQuery()
+  console.log({lesson})
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -38,8 +39,8 @@ const LessonTemplate = () => {
       handleContinue={customContinueHandler}
       handlePlayFromBeginning={customPlayFromBeginningHandler}
     >
-      <div className="container max-w-6xl">
-        <main className="relative mx-auto w-full items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
+      <div className="container max-w-6xl pt-4 pb-8 md:py-12 lg:py-16">
+        <main className="relative mx-auto w-full items-start border-t border-transparent 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
           <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
             <Video
               ref={muxPlayerRef}
@@ -49,13 +50,19 @@ const LessonTemplate = () => {
             />
           </div>
         </main>
-        <div className="flex flex-col-reverse lg:flex-row mt-16">
-          <div className="grow mt-16 lg:mt-0">
-            <article>
+        <div className="flex flex-col-reverse lg:flex-row mt-12">
+          <div className="grow mt-12 lg:mt-0">
+            <h2 className="text-[2.125rem] leading-tight hidden lg:block">
+              {lesson.title}
+            </h2>
+            <article className="lg:mt-8">
               <VideoTranscript transcript={videoResource?.transcript || ''} />
             </article>
           </div>
           <div className="w-full lg:max-w-[350px] shrink-0 lg:ml-8">
+            <h2 className="text-[1.625rem] md:text-[2.125rem] leading-tight block lg:hidden mb-8">
+              {lesson.title}
+            </h2>
             <LessonsSidebar lesson={lesson} module={module} />
           </div>
         </div>
