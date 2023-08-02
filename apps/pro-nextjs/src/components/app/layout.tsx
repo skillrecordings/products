@@ -18,6 +18,8 @@ const ffNortHeadline = localFont({
 })
 
 const ffNort = localFont({
+  preload: true,
+  display: 'block',
   src: [
     {
       path: '../../styles/fonts/a5f309ff-aa84-4aa6-9fd8-ca3feedb9265.woff2',
@@ -130,7 +132,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       {withNavigation && <Navigation {...navigationProps} />}
       <div
         className={twMerge(
-          'flex h-full min-h-[calc(100vh-64px)] flex-grow flex-col',
+          'flex h-full min-h-[calc(100vh-68px)] flex-grow flex-col',
           className,
         )}
       >
