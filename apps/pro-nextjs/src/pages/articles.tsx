@@ -29,7 +29,12 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
       meta={{
         title,
         openGraph: {
-          images: [getOgImage({title})],
+          images: [
+            {
+              url: 'https://res.cloudinary.com/dr0vx1dcs/image/upload/v1690987784/articles_2x_kmgf6g.png',
+              alt: 'Pro Next.JS Articles',
+            },
+          ],
         },
       }}
     >
