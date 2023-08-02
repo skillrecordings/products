@@ -139,7 +139,7 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
 
   return (
     <section
-      className="relative flex w-full flex-col items-center justify-center px-5 py-10"
+      className="relative flex w-full flex-col items-center justify-center sm:py-10"
       id="article"
     >
       <PrimaryNewsletterCta

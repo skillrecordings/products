@@ -13,7 +13,7 @@ const Share: React.FC<{title: string}> = ({title}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const shareButtonClassName =
-    'w-full flex items-center justify-center h-full px-7 py-7 group transition'
+    'w-full flex items-center justify-center h-full sm:p-7 p-5 group transition'
 
   return (
     <section className="mx-auto w-full max-w-3xl md:px-5">
