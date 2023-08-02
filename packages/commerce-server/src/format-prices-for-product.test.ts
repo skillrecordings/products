@@ -6,6 +6,7 @@ import {
   Context,
   createMockContext,
   getSdk,
+  UpgradableProducts,
 } from '@skillrecordings/database'
 import {getBulkDiscountPercent} from './bulk-coupon'
 import {first} from 'lodash'
@@ -428,6 +429,14 @@ function mockDefaultAndUpgradeProduct() {
   mockCtx.prisma.purchase.findFirst.mockResolvedValueOnce(
     mockPurchaseToBeUpgraded,
   )
+
+  mockCtx.prisma.upgradableProducts.findMany.mockResolvedValue([
+    {
+      // @ts-ignore
+      upgradableTo: {id: mockUpgradeProduct.id, name: mockUpgradeProduct.name},
+      upgradableFrom: {id: mockProduct.id, name: mockProduct.name},
+    },
+  ])
 
   // mock the originally purchased product and its price
   // @ts-ignore

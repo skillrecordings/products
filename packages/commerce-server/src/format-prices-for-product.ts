@@ -2,8 +2,9 @@ import {getPPPDiscountPercent} from './parity-coupon'
 import {getBulkDiscountPercent} from './bulk-coupon'
 import {getCalculatedPriced} from './get-calculated-price'
 import {Context, defaultContext, getSdk} from '@skillrecordings/database'
+import type {Purchase, Product} from '@skillrecordings/database'
 import {FormattedPrice} from './@types'
-import {Purchase} from '@prisma/client'
+import isEmpty from 'lodash/isEmpty'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
@@ -33,23 +34,52 @@ type FormatPricesForProductOptions = {
 }
 
 export async function getFixedDiscountForUpgrade({
-  upgradeProductId,
-  upgradeFromPurchase,
+  purchaseToBeUpgraded,
+  productToBePurchased,
   ctx = defaultContext,
 }: {
-  upgradeProductId: string
-  upgradeFromPurchase?: Purchase
+  purchaseToBeUpgraded: Purchase | null
+  productToBePurchased: Product
   ctx?: Context
 }) {
-  const {getPrice} = getSdk({ctx})
-  if (upgradeProductId) {
+  // if there is no purchase to be upgraded, then this isn't an upgrade
+  // and the Fixed Discount should be 0.
+  if (
+    purchaseToBeUpgraded === null ||
+    purchaseToBeUpgraded?.productId === undefined
+  ) {
+    return 0
+  }
+
+  // if the Purchase To Be Upgraded is `restricted` and it has a matching
+  // `productId` with the Product To Be Purchased, then this is a PPP
+  // upgrade, so use the purchase amount.
+  if (
+    purchaseToBeUpgraded.status === 'Restricted' &&
+    purchaseToBeUpgraded.productId === productToBePurchased.id
+  ) {
+    return purchaseToBeUpgraded.totalAmount.toNumber()
+  }
+
+  // if Purchase To Be Upgraded is upgradeable to the Product To Be Purchased,
+  // then look up the Price of the original product
+  const {getPrice, availableUpgradesForProduct} = getSdk({ctx})
+  const upgradeIsAvailable = !isEmpty(
+    await availableUpgradesForProduct(
+      [purchaseToBeUpgraded],
+      productToBePurchased.id,
+    ),
+  )
+  if (upgradeIsAvailable) {
     const price = await getPrice({
       where: {
-        productId: upgradeProductId,
+        productId: purchaseToBeUpgraded.productId,
       },
     })
+
     return price?.unitAmount.toNumber() || 0
   }
+
   return 0
 }
 
@@ -103,7 +133,7 @@ export async function formatPricesForProduct(
           status: true,
         },
       })
-    : false
+    : null
 
   const upgradedProduct = upgradeFromPurchase
     ? await getProduct({
@@ -117,16 +147,6 @@ export async function formatPricesForProduct(
       })
     : null
 
-  const fixedDiscountForUpgrade = upgradeFromPurchase
-    ? await getFixedDiscountForUpgrade({
-        upgradeProductId: upgradeFromPurchase.productId,
-        upgradeFromPurchase,
-        ctx,
-      })
-    : 0
-
-  const userPurchases = await getPurchasesForUser(userId)
-
   const product = await getProduct({
     where: {id: productId},
     include: {
@@ -137,6 +157,14 @@ export async function formatPricesForProduct(
   if (!product) {
     throw new PriceFormattingError(`no-product-found`, noContextOptions)
   }
+
+  const fixedDiscountForUpgrade = await getFixedDiscountForUpgrade({
+    purchaseToBeUpgraded: upgradeFromPurchase,
+    productToBePurchased: product,
+    ctx,
+  })
+
+  const userPurchases = await getPurchasesForUser(userId)
 
   const price = await getPrice({where: {productId}})
 
