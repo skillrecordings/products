@@ -2800,6 +2800,7 @@ importers:
       '@types/nprogress': ^0.2.0
       '@types/react': ^18.2.6
       '@types/react-dom': ^18.2.4
+      '@types/react-scroll': ^1.8.3
       '@types/uuid': ^9.0.2
       '@vercel/og': ^0.5.4
       classnames: ^2.3.1
@@ -2829,6 +2830,7 @@ importers:
       react-hook-form: ^7.29.0
       react-hot-toast: ^2.2.0
       react-icons: ^4.7.1
+      react-scroll: ^1.8.6
       react-use: ^17.3.2
       react-wrap-balancer: ^0.2.4
       sanity: ^3.0.0
@@ -2898,6 +2900,7 @@ importers:
       react-hook-form: 7.29.0_react@18.2.0
       react-hot-toast: 2.2.0_biqbaboplfbrettd7655fr4n2y
       react-icons: 4.7.1_react@18.2.0
+      react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
       react-wrap-balancer: 0.2.4_react@18.2.0
       sanity: 3.11.1_jbf7pcmrvaz77s25fyc7acyk5e
@@ -2927,6 +2930,7 @@ importers:
       '@types/nprogress': 0.2.0
       '@types/react': 18.2.6
       '@types/react-dom': 18.2.4
+      '@types/react-scroll': 1.8.3
       '@types/uuid': 9.0.2
       dotenv-flow: 3.2.0
       eslint: 8.26.0

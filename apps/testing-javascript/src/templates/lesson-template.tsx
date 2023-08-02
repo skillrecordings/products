@@ -16,17 +16,11 @@ import {
   customPlayFromBeginningHandler,
   customContinueHandler,
 } from 'utils/custom-handlers'
+import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 
 import {trpc} from 'trpc/trpc.client'
 import Spinner from 'components/spinner'
-
-const Playlist: React.FC<any> = () => {
-  return (
-    <div>
-      <div>Playlist goes here...</div>
-    </div>
-  )
-}
+import LessonsSidebar from 'components/lessons-sidebar'
 
 const LessonTemplate = () => {
   const router = useRouter()
@@ -45,8 +39,8 @@ const LessonTemplate = () => {
       handlePlayFromBeginning={customPlayFromBeginningHandler}
     >
       <div className="container max-w-6xl">
-        <section className="flex">
-          <div className="grow">
+        <main className="relative mx-auto w-full items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
+          <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
             <Video
               ref={muxPlayerRef}
               product={defaultProduct}
@@ -54,10 +48,17 @@ const LessonTemplate = () => {
               loadingIndicator={<Spinner />}
             />
           </div>
-          {/* <div className="shrink-0">
-            <Playlist />
-          </div> */}
-        </section>
+        </main>
+        <div className="flex flex-col-reverse lg:flex-row mt-16">
+          <div className="grow mt-16 lg:mt-0">
+            <article>
+              <VideoTranscript transcript={videoResource?.transcript || ''} />
+            </article>
+          </div>
+          <div className="w-full lg:max-w-[350px] shrink-0 lg:ml-8">
+            <LessonsSidebar lesson={lesson} module={module} />
+          </div>
+        </div>
       </div>
     </VideoProvider>
   )
