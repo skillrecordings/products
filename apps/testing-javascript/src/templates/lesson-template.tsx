@@ -39,7 +39,7 @@ const LessonTemplate = () => {
       handleContinue={customContinueHandler}
       handlePlayFromBeginning={customPlayFromBeginningHandler}
     >
-      <div className="container max-w-6xl pt-4 pb-8 md:py-12 lg:py-16">
+      <div className="container max-w-6xl pt-4 pb-8 md:pb-12 md:pt-6 lg:pb-16">
         <main className="relative mx-auto w-full items-start border-t border-transparent 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
           <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
             <Video
