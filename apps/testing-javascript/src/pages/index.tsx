@@ -145,7 +145,7 @@ const Home: React.FC<
         commerceProps={commerceProps}
         mostValuedProduct={mostValuedProduct}
       />
-      {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+      {/* {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
     </Layout>
   )
 }
