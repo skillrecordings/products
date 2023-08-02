@@ -8,7 +8,10 @@ export const config = {
 }
 
 const dmSansFont = fetch(
-  new URL('../../../public/fonts/DMSans-Medium.ttf', import.meta.url),
+  new URL(
+    '../../../public/fonts/034a240e-f841-4345-959f-cf75a47c0116.ttf',
+    import.meta.url,
+  ),
 ).then((res) => res.arrayBuffer())
 
 export default async function handler(req: NextRequest) {

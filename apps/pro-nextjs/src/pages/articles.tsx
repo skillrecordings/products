@@ -37,7 +37,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
           {articles.map((article) => {
             const {title, image, summary, slug, _createdAt} = article
             return (
-              <li key={slug} className="w-full rounded border p-5">
+              <li key={slug} className="flex h-full">
                 <Link
                   href={`/${article.slug}`}
                   passHref
@@ -46,8 +46,9 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                       article: slug,
                     })
                   }}
+                  className="flex w-full rounded border p-5"
                 >
-                  <article className="mx-auto w-full max-w-screen-md">
+                  <article className="mx-auto flex h-full w-full max-w-screen-md flex-col justify-between">
                     {image && image.secure_url && (
                       <header>
                         <Image
@@ -67,7 +68,11 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                       <h2 className="text-xl font-semibold leading-tight">
                         <Balancer>{title}</Balancer>
                       </h2>
-                      {summary && <p>{summary}</p>}
+                      {summary && (
+                        <p className="pt-4 text-sm opacity-75">
+                          <Balancer ratio={0.3}>{summary}</Balancer>
+                        </p>
+                      )}
                     </div>
                     <div className="mt-8 flex items-center gap-1.5 text-sm">
                       <Image
