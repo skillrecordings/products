@@ -10,6 +10,7 @@ export const CaseStudySchema = z.object({
   title: z.string(),
   slug: z.string(),
   partnerName: z.string(),
+  publishedDate: z.string(),
   ogImage: z.nullable(z.string()).optional(),
   heroImage: z.nullable(z.string()).optional(),
   description: z.nullable(z.string()).optional(),
@@ -25,13 +26,14 @@ export type CaseStudy = z.infer<typeof CaseStudySchema>
 
 export const getAllCaseStudies = async (): Promise<CaseStudy[]> => {
   const caseStudies =
-    await sanityClient.fetch(groq`*[_type == "caseStudy" && state == "published"] | order(_createdAt desc) {
+    await sanityClient.fetch(groq`*[_type == "caseStudy" && state == 'published'] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,
         _createdAt,
         "slug": slug.current,
         partnerName,
+        publishedDate,
         title,
         state,
         description,
@@ -45,13 +47,14 @@ export const getAllCaseStudies = async (): Promise<CaseStudy[]> => {
 
 export const getCaseStudy = async (slug: string): Promise<CaseStudy> => {
   const caseStudy = await sanityClient.fetch(
-    groq`*[_type == "caseStudy" && state == "published" && slug.current == $slug][0] {
+    groq`*[_type == "caseStudy" && state == 'published' && slug.current == $slug][0] {
         _id,
         _type,
         _updatedAt,
         _createdAt,
         "slug": slug.current,
         partnerName,
+        publishedDate,
         title,
         state,
         description,

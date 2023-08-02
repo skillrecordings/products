@@ -132,7 +132,8 @@
     "tailwind-scrollbar": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.2.5",
     "typescript": "5.1.6",
-    "webpack": "^5.73.0"
+    "webpack": "^5.73.0",
+    "autoprefixer": "^10.4.2"
   },
   "prettier": {
     "bracketSpacing": false,

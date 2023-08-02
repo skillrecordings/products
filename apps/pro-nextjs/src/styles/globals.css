@@ -34,7 +34,7 @@
     --card: 0 0% 100%;
     --card-foreground: 222.2 47.4% 11.2%;
 
-    --border: 214.3 31.8% 91.4%;
+    --border: 0 0% 90%;
     --input: 214.3 31.8% 91.4%;
 
     --primary: 227 100% 63%;
@@ -84,7 +84,7 @@
 
     --ring: 216 34% 17%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 }
 
@@ -96,4 +96,7 @@
     @apply bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground;
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
+}
+.ch-codeblock {
+  @apply shadow-lg shadow-gray-200/50;
 }

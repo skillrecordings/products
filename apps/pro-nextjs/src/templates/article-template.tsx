@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '@/components/app/layout'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {useRouter} from 'next/router'
-import AuthorImage from '../../public/instructor.png'
+import AuthorImage from '../../public/jack-herrington.jpg'
 import {type Article} from '@/lib/articles'
 import {format} from 'date-fns'
 import Image from 'next/image'
@@ -14,6 +14,10 @@ import Balancer from 'react-wrap-balancer'
 import config from '@/config'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import common from '@/text/common'
+import Link from 'next/link'
+import {ArrowLeftIcon} from '@heroicons/react/outline'
+import {getOgImage} from '@/utils/get-og-image'
 
 const ArticleTemplate: React.FC<{
   article: Article
@@ -29,7 +33,9 @@ const ArticleTemplate: React.FC<{
     ogImage: _ogImage,
   } = article
   const image = article?.image?.secure_url
-  const ogImage = {url: _ogImage?.secure_url as string, alt: title}
+  const ogImage = _ogImage
+    ? {url: _ogImage?.secure_url as string, alt: title}
+    : getOgImage({title})
   const pageDescription = description || `${body.substring(0, 157)}...`
   const author = config.author
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
@@ -63,8 +69,8 @@ const ArticleTemplate: React.FC<{
       {/* <TableOfContents article={article} /> */}
       <Body mdx={mdx} />
       <Share title={title} />
-      <AboutAuthor author={author} />
       {!subscriber && <CTA article={article} />}
+      <AboutAuthor author={author} />
     </Layout>
   )
 }
@@ -80,13 +86,17 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({title, author, _createdAt, image}) => {
   return (
-    <header className="relative mx-auto w-full">
-      <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-24">
-        <div className="flex flex-grow items-center justify-center">
-          <h1 className="w-full max-w-screen-md px-5 text-center text-4xl font-semibold tracking-tight sm:text-5xl md:font-bold">
-            <Balancer>{title}</Balancer>
-          </h1>
-        </div>
+    <header className="relative mx-auto w-full max-w-3xl px-5">
+      <div className="relative flex w-full flex-col items-center pb-10 pt-5 sm:items-start sm:pb-16 sm:pt-14">
+        <Link
+          className="inline-flex items-center gap-2 pb-5 text-sm opacity-60 transition hover:opacity-100"
+          href="/articles"
+        >
+          <ArrowLeftIcon className="w-3" /> All Articles
+        </Link>
+        <h1 className="w-full pt-5 text-center text-3xl font-semibold tracking-tight sm:pt-8 sm:text-left sm:text-4xl lg:text-5xl">
+          <Balancer>{title}</Balancer>
+        </h1>
       </div>
       {image && (
         <div className="relative mx-auto aspect-video h-full w-full max-w-screen-lg overflow-hidden lg:rounded-lg">
@@ -100,24 +110,23 @@ const Header: React.FC<HeaderProps> = ({title, author, _createdAt, image}) => {
           />
         </div>
       )}
-      <div className="mx-auto flex w-full max-w-screen-md flex-col gap-5 px-5 pt-8 text-base text-foreground sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:text-base md:gap-16 lg:px-0">
-        <div className="col-span-2 flex items-center justify-center gap-3 md:justify-start">
-          <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-foreground/10">
+      <div className="mx-auto flex w-full justify-center gap-5 border-b pb-5 text-base text-foreground sm:justify-start sm:gap-10 sm:text-base">
+        <div className="flex items-center justify-center gap-3 md:justify-start">
+          <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full">
             <Image
               priority={true}
               src={AuthorImage}
               alt={author}
-              width={56}
-              height={56}
+              width={48}
+              height={48}
               quality={100}
             />
           </div>
-          <div className="text-lg font-semibold">{author}</div>
-        </div>
-        <div className="flex items-center justify-center gap-8 text-center sm:justify-end sm:gap-16 sm:text-left">
-          <div className="flex flex-shrink-0 flex-col text-sm sm:w-auto sm:text-base">
-            <span className="font-semibold">Published</span>
-            {format(new Date(_createdAt), 'dd MMMM, y')}
+          <div className="flex flex-col">
+            <div className="font-medium">{author}</div>
+            <div className="text-sm opacity-75">
+              {format(new Date(_createdAt), 'MMMM do, y')}
+            </div>
           </div>
         </div>
       </div>
@@ -130,12 +139,12 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
 
   return (
     <section
-      className="relative flex flex-col items-center justify-center px-5 py-16 md:pb-32 md:pt-24"
+      className="relative flex w-full flex-col items-center justify-center sm:py-10"
       id="article"
     >
       <PrimaryNewsletterCta
-        title="Stay up to date"
-        byline="Subscribe to the newsletter to stay up to date with articles, courses and much more!"
+        // title="Stay up to date"
+        // byline="Subscribe to the newsletter to stay up to date with articles, courses and much more!"
         onSuccess={() => {
           track('subscribed from article', {
             article: slug,
@@ -148,26 +157,23 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
 
 const AboutAuthor: React.FC<{author: string}> = ({author}) => {
   return (
-    <section className="mx-auto flex w-full max-w-screen-md flex-col items-center gap-10 px-5 py-16 md:flex-row md:py-24">
+    <section className="mx-auto flex w-full max-w-screen-md flex-col items-center gap-10 px-5 py-10 sm:py-24 md:flex-row">
       <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200">
         <Image
           src={AuthorImage}
-          width={140}
-          height={140}
+          width={180}
+          height={180}
           alt={author}
           className="aspect-square"
         />
       </div>
       <div className="text-center md:text-left">
-        <p className="pb-3 text-xl font-semibold">
+        <p className="pb-3 text-lg font-semibold sm:text-xl">
           Written by {process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME}{' '}
           {process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}
         </p>
-        <p className="text-lg text-opacity-80">
-          {process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} is a world renowned
-          speaker, teacher, and trainer and he's actively involved in the open
-          source community as a maintainer and contributor of hundreds of
-          popular npm packages.
+        <p className="text-opacity-80 sm:text-lg">
+          <Balancer>{common['about-instructor']}</Balancer>
         </p>
       </div>
     </section>
@@ -176,7 +182,7 @@ const AboutAuthor: React.FC<{author: string}> = ({author}) => {
 
 const Body: React.FC<{mdx: MDXRemoteSerializeResult}> = ({mdx}) => {
   return (
-    <main className="prose mx-auto w-full max-w-3xl px-5 py-8 md:prose-lg prose-code:break-words md:py-16 md:prose-code:break-normal">
+    <main className="prose mx-auto w-full max-w-3xl px-5 pb-16 pt-8 md:prose-lg prose-code:break-words md:prose-code:break-normal">
       <MDX contents={mdx} />
     </main>
   )

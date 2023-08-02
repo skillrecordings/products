@@ -2,11 +2,13 @@ import Layout from '@/components/app/layout'
 import {getAllArticles, type Article} from '@/lib/articles'
 import {GetStaticProps} from 'next'
 import Image from 'next/image'
+import Balancer from 'react-wrap-balancer'
 import Link from 'next/link'
 import config from '@/config'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Header from '@/components/app/header'
 import {getOgImage} from '@/utils/get-og-image'
+import {format} from 'date-fns'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const articles = await getAllArticles()
@@ -30,12 +32,12 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
       }}
     >
       <Header title={title} />
-      <main className="mx-auto w-full max-w-screen-lg px-5">
-        <ul className="grid grid-cols-2 justify-center gap-5">
+      <main className="mx-auto w-full max-w-3xl px-5">
+        <ul className="grid grid-cols-1 justify-center gap-5 sm:grid-cols-2">
           {articles.map((article) => {
-            const {title, image, summary, slug} = article
+            const {title, image, summary, slug, _createdAt} = article
             return (
-              <li key={slug} className="w-full">
+              <li key={slug} className="flex h-full">
                 <Link
                   href={`/${article.slug}`}
                   passHref
@@ -44,8 +46,9 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                       article: slug,
                     })
                   }}
+                  className="flex w-full rounded border p-5"
                 >
-                  <article className="mx-auto w-full max-w-screen-md">
+                  <article className="mx-auto flex h-full w-full max-w-screen-md flex-col justify-between">
                     {image && image.secure_url && (
                       <header>
                         <Image
@@ -58,16 +61,25 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                       </header>
                     )}
 
-                    <div className="py-5">
-                      <h2 className="text-3xl font-bold">{title}</h2>
-                      {summary && <p>{summary}</p>}
+                    <div className="">
+                      <p className="pb-1.5 text-sm opacity-60">
+                        {format(new Date(_createdAt), 'MMMM do, y')}
+                      </p>
+                      <h2 className="text-xl font-semibold leading-tight">
+                        <Balancer>{title}</Balancer>
+                      </h2>
+                      {summary && (
+                        <p className="pt-4 text-sm opacity-75">
+                          <Balancer ratio={0.3}>{summary}</Balancer>
+                        </p>
+                      )}
                     </div>
-                    <div className="flex items-center gap-1.5">
+                    <div className="mt-8 flex items-center gap-1.5 text-sm">
                       <Image
-                        src={require('../../public/instructor.png')}
+                        src={require('../../public/jack-herrington.jpg')}
                         alt={config.author}
-                        width={40}
-                        height={40}
+                        width={32}
+                        height={32}
                         placeholder="blur"
                         className="rounded-full bg-gray-200"
                       />

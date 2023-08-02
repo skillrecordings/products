@@ -8,7 +8,10 @@ export const config = {
 }
 
 const dmSansFont = fetch(
-  new URL('../../../public/fonts/DMSans-Medium.ttf', import.meta.url),
+  new URL(
+    '../../styles/fonts/034a240e-f841-4345-959f-cf75a47c0116.ttf',
+    import.meta.url,
+  ),
 ).then((res) => res.arrayBuffer())
 
 export default async function handler(req: NextRequest) {
@@ -33,7 +36,7 @@ export default async function handler(req: NextRequest) {
           style={{
             fontFamily: 'DM Sans',
           }}
-          tw="flex w-full relative justify-center text-gray-900 items-center h-full pl-16 justify-between border-b-8 border-[#ff6347] bg-gray-50"
+          tw="flex w-full relative justify-center text-gray-900 items-center h-full pl-16 justify-between border-b-8 border-[#426BFF] bg-gray-50"
         >
           <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-16 relative">
             <p tw="text-gray-600" style={{fontSize: 48}}>
@@ -56,7 +59,7 @@ export default async function handler(req: NextRequest) {
             {!hasImage && (
               <div tw="flex items-center absolute right-14 top-12">
                 <img
-                  src={`${process.env.NEXT_PUBLIC_URL}/instructor.png`}
+                  src={`${process.env.NEXT_PUBLIC_URL}/jack-herrington.jpg`}
                   tw="h-24 rounded-full bg-gray-800"
                 />
                 <p

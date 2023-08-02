@@ -14,6 +14,7 @@ import Balancer from 'react-wrap-balancer'
 import config from '@/config'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {getOgImage} from '@/utils/get-og-image'
 
 const ArticleTemplate: React.FC<{
   article: Article
@@ -29,7 +30,9 @@ const ArticleTemplate: React.FC<{
     ogImage: _ogImage,
   } = article
   const image = article?.image?.secure_url
-  const ogImage = {url: _ogImage?.secure_url as string, alt: title}
+  const ogImage = _ogImage
+    ? {url: _ogImage?.secure_url as string, alt: title}
+    : getOgImage({title})
   const pageDescription = description || `${body.substring(0, 157)}...`
   const author = config.author
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`

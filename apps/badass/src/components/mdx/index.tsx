@@ -1,3 +1,4 @@
+import {title} from 'process'
 import {
   BodyBlockquote,
   BodyBlockquoteProps,
@@ -24,14 +25,31 @@ import {
   TeamMembersBlockProps,
   CalloutTitle,
   CalloutTitleProps,
+  Toc,
+  TocItem,
+  TocItemProps,
 } from './components'
 
 const mdxComponents = {
   BodyBlockquote: ({
     children,
     color,
+    subtitle,
+    image,
+    imageWidth,
+    imageHeight,
   }: React.PropsWithChildren<BodyBlockquoteProps>) => {
-    return <BodyBlockquote color={color}>{children}</BodyBlockquote>
+    return (
+      <BodyBlockquote
+        color={color}
+        subtitle={subtitle}
+        image={image}
+        imageWidth={imageWidth}
+        imageHeight={imageHeight}
+      >
+        {children}
+      </BodyBlockquote>
+    )
   },
   BodyImage: ({src, width, height, alt}: BodyImageProps) => {
     return <BodyImage src={src} width={width} height={height} alt={alt} />
@@ -67,11 +85,23 @@ const mdxComponents = {
   TweetEmbedDouble: ({tweetId_1, tweetId_2}: TweetEmbedDoubleProps) => {
     return <TweetEmbedDouble tweetId_1={tweetId_1} tweetId_2={tweetId_2} />
   },
-  SkeletonHandSeparator: ({number}: SkeletonHandSeparatorProps) => {
-    return <SkeletonHandSeparator number={number} />
+  SkeletonHandSeparator: ({
+    id,
+    number,
+    title,
+    subtitle,
+  }: SkeletonHandSeparatorProps) => {
+    return (
+      <SkeletonHandSeparator
+        id={id}
+        number={number}
+        title={title}
+        subtitle={subtitle}
+      />
+    )
   },
-  IntroduceCard: ({image, name, title}: IntroduceCardProps) => {
-    return <IntroduceCard image={image} name={name} title={title} />
+  IntroduceCard: ({id, image, name, title}: IntroduceCardProps) => {
+    return <IntroduceCard id={id} image={image} name={name} title={title} />
   },
   LaunchResults: ({
     firstDay,
@@ -103,6 +133,8 @@ const mdxComponents = {
     portraitWidth,
     portraitHeight,
     multiple,
+    reducedBottomMargin,
+    reducedTopMargin,
   }: TeamMembersBlockProps) => {
     return (
       <TeamMembersBlock
@@ -113,8 +145,16 @@ const mdxComponents = {
         portraitWidth={portraitWidth}
         portraitHeight={portraitHeight}
         multiple={multiple}
+        reducedBottomMargin={reducedBottomMargin}
+        reducedTopMargin={reducedTopMargin}
       />
     )
+  },
+  Toc: ({children}: React.PropsWithChildren) => {
+    return <Toc>{children}</Toc>
+  },
+  TocItem: ({title, anchor}: TocItemProps) => {
+    return <TocItem title={title} anchor={anchor} />
   },
 }
 

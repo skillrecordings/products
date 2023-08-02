@@ -17,7 +17,6 @@ import Script from 'next/script'
 import {Session} from 'next-auth'
 import {ThemeProvider} from '@skillrecordings/skill-lesson/hooks/use-theme'
 import {theme} from '@/styles/theme'
-import Balancer from 'react-wrap-balancer'
 
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
   amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)

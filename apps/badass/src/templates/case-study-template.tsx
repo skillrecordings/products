@@ -21,12 +21,14 @@ const CaseStudyTemplate: React.FC<
 > = ({caseStudy, caseStudyBodySerialized}) => {
   const {
     title,
+    slug,
     description,
     body,
     heroImage,
     ogImage,
     _createdAt: date,
     partnerName,
+    publishedDate,
   } = caseStudy
 
   const shortDescription =
@@ -54,13 +56,13 @@ const CaseStudyTemplate: React.FC<
       <Header
         title={title}
         image={heroImage}
-        date={date}
+        publishedDate={publishedDate}
         partnerName={partnerName}
       />
-      <main data-template-case-study={title}>
+      <main data-template-case-study={slug}>
         <div className="max-w-screen-md lg:max-w-[880px] lg:px-14 mx-auto w-full">
           <div className="md:pt-16 pt-10 lg:px-0 px-5 pb-16">
-            <article className="prose lg:prose-xl sm:prose-lg md:prose-code:text-sm max-w-none prose-p:text-neutral-200 prose-pre:prose-code:bg-transparent prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded lg:prose-code:text-[78%] sm:prose-code:text-[80%] first-letter:text-badass-pink-500 first-letter:text-[2.5rem] md:first-letter:text-[3rem] lg:first-letter:text-[4rem] first-letter:float-left first-letter:leading-none first-letter:font-expanded first-letter:mr-2 md:first-letter:mr-3 mb-2 font-medium">
+            <article className="prose lg:prose-xl sm:prose-lg md:prose-code:text-sm max-w-none prose-p:text-neutral-200 prose-pre:prose-code:bg-transparent prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded lg:prose-code:text-[78%] sm:prose-code:text-[80%] mb-2 font-medium">
               <MDX
                 components={mdxComponents}
                 contents={caseStudyBodySerialized}
@@ -92,15 +94,10 @@ const Header: React.FC<
   React.PropsWithChildren<{
     title: string
     image: string | null | undefined
-    date: string
+    publishedDate: string
     partnerName: string
   }>
-> = ({title, image, date, partnerName}) => {
-  const dateObject = new Date(date)
-  const formattedDate = new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-    year: 'numeric',
-  }).format(dateObject)
+> = ({title, image, publishedDate, partnerName}) => {
   return (
     <header className="flex flex-col md:flex-row items-center max-w-7xl mx-auto w-full px-5">
       <div className="w-full md:w-2/5 lg:w-1/2 shrink-0">
@@ -122,7 +119,7 @@ const Header: React.FC<
           <Balancer>{title}</Balancer>
         </h2>
         <div className="font-mono uppercase opacity-70 mt-4 lg:mt-6 text-xs lg:text-sm xl:text-base">
-          client: {partnerName} &middot; published: {formattedDate}
+          client: {partnerName} &middot; published: {publishedDate}
         </div>
       </div>
     </header>

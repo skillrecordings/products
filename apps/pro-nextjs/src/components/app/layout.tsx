@@ -3,14 +3,8 @@ import {NextSeo, type NextSeoProps} from '@skillrecordings/next-seo'
 import {twMerge} from 'tailwind-merge'
 import Navigation from './navigation'
 import Footer from './footer'
-import {Inter} from 'next/font/google'
 import localFont from 'next/font/local'
-
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-sans',
-})
+import {Toaster} from 'react-hot-toast'
 
 const ffNortHeadline = localFont({
   src: [
@@ -24,6 +18,8 @@ const ffNortHeadline = localFont({
 })
 
 const ffNort = localFont({
+  preload: true,
+  display: 'block',
   src: [
     {
       path: '../../styles/fonts/a5f309ff-aa84-4aa6-9fd8-ca3feedb9265.woff2',
@@ -101,7 +97,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   className,
   meta,
   noIndex,
-  withNavigation = false,
+  withNavigation = true,
   withFooter = false,
   navigationProps,
   footerProps,
@@ -132,10 +128,11 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         canonical={url}
         noindex={noIndex}
       />
+      <Toaster position="top-center" />
       {withNavigation && <Navigation {...navigationProps} />}
       <div
         className={twMerge(
-          'flex h-full min-h-[calc(100vh-64px)] flex-grow flex-col',
+          'flex h-full min-h-[calc(100vh-68px)] flex-grow flex-col',
           className,
         )}
       >
