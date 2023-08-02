@@ -11,7 +11,9 @@ import {getOgImage} from '@/utils/get-og-image'
 import {format} from 'date-fns'
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const articles = await getAllArticles()
+  const articles = (await getAllArticles()).filter(
+    (article) => article.state === 'published',
+  )
 
   return {
     props: {articles},
