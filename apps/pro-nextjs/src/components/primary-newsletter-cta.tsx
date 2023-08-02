@@ -70,10 +70,12 @@ export const PrimaryNewsletterCta: React.FC<
         children
       ) : (
         <div className="max-w-2xl pb-8">
-          <h2 className="bg-gradient-to-tl from-foreground to-gray-600 bg-clip-text text-center text-3xl font-medium text-transparent sm:text-4xl">
+          <h2 className="text-center text-3xl font-semibold sm:text-4xl">
             <Balancer>{title}</Balancer>
           </h2>
-          <h3 className="pt-4 text-center text-lg opacity-75">{byline}</h3>
+          <h3 className="pt-4 text-center text-lg opacity-75">
+            <Balancer>{byline}</Balancer>
+          </h3>
         </div>
       )}
       <SubscribeToConvertkitForm

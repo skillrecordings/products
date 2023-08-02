@@ -8,7 +8,12 @@ import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const article = await getArticle(params?.article as string)
-  const mdx = await serializeMDX(article.body)
+  const mdx = await serializeMDX(article.body, {
+    syntaxHighlighterOptions: {
+      theme: 'github-light',
+      showCopyButton: true,
+    },
+  })
   return {
     props: {article, mdx},
     revalidate: 10,

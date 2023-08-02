@@ -16,7 +16,7 @@ export const getOgImage = (options: OgImageUrlOptions) => {
   })
   const url =
     // CLOUDINARY_FETCH_BASE_URL + // TODO: figure out why it's not working with cloudinary fetch url
-    `${getBaseUrl()}/api/og` + `?${query.toString()}`
+    `${process.env.NEXT_PUBLIC_URL}/api/og` + `?${query.toString()}`
 
   return {
     url,

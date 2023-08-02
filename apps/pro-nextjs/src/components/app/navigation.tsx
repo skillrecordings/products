@@ -6,6 +6,8 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {twMerge} from 'tailwind-merge'
+import {cn} from '@skillrecordings/skill-lesson/ui/utils'
+import {DocumentIcon} from '@heroicons/react/outline'
 
 const useAbilities = () => {
   const {data: abilityRules} = trpc.abilities.getAbilities.useQuery()
@@ -17,14 +19,7 @@ const links = [
   {
     label: 'Articles',
     href: '/articles',
-  },
-  {
-    label: 'Tips',
-    href: '/tips',
-  },
-  {
-    label: 'Free Tutorials',
-    href: '/tutorials',
+    icon: <DocumentIcon className="w-4 opacity-75" />,
   },
 ]
 
@@ -43,7 +38,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
     <nav
       aria-label="top"
       className={twMerge(
-        'mx-auto flex w-full max-w-screen-xl items-center justify-between p-5',
+        'mx-auto flex w-full max-w-screen-md items-center justify-between p-5',
         className,
       )}
     >
@@ -52,7 +47,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
         aria-current={isRoot}
         tabIndex={isRoot ? -1 : 0}
         passHref
-        className="flex items-center gap-1 text-base font-bold"
+        className="flex items-center gap-1 text-lg font-semibold"
       >
         <Image
           src={require('../../../public/favicon.ico')}
@@ -63,17 +58,25 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
         {process.env.NEXT_PUBLIC_SITE_TITLE}
       </Link>
       <ul className="flex items-center gap-5">
-        {links.map(({href, label}) => {
+        {links.map(({href, label, icon}) => {
+          const isCurrent = asPath === href
+
           return (
             <li key={href}>
               <Link
                 href={href}
+                className={cn(
+                  'inline-flex items-center gap-1 text-sm opacity-75 transition hover:opacity-100',
+                  {
+                    underline: isCurrent,
+                  },
+                )}
                 onClick={() => {
                   track(`clicked ${label} from navigation`)
                 }}
                 passHref
               >
-                {label}
+                {icon} {label}
               </Link>
             </li>
           )

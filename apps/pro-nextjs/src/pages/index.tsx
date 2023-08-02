@@ -6,11 +6,12 @@ import Balancer from 'react-wrap-balancer'
 import React from 'react'
 import JackImage from '../../public/jack-herrington.jpg'
 import Image from 'next/image'
+import common from '@/text/common'
 
 const Home: NextPage = () => {
   return (
     <Layout>
-      <header className="mx-auto flex w-full flex-col items-center justify-center pb-16 pt-5 text-center sm:pb-24 sm:pt-14">
+      <header className="mx-auto flex w-full flex-col items-center justify-center pb-16 pt-5 text-center sm:pb-24">
         <Image
           src={require('../../public/skyscaper-4.jpg')}
           alt=""
@@ -24,7 +25,7 @@ const Home: NextPage = () => {
         />
         <div className="max-w-screen-sm">
           <Balancer>
-            <h1 className="bg-gradient-to-tl from-foreground to-gray-600 bg-clip-text text-center text-3xl font-medium text-transparent sm:text-4xl">
+            <h1 className="text-center text-3xl font-semibold sm:text-4xl">
               The No-BS Solution for Enterprise-Ready Next.js Applications
             </h1>
           </Balancer>
@@ -63,14 +64,7 @@ const AboutJack: React.FC<{title?: string; className?: string}> = ({
       <div className="text-left">
         <p className="pb-3 text-xl font-medium">{title}</p>
         <p className="sm:text-lg sm:leading-relaxed">
-          Jack Herrington is a Full Stack Principal Engineer who orchestrated
-          the rollout of React/NextJS at Walmart Labs and Nike. He is also the
-          "Blue Collar Coder" on YouTube where he posts weekly videos on
-          advanced use of React and NextJS as well as other frontend
-          technologies trends. His YouTube channel hosts an entire free courses
-          on React and TypeScript. He has written seven books including most
-          recently No-BS TypeScript which is a companion book to the YouTube
-          course.
+          {common['about-instructor']}
         </p>
       </div>
     </section>

@@ -4,6 +4,7 @@ import {twMerge} from 'tailwind-merge'
 import Navigation from './navigation'
 import Footer from './footer'
 import {Inter} from 'next/font/google'
+import {Toaster} from 'react-hot-toast'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -62,6 +63,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         canonical={url}
         noindex={noIndex}
       />
+      <Toaster position="top-center" />
       {withNavigation && <Navigation {...navigationProps} />}
       <div
         className={twMerge(

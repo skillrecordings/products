@@ -33,7 +33,7 @@ import tweet from './objects/tweet'
 import bodyTestimonial from './objects/bodyTestimonial'
 import feature from './objects/feature'
 import github from './objects/resources/github'
-import transcript from './objects/resources/transcript'
+import transcript from './objects/transcript'
 
 export const schemaTypes = [
   // —— documents
