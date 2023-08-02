@@ -15,7 +15,9 @@ const Toc: React.FC<React.PropsWithChildren> = ({children}) => {
 const TocItem: React.FC<TocItemProps> = ({title, anchor}) => {
   return (
     <li data-toc-item="">
-      <a href={anchor}>{title}</a>
+      <a href={anchor}>
+        <span>{title}</span>
+      </a>
     </li>
   )
 }
