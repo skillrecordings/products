@@ -33,7 +33,7 @@ const config: DefaultSeoProps & {author: string} = {
     },
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_URL}/card@2x.png`,
+        url: `https://res.cloudinary.com/dr0vx1dcs/image/upload/v1691061214/card-default_2x_edwqnj.png`,
         width: 1200,
         height: 630,
       },

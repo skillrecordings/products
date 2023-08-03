@@ -7,8 +7,15 @@ import Link from 'next/link'
 import config from '@/config'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Header from '@/components/app/header'
-import {getOgImage} from '@/utils/get-og-image'
+import {motion} from 'framer-motion'
 import {format} from 'date-fns'
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@skillrecordings/skill-lesson/ui'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const articles = (await getAllArticles()).filter(
@@ -24,6 +31,20 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
   const title = 'Articles'
 
+  const container = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  }
+
+  const item = {
+    hidden: {opacity: 0, y: 20},
+    show: {opacity: 1, y: 0},
+  }
+
   return (
     <Layout
       meta={{
@@ -31,7 +52,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
         openGraph: {
           images: [
             {
-              url: 'https://res.cloudinary.com/dr0vx1dcs/image/upload/v1690987784/articles_2x_kmgf6g.png',
+              url: 'https://res.cloudinary.com/dr0vx1dcs/image/upload/v1691061214/card-articles_2x_wvn4bs.png',
               alt: 'Pro Next.JS Articles',
             },
           ],
@@ -39,12 +60,17 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
       }}
     >
       <Header title={title} />
-      <main className="mx-auto w-full max-w-3xl px-5">
-        <ul className="grid grid-cols-1 justify-center gap-5 sm:grid-cols-2">
+      <main className="mx-auto w-full max-w-3xl px-5 pb-10">
+        <motion.ul
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-1 justify-center gap-5 sm:grid-cols-2"
+        >
           {articles.map((article) => {
             const {title, image, summary, slug, _createdAt} = article
             return (
-              <li key={slug} className="flex h-full">
+              <motion.li variants={item} key={slug} className="flex h-full">
                 <Link
                   href={`/${article.slug}`}
                   passHref
@@ -53,35 +79,37 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                       article: slug,
                     })
                   }}
-                  className="flex w-full rounded border p-5"
+                  className="flex w-full rounded"
                 >
-                  <article className="mx-auto flex h-full w-full max-w-screen-md flex-col justify-between">
-                    {image && image.secure_url && (
-                      <header>
-                        <Image
-                          className="aspect-video rounded"
-                          src={image.secure_url}
-                          width={image.width}
-                          height={image.height}
-                          alt="article illustration"
-                        />
-                      </header>
-                    )}
+                  <Card className="mx-auto flex h-full w-full flex-col justify-between bg-transparent p-5 shadow-none">
+                    <div>
+                      <CardHeader className="p-0">
+                        {image && image.secure_url && (
+                          <Image
+                            className="aspect-video rounded"
+                            src={image.secure_url}
+                            width={image.width}
+                            height={image.height}
+                            alt="article illustration"
+                          />
+                        )}
 
-                    <div className="">
-                      <p className="pb-1.5 text-sm opacity-60">
-                        {format(new Date(_createdAt), 'MMMM do, y')}
-                      </p>
-                      <h2 className="text-xl font-semibold leading-tight">
-                        <Balancer>{title}</Balancer>
-                      </h2>
-                      {summary && (
-                        <p className="pt-4 text-sm opacity-75">
-                          <Balancer ratio={0.3}>{summary}</Balancer>
+                        <p className="pb-1.5 text-sm opacity-60">
+                          {format(new Date(_createdAt), 'MMMM do, y')}
                         </p>
+                        <CardTitle className="text-xl font-semibold leading-tight">
+                          {title}
+                        </CardTitle>
+                      </CardHeader>
+                      {summary && (
+                        <CardContent className="p-0">
+                          <p className="pt-4 text-sm opacity-75">
+                            <Balancer ratio={0.3}>{summary}</Balancer>
+                          </p>
+                        </CardContent>
                       )}
                     </div>
-                    <div className="mt-8 flex items-center gap-1.5 text-sm">
+                    <CardFooter className="mt-8 flex items-center gap-1.5 p-0 text-sm">
                       <Image
                         src={require('../../public/jack-herrington.jpg')}
                         alt={config.author}
@@ -91,13 +119,13 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                         className="rounded-full bg-gray-200"
                       />
                       <span>{config.author}</span>
-                    </div>
-                  </article>
+                    </CardFooter>
+                  </Card>
                 </Link>
-              </li>
+              </motion.li>
             )
           })}
-        </ul>
+        </motion.ul>
       </main>
     </Layout>
   )
