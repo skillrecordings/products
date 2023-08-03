@@ -23,7 +23,7 @@ const TutorialTemplate: React.FC<{
   tutorialBodySerialized: MDXRemoteSerializeResult
 }> = ({tutorial, tutorialBodySerialized}) => {
   const {title, body, ogImage, image, description, testimonials} = tutorial
-  const pageTitle = `${title} Tutorial (free)`
+  const pageTitle = `${title} Tutorial`
 
   return (
     <Layout
