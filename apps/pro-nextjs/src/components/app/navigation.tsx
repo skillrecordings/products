@@ -55,7 +55,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
           width={24}
           height={24}
         />{' '}
-        {process.env.NEXT_PUBLIC_SITE_TITLE}
+        Pro Next.js
       </Link>
       <ul className="flex items-center gap-5">
         {links.map(({href, label, icon}) => {
