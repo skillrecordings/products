@@ -31,6 +31,8 @@ const TutorialTemplate: React.FC<{
       meta={{
         title: pageTitle,
         description,
+        keywords:
+          'typescript, tutorial, free, interactive, course, matt pocock, wizard, beginner, advanced, total, type, script',
         ogImage: {
           url: ogImage,
           alt: pageTitle,

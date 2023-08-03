@@ -18,6 +18,7 @@ import common from '@/text/common'
 import Link from 'next/link'
 import {ArrowLeftIcon} from '@heroicons/react/outline'
 import {getOgImage} from '@/utils/get-og-image'
+import {motion} from 'framer-motion'
 
 const ArticleTemplate: React.FC<{
   article: Article
@@ -89,14 +90,21 @@ const Header: React.FC<HeaderProps> = ({title, author, _createdAt, image}) => {
     <header className="relative mx-auto w-full max-w-3xl px-5">
       <div className="relative flex w-full flex-col items-center pb-10 pt-5 sm:items-start sm:pb-16 sm:pt-14">
         <Link
-          className="inline-flex items-center gap-2 pb-5 text-sm opacity-60 transition hover:opacity-100"
+          className="inline-flex items-center gap-2 text-sm opacity-60 transition hover:opacity-100"
           href="/articles"
         >
           <ArrowLeftIcon className="w-3" /> All Articles
         </Link>
-        <h1 className="w-full pt-5 text-center text-3xl font-semibold tracking-tight sm:pt-8 sm:text-left sm:text-4xl lg:text-5xl">
+        <motion.h1
+          initial={{y: 20, opacity: 0}}
+          animate={{
+            y: 0,
+            opacity: 1,
+          }}
+          className="w-full pt-10 text-center text-3xl font-semibold tracking-tight sm:pt-8 sm:text-left sm:text-4xl lg:text-5xl"
+        >
           <Balancer>{title}</Balancer>
-        </h1>
+        </motion.h1>
       </div>
       {image && (
         <div className="relative mx-auto aspect-video h-full w-full max-w-screen-lg overflow-hidden lg:rounded-lg">

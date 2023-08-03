@@ -9,11 +9,7 @@ const videoThumb = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // load an image binary via fetch
     const response = await fetch(
-      `https://image.mux.com/${videoResource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
-    )
-
-    console.log(
-      `https://image.mux.com/${videoResource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
+      `https://image.mux.com/${videoResource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve&time=1`,
     )
 
     const blob = await response.blob()

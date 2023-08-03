@@ -115,8 +115,13 @@ export const SubscribeToConvertkitForm: React.FC<
       />
       {submitButtonElem ? (
         React.cloneElement(submitButtonElem, {
-          isLoading: isSubmitting,
           type: 'submit',
+          disabled: Boolean(isSubmitting),
+          children: isSubmitting ? (
+            <Spinner className="w-5 h-5" />
+          ) : (
+            submitButtonElem.props.children
+          ),
         })
       ) : (
         <Button
@@ -125,7 +130,7 @@ export const SubscribeToConvertkitForm: React.FC<
           disabled={Boolean(isSubmitting)}
           type="submit"
         >
-          {isSubmitting ? <Spinner /> : actionLabel}
+          {isSubmitting ? <Spinner className="w-5 h-5" /> : actionLabel}
         </Button>
       )}
       {status === 'success' &&

@@ -57,14 +57,14 @@ export default TipsIndex
 
 const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {title, muxPlaybackId} = tip
-  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
+  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve&time=1`
 
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
     <article className="flex flex-col items-center overflow-hidden">
-      <header className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-gray-100">
+      <header className="relative flex aspect-video rounded overflow-hidden w-full flex-shrink-0 items-center justify-center border-b border-gray-100">
         <button
           onClick={() => {
             router
@@ -140,7 +140,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
 
 export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   const {title, muxPlaybackId} = tip
-  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
+  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve&time=1`
 
   const router = useRouter()
   const {tipCompleted} = useTipComplete(tip.slug)

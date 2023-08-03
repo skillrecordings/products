@@ -180,12 +180,10 @@ export async function stripeCheckout({
       )
 
       if (isUpgrade && upgradeFromPurchase && loadedProduct && customerId) {
-        const fixedDiscountForUpgrade = upgradeFromPurchase
-          ? await getFixedDiscountForUpgrade({
-              upgradeProductId: upgradeFromPurchase.productId,
-              upgradeFromPurchase,
-            })
-          : 0
+        const fixedDiscountForUpgrade = await getFixedDiscountForUpgrade({
+          purchaseToBeUpgraded: upgradeFromPurchase,
+          productToBePurchased: loadedProduct,
+        })
 
         const fullPrice = loadedProduct.prices?.[0].unitAmount.toNumber()
         const calculatedPrice = getCalculatedPriced({
