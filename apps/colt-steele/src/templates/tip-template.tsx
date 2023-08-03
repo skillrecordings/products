@@ -121,10 +121,10 @@ const TipTemplate: React.FC<{
               )}
             </div>
           </div>
-          <article className="relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 xl:border-gray-800 xl:pt-10">
+          <article className="relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 lg:border-gray-800 lg:pt-10">
             <div className="mx-auto w-full max-w-screen-xl pb-5">
-              <div className="flex flex-col gap-0 sm:gap-10 xl:grid grid-cols-5">
-                <div className="col-span-3 xl:pl-5 flex flex-col items-start">
+              <div className="flex flex-col gap-0 sm:gap-10 lg:grid grid-cols-5">
+                <div className="col-span-3 lg:pl-5 flex flex-col items-start">
                   <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-4xl font-black sm:text-5xl lg:text-6xl text-gray-800">
                     <Balancer>{tip.title}</Balancer>
                     {tipCompleted && <span className="sr-only">(watched)</span>}
@@ -296,7 +296,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   const {handlePlay} = useMuxPlayer()
   const {tipCompleted} = useTipComplete(suggestedTip.slug)
 
-  const thumbnail = `https://image.mux.com/${suggestedTip.muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
+  const thumbnail = `https://image.mux.com/${suggestedTip.muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve&time=1`
 
   return (
     <div className="aspect-[16/12]">
