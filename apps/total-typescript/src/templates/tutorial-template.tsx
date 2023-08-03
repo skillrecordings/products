@@ -23,7 +23,7 @@ const TutorialTemplate: React.FC<{
   tutorialBodySerialized: MDXRemoteSerializeResult
 }> = ({tutorial, tutorialBodySerialized}) => {
   const {title, body, ogImage, image, description, testimonials} = tutorial
-  const pageTitle = `${title} Tutorial`
+  const pageTitle = `${title} Tutorial (free)`
 
   return (
     <Layout
@@ -31,6 +31,8 @@ const TutorialTemplate: React.FC<{
       meta={{
         title: pageTitle,
         description,
+        keywords:
+          'typescript, tutorial, free, interactive, course, matt pocock, wizard, beginner, advanced, total, type, script',
         ogImage: {
           url: ogImage,
           alt: pageTitle,

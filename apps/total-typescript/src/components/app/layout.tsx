@@ -41,6 +41,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
     ogImage = {
       url: `${process.env.NEXT_PUBLIC_URL}/card@2x.png`,
     },
+    keywords,
     date,
   } = meta || {}
 
@@ -54,6 +55,12 @@ const Layout: FunctionComponent<LayoutProps> = ({
             ? `%s | ${process.env.NEXT_PUBLIC_SITE_TITLE}`
             : undefined
         }
+        additionalMetaTags={[
+          {
+            property: 'keywords',
+            content: keywords || process.env.NEXT_PUBLIC_SEO_KEYWORDS,
+          },
+        ]}
         openGraph={{
           title,
           description,
