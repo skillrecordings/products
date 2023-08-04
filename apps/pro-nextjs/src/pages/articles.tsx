@@ -115,7 +115,6 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                         alt={config.author}
                         width={32}
                         height={32}
-                        placeholder="blur"
                         className="rounded-full bg-gray-200"
                       />
                       <span>{config.author}</span>
