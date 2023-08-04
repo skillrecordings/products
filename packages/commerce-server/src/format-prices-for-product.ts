@@ -34,10 +34,12 @@ type FormatPricesForProductOptions = {
 export async function getFixedDiscountForUpgrade({
   purchaseToBeUpgraded,
   productToBePurchased,
+  purchaseWillBeRestricted,
   ctx = defaultContext,
 }: {
   purchaseToBeUpgraded: Purchase | null
   productToBePurchased: Product
+  purchaseWillBeRestricted: boolean
   ctx?: Context
 }) {
   // if there is no purchase to be upgraded, then this isn't an upgrade
@@ -49,13 +51,13 @@ export async function getFixedDiscountForUpgrade({
     return 0
   }
 
+  const transitioningToUnrestrictedAccess =
+    purchaseToBeUpgraded.status === 'Restricted' && !purchaseWillBeRestricted
+
   // if the Purchase To Be Upgraded is `restricted` and it has a matching
   // `productId` with the Product To Be Purchased, then this is a PPP
   // upgrade, so use the purchase amount.
-  if (
-    purchaseToBeUpgraded.status === 'Restricted' &&
-    purchaseToBeUpgraded.productId === productToBePurchased.id
-  ) {
+  if (transitioningToUnrestrictedAccess) {
     return purchaseToBeUpgraded.totalAmount.toNumber()
   }
 
@@ -148,12 +150,6 @@ export async function formatPricesForProduct(
     throw new PriceFormattingError(`no-product-found`, noContextOptions)
   }
 
-  const fixedDiscountForUpgrade = await getFixedDiscountForUpgrade({
-    purchaseToBeUpgraded: upgradeFromPurchase,
-    productToBePurchased: product,
-    ctx,
-  })
-
   const price = await getPrice({where: {productId}})
 
   if (!price) throw new PriceFormattingError(`no-price-found`, noContextOptions)
@@ -169,6 +165,13 @@ export async function formatPricesForProduct(
       productId: product.id,
       purchaseToBeUpgraded: upgradeFromPurchase,
     })
+
+  const fixedDiscountForUpgrade = await getFixedDiscountForUpgrade({
+    purchaseToBeUpgraded: upgradeFromPurchase,
+    productToBePurchased: product,
+    purchaseWillBeRestricted: appliedCouponType === 'ppp',
+    ctx,
+  })
 
   const unitPrice: number = price.unitAmount.toNumber()
   const fullPrice: number = unitPrice * quantity - fixedDiscountForUpgrade

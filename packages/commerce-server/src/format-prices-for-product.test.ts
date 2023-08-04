@@ -145,6 +145,54 @@ test('product no available coupons if country is "US"', async () => {
   expect(product?.availableCoupons.length).toBe(0)
 })
 
+test('upgrade PPP purchase to unrestricted access', async () => {
+  const ORIGINAL_PPP_PURCHASE_ID = 'original-ppp-purchase-id'
+  const originalPurchasePrice = 25
+  // mock the purchase to be upgraded, which was PPP restricted
+  const mockPurchaseToBeUpgraded = {
+    id: ORIGINAL_PPP_PURCHASE_ID,
+    productId: DEFAULT_PRODUCT_ID,
+    userId: 'default-user',
+    createdAt: new Date(),
+    status: 'Restricted',
+    totalAmount: new Prisma.Decimal(originalPurchasePrice),
+  }
+
+  mockCtx.prisma.purchase.findFirst.mockResolvedValue(
+    // @ts-ignore
+    mockPurchaseToBeUpgraded,
+  )
+
+  const expectedPrice = mockPrice.unitAmount.toNumber() - originalPurchasePrice
+
+  const product = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    upgradeFromPurchaseId: ORIGINAL_PPP_PURCHASE_ID,
+    country: 'US',
+    ctx,
+  })
+
+  expect(product.calculatedPrice).toBe(expectedPrice)
+})
+
+test('upgrade PPP Purchase to Bundle w/ Unrestricted Access', async () => {
+  const originalPurchasePrice = 25
+
+  mockPPPPurchaseAndUpgradeProduct()
+
+  const expectedPrice =
+    mockUpgradePrice.unitAmount.toNumber() - originalPurchasePrice
+
+  const product = await formatPricesForProduct({
+    productId: UPGRADE_PRODUCT_ID,
+    upgradeFromPurchaseId: ORIGINAL_PPP_PURCHASE_ID,
+    country: 'US',
+    ctx,
+  })
+
+  expect(product.calculatedPrice).toBe(expectedPrice)
+})
+
 test('an applied coupon should calculate the correct price even with ppp applied', async () => {
   mockCtx.prisma.merchantCoupon.findMany.mockResolvedValue([MOCK_INDIA_COUPON])
   mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(
@@ -376,6 +424,7 @@ const UPGRADE_PRODUCT_ID = 'upgrade-product-id'
 const VALID_INDIA_COUPON_ID = 'valid-india-coupon-id'
 const SITE_SALE_COUPON_ID = 'valid-site-coupon-id'
 const LARGE_SITE_SALE_COUPON_ID = 'valid-jumbo-coupon-id'
+const ORIGINAL_PPP_PURCHASE_ID = 'original-ppp-purchase-id'
 
 const mockProduct = {
   id: DEFAULT_PRODUCT_ID,
@@ -463,7 +512,6 @@ function mockDefaultAndUpgradeProduct() {
     ...mockProduct,
     prices: [mockPrice],
   })
-  mockCtx.prisma.price.findFirst.mockResolvedValueOnce(mockPrice)
 
   // mock all purchases for user
   const mockAllPurchasesForUser = [
@@ -484,6 +532,62 @@ function mockDefaultAndUpgradeProduct() {
     prices: [mockUpgradePrice],
   })
   mockCtx.prisma.price.findFirst.mockResolvedValueOnce(mockUpgradePrice)
+
+  // fixed discount price lookup
+  mockCtx.prisma.price.findFirst.mockResolvedValueOnce(mockPrice)
+}
+
+const mockPPPPurchaseAndUpgradeProduct = () => {
+  const originalPurchasePrice = 25
+  // mock the purchase to be upgraded, which was PPP restricted
+  const mockPurchaseToBeUpgraded = {
+    id: ORIGINAL_PPP_PURCHASE_ID,
+    productId: DEFAULT_PRODUCT_ID,
+    userId: 'default-user',
+    createdAt: new Date(),
+    status: 'Restricted',
+    totalAmount: new Prisma.Decimal(originalPurchasePrice),
+  }
+
+  mockCtx.prisma.purchase.findFirst.mockResolvedValueOnce(
+    // @ts-ignore
+    mockPurchaseToBeUpgraded,
+  )
+
+  mockCtx.prisma.upgradableProducts.findMany.mockResolvedValue([
+    {
+      // @ts-ignore
+      upgradableTo: {id: mockUpgradeProduct.id, name: mockUpgradeProduct.name},
+      upgradableFrom: {id: mockProduct.id, name: mockProduct.name},
+    },
+  ])
+
+  // mock the originally purchased product and its price
+  // @ts-ignore
+  mockCtx.prisma.product.findFirst.mockResolvedValueOnce({
+    ...mockProduct,
+    prices: [mockPrice],
+  })
+
+  // mock all purchases for user
+  const mockAllPurchasesForUser = [
+    {
+      status: 'Restricted',
+    },
+  ]
+  // @ts-ignore
+  mockCtx.prisma.purchase.findMany.mockResolvedValue(mockAllPurchasesForUser)
+
+  // mock the product being upgraded to, with price
+  // @ts-ignore
+  mockCtx.prisma.product.findFirst.mockResolvedValueOnce({
+    ...mockUpgradeProduct,
+    prices: [mockUpgradePrice],
+  })
+  mockCtx.prisma.price.findFirst.mockResolvedValueOnce(mockUpgradePrice)
+
+  // fixed discount price lookup
+  mockCtx.prisma.price.findFirst.mockResolvedValueOnce(mockPrice)
 }
 
 function getMockCoupon(
