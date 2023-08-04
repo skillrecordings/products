@@ -1,13 +1,7 @@
 import React from 'react'
 import {NextRouter, useRouter} from 'next/router'
-import {useCommandState} from 'cmdk'
-import {
-  ChevronDownIcon,
-  FireIcon,
-  MenuIcon,
-  PlayIcon,
-  SearchIcon,
-} from '@heroicons/react/solid'
+import {ChevronDownIcon} from '@heroicons/react/solid'
+import {SearchIcon} from '@heroicons/react/outline'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import cx from 'classnames'
 import config from '@/config'
@@ -19,6 +13,8 @@ import {signOut, useSession} from 'next-auth/react'
 import toast from 'react-hot-toast'
 import {useFeedback} from '../../feedback-widget/feedback-context'
 import {useSearchBar} from '@/search-bar/use-search-bar'
+import {motion, AnimationControls, useAnimationControls} from 'framer-motion'
+import {cn} from '@skillrecordings/skill-lesson/ui/utils'
 
 type Props = {
   className?: string
@@ -64,11 +60,11 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
 
   return (
     <ul className={cx('hidden w-full items-center justify-between md:flex')}>
-      <div className="flex h-full items-center">
-        <hr
+      <div className="flex h-full items-center pl-3">
+        {/* <hr
           className="ml-4 mr-1 h-1/4 w-px border-transparent bg-gray-700 lg:ml-5 lg:mr-2"
           aria-hidden="true"
-        />
+        /> */}
         <NavLink
           path="/workshops"
           label={
@@ -84,7 +80,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
               Workshops
             </>
           }
-          icon={<KeyIcon />}
+          icon={KeyIcon}
         />
         <NavLink
           path="/tutorials"
@@ -101,18 +97,10 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
               Tutorials
             </>
           }
-          icon={
-            <PlayIcon className="h-5 w-5 text-cyan-300" aria-hidden="true" />
-          }
+          icon={PlayIcon}
         />
-        <NavLink
-          path="/tips"
-          label="Tips"
-          icon={
-            <FireIcon className="h-5 w-5 text-orange-400" aria-hidden="true" />
-          }
-        />
-        <NavLink path="/articles" label="Articles" icon={<BookIcon />} />
+        <NavLink path="/tips" label="Tips" icon={FireIcon} />
+        <NavLink path="/articles" label="Articles" icon={BookIcon} />
         <SearchBar isMinified={isMinified} />
       </div>
       <div className="flex h-full items-center justify-center">
@@ -156,94 +144,104 @@ const MobileNav = () => {
 
   const {status} = useSession()
   const {setIsFeedbackDialogOpen} = useFeedback()
+  const [isMenuOpen, setMenuOpen] = React.useState(false)
+
+  const container = {
+    hidden: {
+      opacity: 0,
+      y: -20,
+    },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.1,
+        type: 'easeInOut',
+      },
+    },
+  }
 
   return (
     <div className="block md:hidden">
       <ul className="flex h-full items-center justify-center">
-        {status === 'unauthenticated' ? (
-          <NavLink path="/login" label="Log in" />
-        ) : null}
         <li className="px-1">
           <SearchBar />
         </li>
-        <li className="h-full">
-          <NavigationMenu.Root delayDuration={0} className="flex h-full">
-            <NavigationMenu.List className="flex h-full items-center justify-center">
-              <NavigationMenu.Item className="h-full">
-                <NavigationMenu.Trigger className="flex h-full items-center justify-center px-5 hover:bg-gray-800">
-                  <MenuIcon className="h-5 w-5" aria-hidden />
-                  <span className="sr-only">Menu</span>
-                </NavigationMenu.Trigger>
-                <NavigationMenu.Content className="absolute left-0 top-full w-full bg-gray-800 shadow-xl">
+        {status === 'unauthenticated' ? (
+          <NavLink path="/login" label="Log in" />
+        ) : null}
+        <NavToggle isMenuOpened={isMenuOpen} setMenuOpened={setMenuOpen} />
+        {isMenuOpen && (
+          <motion.li className="">
+            <motion.ul
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="absolute left-0 top-14 z-20 w-full overflow-hidden border-b border-white/10 bg-gray-950 pb-5 shadow-2xl shadow-black/60"
+            >
+              <MobileNavLink
+                path="/workshops"
+                label="Pro Workshops"
+                icon={<KeyIcon />}
+              />
+              <MobileNavLink
+                path="/tutorials"
+                label="Free Tutorials"
+                icon={<PlayIcon />}
+              />
+              <MobileNavLink
+                path="/tips"
+                label="Tips"
+                icon={<FireIcon aria-hidden="true" />}
+              />
+              <MobileNavLink
+                path="/articles"
+                label="Articles"
+                icon={<BookIcon />}
+              />
+              <MobileNavLink path="/faq" label="FAQ" />
+              {status === 'authenticated' && (
+                <>
+                  <motion.div
+                    variants={{
+                      hidden: {opacity: 0, x: -20},
+                      show: {opacity: 1, x: 0},
+                    }}
+                    className="border-t border-gray-800/70 px-3 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide text-gray-300"
+                  >
+                    Account
+                  </motion.div>
                   <ul>
-                    <MobileNavLink
-                      path="/workshops"
-                      label="Pro Workshops"
-                      icon={<KeyIcon />}
-                    />
-                    <MobileNavLink
-                      path="/tutorials"
-                      label="Free Tutorials"
-                      icon={
-                        <PlayIcon
-                          className="h-5 w-5 text-cyan-300"
-                          aria-hidden="true"
-                        />
-                      }
-                    />
-                    <MobileNavLink
-                      path="/tips"
-                      label="Tips"
-                      icon={
-                        <FireIcon
-                          className="h-5 w-5 text-orange-400"
-                          aria-hidden="true"
-                        />
-                      }
-                    />
-                    <MobileNavLink
-                      path="/articles"
-                      label="Articles"
-                      icon={<BookIcon aria-hidden="true" />}
-                    />
-                    <MobileNavLink path="/faq" label="FAQ" />
-                    {status === 'authenticated' && (
-                      <>
-                        <div className="border-t border-gray-900/70 px-3 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide text-gray-300">
-                          Account
-                        </div>
-                        <ul>
-                          {canViewTeam && (
-                            <MobileNavLink path="/team" label="Invite team" />
-                          )}
-                          {canViewInvoice && (
-                            <MobileNavLink
-                              path="/purchases"
-                              label="Purchases"
-                            />
-                          )}
-                          {/* {canViewInvoice && (
+                    {canViewTeam && (
+                      <MobileNavLink path="/team" label="Invite team" />
+                    )}
+                    {canViewInvoice && (
+                      <MobileNavLink path="/purchases" label="My Purchases" />
+                    )}
+                    {/* {canViewInvoice && (
                             <MobileNavLink path="/invoices" label="Invoices" />
                           )} */}
-                          <MobileNavLink
-                            label="Send Feedback"
-                            onClick={() => {
-                              setIsFeedbackDialogOpen(true, 'header')
-                            }}
-                          />
-                          <li>
-                            <LogOutButton className="flex h-full items-center gap-0.5 px-3 py-2 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent" />
-                          </li>
-                        </ul>
-                      </>
-                    )}
+                    <MobileNavLink
+                      label="Send Feedback"
+                      onClick={() => {
+                        setIsFeedbackDialogOpen(true, 'header')
+                      }}
+                    />
+
+                    <motion.li
+                      variants={{
+                        hidden: {opacity: 0, x: -20},
+                        show: {opacity: 1, x: 0},
+                      }}
+                    >
+                      <LogOutButton className="flex h-full w-full items-center gap-0.5 px-3 py-3 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent" />
+                    </motion.li>
                   </ul>
-                </NavigationMenu.Content>
-              </NavigationMenu.Item>
-            </NavigationMenu.List>
-            <NavigationMenu.Viewport className="w-full" />
-          </NavigationMenu.Root>
-        </li>
+                </>
+              )}
+            </motion.ul>
+          </motion.li>
+        )}
       </ul>
     </div>
   )
@@ -252,14 +250,17 @@ const MobileNav = () => {
 const NavLink: React.FC<
   React.PropsWithChildren<{
     label: string | React.ReactElement
-    icon?: React.ReactElement
+    icon?: React.FC<{isActive?: boolean}>
     path?: string
     className?: string
     onClick?: () => void
   }>
 > = ({onClick, label, icon, path, className}) => {
   const router = useRouter()
-  const isActive = router.pathname === path
+  const isActive = router.asPath === path
+  const IconEl = () =>
+    React.isValidElement(icon) ? React.createElement(icon, {isActive}) : null
+
   if (onClick) {
     return (
       <li className="">
@@ -267,11 +268,21 @@ const NavLink: React.FC<
           onClick={onClick}
           aria-current={isActive ? 'page' : undefined}
           className={cx(
-            'flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-2.5 lg:px-2.5 lg:text-base',
+            'group flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
+            {
+              '': isActive,
+            },
             className,
           )}
         >
-          {label}
+          <span
+            className={cx('transition group-hover:opacity-100', {
+              'opacity-100': isActive,
+              'opacity-90': !isActive,
+            })}
+          >
+            {label}
+          </span>
         </button>
       </li>
     )
@@ -282,15 +293,25 @@ const NavLink: React.FC<
         href={path}
         passHref
         className={cx(
-          'flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium shadow-black/80 transition duration-100 hover:bg-gray-800/60 hover:shadow-lg active:bg-transparent sm:gap-1 sm:px-2.5 lg:px-2.5 lg:text-base',
+          'group flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
+          {
+            '': isActive,
+          },
           className,
         )}
         onClick={() => {
           track(`clicked ${label} link in nav`)
         }}
       >
-        {icon ? icon : null}
-        {label}
+        {icon ? React.createElement(icon, {isActive}) : null}
+        <span
+          className={cx('transition group-hover:opacity-100', {
+            'opacity-100': isActive,
+            'opacity-90': !isActive,
+          })}
+        >
+          {label}
+        </span>
       </NextLink>
     </li>
   ) : null
@@ -305,29 +326,34 @@ const MobileNavLink: React.FC<
     onClick?: () => void
   }>
 > = ({onClick, label, icon, path, className}) => {
+  const item = {
+    hidden: {opacity: 0, x: -20},
+    show: {opacity: 1, x: 0},
+  }
+
   if (onClick) {
     return (
-      <li>
+      <motion.li variants={item}>
         <button
           onClick={onClick}
           className={cx(
-            'flex h-full items-center gap-1.5 px-3 py-3 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent',
+            'flex h-full w-full items-center gap-1.5 px-3 py-3 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent',
             className,
           )}
         >
           {icon ? icon : null}
           {label}
         </button>
-      </li>
+      </motion.li>
     )
   }
   return path ? (
-    <li>
+    <motion.li variants={item}>
       <NextLink
         href={path}
         passHref
         className={cx(
-          'flex h-full items-center gap-1.5 px-3 py-3 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent',
+          'flex h-full w-full items-center gap-1.5 px-3 py-3 text-base font-medium transition duration-100 hover:bg-gray-800/60 active:bg-transparent',
           className,
         )}
         onClick={() => {
@@ -337,7 +363,7 @@ const MobileNavLink: React.FC<
         {icon ? icon : null}
         {label}
       </NextLink>
-    </li>
+    </motion.li>
   ) : null
 }
 
@@ -353,7 +379,7 @@ const DropdownLink: React.FC<
         active={isActive}
         {...props}
         className={cx(
-          'flex w-full rounded px-3 py-2 transition hover:bg-gray-700',
+          'flex w-full rounded px-2 py-2 transition hover:bg-gray-700',
           props.className,
         )}
       />
@@ -430,16 +456,16 @@ const AccountDropdown = () => {
             <NavigationMenu.Trigger
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
-              className="flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium hover:radix-state-closed:bg-gray-800/70 radix-state-open:bg-gray-800 sm:gap-1 sm:px-3 lg:text-base"
+              className="flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium hover:radix-state-closed:bg-white/5 radix-state-open:bg-[#1F2735] sm:gap-1 sm:px-3 lg:text-base"
             >
               Account <ChevronDownIcon className="h-4 w-4" aria-hidden />
             </NavigationMenu.Trigger>
             <NavigationMenu.Content
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
-              className="absolute left-0 top-full w-full rounded-b"
+              className="absolute left-0 top-[90%] w-full rounded"
             >
-              <ul className="flex w-full flex-col items-start rounded-b bg-gray-800 p-1 text-sm lg:text-base">
+              <ul className="flex w-full flex-col items-start rounded bg-[#1F2735] p-1 text-sm lg:text-base">
                 {canViewTeam && (
                   <li className="w-full">
                     <DropdownLink href="/team">Invite team</DropdownLink>
@@ -459,7 +485,9 @@ const AccountDropdown = () => {
                   <DropdownLink href="/faq">FAQ</DropdownLink>
                 </li>
                 <li className="w-full">
-                  <LogOutButton />
+                  {/* <NavigationMenu.Link asChild> */}
+                  <LogOutButton className="px-2 py-2" />
+                  {/* </NavigationMenu.Link> */}
                 </li>
               </ul>
             </NavigationMenu.Content>
@@ -477,17 +505,20 @@ const SearchBar: React.FC<{isMinified?: boolean | undefined}> = ({
 
   return (
     <button
-      className="flex items-center rounded-md bg-gray-800/50 px-2.5 py-2 text-sm font-normal text-gray-400 transition hover:bg-gray-800/75 sm:px-2 sm:py-2 sm:text-base md:ml-1 md:gap-2 md:px-2 lg:ml-1 lg:gap-5 lg:px-2"
+      className="group flex items-center gap-1 rounded-md px-2.5 py-2 text-base font-medium opacity-90 transition hover:opacity-100 sm:px-2 sm:py-2 md:px-2 md:text-sm lg:px-2 lg:text-base"
       onClick={() => {
         setOpenSearchBar(!isSearchBarOpen)
       }}
     >
       <div className="flex items-center gap-1">
-        <SearchIcon className="h-4 w-4 text-gray-200" aria-hidden="true" />
+        <SearchIcon
+          className="h-3.5 w-3.5 opacity-80 transition group-hover:opacity-100"
+          aria-hidden="true"
+        />
         <span
           className={cx('', {
-            'block md:hidden lg:hidden xl:block': isMinified,
-            'block md:hidden lg:block': !isMinified,
+            'block md:hidden lg:block xl:block': isMinified,
+            'block md:block lg:block': !isMinified,
           })}
         >
           Search
@@ -495,10 +526,10 @@ const SearchBar: React.FC<{isMinified?: boolean | undefined}> = ({
       </div>
       <div
         className={cx(
-          'hidden items-center gap-0.5 rounded border border-gray-800 px-1 font-mono text-sm font-normal text-gray-300 md:flex',
+          '-mb-0.5 hidden items-center gap-0.5 rounded bg-white/10 px-1 font-mono text-xs font-semibold text-gray-300 md:flex',
           {
-            'bg-gray-800/75': !isSearchBarOpen,
-            'bg-gray-700/75': isSearchBarOpen,
+            // 'bg-white/10': !isSearchBarOpen,
+            // 'bg-white/20': isSearchBarOpen,
           },
         )}
         aria-label="shortcut"
@@ -521,58 +552,172 @@ export const handleLogOut = async (router: NextRouter) => {
 const LogOutButton: React.FC<{className?: string}> = ({className}) => {
   const router = useRouter()
   return (
-    <NavigationMenu.Link asChild>
+    <>
       <button
         onClick={async () => {
           await handleLogOut(router)
           toast.success('Logged out successfully')
         }}
-        className={
-          className
-            ? className
-            : 'flex w-full rounded px-3 py-2 transition hover:bg-gray-700'
-        }
+        className={cn(
+          'flex w-full rounded px-3 py-2 transition hover:bg-gray-700',
+          className,
+        )}
       >
         Log out
       </button>
-    </NavigationMenu.Link>
+    </>
   )
 }
 
-export const KeyIcon = () => {
+export const KeyIcon: React.FC<{isActive?: boolean}> = ({isActive = false}) => {
   return (
     <svg
-      className="mr-1 h-4 w-4 text-amber-300"
       xmlns="http://www.w3.org/2000/svg"
+      className="h-4 w-4 "
       fill="none"
-      viewBox="0 0 15 15"
-      aria-hidden="true"
+      viewBox="0 0 14 14"
     >
       <path
-        fill="currentColor"
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M14 0a1 1 0 0 1 .707 1.707l-1.646 1.647 1.793 1.792a.5.5 0 0 1 0 .708l-2.5 2.5a.499.499 0 0 1-.708 0L9.854 6.561 7.434 8.98c.367.61.563 1.308.566 2.02a4 4 0 1 1-4-4c.712.004 1.41.2 2.02.566L13.293.293A1 1 0 0 1 14 0ZM4 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+        stroke="#FFDB80"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m12.463 1-1.21 1.211m0 0 1.816 1.816-2.12 2.12L9.133 4.33m2.12-2.119-2.12 2.12M6.644 6.818a3.33 3.33 0 1 1-4.71 4.71 3.33 3.33 0 0 1 4.71-4.71h0Zm0 0L9.133 4.33"
+      />
+      {isActive ? <circle cx="4.35" cy="9.2" r="1" fill="#FFDB80" /> : null}
+    </svg>
+  )
+}
+
+export const BookIcon: React.FC<{isActive?: boolean}> = ({
+  isActive = false,
+}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-[15px]"
+      fill="none"
+      viewBox="0 0 13 13"
+    >
+      <path
+        stroke="#A9A7FF"
+        strokeLinecap="square"
+        strokeMiterlimit="10"
+        d="M7 10v.75C7 12 8.25 12 8.25 12h-6C1.55 12 1 11.45 1 10.75V10h6Zm2.5-7H12v-.75c0-.7-.55-1.25-1.25-1.25S9.5 1.55 9.5 2.25V3Z"
+      />
+      <path
+        stroke="#A9A7FF"
+        strokeLinecap="square"
+        strokeMiterlimit="10"
+        d="M2.5 10V2.25c0-.7.55-1.25 1.25-1.25h7c-.7 0-1.25.55-1.25 1.25v8.5c0 .7-.55 1.25-1.25 1.25H2.5"
+      />
+      <path
+        fill={isActive ? '#A9A7FF' : 'none'}
+        stroke="#A9A7FF"
+        strokeLinecap="square"
+        strokeMiterlimit="10"
+        d="M2.5 2.25V10H7v.75C7 11.3 7.408 12 8.25 12c.7 0 1.25-.55 1.25-1.25v-8.5c0-.7.55-1.25 1.25-1.25h-7c-.7 0-1.25.55-1.25 1.25Z"
       />
     </svg>
   )
 }
 
-export const BookIcon = () => {
+const PlayIcon: React.FC<{isActive?: boolean}> = ({isActive}) => {
   return (
     <svg
-      className="mr-1 h-3.5 w-3.5 text-violet-400"
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 16 16"
+      className="w-[11px]"
+      fill="none"
+      viewBox="0 0 10 13"
     >
-      <g fill="currentColor">
-        <path
-          fill="currentColor"
-          d="M13,0H3C1.3,0,0,1.3,0,3v10c0,1.7,1.3,3,3,3h10c1.7,0,3-1.3,3-3V3C16,1.3,14.7,0,13,0z M5,3h6v4H5V3z M14,13 c0,0.6-0.4,1-1,1H3c-0.6,0-1-0.4-1-1c0-0.6,0.4-1,1-1h10c0.6,0,0.9-0.1,1-0.2V13z"
-        />
-      </g>
+      <path
+        fill={isActive ? '#80E1FF' : 'none'}
+        stroke="#80E1FF"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M1 1v11l8-5.5L1 1Z"
+      />
     </svg>
+  )
+}
+
+const FireIcon: React.FC<{isActive?: boolean}> = ({isActive = false}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className="w-[13px]"
+      fill="none"
+      viewBox="0 0 11 13"
+    >
+      <path
+        fill={isActive ? '#FF80AD' : 'none'}
+        stroke="#FF80AD"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4.861 1a6.568 6.568 0 0 1-1.255 2.877C2.858 4.854 1 5.821 1 8.22A4.342 4.342 0 0 0 3.21 12a2.356 2.356 0 0 1 .962-1.737c.533-.35.943-.86 1.171-1.457A4.342 4.342 0 0 1 7.476 12a4.342 4.342 0 0 0 2.21-3.78c0-1.215-.217-4.52-4.825-7.22Z"
+      />
+    </svg>
+  )
+}
+
+type NavToggleProps = {
+  isMenuOpened: boolean
+  setMenuOpened: (value: boolean) => void
+  menuControls?: AnimationControls
+}
+
+const NavToggle: React.FC<NavToggleProps> = ({
+  isMenuOpened,
+  setMenuOpened,
+  menuControls,
+}) => {
+  const path01Variants = {
+    open: {d: 'M3.06061 2.99999L21.0606 21'},
+    closed: {d: 'M0 9.5L24 9.5'},
+  }
+  const path02Variants = {
+    open: {d: 'M3.00006 21.0607L21 3.06064'},
+    moving: {d: 'M0 14.5L24 14.5'},
+    closed: {d: 'M0 14.5L15 14.5'},
+  }
+  const path01Controls = useAnimationControls()
+  const path02Controls = useAnimationControls()
+
+  return (
+    <button
+      className="z-10 mr-2 flex h-10 w-10 items-center justify-center rounded-md p-1 md:hidden"
+      onClick={async () => {
+        // menuControls.start(isMenuOpened ? 'close' : 'open')
+        setMenuOpened(!isMenuOpened)
+        if (!isMenuOpened) {
+          await path02Controls.start(path02Variants.moving)
+          path01Controls.start(path01Variants.open)
+          path02Controls.start(path02Variants.open)
+        } else {
+          path01Controls.start(path01Variants.closed)
+          await path02Controls.start(path02Variants.moving)
+          path02Controls.start(path02Variants.closed)
+        }
+      }}
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <motion.path
+          {...path01Variants.closed}
+          animate={path01Controls}
+          transition={{duration: 0.2}}
+          stroke="currentColor"
+          strokeWidth={1.5}
+        />
+        <motion.path
+          {...path02Variants.closed}
+          animate={path02Controls}
+          transition={{duration: 0.2}}
+          stroke="currentColor"
+          strokeWidth={1.5}
+        />
+      </svg>
+    </button>
   )
 }
 

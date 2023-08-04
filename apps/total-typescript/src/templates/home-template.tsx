@@ -98,6 +98,7 @@ export const HomeTemplate: React.FC<
 
                     return (
                       <PriceCheckProvider
+                        key={product.productId}
                         purchasedProductIds={purchasedProductIds}
                       >
                         <div
