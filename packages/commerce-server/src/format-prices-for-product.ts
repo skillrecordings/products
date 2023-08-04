@@ -154,8 +154,6 @@ export async function formatPricesForProduct(
     ctx,
   })
 
-  const userPurchases = await getPurchasesForUser(userId)
-
   const price = await getPrice({where: {productId}})
 
   if (!price) throw new PriceFormattingError(`no-price-found`, noContextOptions)
