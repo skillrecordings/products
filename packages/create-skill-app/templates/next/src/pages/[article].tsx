@@ -8,6 +8,11 @@ import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const article = await getArticle(params?.article as string)
+  if (!article) {
+    return {
+      notFound: true,
+    }
+  }
   const mdx = await serializeMDX(article.body)
   return {
     props: {article, mdx},
@@ -20,7 +25,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = articles.map((article: Article) => ({
     params: {article: article.slug},
   }))
-  return {paths, fallback: false}
+  return {paths, fallback: 'blocking'}
 }
 
 const Article: React.FC<{article: Article; mdx: MDXRemoteSerializeResult}> = ({
