@@ -92,7 +92,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     trpcSkillLessons.pricing.formatted.useQuery(
       {
         productId,
-        userId,
         quantity: debouncedQuantity,
         couponId,
         merchantCoupon,

@@ -18,7 +18,6 @@ const merchantCouponSchema = z.object({
 
 const PricingFormattedInputSchema = z.object({
   productId: z.string(),
-  userId: z.string().optional(),
   quantity: z.number(),
   couponId: z.string().optional(),
   merchantCoupon: merchantCouponSchema.optional(),
@@ -122,7 +121,6 @@ export const pricing = router({
     .query(async ({ctx, input}) => {
       const {
         productId,
-        userId,
         quantity,
         couponId,
         merchantCoupon,
@@ -132,9 +130,11 @@ export const pricing = router({
 
       const token = await getToken({req: ctx.req})
 
+      const verifiedUserId = token?.sub
+
       const {getPurchasesForUser} = getSdk()
       const purchases = getValidPurchases(
-        await getPurchasesForUser(userId || token?.sub || ''),
+        await getPurchasesForUser(verifiedUserId),
       )
 
       const country =
@@ -180,7 +180,7 @@ export const pricing = router({
         code,
         merchantCouponId: activeMerchantCoupon?.id,
         ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
-        userId,
+        userId: verifiedUserId,
       })
 
       const formattedPrice = {
