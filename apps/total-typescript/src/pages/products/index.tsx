@@ -136,7 +136,6 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
   const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery(
     {
       productId: product.productId,
-      userId,
       quantity: 1,
       // couponId,
       merchantCoupon: merchantCoupon || undefined,
