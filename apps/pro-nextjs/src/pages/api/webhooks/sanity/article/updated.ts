@@ -13,12 +13,16 @@ export const sanityArticleWebhook = async (
   const isValid = isValidSignature(JSON.stringify(req.body), signature, secret)
 
   try {
+    console.log('processing Sanity webhook: Article updated')
     if (isValid) {
+      console.log('valid Sanity webhook: Article updated')
       const {slug} = req.body
       try {
+        console.log('revalidating', `/${slug.current}`)
         await res.revalidate(`/${slug.current}`)
         return res.json({revalidated: true})
       } catch (err) {
+        console.error('Error revalidating', err)
         // If there was an error, Next.js will continue
         // to show the last successfully generated page
         return res.status(500).send('Error revalidating')
