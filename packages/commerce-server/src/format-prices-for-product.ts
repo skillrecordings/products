@@ -1,10 +1,9 @@
-import {getPPPDiscountPercent} from './parity-coupon'
-import {getBulkDiscountPercent} from './bulk-coupon'
 import {getCalculatedPriced} from './get-calculated-price'
 import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import type {Purchase, Product} from '@skillrecordings/database'
 import {FormattedPrice} from './@types'
 import isEmpty from 'lodash/isEmpty'
+import {determineCouponToApply} from './determine-coupon-to-apply'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
@@ -26,7 +25,6 @@ type FormatPricesForProductOptions = {
   productId: string
   country?: string
   quantity?: number
-  code?: string
   merchantCouponId?: string
   ctx?: Context
   upgradeFromPurchaseId?: string
@@ -36,10 +34,12 @@ type FormatPricesForProductOptions = {
 export async function getFixedDiscountForUpgrade({
   purchaseToBeUpgraded,
   productToBePurchased,
+  purchaseWillBeRestricted,
   ctx = defaultContext,
 }: {
   purchaseToBeUpgraded: Purchase | null
   productToBePurchased: Product
+  purchaseWillBeRestricted: boolean
   ctx?: Context
 }) {
   // if there is no purchase to be upgraded, then this isn't an upgrade
@@ -51,13 +51,13 @@ export async function getFixedDiscountForUpgrade({
     return 0
   }
 
+  const transitioningToUnrestrictedAccess =
+    purchaseToBeUpgraded.status === 'Restricted' && !purchaseWillBeRestricted
+
   // if the Purchase To Be Upgraded is `restricted` and it has a matching
   // `productId` with the Product To Be Purchased, then this is a PPP
   // upgrade, so use the purchase amount.
-  if (
-    purchaseToBeUpgraded.status === 'Restricted' &&
-    purchaseToBeUpgraded.productId === productToBePurchased.id
-  ) {
+  if (transitioningToUnrestrictedAccess) {
     return purchaseToBeUpgraded.totalAmount.toNumber()
   }
 
@@ -100,20 +100,12 @@ export async function formatPricesForProduct(
     productId,
     country = 'US',
     quantity = 1,
-    code,
     merchantCouponId,
     upgradeFromPurchaseId,
     userId,
   } = noContextOptions
 
-  const {
-    getProduct,
-    getMerchantCoupon,
-    couponForIdOrCode,
-    getPrice,
-    getPurchase,
-    getPurchasesForUser,
-  } = getSdk({ctx})
+  const {getProduct, getPrice, getPurchase} = getSdk({ctx})
 
   const upgradeFromPurchase = upgradeFromPurchaseId
     ? await getPurchase({
@@ -158,326 +150,56 @@ export async function formatPricesForProduct(
     throw new PriceFormattingError(`no-product-found`, noContextOptions)
   }
 
-  const fixedDiscountForUpgrade = await getFixedDiscountForUpgrade({
-    purchaseToBeUpgraded: upgradeFromPurchase,
-    productToBePurchased: product,
-    ctx,
-  })
-
-  const userPurchases = await getPurchasesForUser(userId)
-
   const price = await getPrice({where: {productId}})
 
   if (!price) throw new PriceFormattingError(`no-price-found`, noContextOptions)
 
-  // Determine if the user has an existing bulk purchase of this product.
-  // If so, we can compute tiered pricing based on their existing seats purchased.
-  const seatCount = await getQualifyingSeatCount({
-    userId,
-    productId: product.id,
-    newPurchaseQuantity: quantity,
+  // TODO: give this function a better name like, `determineCouponDetails`
+  const {appliedMerchantCoupon, appliedCouponType, ...result} =
+    await determineCouponToApply({
+      prismaCtx: ctx,
+      merchantCouponId,
+      country,
+      quantity,
+      userId,
+      productId: product.id,
+      purchaseToBeUpgraded: upgradeFromPurchase,
+    })
+
+  const fixedDiscountForUpgrade = await getFixedDiscountForUpgrade({
+    purchaseToBeUpgraded: upgradeFromPurchase,
+    productToBePurchased: product,
+    purchaseWillBeRestricted: appliedCouponType === 'ppp',
     ctx,
   })
-
-  const pppDiscountPercent = getPPPDiscountPercent(country)
-  const bulkCouponPercent = getBulkDiscountPercent(seatCount)
-
-  // if there's a coupon implied because an id is passed in, load it to verify
-  const appliedMerchantCoupon = merchantCouponId
-    ? await getMerchantCoupon({where: {id: merchantCouponId}})
-    : undefined
-
-  const pppApplied =
-    quantity === 1 &&
-    appliedMerchantCoupon?.type === 'ppp' &&
-    pppDiscountPercent > 0
-
-  // pick the bigger discount during a sale
-  const appliedMerchantCouponLessThanPPP = appliedMerchantCoupon
-    ? appliedMerchantCoupon.percentageDiscount.toNumber() < pppDiscountPercent
-    : true
-  const appliedMerchantCouponLessThanBulk = appliedMerchantCoupon
-    ? appliedMerchantCoupon.percentageDiscount.toNumber() < bulkCouponPercent
-    : true
-
-  const hasNonPPPPurchases = userPurchases.some(
-    (purchase) => purchase.status === 'Valid',
-  )
-
-  const pppConditionsMet =
-    pppDiscountPercent > 0 &&
-    quantity === 1 &&
-    !hasNonPPPPurchases &&
-    appliedMerchantCouponLessThanPPP
-
-  const hasPurchaseWithPPP = userPurchases.some(
-    (purchase) =>
-      purchase.status === 'Restricted' &&
-      upgradeFromPurchase &&
-      purchase.productId === upgradeFromPurchase?.productId,
-  )
-
-  // if they have a purchase then verify they've used a PPP coupon
-  // otherwise proceed with default conditions
-  const pppAvailable = upgradeFromPurchase
-    ? hasPurchaseWithPPP && pppConditionsMet
-    : pppConditionsMet
-
-  const bulkDiscountAvailable =
-    bulkCouponPercent > 0 && appliedMerchantCouponLessThanBulk && !pppApplied
 
   const unitPrice: number = price.unitAmount.toNumber()
   const fullPrice: number = unitPrice * quantity - fixedDiscountForUpgrade
 
-  let defaultPriceProduct: FormattedPrice = {
+  const percentOfDiscount = appliedMerchantCoupon?.percentageDiscount.toNumber()
+
+  const upgradeDetails =
+    upgradeFromPurchase !== null && appliedCouponType !== 'bulk' // we don't handle bulk with upgrades (yet), so be explicit here
+      ? {
+          upgradeFromPurchaseId,
+          upgradeFromPurchase,
+          upgradedProduct,
+        }
+      : {}
+
+  return {
     ...product,
     quantity,
     unitPrice,
     fullPrice,
     calculatedPrice: getCalculatedPriced({
-      unitPrice: price.unitAmount.toNumber(),
-      ...(upgradeFromPurchase && {
-        fixedDiscount: fixedDiscountForUpgrade,
-      }),
-      quantity,
+      unitPrice,
+      percentOfDiscount,
+      fixedDiscount: fixedDiscountForUpgrade, // if not upgrade, we know this will be 0
+      quantity, // if PPP is applied, we know this will be 1
     }),
-    availableCoupons: [],
-    ...(upgradeFromPurchase && {
-      upgradeFromPurchaseId,
-      upgradeFromPurchase,
-      upgradedProduct,
-    }),
+    availableCoupons: result.availableCoupons,
+    appliedMerchantCoupon,
+    ...upgradeDetails,
   }
-
-  if (appliedMerchantCoupon?.type === 'special') {
-    defaultPriceProduct = {
-      ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
-        ...(upgradeFromPurchase && {
-          fixedDiscount: fixedDiscountForUpgrade,
-        }),
-        quantity,
-      }),
-      appliedMerchantCoupon: appliedMerchantCoupon,
-      ...(upgradeFromPurchase && {
-        upgradeFromPurchaseId,
-        upgradeFromPurchase,
-        upgradedProduct,
-      }),
-    }
-  }
-
-  // no ppp or bulk if you're applying a code
-  if (code) {
-    const coupon = await couponForIdOrCode({code})
-
-    if (!coupon || !coupon.merchantCoupon)
-      throw new PriceFormattingError(`no-coupon`, noContextOptions)
-
-    if (coupon && coupon.merchantCoupon) {
-      if (coupon.restrictedToProductId !== productId) {
-        throw new PriceFormattingError(
-          'coupon-not-valid-for-product',
-          noContextOptions,
-        )
-      }
-
-      const {merchantCoupon} = coupon
-
-      const calculatedPrice = getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: merchantCoupon.percentageDiscount.toNumber(),
-        ...(upgradeFromPurchase && {
-          fixedDiscount: fixedDiscountForUpgrade,
-        }),
-      })
-
-      return {
-        ...defaultPriceProduct,
-        calculatedPrice,
-        appliedMerchantCoupon: merchantCoupon,
-        ...(upgradeFromPurchase && {
-          upgradeFromPurchaseId,
-          upgradeFromPurchase,
-          upgradedProduct,
-        }),
-      }
-    }
-  } else if (appliedMerchantCoupon && pppApplied) {
-    const invalidCoupon =
-      pppDiscountPercent !== appliedMerchantCoupon.percentageDiscount.toNumber()
-
-    if (invalidCoupon || appliedMerchantCoupon.type !== 'ppp')
-      throw new PriceFormattingError(
-        'coupon-not-valid-for-ppp',
-        noContextOptions,
-      )
-
-    const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
-      appliedMerchantCoupon
-
-    return {
-      ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
-        ...(upgradeFromPurchase && {
-          fixedDiscount: fixedDiscountForUpgrade,
-        }),
-      }),
-      appliedMerchantCoupon: merchantCouponWithoutIdentifier,
-      ...(upgradeFromPurchase && {
-        upgradeFromPurchaseId,
-        upgradeFromPurchase,
-        upgradedProduct,
-      }),
-    }
-  } else if (hasPurchaseWithPPP && upgradeFromPurchase) {
-    const {getMerchantCoupons} = getSdk({ctx})
-    const merchantCoupons =
-      (await getMerchantCoupons({
-        where: {type: 'ppp', percentageDiscount: pppDiscountPercent},
-      })) || []
-
-    await getMerchantCoupon({where: {id: merchantCouponId}})
-
-    const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
-      merchantCoupons[0]
-
-    return {
-      ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount:
-          merchantCouponWithoutIdentifier.percentageDiscount.toNumber(),
-        ...(upgradeFromPurchase && {
-          fixedDiscount: fixedDiscountForUpgrade,
-        }),
-      }),
-      appliedMerchantCoupon: merchantCouponWithoutIdentifier,
-      ...(upgradeFromPurchase && {
-        upgradeFromPurchaseId,
-        upgradeFromPurchase,
-        upgradedProduct,
-      }),
-    }
-  } else if (
-    appliedMerchantCoupon &&
-    appliedMerchantCoupon.type === 'special' &&
-    pppAvailable
-  ) {
-    // PPP + site coupon
-    const pppCoupons = await couponForType(
-      'ppp',
-      pppDiscountPercent,
-      ctx,
-      country,
-    )
-
-    const {identifier, merchantAccountId, ...merchantCouponWithoutIdentifier} =
-      appliedMerchantCoupon
-
-    return {
-      ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: appliedMerchantCoupon.percentageDiscount.toNumber(),
-        ...(upgradeFromPurchase && {
-          fixedDiscount: fixedDiscountForUpgrade,
-        }),
-      }),
-      appliedMerchantCoupon: merchantCouponWithoutIdentifier,
-      availableCoupons: pppCoupons,
-      ...(upgradeFromPurchase && {
-        upgradeFromPurchaseId,
-        upgradeFromPurchase,
-        upgradedProduct,
-      }),
-    }
-  } else if (pppAvailable) {
-    // no PPP for bulk
-    const pppCoupons = await couponForType(
-      'ppp',
-      pppDiscountPercent,
-      ctx,
-      country,
-    )
-
-    return {
-      ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        ...(upgradeFromPurchase && {
-          fixedDiscount: fixedDiscountForUpgrade,
-        }),
-      }),
-      availableCoupons: pppCoupons,
-      ...(upgradeFromPurchase && {
-        upgradeFromPurchaseId,
-        upgradeFromPurchase,
-        upgradedProduct,
-      }),
-    }
-  } else if (bulkDiscountAvailable) {
-    const bulkCoupons = await couponForType('bulk', bulkCouponPercent, ctx)
-    const bulkCoupon = bulkCoupons[0]
-
-    return {
-      ...defaultPriceProduct,
-      calculatedPrice: getCalculatedPriced({
-        unitPrice: defaultPriceProduct.unitPrice,
-        percentOfDiscount: bulkCoupon.percentageDiscount.toNumber(),
-        quantity,
-      }),
-      ...(bulkCoupon && {appliedMerchantCoupon: bulkCoupon}),
-    }
-  }
-
-  return defaultPriceProduct
-}
-
-async function couponForType(
-  type: string,
-  percentageDiscount: number,
-  ctx: Context,
-  country?: string,
-) {
-  const {getMerchantCoupons} = getSdk({ctx})
-  const merchantCoupons =
-    (await getMerchantCoupons({
-      where: {type, percentageDiscount},
-    })) || []
-
-  type MerchantCoupon = (typeof merchantCoupons)[0]
-
-  return merchantCoupons.map((coupon: MerchantCoupon) => {
-    // for pricing we don't need the identifier so strip it here
-    const {identifier, ...rest} = coupon
-    return {...rest, ...(country && {country})}
-  })
-}
-
-const getQualifyingSeatCount = async ({
-  userId,
-  productId: purchasingProductId,
-  newPurchaseQuantity,
-  ctx,
-}: {
-  userId: string | undefined
-  productId: string
-  newPurchaseQuantity: number
-  ctx: Context
-}) => {
-  const {getPurchasesForUser} = getSdk({ctx})
-  const userPurchases = await getPurchasesForUser(userId)
-  const bulkPurchase = userPurchases.find(
-    ({productId, bulkCoupon}) =>
-      productId === purchasingProductId && Boolean(bulkCoupon),
-  )
-  const existingSeatsPurchasedForThisProduct =
-    bulkPurchase?.bulkCoupon?.maxUses || 0
-
-  return newPurchaseQuantity + existingSeatsPurchasedForThisProduct
 }
