@@ -33,7 +33,6 @@ const LessonsSidebarItem: React.FC<any> = () => {
 }
 
 const LessonsSidebar: React.FC<any> = ({lesson, module}) => {
-  console.log({lesson, module})
   const [activeElement, setActiveElement] = React.useState<string>(lesson.slug)
   const scrollableNodeRef: any = React.createRef()
 
