@@ -74,6 +74,9 @@ module.exports = {
       screens: {
         print: {raw: 'print'},
       },
+      maxWidth: {
+        '8xl': '83.5rem',
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
