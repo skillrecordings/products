@@ -28,18 +28,15 @@ const NavLogo = () => {
       href="/"
       aria-label="Badass Dev Home"
       passHref
-      className="inline-flex items-center"
+      className="inline-flex items-center w-[176px] sm:w-[194px]"
       tabIndex={router.pathname === '/' ? -1 : 0}
     >
-      <div className="flex items-center justify-center sm:w-auto w-14 flex-shrink-0">
-        <Image src={SkullLogo} alt="Badass Skull Logo" width={80} height={80} />
-      </div>
-      <div className="font-heading sm:text-2xl text-xl">
-        Badass
-        <span className="pl-0.5 text-base font-condensed text-badass-yellow-500">
-          .dev
-        </span>
-      </div>
+      <Image
+        src="/assets/logo-skull@2x.png"
+        alt="Badass Skull Logo"
+        width={194}
+        height={70}
+      />
     </Link>
   )
 }
