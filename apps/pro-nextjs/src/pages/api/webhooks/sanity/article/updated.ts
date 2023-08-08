@@ -20,11 +20,6 @@ export const sanityArticleWebhook = async (
         console.log('article updated', req.body)
 
         await inngest.send({
-          name: 'article/clear.scheduled',
-          data: req.body,
-        })
-
-        await inngest.send({
           name: 'article/updated',
           data: req.body,
         })
