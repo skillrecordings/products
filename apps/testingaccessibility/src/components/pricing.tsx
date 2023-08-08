@@ -196,7 +196,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               userId,
               quantity,
               productId: formattedPrice?.id,
-              bulk: quantity > 1,
+              bulk: Boolean(formattedPrice?.bulk),
               couponId: appliedMerchantCoupon?.id,
               upgradeFromPurchaseId: formattedPrice?.upgradeFromPurchaseId,
             })}

@@ -46,7 +46,7 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
     userId,
     quantity: debouncedQuantity,
     productId,
-    bulk: debouncedQuantity > 1,
+    bulk: Boolean(formattedPrice?.bulk),
     couponId: formattedPrice?.appliedMerchantCoupon?.id,
   })
 
