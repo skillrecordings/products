@@ -111,8 +111,10 @@ const checkArticlePublishState = inngest.createFunction(
           return article.publishAt
         })
         if (isNowOrPast(publishAtDate)) {
-          await sanityWriteClient.patch(event.data._id).set({
-            state: 'published',
+          await step.run('Update the Article Status', async () => {
+            return sanityWriteClient.patch(event.data._id).set({
+              state: 'published',
+            })
           })
         }
       }
