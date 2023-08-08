@@ -31,6 +31,7 @@ import Balancer from 'react-wrap-balancer'
 import BuyMoreSeats from '../team/buy-more-seats'
 import first from 'lodash/first'
 import {AnimatePresence, motion} from 'framer-motion'
+import {buildStripeCheckoutPath} from '../utils/build-stripe-checkout-path'
 
 type PricingProps = {
   product: SanityProduct
@@ -269,15 +270,16 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             ) : (
               <div data-purchase-container="">
                 <form
-                  action={`/api/skill/checkout/stripe?productId=${
-                    formattedPrice?.id
-                  }&couponId=${appliedMerchantCoupon?.id}&bulk=${
-                    isBuyingForTeam ? 'true' : 'false'
-                  }&quantity=${quantity}${userId ? `&userId=${userId}` : ``}${
-                    formattedPrice?.upgradeFromPurchaseId
-                      ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
-                      : ``
-                  }${cancelUrl ? `&cancelUrl=${cancelUrl}` : ``}`}
+                  action={buildStripeCheckoutPath({
+                    productId: formattedPrice?.id,
+                    couponId: appliedMerchantCoupon?.id,
+                    bulk: isBuyingForTeam,
+                    quantity,
+                    userId,
+                    upgradeFromPurchaseId:
+                      formattedPrice?.upgradeFromPurchaseId,
+                    cancelUrl,
+                  })}
                   method="POST"
                 >
                   <fieldset>
