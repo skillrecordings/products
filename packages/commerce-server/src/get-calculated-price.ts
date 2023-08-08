@@ -14,7 +14,7 @@ type GetCalculatePriceOptions = {
  * @param {number} quantity
  * @param {number} fixedDiscount
  */
-export function getCalculatedPriced({
+export function getCalculatedPrice({
   unitPrice,
   percentOfDiscount = 0,
   quantity = 1,

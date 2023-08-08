@@ -4,7 +4,7 @@ import {getSdk, prisma} from '@skillrecordings/database'
 import {first} from 'lodash'
 import {add} from 'date-fns'
 import {
-  getCalculatedPriced,
+  getCalculatedPrice,
   stripe,
   getFixedDiscountForUpgrade,
 } from '@skillrecordings/commerce-server'
@@ -187,7 +187,7 @@ export async function stripeCheckout({
         })
 
         const fullPrice = loadedProduct.prices?.[0].unitAmount.toNumber()
-        const calculatedPrice = getCalculatedPriced({
+        const calculatedPrice = getCalculatedPrice({
           unitPrice: fullPrice,
           percentOfDiscount: stripeCouponPercentOff || 0,
           quantity: 1,
