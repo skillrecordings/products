@@ -156,7 +156,7 @@ export async function stripeCheckout({
               id: couponId as string,
             },
           })
-        : false
+        : null
 
       const stripeCoupon =
         merchantCoupon && merchantCoupon.identifier
@@ -183,6 +183,7 @@ export async function stripeCheckout({
         const fixedDiscountForUpgrade = await getFixedDiscountForUpgrade({
           purchaseToBeUpgraded: upgradeFromPurchase,
           productToBePurchased: loadedProduct,
+          purchaseWillBeRestricted: merchantCoupon?.type === 'ppp',
         })
 
         const fullPrice = loadedProduct.prices?.[0].unitAmount.toNumber()

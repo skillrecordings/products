@@ -13,7 +13,6 @@ type OptionsForFormatPrices = {
   userId?: string
   country: string
   quantity: number
-  code?: string
   siteCouponId?: string
   merchantCouponId?: string
   upgradeFromPurchaseId?: string
@@ -26,7 +25,6 @@ export const formatPrices = async (options: OptionsForFormatPrices) => {
     country,
     productId,
     quantity,
-    code,
     siteCouponId,
     merchantCouponId,
     upgradeFromPurchaseId: _upgradeFromPurchaseId,
@@ -60,7 +58,7 @@ export const formatPrices = async (options: OptionsForFormatPrices) => {
       }
     : await getActiveMerchantCoupon({
         siteCouponId,
-        code,
+        code: undefined,
         productId,
       })
 
@@ -70,7 +68,6 @@ export const formatPrices = async (options: OptionsForFormatPrices) => {
     productId,
     country,
     quantity,
-    code,
     merchantCouponId: activeMerchantCoupon?.id,
     ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
     userId,
@@ -96,7 +93,6 @@ export async function loadPrices({
       productId: req.body.productId,
       quantity: req.body.quantity,
       purchases: req.body.purchases,
-      code: req.body.code,
       merchantCouponId: req.body.merchantCouponId,
       siteCouponId: req.body.siteCouponId,
       upgradeFromPurchaseId: req.body.upgradeFromPurchaseId,

@@ -89,7 +89,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery(
     {
       productId,
-      userId,
       quantity: debouncedQuantity,
       couponId,
       merchantCoupon,

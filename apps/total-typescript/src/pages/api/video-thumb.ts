@@ -6,20 +6,36 @@ const videoThumb = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     const videoResourceId = req.query.videoResourceId as string
     const videoResource = await getVideoResource(videoResourceId)
+    const url = `https://image.mux.com/${videoResource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`
 
     // load an image binary via fetch
-    const response = await fetch(
-      `https://image.mux.com/${videoResource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
-    )
-
-    const blob = await response.blob()
+    const response = await fetch(url)
 
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=59')
     res.setHeader(
-      'content-type',
+      'Content-Type',
       response.headers.get('content-type') || 'image/png',
     )
-    res.send(blob.stream())
+
+    const reader = response.body?.getReader()
+
+    if (reader) {
+      const writeChunks = async () => {
+        while (true) {
+          const {done, value} = await reader.read()
+          if (done) break
+          res.write(value)
+        }
+        res.end()
+      }
+
+      writeChunks().catch((err) => {
+        console.error(err)
+        res.status(500).end()
+      })
+    } else {
+      res.status(500).end()
+    }
   } else {
     res.status(200).end()
   }

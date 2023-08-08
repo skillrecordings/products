@@ -18,12 +18,10 @@ const merchantCouponSchema = z.object({
 
 const PricingFormattedInputSchema = z.object({
   productId: z.string(),
-  userId: z.string().optional(),
   quantity: z.number(),
   couponId: z.string().optional(),
   merchantCoupon: merchantCouponSchema.optional(),
   upgradeFromPurchaseId: z.string().optional(),
-  code: z.string().optional(),
 })
 
 const checkForAnyAvailableUpgrades = async ({
@@ -66,7 +64,6 @@ type CheckForAvailableCoupons = z.infer<typeof CheckForAvailableCouponsSchema>
 const checkForAvailableCoupons = async ({
   merchantCoupon,
   couponId,
-  code,
   productId,
 }: CheckForAvailableCoupons) => {
   // explicit incoming merchant coupons are honored
@@ -82,8 +79,8 @@ const checkForAvailableCoupons = async ({
     const {activeMerchantCoupon, defaultCoupon} = await getActiveMerchantCoupon(
       {
         siteCouponId: couponId,
-        code,
         productId,
+        code: undefined,
       },
     )
 
@@ -122,19 +119,19 @@ export const pricing = router({
     .query(async ({ctx, input}) => {
       const {
         productId,
-        userId,
         quantity,
         couponId,
         merchantCoupon,
         upgradeFromPurchaseId: _upgradeFromPurchaseId,
-        code,
       } = input
 
       const token = await getToken({req: ctx.req})
 
+      const verifiedUserId = token?.sub
+
       const {getPurchasesForUser} = getSdk()
       const purchases = getValidPurchases(
-        await getPurchasesForUser(userId || token?.sub || ''),
+        await getPurchasesForUser(verifiedUserId),
       )
 
       const country =
@@ -169,7 +166,6 @@ export const pricing = router({
         await checkForAvailableCoupons({
           merchantCoupon,
           couponId,
-          code,
           productId,
         })
 
@@ -177,10 +173,9 @@ export const pricing = router({
         productId,
         country,
         quantity,
-        code,
         merchantCouponId: activeMerchantCoupon?.id,
         ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
-        userId,
+        userId: verifiedUserId,
       })
 
       const formattedPrice = {

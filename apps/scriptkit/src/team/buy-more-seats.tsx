@@ -31,7 +31,6 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
 
   const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery({
     productId,
-    userId,
     quantity: debouncedQuantity,
   })
 

@@ -61,7 +61,6 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   const {merchantCoupon} = usePriceCheck()
   const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery({
     productId: product.productId,
-    userId,
     quantity: 1,
     merchantCoupon: merchantCoupon || undefined,
   })

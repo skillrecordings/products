@@ -6,7 +6,7 @@ const videoThumb = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     const videoResourceId = req.query.videoResourceId as string
     const videoResource = await getVideoResource(videoResourceId)
-    const url = `https://image.mux.com/2pJ5eJ3vP6lX8jMPT7iyb01DDl9cvabtDDdFsNEFlRYU/thumbnail.png?width=480&height=384&fit_mode=preserve`
+    const url = `https://image.mux.com/${videoResource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`
 
     // load an image binary via fetch
     const response = await fetch(url)

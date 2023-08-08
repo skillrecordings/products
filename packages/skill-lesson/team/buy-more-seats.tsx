@@ -38,7 +38,6 @@ const BuyMoreSeats = ({
   const {data: formattedPrice, status} =
     trpcSkillLessons.pricing.formatted.useQuery({
       productId,
-      userId,
       quantity: debouncedQuantity,
     })
 
