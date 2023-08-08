@@ -1,5 +1,5 @@
 import {formatPricesForProduct} from './format-prices-for-product'
-import {getCalculatedPriced} from './get-calculated-price'
+import {getCalculatedPrice} from './get-calculated-price'
 
 import {
   MockContext,
@@ -89,7 +89,7 @@ for (const quantity of [69, 89, 99]) {
         ctx,
       })
 
-    const expectedPrice = getCalculatedPriced({
+    const expectedPrice = getCalculatedPrice({
       unitPrice,
       percentOfDiscount: appliedMerchantCoupon?.percentageDiscount.toNumber(),
       quantity,
@@ -674,7 +674,7 @@ async function expectedPriceForDefaultCoupon(quantity: number = 1) {
     ctx,
   })
 
-  const expectedPrice = getCalculatedPriced({
+  const expectedPrice = getCalculatedPrice({
     unitPrice: unitPrice,
     percentOfDiscount:
       appliedMerchantCoupon?.percentageDiscount.toNumber() || 0,
