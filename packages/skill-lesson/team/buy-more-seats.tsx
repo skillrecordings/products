@@ -30,7 +30,7 @@ const BuyMoreSeats = ({
     userId,
     quantity: debouncedQuantity,
     productId,
-    bulk: true,
+    bulk: formattedPrice.bulk,
     couponId: formattedPrice?.appliedMerchantCoupon?.id,
   })
 

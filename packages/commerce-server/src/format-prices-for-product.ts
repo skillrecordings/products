@@ -200,6 +200,7 @@ export async function formatPricesForProduct(
     }),
     availableCoupons: result.availableCoupons,
     appliedMerchantCoupon,
+    bulk: result.bulk,
     ...upgradeDetails,
   }
 }
