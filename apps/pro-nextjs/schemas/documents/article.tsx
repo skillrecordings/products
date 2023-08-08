@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {MdOutlineArticle} from 'react-icons/md'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
@@ -35,6 +35,16 @@ export default defineType({
           {title: 'draft', value: 'draft'},
           {title: 'published', value: 'published'},
         ],
+      },
+    }),
+    defineField({
+      name: 'publishAt',
+      title: 'Schedule Publish At',
+      type: 'datetime',
+      options: {
+        dateFormat: 'YYYY-MM-DD',
+        timeFormat: 'HH:mm',
+        timeStep: 15,
       },
     }),
     defineField({

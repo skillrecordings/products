@@ -14,7 +14,7 @@
     "lint": "eslint ./src --fix"
   },
   "dependencies": {
-    "inngest": "^2.0.2"
+    "inngest": "^2.4.0"
   },
   "devDependencies": {
     "@skillrecordings/tsconfig": "workspace:*",
