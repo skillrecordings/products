@@ -90,7 +90,6 @@ function isNowOrPast(isoDateTime: string | null) {
 const checkArticlePublishState = inngest.createFunction(
   {
     name: 'Check Article Publish State',
-    cancelOn: [{event: 'article/clear.scheduled', match: 'data._id'}],
   },
   {event: 'article/updated'},
   async ({event, step}) => {
