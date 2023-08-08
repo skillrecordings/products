@@ -19,6 +19,7 @@ import {isSellingLive} from '@skillrecordings/skill-lesson/utils/is-selling-live
 import BuyMoreSeats from './buy-more-seats'
 import Icon from 'components/icons'
 import {useDebounce} from '@skillrecordings/skill-lesson/hooks/use-debounce'
+import {buildStripeCheckoutPath} from '@skillrecordings/skill-lesson/utils/build-stripe-checkout-path'
 
 type MinimalMerchantCoupon = Omit<
   MerchantCoupon & {
@@ -238,15 +239,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           ) : (
             <div className="mt-4">
               <form
-                action={`/api/skill/checkout/stripe?productId=${
-                  formattedPrice?.id
-                }&couponId=${appliedMerchantCoupon?.id}&bulk=${
-                  isBuyingForTeam ? 'true' : 'false'
-                }&quantity=${quantity}${userId ? `&userId=${userId}` : ``}${
-                  formattedPrice?.upgradeFromPurchaseId
-                    ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
-                    : ``
-                }`}
+                action={buildStripeCheckoutPath({
+                  userId,
+                  quantity,
+                  productId: formattedPrice?.id,
+                  bulk: isBuyingForTeam,
+                  couponId: appliedMerchantCoupon?.id,
+                  upgradeFromPurchaseId: formattedPrice?.upgradeFromPurchaseId,
+                })}
                 method="POST"
               >
                 <fieldset>
