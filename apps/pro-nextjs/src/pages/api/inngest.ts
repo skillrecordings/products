@@ -333,4 +333,8 @@ const processNewTip = inngest.createFunction(
   },
 )
 
-export default serve(inngest, [processNewTip, addSrtToMuxAsset])
+export default serve(inngest, [
+  processNewTip,
+  addSrtToMuxAsset,
+  checkArticlePublishState,
+])
