@@ -3,22 +3,7 @@ import {z} from 'zod'
 import type {FormattedPrice} from '@skillrecordings/commerce-server/dist/@types'
 import {useQuery} from 'react-query'
 import {useDebounce} from '@skillrecordings/react'
-
-const buildFormActionPath = (params: {
-  userId: string
-  quantity: number
-  productId: string
-}) => {
-  const {productId, quantity, userId} = params
-
-  const queryParamString = new URLSearchParams({
-    productId,
-    quantity: String(quantity),
-    userId,
-  }).toString()
-
-  return `/api/skill/checkout/stripe?${queryParamString}`
-}
+import {buildStripeCheckoutPath} from '@skillrecordings/skill-lesson/utils/build-stripe-checkout-path'
 
 const buyMoreSeatsSchema = z.object({productId: z.string(), userId: z.string()})
 type BuyMoreSeatsProps = z.infer<typeof buyMoreSeatsSchema>
@@ -57,10 +42,11 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
     })
     .parse(formattedPrice)
 
-  const formActionPath = buildFormActionPath({
+  const formActionPath = buildStripeCheckoutPath({
     userId,
     quantity: debouncedQuantity,
     productId,
+    bulk: debouncedQuantity > 1,
   })
 
   return (
