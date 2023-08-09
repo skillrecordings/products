@@ -28,6 +28,7 @@ import * as Switch from '@radix-ui/react-switch'
 import Link from 'next/link'
 import {trpc} from 'trpc/trpc.client'
 import Balancer from 'react-wrap-balancer'
+import {buildStripeCheckoutPath} from '@skillrecordings/skill-lesson/utils/build-stripe-checkout-path'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -212,15 +213,15 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             ) : (
               <div data-purchase-container="">
                 <form
-                  action={`/api/skill/checkout/stripe?productId=${
-                    formattedPrice?.id
-                  }&couponId=${appliedMerchantCoupon?.id}&bulk=${
-                    isBuyingForTeam ? 'true' : 'false'
-                  }&quantity=${quantity}${userId ? `&userId=${userId}` : ``}${
-                    formattedPrice?.upgradeFromPurchaseId
-                      ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
-                      : ``
-                  }`}
+                  action={buildStripeCheckoutPath({
+                    userId,
+                    quantity,
+                    productId: formattedPrice?.id,
+                    bulk: isBuyingForTeam,
+                    couponId: appliedMerchantCoupon?.id,
+                    upgradeFromPurchaseId:
+                      formattedPrice?.upgradeFromPurchaseId,
+                  })}
                   method="POST"
                 >
                   <fieldset>

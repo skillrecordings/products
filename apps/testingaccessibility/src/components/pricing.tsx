@@ -14,6 +14,7 @@ import Image from 'next/legacy/image'
 import find from 'lodash/find'
 import cx from 'classnames'
 import {Purchase} from '@skillrecordings/database'
+import {buildStripeCheckoutPath} from '@skillrecordings/skill-lesson/utils/build-stripe-checkout-path'
 
 function getFirstPPPCoupon(availableCoupons: any[] = []) {
   return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
@@ -191,15 +192,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           </div>
         ) : (
           <form
-            action={`/api/skill/checkout/stripe?productId=${
-              formattedPrice?.id
-            }&couponId=${appliedMerchantCoupon?.id}&quantity=${quantity}${
-              userId ? `&userId=${userId}` : ``
-            }${
-              formattedPrice?.upgradeFromPurchaseId
-                ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
-                : ``
-            }`}
+            action={buildStripeCheckoutPath({
+              userId,
+              quantity,
+              productId: formattedPrice?.id,
+              bulk: Boolean(formattedPrice?.bulk),
+              couponId: appliedMerchantCoupon?.id,
+              upgradeFromPurchaseId: formattedPrice?.upgradeFromPurchaseId,
+            })}
             method="POST"
             className="pt-8 xl:px-10 px-5 flex flex-col items-center justify-center w-full"
           >

@@ -67,7 +67,7 @@ export const determineCouponToApply = async (
     prismaCtx,
   })
 
-  const bulkCouponToBeApplied = await getBulkCouponDetails({
+  const {bulkCouponToBeApplied, consideredBulk} = await getBulkCouponDetails({
     prismaCtx,
     userId,
     productId,
@@ -111,6 +111,7 @@ export const determineCouponToApply = async (
     appliedMerchantCoupon: couponToApply || undefined,
     appliedCouponType,
     availableCoupons,
+    bulk: consideredBulk,
   }
 }
 
@@ -297,6 +298,7 @@ const getBulkCouponDetails = async (params: GetBulkCouponDetailsParams) => {
     newPurchaseQuantity: quantity,
     prismaCtx,
   })
+  const consideredBulk = seatCount > 1
 
   const bulkCouponPercent = getBulkDiscountPercent(seatCount)
 
@@ -315,9 +317,9 @@ const getBulkCouponDetails = async (params: GetBulkCouponDetailsParams) => {
     )
     const bulkCoupon = bulkCoupons[0]
 
-    return bulkCoupon
+    return {bulkCouponToBeApplied: bulkCoupon, consideredBulk}
   } else {
-    return null
+    return {bulkCouponToBeApplied: null, consideredBulk}
   }
 }
 

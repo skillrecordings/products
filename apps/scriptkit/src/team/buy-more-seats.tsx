@@ -3,22 +3,7 @@ import {z} from 'zod'
 import {useDebounce} from '@skillrecordings/react'
 import {PriceDisplay} from 'path-to-purchase-react/pricing'
 import {trpc} from 'trpc/trpc.client'
-
-const buildFormActionPath = (params: {
-  userId: string
-  quantity: number
-  productId: string
-}) => {
-  const {productId, quantity, userId} = params
-
-  const queryParamString = new URLSearchParams({
-    productId,
-    quantity: String(quantity),
-    userId,
-  }).toString()
-
-  return `/api/skill/checkout/stripe?${queryParamString}`
-}
+import {buildStripeCheckoutPath} from '@skillrecordings/skill-lesson/utils/build-stripe-checkout-path'
 
 const buyMoreSeatsSchema = z.object({productId: z.string(), userId: z.string()})
 type BuyMoreSeatsProps = z.infer<typeof buyMoreSeatsSchema>
@@ -34,10 +19,12 @@ const BuyMoreSeats = (props: BuyMoreSeatsProps) => {
     quantity: debouncedQuantity,
   })
 
-  const formActionPath = buildFormActionPath({
+  const formActionPath = buildStripeCheckoutPath({
     userId,
     quantity: debouncedQuantity,
-    productId,
+    productId: formattedPrice?.id,
+    bulk: Boolean(formattedPrice?.bulk),
+    couponId: formattedPrice?.appliedMerchantCoupon?.id,
   })
 
   return (

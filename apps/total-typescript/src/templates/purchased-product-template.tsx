@@ -201,7 +201,7 @@ const Upgrade: React.FC<{
     userId,
     quantity: formattedPrice?.quantity,
     productId: formattedPrice?.id,
-    bulk: false,
+    bulk: Boolean(formattedPrice?.bulk),
     couponId: formattedPrice?.appliedMerchantCoupon?.id,
     upgradeFromPurchaseId: formattedPrice?.upgradeFromPurchaseId,
   })
