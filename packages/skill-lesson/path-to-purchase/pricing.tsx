@@ -12,7 +12,7 @@ import SaleCountdown from './sale-countdown'
 import Spinner from '../spinner'
 import Image from 'next/legacy/image'
 import find from 'lodash/find'
-import {type Purchase} from '@skillrecordings/database'
+import {Decimal, type Purchase} from '@skillrecordings/database'
 import ReactMarkdown from 'react-markdown'
 import {isSellingLive} from '../utils/is-selling-live'
 import {MailIcon} from '@heroicons/react/solid'
@@ -32,6 +32,20 @@ import BuyMoreSeats from '../team/buy-more-seats'
 import first from 'lodash/first'
 import {AnimatePresence, motion} from 'framer-motion'
 import {buildStripeCheckoutPath} from '../utils/build-stripe-checkout-path'
+
+const getNumericValue = (
+  value: string | number | Decimal | undefined,
+): number => {
+  if (typeof value === 'string') {
+    return Number(value)
+  } else if (typeof value === 'number') {
+    return value
+  } else if (typeof value?.toNumber === 'function') {
+    return value.toNumber()
+  } else {
+    return 0
+  }
+}
 
 type PricingProps = {
   product: SanityProduct
@@ -117,7 +131,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     appliedMerchantCoupon &&
     appliedMerchantCoupon.type !== 'ppp'
 
-  const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
+  type AvailableCoupon = NonNullable<
+    typeof formattedPrice
+  >['availableCoupons'][0]
+  const pppCoupon = getFirstPPPCoupon<AvailableCoupon>(
+    formattedPrice?.availableCoupons,
+  )
 
   // if there is no available coupon, hide the box (it's not a toggle)
   // only show the box if ppp coupon is available
@@ -151,15 +170,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
 
   function getUnitPrice(formattedPrice: FormattedPrice) {
     const price = first(formattedPrice?.upgradedProduct?.prices)
-    if (typeof price?.unitAmount === 'string') {
-      return Number(price?.unitAmount)
-    } else if (typeof price?.unitAmount === 'number') {
-      return price?.unitAmount
-    } else if (typeof price?.unitAmount?.toNumber === 'function') {
-      return price?.unitAmount?.toNumber()
-    } else {
-      return 0
-    }
+    return getNumericValue(price?.unitAmount)
   }
 
   const upgradedProductPrice = formattedPrice?.upgradedProduct
@@ -417,7 +428,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           {showPPPBox && !canViewRegionRestriction && (
             <RegionalPricingBox
               isPPPEnabled={isPPPEnabled}
-              pppCoupon={pppCoupon || merchantCoupon}
+              pppCoupon={pppCoupon || merchantCoupon || null}
               merchantCoupon={merchantCoupon}
               setMerchantCoupon={setMerchantCoupon}
               index={index}
@@ -631,9 +642,9 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
 
 type RegionalPricingBoxProps = {
   pppCoupon: {
-    country: string
-    percentageDiscount: number
-  }
+    country?: string | undefined
+    percentageDiscount: number | Decimal
+  } | null
   merchantCoupon: any
   setMerchantCoupon: (coupon: any) => void
   index: number
@@ -656,14 +667,15 @@ const RegionalPricingBox: React.FC<
     }
   }, [isPPPEnabled, pppCoupon, setMerchantCoupon])
 
-  if (!pppCoupon.country) {
+  if (!pppCoupon?.country) {
     console.error('No country found for PPP coupon', {pppCoupon})
     return null
   }
 
   const countryCode = pppCoupon.country
   const country = regionNames.of(countryCode)
-  const percentOff = Math.floor(pppCoupon.percentageDiscount * 100)
+  const percentageDiscount = getNumericValue(pppCoupon.percentageDiscount)
+  const percentOff = Math.floor(percentageDiscount * 100)
 
   return (
     <div data-ppp-container={index}>
@@ -732,8 +744,10 @@ const SubscribeForm = ({
   )
 }
 
-export function getFirstPPPCoupon(availableCoupons: any[] = []) {
-  return find(availableCoupons, (coupon) => coupon.type === 'ppp') || false
+export function getFirstPPPCoupon<T extends {type: string | null} | undefined>(
+  availableCoupons: T[] = [],
+) {
+  return find<T>(availableCoupons, (coupon) => coupon?.type === 'ppp') || null
 }
 
 export const formatUsd = (amount: number = 0) => {
