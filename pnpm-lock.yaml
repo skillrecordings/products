@@ -4500,7 +4500,7 @@ importers:
       '@radix-ui/react-dropdown-menu': ^1.0.0
       '@reach/slider': ^0.17.0
       '@reach/tabs': ^0.17.0
-      '@skillrecordings/react': ^0.0.2
+      '@skillrecordings/react': ^1.0.0
       '@skillrecordings/scripts': 0.0.6
       '@skillrecordings/time': ^0.0.12
       '@skillrecordings/tsconfig': 0.0.6
