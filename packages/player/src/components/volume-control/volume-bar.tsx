@@ -46,7 +46,7 @@ export const VolumeBar: React.FC<React.PropsWithChildren<any>> = ({
       defaultValue={getVolume()}
       step={0.05}
       handleAlignment="contain"
-      getAriaValueText={(value) => formattedVolume(muted ? volume : value)}
+      getAriaValueText={(value = 0) => formattedVolume(muted ? volume : value)}
       aria-label="volume slider"
       onChange={(newValue) => {
         checkMuted()
