@@ -29,6 +29,7 @@ type FormatPricesForProductOptions = {
   ctx?: Context
   upgradeFromPurchaseId?: string
   userId?: string
+  autoApplyPPP?: boolean
 }
 
 export async function getFixedDiscountForUpgrade({
@@ -103,6 +104,7 @@ export async function formatPricesForProduct(
     merchantCouponId,
     upgradeFromPurchaseId,
     userId,
+    autoApplyPPP = true,
   } = noContextOptions
 
   const {getProduct, getPrice, getPurchase} = getSdk({ctx})
@@ -164,6 +166,7 @@ export async function formatPricesForProduct(
       userId,
       productId: product.id,
       purchaseToBeUpgraded: upgradeFromPurchase,
+      autoApplyPPP,
     })
 
   const fixedDiscountForUpgrade = await getFixedDiscountForUpgrade({
