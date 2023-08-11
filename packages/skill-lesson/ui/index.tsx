@@ -23,6 +23,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from './select'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from './accordion'
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from './tooltip'
 
 export {
   Button,
@@ -48,4 +60,12 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
 }

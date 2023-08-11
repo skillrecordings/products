@@ -71,3 +71,6 @@ export const ModuleProgressSchema = z.object({
 })
 
 export type ModuleProgress = z.infer<typeof ModuleProgressSchema>
+export type SectionProgress =
+  | z.infer<typeof ModuleProgressSchema>['sections'][number]
+  | undefined
