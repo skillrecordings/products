@@ -139,6 +139,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     quantity,
     bulk: metadata?.bulk === 'true',
     country: metadata?.country,
+    pppApplied: metadata?.pppApplied === 'true',
     checkoutSessionId,
   })
 
