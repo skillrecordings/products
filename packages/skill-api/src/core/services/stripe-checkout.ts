@@ -169,7 +169,7 @@ export async function stripeCheckout({
           : 0
 
       let discounts = []
-      let pppApplied = false
+      let appliedPPPStripeCouponId: string | undefined | null = undefined
 
       const isUpgrade = Boolean(
         (availableUpgrade || upgradeFromPurchase?.status === 'Restricted') &&
@@ -182,7 +182,7 @@ export async function stripeCheckout({
 
       if (isUpgrade && upgradeFromPurchase && loadedProduct && customerId) {
         const purchaseWillBeRestricted = merchantCoupon?.type === 'ppp'
-        pppApplied = purchaseWillBeRestricted
+        appliedPPPStripeCouponId = merchantCoupon?.identifier
 
         const fixedDiscountForUpgrade = await getFixedDiscountForUpgrade({
           purchaseToBeUpgraded: upgradeFromPurchase,
@@ -224,7 +224,10 @@ export async function stripeCheckout({
         // no ppp for bulk purchases
         const isNotPPP = merchantCoupon.type !== 'ppp'
         if (isNotPPP || quantity === 1) {
-          pppApplied = merchantCoupon.type === 'ppp'
+          appliedPPPStripeCouponId =
+            merchantCoupon.type === 'ppp'
+              ? merchantCoupon?.identifier
+              : undefined
           const {id} = await stripe.promotionCodes.create({
             coupon: merchantCoupon.identifier,
             max_redemptions: 1,
@@ -260,7 +263,7 @@ export async function stripeCheckout({
           upgradeFromPurchaseId: upgradeFromPurchaseId as string,
         }),
         bulk: bulk === 'true' ? 'true' : quantity > 1 ? 'true' : 'false',
-        pppApplied: pppApplied ? 'true' : 'false',
+        ...(appliedPPPStripeCouponId && {appliedPPPStripeCouponId}),
         country:
           (req.headers['x-vercel-ip-country'] as string) ||
           process.env.DEFAULT_COUNTRY ||
