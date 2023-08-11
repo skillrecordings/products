@@ -4,6 +4,7 @@ import type {
   SanityProduct,
   FormattedPrice,
   SanityProductModule,
+  MinimalMerchantCoupon,
 } from '@skillrecordings/commerce-server/dist/@types'
 import {CheckCircleIcon} from '@heroicons/react/outline'
 import {useDebounce} from '@skillrecordings/react'
@@ -102,6 +103,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     usePriceCheck()
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
+  const [autoApplyPPP, setAutoApplyPPP] = React.useState<boolean>(true)
 
   const {data: formattedPrice, status} =
     trpcSkillLessons.pricing.formatted.useQuery(
@@ -110,6 +112,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         quantity: debouncedQuantity,
         couponId,
         merchantCoupon,
+        autoApplyPPP,
       },
       {
         onSuccess: (formattedPrice) => {
@@ -134,16 +137,19 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   type AvailableCoupon = NonNullable<
     typeof formattedPrice
   >['availableCoupons'][0]
-  const pppCoupon = getFirstPPPCoupon<AvailableCoupon>(
+  const availablePPPCoupon = getFirstPPPCoupon<AvailableCoupon>(
     formattedPrice?.availableCoupons,
   )
+
+  const appliedPPPCoupon =
+    appliedMerchantCoupon?.type === 'ppp' ? appliedMerchantCoupon : null
 
   // if there is no available coupon, hide the box (it's not a toggle)
   // only show the box if ppp coupon is available
   // do not show the box if purchased
   // do not show the box if it's a downgrade
   const showPPPBox =
-    Boolean(pppCoupon || merchantCoupon?.type === 'ppp') &&
+    Boolean(availablePPPCoupon || appliedPPPCoupon) &&
     !purchased &&
     !isDowngrade(formattedPrice) &&
     !isBuyingForTeam
@@ -425,11 +431,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           )}
           {showPPPBox && !canViewRegionRestriction && (
             <RegionalPricingBox
-              isPPPEnabled={isPPPEnabled}
-              pppCoupon={pppCoupon || merchantCoupon || null}
-              merchantCoupon={merchantCoupon}
+              availablePPPCoupon={availablePPPCoupon}
+              appliedPPPCoupon={appliedPPPCoupon}
               setMerchantCoupon={setMerchantCoupon}
               index={index}
+              setAutoApplyPPP={setAutoApplyPPP}
             />
           )}
           <div data-pricing-footer="">
@@ -639,40 +645,37 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
 }
 
 type RegionalPricingBoxProps = {
-  pppCoupon: {
+  availablePPPCoupon: {
     country?: string | undefined
     percentageDiscount: number | Decimal
   } | null
-  merchantCoupon: any
+  appliedPPPCoupon: MinimalMerchantCoupon | null
   setMerchantCoupon: (coupon: any) => void
   index: number
-  isPPPEnabled?: boolean
+  setAutoApplyPPP: (apply: boolean) => void
 }
 
 const RegionalPricingBox: React.FC<
   React.PropsWithChildren<RegionalPricingBoxProps>
 > = ({
-  pppCoupon,
-  merchantCoupon,
+  availablePPPCoupon,
+  appliedPPPCoupon,
   setMerchantCoupon,
   index,
-  isPPPEnabled = false,
+  setAutoApplyPPP,
 }) => {
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
-  React.useEffect(() => {
-    if (isPPPEnabled) {
-      setMerchantCoupon(pppCoupon as any)
-    }
-  }, [isPPPEnabled, pppCoupon, setMerchantCoupon])
 
-  if (!pppCoupon?.country) {
-    console.error('No country found for PPP coupon', {pppCoupon})
+  if (!availablePPPCoupon?.country) {
+    console.error('No country found for PPP coupon', {availablePPPCoupon})
     return null
   }
 
-  const countryCode = pppCoupon.country
+  const countryCode = availablePPPCoupon.country
   const country = regionNames.of(countryCode)
-  const percentageDiscount = getNumericValue(pppCoupon.percentageDiscount)
+  const percentageDiscount = getNumericValue(
+    availablePPPCoupon.percentageDiscount,
+  )
   const percentOff = Math.floor(percentageDiscount * 100)
 
   return (
@@ -696,11 +699,14 @@ const RegionalPricingBox: React.FC<
       <label>
         <input
           type="checkbox"
-          checked={Boolean(merchantCoupon)}
+          checked={Boolean(appliedPPPCoupon)}
           onChange={() => {
-            merchantCoupon
-              ? setMerchantCoupon(undefined)
-              : setMerchantCoupon(pppCoupon as any)
+            setAutoApplyPPP(false)
+            if (appliedPPPCoupon) {
+              setMerchantCoupon(undefined)
+            } else {
+              setMerchantCoupon(availablePPPCoupon as any)
+            }
           }}
         />
         <span>Activate {percentOff}% off with regional pricing</span>

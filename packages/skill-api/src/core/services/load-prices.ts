@@ -17,6 +17,7 @@ type OptionsForFormatPrices = {
   merchantCouponId?: string
   upgradeFromPurchaseId?: string
   purchases: Purchase[]
+  autoApplyPPP: boolean
 }
 
 export const formatPrices = async (options: OptionsForFormatPrices) => {
@@ -29,6 +30,7 @@ export const formatPrices = async (options: OptionsForFormatPrices) => {
     merchantCouponId,
     upgradeFromPurchaseId: _upgradeFromPurchaseId,
     purchases,
+    autoApplyPPP = true,
   } = options
 
   const {availableUpgradesForProduct} = getSdk()
@@ -71,6 +73,7 @@ export const formatPrices = async (options: OptionsForFormatPrices) => {
     merchantCouponId: activeMerchantCoupon?.id,
     ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
     userId,
+    autoApplyPPP,
   })
 
   return {product, defaultCoupon}
@@ -87,6 +90,12 @@ export async function loadPrices({
 
     const country = (req.headers['x-vercel-ip-country'] as string) || 'US'
 
+    // coerce `autoApplyPPP` to true unless it is explicitly false
+    const autoApplyPPP =
+      req.body.autoApplyPPP === false || req.body.autoApplyPPP === 'false'
+        ? false
+        : true
+
     const options: OptionsForFormatPrices = {
       userId,
       country,
@@ -96,6 +105,7 @@ export async function loadPrices({
       merchantCouponId: req.body.merchantCouponId,
       siteCouponId: req.body.siteCouponId,
       upgradeFromPurchaseId: req.body.upgradeFromPurchaseId,
+      autoApplyPPP,
     }
 
     const {product, defaultCoupon} = await formatPrices(options)
