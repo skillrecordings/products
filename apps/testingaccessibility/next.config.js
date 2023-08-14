@@ -14,6 +14,7 @@ const IMAGE_HOST_DOMAINS = [
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+  transpilePackages: ['@skillrecordings/skill-lesson'],
   eslint: {
     ignoreDuringBuilds: true, // 😭
   },
