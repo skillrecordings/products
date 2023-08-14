@@ -77,6 +77,11 @@ export default {
       type: 'externalImage',
     },
     {
+      name: 'cardImage',
+      title: 'Card image',
+      type: 'externalImage',
+    },
+    {
       name: 'summary',
       title: 'Summary',
       type: 'body',
