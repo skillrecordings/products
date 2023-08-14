@@ -2,13 +2,13 @@ import * as React from 'react'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/skill-lesson/ui/convertkit-subscribe-form'
+} from '@skillrecordings/ui/forms/convertkit-subscribe-form'
 import {useRouter} from 'next/router'
 import common from '../text/common'
 import {type Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import {twMerge} from 'tailwind-merge'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {Button} from '@skillrecordings/skill-lesson/ui/button'
+import {Button} from '@skillrecordings/ui'
 import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
 

@@ -35,7 +35,7 @@ import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {useRouter} from 'next/router'
-import {Skeleton} from '@skillrecordings/skill-lesson/ui'
+import {Skeleton} from '@skillrecordings/ui'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module

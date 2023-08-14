@@ -25,7 +25,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@skillrecordings/skill-lesson/ui'
+} from '@skillrecordings/ui'
 import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router'
 import {DatePurchased, Price} from 'purchase-details/purchase-details-template'

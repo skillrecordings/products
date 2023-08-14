@@ -7,7 +7,7 @@ import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import Balancer from 'react-wrap-balancer'
-import {Button} from '@skillrecordings/skill-lesson/ui/button'
+import {Button} from '@skillrecordings/ui'
 
 const Login: React.FC<
   React.PropsWithChildren<{csrfToken: string; providers: any}>

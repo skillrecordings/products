@@ -1,12 +1,7 @@
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import Image from 'next/image'
 import Link from 'next/link'
-import {
-  Card,
-  CardContent,
-  CardTitle,
-  CardHeader,
-} from '@skillrecordings/skill-lesson/ui/card'
+import {Card, CardContent, CardTitle, CardHeader} from '@skillrecordings/ui'
 
 const ResourceTeaser: React.FC<{resource: Module}> = ({resource}) => {
   return (

@@ -88,6 +88,7 @@
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/skill-lesson": "workspace:*",
+    "@skillrecordings/ui": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@tanstack/react-query": "^4.20.4",
     "@trpc/client": "=10.7.0",

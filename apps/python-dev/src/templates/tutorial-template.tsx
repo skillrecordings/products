@@ -18,7 +18,7 @@ import config from '@/config'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {getOgImage} from '@/utils/get-og-image'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
-import {Button} from '@skillrecordings/skill-lesson/ui/button'
+import {Button} from '@skillrecordings/ui'
 // import Testimonials from 'testimonials'
 
 const TutorialTemplate: React.FC<{

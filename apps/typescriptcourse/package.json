@@ -61,6 +61,7 @@
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/skill-lesson": "workspace:*",
+    "@skillrecordings/ui": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@stripe/stripe-js": "^1.21.1",
     "@supabase/supabase-js": "^1.29.1",

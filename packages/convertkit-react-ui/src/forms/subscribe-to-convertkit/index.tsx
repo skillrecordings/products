@@ -18,7 +18,7 @@ export type SubscribeFormProps = {
 }
 
 /**
- * @deprecated use @skillrecordings/skill-lesson/ui/convertkit-subscribe-form instead
+ * @deprecated use @skillrecordings/ui/forms/convertkit-subscribe-form instead
  *
  * This form posts to a designated api URL (assumes `/api/convertkit/subscribe
  * by default`)

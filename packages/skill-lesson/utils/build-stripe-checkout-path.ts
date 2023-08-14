@@ -19,6 +19,7 @@ const ParamsSchema = z
       quantity: String(params.quantity),
     }
   })
+
 type Params = z.input<typeof ParamsSchema>
 
 export const buildStripeCheckoutPath = (params: Params) => {

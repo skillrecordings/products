@@ -6,7 +6,7 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {twMerge} from 'tailwind-merge'
-import {cn} from '@skillrecordings/skill-lesson/ui/utils'
+import {cn} from '@skillrecordings/ui/utils/cn'
 import {DocumentIcon} from '@heroicons/react/outline'
 
 const useAbilities = () => {

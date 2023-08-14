@@ -4,7 +4,7 @@ import {GetServerSideProps} from 'next'
 import {getCsrfToken, getProviders} from 'next-auth/react'
 import LoginTemplate, {
   type LoginTemplateProps,
-} from '@skillrecordings/skill-lesson/login'
+} from '@skillrecordings/ui/templates/login'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const providers = await getProviders()

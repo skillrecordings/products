@@ -14,7 +14,7 @@ import toast from 'react-hot-toast'
 import {useFeedback} from '../../feedback-widget/feedback-context'
 import {useSearchBar} from '@/search-bar/use-search-bar'
 import {motion, AnimationControls, useAnimationControls} from 'framer-motion'
-import {cn} from '@skillrecordings/skill-lesson/ui/utils'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 type Props = {
   className?: string

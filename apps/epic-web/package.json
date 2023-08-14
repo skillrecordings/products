@@ -70,6 +70,7 @@
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/skill-lesson": "workspace:*",
+    "@skillrecordings/ui": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@slack/web-api": "^6.7.2",
     "@tanstack/react-query": "^4.20.4",

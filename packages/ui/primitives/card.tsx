@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Balancer from 'react-wrap-balancer'
-import {cn} from './utils'
+import {cn} from '../utils/cn'
 
 const Card = React.forwardRef<
   HTMLDivElement,

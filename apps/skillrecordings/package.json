@@ -48,6 +48,7 @@
     "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-lesson": "workspace:*",
+    "@skillrecordings/ui": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@stripe/stripe-js": "^1.21.1",
     "@xstate/react": "=1.5.1",
