@@ -27,6 +27,7 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {usePriceCheck} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {PriceDisplay} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {QueryStatus} from '@tanstack/react-query'
+import {buildStripeCheckoutPath} from '@skillrecordings/skill-lesson/utils/build-stripe-checkout-path'
 
 const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   purchases = [],
@@ -195,14 +196,15 @@ const Upgrade: React.FC<{
   purchaseToUpgrade: any
   formattedPrice: FormattedPrice | undefined
   formattedPriceStatus: QueryStatus
-}> = ({
-  purchaseToUpgrade,
-  formattedPrice,
-  product,
-  userId,
-  formattedPriceStatus,
-}) => {
-  const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
+}> = ({formattedPrice, userId, formattedPriceStatus}) => {
+  const formActionPath = buildStripeCheckoutPath({
+    userId,
+    quantity: formattedPrice?.quantity,
+    productId: formattedPrice?.id,
+    bulk: Boolean(formattedPrice?.bulk),
+    couponId: formattedPrice?.appliedMerchantCoupon?.id,
+    upgradeFromPurchaseId: formattedPrice?.upgradeFromPurchaseId,
+  })
 
   return (
     <div>
@@ -211,15 +213,7 @@ const Upgrade: React.FC<{
         get full access to all materials and bonuses from anywhere in the world.
       </p>
       <form
-        action={`/api/skill/checkout/stripe?productId=${
-          formattedPrice?.id
-        }&couponId=${appliedMerchantCoupon?.id}&bulk=false&quantity=1${
-          userId ? `&userId=${userId}` : ``
-        }${
-          formattedPrice?.upgradeFromPurchaseId
-            ? `&upgradeFromPurchaseId=${formattedPrice?.upgradeFromPurchaseId}`
-            : ``
-        }`}
+        action={formActionPath}
         method="POST"
         className="mt-4 flex items-center gap-3"
       >

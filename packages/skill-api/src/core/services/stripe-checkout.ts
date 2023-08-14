@@ -4,7 +4,7 @@ import {getSdk, prisma} from '@skillrecordings/database'
 import {first} from 'lodash'
 import {add} from 'date-fns'
 import {
-  getCalculatedPriced,
+  getCalculatedPrice,
   stripe,
   getFixedDiscountForUpgrade,
 } from '@skillrecordings/commerce-server'
@@ -169,6 +169,7 @@ export async function stripeCheckout({
           : 0
 
       let discounts = []
+      let appliedPPPStripeCouponId: string | undefined | null = undefined
 
       const isUpgrade = Boolean(
         (availableUpgrade || upgradeFromPurchase?.status === 'Restricted') &&
@@ -180,14 +181,17 @@ export async function stripeCheckout({
       )
 
       if (isUpgrade && upgradeFromPurchase && loadedProduct && customerId) {
+        const purchaseWillBeRestricted = merchantCoupon?.type === 'ppp'
+        appliedPPPStripeCouponId = merchantCoupon?.identifier
+
         const fixedDiscountForUpgrade = await getFixedDiscountForUpgrade({
           purchaseToBeUpgraded: upgradeFromPurchase,
           productToBePurchased: loadedProduct,
-          purchaseWillBeRestricted: merchantCoupon?.type === 'ppp',
+          purchaseWillBeRestricted,
         })
 
         const fullPrice = loadedProduct.prices?.[0].unitAmount.toNumber()
-        const calculatedPrice = getCalculatedPriced({
+        const calculatedPrice = getCalculatedPrice({
           unitPrice: fullPrice,
           percentOfDiscount: stripeCouponPercentOff || 0,
           quantity: 1,
@@ -220,6 +224,10 @@ export async function stripeCheckout({
         // no ppp for bulk purchases
         const isNotPPP = merchantCoupon.type !== 'ppp'
         if (isNotPPP || quantity === 1) {
+          appliedPPPStripeCouponId =
+            merchantCoupon.type === 'ppp'
+              ? merchantCoupon?.identifier
+              : undefined
           const {id} = await stripe.promotionCodes.create({
             coupon: merchantCoupon.identifier,
             max_redemptions: 1,
@@ -255,6 +263,7 @@ export async function stripeCheckout({
           upgradeFromPurchaseId: upgradeFromPurchaseId as string,
         }),
         bulk: bulk === 'true' ? 'true' : quantity > 1 ? 'true' : 'false',
+        ...(appliedPPPStripeCouponId && {appliedPPPStripeCouponId}),
         country:
           (req.headers['x-vercel-ip-country'] as string) ||
           process.env.DEFAULT_COUNTRY ||

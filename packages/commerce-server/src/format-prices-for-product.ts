@@ -1,4 +1,4 @@
-import {getCalculatedPriced} from './get-calculated-price'
+import {getCalculatedPrice} from './get-calculated-price'
 import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import type {Purchase, Product} from '@skillrecordings/database'
 import {FormattedPrice} from './@types'
@@ -192,7 +192,7 @@ export async function formatPricesForProduct(
     quantity,
     unitPrice,
     fullPrice,
-    calculatedPrice: getCalculatedPriced({
+    calculatedPrice: getCalculatedPrice({
       unitPrice,
       percentOfDiscount,
       fixedDiscount: fixedDiscountForUpgrade, // if not upgrade, we know this will be 0
@@ -200,6 +200,7 @@ export async function formatPricesForProduct(
     }),
     availableCoupons: result.availableCoupons,
     appliedMerchantCoupon,
+    bulk: result.bulk,
     ...upgradeDetails,
   }
 }

@@ -430,6 +430,7 @@ export function getSdk(
       quantity?: number
       bulk?: boolean
       checkoutSessionId: string
+      appliedPPPStripeCouponId: string | undefined
       country?: string
     }) {
       const {
@@ -443,6 +444,7 @@ export function getSdk(
         stripeChargeAmount,
         quantity = 1,
         checkoutSessionId,
+        appliedPPPStripeCouponId,
         country,
       } = options
       // we are using uuids so we can generate this!
@@ -549,10 +551,19 @@ export function getSdk(
         where: {identifier: stripeCouponId},
       })
 
+      const pppMerchantCoupon = appliedPPPStripeCouponId
+        ? await ctx.prisma.merchantCoupon.findFirst({
+            where: {identifier: appliedPPPStripeCouponId, type: 'ppp'},
+          })
+        : null
+
       const purchase = ctx.prisma.purchase.create({
         data: {
           id: purchaseId,
-          status: merchantCoupon?.type === 'ppp' ? 'Restricted' : 'Valid',
+          status:
+            merchantCoupon?.type === 'ppp' || Boolean(pppMerchantCoupon)
+              ? 'Restricted'
+              : 'Valid',
           userId,
           productId,
           merchantChargeId,

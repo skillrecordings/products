@@ -61,7 +61,7 @@ export const SeekBar: React.FC<React.PropsWithChildren<any>> = (props) => {
         videoService.send('END_SEEKING')
       }}
       aria-label="seek slider"
-      getAriaValueText={(value) => {
+      getAriaValueText={(value = 0) => {
         const currentValue = Number(value.toFixed(0))
 
         const currentTime =
