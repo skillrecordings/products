@@ -1,6 +1,12 @@
 import {OutgoingResponse} from '../index'
 import {SkillRecordingsHandlerParams} from '../types'
-import {getSdk, prisma} from '@skillrecordings/database'
+import {
+  Product,
+  Purchase,
+  UpgradableProducts,
+  getSdk,
+  prisma,
+} from '@skillrecordings/database'
 import {first} from 'lodash'
 import {add} from 'date-fns'
 import {
@@ -75,6 +81,86 @@ export class CheckoutError extends Error {
   }
 }
 
+const buildCouponNameWithProductName = (
+  pre: string,
+  productName: string,
+  post: string,
+): string => {
+  // Calculate the total length without the ellipsis
+  const totalLength = pre.length + productName.length + post.length
+
+  // If total length exceeds 40 characters
+  if (totalLength > 40) {
+    // Calculate the number of characters to truncate from productName
+    const excess = totalLength - 40 + 3 // 3 is for the length of ellipsis "..."
+    productName = productName.slice(0, -excess) + '...'
+  }
+
+  // Return the concatenated string
+  return pre + productName + post
+}
+
+const buildCouponName = (
+  upgradeFromPurchase:
+    | (Purchase & {
+        product: Product
+      })
+    | null,
+  productId: string,
+  availableUpgrade: UpgradableProducts | null,
+  purchaseWillBeRestricted: boolean,
+  stripeCouponPercentOff: number,
+) => {
+  let couponName = null
+
+  if (
+    upgradeFromPurchase?.status === 'Restricted' &&
+    !purchaseWillBeRestricted &&
+    upgradeFromPurchase.productId === productId
+  ) {
+    // if its the same productId and we are going from PPP to Unrestricted
+    couponName = 'Unrestricted'
+  } else if (availableUpgrade && upgradeFromPurchase?.status === 'Valid') {
+    // if there is an availableUpgrade (e.g. Core -> Bundle) and the original purchase wasn't region restricted
+    couponName = buildCouponNameWithProductName(
+      'Upgrade from ',
+      upgradeFromPurchase.product.name,
+      '',
+    )
+  } else if (
+    availableUpgrade &&
+    upgradeFromPurchase?.status === 'Restricted' &&
+    purchaseWillBeRestricted
+  ) {
+    // if there is an availableUpgrade (e.g. Core -> Bundle) and we are staying PPP
+    // betterCouponName = `Upgrade from ${
+    //   upgradeFromPurchase.product.name
+    // } + PPP ${stripeCouponPercentOff * 100}% off`
+    couponName = buildCouponNameWithProductName(
+      'Upgrade from ',
+      upgradeFromPurchase.product.name,
+      ` + PPP ${stripeCouponPercentOff * 100}% off`,
+    )
+  } else if (
+    availableUpgrade &&
+    upgradeFromPurchase?.status === 'Restricted' &&
+    !purchaseWillBeRestricted
+  ) {
+    // if there is an availableUpgrade (e.g. Core -> Bundle) and we are going from PPP to Unrestricted
+    // couponName = `Unrestricted Upgrade from ${upgradeFromPurchase.product.name}`
+    couponName = buildCouponNameWithProductName(
+      'Unrestricted Upgrade from ',
+      upgradeFromPurchase.product.name,
+      '',
+    )
+  } else {
+    // we don't expect to hit this case
+    couponName = 'Discount'
+  }
+
+  return couponName
+}
+
 export async function stripeCheckout({
   params,
 }: {
@@ -132,7 +218,7 @@ export async function stripeCheckout({
                 upgradableToId: productId as string,
               },
             })
-          : false
+          : null
 
       const customerId = user
         ? await findOrCreateStripeCustomerId(user.id)
@@ -198,28 +284,34 @@ export async function stripeCheckout({
           fixedDiscount: fixedDiscountForUpgrade,
         })
 
-        const upgradeFromRegionRestriction =
-          upgradeFromPurchase?.status === 'Restricted'
-        const couponName = upgradeFromRegionRestriction
-          ? `Unrestricted`
-          : `Upgrade from ${upgradeFromPurchase.product.name}`
+        if (fixedDiscountForUpgrade > 0) {
+          const couponName = buildCouponName(
+            upgradeFromPurchase,
+            productId,
+            availableUpgrade,
+            purchaseWillBeRestricted,
+            stripeCouponPercentOff,
+          )
 
-        const coupon = await stripe.coupons.create({
-          amount_off: (fullPrice - calculatedPrice) * 100,
-          name: couponName,
-          max_redemptions: 1,
-          redeem_by: TWELVE_FOUR_HOURS_FROM_NOW,
-          currency: 'USD',
-          applies_to: {
-            products: [
-              loadedProduct.merchantProducts?.[0].identifier as string,
-            ],
-          },
-        })
+          const amount_off_in_cents = (fullPrice - calculatedPrice) * 100
 
-        discounts.push({
-          coupon: coupon.id,
-        })
+          const coupon = await stripe.coupons.create({
+            amount_off: amount_off_in_cents,
+            name: couponName,
+            max_redemptions: 1,
+            redeem_by: TWELVE_FOUR_HOURS_FROM_NOW,
+            currency: 'USD',
+            applies_to: {
+              products: [
+                loadedProduct.merchantProducts?.[0].identifier as string,
+              ],
+            },
+          })
+
+          discounts.push({
+            coupon: coupon.id,
+          })
+        }
       } else if (merchantCoupon && merchantCoupon.identifier) {
         // no ppp for bulk purchases
         const isNotPPP = merchantCoupon.type !== 'ppp'
