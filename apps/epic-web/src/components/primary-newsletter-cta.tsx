@@ -6,7 +6,7 @@ import {
 } from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 import {track} from 'utils/analytics'
-import {Button} from '@skillrecordings/skill-lesson/ui'
+import {Button} from '@skillrecordings/ui'
 
 type PrimaryNewsletterCtaProps = {
   setStarfieldSpeed?: (s: number) => void

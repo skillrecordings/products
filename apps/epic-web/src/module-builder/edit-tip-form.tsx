@@ -1,8 +1,10 @@
 'use client'
 
 import {Tip, TipSchema} from 'lib/tips'
-import {Button, Input, Textarea} from '@skillrecordings/skill-lesson/ui'
 import {
+  Button,
+  Input,
+  Textarea,
   Form,
   FormControl,
   FormDescription,
@@ -10,7 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@skillrecordings/skill-lesson/ui/form'
+} from '@skillrecordings/ui'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'

@@ -8,7 +8,7 @@ import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-comple
 import Icon from 'components/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import Balancer from 'react-wrap-balancer'
-import {Card, CardContent, CardHeader} from '@skillrecordings/skill-lesson/ui'
+import {Card, CardContent, CardHeader} from '@skillrecordings/ui'
 
 export async function getStaticProps() {
   const tips = await getAllTips()

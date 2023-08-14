@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import {Button, Skeleton} from '@skillrecordings/skill-lesson/ui'
+import {Button, Skeleton} from '@skillrecordings/ui'
 import EditTipForm, {Video} from 'module-builder/edit-tip-form'
 import {twMerge} from 'tailwind-merge'
 import Balancer from 'react-wrap-balancer'

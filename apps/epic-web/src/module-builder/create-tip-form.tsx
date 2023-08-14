@@ -1,8 +1,10 @@
 'use client'
 
 import * as React from 'react'
-import {Button, Input, Progress} from '@skillrecordings/skill-lesson/ui'
 import {
+  Button,
+  Input,
+  Progress,
   Form,
   FormControl,
   FormDescription,
@@ -10,7 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@skillrecordings/skill-lesson/ui/form'
+} from '@skillrecordings/ui'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'

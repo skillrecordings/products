@@ -10,7 +10,7 @@ const IMAGE_HOST_DOMAINS = [
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  transpilePackages: ['@skillrecordings/skill-lesson'],
+  transpilePackages: ['@skillrecordings/skill-lesson', '@skillrecordings/ui'],
   reactStrictMode: true,
   images: {
     domains: IMAGE_HOST_DOMAINS,

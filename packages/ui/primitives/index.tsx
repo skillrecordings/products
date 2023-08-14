@@ -35,6 +35,15 @@ import {
   TooltipContent,
   TooltipProvider,
 } from './tooltip'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from './form'
 
 export {
   Button,
@@ -68,4 +77,11 @@ export {
   TooltipTrigger,
   TooltipContent,
   TooltipProvider,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 }

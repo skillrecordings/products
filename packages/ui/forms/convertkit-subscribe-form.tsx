@@ -1,12 +1,12 @@
 import * as React from 'react'
-import {Input} from './input'
-import {Label} from './label'
-import {Button} from './button'
-import {type Subscriber} from '../schemas/subscriber'
-import {useConvertkitForm} from '../hooks/use-convertkit-form'
+import {Input} from '../primitives/input'
+import {Label} from '../primitives/label'
+import {Button} from '../primitives/button'
+import {type Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
+import {useConvertkitForm} from '@skillrecordings/skill-lesson/hooks/use-convertkit-form'
 import queryString from 'query-string'
 import {CK_SUBSCRIBER_KEY} from '@skillrecordings/config'
-import Spinner from '../spinner'
+import Spinner from '@skillrecordings/skill-lesson/spinner'
 
 export type SubscribeFormProps = {
   actionLabel?: string

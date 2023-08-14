@@ -12,6 +12,7 @@ module.exports = {
     './node_modules/@skillrecordings/quiz/dist/**/*.js',
     './node_modules/@skillrecordings/player/dist/**/*.js',
     './node_modules/@skillrecordings/skill-lesson/ui/**/*.tsx',
+    './node_modules/@skillrecordings/ui/**/*.tsx',
   ],
   theme: {
     container: {

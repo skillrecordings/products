@@ -15,7 +15,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@skillrecordings/skill-lesson/ui'
+} from '@skillrecordings/ui'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const articles = (await getAllArticles()).filter(

@@ -1,8 +1,8 @@
 import React from 'react'
 import CreateTipForm from 'module-builder/create-tip-form'
 import Layout from 'components/app/layout'
-import {Alert, AlertDescription} from '@skillrecordings/skill-lesson/ui'
-import {AlertTitle} from '@skillrecordings/skill-lesson/ui'
+import {Alert, AlertDescription} from '@skillrecordings/ui'
+import {AlertTitle} from '@skillrecordings/ui'
 import {GrInfo} from 'react-icons/gr'
 
 const NewTip = () => {

@@ -1,25 +1,33 @@
 import React from 'react'
-import {type Module} from '../schemas/module'
-import {type Section as SectionType} from '../schemas/section'
-import {type Lesson as LessonType} from '../schemas/lesson'
+import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {type Section as SectionType} from '@skillrecordings/skill-lesson/schemas/section'
+import {type Lesson as LessonType} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '../ui/accordion'
+} from '../../primitives'
 import {type Scope, createContextScope} from '@radix-ui/react-context'
 import {Primitive} from '@radix-ui/react-primitive'
 import type * as Radix from '@radix-ui/react-primitive'
 import {capitalize, first, isEmpty} from 'lodash'
-import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
+import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
 import Link from 'next/link'
 import pluralize from 'pluralize'
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from '../ui'
-import {type SectionProgress, useModuleProgress} from './module-progress'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../../primitives'
+import {
+  type SectionProgress,
+  useModuleProgress,
+} from '@skillrecordings/skill-lesson/video/module-progress'
 import {CheckIcon, Lock} from 'lucide-react'
-import {createAppAbility} from '../utils/ability'
-import {cn} from '../ui/utils'
+import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import {cn} from '../../utils/cn'
 
 /* -------------------------------------------------------------------------------------------------
  * Collection

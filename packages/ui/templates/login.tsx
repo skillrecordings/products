@@ -3,9 +3,9 @@ import {ClientSafeProvider, signIn} from 'next-auth/react'
 import {useForm} from 'react-hook-form'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
-import {Icon} from '../icons'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import Balancer from 'react-wrap-balancer'
-import {Button, Input, Label} from '../ui'
+import {Button, Input, Label} from '../primitives'
 
 export type LoginTemplateProps = {
   csrfToken: string

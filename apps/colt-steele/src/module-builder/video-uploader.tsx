@@ -3,15 +3,7 @@
 import * as React from 'react'
 import {useFileChange} from './use-file-change'
 import {uploadToS3} from './upload-file'
-import {Button, Input, Label} from '@skillrecordings/skill-lesson/ui'
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@skillrecordings/skill-lesson/ui/form'
+import {Button, Input, Label} from '@skillrecordings/ui'
 
 const VideoUploader = () => {
   const {

@@ -30,7 +30,7 @@ const IMAGE_HOST_DOMAINS = [
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  transpilePackages: ['@skillrecordings/skill-lesson'],
+  transpilePackages: ['@skillrecordings/skill-lesson', '@skillrecordings/ui'],
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   eslint: {ignoreDuringBuilds: true},
   experimental: {scrollRestoration: true},

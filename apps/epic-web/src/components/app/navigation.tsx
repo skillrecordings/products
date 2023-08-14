@@ -19,7 +19,7 @@ import Gravatar from 'react-gravatar'
 import {useSession} from 'next-auth/react'
 import {WorkshopSeriesNavCta} from 'pages/full-stack-workshop-series-vol-1'
 import {useMedia} from 'react-use'
-import {cn} from '@skillrecordings/skill-lesson/ui/utils'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 type NavigationProps = {
   className?: string

@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@skillrecordings/skill-lesson/ui'
+} from '@skillrecordings/ui'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
 import {DatePurchased, Price} from 'purchase-details/purchase-details-template'

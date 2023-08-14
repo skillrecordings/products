@@ -4,7 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import {XIcon} from '@heroicons/react/outline'
 import {Module} from '../schemas/module'
 import toast from 'react-hot-toast'
-import {cn} from '../ui/utils'
+import {cn} from '../utils/cn'
 
 const ResetProgress: React.FC<{
   module: Module
