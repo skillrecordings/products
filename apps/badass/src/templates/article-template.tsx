@@ -42,13 +42,13 @@ const ArticleTemplate: React.FC<
     description || (body && toPlainText(body).substring(0, 157) + '...')
 
   const shareCardUrl =
-    shareCardTitle &&
-    shareCardSubtitle &&
-    `${process.env.NEXT_PUBLIC_URL}/api/og-image/?title=${encodeURI(
-      shareCardTitle,
-    )}&subtitle=${encodeURI(shareCardSubtitle)}${
-      shareCardImage || image ? `&image=${shareCardImage || image}` : ''
-    }`
+    shareCardTitle && shareCardSubtitle
+      ? `${process.env.NEXT_PUBLIC_URL}/api/og-image/?title=${encodeURI(
+          shareCardTitle,
+        )}&subtitle=${encodeURI(shareCardSubtitle)}${
+          shareCardImage || image ? `&image=${shareCardImage || image}` : ''
+        }`
+      : shareCardImage && shareCardImage
 
   const shareCardUrlFallback = `https://badass-ogimage.vercel.app/api/card?title=${title}`
 
