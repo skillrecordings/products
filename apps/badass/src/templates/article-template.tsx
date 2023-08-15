@@ -1,20 +1,20 @@
-import React from "react"
-import cx from "classnames"
-import {PortableText, toPlainText} from "@portabletext/react"
-import {LinkedIn, Twitter} from "@skillrecordings/react"
-import {CalendarIcon} from "@heroicons/react/outline"
-import Markdown from "react-markdown"
-import {useRouter} from "next/router"
-import {format} from "date-fns"
-import JoelHooksHeadshotImage from "../../public/joel-hooks.jpg"
-import PortableTextComponents from "components/portable-text"
-import Layout from "components/layout"
-import Image from "next/legacy/image"
-import {SmallCallToActionForm} from "../components/call-to-action-form"
-import {genericCallToActionContent} from "../components/landing-content"
-import MuxVideo from "@mux/mux-player-react"
-import Balancer from "react-wrap-balancer"
-import type {Article} from "lib/articles"
+import React from 'react'
+import cx from 'classnames'
+import {PortableText, toPlainText} from '@portabletext/react'
+import {LinkedIn, Twitter} from '@skillrecordings/react'
+import {CalendarIcon} from '@heroicons/react/outline'
+import Markdown from 'react-markdown'
+import {useRouter} from 'next/router'
+import {format} from 'date-fns'
+import JoelHooksHeadshotImage from '../../public/joel-hooks.jpg'
+import PortableTextComponents from 'components/portable-text'
+import Layout from 'components/layout'
+import Image from 'next/legacy/image'
+import {SmallCallToActionForm} from '../components/call-to-action-form'
+import {genericCallToActionContent} from '../components/landing-content'
+import MuxVideo from '@mux/mux-player-react'
+import Balancer from 'react-wrap-balancer'
+import type {Article} from 'lib/articles'
 
 type ArticleTemplateProps = {
   article: Article
@@ -39,15 +39,15 @@ const ArticleTemplate: React.FC<
   } = shareCardDetails
 
   const shortDescription =
-    description || (body && toPlainText(body).substring(0, 157) + "...")
+    description || (body && toPlainText(body).substring(0, 157) + '...')
 
   const shareCardUrl =
     shareCardTitle &&
     shareCardSubtitle &&
     `${process.env.NEXT_PUBLIC_URL}/api/og-image/?title=${encodeURI(
-      shareCardTitle
+      shareCardTitle,
     )}&subtitle=${encodeURI(shareCardSubtitle)}${
-      shareCardImage || image ? `&image=${shareCardImage || image}` : ""
+      shareCardImage || image ? `&image=${shareCardImage || image}` : ''
     }`
 
   const shareCardUrlFallback = `https://badass-ogimage.vercel.app/api/card?title=${title}`
@@ -58,7 +58,7 @@ const ArticleTemplate: React.FC<
       meta={{
         title,
         description: shortDescription,
-        type: "article",
+        type: 'article',
         date,
         article: {
           publishedTime: date,
@@ -71,9 +71,9 @@ const ArticleTemplate: React.FC<
     >
       <Header title={title} date={date} image={image} />
       <main>
-        <div className="mx-auto w-full max-w-screen-md">
+        <div className="">
           <div className="px-5 pb-16 pt-10 md:pt-16 lg:px-0">
-            <article className="prose max-w-none sm:prose-lg lg:prose-xl first-letter:float-left first-letter:-mt-0.5 first-letter:pr-3 first-letter:font-expanded first-letter:text-6xl first-letter:text-badass-pink-500 prose-p:text-neutral-200 prose-code:rounded prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-pre:prose-code:bg-transparent sm:prose-code:text-[80%] md:prose-code:text-sm lg:prose-code:text-[78%]">
+            <article className="mx-auto w-full max-w-screen-md prose sm:prose-lg lg:prose-xl first-letter:float-left first-letter:-mt-0.5 first-letter:pr-3 first-letter:font-expanded first-letter:text-6xl first-letter:text-badass-pink-500 prose-p:text-neutral-200 prose-code:rounded prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-pre:prose-code:bg-transparent sm:prose-code:text-[80%] md:prose-code:text-sm lg:prose-code:text-[78%]">
               {video ? (
                 <>
                   <MuxVideo
@@ -83,21 +83,25 @@ const ArticleTemplate: React.FC<
                 </>
               ) : null}
               <PortableText value={body} components={PortableTextComponents} />
-              {video ? (
-                <>
-                  <h2>Full Transcript</h2>
+            </article>
+            <section data-article="">
+              <SmallCallToActionForm content={genericCallToActionContent} />
+            </section>
+            {video?.transcript ? (
+              <section className="w-full max-w-screen-md mx-auto">
+                <h2 className="sm:text-4xl text-2xl font-expanded bg-gradient-to-r from-neutral-500 to-neutral-700/60 bg-clip-text text-transparent sm:pt-32 pt-16 sm:pb-24 pb-16">
+                  Full Transcript
+                </h2>
+                <div className="prose sm:prose-base prose-sm prose-p:text-neutral-300 max-w-3xl md:px-10 px-5">
                   <PortableText
                     value={video.transcript}
                     components={PortableTextComponents}
                   />
-                </>
-              ) : null}
-            </article>
+                </div>
+              </section>
+            ) : null}
           </div>
         </div>
-        <section data-article="">
-          <SmallCallToActionForm content={genericCallToActionContent} />
-        </section>
       </main>
     </Layout>
   )
@@ -121,29 +125,29 @@ const Header: React.FC<
       )}
       <div
         className={cx(
-          "flex flex-col items-center",
-          image && "w-full md:w-1/2 md:items-start"
+          'flex flex-col items-center',
+          image && 'w-full md:w-1/2 md:items-start',
         )}
       >
         <h1
           className={cx(
-            "w-full max-w-4xl font-heading text-4xl leading-tight sm:text-5xl sm:leading-tight",
-            image ? "pt-4 text-center md:text-left" : "pt-16 text-center"
+            'w-full max-w-4xl font-heading text-4xl leading-tight sm:text-5xl sm:leading-tight',
+            image ? 'pt-4 text-center md:text-left' : 'pt-16 text-center',
           )}
         >
           <Balancer>{title}</Balancer>
         </h1>
         <div
           className={cx(
-            "mt-12 flex w-full items-center gap-7 sm:gap-10",
-            image ? "justify-center md:justify-start" : "justify-center"
+            'mt-12 flex w-full items-center gap-7 sm:gap-10',
+            image ? 'justify-center md:justify-start' : 'justify-center',
           )}
         >
           <Author />
           <time dateTime={date} className="flex items-center">
-            <CalendarIcon aria-hidden="true" className="w-5" />{" "}
+            <CalendarIcon aria-hidden="true" className="w-5" />{' '}
             <span className="sr-only">published on </span>
-            <span className="pl-1">{format(new Date(date), "dd MMMM, y")}</span>
+            <span className="pl-1">{format(new Date(date), 'dd MMMM, y')}</span>
           </time>
         </div>
       </div>
@@ -155,7 +159,7 @@ const Share: React.FC<React.PropsWithChildren<{title: string}>> = ({title}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const className =
-    "p-3 hover:bg-white hover:bg-opacity-10 transition rounded-full focus-visible:ring-white"
+    'p-3 hover:bg-white hover:bg-opacity-10 transition rounded-full focus-visible:ring-white'
   const message = `${title} by @jhooks`
 
   return (

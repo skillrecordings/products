@@ -8,6 +8,7 @@ import {type Article, getAllArticles} from '../lib/articles'
 import Image from 'next/legacy/image'
 import Stars from '../../public/assets/stars-1@2x.png'
 import {Author} from 'templates/article-template'
+import Balancer from 'react-wrap-balancer'
 
 const meta = {
   title: 'Badass Articles',
@@ -58,7 +59,7 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
                           className="group block"
                         >
                           <h2 className="group-hover:underline md:text-4xl sm:text-3xl text-xl font-heading">
-                            {title}
+                            <Balancer>{title}</Balancer>
                           </h2>
                         </Link>
                         <div className="flex items-center pt-5 gap-8">
