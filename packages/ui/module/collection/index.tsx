@@ -73,6 +73,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       children,
       checkIconRenderer = () => (
         <CheckIcon
+          className="relative z-10"
           width={16}
           opacity={0.7}
           data-check-icon=""
@@ -94,7 +95,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
               <div
                 data-progress={sectionPercentComplete?.toString()}
                 aria-hidden="true"
-                className={`absolute pointer-events-none left-0 bottom-0 h-0.5 bg-foreground/20`}
+                className={`absolute pointer-events-none left-0 bottom-0 h-full bg-muted/50`}
                 style={{width: `${sectionPercentComplete}%`}}
               />
             )}
@@ -318,11 +319,13 @@ const Section = React.forwardRef<SectionElement, SectionProps>(
               ref={forwardedRef}
               {...sectionProps}
               className={cn(
-                "font-semibold overflow-hidden data-[state='closed']:rounded data-[state='open']:rounded-t data-[check-icon]:w-4 [&>[data-check-icon]]:ml-auto [&>[data-check-icon]]:mr-2  bg-card px-5 py-4",
+                "relative font-semibold overflow-hidden data-[state='closed']:rounded data-[state='open']:rounded-t data-[check-icon]:w-4 [&>[data-check-icon]]:ml-auto [&>[data-check-icon]]:mr-2 bg-card px-5 py-4",
                 sectionProps.className,
               )}
             >
-              {section.title} {!hasLessons && '(coming soon)'}
+              <span className="relative z-10">
+                {section.title} {!hasLessons && '(coming soon)'}
+              </span>
               {isSectionInProgress && sectionProgressRenderer(sectionProgress)}
             </AccordionTrigger>
             {/* <AccordionTrigger disabled={!hasLessons} className="relative">
