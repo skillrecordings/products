@@ -55,6 +55,12 @@ export default {
       type: 'github',
     },
     {
+      name: 'duration',
+      title: 'Duration',
+      type: 'number',
+      readOnly: true,
+    },
+    {
       name: 'resources',
       title: 'Resources',
       description: 'Exercises, Sections, or Explainers in the Module',
