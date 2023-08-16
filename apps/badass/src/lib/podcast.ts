@@ -101,6 +101,22 @@ export async function getAllPodcastSeasons() {
   )
 }
 
+export async function getAllPodcastEpisodes() {
+  return sanityClient.fetch(
+    groq`*[_type == "podcastEpisode"][]{
+      _updatedAt,
+      'publishedAt': schedule.publish,
+      title,
+      description,
+      duration,
+      summary,
+      'slug': slug.current,
+      simplecastId,
+      'coverArtUrl': coverArt.asset->url
+    }`,
+  )
+}
+
 export async function getPodcastSeason(podcastSeasonSlug: string) {
   return sanityClient.fetch(
     groq`*[_type == "podcastSeason" && slug.current == $slug][0]{
