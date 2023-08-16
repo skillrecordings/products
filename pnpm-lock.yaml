@@ -561,6 +561,7 @@ importers:
       '@types/speakingurl': ^13.0.3
       '@types/uuid': ^9.0.2
       '@vercel/og': ^0.5.4
+      autoprefixer: ^10.4.12
       aws-sdk: 2.1197.0
       axios: ^1.4.0
       classnames: ^2.3.1
@@ -677,6 +678,7 @@ importers:
       '@types/speakingurl': 13.0.3
       '@types/uuid': 9.0.2
       '@vercel/og': 0.5.4
+      autoprefixer: 10.4.12_postcss@8.4.23
       aws-sdk: 2.1197.0
       axios: 1.4.0
       classnames: 2.3.1

@@ -20,28 +20,36 @@ const AccordionItem = React.forwardRef<
 ))
 AccordionItem.displayName = 'AccordionItem'
 
+const AccordionHeader = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Header>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Header>
+>(({className, children, ...props}, ref) => (
+  <AccordionPrimitive.Header ref={ref} className="flex" {...props}>
+    {children}
+  </AccordionPrimitive.Header>
+))
+AccordionHeader.displayName = AccordionPrimitive.Header.displayName
+
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
 >(({className, children, ...props}, ref) => (
-  <AccordionPrimitive.Header className="flex">
-    <AccordionPrimitive.Trigger
-      ref={ref}
-      className={cn(
-        'flex flex-1 items-center justify-between transition-all [&[data-state=open]>[data-chevron]]:rotate-180',
-        className,
-      )}
-      {...props}
-    >
-      {children}
-      {!props.disabled && (
-        <ChevronDownIcon
-          data-chevron=""
-          className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"
-        />
-      )}
-    </AccordionPrimitive.Trigger>
-  </AccordionPrimitive.Header>
+  <AccordionPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      'flex flex-1 items-center justify-between transition-all [&[data-state=open]>[data-chevron]]:rotate-180',
+      className,
+    )}
+    {...props}
+  >
+    {children}
+    {!props.disabled && (
+      <ChevronDownIcon
+        data-chevron=""
+        className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"
+      />
+    )}
+  </AccordionPrimitive.Trigger>
 ))
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName
 
@@ -62,4 +70,10 @@ const AccordionContent = React.forwardRef<
 ))
 AccordionContent.displayName = AccordionPrimitive.Content.displayName
 
-export {Accordion, AccordionItem, AccordionTrigger, AccordionContent}
+export {
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionTrigger,
+  AccordionContent,
+}

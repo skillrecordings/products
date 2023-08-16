@@ -5,6 +5,7 @@ import {type Lesson as LessonType} from '@skillrecordings/skill-lesson/schemas/l
 import {
   Accordion,
   AccordionContent,
+  AccordionHeader,
   AccordionItem,
   AccordionTrigger,
 } from '../../primitives'
@@ -28,6 +29,7 @@ import {
 import {CheckIcon, Lock} from 'lucide-react'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {cn} from '../../utils/cn'
+import * as AccordionPrimitive from '@radix-ui/react-accordion'
 
 /* -------------------------------------------------------------------------------------------------
  * Collection
@@ -272,9 +274,11 @@ Sections.displayName = SECTIONS_NAME
 
 const SECTION_NAME = 'Section'
 
-type SectionElement = React.ElementRef<typeof Primitive.li>
-type PrimitiveLiProps = Radix.ComponentPropsWithoutRef<typeof Primitive.li>
-interface SectionProps extends PrimitiveLiProps {
+type SectionElement = React.ElementRef<typeof AccordionPrimitive.Trigger>
+type TriggerProps = Radix.ComponentPropsWithoutRef<
+  typeof AccordionPrimitive.Trigger
+>
+interface SectionProps extends TriggerProps {
   section?: SectionType
 }
 
@@ -295,7 +299,6 @@ const Section = React.forwardRef<SectionElement, SectionProps>(
     )
     const isSectionInProgress = Boolean(sectionProgress?.completedLessonCount)
 
-    const sectionPercentComplete = sectionProgress?.percentComplete
     const hasLessons = Boolean(section.lessons)
     const childrenWithProps = React.Children.map(children, (child) => {
       if (React.isValidElement<LessonsProps>(child)) {
@@ -308,23 +311,32 @@ const Section = React.forwardRef<SectionElement, SectionProps>(
     })
 
     return (
-      <Primitive.li
-        className="[&>div>h3>button]:font-semibold [&>div>h3>button]:overflow-hidden [&>div>h3>button[data-state='closed']]:rounded [&>div>h3>button[data-state='open']]:rounded-t [&>div>h3>button]:bg-card [&>div>h3>button>[data-check-icon]]:w-4 [&>div>h3>button>[data-check-icon]]:ml-auto [&>div>h3>button>[data-check-icon]]:mr-1 [&>div>h3>button>span]:text-sm [&>div>h3>button>span]:mr-5 [&>div>h3>button>span]:font-normal bg-card rounded [&>div]:border-b-0 [&>div>h3>button]:px-5 [&>div>h3>button]:py-4 [&>div>div>ul]:pb-4 [&>div>div>ul]:mt-0.5"
-        {...sectionProps}
-        ref={forwardedRef}
-      >
-        <AccordionItem value={section.slug}>
-          <AccordionTrigger disabled={!hasLessons} className="relative">
-            {section.title} {!hasLessons && '(coming soon)'}
-            {isSectionInProgress && sectionProgressRenderer(sectionProgress)}
-          </AccordionTrigger>
+      <li>
+        <AccordionItem className="border-none" value={section.slug}>
+          <AccordionHeader>
+            <AccordionTrigger
+              ref={forwardedRef}
+              {...sectionProps}
+              className={cn(
+                "font-semibold overflow-hidden data-[state='closed']:rounded data-[state='open']:rounded-t data-[check-icon]:w-4 [&>[data-check-icon]]:ml-auto [&>[data-check-icon]]:mr-2  bg-card px-5 py-4",
+                sectionProps.className,
+              )}
+            >
+              {section.title} {!hasLessons && '(coming soon)'}
+              {isSectionInProgress && sectionProgressRenderer(sectionProgress)}
+            </AccordionTrigger>
+            {/* <AccordionTrigger disabled={!hasLessons} className="relative">
+              {section.title} {!hasLessons && '(coming soon)'}
+              {isSectionInProgress && sectionProgressRenderer(sectionProgress)}
+            </AccordionTrigger> */}
+          </AccordionHeader>
           {hasLessons && (
             <AccordionContent>
               {children ? childrenWithProps : <Lessons section={section} />}
             </AccordionContent>
           )}
         </AccordionItem>
-      </Primitive.li>
+      </li>
     )
   },
 )
@@ -352,10 +364,10 @@ const Lessons = React.forwardRef<LessonsElement, LessonsProps>(
     return (
       <Primitive.ul
         ref={forwardedRef}
-        className={cn(lessonsProps.className)}
+        className={cn('bg-muted py-2 rounded-b', lessonsProps.className)}
         {...lessonsProps}
       >
-        {lessons?.map((lesson, index) => {
+        {lessons.map((lesson, index) => {
           const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement<LessonProps>(child)) {
               return React.cloneElement(child, {
@@ -388,6 +400,7 @@ Lessons.displayName = LESSONS_NAME
 const LESSON_NAME = 'Lesson'
 
 type LessonElement = React.ElementRef<typeof Primitive.li>
+type PrimitiveLiProps = Radix.ComponentPropsWithoutRef<typeof Primitive.li>
 interface LessonProps extends PrimitiveLiProps {
   lesson?: LessonType
   section?: SectionType

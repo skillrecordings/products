@@ -27,6 +27,7 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
+  AccordionHeader,
   AccordionTrigger,
 } from './accordion'
 import {
@@ -72,6 +73,7 @@ export {
   Accordion,
   AccordionContent,
   AccordionItem,
+  AccordionHeader,
   AccordionTrigger,
   Tooltip,
   TooltipTrigger,

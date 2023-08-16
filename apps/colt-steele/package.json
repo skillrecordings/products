@@ -120,7 +120,8 @@
     "tailwindcss-radix": "^2.8.0",
     "uuid": "^9.0.0",
     "yup": "^0.32.11",
-    "zod": "^3.21.4"
+    "zod": "^3.21.4",
+    "autoprefixer": "^10.4.12"
   },
   "devDependencies": {
     "@next/env": "^12.2.2",
