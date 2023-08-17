@@ -1,11 +1,18 @@
 import * as React from 'react'
 import {GetStaticProps} from 'next'
 import Link from 'next/link'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
+import {twMerge} from 'tailwind-merge'
+import cx from 'classnames'
+
+// import Image from 'next/legacy/image'
 import Layout from 'components/layout'
 import Icon, {IconNames} from 'components/icons'
+import {useKeenSlider} from 'keen-slider/react'
+import 'keen-slider/keen-slider.min.css'
 
 import {type CaseStudy, getAllCaseStudies} from 'lib/case-studies'
+import {type Podcast, getAllPodcastEpisodes} from 'lib/podcast'
 import ContentSection from 'components/content-section'
 import Card from 'components/card'
 import {
@@ -21,9 +28,12 @@ import ImageSecretSauce from '../../public/assets/sauce@2x.png'
 // import ImageSecretSauceDrop from '../../public/assets/secret-sauce-drop@2x.png'
 import ImageStars1 from '../../public/assets/stars-1-new@2x.png'
 import ImageStars2 from '../../public/assets/stars-2-new@2x.png'
+import {divide} from 'lodash'
+import {ButtonSecondary} from 'components/buttons'
 
 type LandingPageProps = {
   caseStudies: CaseStudy[]
+  podcasts: Podcast[]
 }
 
 const Header: React.FC<React.PropsWithChildren<any>> = ({content}) => {
@@ -110,6 +120,344 @@ const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
     </section>
   )
 }
+
+type CaseStudiesSectionProps = {
+  caseStudies: CaseStudy[]
+}
+
+type PodcastsSectionProps = {
+  podcasts: Podcast[]
+}
+
+const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
+  caseStudies,
+}) => {
+  return (
+    <ContentSection
+      title="badass case studies"
+      subtitle="A Deep Dive into our Processes"
+    >
+      <div className="grid lg:grid-cols-2 w-full gap-4 mt-[4.5rem]">
+        {caseStudies.map((caseStudy) => {
+          return (
+            <Card
+              key={caseStudy._id}
+              imageUrl={caseStudy.cardImage}
+              title={caseStudy.title}
+              subtitle={caseStudy.partnerName}
+              slug={caseStudy.slug}
+              type="caseStudy"
+            />
+          )
+        })}
+      </div>
+    </ContentSection>
+  )
+}
+
+const otherProducts = [
+  {
+    title: 'egghead.io',
+    url: 'https://egghead.io/',
+  },
+  {
+    title: 'TotalTypeScript.com',
+    url: 'https://www.totaltypescript.com/',
+  },
+  {
+    title: 'TestingJavaScript.com',
+    url: 'https://testingjavascript.com/',
+  },
+  {
+    title: 'ProTailwind.com',
+    url: 'https://www.protailwind.com/',
+  },
+]
+
+const OtherProductsSection = () => {
+  return (
+    <ContentSection title="other product's we've shipped" className="mt-9">
+      <ul className="grid md:grid-cols-2 gap-x-3 mt-2">
+        {otherProducts.map((item) => {
+          return (
+            <li key={item.title}>
+              <Link
+                href={item.url}
+                className="flex justify-between items-center h-[57px] md:h-[80px] border-b border-[#5a5a5a] hover:text-badass-green-500 duration-150 text-2xl font-bold px-2"
+              >
+                {item.title}
+                <Icon
+                  aria-hidden="true"
+                  name="arrow-top-right"
+                  className="w-8 h-8 shrink-0"
+                />
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </ContentSection>
+  )
+}
+
+const Arrow = (props: {
+  disabled: boolean
+  left?: boolean
+  onClick: (e: any) => void
+}) => {
+  return (
+    <Icon
+      aria-hidden="true"
+      name={props.left ? 'arrow-left-circled' : 'arrow-right-circled'}
+      className={cx('w-16 h-16 shrink-0 text-white opacity-70 duration-150', {
+        'cursor-default': props.disabled,
+        'hover:opacity-100 cursor-pointer': !props.disabled,
+      })}
+      onClick={props.onClick}
+    />
+  )
+}
+
+const PodcastsSectionControls = ({
+  loaded,
+  instanceRef,
+  currentSlide,
+  slidesPerView,
+}: any) => {
+  return (
+    <div className="flex flex-col justify-end">
+      <ButtonSecondary href="/podcast/course-builders" size="middle">
+        All Episodes
+      </ButtonSecondary>
+      <div className="mt-14 flex items-center space-x-2">
+        {loaded && instanceRef.current && (
+          <>
+            <Arrow
+              left
+              onClick={(e: any) =>
+                e.stopPropagation() || instanceRef.current?.prev()
+              }
+              disabled={currentSlide === 0}
+            />
+
+            <Arrow
+              onClick={(e: any) =>
+                e.stopPropagation() || instanceRef.current?.next()
+              }
+              disabled={
+                currentSlide ===
+                instanceRef.current.track.details.slides.length - slidesPerView
+              }
+            />
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
+  console.log({podcasts})
+  const [currentSlide, setCurrentSlide] = React.useState(0)
+  const [loaded, setLoaded] = React.useState(false)
+  const SLIDES_PER_VIEW = 4
+  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
+    initial: 0,
+    slideChanged(slider) {
+      setCurrentSlide(slider.track.details.rel)
+    },
+    created() {
+      setLoaded(true)
+    },
+    slides: {
+      perView: SLIDES_PER_VIEW + 0.2,
+      spacing: 16,
+    },
+  })
+  return (
+    <ContentSection
+      title="Badass Podcast"
+      subtitle="Tune in to our Badass Course Builders Podcast"
+      className="mt-36"
+      subtitleClassName="md:max-w-[34rem]"
+      renderAdditionalComponent={() => (
+        <PodcastsSectionControls
+          loaded={loaded}
+          instanceRef={instanceRef}
+          currentSlide={currentSlide}
+          slidesPerView={SLIDES_PER_VIEW}
+        />
+      )}
+    >
+      <div className="mt-20">
+        <div ref={sliderRef} className="keen-slider">
+          {podcasts.map((podcast) => {
+            return (
+              <div key={podcast.slug} className="keen-slider__slide">
+                <Link href="http://manutd.ru" className="block group">
+                  <div className="aspect-square rounded-2xl overflow-hidden relative">
+                    <Image
+                      src={podcast.coverArtUrl}
+                      sizes="(max-width: 768px) 300px, 322px"
+                      fill={true}
+                      alt={podcast.title}
+                    />
+                  </div>
+                  <h3 className="mt-6 text-2xl leading-[1.333] font-sans font-bold group-hover:text-badass-green-500 duration-150">
+                    {podcast.title}
+                  </h3>
+                </Link>
+                123
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </ContentSection>
+  )
+}
+
+const LandingPage: React.FC<LandingPageProps> = ({caseStudies, podcasts}) => {
+  return (
+    <Layout className="overflow-hidden">
+      <Header content={headerContent} />
+      <main>
+        <SecretSauceSection content={secretSauceContent} />
+        <section className="flex flex-col items-center justify-center py-16 px-5">
+          <CaseStudiesSection caseStudies={caseStudies} />
+          <OtherProductsSection />
+          <PodcastsSection podcasts={podcasts} />
+        </section>
+        <CallToActionForm content={genericCallToActionContent} />
+      </main>
+    </Layout>
+  )
+}
+
+export default LandingPage
+
+export const getStaticProps: GetStaticProps = async () => {
+  const caseStudies = await getAllCaseStudies()
+  const podcasts = await getAllPodcastEpisodes()
+
+  return {
+    props: {
+      caseStudies,
+      podcasts,
+    },
+    revalidate: 10,
+  }
+}
+
+// const ProjectsSection: React.FC<
+//   React.PropsWithChildren<ProjectsSectionSection>
+// > = ({content, caseStudies}) => {
+//   return (
+//     <section className="flex flex-col items-center justify-center py-16 px-5">
+//       {/* <div
+//         className="font-symbol sm:pb-32 pb-24 text-2xl sm:scale-90 scale-75"
+//         aria-hidden="true"
+//       >
+//         <span className="inline-block rotate-180 text-badass-gray-300">!</span>{' '}
+//         <span className="text-badass-yellow-300 text-4xl">*</span>{' '}
+//         <span className=" text-badass-gray-300">!</span>
+//       </div> */}
+//       <CaseStudiesSection caseStudies={caseStudies} />
+//       <OtherProductsSection />
+//       <PodcastsSection />
+//       <div className="my-40">**************************</div>
+//       <h2 className=" text-badass-pink-300 sm:text-2xl text-xl">
+//         {content.caption}
+//       </h2>
+//       <ul className="grid lg:grid-cols-2 grid-cols-1 place-items-center pt-16 gap-5 max-w-4xl w-full">
+//         {content.items.map((project: any) => {
+//           const {title, byline, image, caseStudyUrl, instructor, instructors} =
+//             project
+//           return (
+//             <li
+//               key={title}
+//               className="relative bg-gradient-to-tr from-white/5 to-white/0  border border-white/10 flex flex-col w-full h-full rounded"
+//             >
+//               <div className="flex items-center gap-3 sm:p-10 p-10 sm:justify-start justify-center">
+//                 <div className="flex-shrink-0">{image}</div>
+//                 <h3>
+//                   <Link
+//                     href={`https://${title}`}
+//                     passHref
+//                     target="_blank"
+//                     rel="noopener noreferrer"
+//                     className="font-sans font-semibold sm:text-2xl text-xl block hover:underline"
+//                   >
+//                     {title}
+//                   </Link>
+//                 </h3>
+//               </div>
+//               {/* <p className="text-badass-gray-300">{byline}</p> */}
+//               <div className="sm:p-10 p-5 pb-8 w-full gap-5 text-sm flex sm:flex-row flex-col items-center sm:justify-between justify-center absolute">
+//                 <div className="">
+//                   {instructor && (
+//                     <div className="flex items-center gap-2.5 sm:justify-start justify-center">
+//                       <Image
+//                         src={instructor.avatar}
+//                         width={45}
+//                         height={45}
+//                         alt={instructor.name}
+//                         className="rounded-full bg-black"
+//                       />
+//                       {instructor.name}
+//                     </div>
+//                   )}
+//                   {instructors && (
+//                     <div className="flex items-center gap-2.5 text-left">
+//                       <div className="flex items-center -space-x-3">
+//                         {instructors.map((instructor: any) => {
+//                           return (
+//                             <div
+//                               key={instructor.name}
+//                               className="border-2 rounded-full flex items-center justify-center border-black"
+//                             >
+//                               <Image
+//                                 src={instructor.avatar}
+//                                 width={45}
+//                                 height={45}
+//                                 alt={instructor.name}
+//                                 className="rounded-full"
+//                               />
+//                               {/* {instructor.name} */}
+//                             </div>
+//                           )
+//                         })}
+//                       </div>
+//                       {instructors.map((instructor: any, i: number) => {
+//                         return `${instructor.name} ${i % 2 ? '' : ' & '}`
+//                       })}
+//                     </div>
+//                   )}
+//                 </div>
+//                 {project.caseStudyUrl && (
+//                   <div className="flex-shrink-0 flex">
+//                     <a
+//                       href={project.caseStudyUrl}
+//                       target="_blank"
+//                       rel="noopener noreferrer"
+//                       className="opacity-80 hover:opacity-100 transition hover:text-badass-yellow-300"
+//                     >
+//                       case study <span aria-hidden="true">↗︎</span>
+//                     </a>
+//                   </div>
+//                 )}
+//               </div>
+//             </li>
+//           )
+//         })}
+//       </ul>
+//       <p className="font-script sm:text-4xl text-3xl sm:scale-110 text-badass-yellow-300 pt-28">
+//         {content.byline}
+//       </p>
+//     </section>
+//   )
+// }
+
 // const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
 //   content,
 // }) => {
@@ -171,214 +519,11 @@ const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
 //   )
 // }
 
-type ProjectsSectionSection = {
-  content: any
-  caseStudies: CaseStudy[]
-}
+// type ProjectsSectionSection = {
+//   content: any
+//   caseStudies: CaseStudy[]
+// }
 
-type CaseStudiesSection = {
-  caseStudies: CaseStudy[]
-}
-
-const CaseStudiesSection: React.FC<CaseStudiesSection> = ({caseStudies}) => {
-  return (
-    <ContentSection
-      title="badass case studies"
-      subtitle="A Deep Dive into our Processes"
-    >
-      <div className="grid lg:grid-cols-2 w-full gap-4 mt-[4.5rem]">
-        {caseStudies.map((caseStudy) => {
-          return (
-            <Card
-              key={caseStudy._id}
-              imageUrl={caseStudy.cardImage}
-              title={caseStudy.title}
-              subtitle={caseStudy.partnerName}
-              slug={caseStudy.slug}
-              type="caseStudy"
-            />
-          )
-        })}
-      </div>
-    </ContentSection>
-  )
-}
-
-const otherProducts = [
-  {
-    title: 'egghead.io',
-    url: 'https://egghead.io/',
-  },
-  {
-    title: 'TotalTypeScript.com',
-    url: 'https://www.totaltypescript.com/',
-  },
-  {
-    title: 'TestingJavaScript.com',
-    url: 'https://testingjavascript.com/',
-  },
-  {
-    title: 'ProTailwind.com',
-    url: 'https://www.protailwind.com/',
-  },
-]
-
-const OtherProductsSection: React.FC<any> = ({}) => {
-  return (
-    <ContentSection title="other product's we've shipped" className="mt-9">
-      <ul className="grid md:grid-cols-2 gap-x-3 mt-2">
-        {otherProducts.map((item) => {
-          return (
-            <li key={item.title}>
-              <Link
-                href={item.url}
-                className="flex justify-between items-center h-[57px] md:h-[80px] border-b border-[#5a5a5a] hover:text-badass-green-500 duration-150 text-2xl font-bold px-2"
-              >
-                {item.title}
-                <Icon
-                  aria-hidden="true"
-                  name={'arrow-top-right'}
-                  className="w-8 h-8 shrink-0"
-                />
-              </Link>
-            </li>
-          )
-        })}
-      </ul>
-    </ContentSection>
-  )
-}
-
-const ProjectsSection: React.FC<
-  React.PropsWithChildren<ProjectsSectionSection>
-> = ({content, caseStudies}) => {
-  return (
-    <section className="flex flex-col items-center justify-center py-16 px-5">
-      {/* <div
-        className="font-symbol sm:pb-32 pb-24 text-2xl sm:scale-90 scale-75"
-        aria-hidden="true"
-      >
-        <span className="inline-block rotate-180 text-badass-gray-300">!</span>{' '}
-        <span className="text-badass-yellow-300 text-4xl">*</span>{' '}
-        <span className=" text-badass-gray-300">!</span>
-      </div> */}
-      <CaseStudiesSection caseStudies={caseStudies} />
-      <OtherProductsSection />
-      <div className="my-40">**************************</div>
-      <h2 className=" text-badass-pink-300 sm:text-2xl text-xl">
-        {content.caption}
-      </h2>
-      <ul className="grid lg:grid-cols-2 grid-cols-1 place-items-center pt-16 gap-5 max-w-4xl w-full">
-        {content.items.map((project: any) => {
-          const {title, byline, image, caseStudyUrl, instructor, instructors} =
-            project
-          return (
-            <li
-              key={title}
-              className="relative bg-gradient-to-tr from-white/5 to-white/0  border border-white/10 flex flex-col w-full h-full rounded"
-            >
-              <div className="flex items-center gap-3 sm:p-10 p-10 sm:justify-start justify-center">
-                <div className="flex-shrink-0">{image}</div>
-                <h3>
-                  <Link
-                    href={`https://${title}`}
-                    passHref
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-sans font-semibold sm:text-2xl text-xl block hover:underline"
-                  >
-                    {title}
-                  </Link>
-                </h3>
-              </div>
-              {/* <p className="text-badass-gray-300">{byline}</p> */}
-              <div className="sm:p-10 p-5 pb-8 w-full gap-5 text-sm flex sm:flex-row flex-col items-center sm:justify-between justify-center absolute">
-                <div className="">
-                  {instructor && (
-                    <div className="flex items-center gap-2.5 sm:justify-start justify-center">
-                      <Image
-                        src={instructor.avatar}
-                        width={45}
-                        height={45}
-                        alt={instructor.name}
-                        className="rounded-full bg-black"
-                      />
-                      {instructor.name}
-                    </div>
-                  )}
-                  {instructors && (
-                    <div className="flex items-center gap-2.5 text-left">
-                      <div className="flex items-center -space-x-3">
-                        {instructors.map((instructor: any) => {
-                          return (
-                            <div
-                              key={instructor.name}
-                              className="border-2 rounded-full flex items-center justify-center border-black"
-                            >
-                              <Image
-                                src={instructor.avatar}
-                                width={45}
-                                height={45}
-                                alt={instructor.name}
-                                className="rounded-full"
-                              />
-                              {/* {instructor.name} */}
-                            </div>
-                          )
-                        })}
-                      </div>
-                      {instructors.map((instructor: any, i: number) => {
-                        return `${instructor.name} ${i % 2 ? '' : ' & '}`
-                      })}
-                    </div>
-                  )}
-                </div>
-                {project.caseStudyUrl && (
-                  <div className="flex-shrink-0 flex">
-                    <a
-                      href={project.caseStudyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="opacity-80 hover:opacity-100 transition hover:text-badass-yellow-300"
-                    >
-                      case study <span aria-hidden="true">↗︎</span>
-                    </a>
-                  </div>
-                )}
-              </div>
-            </li>
-          )
-        })}
-      </ul>
-      <p className="font-script sm:text-4xl text-3xl sm:scale-110 text-badass-yellow-300 pt-28">
-        {content.byline}
-      </p>
-    </section>
-  )
-}
-
-const LandingPage: React.FC<LandingPageProps> = ({caseStudies}) => {
-  return (
-    <Layout className="overflow-hidden">
-      <Header content={headerContent} />
-      <main>
-        <SecretSauceSection content={secretSauceContent} />
-        <ProjectsSection content={projects} caseStudies={caseStudies} />
-        <CallToActionForm content={genericCallToActionContent} />
-      </main>
-    </Layout>
-  )
-}
-
-export default LandingPage
-
-export const getStaticProps: GetStaticProps = async () => {
-  const caseStudies = await getAllCaseStudies()
-
-  return {
-    props: {
-      caseStudies,
-    },
-    revalidate: 10,
-  }
+{
+  /* <ProjectsSection content={projects} caseStudies={caseStudies} /> */
 }
