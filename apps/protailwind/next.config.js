@@ -27,7 +27,13 @@ const nextConfig = {
     domains: IMAGE_HOST_DOMAINS,
   },
   async redirects() {
-    return []
+    return [
+      {
+        source: '/chat',
+        destination: 'https://discord.gg/qckypvcwjc',
+        permanent: true,
+      },
+    ]
   },
 }
 
