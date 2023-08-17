@@ -39,6 +39,9 @@ const checkForAnyAvailableUpgrades = async ({
 
   const {availableUpgradesForProduct} = getSdk()
   const validPurchases = getValidPurchases(purchases)
+  const productIdsAlreadyPurchased = validPurchases.map(
+    (purchase) => purchase.productId,
+  )
 
   const availableUpgrades = await availableUpgradesForProduct(
     validPurchases,
@@ -46,10 +49,18 @@ const checkForAnyAvailableUpgrades = async ({
   )
 
   return find(validPurchases, (purchase) => {
+    // find potential upgrade opportunities based on existing purchases
     const upgradeProductIds = availableUpgrades.map(
       (upgrade) => upgrade.upgradableFrom.id,
     )
-    return upgradeProductIds.includes(purchase.productId)
+
+    // filter out any productIds that have already been purchased
+    const upgradeProductIdsNotAlreadyPurchased = upgradeProductIds.filter(
+      (upgradeProductId) =>
+        !productIdsAlreadyPurchased.includes(upgradeProductId),
+    )
+
+    return upgradeProductIdsNotAlreadyPurchased.includes(purchase.productId)
   })?.id
 }
 
