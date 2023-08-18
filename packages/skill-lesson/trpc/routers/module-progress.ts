@@ -88,6 +88,10 @@ export const moduleProgressRouter = router({
           }
         })
 
+      const hasEmptySection = module.sections.some((section: Section) => {
+        return !section.lessons
+      })
+
       return ModuleProgressSchema.parse({
         moduleId: module._id,
         nextLesson:
@@ -98,9 +102,11 @@ export const moduleProgressRouter = router({
           moduleProgressSections.find(
             (section: {sectionCompleted: boolean}) => !section.sectionCompleted,
           ) || null,
-        moduleCompleted: moduleProgressLessons.every(
-          (lesson: {lessonCompleted: boolean}) => lesson.lessonCompleted,
-        ),
+        moduleCompleted: hasEmptySection
+          ? false // if there are empty sections, we consider the module incomplete
+          : moduleProgressLessons.every(
+              (lesson: {lessonCompleted: boolean}) => lesson.lessonCompleted,
+            ),
         percentComplete: Math.round(
           (moduleLessonProgress.length / allModuleLessons.length) * 100,
         ),

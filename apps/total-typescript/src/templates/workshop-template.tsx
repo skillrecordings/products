@@ -258,12 +258,14 @@ const Header: React.FC<{
                         )}/[module]/[section]/[lesson]`,
                         query: {
                           module: slug.current,
-                          section: isModuleInProgress
-                            ? nextSection?.slug
-                            : firstSection.slug,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
+                          section:
+                            isModuleInProgress && nextSection
+                              ? nextSection?.slug
+                              : firstSection.slug,
+                          lesson:
+                            isModuleInProgress && nextLesson
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
                         },
                       }
                     : {
@@ -272,9 +274,10 @@ const Header: React.FC<{
                         )}/[module]/[lesson]`,
                         query: {
                           module: slug.current,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
+                          lesson:
+                            isModuleInProgress && nextLesson
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
                         },
                       }
                 }
