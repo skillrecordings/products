@@ -12,7 +12,7 @@ import {add} from 'date-fns'
 import {
   getCalculatedPrice,
   stripe,
-  getFixedDiscountForUpgrade,
+  getFixedDiscountForIndividualUpgrade,
 } from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
 import {NextApiRequest} from 'next'
@@ -270,21 +270,22 @@ export async function stripeCheckout({
         const purchaseWillBeRestricted = merchantCoupon?.type === 'ppp'
         appliedPPPStripeCouponId = merchantCoupon?.identifier
 
-        const fixedDiscountForUpgrade = await getFixedDiscountForUpgrade({
-          purchaseToBeUpgraded: upgradeFromPurchase,
-          productToBePurchased: loadedProduct,
-          purchaseWillBeRestricted,
-        })
+        const fixedDiscountForIndividualUpgrade =
+          await getFixedDiscountForIndividualUpgrade({
+            purchaseToBeUpgraded: upgradeFromPurchase,
+            productToBePurchased: loadedProduct,
+            purchaseWillBeRestricted,
+          })
 
         const fullPrice = loadedProduct.prices?.[0].unitAmount.toNumber()
         const calculatedPrice = getCalculatedPrice({
           unitPrice: fullPrice,
           percentOfDiscount: stripeCouponPercentOff || 0,
           quantity: 1,
-          fixedDiscount: fixedDiscountForUpgrade,
+          fixedDiscount: fixedDiscountForIndividualUpgrade,
         })
 
-        if (fixedDiscountForUpgrade > 0) {
+        if (fixedDiscountForIndividualUpgrade > 0) {
           const couponName = buildCouponName(
             upgradeFromPurchase,
             productId,

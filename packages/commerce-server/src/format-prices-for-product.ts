@@ -31,7 +31,7 @@ type FormatPricesForProductOptions = {
   userId?: string
 }
 
-export async function getFixedDiscountForUpgrade({
+export async function getFixedDiscountForIndividualUpgrade({
   purchaseToBeUpgraded,
   productToBePurchased,
   purchaseWillBeRestricted,
@@ -166,12 +166,22 @@ export async function formatPricesForProduct(
       purchaseToBeUpgraded: upgradeFromPurchase,
     })
 
-  const fixedDiscountForUpgrade = await getFixedDiscountForUpgrade({
-    purchaseToBeUpgraded: upgradeFromPurchase,
-    productToBePurchased: product,
-    purchaseWillBeRestricted: appliedCouponType === 'ppp',
-    ctx,
-  })
+  const fireFixedDiscountForIndividualUpgrade = async () => {
+    return await getFixedDiscountForIndividualUpgrade({
+      purchaseToBeUpgraded: upgradeFromPurchase,
+      productToBePurchased: product,
+      purchaseWillBeRestricted: appliedCouponType === 'ppp',
+      ctx,
+    })
+  }
+
+  // Right now, we have fixed discounts to apply to upgrades for indvidual
+  // purchases. If it is a bulk purchase, a fixed discount shouldn't be
+  // applied. It's likely this will change in the future, so this allows us
+  // to handle both and distinguishes them as two different flows.
+  const fixedDiscountForUpgrade = result.bulk
+    ? 0
+    : await fireFixedDiscountForIndividualUpgrade()
 
   const unitPrice: number = price.unitAmount.toNumber()
   const fullPrice: number = unitPrice * quantity - fixedDiscountForUpgrade
