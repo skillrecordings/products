@@ -431,6 +431,7 @@ export function getSdk(
       bulk?: boolean
       checkoutSessionId: string
       appliedPPPStripeCouponId: string | undefined
+      upgradedFromPurchaseId: string | undefined
       country?: string
     }) {
       const {
@@ -445,6 +446,7 @@ export function getSdk(
         quantity = 1,
         checkoutSessionId,
         appliedPPPStripeCouponId,
+        upgradedFromPurchaseId,
         country,
       } = options
       // we are using uuids so we can generate this!
@@ -571,6 +573,7 @@ export function getSdk(
           bulkCouponId,
           merchantSessionId,
           country,
+          upgradedFromId: upgradedFromPurchaseId || null,
         },
       })
 
