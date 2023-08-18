@@ -18,3 +18,14 @@ export const getNextSection = ({
   const nextSection = sections?.[nextSectionIndex] || null
   return nextSection
 }
+
+export const isNextSectionEmpty = ({
+  module,
+  currentSection,
+}: {
+  module: Module
+  currentSection?: Section
+}) => {
+  const nextSection = getNextSection({module, currentSection})
+  return nextSection && !nextSection.lessons?.length
+}

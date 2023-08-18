@@ -101,6 +101,10 @@ export const LessonList: React.FC<{
               >
                 <ul data-sections="">
                   {sections.map((section) => {
+                    if (!section.lessons?.length) {
+                      return null
+                    }
+
                     return (
                       <Section
                         lessonResourceRenderer={lessonResourceRenderer}

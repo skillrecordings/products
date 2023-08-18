@@ -30,6 +30,7 @@ import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import pluralize from 'pluralize'
 import {portableTextComponents} from '../portable-text'
 import Spinner from '../spinner'
+import {isNextSectionEmpty} from '../utils/get-next-section'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{dismissable?: boolean}>
@@ -257,6 +258,10 @@ const FinishedOverlay = () => {
   const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
   const shareButtonStyles =
     'bg-gray-800 flex items-center gap-2 rounded px-3 py-2 hover:bg-gray-700'
+  const isNextSectionWIP = isNextSectionEmpty({
+    module,
+    currentSection: section,
+  })
 
   return (
     <OverlayWrapper data-video-overlay="finished">
@@ -264,7 +269,9 @@ const FinishedOverlay = () => {
         <h2>
           <span>Great job!</span>{' '}
           <Balancer>
-            You've finished "{module.title}" {module.moduleType}.
+            {isNextSectionWIP
+              ? `You've finished all currently available lessons in this workshop. We'll keep you posted when next section is released!`
+              : `You've finished "${module.title}" ${module.moduleType}.`}
           </Balancer>
         </h2>
         <p data-title="">Share with your friends</p>

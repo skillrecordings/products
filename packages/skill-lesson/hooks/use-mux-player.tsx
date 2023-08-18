@@ -16,7 +16,7 @@ import {
   setPreferredTextTrack,
   usePlayerPrefs,
 } from './use-player-prefs'
-import {getNextSection} from '../utils/get-next-section'
+import {getNextSection, isNextSectionEmpty} from '../utils/get-next-section'
 import {type AppAbility, createAppAbility} from '../utils/ability'
 import {type Lesson} from '../schemas/lesson'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
@@ -122,6 +122,8 @@ export const VideoProvider: React.FC<
         currentSection: section,
       })
     : null
+
+  const isNextSectionWip = isNextSectionEmpty({module, currentSection: section})
 
   const {
     data: abilityRules,
@@ -264,7 +266,7 @@ export const VideoProvider: React.FC<
     displayOverlay,
     nextExercise,
     nextExerciseStatus,
-    nextSection,
+    nextSection: isNextSectionWip ? null : nextSection,
     video: videoResource,
     path,
     canShowVideo,
