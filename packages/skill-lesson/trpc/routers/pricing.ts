@@ -43,24 +43,30 @@ const checkForAnyAvailableUpgrades = async ({
     (purchase) => purchase.productId,
   )
 
-  const availableUpgrades = await availableUpgradesForProduct(
+  const potentialUpgrades = await availableUpgradesForProduct(
     validPurchases,
     productId,
   )
 
+  type AvailableUpgrade = Awaited<
+    ReturnType<typeof availableUpgradesForProduct>
+  >[0]
+  // filter out potential upgrades that have already been purchased
+  const availableUpgrades = potentialUpgrades.filter<AvailableUpgrade>(
+    (
+      availableUpgrade: AvailableUpgrade,
+    ): availableUpgrade is AvailableUpgrade => {
+      return !productIdsAlreadyPurchased.includes(
+        availableUpgrade.upgradableTo.id,
+      )
+    },
+  )
+
   return find(validPurchases, (purchase) => {
-    // find potential upgrade opportunities based on existing purchases
     const upgradeProductIds = availableUpgrades.map(
       (upgrade) => upgrade.upgradableFrom.id,
     )
-
-    // filter out any productIds that have already been purchased
-    const upgradeProductIdsNotAlreadyPurchased = upgradeProductIds.filter(
-      (upgradeProductId) =>
-        !productIdsAlreadyPurchased.includes(upgradeProductId),
-    )
-
-    return upgradeProductIdsNotAlreadyPurchased.includes(purchase.productId)
+    return upgradeProductIds.includes(purchase.productId)
   })?.id
 }
 
