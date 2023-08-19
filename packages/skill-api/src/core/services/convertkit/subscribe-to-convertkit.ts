@@ -37,6 +37,7 @@ export async function subscribeToConvertkit({
     })
 
     const fullSubscriber = await fetchSubscriber(subscriber.id.toString())
+    const fullSubscriberWithoutEmptyFields = filterNullFields(fullSubscriber)
 
     if (fields) {
       await setConvertkitSubscriberFields(fullSubscriber, fields)
@@ -45,11 +46,29 @@ export async function subscribeToConvertkit({
     return {
       status: 200,
       body: subscriber,
-      cookies: getConvertkitSubscriberCookie(fullSubscriber),
+      cookies: getConvertkitSubscriberCookie(fullSubscriberWithoutEmptyFields),
     }
   } catch (error) {
     return {
       status: 200,
     }
   }
+}
+
+type Subscriber = Record<string, any>
+
+function filterNullFields(obj: Subscriber): Subscriber {
+  const filteredObj: Subscriber = {}
+
+  for (const key in obj) {
+    if (obj[key] !== null) {
+      if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+        filteredObj[key] = filterNullFields(obj[key] as Subscriber) // Recursively filter nested objects
+      } else {
+        filteredObj[key] = obj[key]
+      }
+    }
+  }
+
+  return filteredObj
 }
