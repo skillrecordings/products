@@ -14,6 +14,12 @@ export default {
       type: 'string',
     },
     {
+      name: 'interviewee',
+      title: 'Interviewee name',
+      type: 'string',
+      required: true,
+    },
+    {
       name: 'season',
       description: 'Choose podcast seasons(s) to publish this episode in',
       type: 'array',

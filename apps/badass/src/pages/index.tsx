@@ -13,6 +13,7 @@ import 'keen-slider/keen-slider.min.css'
 
 import {type CaseStudy, getAllCaseStudies} from 'lib/case-studies'
 import {type Podcast, getAllPodcastEpisodes} from 'lib/podcast'
+import {type Article, getAllArticles} from 'lib/articles'
 import ContentSection from 'components/content-section'
 import Card from 'components/card'
 import {
@@ -34,6 +35,7 @@ import {ButtonSecondary} from 'components/buttons'
 type LandingPageProps = {
   caseStudies: CaseStudy[]
   podcasts: Podcast[]
+  articles: Article[]
 }
 
 const Header: React.FC<React.PropsWithChildren<any>> = ({content}) => {
@@ -127,6 +129,10 @@ type CaseStudiesSectionProps = {
 
 type PodcastsSectionProps = {
   podcasts: Podcast[]
+}
+
+type ArticlesSectionProps = {
+  articles: Article[]
 }
 
 const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
@@ -257,7 +263,6 @@ const PodcastsSectionControls = ({
 }
 
 const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
-  console.log({podcasts})
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const [loaded, setLoaded] = React.useState(false)
   const SLIDES_PER_VIEW = 4
@@ -294,8 +299,16 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
           {podcasts.map((podcast) => {
             return (
               <div key={podcast.slug} className="keen-slider__slide">
-                <Link href="http://manutd.ru" className="block group">
-                  <div className="aspect-square rounded-2xl overflow-hidden relative">
+                <Link
+                  href={`/podcast/course-builders/${podcast.slug}`}
+                  className="block group"
+                >
+                  <div className="aspect-square rounded-2xl overflow-hidden relative before:absolute before:inset-0 before:z-10 before:opacity-0 before:bg-black group-hover:before:opacity-70 before:duration-150">
+                    <Icon
+                      aria-hidden="true"
+                      name="play"
+                      className="w-[3.375rem] h-[3.375rem] text-white z-20 absolute inset-0 m-auto opacity-0 group-hover:opacity-100 duration-150"
+                    />
                     <Image
                       src={podcast.coverArtUrl}
                       sizes="(max-width: 768px) 300px, 322px"
@@ -307,7 +320,9 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
                     {podcast.title}
                   </h3>
                 </Link>
-                123
+                <p className="font-mono uppercase text-base tracking-[0.16px] leading-[2.18] text-badass-gray-300 mt-2">
+                  With {podcast.interviewee}
+                </p>
               </div>
             )
           })}
@@ -317,7 +332,25 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
   )
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({caseStudies, podcasts}) => {
+const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
+  console.log({articles})
+  return (
+    <ContentSection
+      title="Badass Articles"
+      subtitle="Our Key Lessons Learned Along the Way"
+      className="mt-36"
+      renderAdditionalComponent={() => <div>123</div>}
+    >
+      <div className="mt-20">articles</div>
+    </ContentSection>
+  )
+}
+
+const LandingPage: React.FC<LandingPageProps> = ({
+  caseStudies,
+  podcasts,
+  articles,
+}) => {
   return (
     <Layout className="overflow-hidden">
       <Header content={headerContent} />
@@ -327,6 +360,7 @@ const LandingPage: React.FC<LandingPageProps> = ({caseStudies, podcasts}) => {
           <CaseStudiesSection caseStudies={caseStudies} />
           <OtherProductsSection />
           <PodcastsSection podcasts={podcasts} />
+          <ArticlesSection articles={articles} />
         </section>
         <CallToActionForm content={genericCallToActionContent} />
       </main>
@@ -339,11 +373,13 @@ export default LandingPage
 export const getStaticProps: GetStaticProps = async () => {
   const caseStudies = await getAllCaseStudies()
   const podcasts = await getAllPodcastEpisodes()
+  const articles = await getAllArticles()
 
   return {
     props: {
       caseStudies,
       podcasts,
+      articles,
     },
     revalidate: 10,
   }

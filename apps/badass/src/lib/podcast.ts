@@ -3,6 +3,7 @@ import {sanityClient} from '../utils/sanity-client'
 
 export type Podcast = {
   title: string
+  interviewee: string
   slug: string
   description: string
   seasons: PodcastSeason[]
@@ -58,6 +59,7 @@ export async function getPodcast(podcastSlug: string) {
     'episodes': episodes[]->{
      'publishedAt': schedule.publish,
       title,
+      interviewee,
       description,
       duration,
       summary,
@@ -90,6 +92,7 @@ export async function getAllPodcastSeasons() {
       _updatedAt,
       'publishedAt': schedule.publish,
       title,
+      interviewee,
       description,
       duration,
       summary,
@@ -107,6 +110,7 @@ export async function getAllPodcastEpisodes() {
       _updatedAt,
       'publishedAt': schedule.publish,
       title,
+      interviewee,
       description,
       duration,
       summary,
@@ -134,6 +138,7 @@ export async function getPodcastSeason(podcastSeasonSlug: string) {
       _updatedAt,
       'publishedAt': schedule.publish,
       title,
+      interviewee,
       description,
       duration,
       summary,
@@ -152,6 +157,7 @@ export async function getPodcastEpisode(podcastEpisodeSlug: string) {
   return await sanityClient.fetch(
     groq`*[_type == "podcastEpisode" && slug.current == $slug][0]{
     title,
+    interviewee,
     description,
     duration,
     summary,
