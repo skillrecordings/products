@@ -8,10 +8,10 @@ import Balancer from 'react-wrap-balancer'
 import * as Dialog from '@radix-ui/react-dialog'
 import CertificateForm from './certificate-form'
 
-const WorkshopCertificate: React.FC<{workshop: Module}> = ({workshop}) => {
+const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
-      slug: workshop.slug.current,
+      slug: module.slug.current,
     })
   const isModuleCompleted = moduleProgress?.moduleCompleted
 
@@ -29,9 +29,9 @@ const WorkshopCertificate: React.FC<{workshop: Module}> = ({workshop}) => {
               src="https://res.cloudinary.com/total-typescript/image/upload/v1676981840/module-certificate-thumbnail_aom2tr.png"
               fill
             />
-            {workshop.image && (
+            {module.image && (
               <Image
-                src={workshop.image}
+                src={module.image}
                 alt=""
                 aria-hidden="true"
                 width={110}
@@ -57,7 +57,7 @@ const WorkshopCertificate: React.FC<{workshop: Module}> = ({workshop}) => {
                   Get Certificate
                 </div>
               </Dialog.Trigger>
-              <CertificateForm workshop={workshop} />
+              <CertificateForm module={module} />
             </>
           ) : (
             <div
@@ -83,4 +83,4 @@ const WorkshopCertificate: React.FC<{workshop: Module}> = ({workshop}) => {
   ) : null
 }
 
-export default WorkshopCertificate
+export default ModuleCertificate
