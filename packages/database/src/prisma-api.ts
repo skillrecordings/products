@@ -279,7 +279,6 @@ export function getSdk(
     async toggleLessonProgressForUser({
       userId,
       lessonId,
-      lessonSlug,
     }: {
       userId: string
       lessonId?: string
@@ -288,7 +287,6 @@ export function getSdk(
       let lessonProgress = await ctx.prisma.lessonProgress.findFirst({
         where: {
           userId,
-          lessonSlug,
           lessonId,
         },
       })
@@ -318,7 +316,6 @@ export function getSdk(
           data: {
             userId,
             lessonId,
-            lessonSlug,
             completedAt: now,
             updatedAt: now,
           },
