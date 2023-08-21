@@ -24,7 +24,7 @@ import * as process from 'process'
 import {trpc} from '../trpc/trpc.client'
 import Balancer from 'react-wrap-balancer'
 import {useModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
-import WorkshopCertificate from '@/certificate/workshop-certificate'
+import ModuleCertificate from '@/certificate/module-certificate'
 import {capitalize} from 'lodash'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import Testimonials from '@/testimonials'
@@ -138,7 +138,7 @@ const WorkshopTemplate: React.FC<{
             </>
           )}
           <ResetProgress module={workshop} />
-          <WorkshopCertificate workshop={workshop} />
+          <ModuleCertificate module={workshop} />
         </div>
       </main>
     </Layout>
