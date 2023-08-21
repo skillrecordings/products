@@ -110,10 +110,10 @@
     [data-lesson-title] {
       @apply flex items-center px-4 py-2.5 font-semibold leading-tight hover:bg-gray-800/50;
       [data-check-icon] {
-        @apply -ml-1.5 mr-[7.5px] h-4 w-4 flex-shrink-0 text-cyan-400;
+        @apply -ml-1.5 mr-[8px] h-4 w-4 flex-shrink-0 text-cyan-400;
       }
       [data-index] {
-        @apply pr-3 text-sm opacity-50;
+        @apply -ml-1.5 mr-[8px] w-[16px] text-sm opacity-50;
       }
     }
     ul {
