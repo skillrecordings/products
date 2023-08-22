@@ -95,7 +95,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
               <div
                 data-progress={sectionPercentComplete?.toString()}
                 aria-hidden="true"
-                className={`absolute pointer-events-none left-0 bottom-0 h-full bg-muted/50`}
+                className={`absolute pointer-events-none left-0 bottom-0 h-full bg-background/75`}
                 style={{width: `${sectionPercentComplete}%`}}
               />
             )}
@@ -367,8 +367,11 @@ const Lessons = React.forwardRef<LessonsElement, LessonsProps>(
     return (
       <Primitive.ul
         ref={forwardedRef}
-        className={cn('bg-muted py-2 rounded-b', lessonsProps.className)}
         {...lessonsProps}
+        className={cn(
+          'bg-background border-x border-b border-card py-2 rounded-b',
+          lessonsProps.className,
+        )}
       >
         {lessons.map((lesson, index) => {
           const childrenWithProps = React.Children.map(children, (child) => {
@@ -468,10 +471,9 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
           className={cn(
             `[&>div]:flex [&>div]:py-2 [&>div]:items-center [&>div]:gap-2 text-base [&>div>span]:text-xs [&>div>span]:opacity-60 font-medium flex flex-col`,
             {
-              'before:content-["continue"] before:mt-2 before:-mb-1 before:text-xs before:font-semibold before:pl-11 before:text-primary before:uppercase before:block':
+              'before:content-["continue"] before:mt-2 before:-mb-1 before:text-xs before:font-semibold before:pl-10 before:text-primary before:uppercase before:block':
                 showContinue,
-              '[&>div]:px-5 [&>div]:opacity-80 hover:[&>div]:opacity-100':
-                section,
+              '[&>div]:px-4': section,
               'bg-card [&>div]:px-2.5': !section,
             },
             lessonProps.className,
