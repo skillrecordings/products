@@ -117,6 +117,23 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
     )
 
     const hasSections = sections && sections.length > 0
+    const onlyHasSingleSection = hasSections && sections.length === 1
+    const firstSection = first<SectionType>(sections)
+
+    const childrenForSingleSection = React.Children.map(children, (child) => {
+      if (React.isValidElement<LessonsProps>(child)) {
+        if (child.type === Lessons) {
+          return React.cloneElement(child, {
+            section: firstSection,
+          })
+        }
+        if (child.type === Sections) {
+          return null
+        }
+        return child
+      }
+      return null
+    })
 
     React.useEffect(() => {
       nextSection?.slug && setOpenedSections([nextSection?.slug])
@@ -134,12 +151,13 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       >
         <TooltipProvider>
           {children ? (
-            children
+            <>{onlyHasSingleSection ? childrenForSingleSection : children}</>
           ) : (
             <>
               <Metadata />
-              {hasSections && <Sections />}
+              {hasSections && !onlyHasSingleSection && <Sections />}
               {!hasSections && lessons && <Lessons />}
+              {onlyHasSingleSection && <Lessons section={firstSection} />}
             </>
           )}
         </TooltipProvider>
@@ -181,10 +199,17 @@ const Metadata = React.forwardRef<MetadataElement, MetadataProps>(
       }
     }
 
+    const firstSection = first<SectionType>(sections)
+
     return (
       <Primitive.div {...sectionsProps} ref={forwardedRef}>
         {children}
-        {sections && sections.length > 0 ? (
+        {sections && sections.length === 1 && firstSection?.lessons ? (
+          <p className={className}>
+            {firstSection.lessons.length || 0}{' '}
+            {capitalize(pluralize('lesson', firstSection.lessons.length))}
+          </p>
+        ) : sections && sections.length > 1 ? (
           <Tooltip>
             <TooltipTrigger asChild>
               <button
@@ -301,6 +326,7 @@ const Section = React.forwardRef<SectionElement, SectionProps>(
     const isSectionInProgress = Boolean(sectionProgress?.completedLessonCount)
 
     const hasLessons = Boolean(section.lessons)
+
     const childrenWithProps = React.Children.map(children, (child) => {
       if (React.isValidElement<LessonsProps>(child)) {
         return React.cloneElement(child, {
@@ -328,10 +354,6 @@ const Section = React.forwardRef<SectionElement, SectionProps>(
               </span>
               {isSectionInProgress && sectionProgressRenderer(sectionProgress)}
             </AccordionTrigger>
-            {/* <AccordionTrigger disabled={!hasLessons} className="relative">
-              {section.title} {!hasLessons && '(coming soon)'}
-              {isSectionInProgress && sectionProgressRenderer(sectionProgress)}
-            </AccordionTrigger> */}
           </AccordionHeader>
           {hasLessons && (
             <AccordionContent>
@@ -469,7 +491,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
       <Primitive.li asChild {...lessonProps} ref={forwardedRef}>
         <Link
           className={cn(
-            `[&>div]:flex [&>div]:py-2 [&>div]:items-center [&>div]:gap-2 text-base [&>div>span]:text-xs [&>div>span]:opacity-60 font-medium flex flex-col`,
+            `[&>div]:flex [&>div]:py-2 [&>div]:items-baseline [&>div]:gap-2 text-base [&>div>span]:text-xs [&>div>span]:opacity-60 font-medium flex flex-col`,
             {
               'before:content-["continue"] before:mt-2 before:-mb-1 before:text-xs before:font-semibold before:pl-10 before:text-primary before:uppercase before:block':
                 showContinue,
@@ -505,7 +527,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
             ) : (
               lockIconRenderer()
             )}
-            {lesson.title}
+            <div>{lesson.title}</div>
           </div>
         </Link>
       </Primitive.li>
