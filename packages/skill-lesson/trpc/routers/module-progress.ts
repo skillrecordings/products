@@ -6,7 +6,7 @@ import {LessonProgress, prisma} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
 import {ModuleProgressSchema} from '../../video/module-progress'
 import {getModule} from '../../lib/modules'
-import {uniqBy, sortBy, isNull} from 'lodash'
+import {uniqBy, sortBy} from 'lodash'
 
 export const moduleProgressRouter = router({
   bySlug: publicProcedure
@@ -39,8 +39,7 @@ export const moduleProgressRouter = router({
         },
       })
 
-      const sortedModuleLessonProgress =
-        sortByLessonSlugNotNull(moduleLessonProgress)
+      const sortedModuleLessonProgress = sortByUpdatedAt(moduleLessonProgress)
 
       const filteredModuleLessonProgress = uniqBy(
         sortedModuleLessonProgress,
@@ -129,6 +128,6 @@ export const moduleProgressRouter = router({
     }),
 })
 
-function sortByLessonSlugNotNull(lessons: LessonProgress[]) {
-  return sortBy(lessons, [(lesson) => isNull(lesson.lessonSlug), 'updatedAt'])
+function sortByUpdatedAt(lessons: LessonProgress[]) {
+  return sortBy(lessons, ['updatedAt']).reverse()
 }
