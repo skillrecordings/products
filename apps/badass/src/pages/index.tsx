@@ -151,8 +151,9 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
               imageUrl={caseStudy.cardImage}
               title={caseStudy.title}
               subtitle={caseStudy.partnerName}
-              slug={caseStudy.slug}
+              href={`/partners/${caseStudy.slug}`}
               type="caseStudy"
+              ctaText="Read Case Study"
             />
           )
         })}
@@ -333,15 +334,77 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
 }
 
 const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
-  console.log({articles})
+  const mainArticle = articles.find((article) => article.slug === 'the-process')
+  const restArticles = articles
+    .filter((article) => article.slug !== 'the-process')
+    .splice(0, 4)
+  console.log({restArticles})
   return (
     <ContentSection
       title="Badass Articles"
       subtitle="Our Key Lessons Learned Along the Way"
       className="mt-36"
-      renderAdditionalComponent={() => <div>123</div>}
+      renderAdditionalComponent={() => (
+        <ButtonSecondary href="/articles" size="middle">
+          All Articles
+        </ButtonSecondary>
+      )}
     >
-      <div className="mt-20">articles</div>
+      <div className="mt-20 gap-y-8 md:gap-y-0 md:gap-x-4 flex flex-col md:flex-row items-center">
+        <div className="w-1/2">
+          {mainArticle && (
+            <Card
+              key={mainArticle._id}
+              imageUrl={mainArticle.image}
+              title={mainArticle.title}
+              subtitle={mainArticle?.description || ''}
+              href={`/articles/${mainArticle.slug}`}
+              type="article"
+              ctaText="ReadArticle"
+              authorName="Joel Hooks"
+              authorAvatarUrl="/joel-hooks.jpg"
+              className="bg-[#C5330B] hover:bg-[#C5330B]"
+            />
+          )}
+        </div>
+        <div className="w-1/2">
+          <ul>
+            {restArticles.map((article) => {
+              return (
+                <li className="px-2 py-6 border-b border-[#5a5a5a]">
+                  <div className="group flex">
+                    <div className="grow">
+                      <h3 className="text-2xl leading-[1.333] font-bold">
+                        {article.title}
+                      </h3>
+                    </div>
+                    <ButtonSecondary
+                      href={`/articles/${article.slug}`}
+                      size="middle"
+                      className="shrink-0 ml-12"
+                    >
+                      Read Article
+                    </ButtonSecondary>
+                  </div>
+                  <div className="flex space-x-4 items-center mt-4">
+                    <div className="rounded-full overflow-hidden">
+                      <Image
+                        src="/joel-hooks.jpg"
+                        alt="Joel Hooks"
+                        width={40}
+                        height={40}
+                      />
+                    </div>
+                    <div className="text-white opacity-80 uppercase font-mono tracking-[0.16px]">
+                      Joel Hooks
+                    </div>
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      </div>
     </ContentSection>
   )
 }
@@ -356,7 +419,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
       <Header content={headerContent} />
       <main>
         <SecretSauceSection content={secretSauceContent} />
-        <section className="flex flex-col items-center justify-center py-16 px-5">
+        <section className="flex flex-col items-center justify-center py-16">
           <CaseStudiesSection caseStudies={caseStudies} />
           <OtherProductsSection />
           <PodcastsSection podcasts={podcasts} />
