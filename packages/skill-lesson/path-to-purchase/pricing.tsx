@@ -162,9 +162,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     }
   }
 
-  const upgradedProductPrice = formattedPrice?.upgradedProduct
-    ? getUnitPrice(formattedPrice)
-    : 0
+  const fixedDiscount = formattedPrice?.fixedDiscountForUpgrade || 0
 
   const [isBuyingMoreSeats, setIsBuyingMoreSeats] = React.useState(false)
 
@@ -207,10 +205,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               )}
               {formattedPrice?.upgradeFromPurchaseId &&
                 !isRestrictedUpgrade &&
-                upgradedProductPrice > 0 && (
+                fixedDiscount > 0 && (
                   <div data-byline="">
-                    {`${formatUsd(upgradedProductPrice).dollars}.${
-                      formatUsd(upgradedProductPrice).cents
+                    {`${formatUsd(fixedDiscount).dollars}.${
+                      formatUsd(fixedDiscount).cents
                     } credit applied`}
                   </div>
                 )}

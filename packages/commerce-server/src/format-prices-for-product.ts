@@ -238,6 +238,7 @@ export async function formatPricesForProduct(
     quantity,
     unitPrice,
     fullPrice,
+    fixedDiscountForUpgrade,
     calculatedPrice: getCalculatedPrice({
       unitPrice,
       percentOfDiscount,
