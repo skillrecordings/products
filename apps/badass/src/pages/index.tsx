@@ -28,6 +28,7 @@ import ImageSecretSauce from '../../public/assets/sauce@2x.png'
 // import ImageSecretSauce from '../../public/assets/secret-sauce@2x.png'
 // import ImageSecretSauceDrop from '../../public/assets/secret-sauce-drop@2x.png'
 import ImageStars1 from '../../public/assets/stars-1-new@2x.png'
+import ImageStars1Mobile from '../../public/assets/stars-1-new-mobile@2x.png'
 import ImageStars2 from '../../public/assets/stars-2-new@2x.png'
 import {divide} from 'lodash'
 import {ButtonSecondary} from 'components/buttons'
@@ -40,9 +41,9 @@ type LandingPageProps = {
 
 const Header: React.FC<React.PropsWithChildren<any>> = ({content}) => {
   return (
-    <header className="py-5">
+    <header className="pt-8 md:pb-7 md:pt-20">
       <div className="container">
-        <div className="flex md:flex-row flex-col-reverse items-center justify-between md:text-left text-center gap-4">
+        <div className="flex md:flex-row flex-col items-center justify-between md:text-left text-center gap-4">
           <div className="flex items-center justify-center max-w-[660px] w-full">
             <Image
               src={ImageLevelUp}
@@ -56,13 +57,13 @@ const Header: React.FC<React.PropsWithChildren<any>> = ({content}) => {
             />
           </div>
           <div className="w-full flex flex-col md:items-start items-center">
-            <h3 className="font-condensed text-badass-pink-500 sm:text-[1.75rem]">
+            <h3 className="font-condensed text-badass-pink-500 text-[1.75rem]">
               {content.caption}
             </h3>
-            <h1 className="font-heading text-[2rem] md:text-[2.5rem] lg:text-[3rem] xl:text-[3.5rem] leading-[1.14] mt-10">
+            <h1 className="font-heading text-[2rem] md:text-[2.5rem] lg:text-[3rem] xl:text-[3.5rem] leading-tight md:leading-[1.14] mt-6 md:mt-10">
               {content.heading}
             </h1>
-            <p className="pt-5 text-white/70 text-xl leading-[1.75] mt-3">
+            <p className="text-white/70 font-medium text-lg md:text-xl leading-[1.777] md:leading-[1.75] mt-4 md:mt-8">
               {content.byline}
             </p>
           </div>
@@ -76,27 +77,29 @@ const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
   content,
 }) => {
   return (
-    <section className="pt-40">
+    <section className="pt-14 md:pt-40">
       <div className="container">
         <div className="relative flex flex-col items-center justify-center text-center">
-          <Image
-            loading="eager"
-            src={ImageSecretSauce}
-            placeholder="blur"
-            width={660}
-            height={660}
-            quality={100}
-            alt="a dripping bottle of badass secret sauce"
-            aria-hidden="true"
-          />
-          <div className="relative -top-48">
+          <div className="w-[360px] md:w-[660px]">
+            <Image
+              loading="eager"
+              src={ImageSecretSauce}
+              placeholder="blur"
+              width={660}
+              height={660}
+              quality={100}
+              alt="a dripping bottle of badass secret sauce"
+              aria-hidden="true"
+            />
+          </div>
+          <div className="relative -top-4 md:-top-48">
             <h3 className="font-condensed text-badass-yellow-300 text-[1.75rem] leading-[1.28]">
               {content.caption}
             </h3>
-            <h2 className="lg:max-w-4xl max-w-2xl font-heading text-[2rem] mt-9">
+            <h2 className="md:max-w-4xl max-w-2xl font-heading text-2xl leading-[1.333] md:leading-tight md:text-[2rem] mt-7 md:mt-9">
               {content.heading}
             </h2>
-            <div className="absolute -left-28">
+            <div className="absolute md:-left-28">
               <Image
                 src={ImageStars1}
                 width={209}
@@ -104,9 +107,19 @@ const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
                 alt="stars"
                 aria-hidden="true"
                 loading="eager"
+                className="hidden md:block"
+              />
+              <Image
+                src={ImageStars1Mobile}
+                width={102}
+                height={99}
+                alt="stars"
+                aria-hidden="true"
+                loading="eager"
+                className="md:hidden"
               />
             </div>
-            <div className="absolute -right-28 -bottom-24">
+            <div className="absolute right-0 -bottom-16 md:-right-28 md:-bottom-24">
               <Image
                 loading="eager"
                 src={ImageStars2}
@@ -143,7 +156,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
       title="badass case studies"
       subtitle="A Deep Dive into our Processes"
     >
-      <div className="grid lg:grid-cols-2 w-full gap-4 mt-[4.5rem]">
+      <div className="grid lg:grid-cols-2 w-full gap-4 mt-8 md:mt-[4.5rem]">
         {caseStudies.map((caseStudy) => {
           return (
             <Card
@@ -190,13 +203,13 @@ const OtherProductsSection = () => {
             <li key={item.title}>
               <Link
                 href={item.url}
-                className="flex justify-between items-center h-[57px] md:h-[80px] border-b border-[#5a5a5a] hover:text-badass-green-500 duration-150 text-2xl font-bold px-2"
+                className="flex justify-between items-center h-[57px] md:h-[80px] border-b border-[#5a5a5a] hover:text-badass-green-500 duration-150 text-lg md:text-2xl font-bold px-2"
               >
                 {item.title}
                 <Icon
                   aria-hidden="true"
                   name="arrow-top-right"
-                  className="w-8 h-8 shrink-0"
+                  className="w-6 md:w-8 h-6 md:h-8 shrink-0"
                 />
               </Link>
             </li>
@@ -236,7 +249,7 @@ const PodcastsSectionControls = ({
       <ButtonSecondary href="/podcast/course-builders" size="middle">
         All Episodes
       </ButtonSecondary>
-      <div className="mt-14 flex items-center space-x-2">
+      <div className="hidden mt-14 md:flex items-center space-x-2">
         {loaded && instanceRef.current && (
           <>
             <Arrow
@@ -263,10 +276,42 @@ const PodcastsSectionControls = ({
   )
 }
 
+const SLIDES_PER_VIEW_MOBILE = 2
+const SLIDES_PER_VIEW_TABLET = 3
+const SLIDES_PER_VIEW_DESKTOP = 4
+
+function calculateActiveSlidesPerView() {
+  if (typeof window === 'undefined') {
+    return null // No window object available (server-side rendering)
+  }
+
+  function updateSlidesPerView() {
+    const viewportWidth = window.innerWidth
+
+    if (viewportWidth < 768) {
+      return SLIDES_PER_VIEW_MOBILE
+    } else if (viewportWidth >= 768 && viewportWidth < 991) {
+      return SLIDES_PER_VIEW_TABLET
+    } else {
+      return SLIDES_PER_VIEW_DESKTOP
+    }
+  }
+
+  // Initial update
+  let activeSlidesPerView = updateSlidesPerView()
+
+  // Attach event listener to update on window resize
+  window.addEventListener('resize', () => {
+    activeSlidesPerView = updateSlidesPerView()
+    console.log(`Active Slides Per View: ${activeSlidesPerView}`)
+  })
+
+  return activeSlidesPerView
+}
+
 const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const [loaded, setLoaded] = React.useState(false)
-  const SLIDES_PER_VIEW = 4
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     initial: 0,
     slideChanged(slider) {
@@ -276,22 +321,31 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
       setLoaded(true)
     },
     slides: {
-      perView: SLIDES_PER_VIEW + 0.2,
-      spacing: 16,
+      perView: SLIDES_PER_VIEW_MOBILE + 0.13,
+      spacing: 8,
+    },
+    breakpoints: {
+      '(min-width: 768px)': {
+        slides: {perView: SLIDES_PER_VIEW_TABLET + 0.2, spacing: 30},
+      },
+      '(min-width: 991px)': {
+        slides: {perView: SLIDES_PER_VIEW_DESKTOP + 0.2, spacing: 30},
+      },
     },
   })
+  const activeSlidesPerView = calculateActiveSlidesPerView()
   return (
     <ContentSection
       title="Badass Podcast"
       subtitle="Tune in to our Badass Course Builders Podcast"
-      className="mt-36"
+      className="mt-16 md:mt-36"
       subtitleClassName="md:max-w-[34rem]"
       renderAdditionalComponent={() => (
         <PodcastsSectionControls
           loaded={loaded}
           instanceRef={instanceRef}
           currentSlide={currentSlide}
-          slidesPerView={SLIDES_PER_VIEW}
+          slidesPerView={activeSlidesPerView}
         />
       )}
     >
@@ -419,7 +473,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
       <Header content={headerContent} />
       <main>
         <SecretSauceSection content={secretSauceContent} />
-        <section className="flex flex-col items-center justify-center py-16">
+        <section className="flex flex-col items-center justify-center py-16 mt-14 md:mt-0">
           <CaseStudiesSection caseStudies={caseStudies} />
           <OtherProductsSection />
           <PodcastsSection podcasts={podcasts} />

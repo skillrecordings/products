@@ -37,7 +37,7 @@ const ContentSection: React.FC<
       {subtitle && (
         <h2
           className={twMerge(
-            'font-heading text-[2.5rem] leading-[1.2] mt-6',
+            'font-heading text-2xl md:text-[2.5rem] leading-[1.333] md:leading-[1.2] mt-4 md:mt-6',
             subtitleClassName,
           )}
         >
