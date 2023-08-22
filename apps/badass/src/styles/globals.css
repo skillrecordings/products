@@ -3,6 +3,7 @@
 @import '~@reach/dialog/styles.css';
 @import './fonts.css';
 @import './mdx-components.css';
+@import './subscribe-form.css';
 
 @tailwind base;
 @tailwind components;
@@ -21,7 +22,7 @@ body {
   @apply antialiased bg-black text-white font-sans;
 }
 
-[data-sr-convertkit-subscribe-form] {
+/* [data-sr-convertkit-subscribe-form] {
   @apply max-w-sm mx-auto;
 
   [data-sr-input] {
@@ -36,10 +37,11 @@ body {
   [data-sr-button][disabled] {
   }
 }
+
 [data-sr-convertkit-subscribe-form='success'] {
 }
 [data-sr-convertkit-subscribe-form='error'] {
-}
+} */
 
 /*
 This will hide the focus indicator if the element receives focus via the mouse,
