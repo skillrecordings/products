@@ -16,33 +16,40 @@ import Link from 'next/link'
 export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
   const purchaseUserTransferId = params?.purchaseUserTransferId as string
   const token = await getToken({req})
-  const {getPurchaseUserTransferById} = getSdk()
+  const {getPurchaseUserTransferById, getUserById} = getSdk()
   const purchaseUserTransfer = await getPurchaseUserTransferById({
     id: purchaseUserTransferId,
   })
 
-  if (!purchaseUserTransfer || !token) {
+  const user = token?.sub ? await getUserById({where: {id: token.sub}}) : null
+
+  if (!purchaseUserTransfer || !user) {
     return {
       notFound: true,
     }
   }
 
+  const signedInAsTargetUser = user.id === purchaseUserTransfer.targetUserId
+
   return {
     props: {
       purchaseUserTransfer:
         convertToSerializeForNextResponse(purchaseUserTransfer),
+      signedInAsTargetUser,
     },
   }
 }
 
 const Welcome = ({
   purchaseUserTransfer,
+  signedInAsTargetUser,
 }: {
   purchaseUserTransfer: PurchaseUserTransfer & {
     purchase: Purchase
     sourceUser: User
     targetUser: User | null
   }
+  signedInAsTargetUser: boolean
 }) => {
   const utils = trpc.useContext()
   const router = useRouter()
@@ -74,25 +81,41 @@ const Welcome = ({
               {data?.sourceUser?.name || data?.sourceUser?.email || ''} to join{' '}
               {process.env.NEXT_PUBLIC_SITE_TITLE}
             </h2>
-            <button
-              onClick={() => {
-                data &&
-                  acceptTransferMutation.mutate({
-                    purchaseUserTransferId: data?.id,
-                  })
-              }}
-              className="w-full rounded bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700"
-              disabled={!data}
-            >
-              accept this transfer
-            </button>
-            <p className="text-center text-xs">
-              By accepting this transfer you are agreeing to the{' '}
-              <Link className="font-semibold hover:underline" href="/privacy">
-                terms and conditions of Total TypeScript
-              </Link>
-              .
-            </p>
+            {signedInAsTargetUser ? (
+              <>
+                <button
+                  onClick={() => {
+                    data &&
+                      acceptTransferMutation.mutate({
+                        purchaseUserTransferId: data?.id,
+                      })
+                  }}
+                  className="w-full rounded bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700"
+                  disabled={!data}
+                >
+                  accept this transfer
+                </button>
+                <p className="text-center text-xs">
+                  By accepting this transfer you are agreeing to the{' '}
+                  <Link
+                    className="font-semibold hover:underline"
+                    href="/privacy"
+                  >
+                    terms and conditions of Total TypeScript
+                  </Link>
+                  .
+                </p>
+              </>
+            ) : (
+              <p className="text-center">
+                In order to accept this invitation, you must be signed in as{' '}
+                <span className="font-semibold underline">
+                  {data?.targetUser?.email}
+                </span>
+                . Please sign in to the account tied to that email and revisit
+                this URL to accept the transfer.
+              </p>
+            )}
           </div>
         )}
         {data?.transferState === 'COMPLETED' && (
