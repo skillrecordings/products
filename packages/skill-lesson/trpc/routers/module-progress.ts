@@ -2,10 +2,11 @@ import {publicProcedure, router} from '../trpc.server'
 import {z} from 'zod'
 import {Section} from '../../schemas/section'
 import {Lesson} from '../../schemas/lesson'
-import {prisma} from '@skillrecordings/database'
+import {LessonProgress, prisma} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
 import {ModuleProgressSchema} from '../../video/module-progress'
 import {getModule} from '../../lib/modules'
+import {uniqBy, sortBy} from 'lodash'
 
 export const moduleProgressRouter = router({
   bySlug: publicProcedure
@@ -38,12 +39,19 @@ export const moduleProgressRouter = router({
         },
       })
 
+      const sortedModuleLessonProgress = sortByUpdatedAt(moduleLessonProgress)
+
+      const filteredModuleLessonProgress = uniqBy(
+        sortedModuleLessonProgress,
+        'lessonId',
+      )
+
       const moduleProgressLessons = allModuleLessons.map((lesson: Lesson) => {
         return {
           id: lesson._id,
           slug: lesson.slug,
           lessonCompleted: Boolean(
-            moduleLessonProgress.find(
+            filteredModuleLessonProgress.find(
               (progress) =>
                 progress.lessonId === lesson._id && progress.completedAt,
             ),
@@ -119,3 +127,7 @@ export const moduleProgressRouter = router({
       })
     }),
 })
+
+function sortByUpdatedAt(lessons: LessonProgress[]) {
+  return sortBy(lessons, ['updatedAt']).reverse()
+}

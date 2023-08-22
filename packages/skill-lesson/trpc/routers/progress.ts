@@ -69,7 +69,6 @@ export const progressRouter = router({
           return await toggleLessonProgressForUser({
             userId: token.id as string,
             lessonId: lesson._id as string,
-            lessonSlug: input.lessonSlug,
           })
         } else {
           const subscriberCookie = ctx.req.cookies['ck_subscriber']
@@ -93,7 +92,6 @@ export const progressRouter = router({
           return await toggleLessonProgressForUser({
             userId: user.id,
             lessonId: lesson._id as string,
-            lessonSlug: input.lessonSlug,
           })
         }
       } catch (error) {

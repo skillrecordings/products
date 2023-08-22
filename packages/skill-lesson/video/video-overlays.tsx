@@ -223,14 +223,6 @@ const DefaultOverlay = () => {
                   },
                 },
               )
-              // handleContinue({
-              //   router,
-              //   module,
-              //   nextExercise,
-              //   handlePlay,
-              //   path,
-              //   section,
-              // })
             }}
           >
             Complete & Continue{' '}

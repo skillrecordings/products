@@ -17,6 +17,8 @@ import Balancer from 'react-wrap-balancer'
 import Testimonials from '@/testimonials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
+import ModuleCertificate from '@/certificate/module-certificate'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
@@ -50,7 +52,11 @@ const TutorialTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        {tutorial && <ModuleNavigator module={tutorial} />}
+        <div className="flex w-full flex-col lg:max-w-xs">
+          {tutorial && <ModuleNavigator module={tutorial} />}
+          <ResetProgress module={tutorial} />
+          <ModuleCertificate module={tutorial} />
+        </div>
       </main>
     </Layout>
   )
@@ -107,21 +113,24 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                         pathname: '/tutorials/[module]/[section]/[lesson]',
                         query: {
                           module: slug.current,
-                          section: isModuleInProgress
-                            ? nextSection?.slug
-                            : firstSection.slug,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
+                          section:
+                            isModuleInProgress && nextSection
+                              ? nextSection?.slug
+                              : firstSection.slug,
+                          lesson:
+                            isModuleInProgress && nextLesson
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
                         },
                       }
                     : {
                         pathname: '/tutorials/[module]/[lesson]',
                         query: {
                           module: slug.current,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
+                          lesson:
+                            isModuleInProgress && nextLesson
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
                         },
                       }
                 }

@@ -17,7 +17,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     (await serializeMDX(article.body, {
       useShikiTwoslash: true,
       syntaxHighlighterOptions: {
-        theme: 'dark-plus',
+        theme: 'github-dark',
         authorization: process.env.SHIKI_AUTH_TOKEN,
         endpoint: process.env.SHIKI_ENDPOINT,
       },
