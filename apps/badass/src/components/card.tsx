@@ -54,8 +54,9 @@ const Card: React.FC<CardProps> = ({
       <div className="flex flex-col items-center -mt-[80px]">
         <h2
           className={cx(
-            'text-[2rem] font-heading max-w-[340px] text-center leading-tight',
+            'text-2xl md:text-[2rem] font-heading max-w-[340px] text-center leading-[1.333] md:leading-tight',
             {
+              'mt-3 md:mt-0': type === 'caseStudy',
               'mt-4': type === 'article',
             },
           )}
@@ -63,7 +64,7 @@ const Card: React.FC<CardProps> = ({
           {title}
         </h2>
         {type === 'caseStudy' && (
-          <h3 className="text-neutral-200 uppercase font-medium leading-[2.185] font-mono mt-4">
+          <h3 className="text-neutral-200 uppercase font-medium leading-[1.42] md:leading-[2.185] text-sm md:text-base font-mono mt-2 md:mt-4 tracking-[0.14px] md:tracking-[0.16px]">
             with {subtitle}
           </h3>
         )}
@@ -89,7 +90,7 @@ const Card: React.FC<CardProps> = ({
             </h3>
           </>
         )}
-        <ButtonSecondary href={href} size="middle" className="mt-10">
+        <ButtonSecondary href={href} size="middle" className="mt-6 md:mt-10">
           {ctaText}
         </ButtonSecondary>
       </div>
