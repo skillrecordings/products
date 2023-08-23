@@ -519,3 +519,5 @@ const tutorial = {
   ogImage:
     'https://res.cloudinary.com/total-typescript/image/upload/v1683126745/react-with-typescript-tutorial/card_2x_zmrrsv.png',
 }
+
+export { Repl }
