@@ -124,7 +124,7 @@ const Welcome = ({
               Purchase Transfer Completed
             </h1>
             <h2 className="text-center text-xl font-semibold">
-              The license transfer from
+              The license transfer from{' '}
               {data?.sourceUser?.name || data?.sourceUser?.email || ''} has been
               completed.
             </h2>
