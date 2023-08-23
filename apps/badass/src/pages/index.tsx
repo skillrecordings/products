@@ -298,7 +298,6 @@ const calculateActiveSlidesPerView = () => {
   // Attach event listener to update on window resize
   window.addEventListener('resize', () => {
     activeSlidesPerView = updateSlidesPerView()
-    console.log(`Active Slides Per View: ${activeSlidesPerView}`)
   })
 
   return activeSlidesPerView
@@ -387,7 +386,6 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
   const restArticles = articles
     .filter((article) => article.slug !== 'the-process')
     .splice(0, 4)
-  console.log({restArticles})
   return (
     <ContentSection
       title="Badass Articles"
