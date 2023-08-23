@@ -17,19 +17,19 @@ export const CallToActionForm: React.FC<React.PropsWithChildren<any>> = ({
   const router = useRouter()
 
   return (
-    <section className="bg-badass-neutral-500 pt-[7.5rem] pb-[8.5rem] mt-44">
+    <section className="bg-badass-neutral-500 pt-52 md:pt-[7.5rem] pb-[8.5rem] mt-[150px] md:mt-44 relative">
       <div className="max-w-[1158px] px-6 mx-auto">
         <div className="flex flex-col md:flex-row">
           <div className="grow">
             <h2 className="font-heading md:text-[2rem] md:leading-tight text-2xl leading-[1.333]">
               {content.heading}
             </h2>
-            <div className="mt-11 space-y-10 text-lg sm:text-xl leading-[1.75] text-[#e5e5e5]">
+            <div className="mt-5 md:mt-11 space-y-8 md:space-y-10 text-lg sm:text-xl leading-[1.75] text-[#e5e5e5]">
               {content.description}
             </div>
           </div>
-          <div className="shrink-0 w-[434px] ml-[120px] relative">
-            <div className="w-[491px] absolute right-0 -top-[19rem]">
+          <div className="shrink-0 md:w-[434px] md:ml-[120px] md:relative">
+            <div className="w-[390px] md:w-[491px] absolute left-0 md:left-auto m-auto right-0 -top-40 md:-top-[19rem]">
               <Image
                 src="https://res.cloudinary.com/badass-courses/image/upload/v1692693157/assets/subscribe-form-image_2x_h0mweo.png"
                 width={982}
@@ -37,7 +37,7 @@ export const CallToActionForm: React.FC<React.PropsWithChildren<any>> = ({
                 alt="Subscribe Form image"
               />
             </div>
-            <div className="mt-40">
+            <div className="mt-16 md:mt-40">
               <SubscribeToConvertkitForm
                 actionLabel={content.button}
                 onSuccess={(subscriber: any) => {
@@ -50,6 +50,9 @@ export const CallToActionForm: React.FC<React.PropsWithChildren<any>> = ({
                   }
                 }}
               />
+              <p className="text-center text-base text-badass-gray-300 leading-tight mt-6 md:mt-8">
+                {content.info}
+              </p>
             </div>
           </div>
         </div>

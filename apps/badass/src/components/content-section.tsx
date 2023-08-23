@@ -19,7 +19,6 @@ const ContentSection: React.FC<
   renderAdditionalComponent,
   children,
 }) => {
-  // console.log('QQQ:', typeof renderAdditionalComponent)
   const additionalComponent =
     renderAdditionalComponent && renderAdditionalComponent()
   return (
@@ -29,7 +28,7 @@ const ContentSection: React.FC<
           <h3 className="text-badass-pink-500 font-condensed text-[1.75rem] uppercase">
             {title}
           </h3>
-          <div className="absolute right-0 top-0">
+          <div className="absolute right-0 top-[10px] md:top-5">
             {additionalComponent ? additionalComponent : null}
           </div>
         </div>

@@ -338,7 +338,7 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
     <ContentSection
       title="Badass Podcast"
       subtitle="Tune in to our Badass Course Builders Podcast"
-      className="mt-16 md:mt-36"
+      className="mt-14 md:mt-36"
       subtitleClassName="md:max-w-[34rem]"
       renderAdditionalComponent={() => (
         <PodcastsSectionControls
@@ -349,7 +349,7 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
         />
       )}
     >
-      <div className="mt-20">
+      <div className="mt-7 md:mt-20">
         <div ref={sliderRef} className="keen-slider">
           {podcasts.map((podcast) => {
             return (
@@ -371,11 +371,11 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
                       alt={podcast.title}
                     />
                   </div>
-                  <h3 className="mt-6 text-2xl leading-[1.333] font-sans font-bold group-hover:text-badass-green-500 duration-150">
+                  <h3 className="mt-6 md:text-2xl leading-normal md:leading-[1.333] font-sans font-bold group-hover:text-badass-green-500 duration-150">
                     {podcast.title}
                   </h3>
                 </Link>
-                <p className="font-mono uppercase text-base tracking-[0.16px] leading-[2.18] text-badass-gray-300 mt-2">
+                <p className="font-mono uppercase text-sm md:text-base tracking-[0.14px] md:tracking-[0.16px] leading-none md:leading-[2.18] text-badass-gray-300 mt-2 font-medium">
                   With {podcast.interviewee}
                 </p>
               </div>
@@ -397,15 +397,15 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
     <ContentSection
       title="Badass Articles"
       subtitle="Our Key Lessons Learned Along the Way"
-      className="mt-36"
+      className="mt-14 md:mt-36"
       renderAdditionalComponent={() => (
         <ButtonSecondary href="/articles" size="middle">
-          All Articles
+          See All Articles
         </ButtonSecondary>
       )}
     >
-      <div className="mt-20 gap-y-8 md:gap-y-0 md:gap-x-4 flex flex-col md:flex-row items-center">
-        <div className="w-1/2">
+      <div className="mt-6 md:mt-20 gap-y-2 md:gap-y-0 md:gap-x-4 flex flex-col md:flex-row items-center">
+        <div className="md:w-1/2">
           {mainArticle && (
             <Card
               key={mainArticle._id}
@@ -421,37 +421,49 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
             />
           )}
         </div>
-        <div className="w-1/2">
+        <div className="md:w-1/2">
           <ul>
             {restArticles.map((article) => {
               return (
-                <li className="px-2 py-6 border-b border-[#5a5a5a]">
+                <li
+                  key={article._id}
+                  className="px-2 py-6 border-b border-[#5a5a5a]"
+                >
                   <div className="group flex">
                     <div className="grow">
-                      <h3 className="text-2xl leading-[1.333] font-bold">
+                      <h3 className="text-lg md:text-2xl leading-[1.16] md:leading-[1.333] font-bold">
                         {article.title}
                       </h3>
                     </div>
                     <ButtonSecondary
                       href={`/articles/${article.slug}`}
                       size="middle"
-                      className="shrink-0 ml-12"
+                      className="shrink-0 ml-12 hidden md:inline-flex"
                     >
                       Read Article
                     </ButtonSecondary>
                   </div>
-                  <div className="flex space-x-4 items-center mt-4">
-                    <div className="rounded-full overflow-hidden">
-                      <Image
-                        src="/joel-hooks.jpg"
-                        alt="Joel Hooks"
-                        width={40}
-                        height={40}
-                      />
+                  <div className="flex justify-between mt-4">
+                    <div className="flex space-x-2 md:space-x-4 items-center">
+                      <div className="rounded-full overflow-hidden">
+                        <Image
+                          src="/joel-hooks.jpg"
+                          alt="Joel Hooks"
+                          width={40}
+                          height={40}
+                        />
+                      </div>
+                      <div className="text-white opacity-80 uppercase font-mono tracking-[0.16px]">
+                        Joel Hooks
+                      </div>
                     </div>
-                    <div className="text-white opacity-80 uppercase font-mono tracking-[0.16px]">
-                      Joel Hooks
-                    </div>
+                    <ButtonSecondary
+                      href={`/articles/${article.slug}`}
+                      size="middle"
+                      className="shrink-0 ml-12 md:hidden"
+                    >
+                      Read Article
+                    </ButtonSecondary>
                   </div>
                 </li>
               )
