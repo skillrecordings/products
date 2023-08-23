@@ -161,7 +161,11 @@ const WorkshopTemplate: React.FC<{
                     )}
                   </Collection.Sections>
                   <Collection.Lessons className="border-x-0 border-b-0">
-                    <Collection.Lesson className="before:pl-6 [&>div>div]:hover:underline [&>div>span]:font-mono [&>div]:px-0" />
+                    {moduleProgressStatus === 'success' ? (
+                      <Collection.Lesson className="before:pl-6 [&>div>div]:hover:underline [&>div>span]:font-mono [&>div]:px-0" />
+                    ) : (
+                      <Skeleton className="my-2 border bg-background py-5" />
+                    )}
                   </Collection.Lessons>
                 </Collection.Root>
               )}
