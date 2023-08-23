@@ -1,5 +1,6 @@
 import { Callout } from '@/components/Callout'
 import { QuickLink, QuickLinks } from '@/components/QuickLinks'
+import { Repl } from '@/components/Repl'
 
 const tags = {
   callout: {
@@ -39,6 +40,14 @@ const tags = {
       description: { type: String },
       icon: { type: String },
       href: { type: String },
+    },
+  },
+  repl: {
+    render: Repl,
+    attributes: {
+      example: {
+        type: 'ModuleCollection',
+      },
     },
   },
 }

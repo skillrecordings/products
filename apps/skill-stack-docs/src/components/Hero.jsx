@@ -55,7 +55,7 @@ export function Hero() {
                 A set of tools for building and deploying courses on the web.
               </p>
               <div className="mt-8 flex gap-4 md:justify-center lg:justify-start">
-                <Button href="/docs/create-new-skill-app">Get started</Button>
+                <Button href="/docs/create-skill-app">Get started</Button>
                 <Button
                   href="https://github.com/skillrecordings/products"
                   variant="secondary"

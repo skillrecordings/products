@@ -14,9 +14,7 @@ import { ThemeSelector } from '@/components/ThemeSelector'
 const navigation = [
   {
     title: 'Getting Started',
-    links: [
-      { title: 'Create new Skill App', href: '/docs/create-new-skill-app' },
-    ],
+    links: [{ title: 'Create Skill App', href: '/docs/create-skill-app' }],
   },
   {
     title: 'Core Concepts',

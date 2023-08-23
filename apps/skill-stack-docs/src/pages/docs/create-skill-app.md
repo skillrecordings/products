@@ -1,5 +1,5 @@
 ---
-title: Create new Skill App
+title: Create Skill App
 description: How to use `create-skill-app` to scaffold a new Skill Application
 ---
 
@@ -55,7 +55,7 @@ cd packages/create-skill-app && npm link
 
 Once that is done, you can technically run `create-skill-app` from anywhere on your machine if you fully-qualify the path, but you're better off running it from `./apps/`.
 
-## Create new Skill App
+## Create Skill App
 
 To get started, use the following command and replace `APPLICATION_NAME` with the _kebab-case_ name of the partner product. ex. `total-typescript`
 

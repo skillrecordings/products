@@ -5,6 +5,8 @@ description: Displays an interactive list of sections and lessons within a modul
 
 Displays an interactive list of sections and lessons within a module along with visual indication of user progress.
 
+{% repl example="ModuleCollection" /%}
+
 ## Features
 
 - Full keyboard navigation
