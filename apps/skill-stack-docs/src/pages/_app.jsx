@@ -65,7 +65,18 @@ export default function App({ Component, pageProps }) {
     <>
       <Head>
         <title>{pageTitle}</title>
-        {description && <meta name="description" content={description} />}
+        <meta property="og:title" content={pageTitle} />
+        {description && (
+          <>
+            <meta name="description" content={description} />
+            <meta name="og:description" content={description} />
+          </>
+        )}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/badass-courses/image/upload/v1692788166/skillstack-card_2x_qfju4m.png"
+        />
       </Head>
       <Layout title={title} tableOfContents={tableOfContents}>
         <Component {...pageProps} />
