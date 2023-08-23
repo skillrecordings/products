@@ -2,8 +2,9 @@ const withMarkdoc = require('@markdoc/next.js')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ['@skillrecordings/skill-lesson', '@skillrecordings/ui'],
   reactStrictMode: true,
-  pageExtensions: ['js', 'jsx', 'md'],
+  pageExtensions: ['tsx', 'ts', 'js', 'jsx', 'md'],
   experimental: {
     scrollRestoration: true,
   },

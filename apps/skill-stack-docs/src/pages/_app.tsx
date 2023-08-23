@@ -2,11 +2,13 @@ import Head from 'next/head'
 import { slugifyWithCounter } from '@sindresorhus/slugify'
 
 import { Layout } from '@/components/Layout'
+import { trpcSkillLessons } from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
 
 import 'focus-visible'
 import '@/styles/tailwind.css'
+import { AppProps } from 'next/app'
 
-function getNodeText(node) {
+function getNodeText(node: any) {
   let text = ''
   for (let child of node.children ?? []) {
     if (typeof child === 'string') {
@@ -17,7 +19,7 @@ function getNodeText(node) {
   return text
 }
 
-function collectHeadings(nodes, slugify = slugifyWithCounter()) {
+function collectHeadings(nodes: any, slugify = slugifyWithCounter()): any {
   let sections = []
 
   for (let node of nodes) {
@@ -48,7 +50,7 @@ function collectHeadings(nodes, slugify = slugifyWithCounter()) {
   return sections
 }
 
-export default function App({ Component, pageProps }) {
+function App({ Component, pageProps }: AppProps) {
   let title = pageProps.markdoc?.frontmatter.title
 
   let pageTitle =
@@ -84,3 +86,5 @@ export default function App({ Component, pageProps }) {
     </>
   )
 }
+
+export default trpcSkillLessons.withTRPC(App)
