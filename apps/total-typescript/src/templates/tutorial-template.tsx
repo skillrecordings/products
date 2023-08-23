@@ -79,7 +79,7 @@ const TutorialTemplate: React.FC<{
               </div>
               <Collection.Sections>
                 {moduleProgressStatus === 'success' ? (
-                  <Collection.Section className="border px-3 py-3 [&>[data-progress]]:bg-gray-400/5">
+                  <Collection.Section className="border px-3 py-3 [&>[data-check-icon]]:text-cyan-300 [&>[data-check-icon]]:opacity-100 [&>[data-progress]]:bg-gray-400/5">
                     <Collection.Lessons className="border-x border-b border-border bg-black/20">
                       <Collection.Lesson className="before:pl-8 [&>div>div]:hover:underline [&>div>span]:font-mono [&>div]:pl-2 [&>div]:pr-3" />
                     </Collection.Lessons>
