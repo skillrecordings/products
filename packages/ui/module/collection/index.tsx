@@ -26,7 +26,7 @@ import {
   type SectionProgress,
   useModuleProgress,
 } from '@skillrecordings/skill-lesson/video/module-progress'
-import {CheckIcon, Lock} from 'lucide-react'
+import {CheckIcon, LockIcon} from 'lucide-react'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {cn} from '../../utils/cn'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
@@ -73,14 +73,20 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       children,
       checkIconRenderer = () => (
         <CheckIcon
-          className="relative z-10"
+          className="relative z-10 flex-shrink-0"
           width={16}
           opacity={0.7}
           data-check-icon=""
           aria-hidden="true"
         />
       ),
-      lockIconRenderer = () => <Lock aria-hidden="true" width={13} />,
+      lockIconRenderer = () => (
+        <LockIcon
+          className="relative z-10 flex-shrink-0"
+          width={13}
+          aria-hidden="true"
+        />
+      ),
       sectionProgressRenderer = (sectionProgress) => {
         const isSectionInProgress = Boolean(
           sectionProgress?.completedLessonCount,
@@ -95,7 +101,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
               <div
                 data-progress={sectionPercentComplete?.toString()}
                 aria-hidden="true"
-                className={`absolute pointer-events-none left-0 bottom-0 h-full bg-muted/50`}
+                className={`absolute pointer-events-none left-0 bottom-0 h-full bg-background/75`}
                 style={{width: `${sectionPercentComplete}%`}}
               />
             )}
@@ -117,6 +123,23 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
     )
 
     const hasSections = sections && sections.length > 0
+    const onlyHasSingleSection = hasSections && sections.length === 1
+    const firstSection = first<SectionType>(sections)
+
+    const childrenForSingleSection = React.Children.map(children, (child) => {
+      if (React.isValidElement<LessonsProps>(child)) {
+        if (child.type === Lessons) {
+          return React.cloneElement(child, {
+            section: firstSection,
+          })
+        }
+        if (child.type === Sections) {
+          return null
+        }
+        return child
+      }
+      return null
+    })
 
     React.useEffect(() => {
       nextSection?.slug && setOpenedSections([nextSection?.slug])
@@ -134,12 +157,13 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       >
         <TooltipProvider>
           {children ? (
-            children
+            <>{onlyHasSingleSection ? childrenForSingleSection : children}</>
           ) : (
             <>
               <Metadata />
-              {hasSections && <Sections />}
+              {hasSections && !onlyHasSingleSection && <Sections />}
               {!hasSections && lessons && <Lessons />}
+              {onlyHasSingleSection && <Lessons section={firstSection} />}
             </>
           )}
         </TooltipProvider>
@@ -181,10 +205,17 @@ const Metadata = React.forwardRef<MetadataElement, MetadataProps>(
       }
     }
 
+    const firstSection = first<SectionType>(sections)
+
     return (
       <Primitive.div {...sectionsProps} ref={forwardedRef}>
         {children}
-        {sections && sections.length > 0 ? (
+        {sections && sections.length === 1 && firstSection?.lessons ? (
+          <p className={className}>
+            {firstSection.lessons.length || 0}{' '}
+            {capitalize(pluralize('lesson', firstSection.lessons.length))}
+          </p>
+        ) : sections && sections.length > 1 ? (
           <Tooltip>
             <TooltipTrigger asChild>
               <button
@@ -301,6 +332,7 @@ const Section = React.forwardRef<SectionElement, SectionProps>(
     const isSectionInProgress = Boolean(sectionProgress?.completedLessonCount)
 
     const hasLessons = Boolean(section.lessons)
+
     const childrenWithProps = React.Children.map(children, (child) => {
       if (React.isValidElement<LessonsProps>(child)) {
         return React.cloneElement(child, {
@@ -319,8 +351,11 @@ const Section = React.forwardRef<SectionElement, SectionProps>(
               ref={forwardedRef}
               {...sectionProps}
               className={cn(
-                "relative font-semibold overflow-hidden data-[state='closed']:rounded data-[state='open']:rounded-t data-[check-icon]:w-4 [&>[data-check-icon]]:ml-auto [&>[data-check-icon]]:mr-2 bg-card px-5 py-4",
+                "relative font-semibold text-left overflow-hidden data-[state='closed']:rounded data-[state='open']:rounded-t data-[check-icon]:w-4 [&>[data-check-icon]]:ml-auto [&>[data-check-icon]]:mr-2 bg-card px-5 py-4",
                 sectionProps.className,
+                {
+                  '[&>[data-chevron]]:hidden': !hasLessons,
+                },
               )}
             >
               <span className="relative z-10">
@@ -328,10 +363,6 @@ const Section = React.forwardRef<SectionElement, SectionProps>(
               </span>
               {isSectionInProgress && sectionProgressRenderer(sectionProgress)}
             </AccordionTrigger>
-            {/* <AccordionTrigger disabled={!hasLessons} className="relative">
-              {section.title} {!hasLessons && '(coming soon)'}
-              {isSectionInProgress && sectionProgressRenderer(sectionProgress)}
-            </AccordionTrigger> */}
           </AccordionHeader>
           {hasLessons && (
             <AccordionContent>
@@ -367,8 +398,11 @@ const Lessons = React.forwardRef<LessonsElement, LessonsProps>(
     return (
       <Primitive.ul
         ref={forwardedRef}
-        className={cn('bg-muted py-2 rounded-b', lessonsProps.className)}
         {...lessonsProps}
+        className={cn(
+          'bg-background border-x border-b border-card py-2 rounded-b',
+          lessonsProps.className,
+        )}
       >
         {lessons.map((lesson, index) => {
           const childrenWithProps = React.Children.map(children, (child) => {
@@ -462,16 +496,16 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
       (isNextLesson && completedLessons && completedLessons.length > 0) || false
 
     const showContinue = isNextLesson && completedLessonCount > 0
+
     return (
       <Primitive.li asChild {...lessonProps} ref={forwardedRef}>
         <Link
           className={cn(
-            `[&>div]:flex [&>div]:py-2 [&>div]:items-center [&>div]:gap-2 text-base [&>div>span]:text-xs [&>div>span]:opacity-60 font-medium flex flex-col`,
+            `[&>div]:flex [&>div]:py-2 [&>div>div]:w-full [&>div:has(span)]:items-baseline [&>div]:gap-2 text-base [&>div>span]:text-xs [&>div>span]:opacity-60 font-medium flex flex-col`,
             {
-              'before:content-["continue"] before:mt-2 before:-mb-1 before:text-xs before:font-semibold before:pl-11 before:text-primary before:uppercase before:block':
+              'before:content-["continue"] before:mt-2 before:-mb-1 before:text-xs before:font-semibold before:pl-10 before:text-primary before:uppercase before:block':
                 showContinue,
-              '[&>div]:px-5 [&>div]:opacity-80 hover:[&>div]:opacity-100':
-                section,
+              '[&>div]:px-4': section,
               'bg-card [&>div]:px-2.5': !section,
             },
             lessonProps.className,
@@ -479,12 +513,6 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
           href={getLessonHref(lesson, module, section)}
           passHref
         >
-          {/* {showContinue && (
-            <div className="flex items-center gap-1">
-              <ArrowRightIcon width={16} aria-hidden="true" />
-              <div data-label="">CONTINUE</div>
-            </div>
-          )} */}
           <div>
             {canShowVideo ? (
               <>
@@ -503,7 +531,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
             ) : (
               lockIconRenderer()
             )}
-            {lesson.title}
+            <div>{lesson.title}</div>
           </div>
         </Link>
       </Primitive.li>

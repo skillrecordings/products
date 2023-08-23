@@ -12,7 +12,6 @@ import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {first} from 'lodash'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
-import ModuleNavigator from '@skillrecordings/skill-lesson/video/module-navigator'
 import Balancer from 'react-wrap-balancer'
 import config from 'config'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
@@ -20,6 +19,8 @@ import {getOgImage} from 'utils/get-og-image'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {format} from 'date-fns'
 // import Testimonials from 'testimonials'
+import * as Collection from '@skillrecordings/ui/module/collection'
+import {Skeleton} from '@skillrecordings/ui'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
@@ -34,7 +35,10 @@ const TutorialTemplate: React.FC<{
         image: image ? image : undefined,
         byline: 'Free Tutorial',
       }).url
-
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: tutorial.slug.current,
+    })
   return (
     <Layout
       className="mx-auto w-full max-w-screen-xl"
@@ -50,14 +54,41 @@ const TutorialTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       <Header tutorial={tutorial} />
       <main className="relative px-5 z-10 mx-auto flex flex-col max-w-screen-lg justify-between lg:gap-16 gap-5 lg:flex-row sm:pb-24">
-        <article className="prose w-full max-w-none col-span-7">
+        <article className="prose w-full max-w-none col-span-7 prose-h2:text-3xl prose-h2:mb-3 prose-h2:mt-10">
           {tutorialBody && <MDX contents={tutorialBody} />}
         </article>
         {/* {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
           )} */}
-
-        {tutorial && <ModuleNavigator module={tutorial} />}
+        <nav
+          aria-label="tutorial navigator"
+          className="flex flex-col w-full flex-shrink-0 py-8 lg:max-w-[420px] lg:py-0"
+        >
+          {tutorial && (
+            <>
+              <Collection.Root module={tutorial}>
+                <div className="flex items-baseline pb-4 w-full justify-between">
+                  <h3 className="text-xl font-semibold">Contents</h3>
+                  <Collection.Metadata className="font-mono uppercase text-sm" />
+                </div>
+                <Collection.Sections>
+                  {moduleProgressStatus === 'success' ? (
+                    <Collection.Section className="py-3 border border-gray-200">
+                      <Collection.Lessons className="border-gray-200 border-x border-b">
+                        <Collection.Lesson />
+                      </Collection.Lessons>
+                    </Collection.Section>
+                  ) : (
+                    <Skeleton className="py-6 border bg-background border-gray-200" />
+                  )}
+                </Collection.Sections>
+                <Collection.Lessons>
+                  <Collection.Lesson />
+                </Collection.Lessons>
+              </Collection.Root>
+            </>
+          )}
+        </nav>
       </main>
     </Layout>
   )

@@ -13,14 +13,25 @@ import { ThemeSelector } from '@/components/ThemeSelector'
 
 const navigation = [
   {
-    title: 'Introduction',
-    links: [{ title: 'Getting started', href: '/' }],
+    title: 'Getting Started',
+    links: [
+      { title: 'Create new Skill App', href: '/docs/create-new-skill-app' },
+    ],
   },
   {
-    title: 'Core concepts',
+    title: 'Core Concepts',
     links: [
       { title: 'What is a lesson?', href: '/docs/what-is-a-lesson' },
       { title: 'Sanity', href: '/docs/sanity' },
+    ],
+  },
+  {
+    title: 'UI Components',
+    links: [
+      {
+        title: 'Module Collection',
+        href: '/docs/components/module-collection',
+      },
     ],
   },
   {

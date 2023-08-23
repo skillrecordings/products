@@ -12,13 +12,15 @@ import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {first} from 'lodash'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
-import {ModuleNavigator} from './workshop-template'
 import Balancer from 'react-wrap-balancer'
 import Testimonials from '@/testimonials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import ModuleCertificate from '@/certificate/module-certificate'
+import * as Collection from '@skillrecordings/ui/module/collection'
+import {Skeleton} from '@skillrecordings/ui'
+import {LockClosedIcon} from '@heroicons/react/solid'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
@@ -26,6 +28,10 @@ const TutorialTemplate: React.FC<{
 }> = ({tutorial, tutorialBodySerialized}) => {
   const {title, body, ogImage, image, description, testimonials} = tutorial
   const pageTitle = `${title} Tutorial`
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: tutorial.slug.current,
+    })
 
   return (
     <Layout
@@ -52,8 +58,45 @@ const TutorialTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        <div className="flex w-full flex-col lg:max-w-xs">
-          {tutorial && <ModuleNavigator module={tutorial} />}
+        <div className="flex w-full flex-col px-5 lg:max-w-xs lg:px-0">
+          {tutorial && (
+            <Collection.Root
+              module={tutorial}
+              lockIconRenderer={() => {
+                return (
+                  <LockClosedIcon
+                    className="relative z-10 flex-shrink-0 translate-y-1 text-gray-400"
+                    width={15}
+                    height={15}
+                    aria-hidden="true"
+                  />
+                )
+              }}
+            >
+              <div className="flex w-full items-baseline justify-between pb-3">
+                <h3 className="text-2xl font-semibold">Contents</h3>
+                <Collection.Metadata className="font-mono text-sm font-semibold uppercase text-gray-300" />
+              </div>
+              <Collection.Sections>
+                {moduleProgressStatus === 'success' ? (
+                  <Collection.Section className="border px-3 py-3 [&>[data-check-icon]]:text-cyan-300 [&>[data-check-icon]]:opacity-100 [&>[data-progress]]:bg-gray-400/5">
+                    <Collection.Lessons className="border-x border-b border-border bg-black/20">
+                      <Collection.Lesson className="before:pl-8 [&>div>div]:hover:underline [&>div>span]:font-mono [&>div]:pl-2 [&>div]:pr-3" />
+                    </Collection.Lessons>
+                  </Collection.Section>
+                ) : (
+                  <Skeleton className="border bg-background py-6" />
+                )}
+              </Collection.Sections>
+              <Collection.Lessons className="border-x-0 border-b-0">
+                {moduleProgressStatus === 'success' ? (
+                  <Collection.Lesson className="before:pl-6 [&>div>div]:hover:underline [&>div>span]:font-mono [&>div]:px-0" />
+                ) : (
+                  <Skeleton className="my-2 border bg-background py-5" />
+                )}
+              </Collection.Lessons>
+            </Collection.Root>
+          )}
           <ResetProgress module={tutorial} />
           <ModuleCertificate module={tutorial} />
         </div>
