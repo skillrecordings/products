@@ -1,7 +1,7 @@
 [data-sr-convertkit-subscribe-form] {
   @apply relative;
   [data-sr-button] {
-    @apply mt-[30px] w-full inline-flex self-center justify-center items-center rounded-xl focus-visible:ring-2 focus-visible:ring-badass-blue focus-visible:ring-offset-4 focus-visible:ring-offset-badass-neutral-500 focus-visible:outline-none duration-150 font-sans h-[4.5rem] px-6 text-xl font-bold bg-badass-pink-500 hover:bg-badass-pink-800 disabled:bg-badass-pink-600 disabled:opacity-60 disabled:cursor-not-allowed disabled:text-black;
+    @apply mt-[30px] w-full inline-flex self-center justify-center items-center rounded-xl focus-visible:ring-2 focus-visible:ring-badass-blue focus-visible:ring-offset-4 focus-visible:ring-offset-badass-neutral-500 focus-visible:outline-none duration-150 font-sans h-[4.5rem] px-6 text-xl font-bold bg-badass-pink-600 hover:bg-badass-pink-800 disabled:bg-badass-pink-600 disabled:opacity-60 disabled:cursor-not-allowed disabled:text-black;
     span:first-child,
     span:last-child {
       display: none;

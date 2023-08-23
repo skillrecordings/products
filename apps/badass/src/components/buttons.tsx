@@ -15,7 +15,7 @@ const commonStyles =
   'inline-flex self-center justify-center items-center rounded-xl focus-visible:ring-2 focus-visible:ring-badass-blue focus-visible:ring-offset-4 focus-visible:ring-offset-black focus-visible:outline-none duration-150 font-sans'
 
 const commonPrimaryStyles =
-  'h-[4.5rem] px-6 text-xl font-bold bg-badass-pink-500 hover:bg-badass-pink-800 disabled:bg-badass-pink-600 disabled:opacity-60 disabled:cursor-not-allowed disabled:text-black'
+  'h-[4.5rem] px-6 text-xl font-bold bg-badass-pink-600 hover:bg-badass-pink-800 disabled:bg-badass-pink-600 disabled:opacity-60 disabled:cursor-not-allowed disabled:text-black'
 
 const commonSecondaryStyles =
   'border border-neutral-200 hover:border-badass-green-500 bg-transparent hover:bg-badass-green-500 text-white hover:text-black disabled:opacity-40 disabled:cursor-not-allowed disabled:text-white disabled:hover:bg-transparent  disabled:hover:border-neutral-200'
