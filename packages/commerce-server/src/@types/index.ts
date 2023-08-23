@@ -20,6 +20,7 @@ export type FormattedPrice = {
   quantity: number
   unitPrice: number
   fullPrice: number
+  fixedDiscountForUpgrade: number
   calculatedPrice: number
   availableCoupons: Array<
     Omit<MerchantCouponWithCountry, 'identifier'> | undefined

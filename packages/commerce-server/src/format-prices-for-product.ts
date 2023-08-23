@@ -3,6 +3,7 @@ import {Context, defaultContext, getSdk} from '@skillrecordings/database'
 import type {Purchase, Product} from '@skillrecordings/database'
 import {FormattedPrice} from './@types'
 import isEmpty from 'lodash/isEmpty'
+import sum from 'lodash/sum'
 import {determineCouponToApply} from './determine-coupon-to-apply'
 
 // 10% premium for an upgrade
@@ -29,6 +30,35 @@ type FormatPricesForProductOptions = {
   ctx?: Context
   upgradeFromPurchaseId?: string
   userId?: string
+}
+
+async function getChainOfPurchases({
+  purchase,
+  ctx,
+}: {
+  purchase: Purchase | null
+  ctx: Context
+}): Promise<Purchase[]> {
+  if (purchase === null) {
+    return []
+  } else {
+    const {getPurchase} = getSdk({ctx})
+    const {upgradedFromId} = purchase
+
+    const purchaseThisWasUpgradedFrom = upgradedFromId
+      ? await getPurchase({
+          where: {id: upgradedFromId},
+        })
+      : null
+
+    return [
+      purchase,
+      ...(await getChainOfPurchases({
+        purchase: purchaseThisWasUpgradedFrom,
+        ctx,
+      })),
+    ]
+  }
 }
 
 export async function getFixedDiscountForIndividualUpgrade({
@@ -58,7 +88,12 @@ export async function getFixedDiscountForIndividualUpgrade({
   // `productId` with the Product To Be Purchased, then this is a PPP
   // upgrade, so use the purchase amount.
   if (transitioningToUnrestrictedAccess) {
-    return purchaseToBeUpgraded.totalAmount.toNumber()
+    const purchaseChain = await getChainOfPurchases({
+      purchase: purchaseToBeUpgraded,
+      ctx,
+    })
+
+    return sum(purchaseChain.map((purchase) => purchase.totalAmount.toNumber()))
   }
 
   // if Purchase To Be Upgraded is upgradeable to the Product To Be Purchased,
@@ -123,6 +158,7 @@ export async function formatPricesForProduct(
           totalAmount: true,
           productId: true,
           status: true,
+          upgradedFromId: true,
         },
       })
     : null
@@ -202,6 +238,7 @@ export async function formatPricesForProduct(
     quantity,
     unitPrice,
     fullPrice,
+    fixedDiscountForUpgrade,
     calculatedPrice: getCalculatedPrice({
       unitPrice,
       percentOfDiscount,

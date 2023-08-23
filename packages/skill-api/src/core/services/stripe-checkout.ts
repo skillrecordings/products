@@ -256,6 +256,7 @@ export async function stripeCheckout({
 
       let discounts = []
       let appliedPPPStripeCouponId: string | undefined | null = undefined
+      let upgradedFromPurchaseId: string | undefined | null = undefined
 
       const isUpgrade = Boolean(
         (availableUpgrade || upgradeFromPurchase?.status === 'Restricted') &&
@@ -269,6 +270,7 @@ export async function stripeCheckout({
       if (isUpgrade && upgradeFromPurchase && loadedProduct && customerId) {
         const purchaseWillBeRestricted = merchantCoupon?.type === 'ppp'
         appliedPPPStripeCouponId = merchantCoupon?.identifier
+        upgradedFromPurchaseId = upgradeFromPurchase.id
 
         const fixedDiscountForIndividualUpgrade =
           await getFixedDiscountForIndividualUpgrade({
@@ -357,6 +359,7 @@ export async function stripeCheckout({
         }),
         bulk: bulk === 'true' ? 'true' : quantity > 1 ? 'true' : 'false',
         ...(appliedPPPStripeCouponId && {appliedPPPStripeCouponId}),
+        ...(upgradedFromPurchaseId && {upgradedFromPurchaseId}),
         country:
           (req.headers['x-vercel-ip-country'] as string) ||
           process.env.DEFAULT_COUNTRY ||
