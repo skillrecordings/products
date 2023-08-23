@@ -26,7 +26,7 @@ import {
   type SectionProgress,
   useModuleProgress,
 } from '@skillrecordings/skill-lesson/video/module-progress'
-import {CheckIcon, Lock} from 'lucide-react'
+import {CheckIcon, LockIcon} from 'lucide-react'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {cn} from '../../utils/cn'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
@@ -73,14 +73,20 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       children,
       checkIconRenderer = () => (
         <CheckIcon
-          className="relative z-10"
+          className="relative z-10 flex-shrink-0"
           width={16}
           opacity={0.7}
           data-check-icon=""
           aria-hidden="true"
         />
       ),
-      lockIconRenderer = () => <Lock aria-hidden="true" width={13} />,
+      lockIconRenderer = () => (
+        <LockIcon
+          className="relative z-10 flex-shrink-0"
+          width={13}
+          aria-hidden="true"
+        />
+      ),
       sectionProgressRenderer = (sectionProgress) => {
         const isSectionInProgress = Boolean(
           sectionProgress?.completedLessonCount,
@@ -345,8 +351,11 @@ const Section = React.forwardRef<SectionElement, SectionProps>(
               ref={forwardedRef}
               {...sectionProps}
               className={cn(
-                "relative font-semibold overflow-hidden data-[state='closed']:rounded data-[state='open']:rounded-t data-[check-icon]:w-4 [&>[data-check-icon]]:ml-auto [&>[data-check-icon]]:mr-2 bg-card px-5 py-4",
+                "relative font-semibold text-left overflow-hidden data-[state='closed']:rounded data-[state='open']:rounded-t data-[check-icon]:w-4 [&>[data-check-icon]]:ml-auto [&>[data-check-icon]]:mr-2 bg-card px-5 py-4",
                 sectionProps.className,
+                {
+                  '[&>[data-chevron]]:hidden': !hasLessons,
+                },
               )}
             >
               <span className="relative z-10">
@@ -487,11 +496,12 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
       (isNextLesson && completedLessons && completedLessons.length > 0) || false
 
     const showContinue = isNextLesson && completedLessonCount > 0
+
     return (
       <Primitive.li asChild {...lessonProps} ref={forwardedRef}>
         <Link
           className={cn(
-            `[&>div]:flex [&>div]:py-2 [&>div]:items-baseline [&>div]:gap-2 text-base [&>div>span]:text-xs [&>div>span]:opacity-60 font-medium flex flex-col`,
+            `[&>div]:flex [&>div]:py-2 [&>div>div]:w-full [&>div:has(span)]:items-baseline [&>div]:gap-2 text-base [&>div>span]:text-xs [&>div>span]:opacity-60 font-medium flex flex-col`,
             {
               'before:content-["continue"] before:mt-2 before:-mb-1 before:text-xs before:font-semibold before:pl-10 before:text-primary before:uppercase before:block':
                 showContinue,
@@ -503,12 +513,6 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
           href={getLessonHref(lesson, module, section)}
           passHref
         >
-          {/* {showContinue && (
-            <div className="flex items-center gap-1">
-              <ArrowRightIcon width={16} aria-hidden="true" />
-              <div data-label="">CONTINUE</div>
-            </div>
-          )} */}
           <div>
             {canShowVideo ? (
               <>

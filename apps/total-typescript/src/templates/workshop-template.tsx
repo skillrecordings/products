@@ -9,23 +9,14 @@ import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import {isBrowser} from '@/utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import first from 'lodash/first'
-import isEmpty from 'lodash/isEmpty'
-import * as Accordion from '@radix-ui/react-accordion'
-import {
-  ArrowRightIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  LockClosedIcon,
-} from '@heroicons/react/solid'
+import {LockClosedIcon} from '@heroicons/react/solid'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import * as process from 'process'
 import {trpc} from '../trpc/trpc.client'
 import Balancer from 'react-wrap-balancer'
-import {useModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
 import ModuleCertificate from '@/certificate/module-certificate'
-import {capitalize} from 'lodash'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import Testimonials from '@/testimonials'
 import pluralize from 'pluralize'
@@ -36,6 +27,7 @@ import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {useRouter} from 'next/router'
 import {Skeleton} from '@skillrecordings/ui'
+import * as Collection from '@skillrecordings/ui/module/collection'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -61,6 +53,11 @@ const WorkshopTemplate: React.FC<{
 
   const canViewRegionRestriction = ability.can('view', 'RegionRestriction')
   const canView = ability.can('view', 'Content')
+
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: workshop.slug.current,
+    })
 
   return (
     <Layout
@@ -98,7 +95,7 @@ const WorkshopTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        <div className="flex w-full flex-col lg:max-w-xs">
+        <div className="flex w-full flex-col px-5 pt-8 lg:max-w-xs lg:px-0 lg:pt-0">
           {product && commercePropsStatus === 'loading' ? (
             <div className="mb-8 flex flex-col space-y-2" role="status">
               <div className="sr-only">Loading commerce details</div>
@@ -134,7 +131,40 @@ const WorkshopTemplate: React.FC<{
                   Purchased
                 </div>
               )}
-              {workshop && <ModuleNavigator module={workshop} />}
+              {workshop && (
+                <Collection.Root
+                  module={workshop}
+                  lockIconRenderer={() => {
+                    return (
+                      <LockClosedIcon
+                        className="relative z-10 flex-shrink-0 translate-y-1 text-gray-400"
+                        width={15}
+                        height={15}
+                        aria-hidden="true"
+                      />
+                    )
+                  }}
+                >
+                  <div className="flex w-full items-baseline justify-between pb-3">
+                    <h3 className="text-2xl font-semibold">Contents</h3>
+                    <Collection.Metadata className="font-mono text-sm font-semibold uppercase text-gray-300" />
+                  </div>
+                  <Collection.Sections>
+                    {moduleProgressStatus === 'success' ? (
+                      <Collection.Section className="border px-3 py-3 [&>[data-progress]]:bg-gray-400/5">
+                        <Collection.Lessons className="border-x border-b border-border bg-black/20">
+                          <Collection.Lesson className="before:pl-8 [&>div>div]:hover:underline [&>div>span]:font-mono [&>div]:pl-2 [&>div]:pr-3" />
+                        </Collection.Lessons>
+                      </Collection.Section>
+                    ) : (
+                      <Skeleton className="border bg-background py-6" />
+                    )}
+                  </Collection.Sections>
+                  <Collection.Lessons className="border-x-0 border-b-0">
+                    <Collection.Lesson className="before:pl-6 [&>div>div]:hover:underline [&>div>span]:font-mono [&>div]:px-0" />
+                  </Collection.Lessons>
+                </Collection.Root>
+              )}
             </>
           )}
           <ResetProgress module={workshop} />
@@ -341,375 +371,6 @@ const Header: React.FC<{
       />
     </>
   )
-}
-
-export const ModuleNavigator: React.FC<{
-  module: Module
-}> = ({module}) => {
-  const {sections, moduleType, lessons} = module
-  const {data: moduleProgress, status: moduleProgressStatus} =
-    trpc.moduleProgress.bySlug.useQuery({
-      slug: module.slug.current,
-    })
-  const nextSection = moduleProgress?.nextSection
-  const initialOpenedSections = !isEmpty(first(sections))
-    ? [first(sections)?.slug]
-    : []
-  const [openedSections, setOpenedSections] = React.useState<string[]>(
-    initialOpenedSections as string[],
-  )
-
-  const firstSection = sections && sections[0]
-  const lessonType =
-    sections && sections.length > 1
-      ? 'section'
-      : firstSection
-      ? firstSection?.lessons && firstSection.lessons[0]._type
-      : lessons && lessons[0]._type
-
-  React.useEffect(() => {
-    nextSection?.slug && setOpenedSections([nextSection?.slug])
-  }, [nextSection?.slug])
-
-  return moduleProgressStatus === 'success' ? (
-    <nav
-      aria-label={`${moduleType} navigator`}
-      className="w-full bg-black/20 px-5 py-8 lg:max-w-xs lg:bg-transparent lg:px-0 lg:py-0"
-    >
-      {sections && sections.length > 1 && (
-        <Accordion.Root
-          type="multiple"
-          onValueChange={(e) => setOpenedSections(e)}
-          value={openedSections}
-        >
-          <div className="flex w-full items-center justify-between pb-3">
-            <h2 className="text-2xl font-semibold">Contents</h2>
-            <h3
-              className="cursor-pointer font-mono text-sm font-semibold uppercase text-gray-300"
-              onClick={() => {
-                setOpenedSections(
-                  !isEmpty(openedSections)
-                    ? []
-                    : sections.map(({slug}: {slug: string}) => slug),
-                )
-              }}
-            >
-              {sections?.length || 0} {capitalize(lessonType || 'lesson')}s
-            </h3>
-          </div>
-          <ul className="flex flex-col gap-2">
-            {sections.map((section: Section, i: number) => {
-              return section.lessons?.length ? (
-                <ModuleSection
-                  key={section.slug}
-                  section={section}
-                  module={module}
-                />
-              ) : (
-                <ModuleSection
-                  key={section.slug}
-                  section={{title: `${section.title} (coming soon)`} as Section}
-                  module={module}
-                />
-              )
-            })}
-          </ul>
-        </Accordion.Root>
-      )}
-      {sections && sections.length === 1 && (
-        <>
-          <div className="flex w-full items-center justify-between pb-3">
-            <h2 className="text-2xl font-semibold">Contents</h2>
-            <h3 className="font-mono text-sm font-semibold uppercase text-gray-300">
-              {firstSection?.lessons?.length || 0}{' '}
-              {capitalize(lessonType || 'lesson')}s
-            </h3>
-          </div>
-          <ul>
-            {firstSection &&
-              firstSection?.lessons?.map((lesson, idx) => {
-                return (
-                  <ModuleLesson
-                    isInSection={false}
-                    index={idx}
-                    lessonResource={lesson}
-                    section={sections[0]}
-                    module={module}
-                    key={lesson.slug}
-                  />
-                )
-              })}
-          </ul>
-        </>
-      )}
-      {!sections && lessons && (
-        <>
-          <div className="flex w-full items-center justify-between pb-3">
-            <h2 className="text-2xl font-semibold">Contents</h2>
-            <h3 className="font-mono text-sm font-semibold uppercase text-gray-300">
-              {lessons?.length || 0} {capitalize(lessonType || 'lesson')}s
-            </h3>
-          </div>
-          <ul>
-            {lessons?.map((lesson, idx) => {
-              return (
-                <ModuleLesson
-                  isInSection={false}
-                  index={idx}
-                  lessonResource={lesson}
-                  module={module}
-                  key={lesson.slug}
-                />
-              )
-            })}
-          </ul>
-        </>
-      )}
-    </nav>
-  ) : (
-    <ModuleNavigatorSkeleton
-      sections={sections}
-      lessons={lessons}
-      lessonType={lessonType}
-    />
-  )
-}
-
-const ModuleNavigatorSkeleton: React.FC<{
-  sections: Section[] | null | undefined
-  lessons: Lesson[] | null | undefined
-  lessonType: string | null | undefined
-}> = ({sections, lessons, lessonType}) => {
-  const items = sections || lessons
-  return (
-    <div
-      role="status"
-      className="flex w-full animate-pulse flex-col gap-3 lg:max-w-xs"
-    >
-      <div className="flex w-full items-center justify-between pb-3">
-        <h2 className="text-2xl font-semibold">Contents</h2>
-        <h3 className="cursor-pointer font-mono text-sm font-semibold uppercase text-gray-300">
-          {items?.length || 0} {capitalize(lessonType || 'lesson')}s
-        </h3>
-      </div>
-      {sections?.map((section) => {
-        return (
-          <div key={section._id} className="flex flex-col gap-3 pb-5">
-            <div className="h-4 w-5/6 rounded-full bg-gray-700" />
-            {section?.lessons?.map(() => {
-              return <div className="h-3 rounded-full bg-gray-800" />
-            })}
-          </div>
-        )
-      })}
-      {lessons?.map((lesson) => {
-        return (
-          <div key={lesson._id} className="flex flex-col">
-            <div className="h-5 rounded-full bg-gray-700" />
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-const ModuleSection: React.FC<{
-  section: Section
-  module: Module
-}> = ({section, module}) => {
-  const moduleProgress = useModuleProgress()
-  const sectionProgress = moduleProgress?.sections?.find(
-    (s) => s.id === section._id,
-  )
-  const isSectionCompleted = sectionProgress?.sectionCompleted
-  const sectionPercentComplete = sectionProgress?.percentComplete
-
-  return (
-    <li key={section.slug}>
-      <Accordion.Item value={section.slug}>
-        <Accordion.Header className="relative z-10 overflow-hidden rounded-lg bg-gray-900">
-          <Accordion.Trigger className="group relative z-10 flex w-full items-center justify-between rounded-lg border border-white/5 bg-gray-800/20 px-3 py-2.5 text-left text-lg font-medium leading-tight shadow-lg transition hover:bg-gray-800/40">
-            <Balancer>{section.title}</Balancer>
-            <div className="flex items-center">
-              {isSectionCompleted && (
-                <CheckIcon
-                  className="mr-2 h-4 w-4 text-teal-400"
-                  aria-hidden="true"
-                />
-              )}
-              {section.lessons?.length && (
-                <ChevronDownIcon
-                  className="relative h-3 w-3 opacity-70 transition group-hover:opacity-100 group-radix-state-open:rotate-180"
-                  aria-hidden="true"
-                />
-              )}
-            </div>
-          </Accordion.Trigger>
-          <div
-            aria-hidden="true"
-            className={`absolute left-0 top-0 h-full bg-white/5`}
-            style={{width: `${sectionPercentComplete}%`}}
-          />
-        </Accordion.Header>
-        <Accordion.Content>
-          <ModuleSectionContent module={module} section={section} />
-        </Accordion.Content>
-      </Accordion.Item>
-    </li>
-  )
-}
-
-const ModuleLesson = ({
-  lessonResource,
-  section,
-  module,
-  index,
-  isInSection = true,
-}: {
-  lessonResource: Lesson
-  section?: Section
-  module: Module
-  index: number
-  isInSection?: boolean
-}) => {
-  const moduleProgress = useModuleProgress()
-
-  const completedLessons = moduleProgress?.lessons.filter(
-    (l) => l.lessonCompleted,
-  )
-  const nextLesson = moduleProgress?.nextLesson
-  const completedLessonCount = moduleProgress?.completedLessonCount || 0
-
-  const isExerciseCompleted = completedLessons?.find(
-    ({id}) => id === lessonResource._id,
-  )
-
-  const isNextLesson = nextLesson?.slug === lessonResource.slug
-  const useAbilities = () => {
-    const {data: abilityRules, status: abilityRulesStatus} =
-      trpc.modules.rules.useQuery({
-        moduleSlug: module.slug.current,
-        moduleType: module.moduleType,
-        sectionSlug: section?.slug,
-        lessonSlug: lessonResource.slug,
-      })
-    return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
-  }
-  const {ability, abilityRulesStatus} = useAbilities()
-
-  // relying on ability would mark tutorials as locked because it's correctly checking for user
-  // we don't want that here hence the moduleType check
-  const canShowVideo =
-    module.moduleType === 'tutorial' ||
-    ability.can('view', 'Content') ||
-    abilityRulesStatus === 'loading'
-
-  return (
-    <li key={lessonResource._id}>
-      <Link
-        href={
-          section
-            ? {
-                pathname: `/${pluralize(
-                  module.moduleType,
-                )}/[module]/[section]/[lesson]`,
-                query: {
-                  section: section.slug,
-                  lesson: lessonResource.slug,
-                  module: module.slug.current,
-                },
-              }
-            : {
-                pathname: `/${pluralize(module.moduleType)}/[module]/[lesson]`,
-                query: {
-                  lesson: lessonResource.slug,
-                  module: module.slug.current,
-                },
-              }
-        }
-        passHref
-        className={cx(
-          'group inline-flex w-full flex-col justify-center py-2.5 pl-3.5 pr-3 text-base font-medium',
-          {
-            'bg-gradient-to-r from-cyan-300/5 to-transparent':
-              isNextLesson && completedLessons && completedLessons.length > 0,
-            'rounded-md': !isInSection,
-          },
-        )}
-        onClick={() => {
-          track('clicked workshop exercise', {
-            module: module.slug.current,
-            lesson: lessonResource.slug,
-            ...(section && {section: section.slug}),
-            moduleType: section ? section._type : module.moduleType,
-            lessonType: lessonResource._type,
-          })
-        }}
-      >
-        {isNextLesson && completedLessonCount > 0 && (
-          <div className="flex items-center gap-1 pb-1">
-            <ArrowRightIcon
-              aria-hidden="true"
-              className="-ml-1 mr-1.5 h-4 w-4 text-cyan-300"
-            />
-            <div className="font-mono text-xs font-semibold uppercase tracking-wide text-cyan-300">
-              CONTINUE
-            </div>
-          </div>
-        )}
-        <div className="inline-flex items-center">
-          {canShowVideo ? (
-            <>
-              {isExerciseCompleted ? (
-                <CheckIcon
-                  className="-ml-1 mr-[11.5px] h-4 w-4 text-teal-400"
-                  aria-hidden="true"
-                />
-              ) : (
-                <span
-                  className="w-6 font-mono text-xs text-gray-400"
-                  aria-hidden="true"
-                >
-                  {index + 1}
-                </span>
-              )}
-            </>
-          ) : (
-            <LockClosedIcon
-              aria-hidden="true"
-              className="-ml-1 mr-[11.5px] h-4 w-4 text-gray-400"
-            />
-          )}
-          <span className="w-full cursor-pointer leading-tight group-hover:underline">
-            {lessonResource.title}
-          </span>
-        </div>
-      </Link>
-    </li>
-  )
-}
-
-const ModuleSectionContent: React.FC<{
-  section: Section
-  module: Module
-}> = ({section, module}) => {
-  const {lessons} = section
-
-  return lessons ? (
-    <ul className="-mt-5 rounded-b-lg border border-white/5 bg-black/20 pb-3 pt-7">
-      {lessons.map((exercise: Lesson, i: number) => {
-        return (
-          <ModuleLesson
-            key={exercise.slug}
-            lessonResource={exercise}
-            section={section}
-            module={module}
-            index={i}
-          />
-        )
-      })}
-    </ul>
-  ) : null
 }
 
 const CourseMeta = ({

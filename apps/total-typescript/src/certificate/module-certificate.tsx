@@ -17,7 +17,7 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
 
   return moduleProgressStatus === 'success' ? (
     <Dialog.Root>
-      <div className="flex w-full flex-col items-start justify-center px-5 py-8  sm:max-w-sm lg:px-0">
+      <div className="flex w-full flex-col items-start justify-center py-8 sm:max-w-sm">
         <h2 className="flex items-center gap-1 pb-2 text-2xl font-semibold">
           Certificate
         </h2>
@@ -69,7 +69,7 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
                 <LockClosedIcon className="w-6" />
               </div>
               {!isModuleCompleted && (
-                <div className="w-full pt-3 text-center leading-tight text-gray-300">
+                <div className="w-full px-5 pt-3 text-center leading-tight text-gray-300">
                   <Balancer>
                     Complete all lessons to unlock this certificate.
                   </Balancer>
