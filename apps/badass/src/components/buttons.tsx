@@ -62,7 +62,8 @@ const ButtonSecondary: React.FC<
     'w-full': fluid,
     'min-w-[434px]': (!fluid && size === 'default') || (!fluid && !size),
     'h-[4.5rem] text-xl font-bold px-6': size === 'default' || !size,
-    'h-[3.25rem] text-base font-medium px-6': size === 'middle',
+    'h-[2.25rem] text-sm font-medium px-4 md:h-[3.25rem] md:text-base md:font-medium md:px-6':
+      size === 'middle',
     'h-[2.25rem] text-sm font-medium px-4': size === 'small',
   }
   return tag === 'link' && href ? (
