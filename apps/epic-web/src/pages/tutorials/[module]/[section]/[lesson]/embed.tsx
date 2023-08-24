@@ -24,11 +24,14 @@ import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module
 import {useRouter} from 'next/router'
 import pluralize from 'pluralize'
 import {trpc} from 'trpc/trpc.client'
-import {getCsrfToken, getProviders} from 'next-auth/react'
+import {getCsrfToken, getProviders, signIn, useSession} from 'next-auth/react'
 import LoginTemplate, {
   type LoginTemplateProps,
 } from '@skillrecordings/ui/templates/login'
 import Spinner from 'components/spinner'
+import {Button, Input, Label} from '@skillrecordings/ui'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
+import Link from 'next/link'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // resource
@@ -125,6 +128,13 @@ const Video: React.FC<
   const {csrfToken, providers} = login
   const {videoResource, loadingVideoResource} = useVideoResource()
   const {muxPlayerProps, canShowVideo, loadingUserStatus} = useMuxPlayer()
+  const {data: session} = useSession()
+  const emailRef = React.useRef<HTMLInputElement>(null)
+  const [formSubmitted, setFormSubmitted] = React.useState(false)
+  const githubProvider = providers.github
+  const discordProvider = providers.discord
+  const router = useRouter()
+  const callbackUrl = stripAfterLastSlash(router.asPath)
 
   return (
     <>
@@ -139,12 +149,126 @@ const Video: React.FC<
               playbackId={videoResource?.muxPlaybackId}
             />
           ) : (
-            <LoginTemplate
+            <div className="flex w-full max-w-lg flex-col px-5">
+              {formSubmitted ? (
+                <div className="flex max-w-md flex-col items-center text-center">
+                  <h3 className="text-2xl font-bold sm:text-3xl">
+                    Check your email
+                  </h3>
+                  <p className="pt-4 text-lg opacity-80">
+                    A login link will been sent to your email! Use it and you'll
+                    be able to view this video.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <Logo />
+                  {session ? (
+                    <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
+                      <h1 className="py-4 text-2xl font-bold">
+                        You're logged in to Epic Web but don't have access to
+                        this video.
+                      </h1>
+                      <div className="flex w-full max-w-xs flex-col space-y-2">
+                        <Button className="w-full" asChild>
+                          <Link
+                            href="https://epicweb.dev/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Get Access
+                          </Link>
+                        </Button>
+                        <Button className="w-full" asChild variant="ghost">
+                          <a
+                            href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
+                          >
+                            Contact Support
+                          </a>
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex flex-col items-center text-center">
+                        <h1 className="py-4 text-2xl font-bold sm:text-3xl">
+                          Log in to Epic Web
+                        </h1>
+                      </div>
+                      <form
+                        className="flex flex-col space-y-2"
+                        onSubmit={async (e) => {
+                          e.preventDefault()
+                          await signIn('email', {
+                            email: emailRef?.current?.value,
+                            redirect: false,
+                            callbackUrl,
+                          }).then(() => {
+                            setFormSubmitted(true)
+                          })
+                        }}
+                      >
+                        <Label htmlFor="email">Email</Label>
+                        <Input
+                          ref={emailRef}
+                          type="email"
+                          id="email"
+                          required
+                        />
+                        <Button type="submit">Email me a login link</Button>
+                      </form>
+                      <div className="py-3 text-center opacity-75">or</div>
+                      <div className="flex flex-col items-center gap-2 md:flex-row">
+                        {githubProvider && (
+                          <Button
+                            data-button=""
+                            variant="outline"
+                            className="w-full"
+                            onClick={() =>
+                              signIn(githubProvider.id, {
+                                callbackUrl: window.location.href,
+                              })
+                            }
+                          >
+                            <Icon
+                              className="mr-2 flex items-center justify-center"
+                              name="Github"
+                              size="20"
+                            />
+                            Log in with {githubProvider.name}
+                          </Button>
+                        )}
+                        {discordProvider && (
+                          <Button
+                            data-button=""
+                            variant="outline"
+                            className="w-full"
+                            onClick={() =>
+                              signIn(discordProvider.id, {
+                                callbackUrl: window.location.href,
+                              })
+                            }
+                          >
+                            <Icon
+                              className="mr-2 flex items-center justify-center"
+                              name="Discord"
+                              size="20"
+                            />
+                            Log in with {discordProvider.name}
+                          </Button>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </>
+              )}
+              {/* <LoginTemplate
               title="Log in to Epic Web"
-              image={<LoginImage />}
+              image={<Logo />}
               csrfToken={csrfToken}
               providers={providers}
-            />
+            /> */}
+            </div>
           )}
         </>
       )}
@@ -154,7 +278,7 @@ const Video: React.FC<
 
 export default VideoEmbedPage
 
-const LoginImage = () => {
+const Logo = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -185,4 +309,13 @@ const LoginImage = () => {
       </defs>
     </svg>
   )
+}
+
+function stripAfterLastSlash(input: string): string {
+  const lastSlashIndex = input.lastIndexOf('/')
+  if (lastSlashIndex !== -1) {
+    return input.substring(0, lastSlashIndex)
+  }
+  // If there is no slash in the string, return the original string
+  return input
 }
