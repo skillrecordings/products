@@ -124,11 +124,11 @@ const Video: React.FC<
 > = ({theme, login}) => {
   const {csrfToken, providers} = login
   const {videoResource, loadingVideoResource} = useVideoResource()
-  const {muxPlayerProps, canShowVideo} = useMuxPlayer()
+  const {muxPlayerProps, canShowVideo, loadingUserStatus} = useMuxPlayer()
 
   return (
     <>
-      {loadingVideoResource ? (
+      {loadingVideoResource || loadingUserStatus ? (
         <Spinner className="h-8 w-8 sm:h-10 sm:w-10" />
       ) : (
         <>
