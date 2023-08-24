@@ -102,7 +102,7 @@ const ExerciseTemplate: React.FC<{
         navigationClassName="max-w-none"
         navigationContainerClassName="relative"
         navigationSize="sm"
-        className="pt-0"
+        className="pt-0 sm:pt-0"
       >
         <ArticleJsonLd
           url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${lesson.slug}`}

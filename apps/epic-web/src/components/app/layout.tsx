@@ -2,8 +2,8 @@ import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
 import {Toaster} from 'react-hot-toast'
 import Navigation from 'components/app/navigation'
-import {twMerge} from 'tailwind-merge'
 import {useWorkshopCta} from 'pages/full-stack-workshop-series-vol-1'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 type LayoutProps = {
   meta?: any
@@ -77,12 +77,13 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         navigationContainerClassName={navigationContainerClassName}
       />
       <div
-        className={twMerge(
-          `relative flex h-full flex-grow flex-col ${
-            isCtaActive
-              ? 'min-h-[calc(100vh-112px)]'
-              : 'min-h-[calc(100vh-48px)] sm:min-h-[calc(100vh-80px)]'
-          } ${isCtaActive ? 'pt-[112px]' : 'pt-[48px] sm:pt-[80px]'}`,
+        className={cn(
+          `relative flex h-full flex-grow flex-col`,
+          {
+            'min-h-[calc(100vh-112px)] pt-[112px]': isCtaActive,
+            'min-h-[calc(100vh-48px)] pt-[48px] sm:min-h-[calc(100vh-80px)] sm:pt-[80px]':
+              !isCtaActive,
+          },
           className,
         )}
       >
