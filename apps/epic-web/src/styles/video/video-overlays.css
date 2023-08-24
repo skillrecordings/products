@@ -47,7 +47,7 @@
 [data-video-overlay='blocked'] {
   @apply relative flex w-full flex-col items-center justify-center bg-black text-white sm:py-10 xl:aspect-video xl:flex-row;
   [data-thumbnail] {
-    @apply object-contain object-top opacity-50 blur-sm contrast-125;
+    @apply object-contain object-top opacity-10 blur-sm contrast-125;
   }
   [data-subscribe] {
     @apply z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 pb-10 text-center text-lg leading-relaxed sm:p-10;
