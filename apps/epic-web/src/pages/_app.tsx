@@ -10,7 +10,7 @@ import {DefaultSeo} from '@skillrecordings/next-seo'
 import {trpc} from 'trpc/trpc.client'
 import config from '../config'
 import {ThemeProvider} from 'next-themes'
-import {DM_Sans, JetBrains_Mono} from '@next/font/google'
+import {DM_Sans, JetBrains_Mono} from 'next/font/google'
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
