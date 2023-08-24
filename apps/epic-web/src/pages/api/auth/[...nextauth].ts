@@ -7,7 +7,7 @@ import DiscordProvider from 'next-auth/providers/discord'
 
 const productTheme: Theme = {
   colorScheme: 'auto',
-  brandColor: '#F59E0B',
+  brandColor: '#5277FF',
 }
 
 const providers = [
