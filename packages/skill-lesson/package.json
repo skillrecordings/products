@@ -23,7 +23,7 @@
     "@hookform/resolvers": "^2.9.8",
     "@mdx-js/mdx": "^2.3.0",
     "@mux/mux-node": "^7.3.1",
-    "@mux/mux-player-react": "1.11.4",
+    "@mux/mux-player-react": "1.14.0",
     "@portabletext/react": "^1.0.6",
     "@portabletext/types": "^1.0.3",
     "@radix-ui/react-accordion": "^1.0.0",
