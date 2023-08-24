@@ -36,7 +36,7 @@ type LandingPageProps = {
 
 const Header: React.FC<React.PropsWithChildren<any>> = ({content}) => {
   return (
-    <header className="pt-8 md:pb-7 md:pt-20">
+    <header className="pt-8 md:pb-7 md:pt-5 lg:pb-7 lg:pt-20">
       <div className="container">
         <div className="flex md:flex-row flex-col items-center justify-between md:text-left text-center gap-4">
           <div className="flex items-center justify-center max-w-[660px] w-full">
@@ -55,10 +55,10 @@ const Header: React.FC<React.PropsWithChildren<any>> = ({content}) => {
             <h3 className="font-condensed text-badass-pink-500 text-[1.75rem]">
               {content.caption}
             </h3>
-            <h1 className="font-heading text-[2rem] md:text-[2.5rem] lg:text-[3rem] xl:text-[3.5rem] leading-tight md:leading-[1.14] mt-6 md:mt-10">
+            <h1 className="font-heading text-[2rem] lg:text-[3rem] xl:text-[3.5rem] leading-tight lg:leading-[1.14] mt-6 md:mt-4 lg:mt-10">
               {content.heading}
             </h1>
-            <p className="text-white/70 font-medium text-lg md:text-xl leading-[1.777] md:leading-[1.75] mt-4 md:mt-8">
+            <p className="text-white/70 font-medium text-lg lg:text-xl leading-[1.777] lg:leading-[1.75] mt-4 lg:mt-8">
               {content.byline}
             </p>
           </div>
@@ -72,10 +72,10 @@ const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
   content,
 }) => {
   return (
-    <section className="pt-14 md:pt-40">
+    <section className="pt-14 md:pt-[52px] lg:pt-40">
       <div className="container">
         <div className="relative flex flex-col items-center justify-center text-center">
-          <div className="w-[360px] md:w-[660px]">
+          <div className="w-[360px] md:w-[460px] lg:w-[660px]">
             <Image
               loading="eager"
               src={ImageSecretSauce}
@@ -87,14 +87,14 @@ const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
               aria-hidden="true"
             />
           </div>
-          <div className="relative -top-4 md:-top-48">
+          <div className="relative -top-4 md:-top-[105px] lg:-top-48">
             <h3 className="font-condensed text-badass-yellow-300 text-[1.75rem] leading-[1.28]">
               {content.caption}
             </h3>
-            <h2 className="md:max-w-4xl max-w-2xl font-heading text-2xl leading-[1.333] md:leading-tight md:text-[2rem] mt-7 md:mt-9">
+            <h2 className="lg:max-w-4xl md:max-w-[521px] font-heading text-2xl leading-[1.333] lg:leading-tight lg:text-[2rem] mt-7 lg:mt-9">
               {content.heading}
             </h2>
-            <div className="absolute md:-left-28">
+            <div className="absolute md:-left-24 md:top-28 lg:top-auto lg:-left-28">
               <Image
                 src={ImageStars1}
                 width={209}
@@ -102,7 +102,7 @@ const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
                 alt="stars"
                 aria-hidden="true"
                 loading="eager"
-                className="hidden md:block"
+                className="hidden lg:block"
               />
               <Image
                 src={ImageStars1Mobile}
@@ -111,10 +111,10 @@ const SecretSauceSection: React.FC<React.PropsWithChildren<any>> = ({
                 alt="stars"
                 aria-hidden="true"
                 loading="eager"
-                className="md:hidden"
+                className="lg:hidden"
               />
             </div>
-            <div className="absolute right-0 -bottom-16 md:-right-28 md:-bottom-24">
+            <div className="absolute right-0 -bottom-16 md:-right-20 md:-bottom-10 lg:-right-28 lg:-bottom-24">
               <Image
                 loading="eager"
                 src={ImageStars2}
@@ -151,7 +151,7 @@ const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
       title="badass case studies"
       subtitle="A Deep Dive into our Processes"
     >
-      <div className="grid lg:grid-cols-2 w-full gap-4 mt-8 md:mt-[4.5rem]">
+      <div className="grid md:grid-cols-2 w-full gap-4 mt-8 lg:mt-[4.5rem]">
         {caseStudies.map((caseStudy) => {
           return (
             <Card
@@ -192,19 +192,19 @@ const otherProducts = [
 const OtherProductsSection = () => {
   return (
     <ContentSection title="other product's we've shipped" className="mt-9">
-      <ul className="grid md:grid-cols-2 gap-x-3 mt-2">
+      <ul className="grid md:grid-cols-2 gap-x-3 mt-2 md:mt-4 lg:mt-2">
         {otherProducts.map((item) => {
           return (
             <li key={item.title}>
               <Link
                 href={item.url}
-                className="flex justify-between items-center h-[57px] md:h-[80px] border-b border-[#5a5a5a] hover:text-badass-green-500 duration-150 text-lg md:text-2xl font-bold px-2"
+                className="flex justify-between items-center h-[57px] lg:h-[80px] border-b border-[#5a5a5a] hover:text-badass-green-500 duration-150 text-lg lg:text-2xl font-bold px-2"
               >
                 {item.title}
                 <Icon
                   aria-hidden="true"
                   name="arrow-top-right"
-                  className="w-6 md:w-8 h-6 md:h-8 shrink-0"
+                  className="w-6 lg:w-8 h-6 lg:h-8 shrink-0"
                 />
               </Link>
             </li>
@@ -241,10 +241,21 @@ const PodcastsSectionControls = ({
 }: any) => {
   return (
     <div className="flex flex-col justify-end">
-      <ButtonSecondary href="/podcast/course-builders" size="middle">
+      <ButtonSecondary
+        href="/podcast/course-builders"
+        size="small"
+        className="lg:hidden"
+      >
         All Episodes
       </ButtonSecondary>
-      <div className="hidden mt-14 md:flex items-center space-x-2">
+      <ButtonSecondary
+        href="/podcast/course-builders"
+        size="middle"
+        className="hidden lg:inline-flex"
+      >
+        All Episodes
+      </ButtonSecondary>
+      <div className="hidden mt-14 lg:flex items-center space-x-2">
         {loaded && instanceRef.current && (
           <>
             <Arrow
@@ -272,7 +283,7 @@ const PodcastsSectionControls = ({
 }
 
 const SLIDES_PER_VIEW_MOBILE = 2
-const SLIDES_PER_VIEW_TABLET = 3
+const SLIDES_PER_VIEW_TABLET = 2
 const SLIDES_PER_VIEW_DESKTOP = 4
 
 const calculateActiveSlidesPerView = () => {
@@ -285,7 +296,7 @@ const calculateActiveSlidesPerView = () => {
 
     if (viewportWidth < 768) {
       return SLIDES_PER_VIEW_MOBILE
-    } else if (viewportWidth >= 768 && viewportWidth < 991) {
+    } else if (viewportWidth >= 768 && viewportWidth < 1024) {
       return SLIDES_PER_VIEW_TABLET
     } else {
       return SLIDES_PER_VIEW_DESKTOP
@@ -320,9 +331,9 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
     },
     breakpoints: {
       '(min-width: 768px)': {
-        slides: {perView: SLIDES_PER_VIEW_TABLET + 0.2, spacing: 30},
+        slides: {perView: SLIDES_PER_VIEW_TABLET + 0.8, spacing: 15},
       },
-      '(min-width: 991px)': {
+      '(min-width: 1024px)': {
         slides: {perView: SLIDES_PER_VIEW_DESKTOP + 0.2, spacing: 30},
       },
     },
@@ -332,7 +343,7 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
     <ContentSection
       title="Badass Podcast"
       subtitle="Tune in to our Badass Course Builders Podcast"
-      className="mt-14 md:mt-36"
+      className="mt-14 md:mt-16 lg:mt-36"
       subtitleClassName="md:max-w-[34rem]"
       renderAdditionalComponent={() => (
         <PodcastsSectionControls
@@ -343,7 +354,7 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
         />
       )}
     >
-      <div className="mt-7 md:mt-20">
+      <div className="mt-7 md:mt-8 lg:mt-20">
         <div ref={sliderRef} className="keen-slider">
           {podcasts.map((podcast) => {
             return (
@@ -365,11 +376,11 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
                       alt={podcast.title}
                     />
                   </div>
-                  <h3 className="mt-6 md:text-2xl leading-normal md:leading-[1.333] font-sans font-bold group-hover:text-badass-green-500 duration-150">
+                  <h3 className="mt-6 md:text-[19px] lg:text-2xl leading-normal md:leading-[1.3] lg:leading-[1.333] font-sans font-bold group-hover:text-badass-green-500 duration-150">
                     {podcast.title}
                   </h3>
                 </Link>
-                <p className="font-mono uppercase text-sm md:text-base tracking-[0.14px] md:tracking-[0.16px] leading-none md:leading-[2.18] text-badass-gray-300 mt-2 font-medium">
+                <p className="font-mono uppercase text-sm md:text-[13px] lg:text-base tracking-[0.14px] md:tracking-[0.125px] lg:tracking-[0.16px] leading-none md:leading-[2.18] text-badass-gray-300 mt-2 font-medium">
                   With {podcast.interviewee}
                 </p>
               </div>
@@ -390,14 +401,24 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
     <ContentSection
       title="Badass Articles"
       subtitle="Our Key Lessons Learned Along the Way"
-      className="mt-14 md:mt-36"
+      subtitleClassName="md:max-w-[450px] lg:max-w-[500px] xl:max-w-none"
+      className="mt-14 md:mt-[60px] lg:mt-36"
       renderAdditionalComponent={() => (
-        <ButtonSecondary href="/articles" size="middle">
-          See All Articles
-        </ButtonSecondary>
+        <>
+          <ButtonSecondary href="/articles" size="small" className="lg:hidden">
+            See All Articles
+          </ButtonSecondary>
+          <ButtonSecondary
+            href="/articles"
+            size="middle"
+            className="hidden lg:inline-flex"
+          >
+            See All Articles
+          </ButtonSecondary>
+        </>
       )}
     >
-      <div className="mt-6 md:mt-20 gap-y-2 md:gap-y-0 md:gap-x-4 flex flex-col md:flex-row items-center">
+      <div className="mt-6 md:mt-10 lg:mt-20 gap-y-2 md:gap-y-0 md:gap-x-4 flex flex-col md:flex-row items-center">
         <div className="md:w-1/2">
           {mainArticle && (
             <Card
@@ -420,24 +441,24 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
               return (
                 <li
                   key={article._id}
-                  className="px-2 py-6 border-b border-[#5a5a5a]"
+                  className="px-2 py-6 md:first:pt-0 border-b border-[#5a5a5a]"
                 >
                   <div className="group flex">
                     <div className="grow">
-                      <h3 className="text-lg md:text-2xl leading-[1.16] md:leading-[1.333] font-bold">
+                      <h3 className="text-lg lg:text-2xl leading-[1.16] lg:leading-[1.333] font-bold">
                         {article.title}
                       </h3>
                     </div>
                     <ButtonSecondary
                       href={`/articles/${article.slug}`}
                       size="middle"
-                      className="shrink-0 ml-12 hidden md:inline-flex"
+                      className="shrink-0 ml-12 hidden lg:inline-flex"
                     >
                       Read Article
                     </ButtonSecondary>
                   </div>
                   <div className="flex justify-between mt-4">
-                    <div className="flex space-x-2 md:space-x-4 items-center">
+                    <div className="flex space-x-2 lg:space-x-4 items-center">
                       <div className="rounded-full overflow-hidden">
                         <Image
                           src="/joel-hooks.jpg"
@@ -452,8 +473,8 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
                     </div>
                     <ButtonSecondary
                       href={`/articles/${article.slug}`}
-                      size="middle"
-                      className="shrink-0 ml-12 md:hidden"
+                      size="small"
+                      className="shrink-0 ml-12 lg:hidden"
                     >
                       Read Article
                     </ButtonSecondary>
@@ -478,7 +499,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
       <Header content={headerContent} />
       <main>
         <SecretSauceSection content={secretSauceContent} />
-        <section className="flex flex-col items-center justify-center py-16 mt-14 md:mt-0">
+        <section className="flex flex-col items-center justify-center py-16 mt-14 md:mt-0 md:pt-1 lg:pt-14">
           <CaseStudiesSection caseStudies={caseStudies} />
           <OtherProductsSection />
           <PodcastsSection podcasts={podcasts} />

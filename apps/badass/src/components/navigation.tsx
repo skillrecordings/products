@@ -146,7 +146,7 @@ const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
 
 const NavSlots: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   return (
-    <div className="flex lg:gap-10 sm:gap-8 gap-5 items-center sm:text-lg text-sm">
+    <div className="flex lg:gap-10 sm:gap-8 gap-5 items-center md:text-base lg:text-lg text-sm">
       {children}
     </div>
   )
@@ -187,7 +187,7 @@ const NavLink: React.FC<
         aria-hidden="true"
         name={iconName}
         className={cx(
-          `w-5 h-5 shrink-0 mr-1.5 duration-150`,
+          `w-6 h-6 shrink-0 mr-1.5 duration-150`,
           isActive ? iconColorClass : iconColorHoverClass,
         )}
       />
