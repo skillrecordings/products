@@ -26,34 +26,6 @@ const providers = [
 export const nextAuthOptions: NextAuthOptions = createOptions({
   theme: productTheme,
   providers,
-  cookies: {
-    sessionToken: {
-      name: `__Secure-next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: 'none', // 'lax',
-        path: '/',
-        secure: true,
-      },
-    },
-    callbackUrl: {
-      name: `__Secure-next-auth.callback-url`,
-      options: {
-        sameSite: 'none', // 'lax',
-        path: '/',
-        secure: true,
-      },
-    },
-    csrfToken: {
-      name: `__Host-next-auth.csrf-token`,
-      options: {
-        httpOnly: true,
-        sameSite: 'none', // 'lax',
-        path: '/',
-        secure: true,
-      },
-    },
-  },
 })
 
 export default async function NextAuthEndpoint(
@@ -68,6 +40,34 @@ export default async function NextAuthEndpoint(
         req,
         theme: productTheme,
         providers,
+        cookies: {
+          sessionToken: {
+            name: `__Secure-next-auth.session-token`,
+            options: {
+              httpOnly: true,
+              sameSite: 'none', // 'lax',
+              path: '/',
+              secure: true,
+            },
+          },
+          callbackUrl: {
+            name: `__Secure-next-auth.callback-url`,
+            options: {
+              sameSite: 'none', // 'lax',
+              path: '/',
+              secure: true,
+            },
+          },
+          csrfToken: {
+            name: `__Host-next-auth.csrf-token`,
+            options: {
+              httpOnly: true,
+              sameSite: 'none', // 'lax',
+              path: '/',
+              secure: true,
+            },
+          },
+        },
       }),
     ),
   )
