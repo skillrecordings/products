@@ -40,7 +40,7 @@ importers:
       '@mdx-js/mdx': ^2.3.0
       '@mdx-js/react': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@next-auth/prisma-adapter': ^1.0.3
       '@next/env': ^12.2.2
       '@next/font': 13.4.2
@@ -158,7 +158,7 @@ importers:
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0_react@18.2.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@next-auth/prisma-adapter': 1.0.3_next-auth@4.22.1
       '@next/font': 13.4.2
       '@next/mdx': 13.4.8_msthxdjvrhmdkfpqqalumiidgq
@@ -277,7 +277,7 @@ importers:
       '@mdx-js/loader': ^2.3.0
       '@mdx-js/react': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@next/mdx': ^13.4.8
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
@@ -382,7 +382,7 @@ importers:
       '@heroicons/react': 1.0.6_react@18.2.0
       '@mdx-js/react': 2.3.0_react@18.2.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@next/mdx': 13.4.8_msthxdjvrhmdkfpqqalumiidgq
       '@portabletext/react': 1.0.6_react@18.2.0
       '@reach/dialog': 0.16.2_tqcjxml4rosq5qpg5cznikfcd4
@@ -498,7 +498,7 @@ importers:
       '@mdx-js/mdx': ^2.3.0
       '@mdx-js/react': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@next-auth/prisma-adapter': ^1.0.3
       '@next/env': ^12.2.2
       '@next/mdx': ^13.4.8
@@ -631,7 +631,7 @@ importers:
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0_react@18.2.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@next-auth/prisma-adapter': 1.0.3_next-auth@4.22.1
       '@next/mdx': 13.4.8_msthxdjvrhmdkfpqqalumiidgq
       '@portabletext/react': 1.0.6_react@18.2.0
@@ -764,7 +764,7 @@ importers:
       '@mdx-js/mdx': ^2.3.0
       '@mdx-js/react': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@next-auth/prisma-adapter': ^1.0.3
       '@next/env': ^12.2.2
       '@next/mdx': ^13.4.8
@@ -874,7 +874,7 @@ importers:
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0_react@18.2.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@next-auth/prisma-adapter': 1.0.3_next-auth@4.22.1
       '@next/mdx': 13.4.8_msthxdjvrhmdkfpqqalumiidgq
       '@portabletext/react': 1.0.6_react@18.2.0
@@ -988,7 +988,7 @@ importers:
       '@mdx-js/mdx': ^2.3.0
       '@mdx-js/react': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@next-auth/prisma-adapter': ^1.0.3
       '@next/env': ^13.1.2
       '@next/font': 13.4.2
@@ -1134,7 +1134,7 @@ importers:
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0_react@18.2.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@next-auth/prisma-adapter': 1.0.3_next-auth@4.22.1
       '@next/font': 13.4.2
       '@next/mdx': 13.4.8_msthxdjvrhmdkfpqqalumiidgq
@@ -1283,7 +1283,7 @@ importers:
       '@mdx-js/mdx': ^2.3.0
       '@mdx-js/react': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@next-auth/prisma-adapter': ^1.0.3
       '@next/env': ^12.2.2
       '@next/mdx': ^13.4.3
@@ -1406,7 +1406,7 @@ importers:
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0_react@18.2.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@next-auth/prisma-adapter': 1.0.3_next-auth@4.22.1
       '@next/mdx': 13.4.8_msthxdjvrhmdkfpqqalumiidgq
       '@portabletext/react': 1.0.6_react@18.2.0
@@ -1532,7 +1532,7 @@ importers:
       '@mdx-js/react': ^2.3.0
       '@monaco-editor/react': ^4.4.6
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@next/env': ^12.2.3
       '@next/mdx': ^13.4.8
       '@portabletext/react': ^1.0.6
@@ -1663,7 +1663,7 @@ importers:
       '@mdx-js/react': 2.3.0_react@18.2.0
       '@monaco-editor/react': 4.4.6_6vrjaj6ridxbohi43n7zt4gn7q
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@next/mdx': 13.4.8_msthxdjvrhmdkfpqqalumiidgq
       '@portabletext/react': 1.0.6_react@18.2.0
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
@@ -1797,7 +1797,7 @@ importers:
       '@mdx-js/mdx': ^2.3.0
       '@mdx-js/react': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@next-auth/prisma-adapter': ^1.0.3
       '@next/env': ^12.2.2
       '@next/mdx': ^13.4.8
@@ -1916,7 +1916,7 @@ importers:
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0_react@18.2.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@next-auth/prisma-adapter': 1.0.3_next-auth@4.22.1
       '@next/mdx': 13.4.8_msthxdjvrhmdkfpqqalumiidgq
       '@portabletext/react': 1.0.6_react@18.2.0
@@ -2041,7 +2041,7 @@ importers:
       '@mdx-js/mdx': ^2.3.0
       '@mdx-js/react': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@next/env': ^13.1.2
       '@octokit/rest': ^19.0.3
       '@portabletext/react': ^1.0.6
@@ -2209,7 +2209,7 @@ importers:
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0_react@18.2.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_tqcjxml4rosq5qpg5cznikfcd4
+      '@mux/mux-player-react': 1.14.0_tqcjxml4rosq5qpg5cznikfcd4
       '@octokit/rest': 19.0.7
       '@portabletext/react': 1.0.6_react@18.2.0
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
@@ -2809,7 +2809,7 @@ importers:
       '@mdx-js/mdx': ^2.3.0
       '@mdx-js/react': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@next-auth/prisma-adapter': ^1.0.3
       '@next/env': ^12.2.2
       '@next/mdx': ^13.4.8
@@ -2907,7 +2907,7 @@ importers:
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0_react@18.2.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@next-auth/prisma-adapter': 1.0.3_next-auth@4.22.1
       '@next/mdx': 13.4.8_msthxdjvrhmdkfpqqalumiidgq
       '@portabletext/react': 1.0.6_react@18.2.0
@@ -3324,7 +3324,7 @@ importers:
       '@mdx-js/mdx': ^2.3.0
       '@mdx-js/react': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@next/env': ^12.2.2
       '@next/mdx': ^13.4.8
       '@portabletext/react': ^1.0.6
@@ -3497,7 +3497,7 @@ importers:
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0_react@18.2.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@next/mdx': 13.4.8_msthxdjvrhmdkfpqqalumiidgq
       '@portabletext/react': 1.0.6_react@18.2.0
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
@@ -3780,7 +3780,7 @@ importers:
       '@mdx-js/mdx': ^2.3.0
       '@mdx-js/react': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@next/env': ^12.2.0
       '@next/mdx': ^13.4.8
       '@portabletext/react': ^1.0.6
@@ -3912,7 +3912,7 @@ importers:
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0_react@18.2.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@next/mdx': 13.4.8_msthxdjvrhmdkfpqqalumiidgq
       '@portabletext/react': 1.0.6_react@18.2.0
       '@portabletext/types': 1.0.3
@@ -4998,7 +4998,7 @@ importers:
       '@hookform/resolvers': ^2.9.8
       '@mdx-js/mdx': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
       '@radix-ui/react-accordion': ^1.0.0
@@ -5102,7 +5102,7 @@ importers:
       '@hookform/resolvers': 2.9.8_react-hook-form@7.29.0
       '@mdx-js/mdx': 2.3.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@portabletext/react': 1.0.6_react@18.2.0
       '@portabletext/types': 1.0.3
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
@@ -5311,7 +5311,7 @@ importers:
       '@hookform/resolvers': ^2.9.8
       '@mdx-js/mdx': ^2.3.0
       '@mux/mux-node': ^7.3.1
-      '@mux/mux-player-react': 1.11.4
+      '@mux/mux-player-react': 1.14.0
       '@portabletext/react': ^1.0.6
       '@portabletext/types': ^1.0.3
       '@radix-ui/react-accordion': ^1.0.0
@@ -5416,7 +5416,7 @@ importers:
       '@hookform/resolvers': 2.9.8_react-hook-form@7.29.0
       '@mdx-js/mdx': 2.3.0
       '@mux/mux-node': 7.3.1
-      '@mux/mux-player-react': 1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i
+      '@mux/mux-player-react': 1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i
       '@portabletext/react': 1.0.6_react@18.2.0
       '@portabletext/types': 1.0.3
       '@radix-ui/react-accordion': 1.0.0_biqbaboplfbrettd7655fr4n2y
@@ -10706,8 +10706,8 @@ packages:
       - debug
     dev: false
 
-  /@mux/mux-player-react/1.11.4_lhsvdmrfrkqkmxtqosqgyd3k4i:
-    resolution: {integrity: sha512-fPxu+lJAzVdSLYw/wCMCXVoEAP866RcKofahKxMp6NmEH0dc6EltUTV0aVU+yleXc/cQgGOCiKbOwwu+ifdJZg==}
+  /@mux/mux-player-react/1.14.0_lhsvdmrfrkqkmxtqosqgyd3k4i:
+    resolution: {integrity: sha512-/8PywMc+XkhtnqcYNN5/uIl8IcbvYsJzR70VV4ppHwrDYJ7NgBFybaYYyX09okJ/q7dDSgQSESY3xy9Ty0m6eA==}
     peerDependencies:
       '@types/react': ^17.0.0 || ^18
       '@types/react-dom': '*'
@@ -10719,8 +10719,8 @@ packages:
       '@types/react-dom':
         optional: true
     dependencies:
-      '@mux/mux-player': 1.11.4
-      '@mux/playback-core': 0.18.5
+      '@mux/mux-player': 1.14.0
+      '@mux/playback-core': 0.20.0
       '@types/react': 18.2.6
       '@types/react-dom': 18.2.4
       prop-types: 15.8.1
@@ -10728,8 +10728,8 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@mux/mux-player-react/1.11.4_tqcjxml4rosq5qpg5cznikfcd4:
-    resolution: {integrity: sha512-fPxu+lJAzVdSLYw/wCMCXVoEAP866RcKofahKxMp6NmEH0dc6EltUTV0aVU+yleXc/cQgGOCiKbOwwu+ifdJZg==}
+  /@mux/mux-player-react/1.14.0_tqcjxml4rosq5qpg5cznikfcd4:
+    resolution: {integrity: sha512-/8PywMc+XkhtnqcYNN5/uIl8IcbvYsJzR70VV4ppHwrDYJ7NgBFybaYYyX09okJ/q7dDSgQSESY3xy9Ty0m6eA==}
     peerDependencies:
       '@types/react': ^17.0.0 || ^18
       '@types/react-dom': '*'
@@ -10741,35 +10741,37 @@ packages:
       '@types/react-dom':
         optional: true
     dependencies:
-      '@mux/mux-player': 1.11.4
-      '@mux/playback-core': 0.18.5
+      '@mux/mux-player': 1.14.0
+      '@mux/playback-core': 0.20.0
       '@types/react': 18.2.6
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@mux/mux-player/1.11.4:
-    resolution: {integrity: sha512-vKqJfYUgHrjuMOTWPSCgXOEAVS0pmWl5rARhLUOa7MFfqZVqSOJ1sAGKZtPJidqo6K1iPb2plx6QzSMFNwM2hw==}
+  /@mux/mux-player/1.14.0:
+    resolution: {integrity: sha512-D4d55E2f0T2YGNjVcGaRy0v/IYybXg1jhIU1xHBVDLriISE202yR+wGzCcemvYo82GqyeVSj/k499GIkyrsGMw==}
     dependencies:
-      '@mux/mux-video': 0.15.6
-      '@mux/playback-core': 0.18.5
-      media-chrome: 1.2.2
+      '@mux/mux-video': 0.16.2
+      '@mux/playback-core': 0.20.0
+      media-chrome: 1.4.1
     dev: false
 
-  /@mux/mux-video/0.15.6:
-    resolution: {integrity: sha512-T3ycEdIoRXwQKi2YazPFb9DvfHCbJPCgYlonrZ1CIdsvORxgRreWbzgbUVApN14eVmpmuIr6aF1djB9Dp4M81Q==}
+  /@mux/mux-video/0.16.2:
+    resolution: {integrity: sha512-UzDpMD7ExkBMC1Bz0kkurcY/IYvf+cq9CQB2dKhaEaxWqGPnCHocL3+0cHKm51nDh7IY4phSixp4SdlBaIhoiw==}
     dependencies:
-      '@mux/playback-core': 0.18.5
+      '@mux/playback-core': 0.20.0
       castable-video: 0.5.2
       custom-media-element: 0.2.0
+      media-tracks: 0.2.3
     dev: false
 
-  /@mux/playback-core/0.18.5:
-    resolution: {integrity: sha512-uMBEaCcCv60z1YYF5f9hnx8w/rGPY++ShvD5uZmBM/4YveccBhHj4xqeSTbBkrcwgisF5Uz3IK3IKap2wY23WQ==}
+  /@mux/playback-core/0.20.0:
+    resolution: {integrity: sha512-J/eWqdqfZGVxiYBaEuokFzET1cfKasTp7wCi8EoUo2uHXzMho4A/3bN9kdZIeC4H3fbZr/yeihXEnpYVhXSRjw==}
     dependencies:
       hls.js: 1.4.10
-      mux-embed: 4.26.0
+      media-tracks: 0.2.3
+      mux-embed: 4.27.0
     dev: false
 
   /@next-auth/prisma-adapter/1.0.3_next-auth@4.22.1:
@@ -18763,7 +18765,7 @@ packages:
       normalize-path: 3.0.0
       readdirp: 3.6.0
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
 
   /chownr/1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
@@ -23276,6 +23278,14 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
+    dev: true
+    optional: true
+
+  /fsevents/2.3.3:
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
+    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
+    requiresBuild: true
     optional: true
 
   /ftp/0.3.10:
@@ -26082,7 +26092,7 @@ packages:
       walker: 1.0.8
       which: 2.0.2
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -26104,7 +26114,7 @@ packages:
       micromatch: 4.0.5
       walker: 1.0.8
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /jest-haste-map/28.1.3:
@@ -26123,7 +26133,7 @@ packages:
       micromatch: 4.0.5
       walker: 1.0.8
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /jest-haste-map/29.5.0:
@@ -26142,7 +26152,7 @@ packages:
       micromatch: 4.0.5
       walker: 1.0.8
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
 
   /jest-jasmine2/25.5.4:
     resolution: {integrity: sha512-9acbWEfbmS8UpdcfqnDO+uBUgKa/9hcRh983IHdM+pKmJPL77G0sWAAK0V0kr5LK3a8cSBfkFSoncXwQlRZfkQ==}
@@ -28544,8 +28554,12 @@ packages:
       unist-util-visit: 1.4.1
     dev: false
 
-  /media-chrome/1.2.2:
-    resolution: {integrity: sha512-sJGuYwFc923Jxd57b2RGGcBaE03/hL7wOo3JveBWETb+6KY9NKJwrZDKw2RszT/GNsME1jy4N+h69wNfqXkHfA==}
+  /media-chrome/1.4.1:
+    resolution: {integrity: sha512-CAb5MbHR5dTafPTxAYfm2SvjMw+y1qmI3rHpTs9ilOP0cFKcO0G84B2j1VGFqleb/zfEIXlTt4D/+07+Kx0uNA==}
+    dev: false
+
+  /media-tracks/0.2.3:
+    resolution: {integrity: sha512-h5HRl1tIyeV+aF59FAmHmxChmdM/Ewf/twpxZkRme1ny46owD24uTA0BmRuPoO+uzvE0lx9ZIkZj1TbXi2VCng==}
     dev: false
 
   /memoize-one/3.1.1:
@@ -29744,8 +29758,8 @@ packages:
   /mute-stream/0.0.8:
     resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==}
 
-  /mux-embed/4.26.0:
-    resolution: {integrity: sha512-SvQahoUAe/WL+c4zyTb7dnO381x/MwlSfFHKirco/FyZAPirD8WnF/Ry+GxTQzucJFY2CMw8PsmPgy/ckkC2ZQ==}
+  /mux-embed/4.27.0:
+    resolution: {integrity: sha512-LZ790wIgmFZebOcTqORi85d8r+aNCFcRvG0Wbc4wT7cEeOPn2Pb1iEDSFpJ+3DsgVwxQ38/e9Nwmdd/9hrfZCQ==}
     dev: false
 
   /mz/2.7.0:
@@ -34453,7 +34467,7 @@ packages:
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /rollup/3.11.0:
@@ -34461,7 +34475,7 @@ packages:
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: false
 
   /rope-sequence/1.3.2:
@@ -38333,7 +38347,7 @@ packages:
       resolve: 1.22.2
       rollup: 3.11.0
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: false
 
   /vm-browserify/0.0.4:

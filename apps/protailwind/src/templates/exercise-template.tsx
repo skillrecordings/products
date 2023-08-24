@@ -12,7 +12,7 @@ import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcr
 import {Video} from '@skillrecordings/skill-lesson/video/video'
 import {LargeScreenModuleLessonList} from '@skillrecordings/skill-lesson/video/module-lesson-list/large-screen-module-lesson-list'
 import {MobileModuleLessonList} from '@skillrecordings/skill-lesson/video/module-lesson-list/mobile-module-lesson-list'
-import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
+import {MuxPlayerRefAttributes} from '@mux/mux-player-react'
 import {trpc} from 'trpc/trpc.client'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'

@@ -22,7 +22,7 @@
     "@mdx-js/mdx": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
     "@mux/mux-node": "^7.3.1",
-    "@mux/mux-player-react": "1.11.4",
+    "@mux/mux-player-react": "1.14.0",
     "@next-auth/prisma-adapter": "^1.0.3",
     "@next/mdx": "^13.4.3",
     "@portabletext/react": "^1.0.6",
@@ -125,6 +125,7 @@
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "@types/shortid": "^0.0.29",
+    "autoprefixer": "^10.4.2",
     "dotenv-flow": "^3.2.0",
     "eslint": "^8.19.0",
     "eslint-config-skill-recordings": "workspace:*",
@@ -136,8 +137,7 @@
     "tailwind-scrollbar": "^3.0.0",
     "tailwindcss": "^3.3.0",
     "typescript": "5.1.6",
-    "webpack": "^5.73.0",
-    "autoprefixer": "^10.4.2"
+    "webpack": "^5.73.0"
   },
   "prettier": {
     "bracketSpacing": false,
