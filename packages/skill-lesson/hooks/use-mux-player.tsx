@@ -5,7 +5,7 @@ import {useRouter} from 'next/router'
 import {
   type MuxPlayerRefAttributes,
   type MuxPlayerProps,
-} from '@mux/mux-player-react/*'
+} from '@mux/mux-player-react'
 import {useVideoResource} from './use-video-resource'
 import {useLesson} from './use-lesson'
 import {useNextLesson} from './use-next-lesson'

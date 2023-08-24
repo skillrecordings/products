@@ -15,7 +15,7 @@ import {MobileModuleLessonList} from '@skillrecordings/skill-lesson/video/module
 import {LessonDescription} from '@skillrecordings/skill-lesson/video/lesson-description'
 import {LessonTitle} from '@skillrecordings/skill-lesson/video/lesson-title'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
-import {MuxPlayerRefAttributes} from '@mux/mux-player-react/*'
+import {MuxPlayerRefAttributes} from '@mux/mux-player-react'
 import {trpc} from '../trpc/trpc.client'
 import LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
 import {useSession} from 'next-auth/react'
