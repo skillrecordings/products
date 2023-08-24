@@ -11,7 +11,7 @@ import {markdownSchema} from 'sanity-plugin-markdown'
 export default defineConfig({
   name: 'default',
   title: 'astro-party',
-  projectId: 'fr5ycba3',
+  projectId: 'ep92ta3i',
   dataset: 'production',
   plugins: [
     deskTool({structure: deskStructure}),
