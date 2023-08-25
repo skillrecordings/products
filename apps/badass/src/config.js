@@ -28,7 +28,7 @@ export default {
     },
     images: [
       {
-        url: 'https://badass.dev/card@2x.png',
+        url: 'https://res.cloudinary.com/badass-courses/image/upload/v1692950786/badass-share_card-3_2x_gvwwvm.jpg',
         width: 1200,
         height: 628,
       },
