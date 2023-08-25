@@ -65,11 +65,15 @@ export const getPlayerPrefs = () => {
 }
 
 export const savePlayerPrefs = (options: any) => {
-  return cookies.set(PLAY_PREFS_KEY, {
-    ...defaultPlayerPreferences,
-    ...getPlayerPrefs(),
-    ...options,
-  })
+  return cookies.set(
+    PLAY_PREFS_KEY,
+    {
+      ...defaultPlayerPreferences,
+      ...getPlayerPrefs(),
+      ...options,
+    },
+    {sameSite: 'None', secure: true},
+  )
 }
 
 export const usePlayerPrefs = () => {
