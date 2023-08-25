@@ -271,9 +271,9 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
         value={openedSections}
       >
         <Primitive.ul
-          className="space-y-2"
           {...sectionsProps}
           ref={forwardedRef}
+          className={cn('space-y-2', sectionsProps.className)}
         >
           {module.sections?.map?.((section) => {
             const childrenWithProps = React.Children.map(children, (child) => {
@@ -498,21 +498,22 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
     const showContinue = isNextLesson && completedLessonCount > 0
 
     return (
-      <Primitive.li asChild {...lessonProps} ref={forwardedRef}>
-        <Link
-          className={cn(
-            `[&>div]:flex [&>div]:py-2 [&>div>div]:w-full [&>div:has(span)]:items-baseline [&>div]:gap-2 text-base [&>div>span]:text-xs [&>div>span]:opacity-60 font-medium flex flex-col`,
-            {
-              'before:content-["continue"] before:mt-2 before:-mb-1 before:text-xs before:font-semibold before:pl-10 before:text-primary before:uppercase before:block':
-                showContinue,
-              '[&>div]:px-4': section,
-              'bg-card [&>div]:px-2.5': !section,
-            },
-            lessonProps.className,
-          )}
-          href={getLessonHref(lesson, module, section)}
-          passHref
-        >
+      <Primitive.li
+        asChild
+        {...lessonProps}
+        className={cn(
+          `[&>div]:flex [&>div]:py-2 [&>div>div]:w-full [&>div:has(span)]:items-baseline [&>div]:gap-2 text-base [&>div>span]:text-xs [&>div>span]:opacity-60 font-medium flex flex-col`,
+          {
+            'before:content-["continue"] before:mt-2 before:-mb-1 before:text-xs before:font-semibold before:pl-10 before:text-primary before:uppercase before:block':
+              showContinue,
+            '[&>div]:px-4': section,
+            'bg-card [&>div]:px-2.5': !section,
+          },
+          lessonProps.className,
+        )}
+        ref={forwardedRef}
+      >
+        <Link href={getLessonHref(lesson, module, section)} passHref>
           <div>
             {canShowVideo ? (
               <>
