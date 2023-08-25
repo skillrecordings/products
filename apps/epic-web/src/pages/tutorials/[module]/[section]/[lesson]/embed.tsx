@@ -16,7 +16,7 @@ import {
   useMuxPlayer,
 } from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import MuxPlayer, {
-  MuxPlayerRefAttributes,
+  type MuxPlayerRefAttributes,
   type MuxPlayerProps,
 } from '@mux/mux-player-react'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
@@ -92,14 +92,22 @@ const VideoEmbedPage: React.FC<VideoEmbedPageProps> = ({
   React.useEffect(() => {
     setTheme(theme)
   }, [theme])
+  const thumbnail = `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`
 
   return (
     <div
       data-video-embed-page=""
       data-theme={theme}
       className="
-        flex aspect-video h-full w-full items-center justify-center"
+        relative flex aspect-video h-full w-full items-center justify-center "
     >
+      <div
+        className="absolute left-0 top-0 -z-10 h-full w-full opacity-10 blur-sm dark:opacity-25"
+        style={{
+          backgroundImage: `url(${thumbnail})`,
+          backgroundSize: 'cover',
+        }}
+      />
       <ModuleProgressProvider moduleSlug={module.slug.current}>
         <LessonProvider lesson={lesson} module={module} section={section}>
           <VideoResourceProvider videoResourceId={videoResourceId}>
@@ -113,7 +121,7 @@ const VideoEmbedPage: React.FC<VideoEmbedPageProps> = ({
                 })
               }}
             >
-              <Video theme={theme} login={login} />
+              <Video theme={theme} login={login} ref={muxPlayerRef} />
             </VideoProvider>
           </VideoResourceProvider>
         </LessonProvider>
@@ -122,80 +130,127 @@ const VideoEmbedPage: React.FC<VideoEmbedPageProps> = ({
   )
 }
 
-const Video: React.FC<
-  Pick<VideoEmbedPageProps, 'theme'> & Pick<VideoEmbedPageProps, 'login'>
-> = ({theme, login}) => {
-  const {csrfToken, providers} = login
-  const {videoResource, loadingVideoResource} = useVideoResource()
-  const {muxPlayerProps, canShowVideo, loadingUserStatus} = useMuxPlayer()
-  const {data: session} = useSession()
-  const emailRef = React.useRef<HTMLInputElement>(null)
-  const [formSubmitted, setFormSubmitted] = React.useState(false)
-  const githubProvider = providers.github
-  const discordProvider = providers.discord
-  const router = useRouter()
-  const callbackUrl = stripAfterLastSlash(router.asPath)
+type VideoProps = Pick<VideoEmbedPageProps, 'theme'> &
+  Pick<VideoEmbedPageProps, 'login'>
 
-  return (
-    <>
-      {loadingVideoResource || loadingUserStatus ? (
-        <Spinner className="h-8 w-8 sm:h-10 sm:w-10" />
-      ) : (
-        <>
-          {Boolean(canShowVideo && videoResource?.muxPlaybackId) ? (
-            <MuxPlayer
-              {...(muxPlayerProps as MuxPlayerProps)}
-              theme={theme}
-              playbackId={videoResource?.muxPlaybackId}
-            />
-          ) : (
-            <div className="flex w-full max-w-lg flex-col px-5">
-              {formSubmitted ? (
-                <div className="flex max-w-md flex-col items-center text-center">
-                  <h3 className="text-2xl font-bold sm:text-3xl">
-                    Check your email
-                  </h3>
-                  <p className="pt-4 text-lg opacity-80">
-                    A login link will been sent to your email! Use it and you'll
-                    be able to view this video.
-                  </p>
-                </div>
-              ) : (
-                <>
-                  <Logo />
-                  {session ? (
-                    <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
-                      <h1 className="py-4 text-2xl font-bold">
-                        You're logged in to Epic Web but don't have access to
-                        this video.
-                      </h1>
-                      <div className="flex w-full max-w-xs flex-col space-y-2">
-                        <Button className="w-full" asChild>
-                          <Link
-                            href="https://epicweb.dev/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Get Access
-                          </Link>
-                        </Button>
-                        <Button className="w-full" asChild variant="ghost">
-                          <a
-                            href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
-                          >
-                            Contact Support
-                          </a>
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <div className="flex flex-col items-center text-center">
-                        <h1 className="py-4 text-2xl font-bold sm:text-3xl">
-                          Log in to Epic Web
-                        </h1>
-                      </div>
-                      <form
+const Video: React.FC<
+  {
+    ref: React.ForwardedRef<MuxPlayerRefAttributes>
+  } & VideoProps
+> = React.forwardRef<MuxPlayerRefAttributes, VideoProps>(
+  ({theme, login}, ref) => {
+    const {csrfToken, providers} = login
+    const {videoResource, loadingVideoResource} = useVideoResource()
+    const {muxPlayerProps, canShowVideo, loadingUserStatus} = useMuxPlayer()
+    const {data: session} = useSession()
+    const emailRef = React.useRef<HTMLInputElement>(null)
+    const [formSubmitted, setFormSubmitted] = React.useState(false)
+    const githubProvider = providers.github
+    const discordProvider = providers.discord
+    const router = useRouter()
+    const callbackUrl = stripAfterLastSlash(router.asPath)
+
+    React.useEffect(() => {
+      // in case user has logged out, reset form
+      if (!session) {
+        setFormSubmitted(false)
+      }
+    }, [session])
+
+    return (
+      <>
+        {loadingVideoResource || loadingUserStatus ? (
+          <Spinner className="h-8 w-8 sm:h-10 sm:w-10" />
+        ) : (
+          <>
+            {Boolean(canShowVideo && videoResource?.muxPlaybackId) ? (
+              <MuxPlayer
+                ref={ref}
+                {...(muxPlayerProps as MuxPlayerProps)}
+                theme={theme}
+                playbackId={videoResource?.muxPlaybackId}
+              />
+            ) : (
+              <div className="flex w-full max-w-lg flex-col px-5">
+                {formSubmitted ? (
+                  <div className="flex max-w-md flex-col items-center text-center">
+                    <h3 className="text-2xl font-bold sm:text-3xl">
+                      Check your email
+                    </h3>
+                    <p className="pt-4 text-lg opacity-80">
+                      A login link will been sent to your email! Use it and
+                      you'll be able to view this video.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <Logo />
+                      {session ? (
+                        <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
+                          <h1 className="py-4 text-2xl font-bold">
+                            You're logged in to Epic Web but don't have access
+                            to this video.
+                          </h1>
+                          <div className="flex w-full max-w-xs flex-col space-y-2">
+                            <Button className="w-full" asChild>
+                              <Link
+                                href="https://epicweb.dev/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                Get Access
+                              </Link>
+                            </Button>
+                            <Button className="w-full" asChild variant="ghost">
+                              <a
+                                href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
+                              >
+                                Contact Support
+                              </a>
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="flex flex-col items-center text-center">
+                            <h1 className="pb-2 pt-4 text-2xl font-bold sm:text-3xl">
+                              Get access to{' '}
+                              <a
+                                href="https://epicweb.dev"
+                                className="decoration-primary underline-offset-2 hover:underline"
+                                target="_blank" rel="noreferrer"
+                              >
+                                EpicWeb.dev
+                              </a>
+                            </h1>
+                            <h2 className="opacity-80 sm:text-lg">
+                              And continue watching this video
+                            </h2>
+                          </div>
+                          <div className="mx-auto mt-5 flex w-full max-w-[250px] flex-col space-y-3">
+                            <Button asChild>
+                              <a
+                                href="https://epicweb.dev"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-semibold"
+                              >
+                                Buy Epic Web
+                              </a>
+                            </Button>
+                            <Button variant="outline" asChild>
+                              <a
+                                href="https://epicweb.dev/login"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                Log in (Restore purchases)
+                              </a>
+                            </Button>
+                          </div>
+
+                          {/* <form
                         className="flex flex-col space-y-2"
                         onSubmit={async (e) => {
                           e.preventDefault()
@@ -257,24 +312,26 @@ const Video: React.FC<
                             Log in with {discordProvider.name}
                           </Button>
                         )}
-                      </div>
-                    </>
-                  )}
-                </>
-              )}
-              {/* <LoginTemplate
+                      </div> */}
+                        </>
+                      )}
+                    </div>
+                  </>
+                )}
+                {/* <LoginTemplate
               title="Log in to Epic Web"
               image={<Logo />}
               csrfToken={csrfToken}
               providers={providers}
             /> */}
-            </div>
-          )}
-        </>
-      )}
-    </>
-  )
-}
+              </div>
+            )}
+          </>
+        )}
+      </>
+    )
+  },
+)
 
 export default VideoEmbedPage
 

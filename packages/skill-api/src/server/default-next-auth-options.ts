@@ -1,4 +1,4 @@
-import {NextAuthOptions, Theme} from 'next-auth'
+import {type CookiesOptions, type NextAuthOptions, type Theme} from 'next-auth'
 import {PrismaAdapter} from './skill-next-auth-prisma-adapter'
 import {sendVerificationRequest} from './send-verification-request'
 import {prisma} from '@skillrecordings/database'
@@ -44,6 +44,7 @@ export const createOptions = (config: {
   theme: Theme
   providers?: any[]
   debug?: boolean
+  cookies?: Partial<CookiesOptions>
 }) => {
   return defaultNextAuthOptions(config)
 }
@@ -53,13 +54,15 @@ export function defaultNextAuthOptions(options: {
   debug?: boolean
   req?: NextApiRequest
   providers?: any[]
+  cookies?: Partial<CookiesOptions>
 }): NextAuthOptions {
-  const {theme, debug, req, providers = []} = options
+  const {theme, debug, req, cookies, providers = []} = options
   return {
     secret: process.env.NEXTAUTH_SECRET,
     session: {
       strategy: 'jwt',
     },
+    cookies,
     theme,
     debug,
     adapter: PrismaAdapter(prisma),

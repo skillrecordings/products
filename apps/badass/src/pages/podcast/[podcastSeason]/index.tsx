@@ -135,7 +135,7 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
                   />
                   <div className="group-hover:opacity-100 opacity-0 transition">
                     <PlayIcon className="w-8 absolute left-3 bottom-3 group-hover:scale-100 scale-50 group-hover:translate-y-0 translate-y-2 transition" />
-                    <div className="absolute pointer-events-none bottom-3 right-3 flex items-end gap-0.5 justify-end h-5">
+                    {/* <div className="absolute pointer-events-none bottom-3 right-3 flex items-end gap-0.5 justify-end h-5">
                       {new Array(6).fill('').map((_, i) => (
                         <motion.div
                           key={i}
@@ -157,7 +157,7 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
                           }}
                         />
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                 </Link>
                 <div>

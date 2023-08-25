@@ -4,7 +4,7 @@ export const genericCallToActionContent = {
   heading:
     'Lets work together on your strategy to design, produce, and sell your course online.',
   description: (
-    <div>
+    <>
       <p>
         You're an expert with an idea for a course you'd like to sell, but don't
         know where to start.
@@ -18,10 +18,10 @@ export const genericCallToActionContent = {
         selling your course.
       </p>
       <p>
-        Get direct expert feedback on your course idea by{' '}
-        <strong>entering your email below.</strong>
+        Get direct expert feedback on your course idea by entering your email
+        below.
       </p>
-    </div>
+    </>
   ),
   button: (
     <div className="flex flex-row justify-center align-middle items-center mx-auto">

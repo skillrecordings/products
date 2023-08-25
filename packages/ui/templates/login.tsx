@@ -57,7 +57,9 @@ const LoginTemplate: React.FC<React.PropsWithChildren<LoginTemplateProps>> = ({
     <main data-login-template="">
       {image ? image : null}
       <h1 data-title="">
-        {title ? title : `Log in to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}
+        <Balancer>
+          {title ? title : `Log in to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}
+        </Balancer>
       </h1>
       {query?.error === 'Verification' ? (
         <p data-verification-error="">
@@ -162,7 +164,7 @@ export const CheckYourEmailTemplate: React.FC<{image?: React.ReactElement}> = ({
         {image ? image : null}
         <h1 data-title="">Check your email</h1>
         <p data-message="">
-          A login link will been sent to your email! Use it and you&apos;ll be
+          A login link will be sent to your email! Use it and you&apos;ll be
           able to access your account.
         </p>
       </div>

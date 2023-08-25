@@ -12,11 +12,12 @@ import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {first} from 'lodash'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
-import {ModuleNavigator} from './workshop-template'
+import * as Collection from '@skillrecordings/ui/module/collection'
 import Balancer from 'react-wrap-balancer'
 import Testimonials from 'testimonials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import {Skeleton} from '@skillrecordings/ui'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
@@ -24,6 +25,10 @@ const TutorialTemplate: React.FC<{
 }> = ({tutorial, tutorialBodySerialized}) => {
   const {title, ogImage, description, testimonials} = tutorial
   const pageTitle = `${title} Tutorial`
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: tutorial.slug.current,
+    })
 
   return (
     <Layout
@@ -48,7 +53,35 @@ const TutorialTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        {tutorial && <ModuleNavigator module={tutorial} />}
+        <div className="w-full px-5 lg:max-w-xs lg:px-0">
+          {tutorial && (
+            <Collection.Root module={tutorial}>
+              <div className="flex w-full items-center justify-between pb-3">
+                <h3 className="text-xl font-bold">Contents</h3>
+                <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
+              </div>
+              <Collection.Sections>
+                {moduleProgressStatus === 'success' ? (
+                  <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125">
+                    <Collection.Lessons>
+                      <Collection.Lesson className="group opacity-80 transition before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
+                    </Collection.Lessons>
+                  </Collection.Section>
+                ) : (
+                  <Skeleton className="border bg-background py-6" />
+                )}
+              </Collection.Sections>
+              {/* Used if module has either none or single section so they can be styled differently */}
+              <Collection.Lessons>
+                {moduleProgressStatus === 'success' ? (
+                  <Collection.Lesson className="group opacity-75 transition before:pl-6 hover:opacity-100 dark:opacity-90 dark:hover:opacity-100 [&>div]:px-0" />
+                ) : (
+                  <Skeleton className="my-2 border bg-background py-5" />
+                )}
+              </Collection.Lessons>
+            </Collection.Root>
+          )}
+        </div>
       </main>
     </Layout>
   )
@@ -126,7 +159,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                       }
                 }
                 className={cx(
-                  'relative flex items-center justify-center rounded-md border border-white/5 bg-gradient-to-b from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110',
+                  'relative flex w-full items-center justify-center rounded-md border border-white/5 bg-gradient-to-b from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110 md:max-w-[240px]',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },

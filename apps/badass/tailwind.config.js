@@ -10,6 +10,15 @@ module.exports = {
     './node_modules/@skillrecordings/player/dist/**/*.js',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1.25rem',
+      },
+      screens: {
+        sm: '1376px',
+      },
+    },
     extend: {
       colors: {
         black: '#040308',
@@ -73,6 +82,9 @@ module.exports = {
       },
       screens: {
         print: {raw: 'print'},
+      },
+      maxWidth: {
+        '8xl': '83.5rem',
       },
       typography: (theme) => ({
         DEFAULT: {

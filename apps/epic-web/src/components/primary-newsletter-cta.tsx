@@ -1,9 +1,8 @@
 import * as React from 'react'
 import {
-  redirectUrlBuilder,
   SubscribeToConvertkitForm,
-  useConvertkitForm,
-} from '@skillrecordings/convertkit-react-ui'
+  redirectUrlBuilder,
+} from '@skillrecordings/ui/forms/convertkit-subscribe-form'
 import {useRouter} from 'next/router'
 import {track} from 'utils/analytics'
 import {Button} from '@skillrecordings/ui'

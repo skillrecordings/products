@@ -9,14 +9,13 @@ import Icon, {IconNames} from 'components/icons'
 
 const Navigation = () => {
   return (
-    <nav
-      aria-label="top"
-      className="w-full left-0 top-0 sm:px-5 px-1 sm:py-5 py-2 print:hidden"
-    >
-      <div className="flex items-center w-full h-full max-w-screen-xl mx-auto justify-between">
-        <NavLogo />
-        <DesktopNav />
-        <MobileNav />
+    <nav aria-label="top" className="sm:py-5 py-2">
+      <div className="container">
+        <div className="flex items-center justify-between">
+          <NavLogo />
+          <DesktopNav />
+          <MobileNav />
+        </div>
       </div>
     </nav>
   )
@@ -28,18 +27,15 @@ const NavLogo = () => {
       href="/"
       aria-label="Badass Dev Home"
       passHref
-      className="inline-flex items-center"
+      className="flex items-center w-[176px] sm:w-[194px] shrink-0"
       tabIndex={router.pathname === '/' ? -1 : 0}
     >
-      <div className="flex items-center justify-center sm:w-auto w-14 flex-shrink-0">
-        <Image src={SkullLogo} alt="Badass Skull Logo" width={80} height={80} />
-      </div>
-      <div className="font-heading sm:text-2xl text-xl">
-        Badass
-        <span className="pl-0.5 text-base font-condensed text-badass-yellow-500">
-          .dev
-        </span>
-      </div>
+      <Image
+        src="/assets/logo-skull@2x.png"
+        alt="Badass Skull Logo"
+        width={194}
+        height={70}
+      />
     </Link>
   )
 }
@@ -150,7 +146,7 @@ const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
 
 const NavSlots: React.FC<React.PropsWithChildren<unknown>> = ({children}) => {
   return (
-    <div className="flex lg:gap-10 sm:gap-8 gap-5 lg:pr-10 pr-2 items-center sm:text-lg text-sm">
+    <div className="flex lg:gap-10 sm:gap-8 gap-5 items-center md:text-base lg:text-lg text-sm">
       {children}
     </div>
   )
@@ -191,7 +187,7 @@ const NavLink: React.FC<
         aria-hidden="true"
         name={iconName}
         className={cx(
-          `w-5 h-5 shrink-0 mr-1.5 duration-150`,
+          `w-6 h-6 shrink-0 mr-1.5 duration-150`,
           isActive ? iconColorClass : iconColorHoverClass,
         )}
       />
