@@ -9,6 +9,7 @@ import Icon from 'components/icons'
 import {useKeenSlider} from 'keen-slider/react'
 import 'keen-slider/keen-slider.min.css'
 
+import Balancer from 'react-wrap-balancer'
 import {type CaseStudy, getAllCaseStudies} from 'lib/case-studies'
 import {type Podcast, getAllPodcastEpisodes} from 'lib/podcast'
 import {type Article, getAllArticles} from 'lib/articles'
@@ -406,19 +407,19 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
       renderAdditionalComponent={() => (
         <>
           <ButtonSecondary href="/articles" size="small" className="lg:hidden">
-            See All Articles
+            View All Articles
           </ButtonSecondary>
           <ButtonSecondary
             href="/articles"
             size="middle"
             className="hidden lg:inline-flex"
           >
-            See All Articles
+            View All Articles
           </ButtonSecondary>
         </>
       )}
     >
-      <div className="mt-6 md:mt-10 lg:mt-20 gap-y-2 md:gap-y-0 md:gap-x-4 flex flex-col md:flex-row items-center">
+      <div className="mt-6 md:mt-10 lg:mt-20 gap-y-2 md:gap-y-0 md:gap-x-4 lg:gap-x-16 flex flex-col md:flex-row items-center">
         <div className="md:w-1/2">
           {mainArticle && (
             <Card
@@ -426,9 +427,9 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
               imageUrl={mainArticle.image}
               title={mainArticle.title}
               subtitle={mainArticle?.description || ''}
-              href={`/articles/${mainArticle.slug}`}
+              href={`/${mainArticle.slug}`}
               type="article"
-              ctaText="ReadArticle"
+              ctaText="View"
               authorName="Joel Hooks"
               authorAvatarUrl="/joel-hooks.jpg"
               className="bg-[#C5330B] hover:bg-[#C5330B]"
@@ -445,16 +446,23 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
                 >
                   <div className="group flex">
                     <div className="grow">
-                      <h3 className="text-lg lg:text-2xl leading-[1.16] lg:leading-[1.333] font-bold">
-                        {article.title}
+                      <h3>
+                        <Balancer>
+                          <Link
+                            className="text-lg lg:text-2xl leading-[1.16] lg:leading-[1.333] font-bold w-full hover:text-badass-green-500 transition"
+                            href={`/${article.slug}`}
+                          >
+                            {article.title}
+                          </Link>
+                        </Balancer>
                       </h3>
                     </div>
                     <ButtonSecondary
-                      href={`/articles/${article.slug}`}
+                      href={`/${article.slug}`}
                       size="middle"
                       className="shrink-0 ml-12 hidden lg:inline-flex"
                     >
-                      Read Article
+                      View
                     </ButtonSecondary>
                   </div>
                   <div className="flex justify-between mt-4">
@@ -472,11 +480,11 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
                       </div>
                     </div>
                     <ButtonSecondary
-                      href={`/articles/${article.slug}`}
+                      href={`/${article.slug}`}
                       size="small"
                       className="shrink-0 ml-12 lg:hidden"
                     >
-                      Read Article
+                      View
                     </ButtonSecondary>
                   </div>
                 </li>
