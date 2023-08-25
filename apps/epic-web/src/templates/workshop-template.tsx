@@ -53,7 +53,7 @@ const WorkshopTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        <div className="w-full lg:max-w-xs">
+        <div className="w-full px-5 lg:max-w-xs lg:px-0">
           {workshop && (
             <Collection.Root module={workshop}>
               <div className="flex w-full items-center justify-between pb-3">
@@ -108,10 +108,10 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
       <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 pt-8 sm:pb-16 sm:pt-12 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
-            href="/tutorials"
+            href="/workshops"
             className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-rose-500 dark:text-rose-400"
           >
-            Free Tutorial
+            Pro Workshop
           </Link>
           <h1 className="font-text text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
             <Balancer>{title}</Balancer>

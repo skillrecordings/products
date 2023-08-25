@@ -53,7 +53,7 @@ const TutorialTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        <div className="w-full lg:max-w-xs">
+        <div className="w-full px-5 lg:max-w-xs lg:px-0">
           {tutorial && (
             <Collection.Root module={tutorial}>
               <div className="flex w-full items-center justify-between pb-3">
