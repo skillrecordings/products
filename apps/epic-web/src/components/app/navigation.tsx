@@ -16,10 +16,19 @@ import {
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {trpc} from 'trpc/trpc.client'
 import Gravatar from 'react-gravatar'
-import {useSession} from 'next-auth/react'
+import {signOut, useSession} from 'next-auth/react'
 import {WorkshopSeriesNavCta} from 'pages/full-stack-workshop-series-vol-1'
 import {useMedia} from 'react-use'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@skillrecordings/ui'
+import {LogoutIcon} from '@heroicons/react/solid'
 
 type NavigationProps = {
   className?: string
@@ -166,7 +175,7 @@ const Navigation: React.FC<NavigationProps> = ({
           </div>
           <div className="flex items-center justify-end">
             <Login className="hidden sm:flex" />
-            <User />
+            <User className="hidden sm:flex" />
             <ColorModeToggle className="hidden sm:block" />
             <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
           </div>
@@ -210,7 +219,7 @@ type IconProps = {
   theme: 'light' | 'dark'
 }
 
-const User = () => {
+const User: React.FC<{className?: string}> = ({className}) => {
   const {pathname} = useRouter()
   const {data: sessionData, status: sessionStatus} = useSession()
   const {data: commerceProps, status: commercePropsStatus} =
@@ -223,31 +232,49 @@ const User = () => {
   return (
     <>
       {isLoadingUserInfo || !sessionData?.user?.email ? null : (
-        <div className="mr-3 hidden items-center space-x-1 sm:flex">
-          <Gravatar
-            className="h-8 w-8 rounded-full"
-            email={sessionData?.user?.email}
-            default="mp"
-          />
-          <div className="flex flex-col">
-            <span className="text-sm font-bold leading-tight">
-              {sessionData?.user?.name}
-            </span>
-            {purchasedProductIds.length > 0 && (
-              <Link
-                href="/products?s=purchased"
-                className={cx(
-                  'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
-                  {
-                    underline: pathname === '/products',
-                  },
-                )}
-              >
-                My Purchases
-              </Link>
-            )}
-          </div>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            className={cn('mr-3 flex items-center space-x-1', className)}
+          >
+            <Gravatar
+              className="h-8 w-8 rounded-full"
+              email={sessionData?.user?.email}
+              default="mp"
+            />
+            <div className="flex flex-col">
+              <span className="text-sm font-bold leading-tight">
+                {sessionData?.user?.name}
+              </span>
+              {purchasedProductIds.length > 0 && (
+                <Link
+                  href="/products?s=purchased"
+                  className={cx(
+                    'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
+                    {
+                      underline: pathname === '/products',
+                    },
+                  )}
+                >
+                  My Purchases
+                </Link>
+              )}
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                signOut()
+              }}
+              className="flex items-center justify-between"
+            >
+              {' '}
+              <span>Log out</span>
+              <LogoutIcon className="h-4 w-4" />
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       )}
     </>
   )
