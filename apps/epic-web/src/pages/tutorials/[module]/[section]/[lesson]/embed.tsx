@@ -136,6 +136,13 @@ const Video: React.FC<
   const router = useRouter()
   const callbackUrl = stripAfterLastSlash(router.asPath)
 
+  React.useEffect(() => {
+    // in case user has logged out, reset form
+    if (!session) {
+      setFormSubmitted(false)
+    }
+  }, [session])
+
   return (
     <>
       {loadingVideoResource || loadingUserStatus ? (
