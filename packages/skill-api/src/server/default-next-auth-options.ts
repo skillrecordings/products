@@ -62,6 +62,7 @@ export function defaultNextAuthOptions(options: {
     session: {
       strategy: 'jwt',
     },
+    cookies,
     theme,
     debug,
     adapter: PrismaAdapter(prisma),
@@ -127,6 +128,5 @@ export function defaultNextAuthOptions(options: {
       error: '/error',
       verifyRequest: '/check-your-email',
     },
-    ...cookies,
   }
 }
