@@ -2,18 +2,18 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {PortableText} from '@portabletext/react'
-import type {User} from '@skillrecordings/database'
-import type {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 import {useModuleProgress} from 'utils/module-progress'
 import Layout from 'components/layout'
 import Icon from 'components/icons'
+import {secondsToFormattedTime} from 'lib/secondsToFormattedTime'
+import {Module} from '@types'
 
 const LessonItem: React.FC<{lesson: any; index: number}> = ({
   lesson,
   index,
 }) => {
-  const {title, slug, body} = lesson
+  const {title, slug, body, durationInSeconds} = lesson
   const moduleProgress = useModuleProgress()
   const isLessonCompleted = moduleProgress?.lessons.find(
     (progressLesson) =>
@@ -45,10 +45,16 @@ const LessonItem: React.FC<{lesson: any; index: number}> = ({
           <Icon name="play" className="w-[10px] h-[10px]" />
           <span>{isLessonCompleted ? 'Rewatch Lesson' : 'Watch Lesson'}</span>
         </Link>
-        <div className="space-x-2 flex items-center text-base">
-          <Icon name="duration" className="w-5 h-5 text-gray-400" />
-          <span>XXm</span>
-        </div>
+        {durationInSeconds && (
+          <div className="space-x-2 flex items-center text-base">
+            <Icon name="duration" className="w-5 h-5 text-gray-400" />
+            <span>
+              {secondsToFormattedTime(Number.parseInt(durationInSeconds), {
+                resolveToSeconds: true,
+              })}
+            </span>
+          </div>
+        )}
       </div>
     </li>
   )
@@ -89,10 +95,17 @@ const WorkshopTemplate: React.FC<{
                   {workshop?.sections?.[0]?.lessons?.length} video lessons
                 </span>
               </div>
-              <div className="space-x-2 flex items-center text-base">
-                <Icon name="duration" className="w-[22px] h-[22px]" />
-                <span>Xh XXm of learning material</span>
-              </div>
+              {workshop.durationInSeconds && (
+                <div className="space-x-2 flex items-center text-base">
+                  <Icon name="duration" className="w-[22px] h-[22px]" />
+                  <span>
+                    {secondsToFormattedTime(
+                      Number.parseInt(workshop.durationInSeconds),
+                    )}{' '}
+                    of learning material
+                  </span>
+                </div>
+              )}
             </div>
             <Link
               href={

@@ -12,6 +12,7 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 import Icon from 'components/icons'
 import {useModuleProgress} from 'utils/module-progress'
+import {secondsToFormattedTime} from 'lib/secondsToFormattedTime'
 
 const PlaylistItem: React.FC<{
   playlist: SanityDocument
@@ -146,16 +147,20 @@ const PlaylistItem: React.FC<{
               </div>
             </>
           )}
-          <div className="space-x-1 sm:space-x-2 flex items-center text-base">
-            <Icon
-              name="duration"
-              className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px]"
-            />
-            <span>
-              Xh XXm{' '}
-              <span className="hidden lg:inline">of learning material</span>
-            </span>
-          </div>
+          {playlist.durationInSeconds && (
+            <div className="space-x-1 sm:space-x-2 flex items-center text-base">
+              <Icon
+                name="duration"
+                className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px]"
+              />
+              <span>
+                {secondsToFormattedTime(
+                  Number.parseInt(playlist.durationInSeconds),
+                )}{' '}
+                <span className="hidden lg:inline">of learning material</span>
+              </span>
+            </div>
+          )}
         </div>
         {purchased && (
           <Link
