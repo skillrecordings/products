@@ -1,5 +1,5 @@
 import React from 'react'
-import {GetServerSideProps} from 'next'
+import {GetServerSideProps, NextApiRequest} from 'next'
 import {getTutorial} from 'lib/tutorials'
 import {getSection} from 'lib/sections'
 import {getExercise} from 'lib/exercises'
@@ -7,10 +7,7 @@ import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {type Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {useTheme} from 'next-themes'
-import {
-  VideoResourceProvider,
-  useVideoResource,
-} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {
   VideoProvider,
   useMuxPlayer,
@@ -25,13 +22,20 @@ import {useRouter} from 'next/router'
 import pluralize from 'pluralize'
 import {trpc} from 'trpc/trpc.client'
 import {getCsrfToken, getProviders, signIn, useSession} from 'next-auth/react'
-import LoginTemplate, {
-  type LoginTemplateProps,
-} from '@skillrecordings/ui/templates/login'
+import {type LoginTemplateProps} from '@skillrecordings/ui/templates/login'
 import Spinner from 'components/spinner'
-import {Button, Input, Label} from '@skillrecordings/ui'
-import {Icon} from '@skillrecordings/skill-lesson/icons'
+import {Button} from '@skillrecordings/ui'
 import Link from 'next/link'
+import {
+  UserSchema,
+  createAppAbility,
+  defineRulesForPurchases,
+} from '@skillrecordings/skill-lesson/utils/ability'
+import {getToken} from 'next-auth/jwt'
+import {getSubscriberFromCookie} from '@skillrecordings/skill-lesson/utils/ck-subscriber-from-cookie'
+import {getProducts} from '@skillrecordings/skill-lesson/lib/products'
+import {getVideoResource} from '@skillrecordings/skill-lesson/lib/video-resources'
+import {Subscriber} from 'schemas/subscriber'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // resource
@@ -44,6 +48,48 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSlug, false)
   const videoResourceId = lesson.videoResourceId
+
+  // ability rules
+  const country =
+    (context.req.headers['x-vercel-ip-country'] as string) ||
+    process.env.DEFAULT_COUNTRY ||
+    'US'
+
+  const token = await getToken({req: context.req})
+  const convertkitSubscriber = await getSubscriberFromCookie(
+    context.req as NextApiRequest,
+  )
+
+  let purchasedModules = []
+
+  if (token) {
+    const user = UserSchema.parse(token)
+    const productsPurchased =
+      user.purchases?.map((purchase) => purchase.productId) || []
+    purchasedModules = await getProducts(productsPurchased)
+  }
+
+  const abilityRules = defineRulesForPurchases({
+    ...(token && {user: UserSchema.parse(token)}),
+    ...(convertkitSubscriber && {
+      subscriber: convertkitSubscriber,
+    }),
+    country,
+    module,
+    lesson,
+    section,
+    purchasedModules,
+    isSolution: lesson._type === 'solution',
+  })
+
+  const ability = createAppAbility(abilityRules || [])
+
+  // can show video
+  const canShowVideo = ability.can('view', 'Content')
+
+  // full video resource
+  const videoResource =
+    canShowVideo && videoResourceId && (await getVideoResource(videoResourceId))
 
   // login
   const providers = await getProviders()
@@ -58,11 +104,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       section,
       lesson,
       videoResourceId,
+      videoResource,
       theme,
       login: {
         providers,
         csrfToken,
       },
+      convertkitSubscriber,
+      abilityRules,
     },
   }
 }
@@ -74,6 +123,13 @@ type VideoEmbedPageProps = {
   videoResourceId: string
   theme: 'light' | 'dark'
   login: LoginTemplateProps
+  videoResource?: {
+    _id?: string
+    muxPlaybackId?: string
+    transcript?: string | null | any
+  }
+  convertkitSubscriber?: Subscriber
+  abilityRules: any
 }
 
 const VideoEmbedPage: React.FC<VideoEmbedPageProps> = ({
@@ -81,8 +137,11 @@ const VideoEmbedPage: React.FC<VideoEmbedPageProps> = ({
   section,
   lesson,
   videoResourceId,
+  videoResource,
   theme,
   login,
+  abilityRules,
+  convertkitSubscriber,
 }) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const router = useRouter()
@@ -102,7 +161,7 @@ const VideoEmbedPage: React.FC<VideoEmbedPageProps> = ({
         relative flex aspect-video h-full w-full items-center justify-center "
     >
       <div
-        className="absolute left-0 top-0 -z-10 h-full w-full opacity-10 blur-sm dark:opacity-25"
+        className="absolute left-0 top-0 -z-10 h-full w-full opacity-10 blur-sm dark:opacity-10"
         style={{
           backgroundImage: `url(${thumbnail})`,
           backgroundSize: 'cover',
@@ -121,7 +180,17 @@ const VideoEmbedPage: React.FC<VideoEmbedPageProps> = ({
                 })
               }}
             >
-              <Video theme={theme} login={login} ref={muxPlayerRef} />
+              <Video
+                theme={theme}
+                ref={muxPlayerRef}
+                videoResource={videoResource}
+                videoResourceId={videoResourceId}
+                lesson={lesson}
+                module={module}
+                section={section}
+                subscriber={convertkitSubscriber}
+                abilityRules={abilityRules}
+              />
             </VideoProvider>
           </VideoResourceProvider>
         </LessonProvider>
@@ -130,203 +199,167 @@ const VideoEmbedPage: React.FC<VideoEmbedPageProps> = ({
   )
 }
 
-type VideoProps = Pick<VideoEmbedPageProps, 'theme'> &
-  Pick<VideoEmbedPageProps, 'login'>
+type VideoProps = Pick<VideoEmbedPageProps, 'theme'> & {
+  videoResourceId: string
+  module: Module
+  section: Section
+  lesson: Lesson
+  abilityRules: any
+  subscriber?: Subscriber
+  videoResource?: {
+    _id?: string
+    muxPlaybackId?: string
+    transcript?: string | null | any
+  }
+}
 
 const Video: React.FC<
   {
     ref: React.ForwardedRef<MuxPlayerRefAttributes>
   } & VideoProps
 > = React.forwardRef<MuxPlayerRefAttributes, VideoProps>(
-  ({theme, login}, ref) => {
-    const {csrfToken, providers} = login
-    const {videoResource, loadingVideoResource} = useVideoResource()
-    const {muxPlayerProps, canShowVideo, loadingUserStatus} = useMuxPlayer()
+  (
+    {
+      theme,
+      videoResourceId,
+      videoResource: initialVideoResource,
+      module,
+      section,
+      lesson,
+      abilityRules: initialAbilityRules,
+      subscriber,
+    },
+    ref,
+  ) => {
+    const {muxPlayerProps} = useMuxPlayer()
+
+    const {
+      data: abilityRules,
+      status: abilityRulesStatus,
+      refetch: refetchAbility,
+    } = trpc.modules.rules.useQuery(
+      {
+        moduleSlug: module.slug.current,
+        moduleType: module.moduleType,
+        lessonSlug: lesson.slug,
+        sectionSlug: section?.slug,
+        isSolution: lesson._type === 'solution',
+        convertkitSubscriberId: subscriber?.id,
+      },
+      {
+        refetchOnWindowFocus: true,
+        staleTime: 5000,
+        refetchInterval: 5000,
+        placeholderData: initialAbilityRules,
+        initialData: initialAbilityRules,
+      },
+    )
+
+    const ability = createAppAbility(abilityRules || [])
+
+    const canShowVideo = ability.can('view', 'Content')
+
+    const {
+      data: videoResource,
+      status: videoResourceStatus,
+      refetch: refetchVideoResource,
+    } = trpc.videoResource.byId.useQuery(
+      {id: Boolean(canShowVideo) ? videoResourceId : ''},
+      {
+        refetchOnWindowFocus: true,
+        staleTime: 5000,
+        refetchInterval: 5000,
+        placeholderData: initialVideoResource,
+        initialData: initialVideoResource,
+        enabled: canShowVideo,
+      },
+    )
+
     const {data: session} = useSession()
-    const emailRef = React.useRef<HTMLInputElement>(null)
-    const [formSubmitted, setFormSubmitted] = React.useState(false)
-    const githubProvider = providers.github
-    const discordProvider = providers.discord
-    const router = useRouter()
-    const callbackUrl = stripAfterLastSlash(router.asPath)
 
-    React.useEffect(() => {
-      // in case user has logged out, reset form
-      if (!session) {
-        setFormSubmitted(false)
-      }
-    }, [session])
-
-    return (
+    return abilityRulesStatus === 'loading' ? (
+      <Spinner className="h-8 w-8 sm:h-10 sm:w-10" />
+    ) : (
       <>
-        {loadingVideoResource || loadingUserStatus ? (
-          <Spinner className="h-8 w-8 sm:h-10 sm:w-10" />
+        {videoResource ? (
+          <MuxPlayer
+            ref={ref}
+            thumbnailTime={0}
+            {...(muxPlayerProps as MuxPlayerProps)}
+            playbackId={videoResource.muxPlaybackId}
+          />
         ) : (
-          <>
-            {Boolean(canShowVideo && videoResource?.muxPlaybackId) ? (
-              <MuxPlayer
-                ref={ref}
-                {...(muxPlayerProps as MuxPlayerProps)}
-                theme={theme}
-                playbackId={videoResource?.muxPlaybackId}
-              />
-            ) : (
-              <div className="flex w-full max-w-lg flex-col px-5">
-                {formSubmitted ? (
-                  <div className="flex max-w-md flex-col items-center text-center">
-                    <h3 className="text-2xl font-bold sm:text-3xl">
-                      Check your email
-                    </h3>
-                    <p className="pt-4 text-lg opacity-80">
-                      A login link will been sent to your email! Use it and
-                      you'll be able to view this video.
-                    </p>
-                  </div>
-                ) : (
-                  <>
-                    <div>
-                      <Logo />
-                      {session ? (
-                        <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
-                          <h1 className="py-4 text-2xl font-bold">
-                            You're logged in to Epic Web but don't have access
-                            to this video.
-                          </h1>
-                          <div className="flex w-full max-w-xs flex-col space-y-2">
-                            <Button className="w-full" asChild>
-                              <Link
-                                href="https://epicweb.dev/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                Get Access
-                              </Link>
-                            </Button>
-                            <Button className="w-full" asChild variant="ghost">
-                              <a
-                                href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
-                              >
-                                Contact Support
-                              </a>
-                            </Button>
-                          </div>
-                        </div>
-                      ) : (
-                        <>
-                          <div className="flex flex-col items-center text-center">
-                            <h1 className="pb-2 pt-4 text-2xl font-bold sm:text-3xl">
-                              Get access to{' '}
-                              <a
-                                href="https://epicweb.dev"
-                                className="decoration-primary underline-offset-2 hover:underline"
-                                target="_blank" rel="noreferrer"
-                              >
-                                EpicWeb.dev
-                              </a>
-                            </h1>
-                            <h2 className="opacity-80 sm:text-lg">
-                              And continue watching this video
-                            </h2>
-                          </div>
-                          <div className="mx-auto mt-5 flex w-full max-w-[250px] flex-col space-y-3">
-                            <Button asChild>
-                              <a
-                                href="https://epicweb.dev"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="font-semibold"
-                              >
-                                Buy Epic Web
-                              </a>
-                            </Button>
-                            <Button variant="outline" asChild>
-                              <a
-                                href="https://epicweb.dev/login"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                Log in (Restore purchases)
-                              </a>
-                            </Button>
-                          </div>
-
-                          {/* <form
-                        className="flex flex-col space-y-2"
-                        onSubmit={async (e) => {
-                          e.preventDefault()
-                          await signIn('email', {
-                            email: emailRef?.current?.value,
-                            redirect: false,
-                            callbackUrl,
-                          }).then(() => {
-                            setFormSubmitted(true)
-                          })
-                        }}
+          <div className="flex w-full max-w-lg flex-col px-5">
+            <div>
+              <Logo />
+              {session ? (
+                <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
+                  <h1 className="py-4 text-2xl font-bold">
+                    You're logged in to Epic Web but don't have access to this
+                    video.
+                  </h1>
+                  <div className="flex w-full max-w-xs flex-col space-y-2">
+                    <Button className="w-full" asChild>
+                      <Link
+                        href="https://epicweb.dev/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                          ref={emailRef}
-                          type="email"
-                          id="email"
-                          required
-                        />
-                        <Button type="submit">Email me a login link</Button>
-                      </form>
-                      <div className="py-3 text-center opacity-75">or</div>
-                      <div className="flex flex-col items-center gap-2 md:flex-row">
-                        {githubProvider && (
-                          <Button
-                            data-button=""
-                            variant="outline"
-                            className="w-full"
-                            onClick={() =>
-                              signIn(githubProvider.id, {
-                                callbackUrl: window.location.href,
-                              })
-                            }
-                          >
-                            <Icon
-                              className="mr-2 flex items-center justify-center"
-                              name="Github"
-                              size="20"
-                            />
-                            Log in with {githubProvider.name}
-                          </Button>
-                        )}
-                        {discordProvider && (
-                          <Button
-                            data-button=""
-                            variant="outline"
-                            className="w-full"
-                            onClick={() =>
-                              signIn(discordProvider.id, {
-                                callbackUrl: window.location.href,
-                              })
-                            }
-                          >
-                            <Icon
-                              className="mr-2 flex items-center justify-center"
-                              name="Discord"
-                              size="20"
-                            />
-                            Log in with {discordProvider.name}
-                          </Button>
-                        )}
-                      </div> */}
-                        </>
-                      )}
-                    </div>
-                  </>
-                )}
-                {/* <LoginTemplate
-              title="Log in to Epic Web"
-              image={<Logo />}
-              csrfToken={csrfToken}
-              providers={providers}
-            /> */}
-              </div>
-            )}
-          </>
+                        Get Access
+                      </Link>
+                    </Button>
+                    <Button className="w-full" asChild variant="ghost">
+                      <a
+                        href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
+                      >
+                        Contact Support
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="flex flex-col items-center text-center">
+                    <h1 className="pb-2 pt-4 text-2xl font-bold sm:text-3xl">
+                      Get access to{' '}
+                      <a
+                        href="https://epicweb.dev"
+                        className="decoration-primary underline-offset-2 hover:underline"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        EpicWeb.dev
+                      </a>
+                    </h1>
+                    <h2 className="opacity-80 sm:text-lg">
+                      And continue watching this video
+                    </h2>
+                  </div>
+                  <div className="mx-auto mt-5 flex w-full max-w-[250px] flex-col space-y-3">
+                    <Button asChild>
+                      <a
+                        href="https://epicweb.dev"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold"
+                      >
+                        Buy Epic Web
+                      </a>
+                    </Button>
+                    <Button variant="outline" asChild>
+                      <a
+                        href="https://epicweb.dev/login"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Log in (Restore purchases)
+                      </a>
+                    </Button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
         )}
       </>
     )
