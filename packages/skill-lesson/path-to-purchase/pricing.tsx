@@ -436,6 +436,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               setMerchantCoupon={setMerchantCoupon}
               index={index}
               setAutoApplyPPP={setAutoApplyPPP}
+              purchaseToUpgradeExists={Boolean(purchaseToUpgrade)}
             />
           )}
           <div data-pricing-footer="">
@@ -653,6 +654,7 @@ type RegionalPricingBoxProps = {
   setMerchantCoupon: (coupon: any) => void
   index: number
   setAutoApplyPPP: (apply: boolean) => void
+  purchaseToUpgradeExists: boolean
 }
 
 const RegionalPricingBox: React.FC<
@@ -663,6 +665,7 @@ const RegionalPricingBox: React.FC<
   setMerchantCoupon,
   index,
   setAutoApplyPPP,
+  purchaseToUpgradeExists,
 }) => {
   const regionNames = new Intl.DisplayNames(['en'], {type: 'region'})
 
@@ -677,6 +680,10 @@ const RegionalPricingBox: React.FC<
     availablePPPCoupon.percentageDiscount,
   )
   const percentOff = Math.floor(percentageDiscount * 100)
+
+  // if we are upgrading a Core(PPP) to a Bundle(PPP) and the PPP coupon is
+  // valid and auto-applied then we hide the checkbox to reduce confusion.
+  const hideCheckbox = purchaseToUpgradeExists
 
   return (
     <div data-ppp-container={index}>
@@ -694,23 +701,25 @@ const RegionalPricingBox: React.FC<
           Please note that you will only be able to view content from within{' '}
           {country}, and no bonuses will be provided.
         </p>
-        <p>If that is something that you need:</p>
+        {!hideCheckbox && <p>If that is something that you need:</p>}
       </div>
-      <label>
-        <input
-          type="checkbox"
-          checked={Boolean(appliedPPPCoupon)}
-          onChange={() => {
-            setAutoApplyPPP(false)
-            if (appliedPPPCoupon) {
-              setMerchantCoupon(undefined)
-            } else {
-              setMerchantCoupon(availablePPPCoupon as any)
-            }
-          }}
-        />
-        <span>Activate {percentOff}% off with regional pricing</span>
-      </label>
+      {!hideCheckbox && (
+        <label>
+          <input
+            type="checkbox"
+            checked={Boolean(appliedPPPCoupon)}
+            onChange={() => {
+              setAutoApplyPPP(false)
+              if (appliedPPPCoupon) {
+                setMerchantCoupon(undefined)
+              } else {
+                setMerchantCoupon(availablePPPCoupon as any)
+              }
+            }}
+          />
+          <span>Activate {percentOff}% off with regional pricing</span>
+        </label>
+      )}
     </div>
   )
 }
