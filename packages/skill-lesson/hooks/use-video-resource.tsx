@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {type VideoResource} from '../schemas/video-resource'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
+import {useLesson} from './use-lesson'
 
 type VideoResourceContextType = {
   videoResource?: VideoResource
@@ -21,9 +22,15 @@ export const VideoResourceProvider: React.FC<VideoResourceProviderProps> = ({
   videoResourceId,
   children,
 }) => {
+  const {module, section, lesson} = useLesson()
   const {data: videoResource, status} =
     trpcSkillLessons.videoResource.byId.useQuery(
-      {id: videoResourceId},
+      {
+        id: videoResourceId,
+        moduleSlug: module?.slug.current,
+        lessonSlug: lesson.slug,
+        sectionSlug: section?.slug,
+      },
       {
         refetchOnWindowFocus: false,
       },
@@ -31,7 +38,7 @@ export const VideoResourceProvider: React.FC<VideoResourceProviderProps> = ({
 
   const context = {
     videoResourceId,
-    videoResource,
+    videoResource: videoResource || undefined,
     loadingVideoResource: status === 'loading',
   }
   return (

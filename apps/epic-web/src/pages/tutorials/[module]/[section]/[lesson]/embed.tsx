@@ -264,7 +264,12 @@ const Video: React.FC<
       status: videoResourceStatus,
       refetch: refetchVideoResource,
     } = trpc.videoResource.byId.useQuery(
-      {id: Boolean(canShowVideo) ? videoResourceId : ''},
+      {
+        id: Boolean(canShowVideo) ? videoResourceId : '',
+        moduleSlug: module.slug.current,
+        lessonSlug: lesson.slug,
+        sectionSlug: section?.slug,
+      },
       {
         refetchOnWindowFocus: true,
         staleTime: 5000,
