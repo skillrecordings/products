@@ -24,6 +24,6 @@ export const modulesRouter = router({
         isSolution,
       })
 
-      return abilityRules
+      return abilityRules as any
     }),
 })
