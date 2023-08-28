@@ -89,6 +89,7 @@ export const Video: React.FC<
                 ref={ref}
                 {...(muxPlayerProps as MuxPlayerProps)}
                 playbackId={videoResource?.muxPlaybackId}
+                thumbnailTime={0}
               />
             ) : (
               <>
