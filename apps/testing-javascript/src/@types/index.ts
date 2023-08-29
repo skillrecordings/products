@@ -1,6 +1,18 @@
 import {StaticImageData} from 'next/legacy/image'
 import type {PortableTextBlock} from '@portabletext/types'
 import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
+import type {Module as ModuleWithoutDuration} from '@skillrecordings/skill-lesson/schemas/module'
+
+// https://www.totaltypescript.com/concepts/the-prettify-helper
+type Prettify<T> = {
+  [K in keyof T]: T[K]
+} & {}
+
+export type Module = Prettify<
+  ModuleWithoutDuration & {
+    durationInSeconds: string
+  }
+>
 
 export type Contributor = {
   name: string

@@ -20,8 +20,11 @@ export const getLesson = async (
         title
       },
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
-      "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      ...resources[@->._type == 'videoResource'][0]-> {
+        "videoResourceId": _id,
+        "durationInSeconds": duration,
+        "transcript": castingwords.transcript
+      },
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
@@ -57,7 +60,10 @@ export const getAllLessons = async (): Promise<any[]> => {
       body,
       "slug": slug.current,
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
-      "videoResourceId": resources[@->._type == 'videoResource'][0],
+      ...resources[@->._type == 'videoResource'][0]-> {
+        "videoResourceId": _id,
+        "durationInSeconds": duration
+      },
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
@@ -73,5 +79,3 @@ export const getAllLessons = async (): Promise<any[]> => {
 
   return lessons
 }
-
-// ['exercise', 'explainer', 'interview']

@@ -10,6 +10,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   _updatedAt,
   _createdAt,
   description,
+  'durationInSeconds': duration,
   state,
   body,
   preview,
@@ -51,6 +52,7 @@ export const getPlaylist = async (slug: string) =>
         title,
         state,
         slug,
+        "durationInSeconds": duration,
         body[]{
           ...,
           _type == "bodyTestimonial" => {
@@ -92,6 +94,7 @@ export const getPlaylist = async (slug: string) =>
             title,
             description,
             body,
+            "durationInSeconds": resources[@->._type == 'videoResource'][0]->duration,
             "slug": slug.current,
             "solution": resources[@._type == 'solution'][0]{
               _key,
