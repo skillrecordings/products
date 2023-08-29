@@ -35,6 +35,7 @@ export function PrismaAdapter(p: PrismaClient): Adapter {
     },
     // @ts-ignore
     createSession: (data) => p.session.create({data}),
+    // @ts-ignore
     updateSession: (data) =>
       // @ts-ignore
       p.session.update({where: {sessionToken: data.sessionToken}, data}),
