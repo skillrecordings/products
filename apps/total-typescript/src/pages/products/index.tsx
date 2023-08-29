@@ -101,7 +101,7 @@ const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
           />
         )
       })}
-      {/* <div className="flex w-full items-center justify-end border-t border-gray-800 pb-16 pt-3">
+      {/* <div className="flex items-center justify-end w-full pt-3 pb-16 border-t border-gray-800">
         <label>
           <input
             value={isPPPEnabled ? 'on' : 'off'}
@@ -124,6 +124,8 @@ type ProductTeaserProps = {
   purchases: Purchase[] | undefined
   isPPPEnabled?: boolean
 }
+
+const BONUS_SLUGS = new Set(['typescript-expert-interviews'])
 
 const ProductTeaser: React.FC<ProductTeaserProps> = ({
   product,
@@ -265,7 +267,9 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
                   return (
                     <Link
                       href={{
-                        pathname: '/workshops/[slug]',
+                        pathname: BONUS_SLUGS.has(module.slug)
+                          ? '/bonuses/[slug]'
+                          : '/workshops/[slug]',
                         query: {
                           slug: module.slug,
                         },
@@ -281,7 +285,7 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
                         />
                       )}
                       <span className="w-full leading-tight text-gray-200 transition group-hover:text-white group-hover:underline">
-                        {module.slug === 'typescript-expert-interviews' ? (
+                        {BONUS_SLUGS.has(module.slug) ? (
                           <h3 className="font-semibold text-yellow-200">
                             Bonus🎁
                           </h3>
