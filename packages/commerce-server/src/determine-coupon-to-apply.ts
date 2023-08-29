@@ -16,6 +16,7 @@ const DetermineCouponToApplyParamsSchema = z.object({
   userId: z.string().optional(),
   productId: z.string(),
   purchaseToBeUpgraded: PurchaseSchema.nullable(),
+  autoApplyPPP: z.boolean(),
 })
 
 type DetermineCouponToApplyParams = z.infer<
@@ -38,6 +39,7 @@ export const determineCouponToApply = async (
     userId,
     productId,
     purchaseToBeUpgraded,
+    autoApplyPPP,
   } = DetermineCouponToApplyParamsSchema.parse(params)
   // TODO: What are the lookups and logic checks we can
   // skip when there is no appliedMerchantCouponId?
@@ -64,6 +66,7 @@ export const determineCouponToApply = async (
     quantity,
     purchaseToBeUpgraded,
     userPurchases,
+    autoApplyPPP,
     prismaCtx,
   })
 
@@ -127,6 +130,7 @@ const GetPPPDetailsParamsSchema = z.object({
   country: z.string(),
   purchaseToBeUpgraded: PurchaseSchema.nullable(),
   userPurchases: UserPurchasesSchema,
+  autoApplyPPP: z.boolean(),
   prismaCtx: PrismaCtxSchema,
 })
 type GetPPPDetailsParams = z.infer<typeof GetPPPDetailsParamsSchema>
@@ -142,6 +146,7 @@ const getPPPDetails = async ({
   quantity,
   purchaseToBeUpgraded,
   userPurchases,
+  autoApplyPPP,
   prismaCtx,
 }: GetPPPDetailsParams) => {
   const hasMadeNonPPPDiscountedPurchase = userPurchases.some(
@@ -154,7 +159,8 @@ const getPPPDetails = async ({
   const shouldLookupPPPMerchantCouponForUpgrade =
     appliedMerchantCoupon === null &&
     purchaseToBeUpgraded !== null &&
-    hasOnlyPPPDiscountedPurchases
+    hasOnlyPPPDiscountedPurchases &&
+    autoApplyPPP
 
   let pppMerchantCouponForUpgrade: MerchantCoupon | null = null
   if (shouldLookupPPPMerchantCouponForUpgrade) {

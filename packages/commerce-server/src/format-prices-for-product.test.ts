@@ -404,6 +404,36 @@ test('applies previous-purchase fixed discount and site-wide discount', async ()
   expect(product.calculatedPrice).toBe(64)
 })
 
+test('PPP is auto-applied to upgrade when original purchase was PPP', async () => {
+  mockPPPPurchaseAndUpgradeProduct()
+
+  const product = await formatPricesForProduct({
+    productId: UPGRADE_PRODUCT_ID,
+    upgradeFromPurchaseId: UPGRADE_PURCHASE_ID,
+    country: 'IN',
+    ctx,
+  })
+
+  expect(product.calculatedPrice).toBe(20)
+})
+
+test('PPP can be forced to not auto-apply for upgrade', async () => {
+  mockPPPPurchaseAndUpgradeProduct()
+
+  const product = await formatPricesForProduct({
+    productId: UPGRADE_PRODUCT_ID,
+    upgradeFromPurchaseId: UPGRADE_PURCHASE_ID,
+    country: 'IN',
+    autoApplyPPP: false, // <-- instructing price formatter to *not* auto-apply PPP
+    ctx,
+  })
+
+  // by not applying PPP, we are choosing to do an Unrestricted Bundle Upgrade
+  // so the difference of the originally paid amount with the bundle price is
+  // the calculated price.
+  expect(product.calculatedPrice).toBe(155)
+})
+
 test('PPP coupon not available for non-ppp purchasers', async () => {
   const mockPurchases = [
     {
@@ -602,6 +632,8 @@ const mockPPPPurchaseAndUpgradeProduct = () => {
     prices: [mockUpgradePrice],
   })
   mockCtx.prisma.price.findFirst.mockResolvedValueOnce(mockUpgradePrice)
+
+  mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(MOCK_INDIA_COUPON)
 
   // fixed discount price lookup
   mockCtx.prisma.price.findFirst.mockResolvedValueOnce(mockPrice)

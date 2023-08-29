@@ -22,6 +22,7 @@ const PricingFormattedInputSchema = z.object({
   couponId: z.string().optional(),
   merchantCoupon: merchantCouponSchema.optional(),
   upgradeFromPurchaseId: z.string().optional(),
+  autoApplyPPP: z.boolean().default(true),
 })
 
 const checkForAnyAvailableUpgrades = async ({
@@ -140,6 +141,7 @@ export const pricing = router({
         couponId,
         merchantCoupon,
         upgradeFromPurchaseId: _upgradeFromPurchaseId,
+        autoApplyPPP,
       } = input
 
       const token = await getToken({req: ctx.req})
@@ -193,6 +195,7 @@ export const pricing = router({
         merchantCouponId: activeMerchantCoupon?.id,
         ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
         userId: verifiedUserId,
+        autoApplyPPP,
       })
 
       const formattedPrice = {
