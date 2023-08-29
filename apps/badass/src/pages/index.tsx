@@ -3,18 +3,19 @@ import {GetStaticProps} from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import cx from 'classnames'
-
-import Layout from 'components/layout'
-import Icon from 'components/icons'
-import {useKeenSlider} from 'keen-slider/react'
-import 'keen-slider/keen-slider.min.css'
-
 import Balancer from 'react-wrap-balancer'
+import {useKeenSlider} from 'keen-slider/react'
+
 import {type CaseStudy, getAllCaseStudies} from 'lib/case-studies'
 import {type Podcast, getAllPodcastEpisodes} from 'lib/podcast'
 import {type Article, getAllArticles} from 'lib/articles'
+
+import 'keen-slider/keen-slider.min.css'
+import Layout from 'components/layout'
+import Icon from 'components/icons'
 import ContentSection from 'components/content-section'
 import Card from 'components/card'
+import {ButtonSecondary} from 'components/buttons'
 import {
   projects,
   headerContent,
@@ -22,12 +23,12 @@ import {
   genericCallToActionContent,
 } from 'components/landing-content'
 import {CallToActionForm} from '../components/call-to-action-form'
+
 import ImageLevelUp from '../../public/assets/level-up@2x.png'
 import ImageSecretSauce from '../../public/assets/sauce@2x.png'
 import ImageStars1 from '../../public/assets/stars-1-new@2x.png'
 import ImageStars1Mobile from '../../public/assets/stars-1-new-mobile@2x.png'
 import ImageStars2 from '../../public/assets/stars-2-new@2x.png'
-import {ButtonSecondary} from 'components/buttons'
 
 type LandingPageProps = {
   caseStudies: CaseStudy[]
