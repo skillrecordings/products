@@ -31,7 +31,7 @@
     "eslint-config-skill-recordings": "workspace:*",
     "i": "^0.3.7",
     "jest-mock-extended": "^3.0.4",
-    "prisma": "^4.5.0",
+    "prisma": "^5.2.0",
     "rimraf": "^3.0.2",
     "tsup": "^5.11.13",
     "tsx": "^3.7.1",

@@ -58,10 +58,10 @@
     "plop": "^2.7.6",
     "prettier": "^2.8.8",
     "tsdx": "^0.14.1",
-    "turbo": "~1.9.8",
+    "turbo": "~1.10.13",
     "typescript": "5.1.6"
   },
-  "packageManager": "pnpm@7.13.4",
+  "packageManager": "pnpm@8.7.0",
   "manypkg": {
     "ignoredRules": [
       "INTERNAL_MISMATCH"
