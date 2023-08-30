@@ -4936,6 +4936,9 @@ importers:
       '@casl/ability':
         specifier: ^6.3.2
         version: 6.3.2
+      '@code-hike/mdx':
+        specifier: ^0.8.2
+        version: 0.8.2(react@18.2.0)
       '@codesandbox/sandpack-react':
         specifier: ^2.6.5
         version: 2.6.5(@lezer/common@1.0.2)(react-dom@18.2.0)(react@18.2.0)
@@ -5164,6 +5167,9 @@ importers:
       groq:
         specifier: ^2.15.0
         version: 2.15.0
+      highlight.js:
+        specifier: ^11.8.0
+        version: 11.8.0
       inngest:
         specifier: ^2.4.0
         version: 2.4.0(typescript@5.1.6)
@@ -25797,6 +25803,11 @@ packages:
     engines: {node: '>=12.0.0'}
     dev: false
 
+  /highlight.js@11.8.0:
+    resolution: {integrity: sha512-MedQhoqVdr0U6SSnWPzfiadUcDHfN/Wzq25AkXiQv9oiOO/sG0S7XkvpFIqWBl9Yq1UYyYOOVORs5UW2XlPyzg==}
+    engines: {node: '>=12.0.0'}
+    dev: false
+
   /history@4.10.1:
     resolution: {integrity: sha512-36nwAD620w12kuzPAsyINPWJqlNbij+hpK1k9XRloDtym8mxzGYl2c17LnV6IAGB2Dmg4tEa7G7DlawS0+qjew==}
     dependencies:
@@ -37447,7 +37458,7 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
     dependencies:
-      tailwindcss: 3.3.0(postcss@8.4.23)(ts-node@10.9.1)
+      tailwindcss: 3.3.0(postcss@8.4.24)
     dev: false
 
   /tailwindcss-radix@2.8.0:
