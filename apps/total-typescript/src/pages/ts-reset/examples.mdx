@@ -1,0 +1,56 @@
+<div className="w-full">
+
+### Example
+
+```typescript
+// Import in a single file, then across your whole project...
+import '@total-typescript/ts-reset'
+// .filter just got smarter!
+const filteredArray = [1, 2, undefined].filter(Boolean) // number[]
+// Get rid of the any's in JSON.parse and fetch
+const result = JSON.parse('{}') // unknown
+fetch('/')
+  .then((res) => res.json())
+  .then((json) => {
+    console.log(json) // unknown
+  })
+```
+
+### DOM Example
+
+```ts
+// Import from /dom to get DOM rules too!
+import '@total-typescript/ts-reset/dom'
+// localStorage just got safer!
+localStorage.abc // unknown
+// sessionStorage just got safer!
+sessionStorage.abc // unknown
+```
+
+</div>
+<div className="w-full">
+
+### Installing only certain rules
+
+By importing from `@total-typescript/ts-reset`, you're bundling all the recommended rules.
+
+To only import the rules you want, you can import like so:
+
+```ts
+// Makes JSON.parse return unknown
+import '@total-typescript/ts-reset/json-parse'
+// Makes await fetch().then(res => res.json()) return unknown
+import '@total-typescript/ts-reset/fetch'
+```
+
+For these imports to work, you'll need to ensure that, in your `tsconfig.json`, `moduleResolution` is set to `NodeNext` or `Node16`.
+
+Below is a full list of all the rules available.
+
+### Caveats
+
+#### Use ts-reset in applications, not libraries
+
+`ts-reset` is designed to be used in application code, not library code. Each rule you include will make changes to the global scope. That means that, simply by importing your library, your user will be unknowingly opting in to `ts-reset`.
+
+</div>

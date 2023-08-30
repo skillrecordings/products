@@ -55,6 +55,16 @@ const Footer: React.FC<FooterProps> = ({className}) => {
           </div>
           <div>
             <strong className="inline-block pb-5 font-mono text-sm uppercase tracking-wide">
+              Tools
+            </strong>
+            <ul className="flex flex-col gap-2">
+              <NavLink path="/typescript-learning-path" label="Learning Path" />
+              <NavLink path="/vscode-extension" label="VSCode Extension" />
+              <NavLink path="/ts-reset" label="TS Reset" />
+            </ul>
+          </div>
+          <div>
+            <strong className="inline-block pb-5 font-mono text-sm uppercase tracking-wide">
               Contact
             </strong>
             <ul className="flex flex-col gap-2">

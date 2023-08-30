@@ -30,6 +30,7 @@ type FormatPricesForProductOptions = {
   ctx?: Context
   upgradeFromPurchaseId?: string
   userId?: string
+  autoApplyPPP?: boolean
 }
 
 async function getChainOfPurchases({
@@ -138,6 +139,7 @@ export async function formatPricesForProduct(
     merchantCouponId,
     upgradeFromPurchaseId,
     userId,
+    autoApplyPPP = true,
   } = noContextOptions
 
   const {getProduct, getPrice, getPurchase} = getSdk({ctx})
@@ -200,6 +202,7 @@ export async function formatPricesForProduct(
       userId,
       productId: product.id,
       purchaseToBeUpgraded: upgradeFromPurchase,
+      autoApplyPPP,
     })
 
   const fireFixedDiscountForIndividualUpgrade = async () => {
