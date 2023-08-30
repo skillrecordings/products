@@ -68,7 +68,7 @@ const TSResetLandingPage: React.FC<PageProps> = ({content}) => {
       </Head>
       <Layout
         meta={{
-          title: `TS Reset Improves TypeScript's Built-In Typings`,
+          title: `TS Reset - Official Docs`,
           ogImage: {
             url: 'https://res.cloudinary.com/total-typescript/image/upload/v1693411308/ts-reset-card_2x_p42z2y.png',
           },
@@ -285,9 +285,9 @@ const Header: React.FC<{getStartedRef: any}> = ({getStartedRef}) => {
           TS Reset
         </h1>
         <h2 className="pt-2 font-text text-2xl text-gray-300 sm:max-w-sm sm:text-3xl md:text-2xl lg:text-3xl">
-          Improved TypeScript's
+          TypeScript's Built-In
           <br />
-          Built-In Typings
+          Typings, Improved
         </h2>
         <div className="mt-10 flex items-center justify-center gap-3 sm:justify-start lg:mt-16">
           <Button
