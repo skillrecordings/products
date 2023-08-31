@@ -7,9 +7,11 @@ import cx from 'classnames'
 import {GetStaticProps} from 'next'
 
 import {type CaseStudy, getAllCaseStudies} from 'lib/case-studies'
-import {SmallCallToActionForm} from 'components/call-to-action-form'
+// import {SmallCallToActionForm} from 'components/call-to-action-form'
+import {CallToActionForm} from 'components/call-to-action-form'
 import {genericCallToActionContent} from 'components/landing-content'
 import Card from 'components/card'
+import TitleWithStars from 'components/title-with-stars'
 
 const meta = {
   title: 'Badass Partners',
@@ -27,21 +29,13 @@ const CaseStudies: React.FC<React.PropsWithChildren<CaseStudiesProps>> = ({
 }) => {
   return (
     <Layout meta={meta} className="overflow-hidden">
-      <div className="container">
+      <div className="container mt-6 md:mt-8 lg:mt-11">
         <main>
-          <div className="pb-16 sm:pt-10">
+          <TitleWithStars>Case Studies</TitleWithStars>
+          <div className="mt-8 md:mt-16 lg:mt-[87px] pb-[100px]">
             <div className="space-y-10">
               {caseStudies.map((caseStudy, i: number) => {
                 return (
-                  // <CaseStudyCard
-                  //   key={slug}
-                  //   image={heroImage}
-                  //   title={title}
-                  //   slug={slug}
-                  //   publishedDate={publishedDate}
-                  //   partnerName={partnerName}
-                  //   isOdd={i % 2 == 0}
-                  // />
                   <Card
                     key={caseStudy._id}
                     imageUrl={caseStudy.heroImage}
@@ -58,12 +52,36 @@ const CaseStudies: React.FC<React.PropsWithChildren<CaseStudiesProps>> = ({
               })}
             </div>
           </div>
-          <SmallCallToActionForm content={genericCallToActionContent} />
+          {/* <SmallCallToActionForm content={genericCallToActionContent} /> */}
+          <CallToActionForm content={genericCallToActionContent} />
         </main>
       </div>
     </Layout>
   )
 }
+
+export const getStaticProps: GetStaticProps = async ({params}) => {
+  const caseStudies = await getAllCaseStudies()
+
+  return {
+    props: {
+      caseStudies,
+    },
+    revalidate: 10,
+  }
+}
+
+export default CaseStudies
+
+// <CaseStudyCard
+//   key={slug}
+//   image={heroImage}
+//   title={title}
+//   slug={slug}
+//   publishedDate={publishedDate}
+//   partnerName={partnerName}
+//   isOdd={i % 2 == 0}
+// />
 
 // const CaseStudyCard: React.FC<any> = ({
 //   image,
@@ -104,16 +122,3 @@ const CaseStudies: React.FC<React.PropsWithChildren<CaseStudiesProps>> = ({
 //     </Link>
 //   )
 // }
-
-export const getStaticProps: GetStaticProps = async ({params}) => {
-  const caseStudies = await getAllCaseStudies()
-
-  return {
-    props: {
-      caseStudies,
-    },
-    revalidate: 10,
-  }
-}
-
-export default CaseStudies
