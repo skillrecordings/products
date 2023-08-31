@@ -1,10 +1,9 @@
 import * as React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import {twMerge} from 'tailwind-merge'
 import cx from 'classnames'
 
-import {ButtonPrimary, ButtonSecondary} from 'components/buttons'
+import {ButtonSecondary} from 'components/buttons'
 
 type CardProps = {
   imageUrl: string | null | undefined

@@ -11,7 +11,6 @@ type ButtonProps = {
   className?: string
 }
 
-// self-center
 const commonStyles =
   'inline-flex justify-center items-center rounded-xl focus-visible:ring-2 focus-visible:ring-badass-blue focus-visible:ring-offset-4 focus-visible:ring-offset-black focus-visible:outline-none duration-150 font-sans'
 
