@@ -41,7 +41,6 @@ type PageProps = {
 
 const TSResetLandingPage: React.FC<PageProps> = ({content}) => {
   const getStartedRef = React.useRef<HTMLDivElement>(null)
-  const shouldReduceMotion = useReducedMotion()
 
   return (
     <MDXProvider
@@ -90,7 +89,6 @@ const TSResetLandingPage: React.FC<PageProps> = ({content}) => {
 
 export default TSResetLandingPage
 
-// react pass ref element
 const GetStarted = React.forwardRef<HTMLDivElement>((props, ref) => {
   const container = {
     hidden: {
@@ -278,18 +276,48 @@ export const RuleItem: React.FC<React.PropsWithChildren<{title: string}>> = ({
 }
 
 const Header: React.FC<{getStartedRef: any}> = ({getStartedRef}) => {
+  const shouldReduceMotion = useReducedMotion()
   return (
     <header className="relative mx-auto flex w-full max-w-screen-2xl flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-gray-900 to-gray-950 px-5 pt-24 md:flex-row md:px-16 lg:px-0 lg:pl-32">
       <div className="relative z-10 flex w-full flex-col pb-16 text-center sm:text-left lg:w-auto">
-        <h1 className="font-heading text-4xl font-bold leading-tight md:text-5xl lg:text-7xl">
+        <motion.h1
+          initial={!shouldReduceMotion ? {opacity: 0, x: -30} : undefined}
+          animate={!shouldReduceMotion ? {opacity: 1, x: 0} : undefined}
+          transition={{
+            type: 'spring',
+            damping: 10,
+            duration: 1,
+          }}
+          className="whitespace-nowrap font-heading text-4xl font-bold leading-tight md:text-5xl lg:text-7xl"
+        >
           TS Reset
-        </h1>
-        <h2 className="pt-2 font-text text-2xl text-gray-300 sm:max-w-sm sm:text-3xl md:text-2xl lg:text-3xl">
+        </motion.h1>
+        <motion.h2
+          initial={!shouldReduceMotion ? {opacity: 0, x: -30} : undefined}
+          animate={!shouldReduceMotion ? {opacity: 1, x: 0} : undefined}
+          transition={{
+            type: 'spring',
+            damping: 10,
+            duration: 1,
+            delay: 0.15,
+          }}
+          className="pt-2 font-text text-2xl text-gray-300 sm:max-w-sm sm:text-3xl md:text-2xl lg:text-3xl"
+        >
           TypeScript's Built-In
           <br />
           Typings, Improved
-        </h2>
-        <div className="mt-10 flex items-center justify-center gap-3 sm:justify-start lg:mt-16">
+        </motion.h2>
+        <motion.div
+          initial={{opacity: 0, x: -30}}
+          animate={{opacity: 1, x: 0}}
+          transition={{
+            type: 'spring',
+            damping: 10,
+            duration: 1,
+            delay: 0.3,
+          }}
+          className="mt-10 flex items-center justify-center gap-3 sm:justify-start lg:mt-16"
+        >
           <Button
             onClick={() => {
               scrollTo({
@@ -312,15 +340,15 @@ const Header: React.FC<{getStartedRef: any}> = ({getStartedRef}) => {
               <span className="drop-shadow-sm">GitHub</span>
             </Link>
           </Button>
-        </div>
+        </motion.div>
       </div>
-      <div className="relative z-0 -mt-16 w-[600px] flex-shrink-0 md:-mr-16 md:mt-0 md:w-[450px] lg:-ml-32 lg:mr-0 lg:w-auto">
+      <div className="relative z-0 -mt-16 w-[600px] flex-shrink-0 md:-mr-16 md:mt-0 md:w-[450px] lg:-ml-24 lg:mr-0 lg:w-auto">
         <Image
           src={require('../../../public/assets/ts-reset@2x.png')}
           quality={100}
           alt="TS Reset by Matt Pocock"
           className="pointer-events-none select-none "
-          width={800}
+          width={760}
           placeholder="empty"
           priority
         />
@@ -422,7 +450,7 @@ const CTA = () => {
             className="mt-10 inline-flex rounded bg-white px-6 py-5 font-semibold"
             href="/typescript-learning-path"
           >
-            Begin your TypeScript Journey
+            Embark on Your TypeScript Adventure
           </Link>
         </Button>
       </motion.div>
@@ -480,14 +508,31 @@ const Examples = () => {
 }
 
 const Rules = () => {
+  const shouldReduceMotion = useReducedMotion()
   return (
     <section className="w-full bg-gray-950/50 px-5 pb-16 pt-10 lg:px-0">
-      <h2 className="mx-auto w-full max-w-screen-md pb-10 font-heading text-5xl font-semibold">
-        Rules
-      </h2>
-      <div className="prose mx-auto flex w-full max-w-screen-md flex-col items-start justify-start space-y-16 prose-h3:mt-10 prose-p:mb-0 prose-pre:mb-0 prose-pre:w-full">
-        <RulesMDX />
-      </div>
+      <motion.div
+        initial={!shouldReduceMotion ? {y: -50, opacity: 0} : undefined}
+        whileInView={
+          !shouldReduceMotion
+            ? {
+                y: [-50, 0],
+                opacity: [0, 1],
+                transition: {
+                  duration: 1,
+                  type: 'spring',
+                },
+              }
+            : undefined
+        }
+      >
+        <h2 className="mx-auto w-full max-w-screen-md pb-10 font-heading text-5xl font-semibold">
+          Rules
+        </h2>
+        <div className="prose mx-auto flex w-full max-w-screen-md flex-col items-start justify-start space-y-16 prose-h3:mt-10 prose-p:mb-0 prose-pre:mb-0 prose-pre:w-full">
+          <RulesMDX />
+        </div>
+      </motion.div>
     </section>
   )
 }
