@@ -9,6 +9,7 @@ import {
   ShikiRemotePluginOptions,
   shikiRemotePlugin,
 } from './shiki-remote-plugin'
+import rehypeSlug from 'rehype-slug'
 
 /**
  * Serialize MDX with next-mdx-remote. Uses remark-code-hike for syntax highlighting.
@@ -57,7 +58,7 @@ const serializeMDX = async (
       scope,
       mdxOptions: {
         useDynamicImport: true,
-        rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}]],
+        rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}], rehypeSlug],
         remarkPlugins: [
           [
             shikiRemotePlugin,
@@ -83,6 +84,7 @@ const serializeMDX = async (
       scope,
       mdxOptions: {
         useDynamicImport: true,
+        rehypePlugins: [rehypeSlug],
         remarkPlugins: [
           [
             remarkCodeHike,
