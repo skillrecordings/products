@@ -133,9 +133,15 @@ const Header = () => {
             opacity: 0,
           },
           pauseOnOutsideViewport: true,
+
           particles: {
+            shadow: {
+              blur: 20,
+              color: '#67CBEB',
+              enable: true,
+            },
             size: {
-              value: {min: 1.5, max: 2.5},
+              value: {min: 1.5, max: 3},
             },
             color: {
               // value: '#67CBEB',
@@ -148,12 +154,16 @@ const Header = () => {
             opacity: {
               value: {
                 min: 0.1,
-                max: 0.8,
+                max: 0.95,
               },
             },
 
             move: {
-              direction: 'top',
+              direction: 'outside',
+              center: {
+                x: 50,
+                y: 100,
+              },
               enable: true,
               speed: {
                 max: 0.9,
@@ -169,8 +179,8 @@ const Header = () => {
         id="tsparticles2"
         init={particlesInit}
         loaded={particlesLoaded}
-        canvasClassName="absolute top-0 z-0 h-[400px] w-[500px]"
-        className="absolute top-0 z-0 h-[400px] w-[800px]"
+        canvasClassName="absolute top-0 z-0 w-full h-full"
+        className="absolute top-0 z-0 h-full w-full"
         options={{
           fullScreen: {
             enable: false,
@@ -194,6 +204,10 @@ const Header = () => {
             },
             move: {
               direction: 'outside',
+              center: {
+                x: 50,
+                y: 0,
+              },
               enable: true,
               speed: {
                 max: 1.5,
