@@ -7651,6 +7651,9 @@ importers:
       rehype-raw:
         specifier: ^6.1.1
         version: 6.1.1
+      rehype-slug:
+        specifier: ^5.1.0
+        version: 5.1.0
       shiki:
         specifier: ^0.14.1
         version: 0.14.1
@@ -37458,7 +37461,7 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
     dependencies:
-      tailwindcss: 3.3.0(postcss@8.4.24)
+      tailwindcss: 3.3.0(postcss@8.4.23)(ts-node@10.9.1)
     dev: false
 
   /tailwindcss-radix@2.8.0:
