@@ -79,7 +79,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           </div>
         </div>
         {image && (
-          <div className="relative aspect-video h-full w-full max-w-screen-lg rounded-lg">
+          <div className="relative mt-5 aspect-video h-full w-full max-w-screen-lg overflow-hidden rounded-lg">
             <Image
               className="scale-[2] sm:scale-100"
               src={image}
