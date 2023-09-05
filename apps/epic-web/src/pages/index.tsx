@@ -61,8 +61,8 @@ const Header = () => {
   const {scrollYProgress} = useScroll({target: ref})
   const shipsParallax = useParallax(scrollYProgress, 50)
   const foregroundMotionValue = useTransform(scrollYProgress, [0, 1], [1, 1.5])
-  const planetScale = useTransform(scrollYProgress, [0, 1], [1, 0.8])
-  const planetAnimation = useSpring(planetScale, {mass: 0.1})
+  const planetTransform = useTransform(scrollYProgress, [0, 1], [1, 1.5])
+  const planetAnimation = useSpring(planetTransform, {mass: 0.1})
   return (
     <header
       ref={ref}
@@ -70,10 +70,12 @@ const Header = () => {
     >
       <div className="absolute top-[22vh] z-40 mx-auto text-center xl:top-[190px]">
         <h1 className="max-w-3xl px-5 font-bold text-white shadow-black drop-shadow-lg fluid-3xl sm:leading-tight lg:px-16">
-          <span className="inline-flex pb-4 font-sans text-sm font-semibold uppercase tracking-wider text-orange-300">
+          <span className="inline-flex pb-4 font-sans text-sm font-semibold uppercase tracking-wider text-orange-300 shadow-black drop-shadow-md">
             Everything You Need to Know to
           </span>
-          <Balancer>Ship Modern Full-Stack Web Applications</Balancer>
+          <div className="shadow-black drop-shadow-lg">
+            <Balancer>Ship Modern Full-Stack Web Applications</Balancer>
+          </div>
         </h1>
       </div>
       <div
@@ -93,8 +95,9 @@ const Header = () => {
         priority
         placeholder="empty"
       />
-      <motion.div className="absolute z-20 flex w-[600px] -translate-y-16 items-start justify-center sm:w-[700px] sm:-translate-y-24">
+      <motion.div className="flex h-full w-full items-start justify-center">
         <Image
+          className="absolute z-20 flex w-[500px] -translate-y-10 items-start justify-center sm:w-[700px] sm:-translate-y-24"
           src={require('../../public/assets/hero/small-planet-compressed.png')}
           width={800}
           alt=""
@@ -104,7 +107,7 @@ const Header = () => {
           placeholder="blur"
         />
       </motion.div>
-      <motion.div className="absolute bottom-[25%] z-20 mx-auto w-[130px] sm:w-[250px]">
+      <motion.div className="absolute bottom-[25%] z-20 mx-auto w-[130px] sm:w-[180px] lg:w-[200px]">
         <Image
           src={require('../../public/assets/hero/ships-compressed.png')}
           width={250}
@@ -192,6 +195,11 @@ const Header = () => {
           pauseOnOutsideViewport: true,
           zLayers: 1,
           particles: {
+            shadow: {
+              blur: 20,
+              color: '#F85C1F',
+              enable: true,
+            },
             number: {
               value: 60,
             },

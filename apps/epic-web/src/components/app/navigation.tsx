@@ -7,6 +7,7 @@ import ColorModeToggle from 'components/color-mode-toggle'
 import {twMerge} from 'tailwind-merge'
 import cx from 'classnames'
 import {
+  AnimatePresence,
   AnimationControls,
   motion,
   useAnimationControls,
@@ -179,33 +180,47 @@ const Navigation: React.FC<NavigationProps> = ({
             <ColorModeToggle className="hidden sm:block" />
             <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
           </div>
-          {menuOpen && (
-            <div className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100 bg-white px-5 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-black/90 dark:shadow-black/60 sm:hidden">
-              {navigationLinks.map(({label, href, icon}) => {
-                return (
-                  <Link
-                    key={href}
-                    href={href}
-                    className="flex items-center gap-2 rounded-md py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
-                    passHref
-                    onClick={() => {
-                      track(`clicked ${label} from navigation`, {
-                        page: asPath,
-                      })
-                    }}
-                  >
-                    {icon(true)} {label}
-                  </Link>
-                )
-              })}
+          <AnimatePresence>
+            {menuOpen && (
+              <motion.div
+                initial={{y: -30, opacity: 0, scale: 0.9}}
+                animate={{y: 0, opacity: 1, scale: 1}}
+                exit={{y: -30, opacity: 0, scale: 0.9}}
+                transition={{
+                  type: 'spring',
+                  duration: 0.5,
+                }}
+                className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100 bg-white px-2 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-black/90 dark:shadow-black/60 sm:hidden"
+              >
+                {navigationLinks.map(({label, href, icon}) => {
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      className="flex items-center gap-4 rounded-md px-3 py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
+                      passHref
+                      onClick={() => {
+                        track(`clicked ${label} from navigation`, {
+                          page: asPath,
+                        })
+                      }}
+                    >
+                      <span className="flex w-5 items-center justify-center">
+                        {icon(true)}
+                      </span>{' '}
+                      {label}
+                    </Link>
+                  )
+                })}
 
-              <div className="flex w-full items-center justify-between pt-5 text-lg">
-                <Login />
-                <User />
-                <ColorModeToggle />
-              </div>
-            </div>
-          )}
+                <div className="flex w-full items-center justify-between pt-5 text-lg">
+                  <Login />
+                  <User />
+                  <ColorModeToggle />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.nav>
       </div>
     </>
@@ -307,6 +322,7 @@ const Login: React.FC<{className?: string}> = ({className}) => {
 }
 
 export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+  const id = Math.random() * 100
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -316,12 +332,12 @@ export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
       viewBox="0 0 18 18"
     >
       <path
-        fill="url(#a)"
+        fill={`url(#gradientArticles${id})`}
         d="M15.742.676a.375.375 0 0 0-.367-.301H2.625a.374.374 0 0 0-.368.301l-.75 3.75a.374.374 0 0 0 .368.449h.75a.375.375 0 0 0 .371-.322C3.01 4.46 3.347 2.25 5.25 2.25H7.5v12.302a1.41 1.41 0 0 1-1.232 1.396l-1.44.18a.375.375 0 0 0-.328.372v.75c0 .207.168.375.375.375h8.25a.375.375 0 0 0 .375-.375v-.75a.375.375 0 0 0-.329-.372l-1.44-.18a1.409 1.409 0 0 1-1.231-1.396V2.25h2.25c1.893 0 2.24 2.21 2.254 2.303a.375.375 0 0 0 .37.322h.75a.374.374 0 0 0 .368-.449l-.75-3.75Z"
       />
       <defs>
         <linearGradient
-          id="a"
+          id={`gradientArticles${id}`}
           x1="9"
           x2="9"
           y1=".375"
@@ -354,6 +370,7 @@ export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
 }
 
 export const TutorialsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+  const id = Math.random() * 100
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -363,14 +380,14 @@ export const TutorialsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
       viewBox="0 0 22 16"
     >
       <path
-        fill="url(#tutorialsGradient)"
+        fill={`url(#tutorialsGradient${id})`}
         fillRule="evenodd"
         d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3Zm6 11.44V4.56a.3.3 0 0 1 .466-.25l5.16 3.44a.3.3 0 0 1 0 .5l-5.16 3.44A.3.3 0 0 1 9 11.44Z"
         clipRule="evenodd"
       />
       <defs>
         <linearGradient
-          id="tutorialsGradient"
+          id={`tutorialsGradient${id}`}
           x1="11"
           x2="11"
           y1="0"
@@ -612,6 +629,7 @@ const EventsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
 }
 
 export const TipsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+  const id = Math.random() * 100
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -621,17 +639,16 @@ export const TipsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
       viewBox="0 0 18 12"
     >
       <motion.path
-        fill={`url(#tipsGradient)`}
+        fill={`url(#tipsGradient${id})`}
         d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
       />
-      ) : (
       <motion.path
-        fill={`url(#tips)`}
+        fill={`url(#tipsGradient${id})`}
         d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
       />
       <defs>
         <linearGradient
-          id="tipsGradient"
+          id={`tipsGradient${id}`}
           x1="12.5"
           x2="-.5"
           y1="-2"
@@ -646,7 +663,9 @@ export const TipsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
                 ? '#C2C4CF'
                 : '#5B5E71',
             }}
-            stopColor={'#5B5E71'}
+            stopColor={
+              isHovered ? '#30B0FF' : theme === 'light' ? '#C2C4CF' : '#5B5E71'
+            }
           />
           <motion.stop
             offset="1"
