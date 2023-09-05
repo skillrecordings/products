@@ -3,6 +3,7 @@ import Image from 'next/image'
 import {twMerge} from 'tailwind-merge'
 import cx from 'classnames'
 
+import Icon from 'components/icons'
 import {ButtonSecondary} from 'components/buttons'
 
 type CardProps = {
@@ -40,7 +41,7 @@ const Card: React.FC<CardProps> = ({
         cx(
           'rounded-2xl border-2 border-badass-gray-800 duration-150 hover:bg-badass-gray-800 flex flex-col items-center px-4 overflow-hidden',
           {
-            'pb-10 lg:pb-14': type === 'caseStudy',
+            'pb-10 lg:pb-14': type === 'caseStudy' || type === 'project',
             'pb-10': type === 'article',
             'lg:px-8': !horizontalOrientation,
             'md:overflow-visible md:flex-row md:even:flex-row-reverse md:pb-0 lg:pb-0 md:min-h-[280px] lg:min-h-[380px] xl:min-h-[400px] md:px-10 lg:px-16 xl:px-24':
@@ -131,6 +132,11 @@ const Card: React.FC<CardProps> = ({
               </h3>
             </>
           )}
+          {type === 'project' && (
+            <h3 className="text-gray-300 uppercase font-medium leading-[1.42] lg:leading-[2.185] text-sm lg:text-base font-mono mt-2 lg:mt-4 tracking-[0.14px] lg:tracking-[0.16px] text-center">
+              {subtitle}
+            </h3>
+          )}
         </div>
         <ButtonSecondary
           href={href}
@@ -140,7 +146,14 @@ const Card: React.FC<CardProps> = ({
             'mt-4': horizontalOrientation,
           })}
         >
-          {ctaText}
+          <span>{ctaText}</span>
+          {type === 'project' && (
+            <Icon
+              aria-hidden="true"
+              name="arrow-top-right"
+              className="w-5 h-5 shrink-0 ml-2"
+            />
+          )}
         </ButtonSecondary>
       </div>
     </div>
