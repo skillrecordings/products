@@ -180,13 +180,13 @@ const Navigation: React.FC<NavigationProps> = ({
             <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
           </div>
           {menuOpen && (
-            <div className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100 bg-white px-3 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-black/90 dark:shadow-black/60 sm:hidden">
+            <div className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100 bg-white px-5 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-black/90 dark:shadow-black/60 sm:hidden">
               {navigationLinks.map(({label, href, icon}) => {
                 return (
                   <Link
                     key={href}
                     href={href}
-                    className="flex items-center rounded-md py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
+                    className="flex items-center gap-2 rounded-md py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
                     passHref
                     onClick={() => {
                       track(`clicked ${label} from navigation`, {
@@ -199,7 +199,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 )
               })}
 
-              <div className="flex w-full items-center justify-between px-3 pt-5 text-lg">
+              <div className="flex w-full items-center justify-between pt-5 text-lg">
                 <Login />
                 <User />
                 <ColorModeToggle />
