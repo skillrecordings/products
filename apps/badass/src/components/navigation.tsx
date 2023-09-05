@@ -4,7 +4,6 @@ import {useRouter} from 'next/router'
 import Link from 'next/link'
 import cx from 'classnames'
 import Image from 'next/legacy/image'
-import SkullLogo from '../../public/assets/skull@2x.png'
 import Icon, {IconNames} from 'components/icons'
 
 const Navigation = () => {
