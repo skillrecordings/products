@@ -20,7 +20,7 @@ git clone https://github.com/skillrecordings/products.git
 You'll need [PNPM](https://pnpm.io/) installed.
 
 ```bash
-npm i pnpm@7.12.2 -g
+npm i pnpm@latest -g
 ```
 
 Install all dependencies (all apps and packages) and build all apps and packages

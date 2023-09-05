@@ -11,7 +11,7 @@ pnpm is used here based on [significant performance gains](https://twitter.com/j
 install pnpm:
 
 ```bash
-npm i pnpm@7.12.2 -g
+npm i pnpm@latest -g
 ```
 
 Install all dependencies (all apps and packages) and build all apps and packages

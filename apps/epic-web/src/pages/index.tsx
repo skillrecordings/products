@@ -37,7 +37,7 @@ const Index: NextPage<any> = ({page}) => {
 
 const Article = () => {
   return (
-    <article className="prose mx-auto max-w-none px-5 pt-16 dark:prose-invert sm:prose-xl md:prose-xl prose-headings:text-center prose-headings:font-bold prose-p:mx-auto prose-p:max-w-2xl">
+    <article className="prose mx-auto max-w-none px-5 pt-0 dark:prose-invert sm:prose-xl md:prose-xl prose-headings:text-center prose-headings:font-bold prose-p:mx-auto prose-p:max-w-2xl sm:pt-16">
       <LandingCopy />
     </article>
   )
@@ -93,7 +93,6 @@ const Header = () => {
         priority
         placeholder="empty"
       />
-
       <motion.div className="absolute z-20 flex w-[600px] -translate-y-16 items-start justify-center sm:w-[700px] sm:-translate-y-24">
         <Image
           src={require('../../public/assets/hero/small-planet-compressed.png')}
@@ -105,7 +104,7 @@ const Header = () => {
           placeholder="blur"
         />
       </motion.div>
-      <motion.div className="absolute bottom-[25%] z-20 mx-auto w-[200px] sm:w-[250px]">
+      <motion.div className="absolute bottom-[25%] z-20 mx-auto w-[130px] sm:w-[250px]">
         <Image
           src={require('../../public/assets/hero/ships-compressed.png')}
           width={250}
