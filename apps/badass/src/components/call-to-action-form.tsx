@@ -1,10 +1,6 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
 import Image from 'next/legacy/image'
-import ImageFish from '../../public/assets/fish@2x.png'
-import ImageFormMushroomRight from '../../public/assets/form-mushroom-right@2x.png'
-import ImageFormMushroomLeft from '../../public/assets/form-mushroom-left@2x.png'
-import ImageFormLeaf from '../../public/assets/form-leaf@2x.png'
 import LevelUp from '../../public/assets/level-up@2x.png'
 import {
   redirectUrlBuilder,
@@ -29,7 +25,7 @@ export const CallToActionForm: React.FC<React.PropsWithChildren<any>> = ({
             </div>
           </div>
           <div className="md:w-1/2 lg:shrink-0 lg:w-[434px] lg:ml-[120px] md:relative">
-            <div className="w-[390px] md:w-[342px] lg:w-[491px] absolute left-0 md:left-auto m-auto right-0 -top-40 md:-top-[10.5rem] lg:-top-[19rem]">
+            <div className="w-full sm:w-[390px] md:w-[342px] lg:w-[491px] absolute left-0 md:left-auto m-auto right-0 -top-40 md:-top-[10.5rem] lg:-top-[19rem]">
               <Image
                 src="https://res.cloudinary.com/badass-courses/image/upload/v1692693157/assets/subscribe-form-image_2x_h0mweo.png"
                 width={982}

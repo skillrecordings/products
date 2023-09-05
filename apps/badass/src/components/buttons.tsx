@@ -12,7 +12,7 @@ type ButtonProps = {
 }
 
 const commonStyles =
-  'inline-flex self-center justify-center items-center rounded-xl focus-visible:ring-2 focus-visible:ring-badass-blue focus-visible:ring-offset-4 focus-visible:ring-offset-black focus-visible:outline-none duration-150 font-sans'
+  'inline-flex justify-center items-center rounded-xl focus-visible:ring-2 focus-visible:ring-badass-blue focus-visible:ring-offset-4 focus-visible:ring-offset-black focus-visible:outline-none duration-150 font-sans'
 
 const commonPrimaryStyles =
   'h-[4.5rem] px-6 text-xl font-bold bg-badass-pink-600 hover:bg-badass-pink-800 disabled:bg-badass-pink-600 disabled:opacity-60 disabled:cursor-not-allowed disabled:text-black'
@@ -62,8 +62,8 @@ const ButtonSecondary: React.FC<
     'w-full': fluid,
     'min-w-[434px]': (!fluid && size === 'default') || (!fluid && !size),
     'h-[4.5rem] text-xl font-bold px-6': size === 'default' || !size,
-    'font-medium h-[3.25rem] text-base px-6': size === 'middle',
-    'h-[2.25rem] text-sm font-medium px-4': size === 'small',
+    'font-medium h-[3.25rem] text-base px-6 min-w-[10rem]': size === 'middle',
+    'h-[2.25rem] text-sm font-medium px-4  min-w-[8rem]': size === 'small',
   }
   return tag === 'link' && href ? (
     <Link
