@@ -120,6 +120,68 @@ const Header = () => {
       </motion.div>
       <div className="absolute bottom-0 left-0 z-30 h-32 w-full bg-gradient-to-b from-transparent dark:to-background" />
       <Particles
+        id="tsparticles2"
+        init={particlesInit}
+        loaded={particlesLoaded}
+        canvasClassName="absolute top-0 z-0 w-full h-full z-10"
+        className="absolute top-0 z-10 h-full w-full"
+        options={{
+          fullScreen: {
+            enable: false,
+          },
+          preset: 'stars',
+          retina_detect: true,
+          background: {
+            opacity: 0,
+          },
+          pauseOnOutsideViewport: true,
+          zLayers: 50,
+
+          particles: {
+            shadow: {
+              blur: 20,
+              color: '#F85C1F',
+              enable: true,
+            },
+            number: {
+              value: 50,
+            },
+
+            size: {
+              value: {min: 1, max: 5},
+            },
+            opacity: {
+              value: {
+                min: 0.1,
+                max: 0.5,
+              },
+              animation: {
+                enable: true,
+                speed: 0.2,
+                minimumValue: 0.1,
+              },
+            },
+            color: {
+              value: '#F85C1F',
+            },
+            move: {
+              direction: 'outside',
+              center: {
+                x: 50,
+                y: 5,
+              },
+              enable: true,
+              speed: {
+                max: 0.6,
+                min: 0.1,
+              },
+              straight: false,
+              random: true,
+            },
+          },
+        }}
+      />
+      <Particles
         id="tsparticles"
         init={particlesInit}
         loaded={particlesLoaded}
@@ -135,15 +197,29 @@ const Header = () => {
             opacity: 0,
           },
           pauseOnOutsideViewport: true,
-
+          zLayers: 50,
           particles: {
+            number: {
+              value: 1000,
+              density: {
+                enable: true,
+              },
+            },
+
+            zIndex: {
+              random: true,
+              value: {
+                min: 1,
+                max: 50,
+              },
+            },
             shadow: {
               blur: 20,
               color: '#67CBEB',
               enable: true,
             },
             size: {
-              value: {min: 1.5, max: 3},
+              value: {min: 1, max: 3.2},
             },
             color: {
               // value: '#67CBEB',
@@ -164,64 +240,20 @@ const Header = () => {
               direction: 'outside',
               center: {
                 x: 50,
-                y: 100,
+                y: 200,
               },
               enable: true,
               speed: {
-                max: 0.9,
+                max: 0.7,
                 min: 0.2,
               },
-              straight: false,
-              random: true,
-            },
-          },
-        }}
-      />
-      <Particles
-        id="tsparticles2"
-        init={particlesInit}
-        loaded={particlesLoaded}
-        canvasClassName="absolute top-0 z-0 w-full h-full"
-        className="absolute top-0 z-0 h-full w-full"
-        options={{
-          fullScreen: {
-            enable: false,
-          },
-          preset: 'stars',
-          retina_detect: true,
-          background: {
-            opacity: 0,
-          },
-          pauseOnOutsideViewport: true,
-          zLayers: 1,
-          particles: {
-            shadow: {
-              blur: 20,
-              color: '#F85C1F',
-              enable: true,
-            },
-            number: {
-              value: 60,
-            },
-            size: {
-              value: {min: 0.5, max: 3.5},
-            },
-            color: {
-              value: '#F85C1F',
-            },
-            move: {
-              direction: 'outside',
-              center: {
-                x: 50,
-                y: 0,
-              },
-              enable: true,
-              speed: {
-                max: 1.5,
-                min: 0.3,
-              },
-              straight: false,
-              random: true,
+              straight: true,
+              // drift: 0.2,
+              // angle: {
+              //   offset: 0,
+              //   value: 90,
+              // },
+              // random: true,
             },
           },
         }}
