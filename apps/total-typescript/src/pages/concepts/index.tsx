@@ -20,29 +20,31 @@ const ConceptList = ({concepts}: {concepts: Concept[]}) => {
   return (
     <>
       <ul className="flex flex-col divide-y divide-gray-800/75">
-        {concepts.map((concept: Concept) => (
-          <li key={concept.slug.current}>
-            <Link
-              href={{
-                pathname: '/concepts/[slug]',
-                query: {
-                  slug: concept.slug.current,
-                },
-              }}
-              className="group inline-flex w-full items-center justify-between px-5 py-4 transition hover:bg-gray-500/5"
-            >
-              <h2 className="w-full text-base font-medium leading-tight sm:text-xl">
-                <ReactMarkdown>{concept.title}</ReactMarkdown>
-              </h2>
-              <div
-                aria-hidden="true"
-                className="-translate-x-5 text-gray-400 opacity-0 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+        {concepts
+          .filter((concept: Concept) => concept.body)
+          .map((concept: Concept) => (
+            <li key={concept.slug.current}>
+              <Link
+                href={{
+                  pathname: '/concepts/[slug]',
+                  query: {
+                    slug: concept.slug.current,
+                  },
+                }}
+                className="group inline-flex w-full items-center justify-between px-5 py-4 transition hover:bg-gray-500/5"
               >
-                →
-              </div>
-            </Link>
-          </li>
-        ))}
+                <h2 className="w-full text-base font-medium leading-tight sm:text-xl">
+                  <ReactMarkdown>{concept.title}</ReactMarkdown>
+                </h2>
+                <div
+                  aria-hidden="true"
+                  className="-translate-x-5 text-gray-400 opacity-0 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                >
+                  →
+                </div>
+              </Link>
+            </li>
+          ))}
       </ul>
     </>
   )
