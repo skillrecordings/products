@@ -59,7 +59,7 @@ const Card: React.FC<CardProps> = ({
           className={cx('flex items-center relative shrink-0', {
             'max-w-[482px] -top-7 md:-top-9 lg:-top-7':
               type !== 'article' && !horizontalOrientation,
-            'max-w-[200px] md:max-w-[300px] lg:max-w-[360px]':
+            'max-w-[160px] md:max-w-[200px] lg:max-w-[300px] xl:max-w-[360px]':
               type === 'article' && !horizontalOrientation,
             'w-full': !horizontalOrientation,
             'md:-top-0 md:w-[280px] lg:w-[380px] xl:w-[440px]':
@@ -136,7 +136,7 @@ const Card: React.FC<CardProps> = ({
                 </div>
               )}
               {description && (
-                <h3 className="text-neutral-200 leading-normal md:leading-[1.75] mt-4 text-center text-base md:text-xl font-medium opacity-80">
+                <h3 className="text-neutral-200 leading-normal md:leading-[1.25] mt-4 text-center text-base md:text-xl font-medium opacity-80">
                   {description}
                 </h3>
               )}
