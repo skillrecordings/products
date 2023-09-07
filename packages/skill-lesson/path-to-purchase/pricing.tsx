@@ -414,8 +414,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             <div data-purchased-container="">
               <div data-unavailable="">Coming Soon</div>
               <div className="my-6 items-center text-base font-medium leading-tight">
-                Total TypeScript is not available for purchase yet! We plan to
-                launch around March 1st 2023.
+                Epic Web is not available for purchase yet! We plan to launch in
+                mid October 2023.
               </div>
 
               {!subscriber && !loadingSubscriber && (
