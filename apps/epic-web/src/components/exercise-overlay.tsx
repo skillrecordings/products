@@ -9,11 +9,25 @@ const ExerciseOverlay = () => {
   const {github} = module
 
   return (
-    <div className=" bg-black/30 ">
+    <div className="flex aspect-video items-center justify-center bg-gray-950 text-white dark:bg-black/20">
       {github?.repo && (
-        <div className="flex aspect-video flex-col items-center justify-center gap-5 p-3 text-center sm:hidden">
+        <div className="flex flex-col items-center space-y-5">
           <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
-          <p className="">Try solving this.</p>
+          <p>
+            Clone{' '}
+            <a className="underline" href={github.repo} target="_blank" rel="noreferrer">
+              this repository
+            </a>{' '}
+            with the Epic Web Workshop App and follow instructions in the{' '}
+            <a
+              className="underline"
+              href={`${github.repo}#setup`}
+              target="_blank" rel="noreferrer"
+            >
+              README
+            </a>{' '}
+            to complete the exercise.
+          </p>
           <div className="flex items-center justify-center gap-3">
             <Actions />
           </div>
