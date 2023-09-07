@@ -427,7 +427,7 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
               key={mainArticle._id}
               imageUrl={mainArticle.image}
               title={mainArticle.title}
-              subtitle={mainArticle?.description || ''}
+              description={mainArticle.description}
               href={`/${mainArticle.slug}`}
               type="article"
               ctaText="View"

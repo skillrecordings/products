@@ -9,6 +9,8 @@ export const ArticleSchema = z.object({
   _createdAt: z.string(),
   title: z.string(),
   slug: z.string(),
+  author: z.string(),
+  authorAvatar: z.string(),
   video: z
     .object({
       muxPlaybackId: z.string(),
@@ -22,6 +24,7 @@ export const ArticleSchema = z.object({
     image: z.nullable(z.string()).optional(),
   }),
   image: z.nullable(z.string()).optional(),
+  externalImage: z.nullable(z.string()).optional(),
   description: z.nullable(z.string()).optional(),
   body: z.any().array().nullable().optional(),
   summary: z.any().array().nullable().optional(),
@@ -42,8 +45,11 @@ export const getAllArticles = async (): Promise<Article[]> => {
         "slug": slug.current,
         title,
         state,
+        author,
+        "authorAvatar": authorAvatar.url,
         description,
         "image": image.asset->url,
+        "externalImage": externalImage.url,
         summary,
         body,
         "shareCardDetails": {
@@ -67,6 +73,8 @@ export const getArticle = async (
         _createdAt,
         "slug": slug.current,
         title,
+        author,
+        "authorAvatar": authorAvatar.url,
         "video": resources[@->._type == 'videoResource'][0]-> {
           "transcript": castingwords.transcript,
           "muxPlaybackId": muxAsset.muxPlaybackId
@@ -74,6 +82,7 @@ export const getArticle = async (
         state,
         description,
         "image": image.asset->url,
+        "externalImage": externalImage.url,
         summary,
         body,
         "shareCardDetails": {
