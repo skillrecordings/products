@@ -253,7 +253,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   return (
     <div
       id="video-overlay"
-      className="relative left-0 top-0 flex w-full items-center justify-center shadow-2xl shadow-black/10 bg-white lg:aspect-video xl:rounded-md"
+      className="relative left-0 top-0 flex w-full items-center justify-center shadow-2xl shadow-black/10 bg-white lg:aspect-video xl:rounded-b-md"
     >
       <div className="absolute right-5 top-5 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>
@@ -274,14 +274,14 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
           Dismiss <XIcon className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
-      <div className="ft-0 top-0 z-20 sm:px-16 px-5 flex h-full w-full flex-col items-center justify-center p-2 text-center text-lg leading-relaxed lg:absolute">
+      <div className="top-0 z-20 sm:px-16 px-5 flex h-full w-full sm:p-10 text-center text-lg leading-relaxed">
         {/* <ShareTip lesson={tip} /> */}
-        <div className="grid h-full w-full grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+        <div className="grid h-full w-full grid-cols-1 place-items-center items-center justify-center gap-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
           {take(
             shuffle(
               tips.filter((suggestedTip) => suggestedTip.slug !== lesson.slug),
             ),
-            9,
+            4,
           ).map((tip) => (
             <VideoOverlayTipCard suggestedTip={tip} />
           ))}
@@ -299,7 +299,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   const thumbnail = `https://image.mux.com/${suggestedTip.muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve&time=1`
 
   return (
-    <div className="aspect-[16/12]">
+    <div className="aspect-[16/9] w-full h-full">
       <button
         key={suggestedTip.slug}
         onClick={() => {
@@ -318,7 +318,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
         }}
         className="group relative z-0 flex aspect-video h-full w-full items-end justify-start overflow-hidden rounded-lg border border-gray-200 bg-white text-left font-medium leading-tight text-gray-100"
       >
-        <div className="bg-white text-black absolute left-0 bottom-0 p-5 relative z-10 flex flex-col w-full">
+        <div className="bg-white text-black left-0 bottom-0 p-5 relative z-10 flex flex-col w-full">
           <span className="font-mono pb-1 text-xs font-bold uppercase tracking-wide">
             Tip
           </span>
