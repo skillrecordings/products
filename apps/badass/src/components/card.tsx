@@ -37,7 +37,6 @@ const Card: React.FC<CardProps> = ({
   description,
   isEven,
 }) => {
-  console.log({description})
   return (
     <div
       className={twMerge(
