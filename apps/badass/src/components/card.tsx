@@ -9,13 +9,14 @@ import {ButtonSecondary} from 'components/buttons'
 type CardProps = {
   imageUrl: string | null | undefined
   title: string
-  subtitle: string
+  subtitle?: string
   href: string
   type: 'caseStudy' | 'article' | 'project'
   horizontalOrientation?: boolean
   ctaText: string
   authorName?: string
   authorAvatarUrl?: string
+  description?: string | null | undefined
   publishedDate?: string
   isEven?: boolean
   className?: string
@@ -33,8 +34,10 @@ const Card: React.FC<CardProps> = ({
   authorName,
   publishedDate,
   authorAvatarUrl,
+  description,
   isEven,
 }) => {
+  console.log({description})
   return (
     <div
       className={twMerge(
@@ -53,8 +56,12 @@ const Card: React.FC<CardProps> = ({
     >
       {imageUrl && (
         <div
-          className={cx('flex items-center relative shrink-0  -top-7', {
-            'w-full max-w-[482px] md:-top-9 lg:-top-7': !horizontalOrientation,
+          className={cx('flex items-center relative shrink-0', {
+            'max-w-[482px] -top-7 md:-top-9 lg:-top-7':
+              type !== 'article' && !horizontalOrientation,
+            'max-w-[200px] md:max-w-[300px] lg:max-w-[360px]':
+              type === 'article' && !horizontalOrientation,
+            'w-full': !horizontalOrientation,
             'md:-top-0 md:w-[280px] lg:w-[380px] xl:w-[440px]':
               horizontalOrientation,
           })}
@@ -72,7 +79,8 @@ const Card: React.FC<CardProps> = ({
       )}
       <div
         className={cx('flex flex-col relative grow items-center', {
-          '-mt-[60px] lg:-mt-[80px]': !horizontalOrientation,
+          '-mt-[60px] lg:-mt-[80px]':
+            !horizontalOrientation && type !== 'article',
           'md:items-start -mt-[20px] md:-mt-0': horizontalOrientation,
           'md:mr-12 lg:mr-24 xl:mr-42': horizontalOrientation && isEven,
           'md:ml-12 lg:ml-24 xl:ml-42': horizontalOrientation && !isEven,
@@ -85,12 +93,12 @@ const Card: React.FC<CardProps> = ({
         >
           <h2
             className={cx(
-              'text-center text-2xl font-heading leading-[1.333] lg:leading-tight',
+              'text-center text-2xl font-heading leading-[1.333] lg:leading-tight grow',
               {
                 'mt-3 md:mt-0': type === 'caseStudy' && !horizontalOrientation,
-                'mt-4': type === 'article',
-                // '': horizontalOrientation,
-                'lg:text-[2rem] max-w-[340px]': !horizontalOrientation,
+                'mt-6': type === 'article',
+                'max-w-[340px]': !horizontalOrientation && type !== 'article',
+                'lg:text-[2rem]': !horizontalOrientation,
                 'md:text-left md:text-[1.75rem] lg:text-[2.125rem] xl:text-[2.5rem] lg:max-w-[400px] xl:max-w-none':
                   horizontalOrientation,
               },
@@ -105,15 +113,15 @@ const Card: React.FC<CardProps> = ({
           )}
           {type === 'caseStudy' && horizontalOrientation && (
             <h3 className="font-mono uppercase opacity-70 mt-4 lg:mt-6 text-xs lg:text-sm xl:text-base flex flex-col xl:flex-row items-center md:items-start">
-              <span>client: {subtitle}</span>
+              {subtitle && <span>client: {subtitle}</span>}
               <span className="hidden xl:inline lg:mx-3"> &middot; </span>
-              <span>published: {publishedDate}</span>
+              {publishedDate && <span>published: {publishedDate}</span>}
             </h3>
           )}
           {type === 'article' && (
             <>
               {authorName && authorAvatarUrl && (
-                <div className="flex space-x-2 md:space-x-4 items-center mt-5 md:mt-9">
+                <div className="flex space-x-2 md:space-x-4 items-center mt-5 md:mt-6">
                   <div className="w-9 h-9 md:w-12 md:h-12 rounded-full overflow-hidden">
                     <Image
                       src={authorAvatarUrl}
@@ -127,9 +135,11 @@ const Card: React.FC<CardProps> = ({
                   </div>
                 </div>
               )}
-              <h3 className="text-neutral-200 leading-normal md:leading-[1.75] mt-4 text-center text-base md:text-xl font-medium opacity-80">
-                {subtitle}
-              </h3>
+              {description && (
+                <h3 className="text-neutral-200 leading-normal md:leading-[1.75] mt-4 text-center text-base md:text-xl font-medium opacity-80">
+                  {description}
+                </h3>
+              )}
             </>
           )}
           {type === 'project' && (
