@@ -26,6 +26,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const module = await getWorkshop(moduleSlug)
   const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSlug, false)
+  const solution = lesson.solution
   const videoResourceId = lesson.videoResourceId
 
   // ability rules
@@ -55,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }),
     country,
     module,
-    lesson,
+    lesson: solution || lesson,
     section,
     purchasedModules,
     isSolution: lesson._type === 'solution',
