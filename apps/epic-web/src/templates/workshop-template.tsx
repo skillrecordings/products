@@ -18,6 +18,7 @@ import Testimonials from 'testimonials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {Skeleton} from '@skillrecordings/ui'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -30,7 +31,12 @@ const WorkshopTemplate: React.FC<{
       slug: workshop.slug.current,
     })
 
-  console.log({workshopBodySerialized})
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({})
+
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
+    commerceProps?.couponFromCode,
+  )
 
   return (
     <Layout
@@ -44,6 +50,7 @@ const WorkshopTemplate: React.FC<{
         },
       }}
     >
+      {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       <CourseMeta title={pageTitle} description={description} />
       <Header tutorial={workshop} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
