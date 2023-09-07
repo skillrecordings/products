@@ -14,6 +14,9 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   state,
   body,
   preview,
+  "introPlaybackId": resources[@->._type == 'section'][0]->resources[@->._type in ['exercise', 'explainer']][0]->resources[@->._type == 'videoResource'][0]->{
+    "muxPlaybackId": muxAsset.muxPlaybackId,
+  }.muxPlaybackId,
   "sections": resources[@->._type == 'section']->{
     _id,
     _type,
