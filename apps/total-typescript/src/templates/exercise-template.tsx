@@ -34,6 +34,14 @@ import {getExerciseGitHubUrl} from '@/exercise/get-exercise-github-url'
 import pluralize from 'pluralize'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import * as Collection from '@skillrecordings/ui/module/collection'
+import {Accordion, ScrollArea} from '@skillrecordings/ui'
+import {
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+  AccordionTrigger,
+} from '@radix-ui/react-accordion'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -116,6 +124,8 @@ const ExerciseTemplate: React.FC<{
     module,
   })
 
+  const scrollContainerRef = React.useRef<any>(null)
+
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -161,11 +171,72 @@ const ExerciseTemplate: React.FC<{
           description={pageDescription || ''}
         />
         <div className="flex flex-grow flex-col lg:flex-row">
-          <LargeScreenModuleLessonList
-            lessonResourceRenderer={lessonResourceRenderer}
-            module={module}
-            path={path}
-          />
+          <div className="w-full lg:max-w-[300px]">
+            {/* <LargeScreenModuleLessonList
+              lessonResourceRenderer={lessonResourceRenderer}
+              module={module}
+              path={path}
+            /> */}
+            <div className="relative z-40 h-full w-full">
+              <div className="sticky top-0 border-r border-white/5 bg-black/30">
+                <ScrollArea
+                  className="h-[calc(100vh)]"
+                  ref={scrollContainerRef}
+                >
+                  <Collection.Root
+                    module={module}
+                    resourcesRenderer={(type) => {
+                      return (
+                        <>
+                          {(type === 'exercise' || type === 'solution') && (
+                            <>
+                              <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-orange-400 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
+                                Problem
+                              </Collection.Resource>
+                              <Collection.Resource
+                                path="exercise"
+                                className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-purple-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
+                              >
+                                Exercise
+                              </Collection.Resource>
+                              <Collection.Resource
+                                path="solution"
+                                className="text-sm font-medium [&>a[data-active='true']]:border-cyan-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
+                              >
+                                Solution
+                              </Collection.Resource>
+                            </>
+                          )}
+                          {type === 'explainer' && (
+                            <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
+                              Explainer
+                            </Collection.Resource>
+                          )}
+                        </>
+                      )
+                    }}
+                  >
+                    <Collection.Sections className="space-y-0">
+                      <Collection.Section>
+                        <Collection.Lessons>
+                          <Collection.Lesson
+                            className='data-[active="true"]:bg-gray-800/60'
+                            scrollContainerRef={scrollContainerRef}
+                          >
+                            <Collection.Resources className="pb-2" />
+                          </Collection.Lesson>
+                        </Collection.Lessons>
+                      </Collection.Section>
+                    </Collection.Sections>
+                    {/* Used if module has either none or single section so they can be styled differently */}
+                    <Collection.Lessons>
+                      <Collection.Lesson />
+                    </Collection.Lessons>
+                  </Collection.Root>
+                </ScrollArea>
+              </div>
+            </div>
+          </div>
           <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
             <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video

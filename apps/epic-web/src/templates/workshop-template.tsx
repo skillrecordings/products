@@ -30,6 +30,8 @@ const WorkshopTemplate: React.FC<{
       slug: workshop.slug.current,
     })
 
+  console.log({workshopBodySerialized})
+
   return (
     <Layout
       className="mx-auto w-full max-w-screen-lg pt-10 sm:pt-24 lg:pb-24"
@@ -45,15 +47,21 @@ const WorkshopTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       <Header tutorial={workshop} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <div className="px-5">
+        <div className="w-full flex-grow px-5">
           <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
-            <MDX contents={workshopBodySerialized} />
+            {workshopBodySerialized ? (
+              <MDX contents={workshopBodySerialized} />
+            ) : (
+              <p className="italic opacity-75">
+                This workshop is under development...
+              </p>
+            )}
           </article>
           {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        <div className="w-full px-5 lg:max-w-xs lg:px-0">
+        <div className="w-full px-5 lg:max-w-sm lg:px-0">
           {workshop && (
             <Collection.Root module={workshop}>
               <div className="flex w-full items-center justify-between pb-3">
@@ -137,7 +145,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                 href={
                   firstSection && sections
                     ? {
-                        pathname: '/tutorials/[module]/[section]/[lesson]',
+                        pathname: '/workshops/[module]/[section]/[lesson]',
                         query: {
                           module: slug.current,
                           section: isModuleInProgress
@@ -149,7 +157,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                         },
                       }
                     : {
-                        pathname: '/tutorials/[module]/[lesson]',
+                        pathname: '/workshops/[module]/[lesson]',
                         query: {
                           module: slug.current,
                           lesson: isModuleInProgress

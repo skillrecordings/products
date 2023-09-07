@@ -29,6 +29,7 @@ import Spinner from 'components/spinner'
 import pluralize from 'pluralize'
 import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -88,6 +89,8 @@ const ExerciseTemplate: React.FC<{
     )
   }
 
+  console.log('moduleproduct', module?.product)
+
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -123,6 +126,7 @@ const ExerciseTemplate: React.FC<{
           <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-gray-200 dark:border-gray-900 2xl:flex 2xl:max-w-none">
             <div className="flex flex-col border-gray-200 dark:border-gray-900 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video
+                product={module?.product as SanityProduct}
                 ref={muxPlayerRef}
                 exerciseOverlayRenderer={() => <ExerciseOverlay />}
                 loadingIndicator={<Spinner />}

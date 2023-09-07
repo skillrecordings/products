@@ -203,9 +203,9 @@ const Header = () => {
               value: 1000,
               density: {
                 enable: true,
+                area: 1000,
               },
             },
-
             zIndex: {
               random: true,
               value: {
@@ -235,7 +235,6 @@ const Header = () => {
                 max: 0.95,
               },
             },
-
             move: {
               direction: 'outside',
               center: {
@@ -248,12 +247,6 @@ const Header = () => {
                 min: 0.2,
               },
               straight: true,
-              // drift: 0.2,
-              // angle: {
-              //   offset: 0,
-              //   value: 90,
-              // },
-              // random: true,
             },
           },
         }}
