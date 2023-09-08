@@ -16,7 +16,7 @@ import LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-c
 import {useSession} from 'next-auth/react'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import Balancer from 'react-wrap-balancer'
-
+import {useMeasure, useSize} from 'react-use'
 import ExerciseOverlay from 'components/exercise-overlay'
 import Spinner from 'components/spinner'
 import pluralize from 'pluralize'
@@ -183,44 +183,47 @@ const LessonList: React.FC<{
       slug: module.slug.current,
     })
 
-  const metaRef = React.useRef<HTMLDivElement>(null)
-  console.log({metaRef})
-  const headerHeight = metaRef?.current?.clientHeight || 0
+  const [ref, {height}] = useMeasure<HTMLDivElement>()
+  console.log({height})
   return (
     <div className="sticky top-0">
-      <div
-        ref={metaRef}
-        className="relative z-10 flex items-center space-x-3 border-b border-r border-white/5 bg-gray-50 px-2 py-3 dark:bg-foreground/10 dark:shadow-xl dark:shadow-black/20"
-      >
-        {module.image && (
-          <Image src={module.image} width={75} height={75} alt={module.title} />
-        )}
-        <div>
-          <h3 className="text-lg font-semibold leading-tight">
-            <Link href={`${path}/${module.slug.current!}`}>{module.title}</Link>
-          </h3>
-          {module?.github?.repo && (
-            <Link
-              href={module.github.repo + '#setup'}
-              target="_blank"
-              className="mt-2 inline-flex items-center space-x-1 rounded bg-blue-500 px-1.5 py-1 text-xs font-semibold uppercase leading-none text-background transition hover:bg-blue-600 dark:bg-blue-600 dark:text-foreground dark:hover:bg-blue-500"
-            >
-              <Icon name="Github" size="16" />
-              <span>
-                {module.moduleType === 'tutorial'
-                  ? 'Code'
-                  : 'Connect Workshop App'}
-              </span>
-            </Link>
+      <div ref={ref}>
+        <div className="relative z-10 flex items-center space-x-3 border-b border-r border-white/5 bg-gray-50 px-2 py-3 dark:bg-foreground/10 dark:shadow-xl dark:shadow-black/20">
+          {module.image && (
+            <Image
+              src={module.image}
+              width={75}
+              height={75}
+              alt={module.title}
+            />
           )}
+          <div>
+            <h3 className="text-lg font-semibold leading-tight">
+              <Link href={`${path}/${module.slug.current!}`}>
+                {module.title}
+              </Link>
+            </h3>
+            {module?.github?.repo && (
+              <Link
+                href={module.github.repo + '#setup'}
+                target="_blank"
+                className="mt-2 inline-flex items-center space-x-1 rounded bg-blue-500 px-1.5 py-1 text-xs font-semibold uppercase leading-none text-background transition hover:bg-blue-600 dark:bg-blue-600 dark:text-foreground dark:hover:bg-blue-500"
+              >
+                <Icon name="Github" size="16" />
+                <span>
+                  {module.moduleType === 'tutorial'
+                    ? 'Code'
+                    : 'Connect Workshop App'}
+                </span>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
-      <div className={cn('border-r', className)}>
+      <div className={cn('h-screen border-r', className)}>
         <ScrollArea
-          className={cn(
-            `h-[calc(100vh-${Number(headerHeight)}px)]`,
-            scrollAreaClassName,
-          )}
+          style={{height: `calc(100vh - ${height + 48}px)`}}
+          className={cn('', scrollAreaClassName)}
           ref={scrollContainerRef}
         >
           <Collection.Root
