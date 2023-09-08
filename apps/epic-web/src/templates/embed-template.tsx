@@ -1,5 +1,7 @@
 import React from 'react'
-import {GetServerSideProps} from 'next'
+import {GetServerSideProps, NextApiRequest} from 'next'
+import {getSection} from 'lib/sections'
+import {getExercise} from 'lib/exercises'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {type Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
@@ -18,49 +20,24 @@ import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module
 import {useRouter} from 'next/router'
 import pluralize from 'pluralize'
 import {trpc} from 'trpc/trpc.client'
-import {useSession} from 'next-auth/react'
+import {getCsrfToken, getProviders, signIn, useSession} from 'next-auth/react'
 import {type LoginTemplateProps} from '@skillrecordings/ui/templates/login'
 import Spinner from 'components/spinner'
 import {Button} from '@skillrecordings/ui'
 import Link from 'next/link'
-import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import {
+  UserSchema,
+  createAppAbility,
+  defineRulesForPurchases,
+} from '@skillrecordings/skill-lesson/utils/ability'
+import {getToken} from 'next-auth/jwt'
+import {getSubscriberFromCookie} from '@skillrecordings/skill-lesson/utils/ck-subscriber-from-cookie'
+import {getProducts} from '@skillrecordings/skill-lesson/lib/products'
+import {getVideoResource} from '@skillrecordings/skill-lesson/lib/video-resources'
 import {Subscriber} from 'schemas/subscriber'
-import {getPropsForEmbed} from 'utils/get-props-for-embeds'
+import {getWorkshop} from 'lib/workshops'
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const isSolution = false
-  const isTutorial = true
-  const {
-    module,
-    section,
-    lesson,
-    videoResourceId,
-    videoResource,
-    theme,
-    login: {providers, csrfToken},
-    convertkitSubscriber,
-    abilityRules,
-  } = await getPropsForEmbed(context, isSolution, isTutorial)
-
-  return {
-    props: {
-      module,
-      section,
-      lesson,
-      videoResourceId,
-      videoResource,
-      theme,
-      login: {
-        providers,
-        csrfToken,
-      },
-      convertkitSubscriber,
-      abilityRules,
-    },
-  }
-}
-
-type VideoEmbedPageProps = {
+export type VideoEmbedPageProps = {
   module: Module
   section: Section
   lesson: Lesson
@@ -76,7 +53,7 @@ type VideoEmbedPageProps = {
   abilityRules: any
 }
 
-const VideoEmbedPage: React.FC<VideoEmbedPageProps> = ({
+const EmbedTemplate: React.FC<VideoEmbedPageProps> = ({
   module,
   section,
   lesson,
@@ -310,7 +287,7 @@ const Video: React.FC<
   },
 )
 
-export default VideoEmbedPage
+export default EmbedTemplate
 
 const Logo = () => {
   return (

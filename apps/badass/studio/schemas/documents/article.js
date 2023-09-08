@@ -24,6 +24,18 @@ export default {
       },
     },
     {
+      name: 'author',
+      title: 'Author',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'authorAvatar',
+      title: 'Author avatar',
+      type: 'externalImage',
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: 'state',
       title: 'Current State',
       type: 'string',
@@ -57,6 +69,11 @@ export default {
       name: 'image',
       title: 'Image',
       type: 'image',
+    },
+    {
+      name: 'externalImage',
+      title: 'External Image',
+      type: 'externalImage',
     },
     {
       name: 'summary',
@@ -109,7 +126,7 @@ export default {
   preview: {
     select: {
       title: 'title',
-      media: 'image.asset.url',
+      media: 'externalImage.url',
     },
     prepare(selection) {
       const {media, title} = selection

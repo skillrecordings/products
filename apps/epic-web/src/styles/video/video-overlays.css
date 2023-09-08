@@ -103,7 +103,7 @@
       [data-col='1'] {
         @apply flex w-full max-w-[420px] flex-col items-center;
         [data-image] {
-          @apply relative -mb-5;
+          @apply relative mb-5 w-24;
         }
         [data-title] {
           @apply text-3xl font-semibold;
@@ -125,7 +125,10 @@
         }
       }
       [data-col='2'] {
-        @apply w-full lg:w-auto;
+        @apply flex w-full flex-col items-center justify-center lg:w-auto;
+        [data-pricing-product] {
+          @apply flex h-full flex-col items-center justify-center;
+        }
       }
     }
   }

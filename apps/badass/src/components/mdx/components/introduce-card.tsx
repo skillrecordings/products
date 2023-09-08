@@ -18,7 +18,6 @@ export const IntroduceCard: React.FC<IntroduceCardProps> = ({
   name,
   title,
 }) => {
-  console.log({id})
   const {imageUrl, width, height} = image
   return (
     <div data-introduce-card="" className="not-prose" {...(id ? {id} : {})}>

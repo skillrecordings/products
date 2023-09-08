@@ -30,6 +30,8 @@ const TutorialTemplate: React.FC<{
       slug: tutorial.slug.current,
     })
 
+  console.log({tutorialBodySerialized})
+
   return (
     <Layout
       className="mx-auto w-full max-w-screen-lg pt-10 sm:pt-24 lg:pb-24"

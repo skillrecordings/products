@@ -80,7 +80,7 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
           <div className="mt-20">
             <MuxPlayer
               streamType="on-demand"
-              playbackId="lZ7JLEsycJZ1hi9D02NlGo701t2IILWuXssviaT9fy8u8"
+              playbackId="hv3g00UD00KrTt56100700PHZmZ1SWPd01Xa318p6xQ67EAA"
             />
           </div>
         </div>
