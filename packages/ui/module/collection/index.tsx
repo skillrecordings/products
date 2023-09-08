@@ -539,32 +539,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
     const scrollElRef = React.useRef<HTMLDivElement>(null)
     const activeElementToScrollTo = scrollElRef.current
 
-    React.useEffect(() => {
-      const offset = activeElementToScrollTo?.offsetTop
-      const stickySectionOffset = 0 // 48
-      if (offset && isLessonActive) {
-        const timeout = setTimeout(() => {
-          requestAnimationFrame(() => {
-            scrollContainerRef?.current?.children[1].scrollTo({
-              top:
-                offset -
-                (module.sections && module.sections.length > 1
-                  ? stickySectionOffset
-                  : 0),
-            })
-          })
-        }, 0)
-        return () => {
-          clearTimeout(timeout)
-        }
-      }
-    }, [
-      router,
-      activeElementToScrollTo,
-      scrollContainerRef,
-      module,
-      isLessonActive,
-    ])
+    useScrollToActiveLesson(activeElementToScrollTo, scrollContainerRef, lesson)
 
     if (!lesson) return null
 
@@ -684,9 +659,11 @@ const Resources = React.forwardRef<ResourcesElement, ResourcesProps>(
   },
 )
 
-Resources.displayName = RESOURCES_NAME
+/* -------------------------------------------------------------------------------------------------
+ * Resources
+ * -----------------------------------------------------------------------------------------------*/
 
-/* ------------------------------------------------------------------------------------------------- */
+Resources.displayName = RESOURCES_NAME
 
 const RESOURCE_NAME = 'Resource'
 
@@ -717,6 +694,10 @@ const useSesourceLinkBuilder = (modulePath?: string, resourcePath?: string) => {
       '/' + modulePath + (resourcePath ? href + `/${resourcePath}` : href),
   }
 }
+
+/* -------------------------------------------------------------------------------------------------
+ * Resource
+ * -----------------------------------------------------------------------------------------------*/
 
 /**
  * Represents a resource that is linked to a lesson. Such as a **problem, exercise, or solution**.
@@ -795,6 +776,40 @@ const getLessonHref = (
     ...(section && {section: section.slug}),
   }
   return {pathname, query}
+}
+
+const useScrollToActiveLesson = (
+  activeElementToScrollTo: HTMLDivElement | null,
+  scrollContainerRef?: React.RefObject<HTMLDivElement>,
+  lesson?: LessonType,
+) => {
+  const {lesson: activeLesson, module} = useLesson()
+  const isLessonActive = activeLesson?.slug === lesson?.slug
+  const [hasEffectRun, setHasEffectRun] = React.useState(false)
+
+  React.useEffect(() => {
+    if (!hasEffectRun) {
+      const offset = activeElementToScrollTo?.offsetTop
+      const stickySectionOffset = 0 // 48
+      if (offset && isLessonActive) {
+        const timeout = setTimeout(() => {
+          requestAnimationFrame(() => {
+            scrollContainerRef?.current?.children[1].scrollTo({
+              top:
+                offset -
+                (module.sections && module.sections.length > 1
+                  ? stickySectionOffset
+                  : 0),
+            })
+          })
+        }, 0)
+        setHasEffectRun(true)
+        return () => {
+          clearTimeout(timeout)
+        }
+      }
+    }
+  }, [activeElementToScrollTo, scrollContainerRef, module, isLessonActive])
 }
 
 /* -------------------------------------------------------------------------------------------------*/
