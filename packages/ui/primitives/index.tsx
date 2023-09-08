@@ -62,6 +62,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
 } from './dropdown-menu'
+import {ScrollArea, ScrollBar} from './scroll-area'
 
 export {
   Button,
@@ -118,4 +119,6 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
+  ScrollArea,
+  ScrollBar,
 }

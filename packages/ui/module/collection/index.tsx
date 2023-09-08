@@ -2,6 +2,8 @@ import React from 'react'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {type Section as SectionType} from '@skillrecordings/skill-lesson/schemas/section'
 import {type Lesson as LessonType} from '@skillrecordings/skill-lesson/schemas/lesson'
+import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {
   Accordion,
   AccordionContent,
@@ -12,7 +14,7 @@ import {
 import {type Scope, createContextScope} from '@radix-ui/react-context'
 import {Primitive} from '@radix-ui/react-primitive'
 import type * as Radix from '@radix-ui/react-primitive'
-import {capitalize, first, isEmpty} from 'lodash'
+import {capitalize, first, isEmpty, replace} from 'lodash'
 import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
 import Link from 'next/link'
 import pluralize from 'pluralize'
@@ -30,6 +32,7 @@ import {CheckIcon, LockIcon} from 'lucide-react'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {cn} from '../../utils/cn'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
+import {useRouter} from 'next/router'
 
 /* -------------------------------------------------------------------------------------------------
  * Collection
@@ -50,6 +53,8 @@ type CollectionContextValue = {
   sectionProgressRenderer: (
     sectionProgress?: SectionProgress,
   ) => React.ReactNode
+  resourcesRenderer?: (type?: string) => React.ReactNode
+  path?: string
 }
 const [CollectionProvider, useCollectionContext] =
   createCollectionContext<CollectionContextValue>(COLLECTION_NAME)
@@ -63,6 +68,7 @@ interface CollectionProps extends PrimitiveDivProps {
   sectionProgressRenderer?: (
     sectionProgress?: SectionProgress,
   ) => React.ReactNode
+  resourcesRenderer?: (type?: string) => React.ReactNode
 }
 
 const Collection = React.forwardRef<CollectionElement, CollectionProps>(
@@ -70,6 +76,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
     const {
       __scopeCollection,
       module,
+
       children,
       checkIconRenderer = () => (
         <CheckIcon
@@ -84,6 +91,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
         <LockIcon
           className="relative z-10 flex-shrink-0"
           width={13}
+          data-lock-icon=""
           aria-hidden="true"
         />
       ),
@@ -108,10 +116,12 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
           </>
         )
       },
+      resourcesRenderer,
       ...collectionProps
     } = props
     const {sections, lessons} = module
-
+    const router = useRouter()
+    const path = router.route.match(/^\/([^/]+)/)?.[1]
     const moduleProgress = useModuleProgress()
 
     const nextSection = moduleProgress?.nextSection
@@ -121,6 +131,8 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
     const [openedSections, setOpenedSections] = React.useState<string[]>(
       initialOpenedSections as string[],
     )
+
+    const {section: activeSection} = useLesson()
 
     const hasSections = sections && sections.length > 0
     const onlyHasSingleSection = hasSections && sections.length === 1
@@ -142,8 +154,10 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
     })
 
     React.useEffect(() => {
-      nextSection?.slug && setOpenedSections([nextSection?.slug])
-    }, [nextSection?.slug])
+      if (!activeSection && nextSection?.slug) {
+        setOpenedSections([nextSection?.slug])
+      }
+    }, [nextSection?.slug, activeSection])
 
     return (
       <CollectionProvider
@@ -153,7 +167,9 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
         setOpenedSections={setOpenedSections}
         checkIconRenderer={checkIconRenderer}
         lockIconRenderer={lockIconRenderer}
+        path={path}
         scope={__scopeCollection}
+        resourcesRenderer={resourcesRenderer}
       >
         <TooltipProvider>
           {children ? (
@@ -261,14 +277,29 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
       COLLECTION_NAME,
       __scopeCollection,
     )
+    const {section: currentSection} = useLesson()
+
+    React.useEffect(() => {
+      currentSection && setOpenedSections([currentSection.slug])
+    }, [currentSection])
+
+    const handleOnAccordionValueChange = (value: string[]) => {
+      if (currentSection) {
+        // only allow one section to be open at a time on lesson pages
+        setOpenedSections([value[value.length - 1]])
+      } else {
+        setOpenedSections(value)
+      }
+    }
 
     if (!module.sections) return null
 
     return (
       <Accordion
         type="multiple"
-        onValueChange={(e) => setOpenedSections(e)}
+        onValueChange={handleOnAccordionValueChange}
         value={openedSections}
+        defaultValue={openedSections}
       >
         <Primitive.ul
           {...sectionsProps}
@@ -351,7 +382,7 @@ const Section = React.forwardRef<SectionElement, SectionProps>(
               ref={forwardedRef}
               {...sectionProps}
               className={cn(
-                "relative font-semibold text-left overflow-hidden data-[state='closed']:rounded data-[state='open']:rounded-t data-[check-icon]:w-4 [&>[data-check-icon]]:ml-auto [&>[data-check-icon]]:mr-2 bg-card px-5 py-4",
+                "relative font-semibold text-left overflow-hidden data-[state='closed']:rounded data-[state='open']:rounded-t data-[check-icon]:w-4 [&>[data-check-icon]]:ml-auto [&>[data-check-icon]]:mr-2 bg-card px-4 py-4",
                 sectionProps.className,
                 {
                   '[&>[data-chevron]]:hidden': !hasLessons,
@@ -442,6 +473,7 @@ interface LessonProps extends PrimitiveLiProps {
   lesson?: LessonType
   section?: SectionType
   index?: number
+  scrollContainerRef?: React.RefObject<HTMLDivElement>
 }
 
 const Lesson = React.forwardRef<LessonElement, LessonProps>(
@@ -451,12 +483,12 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
       lesson,
       section,
       index = 0,
+      children,
+      scrollContainerRef,
       ...lessonProps
     } = props
-    const {module, checkIconRenderer, lockIconRenderer} = useCollectionContext(
-      COLLECTION_NAME,
-      __scopeCollection,
-    )
+    const {module, checkIconRenderer, lockIconRenderer, path, openedSections} =
+      useCollectionContext(COLLECTION_NAME, __scopeCollection)
     const moduleProgress = useModuleProgress()
 
     const useAbilities = () => {
@@ -471,19 +503,17 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
     }
     const {ability, abilityRulesStatus} = useAbilities()
 
-    if (!lesson) return null
-
     const completedLessons = moduleProgress?.lessons.filter(
       (l) => l.lessonCompleted,
     )
     const nextLesson = moduleProgress?.nextLesson
     const completedLessonCount = moduleProgress?.completedLessonCount || 0
 
-    const isExerciseCompleted = completedLessons?.find(
-      ({id}) => id === lesson._id,
+    const isLessonCompleted = completedLessons?.find(
+      ({id}) => id === lesson?._id,
     )
 
-    const isNextLesson = nextLesson?.slug === lesson.slug
+    const isNextLesson = nextLesson?.slug === lesson?.slug
 
     // relying on ability would mark tutorials as locked because it's correctly checking for user
     // we don't want that for tutorials hence the moduleType check
@@ -497,50 +527,234 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
 
     const showContinue = isNextLesson && completedLessonCount > 0
 
+    const router = useRouter()
+    const currentPath = section
+      ? `${path}/${module.slug.current}/${section.slug}/${lesson?.slug}`
+      : `${path}/${module.slug.current}/${lesson?.slug}`
+
+    const isActive = router.asPath.includes(currentPath)
+    const {lesson: activeLesson} = useLesson()
+    const isLessonActive = activeLesson?.slug === lesson?.slug
+
+    const scrollElRef = React.useRef<HTMLDivElement>(null)
+    const activeElementToScrollTo = scrollElRef.current
+
+    useScrollToActiveLesson(activeElementToScrollTo, scrollContainerRef, lesson)
+
+    if (!lesson) return null
+
     return (
       <Primitive.li
+        data-active={isLessonActive.toString()}
         asChild
         {...lessonProps}
         className={cn(
-          `[&>div]:flex [&>div]:py-2 [&>div>div]:w-full [&>div:has(span)]:items-baseline [&>div]:gap-2 text-base [&>div>span]:text-xs [&>div>span]:opacity-60 font-medium flex flex-col`,
+          `[&_[data-item]]:flex [&_[data-item]]:py-2 [&_[data-item]]:px-3 [&_[data-item]]:text-left [&_[data-item]>div]:w-full [&_[data-item]:has(span)]:items-baseline [&_[data-item]]:gap-2 [&_[data-item]>span]:text-xs [&_[data-item]>span]:opacity-60 text-base font-medium flex flex-col`,
           {
             'before:content-["continue"] before:mt-2 before:-mb-1 before:text-xs before:font-semibold before:pl-10 before:text-primary before:uppercase before:block':
               showContinue,
-            '[&>div]:px-4': section,
+            '[&_[data-item]:px-2': section,
             'bg-card [&>div]:px-2.5': !section,
           },
           lessonProps.className,
         )}
         ref={forwardedRef}
       >
-        <Link href={getLessonHref(lesson, module, section)} passHref>
-          <div>
-            {canShowVideo ? (
-              <>
-                {isExerciseCompleted ? (
-                  checkIconRenderer()
-                ) : (
-                  <span
-                    className="w-4 h-4 flex items-center justify-center"
-                    data-index={`${index + 1}`}
-                    aria-hidden="true"
-                  >
-                    {index + 1}
-                  </span>
-                )}
-              </>
-            ) : (
-              lockIconRenderer()
-            )}
-            <div>{lesson.title}</div>
-          </div>
-        </Link>
+        <div>
+          {isLessonActive && <div ref={scrollElRef} aria-hidden="true" />}
+          {isActive && children ? (
+            <Accordion
+              type="multiple"
+              defaultValue={[lesson.slug]}
+              className="[&_[data-chevron]]:hidden"
+              disabled
+            >
+              <AccordionItem value={lesson.slug} className="border-none">
+                <AccordionHeader>
+                  <AccordionTrigger data-item="">
+                    {canShowVideo ? (
+                      <>
+                        {isLessonCompleted ? (
+                          checkIconRenderer()
+                        ) : (
+                          <span
+                            className="w-4 h-4 flex items-center justify-center"
+                            data-index={`${index + 1}`}
+                            aria-hidden="true"
+                          >
+                            {index + 1}
+                          </span>
+                        )}
+                      </>
+                    ) : (
+                      lockIconRenderer()
+                    )}
+                    <div>{lesson.title}</div>
+                  </AccordionTrigger>
+                </AccordionHeader>
+                <AccordionContent>{children}</AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          ) : (
+            <Link
+              data-item=""
+              href={getLessonHref(lesson, module, section)}
+              passHref
+              scroll={activeLesson ? false : true}
+            >
+              {canShowVideo ? (
+                <>
+                  {isLessonCompleted ? (
+                    checkIconRenderer()
+                  ) : (
+                    <span
+                      className="w-4 h-4 flex items-center justify-center"
+                      data-index={`${index + 1}`}
+                      aria-hidden="true"
+                    >
+                      {index + 1}
+                    </span>
+                  )}
+                </>
+              ) : (
+                lockIconRenderer()
+              )}
+              <div>{lesson.title}</div>
+            </Link>
+          )}
+        </div>
       </Primitive.li>
     )
   },
 )
 
 Lesson.displayName = LESSON_NAME
+
+/* ------------------------------------------------------------------------------------------------- */
+
+const RESOURCES_NAME = 'Resources'
+
+type ResourcesElement = React.ElementRef<typeof Primitive.ul>
+
+interface ResourcesProps extends PrimitiveUlProps {}
+
+const Resources = React.forwardRef<ResourcesElement, ResourcesProps>(
+  (props: ScopedProps<ResourcesProps>, forwardedRef) => {
+    const {__scopeCollection, children, ...resourcesProps} = props
+    const {lesson} = useLesson()
+    const {resourcesRenderer} = useCollectionContext(
+      COLLECTION_NAME,
+      __scopeCollection,
+    )
+
+    if (!resourcesRenderer) return null
+
+    return (
+      <Primitive.ul ref={forwardedRef} {...resourcesProps}>
+        {resourcesRenderer(lesson._type)}
+      </Primitive.ul>
+    )
+  },
+)
+
+/* -------------------------------------------------------------------------------------------------
+ * Resources
+ * -----------------------------------------------------------------------------------------------*/
+
+Resources.displayName = RESOURCES_NAME
+
+const RESOURCE_NAME = 'Resource'
+
+type ResourceElement = React.ElementRef<typeof Primitive.li>
+
+interface ResourceProps extends PrimitiveLiProps {
+  /**
+   * Path is appended to the lesson link (e.g. /module/lesson/**problem**)
+   */
+  path?: string
+  type?: string
+}
+
+const useSesourceLinkBuilder = (modulePath?: string, resourcePath?: string) => {
+  const {section, module, lesson} = useLesson()
+
+  const pathname = `/[module]/${section ? `[section]/` : ``}[lesson]`
+  const href = `/${module.slug.current}/${section ? `${section.slug}/` : ``}${
+    lesson.slug
+  }`
+
+  return {
+    resourcePathname:
+      '/' +
+      modulePath +
+      (resourcePath ? pathname + `/${resourcePath}` : pathname),
+    resourceHref:
+      '/' + modulePath + (resourcePath ? href + `/${resourcePath}` : href),
+  }
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * Resource
+ * -----------------------------------------------------------------------------------------------*/
+
+/**
+ * Represents a resource that is linked to a lesson. Such as a **problem, exercise, or solution**.
+ * @param {string} path (optional) gets appended to the lesson link (e.g. /module/lesson/**problem**)
+ * @constructor
+ */
+const Resource = React.forwardRef<ResourceElement, ResourceProps>(
+  (props: ScopedProps<ResourceProps>, forwardedRef) => {
+    const {__scopeCollection, path, children, ...resourceProps} = props
+    const {lesson, section} = useLesson()
+    const {module, path: modulePath} = useCollectionContext(
+      COLLECTION_NAME,
+      __scopeCollection,
+    )
+
+    const router = useRouter()
+
+    const {resourcePathname, resourceHref} = useSesourceLinkBuilder(
+      modulePath,
+      path,
+    )
+    const isActive = router.asPath === resourceHref
+
+    return (
+      <Primitive.li
+        {...resourceProps}
+        className={cn('[&>a]:px-[34px] [&>a]:py-2', resourceProps.className)}
+        ref={forwardedRef}
+      >
+        <Link
+          data-active={isActive.toString()}
+          href={{
+            pathname: resourcePathname,
+            query: {
+              module: module.slug.current,
+              lesson: lesson.slug,
+              ...(section && {section: section.slug}),
+            },
+          }}
+          passHref
+          onClick={() => {
+            track(`clicked lesson resource in navigator`, {
+              module: module.slug.current,
+              lesson: lesson.slug,
+              ...(section && {section: section.slug}),
+              location: router.query.lesson,
+              moduleType: module.moduleType,
+              lessonType: lesson._type,
+            })
+          }}
+        >
+          {children}
+        </Link>
+      </Primitive.li>
+    )
+  },
+)
+
+Resource.displayName = RESOURCE_NAME
 
 /* -------------------------------------------------------------------------------------------------
  * Helpers
@@ -562,8 +776,52 @@ const getLessonHref = (
   return {pathname, query}
 }
 
+const useScrollToActiveLesson = (
+  activeElementToScrollTo: HTMLDivElement | null,
+  scrollContainerRef?: React.RefObject<HTMLDivElement>,
+  lesson?: LessonType,
+) => {
+  const {lesson: activeLesson, module} = useLesson()
+  const isLessonActive = activeLesson?.slug === lesson?.slug
+  const [hasEffectRun, setHasEffectRun] = React.useState(false)
+
+  React.useEffect(() => {
+    if (!hasEffectRun) {
+      const offset = activeElementToScrollTo?.offsetTop
+      const stickySectionOffset = 0 // 48
+      if (offset && isLessonActive) {
+        const timeout = setTimeout(() => {
+          requestAnimationFrame(() => {
+            scrollContainerRef?.current?.children[1].scrollTo({
+              top:
+                offset -
+                (module.sections && module.sections.length > 1
+                  ? stickySectionOffset
+                  : 0),
+            })
+          })
+        }, 0)
+        setHasEffectRun(true)
+        return () => {
+          clearTimeout(timeout)
+        }
+      }
+    }
+  }, [activeElementToScrollTo, scrollContainerRef, module, isLessonActive])
+}
+
 /* -------------------------------------------------------------------------------------------------*/
 
 const Root = Collection
 
-export {Collection, Root, Metadata, Section, Sections, Lessons, Lesson}
+export {
+  Collection,
+  Root,
+  Metadata,
+  Section,
+  Sections,
+  Lessons,
+  Lesson,
+  Resources,
+  Resource,
+}

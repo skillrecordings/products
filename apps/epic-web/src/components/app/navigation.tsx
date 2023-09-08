@@ -30,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from '@skillrecordings/ui'
 import {LogoutIcon} from '@heroicons/react/solid'
+import {ChevronDownIcon} from '@heroicons/react/outline'
 
 type NavigationProps = {
   className?: string
@@ -252,19 +253,28 @@ const User: React.FC<{className?: string}> = ({className}) => {
             className={cn('mr-3 flex items-center space-x-1', className)}
           >
             <Gravatar
-              className="h-8 w-8 rounded-full"
+              className="h-7 w-7 rounded-full"
               email={sessionData?.user?.email}
               default="mp"
             />
-            <div className="flex flex-col">
-              <span className="text-sm font-bold leading-tight">
-                {sessionData?.user?.name}
+            <div className="flex flex-col pl-0.5">
+              <span className="inline-flex gap-0.5 text-sm font-bold leading-tight">
+                {sessionData?.user?.name} <ChevronDownIcon className="w-2" />
               </span>
-              {purchasedProductIds.length > 0 && (
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {purchasedProductIds.length > 0 && (
+              <DropdownMenuItem
+                className="flex items-center justify-between"
+                asChild
+              >
                 <Link
                   href="/products?s=purchased"
                   className={cx(
-                    'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
+                    // 'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
                     {
                       underline: pathname === '/products',
                     },
@@ -272,12 +282,8 @@ const User: React.FC<{className?: string}> = ({className}) => {
                 >
                   My Purchases
                 </Link>
-              )}
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem
               onClick={() => {
                 signOut()

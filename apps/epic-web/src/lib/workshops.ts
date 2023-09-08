@@ -95,7 +95,7 @@ export const getWorkshop = async (slug: string) =>
           title,
           description,
           "slug": slug.current,
-          "lessons": resources[@->._type in ['exercise', 'explainer']]->{
+          "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson']]->{
             _id,
             _type,
             _updatedAt,

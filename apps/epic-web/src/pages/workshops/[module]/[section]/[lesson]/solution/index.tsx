@@ -19,6 +19,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const section = await getSection(sectionSlug)
   const exercise = await getExercise(exerciseSlug)
   const solution = exercise.solution
+  const lesson = exercise
   const solutionBodySerialized =
     typeof solution?.body === 'string' &&
     (await serializeMDX(solution.body, {
@@ -37,6 +38,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
+      lesson,
       solution,
       solutionBodySerialized,
       solutionBodyPreviewSerialized,
@@ -74,6 +76,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 }
 
 const ExerciseSolution: React.FC<any> = ({
+  lesson,
   solution,
   solutionBodySerialized,
   solutionBodyPreviewSerialized,
@@ -84,7 +87,11 @@ const ExerciseSolution: React.FC<any> = ({
 }) => {
   return (
     <ModuleProgressProvider moduleSlug={module.slug.current}>
-      <LessonProvider lesson={solution} module={module} section={section}>
+      <LessonProvider
+        lesson={{...solution, slug: lesson.slug}}
+        module={module}
+        section={section}
+      >
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <ExerciseTemplate
             transcript={transcript}
