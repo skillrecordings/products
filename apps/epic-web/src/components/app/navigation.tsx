@@ -30,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from '@skillrecordings/ui'
 import {LogoutIcon} from '@heroicons/react/solid'
+import {ChevronDownIcon} from '@heroicons/react/outline'
 
 type NavigationProps = {
   className?: string
@@ -252,13 +253,13 @@ const User: React.FC<{className?: string}> = ({className}) => {
             className={cn('mr-3 flex items-center space-x-1', className)}
           >
             <Gravatar
-              className="h-8 w-8 rounded-full"
+              className="h-7 w-7 rounded-full"
               email={sessionData?.user?.email}
               default="mp"
             />
-            <div className="flex flex-col">
-              <span className="text-sm font-bold leading-tight">
-                {sessionData?.user?.name}
+            <div className="flex flex-col pl-0.5">
+              <span className="inline-flex gap-0.5 text-sm font-bold leading-tight">
+                {sessionData?.user?.name} <ChevronDownIcon className="w-2" />
               </span>
             </div>
           </DropdownMenuTrigger>
