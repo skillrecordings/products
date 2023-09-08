@@ -75,8 +75,8 @@ const ExerciseTemplate: React.FC<{
     >
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
-        navigationClassName="max-w-none"
-        navigationContainerClassName="relative"
+        navigationClassName="w-full max-w-none"
+        navigationContainerClassName="relative dark:shadow-none"
         navigationSize="sm"
         className="pt-0 sm:pt-0"
       >
@@ -113,12 +113,6 @@ const ExerciseTemplate: React.FC<{
                 exerciseOverlayRenderer={() => <ExerciseOverlay />}
                 loadingIndicator={<Spinner />}
               />
-              {/* <MobileModuleLessonList
-                lessonResourceRenderer={lessonResourceRenderer}
-                module={module}
-                section={section}
-                path={path}
-              /> */}
               <details data-mobile-module-lesson-list="">
                 <summary>
                   <Balancer>
@@ -188,17 +182,22 @@ const LessonList: React.FC<{
     trpc.moduleProgress.bySlug.useQuery({
       slug: module.slug.current,
     })
+
+  const metaRef = React.useRef<HTMLDivElement>(null)
+  console.log({metaRef})
+  const headerHeight = metaRef?.current?.clientHeight || 0
   return (
-    <>
-      <div className="flex items-center space-x-3 border-r bg-gray-50 px-2 py-3 dark:bg-foreground/10">
+    <div className="sticky top-0">
+      <div
+        ref={metaRef}
+        className="relative z-10 flex items-center space-x-3 border-b border-r border-white/5 bg-gray-50 px-2 py-3 dark:bg-foreground/10 dark:shadow-xl dark:shadow-black/20"
+      >
         {module.image && (
           <Image src={module.image} width={75} height={75} alt={module.title} />
         )}
         <div>
           <h3 className="text-lg font-semibold leading-tight">
-            <Link href={`/${path}/${module.slug.current!}`}>
-              {module.title}
-            </Link>
+            <Link href={`${path}/${module.slug.current!}`}>{module.title}</Link>
           </h3>
           {module?.github?.repo && (
             <Link
@@ -216,9 +215,12 @@ const LessonList: React.FC<{
           )}
         </div>
       </div>
-      <div className={cn('sticky top-0 border-r', className)}>
+      <div className={cn('border-r', className)}>
         <ScrollArea
-          className={cn('h-[calc(100vh)]', scrollAreaClassName)}
+          className={cn(
+            `h-[calc(100vh-${Number(headerHeight)}px)]`,
+            scrollAreaClassName,
+          )}
           ref={scrollContainerRef}
         >
           <Collection.Root
@@ -280,6 +282,6 @@ const LessonList: React.FC<{
           </Collection.Root>
         </ScrollArea>
       </div>
-    </>
+    </div>
   )
 }
