@@ -51,6 +51,11 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'workshopApp',
+      title: 'Workshop App',
+      type: 'workshopApp',
+    }),
+    defineField({
       name: 'github',
       title: 'GitHub',
       type: 'githubRepo',

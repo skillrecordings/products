@@ -24,7 +24,7 @@ import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import * as Collection from '@skillrecordings/ui/module/collection'
-import {ScrollArea, Skeleton} from '@skillrecordings/ui'
+import {Button, ScrollArea, Skeleton} from '@skillrecordings/ui'
 import Image from 'next/image'
 import Link from 'next/link'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
@@ -184,7 +184,7 @@ const LessonList: React.FC<{
     })
 
   const [ref, {height}] = useMeasure<HTMLDivElement>()
-  console.log({height})
+
   return (
     <div className="sticky top-0">
       <div ref={ref}>
@@ -203,19 +203,22 @@ const LessonList: React.FC<{
                 {module.title}
               </Link>
             </h3>
+
             {module?.github?.repo && (
-              <Link
-                href={module.github.repo + '#setup'}
-                target="_blank"
-                className="mt-2 inline-flex items-center space-x-1 rounded bg-blue-500 px-1.5 py-1 text-xs font-semibold uppercase leading-none text-background transition hover:bg-blue-600 dark:bg-blue-600 dark:text-foreground dark:hover:bg-blue-500"
+              <Button
+                asChild
+                size="sm"
+                className="mt-2 inline-flex h-auto items-center space-x-1 px-1.5 py-1 text-xs font-semibold uppercase leading-none"
               >
-                <Icon name="Github" size="16" />
-                <span>
-                  {module.moduleType === 'tutorial'
-                    ? 'Code'
-                    : 'Connect Workshop App'}
-                </span>
-              </Link>
+                <Link href={module?.github?.repo + '#setup'} target="_blank">
+                  <Icon name="Github" size="16" />
+                  <span>
+                    {module.moduleType === 'tutorial'
+                      ? 'Code'
+                      : 'Connect Workshop App'}
+                  </span>
+                </Link>
+              </Button>
             )}
           </div>
         </div>

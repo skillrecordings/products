@@ -75,6 +75,7 @@ export const getWorkshop = async (slug: string) =>
         moduleType,
         _id,
         github,
+        workshopApp,
         ogImage,
         description,
         _updatedAt,
@@ -101,6 +102,7 @@ export const getWorkshop = async (slug: string) =>
             _updatedAt,
             title,
             description,
+            workshopApp,
             "slug": slug.current,
             "solution": resources[@._type == 'solution'][0]{
               _key,

@@ -50,7 +50,7 @@ export default defineType({
           type: 'reference',
           to: [{type: 'videoResource'}],
         }),
-        defineArrayMember({type: 'stackblitz'}),
+        defineArrayMember({type: 'workshopApp'}),
       ],
     }),
     defineField({

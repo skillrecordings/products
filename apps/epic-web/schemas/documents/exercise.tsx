@@ -53,7 +53,7 @@ export default defineType({
           to: [{type: 'videoResource'}],
         }),
         defineArrayMember({type: 'solution'}),
-        defineArrayMember({type: 'stackblitz'}),
+        defineArrayMember({type: 'workshopApp'}),
         defineArrayMember({type: 'testimonial'}),
         defineArrayMember({type: 'linkResource'}),
       ],

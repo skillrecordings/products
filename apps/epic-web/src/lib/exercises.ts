@@ -10,6 +10,23 @@ export const ExerciseSchema = z
     github: z.nullable(z.string()).optional(),
     videoResourceId: z.nullable(z.string()).optional(),
     transcript: z.nullable(z.string()).optional(),
+    workshopApp: z
+      .nullable(
+        z.object({
+          path: z.string().optional(),
+          localhost: z
+            .object({
+              port: z.string().optional(),
+            })
+            .optional(),
+          external: z
+            .object({
+              url: z.string().optional(),
+            })
+            .optional(),
+        }),
+      )
+      .optional(),
     solution: z.nullable(
       z
         .object({
@@ -17,6 +34,23 @@ export const ExerciseSchema = z
           github: z.nullable(z.string()).optional(),
           videoResourceId: z.nullable(z.string()).optional(),
           transcript: z.nullable(z.string()).optional(),
+          workshopApp: z
+            .nullable(
+              z.object({
+                path: z.string().optional(),
+                localhost: z
+                  .object({
+                    port: z.string().optional(),
+                  })
+                  .optional(),
+                external: z
+                  .object({
+                    url: z.string().optional(),
+                  })
+                  .optional(),
+              }),
+            )
+            .optional(),
         })
         .merge(ResourceSchema)
         .optional(),
@@ -42,15 +76,19 @@ export const getExerciseMedia = async (exerciseSlug: string) => {
     groq`*[_type in ['exercise', 'explainer', 'interview', 'lesson'] && slug.current == $slug][0]{
       "slug": slug.current,
       body,
-      "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
       "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
       "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      "workshopApp": resources[@._type == 'workshopApp'][0]{
+          path
+        },
       "solution": resources[@._type == 'solution'][0]{
         body,
-        "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "slug": slug.current,
+        "workshopApp": resources[@._type == 'workshopApp'][0]{
+          path
+        },
       }
     }`,
     {slug: `${exerciseSlug}`},
@@ -75,6 +113,9 @@ export const getExercise = async (
       "github": resources[@._type == 'github'][0].url,
       "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      "workshopApp": resources[@._type == 'workshopApp'][0]{
+        path
+      },
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
@@ -86,6 +127,9 @@ export const getExercise = async (
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "slug": slug.current,
+        "workshopApp": resources[@._type == 'workshopApp'][0]{
+          path
+        },
       }
     }`,
     {slug},

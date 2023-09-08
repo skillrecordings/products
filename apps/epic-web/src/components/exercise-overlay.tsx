@@ -2,28 +2,41 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useRouter} from 'next/router'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import Link from 'next/link'
+import {Button} from '@skillrecordings/ui'
+import {ExternalLinkIcon} from '@heroicons/react/outline'
+import {trpc} from 'trpc/trpc.client'
 
 const ExerciseOverlay = () => {
-  const {module} = useLesson()
+  const {module, lesson} = useLesson()
 
   const {github} = module
+
+  const {data: lessonResources, status: lessonResourcesStatus} =
+    trpc.lessonResources.byLessonSlug.useQuery({slug: lesson.slug})
+  const workshopAppDetails = lessonResources && lessonResources.workshopApp
+
+  const {data: moduleResources, status: moduleResourcesStatus} =
+    trpc.moduleResources.byModuleSlug.useQuery({slug: module.slug.current!})
+  const workshopApp = moduleResources && moduleResources.workshopApp
 
   return (
     <div className="flex aspect-video items-center justify-center bg-gray-950 text-white dark:bg-black/20">
       {github?.repo && (
         <div className="mx-auto flex w-full max-w-lg flex-col items-center space-y-5 text-center">
           <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
+
           <p>
-            Clone{' '}
+            Exercises are best experienced in Workshop App. Start by clonning{' '}
             <a
               className="underline"
               href={github.repo}
               target="_blank"
               rel="noreferrer"
             >
-              this repository
+              workshop repository
             </a>{' '}
-            with the Epic Web Workshop App and follow instructions in the{' '}
+            and follow instructions in the{' '}
             <a
               className="underline"
               href={`${github.repo}#setup`}
@@ -34,7 +47,34 @@ const ExerciseOverlay = () => {
             </a>{' '}
             to complete the exercise.
           </p>
-          <div className="flex items-center justify-center gap-3">
+          {workshopAppDetails && (
+            <div className="flex flex-col gap-2">
+              <Button asChild variant="secondary" className="gap-2" size={'lg'}>
+                <a
+                  href={`http://localhost:${workshopApp?.localhost?.port}${workshopAppDetails?.path}`}
+                  target="_blank"
+                  onClick={() => {
+                    track('clicked open in workshop app', {
+                      lesson: lesson.slug,
+                      module: module.slug.current,
+                      location: 'exercise',
+                      moduleType: module.moduleType,
+                      lessonType: lesson._type,
+                    })
+                  }} rel="noreferrer"
+                >
+                  Open in Workshop App <ExternalLinkIcon className="w-4" />
+                </a>
+              </Button>
+              {workshopApp?.localhost?.port && (
+                <p className="text-sm opacity-80">
+                  App must be running on localhost:{workshopApp.localhost.port}
+                </p>
+              )}
+            </div>
+          )}
+          <hr className="h-px w-8 bg-foreground/10" />
+          <div className="flex items-center justify-center gap-3 pt-2">
             <Actions />
           </div>
         </div>
@@ -53,8 +93,9 @@ const Actions = () => {
 
   return (
     <>
-      <button
-        className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-2"
+      <Button
+        variant="outline"
+        className="flex gap-1"
         onClick={() => {
           track('clicked replay', {
             lesson: lesson.slug,
@@ -73,10 +114,10 @@ const Actions = () => {
         }}
       >
         <span aria-hidden="true">↺</span> Replay
-      </button>
+      </Button>
       {nextExercise && (
-        <button
-          className="rounded bg-blue-600 px-3 py-1 text-lg font-semibold transition hover:bg-blue-500 sm:px-5 sm:py-2"
+        <Button
+          className="flex gap-1"
           onClick={() => {
             track('clicked continue to solution', {
               lesson: lesson.slug,
@@ -96,7 +137,7 @@ const Actions = () => {
           }}
         >
           Solution <span aria-hidden="true">→</span>
-        </button>
+        </Button>
       )}
     </>
   )
