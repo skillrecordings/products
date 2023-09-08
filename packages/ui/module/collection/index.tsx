@@ -33,7 +33,6 @@ import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {cn} from '../../utils/cn'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import {useRouter} from 'next/router'
-import {Slot} from '@radix-ui/react-slot'
 
 /* -------------------------------------------------------------------------------------------------
  * Collection
@@ -549,7 +548,6 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
         asChild
         {...lessonProps}
         className={cn(
-          // TODO: Breaking change!
           `[&_[data-item]]:flex [&_[data-item]]:py-2 [&_[data-item]]:px-3 [&_[data-item]]:text-left [&_[data-item]>div]:w-full [&_[data-item]:has(span)]:items-baseline [&_[data-item]]:gap-2 [&_[data-item]>span]:text-xs [&_[data-item]>span]:opacity-60 text-base font-medium flex flex-col`,
           {
             'before:content-["continue"] before:mt-2 before:-mb-1 before:text-xs before:font-semibold before:pl-10 before:text-primary before:uppercase before:block':
@@ -623,7 +621,6 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
               <div>{lesson.title}</div>
             </Link>
           )}
-          {/* TODO: is this another accordion? */}
         </div>
       </Primitive.li>
     )
