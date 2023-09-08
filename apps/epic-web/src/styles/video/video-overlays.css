@@ -154,7 +154,7 @@
     }
   }
   [data-title] {
-    @apply font-mono text-xs font-semibold uppercase text-gray-300 sm:mt-5 sm:mt-8 sm:text-sm sm:font-bold;
+    @apply font-mono text-xs font-semibold uppercase text-gray-300 sm:mt-8 sm:text-sm sm:font-bold;
   }
   [data-share-actions] {
     @apply flex items-center gap-2 py-3;

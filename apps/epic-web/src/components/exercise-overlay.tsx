@@ -11,18 +11,24 @@ const ExerciseOverlay = () => {
   return (
     <div className="flex aspect-video items-center justify-center bg-gray-950 text-white dark:bg-black/20">
       {github?.repo && (
-        <div className="flex flex-col items-center space-y-5">
+        <div className="mx-auto flex w-full max-w-lg flex-col items-center space-y-5 text-center">
           <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
           <p>
             Clone{' '}
-            <a className="underline" href={github.repo} target="_blank" rel="noreferrer">
+            <a
+              className="underline"
+              href={github.repo}
+              target="_blank"
+              rel="noreferrer"
+            >
               this repository
             </a>{' '}
             with the Epic Web Workshop App and follow instructions in the{' '}
             <a
               className="underline"
               href={`${github.repo}#setup`}
-              target="_blank" rel="noreferrer"
+              target="_blank"
+              rel="noreferrer"
             >
               README
             </a>{' '}
@@ -70,7 +76,7 @@ const Actions = () => {
       </button>
       {nextExercise && (
         <button
-          className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-2"
+          className="rounded bg-blue-600 px-3 py-1 text-lg font-semibold transition hover:bg-blue-500 sm:px-5 sm:py-2"
           onClick={() => {
             track('clicked continue to solution', {
               lesson: lesson.slug,

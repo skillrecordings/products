@@ -570,7 +570,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
               className="[&_[data-chevron]]:hidden"
               disabled
             >
-              <AccordionItem value={lesson.slug}>
+              <AccordionItem value={lesson.slug} className="border-none">
                 <AccordionHeader>
                   <AccordionTrigger data-item="">
                     {canShowVideo ? (
@@ -601,7 +601,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
               data-item=""
               href={getLessonHref(lesson, module, section)}
               passHref
-              scroll={false}
+              scroll={activeLesson ? false : true}
             >
               {canShowVideo ? (
                 <>

@@ -79,7 +79,7 @@ const WorkshopTemplate: React.FC<{
                 {moduleProgressStatus === 'success' ? (
                   <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125">
                     <Collection.Lessons>
-                      <Collection.Lesson className="group opacity-80 transition before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
+                      <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
                     </Collection.Lessons>
                   </Collection.Section>
                 ) : (
@@ -89,7 +89,7 @@ const WorkshopTemplate: React.FC<{
               {/* Used if module has either none or single section so they can be styled differently */}
               <Collection.Lessons>
                 {moduleProgressStatus === 'success' ? (
-                  <Collection.Lesson className="group opacity-75 transition before:pl-6 hover:opacity-100 dark:opacity-90 dark:hover:opacity-100 [&>div]:px-0" />
+                  <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
                 ) : (
                   <Skeleton className="my-2 border bg-background py-5" />
                 )}
@@ -124,7 +124,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
         <div className="w-full text-center md:text-left">
           <Link
             href="/workshops"
-            className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-rose-500 dark:text-rose-400"
+            className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-orange-500 dark:text-orange-300"
           >
             Pro Workshop
           </Link>
@@ -174,7 +174,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                       }
                 }
                 className={cx(
-                  'relative flex w-full items-center justify-center rounded-md border border-white/5 bg-gradient-to-b from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110 md:max-w-[240px]',
+                  'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110 md:max-w-[240px]',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },

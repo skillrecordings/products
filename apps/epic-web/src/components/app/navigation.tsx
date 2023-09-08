@@ -260,11 +260,20 @@ const User: React.FC<{className?: string}> = ({className}) => {
               <span className="text-sm font-bold leading-tight">
                 {sessionData?.user?.name}
               </span>
-              {purchasedProductIds.length > 0 && (
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {purchasedProductIds.length > 0 && (
+              <DropdownMenuItem
+                className="flex items-center justify-between"
+                asChild
+              >
                 <Link
                   href="/products?s=purchased"
                   className={cx(
-                    'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
+                    // 'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
                     {
                       underline: pathname === '/products',
                     },
@@ -272,12 +281,8 @@ const User: React.FC<{className?: string}> = ({className}) => {
                 >
                   My Purchases
                 </Link>
-              )}
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem
               onClick={() => {
                 signOut()

@@ -30,6 +30,11 @@ import pluralize from 'pluralize'
 import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import * as Collection from '@skillrecordings/ui/module/collection'
+import {ScrollArea, Skeleton} from '@skillrecordings/ui'
+import Image from 'next/image'
+import Link from 'next/link'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -89,7 +94,12 @@ const ExerciseTemplate: React.FC<{
     )
   }
 
-  console.log('moduleproduct', module?.product)
+  const scrollContainerRef = React.useRef<any>(null)
+
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: module.slug.current,
+    })
 
   return (
     <VideoProvider
@@ -118,11 +128,106 @@ const ExerciseTemplate: React.FC<{
           description={pageDescription || ''}
         />
         <div className="relative flex flex-grow flex-col lg:flex-row">
-          <LargeScreenModuleLessonList
+          {/* <LargeScreenModuleLessonList
             lessonResourceRenderer={lessonResourceRenderer}
             module={module}
             path={path}
-          />
+          /> */}
+          <div className="relative z-40 w-full lg:max-w-[300px]">
+            <div className="flex items-center space-x-3 border-r bg-gray-50 px-2 py-3 dark:bg-foreground/10">
+              {module.image && (
+                <Image
+                  src={module.image}
+                  width={75}
+                  height={75}
+                  alt={module.title}
+                />
+              )}
+              <div>
+                <h3 className="text-lg font-semibold leading-tight">
+                  <Link href={`/${path}/${module.slug.current!}`}>
+                    {module.title}
+                  </Link>
+                </h3>
+                {module?.github?.repo && (
+                  <Link
+                    href={module.github.repo + '#setup'}
+                    target="_blank"
+                    className="mt-2 inline-flex items-center space-x-1 rounded bg-blue-500 px-1.5 py-1 text-xs font-semibold uppercase leading-none text-background transition hover:bg-blue-600 dark:bg-blue-600 dark:text-foreground dark:hover:bg-blue-500"
+                  >
+                    <Icon name="Github" size="16" />
+                    <span>
+                      {module.moduleType === 'tutorial'
+                        ? 'Code'
+                        : 'Connect Workshop App'}
+                    </span>
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            <div className="sticky top-0 border-r">
+              <ScrollArea className="h-[calc(100vh)]" ref={scrollContainerRef}>
+                <Collection.Root
+                  module={module}
+                  resourcesRenderer={(type) => {
+                    return (
+                      <>
+                        {(type === 'exercise' || type === 'solution') && (
+                          <>
+                            <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-orange-400 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
+                              Problem
+                            </Collection.Resource>
+                            <Collection.Resource
+                              path="exercise"
+                              className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-purple-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
+                            >
+                              Exercise
+                            </Collection.Resource>
+                            <Collection.Resource
+                              path="solution"
+                              className="text-sm font-medium [&>a[data-active='true']]:border-cyan-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
+                            >
+                              Solution
+                            </Collection.Resource>
+                          </>
+                        )}
+                        {type === 'explainer' && (
+                          <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
+                            Explainer
+                          </Collection.Resource>
+                        )}
+                      </>
+                    )
+                  }}
+                >
+                  <Collection.Sections className="space-y-0 [&_[data-state]]:animate-none">
+                    {moduleProgressStatus === 'loading' ? (
+                      <Skeleton className="h-16 rounded-none bg-gradient-to-br from-gray-700 to-gray-800 opacity-40" />
+                    ) : (
+                      <Collection.Section
+                        className="mb-px font-semibold leading-tight data-[state]:rounded-none [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg dark:[&>[data-progress]]:from-gray-800
+                      dark:[&>[data-progress]]:to-gray-800/50"
+                      >
+                        <Collection.Lessons className="py-0">
+                          <Collection.Lesson
+                            className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500 dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:items-start'
+                            scrollContainerRef={scrollContainerRef}
+                          >
+                            <Collection.Resources className="pb-2" />
+                          </Collection.Lesson>
+                        </Collection.Lessons>
+                      </Collection.Section>
+                    )}
+                  </Collection.Sections>
+                  {/* Used if module has either none or single section so they can be styled differently */}
+                  <Collection.Lessons>
+                    <Collection.Lesson />
+                  </Collection.Lessons>
+                </Collection.Root>
+              </ScrollArea>
+            </div>
+          </div>
           <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-gray-200 dark:border-gray-900 2xl:flex 2xl:max-w-none">
             <div className="flex flex-col border-gray-200 dark:border-gray-900 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video
