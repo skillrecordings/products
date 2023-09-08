@@ -2,7 +2,7 @@ import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
 type OgImageUrlOptions = {
   title: string
-  image?: string
+  image?: string | null
   byline?: string
 }
 

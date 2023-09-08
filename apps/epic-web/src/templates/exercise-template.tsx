@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Layout from 'components/app/layout'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import {ArticleJsonLd} from '@skillrecordings/next-seo'
+import {ArticleJsonLd, CourseJsonLd} from '@skillrecordings/next-seo'
 import {Video} from '@skillrecordings/skill-lesson/video/video'
 import {useRouter} from 'next/router'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
@@ -15,14 +15,8 @@ import {trpc} from 'trpc/trpc.client'
 import LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
 import {useSession} from 'next-auth/react'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import Balancer from 'react-wrap-balancer'
-import {
-  ExplainerLink,
-  ProblemLink,
-  SolutionLink,
-} from '@skillrecordings/skill-lesson/video/module-lesson-list/lesson-list'
+
 import ExerciseOverlay from 'components/exercise-overlay'
 import Spinner from 'components/spinner'
 import pluralize from 'pluralize'
@@ -36,6 +30,8 @@ import Link from 'next/link'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {capitalize} from 'lodash'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {isBrowser} from 'utils/is-browser'
+import {getOgImage} from 'utils/get-og-image'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -47,11 +43,15 @@ const ExerciseTemplate: React.FC<{
   const {lesson, section, module} = useLesson()
   const {videoResourceId} = useVideoResource()
   const {title, description: exerciseDescription} = lesson
-
-  const {ogImage, description: moduleDescription} = module
+  const ogImage = getOgImage({
+    title,
+    byline: module.title,
+    image: module.image,
+  })
+  const {ogImage: moduleOGImage, description: moduleDescription} = module
   const pageTitle = `${title}`
   const pageDescription = exerciseDescription || moduleDescription
-  const shareCard = ogImage ? {ogImage: {url: ogImage}} : {}
+  const shareCard = ogImage ? ogImage : {ogImage: {url: moduleOGImage}}
   //TODO path here could also include module slug and section (as appropriate)
   const path = `/${pluralize(module.moduleType)}`
   const {data: session} = useSession()
@@ -63,6 +63,7 @@ const ExerciseTemplate: React.FC<{
   const exerciseCount = section
     ? section.lessons && section.lessons.length
     : module.lessons && module.lessons.length
+
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -79,6 +80,17 @@ const ExerciseTemplate: React.FC<{
         navigationSize="sm"
         className="pt-0 sm:pt-0"
       >
+        <CourseJsonLd
+          courseName={title}
+          description={pageDescription || ''}
+          provider={{
+            name: `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
+            type: 'Person',
+            url: isBrowser()
+              ? document.location.href
+              : process.env.NEXT_PUBLIC_URL,
+          }}
+        />
         <ArticleJsonLd
           url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${lesson.slug}`}
           title={lesson.title}
@@ -90,11 +102,6 @@ const ExerciseTemplate: React.FC<{
           description={pageDescription || ''}
         />
         <div className="relative flex flex-grow flex-col lg:flex-row">
-          {/* <LargeScreenModuleLessonList
-            lessonResourceRenderer={lessonResourceRenderer}
-            module={module}
-            path={path}
-          /> */}
           <div className="relative z-40 hidden w-full lg:block lg:max-w-[300px]">
             <LessonList module={module} path={path} />
           </div>
