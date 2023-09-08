@@ -7,8 +7,6 @@ import {useRouter} from 'next/router'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import {LargeScreenModuleLessonList} from '@skillrecordings/skill-lesson/video/module-lesson-list/large-screen-module-lesson-list'
-import {MobileModuleLessonList} from '@skillrecordings/skill-lesson/video/module-lesson-list/mobile-module-lesson-list'
 import {LessonDescription} from '@skillrecordings/skill-lesson/video/lesson-description'
 import {LessonTitle} from '@skillrecordings/skill-lesson/video/lesson-title'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
@@ -19,6 +17,7 @@ import {useSession} from 'next-auth/react'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import Balancer from 'react-wrap-balancer'
 import {
   ExplainerLink,
   ProblemLink,
@@ -35,6 +34,8 @@ import {ScrollArea, Skeleton} from '@skillrecordings/ui'
 import Image from 'next/image'
 import Link from 'next/link'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
+import {capitalize} from 'lodash'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -58,49 +59,10 @@ const ExerciseTemplate: React.FC<{
   const addProgressMutation = trpc.progress.add.useMutation()
   const {data: lessonResources, status: lessonResourcesStatus} =
     trpc.lessonResources.byLessonSlug.useQuery({slug: lesson.slug})
-  const lessonResourceRenderer = (
-    path: string,
-    module: Module,
-    lesson: Lesson,
-    section?: Section,
-  ) => {
-    return (
-      <>
-        {lesson._type === 'exercise' && (
-          <>
-            <ProblemLink
-              module={module}
-              exercise={lesson}
-              section={section}
-              path={path}
-            />
-            <SolutionLink
-              module={module}
-              lesson={lesson}
-              section={section}
-              path={path}
-            />
-          </>
-        )}
-        {lesson._type === 'explainer' && (
-          <ExplainerLink
-            lesson={lesson}
-            module={module}
-            section={section}
-            path={path}
-          />
-        )}
-      </>
-    )
-  }
 
-  const scrollContainerRef = React.useRef<any>(null)
-
-  const {data: moduleProgress, status: moduleProgressStatus} =
-    trpc.moduleProgress.bySlug.useQuery({
-      slug: module.slug.current,
-    })
-
+  const exerciseCount = section
+    ? section.lessons && section.lessons.length
+    : module.lessons && module.lessons.length
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -133,100 +95,8 @@ const ExerciseTemplate: React.FC<{
             module={module}
             path={path}
           /> */}
-          <div className="relative z-40 w-full lg:max-w-[300px]">
-            <div className="flex items-center space-x-3 border-r bg-gray-50 px-2 py-3 dark:bg-foreground/10">
-              {module.image && (
-                <Image
-                  src={module.image}
-                  width={75}
-                  height={75}
-                  alt={module.title}
-                />
-              )}
-              <div>
-                <h3 className="text-lg font-semibold leading-tight">
-                  <Link href={`/${path}/${module.slug.current!}`}>
-                    {module.title}
-                  </Link>
-                </h3>
-                {module?.github?.repo && (
-                  <Link
-                    href={module.github.repo + '#setup'}
-                    target="_blank"
-                    className="mt-2 inline-flex items-center space-x-1 rounded bg-blue-500 px-1.5 py-1 text-xs font-semibold uppercase leading-none text-background transition hover:bg-blue-600 dark:bg-blue-600 dark:text-foreground dark:hover:bg-blue-500"
-                  >
-                    <Icon name="Github" size="16" />
-                    <span>
-                      {module.moduleType === 'tutorial'
-                        ? 'Code'
-                        : 'Connect Workshop App'}
-                    </span>
-                  </Link>
-                )}
-              </div>
-            </div>
-
-            <div className="sticky top-0 border-r">
-              <ScrollArea className="h-[calc(100vh)]" ref={scrollContainerRef}>
-                <Collection.Root
-                  module={module}
-                  resourcesRenderer={(type) => {
-                    return (
-                      <>
-                        {(type === 'exercise' || type === 'solution') && (
-                          <>
-                            <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-orange-400 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
-                              Problem
-                            </Collection.Resource>
-                            <Collection.Resource
-                              path="exercise"
-                              className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-purple-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
-                            >
-                              Exercise
-                            </Collection.Resource>
-                            <Collection.Resource
-                              path="solution"
-                              className="text-sm font-medium [&>a[data-active='true']]:border-cyan-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
-                            >
-                              Solution
-                            </Collection.Resource>
-                          </>
-                        )}
-                        {type === 'explainer' && (
-                          <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
-                            Explainer
-                          </Collection.Resource>
-                        )}
-                      </>
-                    )
-                  }}
-                >
-                  <Collection.Sections className="space-y-0 [&_[data-state]]:animate-none">
-                    {moduleProgressStatus === 'loading' ? (
-                      <Skeleton className="h-16 rounded-none bg-gradient-to-br from-gray-700 to-gray-800 opacity-40" />
-                    ) : (
-                      <Collection.Section
-                        className="mb-px font-semibold leading-tight data-[state]:rounded-none [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg dark:[&>[data-progress]]:from-gray-800
-                      dark:[&>[data-progress]]:to-gray-800/50"
-                      >
-                        <Collection.Lessons className="py-0">
-                          <Collection.Lesson
-                            className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500 dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:items-start'
-                            scrollContainerRef={scrollContainerRef}
-                          >
-                            <Collection.Resources className="pb-2" />
-                          </Collection.Lesson>
-                        </Collection.Lessons>
-                      </Collection.Section>
-                    )}
-                  </Collection.Sections>
-                  {/* Used if module has either none or single section so they can be styled differently */}
-                  <Collection.Lessons>
-                    <Collection.Lesson />
-                  </Collection.Lessons>
-                </Collection.Root>
-              </ScrollArea>
-            </div>
+          <div className="relative z-40 hidden w-full lg:block lg:max-w-[300px]">
+            <LessonList module={module} path={path} />
           </div>
           <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-gray-200 dark:border-gray-900 2xl:flex 2xl:max-w-none">
             <div className="flex flex-col border-gray-200 dark:border-gray-900 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
@@ -236,12 +106,29 @@ const ExerciseTemplate: React.FC<{
                 exerciseOverlayRenderer={() => <ExerciseOverlay />}
                 loadingIndicator={<Spinner />}
               />
-              <MobileModuleLessonList
+              {/* <MobileModuleLessonList
                 lessonResourceRenderer={lessonResourceRenderer}
                 module={module}
                 section={section}
                 path={path}
-              />
+              /> */}
+              <details data-mobile-module-lesson-list="">
+                <summary>
+                  <Balancer>
+                    {section
+                      ? `Current section: ${section.title}`
+                      : module.title}{' '}
+                    {section ? null : capitalize(module.moduleType)}{' '}
+                  </Balancer>
+                  <span data-byline="">{exerciseCount || 0} exercises</span>
+                </summary>
+                <LessonList
+                  className="block lg:hidden"
+                  scrollAreaClassName="h-[400px]"
+                  module={module}
+                  path={path}
+                />
+              </details>
               <div className="relative hidden flex-grow border-t border-gray-200 dark:border-gray-900 2xl:block">
                 <VideoTranscript transcript={transcript} />
               </div>
@@ -281,3 +168,111 @@ const ExerciseTemplate: React.FC<{
 }
 
 export default ExerciseTemplate
+
+const LessonList: React.FC<{
+  module: Module
+  className?: string
+  scrollAreaClassName?: string
+  path: string
+}> = ({module, className, scrollAreaClassName, path}) => {
+  const scrollContainerRef = React.useRef<any>(null)
+
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: module.slug.current,
+    })
+  return (
+    <>
+      <div className="flex items-center space-x-3 border-r bg-gray-50 px-2 py-3 dark:bg-foreground/10">
+        {module.image && (
+          <Image src={module.image} width={75} height={75} alt={module.title} />
+        )}
+        <div>
+          <h3 className="text-lg font-semibold leading-tight">
+            <Link href={`/${path}/${module.slug.current!}`}>
+              {module.title}
+            </Link>
+          </h3>
+          {module?.github?.repo && (
+            <Link
+              href={module.github.repo + '#setup'}
+              target="_blank"
+              className="mt-2 inline-flex items-center space-x-1 rounded bg-blue-500 px-1.5 py-1 text-xs font-semibold uppercase leading-none text-background transition hover:bg-blue-600 dark:bg-blue-600 dark:text-foreground dark:hover:bg-blue-500"
+            >
+              <Icon name="Github" size="16" />
+              <span>
+                {module.moduleType === 'tutorial'
+                  ? 'Code'
+                  : 'Connect Workshop App'}
+              </span>
+            </Link>
+          )}
+        </div>
+      </div>
+      <div className={cn('sticky top-0 border-r', className)}>
+        <ScrollArea
+          className={cn('h-[calc(100vh)]', scrollAreaClassName)}
+          ref={scrollContainerRef}
+        >
+          <Collection.Root
+            module={module}
+            resourcesRenderer={(type) => {
+              return (
+                <>
+                  {(type === 'exercise' || type === 'solution') && (
+                    <>
+                      <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-orange-400 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
+                        Problem
+                      </Collection.Resource>
+                      <Collection.Resource
+                        path="exercise"
+                        className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-purple-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
+                      >
+                        Exercise
+                      </Collection.Resource>
+                      <Collection.Resource
+                        path="solution"
+                        className="text-sm font-medium [&>a[data-active='true']]:border-cyan-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
+                      >
+                        Solution
+                      </Collection.Resource>
+                    </>
+                  )}
+                  {type === 'explainer' && (
+                    <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
+                      Explainer
+                    </Collection.Resource>
+                  )}
+                </>
+              )
+            }}
+          >
+            <Collection.Sections className="space-y-0 [&_[data-state]]:animate-none">
+              {moduleProgressStatus === 'loading' ? (
+                <Skeleton className="h-16 rounded-none bg-gradient-to-br from-gray-700 to-gray-800 opacity-40" />
+              ) : (
+                <Collection.Section
+                  className="mb-px font-semibold leading-tight data-[state]:rounded-none [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg dark:[&>[data-progress]]:from-gray-800
+                      dark:[&>[data-progress]]:to-gray-800/50"
+                >
+                  <Collection.Lessons className="py-0">
+                    <Collection.Lesson
+                      className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500 dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:items-start'
+                      scrollContainerRef={scrollContainerRef}
+                    >
+                      <Collection.Resources className="pb-2" />
+                    </Collection.Lesson>
+                  </Collection.Lessons>
+                </Collection.Section>
+              )}
+            </Collection.Sections>
+            {/* Used if module has either none or single section so they can be styled differently */}
+            <Collection.Lessons>
+              <Collection.Lesson />
+            </Collection.Lessons>
+          </Collection.Root>
+        </ScrollArea>
+      </div>
+    </>
+  )
+}
