@@ -91,6 +91,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
         <LockIcon
           className="relative z-10 flex-shrink-0"
           width={13}
+          data-lock-icon=""
           aria-hidden="true"
         />
       ),
