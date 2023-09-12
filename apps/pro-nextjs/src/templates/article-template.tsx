@@ -146,11 +146,9 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
   const {slug} = article
 
   return (
-    <section
-      className="relative flex w-full flex-col items-center justify-center sm:py-10"
-      id="article"
-    >
+    <section className="-mt-5 w-full sm:px-5" id="article">
       <PrimaryNewsletterCta
+        className="py-32"
         // title="Stay up to date"
         // byline="Subscribe to the newsletter to stay up to date with articles, courses and much more!"
         onSuccess={() => {

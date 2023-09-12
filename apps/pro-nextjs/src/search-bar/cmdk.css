@@ -1,6 +1,7 @@
 [cmdk-root] {
-  @apply fixed left-1/2 top-1/2 z-50 w-full max-w-3xl -translate-x-1/2 -translate-y-1/2 border bg-card shadow;
+  @apply fixed left-1/2 top-1/2 z-50 w-full max-w-3xl -translate-x-1/2 -translate-y-1/2 border bg-card font-sans shadow;
   padding: 8px;
+
   border-radius: 12px;
   overflow: hidden;
   transition: transform 100ms ease;

@@ -7,6 +7,7 @@ import {useRouter} from 'next/router'
 import {SearchIcon} from '@heroicons/react/solid'
 import {useSearchBar} from './use-search-bar'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {isBrowser} from '@/utils/is-browser'
 
 const GlobalSearchBar = () => {
   const [query, setQuery] = React.useState('')
@@ -43,6 +44,11 @@ const GlobalSearchBar = () => {
 
   return (
     <Command.Dialog
+      container={
+        isBrowser()
+          ? (window.document.getElementById('layout') as HTMLElement)
+          : undefined
+      }
       value={inputValue}
       onValueChange={setInputValue}
       shouldFilter={false}

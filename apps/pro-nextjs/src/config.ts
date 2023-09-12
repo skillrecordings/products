@@ -9,6 +9,15 @@ const config: DefaultSeoProps & {author: string} = {
       rel: 'icon',
       href: `${process.env.NEXT_PUBLIC_URL}/favicon.svg`,
     },
+    {
+      rel: 'mask-icon',
+      href: `${process.env.NEXT_PUBLIC_URL}/favicon.svg`,
+      color: '#363438',
+    },
+    {
+      rel: 'apple-touch-icon',
+      href: `${process.env.NEXT_PUBLIC_URL}/apple-touch-icon.png`,
+    },
   ],
   additionalMetaTags: [
     {

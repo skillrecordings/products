@@ -6,14 +6,14 @@ import {trpc} from '../trpc/trpc.client'
 import pluralize from 'pluralize'
 import Link from 'next/link'
 import {
-  FireIcon,
   PuzzleIcon,
-  PlayIcon,
   SearchIcon,
   LightBulbIcon,
   SparklesIcon,
-} from '@heroicons/react/solid'
-import {BookOpenIcon} from '@heroicons/react/outline'
+  DocumentIcon,
+  FastForwardIcon,
+  PlayIcon,
+} from '@heroicons/react/outline'
 import {useRouter} from 'next/router'
 
 const Search: React.FC = () => {
@@ -35,7 +35,7 @@ const Search: React.FC = () => {
         title: 'Search Pro Next.js',
       }}
     >
-      <main className="relative z-10 mx-auto w-full max-w-4xl py-16">
+      <main className="relative z-10 mx-auto w-full max-w-4xl rounded-t-xl border bg-card px-5 pb-10 sm:px-10">
         <h1 className="font-text px-3 pt-3 text-center text-2xl font-semibold leading-9 sm:pt-8 sm:text-left sm:text-3xl lg:px-0">
           Search Pro Next.js
         </h1>
@@ -67,7 +67,7 @@ const Search: React.FC = () => {
           </form>
         </div>
 
-        <ul className="divide-y divide-gray-800">
+        <ul className="divide-y divide-gray-100">
           {!searchResults && <Skeleton />}
           {searchResults?.map((result: any) => {
             if (!result) return null
@@ -76,7 +76,7 @@ const Search: React.FC = () => {
             return resourceSlug ? (
               <li key={resourceSlug}>
                 <Link
-                  className="flex w-full items-center justify-between gap-5 px-5 py-3.5 font-medium text-gray-200 transition hover:bg-gray-800/20 hover:text-white"
+                  className="flex w-full items-center justify-between gap-5 px-5 py-3.5 font-medium transition hover:bg-gray-50"
                   href={resourceSlug}
                 >
                   <div className="flex items-center gap-2">
@@ -130,10 +130,10 @@ export function useDebounce(value: string = '', delay: number) {
 export const getIcon = (_type: string) => {
   switch (_type) {
     case 'tip':
-      return <FireIcon className="h-5 w-5" aria-hidden="true" />
+      return <FastForwardIcon className="h-5 w-5" aria-hidden="true" />
       break
     case 'article':
-      return <BookOpenIcon className="h-5 w-5" aria-hidden="true" />
+      return <DocumentIcon className="h-5 w-5" aria-hidden="true" />
       break
     case 'tutorial':
       return <PlayIcon className="h-5 w-5" aria-hidden="true" />
@@ -142,15 +142,10 @@ export const getIcon = (_type: string) => {
       return 'workshop icon'
       break
     case 'exercise':
-      return <PuzzleIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+      return <PuzzleIcon className="h-5 w-5" aria-hidden="true" />
       break
     case 'explainer':
-      return (
-        <LightBulbIcon
-          className="h-5 w-5 text-emerald-400"
-          aria-hidden="true"
-        />
-      )
+      return <LightBulbIcon className="h-5 w-5" aria-hidden="true" />
       break
     default:
       return (
@@ -168,15 +163,15 @@ const Skeleton = () => {
           <>
             <li
               key={i}
-              className="flex h-[52px] w-full animate-pulse items-center bg-gray-800/20 px-5"
+              className="flex h-[52px] w-full animate-pulse items-center bg-gray-100 px-5"
             >
-              <span className="h-4 w-48 rounded-md bg-gray-800/50" />
+              <span className="h-4 w-48 rounded-md bg-gray-200" />
             </li>
             <li
               key={i + 'b'}
-              className="flex h-[52px] w-full animate-pulse items-center bg-gray-800/20 px-5"
+              className="flex h-[52px] w-full animate-pulse items-center bg-gray-100/50 px-5"
             >
-              <span className="h-4 w-32 rounded-md bg-gray-800/50" />
+              <span className="h-4 w-32 rounded-md bg-gray-200/50" />
             </li>
           </>
         )

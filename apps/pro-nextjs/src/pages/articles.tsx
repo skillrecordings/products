@@ -21,6 +21,7 @@ import {useSearchBar} from '@/search-bar/use-search-bar'
 import {SearchIcon} from '@heroicons/react/outline'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {CSSProperties} from 'react'
+import {isFirefox} from '@/utils/is-browser'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const articles = (await getAllArticles()).filter(
@@ -69,7 +70,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
             <div className="flex flex-col items-center pt-3 sm:pt-8 lg:pt-16">
               <div className="flex w-full scale-110 sm:scale-100 sm:pl-8">
                 <ArticleTeaser
-                  withEffect
+                  withEffect={!isFirefox}
                   article={articles[0]}
                   className="aspect-video h-full w-full [&_[data-card='']]:bg-blue-500 [&_[data-card='']]:p-10 [&_[data-card='']]:text-background sm:[&_[data-title='']]:text-3xl"
                 />

@@ -4,7 +4,7 @@ import {twMerge} from 'tailwind-merge'
 import Navigation, {NavigationProps} from './navigation'
 import Footer from './footer'
 import {Toaster} from 'react-hot-toast'
-import {maisonNeue, maisonNeueMono} from '@/utils/load-fonts'
+
 import GlobalSearchBar from '@/search-bar'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
@@ -44,9 +44,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   const {url} = openGraph || {}
 
   return (
-    <div
-      className={`relative ${maisonNeue.variable} ${maisonNeueMono.variable} font-sans`}
-    >
+    <div id="layout" className="relative">
       <NextSeo
         title={title}
         description={description}

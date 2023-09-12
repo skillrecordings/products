@@ -16,6 +16,7 @@ import {trpc} from '@/trpc/trpc.client'
 import Script from 'next/script'
 import {Session} from 'next-auth'
 import {SearchProvider} from '@/search-bar/use-search-bar'
+import {maisonNeue, maisonNeueMono} from '@/utils/load-fonts'
 
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
   amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
@@ -36,7 +37,11 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
           <ConvertkitProvider>
             <SearchProvider>
               <MDXProvider>
-                <Component {...pageProps} />
+                <div
+                  className={`relative ${maisonNeue.variable} ${maisonNeueMono.variable} antialised font-sans`}
+                >
+                  <Component {...pageProps} />
+                </div>
               </MDXProvider>
             </SearchProvider>
           </ConvertkitProvider>

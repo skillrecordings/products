@@ -13,6 +13,7 @@ import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
 import {useMotionValue, useTransform, motion} from 'framer-motion'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {isFirefox} from '@/utils/is-browser'
 
 type PrimaryNewsletterCtaProps = {
   onSuccess?: () => void
@@ -87,7 +88,7 @@ export const PrimaryNewsletterCta: React.FC<
   // Update object position relative to the cursor
   objectX.set(offsetX.get())
   objectY.set(offsetY.get())
-  const withEffect = true
+  const withEffect = !isFirefox
 
   return (
     <section

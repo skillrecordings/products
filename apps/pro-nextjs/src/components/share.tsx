@@ -16,7 +16,7 @@ const Share: React.FC<{title: string}> = ({title}) => {
     'w-full flex items-center justify-center h-full sm:p-7 p-5 group transition'
 
   return (
-    <section className="mx-auto w-full max-w-3xl md:px-5">
+    <section className="relative z-10 mx-auto w-full max-w-3xl md:px-5">
       <div className="flex w-full items-center justify-center overflow-hidden bg-white pt-5 shadow-xl shadow-gray-500/5 sm:pl-5 sm:pt-0 md:rounded-lg">
         <div className="mx-auto flex w-full flex-col items-center justify-between gap-5 sm:flex-row">
           <div>
