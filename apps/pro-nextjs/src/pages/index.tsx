@@ -49,7 +49,7 @@ const Home: NextPage = () => {
         <article className="prose prose-lg mx-auto w-full max-w-2xl px-5 md:prose-xl">
           <LandingCopy />
         </article>
-        <div className="px-5 pt-20">
+        <div className="px-2 pt-10 sm:px-5 sm:pt-20">
           <PrimaryNewsletterCta />
         </div>
         <AboutJack />
@@ -59,7 +59,7 @@ const Home: NextPage = () => {
 }
 
 const AboutJack: React.FC<{title?: string; className?: string}> = ({
-  title = 'About Jack Herrington',
+  title = 'Meet Your Instructor: Jack Herrington',
 }) => {
   return (
     <section
@@ -76,9 +76,9 @@ const AboutJack: React.FC<{title?: string; className?: string}> = ({
         alt="Jack Herrington"
         className="aspect-square rounded-full"
       />
-      <div className="text-left">
+      <div className="text-center sm:text-left">
         <p className="pb-3 text-xl font-medium">{title}</p>
-        <p className="sm:text-lg sm:leading-relaxed">
+        <p className="text-gray-600 sm:text-lg sm:leading-relaxed">
           {common['about-instructor']}
         </p>
       </div>
