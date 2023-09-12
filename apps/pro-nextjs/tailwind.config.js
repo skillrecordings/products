@@ -1,6 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
-const {fontFamily} = require('tailwindcss/defaultTheme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -8,13 +7,16 @@ module.exports = {
   content: [
     './src/**/*.tsx',
     './src/**/*.mdx',
+    './node_modules/@skillrecordings/commerce/dist/**/*.js',
     './node_modules/@skillrecordings/react/dist/**/*.js',
     './node_modules/@skillrecordings/convertkit/dist/**/*.js',
     './node_modules/@skillrecordings/quiz/dist/**/*.js',
     './node_modules/@skillrecordings/player/dist/**/*.js',
     './node_modules/@skillrecordings/skill-lesson/ui/**/*.tsx',
     './node_modules/@skillrecordings/ui/primitives/**/*.tsx',
+    './node_modules/@skillrecordings/ui/index.tsx',
     './node_modules/@skillrecordings/ui/module/**/*.tsx',
+    './node_modules/@skillrecordings/ui/templates/**/*.tsx',
   ],
   theme: {
     container: {
@@ -73,9 +75,9 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        sans: ['var(--font-maison-neue)', ...fontFamily.sans],
-        heading: ['var(--font-maison-neue)', ...fontFamily.sans],
-        mono: ['var(--font-maison-neue-mono)', ...fontFamily.sans],
+        sans: ['var(--font-maison-neue)', ...defaultTheme.fontFamily.sans],
+        heading: ['var(--font-maison-neue)', ...defaultTheme.fontFamily.sans],
+        mono: ['var(--font-maison-neue-mono)', ...defaultTheme.fontFamily.sans],
       },
       keyframes: {
         'accordion-down': {
@@ -117,6 +119,5 @@ module.exports = {
     require('tailwind-scrollbar'),
     require('tailwindcss-radix'),
     require('tailwindcss-animate'),
-    require('tailwindcss-slant-plugin'),
   ],
 }

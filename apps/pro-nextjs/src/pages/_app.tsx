@@ -1,6 +1,7 @@
 import React from 'react'
 import {AppProps} from 'next/app'
 import '../styles/globals.css'
+import 'focus-visible'
 import {ConvertkitProvider} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {usePageview} from '@skillrecordings/analytics'
 import {initNProgress} from '@skillrecordings/react'

@@ -8,7 +8,7 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {twMerge} from 'tailwind-merge'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {DocumentIcon, PlayIcon} from '@heroicons/react/outline'
-import {signIn, signOut, useSession} from 'next-auth/react'
+import {signOut, useSession} from 'next-auth/react'
 import {
   DropdownMenu,
   DropdownMenuContent,
