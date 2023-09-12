@@ -1,17 +1,17 @@
 #primary-newsletter-cta {
   [data-sr-convertkit-subscribe-form] {
-    @apply mx-auto flex w-full max-w-[340px] flex-col;
+    @apply relative z-10 mx-auto flex w-full max-w-[350px] flex-col;
     [data-sr-input] {
-      @apply py-3 text-base;
+      @apply border-white/50 bg-transparent py-3 text-base text-white placeholder:text-white/75 focus-visible:ring-0;
     }
     [data-sr-input-label] {
-      @apply mt-3 inline-block pb-1 text-base font-medium;
+      @apply mt-5 inline-block pb-1 text-base font-medium text-white;
     }
     [data-sr-input-asterisk] {
       @apply opacity-50;
     }
     [data-sr-button] {
-      @apply mt-4 cursor-pointer hover:cursor-pointer;
+      @apply mt-4 cursor-pointer border-none bg-foreground text-background shadow hover:cursor-pointer;
     }
   }
 }

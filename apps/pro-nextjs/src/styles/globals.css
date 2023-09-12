@@ -19,11 +19,12 @@
 @import '@code-hike/mdx/dist/index.css';
 @import './ui/button.css';
 @import './login.css';
+@import '../search-bar/cmdk.css';
 
 @layer base {
   :root {
-    --background: 0 0% 97%;
-    --foreground: 0 0% 15%;
+    --background: 210 40% 98%;
+    --foreground: 217 33% 17%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -34,24 +35,24 @@
     --card: 0 0% 100%;
     --card-foreground: 222.2 47.4% 11.2%;
 
-    --border: 0 0% 90%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 210 40% 96%;
+    --input: 214 32% 91%;
 
-    --primary: 227 100% 63%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 217 33% 17%;
+    --primary-foreground: 220 0% 100%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 214 32% 91%;
+    --accent-foreground: 217 91% 60%;
 
     --destructive: 0 100% 50%;
     --destructive-foreground: 210 40% 98%;
 
     --ring: 215 20.2% 65.1%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
   }
 
   .dark {
@@ -82,7 +83,7 @@
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
 
-    --ring: 216 34% 17%;
+    --ring: 217 91% 60%;
 
     --radius: 0.75rem;
   }

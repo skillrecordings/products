@@ -5,11 +5,13 @@ import {
 } from '@skillrecordings/skill-lesson'
 import {abilities} from './abilities'
 import {tipResourcesRouter} from './tip-resources'
+import {searchRouter} from './search'
 
 export const appRouter = mergeRouters(
   router({
     abilities: abilities,
     tipResources: tipResourcesRouter,
+    search: searchRouter,
   }),
   skillLessonRouter,
 )
