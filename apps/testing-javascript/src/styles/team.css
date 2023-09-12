@@ -48,7 +48,7 @@
 /* Card */
 
 [data-team-card] {
-  @apply w-full rounded-lg border border-gray-700/30 bg-gray-800 p-5 text-white shadow-xl shadow-black/10;
+  @apply w-full rounded-lg border border-gray-200 p-5 text-body shadow-xl shadow-black/10;
 }
 
 [data-team-card] > [data-content] {
@@ -73,29 +73,44 @@
 [data-buy-more-seats-form] {
   @apply pt-3;
   #team-upgrade-pricing-inline {
-    @apply flex w-full items-center justify-between;
+    @apply flex w-full items-center justify-between flex-col;
     [data-seats-form] {
-      @apply inline-flex items-center gap-3;
+      @apply inline-flex items-center gap-3 justify-center;
       label {
         @apply opacity-70;
       }
       input {
-        @apply rounded-md border border-gray-800 bg-gray-900 py-2 pl-3 font-mono font-bold;
+        @apply rounded-md border border-gray-800 py-2 pl-3 font-mono font-bold text-body;
       }
       button {
         @apply flex h-full items-center justify-center rounded bg-gray-800/60 px-3 py-2 font-mono sm:hidden;
       }
     }
     [data-pricing-product] {
-      @apply flex items-center justify-center gap-5;
+      @apply flex items-center justify-center gap-5 mt-4;
       [data-pricing-product-header] {
-        @apply flex items-center gap-5;
+        @apply flex items-center gap-5 flex-col w-full;
         [data-price-container] {
-          @apply h-auto !important;
+          @apply w-full flex justify-center items-center h-auto;
         }
       }
+      sup {
+        @apply mr-1 font-tt-demibold;
+      }
+      [data-price] {
+        @apply flex items-center space-x-2 font-tt-demibold;
+      }
+      [data-price-discounted] {
+        @apply flex flex-col items-center leading-none font-tt-regular;
+      }
+      [data-full-price] {
+        @apply line-through;
+      }
+      [data-percent-off] {
+        @apply text-base leading-none uppercase font-tt-demibold text-green-500;
+      }
       button[type='submit'] {
-        @apply rounded-md bg-cyan-400 px-5 py-2 font-medium text-black transition hover:bg-cyan-300;
+        @apply flex shrink-0 items-center gap-1 rounded-md px-5 py-2 text-lg font-semibold text-white transition hover:bg-indigo-700 ml-3 bg-indigo-600 min-w-[80px] justify-center;
       }
     }
   }
@@ -111,13 +126,13 @@
     @apply flex gap-3 pt-2;
   }
   input {
-    @apply w-full rounded-md border border-gray-800 bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-inner selection:bg-cyan-500 selection:text-white;
+    @apply w-full grow rounded-md border border-gray-200 bg-transparent text-body px-3 py-2 text-sm font-semibold shadow-inner;
   }
   input[disabled] {
     @apply opacity-50;
   }
   [data-sr-button] {
-    @apply flex flex-shrink-0 items-center gap-1 rounded-md bg-cyan-400/20 px-5 py-2 text-sm font-semibold text-cyan-300 transition hover:bg-cyan-400/30;
+    @apply flex shrink-0 items-center gap-1 rounded-md px-5 py-2 text-lg font-semibold text-white transition hover:bg-indigo-700 ml-3 bg-indigo-600;
   }
   [data-sr-button][disabled] {
     @apply cursor-not-allowed opacity-30;

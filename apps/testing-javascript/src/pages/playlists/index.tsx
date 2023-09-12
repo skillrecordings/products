@@ -21,8 +21,8 @@ const WorkshopsPage: React.FC<{modules: SanityDocument[]}> = ({modules}) => {
         description: `This course will teach you the fundamentals of testing your JavaScript applications using ESlint, TypeScript, Jest, and Cypress.`,
       }}
     >
-      <main className="relative z-10 flex flex-col items-center justify-center py-32 sm:py-40">
-        <h1 className="px-5 text-center font-heading text-5xl font-bold sm:text-5xl">
+      <main className="relative z-10 flex flex-col items-center justify-center py-16 md:py-20 lg:py-28">
+        <h1 className="px-5 text-center font-heading text-3xl font-bold md:text-5xl">
           Testing JavaScript with Kent C. Dodds
         </h1>
         {modules && (

@@ -99,7 +99,7 @@ const Invoice: React.FC<
       footer={null}
       className="print:bg-white print:text-black"
     >
-      <main className="mx-auto max-w-screen-md">
+      <main className="mx-auto max-w-screen-md pb-16">
         <div className="flex flex-col items-center justify-between pb-8 pt-12 text-center print:hidden md:text-center">
           <h1 className="font-text max-w-md text-2xl font-bold leading-tight sm:text-3xl">
             Your Invoice for {process.env.NEXT_PUBLIC_SITE_TITLE}
