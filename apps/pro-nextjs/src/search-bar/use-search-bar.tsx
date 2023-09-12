@@ -35,7 +35,6 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({children}) => {
     }
   }, [router.asPath])
 
-  console.log({router})
   const context = {
     open,
     setOpen,

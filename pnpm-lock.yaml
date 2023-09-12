@@ -2137,6 +2137,9 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      react-gravatar:
+        specifier: ^2.6.3
+        version: 2.6.3(react@18.2.0)
       react-hook-form:
         specifier: ^7.29.0
         version: 7.29.0(react@18.2.0)
@@ -2243,6 +2246,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.4
         version: 18.2.4
+      '@types/react-gravatar':
+        specifier: ^2.6.10
+        version: 2.6.10
       '@types/shortid':
         specifier: ^0.0.29
         version: 0.0.29

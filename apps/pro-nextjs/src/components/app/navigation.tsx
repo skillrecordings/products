@@ -8,7 +8,18 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {twMerge} from 'tailwind-merge'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {DocumentIcon, PlayIcon} from '@heroicons/react/outline'
-import {signIn} from 'next-auth/react'
+import {signIn, signOut, useSession} from 'next-auth/react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@skillrecordings/ui'
+import {LogoutIcon} from '@heroicons/react/solid'
+import {ChevronDownIcon} from '@heroicons/react/outline'
+import Gravatar from 'react-gravatar'
 
 const useAbilities = () => {
   const {data: abilityRules} = trpc.abilities.getAbilities.useQuery()
@@ -92,15 +103,12 @@ const DesktopNav: React.FC<{className?: string}> = ({className}) => {
       <div className="flex h-full w-full items-center justify-between">
         <Logo />
         <ul>
-          <Link
-            href="/login"
-            className="text-gray-600 transition hover:text-foreground"
-            onClick={() => {
-              track(`clicked login from navigation`)
-            }}
-          >
-            Log in
-          </Link>
+          <li>
+            <Login />
+          </li>
+          <li>
+            <User />
+          </li>
         </ul>
       </div>
       <ul
@@ -171,5 +179,98 @@ const MobileNav = () => {
         </ul>
       </div>
     </div>
+  )
+}
+
+const User: React.FC<{className?: string}> = ({className}) => {
+  const {pathname} = useRouter()
+  const {data: sessionData, status: sessionStatus} = useSession()
+  console.log({sessionData, sessionStatus})
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({})
+  const isLoadingUserInfo =
+    sessionStatus === 'loading' || commercePropsStatus === 'loading'
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+
+  return (
+    <>
+      {isLoadingUserInfo || !sessionData?.user?.email ? null : (
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            className={cn('mr-3 flex items-center space-x-1', className)}
+          >
+            <Gravatar
+              className="h-7 w-7 rounded-full"
+              email={sessionData?.user?.email}
+              default="mp"
+            />
+            <div className="flex flex-col pl-0.5">
+              <span className="inline-flex gap-0.5 text-sm font-medium leading-tight">
+                {sessionData?.user?.name} <ChevronDownIcon className="w-2" />
+              </span>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {purchasedProductIds.length > 0 && (
+              <DropdownMenuItem
+                className="flex items-center justify-between"
+                asChild
+              >
+                <Link
+                  href="/products?s=purchased"
+                  className={cn(
+                    // 'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
+                    {
+                      underline: pathname === '/products',
+                    },
+                  )}
+                >
+                  My Purchases
+                </Link>
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem
+              onClick={() => {
+                signOut()
+              }}
+              className="flex items-center justify-between"
+            >
+              {' '}
+              <span>Log out</span>
+              <LogoutIcon className="h-4 w-4" />
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
+    </>
+  )
+}
+
+const Login: React.FC<{className?: string}> = ({className}) => {
+  const {pathname} = useRouter()
+  const {data: sessionData, status: sessionStatus} = useSession()
+  const isLoadingUserInfo = sessionStatus === 'loading'
+
+  return (
+    <>
+      {isLoadingUserInfo || sessionData?.user?.email ? null : (
+        <Link
+          href="/login"
+          className={cn(
+            'group flex items-center gap-1 rounded-md px-2.5 py-1 transition hover:opacity-100',
+            {
+              'underline opacity-100': pathname === '/login',
+              'opacity-75': pathname !== '/login',
+            },
+            className,
+          )}
+        >
+          Log in
+        </Link>
+      )}
+    </>
   )
 }
