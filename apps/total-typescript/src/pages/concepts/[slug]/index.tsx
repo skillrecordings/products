@@ -11,6 +11,7 @@ import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import Link from 'next/link'
 import {getOgImage} from '@/utils/get-og-image'
 import '@/styles/shiki-twoslash.css'
+import {linkedHeadingComponents} from '@/components/mdx'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const concept = await getConcept(params?.slug as string)
@@ -75,7 +76,12 @@ export default function TipPage({
       </header>
       <main className="relative z-10 pt-5">
         <div className="prose relative z-10 mx-auto w-full max-w-3xl px-5 sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200">
-          <MDX contents={conceptBodySerialized} />
+          <MDX
+            contents={conceptBodySerialized}
+            components={{
+              ...linkedHeadingComponents,
+            }}
+          />
         </div>
         <section className="relative z-10 -mb-16 overflow-hidden pb-0 sm:mb-0">
           <div className="py-10">
