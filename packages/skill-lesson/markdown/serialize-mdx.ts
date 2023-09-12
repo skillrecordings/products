@@ -4,6 +4,7 @@ import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {nodeTypes} from '@mdx-js/mdx'
 import {serialize} from 'next-mdx-remote/serialize'
 import rehypeRaw from 'rehype-raw'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import defaultTheme from 'shiki/themes/github-dark.json'
 import {
   ShikiRemotePluginOptions,
@@ -58,7 +59,11 @@ const serializeMDX = async (
       scope,
       mdxOptions: {
         useDynamicImport: true,
-        rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}], rehypeSlug],
+        rehypePlugins: [
+          [rehypeRaw, {passThrough: nodeTypes}],
+          rehypeSlug,
+          rehypeAutolinkHeadings,
+        ],
         remarkPlugins: [
           [
             shikiRemotePlugin,
@@ -84,7 +89,7 @@ const serializeMDX = async (
       scope,
       mdxOptions: {
         useDynamicImport: true,
-        rehypePlugins: [rehypeSlug],
+        rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
         remarkPlugins: [
           [
             remarkCodeHike,
