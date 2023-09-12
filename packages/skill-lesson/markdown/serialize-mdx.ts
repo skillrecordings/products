@@ -62,7 +62,12 @@ const serializeMDX = async (
         rehypePlugins: [
           [rehypeRaw, {passThrough: nodeTypes}],
           rehypeSlug,
-          rehypeAutolinkHeadings,
+          [
+            rehypeAutolinkHeadings,
+            {
+              behavior: 'wrap',
+            },
+          ],
         ],
         remarkPlugins: [
           [
@@ -89,7 +94,15 @@ const serializeMDX = async (
       scope,
       mdxOptions: {
         useDynamicImport: true,
-        rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+        rehypePlugins: [
+          rehypeSlug,
+          [
+            rehypeAutolinkHeadings,
+            {
+              behavior: 'wrap',
+            },
+          ],
+        ],
         remarkPlugins: [
           [
             remarkCodeHike,
