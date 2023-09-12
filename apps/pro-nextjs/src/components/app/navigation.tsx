@@ -17,11 +17,11 @@ const useAbilities = () => {
 }
 
 const links = [
-  {
-    label: 'Free Tutorials',
-    href: '/tutorials',
-    icon: <PlayIcon className="w-4 opacity-75" />,
-  },
+  // {
+  //   label: 'Free Tutorials',
+  //   href: '/tutorials',
+  //   icon: <PlayIcon className="w-4 opacity-75" />,
+  // },
   {
     label: 'Articles',
     href: '/articles',
@@ -29,11 +29,12 @@ const links = [
   },
 ]
 
-type NavigationProps = {
+export type NavigationProps = {
   className?: string
+  linksClassName?: string
 }
 
-const Navigation: React.FC<NavigationProps> = ({className}) => {
+const Navigation: React.FC<NavigationProps> = ({className, linksClassName}) => {
   const ability = useAbilities()
   const canViewTeam = ability.can('view', 'Team')
   const canViewInvoice = ability.can('view', 'Invoice')
@@ -47,7 +48,7 @@ const Navigation: React.FC<NavigationProps> = ({className}) => {
         className,
       )}
     >
-      <DesktopNav />
+      <DesktopNav className={linksClassName} />
       <MobileNav />
     </nav>
   )
@@ -84,7 +85,7 @@ export const Logo = () => {
   )
 }
 
-const DesktopNav = () => {
+const DesktopNav: React.FC<{className?: string}> = ({className}) => {
   const {asPath} = useRouter()
   return (
     <div className="hidden items-center justify-center sm:flex">
@@ -102,7 +103,12 @@ const DesktopNav = () => {
           </Link>
         </ul>
       </div>
-      <ul className="fixed top-4 z-20 flex items-center gap-8 rounded-l-full rounded-r-full border bg-card px-8 py-3">
+      <ul
+        className={cn(
+          'fixed top-4 z-20 flex items-center gap-8 rounded-l-full rounded-r-full border bg-card px-8 py-3',
+          className,
+        )}
+      >
         {links.map(({href, label, icon}) => {
           const isCurrent = asPath === href
 

@@ -70,12 +70,12 @@ export const maisonNeueMono = localFont({
   src: [
     {
       path: '../styles/fonts/04338221-4ea2-466d-adb2-18c482ed6495.woff2',
-      weight: '300',
+      weight: '400',
       style: 'normal',
     },
     {
       path: '../styles/fonts/70d999f2-1a4f-4942-b964-835a1f6de901.woff2',
-      weight: '300',
+      weight: '400',
       style: 'italic',
     },
     {

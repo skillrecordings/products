@@ -94,6 +94,7 @@
     "react-icons": "^4.7.1",
     "react-markdown": "^8.0.6",
     "react-wrap-balancer": "^0.2.4",
+    "react-use": "^17.4.0",
     "sanity": "^3.9.0",
     "sanity-plugin-cloudinary": "^1.1.1",
     "sanity-plugin-markdown": "^4.1.0",

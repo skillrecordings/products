@@ -1,18 +1,14 @@
 import React from 'react'
-import LessonTemplate from '@/templates/lesson-template'
+import ExerciseTemplate from '@/templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {getAllTutorials, getTutorial} from '@/lib/tutorials'
 import {getExercise, Exercise} from '@/lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from '@/lib/sections'
-import {Resource} from '@skillrecordings/skill-lesson/schemas/resource'
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {getAllTutorials, getTutorial} from '@/lib/tutorials'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -20,26 +16,36 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const sectionSlug = params?.section as string
 
   const module = await getTutorial(params?.module as string)
-  const exercise = await getExercise(exerciseSlug)
   const section = await getSection(sectionSlug)
-  const solutionBody =
-    exercise?.solution?.body &&
-    typeof exercise.solution.body === 'string' &&
-    (await serializeMDX(exercise.solution.body))
-  const solutionBodyPreview =
-    exercise?.solution?.body &&
-    typeof exercise.solution.body === 'string' &&
-    (await serializeMDX(exercise.solution.body.substring(0, 300)))
+  const exercise = await getExercise(exerciseSlug)
+  const solution = exercise.solution
+  const lesson = exercise
+  const solutionBodySerialized =
+    typeof solution?.body === 'string' &&
+    (await serializeMDX(solution.body, {
+      syntaxHighlighterOptions: {
+        theme: 'material-theme-palenight',
+        showCopyButton: true,
+      },
+    }))
+  const solutionBodyPreviewSerialized =
+    typeof solution?.body === 'string' &&
+    (await serializeMDX(solution.body.substring(0, 300), {
+      syntaxHighlighterOptions: {
+        theme: 'material-theme-palenight',
+      },
+    }))
 
   return {
     props: {
-      solution: exercise.solution,
-      solutionBody,
-      solutionBodyPreview,
+      lesson,
+      solution,
+      solutionBodySerialized,
+      solutionBodyPreviewSerialized,
       module,
       section,
-      transcript: exercise.solution?.transcript,
-      videoResourceId: exercise.solution?.videoResourceId,
+      transcript: solution?.transcript?.text || null,
+      videoResourceId: solution?.videoResourceId,
     },
     revalidate: 10,
   }
@@ -69,20 +75,11 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-type ExerciseSolutionProps = {
-  solution: Resource
-  solutionBody: MDXRemoteSerializeResult
-  solutionBodyPreview: MDXRemoteSerializeResult
-  module: Module
-  section: Section
-  transcript: string
-  videoResourceId: string
-}
-
-const ExerciseSolution: React.FC<ExerciseSolutionProps> = ({
+const ExerciseSolution: React.FC<any> = ({
+  lesson,
   solution,
-  solutionBody,
-  solutionBodyPreview,
+  solutionBodySerialized,
+  solutionBodyPreviewSerialized,
   module,
   section,
   transcript,
@@ -90,12 +87,16 @@ const ExerciseSolution: React.FC<ExerciseSolutionProps> = ({
 }) => {
   return (
     <ModuleProgressProvider moduleSlug={module.slug.current}>
-      <LessonProvider lesson={solution} module={module} section={section}>
+      <LessonProvider
+        lesson={{...solution, slug: lesson.slug}}
+        module={module}
+        section={section}
+      >
         <VideoResourceProvider videoResourceId={videoResourceId}>
-          <LessonTemplate
+          <ExerciseTemplate
             transcript={transcript}
-            lessonBody={solutionBody}
-            lessonBodyPreview={solutionBodyPreview}
+            lessonBodySerialized={solutionBodySerialized}
+            lessonBodyPreviewSerialized={solutionBodyPreviewSerialized}
           />
         </VideoResourceProvider>
       </LessonProvider>

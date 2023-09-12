@@ -1,11 +1,12 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo, type NextSeoProps} from '@skillrecordings/next-seo'
 import {twMerge} from 'tailwind-merge'
-import Navigation from './navigation'
+import Navigation, {NavigationProps} from './navigation'
 import Footer from './footer'
 import {Toaster} from 'react-hot-toast'
 import {maisonNeue, maisonNeueMono} from '@/utils/load-fonts'
 import GlobalSearchBar from '@/search-bar'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 type LayoutProps = {
   meta?: NextSeoProps & {titleAppendSiteName?: boolean}
@@ -16,9 +17,7 @@ type LayoutProps = {
   children?: any
   withNavigation?: boolean
   withFooter?: boolean
-  navigationProps?: {
-    className?: string
-  }
+  navigationProps?: NavigationProps
   footerProps?: {
     className?: string
   }
@@ -64,7 +63,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       <Toaster position="top-center" />
       {withNavigation && <Navigation {...navigationProps} />}
       <div
-        className={twMerge(
+        className={cn(
           'flex h-full min-h-[calc(100vh-68px)] flex-grow flex-col',
           className,
         )}
