@@ -59,7 +59,7 @@ const PurchaseTransferForm = ({
       />
       {errors.email && <span>This field is required</span>}
       <button
-        className="relative flex flex-shrink-0 items-center justify-center rounded-full bg-brand-red py-2 px-5 font-semibold shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
+        className="flex shrink-0 items-center gap-1 rounded-md px-5 py-2 text-lg font-semibold text-white transition hover:bg-indigo-700 ml-3 bg-indigo-600"
         type="submit"
         disabled={isLoading}
       >

@@ -87,8 +87,11 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
     <Layout meta={{title: 'Invite your team to Total TypeScript'}}>
       <main
         data-team-page=""
-        className="mx-auto flex w-full max-w-xl flex-grow flex-col items-center justify-center gap-3 p-5 pb-16 pt-28 text-gray-900"
+        className="mx-auto flex w-full max-w-3xl flex-grow flex-col items-center justify-start gap-3 p-5 pb-16 pt-16 text-gray-900"
       >
+        <h2 className="px-5 text-center font-heading text-5xl font-bold sm:text-5xl mb-8">
+          Team
+        </h2>
         <Card
           title={{as: 'h1', content: 'Invite your team'}}
           icon={
@@ -122,8 +125,9 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
                 </div>
               </div>
               <Link
+                data-view-invoices-button=""
                 href={`/invoices`}
-                className="flex flex-shrink-0 items-center justify-center rounded-md bg-cyan-300/20 px-4 py-2.5 text-base font-medium text-cyan-300 transition hover:bg-cyan-300/30 sm:ml-0 sm:mt-0 sm:justify-center"
+                className="flex flex-shrink-0 items-center justify-center rounded-md bg-indigo-600 px-4 py-2.5 text-lg font-semibold text-white transition hover:bg-indigo-700 sm:ml-0 sm:mt-0 sm:justify-center"
               >
                 <span className="pr-0.5">View Invoices</span>
                 <ChevronRightIcon aria-hidden="true" className="w-4" />

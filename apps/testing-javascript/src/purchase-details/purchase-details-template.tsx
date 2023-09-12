@@ -69,7 +69,7 @@ const PurchaseDetailsTemplate: React.FC<PurchaseDetailsProps> = ({
     <Layout meta={{title: `Purchase details for ${product.name}`}}>
       {welcome ? <WelcomeHeader /> : null}
       <div className="mx-auto w-full max-w-3xl py-16" id="purchase-detail">
-        <main className="flex flex-col items-start gap-10 bg-gray-50 md:flex-row">
+        <main className="flex flex-col items-start gap-4 bg-gray-50 md:flex-row py-6">
           <Image
             src={sanityProduct.image.url}
             alt=""
@@ -78,14 +78,14 @@ const PurchaseDetailsTemplate: React.FC<PurchaseDetailsProps> = ({
             height={200}
             className="flex-shrink-0"
           />
-          <div className="w-full">
+          <div className="w-full px-6">
             <p className="pb-3 font-heading font-extrabold uppercase text-sky-500">
               Your purchase details for
             </p>
             <h1 className="font-heading text-4xl font-black">
               <Balancer>{product.name}</Balancer>
             </h1>
-            <div className="-mx-3 flex flex-col items-center justify-center divide-y divide-slate-200 pt-10">
+            <div className="flex flex-col items-center justify-center divide-y divide-slate-200 pt-10">
               <Row label="Invoice" icon="Receipt">
                 <InvoiceLink merchantChargeId={purchase.merchantChargeId} />
               </Row>
@@ -215,7 +215,7 @@ const BuySeats: React.FC<{
         Get your team to level up with Testing Javascript Pro
       </p>
       <Dialog.Root>
-        <Dialog.Trigger className="group flex items-center gap-2 rounded-full bg-sky-500 px-5 py-2.5 font-heading font-semibold text-white transition hover:bg-sky-600">
+        <Dialog.Trigger className="group flex shrink-0 items-center gap-1 rounded-md px-5 py-2 text-lg font-semibold text-white transition hover:bg-indigo-700 ml-3 bg-indigo-600">
           Buy more seats
         </Dialog.Trigger>
         <Dialog.Overlay className="fixed inset-0 z-10 bg-black/50 backdrop-blur-sm" />
