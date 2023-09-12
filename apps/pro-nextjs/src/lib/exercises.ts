@@ -9,14 +9,28 @@ export const ExerciseSchema = z
     _key: z.string().optional(),
     github: z.nullable(z.string()).optional(),
     videoResourceId: z.nullable(z.string()).optional(),
-    transcript: z.nullable(z.any().array()).or(z.string()).optional(),
+    transcript: z
+      .nullable(
+        z.object({
+          text: z.string().optional(),
+          srt: z.string().optional(),
+        }),
+      )
+      .optional(),
     solution: z.nullable(
       z
         .object({
           _key: z.string(),
           github: z.nullable(z.string()).optional(),
           videoResourceId: z.nullable(z.string()).optional(),
-          transcript: z.nullable(z.any().array().or(z.string())).optional(),
+          transcript: z
+            .nullable(
+              z.object({
+                text: z.string().optional(),
+                srt: z.string().optional(),
+              }),
+            )
+            .optional(),
         })
         .merge(ResourceSchema)
         .optional(),
@@ -44,12 +58,12 @@ export const getExerciseMedia = async (exerciseSlug: string) => {
       body,
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
       "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
-      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      "transcript": resources[@->._type == 'videoResource'][0]->transcript,
       "solution": resources[@._type == 'solution'][0]{
         body,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
-        "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+        "transcript": resources[@->._type == 'videoResource'][0]->transcript,
         "slug": slug.current,
       }
     }`,
@@ -74,7 +88,7 @@ export const getExercise = async (
       body,
       "github": resources[@._type == 'github'][0].url,
       "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      "transcript": resources[@->._type == 'videoResource'][0]->transcript,
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
@@ -84,7 +98,7 @@ export const getExercise = async (
         body,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-        "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+        "transcript": resources[@->._type == 'videoResource'][0]->transcript,
         "slug": slug.current,
       }
     }`,

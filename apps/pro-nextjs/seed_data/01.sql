@@ -190,6 +190,9 @@ CREATE TABLE `Purchase` (
     `merchantChargeId` VARCHAR(191) NULL,
     `upgradedFromId` VARCHAR(191) NULL,
     `status` VARCHAR(191) NOT NULL DEFAULT 'Valid',
+    `bulkCouponId` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `merchantSessionId` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `redeemedBulkCouponId` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 
     UNIQUE INDEX `Purchase_upgradedFromId_key`(`upgradedFromId`),
     PRIMARY KEY (`id`)

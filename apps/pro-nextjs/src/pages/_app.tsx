@@ -1,7 +1,6 @@
 import React from 'react'
 import {AppProps} from 'next/app'
 import '../styles/globals.css'
-import 'focus-visible'
 import {ConvertkitProvider} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {usePageview} from '@skillrecordings/analytics'
 import {initNProgress} from '@skillrecordings/react'
@@ -15,6 +14,7 @@ import config from '../config'
 import {trpc} from '@/trpc/trpc.client'
 import Script from 'next/script'
 import {Session} from 'next-auth'
+import {SearchProvider} from '@/search-bar/use-search-bar'
 
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
   amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
@@ -33,9 +33,11 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
       <FeedbackProvider>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <ConvertkitProvider>
-            <MDXProvider>
-              <Component {...pageProps} />
-            </MDXProvider>
+            <SearchProvider>
+              <MDXProvider>
+                <Component {...pageProps} />
+              </MDXProvider>
+            </SearchProvider>
           </ConvertkitProvider>
           <ReactQueryDevtools initialIsOpen={false} />
         </SessionProvider>

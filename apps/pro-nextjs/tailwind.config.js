@@ -16,7 +16,8 @@ module.exports = {
     './node_modules/@skillrecordings/player/dist/**/*.js',
     './node_modules/@skillrecordings/skill-lesson/ui/**/*.tsx',
     './node_modules/@skillrecordings/skill-lesson/spinner.tsx',
-    './node_modules/@skillrecordings/ui/**/*.tsx',
+    './node_modules/@skillrecordings/ui/primitives/**/*.tsx',
+    './node_modules/@skillrecordings/ui/module/**/*.tsx',
   ],
   theme: {
     container: {
@@ -31,6 +32,8 @@ module.exports = {
         '2xl': '1820px',
       },
       colors: {
+        gray: colors.slate,
+        black: 'hsl(var(--foreground))',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -67,13 +70,15 @@ module.exports = {
       },
       borderRadius: {
         DEFAULT: `var(--radius)`,
+        xl: `calc(var(--radius) + 16px)`,
         lg: `var(--radius)`,
         md: `calc(var(--radius) - 2px)`,
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
-        heading: ['var(--font-heading)', ...fontFamily.sans],
+        sans: ['var(--font-maison-neue)', ...fontFamily.sans],
+        heading: ['var(--font-maison-neue)', ...fontFamily.sans],
+        mono: ['var(--font-maison-neue-mono)', ...fontFamily.sans],
       },
       keyframes: {
         'accordion-down': {
@@ -99,7 +104,8 @@ module.exports = {
         DEFAULT: {
           css: {
             'p, li, ul, blockquote, ol': {
-              color: theme('colors.foreground'),
+              color: theme('colors.gray.600'),
+              fontWeight: 400,
             },
             strong: {
               color: theme('colors.foreground'),
@@ -114,5 +120,6 @@ module.exports = {
     require('tailwind-scrollbar'),
     require('tailwindcss-radix'),
     require('tailwindcss-animate'),
+    require('tailwindcss-slant-plugin'),
   ],
 }
