@@ -10,8 +10,13 @@ import common from '@/text/common'
 
 const Home: NextPage = () => {
   return (
-    <Layout className="overflow-x-hidden">
-      <header className="relative mx-auto flex w-full flex-col-reverse items-center justify-center gap-10 px-5 pb-32 pt-16 sm:px-10 md:flex-row md:gap-24 lg:px-16">
+    <Layout
+      className="overflow-x-hidden"
+      navigationProps={{
+        className: 'absolute left-0 top-0 h-48 w-full',
+      }}
+    >
+      <header className="relative mx-auto flex w-full flex-col-reverse items-center justify-center gap-10 px-5 py-[20vh] sm:px-10 md:flex-row md:gap-24 lg:px-16">
         <div className="max-w-screen-xl whitespace-nowrap lg:-mr-20">
           <h1 className="max-w-lg text-center text-3xl font-medium sm:text-4xl sm:leading-tight md:text-left lg:text-[2.7rem] lg:leading-tight">
             The <i>No-BS</i> Solution <br />
@@ -48,7 +53,6 @@ const Home: NextPage = () => {
             src={require('../../public/hero.png')}
             alt=""
             aria-hidden
-            className=""
             quality={100}
             width={575 / 1.2}
             height={633 / 1.2}
@@ -57,7 +61,7 @@ const Home: NextPage = () => {
           />
         </div>
         <svg
-          className="absolute right-[-50%] top-[-100%] h-[120vh] w-full text-gray-100"
+          className="absolute right-[-50%] top-[-40%] h-[120vh] w-full text-gray-100"
           viewBox="0 0 835 934"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

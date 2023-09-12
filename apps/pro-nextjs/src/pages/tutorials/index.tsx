@@ -7,9 +7,9 @@ import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
 import pluralize from 'pluralize'
 import {
-  redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit-react-ui'
+  redirectUrlBuilder,
+} from '@skillrecordings/ui/forms/convertkit-subscribe-form'
 import {useRouter} from 'next/router'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
@@ -58,7 +58,6 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         },
       }}
     >
-      {' '}
       <header className="mx-auto flex w-full max-w-4xl flex-col items-center space-y-3 px-5 pt-16 text-center">
         <h1 className="mx-auto text-center text-4xl font-semibold">
           <span className="block text-xs uppercase tracking-widest text-gray-500">
@@ -79,7 +78,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
               return (
                 <li key={slug.current}>
                   <Link
-                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-xl bg-white p-10 drop-shadow-sm transition hover:bg-gray-100 dark:border-transparent dark:bg-white/5 dark:hover:bg-white/10"
+                    className="group relative flex flex-col items-center gap-10 overflow-hidden rounded-xl bg-white p-10 drop-shadow-sm transition dark:border-transparent dark:bg-white/5 dark:hover:bg-white/10"
                     href={{
                       pathname: '/tutorials/[module]',
                       query: {
@@ -106,7 +105,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                           New
                         </span>
                       )}
-                      <h3 className="mt-3 w-full max-w-xl text-2xl font-semibold sm:text-3xl">
+                      <h3 className="mt-3 w-full max-w-xl text-2xl font-semibold group-hover:text-blue-600 sm:text-3xl">
                         <Balancer>{title}</Balancer>
                       </h3>
                       <div className="flex items-center gap-3 pt-4 text-gray-600 dark:text-gray-400">
@@ -144,9 +143,13 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
             })}
             <li
               id="tutorials-index"
-              className="relative flex flex-col items-center justify-center gap-10 overflow-hidden rounded-xl border-2 border-dashed p-10 text-xl text-gray-600 transition dark:border-white/5 dark:text-gray-400"
+              className="relative flex flex-col items-center justify-center gap-10 overflow-hidden rounded-xl border-2 border-dashed p-10 text-xl text-gray-600 transition dark:border-white/5 dark:text-gray-400 [&_[data-sr-convertkit-subscribe-form]]:flex [&_[data-sr-convertkit-subscribe-form]]:w-full [&_[data-sr-convertkit-subscribe-form]]:flex-col [&_[data-sr-convertkit-subscribe-form]]:justify-center [&_button]:mt-2 [&_input]:mb-5 [&_label]:pb-2"
             >
-              <h3>More tutorials coming soon!</h3>
+              <h3 className="text-center font-medium">
+                <Balancer>
+                  More tutorials are coming soon! Subscribe to get notified.
+                </Balancer>
+              </h3>
               {!subscriber && (
                 <SubscribeToConvertkitForm
                   onSuccess={(subscriber: any) => {

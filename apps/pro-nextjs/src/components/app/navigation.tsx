@@ -55,7 +55,7 @@ const Navigation: React.FC<NavigationProps> = ({className, linksClassName}) => {
     <nav
       aria-label="top"
       className={twMerge(
-        'relative z-10 mx-auto w-full px-5 py-10 text-sm sm:px-10 sm:py-6',
+        'relative z-20 mx-auto w-full px-5 py-10 text-sm sm:px-10 sm:py-6',
         className,
       )}
     >

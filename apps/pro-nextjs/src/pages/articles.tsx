@@ -7,7 +7,6 @@ import Balancer from 'react-wrap-balancer'
 import Link from 'next/link'
 import config from '@/config'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import Header from '@/components/app/header'
 import {motion, useMotionValue, useTransform} from 'framer-motion'
 import {format} from 'date-fns'
 import {
@@ -20,7 +19,6 @@ import {
 import {useSearchBar} from '@/search-bar/use-search-bar'
 import {SearchIcon} from '@heroicons/react/outline'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import {CSSProperties} from 'react'
 import {isFirefox} from '@/utils/is-browser'
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -36,15 +34,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
   const title = 'Articles'
-
-  const container = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  }
 
   return (
     <Layout
@@ -75,12 +64,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                   className="aspect-video h-full w-full [&_[data-card='']]:bg-blue-500 [&_[data-card='']]:p-10 [&_[data-card='']]:text-background sm:[&_[data-title='']]:text-3xl"
                 />
               </div>
-              <motion.ul
-                variants={container}
-                initial="hidden"
-                animate="show"
-                className="relative grid grid-cols-1 justify-center gap-y-3 divide-y pt-8 sm:grid-cols-2"
-              >
+              <motion.ul className="relative grid grid-cols-1 justify-center gap-y-3 divide-y pt-8 sm:grid-cols-2">
                 {/* X borders */}
                 <div
                   data-no-divide=""
@@ -88,7 +72,6 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                   aria-hidden
                 />
                 {articles.slice(1, articles.length).map((article, i) => {
-                  const {title, image, summary, slug, _createdAt} = article
                   return (
                     <ArticleTeaser
                       article={article}
@@ -177,7 +160,17 @@ const ArticleTeaser: React.FC<{
           data-card=""
           className="mx-auto flex h-full w-full flex-col justify-between border-none p-8 shadow-none"
         >
-          <motion.div variants={item}>
+          <motion.div
+            initial={{opacity: 0}}
+            whileInView={{
+              opacity: 1,
+            }}
+            transition={{
+              type: 'spring',
+              damping: 20,
+              stiffness: 100,
+            }}
+          >
             <CardHeader className="p-0">
               {image && image.secure_url && (
                 <Image

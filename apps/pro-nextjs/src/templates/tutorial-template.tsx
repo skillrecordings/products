@@ -51,56 +51,35 @@ const TutorialTemplate: React.FC<{
       {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       <CourseMeta title={pageTitle} description={description} />
       <div className="mt-4 px-3 sm:mt-0 sm:px-5 lg:px-8">
-        <div className="mx-auto flex gap-10 rounded-xl border bg-card">
-          <div className="mx-auto flex w-full max-w-screen-lg flex-col sm:pr-8">
-            <Header tutorial={tutorial} />
-          </div>
-        </div>
-        <main className="relative z-10 flex h-full flex-grow flex-col gap-8 lg:flex-row">
-          <div className="mt-8 w-full flex-grow rounded-xl border bg-card p-10">
-            <article className="prose prose-lg mx-auto w-full max-w-none dark:prose-invert lg:max-w-xl">
-              {tutorialBodySerialized ? (
-                <MDX contents={tutorialBodySerialized} />
-              ) : (
-                <p className="italic opacity-75">
-                  This tutorial is under development...
-                </p>
-              )}
-            </article>
-            {/* {testimonials && testimonials?.length > 0 && (
+        <div className="flex grid-cols-12 flex-col gap-5 xl:grid">
+          <div className="col-span-9">
+            <div className="mx-auto flex gap-10 rounded-xl border bg-card">
+              <div className="mx-auto flex w-full max-w-screen-lg flex-col sm:pr-8">
+                <Header tutorial={tutorial} />
+              </div>
+            </div>
+            <main className="mt-5 flex w-full flex-grow grid-cols-12 flex-col gap-5 lg:grid xl:flex">
+              <article className="prose prose-lg col-span-8 mx-auto w-full max-w-none rounded-xl border bg-card p-10 dark:prose-invert md:px-5 lg:max-w-screen-lg xl:max-w-none">
+                {tutorialBodySerialized ? (
+                  <MDX contents={tutorialBodySerialized} />
+                ) : (
+                  <p className="italic opacity-75">
+                    This tutorial is under development...
+                  </p>
+                )}
+              </article>
+              <aside className="relative z-10 col-span-4 flex h-full flex-grow flex-col gap-8 p-5 xl:hidden">
+                <Lessons tutorial={tutorial} />
+              </aside>
+              {/* {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
           )} */}
+            </main>
           </div>
-          <div className="h-full w-full px-5 pt-8 lg:max-w-sm lg:px-0">
-            {tutorial && (
-              <Collection.Root module={tutorial}>
-                <div className="flex w-full items-center justify-between pb-3">
-                  <h3 className="text-xl font-bold">Contents</h3>
-                  <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
-                </div>
-                <Collection.Sections>
-                  {moduleProgressStatus === 'success' ? (
-                    <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125">
-                      <Collection.Lessons>
-                        <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
-                      </Collection.Lessons>
-                    </Collection.Section>
-                  ) : (
-                    <Skeleton className="border bg-background py-6" />
-                  )}
-                </Collection.Sections>
-                {/* Used if module has either none or single section so they can be styled differently */}
-                <Collection.Lessons>
-                  {moduleProgressStatus === 'success' ? (
-                    <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
-                  ) : (
-                    <Skeleton className="my-2 border bg-background py-5" />
-                  )}
-                </Collection.Lessons>
-              </Collection.Root>
-            )}
-          </div>
-        </main>
+          <aside className="relative z-10 col-span-3 hidden h-full flex-grow flex-col gap-8 pl-8 lg:flex-row xl:flex">
+            <Lessons tutorial={tutorial} />
+          </aside>
+        </div>
       </div>
     </Layout>
   )
@@ -242,3 +221,42 @@ const CourseMeta = ({
     }}
   />
 )
+
+const Lessons: React.FC<{tutorial: Module}> = ({tutorial}) => {
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: tutorial.slug.current,
+    })
+
+  return (
+    <div className="h-full w-full px-5 pt-8 lg:max-w-sm lg:px-0">
+      {tutorial && (
+        <Collection.Root module={tutorial}>
+          <div className="flex w-full items-center justify-between pb-3">
+            <h3 className="text-xl font-bold">Contents</h3>
+            <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
+          </div>
+          <Collection.Sections>
+            {moduleProgressStatus === 'success' ? (
+              <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125">
+                <Collection.Lessons>
+                  <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
+                </Collection.Lessons>
+              </Collection.Section>
+            ) : (
+              <Skeleton className="border bg-background py-6" />
+            )}
+          </Collection.Sections>
+          {/* Used if module has either none or single section so they can be styled differently */}
+          <Collection.Lessons>
+            {moduleProgressStatus === 'success' ? (
+              <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
+            ) : (
+              <Skeleton className="my-2 border bg-background py-5" />
+            )}
+          </Collection.Lessons>
+        </Collection.Root>
+      )}
+    </div>
+  )
+}
