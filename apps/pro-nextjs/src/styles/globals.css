@@ -1,24 +1,4 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@import './quiz.css';
-@import './primary-newsletter-cta.css';
-@import './tips.css';
-@import './nprogress.css';
-@import './video/mux-player.css';
-@import './video/github-link.css';
-@import './video/lesson-completion-toggle.css';
-@import './video/lesson-description.css';
-@import './video/lesson-title.css';
-@import './video/module-lesson-list.css';
-@import './video/video-overlays.css';
-@import './video/video-transcript.css';
-@import './video/module-navigator.css';
-@import '@code-hike/mdx/dist/index.css';
-@import './ui/button.css';
-@import './login.css';
-@import '../search-bar/cmdk.css';
 
 @layer base {
   :root {
@@ -100,3 +80,25 @@
 .ch-codeblock {
   @apply shadow-lg shadow-gray-200/50;
 }
+
+@tailwind components;
+
+@import './quiz.css';
+@import './primary-newsletter-cta.css';
+@import './tips.css';
+@import './nprogress.css';
+@import './video/mux-player.css';
+@import './video/github-link.css';
+@import './video/lesson-completion-toggle.css';
+@import './video/lesson-description.css';
+@import './video/lesson-title.css';
+@import './video/module-lesson-list.css';
+@import './video/video-overlays.css';
+@import './video/video-transcript.css';
+@import './video/module-navigator.css';
+@import '@code-hike/mdx/dist/index.css';
+@import './ui/button.css';
+@import './login.css';
+@import '../search-bar/cmdk.css';
+
+@tailwind utilities;
