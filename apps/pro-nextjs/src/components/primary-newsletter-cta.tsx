@@ -97,7 +97,7 @@ export const PrimaryNewsletterCta: React.FC<
       id={id}
       aria-label="Newsletter sign-up"
       className={twMerge(
-        'relative flex flex-col items-center overflow-hidden rounded bg-gradient-to-tr from-blue-500 to-indigo-500 px-5 py-20',
+        'relative flex flex-col items-center overflow-hidden rounded bg-gradient-to-tr from-blue-500 to-purple-500 px-5 py-20',
         className,
       )}
     >
@@ -138,7 +138,7 @@ export const PrimaryNewsletterCta: React.FC<
         className="pointer-events-none absolute left-0 top-0 z-0 h-full w-full"
         style={{
           backgroundImage:
-            'linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)',
+            'linear-gradient(to right, rgba(29,40,58,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(29,40,58,0.05) 1px, transparent 1px)',
           backgroundSize: '50px 50px',
         }}
         aria-hidden
