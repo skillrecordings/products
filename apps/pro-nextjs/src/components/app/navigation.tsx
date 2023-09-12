@@ -185,7 +185,6 @@ const MobileNav = () => {
 const User: React.FC<{className?: string}> = ({className}) => {
   const {pathname} = useRouter()
   const {data: sessionData, status: sessionStatus} = useSession()
-  console.log({sessionData, sessionStatus})
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({})
   const isLoadingUserInfo =
