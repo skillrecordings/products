@@ -270,7 +270,11 @@ export const LinkedHeading: React.FC<LinkedHeadingProps> = ({
 
   const handleOnClick = () => {
     if (isBrowser()) {
-      copyToClipboard(window.location.href + linkToTitle)
+      const url = window.location.href
+      const hash = window.location.hash
+      const strippedUrl = url.replace(hash, '')
+
+      copyToClipboard(strippedUrl + linkToTitle)
       toast.success('Copied')
     }
   }
