@@ -42,7 +42,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
         openGraph: {
           images: [
             {
-              url: 'https://res.cloudinary.com/dr0vx1dcs/image/upload/v1691061214/card-articles_2x_wvn4bs.png',
+              url: 'https://res.cloudinary.com/dr0vx1dcs/image/upload/v1694591357/articles_2x_undq0p.png',
               alt: 'Pro Next.JS Articles',
             },
           ],
