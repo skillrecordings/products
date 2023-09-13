@@ -1,4 +1,5 @@
 import Balancer from 'react-wrap-balancer'
+import {motion} from 'framer-motion'
 
 You know how to build React apps. Your Next.js app is humming along. You are productive and confident.
 
@@ -8,7 +9,7 @@ Or are you?
 
 Just when you thought you had it all figured out with React apps and Next.js, **the React landscape has shifted completely**.
 
-{<p className="text-center sm:py-10 py-6 text-2xl font-normal max-w-lg mx-auto text-gray-800"><Balancer>React Server Components and the App router are here, and they're not going anywhere.</Balancer></p>}
+{<p className="text-center text-3xl font-medium drop-shadow-sm sm:text-4xl sm:py-10 py-6 max-w-lg mx-auto text-gray-800"><Balancer>React Server Components and the App router are here, and they're not going anywhere.</Balancer></p>}
 
 This isn't just a minor update - it's a seismic shift that's shaking the foundations of your Next.js apps. The component lifecycle, data loading, data movement from server to client, even the basics of structuring your component tree - everything is in flux.
 
@@ -16,11 +17,21 @@ But what if you could turn this upheaval into an opportunity? What if you could 
 
 Pro NextJS is your guide through this new terrain.
 
-{<h2 className="sm:pt-10 pt-2 text-center sm:text-4xl text-2xl font-medium text-inherit">With Pro NextJS, you'll:</h2>}
+{<h2 className="text-center text-3xl font-medium drop-shadow-sm sm:text-4xl sm:pt-10 pt-2 text-gray-800">With Pro NextJS, you'll:</h2>}
 
 {
 
-<div className="not-prose rounded border bg-card p-8">
+<motion.div
+  initial={{opacity: 0}}
+  transition={{
+    duration: 0.5,
+    ease: [0.48, 0.15, 0.25, 0.96],
+  }}
+  whileInView={{
+    opacity: 1,
+  }}
+  className="not-prose rounded border bg-card p-8"
+>
   <p className="inline-flex items-center gap-3 font-semibold">
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -45,13 +56,23 @@ Pro NextJS is your guide through this new terrain.
     Understand the radical changes to the component lifecycle and the new
     paradigms for loading data and moving it from server to client.
   </p>
-</div>
+</motion.div>
 
 }
 
 {
 
-<div className="not-prose mt-3 rounded border bg-card p-8">
+<motion.div
+  initial={{opacity: 0}}
+  transition={{
+    duration: 0.5,
+    ease: [0.48, 0.15, 0.25, 0.96],
+  }}
+  whileInView={{
+    opacity: 1,
+  }}
+  className="not-prose mt-3 rounded border bg-card p-8"
+>
   <p className="inline-flex items-center gap-3 font-semibold">
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -76,12 +97,22 @@ Pro NextJS is your guide through this new terrain.
     Understand the radical changes to the component lifecycle and the new
     paradigms for loading data and moving it from server to client.
   </p>
-</div>
+</motion.div>
 }
 
 {
 
-<div className="not-prose mt-3 rounded border bg-card p-8">
+<motion.div
+  initial={{opacity: 0}}
+  transition={{
+    duration: 0.5,
+    ease: [0.48, 0.15, 0.25, 0.96],
+  }}
+  whileInView={{
+    opacity: 1,
+  }}
+  className="not-prose mt-3 rounded border bg-card p-8"
+>
   <p className="inline-flex items-center gap-3 font-semibold">
     <svg
       width="24"
@@ -105,13 +136,12 @@ Pro NextJS is your guide through this new terrain.
     have all evolved. Stay ahead of these changes and ensure you and your team
     are riding the wave of React Server Components into the future.
   </p>
-</div>
+</motion.div>
 }
 
-{<h2 className="pb-6 pt-2 text-center text-gray-800 font-medium max-w-xl sm:text-3xl text-2xl">
-Pro NextJS isn’t just a guide - it's your trusted ally, your secret weapon.
+{<h2 className="text-center text-3xl font-medium drop-shadow-sm sm:text-4xl pb-6 pt-2 text-gray-800 max-w-xl">
 
-</h2>}
+<Balancer>Pro NextJS isn’t just a guide - it's your trusted ally, your secret weapon.</Balancer></h2>}
 
 We've done the heavy lifting, sifting through the muck to figure out the patterns, practices, tools, and techniques that work. With Pro NextJS, you won't just survive these changes - you'll thrive.
 

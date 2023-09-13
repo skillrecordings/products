@@ -96,9 +96,12 @@ const Header: React.FC<HeaderProps> = ({title, author, _createdAt, image}) => {
           <ArrowLeftIcon className="w-3" /> All Articles
         </Link>
         <motion.h1
-          initial={{y: 20, opacity: 0}}
+          initial={{opacity: 0}}
+          transition={{
+            duration: 0.5,
+            ease: [0.48, 0.15, 0.25, 0.96],
+          }}
           animate={{
-            y: 0,
             opacity: 1,
           }}
           className="w-full pt-10 text-center text-3xl font-semibold tracking-tight sm:pt-8 sm:text-left sm:text-4xl lg:text-5xl"
