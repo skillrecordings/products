@@ -19,7 +19,8 @@ import {PriceCheckProvider} from '../path-to-purchase/pricing-check-context'
 
 type VideoProps = {
   product?: SanityProduct
-  exerciseOverlayRenderer: () => void
+  exerciseOverlayRenderer?: () => void
+  defaultOverlayRenderer?: () => void
   loadingIndicator: React.ReactElement
 }
 
@@ -32,6 +33,7 @@ export const Video: React.FC<
     {
       product,
       exerciseOverlayRenderer = () => <DefaultOverlay />,
+      defaultOverlayRenderer = () => <DefaultOverlay />,
       loadingIndicator,
     },
     ref,
@@ -67,7 +69,7 @@ export const Video: React.FC<
                           <BlockedOverlay product={product} />
                         )
                       ) : (
-                        <DefaultOverlay />
+                        defaultOverlayRenderer()
                       )}
                     </>
                   ) : nextSection ? (

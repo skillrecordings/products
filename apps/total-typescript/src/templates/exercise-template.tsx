@@ -34,6 +34,11 @@ import {getExerciseGitHubUrl} from '@/exercise/get-exercise-github-url'
 import pluralize from 'pluralize'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {
+  CompleteAndContinueButton,
+  DefaultOverlay,
+} from '@skillrecordings/skill-lesson/video/video-overlays'
+import {useModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -172,6 +177,29 @@ const ExerciseTemplate: React.FC<{
                 product={module?.product as SanityProduct}
                 ref={muxPlayerRef}
                 exerciseOverlayRenderer={() => <ExerciseOverlay />}
+                defaultOverlayRenderer={() => (
+                  <DefaultOverlay
+                    progressRenderer={(progress) => (
+                      <>
+                        <Image
+                          className="absolute left-3 top-3 opacity-75 -hue-rotate-15"
+                          src={require('../../public/assets/corner.png')}
+                          width={650 / 5}
+                          height={650 / 5}
+                          alt=""
+                          aria-hidden
+                        />
+                        <div data-progress="">
+                          <div data-lessons-completed="">
+                            {progress?.completedLessonCount} /{' '}
+                            {progress?.lessonCount} lessons completed
+                            <CompleteAndContinueButton />
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  />
+                )}
                 loadingIndicator={<Spinner />}
               />
               <MobileModuleLessonList

@@ -28,6 +28,8 @@ import {handlePlayFromBeginning as defaultHandlePlayFromBeginning} from '../util
 import {type NextRouter} from 'next/router'
 import {type Module} from '../schemas/module'
 
+const DEBUG_OVERLAYS = false
+
 type VideoContextType = {
   muxPlayerProps: MuxPlayerProps | any
   setPlayerPrefs: (prefs: {[key: string]: boolean | string}) => void
@@ -235,7 +237,7 @@ export const VideoProvider: React.FC<
       muxPlayerRef.current && muxPlayerRef.current.pause()
       setDisplayOverlay(true)
     } else {
-      setDisplayOverlay(false)
+      setDisplayOverlay(DEBUG_OVERLAYS ? true : false)
     }
   }, [lesson, router.asPath, muxPlayerRef])
 
