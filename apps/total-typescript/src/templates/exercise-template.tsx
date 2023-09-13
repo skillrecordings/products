@@ -177,29 +177,6 @@ const ExerciseTemplate: React.FC<{
                 product={module?.product as SanityProduct}
                 ref={muxPlayerRef}
                 exerciseOverlayRenderer={() => <ExerciseOverlay />}
-                defaultOverlayRenderer={() => (
-                  <DefaultOverlay
-                    progressRenderer={(progress) => (
-                      <>
-                        <Image
-                          className="absolute left-3 top-3 opacity-75 -hue-rotate-15"
-                          src={require('../../public/assets/corner.png')}
-                          width={650 / 5}
-                          height={650 / 5}
-                          alt=""
-                          aria-hidden
-                        />
-                        <div data-progress="">
-                          <div data-lessons-completed="">
-                            {progress?.completedLessonCount} /{' '}
-                            {progress?.lessonCount} lessons completed
-                            <CompleteAndContinueButton />
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  />
-                )}
                 loadingIndicator={<Spinner />}
               />
               <MobileModuleLessonList
