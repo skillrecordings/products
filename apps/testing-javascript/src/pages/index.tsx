@@ -36,11 +36,10 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const hasBulkPurchase = ability.can('view', 'Team')
   const hasAvailableSeats = ability.can('invite', 'Team')
 
-  const token = await getToken({req})
   const products = await getAllProducts()
   const {props: commerceProps} = await propsForCommerce({
     query,
-    token,
+    token: sessionToken,
     products,
   })
   const purchasedProductsIds =
