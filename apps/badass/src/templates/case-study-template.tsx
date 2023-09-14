@@ -2,7 +2,7 @@ import React from 'react'
 import {toPlainText} from '@portabletext/react'
 import Layout from 'components/layout'
 import Image from 'next/image'
-import {SmallCallToActionForm} from '../components/call-to-action-form'
+import {CallToActionForm} from 'components/call-to-action-form'
 import {genericCallToActionContent} from '../components/landing-content'
 import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
@@ -59,7 +59,7 @@ const CaseStudyTemplate: React.FC<
         publishedDate={publishedDate}
         partnerName={partnerName}
       />
-      <main data-template-case-study={slug}>
+      <main data-template-case-study={slug} className="pb-10">
         <div className="max-w-screen-md lg:max-w-[880px] lg:px-14 mx-auto w-full">
           <div className="md:pt-16 pt-10 lg:px-0 px-5 pb-16">
             <article className="prose lg:prose-xl sm:prose-lg md:prose-code:text-sm max-w-none prose-p:text-neutral-200 prose-pre:prose-code:bg-transparent prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded lg:prose-code:text-[78%] sm:prose-code:text-[80%] mb-2 font-medium">
@@ -80,10 +80,8 @@ const CaseStudyTemplate: React.FC<
             </div>
           </div>
         </div>
-        <section data-article="">
-          <SmallCallToActionForm content={genericCallToActionContent} />
-        </section>
       </main>
+      <CallToActionForm content={genericCallToActionContent} />
     </Layout>
   )
 }

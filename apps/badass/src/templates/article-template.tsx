@@ -3,14 +3,13 @@ import cx from 'classnames'
 import {PortableText, toPlainText} from '@portabletext/react'
 import {LinkedIn, Twitter} from '@skillrecordings/react'
 import {CalendarIcon} from '@heroicons/react/outline'
-import Markdown from 'react-markdown'
 import {useRouter} from 'next/router'
 import {format} from 'date-fns'
 import JoelHooksHeadshotImage from '../../public/joel-hooks.jpg'
 import PortableTextComponents from 'components/portable-text'
 import Layout from 'components/layout'
 import Image from 'next/legacy/image'
-import {SmallCallToActionForm} from '../components/call-to-action-form'
+import {CallToActionForm} from 'components/call-to-action-form'
 import {genericCallToActionContent} from '../components/landing-content'
 import MuxVideo from '@mux/mux-player-react'
 import Balancer from 'react-wrap-balancer'
@@ -70,7 +69,7 @@ const ArticleTemplate: React.FC<
       }}
     >
       <Header title={title} date={date} image={image} />
-      <main>
+      <main className="pb-10">
         <div className="">
           <div className="px-5 pb-16 pt-10 md:pt-16 lg:px-0">
             {video ? (
@@ -85,15 +84,12 @@ const ArticleTemplate: React.FC<
             <article className="mx-auto w-full max-w-screen-md prose sm:prose-lg lg:prose-xl first-letter:float-left first-letter:-mt-0.5 first-letter:pr-3 first-letter:font-expanded first-letter:text-6xl first-letter:text-badass-pink-500 prose-p:text-neutral-200 prose-code:rounded prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-pre:prose-code:bg-transparent sm:prose-code:text-[80%] md:prose-code:text-sm lg:prose-code:text-[78%]">
               <PortableText value={body} components={PortableTextComponents} />
             </article>
-            <section data-article="">
-              <SmallCallToActionForm content={genericCallToActionContent} />
-            </section>
             {video?.transcript ? (
-              <section className="w-full max-w-screen-md mx-auto">
-                <h2 className="sm:text-4xl text-2xl font-expanded bg-gradient-to-r from-neutral-500 to-neutral-700/60 bg-clip-text text-transparent sm:pt-32 pt-16 sm:pb-24 pb-16">
+              <section className="w-full max-w-screen-md mx-auto mt-16 md:mt-24">
+                <h2 className="font-heading text-3xl leading-tight sm:text-4xl sm:leading-tight text-center">
                   Full Transcript
                 </h2>
-                <div className="prose sm:prose-base prose-sm prose-p:text-neutral-300 max-w-3xl md:px-10 px-5">
+                <div className="prose sm:prose-base prose-sm prose-p:text-neutral-300 mt-12">
                   <PortableText
                     value={video.transcript}
                     components={PortableTextComponents}
@@ -104,6 +100,7 @@ const ArticleTemplate: React.FC<
           </div>
         </div>
       </main>
+      <CallToActionForm content={genericCallToActionContent} />
     </Layout>
   )
 }
