@@ -5,7 +5,7 @@ const Spinner: React.FunctionComponent<
     className?: string
   }>
 > = ({className = '', ...rest}) => {
-  const css = `.nc-loop-dots-anim-7-icon-f{--animation-duration:1s;transform-origin:50% 50%;animation:nc-loop-dots-anim-7 var(--animation-duration) infinite cubic-bezier(.645,.045,.355,1)}@keyframes nc-loop-dots-anim-7{0%{transform:scale(1)}50%{transform:scale(.7) rotate(90deg)}100%{transform:scale(1) rotate(180deg)}}`
+  const css = `.nc-loop-slideshow-anim-48-icon-f,.nc-loop-slideshow-anim-48-icon-f>*{--animation-duration:0.8s}.nc-loop-slideshow-anim-48-icon-f{transform-origin:50% 50%;animation:nc-loop-slideshow-anim-48 var(--animation-duration) infinite cubic-bezier(.215,.61,.355,1)}.nc-loop-slideshow-anim-48-icon-f>:nth-child(1){transform-origin:-8px 24px;transform:scale(.7)}.nc-loop-slideshow-anim-48-icon-f>:nth-child(2){transform-origin:8px 24px;animation:nc-loop-slideshow-anim-48-scale-up var(--animation-duration) infinite cubic-bezier(.215,.61,.355,1)}.nc-loop-slideshow-anim-48-icon-f>:nth-child(3){transform-origin:50% 50%;transform:scale(.7);animation:nc-loop-slideshow-anim-48-scale-down var(--animation-duration) infinite cubic-bezier(.215,.61,.355,1)}.nc-loop-slideshow-anim-48-icon-f>:nth-child(4){transform-origin:40px 24px;transform:scale(.7)}@keyframes nc-loop-slideshow-anim-48{0%{transform:translateX(0)}100%{transform:translateX(16px)}}@keyframes nc-loop-slideshow-anim-48-scale-down{0%{transform:scale(1)}100%{transform:scale(.7)}}@keyframes nc-loop-slideshow-anim-48-scale-up{0%{transform:scale(.7)}100%{transform:scale(1)}}`
   return (
     <svg
       className={className}
@@ -17,11 +17,11 @@ const Spinner: React.FunctionComponent<
       {...rest}
     >
       <g fill="currentColor">
-        <g className="nc-loop-dots-anim-7-icon-f">
-          <circle cx="11" cy="11" r="8" />
-          <circle cx="37" cy="11" fill="currentColor" r="8" />
-          <circle cx="37" cy="37" r="8" />
-          <circle cx="11" cy="37" fill="currentColor" r="8" />
+        <g className="nc-loop-slideshow-anim-48-icon-f">
+          <rect fill="currentColor" height="38" width="14" x="-15" y="5" />
+          <rect fill="currentColor" height="38" width="14" x="1" y="5" />
+          <rect fill="currentColor" height="38" width="14" x="17" y="5" />
+          <rect fill="currentColor" height="38" width="14" x="33" y="5" />
         </g>
         <style>{css}</style>
       </g>
