@@ -18,6 +18,10 @@ import Printables from 'components/landing/printables'
 import Interviews from 'components/landing/interviews'
 import WhatIsInTestingJavascript from 'components/landing/what-is-in-testing-javascript'
 import AccessYourCourse from 'components/landing/access-your-course'
+import {trpc} from 'trpc/trpc.client'
+import flatten from 'lodash/flatten'
+import {z} from 'zod'
+import {lessonsRouter} from '@skillrecordings/skill-lesson/trpc/routers/lessons'
 
 type LandingTemplateProps = {
   canViewContent: boolean
@@ -40,9 +44,54 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
   commerceProps,
   proTestingPurchased,
 }) => {
+  const {data: lessonProgress} = trpc.progress.get.useQuery()
+
+  let courseCompleted: boolean
+
+  if (!lessonProgress || 'error' in lessonProgress) {
+    courseCompleted = false
+  } else {
+    const PlaylistSchema = z.array(
+      z.object({
+        slug: z.object({current: z.string()}),
+        sections: z.array(
+          z.object({lessons: z.array(z.object({slug: z.string()}))}),
+        ),
+      }),
+    )
+    const parsedPlaylists = PlaylistSchema.parse(playlists)
+    const lessonsByPlaylistSlug = parsedPlaylists.map(
+      (playlist) =>
+        [
+          playlist.slug.current,
+          flatten(playlist.sections.map((section) => section.lessons)),
+        ] as const,
+    )
+
+    const interviewsPlaylistSlug = 'testing-javascript-interviews-bonus-de29'
+
+    courseCompleted = lessonsByPlaylistSlug.every((playlistLessons) => {
+      const [playlistSlug, lessons] = playlistLessons
+
+      if (playlistSlug === interviewsPlaylistSlug) return true
+
+      return lessons.every((lesson) => {
+        const matchingLessonProgress = lessonProgress.find(
+          ({lessonSlug}) => lessonSlug === lesson.slug,
+        )
+        return Boolean(matchingLessonProgress?.completedAt)
+      })
+    })
+  }
+
   return (
     <div className="pt-10 pb-20">
-      {canViewContent && <AccessYourCourse product={mostValuedProduct} />}
+      {canViewContent && (
+        <AccessYourCourse
+          product={mostValuedProduct}
+          courseCompleted={courseCompleted}
+        />
+      )}
       {!canViewContent && (
         <div className="container max-w-6xl mb-32">
           <h1 className="text-center font-heading text-4xl md:text-6xl sm:text-5xl">
