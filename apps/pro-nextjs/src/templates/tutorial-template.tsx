@@ -76,7 +76,7 @@ const TutorialTemplate: React.FC<{
           )} */}
             </main>
           </div>
-          <aside className="relative z-10 col-span-3 hidden h-full flex-grow flex-col gap-8 pl-8 lg:flex-row xl:flex">
+          <aside className="relative z-10 col-span-3 hidden h-full flex-grow flex-col gap-8 lg:flex-row xl:flex">
             <Lessons tutorial={tutorial} />
           </aside>
         </div>
@@ -238,8 +238,8 @@ const Lessons: React.FC<{tutorial: Module}> = ({tutorial}) => {
           </div>
           <Collection.Sections>
             {moduleProgressStatus === 'success' ? (
-              <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125">
-                <Collection.Lessons>
+              <Collection.Section className="border transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125">
+                <Collection.Lessons className="border-border">
                   <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
                 </Collection.Lessons>
               </Collection.Section>

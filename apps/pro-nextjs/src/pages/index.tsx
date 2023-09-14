@@ -86,7 +86,7 @@ const Header = () => {
           <span>Jack Herrington</span>
         </div>
       </div>
-      <div className="relative z-10">
+      <div className="relative z-10 -mr-10 -mt-14 scale-110 sm:mr-0 sm:mt-0 sm:scale-100">
         <Image
           src={require('../../public/hero.png')}
           className="relative z-10"

@@ -106,6 +106,10 @@ module.exports = {
               color: theme('colors.gray.600'),
               fontWeight: 400,
             },
+            img: {
+              borderRadius: theme('borderRadius.md'),
+              border: `1px solid ${theme('colors.border')}`,
+            },
             strong: {
               color: theme('colors.foreground'),
             },
