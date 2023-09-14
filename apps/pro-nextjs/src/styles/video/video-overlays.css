@@ -1,7 +1,14 @@
 [data-video-overlay-wrapper] {
-  @apply relative left-0 top-0 flex aspect-video w-full items-center justify-center bg-gray-900 text-white;
+  @apply relative left-0 top-0 flex aspect-video w-full items-center justify-center bg-card;
+  background-image: linear-gradient(
+      to right,
+      hsl(210, 40%, 98%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, hsl(210, 40%, 98%) 1px, transparent 1px);
+  background-size: 50px 50px;
   [data-dismiss] {
-    @apply absolute right-2 top-2 z-40 flex items-center gap-1 rounded px-3 py-2 font-medium text-gray-200 transition hover:bg-gray-800;
+    @apply absolute right-2 top-2 z-40 flex items-center gap-1 rounded px-3 py-2 text-sm font-medium text-neutral-500 transition hover:text-neutral-600;
     svg {
       @apply h-5 w-5;
     }
@@ -13,18 +20,18 @@
 [data-video-overlay='default'] {
   @apply flex px-5 py-16 sm:py-5;
   [data-login] {
-    @apply flex-shrink-0 pt-8 text-xs italic tabular-nums text-gray-300 xl:pt-16 xl:text-sm [&>a]:underline;
+    @apply flex-shrink-0 pt-8 text-xs italic tabular-nums text-gray-500 xl:pt-16 xl:text-sm [&>a]:underline;
   }
   [data-progress] {
-    @apply flex w-full max-w-sm items-center justify-center gap-2 pt-8;
+    @apply flex w-full max-w-sm items-center justify-center gap-2 py-3;
     [data-progress-bar] {
-      @apply relative h-2 w-full overflow-hidden rounded-full bg-gray-700 shadow-inner;
+      @apply relative h-2 w-full overflow-hidden rounded-full bg-gray-100 shadow-inner;
       [data-indicator] {
         @apply relative h-full w-full flex-1 bg-gradient-to-r from-indigo-300 via-indigo-300 to-purple-300 transition-all duration-300 ease-out;
       }
     }
     [data-lessons-completed] {
-      @apply flex-shrink-0 text-sm tabular-nums text-gray-300;
+      @apply flex-shrink-0 text-sm tabular-nums text-gray-500;
     }
   }
   [data-image] {
@@ -34,7 +41,7 @@
     @apply pb-5 text-xl font-semibold sm:text-3xl;
   }
   [data-byline] {
-    @apply font-normal text-gray-200;
+    @apply font-normal text-gray-500;
   }
   [data-actions] {
     @apply flex w-full max-w-sm flex-col items-center justify-center gap-3 pt-4 sm:pt-4 lg:pt-0 xl:pt-4;
@@ -42,18 +49,22 @@
       @apply mt-3 flex w-full items-center justify-center gap-5;
     }
     [data-action='replay'] {
-      @apply flex items-center gap-1 px-2 py-2 text-sm font-normal text-gray-300 transition hover:text-white sm:text-base;
-      [data-icon] {
-      }
-    }
-    [data-action='try-again'] {
-      @apply flex items-center gap-1 px-2 py-2 text-sm font-normal text-gray-300 transition hover:text-white sm:text-base;
+      @apply flex items-center gap-1 px-2 py-2 text-sm font-normal text-gray-500 transition hover:text-gray-600 sm:text-base;
       [data-icon] {
         @apply h-5 w-5;
       }
     }
+    [data-action='try-again'] {
+      @apply flex items-center gap-1 px-2 py-2 text-sm font-normal text-gray-500 transition hover:text-gray-600 sm:text-base;
+      [data-icon] {
+        @apply h-4 w-4;
+      }
+    }
     [data-action='continue'] {
-      @apply flex w-full items-center justify-center gap-1 rounded bg-gradient-to-tr from-indigo-300 to-purple-300 px-5 py-3 text-lg font-semibold text-gray-950 transition hover:brightness-110 sm:px-8 sm:py-3;
+      @apply flex w-full items-center justify-center gap-1 rounded bg-gradient-to-r from-blue-400 to-purple-400 px-5 py-3 text-lg font-semibold text-white shadow-xl transition hover:brightness-110 sm:px-8 sm:py-3;
+      span {
+        @apply drop-shadow;
+      }
       [data-icon] {
       }
       svg {
@@ -172,35 +183,53 @@
   }
 }
 [data-video-overlay='finished'] {
-  @apply px-5 pt-10 sm:pt-0;
+  @apply px-3 py-16 sm:px-5 sm:py-5;
   [data-progress] {
-    @apply flex w-full max-w-sm items-center justify-center gap-2 pt-8;
+    @apply mt-4 flex w-full max-w-sm items-center justify-center gap-2 py-3;
     [data-progress-bar] {
-      @apply relative h-2 w-full overflow-hidden rounded-full bg-gray-700 shadow-inner;
+      @apply relative h-2 w-full overflow-hidden rounded-full bg-gray-100 shadow-inner;
       [data-indicator] {
         @apply relative h-full w-full flex-1 bg-gradient-to-r from-indigo-300 via-indigo-300 to-purple-300 transition-all duration-300 ease-out;
       }
     }
     [data-lessons-completed] {
-      @apply flex-shrink-0 text-sm tabular-nums text-gray-300;
+      @apply flex-shrink-0 text-sm tabular-nums text-gray-500;
+    }
+  }
+  [data-image] {
+    @apply mb-5 hidden items-center justify-center sm:max-w-[150px] md:flex lg:w-auto lg:max-w-[200px] 2xl:max-w-[150px];
+  }
+  h2 {
+    @apply w-full max-w-2xl font-sans text-lg font-medium sm:block sm:text-xl;
+    span:first-of-type {
+      @apply block pb-3 font-mono text-xs uppercase text-gray-300 sm:text-sm;
     }
   }
   [data-title] {
-    @apply text-2xl font-semibold sm:text-3xl sm:font-bold;
+    @apply hidden;
   }
   [data-share-actions] {
-    @apply flex items-center gap-2 py-8;
+    @apply bottom-0 flex items-center gap-2 py-3 text-sm text-gray-500 before:mr-5 before:content-["Share_with_your_friends:"] sm:absolute sm:flex-row sm:text-base;
     [data-action='share'] {
-      @apply flex items-center gap-2 rounded bg-gray-800 px-3 py-2 hover:bg-gray-700;
+      @apply flex items-center gap-1 bg-transparent px-2 py-2 text-sm font-normal text-gray-500 transition hover:text-gray-600 sm:text-base;
     }
   }
   [data-actions] {
-    @apply flex items-center justify-center divide-x divide-gray-700;
+    @apply flex w-full max-w-sm flex-row flex-wrap items-center justify-center gap-3 pt-4 sm:pt-4 lg:pt-0 xl:pt-4;
+    div {
+      @apply mt-3 flex w-full items-center justify-center gap-5;
+    }
     [data-action='replay'] {
-      @apply px-3 py-1 text-lg font-semibold transition hover:bg-gray-900 sm:px-5 sm:py-3;
+      @apply flex items-center gap-1 px-2 py-2 text-sm font-normal text-gray-500 transition hover:text-gray-600 sm:text-base;
+      [data-icon] {
+        @apply h-5 w-5;
+      }
     }
     [data-action='restart'] {
-      @apply px-3 py-1 text-lg font-semibold transition hover:bg-gray-900 sm:px-5 sm:py-3;
+      @apply flex items-center gap-1 px-2 py-2 text-sm font-normal text-gray-500 transition hover:text-gray-600 sm:text-base;
+      [data-icon] {
+        @apply h-4 w-4;
+      }
     }
   }
 }

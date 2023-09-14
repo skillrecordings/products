@@ -17,8 +17,14 @@ import Balancer from 'react-wrap-balancer'
 // import Testimonials from 'testimonials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
-import {Skeleton} from '@skillrecordings/ui'
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Skeleton,
+} from '@skillrecordings/ui'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {ExclamationIcon} from '@heroicons/react/outline'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
@@ -51,22 +57,27 @@ const TutorialTemplate: React.FC<{
       {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       <CourseMeta title={pageTitle} description={description} />
       <div className="mt-4 px-3 sm:mt-0 sm:px-5 lg:px-8">
+        {tutorial.state === 'draft' && (
+          <Alert className="mb-3 inline-flex w-full items-baseline rounded border border-dashed border-orange-400/20 bg-orange-400/10 px-4 text-center text-base text-orange-400 [&>svg]:text-orange-400">
+            <AlertTitle className="mb-0 inline-flex w-full items-center justify-center gap-1 text-center font-normal">
+              <ExclamationIcon className="h-4 w-4" />
+              This {tutorial.moduleType} is under development.
+            </AlertTitle>
+          </Alert>
+        )}
         <div className="flex grid-cols-12 flex-col gap-5 xl:grid">
-          {tutorial.state === 'draft' && (
-            <div className="not-prose rounded border border-dashed border-orange-400/20 bg-orange-400/10 px-4 py-3 text-base text-orange-400">
-              <p>🚧 This {tutorial.moduleType} is under development.</p>
-            </div>
-          )}
           <div className="col-span-9">
             <Header tutorial={tutorial} />
             <main className="-mt-8 flex w-full flex-grow grid-cols-12 flex-col gap-5 lg:grid xl:flex">
-              <article className="prose col-span-8 mx-auto w-full max-w-none rounded-xl border bg-card p-10 px-5 pt-16 lg:prose-lg md:px-10 lg:max-w-screen-lg xl:max-w-none">
-                {tutorialBodySerialized ? (
-                  <MDX contents={tutorialBodySerialized} />
-                ) : (
-                  <p>No description found.</p>
-                )}
-              </article>
+              <div className="col-span-8 mx-auto w-full rounded-xl border bg-card p-10 px-5 pt-16 md:px-10">
+                <article className="prose max-w-none lg:prose-lg lg:max-w-screen-lg xl:max-w-none">
+                  {tutorialBodySerialized ? (
+                    <MDX contents={tutorialBodySerialized} />
+                  ) : (
+                    <p>No description found.</p>
+                  )}
+                </article>
+              </div>
               <aside className="relative z-10 col-span-4 flex h-full flex-grow flex-col gap-8 pl-2 pt-8 xl:hidden">
                 <Lessons tutorial={tutorial} />
               </aside>
@@ -106,7 +117,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
         <div className="w-full max-w-screen-sm px-5 pb-10 pt-8 text-center sm:px-10 sm:pb-16 sm:pt-12 md:text-left">
           <Link
             href="/tutorials"
-            className="inline-flex items-center justify-center gap-1.5 pb-4 text-[10px] font-semibold uppercase tracking-wide text-gray-500"
+            className="inline-flex items-center justify-center gap-1.5 pb-4 text-[11px] font-semibold uppercase tracking-wide text-gray-500"
           >
             <div
               className="h-1 w-1 animate-pulse rounded-full bg-emerald-500"
@@ -232,7 +243,7 @@ const Lessons: React.FC<{tutorial: Module}> = ({tutorial}) => {
     })
 
   return (
-    <div className="h-full w-full px-5 pt-8 lg:max-w-sm lg:px-0">
+    <div className="h-full w-full px-5 pt-8 lg:max-w-sm lg:px-0 xl:max-w-none">
       {tutorial && (
         <Collection.Root module={tutorial}>
           <div className="flex w-full items-center justify-between pb-3">

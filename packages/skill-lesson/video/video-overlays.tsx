@@ -379,9 +379,9 @@ const FinishedOverlay = () => {
           <Twitter link={shareUrl} message={shareMessage} data-action="share">
             Twitter
           </Twitter>
-          <Facebook link={shareUrl} message={shareMessage} data-action="share">
+          {/* <Facebook link={shareUrl} message={shareMessage} data-action="share">
             Facebook
-          </Facebook>
+          </Facebook> */}
           <LinkedIn link={shareUrl} message={shareMessage} data-action="share">
             LinkedIn
           </LinkedIn>
