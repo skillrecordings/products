@@ -61,7 +61,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                 <ArticleTeaser
                   withEffect={!isFirefox}
                   article={articles[0]}
-                  className="aspect-video h-full w-full [&_[data-card='']]:bg-blue-500 [&_[data-card='']]:p-10 [&_[data-card='']]:text-background sm:[&_[data-title='']]:text-3xl"
+                  className="aspect-video h-full w-full [&_[data-card='']]:bg-gradient-to-tr [&_[data-card='']]:from-[#3E75FE] [&_[data-card='']]:to-purple-500  [&_[data-card='']]:p-10 [&_[data-card='']]:text-background sm:[&_[data-title='']]:text-3xl"
                 />
               </div>
               <motion.ul className="relative grid grid-cols-1 justify-center gap-y-3 divide-y pt-8 sm:grid-cols-2">
