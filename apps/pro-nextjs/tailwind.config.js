@@ -69,7 +69,7 @@ module.exports = {
       },
       borderRadius: {
         DEFAULT: `var(--radius)`,
-        xl: `calc(var(--radius) + 16px)`,
+        xl: `calc(var(--radius) + 8px)`,
         lg: `var(--radius)`,
         md: `calc(var(--radius) - 2px)`,
         sm: 'calc(var(--radius) - 4px)',
@@ -105,6 +105,10 @@ module.exports = {
             'p, li, ul, blockquote, ol': {
               color: theme('colors.gray.600'),
               fontWeight: 400,
+            },
+            img: {
+              borderRadius: theme('borderRadius.md'),
+              border: `1px solid ${theme('colors.border')}`,
             },
             strong: {
               color: theme('colors.foreground'),

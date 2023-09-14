@@ -110,11 +110,11 @@ const ExerciseTemplate: React.FC<{
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
           description={pageDescription || ''}
         />
-        <div className="relative flex flex-grow flex-col gap-5 lg:flex-row">
+        <div className="relative flex flex-grow flex-col gap-3 lg:flex-row">
           <div className="relative z-40 hidden w-full lg:block lg:max-w-[300px]">
             <LessonList module={module} path={path} />
           </div>
-          <main className="relative mx-auto w-full max-w-[1480px] items-start gap-5 2xl:flex 2xl:max-w-none">
+          <main className="relative mx-auto w-full max-w-[1480px] items-start gap-3 2xl:flex 2xl:max-w-none">
             <div className="flex flex-col overflow-hidden rounded-t border bg-card 2xl:relative 2xl:h-full 2xl:w-full">
               <Video
                 product={module?.product as SanityProduct}
@@ -125,19 +125,19 @@ const ExerciseTemplate: React.FC<{
               <details data-mobile-module-lesson-list="">
                 <summary>
                   <Balancer>
-                    {section
-                      ? `Current section: ${section.title}`
-                      : module.title}{' '}
+                    {section ? `${section.title}` : module.title}{' '}
                     {section ? null : capitalize(module.moduleType)}{' '}
                   </Balancer>
                   <span data-byline="">{exerciseCount || 0} exercises</span>
                 </summary>
-                <LessonList
-                  className="block lg:hidden"
-                  scrollAreaClassName="h-[400px]"
-                  module={module}
-                  path={path}
-                />
+                <div className="mt-2">
+                  <LessonList
+                    className="block max-h-[300px] pt-2 lg:hidden"
+                    scrollAreaClassName="h-[300px] p-0"
+                    module={module}
+                    path={path}
+                  />
+                </div>
               </details>
               <div className="relative hidden flex-grow 2xl:block">
                 <VideoTranscript transcript={transcript} />
@@ -195,9 +195,9 @@ const LessonList: React.FC<{
   const [ref, {height}] = useMeasure<HTMLDivElement>()
 
   return (
-    <div className="sticky top-5 overflow-hidden rounded border bg-card">
-      <div ref={ref}>
-        <div className="relative z-10 flex items-center space-x-3 border-b px-2 py-3">
+    <div className="top-3 overflow-hidden sm:sticky">
+      <div ref={ref} className="rounded border bg-card">
+        <div className="relative z-10 flex items-center space-x-3 px-2 py-3">
           {module.image && (
             <Image
               src={module.image}
@@ -232,10 +232,12 @@ const LessonList: React.FC<{
           </div>
         </div>
       </div>
-      <div className={cn('h-screen', className)}>
+      <div className={cn('h-screen bg-background', className)}>
         <ScrollArea
-          style={{height: `calc(100vh - ${height + 76}px)`}}
-          className={cn('', scrollAreaClassName)}
+          className={cn(
+            `h-[calc(100vh - pt-3 ${height + 76}px)]`,
+            scrollAreaClassName,
+          )}
           ref={scrollContainerRef}
         >
           <Collection.Root
@@ -245,25 +247,25 @@ const LessonList: React.FC<{
                 <>
                   {(type === 'exercise' || type === 'solution') && (
                     <>
-                      <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-orange-400 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
+                      <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-purple-400 [&>a[data-active='true']]:bg-card [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
                         Problem
                       </Collection.Resource>
                       <Collection.Resource
                         path="exercise"
-                        className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-purple-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
+                        className="text-sm font-medium [&>a[data-active='true']]:border-blue-400 [&>a[data-active='true']]:bg-card [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
                       >
                         Exercise
                       </Collection.Resource>
                       <Collection.Resource
                         path="solution"
-                        className="text-sm font-medium [&>a[data-active='true']]:border-cyan-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
+                        className="text-sm font-medium [&>a[data-active='true']]:border-teal-400 [&>a[data-active='true']]:bg-card [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
                       >
                         Solution
                       </Collection.Resource>
                     </>
                   )}
                   {type === 'explainer' && (
-                    <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
+                    <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-purple-400 [&>a[data-active='true']]:bg-card [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
                       Explainer
                     </Collection.Resource>
                   )}
@@ -271,17 +273,14 @@ const LessonList: React.FC<{
               )
             }}
           >
-            <Collection.Sections className="space-y-0 [&_[data-state]]:animate-none">
+            <Collection.Sections className="space-y-1 [&_[data-state]]:animate-none">
               {moduleProgressStatus === 'loading' ? (
-                <Skeleton className="h-16 rounded-none bg-gradient-to-br from-gray-700 to-gray-800 opacity-40" />
+                <Skeleton className="h-14 rounded border bg-gradient-to-r from-white to-gray-200 opacity-75" />
               ) : (
-                <Collection.Section
-                  className="mb-px font-semibold leading-tight data-[state]:rounded-none [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg dark:[&>[data-progress]]:from-gray-800
-                      dark:[&>[data-progress]]:to-gray-800/50"
-                >
-                  <Collection.Lessons className="py-0">
+                <Collection.Section className="mb-px border font-semibold leading-tight data-[state='close']:rounded data-[state='open']:rounded-t [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg">
+                  <Collection.Lessons className="overflow-hidden rounded-b border-border pb-3">
                     <Collection.Lesson
-                      className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500 dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5 [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
+                      className='font-semibold transition before:hidden data-[active="true"]:bg-transparent data-[active="true"]:opacity-100 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500 [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:items-center [&_[data-item]]:py-3 [&_[data-lock-icon]]:w-3.5 [&_[data-lock-icon]]:text-gray-400'
                       scrollContainerRef={scrollContainerRef}
                     >
                       <Collection.Resources />

@@ -86,7 +86,7 @@ const Header = () => {
           <span>Jack Herrington</span>
         </div>
       </div>
-      <div className="relative z-10">
+      <div className="relative z-10 -mr-10 -mt-14 scale-110 sm:mr-0 sm:mt-0 sm:scale-100">
         <Image
           src={require('../../public/hero.png')}
           className="relative z-10"
@@ -109,11 +109,11 @@ const Header = () => {
           priority
           placeholder="blur"
         />
-        <div className="absolute right-0 top-0 -z-10 flex h-[85%] w-[48%] items-end justify-center overflow-hidden rounded-xl bg-gradient-to-tr from-[#3E75FE] to-[#2FCEFF]">
+        <div className="absolute right-0 top-0 -z-10 flex h-[85%] w-[48%] items-end justify-center overflow-hidden rounded-xl bg-gradient-to-tr from-[#3E75FE]  to-purple-400">
           <Image
             src={require('../../public/grid.png')}
             // fill
-            className="absolute mb-10 scale-[2.1] opacity-20 mix-blend-overlay lg:mb-14"
+            className="absolute mb-10 scale-[2.1] opacity-10 mix-blend-overlay lg:mb-14"
             width={2744}
             height={1041}
             alt=""

@@ -53,22 +53,18 @@ const TutorialTemplate: React.FC<{
       <div className="mt-4 px-3 sm:mt-0 sm:px-5 lg:px-8">
         <div className="flex grid-cols-12 flex-col gap-5 xl:grid">
           <div className="col-span-9">
-            <div className="mx-auto flex gap-10 rounded-xl border bg-card">
-              <div className="mx-auto flex w-full max-w-screen-lg flex-col sm:pr-8">
-                <Header tutorial={tutorial} />
-              </div>
-            </div>
-            <main className="mt-5 flex w-full flex-grow grid-cols-12 flex-col gap-5 lg:grid xl:flex">
-              <article className="prose prose-lg col-span-8 mx-auto w-full max-w-none rounded-xl border bg-card p-10 dark:prose-invert md:px-5 lg:max-w-screen-lg xl:max-w-none">
+            <Header tutorial={tutorial} />
+            <main className="-mt-8 flex w-full flex-grow grid-cols-12 flex-col gap-5 lg:grid xl:flex">
+              <article className="prose col-span-8 mx-auto w-full max-w-none rounded-xl border bg-card p-10 px-5 pt-16 lg:prose-lg md:px-10 lg:max-w-screen-lg xl:max-w-none">
                 {tutorialBodySerialized ? (
                   <MDX contents={tutorialBodySerialized} />
                 ) : (
-                  <p className="italic opacity-75">
-                    This tutorial is under development...
-                  </p>
+                  <div className="not-prose rounded border border-dashed border-orange-400/20 bg-orange-400/10 px-4 py-3 text-base text-orange-400">
+                    <p>🚧 This tutorial is under development...</p>
+                  </div>
                 )}
               </article>
-              <aside className="relative z-10 col-span-4 flex h-full flex-grow flex-col gap-8 p-5 xl:hidden">
+              <aside className="relative z-10 col-span-4 flex h-full flex-grow flex-col gap-8 pl-2 pt-8 xl:hidden">
                 <Lessons tutorial={tutorial} />
               </aside>
               {/* {testimonials && testimonials?.length > 0 && (
@@ -76,7 +72,7 @@ const TutorialTemplate: React.FC<{
           )} */}
             </main>
           </div>
-          <aside className="relative z-10 col-span-3 hidden h-full flex-grow flex-col gap-8 pl-8 lg:flex-row xl:flex">
+          <aside className="relative z-10 col-span-3 hidden h-full flex-grow flex-col gap-8 pl-1 lg:flex-row xl:flex">
             <Lessons tutorial={tutorial} />
           </aside>
         </div>
@@ -103,20 +99,24 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 pt-8 sm:pb-16 sm:pt-12 md:flex-row">
-        <div className="w-full text-center md:text-left">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between rounded-t-xl rounded-br-xl border bg-card shadow-2xl shadow-black/5 md:flex-row">
+        <div className="w-full max-w-screen-sm px-5 pb-10 pt-8 text-center sm:px-10 sm:pb-16 sm:pt-12 md:text-left">
           <Link
             href="/tutorials"
-            className="inline-block pb-4 text-xs font-medium uppercase tracking-wide text-gray-500"
+            className="inline-flex items-center justify-center gap-1.5 pb-4 text-[10px] font-semibold uppercase tracking-wide text-gray-500"
           >
+            <div
+              className="h-1 w-1 animate-pulse rounded-full bg-emerald-500"
+              aria-hidden
+            />{' '}
             Free Tutorial
           </Link>
           <h1 className="font-text text-center text-3xl font-semibold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
             <Balancer>{title}</Balancer>
           </h1>
-          <div className="w-full pt-8 text-lg">
+          <div className="w-full pt-5 text-base">
             <div className="flex items-center justify-center gap-3 md:justify-start">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-900">
                   <Image
                     src={require('../../public/jack-herrington.jpg')}
@@ -130,7 +130,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                 <span>Jack Herrington</span>
               </div>
             </div>
-            <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
+            <div className="flex w-full flex-col items-center justify-center gap-3 pt-12 md:flex-row md:justify-start">
               <Link
                 href={
                   firstSection && sections
@@ -157,7 +157,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                       }
                 }
                 className={cx(
-                  'relative flex w-full items-center justify-center rounded bg-primary px-5 py-4 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110 md:max-w-[240px]',
+                  'relative flex w-full items-center justify-center rounded bg-primary px-4 py-3 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110 md:max-w-[240px]',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },
@@ -188,13 +188,13 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
           </div>
         </div>
         {image && (
-          <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0 lg:-mr-5">
+          <div className="flex h-full items-center justify-center p-10 lg:border-l">
             <Image
               priority
               src={image}
               alt={title}
-              width={360}
-              height={360}
+              width={400}
+              height={400}
               quality={100}
             />
           </div>
@@ -238,8 +238,8 @@ const Lessons: React.FC<{tutorial: Module}> = ({tutorial}) => {
           </div>
           <Collection.Sections>
             {moduleProgressStatus === 'success' ? (
-              <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125">
-                <Collection.Lessons>
+              <Collection.Section className="border transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125">
+                <Collection.Lessons className="border-border">
                   <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
                 </Collection.Lessons>
               </Collection.Section>
