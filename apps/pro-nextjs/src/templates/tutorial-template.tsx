@@ -52,6 +52,11 @@ const TutorialTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       <div className="mt-4 px-3 sm:mt-0 sm:px-5 lg:px-8">
         <div className="flex grid-cols-12 flex-col gap-5 xl:grid">
+          {tutorial.state === 'draft' && (
+            <div className="not-prose rounded border border-dashed border-orange-400/20 bg-orange-400/10 px-4 py-3 text-base text-orange-400">
+              <p>🚧 This {tutorial.moduleType} is under development.</p>
+            </div>
+          )}
           <div className="col-span-9">
             <Header tutorial={tutorial} />
             <main className="-mt-8 flex w-full flex-grow grid-cols-12 flex-col gap-5 lg:grid xl:flex">
@@ -59,9 +64,7 @@ const TutorialTemplate: React.FC<{
                 {tutorialBodySerialized ? (
                   <MDX contents={tutorialBodySerialized} />
                 ) : (
-                  <div className="not-prose rounded border border-dashed border-orange-400/20 bg-orange-400/10 px-4 py-3 text-base text-orange-400">
-                    <p>🚧 This tutorial is under development...</p>
-                  </div>
+                  <p>No description found.</p>
                 )}
               </article>
               <aside className="relative z-10 col-span-4 flex h-full flex-grow flex-col gap-8 pl-2 pt-8 xl:hidden">

@@ -12,6 +12,11 @@ export const ModuleSchema = z
     ogImage: z.string().nullish(),
     image: z.string().nullish(),
     product: z.object({productId: z.string(), name: z.string()}).nullish(),
+    state: z
+      .string()
+      .or(z.enum(['published', 'draft']))
+      .optional()
+      .nullable(),
     cta: z
       .object({
         body: z.array(z.any()).or(z.string()).nullish(),
