@@ -77,22 +77,32 @@
   }
 }
 [data-video-overlay='blocked'] {
-  @apply relative flex w-full flex-col items-center justify-center gap-5 bg-gray-900 py-5 text-white sm:gap-10 xl:aspect-video xl:flex-row;
+  @apply relative flex w-full flex-col items-center justify-center gap-5 bg-gray-900 py-5 text-white sm:gap-10 xl:aspect-video;
   [data-thumbnail] {
-    @apply object-contain object-top opacity-25 blur-sm contrast-125;
+    @apply pointer-events-none object-cover object-top opacity-10 blur-md contrast-125;
   }
   [data-subscribe] {
-    @apply z-20 flex h-full w-full max-w-sm flex-shrink-0 flex-col items-center justify-center p-5 pb-10 text-center text-lg leading-relaxed sm:p-5 sm:pb-16;
+    @apply z-20 flex w-full max-w-xl flex-col items-center justify-center p-5 text-center text-lg leading-relaxed sm:p-5;
     [data-col='1'] {
       @apply flex w-full flex-col items-center justify-center gap-2;
+
       [data-image] {
-        @apply relative w-28;
+        @apply relative w-full max-w-[220px];
       }
       [data-title] {
-        @apply pt-3 text-3xl font-semibold;
+        @apply pt-3 text-2xl font-medium sm:text-3xl;
       }
       [data-subtitle] {
-        @apply pb-3 text-xl text-gray-300;
+        @apply pb-3 pt-2 text-lg font-light text-violet-200 sm:text-xl;
+      }
+      [data-sr-convertkit-subscribe-form] {
+        @apply max-w-xs;
+        [data-sr-button] {
+          @apply bg-gradient-to-r from-blue-500 to-purple-500 !important;
+          svg {
+            @apply h-7 w-7;
+          }
+        }
       }
       [data-nospam] {
         @apply pt-2 text-sm opacity-80;
@@ -100,11 +110,11 @@
     }
   }
   [data-col='2'] {
-    @apply sm:pr-5;
+    @apply border-t border-white/5 py-10;
     [data-markdown] {
-      @apply prose relative flex w-full max-w-2xl flex-col border-gray-700/50 bg-gray-800 p-5 text-white shadow-2xl 2xl:prose-base before:absolute before:left-1/2 before:top-[-8px] before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50 before:bg-gray-800 before:content-[''] prose-p:mb-0 prose-p:text-gray-300 sm:rounded-lg sm:border xl:max-w-md xl:bg-transparent xl:before:hidden xl:prose-p:mb-0 2xl:prose-p:mb-0;
+      @apply prose max-w-md px-5 prose-p:text-gray-300;
       [data-title] {
-        @apply mt-0 text-2xl font-semibold text-white sm:text-3xl;
+        @apply mt-0 text-xl font-medium text-white sm:text-2xl;
       }
     }
   }
