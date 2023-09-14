@@ -7,7 +7,7 @@
     @apply max-w-sm pt-4 text-center sm:mx-auto sm:w-full sm:pt-8;
   }
   [data-form] {
-    @apply pt-8 sm:mx-auto sm:w-full sm:max-w-md sm:pt-10 sm:text-lg;
+    @apply w-full pt-8 sm:mx-auto sm:w-full sm:max-w-md sm:pt-10 sm:text-lg;
 
     [data-input-container] {
       @apply relative mt-1 rounded-md shadow-sm;
@@ -18,7 +18,7 @@
         }
       }
       [data-input] {
-        @apply pl-10;
+        @apply bg-background pl-10;
       }
     }
     [data-button] {
@@ -31,7 +31,7 @@
   [data-providers-container] {
     @apply w-full space-y-2;
     [data-button] {
-      @apply w-full;
+      @apply w-full bg-background;
     }
   }
 }

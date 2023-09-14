@@ -52,7 +52,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         openGraph: {
           images: [
             {
-              url: 'https://res.cloudinary.com/epic-web/image/upload/v1681815745/epicweb.dev/tutorials/card_2x.png',
+              url: 'https://res.cloudinary.com/dr0vx1dcs/image/upload/v1694705093/tutorials_2x_knvgra.png',
             },
           ],
         },

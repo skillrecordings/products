@@ -12,6 +12,9 @@
     }
     [data-sr-button] {
       @apply mt-4 cursor-pointer border-none bg-foreground text-background shadow hover:cursor-pointer;
+      svg {
+        @apply text-white/75;
+      }
     }
   }
 }
