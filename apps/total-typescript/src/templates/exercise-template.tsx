@@ -34,6 +34,11 @@ import {getExerciseGitHubUrl} from '@/exercise/get-exercise-github-url'
 import pluralize from 'pluralize'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {
+  CompleteAndContinueButton,
+  DefaultOverlay,
+} from '@skillrecordings/skill-lesson/video/video-overlays'
+import {useModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]

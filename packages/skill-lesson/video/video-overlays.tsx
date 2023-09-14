@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {type SanityDocument} from '@sanity/client'
+import {motion} from 'framer-motion'
 import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit-react-ui'
 import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {useRouter} from 'next/router'
@@ -7,7 +8,7 @@ import ReactMarkdown from 'react-markdown'
 import snakeCase from 'lodash/snakeCase'
 import Image from 'next/image'
 import {useMuxPlayer} from '../hooks/use-mux-player'
-import {CodeIcon, XIcon} from '@heroicons/react/solid'
+import {CodeIcon, XIcon, CheckCircleIcon} from '@heroicons/react/solid'
 import {track} from '../utils/analytics'
 import {setUserId} from '@amplitude/analytics-browser'
 import {sanityClient} from '../utils/sanity-client'
@@ -31,6 +32,8 @@ import pluralize from 'pluralize'
 import {portableTextComponents} from '../portable-text'
 import Spinner from '../spinner'
 import {isNextSectionEmpty} from '../utils/get-next-section'
+import {type ModuleProgress, useModuleProgress} from './module-progress'
+import * as ProgressBar from '@radix-ui/react-progress'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{dismissable?: boolean}>
@@ -141,12 +144,94 @@ const ModuleCtaProvider: React.FC<React.PropsWithChildren<any>> = ({
   )
 }
 
-const DefaultOverlay = () => {
-  const {nextExercise, path, handlePlay, handleContinue} = useMuxPlayer()
+export const CompleteAndContinueButton = React.forwardRef<
+  HTMLButtonElement,
+  {
+    setCompletedLessonCount: React.Dispatch<React.SetStateAction<number>>
+    nextSection?: any
+    nextExercise?: any
+  }
+>(({setCompletedLessonCount, nextSection, nextExercise}, ref) => {
+  const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
+  const {
+    nextExercise: nextExerciseInSection,
+    path,
+    handlePlay,
+    handleContinue,
+  } = useMuxPlayer()
   const {lesson, module, section} = useLesson()
   const router = useRouter()
+  const moduleProgress = useModuleProgress()
+  const isLessonCompleted = moduleProgress?.lessons.find(
+    (l) => l.slug === lesson.slug && l.lessonCompleted,
+  )
+
+  return (
+    <button
+      ref={ref}
+      onMouseOver={() => {
+        !isLessonCompleted && setCompletedLessonCount((prev) => prev + 1)
+      }}
+      onMouseOut={() => {
+        !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
+      }}
+      data-action="continue"
+      disabled={addProgressMutation.isLoading || addProgressMutation.isSuccess}
+      onClick={() => {
+        !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
+        track('clicked complete', {
+          lesson: router.query.lesson as string,
+          module: module.slug.current,
+          location: 'exercise',
+          moduleType: module.moduleType,
+          lessonType: lesson._type,
+        })
+        addProgressMutation.mutate(
+          {lessonSlug: router.query.lesson as string},
+          {
+            onSettled: (data, error, variables, context) => {
+              handleContinue({
+                router,
+                module,
+                nextExercise: nextExercise
+                  ? nextExercise
+                  : nextExerciseInSection,
+                handlePlay,
+                path,
+                section: nextSection ? nextSection : section,
+              })
+            },
+          },
+        )
+      }}
+    >
+      {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
+        <Spinner className="w-7 h-7 inline-block" />
+      ) : (
+        <span>
+          {isLessonCompleted ? 'Continue →' : 'Complete & Continue →'}
+        </span>
+      )}
+    </button>
+  )
+})
+
+const DefaultOverlay: React.FC = () => {
+  const {nextExercise, handlePlay} = useMuxPlayer()
+  const {lesson, module} = useLesson()
+  const router = useRouter()
   const {image} = module
-  const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
+
+  const moduleProgress = useModuleProgress()
+
+  const [completedLessonCount, setCompletedLessonCount] =
+    React.useState<number>(0)
+
+  React.useEffect(() => {
+    setCompletedLessonCount(moduleProgress?.completedLessonCount || 0)
+  }, [moduleProgress])
+
+  const session = useSession()
 
   return (
     <OverlayWrapper data-video-overlay="default">
@@ -167,74 +252,69 @@ const DefaultOverlay = () => {
             <span data-byline="">Up next:</span> {nextExercise?.title}
           </Balancer>
         </p>
-        <div data-actions="">
-          <button
-            data-action="replay"
-            onClick={() => {
-              track('clicked replay', {
-                lesson: lesson.slug,
-                module: module.slug.current,
-                location: 'exercise',
-                moduleType: module.moduleType,
-                lessonType: lesson._type,
-              })
-              handlePlay()
-            }}
-          >
-            <span data-icon="" aria-hidden="true">
-              ↺
-            </span>{' '}
-            Replay
-          </button>
-          {lesson._type === 'solution' && (
-            <Link
-              data-action="try-again"
-              href={router.asPath.replace('solution', 'exercise')}
+        {moduleProgress && session.status === 'authenticated' && (
+          <div data-progress="">
+            <ProgressBar.Root
+              data-progress-bar=""
+              max={moduleProgress?.lessonCount}
             >
-              <CodeIcon data-icon="" aria-hidden="true" />
-              Try Again
-            </Link>
-          )}
-          <button
-            data-action="continue"
-            disabled={
-              addProgressMutation.isLoading || addProgressMutation.isSuccess
-            }
-            onClick={() => {
-              track('clicked complete', {
-                lesson: router.query.lesson as string,
-                module: module.slug.current,
-                location: 'exercise',
-                moduleType: module.moduleType,
-                lessonType: lesson._type,
-              })
-              addProgressMutation.mutate(
-                {lessonSlug: router.query.lesson as string},
-                {
-                  onSettled: (data, error, variables, context) => {
-                    handleContinue({
-                      router,
-                      module,
-                      nextExercise,
-                      handlePlay,
-                      path,
-                      section,
-                    })
-                  },
-                },
-              )
-            }}
-          >
-            Complete & Continue{' '}
-            {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
-              <Spinner className="w-3 h-3 inline-block" />
-            ) : (
-              <span aria-hidden="true" data-icon="">
-                →
-              </span>
+              <ProgressBar.Indicator
+                data-indicator={moduleProgress?.percentComplete}
+                style={{
+                  transform: `translateX(-${
+                    ((moduleProgress?.lessonCount -
+                      (completedLessonCount || 0)) /
+                      moduleProgress?.lessonCount) *
+                    100
+                  }%)`,
+                }}
+              />
+            </ProgressBar.Root>
+            <div data-lessons-completed="">
+              {completedLessonCount} / {moduleProgress?.lessonCount} lessons
+              completed
+            </div>
+          </div>
+        )}
+        <div data-actions="">
+          <CompleteAndContinueButton
+            setCompletedLessonCount={setCompletedLessonCount}
+          />
+          <div>
+            <button
+              data-action="replay"
+              onClick={() => {
+                track('clicked replay', {
+                  lesson: lesson.slug,
+                  module: module.slug.current,
+                  location: 'exercise',
+                  moduleType: module.moduleType,
+                  lessonType: lesson._type,
+                })
+                handlePlay()
+              }}
+            >
+              <span data-icon="" aria-hidden="true">
+                ↺
+              </span>{' '}
+              Replay Video
+            </button>
+            {lesson._type === 'solution' && (
+              <Link
+                data-action="try-again"
+                href={router.asPath.replace('solution', 'exercise')}
+              >
+                <CodeIcon data-icon="" aria-hidden="true" />
+                Back to Exercise
+              </Link>
             )}
-          </button>
+          </div>
         </div>
+        {session.status === 'unauthenticated' && (
+          <div data-login>
+            <Link href="/login">Log in</Link> to track your progress.
+          </div>
+        )}
       </ModuleCtaProvider>
     </OverlayWrapper>
   )
@@ -254,18 +334,46 @@ const FinishedOverlay = () => {
     module,
     currentSection: section,
   })
-
+  const moduleProgress = useModuleProgress()
+  const session = useSession()
+  const moduleCompleted = moduleProgress?.moduleCompleted
   return (
     <OverlayWrapper data-video-overlay="finished">
       <ModuleCtaProvider>
         <h2>
-          <span>Great job!</span>{' '}
+          <span>{moduleCompleted ? 'Congratulations!' : ''}</span>{' '}
           <Balancer>
             {isNextSectionWIP
               ? `You've finished all currently available lessons in this workshop. We'll keep you posted when next section is released!`
-              : `You've finished "${module.title}" ${module.moduleType}.`}
+              : moduleCompleted
+              ? `You've finished "${module.title}" ${module.moduleType}.`
+              : `This was the last lesson from "${module.title}" ${module.moduleType}. You can continue watching other lessons.`}
           </Balancer>
         </h2>
+        {moduleProgress && session.status === 'authenticated' && (
+          <div data-progress="">
+            <ProgressBar.Root
+              data-progress-bar=""
+              max={moduleProgress?.lessonCount}
+            >
+              <ProgressBar.Indicator
+                data-indicator={moduleProgress?.percentComplete}
+                style={{
+                  transform: `translateX(-${
+                    ((moduleProgress?.lessonCount -
+                      (moduleProgress.completedLessonCount || 0)) /
+                      moduleProgress?.lessonCount) *
+                    100
+                  }%)`,
+                }}
+              />
+            </ProgressBar.Root>
+            <div data-lessons-completed="">
+              {moduleProgress.completedLessonCount} /{' '}
+              {moduleProgress?.lessonCount} lessons completed
+            </div>
+          </div>
+        )}
         <p data-title="">Share with your friends</p>
         <div data-share-actions="">
           <Twitter link={shareUrl} message={shareMessage} data-action="share">
@@ -598,96 +706,108 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
 }
 
 const FinishedSectionOverlay = () => {
-  const {nextSection, path, handlePlay, handleContinue} = useMuxPlayer()
+  const {nextSection, handlePlay} = useMuxPlayer()
   const {lesson, module} = useLesson()
-  const {image} = module
-  const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
-  const nextExercise = first(nextSection?.lessons) as Lesson
   const router = useRouter()
+  const {image} = module
+  const nextExercise = first(nextSection?.lessons) as Lesson
+  const moduleProgress = useModuleProgress()
+
+  const [completedLessonCount, setCompletedLessonCount] =
+    React.useState<number>(0)
+
+  React.useEffect(() => {
+    setCompletedLessonCount(moduleProgress?.completedLessonCount || 0)
+  }, [moduleProgress])
+
+  const session = useSession()
 
   return (
-    <OverlayWrapper data-video-overlay="finished-section">
-      {image && (
-        <Image
-          data-image=""
-          src={image}
-          alt=""
-          aria-hidden="true"
-          width={220}
-          height={220}
-        />
-      )}
-      {nextSection && (
+    // keeping "default" variant here so we don't have to style it twice
+    <OverlayWrapper data-video-overlay="default">
+      <ModuleCtaProvider>
+        {image && (
+          <Image
+            data-image=""
+            src={image}
+            alt=""
+            aria-hidden="true"
+            width={220}
+            height={220}
+            priority
+          />
+        )}
         <p data-title="">
-          <span>Up next:</span> {nextSection.title}
+          <Balancer>
+            <span data-byline="">Up next:</span> {nextSection?.title}
+          </Balancer>
         </p>
-      )}
-      <div data-actions="">
-        <button
-          data-action="replay"
-          onClick={() => {
-            track('clicked replay', {
-              lesson: lesson.slug,
-              module: module.slug.current,
-              location: 'exercise',
-              moduleType: module.moduleType,
-              lessonType: lesson._type,
-            })
-            handlePlay()
-          }}
-        >
-          <span aria-hidden="true">↺</span> Replay
-        </button>
-        {/* TODO: Determine if we really need to check for resource such as stackblitz */}
-        {/* {stackblitz && ( */}
-        <Link
-          data-action="restart"
-          href={router.asPath.replace('solution', 'exercise')}
-        >
-          Try Again
-          <CodeIcon data-icon="" aria-hidden="true" />
-        </Link>
-        {/* )} */}
-        <button
-          data-action="continue"
-          disabled={
-            addProgressMutation.isLoading || addProgressMutation.isSuccess
-          }
-          onClick={() => {
-            track('clicked complete', {
-              lesson: lesson.slug,
-              module: module.slug.current,
-              location: 'exercise',
-              moduleType: module.moduleType,
-              lessonType: lesson._type,
-            })
-            addProgressMutation.mutate(
-              {lessonSlug: router.query.lesson as string},
-              {
-                onSettled: (data, error, variables, context) => {
-                  handleContinue({
-                    router,
-                    module,
-                    nextExercise,
-                    handlePlay,
-                    path,
-                    section: nextSection,
-                  })
-                },
-              },
-            )
-          }}
-        >
-          Complete & Continue{' '}
-          {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
-            <Spinner className="w-3 h-3 inline-block" />
-          ) : (
-            <span aria-hidden="true" data-icon="">
-              →
-            </span>
-          )}
-        </button>
-      </div>
+        {moduleProgress && session.status === 'authenticated' && (
+          <div data-progress="">
+            <ProgressBar.Root
+              data-progress-bar=""
+              max={moduleProgress?.lessonCount}
+            >
+              <ProgressBar.Indicator
+                data-indicator={moduleProgress?.percentComplete}
+                style={{
+                  transform: `translateX(-${
+                    ((moduleProgress?.lessonCount -
+                      (completedLessonCount || 0)) /
+                      moduleProgress?.lessonCount) *
+                    100
+                  }%)`,
+                }}
+              />
+            </ProgressBar.Root>
+            <div data-lessons-completed="">
+              {completedLessonCount} / {moduleProgress?.lessonCount} lessons
+              completed
+            </div>
+          </div>
+        )}
+        <div data-actions="">
+          <CompleteAndContinueButton
+            nextSection={nextSection}
+            nextExercise={nextExercise}
+            setCompletedLessonCount={setCompletedLessonCount}
+          />
+          <div>
+            <button
+              data-action="replay"
+              onClick={() => {
+                track('clicked replay', {
+                  lesson: lesson.slug,
+                  module: module.slug.current,
+                  location: 'exercise',
+                  moduleType: module.moduleType,
+                  lessonType: lesson._type,
+                })
+                handlePlay()
+              }}
+            >
+              <span data-icon="" aria-hidden="true">
+                ↺
+              </span>{' '}
+              Replay Video
+            </button>
+            {lesson._type === 'solution' && (
+              <Link
+                data-action="try-again"
+                href={router.asPath.replace('solution', 'exercise')}
+              >
+                <CodeIcon data-icon="" aria-hidden="true" />
+                Back to Exercise
+              </Link>
+            )}
+          </div>
+        </div>
+        {session.status === 'unauthenticated' && (
+          <div data-login>
+            <Link href="/login">Log in</Link> to track your progress.
+          </div>
+        )}
+      </ModuleCtaProvider>
     </OverlayWrapper>
   )
 }
