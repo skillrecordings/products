@@ -26,6 +26,7 @@ import grid from './objects/grid'
 import gridItem from './objects/gridItem'
 import stackblitz from './objects/stackblitz'
 import solution from './objects/resources/solution'
+import gitpod from './objects/resources/gitpod'
 import githubRepo from './objects/github-repo'
 import muxAsset from './objects/muxAsset'
 import castingwordsTranscript from './objects/castingwordsTranscript'
@@ -63,6 +64,7 @@ export const schemaTypes = [
   grid,
   gridItem,
   stackblitz,
+  gitpod,
   githubRepo,
   github,
   solution,

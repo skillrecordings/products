@@ -58,7 +58,10 @@ const ExerciseTemplate: React.FC<{
 
   const addProgressMutation = trpc.progress.add.useMutation()
   const {data: lessonResources, status: lessonResourcesStatus} =
-    trpc.lessonResources.byLessonSlug.useQuery({slug: lesson.slug})
+    trpc.lessonResources.byLessonSlug.useQuery({
+      slug: lesson.slug,
+      type: lesson._type,
+    })
 
   const exerciseCount = section
     ? section.lessons && section.lessons.length

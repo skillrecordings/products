@@ -8,6 +8,7 @@ export const ExerciseSchema = z
     _id: z.string().optional(),
     _key: z.string().optional(),
     github: z.nullable(z.string()).optional(),
+    gitpod: z.nullable(z.string()).optional(),
     videoResourceId: z.nullable(z.string()).optional(),
     transcript: z
       .nullable(
@@ -22,6 +23,7 @@ export const ExerciseSchema = z
         .object({
           _key: z.string(),
           github: z.nullable(z.string()).optional(),
+          gitpod: z.nullable(z.string()).optional(),
           videoResourceId: z.nullable(z.string()).optional(),
           transcript: z
             .nullable(
@@ -57,11 +59,15 @@ export const getExerciseMedia = async (exerciseSlug: string) => {
       "slug": slug.current,
       body,
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+      "gitpod": resources[@._type == 'gitpod'][0].url,
+      "github": resources[@._type == 'githubRepo'][0].repo,
       "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
       "transcript": resources[@->._type == 'videoResource'][0]->transcript,
       "solution": resources[@._type == 'solution'][0]{
         body,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
+        "gitpod": resources[@._type == 'gitpod'][0].url,
+        "github": resources[@._type == 'githubRepo'][0].repo,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "transcript": resources[@->._type == 'videoResource'][0]->transcript,
         "slug": slug.current,
@@ -86,7 +92,8 @@ export const getExercise = async (
       description,
       "slug": slug.current,
       body,
-      "github": resources[@._type == 'github'][0].url,
+      "github": resources[@._type == 'githubRepo'][0].repo,
+      "gitpod": resources[@._type == 'gitpod'][0].url,
       "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       "transcript": resources[@->._type == 'videoResource'][0]->transcript,
       "solution": resources[@._type == 'solution'][0]{
