@@ -154,11 +154,6 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
         className="py-32"
         // title="Stay up to date"
         // byline="Subscribe to the newsletter to stay up to date with articles, courses and much more!"
-        onSuccess={() => {
-          track('subscribed from article', {
-            article: slug,
-          })
-        }}
       />
     </section>
   )

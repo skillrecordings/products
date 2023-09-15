@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import {trpc} from '@/trpc/trpc.client'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import Link from 'next/link'

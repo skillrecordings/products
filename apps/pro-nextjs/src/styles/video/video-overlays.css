@@ -189,7 +189,7 @@
     @apply opacity-50 blur-sm contrast-125;
   }
   svg {
-    @apply absolute text-gray-400;
+    @apply absolute h-8 w-8 text-gray-400;
   }
 }
 [data-video-overlay='finished'] {

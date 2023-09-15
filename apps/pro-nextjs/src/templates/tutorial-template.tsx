@@ -114,7 +114,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
   return (
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between rounded-t-xl rounded-br-xl border bg-card shadow-2xl shadow-black/5 md:flex-row">
-        <div className="w-full max-w-screen-sm px-5 pb-10 pt-8 text-center sm:px-10 sm:pb-16 sm:pt-12 md:text-left">
+        <div className="w-full max-w-screen-sm px-5 pb-10 pt-8 text-center sm:px-10 sm:pb-16 sm:pt-12 md:text-left lg:px-14">
           <Link
             href="/tutorials"
             className="inline-flex items-center justify-center gap-1.5 pb-4 text-[11px] font-semibold uppercase tracking-wide text-gray-500"
@@ -125,7 +125,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
             />{' '}
             Free Tutorial
           </Link>
-          <h1 className="font-text text-center text-3xl font-semibold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
+          <h1 className="font-text text-center text-3xl font-semibold tracking-tight sm:text-3xl md:text-left lg:text-4xl">
             <Balancer>{title}</Balancer>
           </h1>
           <div className="w-full pt-5 text-base">

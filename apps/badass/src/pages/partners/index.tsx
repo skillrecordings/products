@@ -47,7 +47,7 @@ const CaseStudies: React.FC<React.PropsWithChildren<CaseStudiesProps>> = ({
               })}
             </div>
           </div>
-          <div className="mt-16 mb-72">
+          <div className="mt-16 mb-28">
             <h2 className="text-3xl md:text-[2rem] lg:text-[2.5rem] leading-[1.2] text-center font-heading">
               More Projects
             </h2>
@@ -72,9 +72,9 @@ const CaseStudies: React.FC<React.PropsWithChildren<CaseStudiesProps>> = ({
               </div>
             </div>
           </div>
-          <CallToActionForm content={genericCallToActionContent} />
         </main>
       </div>
+      <CallToActionForm content={genericCallToActionContent} />
     </Layout>
   )
 }
