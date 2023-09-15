@@ -21,6 +21,7 @@ import ExerciseOverlay from '@/components/exercise-overlay'
 import Spinner from '@/components/spinner'
 import pluralize from 'pluralize'
 import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
+import GitpodLink from '@/components/gitpod-link'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import * as Collection from '@skillrecordings/ui/module/collection'
@@ -149,15 +150,18 @@ const ExerciseTemplate: React.FC<{
             <article className="relative flex-shrink-0 border-x bg-card 2xl:rounded-t 2xl:border">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:px-10 lg:py-6 2xl:max-w-xl">
                 <LessonTitle />
-                {lessonResources?.github && (
-                  <GitHubLink
-                    exercise={lesson}
-                    loadingIndicator={<Spinner />}
-                    module={module}
-                    url={lessonResources.github}
-                    repository="Code"
-                  />
-                )}
+                <div className="flex flex-wrap items-center gap-2 pb-8">
+                  {lessonResources?.github && (
+                    <GitHubLink
+                      exercise={lesson}
+                      loadingIndicator={<Spinner />}
+                      module={module}
+                      url={lessonResources.github}
+                      repository="Code"
+                    />
+                  )}
+                  {lessonResources?.gitpod && <GitpodLink />}
+                </div>
                 <LessonDescription
                   lessonMDXBody={lessonBodySerialized}
                   lessonBodyPreview={lessonBodyPreviewSerialized}
