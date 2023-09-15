@@ -16,11 +16,11 @@ import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials().then((tutorials) => {
-    if (process.env.NODE_ENV === 'development') {
-      return tutorials
-    } else {
-      return tutorials.filter((tutorial: any) => tutorial.state === 'published')
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    return tutorials
+    // } else {
+    //   return tutorials.filter((tutorial: any) => tutorial.state === 'published')
+    // }
   })
 
   return {
@@ -147,7 +147,8 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
             >
               <h3 className="text-center font-medium">
                 <Balancer>
-                  More tutorials are coming soon! Subscribe to get notified.
+                  More tutorials are coming soon!{' '}
+                  {!subscriber && 'Subscribe to get notified.'}
                 </Balancer>
               </h3>
               {!subscriber && (

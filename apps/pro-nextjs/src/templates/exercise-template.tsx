@@ -239,7 +239,7 @@ const LessonList: React.FC<{
           </div>
         </div>
       </div>
-      <div className={cn('h-screen bg-background', className)}>
+      <div className={cn('h-screen  bg-background', className)}>
         <ScrollArea
           className={cn(
             `h-[calc(100vh - pt-3 ${height + 76}px)]`,
@@ -285,9 +285,9 @@ const LessonList: React.FC<{
                 <Skeleton className="h-14 rounded border bg-gradient-to-r from-white to-gray-200 opacity-75" />
               ) : (
                 <Collection.Section className="mb-px border font-semibold leading-tight data-[state='close']:rounded data-[state='open']:rounded-t [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg">
-                  <Collection.Lessons className="overflow-hidden rounded-b border-border pb-3">
+                  <Collection.Lessons className="overflow-hidden rounded-b border-border pb-3 pt-0">
                     <Collection.Lesson
-                      className='font-semibold transition before:hidden data-[active="true"]:bg-transparent data-[active="true"]:opacity-100 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500 [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:items-center [&_[data-item]]:py-3 [&_[data-lock-icon]]:w-3.5 [&_[data-lock-icon]]:text-gray-400'
+                      className='font-semibold transition before:hidden data-[active="true"]:bg-transparent data-[active="true"]:opacity-100 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500 [&_[data-item="lesson"][data-state="open"]]:border-l-2 [&_[data-item="lesson"][data-state="open"]]:border-blue-500 [&_[data-item="lesson"][data-state="open"]]:bg-card [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:items-center [&_[data-item]]:py-3 [&_[data-lock-icon]]:w-3.5 [&_[data-lock-icon]]:text-gray-400'
                       scrollContainerRef={scrollContainerRef}
                     >
                       <Collection.Resources />

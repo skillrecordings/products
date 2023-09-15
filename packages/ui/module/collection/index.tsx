@@ -571,7 +571,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
             >
               <AccordionItem value={lesson.slug} className="border-none">
                 <AccordionHeader>
-                  <AccordionTrigger data-item="">
+                  <AccordionTrigger data-item={lesson._type}>
                     {canShowVideo ? (
                       <>
                         {isLessonCompleted ? (
@@ -597,7 +597,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
             </Accordion>
           ) : (
             <Link
-              data-item=""
+              data-item={lesson._type}
               href={getLessonHref(lesson, module, section)}
               passHref
               scroll={activeLesson ? false : true}

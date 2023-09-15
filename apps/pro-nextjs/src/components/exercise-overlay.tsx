@@ -28,19 +28,19 @@ const ExerciseOverlay = () => {
 
   return (
     <OverlayWrapper>
-      <div>
+      <div className="relative h-full w-full">
         {resources?.github && (
           <>
-            <Image
+            {/* <Image
               src={require('../../public/editor-placeholder.svg')}
               layout="fill"
               className="object-cover object-left-top"
-            />
-            <div className="relative flex h-full w-full flex-col items-center justify-center gap-3 text-center text-white">
-              <p className="font-text text-3xl font-bold text-white">
-                Now it’s your turn! Try solving this exercise
+            /> */}
+            <div className="relative flex h-full w-full flex-col items-center justify-center gap-3 px-5 py-16 text-center">
+              <p className="font-text pb-4 text-2xl font-semibold">
+                Now it’s your turn! Try solving this exercise.
               </p>
-              <p>
+              <p className="text-base text-gray-600">
                 Start by cloning{' '}
                 <a
                   className="underline"
@@ -63,15 +63,16 @@ const ExerciseOverlay = () => {
               </p>
               {resources?.gitpod && (
                 <>
-                  <p className="text-lg font-semibold sm:text-xl">or</p>
+                  <p className="py-4 text-base uppercase">or</p>
                   <Button
-                    variant="link"
-                    className="flex items-center gap-1 bg-orange-600 text-white"
+                    asChild
+                    className="flex items-center gap-1 rounded py-4"
+                    size="lg"
                   >
                     <Link href={resources.gitpod}>
                       <span className="flex items-center">
                         <Icon name="Gitpod" size="20" className="mr-2" />
-                        <span> Run on Gitpod</span>
+                        <span>Open on Gitpod</span>
                       </span>
                     </Link>
                   </Button>
@@ -103,8 +104,7 @@ const ExerciseOverlay = () => {
               )}
             </div>
           )} */}
-              <hr className="h-px w-8 bg-foreground/10" />
-              <div className="flex items-center justify-center gap-3 pt-2">
+              <div className="bottom-10 flex items-center justify-center gap-3 pt-10 md:absolute md:pt-0">
                 <Actions />
               </div>
             </div>
@@ -127,7 +127,7 @@ const Actions = () => {
     <>
       <Button
         variant="outline"
-        className="flex gap-1"
+        className="flex gap-1 bg-card hover:bg-background hover:text-foreground"
         onClick={() => {
           track('clicked replay', {
             lesson: lesson.slug,
@@ -149,7 +149,7 @@ const Actions = () => {
       </Button>
       {nextExercise && (
         <Button
-          className="flex gap-1"
+          className="flex gap-1 bg-gradient-to-r from-blue-400 to-purple-400 transition hover:brightness-105"
           onClick={() => {
             track('clicked continue to solution', {
               lesson: lesson.slug,
@@ -168,7 +168,10 @@ const Actions = () => {
             })
           }}
         >
-          Solution <span aria-hidden="true">→</span>
+          <span className="drop-shadow">Solution</span>{' '}
+          <span aria-hidden="true" className="drop-shadow">
+            →
+          </span>
         </Button>
       )}
     </>

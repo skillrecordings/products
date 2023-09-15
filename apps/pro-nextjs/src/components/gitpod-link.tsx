@@ -18,7 +18,7 @@ const GitpodLink = () => {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2" data-gitpod-link="">
       <a
         onClick={() => {
           track('clicked gitpod code link', {
@@ -31,11 +31,10 @@ const GitpodLink = () => {
         href={gitpod}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 rounded-lg bg-gray-800 px-4 py-2 text-lg font-medium text-white transition hover:bg-gray-900"
       >
         <Icon name="Gitpod" size="24" />
         <div>
-          <p className="font-semibold">Gitpod</p>
+          <p>Gitpod</p>
           {/* <p className="font-mono text-sm text-gray-400">/{openFile}</p> */}
         </div>
       </a>
