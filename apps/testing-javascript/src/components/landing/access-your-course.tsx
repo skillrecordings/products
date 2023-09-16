@@ -9,12 +9,56 @@ import MuxPlayer from '@mux/mux-player-react'
 
 import Icon from 'components/icons'
 import CertificateForm from 'components/certificate-form'
+import {trpc} from 'trpc/trpc.client'
+import {z} from 'zod'
+import flatten from 'lodash/flatten'
 
 const AccessYourCourse: React.FunctionComponent<{
   product: SanityProduct
   className?: string
-  courseCompleted: boolean
-}> = ({product, className, courseCompleted}) => {
+}> = ({product, className}) => {
+  const {data: lessonProgress} = trpc.progress.get.useQuery()
+
+  let courseCompleted: boolean
+
+  if (!lessonProgress || 'error' in lessonProgress) {
+    courseCompleted = false
+  } else {
+    const playlists = product.modules
+
+    const PlaylistSchema = z.array(
+      z.object({
+        slug: z.string(),
+        sections: z.array(
+          z.object({lessons: z.array(z.object({slug: z.string()}))}),
+        ),
+      }),
+    )
+    const parsedPlaylists = PlaylistSchema.parse(playlists)
+    const lessonsByPlaylistSlug = parsedPlaylists.map(
+      (playlist) =>
+        [
+          playlist.slug,
+          flatten(playlist.sections.map((section) => section.lessons)),
+        ] as const,
+    )
+
+    const interviewsPlaylistSlug = 'testing-javascript-interviews-bonus-de29'
+
+    courseCompleted = lessonsByPlaylistSlug.every((playlistLessons) => {
+      const [playlistSlug, lessons] = playlistLessons
+
+      if (playlistSlug === interviewsPlaylistSlug) return true
+
+      return lessons.every((lesson) => {
+        const matchingLessonProgress = lessonProgress.find(
+          ({lessonSlug}) => lessonSlug === lesson.slug,
+        )
+        return Boolean(matchingLessonProgress?.completedAt)
+      })
+    })
+  }
+
   return (
     <section className={cx(className)}>
       <div className="container max-w-6xl mb-20">
