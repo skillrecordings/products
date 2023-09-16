@@ -45,6 +45,10 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const purchasedProductsIds =
     commerceProps.purchases?.map((purchase) => purchase.productId) || []
 
+  // `mostValuedProduct` is the product among the user's purchases that has
+  // the most modules. E.g. if they original purchased the Standard and have
+  // since upgraded to Pro, then we want to look up 'Pro' as the tier of
+  // Testing JavaScript to pass around.
   const modulesAmount: {productId: string; modulesAmount: number}[] =
     await Promise.all(
       purchasedProductsIds.map(
@@ -62,6 +66,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const mostValuedProduct = mostValuedProductId
     ? await getActiveProduct(mostValuedProductId)
     : null
+
   return {
     props: {
       commerceProps,
