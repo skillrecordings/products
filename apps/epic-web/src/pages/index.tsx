@@ -197,13 +197,13 @@ const Header = () => {
             opacity: 0,
           },
           pauseOnOutsideViewport: true,
-          zLayers: 50,
+          zLayers: 10,
           particles: {
             number: {
-              value: 1000,
+              value: 300,
               density: {
                 enable: true,
-                area: 1000,
+                area: 200,
               },
             },
             zIndex: {
