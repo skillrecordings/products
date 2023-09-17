@@ -69,10 +69,10 @@ const ExerciseOverlay = () => {
                     className="flex items-center gap-1 rounded py-4"
                     size="lg"
                   >
-                    <Link href={resources.gitpod}>
+                    <Link href={resources.gitpod} target="_blank">
                       <span className="flex items-center">
                         <Icon name="Gitpod" size="20" className="mr-2" />
-                        <span>Open on Gitpod</span>
+                        <span>Open in Gitpod</span>
                       </span>
                     </Link>
                   </Button>

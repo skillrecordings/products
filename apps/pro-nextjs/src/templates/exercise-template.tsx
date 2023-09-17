@@ -150,18 +150,20 @@ const ExerciseTemplate: React.FC<{
             <article className="relative flex-shrink-0 border-x bg-card 2xl:rounded-t 2xl:border">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:px-10 lg:py-6 2xl:max-w-xl">
                 <LessonTitle />
-                <div className="flex flex-wrap items-center gap-2 pb-8">
-                  {lessonResources?.github && (
-                    <GitHubLink
-                      exercise={lesson}
-                      loadingIndicator={<Spinner />}
-                      module={module}
-                      url={lessonResources.github}
-                      repository="Code"
-                    />
-                  )}
-                  {lessonResources?.gitpod && <GitpodLink />}
-                </div>
+                {lessonResources?.github || lessonResources?.gitpod ? (
+                  <div className="flex flex-wrap items-center gap-2 pb-8">
+                    {lessonResources?.github && (
+                      <GitHubLink
+                        exercise={lesson}
+                        loadingIndicator={<Spinner />}
+                        module={module}
+                        url={lessonResources.github}
+                        repository="Code"
+                      />
+                    )}
+                    {lessonResources?.gitpod && <GitpodLink />}
+                  </div>
+                ) : null}
                 <LessonDescription
                   lessonMDXBody={lessonBodySerialized}
                   lessonBodyPreview={lessonBodyPreviewSerialized}

@@ -61,7 +61,7 @@
       }
     }
     [data-action='continue'] {
-      @apply flex w-full items-center justify-center gap-1 rounded bg-gradient-to-r from-blue-400 to-purple-400 px-5 py-3 text-lg font-semibold text-white shadow-xl transition hover:brightness-110 sm:px-8 sm:py-3;
+      @apply flex w-full items-center justify-center gap-1 rounded bg-gradient-to-r from-blue-500 to-purple-500 px-5 py-3 text-lg font-semibold text-white shadow-xl transition hover:brightness-110 sm:px-8 sm:py-3;
       span {
         @apply drop-shadow;
       }
