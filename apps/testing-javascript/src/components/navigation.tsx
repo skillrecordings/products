@@ -180,6 +180,7 @@ const NavLogo = () => {
 const AccountDropdown = () => {
   const ability = useAbilities()
   const canViewInvoice = ability.can('view', 'Invoice')
+  const canViewTeam = ability.can('view', 'Team')
 
   const preventHover = (event: any) => {
     const e = event as Event
@@ -214,9 +215,11 @@ const AccountDropdown = () => {
                   <DropdownLink href="/purchases">Purchases</DropdownLink>
                 </li>
               )}
-              {/* <li className="w-full">
-                <DropdownLink href="/faq">FAQ</DropdownLink>
-              </li> */}
+              {canViewTeam && (
+                <li className="w-full">
+                  <DropdownLink href="/team">Invite team</DropdownLink>
+                </li>
+              )}
               <li className="w-full">
                 <LogOutButton />
               </li>
@@ -304,13 +307,9 @@ const MobileNav = () => {
                               label="Purchases"
                             />
                           )}
-                          {/* <MobileNavLink
-                            label="Send Feedback"
-                            onClick={() => {
-                              setIsFeedbackDialogOpen(true, 'navigation')
-                              track('opened feedback dialog')
-                            }}
-                          /> */}
+                          {canViewTeam && (
+                            <MobileNavLink path="/team" label="Invite team" />
+                          )}
                           <li>
                             <LogOutButton className="flex h-full w-full items-center gap-0.5 px-5 py-3 text-base font-medium transition duration-100 hover:bg-gray-100 active:bg-transparent" />
                           </li>
