@@ -139,17 +139,19 @@ const Home: React.FC<
 
   return (
     <Layout>
-      <LandingTemplate
-        canViewContent={canViewContent}
-        playlists={playlists}
-        testimonials={testimonials}
-        faqs={faqs}
-        interviews={interviews}
-        proTestingPurchased={proTestingPurchased}
-        commerceProps={commerceProps}
-        mostValuedProduct={mostValuedProduct}
-      />
-      {/* {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
+      <main>
+        <LandingTemplate
+          canViewContent={canViewContent}
+          playlists={playlists}
+          testimonials={testimonials}
+          faqs={faqs}
+          interviews={interviews}
+          proTestingPurchased={proTestingPurchased}
+          commerceProps={commerceProps}
+          mostValuedProduct={mostValuedProduct}
+        />
+        {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+      </main>
     </Layout>
   )
 }
