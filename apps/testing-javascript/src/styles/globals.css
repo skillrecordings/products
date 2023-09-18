@@ -12,6 +12,7 @@
 @import './miscellaneous.css';
 @import './team.css';
 @import './video-overlays.css';
+@import './redeem-dialog.css';
 
 @layer base {
   html {
