@@ -1,11 +1,11 @@
 /* Redeem dialog */
 [data-redeem-dialog-content] {
-  @apply fixed left-1/2 top-1/2 z-50 w-full max-w-[95%] -translate-x-1/2 -translate-y-1/2 rounded-md bg-gray-800 shadow-xl sm:max-w-md;
+  @apply fixed left-1/2 top-1/2 z-50 w-full max-w-[95%] -translate-x-1/2 -translate-y-1/2 rounded-md bg-white shadow-xl sm:max-w-md;
   [data-title] {
     @apply px-8 pt-8 text-xl font-bold;
   }
   [data-description] {
-    @apply border-b border-gray-700/50 px-8 pb-8 pt-4 text-gray-200;
+    @apply border-b border-gray-700/50 px-8 pb-8 pt-4 text-body;
   }
   form {
     @apply px-8 py-4;
@@ -15,7 +15,7 @@
         @apply pb-1;
       }
       input {
-        @apply rounded-sm border border-gray-800 bg-gray-900 px-4 py-2 focus-visible:border-transparent;
+        @apply rounded-sm border border-gray-800 bg-transparent px-4 py-2 focus-visible:border-transparent;
       }
     }
     [data-actions] {
@@ -27,7 +27,7 @@
         @apply bg-gray-600;
       }
       [data-submit] {
-        @apply flex rounded-sm border border-transparent bg-cyan-300 px-4 py-2 text-sm font-medium text-black shadow-sm transition focus:outline-none focus:ring-white;
+        @apply flex rounded-sm border border-transparent bg-indigo-600 hover:bg-indigo-700 px-4 py-2 text-sm font-medium text-white shadow-sm transition focus:outline-none focus:ring-white;
       }
       [data-submit]:hover {
         @apply brightness-105;
