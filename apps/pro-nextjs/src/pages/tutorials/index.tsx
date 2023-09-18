@@ -60,12 +60,12 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
     >
       <header className="mx-auto flex w-full max-w-4xl flex-col items-center space-y-3 px-5 pt-16 text-center">
         <h1 className="mx-auto text-center text-4xl font-semibold">
-          <span className="block text-xs uppercase tracking-widest text-gray-500">
+          <span className="mb-2 block text-xs uppercase tracking-widest text-gray-500">
             Free
           </span>{' '}
           Next.js Tutorials
         </h1>
-        <h2 className="w-full max-w-md text-base text-gray-600 dark:text-gray-400">
+        <h2 className=" w-full max-w-md text-base text-gray-600 dark:text-gray-400">
           <Balancer>
             A collection of exercise-driven, in-depth Next.js tutorials.
           </Balancer>
@@ -91,9 +91,9 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                         <Image
                           src={image}
                           alt={title}
-                          width={240}
+                          width={300}
+                          height={300}
                           quality={100}
-                          height={240}
                           priority
                         />
                       </div>
@@ -134,7 +134,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                         )}
                       </div>
                       {description && (
-                        <p className="text-gray-300">{description}</p>
+                        <p className="pt-4 text-gray-600">{description}</p>
                       )}
                     </div>
                   </Link>
