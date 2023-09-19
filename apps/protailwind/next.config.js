@@ -20,7 +20,7 @@ const IMAGE_HOST_DOMAINS = [
 const nextConfig = {
   transpilePackages: ['@skillrecordings/skill-lesson', '@skillrecordings/ui'],
   eslint: {ignoreDuringBuilds: true},
-  experimental: {scrollRestoration: true},
+  experimental: {scrollRestoration: true, esmExternals: 'loose'},
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
   images: {
