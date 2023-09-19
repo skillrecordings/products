@@ -171,7 +171,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                       }
                 }
                 className={cx(
-                  'relative flex w-full items-center justify-center rounded bg-primary px-4 py-3 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110 md:max-w-[240px]',
+                  'relative flex w-full items-center justify-center rounded border border-primary bg-primary px-4 py-3 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110 md:max-w-[240px]',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },
@@ -188,7 +188,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               {github?.repo && (
                 <a
                   className="flex w-full items-center justify-center gap-2 rounded-md border border-gray-300 px-5 py-4 font-medium leading-tight transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 md:w-auto"
-                  href={`https://github.com/epicweb-dev/${github.repo}`}
+                  href={github.repo}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
                   }}
