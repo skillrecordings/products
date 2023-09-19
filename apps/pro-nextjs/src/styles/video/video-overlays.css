@@ -14,7 +14,7 @@
     }
   }
   [data-content] {
-    @apply left-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center text-center text-lg leading-relaxed sm:absolute;
+    @apply left-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center text-center text-lg leading-relaxed md:absolute;
   }
 }
 [data-video-overlay='default'] {
