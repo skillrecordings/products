@@ -81,8 +81,8 @@ importers:
         specifier: 13.4.2
         version: 13.4.2
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@portabletext/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.2.0)
@@ -127,7 +127,7 @@ importers:
         version: 1.1.0
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.9.0
@@ -193,7 +193,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -234,17 +234,17 @@ importers:
         specifier: ^4.12.0
         version: 4.12.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.2.0'
         version: 4.2.0(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       nodemailer:
         specifier: ^6.7.2
         version: 6.7.2
@@ -418,8 +418,8 @@ importers:
         specifier: 1.14.0
         version: 1.14.0(@types/react-dom@18.2.4)(@types/react@18.2.6)(react-dom@18.2.0)(react@18.2.0)
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@portabletext/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.2.0)
@@ -431,7 +431,7 @@ importers:
         version: 6.1.1
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.9.0
@@ -526,17 +526,17 @@ importers:
         specifier: ^4.12.0
         version: 4.12.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-mdx-remote:
         specifier: 4.2.0
         version: 4.2.0(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       next-themes:
         specifier: ^0.2.1
-        version: 0.2.1(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 0.2.1(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       nodemailer:
         specifier: ^6.7.2
         version: 6.7.2
@@ -767,8 +767,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@4.5.0)(next-auth@4.23.1)
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@portabletext/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.2.0)
@@ -816,7 +816,7 @@ importers:
         version: 1.1.0
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.9.0
@@ -882,7 +882,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -956,17 +956,17 @@ importers:
         specifier: ^4.12.0
         version: 4.12.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.2.0'
         version: 4.2.0(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       nodemailer:
         specifier: ^6.7.2
         version: 6.7.2
@@ -1158,8 +1158,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@4.5.0)(next-auth@4.23.1)
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@portabletext/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.2.0)
@@ -1201,7 +1201,7 @@ importers:
         version: 3.11.1(@babel/runtime@7.21.5)(@codemirror/lint@6.1.0)(@codemirror/state@6.2.0)(@codemirror/theme-one-dark@6.1.0)(@lezer/common@1.0.2)(codemirror@6.0.1)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@5.3.6)
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.9.0
@@ -1264,7 +1264,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -1293,14 +1293,14 @@ importers:
         specifier: ^4.12.0
         version: 4.12.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       nodemailer:
         specifier: ^6.7.2
         version: 6.7.2
@@ -1495,8 +1495,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@4.5.0)(next-auth@4.23.1)
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@portabletext/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.2.0)
@@ -1538,7 +1538,7 @@ importers:
         version: 1.1.0
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@sindresorhus/slugify':
         specifier: ^2.1.0
         version: 2.1.1
@@ -1589,7 +1589,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -1654,20 +1654,20 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.2.0'
         version: 4.2.0(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@13.4.3)(next@13.4.8)
+        version: 3.1.55(@next/env@13.4.3)(next@13.5.1)
       next-themes:
         specifier: ^0.2.1
-        version: 0.2.1(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 0.2.1(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       nodemailer:
         specifier: ^6.7.2
         version: 6.7.2
@@ -2112,7 +2112,7 @@ importers:
         version: 4.12.0
       next:
         specifier: ^13.4.3
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
       next-auth:
         specifier: ^4.23.1
         version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
@@ -2325,8 +2325,8 @@ importers:
         specifier: 1.14.0
         version: 1.14.0(@types/react-dom@18.2.4)(@types/react@18.2.6)(react-dom@18.2.0)(react@18.2.0)
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@portabletext/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.2.0)
@@ -2377,7 +2377,7 @@ importers:
         version: 1.1.0
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.9.0
@@ -2437,7 +2437,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -2505,17 +2505,17 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0(monaco-editor@0.34.1)
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.2.0'
         version: 4.2.0(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       node-fetch:
         specifier: ^2.6.7
         version: 2.6.7(encoding@0.1.13)
@@ -2722,8 +2722,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@4.5.0)(next-auth@4.23.1)
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@portabletext/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.2.0)
@@ -2768,7 +2768,7 @@ importers:
         version: 1.1.0
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.9.0
@@ -2834,7 +2834,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -2881,17 +2881,17 @@ importers:
         specifier: ^4.12.0
         version: 4.12.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: ^4.1.0
         version: 4.2.0(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       nodemailer:
         specifier: ^6.7.2
         version: 6.7.2
@@ -3123,7 +3123,7 @@ importers:
         version: 1.1.0
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@sindresorhus/slugify':
         specifier: ^2.1.0
         version: 2.1.1
@@ -3180,7 +3180,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -3281,20 +3281,20 @@ importers:
         specifier: ^4.12.0
         version: 4.12.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.2.0'
         version: 4.2.0(react-dom@18.2.0)(react@18.2.0)
       next-seo:
         specifier: ^5.5.0
-        version: 5.15.0(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 5.15.0(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@13.4.3)(next@13.4.8)
+        version: 3.1.55(@next/env@13.4.3)(next@13.5.1)
       next-svgr:
         specifier: ^0.0.2
         version: 0.0.2
@@ -3568,7 +3568,7 @@ importers:
         version: 0.2.1(@types/react@18.2.6)(react@18.2.0)
       '@markdoc/next.js':
         specifier: 0.2.1
-        version: 0.2.1(@markdoc/markdoc@0.2.1)(next@13.4.8)(react@18.2.0)
+        version: 0.2.1(@markdoc/markdoc@0.2.1)(next@13.5.1)(react@18.2.0)
       '@sindresorhus/slugify':
         specifier: ^2.1.0
         version: 2.1.1
@@ -3586,7 +3586,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -3606,8 +3606,8 @@ importers:
         specifier: ^5.2.0
         version: 5.2.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       postcss-focus-visible:
         specifier: ^6.0.4
         version: 6.0.4(postcss@8.4.24)
@@ -3667,8 +3667,8 @@ importers:
         specifier: 13.4.2
         version: 13.4.2
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@reach/dialog':
         specifier: ^0.16.2
         version: 0.16.2(@types/react@18.2.6)(react-dom@18.2.0)(react@18.2.0)
@@ -3739,14 +3739,14 @@ importers:
         specifier: ^0.3.4
         version: 0.3.4
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       next-themes:
         specifier: ^0.2.1
-        version: 0.2.1(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 0.2.1(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       nodemailer:
         specifier: ^6.7.2
         version: 6.7.2
@@ -3935,8 +3935,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@4.5.0)(next-auth@4.23.1)
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@portabletext/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.2.0)
@@ -3978,7 +3978,7 @@ importers:
         version: 3.11.1(@babel/runtime@7.21.5)(@codemirror/lint@6.1.0)(@codemirror/state@6.2.0)(@codemirror/theme-one-dark@6.1.0)(@lezer/common@1.0.2)(codemirror@6.0.1)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@5.3.6)
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.9.0
@@ -4038,7 +4038,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -4076,14 +4076,14 @@ importers:
         specifier: ^4.12.0
         version: 4.12.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       nodemailer:
         specifier: ^6.7.2
         version: 6.7.2
@@ -4218,8 +4218,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@4.5.0)(next-auth@4.23.1)
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@portabletext/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.2.0)
@@ -4252,7 +4252,7 @@ importers:
         version: 3.11.1(@babel/runtime@7.21.5)(@codemirror/lint@6.1.0)(@codemirror/state@6.2.0)(@codemirror/theme-one-dark@6.1.0)(@lezer/common@1.0.2)(codemirror@6.0.1)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@5.3.6)
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.9.0
@@ -4294,7 +4294,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -4329,14 +4329,14 @@ importers:
         specifier: ^4.12.0
         version: 4.12.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       node-fetch:
         specifier: ^2.6.7
         version: 2.6.7(encoding@0.1.13)
@@ -4531,8 +4531,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@4.5.0)(next-auth@4.23.1)
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@playwright/test':
         specifier: ^1.25.1
         version: 1.25.2
@@ -4562,7 +4562,7 @@ importers:
         version: 1.1.0
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.9.0
@@ -4687,20 +4687,20 @@ importers:
         specifier: ^4.12.0
         version: 4.12.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.2.0'
         version: 4.2.0(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       next-themes:
         specifier: ^0.2.1
-        version: 0.2.1(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 0.2.1(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       nodemailer:
         specifier: ^6.7.2
         version: 6.7.2
@@ -5000,8 +5000,8 @@ importers:
         specifier: 1.14.0
         version: 1.14.0(@types/react-dom@18.2.4)(@types/react@18.2.6)(react-dom@18.2.0)(react@18.2.0)
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@portabletext/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.2.0)
@@ -5055,7 +5055,7 @@ importers:
         version: 1.1.0
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@skillrecordings/ability':
         specifier: workspace:*
         version: link:../../packages/ability
@@ -5133,7 +5133,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -5231,17 +5231,17 @@ importers:
         specifier: ^2.0.8
         version: 2.0.8(mjml@4.12.0)(react-dom@18.2.0)(react@18.2.0)
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.2.0'
         version: 4.2.0(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       node-fetch:
         specifier: ^2.6.7
         version: 2.6.7(encoding@0.1.13)
@@ -5490,8 +5490,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@4.5.0)(next-auth@4.23.1)
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@portabletext/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.2.0)
@@ -5503,7 +5503,7 @@ importers:
         version: 1.1.0
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.9.0
@@ -5547,14 +5547,14 @@ importers:
         specifier: ^4.12.0
         version: 4.12.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       nodemailer:
         specifier: ^6.7.2
         version: 6.7.2
@@ -5665,8 +5665,8 @@ importers:
         specifier: 1.14.0
         version: 1.14.0(@types/react-dom@18.2.4)(@types/react@18.2.6)(react-dom@18.2.0)(react@18.2.0)
       '@next/mdx':
-        specifier: ^13.4.8
-        version: 13.4.8(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+        specifier: ^13.5.1
+        version: 13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
       '@portabletext/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.2.0)
@@ -5690,13 +5690,13 @@ importers:
         version: 1.1.0
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@skillrecordings/analytics':
         specifier: workspace:*
         version: link:../../packages/analytics
       '@skillrecordings/auth':
         specifier: '=0.0.6'
-        version: 0.0.6(next@13.4.8)
+        version: 0.0.6(next@13.5.1)
       '@skillrecordings/commerce-server':
         specifier: workspace:*
         version: link:../../packages/commerce-server
@@ -5750,7 +5750,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -5833,17 +5833,17 @@ importers:
         specifier: ^4.12.0
         version: 4.12.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
-        version: 3.1.55(@next/env@12.3.1)(next@13.4.8)
+        version: 3.1.55(@next/env@12.3.1)(next@13.5.1)
       next-themes:
         specifier: ^0.2.1
-        version: 0.2.1(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 0.2.1(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       nodemailer:
         specifier: ^6.7.2
         version: 6.7.2
@@ -6130,8 +6130,8 @@ importers:
         specifier: ^2.4.14
         version: 2.4.14
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -6348,8 +6348,8 @@ importers:
         specifier: ^10.12.4
         version: 10.12.4(react-dom@18.2.0)(react@18.2.0)
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -6583,8 +6583,8 @@ importers:
         specifier: ^7.0.1
         version: 7.0.1(@babel/plugin-syntax-flow@7.18.6)(@babel/plugin-transform-react-jsx@7.19.0)(eslint@8.41.0)(jest@25.5.4)(typescript@5.1.6)
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -6674,8 +6674,8 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config-skill-recordings
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -6747,8 +6747,8 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config-skill-recordings
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -6908,10 +6908,10 @@ importers:
         version: 0.16.0(react-dom@18.2.0)(react@18.2.0)
       '@skillrecordings/analytics':
         specifier: '=0.0.6'
-        version: 0.0.6(next@13.4.8)(react@18.2.0)
+        version: 0.0.6(next@13.5.1)(react@18.2.0)
       '@skillrecordings/auth':
         specifier: '=0.0.6'
-        version: 0.0.6(next@13.4.8)
+        version: 0.0.6(next@13.5.1)
       '@skillrecordings/axios':
         specifier: '=0.0.2'
         version: 0.0.2(axios@1.4.0)
@@ -7010,8 +7010,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -7041,7 +7041,7 @@ importers:
         version: link:../analytics
       '@skillrecordings/auth':
         specifier: '=0.0.6'
-        version: 0.0.6(next@13.4.8)
+        version: 0.0.6(next@13.5.1)
       '@skillrecordings/axios':
         specifier: '=0.0.2'
         version: 0.0.2(axios@1.4.0)
@@ -7146,8 +7146,8 @@ importers:
         specifier: ^0.35.0
         version: 0.35.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -7376,11 +7376,11 @@ importers:
         specifier: ^0.35.0
         version: 0.35.0
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       nodemailer:
         specifier: ^6.7.2
         version: 6.7.2
@@ -7491,7 +7491,7 @@ importers:
         version: 1.1.0
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@skillrecordings/ability':
         specifier: workspace:*
         version: link:../ability
@@ -7539,7 +7539,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -7625,11 +7625,11 @@ importers:
         specifier: ^2.0.8
         version: 2.0.8(mjml@4.12.0)(react-dom@18.2.0)(react@18.2.0)
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.2.0'
         version: 4.2.0(react-dom@18.2.0)(react@18.2.0)
@@ -7954,7 +7954,7 @@ importers:
         version: 1.1.0
       '@sentry/nextjs':
         specifier: ^7.9.0
-        version: 7.9.0(next@13.4.8)(react@18.2.0)(webpack@5.73.0)
+        version: 7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0)
       '@skillrecordings/ability':
         specifier: workspace:*
         version: link:../ability
@@ -8005,7 +8005,7 @@ importers:
         version: 10.7.0(@trpc/server@10.7.0)
       '@trpc/next':
         specifier: '=10.7.0'
-        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: '=10.7.0'
         version: 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -8091,11 +8091,11 @@ importers:
         specifier: ^2.0.8
         version: 2.0.8(mjml@4.12.0)(react-dom@18.2.0)(react@18.2.0)
       next:
-        specifier: ^13.4.8
-        version: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+        specifier: ^13.5.1
+        version: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       next-auth:
         specifier: ^4.23.1
-        version: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.2.0'
         version: 4.2.0(react-dom@18.2.0)(react@18.2.0)
@@ -12852,7 +12852,7 @@ packages:
       '@types/markdown-it': 12.2.3
     dev: false
 
-  /@markdoc/next.js@0.2.1(@markdoc/markdoc@0.2.1)(next@13.4.8)(react@18.2.0):
+  /@markdoc/next.js@0.2.1(@markdoc/markdoc@0.2.1)(next@13.5.1)(react@18.2.0):
     resolution: {integrity: sha512-SJ+Pe4uJdD0vasEhsMQ0eVBJ4E1opoxlfVtskQ6UzN5+uh4CLoH6RbohL4upV3Snk41s5LfrEeQh/QCK3+qr/A==}
     peerDependencies:
       '@markdoc/markdoc': '*'
@@ -12861,7 +12861,7 @@ packages:
     dependencies:
       '@markdoc/markdoc': 0.2.1(@types/react@18.2.6)(react@18.2.0)
       js-yaml: 4.1.0
-      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+      next: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react: 18.2.0
     dev: false
 
@@ -13072,7 +13072,7 @@ packages:
       next-auth: ^4
     dependencies:
       '@prisma/client': 4.5.0(prisma@5.2.0)
-      next-auth: 4.23.1(next@13.4.8)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
+      next-auth: 4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
   /@next/env@12.3.1:
@@ -13083,6 +13083,10 @@ packages:
 
   /@next/env@13.4.8:
     resolution: {integrity: sha512-twuSf1klb3k9wXI7IZhbZGtFCWvGD4wXTY2rmvzIgVhXhs7ISThrbNyutBx3jWIL8Y/Hk9+woytFz5QsgtcRKQ==}
+    dev: false
+
+  /@next/env@13.5.1:
+    resolution: {integrity: sha512-CIMWiOTyflFn/GFx33iYXkgLSQsMQZV4jB91qaj/TfxGaGOXxn8C1j72TaUSPIyN7ziS/AYG46kGmnvuk1oOpg==}
 
   /@next/eslint-plugin-next@13.0.2:
     resolution: {integrity: sha512-W+fIIIaFU7Kct7Okx91C7XDRGolv/w2RUenX2yZFeeNVcuVzDIKUcNmckrYbYcwrNQUSXmtwrs3g8xwast0YtA==}
@@ -13116,8 +13120,33 @@ packages:
       source-map: 0.7.4
     dev: false
 
+  /@next/mdx@13.5.1(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0):
+    resolution: {integrity: sha512-k1ODbsWVyFpX4ymDGtxxEq3bjA6awYXmgP27iyeqNuAdxdnR9QzwqxSIudyGyhMtQ7o39iGCfVQTEHouGxnxng==}
+    peerDependencies:
+      '@mdx-js/loader': '>=0.15.0'
+      '@mdx-js/react': '>=0.15.0'
+    peerDependenciesMeta:
+      '@mdx-js/loader':
+        optional: true
+      '@mdx-js/react':
+        optional: true
+    dependencies:
+      '@mdx-js/loader': 2.3.0(webpack@5.73.0)
+      '@mdx-js/react': 2.3.0(react@18.2.0)
+      source-map: 0.7.4
+    dev: false
+
   /@next/swc-darwin-arm64@13.4.8:
     resolution: {integrity: sha512-MSFplVM4dTWOuKAUv0XR9gY7AWtMSBu9os9f+kp+s5rWhM1I2CdR3obFttd6366nS/W/VZxbPM5oEIdlIa46zA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-darwin-arm64@13.5.1:
+    resolution: {integrity: sha512-Bcd0VFrLHZnMmJy6LqV1CydZ7lYaBao8YBEdQUVzV8Ypn/l5s//j5ffjfvMzpEQ4mzlAj3fIY+Bmd9NxpWhACw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
@@ -13130,10 +13159,28 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-darwin-x64@13.5.1:
+    resolution: {integrity: sha512-uvTZrZa4D0bdWa1jJ7X1tBGIxzpqSnw/ATxWvoRO9CVBvXSx87JyuISY+BWsfLFF59IRodESdeZwkWM2l6+Kjg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
     optional: true
 
   /@next/swc-linux-arm64-gnu@13.4.8:
     resolution: {integrity: sha512-kdyzYvAYtqQVgzIKNN7e1rLU8aZv86FDSRqPlOkKZlvqudvTO0iohuTPmnEEDlECeBM6qRPShNffotDcU/R2KA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-linux-arm64-gnu@13.5.1:
+    resolution: {integrity: sha512-/52ThlqdORPQt3+AlMoO+omicdYyUEDeRDGPAj86ULpV4dg+/GCFCKAmFWT0Q4zChFwsAoZUECLcKbRdcc0SNg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -13146,10 +13193,28 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-linux-arm64-musl@13.5.1:
+    resolution: {integrity: sha512-L4qNXSOHeu1hEAeeNsBgIYVnvm0gg9fj2O2Yx/qawgQEGuFBfcKqlmIE/Vp8z6gwlppxz5d7v6pmHs1NB6R37w==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
     optional: true
 
   /@next/swc-linux-x64-gnu@13.4.8:
     resolution: {integrity: sha512-anhtvuO6eE9YRhYnaEGTfbpH3L5gT/9qPFcNoi6xS432r/4DAtpJY8kNktqkTVevVIC/pVumqO8tV59PR3zbNg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-linux-x64-gnu@13.5.1:
+    resolution: {integrity: sha512-QVvMrlrFFYvLtABk092kcZ5Mzlmsk2+SV3xYuAu8sbTuIoh0U2+HGNhVklmuYCuM3DAAxdiMQTNlRQmNH11udw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -13162,10 +13227,28 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-linux-x64-musl@13.5.1:
+    resolution: {integrity: sha512-bBnr+XuWc28r9e8gQ35XBtyi5KLHLhTbEvrSgcWna8atI48sNggjIK8IyiEBO3KIrcUVXYkldAzGXPEYMnKt1g==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
     optional: true
 
   /@next/swc-win32-arm64-msvc@13.4.8:
     resolution: {integrity: sha512-OWBKIrJwQBTqrat0xhxEB/jcsjJR3+diD9nc/Y8F1mRdQzsn4bPsomgJyuqPVZs6Lz3K18qdIkvywmfSq75SsQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-win32-arm64-msvc@13.5.1:
+    resolution: {integrity: sha512-EQGeE4S5c9v06jje9gr4UlxqUEA+zrsgPi6kg9VwR+dQHirzbnVJISF69UfKVkmLntknZJJI9XpWPB6q0Z7mTg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
@@ -13178,10 +13261,28 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-win32-ia32-msvc@13.5.1:
+    resolution: {integrity: sha512-1y31Q6awzofVjmbTLtRl92OX3s+W0ZfO8AP8fTnITcIo9a6ATDc/eqa08fd6tSpFu6IFpxOBbdevOjwYTGx/AQ==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
     optional: true
 
   /@next/swc-win32-x64-msvc@13.4.8:
     resolution: {integrity: sha512-UIRKoByVKbuR6SnFG4JM8EMFlJrfEGuUQ1ihxzEleWcNwRMMiVaCj1KyqfTOW8VTQhJ0u8P1Ngg6q1RwnIBTtw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-win32-x64-msvc@13.5.1:
+    resolution: {integrity: sha512-+9XBQizy7X/GuwNegq+5QkkxAPV7SBsIwapVRQd9WSvvU20YO23B3bZUpevdabi4fsd25y9RJDDncljy/V54ww==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -16108,7 +16209,36 @@ packages:
       '@sentry/types': 7.9.0
       '@sentry/utils': 7.9.0
       '@sentry/webpack-plugin': 1.19.0
-      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      tslib: 1.14.1
+      webpack: 5.73.0(esbuild@0.16.17)
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@sentry/nextjs@7.9.0(next@13.5.1)(react@18.2.0)(webpack@5.73.0):
+    resolution: {integrity: sha512-yToPcsoMwfFyUS7STmJdwbE6JxlUHaxxnO8Qwpu9jFF2dH925r3MBWkwR1H2wfR1GbOLVwGUmQIdL1LAR8novw==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      next: ^10.0.8 || ^11.0 || ^12.0
+      react: 15.x || 16.x || 17.x || 18.x
+      webpack: '>= 4.0.0'
+    peerDependenciesMeta:
+      webpack:
+        optional: true
+    dependencies:
+      '@sentry/core': 7.9.0
+      '@sentry/hub': 7.9.0
+      '@sentry/integrations': 7.9.0
+      '@sentry/node': 7.9.0
+      '@sentry/react': 7.9.0(react@18.2.0)
+      '@sentry/tracing': 7.9.0
+      '@sentry/types': 7.9.0
+      '@sentry/utils': 7.9.0
+      '@sentry/webpack-plugin': 1.19.0
+      next: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react: 18.2.0
       tslib: 1.14.1
       webpack: 5.73.0(esbuild@0.16.17)
@@ -16267,18 +16397,18 @@ packages:
     resolution: {integrity: sha512-D0L6SfaEJltJFpKdE3h1+3auDxldbifnfOI0eTlO36kSCeCdZKSFfgYOR5gWen9VTpCDAr/bXhX4K7SlGVTVlQ==}
     dev: false
 
-  /@skillrecordings/analytics@0.0.6(next@13.4.8)(react@18.2.0):
+  /@skillrecordings/analytics@0.0.6(next@13.5.1)(react@18.2.0):
     resolution: {integrity: sha512-fIPcCrXLgX3jn/4AA9zqBVOioqPRkKETE2SsGYNw37d2I0cdfMsKvgBkHDot223FWUq1KAn4BJf84LDBSSVEew==}
     peerDependencies:
       next: '>= 11.1.2 < 13'
       react: ^17.0.2 < 18.0.0
     dependencies:
       '@skillrecordings/types': 0.0.5
-      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+      next: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react: 18.2.0
     dev: false
 
-  /@skillrecordings/auth@0.0.6(next@13.4.8):
+  /@skillrecordings/auth@0.0.6(next@13.5.1):
     resolution: {integrity: sha512-ZTU05/wJ3TjXyMII66zAEqCb7/4akxf7HFthsRFO/bEdGVNgpSgl/bo/btScoGNyOV84fVGv16MaAGFV3RtrLw==}
     peerDependencies:
       next: '>= 11.1.2 < 13'
@@ -16290,7 +16420,7 @@ packages:
       axios: 0.26.1
       client-oauth2: 4.3.3
       js-cookie: 3.0.1
-      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+      next: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
     transitivePeerDependencies:
       - debug
     dev: false
@@ -16598,6 +16728,12 @@ packages:
 
   /@swc/helpers@0.5.1:
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
+    dependencies:
+      tslib: 2.6.0
+    dev: false
+
+  /@swc/helpers@0.5.2:
+    resolution: {integrity: sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==}
     dependencies:
       tslib: 2.6.0
 
@@ -17098,7 +17234,28 @@ packages:
       '@trpc/client': 10.7.0(@trpc/server@10.7.0)
       '@trpc/react-query': 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/server': 10.7.0
-      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-ssr-prepass: 1.5.0(react@18.2.0)
+    dev: false
+
+  /@trpc/next@10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/react-query@10.7.0)(@trpc/server@10.7.0)(next@13.5.1)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-ZLY4J9IgEHN2op0UM14NCwCDyodRUw8Pmxgnpr62+UMIhDll6uggb2an8Op87l9EeYdKhKe2VavDWphI8vFGgw==}
+    peerDependencies:
+      '@tanstack/react-query': ^4.3.8
+      '@trpc/client': 10.7.0
+      '@trpc/react-query': ^10.0.0-proxy-beta.21
+      '@trpc/server': 10.7.0
+      next: '*'
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@tanstack/react-query': 4.20.4(react-dom@18.2.0)(react@18.2.0)
+      '@trpc/client': 10.7.0(@trpc/server@10.7.0)
+      '@trpc/react-query': 10.7.0(@tanstack/react-query@4.20.4)(@trpc/client@10.7.0)(@trpc/server@10.7.0)(react-dom@18.2.0)(react@18.2.0)
+      '@trpc/server': 10.7.0
+      next: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-ssr-prepass: 1.5.0(react@18.2.0)
@@ -31315,7 +31472,33 @@ packages:
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
       jose: 4.14.4
-      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
+      nodemailer: 6.7.2
+      oauth: 0.9.15
+      openid-client: 5.4.2
+      preact: 10.7.2
+      preact-render-to-string: 5.2.0(preact@10.7.2)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      uuid: 8.3.2
+    dev: false
+
+  /next-auth@4.23.1(next@13.5.1)(nodemailer@6.7.2)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-mL083z8KgRtlrIV6CDca2H1kduWJuK/3pTS0Fe2og15KOm4v2kkLGdSDfc2g+019aEBrJUT0pPW2Xx42ImN1WA==}
+    peerDependencies:
+      next: ^12.2.5 || ^13
+      nodemailer: ^6.6.5
+      react: ^17.0.2 || ^18
+      react-dom: ^17.0.2 || ^18
+    peerDependenciesMeta:
+      nodemailer:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.5
+      '@panva/hkdf': 1.1.1
+      cookie: 0.5.0
+      jose: 4.14.4
+      next: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       nodemailer: 6.7.2
       oauth: 0.9.15
       openid-client: 5.4.2
@@ -31356,14 +31539,14 @@ packages:
       - supports-color
     dev: false
 
-  /next-seo@5.15.0(next@13.4.8)(react-dom@18.2.0)(react@18.2.0):
+  /next-seo@5.15.0(next@13.5.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-LGbcY91yDKGMb7YI+28n3g+RuChUkt6pXNpa8FkfKkEmNiJkeRDEXTnnjVtwT9FmMhG6NH8qwHTelGrlYm9rgg==}
     peerDependencies:
       next: ^8.1.1-canary.54 || >=9.0.0
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+      next: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -31379,10 +31562,24 @@ packages:
       '@corex/deepmerge': 4.0.29
       '@next/env': 12.3.1
       minimist: 1.2.8
-      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
-  /next-sitemap@3.1.55(@next/env@13.4.3)(next@13.4.8):
+  /next-sitemap@3.1.55(@next/env@12.3.1)(next@13.5.1):
+    resolution: {integrity: sha512-ZjkRfkqoSLbU+e8W9TWWe0zfOGNA47lpvm35kNcUCmj73gpLX2PIn51gwHT/B6bgGVAFYY0OXixJDrxIIwcEHw==}
+    engines: {node: '>=14.18'}
+    hasBin: true
+    peerDependencies:
+      '@next/env': '*'
+      next: '*'
+    dependencies:
+      '@corex/deepmerge': 4.0.29
+      '@next/env': 12.3.1
+      minimist: 1.2.8
+      next: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+    dev: false
+
+  /next-sitemap@3.1.55(@next/env@13.4.3)(next@13.5.1):
     resolution: {integrity: sha512-ZjkRfkqoSLbU+e8W9TWWe0zfOGNA47lpvm35kNcUCmj73gpLX2PIn51gwHT/B6bgGVAFYY0OXixJDrxIIwcEHw==}
     engines: {node: '>=14.18'}
     hasBin: true
@@ -31393,7 +31590,7 @@ packages:
       '@corex/deepmerge': 4.0.29
       '@next/env': 13.4.3
       minimist: 1.2.8
-      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+      next: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
     dev: false
 
   /next-svgr@0.0.2:
@@ -31404,14 +31601,14 @@ packages:
       - supports-color
     dev: false
 
-  /next-themes@0.2.1(next@13.4.8)(react-dom@18.2.0)(react@18.2.0):
+  /next-themes@0.2.1(next@13.5.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==}
     peerDependencies:
       next: '*'
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
+      next: 13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -31423,7 +31620,7 @@ packages:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}
     dev: false
 
-  /next@13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4):
+  /next@13.4.8(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-lxUjndYKjZHGK3CWeN2RI+/6ni6EUvjiqGWXAYPxUfGIdFGQ5XoisrqAJ/dF74aP27buAfs8MKIbIMMdxjqSBg==}
     engines: {node: '>=16.8.0'}
     hasBin: true
@@ -31448,7 +31645,6 @@ packages:
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      sass: 1.43.4
       styled-jsx: 5.1.1(@babel/core@7.21.8)(react@18.2.0)
       watchpack: 2.4.0
       zod: 3.21.4
@@ -31462,6 +31658,47 @@ packages:
       '@next/swc-win32-arm64-msvc': 13.4.8
       '@next/swc-win32-ia32-msvc': 13.4.8
       '@next/swc-win32-x64-msvc': 13.4.8
+    transitivePeerDependencies:
+      - '@babel/core'
+      - babel-plugin-macros
+    dev: false
+
+  /next@13.5.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)(sass@1.43.4):
+    resolution: {integrity: sha512-GIudNR7ggGUZoIL79mSZcxbXK9f5pwAIPZxEM8+j2yLqv5RODg4TkmUlaKSYVqE1bPQueamXSqdC3j7axiTSEg==}
+    engines: {node: '>=16.14.0'}
+    hasBin: true
+    peerDependencies:
+      '@opentelemetry/api': ^1.1.0
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      sass: ^1.3.0
+    peerDependenciesMeta:
+      '@opentelemetry/api':
+        optional: true
+      sass:
+        optional: true
+    dependencies:
+      '@next/env': 13.5.1
+      '@swc/helpers': 0.5.2
+      busboy: 1.6.0
+      caniuse-lite: 1.0.30001512
+      postcss: 8.4.14
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      sass: 1.43.4
+      styled-jsx: 5.1.1(@babel/core@7.21.8)(react@18.2.0)
+      watchpack: 2.4.0
+      zod: 3.21.4
+    optionalDependencies:
+      '@next/swc-darwin-arm64': 13.5.1
+      '@next/swc-darwin-x64': 13.5.1
+      '@next/swc-linux-arm64-gnu': 13.5.1
+      '@next/swc-linux-arm64-musl': 13.5.1
+      '@next/swc-linux-x64-gnu': 13.5.1
+      '@next/swc-linux-x64-musl': 13.5.1
+      '@next/swc-win32-arm64-msvc': 13.5.1
+      '@next/swc-win32-ia32-msvc': 13.5.1
+      '@next/swc-win32-x64-msvc': 13.5.1
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
