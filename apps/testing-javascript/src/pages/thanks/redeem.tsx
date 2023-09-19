@@ -32,7 +32,7 @@ const ThanksRedeem: React.FC<
             Success!
           </h1>
         </div>
-        <div className="relative mx-auto flex w-full max-w-screen-md items-center justify-between gap-5 overflow-hidden rounded-xl bg-brand-red p-7 text-white shadow-2xl shadow-gray-400/20 selection:bg-white selection:text-brand-red sm:p-12">
+        <div className="relative mx-auto flex w-full max-w-screen-md items-center justify-between gap-5 overflow-hidden rounded-xl bg-brand-red p-7 text-black shadow-2xl shadow-gray-400/20 sm:p-12">
           <div className="relative z-10">
             <p className="inline-flex rounded-full bg-white px-3 py-1 font-heading text-xs font-black uppercase text-brand-red sm:text-sm">
               Final step
@@ -47,7 +47,7 @@ const ThanksRedeem: React.FC<
               <MailIcon className="h-5 w-5" />{' '}
               <strong className="font-semibold">Email sent to: {email}</strong>
             </div>
-            <p className="mx-auto text-sm font-medium leading-relaxed text-white sm:text-base">
+            <p className="mx-auto text-sm font-medium leading-relaxed text-black sm:text-base">
               As a final step to access the course you need to check your inbox
               (<strong>{email}</strong>) where you will find an email from{' '}
               <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a
