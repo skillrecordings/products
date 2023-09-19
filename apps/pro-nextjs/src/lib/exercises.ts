@@ -103,6 +103,7 @@ export const getExercise = async (
         title,
         description,
         body,
+        "github": resources[@._type == 'githubRepo'][0].repo,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "transcript": resources[@->._type == 'videoResource'][0]->transcript,
