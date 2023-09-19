@@ -115,7 +115,7 @@ const ExerciseTemplate: React.FC<{
           description={pageDescription || ''}
         />
         <div className="relative flex flex-grow flex-col gap-3 lg:flex-row">
-          <div className="relative z-40 hidden w-full lg:block lg:max-w-[300px]">
+          <div className="relative z-40 hidden w-full flex-shrink-0 lg:block lg:max-w-[300px]">
             <LessonList module={module} path={path} />
           </div>
           <main className="relative mx-auto w-full max-w-[1480px] items-start gap-3 2xl:flex 2xl:max-w-none">
@@ -226,9 +226,9 @@ const LessonList: React.FC<{
               <Button
                 asChild
                 size="sm"
-                className="mt-2 inline-flex h-auto items-center space-x-1 px-1.5 py-1 text-xs font-semibold uppercase leading-none"
+                className="mt-2 inline-flex h-auto items-center space-x-1 rounded-sm px-1.5 py-1 text-xs font-semibold uppercase leading-none"
               >
-                <Link href={module?.github?.repo + '#setup'} target="_blank">
+                <Link href={module?.github?.repo} target="_blank">
                   <Icon name="Github" size="16" />
                   <span>
                     {module.moduleType === 'tutorial'
@@ -287,7 +287,7 @@ const LessonList: React.FC<{
                 <Skeleton className="h-14 rounded border bg-gradient-to-r from-white to-gray-200 opacity-75" />
               ) : (
                 <Collection.Section className="mb-px border font-semibold leading-tight data-[state='close']:rounded data-[state='open']:rounded-t [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg">
-                  <Collection.Lessons className="overflow-hidden rounded-b border-border pb-3 pt-0">
+                  <Collection.Lessons className="overflow-hidden rounded-b border-gray-200/75 pb-3 pt-0">
                     <Collection.Lesson
                       className='font-semibold transition before:hidden data-[active="true"]:bg-transparent data-[active="true"]:opacity-100 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500 [&_[data-item="lesson"][data-state="open"]]:border-l-2 [&_[data-item="lesson"][data-state="open"]]:border-blue-500 [&_[data-item="lesson"][data-state="open"]]:bg-card [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:items-center [&_[data-item]]:py-3 [&_[data-lock-icon]]:w-3.5 [&_[data-lock-icon]]:text-gray-400'
                       scrollContainerRef={scrollContainerRef}
