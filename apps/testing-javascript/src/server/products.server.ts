@@ -41,7 +41,21 @@ const productQuery = groq`*[_type == "product" && productId == $productId][0] {
     title,
     image,
     "slug": slug.current,
-    state
+    state,
+    "sections": resources[@->._type == 'section']->{
+      _id,
+      _type,
+      _updatedAt,
+      title,
+      description,
+      "slug": slug.current,
+      "lessons": resources[@->._type in ['exercise', 'explainer']]->{
+        _id,
+        _type,
+        title,
+        "slug": slug.current
+      }
+    }
   }
 }`
 

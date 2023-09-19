@@ -9,11 +9,56 @@ import MuxPlayer from '@mux/mux-player-react'
 
 import Icon from 'components/icons'
 import CertificateForm from 'components/certificate-form'
+import {trpc} from 'trpc/trpc.client'
+import {z} from 'zod'
+import flatten from 'lodash/flatten'
 
 const AccessYourCourse: React.FunctionComponent<{
   product: SanityProduct
   className?: string
 }> = ({product, className}) => {
+  const {data: lessonProgress} = trpc.progress.get.useQuery()
+
+  let courseCompleted: boolean
+
+  if (!lessonProgress || 'error' in lessonProgress) {
+    courseCompleted = false
+  } else {
+    const playlists = product.modules
+
+    const PlaylistSchema = z.array(
+      z.object({
+        slug: z.string(),
+        sections: z.array(
+          z.object({lessons: z.array(z.object({slug: z.string()}))}),
+        ),
+      }),
+    )
+    const parsedPlaylists = PlaylistSchema.parse(playlists)
+    const lessonsByPlaylistSlug = parsedPlaylists.map(
+      (playlist) =>
+        [
+          playlist.slug,
+          flatten(playlist.sections.map((section) => section.lessons)),
+        ] as const,
+    )
+
+    const interviewsPlaylistSlug = 'testing-javascript-interviews-bonus-de29'
+
+    courseCompleted = lessonsByPlaylistSlug.every((playlistLessons) => {
+      const [playlistSlug, lessons] = playlistLessons
+
+      if (playlistSlug === interviewsPlaylistSlug) return true
+
+      return lessons.every((lesson) => {
+        const matchingLessonProgress = lessonProgress.find(
+          ({lessonSlug}) => lessonSlug === lesson.slug,
+        )
+        return Boolean(matchingLessonProgress?.completedAt)
+      })
+    })
+  }
+
   return (
     <section className={cx(className)}>
       <div className="container max-w-6xl mb-20">
@@ -84,12 +129,14 @@ const AccessYourCourse: React.FunctionComponent<{
               </div>
             </div>
           </Balancer>
-          <Dialog.Root>
-            <Dialog.Trigger data-download-certificate-button className="mt-8">
-              <span>Download Course Completion Certificate</span>
-            </Dialog.Trigger>
-            <CertificateForm />
-          </Dialog.Root>
+          {courseCompleted && (
+            <Dialog.Root>
+              <Dialog.Trigger data-download-certificate-button className="mt-8">
+                <span>Download Course Completion Certificate</span>
+              </Dialog.Trigger>
+              <CertificateForm />
+            </Dialog.Root>
+          )}
           <Dialog.Root>
             <Dialog.Trigger className="space-x-4 inline-flex items-center bg-gray-100 text-black px-6 py-2 rounded-md mt-7 md:mt-10 lg:mt-16 hover:bg-gray-200 duration-100 min-h-[50px] self-center border-gray-200 border">
               <Icon name="play" className="w-[10px] h-[10px]" />

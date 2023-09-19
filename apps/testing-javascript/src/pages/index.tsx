@@ -36,16 +36,19 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const hasBulkPurchase = ability.can('view', 'Team')
   const hasAvailableSeats = ability.can('invite', 'Team')
 
-  const token = await getToken({req})
   const products = await getAllProducts()
   const {props: commerceProps} = await propsForCommerce({
     query,
-    token,
+    token: sessionToken,
     products,
   })
   const purchasedProductsIds =
     commerceProps.purchases?.map((purchase) => purchase.productId) || []
 
+  // `mostValuedProduct` is the product among the user's purchases that has
+  // the most modules. E.g. if they original purchased the Standard and have
+  // since upgraded to Pro, then we want to look up 'Pro' as the tier of
+  // Testing JavaScript to pass around.
   const modulesAmount: {productId: string; modulesAmount: number}[] =
     await Promise.all(
       purchasedProductsIds.map(
@@ -63,6 +66,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const mostValuedProduct = mostValuedProductId
     ? await getActiveProduct(mostValuedProductId)
     : null
+
   return {
     props: {
       commerceProps,
@@ -135,17 +139,19 @@ const Home: React.FC<
 
   return (
     <Layout>
-      <LandingTemplate
-        canViewContent={canViewContent}
-        playlists={playlists}
-        testimonials={testimonials}
-        faqs={faqs}
-        interviews={interviews}
-        proTestingPurchased={proTestingPurchased}
-        commerceProps={commerceProps}
-        mostValuedProduct={mostValuedProduct}
-      />
-      {/* {redeemableCoupon ? <RedeemDialogForCoupon /> : null} */}
+      <main>
+        <LandingTemplate
+          canViewContent={canViewContent}
+          playlists={playlists}
+          testimonials={testimonials}
+          faqs={faqs}
+          interviews={interviews}
+          proTestingPurchased={proTestingPurchased}
+          commerceProps={commerceProps}
+          mostValuedProduct={mostValuedProduct}
+        />
+        {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+      </main>
     </Layout>
   )
 }
