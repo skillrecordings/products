@@ -1,0 +1,38 @@
+#primary-newsletter-cta {
+  [data-sr-convertkit-subscribe-form] {
+    @apply mx-auto flex w-full max-w-[340px] flex-col;
+    [data-sr-input] {
+      @apply py-3;
+    }
+    [data-sr-input-label] {
+      @apply mt-3 inline-block pb-1 text-base font-medium;
+    }
+    [data-sr-input-asterisk] {
+      @apply opacity-50;
+    }
+    [data-sr-button] {
+      @apply mt-4;
+    }
+  }
+}
+
+#video-overlay {
+  [data-sr-convertkit-subscribe-form] {
+    @apply mx-auto flex w-full flex-col;
+    [data-sr-input-wrapper] {
+      @apply text-left;
+    }
+    [data-sr-input] {
+      @apply mb-4 block w-full rounded-lg border px-4 py-3 text-black placeholder-opacity-60 shadow sm:text-base sm:leading-6;
+    }
+    [data-sr-input-label] {
+      @apply inline-block pb-1 text-sm;
+    }
+    [data-sr-input-asterisk] {
+      @apply opacity-50;
+    }
+    [data-sr-button] {
+      @apply mt-2 flex items-center justify-center rounded-md bg-primary py-3 font-bold text-white transition focus-visible:ring-ring hover:brightness-110;
+    }
+  }
+}
