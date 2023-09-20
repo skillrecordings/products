@@ -1,5 +1,5 @@
 [data-video-overlay-wrapper] {
-  @apply relative left-0 top-0 flex aspect-video w-full items-center justify-center bg-card;
+  @apply relative left-0 top-0 flex w-full items-center justify-center bg-card md:aspect-video;
   background-image: linear-gradient(
       to right,
       hsl(210, 40%, 98%) 1px,
@@ -182,6 +182,7 @@
   }
 }
 [data-video-overlay='loading'] {
+  @apply aspect-video;
   div:first-of-type {
     @apply flex items-center justify-center;
   }

@@ -60,7 +60,7 @@ const ExerciseOverlay = () => {
                             <Icon name="Github" size="20" className="mr-2" />
                             Exercise Files
                           </span>
-                          <span className="hidden h-full flex-shrink-0 items-center justify-center rounded-r bg-primary pr-7 text-sm text-gray-300 transition group-hover:text-white sm:flex">
+                          <span className="-ml-px hidden h-full flex-shrink-0 items-center justify-center rounded-r bg-primary pr-7 text-sm text-gray-300 transition group-hover:text-white sm:flex">
                             /{exerciseDir}
                           </span>
                         </Link>
