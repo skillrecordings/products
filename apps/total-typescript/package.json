@@ -104,6 +104,7 @@
     "aws-sdk": "^2.1197.0",
     "axios": "^1.4.0",
     "classnames": "^2.3.1",
+    "cloudinary": "^1.35.0",
     "cmdk": "^0.2.0",
     "cookie": "^0.5.0",
     "date-fns": "^2.28.0",
