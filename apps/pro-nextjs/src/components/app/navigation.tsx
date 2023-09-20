@@ -27,11 +27,11 @@ const useAbilities = () => {
 }
 
 const links = [
-  // {
-  //   label: 'Free Tutorials',
-  //   href: '/tutorials',
-  //   icon: <PlayIcon className="w-4 opacity-75" />,
-  // },
+  {
+    label: 'Free Tutorials',
+    href: '/tutorials',
+    icon: <PlayIcon className="w-4 opacity-75" />,
+  },
   {
     label: 'Articles',
     href: '/articles',
