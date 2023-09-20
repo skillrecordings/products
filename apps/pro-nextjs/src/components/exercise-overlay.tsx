@@ -52,15 +52,15 @@ const ExerciseOverlay = () => {
                     {resources.github && (
                       <Button
                         asChild
-                        className="group relative flex items-center rounded-l bg-transparent pl-0 pr-0"
+                        className="group relative flex flex-col items-center rounded-l bg-transparent pl-0 pr-0 sm:flex-row"
                         size="lg"
                       >
                         <Link href={resources.github} target="_blank">
-                          <span className="flex h-full items-center rounded-l bg-primary pl-7 pr-2">
+                          <span className="flex h-full flex-shrink-0 items-center rounded bg-primary pl-7 pr-7 sm:rounded-l sm:rounded-r-none sm:pr-2">
                             <Icon name="Github" size="20" className="mr-2" />
                             Exercise Files
                           </span>
-                          <span className="flex h-full items-center justify-center rounded-r bg-primary pr-7 text-sm text-gray-300 transition group-hover:text-white">
+                          <span className="hidden h-full flex-shrink-0 items-center justify-center rounded-r bg-primary pr-7 text-sm text-gray-300 transition group-hover:text-white sm:flex">
                             /{exerciseDir}
                           </span>
                         </Link>
@@ -68,7 +68,7 @@ const ExerciseOverlay = () => {
                     )}
                   </div>
                   {module?.github?.repo && (
-                    <p className="pt-2 text-base text-gray-600">
+                    <p className="pt-3 text-sm text-gray-600 sm:pt-2">
                       Start by cloning the{' '}
                       <a
                         className="underline"
