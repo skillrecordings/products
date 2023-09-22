@@ -178,6 +178,17 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   //   }
   // }
 
+  const {data: purchaseToUpgrade} = trpc.purchases.getPurchaseById.useQuery({
+    purchaseId: formattedPrice?.upgradeFromPurchaseId,
+  })
+
+  const isRestrictedUpgrade =
+    purchaseToUpgrade?.status === 'Restricted' &&
+    appliedMerchantCoupon &&
+    appliedMerchantCoupon.type !== 'ppp'
+
+  const fixedDiscount = formattedPrice?.fixedDiscountForUpgrade || 0
+
   return (
     <div
       data-pricing-component
@@ -209,6 +220,15 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               </h2>
             )}
             <PriceDisplay status={status} formattedPrice={formattedPrice} />
+            {formattedPrice?.upgradeFromPurchaseId &&
+              !isRestrictedUpgrade &&
+              fixedDiscount > 0 && (
+                <div data-byline="">
+                  {`${formatUsd(fixedDiscount).dollars}.${
+                    formatUsd(fixedDiscount).cents || '00'
+                  } credit applied`}
+                </div>
+              )}
             {/* <div data-byline="">Full access</div> */}
             {/* {(isSellingLive || allowPurchase) && (
               <SaleCountdown
@@ -481,8 +501,7 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
 
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
-  const fullPrice =
-    (formattedPrice?.unitPrice || 0) * (formattedPrice?.quantity || 0)
+  const fullPrice = formattedPrice?.fullPrice
 
   const percentOff = appliedMerchantCoupon
     ? Math.floor(+appliedMerchantCoupon.percentageDiscount * 100)
@@ -523,7 +542,7 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
               {formattedPrice?.calculatedPrice &&
                 formatUsd(formattedPrice?.calculatedPrice).cents}
             </span>
-            {Boolean(appliedMerchantCoupon) && (
+            {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
               <div className="ml-2">
                 <div aria-hidden="true" className="text-xl leading-none">
                   <div className="line-through">
