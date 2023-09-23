@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     login: {providers, csrfToken},
     convertkitSubscriber,
     abilityRules,
-  } = await getPropsForEmbed(context, 'tutorial', false)
+  } = await getPropsForEmbed(context, 'tip')
 
   return {
     props: {
