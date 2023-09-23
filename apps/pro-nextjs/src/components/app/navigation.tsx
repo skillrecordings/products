@@ -27,11 +27,11 @@ const useAbilities = () => {
 }
 
 const links = [
-  // {
-  //   label: 'Free Tutorials',
-  //   href: '/tutorials',
-  //   icon: <PlayIcon className="w-4 opacity-75" />,
-  // },
+  {
+    label: 'Free Tutorials',
+    href: '/tutorials',
+    icon: <PlayIcon className="w-4 opacity-75" />,
+  },
   {
     label: 'Articles',
     href: '/articles',
@@ -54,7 +54,7 @@ const Navigation: React.FC<NavigationProps> = ({className, linksClassName}) => {
     <nav
       aria-label="top"
       className={twMerge(
-        'relative z-30 mx-auto w-full px-5 py-10 text-sm sm:px-10 sm:py-6',
+        'relative z-50 mx-auto w-full px-5 py-10 text-sm sm:px-10 sm:py-6',
         className,
       )}
     >
