@@ -147,6 +147,20 @@ const ExerciseTemplate: React.FC<{
                   />
                 )}
                 <LessonDescription
+                  mdxComponents={{
+                    Callout: (props) => {
+                      const {type, children} = props
+                      return (
+                        <blockquote className="border-l border-primary bg-foreground/5 p-3">
+                          {children}
+                        </blockquote>
+                      )
+                    },
+                    InlineFile: (props) => {
+                      const {type} = props
+                      return type
+                    },
+                  }}
                   lessonMDXBody={lessonBodySerialized}
                   lessonBodyPreview={lessonBodyPreviewSerialized}
                   productName={module.title}
