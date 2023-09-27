@@ -18,6 +18,7 @@
 @import '../purchase-details/purchase-details.css';
 @import './login.css';
 @import './redeem-dialog.css';
+@import './video/reset-progress.css';
 
 @tailwind utilities;
 

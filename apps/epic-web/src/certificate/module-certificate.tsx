@@ -8,16 +8,16 @@ import Balancer from 'react-wrap-balancer'
 import * as Dialog from '@radix-ui/react-dialog'
 import CertificateForm from './certificate-form'
 
-const WorkshopCertificate: React.FC<{workshop: Module}> = ({workshop}) => {
+const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
-      slug: workshop.slug.current,
+      slug: module.slug.current,
     })
   const isModuleCompleted = moduleProgress?.moduleCompleted
 
   return moduleProgressStatus === 'success' ? (
     <Dialog.Root>
-      <div className="flex w-full flex-col items-start justify-center py-8 px-5  sm:max-w-sm lg:px-0">
+      <div className="flex w-full flex-col items-start justify-center py-8 sm:max-w-sm">
         <h2 className="flex items-center gap-1 pb-2 text-2xl font-semibold">
           Certificate
         </h2>
@@ -26,12 +26,12 @@ const WorkshopCertificate: React.FC<{workshop: Module}> = ({workshop}) => {
             <Image
               alt=""
               aria-hidden="true"
-              src="https://res.cloudinary.com/total-typescript/image/upload/v1676981840/module-certificate-thumbnail_aom2tr.png"
+              src="https://res.cloudinary.com/epic-web/image/upload/v1695817975/certificate-thumbnail.jpg"
               fill
             />
-            {workshop.image && (
+            {module.image && (
               <Image
-                src={workshop.image}
+                src={module.image}
                 alt=""
                 aria-hidden="true"
                 width={110}
@@ -53,11 +53,11 @@ const WorkshopCertificate: React.FC<{workshop: Module}> = ({workshop}) => {
                     <div className="h-1 w-1 animate-pulse rounded-full bg-rose-600" />
                   </div>
                 )}
-                <div className="absolute bottom-6 rounded bg-amber-400 px-4 py-2 font-semibold text-black shadow-xl shadow-black/50 transition group-hover:scale-105 group-hover:brightness-110">
+                <div className="absolute bottom-6 rounded bg-primary px-4 py-2 font-semibold text-primary-foreground shadow-xl shadow-black/50 transition group-hover:scale-105 group-hover:brightness-110">
                   Get Certificate
                 </div>
               </Dialog.Trigger>
-              <CertificateForm workshop={workshop} />
+              <CertificateForm module={module} />
             </>
           ) : (
             <div
@@ -69,7 +69,7 @@ const WorkshopCertificate: React.FC<{workshop: Module}> = ({workshop}) => {
                 <LockClosedIcon className="w-6" />
               </div>
               {!isModuleCompleted && (
-                <div className="w-full pt-3 text-center leading-tight text-gray-300">
+                <div className="w-full px-5 pt-3 text-center leading-tight text-gray-300">
                   <Balancer>
                     Complete all lessons to unlock this certificate.
                   </Balancer>
@@ -83,4 +83,4 @@ const WorkshopCertificate: React.FC<{workshop: Module}> = ({workshop}) => {
   ) : null
 }
 
-export default WorkshopCertificate
+export default ModuleCertificate
