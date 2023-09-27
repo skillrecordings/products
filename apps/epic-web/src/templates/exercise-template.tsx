@@ -160,6 +160,10 @@ const ExerciseTemplate: React.FC<{
                       const {type} = props
                       return type
                     },
+                    LinkToApp: (props) => {
+                      const {to} = props
+                      return to
+                    },
                   }}
                   lessonMDXBody={lessonBodySerialized}
                   lessonBodyPreview={lessonBodyPreviewSerialized}
