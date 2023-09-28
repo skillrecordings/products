@@ -21,6 +21,7 @@ import {Skeleton} from '@skillrecordings/ui'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import ModuleCertificate from 'certificate/module-certificate'
 import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
+import {CogIcon} from '@heroicons/react/outline'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -54,6 +55,14 @@ const WorkshopTemplate: React.FC<{
     >
       {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       <CourseMeta title={pageTitle} description={description} />
+      {workshop.state === 'draft' && (
+        <div className="sm:px-3">
+          <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded sm:text-base">
+            <CogIcon className="h-4 w-4" /> Workshop under development — you're
+            viewing a draft version.
+          </div>
+        </div>
+      )}
       <Header tutorial={workshop} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="w-full flex-grow px-5">
@@ -61,9 +70,7 @@ const WorkshopTemplate: React.FC<{
             {workshopBodySerialized ? (
               <MDX contents={workshopBodySerialized} />
             ) : (
-              <p className="italic opacity-75">
-                This workshop is under development...
-              </p>
+              <p className="opacity-75">No description found.</p>
             )}
           </article>
           {testimonials && testimonials?.length > 0 && (
@@ -124,7 +131,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 pt-8 sm:pb-16 sm:pt-12 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 pt-8 sm:pb-16 sm:pt-10 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
             href="/workshops"
