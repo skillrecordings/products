@@ -103,7 +103,7 @@ const ExerciseTemplate: React.FC<{
           description={pageDescription || ''}
         />
         <div className="relative flex flex-grow flex-col lg:flex-row 2xl:h-[calc(100vh-49px)] 2xl:overflow-y-hidden">
-          <div className="relative z-40 hidden w-full lg:block lg:max-w-[300px]">
+          <div className="relative z-40 hidden w-full lg:block lg:max-w-[330px]">
             <LessonList module={module} path={path} />
           </div>
           <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-gray-200 dark:border-gray-900 2xl:flex 2xl:max-w-none">
@@ -160,6 +160,7 @@ const ExerciseTemplate: React.FC<{
                         </blockquote>
                       )
                     },
+                    // TODO: following only work in local workshop app
                     InlineFile: (props) => {
                       const {type, file} = props
                       if (type) {
@@ -178,6 +179,9 @@ const ExerciseTemplate: React.FC<{
                       return props.file
                     },
                     DiffLink: (props) => {
+                      return props.children
+                    },
+                    Link: (props) => {
                       return props.children
                     },
                   }}
@@ -304,7 +308,7 @@ const LessonList: React.FC<{
                 >
                   <Collection.Lessons className="py-0">
                     <Collection.Lesson
-                      className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500 dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5 [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
+                      className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500  dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
                       scrollContainerRef={scrollContainerRef}
                     >
                       <Collection.Resources />
