@@ -143,9 +143,12 @@
         }
       }
       [data-col='2'] {
-        @apply flex w-full flex-col items-center justify-center lg:w-auto;
+        @apply flex w-full flex-col items-center justify-center lg:w-full;
         [data-pricing-product] {
           @apply flex h-full flex-col items-center justify-center;
+          #pricing {
+            @apply pt-5 [&>div>[aria-hidden]]:bg-white/5 [&>div]:pb-5 [&>div]:text-left [&_svg]:text-orange-300;
+          }
         }
       }
     }

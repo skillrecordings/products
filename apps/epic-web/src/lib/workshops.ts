@@ -124,10 +124,7 @@ export const getWorkshop = async (slug: string) =>
           productId,
           description,
           action,
-          image {
-            url,
-            alt
-          },
+          "image": image.asset->{url, alt},
           modules[]->{
             "slug": slug.current,
             moduleType,
