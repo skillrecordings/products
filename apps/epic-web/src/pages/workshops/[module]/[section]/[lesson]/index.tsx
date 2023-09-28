@@ -27,7 +27,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }))
   const lessonBodyPreviewSerialized =
     typeof lesson.body === 'string' &&
-    (await serializeMDX(lesson.body.substring(0, 300), {
+    (await serializeMDX(lesson.body, {
       syntaxHighlighterOptions: {
         theme: 'material-theme-palenight',
       },

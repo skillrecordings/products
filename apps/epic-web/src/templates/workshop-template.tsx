@@ -19,6 +19,8 @@ import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {Skeleton} from '@skillrecordings/ui'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import ModuleCertificate from 'certificate/module-certificate'
+import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -96,6 +98,8 @@ const WorkshopTemplate: React.FC<{
               </Collection.Lessons>
             </Collection.Root>
           )}
+          <ResetProgress module={workshop} />
+          <ModuleCertificate module={workshop} />
         </div>
       </main>
     </Layout>

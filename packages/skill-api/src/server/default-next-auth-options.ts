@@ -11,6 +11,7 @@ async function getUser(userId: string) {
     select: {
       roles: true,
       id: true,
+      name: true,
       purchases: {
         select: {
           id: true,
@@ -102,7 +103,11 @@ export function defaultNextAuthOptions(options: {
 
         return session
       },
-      async jwt({token, user: authUser}) {
+      async jwt({token, user: authUser, trigger, session}) {
+        if (trigger === 'update' && token?.id) {
+          const user = await getUser(token.id as string)
+          token.name = user?.name
+        }
         if (authUser) {
           const user = await getUser(authUser.id)
           if (user) {

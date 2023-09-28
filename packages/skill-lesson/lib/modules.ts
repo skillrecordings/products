@@ -101,3 +101,14 @@ export const getModule = async (slug: string) =>
     }`,
     {slug: `${slug}`},
   )
+export const getModuleById = async (id: string) =>
+  await sanityClient.fetch(
+    groq`*[_type == "module" && _id == $id][0]{
+        "id": _id,
+        _type,
+        title,
+        "slug": slug.current,
+        "image": image.asset->url,
+    }`,
+    {id: `${id}`},
+  )

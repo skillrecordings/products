@@ -30,7 +30,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }))
   const solutionBodyPreviewSerialized =
     typeof solution?.body === 'string' &&
-    (await serializeMDX(solution.body.substring(0, 300), {
+    (await serializeMDX(solution.body, {
       syntaxHighlighterOptions: {
         theme: 'material-theme-palenight',
       },

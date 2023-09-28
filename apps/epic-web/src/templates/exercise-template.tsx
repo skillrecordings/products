@@ -157,8 +157,24 @@ const ExerciseTemplate: React.FC<{
                       )
                     },
                     InlineFile: (props) => {
-                      const {type} = props
-                      return type
+                      const {type, file} = props
+                      if (type) {
+                        return type
+                      }
+                      if (file) {
+                        return file
+                      }
+                      return null
+                    },
+                    LinkToApp: (props) => {
+                      const {to} = props
+                      return to
+                    },
+                    CodeFile: (props) => {
+                      return props.file
+                    },
+                    DiffLink: (props) => {
+                      return props.children
                     },
                   }}
                   lessonMDXBody={lessonBodySerialized}
