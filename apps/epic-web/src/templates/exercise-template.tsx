@@ -32,6 +32,7 @@ import {capitalize} from 'lodash'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {isBrowser} from 'utils/is-browser'
 import {getOgImage} from 'utils/get-og-image'
+import {PreWithButtons} from 'utils/mdx'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -148,10 +149,11 @@ const ExerciseTemplate: React.FC<{
                 )}
                 <LessonDescription
                   mdxComponents={{
+                    pre: PreWithButtons,
                     Callout: (props) => {
                       const {type, children} = props
                       return (
-                        <blockquote className="border-l border-primary bg-foreground/5 p-3">
+                        <blockquote className="!border-l-7 rounded-md !border-primary bg-foreground/5 !px-6 py-5 !not-italic prose-p:!mb-0 [&>p]:first-of-type:before:content-['']">
                           {children}
                         </blockquote>
                       )
@@ -243,9 +245,7 @@ const LessonList: React.FC<{
                 <Link href={module?.github?.repo + '#setup'} target="_blank">
                   <Icon name="Github" size="16" />
                   <span>
-                    {module.moduleType === 'tutorial'
-                      ? 'Code'
-                      : 'Connect Workshop App'}
+                    {module.moduleType === 'tutorial' ? 'Code' : 'Workshop App'}
                   </span>
                 </Link>
               </Button>

@@ -95,8 +95,11 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
+            img: {
+              borderRadius: theme('borderRadius.md'),
+            },
             color: theme('colors.gray.800'),
-            'h1, h2, h3, h4': {
+            'h1, h2, h3, h4, blockquote': {
               color: theme('colors.gray.900'),
             },
             'code::before': {
@@ -117,7 +120,7 @@ module.exports = {
         invert: {
           css: {
             color: theme('colors.gray.200'),
-            'h1, h2, h3, h4': {
+            'h1, h2, h3, h4, blockquote': {
               color: theme('colors.gray.100'),
             },
             code: {

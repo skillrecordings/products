@@ -8,6 +8,9 @@ import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module
 import {getSection} from 'lib/sections'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {getAllWorkshops, getWorkshop} from 'lib/workshops'
+import {serialize} from 'next-mdx-remote/serialize'
+import {remarkCodeBlocksShiki} from '@kentcdodds/md-temp'
+import {removePreContainerDivs, trimCodeBlocks} from 'utils/mdx'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -19,17 +22,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const lesson = await getExercise(lessonSlug, false)
   const lessonBodySerialized =
     typeof lesson.body === 'string' &&
-    (await serializeMDX(lesson.body, {
-      syntaxHighlighterOptions: {
-        theme: 'material-theme-palenight',
-        showCopyButton: true,
-      },
-    }))
-  const lessonBodyPreviewSerialized =
-    typeof lesson.body === 'string' &&
-    (await serializeMDX(lesson.body, {
-      syntaxHighlighterOptions: {
-        theme: 'material-theme-palenight',
+    (await serialize(lesson.body, {
+      mdxOptions: {
+        rehypePlugins: [
+          trimCodeBlocks,
+          remarkCodeBlocksShiki,
+          removePreContainerDivs,
+        ],
       },
     }))
 
@@ -37,7 +36,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       lesson,
       lessonBodySerialized,
-      lessonBodyPreviewSerialized,
+      lessonBodyPreviewSerialized: lessonBodySerialized,
       module,
       section,
       transcript: lesson.transcript,
