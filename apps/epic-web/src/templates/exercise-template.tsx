@@ -102,12 +102,12 @@ const ExerciseTemplate: React.FC<{
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
           description={pageDescription || ''}
         />
-        <div className="relative flex flex-grow flex-col lg:flex-row">
+        <div className="relative flex flex-grow flex-col lg:flex-row 2xl:h-[calc(100vh-49px)] 2xl:overflow-y-hidden">
           <div className="relative z-40 hidden w-full lg:block lg:max-w-[300px]">
             <LessonList module={module} path={path} />
           </div>
           <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-gray-200 dark:border-gray-900 2xl:flex 2xl:max-w-none">
-            <div className="flex flex-col border-gray-200 dark:border-gray-900 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
+            <div className="flex flex-col border-gray-200 scrollbar-thin scrollbar-thumb-foreground/10 dark:border-gray-800 2xl:relative 2xl:h-[calc(100vh-48px)] 2xl:w-full 2xl:overflow-y-scroll 2xl:border-r">
               <Video
                 product={module?.product as SanityProduct}
                 ref={muxPlayerRef}
@@ -136,7 +136,7 @@ const ExerciseTemplate: React.FC<{
               </div>
             </div>
             <article className="relative flex-shrink-0">
-              <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-6 2xl:max-w-xl">
+              <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 scrollbar-thin scrollbar-thumb-foreground/10 lg:py-6 2xl:h-[calc(100vh-48px)] 2xl:max-w-2xl 2xl:overflow-y-scroll">
                 <LessonTitle />
                 {lessonResources?.github && (
                   <GitHubLink

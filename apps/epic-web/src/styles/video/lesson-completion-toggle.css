@@ -1,5 +1,5 @@
 [data-lesson-completion-toggle] {
-  @apply mt-16 flex w-full items-center justify-center border-y border-dashed border-gray-200 dark:border-gray-800;
+  @apply mt-16 flex w-full items-center justify-center rounded bg-card shadow-xl shadow-foreground/5 dark:shadow-none;
   form {
     @apply inline-flex flex-col items-center justify-center gap-3 rounded-md py-10 sm:flex-row;
     [data-title] {
