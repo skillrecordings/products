@@ -149,6 +149,9 @@
           #pricing {
             @apply pt-5 [&>div>[aria-hidden]]:bg-white/5 [&>div]:pb-5 [&>div]:text-left [&_svg]:text-orange-300;
           }
+          [data-ppp-container] {
+            @apply hidden;
+          }
         }
       }
     }
