@@ -3,7 +3,7 @@
     @apply prose relative max-w-none pt-5 dark:prose-invert sm:prose-lg prose-p:text-gray-800 prose-p:first-of-type:mt-0 dark:prose-p:text-gray-200 xl:pt-8 2xl:pt-5;
   }
   [data-content-visible='false'] {
-    @apply after:absolute after:bottom-0 after:left-0 after:h-1/2 after:w-full after:bg-gradient-to-b after:from-transparent after:via-gray-50 after:to-gray-50 after:content-[""] dark:after:via-gray-950 dark:after:to-gray-950;
+    @apply max-h-[300px] overflow-hidden after:absolute after:bottom-0 after:left-0 after:h-1/2 after:w-full after:bg-gradient-to-b after:from-transparent after:via-gray-50 after:to-gray-50 after:content-[""] dark:after:via-gray-950 dark:after:to-gray-950;
   }
   div[role='status'] {
     @apply flex w-full -translate-y-16 animate-pulse flex-col gap-3;
