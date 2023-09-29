@@ -413,11 +413,13 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           ) : (
             <div data-purchased-container="">
               <div data-unavailable="">Coming Soon</div>
-              <div className="my-6 items-center text-base font-medium leading-tight">
-                Epic Web is not available for purchase yet! We plan to launch in
-                mid October 2023.
+              <div
+                data-description=""
+                className="my-6 items-center text-base font-medium leading-tight"
+              >
+                {process.env.NEXT_PUBLIC_SITE_TITLE} is not available for
+                purchase yet! We plan to launch in mid October 2023.
               </div>
-
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
@@ -429,16 +431,18 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               data-pricing-product-sale-countdown={index}
             />
           )}
-          {showPPPBox && !canViewRegionRestriction && (
-            <RegionalPricingBox
-              availablePPPCoupon={availablePPPCoupon}
-              appliedPPPCoupon={appliedPPPCoupon}
-              setMerchantCoupon={setMerchantCoupon}
-              index={index}
-              setAutoApplyPPP={setAutoApplyPPP}
-              purchaseToUpgradeExists={Boolean(purchaseToUpgrade)}
-            />
-          )}
+          {showPPPBox &&
+            !canViewRegionRestriction &&
+            (isSellingLive || allowPurchase) && (
+              <RegionalPricingBox
+                availablePPPCoupon={availablePPPCoupon}
+                appliedPPPCoupon={appliedPPPCoupon}
+                setMerchantCoupon={setMerchantCoupon}
+                index={index}
+                setAutoApplyPPP={setAutoApplyPPP}
+                purchaseToUpgradeExists={Boolean(purchaseToUpgrade)}
+              />
+            )}
           <div data-pricing-footer="">
             {product.description &&
               (isSellingLive || allowPurchase) &&
@@ -737,6 +741,7 @@ const SubscribeForm = ({
   return (
     <div
       id="pricing"
+      data-pricing-subscribing-form=""
       className="flex w-full max-w-sm flex-col items-center justify-between pb-8"
     >
       <div className="inline-flex max-w-xs flex-shrink-0 items-center gap-2 text-base font-medium leading-tight">

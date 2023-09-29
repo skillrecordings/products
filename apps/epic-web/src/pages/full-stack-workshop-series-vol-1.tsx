@@ -185,13 +185,12 @@ const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
                       purchases={commerceProps?.purchases || []}
                       index={i}
                       couponId={couponId}
-                      allowPurchase={true}
                       options={{
                         withGuaranteeBadge: false,
-                        teamQuantityLimit:
-                          quantityAvailable && quantityAvailable > 5
-                            ? 5
-                            : quantityAvailable,
+                        // teamQuantityLimit:
+                        // quantityAvailable && quantityAvailable > 5
+                        //   ? 5
+                        //   : quantityAvailable,
                       }}
                     />
                   )

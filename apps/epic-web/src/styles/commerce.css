@@ -324,6 +324,10 @@
               }
             }
           }
+          [data-description] {
+            @apply text-center;
+          }
+
           [data-purchased] {
             @apply mb-5 flex items-center gap-1 border-b border-gray-100 pb-5 text-lg  font-black dark:border-gray-800;
             svg {
@@ -332,6 +336,27 @@
           }
           [data-unavailable] {
             @apply py-4 text-center  text-lg font-bold text-blue-500;
+          }
+          [data-sr-convertkit-subscribe-form] {
+            @apply flex w-full flex-col gap-2 text-left;
+            [data-sr-input-wrapper] {
+              @apply w-full;
+            }
+            [data-sr-input] {
+              @apply w-full rounded-md border border-gray-200 bg-gray-100 px-3 py-3 text-base shadow-inner focus-visible:ring-blue-500 dark:border-gray-600 dark:bg-gray-700/60 dark:placeholder:text-white/80;
+            }
+
+            [data-sr-input-label] {
+              @apply sr-only;
+            }
+            [data-sr-button] {
+              @apply relative flex flex-shrink-0 items-center justify-center rounded-lg bg-blue-500 px-5 py-3 font-semibold text-white shadow-xl shadow-blue-800/20 ring-offset-1 transition focus-visible:ring-blue-500 hover:brightness-110;
+              svg {
+                @apply h-7 w-7;
+              }
+            }
+            [data-sr-button][disabled] {
+            }
           }
           #team-upgrade-pricing-inline {
             [data-pricing-product-header] {
@@ -500,6 +525,7 @@
         [data-unavailable] {
           @apply py-4 text-center  text-lg font-bold text-blue-500;
         }
+
         #team-upgrade-pricing-inline {
           [data-pricing-product-header] {
             [data-price] {
