@@ -96,8 +96,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 type ProductPageProps = {
   product: Product
   mdx: MDXRemoteSerializeResult
-  purchaseCount: number
-  quantityAvailable: number
+  purchaseCount?: number
+  quantityAvailable?: number
 }
 
 const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
@@ -156,7 +156,8 @@ const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
           {mdx && <Body mdx={mdx} />}
         </article>
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-        {purchaseCount < quantityAvailable ? (
+
+        {true ? (
           <div className="mt-10 flex w-full items-center justify-center pb-16">
             <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
               <div data-pricing-container="">
@@ -188,7 +189,9 @@ const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
                       options={{
                         withGuaranteeBadge: false,
                         teamQuantityLimit:
-                          quantityAvailable > 5 ? 5 : quantityAvailable,
+                          quantityAvailable && quantityAvailable > 5
+                            ? 5
+                            : quantityAvailable,
                       }}
                     />
                   )

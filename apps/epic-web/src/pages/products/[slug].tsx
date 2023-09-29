@@ -16,6 +16,10 @@ import {getSdk} from '@skillrecordings/database'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {getWorkshop} from 'lib/workshops'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import FullStackWorkshopSeries from 'pages/full-stack-workshop-series-vol-1'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {Product} from 'lib/products'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
@@ -24,6 +28,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const token = await getToken({req})
   const product = await getProductBySlug(params?.slug as string)
   const workshop = await getWorkshop(params?.slug as string)
+  const mdx = product.body && (await serializeMDX(product.body))
 
   if (!product) {
     return {
@@ -38,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   })
 
   if (!token?.sub) {
-    return {props: {...commerceProps.props, workshop}}
+    return {props: {...commerceProps.props, workshop, product, mdx}}
   }
 
   const purchaseForProduct = commerceProps.props.purchases?.find(
@@ -86,11 +91,11 @@ export type ProductPageProps = {
   purchases: Purchase[]
   hasPurchasedCurrentProduct: boolean
   workshop?: Module
+  mdx?: MDXRemoteSerializeResult
 } & CommerceProps
 
 const ProductPage: React.FC<ProductPageProps> = (props) => {
   const {workshop, hasPurchasedCurrentProduct} = props
-  console.log({workshop})
 
   return (
     <>
@@ -99,7 +104,11 @@ const ProductPage: React.FC<ProductPageProps> = (props) => {
           <PurchasedProductTemplate {...props} />
         </PriceCheckProvider>
       ) : (
-        <ProductTemplate {...props} />
+        // <ProductTemplate {...props} />
+        <FullStackWorkshopSeries
+          product={props.product as any}
+          mdx={props.mdx as MDXRemoteSerializeResult}
+        />
       )}
     </>
   )
