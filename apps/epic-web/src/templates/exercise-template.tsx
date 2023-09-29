@@ -73,6 +73,8 @@ const ExerciseTemplate: React.FC<{
       onModuleEnded={async () => {
         addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
       }}
+      // @ts-expect-error
+      inviteTeamPagePath={`/products/${module.product?.slug}`}
     >
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}

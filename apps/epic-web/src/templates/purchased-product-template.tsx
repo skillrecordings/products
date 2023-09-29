@@ -73,6 +73,17 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   })
   const isRestrictedUpgrade = purchaseToUpgrade?.status === 'Restricted'
 
+  const getPurchaseLabel = () => {
+    switch (true) {
+      case isRestrictedUpgrade:
+        return 'Regional License'
+      case Boolean(purchase.bulkCoupon):
+        return 'Team License'
+      default:
+        'Purchased'
+    }
+  }
+
   return (
     <Layout meta={{title: product.name}}>
       <main
@@ -88,7 +99,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
             <span>All Products</span>
           </Link>
           <header className="">
-            <PurchasedBadge />
+            <PurchasedBadge>{getPurchaseLabel()}</PurchasedBadge>
             <h1 className="font-text pt-5 text-3xl font-semibold sm:text-4xl">
               <Balancer>{product.name}</Balancer>
             </h1>
@@ -480,10 +491,17 @@ const H2: React.FC<React.PropsWithChildren<{className?: string}>> = ({
   )
 }
 
-export const PurchasedBadge = () => {
+export const PurchasedBadge: React.FC<
+  React.PropsWithChildren<{className?: string}>
+> = ({className, children = 'purchased'}) => {
   return (
-    <div className="inline-flex rounded-full border border-emerald-600/75 bg-gradient-to-tr from-teal-500 to-emerald-500 px-3 py-1 font-mono text-xs font-semibold uppercase tracking-wide text-white shadow-inner dark:border-emerald-500 dark:from-teal-600 dark:to-emerald-600">
-      <span className="drop-shadow-md">purchased</span>
+    <div
+      className={cn(
+        'inline-flex rounded-full border border-emerald-600/75 bg-gradient-to-tr from-teal-500 to-emerald-500 px-3 py-1 font-mono text-xs font-semibold uppercase tracking-wide text-white shadow-inner dark:border-emerald-500 dark:from-teal-600 dark:to-emerald-600',
+        className,
+      )}
+    >
+      <span className="drop-shadow-md">{children}</span>
     </div>
   )
 }

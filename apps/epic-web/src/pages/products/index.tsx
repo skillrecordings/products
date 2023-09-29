@@ -113,24 +113,27 @@ const ProductCard: React.FC<{
       quantity: 1,
     })
 
+  const href = `/products/${product.slug}`
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{product.title}</CardTitle>
-        <div className="flex items-center space-x-3 pt-2 text-sm text-muted-foreground">
-          {purchase ? (
-            <>
-              <PurchasedBadge />
-              <Price amount={Number(purchase.totalAmount)} />
-            </>
-          ) : (
-            <>
-              <PriceDisplay
-                formattedPrice={formattedPrice}
-                status={formattedPriceStatus}
-              />
-            </>
+    <Card className="relative">
+      <CardHeader className="flex w-full flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">
+        <CardTitle className="text-xl">
+          <Link href={href}>{product.title}</Link>
+        </CardTitle>
+        <div className="flex items-center gap-3">
+          {purchase ? null : (
+            // <Price amount={Number(purchase.totalAmount)} />
+            <div className="flex items-center space-x-3 pt-2 text-sm text-muted-foreground">
+              <>
+                <PriceDisplay
+                  formattedPrice={formattedPrice}
+                  status={formattedPriceStatus}
+                />
+              </>
+            </div>
           )}
+          <PurchasedBadge />
         </div>
       </CardHeader>
       <CardFooter className="space-x-2">
@@ -139,7 +142,7 @@ const ProductCard: React.FC<{
             <Button variant="secondary" size="sm" asChild>
               <Link
                 // href={`/purchases/${purchase.id}`}
-                href={`/products/${product.slug}`}
+                href={href}
               >
                 {purchase.bulkCoupon ? 'Manage & Details' : 'Manage & Details'}
               </Link>
