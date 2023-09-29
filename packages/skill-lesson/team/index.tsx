@@ -15,6 +15,7 @@ type InviteTeamProps = {
   }
   session: any
   setPersonalPurchase: (props: any) => void
+  className?: string
 }
 
 const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
@@ -22,6 +23,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   existingPurchase,
   session,
   setPersonalPurchase,
+  className = '',
 }) => {
   const [selfRedemptionSucceeded, setSelfRedemptionSucceeded] =
     React.useState<boolean>(false)
@@ -66,7 +68,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   const userEmail = session?.user?.email
 
   return (
-    <div data-invite-team="">
+    <div data-invite-team="" className={className}>
       <p data-title="">
         You have <strong>{numberOfRedemptionsLeft} seats left</strong>
         .<br />

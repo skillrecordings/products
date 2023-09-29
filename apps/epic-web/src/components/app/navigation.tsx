@@ -101,8 +101,12 @@ const Navigation: React.FC<NavigationProps> = ({
   const isSmScreen = useMedia('(max-width: 640px)', false)
 
   const [hoveredNavItemIndex, setHoveredNavItemIndex] = React.useState(-1)
+
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({})
+
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
 
   return (
     <>
@@ -178,6 +182,17 @@ const Navigation: React.FC<NavigationProps> = ({
           <div className="flex items-center justify-end">
             <Login className="hidden sm:flex" />
             <User className="hidden sm:flex" />
+            {commercePropsStatus === 'success' &&
+              purchasedProductIds.length > 0 && (
+                <Link
+                  href="/products?s=purchased"
+                  className={cx('mr-3 hidden px-2.5 lg:block', {
+                    underline: pathname === '/products',
+                  })}
+                >
+                  My Products
+                </Link>
+              )}
             <ColorModeToggle className="hidden sm:block" />
             <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
           </div>
@@ -214,9 +229,23 @@ const Navigation: React.FC<NavigationProps> = ({
                   )
                 })}
 
-                <div className="flex w-full items-center justify-between pt-5 text-lg">
+                <div className="flex w-full items-center justify-between px-3 pt-5 text-lg">
                   <Login />
                   <User />
+                  {commercePropsStatus === 'success' &&
+                    purchasedProductIds.length > 0 && (
+                      <Link
+                        href="/products?s=purchased"
+                        className={cx(
+                          // 'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
+                          {
+                            underline: pathname === '/products',
+                          },
+                        )}
+                      >
+                        My Products
+                      </Link>
+                    )}
                   <ColorModeToggle />
                 </div>
               </motion.div>
@@ -280,7 +309,7 @@ const User: React.FC<{className?: string}> = ({className}) => {
                     },
                   )}
                 >
-                  My Purchases
+                  My Products
                 </Link>
               </DropdownMenuItem>
             )}

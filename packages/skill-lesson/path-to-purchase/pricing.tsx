@@ -585,9 +585,14 @@ const WorkshopListItem: React.FC<{module: SanityProductModule}> = ({
 export type PriceDisplayProps = {
   status: QueryStatus
   formattedPrice?: FormattedPrice
+  className?: string
 }
 
-export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
+export const PriceDisplay = ({
+  status,
+  formattedPrice,
+  className = '',
+}: PriceDisplayProps) => {
   const {isDiscount} = usePriceCheck()
 
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
@@ -608,7 +613,7 @@ export const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
     appliedMerchantCoupon && `${percentOff}% off of $${fullPrice}`
 
   return (
-    <div data-price-container={status}>
+    <div data-price-container={status} className={className}>
       {status === 'loading' ? (
         <div data-loading-price="">
           <span className="sr-only">Loading price</span>

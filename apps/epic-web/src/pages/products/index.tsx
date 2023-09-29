@@ -40,6 +40,7 @@ import {
   formatUsd,
 } from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import Spinner from 'components/spinner'
+import {PurchasedBadge} from 'templates/purchased-product-template'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const products = await getAllProducts()
@@ -116,14 +117,11 @@ const ProductCard: React.FC<{
     <Card>
       <CardHeader>
         <CardTitle>{product.title}</CardTitle>
-        <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+        <div className="flex items-center space-x-3 pt-2 text-sm text-muted-foreground">
           {purchase ? (
             <>
+              <PurchasedBadge />
               <Price amount={Number(purchase.totalAmount)} />
-              <span>
-                Purchased on:{' '}
-                <DatePurchased date={purchase.createdAt.toString()} />
-              </span>
             </>
           ) : (
             <>
@@ -139,22 +137,27 @@ const ProductCard: React.FC<{
         {purchase ? (
           <>
             <Button variant="secondary" size="sm" asChild>
-              <Link href={`/purchases/${purchase.id}`}>
-                {purchase.bulkCoupon ? 'Manage' : 'Details'}
-              </Link>
-            </Button>
-            <Button variant="outline" asChild size="sm">
               <Link
-                href={{
-                  pathname: '/invoices/[merchantChargeId]',
-                  query: {
-                    merchantChargeId: purchase.merchantChargeId,
-                  },
-                }}
+                // href={`/purchases/${purchase.id}`}
+                href={`/products/${product.slug}`}
               >
-                Invoice
+                {purchase.bulkCoupon ? 'Manage & Details' : 'Manage & Details'}
               </Link>
             </Button>
+            {purchase.merchantChargeId && (
+              <Button variant="outline" asChild size="sm">
+                <Link
+                  href={{
+                    pathname: '/invoices/[merchantChargeId]',
+                    query: {
+                      merchantChargeId: purchase.merchantChargeId,
+                    },
+                  }}
+                >
+                  Invoice
+                </Link>
+              </Button>
+            )}
           </>
         ) : (
           <>
