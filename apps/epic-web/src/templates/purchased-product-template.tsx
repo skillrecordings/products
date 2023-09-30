@@ -90,7 +90,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
         data-product-page=""
         className="mx-auto flex w-full max-w-screen-lg flex-col gap-10 lg:flex-row"
       >
-        <article className="w-full max-w-4xl px-5 pb-32 pt-16">
+        <article className="w-full max-w-4xl px-5 pb-0 pt-16 sm:pb-32">
           <Link
             href="/products"
             className="group mb-10 inline-flex gap-1 text-sm opacity-75 transition hover:opacity-100"
@@ -158,9 +158,11 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
               </>
             )}
             <H2>Invoices</H2>
-            <Purchases
-              purchasesForCurrentProduct={purchasesForCurrentProduct}
-            />
+            <div className="overflow-x-auto scrollbar-thin">
+              <Purchases
+                purchasesForCurrentProduct={purchasesForCurrentProduct}
+              />
+            </div>
           </div>
         </article>
         <aside className="flex flex-shrink-0 flex-col items-center border-t py-10 pr-5 md:mb-0 lg:min-h-screen lg:w-4/12 lg:items-end">
@@ -216,7 +218,7 @@ const Upgrade: React.FC<{
       <form
         action={formActionPath}
         method="POST"
-        className="mt-4 flex w-full items-center justify-between gap-3 rounded border bg-white p-5 dark:bg-gray-900"
+        className="mt-4 flex w-full flex-col items-center justify-between gap-3 rounded border bg-white p-5 dark:bg-gray-900 sm:flex-row"
       >
         <PriceDisplay
           className="flex [&_[data-full-price]]:line-through [&_[data-percent-off]]:text-primary dark:[&_[data-percent-off]]:text-blue-300 [&_[data-price-discounted]]:flex [&_[data-price-discounted]]:items-center [&_[data-price-discounted]]:gap-2 [&_[data-price-discounted]]:pl-3 [&_[data-price-discounted]]:text-base [&_[data-price-discounted]]:font-medium [&_[data-price]]:flex [&_[data-price]]:text-2xl [&_[data-price]]:font-bold [&_sup]:top-2.5 [&_sup]:pr-1 [&_sup]:opacity-75"
