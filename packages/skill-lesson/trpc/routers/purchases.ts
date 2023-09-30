@@ -3,6 +3,7 @@ import {publicProcedure, router} from '../trpc.server'
 import {get, isEmpty, last} from 'lodash'
 import {getToken} from 'next-auth/jwt'
 import {z} from 'zod'
+import {getProduct} from '../../lib/products'
 
 export const purchasesRouter = router({
   getPurchaseById: publicProcedure
@@ -33,8 +34,11 @@ export const purchasesRouter = router({
           purchaseId as string,
           token.sub,
         )
+        const product = await getProduct(
+          purchaseDetails.purchase?.product.id as string,
+        )
 
-        return purchaseDetails
+        return {...purchaseDetails, slug: product.slug.current}
       }
     }
   }),

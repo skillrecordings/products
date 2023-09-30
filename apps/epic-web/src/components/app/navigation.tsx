@@ -51,7 +51,11 @@ const useNavigationLinks = () => {
 
   return [
     // {
-    //   label: 'Pro Workshops',
+    //   label: (
+    //     <>
+    //       <span className="sm:hidden lg:inline-block">Pro</span> Workshops
+    //     </>
+    //   ),
     //   icon: (isHovered: boolean) => (
     //     <WorkshopsIcon isHovered={isHovered} theme={theme} />
     //   ),
@@ -65,7 +69,11 @@ const useNavigationLinks = () => {
       href: canCreateContent ? '/creator/tips' : '/tips',
     },
     {
-      label: 'Free Tutorials',
+      label: (
+        <>
+          <span className="sm:hidden lg:inline-block">Free</span> Tutorials
+        </>
+      ),
       icon: (isHovered: boolean) => (
         <TutorialsIcon isHovered={isHovered} theme={theme} />
       ),
@@ -110,10 +118,18 @@ const Navigation: React.FC<NavigationProps> = ({
   const [hoveredNavItemIndex, setHoveredNavItemIndex] = React.useState(-1)
 
   const {data: commerceProps, status: commercePropsStatus} =
-    trpc.pricing.propsForCommerce.useQuery({})
+    trpc.pricing.propsForCommerce.useQuery({
+      productId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
+    })
+
+  const {data: lastPurchase, status: lastPurchaseStatus} =
+    trpc.purchases.getLastPurchase.useQuery()
 
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+  const hasPurchase = purchasedProductIds.length > 0
+  const ability = useAbilities()
+  const canInviteTeam = ability.can('invite', 'Team')
 
   return (
     <>
@@ -145,7 +161,7 @@ const Navigation: React.FC<NavigationProps> = ({
             >
               <Logo />
             </Link>
-            <div className="hidden items-center justify-start gap-2 pl-5 font-medium sm:flex">
+            <div className="hidden items-center justify-start gap-2 font-medium sm:flex lg:pl-2">
               {navigationLinks.map(({label, href, icon}, i) => {
                 const isOvershadowed = false
                 // (hoveredNavItemIndex !== i && hoveredNavItemIndex !== -1)
@@ -161,7 +177,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     key={href}
                     href={href}
                     className={cx(
-                      'group flex items-center gap-1 rounded-md px-2.5 py-1 transition',
+                      'group flex items-center gap-1 rounded-md px-1.5 py-1 transition lg:px-2.5',
                       {
                         'opacity-60': isOvershadowed,
                       },
@@ -189,17 +205,29 @@ const Navigation: React.FC<NavigationProps> = ({
           <div className="flex items-center justify-end">
             <Login className="hidden sm:flex" />
             <User className="hidden sm:flex" />
-            {commercePropsStatus === 'success' &&
-              purchasedProductIds.length > 0 && (
-                <Link
-                  href="/products?s=purchased"
-                  className={cx('mr-3 hidden px-2.5 lg:block', {
-                    underline: pathname === '/products',
-                  })}
-                >
-                  My Products
-                </Link>
-              )}
+            {commercePropsStatus === 'success' && hasPurchase && (
+              <>
+                {canInviteTeam && lastPurchase ? (
+                  <Link
+                    href={`/products/${lastPurchase.slug}`}
+                    className={cx('mr-3 hidden px-2.5 lg:block', {
+                      underline: pathname === `/products/${lastPurchase.slug}`,
+                    })}
+                  >
+                    Invite Team
+                  </Link>
+                ) : (
+                  <Link
+                    href="/products?s=purchased"
+                    className={cx('mr-3 hidden px-2.5 lg:block', {
+                      underline: pathname === '/products',
+                    })}
+                  >
+                    My Products
+                  </Link>
+                )}
+              </>
+            )}
             <ColorModeToggle className="hidden sm:block" />
             <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
           </div>
@@ -295,12 +323,17 @@ const User: React.FC<{className?: string}> = ({className}) => {
             />
             <div className="flex flex-col pl-0.5">
               <span className="inline-flex gap-0.5 text-sm font-bold leading-tight">
-                {sessionData?.user?.name} <ChevronDownIcon className="w-2" />
+                <span className="truncate sm:max-w-[3rem] lg:max-w-[6rem]">
+                  {sessionData?.user?.name}
+                </span>{' '}
+                <ChevronDownIcon className="w-2" />
               </span>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Account</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              {sessionData?.user?.name || 'Account'}
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             {purchasedProductIds.length > 0 && (
               <DropdownMenuItem
