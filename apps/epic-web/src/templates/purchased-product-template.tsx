@@ -254,11 +254,11 @@ const ModuleItem: React.FC<{
       <div className="flex flex-col">
         <Link
           href={`/${pluralize(module.moduleType)}/${module.slug}`}
-          className="font-medium hover:underline"
+          className="font-semibold hover:underline"
         >
           {module.title}
         </Link>
-        <div className="text-sm text-gray-300">
+        <div className="text-sm text-gray-600 dark:text-gray-300">
           {module.sections && (
             <span>
               {module?.sections.length > 1 &&
@@ -305,7 +305,9 @@ const ModuleItem: React.FC<{
                         },
                       }
                 }
-                className={cx('flex font-medium text-cyan-300 hover:underline')}
+                className={cx(
+                  'flex font-medium text-blue-600 hover:underline dark:text-blue-300',
+                )}
                 onClick={() => {
                   track('clicked start learning', {module: slug})
                 }}
@@ -313,12 +315,12 @@ const ModuleItem: React.FC<{
                 {isModuleInProgress ? 'Continue' : 'Start'}
               </Link>
               <div className="relative flex w-full items-center justify-between gap-1">
-                <div className="pr-1 text-xs font-semibold text-gray-300">
+                <div className="pr-1 text-xs font-semibold text-gray-600 dark:text-gray-300">
                   {moduleProgress?.percentComplete}%
                 </div>
-                <div className="h-1 w-full bg-gray-800">
+                <div className="h-1 w-full bg-gray-200 dark:bg-gray-800">
                   <div
-                    className="h-1 bg-cyan-400"
+                    className="h-1 bg-blue-500 dark:bg-blue-400"
                     style={{width: moduleProgress?.percentComplete + '%'}}
                   />
                 </div>

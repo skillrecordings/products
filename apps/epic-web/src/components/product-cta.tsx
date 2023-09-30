@@ -22,7 +22,7 @@ const ProductCTA: React.FC<{product: Product; className?: string}> = ({
       <div
         ref={ref}
         onMouseMove={withEffect ? handleMouseMove : () => {}}
-        className="relative flex flex-row items-center justify-center gap-5 overflow-hidden rounded-md bg-gradient-to-tr from-gray-900 to-gray-800 p-5 before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-['']"
+        className="relative flex flex-row items-center justify-center gap-5 overflow-hidden rounded-md bg-gradient-to-tr from-sky-500 to-blue-500 p-5 before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:from-gray-900 dark:to-gray-800"
       >
         <div className="absolute -left-3.5 h-6 w-6 rounded-full bg-background" />
         <div className="absolute -right-3.5 h-6 w-6 rounded-full bg-background" />
@@ -46,10 +46,10 @@ const ProductCTA: React.FC<{product: Product; className?: string}> = ({
           />
         )}
         <div className="flex flex-col items-start">
-          <div className="mb-1 rounded-full font-mono text-xs font-semibold uppercase tracking-wide text-blue-200">
-            <span className="drop-shadow-md">{title}</span>
+          <div className="mb-1 rounded-full font-mono text-xs font-semibold uppercase tracking-wide text-white dark:text-blue-200">
+            <span className="dark:drop-shadow-md">{title}</span>
           </div>
-          <p className="text-2xl font-semibold leading-tight">
+          <p className="text-2xl font-semibold leading-tight text-white">
             {isSellingLive ? 'Out Now!' : 'Coming Soon'}
           </p>
           {isSellingLive ? (
