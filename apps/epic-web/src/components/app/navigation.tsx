@@ -50,6 +50,13 @@ const useNavigationLinks = () => {
   const {theme} = useTheme()
 
   return [
+    // {
+    //   label: 'Pro Workshops',
+    //   icon: (isHovered: boolean) => (
+    //     <WorkshopsIcon isHovered={isHovered} theme={theme} />
+    //   ),
+    //   href: '/workshops',
+    // },
     {
       label: 'Tips',
       icon: (isHovered: boolean) => (
@@ -711,5 +718,100 @@ export const TipsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
         </linearGradient>
       </defs>
     </svg>
+  )
+}
+
+export const WorkshopsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+  const id = Math.random() * 100
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8.6565 1.42938C9.02065 0.812604 9.91295 0.812604 10.2771 1.42938L12.8368 5.76489C12.9176 5.90177 13.0318 6.01596 13.1687 6.09678L17.5042 8.6565C18.121 9.02065 18.121 9.91295 17.5042 10.2771L13.1687 12.8368C13.0318 12.9176 12.9176 13.0318 12.8368 13.1687L10.2771 17.5042C9.91294 18.121 9.02065 18.121 8.6565 17.5042L6.09677 13.1687C6.01595 13.0318 5.90177 12.9176 5.76489 12.8368L1.42938 10.2771C0.812604 9.91294 0.812604 9.02065 1.42938 8.6565L5.76489 6.09677C5.90177 6.01595 6.01596 5.90177 6.09678 5.76489L8.6565 1.42938Z"
+        fill={`url(#workshopsGradient${id})`}
+      />
+      <defs>
+        <linearGradient
+          id={`workshopsGradient${id}`}
+          fill={`url(#workshopsGradient${id})`}
+          x1="9.46692"
+          y1="0.0570553"
+          x2="9.46692"
+          y2="18.8768"
+          gradientUnits="userSpaceOnUse"
+        >
+          <motion.stop
+            stop-color="#5B5E71"
+            animate={{
+              stopColor: isHovered
+                ? '#FFE55F'
+                : theme === 'light'
+                ? '#C2C4CF'
+                : '#5B5E71',
+            }}
+            stopColor={
+              isHovered ? '#FFE55F' : theme === 'light' ? '#C2C4CF' : '#5B5E71'
+            }
+          />
+          <motion.stop
+            offset="1"
+            stopColor={
+              isHovered ? '#F39F3D' : theme === 'light' ? '#A4A5AF' : '#393A46'
+            }
+          />
+        </linearGradient>
+      </defs>
+    </svg>
+
+    // <svg
+    //   xmlns="http://www.w3.org/2000/svg"
+    //   width="18"
+    //   height="12"
+    //   fill="none"
+    //   viewBox="0 0 18 12"
+    // >
+    //   <motion.path
+    //     fill={`url(#tipsGradient${id})`}
+    //     d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
+    //   />
+    //   <motion.path
+    //     fill={`url(#tipsGradient${id})`}
+    //     d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
+    //   />
+    //   <defs>
+    //     <linearGradient
+    //       id={`tipsGradient${id}`}
+    //       x1="12.5"
+    //       x2="-.5"
+    //       y1="-2"
+    //       y2="14.5"
+    //       gradientUnits="userSpaceOnUse"
+    //     >
+    //       <motion.stop
+    //         animate={{
+    //           stopColor: isHovered
+    //             ? '#30B0FF'
+    //             : theme === 'light'
+    //             ? '#C2C4CF'
+    //             : '#5B5E71',
+    //         }}
+    //         stopColor={
+    //           isHovered ? '#30B0FF' : theme === 'light' ? '#C2C4CF' : '#5B5E71'
+    //         }
+    //       />
+    //       <motion.stop
+    //         offset="1"
+    //         stopColor={
+    //           isHovered ? '#5075FF' : theme === 'light' ? '#A4A5AF' : '#393A46'
+    //         }
+    //       />
+    //     </linearGradient>
+    //   </defs>
+    // </svg>
   )
 }

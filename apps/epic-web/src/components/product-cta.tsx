@@ -17,8 +17,20 @@ const ProductCTA: React.FC<{product: Product; className?: string}> = ({
   const ref = React.useRef(null)
   const {x, y, handleMouseMove} = useCursorPosition({parentRef: ref})
   const withEffect = !isFirefox
+
+  const Comp: React.FC<React.PropsWithChildren> = ({children}) => {
+    if (isSellingLive) {
+      return (
+        <Link href={`/products/${product.slug}`} className={className}>
+          {children}
+        </Link>
+      )
+    } else {
+      return <div className={className}>{children}</div>
+    }
+  }
   return (
-    <Link href={`/products/${product.slug}`} className={className}>
+    <Comp>
       <div
         ref={ref}
         onMouseMove={withEffect ? handleMouseMove : () => {}}
@@ -63,7 +75,7 @@ const ProductCTA: React.FC<{product: Product; className?: string}> = ({
           ) : null}
         </div>
       </div>
-    </Link>
+    </Comp>
   )
 }
 
