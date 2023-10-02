@@ -44,7 +44,7 @@ const useAbilities = () => {
   return createAppAbility(abilityRules || [])
 }
 
-const useNavigationLinks = () => {
+export const useNavigationLinks = () => {
   const ability = useAbilities()
   const canCreateContent = ability.can('create', 'Content')
   const {theme} = useTheme()

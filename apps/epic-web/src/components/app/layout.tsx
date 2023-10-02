@@ -4,6 +4,7 @@ import {Toaster} from 'react-hot-toast'
 import Navigation from 'components/app/navigation'
 import {useWorkshopCta} from 'pages/full-stack-workshop-series-vol-1'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import Footer from './footer'
 
 type LayoutProps = {
   meta?: any
@@ -13,6 +14,7 @@ type LayoutProps = {
   navigationClassName?: string
   navigationContainerClassName?: string
   navigationSize?: 'sm' | 'md' | 'lg'
+  withFooter?: boolean
 }
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
@@ -23,6 +25,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   navigationClassName,
   navigationContainerClassName,
   navigationSize,
+  withFooter = true,
 }) => {
   const {
     title,
@@ -89,6 +92,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       >
         {children}
       </div>
+      {withFooter ? <Footer /> : null}
     </>
   )
 }

@@ -6,6 +6,7 @@ import {ConvertkitProvider} from '@skillrecordings/skill-lesson/hooks/use-conver
 import {SessionProvider} from 'next-auth/react'
 import {usePageview} from '@skillrecordings/analytics'
 import {initNProgress} from '@skillrecordings/react'
+import {FeedbackProvider} from '@skillrecordings/feedback-widget'
 import {DefaultSeo} from '@skillrecordings/next-seo'
 import {trpc} from 'trpc/trpc.client'
 import config from '../config'
@@ -29,25 +30,27 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   return (
     <>
       <DefaultSeo {...config} />
-      <ThemeProvider
-        attribute="class"
-        enableSystem={false}
-        defaultTheme="dark"
-        disableTransitionOnChange={true}
-        // @ts-ignore
-        forcedTheme={Component.theme || null}
-      >
-        <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <ConvertkitProvider>
-            <div
-              id="app"
-              className={`${dmSans.variable} ${jetBransMono.variable} font-sans antialiased`}
-            >
-              <Component {...pageProps} />
-            </div>
-          </ConvertkitProvider>
-        </SessionProvider>
-      </ThemeProvider>
+      <FeedbackProvider>
+        <ThemeProvider
+          attribute="class"
+          enableSystem={false}
+          defaultTheme="dark"
+          disableTransitionOnChange={true}
+          // @ts-ignore
+          forcedTheme={Component.theme || null}
+        >
+          <SessionProvider session={pageProps.session} refetchInterval={0}>
+            <ConvertkitProvider>
+              <div
+                id="app"
+                className={`${dmSans.variable} ${jetBransMono.variable} font-sans antialiased`}
+              >
+                <Component {...pageProps} />
+              </div>
+            </ConvertkitProvider>
+          </SessionProvider>
+        </ThemeProvider>
+      </FeedbackProvider>
       {process.env.NODE_ENV !== 'development' && (
         <>
           <Script

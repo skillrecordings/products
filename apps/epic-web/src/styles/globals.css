@@ -19,7 +19,7 @@
 @import './login.css';
 @import './redeem-dialog.css';
 @import './video/reset-progress.css';
-
+@import './feedback-widget.css';
 @tailwind utilities;
 
 :root {
