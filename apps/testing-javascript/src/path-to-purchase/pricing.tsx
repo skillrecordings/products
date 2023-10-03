@@ -601,25 +601,3 @@ const RegionalPricingBox: React.FC<
     </div>
   )
 }
-
-{
-  /*
-{isLowerTier ? (
-                    <div data-lower-tier-message>
-                      You have already purchased a higher tier.
-                    </div>
-                  ) : (
-                    <button
-                      data-pricing-product-checkout-button={product.name}
-                      type="submit"
-                      disabled={status === 'loading' || status === 'error'}
-                    >
-                      <span>
-                        {formattedPrice?.upgradeFromPurchaseId
-                          ? `Upgrade Now`
-                          : action || `Buy Now`}
-                      </span>
-                    </button>
-                  )}
-*/
-}
