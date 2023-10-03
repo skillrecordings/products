@@ -196,7 +196,7 @@ mux-player::part(vertical-layer) {
 
 :root .light,
 :root.light {
-  /* --base00: #f3f3f3; /* editor background */ */
+  /* --base00: #f3f3f3; /* editor background */
   --base00: #131621; /* editor background */
   --base01: #e0e0e0; /* unused (currently) */
   --base02: #d6d6d6; /* unused (currently) */
