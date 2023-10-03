@@ -396,7 +396,10 @@ const Login: React.FC<{className?: string}> = ({className}) => {
   )
 }
 
-export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+export const ArticlesIcon: React.FC<IconProps> = ({
+  isHovered,
+  theme = 'dark',
+}) => {
   const id = Math.random() * 100
   return (
     <svg
@@ -407,12 +410,12 @@ export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
       viewBox="0 0 18 18"
     >
       <path
-        fill={`url(#gradientArticles${id})`}
+        fill={`url(#gradientArticles-1)`}
         d="M15.742.676a.375.375 0 0 0-.367-.301H2.625a.374.374 0 0 0-.368.301l-.75 3.75a.374.374 0 0 0 .368.449h.75a.375.375 0 0 0 .371-.322C3.01 4.46 3.347 2.25 5.25 2.25H7.5v12.302a1.41 1.41 0 0 1-1.232 1.396l-1.44.18a.375.375 0 0 0-.328.372v.75c0 .207.168.375.375.375h8.25a.375.375 0 0 0 .375-.375v-.75a.375.375 0 0 0-.329-.372l-1.44-.18a1.409 1.409 0 0 1-1.231-1.396V2.25h2.25c1.893 0 2.24 2.21 2.254 2.303a.375.375 0 0 0 .37.322h.75a.374.374 0 0 0 .368-.449l-.75-3.75Z"
       />
       <defs>
         <linearGradient
-          id={`gradientArticles${id}`}
+          id={`gradientArticles-1`}
           x1="9"
           x2="9"
           y1=".375"
@@ -444,7 +447,10 @@ export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
   )
 }
 
-export const TutorialsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+export const TutorialsIcon: React.FC<IconProps> = ({
+  isHovered,
+  theme = 'dark',
+}) => {
   const id = Math.random() * 100
   return (
     <svg
@@ -455,14 +461,14 @@ export const TutorialsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
       viewBox="0 0 22 16"
     >
       <path
-        fill={`url(#tutorialsGradient${id})`}
+        fill={`url(#tutorialsGradient-1)`}
         fillRule="evenodd"
         d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3Zm6 11.44V4.56a.3.3 0 0 1 .466-.25l5.16 3.44a.3.3 0 0 1 0 .5l-5.16 3.44A.3.3 0 0 1 9 11.44Z"
         clipRule="evenodd"
       />
       <defs>
         <linearGradient
-          id={`tutorialsGradient${id}`}
+          id={`tutorialsGradient-1`}
           x1="11"
           x2="11"
           y1="0"
@@ -703,8 +709,9 @@ const EventsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
   )
 }
 
-export const TipsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+export const TipsIcon: React.FC<IconProps> = ({isHovered, theme = 'dark'}) => {
   const id = Math.random() * 100
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -714,16 +721,16 @@ export const TipsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
       viewBox="0 0 18 12"
     >
       <motion.path
-        fill={`url(#tipsGradient${id})`}
+        fill={`url(#tipsGradient-1)`}
         d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
       />
       <motion.path
-        fill={`url(#tipsGradient${id})`}
+        fill={`url(#tipsGradient-1)`}
         d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
       />
       <defs>
         <linearGradient
-          id={`tipsGradient${id}`}
+          id={`tipsGradient-1`}
           x1="12.5"
           x2="-.5"
           y1="-2"
@@ -800,51 +807,5 @@ export const WorkshopsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
         </linearGradient>
       </defs>
     </svg>
-
-    // <svg
-    //   xmlns="http://www.w3.org/2000/svg"
-    //   width="18"
-    //   height="12"
-    //   fill="none"
-    //   viewBox="0 0 18 12"
-    // >
-    //   <motion.path
-    //     fill={`url(#tipsGradient${id})`}
-    //     d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
-    //   />
-    //   <motion.path
-    //     fill={`url(#tipsGradient${id})`}
-    //     d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
-    //   />
-    //   <defs>
-    //     <linearGradient
-    //       id={`tipsGradient${id}`}
-    //       x1="12.5"
-    //       x2="-.5"
-    //       y1="-2"
-    //       y2="14.5"
-    //       gradientUnits="userSpaceOnUse"
-    //     >
-    //       <motion.stop
-    //         animate={{
-    //           stopColor: isHovered
-    //             ? '#30B0FF'
-    //             : theme === 'light'
-    //             ? '#C2C4CF'
-    //             : '#5B5E71',
-    //         }}
-    //         stopColor={
-    //           isHovered ? '#30B0FF' : theme === 'light' ? '#C2C4CF' : '#5B5E71'
-    //         }
-    //       />
-    //       <motion.stop
-    //         offset="1"
-    //         stopColor={
-    //           isHovered ? '#5075FF' : theme === 'light' ? '#A4A5AF' : '#393A46'
-    //         }
-    //       />
-    //     </linearGradient>
-    //   </defs>
-    // </svg>
   )
 }

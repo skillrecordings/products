@@ -41,7 +41,7 @@ const Footer = () => {
             </strong>
             <ul className="pt-3">
               {contactLinks.map(({label, href}) => (
-                <li>
+                <li key={href}>
                   <Link
                     className="inline-block py-1 opacity-90 transition hover:opacity-100"
                     href={href}
@@ -78,8 +78,8 @@ const Footer = () => {
                   y2="49.4308"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#4F75FF" />
-                  <stop offset="1" stop-color="#30AFFF" />
+                  <stop stopColor="#4F75FF" />
+                  <stop offset="1" stopColor="#30AFFF" />
                 </linearGradient>
               </defs>
             </svg>
