@@ -40,8 +40,8 @@
   @apply scale-105;
 }
 [data-pricing-product-checkout-button='Pro Testing'][type='submit'],
-[data-pricing-buy-more-seats='Pro Testing'] {
-  @apply px-5 py-4 text-xl leading-snug bg-gradient-to-b from-[#ffc26a] to-[#ffa82e] text-white border-none;
+[data-pricing-buy-more-seats='Pro Testing'][type='button'] {
+  @apply px-5 py-4 text-xl leading-snug bg-gradient-to-b from-[#ffc26a] to-[#ffa82e] text-white border-none rounded;
   box-shadow: inset 1px -1px 3px 0 #f0a233;
   text-shadow: 0 1px 2px #c98b33;
 }
