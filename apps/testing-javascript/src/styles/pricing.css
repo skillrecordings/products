@@ -86,3 +86,22 @@
     }
   }
 }
+
+[data-product-is-lower-tier='true'] {
+  [data-pricing-image-container],
+  [data-product-price-holder],
+  [data-product-summary-holder],
+  [data-product-details-holder],
+  [data-pricing-product-header],
+  [data-purchased-container] {
+    @apply grayscale opacity-20;
+  }
+  [data-pricing-product-header] [data-title] {
+    @apply text-base font-tt-regular uppercase;
+  }
+}
+
+[data-lower-tier-message] {
+  @apply mt-6 font-tt-demibold text-center leading-tight text-2xl p-3 border border-body;
+  text-wrap: balance;
+}
