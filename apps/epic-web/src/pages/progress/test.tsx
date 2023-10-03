@@ -1,37 +1,57 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 
 const ParentComponent = () => {
-  const [progressData, setProgressData] = React.useState()
-  useEffect(() => {
-    // Add an event listener to listen for messages from the iframe
-    const handleIframeMessage = (event: any) => {
-      if (event.data.type === 'kcdshop:progress:resolved') {
-        console.log('Received progress data:', event.data.progress)
-        setProgressData(event.data.progress)
-      }
-    }
+  const iframeRef = React.useRef<any>(null)
 
-    // Send a message to the iframe
-    const iframe: any = document.querySelector('iframe')
-    iframe?.contentWindow.postMessage(
-      {type: 'kcdshop:parent:get-progress'},
+  const handleIframeLoad = () => {
+    // Once the iframe is loaded, we can start communicating with it.
+    iframeRef.current.contentWindow.postMessage(
+      {type: 'kcdshop:parent:ready'},
       '*',
     )
+  }
 
-    // Add the event listener
-    window.addEventListener('message', handleIframeMessage)
+  const handleReceiveMessage = (event: any) => {
+    // Handle messages received from the child iframe.
+    if (event.data.type === 'kcdshop:progress:ready') {
+      // The child iframe is ready.
+      console.log('PARENT RECEIVED: kcdshop:progress:ready')
+      // Request progress data from the child iframe
+      iframeRef.current.contentWindow.postMessage(
+        {type: 'kcdshop:parent:get-progress'},
+        '*',
+      )
+    } else if (event.data.type === 'kcdshop:progress:resolved') {
+      // Handle progress data received from the child iframe.
+      console.log(
+        'PARENT RECEIVED: kcdshop:progress:resolved',
+        event.data.progress,
+      )
+    } else if (event.data.type === 'kcdshop:progress:rejected') {
+      // Handle error data received from the child iframe.
+      console.error(
+        'PARENT RECEIVED: kcdshop:progress:rejected',
+        event.data.error,
+      )
+    }
+  }
 
-    // Clean up the event listener when the component is unmounted
+  React.useEffect(() => {
+    // Attach an event listener to handle messages from the child iframe.
+    window.addEventListener('message', handleReceiveMessage)
     return () => {
-      window.removeEventListener('message', handleIframeMessage)
+      window.removeEventListener('message', handleReceiveMessage)
     }
   }, [])
 
   return (
-    <div>
-      {progressData && JSON.stringify(progressData)}
-      <iframe src="http://localhost:3021/progress" width="100%" height="100%" />
-    </div>
+    <>
+      <iframe
+        ref={iframeRef}
+        src={`${process.env.NEXT_PUBLIC_URL}/progress`}
+        onLoad={handleIframeLoad}
+      />
+    </>
   )
 }
 
