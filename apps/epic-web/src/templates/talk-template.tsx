@@ -179,8 +179,8 @@ const TalkTemplate: React.FC<{
                       </div>
                     </>
                   )}
-                  {talk.transcript && talk.body && (
-                    <div className="w-full max-w-2xl pt-5">
+                  {talk.transcript && (
+                    <div className="w-full pt-8">
                       <VideoTranscript transcript={talk.transcript} />
                     </div>
                   )}
@@ -191,14 +191,14 @@ const TalkTemplate: React.FC<{
                 {/* </div> */}
               </div>
             </div>
-            <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
+            {/* <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
               {talk.transcript && !talk.body && (
                 <div className="w-full max-w-2xl pt-5">
                   <VideoTranscript transcript={talk.transcript} />
                 </div>
-              )}
-              {/* {!tip.body && <RelatedTips currentTip={tip} tips={tips} />} */}
-            </div>
+              )} */}
+            {/* {!tip.body && <RelatedTips currentTip={tip} tips={tips} />} */}
+            {/* </div> */}
           </article>
         </main>
       </Layout>

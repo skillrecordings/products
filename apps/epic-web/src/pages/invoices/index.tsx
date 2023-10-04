@@ -9,6 +9,7 @@ import Link from 'next/link'
 import {getToken} from 'next-auth/jwt'
 import {Purchase} from '@skillrecordings/database'
 import {getCurrentAbility} from '@skillrecordings/ability'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const sessionToken = await getToken({req})
@@ -55,16 +56,25 @@ const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
   )
 }
 
-export const InvoiceCard: React.FC<{purchase: Purchase | any}> = ({
-  purchase,
-}) => {
+export const InvoiceCard: React.FC<{
+  purchase: Purchase | any
+  className?: string
+}> = ({purchase, className}) => {
   return (
     <Link href={`/invoices/${purchase.merchantChargeId}`} className="group">
-      <div className="flex items-start rounded-lg border border-gray-100 bg-white px-5 py-6 dark:border-gray-800 dark:bg-gray-900">
+      <div
+        className={cn(
+          'flex items-start rounded-lg border border-gray-100 bg-white px-5 py-6 dark:border-gray-800 dark:bg-gray-900',
+          className,
+        )}
+      >
         <div>
           <DocumentTextIcon aria-hidden className="w-6 text-primary" />
         </div>
-        <div className="flex w-full flex-col justify-between gap-2 pl-2 sm:flex-row sm:items-center">
+        <div
+          data-content=""
+          className="flex w-full flex-col justify-between gap-2 pl-2 sm:flex-row sm:items-center"
+        >
           <div className="font-semibold group-hover:underline">
             Invoice: {purchase?.product?.name}
           </div>
