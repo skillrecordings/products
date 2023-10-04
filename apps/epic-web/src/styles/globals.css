@@ -97,7 +97,7 @@ mux-player::part(vertical-layer) {
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
+    --background: 215 23% 96%;
     --foreground: 227 47% 6%;
 
     --muted: 210 40% 96.1%;
