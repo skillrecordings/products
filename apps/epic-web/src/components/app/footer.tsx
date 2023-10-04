@@ -1,9 +1,20 @@
 import React from 'react'
 import {Logo, useNavigationLinks} from './navigation'
 import Link from 'next/link'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {useRouter} from 'next/router'
 
 const Footer = () => {
   const primaryNavLinks = useNavigationLinks()
+  const footerNavLinks = [
+    ...primaryNavLinks,
+    {
+      label: 'Talks',
+      href: '/talks',
+      icon: () => {},
+    },
+  ]
+
   const contactLinks = [
     {
       label: 'Contact Us',
@@ -14,6 +25,9 @@ const Footer = () => {
       href: `mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`,
     },
   ]
+
+  const router = useRouter()
+
   return (
     <footer className="relative w-full bg-white shadow-soft-2xl before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-gray-200 before:to-transparent before:content-[''] dark:bg-black/50 dark:before:via-gray-800/75">
       <div className="relative mx-auto flex w-full max-w-screen-lg flex-row justify-between gap-16 px-5 pb-48 pt-16">
@@ -23,10 +37,16 @@ const Footer = () => {
               Learn
             </strong>
             <ul className="pt-3">
-              {primaryNavLinks.map(({label, href}) => (
+              {footerNavLinks.map(({label, href}) => (
                 <li key={href}>
                   <Link
-                    className="inline-block py-1 opacity-90 transition hover:opacity-100"
+                    className={cn(
+                      'inline-block py-1 opacity-90 transition hover:opacity-100',
+                      {
+                        'underline [&_span]:underline':
+                          router.pathname.includes(href),
+                      },
+                    )}
                     href={href}
                   >
                     {label}

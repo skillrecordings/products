@@ -1,4 +1,3 @@
-import {Markdown} from '@skillrecordings/react'
 import Layout from 'components/app/layout'
 import ReactMarkdown from 'react-markdown'
 
