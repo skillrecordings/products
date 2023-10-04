@@ -122,6 +122,13 @@ module.exports = {
             'code::after': {
               content: "''",
             },
+            a: {
+              color: theme('colors.primary.DEFAULT'),
+              textDecoration: 'none',
+            },
+            'a:hover': {
+              textDecoration: 'underline',
+            },
             code: {
               fontSize: theme('fontSize.sm'),
               padding: theme('spacing.1'),
