@@ -245,23 +245,23 @@ const ThanksVerify: React.FC<
   return (
     <>
       <Layout meta={{title: 'Purchase Successful'}}>
-        <main className="mx-auto flex w-full flex-grow flex-col-reverse lg:grid lg:grid-cols-8">
-          <div className="col-span-3 flex w-full flex-col items-center justify-center bg-background px-10 pb-16 dark:bg-black/20 lg:py-16">
+        <main className="mx-auto flex w-full max-w-screen-lg flex-grow flex-col-reverse lg:grid lg:grid-cols-9 lg:py-8">
+          <div className="col-span-4 flex w-full flex-col items-center justify-center px-10 pb-16 lg:py-16">
             <ThankYou
               title={title}
               byline={byline}
               product={product}
               email={email}
             />
-            <div className="pt-8">
+            <div className="w-full max-w-md pt-8">
               <h3 className="pb-2 text-sm font-medium">Your invoice</h3>
               <InvoiceCard
-                className="p-4 [&_[data-content]]:flex-col [&_[data-content]]:items-start"
+                className="w-full p-4 [&_[data-content]]:flex-col [&_[data-content]]:items-start"
                 purchase={{product: {name: stripeProductName}, ...purchase}}
               />
             </div>
           </div>
-          <div className="col-span-5 flex flex-col items-center justify-center bg-gradient-to-tr from-primary to-indigo-500 pb-5 pt-16 text-primary-foreground selection:bg-gray-900 sm:pb-24 sm:pt-24">
+          <div className="col-span-5 flex flex-col items-center justify-center bg-gradient-to-tr from-primary to-indigo-500 pb-16 pt-16 text-primary-foreground selection:bg-gray-900 sm:pb-24 sm:pt-24 lg:rounded-md">
             <div className="flex max-w-screen-sm flex-col gap-10 sm:px-10 lg:px-16">
               {loginLink && loginLink({email})}
               {inviteTeam && inviteTeam}

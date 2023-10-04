@@ -76,7 +76,7 @@ const Footer = () => {
         <div className="pr-8 sm:pr-0">
           <Link href="/">
             <svg
-              className="h-12 w-12"
+              className="h-12 w-12 opacity-30 saturate-0 transition duration-300 ease-in-out hover:opacity-100 hover:saturate-100"
               viewBox="0 0 70 70"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

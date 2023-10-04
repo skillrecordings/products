@@ -220,7 +220,7 @@ const Navigation: React.FC<NavigationProps> = ({
                   <Link
                     href="/products?s=purchased"
                     className={cx('mr-3 hidden px-2.5 lg:block', {
-                      underline: pathname === '/products',
+                      underline: pathname.includes('/products'),
                     })}
                   >
                     My Products
@@ -332,7 +332,7 @@ const User: React.FC<{className?: string}> = ({className}) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>
-              {sessionData?.user?.name || 'Account'}
+              {sessionData?.user?.email || 'Account'}
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             {purchasedProductIds.length > 0 && (
@@ -345,7 +345,7 @@ const User: React.FC<{className?: string}> = ({className}) => {
                   className={cx(
                     // 'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
                     {
-                      underline: pathname === '/products',
+                      underline: pathname.includes('/products'),
                     },
                   )}
                 >
