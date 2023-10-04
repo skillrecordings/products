@@ -73,7 +73,7 @@ type PricingProps = {
   couponId?: string
   allowPurchase?: boolean
   handleViewContents?: () => void
-  isLowerTier?: boolean
+  unavailable: boolean
 }
 
 /**
@@ -94,7 +94,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   index = 0,
   couponId,
   allowPurchase = false,
-  isLowerTier,
+  unavailable = false,
 }) => {
   const [quantity, setQuantity] = React.useState(1)
   const [isBuyingForTeam, setIsBuyingForTeam] = React.useState(false)
@@ -182,7 +182,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     <div
       data-pricing-component
       data-pricing-product-name={product.name}
-      data-product-is-lower-tier={isLowerTier}
+      data-product-unavailable={unavailable}
     >
       {image && (
         <div data-pricing-image-container>
@@ -228,7 +228,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               <div data-purchased="">
                 <CheckCircleIcon aria-hidden="true" /> Purchased
               </div>
-              {!isLowerTier && (
+              {!unavailable && (
                 <div className="flex flex-col justify-center">
                   <BuyMoreSeats
                     productName={name}
@@ -244,7 +244,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             <div data-downgrade-container="">
               <div data-downgrade="">Unavailable</div>
             </div>
-          ) : isLowerTier ? null : (
+          ) : unavailable ? null : (
             <div className="mt-4">
               <form
                 action={buildStripeCheckoutPath({
@@ -376,7 +376,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             </div>
           )
         ) : null}
-        {isLowerTier && <div data-lower-tier-message>Not Available</div>}
+        {unavailable && (
+          <div data-product-unavailable-message>Not Available</div>
+        )}
         {summary && (
           <div data-product-summary-holder className="mt-6">
             <PortableText value={summary} />

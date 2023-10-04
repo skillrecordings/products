@@ -70,7 +70,7 @@ const PricingSection: React.FC<{
                   index={i}
                   couponId={couponId}
                   allowPurchase={allowPurchase}
-                  isLowerTier={productRank < highestPurchasedProductRank}
+                  unavailable={productRank < highestPurchasedProductRank}
                 />
               )
             })}
