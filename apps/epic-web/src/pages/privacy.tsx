@@ -1,3 +1,24 @@
+import {Markdown} from '@skillrecordings/react'
+import Layout from 'components/app/layout'
+import ReactMarkdown from 'react-markdown'
+
+const PrivacyPage = () => (
+  <Layout
+    meta={{
+      title: 'Terms, Conditions, and Privacy Policy for Epic Web',
+    }}
+  >
+    <main className="p-5 py-16 lg:py-24">
+      <article className="prose mx-auto dark:prose-invert">
+        <ReactMarkdown>{markdownContent}</ReactMarkdown>
+      </article>
+    </main>
+  </Layout>
+)
+
+export default PrivacyPage
+
+const markdownContent = `
 # Terms, Conditions, and Privacy Policy
 
 ## Overview
@@ -148,7 +169,7 @@ We reserve the right, at our sole discretion, to update, change or replace any p
 
 ## Section 20: Contact Information
 
-Questions about the Terms of Service should be sent to us at [{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}](mailto:{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}).
+Questions about the Terms of Service should be sent to us at [${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}](mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}).
 
 ## Refund Policy
 
@@ -168,7 +189,7 @@ If you are approved, then your refund will be processed, and a credit will autom
 
 ### Late or missing refunds (if applicable)
 
-If you haven’t received a refund yet, first check your bank account again. Then contact your credit card company, it may take some time before your refund is officially posted. Next contact your bank. There is often some processing time before a refund is posted. If you’ve done all of this and you still have not received your refund yet, please contact us at [<>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</>](mailto:{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}).
+If you haven’t received a refund yet, first check your bank account again. Then contact your credit card company, it may take some time before your refund is officially posted. Next contact your bank. There is often some processing time before a refund is posted. If you’ve done all of this and you still have not received your refund yet, please contact us at [${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}](mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}).
 
 ### Sale items (if applicable)
 
@@ -176,7 +197,7 @@ Only regular priced items may be refunded, unfortunately sale items cannot be re
 
 ## Privacy Policy
 
-This Privacy Policy describes how your personal information is collected, used, and shared when you visit or make a purchase from {process.env.NEXT_PUBLIC_HOST} (the “Site”).
+This Privacy Policy describes how your personal information is collected, used, and shared when you visit or make a purchase from ${process.env.NEXT_PUBLIC_HOST} (the “Site”).
 
 ### Personal Information We Collect
 
@@ -235,18 +256,5 @@ We may update this privacy policy from time to time in order to reflect, for exa
 
 ## Contact Us
 
-For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at [{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}](mailto:{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}).
-
-import Layout from 'components/app/layout'
-
-export default ({children}) => (
-  <Layout
-    meta={{
-      title: 'Terms, Conditions, and Privacy Policy for Testing Accessibility',
-    }}
-  >
-    <main className="p-5 lg:py-24 py-16">
-      <article className="prose mx-auto">{children}</article>
-    </main>
-  </Layout>
-)
+For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at [${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}](mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}).
+`
