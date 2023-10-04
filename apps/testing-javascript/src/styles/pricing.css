@@ -87,7 +87,7 @@
   }
 }
 
-[data-product-is-lower-tier='true'] {
+[data-product-unavailable='true'] {
   [data-pricing-image-container],
   [data-product-price-holder],
   [data-product-summary-holder],
@@ -101,7 +101,7 @@
   }
 }
 
-[data-lower-tier-message] {
+[data-product-unavailable-message] {
   @apply mt-6 font-tt-demibold text-center leading-tight text-2xl p-3 border border-body;
   text-wrap: balance;
 }
