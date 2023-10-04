@@ -31,29 +31,17 @@ const IframeComponent = () => {
     },
   )
 
-  //   console.log(`
-  //   *[_id in [${progressData?.map(({lessonId}) => `'${lessonId}'`)}]]{
-  //     slug
-  //   }
-  // `)
-  console.log({sanityLessons, sanityLessonsStatus})
-
-  // const handleTransformProgressData = (progressData: LessonProgress[]) => {
-  //   // fetch from sanity and convert to {slug: 'lesson_slug'}
-  //   const lessonSlugs = progressData.map((lesson) => lesson.slug)
-  // }
-
-  const reportProgress = (progressData: any, progressStatus: any) => {
+  const reportProgress = (progressData: any, sanityLessonsStatus: any) => {
     console.log('CHILD SENDING: kcdshop:progress:pending')
     window.parent.postMessage({type: 'kcdshop:progress:pending'}, '*')
 
-    if (progressStatus === 'success') {
+    if (sanityLessonsStatus === 'success') {
       console.log('CHILD SENDING: kcdshop:progress:resolved', progressData)
       window.parent.postMessage(
         {type: 'kcdshop:progress:resolved', progress: progressData},
         '*',
       )
-    } else if (progressStatus === 'error') {
+    } else if (sanityLessonsStatus === 'error') {
       console.log('CHILD SENDING: kcdshop:progress:rejected', progressData)
       window.parent.postMessage(
         {type: 'kcdshop:progress:rejected', error: progressData},
@@ -71,7 +59,7 @@ const IframeComponent = () => {
       }
       if (event.data.type === 'kcdshop:parent:get-progress') {
         console.log(`CHILD RECEIVED: ${event.data.type}`)
-        reportProgress(progressData, progressStatus)
+        reportProgress(sanityLessons, sanityLessonsStatus)
       }
     }
 
@@ -83,7 +71,7 @@ const IframeComponent = () => {
     return () => {
       window.removeEventListener('message', handleMessage)
     }
-  }, [progressData, progressStatus])
+  }, [sanityLessons, sanityLessonsStatus])
 
   return null
 }
