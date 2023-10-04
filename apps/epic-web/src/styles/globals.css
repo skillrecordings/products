@@ -298,12 +298,14 @@ mux-player::part(vertical-layer) {
   background: var(--base0E);
 }
 
+/*
 .prose *:not(pre) code {
   background: var(--base00);
   color: var(--base05);
   padding: 0.2rem 0.4rem;
   border-radius: 0.2rem;
 }
+*/
 
 .prose
   pre[data-add]:not([data-line-numbers='true'])
