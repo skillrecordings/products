@@ -13,7 +13,7 @@ const IframeComponent = () => {
   const {data: sanityLessons, status: sanityLessonsStatus} = useQuery(
     [`lesson-for-progress`],
     async () => {
-      if (!isArray(progressData)) return
+      if (!isArray(progressData)) return []
       return sanityClient
         .fetch(
           `
