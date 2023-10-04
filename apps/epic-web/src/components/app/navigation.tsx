@@ -602,11 +602,11 @@ const NavToggle: React.FC<NavToggleProps> = ({
   )
 }
 
-export const Logo = () => {
+export const Logo: React.FC<{className?: string}> = ({className}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="w-[127px]"
+      className={cn('w-[127px]', className)}
       fill="none"
       viewBox="0 0 264 70"
     >
