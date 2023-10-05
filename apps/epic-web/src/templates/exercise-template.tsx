@@ -53,7 +53,7 @@ const ExerciseTemplate: React.FC<{
   const {ogImage: moduleOGImage, description: moduleDescription} = module
   const pageTitle = `${title}`
   const pageDescription = exerciseDescription || moduleDescription
-  const shareCard = ogImage ? ogImage : {ogImage: {url: moduleOGImage}}
+  const shareCard = ogImage ? ogImage : {url: moduleOGImage}
   //TODO path here could also include module slug and section (as appropriate)
   const path = `/${pluralize(module.moduleType)}`
   const {data: session} = useSession()
@@ -78,7 +78,11 @@ const ExerciseTemplate: React.FC<{
       inviteTeamPagePath={`/products/${module.product?.slug}`}
     >
       <Layout
-        meta={{title: pageTitle, ...shareCard, description: pageDescription}}
+        meta={{
+          title: pageTitle,
+          ogImage: {...shareCard},
+          description: pageDescription,
+        }}
         navigationClassName="w-full max-w-none"
         navigationContainerClassName="relative dark:shadow-none"
         navigationSize="sm"
