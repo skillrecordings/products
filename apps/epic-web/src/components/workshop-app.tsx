@@ -19,8 +19,8 @@ const WorkshopAppBanner: React.FC<{className?: string}> = ({className}) => {
           </p>
           <Button
             asChild
-            variant="secondary"
-            className="relative mt-5 text-sm font-semibold shadow-sm transition hover:brightness-110"
+            variant="outline"
+            className="relative mt-5 text-sm font-semibold shadow-sm transition"
             size="sm"
           >
             <Link href="/get-started">

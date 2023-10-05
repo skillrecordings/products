@@ -29,7 +29,7 @@ module.exports = {
         mono: ['var(--font-jetbrainsmono)', ...defaultTheme.fontFamily.mono],
       },
       colors: {
-        brand: colors.amber[200],
+        brand: 'hsl(var(--primary))',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

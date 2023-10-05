@@ -36,12 +36,12 @@ const Footer = () => {
             <strong className="font-mono text-xs uppercase tracking-wider opacity-75">
               Learn
             </strong>
-            <ul className="pt-3">
+            <ul className="pt-3 text-sm font-medium">
               {footerNavLinks.map(({label, href}) => (
                 <li key={href}>
                   <Link
                     className={cn(
-                      'inline-block py-1 opacity-90 transition hover:opacity-100',
+                      'inline-block py-1 opacity-75 transition hover:opacity-100',
                       {
                         'underline [&_span]:underline':
                           router.pathname.includes(href),
@@ -59,11 +59,11 @@ const Footer = () => {
             <strong className="font-mono text-xs uppercase tracking-wider opacity-75">
               Contact
             </strong>
-            <ul className="pt-3">
+            <ul className="pt-3 text-sm font-medium">
               {contactLinks.map(({label, href}) => (
                 <li key={href}>
                   <Link
-                    className="inline-block py-1 opacity-90 transition hover:opacity-100"
+                    className="inline-block py-1 opacity-75 transition hover:opacity-100"
                     href={href}
                   >
                     {label}

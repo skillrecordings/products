@@ -125,8 +125,10 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
     const moduleProgress = useModuleProgress()
 
     const nextSection = moduleProgress?.nextSection
-    const initialOpenedSections = !isEmpty(first(sections))
-      ? [first(sections)?.slug]
+    const firstSection = first<SectionType>(sections)
+
+    const initialOpenedSections = !isEmpty(firstSection)
+      ? [firstSection?.slug]
       : []
     const [openedSections, setOpenedSections] = React.useState<string[]>(
       initialOpenedSections as string[],
@@ -136,7 +138,6 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
 
     const hasSections = sections && sections.length > 0
     const onlyHasSingleSection = hasSections && sections.length === 1
-    const firstSection = first<SectionType>(sections)
 
     const childrenForSingleSection = React.Children.map(children, (child) => {
       if (React.isValidElement<LessonsProps>(child)) {
@@ -279,7 +280,7 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
     )
     const {section: currentSection} = useLesson()
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
       currentSection && setOpenedSections([currentSection.slug])
     }, [currentSection])
 
@@ -782,10 +783,10 @@ const useScrollToActiveLesson = (
   lesson?: LessonType,
 ) => {
   const {lesson: activeLesson, module} = useLesson()
-  const isLessonActive = activeLesson?.slug === lesson?.slug
   const [hasEffectRun, setHasEffectRun] = React.useState(false)
 
   React.useEffect(() => {
+    const isLessonActive = activeLesson?.slug === lesson?.slug
     if (!hasEffectRun) {
       const offset = activeElementToScrollTo?.offsetTop
       const stickySectionOffset = 0 // 48
@@ -802,12 +803,20 @@ const useScrollToActiveLesson = (
           })
         }, 0)
         setHasEffectRun(true)
+
         return () => {
           clearTimeout(timeout)
         }
       }
     }
-  }, [activeElementToScrollTo, scrollContainerRef, module, isLessonActive])
+  }, [
+    activeElementToScrollTo,
+    scrollContainerRef,
+    module,
+    activeLesson,
+    lesson,
+    hasEffectRun,
+  ])
 }
 
 /* -------------------------------------------------------------------------------------------------*/
