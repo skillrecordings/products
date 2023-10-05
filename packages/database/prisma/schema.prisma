@@ -252,6 +252,8 @@ model User {
   lessonProgresses        LessonProgress[]
   sourcePurchaseTransfers PurchaseUserTransfer[] @relation("SourceUser")
   targetPurchaseTransfers PurchaseUserTransfer[] @relation("TargetUser")
+  deviceVerifications     DeviceVerification[]   @relation("VerifiedByUser")
+  deviceAccessTokens      DeviceAccessToken[]    @relation("User")
   comments                Comment[]
   roles                   String                 @default("User")
 }
@@ -263,6 +265,24 @@ model VerificationToken {
   createdAt  DateTime? @default(now())
 
   @@unique([identifier, token])
+}
+
+model DeviceVerification {
+  deviceCode String @id @default(uuid())
+  userCode   String
+  expires    DateTime
+  createdAt  DateTime? @default(now())
+  verifiedAt DateTime?
+  verifiedBy User?   @relation("VerifiedByUser", fields: [verifiedByUserId], references: [id], onDelete: Cascade)
+  verifiedByUserId  String?
+  @@unique([deviceCode])
+}
+
+model DeviceAccessToken {
+  token      String    @id @default(uuid())
+  user       User      @relation("User", fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime? @default(now())
+  userId     String
 }
 
 enum PurchaseUserTransferState {

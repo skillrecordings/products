@@ -9,6 +9,7 @@ import {tipsRouter} from 'trpc/routers/tips'
 import {abilitiesRouter} from 'trpc/routers/abilities'
 import {moduleResourcesRouter} from './module-resources'
 import {userRouter} from './user'
+import {deviceVerificationRouter} from 'trpc/routers/device-verification'
 
 export const appRouter = mergeRouters(
   router({
@@ -18,6 +19,7 @@ export const appRouter = mergeRouters(
     tips: tipsRouter,
     abilities: abilitiesRouter,
     user: userRouter,
+    deviceVerification: deviceVerificationRouter,
   }),
   skillLessonRouter,
 )
