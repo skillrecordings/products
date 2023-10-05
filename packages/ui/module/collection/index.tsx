@@ -538,9 +538,9 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
     const isLessonActive = activeLesson?.slug === lesson?.slug
 
     const scrollElRef = React.useRef<HTMLDivElement>(null)
-    const activeElementToScrollTo = scrollElRef.current
+    const activeElementToScrollTo = scrollElRef
 
-    useScrollToActiveLesson(activeElementToScrollTo, scrollContainerRef, lesson)
+    useScrollToActiveLesson(activeElementToScrollTo, scrollContainerRef)
 
     if (!lesson) return null
 
@@ -597,31 +597,34 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
               </AccordionItem>
             </Accordion>
           ) : (
-            <Link
-              data-item={lesson._type}
-              href={getLessonHref(lesson, module, section)}
-              passHref
-              scroll={activeLesson ? false : true}
-            >
-              {canShowVideo ? (
-                <>
-                  {isLessonCompleted ? (
-                    checkIconRenderer()
-                  ) : (
-                    <span
-                      className="w-4 h-4 flex items-center justify-center"
-                      data-index={`${index + 1}`}
-                      aria-hidden="true"
-                    >
-                      {index + 1}
-                    </span>
-                  )}
-                </>
-              ) : (
-                lockIconRenderer()
-              )}
-              <div>{lesson.title}</div>
-            </Link>
+            <>
+              {isLessonActive && <div ref={scrollElRef} aria-hidden="true" />}
+              <Link
+                data-item={lesson._type}
+                href={getLessonHref(lesson, module, section)}
+                passHref
+                scroll={activeLesson ? false : true}
+              >
+                {canShowVideo ? (
+                  <>
+                    {isLessonCompleted ? (
+                      checkIconRenderer()
+                    ) : (
+                      <span
+                        className="w-4 h-4 flex items-center justify-center"
+                        data-index={`${index + 1}`}
+                        aria-hidden="true"
+                      >
+                        {index + 1}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  lockIconRenderer()
+                )}
+                <div>{lesson.title}</div>
+              </Link>
+            </>
           )}
         </div>
       </Primitive.li>
@@ -778,45 +781,19 @@ const getLessonHref = (
 }
 
 const useScrollToActiveLesson = (
-  activeElementToScrollTo: HTMLDivElement | null,
+  activeElementToScrollTo: React.RefObject<HTMLDivElement>,
   scrollContainerRef?: React.RefObject<HTMLDivElement>,
-  lesson?: LessonType,
 ) => {
   const {lesson: activeLesson, module} = useLesson()
-  const [hasEffectRun, setHasEffectRun] = React.useState(false)
-
+  const router = useRouter()
   React.useEffect(() => {
-    const isLessonActive = activeLesson?.slug === lesson?.slug
-    if (!hasEffectRun) {
-      const offset = activeElementToScrollTo?.offsetTop
-      const stickySectionOffset = 0 // 48
-      if (offset && isLessonActive) {
-        const timeout = setTimeout(() => {
-          requestAnimationFrame(() => {
-            scrollContainerRef?.current?.children[1].scrollTo({
-              top:
-                offset -
-                (module.sections && module.sections.length > 1
-                  ? stickySectionOffset
-                  : 0),
-            })
-          })
-        }, 0)
-        setHasEffectRun(true)
+    const activeElementOffset = activeElementToScrollTo?.current?.offsetTop
 
-        return () => {
-          clearTimeout(timeout)
-        }
-      }
-    }
-  }, [
-    activeElementToScrollTo,
-    scrollContainerRef,
-    module,
-    activeLesson,
-    lesson,
-    hasEffectRun,
-  ])
+    activeElementOffset &&
+      scrollContainerRef?.current?.scrollTo({
+        top: activeElementOffset,
+      })
+  }, [router, activeElementToScrollTo, scrollContainerRef, module])
 }
 
 /* -------------------------------------------------------------------------------------------------*/

@@ -24,7 +24,7 @@ import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import * as Collection from '@skillrecordings/ui/module/collection'
-import {Button, ScrollArea, Skeleton} from '@skillrecordings/ui'
+import {Button, ScrollArea, ScrollBar, Skeleton} from '@skillrecordings/ui'
 import Image from 'next/image'
 import Link from 'next/link'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
@@ -33,6 +33,7 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import {isBrowser} from 'utils/is-browser'
 import {getOgImage} from 'utils/get-og-image'
 import {PreWithButtons} from 'utils/mdx'
+import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -261,10 +262,14 @@ const LessonList: React.FC<{
           </div>
         </div>
       </div>
-      <div className={cn('h-screen', className)}>
-        <ScrollArea
-          style={{height: `calc(100vh - ${height + 48}px)`}}
-          className={cn('', scrollAreaClassName)}
+      <ScrollAreaPrimitive.Root>
+        <ScrollAreaPrimitive.Viewport
+          className={cn('', className, scrollAreaClassName)}
+          style={
+            scrollAreaClassName
+              ? {}
+              : {height: `calc(100vh - ${height + 48}px)`}
+          }
           ref={scrollContainerRef}
         >
           <Collection.Root
@@ -305,7 +310,7 @@ const LessonList: React.FC<{
                 <Skeleton className="h-14 rounded-none bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
               ) : (
                 <Collection.Section
-                  className="mb-px font-semibold leading-tight transition data-[state]:rounded-none data-[state='closed']:opacity-75 data-[state='closed']:hover:opacity-100 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg dark:[&>[data-progress]]:from-gray-800
+                  className="border-b font-semibold leading-tight transition data-[state]:rounded-none data-[state='closed']:opacity-75 data-[state='closed']:hover:opacity-100 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg dark:[&>[data-progress]]:from-gray-800
                       dark:[&>[data-progress]]:to-gray-800/50"
                 >
                   <Collection.Lessons className="py-0">
@@ -324,8 +329,10 @@ const LessonList: React.FC<{
               <Collection.Lesson />
             </Collection.Lessons>
           </Collection.Root>
-        </ScrollArea>
-      </div>
+        </ScrollAreaPrimitive.Viewport>
+        <ScrollBar />
+        <ScrollAreaPrimitive.Corner />
+      </ScrollAreaPrimitive.Root>
     </div>
   )
 }
