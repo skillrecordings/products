@@ -29,7 +29,7 @@ const Footer = () => {
   const router = useRouter()
 
   return (
-    <footer className="relative w-full bg-white shadow-soft-2xl before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-gray-200 before:to-transparent before:content-[''] dark:bg-black/50 dark:before:via-gray-800/75">
+    <footer className="relative w-full bg-white shadow-soft-2xl before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-gray-200 before:to-transparent before:content-[''] dark:bg-black/50 dark:before:via-gray-800/75 print:hidden">
       <div className="relative mx-auto flex w-full max-w-screen-lg flex-row justify-between gap-16 px-5 pb-48 pt-16">
         <div className="relative mx-auto flex w-full flex-col gap-16 px-5 md:flex-row">
           <div>
@@ -76,7 +76,7 @@ const Footer = () => {
         <div className="pr-8 sm:pr-0">
           <Link href="/">
             <svg
-              className="h-12 w-12"
+              className="h-12 w-12 opacity-30 saturate-0 transition duration-300 ease-in-out hover:opacity-100 hover:saturate-100"
               viewBox="0 0 70 70"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

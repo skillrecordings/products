@@ -76,7 +76,7 @@ const WorkshopsPage: React.FC<{
       <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-between px-5 pt-16 lg:flex-row">
         <div className="flex flex-col items-center space-y-3 text-center lg:items-start lg:text-left">
           <h1 className="flex flex-col text-4xl font-semibold">
-            <span className="mb-2 inline-block bg-gradient-to-r from-blue-300 to-fuchsia-400 bg-clip-text text-xs uppercase tracking-widest text-transparent">
+            <span className="mb-2 inline-block bg-gradient-to-r from-blue-500 to-fuchsia-600 bg-clip-text text-xs uppercase tracking-widest text-transparent dark:from-blue-300 dark:to-fuchsia-400">
               Professional
             </span>{' '}
             Full Stack Development Workshops

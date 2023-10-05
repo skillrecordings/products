@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Balancer from 'react-wrap-balancer'
 import {ChevronRightIcon, DocumentTextIcon} from '@heroicons/react/solid'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {getSdk} from '@skillrecordings/database'
@@ -10,6 +11,7 @@ import {getToken} from 'next-auth/jwt'
 import {Purchase} from '@skillrecordings/database'
 import {getCurrentAbility} from '@skillrecordings/ability'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {formatUsd} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const sessionToken = await getToken({req})
@@ -76,14 +78,16 @@ export const InvoiceCard: React.FC<{
           className="flex w-full flex-col justify-between gap-2 pl-2 sm:flex-row sm:items-center"
         >
           <div className="font-semibold group-hover:underline">
-            Invoice: {purchase?.product?.name}
+            Invoice:{' '}
+            <span className="font-medium text-gray-700 group-hover:underline dark:text-gray-300">
+              <Balancer>{purchase?.product?.name}</Balancer>
+            </span>
           </div>
           <div className="flex flex-wrap text-sm md:pr-2">
             <span className="after:content-['・']">
-              {Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-              }).format(purchase.totalAmount)}
+              <sup>US</sup>
+              {formatUsd(purchase.totalAmount).dollars}
+              <sup>{formatUsd(purchase.totalAmount).cents}</sup>
             </span>
             <span>{format(new Date(purchase.createdAt), 'MMMM d, y')}</span>
           </div>

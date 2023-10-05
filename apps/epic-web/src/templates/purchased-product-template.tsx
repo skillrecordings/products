@@ -24,6 +24,7 @@ import {
   ModuleProgressProvider,
   useModuleProgress,
 } from '@skillrecordings/skill-lesson/video/module-progress'
+import {motion, useScroll, useTransform} from 'framer-motion'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {usePriceCheck} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {PriceDisplay} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
@@ -31,6 +32,9 @@ import {QueryStatus} from '@tanstack/react-query'
 import {buildStripeCheckoutPath} from '@skillrecordings/skill-lesson/utils/build-stripe-checkout-path'
 import {Button} from '@skillrecordings/ui'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {useRouter} from 'next/router'
+import {PlayIcon} from '@heroicons/react/solid'
+import {RxDiscordLogo} from 'react-icons/rx'
 
 const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   purchases = [],
@@ -38,12 +42,16 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   existingPurchase,
   userId,
 }) => {
+  const router = useRouter()
+  const {data: session, status: sessionStatus} = useSession()
+
+  const isUpgrade = Boolean(router.query.upgrade)
+  const withWelcomeBanner = isUpgrade || Boolean(router.query.welcome)
+
   const purchasesForCurrentProduct = purchases.filter((purchase) => {
     return purchase.productId === product.productId
   })
   const purchase = purchasesForCurrentProduct[0]
-
-  const {data: session} = useSession()
 
   const [personalPurchase, setPersonalPurchase] = React.useState<any>(
     purchase.bulkCoupon ? existingPurchase : purchase,
@@ -76,28 +84,140 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   const getPurchaseLabel = () => {
     switch (true) {
       case isRestrictedUpgrade:
-        return 'Regional License'
+        return 'Purchased: Regional License'
       case Boolean(purchase.bulkCoupon):
-        return 'Team License'
+        return 'Purchased: Team License'
       default:
-        'Purchased'
+        'Purchased: Full License'
     }
   }
 
+  const {scrollY} = useScroll()
+  const welcomeBannerScrollAnimation = useTransform(
+    scrollY,
+    // Map y from these values:
+    [0, 600],
+    // Into these values:
+    ['0deg', '-3deg'],
+  )
+
   return (
     <Layout meta={{title: product.name}}>
+      {withWelcomeBanner ? (
+        <motion.div
+          style={{
+            transformOrigin: 'top center',
+            transformPerspective: 300,
+            rotateX: welcomeBannerScrollAnimation,
+          }}
+          className="relative mx-auto mt-8 flex w-full max-w-screen-lg flex-col items-center px-5"
+        >
+          <section className="relative flex w-full flex-col-reverse overflow-hidden rounded-md border border-white/5 bg-gradient-to-tr from-primary to-indigo-500 text-primary-foreground selection:bg-gray-900 md:grid md:grid-cols-7 ">
+            <div className="col-span-4 flex flex-col justify-between p-8 pt-0 md:pt-8">
+              <div className="space-y-3">
+                <p className="text-xl font-semibold">
+                  Hey {session?.user?.name || 'there'}{' '}
+                  <span role="img" aria-label="waving hand">
+                    👋
+                  </span>
+                </p>
+                {isUpgrade ? (
+                  <Balancer>
+                    <p>
+                      You've succesfully upgraded {purchase.product.name}!
+                      Below, you'll find everything you need to manage your
+                      purchase and access related information. If you have any
+                      questions or need assistance at any point, please don't
+                      hesitate to{' '}
+                      <Link className="text-white underline" href="/contact">
+                        contact us
+                      </Link>
+                      .
+                    </p>
+                  </Balancer>
+                ) : (
+                  <>
+                    <p>
+                      <Balancer>
+                        Welcome to {process.env.NEXT_PUBLIC_SITE_TITLE}! We're
+                        thrilled to have you here. Below, you'll find everything
+                        you need to manage your purchase and access related
+                        information. If you have any questions or need
+                        assistance at any point, please don't hesitate to{' '}
+                        <Link className="text-white underline" href="/contact">
+                          contact us
+                        </Link>
+                        .
+                      </Balancer>
+                    </p>
+                    <p>
+                      <Balancer>
+                        Ready to dive in? Our{' '}
+                        <Link
+                          href="/get-started"
+                          className="text-white underline"
+                          target="_blank"
+                        >
+                          Getting Started guide
+                        </Link>{' '}
+                        will help you get started smoothly.
+                      </Balancer>
+                    </p>
+                  </>
+                )}
+              </div>
+              <div className="mt-10 flex items-center space-x-2">
+                <Button
+                  size="sm"
+                  className="bg-white font-medium text-gray-900 shadow-soft-md"
+                  asChild
+                >
+                  <Link href="/get-started" target="_blank">
+                    Get Started
+                  </Link>
+                </Button>
+                <Button
+                  size="sm"
+                  className="bg-gray-900 font-medium text-white shadow-soft-md"
+                  asChild
+                >
+                  <Link href="https://kcd.im/discord" target="_blank">
+                    <RxDiscordLogo className="mr-1 h-4 w-4" />
+                    Join Discord
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            <div className="col-span-3 flex w-full items-center justify-center p-8">
+              <div className="flex aspect-video w-full cursor-pointer items-center justify-center rounded-md bg-gray-900/10 mix-blend-hard-light">
+                <Icon name="Playmark" className="h-5 w-5" />
+              </div>
+            </div>
+          </section>
+          <div
+            className="h-1 w-[99%] rounded-b-md bg-primary brightness-125 dark:brightness-75"
+            aria-hidden
+          />
+          <div
+            className="h-1 w-[98%] rounded-b-md bg-primary brightness-150 dark:brightness-50"
+            aria-hidden
+          />
+        </motion.div>
+      ) : null}
       <main
         data-product-page=""
         className="mx-auto flex w-full max-w-screen-lg flex-col gap-10 lg:flex-row"
       >
-        <article className="w-full max-w-4xl px-5 pb-0 pt-16 sm:pb-32">
-          <Link
-            href="/products"
-            className="group mb-10 inline-flex gap-1 text-sm opacity-75 transition hover:opacity-100"
-          >
-            <span className="transition group-hover:-translate-x-1">←</span>{' '}
-            <span>All Products</span>
-          </Link>
+        <article className="w-full max-w-4xl px-5 pb-0 pt-16 sm:pb-16">
+          {withWelcomeBanner ? null : (
+            <Link
+              href="/products"
+              className="group mb-10 inline-flex gap-1 text-sm opacity-75 transition hover:opacity-100"
+            >
+              <span className="transition group-hover:-translate-x-1">←</span>{' '}
+              <span>All Products</span>
+            </Link>
+          )}
           <header className="">
             <PurchasedBadge>{getPurchaseLabel()}</PurchasedBadge>
             <h1 className="font-text pt-5 text-3xl font-semibold sm:text-4xl">
@@ -165,7 +285,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
             </div>
           </div>
         </article>
-        <aside className="flex flex-shrink-0 flex-col items-center border-t py-10 pr-5 md:mb-0 lg:min-h-screen lg:w-4/12 lg:items-end">
+        <aside className="flex flex-shrink-0 flex-col items-center py-10 pr-5 md:mb-0 lg:min-h-screen lg:w-4/12 lg:items-end">
           <Image
             src={product.image.url}
             alt={product.name}
@@ -449,10 +569,14 @@ export const Price: React.FC<{
   return (
     <div className={className}>
       {withUsd && (
-        <sup className="relative !top-0.5 pr-0.5 text-gray-300">USD</sup>
+        <sup className="relative !-top-1 pr-0.5 text-gray-600 dark:text-gray-400">
+          USD
+        </sup>
       )}
       <span className="font-medium">{dollars}</span>
-      <sup className="!top-0.5 pl-0.5 text-xs text-gray-300">{cents}</sup>
+      <sup className="!-top-1 pl-0.5 text-gray-600 dark:text-gray-400">
+        {cents}
+      </sup>
     </div>
   )
 }

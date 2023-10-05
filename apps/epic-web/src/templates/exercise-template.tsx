@@ -226,7 +226,7 @@ const LessonList: React.FC<{
   const [ref, {height}] = useMeasure<HTMLDivElement>()
 
   return (
-    <div className="sticky top-0">
+    <div className="sticky top-0 border-r">
       <div ref={ref}>
         <div className="relative z-10 flex items-center space-x-3 border-b border-r border-white/5 bg-gray-50 px-2 py-3 dark:bg-foreground/10 dark:shadow-xl dark:shadow-black/20">
           {module.image && (
@@ -261,7 +261,7 @@ const LessonList: React.FC<{
           </div>
         </div>
       </div>
-      <div className={cn('h-screen border-r', className)}>
+      <div className={cn('h-screen', className)}>
         <ScrollArea
           style={{height: `calc(100vh - ${height + 48}px)`}}
           className={cn('', scrollAreaClassName)}
@@ -302,10 +302,10 @@ const LessonList: React.FC<{
           >
             <Collection.Sections className="space-y-0 [&_[data-state]]:animate-none">
               {moduleProgressStatus === 'loading' ? (
-                <Skeleton className="h-16 rounded-none bg-gradient-to-br from-gray-700 to-gray-800 opacity-40" />
+                <Skeleton className="h-14 rounded-none bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
               ) : (
                 <Collection.Section
-                  className="mb-px font-semibold leading-tight data-[state]:rounded-none [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg dark:[&>[data-progress]]:from-gray-800
+                  className="mb-px font-semibold leading-tight transition data-[state]:rounded-none data-[state='closed']:opacity-75 data-[state='closed']:hover:opacity-100 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg dark:[&>[data-progress]]:from-gray-800
                       dark:[&>[data-progress]]:to-gray-800/50"
                 >
                   <Collection.Lessons className="py-0">

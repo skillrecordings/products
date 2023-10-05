@@ -57,16 +57,24 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 
     if (purchase) {
       const product = await getProduct(purchase.product.id)
-
       return {
-        props: {
-          product,
-          purchase: convertToSerializeForNextResponse(purchase),
-          existingPurchase,
-          availableUpgrades,
-          upgrade: upgrade === 'true',
+        redirect: {
+          destination:
+            upgrade === 'true'
+              ? `/products/${product.slug}?upgrade=true`
+              : `/products/${product.slug}?welcome=true`,
+          permanent: false,
         },
       }
+      // return {
+      //   props: {
+      //     product,
+      //     purchase: convertToSerializeForNextResponse(purchase),
+      //     existingPurchase,
+      //     availableUpgrades,
+      //     upgrade: upgrade === 'true',
+      //   },
+      // }
     } else {
       return {
         redirect: {
@@ -120,6 +128,7 @@ const Welcome: React.FC<
   availableUpgrades,
   product,
 }) => {
+  console.log({product})
   const {data: session, status} = useSession()
   const [personalPurchase, setPersonalPurchase] = React.useState<
     PersonalPurchase | Purchase
@@ -161,14 +170,14 @@ const Welcome: React.FC<
           />
           <div className="flex flex-col gap-10">
             <div>
-              <h2 className="font-heading pb-2 text-sm font-black uppercase">
+              <h2 className=" pb-2 text-sm font-black uppercase">
                 Share {purchase.product.name}
               </h2>
               <Share productName={purchase.product.name} />
             </div>
             {redemptionsLeft && (
               <div>
-                <h2 className="font-heading pb-2 text-sm font-black uppercase">
+                <h2 className=" pb-2 text-sm font-black uppercase">
                   Invite your team
                 </h2>
                 <Invite
@@ -181,7 +190,7 @@ const Welcome: React.FC<
             )}
             {hasCharge && (
               <div>
-                <h2 className="font-heading pb-2 text-sm font-black uppercase">
+                <h2 className=" pb-2 text-sm font-black uppercase">
                   Get your invoice
                 </h2>
                 <InvoiceCard purchase={purchase} />
@@ -210,10 +219,10 @@ const Header: React.FC<
     product?: SanityDocument
   }>
 > = ({upgrade, purchase, product, personalPurchase}) => {
-  console.log(product?.image)
+  const {data: session, status: sessionStatus} = useSession()
   return (
     <header>
-      <div className="flex flex-col items-center gap-10 pb-8 sm:flex-row">
+      <div className="flex flex-col items-center gap-10 pb-8">
         {product?.image && (
           <div className="flex flex-shrink-0 items-center justify-center">
             <Image
@@ -225,12 +234,36 @@ const Header: React.FC<
           </div>
         )}
         <div className="flex flex-col items-start">
-          <h1 className="font-heading text-3xl font-black sm:text-3xl lg:text-4xl">
-            <span className="font-heading text-brand-red block pb-4 text-sm font-black uppercase">
-              {upgrade ? `You've Upgraded ` : `Welcome to `}
-            </span>
-            {purchase.product.name}
+          <h1 className=" text-xl font-black sm:text-2xl lg:text-3xl">
+            {sessionStatus === 'loading'
+              ? null
+              : (
+                  <>
+                    Hey {session?.user?.name}{' '}
+                    <span role="img" aria-label="waving hand">
+                      👋
+                    </span>
+                  </>
+                ) || (
+                  <>
+                    Hey there{' '}
+                    <span role="img" aria-label="waving hand">
+                      👋
+                    </span>
+                  </>
+                )}{' '}
+            {upgrade
+              ? `You've succesfully upgraded ${purchase.product.name}!`
+              : `Welcome to Epic Web!`}
           </h1>
+          {personalPurchase && product?.modules[0] && (
+            <Link
+              href={`/workshops/${product.modules[0].slug.current}`}
+              className="bg-brand-red  mt-8 rounded-full px-8 py-3 text-lg font-bold text-white shadow-xl shadow-black/10 transition hover:brightness-110"
+            >
+              Start Learning
+            </Link>
+          )}
         </div>
       </div>
       {/* {purchase.bulkCoupon
@@ -274,7 +307,7 @@ const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
         href={tweet}
         rel="noopener noreferrer"
         target="_blank"
-        className="font-heading flex items-center gap-2 self-start rounded-md border border-sky-500 px-5 py-2.5 font-semibold text-sky-500 transition hover:bg-sky-500 hover:text-white dark:border-sky-400 dark:text-sky-400 dark:hover:bg-sky-400/10"
+        className=" flex items-center gap-2 self-start rounded-md border border-sky-500 px-5 py-2.5 font-semibold text-sky-500 transition hover:bg-sky-500 hover:text-white dark:border-sky-400 dark:text-sky-400 dark:hover:bg-sky-400/10"
       >
         <TwitterIcon /> Share with your friends!
       </a>

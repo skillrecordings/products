@@ -49,28 +49,7 @@ const DesktopNav = () => {
   // const {setIsFeedbackDialogOpen} = useFeedback()
   return (
     <ul className="hidden items-center space-x-5 md:flex w-full justify-between">
-      <NavSlots>
-        <NavLink
-          path="/playlists"
-          // icon={<Icon name="Trophy" className="text-[#F8A729]" />}
-          label={
-            <>
-              <span className="hidden lg:inline-block">Pro</span> Workshops
-            </>
-          }
-        />
-        {/* <NavLink
-          path="/tutorials"
-          icon={<Icon name="Video" className="text-brand-red" />}
-          label="Tutorials"
-        />
-        <NavLink path="/tips" icon={<Icon name="Anchor" />} label="Tips" />
-        <NavLink
-          path="/articles"
-          icon={<Icon name="Palm" />}
-          label="Articles"
-        /> */}
-      </NavSlots>
+      <NavSlots>{/* <NavLink ... /> */}</NavSlots>
       {status !== 'loading' && (
         <ul className="flex items-center gap-2">
           {/* {status === 'authenticated' && (
@@ -274,27 +253,7 @@ const MobileNav = () => {
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content className="absolute left-0 top-full w-full border-t border-gray-100 bg-white shadow-2xl shadow-gray-500/20">
                   <ul>
-                    <MobileNavLink
-                      path="/playlists"
-                      label="Pro Workshops"
-                      // icon={<Icon name="Trophy" className="text-[#F8A729]" />}
-                    />
-                    {/* <MobileNavLink
-                      path="/tutorials"
-                      label="Free Tutorials"
-                      icon={<Icon name="Video" className="text-brand-red" />}
-                    />
-                    <MobileNavLink
-                      path="/tips"
-                      label="Tips"
-                      icon={<Icon name="Anchor" />}
-                    />
-                    <MobileNavLink
-                      path="/articles"
-                      label="Articles"
-                      icon={<Icon name="Palm" />}
-                    /> */}
-                    {/* <MobileNavLink path="/faq" label="FAQ" /> */}
+                    {/* <MobileNavLink ... /> */}
                     {status === 'authenticated' && (
                       <>
                         <div className="border-t border-gray-100 px-5 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide text-gray-700">
