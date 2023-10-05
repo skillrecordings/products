@@ -1,16 +1,16 @@
 # Transcript Automation
 
-The working directory for this project is the same folder the README you are reading right now is located. All commands assume you are in the `{PROJECT_ROOT}/apps/transcript-automation` in your console.
+The working directory for this project is the same folder the README you are reading right now is located. All commands assume you are in the `{PROJECT_ROOT}/apps/transcript-automation-2` in your console.
 
 ```shell
-cd apps/transcript-automation
+cd apps/transcript-automation-2
 ```
 
 ## Validate your local environment
 
 You need to ensure that you have all of the necessary system-level dependencies installed.
 
-From `apps/transcript-automation` you can run the following command to validate your environment:
+From `apps/transcript-automation-2` you can run the following command to validate your environment:
 
 ```shell
 bin/validate
@@ -21,6 +21,7 @@ Missing system dependencies should be installed. They will be assumed below.
 ## Serverless Access
 
 You may need access to the following serverless accounts to run the app:
+
 - Stripe (for Stripe env vars and Stripe CLI)
 - Vercel (for env vars, e.g. `POSTMARK_KEY`)
 - Planetscale (if needed) or use MySQL in Docker
@@ -41,19 +42,19 @@ pnpm install
 
 Copy the template `.env.local.template` file to `.env.local` and `.env.template` to `.env`
 
-🔒 `env.local` contains local __private environment variables__
+🔒 `env.local` contains local **private environment variables**
 
-* `ALGOLIA_API_WRITE_KEY`: Required when running `pnpm build` which invokes `next build` which use `NODE_ENV=production`.
-* `CONVERTKIT_API_SECRET`: not required for local development unless actively working on ConvertKit integration. Can be found in 1password.
-* `POSTMARK_KEY`: not required to run in dev, but enables email sending from local environment. Can be found in 1password.
-* `STRIPE_SECRET_TOKEN`: Not required unless you need to make an end to end purchase. Can be found in 1password.
-* `STRIPE_WEBHOOK_SECRET`: Not required unless you need to make a purchase. This value can be acquired by running `pnpm dev:stripe` and observing it there. The value is stable for your local `stripe` cli installation.
+- `ALGOLIA_API_WRITE_KEY`: Required when running `pnpm build` which invokes `next build` which use `NODE_ENV=production`.
+- `CONVERTKIT_API_SECRET`: not required for local development unless actively working on ConvertKit integration. Can be found in 1password.
+- `POSTMARK_KEY`: not required to run in dev, but enables email sending from local environment. Can be found in 1password.
+- `STRIPE_SECRET_TOKEN`: Not required unless you need to make an end to end purchase. Can be found in 1password.
+- `STRIPE_WEBHOOK_SECRET`: Not required unless you need to make a purchase. This value can be acquired by running `pnpm dev:stripe` and observing it there. The value is stable for your local `stripe` cli installation.
 
 👋 `.env` is **required by Prisma** and **only** contains `DATABASE_URL`. The full contents
 of this file by default are are:
 
 ```shell
-DATABASE_URL="mysql://root@localhost:3309/transcript-automation"
+DATABASE_URL="mysql://root@localhost:3309/transcript-automation-2"
 ```
 
 You can use the provided templates. These files are ignored by git because they should **never be committed to the repository under any circumstances.**
@@ -116,7 +117,7 @@ pnpm db:push
 
 This starts the MySQL container (running on port `3309`) and applies any schema changes as needed.
 
-The first time you run this command it will seed the database with the contents of `apps/transcript-automation/seed_data`
+The first time you run this command it will seed the database with the contents of `apps/transcript-automation-2/seed_data`
 
 If you want to reset the database, open docker, delete the container **and** the associated image. Otherwise nothing will be changed with the database when you run the above command but it will be running normally in the background.
 
@@ -147,7 +148,7 @@ pscale org switch skill-recordings
 Finally run the database:
 
 ```bash
-pscale connect transcript-automation BRANCH_NAME --port 3309
+pscale connect transcript-automation-2 BRANCH_NAME --port 3309
 ```
 
 The production database runs on the `main` branch. Use the production database with caution!
@@ -191,7 +192,7 @@ The `dev:stripe` node script is a shorthand for `stripe listen --forward-to loca
 ### Connect to the Planetscale database
 
 ```bash
-pscale connect transcript-automation PLANETSCALE_DB_BRANCH_NAME --port 3309
+pscale connect transcript-automation-2 PLANETSCALE_DB_BRANCH_NAME --port 3309
 ```
 
 ### Changing the Database Schema
@@ -233,13 +234,13 @@ This works much the same as with apply schema changes to MySQL in Docker, except
 If you don't have it already, you'll need to create a Planetscale branch off the `main` database branch. You can do that from the Planetscale dashboard or using the CLI:
 
 ```bash
-pscale branch create transcript-automation PLANETSCALE_DB_BRANCH_NAME
+pscale branch create transcript-automation-2 PLANETSCALE_DB_BRANCH_NAME
 ```
 
 Now open up a connection to the branch that you've created for these schema changes.
 
 ```bash
-pscale connect transcript-automation PLANETSCALE_DB_BRANCH_NAME --port 3309
+pscale connect transcript-automation-2 PLANETSCALE_DB_BRANCH_NAME --port 3309
 ```
 
 With a connection open at port 3309, we can now push our schema changes up to Planetscale.
@@ -251,7 +252,7 @@ pnpm db:push
 The next step is to open a Deploy Request for getting a team review of your schema changes. This can also either be done from the Planetscale dashboard or the CLI:
 
 ```bash
-pscale deploy-request create transcript-automation descriptive-branch-name
+pscale deploy-request create transcript-automation-2 descriptive-branch-name
 ```
 
 Once the Deploy Request has been reviewed and confirmed, Planetscale will schedule the migration of those schema changes against the `main` branch. This shouldn't take too long for smaller databases. Once the migration is complete, your schema changes will be live in the production database. This is why it is important that schema changes are applied incrementally in a non-breaking way.
@@ -273,7 +274,7 @@ When you make a new branch in Planetscale it doesn't bring data over.
 You can seed your branch with the basics that are associated with the **test mode** Stripe account. Those seeds are located in `seed_data`.
 
 ```bash
-pscale database restore-dump transcript-automation next-steps --dir ./seed_data
+pscale database restore-dump transcript-automation-2 next-steps --dir ./seed_data
 ```
 
 #### Production-like Seed Data
@@ -281,15 +282,23 @@ pscale database restore-dump transcript-automation next-steps --dir ./seed_data
 You can locally dump a copy of the `main` branch using `pscale database dump`:
 
 ```bash
-pscale database dump transcript-automation main --output ./seed_data/pscale_data_dump
+pscale database dump transcript-automation-2 main --output ./seed_data/pscale_data_dump
 ```
 
 Now the `seed_data/pscale_data_dump` folder holds a database dump you can restore to your branch:
 
 ```bash
-pscale database restore-dump transcript-automation next-steps --dir ./seed_data/pscale_data_dump --overwrite-tables
+pscale database restore-dump transcript-automation-2 next-steps --dir ./seed_data/pscale_data_dump --overwrite-tables
 ```
 
 ## Edit content
 
-Edit workshops with Sanity at [transcript-automation.sanity.studio](https://transcript-automation.sanity.studio/).
+Edit workshops with Sanity at [transcript-automation-2.sanity.studio](https://transcript-automation-2.sanity.studio/).
+
+## Edit content schema
+
+You can make changes to Sanity schema by editing contents inside `schema` directory. To run local version of Sanity:
+
+```
+pnpm dev:sanity
+```

@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const withMDX = require('@next/mdx')({
-  extension: /\.(md|mdx)$/,
+  extension: /\.mdx?$/,
   options: {
     providerImportSource: '@mdx-js/react',
   },
 })
+
 const {withSentryConfig} = require('@sentry/nextjs')
 
 const sentryWebpackPluginOptions = process.env.SENTRY_AUTH_TOKEN && {
@@ -30,6 +31,7 @@ const IMAGE_HOST_DOMAINS = [
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+  transpilePackages: ['@skillrecordings/skill-lesson', '@skillrecordings/ui'],
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   eslint: {ignoreDuringBuilds: true},
   experimental: {scrollRestoration: true},
@@ -43,12 +45,7 @@ const nextConfig = {
   },
 }
 
-const configWithPlugins = withMDX(
-  {
-    pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
-  },
-  nextConfig,
-)
+const configWithPlugins = withMDX(nextConfig)
 
 if (sentryWebpackPluginOptions) {
   module.exports = withSentryConfig(

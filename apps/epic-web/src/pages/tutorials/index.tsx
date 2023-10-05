@@ -68,7 +68,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
               return (
                 <li key={slug.current}>
                   <Link
-                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-xl bg-white p-10 drop-shadow-sm transition hover:bg-gray-100 dark:border-transparent dark:bg-white/5 dark:hover:bg-white/10"
+                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-xl bg-white p-10 shadow-2xl shadow-gray-500/20 transition hover:bg-gray-50 dark:border-transparent dark:bg-white/5 dark:shadow-none dark:hover:bg-white/10"
                     href={{
                       pathname: '/tutorials/[module]',
                       query: {

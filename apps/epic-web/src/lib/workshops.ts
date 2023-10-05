@@ -1,7 +1,7 @@
 import groq from 'groq'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 
-const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | order(_createdAt desc) {
+const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | order(_createdAt asc) {
   _id,
   _type,
   title,
@@ -124,10 +124,7 @@ export const getWorkshop = async (slug: string) =>
           productId,
           description,
           action,
-          image {
-            url,
-            alt
-          },
+          "image": image.asset->{url, alt},
           modules[]->{
             "slug": slug.current,
             moduleType,

@@ -41,7 +41,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
           {title} <span className="font-normal">by Kent C. Dodds</span>
         </h1>
       </header>
-      <main className="mx-auto grid w-full max-w-screen-lg grid-cols-1 flex-col gap-5 px-5 pb-24 sm:grid-cols-2">
+      <main className="mx-auto grid w-full max-w-screen-lg grid-cols-1 flex-col gap-5 px-5 pb-24 sm:grid-cols-2 lg:gap-10">
         {publishedArticles.map((article) => {
           const {title, image, slug, description, body} = article
           const estimatedReadingTime = readingTime(body)
@@ -55,7 +55,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                     article: slug,
                   })
                 }}
-                className="group relative flex h-full w-full flex-col overflow-hidden rounded-lg transition hover:bg-gray-100/80 dark:hover:bg-gray-900/40"
+                className="group relative flex h-full w-full flex-col overflow-hidden rounded-lg bg-white shadow-2xl shadow-gray-500/20 transition hover:bg-gray-50 dark:bg-background dark:shadow-none dark:hover:bg-gray-900/40"
               >
                 {image?.secure_url && (
                   <div className="relative aspect-video h-full">
@@ -68,7 +68,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                     />
                   </div>
                 )}
-                <div className="flex h-full flex-col justify-between rounded-b-lg border-x border-b border-gray-200 px-5 py-8 dark:border-gray-800 md:px-8">
+                <div className="flex h-full flex-col justify-between rounded-b-lg border-x border-b border-transparent px-5 py-8 dark:border-gray-900 md:px-8">
                   <div className="relative z-10">
                     <h2 className="text-2xl font-bold">{title}</h2>
                     {description && (

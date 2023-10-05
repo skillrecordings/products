@@ -1,7 +1,8 @@
 import React, {useCallback} from 'react'
 import Layout from 'components/app/layout'
+import {prisma} from '@skillrecordings/database'
 import {getPage} from 'lib/pages'
-import type {NextPage} from 'next'
+import type {GetServerSideProps, GetStaticProps, NextPage} from 'next'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import AboutKent from 'components/about-kent'
 import Balancer from 'react-wrap-balancer'
@@ -19,19 +20,56 @@ import {
   useSpring,
   useTransform,
 } from 'framer-motion'
+import {trpc} from 'trpc/trpc.client'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {useRouter} from 'next/router'
+import {getProduct} from 'lib/products'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 
-const Index: NextPage<any> = ({page}) => {
+const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
+
+const Index: NextPage<{product: SanityProduct}> = ({product}) => {
+  const router = useRouter()
   const {subscriber, loadingSubscriber} = useConvertkit()
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({
+      ...router.query,
+      productId: product.productId,
+    })
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
+    commerceProps?.couponFromCode,
+    {
+      image: {
+        url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
+        width: 132,
+        height: 112,
+      },
+      title: product.title as string,
+      description: product?.description,
+    },
+  )
+
+  const couponId =
+    commerceProps?.couponIdFromCoupon ||
+    (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
+
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+
+  const hasPurchased = purchasedProductIds.includes(productId)
 
   return (
-    <Layout navigationClassName="">
-      <Header />
-      <main className="">
-        <Article />
-        <Subscribe subscriber={subscriber} />
-        <AboutKent />
-      </main>
-    </Layout>
+    <>
+      <Layout navigationClassName="">
+        <Header />
+        <main className="">
+          {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+          <Article />
+          <Subscribe subscriber={subscriber} />
+          <AboutKent />
+        </main>
+      </Layout>
+    </>
   )
 }
 
@@ -282,3 +320,23 @@ const Subscribe: React.FC<SubscribeProps> = ({subscriber}) => {
 }
 
 export default Index
+
+export const getStaticProps: GetStaticProps = async () => {
+  const sanityProduct = await getProduct(productId as string)
+
+  const purchaseCount = await prisma.purchase.count({
+    where: {
+      productId,
+      status: {
+        in: ['VALID', 'RESTRICTED'],
+      },
+    },
+  })
+
+  return {
+    props: {
+      product: sanityProduct,
+      purchaseCount,
+    },
+  }
+}

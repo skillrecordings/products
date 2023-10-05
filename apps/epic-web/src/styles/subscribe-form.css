@@ -201,3 +201,7 @@
     @apply text-sm text-gray-400;
   }
 }
+
+[data-pricing-subscribing-form] > div {
+  @apply mt-5 border-t py-4;
+}

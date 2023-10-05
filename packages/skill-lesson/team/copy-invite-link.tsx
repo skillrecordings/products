@@ -4,13 +4,17 @@ import {useCopyToClipboard} from 'react-use'
 import toast from 'react-hot-toast'
 
 const CopyInviteLink: React.FC<
-  React.PropsWithChildren<{bulkCouponId: string; disabled?: boolean}>
-> = ({bulkCouponId, disabled = false}) => {
+  React.PropsWithChildren<{
+    bulkCouponId: string
+    disabled?: boolean
+    className?: string
+  }>
+> = ({bulkCouponId, disabled = false, className = ''}) => {
   const [_, setCopied] = useCopyToClipboard()
   const inviteLink = `${process.env.NEXT_PUBLIC_URL}?code=${bulkCouponId}`
 
   return (
-    <div data-copy-invite-link="">
+    <div data-copy-invite-link="" className={className}>
       <label htmlFor="inviteLink">Invite link</label>
       <div>
         <input

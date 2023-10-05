@@ -11,7 +11,7 @@ import Balancer from 'react-wrap-balancer'
 import {getAllTalks, Talk} from 'lib/talks'
 
 export async function getStaticProps() {
-  const talks = await getAllTalks()
+  const talks = await getAllTalks(false)
   return {
     props: {talks},
     revalidate: 10,
@@ -22,7 +22,8 @@ type TalksIndex = {
   talks: Talk[]
 }
 
-const pageDescription = 'A collection of valuable Web Development talks.'
+const pageDescription =
+  'A collection of Web Development talks by Kent C. Dodds.'
 
 const TalksIndex: React.FC<TalksIndex> = ({talks}) => {
   return (
@@ -31,7 +32,7 @@ const TalksIndex: React.FC<TalksIndex> = ({talks}) => {
         title: `Epic Web Dev Talks by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
         description: pageDescription,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1681815772/epicweb.dev/talks/card_2x.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1696399658/card-talks_2x.png',
         },
       }}
     >
@@ -43,11 +44,9 @@ const TalksIndex: React.FC<TalksIndex> = ({talks}) => {
           <Balancer>{pageDescription}</Balancer>
         </p>
         <div className="mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
-          {talks
-            .filter(({state}) => state === 'published')
-            .map((talk) => {
-              return <TalkCard talk={talk} key={talk.slug} />
-            })}
+          {talks.map((talk) => {
+            return <TalkCard talk={talk} key={talk.slug} />
+          })}
         </div>
       </main>
     </Layout>
@@ -73,9 +72,9 @@ const TalkCard: React.FC<{talk: Talk}> = ({talk}) => {
           onClick={() => {
             router
               .push({
-                pathname: '/tips/[tip]',
+                pathname: '/talks/[talk]',
                 query: {
-                  tip: talk.slug,
+                  talk: talk.slug,
                 },
               })
               .then(() => {
@@ -117,15 +116,15 @@ const TalkCard: React.FC<{talk: Talk}> = ({talk}) => {
             </div>
           )}
           <div className="font-heading rounded-full bg-sky-400/20 px-2 py-1 text-xs font-bold uppercase leading-none tracking-wider text-sky-600 dark:text-sky-400">
-            Tip
+            Talk
           </div>
         </div>
         <h2 className="pt-2 text-base font-semibold leading-tight sm:text-xl">
           <Link
             href={{
-              pathname: '/tips/[tip]',
+              pathname: '/talks/[talk]',
               query: {
-                tip: talk.slug,
+                talk: talk.slug,
               },
             }}
             className="inline-flex items-start gap-1 hover:underline"

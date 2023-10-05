@@ -2,6 +2,7 @@ import {trpc} from '../trpc/trpc.client'
 import {useForm} from 'react-hook-form'
 import {PurchaseUserTransfer} from '@skillrecordings/database'
 import * as React from 'react'
+import {Button, Input, Label} from '@skillrecordings/ui'
 
 type PurchaseTransferFormData = {
   email: string
@@ -48,23 +49,18 @@ const PurchaseTransferForm = ({
       className="flex w-full flex-col gap-2 text-left md:flex-row"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <label className="sr-only" htmlFor="email">
+      <Label className="sr-only" htmlFor="email">
         Email:
-      </label>
-      <input
-        className="w-full rounded-md border border-gray-100 bg-gray-200/60 px-3 py-2 shadow-inner placeholder:text-gray-500 dark:border-gray-800 dark:bg-gray-900 dark:placeholder:text-gray-400"
+      </Label>
+      <Input
         type="email"
         {...register('email', {required: true})}
         placeholder="somebody@example.com"
       />
       {errors.email && <span>This field is required</span>}
-      <button
-        className="relative flex flex-shrink-0 items-center justify-center rounded-md bg-primary px-5 py-2 font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
-        type="submit"
-        disabled={isLoading}
-      >
+      <Button variant="outline" type="submit" disabled={isLoading}>
         Transfer
-      </button>
+      </Button>
       {error && <span>{error.message}</span>}
     </form>
   )
@@ -72,10 +68,12 @@ const PurchaseTransferForm = ({
 
 export const Transfer = ({
   purchaseUserTransfers,
+  className = '',
   refetch,
 }: {
   purchaseUserTransfers: PurchaseUserTransfer[]
   refetch: () => Promise<any>
+  className?: string
 }) => {
   const cancelMutation = trpc.purchaseUserTransfer.cancel.useMutation({
     onSuccess: async (input) => {
@@ -84,7 +82,7 @@ export const Transfer = ({
   })
 
   return (
-    <div id="purchase-transfer">
+    <div id="purchase-transfer" className={className}>
       {purchaseUserTransfers.map((purchaseUserTransfer) => {
         const STATE = purchaseUserTransfer.transferState
 
@@ -103,7 +101,7 @@ export const Transfer = ({
                   purchase.
                 </p>
                 <p>
-                  Only a single email transfer is provided per purchase as a
+                  ⚠️ Only a single email transfer is provided per purchase as a
                   courtesy!
                 </p>
                 <PurchaseTransferForm

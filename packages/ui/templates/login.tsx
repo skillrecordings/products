@@ -29,6 +29,8 @@ const LoginTemplate: React.FC<React.PropsWithChildren<LoginTemplateProps>> = ({
 
   const {query} = router
 
+  const callbackUrl = query?.callbackUrl ? (query.callbackUrl as string) : '/'
+
   React.useEffect(() => {
     const {query} = router
     if (query.message) {
@@ -80,6 +82,7 @@ const LoginTemplate: React.FC<React.PropsWithChildren<LoginTemplateProps>> = ({
         <Label data-label="" htmlFor="email">
           Email address
         </Label>
+        <input name="callbackUrl" type="hidden" defaultValue={callbackUrl} />
         <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
         <div data-input-container="">
           <div data-icon="">
@@ -112,7 +115,7 @@ const LoginTemplate: React.FC<React.PropsWithChildren<LoginTemplateProps>> = ({
             variant="outline"
             onClick={() =>
               signIn(githubProvider.id, {
-                callbackUrl: '/',
+                callbackUrl,
               })
             }
           >
@@ -130,7 +133,7 @@ const LoginTemplate: React.FC<React.PropsWithChildren<LoginTemplateProps>> = ({
             variant="outline"
             onClick={() =>
               signIn(discordProvider.id, {
-                callbackUrl: '/',
+                callbackUrl,
               })
             }
           >

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import {portableTextComponents} from '../portable-text'
 import {useMuxPlayer} from '../hooks/use-mux-player'
 import {useLesson} from '../hooks/use-lesson'
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {MDXRemoteProps, MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '../markdown/mdx'
 
 export const LessonDescription: React.FC<{
@@ -12,7 +12,14 @@ export const LessonDescription: React.FC<{
   lessonBodyPreview?: MDXRemoteSerializeResult
   productName: string
   loadingIndicator: React.ReactElement
-}> = ({productName, loadingIndicator, lessonMDXBody, lessonBodyPreview}) => {
+  mdxComponents?: MDXRemoteProps['components']
+}> = ({
+  productName,
+  loadingIndicator,
+  lessonMDXBody,
+  lessonBodyPreview,
+  mdxComponents = {},
+}) => {
   const {canShowVideo, loadingUserStatus} = useMuxPlayer()
   const {lesson, module} = useLesson()
   const {body} = lesson
@@ -24,7 +31,10 @@ export const LessonDescription: React.FC<{
     <div data-lesson-description="">
       <div data-content="" data-content-visible={canShowVideo.toString()}>
         {lessonMDXBody ? (
-          <MDX contents={mdx as MDXRemoteSerializeResult} />
+          <MDX
+            contents={mdx as MDXRemoteSerializeResult}
+            components={mdxComponents}
+          />
         ) : (
           <PortableText
             value={displayedBody}

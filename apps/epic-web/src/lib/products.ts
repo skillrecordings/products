@@ -18,6 +18,7 @@ export const ProductSchema = z.object({
   productId: z.string().optional(),
   body: z.nullable(z.string()).optional(),
   state: z.enum(['published', 'draft']),
+  modules: z.array(z.any()).optional(),
 })
 
 export const ProductsSchema = z.array(ProductSchema)
@@ -36,7 +37,10 @@ export async function getProduct(productId: string): Promise<Product> {
         image,
         state,
         "slug": slug.current,
-        body
+        body,
+        modules[]->{
+          ...
+        }
   }`,
     {productId},
   )
