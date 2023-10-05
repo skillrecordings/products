@@ -1,10 +1,12 @@
 import * as React from 'react'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 import {useFormik} from 'formik'
+import Balancer from 'react-wrap-balancer'
 import * as Yup from 'yup'
 import {useRouter} from 'next/router'
 import {redeemFullPriceCoupon} from './redeem-full-price-coupon'
 import {useSession} from 'next-auth/react'
+import Image from 'next/image'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -13,9 +15,18 @@ const validationSchema = Yup.object().shape({
 interface RedeemDialogProps {
   open: boolean
   couponId: string
+  product?: {
+    image?: {
+      url: string
+      width: number
+      height: number
+    }
+    title: string
+    description?: string
+  }
 }
 
-const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
+const RedeemDialog = ({open = false, couponId, product}: RedeemDialogProps) => {
   const {data: session} = useSession()
   const router = useRouter()
   const formik = useFormik({
@@ -41,9 +52,32 @@ const RedeemDialog = ({open = false, couponId}: RedeemDialogProps) => {
       }
     },
   })
+  const {title, image, description} = product || {}
   return (
     <AlertDialogPrimitive.Root data-redeem-dialog="" open={open}>
       <Content>
+        {image && title && (
+          <div className="flex px-5 text-center flex-col items-center justify-center w-full pt-8 pb-5 border-b dark:border-gray-700 border-gray-200">
+            {image && (
+              <Image
+                src={image.url}
+                alt=""
+                aria-hidden
+                width={image.width}
+                height={image.height}
+              />
+            )}
+            {title ? (
+              <div className="text-lg pt-5 font-medium">
+                <Balancer>
+                  Coupon for {title} by{' '}
+                  {process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME}{' '}
+                  {process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}
+                </Balancer>
+              </div>
+            ) : null}
+          </div>
+        )}
         <AlertDialogPrimitive.Title data-title="">
           Do you want to redeem this coupon?
         </AlertDialogPrimitive.Title>

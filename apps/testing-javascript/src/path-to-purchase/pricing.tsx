@@ -73,6 +73,7 @@ type PricingProps = {
   couponId?: string
   allowPurchase?: boolean
   handleViewContents?: () => void
+  unavailable: boolean
 }
 
 /**
@@ -93,6 +94,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   index = 0,
   couponId,
   allowPurchase = false,
+  unavailable = false,
 }) => {
   const [quantity, setQuantity] = React.useState(1)
   const [isBuyingForTeam, setIsBuyingForTeam] = React.useState(false)
@@ -177,7 +179,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   // }
 
   return (
-    <div data-pricing-component data-pricing-product-name={product.name}>
+    <div
+      data-pricing-component
+      data-pricing-product-name={product.name}
+      data-product-unavailable={unavailable}
+    >
       {image && (
         <div data-pricing-image-container>
           <Image
@@ -196,7 +202,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           <Ribbon appliedMerchantCoupon={appliedMerchantCoupon} />
         )} */}
         {!purchased && (
-          <div>
+          <div data-product-price-holder>
             {title && (
               <h2 className="font-tt-regular uppercase text-base text-zinc-500 text-center tracking-wider">
                 {title}
@@ -222,13 +228,15 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               <div data-purchased="">
                 <CheckCircleIcon aria-hidden="true" /> Purchased
               </div>
-              <div className="flex flex-col justify-center">
-                <BuyMoreSeats
-                  productName={name}
-                  productId={productId}
-                  userId={userId as string}
-                />
-              </div>
+              {!unavailable && (
+                <div className="flex flex-col justify-center">
+                  <BuyMoreSeats
+                    productName={name}
+                    productId={productId}
+                    userId={userId as string}
+                  />
+                </div>
+              )}
             </div>
           </>
         ) : isSellingLive || allowPurchase ? (
@@ -236,7 +244,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             <div data-downgrade-container="">
               <div data-downgrade="">Unavailable</div>
             </div>
-          ) : (
+          ) : unavailable ? null : (
             <div className="mt-4">
               <form
                 action={buildStripeCheckoutPath({
@@ -368,8 +376,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             </div>
           )
         ) : null}
+        {unavailable && (
+          <div data-product-unavailable-message>Not Available</div>
+        )}
         {summary && (
-          <div className="mt-6">
+          <div data-product-summary-holder className="mt-6">
             <PortableText value={summary} />
           </div>
         )}
@@ -381,7 +392,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             index={index}
           />
         )}
-        <div className="mt-6">
+        <div data-product-details-holder className="mt-6">
           {modules && (
             <>
               <h4 className="font-tt-demibold">Workshops</h4>

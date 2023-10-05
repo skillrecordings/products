@@ -1,12 +1,19 @@
 import React from 'react'
 import Image from 'next/image'
 import cx from 'classnames'
+import {max} from 'lodash'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import Balancer from 'react-wrap-balancer'
 
 import {Pricing} from 'path-to-purchase/pricing'
+
+const PRODUCTS_RANKS = {
+  'kcd_da6ab36c-b091-4f6f-90aa-d7db2fc798ff': 1,
+  'kcd_fb976b99-0633-4329-bbfb-f5f76dc278b3': 2,
+  'kcd_4f0b26ee-d61d-4245-a204-26f5774355a5': 3,
+}
 
 const PricingSection: React.FC<{
   commerceProps: CommerceProps
@@ -30,6 +37,12 @@ const PricingSection: React.FC<{
 
   const purchasedProductsIds = purchases.map((purchase) => purchase.productId)
 
+  const ranksOfPurchasedProducts = purchases.map(
+    (purchase) =>
+      PRODUCTS_RANKS[purchase.productId as keyof typeof PRODUCTS_RANKS],
+  )
+  const highestPurchasedProductRank = max(ranksOfPurchasedProducts) || 0
+
   return (
     <div className={cx(className)}>
       <div className="container max-w-6xl flex flex-col">
@@ -45,6 +58,8 @@ const PricingSection: React.FC<{
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
           <div className="flex flex-col items-center lg:flex-row justify-center gap-6 mt-24 md:mt-28 lg:mt-32 lg:items-start">
             {products.map((product, i) => {
+              const productRank =
+                PRODUCTS_RANKS[product.productId as keyof typeof PRODUCTS_RANKS]
               return (
                 <Pricing
                   key={product.name}
@@ -55,6 +70,7 @@ const PricingSection: React.FC<{
                   index={i}
                   couponId={couponId}
                   allowPurchase={allowPurchase}
+                  unavailable={productRank < highestPurchasedProductRank}
                 />
               )
             })}

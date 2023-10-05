@@ -26,6 +26,9 @@ const ExerciseOverlay = () => {
   //   trpc.moduleResources.byModuleSlug.useQuery({slug: module.slug.current!})
   // const workshopApp = moduleResources && moduleResources.workshopApp
 
+  const exerciseDir =
+    resources && resources.gitpod && extractFolderFromUrl(resources.gitpod)
+
   return (
     <OverlayWrapper>
       <div className="relative h-full w-full">
@@ -36,74 +39,79 @@ const ExerciseOverlay = () => {
               layout="fill"
               className="object-cover object-left-top"
             /> */}
-            <div className="relative flex h-full w-full flex-col items-center justify-center gap-3 px-5 py-16 text-center">
-              <p className="font-text pb-4 text-2xl font-semibold">
+            <div className="relative flex h-full w-full flex-col items-center justify-center gap-3 px-5 pb-10 pt-20 text-center md:pb-24 md:pt-16">
+              <p className="font-text pb-8 text-2xl font-semibold">
                 Now it’s your turn! Try solving this exercise.
               </p>
-              <p className="text-base text-gray-600">
-                Start by cloning{' '}
-                <a
-                  className="underline"
-                  href={resources.github}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  the repository
-                </a>{' '}
-                and follow instructions in the{' '}
-                <a
-                  className="underline"
-                  href={`${resources.github}#readme`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  README
-                </a>{' '}
-                to complete the exercise.
-              </p>
-              {resources?.gitpod && (
-                <>
-                  <p className="py-4 text-base uppercase">or</p>
-                  <Button
-                    asChild
-                    className="flex items-center gap-1 rounded py-4"
-                    size="lg"
-                  >
-                    <Link href={resources.gitpod}>
-                      <span className="flex items-center">
-                        <Icon name="Gitpod" size="20" className="mr-2" />
-                        <span>Open on Gitpod</span>
-                      </span>
-                    </Link>
-                  </Button>
-                </>
-              )}
-              {/* {workshopAppDetails && (
-            <div className="flex flex-col gap-2">
-              <Button asChild variant="secondary" className="gap-2" size={'lg'}>
-                <a
-                  href={`http://localhost:${workshopApp?.localhost?.port}${workshopAppDetails?.path}`}
-                  target="_blank"
-                  onClick={() => {
-                    track('clicked open in workshop app', {
-                      lesson: lesson.slug,
-                      module: module.slug.current,
-                      location: 'exercise',
-                      moduleType: module.moduleType,
-                      lessonType: lesson._type,
-                    })
-                  }} rel="noreferrer"
-                >
-                  Open in Workshop App <ExternalLinkIcon className="w-4" />
-                </a>
-              </Button>
-              {workshopApp?.localhost?.port && (
-                <p className="text-sm opacity-80">
-                  App must be running on localhost:{workshopApp.localhost.port}
-                </p>
-              )}
-            </div>
-          )} */}
+              <div className="flex flex-col items-center gap-10 md:flex-row md:items-start">
+                <div className="md:max-w-sm">
+                  <h2 className="pb-3 text-base font-medium tracking-wide">
+                    Run locally (preferred)
+                  </h2>
+                  <div>
+                    {resources.github && (
+                      <Button
+                        asChild
+                        className="group relative flex flex-col items-center rounded-l bg-transparent pl-0 pr-0 sm:flex-row"
+                        size="lg"
+                      >
+                        <Link href={resources.github} target="_blank">
+                          <span className="flex h-full flex-shrink-0 items-center rounded bg-primary pl-7 pr-7 sm:rounded-l sm:rounded-r-none sm:pr-2">
+                            <Icon name="Github" size="20" className="mr-2" />
+                            Exercise Files
+                          </span>
+                          <span className="-ml-px hidden h-full flex-shrink-0 items-center justify-center rounded-r bg-primary pr-7 text-sm text-gray-300 transition group-hover:text-white sm:flex">
+                            /{exerciseDir}
+                          </span>
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
+                  {module?.github?.repo && (
+                    <p className="pt-3 text-sm text-gray-600 sm:pt-2">
+                      Start by cloning the{' '}
+                      <a
+                        className="underline"
+                        href={module.github.repo}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        project repository
+                      </a>{' '}
+                      and follow instructions in the{' '}
+                      <a
+                        className="underline"
+                        href={`${resources.github}#readme`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        README
+                      </a>{' '}
+                      to complete this exercise.
+                    </p>
+                  )}
+                </div>
+                {resources?.gitpod && (
+                  <div>
+                    <p className="pb-3 text-base font-medium tracking-wide">
+                      or
+                    </p>
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="flex items-center gap-1 rounded py-4 hover:bg-gray-100 hover:text-foreground"
+                      size="lg"
+                    >
+                      <Link href={resources.gitpod} target="_blank">
+                        <span className="flex items-center">
+                          <Icon name="Gitpod" size="20" className="mr-2" />
+                          <span>Open in Gitpod</span>
+                        </span>
+                      </Link>
+                    </Button>
+                  </div>
+                )}
+              </div>
               <div className="bottom-10 flex items-center justify-center gap-3 pt-10 md:absolute md:pt-0">
                 <Actions />
               </div>
@@ -176,4 +184,9 @@ const Actions = () => {
       )}
     </>
   )
+}
+
+function extractFolderFromUrl(url: string): string | null {
+  const match = url.match(/#folder=([^/]+)/)
+  return match ? match[1] : null
 }

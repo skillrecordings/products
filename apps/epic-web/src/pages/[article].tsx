@@ -9,6 +9,13 @@ import readingTime from 'reading-time'
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const article = await getArticle(params?.article as string)
+
+  if (!article) {
+    return {
+      notFound: true,
+    }
+  }
+
   const articleBodySerialized = await serializeMDX(article.body, {
     syntaxHighlighterOptions: {
       theme: 'material-theme-palenight',
@@ -32,7 +39,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = articles.map((article: Article) => ({
     params: {article: article.slug},
   }))
-  return {paths, fallback: false}
+  return {paths, fallback: 'blocking'}
 }
 
 const Article: React.FC<{

@@ -9,6 +9,7 @@ const buyMoreSeatsSchema = z.object({
   productId: z.string(),
   userId: z.string(),
   buttonLabel: z.string().default('Buy').nullish(),
+  className: z.string().optional(),
 })
 type BuyMoreSeatsProps = z.infer<typeof buyMoreSeatsSchema>
 
@@ -16,6 +17,7 @@ const BuyMoreSeats = ({
   productId,
   userId,
   buttonLabel = 'Buy',
+  className = '',
 }: BuyMoreSeatsProps) => {
   const [quantity, setQuantity] = React.useState(5)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
@@ -35,7 +37,12 @@ const BuyMoreSeats = ({
   })
 
   return (
-    <form data-buy-more-seats-form="" action={formActionPath} method="POST">
+    <form
+      data-buy-more-seats-form=""
+      action={formActionPath}
+      method="POST"
+      className={className}
+    >
       <fieldset id="team-upgrade-pricing-inline">
         <div data-seats-form="">
           <label>Seats</label>

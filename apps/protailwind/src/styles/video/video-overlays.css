@@ -42,7 +42,7 @@
       @apply flex w-full items-center justify-center gap-3;
     }
     [data-action='replay'] {
-      @apply flex w-full items-center gap-1 px-3 py-2 text-sm sm:text-base;
+      @apply flex w-full items-center justify-center gap-1 px-3 py-2 text-sm sm:text-base;
       [data-icon] {
       }
     }

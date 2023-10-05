@@ -312,12 +312,6 @@ const StartLearning: React.FC<{
       ] || first(lessons)
     : first(lessons)
 
-  console.log({
-    module: product.slug,
-    section: first(sections)?.slug,
-    lesson: nextLesson?.slug,
-  })
-
   return (
     <>
       <Link

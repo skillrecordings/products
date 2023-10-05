@@ -31,7 +31,7 @@
   [data-providers-container] {
     @apply w-full space-y-2;
     [data-button] {
-      @apply w-full;
+      @apply w-full gap-2;
     }
   }
 }

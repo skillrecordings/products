@@ -424,11 +424,12 @@ const FinishedOverlay = () => {
   )
 }
 
-const BlockedOverlay: React.FC<{product?: SanityProduct}> = ({product}) => {
+const BlockedOverlay: React.FC<{
+  product?: SanityProduct
+}> = ({product}) => {
   const {lesson, module} = useLesson()
   const {videoResourceId} = useVideoResource()
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
-
   const {refetchAbility, ability} = useMuxPlayer()
   const {data: ctaText} = useQuery(
     [`exercise-free-tutorial`, lesson.slug, module.slug.current],
@@ -625,8 +626,10 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
   )
 }
 
-const InviteTeam: React.FC<{product?: SanityProduct}> = ({product}) => {
-  const {refetchAbility} = useMuxPlayer()
+const InviteTeam: React.FC<{
+  product?: SanityProduct
+}> = ({product}) => {
+  const {refetchAbility, inviteTeamPagePath = '/team'} = useMuxPlayer()
   const {module} = useLesson()
   const {data: session} = useSession()
   const {data: purchaseDetails, status} =
@@ -668,7 +671,7 @@ const InviteTeam: React.FC<{product?: SanityProduct}> = ({product}) => {
             Claim one seat for yourself and start learning
           </SelfRedeemButton>
         )}
-      <Link href="/team" data-invite-team="">
+      <Link href={inviteTeamPagePath} data-invite-team="">
         Invite your team
       </Link>
     </div>

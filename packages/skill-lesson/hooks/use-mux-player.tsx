@@ -40,6 +40,7 @@ type VideoContextType = {
   nextExerciseStatus?: 'error' | 'success' | 'loading'
   nextSection: Section | null
   path: string
+  inviteTeamPagePath?: string
   video?: {muxPlaybackId?: string}
   canShowVideo: boolean
   refetchAbility: () => void
@@ -68,6 +69,7 @@ export const VideoContext = React.createContext({} as VideoContextType)
 type VideoProviderProps = {
   exerciseSlug?: string
   path?: string
+  inviteTeamPagePath?: string
   muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>
   onEnded?: () => Promise<any>
   onModuleEnded?: () => Promise<any>
@@ -101,6 +103,7 @@ export const VideoProvider: React.FC<
   handleContinue = defaultHandleContinue,
   handlePlayFromBeginning = defaultHandlePlayFromBeginning,
   exerciseSlug,
+  inviteTeamPagePath,
 }) => {
   const router = useRouter()
 
@@ -278,6 +281,7 @@ export const VideoProvider: React.FC<
     muxPlayerRef,
     handleContinue,
     handlePlayFromBeginning,
+    inviteTeamPagePath,
   }
   return (
     <VideoContext.Provider value={context}>{children}</VideoContext.Provider>

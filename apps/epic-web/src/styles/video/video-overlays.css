@@ -1,5 +1,18 @@
+[data-video-overlay-with-cta] {
+  @apply relative flex h-full w-full flex-row items-center justify-between;
+  [data-content] {
+    @apply !relative flex h-full w-full flex-col items-center justify-center text-center text-lg leading-relaxed;
+  }
+  [data-cta] {
+    @apply prose prose-sm z-20 hidden h-full w-full max-w-[300px] flex-col items-center justify-center overflow-hidden border border-white/10 bg-gray-800/40 px-5 lg:flex;
+    [data-image] {
+      @apply hidden items-center justify-center sm:flex sm:w-40 lg:w-auto;
+    }
+  }
+}
+
 [data-video-overlay-wrapper] {
-  @apply relative left-0 top-0 flex aspect-video w-full items-center justify-center bg-gray-900 text-gray-200 dark:bg-black/50;
+  @apply relative left-0 top-0 flex aspect-video h-full w-full items-center justify-center bg-gray-900 text-gray-200 dark:bg-black/50;
   [data-dismiss] {
     @apply absolute right-2 top-2 z-40 flex items-center gap-1 rounded px-3 py-2 text-sm font-medium text-gray-200 transition hover:bg-gray-800 sm:text-base;
     svg {
@@ -108,12 +121,12 @@
         @apply max-w-xl pb-5 pt-3 text-lg text-gray-300;
       }
       [data-self-redeem-button] {
-        @apply rounded-lg bg-cyan-400 px-5 py-3 text-base font-semibold text-gray-900 brightness-125 transition hover:brightness-100;
+        @apply rounded-lg border-none bg-primary px-5 py-3 text-base font-semibold text-primary-foreground;
       }
       [data-self-redeem-button][disabled] {
       }
       [data-invite-team] {
-        @apply mt-3 text-center text-base text-cyan-200 hover:underline;
+        @apply mt-3 py-3 text-center text-base;
       }
     }
     [data-pricing] {
@@ -143,9 +156,15 @@
         }
       }
       [data-col='2'] {
-        @apply flex w-full flex-col items-center justify-center lg:w-auto;
+        @apply flex w-full flex-col items-center justify-center lg:w-full;
         [data-pricing-product] {
           @apply flex h-full flex-col items-center justify-center;
+          #pricing {
+            @apply pt-5 [&>div>[aria-hidden]]:bg-white/5 [&>div]:pb-5 [&>div]:text-left [&_svg]:text-orange-300;
+          }
+          [data-ppp-container] {
+            @apply hidden;
+          }
         }
       }
     }

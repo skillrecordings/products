@@ -20,6 +20,7 @@ module.exports = {
     '/team',
     '/error',
     '/check-your-email',
+    '/progress',
   ],
   robotsTxtOptions: {
     additionalSitemaps: [`${process.env.NEXT_PUBLIC_URL}/server-sitemap.xml`],

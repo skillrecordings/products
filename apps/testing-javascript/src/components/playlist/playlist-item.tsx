@@ -97,7 +97,7 @@ const PlaylistItem: React.FC<{
               >
                 Upgrade
               </Link>{' '}
-              to get it available
+              to get access
             </div>
           </div>
         )}

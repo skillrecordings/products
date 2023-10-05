@@ -42,6 +42,10 @@ export const getProductBySlug = async (productSlug: string) => {
 "name": title,
   productId,
   description,
+  state,
+  title,
+  body,
+  _createdAt,
   action,
   image {
     url,

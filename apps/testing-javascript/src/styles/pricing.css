@@ -40,8 +40,8 @@
   @apply scale-105;
 }
 [data-pricing-product-checkout-button='Pro Testing'][type='submit'],
-[data-pricing-buy-more-seats='Pro Testing'] {
-  @apply px-5 py-4 text-xl leading-snug bg-gradient-to-b from-[#ffc26a] to-[#ffa82e] text-white border-none;
+[data-pricing-buy-more-seats='Pro Testing'][type='button'] {
+  @apply px-5 py-4 text-xl leading-snug bg-gradient-to-b from-[#ffc26a] to-[#ffa82e] text-white border-none rounded;
   box-shadow: inset 1px -1px 3px 0 #f0a233;
   text-shadow: 0 1px 2px #c98b33;
 }
@@ -85,4 +85,23 @@
       @apply w-12 h-12 mr-2 text-emerald-500;
     }
   }
+}
+
+[data-product-unavailable='true'] {
+  [data-pricing-image-container],
+  [data-product-price-holder],
+  [data-product-summary-holder],
+  [data-product-details-holder],
+  [data-pricing-product-header],
+  [data-purchased-container] {
+    @apply grayscale opacity-20;
+  }
+  [data-pricing-product-header] [data-title] {
+    @apply text-base font-tt-regular uppercase;
+  }
+}
+
+[data-product-unavailable-message] {
+  @apply mt-6 font-tt-demibold text-center leading-tight text-2xl p-3 border border-body;
+  text-wrap: balance;
 }

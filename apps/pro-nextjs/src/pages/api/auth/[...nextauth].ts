@@ -22,11 +22,11 @@ const providers = [
     clientSecret: process.env.GITHUB_SECRET,
     allowDangerousEmailAccountLinking: true,
   }),
-  DiscordProvider({
-    clientId: process.env.DISCORD_CLIENT_ID,
-    clientSecret: process.env.DISCORD_CLIENT_SECRET,
-    allowDangerousEmailAccountLinking: true,
-  }),
+  // DiscordProvider({
+  //   clientId: process.env.DISCORD_CLIENT_ID,
+  //   clientSecret: process.env.DISCORD_CLIENT_SECRET,
+  //   allowDangerousEmailAccountLinking: true,
+  // }),
 ]
 
 const cookies: Partial<CookiesOptions> = {

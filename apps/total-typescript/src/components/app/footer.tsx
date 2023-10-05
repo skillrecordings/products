@@ -61,6 +61,10 @@ const Footer: React.FC<FooterProps> = ({className}) => {
               <NavLink path="/typescript-learning-path" label="Learning Path" />
               <NavLink path="/vscode-extension" label="VSCode Extension" />
               <NavLink path="/ts-reset" label="TS Reset" />
+              <NavLink
+                path="https://mattpocock.com/discord"
+                label="Discord Server"
+              />
             </ul>
           </div>
           <div>

@@ -64,7 +64,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
   const {tipCompleted} = useTipComplete(tip.slug)
 
   return (
-    <Card className="relative flex flex-col items-center overflow-hidden rounded-xl border border-transparent bg-white shadow-2xl shadow-gray-500/20 dark:border-gray-800 dark:bg-gray-400/5 dark:shadow-black/50">
+    <Card className="relative flex flex-col items-center overflow-hidden rounded-md border border-transparent bg-white shadow-2xl shadow-gray-500/20 transition dark:border-gray-900 dark:bg-background dark:shadow-black/50 dark:hover:bg-white/5">
       <CardHeader className="relative flex aspect-video w-full flex-shrink-0 items-center justify-center border-b border-transparent dark:border-gray-800">
         <button
           onClick={() => {
@@ -127,7 +127,7 @@ const TipCard: React.FC<{tip: Tip}> = ({tip}) => {
                 tip: tip.slug,
               },
             }}
-            className="inline-flex items-start gap-1 decoration-gray-300 hover:underline dark:decoration-gray-600"
+            className="inline-flex items-start gap-1 decoration-gray-300 dark:decoration-gray-600"
           >
             {title} {tipCompleted && <span className="sr-only">(watched)</span>}
           </Link>

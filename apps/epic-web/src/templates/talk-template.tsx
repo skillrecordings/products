@@ -44,6 +44,7 @@ import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import {Talk} from 'lib/talks'
+import Link from 'next/link'
 
 const TalkTemplate: React.FC<{
   talk: Talk
@@ -134,10 +135,17 @@ const TalkTemplate: React.FC<{
               )}
             </div>
           </div>
-          <article className="relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 xl:border-gray-800 xl:pt-10">
-            <div className="mx-auto w-full max-w-screen-xl pb-5">
-              <div className="flex w-full grid-cols-5 flex-col gap-0 sm:gap-10 xl:grid">
-                <div className="col-span-3">
+          <article className=" relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 xl:border-gray-800 xl:pt-10">
+            <div className="mx-auto w-full max-w-screen-md pb-5">
+              <div className="flex w-full flex-col gap-0 sm:gap-10 ">
+                <div className="">
+                  <Link
+                    href="/talks"
+                    passHref
+                    className="mb-3 block text-sm opacity-75 transition hover:opacity-100"
+                  >
+                    ← All Talks
+                  </Link>
                   <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
                     {talk.title}
                     {tipCompleted && <span className="sr-only">(watched)</span>}
@@ -169,33 +177,28 @@ const TalkTemplate: React.FC<{
                       <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert lg:prose-lg">
                         <MDX contents={talkBodySerialized} />
                       </div>
-                      <Hr
-                        className={
-                          tipCompleted ? 'bg-emerald-400' : 'bg-indigo-400'
-                        }
-                      />
                     </>
                   )}
-                  {talk.transcript && talk.body && (
-                    <div className="w-full max-w-2xl pt-5">
+                  {talk.transcript && (
+                    <div className="w-full pt-8">
                       <VideoTranscript transcript={talk.transcript} />
                     </div>
                   )}
                 </div>
-                <div className="col-span-2">
-                  {/* TODO: might want to add summary? */}
-                  {/* {talk.body && <RelatedTips currentTip={tip} tips={tips} />} */}
-                </div>
+                {/* <div className="col-span-2"> */}
+                {/* TODO: might want to add summary? */}
+                {/* {talk.body && <RelatedTips currentTip={tip} tips={tips} />} */}
+                {/* </div> */}
               </div>
             </div>
-            <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
+            {/* <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
               {talk.transcript && !talk.body && (
                 <div className="w-full max-w-2xl pt-5">
                   <VideoTranscript transcript={talk.transcript} />
                 </div>
-              )}
-              {/* {!tip.body && <RelatedTips currentTip={tip} tips={tips} />} */}
-            </div>
+              )} */}
+            {/* {!tip.body && <RelatedTips currentTip={tip} tips={tips} />} */}
+            {/* </div> */}
           </article>
         </main>
       </Layout>
@@ -212,7 +215,7 @@ const Video: React.FC<any> = React.forwardRef(({talks}, ref: any) => {
       {displayOverlay && <TipOverlay talks={talks} />}
       <div
         className={cx(
-          'flex items-center justify-center  overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-md',
+          'flex items-center justify-center  overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b-md',
           {
             hidden: displayOverlay,
           },

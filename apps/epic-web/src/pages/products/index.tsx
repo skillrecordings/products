@@ -40,6 +40,7 @@ import {
   formatUsd,
 } from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import Spinner from 'components/spinner'
+import {PurchasedBadge} from 'templates/purchased-product-template'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const products = await getAllProducts()
@@ -112,49 +113,54 @@ const ProductCard: React.FC<{
       quantity: 1,
     })
 
+  const href = `/products/${product.slug}`
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{product.title}</CardTitle>
-        <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-          {purchase ? (
-            <>
-              <Price amount={Number(purchase.totalAmount)} />
-              <span>
-                Purchased on:{' '}
-                <DatePurchased date={purchase.createdAt.toString()} />
-              </span>
-            </>
-          ) : (
-            <>
-              <PriceDisplay
-                formattedPrice={formattedPrice}
-                status={formattedPriceStatus}
-              />
-            </>
+    <Card className="relative">
+      <CardHeader className="flex w-full flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">
+        <CardTitle className="text-xl">
+          <Link href={href}>{product.title}</Link>
+        </CardTitle>
+        <div className="flex items-center gap-3">
+          {purchase ? null : (
+            // <Price amount={Number(purchase.totalAmount)} />
+            <div className="flex items-center space-x-3 pt-2 text-sm text-muted-foreground">
+              <>
+                <PriceDisplay
+                  formattedPrice={formattedPrice}
+                  status={formattedPriceStatus}
+                />
+              </>
+            </div>
           )}
+          <PurchasedBadge />
         </div>
       </CardHeader>
       <CardFooter className="space-x-2">
         {purchase ? (
           <>
             <Button variant="secondary" size="sm" asChild>
-              <Link href={`/purchases/${purchase.id}`}>
-                {purchase.bulkCoupon ? 'Manage' : 'Details'}
-              </Link>
-            </Button>
-            <Button variant="outline" asChild size="sm">
               <Link
-                href={{
-                  pathname: '/invoices/[merchantChargeId]',
-                  query: {
-                    merchantChargeId: purchase.merchantChargeId,
-                  },
-                }}
+                // href={`/purchases/${purchase.id}`}
+                href={href}
               >
-                Invoice
+                {purchase.bulkCoupon ? 'Manage & Details' : 'Manage & Details'}
               </Link>
             </Button>
+            {purchase.merchantChargeId && (
+              <Button variant="outline" asChild size="sm">
+                <Link
+                  href={{
+                    pathname: '/invoices/[merchantChargeId]',
+                    query: {
+                      merchantChargeId: purchase.merchantChargeId,
+                    },
+                  }}
+                >
+                  Invoice
+                </Link>
+              </Button>
+            )}
           </>
         ) : (
           <>

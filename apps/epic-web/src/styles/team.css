@@ -128,7 +128,6 @@
 
 [data-claimed-seats-team] {
   [data-claimed-seat] {
-    @apply text-gray-300;
   }
   [data-claimed-seat=''] {
     @apply inline-flex items-center gap-1.5 before:translate-y-[2px] before:content-[url("/assets/check.svg")];
@@ -159,7 +158,6 @@
   }
   [data-claimed-seats-team] {
     [data-claimed-seat] {
-      @apply text-indigo-200;
     }
     svg {
       @apply w-4;
