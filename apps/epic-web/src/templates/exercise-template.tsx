@@ -262,14 +262,17 @@ const LessonList: React.FC<{
           </div>
         </div>
       </div>
-      <ScrollAreaPrimitive.Root>
+
+      <ScrollAreaPrimitive.Root
+        className="relative flex flex-col"
+        style={scrollAreaClassName ? {} : {height: `calc(100vh - ${height}px)`}}
+      >
+        <div
+          className="pointer-events-none absolute bottom-0 left-0 z-10 h-24 w-full bg-gradient-to-t from-background to-transparent"
+          aria-hidden
+        />
         <ScrollAreaPrimitive.Viewport
-          className={cn('', className, scrollAreaClassName)}
-          style={
-            scrollAreaClassName
-              ? {}
-              : {height: `calc(100vh - ${height + 48}px)`}
-          }
+          className={cn('flex-grow pb-[48px]', className, scrollAreaClassName)}
           ref={scrollContainerRef}
         >
           <Collection.Root

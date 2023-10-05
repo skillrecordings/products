@@ -120,6 +120,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       ...collectionProps
     } = props
     const {sections, lessons} = module
+    const {section: currentSection} = useLesson()
     const router = useRouter()
     const path = router.route.match(/^\/([^/]+)/)?.[1]
     const moduleProgress = useModuleProgress()
@@ -127,7 +128,9 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
     const nextSection = moduleProgress?.nextSection
     const firstSection = first<SectionType>(sections)
 
-    const initialOpenedSections = !isEmpty(firstSection)
+    const initialOpenedSections = currentSection
+      ? [currentSection?.slug]
+      : !isEmpty(firstSection)
       ? [firstSection?.slug]
       : []
     const [openedSections, setOpenedSections] = React.useState<string[]>(
@@ -784,8 +787,6 @@ const useScrollToActiveLesson = (
   activeElementToScrollTo: React.RefObject<HTMLDivElement>,
   scrollContainerRef?: React.RefObject<HTMLDivElement>,
 ) => {
-  const {lesson: activeLesson, module} = useLesson()
-  const router = useRouter()
   React.useEffect(() => {
     const activeElementOffset = activeElementToScrollTo?.current?.offsetTop
 
@@ -793,7 +794,7 @@ const useScrollToActiveLesson = (
       scrollContainerRef?.current?.scrollTo({
         top: activeElementOffset,
       })
-  }, [router, activeElementToScrollTo, scrollContainerRef, module])
+  }, [activeElementToScrollTo, scrollContainerRef])
 }
 
 /* -------------------------------------------------------------------------------------------------*/
