@@ -1,12 +1,11 @@
 import React from 'react'
 import {GetStaticPaths, GetStaticProps, NextPage} from 'next'
-import {getAllTips, getTip, Tip} from 'lib/tips'
+import {getAllTalks, getTalk, Talk} from 'lib/talks'
 import TipTemplate from 'templates/tip-template'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import {Talk, getAllTalks, getTalk} from 'lib/talks'
 import TalkTemplate from 'templates/talk-template'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
@@ -20,13 +19,13 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
           showCopyButton: true,
         },
       }))
-    const tips = await getAllTips()
+    const talks = await getAllTalks(false)
 
     return {
       props: {
         talk,
         talkBodySerialized,
-        tips,
+        talks,
         transcript: talk.transcript,
         videoResourceId: talk.videoResourceId,
       },

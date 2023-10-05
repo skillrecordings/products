@@ -44,12 +44,23 @@ const useAbilities = () => {
   return createAppAbility(abilityRules || [])
 }
 
-const useNavigationLinks = () => {
+export const useNavigationLinks = () => {
   const ability = useAbilities()
   const canCreateContent = ability.can('create', 'Content')
   const {theme} = useTheme()
 
   return [
+    // {
+    //   label: (
+    //     <>
+    //       <span className="sm:hidden lg:inline-block">Pro</span> Workshops
+    //     </>
+    //   ),
+    //   icon: (isHovered: boolean) => (
+    //     <WorkshopsIcon isHovered={isHovered} theme={theme} />
+    //   ),
+    //   href: '/workshops',
+    // },
     {
       label: 'Tips',
       icon: (isHovered: boolean) => (
@@ -58,7 +69,11 @@ const useNavigationLinks = () => {
       href: canCreateContent ? '/creator/tips' : '/tips',
     },
     {
-      label: 'Free Tutorials',
+      label: (
+        <>
+          <span className="sm:hidden lg:inline-block">Free</span> Tutorials
+        </>
+      ),
       icon: (isHovered: boolean) => (
         <TutorialsIcon isHovered={isHovered} theme={theme} />
       ),
@@ -101,14 +116,26 @@ const Navigation: React.FC<NavigationProps> = ({
   const isSmScreen = useMedia('(max-width: 640px)', false)
 
   const [hoveredNavItemIndex, setHoveredNavItemIndex] = React.useState(-1)
+
   const {data: commerceProps, status: commercePropsStatus} =
-    trpc.pricing.propsForCommerce.useQuery({})
+    trpc.pricing.propsForCommerce.useQuery({
+      productId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
+    })
+
+  const {data: lastPurchase, status: lastPurchaseStatus} =
+    trpc.purchases.getLastPurchase.useQuery()
+
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+  const hasPurchase = purchasedProductIds.length > 0
+  const ability = useAbilities()
+  const canInviteTeam = ability.can('invite', 'Team')
 
   return (
     <>
       <div
         className={twMerge(
-          'fixed left-0 top-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md dark:bg-background/90 dark:shadow-xl dark:shadow-black/50 print:hidden',
+          'fixed left-0 top-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md dark:bg-background/90 dark:shadow-xl dark:shadow-black/20 print:hidden',
           navigationContainerClassName,
         )}
       >
@@ -134,7 +161,7 @@ const Navigation: React.FC<NavigationProps> = ({
             >
               <Logo />
             </Link>
-            <div className="hidden items-center justify-start gap-2 pl-5 font-medium sm:flex">
+            <div className="hidden items-center justify-start gap-2 font-medium sm:flex lg:pl-2">
               {navigationLinks.map(({label, href, icon}, i) => {
                 const isOvershadowed = false
                 // (hoveredNavItemIndex !== i && hoveredNavItemIndex !== -1)
@@ -150,7 +177,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     key={href}
                     href={href}
                     className={cx(
-                      'group flex items-center gap-1 rounded-md px-2.5 py-1 transition',
+                      'group flex items-center gap-1 rounded-md px-1.5 py-1 transition lg:px-2.5',
                       {
                         'opacity-60': isOvershadowed,
                       },
@@ -178,6 +205,29 @@ const Navigation: React.FC<NavigationProps> = ({
           <div className="flex items-center justify-end">
             <Login className="hidden sm:flex" />
             <User className="hidden sm:flex" />
+            {commercePropsStatus === 'success' && hasPurchase && (
+              <>
+                {canInviteTeam && lastPurchase ? (
+                  <Link
+                    href={`/products/${lastPurchase.slug}`}
+                    className={cx('mr-3 hidden px-2.5 lg:block', {
+                      underline: pathname === `/products/${lastPurchase.slug}`,
+                    })}
+                  >
+                    Invite Team
+                  </Link>
+                ) : (
+                  <Link
+                    href="/products?s=purchased"
+                    className={cx('mr-3 hidden px-2.5 lg:block', {
+                      underline: pathname.includes('/products'),
+                    })}
+                  >
+                    My Products
+                  </Link>
+                )}
+              </>
+            )}
             <ColorModeToggle className="hidden sm:block" />
             <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
           </div>
@@ -214,9 +264,23 @@ const Navigation: React.FC<NavigationProps> = ({
                   )
                 })}
 
-                <div className="flex w-full items-center justify-between pt-5 text-lg">
+                <div className="flex w-full items-center justify-between px-3 pt-5 text-lg">
                   <Login />
                   <User />
+                  {commercePropsStatus === 'success' &&
+                    purchasedProductIds.length > 0 && (
+                      <Link
+                        href="/products?s=purchased"
+                        className={cx(
+                          // 'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
+                          {
+                            underline: pathname === '/products',
+                          },
+                        )}
+                      >
+                        My Products
+                      </Link>
+                    )}
                   <ColorModeToggle />
                 </div>
               </motion.div>
@@ -259,12 +323,17 @@ const User: React.FC<{className?: string}> = ({className}) => {
             />
             <div className="flex flex-col pl-0.5">
               <span className="inline-flex gap-0.5 text-sm font-bold leading-tight">
-                {sessionData?.user?.name} <ChevronDownIcon className="w-2" />
+                <span className="truncate sm:max-w-[3rem] lg:max-w-[6rem]">
+                  {sessionData?.user?.name}
+                </span>{' '}
+                <ChevronDownIcon className="w-2" />
               </span>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Account</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              {sessionData?.user?.email || 'Account'}
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             {purchasedProductIds.length > 0 && (
               <DropdownMenuItem
@@ -276,11 +345,11 @@ const User: React.FC<{className?: string}> = ({className}) => {
                   className={cx(
                     // 'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
                     {
-                      underline: pathname === '/products',
+                      underline: pathname.includes('/products'),
                     },
                   )}
                 >
-                  My Purchases
+                  My Products
                 </Link>
               </DropdownMenuItem>
             )}
@@ -327,7 +396,10 @@ const Login: React.FC<{className?: string}> = ({className}) => {
   )
 }
 
-export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+export const ArticlesIcon: React.FC<IconProps> = ({
+  isHovered,
+  theme = 'dark',
+}) => {
   const id = Math.random() * 100
   return (
     <svg
@@ -338,12 +410,12 @@ export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
       viewBox="0 0 18 18"
     >
       <path
-        fill={`url(#gradientArticles${id})`}
+        fill={`url(#gradientArticles-1)`}
         d="M15.742.676a.375.375 0 0 0-.367-.301H2.625a.374.374 0 0 0-.368.301l-.75 3.75a.374.374 0 0 0 .368.449h.75a.375.375 0 0 0 .371-.322C3.01 4.46 3.347 2.25 5.25 2.25H7.5v12.302a1.41 1.41 0 0 1-1.232 1.396l-1.44.18a.375.375 0 0 0-.328.372v.75c0 .207.168.375.375.375h8.25a.375.375 0 0 0 .375-.375v-.75a.375.375 0 0 0-.329-.372l-1.44-.18a1.409 1.409 0 0 1-1.231-1.396V2.25h2.25c1.893 0 2.24 2.21 2.254 2.303a.375.375 0 0 0 .37.322h.75a.374.374 0 0 0 .368-.449l-.75-3.75Z"
       />
       <defs>
         <linearGradient
-          id={`gradientArticles${id}`}
+          id={`gradientArticles-1`}
           x1="9"
           x2="9"
           y1=".375"
@@ -375,7 +447,10 @@ export const ArticlesIcon: React.FC<IconProps> = ({isHovered, theme}) => {
   )
 }
 
-export const TutorialsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+export const TutorialsIcon: React.FC<IconProps> = ({
+  isHovered,
+  theme = 'dark',
+}) => {
   const id = Math.random() * 100
   return (
     <svg
@@ -386,14 +461,14 @@ export const TutorialsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
       viewBox="0 0 22 16"
     >
       <path
-        fill={`url(#tutorialsGradient${id})`}
+        fill={`url(#tutorialsGradient-1)`}
         fillRule="evenodd"
         d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3Zm6 11.44V4.56a.3.3 0 0 1 .466-.25l5.16 3.44a.3.3 0 0 1 0 .5l-5.16 3.44A.3.3 0 0 1 9 11.44Z"
         clipRule="evenodd"
       />
       <defs>
         <linearGradient
-          id={`tutorialsGradient${id}`}
+          id={`tutorialsGradient-1`}
           x1="11"
           x2="11"
           y1="0"
@@ -527,11 +602,11 @@ const NavToggle: React.FC<NavToggleProps> = ({
   )
 }
 
-export const Logo = () => {
+export const Logo: React.FC<{className?: string}> = ({className}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="w-[127px]"
+      className={cn('w-[127px]', className)}
       fill="none"
       viewBox="0 0 264 70"
     >
@@ -634,8 +709,9 @@ const EventsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
   )
 }
 
-export const TipsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+export const TipsIcon: React.FC<IconProps> = ({isHovered, theme = 'dark'}) => {
   const id = Math.random() * 100
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -645,16 +721,16 @@ export const TipsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
       viewBox="0 0 18 12"
     >
       <motion.path
-        fill={`url(#tipsGradient${id})`}
+        fill={`url(#tipsGradient-1)`}
         d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
       />
       <motion.path
-        fill={`url(#tipsGradient${id})`}
+        fill={`url(#tipsGradient-1)`}
         d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
       />
       <defs>
         <linearGradient
-          id={`tipsGradient${id}`}
+          id={`tipsGradient-1`}
           x1="12.5"
           x2="-.5"
           y1="-2"
@@ -677,6 +753,55 @@ export const TipsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
             offset="1"
             stopColor={
               isHovered ? '#5075FF' : theme === 'light' ? '#A4A5AF' : '#393A46'
+            }
+          />
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}
+
+export const WorkshopsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+  const id = Math.random() * 100
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8.6565 1.42938C9.02065 0.812604 9.91295 0.812604 10.2771 1.42938L12.8368 5.76489C12.9176 5.90177 13.0318 6.01596 13.1687 6.09678L17.5042 8.6565C18.121 9.02065 18.121 9.91295 17.5042 10.2771L13.1687 12.8368C13.0318 12.9176 12.9176 13.0318 12.8368 13.1687L10.2771 17.5042C9.91294 18.121 9.02065 18.121 8.6565 17.5042L6.09677 13.1687C6.01595 13.0318 5.90177 12.9176 5.76489 12.8368L1.42938 10.2771C0.812604 9.91294 0.812604 9.02065 1.42938 8.6565L5.76489 6.09677C5.90177 6.01595 6.01596 5.90177 6.09678 5.76489L8.6565 1.42938Z"
+        fill={`url(#workshopsGradient${id})`}
+      />
+      <defs>
+        <linearGradient
+          id={`workshopsGradient${id}`}
+          fill={`url(#workshopsGradient${id})`}
+          x1="9.46692"
+          y1="0.0570553"
+          x2="9.46692"
+          y2="18.8768"
+          gradientUnits="userSpaceOnUse"
+        >
+          <motion.stop
+            stop-color="#5B5E71"
+            animate={{
+              stopColor: isHovered
+                ? '#FFE55F'
+                : theme === 'light'
+                ? '#C2C4CF'
+                : '#5B5E71',
+            }}
+            stopColor={
+              isHovered ? '#FFE55F' : theme === 'light' ? '#C2C4CF' : '#5B5E71'
+            }
+          />
+          <motion.stop
+            offset="1"
+            stopColor={
+              isHovered ? '#F39F3D' : theme === 'light' ? '#A4A5AF' : '#393A46'
             }
           />
         </linearGradient>

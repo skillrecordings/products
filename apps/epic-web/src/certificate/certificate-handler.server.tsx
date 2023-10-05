@@ -1,29 +1,11 @@
-// @ts-nocheck
-import {getModule} from '@skillrecordings/skill-lesson/lib/modules'
+import {
+  getModule,
+  getModuleById,
+} from '@skillrecordings/skill-lesson/lib/modules'
 import {ImageResponse} from '@vercel/og'
 import {NextRequest} from 'next/server'
 import {getProduct} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
-
-const magnatHeadFont = fetch(
-  new URL(
-    '../../public/fonts/6fecec1e-f4a1-49a8-8eb2-d3215d7a594e.woff',
-    import.meta.url,
-  ),
-).then((res) => res.arrayBuffer())
-
-const magnatHeadExtraBoldFont = fetch(
-  new URL(
-    '../../public/fonts/d6c82f9e-b1c6-42e4-8ba7-b08485ad4122.woff',
-    import.meta.url,
-  ),
-).then((res) => res.arrayBuffer())
-
-const magnatTextFont = fetch(
-  new URL(
-    '../../public/fonts/d5963985-9426-4ddd-9ee9-e0519f89608a.woff',
-    import.meta.url,
-  ),
-).then((res) => res.arrayBuffer())
+import {getToken} from 'next-auth/jwt'
 
 const larsseitFont = fetch(
   new URL(
@@ -33,29 +15,31 @@ const larsseitFont = fetch(
 ).then((res) => res.arrayBuffer())
 
 export default async function handleCreateCertificate(req: NextRequest) {
-  const magnatHeadFontData = await magnatHeadFont
-  const magnatTextFontData = await magnatTextFont
-  const magnatHeadExtraBoldFontData = await magnatHeadExtraBoldFont
   const larsseitFontData = await larsseitFont
 
   try {
     const {searchParams} = new URL(req.url)
 
+    const session = await getToken({req})
+
     const issuedDate = new Date().toLocaleDateString()
     const hasName = searchParams.has('name')
-    const name = hasName ? searchParams.get('name') : 'Your Name'
+    if (!hasName) {
+      return new Response(`Please provide a name`, {
+        status: 400,
+      })
+    }
+    const name = hasName ? searchParams.get('name') : session?.name
 
     // module
-    const hasModule = searchParams.has('module')
-    const moduleSlug = searchParams.get('module')
-    const module = hasModule ? await getModule(moduleSlug as string) : {}
+    const hasModule = searchParams.has('moduleId')
+    const moduleId = searchParams.get('moduleId')
+    const module = hasModule ? await getModuleById(moduleId as string) : {}
 
     // product
-    const hasProduct = searchParams.has('product')
-    const productSlug = searchParams.get('product')
-    const productData = hasProduct
-      ? await getProduct(productSlug as string)
-      : {}
+    const hasProduct = searchParams.has('productId')
+    const productId = searchParams.get('productId')
+    const productData = hasProduct ? await getProduct(productId as string) : {}
 
     const getCertificate = () => {
       switch (true) {
@@ -72,7 +56,7 @@ export default async function handleCreateCertificate(req: NextRequest) {
 
     const ModuleTemplate = () => {
       const backgroundImage =
-        'https://res.cloudinary.com/total-typescript/image/upload/v1675963540/certificate-module-background_2x_j6ahni.png'
+        'https://res.cloudinary.com/epic-web/image/upload/v1695817673/certificate-background.jpg'
 
       return (
         <div
@@ -84,6 +68,12 @@ export default async function handleCreateCertificate(req: NextRequest) {
             backgroundRepeat: 'no-repeat',
           }}
         >
+          <p
+            tw="text-3xl absolute top-18 right-20"
+            style={{fontFamily: 'Magnat Text'}}
+          >
+            Certificate of Completion
+          </p>
           <div tw="flex flex-col items-center justify-center h-full">
             <img
               src={module.image}
@@ -91,10 +81,7 @@ export default async function handleCreateCertificate(req: NextRequest) {
               height={550}
               tw="absolute top-24"
             />
-            <div tw="flex flex-col items-center justify-center mt-96">
-              <p tw="text-4xl flex pt-10" style={{fontFamily: 'Magnat Text'}}>
-                Certificate of Completion
-              </p>
+            <div tw="flex flex-col items-center justify-center mt-72">
               <p
                 tw="text-7xl leading-none flex pb-10"
                 style={{fontFamily: 'Magnat Head Extrabold'}}
@@ -121,13 +108,13 @@ export default async function handleCreateCertificate(req: NextRequest) {
 
     const ProductTemplate = () => {
       const backgroundImage =
-        'https://res.cloudinary.com/total-typescript/image/upload/v1676026919/certificate-product-background_2x_czijep.png'
+        'https://res.cloudinary.com/epic-web/image/upload/v1695817673/certificate-background.jpg'
 
       return (
         <div
           tw="flex w-full relative text-white items-center h-full justify-center"
           style={{
-            backgroundColor: '#0A1020',
+            backgroundColor: '#080B16',
             backgroundImage: `url(${backgroundImage})`,
             backgroundSize: '100% 100%',
             backgroundRepeat: 'no-repeat',
@@ -173,24 +160,6 @@ export default async function handleCreateCertificate(req: NextRequest) {
       width: 1684,
       height: 1190,
       fonts: [
-        {
-          name: 'Magnat Head Extrabold',
-          data: magnatHeadExtraBoldFontData,
-          style: 'normal',
-          weight: 800,
-        },
-        {
-          name: 'Magnat Head',
-          data: magnatHeadFontData,
-          style: 'normal',
-          weight: 600,
-        },
-        {
-          name: 'Magnat Text',
-          data: magnatTextFontData,
-          style: 'normal',
-          weight: 300,
-        },
         {
           name: 'Larsseit',
           data: larsseitFontData,

@@ -113,6 +113,18 @@ module.exports = {
             strong: {
               color: theme('colors.foreground'),
             },
+            code: {
+              fontWeight: 500,
+              padding: '0.25rem 0.5rem',
+              backgroundColor: theme('colors.gray.100'),
+              borderRadius: theme('borderRadius.sm'),
+            },
+            'code::before': {
+              content: '""',
+            },
+            'code::after': {
+              content: '""',
+            },
           },
         },
       }),

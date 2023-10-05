@@ -1,20 +1,20 @@
 import React from 'react'
-import Layout from 'components/layout'
-import config from 'config'
+import Layout from '@/components/app/layout'
+import config from '@/config'
 
 const ConfirmSubscriptionPage = () => {
   return (
     <Layout meta={{title: 'Confirm your subscription'}}>
-      <main className="flex-grow flex items-center justify-center flex-col px-5">
+      <main className="flex flex-grow flex-col items-center justify-center px-5">
         <Image />
         <div className="max-w-screen-sm text-center font-light">
           {/* <p className="sm:text-xl">
             Thanks so much for signing up! There’s one last step.
           </p> */}
-          <h1 className="font-bold lg:text-5xl text-4xl py-8 font-heading">
+          <h1 className="py-8 text-4xl font-bold lg:text-5xl">
             Please check your inbox for an email that just got sent.
           </h1>
-          <p className="sm:text-xl leading-relaxed mx-auto pb-8">
+          <p className="mx-auto pb-8 leading-relaxed sm:text-xl">
             You'll need to click the confirmation link to receive any further
             emails. If you don't see the email after a few minutes, you might
             check your spam folder or other filters and add{' '}

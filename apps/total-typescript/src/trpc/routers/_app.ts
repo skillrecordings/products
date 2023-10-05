@@ -10,6 +10,7 @@ import {userRouter} from './user'
 import {productsRouter} from './products'
 import {stackblitzResourceRouter} from './stackblitz-resources'
 import {searchRouter} from './search'
+import {certificateRouter} from './certificate'
 
 export const appRouter = mergeRouters(
   router({
@@ -20,6 +21,7 @@ export const appRouter = mergeRouters(
     products: productsRouter,
     stackblitz: stackblitzResourceRouter,
     search: searchRouter,
+    certificate: certificateRouter,
   }),
   skillLessonRouter,
 )

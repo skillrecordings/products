@@ -44,6 +44,11 @@ export default {
       type: 'castingwordsTranscript',
     },
     {
+      name: 'transcript',
+      title: 'Transcript',
+      type: 'transcript',
+    },
+    {
       name: 'concepts',
       title: 'Concepts',
       type: 'array',

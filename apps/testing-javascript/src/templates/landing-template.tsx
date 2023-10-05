@@ -40,9 +40,11 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
   commerceProps,
   proTestingPurchased,
 }) => {
+  const purchasedProduct = mostValuedProduct
+
   return (
     <div className="pt-10 pb-20">
-      {canViewContent && <AccessYourCourse product={mostValuedProduct} />}
+      {canViewContent && <AccessYourCourse product={purchasedProduct} />}
       {!canViewContent && (
         <div className="container max-w-6xl mb-32">
           <h1 className="text-center font-heading text-4xl md:text-6xl sm:text-5xl">

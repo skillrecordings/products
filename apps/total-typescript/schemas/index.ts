@@ -35,6 +35,7 @@ import castingwordsTranscript from './objects/castingwordsTranscript'
 import tweet from './objects/tweet'
 import bodyTestimonial from './objects/bodyTestimonial'
 import feature from './objects/feature'
+import transcript from './objects/transcript'
 
 export const schemaTypes = [
   // documents
@@ -73,4 +74,5 @@ export const schemaTypes = [
   tweet,
   bodyTestimonial,
   feature,
+  transcript,
 ]

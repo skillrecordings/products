@@ -70,7 +70,7 @@ const TutorialTemplate: React.FC<{
             <Header tutorial={tutorial} />
             <main className="-mt-8 flex w-full flex-grow grid-cols-12 flex-col gap-5 lg:grid xl:flex">
               <div className="col-span-8 mx-auto w-full rounded-xl border bg-card p-10 px-5 pt-16 md:px-10">
-                <article className="prose max-w-none lg:prose-lg lg:max-w-screen-lg xl:max-w-none">
+                <article className="prose max-w-none lg:prose-lg lg:max-w-screen-lg xl:max-w-screen-md">
                   {tutorialBodySerialized ? (
                     <MDX contents={tutorialBodySerialized} />
                   ) : (
@@ -78,7 +78,7 @@ const TutorialTemplate: React.FC<{
                   )}
                 </article>
               </div>
-              <aside className="relative z-10 col-span-4 flex h-full flex-grow flex-col gap-8 pl-2 pt-8 xl:hidden">
+              <aside className="relative z-10 col-span-4 flex h-full flex-grow flex-col gap-8 pl-2 lg:pt-8 xl:hidden">
                 <Lessons tutorial={tutorial} />
               </aside>
               {/* {testimonials && testimonials?.length > 0 && (
@@ -171,7 +171,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                       }
                 }
                 className={cx(
-                  'relative flex w-full items-center justify-center rounded bg-primary px-4 py-3 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110 md:max-w-[240px]',
+                  'relative flex w-full items-center justify-center rounded border border-primary bg-primary px-4 py-3 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110 md:max-w-[240px]',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },
@@ -188,7 +188,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               {github?.repo && (
                 <a
                   className="flex w-full items-center justify-center gap-2 rounded-md border border-gray-300 px-5 py-4 font-medium leading-tight transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 md:w-auto"
-                  href={`https://github.com/epicweb-dev/${github.repo}`}
+                  href={github.repo}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
                   }}
@@ -243,7 +243,7 @@ const Lessons: React.FC<{tutorial: Module}> = ({tutorial}) => {
     })
 
   return (
-    <div className="h-full w-full px-5 pt-8 lg:max-w-sm lg:px-0 xl:max-w-none">
+    <div className="h-full w-full px-0 pt-8 lg:max-w-sm xl:max-w-none">
       {tutorial && (
         <Collection.Root module={tutorial}>
           <div className="flex w-full items-center justify-between pb-3">

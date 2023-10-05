@@ -19,7 +19,7 @@ import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
 import {SanityDocument} from '@sanity/client'
 import {InvoiceCard} from 'pages/invoices'
-import {MailIcon} from '@heroicons/react/solid'
+// import {MailIcon} from '@heroicons/react/solid'
 import {getProduct} from 'lib/products'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -83,15 +83,13 @@ const InlineTeamInvite = ({
   if (!bulkCouponId) return null
 
   return (
-    <div className="mx-auto w-full">
-      <h2 className="font-heading pb-2 text-sm font-black uppercase">
-        Invite your team
-      </h2>
-      <div className="flex flex-col rounded-lg border border-indigo-600 p-5">
-        <p className="pb-2 font-semibold">
+    <div className="mx-auto w-full px-5">
+      <h2 className="pb-2 text-sm font-medium">Invite your team</h2>
+      <div className="flex flex-col rounded-lg border border-indigo-600/50 p-5">
+        <p className="pb-2 font-semibold text-white">
           You have purchased {seatsPurchased} seats.
         </p>
-        <p className="pb-2">
+        <p className="pb-2 text-sm">
           Invite your team to claim seats right away with this invite link.
           Don't worry about saving this anywhere, it will always be available on
           your{' '}
@@ -101,9 +99,12 @@ const InlineTeamInvite = ({
           >
             Team page
           </a>{' '}
-          once you sign in.
+          once you log in.
         </p>
-        <CopyInviteLink bulkCouponId={bulkCouponId} />
+        <CopyInviteLink
+          className="[&_[data-sr-button]]:bg-gray-900/75 [&_[data-sr-button]]:text-primary [&_[data-sr-button]]:text-white [&_[data-sr-button]]:hover:bg-gray-900 [&_[data-sr-button]]:dark:bg-gray-900/75 [&_[data-sr-button]]:dark:text-white [&_[data-sr-button]]:dark:hover:bg-gray-900  [&_input]:border-transparent [&_input]:bg-gray-900 [&_input]:text-sm [&_input]:font-medium [&_input]:dark:bg-gray-900"
+          bulkCouponId={bulkCouponId}
+        />
       </div>
     </div>
   )
@@ -118,25 +119,26 @@ type ThankYouProps = {
 
 const ThankYou: React.FC<ThankYouProps> = ({title, byline, product, email}) => {
   return (
-    <header className="mx-auto w-full">
-      <div className="flex flex-col items-center gap-10 sm:flex-row">
+    <header className="flex w-full flex-col items-center justify-center">
+      <div className="flex flex-col items-center">
         {product?.image && (
           <div className="flex flex-shrink-0 items-center justify-center">
             <Image
               src={product.image.url}
               alt={product.title}
-              width={140}
-              height={140}
+              quality={100}
+              width={300}
+              height={300}
               priority
             />
           </div>
         )}
-        <div className="flex flex-col items-start">
-          <h1 className="font-heading text-3xl font-black sm:text-3xl lg:text-4xl">
-            <span className="font-heading text-brand-red block pb-4 text-sm font-black uppercase">
+        <div className="flex flex-col items-center text-center">
+          <h1 className="font-heading max-w-sm text-lg font-medium sm:text-xl lg:text-2xl">
+            <span className="font-heading block pb-4 text-sm font-black uppercase text-primary dark:text-emerald-300">
               Success!
             </span>
-            {title}
+            <Balancer>{title}</Balancer>
           </h1>
           <p className="pt-5 font-medium">{byline}</p>
         </div>
@@ -147,28 +149,22 @@ const ThankYou: React.FC<ThankYouProps> = ({title, byline, product, email}) => {
 
 const LoginLink: React.FC<{email: string}> = ({email}) => {
   return (
-    <div className="relative mx-auto flex w-full items-center justify-between gap-5 overflow-hidden rounded-xl border border-gray-100 bg-white p-7 dark:border-gray-800 dark:bg-gray-900 sm:p-12">
-      <div className="relative z-10">
-        <p className="inline-flex rounded-full bg-primary px-3 py-1 text-xs font-black uppercase text-white sm:text-sm">
-          Final step
-        </p>
-        <h2 className="font-heading mx-auto py-5 text-2xl font-black sm:text-3xl lg:text-4xl">
-          <Balancer>
-            Please check your inbox for a <strong>login link</strong> that just
-            got sent.
-          </Balancer>
-        </h2>
-        <div className="mb-3 inline-flex items-center gap-1 rounded-lg bg-white px-4 py-3 dark:bg-gray-800">
-          <MailIcon className="h-5 w-5 flex-shrink-0" />{' '}
-          <strong className="inline-block break-all font-semibold ">
-            Email sent to: {email}
-          </strong>
+    <div className="relative mx-auto flex w-full items-center justify-center gap-5">
+      <div className="relative z-10 flex flex-col items-center justify-center text-center">
+        <div className="flex flex-col items-center justify-center gap-2">
+          <MailIcon />
+          <h2 className="flex flex-col items-center justify-center break-all pt-3 text-center text-xl font-semibold">
+            <span className="drop-shadow-sm">Login link sent to:</span>
+            <span className="font-normal drop-shadow-sm">{email}</span>
+          </h2>
         </div>
-        <p className="mx-auto text-sm font-medium leading-relaxed sm:text-base">
-          As a final step to access the course you need to check your inbox (
-          <strong>{email}</strong>) where you will find an email from{' '}
-          <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a link
-          to access your purchase and start learning.
+        <p className="max-w-sm pt-5 text-center text-sm opacity-90">
+          <Balancer>
+            As a final step to access the course you need to check your inbox (
+            <strong>{email}</strong>) where you will find an email from{' '}
+            <strong>{process.env.NEXT_PUBLIC_SUPPORT_EMAIL}</strong> with a link
+            to access your purchase and start learning.
+          </Balancer>
         </p>
       </div>
     </div>
@@ -249,23 +245,27 @@ const ThanksVerify: React.FC<
   return (
     <>
       <Layout meta={{title: 'Purchase Successful'}}>
-        <main className="mx-auto flex w-full max-w-screen-md flex-col gap-8 px-5 py-10">
-          <ThankYou
-            title={title}
-            byline={byline}
-            product={product}
-            email={email}
-          />
-
-          {inviteTeam && inviteTeam}
-          {loginLink && loginLink({email})}
-          <div>
-            <h2 className="font-heading pb-2 text-sm font-black uppercase">
-              Get your invoice
-            </h2>
-            <InvoiceCard
-              purchase={{product: {name: stripeProductName}, ...purchase}}
+        <main className="mx-auto flex w-full max-w-screen-lg flex-grow flex-col-reverse lg:grid lg:grid-cols-9 lg:py-8">
+          <div className="col-span-4 flex w-full flex-col items-center justify-center px-10 pb-16 lg:py-16">
+            <ThankYou
+              title={title}
+              byline={byline}
+              product={product}
+              email={email}
             />
+            <div className="w-full max-w-md pt-8">
+              <h3 className="pb-2 text-sm font-medium">Your invoice</h3>
+              <InvoiceCard
+                className="w-full p-4 [&_[data-content]]:flex-col [&_[data-content]]:items-start"
+                purchase={{product: {name: stripeProductName}, ...purchase}}
+              />
+            </div>
+          </div>
+          <div className="col-span-5 flex flex-col items-center justify-center bg-gradient-to-tr from-primary to-indigo-500 pb-16 pt-16 text-primary-foreground selection:bg-gray-900 sm:pb-24 sm:pt-24 lg:rounded-md">
+            <div className="flex max-w-screen-sm flex-col gap-10 sm:px-10 lg:px-16">
+              {loginLink && loginLink({email})}
+              {inviteTeam && inviteTeam}
+            </div>
           </div>
         </main>
       </Layout>
@@ -274,3 +274,66 @@ const ThanksVerify: React.FC<
 }
 
 export default ThanksVerify
+
+const MailIcon = () => {
+  return (
+    <div className="rounded-full bg-black/5 p-5 shadow-inner">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 48 48"
+        className="h-12 w-12 brightness-110 drop-shadow-lg"
+      >
+        <title>send</title>
+        <g>
+          <path
+            d="M13 43C12.798 43 17.046 25.702 17.046 25.702C17.15 25.368 17.421 25.112 17.761 25.029C18.1 24.943 18.46 25.046 18.707 25.293L25.707 32.293C25.912 32.498 26.018 32.781 25.997 33.071C25.976 33.36 25.832 33.626 25.6 33.8L13.6 42.8C13.423 42.934 13.211 43 13 43Z"
+            fill="url(#nc-ui-3-0_linear_119_134)"
+          ></path>
+          <path
+            d="M35.992 44.9999C35.779 44.9999 35.567 44.9319 35.392 44.7999L3.4 20.7999C3.11 20.5829 2.961 20.2279 3.008 19.8689C3.055 19.5109 3.292 19.2059 3.628 19.0709L43.629 3.07095C43.97 2.93595 44.358 2.99495 44.64 3.23095C44.922 3.46495 45.053 3.83495 44.981 4.19595L36.973 44.1959C36.906 44.5329 36.67 44.8109 36.349 44.9339C36.234 44.9779 36.113 44.9989 35.993 44.9989L35.992 44.9999Z"
+            fill="url(#nc-ui-3-1_linear_119_134)"
+          ></path>
+          <path
+            d="M13.001 43C12.947 43 12.894 42.996 12.84 42.987C12.356 42.908 12 42.49 12 42V27C12 26.684 12.15 26.386 12.404 26.197L43.404 3.19704C43.829 2.88204 44.423 2.95204 44.763 3.35304C45.104 3.75604 45.073 4.35404 44.693 4.72004L17.199 31.151L13.949 42.316C13.811 42.729 13.425 43 13.001 43Z"
+            fill="url(#nc-ui-3-2_linear_119_134)"
+          ></path>
+          <defs>
+            <linearGradient
+              id="nc-ui-3-0_linear_119_134"
+              x1="19.4963"
+              y1="24.9991"
+              x2="19.4963"
+              y2="43"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#A2A3B4"></stop>
+              <stop offset="1" stopColor="#83849B"></stop>
+            </linearGradient>
+            <linearGradient
+              id="nc-ui-3-1_linear_119_134"
+              x1="24"
+              y1="2.99976"
+              x2="24"
+              y2="44.9999"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#E0E0E6"></stop>
+              <stop offset="1" stopColor="#C2C3CD"></stop>
+            </linearGradient>
+            <linearGradient
+              id="nc-ui-3-2_linear_119_134"
+              x1="28.4999"
+              y1="2.99988"
+              x2="28.4999"
+              y2="43"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#C2C3CD"></stop>
+              <stop offset="1" stopColor="#A2A3B4"></stop>
+            </linearGradient>
+          </defs>
+        </g>
+      </svg>
+    </div>
+  )
+}

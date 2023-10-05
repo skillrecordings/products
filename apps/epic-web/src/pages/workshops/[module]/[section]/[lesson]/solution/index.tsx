@@ -9,6 +9,9 @@ import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from 'lib/sections'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {serialize} from 'next-mdx-remote/serialize'
+import {remarkCodeBlocksShiki} from '@kentcdodds/md-temp'
+import {removePreContainerDivs, trimCodeBlocks} from 'utils/mdx'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -22,17 +25,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const lesson = exercise
   const solutionBodySerialized =
     typeof solution?.body === 'string' &&
-    (await serializeMDX(solution.body, {
-      syntaxHighlighterOptions: {
-        theme: 'material-theme-palenight',
-        showCopyButton: true,
-      },
-    }))
-  const solutionBodyPreviewSerialized =
-    typeof solution?.body === 'string' &&
-    (await serializeMDX(solution.body.substring(0, 300), {
-      syntaxHighlighterOptions: {
-        theme: 'material-theme-palenight',
+    (await serialize(solution.body, {
+      mdxOptions: {
+        rehypePlugins: [
+          trimCodeBlocks,
+          remarkCodeBlocksShiki,
+          removePreContainerDivs,
+        ],
       },
     }))
 
@@ -41,7 +40,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       lesson,
       solution,
       solutionBodySerialized,
-      solutionBodyPreviewSerialized,
+      solutionBodyPreviewSerialized: solutionBodySerialized,
       module,
       section,
       transcript: solution?.transcript,

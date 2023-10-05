@@ -10,6 +10,7 @@ export const ExerciseSchema = z
     github: z.nullable(z.string()).optional(),
     videoResourceId: z.nullable(z.string()).optional(),
     transcript: z.nullable(z.string()).optional(),
+    legacyTranscript: z.nullable(z.string()).optional(),
     workshopApp: z
       .nullable(
         z.object({
@@ -34,6 +35,7 @@ export const ExerciseSchema = z
           github: z.nullable(z.string()).optional(),
           videoResourceId: z.nullable(z.string()).optional(),
           transcript: z.nullable(z.string()).optional(),
+          legacyTranscript: z.nullable(z.string()).optional(),
           workshopApp: z
             .nullable(
               z.object({
@@ -112,7 +114,8 @@ export const getExercise = async (
       body,
       "github": resources[@._type == 'github'][0].url,
       "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
+      "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
       "workshopApp": resources[@._type == 'workshopApp'][0]{
         path
       },
@@ -125,7 +128,8 @@ export const getExercise = async (
         body,
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-        "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+        "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
+        "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "slug": slug.current,
         "workshopApp": resources[@._type == 'workshopApp'][0]{
           path

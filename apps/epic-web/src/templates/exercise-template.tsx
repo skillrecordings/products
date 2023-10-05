@@ -32,6 +32,7 @@ import {capitalize} from 'lodash'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {isBrowser} from 'utils/is-browser'
 import {getOgImage} from 'utils/get-og-image'
+import {PreWithButtons} from 'utils/mdx'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -72,6 +73,8 @@ const ExerciseTemplate: React.FC<{
       onModuleEnded={async () => {
         addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
       }}
+      // @ts-expect-error
+      inviteTeamPagePath={`/products/${module.product?.slug}`}
     >
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
@@ -101,18 +104,20 @@ const ExerciseTemplate: React.FC<{
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
           description={pageDescription || ''}
         />
-        <div className="relative flex flex-grow flex-col lg:flex-row">
-          <div className="relative z-40 hidden w-full lg:block lg:max-w-[300px]">
+        <div className="relative flex flex-grow flex-col lg:flex-row 2xl:h-[calc(100vh-49px)] 2xl:overflow-y-hidden">
+          <div className="relative z-40 hidden w-full lg:block lg:max-w-[330px]">
             <LessonList module={module} path={path} />
           </div>
           <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-gray-200 dark:border-gray-900 2xl:flex 2xl:max-w-none">
-            <div className="flex flex-col border-gray-200 dark:border-gray-900 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
-              <Video
-                product={module?.product as SanityProduct}
-                ref={muxPlayerRef}
-                exerciseOverlayRenderer={() => <ExerciseOverlay />}
-                loadingIndicator={<Spinner />}
-              />
+            <div className="flex flex-col border-gray-200 scrollbar-thin scrollbar-thumb-foreground/10 dark:border-gray-800 2xl:relative 2xl:h-[calc(100vh-48px)] 2xl:w-full 2xl:overflow-y-scroll 2xl:border-r">
+              <div>
+                <Video
+                  product={module?.product as SanityProduct}
+                  ref={muxPlayerRef}
+                  exerciseOverlayRenderer={() => <ExerciseOverlay />}
+                  loadingIndicator={<Spinner />}
+                />
+              </div>
               <details data-mobile-module-lesson-list="">
                 <summary>
                   <Balancer>
@@ -135,7 +140,7 @@ const ExerciseTemplate: React.FC<{
               </div>
             </div>
             <article className="relative flex-shrink-0">
-              <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 lg:py-6 2xl:max-w-xl">
+              <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 scrollbar-thin scrollbar-thumb-foreground/10 lg:py-6 2xl:h-[calc(100vh-48px)] 2xl:max-w-2xl 2xl:overflow-y-scroll">
                 <LessonTitle />
                 {lessonResources?.github && (
                   <GitHubLink
@@ -147,6 +152,41 @@ const ExerciseTemplate: React.FC<{
                   />
                 )}
                 <LessonDescription
+                  mdxComponents={{
+                    pre: PreWithButtons,
+                    Callout: (props) => {
+                      const {type, children} = props
+                      return (
+                        <blockquote className="!border-l-7 rounded-md !border-primary bg-foreground/5 !px-6 py-5 !not-italic prose-p:!mb-0 [&>p]:first-of-type:before:content-['']">
+                          {children}
+                        </blockquote>
+                      )
+                    },
+                    // TODO: following only work in local workshop app
+                    InlineFile: (props) => {
+                      const {type, file} = props
+                      if (type) {
+                        return type
+                      }
+                      if (file) {
+                        return file
+                      }
+                      return null
+                    },
+                    LinkToApp: (props) => {
+                      const {to} = props
+                      return to
+                    },
+                    CodeFile: (props) => {
+                      return props.file
+                    },
+                    DiffLink: (props) => {
+                      return props.children
+                    },
+                    Link: (props) => {
+                      return props.children
+                    },
+                  }}
                   lessonMDXBody={lessonBodySerialized}
                   lessonBodyPreview={lessonBodyPreviewSerialized}
                   productName={module.title}
@@ -186,7 +226,7 @@ const LessonList: React.FC<{
   const [ref, {height}] = useMeasure<HTMLDivElement>()
 
   return (
-    <div className="sticky top-0">
+    <div className="sticky top-0 border-r">
       <div ref={ref}>
         <div className="relative z-10 flex items-center space-x-3 border-b border-r border-white/5 bg-gray-50 px-2 py-3 dark:bg-foreground/10 dark:shadow-xl dark:shadow-black/20">
           {module.image && (
@@ -213,9 +253,7 @@ const LessonList: React.FC<{
                 <Link href={module?.github?.repo + '#setup'} target="_blank">
                   <Icon name="Github" size="16" />
                   <span>
-                    {module.moduleType === 'tutorial'
-                      ? 'Code'
-                      : 'Connect Workshop App'}
+                    {module.moduleType === 'tutorial' ? 'Code' : 'Workshop App'}
                   </span>
                 </Link>
               </Button>
@@ -223,7 +261,7 @@ const LessonList: React.FC<{
           </div>
         </div>
       </div>
-      <div className={cn('h-screen border-r', className)}>
+      <div className={cn('h-screen', className)}>
         <ScrollArea
           style={{height: `calc(100vh - ${height + 48}px)`}}
           className={cn('', scrollAreaClassName)}
@@ -264,15 +302,15 @@ const LessonList: React.FC<{
           >
             <Collection.Sections className="space-y-0 [&_[data-state]]:animate-none">
               {moduleProgressStatus === 'loading' ? (
-                <Skeleton className="h-16 rounded-none bg-gradient-to-br from-gray-700 to-gray-800 opacity-40" />
+                <Skeleton className="h-14 rounded-none bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
               ) : (
                 <Collection.Section
-                  className="mb-px font-semibold leading-tight data-[state]:rounded-none [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg dark:[&>[data-progress]]:from-gray-800
+                  className="mb-px font-semibold leading-tight transition data-[state]:rounded-none data-[state='closed']:opacity-75 data-[state='closed']:hover:opacity-100 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg dark:[&>[data-progress]]:from-gray-800
                       dark:[&>[data-progress]]:to-gray-800/50"
                 >
                   <Collection.Lessons className="py-0">
                     <Collection.Lesson
-                      className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500 dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5 [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
+                      className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500  dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
                       scrollContainerRef={scrollContainerRef}
                     >
                       <Collection.Resources />
