@@ -24,9 +24,9 @@ export async function getLessonVideoForDevice({
 }: GetLessonProps) {
   const module = await getWorkshop(moduleSlug)
   const section = await getSection(sectionSlug)
-  const lessondata = await getExercise(lessonSlug, false)
+  const lessonData = await getExercise(lessonSlug, false)
 
-  const lesson = useSolution ? (lessondata.solution as Lesson) : lessondata
+  const lesson = useSolution ? (lessonData.solution as Lesson) : lessonData
 
   const productsPurchased =
     user.purchases?.map((purchase) => purchase.productId) || []
