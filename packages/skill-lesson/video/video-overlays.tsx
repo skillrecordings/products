@@ -449,6 +449,9 @@ const BlockedOverlay: React.FC<{
         )
         .then((response: SanityDocument) => response.body)
     },
+    {
+      enabled: module.moduleType === 'tutorial',
+    },
   )
 
   const canViewTeam = ability.can('view', 'Team')
