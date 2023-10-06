@@ -223,10 +223,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             {formattedPrice?.upgradeFromPurchaseId &&
               !isRestrictedUpgrade &&
               fixedDiscount > 0 && (
-                <div data-byline="">
-                  {`${formatUsd(fixedDiscount).dollars}.${
-                    formatUsd(fixedDiscount).cents || '00'
-                  } credit applied`}
+                <div className="mt-1 text-center font-tt-medium">
+                  <div className="text-xl">Upgrade Pricing</div>
+                  <div className="text-tjs-orange">
+                    $
+                    {`${formatUsd(fixedDiscount).dollars}.${
+                      formatUsd(fixedDiscount).cents || '00'
+                    } credit applied`}
+                  </div>
                 </div>
               )}
             {/* <div data-byline="">Full access</div> */}
