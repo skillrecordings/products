@@ -32,12 +32,12 @@ export async function lessonForDeviceReq({
       if (lessonForDevice) {
         res.status(200).json(lessonForDevice)
       } else {
-        res.status(403).end()
+        res.status(404).end()
       }
     } else {
       res.status(403).end()
     }
   } else {
-    res.status(200).end()
+    res.status(404).end()
   }
 }
