@@ -13,7 +13,7 @@ type GetLessonProps = {
   lessonSlug: string
   moduleSlug: string
   sectionSlug: string
-  user: User & {purchases: Purchase[]}
+  user?: User & {purchases: Purchase[]}
 }
 export async function getLessonVideoForDevice({
   useSolution = false,
@@ -26,10 +26,12 @@ export async function getLessonVideoForDevice({
   const section = await getSection(sectionSlug)
   const lessonData = await getExercise(lessonSlug, false)
 
+  console.log({sectionSlug})
+
   const lesson = useSolution ? (lessonData.solution as Lesson) : lessonData
 
   const productsPurchased =
-    user.purchases?.map((purchase) => purchase.productId) || []
+    user?.purchases?.map((purchase) => purchase.productId) || []
   const purchasedModules = await getProducts(productsPurchased)
 
   const ability = getCurrentAbility({
