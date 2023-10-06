@@ -46,7 +46,7 @@ export default function Activate({userCode}: {userCode: string}) {
             Device Confirmation
           </h1>
           <p className="py-4 text-gray-600 dark:text-gray-400">
-            Please confirm this is the code displayed in your terminal
+            Please confirm this is the code displayed in your Workshop App
           </p>
           <div className="w-full rounded-md border px-5 py-3 text-lg font-semibold dark:border-transparent dark:bg-black/75">
             {userCode}
