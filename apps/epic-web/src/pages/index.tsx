@@ -301,7 +301,7 @@ const Subscribe: React.FC<SubscribeProps> = ({subscriber}) => {
   return (
     <section
       aria-label="Newsletter sign-up"
-      className="pb-32 pt-10"
+      className="px-5 pb-32 pt-10"
       id="primary-newsletter-cta"
     >
       {!subscriber ? (

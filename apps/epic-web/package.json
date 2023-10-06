@@ -85,6 +85,7 @@
     "axios": "^1.4.0",
     "class-variance-authority": "^0.6.0",
     "classnames": "^2.3.1",
+    "cmdk": "^0.2.0",
     "cloudinary": "^1.35.0",
     "date-fns": "^2.28.0",
     "dexie": "^3.2.2",

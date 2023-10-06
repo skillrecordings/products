@@ -5,6 +5,7 @@ import Navigation from 'components/app/navigation'
 import {useWorkshopCta} from 'pages/full-stack-workshop-series-vol-1'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Footer from './footer'
+import GlobalSearchBar from 'search-bar'
 
 type LayoutProps = {
   meta?: any
@@ -61,6 +62,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         canonical={url}
         noindex={noIndex}
       />
+      <GlobalSearchBar />
       <Toaster
         position="top-center"
         toastOptions={{
@@ -80,6 +82,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         navigationContainerClassName={navigationContainerClassName}
       />
       <div
+        id="layout"
         className={cn(
           `relative flex h-full flex-grow flex-col`,
           {

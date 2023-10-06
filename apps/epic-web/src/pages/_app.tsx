@@ -12,6 +12,7 @@ import {trpc} from 'trpc/trpc.client'
 import config from '../config'
 import {ThemeProvider} from 'next-themes'
 import {DM_Sans, JetBrains_Mono} from 'next/font/google'
+import {SearchProvider} from 'search-bar/use-search-bar'
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -41,12 +42,14 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
         >
           <SessionProvider session={pageProps.session} refetchInterval={0}>
             <ConvertkitProvider>
-              <div
-                id="app"
-                className={`${dmSans.variable} ${jetBransMono.variable} font-sans antialiased`}
-              >
-                <Component {...pageProps} />
-              </div>
+              <SearchProvider>
+                <div
+                  id="app"
+                  className={`${dmSans.variable} ${jetBransMono.variable} font-sans antialiased`}
+                >
+                  <Component {...pageProps} />
+                </div>
+              </SearchProvider>
             </ConvertkitProvider>
           </SessionProvider>
         </ThemeProvider>

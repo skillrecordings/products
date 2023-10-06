@@ -410,12 +410,12 @@ export const ArticlesIcon: React.FC<IconProps> = ({
       viewBox="0 0 18 18"
     >
       <path
-        fill={`url(#gradientArticles-1)`}
+        fill={`url(#gradientArticles-${id})`}
         d="M15.742.676a.375.375 0 0 0-.367-.301H2.625a.374.374 0 0 0-.368.301l-.75 3.75a.374.374 0 0 0 .368.449h.75a.375.375 0 0 0 .371-.322C3.01 4.46 3.347 2.25 5.25 2.25H7.5v12.302a1.41 1.41 0 0 1-1.232 1.396l-1.44.18a.375.375 0 0 0-.328.372v.75c0 .207.168.375.375.375h8.25a.375.375 0 0 0 .375-.375v-.75a.375.375 0 0 0-.329-.372l-1.44-.18a1.409 1.409 0 0 1-1.231-1.396V2.25h2.25c1.893 0 2.24 2.21 2.254 2.303a.375.375 0 0 0 .37.322h.75a.374.374 0 0 0 .368-.449l-.75-3.75Z"
       />
       <defs>
         <linearGradient
-          id={`gradientArticles-1`}
+          id={`gradientArticles-${id}`}
           x1="9"
           x2="9"
           y1=".375"
@@ -430,6 +430,9 @@ export const ArticlesIcon: React.FC<IconProps> = ({
                 ? '#C2C4CF'
                 : '#5B5E71',
             }}
+            stopColor={
+              isHovered ? '#FF9254' : theme === 'light' ? '#C2C4CF' : '#5B5E71'
+            }
           />
           <motion.stop
             animate={{
@@ -439,6 +442,9 @@ export const ArticlesIcon: React.FC<IconProps> = ({
                 ? '#C2C4CF'
                 : '#393A46',
             }}
+            stopColor={
+              isHovered ? '#F8965F' : theme === 'light' ? '#C2C4CF' : '#393A46'
+            }
             offset="1"
           />
         </linearGradient>
@@ -461,14 +467,14 @@ export const TutorialsIcon: React.FC<IconProps> = ({
       viewBox="0 0 22 16"
     >
       <path
-        fill={`url(#tutorialsGradient-1)`}
+        fill={`url(#tutorialsGradient-${id})`}
         fillRule="evenodd"
         d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3Zm6 11.44V4.56a.3.3 0 0 1 .466-.25l5.16 3.44a.3.3 0 0 1 0 .5l-5.16 3.44A.3.3 0 0 1 9 11.44Z"
         clipRule="evenodd"
       />
       <defs>
         <linearGradient
-          id={`tutorialsGradient-1`}
+          id={`tutorialsGradient-${id}`}
           x1="11"
           x2="11"
           y1="0"
@@ -483,7 +489,9 @@ export const TutorialsIcon: React.FC<IconProps> = ({
                 ? '#C2C4CF'
                 : '#5B5E71',
             }}
-            stopColor="#5B5E71"
+            stopColor={
+              isHovered ? '#FF5F5F' : theme === 'light' ? '#C2C4CF' : '#5B5E71'
+            }
           />
           <motion.stop
             animate={{
@@ -493,6 +501,9 @@ export const TutorialsIcon: React.FC<IconProps> = ({
                 ? '#C2C4CF'
                 : '#393A46',
             }}
+            stopColor={
+              isHovered ? '#F33D3D' : theme === 'light' ? '#C2C4CF' : '#393A46'
+            }
             offset="1"
           />
         </linearGradient>
@@ -721,16 +732,16 @@ export const TipsIcon: React.FC<IconProps> = ({isHovered, theme = 'dark'}) => {
       viewBox="0 0 18 12"
     >
       <motion.path
-        fill={`url(#tipsGradient-1)`}
+        fill={`url(#tipsGradient-${id})`}
         d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
       />
       <motion.path
-        fill={`url(#tipsGradient-1)`}
+        fill={`url(#tipsGradient-${id})`}
         d="M1.866.202A1.2 1.2 0 0 0 0 1.2v9.6a1.2 1.2 0 0 0 1.866.998L8.4 7.442V10.8a1.2 1.2 0 0 0 1.866.998l7.2-4.8a1.2 1.2 0 0 0 0-1.996l-7.2-4.8A1.2 1.2 0 0 0 8.4 1.2v3.358L1.866.202Z"
       />
       <defs>
         <linearGradient
-          id={`tipsGradient-1`}
+          id={`tipsGradient-${id}`}
           x1="12.5"
           x2="-.5"
           y1="-2"
@@ -738,13 +749,13 @@ export const TipsIcon: React.FC<IconProps> = ({isHovered, theme = 'dark'}) => {
           gradientUnits="userSpaceOnUse"
         >
           <motion.stop
-            animate={{
-              stopColor: isHovered
-                ? '#30B0FF'
-                : theme === 'light'
-                ? '#C2C4CF'
-                : '#5B5E71',
-            }}
+            // animate={{
+            //   stopColor: isHovered
+            //     ? '#30B0FF'
+            //     : theme === 'light'
+            //     ? '#C2C4CF'
+            //     : '#5B5E71',
+            // }}
             stopColor={
               isHovered ? '#30B0FF' : theme === 'light' ? '#C2C4CF' : '#5B5E71'
             }
@@ -786,7 +797,6 @@ export const WorkshopsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
           gradientUnits="userSpaceOnUse"
         >
           <motion.stop
-            stop-color="#5B5E71"
             animate={{
               stopColor: isHovered
                 ? '#FFE55F'
@@ -802,6 +812,88 @@ export const WorkshopsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
             offset="1"
             stopColor={
               isHovered ? '#F39F3D' : theme === 'light' ? '#A4A5AF' : '#393A46'
+            }
+          />
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}
+
+export const ExerciseIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+  const id = Math.random() * 100
+  return (
+    <svg
+      width="22"
+      height="18"
+      viewBox="0 0 22 18"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M13.831 0.0626895C13.9833 0.11338 14.1242 0.193588 14.2456 0.298734C14.3669 0.40388 14.4663 0.531903 14.5382 0.675488C14.61 0.819073 14.6529 0.975407 14.6643 1.13556C14.6757 1.29571 14.6555 1.45654 14.6047 1.60887L9.7156 16.2762C9.61317 16.5838 9.39272 16.8381 9.10275 16.9832C8.81279 17.1283 8.47706 17.1523 8.16943 17.0499C7.86179 16.9474 7.60745 16.727 7.46235 16.437C7.31725 16.1471 7.29329 15.8113 7.39573 15.5037L12.2848 0.836389C12.3355 0.684043 12.4157 0.543176 12.5209 0.421836C12.626 0.300496 12.754 0.201061 12.8976 0.129212C13.0412 0.0573628 13.1975 0.0145067 13.3577 0.00309257C13.5178 -0.00832159 13.6787 0.0119298 13.831 0.0626895ZM5.75299 4.0253C5.98213 4.25452 6.11085 4.56535 6.11085 4.88945C6.11085 5.21356 5.98213 5.52439 5.75299 5.7536L2.95031 8.55628L5.75299 11.359C5.86973 11.4717 5.96284 11.6066 6.0269 11.7557C6.09096 11.9048 6.12468 12.0652 6.12609 12.2275C6.1275 12.3898 6.09657 12.5507 6.03512 12.701C5.97366 12.8512 5.8829 12.9876 5.76814 13.1024C5.65337 13.2172 5.51691 13.3079 5.36669 13.3694C5.21648 13.4308 5.05553 13.4618 4.89324 13.4604C4.73094 13.4589 4.57056 13.4252 4.42144 13.3612C4.27231 13.2971 4.13744 13.204 4.02469 13.0873L0.357866 9.42043C0.128724 9.19122 0 8.88038 0 8.55628C0 8.23217 0.128724 7.92134 0.357866 7.69213L4.02469 4.0253C4.2539 3.79616 4.56474 3.66744 4.88884 3.66744C5.21294 3.66744 5.52378 3.79616 5.75299 4.0253ZM16.2474 4.0253C16.4767 3.79616 16.7875 3.66744 17.1116 3.66744C17.4357 3.66744 17.7465 3.79616 17.9757 4.0253L21.6426 7.69213C21.8717 7.92134 22.0004 8.23217 22.0004 8.55628C22.0004 8.88038 21.8717 9.19122 21.6426 9.42043L17.9757 13.0873C17.863 13.204 17.7281 13.2971 17.579 13.3612C17.4299 13.4252 17.2695 13.4589 17.1072 13.4604C16.9449 13.4618 16.7839 13.4308 16.6337 13.3694C16.4835 13.3079 16.3471 13.2172 16.2323 13.1024C16.1175 12.9876 16.0268 12.8512 15.9653 12.701C15.9039 12.5507 15.8729 12.3898 15.8743 12.2275C15.8758 12.0652 15.9095 11.9048 15.9735 11.7557C16.0376 11.6066 16.1307 11.4717 16.2474 11.359L19.0501 8.55628L16.2474 5.7536C16.0183 5.52439 15.8896 5.21356 15.8896 4.88945C15.8896 4.56535 16.0183 4.25452 16.2474 4.0253Z"
+        fill={`url(#exerciseGradient-${id})`}
+      />
+      <defs>
+        <linearGradient
+          id={`exerciseGradient-${id}`}
+          x1="15.2785"
+          y1="-2.85212"
+          x2="4.65076"
+          y2="19.4004"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop
+            stopColor={
+              isHovered ? '#34D399' : theme === 'light' ? '#C2C4CF' : '#5B5E71'
+            }
+          />
+          <stop
+            offset="1"
+            stopColor={
+              isHovered ? '#10B981' : theme === 'light' ? '#A4A5AF' : '#393A46'
+            }
+          />
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}
+
+export const TalkIcon: React.FC<IconProps> = ({isHovered, theme}) => {
+  const id = Math.random() * 100
+  return (
+    <svg
+      width="19"
+      height="19"
+      viewBox="0 0 19 19"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M19 8.3125C19 3.72163 14.7464 0 9.5 0C4.25362 0 0 3.72163 0 8.3125C0 12.9034 4.25362 16.625 9.5 16.625C10.2113 16.625 10.9024 16.5514 11.5698 16.4208L15.7261 18.9145C15.8199 18.9703 15.9256 18.9988 16.0312 18.9988C16.1322 18.9988 16.2331 18.9739 16.3234 18.9216C16.5098 18.8159 16.625 18.6188 16.625 18.4051V13.7964C18.0987 12.3322 19 10.4167 19 8.3125Z"
+        fill={`url(#tipsgradient-${id})`}
+      />
+      <defs>
+        <linearGradient
+          id={`tipsgradient-${id}`}
+          x1="13.1948"
+          y1="-3.16651"
+          x2="-0.333843"
+          y2="18.8679"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop
+            stopColor={
+              isHovered ? '#999DB5' : theme === 'light' ? '#C2C4CF' : '#5B5E71'
+            }
+          />
+          <stop
+            offset="1"
+            stopColor={
+              isHovered ? '#666778' : theme === 'light' ? '#A4A5AF' : '#393A46'
             }
           />
         </linearGradient>
