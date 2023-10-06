@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {loadUserForToken} from 'lib/users'
-import {getSdk} from '@skillrecordings/database'
+import {getSdk, prisma} from '@skillrecordings/database'
 import {getLesson} from '@skillrecordings/skill-lesson/lib/lesson-resource'
 
 const lesson = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -12,21 +12,51 @@ const lesson = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     if (user) {
       const {getLessonProgressForUser} = getSdk()
-      const lessonProgress = await getLessonProgressForUser(user.id as string)
-      res.json(lessonProgress || [])
+      const lessonProgress =
+        (await getLessonProgressForUser(user.id as string)) || []
+      res.json(
+        lessonProgress.map((progress) => {
+          return {
+            lessonId: progress.lessonId,
+            completedAt: progress.completedAt,
+          }
+        }),
+      )
     } else {
       res.status(403).end()
     }
   } else if (req.method === 'POST') {
     if (user) {
-      const {completeLessonProgressForUser} = getSdk()
       const lessonSlug = req.body.lessonSlug
       const lesson = await getLesson(lessonSlug)
-      const progress = await completeLessonProgressForUser({
-        userId: user.id,
-        lessonId: lesson._id,
-      })
-      res.status(200).json(progress)
+      if (req.body.remove) {
+        const lessonProgress = await prisma.lessonProgress.findFirst({
+          where: {
+            lessonId: lesson._id,
+            userId: user.id,
+          },
+        })
+        if (lessonProgress) {
+          await prisma.lessonProgress.delete({
+            where: {
+              id: lessonProgress.id,
+            },
+          })
+          res.status(200).end()
+        } else {
+          res.status(404).end()
+        }
+      } else {
+        const {completeLessonProgressForUser} = getSdk()
+        const progress = await completeLessonProgressForUser({
+          userId: user.id,
+          lessonId: lesson._id,
+        })
+        res.status(200).json({
+          lessonId: progress.lessonId,
+          completedAt: progress.completedAt,
+        })
+      }
     } else {
       res.status(403).end()
     }
