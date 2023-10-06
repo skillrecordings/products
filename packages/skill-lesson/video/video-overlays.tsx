@@ -434,23 +434,22 @@ const BlockedOverlay: React.FC<{
   const {videoResourceId} = useVideoResource()
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
   const {refetchAbility, ability} = useMuxPlayer()
-  // const {data: ctaText} = useQuery(
-  //   [`exercise-free-tutorial`, lesson.slug, module.slug.current],
-  //   async () => {
-  //     return sanityClient
-  //       .fetch(
-  //         `
-  //     *[_type == 'cta' && slug.current == "${
-  //       module.moduleType === 'tutorial' ? 'free-tutorial' : 'paid-workshop'
-  //     }"][0]{
-  //       body
-  //     }
-  //   `,
-  //       )
-  //       .then((response: SanityDocument) => response.body)
-  //   },
-  // )
-  const ctaText = null
+  const {data: ctaText} = useQuery(
+    [`exercise-free-tutorial`, lesson.slug, module.slug.current],
+    async () => {
+      return sanityClient
+        .fetch(
+          `
+      *[_type == 'cta' && slug.current == "${
+        module.moduleType === 'tutorial' ? 'free-tutorial' : 'paid-workshop'
+      }"][0]{
+        body
+      }
+    `,
+        )
+        .then((response: SanityDocument) => response.body)
+    },
+  )
 
   const canViewTeam = ability.can('view', 'Team')
 
