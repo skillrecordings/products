@@ -89,8 +89,7 @@ const Footer = () => {
               <span>Search</span>
             </div>
             <div className="flex items-center justify-center gap-0.5 text-xs uppercase transition group-hover:text-blue-500 dark:group-hover:text-blue-300">
-              <abbr>⌘</abbr>
-              <abbr>k</abbr>
+              <kbd className="tracking-[0.25em]">⌘k</kbd>
             </div>
           </button>
         </div>

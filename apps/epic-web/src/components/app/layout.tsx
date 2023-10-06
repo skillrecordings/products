@@ -6,6 +6,7 @@ import {useWorkshopCta} from 'pages/full-stack-workshop-series-vol-1'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Footer from './footer'
 import GlobalSearchBar from 'search-bar'
+import '../../search-bar/cmdk.css'
 
 type LayoutProps = {
   meta?: any
