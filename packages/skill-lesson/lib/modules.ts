@@ -19,6 +19,7 @@ const modulesQuery = groq`*[_type == "module" && state == 'published'] | order(_
     description,
     "slug": slug.current,
     "solution": resources[@._type == 'solution'][0]{
+      _id,
       _key,
       _type,
       "_updatedAt": ^._updatedAt,
@@ -72,6 +73,7 @@ export const getModule = async (slug: string) =>
             description,
             "slug": slug.current,
             "solution": resources[@._type == 'solution'][0]{
+              _id,
               _key,
               _type,
               "_updatedAt": ^._updatedAt,
@@ -90,6 +92,7 @@ export const getModule = async (slug: string) =>
           description,
           "slug": slug.current,
           "solution": resources[@._type == 'solution'][0]{
+            _id,
             _key,
             _type,
             "_updatedAt": ^._updatedAt,
