@@ -2,9 +2,6 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 import {pickBy} from 'lodash'
-import {getCurrentAbility} from '@skillrecordings/skill-lesson'
-import {type User} from '@skillrecordings/database'
-
 export const TipSchema = z.object({
   _id: z.string(),
   _type: z.string(),
@@ -86,29 +83,4 @@ export const getTip = async (slug: string): Promise<Tip> => {
   }
 
   return TipSchema.parse(pickBy(tip))
-}
-
-type GetTipVideoForDeviceProps = {
-  tipSlug: string
-  user?: User
-}
-export async function getTipVideoForDevice({
-  tipSlug,
-  user,
-}: GetTipVideoForDeviceProps) {
-  const tip = await getTip(tipSlug)
-  const ability = getCurrentAbility({
-    user,
-    lesson: tip,
-  })
-
-  if (ability.can('view', 'Content')) {
-    return {
-      title: tip.title,
-      description: tip.description,
-      summary: tip.summary,
-      muxPlaybackId: tip.muxPlaybackId,
-      transcript: tip.transcript,
-    }
-  }
 }

@@ -2,8 +2,6 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 import {pickBy} from 'lodash'
-import {getCurrentAbility} from '@skillrecordings/skill-lesson'
-import {type User} from '@skillrecordings/database'
 
 export const TalkSchema = z.object({
   _id: z.string(),
@@ -82,29 +80,4 @@ export const getTalk = async (slug: string): Promise<Talk> => {
   )
 
   return TalkSchema.parse(pickBy(talk))
-}
-
-type GetTalkVideoForDeviceProps = {
-  talkSlug: string
-  user?: User
-}
-export async function getTalkVideoForDevice({
-  talkSlug,
-  user,
-}: GetTalkVideoForDeviceProps) {
-  const talk = await getTalk(talkSlug)
-  const ability = getCurrentAbility({
-    user,
-    lesson: talk,
-  })
-
-  if (ability.can('view', 'Content')) {
-    return {
-      title: talk.title,
-      description: talk.description,
-      summary: talk.summary,
-      muxPlaybackId: talk.muxPlaybackId,
-      transcript: talk.transcript,
-    }
-  }
 }

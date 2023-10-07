@@ -1,7 +1,33 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {loadUserForToken} from 'lib/users'
-import {getTipVideoForDevice} from 'lib/tips'
+import {getCurrentAbility} from '@skillrecordings/skill-lesson'
+import {getTip} from 'lib/tips'
+
+type GetTipVideoForDeviceProps = {
+  tipSlug: string
+  user?: any
+}
+export async function getTipVideoForDevice({
+  tipSlug,
+  user,
+}: GetTipVideoForDeviceProps) {
+  const tip = await getTip(tipSlug)
+  const ability = getCurrentAbility({
+    user,
+    lesson: tip,
+  })
+
+  if (ability.can('view', 'Content')) {
+    return {
+      title: tip.title,
+      description: tip.description,
+      summary: tip.summary,
+      muxPlaybackId: tip.muxPlaybackId,
+      transcript: tip.transcript,
+    }
+  }
+}
 
 const lesson = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {

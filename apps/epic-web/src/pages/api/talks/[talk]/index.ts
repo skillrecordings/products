@@ -1,7 +1,33 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {loadUserForToken} from 'lib/users'
-import {getTalkVideoForDevice} from 'lib/talks'
+import {getCurrentAbility} from '@skillrecordings/skill-lesson'
+import {getTalk} from 'lib/talks'
+
+type GetTalkVideoForDeviceProps = {
+  talkSlug: string
+  user?: any
+}
+export async function getTalkVideoForDevice({
+  talkSlug,
+  user,
+}: GetTalkVideoForDeviceProps) {
+  const talk = await getTalk(talkSlug)
+  const ability = getCurrentAbility({
+    user,
+    lesson: talk,
+  })
+
+  if (ability.can('view', 'Content')) {
+    return {
+      title: talk.title,
+      description: talk.description,
+      summary: talk.summary,
+      muxPlaybackId: talk.muxPlaybackId,
+      transcript: talk.transcript,
+    }
+  }
+}
 
 const lesson = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
