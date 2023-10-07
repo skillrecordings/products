@@ -25,6 +25,7 @@ export async function getTalkVideoForDevice({
       summary: talk.summary,
       muxPlaybackId: talk.muxPlaybackId,
       transcript: talk.transcript,
+      httpUrl: `${process.env.NEXT_PUBLIC_URL}/talks/${talk.slug}}`,
     }
   }
 }

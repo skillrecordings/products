@@ -25,6 +25,7 @@ export async function getTipVideoForDevice({
       summary: tip.summary,
       muxPlaybackId: tip.muxPlaybackId,
       transcript: tip.transcript,
+      httpUrl: `${process.env.NEXT_PUBLIC_URL}/tips/${tip.slug}}`,
     }
   }
 }
@@ -35,8 +36,6 @@ const lesson = async (req: NextApiRequest, res: NextApiResponse) => {
     const token = await getToken({req})
     const user = await loadUserForToken({token, deviceToken})
     const tipSlug = req.query.tip as string
-    const moduleSlug = req.query.module as string
-    const sectionSlug = req.query.section as string
 
     const tipForDevice = await getTipVideoForDevice({
       tipSlug,

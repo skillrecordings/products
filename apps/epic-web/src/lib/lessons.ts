@@ -1,5 +1,5 @@
 import {Purchase, User} from '@skillrecordings/database'
-import {getWorkshop} from 'lib/workshops'
+import {getModule} from '@skillrecordings/skill-lesson/lib/modules'
 import {getSection} from 'lib/sections'
 import {getExercise} from 'lib/exercises'
 import {getProducts} from '@skillrecordings/skill-lesson/lib/products'
@@ -22,11 +22,9 @@ export async function getLessonVideoForDevice({
   sectionSlug,
   user,
 }: GetLessonProps) {
-  const module = await getWorkshop(moduleSlug)
+  const module = await getModule(moduleSlug)
   const section = await getSection(sectionSlug)
   const lessonData = await getExercise(lessonSlug, false)
-
-  console.log({sectionSlug})
 
   const lesson = useSolution ? (lessonData.solution as Lesson) : lessonData
 
@@ -53,6 +51,11 @@ export async function getLessonVideoForDevice({
 
     return {
       ...videoResource,
+      httpUrl: `${process.env.NEXT_PUBLIC_URL}/${
+        module.moduleType
+      }s/${moduleSlug}/${sectionSlug}/${lessonSlug}${
+        useSolution ? '/solution' : ''
+      }`,
     }
   }
 }
