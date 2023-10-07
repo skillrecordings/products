@@ -18,6 +18,7 @@ const lesson = async (req: NextApiRequest, res: NextApiResponse) => {
         lessonProgress.map((progress) => {
           return {
             lessonId: progress.lessonId,
+            lessonSlug: progress.lessonSlug,
             completedAt: progress.completedAt,
           }
         }),
