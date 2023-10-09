@@ -48,7 +48,17 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
 
   return (
-    <Layout meta={{title: 'Buy Epic Web'}}>
+    <Layout
+      meta={{
+        title: 'Buy Epic Web',
+        ogImage: couponFromCode
+          ? {
+              url: 'https://res.cloudinary.com/epic-web/image/upload/v1687852770/golden-ticket.png',
+              alt: 'Golden Ticket',
+            }
+          : undefined,
+      }}
+    >
       {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       <header className="flex w-full flex-col items-center justify-center px-5 py-16 text-center">
         <h1 className="max-w-lg text-2xl font-bold sm:text-3xl lg:text-4xl">
