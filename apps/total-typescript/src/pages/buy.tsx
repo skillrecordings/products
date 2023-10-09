@@ -80,7 +80,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
         quality={100}
       />
       <main className="relative z-10 flex flex-col items-center justify-center py-28 sm:py-36">
-        <h1 className="relative z-10 px-5 text-center font-heading  text-4xl font-bold sm:text-5xl">
+        <h1 className="relative z-10 px-5 pb-10 pt-5 text-center font-heading text-4xl font-bold sm:text-5xl">
           Become a TypeScript Wizard
         </h1>
         <motion.div style={{y}} className="absolute top-0 h-screen w-full">
@@ -133,15 +133,15 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
           </div>
         </section>
       </main>
-      <Image
-        layout="fill"
-        aria-hidden="true"
-        alt=""
-        src={require('../../public/assets/landing/bg-divider-7.png')}
-        objectPosition={'bottom'}
-        className="select-none object-contain"
-        quality={100}
-      />
+      <div className="flex w-full items-center justify-center sm:py-16">
+        <Image
+          src="https://res.cloudinary.com/total-typescript/image/upload/v1689864739/money-back-guarantee-large_l3sikc.png"
+          alt="30-Day Money Back Guarantee"
+          width={700 / 1.7}
+          height={252 / 1.7}
+          priority
+        />
+      </div>
     </Layout>
   )
 }

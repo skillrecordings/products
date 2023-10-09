@@ -15,6 +15,7 @@ import {useFeedback} from '../../feedback-widget/feedback-context'
 import {useSearchBar} from '@/search-bar/use-search-bar'
 import {motion, AnimationControls, useAnimationControls} from 'framer-motion'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import SaleMessageBar from './message-bar'
 
 type Props = {
   className?: string
@@ -27,20 +28,37 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
   containerClassName = 'max-w-screen-lg flex items-stretch justify-between w-full h-full',
   isMinified = false,
 }) => {
+  const {data: defaultCouponData, status: defaultCouponStatus} =
+    trpc.pricing.defaultCoupon.useQuery()
+
   return (
-    <nav
-      aria-label="top"
-      className={cx(
-        'absolute top-0 z-30 flex h-14 w-full items-center justify-center border-b border-gray-800/40 bg-black/30 pl-3 pr-0 print:hidden sm:h-16 sm:bg-black/30 sm:pl-4 md:pr-3',
-        className,
-      )}
-    >
-      <div className={containerClassName}>
-        <NavLogo isMinified={isMinified} />
-        <DesktopNav isMinified={isMinified} />
-        <MobileNav />
-      </div>
-    </nav>
+    <>
+      <SaleMessageBar
+        className={cn(
+          'absolute left-0 top-0 z-30 flex h-14 w-full flex-row justify-center space-x-2 space-y-2 bg-gradient-to-r from-amber-300 to-amber-400 px-2 py-2 text-black sm:h-8 sm:flex-row sm:items-center sm:space-y-0',
+          {
+            'lg:pl-[calc(280px+20px)] xl:pl-[calc(320px)]': isMinified,
+          },
+        )}
+      />
+      <nav
+        aria-label="top"
+        className={cx(
+          'absolute z-30 flex h-14 w-full flex-col items-center justify-center border-b border-gray-800/40 bg-black/30 pl-3 pr-0 print:hidden sm:h-16 sm:bg-black/30 sm:pl-4 md:pr-3',
+          className,
+          {
+            'top-0': !defaultCouponData,
+            'top-14 sm:top-8': defaultCouponData,
+          },
+        )}
+      >
+        <div className={containerClassName}>
+          <NavLogo isMinified={isMinified} />
+          <DesktopNav isMinified={isMinified} />
+          <MobileNav />
+        </div>
+      </nav>
+    </>
   )
 }
 

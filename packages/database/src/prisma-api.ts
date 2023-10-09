@@ -702,6 +702,7 @@ export function getSdk(
         },
         include: {
           merchantCoupon: true,
+          product: true,
         },
       })
       if (activeSaleCoupon) {
