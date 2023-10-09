@@ -21,7 +21,7 @@ const ProductCTA: React.FC<{product: Product; className?: string}> = ({
   const Comp: React.FC<React.PropsWithChildren> = ({children}) => {
     if (isSellingLive) {
       return (
-        <Link href={`/products/${product.slug}`} className={className}>
+        <Link href={`/buy`} className={className}>
           {children}
         </Link>
       )
