@@ -324,19 +324,9 @@ export default Index
 export const getStaticProps: GetStaticProps = async () => {
   const sanityProduct = await getProduct(productId as string)
 
-  const purchaseCount = await prisma.purchase.count({
-    where: {
-      productId,
-      status: {
-        in: ['VALID', 'RESTRICTED'],
-      },
-    },
-  })
-
   return {
     props: {
       product: sanityProduct,
-      purchaseCount,
     },
   }
 }
