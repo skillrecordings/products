@@ -156,7 +156,7 @@ INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentag
 ('kcd_03c59555-0ce1-4766-b53f-3a117b8c76e1', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, 'Bc3aGk05', '0.4', "ppp");
 
 
-//Epic Web Ultimate Bundle
+-- Epic Web Ultimate Bundle
 
 INSERT INTO Product (id, name, status) VALUES
 ('kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002', 'Epic Web Ultimate Bundle', 1);
