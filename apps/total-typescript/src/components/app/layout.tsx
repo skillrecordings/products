@@ -39,7 +39,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
     url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
     type = 'website',
     ogImage = {
-      url: `${process.env.NEXT_PUBLIC_URL}/card@2x.png`,
+      url: `${process.env.NEXT_PUBLIC_URL}/card-save-20@2x.png?date=09/10/23`,
     },
     keywords,
     date,
