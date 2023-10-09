@@ -113,7 +113,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
           className="relative mx-auto mt-8 flex w-full max-w-screen-lg flex-col items-center px-5"
         >
           <section className="relative flex w-full flex-col-reverse overflow-hidden rounded-md border border-white/5 bg-gradient-to-tr from-primary to-indigo-500 text-primary-foreground selection:bg-gray-900 md:grid md:grid-cols-7 ">
-            <div className="col-span-4 flex flex-col justify-between p-8 pt-0 md:pt-8">
+            <div className="col-span-4 flex flex-col justify-between p-8 pt-8 md:pt-8">
               <div className="space-y-3">
                 <p className="text-xl font-semibold">
                   Hey {session?.user?.name || 'there'}{' '}
@@ -188,11 +188,11 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 </Button>
               </div>
             </div>
-            <div className="col-span-3 flex w-full items-center justify-center p-8">
+            {/* <div className="col-span-3 flex w-full items-center justify-center p-8">
               <div className="flex aspect-video w-full cursor-pointer items-center justify-center rounded-md bg-gray-900/10 mix-blend-hard-light">
                 <Icon name="Playmark" className="h-5 w-5" />
               </div>
-            </div>
+            </div> */}
           </section>
           <div
             className="h-1 w-[99%] rounded-b-md bg-primary brightness-125 dark:brightness-75"

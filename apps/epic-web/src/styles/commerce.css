@@ -103,10 +103,24 @@
             @apply justify-center;
           }
 
+          [data-buy-more-seats] {
+            @apply mt-5 flex w-full flex-col items-center justify-center py-2 transition;
+            button {
+              @apply rounded-md bg-gray-100 px-5 py-3 text-foreground transition hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10;
+            }
+          }
+
+          [data-buy-more-seats='active'] {
+            @apply rounded bg-white/5;
+            button {
+              @apply bg-transparent hover:bg-transparent;
+            }
+          }
+
           [data-buy-more-seats-form] {
             @apply px-0 pb-5 pt-0;
             #team-upgrade-pricing-inline {
-              @apply flex w-full flex-col justify-center;
+              @apply mt-4 flex w-full flex-col justify-center space-y-3;
               [data-pricing-product] {
                 @apply w-full border-none bg-transparent shadow-none;
                 [data-pricing-product-header] {
@@ -118,7 +132,7 @@
                     @apply flex h-[56px] items-center justify-center !important;
                   }
                   button[type='submit'] {
-                    @apply w-full bg-primary py-4 text-lg text-primary-foreground no-underline;
+                    @apply w-full border-none bg-primary py-4 text-lg text-primary-foreground no-underline;
                   }
                 }
               }
@@ -126,7 +140,7 @@
           }
 
           [data-purchased] {
-            @apply mb-5 flex items-center justify-center gap-1 border-b border-gray-100 pb-5  text-lg font-black;
+            @apply mb-5 flex items-center justify-center gap-1 border-b pb-5 text-lg font-black;
             svg {
               @apply h-8 w-8 text-sky-500;
             }
