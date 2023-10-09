@@ -29,8 +29,18 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   defaultCoupon,
   allowPurchase,
 }) => {
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} =
-    useCoupon(couponFromCode)
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
+    couponFromCode,
+    {
+      image: {
+        url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
+        width: 132,
+        height: 112,
+      },
+      title: products[0].title as string,
+      description: products[0]?.description,
+    },
+  )
 
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
