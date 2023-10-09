@@ -10,6 +10,7 @@ import Layout from 'components/app/layout'
 import {GetServerSideProps} from 'next'
 import {motion, useReducedMotion} from 'framer-motion'
 import {getToken} from 'next-auth/jwt'
+import {useRouter} from 'next/router'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
@@ -27,7 +28,6 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   products,
   couponIdFromCoupon,
   defaultCoupon,
-  allowPurchase,
 }) => {
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     couponFromCode,
@@ -46,6 +46,9 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
 
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+
+  const router = useRouter()
+  const allowPurchase = router.query.allowPurchase === 'true'
 
   return (
     <Layout
@@ -83,6 +86,7 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
               <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
                 <div data-pricing-container="" key={product.name}>
                   <Pricing
+                    allowPurchase={allowPurchase}
                     userId={userId}
                     product={product}
                     purchased={purchasedProductIds.includes(product.productId)}
