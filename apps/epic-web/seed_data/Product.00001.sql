@@ -155,7 +155,6 @@ INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentag
 INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentageDiscount, type) VALUES
 ('kcd_03c59555-0ce1-4766-b53f-3a117b8c76e1', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, 'Bc3aGk05', '0.4', "ppp");
 
-
 -- Full Stack Vol 1
 
 INSERT INTO Product (id, name, status) VALUES
@@ -169,4 +168,18 @@ INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifie
 
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('kcd__merchant_price_b80ba93e-42fc-4b34-b303-e91b68286b09', 'kcd_merchant_product_902cb1c5-3498-4d65-8955-f178acf68a72', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, 'kcd_price_72cc00f9-24b8-4607-955f-c59714d3b1c8', 'price_1NzMGqIugVgg5liQ3aspMBWu');
+
+-- Coupons 
+
+INSERT INTO MerchantCoupon (id, identifier, status, merchantAccountId, percentageDiscount, type) VALUES ('kcd_826d7635-0d9c-4f90-9199-6090ef5c4b1a', 'WqPGPHsJ', 1, 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 0.20, 'special');
+
+INSERT INTO MerchantCoupon (id, identifier, status, merchantAccountId, percentageDiscount, type) VALUES ('kcd_487a9d2c-09e0-4bce-b436-ce3c69c4ea05', 'Xi9nwKG6', 1, 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 0.30, 'special');
+
+
+
+
+
+
+
+
 
