@@ -39,6 +39,7 @@ import {
   DefaultOverlay,
 } from '@skillrecordings/skill-lesson/video/video-overlays'
 import {useModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -121,6 +122,8 @@ const ExerciseTemplate: React.FC<{
     module,
   })
 
+  const {data: defaultCouponData} = trpc.pricing.defaultCoupon.useQuery()
+
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -171,7 +174,15 @@ const ExerciseTemplate: React.FC<{
             module={module}
             path={path}
           />
-          <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
+          <main
+            className={cn(
+              'relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent 2xl:flex 2xl:max-w-none 2xl:border-gray-800',
+              {
+                'lg:mt-24': defaultCouponData,
+                'lg:mt-16': !defaultCouponData,
+              },
+            )}
+          >
             <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
               <Video
                 product={module?.product as SanityProduct}

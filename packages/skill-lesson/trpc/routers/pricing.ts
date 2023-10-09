@@ -8,8 +8,9 @@ import {
 } from '@skillrecordings/commerce-server'
 import {find} from 'lodash'
 import {publicProcedure, router} from '../trpc.server'
-import {getActiveProducts} from '../../lib/products'
+import {getActiveProducts, getAllProducts} from '../../lib/products'
 import {getToken} from 'next-auth/jwt'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 
 const merchantCouponSchema = z.object({
   id: z.string(),
@@ -205,4 +206,31 @@ export const pricing = router({
 
       return formattedPrice
     }),
+  defaultCoupon: publicProcedure.query(async ({ctx}) => {
+    const token = await getToken({req: ctx.req})
+    const verifiedUserId = token?.sub
+
+    const {getDefaultCoupon, getPurchasesForUser} = getSdk()
+    const purchases = getValidPurchases(
+      await getPurchasesForUser(verifiedUserId),
+    )
+    const products = await getAllProducts()
+    const defaultCoupons = !token
+      ? await getDefaultCoupon(
+          products.map((product: SanityProduct) => product.productId),
+        )
+      : null
+
+    const defaultCoupon = defaultCoupons?.defaultCoupon
+
+    const hasPurchasedProductFromDefaultCoupon =
+      defaultCoupon &&
+      purchases.some((purchase) => {
+        return purchase.productId === defaultCoupon.product?.id
+      })
+
+    if (!hasPurchasedProductFromDefaultCoupon) {
+      return defaultCoupon
+    }
+  }),
 })
