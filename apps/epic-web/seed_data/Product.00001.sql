@@ -174,12 +174,3 @@ INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, pri
 INSERT INTO MerchantCoupon (id, identifier, status, merchantAccountId, percentageDiscount, type) VALUES ('kcd_826d7635-0d9c-4f90-9199-6090ef5c4b1a', 'WqPGPHsJ', 1, 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 0.20, 'special');
 
 INSERT INTO MerchantCoupon (id, identifier, status, merchantAccountId, percentageDiscount, type) VALUES ('kcd_487a9d2c-09e0-4bce-b436-ce3c69c4ea05', 'Xi9nwKG6', 1, 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 0.30, 'special');
-
-
-
-
-
-
-
-
-
