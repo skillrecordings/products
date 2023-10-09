@@ -17,7 +17,7 @@ export const ProductSchema = z.object({
     .optional(),
   productId: z.string().optional(),
   body: z.nullable(z.string()).optional(),
-  state: z.enum(['published', 'draft']),
+  state: z.enum(['draft', 'active', 'unavailable']),
   modules: z.array(z.any()).optional(),
 })
 
