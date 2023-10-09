@@ -154,3 +154,19 @@ INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentag
 
 INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentageDiscount, type) VALUES
 ('kcd_03c59555-0ce1-4766-b53f-3a117b8c76e1', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, 'Bc3aGk05', '0.4', "ppp");
+
+
+//Epic Web Ultimate Bundle
+
+INSERT INTO Product (id, name, status) VALUES
+('kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002', 'Epic Web Ultimate Bundle', 1);
+
+INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
+('kcd_price_72cc00f9-24b8-4607-955f-c59714d3b1c8', 'kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002', 'Epic Web Ultimate Bundle', 1, 1299);
+
+INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
+('kcd_merchant_product_902cb1c5-3498-4d65-8955-f178acf68a72', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 'kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002', 1, "prod_OmufKA2Nssp9Si");
+
+INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
+('kcd__merchant_price_b80ba93e-42fc-4b34-b303-e91b68286b09', 'kcd_merchant_product_902cb1c5-3498-4d65-8955-f178acf68a72', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, 'kcd_price_72cc00f9-24b8-4607-955f-c59714d3b1c8', 'price_1NzKq1IugVgg5liQBj6ZiRjW');
+
