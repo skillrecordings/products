@@ -16,6 +16,7 @@ export async function lessonForDeviceReq({
     const deviceToken = req.headers.authorization?.split(' ')[1]
     const token = await getToken({req})
     const user = await loadUserForToken({token, deviceToken})
+
     const lessonSlug = req.query.lesson as string
     const moduleSlug = req.query.module as string
     const sectionSlug = req.query.section as string
@@ -27,11 +28,16 @@ export async function lessonForDeviceReq({
       ...(user && {user}),
       useSolution: isSolution,
     })
-
     if (lessonForDevice) {
       res.status(200).json(lessonForDevice)
     } else {
-      res.status(404).end()
+      if (user) {
+        // unauthorized
+        res.status(403).end()
+      } else {
+        // unauthenticated
+        res.status(401).end()
+      }
     }
   } else {
     res.status(404).end()
