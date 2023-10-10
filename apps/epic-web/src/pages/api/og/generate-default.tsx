@@ -7,7 +7,7 @@ export const config = {
 }
 
 const dmSansFont = fetch(
-  new URL('../../../public/fonts/DMSans-Medium.ttf', import.meta.url),
+  new URL('../../../../public/fonts/DMSans-Bold.ttf', import.meta.url),
 ).then((res) => res.arrayBuffer())
 
 export default async function handler(req: NextRequest) {
@@ -15,6 +15,7 @@ export default async function handler(req: NextRequest) {
 
   try {
     const {searchParams} = new URL(req.url)
+    const hasPercentageDiscount = searchParams.has('percentageDiscount')
     const hasTitle = searchParams.has('title')
     const hasByline = searchParams.has('byline')
     const byline = hasByline ? searchParams.get('byline') : ''
@@ -26,50 +27,56 @@ export default async function handler(req: NextRequest) {
     const hasType = searchParams.has('type')
     const type = hasType ? searchParams.get('type') : ''
 
+    if (hasPercentageDiscount) {
+      const percentageDiscount = searchParams.get('percentageDiscount')
+      const backgroundImageUrl =
+        'https://res.cloudinary.com/epic-web/image/upload/v1696939073/default-gen-share-card-bg_2x.png'
+
+      return new ImageResponse(
+        (
+          <div
+            tw="flex w-full relative justify-center text-white items-center h-full pl-16 justify-between border-b-8 border-indigo-300"
+            style={{
+              fontFamily: 'DM Sans',
+              backgroundImage: `url(${backgroundImageUrl})`,
+            }}
+          >
+            <div
+              tw="flex text-black items-center absolute justify-center"
+              style={{
+                fontSize: 40,
+                bottom: 87,
+                left: 117,
+                fontFamily: 'DM Sans Bold',
+              }}
+            >
+              Save {percentageDiscount * 100}%
+            </div>
+          </div>
+        ),
+        {
+          width: 1200,
+          height: 630,
+          fonts: [
+            {
+              name: 'DM Sans',
+              data: dmSansFontData,
+              style: 'normal',
+              weight: 400,
+            },
+          ],
+        },
+      )
+    }
+
     return new ImageResponse(
       (
         <div
-          tw="flex w-full relative justify-center text-white items-center h-full pl-16 justify-between border-b-8 border-indigo-300"
+          tw="flex w-full relative h-full"
           style={{
-            backgroundColor: '#080B16',
+            backgroundImage: `url(${process.env.NEXT_PUBLIC_URL}/card@2x.png)`,
           }}
-        >
-          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-16 relative">
-            {hasImage ? (
-              <div tw="flex items-center">
-                <img src={image} width={200} height={200} tw="mr-10" />
-                {hasByline && (
-                  <p tw="text-5xl leading-tight font-semibold">{byline}</p>
-                )}
-              </div>
-            ) : (
-              <Logo />
-            )}
-            <p
-              tw="text-7xl tracking-tight font-bold leading-tight pr-16"
-              style={{
-                fontFamily: 'DM Sans',
-                lineHeight: 1.1,
-              }}
-            >
-              {title}
-            </p>
-            {!hasImage && (
-              <div tw="flex items-center absolute right-14 top-12">
-                <img
-                  src="https://www.epicweb.dev/kent-c-dodds.png"
-                  tw="h-24 rounded-full bg-gray-800"
-                />
-                <p
-                  style={{fontSize: 36, fontFamily: 'DM Sans'}}
-                  tw="text-3xl ml-6 mb-6 text-gray-300"
-                >
-                  Kent C. Dodds
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
+        />
       ),
       {
         width: 1200,
@@ -79,7 +86,7 @@ export default async function handler(req: NextRequest) {
             name: 'DM Sans',
             data: dmSansFontData,
             style: 'normal',
-            weight: 400,
+            weight: 600,
           },
         ],
       },
