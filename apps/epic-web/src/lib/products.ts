@@ -40,7 +40,7 @@ export async function getProduct(productId: string): Promise<Product> {
         body,
         modules[]->{
           ...,
-          "image": image.asset->url,
+          "image": image.asset->{url},
         }
   }`,
     {productId},

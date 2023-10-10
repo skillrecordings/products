@@ -1,8 +1,6 @@
 import React, {useCallback} from 'react'
 import Layout from 'components/app/layout'
-import {prisma} from '@skillrecordings/database'
-import {getPage} from 'lib/pages'
-import type {GetServerSideProps, GetStaticProps, NextPage} from 'next'
+import type {GetStaticProps, NextPage} from 'next'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import AboutKent from 'components/about-kent'
 import Balancer from 'react-wrap-balancer'
@@ -10,8 +8,8 @@ import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {track} from 'utils/analytics'
 import Image from 'next/image'
 import LandingCopy from 'components/landing-copy.mdx'
-import {loadFull} from 'tsparticles'
 import Particles from 'react-particles'
+import KentImage from '../../public/kent-c-dodds.png'
 import {loadStarsPreset} from 'tsparticles-preset-stars'
 import {
   motion,
@@ -24,11 +22,16 @@ import {trpc} from 'trpc/trpc.client'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import {useRouter} from 'next/router'
 import {getProduct} from 'lib/products'
-import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {
+  SanityProduct,
+  SanityProductModule,
+} from '@skillrecordings/commerce-server/dist/@types'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {Sparkles} from './buy'
+import ReactMarkdown from 'react-markdown'
+import {useTheme} from 'next-themes'
 
 const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -73,7 +76,7 @@ const Index: NextPage<{product: SanityProduct; products: SanityProduct[]}> = ({
         <Header />
         <main className="">
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-          <Article />
+          <Article workshops={product.modules} />
           {true ? (
             <section className="relative mt-16 flex flex-col items-center justify-start dark:bg-black/30">
               <div className="flex flex-col items-center justify-center py-16">
@@ -139,10 +142,76 @@ const Index: NextPage<{product: SanityProduct; products: SanityProduct[]}> = ({
   )
 }
 
-const Article = () => {
+const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
   return (
-    <article className="prose mx-auto max-w-none px-5 pt-0 dark:prose-invert sm:prose-xl md:prose-xl prose-headings:text-center prose-headings:font-bold prose-p:mx-auto prose-p:max-w-2xl sm:pt-16">
-      <LandingCopy />
+    <article className="prose mx-auto max-w-3xl px-5 pt-0 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-16">
+      <LandingCopy
+        components={{
+          // ...linkedHeadingComponents,
+          WorkshopAppScreenshot,
+          AboutKent: ({children}) => {
+            return (
+              <div className="rounded-lg px-8 py-3 dark:bg-white/5 sm:px-10 sm:py-5">
+                <Image
+                  src={KentImage}
+                  width={150}
+                  height={150}
+                  alt="Kent C. Dodds"
+                  className="float-right ml-5 aspect-square w-32 rounded-full bg-white/5 sm:ml-10 sm:w-auto"
+                  style={{
+                    shapeOutside: 'circle()',
+                  }}
+                />
+                <div className="pt-2">{children}</div>
+              </div>
+            )
+          },
+          Workshop: ({slug, title, image, meta, features}) => {
+            return (
+              <li
+                key={slug}
+                className="not-prose flex flex-col items-center gap-8 pb-16 sm:-mx-10 lg:-mx-16 lg:flex-row lg:items-start"
+              >
+                {image && (
+                  <Image src={image} width={300} height={300} alt={title} />
+                )}
+                <div>
+                  <h3 className="text-center text-2xl font-bold lg:text-left lg:text-3xl">
+                    {title}
+                  </h3>
+                  <p className="pt-2 text-center font-mono text-sm uppercase lg:text-left ">
+                    {meta}
+                  </p>
+                  <ul className="pt-8">
+                    {features.map((feature: any) => {
+                      return (
+                        <li
+                          className='py-1 pl-7 before:-ml-7 before:pr-3 before:text-emerald-500 before:content-["✓"] dark:before:text-emerald-300'
+                          key={feature}
+                        >
+                          <ReactMarkdown
+                            unwrapDisallowed
+                            disallowedElements={['p']}
+                          >
+                            {feature}
+                          </ReactMarkdown>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              </li>
+            )
+          },
+          li: ({children}) => {
+            return (
+              <li className='list-none py-1 pl-7 before:-ml-7 before:pr-3 before:text-emerald-500 before:content-["✓"] dark:before:text-emerald-300 sm:before:-ml-2'>
+                {children}
+              </li>
+            )
+          },
+        }}
+      />
     </article>
   )
 }
@@ -389,12 +458,40 @@ export default Index
 
 export const getStaticProps: GetStaticProps = async () => {
   const sanityProduct = await getProduct(productId as string)
-
   const products = await getAllProducts()
+
   return {
     props: {
       product: sanityProduct,
       products,
     },
   }
+}
+
+const WorkshopAppScreenshot = () => {
+  const {theme} = useTheme()
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  return (
+    <div className="aspect-[1520/1090] h-full w-full">
+      {mounted ? (
+        <Image
+          src={
+            theme === 'light'
+              ? 'https://res.cloudinary.com/epic-web/image/upload/v1696929540/workshop-app-screenshot-light-1_2x.png'
+              : 'https://res.cloudinary.com/epic-web/image/upload/v1696929542/workshop-app-screenshot-1_2x.png'
+          }
+          width={1520}
+          quality={100}
+          height={1090}
+          alt=""
+          aria-hidden
+          priority
+        />
+      ) : null}
+    </div>
+  )
 }
