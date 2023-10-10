@@ -28,13 +28,16 @@ export async function lessonForDeviceReq({
       ...(user && {user}),
       useSolution: isSolution,
     })
-    if (!user) {
-      res.status(401).end()
-    }
     if (lessonForDevice) {
-      res.status(200).json(lessonForDevice)
+      if (user) {
+        res.status(200).json(lessonForDevice)
+      } else {
+        // unauthorized
+        res.status(403).json(lessonForDevice)
+      }
     } else {
-      res.status(403).end()
+      // unauthenticated
+      res.status(401).end()
     }
   } else {
     res.status(404).end()
