@@ -32,6 +32,7 @@ import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase
 import {Sparkles} from './buy'
 import ReactMarkdown from 'react-markdown'
 import {useTheme} from 'next-themes'
+import Link from 'next/link'
 
 const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -151,7 +152,7 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
           WorkshopAppScreenshot,
           AboutKent: ({children}) => {
             return (
-              <div className="rounded-lg px-8 py-3 dark:bg-white/5 sm:px-10 sm:py-5">
+              <div className="rounded-lg border bg-white px-8 py-3 dark:bg-white/5 sm:px-10 sm:py-5">
                 <Image
                   src={KentImage}
                   width={150}
@@ -177,7 +178,13 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
                 )}
                 <div>
                   <h3 className="text-center text-2xl font-bold lg:text-left lg:text-3xl">
-                    {title}
+                    <Link
+                      href={`/workshops/${slug}`}
+                      target="_blank"
+                      className="hover:underline"
+                    >
+                      {title}
+                    </Link>
                   </h3>
                   <p className="pt-2 text-center font-mono text-sm uppercase lg:text-left ">
                     {meta}
