@@ -29,15 +29,15 @@ export async function lessonForDeviceReq({
       useSolution: isSolution,
     })
     if (lessonForDevice) {
+      res.status(200).json(lessonForDevice)
+    } else {
       if (user) {
-        res.status(200).json(lessonForDevice)
-      } else {
         // unauthorized
         res.status(403).json(lessonForDevice)
+      } else {
+        // unauthenticated
+        res.status(401).end()
       }
-    } else {
-      // unauthenticated
-      res.status(401).end()
     }
   } else {
     res.status(404).end()
