@@ -5,10 +5,7 @@
       @apply w-full max-w-sm;
       [data-pricing-product] {
         [data-pricing-product-image] {
-          @apply relative mx-auto -mb-32 h-56 w-56 rounded-full border border-gray-200 bg-background dark:border-border dark:bg-background;
-          img {
-            @apply drop-shadow-xl;
-          }
+          @apply relative mx-auto -mb-32 h-56 w-56 rounded-full border border-gray-200 bg-background drop-shadow-xl dark:border-border dark:bg-background;
         }
         article {
           @apply rounded-lg border bg-card pt-36 shadow-2xl shadow-gray-500/10;
