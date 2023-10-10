@@ -29,6 +29,7 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   products,
   couponIdFromCoupon,
   defaultCoupon,
+  allowPurchase,
 }) => {
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     couponFromCode,
@@ -49,9 +50,6 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
 
   const router = useRouter()
-  const ALLOW_PURCHASE =
-    router.query.allowPurchase === 'true' ||
-    process.env.NEXT_PUBLIC_SELLING_LIVE === 'true'
 
   return (
     <Layout
@@ -92,7 +90,7 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
               >
                 <div data-pricing-container="" key={product.name}>
                   <Pricing
-                    allowPurchase={ALLOW_PURCHASE}
+                    allowPurchase={allowPurchase}
                     userId={userId}
                     product={product}
                     purchased={purchasedProductIds.includes(product.productId)}
