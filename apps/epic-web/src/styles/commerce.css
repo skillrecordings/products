@@ -13,6 +13,21 @@
         article {
           @apply rounded-lg border bg-card pt-36 shadow-2xl shadow-gray-500/10;
         }
+        [data-pricing-product-sale-countdown] {
+          @apply mt-5 flex w-full flex-col  py-5 text-center;
+          [data-grid] {
+            @apply mx-auto grid max-w-[300px] grid-cols-4 items-center justify-center gap-3 tabular-nums tracking-tight;
+          }
+          [data-title] {
+            @apply pb-4 text-base font-medium;
+          }
+          [data-number] {
+            @apply text-3xl font-black leading-none;
+          }
+          [data-label] {
+            @apply pt-1 text-xs font-semibold uppercase tracking-wide opacity-75;
+          }
+        }
         [data-pricing-product-header] {
           [data-byline] {
             @apply hidden;
@@ -66,21 +81,6 @@
           }
           [data-price-container='error'] {
             @apply hidden;
-          }
-          [data-pricing-product-sale-countdown] {
-            @apply mt-5 flex w-full flex-col rounded-lg border border-gray-200 py-5 text-center;
-            [data-grid] {
-              @apply mx-auto grid max-w-[300px] grid-cols-4 items-center justify-center gap-3 tabular-nums tracking-tight;
-            }
-            [data-title] {
-              @apply pb-4 text-base font-medium;
-            }
-            [data-number] {
-              @apply text-3xl font-black leading-none;
-            }
-            [data-label] {
-              @apply pt-1 text-xs font-semibold uppercase tracking-wide opacity-75;
-            }
           }
         }
 
