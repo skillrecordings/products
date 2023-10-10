@@ -39,7 +39,8 @@ export async function getProduct(productId: string): Promise<Product> {
         "slug": slug.current,
         body,
         modules[]->{
-          ...
+          ...,
+          "image": image.asset->url,
         }
   }`,
     {productId},
