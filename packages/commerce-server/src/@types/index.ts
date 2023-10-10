@@ -3,6 +3,7 @@ import {
   MerchantCoupon,
   Product,
   Price,
+  Coupon,
 } from '@skillrecordings/database'
 import type {PortableTextBlock} from '@portabletext/types'
 
@@ -36,9 +37,8 @@ export type FormattedPrice = {
   bulk: boolean
 }
 
-export type CouponForCode = {
+export type CouponForCode = Coupon & {
   isValid: boolean
-  id: string
   isRedeemable: boolean
 }
 
