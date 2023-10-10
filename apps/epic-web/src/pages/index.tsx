@@ -37,7 +37,8 @@ const Index: NextPage<{product: SanityProduct; products: SanityProduct[]}> = ({
   products,
 }) => {
   const router = useRouter()
-  const ALLOW_PURCHASE = router.query.allowPurchase === 'true'
+  const ALLOW_PURCHASE =
+    router.query.allowPurchase === 'true' || product.state === 'active'
   const {subscriber, loadingSubscriber} = useConvertkit()
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
@@ -92,7 +93,7 @@ const Index: NextPage<{product: SanityProduct; products: SanityProduct[]}> = ({
                 id="buy"
                 className="relative flex flex-col items-center justify-start"
               >
-                {/* <Sparkles /> */}
+                <Sparkles />
                 {products
                   ?.filter((product: any) => product.state !== 'unavailable')
                   .map((product, i) => {
