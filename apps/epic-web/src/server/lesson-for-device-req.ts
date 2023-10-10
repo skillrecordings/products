@@ -33,7 +33,7 @@ export async function lessonForDeviceReq({
     } else {
       if (user) {
         // unauthorized
-        res.status(403).json(lessonForDevice)
+        res.status(403).end()
       } else {
         // unauthenticated
         res.status(401).end()
