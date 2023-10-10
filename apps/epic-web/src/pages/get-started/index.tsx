@@ -39,10 +39,15 @@ const GetStartedPage: React.FC<{
   React.useEffect(() => {
     setMounted(true)
   }, [])
+  const pageTitle = page.title || 'Get Started Using the Workshop App'
+  const pageDescription =
+    page.description ||
+    "From setting up your environment to navigating exercises and understanding the Epic Workshop App's structure, this guide ensures a smooth workshop experience."
+
   return (
     <Layout
       meta={{
-        title: 'Get Started Using the Workshop App',
+        title: pageTitle,
         ogImage: {
           url: 'https://res.cloudinary.com/epic-web/image/upload/v1696931328/get-started-card_2x.png',
         },
@@ -50,15 +55,10 @@ const GetStartedPage: React.FC<{
     >
       <header className="mx-auto flex w-full max-w-screen-md flex-col items-center justify-center px-5 py-16">
         <h1 className="text-center text-3xl font-bold sm:text-4xl lg:text-5xl">
-          <Balancer>
-            {page.title || 'Get Started Using the Workshop App'}
-          </Balancer>
+          <Balancer>{pageTitle}</Balancer>
         </h1>
         <h2 className="pb-8 pt-8 text-center text-lg text-gray-700 dark:text-gray-300 sm:text-xl lg:text-2xl">
-          <Balancer>
-            {page.description ||
-              "From setting up your environment to navigating exercises and understanding the Epic Workshop App's structure, this guide ensures a smooth workshop experience."}
-          </Balancer>
+          <Balancer>{pageDescription}</Balancer>
         </h2>
         <WorkshopAppScreenshot />
       </header>
