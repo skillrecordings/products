@@ -118,7 +118,7 @@ const ProductCard: React.FC<{
   return (
     <Card className="relative">
       <CardHeader className="flex w-full flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">
-        <CardTitle className="text-xl">
+        <CardTitle className="w-full text-xl hover:underline">
           <Link href={href}>{product.title}</Link>
         </CardTitle>
         <div className="flex items-center gap-3">
