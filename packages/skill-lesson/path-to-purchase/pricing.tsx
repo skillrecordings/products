@@ -55,6 +55,7 @@ type PricingProps = {
   userId?: string
   index?: number
   couponId?: string
+  couponFromCode?: {merchantCouponId: string | null}
   cancelUrl?: string
   allowPurchase?: boolean
   canViewRegionRestriction?: boolean
@@ -74,6 +75,7 @@ type PricingProps = {
  * @param userId - If user is logged in, this is the user's ID.
  * @param index
  * @param couponId
+ * @param couponFromCode
  * @constructor
  */
 export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
@@ -83,7 +85,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   userId,
   index = 0,
   couponId,
-  allowPurchase = false,
+  couponFromCode,
+  allowPurchase: _allowPurchase = false,
   canViewRegionRestriction = false,
   cancelUrl,
   options = {withImage: true, isPPPEnabled: false, withGuaranteeBadge: true},
@@ -128,6 +131,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
 
   const defaultCoupon = formattedPrice?.defaultCoupon
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
+
+  const allowPurchaseAnyway = Boolean(
+    appliedMerchantCoupon &&
+      appliedMerchantCoupon.type === 'special' &&
+      appliedMerchantCoupon.id === couponFromCode?.merchantCouponId,
+  )
+
+  const allowPurchase = _allowPurchase || allowPurchaseAnyway
 
   const isRestrictedUpgrade =
     purchaseToUpgrade?.status === 'Restricted' &&

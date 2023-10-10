@@ -97,6 +97,7 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
                     purchases={purchases}
                     index={i}
                     couponId={couponId}
+                    couponFromCode={couponFromCode}
                   />
                 </div>
               </PriceCheckProvider>
