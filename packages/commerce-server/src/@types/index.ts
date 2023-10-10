@@ -65,6 +65,7 @@ export type SanityProduct = {
     url: string
     alt: string
   }
+  state?: 'draft' | 'active' | 'unavailable'
   summary?: PortableTextBlock
   modules: SanityProductModule[]
   lessons?: {

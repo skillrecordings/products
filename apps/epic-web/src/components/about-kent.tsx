@@ -10,7 +10,7 @@ const AboutKent: React.FC<{title?: string; className?: string}> = ({
   return (
     <section
       className={twMerge(
-        'mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-10 px-5 pb-32 sm:gap-16 md:flex-row',
+        'mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-10 px-5 py-32 sm:gap-16 md:flex-row',
         className,
       )}
     >

@@ -50,17 +50,17 @@ export const useNavigationLinks = () => {
   const {theme} = useTheme()
 
   return [
-    // {
-    //   label: (
-    //     <>
-    //       <span className="sm:hidden lg:inline-block">Pro</span> Workshops
-    //     </>
-    //   ),
-    //   icon: (isHovered: boolean) => (
-    //     <WorkshopsIcon isHovered={isHovered} theme={theme} />
-    //   ),
-    //   href: '/workshops',
-    // },
+    {
+      label: (
+        <>
+          <span className="sm:hidden lg:inline-block">Pro</span> Workshops
+        </>
+      ),
+      icon: (isHovered: boolean) => (
+        <WorkshopsIcon isHovered={isHovered} theme={theme} />
+      ),
+      href: '/workshops',
+    },
     {
       label: 'Tips',
       icon: (isHovered: boolean) => (

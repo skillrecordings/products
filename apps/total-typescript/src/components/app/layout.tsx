@@ -10,6 +10,7 @@ import {DefaultCoupon} from '@skillrecordings/commerce-server/dist/@types'
 import {useFeedback} from '../../feedback-widget/feedback-context'
 import Footer from '@/components/app/footer'
 import GlobalSearchBar from '@/search-bar'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 type LayoutProps = {
   meta?: any
@@ -79,10 +80,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
       {isFeedbackDialogOpen && feedbackComponent}
       {nav ? nav : isNull(nav) ? null : <Navigation />}
       <div
-        className={twMerge(
-          'flex h-full min-h-screen flex-grow flex-col',
-          className,
-        )}
+        className={cn('flex h-full min-h-screen flex-grow flex-col', className)}
       >
         {children}
       </div>
