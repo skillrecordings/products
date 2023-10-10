@@ -23,7 +23,7 @@ const WorkshopAppBanner: React.FC<{className?: string}> = ({className}) => {
             className="relative mt-5 text-sm font-semibold shadow-sm transition"
             size="sm"
           >
-            <Link href="/get-started">
+            <Link href="/workshop-app">
               <span className="drop-shadow-md">Get Started</span>
             </Link>
           </Button>

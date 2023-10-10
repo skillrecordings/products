@@ -1,3 +1,4 @@
+import {GlobeIcon} from '@heroicons/react/solid'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
@@ -34,24 +35,29 @@ const GetStartedPage: React.FC<{
   body: MDXRemoteSerializeResult
   workshops: Module[]
 }> = ({page, body, workshops}) => {
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
   return (
     <Layout
       meta={{
-        title: 'Get Started',
+        title: 'Get Started Using the Workshop App',
         ogImage: {
           url: 'https://res.cloudinary.com/epic-web/image/upload/v1696931328/get-started-card_2x.png',
         },
       }}
     >
-      <header className="mx-auto flex w-full max-w-screen-md flex-col items-center justify-center py-16">
+      <header className="mx-auto flex w-full max-w-screen-md flex-col items-center justify-center px-5 py-16">
         <h1 className="text-center text-3xl font-bold sm:text-4xl lg:text-5xl">
-          Get Started
+          <Balancer>
+            {page.title || 'Get Started Using the Workshop App'}
+          </Balancer>
         </h1>
         <h2 className="pb-8 pt-8 text-center text-lg text-gray-700 dark:text-gray-300 sm:text-xl lg:text-2xl">
           <Balancer>
-            From setting up your environment to navigating exercises and
-            understanding the Epic Workshop App's structure, this guide ensures
-            a smooth workshop experience.
+            {page.description ||
+              "From setting up your environment to navigating exercises and understanding the Epic Workshop App's structure, this guide ensures a smooth workshop experience."}
           </Balancer>
         </h2>
         <WorkshopAppScreenshot />
@@ -61,7 +67,29 @@ const GetStartedPage: React.FC<{
           <MDX
             components={{
               ...linkedHeadingComponents,
-              READMEs: () => <READMEs workshops={workshops} />,
+              Workshops: () => <Workshops workshops={workshops} />,
+              Image: ({src, light, dark, alt = ''}: any) => {
+                const {theme} = useTheme()
+
+                return src || light || dark ? (
+                  <div className="relative aspect-video">
+                    {mounted ? (
+                      <Image
+                        src={
+                          typeof src === 'string'
+                            ? src
+                            : theme === 'light'
+                            ? light
+                            : dark
+                        }
+                        fill
+                        alt={alt}
+                        aria-hidden={!alt}
+                      />
+                    ) : null}
+                  </div>
+                ) : null
+              },
             }}
             contents={body}
           />
@@ -73,15 +101,15 @@ const GetStartedPage: React.FC<{
 
 export default GetStartedPage
 
-const READMEs: React.FC<{workshops: Module[]}> = ({workshops}) => {
+const Workshops: React.FC<{workshops: Module[]}> = ({workshops}) => {
   return (
-    <div className="not-prose my-8 flex flex-col items-center justify-center text-base sm:gap-4 md:text-lg">
+    <div className="not-prose my-8 flex flex-col items-center justify-center text-lg sm:gap-4 md:text-lg">
       <ul className="w-full divide-y">
         {workshops.map((workshop) => {
           if (!workshop?.github?.repo) return null
-
+          const deployedUrl = getDeployedUrl(workshop.github.repo)
           return (
-            <li className="flex w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2">
+            <li className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2">
               <div className="flex items-center gap-3">
                 {workshop.image ? (
                   <Image
@@ -92,31 +120,37 @@ const READMEs: React.FC<{workshops: Module[]}> = ({workshops}) => {
                     aria-hidden
                   />
                 ) : null}
-                <div>
-                  <Link
-                    href={`/workshops/${workshop.slug.current}`}
-                    target="_blank"
-                    className="hover:underline"
-                  >
-                    {workshop.title}
-                  </Link>
-                </div>
-              </div>
-              <div className="flex flex-shrink-0 items-center gap-5 pr-5 text-sm font-medium">
+
                 <Link
                   href={workshop.github.repo}
                   target="_blank"
-                  rel="noopener"
-                  className="inline-flex items-center gap-2 underline"
+                  className="group leading-tight hover:underline"
                 >
-                  <Icon name="Github" size="16" /> Workshop App
+                  {workshop.title}{' '}
+                  <span className="opacity-50 transition group-hover:opacity-100">
+                    ↗︎
+                  </span>
                 </Link>
+              </div>
+              <div className="flex flex-shrink-0 items-center justify-end gap-5 pr-5 text-sm font-medium">
+                {deployedUrl && (
+                  <Link
+                    target="_blank"
+                    rel="noopener"
+                    className="inline-flex items-center gap-1.5 hover:underline"
+                    href={deployedUrl}
+                  >
+                    <GlobeIcon className="h-4 w-4 opacity-75" />
+                    Deployed Version
+                  </Link>
+                )}
                 <Link
                   href={workshop.github.repo + '#readme'}
                   target="_blank"
                   rel="noopener"
-                  className="inline-flex items-center gap-2 underline"
+                  className="inline-flex items-center gap-1.5 hover:underline"
                 >
+                  <Icon name="Github" size="16" className="opacity-75" />
                   README
                 </Link>
               </div>
@@ -170,4 +204,19 @@ const WorkshopAppScreenshot = () => {
       ) : null}
     </motion.div>
   )
+}
+
+const getDeployedUrl = (repo: string) => {
+  switch (repo) {
+    case 'https://github.com/epicweb-dev/full-stack-foundations':
+      return 'https://foundations.epicreact.dev'
+    case 'https://github.com/epicweb-dev/web-forms':
+      return 'https://forms.epicweb.dev'
+    case 'https://github.com/epicweb-dev/data-modeling':
+      return 'https://data.epicweb.dev'
+    case 'https://github.com/epicweb-dev/web-auth':
+      return 'https://auth.epicweb.dev'
+    case 'https://github.com/epicweb-dev/full-stack-testing':
+      return 'https://testing.epicweb.dev'
+  }
 }
