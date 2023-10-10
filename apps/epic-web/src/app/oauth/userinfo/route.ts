@@ -1,6 +1,7 @@
 import {prisma} from '@skillrecordings/database'
 import {NextResponse} from 'next/server'
 import {headers} from 'next/headers'
+import {getUser} from './get-user'
 
 export async function GET(request: Request) {
   const headersList = headers()
@@ -11,17 +12,14 @@ export async function GET(request: Request) {
       where: {
         token: deviceAccessToken,
       },
-      include: {
-        user: true,
+      select: {
+        userId: true,
       },
     })
 
-    if (token?.user) {
-      return NextResponse.json({
-        email: token.user.email,
-        name: token.user.name,
-        image: token.user.image,
-      })
+    if (token?.userId) {
+      const user = await getUser(token.userId)
+      return NextResponse.json(user)
     } else {
       return NextResponse.json(
         {
