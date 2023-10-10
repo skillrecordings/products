@@ -27,6 +27,7 @@
 
 :root {
   @apply selection:bg-primary selection:text-white;
+  scroll-padding-top: 50px;
 }
 
 .no-marker {

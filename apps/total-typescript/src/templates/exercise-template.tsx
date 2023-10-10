@@ -168,7 +168,11 @@ const ExerciseTemplate: React.FC<{
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
           description={pageDescription || ''}
         />
-        <div className="flex flex-grow flex-col lg:flex-row">
+        <div
+          className={cn('flex flex-grow flex-col lg:flex-row', {
+            'pt-14 sm:pt-8 lg:pt-0': defaultCouponData,
+          })}
+        >
           <LargeScreenModuleLessonList
             lessonResourceRenderer={lessonResourceRenderer}
             module={module}

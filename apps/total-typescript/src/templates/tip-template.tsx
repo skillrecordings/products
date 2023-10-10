@@ -39,6 +39,8 @@ import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-re
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {trpc} from '@/trpc/trpc.client'
 
 const TipTemplate: React.FC<{
   tip: Tip
@@ -90,6 +92,8 @@ const TipTemplate: React.FC<{
       })
       .then(console.debug)
   }
+  const {data: defaultCouponData, status: defaultCouponStatus} =
+    trpc.pricing.defaultCoupon.useQuery()
 
   return (
     <VideoProvider
@@ -126,7 +130,14 @@ const TipTemplate: React.FC<{
         nav={<Navigation className="relative flex lg:relative" />}
       >
         <main id="tip" className="mx-auto w-full">
-          <div className="relative z-10 flex items-center justify-center bg-gradient-to-b from-black/30 to-gray-900">
+          <div
+            className={cn(
+              'relative z-10 flex items-center justify-center bg-gradient-to-b from-black/30 to-gray-900',
+              {
+                'pt-14 sm:pt-8 lg:pt-8': defaultCouponData,
+              },
+            )}
+          >
             <div className="-mb-1.5 flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
               {!subscriber && !loadingSubscriber && (

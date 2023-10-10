@@ -34,7 +34,7 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
         },
       }}
     >
-      <main className="mx-auto flex h-full w-full max-w-screen-lg flex-grow flex-col gap-5 px-5 py-20 md:py-32">
+      <main className="mx-auto flex h-full w-full max-w-screen-lg flex-grow flex-col gap-5 px-5 pb-20 pt-32 md:pb-32 md:pt-32">
         <h1 className="inline-flex items-center text-lg font-medium">
           <TSLogo className="mr-2 w-6" />
           TypeScript Articles{' '}

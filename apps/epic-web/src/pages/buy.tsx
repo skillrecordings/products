@@ -11,6 +11,7 @@ import {GetServerSideProps} from 'next'
 import {motion, useReducedMotion} from 'framer-motion'
 import {getToken} from 'next-auth/jwt'
 import {useRouter} from 'next/router'
+import Image from 'next/image'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
@@ -48,7 +49,9 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
 
   const router = useRouter()
-  const allowPurchase = router.query.allowPurchase === 'true'
+  const ALLOW_PURCHASE =
+    router.query.allowPurchase === 'true' ||
+    process.env.NEXT_PUBLIC_SELLING_LIVE === 'true'
 
   return (
     <Layout
@@ -83,10 +86,13 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
           ?.filter((product: any) => product.state !== 'unavailable')
           .map((product, i) => {
             return (
-              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+              <PriceCheckProvider
+                key={product.slug}
+                purchasedProductIds={purchasedProductIds}
+              >
                 <div data-pricing-container="" key={product.name}>
                   <Pricing
-                    allowPurchase={allowPurchase}
+                    allowPurchase={ALLOW_PURCHASE}
                     userId={userId}
                     product={product}
                     purchased={purchasedProductIds.includes(product.productId)}
@@ -99,20 +105,53 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
             )
           })}
       </main>
+      <Image
+        className="mx-auto -mt-16 mb-16"
+        src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+        width={130}
+        height={130}
+        alt="30-Day Money Back Guarantee"
+      />
     </Layout>
   )
 }
 
 export default BuyPage
 
-const Sparkles = () => {
+export const Sparkles = () => {
   const shouldReduceMotion = useReducedMotion()
   return shouldReduceMotion ? null : (
-    <div className="absolute top-24 z-10">
+    <div className="absolute top-24 z-10" aria-hidden>
       <motion.div
         className={cn(
-          'absolute mt-20 translate-x-5 text-yellow-300 blur-[1px]',
+          'absolute left-1 mt-0 text-yellow-300 opacity-75 blur-[2px]',
         )}
+        animate={{
+          scale: [0, 1, 0],
+          rotateZ: [0, -360],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          repeatDelay: 1,
+          delay: 0.5,
+          ease: 'easeInOut',
+        }}
+      >
+        <svg
+          className="h-5 w-5"
+          viewBox="0 0 80 80"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M40 0L45.4306 34.5694L80 40L45.4306 45.4306L40 80L34.5694 45.4306L0 40L34.5694 34.5694L40 0Z"
+            fill="currentColor"
+          />
+        </svg>
+      </motion.div>
+      <motion.div
+        className={cn('absolute left-10 mt-16 text-yellow-300 blur-[1px]')}
         animate={{
           scale: [0, 1, 0],
           rotateZ: [0, 360],
@@ -188,68 +227,5 @@ const Sparkles = () => {
         </svg>
       </motion.div>
     </div>
-  )
-}
-
-const Sparkle: React.FC<{className?: string}> = ({className}) => {
-  return (
-    <>
-      <motion.div
-        className={cn(
-          'absolute mt-20 translate-x-5 text-yellow-300',
-          className,
-        )}
-        animate={{
-          scale: [0, 1, 0],
-          rotateZ: [0, 360],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          repeatDelay: 0.5,
-          ease: 'easeInOut',
-        }}
-      >
-        <svg
-          className="h-10 w-10"
-          viewBox="0 0 80 80"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M40 0L45.4306 34.5694L80 40L45.4306 45.4306L40 80L34.5694 45.4306L0 40L34.5694 34.5694L40 0Z"
-            fill="currentColor"
-          />
-        </svg>
-      </motion.div>
-      <motion.div
-        className={cn(
-          'absolute mt-20 translate-x-5 text-yellow-300 blur-md',
-          className,
-        )}
-        animate={{
-          scale: [0, 1, 0],
-          rotateZ: [0, 360],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          repeatDelay: 0.5,
-          ease: 'easeInOut',
-        }}
-      >
-        <svg
-          className="h-10 w-10"
-          viewBox="0 0 80 80"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M40 0L45.4306 34.5694L80 40L45.4306 45.4306L40 80L34.5694 45.4306L0 40L34.5694 34.5694L40 0Z"
-            fill="currentColor"
-          />
-        </svg>
-      </motion.div>
-    </>
   )
 }

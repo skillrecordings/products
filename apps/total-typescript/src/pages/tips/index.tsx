@@ -37,7 +37,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
       }}
       className="flex flex-col items-center pb-24"
     >
-      <header className="relative z-10 flex flex-col items-center pb-16 pt-28 text-center sm:pt-32 lg:pb-24 lg:pt-40">
+      <header className="relative z-10 flex flex-col items-center pb-16 pt-40 text-center sm:pt-32 lg:pb-24 lg:pt-40">
         <h1 className="text-center font-heading text-4xl font-bold sm:text-5xl">
           TypeScript Tips
         </h1>
