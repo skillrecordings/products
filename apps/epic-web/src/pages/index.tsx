@@ -93,7 +93,7 @@ const Index: NextPage<{product: SanityProduct; products: SanityProduct[]}> = ({
                 id="buy"
                 className="relative flex flex-col items-center justify-start"
               >
-                {/* <Sparkles /> */}
+                <Sparkles />
                 {products
                   ?.filter((product: any) => product.state !== 'unavailable')
                   .map((product, i) => {
