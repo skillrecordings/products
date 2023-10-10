@@ -12,6 +12,8 @@ import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import removeMarkdown from 'remove-markdown'
 import '@/styles/shiki-twoslash.css'
 import {linkedHeadingComponents, ShareImageMDX} from '@/components/mdx'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {trpc} from '@/trpc/trpc.client'
 
 type ArticleTemplateProps = {
   article: Article
@@ -32,6 +34,8 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
     : body
     ? removeMarkdown(body.slice(0, 160))
     : ''
+  const {data: defaultCouponData, status: defaultCouponStatus} =
+    trpc.pricing.defaultCoupon.useQuery()
 
   return (
     <Layout
@@ -57,7 +61,14 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         images={[image || '']}
         description={articleDescription}
       />
-      <header className="relative z-10 flex w-full flex-col items-center justify-center px-5 pb-8 pt-24 sm:pb-10 sm:pt-36">
+      <header
+        className={cn(
+          'relative z-10 flex w-full flex-col items-center justify-center px-5 py-8 sm:py-32',
+          {
+            'pt-32': defaultCouponData,
+          },
+        )}
+      >
         <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col">
           <time dateTime={_createdAt} className="pb-4 text-gray-300">
             {format(new Date(_createdAt), 'MMM dd, y')}

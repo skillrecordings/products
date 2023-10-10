@@ -101,7 +101,7 @@ const GetStartedPage: React.FC<{
 
 export default GetStartedPage
 
-const Workshops: React.FC<{workshops: Module[]}> = ({workshops}) => {
+const Workshops: React.FC<{workshops: any[]}> = ({workshops}) => {
   return (
     <div className="not-prose my-8 flex flex-col items-center justify-center text-lg sm:gap-4 md:text-lg">
       <ul className="w-full divide-y">
@@ -111,9 +111,9 @@ const Workshops: React.FC<{workshops: Module[]}> = ({workshops}) => {
           return (
             <li className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2">
               <div className="flex items-center gap-3">
-                {workshop.image ? (
+                {workshop.image?.url ? (
                   <Image
-                    src={workshop.image}
+                    src={workshop.image.url}
                     width={50}
                     height={50}
                     alt={workshop.title}

@@ -23,10 +23,12 @@ const SaleMessageBar: React.FC<{className?: string}> = ({className}) => {
             : process.env.NEXT_PUBLIC_SITE_TITLE}
         </span>{' '}
         for limited time only!{' '}
-        <Countdown
-          date={coupon.expires?.toUTCString()}
-          renderer={countdownRenderer}
-        />
+        <span className="hidden sm:inline-block">
+          <Countdown
+            date={coupon.expires?.toUTCString()}
+            renderer={countdownRenderer}
+          />
+        </span>
       </div>
 
       <div className="flex-shrink-0">
