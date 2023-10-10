@@ -35,7 +35,7 @@ export default async function handler(req: NextRequest) {
       return new ImageResponse(
         (
           <div
-            tw="flex w-full relative justify-center text-white items-center h-full pl-16 justify-between border-b-8 border-indigo-300"
+            tw="flex w-full relative justify-center text-white items-center h-full pl-16 justify-between"
             style={{
               fontFamily: 'DM Sans',
               backgroundImage: `url(${backgroundImageUrl})`,
@@ -45,7 +45,7 @@ export default async function handler(req: NextRequest) {
               tw="flex text-black items-center absolute justify-center"
               style={{
                 fontSize: 40,
-                bottom: 87,
+                bottom: 95,
                 left: 117,
                 fontFamily: 'DM Sans Bold',
               }}
