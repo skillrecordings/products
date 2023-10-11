@@ -113,13 +113,14 @@ const ProductCard: React.FC<{
       quantity: 1,
     })
 
-  const href = `/buy`
+  const buyHref = `/buy`
+  const purchasedHref = `/products/${product.slug}`
 
   return (
     <Card className="relative">
       <CardHeader className="flex w-full flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">
         <CardTitle className="w-full text-xl hover:underline">
-          <Link href={href}>{product.title}</Link>
+          <Link href={purchase ? purchasedHref : buyHref}>{product.title}</Link>
         </CardTitle>
         <div className="flex items-center gap-3">
           {purchase ? null : (
@@ -140,10 +141,7 @@ const ProductCard: React.FC<{
         {purchase ? (
           <>
             <Button variant="secondary" size="sm" asChild>
-              <Link
-                // href={`/purchases/${purchase.id}`}
-                href={href}
-              >
+              <Link href={purchasedHref}>
                 {purchase.bulkCoupon ? 'Manage & Details' : 'Manage & Details'}
               </Link>
             </Button>
@@ -170,7 +168,7 @@ const ProductCard: React.FC<{
               <>
                 {product.slug && (
                   <Button size="sm" asChild>
-                    <Link href={`/buy`}>Buy</Link>
+                    <Link href={buyHref}>Buy</Link>
                   </Button>
                 )}
               </>
