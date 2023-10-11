@@ -68,7 +68,23 @@ const WorkshopTemplate: React.FC<{
         <div className="w-full flex-grow px-5">
           <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
             {workshopBodySerialized ? (
-              <MDX contents={workshopBodySerialized} />
+              <MDX
+                contents={workshopBodySerialized}
+                components={{
+                  Testimonial: ({children, author}) => {
+                    return (
+                      <blockquote className="rounded-md bg-white px-5 pb-4 pt-1 not-italic text-foreground dark:bg-white/5">
+                        {children}
+                        {author.name && (
+                          <div className="text-base opacity-60">
+                            — {author.name}
+                          </div>
+                        )}
+                      </blockquote>
+                    )
+                  },
+                }}
+              />
             ) : (
               <p className="opacity-75">No description found.</p>
             )}
@@ -86,21 +102,21 @@ const WorkshopTemplate: React.FC<{
               </div>
               <Collection.Sections>
                 {moduleProgressStatus === 'success' ? (
-                  <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125">
+                  <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125 [&_[data-check-icon]]:text-blue-400 [&_[data-check-icon]]:opacity-100 [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-blue-500 [&_[data-progress]]:dark:bg-gray-600">
                     <Collection.Lessons>
-                      <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
+                      <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
                     </Collection.Lessons>
                   </Collection.Section>
                 ) : (
-                  <Skeleton className="border bg-background py-6" />
+                  <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-7" />
                 )}
               </Collection.Sections>
               {/* Used if module has either none or single section so they can be styled differently */}
               <Collection.Lessons>
                 {moduleProgressStatus === 'success' ? (
-                  <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
+                  <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
                 ) : (
-                  <Skeleton className="my-2 border bg-background py-5" />
+                  <Skeleton className="my-2 border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-7" />
                 )}
               </Collection.Lessons>
             </Collection.Root>
@@ -131,7 +147,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 pt-8 sm:pb-16 sm:pt-10 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 pt-8 sm:pb-10 sm:pt-10 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
             href="/workshops"
@@ -201,7 +217,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               </Link>
               {github?.repo && (
                 <a
-                  className="flex w-full items-center justify-center gap-2 rounded-md border border-gray-300 px-5 py-4 font-medium leading-tight transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 md:w-auto"
+                  className="flex w-full items-center justify-center gap-2 rounded-md border-none border-gray-300 px-5 py-4 font-medium leading-tight transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-900 md:w-auto"
                   href={github.repo}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
@@ -209,7 +225,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Icon name="Github" size="24" /> Code
+                  <Icon name="Github" size="24" /> Workshop App & Code
                 </a>
               )}
             </div>
