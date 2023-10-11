@@ -1,26 +1,93 @@
+import {
+  Accordion,
+  AccordionItem,
+  AccordionContent,
+  AccordionHeader,
+  AccordionTrigger,
+} from '@skillrecordings/ui'
 import Layout from 'components/app/layout'
+import {drop, take} from 'lodash'
 import ReactMarkdown from 'react-markdown'
+import Balancer from 'react-wrap-balancer'
 
-const FAQPage = () => (
-  <Layout
-    meta={{
-      title: 'Epic Web FAQ',
-      ogImage: {
-        url: 'https://res.cloudinary.com/epic-web/image/upload/v1696967714/card-faq_2x.png',
-        alt: 'Epic Web FAQ',
-      },
-    }}
-  >
-    <main className="p-5 py-16 lg:py-24">
-      <article className="prose mx-auto dark:prose-invert">
-        <h1 className="text-center">Frequently Asked Questions</h1>
-        <ReactMarkdown>{markdownContent}</ReactMarkdown>
-      </article>
-    </main>
-  </Layout>
-)
+const FAQPage = () => {
+  const questions = markdownContent
+    .split('## ')
+    .filter((item) => item.trim() !== '')
+  const formattedQuestions = questions.map((question) => {
+    const parts = question.split('\n')
+    const title = parts[0].trim()
+    const body = parts.slice(1).join('\n').trim()
+    return {title, body}
+  })
+  return (
+    <Layout
+      meta={{
+        title: 'Epic Web FAQ',
+        ogImage: {
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1696967714/card-faq_2x.png',
+          alt: 'Epic Web FAQ',
+        },
+      }}
+    >
+      <header className="flex items-center justify-center px-5 pt-20">
+        <h1 className="w-full text-center text-3xl font-bold sm:text-3xl lg:text-4xl">
+          <Balancer>Frequently Asked Questions</Balancer>
+        </h1>
+      </header>
+      <main className="mx-auto w-full max-w-screen-lg px-5 py-16 lg:py-20">
+        <Accordion
+          type="multiple"
+          className="flex w-full flex-col gap-x-3 md:grid md:grid-cols-2"
+        >
+          <ul className="flex flex-col gap-3">
+            {take(formattedQuestions, formattedQuestions.length / 2).map(
+              ({title, body}) => (
+                <Question title={title} body={body} key={title} />
+              ),
+            )}
+          </ul>
+          <ul className="flex flex-col gap-3">
+            {drop(formattedQuestions, formattedQuestions.length / 2).map(
+              ({title, body}) => (
+                <Question title={title} body={body} key={title} />
+              ),
+            )}
+          </ul>
+        </Accordion>
+      </main>
+    </Layout>
+  )
+}
 
 export default FAQPage
+
+const Question: React.FC<{title: string; body: string}> = ({title, body}) => {
+  return (
+    <AccordionItem
+      value={title}
+      className="rounded-md border border-gray-200/50 bg-white shadow-xl shadow-gray-500/5 transition dark:border-white/5 dark:bg-white/5 dark:shadow-none dark:hover:bg-white/10"
+    >
+      <li className="flex flex-col" key={title}>
+        <AccordionHeader className="">
+          <AccordionTrigger className="px-3 py-3 text-left text-base font-semibold sm:px-5 sm:py-5 sm:text-lg [&_[data-chevron]]:text-foreground">
+            {title}
+          </AccordionTrigger>
+        </AccordionHeader>
+        <AccordionContent className="pb-5">
+          <ReactMarkdown
+            components={{
+              a: (props) => <a {...props} target="_blank" />,
+            }}
+            className="prose  px-5 dark:prose-invert"
+          >
+            {body}
+          </ReactMarkdown>
+        </AccordionContent>
+      </li>
+    </AccordionItem>
+  )
+}
 
 const markdownContent = `
 
@@ -84,7 +151,7 @@ Epic Web is appropriate for novice to advanced-level developers who are familiar
 
 ## Is there any live aspect to Epic Web?
 
-Epic Web is all self-paced. However, the Discord community is very active!
+Epic Web is all self-paced. However, the [Discord community](https://kentcdodds.com/discord) is very active!
 
 ## None of these are my questions, can I contact someone?
 
