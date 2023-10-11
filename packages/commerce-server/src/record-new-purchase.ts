@@ -9,6 +9,7 @@ import {
 import {NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
 import {determinePurchaseType, PurchaseType} from './determine-purchase-type'
 
+export const NO_ASSOCIATED_PRODUCT = 'no-associated-product'
 export class PurchaseError extends Error {
   checkoutSessionId: string
   email?: string
@@ -114,7 +115,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
 
   if (!merchantProduct)
     throw new PurchaseError(
-      `no-associated-product`,
+      NO_ASSOCIATED_PRODUCT,
       checkoutSessionId,
       email,
       stripeProductId,

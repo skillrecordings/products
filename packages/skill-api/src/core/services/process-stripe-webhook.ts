@@ -1,7 +1,11 @@
 import {SkillRecordingsHandlerParams} from '../types'
 import {OutgoingResponse} from '../index'
 import {getSdk, prisma} from '@skillrecordings/database'
-import {recordNewPurchase, stripe} from '@skillrecordings/commerce-server'
+import {
+  recordNewPurchase,
+  stripe,
+  NO_ASSOCIATED_PRODUCT,
+} from '@skillrecordings/commerce-server'
 import {buffer} from 'micro'
 import {postSaleToSlack, sendServerEmail} from '../../server'
 import {convertkitTagPurchase} from './convertkit'
@@ -129,10 +133,18 @@ export async function processStripeWebhooks({
         }
       }
     } catch (err: any) {
-      console.error(err)
-      return {
-        status: 400,
-        body: `Webhook Error: ${err.message}`,
+      if (err.message === NO_ASSOCIATED_PRODUCT) {
+        console.error(err.message)
+        return {
+          status: 200,
+          body: 'not handled',
+        }
+      } else {
+        console.error(err)
+        return {
+          status: 400,
+          body: `Webhook Error: ${err.message}`,
+        }
       }
     }
   } catch (error: any) {
