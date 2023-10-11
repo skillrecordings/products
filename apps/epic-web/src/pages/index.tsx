@@ -174,7 +174,9 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
                 className="not-prose flex flex-col items-center gap-8 pb-16 sm:-mx-10 lg:-mx-16 lg:flex-row lg:items-start"
               >
                 {image && (
-                  <Image src={image} width={300} height={300} alt={title} />
+                  <Link href={`/workshops/${slug}`} target="_blank">
+                    <Image src={image} width={300} height={300} alt={title} />
+                  </Link>
                 )}
                 <div>
                   <h3 className="text-center text-2xl font-bold lg:text-left lg:text-3xl">

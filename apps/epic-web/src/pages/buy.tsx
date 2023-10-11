@@ -10,8 +10,8 @@ import Layout from 'components/app/layout'
 import {GetServerSideProps} from 'next'
 import {motion, useReducedMotion} from 'framer-motion'
 import {getToken} from 'next-auth/jwt'
-import {useRouter} from 'next/router'
 import Image from 'next/image'
+import React from 'react'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
@@ -48,8 +48,6 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
 
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
-
-  const router = useRouter()
 
   return (
     <Layout
@@ -119,12 +117,14 @@ export default BuyPage
 
 export const Sparkles = () => {
   const shouldReduceMotion = useReducedMotion()
+
   return shouldReduceMotion ? null : (
     <div className="absolute top-24 z-10" aria-hidden>
       <motion.div
         className={cn(
           'absolute left-1 mt-0 text-yellow-300 opacity-75 blur-[2px]',
         )}
+        initial={{scale: 0}}
         animate={{
           scale: [0, 1, 0],
           rotateZ: [0, -360],
@@ -133,7 +133,7 @@ export const Sparkles = () => {
           duration: 4,
           repeat: Infinity,
           repeatDelay: 1,
-          delay: 0.5,
+          delay: 1,
           ease: 'easeInOut',
         }}
       >
@@ -151,6 +151,7 @@ export const Sparkles = () => {
       </motion.div>
       <motion.div
         className={cn('absolute left-10 mt-16 text-yellow-300 blur-[1px]')}
+        initial={{scale: 0}}
         animate={{
           scale: [0, 1, 0],
           rotateZ: [0, 360],
@@ -159,6 +160,7 @@ export const Sparkles = () => {
           duration: 3,
           repeat: Infinity,
           repeatDelay: 0.5,
+          delay: 0.5,
           ease: 'easeInOut',
         }}
       >
@@ -176,6 +178,7 @@ export const Sparkles = () => {
       </motion.div>
       <motion.div
         className={cn('absolute right-[12px] mt-16 text-yellow-300 blur-[2px]')}
+        initial={{scale: 0}}
         animate={{
           scale: [0, 0.75, 0],
           rotateZ: [0, -540],
@@ -184,6 +187,7 @@ export const Sparkles = () => {
           duration: 5,
           repeat: Infinity,
           repeatDelay: 1,
+          delay: 0.5,
           ease: 'easeInOut',
         }}
       >
@@ -201,6 +205,7 @@ export const Sparkles = () => {
       </motion.div>
       <motion.div
         className={cn('absolute left-[12px] mt-20 text-yellow-300 blur-[2px]')}
+        initial={{scale: 0}}
         animate={{
           scale: [0, 2, 0],
           rotateZ: [0, 360],
@@ -209,7 +214,7 @@ export const Sparkles = () => {
           duration: 5,
           repeat: Infinity,
           repeatDelay: 1,
-          delay: 0.5,
+          delay: 1,
           ease: 'easeInOut',
         }}
       >
