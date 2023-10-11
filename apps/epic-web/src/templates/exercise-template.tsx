@@ -34,6 +34,8 @@ import {isBrowser} from 'utils/is-browser'
 import {getOgImage} from 'utils/get-og-image'
 import {PreWithButtons} from 'utils/mdx'
 import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
+import {WorkshopAppBanner} from 'components/workshop-app'
+import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -65,6 +67,30 @@ const ExerciseTemplate: React.FC<{
   const exerciseCount = section
     ? section.lessons && section.lessons.length
     : module.lessons && module.lessons.length
+
+  const useAbilities = () => {
+    const {data: abilityRules, status: abilityRulesStatus} =
+      trpc.modules.rules.useQuery({
+        moduleSlug: module.slug.current,
+        moduleType: 'workshop',
+        lessonSlug: lesson.slug,
+        isSolution: lesson._type === 'solution',
+        sectionSlug: section?.slug,
+      })
+    return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
+  }
+  const {ability, abilityRulesStatus} = useAbilities()
+
+  const canViewContent = ability.can('view', 'Content')
+
+  const displayLessonCompletionToggle =
+    (lesson._type === 'solution' ||
+      lesson._type === 'explainer' ||
+      lesson._type === 'lesson') &&
+    session
+
+  const displayWorkshopAppBanner =
+    canViewContent && module.moduleType === 'workshop'
 
   return (
     <VideoProvider
@@ -156,51 +182,62 @@ const ExerciseTemplate: React.FC<{
                     repository="Code"
                   />
                 )}
-                <LessonDescription
-                  mdxComponents={{
-                    pre: PreWithButtons,
-                    Callout: (props) => {
-                      const {type, children} = props
-                      return (
-                        <blockquote className="!border-l-7 rounded-md !border-primary bg-foreground/5 !px-6 py-5 !not-italic prose-p:!mb-0 [&>p]:first-of-type:before:content-['']">
-                          {children}
-                        </blockquote>
-                      )
-                    },
-                    // TODO: following only work in local workshop app
-                    InlineFile: (props) => {
-                      const {type, file} = props
-                      if (type) {
-                        return type
-                      }
-                      if (file) {
-                        return file
-                      }
-                      return null
-                    },
-                    LinkToApp: (props) => {
-                      const {to} = props
-                      return to
-                    },
-                    CodeFile: (props) => {
-                      return props.file
-                    },
-                    DiffLink: (props) => {
-                      return props.children
-                    },
-                    Link: (props) => {
-                      return props.children
-                    },
-                  }}
-                  lessonMDXBody={lessonBodySerialized}
-                  lessonBodyPreview={lessonBodyPreviewSerialized}
-                  productName={module.title}
-                  loadingIndicator={<Spinner />}
-                />
-                {(lesson._type === 'solution' ||
-                  lesson._type === 'explainer' ||
-                  lesson._type === 'lesson') &&
-                  session && <LessonCompletionToggle />}
+                {displayWorkshopAppBanner && !displayLessonCompletionToggle && (
+                  <WorkshopAppBanner
+                    description={`Best way to experience ${module.title} workshop is in accompanying Workshop App.`}
+                    className="mt-3 rounded-lg border p-5"
+                  />
+                )}
+                {(lessonBodySerialized || lessonBodyPreviewSerialized) && (
+                  <LessonDescription
+                    mdxComponents={{
+                      pre: PreWithButtons,
+                      Callout: (props) => {
+                        const {type, children} = props
+                        return (
+                          <blockquote className="!border-l-7 rounded-md !border-primary bg-foreground/5 !px-6 py-5 !not-italic prose-p:!mb-0 [&>p]:first-of-type:before:content-['']">
+                            {children}
+                          </blockquote>
+                        )
+                      },
+                      // TODO: following only work in local workshop app
+                      InlineFile: (props) => {
+                        const {type, file} = props
+                        if (type) {
+                          return type
+                        }
+                        if (file) {
+                          return file
+                        }
+                        return null
+                      },
+                      LinkToApp: (props) => {
+                        const {to} = props
+                        return to
+                      },
+                      CodeFile: (props) => {
+                        return props.file
+                      },
+                      DiffLink: (props) => {
+                        return props.children
+                      },
+                      Link: (props) => {
+                        return props.children
+                      },
+                    }}
+                    lessonMDXBody={lessonBodySerialized}
+                    lessonBodyPreview={lessonBodyPreviewSerialized}
+                    productName={module.title}
+                    loadingIndicator={<Spinner />}
+                  />
+                )}
+                {displayLessonCompletionToggle && <LessonCompletionToggle />}
+                {displayWorkshopAppBanner && displayLessonCompletionToggle && (
+                  <WorkshopAppBanner
+                    description={`Best way to experience ${module.title} workshop is in accompanying Workshop App.`}
+                    className="mt-5 rounded-lg border p-5"
+                  />
+                )}
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
                 <VideoTranscript transcript={transcript} />
@@ -316,10 +353,7 @@ const LessonList: React.FC<{
               {moduleProgressStatus === 'loading' ? (
                 <Skeleton className="h-14 rounded-none bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
               ) : (
-                <Collection.Section
-                  className="border-b font-semibold leading-tight transition data-[state]:rounded-none data-[state='closed']:opacity-75 data-[state='closed']:hover:opacity-100 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:bg-gradient-to-r [&>[data-progress]]:from-gray-200 [&>[data-progress]]:to-gray-200/50 [&>[data-progress]]:shadow-lg dark:[&>[data-progress]]:from-gray-800
-                      dark:[&>[data-progress]]:to-gray-800/50"
-                >
+                <Collection.Section className="border-b font-semibold leading-tight transition data-[state]:rounded-none data-[state='closed']:opacity-75 data-[state='closed']:hover:opacity-100 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:h-[2px] [&>[data-progress]]:bg-blue-500 dark:[&>[data-progress]]:bg-gray-700">
                   <Collection.Lessons className="py-0">
                     <Collection.Lesson
                       className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500  dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'

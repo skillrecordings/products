@@ -5,7 +5,13 @@ import {CodeIcon, TerminalIcon} from '@heroicons/react/outline'
 import {Button} from '@skillrecordings/ui'
 import Link from 'next/link'
 
-const WorkshopAppBanner: React.FC<{className?: string}> = ({className}) => {
+const WorkshopAppBanner: React.FC<{
+  className?: string
+  description?: string
+}> = ({
+  className,
+  description = 'Best way to experience Epic Web workshops is with accompanying Workshop App.',
+}) => {
   return (
     <div className={cn('w-full', className)}>
       <div className="">
@@ -13,17 +19,14 @@ const WorkshopAppBanner: React.FC<{className?: string}> = ({className}) => {
           <div className="flex items-center gap-4 text-xl font-bold leading-tight">
             <WorkshopAppIcon /> Run in Workshop App
           </div>
-          <p className="pt-3 opacity-75">
-            Best way to experience Epic Web workshops is with accompanying
-            Workshop App.
-          </p>
+          <p className="pt-3 opacity-75">{description}</p>
           <Button
             asChild
             variant="outline"
             className="relative mt-5 text-sm font-semibold shadow-sm transition"
             size="sm"
           >
-            <Link href="/get-started">
+            <Link href="/get-started" target="_blank">
               <span className="drop-shadow-md">Get Started</span>
             </Link>
           </Button>
@@ -35,7 +38,7 @@ const WorkshopAppBanner: React.FC<{className?: string}> = ({className}) => {
 
 const WorkshopAppIcon = () => {
   return (
-    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg border bg-foreground/5 bg-gradient-to-tr from-sky-500 to-indigo-500 shadow-soft-sm lg:-ml-14">
+    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg border bg-foreground/5 bg-gradient-to-tr from-sky-500 to-indigo-500 shadow-soft-sm">
       <svg
         className="h-4 w-4"
         viewBox="0 0 14 12"
