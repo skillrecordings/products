@@ -16,6 +16,11 @@ export default defineType({
       title: 'Product ID',
       type: 'string',
     }),
+    {
+      name: 'convertkitPurchasedTagId',
+      title: 'Convertkit Purchase Tag ID',
+      type: 'string',
+    },
     defineField({
       name: 'slug',
       title: 'Slug',

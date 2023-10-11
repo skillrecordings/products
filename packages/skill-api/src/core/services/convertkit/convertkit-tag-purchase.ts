@@ -51,11 +51,19 @@ export async function convertkitTagPurchase(email: string, purchase: Purchase) {
       sanityProduct?.convertkitPurchasedTagId ||
       process.env.CONVERTKIT_PURCHASED_TAG_ID
 
+    let subscriber
+
+    if (sanityProduct?.convertkitPurchasedTagId) {
+      subscriber = await tagSubscriber(email, convertkitPurchasedTagId)
+    }
+
+    if (process.env.CONVERTKIT_PURCHASED_TAG_ID) {
+      subscriber = await tagSubscriber(email, convertkitPurchasedTagId)
+    }
+
     if (!convertkitPurchasedTagId) {
       throw new Error('‼️ set convertkit purchase tag id')
     }
-
-    const subscriber = await tagSubscriber(email, convertkitPurchasedTagId)
 
     const purchasedOnFieldName = sanityProduct
       ? `purchased_${sanityProduct.slug.current.replace(/-/gi, '_')}_on`
