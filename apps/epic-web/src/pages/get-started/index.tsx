@@ -209,7 +209,7 @@ const WorkshopAppScreenshot = () => {
 const getDeployedUrl = (repo: string) => {
   switch (repo) {
     case 'https://github.com/epicweb-dev/full-stack-foundations':
-      return 'https://foundations.epicreact.dev'
+      return 'https://foundations.epicweb.dev'
     case 'https://github.com/epicweb-dev/web-forms':
       return 'https://forms.epicweb.dev'
     case 'https://github.com/epicweb-dev/data-modeling':
