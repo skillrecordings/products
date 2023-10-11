@@ -768,7 +768,7 @@ const SubscribeForm = ({
         </Balancer>
       </div>
       <SubscribeToConvertkitForm
-        formId={3843826}
+        formId={Number(process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM)}
         actionLabel="Get Notified"
         onSuccess={(subscriber, email) => {
           return handleOnSuccess(subscriber, email)

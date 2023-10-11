@@ -49,6 +49,7 @@ export async function subscribeToConvertkit({
       cookies: getConvertkitSubscriberCookie(fullSubscriberWithoutEmptyFields),
     }
   } catch (error) {
+    console.log('CK Error', error)
     return {
       status: 200,
     }
