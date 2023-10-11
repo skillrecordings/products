@@ -113,7 +113,7 @@ const ProductCard: React.FC<{
       quantity: 1,
     })
 
-  const href = `/products/${product.slug}`
+  const href = `/buy`
 
   return (
     <Card className="relative">
@@ -164,10 +164,16 @@ const ProductCard: React.FC<{
           </>
         ) : (
           <>
-            {product.slug && (
-              <Button size="sm" asChild>
-                <Link href={product.slug}>Buy</Link>
-              </Button>
+            {product.state === 'unavailable' ? (
+              'Unavailable'
+            ) : (
+              <>
+                {product.slug && (
+                  <Button size="sm" asChild>
+                    <Link href={`/buy`}>Buy</Link>
+                  </Button>
+                )}
+              </>
             )}
           </>
         )}
@@ -263,7 +269,7 @@ const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
     appliedMerchantCoupon && `${percentOff}% off of $${fullPrice}`
 
   return (
-    <div className="flex items-center text-sm">
+    <div className="flex w-full flex-shrink-0 items-center text-sm">
       {status === 'loading' ? (
         <div>
           <span className="sr-only">Loading price</span>
@@ -274,18 +280,18 @@ const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
           <div aria-hidden="true" className="pr-1">
             USD
           </div>{' '}
-          <div aria-live="polite">
+          <div aria-live="polite" className="flex items-center space-x-3">
             {formattedPrice?.calculatedPrice &&
               formatUsd(formattedPrice?.calculatedPrice).dollars}
-            <sup aria-hidden="true">
+            <sup className="-top-0.5" aria-hidden="true">
               {formattedPrice?.calculatedPrice &&
                 formatUsd(formattedPrice?.calculatedPrice).cents}
             </sup>
             {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (
-              <>
-                <div aria-hidden="true">
-                  <div>{'$' + fullPrice}</div>
-                  <div>Save {percentOff}%</div>
+              <div>
+                <div aria-hidden="true" className="flex items-center space-x-2">
+                  <div className="line-through">{'$' + fullPrice}</div>
+                  <div className="whitespace-nowrap">Save {percentOff}%</div>
                 </div>
                 <div className="sr-only">
                   {appliedMerchantCoupon?.type === 'bulk' ? (
@@ -293,7 +299,7 @@ const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
                   ) : null}{' '}
                   {percentOffLabel}
                 </div>
-              </>
+              </div>
             )}
           </div>
         </>

@@ -287,6 +287,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
         </article>
         <aside className="flex flex-shrink-0 flex-col items-center py-10 pr-5 md:mb-0 lg:min-h-screen lg:w-4/12 lg:items-end">
           <Image
+            className="rounded-full"
             src={product.image.url}
             alt={product.name}
             width={300}
@@ -528,10 +529,22 @@ const PurchaseRow: React.FC<{purchase: Purchase}> = ({purchase}) => {
           ? 'Region restricted'
           : purchase.status}
       </td>
-      <td className="flex justify-end whitespace-nowrap py-4 pl-3 text-base">
-        <Button size="sm" asChild variant="secondary" className="w-full">
-          <Link href={`/invoices/${purchase.merchantChargeId}`}>View</Link>
-        </Button>
+      <td
+        className={cn(
+          'flex justify-end whitespace-nowrap py-4 pl-3 text-base',
+          {
+            'justify-end': purchase.merchantChargeId,
+            'justify-start': !purchase.merchantChargeId,
+          },
+        )}
+      >
+        {purchase.merchantChargeId ? (
+          <Button size="sm" asChild variant="secondary" className="w-full">
+            <Link href={`/invoices/${purchase.merchantChargeId}`}>View</Link>
+          </Button>
+        ) : (
+          'Not available'
+        )}
         {/* <br />
         <button
           className="text-cyan-300 underline"
