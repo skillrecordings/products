@@ -67,8 +67,16 @@ const WorkshopTemplate: React.FC<{
   const moduleProgress = useModuleProgress()
   const firstLessonSlug = lessons?.[0].slug
   const nextLessonSlug = moduleProgress?.nextLesson?.slug
+  const ogImage = {
+    url: `${process.env.NEXT_PUBLIC_URL}${
+      process.env.NEXT_PUBLIC_OG_IMAGE_MODULE_API_URL
+    }?type=module&image=${encodeURI(
+      workshop.image as string,
+    )}&title=${encodeURI(workshop.title)}`,
+    alt: 'module image',
+  }
   return (
-    <Layout>
+    <Layout meta={{ogImage, title: workshop.title}}>
       {workshop?.sections?.map((section) => {
         return (
           <div
