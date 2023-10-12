@@ -55,6 +55,7 @@ const ProductCTA: React.FC<{product: Product; className?: string}> = ({
             width={100}
             height={100}
             priority
+            className="rounded-full"
           />
         )}
         <div className="flex flex-col items-start">

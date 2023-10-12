@@ -45,7 +45,27 @@ export const getBonus = async (slug: string) =>
           description,
           "slug": slug.current
         },
-        "image": image.asset->url
+        "image": image.asset->url,
+        // get product that includes current workshop and has
+        // the largest number of modules so we can assume it's a bundle
+        'product': *[_type == 'product' && references(^._id)] | order(count(modules) desc)[0]{
+          "name": title,
+          "slug": slug.current,
+          productId,
+          description,
+          action,
+          "image": image.asset->{url, alt},
+          modules[]->{
+            "slug": slug.current,
+            moduleType,
+            title,
+            "image": image.asset->{url, alt},
+            state,
+          },
+          features[]{
+            value
+          }
+        },
     }`,
     {slug: `${slug}`},
   )
