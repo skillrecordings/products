@@ -11,6 +11,8 @@ export const useSurveyPopupOfferMachine = () => {
   const {subscriber, loadingSubscriber} = useConvertkit()
   const [machineState, sendToMachine] = useMachine(offerMachine)
 
+  console.log('subscriber', subscriber)
+
   React.useEffect(() => {
     if (process.env.NODE_ENV === 'development')
       console.debug('state:', machineState.value.toString())

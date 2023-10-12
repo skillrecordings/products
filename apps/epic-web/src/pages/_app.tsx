@@ -13,6 +13,11 @@ import config from '../config'
 import {ThemeProvider} from 'next-themes'
 import {DM_Sans, JetBrains_Mono} from 'next/font/google'
 import {SearchProvider} from 'search-bar/use-search-bar'
+import * as amplitude from '@amplitude/analytics-browser'
+
+if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
+  amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
+}
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
