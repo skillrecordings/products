@@ -9,7 +9,7 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {trpc} from 'trpc/trpc.client'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {first} from 'lodash'
+import {capitalize, first} from 'lodash'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
 import * as Collection from '@skillrecordings/ui/module/collection'
@@ -58,8 +58,8 @@ const WorkshopTemplate: React.FC<{
       {workshop.state === 'draft' && (
         <div className="sm:px-3">
           <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded sm:text-base">
-            <CogIcon className="h-4 w-4" /> Workshop under development — you're
-            viewing a draft version.
+            <CogIcon className="h-4 w-4" /> {capitalize(workshop.moduleType)}{' '}
+            under development — you're viewing a draft version.
           </div>
         </div>
       )}
@@ -122,7 +122,9 @@ const WorkshopTemplate: React.FC<{
             </Collection.Root>
           )}
           <ResetProgress module={workshop} />
-          <ModuleCertificate module={workshop} />
+          {workshop.moduleType === 'workshop' && (
+            <ModuleCertificate module={workshop} />
+          )}
         </div>
       </main>
     </Layout>
@@ -149,12 +151,21 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 pt-8 sm:pb-10 sm:pt-10 md:flex-row">
         <div className="w-full text-center md:text-left">
-          <Link
-            href="/workshops"
-            className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-orange-500 dark:text-orange-300"
-          >
-            Pro Workshop
-          </Link>
+          {tutorial.moduleType === 'bonus' ? (
+            <Link
+              href="/bonuses"
+              className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-orange-500 dark:text-orange-300"
+            >
+              Bonus
+            </Link>
+          ) : (
+            <Link
+              href="/workshops"
+              className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-orange-500 dark:text-orange-300"
+            >
+              Pro Workshop
+            </Link>
+          )}
           <h1 className="font-text text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
             <Balancer>{title}</Balancer>
           </h1>
@@ -179,8 +190,12 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                 href={
                   firstSection && sections
                     ? {
-                        pathname: '/workshops/[module]/[section]/[lesson]',
+                        pathname: `/[type]/[module]/[section]/[lesson]`,
                         query: {
+                          type:
+                            tutorial.moduleType === 'bonus'
+                              ? 'bonuses'
+                              : 'workshops',
                           module: slug.current,
                           section: isModuleInProgress
                             ? nextSection?.slug
@@ -191,8 +206,12 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                         },
                       }
                     : {
-                        pathname: '/workshops/[module]/[lesson]',
+                        pathname: '/[type]/[module]/[lesson]',
                         query: {
+                          type:
+                            tutorial.moduleType === 'bonus'
+                              ? 'bonuses'
+                              : 'workshops',
                           module: slug.current,
                           lesson: isModuleInProgress
                             ? nextLesson?.slug

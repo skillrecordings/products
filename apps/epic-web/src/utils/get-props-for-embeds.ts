@@ -23,10 +23,11 @@ import {ParsedUrlQuery} from 'querystring'
 import {getTutorial} from 'lib/tutorials'
 import {getTip} from 'lib/tips'
 import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
+import {getBonus} from 'lib/bonuses'
 
 export const getPropsForEmbed = async (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
-  resourceType: 'tutorial' | 'workshop' | 'tip',
+  resourceType: 'tutorial' | 'workshop' | 'tip' | 'bonus',
   isSolution?: boolean,
 ) => {
   // resource
@@ -113,7 +114,7 @@ export const getPropsForEmbed = async (
 }
 
 const getModule = async (
-  type: 'tutorial' | 'workshop' | 'tip',
+  type: 'tutorial' | 'workshop' | 'tip' | 'bonus',
   slug: string,
 ) => {
   switch (type) {
@@ -121,6 +122,8 @@ const getModule = async (
       return await getTutorial(slug)
     case 'workshop':
       return await getWorkshop(slug)
+    case 'bonus':
+      return await getBonus(slug)
     case 'tip':
       return {
         moduleType: 'tip',

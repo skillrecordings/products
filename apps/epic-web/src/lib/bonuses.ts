@@ -1,7 +1,7 @@
 import groq from 'groq'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 
-const bonusesQuery = groq`*[_type == "module" && moduleType == 'bonus' && state == 'published'] | order(_createdAt desc) {
+const bonusesQuery = groq`*[_type == "module" && moduleType == 'bonus'] | order(_createdAt desc) {
   _id,
   _type,
   title,
