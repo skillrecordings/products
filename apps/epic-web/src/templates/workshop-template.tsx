@@ -112,11 +112,11 @@ const WorkshopTemplate: React.FC<{
                 )}
               </Collection.Sections>
               {/* Used if module has either none or single section so they can be styled differently */}
-              <Collection.Lessons>
+              <Collection.Lessons className="overflow-hidden rounded-md border border-gray-100 py-0 shadow-xl shadow-gray-500/10 dark:border-gray-900 dark:shadow-none">
                 {moduleProgressStatus === 'success' ? (
-                  <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
+                  <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300 [&_[data-item]]:py-3" />
                 ) : (
-                  <Skeleton className="my-2 border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-7" />
+                  <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-6 first-of-type:rounded-t last-of-type:rounded-b" />
                 )}
               </Collection.Lessons>
             </Collection.Root>
