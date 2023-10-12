@@ -86,7 +86,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   index = 0,
   couponId,
   couponFromCode,
-  allowPurchase: _allowPurchase = false,
+  allowPurchase: generallyAllowPurchase = false,
   canViewRegionRestriction = false,
   cancelUrl,
   options = {withImage: true, isPPPEnabled: false, withGuaranteeBadge: true},
@@ -132,13 +132,19 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const defaultCoupon = formattedPrice?.defaultCoupon
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
-  const allowPurchaseAnyway = Boolean(
+  const allowPurchaseWithSpecialCoupon = Boolean(
     appliedMerchantCoupon &&
       appliedMerchantCoupon.type === 'special' &&
       appliedMerchantCoupon.id === couponFromCode?.merchantCouponId,
   )
 
-  const allowPurchase = _allowPurchase || allowPurchaseAnyway
+  const allowPurchaseWith: {[key: string]: boolean} = {
+    pppCoupon: generallyAllowPurchase,
+    specialCoupon: allowPurchaseWithSpecialCoupon,
+  }
+
+  const allowPurchase =
+    generallyAllowPurchase || Object.values(allowPurchaseWith).some(Boolean)
 
   const isRestrictedUpgrade =
     purchaseToUpgrade?.status === 'Restricted' &&
@@ -163,7 +169,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     Boolean(availablePPPCoupon || appliedPPPCoupon) &&
     !purchased &&
     !isDowngrade(formattedPrice) &&
-    !isBuyingForTeam
+    !isBuyingForTeam &&
+    allowPurchaseWith.pppCoupon
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
