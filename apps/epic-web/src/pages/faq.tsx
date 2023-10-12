@@ -113,6 +113,28 @@ When purchasing a team seat, you will be sent a link that can be used to registe
 
 Team licenses are actually coupon codes that can be redeemed by users. They are owned by the individual who claims the seat– not the company. Licenses cannot be transferred or "passed around".
 
+## What tools are taught in the workshops?
+
+Full stack application development requires a wide variety of tools, patterns, and techniques so the workshops use a lot of tools. Folks who went through the workshops report that even though they're not using all the same tools at work, they're still using the knowledge they gained from the workshops daily.
+
+What you learn from the EpicWeb.dev workshop series is highly transferrable. By the end of the workshop series, you should feel confident to tackle problems in full stack web development, regardless of the tools you use.
+
+## What is covered in the workshops?
+
+A **lot**. Each of the workshops listed on [the workshops page](https://www.epicweb.dev/workshops) has a page dedicated to answering this question specifically. If you read through those, that should give you a good idea of what is covered.
+
+## Is Infra/DevOps covered in the workshops?
+
+EpicWeb.dev has a [free tutorial](https://www.epicweb.dev/tutorials/deploy-web-applications) demonstrating how you can deploy an application at scale in multiple regions all over the world (plus a distributed database). This is not covered in the workshops because the tutorial is free!
+
+## Does EpicWeb.dev cover Artificial Intelligence (AI)?
+
+You are encouraged to use an AI assistant in your programming even during the workshop exercises. AI assisted programming is a part of our modern world and it's important you learn how to use this tool like the other tools in your development toolbelt.
+
+In the workshop videos, Kent uses GitHub Copilot and even demonstrates how to use Copilot effectively to help write code and how to properly review the code AI generates.
+
+Building AI-powered features into your applications is not taught directly, but when you're finished you should not have issues adding AI-powered features to your application based on the knowedge you gain from the workshops.
+
 ## If I buy one volume, will future volumes be included in my purchase?
 
 No, each Epic Web volume is purchased separately. There is no lifetime membership or subscription option available.
@@ -139,7 +161,9 @@ Epic React teaches the patterns behind building performant, production-ready Rea
 
 ## How does Epic Web compare to Testing JavaScript?
 
-The Web Application Testing workshop included in Epic Web’s Full Stack Vol. 1 builds upon the testing patterns taught in Testing JavaScript. While there is some general overlap between topics, the Web Application Testing workshop’s focus on the full stack real world application and allows for a deeper dive and more practical application of the testing patterns you’ve already learned. For example, you’ll learn how to test authenticated user flows including 2FA and OAuth, as well as working with different database instances. The tools have also been updated to the latest and greatest available: Vitest and Playwright.
+The Web Application Testing workshop included in Epic Web’s Full Stack Vol. 1 builds upon the testing patterns taught in Testing JavaScript. While there is some general overlap between topics, the Web Application Testing workshop’s focus on the full stack real world application and allows for a deeper dive and more practical application of the testing patterns you’ve already learned.
+
+For example, you’ll learn how to test authenticated user flows including 2FA and OAuth, as well as working with different database instances. The tools have also been updated to the latest and greatest available: Vitest and Playwright.
 
 ## Will Epic Web be updated?
 
@@ -147,7 +171,17 @@ There might be some updates to Epic Web's content, but you should base your purc
 
 ## Who is Epic Web for?
 
-Epic Web is appropriate for novice to advanced-level developers who are familiar with TypeScript, the command line, and git. Lessons include links to helpful resources for those who need them. Even developers with years of experience have learned from the Full Stack Fundamentals workshop!
+Epic Web is appropriate for novice to advanced-level developers who are familiar with TypeScript, the command line, and git. Lessons include links to helpful resources for those who need them. Even developers with years of experience have learned from the workshops (even the Full Stack Fundamentals)!
+
+## Are there any pre-requisites?
+
+The workshop repos list pre-requisites and recommended reading before you start the workshops. In general, you should have a basic understanding of [JavaScript](https://kentcdodds.com/blog/javascript-to-know-for-react), [TypeScript](https://www.totaltypescript.com/tutorials), [React](https://kcd.im/beginner-react), [Node.js](https://nodejs.dev/en/learn/), and [git](https://www.freecodecamp.org/news/the-beginners-guide-to-git-github/) (links are to free resources to learn the basics).
+
+Advanced knowledge in these tools is beneficial (like the knowledge you get from [EpicReact.dev](https://epicreact.dev) or [TestingJavaScript.com](https://testingjavascript.com)), but not required.
+
+## What order should I take the workshops in?
+
+The workshops are linear and build on each other step-by-step. The best experience will come to those who start at the beginning and work through to the end. If you're concerned the early workshops will be too basic to be worth your time, then you shouldn't have a problem getting through them very quickly 😉
 
 ## Is there any live aspect to Epic Web?
 
