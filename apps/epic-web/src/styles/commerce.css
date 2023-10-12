@@ -320,6 +320,42 @@
                 }
 
                 [data-state='draft'] {
+                  @apply opacity-50;
+                }
+
+                [data-state='published'] {
+                  @apply hidden;
+                }
+              }
+            }
+
+            [data-bonuses] {
+              strong {
+                @apply pb-1 text-sm font-semibold uppercase text-yellow-200 before:pr-1 before:content-['🎁'];
+              }
+              ul {
+                @apply space-y-2;
+              }
+              a {
+                @apply hover:underline;
+              }
+              li,
+              a {
+                @apply flex items-center;
+
+                [data-image] {
+                  @apply relative flex h-[100px] w-[100px] flex-shrink-0 items-center justify-center;
+                }
+
+                p {
+                  @apply ml-3 inline-flex flex-col text-base font-semibold text-gray-200 sm:text-lg sm:leading-tight;
+                }
+
+                [data-state] {
+                  @apply ml-3 flex;
+                }
+
+                [data-state='draft'] {
                   @apply text-cyan-400/80;
                 }
 
