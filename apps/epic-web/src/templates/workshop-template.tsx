@@ -28,7 +28,7 @@ const WorkshopTemplate: React.FC<{
   workshopBodySerialized: MDXRemoteSerializeResult
 }> = ({workshop, workshopBodySerialized}) => {
   const {title, ogImage, description, testimonials} = workshop
-  const pageTitle = `${title} Tutorial`
+  const pageTitle = `${title} ${capitalize(workshop.moduleType)}`
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
       slug: workshop.slug.current,
