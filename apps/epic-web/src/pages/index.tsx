@@ -174,7 +174,11 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
                 className="not-prose flex flex-col items-center gap-8 pb-16 sm:-mx-10 lg:-mx-16 lg:flex-row lg:items-start"
               >
                 {image && (
-                  <Link href={`/workshops/${slug}`} target="_blank">
+                  <Link
+                    href={`/workshops/${slug}`}
+                    target="_blank"
+                    className="flex-shrink-0"
+                  >
                     <Image src={image} width={300} height={300} alt={title} />
                   </Link>
                 )}

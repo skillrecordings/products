@@ -184,6 +184,7 @@ const ExerciseTemplate: React.FC<{
                 )}
                 {displayWorkshopAppBanner && !displayLessonCompletionToggle && (
                   <WorkshopAppBanner
+                    moduleSlug={module.slug.current || ''}
                     description={`Best way to experience ${module.title} workshop is in accompanying Workshop App.`}
                     className="mt-3 rounded-lg border p-5"
                   />

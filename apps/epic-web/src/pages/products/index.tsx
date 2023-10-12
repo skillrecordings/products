@@ -116,6 +116,10 @@ const ProductCard: React.FC<{
   const buyHref = `/buy`
   const purchasedHref = `/products/${product.slug}`
 
+  if (product.state === 'unavailable' && !purchase) {
+    return null
+  }
+
   return (
     <Card className="relative">
       <CardHeader className="flex w-full flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">

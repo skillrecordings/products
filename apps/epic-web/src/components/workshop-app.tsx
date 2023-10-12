@@ -8,16 +8,25 @@ import Link from 'next/link'
 const WorkshopAppBanner: React.FC<{
   className?: string
   description?: string
+  moduleSlug?: string
 }> = ({
   className,
   description = 'Best way to experience Epic Web workshops is with accompanying Workshop App.',
+  moduleSlug,
 }) => {
   return (
     <div className={cn('w-full', className)}>
       <div className="">
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
           <div className="flex items-center gap-4 text-xl font-bold leading-tight">
-            <WorkshopAppIcon /> Run in Workshop App
+            <WorkshopAppIcon />{' '}
+            <Link
+              href={`/get-started${moduleSlug ? `?module=${moduleSlug}` : ''}`}
+              target="_blank"
+              className="hover:underline"
+            >
+              Run in Workshop App
+            </Link>
           </div>
           <p className="pt-3 opacity-75">{description}</p>
           <Button

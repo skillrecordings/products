@@ -1,7 +1,6 @@
 import {GlobeIcon} from '@heroicons/react/solid'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import Layout from 'components/app/layout'
 import Icon from 'components/icons'
 import {linkedHeadingComponents} from 'components/mdx'
@@ -12,8 +11,8 @@ import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {useTheme} from 'next-themes'
 import Image from 'next/image'
 import Link from 'next/link'
+import {useRouter} from 'next/router'
 import React from 'react'
-import {useMountedState} from 'react-use'
 import Balancer from 'react-wrap-balancer'
 
 export const getStaticProps = async () => {
@@ -21,6 +20,7 @@ export const getStaticProps = async () => {
   const bodyMdx = page.body && (await serializeMDX(page.body))
   const product = await getProduct(process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID)
   const workshops = product.modules
+
   return {
     props: {
       page,
@@ -33,12 +33,25 @@ export const getStaticProps = async () => {
 const GetStartedPage: React.FC<{
   page: Page
   body: MDXRemoteSerializeResult
-  workshops: Module[]
+  workshops: {
+    title: string
+    slug: {current: string}
+    image?: {url: string}
+    github?: {repo: string}
+  }[]
 }> = ({page, body, workshops}) => {
+  const router = useRouter()
   const [mounted, setMounted] = React.useState(false)
+  const moduleSlug = router.query.module
+  const currentModule = workshops.find(
+    (workshop) => workshop.slug.current === moduleSlug,
+  )
+  const githubUrlForCurrentModule = currentModule?.github?.repo
+
   React.useEffect(() => {
     setMounted(true)
   }, [])
+
   const pageTitle = page.title || 'Get Started Using the Workshop App'
   const pageDescription =
     page.description ||
@@ -53,10 +66,28 @@ const GetStartedPage: React.FC<{
         },
       }}
     >
-      <header className="mx-auto flex w-full max-w-screen-md flex-col items-center justify-center px-5 py-16">
+      <header className="mx-auto flex w-full max-w-screen-md flex-col items-center justify-center px-5 pb-16 pt-10 sm:pt-14">
         <h1 className="text-center text-3xl font-bold sm:text-4xl lg:text-5xl">
           <Balancer>{pageTitle}</Balancer>
         </h1>
+        {githubUrlForCurrentModule ? (
+          <Link
+            className="mt-10 flex items-center gap-3 rounded-md bg-primary px-5 py-1 font-semibold text-primary-foreground transition"
+            href={`${githubUrlForCurrentModule}?tab=readme-ov-file#setup`}
+            target="_blank"
+          >
+            {currentModule.image && (
+              <Image
+                src={currentModule.image.url}
+                width={50}
+                height={50}
+                aria-hidden
+                alt=""
+              />
+            )}{' '}
+            <span className="drop-shadow-md">{currentModule.title}</span>
+          </Link>
+        ) : null}
         <h2 className="pb-8 pt-8 text-center text-lg text-gray-700 dark:text-gray-300 sm:text-xl lg:text-2xl">
           <Balancer>{pageDescription}</Balancer>
         </h2>
@@ -120,7 +151,6 @@ const Workshops: React.FC<{workshops: any[]}> = ({workshops}) => {
                     aria-hidden
                   />
                 ) : null}
-
                 <Link
                   href={workshop.github.repo}
                   target="_blank"
@@ -145,13 +175,13 @@ const Workshops: React.FC<{workshops: any[]}> = ({workshops}) => {
                   </Link>
                 )}
                 <Link
-                  href={workshop.github.repo + '#readme'}
+                  href={workshop.github.repo + '?tab=readme-ov-file#setup'}
                   target="_blank"
                   rel="noopener"
                   className="inline-flex items-center gap-1.5 hover:underline"
                 >
                   <Icon name="Github" size="16" className="opacity-75" />
-                  README
+                  Setup
                 </Link>
               </div>
             </li>
