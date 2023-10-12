@@ -291,7 +291,7 @@
           [data-main] {
             @apply px-5 py-5 text-base;
             strong {
-              @apply inline-flex font-medium;
+              @apply inline-flex pb-3 pt-4 text-lg font-medium;
             }
             [data-workshops] {
               strong {
@@ -362,6 +362,19 @@
                 [data-state='published'] {
                   @apply hidden;
                 }
+              }
+            }
+
+            [data-features] {
+              @apply space-y-4;
+              strong {
+                @apply flex pb-4;
+              }
+              li {
+                @apply flex items-start before:pr-2 before:font-bold before:text-primary before:content-['✓'];
+              }
+              p {
+                @apply text-base text-foreground;
               }
             }
 
