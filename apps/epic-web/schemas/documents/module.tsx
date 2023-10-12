@@ -24,6 +24,7 @@ export default defineType({
         list: [
           {title: 'Workshop', value: 'workshop'},
           {title: 'Tutorial', value: 'tutorial'},
+          {title: 'Bonus', value: 'bonus'},
         ],
       },
     }),
@@ -74,6 +75,7 @@ export default defineType({
             {title: 'Section', type: 'section'},
             {title: 'Explainer', type: 'explainer'},
             {title: 'Lesson', type: 'lesson'},
+            {title: 'Interview', type: 'interview'},
             {type: 'linkResource'},
           ],
         }),

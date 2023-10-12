@@ -15,6 +15,7 @@ import page from './documents/page'
 import lesson from './documents/lesson'
 import event from './documents/event'
 import talk from './documents/talk'
+import interview from './documents/interview'
 // —— objects
 import body from './objects/body'
 import bodyVideo from './objects/bodyVideo'
@@ -57,6 +58,7 @@ export const schemaTypes = [
   lesson,
   event,
   talk,
+  interview,
   // —— objects
   body,
   bodyVideo,
