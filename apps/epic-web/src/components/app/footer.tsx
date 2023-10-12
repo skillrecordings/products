@@ -28,6 +28,13 @@ const Footer = () => {
     },
   ]
 
+  const aboutLinks = [
+    {
+      label: 'FAQ',
+      href: '/faq',
+    },
+  ]
+
   const router = useRouter()
   const {setOpen: setSearchBarOpen} = useSearchBar()
 
@@ -67,6 +74,29 @@ const Footer = () => {
                 <li key={href}>
                   <Link
                     className="inline-block py-1 opacity-80 transition hover:opacity-100"
+                    href={href}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <strong className="font-mono text-xs uppercase tracking-wider opacity-60">
+              About
+            </strong>
+            <ul className="pt-3 text-sm font-medium">
+              {aboutLinks.map(({label, href}) => (
+                <li key={href}>
+                  <Link
+                    className={cn(
+                      'inline-block py-1 opacity-80 transition hover:opacity-100',
+                      {
+                        'underline [&_span]:underline':
+                          router.pathname.includes(href),
+                      },
+                    )}
                     href={href}
                   >
                     {label}
