@@ -11,7 +11,7 @@ import {getAllWorkshops, getWorkshop} from 'lib/workshops'
 import {serialize} from 'next-mdx-remote/serialize'
 import {remarkCodeBlocksShiki} from '@kentcdodds/md-temp'
 import {removePreContainerDivs, trimCodeBlocks} from 'utils/mdx'
-import {getBonus} from 'lib/bonuses'
+import {getAllBonuses, getBonus} from 'lib/bonuses'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -48,15 +48,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-  const tutorials = await getAllWorkshops()
+  const bonuses = await getAllBonuses()
 
-  const paths = tutorials.flatMap((tutorial: any) => {
+  const paths = bonuses.flatMap((bonus: any) => {
     return (
-      tutorial.sections?.flatMap((section: any) => {
+      bonus.sections?.flatMap((section: any) => {
         return (
           section.lessons?.map((lesson: any) => ({
             params: {
-              module: tutorial.slug.current,
+              module: bonus.slug.current,
               section: section.slug,
               lesson: lesson.slug,
             },
