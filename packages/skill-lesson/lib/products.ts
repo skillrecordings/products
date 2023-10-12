@@ -72,6 +72,7 @@ export const getAllProducts = async () => {
       moduleType,
       "slug": slug.current,
       "image": image.asset->{url, alt},
+      state,
     }, 
     "features" : features[]{
     value
@@ -107,7 +108,8 @@ export const getProduct = async (productId: string) => {
      slug,
      image {
       url
-     }
+     },
+     state
     }`,
     {
       productId,

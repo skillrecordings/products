@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {AnimatePresence, motion} from 'framer-motion'
+import {motion} from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
@@ -18,9 +18,6 @@ import {
 } from '@skillrecordings/skill-lesson/video/module-progress'
 import {trpc} from 'trpc/trpc.client'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
-import {useCursorPosition} from 'hooks/use-cursor-position'
-import {isFirefox} from 'utils/is-browser'
-import {cn} from '@skillrecordings/ui/utils/cn'
 import {Skeleton} from '@skillrecordings/ui'
 
 export async function getStaticProps() {
