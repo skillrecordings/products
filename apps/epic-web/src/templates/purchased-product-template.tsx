@@ -362,8 +362,15 @@ const ModuleItem: React.FC<{
   const nextLesson = moduleProgress?.nextLesson
 
   const firstSection = sections && sections[0]
-  const firstLesson = firstSection?.lessons && firstSection?.lessons[0]
+  const firstLesson =
+    (firstSection?.lessons && firstSection?.lessons[0]) ||
+    (module?.lessons && module.lessons[0])
 
+  const lessonType = firstLesson?._type
+  const length =
+    module?.sections &&
+    module?.lessons &&
+    (sectionsFlatMap(module?.sections).length || module?.lessons.length)
   return (
     <div className="flex items-center gap-3 py-2">
       {module.image.url && (
@@ -390,9 +397,7 @@ const ModuleItem: React.FC<{
           )}{' '}
           {module?.sections && module?.lessons && (
             <span>
-              {sectionsFlatMap(module?.sections).length ||
-                module?.lessons.length}{' '}
-              lessons
+              {length} {lessonType ? pluralize(lessonType, length) : null}
             </span>
           )}
         </div>
