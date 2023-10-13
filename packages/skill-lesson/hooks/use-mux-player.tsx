@@ -67,6 +67,8 @@ type VideoContextType = {
 export const VideoContext = React.createContext({} as VideoContextType)
 
 type VideoProviderProps = {
+  accentColor?: string
+  theme?: MuxPlayerProps['theme']
   exerciseSlug?: string
   path?: string
   inviteTeamPagePath?: string
@@ -96,6 +98,8 @@ export const VideoProvider: React.FC<
 > = ({
   muxPlayerRef,
   children,
+  accentColor = '#3b82f6',
+  theme,
   path = '',
   onEnded = async () => {},
   onModuleEnded = async () => {},
@@ -262,8 +266,13 @@ export const VideoProvider: React.FC<
       metadata: {
         video_title: `${title} (${lesson._type})`,
       },
+      thumbnailTime: 0,
       onLoadedData: handleUserPreferences,
       playbackRates: [0.75, 1, 1.25, 1.5, 1.75, 2],
+      accentColor,
+      maxResolution: '2160p',
+      theme,
+      minResolution: '540p',
     } as MuxPlayerProps,
     setPlayerPrefs,
     setDisplayOverlay: setDisplayOverlayCallback,

@@ -60,6 +60,7 @@ mux-player {
   width: 100%;
   height: auto;
   margin-bottom: -6px;
+  @apply overflow-hidden;
 }
 
 [data-video-embed-page] {
