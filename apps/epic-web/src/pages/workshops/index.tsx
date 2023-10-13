@@ -19,15 +19,17 @@ import {
 import {trpc} from 'trpc/trpc.client'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {Skeleton} from '@skillrecordings/ui'
+import {getAllBonuses} from 'lib/bonuses'
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
+  const bonuses = await getAllBonuses()
   const fullStackWorkshopSeriesProduct = await getProduct(
     process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
   )
 
   return {
-    props: {workshops, fullStackWorkshopSeriesProduct},
+    props: {workshops, fullStackWorkshopSeriesProduct, bonuses},
     revalidate: 10,
   }
 }
@@ -43,8 +45,9 @@ const sectionsFlatMap = (sections: any[]) => {
 
 const WorkshopsPage: React.FC<{
   workshops: Module[]
+  bonuses?: Module[]
   fullStackWorkshopSeriesProduct: Product
-}> = ({workshops, fullStackWorkshopSeriesProduct}) => {
+}> = ({workshops, fullStackWorkshopSeriesProduct, bonuses}) => {
   const router = useRouter()
   const {subscriber, loadingSubscriber} = useConvertkit()
 
@@ -121,6 +124,30 @@ const WorkshopsPage: React.FC<{
             })}
           </ul>
         )}
+        {bonuses && bonuses.some((bonus) => bonus.state === 'published') && (
+          <ul className="flex flex-col gap-5">
+            <div className="relative flex items-center justify-center py-5">
+              <h3 className="relative z-10 bg-background px-3 py-1 text-center font-mono text-sm font-medium uppercase">
+                Bonuses
+              </h3>
+              <div
+                className="absolute h-px w-full bg-foreground/5"
+                aria-hidden
+              />
+            </div>
+            {bonuses.map((bonus, i) => {
+              return (
+                <ModuleProgressProvider moduleSlug={bonus.slug.current}>
+                  <WorkshopTeaser
+                    workshop={bonus}
+                    key={bonus.slug.current}
+                    index={i}
+                  />
+                </ModuleProgressProvider>
+              )
+            })}
+          </ul>
+        )}
       </main>
     </Layout>
   )
@@ -149,6 +176,8 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
 
   const canViewContent = ability.can('view', 'Content')
   const ref = React.useRef(null)
+  const sectionsLength = sections && sectionsFlatMap(sections).length
+  const lessonsLength = workshop.lessons && workshop.lessons.length
 
   return (
     <motion.li
@@ -163,7 +192,7 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
     // }}
     >
       <Link
-        className="relative flex w-full flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-100 bg-white bg-gradient-to-tr from-transparent to-white/50 p-10 shadow-soft-xl transition before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:border-transparent dark:from-gray-900 dark:to-gray-800 sm:flex-row"
+        className="relative flex w-full flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-100 bg-white bg-gradient-to-tr from-transparent to-white/50 p-5 shadow-soft-xl transition before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:border-transparent dark:from-gray-900 dark:to-gray-800 sm:flex-row sm:p-10"
         href={{
           pathname: '/workshops/[module]',
           query: {
@@ -199,8 +228,8 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
               </p>
             </div>
           )}
-          <div className="flex items-center gap-3 pt-6 text-sm text-gray-600 dark:text-gray-400">
-            <div className="flex items-center justify-center gap-2 overflow-hidden rounded-full">
+          <div className="flex flex-row items-center gap-3 pt-6 text-sm text-gray-600 dark:text-gray-400">
+            <div className="flex items-center gap-2 overflow-hidden rounded-full sm:justify-center">
               <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-background">
                 <Image
                   src={require('../../../public/kent-c-dodds.png')}
@@ -212,13 +241,17 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
               <span>Kent C. Dodds</span>
             </div>
             {'・'}
-            {sections && (
+            {sectionsLength && (
               <div>
-                {sectionsFlatMap(sections).length}{' '}
-                {pluralize(
-                  sectionsFlatMap(sections)[0]._type,
-                  sectionsFlatMap(sections).length,
-                )}
+                {sectionsLength}{' '}
+                {pluralize(sectionsFlatMap(sections)[0]._type, sectionsLength)}
+              </div>
+            )}
+            {lessonsLength && (
+              <div>
+                {lessonsLength}{' '}
+                {workshop.lessons &&
+                  pluralize(workshop.lessons[0]._type, lessonsLength)}
               </div>
             )}
           </div>

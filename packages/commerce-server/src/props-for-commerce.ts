@@ -1,5 +1,5 @@
 import {ParsedUrlQuery} from 'querystring'
-import {Purchase, getSdk, prisma} from '@skillrecordings/database'
+import {Decimal, Purchase, getSdk, prisma} from '@skillrecordings/database'
 import {convertToSerializeForNextResponse} from './prisma-next-serializer'
 import {getCouponForCode} from './get-coupon-for-code'
 import type {SanityProduct} from './@types'
@@ -43,7 +43,18 @@ export async function propsForCommerce({
       }),
       ...(couponIdFromCoupon && {couponIdFromCoupon}),
       ...(purchases && {
-        purchases: [...purchases.map(convertToSerializeForNextResponse)],
+        purchases: [
+          ...purchases.map((purchase) =>
+            convertToSerializeForNextResponse({
+              ...purchase,
+              totalAmount:
+                // because serializer doesnt handle 0.00
+                typeof purchase.totalAmount === 'object'
+                  ? purchase.totalAmount.toNumber()
+                  : purchase.totalAmount,
+            }),
+          ),
+        ],
       }),
       products,
       allowPurchase,
