@@ -1563,6 +1563,9 @@ importers:
       '@skillrecordings/feedback-widget':
         specifier: workspace:*
         version: link:../../packages/feedback-widget
+      '@skillrecordings/inngest':
+        specifier: workspace:*
+        version: link:../../packages/inngest
       '@skillrecordings/next-seo':
         specifier: workspace:*
         version: link:../../packages/next-seo
@@ -6917,6 +6920,12 @@ importers:
         specifier: ^2.4.0
         version: 2.7.2(typescript@5.1.6)
     devDependencies:
+      '@skillrecordings/commerce-server':
+        specifier: workspace:*
+        version: link:../commerce-server
+      '@skillrecordings/database':
+        specifier: workspace:*
+        version: link:../database
       '@skillrecordings/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig

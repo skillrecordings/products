@@ -66,6 +66,7 @@
     "@skillrecordings/commerce-server": "workspace:*",
     "@skillrecordings/convertkit-react-ui": "workspace:*",
     "@skillrecordings/database": "workspace:*",
+    "@skillrecordings/inngest": "workspace:*",
     "@skillrecordings/feedback-widget": "workspace:*",
     "@skillrecordings/next-seo": "workspace:*",
     "@skillrecordings/quiz": "workspace:*",

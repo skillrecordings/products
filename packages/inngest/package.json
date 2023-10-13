@@ -18,6 +18,8 @@
   },
   "devDependencies": {
     "@skillrecordings/tsconfig": "workspace:*",
+    "@skillrecordings/commerce-server": "workspace:*",
+    "@skillrecordings/database": "workspace:*",
     "@types/node": "^18.16.13",
     "eslint": "^8.12.0",
     "eslint-config-skill-recordings": "workspace:*",
