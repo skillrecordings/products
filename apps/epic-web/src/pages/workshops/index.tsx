@@ -124,7 +124,7 @@ const WorkshopsPage: React.FC<{
             })}
           </ul>
         )}
-        {bonuses && (
+        {bonuses && bonuses.some((bonus) => bonus.state === 'published') && (
           <ul className="flex flex-col gap-5">
             <div className="relative flex items-center justify-center py-5">
               <h3 className="relative z-10 bg-background px-3 py-1 text-center font-mono text-sm font-medium uppercase">
