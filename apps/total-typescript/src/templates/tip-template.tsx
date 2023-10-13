@@ -97,6 +97,7 @@ const TipTemplate: React.FC<{
 
   return (
     <VideoProvider
+      accentColor="#06b6d4"
       muxPlayerRef={muxPlayerRef}
       onEnded={handleVideoEnded}
       exerciseSlug={tip.slug}

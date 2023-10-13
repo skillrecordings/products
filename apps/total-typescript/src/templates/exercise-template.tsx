@@ -126,6 +126,7 @@ const ExerciseTemplate: React.FC<{
 
   return (
     <VideoProvider
+      accentColor="#0ea5e9"
       muxPlayerRef={muxPlayerRef}
       exerciseSlug={router.query.lesson as string}
       path={path}

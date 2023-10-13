@@ -140,7 +140,7 @@ const ExerciseTemplate: React.FC<{
           <div className="relative z-40 hidden w-full lg:block lg:max-w-[330px]">
             <LessonList module={module} path={path} />
           </div>
-          <main className="relative mx-auto w-full max-w-[1480px] items-start border-t border-gray-200 dark:border-gray-900 2xl:flex 2xl:max-w-none">
+          <main className="relative mx-auto w-full max-w-[1480px] items-start border-gray-200 dark:border-gray-900 2xl:flex 2xl:max-w-none">
             <div className="flex flex-col border-gray-200 scrollbar-thin scrollbar-thumb-foreground/10 dark:border-gray-800 2xl:relative 2xl:h-[calc(100vh-48px)] 2xl:w-full 2xl:overflow-y-scroll 2xl:border-r">
               <div className="dark bg-gray-900">
                 <Video
