@@ -8,7 +8,7 @@ import {SkillRecordingsHandler} from '../core'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {PrismaClient} from '@skillrecordings/database'
 import {NextAuthOptions} from 'next-auth'
-import {parseBody} from 'next/dist/server/api-utils/node'
+import {parseBody} from 'next/dist/server/api-utils/node/parse-body'
 import {setCookie} from './utils'
 
 /** Extract the host from the environment */

@@ -27,7 +27,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@portabletext/types": "^1.0.3",
+    "@portabletext/types": "^2.0.8",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
