@@ -99,6 +99,7 @@ export type SanityProductModule = {
     title: string
     slug: string
     lessons?: {
+      _type?: 'lesson' | 'exercise' | 'solution' | 'interview'
       title: string
       state?: 'draft' | 'published'
       slug: string
@@ -109,6 +110,7 @@ export type SanityProductModule = {
     }[]
   }[]
   lessons?: {
+    _type?: 'lesson' | 'exercise' | 'solution' | 'interview'
     title: string
     state?: 'draft' | 'published'
     slug: string
