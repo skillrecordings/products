@@ -124,18 +124,19 @@ const ThankYou: React.FC<ThankYouProps> = ({title, byline, product, email}) => {
         {product?.image && (
           <div className="flex flex-shrink-0 items-center justify-center">
             <Image
+              className="overflow-hidden rounded-full"
               src={product.image.url}
               alt={product.title}
               quality={100}
-              width={300}
-              height={300}
+              width={200}
+              height={200}
               priority
             />
           </div>
         )}
-        <div className="flex flex-col items-center text-center">
+        <div className="flex flex-col items-center pt-8 text-center">
           <h1 className="font-heading max-w-sm text-lg font-medium sm:text-xl lg:text-2xl">
-            <span className="font-heading block pb-4 text-sm font-black uppercase text-primary dark:text-emerald-300">
+            <span className="font-heading block pb-2 text-sm font-black uppercase text-primary dark:text-emerald-300">
               Success!
             </span>
             <Balancer>{title}</Balancer>
@@ -245,7 +246,7 @@ const ThanksVerify: React.FC<
   return (
     <>
       <Layout meta={{title: 'Purchase Successful'}}>
-        <main className="mx-auto flex w-full max-w-screen-lg flex-grow flex-col-reverse lg:grid lg:grid-cols-9 lg:py-8">
+        <main className="mx-auto flex w-full max-w-screen-lg flex-col-reverse sm:flex-grow lg:grid lg:grid-cols-9 lg:py-8">
           <div className="col-span-4 flex w-full flex-col items-center justify-center px-10 pb-16 lg:py-16">
             <ThankYou
               title={title}
@@ -256,6 +257,7 @@ const ThanksVerify: React.FC<
             <div className="w-full max-w-md pt-8">
               <h3 className="pb-2 text-sm font-medium">Your invoice</h3>
               <InvoiceCard
+                target="_blank"
                 className="w-full p-4 [&_[data-content]]:flex-col [&_[data-content]]:items-start"
                 purchase={{product: {name: stripeProductName}, ...purchase}}
               />
