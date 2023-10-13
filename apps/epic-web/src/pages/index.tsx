@@ -182,7 +182,7 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
                     <Image src={image} width={300} height={300} alt={title} />
                   </Link>
                 )}
-                <div>
+                <div className="flex flex-col items-center sm:items-start">
                   <h3 className="text-center text-2xl font-bold lg:text-left lg:text-3xl">
                     <Link
                       href={`/workshops/${slug}`}
