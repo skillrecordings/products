@@ -59,11 +59,16 @@ const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
 }
 
 export const InvoiceCard: React.FC<{
+  target?: '_blank' | '_self'
   purchase: Purchase | any
   className?: string
-}> = ({purchase, className}) => {
+}> = ({purchase, className, target = '_self'}) => {
   return (
-    <Link href={`/invoices/${purchase.merchantChargeId}`} className="group">
+    <Link
+      target={target}
+      href={`/invoices/${purchase.merchantChargeId}`}
+      className="group"
+    >
       <div
         className={cn(
           'flex items-start rounded-lg border border-gray-100 bg-white px-5 py-6 dark:border-gray-800 dark:bg-gray-900',
