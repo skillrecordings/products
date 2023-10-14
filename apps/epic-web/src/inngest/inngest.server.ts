@@ -5,6 +5,8 @@ import {
   type NewTipVideo,
   type SRTReadyEvent,
   type TranscriptCreatedEvent,
+  type EmailWritingRequested,
+  EMAIL_WRITING_REQUESTED_EVENT,
   TIP_VIDEO_LLM_SUGGESTIONS_CREATED_EVENT,
   TIP_VIDEO_SRT_READY_EVENT,
   TIP_VIDEO_TRANSCRIPT_CREATED_EVENT,
@@ -26,6 +28,7 @@ export type IngestEvents = {
   [TIP_VIDEO_LLM_SUGGESTIONS_CREATED_EVENT]: LLMSuggestionsCreated
   [STRIPE_CHECKOUT_COMPLETED_EVENT]: StripeCheckoutCompleted
   [LESSON_COMPLETED_EVENT]: LessonCompleted
+  [EMAIL_WRITING_REQUESTED_EVENT]: EmailWritingRequested
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,

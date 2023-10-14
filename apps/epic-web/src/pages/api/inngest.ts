@@ -7,6 +7,10 @@ import {lessonCompleted} from 'inngest/functions/progress/lesson-completed'
 import {inactivityAfterPurchase} from 'inngest/functions/progress/inactivity-after-purchase'
 import {resumeProgressAfterInactivity} from 'inngest/functions/progress/resume-progress'
 
+export const config = {
+  maxDuration: 300,
+}
+
 export default serve({
   client: inngest,
   functions: [

@@ -1707,6 +1707,9 @@ importers:
       nodemailer-postmark-transport:
         specifier: ^5.2.1
         version: 5.2.1(nodemailer@6.9.6)
+      openai:
+        specifier: ^3.2.1
+        version: 3.3.0
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
