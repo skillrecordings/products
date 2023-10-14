@@ -40,4 +40,71 @@ export const couponsRouter = router({
 
       return []
     }),
+  get: publicProcedure.query(async ({ctx}) => {
+    const coupons = await prisma.coupon.findMany()
+    return coupons
+  }),
+  create: publicProcedure
+    .input(
+      z.object({
+        quantity: z.string(),
+        // coupon
+        maxUses: z.string(),
+        expires: z.string().optional(),
+        restrictedToProductId: z.string(),
+        percentOff: z.string(),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
+      const quantityToGenerate = Number(input.quantity)
+      const {percentOff, maxUses, expires, restrictedToProductId} = input
+      const token = await getToken({req: ctx.req})
+      const percentageDiscount = findClosestDiscount(Number(percentOff))
+
+      const merchantCoupon =
+        percentageDiscount < 1
+          ? await prisma.merchantCoupon.findFirst({
+              where: {
+                percentageDiscount,
+                type: 'special',
+              },
+            })
+          : null
+
+      let codes = ``
+
+      for (let i = 0; i < quantityToGenerate; i++) {
+        const coupon = await prisma.coupon.create({
+          data: {
+            percentageDiscount,
+            maxUses: Number(maxUses),
+            restrictedToProductId: restrictedToProductId,
+            merchantCouponId: merchantCoupon?.id,
+          },
+        })
+        codes += `${process.env.NEXT_PUBLIC_URL}?code=${coupon.id}\n`
+      }
+
+      console.log(codes)
+    }),
 })
+
+/**
+ * @link https://www.gavsblog.com/blog/find-closest-number-in-array-javascript
+ * @param percentOff
+ */
+const findClosestDiscount = function (percentOff: number) {
+  // we want a fraction so if it is whole number, we make it fractional
+  percentOff = percentOff <= 1 ? percentOff : percentOff / 100
+  return [1, 0.95, 0.9, 0.75, 0.6, 0.5, 0.4, 0.25, 0.1].reduce((a, b) => {
+    let aDiff = Math.abs(a - percentOff)
+    let bDiff = Math.abs(b - percentOff)
+
+    if (aDiff === bDiff) {
+      // Choose largest vs smallest (> vs <)
+      return a > b ? a : b
+    } else {
+      return bDiff < aDiff ? b : a
+    }
+  })
+}

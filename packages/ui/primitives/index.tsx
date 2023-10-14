@@ -63,6 +63,16 @@ import {
   DropdownMenuRadioGroup,
 } from './dropdown-menu'
 import {ScrollArea, ScrollBar} from './scroll-area'
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from './table'
 
 export {
   Button,
@@ -121,4 +131,12 @@ export {
   DropdownMenuRadioGroup,
   ScrollArea,
   ScrollBar,
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
 }
