@@ -19,7 +19,10 @@ function sleep(ms: number) {
 }
 
 export const processNewTip = inngest.createFunction(
-  {name: 'Process New Tip Video'},
+  {
+    id: 'process-new-tip',
+    name: 'Process New Tip Video',
+  },
   {event: TIP_VIDEO_UPLOADED_EVENT}, // The event that will trigger this function
   async ({event, step}) => {
     await step.run('Update Tip Status', async () => {
@@ -71,8 +74,9 @@ export const processNewTip = inngest.createFunction(
     // Promise.all|race to wait for multiple events
 
     const transcript = await step.waitForEvent(
-      TIP_VIDEO_TRANSCRIPT_CREATED_EVENT,
+      'wait for the transcript to be completed',
       {
+        event: TIP_VIDEO_TRANSCRIPT_CREATED_EVENT,
         match: 'data.videoResourceId',
         timeout: '1h',
       },
@@ -126,8 +130,9 @@ export const processNewTip = inngest.createFunction(
       })
 
       const llmResponse = await step.waitForEvent(
-        TIP_VIDEO_LLM_SUGGESTIONS_CREATED_EVENT,
+        'wait for the llm suggestions to be completed',
         {
+          event: TIP_VIDEO_LLM_SUGGESTIONS_CREATED_EVENT,
           match: 'data.videoResourceId',
           timeout: '1h',
         },

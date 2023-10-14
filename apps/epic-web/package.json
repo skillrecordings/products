@@ -103,7 +103,7 @@
     "groq": "^2.15.0",
     "hast": "^1.0.0",
     "human-readable-ids": "^1.0.4",
-    "inngest": "2.7.2",
+    "inngest": "3.1.1",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "mjml": "^4.12.0",

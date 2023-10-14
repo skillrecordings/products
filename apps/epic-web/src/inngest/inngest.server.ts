@@ -28,6 +28,6 @@ export type IngestEvents = {
   [LESSON_COMPLETED_EVENT]: LessonCompleted
 }
 export const inngest = new Inngest({
-  name: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,
+  id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,
   schemas: new EventSchemas().fromRecord<IngestEvents>(),
 })

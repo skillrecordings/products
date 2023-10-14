@@ -938,8 +938,8 @@ importers:
         specifier: ^2.15.0
         version: 2.33.2
       inngest:
-        specifier: 2.7.2
-        version: 2.7.2(typescript@5.1.6)
+        specifier: 3.1.1
+        version: 3.1.1(typescript@5.1.6)
       js-cookie:
         specifier: ^3.0.1
         version: 3.0.5
@@ -1669,8 +1669,8 @@ importers:
         specifier: ^1.0.4
         version: 1.0.4
       inngest:
-        specifier: 2.7.2
-        version: 2.7.2(typescript@5.1.6)
+        specifier: 3.1.1
+        version: 3.1.1(typescript@5.1.6)
       js-cookie:
         specifier: ^3.0.1
         version: 3.0.5
@@ -2135,8 +2135,8 @@ importers:
         specifier: ^2.15.0
         version: 2.33.2
       inngest:
-        specifier: 2.7.2
-        version: 2.7.2(typescript@5.1.6)
+        specifier: 3.1.1
+        version: 3.1.1(typescript@5.1.6)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -5246,8 +5246,8 @@ importers:
         specifier: ^11.8.0
         version: 11.9.0
       inngest:
-        specifier: 2.7.2
-        version: 2.7.2(typescript@5.1.6)
+        specifier: 3.1.1
+        version: 3.1.1(typescript@5.1.6)
       install:
         specifier: ^0.13.0
         version: 0.13.0
@@ -6929,8 +6929,8 @@ importers:
   packages/inngest:
     dependencies:
       inngest:
-        specifier: ^2.4.0
-        version: 2.7.2(typescript@5.1.6)
+        specifier: 3.1.1
+        version: 3.1.1(typescript@5.1.6)
     devDependencies:
       '@skillrecordings/commerce-server':
         specifier: workspace:*
@@ -7492,8 +7492,8 @@ importers:
         specifier: ^8.2.0
         version: 8.2.1
       inngest:
-        specifier: 2.7.2
-        version: 2.7.2(typescript@5.1.6)
+        specifier: 3.1.1
+        version: 3.1.1(typescript@5.1.6)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -7859,8 +7859,8 @@ importers:
         specifier: ^2.15.0
         version: 2.33.2
       inngest:
-        specifier: 2.7.2
-        version: 2.7.2(typescript@5.1.6)
+        specifier: 3.1.1
+        version: 3.1.1(typescript@5.1.6)
       js-cookie:
         specifier: ^3.0.1
         version: 3.0.5
@@ -19662,7 +19662,7 @@ packages:
   /axios@0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
     transitivePeerDependencies:
       - debug
     dev: false
@@ -19670,14 +19670,14 @@ packages:
   /axios@0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
     transitivePeerDependencies:
       - debug
 
   /axios@0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
     transitivePeerDependencies:
       - debug
     dev: false
@@ -19685,7 +19685,7 @@ packages:
   /axios@0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -19694,7 +19694,7 @@ packages:
   /axios@1.5.1:
     resolution: {integrity: sha512-Q28iYCWzNHjAm+yEAot5QaAMxhMghWLFVf7rRdwhUI+c2jix2DUXjAHXVi+s1ibs3mjPO/cCgbA++3BjD0vP/A==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -25043,6 +25043,7 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
+    dev: false
 
   /fontkit-next@1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
@@ -26742,8 +26743,8 @@ packages:
       fast-loops: 1.1.3
     dev: false
 
-  /inngest@2.7.2(typescript@5.1.6):
-    resolution: {integrity: sha512-MLaKCvXLmzdD6j3n6Z7vEqqMjGRlXvGBYo2SudmkOds4mArWtSfZKm9ZJEhJ4s7Gz6YIlub7C610On+7T/Youg==}
+  /inngest@3.1.1(typescript@5.1.6):
+    resolution: {integrity: sha512-OUyb49Tr2APA6hwbKNY875FUhO2ipRFRN2OJ60QSnsfqNAoJsqJa5r/z8sNAx7txlydflOT3cr/qygnovvRHqQ==}
     engines: {node: '>=14'}
     peerDependencies:
       typescript: '>=4.7.2'
@@ -26752,17 +26753,18 @@ packages:
       canonicalize: 1.0.8
       chalk: 4.1.2
       cross-fetch: 4.0.0
+      debug: 4.3.4(supports-color@8.1.1)
       h3: 1.8.2
       hash.js: 1.1.7
       json-stringify-safe: 5.0.1
       ms: 2.1.3
-      queue-microtask: 1.2.3
       serialize-error-cjs: 0.1.3
       type-fest: 3.13.1
       typescript: 5.1.6
-      zod: 3.22.4
+      zod: 3.21.4
     transitivePeerDependencies:
       - encoding
+      - supports-color
     dev: false
 
   /inquirer@7.3.3:
@@ -40889,6 +40891,10 @@ packages:
       zod: ^3.21.4
     dependencies:
       zod: 3.22.4
+    dev: false
+
+  /zod@3.21.4:
+    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
     dev: false
 
   /zod@3.22.4:

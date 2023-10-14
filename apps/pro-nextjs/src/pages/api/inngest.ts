@@ -89,6 +89,7 @@ function isNowOrPast(isoDateTime: string | null) {
 
 const checkArticlePublishState = inngest.createFunction(
   {
+    id: 'check-article-publish-state',
     name: 'Check Article Publish State',
   },
   {event: 'article/updated'},
@@ -105,7 +106,7 @@ const checkArticlePublishState = inngest.createFunction(
       })
 
       if (publishAtDate) {
-        await step.sleepUntil(publishAtDate)
+        await step.sleepUntil('wait until publishAt date', publishAtDate)
         publishAtDate = await step.run('Load Article Status', async () => {
           const article = await getArticle(event.data.slug.current)
           return article.publishAt
@@ -126,7 +127,10 @@ const checkArticlePublishState = inngest.createFunction(
 )
 
 const addSrtToMuxAsset = inngest.createFunction(
-  {name: 'Add SRT to Mux Asset'},
+  {
+    id: 'add-srt-mux-asset',
+    name: 'Add SRT to Mux Asset',
+  },
   {event: 'tip/video.srt.ready'},
   async ({event, step}) => {
     const muxAssetStatus = await step.run(
@@ -186,7 +190,7 @@ const addSrtToMuxAsset = inngest.createFunction(
       //
       // })
     } else {
-      await step.sleep(60000)
+      await step.sleep('wait 10 seconds', 60000)
       await step.run('Re-run After Cooldown', async () => {
         return await inngest.send({
           name: 'tip/video.srt.ready',
@@ -198,7 +202,10 @@ const addSrtToMuxAsset = inngest.createFunction(
 )
 
 const processNewTip = inngest.createFunction(
-  {name: 'Process New Tip Video'},
+  {
+    id: 'process-new-tip',
+    name: 'Process New Tip Video',
+  },
   {event: 'tip/video.uploaded'}, // The event that will trigger this function
   async ({event, step}) => {
     await step.run('Update Tip Status', async () => {
@@ -249,10 +256,14 @@ const processNewTip = inngest.createFunction(
 
     // Promise.all|race to wait for multiple events
 
-    const transcript = await step.waitForEvent('tip/video.transcript.created', {
-      match: 'data.videoResourceId',
-      timeout: '1h',
-    })
+    const transcript = await step.waitForEvent(
+      'wait until transcript created',
+      {
+        event: 'tip/video.transcript.created',
+        match: 'data.videoResourceId',
+        timeout: '1h',
+      },
+    )
 
     if (transcript) {
       await step.run('Update Video Resource with Transcript', async () => {
@@ -301,13 +312,11 @@ const processNewTip = inngest.createFunction(
         return 'Transcript sent to LLM'
       })
 
-      const llmResponse = await step.waitForEvent(
-        'tip/video.llm.suggestions.created',
-        {
-          match: 'data.videoResourceId',
-          timeout: '1h',
-        },
-      )
+      const llmResponse = await step.waitForEvent('wait for LLM suggestions', {
+        event: 'tip/video.llm.suggestions.created',
+        match: 'data.videoResourceId',
+        timeout: '1h',
+      })
 
       if (llmResponse) {
         await step.run('Update Tip with Generated Text', async () => {
@@ -334,8 +343,7 @@ const processNewTip = inngest.createFunction(
   },
 )
 
-export default serve(inngest, [
-  processNewTip,
-  addSrtToMuxAsset,
-  checkArticlePublishState,
-])
+export default serve({
+  client: inngest,
+  functions: [processNewTip, addSrtToMuxAsset, checkArticlePublishState],
+})

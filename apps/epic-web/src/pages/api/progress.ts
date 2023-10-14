@@ -4,7 +4,7 @@ import {loadUserForToken} from 'lib/users'
 import {getSdk, prisma} from '@skillrecordings/database'
 import {getLesson} from '@skillrecordings/skill-lesson/lib/lesson-resource'
 import {inngest} from 'inngest/inngest.server'
-import {LESSON_COMPLETED_EVENT} from 'inngest/events'
+import {LESSON_COMPLETED_EVENT} from '@skillrecordings/skill-lesson/inngest/events'
 
 const lesson = async (req: NextApiRequest, res: NextApiResponse) => {
   const deviceToken = req.headers.authorization?.split(' ')[1]

@@ -4,8 +4,7 @@ import {processNewTip} from 'inngest/functions/tips/process-new-tip'
 import {addSrtToMuxAsset} from 'inngest/functions/tips/add-srt-to-mux-asset'
 import {stripeCheckoutCompleted} from 'inngest/functions/stripe/checkout-completed'
 
-export default serve(inngest, [
-  processNewTip,
-  addSrtToMuxAsset,
-  stripeCheckoutCompleted,
-])
+export default serve({
+  client: inngest,
+  functions: [processNewTip, addSrtToMuxAsset, stripeCheckoutCompleted],
+})

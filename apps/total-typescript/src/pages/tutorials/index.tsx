@@ -25,7 +25,6 @@ const sectionsFlatMap = (sections: any[]) => {
 }
 
 const TutorialsPage: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
-  console.log(tutorials)
   return (
     <Layout
       meta={{

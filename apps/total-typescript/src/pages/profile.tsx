@@ -26,10 +26,9 @@ const Profile: React.FC<React.PropsWithChildren<{providers: any}>> = ({
                 <div className="mt-5 flex flex-col items-center sm:text-lg">
                   <button
                     onClick={() => {
-                      console.log('disconnecting', account.provider)
                       disconnectGithub()
                     }}
-                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-gray-700 px-5 py-4 font-semibold text-white shadow-xl shadow-black/20 transition focus:outline-none focus:ring-2 focus:ring-cyan-100 hover:brightness-110"
+                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-gray-700 px-5 py-4 font-semibold text-white shadow-xl shadow-black/20 transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-cyan-100"
                   >
                     <span className="mr-2 flex items-center justify-center">
                       <Icon name="Github" size="20" />
@@ -44,7 +43,7 @@ const Profile: React.FC<React.PropsWithChildren<{providers: any}>> = ({
             <div className="mt-5 flex flex-col items-center sm:text-lg">
               <button
                 onClick={() => signIn(githubProvider.id)}
-                className="flex w-full items-center justify-center rounded-md border border-transparent bg-gray-700 px-5 py-4 font-semibold text-white shadow-xl shadow-black/20 transition focus:outline-none focus:ring-2 focus:ring-cyan-100 hover:brightness-110"
+                className="flex w-full items-center justify-center rounded-md border border-transparent bg-gray-700 px-5 py-4 font-semibold text-white shadow-xl shadow-black/20 transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-cyan-100"
               >
                 <span className="mr-2 flex items-center justify-center">
                   <Icon name="Github" size="20" />

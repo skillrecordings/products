@@ -4,7 +4,10 @@ import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-serv
 import {TIP_VIDEO_SRT_READY_EVENT} from 'inngest/events'
 
 export const addSrtToMuxAsset = inngest.createFunction(
-  {name: 'Add SRT to Mux Asset'},
+  {
+    id: 'add-srt-mux-asset',
+    name: 'Add SRT to Mux Asset',
+  },
   {event: TIP_VIDEO_SRT_READY_EVENT},
   async ({event, step}) => {
     const muxAssetStatus = await step.run(
@@ -64,7 +67,7 @@ export const addSrtToMuxAsset = inngest.createFunction(
       //
       // })
     } else {
-      await step.sleep(60000)
+      await step.sleep('wait for 10 seconds', 60000)
       await step.run('Re-run After Cooldown', async () => {
         return await inngest.send({
           name: TIP_VIDEO_SRT_READY_EVENT,

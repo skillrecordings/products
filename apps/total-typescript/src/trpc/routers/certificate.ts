@@ -55,7 +55,6 @@ export const certificateRouter = router({
       const cert = await cloudinary.api.resource(
         `certificate/${user.id}/${input.moduleSlug}`,
       )
-      console.log(cert)
       return cert
     }),
 })

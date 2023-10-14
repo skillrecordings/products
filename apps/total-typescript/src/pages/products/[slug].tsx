@@ -90,7 +90,6 @@ export type ProductPageProps = {
 
 const ProductPage: React.FC<ProductPageProps> = (props) => {
   const {workshop, hasPurchasedCurrentProduct} = props
-  console.log({workshop})
 
   return (
     <>

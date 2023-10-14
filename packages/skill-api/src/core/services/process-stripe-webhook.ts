@@ -57,7 +57,7 @@ export async function processStripeWebhooks({
 
         if (process.env.INNGEST_EVENT_KEY) {
           const inngest = new Inngest({
-            name:
+            id:
               process.env.INNGEST_APP_NAME ||
               process.env.NEXT_PUBLIC_SITE_TITLE ||
               'Stripe Handler',
