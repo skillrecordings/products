@@ -9,7 +9,7 @@ import {
 } from '@react-email/components'
 import * as React from 'react'
 
-export const FirstNudge = () => {
+export const RefundOffer = () => {
   return (
     <Html>
       <Head />
@@ -19,7 +19,12 @@ export const FirstNudge = () => {
           <Section style={content}>
             <Text style={paragraph}>Hi,</Text>
             <Text style={paragraph}>
-              You completed your first lesson! That's awesome.
+              We know life is busy and it's hard to make learning a priority.
+            </Text>
+            <Text style={paragraph}>
+              Since it's been almost a month and you haven't had the opportunity
+              to get started with Epic Web, we'd like to offer you a full refund
+              before the 30-day money back offer expires soon.
             </Text>
           </Section>
         </Container>
@@ -28,7 +33,7 @@ export const FirstNudge = () => {
   )
 }
 
-export default FirstNudge
+export default RefundOffer
 
 const fontFamily = 'HelveticaNeue,Helvetica,Arial,sans-serif'
 

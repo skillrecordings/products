@@ -9,7 +9,19 @@ import {
 } from '@react-email/components'
 import * as React from 'react'
 
-export const FirstNudge = () => {
+export const FirstLessonCompleteForModule = ({
+  user,
+  hasAuthedLocally = false,
+  lesson = {
+    module: {
+      title: 'an Epic Web workshop',
+    },
+  },
+}: {
+  user: {name: string; email: string}
+  hasAuthedLocally: boolean
+  lesson: any
+}) => {
   return (
     <Html>
       <Head />
@@ -19,8 +31,17 @@ export const FirstNudge = () => {
           <Section style={content}>
             <Text style={paragraph}>Hi,</Text>
             <Text style={paragraph}>
-              You completed your first lesson! That's awesome.
+              You completed your first lesson in {lesson.module.title}! That's
+              awesome.
             </Text>
+            {hasAuthedLocally ? null : (
+              <Text style={paragraph}>
+                For the best experience we highly recommend you use the Epic Web
+                workshop application on your local machine. It allows you to
+                authenticate and work through the material as intended at your
+                own pace.
+              </Text>
+            )}
           </Section>
         </Container>
       </Body>
@@ -28,7 +49,7 @@ export const FirstNudge = () => {
   )
 }
 
-export default FirstNudge
+export default FirstLessonCompleteForModule
 
 const fontFamily = 'HelveticaNeue,Helvetica,Arial,sans-serif'
 

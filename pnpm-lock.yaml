@@ -1614,6 +1614,9 @@ importers:
       '@trpc/server':
         specifier: '=10.7.0'
         version: 10.7.0
+      '@upstash/redis':
+        specifier: ^1.23.3
+        version: 1.23.3
       '@vercel/og':
         specifier: ^0.5.4
         version: 0.5.18
@@ -1707,6 +1710,9 @@ importers:
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
+      postmark:
+        specifier: ^3.1.1
+        version: 3.1.1
       query-string:
         specifier: ^7.1.1
         version: 7.1.3
@@ -18845,6 +18851,14 @@ packages:
       - '@codemirror/search'
     dev: false
 
+  /@upstash/redis@1.23.3:
+    resolution: {integrity: sha512-6b66nGdkbWl/BZ4Hs9cG9szNNXF8UDgPTUyC/4fcZvDLTs552SlItMSQnmwAKMz0EHjpbVH51VQ4waHNnDy/Xw==}
+    dependencies:
+      isomorphic-fetch: 3.0.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@use-gesture/core@10.3.0:
     resolution: {integrity: sha512-rh+6MND31zfHcy9VU3dOZCqGY511lvGcfyJenN4cWZe0u1BH6brBpBddLVXhF2r4BMqWbvxfsbL7D287thJU2A==}
     dev: false
@@ -19662,7 +19676,7 @@ packages:
   /axios@0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.3(debug@2.6.9)
+      follow-redirects: 1.15.3(debug@4.3.4)
     transitivePeerDependencies:
       - debug
     dev: false
@@ -19670,14 +19684,14 @@ packages:
   /axios@0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.3(debug@2.6.9)
+      follow-redirects: 1.15.3(debug@4.3.4)
     transitivePeerDependencies:
       - debug
 
   /axios@0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.3(debug@2.6.9)
+      follow-redirects: 1.15.3(debug@4.3.4)
     transitivePeerDependencies:
       - debug
     dev: false
@@ -19685,7 +19699,7 @@ packages:
   /axios@0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.3(debug@2.6.9)
+      follow-redirects: 1.15.3(debug@4.3.4)
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -19694,7 +19708,7 @@ packages:
   /axios@1.5.1:
     resolution: {integrity: sha512-Q28iYCWzNHjAm+yEAot5QaAMxhMghWLFVf7rRdwhUI+c2jix2DUXjAHXVi+s1ibs3mjPO/cCgbA++3BjD0vP/A==}
     dependencies:
-      follow-redirects: 1.15.3(debug@2.6.9)
+      follow-redirects: 1.15.3(debug@4.3.4)
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -25043,7 +25057,6 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
-    dev: false
 
   /fontkit-next@1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
@@ -34014,6 +34027,14 @@ packages:
       axios: 0.25.0
     transitivePeerDependencies:
       - debug
+
+  /postmark@3.1.1:
+    resolution: {integrity: sha512-4u+vfMulRnuEUdhqf0gDTXYU2WAEUp484gp8iDhwa3G0Ur25gmve7nI/gBk5SikqZUe6+uP3o0osAYdFpkbcdA==}
+    dependencies:
+      axios: 0.25.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /potpack@1.0.2:
     resolution: {integrity: sha512-choctRBIV9EMT9WGAZHn3V7t0Z2pMQyl0EZE6pFc/6ml3ssw7Dlf/oAOvFwjm1HVsqfQN8GfeFyJ+d8tRzqueQ==}

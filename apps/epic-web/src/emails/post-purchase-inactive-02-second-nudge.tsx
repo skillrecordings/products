@@ -9,17 +9,19 @@ import {
 } from '@react-email/components'
 import * as React from 'react'
 
-export const FirstNudge = () => {
+export const SecondNudge = () => {
   return (
     <Html>
       <Head />
-      <Preview>You are on your way.</Preview>
+      <Preview>Can we help?</Preview>
       <Body style={main}>
         <Container style={container}>
           <Section style={content}>
             <Text style={paragraph}>Hi,</Text>
             <Text style={paragraph}>
-              You completed your first lesson! That's awesome.
+              Hey, we noticed that you haven't dug into Epic Web yet, and we
+              wanted to see if we could help or answer any questions. Hit reply
+              and let us know.
             </Text>
           </Section>
         </Container>
@@ -28,7 +30,7 @@ export const FirstNudge = () => {
   )
 }
 
-export default FirstNudge
+export default SecondNudge
 
 const fontFamily = 'HelveticaNeue,Helvetica,Arial,sans-serif'
 

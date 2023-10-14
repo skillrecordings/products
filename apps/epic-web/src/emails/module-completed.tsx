@@ -9,17 +9,25 @@ import {
 } from '@react-email/components'
 import * as React from 'react'
 
-export const FirstNudge = () => {
+export const ModuleCompleted = ({
+  user,
+  module = {
+    title: 'an Epic Web workshop',
+  },
+}: {
+  user: {name: string; email: string}
+  module: any
+}) => {
   return (
     <Html>
       <Head />
-      <Preview>You are on your way.</Preview>
+      <Preview>Nice work.</Preview>
       <Body style={main}>
         <Container style={container}>
           <Section style={content}>
             <Text style={paragraph}>Hi,</Text>
             <Text style={paragraph}>
-              You completed your first lesson! That's awesome.
+              You completed {module.title}! That's awesome.
             </Text>
           </Section>
         </Container>
@@ -28,7 +36,7 @@ export const FirstNudge = () => {
   )
 }
 
-export default FirstNudge
+export default ModuleCompleted
 
 const fontFamily = 'HelveticaNeue,Helvetica,Arial,sans-serif'
 
