@@ -1,10 +1,10 @@
 import {Inngest, EventSchemas} from 'inngest'
 
 import {
-  LLMSuggestionsCreated,
-  NewTipVideo,
-  SRTReadyEvent,
-  TranscriptCreatedEvent,
+  type LLMSuggestionsCreated,
+  type NewTipVideo,
+  type SRTReadyEvent,
+  type TranscriptCreatedEvent,
   TIP_VIDEO_LLM_SUGGESTIONS_CREATED_EVENT,
   TIP_VIDEO_SRT_READY_EVENT,
   TIP_VIDEO_TRANSCRIPT_CREATED_EVENT,
@@ -14,6 +14,10 @@ import {
   STRIPE_CHECKOUT_COMPLETED_EVENT,
   StripeCheckoutCompleted,
 } from '@skillrecordings/inngest'
+import {
+  LESSON_COMPLETED_EVENT,
+  type LessonCompleted,
+} from '@skillrecordings/skill-lesson/inngest/events'
 
 export type IngestEvents = {
   [TIP_VIDEO_UPLOADED_EVENT]: NewTipVideo
@@ -21,6 +25,7 @@ export type IngestEvents = {
   [TIP_VIDEO_SRT_READY_EVENT]: SRTReadyEvent
   [TIP_VIDEO_LLM_SUGGESTIONS_CREATED_EVENT]: LLMSuggestionsCreated
   [STRIPE_CHECKOUT_COMPLETED_EVENT]: StripeCheckoutCompleted
+  [LESSON_COMPLETED_EVENT]: LessonCompleted
 }
 export const inngest = new Inngest({
   name: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,

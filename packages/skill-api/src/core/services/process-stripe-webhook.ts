@@ -68,8 +68,9 @@ export async function processStripeWebhooks({
             name: STRIPE_CHECKOUT_COMPLETED_EVENT,
             user,
             data: {
-              purchase,
-              purchaseInfo,
+              purchaseId: purchase.id,
+              quantity: purchaseInfo.quantity,
+              productId: purchase.productId,
             },
           })
         }
