@@ -8,6 +8,7 @@ import FirstLessonCompleteForModule from 'emails/first-lesson-complete-for-modul
 import {getModuleProgress} from '@skillrecordings/skill-lesson/lib/module-progress'
 import ModuleCompleted from 'emails/module-completed'
 import {sendTheEmail} from 'server/send-the-email'
+import {EMAIL_WRITING_REQUESTED_EVENT} from 'inngest/events'
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
@@ -22,7 +23,7 @@ const getLessonWithModule = async (id: string): Promise<any> => {
       workshopApp,
       "solution": resources[@._type == 'solution'][0]{
         _key,
-      }
+      },
       "section": *[_type in ['section'] && references(^._id)][0]{
         _id,
         "slug": slug.current,
@@ -68,14 +69,30 @@ export const lessonCompleted = inngest.createFunction(
   },
   {event: LESSON_COMPLETED_EVENT},
   async ({event, step}) => {
-    await step.sleep('wait for a few minutes', '7m')
-
     const lessonWithModule = await step.run(
       'Get Lesson With Module',
       async () => {
         return await getLessonWithModule(event.data.lessonSanityId as string)
       },
     )
+
+    await step.run('send first email to ai writer loop', async () => {
+      const moduleProgress = await getModuleProgress({
+        userId: event.user.id,
+        moduleSlug: lessonWithModule.module.slug.current,
+      })
+
+      await inngest.send({
+        name: EMAIL_WRITING_REQUESTED_EVENT,
+        data: {
+          moduleProgress,
+          currentModuleSlug: lessonWithModule.module.current,
+          currentLessonSlug: event.data.lessonSlug,
+          currentSectionSlug: lessonWithModule.section.slug,
+        },
+        user: event.user,
+      })
+    })
 
     const FIRST_LESSON_KEY = `first-lesson:${event.user.id}:${lessonWithModule.module.slug.current}`
 
@@ -86,6 +103,7 @@ export const lessonCompleted = inngest.createFunction(
       },
     )
 
+    console.log({hasReceivedFirstLessonEmail})
     if (!hasReceivedFirstLessonEmail && lessonWithModule.solution) {
       const hasAuthedLocally = await step.run(
         'Check if Locally Authenticated',
@@ -139,7 +157,7 @@ export const lessonCompleted = inngest.createFunction(
     const moduleProgress = await step.run('Get Module Progress', async () => {
       return await getModuleProgress({
         userId: event.user.id,
-        moduleSlug: lessonWithModule.module.current,
+        moduleSlug: lessonWithModule.module.slug.current,
       })
     })
 

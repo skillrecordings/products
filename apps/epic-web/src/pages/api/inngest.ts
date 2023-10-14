@@ -6,6 +6,7 @@ import {stripeCheckoutCompleted} from 'inngest/functions/stripe/checkout-complet
 import {lessonCompleted} from 'inngest/functions/progress/lesson-completed'
 import {inactivityAfterPurchase} from 'inngest/functions/progress/inactivity-after-purchase'
 import {resumeProgressAfterInactivity} from 'inngest/functions/progress/resume-progress'
+import {writeAnEmail} from 'inngest/functions/ai-email/write-an-email'
 
 export const config = {
   maxDuration: 300,
@@ -20,5 +21,6 @@ export default serve({
     inactivityAfterPurchase,
     lessonCompleted,
     resumeProgressAfterInactivity,
+    writeAnEmail,
   ],
 })
