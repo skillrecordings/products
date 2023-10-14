@@ -9,7 +9,7 @@
 /src/generated
 /generated
 /.cache
-./src/react-email-templates/.react-email
+/.react-email
 
 # testing
 /coverage

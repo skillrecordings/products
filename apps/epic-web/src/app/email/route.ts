@@ -1,13 +1,9 @@
 import nodemailer from 'nodemailer'
 import {render} from '@react-email/render'
-import {NotionMagicLinkEmail} from 'react-email-templates/emails/notion-magic-link'
+import HelloEmail from 'emails/hello-email'
 
 export async function GET(req: Request) {
-  const emailHtml = render(
-    NotionMagicLinkEmail({
-      loginCode: 'sparo-ndigo-amurt-secan',
-    }),
-  )
+  const emailHtml = render(HelloEmail())
 
   console.log(emailHtml)
 
