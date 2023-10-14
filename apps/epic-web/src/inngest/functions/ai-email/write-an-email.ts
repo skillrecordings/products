@@ -134,6 +134,7 @@ export const writeAnEmail = inngest.createFunction(
         - the audience is professional web developers, so don't be corny or pandering
         - watch out for repetitiveness
         - watch out for ai jank and hallucinations
+        - if you see direct references to Remix, suggest changes to broader web development concepts
     `
     const aiEditorResponse = await step.run(
       'send to editor for suggestions',
@@ -205,7 +206,8 @@ export const writeAnEmail = inngest.createFunction(
     - LESS IS MORE. When in doubt: cut it out.
     - keep it authentic and conversational
     - do developers like AI writing at them? No. Remember that.
-    - remove any emojis from the subject
+    - remove any emojis from the subject (they are fine in the signature)
+    - remove any direct name references to the learner from the subject
     `
     const aiBossEditorResponse = await step.run(
       'send to boss editor for suggestions',
