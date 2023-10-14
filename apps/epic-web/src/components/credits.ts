@@ -38,6 +38,14 @@ export const team: Human[] = [
     image: require('../../public/credits/taylor-bell.jpg'),
   },
   {
+    name: 'Nicoll Guarnizo',
+    role: 'Associate Producer',
+    description:
+      'Nicoll lead the content migration into the course infrastructure and did QA reviews to identify fixes needed ahead of launch.',
+    xHandle: 'guarnizonicoll',
+    image: require('../../public/credits/nicoll-guarnizo.jpg'),
+  },
+  {
     name: 'Vojta Holik',
     role: 'Product Designer & Developer',
     description:
@@ -45,14 +53,6 @@ export const team: Human[] = [
     xHandle: 'vojta_holik',
     website: 'https://vojta.io',
     image: require('../../public/credits/vojta-holik.jpg'),
-  },
-  {
-    name: 'Nicoll Guarnizo',
-    role: 'Associate Producer',
-    description:
-      'Nicoll lead the content migration into the course infrastructure and did QA reviews to identify fixes needed ahead of launch.',
-    xHandle: 'guarnizonicoll',
-    image: require('../../public/credits/nicoll-guarnizo.jpg'),
   },
   {
     name: 'Maxime Bourgeois',
