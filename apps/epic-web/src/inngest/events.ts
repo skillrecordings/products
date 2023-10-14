@@ -5,6 +5,7 @@ export const EMAIL_WRITING_REQUESTED_EVENT = 'email/writing-requested'
 export type EmailWritingRequested = {
   name: typeof EMAIL_WRITING_REQUESTED_EVENT
   data: {
+    currentLesson: any
     moduleProgress: ModuleProgress
     currentModuleSlug: string
     currentSectionSlug?: string

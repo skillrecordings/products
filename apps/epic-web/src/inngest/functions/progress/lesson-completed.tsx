@@ -85,6 +85,7 @@ export const lessonCompleted = inngest.createFunction(
       await inngest.send({
         name: EMAIL_WRITING_REQUESTED_EVENT,
         data: {
+          currentLesson: lessonWithModule,
           moduleProgress,
           currentModuleSlug: lessonWithModule.module.current,
           currentLessonSlug: event.data.lessonSlug,
