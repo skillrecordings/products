@@ -33,7 +33,10 @@ const Credits: React.FC<any> = ({lessons}) => {
       meta={{
         title: 'Humans behind Epic Web',
         description,
-        ogImage: {url: ''},
+        ogImage: {
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1697349950/credits-card_2x.png',
+          title: 'Humans behind Epic Web',
+        },
       }}
     >
       <div className="relative bg-gradient-to-tr from-primary to-indigo-500 text-primary-foreground">
