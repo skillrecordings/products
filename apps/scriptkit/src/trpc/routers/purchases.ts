@@ -37,6 +37,7 @@ export const purchasesRouter = router({
         return purchaseDetails
       }
     }
+    return false
   }),
   getPurchaseByProductId: publicProcedure
     .input(

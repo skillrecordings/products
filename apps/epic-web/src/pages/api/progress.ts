@@ -3,6 +3,8 @@ import {getToken} from 'next-auth/jwt'
 import {loadUserForToken} from 'lib/users'
 import {getSdk, prisma} from '@skillrecordings/database'
 import {getLesson} from '@skillrecordings/skill-lesson/lib/lesson-resource'
+import {inngest} from 'inngest/inngest.server'
+import {LESSON_COMPLETED_EVENT} from '@skillrecordings/skill-lesson/inngest/events'
 
 const lesson = async (req: NextApiRequest, res: NextApiResponse) => {
   const deviceToken = req.headers.authorization?.split(' ')[1]
@@ -52,6 +54,16 @@ const lesson = async (req: NextApiRequest, res: NextApiResponse) => {
           userId: user.id,
           lessonId: lesson._id,
         })
+
+        await inngest.send({
+          name: LESSON_COMPLETED_EVENT,
+          data: {
+            lessonSanityId: lesson._id,
+            lessonSlug: lesson.slug,
+          },
+          user,
+        })
+
         res.status(200).json({
           lessonId: progress.lessonId,
           completedAt: progress.completedAt,

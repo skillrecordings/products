@@ -30,8 +30,6 @@ const TutorialTemplate: React.FC<{
       slug: tutorial.slug.current,
     })
 
-  console.log({tutorialBodySerialized})
-
   return (
     <Layout
       className="mx-auto w-full max-w-screen-lg pt-10 sm:pt-24 lg:pb-24"
@@ -161,7 +159,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                       }
                 }
                 className={cx(
-                  'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110 md:max-w-[240px]',
+                  'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },
