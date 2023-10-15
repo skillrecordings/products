@@ -45,6 +45,12 @@ export const writeAnEmail = inngest.createFunction(
     progress and engagement levels. Maintain a friendly and encouraging tone, 
     and optimize for clarity and actionability. 
     
+    ${
+      event.data.moduleProgress.moduleCompleted
+        ? 'The learner has completed the entire module so the body and subject should reflect that accomplishment!'
+        : ''
+    }
+    
     - Don't be overly enthusiastic. 
     - be authentic and professional. 
     - don't use several exclamation points or emojis. 
@@ -94,6 +100,8 @@ export const writeAnEmail = inngest.createFunction(
         ? `Editor comments: ${event.data.editorComments}`
         : ''
     }
+    
+    
     
     Response Format: You should respond with a JSON object that has subject 
     and body properties like this {"subject": "The subject line for the email", 
