@@ -11,6 +11,10 @@ import {
   EMAIL_WRITING_REQUESTED_EVENT,
 } from 'inngest/events'
 
+import {WebClient} from '@slack/web-api'
+
+import {postToSlack} from '@skillrecordings/skill-api'
+
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
@@ -134,6 +138,22 @@ export const lessonCompleted = inngest.createFunction(
         await step.run('set first lesson email sent', async () => {
           return await redis.set(FIRST_LESSON_KEY, emailSendResponse.MessageID)
         })
+
+        await step.run('post lesson email to slack', async () => {
+          return await postToSlack({
+            webClient: new WebClient(process.env.SLACK_TOKEN),
+            channel: process.env.SLACK_EMAIL_POST_CHANNEL,
+            username: 'Kody the Encouragement Bot',
+            text: `${event.user.email} was sent:`,
+            attachments: [
+              {
+                text: emailOptions.componentProps.body,
+                color: '#4893c9',
+                title: emailOptions.Subject,
+              },
+            ],
+          })
+        })
       }
     }
 
@@ -238,6 +258,22 @@ export const lessonCompleted = inngest.createFunction(
             MODULE_COMPLETE_KEY,
             emailSendResponse.MessageID,
           )
+        })
+
+        await step.run('post module email to slack', async () => {
+          return await postToSlack({
+            webClient: new WebClient(process.env.SLACK_TOKEN),
+            channel: process.env.SLACK_EMAIL_POST_CHANNEL,
+            username: 'Kody the Encouragement Bot',
+            text: `${event.user.email} was sent:`,
+            attachments: [
+              {
+                text: emailOptions.componentProps.body,
+                color: '#4893c9',
+                title: emailOptions.Subject,
+              },
+            ],
+          })
         })
       }
     }
