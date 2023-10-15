@@ -40,8 +40,6 @@ export const writeAnEmail = inngest.createFunction(
         }),
     }
 
-    console.log(currentProgress)
-
     const systemPrompt = `Epic Web Dev, taught by Kent C. Dodds, 
     offers a comprehensive journey through full-stack development, emphasizing hands-on 
     learning to build sustainable user experiences. It hosts workshops like Full Stack Foundations, 
@@ -83,7 +81,7 @@ export const writeAnEmail = inngest.createFunction(
     - if there is any previous commentary from the editor, please use it as a basis to improve the email and subject that you write.
     - prefer full text titles over slugs
     - don't guess at titles, use the provided data only
-    - don't talk about the next lesson or workshop, only the current one
+    - if you talk about the next lesson make sure it comes after the current lesson
     - keep the exposition to a minimum
     - developers hate when ai writes for them, don't sound like an ai, sound human
     - when it makes sense, don't focus on Remix, focus on the broader universal skills of a web developer
