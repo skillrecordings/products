@@ -2,6 +2,7 @@ import {render} from '@react-email/render'
 import {ServerClient} from 'postmark'
 import * as React from 'react'
 const client = new ServerClient(process.env.POSTMARK_KEY)
+
 export async function sendTheEmail<ComponentPropsType>({
   Component,
   componentProps,

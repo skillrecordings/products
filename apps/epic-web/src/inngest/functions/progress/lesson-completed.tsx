@@ -2,7 +2,7 @@ import {inngest} from 'inngest/inngest.server'
 import {LESSON_COMPLETED_EVENT} from '@skillrecordings/skill-lesson/inngest/events'
 import {prisma} from '@skillrecordings/database'
 import {Redis} from '@upstash/redis'
-import LessonCompleteEmail from 'emails/lesson-complete-email'
+import {type LessonCompleteEmailProps} from 'emails/lesson-complete-email'
 import {getModuleProgress} from '@skillrecordings/skill-lesson/lib/module-progress'
 import {sendTheEmail} from 'server/send-the-email'
 import {getLessonWithModule} from 'lib/lessons'
@@ -14,6 +14,7 @@ import {
 import {WebClient} from '@slack/web-api'
 
 import {postToSlack} from '@skillrecordings/skill-api'
+import {getLessonCompleteEmailOptions} from 'server/get-email-options'
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
@@ -56,7 +57,12 @@ export const lessonCompleted = inngest.createFunction(
       },
     )
 
-    if (!hasReceivedFirstLessonEmail && lessonWithModule.solution) {
+    const canSendFirstLessonEmail =
+      !hasReceivedFirstLessonEmail &&
+      lessonWithModule.solution &&
+      !lessonWithModule.module.moduleCompleted
+
+    if (canSendFirstLessonEmail) {
       const hasAuthedLocally = await step.run(
         'Check if Locally Authenticated',
         async () => {
@@ -65,7 +71,6 @@ export const lessonCompleted = inngest.createFunction(
               userId: event.user.id,
             },
           })
-
           return Boolean(deviceToken)
         },
       )
@@ -95,42 +100,22 @@ export const lessonCompleted = inngest.createFunction(
         if: 'event.user.id == async.user.id && async.data.lessonId == event.data.lessonSanityId',
       })
 
-      let emailOptions = {
-        To: event.user.email,
-        Subject: 'You finished an Epic Web Lesson',
-        Component: LessonCompleteEmail,
-        componentProps: {
-          user: event.user,
-          hasAuthedLocally: hasAuthedLocally,
-          lesson: lessonWithModule,
-          body: `You completed your first lesson in ${lessonWithModule.module.title}! That's
-              awesome.`,
-        },
-      }
+      const defaultSubject = `You finished ${lessonWithModule.title}`
+      const defaultBody = `You a lesson in ${lessonWithModule.module.title}! That's awesome.`
 
-      if (aiEmail) {
-        emailOptions = {
-          To: event.user.email,
-          Subject: aiEmail.data.subject,
-          Component: LessonCompleteEmail,
-          componentProps: {
-            user: event.user,
-            hasAuthedLocally: hasAuthedLocally,
-            lesson: lessonWithModule,
-            body: aiEmail.data.body,
-          },
-        }
-      }
+      const emailOptions = getLessonCompleteEmailOptions(
+        event,
+        defaultSubject,
+        hasAuthedLocally,
+        lessonWithModule,
+        defaultBody,
+        aiEmail,
+      )
 
       const emailSendResponse = await step.run(
         'send first lesson of module completed email',
         async () => {
-          return await sendTheEmail<{
-            user: {name: string; email: string; id: string}
-            hasAuthedLocally: boolean
-            lesson: any
-            body: string
-          }>(emailOptions)
+          return await sendTheEmail<LessonCompleteEmailProps>(emailOptions)
         },
       )
 
@@ -213,42 +198,22 @@ export const lessonCompleted = inngest.createFunction(
         },
       )
 
-      let emailOptions = {
-        To: event.user.email,
-        Subject: `You finished ${lessonWithModule.module.title}`,
-        Component: LessonCompleteEmail,
-        componentProps: {
-          user: event.user,
-          hasAuthedLocally: hasAuthedLocally,
-          lesson: lessonWithModule,
-          body: `You completed ${lessonWithModule.module.title}! That's
-              awesome.`,
-        },
-      }
+      const defaultSubject = `You finished ${lessonWithModule.module.title}`
+      const defaultBody = `You completed ${lessonWithModule.module.title}! That's awesome.`
 
-      if (aiEmail) {
-        emailOptions = {
-          To: event.user.email,
-          Subject: aiEmail.data.subject,
-          Component: LessonCompleteEmail,
-          componentProps: {
-            user: event.user,
-            hasAuthedLocally: hasAuthedLocally,
-            lesson: lessonWithModule,
-            body: aiEmail.data.body,
-          },
-        }
-      }
+      const emailOptions = getLessonCompleteEmailOptions(
+        event,
+        defaultSubject,
+        hasAuthedLocally,
+        lessonWithModule,
+        defaultBody,
+        aiEmail,
+      )
 
       const emailSendResponse = await step.run(
         'send module completed email',
         async () => {
-          return await sendTheEmail<{
-            user: {name: string; email: string; id: string}
-            hasAuthedLocally: boolean
-            lesson: any
-            body: string
-          }>(emailOptions)
+          return await sendTheEmail<LessonCompleteEmailProps>(emailOptions)
         },
       )
 
