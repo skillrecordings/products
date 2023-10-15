@@ -87,7 +87,7 @@ const Team = () => {
               </div>
               <div className="w-full pt-5 text-center md:text-left">
                 <h2 className=" text-3xl font-bold">{name}</h2>
-                <h3 className="pt-2 font-mono text-xs font-semibold uppercase text-primary">
+                <h3 className="pt-2 font-mono text-xs font-semibold uppercase opacity-75">
                   {role}
                 </h3>
                 {description && (
@@ -107,16 +107,6 @@ const Team = () => {
                   </ReactMarkdown>
                 )}
                 <div className="mt-5 flex items-center justify-center gap-3 md:justify-start">
-                  {website && (
-                    <a
-                      href={website}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      className="flex items-center justify-center gap-1 rounded py-1.5 font-mono text-sm text-primary hover:underline"
-                    >
-                      {extractDomainWithPath(website)}
-                    </a>
-                  )}
                   <a
                     href={`https://twitter.com/${xHandle}`}
                     rel="noopener noreferrer"
@@ -125,6 +115,16 @@ const Team = () => {
                   >
                     <XIconTwitter className="h-3 w-3" />
                   </a>
+                  {website && (
+                    <a
+                      href={website}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="flex items-center justify-center gap-1 rounded py-1.5 font-mono text-xs text-primary hover:underline"
+                    >
+                      {extractDomainWithPath(website)}
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.article>
@@ -137,10 +137,10 @@ const Team = () => {
 
 const Instructor = () => {
   return (
-    <article className="relative z-40">
-      <div className="flex flex-shrink-0 items-center justify-center overflow-hidden">
+    <article className="relative">
+      <div className="pointer-events-none flex flex-shrink-0 items-center justify-center">
         {instructor?.image && (
-          <div className="w-72 sm:w-auto">
+          <div className=" w-72 sm:w-auto">
             <Image
               src={instructor.image}
               alt={instructor.name}
@@ -157,25 +157,15 @@ const Instructor = () => {
         <h2 className="text-2xl font-bold sm:text-3xl lg:text-4xl">
           {instructor?.name}
         </h2>
-        <h3 className="pt-2 font-mono text-sm font-medium uppercase">
+        <h3 className="pt-2 font-mono text-sm font-medium uppercase opacity-75">
           {instructor?.role}
         </h3>
         {instructor?.description && (
-          <ReactMarkdown className="prose prose-invert pt-4 sm:prose-lg">
+          <ReactMarkdown className="prose pt-4 dark:prose-invert sm:prose-lg">
             {instructor.description}
           </ReactMarkdown>
         )}
         <div className="mt-5 flex items-center gap-3">
-          {instructor?.website && (
-            <a
-              href={instructor.website}
-              rel="noopener noreferrer"
-              target="_blank"
-              className="flex items-center justify-center gap-1 rounded py-1.5 font-mono text-sm text-primary hover:underline"
-            >
-              {extractDomainWithPath(instructor.website)}
-            </a>
-          )}
           {instructor?.xHandle && (
             <a
               href={`https://twitter.com/${instructor.xHandle}`}
@@ -184,6 +174,16 @@ const Instructor = () => {
               className="flex h-8 w-8 items-center justify-center rounded-full border"
             >
               <XIconTwitter className="h-3 w-3" />
+            </a>
+          )}
+          {instructor?.website && (
+            <a
+              href={instructor.website}
+              rel="noopener noreferrer"
+              target="_blank"
+              className="flex items-center justify-center gap-1 rounded py-1.5 font-mono text-sm text-primary hover:underline"
+            >
+              {extractDomainWithPath(instructor.website)}
             </a>
           )}
         </div>
@@ -219,7 +219,6 @@ const Header: React.FC<any> = ({lessons}) => {
           </div>
           <Badge className="mt-10" />
         </div>
-
         <Thumbnails lessons={lessons} />
       </div>
     </header>
