@@ -194,7 +194,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 playbackId="uAWjlKTFcFwHpqUzpwbBehoa00aS3iIO77Wm2g9hJb4A"
                 className="w-full rounded shadow-xl"
                 accentColor="#3b82f6"
-                poster="https://res.cloudinary.com/epic-web/image/upload/v1697354956/after-purchase-video-poster.jpg"
+                poster="https://res.cloudinary.com/epic-web/image/upload/v1697358228/after-purchase-video-poster.jpg"
               />
             </div>
             {/* <div className="col-span-3 flex w-full items-center justify-center p-8">

@@ -12,8 +12,9 @@ import DiscordProvider from 'next-auth/providers/discord'
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL
 
 const productTheme: Theme = {
-  colorScheme: 'auto',
+  colorScheme: 'light',
   brandColor: '#5277FF',
+  logo: 'https://res.cloudinary.com/epic-web/image/upload/v1697357154/logo-email.png',
 }
 
 const providers = [
