@@ -4,6 +4,7 @@ import {
   EMAIL_WRITING_REQUESTED_EVENT,
 } from 'inngest/events'
 import OpenAI from 'openai'
+import singleline from 'singleline'
 
 const openai = new OpenAI()
 
@@ -11,46 +12,67 @@ export const writeAnEmail = inngest.createFunction(
   {id: `write-an-email`, name: 'GPT-4 Email Writer'},
   {event: EMAIL_WRITING_REQUESTED_EVENT},
   async ({event, step}) => {
+    const {
+      moduleProgress: {
+        nextLesson,
+        nextSection,
+        lessonCount,
+        percentComplete,
+        moduleCompleted,
+        lessons,
+      },
+    } = event.data
+
     const currentProgress = {
-      nextLesson: event.data.moduleProgress.nextLesson,
-      nextSection: event.data.moduleProgress.nextSection,
-      lessonCount: event.data.moduleProgress.lessonCount,
-      percentComplete: event.data.moduleProgress.percentComplete,
-      moduleCompleted: event.data.moduleProgress.moduleCompleted,
+      nextLesson,
+      nextSection,
+      lessonCount,
+      percentComplete,
+      moduleCompleted,
+      incompleteLessons: lessons
+        .filter((lesson) => {
+          return !lesson.lessonCompleted
+        })
+        .map((lesson) => {
+          return {
+            title: lesson.title,
+          }
+        }),
     }
+
+    console.log(currentProgress)
 
     const systemPrompt = `Epic Web Dev, taught by Kent C. Dodds, 
     offers a comprehensive journey through full-stack development, emphasizing hands-on 
-    learning to build sustainable user experiences. It hosts modules like Full Stack Foundations, 
+    learning to build sustainable user experiences. It hosts workshops like Full Stack Foundations, 
     Professional Web Forms, Data Modeling Deep Dive, Web Authentication, and Full Stack Testing, 
     each meticulously crafted for skill enhancement. Unlike passive learning, participants engage 
     with a bespoke local web app, melding with their local dev setups for real-time code execution 
     and testing.`
 
     const primarySystemWriterPrompt = `You are Kody the Koala, a friendly mascot 
-    for the professional courses from Epic Web tat always signs off with the emoji 🐨
+    for the professional courses from Epic Web that always signs off with the emoji 🐨
     with his signature at the end of the email.
     
-    Your job is to write email subjects and bodies for the 
-    "Epic Web" developer education course, 
+    Task:
+    Your job is to write email subjects and bodies for the "Epic Web" developer education course
+    that are sent to learners after they complete a lesson.
     
-    The emails are intended to improve retention, 
-    engagement, and motivate learners towards their goals. These emails are part of a 
-    post-purchase, onboarding sequence and are triggered upon the completion of either 
-    the first lesson exercise or the last exercise in a workshop. The workshops are 
-    video-based with interactive features, taking place in a local development environment. 
-    Utilize provided JSON/JavaScript data to reference the learner's current progress, 
-    specific lessons just completed, and upcoming lessons, as well as which workshop 
-    the lesson is part of. Include a section in each email to highlight the learner's 
-    progress and engagement levels. Maintain a friendly and encouraging tone, 
-    and optimize for clarity and actionability. 
+    Motivation:
+    The emails are intended to improve retention, engagement, and motivate learners towards their goals. 
     
-    ${
-      event.data.moduleProgress.moduleCompleted
-        ? 'The learner has completed the entire module so the body and subject should reflect that accomplishment!'
-        : ''
-    }
+    This email are part of a post-purchase, onboarding sequence and are triggered upon 
+    the completion a lesson in a workshop. 
     
+    The workshops are meant to be worked through in a local development environment which
+    has integrated video learning as well as exercises for practicing the skills that are
+    being taught.
+    
+    Important considerations:
+    - Use the progress data
+    - Highlight the learner's progress
+    - Maintain a friendly and encouraging tone
+    - optimize for clarity and actionability
     - Don't be overly enthusiastic. 
     - be authentic and professional. 
     - don't use several exclamation points or emojis. 
@@ -61,70 +83,44 @@ export const writeAnEmail = inngest.createFunction(
     - if there is any previous commentary from the editor, please use it as a basis to improve the email and subject that you write.
     - prefer full text titles over slugs
     - don't guess at titles, use the provided data only
-    - don't talk about the next lesson or module, only the current one
+    - don't talk about the next lesson or workshop, only the current one
     - keep the exposition to a minimum
     - developers hate when ai writes for them, don't sound like an ai, sound human
     - when it makes sense, don't focus on Remix, focus on the broader universal skills of a web developer
+    - No additional "meta" text or commentary is necessary. 
+    - editor feedback is a priority unless you think it is wrong, then you can ignore it.
+    - do not link to lessons
+    - do not guess lesson or workshop titles, use the progress data below only
+    - keep the exposition and flowery language to a minimum
 
-    some metadata:
-    - Learner name: ${event.user.name}
-    - current lesson title: ${event.data.currentLesson.title}
-    - current lesson description: ${event.data.currentLesson.description}
-    - current module title: ${event.data.currentLesson.module.title}
-    - current module description: ${event.data.currentLesson.module.description}
-    - current module slug: ${event.data.currentModuleSlug}
-    - current lesson slug: ${event.data.currentLessonSlug}
-    - current section slug: ${event.data.currentSectionSlug}
-    - module progress: ${JSON.stringify(currentProgress)}
-    ${
-      currentProgress.nextLesson
-        ? `- next lesson slug: ${currentProgress.nextLesson.slug}`
-        : ''
-    }
-    ${
-      currentProgress.nextSection
-        ? `- next section slug: ${currentProgress.nextSection.slug}`
-        : ''
-    }
-    - {moduleLink}: ${process.env.NEXTAUTH_URL}/workshops/${
-      event.data.currentModuleSlug
-    }
-    - Additional context: ${event.data.additionalContext}
-    - ${
-      event.data.previousDraft
-        ? `Previous draft: ${event.data.previousDraft}`
-        : ''
-    }
-    - ${
-      event.data.editorComments
-        ? `Editor comments: ${event.data.editorComments}`
-        : ''
-    }
+    Structured Progress Data:
+    ${JSON.stringify(currentProgress, null, 2)}
     
+    Lesson Just Finished:
+    - title: ${event.data.currentLesson.title}
+    - description: ${event.data.currentLesson.description}
     
+    Current Workshop:
+    - title: ${event.data.currentLesson.module.title}
+    - description: ${event.data.currentLesson.module.description}
     
-    Response Format: You should respond with a JSON object that has subject 
-    and body properties like this {"subject": "The subject line for the email", 
-    body:"The markdown for the body of the email"}. 
-    The body should be in markdown format. The subject should be plain text.
+    Learner name:
+    ${event.user.name}
     
-    Instructions: . No additional text or commentary is necessary. 
-    If you are provided Previous Draft or Editor Comments, please use
-    them as a basis for the email and subject that you write.
-    
-    - do not link to lessons, only the module using moduleLink from above
-    - do not guess lesson or module titles, use the provided data only
-    - keep the exposition to a minimum
-
+    Response Format: 
+    - Respond with a JSON object that has subject and body properties like this 
+    {"subject": "The subject line for the email", body:"The markdown for the body of the email"}. 
+    - The body should be in properly formatted markdown. 
+    - The subject should be plain text.
     `
 
     const aiResponse = await step.run(
       'send to writer for first draft',
       async () => {
-        return await openai.chat.completions.create({
+        return openai.chat.completions.create({
           messages: [
-            {role: 'system', content: systemPrompt},
-            {role: 'user', content: primarySystemWriterPrompt},
+            {role: 'system', content: singleline(systemPrompt)},
+            {role: 'user', content: singleline(primarySystemWriterPrompt)},
           ],
           model: 'gpt-4',
         })
@@ -149,12 +145,12 @@ export const writeAnEmail = inngest.createFunction(
     const aiEditorResponse = await step.run(
       'send to editor for suggestions',
       async () => {
-        return await openai.chat.completions.create({
+        return openai.chat.completions.create({
           messages: [
-            {role: 'system', content: systemPrompt},
-            {role: 'user', content: primarySystemWriterPrompt},
+            {role: 'system', content: singleline(systemPrompt)},
+            {role: 'user', content: singleline(primarySystemWriterPrompt)},
             {role: 'assistant', content: aiResponse.choices[0].message.content},
-            {role: 'user', content: editorPrompt},
+            {role: 'user', content: singleline(editorPrompt)},
           ],
           model: 'gpt-4',
         })
@@ -165,23 +161,24 @@ export const writeAnEmail = inngest.createFunction(
     take the suggestions to heart and make a best effort to revise the subject and email
     into something useful. don't explain it please, just return the revised subject and email 
     in the same json format as before. use newline character for long strings that need to be
-    a single line but do not escape the newline character. prefer full text titles over slugs
+    a single line but do not escape the newline character. prefer full text titles over slugs.
+    deliver the best email a koala could possibly imagine.
     `
 
     const aiFinalResponse = await step.run(
       'send to writer for another draft',
       async () => {
-        return await openai.chat.completions.create({
+        return openai.chat.completions.create({
           messages: [
-            {role: 'system', content: systemPrompt},
-            {role: 'user', content: primarySystemWriterPrompt},
+            {role: 'system', content: singleline(systemPrompt)},
+            {role: 'user', content: singleline(primarySystemWriterPrompt)},
             {role: 'assistant', content: aiResponse.choices[0].message.content},
-            {role: 'user', content: editorPrompt},
+            {role: 'user', content: singleline(editorPrompt)},
             {
               role: 'assistant',
               content: aiEditorResponse.choices[0].message.content,
             },
-            {role: 'user', content: aiWriterRevisionsPrompt},
+            {role: 'user', content: singleline(aiWriterRevisionsPrompt)},
           ],
           model: 'gpt-4',
         })
@@ -200,27 +197,31 @@ export const writeAnEmail = inngest.createFunction(
     - do developers like AI writing at them? No. Remember that.
     - remove any emojis from the subject (they are fine in the signature)
     - remove any direct name references to the learner from the subject
+    - make sure the body is properly formatted and structured markdown
+    - make sure the email has soul
     `
+
+    const fullPrompt: OpenAI.ChatCompletionMessage[] = [
+      {role: 'system', content: singleline(systemPrompt)},
+      {role: 'user', content: singleline(primarySystemWriterPrompt)},
+      {role: 'assistant', content: aiResponse.choices[0].message.content},
+      {role: 'user', content: editorPrompt},
+      {
+        role: 'assistant',
+        content: aiEditorResponse.choices[0].message.content,
+      },
+      {role: 'user', content: singleline(aiWriterRevisionsPrompt)},
+      {
+        role: 'assistant',
+        content: aiFinalResponse.choices[0].message.content,
+      },
+      {role: 'user', content: singleline(bossEditorPrompt)},
+    ]
     const aiBossEditorResponse = await step.run(
       'send to boss editor for suggestions',
       async () => {
-        return await openai.chat.completions.create({
-          messages: [
-            {role: 'system', content: systemPrompt},
-            {role: 'user', content: primarySystemWriterPrompt},
-            {role: 'assistant', content: aiResponse.choices[0].message.content},
-            {role: 'user', content: editorPrompt},
-            {
-              role: 'assistant',
-              content: aiEditorResponse.choices[0].message.content,
-            },
-            {role: 'user', content: aiWriterRevisionsPrompt},
-            {
-              role: 'assistant',
-              content: aiFinalResponse.choices[0].message.content,
-            },
-            {role: 'user', content: bossEditorPrompt},
-          ],
+        return openai.chat.completions.create({
+          messages: fullPrompt,
           model: 'gpt-4',
         })
       },
@@ -229,7 +230,7 @@ export const writeAnEmail = inngest.createFunction(
     const formatCheck = await step.run(
       'check and format the json',
       async () => {
-        return await openai.chat.completions.create({
+        return openai.chat.completions.create({
           messages: [
             {
               role: 'user',
@@ -255,10 +256,11 @@ export const writeAnEmail = inngest.createFunction(
       data: {
         lessonId: event.data.currentLesson._id,
         ...emailData,
+        fullPrompt,
       },
       user: event.user,
     })
 
-    return emailData
+    return {emailData, fullPrompt}
   },
 )

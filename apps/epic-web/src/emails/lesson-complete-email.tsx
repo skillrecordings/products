@@ -60,7 +60,6 @@ export default LessonCompleteEmail
 const fontFamily = 'HelveticaNeue,Helvetica,Arial,sans-serif'
 
 const main = {
-  backgroundColor: '#efeef1',
   fontFamily,
 }
 

@@ -73,7 +73,7 @@ const WorkshopsPage: React.FC<{
         },
       }}
     >
-      <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-between px-5 pt-16 lg:flex-row">
+      <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-between px-5 pt-16 lg:flex-row lg:items-start">
         <div className="flex flex-col items-center space-y-3 text-center lg:items-start lg:text-left">
           <h1 className="flex flex-col text-4xl font-semibold">
             <span className="mb-2 inline-block bg-gradient-to-r from-blue-500 to-fuchsia-600 bg-clip-text text-xs uppercase tracking-widest text-transparent dark:from-blue-300 dark:to-fuchsia-400">
@@ -88,12 +88,12 @@ const WorkshopsPage: React.FC<{
             </Balancer>
           </h2>
         </div>
-        <div className="w-full max-w-md pt-16 lg:pl-8 lg:pt-0">
+        <div className="flex w-full max-w-md items-center justify-center pt-16 lg:min-h-[204px] lg:justify-end lg:pl-8 lg:pt-0">
           {abilityRulesStatus === 'loading' ? (
             <div className="relative">
               <ProductCTA
                 product={fullStackWorkshopSeriesProduct}
-                className="pointer-events-none select-none opacity-0"
+                className="pointer-events-none w-full select-none opacity-0"
               />
               <Skeleton className="absolute left-0 top-0 h-full w-full rounded-md bg-foreground/5" />
             </div>
@@ -102,7 +102,10 @@ const WorkshopsPage: React.FC<{
               {canViewContent ? (
                 <WorkshopAppBanner />
               ) : (
-                <ProductCTA product={fullStackWorkshopSeriesProduct} />
+                <ProductCTA
+                  className="w-full"
+                  product={fullStackWorkshopSeriesProduct}
+                />
               )}
             </>
           )}
@@ -192,7 +195,7 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
     // }}
     >
       <Link
-        className="relative flex w-full flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-100 bg-white bg-gradient-to-tr from-transparent to-white/50 p-5 shadow-soft-xl transition before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:border-transparent dark:from-gray-900 dark:to-gray-800 sm:flex-row sm:p-10"
+        className="relative flex w-full flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-100 bg-white bg-gradient-to-tr from-transparent to-white/50 p-5 shadow-soft-xl transition before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:border-transparent dark:from-gray-900 dark:to-gray-800 dark:hover:brightness-110 sm:flex-row sm:p-10"
         href={{
           pathname: '/workshops/[module]',
           query: {

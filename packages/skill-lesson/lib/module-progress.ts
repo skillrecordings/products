@@ -45,6 +45,7 @@ export async function getModuleProgress({
     return {
       id: lesson._id,
       slug: lesson.slug,
+      title: lesson.title,
       lessonCompleted: Boolean(
         filteredModuleLessonProgress.find(
           (progress) =>
@@ -62,6 +63,7 @@ export async function getModuleProgress({
           return {
             id: lesson._id,
             slug: lesson.slug,
+            title: lesson.title,
             lessonCompleted: Boolean(
               moduleLessonProgress.find(
                 (progress) =>
@@ -74,6 +76,7 @@ export async function getModuleProgress({
       return {
         id: section._id,
         slug: section.slug,
+        title: section.title,
         sectionCompleted: sectionProgressLessons.every(
           (lesson) => lesson.lessonCompleted,
         ),
