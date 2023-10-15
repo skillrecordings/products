@@ -35,7 +35,7 @@ export const LessonCompleteEmail = ({
       <Preview>You are on your way.</Preview>
       <Body style={main}>
         <Section style={content}>
-          <Markdown>{body.replaceAll('//n', '/n')}</Markdown>
+          <Markdown>{body.replace(/\\+n/g, '\\n')}</Markdown>
         </Section>
         <Section style={content}>
           {hasAuthedLocally ? null : (
