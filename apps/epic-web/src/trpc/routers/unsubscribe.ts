@@ -19,7 +19,7 @@ export const unsubscribeRouter = router({
     .query(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
       if (token || input.userId) {
-        const UNSUBSCRIBED_KEY = `unsubscribed:${token.id || input.userId}:${
+        const UNSUBSCRIBED_KEY = `unsubscribed:${token?.id || input.userId}:${
           input.from
         }`
         await redis.set(UNSUBSCRIBED_KEY, true)

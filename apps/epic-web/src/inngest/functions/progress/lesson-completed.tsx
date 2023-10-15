@@ -122,7 +122,7 @@ export const lessonCompleted = inngest.createFunction(
         'send first lesson of module completed email',
         async () => {
           return await sendTheEmail<{
-            user: {name: string; email: string}
+            user: {name: string; email: string; id: string}
             hasAuthedLocally: boolean
             lesson: any
             body: string
@@ -224,7 +224,7 @@ export const lessonCompleted = inngest.createFunction(
         'send module completed email',
         async () => {
           return await sendTheEmail<{
-            user: {name: string; email: string}
+            user: {name: string; email: string; id: string}
             hasAuthedLocally: boolean
             lesson: any
             body: string
