@@ -200,26 +200,28 @@ export const writeAnEmail = inngest.createFunction(
     - make sure the body is properly formatted and structured markdown
     - make sure the email has soul
     `
+
+    const fullPrompt: OpenAI.ChatCompletionMessage[] = [
+      {role: 'system', content: singleline(systemPrompt)},
+      {role: 'user', content: singleline(primarySystemWriterPrompt)},
+      {role: 'assistant', content: aiResponse.choices[0].message.content},
+      {role: 'user', content: editorPrompt},
+      {
+        role: 'assistant',
+        content: aiEditorResponse.choices[0].message.content,
+      },
+      {role: 'user', content: singleline(aiWriterRevisionsPrompt)},
+      {
+        role: 'assistant',
+        content: aiFinalResponse.choices[0].message.content,
+      },
+      {role: 'user', content: singleline(bossEditorPrompt)},
+    ]
     const aiBossEditorResponse = await step.run(
       'send to boss editor for suggestions',
       async () => {
         return openai.chat.completions.create({
-          messages: [
-            {role: 'system', content: singleline(systemPrompt)},
-            {role: 'user', content: singleline(primarySystemWriterPrompt)},
-            {role: 'assistant', content: aiResponse.choices[0].message.content},
-            {role: 'user', content: editorPrompt},
-            {
-              role: 'assistant',
-              content: aiEditorResponse.choices[0].message.content,
-            },
-            {role: 'user', content: singleline(aiWriterRevisionsPrompt)},
-            {
-              role: 'assistant',
-              content: aiFinalResponse.choices[0].message.content,
-            },
-            {role: 'user', content: singleline(bossEditorPrompt)},
-          ],
+          messages: fullPrompt,
           model: 'gpt-4',
         })
       },
@@ -254,10 +256,11 @@ export const writeAnEmail = inngest.createFunction(
       data: {
         lessonId: event.data.currentLesson._id,
         ...emailData,
+        fullPrompt,
       },
       user: event.user,
     })
 
-    return emailData
+    return {emailData, fullPrompt}
   },
 )

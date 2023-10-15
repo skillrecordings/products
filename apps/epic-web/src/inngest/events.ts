@@ -1,4 +1,5 @@
 import {ModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
+import OpenAI from 'openai'
 
 export const EMAIL_WRITING_REQUEST_COMPLETED_EVENT = 'email/ai-email-completed'
 
@@ -8,6 +9,7 @@ export type EmailWritingRequestCompleted = {
     lessonId: string
     body: string
     subject: string
+    fullPrompt: OpenAI.ChatCompletionMessage[]
   }
 }
 
