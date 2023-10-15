@@ -62,6 +62,7 @@ const WorkshopsPage: React.FC<{
   const {ability, abilityRulesStatus} = useAbilities()
 
   const canViewContent = ability.can('view', 'Content')
+  const isRestricted = ability.can('view', 'RegionRestriction')
 
   return (
     <Layout
@@ -103,6 +104,7 @@ const WorkshopsPage: React.FC<{
                 <WorkshopAppBanner />
               ) : (
                 <ProductCTA
+                  restricted={isRestricted}
                   className="w-full"
                   product={fullStackWorkshopSeriesProduct}
                 />

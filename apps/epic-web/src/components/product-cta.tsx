@@ -9,10 +9,11 @@ import {useCursorPosition} from 'hooks/use-cursor-position'
 import {isFirefox} from 'react-device-detect'
 import {isSellingLive} from '@skillrecordings/skill-lesson/utils/is-selling-live'
 
-const ProductCTA: React.FC<{product: Product; className?: string}> = ({
-  product,
-  className = '',
-}) => {
+const ProductCTA: React.FC<{
+  product: Product
+  className?: string
+  restricted?: boolean
+}> = ({product, className = '', restricted = false}) => {
   const {image, title} = product
   const ref = React.useRef(null)
   const {x, y, handleMouseMove} = useCursorPosition({parentRef: ref})
@@ -21,7 +22,10 @@ const ProductCTA: React.FC<{product: Product; className?: string}> = ({
   const Comp: React.FC<React.PropsWithChildren> = ({children}) => {
     if (isSellingLive) {
       return (
-        <Link href={`/buy`} className={className}>
+        <Link
+          href={restricted ? `/products/${product.slug}` : `/buy`}
+          className={className}
+        >
           {children}
         </Link>
       )
@@ -63,7 +67,11 @@ const ProductCTA: React.FC<{product: Product; className?: string}> = ({
             <span className="dark:drop-shadow-md">{title}</span>
           </div>
           <p className="text-2xl font-semibold leading-tight text-white">
-            {isSellingLive ? 'Out Now!' : 'Coming Soon'}
+            {isSellingLive
+              ? restricted
+                ? 'Your License is Region Restricted'
+                : 'Out Now!'
+              : 'Coming Soon'}
           </p>
           {isSellingLive ? (
             <Button
@@ -71,7 +79,9 @@ const ProductCTA: React.FC<{product: Product; className?: string}> = ({
               className="relative mt-5 cursor-pointer bg-gradient-to-t from-blue-600 via-blue-500 to-blue-400 text-sm font-semibold shadow-sm transition hover:brightness-110"
               size="sm"
             >
-              <span className="drop-shadow-md">Get Access Today</span>
+              <span className="drop-shadow-md">
+                {restricted ? 'Upgrade to full license' : 'Get Access Today'}
+              </span>
             </Button>
           ) : null}
         </div>

@@ -35,6 +35,7 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import {useRouter} from 'next/router'
 import {PlayIcon} from '@heroicons/react/solid'
 import {RxDiscordLogo} from 'react-icons/rx'
+import MuxPlayer from '@mux/mux-player-react'
 
 const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   purchases = [],
@@ -112,8 +113,8 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
           }}
           className="relative mx-auto mt-8 flex w-full max-w-screen-lg flex-col items-center px-5"
         >
-          <section className="relative flex w-full flex-col-reverse overflow-hidden rounded-md border border-white/5 bg-gradient-to-tr from-primary to-indigo-500 text-primary-foreground selection:bg-gray-900 md:grid md:grid-cols-7 ">
-            <div className="col-span-4 flex flex-col justify-between p-8 pt-8 md:pt-8">
+          <section className="relative flex w-full flex-col-reverse overflow-hidden rounded-md border border-white/5 bg-gradient-to-tr from-primary to-indigo-500 text-primary-foreground selection:bg-gray-900 md:grid md:grid-cols-8">
+            <div className="col-span-4 flex flex-col justify-between p-5 pt-8 sm:p-8 md:pt-8">
               <div className="space-y-3">
                 <p className="text-xl font-semibold">
                   Hey {session?.user?.name || 'there'}{' '}
@@ -187,6 +188,14 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                   </Link>
                 </Button>
               </div>
+            </div>
+            <div className="col-span-4 flex w-full items-center justify-center p-5 sm:p-8 md:pl-0">
+              <MuxPlayer
+                playbackId="uAWjlKTFcFwHpqUzpwbBehoa00aS3iIO77Wm2g9hJb4A"
+                className="w-full rounded shadow-xl"
+                accentColor="#3b82f6"
+                poster="https://res.cloudinary.com/epic-web/image/upload/v1697354956/after-purchase-video-poster.jpg"
+              />
             </div>
             {/* <div className="col-span-3 flex w-full items-center justify-center p-8">
               <div className="flex aspect-video w-full cursor-pointer items-center justify-center rounded-md bg-gray-900/10 mix-blend-hard-light">
