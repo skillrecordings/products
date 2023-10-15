@@ -237,7 +237,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.4.1'
@@ -956,7 +956,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.4.1'
@@ -1296,7 +1296,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
@@ -1693,7 +1693,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.4.1'
@@ -2168,7 +2168,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.4.1'
@@ -2562,7 +2562,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.4.1'
@@ -2938,7 +2938,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: ^4.4.1
@@ -3338,7 +3338,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.4.1'
@@ -4133,7 +4133,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
@@ -4386,7 +4386,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
@@ -4744,7 +4744,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.4.1'
@@ -5294,7 +5294,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.4.1'
@@ -5727,10 +5727,10 @@ importers:
         specifier: ^4.12.0
         version: 4.14.1
       next:
-        specifier: ^13.5.2
+        specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.4.1'
@@ -6088,7 +6088,7 @@ importers:
         specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-sitemap:
         specifier: ^3.0.5
@@ -6385,7 +6385,7 @@ importers:
         specifier: ^2.4.14
         version: 2.4.26
       next:
-        specifier: ^13.5.1
+        specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       react:
         specifier: 18.2.0
@@ -6603,7 +6603,7 @@ importers:
         specifier: ^10.12.4
         version: 10.16.4(react-dom@18.2.0)(react@18.2.0)
       next:
-        specifier: ^13.5.1
+        specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       react:
         specifier: 18.2.0
@@ -6838,7 +6838,7 @@ importers:
         specifier: ^7.0.1
         version: 7.0.1(@babel/plugin-syntax-flow@7.22.5)(@babel/plugin-transform-react-jsx@7.22.15)(eslint@8.51.0)(jest@25.5.4)(typescript@5.1.6)
       next:
-        specifier: ^13.5.1
+        specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       react:
         specifier: 18.2.0
@@ -6929,7 +6929,7 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config-skill-recordings
       next:
-        specifier: ^13.5.1
+        specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       react:
         specifier: 18.2.0
@@ -7008,7 +7008,7 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config-skill-recordings
       next:
-        specifier: ^13.5.1
+        specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       react:
         specifier: 18.2.0
@@ -7271,7 +7271,7 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       next:
-        specifier: ^13.5.1
+        specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       react:
         specifier: 18.2.0
@@ -7407,7 +7407,7 @@ importers:
         specifier: ^0.35.0
         version: 0.35.0
       next:
-        specifier: ^13.5.1
+        specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       react:
         specifier: 18.2.0
@@ -7640,10 +7640,10 @@ importers:
         specifier: ^0.35.0
         version: 0.35.0
       next:
-        specifier: ^13.5.1
+        specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       nodemailer:
         specifier: ^6.7.2
@@ -7892,10 +7892,10 @@ importers:
         specifier: ^2.0.8
         version: 2.0.8(mjml@4.14.1)(react-dom@18.2.0)(react@18.2.0)
       next:
-        specifier: ^13.5.1
+        specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.4.1'
@@ -8358,10 +8358,10 @@ importers:
         specifier: ^2.0.8
         version: 2.0.8(mjml@4.14.1)(react-dom@18.2.0)(react@18.2.0)
       next:
-        specifier: ^13.5.1
+        specifier: ^13.5.4
         version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       next-auth:
-        specifier: ^4.23.1
+        specifier: ^4.23.2
         version: 4.23.2(next@13.5.4)(nodemailer@6.9.6)(react-dom@18.2.0)(react@18.2.0)
       next-mdx-remote:
         specifier: '=4.2.0'
@@ -19708,7 +19708,7 @@ packages:
   /axios@0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
     transitivePeerDependencies:
       - debug
     dev: false
@@ -19716,14 +19716,14 @@ packages:
   /axios@0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
     transitivePeerDependencies:
       - debug
 
   /axios@0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
     transitivePeerDependencies:
       - debug
     dev: false
@@ -19731,7 +19731,7 @@ packages:
   /axios@0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -19740,7 +19740,7 @@ packages:
   /axios@1.5.1:
     resolution: {integrity: sha512-Q28iYCWzNHjAm+yEAot5QaAMxhMghWLFVf7rRdwhUI+c2jix2DUXjAHXVi+s1ibs3mjPO/cCgbA++3BjD0vP/A==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -25105,6 +25105,7 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
+    dev: false
 
   /fontkit-next@1.8.3:
     resolution: {integrity: sha512-pa/vL114+ESn4Dokka7eIY+LtiMxyLRy+rnX4y6e+5rL8zDbUDoKzvFAE4LHVLaZY6hifuaut6z2Q4I1eawLvQ==}
