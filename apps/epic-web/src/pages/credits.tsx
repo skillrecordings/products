@@ -52,14 +52,15 @@ const Credits: React.FC<any> = ({lessons}) => {
 export default Credits
 
 const Team = () => {
+  const shouldReduceMotion = useReducedMotion()
   return (
     <>
       {drop(team).map(
         ({name, role, description, image, xHandle, website}, i) => {
           return (
             <motion.article
-              whileInView={{scale: 1, opacity: 1}}
-              initial={{scale: 0.9, opacity: 0}}
+              whileInView={!shouldReduceMotion ? {scale: 1, opacity: 1} : {}}
+              initial={!shouldReduceMotion ? {scale: 0.9, opacity: 0} : {}}
               transition={{
                 duration: 0.5,
                 ease: [0.48, 0.15, 0.25, 0.96],
@@ -242,7 +243,7 @@ function extractDomainWithPath(url: string) {
 const Thumbnails: React.FC<any> = ({lessons}) => {
   const w = 384
   const h = 217
-
+  const shouldReduceMotion = useReducedMotion()
   return (
     <div
       className="relative mt-16 flex items-center justify-center"
@@ -260,15 +261,18 @@ const Thumbnails: React.FC<any> = ({lessons}) => {
           repeat: Infinity,
           repeatType: 'loop',
         }}
-        // className="relative flex w-full items-center justify-center py-48"
       >
         {shuffle(lessons).map((lesson: any, i: number) => (
           <motion.img
             key={lesson.muxPlaybackId}
-            whileHover={{
-              y: -5,
-              scale: 1.05,
-            }}
+            whileHover={
+              !shouldReduceMotion
+                ? {
+                    y: -5,
+                    scale: 1.05,
+                  }
+                : {}
+            }
             className="rounded-md shadow-2xl"
             transition={{
               duration: 0.5,
