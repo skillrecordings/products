@@ -139,6 +139,7 @@ export const writeAnEmail = inngest.createFunction(
         - watch out for repetitiveness
         - watch out for ai jank and hallucinations
         - if you see direct references to Remix, suggest changes to broader web development concepts
+        - check the new line characters and make sure they use a single slash and not a double slash or more like this \n NOT like this \\n or this \\\n or this \\\\\n
     `
     const aiEditorResponse = await step.run(
       'send to editor for suggestions',
@@ -190,6 +191,7 @@ export const writeAnEmail = inngest.createFunction(
     long strings that need to be a single line but do not escape the newline character.
     
     - remove any links that contain undefined.
+    - newlines in the body should be a single slash and not a double slash or more like this \n NOT like this \\n or this \\\n or this \\\\\n
     - LESS IS MORE. When in doubt: cut it out.
     - keep it authentic and conversational
     - do developers like AI writing at them? No. Remember that.
