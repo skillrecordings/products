@@ -1,5 +1,8 @@
 import {inngest} from 'inngest/inngest.server'
-import {EMAIL_WRITING_REQUESTED_EVENT} from 'inngest/events'
+import {
+  EMAIL_WRITING_REQUEST_COMPLETED_EVENT,
+  EMAIL_WRITING_REQUESTED_EVENT,
+} from 'inngest/events'
 import OpenAI from 'openai'
 
 const openai = new OpenAI()
@@ -15,6 +18,14 @@ export const writeAnEmail = inngest.createFunction(
       percentComplete: event.data.moduleProgress.percentComplete,
       moduleCompleted: event.data.moduleProgress.moduleCompleted,
     }
+
+    const systemPrompt = `Epic Web Dev, taught by Kent C. Dodds, 
+    offers a comprehensive journey through full-stack development, emphasizing hands-on 
+    learning to build sustainable user experiences. It hosts modules like Full Stack Foundations, 
+    Professional Web Forms, Data Modeling Deep Dive, Web Authentication, and Full Stack Testing, 
+    each meticulously crafted for skill enhancement. Unlike passive learning, participants engage 
+    with a bespoke local web app, melding with their local dev setups for real-time code execution 
+    and testing.`
 
     const primarySystemWriterPrompt = `You are Kody the Koala, a friendly mascot 
     for the professional courses from Epic Web tat always signs off with the emoji 🐨
@@ -104,16 +115,7 @@ export const writeAnEmail = inngest.createFunction(
       async () => {
         return await openai.chat.completions.create({
           messages: [
-            {
-              role: 'system',
-              content: `Epic Web Dev, taught by Kent C. Dodds, 
-    offers a comprehensive journey through full-stack development, emphasizing hands-on 
-    learning to build sustainable user experiences. It hosts modules like Full Stack Foundations, 
-    Professional Web Forms, Data Modeling Deep Dive, Web Authentication, and Full Stack Testing, 
-    each meticulously crafted for skill enhancement. Unlike passive learning, participants engage 
-    with a bespoke local web app, melding with their local dev setups for real-time code execution 
-    and testing.`,
-            },
+            {role: 'system', content: systemPrompt},
             {role: 'user', content: primarySystemWriterPrompt},
           ],
           model: 'gpt-4',
@@ -141,16 +143,7 @@ export const writeAnEmail = inngest.createFunction(
       async () => {
         return await openai.chat.completions.create({
           messages: [
-            {
-              role: 'system',
-              content: `Epic Web Dev, taught by Kent C. Dodds, 
-    offers a comprehensive journey through full-stack development, emphasizing hands-on 
-    learning to build sustainable user experiences. It hosts modules like Full Stack Foundations, 
-    Professional Web Forms, Data Modeling Deep Dive, Web Authentication, and Full Stack Testing, 
-    each meticulously crafted for skill enhancement. Unlike passive learning, participants engage 
-    with a bespoke local web app, melding with their local dev setups for real-time code execution 
-    and testing.`,
-            },
+            {role: 'system', content: systemPrompt},
             {role: 'user', content: primarySystemWriterPrompt},
             {role: 'assistant', content: aiResponse.choices[0].message.content},
             {role: 'user', content: editorPrompt},
@@ -172,16 +165,7 @@ export const writeAnEmail = inngest.createFunction(
       async () => {
         return await openai.chat.completions.create({
           messages: [
-            {
-              role: 'system',
-              content: `Epic Web Dev, taught by Kent C. Dodds, 
-    offers a comprehensive journey through full-stack development, emphasizing hands-on 
-    learning to build sustainable user experiences. It hosts modules like Full Stack Foundations, 
-    Professional Web Forms, Data Modeling Deep Dive, Web Authentication, and Full Stack Testing, 
-    each meticulously crafted for skill enhancement. Unlike passive learning, participants engage 
-    with a bespoke local web app, melding with their local dev setups for real-time code execution 
-    and testing.`,
-            },
+            {role: 'system', content: systemPrompt},
             {role: 'user', content: primarySystemWriterPrompt},
             {role: 'assistant', content: aiResponse.choices[0].message.content},
             {role: 'user', content: editorPrompt},
@@ -214,16 +198,7 @@ export const writeAnEmail = inngest.createFunction(
       async () => {
         return await openai.chat.completions.create({
           messages: [
-            {
-              role: 'system',
-              content: `Epic Web Dev, taught by Kent C. Dodds, 
-    offers a comprehensive journey through full-stack development, emphasizing hands-on 
-    learning to build sustainable user experiences. It hosts modules like Full Stack Foundations, 
-    Professional Web Forms, Data Modeling Deep Dive, Web Authentication, and Full Stack Testing, 
-    each meticulously crafted for skill enhancement. Unlike passive learning, participants engage 
-    with a bespoke local web app, melding with their local dev setups for real-time code execution 
-    and testing.`,
-            },
+            {role: 'system', content: systemPrompt},
             {role: 'user', content: primarySystemWriterPrompt},
             {role: 'assistant', content: aiResponse.choices[0].message.content},
             {role: 'user', content: editorPrompt},
@@ -265,6 +240,17 @@ export const writeAnEmail = inngest.createFunction(
       },
     )
 
-    return JSON.parse(formatCheck.choices[0].message.content || '{}')
+    const emailData = JSON.parse(formatCheck.choices[0].message.content || '{}')
+
+    await step.sendEvent('notify that writing is done', {
+      name: EMAIL_WRITING_REQUEST_COMPLETED_EVENT,
+      data: {
+        lessonId: event.data.currentLesson._id,
+        ...emailData,
+      },
+      user: event.user,
+    })
+
+    return emailData
   },
 )

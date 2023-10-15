@@ -8,7 +8,10 @@ import FirstLessonCompleteForModule from 'emails/first-lesson-complete-for-modul
 import {getModuleProgress} from '@skillrecordings/skill-lesson/lib/module-progress'
 import ModuleCompleted from 'emails/module-completed'
 import {sendTheEmail} from 'server/send-the-email'
-import {EMAIL_WRITING_REQUESTED_EVENT} from 'inngest/events'
+import {
+  EMAIL_WRITING_REQUEST_COMPLETED_EVENT,
+  EMAIL_WRITING_REQUESTED_EVENT,
+} from 'inngest/events'
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
@@ -66,6 +69,11 @@ export const lessonCompleted = inngest.createFunction(
   {
     id: 'lesson-completed',
     name: 'Lesson Completed',
+    // debounce: {
+    //   key: 'event.user.id',
+    //   period: '1h'
+    // },
+    // idempotency: "event.data.lessonId + ‘-‘ + event.user.id"
   },
   {event: LESSON_COMPLETED_EVENT},
   async ({event, step}) => {
@@ -76,25 +84,6 @@ export const lessonCompleted = inngest.createFunction(
       },
     )
 
-    await step.run('send first email to ai writer loop', async () => {
-      const moduleProgress = await getModuleProgress({
-        userId: event.user.id,
-        moduleSlug: lessonWithModule.module.slug.current,
-      })
-
-      await inngest.send({
-        name: EMAIL_WRITING_REQUESTED_EVENT,
-        data: {
-          currentLesson: lessonWithModule,
-          moduleProgress,
-          currentModuleSlug: lessonWithModule.module.current,
-          currentLessonSlug: event.data.lessonSlug,
-          currentSectionSlug: lessonWithModule.section.slug,
-        },
-        user: event.user,
-      })
-    })
-
     const FIRST_LESSON_KEY = `first-lesson:${event.user.id}:${lessonWithModule.module.slug.current}`
 
     const hasReceivedFirstLessonEmail = await step.run(
@@ -104,7 +93,6 @@ export const lessonCompleted = inngest.createFunction(
       },
     )
 
-    console.log({hasReceivedFirstLessonEmail})
     if (!hasReceivedFirstLessonEmail && lessonWithModule.solution) {
       const hasAuthedLocally = await step.run(
         'Check if Locally Authenticated',
@@ -119,6 +107,58 @@ export const lessonCompleted = inngest.createFunction(
         },
       )
 
+      await step.run('send first email to ai writer loop', async () => {
+        const moduleProgress = await getModuleProgress({
+          userId: event.user.id,
+          moduleSlug: lessonWithModule.module.slug.current,
+        })
+
+        await inngest.send({
+          name: EMAIL_WRITING_REQUESTED_EVENT,
+          data: {
+            currentLesson: lessonWithModule,
+            moduleProgress,
+            currentModuleSlug: lessonWithModule.module.current,
+            currentLessonSlug: event.data.lessonSlug,
+            currentSectionSlug: lessonWithModule.section.slug,
+          },
+          user: event.user,
+        })
+      })
+
+      const aiEmail = await step.waitForEvent('ai writer loop completed', {
+        event: EMAIL_WRITING_REQUEST_COMPLETED_EVENT,
+        timeout: '15m',
+        if: 'event.user.id == async.user.id && async.data.lessonId == event.data.lessonSanityId',
+      })
+
+      let emailOptions = {
+        To: event.user.email,
+        Subject: 'You finished an Epic Web Lesson',
+        Component: FirstLessonCompleteForModule,
+        componentProps: {
+          user: event.user,
+          hasAuthedLocally: hasAuthedLocally,
+          lesson: lessonWithModule,
+          body: `You completed your first lesson in ${lessonWithModule.module.title}! That's
+              awesome.`,
+        },
+      }
+
+      if (aiEmail) {
+        emailOptions = {
+          To: event.user.email,
+          Subject: aiEmail.data.subject,
+          Component: FirstLessonCompleteForModule,
+          componentProps: {
+            user: event.user,
+            hasAuthedLocally: hasAuthedLocally,
+            lesson: lessonWithModule,
+            body: aiEmail.data.body,
+          },
+        }
+      }
+
       const emailSendResponse = await step.run(
         'send first lesson of module completed email',
         async () => {
@@ -126,16 +166,8 @@ export const lessonCompleted = inngest.createFunction(
             user: {name: string; email: string}
             hasAuthedLocally: boolean
             lesson: any
-          }>({
-            To: event.user.email,
-            Subject: 'You made some progress!',
-            Component: FirstLessonCompleteForModule,
-            componentProps: {
-              user: event.user,
-              hasAuthedLocally: hasAuthedLocally,
-              lesson: lessonWithModule,
-            },
-          })
+            body: string
+          }>(emailOptions)
         },
       )
 

@@ -1,5 +1,16 @@
 import {ModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
 
+export const EMAIL_WRITING_REQUEST_COMPLETED_EVENT = 'email/ai-email-completed'
+
+export type EmailWritingRequestCompleted = {
+  name: typeof EMAIL_WRITING_REQUEST_COMPLETED_EVENT
+  data: {
+    lessonId: string
+    body: string
+    subject: string
+  }
+}
+
 export const EMAIL_WRITING_REQUESTED_EVENT = 'email/writing-requested'
 
 export type EmailWritingRequested = {
