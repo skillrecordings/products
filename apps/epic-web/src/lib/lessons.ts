@@ -59,3 +59,51 @@ export async function getLessonVideoForDevice({
     }
   }
 }
+
+export const getLessonWithModule = async (id: string): Promise<any> => {
+  return await sanityClient.fetch(
+    `*[_id == $id][0]{
+      _id,
+      title,
+      description,
+      workshopApp,
+      "solution": resources[@._type == 'solution'][0]{
+        _key,
+      },
+      "section": *[_type in ['section'] && references(^._id)][0]{
+        _id,
+        "slug": slug.current,
+      },
+    } | {
+      ...,
+      "module": *[_type in ['module'] && references(^.section._id)][0] {
+        _type,
+        title,
+        slug,
+        body,
+        moduleType,
+        _id,
+        github,
+        description,
+        github,
+        workshopApp,
+        "sections": resources[@->._type == 'section']->{
+          _id,
+          title,
+          description,
+          "slug": slug.current,
+          "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson']]->{
+            _id,
+            _type,
+            title,
+            description,
+            "slug": slug.current
+          },
+          "resources": resources[@->._type in ['linkResource']]->
+        },
+        "image": image.asset->url, 
+      }
+    }`,
+    {id},
+  )
+}

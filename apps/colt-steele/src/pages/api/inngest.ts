@@ -58,7 +58,7 @@ async function getVideoResource(videoResourceId: string) {
 }
 
 const addSrtToMuxAsset = inngest.createFunction(
-  {name: 'Add SRT to Mux Asset'},
+  {id: 'add-srt-mux-asset', name: 'Add SRT to Mux Asset'},
   {event: 'tip/video.srt.ready'},
   async ({event, step}) => {
     const muxAssetStatus = await step.run(
@@ -118,7 +118,7 @@ const addSrtToMuxAsset = inngest.createFunction(
       //
       // })
     } else {
-      await step.sleep(60000)
+      await step.sleep('wait 10 seconds', 60000)
       await step.run('Re-run After Cooldown', async () => {
         return await inngest.send({
           name: 'tip/video.srt.ready',
@@ -130,7 +130,7 @@ const addSrtToMuxAsset = inngest.createFunction(
 )
 
 const processNewTip = inngest.createFunction(
-  {name: 'Process New Tip Video'},
+  {id: 'process-new-tip-video', name: 'Process New Tip Video'},
   {event: 'tip/video.uploaded'}, // The event that will trigger this function
   async ({event, step}) => {
     await step.run('Update Tip Status', async () => {
@@ -181,10 +181,14 @@ const processNewTip = inngest.createFunction(
 
     // Promise.all|race to wait for multiple events
 
-    const transcript = await step.waitForEvent('tip/video.transcript.created', {
-      match: 'data.videoResourceId',
-      timeout: '1h',
-    })
+    const transcript = await step.waitForEvent(
+      'wait for the transcript to be completed',
+      {
+        event: 'tip/video.transcript.created',
+        match: 'data.videoResourceId',
+        timeout: '1h',
+      },
+    )
 
     if (transcript) {
       await step.run('Update Video Resource with Transcript', async () => {
@@ -233,8 +237,9 @@ const processNewTip = inngest.createFunction(
       })
 
       const llmResponse = await step.waitForEvent(
-        'tip/video.llm.suggestions.created',
+        `wait for the LLM suggestions to be created`,
         {
+          event: 'tip/video.llm.suggestions.created',
           match: 'data.videoResourceId',
           timeout: '1h',
         },
@@ -265,4 +270,7 @@ const processNewTip = inngest.createFunction(
   },
 )
 
-export default serve(inngest, [processNewTip, addSrtToMuxAsset])
+export default serve({
+  client: inngest,
+  functions: [processNewTip, addSrtToMuxAsset],
+})

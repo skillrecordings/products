@@ -4,6 +4,37 @@ import {SubscriberSchema} from '../../schemas/subscriber'
 import {publicProcedure, router} from '../trpc.server'
 import {getToken} from 'next-auth/jwt'
 import {getLesson} from '../../lib/lesson-resource'
+import {LESSON_COMPLETED_EVENT} from '../../inngest/events'
+import {Inngest} from 'inngest'
+
+async function sendInngestProgressEvent({
+  user,
+  lessonId,
+  lessonSlug,
+}: {
+  user: any
+  lessonId: any
+  lessonSlug: any
+}) {
+  if (process.env.INNGEST_EVENT_KEY) {
+    const inngest = new Inngest({
+      id:
+        process.env.INNGEST_APP_NAME ||
+        process.env.NEXT_PUBLIC_SITE_TITLE ||
+        'User Progress',
+      eventKey: process.env.INNGEST_EVENT_KEY,
+    })
+
+    await inngest.send({
+      name: LESSON_COMPLETED_EVENT,
+      data: {
+        lessonSanityId: lessonId,
+        lessonSlug: lessonSlug,
+      },
+      user,
+    })
+  }
+}
 
 export const progressRouter = router({
   add: publicProcedure
@@ -21,6 +52,11 @@ export const progressRouter = router({
           completeLessonProgressForUser({
             userId: token.id as string,
             lessonId: lesson._id,
+          })
+          await sendInngestProgressEvent({
+            user: token,
+            lessonId: lesson._id,
+            lessonSlug: lesson.slug,
           })
         } else {
           const subscriberCookie = ctx.req.cookies['ck_subscriber']
@@ -44,6 +80,12 @@ export const progressRouter = router({
           completeLessonProgressForUser({
             userId: user.id,
             lessonId: lesson._id,
+          })
+
+          await sendInngestProgressEvent({
+            user,
+            lessonId: lesson._id,
+            lessonSlug: lesson.slug,
           })
         }
         return true
@@ -66,10 +108,20 @@ export const progressRouter = router({
       try {
         const lesson = await getLesson(input.lessonSlug)
         if (token) {
-          return await toggleLessonProgressForUser({
+          const progress = await toggleLessonProgressForUser({
             userId: token.id as string,
             lessonId: lesson._id as string,
           })
+
+          if (progress.completedAt) {
+            await sendInngestProgressEvent({
+              user: token,
+              lessonId: lesson._id,
+              lessonSlug: lesson.slug,
+            })
+          }
+
+          return progress
         } else {
           const subscriberCookie = ctx.req.cookies['ck_subscriber']
 
@@ -89,10 +141,20 @@ export const progressRouter = router({
 
           const {user} = await findOrCreateUser(subscriber.email_address)
 
-          return await toggleLessonProgressForUser({
+          const progress = await toggleLessonProgressForUser({
             userId: user.id,
             lessonId: lesson._id as string,
           })
+
+          if (progress.completedAt) {
+            await sendInngestProgressEvent({
+              user: token,
+              lessonId: lesson._id,
+              lessonSlug: lesson.slug,
+            })
+          }
+
+          return progress
         }
       } catch (error) {
         console.error(error)
