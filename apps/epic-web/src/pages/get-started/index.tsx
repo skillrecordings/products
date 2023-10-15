@@ -28,6 +28,7 @@ export const getStaticProps = async () => {
       body: bodyMdx,
       workshops,
     },
+    revalidate: 10,
   }
 }
 
