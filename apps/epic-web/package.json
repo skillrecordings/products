@@ -144,6 +144,7 @@
     "sanity-plugin-markdown": "^4.1.0",
     "sanity-plugin-taxonomy-manager": "^2.0.4",
     "shortid": "^2.2.16",
+    "singleline": "^2.0.0",
     "speakingurl": "^14.0.1",
     "starfield-react": "3.1.0-dev-5",
     "styled-components": "^5.2",

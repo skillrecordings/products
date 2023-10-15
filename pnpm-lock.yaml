@@ -1791,6 +1791,9 @@ importers:
       shortid:
         specifier: ^2.2.16
         version: 2.2.16
+      singleline:
+        specifier: ^2.0.0
+        version: 2.0.0
       speakingurl:
         specifier: ^14.0.1
         version: 14.0.1
@@ -37135,6 +37138,11 @@ packages:
       lodash.debounce: 4.0.8
       lodash.memoize: 4.1.2
       lodash.throttle: 4.1.1
+    dev: false
+
+  /singleline@2.0.0:
+    resolution: {integrity: sha512-PJr/kx5KBJEvQ8g7+lO2P1YwCta9yx7h8vot4IcCCZJ96ucNBKJnQZKYxEtamRwmOEUN11fJe5r/3/mNFMyoOQ==}
+    engines: {node: '>=10'}
     dev: false
 
   /sisteransi@1.0.5:
