@@ -69,11 +69,11 @@ export const lessonCompleted = inngest.createFunction(
   {
     id: 'lesson-completed',
     name: 'Lesson Completed',
-    // debounce: {
-    //   key: 'event.user.id',
-    //   period: '1h'
-    // },
-    // idempotency: "event.data.lessonId + ‘-‘ + event.user.id"
+    debounce: {
+      key: 'event.user.id',
+      period: '1h',
+    },
+    idempotency: 'event.data.lessonId + ‘-‘ + event.user.id',
   },
   {event: LESSON_COMPLETED_EVENT},
   async ({event, step}) => {

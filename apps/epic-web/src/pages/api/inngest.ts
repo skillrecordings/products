@@ -18,9 +18,9 @@ export default serve({
     processNewTip,
     addSrtToMuxAsset,
     stripeCheckoutCompleted,
-    inactivityAfterPurchase,
+    // inactivityAfterPurchase,
+    // resumeProgressAfterInactivity,
     lessonCompleted,
-    resumeProgressAfterInactivity,
     writeAnEmail,
   ],
 })
