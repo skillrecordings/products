@@ -42,7 +42,11 @@ export const couponsRouter = router({
       return []
     }),
   get: publicProcedure.query(async ({ctx}) => {
-    const coupons = await prisma.coupon.findMany()
+    const coupons = await prisma.coupon.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
     return coupons
   }),
   delete: publicProcedure

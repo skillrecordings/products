@@ -13,15 +13,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import {
-  SortAscendingIcon,
-  ChevronDownIcon,
-  PlusIcon,
-} from '@heroicons/react/outline'
-import {DotsCircleHorizontalIcon} from '@heroicons/react/solid'
-
-import {Button} from '@skillrecordings/ui'
-import {Checkbox} from '@skillrecordings/ui'
+import {ArrowUpDown, ChevronDown, MoreHorizontal} from 'lucide-react'
+import {Button} from '../index'
+import {Checkbox} from '../index'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -30,8 +24,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@skillrecordings/ui'
-import {Input} from '@skillrecordings/ui'
+} from '../index'
+import {Input} from '../index'
 import {
   Table,
   TableBody,
@@ -39,13 +33,29 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@skillrecordings/ui'
-import {Coupon} from 'pages/admin'
+} from '../index'
+// import {Coupon} from 'pages/admin'
 import toast from 'react-hot-toast'
-import {trpc} from 'trpc/trpc.client'
+import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
+import {Decimal} from '@prisma/client/runtime'
+
+type Coupon = {
+  id: string
+  code: null | string
+  createdAt: Date
+  expires: null | Date
+  maxUses: number
+  default: boolean
+  merchantCouponId: null | string
+  status: number
+  usedCount: number
+  percentageDiscount: Decimal
+  restrictedToProductId: null | string
+  bulkPurchaseId: null | string
+}
 
 export const columns = () => {
-  const mutateDeleteCoupons = trpc.coupons.delete.useMutation()
+  const mutateDeleteCoupons = trpcSkillLessons.coupons.delete.useMutation()
 
   return [
     {
@@ -85,7 +95,7 @@ export const columns = () => {
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Created
-            <SortAscendingIcon className="h-4 w-4" />
+            <ArrowUpDown className="h-4 w-4" />
           </button>
         )
       },
@@ -179,7 +189,7 @@ export const columns = () => {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
-                <DotsCircleHorizontalIcon className="h-4 w-4" />
+                <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -229,7 +239,7 @@ const CouponDataTable: React.FC<{coupons: Coupon[]}> = ({coupons}) => {
       rowSelection,
     },
   })
-  const mutateDeleteCoupons = trpc.coupons.delete.useMutation()
+  const mutateDeleteCoupons = trpcSkillLessons.coupons.delete.useMutation()
 
   return (
     <div className="w-full">
@@ -247,7 +257,7 @@ const CouponDataTable: React.FC<{coupons: Coupon[]}> = ({coupons}) => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+              Columns <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -322,7 +332,7 @@ const CouponDataTable: React.FC<{coupons: Coupon[]}> = ({coupons}) => {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        <div className="flex-1 text-sm text-muted-foreground flex items-center">
           {table.getFilteredSelectedRowModel().rows.length > 0 && (
             <div className="flex items-center gap-2">
               <Button
@@ -349,7 +359,7 @@ const CouponDataTable: React.FC<{coupons: Coupon[]}> = ({coupons}) => {
                       .getFilteredSelectedRowModel()
                       .rows.map((row) => row.original.id),
                   })
-
+                  table.toggleAllRowsSelected(false)
                   toast.success('Coupon(s) removed')
                 }}
               >
@@ -357,11 +367,10 @@ const CouponDataTable: React.FC<{coupons: Coupon[]}> = ({coupons}) => {
               </Button>
             </div>
           )}
-          {/* {table.getFilteredSelectedRowModel().rows.map((row) => {
-            return <span className="mr-1">{JSON.stringify(row.original)}</span>
-          })} */}
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          <div>
+            {table.getFilteredSelectedRowModel().rows.length} of{' '}
+            {table.getFilteredRowModel().rows.length} row(s) selected.
+          </div>
         </div>
         <div className="space-x-2">
           <Button
