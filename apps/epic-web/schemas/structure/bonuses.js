@@ -2,7 +2,7 @@ import {MdStar} from 'react-icons/md'
 
 const bonuses = (S) =>
   S.listItem()
-    .title('Bonuses')
+    .title('Bonus Modules')
     .icon(MdStar)
     .child(
       S.documentTypeList('module')

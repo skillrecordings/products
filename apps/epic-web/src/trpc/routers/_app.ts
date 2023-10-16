@@ -12,6 +12,7 @@ import {userRouter} from './user'
 import {deviceVerificationRouter} from 'trpc/routers/device-verification'
 import {searchRouter} from './search'
 import {unsubscribeRouter} from 'trpc/routers/unsubscribe'
+import {bonusesRouter} from 'trpc/routers/bonuses'
 
 export const appRouter = mergeRouters(
   router({
@@ -24,6 +25,7 @@ export const appRouter = mergeRouters(
     deviceVerification: deviceVerificationRouter,
     search: searchRouter,
     unsubscribe: unsubscribeRouter,
+    bonuses: bonusesRouter,
   }),
   skillLessonRouter,
 )
