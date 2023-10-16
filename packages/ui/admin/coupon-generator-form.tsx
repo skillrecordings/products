@@ -51,7 +51,7 @@ const CouponGeneratorForm = () => {
       expires: undefined,
     },
   })
-  const [codes, setCodes] = React.useState<string>('')
+  const [codes, setCodes] = React.useState<string[]>([])
   const {data: products} = trpcSkillLessons.products.getAllProducts.useQuery()
   const expiresAtDateTime = form.watch('expires')?.setHours(23, 59, 0, 0)
   const createCouponsMutation = trpcSkillLessons.coupons.create.useMutation()
@@ -59,6 +59,12 @@ const CouponGeneratorForm = () => {
     createCouponsMutation.mutate(values, {
       onSuccess: ({codes}) => {
         setCodes(codes)
+        if (codes.length > 1) {
+          downloadTextFile(codes.join('\n'))
+        } else {
+          navigator.clipboard.writeText(codes.join('\n'))
+          toast.success('Copied to clipboard')
+        }
       },
     })
   }
@@ -286,7 +292,7 @@ const CouponGeneratorForm = () => {
                 <>
                   <Button
                     type="button"
-                    onClick={() => downloadTextFile(codes)}
+                    onClick={() => downloadTextFile(codes.join('\n'))}
                     className="bg-foreground text-background"
                   >
                     Download
@@ -295,7 +301,7 @@ const CouponGeneratorForm = () => {
                     type="button"
                     onClick={() => {
                       toast.success('Copied to clipboard')
-                      return navigator.clipboard.writeText(codes)
+                      return navigator.clipboard.writeText(codes.join('\n'))
                     }}
                     variant="secondary"
                   >

@@ -106,7 +106,7 @@ export const couponsRouter = router({
         codesArray.push(`${process.env.NEXT_PUBLIC_URL}?code=${coupon.id}`)
       }
 
-      return {codes: codes}
+      return {codes: codesArray}
     }),
 })
 
