@@ -251,46 +251,53 @@ const CouponGeneratorForm = () => {
           />
         </fieldset>
         <div className="flex items-end gap-5">
-          <FormField
-            name="quantity"
-            render={({field}) => (
-              <FormItem>
-                <FormLabel>Quantity</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    id="quantity"
-                    {...field}
-                    required
-                    min={1}
-                    max={100}
-                    onChange={field.onChange}
-                    defaultValue={1}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <Button disabled={form.formState.isSubmitting} type="submit">
-            Generate{' '}
-            {form.formState.isSubmitting && (
-              <Spinner className="ml-1 w-4 h-5" />
-            )}
-          </Button>
-          <div className="w-full flex justify-end gap-2">
-            {form.formState.isSubmitted && codes && (
-              <>
-                <Button onClick={() => downloadTextFile(codes)}>
-                  Download
-                </Button>
-                <Button
-                  onClick={() => navigator.clipboard.writeText(codes)}
-                  variant="secondary"
-                >
-                  Copy to clipboard
-                </Button>
-              </>
-            )}
+          <div className="flex sm:items-end gap-5 justify-between w-full sm:flex-row flex-col">
+            <div className="flex gap-5 items-end">
+              <FormField
+                name="quantity"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Quantity</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        id="quantity"
+                        {...field}
+                        required
+                        min={1}
+                        max={100}
+                        onChange={field.onChange}
+                        defaultValue={1}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <Button disabled={form.formState.isSubmitting} type="submit">
+                Generate{' '}
+                {form.formState.isSubmitting && (
+                  <Spinner className="ml-1 w-4 h-5" />
+                )}
+              </Button>
+            </div>
+            <div className="w-full flex sm:justify-end items-end gap-2">
+              {form.formState.isSubmitted && codes && (
+                <>
+                  <Button
+                    onClick={() => downloadTextFile(codes)}
+                    className="bg-foreground text-background"
+                  >
+                    Download
+                  </Button>
+                  <Button
+                    onClick={() => navigator.clipboard.writeText(codes)}
+                    variant="secondary"
+                  >
+                    Copy to clipboard
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </form>
