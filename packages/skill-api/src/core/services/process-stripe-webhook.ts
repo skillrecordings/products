@@ -9,6 +9,8 @@ import {
 import {buffer} from 'micro'
 import {postSaleToSlack, sendServerEmail} from '../../server'
 import {convertkitTagPurchase} from './convertkit'
+import {Inngest} from 'inngest'
+import {STRIPE_CHECKOUT_COMPLETED_EVENT} from '@skillrecordings/inngest'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -52,6 +54,26 @@ export async function processStripeWebhooks({
         const email = user.email as string
 
         // TODO: Send different email type for upgrades
+
+        if (process.env.INNGEST_EVENT_KEY) {
+          const inngest = new Inngest({
+            id:
+              process.env.INNGEST_APP_NAME ||
+              process.env.NEXT_PUBLIC_SITE_TITLE ||
+              'Stripe Handler',
+            eventKey: process.env.INNGEST_EVENT_KEY,
+          })
+          console.log('sending inngest event')
+          await inngest.send({
+            name: STRIPE_CHECKOUT_COMPLETED_EVENT,
+            user,
+            data: {
+              purchaseId: purchase.id,
+              quantity: purchaseInfo.quantity,
+              productId: purchase.productId,
+            },
+          })
+        }
 
         if (nextAuthOptions) {
           await sendServerEmail({

@@ -21,7 +21,10 @@ type Events = {
 }
 
 const summarizeInput = inngest.createFunction(
-  {name: 'Summarize chat and documents'},
+  {
+    id: 'summarize-input',
+    name: 'Summarize chat and documents',
+  },
   {event: 'api/chat.submitted'},
   async ({event, step}) => {
     const output = await step.run('Summarize input', async () => {
@@ -97,4 +100,7 @@ RULES:
   },
 )
 
-export default serve(inngest, [convertkitSurveyAnswered, summarizeInput])
+export default serve({
+  client: inngest,
+  functions: [convertkitSurveyAnswered, summarizeInput],
+})

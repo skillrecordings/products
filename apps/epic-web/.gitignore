@@ -9,6 +9,7 @@
 /src/generated
 /generated
 /.cache
+/.react-email
 
 # testing
 /coverage

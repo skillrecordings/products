@@ -1,10 +1,13 @@
 import {inngest} from './inngest.server'
 
 export const convertkitSurveyAnswered = inngest.createFunction(
-  {name: 'ConvertKit Survey Answered'},
+  {
+    id: 'convertkit-survey-answered',
+    name: 'ConvertKit Survey Answered',
+  },
   {event: 'convertkit/survey.answered'},
   ({event, step}) => {
-    step.sleep('1 second')
+    step.sleep('wait 1 second', '1s')
     return {event, body: 'now you can do stuff!'}
   },
 )

@@ -171,8 +171,8 @@ const ExerciseTemplate: React.FC<{
                 <VideoTranscript transcript={transcript} />
               </div>
             </div>
-            <article className="relative flex-shrink-0">
-              <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 scrollbar-thin scrollbar-thumb-foreground/10 lg:py-6 2xl:h-[calc(100vh-48px)] 2xl:max-w-2xl 2xl:overflow-y-scroll">
+            <article className="relative flex-shrink-0 2xl:w-full 2xl:max-w-2xl">
+              <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 scrollbar-thin scrollbar-thumb-foreground/10 lg:py-6 2xl:h-[calc(100vh-48px)] 2xl:w-full 2xl:max-w-2xl 2xl:overflow-y-scroll">
                 <LessonTitle />
                 {lessonResources?.github && (
                   <GitHubLink
@@ -186,7 +186,6 @@ const ExerciseTemplate: React.FC<{
                 {displayWorkshopAppBanner && !displayLessonCompletionToggle && (
                   <WorkshopAppBanner
                     moduleSlug={module.slug.current || ''}
-                    description={`Best way to experience ${module.title} workshop is in accompanying Workshop App.`}
                     className="mt-3 rounded-lg border p-5"
                   />
                 )}

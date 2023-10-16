@@ -1,4 +1,5 @@
 import {GlobeIcon} from '@heroicons/react/solid'
+import MuxPlayer from '@mux/mux-player-react'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import Layout from 'components/app/layout'
@@ -27,6 +28,7 @@ export const getStaticProps = async () => {
       body: bodyMdx,
       workshops,
     },
+    revalidate: 10,
   }
 }
 
@@ -98,6 +100,7 @@ const GetStartedPage: React.FC<{
           <MDX
             components={{
               ...linkedHeadingComponents,
+              AppTourVideo,
               Workshops: () => <Workshops workshops={workshops} />,
               Image: ({src, light, dark, alt = ''}: any) => {
                 const {theme} = useTheme()
@@ -249,4 +252,14 @@ const getDeployedUrl = (repo: string) => {
     case 'https://github.com/epicweb-dev/full-stack-testing':
       return 'https://testing.epicweb.dev'
   }
+}
+
+const AppTourVideo = () => {
+  return (
+    <MuxPlayer
+      playbackId="xSI7201jJf6lumgc9Kxwd5C65Rg8kLa94CcYzifZaL4U"
+      accentColor="#3b82f6"
+      className="w-full rounded"
+    />
+  )
 }

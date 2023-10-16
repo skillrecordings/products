@@ -128,7 +128,6 @@ const Welcome: React.FC<
   availableUpgrades,
   product,
 }) => {
-  console.log({product})
   const {data: session, status} = useSession()
   const [personalPurchase, setPersonalPurchase] = React.useState<
     PersonalPurchase | Purchase

@@ -33,6 +33,8 @@ import {Sparkles} from './buy'
 import ReactMarkdown from 'react-markdown'
 import {useTheme} from 'next-themes'
 import Link from 'next/link'
+import MuxPlayer from '@mux/mux-player-react'
+import '@mux/mux-player/themes/minimal'
 
 const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -149,6 +151,17 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
       <LandingCopy
         components={{
           // ...linkedHeadingComponents,
+          PromoVideo: () => {
+            return (
+              <MuxPlayer
+                theme="minimal"
+                playbackId="cqjuBzq74nu4ZlksxTXz7IKqxfaWaR1KjyGQLAc4nQ4"
+                accentColor="#3b82f6"
+                className="w-full rounded"
+                poster="https://res.cloudinary.com/epic-web/image/upload/v1697358228/promo-video-poster.jpg"
+              />
+            )
+          },
           WorkshopAppScreenshot,
           AboutKent: ({children}) => {
             return (
