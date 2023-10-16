@@ -3,6 +3,7 @@ import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-l
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
+import {motion} from 'framer-motion'
 import {
   Button,
   Calendar,
@@ -287,10 +288,15 @@ const CouponGeneratorForm = () => {
                 )}
               </Button>
             </div>
-            <div className="w-full flex sm:justify-end items-end gap-2">
+            <motion.div
+              key={codes.join('\n')}
+              animate={{opacity: form.formState.isSubmitted ? [1, 0.5, 1] : 1}}
+              className="w-full flex sm:justify-end items-end gap-2"
+            >
               {form.formState.isSubmitted && codes && (
                 <>
                   <Button
+                    disabled={form.formState.isSubmitting}
                     type="button"
                     onClick={() => downloadTextFile(codes.join('\n'))}
                     className="bg-foreground text-background"
@@ -298,6 +304,7 @@ const CouponGeneratorForm = () => {
                     Download
                   </Button>
                   <Button
+                    disabled={form.formState.isSubmitting}
                     type="button"
                     onClick={() => {
                       toast.success('Copied to clipboard')
@@ -309,7 +316,7 @@ const CouponGeneratorForm = () => {
                   </Button>
                 </>
               )}
-            </div>
+            </motion.div>
           </div>
         </div>
       </form>
