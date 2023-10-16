@@ -18,8 +18,9 @@ import {
 } from '@skillrecordings/skill-lesson/video/module-progress'
 import {trpc} from 'trpc/trpc.client'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
-import {Skeleton} from '@skillrecordings/ui'
+import {Progress, Skeleton} from '@skillrecordings/ui'
 import {getAllBonuses} from 'lib/bonuses'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
@@ -197,7 +198,7 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
     // }}
     >
       <Link
-        className="relative flex w-full flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-100 bg-white bg-gradient-to-tr from-transparent to-white/50 p-5 shadow-soft-xl transition before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:border-transparent dark:from-gray-900 dark:to-gray-800 dark:hover:brightness-110 sm:flex-row sm:p-10"
+        className="relative flex w-full flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-100 bg-white bg-gradient-to-tr from-transparent to-white/50 p-5 shadow-soft-xl transition before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:border-transparent dark:from-gray-900 dark:to-gray-800 dark:hover:brightness-110 md:flex-row md:p-10 md:pl-16"
         href={{
           pathname: '/workshops/[module]',
           query: {
@@ -205,8 +206,18 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
           },
         }}
       >
-        <div className="absolute left-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-transparent text-xs font-semibold uppercase leading-none tracking-wider text-gray-600 shadow-inner dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400">
-          {index + 1}
+        <div
+          className={cn(
+            'absolute left-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-transparent text-xs font-semibold uppercase leading-none tracking-wider text-gray-600 shadow-inner dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400',
+            {
+              'bg-emerald-500 text-white dark:bg-emerald-400 dark:text-black':
+                isModuleInProgress && moduleProgress?.moduleCompleted,
+            },
+          )}
+        >
+          {isModuleInProgress && moduleProgress?.moduleCompleted
+            ? '✓'
+            : `${index + 1}`}
         </div>
         {image && (
           <div className="flex items-center justify-center lg:flex-shrink-0">
@@ -220,12 +231,26 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
             />
           </div>
         )}
-        <div className="w-full">
-          <div className="flex w-full items-center gap-3">
+        <div className="flex w-full flex-col items-center text-center md:items-start md:text-left">
+          <div className="flex w-full items-center justify-center gap-3 md:justify-start">
             <h3 className="w-full max-w-xl text-2xl font-semibold sm:text-3xl">
               <Balancer>{title}</Balancer>
             </h3>
           </div>
+          {isModuleInProgress ? (
+            <div className="mt-3 flex w-full items-center justify-center gap-2 font-mono text-xs md:justify-start">
+              <span className="uppercase opacity-75">
+                {moduleProgress?.completedLessonCount}/
+                {sections ? sectionsFlatMap(sections).length : lessonsLength}{' '}
+                completed
+              </span>
+              <Progress
+                value={moduleProgress?.percentComplete}
+                className="h-1.5 max-w-[150px] dark:bg-white/5 [&>[data-indicator]]:bg-emerald-500 [&>[data-indicator]]:dark:bg-emerald-300"
+                max={100}
+              />
+            </div>
+          ) : null}
           {description && (
             <div className="pt-5">
               <p className="text-gray-600 dark:text-gray-300">
