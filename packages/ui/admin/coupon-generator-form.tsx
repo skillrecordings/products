@@ -1,3 +1,4 @@
+import React from 'react'
 import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
@@ -27,13 +28,14 @@ import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {cn} from '../utils/cn'
 import {format} from 'date-fns'
 import {CalendarIcon} from 'lucide-react'
+import Spinner from '@skillrecordings/skill-lesson/spinner'
 
 const formSchema = z.object({
   quantity: z.string(),
   // coupon
   maxUses: z.string(),
   expires: z.date().optional(),
-  restrictedToProductId: z.string(),
+  restrictedToProductId: z.string().optional(),
   percentOff: z.string(),
 })
 
@@ -43,17 +45,21 @@ const CouponGeneratorForm = () => {
     defaultValues: {
       quantity: '1',
       maxUses: '-1',
-      restrictedToProductId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
+      restrictedToProductId: undefined,
       percentOff: '20',
       expires: undefined,
     },
   })
-
+  const [codes, setCodes] = React.useState<string>('')
   const {data: products} = trpcSkillLessons.products.getAllProducts.useQuery()
   const expiresAtDateTime = form.watch('expires')?.setHours(23, 59, 0, 0)
   const createCouponsMutation = trpcSkillLessons.coupons.create.useMutation()
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    createCouponsMutation.mutate(values)
+    createCouponsMutation.mutate(values, {
+      onSuccess: ({codes}) => {
+        setCodes(codes)
+      },
+    })
   }
 
   return (
@@ -82,12 +88,40 @@ const CouponGeneratorForm = () => {
           <FormField
             name="restrictedToProductId"
             render={({field}) => (
-              <FormItem>
-                <FormLabel>Restricted to Product</FormLabel>
+              <FormItem className="flex flex-col">
+                <FormLabel
+                  htmlFor="enableRestrictedToProductId"
+                  className="mb-0.5 mt-1.5 flex items-center gap-1.5"
+                >
+                  <Checkbox
+                    id="enableRestrictedToProductId"
+                    checked={Boolean(form.watch('restrictedToProductId'))}
+                    onCheckedChange={() => {
+                      return Boolean(form.watch('restrictedToProductId'))
+                        ? form.setValue('restrictedToProductId', undefined)
+                        : form.setValue(
+                            'restrictedToProductId',
+                            process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
+                          )
+                    }}
+                  />
+                  Restricted to Product
+                </FormLabel>
                 <FormControl>
-                  <Select required {...field} onValueChange={field.onChange}>
+                  <Select
+                    required
+                    {...field}
+                    disabled={!Boolean(form.watch('restrictedToProductId'))}
+                    onValueChange={field.onChange}
+                  >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a product" />
+                      <SelectValue
+                        placeholder={
+                          Boolean(form.watch('restrictedToProductId'))
+                            ? 'Select a product'
+                            : 'Global'
+                        }
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {products?.map((product: SanityProduct) => (
@@ -98,7 +132,6 @@ const CouponGeneratorForm = () => {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormDescription>Required</FormDescription>
               </FormItem>
             )}
           />
@@ -239,8 +272,26 @@ const CouponGeneratorForm = () => {
             )}
           />
           <Button disabled={form.formState.isSubmitting} type="submit">
-            Generate
+            Generate{' '}
+            {form.formState.isSubmitting && (
+              <Spinner className="ml-1 w-4 h-5" />
+            )}
           </Button>
+          <div className="w-full flex justify-end gap-2">
+            {form.formState.isSubmitted && codes && (
+              <>
+                <Button onClick={() => downloadTextFile(codes)}>
+                  Download
+                </Button>
+                <Button
+                  onClick={() => navigator.clipboard.writeText(codes)}
+                  variant="secondary"
+                >
+                  Copy to clipboard
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       </form>
     </Form>
@@ -248,3 +299,13 @@ const CouponGeneratorForm = () => {
 }
 
 export default CouponGeneratorForm
+
+const downloadTextFile = (textData: string) => {
+  const blob = new Blob([textData], {type: 'text/plain'})
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'codes.csv'
+  a.click()
+  URL.revokeObjectURL(url)
+}

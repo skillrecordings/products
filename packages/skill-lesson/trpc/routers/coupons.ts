@@ -68,7 +68,7 @@ export const couponsRouter = router({
         // coupon
         maxUses: z.string(),
         expires: z.date().optional(),
-        restrictedToProductId: z.string(),
+        restrictedToProductId: z.string().optional(),
         percentOff: z.string(),
       }),
     )
@@ -89,7 +89,7 @@ export const couponsRouter = router({
           : null
 
       let codes = ``
-
+      const codesArray = []
       for (let i = 0; i < quantityToGenerate; i++) {
         const coupon = await prisma.coupon.create({
           data: {
@@ -103,9 +103,10 @@ export const couponsRouter = router({
           },
         })
         codes += `${process.env.NEXT_PUBLIC_URL}?code=${coupon.id}\n`
+        codesArray.push(`${process.env.NEXT_PUBLIC_URL}?code=${coupon.id}`)
       }
 
-      console.log(codes)
+      return {codes: codes}
     }),
 })
 

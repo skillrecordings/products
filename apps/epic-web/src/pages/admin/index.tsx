@@ -32,13 +32,14 @@ const AdminPage: React.FC<{couponsData: any}> = ({}) => {
         <h2 className="w-full max-w-screen-lg px-5 text-left text-3xl font-bold">
           Coupons
         </h2>
-        <section className="mx-auto w-full max-w-screen-lg space-y-5 px-5 pt-8">
+        <section className="mx-auto w-full max-w-screen-lg space-y-5 px-5 py-8">
           <h3 className="text-2xl font-medium">Create new</h3>
           <CouponGeneratorForm />
         </section>
-        <section className="mx-auto w-full max-w-screen-lg px-5 pt-10">
+        <section className="mx-auto w-full max-w-screen-lg border-t px-5 pt-10">
+          <h3 className="text-2xl font-medium">History</h3>
           {couponsStatus === 'loading' ? (
-            <Skeleton className="bg-foreground/10 py-24" />
+            <Skeleton className="mt-5 bg-foreground/10 py-24" />
           ) : (
             coupons && <CouponDataTable coupons={coupons} />
           )}
