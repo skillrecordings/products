@@ -308,6 +308,8 @@ const User: React.FC<{className?: string}> = ({className}) => {
     sessionStatus === 'loading' || commercePropsStatus === 'loading'
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+  const ability = useAbilities()
+  const canCreateContent = ability.can('create', 'Content')
 
   return (
     <>
@@ -342,17 +344,34 @@ const User: React.FC<{className?: string}> = ({className}) => {
               >
                 <Link
                   href="/products?s=purchased"
-                  className={cx(
-                    // 'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
-                    {
-                      underline: pathname.includes('/products'),
-                    },
-                  )}
+                  className={cx({
+                    underline: pathname.includes('/products'),
+                  })}
                 >
                   My Products
                 </Link>
               </DropdownMenuItem>
             )}
+            {canCreateContent && (
+              <>
+                {' '}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="flex items-center justify-between"
+                  asChild
+                >
+                  <Link
+                    href="/admin"
+                    className={cx({
+                      underline: pathname.includes('/admin'),
+                    })}
+                  >
+                    Admin
+                  </Link>
+                </DropdownMenuItem>
+              </>
+            )}
+            <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
                 signOut()

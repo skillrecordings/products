@@ -13,6 +13,7 @@ import {invoicesRouter} from './invoices'
 import {moduleProgressRouter} from './module-progress'
 import {purchasesRouter} from './purchases'
 import {couponsRouter} from './coupons'
+import {productsRouter} from './products'
 
 /**
  * Create your application's root router
@@ -32,6 +33,7 @@ export const skillLessonRouter = router({
   moduleProgress: moduleProgressRouter,
   purchases: purchasesRouter,
   coupons: couponsRouter,
+  products: productsRouter,
 })
 
 export type SkillLessonRouter = typeof skillLessonRouter

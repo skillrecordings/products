@@ -12,6 +12,7 @@ module.exports = {
     './node_modules/@skillrecordings/convertkit/dist/**/*.js',
     './node_modules/@skillrecordings/ui/primitives/**/*.tsx',
     './node_modules/@skillrecordings/ui/module/**/*.tsx',
+    './node_modules/@skillrecordings/ui/admin/**/*.tsx',
     './node_modules/@skillrecordings/skill-lesson/path-to-purchase/**/*.tsx',
   ],
   theme: {
