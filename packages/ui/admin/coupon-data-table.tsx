@@ -14,19 +14,16 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import {ArrowUpDown, ChevronDown, MoreHorizontal} from 'lucide-react'
-import {Button} from '../index'
-import {Checkbox} from '../index'
 import {
+  Button,
+  Checkbox,
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../index'
-import {Input} from '../index'
-import {
+  Input,
   Table,
   TableBody,
   TableCell,
@@ -34,7 +31,6 @@ import {
   TableHeader,
   TableRow,
 } from '../index'
-// import {Coupon} from 'pages/admin'
 import toast from 'react-hot-toast'
 import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
 import {Decimal} from '@prisma/client/runtime'
@@ -245,7 +241,7 @@ const CouponDataTable: React.FC<{coupons: Coupon[]}> = ({coupons}) => {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter coupons..."
+          placeholder="Filter coupons by createdAt..."
           value={
             (table.getColumn('createdAt')?.getFilterValue() as string) ?? ''
           }
