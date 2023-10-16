@@ -2,6 +2,7 @@ import {type Purchase, prisma} from '@skillrecordings/database'
 import {publicProcedure, router} from '../trpc.server'
 import {getToken} from 'next-auth/jwt'
 import {z} from 'zod'
+import {format} from 'date-fns'
 
 export const couponsRouter = router({
   claimedBy: publicProcedure
@@ -44,13 +45,25 @@ export const couponsRouter = router({
     const coupons = await prisma.coupon.findMany()
     return coupons
   }),
+  delete: publicProcedure
+    .input(z.object({ids: z.array(z.string())}))
+    .mutation(async ({ctx, input}) => {
+      const coupons = await prisma.coupon.deleteMany({
+        where: {
+          id: {
+            in: input.ids,
+          },
+        },
+      })
+      return coupons
+    }),
   create: publicProcedure
     .input(
       z.object({
         quantity: z.string(),
         // coupon
         maxUses: z.string(),
-        expires: z.string().optional(),
+        expires: z.date().optional(),
         restrictedToProductId: z.string(),
         percentOff: z.string(),
       }),
@@ -80,6 +93,9 @@ export const couponsRouter = router({
             maxUses: Number(maxUses),
             restrictedToProductId: restrictedToProductId,
             merchantCouponId: merchantCoupon?.id,
+            expires: expires
+              ? new Date(expires?.setHours(23, 59, 0, 0)).toISOString()
+              : null,
           },
         })
         codes += `${process.env.NEXT_PUBLIC_URL}?code=${coupon.id}\n`

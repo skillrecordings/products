@@ -73,6 +73,9 @@ import {
   TableCell,
   TableCaption,
 } from './table'
+import {Checkbox} from './checkbox'
+import {Calendar} from './calendar'
+import {Popover, PopoverTrigger, PopoverContent} from './popover'
 
 export {
   Button,
@@ -139,4 +142,9 @@ export {
   TableRow,
   TableCell,
   TableCaption,
+  Checkbox,
+  Calendar,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
 }
