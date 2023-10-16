@@ -100,7 +100,7 @@ export const columns = () => {
         )
       },
       accessorFn: (data) => {
-        return new Date(data.createdAt).toUTCString()
+        return data.createdAt.toUTCString()
       },
       cell: ({row}) => {
         return <div>{row.getValue('createdAt')}</div>
