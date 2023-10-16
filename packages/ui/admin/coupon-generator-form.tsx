@@ -29,6 +29,7 @@ import {cn} from '../utils/cn'
 import {format} from 'date-fns'
 import {CalendarIcon} from 'lucide-react'
 import Spinner from '@skillrecordings/skill-lesson/spinner'
+import toast from 'react-hot-toast'
 
 const formSchema = z.object({
   quantity: z.string(),
@@ -284,13 +285,18 @@ const CouponGeneratorForm = () => {
               {form.formState.isSubmitted && codes && (
                 <>
                   <Button
+                    type="button"
                     onClick={() => downloadTextFile(codes)}
                     className="bg-foreground text-background"
                   >
                     Download
                   </Button>
                   <Button
-                    onClick={() => navigator.clipboard.writeText(codes)}
+                    type="button"
+                    onClick={() => {
+                      toast.success('Copied to clipboard')
+                      return navigator.clipboard.writeText(codes)
+                    }}
                     variant="secondary"
                   >
                     Copy to clipboard
