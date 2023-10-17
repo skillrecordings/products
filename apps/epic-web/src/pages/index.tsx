@@ -503,6 +503,7 @@ export const getStaticProps: GetStaticProps = async () => {
       products,
       bonuses: availableBonuses,
     },
+    revalidate: 10,
   }
 }
 
