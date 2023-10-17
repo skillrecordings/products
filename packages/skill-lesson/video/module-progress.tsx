@@ -36,12 +36,14 @@ export const ModuleProgressSchema = z.object({
     .object({
       id: z.string(),
       slug: z.string(),
+      title: z.string(),
     })
     .nullish(),
   nextSection: z
     .object({
       id: z.string(),
       slug: z.string(),
+      title: z.string(),
     })
     .nullish(),
   sections: z.array(
@@ -56,6 +58,7 @@ export const ModuleProgressSchema = z.object({
         z.object({
           id: z.string(),
           slug: z.string(),
+          title: z.string(),
           lessonCompleted: z.boolean().default(false),
         }),
       ),
@@ -65,6 +68,7 @@ export const ModuleProgressSchema = z.object({
     z.object({
       id: z.string(),
       slug: z.string(),
+      title: z.string(),
       lessonCompleted: z.boolean().default(false),
     }),
   ),

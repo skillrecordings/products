@@ -63,6 +63,19 @@ import {
   DropdownMenuRadioGroup,
 } from './dropdown-menu'
 import {ScrollArea, ScrollBar} from './scroll-area'
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from './table'
+import {Checkbox} from './checkbox'
+import {Calendar} from './calendar'
+import {Popover, PopoverTrigger, PopoverContent} from './popover'
 
 export {
   Button,
@@ -121,4 +134,17 @@ export {
   DropdownMenuRadioGroup,
   ScrollArea,
   ScrollBar,
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+  Checkbox,
+  Calendar,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
 }

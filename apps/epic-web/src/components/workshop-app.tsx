@@ -11,7 +11,7 @@ const WorkshopAppBanner: React.FC<{
   moduleSlug?: string
 }> = ({
   className,
-  description = 'Best way to experience Epic Web workshops is with accompanying Workshop App.',
+  description = 'For the best experience we highly recommend you use the Epic Web workshop application on your local machine. It allows you to authenticate and work through the material as intended at your own pace.',
   moduleSlug,
 }) => {
   return (
@@ -35,7 +35,10 @@ const WorkshopAppBanner: React.FC<{
             className="relative mt-5 text-sm font-semibold shadow-sm transition"
             size="sm"
           >
-            <Link href="/get-started" target="_blank">
+            <Link
+              href={`/get-started${moduleSlug ? `?module=${moduleSlug}` : ''}`}
+              target="_blank"
+            >
               <span className="drop-shadow-md">Get Started</span>
             </Link>
           </Button>

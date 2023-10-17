@@ -41,6 +41,7 @@ export const purchasesRouter = router({
         return {...purchaseDetails, slug: product.slug.current}
       }
     }
+    return false
   }),
   getPurchaseByProductId: publicProcedure
     .input(

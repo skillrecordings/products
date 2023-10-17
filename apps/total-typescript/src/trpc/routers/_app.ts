@@ -7,7 +7,6 @@ import {workshop} from './workshop'
 import {abilities} from './abilities'
 import {solutionsRouter} from './solutions'
 import {userRouter} from './user'
-import {productsRouter} from './products'
 import {stackblitzResourceRouter} from './stackblitz-resources'
 import {searchRouter} from './search'
 import {certificateRouter} from './certificate'
@@ -18,7 +17,6 @@ export const appRouter = mergeRouters(
     abilities: abilities,
     solutions: solutionsRouter,
     user: userRouter,
-    products: productsRouter,
     stackblitz: stackblitzResourceRouter,
     search: searchRouter,
     certificate: certificateRouter,

@@ -1,21 +1,67 @@
 import Layout from 'components/app/layout'
 import * as React from 'react'
-import VideoUploader from 'module-builder/video-uploader'
-export default function Adminpage() {
+import {GetServerSideProps} from 'next'
+import {Decimal, getSdk} from '@skillrecordings/database'
+import {stringify} from 'superjson'
+import {Skeleton} from '@skillrecordings/ui'
+import {trpc} from 'trpc/trpc.client'
+import CouponDataTable from '@skillrecordings/ui/admin/coupon-data-table'
+import CouponGeneratorForm from '@skillrecordings/ui/admin/coupon-generator-form'
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const {req, query, params} = context
+  const {getCoupons} = getSdk()
+  const coupons = await getCoupons()
+
+  return {
+    props: {
+      couponsData: stringify(coupons),
+    },
+  }
+}
+
+const AdminPage: React.FC<{couponsData: any}> = ({}) => {
+  const {data: coupons, status: couponsStatus} = trpc.coupons.get.useQuery()
+
   return (
-    <Layout>
-      <header className="relative flex flex-col items-center justify-center overflow-hidden px-5 pt-12">
-        <div className="relative z-10 flex w-full max-w-screen-lg flex-col-reverse items-center  lg:flex-row">
-          <div className="relative z-10 max-w-2xl pb-10 lg:py-12 lg:pb-12">
-            <h1 className="w-full max-w-[14ch] font-heading text-4xl font-normal leading-[1.25] sm:mt-0 sm:text-5xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.15] xl:text-6xl xl:leading-[1.15]">
-              Upload a Video
-            </h1>
-          </div>
-        </div>
+    <Layout meta={{title: 'Admin'}}>
+      <header className="mx-auto w-full max-w-screen-lg px-5 pt-10 text-right font-mono text-4xl font-black uppercase text-foreground/10 sm:text-5xl">
+        <h1>/Admin</h1>
       </header>
-      <div className="flex min-h-full items-center">
-        <VideoUploader />
-      </div>
+      <main className="flex flex-grow flex-col items-center space-y-5 pb-16">
+        <h2 className="w-full max-w-screen-lg px-5 text-left text-3xl font-bold">
+          Coupons
+        </h2>
+        <section className="mx-auto w-full max-w-screen-lg space-y-5 px-5 py-8">
+          <h3 className="text-2xl font-medium">Create new</h3>
+          <CouponGeneratorForm />
+        </section>
+        <section className="mx-auto w-full max-w-screen-lg border-t px-5 pt-10">
+          <h3 className="text-2xl font-medium">History</h3>
+          {couponsStatus === 'loading' ? (
+            <Skeleton className="mt-5 bg-foreground/10 py-24" />
+          ) : (
+            coupons && <CouponDataTable coupons={coupons} />
+          )}
+        </section>
+      </main>
     </Layout>
   )
+}
+
+export default AdminPage
+
+export type Coupon = {
+  id: string
+  code: null | string
+  createdAt: Date
+  expires: null | Date
+  maxUses: number
+  default: boolean
+  merchantCouponId: null | string
+  status: number
+  usedCount: number
+  percentageDiscount: Decimal
+  restrictedToProductId: null | string
+  bulkPurchaseId: null | string
 }

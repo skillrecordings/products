@@ -127,18 +127,7 @@ const ProductCard: React.FC<{
           <Link href={purchase ? purchasedHref : buyHref}>{product.title}</Link>
         </CardTitle>
         <div className="flex items-center gap-3">
-          {purchase ? null : (
-            // <Price amount={Number(purchase.totalAmount)} />
-            <div className="flex items-center space-x-3 pt-2 text-sm text-muted-foreground">
-              <>
-                <PriceDisplay
-                  formattedPrice={formattedPrice}
-                  status={formattedPriceStatus}
-                />
-              </>
-            </div>
-          )}
-          <PurchasedBadge />
+          {purchase ? <PurchasedBadge /> : null}
         </div>
       </CardHeader>
       <CardFooter className="space-x-2">
@@ -174,6 +163,17 @@ const ProductCard: React.FC<{
                   <Button size="sm" asChild>
                     <Link href={buyHref}>Buy</Link>
                   </Button>
+                )}
+                {purchase ? null : (
+                  // <Price amount={Number(purchase.totalAmount)} />
+                  <div className="flex items-center space-x-3 pt-2 text-sm text-muted-foreground">
+                    <>
+                      <PriceDisplay
+                        formattedPrice={formattedPrice}
+                        status={formattedPriceStatus}
+                      />
+                    </>
+                  </div>
                 )}
               </>
             )}

@@ -683,6 +683,10 @@ export function getSdk(
       const coupon = await ctx.prisma.coupon.findFirst(options)
       return coupon
     },
+    async getCoupons(options?: Prisma.CouponFindManyArgs) {
+      const coupons = await ctx.prisma.coupon.findMany(options)
+      return coupons
+    },
     async getMerchantCoupons(options: Prisma.MerchantCouponFindManyArgs) {
       const merchantCoupons = await ctx.prisma.merchantCoupon.findMany(options)
       return merchantCoupons

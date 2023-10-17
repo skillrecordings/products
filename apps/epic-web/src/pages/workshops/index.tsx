@@ -18,8 +18,9 @@ import {
 } from '@skillrecordings/skill-lesson/video/module-progress'
 import {trpc} from 'trpc/trpc.client'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
-import {Skeleton} from '@skillrecordings/ui'
+import {Progress, Skeleton} from '@skillrecordings/ui'
 import {getAllBonuses} from 'lib/bonuses'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
@@ -62,6 +63,7 @@ const WorkshopsPage: React.FC<{
   const {ability, abilityRulesStatus} = useAbilities()
 
   const canViewContent = ability.can('view', 'Content')
+  const isRestricted = ability.can('view', 'RegionRestriction')
 
   return (
     <Layout
@@ -73,7 +75,7 @@ const WorkshopsPage: React.FC<{
         },
       }}
     >
-      <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-between px-5 pt-16 lg:flex-row">
+      <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-between px-5 pt-16 lg:flex-row lg:items-start">
         <div className="flex flex-col items-center space-y-3 text-center lg:items-start lg:text-left">
           <h1 className="flex flex-col text-4xl font-semibold">
             <span className="mb-2 inline-block bg-gradient-to-r from-blue-500 to-fuchsia-600 bg-clip-text text-xs uppercase tracking-widest text-transparent dark:from-blue-300 dark:to-fuchsia-400">
@@ -88,12 +90,12 @@ const WorkshopsPage: React.FC<{
             </Balancer>
           </h2>
         </div>
-        <div className="w-full max-w-md pt-16 lg:pl-8 lg:pt-0">
+        <div className="flex w-full max-w-md items-center justify-center pt-16 lg:min-h-[204px] lg:justify-end lg:pl-8 lg:pt-0">
           {abilityRulesStatus === 'loading' ? (
             <div className="relative">
               <ProductCTA
                 product={fullStackWorkshopSeriesProduct}
-                className="pointer-events-none select-none opacity-0"
+                className="pointer-events-none w-full select-none opacity-0"
               />
               <Skeleton className="absolute left-0 top-0 h-full w-full rounded-md bg-foreground/5" />
             </div>
@@ -102,7 +104,11 @@ const WorkshopsPage: React.FC<{
               {canViewContent ? (
                 <WorkshopAppBanner />
               ) : (
-                <ProductCTA product={fullStackWorkshopSeriesProduct} />
+                <ProductCTA
+                  restricted={isRestricted}
+                  className="w-full"
+                  product={fullStackWorkshopSeriesProduct}
+                />
               )}
             </>
           )}
@@ -192,7 +198,7 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
     // }}
     >
       <Link
-        className="relative flex w-full flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-100 bg-white bg-gradient-to-tr from-transparent to-white/50 p-5 shadow-soft-xl transition before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:border-transparent dark:from-gray-900 dark:to-gray-800 sm:flex-row sm:p-10"
+        className="relative flex w-full flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-100 bg-white bg-gradient-to-tr from-transparent to-white/50 p-5 shadow-soft-xl transition before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:border-transparent dark:from-gray-900 dark:to-gray-800 dark:hover:brightness-110 md:flex-row md:p-10 md:pl-16"
         href={{
           pathname: '/workshops/[module]',
           query: {
@@ -200,8 +206,18 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
           },
         }}
       >
-        <div className="absolute left-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-transparent text-xs font-semibold uppercase leading-none tracking-wider text-gray-600 shadow-inner dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400">
-          {index + 1}
+        <div
+          className={cn(
+            'absolute left-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-transparent text-xs font-semibold uppercase leading-none tracking-wider text-gray-600 shadow-inner dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400',
+            {
+              'bg-emerald-500 text-white dark:bg-emerald-400 dark:text-black':
+                isModuleInProgress && moduleProgress?.moduleCompleted,
+            },
+          )}
+        >
+          {isModuleInProgress && moduleProgress?.moduleCompleted
+            ? '✓'
+            : `${index + 1}`}
         </div>
         {image && (
           <div className="flex items-center justify-center lg:flex-shrink-0">
@@ -215,12 +231,26 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
             />
           </div>
         )}
-        <div className="w-full">
-          <div className="flex w-full items-center gap-3">
+        <div className="flex w-full flex-col items-center text-center md:items-start md:text-left">
+          <div className="flex w-full items-center justify-center gap-3 md:justify-start">
             <h3 className="w-full max-w-xl text-2xl font-semibold sm:text-3xl">
               <Balancer>{title}</Balancer>
             </h3>
           </div>
+          {isModuleInProgress ? (
+            <div className="mt-3 flex w-full items-center justify-center gap-2 font-mono text-xs md:justify-start">
+              <span className="uppercase opacity-75">
+                {moduleProgress?.completedLessonCount}/
+                {sections ? sectionsFlatMap(sections).length : lessonsLength}{' '}
+                completed
+              </span>
+              <Progress
+                value={moduleProgress?.percentComplete}
+                className="h-1.5 max-w-[150px] dark:bg-white/5 [&>[data-indicator]]:bg-emerald-500 [&>[data-indicator]]:dark:bg-emerald-300"
+                max={100}
+              />
+            </div>
+          ) : null}
           {description && (
             <div className="pt-5">
               <p className="text-gray-600 dark:text-gray-300">
