@@ -314,7 +314,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     upgradeFromPurchaseId:
                       formattedPrice?.upgradeFromPurchaseId,
                     cancelUrl,
-                    usedCouponId: couponId,
+                    usedCouponId: formattedPrice.usedCouponId,
                   })}
                   method="POST"
                 >
