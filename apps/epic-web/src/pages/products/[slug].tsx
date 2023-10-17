@@ -43,7 +43,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   })
 
   if (!token?.sub) {
-    return {props: {...commerceProps.props, workshop, product, mdx}}
+    return {
+      props: {...commerceProps.props, workshop, product, mdx},
+    }
   }
 
   const purchaseForProduct = commerceProps.props.purchases?.find(
@@ -53,7 +55,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   )
 
   if (!purchaseForProduct) {
-    return {props: {...commerceProps.props, workshop}}
+    return {
+      props: {...commerceProps.props, workshop},
+    }
   }
 
   const {purchase, existingPurchase} = await getPurchaseDetails(
@@ -105,9 +109,9 @@ const ProductPage: React.FC<ProductPageProps> = (props) => {
         </PriceCheckProvider>
       ) : (
         // <ProductTemplate {...props} />
-        <FullStackWorkshopSeries
-          product={props.product as any}
+        <ProductTemplate
           mdx={props.mdx as MDXRemoteSerializeResult}
+          {...props}
         />
       )}
     </>
