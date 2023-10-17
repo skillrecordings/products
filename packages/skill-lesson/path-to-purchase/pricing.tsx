@@ -630,7 +630,7 @@ const WorkshopListItem: React.FC<{
         {module.state && (
           <div data-state={module.state}>{getLabelForState(module.state)}</div>
         )}
-        {module.description && (
+        {module?.description && (
           <div data-description="">
             <ReactMarkdown
               components={{
