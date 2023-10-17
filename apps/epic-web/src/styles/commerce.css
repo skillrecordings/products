@@ -329,9 +329,34 @@
               }
             }
 
-            [data-bonuses] {
+            [data-limited-bonuses] {
+              @apply mb-5 rounded-md bg-background p-5 shadow-inner dark:shadow-none;
+              ul {
+                @apply pb-0 !important;
+              }
+              strong {
+                @apply pb-5 text-center before:content-['⭐️'] !important;
+              }
+              [data-description] {
+                @apply mt-2;
+              }
+              [data-expires-at] {
+                @apply flex flex-col space-y-1 pt-2 text-sm;
+                div {
+                  @apply uppercase;
+                }
+                span {
+                  @apply font-orig font-semibold uppercase tabular-nums;
+                }
+              }
+            }
+            [data-bonuses],
+            [data-limited-bonuses] {
               strong {
                 @apply py-0 text-sm font-semibold uppercase text-amber-500 before:pr-1 before:content-['🎁'] dark:text-yellow-200;
+              }
+              strong > span {
+                @apply font-mono;
               }
               ul {
                 @apply space-y-3 pb-3;

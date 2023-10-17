@@ -33,6 +33,7 @@ import BuyMoreSeats from '../team/buy-more-seats'
 import first from 'lodash/first'
 import {AnimatePresence, motion} from 'framer-motion'
 import {buildStripeCheckoutPath} from '../utils/build-stripe-checkout-path'
+import Countdown from 'react-countdown'
 
 const getNumericValue = (
   value: string | number | Decimal | undefined,
@@ -64,6 +65,7 @@ type PricingProps = {
     slug: string
     description?: string
     image?: string
+    expiresAt?: string
   }[]
   options?: {
     withImage?: boolean
@@ -210,6 +212,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const fixedDiscount = formattedPrice?.fixedDiscountForUpgrade || 0
 
   const [isBuyingMoreSeats, setIsBuyingMoreSeats] = React.useState(false)
+
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <div id="main-pricing">
@@ -500,19 +507,36 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             ) : null}
             <div data-main="">
               {bonuses && bonuses.length > 0 && !Boolean(merchantCoupon) && (
-                <div data-bonuses="">
+                <div data-limited-bonuses="">
+                  <strong>limited offer</strong>
                   <ul role="list">
                     {bonuses.map((bonus) => {
                       return (
                         <li key={bonus.slug}>
-                          <WorkshopListItem
-                            label="Limited Offer"
+                          <LimitedBonusItem
                             module={bonus as any}
                             key={bonus.slug}
                           />
                         </li>
                       )
                     })}
+                    {bonuses[0].expiresAt && (
+                      <div data-expires-at="">
+                        {mounted && (
+                          <Countdown
+                            date={bonuses[0].expiresAt}
+                            renderer={({days, hours, minutes, seconds}) => {
+                              return (
+                                <span>
+                                  expires in: {days}d : {hours}h : {minutes}m :{' '}
+                                  {seconds}s
+                                </span>
+                              )
+                            }}
+                          />
+                        )}
+                      </div>
+                    )}
                   </ul>
                 </div>
               )}
@@ -599,8 +623,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
 
 const WorkshopListItem: React.FC<{
   module: SanityProductModule
-  label?: string
-}> = ({module, label}) => {
+}> = ({module}) => {
   const getLabelForState = (state: any) => {
     switch (state) {
       case 'draft':
@@ -624,12 +647,52 @@ const WorkshopListItem: React.FC<{
       <div>
         <p>
           {module.moduleType === 'bonus' && <strong>Bonus</strong>}
-          {label && <strong>{label}</strong>}
+
           {module.title}
         </p>
         {module.state && (
           <div data-state={module.state}>{getLabelForState(module.state)}</div>
         )}
+        {module?.description && (
+          <div data-description="">
+            <ReactMarkdown
+              components={{
+                a: (props) => <a {...props} target="_blank" rel="noopener" />,
+              }}
+            >
+              {module.description}
+            </ReactMarkdown>
+          </div>
+        )}
+      </div>
+    </>
+  )
+}
+
+const LimitedBonusItem: React.FC<{
+  module: {
+    image?: {
+      url: string
+    }
+    expiresAt?: string
+    title: string
+    description?: string
+  }
+}> = ({module}) => {
+  return (
+    <>
+      {module.image && (
+        <div data-image="" aria-hidden="true">
+          <Image
+            src={module.image.url}
+            layout="fill"
+            alt={module.title}
+            aria-hidden="true"
+          />
+        </div>
+      )}
+      <div>
+        <p>{module.title}</p>
         {module?.description && (
           <div data-description="">
             <ReactMarkdown
