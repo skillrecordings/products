@@ -41,7 +41,7 @@ export const LessonCompleteEmail = ({
         <Section style={content}>
           {hasAuthedLocally ? null : (
             <Markdown>
-              PS For the best experience we highly recommend you use the Epic
+              PS For the best experience, we highly recommend you use the Epic
               Web workshop application on your local machine. It allows you to
               authenticate and work through the material as intended at your own
               pace.
