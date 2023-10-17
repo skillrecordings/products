@@ -14,7 +14,7 @@ export const team: Human[] = [
     name: 'Kent C. Dodds',
     role: 'Instructor and Creator',
     description:
-      'Kent designed, created and recorded the learning material for Epic Web. He’s rigorously tested the content in a series of live workshops and revised it based on feedback from learners. This resulted in a collection of professional, exercise-driven, in-depth, self-paced workshops that offers you a deep-dive into full-stack development, leveraging modern technologies to achieve first-class user experiences with an unprecedented level of collaborative maintainability and simplicity.',
+      'Kent designed, created and recorded the learning material for Epic Web. He’s rigorously tested the content in a series of live workshops and revised it based on feedback from learners. This resulted in a collection of professional, exercise-driven, self-paced workshops that offer a deep-dive into full-stack development, leveraging modern technologies to achieve first-class user experiences with a high level of collaborative maintainability and simplicity.',
     xHandle: 'kentcdodds',
     website: 'https://kentcdodds.com',
     image: require('../../public/credits/kent-c-dodds.png'),
@@ -23,7 +23,7 @@ export const team: Human[] = [
     name: 'Joel Hooks',
     role: 'Executive Producer & Tech Lead',
     description:
-      'Joel provided direction and guidance for the development and production of Epic Web throughout the process. He also served as the technical architect and lead developer for the course infrastructure.',
+      'Joel provided direction and guidance for the development and production of Epic Web throughout the process. He also served as the technical architect, leading the development and infrastructure work.',
     xHandle: 'jhooks',
     website: 'https://joelhooks.com',
     image: require('../../public/credits/joel-hooks.jpg'),
@@ -32,7 +32,7 @@ export const team: Human[] = [
     name: 'Taylor Bell',
     role: 'Producer',
     description:
-      'Taylor provided instructional design, writing, planning, workshop facilitation, project coordination, and marketing support.',
+      'Taylor provided instructional design, writing, planning, project coordination, and marketing support.',
     xHandle: 'taylorbell',
     website: 'https://transcriptautomation.ai',
     image: require('../../public/credits/taylor-bell.jpg'),
@@ -41,7 +41,7 @@ export const team: Human[] = [
     name: 'Nicoll Guarnizo',
     role: 'Associate Producer',
     description:
-      'Nicoll lead the content migration into the course infrastructure and did QA reviews to identify fixes needed ahead of launch.',
+      'Nicoll lead the content migration into the course infrastructure and did QA reviews to identify fixes needed ahead of launch. She also provided support in setting up workshop events.',
     xHandle: 'guarnizonicoll',
     image: require('../../public/credits/nicoll-guarnizo.jpg'),
   },
@@ -49,7 +49,7 @@ export const team: Human[] = [
     name: 'Vojta Holik',
     role: 'Product Designer & Developer',
     description:
-      'Vojta is responsible for the UI/UX design and development for Epic Web.',
+      'Vojta is responsible for the UI/UX design and development for Epic Web. He also provided the art direction.',
     xHandle: 'vojta_holik',
     website: 'https://vojta.io',
     image: require('../../public/credits/vojta-holik.jpg'),
@@ -58,18 +58,27 @@ export const team: Human[] = [
     name: 'Maxime Bourgeois',
     role: 'Illustrator',
     description:
-      'Maxime created all the delightful illustrations used throughout Epic Web.',
+      'Maxime created sleak space-themed illustrations for Epic Web.',
     xHandle: 'mMaximalGFX',
     website: 'https://bento.me/maximebourgeois',
     image: require('../../public/credits/maxime-bourgeois.jpg'),
   },
   {
     name: 'Haze Provinsal',
-    role: 'Content Production',
+    role: 'Video Editor',
     description:
-      'Haze did all video editing for each of the 453 videos to ensure a smooth viewing experience.',
+      'Haze did all the video editing for Epic Web to ensure a smooth viewing experience.',
     xHandle: 'HazeProvinsal',
     image: require('../../public/credits/haze-provinsal.png'),
+  },
+  {
+    name: 'Josh Branchaud',
+    role: 'Developer',
+    description:
+      'Josh did back-end development work on the platform Epic Web is built on.',
+    xHandle: 'jbrancha',
+    website: 'https://joshbranchaud.com/',
+    image: require('../../public/credits/josh-branchaud.jpeg'),
   },
 ]
 

@@ -36,6 +36,7 @@ import Link from 'next/link'
 import MuxPlayer from '@mux/mux-player-react'
 import '@mux/mux-player/themes/minimal'
 import {getAvailableBonuses} from 'lib/available-bonuses'
+import {XIconTwitter} from 'components/x-icon'
 
 const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -154,6 +155,41 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
       <LandingCopy
         components={{
           // ...linkedHeadingComponents,
+          Testimonial: ({children, author, url}) => {
+            return (
+              <blockquote className="relative !my-0 flex flex-col justify-between rounded-md border-l-0 bg-white !p-5 not-italic text-foreground dark:bg-white/5 lg:!p-8">
+                <div className="prose dark:prose-invert sm:prose-lg prose-p:font-medium">
+                  {children}
+                </div>
+                <div className="mt-8 flex w-full items-center justify-between gap-1.5 text-base">
+                  <div className="flex items-center gap-2">
+                    {author.image ? (
+                      <Image
+                        src={author.image}
+                        alt={author.name}
+                        width={48}
+                        height={48}
+                        className="!my-0 rounded-full"
+                      />
+                    ) : (
+                      <span className="opacity-75">—</span>
+                    )}
+                    <span className="opacity-75">{author.name}</span>
+                  </div>
+                  {url && (
+                    <a
+                      href={url}
+                      className=""
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <XIconTwitter className="h-5 w-5 text-foreground opacity-50 transition hover:opacity-100" />
+                    </a>
+                  )}
+                </div>
+              </blockquote>
+            )
+          },
           PromoVideo: () => {
             return (
               <MuxPlayer
@@ -183,15 +219,83 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
               </div>
             )
           },
-          Workshop: ({slug, title, image, meta, features}) => {
+          Bonus: ({slug, title, image, meta, features, path = 'bonuses'}) => {
             return (
               <li
+                id={slug}
+                key={slug}
+                className="not-prose flex flex-col items-center justify-between gap-8 pb-16 sm:-mx-10 lg:-mx-16 lg:flex-row lg:items-center"
+              >
+                <div className="flex flex-col items-center sm:items-start">
+                  <div className="mb-2 inline-flex rounded-full bg-amber-600 px-2 py-0.5 font-mono text-sm font-semibold uppercase text-background dark:bg-yellow-300">
+                    🎁 bonus
+                  </div>
+                  <h3 className="text-center text-2xl font-bold lg:text-left lg:text-3xl">
+                    <Link
+                      href={`/workshops/${slug}`}
+                      target="_blank"
+                      className="hover:underline"
+                    >
+                      {title}
+                    </Link>
+                  </h3>
+                  <p className="pt-2 text-center font-mono text-sm uppercase lg:text-left ">
+                    {meta}
+                  </p>
+                  <ul className="pt-8">
+                    {features.map((feature: any) => {
+                      return (
+                        <li
+                          className='py-1 pl-7 before:-ml-7 before:pr-3 before:text-emerald-500 before:content-["✓"] dark:before:text-emerald-300'
+                          key={feature}
+                        >
+                          <ReactMarkdown
+                            unwrapDisallowed
+                            disallowedElements={['p']}
+                          >
+                            {feature}
+                          </ReactMarkdown>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                  <Link
+                    href={`/workshops/${slug}`}
+                    target="_blank"
+                    className="mt-3 inline-flex gap-1 py-2 text-base opacity-75 transition hover:opacity-100"
+                  >
+                    Read more <span aria-hidden>↗︎</span>
+                  </Link>
+                </div>
+                {image && (
+                  <Link
+                    href={`/${path}/${slug}`}
+                    target="_blank"
+                    className="flex-shrink-0"
+                  >
+                    <Image src={image} width={400} height={400} alt={title} />
+                  </Link>
+                )}
+              </li>
+            )
+          },
+          Workshop: ({
+            slug,
+            title,
+            image,
+            meta,
+            features,
+            path = 'workshops',
+          }) => {
+            return (
+              <li
+                id={slug}
                 key={slug}
                 className="not-prose flex flex-col items-center gap-8 pb-16 sm:-mx-10 lg:-mx-16 lg:flex-row lg:items-start"
               >
                 {image && (
                   <Link
-                    href={`/workshops/${slug}`}
+                    href={`/${path}/${slug}`}
                     target="_blank"
                     className="flex-shrink-0"
                   >
@@ -231,7 +335,7 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
                   <Link
                     href={`/workshops/${slug}`}
                     target="_blank"
-                    className="mt-3 inline-flex gap-1 px-3 py-2 text-base opacity-75 transition hover:opacity-100"
+                    className="mt-3 inline-flex gap-1 py-2 text-base opacity-75 transition hover:opacity-100"
                   >
                     Read more <span aria-hidden>↗︎</span>
                   </Link>

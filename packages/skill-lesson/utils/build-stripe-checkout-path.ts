@@ -10,6 +10,7 @@ const ParamsSchema = z
     userId: z.string().optional(),
     upgradeFromPurchaseId: z.string().optional(),
     cancelUrl: z.string().optional(),
+    usedCouponId: z.string().optional(),
   })
   .transform((params) => {
     return {
