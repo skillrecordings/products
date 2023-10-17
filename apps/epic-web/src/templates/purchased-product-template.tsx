@@ -37,6 +37,7 @@ import {RxDiscordLogo} from 'react-icons/rx'
 import MuxPlayer from '@mux/mux-player-react'
 import ReactMarkdown from 'react-markdown'
 import {useBonuses} from 'hooks/use-bonuses'
+import toast from 'react-hot-toast'
 
 const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   purchases = [],
@@ -324,7 +325,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
 export default PurchasedProductTemplate
 
 const Bonuses: React.FC<{purchase?: Purchase}> = ({purchase}) => {
-  const {availableBonuses, redeemBonus} = useBonuses(purchase?.id)
+  const {availableBonuses} = useBonuses(purchase?.id)
 
   if (!purchase) return null
   if (availableBonuses.length === 0) return null
@@ -359,23 +360,58 @@ const Bonuses: React.FC<{purchase?: Purchase}> = ({purchase}) => {
                   </ReactMarkdown>
                 )}
               </div>
-              <Button
-                className="ml-auto"
-                size="sm"
-                onClick={() => {
-                  redeemBonus({
-                    bonusSlug: bonus.slug,
-                    purchaseId: purchase.id,
-                  })
-                }}
-              >
-                Redeem
-              </Button>
+              <RedeemBonusButton bonus={bonus} purchaseId={purchase.id} />
             </li>
           )
         })}
       </ul>
     </>
+  )
+}
+
+const RedeemBonusButton = ({
+  bonus,
+  purchaseId,
+}: {
+  bonus: {slug: string; title: string}
+  purchaseId: string
+}) => {
+  const {mutate: redeemBonus} = trpc.bonuses.redeemBonus.useMutation({
+    onSettled: async (result) => {
+      console.log(result)
+      switch (result?.status) {
+        case 'claimed':
+          track('claimed bonus', {bonus: bonus.slug})
+          toast.success(
+            `You've successfully claimed ${bonus.title}! Please check your inbox to log in. 🎉`,
+          )
+          break
+        case 'error':
+          track('claimed bonus failed', {bonus: bonus.slug})
+          toast.success(
+            `Please check your inbox to log in to ${bonus.title}. 📧`,
+          )
+          break
+        default:
+          toast(
+            `Something went wrong. It's our fault. Please email ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL} if you need support.`,
+          )
+      }
+    },
+  })
+  return (
+    <Button
+      className="ml-auto"
+      size="sm"
+      onClick={() => {
+        redeemBonus({
+          bonusSlug: bonus.slug,
+          purchaseId,
+        })
+      }}
+    >
+      Redeem
+    </Button>
   )
 }
 
