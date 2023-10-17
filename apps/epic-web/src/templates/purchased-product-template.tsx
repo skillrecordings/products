@@ -324,7 +324,23 @@ const Bonuses: React.FC<{purchase?: Purchase}> = ({purchase}) => {
       purchaseId: purchase?.id,
     })
 
-  const {mutate: redeemBonus} = trpc.bonuses.redeemBonus.useMutation()
+  const {mutate: redeemBonus} = trpc.bonuses.redeemBonus.useMutation({
+    onSettled: async ({data}) => {
+      switch (data?.status) {
+        case 'claimed':
+          track('claimed bonus', {bonus: data.bonusSlug})
+          // display a notice that they have claimed a license
+          // and an email has been dispatched
+          break
+        case 'already-owned':
+          track('claimed bonus failed', {bonus: data.bonusSlug})
+          // display a notice that an email has been dispatched
+          break
+        default:
+        // display a notice that an error occurred and to email support
+      }
+    },
+  })
 
   if (!purchase) return null
   if (availableBonuses.length === 0) return null

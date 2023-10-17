@@ -67,8 +67,8 @@ export const bonusesRouter = router({
 
         if (!sellableId) throw new Error('No sellableId found for bonus slug')
 
-        await fetch(
-          `https://app.egghead.io/api/v1/sellable_purchases/redeem_partner_coupon`,
+        const response = await fetch(
+          `${process.env.EGGHEAD_API_URL}/api/v1/sellable_purchases/redeem_partner_coupon`,
           {
             method: 'POST',
             body: JSON.stringify({
@@ -78,10 +78,13 @@ export const bonusesRouter = router({
               client_id: clientId,
             }),
             headers: {
+              'Content-Type': 'application/json',
               Authorization: `Bearer ${process.env.EGGHEAD_EPIC_WEB_BOT_TOKEN}`,
             },
           },
         )
+
+        const json = await response.json()
 
         const newBonuses = bonusSlugs.filter((slug) => slug !== input.bonusSlug)
 
@@ -93,6 +96,8 @@ export const bonusesRouter = router({
             newBonuses.join(','),
           )
         }
+
+        return json
       }
       return true
     }),
