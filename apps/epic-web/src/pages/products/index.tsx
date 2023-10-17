@@ -160,25 +160,6 @@ const ProductCard: React.FC<{
                 </Link>
               </Button>
             )}
-            {availableBonuses.length > 0 && (
-              <>
-                {availableBonuses.map((bonus: any) => {
-                  return (
-                    <Button
-                      size="sm"
-                      onClick={() => {
-                        redeemBonus({
-                          bonusSlug: bonus.slug,
-                          purchaseId: purchase.id,
-                        })
-                      }}
-                    >
-                      Redeem {bonus.title} Bonus
-                    </Button>
-                  )
-                })}
-              </>
-            )}
           </>
         ) : (
           <>

@@ -31,7 +31,8 @@ export const bonusesRouter = router({
       )}]{
               title,
               "slug": slug.current,
-              description
+              description,
+              "image": image.asset->url,
             }`
 
       return await sanityClient.fetch(query)
