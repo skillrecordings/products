@@ -538,8 +538,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                               </div>
                               <div data-disclaimer="">
                                 Offer available for new purchases only. If
-                                you've already purchased any of the courses this
-                                offer does not apply.
+                                you've already purchased both of the courses
+                                this offer does not apply. If you've purchased 1
+                                of the courses, you'll receive the other.
                               </div>
                             </ul>
                           </div>
