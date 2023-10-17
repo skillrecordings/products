@@ -54,12 +54,14 @@ export const bonusesRouter = router({
       const bonusSlugs = availableBonuses?.split(',') || []
 
       if (bonusSlugs.includes(input.bonusSlug)) {
-        let sellableId
+        let sellableId, clientId
 
         if (input.bonusSlug === 'testing-javascript') {
           sellableId = 273899
+          clientId = process.env.TESTING_JAVASCRIPT_CLIENT_ID
         } else if (input.bonusSlug === 'epic-react') {
           sellableId = 385975
+          clientId = process.env.EPIC_REACT_CLIENT_ID
         }
 
         if (!sellableId) throw new Error('No sellableId found for bonus slug')
@@ -72,6 +74,7 @@ export const bonusesRouter = router({
               sellable: 'playlist',
               sellable_id: sellableId,
               email: token.email,
+              client_id: clientId,
             }),
             headers: {
               Authorization: `Bearer ${process.env.EGGHEAD_EPIC_WEB_BOT_TOKEN}`,
