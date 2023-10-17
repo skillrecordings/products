@@ -510,7 +510,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               {bonuses &&
                 bonuses.length > 0 &&
                 bonuses[0].expiresAt &&
-                !Boolean(merchantCoupon) && (
+                quantity === 1 &&
+                !Boolean(merchantCoupon?.type === 'ppp') && (
                   <Countdown
                     date={bonuses[0].expiresAt}
                     renderer={({days, hours, minutes, seconds, completed}) => {
