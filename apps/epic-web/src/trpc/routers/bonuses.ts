@@ -54,7 +54,30 @@ export const bonusesRouter = router({
       const bonusSlugs = availableBonuses?.split(',') || []
 
       if (bonusSlugs.includes(input.bonusSlug)) {
-        //TODO: Call API to do redemption!
+        let sellableId
+
+        if (input.bonusSlug === 'testing-javascript') {
+          sellableId = 273899
+        } else if (input.bonusSlug === 'epic-react') {
+          sellableId = 385975
+        }
+
+        if (!sellableId) throw new Error('No sellableId found for bonus slug')
+
+        await fetch(
+          `https://app.egghead.io/api/v1/sellable_purchases/redeem_partner_coupon`,
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              sellable: 'playlist',
+              sellable_id: sellableId,
+              email: token.email,
+            }),
+            headers: {
+              Authorization: `Bearer ${process.env.EGGHEAD_EPIC_WEB_BOT_TOKEN}`,
+            },
+          },
+        )
 
         const newBonuses = bonusSlugs.filter((slug) => slug !== input.bonusSlug)
 
