@@ -142,6 +142,7 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     country: metadata?.country,
     appliedPPPStripeCouponId: metadata?.appliedPPPStripeCouponId,
     upgradedFromPurchaseId: metadata?.upgradedFromPurchaseId,
+    usedCouponId: metadata?.usedCouponId,
     checkoutSessionId,
   })
 
