@@ -36,7 +36,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
+const BuyPage: React.FC<
+  React.PropsWithChildren<CommerceProps & {bonuses: any}>
+> = ({
   couponFromCode,
   purchases = [],
   userId,
