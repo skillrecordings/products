@@ -506,40 +506,44 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               </div>
             ) : null}
             <div data-main="">
-              {bonuses && bonuses.length > 0 && !Boolean(merchantCoupon) && (
-                <div data-limited-bonuses="">
-                  <strong>limited offer</strong>
-                  <ul role="list">
-                    {bonuses.map((bonus) => {
-                      return (
-                        <li key={bonus.slug}>
-                          <LimitedBonusItem
-                            module={bonus as any}
-                            key={bonus.slug}
-                          />
-                        </li>
+              {bonuses &&
+                bonuses.length > 0 &&
+                bonuses[0].expiresAt &&
+                !Boolean(merchantCoupon) && (
+                  <Countdown
+                    date={bonuses[0].expiresAt}
+                    renderer={({days, hours, minutes, seconds, completed}) => {
+                      return completed ? null : (
+                        <>
+                          <div data-limited-bonuses="">
+                            <strong>limited offer</strong>
+                            <ul role="list">
+                              {bonuses.map((bonus) => {
+                                return (
+                                  <li key={bonus.slug}>
+                                    <LimitedBonusItem
+                                      module={bonus as any}
+                                      key={bonus.slug}
+                                    />
+                                  </li>
+                                )
+                              })}
+
+                              <div data-expires-at="">
+                                {mounted ? (
+                                  <span>
+                                    expires in: {days}d : {hours}h : {minutes}m
+                                    : {seconds}s
+                                  </span>
+                                ) : null}
+                              </div>
+                            </ul>
+                          </div>
+                        </>
                       )
-                    })}
-                    {bonuses[0].expiresAt && (
-                      <div data-expires-at="">
-                        {mounted && (
-                          <Countdown
-                            date={bonuses[0].expiresAt}
-                            renderer={({days, hours, minutes, seconds}) => {
-                              return (
-                                <span>
-                                  expires in: {days}d : {hours}h : {minutes}m :{' '}
-                                  {seconds}s
-                                </span>
-                              )
-                            }}
-                          />
-                        )}
-                      </div>
-                    )}
-                  </ul>
-                </div>
-              )}
+                    }}
+                  />
+                )}
               {moduleBonuses && !Boolean(merchantCoupon) && (
                 <div data-bonuses="">
                   <ul role="list">

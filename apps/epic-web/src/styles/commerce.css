@@ -338,7 +338,7 @@
                 @apply pb-5 text-center before:content-['⭐️'] !important;
               }
               [data-description] {
-                @apply mt-2;
+                @apply mt-1;
               }
               [data-expires-at] {
                 @apply flex flex-col space-y-1 pt-2 text-sm;
