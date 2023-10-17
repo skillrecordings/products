@@ -24,8 +24,6 @@ export const invoicesRouter = router({
           },
         )
 
-        console.log({charge})
-
         const purchase = await getPurchaseForStripeCharge(
           merchantCharge.identifier,
         )

@@ -113,6 +113,13 @@ const ProductCard: React.FC<{
       quantity: 1,
     })
 
+  const {data: availableBonuses = []} =
+    trpc.bonuses.availableBonusesForPurchase.useQuery({
+      purchaseId: purchase?.id,
+    })
+
+  const {mutate: redeemBonus} = trpc.bonuses.redeemBonus.useMutation()
+
   const buyHref = `/buy`
   const purchasedHref = `/products/${product.slug}`
 
@@ -130,6 +137,7 @@ const ProductCard: React.FC<{
           {purchase ? <PurchasedBadge /> : null}
         </div>
       </CardHeader>
+
       <CardFooter className="space-x-2">
         {purchase ? (
           <>

@@ -10,16 +10,14 @@ import {
 } from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
 import {getProductBySlug} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
-import ProductTemplate from 'templates/product-template'
 import PurchasedProductTemplate from 'templates/purchased-product-template'
 import {getSdk} from '@skillrecordings/database'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {getWorkshop} from 'lib/workshops'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import FullStackWorkshopSeries from 'pages/full-stack-workshop-series-vol-1'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import {Product} from 'lib/products'
+import ProductTemplate from 'templates/product-template'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
@@ -108,7 +106,6 @@ const ProductPage: React.FC<ProductPageProps> = (props) => {
           <PurchasedProductTemplate {...props} />
         </PriceCheckProvider>
       ) : (
-        // <ProductTemplate {...props} />
         <ProductTemplate
           mdx={props.mdx as MDXRemoteSerializeResult}
           {...props}

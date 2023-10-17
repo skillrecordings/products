@@ -71,6 +71,7 @@ export async function processStripeWebhooks({
               purchaseId: purchase.id,
               quantity: purchaseInfo.quantity,
               productId: purchase.productId,
+              created: purchase.createdAt.getTime(),
             },
           })
         }

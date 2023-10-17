@@ -33,6 +33,7 @@ import BuyMoreSeats from '../team/buy-more-seats'
 import first from 'lodash/first'
 import {AnimatePresence, motion} from 'framer-motion'
 import {buildStripeCheckoutPath} from '../utils/build-stripe-checkout-path'
+import Countdown from 'react-countdown'
 
 const getNumericValue = (
   value: string | number | Decimal | undefined,
@@ -59,6 +60,13 @@ type PricingProps = {
   cancelUrl?: string
   allowPurchase?: boolean
   canViewRegionRestriction?: boolean
+  bonuses?: {
+    title: string
+    slug: string
+    description?: string
+    image?: string
+    expiresAt?: string
+  }[]
   options?: {
     withImage?: boolean
     withGuaranteeBadge?: boolean
@@ -76,6 +84,7 @@ type PricingProps = {
  * @param index
  * @param couponId
  * @param couponFromCode
+ * @param bonuses - Product Bonus (non-module)
  * @constructor
  */
 export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
@@ -84,6 +93,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   purchases = [],
   userId,
   index = 0,
+  bonuses,
   couponId,
   couponFromCode,
   allowPurchase: generallyAllowPurchase = false,
@@ -190,8 +200,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const workshops = modules?.filter(
     (module) => module.moduleType === 'workshop',
   )
-  const bonuses = modules?.filter(
-    (module) => module.moduleType === 'bonus' && module.state !== 'draft',
+  const moduleBonuses = modules?.filter(
+    (module) => module.moduleType === 'bonus' && module.state === 'draft',
   )
 
   function getUnitPrice(formattedPrice: FormattedPrice) {
@@ -202,6 +212,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const fixedDiscount = formattedPrice?.fixedDiscountForUpgrade || 0
 
   const [isBuyingMoreSeats, setIsBuyingMoreSeats] = React.useState(false)
+
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <div id="main-pricing">
@@ -492,10 +507,54 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               </div>
             ) : null}
             <div data-main="">
-              {bonuses && !Boolean(merchantCoupon) && (
+              {bonuses &&
+                bonuses.length > 0 &&
+                bonuses[0].expiresAt &&
+                quantity === 1 &&
+                !Boolean(merchantCoupon?.type === 'ppp') && (
+                  <Countdown
+                    date={bonuses[0].expiresAt}
+                    renderer={({days, hours, minutes, seconds, completed}) => {
+                      return completed ? null : (
+                        <>
+                          <div data-limited-bonuses="">
+                            <strong>limited offer</strong>
+                            <ul role="list">
+                              {bonuses.map((bonus) => {
+                                return (
+                                  <li key={bonus.slug}>
+                                    <LimitedBonusItem
+                                      module={bonus as any}
+                                      key={bonus.slug}
+                                    />
+                                  </li>
+                                )
+                              })}
+                              <div data-expires-at="">
+                                {mounted ? (
+                                  <span>
+                                    expires in: {days}d : {hours}h : {minutes}m
+                                    : {seconds}s
+                                  </span>
+                                ) : null}
+                              </div>
+                              <div data-disclaimer="">
+                                Offer available for new purchases only. If
+                                you've already purchased both of the courses
+                                this offer does not apply. If you've purchased 1
+                                of the courses, you'll receive the other.
+                              </div>
+                            </ul>
+                          </div>
+                        </>
+                      )
+                    }}
+                  />
+                )}
+              {moduleBonuses && !Boolean(merchantCoupon) && (
                 <div data-bonuses="">
                   <ul role="list">
-                    {bonuses.map((module) => {
+                    {moduleBonuses.map((module) => {
                       return purchased ? (
                         <li key={module.slug}>
                           <Link
@@ -573,9 +632,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   )
 }
 
-const WorkshopListItem: React.FC<{module: SanityProductModule}> = ({
-  module,
-}) => {
+const WorkshopListItem: React.FC<{
+  module: SanityProductModule
+}> = ({module}) => {
   const getLabelForState = (state: any) => {
     switch (state) {
       case 'draft':
@@ -599,9 +658,63 @@ const WorkshopListItem: React.FC<{module: SanityProductModule}> = ({
       <div>
         <p>
           {module.moduleType === 'bonus' && <strong>Bonus</strong>}
+
           {module.title}
         </p>
-        <div data-state={module.state}>{getLabelForState(module.state)}</div>
+        {module.state && (
+          <div data-state={module.state}>{getLabelForState(module.state)}</div>
+        )}
+        {module?.description && (
+          <div data-description="">
+            <ReactMarkdown
+              components={{
+                a: (props) => <a {...props} target="_blank" rel="noopener" />,
+              }}
+            >
+              {module.description}
+            </ReactMarkdown>
+          </div>
+        )}
+      </div>
+    </>
+  )
+}
+
+const LimitedBonusItem: React.FC<{
+  module: {
+    image?: {
+      url: string
+    }
+    expiresAt?: string
+    title: string
+    description?: string
+  }
+}> = ({module}) => {
+  return (
+    <>
+      {module.image && (
+        <div data-image="" aria-hidden="true">
+          <Image
+            src={module.image.url}
+            layout="fill"
+            alt={module.title}
+            aria-hidden="true"
+          />
+        </div>
+      )}
+      <div>
+        <p>{module.title}</p>
+        {module?.description && (
+          <div data-description="">
+            <ReactMarkdown
+              components={{
+                a: (props) => <a {...props} target="_blank" rel="noopener" />,
+              }}
+            >
+              {module.description}
+            </ReactMarkdown>
+          </div>
+        )}
       </div>
     </>
   )

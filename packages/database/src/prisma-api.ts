@@ -551,9 +551,11 @@ export function getSdk(
         },
       })
 
-      const merchantCoupon = await ctx.prisma.merchantCoupon.findFirst({
-        where: {identifier: stripeCouponId},
-      })
+      const merchantCoupon = stripeCouponId
+        ? await ctx.prisma.merchantCoupon.findFirst({
+            where: {identifier: stripeCouponId},
+          })
+        : null
 
       const pppMerchantCoupon = appliedPPPStripeCouponId
         ? await ctx.prisma.merchantCoupon.findFirst({

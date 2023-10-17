@@ -91,6 +91,7 @@ export type SanityProductModule = {
   moduleType: 'workshop' | 'playlist' | 'bonus'
   title: string
   state?: 'draft' | 'published'
+  description?: string
   image: {
     url: string
     alt: string

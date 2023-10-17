@@ -35,14 +35,16 @@ import {useTheme} from 'next-themes'
 import Link from 'next/link'
 import MuxPlayer from '@mux/mux-player-react'
 import '@mux/mux-player/themes/minimal'
+import {getAvailableBonuses} from 'lib/available-bonuses'
 import {XIconTwitter} from 'components/x-icon'
 
 const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
-const Index: NextPage<{product: SanityProduct; products: SanityProduct[]}> = ({
-  product,
-  products,
-}) => {
+const Index: NextPage<{
+  product: SanityProduct
+  products: SanityProduct[]
+  bonuses: any[]
+}> = ({product, products, bonuses}) => {
   const router = useRouter()
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
@@ -111,6 +113,7 @@ const Index: NextPage<{product: SanityProduct; products: SanityProduct[]}> = ({
                       >
                         <div data-pricing-container="" key={product.name}>
                           <Pricing
+                            bonuses={bonuses}
                             allowPurchase={ALLOW_PURCHASE}
                             userId={commerceProps?.userId}
                             product={product}
@@ -596,12 +599,15 @@ export default Index
 export const getStaticProps: GetStaticProps = async () => {
   const sanityProduct = await getProduct(productId as string)
   const products = await getAllProducts()
+  const availableBonuses = await getAvailableBonuses()
 
   return {
     props: {
       product: sanityProduct,
       products,
+      bonuses: availableBonuses,
     },
+    revalidate: 10,
   }
 }
 

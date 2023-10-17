@@ -8,5 +8,6 @@ export type StripeCheckoutCompleted = {
     purchaseId: string
     productId: string
     quantity: number
+    created: number
   }
 }

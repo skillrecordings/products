@@ -73,7 +73,8 @@ export const getAllProducts = async () => {
       "slug": slug.current,
       "image": image.asset->{url, alt},
       state,
-    }, 
+    },
+    "bonuses": *[_type == 'bonus'][]{...},
     "features" : features[]{
     value
    }
