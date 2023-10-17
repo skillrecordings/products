@@ -59,6 +59,12 @@ type PricingProps = {
   cancelUrl?: string
   allowPurchase?: boolean
   canViewRegionRestriction?: boolean
+  bonuses?: {
+    title: string
+    slug: string
+    description?: string
+    image?: string
+  }[]
   options?: {
     withImage?: boolean
     withGuaranteeBadge?: boolean
@@ -76,6 +82,7 @@ type PricingProps = {
  * @param index
  * @param couponId
  * @param couponFromCode
+ * @param bonuses - Product Bonus (non-module)
  * @constructor
  */
 export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
@@ -84,6 +91,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   purchases = [],
   userId,
   index = 0,
+  bonuses,
   couponId,
   couponFromCode,
   allowPurchase: generallyAllowPurchase = false,
@@ -190,8 +198,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const workshops = modules?.filter(
     (module) => module.moduleType === 'workshop',
   )
-  const bonuses = modules?.filter(
-    (module) => module.moduleType === 'bonus' && module.state !== 'draft',
+  const moduleBonuses = modules?.filter(
+    (module) => module.moduleType === 'bonus' && module.state === 'draft',
   )
 
   function getUnitPrice(formattedPrice: FormattedPrice) {
@@ -491,10 +499,27 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               </div>
             ) : null}
             <div data-main="">
-              {bonuses && !Boolean(merchantCoupon) && (
+              {bonuses && bonuses.length > 0 && !Boolean(merchantCoupon) && (
                 <div data-bonuses="">
                   <ul role="list">
-                    {bonuses.map((module) => {
+                    {bonuses.map((bonus) => {
+                      return (
+                        <li key={bonus.slug}>
+                          <WorkshopListItem
+                            label="Limited Offer"
+                            module={bonus as any}
+                            key={bonus.slug}
+                          />
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              )}
+              {moduleBonuses && !Boolean(merchantCoupon) && (
+                <div data-bonuses="">
+                  <ul role="list">
+                    {moduleBonuses.map((module) => {
                       return purchased ? (
                         <li key={module.slug}>
                           <Link
@@ -572,9 +597,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   )
 }
 
-const WorkshopListItem: React.FC<{module: SanityProductModule}> = ({
-  module,
-}) => {
+const WorkshopListItem: React.FC<{
+  module: SanityProductModule
+  label?: string
+}> = ({module, label}) => {
   const getLabelForState = (state: any) => {
     switch (state) {
       case 'draft':
@@ -598,9 +624,23 @@ const WorkshopListItem: React.FC<{module: SanityProductModule}> = ({
       <div>
         <p>
           {module.moduleType === 'bonus' && <strong>Bonus</strong>}
+          {label && <strong>{label}</strong>}
           {module.title}
         </p>
-        <div data-state={module.state}>{getLabelForState(module.state)}</div>
+        {module.state && (
+          <div data-state={module.state}>{getLabelForState(module.state)}</div>
+        )}
+        {module.description && (
+          <div data-description="">
+            <ReactMarkdown
+              components={{
+                a: (props) => <a {...props} target="_blank" rel="noopener" />,
+              }}
+            >
+              {module.description}
+            </ReactMarkdown>
+          </div>
+        )}
       </div>
     </>
   )
