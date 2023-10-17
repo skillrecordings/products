@@ -34,7 +34,7 @@ const Credits: React.FC<any> = ({lessons}) => {
         title: 'Humans behind Epic Web',
         description,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1697349950/credits-card_2x.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1697548878/credits-card_2x.png',
           title: 'Humans behind Epic Web',
         },
       }}
@@ -204,17 +204,17 @@ const Header: React.FC<any> = ({lessons}) => {
           <h1 className="w-full text-2xl font-bold sm:text-3xl lg:text-4xl">
             <Balancer>Humans Behind Epic Web</Balancer>
           </h1>
-          <div className="max-w-xl pt-5 leading-relaxed opacity-90">
+          <div className="max-w-xl pt-5 leading-relaxed text-indigo-100">
             <Balancer>
               Bringing Epic Web to you is a collaboration between Kent C. Dodds
               and the team behind{' '}
               <a
-                href="https://badass.dev"
+                href="https://bad-a.dev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-bold underline"
+                className="font-bold text-white underline decoration-indigo-300"
               >
-                bada**.dev
+                bad-a.dev
               </a>
               . Kent created, designed and recorded all the content, while the
               rest of the team provided planning, design, development, and
@@ -249,7 +249,7 @@ const Thumbnails: React.FC<any> = ({lessons}) => {
   const shouldReduceMotion = useReducedMotion()
   return (
     <div
-      className="relative mt-16 flex items-center justify-center"
+      className=" mt-16 flex max-w-screen-xl items-center justify-center"
       aria-hidden
     >
       <motion.div

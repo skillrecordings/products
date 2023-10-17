@@ -35,6 +35,7 @@ import {useTheme} from 'next-themes'
 import Link from 'next/link'
 import MuxPlayer from '@mux/mux-player-react'
 import '@mux/mux-player/themes/minimal'
+import {XIconTwitter} from 'components/x-icon'
 
 const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -151,6 +152,41 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
       <LandingCopy
         components={{
           // ...linkedHeadingComponents,
+          Testimonial: ({children, author, url}) => {
+            return (
+              <blockquote className="relative !my-0 flex flex-col justify-between rounded-md border-l-0 bg-white !p-5 not-italic text-foreground dark:bg-white/5 lg:!p-8">
+                <div className="prose dark:prose-invert sm:prose-lg prose-p:font-medium">
+                  {children}
+                </div>
+                <div className="mt-8 flex w-full items-center justify-between gap-1.5 text-base">
+                  <div className="flex items-center gap-2">
+                    {author.image ? (
+                      <Image
+                        src={author.image}
+                        alt={author.name}
+                        width={48}
+                        height={48}
+                        className="!my-0 rounded-full"
+                      />
+                    ) : (
+                      <span className="opacity-75">—</span>
+                    )}
+                    <span className="opacity-75">{author.name}</span>
+                  </div>
+                  {url && (
+                    <a
+                      href={url}
+                      className=""
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <XIconTwitter className="h-5 w-5 text-foreground opacity-50 transition hover:opacity-100" />
+                    </a>
+                  )}
+                </div>
+              </blockquote>
+            )
+          },
           PromoVideo: () => {
             return (
               <MuxPlayer

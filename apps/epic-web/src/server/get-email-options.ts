@@ -1,23 +1,12 @@
 import LessonCompleteEmail from 'emails/lesson-complete-email'
 
-export function getLessonCompleteEmailOptions<TTrigger, Events, TOpts>(
-  event: EventsFromOpts<{
-    schemas: EventSchemas<Combine<Record<string, EventPayload>, IngestEvents>>
-    id: any
-  }>[TTrigger extends string
-    ? TTrigger
-    : TTrigger extends {
-        event: string
-      }
-    ? TTrigger['event']
-    : string],
+export function getLessonCompleteEmailOptions(
+  event: {user?: any},
   defaultSubject: string,
-  hasAuthedLocally,
-  lessonWithModule,
+  hasAuthedLocally: boolean,
+  lessonWithModule: any,
   defaultBody: string,
-  aiEmail: keyof Events & string extends keyof Events
-    ? Events[keyof Events & string] | null
-    : (keyof Events & string) | null,
+  aiEmail?: any,
 ) {
   let emailOptions = {
     To: event.user.email,

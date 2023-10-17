@@ -62,7 +62,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      purchase: convertToSerializeForNextResponse(purchase),
+      // purchase: convertToSerializeForNextResponse(purchase),
+      purchase: convertToSerializeForNextResponse({
+        ...purchase,
+        totalAmount: purchase.totalAmount.toString(),
+      }),
       email,
       seatsPurchased,
       purchaseType,
