@@ -27,7 +27,7 @@ const ExerciseOverlay = () => {
           <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
 
           <p>
-            Exercises are best experienced in Workshop App. Start by clonning{' '}
+            Exercises are best experienced in Workshop App. Start by cloning{' '}
             <a
               className="underline"
               href={github.repo}

@@ -235,7 +235,7 @@ const ExerciseTemplate: React.FC<{
                 {displayLessonCompletionToggle && <LessonCompletionToggle />}
                 {displayWorkshopAppBanner && displayLessonCompletionToggle && (
                   <WorkshopAppBanner
-                    description={`Best way to experience ${module.title} workshop is in accompanying Workshop App.`}
+                    description={`The best way to experience ${module.title} workshop is in accompanying Workshop App.`}
                     className="mt-5 rounded-lg border p-5"
                   />
                 )}
