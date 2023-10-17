@@ -17,7 +17,7 @@ const filterSchema = z.object({
 })
 
 function epochToISOString(epoch: number): string {
-  const date = new Date(epoch * 1000) // Convert to milliseconds
+  const date = new Date(epoch)
   return date.toISOString()
 }
 
@@ -45,7 +45,7 @@ export const stripeCheckoutCompleted = inngest.createFunction(
     } else {
       const date = epochToISOString(created)
       const availableBonuses = await step.run('get bonuses', async () => {
-        const query = `*[_type == "bonus" && expiresAt > $date]{
+        const query = `*[_type == "bonus" && expiresAt > $date && validFrom < $validFrom]{
               title,
               "slug": slug.current,
               filter,
@@ -54,6 +54,7 @@ export const stripeCheckoutCompleted = inngest.createFunction(
             }`
         return sanityClient.fetch(query, {
           date,
+          validFrom: new Date().toISOString(),
         })
       })
 

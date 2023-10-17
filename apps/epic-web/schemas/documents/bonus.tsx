@@ -40,6 +40,16 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'validFrom',
+      title: 'Valid from (Pacific time)',
+      type: 'datetime',
+      options: {
+        dateFormat: 'YYYY-MM-DD',
+        timeFormat: 'HH:mm',
+        timeStep: 1,
+      },
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
