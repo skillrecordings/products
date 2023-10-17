@@ -251,28 +251,6 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
               </>
             )}
             <Bonuses purchase={purchase} />
-            {isRestrictedUpgrade ? (
-              <>
-                <H2 className="pt-10">Regional License</H2>
-                <Upgrade
-                  purchaseToUpgrade={purchaseToUpgrade}
-                  formattedPrice={formattedPrice}
-                  formattedPriceStatus={status}
-                  product={product}
-                  purchase={purchase}
-                  userId={purchase.userId}
-                />
-              </>
-            ) : (
-              <>
-                <H2>Buy more seats</H2>
-                <BuyMoreSeats
-                  className="flex [&>fieldset]:flex-col [&>fieldset]:sm:flex-row [&_[data-full-price]]:line-through [&_[data-percent-off]]:text-primary dark:[&_[data-percent-off]]:text-blue-300 [&_[data-price-container]]:!flex [&_[data-price-container]]:!w-full [&_[data-price-discounted]]:flex [&_[data-price-discounted]]:items-center [&_[data-price-discounted]]:gap-2 [&_[data-price-discounted]]:pl-3 [&_[data-price-discounted]]:text-base [&_[data-price-discounted]]:font-medium [&_[data-price]]:flex [&_[data-price]]:text-2xl [&_[data-price]]:font-bold [&_[data-pricing-product-header]]:w-full [&_[data-pricing-product]]:w-full [&_button]:!bg-primary [&_button]:!px-4 [&_button]:!py-1.5 [&_button]:!font-medium [&_button]:!text-primary-foreground [&_input]:text-sm [&_sup]:top-2.5 [&_sup]:pr-1 [&_sup]:opacity-75"
-                  productId={purchase.productId}
-                  userId={userId}
-                />
-              </>
-            )}
             {isTransferAvailable && purchaseUserTransfers && (
               <>
                 <H2>Purchase Transfer</H2>
@@ -289,6 +267,32 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 purchasesForCurrentProduct={purchasesForCurrentProduct}
               />
             </div>
+            {isRestrictedUpgrade ? (
+              <>
+                <H2 className="pt-10">Regional License</H2>
+                <Upgrade
+                  purchaseToUpgrade={purchaseToUpgrade}
+                  formattedPrice={formattedPrice}
+                  formattedPriceStatus={status}
+                  product={product}
+                  purchase={purchase}
+                  userId={purchase.userId}
+                />
+              </>
+            ) : (
+              <>
+                <H2>Buy more seats</H2>
+                <p className="pb-5">
+                  Want to get the rest of your team onboard and learning? You
+                  can always buy more seats and receive a cumulative discount.
+                </p>
+                <BuyMoreSeats
+                  className="flex [&>fieldset]:flex-col [&>fieldset]:sm:flex-row [&_[data-full-price]]:line-through [&_[data-percent-off]]:text-primary dark:[&_[data-percent-off]]:text-blue-300 [&_[data-price-container]]:!flex [&_[data-price-container]]:!w-full [&_[data-price-discounted]]:flex [&_[data-price-discounted]]:items-center [&_[data-price-discounted]]:gap-2 [&_[data-price-discounted]]:pl-3 [&_[data-price-discounted]]:text-base [&_[data-price-discounted]]:font-medium [&_[data-price]]:flex [&_[data-price]]:text-2xl [&_[data-price]]:font-bold [&_[data-pricing-product-header]]:w-full [&_[data-pricing-product]]:w-full [&_button]:!bg-primary [&_button]:!px-4 [&_button]:!py-1.5 [&_button]:!font-medium [&_button]:!text-primary-foreground [&_input]:text-sm [&_sup]:top-2.5 [&_sup]:pr-1 [&_sup]:opacity-75"
+                  productId={purchase.productId}
+                  userId={userId}
+                />
+              </>
+            )}
           </div>
         </article>
         <aside className="flex flex-shrink-0 flex-col items-center py-10 pr-5 md:mb-0 lg:min-h-screen lg:w-4/12 lg:items-end">
