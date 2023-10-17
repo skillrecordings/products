@@ -35,6 +35,7 @@ export type FormattedPrice = {
   }
   upgradedProduct?: ProductWithPrices | null
   bulk: boolean
+  usedCouponId?: string
 }
 
 export type CouponForCode = Coupon & {
