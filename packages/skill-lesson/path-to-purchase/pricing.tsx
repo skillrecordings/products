@@ -528,7 +528,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                                   </li>
                                 )
                               })}
-
                               <div data-expires-at="">
                                 {mounted ? (
                                   <span>
@@ -536,6 +535,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                                     : {seconds}s
                                   </span>
                                 ) : null}
+                              </div>
+                              <div data-disclaimer="">
+                                Offer available for new purchases only. If
+                                you've already purchased any of the courses this
+                                offer does not apply.
                               </div>
                             </ul>
                           </div>

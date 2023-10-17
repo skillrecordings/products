@@ -349,6 +349,9 @@
                   @apply font-orig font-semibold uppercase tabular-nums;
                 }
               }
+              [data-disclaimer] {
+                @apply text-sm opacity-75;
+              }
             }
             [data-bonuses],
             [data-limited-bonuses] {
