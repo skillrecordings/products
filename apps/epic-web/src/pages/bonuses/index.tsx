@@ -65,7 +65,7 @@ const BonusesPage: React.FC<{
     <Layout
       meta={{
         title: `Epic Web Bonus Content`,
-        description: `Professinal Web Development content by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
+        description: `Professional Web Development content by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
         ogImage: {
           url: 'https://res.cloudinary.com/epic-web/image/upload/v1694113076/card-workshops_2x.png',
         },
