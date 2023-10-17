@@ -36,6 +36,7 @@ import {useRouter} from 'next/router'
 import {RxDiscordLogo} from 'react-icons/rx'
 import MuxPlayer from '@mux/mux-player-react'
 import ReactMarkdown from 'react-markdown'
+import {useBonuses} from 'hooks/use-bonuses'
 
 const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   purchases = [],
@@ -319,28 +320,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
 export default PurchasedProductTemplate
 
 const Bonuses: React.FC<{purchase?: Purchase}> = ({purchase}) => {
-  const {data: availableBonuses = []} =
-    trpc.bonuses.availableBonusesForPurchase.useQuery({
-      purchaseId: purchase?.id,
-    })
-
-  const {mutate: redeemBonus} = trpc.bonuses.redeemBonus.useMutation({
-    onSettled: async ({data}) => {
-      switch (data?.status) {
-        case 'claimed':
-          track('claimed bonus', {bonus: data.bonusSlug})
-          // display a notice that they have claimed a license
-          // and an email has been dispatched
-          break
-        case 'already-owned':
-          track('claimed bonus failed', {bonus: data.bonusSlug})
-          // display a notice that an email has been dispatched
-          break
-        default:
-        // display a notice that an error occurred and to email support
-      }
-    },
-  })
+  const {availableBonuses, redeemBonus} = useBonuses(purchase?.id)
 
   if (!purchase) return null
   if (availableBonuses.length === 0) return null
