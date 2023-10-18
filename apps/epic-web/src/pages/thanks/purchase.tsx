@@ -297,10 +297,7 @@ const PurchaseTransfer: React.FC<{
   if (isEmpty(purchaseUserTransfers)) return null
 
   return (
-    <div>
-      <h2 className="pb-2 text-sm font-semibold uppercase tracking-wide">
-        Transfer this purchase to another email address
-      </h2>
+    <div className="pt-5">
       {purchaseUserTransfers && (
         <Transfer
           purchaseUserTransfers={purchaseUserTransfers}
