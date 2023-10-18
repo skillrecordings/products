@@ -49,7 +49,7 @@ const AdminPage: React.FC<{progressData: any}> = ({progressData}) => {
           {usersStatus === 'loading' ? (
             <Skeleton className="mt-5 bg-foreground/10 py-24" />
           ) : (
-            <UsersDataTable users={users} />
+            <UsersDataTable users={users as any} />
           )}
         </section>
         <section className="mx-auto w-full max-w-screen-lg space-y-5 px-5 py-8">
