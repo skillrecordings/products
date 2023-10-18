@@ -48,7 +48,7 @@ type User = {
 
 type PurchaseWithProduct = Purchase & {product: Product}
 
-export const columns = () => {
+const columns = () => {
   return [
     {
       id: 'select',
