@@ -29,11 +29,6 @@ const Buy: React.FC<any> = ({commerceProps}) => {
     <Layout
       meta={{
         title: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE} Workshops`,
-        // TODO: Use correct image and alt here
-        ogImage: {
-          url: 'https://res.cloudinary.com/pro-tailwind/image/upload/v1673953704/buy-card_2x.png',
-          alt: 'Testing Javascript Workshops',
-        },
       }}
     >
       <PricingSection

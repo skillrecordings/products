@@ -41,8 +41,16 @@ const LessonPage: React.FC<{
   module: Module
   videoResourceId: string
 }> = ({lesson, module, videoResourceId}) => {
+  const ogImage = {
+    url: `${process.env.NEXT_PUBLIC_URL}${
+      process.env.NEXT_PUBLIC_OG_IMAGE_MODULE_API_URL
+    }?type=lesson&image=${encodeURI(module.image as string)}&title=${encodeURI(
+      lesson.title,
+    )}`,
+    alt: 'lesson image',
+  }
   return (
-    <Layout>
+    <Layout meta={{ogImage, title: lesson.title}}>
       <LessonProvider lesson={lesson} module={module} section={lesson.section}>
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <LessonTemplate />

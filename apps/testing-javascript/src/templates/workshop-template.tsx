@@ -20,8 +20,8 @@ const LessonItem: React.FC<{lesson: any; index: number}> = ({
       progressLesson.id === lesson._id && progressLesson.lessonCompleted,
   )
   return (
-    <li className="border-b border-black/[.05] last-of-type:border-none pb-8 mb-10 space-y-4">
-      <h3 className="text-[28px] max-w-[473px] leading-tight">
+    <li className="mb-10 space-y-4 border-b border-black/[.05] pb-8 last-of-type:border-none">
+      <h3 className="max-w-[473px] text-[28px] leading-tight">
         <Link href={`/lessons/${slug}`} className="hover:underline">
           <span className="font-tt-light">{index + 1}.</span> {title}
         </Link>
@@ -34,20 +34,20 @@ const LessonItem: React.FC<{lesson: any; index: number}> = ({
       <div className="flex items-center space-x-5">
         {isLessonCompleted && (
           <div className="flex items-center text-base">
-            <Icon name="check-circle-fill" className="w-5 h-5 ml-4 mr-2" />
+            <Icon name="check-circle-fill" className="ml-4 mr-2 h-5 w-5" />
             <span className="uppercase tracking-wider">completed</span>
           </div>
         )}
         <Link
           href={`/lessons/${slug}`}
-          className="space-x-4 flex items-center bg-gray-100 text-black px-6 py-2 rounded-md hover:bg-gray-200 duration-100 min-h-[50px]"
+          className="flex min-h-[50px] items-center space-x-4 rounded-md bg-gray-100 px-6 py-2 text-black duration-100 hover:bg-gray-200"
         >
-          <Icon name="play" className="w-[10px] h-[10px]" />
+          <Icon name="play" className="h-[10px] w-[10px]" />
           <span>{isLessonCompleted ? 'Rewatch Lesson' : 'Watch Lesson'}</span>
         </Link>
         {durationInSeconds && (
-          <div className="space-x-2 flex items-center text-base">
-            <Icon name="duration" className="w-5 h-5 text-gray-400" />
+          <div className="flex items-center space-x-2 text-base">
+            <Icon name="duration" className="h-5 w-5 text-gray-400" />
             <span>
               {secondsToFormattedTime(Number.parseInt(durationInSeconds), {
                 resolveToSeconds: true,
@@ -67,13 +67,21 @@ const WorkshopTemplate: React.FC<{
   const moduleProgress = useModuleProgress()
   const firstLessonSlug = lessons?.[0].slug
   const nextLessonSlug = moduleProgress?.nextLesson?.slug
+  const ogImage = {
+    url: `${process.env.NEXT_PUBLIC_URL}${
+      process.env.NEXT_PUBLIC_OG_IMAGE_MODULE_API_URL
+    }?type=module&image=${encodeURI(
+      workshop.image as string,
+    )}&title=${encodeURI(workshop.title)}`,
+    alt: 'module image',
+  }
   return (
-    <Layout>
+    <Layout meta={{ogImage, title: workshop.title}}>
       {workshop?.sections?.map((section) => {
         return (
           <div
             key={section.slug}
-            className="max-w-3xl mx-auto py-5 flex flex-col items-center"
+            className="container flex max-w-3xl flex-col items-center py-5"
           >
             {workshop?.image ? (
               <div className="w-full max-w-[340px]">
@@ -87,17 +95,17 @@ const WorkshopTemplate: React.FC<{
                 />
               </div>
             ) : null}
-            <h2 className="text-5xl mt-12">{section.title}</h2>
+            <h2 className="mt-12 text-5xl">{section.title}</h2>
             <div className="mt-7 flex items-center space-x-6">
-              <div className="space-x-2 flex items-center text-base">
-                <Icon name="lesson" className="w-[22px] h-[22px]" />
+              <div className="flex items-center space-x-2 text-base">
+                <Icon name="lesson" className="h-[22px] w-[22px]" />
                 <span>
                   {workshop?.sections?.[0]?.lessons?.length} video lessons
                 </span>
               </div>
               {workshop.durationInSeconds && (
-                <div className="space-x-2 flex items-center text-base">
-                  <Icon name="duration" className="w-[22px] h-[22px]" />
+                <div className="flex items-center space-x-2 text-base">
+                  <Icon name="duration" className="h-[22px] w-[22px]" />
                   <span>
                     {secondsToFormattedTime(
                       Number.parseInt(workshop.durationInSeconds),
@@ -113,9 +121,9 @@ const WorkshopTemplate: React.FC<{
                   ? `/lessons/${nextLessonSlug}`
                   : `/lessons/${firstLessonSlug}`
               }
-              className="space-x-4 flex items-center bg-gray-100 text-black px-6 py-2 rounded-md mt-7 hover:bg-gray-200 duration-100 min-h-[50px]"
+              className="mt-7 flex min-h-[50px] items-center space-x-4 rounded-md bg-gray-100 px-6 py-2 text-black duration-100 hover:bg-gray-200"
             >
-              <Icon name="play" className="w-[10px] h-[10px]" />
+              <Icon name="play" className="h-[10px] w-[10px]" />
               <span>
                 {nextLessonSlug && nextLessonSlug !== firstLessonSlug
                   ? 'Continue'
@@ -129,7 +137,7 @@ const WorkshopTemplate: React.FC<{
                 components={{
                   list: {
                     bullet: ({children}) => (
-                      <ul className="space-y-5 mt-6">{children}</ul>
+                      <ul className="mt-6 space-y-5">{children}</ul>
                     ),
                   },
                   listItem: {
@@ -137,7 +145,7 @@ const WorkshopTemplate: React.FC<{
                       <li className="flex items-center space-x-3">
                         <Icon
                           name="check-circle"
-                          className="w-[23px] h-[23px] text-[#5cc7c7]"
+                          className="h-[23px] w-[23px] text-[#5cc7c7]"
                         />
                         <span>{children}</span>
                       </li>
@@ -146,8 +154,8 @@ const WorkshopTemplate: React.FC<{
                 }}
               />
             </div>
-            <div className="mt-20 pt-10 border-t border-black/[.08] w-full">
-              <h3 className="uppercase opacity-60 text-base font-sans tracking-wider">
+            <div className="mt-20 w-full border-t border-black/[.08] pt-10">
+              <h3 className="font-sans text-base uppercase tracking-wider opacity-60">
                 lessons
               </h3>
               {lessons && (

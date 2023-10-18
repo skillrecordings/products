@@ -31,7 +31,8 @@ export default {
     },
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_URL}/card@2x.png`,
+        url: `${process.env.NEXT_PUBLIC_URL}${process.env.NEXT_PUBLIC_OG_IMAGE_DEFAULT_API_URL}`,
+        alt: 'Testing Javascript Workshops',
         width: 1200,
         height: 630,
       },

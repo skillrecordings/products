@@ -84,7 +84,7 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
   )
 
   return (
-    <Layout meta={{title: 'Invite your team to Total TypeScript'}}>
+    <Layout meta={{title: 'Invite your team to Testing JavaScript'}}>
       <main
         data-team-page=""
         className="mx-auto flex w-full max-w-3xl flex-grow flex-col items-center justify-start gap-3 p-5 pb-16 pt-16 text-gray-900"
