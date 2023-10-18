@@ -21,6 +21,8 @@ import {
 import {
   LESSON_COMPLETED_EVENT,
   type LessonCompleted,
+  PURCHASE_TRANSFERRED_EVENT,
+  PurchaseTransferred,
 } from '@skillrecordings/skill-lesson/inngest/events'
 
 export type IngestEvents = {
@@ -32,6 +34,7 @@ export type IngestEvents = {
   [LESSON_COMPLETED_EVENT]: LessonCompleted
   [EMAIL_WRITING_REQUESTED_EVENT]: EmailWritingRequested
   [EMAIL_WRITING_REQUEST_COMPLETED_EVENT]: EmailWritingRequestCompleted
+  [PURCHASE_TRANSFERRED_EVENT]: PurchaseTransferred
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,

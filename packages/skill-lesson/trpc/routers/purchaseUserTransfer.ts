@@ -18,6 +18,8 @@ import {
 } from '@skillrecordings/skill-api'
 import {publicProcedure, router} from '../trpc.server'
 import mjml2html from 'mjml'
+import {PURCHASE_TRANSFERRED_EVENT} from '../../inngest/events'
+import {Inngest} from 'inngest'
 
 const canInitiateTransfer = async ({
   purchaseUserTransfer,
@@ -267,6 +269,26 @@ export const purchaseUserTransferRouter = router({
           completedAt: new Date(),
         },
       })
+
+      if (process.env.INNGEST_EVENT_KEY) {
+        const inngest = new Inngest({
+          id:
+            process.env.INNGEST_APP_NAME ||
+            process.env.NEXT_PUBLIC_SITE_TITLE ||
+            'Purchase Transfer',
+          eventKey: process.env.INNGEST_EVENT_KEY,
+        })
+
+        await inngest.send({
+          name: PURCHASE_TRANSFERRED_EVENT,
+          data: {
+            purchaseId: purchaseUserTransfer.purchaseId,
+            sourceUserId: purchaseUserTransfer.sourceUserId,
+            targetUserId: purchaseUserTransfer.targetUserId,
+          },
+          user,
+        })
+      }
 
       const [newPurchase, completedTransfer] = await prisma.$transaction([
         updatePurchase,
