@@ -339,6 +339,14 @@ export function getSdk(
       })
       return userProgress?.lessonProgresses
     },
+    async getLessonProgresses() {
+      const progresses = await ctx.prisma.lessonProgress.findMany({
+        orderBy: {
+          completedAt: 'asc',
+        },
+      })
+      return progresses
+    },
     async getPurchaseWithUser(purchaseId: string) {
       return await ctx.prisma.purchase.findFirst({
         where: {
@@ -358,6 +366,9 @@ export function getSdk(
     },
     async getPurchase(args: Prisma.PurchaseFindFirstArgs) {
       return await ctx.prisma.purchase.findFirst(args)
+    },
+    async getPurchases(args?: Prisma.PurchaseFindManyArgs) {
+      return await ctx.prisma.purchase.findMany(args)
     },
     async getPurchasesForUser(userId?: string) {
       const purchases = userId

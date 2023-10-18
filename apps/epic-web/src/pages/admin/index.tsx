@@ -7,21 +7,36 @@ import {Skeleton} from '@skillrecordings/ui'
 import {trpc} from 'trpc/trpc.client'
 import CouponDataTable from '@skillrecordings/ui/admin/coupon-data-table'
 import CouponGeneratorForm from '@skillrecordings/ui/admin/coupon-generator-form'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
+import {ModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
+import {Bar} from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js'
+import UsersDataTable from '@skillrecordings/ui/admin/users-data-table'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
-  const {getCoupons} = getSdk()
-  const coupons = await getCoupons()
+  const {getLessonProgresses} = getSdk()
+
+  const progressData = await getLessonProgresses()
 
   return {
     props: {
-      couponsData: stringify(coupons),
+      progressData: progressData.map(convertToSerializeForNextResponse),
     },
   }
 }
 
-const AdminPage: React.FC<{couponsData: any}> = ({}) => {
+const AdminPage: React.FC<{progressData: any}> = ({progressData}) => {
   const {data: coupons, status: couponsStatus} = trpc.coupons.get.useQuery()
+  const {data: users, status: usersStatus} = trpc.users.get.useQuery()
 
   return (
     <Layout meta={{title: 'Admin'}}>
@@ -29,6 +44,18 @@ const AdminPage: React.FC<{couponsData: any}> = ({}) => {
         <h1>/Admin</h1>
       </header>
       <main className="flex flex-grow flex-col items-center space-y-5 pb-16">
+        <section className="mx-auto w-full max-w-screen-lg space-y-5 px-5 py-8">
+          <h3 className="text-2xl font-medium">Users</h3>
+          {usersStatus === 'loading' ? (
+            <Skeleton className="mt-5 bg-foreground/10 py-24" />
+          ) : (
+            <UsersDataTable users={users as any} />
+          )}
+        </section>
+        <section className="mx-auto w-full max-w-screen-lg space-y-5 px-5 py-8">
+          <h3 className="text-2xl font-medium">Lesson completions</h3>
+          <LessonCompletionsChart progress={progressData} />
+        </section>
         <h2 className="w-full max-w-screen-lg px-5 text-left text-3xl font-bold">
           Coupons
         </h2>
@@ -64,4 +91,52 @@ export type Coupon = {
   percentageDiscount: Decimal
   restrictedToProductId: null | string
   bulkPurchaseId: null | string
+}
+
+const LessonCompletionsChart: React.FC<{
+  progress: ModuleProgress['lessons']
+}> = ({progress}) => {
+  const dataByDate = progress.reduce((result: any, lesson: any) => {
+    const completedDate = new Date(lesson.completedAt).toLocaleDateString()
+    result[completedDate] = (result[completedDate] || 0) + 1
+    return result
+  }, {})
+
+  const chartData = Object.entries(dataByDate).map(([date, count]) => ({
+    date: date,
+    completionCount: count,
+  }))
+
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+  )
+
+  return (
+    <Bar
+      data={{
+        labels: chartData.map((d) => d.date),
+        datasets: [
+          {
+            label: 'completed lessons',
+            data: chartData.map((d) => d.completionCount),
+            backgroundColor: '#3174F1',
+          },
+        ],
+      }}
+      className="w-full"
+      options={{
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      }}
+    />
+  )
 }
