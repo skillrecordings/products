@@ -25,6 +25,7 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
   userId,
   purchases,
   couponFromCode,
+  availableBonuses,
 }) => {
   const router = useRouter()
   const {title, image, slug} = product
@@ -82,8 +83,8 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
           <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
             <div data-pricing-container="">
               <Pricing
-                // bonuses={bonuses}
-                allowPurchase={allowPurchase}
+                bonuses={availableBonuses}
+                allowPurchase={product.state === 'active'}
                 userId={userId}
                 product={{...product, name: undefined, title: undefined} as any}
                 purchased={purchasedProductIds.includes(product.productId)}
