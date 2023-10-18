@@ -56,7 +56,7 @@ type PricingProps = {
   userId?: string
   index?: number
   couponId?: string
-  couponFromCode?: {merchantCouponId: string | null}
+  couponFromCode?: {merchantCouponId: string | null; percentageDiscount: number}
   cancelUrl?: string
   allowPurchase?: boolean
   canViewRegionRestriction?: boolean
@@ -463,7 +463,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           )}
           {(isSellingLive || allowPurchase) && !purchased && (
             <SaleCountdown
-              coupon={defaultCoupon}
+              coupon={
+                Number(couponFromCode?.percentageDiscount) >=
+                Number(defaultCoupon?.percentageDiscount)
+                  ? couponFromCode
+                  : defaultCoupon
+              }
               data-pricing-product-sale-countdown={index}
             />
           )}
