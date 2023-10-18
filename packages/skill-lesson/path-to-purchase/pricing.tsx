@@ -204,7 +204,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     (module) => module.moduleType === 'workshop',
   )
   const moduleBonuses = modules?.filter(
-    (module) => module.moduleType === 'bonus' && module.state === 'draft',
+    (module) => module.moduleType === 'bonus' && module.state === 'published',
   )
 
   function getUnitPrice(formattedPrice: FormattedPrice) {
