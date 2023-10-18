@@ -16,7 +16,7 @@ const Profile: React.FC<React.PropsWithChildren<{providers: any}>> = ({
   const githubProvider = providers.github
 
   return (
-    <Layout footer={null} meta={{title: 'Log in to Total TypeScript'}}>
+    <Layout withFooter={false} meta={{title: 'Log in to Total TypeScript'}}>
       {user ? (
         <div className="relative mx-auto flex w-full flex-grow flex-col items-center justify-center pb-16 pt-16 text-white sm:p-5 sm:pt-40 md:pb-40">
           <h1>{user.email}</h1>
