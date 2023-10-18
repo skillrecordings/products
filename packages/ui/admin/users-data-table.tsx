@@ -31,9 +31,11 @@ import {
   TableHeader,
   TableRow,
 } from '../index'
-import toast from 'react-hot-toast'
-import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
-import {Decimal} from '@prisma/client/runtime'
+import {Product, Purchase} from '@prisma/client'
+
+// I would like to see an easy way to view and search user data,
+// including progress and survey feedback. It would be useful
+// to see the AI emails that were sent to those users as well.
 
 type User = {
   id: string
@@ -41,11 +43,12 @@ type User = {
   email: string
   image: null | string
   role: string
+  purchases?: PurchaseWithProduct[]
 }
 
-export const columns = () => {
-  const mutateDeleteCoupons = trpcSkillLessons.coupons.delete.useMutation()
+type PurchaseWithProduct = Purchase & {product: Product}
 
+export const columns = () => {
   return [
     {
       id: 'select',
@@ -92,24 +95,28 @@ export const columns = () => {
       },
     },
     {
-      id: 'id',
-      header: 'ID',
-      accessorFn: (data) => data.id,
-    },
-    {
-      id: 'role',
-      header: 'Role',
-      accessorFn: (data) => data.role,
+      id: 'purchases',
+      header: 'Purchases',
+      accessorFn: (data) => data?.purchases,
       cell: ({row}) => {
-        return <div>{row.getValue('role')}</div>
+        const purchases: PurchaseWithProduct[] = row.getValue('purchases')
+        return (
+          <div className="flex flex-col">
+            {purchases.map((p) => {
+              return (
+                <div>
+                  ${p.totalAmount.toString()} / {p.product.name}
+                </div>
+              )
+            })}
+          </div>
+        )
       },
     },
     {
       id: 'actions',
       enableHiding: false,
       cell: ({row}) => {
-        const coupon = row.original
-        const couponUrl = `${process.env.NEXT_PUBLIC_URL}?code=${coupon.id}`
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -120,15 +127,8 @@ export const columns = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(couponUrl)}
-              >
-                Copy URL
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => mutateDeleteCoupons.mutate({ids: [coupon.id]})}
-              >
-                Remove coupon
+              <DropdownMenuItem onClick={() => {}}>
+                Do something
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -165,7 +165,6 @@ const UsersDataTable: React.FC<{users: User[]}> = ({users}) => {
       rowSelection,
     },
   })
-  const mutateDeleteCoupons = trpcSkillLessons.coupons.delete.useMutation()
 
   return (
     <div className="w-full">
@@ -212,7 +211,7 @@ const UsersDataTable: React.FC<{users: User[]}> = ({users}) => {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="whitespace-nowrap">
+                    <TableHead key={header.id} className="">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -233,7 +232,7 @@ const UsersDataTable: React.FC<{users: User[]}> = ({users}) => {
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="whitespace-nowrap" key={cell.id}>
+                    <TableCell className="" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

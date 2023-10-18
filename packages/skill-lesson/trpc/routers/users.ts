@@ -1,50 +1,45 @@
 import {getSdk, Purchase} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
 import {publicProcedure, router} from '../trpc.server'
+import {z} from 'zod'
 
 export const usersRouter = router({
-  get: publicProcedure.query(async ({ctx}) => {
-    const token = await getToken({req: ctx.req})
-    const {getPurchasesForUser} = getSdk()
-    if (!token) return null
+  get: publicProcedure
+    .input(
+      z
+        .object({
+          take: z.number().optional(),
+        })
+        .optional(),
+    )
+    .query(async ({ctx, input}) => {
+      const token = await getToken({req: ctx.req})
+      if (!token) return null
 
-    const users = await ctx.prisma.user.findMany({
-      where: {
-        id: {
-          not: token.sub,
-          //   role: {
-          //     equals: 'User',
-          //   },
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        image: true,
-        comments: true,
-        lessonProgresses: true,
-        roles: true,
-        purchases: {
-          include: {
-            product: true,
-            coupon: true,
-            purchaseUserTransfers: true,
+      const users = await ctx.prisma.user.findMany({
+        // take, // TODO: pagination
+        where: {
+          id: {
+            not: token.sub,
           },
         },
-      },
-    })
-    const usersWithPurchases = await Promise.all(
-      users.map(async (user: any) => {
-        const purchases = await getPurchasesForUser(user.id)
-        return {
-          ...user,
-          purchases,
-        }
-      }),
-    )
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          lessonProgresses: true,
+          purchases: {
+            include: {
+              product: true,
+              coupon: true,
+              purchaseUserTransfers: true,
+              merchantCharge: true,
+            },
+          },
+        },
+      })
 
-    console.log({usersWithPurchases})
-    return usersWithPurchases
-  }),
+      return users
+    }),
 })
