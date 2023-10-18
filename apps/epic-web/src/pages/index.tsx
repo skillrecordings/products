@@ -11,6 +11,7 @@ import LandingCopy from 'components/landing-copy.mdx'
 import Particles from 'react-particles'
 import KentImage from '../../public/kent-c-dodds.png'
 import {loadStarsPreset} from 'tsparticles-preset-stars'
+import fs from 'fs'
 import {
   motion,
   MotionValue,
@@ -37,6 +38,13 @@ import MuxPlayer from '@mux/mux-player-react'
 import '@mux/mux-player/themes/minimal'
 import {getAvailableBonuses} from 'lib/available-bonuses'
 import {XIconTwitter} from 'components/x-icon'
+import path from 'path'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@skillrecordings/ui'
 
 const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -44,7 +52,8 @@ const Index: NextPage<{
   product: SanityProduct
   products: SanityProduct[]
   bonuses: any[]
-}> = ({product, products, bonuses}) => {
+  interviewImages: string[]
+}> = ({product, products, bonuses, interviewImages}) => {
   const router = useRouter()
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
@@ -82,7 +91,10 @@ const Index: NextPage<{
         <Header />
         <main className="">
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-          <Article workshops={product.modules} />
+          <Article
+            workshops={product.modules}
+            interviewImages={interviewImages}
+          />
           {true ? (
             <section className="relative mt-16 flex flex-col items-center justify-start dark:bg-black/30">
               <div className="flex flex-col items-center justify-center py-16">
@@ -149,7 +161,10 @@ const Index: NextPage<{
   )
 }
 
-const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
+const Article: React.FC<{
+  workshops: SanityProductModule[]
+  interviewImages: string[]
+}> = ({workshops, interviewImages}) => {
   return (
     <article className="prose mx-auto max-w-3xl px-5 pt-0 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-16">
       <LandingCopy
@@ -219,7 +234,14 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
               </div>
             )
           },
-          Bonus: ({slug, title, image, meta, features, path = 'bonuses'}) => {
+          InterviewsWithExpertsVol1: ({
+            slug,
+            title,
+            image,
+            meta,
+            features,
+            path = 'bonuses',
+          }) => {
             return (
               <li
                 id={slug}
@@ -232,7 +254,7 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
                   </div>
                   <h3 className="text-center text-2xl font-bold lg:text-left lg:text-3xl">
                     <Link
-                      href={`/workshops/${slug}`}
+                      href={`/${path}/${slug}`}
                       target="_blank"
                       className="hover:underline"
                     >
@@ -260,14 +282,40 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
                     })}
                   </ul>
                   <Link
-                    href={`/workshops/${slug}`}
+                    href={`/${path}/${slug}`}
                     target="_blank"
                     className="mt-3 inline-flex gap-1 py-2 text-base opacity-75 transition hover:opacity-100"
                   >
                     Read more <span aria-hidden>↗︎</span>
                   </Link>
                 </div>
-                {image && (
+                {interviewImages && (
+                  <div className="group grid max-w-sm grid-cols-5 gap-1">
+                    {interviewImages.map((image) => {
+                      return (
+                        <TooltipProvider delayDuration={0}>
+                          <Tooltip>
+                            <TooltipTrigger className="cursor-default">
+                              <Image
+                                className="rounded opacity-75 transition hover:opacity-100"
+                                src={require(`../../public/assets/interviews/${image}`)}
+                                alt=""
+                                aria-hidden
+                                width={100}
+                                height={100}
+                                placeholder="blur"
+                              />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              {image.replace('-', ' ').replace('.png', '')}
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      )
+                    })}
+                  </div>
+                )}
+                {/* {image && (
                   <Link
                     href={`/${path}/${slug}`}
                     target="_blank"
@@ -275,7 +323,7 @@ const Article: React.FC<{workshops: SanityProductModule[]}> = ({workshops}) => {
                   >
                     <Image src={image} width={400} height={400} alt={title} />
                   </Link>
-                )}
+                )} */}
               </li>
             )
           },
@@ -600,12 +648,15 @@ export const getStaticProps: GetStaticProps = async () => {
   const sanityProduct = await getProduct(productId as string)
   const products = await getAllProducts()
   const availableBonuses = await getAvailableBonuses()
+  // get images from public folder
+  const interviewImages = await readDirectoryContents('assets/interviews')
 
   return {
     props: {
       product: sanityProduct,
       products,
       bonuses: availableBonuses,
+      interviewImages,
     },
     revalidate: 10,
   }
@@ -637,4 +688,16 @@ const WorkshopAppScreenshot = () => {
       ) : null}
     </div>
   )
+}
+
+async function readDirectoryContents(directoryPath: string) {
+  const directory = path.join(process.cwd(), 'public', directoryPath)
+  try {
+    const files = await fs.promises.readdir(directory)
+    const filteredFiles = files.filter((file) => file !== '.DS_Store')
+    return filteredFiles
+  } catch (error) {
+    console.error(`Error reading directory: ${directoryPath}`, error)
+    return []
+  }
 }
