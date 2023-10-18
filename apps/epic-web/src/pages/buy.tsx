@@ -13,6 +13,7 @@ import {getToken} from 'next-auth/jwt'
 import Image from 'next/image'
 import React from 'react'
 import {getAvailableBonuses} from 'lib/available-bonuses'
+import {useRouter} from 'next/router'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
@@ -60,7 +61,7 @@ const BuyPage: React.FC<
       description: products[0]?.description,
     },
   )
-
+  const router = useRouter()
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
 
@@ -98,6 +99,9 @@ const BuyPage: React.FC<
         {products
           ?.filter((product: any) => product.state !== 'unavailable')
           .map((product, i) => {
+            const ALLOW_PURCHASE =
+              router.query.allowPurchase === 'true' ||
+              product.state === 'active'
             return (
               <PriceCheckProvider
                 key={product.slug}
@@ -106,7 +110,7 @@ const BuyPage: React.FC<
                 <div data-pricing-container="" key={product.name}>
                   <Pricing
                     bonuses={bonuses}
-                    allowPurchase={allowPurchase}
+                    allowPurchase={ALLOW_PURCHASE}
                     userId={userId}
                     product={product}
                     purchased={purchasedProductIds.includes(product.productId)}
