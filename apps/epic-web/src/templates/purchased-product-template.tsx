@@ -1,5 +1,6 @@
 import React from 'react'
 import Layout from 'components/app/layout'
+import {Alert, AlertTitle, AlertDescription} from '@skillrecordings/ui'
 import Image from 'next/image'
 import {trpc} from '../trpc/trpc.client'
 import {Icon, IconNames} from '@skillrecordings/skill-lesson/icons'
@@ -333,6 +334,18 @@ const Bonuses: React.FC<{purchase?: Purchase}> = ({purchase}) => {
   return (
     <>
       <H2>Available bonuses</H2>
+      {process.env.NEXT_PUBLIC_ENABLE_BONUS_REDEMPTION === 'false' ? (
+        <Alert className="mb-5 flex items-baseline gap-3">
+          <div aria-hidden>🚧</div>
+          <div>
+            <AlertTitle className="font-bold">Temporarily disabled</AlertTitle>
+            <AlertDescription>
+              We're actively working on resolving issue with bonus redemption.
+              Please check back soon.
+            </AlertDescription>
+          </div>
+        </Alert>
+      ) : null}
       <ul className="space-y-3">
         {availableBonuses.map((bonus: any) => {
           return (
@@ -401,6 +414,7 @@ const RedeemBonusButton = ({
   })
   return (
     <Button
+      disabled={process.env.NEXT_PUBLIC_ENABLE_BONUS_REDEMPTION === 'false'}
       className="ml-auto"
       size="sm"
       onClick={() => {
