@@ -254,7 +254,7 @@ const Metadata = React.forwardRef<MetadataElement, MetadataProps>(
         ) : lessons ? (
           <p className={className}>
             {lessons.length || 0}{' '}
-            {capitalize(pluralize('lesson', lessons.length))}
+            {capitalize(pluralize(lessons[0]._type, lessons.length))}
           </p>
         ) : null}
       </Primitive.div>
