@@ -56,7 +56,10 @@ type PricingProps = {
   userId?: string
   index?: number
   couponId?: string
-  couponFromCode?: {merchantCouponId: string | null; percentageDiscount: number}
+  couponFromCode?: {
+    merchantCouponId: string | null
+    percentageDiscount: number | Decimal
+  }
   cancelUrl?: string
   allowPurchase?: boolean
   canViewRegionRestriction?: boolean
