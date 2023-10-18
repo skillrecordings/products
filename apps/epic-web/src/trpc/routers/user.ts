@@ -1,6 +1,5 @@
 import {getToken} from 'next-auth/jwt'
 import {publicProcedure, router} from '@skillrecordings/skill-lesson'
-import {getSdk} from '@skillrecordings/database'
 import {isEmpty} from 'lodash'
 import {z} from 'zod'
 

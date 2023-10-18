@@ -31,6 +31,7 @@ type FormatPricesForProductOptions = {
   upgradeFromPurchaseId?: string
   userId?: string
   autoApplyPPP?: boolean
+  usedCouponId?: string
 }
 
 async function getChainOfPurchases({
@@ -140,9 +141,14 @@ export async function formatPricesForProduct(
     upgradeFromPurchaseId,
     userId,
     autoApplyPPP = true,
+    usedCouponId,
   } = noContextOptions
 
-  const {getProduct, getPrice, getPurchase} = getSdk({ctx})
+  const {getProduct, getPrice, getPurchase, getCoupon} = getSdk({ctx})
+
+  const usedCoupon = usedCouponId
+    ? await getCoupon({where: {id: usedCouponId}})
+    : null
 
   const upgradeFromPurchase = upgradeFromPurchaseId
     ? await getPurchase({
@@ -250,6 +256,9 @@ export async function formatPricesForProduct(
     }),
     availableCoupons: result.availableCoupons,
     appliedMerchantCoupon,
+    ...(usedCoupon?.merchantCouponId === appliedMerchantCoupon?.id && {
+      usedCouponId,
+    }),
     bulk: result.bulk,
     ...upgradeDetails,
   }

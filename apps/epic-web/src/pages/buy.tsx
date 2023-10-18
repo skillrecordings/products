@@ -12,6 +12,8 @@ import {motion, useReducedMotion} from 'framer-motion'
 import {getToken} from 'next-auth/jwt'
 import Image from 'next/image'
 import React from 'react'
+import {getAvailableBonuses} from 'lib/available-bonuses'
+import {useRouter} from 'next/router'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
@@ -19,10 +21,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const token = await getToken({req})
   const products = await getAllProducts()
 
-  return await propsForCommerce({query, token, products})
+  const availableBonuses = await getAvailableBonuses()
+
+  const {props} = await propsForCommerce({
+    query,
+    token,
+    products,
+  })
+
+  return {
+    props: {
+      ...props,
+      bonuses: availableBonuses,
+    },
+  }
 }
 
-const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
+const BuyPage: React.FC<
+  React.PropsWithChildren<CommerceProps & {bonuses: any}>
+> = ({
   couponFromCode,
   purchases = [],
   userId,
@@ -30,6 +47,7 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   couponIdFromCoupon,
   defaultCoupon,
   allowPurchase,
+  bonuses,
 }) => {
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     couponFromCode,
@@ -43,7 +61,7 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
       description: products[0]?.description,
     },
   )
-
+  const router = useRouter()
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
 
@@ -81,6 +99,9 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
         {products
           ?.filter((product: any) => product.state !== 'unavailable')
           .map((product, i) => {
+            const ALLOW_PURCHASE =
+              router.query.allowPurchase === 'true' ||
+              product.state === 'active'
             return (
               <PriceCheckProvider
                 key={product.slug}
@@ -88,7 +109,8 @@ const BuyPage: React.FC<React.PropsWithChildren<CommerceProps>> = ({
               >
                 <div data-pricing-container="" key={product.name}>
                   <Pricing
-                    allowPurchase={allowPurchase}
+                    bonuses={bonuses}
+                    allowPurchase={ALLOW_PURCHASE}
                     userId={userId}
                     product={product}
                     purchased={purchasedProductIds.includes(product.productId)}

@@ -14,6 +14,7 @@ import {moduleProgressRouter} from './module-progress'
 import {purchasesRouter} from './purchases'
 import {couponsRouter} from './coupons'
 import {productsRouter} from './products'
+import {usersRouter} from './users'
 
 /**
  * Create your application's root router
@@ -34,6 +35,7 @@ export const skillLessonRouter = router({
   purchases: purchasesRouter,
   coupons: couponsRouter,
   products: productsRouter,
+  users: usersRouter,
 })
 
 export type SkillLessonRouter = typeof skillLessonRouter

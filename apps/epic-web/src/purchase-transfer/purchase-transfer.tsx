@@ -119,8 +119,8 @@ export const Transfer = ({
                   You can cancel the transfer at any time before it is accepted
                   or expires.
                 </h2>
-                <button
-                  className="bg-brand-red relative flex flex-shrink-0 items-center justify-center rounded-full px-5 py-2 font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110"
+                <Button
+                  variant="secondary"
                   onClick={() => {
                     cancelMutation.mutate({
                       purchaseUserTransferId: purchaseUserTransfer.id,
@@ -128,7 +128,7 @@ export const Transfer = ({
                   }}
                 >
                   Cancel Transfer
-                </button>
+                </Button>
               </>
             )}
             {STATE === 'COMPLETED' && (

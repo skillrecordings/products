@@ -182,6 +182,7 @@ export async function stripeCheckout({
         upgradeFromPurchaseId,
         bulk = false,
         cancelUrl = `${req.headers.origin}/buy`,
+        usedCouponId,
       } = req.query
 
       const quantity = Number(queryQuantity)
@@ -365,6 +366,7 @@ export async function stripeCheckout({
           process.env.DEFAULT_COUNTRY ||
           'US',
         ip_address,
+        ...(usedCouponId && {usedCouponId}),
       }
 
       const session = await stripe.checkout.sessions.create({

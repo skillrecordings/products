@@ -6,7 +6,6 @@ import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
 import pluralize from 'pluralize'
 import {useRouter} from 'next/router'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {getAllWorkshops} from 'lib/workshops'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {WorkshopAppBanner} from 'components/workshop-app'
@@ -49,9 +48,6 @@ const WorkshopsPage: React.FC<{
   bonuses?: Module[]
   fullStackWorkshopSeriesProduct: Product
 }> = ({workshops, fullStackWorkshopSeriesProduct, bonuses}) => {
-  const router = useRouter()
-  const {subscriber, loadingSubscriber} = useConvertkit()
-
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
@@ -68,8 +64,8 @@ const WorkshopsPage: React.FC<{
   return (
     <Layout
       meta={{
-        title: `Professinal Web Development Workshops from Kent C. Dodds`,
-        description: `Professinal Web Development workshops by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
+        title: `Professional Web Development Workshops from Kent C. Dodds`,
+        description: `Professional Web Development workshops by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
         ogImage: {
           url: 'https://res.cloudinary.com/epic-web/image/upload/v1694113076/card-workshops_2x.png',
         },

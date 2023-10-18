@@ -33,9 +33,11 @@ import {buildStripeCheckoutPath} from '@skillrecordings/skill-lesson/utils/build
 import {Button} from '@skillrecordings/ui'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {useRouter} from 'next/router'
-import {PlayIcon} from '@heroicons/react/solid'
 import {RxDiscordLogo} from 'react-icons/rx'
 import MuxPlayer from '@mux/mux-player-react'
+import ReactMarkdown from 'react-markdown'
+import {useBonuses} from 'hooks/use-bonuses'
+import toast from 'react-hot-toast'
 
 const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   purchases = [],
@@ -197,11 +199,6 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 poster="https://res.cloudinary.com/epic-web/image/upload/v1697358228/after-purchase-video-poster.jpg"
               />
             </div>
-            {/* <div className="col-span-3 flex w-full items-center justify-center p-8">
-              <div className="flex aspect-video w-full cursor-pointer items-center justify-center rounded-md bg-gray-900/10 mix-blend-hard-light">
-                <Icon name="Playmark" className="h-5 w-5" />
-              </div>
-            </div> */}
           </section>
           <div
             className="h-1 w-[99%] rounded-b-md bg-primary brightness-125 dark:brightness-75"
@@ -254,28 +251,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 />
               </>
             )}
-            {isRestrictedUpgrade ? (
-              <>
-                <H2 className="pt-10">Regional License</H2>
-                <Upgrade
-                  purchaseToUpgrade={purchaseToUpgrade}
-                  formattedPrice={formattedPrice}
-                  formattedPriceStatus={status}
-                  product={product}
-                  purchase={purchase}
-                  userId={purchase.userId}
-                />
-              </>
-            ) : (
-              <>
-                <H2>Buy more seats</H2>
-                <BuyMoreSeats
-                  className="flex [&_[data-full-price]]:line-through [&_[data-percent-off]]:text-primary dark:[&_[data-percent-off]]:text-blue-300 [&_[data-price-container]]:!flex [&_[data-price-container]]:!w-full [&_[data-price-discounted]]:flex [&_[data-price-discounted]]:items-center [&_[data-price-discounted]]:gap-2 [&_[data-price-discounted]]:pl-3 [&_[data-price-discounted]]:text-base [&_[data-price-discounted]]:font-medium [&_[data-price]]:flex [&_[data-price]]:text-2xl [&_[data-price]]:font-bold [&_[data-pricing-product-header]]:w-full [&_[data-pricing-product]]:w-full [&_button]:!bg-primary [&_button]:!px-4 [&_button]:!py-1.5 [&_button]:!font-medium [&_button]:!text-primary-foreground [&_input]:text-sm [&_sup]:top-2.5 [&_sup]:pr-1 [&_sup]:opacity-75"
-                  productId={purchase.productId}
-                  userId={userId}
-                />
-              </>
-            )}
+            <Bonuses purchase={purchase} />
             {isTransferAvailable && purchaseUserTransfers && (
               <>
                 <H2>Purchase Transfer</H2>
@@ -292,6 +268,32 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 purchasesForCurrentProduct={purchasesForCurrentProduct}
               />
             </div>
+            {isRestrictedUpgrade ? (
+              <>
+                <H2 className="pt-10">Regional License</H2>
+                <Upgrade
+                  purchaseToUpgrade={purchaseToUpgrade}
+                  formattedPrice={formattedPrice}
+                  formattedPriceStatus={status}
+                  product={product}
+                  purchase={purchase}
+                  userId={purchase.userId}
+                />
+              </>
+            ) : (
+              <>
+                <H2>Buy more seats</H2>
+                <p className="pb-5">
+                  Want to get the rest of your team onboard and learning? You
+                  can always buy more seats and receive a cumulative discount.
+                </p>
+                <BuyMoreSeats
+                  className="flex [&>fieldset]:flex-col [&>fieldset]:sm:flex-row [&_[data-full-price]]:line-through [&_[data-percent-off]]:text-primary dark:[&_[data-percent-off]]:text-blue-300 [&_[data-price-container]]:!flex [&_[data-price-container]]:!w-full [&_[data-price-discounted]]:flex [&_[data-price-discounted]]:items-center [&_[data-price-discounted]]:gap-2 [&_[data-price-discounted]]:pl-3 [&_[data-price-discounted]]:text-base [&_[data-price-discounted]]:font-medium [&_[data-price]]:flex [&_[data-price]]:text-2xl [&_[data-price]]:font-bold [&_[data-pricing-product-header]]:w-full [&_[data-pricing-product]]:w-full [&_button]:!bg-primary [&_button]:!px-4 [&_button]:!py-1.5 [&_button]:!font-medium [&_button]:!text-primary-foreground [&_input]:text-sm [&_sup]:top-2.5 [&_sup]:pr-1 [&_sup]:opacity-75"
+                  productId={purchase.productId}
+                  userId={userId}
+                />
+              </>
+            )}
           </div>
         </article>
         <aside className="flex flex-shrink-0 flex-col items-center py-10 pr-5 md:mb-0 lg:min-h-screen lg:w-4/12 lg:items-end">
@@ -321,6 +323,97 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
 }
 
 export default PurchasedProductTemplate
+
+const Bonuses: React.FC<{purchase?: Purchase}> = ({purchase}) => {
+  const {availableBonuses} = useBonuses(purchase?.id)
+
+  if (!purchase) return null
+  if (availableBonuses.length === 0) return null
+
+  return (
+    <>
+      <H2>Available bonuses</H2>
+      <ul className="space-y-3">
+        {availableBonuses.map((bonus: any) => {
+          return (
+            <li key={bonus.slug} className="flex items-center gap-3">
+              {bonus?.image && (
+                <Image
+                  src={bonus.image}
+                  alt={bonus.title}
+                  width={58}
+                  height={58}
+                />
+              )}
+              <div>
+                <h3 className="text-lg font-medium">{bonus.title}</h3>
+                {bonus.description && (
+                  <ReactMarkdown
+                    className="prose dark:prose-invert prose-p:opacity-90"
+                    components={{
+                      a: (props) => (
+                        <a {...props} target="_blank" rel="noopener" />
+                      ),
+                    }}
+                  >
+                    {bonus.description}
+                  </ReactMarkdown>
+                )}
+              </div>
+              <RedeemBonusButton bonus={bonus} purchaseId={purchase.id} />
+            </li>
+          )
+        })}
+      </ul>
+    </>
+  )
+}
+
+const RedeemBonusButton = ({
+  bonus,
+  purchaseId,
+}: {
+  bonus: {slug: string; title: string}
+  purchaseId: string
+}) => {
+  const {mutate: redeemBonus} = trpc.bonuses.redeemBonus.useMutation({
+    onSettled: async (result) => {
+      console.log(result)
+      switch (result?.status) {
+        case 'claimed':
+          track('claimed bonus', {bonus: bonus.slug})
+          toast.success(
+            `You've successfully claimed ${bonus.title}! Please check your inbox to log in. 🎉`,
+          )
+          break
+        case 'error':
+          track('claimed bonus failed', {bonus: bonus.slug})
+          toast.success(
+            `Please check your inbox to log in to ${bonus.title}. 📧`,
+          )
+          break
+        default:
+          toast(
+            `Something went wrong. It's our fault. Please email ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL} if you need support.`,
+          )
+      }
+    },
+  })
+  return (
+    <Button
+      className="ml-auto"
+      size="sm"
+      onClick={() => {
+        redeemBonus({
+          bonusSlug: bonus.slug,
+          purchaseId,
+        })
+      }}
+    >
+      Redeem
+    </Button>
+  )
+}
 
 const Upgrade: React.FC<{
   purchase: Purchase

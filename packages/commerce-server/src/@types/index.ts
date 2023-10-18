@@ -35,6 +35,7 @@ export type FormattedPrice = {
   }
   upgradedProduct?: ProductWithPrices | null
   bulk: boolean
+  usedCouponId?: string
 }
 
 export type CouponForCode = Coupon & {
@@ -90,6 +91,7 @@ export type SanityProductModule = {
   moduleType: 'workshop' | 'playlist' | 'bonus'
   title: string
   state?: 'draft' | 'published'
+  description?: string
   image: {
     url: string
     alt: string

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({

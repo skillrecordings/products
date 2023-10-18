@@ -7,6 +7,7 @@ import {lessonCompleted} from 'inngest/functions/progress/lesson-completed'
 import {inactivityAfterPurchase} from 'inngest/functions/progress/inactivity-after-purchase'
 import {resumeProgressAfterInactivity} from 'inngest/functions/progress/resume-progress'
 import {writeAnEmail} from 'inngest/functions/ai-email/write-an-email'
+import {purchaseTransferComplete} from 'inngest/functions/purchase/purchase-transfer-complete'
 
 export const config = {
   maxDuration: 300,
@@ -22,5 +23,6 @@ export default serve({
     // resumeProgressAfterInactivity,
     lessonCompleted,
     writeAnEmail,
+    purchaseTransferComplete,
   ],
 })

@@ -95,20 +95,23 @@ const checkForAvailableCoupons = async ({
       defaultCoupon: undefined,
     }
   } else {
-    const {activeMerchantCoupon, defaultCoupon} = await getActiveMerchantCoupon(
-      {
+    const {activeMerchantCoupon, defaultCoupon, usedCouponId} =
+      await getActiveMerchantCoupon({
         siteCouponId: couponId,
         productId,
         code: undefined,
-      },
-    )
+      })
 
     const minimalDefaultCoupon = defaultCoupon && {
       expires: defaultCoupon.expires?.toISOString(),
       percentageDiscount: defaultCoupon.percentageDiscount.toString(),
     }
 
-    return {activeMerchantCoupon, defaultCoupon: minimalDefaultCoupon}
+    return {
+      activeMerchantCoupon,
+      defaultCoupon: minimalDefaultCoupon,
+      usedCouponId,
+    }
   }
 }
 
@@ -182,7 +185,7 @@ export const pricing = router({
         }
       }
 
-      const {activeMerchantCoupon, defaultCoupon} =
+      const {activeMerchantCoupon, defaultCoupon, usedCouponId} =
         await checkForAvailableCoupons({
           merchantCoupon,
           couponId,
@@ -197,6 +200,7 @@ export const pricing = router({
         ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
         userId: verifiedUserId,
         autoApplyPPP,
+        usedCouponId,
       })
 
       const formattedPrice = {

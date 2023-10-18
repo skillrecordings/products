@@ -21,6 +21,9 @@ import {SanityDocument} from '@sanity/client'
 import {InvoiceCard} from 'pages/invoices'
 // import {MailIcon} from '@heroicons/react/solid'
 import {getProduct} from 'lib/products'
+import {isEmpty} from 'lodash'
+import {Transfer} from 'purchase-transfer/purchase-transfer'
+import {trpc} from 'trpc/trpc.client'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context
@@ -251,7 +254,7 @@ const ThanksVerify: React.FC<
     <>
       <Layout meta={{title: 'Purchase Successful'}}>
         <main className="mx-auto flex w-full max-w-screen-lg flex-col-reverse sm:flex-grow lg:grid lg:grid-cols-9 lg:py-8">
-          <div className="col-span-4 flex w-full flex-col items-center justify-center px-10 pb-16 lg:py-16">
+          <div className="col-span-4 flex w-full flex-col items-center justify-center px-5 pb-16 pt-10 sm:px-10 lg:py-16">
             <ThankYou
               title={title}
               byline={byline}
@@ -266,8 +269,9 @@ const ThanksVerify: React.FC<
                 purchase={{product: {name: stripeProductName}, ...purchase}}
               />
             </div>
+            <PurchaseTransfer purchase={purchase} />
           </div>
-          <div className="col-span-5 flex flex-col items-center justify-center bg-gradient-to-tr from-primary to-indigo-500 pb-16 pt-16 text-primary-foreground selection:bg-gray-900 sm:pb-24 sm:pt-24 lg:rounded-md">
+          <div className="col-span-5 flex flex-col items-center justify-center bg-gradient-to-tr from-primary to-indigo-500 pb-10 pt-16 text-primary-foreground selection:bg-gray-900 sm:pb-24 sm:pt-24 lg:rounded-md">
             <div className="flex max-w-screen-sm flex-col gap-10 sm:px-10 lg:px-16">
               {loginLink && loginLink({email})}
               {inviteTeam && inviteTeam}
@@ -276,6 +280,32 @@ const ThanksVerify: React.FC<
         </main>
       </Layout>
     </>
+  )
+}
+
+const PurchaseTransfer: React.FC<{
+  bulkCouponId?: string
+  purchase: {id: string; userId: string | null}
+}> = ({bulkCouponId, purchase}) => {
+  const {data: purchaseUserTransfers, refetch} =
+    trpc.purchaseUserTransfer.forPurchaseId.useQuery({
+      id: purchase.id,
+      sourceUserId: purchase.userId || undefined,
+    })
+
+  if (bulkCouponId) return null
+  if (isEmpty(purchaseUserTransfers)) return null
+
+  return (
+    <div className="pt-5">
+      {purchaseUserTransfers && (
+        <Transfer
+          className="[&_] flex w-full items-start rounded-lg border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 [&_[data-content]]:flex-col [&_[data-content]]:items-start [&_h2]:text-lg [&_h2]:leading-tight [&_p]:text-sm"
+          purchaseUserTransfers={purchaseUserTransfers}
+          refetch={refetch}
+        />
+      )}
+    </div>
   )
 }
 
