@@ -7,7 +7,6 @@ import {motion} from 'framer-motion'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {useCursorPosition} from 'hooks/use-cursor-position'
 import {isFirefox} from 'react-device-detect'
-import {isSellingLive} from '@skillrecordings/skill-lesson/utils/is-selling-live'
 
 const ProductCTA: React.FC<{
   product: Product
@@ -20,7 +19,7 @@ const ProductCTA: React.FC<{
   const withEffect = !isFirefox
 
   const Comp: React.FC<React.PropsWithChildren> = ({children}) => {
-    if (isSellingLive) {
+    if (product.state === 'active') {
       return (
         <Link
           href={restricted ? `/products/${product.slug}` : `/buy`}
@@ -67,13 +66,13 @@ const ProductCTA: React.FC<{
             <span className="dark:drop-shadow-md">{title}</span>
           </div>
           <p className="text-2xl font-semibold leading-tight text-white">
-            {isSellingLive
+            {product.state === 'active'
               ? restricted
                 ? 'Your License is Region Restricted'
                 : 'Out Now!'
               : 'Coming Soon'}
           </p>
-          {isSellingLive ? (
+          {product.state === 'active' ? (
             <Button
               asChild
               className="relative mt-5 cursor-pointer bg-gradient-to-t from-blue-600 via-blue-500 to-blue-400 text-sm font-semibold shadow-sm transition hover:brightness-110"

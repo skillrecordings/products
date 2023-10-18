@@ -28,6 +28,7 @@ You'll go from importing a stylesheet, to uploading files. You'll design a datab
 
 <h2 className="pb-14 text-center sm:!text-4xl">What's included:</h2>
 
+<ul>
 <Workshop
   slug="full-stack-foundations"
   title="Full Stack Foundations"
@@ -81,7 +82,7 @@ You'll go from importing a stylesheet, to uploading files. You'll design a datab
     '**Session Management:** Secure data storage done right the first time.',
     '**Cookie-Based Identification:** Identification that follows best practices.',
     '**Password Storage:** Safety beyond just hashing.',
-    '**Password Validation:** Security that without inconvenience.',
+    "**Password Validation:** Security that's without inconvenience.",
     "**Session Expiration:** Auto-logout doesn't have to mean data loss.",
     '**Permissions:** Role-based access control.',
     '**Verification:** Verify user emails, support forgot password, 2FA–the works.',
@@ -103,6 +104,15 @@ You'll go from importing a stylesheet, to uploading files. You'll design a datab
     '**Integration Testing:** Strike a productive balance on test scope.',
   ]}
 />
+
+<InterviewsWithExpertsVol1
+  slug="interviews-with-experts"
+  title="Interviews with Experts"
+  meta="25 Interviews"
+  features={[]}
+/>
+
+</ul>
 
 Each of these workshop modules has been meticulously designed to comprehensively upgrade your skills. We go **deep**.
 
@@ -135,8 +145,8 @@ After completing a workshop module, you'll be able to download a certificate of 
 - **Rising Full-Stack Devs:** Get the foundations right.
 - **Veteran Coders:** Fill in the knowledge gaps you didn't know you had.
 
-<h3 id="testimonials" className="scale-125 text-center">
-  What Other Developers are Saying
+<h3 id="testimonials" className="sm:scale-125 text-center">
+  <Balancer>What Other Developers are Saying</Balancer>
 </h3>
 
 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:-mx-32 py-8">
@@ -190,3 +200,5 @@ Epic Web isn't just about learning; it's about applying, about doing. At the end
 
 Ready to stop reading and start coding?
 Let's make web dev magic happen.
+
+import Balancer from 'react-wrap-balancer'

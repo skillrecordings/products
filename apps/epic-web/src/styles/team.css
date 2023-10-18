@@ -73,7 +73,7 @@
 [data-buy-more-seats-form] {
   @apply pt-3;
   #team-upgrade-pricing-inline {
-    @apply flex w-full items-center justify-between;
+    @apply flex w-full items-start justify-between sm:items-center;
     [data-seats-form] {
       @apply inline-flex items-center gap-3;
       label {

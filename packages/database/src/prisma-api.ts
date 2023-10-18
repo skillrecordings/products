@@ -443,6 +443,7 @@ export function getSdk(
       checkoutSessionId: string
       appliedPPPStripeCouponId: string | undefined
       upgradedFromPurchaseId: string | undefined
+      usedCouponId: string | undefined
       country?: string
     }) {
       const {
@@ -459,6 +460,7 @@ export function getSdk(
         appliedPPPStripeCouponId,
         upgradedFromPurchaseId,
         country,
+        usedCouponId,
       } = options
       // we are using uuids so we can generate this!
       // this is needed because the following actions
@@ -560,9 +562,11 @@ export function getSdk(
         },
       })
 
-      const merchantCoupon = await ctx.prisma.merchantCoupon.findFirst({
-        where: {identifier: stripeCouponId},
-      })
+      const merchantCoupon = stripeCouponId
+        ? await ctx.prisma.merchantCoupon.findFirst({
+            where: {identifier: stripeCouponId},
+          })
+        : null
 
       const pppMerchantCoupon = appliedPPPStripeCouponId
         ? await ctx.prisma.merchantCoupon.findFirst({
@@ -585,6 +589,7 @@ export function getSdk(
           merchantSessionId,
           country,
           upgradedFromId: upgradedFromPurchaseId || null,
+          couponId: usedCouponId || null,
         },
       })
 

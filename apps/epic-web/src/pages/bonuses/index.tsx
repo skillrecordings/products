@@ -5,17 +5,10 @@ import Link from 'next/link'
 import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
 import pluralize from 'pluralize'
-import {useRouter} from 'next/router'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import {getAllWorkshops} from 'lib/workshops'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {WorkshopAppBanner} from 'components/workshop-app'
 import {ProductCTA} from 'components/product-cta'
 import {Product, getProduct} from 'lib/products'
-import {
-  ModuleProgressProvider,
-  useModuleProgress,
-} from '@skillrecordings/skill-lesson/video/module-progress'
+import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {trpc} from 'trpc/trpc.client'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {Skeleton} from '@skillrecordings/ui'
@@ -46,9 +39,6 @@ const BonusesPage: React.FC<{
   bonuses: Module[]
   fullStackWorkshopSeriesProduct: Product
 }> = ({bonuses, fullStackWorkshopSeriesProduct}) => {
-  const router = useRouter()
-  const {subscriber, loadingSubscriber} = useConvertkit()
-
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
@@ -65,7 +55,7 @@ const BonusesPage: React.FC<{
     <Layout
       meta={{
         title: `Epic Web Bonus Content`,
-        description: `Professinal Web Development content by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
+        description: `Professional Web Development content by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
         ogImage: {
           url: 'https://res.cloudinary.com/epic-web/image/upload/v1694113076/card-workshops_2x.png',
         },
@@ -128,22 +118,6 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
   index,
 }) => {
   const {title, slug, image, description, sections} = workshop
-  const router = useRouter()
-  const moduleProgress = useModuleProgress()
-  const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
-
-  const useAbilities = () => {
-    const {data: abilityRules, status: abilityRulesStatus} =
-      trpc.modules.rules.useQuery({
-        moduleSlug: workshop.slug.current,
-        moduleType: workshop.moduleType,
-      })
-    return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
-  }
-  const {ability, abilityRulesStatus} = useAbilities()
-
-  const canViewContent = ability.can('view', 'Content')
-  const ref = React.useRef(null)
 
   return (
     <motion.li

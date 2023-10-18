@@ -29,19 +29,19 @@ export const LessonCompleteEmail = ({
   const disclaimer = `These messages are generated using gpt-4 and are not monitored. If
             they are not helpful, you can [unsubscribe](${process.env.NEXT_PUBLIC_URL}/unsubscribed?from=kody-the-encouragement-bot&userId=${user.id}). If you'd
             like to see the code that generates these messages, you can find it
-            [here on GitHub](https://github.com/skillrecordings/products/blob/main/apps/epic-web/src/inngest/functions/ai-mail/write-an-email).`
+            [here on GitHub](https://github.com/skillrecordings/products/blob/main/apps/epic-web/src/inngest/functions/ai-email/write-an-email.ts).`
   return (
     <Html>
       <Head />
       <Preview>You are on your way.</Preview>
       <Body style={main}>
         <Section style={content}>
-          <Markdown>{body.replace(/\\+n/g, '\\n')}</Markdown>
+          <Markdown>{body.replace(/\\+n/g, '\n')}</Markdown>
         </Section>
         <Section style={content}>
           {hasAuthedLocally ? null : (
             <Markdown>
-              PS For the best experience we highly recommend you use the Epic
+              PS For the best experience, we highly recommend you use the Epic
               Web workshop application on your local machine. It allows you to
               authenticate and work through the material as intended at your own
               pace.

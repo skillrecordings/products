@@ -28,6 +28,7 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-dmsans)', ...defaultTheme.fontFamily.sans],
         mono: ['var(--font-jetbrainsmono)', ...defaultTheme.fontFamily.mono],
+        orig: defaultTheme.fontFamily.sans,
       },
       colors: {
         brand: 'hsl(var(--primary))',
