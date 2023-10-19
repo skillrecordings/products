@@ -720,6 +720,9 @@ export function getSdk(
             },
           }),
         },
+        orderBy: {
+          percentageDiscount: 'desc',
+        },
         include: {
           merchantCoupon: true,
           product: true,
