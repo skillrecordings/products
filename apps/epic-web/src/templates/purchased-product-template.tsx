@@ -51,8 +51,11 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   const isUpgrade = Boolean(router.query.upgrade)
   const withWelcomeBanner = isUpgrade || Boolean(router.query.welcome)
 
-  const purchasesForCurrentProduct = purchases.filter((purchase) => {
-    return purchase.productId === product.productId
+  const purchasesForCurrentProduct = purchases.filter((purchase: Purchase) => {
+    return (
+      purchase.productId === product.productId &&
+      ['Valid', 'Restricted'].includes(purchase.status)
+    )
   })
   const purchase = purchasesForCurrentProduct[0]
 
@@ -310,7 +313,10 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
             </span>
             {product.modules.map((module) => {
               return (
-                <ModuleProgressProvider moduleSlug={module.slug}>
+                <ModuleProgressProvider
+                  key={module.slug}
+                  moduleSlug={module.slug}
+                >
                   <ModuleItem module={module} />
                 </ModuleProgressProvider>
               )

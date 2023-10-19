@@ -87,7 +87,11 @@ export const Transfer = ({
         const STATE = purchaseUserTransfer.transferState
 
         return (
-          <div data-transfer-state={STATE} className="flex flex-col gap-3">
+          <div
+            key={purchaseUserTransfer.id}
+            data-transfer-state={STATE}
+            className="flex flex-col gap-3"
+          >
             {STATE === 'AVAILABLE' && (
               <>
                 <h2 className="text-2xl font-bold">
