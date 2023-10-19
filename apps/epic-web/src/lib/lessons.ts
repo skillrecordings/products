@@ -38,6 +38,9 @@ export async function getLessonVideoForDevice({
     lesson,
     section,
     module,
+    country:
+      user?.purchases?.filter((purchase) => purchase.status === 'Restricted')[0]
+        ?.country || 'US',
   })
 
   if (ability.can('view', 'Content')) {

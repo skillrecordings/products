@@ -17,6 +17,11 @@ export async function lessonForDeviceReq({
     const token = await getToken({req})
     const user = await loadUserForToken({token, deviceToken})
 
+    console.log(
+      'CURRENT USER COUNTRY VIA VERCEL',
+      req.headers['x-vercel-ip-country'] as string,
+    )
+
     const lessonSlug = req.query.lesson as string
     const moduleSlug = req.query.module as string
     const sectionSlug = req.query.section as string
