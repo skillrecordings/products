@@ -1,59 +1,26 @@
 import * as React from 'react'
-import {getProviders, signIn} from 'next-auth/react'
+import {getProviders} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import Layout from 'components/app/layout'
-import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {getToken} from 'next-auth/jwt'
-import {trpc} from 'trpc/trpc.client'
-import {isEmpty} from 'lodash'
+import EditProfileForm from '@skillrecordings/ui/profile/edit-profile-form'
 
 const Profile: React.FC<React.PropsWithChildren<{providers: any}>> = ({
   providers,
 }) => {
-  const {data: user} = trpc.user.currentUser.useQuery()
-  const {mutate: disconnectGithub} = trpc.user.disconnectGithub.useMutation()
-
-  const githubProvider = providers.github
-
   return (
-    <Layout meta={{title: 'Profile'}}>
-      {user ? (
-        <div className="relative mx-auto flex w-full flex-grow flex-col items-center justify-center pb-16 pt-16 text-white sm:p-5 sm:pt-40 md:pb-40">
-          <h1>{user.email}</h1>
-          {user.accounts.map((account: any) => {
-            return (
-              <div key={account.id}>
-                <div className="mt-5 flex flex-col items-center sm:text-lg">
-                  <button
-                    onClick={() => {
-                      disconnectGithub()
-                    }}
-                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-gray-700 px-5 py-4 font-semibold text-white shadow-xl shadow-black/20 transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-cyan-100"
-                  >
-                    <span className="mr-2 flex items-center justify-center">
-                      <Icon name="Github" size="20" />
-                    </span>
-                    Disconnect {account.provider}
-                  </button>
-                </div>
-              </div>
-            )
-          })}
-          {isEmpty(user.accounts) && githubProvider ? (
-            <div className="mt-5 flex flex-col items-center sm:text-lg">
-              <button
-                onClick={() => signIn(githubProvider.id)}
-                className="flex w-full items-center justify-center rounded-md border border-transparent bg-gray-700 px-5 py-4 font-semibold text-white shadow-xl shadow-black/20 transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-cyan-100"
-              >
-                <span className="mr-2 flex items-center justify-center">
-                  <Icon name="Github" size="20" />
-                </span>
-                Connect {githubProvider.name}
-              </button>
-            </div>
-          ) : null}
-        </div>
-      ) : null}
+    <Layout
+      meta={{title: 'Profile'}}
+      className="mx-auto flex w-full max-w-screen-lg flex-col items-start gap-8 px-5 py-20 sm:gap-16 sm:py-32 md:flex-row"
+    >
+      <header className="w-full md:max-w-[230px]">
+        <h1 className="text-center text-xl font-bold md:text-left">
+          Your Profile
+        </h1>
+      </header>
+      <main className="flex w-full flex-col space-y-10 md:max-w-md">
+        <EditProfileForm providers={providers} />
+      </main>
     </Layout>
   )
 }

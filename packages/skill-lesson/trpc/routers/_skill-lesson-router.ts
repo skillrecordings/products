@@ -15,6 +15,7 @@ import {purchasesRouter} from './purchases'
 import {couponsRouter} from './coupons'
 import {productsRouter} from './products'
 import {usersRouter} from './users'
+import {userRouter} from './user'
 
 /**
  * Create your application's root router
@@ -36,6 +37,7 @@ export const skillLessonRouter = router({
   coupons: couponsRouter,
   products: productsRouter,
   users: usersRouter,
+  user: userRouter,
 })
 
 export type SkillLessonRouter = typeof skillLessonRouter

@@ -337,6 +337,19 @@ const User: React.FC<{className?: string}> = ({className}) => {
               {sessionData?.user?.email || 'Account'}
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="flex items-center justify-between"
+              asChild
+            >
+              <Link
+                href="/profile"
+                className={cx({
+                  underline: pathname.includes('/profile'),
+                })}
+              >
+                Profile
+              </Link>
+            </DropdownMenuItem>
             {purchasedProductIds.length > 0 && (
               <DropdownMenuItem
                 className="flex items-center justify-between"
