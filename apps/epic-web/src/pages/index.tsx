@@ -241,12 +241,13 @@ const Article: React.FC<{
             meta,
             features,
             path = 'bonuses',
+            children,
           }) => {
             return (
               <li
                 id={slug}
                 key={slug}
-                className="not-prose flex flex-col items-center justify-between gap-8 pb-16 sm:-mx-10 lg:-mx-16 lg:flex-row lg:items-center"
+                className="not-prose flex flex-col-reverse items-center justify-between gap-8 pb-16 sm:-mx-10 lg:-mx-24 lg:flex-row lg:items-center"
               >
                 <div className="flex flex-col items-center sm:items-start">
                   <div className="mb-2 inline-flex rounded-full bg-amber-600 px-2 py-0.5 font-mono text-sm font-semibold uppercase text-background dark:bg-yellow-300">
@@ -264,23 +265,9 @@ const Article: React.FC<{
                   <p className="pt-2 text-center font-mono text-sm uppercase lg:text-left ">
                     {meta}
                   </p>
-                  <ul className="pt-8">
-                    {features.map((feature: any) => {
-                      return (
-                        <li
-                          className='py-1 pl-7 before:-ml-7 before:pr-3 before:text-emerald-500 before:content-["✓"] dark:before:text-emerald-300'
-                          key={feature}
-                        >
-                          <ReactMarkdown
-                            unwrapDisallowed
-                            disallowedElements={['p']}
-                          >
-                            {feature}
-                          </ReactMarkdown>
-                        </li>
-                      )
-                    })}
-                  </ul>
+                  <div className="mt-5 max-w-md space-y-4 text-base leading-relaxed opacity-90">
+                    {children}
+                  </div>
                   <Link
                     href={`/${path}/${slug}`}
                     target="_blank"
@@ -290,7 +277,7 @@ const Article: React.FC<{
                   </Link>
                 </div>
                 {interviewImages && (
-                  <div className="group grid max-w-sm grid-cols-5 gap-1">
+                  <div className="group grid max-w-[430px] grid-cols-5 gap-1">
                     {interviewImages.map((image) => {
                       return (
                         <TooltipProvider delayDuration={0}>
