@@ -26,7 +26,7 @@ export const lessonCompleted = inngest.createFunction(
     id: 'lesson-completed',
     name: 'Lesson Completed',
     debounce: {
-      period: '17m',
+      period: '12h',
       key: 'event.user.id',
     },
   },
