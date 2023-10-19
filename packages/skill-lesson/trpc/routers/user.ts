@@ -1,5 +1,5 @@
 import {getToken} from 'next-auth/jwt'
-import {publicProcedure, router} from '@skillrecordings/skill-lesson'
+import {publicProcedure, router} from '../trpc.server'
 import {isEmpty} from 'lodash'
 import {z} from 'zod'
 
