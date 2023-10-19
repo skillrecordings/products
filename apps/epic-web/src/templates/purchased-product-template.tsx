@@ -324,7 +324,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
 
 export default PurchasedProductTemplate
 
-const Bonuses: React.FC<{purchase?: Purchase}> = ({purchase}) => {
+export const Bonuses: React.FC<{purchase?: Purchase}> = ({purchase}) => {
   const {availableBonuses} = useBonuses(purchase?.id)
 
   if (!purchase) return null
@@ -333,10 +333,13 @@ const Bonuses: React.FC<{purchase?: Purchase}> = ({purchase}) => {
   return (
     <>
       <H2>Available bonuses</H2>
-      <ul className="space-y-3">
+      <ul className="space-y-10 sm:space-y-3">
         {availableBonuses.map((bonus: any) => {
           return (
-            <li key={bonus.slug} className="flex items-center gap-3">
+            <li
+              key={bonus.slug}
+              className="flex flex-col items-center justify-center gap-3 text-center sm:flex-row sm:justify-start sm:text-left"
+            >
               {bonus?.image && (
                 <Image
                   src={bonus.image}
@@ -401,7 +404,7 @@ const RedeemBonusButton = ({
   })
   return (
     <Button
-      className="ml-auto"
+      className="sm:ml-auto"
       size="sm"
       onClick={() => {
         redeemBonus({

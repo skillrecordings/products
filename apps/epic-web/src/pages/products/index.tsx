@@ -1,16 +1,12 @@
 import Layout from 'components/app/layout'
 import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
-import {
-  CommerceProps,
-  SanityProduct,
-} from '@skillrecordings/commerce-server/dist/@types'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import React from 'react'
 
-import {Product, Purchase} from '@skillrecordings/database'
+import {Purchase} from '@skillrecordings/database'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
-
 import {
   Button,
   Card,
@@ -28,7 +24,6 @@ import {
 } from '@skillrecordings/ui'
 import {useSession} from 'next-auth/react'
 import {useRouter} from 'next/router'
-import {DatePurchased, Price} from 'purchase-details/purchase-details-template'
 import Link from 'next/link'
 import {
   PriceCheckProvider,
@@ -40,7 +35,7 @@ import {
   formatUsd,
 } from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import Spinner from 'components/spinner'
-import {PurchasedBadge} from 'templates/purchased-product-template'
+import {Bonuses, PurchasedBadge} from 'templates/purchased-product-template'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const products = await getAllProducts()
@@ -81,7 +76,7 @@ const ProductsIndex: React.FC<ProductsIndexProps> = ({purchases, products}) => {
       <header className="flex items-center justify-center py-16 text-center">
         <h1 className="text-2xl font-bold">Products</h1>
       </header>
-      <main className="mx-auto w-full max-w-screen-lg space-y-4 px-5">
+      <main className="mx-auto w-full max-w-screen-md space-y-4 px-5">
         <StateFilter products={products} purchases={purchases} />
         {displayedProducts.length &&
           displayedProducts.map((product) => {
@@ -137,7 +132,6 @@ const ProductCard: React.FC<{
           {purchase ? <PurchasedBadge /> : null}
         </div>
       </CardHeader>
-
       <CardFooter className="space-x-2">
         {purchase ? (
           <>
@@ -188,6 +182,9 @@ const ProductCard: React.FC<{
           </>
         )}
       </CardFooter>
+      <div className="px-5 [&_h2]:mt-0 [&_h2]:pb-4 [&_h2]:pt-2 [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:uppercase [&_h2]:tracking-wide [&_h2]:opacity-90 [&_ul]:pb-5">
+        <Bonuses purchase={purchase as any} />
+      </div>
     </Card>
   )
 }
