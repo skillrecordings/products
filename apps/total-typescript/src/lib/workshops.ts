@@ -120,6 +120,7 @@ export const getWorkshop = async (slug: string) =>
           "name": title,
           "slug": slug.current,
           productId,
+          state,
           description,
           action,
           image {
