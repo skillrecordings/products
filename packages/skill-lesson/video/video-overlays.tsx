@@ -220,7 +220,7 @@ export const CompleteAndContinueButton = React.forwardRef<
 })
 
 const DefaultOverlay: React.FC = () => {
-  const {nextExercise, handlePlay} = useMuxPlayer()
+  const {nextExercise, handlePlay, setDisplayOverlay} = useMuxPlayer()
   const {lesson, module} = useLesson()
   const router = useRouter()
   const {image} = module
@@ -294,6 +294,7 @@ const DefaultOverlay: React.FC = () => {
                   moduleType: module.moduleType,
                   lessonType: lesson._type,
                 })
+                setDisplayOverlay(false)
                 handlePlay()
               }}
             >
@@ -716,7 +717,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
 }
 
 const FinishedSectionOverlay = () => {
-  const {nextSection, handlePlay} = useMuxPlayer()
+  const {nextSection, handlePlay, setDisplayOverlay} = useMuxPlayer()
   const {lesson, module} = useLesson()
   const router = useRouter()
   const {image} = module
@@ -793,6 +794,7 @@ const FinishedSectionOverlay = () => {
                   moduleType: module.moduleType,
                   lessonType: lesson._type,
                 })
+                setDisplayOverlay(false)
                 handlePlay()
               }}
             >
