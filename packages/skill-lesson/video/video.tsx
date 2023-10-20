@@ -54,7 +54,7 @@ export const Video: React.FC<
     return (
       <>
         <PriceCheckProvider>
-          {displayOverlay && (
+          {displayOverlay ? (
             <>
               {nextExerciseStatus === 'loading' ? (
                 <LoadingOverlay loadingIndicator={loadingIndicator} />
@@ -80,28 +80,32 @@ export const Video: React.FC<
                 </>
               )}
             </>
+          ) : (
+            <div
+              className={cx(
+                'relative flex w-full items-center justify-center',
+                {
+                  hidden: displayOverlay,
+                },
+              )}
+            >
+              {Boolean(canShowVideo && videoResource?.muxPlaybackId) ? (
+                <MuxPlayer
+                  ref={ref}
+                  {...(muxPlayerProps as MuxPlayerProps)}
+                  playbackId={videoResource?.muxPlaybackId}
+                />
+              ) : (
+                <>
+                  {loadingUserStatus || loadingVideoResource ? (
+                    <LoadingOverlay loadingIndicator={loadingIndicator} />
+                  ) : (
+                    <BlockedOverlay product={product} />
+                  )}
+                </>
+              )}
+            </div>
           )}
-          <div
-            className={cx('relative flex w-full items-center justify-center', {
-              hidden: displayOverlay,
-            })}
-          >
-            {Boolean(canShowVideo && videoResource?.muxPlaybackId) ? (
-              <MuxPlayer
-                ref={ref}
-                {...(muxPlayerProps as MuxPlayerProps)}
-                playbackId={videoResource?.muxPlaybackId}
-              />
-            ) : (
-              <>
-                {loadingUserStatus || loadingVideoResource ? (
-                  <LoadingOverlay loadingIndicator={loadingIndicator} />
-                ) : (
-                  <BlockedOverlay product={product} />
-                )}
-              </>
-            )}
-          </div>
         </PriceCheckProvider>
       </>
     )
