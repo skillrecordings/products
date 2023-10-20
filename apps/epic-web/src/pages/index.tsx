@@ -87,7 +87,13 @@ const Index: NextPage<{
 
   return (
     <>
-      <Layout navigationClassName="">
+      <Layout
+        meta={{
+          titleAppendSiteName: false,
+          title: 'Ship Modern Full-Stack Web Applications',
+        }}
+        navigationClassName=""
+      >
         <Header />
         <main className="">
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
