@@ -125,6 +125,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
                       purchases={purchases}
                       index={i}
                       couponId={couponId}
+                      allowPurchase={allowPurchase}
                     />
                   </div>
                 </PriceCheckProvider>

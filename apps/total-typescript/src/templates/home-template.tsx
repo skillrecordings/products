@@ -25,6 +25,7 @@ export const HomeTemplate: React.FC<
   products,
   couponIdFromCoupon,
   defaultCoupon,
+  allowPurchase,
 }) => {
   const skillLevel = useSkillLevel(level)
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} =
@@ -127,6 +128,7 @@ export const HomeTemplate: React.FC<
                               withGuaranteeBadge: true,
                               withImage: true,
                             }}
+                            allowPurchase={allowPurchase}
                           />
                         </div>
                       </PriceCheckProvider>
