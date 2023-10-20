@@ -141,7 +141,7 @@ const Workshops: React.FC<{workshops: any[]}> = ({workshops}) => {
       <ul className="w-full divide-y">
         {workshops.map((workshop) => {
           if (!workshop?.github?.repo) return null
-          const deployedUrl = getDeployedUrl(workshop.github.repo)
+          const deployedUrl = getDeployedWorkshopAppUrl(workshop.github.repo)
           return (
             <li className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2">
               <div className="flex items-center gap-3">
@@ -239,7 +239,7 @@ const WorkshopAppScreenshot = () => {
   )
 }
 
-const getDeployedUrl = (repo: string) => {
+export const getDeployedWorkshopAppUrl = (repo: string) => {
   switch (repo) {
     case 'https://github.com/epicweb-dev/full-stack-foundations':
       return 'https://foundations.epicweb.dev'

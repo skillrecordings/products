@@ -9,6 +9,8 @@ import {Button} from '@skillrecordings/ui'
 import {ExternalLinkIcon} from '@heroicons/react/outline'
 import {trpc} from 'trpc/trpc.client'
 import MuxPlayer, {MuxPlayerRefAttributes} from '@mux/mux-player-react'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {getDeployedWorkshopAppUrl} from 'pages/get-started'
 
 const ExerciseOverlay = () => {
   const {module, lesson} = useLesson()
@@ -24,11 +26,11 @@ const ExerciseOverlay = () => {
   const workshopApp = moduleResources && moduleResources.workshopApp
 
   return (
-    <div className="flex aspect-video flex-col items-center justify-center gap-16 bg-gray-950 py-10 text-white dark:bg-black/20">
+    <div className="flex aspect-video flex-col items-center justify-center gap-16 bg-gray-950 py-0 pb-8 text-white dark:bg-black/20 sm:py-10 sm:pb-10">
       <div className="flex w-full flex-col items-center gap-8 p-5">
         <GetStartedVideo module={module} />
         <div className="flex max-w-lg flex-col items-center space-y-5 text-center">
-          <p className="font-text text-3xl font-bold">
+          <p className="font-text text-2xl font-bold sm:text-3xl">
             Stop! 😅 This is not a video course.
           </p>
           <p className="text-lg text-gray-300">
@@ -126,7 +128,7 @@ const ExerciseOverlay = () => {
   )
 }
 
-const GetStartedVideo: React.FC<{module: any}> = ({module}) => {
+const GetStartedVideo: React.FC<{module: Module}> = ({module}) => {
   const [cuePoint, setCuePoint] = React.useState<{
     href: string
     label: string
@@ -157,8 +159,10 @@ const GetStartedVideo: React.FC<{module: any}> = ({module}) => {
     {
       time: 60,
       value: {
-        href: 'https://foundations.epicweb.dev/',
-        label: 'Full Stack Foundations',
+        href: module.github?.repo
+          ? getDeployedWorkshopAppUrl(module.github.repo)
+          : '',
+        label: `${module.title} (Deployed Workshop App)`,
       },
     },
     {
@@ -168,7 +172,9 @@ const GetStartedVideo: React.FC<{module: any}> = ({module}) => {
     {
       time: 117,
       value: {
-        href: 'https://github.com/epicweb-dev/full-stack-foundations?tab=readme-ov-file#setup',
+        href: module.github?.repo
+          ? `${module.github.repo}?tab=readme-ov-file#setup`
+          : 'https://github.com/epicweb-dev/full-stack-foundations?tab=readme-ov-file#setup',
         label: 'Setup',
       },
     },
