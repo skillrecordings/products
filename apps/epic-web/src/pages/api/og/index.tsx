@@ -35,10 +35,10 @@ export default async function handler(req: NextRequest) {
           }}
         >
           <div
-            tw="absolute flex items-center justify-end h-20 w-full bottom-0 left-0 pr-6"
+            tw="absolute flex items-center justify-end h-32 w-full bottom-0 left-0 pr-6"
             style={{background: '#4F75FF'}}
           >
-            <div
+            {/* <div
               tw="rounded-full flex p-6 -mt-16"
               style={{background: '#4F75FF'}}
             >
@@ -58,12 +58,12 @@ export default async function handler(req: NextRequest) {
                   fill="white"
                 />
               </svg>
-            </div>
+            </div> */}
           </div>
-          <div tw="absolute" style={{bottom: 24, left: 24, fontSize: 26}}>
+          {/* <div tw="absolute" style={{bottom: 24, left: 24, fontSize: 26}}>
             epicweb.dev
-          </div>
-          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-32 relative px-14">
+          </div> */}
+          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-40 relative px-14">
             {hasImage ? (
               <div tw="flex items-center">
                 <img src={image} width={200} height={200} tw="mr-10" />
