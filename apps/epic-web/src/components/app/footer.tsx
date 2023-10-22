@@ -33,6 +33,10 @@ const Footer = () => {
       label: 'FAQ',
       href: '/faq',
     },
+    {
+      label: 'Credits',
+      href: '/credits',
+    },
   ]
 
   const router = useRouter()

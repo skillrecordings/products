@@ -77,7 +77,7 @@ export const team: Human[] = [
     description:
       'Josh did back-end development work on the platform Epic Web is built on.',
     xHandle: 'jbrancha',
-    website: 'https://joshbranchaud.com/',
+    website: 'https://joshbranchaud.com',
     image: require('../../public/credits/josh-branchaud.jpeg'),
   },
 ]
