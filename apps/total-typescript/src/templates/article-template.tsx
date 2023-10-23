@@ -14,6 +14,7 @@ import '@/styles/shiki-twoslash.css'
 import {linkedHeadingComponents, ShareImageMDX} from '@/components/mdx'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {trpc} from '@/trpc/trpc.client'
+import Link from 'next/link'
 
 type ArticleTemplateProps = {
   article: Article
@@ -28,6 +29,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
 }) => {
   const {body, title, slug, _createdAt, _updatedAt, image, description} =
     article
+
   const {subscriber, loadingSubscriber} = useConvertkit()
   const articleDescription = description
     ? description
@@ -109,11 +111,28 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
               contents={articleBody}
               components={{
                 ShareImage: ShareImageMDX,
+                CTA: ({children, ...props}) => (
+                  <ArticleBodyCTA {...props}>{children}</ArticleBodyCTA>
+                ),
                 ...linkedHeadingComponents,
                 hr: () => <hr className="border-gray-700" />,
               }}
             />
           )}
+          <ArticleBodyCTA
+            image="https://cdn.sanity.io/images/z9io1e0u/production/05ef9a8023fe078f08f8304e71206b0d3c24faa1-1000x1001.png"
+            href="/tutorials/react-with-typescript"
+            action="Learn React with TypeScript Today"
+            title="React with TypeScript"
+            label="Free Tutorial"
+          >
+            <p>
+              Starting from the very beginning of bringing TS support to a React
+              project, you'll soon find yourself properly typing hooks and
+              mastering components. You’ll learn everything you need to know to
+              get productive with React and TypeScript.
+            </p>
+          </ArticleBodyCTA>
           <div className="flex w-36 -rotate-6 gap-2 pt-10 text-gray-400">
             —
             <Image
@@ -129,9 +148,11 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           )}
         </section>
         <section className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-8 px-5 pb-32 sm:grid-cols-2">
-          {articles.map((article) => {
-            return <ArticleTeaser article={article} key={article.slug} />
-          })}
+          {articles
+            .filter((article) => article.state === 'published')
+            .map((article) => {
+              return <ArticleTeaser article={article} key={article.slug} />
+            })}
         </section>
       </main>
     </Layout>
@@ -139,3 +160,54 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
 }
 
 export default ArticleTemplate
+
+const ArticleBodyCTA: React.FC<
+  React.PropsWithChildren<{
+    href: string
+    label?: string
+    action?: string
+    title: string
+    image?: string
+  }>
+> = ({
+  href,
+  label = 'Free tutorial',
+  title,
+  image,
+  children,
+  action = 'Learn more',
+}) => {
+  return (
+    <div className="not-prose group my-16 flex flex-col overflow-hidden rounded-lg bg-white text-gray-950 sm:flex-row lg:-mx-16">
+      {image && (
+        <div className="flex flex-shrink-0 items-center justify-center bg-gradient-to-tr from-gray-800 to-gray-900 p-3">
+          <Image src={image} alt="" width={300} height={300} aria-hidden />
+        </div>
+      )}
+      <div className="h-full p-5 sm:p-8">
+        <div className="mb-3 inline-flex rounded-full bg-amber-300 px-2 py-1 font-mono text-xs font-bold uppercase text-black">
+          {label}
+        </div>
+        <h3 className="text-4xl font-bold">
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href={href}
+            className="hover:underline"
+          >
+            {title}
+          </Link>
+        </h3>
+        <div className="py-3 text-lg">{children}</div>
+        <Link
+          target="_blank"
+          rel="noopener noreferrer"
+          href={href}
+          className="mt-5 inline-flex rounded-md bg-gray-950 px-4 py-2 text-lg font-medium text-white transition hover:bg-gray-800"
+        >
+          {action}
+        </Link>
+      </div>
+    </div>
+  )
+}
