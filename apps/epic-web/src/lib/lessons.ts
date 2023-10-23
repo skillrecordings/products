@@ -13,6 +13,7 @@ type GetLessonProps = {
   lessonSlug: string
   moduleSlug: string
   sectionSlug: string
+  country: string
   user?: User & {purchases: Purchase[]}
 }
 export async function getLessonVideoForDevice({
@@ -21,6 +22,7 @@ export async function getLessonVideoForDevice({
   moduleSlug,
   sectionSlug,
   user,
+  country,
 }: GetLessonProps) {
   const module = await getModule(moduleSlug)
   const section = await getSection(sectionSlug)
@@ -38,9 +40,7 @@ export async function getLessonVideoForDevice({
     lesson,
     section,
     module,
-    country:
-      user?.purchases?.filter((purchase) => purchase.status === 'Restricted')[0]
-        ?.country || 'US',
+    country: country,
   })
 
   if (ability.can('view', 'Content')) {
@@ -59,6 +59,10 @@ export async function getLessonVideoForDevice({
       }s/${moduleSlug}/${sectionSlug}/${lessonSlug}${
         useSolution ? '/solution' : ''
       }`,
+    }
+  } else if (ability.can('view', 'RegionRestriction')) {
+    return {
+      error: 'region-restricted',
     }
   }
 }

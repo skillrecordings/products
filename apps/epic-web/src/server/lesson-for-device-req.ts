@@ -17,11 +17,6 @@ export async function lessonForDeviceReq({
     const token = await getToken({req})
     const user = await loadUserForToken({token, deviceToken})
 
-    console.log(
-      'CURRENT USER COUNTRY VIA VERCEL',
-      req.headers['x-vercel-ip-country'] as string,
-    )
-
     const lessonSlug = req.query.lesson as string
     const moduleSlug = req.query.module as string
     const sectionSlug = req.query.section as string
@@ -32,12 +27,26 @@ export async function lessonForDeviceReq({
       sectionSlug,
       ...(user && {user}),
       useSolution: isSolution,
+      country: req.headers['x-vercel-ip-country'] as string,
     })
-    if (lessonForDevice) {
+
+    if (lessonForDevice && !lessonForDevice.error) {
       res.status(200).json(lessonForDevice)
     } else {
       if (user) {
-        // unauthorized
+        if (lessonForDevice?.error === 'region-restricted') {
+          const requestCountry = req.headers['x-vercel-ip-country'] as string
+          const restrictedCountry = user?.purchases?.filter(
+            (purchase) => purchase.status === 'Restricted',
+          )[0]?.country
+          res.status(200).json({
+            requestCountry,
+            restrictedCountry,
+            isRegionRestricted:
+              lessonForDevice?.error === 'region-restricted' ||
+              requestCountry !== restrictedCountry,
+          })
+        }
         res.status(403).end()
       } else {
         // unauthenticated
