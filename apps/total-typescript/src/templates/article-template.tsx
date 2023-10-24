@@ -111,7 +111,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
               contents={articleBody}
               components={{
                 ShareImage: ShareImageMDX,
-                CTA: ({children, ...props}) => (
+                ArticleBodyCTA: ({children, ...props}) => (
                   <ArticleBodyCTA {...props}>{children}</ArticleBodyCTA>
                 ),
                 ...linkedHeadingComponents,
