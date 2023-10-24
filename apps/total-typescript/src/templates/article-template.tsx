@@ -119,20 +119,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
               }}
             />
           )}
-          <ArticleBodyCTA
-            image="https://cdn.sanity.io/images/z9io1e0u/production/05ef9a8023fe078f08f8304e71206b0d3c24faa1-1000x1001.png"
-            href="/tutorials/react-with-typescript"
-            action="Learn React with TypeScript Today"
-            title="React with TypeScript"
-            label="Free Tutorial"
-          >
-            <p>
-              Starting from the very beginning of bringing TS support to a React
-              project, you'll soon find yourself properly typing hooks and
-              mastering components. You’ll learn everything you need to know to
-              get productive with React and TypeScript.
-            </p>
-          </ArticleBodyCTA>
           <div className="flex w-36 -rotate-6 gap-2 pt-10 text-gray-400">
             —
             <Image
