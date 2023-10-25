@@ -161,7 +161,7 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
   workshop,
   index,
 }) => {
-  const {title, slug, image, description, sections} = workshop
+  const {title, slug, image, description, sections, lessons} = workshop
   const router = useRouter()
   const moduleProgress = useModuleProgress()
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
@@ -178,8 +178,9 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
 
   const canViewContent = ability.can('view', 'Content')
   const ref = React.useRef(null)
-  const sectionsLength = sections && sectionsFlatMap(sections).length
-  const lessonsLength = workshop.lessons && workshop.lessons.length
+  const lessonType =
+    (sections && sectionsFlatMap(sections)[0]?._type) ||
+    (lessons && lessons[0]._type)
 
   return (
     <motion.li
@@ -256,8 +257,7 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
             <div className="mt-3 flex w-full items-center justify-center gap-2 font-mono text-xs md:justify-start">
               <span className="uppercase opacity-75">
                 {moduleProgress?.completedLessonCount}/
-                {sections ? sectionsFlatMap(sections).length : lessonsLength}{' '}
-                completed
+                {moduleProgress?.lessonCount} completed
               </span>
               <Progress
                 value={moduleProgress?.percentComplete}
@@ -285,19 +285,14 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
               </div>
               <span>Kent C. Dodds</span>
             </div>
-            {'・'}
-            {sectionsLength && (
-              <div>
-                {sectionsLength}{' '}
-                {pluralize(sectionsFlatMap(sections)[0]._type, sectionsLength)}
-              </div>
-            )}
-            {lessonsLength && (
-              <div>
-                {lessonsLength}{' '}
-                {workshop.lessons &&
-                  pluralize(workshop.lessons[0]._type, lessonsLength)}
-              </div>
+            {moduleProgress?.lessonCount && (
+              <>
+                {'・'}
+                <div>
+                  {moduleProgress.lessonCount}{' '}
+                  {pluralize(lessonType, moduleProgress.lessonCount)}
+                </div>
+              </>
             )}
           </div>
         </div>
