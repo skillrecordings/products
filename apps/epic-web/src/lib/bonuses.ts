@@ -8,8 +8,10 @@ const bonusesQuery = groq`*[_type == "module" && moduleType == 'bonus'] | order(
   slug,
   "image": image.asset->url,
   _updatedAt,
+  moduleType,
   _createdAt,
   description,
+  state,
   "lessons": resources[@->._type in ['interview']]->{
     _id,
     _type,
