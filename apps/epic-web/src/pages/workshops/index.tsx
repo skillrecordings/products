@@ -196,25 +196,44 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
       <Link
         className="relative flex w-full flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-100 bg-white bg-gradient-to-tr from-transparent to-white/50 p-5 shadow-soft-xl transition before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:border-transparent dark:from-gray-900 dark:to-gray-800 dark:hover:brightness-110 md:flex-row md:p-10 md:pl-16"
         href={{
-          pathname: '/workshops/[module]',
+          pathname:
+            workshop.moduleType === 'bonus'
+              ? '/bonuses/[module]'
+              : '/workshops/[module]',
           query: {
             module: slug.current,
           },
         }}
       >
-        <div
-          className={cn(
-            'absolute left-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-transparent text-xs font-semibold uppercase leading-none tracking-wider text-gray-600 shadow-inner dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400',
-            {
-              'bg-emerald-500 text-white dark:bg-emerald-400 dark:text-black':
-                isModuleInProgress && moduleProgress?.moduleCompleted,
-            },
-          )}
-        >
-          {isModuleInProgress && moduleProgress?.moduleCompleted
-            ? '✓'
-            : `${index + 1}`}
-        </div>
+        {workshop.moduleType === 'bonus' ? (
+          isModuleInProgress && moduleProgress?.moduleCompleted ? (
+            <div
+              className={cn(
+                'absolute left-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-transparent text-xs font-semibold uppercase leading-none tracking-wider text-gray-600 shadow-inner dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400',
+                {
+                  'bg-emerald-500 text-white dark:bg-emerald-400 dark:text-black':
+                    isModuleInProgress && moduleProgress?.moduleCompleted,
+                },
+              )}
+            >
+              ✓
+            </div>
+          ) : null
+        ) : (
+          <div
+            className={cn(
+              'absolute left-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-transparent text-xs font-semibold uppercase leading-none tracking-wider text-gray-600 shadow-inner dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400',
+              {
+                'bg-emerald-500 text-white dark:bg-emerald-400 dark:text-black':
+                  isModuleInProgress && moduleProgress?.moduleCompleted,
+              },
+            )}
+          >
+            {isModuleInProgress && moduleProgress?.moduleCompleted
+              ? '✓'
+              : `${index + 1}`}
+          </div>
+        )}
         {image && (
           <div className="flex items-center justify-center lg:flex-shrink-0">
             <Image
