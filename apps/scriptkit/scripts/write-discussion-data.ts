@@ -83,7 +83,7 @@ let discussions: Discussion[] = response.repository.discussions.nodes.map(
 let loadedScripts: any[] = discussions.map(
   ({author, body, createdAt, id, slug, title, url: discussion}) => {
     let url =
-      body.match(/(?<=(Install|Open).*)https:\/\/gist.*js(?=\"|\))/gim)?.[0] ||
+      body.match(/(?<=(Install|Open).*)https:\/\/gist.*ts(?=\"|\))/gim)?.[0] ||
       ''
     let metadata = getMetadata(body)
 
