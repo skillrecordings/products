@@ -1,10 +1,9 @@
 import {getSdk} from '@skillrecordings/database'
+import {getModuleProgress} from '@skillrecordings/skill-lesson/lib/module-progress'
 import {getModuleById} from '@skillrecordings/skill-lesson/lib/modules'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {appRouter} from 'trpc/routers/_app'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const caller = appRouter.createCaller({req} as any)
   const {getUserById} = getSdk()
   const {moduleId, userId} = req.query
 
@@ -18,8 +17,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const module = await getModuleById(moduleId as string)
 
-  const moduleProgress = await caller.moduleProgress.bySlug({
-    slug: module.slug.current,
+  const moduleProgress = await getModuleProgress({
+    moduleSlug: module.slug,
+    userId: userId as string,
   })
 
   const isCompleted = moduleProgress?.moduleCompleted
