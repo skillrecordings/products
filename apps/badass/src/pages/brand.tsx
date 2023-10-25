@@ -5,7 +5,7 @@ import {twMerge} from 'tailwind-merge'
 import {renderToString} from 'react-dom/server'
 import toast from 'react-hot-toast'
 import cx from 'classnames'
-import {DownloadIcon} from '@heroicons/react/outline'
+import {DownloadIcon, ClipboardCopyIcon} from '@heroicons/react/outline'
 
 import Layout from 'components/layout'
 
@@ -66,10 +66,67 @@ const DownloadButton: React.FC<{
         downloadButtonStyles,
         type === 'dark' ? downloadButtonStylesDark : downloadButtonStylesLight,
       )}
+      onClick={() => toast.success('Logo has been downloaded')}
     >
       <span>Download</span>
       <DownloadIcon aria-hidden="true" className="w-6" />
     </a>
+  )
+}
+
+const colorPaletteTiles = [
+  {
+    hexCode: '#FDB854',
+    colorClassName: 'bg-badass-yellow-300',
+  },
+  {
+    hexCode: '#FF6D46',
+    colorClassName: 'bg-badass-red-400',
+  },
+  {
+    hexCode: '#F8ABB5',
+    colorClassName: 'bg-badass-pink-500',
+  },
+  {
+    hexCode: '#4958B4',
+    colorClassName: 'bg-badass-neutral-500',
+  },
+  {
+    hexCode: '#88D4DD',
+    colorClassName: 'bg-badass-cyan-500',
+  },
+  {
+    hexCode: '#2BC370',
+    colorClassName: 'bg-badass-green-500',
+  },
+]
+
+const ColorPaletteTile: React.FC<{hexCode: string; colorClassName: string}> = ({
+  hexCode,
+  colorClassName,
+}) => {
+  const [copiedState, setCopied] = useCopyToClipboard()
+  return (
+    <div className="group">
+      <div
+        className={cx(
+          'h-40 rounded-2xl flex justify-center items-center font-mono font-medium text-base cursor-pointer',
+          colorClassName,
+        )}
+        onClick={() => {
+          setCopied(hexCode)
+          !copiedState.error && toast.success('Copied to clipboard')
+        }}
+      >
+        <div className="opacity-0 group-hover:opacity-100 duration-150 flex items-center space-x-3">
+          <span>Click to copy</span>
+          <ClipboardCopyIcon aria-hidden="true" className="w-6" />
+        </div>
+      </div>
+      <h4 className="text-badass-gray-300 font-mono text-base font-medium opacity-70 group-hover:opacity-100 group-hover:text-white duration-150 leading-[2.18] mt-4">
+        {hexCode}
+      </h4>
+    </div>
   )
 }
 
@@ -141,7 +198,19 @@ const LogosSection = () => {
 
 const PrimaryColorsSection = () => {
   return (
-    <StackSection title="Primary Color Palette">LogosStackSection</StackSection>
+    <StackSection title="Primary Color Palette">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-8">
+        {colorPaletteTiles.map((tile) => {
+          return (
+            <ColorPaletteTile
+              key={`color-palette-tile-${tile.hexCode}`}
+              hexCode={tile.hexCode}
+              colorClassName={tile.colorClassName}
+            />
+          )
+        })}
+      </div>
+    </StackSection>
   )
 }
 const FontsSection = () => {
@@ -345,15 +414,15 @@ export default BrandPage
 //             <div className="py-1 pl-2 font-mono text-xs uppercase text-gray-500">
 //               Copy SVG:
 //             </div>
-//             <button
-//               type="button"
-//               key={logo.props.variant}
-//               className="rounded bg-gray-100 px-2 py-1 font-mono text-xs font-medium uppercase hover:underline"
-//               onClick={() => {
-//                 setCopied(renderToString(logo))
-//                 !copiedState.error && toast.success('Copied to clipboard')
-//               }}
-//             >
+// <button
+//   type="button"
+//   key={logo.props.variant}
+//   className="rounded bg-gray-100 px-2 py-1 font-mono text-xs font-medium uppercase hover:underline"
+//   onClick={() => {
+//     setCopied(renderToString(logo))
+//     !copiedState.error && toast.success('Copied to clipboard')
+//   }}
+// >
 //               Color
 //             </button>
 //             <button
