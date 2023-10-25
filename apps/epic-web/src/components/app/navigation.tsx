@@ -161,7 +161,7 @@ const Navigation: React.FC<NavigationProps> = ({
             >
               <Logo />
             </Link>
-            <div className="hidden items-center justify-start gap-2 font-medium sm:flex lg:pl-2">
+            <div className="hidden items-center justify-start gap-2 font-medium md:flex lg:pl-2">
               {navigationLinks.map(({label, href, icon}, i) => {
                 const isOvershadowed = false
                 // (hoveredNavItemIndex !== i && hoveredNavItemIndex !== -1)
@@ -203,8 +203,8 @@ const Navigation: React.FC<NavigationProps> = ({
             </div>
           </div>
           <div className="flex items-center justify-end">
-            <Login className="hidden sm:flex" />
-            <User className="hidden sm:flex" />
+            <Login className="hidden md:flex" />
+            <User className="hidden md:flex" />
             {commercePropsStatus === 'success' && hasPurchase && (
               <>
                 {canInviteTeam && lastPurchase ? (
@@ -228,7 +228,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 )}
               </>
             )}
-            <ColorModeToggle className="hidden sm:block" />
+            <ColorModeToggle className="hidden md:block" />
             <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
           </div>
           <AnimatePresence>
@@ -241,7 +241,7 @@ const Navigation: React.FC<NavigationProps> = ({
                   type: 'spring',
                   duration: 0.5,
                 }}
-                className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100 bg-white px-2 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-black/90 dark:shadow-black/60 sm:hidden"
+                className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100 bg-white px-2 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-black/90 dark:shadow-black/60 md:hidden"
               >
                 {navigationLinks.map(({label, href, icon}) => {
                   return (
@@ -325,8 +325,8 @@ const User: React.FC<{className?: string}> = ({className}) => {
             />
             <div className="flex flex-col pl-0.5">
               <span className="inline-flex gap-0.5 text-sm font-bold leading-tight">
-                <span className="truncate sm:max-w-[3rem] lg:max-w-[6rem]">
-                  {sessionData?.user?.name}
+                <span className="truncate sm:max-w-[8rem] lg:max-w-[11rem] xl:max-w-none">
+                  {sessionData?.user?.name?.split(' ')[0]}
                 </span>{' '}
                 <ChevronDownIcon className="w-2" />
               </span>
@@ -610,7 +610,7 @@ const NavToggle: React.FC<NavToggleProps> = ({
 
   return (
     <button
-      className="absolute z-10 flex h-12 w-12 items-center justify-center p-1 sm:hidden"
+      className="absolute z-10 flex h-12 w-12 items-center justify-center p-1 md:hidden"
       onClick={async () => {
         // menuControls.start(isMenuOpened ? 'close' : 'open')
         setMenuOpened(!isMenuOpened)
