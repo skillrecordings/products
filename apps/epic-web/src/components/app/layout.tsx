@@ -1,8 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
 import {Toaster} from 'react-hot-toast'
-import Navigation from 'components/app/navigation'
-import {useWorkshopCta} from 'pages/full-stack-workshop-series-vol-1'
+import Navigation, {useAvailableSale} from 'components/app/navigation'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Footer from './footer'
 import GlobalSearchBar from 'search-bar'
@@ -38,7 +37,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
     ogImage,
     date,
   } = meta || {}
-  const isCtaActive = useWorkshopCta()
+  const currentSale = useAvailableSale()
 
   return (
     <>
@@ -85,11 +84,9 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       <div
         id="layout"
         className={cn(
-          `relative flex h-full flex-grow flex-col`,
+          `relative flex h-full min-h-screen flex-grow flex-col pt-[48px] sm:pt-[80px]`,
           {
-            'min-h-[calc(100vh-112px)] pt-[112px]': isCtaActive,
-            'min-h-[calc(100vh-48px)] pt-[48px] sm:min-h-[calc(100vh-100px)] sm:pt-[80px]':
-              !isCtaActive,
+            'mt-[36px]': currentSale,
           },
           className,
         )}
