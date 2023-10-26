@@ -217,7 +217,7 @@ const PrimaryColorsSection = () => {
 const FontsSection = () => {
   return (
     <StackSection title="Fonts">
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 gap-4">
         <div>
           <a
             href="https://www.sudtipos.com/font/espiritu"
@@ -278,7 +278,7 @@ const BrandPage = () => {
       meta={{
         title: 'Brand Assets',
         ogImage: {
-          url: 'https://badass.dev/card@2x.png',
+          url: 'https://res.cloudinary.com/badass-courses/image/upload/v1698340706/og-images/brand/og-image-brand_2x_c8j0ez.png',
         },
       }}
     >
