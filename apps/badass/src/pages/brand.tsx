@@ -217,7 +217,7 @@ const PrimaryColorsSection = () => {
 const FontsSection = () => {
   return (
     <StackSection title="Fonts">
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 gap-4 text-center">
         <div>
           <a
             href="https://www.sudtipos.com/font/espiritu"
@@ -281,6 +281,7 @@ const BrandPage = () => {
           url: 'https://res.cloudinary.com/badass-courses/image/upload/v1698340706/og-images/brand/og-image-brand_2x_c8j0ez.png',
         },
       }}
+      className="overflow-hidden"
     >
       <div className="container mt-6 md:mt-8 lg:mt-11">
         <header className="text-center">
@@ -292,7 +293,7 @@ const BrandPage = () => {
           </h1>
         </header>
         <main className="w-full mt-20">
-          <div className="container space-y-16">
+          <div className="space-y-16">
             <LogosSection />
             <PrimaryColorsSection />
             <FontsSection />
