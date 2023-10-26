@@ -140,7 +140,7 @@ const Navigation: React.FC<NavigationProps> = ({
           'fixed left-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md dark:bg-background/90 dark:shadow-xl dark:shadow-black/20 print:hidden',
           navigationContainerClassName,
           {
-            'top-[46px] sm:top-[36px]': currentSale,
+            'top-[44px] sm:top-[36px]': currentSale,
             'top-0': !currentSale,
           },
         )}
