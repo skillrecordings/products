@@ -296,13 +296,27 @@ const BadgeDownloadButtonsSet: React.FC<{
   type: 'dark' | 'light'
   badgeSvg: string
   badgePng: string
-}> = ({type, badgeSvg, badgePng}) => {
+  newFileName: string
+}> = ({type, badgeSvg, badgePng, newFileName}) => {
   const downloadButtonStyles = cx(
     badgeDownloadButtonStyles,
     type === 'dark'
       ? badgeDownloadButtonDarkStyles
       : badgeDownloadButtonLightStyles,
   )
+
+  const downloadBlob = (url: string, fileName: string) => {
+    fetch(url)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const blobUrl = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = blobUrl
+        a.download = fileName
+        a.click()
+        window.URL.revokeObjectURL(blobUrl)
+      })
+  }
   return (
     <div className="absolute bottom-4 flex flex-col items-center text-white opacity-0 group-hover:opacity-100 duration-150">
       <h4
@@ -316,19 +330,23 @@ const BadgeDownloadButtonsSet: React.FC<{
       <div className="flex justify-center space-x-4 text-xs font-medium">
         <a
           href={badgeSvg}
-          download={badgeSvg}
-          target="_self"
           className={downloadButtonStyles}
-          onClick={() => toast.success('Badge has been downloaded')}
+          onClick={(e) => {
+            e.preventDefault()
+            downloadBlob(badgeSvg, `${newFileName}.svg`)
+            toast.success('Badge has been downloaded')
+          }}
         >
           SVG
         </a>
         <a
           href={badgePng}
-          download={badgePng}
-          target="_self"
           className={downloadButtonStyles}
-          onClick={() => toast.success('Badge has been downloaded')}
+          onClick={(e) => {
+            e.preventDefault()
+            downloadBlob(badgePng, `${newFileName}.png`)
+            toast.success('Badge has been downloaded')
+          }}
         >
           PNG
         </a>
@@ -369,6 +387,7 @@ const BadgesPile: React.FC<{
             type={type}
             badgeSvg={badgeSvg}
             badgePng={badgePng}
+            newFileName={`badge-${type}`}
           />
         </div>
         <div className="w-1/2 p-4 flex justify-center items-center relative">
@@ -382,6 +401,7 @@ const BadgesPile: React.FC<{
             type={type}
             badgeSvg={badgeCensoredSvg}
             badgePng={badgeCensoredPng}
+            newFileName={`badge-${type}-censored`}
           />
         </div>
       </div>
