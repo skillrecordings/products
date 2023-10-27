@@ -585,12 +585,16 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
                     href={`/workshops/${module.slug}`}
                     target="_blank"
                   >
-                    <Image
-                      src={module.image?.url ?? module.image}
-                      alt={`${module.title} workshop`}
-                      width={60}
-                      height={60}
-                    />
+                    {module?.image?.url || module?.image ? (
+                      <Image
+                        src={module.image?.url ?? module.image}
+                        alt={`${module.title} workshop`}
+                        width={60}
+                        height={60}
+                      />
+                    ) : (
+                      module.title
+                    )}
                   </Link>
                 )
               })}
