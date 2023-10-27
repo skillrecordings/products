@@ -50,7 +50,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   const {url} = openGraph || {}
 
   return (
-    <div className={`relative ${inter.variable} font-sans`}>
+    <div className={`relative ${inter.variable} font-sans`} id="layout">
       <NextSeo
         title={title}
         description={description}
