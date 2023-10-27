@@ -52,6 +52,7 @@
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/skill-lesson": "workspace:*",
     "@skillrecordings/inngest": "workspace:*",
+    "@skillrecordings/ability": "workspace:*",
     "@skillrecordings/ui": "workspace:*",
     "@skillrecordings/feedback-widget": "workspace:*",
     "@slack/web-api": "^6.7.2",
