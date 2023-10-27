@@ -154,7 +154,9 @@ const EditProfileForm: React.FC<{providers: Providers}> = ({providers}) => {
                       >
                         Connect
                       </Button>
-                    ) : null}
+                    ) : (
+                      <div className="text-sm font-semibold">N/A</div>
+                    )}
                   </div>
                 </li>
               </ul>

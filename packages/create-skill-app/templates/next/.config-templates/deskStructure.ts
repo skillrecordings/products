@@ -11,6 +11,7 @@ import explainers from './structure/explainers'
 import videoResources from './structure/videoResources'
 import sections from './structure/sections'
 import links from './structure/links'
+import bonuses from './structure/bonuses'
 
 const hiddenDocTypes = (listItem: any) =>
   ![
@@ -38,6 +39,7 @@ export default (S: any) =>
       workshops(S),
       tutorials(S),
       articles(S),
+      bonuses(S),
       pages(S),
       tips(S),
       S.divider(),

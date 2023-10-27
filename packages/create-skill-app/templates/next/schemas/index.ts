@@ -13,6 +13,7 @@ import product from './documents/product'
 import article from './documents/article'
 import page from './documents/page'
 import lesson from './documents/lesson'
+import bonus from './documents/bonus'
 // —— objects
 import body from './objects/body'
 import bodyVideo from './objects/bodyVideo'
@@ -51,6 +52,7 @@ export const schemaTypes = [
   article,
   page,
   lesson,
+  bonus,
   // —— objects
   body,
   bodyVideo,
