@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Image from 'next/image'
 import {useCopyToClipboard} from 'react-use'
-import {twMerge} from 'tailwind-merge'
 import toast from 'react-hot-toast'
 import cx from 'classnames'
 import {DownloadIcon, ClipboardCopyIcon} from '@heroicons/react/outline'
@@ -63,7 +62,7 @@ const DownloadButton: React.FC<{
     <a
       href={srcToDownload}
       download={srcToDownload}
-      className={twMerge(
+      className={cx(
         downloadButtonStyles,
         type === 'dark' ? downloadButtonStylesDark : downloadButtonStylesLight,
       )}
