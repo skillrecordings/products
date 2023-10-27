@@ -91,8 +91,8 @@ const LessonPage: React.FC<LessonPageProps> = ({
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <LessonTemplate
             transcript={transcript}
-            lessonBody={lessonBody}
-            lessonBodyPreview={lessonBodyPreview}
+            lessonBodySerialized={lessonBody}
+            lessonBodyPreviewSerialized={lessonBodyPreview}
           />
         </VideoResourceProvider>
       </LessonProvider>

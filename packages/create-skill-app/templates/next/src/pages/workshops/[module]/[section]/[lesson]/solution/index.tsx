@@ -88,8 +88,8 @@ const ExerciseSolution: React.FC<any> = ({
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <ExerciseTemplate
             transcript={transcript}
-            lessonBody={solutionBodySerialized}
-            lessonBodyPreview={solutionBodyPreviewSerialized}
+            lessonBodySerialized={solutionBodySerialized}
+            lessonBodyPreviewSerialized={solutionBodyPreviewSerialized}
           />
         </VideoResourceProvider>
       </LessonProvider>

@@ -77,8 +77,8 @@ const ExercisePage: React.FC<any> = ({
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <LessonTemplate
             transcript={transcript}
-            lessonBody={lessonBodySerialized}
-            lessonBodyPreview={lessonBodyPreviewSerialized}
+            lessonBodySerialized={lessonBodySerialized}
+            lessonBodyPreviewSerialized={lessonBodyPreviewSerialized}
           />
         </VideoResourceProvider>
       </LessonProvider>
