@@ -75,6 +75,12 @@ async function run(): Promise<void> {
     },
     {
       type: 'text',
+      name: 'defaultProductId',
+      message: `What is the default Product ID?`,
+      initial: 'placeholder-product-id-1',
+    },
+    {
+      type: 'text',
       name: 'firstName',
       message: `What is our partner's first name?`,
       initial: 'First',

@@ -18,7 +18,6 @@ import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {trpc} from 'trpc/trpc.client'
 import Gravatar from 'react-gravatar'
 import {signOut, useSession} from 'next-auth/react'
-import {WorkshopSeriesNavCta} from 'pages/full-stack-workshop-series-vol-1'
 import {useMedia} from 'react-use'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {
@@ -31,6 +30,7 @@ import {
 } from '@skillrecordings/ui'
 import {LogoutIcon} from '@heroicons/react/solid'
 import {ChevronDownIcon} from '@heroicons/react/outline'
+import Countdown, {zeroPad} from 'react-countdown'
 
 type NavigationProps = {
   className?: string
@@ -130,13 +130,19 @@ const Navigation: React.FC<NavigationProps> = ({
   const hasPurchase = purchasedProductIds.length > 0
   const ability = useAbilities()
   const canInviteTeam = ability.can('invite', 'Team')
+  const currentSale = useAvailableSale()
 
   return (
     <>
+      <SaleBanner size={size} />
       <div
-        className={twMerge(
-          'fixed left-0 top-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md dark:bg-background/90 dark:shadow-xl dark:shadow-black/20 print:hidden',
+        className={cn(
+          'fixed left-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md dark:bg-background/90 dark:shadow-xl dark:shadow-black/20 print:hidden',
           navigationContainerClassName,
+          {
+            'top-[44px] sm:top-[36px]': currentSale,
+            'top-0': !currentSale,
+          },
         )}
       >
         <motion.nav
@@ -161,7 +167,7 @@ const Navigation: React.FC<NavigationProps> = ({
             >
               <Logo />
             </Link>
-            <div className="hidden items-center justify-start gap-2 font-medium sm:flex lg:pl-2">
+            <div className="hidden items-center justify-start gap-2 font-medium md:flex lg:pl-2">
               {navigationLinks.map(({label, href, icon}, i) => {
                 const isOvershadowed = false
                 // (hoveredNavItemIndex !== i && hoveredNavItemIndex !== -1)
@@ -203,8 +209,8 @@ const Navigation: React.FC<NavigationProps> = ({
             </div>
           </div>
           <div className="flex items-center justify-end">
-            <Login className="hidden sm:flex" />
-            <User className="hidden sm:flex" />
+            <Login className="hidden md:flex" />
+            <User className="hidden md:flex" />
             {commercePropsStatus === 'success' && hasPurchase && (
               <>
                 {canInviteTeam && lastPurchase ? (
@@ -228,7 +234,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 )}
               </>
             )}
-            <ColorModeToggle className="hidden sm:block" />
+            <ColorModeToggle className="hidden md:block" />
             <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
           </div>
           <AnimatePresence>
@@ -241,7 +247,7 @@ const Navigation: React.FC<NavigationProps> = ({
                   type: 'spring',
                   duration: 0.5,
                 }}
-                className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100 bg-white px-2 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-black/90 dark:shadow-black/60 sm:hidden"
+                className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100 bg-white px-2 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-black/90 dark:shadow-black/60 md:hidden"
               >
                 {navigationLinks.map(({label, href, icon}) => {
                   return (
@@ -325,8 +331,8 @@ const User: React.FC<{className?: string}> = ({className}) => {
             />
             <div className="flex flex-col pl-0.5">
               <span className="inline-flex gap-0.5 text-sm font-bold leading-tight">
-                <span className="truncate sm:max-w-[3rem] lg:max-w-[6rem]">
-                  {sessionData?.user?.name}
+                <span className="truncate sm:max-w-[8rem] lg:max-w-[11rem] xl:max-w-none">
+                  {sessionData?.user?.name?.split(' ')[0]}
                 </span>{' '}
                 <ChevronDownIcon className="w-2" />
               </span>
@@ -610,7 +616,7 @@ const NavToggle: React.FC<NavToggleProps> = ({
 
   return (
     <button
-      className="absolute z-10 flex h-12 w-12 items-center justify-center p-1 sm:hidden"
+      className="absolute z-10 flex h-12 w-12 items-center justify-center p-1 md:hidden"
       onClick={async () => {
         // menuControls.start(isMenuOpened ? 'close' : 'open')
         setMenuOpened(!isMenuOpened)
@@ -932,4 +938,79 @@ export const TalkIcon: React.FC<IconProps> = ({isHovered, theme}) => {
       </defs>
     </svg>
   )
+}
+
+export const SaleBanner: React.FC<{size?: 'sm' | 'md' | 'lg'}> = ({size}) => {
+  const currentSale = useAvailableSale()
+
+  if (!currentSale) return null
+
+  return (
+    <div
+      className={cn(
+        `h-[${currentSale.bannerHeight}px] left-0 top-0 z-[60] w-full`,
+        {
+          fixed: size !== 'sm',
+          absolute: size === 'sm',
+        },
+      )}
+    >
+      <Link
+        href="/#buy"
+        className={cn(`flex h-full w-full bg-primary py-1.5 text-white`)}
+        onClick={() => {
+          track('clicked sale banner cta', {
+            location: 'nav',
+          })
+        }}
+      >
+        <div className="mx-auto flex w-full max-w-screen-lg items-center justify-center space-x-2 px-2 text-xs font-medium sm:space-x-4 sm:text-sm">
+          <div className="flex w-full flex-col sm:w-auto sm:flex-row sm:items-center sm:space-x-2">
+            <strong>
+              Save {(Number(currentSale.percentageDiscount) * 100).toString()}%
+              on{' '}
+              {currentSale.product?.name ||
+                process.env.NEXT_PUBLIC_PRODUCT_NAME}
+            </strong>
+            <Countdown
+              date={currentSale.expires?.toString()}
+              renderer={({days, hours, minutes, seconds}) => {
+                return (
+                  <div className="flex space-x-1">
+                    <span>Price goes up in:</span>
+                    <span className="font-orig tabular-nums">{days}d</span>
+                    <span className="font-orig tabular-nums">{hours}h</span>
+                    <span className="font-orig tabular-nums">{minutes}m</span>
+                    <span className="font-orig tabular-nums">
+                      {zeroPad(seconds)}s
+                    </span>
+                  </div>
+                )
+              }}
+            />
+          </div>
+          <div className="flex-shrink-0 rounded bg-white px-2 py-0.5 font-semibold text-primary shadow-md">
+            Become an Epic Dev
+          </div>
+        </div>
+      </Link>
+    </div>
+  )
+}
+
+export const useAvailableSale = () => {
+  const {data} = trpc.pricing.defaultCoupon.useQuery()
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({
+      productId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
+    })
+
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+  const hasPurchase = purchasedProductIds.length > 0
+
+  if (!data) return null
+  if (hasPurchase) return null
+
+  return {...data, bannerHeight: data ? 36 : 0}
 }

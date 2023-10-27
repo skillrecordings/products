@@ -61,6 +61,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                   <div className="relative aspect-video h-full">
                     <Image
                       src={image.secure_url}
+                      className="object-cover"
                       alt=""
                       fill
                       priority

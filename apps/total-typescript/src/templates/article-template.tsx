@@ -65,16 +65,19 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       />
       <header
         className={cn(
-          'relative z-10 flex w-full flex-col items-center justify-center px-5 py-8 sm:py-32',
+          'relative z-10 flex w-full flex-col items-center justify-center px-5 pb-8 pt-20 sm:pb-20 sm:pt-32',
           {
             'pt-32': defaultCouponData,
           },
         )}
       >
         <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col">
-          <time dateTime={_createdAt} className="pb-4 text-gray-300">
-            {format(new Date(_createdAt), 'MMM dd, y')}
-          </time>
+          <Link
+            href="/articles"
+            className="pb-5 text-sm opacity-75 transition hover:opacity-100 sm:text-base"
+          >
+            ← All Articles
+          </Link>
           <h1 className="block text-left font-text text-4xl font-extrabold sm:text-4xl md:text-5xl">
             {title}
           </h1>
@@ -89,6 +92,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
               />
             </div>
             <span className="font-medium">Matt Pocock</span>
+            <time dateTime={_createdAt} className="pl-5 text-sm text-gray-300">
+              {format(new Date(_createdAt), 'MMM dd, y')}
+            </time>
           </div>
         </div>
         {image && (
