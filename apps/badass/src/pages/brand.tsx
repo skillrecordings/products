@@ -2,7 +2,6 @@ import * as React from 'react'
 import Image from 'next/image'
 import {useCopyToClipboard} from 'react-use'
 import {twMerge} from 'tailwind-merge'
-import {renderToString} from 'react-dom/server'
 import toast from 'react-hot-toast'
 import cx from 'classnames'
 import {DownloadIcon, ClipboardCopyIcon} from '@heroicons/react/outline'
@@ -110,7 +109,7 @@ const ColorPaletteTile: React.FC<{hexCode: string; colorClassName: string}> = ({
     <div className="group">
       <div
         className={cx(
-          'h-40 rounded-2xl flex justify-center items-center font-mono font-medium text-base cursor-pointer',
+          'h-40 rounded-2xl flex justify-center items-center font-sans font-medium text-base cursor-pointer',
           colorClassName,
         )}
         onClick={() => {
@@ -217,14 +216,14 @@ const PrimaryColorsSection = () => {
 const FontsSection = () => {
   return (
     <StackSection title="Fonts">
-      <div className="grid md:grid-cols-2 gap-4 text-center">
+      <div className="grid md:grid-cols-2 gap-4">
         <div>
           <a
             href="https://www.sudtipos.com/font/espiritu"
             target="_blank"
             className="rounded-2xl px-4 pt-0 h-[300px] relative flex justify-center items-center bg-badass-green-600 group"
           >
-            <div className="group-hover:scale-105 duration-300 flex flex-col items-center">
+            <div className="group-hover:scale-105 duration-300 flex flex-col items-center text-center">
               <span className="font-condensed text-[2.5rem] leading-[0.6]">
                 This is espiritu
               </span>
@@ -246,7 +245,7 @@ const FontsSection = () => {
             target="_blank"
             className="rounded-2xl p-4 h-[300px] relative flex flex-col justify-center items-center bg-badass-neutral-600 group"
           >
-            <div className="group-hover:scale-105 duration-300 flex flex-col items-center">
+            <div className="group-hover:scale-105 duration-300 flex flex-col items-center text-center">
               <span className="font-sans font-medium text-[3.5rem]">
                 DM Sans
               </span>
@@ -264,10 +263,156 @@ const FontsSection = () => {
   )
 }
 
+const BG_BADGES_PILE_DARK =
+  'https://res.cloudinary.com/badass-courses/image/upload/v1698341795/brand/miscellaneous/bg-dark-brand_wqcem0.png'
+const BG_BADGES_PILE_LIGHT =
+  'https://res.cloudinary.com/badass-courses/image/upload/v1698341794/brand/miscellaneous/bg-light-brand_cif1ri.png'
+
+const BADGE_DARK_SVG =
+  'https://res.cloudinary.com/badass-courses/image/upload/v1698342586/brand/badge/badass-badge-dark_b4dqxh.svg'
+const BADGE_DARK_PNG =
+  'https://res.cloudinary.com/badass-courses/image/upload/v1698241493/brand/badge/badass-badge-dark_2x_wddckq.png'
+const BADGE_DARK_CENSORED_SVG =
+  'https://res.cloudinary.com/badass-courses/image/upload/v1698342584/brand/badge/badass-badge-dark-censored_b5jrit.svg'
+const BADGE_DARK_CENSORED_PNG =
+  'https://res.cloudinary.com/badass-courses/image/upload/v1698241493/brand/badge/badass-badge-dark-censored_2x_yhppq6.png'
+const BADGE_LIGHT_SVG =
+  'https://res.cloudinary.com/badass-courses/image/upload/v1698342587/brand/badge/badass-badge-light_ngylbj.svg'
+const BADGE_LIGHT_PNG =
+  'https://res.cloudinary.com/badass-courses/image/upload/v1698241493/brand/badge/badass-badge-light_2x_mgf0ww.png'
+const BADGE_LIGHT_CENSORED_SVG =
+  'https://res.cloudinary.com/badass-courses/image/upload/v1698342585/brand/badge/badass-badge-light-censored_zhbkii.svg'
+const BADGE_LIGHT_CENSORED_PNG =
+  'https://res.cloudinary.com/badass-courses/image/upload/v1698241493/brand/badge/badass-badge-light-censored_2x_aq5967.png'
+
+const badgeDownloadButtonStyles =
+  'px-1 py-0.5 duration-150 bg-black hover:bg-badass-green-500 hover:text-black block border rounded-md'
+const badgeDownloadButtonDarkStyles =
+  'border-white hover:border-badass-green-500'
+const badgeDownloadButtonLightStyles =
+  'border-black hover:border-badass-green-500'
+
+const BadgeDownloadButtonsSet: React.FC<{
+  type: 'dark' | 'light'
+  badgeSvg: string
+  badgePng: string
+}> = ({type, badgeSvg, badgePng}) => {
+  const downloadButtonStyles = cx(
+    badgeDownloadButtonStyles,
+    type === 'dark'
+      ? badgeDownloadButtonDarkStyles
+      : badgeDownloadButtonLightStyles,
+  )
+  return (
+    <div className="absolute bottom-4 flex flex-col items-center text-white opacity-0 group-hover:opacity-100 duration-150">
+      <h4
+        className={cx(
+          'mb-3 font-medium',
+          type === 'dark' ? 'text-white' : 'text-black',
+        )}
+      >
+        Download
+      </h4>
+      <div className="flex justify-center space-x-4 text-xs font-medium">
+        <a
+          href={badgeSvg}
+          download={badgeSvg}
+          target="_self"
+          className={downloadButtonStyles}
+          onClick={() => toast.success('Badge has been downloaded')}
+        >
+          SVG
+        </a>
+        <a
+          href={badgePng}
+          download={badgePng}
+          target="_self"
+          className={downloadButtonStyles}
+          onClick={() => toast.success('Badge has been downloaded')}
+        >
+          PNG
+        </a>
+      </div>
+    </div>
+  )
+}
+
+const BadgesPile: React.FC<{
+  pileBgImage: string
+  badgeSvg: string
+  badgePng: string
+  badgeCensoredSvg: string
+  badgeCensoredPng: string
+  type: 'light' | 'dark'
+}> = ({
+  pileBgImage,
+  badgeSvg,
+  badgePng,
+  badgeCensoredSvg,
+  badgeCensoredPng,
+  type,
+}) => {
+  return (
+    <div>
+      <div
+        className={cx(
+          'rounded-2xl h-[300px] relative flex bg-cover group',
+          type === 'dark' ? 'bg-badass-neutral-900' : 'bg-badass-green-400',
+        )}
+        style={{
+          backgroundImage: `url("${pileBgImage}")`,
+        }}
+      >
+        <div className="w-1/2 p-4 flex justify-center items-center relative">
+          <Image src={badgeSvg} alt="Badge Dark" width={186} height={56} />
+          <BadgeDownloadButtonsSet
+            type={type}
+            badgeSvg={badgeSvg}
+            badgePng={badgePng}
+          />
+        </div>
+        <div className="w-1/2 p-4 flex justify-center items-center relative">
+          <Image
+            src={badgeCensoredSvg}
+            alt="Badge Dark"
+            width={170}
+            height={56}
+          />
+          <BadgeDownloadButtonsSet
+            type={type}
+            badgeSvg={badgeCensoredSvg}
+            badgePng={badgeCensoredPng}
+          />
+        </div>
+      </div>
+      <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-7">
+        {type === 'dark' ? 'Dark' : 'Light'} Background
+      </h4>
+    </div>
+  )
+}
+
 const BadgesSection = () => {
   return (
     <StackSection title="Badges for product websites">
-      LogosStackSection
+      <div className="grid md:grid-cols-2 gap-4">
+        <BadgesPile
+          pileBgImage={BG_BADGES_PILE_DARK}
+          badgeSvg={BADGE_DARK_SVG}
+          badgePng={BADGE_DARK_PNG}
+          badgeCensoredSvg={BADGE_DARK_CENSORED_SVG}
+          badgeCensoredPng={BADGE_DARK_CENSORED_PNG}
+          type="dark"
+        />
+        <BadgesPile
+          pileBgImage={BG_BADGES_PILE_LIGHT}
+          badgeSvg={BADGE_LIGHT_SVG}
+          badgePng={BADGE_LIGHT_PNG}
+          badgeCensoredSvg={BADGE_LIGHT_CENSORED_SVG}
+          badgeCensoredPng={BADGE_LIGHT_CENSORED_PNG}
+          type="light"
+        />
+      </div>
     </StackSection>
   )
 }
@@ -281,7 +426,7 @@ const BrandPage = () => {
           url: 'https://res.cloudinary.com/badass-courses/image/upload/v1698340706/og-images/brand/og-image-brand_2x_c8j0ez.png',
         },
       }}
-      className="overflow-hidden"
+      className="overflow-hidden pb-64"
     >
       <div className="container mt-6 md:mt-8 lg:mt-11">
         <header className="text-center">
