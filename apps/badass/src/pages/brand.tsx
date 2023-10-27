@@ -14,8 +14,10 @@ const StackSection: React.FC<{title: string; children: React.ReactNode}> = ({
 }) => {
   return (
     <section>
-      <h3 className="text-[2rem] font-heading leading-tight">{title}</h3>
-      <div className="mt-10">{children}</div>
+      <h3 className="text-2xl md:text-3xl lg:text-[2rem] font-heading leading-tight">
+        {title}
+      </h3>
+      <div className="mt-7 md:mt-10">{children}</div>
     </section>
   )
 }
@@ -148,7 +150,7 @@ const LogosSection = () => {
               logoAlt="Logo Mark Light"
             />
           </div>
-          <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-7">
+          <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-5 md:mt-6 lg:mt-7">
             Logo Mark
           </h4>
         </div>
@@ -167,7 +169,7 @@ const LogosSection = () => {
               logoAlt="Logotype Light"
             />
           </div>
-          <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-7">
+          <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-5 md:mt-6 lg:mt-7">
             Logotype
           </h4>
         </div>
@@ -186,7 +188,7 @@ const LogosSection = () => {
               logoAlt="Logotype Censored Light"
             />
           </div>
-          <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-7">
+          <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-5 md:mt-6 lg:mt-7">
             Censored Logotype
           </h4>
         </div>
@@ -216,7 +218,7 @@ const PrimaryColorsSection = () => {
 const FontsSection = () => {
   return (
     <StackSection title="Fonts">
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 gap-x-4 gap-y-8">
         <div>
           <a
             href="https://www.sudtipos.com/font/espiritu"
@@ -235,7 +237,7 @@ const FontsSection = () => {
               </span>
             </div>
           </a>
-          <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-7">
+          <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-5 md:mt-6 lg:mt-7">
             Espiritu by <span className="text-white">Sudtipos</span>
           </h4>
         </div>
@@ -254,7 +256,7 @@ const FontsSection = () => {
               </span>
             </div>
           </a>
-          <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-7">
+          <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-5 md:mt-6 lg:mt-7">
             dm sans by <span className="text-white">colophon foundry</span>
           </h4>
         </div>
@@ -405,7 +407,7 @@ const BadgesPile: React.FC<{
           />
         </div>
       </div>
-      <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-7">
+      <h4 className="uppercase text-badass-gray-300 font-mono text-base leading-[2.18] mt-5 md:mt-6 lg:mt-7">
         {type === 'dark' ? 'Dark' : 'Light'} Background
       </h4>
     </div>
@@ -415,7 +417,7 @@ const BadgesPile: React.FC<{
 const BadgesSection = () => {
   return (
     <StackSection title="Badges for product websites">
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 gap-x-4 gap-y-8">
         <BadgesPile
           pileBgImage={BG_BADGES_PILE_DARK}
           badgeSvg={BADGE_DARK_SVG}
@@ -446,18 +448,18 @@ const BrandPage = () => {
           url: 'https://res.cloudinary.com/badass-courses/image/upload/v1698340706/og-images/brand/og-image-brand_2x_c8j0ez.png',
         },
       }}
-      className="overflow-hidden pb-64"
+      className="overflow-hidden pb-20 md:pb-32 lg:pb-40 xl:pb-52"
     >
       <div className="container mt-6 md:mt-8 lg:mt-11">
         <header className="text-center">
-          <h2 className="text-badass-pink-400 font-script text-[2.5rem] leading-[0.6]">
+          <h2 className="text-badass-pink-400 font-script text-3xl md:text-4xl lg:text-[2.5rem] leading-[0.6]">
             Useful Assets
           </h2>
-          <h1 className="text-[4rem] font-heading leading-tight mt-8">
+          <h1 className="text-4xl md:text-6xl lg:text-[4rem] font-heading leading-tight mt-8">
             Brand Resources
           </h1>
         </header>
-        <main className="w-full mt-20">
+        <main className="w-full mt-14 md:mt-16 lg:mt-20">
           <div className="space-y-16">
             <LogosSection />
             <PrimaryColorsSection />
