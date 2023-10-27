@@ -10,7 +10,7 @@ const sectionsQuery = groq`*[_type == "module" && moduleType == 'section'] | ord
   _updatedAt,
   _createdAt,
   description,
-  "lessons": resources[@->._type == 'exercise']->{
+  "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson']]->{
     _id,
     _type,
     _updatedAt,
@@ -56,7 +56,7 @@ export const getSection = async (slug: string) =>
         ogImage,
         description,
         _updatedAt,
-        "lessons": resources[@->._type in ['exercise', 'explainer']]->{
+        "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson']]->{
           _id,
           _type,
           _updatedAt,
