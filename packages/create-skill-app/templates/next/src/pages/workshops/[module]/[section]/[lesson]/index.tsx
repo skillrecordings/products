@@ -1,40 +1,36 @@
 import React from 'react'
 import LessonTemplate from '@/templates/lesson-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getAllTutorials, getTutorial} from '@/lib/tutorials'
 import {getExercise} from '@/lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from '@/lib/sections'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
-import {Resource} from '@skillrecordings/skill-lesson/schemas/resource'
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {getAllWorkshops, getWorkshop} from '@/lib/workshops'
+import {serialize} from 'next-mdx-remote/serialize'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const lessonSlug = params?.lesson as string
   const sectionSlug = params?.section as string
 
-  const module = await getTutorial(params?.module as string)
+  const module = await getWorkshop(params?.module as string)
   const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSlug, false)
-  const lessonBody =
-    lesson.body &&
+  const lessonBodySerialized =
     typeof lesson.body === 'string' &&
-    (await serializeMDX(lesson.body))
-  const lessonBodyPreview =
-    lesson.body &&
-    typeof lesson.body === 'string' &&
-    (await serializeMDX(lesson.body.substring(0, 300)))
+    (await serialize(lesson.body, {
+      mdxOptions: {
+        rehypePlugins: [],
+      },
+    }))
 
   return {
     props: {
       lesson,
-      lessonBody,
-      lessonBodyPreview,
+      lessonBodySerialized,
+      lessonBodyPreviewSerialized: lessonBodySerialized,
       module,
       section,
       transcript: lesson.transcript,
@@ -45,7 +41,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-  const tutorials = await getAllTutorials()
+  const tutorials = await getAllWorkshops()
 
   const paths = tutorials.flatMap((tutorial: any) => {
     return (
@@ -66,20 +62,10 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-type LessonPageProps = {
-  lesson: Resource
-  lessonBody: MDXRemoteSerializeResult
-  lessonBodyPreview: MDXRemoteSerializeResult
-  module: Module
-  section: Section
-  transcript: string
-  videoResourceId: string
-}
-
-const LessonPage: React.FC<LessonPageProps> = ({
+const ExercisePage: React.FC<any> = ({
   lesson,
-  lessonBody,
-  lessonBodyPreview,
+  lessonBodySerialized,
+  lessonBodyPreviewSerialized,
   module,
   section,
   transcript,
@@ -91,8 +77,8 @@ const LessonPage: React.FC<LessonPageProps> = ({
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <LessonTemplate
             transcript={transcript}
-            lessonBodySerialized={lessonBody}
-            lessonBodyPreviewSerialized={lessonBodyPreview}
+            lessonBodySerialized={lessonBodySerialized}
+            lessonBodyPreviewSerialized={lessonBodyPreviewSerialized}
           />
         </VideoResourceProvider>
       </LessonProvider>
@@ -100,4 +86,4 @@ const LessonPage: React.FC<LessonPageProps> = ({
   )
 }
 
-export default LessonPage
+export default ExercisePage

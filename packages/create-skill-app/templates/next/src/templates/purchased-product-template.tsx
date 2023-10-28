@@ -486,7 +486,7 @@ const ModuleItem: React.FC<{
     (sectionsFlatMap(module?.sections).length || module?.lessons.length)
   return (
     <div className="flex items-center gap-3 py-2">
-      {module.image.url && (
+      {module?.image?.url && (
         <Image
           src={module.image.url}
           alt={module.title}
