@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {Toaster} from 'react-hot-toast'
 import DefaultLayout from '@skillrecordings/react/dist/layouts'
 import type {LayoutProps} from '@skillrecordings/react/dist/layouts'
 import config from '../config'
@@ -23,6 +24,19 @@ const Layout: React.FC<
       Navigation={Navigation}
       Footer={null as any}
     >
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          iconTheme: {
+            primary: '#2BC370',
+            secondary: '#000',
+          },
+        }}
+      />
       {children}
     </DefaultLayout>
   )
