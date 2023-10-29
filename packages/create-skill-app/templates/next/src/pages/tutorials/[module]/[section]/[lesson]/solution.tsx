@@ -94,8 +94,8 @@ const ExerciseSolution: React.FC<ExerciseSolutionProps> = ({
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <LessonTemplate
             transcript={transcript}
-            lessonBody={solutionBody}
-            lessonBodyPreview={solutionBodyPreview}
+            lessonBodySerialized={solutionBody}
+            lessonBodyPreviewSerialized={solutionBodyPreview}
           />
         </VideoResourceProvider>
       </LessonProvider>

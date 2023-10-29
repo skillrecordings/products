@@ -20,7 +20,7 @@ export default {
     {
       name: 'transcript',
       title: 'Transcript',
-      type: 'body',
+      type: 'text',
     },
     {
       title: 'SRT',

@@ -35,35 +35,13 @@ export default async function handler(req: NextRequest) {
           }}
         >
           <div
-            tw="absolute flex items-center justify-end h-32 w-full bottom-0 left-0 pr-6"
+            tw="absolute flex items-center justify-end h-5 w-full bottom-0 left-0 pr-6"
             style={{background: '#4F75FF'}}
-          >
-            {/* <div
-              tw="rounded-full flex p-6 -mt-16"
-              style={{background: '#4F75FF'}}
-            >
-              <svg
-                width="80"
-                height="80"
-                viewBox="0 0 70 70"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M32.0196 35.888C33.6137 35.1551 35.0376 34.4235 36.2769 33.7384C35.5922 34.9763 34.8613 36.3985 34.1289 37.9908C31.2168 44.3218 28.2686 53.3714 28.1476 64.2245L28.1336 65.4758L29.3646 65.7007C31.1957 66.0352 33.0583 66.2313 35 66.2313C52.2127 66.2313 66.2144 52.2296 66.2144 35.0169C66.2144 30.2653 65.1465 25.7553 63.2374 21.7175L65.3476 17.5795C68.3067 22.7134 70 28.6625 70 35C70 54.288 54.288 70 35 70C27.3088 70 20.1863 67.5017 14.4018 63.2746C15.637 56.0207 18.5423 51.4766 18.5423 51.4766C18.5423 51.4766 13.9922 54.3823 6.73946 55.6175C2.50383 49.8295 0 42.6997 0 35C0 15.712 15.712 0 35 0C41.3484 0 47.3041 1.69794 52.441 4.66358L48.2947 6.77729C44.258 4.86959 39.7497 3.80245 35 3.80245C17.7873 3.80245 3.78557 17.8042 3.78557 35.0169C3.78557 36.9574 3.98144 38.8375 4.31667 40.6548L4.54328 41.8832L5.7924 41.8693C16.6372 41.7482 25.6867 38.8 32.0196 35.888Z"
-                  fill="white"
-                />
-                <path
-                  d="M45.2046 24.8114L53.2349 27.1554L69.7057 0.309082L42.8601 16.7643L45.2046 24.8114Z"
-                  fill="white"
-                />
-              </svg>
-            </div> */}
-          </div>
+          ></div>
           {/* <div tw="absolute" style={{bottom: 24, left: 24, fontSize: 26}}>
             epicweb.dev
           </div> */}
-          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-40 relative px-14">
+          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-24 relative px-14">
             {hasImage ? (
               <div tw="flex items-center">
                 <img src={image} width={200} height={200} tw="mr-10" />

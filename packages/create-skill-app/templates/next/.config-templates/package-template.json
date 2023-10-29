@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "next dev -p {{devPort}}",
     "dev:sanity": "sanity dev",
+    "dev:stripe": "stripe listen --forward-to localhost:{{devPort}}/api/skill/webhook/stripe",
     "build": "next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "start": "next start -p {{devPort}}",
@@ -50,6 +51,8 @@
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/skill-lesson": "workspace:*",
+    "@skillrecordings/inngest": "workspace:*",
+    "@skillrecordings/ability": "workspace:*",
     "@skillrecordings/ui": "workspace:*",
     "@skillrecordings/feedback-widget": "workspace:*",
     "@slack/web-api": "^6.7.2",
@@ -69,6 +72,7 @@
     "date-fns": "^2.28.0",
     "feed": "^4.2.2",
     "formik": "2.2.9",
+    "framer-motion": "^10.12.4",
     "groq": "^2.15.0",
     "lodash": "^4.17.21",
     "micromark": "^3.1.0",
@@ -81,6 +85,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
+    "react-gravatar": "^2.6.3",
+    "react-use": "^17.4.0",
+    "react-countdown": "^2.3.5",
     "sanity": "^3.9.0",
     "sanity-plugin-cloudinary": "^1.1.1",
     "sanity-plugin-taxonomy-manager": "^2.0.4",
@@ -101,7 +108,14 @@
     "tailwindcss-animate": "^1.0.5",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
-    "lucide-react": "^0.224.0"
+    "lucide-react": "^0.224.0",
+    "@upstash/redis": "^1.23.3",
+    "inngest": "3.1.1",
+    "uuid": "^9.0.0",
+    "nanoid": "^4.0.2",
+    "openai": "^4.12.1",
+    "singleline": "^2.0.0",
+    "@sindresorhus/slugify": "^2.1.0"
   },
   "devDependencies": {
     "@next/env": "^12.2.2",
@@ -134,7 +148,9 @@
     "prettier-plugin-tailwindcss": "^0.2.5",
     "typescript": "5.1.6",
     "webpack": "^5.73.0",
-    "autoprefixer": "^10.4.2"
+    "autoprefixer": "^10.4.2",
+    "@types/react-gravatar": "^2.6.10",
+    "@types/uuid": "^9.0.2"
   },
   "prettier": {
     "bracketSpacing": false,

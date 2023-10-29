@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
@@ -16,10 +16,48 @@ export default defineType({
       title: 'Product ID',
       type: 'string',
     }),
+    {
+      name: 'convertkitPurchasedTagId',
+      title: 'Convertkit Purchase Tag ID',
+      type: 'string',
+    },
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      validation: (Rule) => Rule.required(),
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
+    }),
+    defineField({
+      name: 'state',
+      title: 'Current State',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'draft',
+      options: {
+        list: [
+          {title: 'draft', value: 'draft'},
+          {title: 'active', value: 'active'},
+          {title: 'unavailable', value: 'unavailable'},
+        ],
+      },
+    }),
+    defineField({
+      name: 'body',
+      title: 'Body',
+      type: 'text',
+      rows: 20,
+    }),
     defineField({
       name: 'description',
-      title: 'Description',
-      type: 'markdown',
+      title: 'Short Description',
+      description: 'Used as a short "SEO" summary on Twitter cards etc.',
+      type: 'text',
+      rows: 3,
+      validation: (Rule) => Rule.max(160),
     }),
     defineField({
       name: 'features',
