@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {twMerge} from 'tailwind-merge'
@@ -14,26 +15,29 @@ const Footer: React.FC<FooterProps> = ({className}) => {
   return (
     <footer
       className={twMerge(
-        'items-between mx-auto mt-5 flex h-full w-full max-w-screen-xl flex-col px-5 py-5',
+        'mx-auto mt-5 flex h-full w-full flex-col items-center space-y-16 px-5 py-5',
         className,
       )}
     >
-      <div className="pb-40">
+      <div>
         <Link
-          href="/"
-          aria-current={isRoot}
-          tabIndex={isRoot ? -1 : 0}
-          passHref
-          className="text-lg font-bold"
+          href="https://badass.dev"
+          rel="noopener noreferrer"
+          target="_blank"
         >
-          {process.env.NEXT_PUBLIC_SITE_TITLE}
+          <Image
+            src={require('../../../public/badge-badass.svg')}
+            alt="Powered by Badass.dev"
+            width={186 / 1.1}
+            height={56 / 1.1}
+          />
         </Link>
       </div>
       <div>
         <Link
           href="/privacy"
           passHref
-          className="text-sm opacity-50 hover:opacity-100"
+          className="font-mono text-xs opacity-50 hover:opacity-100"
         >
           Terms & Conditions
         </Link>

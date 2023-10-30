@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '@/components/app/layout'
 import type {GetStaticProps, NextPage} from 'next'
-import LandingCopy from '@/components/landing-copy.mdx'
+import LandingCopy from '@/text/landing-copy.mdx'
 import {PrimaryNewsletterCta} from '@/components/primary-newsletter-cta'
 import Balancer from 'react-wrap-balancer'
 import {useRouter} from 'next/router'
@@ -69,9 +69,11 @@ const Home: NextPage<{
 
   return (
     <Layout>
-      <header className="mx-auto flex w-full max-w-screen-lg items-center justify-center text-center">
+      <header className="mx-auto flex min-h-[calc(85vh)] w-full items-center justify-center bg-gradient-to-b from-gray-100 to-background text-center">
         <Balancer>
-          <h1 className="py-24 text-6xl font-bold">Hi! 👋</h1>
+          <h1 className="py-24 text-6xl font-bold">
+            Welcome to <i className="pr-2 font-medium">your</i> Skill App
+          </h1>
         </Balancer>
       </header>
       <main>
