@@ -86,7 +86,13 @@ const ProductsIndex: React.FC<ProductsIndexProps> = ({purchases, products}) => {
 
             return (
               <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-                <ProductCard product={product} purchase={purchase} />
+                <ProductCard
+                  product={product}
+                  purchase={purchase}
+                  purchases={purchases.filter(
+                    (p) => p.productId === product.productId,
+                  )}
+                />
               </PriceCheckProvider>
             )
           })}
@@ -100,20 +106,14 @@ export default ProductsIndex
 const ProductCard: React.FC<{
   product: SanityProduct
   purchase: PurchaseWithProduct | undefined
-}> = ({product, purchase}) => {
+  purchases: PurchaseWithProduct[] | undefined
+}> = ({product, purchase, purchases}) => {
   const router = useRouter()
   const {data: formattedPrice, status: formattedPriceStatus} =
     trpc.pricing.formatted.useQuery({
       productId: product.productId as string,
       quantity: 1,
     })
-
-  const {data: availableBonuses = []} =
-    trpc.bonuses.availableBonusesForPurchase.useQuery({
-      purchaseId: purchase?.id,
-    })
-
-  const {mutate: redeemBonus} = trpc.bonuses.redeemBonus.useMutation()
 
   const buyHref = `/buy`
   const purchasedHref = `/products/${product.slug}`
@@ -183,7 +183,7 @@ const ProductCard: React.FC<{
         )}
       </CardFooter>
       <div className="px-5 [&_h2]:mt-0 [&_h2]:pb-4 [&_h2]:pt-2 [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:uppercase [&_h2]:tracking-wide [&_h2]:opacity-90 [&_ul]:pb-5">
-        <Bonuses purchase={purchase as any} />
+        <Bonuses purchases={purchases as any} />
       </div>
     </Card>
   )
