@@ -33,7 +33,7 @@ const config: DefaultSeoProps & {author: string} = {
     },
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_URL}/card@2x.png`,
+        url: `${process.env.NEXT_PUBLIC_URL}/card@2x.jpg`,
         width: 1200,
         height: 630,
       },
