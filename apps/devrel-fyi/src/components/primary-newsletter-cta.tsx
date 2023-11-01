@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Balancer from 'react-wrap-balancer'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
@@ -9,6 +10,7 @@ import {type Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import {twMerge} from 'tailwind-merge'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Button} from '@skillrecordings/ui'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 type PrimaryNewsletterCtaProps = {
   onSuccess?: () => void
@@ -47,13 +49,18 @@ export const PrimaryNewsletterCta: React.FC<
     <section
       id={id}
       aria-label="Newsletter sign-up"
-      className={twMerge('', className)}
+      className={cn('relative flex flex-col items-center', className)}
     >
       {children ? (
         children
       ) : (
-        <div className="w-full px-10 py-16 text-center">
-          <h2 className="text-4xl leading-tight">{title}</h2>
+        <div className="w-full px-5 pb-16 pt-20 text-center sm:px-10">
+          <h2 className="text-2xl leading-tight sm:text-4xl">
+            <span className="px-2 text-primary" aria-hidden="true">
+              ↓
+            </span>
+            {title}
+          </h2>
           <h3 className="pt-4 text-center text-lg">{byline}</h3>
         </div>
       )}
@@ -61,9 +68,12 @@ export const PrimaryNewsletterCta: React.FC<
         onSuccess={onSuccess ? onSuccess : handleOnSuccess}
         actionLabel={actionLabel}
       />
-      {/* <p data-nospam="" className="pt-8 text-center text-sm text-gray-500">
-        I respect your privacy. Unsubscribe at any time.
-      </p> */}
+      <p
+        data-nospam=""
+        className="absolute -bottom-16 w-full text-center font-mono text-xs text-gray-500"
+      >
+        <Balancer>I respect your privacy. Unsubscribe at any time.</Balancer>
+      </p>
     </section>
   )
 }

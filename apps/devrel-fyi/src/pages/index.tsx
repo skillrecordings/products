@@ -88,11 +88,11 @@ const Home: NextPage<{
           <br /> and Grow Your Brand
         </h1>
 
-        <h2 className="font-mono text-sm uppercase text-gray-300">
+        <h2 className="font-mono text-sm uppercase opacity-75">
           Professional DevRel™ Training
         </h2>
       </Container>
-      <div className="flex h-20 w-full justify-center gap-2 border-t font-mono text-sm text-gray-300">
+      <div className="flex h-20 w-full justify-center gap-2 border-t font-mono text-sm opacity-75">
         <Container className="flex h-full items-center justify-between">
           <div className="flex h-full items-center gap-5">
             <Link
@@ -112,7 +112,7 @@ const Home: NextPage<{
                 <span className="font-sans text-base font-medium leading-tight">
                   Theo - t3.gg
                 </span>
-                <span className="flex items-center gap-1 font-sans text-sm font-light text-gray-400">
+                <span className="flex items-center gap-1 font-sans text-sm font-light opacity-75">
                   <span>Author & Instructor</span>
                   {/* <svg
                     viewBox="0 0 24 24"
@@ -133,7 +133,37 @@ const Home: NextPage<{
           </div>
           <div className="flex h-full items-center gap-5">
             <div className="flex h-full items-center gap-1 opacity-50">
-              <span className="text-base">©</span> {new Date().getFullYear()}{' '}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 16 16"
+                aria-hidden="true"
+              >
+                <g
+                  strokeWidth="1"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <ellipse
+                    cx="8"
+                    cy="8"
+                    rx="3.214"
+                    ry="7.5"
+                    stroke="currentColor"
+                  />
+                  <line
+                    x1="0.5"
+                    y1="8"
+                    x2="15.5"
+                    y2="8"
+                    stroke="currentColor"
+                  />
+                  <circle cx="8" cy="8" r="7.5" />
+                </g>
+              </svg>
+              {/* <span className="text-base">©</span> {new Date().getFullYear()}{' '} */}
             </div>
           </div>
         </Container>

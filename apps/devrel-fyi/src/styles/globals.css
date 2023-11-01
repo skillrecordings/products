@@ -24,10 +24,8 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
-
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
 
     --muted: 223 47% 11%;
     --muted-foreground: 0 0% 50%;
@@ -38,8 +36,8 @@
     --card: 224 71% 4%;
     --card-foreground: 213 31% 91%;
 
-    --border: 0 0% 11%;
-    --input: 0 0% 15%;
+    --border: 0 0% 94%;
+    --input: 0 0% 94%;
 
     --primary: 148 82% 85%;
     --primary-foreground: 0 0% 0%;
@@ -89,6 +87,7 @@
     --ring: 148 82% 85%;
 
     --radius: 0.33rem;
+    color-scheme: dark;
   }
 }
 
