@@ -43,7 +43,7 @@ const sectionsFlatMap = (sections: any[]) => {
 }
 
 const WorkshopsPage: React.FC<{
-  workshops: Module[]
+  workshops?: Module[]
   bonuses?: Module[]
   defaultProduct: Product
 }> = ({workshops, defaultProduct, bonuses}) => {

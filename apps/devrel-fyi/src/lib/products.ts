@@ -26,7 +26,7 @@ export const ProductsSchema = z.array(ProductSchema)
 
 export type Product = z.infer<typeof ProductSchema>
 
-export async function getProduct(productId: string): Promise<Product> {
+export async function getProduct(productId: string): Promise<Product | null> {
   const product = await sanityClient.fetch(
     groq`*[_type == "product" && productId == $productId][0] {
         _id,
@@ -46,6 +46,8 @@ export async function getProduct(productId: string): Promise<Product> {
   }`,
     {productId},
   )
+
+  if (!product) return null
 
   return ProductSchema.parse(product)
 }

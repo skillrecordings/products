@@ -5,18 +5,18 @@ import Link from 'next/link'
 import React from 'react'
 
 const ProductCTA: React.FC<{
-  product: Product
+  product?: Product
   className?: string
   restricted?: boolean
 }> = ({product, className = '', restricted = false}) => {
-  const {image, title} = product
+  const {image, title} = product || {}
   const ref = React.useRef(null)
 
   const Comp: React.FC<React.PropsWithChildren> = ({children}) => {
-    if (product.state === 'active') {
+    if (product?.state === 'active') {
       return (
         <Link
-          href={restricted ? `/products/${product.slug}` : `/buy`}
+          href={restricted ? `/products/${product?.slug}` : `/buy`}
           className={className}
         >
           {children}
@@ -47,13 +47,13 @@ const ProductCTA: React.FC<{
             <span className="dark:drop-shadow-md">{title}</span>
           </div>
           <p className="text-2xl font-semibold leading-tight text-white">
-            {product.state === 'active'
+            {product?.state === 'active'
               ? restricted
                 ? 'Your License is Region Restricted'
                 : 'Out Now!'
               : 'Coming Soon'}
           </p>
-          {product.state === 'active' ? (
+          {product?.state === 'active' ? (
             <Button
               asChild
               className="relative mt-5 cursor-pointer bg-gradient-to-t from-blue-600 via-blue-500 to-blue-400 text-sm font-semibold shadow-sm transition hover:brightness-110"
