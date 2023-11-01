@@ -512,7 +512,7 @@ export const Logo: React.FC<{className?: string}> = ({className}) => {
   return (
     <div className="flex items-start font-mono">
       <span>devrel</span>
-      <span className="mt-0.5 text-xs text-primary">.fyi</span>
+      <span className="mt-[4px] text-xs text-primary">.fyi</span>
     </div>
   )
 }

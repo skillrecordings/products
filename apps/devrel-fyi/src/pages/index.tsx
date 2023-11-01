@@ -92,14 +92,14 @@ const Home: NextPage<{
           Professional DevRel™ Training
         </h2>
       </Container>
-      <div className="flex h-20 w-full justify-center gap-2 border-t font-mono text-sm opacity-75">
+      <div className="flex h-20 w-full justify-center gap-2 border-t font-mono text-sm">
         <Container className="flex h-full items-center justify-between">
           <div className="flex h-full items-center gap-5">
             <Link
               href="https://x.com/t3dotgg"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-full items-center gap-2"
+              className="group flex h-full items-center gap-2"
             >
               <Image
                 className="inline-flex rounded-[2px]"
@@ -108,7 +108,7 @@ const Home: NextPage<{
                 width={48}
                 height={48}
               />
-              <div className="flex flex-col">
+              <div className="flex flex-col opacity-75 transition group-hover:opacity-100">
                 <span className="font-sans text-base font-medium leading-tight">
                   Theo - t3.gg
                 </span>
