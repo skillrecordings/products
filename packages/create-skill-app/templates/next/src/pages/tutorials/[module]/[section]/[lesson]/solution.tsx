@@ -75,7 +75,7 @@ type ExerciseSolutionProps = {
   solutionBodyPreview: MDXRemoteSerializeResult
   module: Module
   section: Section
-  transcript: string
+  transcript: any[]
   videoResourceId: string
 }
 

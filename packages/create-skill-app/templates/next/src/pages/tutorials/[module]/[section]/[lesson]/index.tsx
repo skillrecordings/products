@@ -72,7 +72,7 @@ type LessonPageProps = {
   lessonBodyPreview: MDXRemoteSerializeResult
   module: Module
   section: Section
-  transcript: string
+  transcript: any[]
   videoResourceId: string
 }
 
