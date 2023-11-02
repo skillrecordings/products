@@ -24,6 +24,9 @@ import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {motion} from 'framer-motion'
+import {motion as motion3d} from 'framer-motion-3d'
+import {Text} from '@react-three/drei'
+import {useMedia} from 'react-use'
 
 const defaultProductId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -101,7 +104,7 @@ const Home: NextPage<{
             opacity: 0,
             y: -50,
           }}
-          className="pointer-events-none relative z-10 whitespace-nowrap text-center text-3xl sm:text-5xl lg:text-6xl"
+          className="pointer-events-none relative z-10 whitespace-nowrap text-center text-3xl sm:text-5xl md:sr-only lg:text-6xl"
         >
           Empower Developers
           <br /> and Grow Your Brand
@@ -109,16 +112,18 @@ const Home: NextPage<{
         <motion.h2
           animate={{
             opacity: [0, 0.75],
+            y: [5, 0],
           }}
           transition={{
             duration: 1,
-            delay: 1,
+            delay: 0.6,
             ease: 'easeInOut',
           }}
           initial={{
             opacity: 0,
+            y: 5,
           }}
-          className="pointer-events-none relative z-10 font-mono text-xs uppercase opacity-75 sm:text-sm"
+          className="pointer-events-none relative z-10 font-mono text-xs uppercase text-primary opacity-75 shadow-primary/80 drop-shadow-lg sm:text-sm md:sr-only"
         >
           Professional DevRel™ Training
         </motion.h2>
@@ -242,6 +247,8 @@ const Hero = () => {
   React.useEffect(() => {
     setMounted(true)
   }, [])
+
+  const isMdScreen = useMedia('(min-width: 768px)')
   return (
     <motion.div
       className="absolute left-0 top-0 h-full w-full"
@@ -249,7 +256,7 @@ const Hero = () => {
       initial={{opacity: 0}}
       transition={{
         duration: 1,
-        delay: 1.5,
+        delay: 0.1,
         ease: 'easeInOut',
       }}
     >
@@ -275,7 +282,6 @@ const Hero = () => {
           shadow-mapSize-height={2048}
           castShadow
         />
-
         <spotLight
           intensity={0.2}
           position={[-20, -10, 10]}
@@ -285,7 +291,66 @@ const Hero = () => {
           shadow-mapSize-height={2048}
           castShadow
         />
-
+        {isMdScreen && (
+          <>
+            <motion3d.group
+              receiveShadow
+              animate={{
+                opacity: [0, 0.95],
+                y: [0.2, 0],
+              }}
+              transition={{
+                duration: 1,
+                delay: 0.2,
+                ease: 'easeInOut',
+              }}
+              initial={{
+                opacity: 0,
+                y: 0.2,
+              }}
+            >
+              <Text
+                color="white"
+                fillOpacity={0.9}
+                fontSize={0.325}
+                font={'/fonts/378efe47-19c4-4140-a227-728b09adde45.woff'}
+                position={[0, 0.3, 0]}
+              >{`Empower Developers`}</Text>
+              <Text
+                font={'/fonts/378efe47-19c4-4140-a227-728b09adde45.woff'}
+                color="white"
+                fillOpacity={0.9}
+                fontSize={0.325}
+                position={[0, -0.05, 0]}
+              >{`and Grow Your Brand`}</Text>
+            </motion3d.group>
+            <motion3d.group
+              animate={{
+                opacity: [0, 1],
+                y: [-0.15, 0],
+              }}
+              transition={{
+                duration: 1,
+                delay: 0.4,
+                ease: 'easeInOut',
+              }}
+              initial={{
+                opacity: 0,
+                y: -0.15,
+              }}
+            >
+              <Text
+                font={'/fonts/fcf3fad0-df0b-4a20-9c50-e5748f25a15d.woff'}
+                color="#1FD073"
+                fillOpacity={0.9}
+                fontSize={0.08}
+                position={[0, -0.45, 0]}
+              >
+                {'PROFESSIONAL DEVREL™ TRAINING'}
+              </Text>
+            </motion3d.group>
+          </>
+        )}
         <mesh receiveShadow>
           <planeBufferGeometry attach="geometry" args={[1000, 1000]} />
           <meshPhongMaterial attach="material" color="#171717" />
@@ -302,7 +367,12 @@ function Dodecahedron() {
   const smoothFactor = 0.1 // Adjust this value to control the smoothness
 
   const ref = React.useRef<any>(null)
+
   useFrame(({mouse}) => {
+    if (mouse.x === 0 && mouse.y === 0) {
+      ref.current.position.x = viewport.width / 2.3
+      ref.current.position.y = viewport.height / 2.7
+    }
     const x = (mouse.x * viewport.width) / 2
     const y = (mouse.y * viewport.height) / 2
 
@@ -312,19 +382,29 @@ function Dodecahedron() {
 
     ref.current.rotation.x += (-y * 1.5 - ref.current.rotation.x) * smoothFactor
     ref.current.rotation.y += (x * 1.5 - ref.current.rotation.y) * smoothFactor
-    // const x = (mouse.x * viewport.width) / 2
-    // const y = (mouse.y * viewport.height) / 2
-
-    // ref.current.position.set(x, y, 0)
-    // ref.current.rotation.set(-y * 1.5, x * 1.5, 0)
   })
 
   return (
     <>
-      <mesh ref={ref} receiveShadow castShadow>
+      <motion3d.mesh
+        animate={{
+          opacity: [0, 1],
+        }}
+        transition={{
+          duration: 1,
+          delay: 2,
+          ease: 'easeInOut',
+        }}
+        initial={{
+          opacity: 0,
+        }}
+        ref={ref}
+        receiveShadow
+        castShadow
+      >
         <icosahedronBufferGeometry args={[0.6]} attach="geometry" />
         <meshStandardMaterial color={'#2B2B2B'} attach="material" />
-      </mesh>
+      </motion3d.mesh>
     </>
   )
 }
