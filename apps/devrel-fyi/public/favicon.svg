@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+    <style>
+      #logo {
+        fill: #000;
+      }
+      @media (prefers-color-scheme: dark) {
+        #logo {
+          fill: #B9F8D7;
+        }
+      }
+    </style>
+    <path id="logo" fill="#B9F8D7" fill-rule="evenodd" clip-rule="evenodd" d="M24 7.98134V0H15.9792L12 5.95205L8.0208 0H0V7.9814L5.97607 11.976L0.000538819 15.9709L0 24H8.02145L8.00509 23.9755L12 18L15.9949 23.9755L15.9785 24H24V15.9706L18.024 11.976L24 7.98134Z"/>
+  </svg>
+    

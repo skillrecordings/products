@@ -1184,6 +1184,12 @@ importers:
       '@radix-ui/react-switch':
         specifier: ^1.0.1
         version: 1.0.3(@types/react-dom@18.2.13)(@types/react@18.2.28)(react-dom@18.2.0)(react@18.2.0)
+      '@react-three/drei':
+        specifier: ^7.20.2
+        version: 7.27.5(@react-three/fiber@7.0.29)(react-dom@18.2.0)(react@18.2.0)(three@0.134.0)
+      '@react-three/fiber':
+        specifier: ^7.0.27
+        version: 7.0.29(react-dom@18.2.0)(react@18.2.0)(three@0.134.0)
       '@sanity/block-tools':
         specifier: ^3.9.0
         version: 3.18.0
@@ -1319,6 +1325,9 @@ importers:
       framer-motion:
         specifier: ^10.12.4
         version: 10.16.4(react-dom@18.2.0)(react@18.2.0)
+      framer-motion-3d:
+        specifier: ^6.4.1
+        version: 6.5.1(@react-three/fiber@7.0.29)(react-dom@18.2.0)(react@18.2.0)(three@0.134.0)
       groq:
         specifier: ^2.15.0
         version: 2.33.2
@@ -1427,6 +1436,9 @@ importers:
       tailwindcss-radix:
         specifier: ^2.8.0
         version: 2.8.0
+      three:
+        specifier: ^0.134.0
+        version: 0.134.0
       uuid:
         specifier: ^9.0.0
         version: 9.0.1

@@ -56,10 +56,21 @@ export const PrimaryNewsletterCta: React.FC<
       ) : (
         <div className="w-full px-5 pb-16 pt-20 text-center sm:px-10">
           <h2 className="text-2xl leading-tight sm:text-4xl">
-            <span className="px-2 text-primary" aria-hidden="true">
-              ↓
-            </span>
-            {title}
+            <Balancer>
+              <span
+                className="hidden px-2 text-primary sm:inline-flex"
+                aria-hidden="true"
+              >
+                ↓
+              </span>
+              {title}
+              <span
+                className="inline-flex px-2 text-primary sm:hidden"
+                aria-hidden="true"
+              >
+                ↓
+              </span>
+            </Balancer>
           </h2>
           <h3 className="pt-4 text-center text-lg">{byline}</h3>
         </div>
