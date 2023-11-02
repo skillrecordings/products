@@ -171,7 +171,7 @@ const Navigation: React.FC<NavigationProps> = ({
                   }
                 }}
                 type="button"
-                className="group absolute right-0 flex h-full items-center justify-center overflow-hidden bg-primary px-10 py-3 font-mono text-xs font-bold uppercase text-primary-foreground"
+                className="group absolute right-0 flex h-full items-center justify-center overflow-hidden bg-primary px-10 py-3 font-mono text-xs font-normal uppercase text-primary-foreground sm:font-bold"
               >
                 Join
                 <div

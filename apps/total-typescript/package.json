@@ -102,7 +102,7 @@
     "@types/pluralize": "^0.0.29",
     "@vercel/og": "^0.5.4",
     "@xstate/react": "=1.5.1",
-    "aws-sdk": "^2.1197.0",
+    "aws-sdk": "^2.1486.0",
     "axios": "^1.4.0",
     "classnames": "^2.3.1",
     "cloudinary": "^1.35.0",

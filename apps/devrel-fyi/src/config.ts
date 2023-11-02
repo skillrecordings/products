@@ -7,7 +7,12 @@ const config: DefaultSeoProps & {author: string} = {
   additionalLinkTags: [
     {
       rel: 'icon',
-      href: `${process.env.NEXT_PUBLIC_URL}/favicon.ico`,
+      href: `${process.env.NEXT_PUBLIC_URL}/favicon.svg`,
+    },
+    {
+      rel: 'mask-icon',
+      href: `${process.env.NEXT_PUBLIC_URL}/favicon.svg`,
+      color: '#000',
     },
   ],
   additionalMetaTags: [
