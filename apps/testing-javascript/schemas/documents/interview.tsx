@@ -56,6 +56,18 @@ export default {
         },
       ],
     },
+    {
+      name: 'resources',
+      title: 'Resources',
+      type: 'array',
+      of: [
+        {
+          title: 'Video Resource',
+          type: 'reference',
+          to: [{type: 'videoResource'}],
+        },
+      ],
+    },
   ],
   preview: {
     select: {
