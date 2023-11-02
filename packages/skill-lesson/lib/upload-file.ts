@@ -17,8 +17,6 @@ export async function uploadToS3({
     fileContents.name,
   )
 
-  console.log('presignedPostUrl', presignedPostUrl)
-
   await axios.put(presignedPostUrl.signedUrl, fileContents, {
     headers: {'Content-Type': 'application/octet-stream'},
     onUploadProgress,
