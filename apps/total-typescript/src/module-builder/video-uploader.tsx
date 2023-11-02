@@ -1,6 +1,6 @@
 import * as React from 'react'
-import {useFileChange} from './use-file-change'
-import {uploadToS3} from './upload-file'
+import {uploadToS3} from '@skillrecordings/skill-lesson/lib/upload-file'
+import {useFileChange} from '@skillrecordings/skill-lesson/lib/use-file-change'
 
 const VideoUploader = () => {
   const {
