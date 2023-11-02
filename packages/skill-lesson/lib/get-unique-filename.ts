@@ -1,5 +1,14 @@
 import uuid from 'shortid'
-import fileExtension from 'file-extension'
+
+function fileExtension(
+  filename: string,
+  opts: {preserveCase?: boolean} = {},
+): string {
+  if (!opts) opts = {}
+  if (!filename) return ''
+  var ext = (/[^./\\]*$/.exec(filename) || [''])[0]
+  return opts.preserveCase ? ext : ext.toLowerCase()
+}
 
 export const getUniqueFilename = (fullFilename: string) => {
   // filename with no extension

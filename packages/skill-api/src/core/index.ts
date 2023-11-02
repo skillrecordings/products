@@ -16,6 +16,7 @@ import {
   subscribeToConvertkit,
 } from './services/convertkit'
 import {lookupUser} from './services/lookup-user'
+import {signs3UploadUrl} from './services/aws'
 
 export interface OutgoingResponse<
   Body extends string | Record<string, any> | any[] = any,
@@ -72,6 +73,8 @@ export async function SkillRecordingsHandler<
         return render.test()
       case 'subscriber':
         return await convertkitLoadSubscriber({params})
+      case 'sign-s3':
+        return await signs3UploadUrl({params, token})
     }
   } else if (method === 'POST') {
     switch (action) {

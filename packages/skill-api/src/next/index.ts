@@ -4,7 +4,7 @@ import type {
   SkillRecordingsResponse,
 } from '../core/types'
 import {getDecodedToken} from '../client'
-import {SkillRecordingsHandler} from '../core'
+import {IncomingRequest, SkillRecordingsHandler} from '../core'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {PrismaClient} from '@skillrecordings/database'
 import {NextAuthOptions} from 'next-auth'
@@ -120,6 +120,7 @@ export interface SkillRecordingsOptions {
   }
   slack?: SlackConfig
   nextAuthOptions?: NextAuthOptions
+  getAbility?: (req: IncomingRequest) => any
 }
 
 export default SkillRecordings
