@@ -25,8 +25,9 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {motion} from 'framer-motion'
 import {motion as motion3d} from 'framer-motion-3d'
-import {Text} from '@react-three/drei'
+import {Icosahedron, Text, useTexture} from '@react-three/drei'
 import {useMedia} from 'react-use'
+import * as THREE from 'three'
 
 const defaultProductId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -170,8 +171,9 @@ const Home: NextPage<{
           <div className="flex h-full items-center gap-5">
             <div className="relative flex h-full items-center gap-1 opacity-50">
               <AnimatedThingy className="absolute -right-1/2" />
+              <AnimatedThingy className="absolute -right-1/2 z-20 opacity-90 mix-blend-difference [&>div]:bg-foreground" />
               <svg
-                className="w-5"
+                className="relative z-10 w-5"
                 viewBox="0 0 16 18"
                 aria-hidden="true"
                 fill="none"
@@ -308,6 +310,7 @@ const Hero = () => {
                 opacity: 0,
                 y: 0.2,
               }}
+              position={[0, 0, -0.4]}
             >
               <Text
                 color="white"
@@ -325,6 +328,7 @@ const Hero = () => {
               >{`and Grow Your Brand`}</Text>
             </motion3d.group>
             <motion3d.group
+              position={[0, 0, -0.4]}
               animate={{
                 opacity: [0, 1],
                 y: [-0.15, 0],
@@ -351,7 +355,7 @@ const Hero = () => {
             </motion3d.group>
           </>
         )}
-        <mesh receiveShadow>
+        <mesh receiveShadow position={[0, 0, -0.42]}>
           <planeBufferGeometry attach="geometry" args={[1000, 1000]} />
           <meshPhongMaterial attach="material" color="#171717" />
         </mesh>
@@ -369,7 +373,7 @@ function Dodecahedron() {
   const ref = React.useRef<any>(null)
 
   useFrame(({mouse}) => {
-    if (mouse.x === 0 && mouse.y === 0) {
+    if ((mouse.x === 0 && mouse.y === 0) || !mouse) {
       ref.current.position.x = viewport.width / 2.3
       ref.current.position.y = viewport.height / 2.7
     }
@@ -386,7 +390,8 @@ function Dodecahedron() {
 
   return (
     <>
-      <motion3d.mesh
+      <motion3d.group
+        ref={ref}
         animate={{
           opacity: [0, 1],
         }}
@@ -398,13 +403,11 @@ function Dodecahedron() {
         initial={{
           opacity: 0,
         }}
-        ref={ref}
-        receiveShadow
-        castShadow
       >
-        <icosahedronBufferGeometry args={[0.6]} attach="geometry" />
-        <meshStandardMaterial color={'#2B2B2B'} attach="material" />
-      </motion3d.mesh>
+        <Icosahedron receiveShadow castShadow args={[0.6]}>
+          <meshStandardMaterial attach="material" color="#2B2B2B" />
+        </Icosahedron>
+      </motion3d.group>
     </>
   )
 }
