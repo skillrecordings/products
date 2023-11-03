@@ -247,7 +247,9 @@ const Transcript: React.FC<{
   })
   return (
     <section aria-label="transcript" className="group py-16">
-      <h2 className="font-mono text-base font-bold uppercase">Transcript</h2>
+      <h2 className="font-mono text-lg font-bold uppercase sm:text-xl">
+        Transcript
+      </h2>
       <div className="prose max-w-none pt-5 opacity-80 transition group-hover:opacity-100">
         <ReactMarkdown components={markdownComponents}>
           {transcript}
@@ -262,16 +264,16 @@ const MoreTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   tips,
 }) => {
   return (
-    <section className="opacity-75 transition hover:opacity-100">
+    <section className="transition hover:opacity-100">
       <h2 className="font-mono text-base font-bold uppercase">More Tips</h2>
-      <ul className="flex flex-col pt-4">
+      <ul className="flex flex-col gap-5 pt-4">
         {tips
           .filter((tip) => tip._id !== currentTip._id)
           .map((tip) => {
             return (
               <li key={tip._id}>
                 <Link
-                  className="text-lg hover:underline"
+                  className="text-lg text-primary hover:underline"
                   href={{
                     pathname: '/tips/[tip]',
                     query: {

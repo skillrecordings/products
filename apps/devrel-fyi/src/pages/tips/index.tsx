@@ -50,7 +50,7 @@ const Tips: React.FC<{tips: Tip[]}> = ({tips}) => {
           {tips.map((tip) => {
             const {title, summary, slug} = tip
             return (
-              <li key={slug} className="">
+              <li key={slug} className="border-b">
                 <Link
                   className="group"
                   href={{
@@ -68,7 +68,7 @@ const Tips: React.FC<{tips: Tip[]}> = ({tips}) => {
                 >
                   <article className="h-full w-full px-5 py-8 transition group-hover:bg-foreground/5 sm:p-10">
                     <div className="flex h-full flex-col">
-                      <h2 className="w-full text-2xl lg:text-3xl">
+                      <h2 className="w-full text-2xl lg:text-4xl">
                         <Balancer>{title}</Balancer>
                       </h2>
                       {summary && (
