@@ -56,7 +56,9 @@ const LessonTemplate = () => {
               {lesson.title}
             </h2>
             <article className="lg:mt-8">
-              <VideoTranscript transcript={videoResource?.transcript || ''} />
+              <div className="prose prose-md">
+                <VideoTranscript transcript={videoResource?.transcript || ''} />
+              </div>
             </article>
           </div>
           <div className="w-full lg:max-w-[350px] shrink-0 lg:ml-8">

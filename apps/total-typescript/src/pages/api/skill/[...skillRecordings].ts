@@ -1,7 +1,11 @@
 import SkillRecordings, {
+  IncomingRequest,
   SkillRecordingsOptions,
 } from '@skillrecordings/skill-api'
 import {nextAuthOptions} from '../auth/[...nextauth]'
+import {NextApiRequest} from 'next'
+import {getToken} from 'next-auth/jwt'
+import {UserSchema, getCurrentAbility} from '@skillrecordings/skill-lesson'
 
 export const skillOptions: SkillRecordingsOptions = {
   site: {
@@ -18,6 +22,10 @@ export const skillOptions: SkillRecordingsOptions = {
       channelId: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
       botUsername: 'TT Redeemer',
     },
+  },
+  getAbility: async (req: IncomingRequest) => {
+    const token = await getToken({req: req as unknown as NextApiRequest})
+    return getCurrentAbility({user: UserSchema.parse(token)})
   },
   nextAuthOptions,
 }
