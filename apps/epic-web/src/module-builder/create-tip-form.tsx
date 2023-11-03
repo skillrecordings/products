@@ -29,7 +29,7 @@ const CreateTipForm: React.FC = () => {
 
   const formSchema = z.object({
     video: z.string().optional(),
-    title: z.string().nonempty(),
+    title: z.string().min(1),
   })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
