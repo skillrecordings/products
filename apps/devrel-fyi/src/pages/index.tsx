@@ -313,15 +313,18 @@ const Hero = () => {
               position={[0, 0, -0.4]}
             >
               <Text
-                color="white"
+                // color="white"
+                material={new THREE.MeshStandardMaterial({color: '#fafafa'})}
+                receiveShadow
                 fillOpacity={0.9}
                 fontSize={0.325}
                 font={'/fonts/378efe47-19c4-4140-a227-728b09adde45.woff'}
                 position={[0, 0.3, 0]}
               >{`Empower Developers`}</Text>
               <Text
+                material={new THREE.MeshStandardMaterial({color: '#fafafa'})}
+                receiveShadow
                 font={'/fonts/378efe47-19c4-4140-a227-728b09adde45.woff'}
-                color="white"
                 fillOpacity={0.9}
                 fontSize={0.325}
                 position={[0, -0.05, 0]}
@@ -344,9 +347,10 @@ const Hero = () => {
               }}
             >
               <Text
+                material={new THREE.MeshStandardMaterial({color: '#1FD073'})}
+                receiveShadow
                 font={'/fonts/fcf3fad0-df0b-4a20-9c50-e5748f25a15d.woff'}
-                color="#1FD073"
-                fillOpacity={0.9}
+                fillOpacity={1}
                 fontSize={0.08}
                 position={[0, -0.45, 0]}
               >

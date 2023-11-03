@@ -227,7 +227,7 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
           ref={ref}
           {...(muxPlayerProps as MuxPlayerProps)}
           playbackId={videoResource?.muxPlaybackId}
-          accentColor="#000"
+          accentColor="#9D9CD7"
           primaryColor="#fff"
         />
       </div>
