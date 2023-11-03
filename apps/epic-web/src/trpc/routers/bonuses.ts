@@ -13,34 +13,19 @@ export const bonusesRouter = router({
   availableBonusesForPurchase: publicProcedure
     .input(
       z.object({
-        purchaseId: z.string().optional(),
+        purchaseId: z.array(z.string()).optional(),
       }),
     )
     .query(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
       if (!token || !input.purchaseId) return []
-
-      const availableBonuses: string | null = await redis.get(
-        `bonus::available::${token.id}::${input.purchaseId}`,
-      )
-
-      const bonusSlugs = availableBonuses?.split(',') || []
-
-      const query = `*[_type == "bonus" && slug.current in ${JSON.stringify(
-        bonusSlugs,
-      )}]{
-              title,
-              "slug": slug.current,
-              description,
-              "image": image.asset->url,
-            }`
-
-      return await sanityClient.fetch(query)
+      const bonusSlugs = await getBonuses(input.purchaseId, token)
+      return bonusSlugs
     }),
   redeemBonus: publicProcedure
     .input(
       z.object({
-        purchaseId: z.string().optional(),
+        purchaseId: z.array(z.string()).optional(),
         bonusSlug: z.string(),
       }),
     )
@@ -48,11 +33,7 @@ export const bonusesRouter = router({
       const token = await getToken({req: ctx.req})
       if (!token || !input.purchaseId) return false
 
-      const availableBonuses: string | null = await redis.get(
-        `bonus::available::${token.id}::${input.purchaseId}`,
-      )
-
-      const bonusSlugs = availableBonuses?.split(',') || []
+      const bonusSlugs = await getBonuses(input.purchaseId, token)
 
       if (bonusSlugs.includes(input.bonusSlug)) {
         let sellableId, clientId
@@ -104,3 +85,28 @@ export const bonusesRouter = router({
       return true
     }),
 })
+
+const getBonuses = async (purchaseId: string[], token: any) => {
+  const availableBonuses = await Promise.all(
+    purchaseId.map(async (purchaseId) => {
+      const bonuses: string | null = await redis.get(
+        `bonus::available::${token.id}::${purchaseId}`,
+      )
+      const bonusSlugs = bonuses?.split(',') || []
+
+      const query = `*[_type == "bonus" && slug.current in ${JSON.stringify(
+        bonusSlugs,
+      )}]{
+          title,
+          "slug": slug.current,
+          description,
+          "image": image.asset->url,
+        }`
+
+      return await sanityClient.fetch(query)
+    }),
+  )
+  const bonusSlugs = availableBonuses.filter((bonus) => bonus.length > 0).flat()
+
+  return bonusSlugs
+}

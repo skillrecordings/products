@@ -254,7 +254,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 />
               </>
             )}
-            <Bonuses purchase={purchase} />
+            <Bonuses purchases={purchasesForCurrentProduct} />
             {isTransferAvailable && purchaseUserTransfers && (
               <>
                 <H2>Purchase Transfer</H2>
@@ -330,10 +330,14 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
 
 export default PurchasedProductTemplate
 
-export const Bonuses: React.FC<{purchase?: Purchase}> = ({purchase}) => {
-  const {availableBonuses} = useBonuses(purchase?.id)
+export const Bonuses: React.FC<{
+  purchases: Purchase[]
+}> = ({purchases}) => {
+  const {availableBonuses} = useBonuses(
+    purchases && purchases.map(({id}) => id),
+  )
 
-  if (!purchase) return null
+  if (!purchases) return null
   if (availableBonuses.length === 0) return null
 
   return (
@@ -369,7 +373,10 @@ export const Bonuses: React.FC<{purchase?: Purchase}> = ({purchase}) => {
                   </ReactMarkdown>
                 )}
               </div>
-              <RedeemBonusButton bonus={bonus} purchaseId={purchase.id} />
+              <RedeemBonusButton
+                bonus={bonus}
+                purchaseId={purchases && purchases.map(({id}) => id)}
+              />
             </li>
           )
         })}
@@ -383,7 +390,7 @@ const RedeemBonusButton = ({
   purchaseId,
 }: {
   bonus: {slug: string; title: string}
-  purchaseId: string
+  purchaseId: string[]
 }) => {
   const {mutate: redeemBonus} = trpc.bonuses.redeemBonus.useMutation({
     onSettled: async (result) => {
