@@ -32,7 +32,7 @@
       @apply opacity-50;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-md bg-primary py-3 font-bold text-white transition hover:brightness-110 focus-visible:ring-ring;
+      @apply relative mt-2 flex items-center justify-center rounded-md bg-primary py-3 font-bold text-primary-foreground transition hover:brightness-110 focus-visible:ring-ring;
     }
   }
 }

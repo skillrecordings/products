@@ -18,8 +18,8 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
         tip,
         tips,
         tipBody,
-        transcript: tip.transcript,
-        videoResourceId: tip.videoResourceId,
+        transcript: tip?.transcript || null,
+        videoResourceId: tip?.videoResourceId || null,
       },
       revalidate: 10,
     }
@@ -43,7 +43,7 @@ export type TipPageProps = {
   tip: Tip
   tipBody: MDXRemoteSerializeResult
   tips: Tip[]
-  transcript: any[]
+  transcript: any
   videoResourceId: string
 }
 

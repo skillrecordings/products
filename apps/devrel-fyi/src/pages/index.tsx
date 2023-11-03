@@ -25,7 +25,7 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {motion} from 'framer-motion'
 import {motion as motion3d} from 'framer-motion-3d'
-import {Icosahedron, Text, useTexture} from '@react-three/drei'
+import {Icosahedron, Text, useTexture, Decal} from '@react-three/drei'
 import {useMedia} from 'react-use'
 import * as THREE from 'three'
 
@@ -230,7 +230,7 @@ const Home: NextPage<{
                 )
               })}
           </section>
-        ) : (
+        ) : subscriber ? null : (
           <div className="border-t" id="join">
             <Container className="flex items-center justify-center px-0 sm:px-0 lg:px-0">
               <PrimaryNewsletterCta className="w-full" />
@@ -251,7 +251,7 @@ const Hero = () => {
   }, [])
 
   const isMdScreen = useMedia('(min-width: 768px)')
-  return (
+  return mounted ? (
     <motion.div
       className="absolute left-0 top-0 h-full w-full"
       animate={{opacity: [0, 1]}}
@@ -273,7 +273,7 @@ const Hero = () => {
         }}
         shadows
       >
-        <Dodecahedron />
+        <Object />
         <ambientLight intensity={0.5} />
         <spotLight
           intensity={0.7}
@@ -361,10 +361,10 @@ const Hero = () => {
         </mesh>
       </Canvas>
     </motion.div>
-  )
+  ) : null
 }
 
-function Dodecahedron() {
+function Object() {
   const {viewport, scene, size} = useThree()
   const targetPosition = [0, 0, 0]
   const targetRotation = [0, 0, 0]
@@ -388,6 +388,8 @@ function Dodecahedron() {
     ref.current.rotation.y += (x * 1.5 - ref.current.rotation.y) * smoothFactor
   })
 
+  // const texture = useTexture('/icosahedron-texture.png')
+
   return (
     <>
       <motion3d.group
@@ -404,15 +406,30 @@ function Dodecahedron() {
           opacity: 0,
         }}
       >
-        <Icosahedron receiveShadow castShadow args={[0.6]}>
+        <Icosahedron castShadow receiveShadow args={[0.6]}>
           <meshStandardMaterial attach="material" color="#2B2B2B" />
+          <Decal
+            debug={false}
+            castShadow
+            receiveShadow
+            polygonOffsetFactor={-1}
+            position={[0, 0, 0.5]}
+            rotation={[0, 0, 0]}
+            scale={[1, 0.5, 0.5]}
+            geometry={new THREE.IcosahedronGeometry(0.6, 0)}
+          >
+            <meshStandardMaterial
+              // map={texture}
+              color="#2B2B2B"
+            />
+          </Decal>
         </Icosahedron>
       </motion3d.group>
     </>
   )
 }
 
-const AnimatedThingy: React.FC<{className?: string}> = ({className}) => {
+export const AnimatedThingy: React.FC<{className?: string}> = ({className}) => {
   return (
     <motion.div
       className={cn('grid h-6 w-10 grid-cols-3 overflow-hidden', className)}

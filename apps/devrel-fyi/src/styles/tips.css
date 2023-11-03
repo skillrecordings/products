@@ -1,21 +1,21 @@
 #tip {
   [data-sr-convertkit-subscribe-form] {
-    @apply flex w-full flex-col items-center gap-2 text-left lg:w-auto lg:flex-row;
+    @apply flex w-full flex-col text-left lg:h-16 lg:flex-row;
     [data-sr-input-wrapper] {
-      @apply w-full lg:w-auto;
+      @apply w-full;
     }
     [data-sr-input-wrapper]:first-of-type {
     }
     [data-sr-input] {
-      @apply w-full rounded-md border px-3 py-2 lg:w-auto;
+      @apply w-full rounded-none border-b border-l-0 border-r-0 px-5 py-4 focus-within:ring-offset-0 lg:border-y-0 lg:border-l;
     }
     [data-sr-input-label] {
       @apply sr-only;
     }
     [data-sr-button] {
-      @apply flex w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-white transition hover:brightness-110 lg:w-auto;
+      @apply flex h-full w-auto flex-shrink-0 items-center justify-center rounded-none bg-primary px-4 py-4 text-primary-foreground ring-white transition focus-within:ring-offset-0 hover:brightness-110;
       svg {
-        @apply h-7 w-7;
+        @apply h-5 w-5;
       }
     }
     [data-sr-button][disabled] {

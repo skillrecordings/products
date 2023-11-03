@@ -16,7 +16,7 @@ export const TipSchema = z.object({
   muxPlaybackId: z.nullable(z.string()).optional(),
   state: z.enum(['new', 'processing', 'reviewing', 'published', 'retired']),
   videoResourceId: z.nullable(z.string()).optional(),
-  transcript: z.nullable(z.string()),
+  transcript: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
 })
 
