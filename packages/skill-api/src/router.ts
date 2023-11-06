@@ -12,6 +12,9 @@ import {stripeCheckout} from './core/services/stripe-checkout'
 import {processStripeWebhooks} from './core/services/process-stripe-webhook'
 import {lookupUser} from './core/services/lookup-user'
 import {IncomingRequest} from './core'
+import {claimedSeats} from './core/services/claimed-seats'
+import {updateName} from './core/services/update-name'
+import {transferPurchase} from './core/services/transfer-purchase'
 
 export async function actionRouter({
   method,
@@ -58,6 +61,12 @@ export async function actionRouter({
         return await convertkitAnswerQuizQuestion({params})
       case 'lookup':
         return await lookupUser({params})
+      case 'claimed':
+        return await claimedSeats({params})
+      case 'nameUpdate':
+        return await updateName({params})
+      case 'transfer':
+        return await transferPurchase({params})
     }
   }
 
