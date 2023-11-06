@@ -430,7 +430,7 @@ const SubscribeForm = ({
       id="tip"
       className="flex w-full flex-col items-center justify-between lg:flex-row lg:gap-5"
     >
-      <div className="inline-flex w-full flex-shrink-0 items-center gap-3 text-primary lg:w-auto">
+      <div className="inline-flex w-full flex-shrink-0 items-center gap-5 text-primary lg:w-auto">
         <div
           aria-hidden="true"
           className="flex h-16 w-16 items-center justify-center bg-primary/10"
