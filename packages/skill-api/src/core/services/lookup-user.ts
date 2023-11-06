@@ -27,6 +27,8 @@ export async function lookupUser({
       select: {
         roles: true,
         id: true,
+        name: true,
+        email: true,
         merchantCustomers: true,
         purchases: {
           select: {
