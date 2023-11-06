@@ -1,7 +1,7 @@
-// This script adds missing duration values to the read-only duration fields on
-// modules and videoResources.
+// This script creates VideoResources for each interview and then ties it to
+// the corresponding Sanity Interview record.
 //
-// Execute the Add Duration to Sanity script with:
+// Execute the script with:
 //
 // ```
 // npx ts-node --files --skipProject src/data/add-videos-to-sanity-interviews.ts
