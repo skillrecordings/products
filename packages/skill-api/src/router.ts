@@ -15,6 +15,7 @@ import {IncomingRequest} from './core'
 import {claimedSeats} from './core/services/claimed-seats'
 import {updateName} from './core/services/update-name'
 import {transferPurchase} from './core/services/transfer-purchase'
+import {stripeRefund} from './core/services/process-refund'
 
 export async function actionRouter({
   method,
@@ -67,6 +68,8 @@ export async function actionRouter({
         return await updateName({params})
       case 'transfer':
         return await transferPurchase({params})
+      case 'refund':
+        return await stripeRefund({params})
     }
   }
 
