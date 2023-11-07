@@ -24,6 +24,9 @@ export async function updateName({
     const userId = (req.query?.userId as string) || (req.body?.userId as string)
     const newName =
       (req.query?.newName as string) || (req.body?.newName as string)
+    const costumerMerchantId =
+      (req.query?.costumerMerchantId as string) ||
+      (req.body?.costumerMerchantId as string)
 
     const updatedUser = await prisma.user.update({
       where: {
@@ -34,18 +37,9 @@ export async function updateName({
       },
     })
 
-    const merchantCustomerId = await prisma.merchantCustomer.findFirstOrThrow({
-      where: {
-        userId: userId,
-      },
-      select: {
-        identifier: true,
-      },
-    })
-
-    if (merchantCustomerId) {
+    if (costumerMerchantId) {
       const updateStripeCostumer = await stripe.customers.update(
-        merchantCustomerId.identifier,
+        costumerMerchantId,
         {
           name: newName,
         },
