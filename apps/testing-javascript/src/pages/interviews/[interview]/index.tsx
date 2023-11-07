@@ -3,18 +3,25 @@ import Layout from 'components/layout'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import InterviewTemplate from 'templates/interview-template'
-import {getAllInterviews, getInterview} from 'lib/interviews'
+import {
+  getAllInterviews,
+  getInterview,
+  getInterviewModule,
+} from 'lib/interviews'
 import {z} from 'zod'
+import type {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import type {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
+import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const interviewSlug = params?.interview as string
-  const interview = await getInterview(interviewSlug)
-  //   const lesson = await getLesson(params?.lesson as string)
-  //   const module = await getPlaylist(lesson.module.slug.current as string)
+  const lesson: Lesson = await getInterview(interviewSlug)
+  const module: Module = await getInterviewModule()
+
   return {
-    props: {interview, videoResourceId: interview.videoResource._id},
+    props: {lesson, module, videoResourceId: lesson.videoResourceId},
     revalidate: 10,
   }
 }
@@ -32,9 +39,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 const InterviewPage: React.FC<{
-  interview: {title: string; slug: {current: string}}
+  lesson: Lesson
+  module: Module
   videoResourceId: string
-}> = ({interview, videoResourceId}) => {
+}> = ({lesson, module, videoResourceId}) => {
   const ogImage = undefined
   //   const ogImage = {
   //     url: `${process.env.NEXT_PUBLIC_URL}${
@@ -46,10 +54,12 @@ const InterviewPage: React.FC<{
   //   }
 
   return (
-    <Layout meta={{ogImage, title: interview.title}}>
-      <VideoResourceProvider videoResourceId={videoResourceId}>
-        <InterviewTemplate interview={interview} />
-      </VideoResourceProvider>
+    <Layout meta={{ogImage, title: lesson.title}}>
+      <LessonProvider module={module} lesson={lesson}>
+        <VideoResourceProvider videoResourceId={videoResourceId}>
+          <InterviewTemplate interview={lesson} />
+        </VideoResourceProvider>
+      </LessonProvider>
     </Layout>
   )
 }
