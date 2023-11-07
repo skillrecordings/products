@@ -49,26 +49,26 @@ const LessonsSidebar: React.FC<any> = ({lesson, module}) => {
   }, [activeElement])
 
   return (
-    <div className="min-h-[450px] border border-black/[.08] w-full flex flex-col">
-      <div className="flex items-center p-3 border-b border-black/[.08] shrink-0">
+    <div className="flex min-h-[450px] w-full flex-col border border-black/[.08]">
+      <div className="flex shrink-0 items-center border-b border-black/[.08] p-3">
         <Link
-          href={`/playlists/${module.slug}`}
-          className="w-16 h-16 shrink-0 mr-3"
+          href={`/playlists/${module.slug.current}`}
+          className="mr-3 h-16 w-16 shrink-0"
         >
           <Image src={module.image} alt="module image" width={64} height={64} />
         </Link>
         <Link
           href={`/playlists/${module.slug.current}`}
-          className="text-lg leading-tight font-tt-demibold"
+          className="font-tt-demibold text-lg leading-tight"
         >
           {module.title}
         </Link>
       </div>
-      <div className="grow relative">
+      <div className="relative grow">
         <ul
           ref={scrollableNodeRef}
           id="scroll-container"
-          className="absolute inset-0 overflow-y-auto divide-y"
+          className="absolute inset-0 divide-y overflow-y-auto"
         >
           {module.sections[0].lessons.map((item: any, i: number) => {
             return (
@@ -78,14 +78,14 @@ const LessonsSidebar: React.FC<any> = ({lesson, module}) => {
                   href={`/lessons/${item.slug}`}
                   onClick={() => setActiveElement(item.slug)}
                   className={cx(
-                    'flex px-3 py-3 lg:py-2 text-sm items-baseline duration-100 hover:bg-gray-50',
+                    'flex items-baseline px-3 py-3 text-sm duration-100 hover:bg-gray-50 lg:py-2',
                     {
                       'bg-gray-100 hover:bg-gray-100':
                         item.slug === lesson.slug,
                     },
                   )}
                 >
-                  <div className="shrink-0 w-4 mr-2">{i + 1}.</div>
+                  <div className="mr-2 w-4 shrink-0">{i + 1}.</div>
                   <div className="font-tt-medium text-base">{item.title}</div>
                 </Link>
               </li>

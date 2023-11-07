@@ -10,15 +10,9 @@ import {
 } from 'utils/custom-handlers'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import Spinner from 'components/spinner'
+import type {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 
-type Interview = {
-  title: string
-  slug: {
-    current: string
-  }
-}
-
-const InterviewTemplate = ({interview}: {interview: Interview}) => {
+const InterviewTemplate = ({interview}: {interview: Lesson}) => {
   const router = useRouter()
   const {videoResource, loadingVideoResource, videoResourceId} =
     useVideoResource()
@@ -27,7 +21,7 @@ const InterviewTemplate = ({interview}: {interview: Interview}) => {
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
-      exerciseSlug={interview.slug.current}
+      exerciseSlug={interview.slug}
       handleContinue={customContinueHandler}
       handlePlayFromBeginning={customPlayFromBeginningHandler}
     >
