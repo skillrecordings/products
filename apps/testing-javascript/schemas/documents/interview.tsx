@@ -16,7 +16,7 @@ export default {
     {
       name: 'description',
       title: 'Description',
-      type: 'text',
+      type: 'markdown',
       validation: (Rule) => Rule.required(),
     },
     {
