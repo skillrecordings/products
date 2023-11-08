@@ -4872,6 +4872,9 @@ importers:
       sanity-plugin-cloudinary:
         specifier: ^1.1.1
         version: 1.1.1(@babel/core@7.23.2)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(sanity@3.18.0)
+      sanity-plugin-markdown:
+        specifier: ^4.1.0
+        version: 4.1.0(easymde@2.18.0)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(sanity@3.18.0)(styled-components@5.3.11)
       styled-components:
         specifier: ^5.2
         version: 5.3.11(@babel/core@7.23.2)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
