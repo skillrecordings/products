@@ -80,6 +80,7 @@
     "react-wrap-balancer": "^0.2.4",
     "sanity": "^3.0.0",
     "sanity-plugin-cloudinary": "^1.1.1",
+    "sanity-plugin-markdown": "^4.1.0",
     "styled-components": "^5.2",
     "styled-jsx": "5.1.1",
     "superjson": "=1.11.0",
