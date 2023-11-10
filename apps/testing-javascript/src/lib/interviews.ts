@@ -28,40 +28,30 @@ const SanityBlockSchema = z.array(
   }),
 )
 
-const InterviewSchema = z
-  .object({
-    _id: z.string(),
-    _type: z.string(),
-    slug: z.string(),
-    title: z.string(),
-    description: SanityBlockSchema,
-    portraits: z.object({
-      image1: ExternalImageSchema,
-      image2: ExternalImageSchema.optional(),
-    }),
-    resources: z
-      .object({
-        videoResourceId: z.string(),
-        _type: z.string(),
-        slug: z.string(),
-        title: z.string(),
-        _updatedAt: z.string(),
-        description: z.string().optional(),
-        body: z.string().optional(),
-      })
-      .array(),
-    videoResourceId: z.string().optional(),
-    _updatedAt: z.string().optional(),
-  })
-  .transform(({description, ...rest}) => {
-    const descriptionAsString = description
-      .map((block) => {
-        return block.children[0].text
-      })
-      .join('\n\n')
-
-    return {...rest, description: descriptionAsString}
-  })
+const InterviewSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  slug: z.string(),
+  title: z.string(),
+  description: z.string(),
+  portraits: z.object({
+    image1: ExternalImageSchema,
+    image2: ExternalImageSchema.optional(),
+  }),
+  resources: z
+    .object({
+      videoResourceId: z.string(),
+      _type: z.string(),
+      slug: z.string(),
+      title: z.string(),
+      _updatedAt: z.string(),
+      description: z.string().optional(),
+      body: z.string().optional(),
+    })
+    .array(),
+  videoResourceId: z.string().optional(),
+  _updatedAt: z.string().optional(),
+})
 
 export const getAllInterviews = async () =>
   await sanityClient.fetch(groq`*[_type == "interview"] | order(_createdAt asc) {
