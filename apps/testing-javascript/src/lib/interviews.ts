@@ -1,9 +1,6 @@
 import groq from 'groq'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {z} from 'zod'
-import type {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import type {Section} from '@skillrecordings/skill-lesson/schemas/section'
-import type {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 
 const ExternalImageSchema = z.object({
   _type: z.literal('externalImage'),
@@ -65,45 +62,35 @@ export const getAllInterviews = async () =>
 }`)
 
 export const getInterviewModule = async () => {
-  const interviewsQuery = groq`*[_type == "interview"] | order(_createdAt asc) {
-    _id,
+  const moduleQuery = groq`*[_type == 'module' && slug.current == $slug][0]{
+    slug,
     _type,
-    "slug": slug.current,
     title,
-    description,
-    portraits,
-    "resources": resources[@->._type == 'videoResource'][]->{
-      "videoResourceId": _id,
+    moduleType,
+    image,
+    sections,
+    "lessons": *[_type == "interview"] | order(_createdAt asc) {
+      _id,
       _type,
       "slug": slug.current,
       title,
+      description,
+      portraits,
+      "resources": resources[@->._type == 'videoResource'][]->{
+        "videoResourceId": _id,
+        _type,
+        "slug": slug.current,
+        title,
+        _updatedAt
+      },
+      "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       _updatedAt
-    },
-    "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-    _updatedAt
+    }
   }`
-  const response = await sanityClient.fetch(interviewsQuery)
-  console.log(response)
-  const lessons = InterviewSchema.array().parse(response)
 
-  const sections: Section[] = [
-    {
-      _type: 'section',
-      slug: 'interviews-section',
-      title: 'Interviews',
-      lessons,
-    },
-  ]
-
-  const module: Module = {
-    slug: {current: 'interviews-module'},
-    _type: 'module',
-    title: 'Interviews',
-    moduleType: 'bonus',
-    image: null,
-    sections,
-    lessons,
-  }
+  const module = await sanityClient.fetch(moduleQuery, {
+    slug: 'expert-interviews-module',
+  })
 
   return module
 }
