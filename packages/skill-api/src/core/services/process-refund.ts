@@ -1,6 +1,7 @@
 import {OutgoingResponse} from '../index'
 import {SkillRecordingsHandlerParams} from '../types'
 import {stripe} from '@skillrecordings/commerce-server'
+import {getSdk} from '@skillrecordings/database'
 
 export async function stripeRefund({
   params,
@@ -10,6 +11,7 @@ export async function stripeRefund({
   try {
     const {req} = params
     const skillSecret = req.headers['x-skill-secret'] as string
+    const {updatePurchaseStatusForCharge} = getSdk()
 
     if (skillSecret !== process.env.SKILL_SECRET) {
       return {
@@ -27,6 +29,8 @@ export async function stripeRefund({
     const processRefund = await stripe.refunds.create({
       charge: merchantChargeId,
     })
+
+    await updatePurchaseStatusForCharge(merchantChargeId, 'Refunded')
 
     return {
       status: 200,
