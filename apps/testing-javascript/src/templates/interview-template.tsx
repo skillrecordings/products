@@ -35,9 +35,9 @@ const InterviewTemplate = ({interview}: {interview: Lesson}) => {
             <Video ref={muxPlayerRef} loadingIndicator={<Spinner />} />
           </div>
         </main>
-        <div className="mt-12 flex flex-col-reverse lg:flex-row">
-          <div className="mt-12 grow lg:mt-0">
-            <h2 className="hidden text-[2.125rem] leading-tight lg:block">
+        <div className="mt-12 flex flex-col lg:flex-row">
+          <div className="grow">
+            <h2 className="text-3xl md:text-[2.125rem] lg:text-4xl xl:text-5xl leading-tight">
               {interview.title}
             </h2>
             <article className="lg:mt-8">
@@ -45,11 +45,6 @@ const InterviewTemplate = ({interview}: {interview: Lesson}) => {
                 <VideoTranscript transcript={videoResource?.transcript || ''} />
               </div>
             </article>
-          </div>
-          <div className="w-full shrink-0 lg:ml-8 lg:max-w-[350px]">
-            <h2 className="mb-8 block text-[1.625rem] leading-tight md:text-[2.125rem] lg:hidden">
-              {interview.title}
-            </h2>
           </div>
         </div>
       </div>

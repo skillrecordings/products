@@ -51,8 +51,8 @@ const LessonTemplate = () => {
           </div>
         </main>
         <div className="flex flex-col-reverse lg:flex-row mt-12">
-          <div className="grow mt-12 lg:mt-0">
-            <h2 className="text-[2.125rem] leading-tight hidden lg:block">
+          <div className="grow">
+            <h2 className="lg:text-4xl xl:text-5xl leading-tight hidden lg:block">
               {lesson.title}
             </h2>
             <article className="lg:mt-8">
@@ -62,7 +62,7 @@ const LessonTemplate = () => {
             </article>
           </div>
           <div className="w-full lg:max-w-[350px] shrink-0 lg:ml-8">
-            <h2 className="text-[1.625rem] md:text-[2.125rem] leading-tight block lg:hidden mb-8">
+            <h2 className="text-3xl md:text-[2.125rem] leading-tight block lg:hidden mb-8">
               {lesson.title}
             </h2>
             <LessonsSidebar lesson={lesson} module={module} />
