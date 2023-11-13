@@ -4,10 +4,7 @@ import {type MuxPlayerRefAttributes} from '@mux/mux-player-react'
 import {Video} from '@skillrecordings/skill-lesson/video/video'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import {
-  customPlayFromBeginningHandler,
-  customContinueHandler,
-} from 'utils/custom-handlers'
+import {customPlayFromBeginningHandler} from 'utils/custom-handlers'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import Spinner from 'components/spinner'
 import type {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
@@ -18,12 +15,19 @@ const InterviewTemplate = ({interview}: {interview: Lesson}) => {
     useVideoResource()
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
 
+  const nextInterviewPath = ({lesson}: {lesson: Lesson | null}) => {
+    return {
+      query: {lesson: lesson?.slug},
+      pathname: '/interviews/[lesson]',
+    }
+  }
+
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
       exerciseSlug={interview.slug}
-      handleContinue={customContinueHandler}
       handlePlayFromBeginning={customPlayFromBeginningHandler}
+      nextPathBuilder={nextInterviewPath}
     >
       <div className="container max-w-6xl pb-8 pt-4 md:pb-12 md:pt-6 lg:pb-16">
         <main className="relative mx-auto w-full items-start border-t border-transparent 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
