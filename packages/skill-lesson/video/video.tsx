@@ -40,7 +40,6 @@ export const Video: React.FC<
   ) => {
     const {lesson} = useLesson()
     const isExercise = Boolean(lesson._type === 'exercise')
-    const isInterview = Boolean(lesson._type === 'interview')
     const {videoResource, loadingVideoResource} = useVideoResource()
     const {
       muxPlayerProps,
@@ -63,7 +62,7 @@ export const Video: React.FC<
                 <>
                   {nextExercise ? (
                     <>
-                      {isExercise || isInterview ? (
+                      {isExercise ? (
                         canShowVideo ? (
                           exerciseOverlayRenderer()
                         ) : (
