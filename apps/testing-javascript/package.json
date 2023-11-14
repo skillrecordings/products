@@ -75,6 +75,7 @@
     "react-hook-form": "^7.29.0",
     "react-hot-toast": "^2.2.0",
     "react-icons": "^4.7.1",
+    "react-markdown": "^9.0.1",
     "react-scroll": "^1.8.6",
     "react-use": "^17.3.2",
     "react-wrap-balancer": "^0.2.4",
