@@ -33,18 +33,18 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 
 const Home: NextPage<{
-  defaultProduct: SanityProduct
+  defaultProduct?: SanityProduct
   products: SanityProduct[]
   bonuses: any[]
 }> = ({defaultProduct, products, bonuses}) => {
   const router = useRouter()
   const ALLOW_PURCHASE =
-    router.query.allowPurchase === 'true' || defaultProduct.state === 'active'
+    router.query.allowPurchase === 'true' || defaultProduct?.state === 'active'
   const {subscriber, loadingSubscriber} = useConvertkit()
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
       ...router.query,
-      productId: defaultProduct.productId,
+      productId: defaultProduct?.productId,
     })
 
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
@@ -55,7 +55,7 @@ const Home: NextPage<{
         width: 132,
         height: 112,
       },
-      title: defaultProduct.title as string,
+      title: defaultProduct?.title as string,
       description: defaultProduct?.description,
     },
   )
