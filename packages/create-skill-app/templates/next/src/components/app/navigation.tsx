@@ -15,6 +15,7 @@ import Gravatar from 'react-gravatar'
 import {signOut, useSession} from 'next-auth/react'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -26,6 +27,8 @@ import {LogoutIcon} from '@heroicons/react/solid'
 import {ChevronDownIcon} from '@heroicons/react/outline'
 import Countdown, {zeroPad} from 'react-countdown'
 import Image from 'next/image'
+import Container from './container'
+import {ThemeToggle} from './theme-toggle'
 
 type NavigationProps = {
   className?: string
@@ -105,7 +108,7 @@ const Navigation: React.FC<NavigationProps> = ({
       <SaleBanner size={size} />
       <div
         className={cn(
-          'left-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md print:hidden',
+          'left-0 z-50 flex w-full flex-col items-center justify-center border-b border-t bg-background print:hidden',
           navigationContainerClassName,
         )}
         style={{
@@ -114,94 +117,32 @@ const Navigation: React.FC<NavigationProps> = ({
       >
         <motion.nav
           aria-label="top"
-          className={cn(
-            'relative mx-auto flex h-14 w-full items-center justify-between px-3 text-sm',
-            className,
-          )}
+          className={cn('relative mx-auto flex h-20 w-full text-sm', className)}
         >
-          <div className="flex items-center gap-2">
-            <Link
-              href="/"
-              aria-current={isRoot}
-              tabIndex={isRoot ? -1 : 0}
-              passHref
-              className="relative z-10 text-lg font-bold tracking-tight"
-              onContextMenu={(event) => {
-                event.preventDefault()
-                push('/brand')
-              }}
-            >
-              <Logo />
-            </Link>
-            <div className="hidden items-center justify-start gap-2 font-medium md:flex lg:pl-2">
-              {navigationLinks.map(({label, href, icon}, i) => {
-                return (
-                  <Link
-                    key={href}
-                    href={href}
-                    className={cx(
-                      'group flex items-center gap-1 rounded-md px-1.5 py-1 transition lg:px-2.5',
-                    )}
-                    passHref
-                    onClick={() => {
-                      track(`clicked ${label} from navigation`, {
-                        page: asPath,
-                      })
-                    }}
-                  >
-                    {icon()} {label}
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-          <div className="flex items-center justify-end">
-            <Login className="hidden md:flex" />
-            <User className="hidden md:flex" />
-            {commercePropsStatus === 'success' && hasPurchase && (
-              <>
-                {canInviteTeam && lastPurchase ? (
-                  <Link
-                    href={`/products/${lastPurchase.slug}`}
-                    className={cx('mr-3 hidden px-2.5 lg:block', {
-                      underline: pathname === `/products/${lastPurchase.slug}`,
-                    })}
-                  >
-                    Invite Team
-                  </Link>
-                ) : (
-                  <Link
-                    href="/products?s=purchased"
-                    className={cx('mr-3 hidden px-2.5 lg:block', {
-                      underline: pathname.includes('/products'),
-                    })}
-                  >
-                    My Products
-                  </Link>
-                )}
-              </>
-            )}
-
-            <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
-          </div>
-          <AnimatePresence>
-            {menuOpen && (
-              <motion.div
-                initial={{y: -30, opacity: 0, scale: 0.9}}
-                animate={{y: 0, opacity: 1, scale: 1}}
-                exit={{y: -30, opacity: 0, scale: 0.9}}
-                transition={{
-                  type: 'spring',
-                  duration: 0.5,
+          <Container className="relative flex items-center justify-between px-5 sm:px-5 lg:px-5">
+            <div className="flex items-center gap-2">
+              <Link
+                href="/"
+                aria-current={isRoot}
+                tabIndex={isRoot ? -1 : 0}
+                passHref
+                className="relative z-10 text-lg font-bold tracking-tight"
+                onContextMenu={(event) => {
+                  event.preventDefault()
+                  push('/brand')
                 }}
-                className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100 bg-white px-2 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md md:hidden"
               >
-                {navigationLinks.map(({label, href, icon}) => {
+                <Logo />
+              </Link>
+              <div className="hidden items-center justify-start gap-2 md:flex lg:pl-2">
+                {navigationLinks.map(({label, href, icon}, i) => {
                   return (
                     <Link
                       key={href}
                       href={href}
-                      className="flex items-center gap-4 rounded-md px-3 py-2 transition hover:bg-indigo-300/10"
+                      className={cx(
+                        'group flex items-center gap-1 rounded-md px-1.5 py-1 transition lg:px-2.5',
+                      )}
                       passHref
                       onClick={() => {
                         track(`clicked ${label} from navigation`, {
@@ -209,35 +150,92 @@ const Navigation: React.FC<NavigationProps> = ({
                         })
                       }}
                     >
-                      <span className="flex w-5 items-center justify-center">
-                        {icon()}
-                      </span>{' '}
-                      {label}
+                      {icon()} {label}
                     </Link>
                   )
                 })}
-
-                <div className="flex w-full items-center justify-between px-3 pt-5 text-lg">
-                  <Login />
-                  <User />
-                  {commercePropsStatus === 'success' &&
-                    purchasedProductIds.length > 0 && (
+              </div>
+            </div>
+            <div className="flex items-center justify-end gap-3">
+              <Login className="hidden md:flex" />
+              <User className="hidden md:flex" />
+              {commercePropsStatus === 'success' && hasPurchase && (
+                <>
+                  {canInviteTeam && lastPurchase ? (
+                    <Link
+                      href={`/products/${lastPurchase.slug}`}
+                      className={cx('mr-3 hidden px-2.5 lg:block', {
+                        underline:
+                          pathname === `/products/${lastPurchase.slug}`,
+                      })}
+                    >
+                      Invite Team
+                    </Link>
+                  ) : (
+                    <Link
+                      href="/products?s=purchased"
+                      className={cx('mr-3 hidden px-2.5 lg:block', {
+                        underline: pathname.includes('/products'),
+                      })}
+                    >
+                      My Products
+                    </Link>
+                  )}
+                </>
+              )}
+              <ThemeToggle />
+              <NavToggle isMenuOpened={menuOpen} setMenuOpened={setMenuOpen} />
+            </div>
+            <AnimatePresence>
+              {menuOpen && (
+                <motion.div
+                  initial={{y: -30, opacity: 0, scaleY: 0.8}}
+                  animate={{y: 0, opacity: 1, scaleY: 1}}
+                  exit={{y: -30, opacity: 0, scaleY: 0.8}}
+                  transition={{
+                    type: 'spring',
+                    duration: 0.5,
+                  }}
+                  className="absolute left-0 top-[81px] grid w-full origin-top grid-cols-2 flex-col border-b bg-background text-lg font-medium shadow-2xl shadow-black/20 backdrop-blur-md md:hidden"
+                >
+                  {navigationLinks.map(({label, href, icon}, i) => {
+                    return (
                       <Link
-                        href="/products?s=purchased"
-                        className={cx(
-                          // 'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
-                          {
-                            underline: pathname === '/products',
-                          },
-                        )}
+                        key={href}
+                        href={href}
+                        passHref
+                        className={cn('border-b p-5', {
+                          'border-r': i % 2 === 0,
+                        })}
+                        onClick={() => {
+                          track(`clicked ${label} from navigation`, {
+                            page: asPath,
+                          })
+                        }}
                       >
-                        My Products
+                        {label}
                       </Link>
-                    )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                    )
+                  })}
+                  <div className="col-span-2 flex w-full items-center justify-between p-5">
+                    <Login className="px-0 opacity-100" />
+                    <User />
+                    {commercePropsStatus === 'success' &&
+                      purchasedProductIds.length > 0 && (
+                        <Link
+                          href="/products?s=purchased"
+                          className={cx({
+                            underline: pathname === '/products',
+                          })}
+                        >
+                          My Products
+                        </Link>
+                      )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Container>
         </motion.nav>
       </div>
     </>
@@ -365,7 +363,7 @@ const Login: React.FC<{className?: string}> = ({className}) => {
         <Link
           href="/login"
           className={cn(
-            'group flex items-center gap-1 rounded-md px-2.5 py-1 font-semibold transition hover:opacity-100',
+            'group flex items-center gap-1 rounded-md px-2.5 py-1 transition hover:opacity-100',
             {
               'underline opacity-100': pathname === '/login',
               'opacity-75': pathname !== '/login',
@@ -445,8 +443,11 @@ const NavToggle: React.FC<NavToggleProps> = ({
   const path02Controls = useAnimationControls()
 
   return (
-    <button
-      className="absolute z-10 flex h-12 w-12 items-center justify-center p-1 md:hidden"
+    <Button
+      size="icon"
+      variant="outline"
+      className="z-10 md:hidden"
+      // className="z-10 flex h-12 w-12 items-center justify-center p-1 md:hidden"
       onClick={async () => {
         // menuControls.start(isMenuOpened ? 'close' : 'open')
         setMenuOpened(!isMenuOpened)
@@ -477,7 +478,7 @@ const NavToggle: React.FC<NavToggleProps> = ({
           strokeWidth={1.5}
         />
       </svg>
-    </button>
+    </Button>
   )
 }
 
@@ -515,7 +516,7 @@ export const SaleBanner: React.FC<{size?: 'sm' | 'md' | 'lg'}> = ({size}) => {
           })
         }}
       >
-        <div className="mx-auto flex w-full max-w-screen-lg items-center justify-center space-x-2 px-2 text-xs font-medium sm:space-x-4 sm:text-sm">
+        <div className="mx-auto flex w-full max-w-screen-lg items-center justify-center space-x-2 px-2 text-xs sm:space-x-4 sm:text-sm">
           <div className="flex w-full flex-col sm:w-auto sm:flex-row sm:items-center sm:space-x-2">
             <strong>
               Save {(Number(currentSale.percentageDiscount) * 100).toString()}%

@@ -41,6 +41,7 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {getTranscriptComponents} from '@skillrecordings/skill-lesson/markdown/transcript-components'
 import Link from 'next/link'
+import Container from '@/components/app/container'
 
 const TipTemplate: React.FC<{
   tip: Tip
@@ -133,12 +134,12 @@ const TipTemplate: React.FC<{
       >
         <main className="mx-auto w-full pt-0">
           <div className="relative z-10 flex items-center justify-center">
-            <div className="flex w-full max-w-screen-xl flex-col">
+            <Container className="flex flex-col px-0 sm:px-0 lg:px-0">
               <Video ref={muxPlayerRef} tips={moreTips} />
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
-            </div>
+            </Container>
           </div>
           <article className="relative z-10 mx-auto w-full max-w-screen-md px-5 pb-16 pt-8 sm:pt-10">
             <div className="mx-auto w-full max-w-screen-xl pb-5">
@@ -196,15 +197,12 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
   const {videoResource} = useVideoResource()
 
   return (
-    <div className="relative xl:px-5">
+    <div className="relative">
       {displayOverlay && <TipOverlay tips={tips} />}
       <div
-        className={cx(
-          'flex items-center justify-center overflow-hidden xl:rounded-md',
-          {
-            hidden: displayOverlay,
-          },
-        )}
+        className={cx('flex items-center justify-center', {
+          hidden: displayOverlay,
+        })}
       >
         <MuxPlayer
           ref={ref}
@@ -385,7 +383,7 @@ const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
       href={`https://twitter.com/i/status/${tweet}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="relative mb-5 mt-2 inline-flex flex-shrink-0 items-center justify-center space-x-2 bg-gray-700 px-5 py-4 font-semibold text-white transition-all duration-300 ease-in-out before:absolute before:left-0 before:top-0 before:z-[-1] before:h-full before:w-0 before:bg-gray-600 before:transition-all before:duration-300 before:ease-in-out  focus-visible:ring-white hover:brightness-110 hover:before:w-full"
+      className="relative mb-5 mt-2 inline-flex flex-shrink-0 items-center justify-center space-x-2 bg-gray-700 px-5 py-4 font-semibold text-white transition-all duration-300 ease-in-out before:absolute before:left-0 before:top-0 before:z-[-1] before:h-full before:w-0 before:bg-gray-600 before:transition-all before:duration-300 before:ease-in-out  hover:brightness-110 hover:before:w-full focus-visible:ring-white"
       onClick={() => {
         track('clicked reply on twitter')
       }}

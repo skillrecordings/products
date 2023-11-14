@@ -17,11 +17,13 @@ import Balancer from 'react-wrap-balancer'
 // import Testimonials from 'testimonials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
-import {Skeleton} from '@skillrecordings/ui'
+import {Button, Skeleton} from '@skillrecordings/ui'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import ModuleCertificate from '@/certificate/module-certificate'
 import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
-import {CogIcon} from '@heroicons/react/outline'
+import {CogIcon, PlayIcon} from 'lucide-react'
+import Container from '@/components/app/container'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -43,7 +45,7 @@ const WorkshopTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full max-w-screen-lg pt-10 lg:pb-24"
+      className="mx-auto w-full lg:pb-24"
       meta={{
         title: pageTitle,
         description: description as string,
@@ -52,80 +54,83 @@ const WorkshopTemplate: React.FC<{
         },
       }}
     >
-      {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-      <CourseMeta title={pageTitle} description={description} />
-      {workshop.state === 'draft' && (
-        <div className="sm:px-3">
-          <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded sm:text-base">
-            <CogIcon className="h-4 w-4" /> {capitalize(workshop.moduleType)}{' '}
-            under development — you're viewing a draft version.
+      <Container className="px-0 sm:px-0 lg:px-0">
+        {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+        <CourseMeta title={pageTitle} description={description} />
+        {workshop.state === 'draft' && (
+          <div className="flex w-full items-center justify-center gap-2 border border-orange-500/20 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:text-base">
+            <CogIcon className="h-5 w-5 animate-[spin_10s_linear_infinite]" />{' '}
+            {capitalize(workshop.moduleType)} under development — you're viewing
+            a draft version.
           </div>
-        </div>
-      )}
-      <Header tutorial={workshop} />
-      <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <div className="w-full flex-grow px-5">
-          <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
-            {workshopBodySerialized ? (
-              <MDX
-                contents={workshopBodySerialized}
-                components={{
-                  Testimonial: ({children, author}) => {
-                    return (
-                      <blockquote className="rounded-md bg-white px-5 pb-4 pt-1 not-italic text-foreground dark:bg-white/5">
-                        {children}
-                        {author.name && (
-                          <div className="text-base opacity-60">
-                            — {author.name}
-                          </div>
-                        )}
-                      </blockquote>
-                    )
-                  },
-                }}
-              />
-            ) : (
-              <p className="opacity-75">No description found.</p>
-            )}
-          </article>
-          {/* {testimonials && testimonials?.length > 0 && (
+        )}
+      </Container>
+      <Container>
+        <Header tutorial={workshop} />
+        <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
+          <div className="w-full flex-grow px-5">
+            <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
+              {workshopBodySerialized ? (
+                <MDX
+                  contents={workshopBodySerialized}
+                  components={{
+                    Testimonial: ({children, author}) => {
+                      return (
+                        <blockquote className="rounded-md bg-white px-5 pb-4 pt-1 not-italic text-foreground dark:bg-white/5">
+                          {children}
+                          {author.name && (
+                            <div className="text-base opacity-60">
+                              — {author.name}
+                            </div>
+                          )}
+                        </blockquote>
+                      )
+                    },
+                  }}
+                />
+              ) : (
+                <p className="opacity-75">No description found.</p>
+              )}
+            </article>
+            {/* {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
           )} */}
-        </div>
-        <div className="w-full px-5 lg:max-w-sm lg:px-0">
-          {workshop && (
-            <Collection.Root module={workshop}>
-              <div className="flex w-full items-center justify-between pb-3">
-                <h3 className="text-xl font-bold">Contents</h3>
-                <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
-              </div>
-              <Collection.Sections>
-                {moduleProgressStatus === 'success' ? (
-                  <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125 [&_[data-check-icon]]:text-blue-400 [&_[data-check-icon]]:opacity-100 [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-blue-500 [&_[data-progress]]:dark:bg-gray-600">
-                    <Collection.Lessons>
-                      <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
-                    </Collection.Lessons>
-                  </Collection.Section>
-                ) : (
-                  <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-7" />
-                )}
-              </Collection.Sections>
-              {/* Used if module has either none or single section so they can be styled differently */}
-              <Collection.Lessons className="overflow-hidden rounded-md border border-gray-100 py-0 shadow-xl shadow-gray-500/10 dark:border-gray-900 dark:shadow-none">
-                {moduleProgressStatus === 'success' ? (
-                  <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300 [&_[data-item]]:py-3" />
-                ) : (
-                  <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-6 first-of-type:rounded-t last-of-type:rounded-b" />
-                )}
-              </Collection.Lessons>
-            </Collection.Root>
-          )}
-          <ResetProgress module={workshop} />
-          {workshop.moduleType === 'workshop' && (
-            <ModuleCertificate module={workshop} />
-          )}
-        </div>
-      </main>
+          </div>
+          <div className="w-full px-5 lg:max-w-sm lg:px-0">
+            {workshop && (
+              <Collection.Root module={workshop}>
+                <div className="flex w-full items-center justify-between pb-3">
+                  <h3 className="text-xl font-bold">Contents</h3>
+                  <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
+                </div>
+                <Collection.Sections>
+                  {moduleProgressStatus === 'success' ? (
+                    <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125 [&_[data-check-icon]]:text-blue-400 [&_[data-check-icon]]:opacity-100 [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-blue-500 [&_[data-progress]]:dark:bg-gray-600">
+                      <Collection.Lessons>
+                        <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
+                      </Collection.Lessons>
+                    </Collection.Section>
+                  ) : (
+                    <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-7" />
+                  )}
+                </Collection.Sections>
+                {/* Used if module has either none or single section so they can be styled differently */}
+                <Collection.Lessons className="overflow-hidden rounded-md border border-gray-100 py-0 shadow-xl shadow-gray-500/10 dark:border-gray-900 dark:shadow-none">
+                  {moduleProgressStatus === 'success' ? (
+                    <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300 [&_[data-item]]:py-3" />
+                  ) : (
+                    <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-6 first-of-type:rounded-t last-of-type:rounded-b" />
+                  )}
+                </Collection.Lessons>
+              </Collection.Root>
+            )}
+            <ResetProgress module={workshop} />
+            {workshop.moduleType === 'workshop' && (
+              <ModuleCertificate module={workshop} />
+            )}
+          </div>
+        </main>
+      </Container>
     </Layout>
   )
 }
@@ -186,54 +191,54 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               </div>
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
-              <Link
-                href={
-                  firstSection && sections
-                    ? {
-                        pathname: `/[type]/[module]/[section]/[lesson]`,
-                        query: {
-                          type:
-                            tutorial.moduleType === 'bonus'
-                              ? 'bonuses'
-                              : 'workshops',
-                          module: slug.current,
-                          section: isModuleInProgress
-                            ? nextSection?.slug
-                            : firstSection.slug,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
-                        },
-                      }
-                    : {
-                        pathname: '/[type]/[module]/[lesson]',
-                        query: {
-                          type:
-                            tutorial.moduleType === 'bonus'
-                              ? 'bonuses'
-                              : 'workshops',
-                          module: slug.current,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
-                        },
-                      }
-                }
-                className={cx(
-                  'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
-                  {
-                    'animate-pulse': moduleProgressStatus === 'loading',
-                  },
-                )}
-                onClick={() => {
-                  track('clicked start learning', {module: slug.current})
-                }}
+              <Button
+                size="lg"
+                asChild
+                className={cn('gap-2', {
+                  'animate-pulse': moduleProgressStatus === 'loading',
+                })}
               >
-                {isModuleInProgress ? 'Continue' : 'Start'} Learning
-                <span className="pl-2" aria-hidden="true">
-                  →
-                </span>
-              </Link>
+                <Link
+                  href={
+                    firstSection && sections
+                      ? {
+                          pathname: `/[type]/[module]/[section]/[lesson]`,
+                          query: {
+                            type:
+                              tutorial.moduleType === 'bonus'
+                                ? 'bonuses'
+                                : 'workshops',
+                            module: slug.current,
+                            section: isModuleInProgress
+                              ? nextSection?.slug
+                              : firstSection.slug,
+                            lesson: isModuleInProgress
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
+                          },
+                        }
+                      : {
+                          pathname: '/[type]/[module]/[lesson]',
+                          query: {
+                            type:
+                              tutorial.moduleType === 'bonus'
+                                ? 'bonuses'
+                                : 'workshops',
+                            module: slug.current,
+                            lesson: isModuleInProgress
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
+                          },
+                        }
+                  }
+                  onClick={() => {
+                    track('clicked start learning', {module: slug.current})
+                  }}
+                >
+                  {isModuleInProgress ? 'Continue' : 'Start'} Learning
+                  <PlayIcon className="h-4 w-4" />{' '}
+                </Link>
+              </Button>
               {github?.repo && (
                 <a
                   className="flex w-full items-center justify-center gap-2 rounded-md border-none border-gray-300 px-5 py-4 font-medium leading-tight transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-900 md:w-auto"

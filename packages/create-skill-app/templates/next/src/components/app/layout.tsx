@@ -50,7 +50,10 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   const {url} = openGraph || {}
 
   return (
-    <div className={`relative ${inter.variable} font-sans`} id="layout">
+    <div
+      className={`relative ${inter.variable} font-sans antialiased`}
+      id="layout"
+    >
       <NextSeo
         title={title}
         description={description}
@@ -67,7 +70,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       {withNavigation && <Navigation {...navigationProps} />}
       <div
         className={twMerge(
-          'flex h-full min-h-[calc(100vh-64px)] flex-grow flex-col',
+          'flex h-full min-h-[calc(100svh-64px)] flex-grow flex-col',
           className,
         )}
       >
