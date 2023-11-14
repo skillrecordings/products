@@ -55,7 +55,7 @@ export const PrimaryNewsletterCta: React.FC<
       ) : (
         <div className="relative flex flex-col items-center justify-center py-16">
           <Image className="absolute -z-10" />
-          <h2 className="max-w-lg text-center text-6xl font-bold text-white">
+          <h2 className="max-w-lg text-center text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
             <Balancer>{title}</Balancer>
           </h2>
           <h3 className="pt-4 text-center text-lg">{byline}</h3>
@@ -66,7 +66,7 @@ export const PrimaryNewsletterCta: React.FC<
         actionLabel={actionLabel}
       />
       <div className="h-10 w-10" />
-      <p data-nospam="" className="pt-8 text-center text-sm opacity-75">
+      <p data-nospam="" className="pt-0 text-center text-sm opacity-75 sm:pt-8">
         I respect your privacy. Unsubscribe at any time.
       </p>
     </section>

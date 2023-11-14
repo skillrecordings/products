@@ -59,10 +59,14 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         noindex={noIndex}
       />
       <Toaster position="top-center" />
-      {withNavigation && <Navigation {...navigationProps} />}
+      {withNavigation && (
+        <div className="sm:px-5 lg:px-8">
+          <Navigation {...navigationProps} />
+        </div>
+      )}
       <div
         className={twMerge(
-          'flex h-full min-h-[calc(100vh-64px)] flex-grow flex-col',
+          'flex h-full min-h-[calc(100vh-64px)] flex-grow flex-col sm:px-5 lg:px-8',
           className,
         )}
       >

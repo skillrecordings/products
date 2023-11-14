@@ -19,7 +19,7 @@ const Footer: React.FC<FooterProps> = ({className}) => {
         className,
       )}
     >
-      <div>
+      {/* <div>
         <Link
           href="https://badass.dev"
           rel="noopener noreferrer"
@@ -41,7 +41,7 @@ const Footer: React.FC<FooterProps> = ({className}) => {
         >
           Terms & Conditions
         </Link>
-      </div>
+      </div> */}
     </footer>
   )
 }

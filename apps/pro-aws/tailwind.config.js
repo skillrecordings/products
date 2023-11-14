@@ -91,8 +91,11 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            'p, li, h1, h2, h3, h4, h5, h6, strong, blockquote': {
+            'p, li, strong, blockquote': {
               color: theme('colors.foreground'),
+            },
+            'h1, h2, h3, h4, h5, h6': {
+              color: theme('colors.white'),
             },
             a: {
               color: theme('colors.primary'),
