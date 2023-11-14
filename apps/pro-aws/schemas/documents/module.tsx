@@ -1,9 +1,13 @@
+import * as React from 'react'
+import {capitalize} from 'lodash'
+import {MdRadio} from 'react-icons/md'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'page',
-  title: 'Page',
+  name: 'module',
+  title: 'Module',
   type: 'document',
+  icon: MdRadio,
   fields: [
     defineField({
       name: 'title',
@@ -12,13 +16,15 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
+      name: 'moduleType',
+      title: 'Module Type',
+      type: 'string',
       validation: (Rule) => Rule.required(),
       options: {
-        source: 'title',
-        maxLength: 96,
+        list: [
+          {title: 'Workshop', value: 'workshop'},
+          {title: 'Tutorial', value: 'tutorial'},
+        ],
       },
     }),
     defineField({
@@ -35,10 +41,19 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'body',
-      title: 'Body',
-      type: 'markdown',
-      description: 'Body in MDX',
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      validation: (Rule) => Rule.required(),
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
+    }),
+    defineField({
+      name: 'github',
+      title: 'GitHub',
+      type: 'githubRepo',
     }),
     defineField({
       name: 'resources',
@@ -60,10 +75,17 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'description',
-      title: 'SEO Description',
-      type: 'text',
-      validation: (Rule) => Rule.max(160),
+      name: 'body',
+      description: 'Body in MDX',
+      title: 'Body',
+      type: 'markdown',
+    }),
+    defineField({
+      name: 'image',
+      title: 'Module Image',
+      description:
+        'Used as a module illustration. Aspect ratio should be 1:1 (square).',
+      type: 'cloudinary.asset',
     }),
     defineField({
       name: 'ogImage',
@@ -72,15 +94,24 @@ export default defineType({
         'Used as a preview image on Twitter cards etc. Size should be 1200×630.',
       type: 'cloudinary.asset',
     }),
+    defineField({
+      name: 'description',
+      title: 'SEO Description',
+      type: 'text',
+      validation: (Rule) => Rule.max(160),
+    }),
   ],
   preview: {
     select: {
+      type: 'moduleType',
       title: 'title',
+      media: 'image',
     },
     prepare(selection) {
-      const {title} = selection
+      const {title, media, type} = selection
       return {
-        title: title,
+        title: `${title} ${capitalize(type)}`,
+        media: media && <img src={media.secure_url} alt={title} />,
       }
     },
   },

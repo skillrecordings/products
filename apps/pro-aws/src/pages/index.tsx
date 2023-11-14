@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '@/components/app/layout'
 import type {GetStaticProps, NextPage} from 'next'
-import LandingCopy from '@/text/landing-copy.mdx'
+// import LandingCopy from '@/text/landing-copy.mdx'
 import {PrimaryNewsletterCta} from '@/components/primary-newsletter-cta'
 import Balancer from 'react-wrap-balancer'
 import {useRouter} from 'next/router'
@@ -14,6 +14,11 @@ import {getAvailableBonuses} from '@/lib/available-bonuses'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import Image from 'next/image'
+import {getPage} from '@/lib/pages'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 
 const defaultProductId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -21,10 +26,14 @@ export const getStaticProps: GetStaticProps = async () => {
   const defaultProduct = await getProduct(defaultProductId as string)
   const products = await getAllProducts()
   const availableBonuses = await getAvailableBonuses()
+  const landingPage = await getPage('landing-page')
+  const landingCopy =
+    landingPage?.body && (await serializeMDX(landingPage?.body))
 
   return {
     props: {
       defaultProduct,
+      landingCopy,
       products,
       bonuses: availableBonuses,
     },
@@ -36,7 +45,8 @@ const Home: NextPage<{
   defaultProduct?: SanityProduct
   products: SanityProduct[]
   bonuses: any[]
-}> = ({defaultProduct, products, bonuses}) => {
+  landingCopy?: MDXRemoteSerializeResult
+}> = ({defaultProduct, products, bonuses, landingCopy}) => {
   const router = useRouter()
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || defaultProduct?.state === 'active'
@@ -69,17 +79,44 @@ const Home: NextPage<{
 
   return (
     <Layout>
-      <header className="mx-auto flex min-h-[calc(85vh)] w-full items-center justify-center bg-gradient-to-b from-gray-100 to-background text-center">
-        <Balancer>
-          <h1 className="py-24 text-6xl font-bold">
-            Welcome to <i className="pr-2 font-medium">your</i> Skill App
-          </h1>
-        </Balancer>
+      <header className="relative mx-auto flex aspect-[1280/800] w-full max-w-screen-xl flex-col items-center justify-center border-x border-b py-24">
+        <h1 className="leading-0 w-full text-center text-5xl font-bold text-white sm:text-7xl lg:text-8xl">
+          Lorem ipsum
+          <br />
+          dolor AWS amet
+        </h1>
+        <h2 className="pt-2 text-base tracking-widest text-primary sm:pt-5 sm:text-xl lg:text-2xl">
+          Professional AWS Training
+        </h2>
+        <div className="bottom-[20%] right-[15%] mt-5 flex items-center gap-2 lg:absolute lg:mt-0">
+          <Image
+            src={require('../../public/instructor.png')}
+            alt="Adam Elmore"
+            priority
+            className="w-12 rounded-sm lg:w-auto"
+            width={64}
+            height={64}
+          />
+          <div className="flex flex-col">
+            <span className="text-base">Adam Elmore</span>
+            <span className="text-sm opacity-60">Author & Instructor</span>
+          </div>
+        </div>
+        <Image
+          priority
+          className="-z-10 object-contain"
+          src={require('../../public/assets/hero@2x.jpg')}
+          fill
+          alt=""
+          aria-hidden="true"
+        />
       </header>
-      <main>
-        <article className="prose mx-auto w-full max-w-2xl px-3 sm:prose-lg">
-          <LandingCopy />
-        </article>
+      <main className="mx-auto w-full max-w-screen-xl border-x border-b py-24">
+        {landingCopy && (
+          <article className="prose mx-auto w-full max-w-2xl px-3 sm:prose-lg">
+            <MDX contents={landingCopy} />
+          </article>
+        )}
         {ALLOW_PURCHASE ? (
           <section id="buy">
             {products
