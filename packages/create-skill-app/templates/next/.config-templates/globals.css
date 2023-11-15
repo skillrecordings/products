@@ -2,9 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* @import './tips.css'; */
+/* @import './commerce.css'; */
+/* TODO: convert */
 @import './quiz.css';
 @import './primary-newsletter-cta.css';
-@import './tips.css';
 @import './nprogress.css';
 @import './video/mux-player.css';
 @import './video/github-link.css';
@@ -19,7 +21,6 @@
 @import '@code-hike/mdx/dist/index.css';
 @import './ui/button.css';
 @import './login.css';
-@import './commerce.css';
 
 @layer base {
   :root {
@@ -32,20 +33,20 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
 
+    --border: 214.3 31.8% 94.4%;
+    --input: 214.3 31.8% 94.4%;
+
     --card: 0 0% 100%;
     --card-foreground: 222.2 47.4% 11.2%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-
     --primary: {{primaryColor}};
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 214 32% 91%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --accent: 214 32% 91%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 100% 50%;
     --destructive-foreground: 210 40% 98%;
