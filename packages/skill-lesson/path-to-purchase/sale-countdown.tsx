@@ -46,30 +46,58 @@ const CountdownRenderer: React.FC<
             className="mx-auto grid max-w-[300px] grid-cols-4 items-center justify-center gap-2 tabular-nums tracking-tight"
           >
             <div className="flex flex-col">
-              <span className="text-3xl font-medium leading-none">{days}</span>
-              <span className="pt-1 text-xs font-medium uppercase tracking-wide text-gray-500">
+              <span
+                data-number="days"
+                className="text-3xl font-medium leading-none"
+              >
+                {days}
+              </span>
+              <span
+                data-label="days"
+                className="pt-1 text-xs font-medium uppercase tracking-wide text-gray-500"
+              >
                 days
               </span>
             </div>
             <div className="flex flex-col">
-              <span className="text-3xl font-medium leading-none">{hours}</span>
-              <span className="pt-1 text-xs font-medium uppercase tracking-wide text-gray-500">
+              <span
+                data-number="hours"
+                className="text-3xl font-medium leading-none"
+              >
+                {hours}
+              </span>
+              <span
+                data-label="hours"
+                className="pt-1 text-xs font-medium uppercase tracking-wide text-gray-500"
+              >
                 hours
               </span>
             </div>
             <div className="flex flex-col">
-              <span className="text-3xl font-medium leading-none">
+              <span
+                data-number="minutes"
+                className="text-3xl font-medium leading-none"
+              >
                 {minutes}
               </span>
-              <span className="pt-1 text-xs font-medium uppercase tracking-wide text-gray-500">
+              <span
+                data-label="minutes"
+                className="pt-1 text-xs font-medium uppercase tracking-wide text-gray-500"
+              >
                 minutes
               </span>
             </div>
             <div className="flex flex-col">
-              <span className="text-3xl font-medium leading-none">
+              <span
+                data-number="seconds"
+                className="text-3xl font-medium leading-none"
+              >
                 {seconds}
               </span>
-              <span className="pt-1 text-xs font-medium uppercase tracking-wide text-gray-500">
+              <span
+                data-label="seconds"
+                className="pt-1 text-xs font-medium uppercase tracking-wide text-gray-500"
+              >
                 seconds
               </span>
             </div>

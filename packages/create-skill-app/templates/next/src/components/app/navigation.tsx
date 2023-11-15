@@ -29,6 +29,7 @@ import Countdown, {zeroPad} from 'react-countdown'
 import Image from 'next/image'
 import Container from './container'
 import {ThemeToggle} from './theme-toggle'
+import common from '@/text/common'
 
 type NavigationProps = {
   className?: string
@@ -111,9 +112,6 @@ const Navigation: React.FC<NavigationProps> = ({
           'left-0 z-50 flex w-full flex-col items-center justify-center border-b border-t bg-background print:hidden',
           navigationContainerClassName,
         )}
-        style={{
-          marginTop: currentSale ? currentSale.bannerHeight : 0,
-        }}
       >
         <motion.nav
           aria-label="top"
@@ -143,8 +141,11 @@ const Navigation: React.FC<NavigationProps> = ({
                     <Link
                       key={href}
                       href={href}
-                      className={cx(
-                        'group flex items-center gap-1 rounded-md px-1.5 py-1 transition lg:px-2.5',
+                      className={cn(
+                        'group flex items-center gap-1 rounded-md px-1.5 py-1 opacity-75 transition transition hover:opacity-100 lg:px-2.5',
+                        {
+                          'opacity-100': pathname.includes(href),
+                        },
                       )}
                       passHref
                       onClick={() => {
@@ -507,12 +508,14 @@ export const SaleBanner: React.FC<{size?: 'sm' | 'md' | 'lg'}> = ({size}) => {
   return (
     <div
       className={cn(
-        `absolute h-[${currentSale.bannerHeight}px] left-0 top-0 z-[60] w-full`,
+        `h-[${currentSale.bannerHeight}px] left-0 top-0 z-[60] w-full`,
       )}
     >
       <Link
         href="/#buy"
-        className={cn(`flex h-full w-full bg-primary py-1.5 text-white`)}
+        className={cn(
+          `flex h-full w-full bg-muted py-1.5 text-muted-foreground`,
+        )}
         onClick={() => {
           track('clicked sale banner cta', {
             location: 'nav',
@@ -521,7 +524,7 @@ export const SaleBanner: React.FC<{size?: 'sm' | 'md' | 'lg'}> = ({size}) => {
       >
         <div className="mx-auto flex w-full max-w-screen-lg items-center justify-center space-x-2 px-2 text-xs sm:space-x-4 sm:text-sm">
           <div className="flex w-full flex-col sm:w-auto sm:flex-row sm:items-center sm:space-x-2">
-            <strong>
+            <strong className="font-semibold">
               Save {(Number(currentSale.percentageDiscount) * 100).toString()}%
               on{' '}
               {currentSale.product?.name ||
@@ -544,8 +547,8 @@ export const SaleBanner: React.FC<{size?: 'sm' | 'md' | 'lg'}> = ({size}) => {
               }}
             />
           </div>
-          <div className="flex-shrink-0 rounded bg-white px-2 py-0.5 font-semibold text-primary shadow-md">
-            Become an Epic Dev
+          <div className="flex-shrink-0 rounded bg-primary px-2 py-0.5 font-semibold text-primary-foreground">
+            {common['sale-banner-cta-label']}
           </div>
         </div>
       </Link>

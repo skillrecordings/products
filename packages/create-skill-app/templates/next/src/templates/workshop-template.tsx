@@ -21,7 +21,7 @@ import {Button, Skeleton} from '@skillrecordings/ui'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import ModuleCertificate from '@/certificate/module-certificate'
 import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
-import {CogIcon, PlayIcon} from 'lucide-react'
+import {ArrowLeft, CogIcon, PlayIcon} from 'lucide-react'
 import Container from '@/components/app/container'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
@@ -87,42 +87,43 @@ const WorkshopTemplate: React.FC<{
           </div>
         )}
       </Container>
-      <Container>
-        <Header tutorial={workshop} />
-        <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-          <div className="w-full flex-grow px-5">
-            <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
-              {workshopBodySerialized ? (
-                <MDX
-                  contents={workshopBodySerialized}
-                  components={{
-                    Testimonial: ({children, author}) => {
-                      return (
-                        <blockquote className="rounded-md bg-white px-5 pb-4 pt-1 not-italic text-foreground dark:bg-white/5">
-                          {children}
-                          {author.name && (
-                            <div className="text-base opacity-60">
-                              — {author.name}
-                            </div>
-                          )}
-                        </blockquote>
-                      )
-                    },
-                  }}
-                />
-              ) : (
-                <p className="opacity-75">No description found.</p>
-              )}
-            </article>
-            {/* {testimonials && testimonials?.length > 0 && (
-            <Testimonials testimonials={testimonials} />
-          )} */}
-          </div>
-          <div className="flex w-full flex-col gap-10 px-5 lg:max-w-sm lg:px-0">
-            {product && commercePropsStatus === 'loading' ? (
-              <Skeleton className="h-10 w-full" />
+      <Container className="grid grid-cols-8 border-b">
+        <main className="col-span-5 pt-10">
+          <Header tutorial={workshop} />
+          <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
+            {workshopBodySerialized ? (
+              <MDX
+                contents={workshopBodySerialized}
+                components={{
+                  Testimonial: ({children, author}) => {
+                    return (
+                      <blockquote className="rounded-md bg-white px-5 pb-4 pt-1 not-italic text-foreground dark:bg-white/5">
+                        {children}
+                        {author.name && (
+                          <div className="text-base opacity-60">
+                            — {author.name}
+                          </div>
+                        )}
+                      </blockquote>
+                    )
+                  },
+                }}
+              />
             ) : (
-              <div className={pricingClassNames}>
+              <p className="opacity-75">No description found.</p>
+            )}
+          </article>
+        </main>
+        <aside className="col-span-3 border-l pl-10">
+          <div className="flex w-full flex-col px-5 lg:max-w-sm lg:px-0">
+            {product && commercePropsStatus === 'loading' ? (
+              <Skeleton className="mt-12 h-32 w-full" />
+            ) : (
+              <div
+                className={pricingClassNames(
+                  '[&_article]:x-[border-b,-mx-10,p-10]',
+                )}
+              >
                 {!canView && product && (
                   <PriceCheckProvider
                     purchasedProductIds={commerceProps?.purchases?.map(
@@ -146,38 +147,43 @@ const WorkshopTemplate: React.FC<{
               </div>
             )}
             {workshop && (
-              <Collection.Root module={workshop}>
-                <div className="flex w-full items-center justify-between pb-3">
-                  <h3 className="text-xl font-bold">Contents</h3>
-                  <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
-                </div>
-                <Collection.Sections>
-                  {moduleProgressStatus === 'success' ? (
-                    <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125 [&_[data-check-icon]]:text-blue-400 [&_[data-check-icon]]:opacity-100 [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-blue-500 [&_[data-progress]]:dark:bg-gray-600">
-                      <Collection.Lessons>
-                        <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
-                      </Collection.Lessons>
-                    </Collection.Section>
-                  ) : (
-                    <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-7" />
-                  )}
-                </Collection.Sections>
-                {/* Used if module has either none or single section so they can be styled differently */}
-                <Collection.Lessons className="overflow-hidden rounded-md border border-gray-100 py-0 shadow-xl shadow-gray-500/10 dark:border-gray-900 dark:shadow-none">
-                  {moduleProgressStatus === 'success' ? (
-                    <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300 [&_[data-item]]:py-3" />
-                  ) : (
-                    <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-6 first-of-type:rounded-t last-of-type:rounded-b" />
-                  )}
-                </Collection.Lessons>
-              </Collection.Root>
+              <div className="-mx-10 border-b px-10 pb-10">
+                <Collection.Root module={workshop}>
+                  <div className="flex w-full items-center justify-between pb-3 pt-8">
+                    <h3 className="text-lg font-semibold">Contents</h3>
+                    <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
+                  </div>
+                  <Collection.Sections>
+                    {moduleProgressStatus === 'success' ? (
+                      <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125 [&_[data-check-icon]]:text-blue-400 [&_[data-check-icon]]:opacity-100 [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-blue-500 [&_[data-progress]]:dark:bg-gray-600">
+                        <Collection.Lessons>
+                          <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
+                        </Collection.Lessons>
+                      </Collection.Section>
+                    ) : (
+                      <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-7" />
+                    )}
+                  </Collection.Sections>
+                  {/* Used if module has either none or single section so they can be styled differently */}
+                  <Collection.Lessons className="overflow-hidden rounded-md border border-gray-100 py-0 shadow-xl shadow-gray-500/10 dark:border-gray-900 dark:shadow-none">
+                    {moduleProgressStatus === 'success' ? (
+                      <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300 [&_[data-item]]:py-3" />
+                    ) : (
+                      <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-6 first-of-type:rounded-t last-of-type:rounded-b" />
+                    )}
+                  </Collection.Lessons>
+                </Collection.Root>
+                <ResetProgress
+                  className="flex w-full justify-end pt-3 text-sm text-muted-foreground transition hover:text-foreground"
+                  module={workshop}
+                />
+              </div>
             )}
-            <ResetProgress module={workshop} />
             {workshop.moduleType === 'workshop' && (
               <ModuleCertificate module={workshop} />
             )}
           </div>
-        </main>
+        </aside>
       </Container>
     </Layout>
   )
@@ -202,7 +208,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 pt-8 sm:pb-10 sm:pt-10 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between md:flex-row">
         <div className="w-full text-center md:text-left">
           {tutorial.moduleType === 'bonus' ? (
             <Link
@@ -214,9 +220,9 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
           ) : (
             <Link
               href="/workshops"
-              className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-orange-500 dark:text-orange-300"
+              className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
             >
-              Pro Workshop
+              <ArrowLeft className="w-3" /> All Pro Workshops
             </Link>
           )}
           <h1 className="font-text text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-left lg:text-5xl">

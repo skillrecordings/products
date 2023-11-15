@@ -107,7 +107,7 @@ const Home: NextPage<{
                       key={product.slug}
                       purchasedProductIds={purchasedProductIds}
                     >
-                      <div className={pricingClassNames} key={product.name}>
+                      <div className={pricingClassNames()} key={product.name}>
                         <Pricing
                           options={{
                             withGuaranteeBadge: false,
