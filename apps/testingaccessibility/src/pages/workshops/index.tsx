@@ -2,7 +2,7 @@ import * as React from 'react'
 import Layout from 'components/app/layout'
 import cx from 'classnames'
 import Link from 'next/link'
-import Markdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown'
 import groq from 'groq'
 import {GetServerSideProps} from 'next'
 import {sanityClient} from 'utils/sanity-client'
@@ -90,7 +90,7 @@ const WorkshopItem = ({workshop}: any) => {
     <article className={cx('', {'pb-10': slug, 'pb-4': !slug})}>
       {getTitle(slug)}
       <DisplayDate />
-      <Markdown className="prose pt-3 pb-6">{description}</Markdown>
+      <ReactMarkdown className="prose pt-3 pb-6">{description}</ReactMarkdown>
       {slug && (
         <Link
           href={`/workshops/${slug}`}
