@@ -37,70 +37,75 @@ const Tips: React.FC<{tips: Tip[]}> = ({tips}) => {
       }}
     >
       <Header title={title} />
-      {/* <main className="mx-auto w-full max-w-screen-lg px-5"> */}
       <Container
         as="main"
-        className="relative flex h-full flex-col items-center px-0 sm:px-0 lg:px-0"
+        className="relative flex h-full flex-col items-center border-b px-0 sm:px-0 lg:px-0"
       >
-        <ul className="flex h-full w-full flex-grow grid-cols-2 flex-col divide-y divide-border lg:grid lg:divide-y-0">
-          {tips.map((tip) => {
-            const {title, summary, slug} = tip
-            return (
-              <li key={slug} className="border-b">
-                <Link
-                  className="group"
-                  href={{
-                    pathname: '/tips/[tip]',
-                    query: {
-                      tip: slug,
-                    },
-                  }}
-                  passHref
-                  onClick={() => {
-                    track('clicked view tip', {
-                      tip: slug,
-                    })
-                  }}
-                >
-                  <article className="h-full w-full px-5 py-8 transition group-hover:bg-foreground/5 sm:p-10">
-                    <div className="flex h-full flex-col">
-                      <h2 className="w-full text-2xl lg:text-4xl">
-                        <Balancer>{title}</Balancer>
-                      </h2>
-                      {summary && (
-                        <p className="pt-5 font-light opacity-70">{summary}</p>
+        <ul className="flex h-full w-full flex-col divide-y">
+          {tips ? (
+            tips.map((tip) => {
+              const {title, summary, slug, muxPlaybackId} = tip
+              const thumbnail =
+                muxPlaybackId &&
+                `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve&time=0`
+              return (
+                <li key={slug} className="">
+                  <Link
+                    className="group"
+                    href={{
+                      pathname: '/tips/[tip]',
+                      query: {
+                        tip: slug,
+                      },
+                    }}
+                    passHref
+                    onClick={() => {
+                      track('clicked view tip', {
+                        tip: slug,
+                      })
+                    }}
+                  >
+                    <article className="flex h-full w-full grid-cols-5 flex-col items-center transition group-hover:bg-muted sm:grid">
+                      {thumbnail && (
+                        <div className="relative col-span-2 aspect-video h-full w-full">
+                          <Image
+                            src={thumbnail}
+                            alt=""
+                            aria-hidden="true"
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
                       )}
-                    </div>
-                    <div className="flex w-full items-center justify-between gap-1.5">
-                      {/* <div className="flex items-center gap-1.5">
-                        <Image
-                          src={require('../../../public/theo.jpg')}
-                          alt={config.author}
-                          width={40}
-                          height={40}
-                          placeholder="blur"
-                          className="rounded bg-gray-200"
-                        />
-                        <span>{config.author}</span>
-                      </div> */}
-                      <div className="flex items-center gap-1 text-primary">
-                        View{' '}
-                        <ChevronRightIcon className="relative w-3 transition group-hover:translate-x-1" />
+                      <div className="col-span-3 flex h-full flex-col px-10 py-8">
+                        <h2 className="w-full text-xl font-semibold">
+                          <Balancer>{title}</Balancer>
+                        </h2>
+                        {summary && <p className="pt-3">{summary}</p>}
+                        <div className="mt-5 flex w-full items-center justify-between gap-1.5">
+                          <div className="flex items-center gap-1 text-primary">
+                            View{' '}
+                            <ChevronRightIcon className="relative w-3 transition group-hover:translate-x-1" />
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </article>
-                </Link>
-              </li>
-            )
-          })}
+                    </article>
+                  </Link>
+                </li>
+              )
+            })
+          ) : (
+            <div className="p-10 text-center text-muted-foreground">
+              There are no tips yet. Add some!
+            </div>
+          )}
         </ul>
       </Container>
       {!subscriber && (
-        <Container className="flex items-center justify-center px-0 sm:px-0 lg:px-0">
+        <Container className="flex items-center justify-center border-b px-0 py-16 sm:px-0 lg:px-0">
           <PrimaryNewsletterCta className="w-full" />
         </Container>
       )}
-      {/* </main> */}
     </Layout>
   )
 }

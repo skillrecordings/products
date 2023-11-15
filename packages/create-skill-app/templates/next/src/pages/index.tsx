@@ -20,6 +20,8 @@ import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import config from '../config'
 import Container from '@/components/app/container'
 import Balancer from 'react-wrap-balancer'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {pricingClassNames} from '@/styles/commerce'
 
 const defaultProductId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -85,40 +87,18 @@ const Home: NextPage<{
         <h1 className="leading-0 w-full text-center text-4xl font-bold sm:text-5xl lg:text-6xl">
           <Balancer>{config.description}</Balancer>
         </h1>
-        <div className="bottom-[20%] right-[15%] mt-8 flex items-center gap-2 lg:absolute lg:mt-0">
-          <Image
-            src={require('../../public/instructor.png')}
-            alt={config.author}
-            priority
-            className="w-12 rounded-sm lg:w-auto"
-            width={64}
-            height={64}
-          />
-          <div className="flex flex-col">
-            <span className="text-base">{config.author}</span>
-            <span className="text-sm opacity-60">Author & Instructor</span>
-          </div>
-        </div>
-        {/* <Image
-          priority
-          className="-z-10 object-cover sm:object-contain"
-          src={require('../../public/assets/hero@2x.jpg')}
-          fill
-          alt=""
-          aria-hidden="true"
-        /> */}
       </Container>
       <main>
-        <Container>
+        <Container className="pb-24">
           {landingCopy && (
             <article className="prose mx-auto w-full max-w-2xl px-6 dark:prose-invert sm:prose-lg sm:px-3">
               <MDX contents={landingCopy} />
             </article>
           )}
         </Container>
-        <Container>
+        <Container className="border-t py-10">
           {ALLOW_PURCHASE ? (
-            <section id="buy">
+            <section id="buy" className="grid grid-cols-2 gap-10">
               {products
                 ?.filter((product: any) => product.state !== 'unavailable')
                 .map((product, i) => {
@@ -127,8 +107,11 @@ const Home: NextPage<{
                       key={product.slug}
                       purchasedProductIds={purchasedProductIds}
                     >
-                      <div data-pricing-container="" key={product.name}>
+                      <div className={pricingClassNames} key={product.name}>
                         <Pricing
+                          options={{
+                            withGuaranteeBadge: false,
+                          }}
                           bonuses={bonuses}
                           allowPurchase={ALLOW_PURCHASE}
                           userId={commerceProps?.userId}
@@ -158,16 +141,14 @@ const Home: NextPage<{
             <Image
               src={require('../../public/instructor.png')}
               alt={config.author}
-              width={478}
-              height={582}
+              width={200}
+              height={200}
               quality={100}
             />
           </div>
           <div className="max-w-lg px-6 pb-32 sm:px-0 sm:pb-5">
-            <h3 className="font- text-3xl sm:text-4xl lg:text-5xl">
-              Lorem Adam Dolor Sit
-            </h3>
-            <p className="pt-5 text-lg leading-relaxed sm:pt-8">
+            <h3 className="text-2xl font-semibold">Lorem ipsum dolor</h3>
+            <p className="pt-5">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
               ultrices porta metus, a imperdiet lorem aliquam finibus. Etiam
               dapibus fermentum ligula, vel tincidunt dui tempus nec. Morbi a

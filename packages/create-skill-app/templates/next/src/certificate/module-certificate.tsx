@@ -17,7 +17,7 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
 
   return moduleProgressStatus === 'success' ? (
     <Dialog.Root>
-      <div className="flex w-full flex-col items-start justify-center py-8 sm:max-w-sm">
+      <div className="flex w-full flex-col items-start justify-center sm:max-w-sm">
         <h2 className="flex items-center gap-1 pb-2 text-2xl font-semibold">
           Certificate
         </h2>

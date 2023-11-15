@@ -83,13 +83,13 @@ async function run(): Promise<void> {
       type: 'text',
       name: 'firstName',
       message: `What is our partner's first name?`,
-      initial: 'First',
+      initial: 'John',
     },
     {
       type: 'text',
       name: 'lastName',
       message: `What is our partner's last name?`,
-      initial: 'Last',
+      initial: 'Doe',
     },
     {
       type: 'text',

@@ -24,6 +24,12 @@ import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import {CogIcon, PlayIcon} from 'lucide-react'
 import Container from '@/components/app/container'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import {useRouter} from 'next/router'
+import {pricingClassNames} from '@/styles/commerce'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -42,6 +48,22 @@ const WorkshopTemplate: React.FC<{
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
   )
+  const product = workshop.product as SanityProduct
+
+  const useAbilities = () => {
+    const {data: abilityRules, status: abilityRulesStatus} =
+      trpc.modules.rules.useQuery({
+        moduleSlug: workshop.slug.current,
+        moduleType: workshop.moduleType,
+      })
+    return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
+  }
+  const {ability, abilityRulesStatus} = useAbilities()
+
+  const canViewRegionRestriction = ability.can('view', 'RegionRestriction')
+
+  const canView = ability.can('view', 'Content')
+  const router = useRouter()
 
   return (
     <Layout
@@ -58,8 +80,8 @@ const WorkshopTemplate: React.FC<{
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
         <CourseMeta title={pageTitle} description={description} />
         {workshop.state === 'draft' && (
-          <div className="flex w-full items-center justify-center gap-2 border border-orange-500/20 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:text-base">
-            <CogIcon className="h-5 w-5 animate-[spin_10s_linear_infinite]" />{' '}
+          <div className="flex w-full items-center justify-center gap-2 border border-orange-500/20 bg-orange-500/10 px-5 py-3 text-xs leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:text-sm">
+            <CogIcon className="h-4 w-4 animate-[spin_10s_linear_infinite]" />{' '}
             {capitalize(workshop.moduleType)} under development — you're viewing
             a draft version.
           </div>
@@ -96,7 +118,33 @@ const WorkshopTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )} */}
           </div>
-          <div className="w-full px-5 lg:max-w-sm lg:px-0">
+          <div className="flex w-full flex-col gap-10 px-5 lg:max-w-sm lg:px-0">
+            {product && commercePropsStatus === 'loading' ? (
+              <Skeleton className="h-10 w-full" />
+            ) : (
+              <div className={pricingClassNames}>
+                {!canView && product && (
+                  <PriceCheckProvider
+                    purchasedProductIds={commerceProps?.purchases?.map(
+                      (p) => p.id,
+                    )}
+                  >
+                    <Pricing
+                      canViewRegionRestriction={canViewRegionRestriction}
+                      product={product}
+                      allowPurchase={product.state === 'active'}
+                      cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
+                      purchases={commerceProps?.purchases}
+                      userId={commerceProps?.userId}
+                      options={{
+                        withGuaranteeBadge: false,
+                        withImage: true,
+                      }}
+                    />
+                  </PriceCheckProvider>
+                )}
+              </div>
+            )}
             {workshop && (
               <Collection.Root module={workshop}>
                 <div className="flex w-full items-center justify-between pb-3">

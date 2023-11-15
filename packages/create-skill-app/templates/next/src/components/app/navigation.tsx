@@ -117,10 +117,13 @@ const Navigation: React.FC<NavigationProps> = ({
       >
         <motion.nav
           aria-label="top"
-          className={cn('relative mx-auto flex h-20 w-full text-sm', className)}
+          className={cn(
+            'relative mx-auto flex h-16 w-full text-sm font-semibold',
+            className,
+          )}
         >
           <Container className="relative flex items-center justify-between px-5 sm:px-5 lg:px-5">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-5">
               <Link
                 href="/"
                 aria-current={isRoot}
@@ -196,7 +199,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     type: 'spring',
                     duration: 0.5,
                   }}
-                  className="absolute left-0 top-[81px] grid w-full origin-top grid-cols-2 flex-col border-b bg-background text-lg font-medium shadow-2xl shadow-black/20 backdrop-blur-md md:hidden"
+                  className="absolute left-0 top-[65px] grid w-full origin-top grid-cols-2 flex-col border-b bg-background text-lg font-medium shadow-2xl shadow-black/20 backdrop-blur-md md:hidden"
                 >
                   {navigationLinks.map(({label, href, icon}, i) => {
                     return (

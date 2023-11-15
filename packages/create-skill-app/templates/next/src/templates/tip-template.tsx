@@ -22,9 +22,9 @@ import {getOgImage} from '@/utils/get-og-image'
 import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 import {localProgressDb} from '@skillrecordings/skill-lesson/utils/dexie'
 import {
-  redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit-react-ui'
+  convertkitRedirectUrlBuilder,
+} from '@skillrecordings/ui'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd, VideoJsonLd} from '@skillrecordings/next-seo'
@@ -67,9 +67,13 @@ const TipTemplate: React.FC<{
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
-      const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
-        confirmToast: 'true',
-      })
+      const redirectUrl = convertkitRedirectUrlBuilder(
+        subscriber,
+        router.asPath,
+        {
+          confirmToast: 'true',
+        },
+      )
       email && setUserId(email)
       track('subscribed to email list', {
         lesson: tip.slug,
@@ -164,7 +168,7 @@ const TipTemplate: React.FC<{
                 )}
                 {tipBody && (
                   <>
-                    <div className="prose w-full max-w-none pb-5 pt-5">
+                    <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert">
                       <MDX contents={tipBody} />
                     </div>
                   </>
@@ -227,7 +231,7 @@ const Transcript: React.FC<{
   return (
     <section aria-label="transcript">
       <h2 className="text-2xl font-bold">Transcript</h2>
-      <div className="prose max-w-none pt-4">
+      <div className="prose max-w-none pt-4 dark:prose-invert">
         <ReactMarkdown components={markdownComponents}>
           {transcript}
         </ReactMarkdown>
@@ -417,6 +421,7 @@ const SubscribeForm = ({
         New {process.env.NEXT_PUBLIC_SITE_TITLE} tips delivered to your inbox
       </div>
       <SubscribeToConvertkitForm
+        className="flex items-center gap-5 [&>[data-sr-input-label]]:hidden"
         actionLabel={`Subscribe for more tips`}
         onSuccess={(subscriber, email) => {
           return handleOnSuccess(subscriber, email)
