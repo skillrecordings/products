@@ -4,12 +4,11 @@ import {motion} from 'framer-motion'
 import Image from 'next/image'
 import {first} from 'lodash'
 import RootTemplate from '../templates/root'
-import ReactMarkdown from 'react-markdown'
+import Markdown from 'react-markdown'
 
 export const meta = {
   title: config.defaultTitle,
-  headline:
-    'Ship <span className="bg-gradient-to-l from-sky-50 to-cyan-200 bg-clip-text text-transparent decoration-clone">Full-Stack TypeScript Applications</span> Like a Pro',
+  headline: 'Ship <span className="bg-gradient-to-l from-sky-50 to-cyan-200 bg-clip-text text-transparent decoration-clone">Full-Stack TypeScript Applications</span> Like a Pro',
   description: config.description,
   titleAppendSiteName: false,
   url: config.siteUrl,
@@ -18,14 +17,13 @@ export const meta = {
   headerBgClassName: 'bg-landing-header',
   formBgClassName: 'bg-landing-form',
   ckFormId: 3071922, // ALL TypeScript Email Course
-  formHeadline:
-    'The missing manual to becoming a full stack TypeScript engineer',
+  formHeadline: 'The missing manual to becoming a full stack TypeScript engineer',
   formSubHeadline: 'Start a free email course by signing up below.',
 }
 
-export default ({children}) => (
-  <RootTemplate meta={meta}>{children}</RootTemplate>
-)
+export default ({ children }) => (
+<RootTemplate meta={meta}>{children}</RootTemplate>
+);
 
 <section className="bg-gradient-to-b from-transparent via-black/50 bg-opacity-75 mt-24 pb-8">
 
@@ -55,9 +53,7 @@ The sad part is that you are not even close to writing any functionality. You’
 
 <h2 className="text-center py-8">
   You don’t know how to use TypeScript effectively.{' '}
-  <Annotation type="underline" strokeWidth={6}>
-    Yet.
-  </Annotation>
+  <Annotation type="underline" strokeWidth={6}>Yet.</Annotation>
 </h2>
 
 If you’re writing new TypeScript code that requires a lot of advanced and complex types, you’re doing it wrong.
@@ -72,9 +68,7 @@ You don't need to know how to do complex-mind-expanding things with TypeScript.
 
 <h2 className="text-center py-8">
   You are {''}
-  <Annotation type="underline" strokeWidth={6}>
-    NOT
-  </Annotation> a compiler engineer
+  <Annotation type="underline" strokeWidth={6}>NOT</Annotation> a compiler engineer
 </h2>
 
 You're a doer.
@@ -91,9 +85,7 @@ Solving another batch of type challenges won’t create an inflection point in y
 
 <h2 className="text-center py-8">
   You deserve a effective approach for shipping {''}
-  <Annotation type="underline" strokeWidth={6}>
-    real production
-  </Annotation> applications
+  <Annotation type="underline" strokeWidth={6}>real production</Annotation> applications
 </h2>
 
 In this code-along interactive workshop experience, you will learn principles. Derive techniques. But most importantly, you will ship real production TypeScript code that helps you climb the engineering ladder.
