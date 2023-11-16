@@ -678,7 +678,7 @@ const WorkshopListItem: React.FC<{
   }
   return (
     <>
-      {module.image && (
+      {module.image?.url && (
         <div data-image="" aria-hidden="true">
           <Image
             src={module.image.url}

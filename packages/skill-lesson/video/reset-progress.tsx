@@ -67,7 +67,7 @@ const ResetProgress: React.FC<{
   const lessons = module.sections?.map((section) => section.lessons).flat()
   // make this accept another param called Module
   // e: React.MouseEventHandler<HTMLButtonElement>; module: Module
-  const {handleReset} = useModuleProgressReset(e, module, setOpen)
+  const {handleReset} = useModuleProgressReset(module, setOpen)
   return (
     <div data-reset-progress="" className={cn(containerClassName)}>
       <Dialog.Root open={open} onOpenChange={setOpen}>

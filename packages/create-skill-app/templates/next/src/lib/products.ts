@@ -35,13 +35,13 @@ export async function getProduct(productId: string): Promise<Product | null> {
         _createdAt,
         productId,
         title,
-        image,
+        "image": image.asset->{url, alt},
         state,
         "slug": slug.current,
         body,
         modules[]->{
           ...,
-          "image": image.asset->{url},
+          "image": {"url": image.secure_url},
         }
   }`,
     {productId},
