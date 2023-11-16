@@ -16,13 +16,14 @@ module.exports = {
     './node_modules/@skillrecordings/ui/admin/**/*.tsx',
     './node_modules/@skillrecordings/ui/profile/**/*.tsx',
     './node_modules/@skillrecordings/skill-lesson/path-to-purchase/**/*.tsx',
+    './node_modules/@skillrecordings/skill-lesson/video/**/*.tsx',
   ],
   theme: {
     container: {
       center: true,
       padding: '2rem',
       screens: {
-        '2xl': '1400px',
+        '2xl': '1280px',
       },
     },
     extend: {
@@ -99,5 +100,6 @@ module.exports = {
     require('tailwind-scrollbar'),
     require('tailwindcss-radix'),
     require('tailwindcss-animate'),
+    require('tailwindcss-group-modifier-plugin'),
   ],
 }
