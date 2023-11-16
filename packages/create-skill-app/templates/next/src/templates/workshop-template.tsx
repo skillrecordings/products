@@ -53,6 +53,7 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import * as Dialog from '@radix-ui/react-dialog'
 import CertificateForm from '@/certificate/certificate-form'
 import {RxReset} from 'react-icons/rx'
+import pluralize from 'pluralize'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -239,16 +240,6 @@ export default WorkshopTemplate
 
 const Header: React.FC<{module: Module}> = ({module}) => {
   const {title, slug, sections, image, github} = module
-
-  // Progress
-
-  const {data: moduleProgress, status: moduleProgressStatus} =
-    trpc.moduleProgress.bySlug.useQuery({
-      slug: module.slug.current,
-    })
-
-  const nextSection = moduleProgress?.nextSection
-  const nextLesson = moduleProgress?.nextLesson
   const firstSection = first<Section>(sections)
   const firstLesson = first<Lesson>(firstSection?.lessons || module.lessons)
   const instructorName = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
@@ -257,21 +248,12 @@ const Header: React.FC<{module: Module}> = ({module}) => {
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between md:flex-row">
         <div className="w-full text-center md:text-left">
-          {module.moduleType === 'bonus' ? (
-            <Link
-              href="/bonuses"
-              className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-orange-500 dark:text-orange-300"
-            >
-              Bonus
-            </Link>
-          ) : (
-            <Link
-              href="/workshops"
-              className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
-            >
-              <ArrowLeft className="w-3" /> All Pro Workshops
-            </Link>
-          )}
+          <Link
+            href={`/${pluralize(module.moduleType)}`}
+            className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
+          >
+            <ArrowLeft className="w-3" /> All {pluralize(module.moduleType)}
+          </Link>
           <h1 className="font-text text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
             <Balancer>{title}</Balancer>
           </h1>
@@ -395,8 +377,7 @@ const WorkshopCTA: React.FC<{module: Module; className?: string}> = ({
                 ? {
                     pathname: `/[type]/[module]/[section]/[lesson]`,
                     query: {
-                      type:
-                        module.moduleType === 'bonus' ? 'bonuses' : 'workshops',
+                      type: pluralize(module.moduleType),
                       module: slug.current,
                       section: isModuleInProgress
                         ? nextSection?.slug
@@ -409,8 +390,7 @@ const WorkshopCTA: React.FC<{module: Module; className?: string}> = ({
                 : {
                     pathname: '/[type]/[module]/[lesson]',
                     query: {
-                      type:
-                        module.moduleType === 'bonus' ? 'bonuses' : 'workshops',
+                      type: pluralize(module.moduleType),
                       module: slug.current,
                       lesson: isModuleInProgress
                         ? nextLesson?.slug

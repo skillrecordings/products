@@ -80,13 +80,22 @@ const Home: NextPage<{
 
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
-
+  const instructorName = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   return (
     <Layout>
       <Container as="header" className="py-48">
         <h1 className="leading-0 w-full text-center text-4xl font-bold sm:text-5xl lg:text-6xl">
           <Balancer>{config.description}</Balancer>
         </h1>
+        <div className="mt-10 flex items-center justify-center gap-2">
+          <Image
+            src={require('../../public/instructor.png')}
+            alt={instructorName}
+            width={48}
+            height={48}
+          />
+          <span>{instructorName}</span>
+        </div>
       </Container>
       <main>
         <Container className="pb-24">
@@ -98,44 +107,46 @@ const Home: NextPage<{
         </Container>
         <Container className="border-t py-10">
           {ALLOW_PURCHASE ? (
-            <section id="buy" className="grid grid-cols-2 gap-10">
-              {products
-                ?.filter((product: any) => product.state !== 'unavailable')
-                .map((product, i) => {
-                  return (
-                    <PriceCheckProvider
-                      key={product.slug}
-                      purchasedProductIds={purchasedProductIds}
-                    >
-                      <div className={pricingClassNames()} key={product.name}>
-                        <Pricing
-                          options={{
-                            withGuaranteeBadge: false,
-                          }}
-                          bonuses={bonuses}
-                          allowPurchase={ALLOW_PURCHASE}
-                          userId={commerceProps?.userId}
-                          product={product}
-                          purchased={purchasedProductIds.includes(
-                            product.productId,
-                          )}
-                          purchases={commerceProps?.purchases}
-                          index={i}
-                          couponId={couponId}
-                        />
-                      </div>
-                    </PriceCheckProvider>
-                  )
-                })}
+            <section id="buy" className="py-16">
+              <h2 className="pb-10 text-center text-4xl font-bold">Buy Now</h2>
+              <div className="items-starts flex justify-center gap-10">
+                {products
+                  ?.filter((product: any) => product.state !== 'unavailable')
+                  .map((product, i) => {
+                    return (
+                      <PriceCheckProvider
+                        key={product.slug}
+                        purchasedProductIds={purchasedProductIds}
+                      >
+                        <div className={pricingClassNames()} key={product.name}>
+                          <Pricing
+                            options={{
+                              withGuaranteeBadge: false,
+                            }}
+                            bonuses={bonuses}
+                            allowPurchase={ALLOW_PURCHASE}
+                            userId={commerceProps?.userId}
+                            product={product}
+                            purchased={purchasedProductIds.includes(
+                              product.productId,
+                            )}
+                            purchases={commerceProps?.purchases}
+                            index={i}
+                            couponId={couponId}
+                          />
+                        </div>
+                      </PriceCheckProvider>
+                    )
+                  })}
+              </div>
             </section>
           ) : (
-            <PrimaryNewsletterCta />
+            <PrimaryNewsletterCta className="py-16" />
           )}
         </Container>
-
         <Container
           as="section"
-          className="relative flex flex-col items-center gap-10 border-t pt-16 sm:flex-row sm:gap-20 sm:pt-32"
+          className="relative flex flex-col items-center justify-center gap-5 border-y py-16 sm:flex-row sm:gap-10"
         >
           <div className="relative">
             <Image
