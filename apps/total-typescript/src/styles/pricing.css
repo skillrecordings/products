@@ -221,7 +221,7 @@
       }
 
       [data-pricing-product-checkout-button] {
-        @apply flex w-full items-center justify-center rounded-md bg-gradient-to-b from-cyan-300 to-cyan-400 px-5 py-4 text-center text-lg font-semibold text-gray-900 brightness-105 transition ease-in-out focus-visible:ring-white disabled:cursor-wait hover:scale-105 hover:shadow-xl hover:shadow-cyan-700/40 hover:brightness-110;
+        @apply flex w-full items-center justify-center rounded-md bg-gradient-to-b from-cyan-300 to-cyan-400 px-5 py-4 text-center text-lg font-semibold text-gray-900 brightness-105 transition ease-in-out hover:scale-105 hover:shadow-xl hover:shadow-cyan-700/40 hover:brightness-110 focus-visible:ring-white disabled:cursor-wait;
 
         span {
           @apply relative z-10;
@@ -325,12 +325,11 @@
             }
           }
           [data-features] {
-            @apply space-y-4;
             strong {
-              @apply pb-4;
+              @apply flex pb-2;
             }
             li {
-              @apply flex items-start before:pr-2 before:font-bold before:text-cyan-500 before:content-['✓'];
+              @apply flex items-start py-1 before:pr-2 before:font-bold before:text-cyan-500 before:content-['✓'];
             }
             p {
               @apply text-base text-gray-100;
@@ -444,7 +443,7 @@
       }
 
       [data-sr-button] {
-        @apply relative flex w-full flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-b from-cyan-300 to-cyan-400 px-5 py-3 text-lg font-semibold text-black shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
+        @apply relative flex w-full flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-b from-cyan-300 to-cyan-400 px-5 py-3 text-lg font-semibold text-black shadow-2xl shadow-cyan-900/50 transition hover:brightness-110 focus-visible:ring-white;
 
         svg {
           @apply h-7 w-7;

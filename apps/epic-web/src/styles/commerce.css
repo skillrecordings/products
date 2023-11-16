@@ -403,12 +403,11 @@
             }
 
             [data-features] {
-              @apply space-y-4;
               strong {
-                @apply flex pb-4;
+                @apply flex;
               }
               li {
-                @apply flex items-start before:pr-2 before:font-bold before:text-primary before:content-['✓'];
+                @apply flex items-start py-1 before:pr-2 before:font-bold before:text-primary before:content-['✓'];
               }
               p {
                 @apply text-base text-foreground;
