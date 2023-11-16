@@ -76,6 +76,19 @@ import {
 import {Checkbox} from './checkbox'
 import {Calendar} from './calendar'
 import {Popover, PopoverTrigger, PopoverContent} from './popover'
+import {
+  AlertDialog,
+  AlertDialogPortal,
+  AlertDialogOverlay,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from './alert-dialog'
 
 export {
   Button,
@@ -147,4 +160,15 @@ export {
   Popover,
   PopoverTrigger,
   PopoverContent,
+  AlertDialog,
+  AlertDialogPortal,
+  AlertDialogOverlay,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
 }

@@ -1,10 +1,11 @@
+import {ClockIcon} from '@heroicons/react/outline'
+import pluralize from 'pluralize'
 import React from 'react'
 import Countdown, {type CountdownRenderProps} from 'react-countdown'
 
-const SaleCountdown: React.FC<React.PropsWithChildren<any>> = ({
-  coupon,
-  ...rest
-}) => {
+const SaleCountdown: React.FC<
+  React.PropsWithChildren<{coupon: any; size?: 'sm' | 'lg'}>
+> = ({coupon, size = 'lg', ...rest}) => {
   // storing coupon in state so that it doesn't rerender
   // and cause layout shift when quantity changes
   const [storedCoupon, setStoredCoupon] = React.useState(coupon)
@@ -17,14 +18,20 @@ const SaleCountdown: React.FC<React.PropsWithChildren<any>> = ({
   return (
     <Countdown
       date={storedCoupon.expires}
-      renderer={(props) => <CountdownRenderer {...props} {...rest} />}
+      renderer={(props) =>
+        size === 'sm' ? (
+          <CountdownRendererSm {...props} {...rest} />
+        ) : (
+          <CountdownRendererLg {...props} {...rest} />
+        )
+      }
     />
   )
 }
 
 export default SaleCountdown
 
-const CountdownRenderer: React.FC<
+const CountdownRendererLg: React.FC<
   React.PropsWithChildren<CountdownRenderProps>
 > = ({days, hours, minutes, seconds, completed, ...rest}) => {
   const [srValues] = React.useState({
@@ -103,6 +110,37 @@ const CountdownRenderer: React.FC<
             </div>
           </div>
           <div className="sr-only">{screenReaderValues}</div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+const CountdownRendererSm: React.FC<
+  React.PropsWithChildren<CountdownRenderProps>
+> = ({days, hours, minutes, seconds, completed, ...rest}) => {
+  const [srValues] = React.useState({
+    days,
+    hours,
+    minutes,
+    seconds,
+  })
+
+  return completed ? null : (
+    <>
+      <div className="w-full px-10 pb-7" {...rest}>
+        <div className="w-full rounded-lg text-center">
+          <p className="flex items-center gap-1">
+            <ClockIcon className="w-5" />{' '}
+            {days > 0
+              ? `${days} ${pluralize('day', days)}`
+              : hours > 0
+              ? `${hours} ${pluralize('hour', hours)}`
+              : minutes > 0
+              ? `${minutes} ${pluralize('minute', minutes)}`
+              : `${seconds} ${pluralize('second', seconds)}`}{' '}
+            left at this price!
+          </p>
         </div>
       </div>
     </>

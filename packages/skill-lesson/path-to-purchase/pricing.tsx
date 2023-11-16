@@ -75,6 +75,7 @@ type PricingProps = {
     withGuaranteeBadge?: boolean
     isPPPEnabled?: boolean
     teamQuantityLimit?: number
+    saleCountdownRenderer?: ({coupon}: {coupon: any}) => React.ReactNode
   }
 }
 
@@ -102,7 +103,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   allowPurchase: generallyAllowPurchase = false,
   canViewRegionRestriction = false,
   cancelUrl,
-  options = {withImage: true, isPPPEnabled: false, withGuaranteeBadge: true},
+  options = {
+    withImage: true,
+    isPPPEnabled: false,
+    withGuaranteeBadge: true,
+    saleCountdownRenderer: () => null,
+  },
 }) => {
   const {
     withImage,
@@ -269,6 +275,15 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 )}
             </div>
           ) : null}
+          {options.saleCountdownRenderer
+            ? options.saleCountdownRenderer({
+                coupon:
+                  Number(couponFromCode?.percentageDiscount) >=
+                  Number(defaultCoupon?.percentageDiscount)
+                    ? couponFromCode
+                    : defaultCoupon,
+              })
+            : null}
           {purchased ? (
             <>
               <div data-pricing-product-header="">
@@ -464,16 +479,20 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               )}
             </div>
           )}
-          {(isSellingLive || allowPurchase) && !purchased && (
-            <SaleCountdown
-              coupon={
-                Number(couponFromCode?.percentageDiscount) >=
-                Number(defaultCoupon?.percentageDiscount)
-                  ? couponFromCode
-                  : defaultCoupon
-              }
-              data-pricing-product-sale-countdown={index}
-            />
+          {!options.saleCountdownRenderer && (
+            <>
+              {(isSellingLive || allowPurchase) && !purchased && (
+                <SaleCountdown
+                  coupon={
+                    Number(couponFromCode?.percentageDiscount) >=
+                    Number(defaultCoupon?.percentageDiscount)
+                      ? couponFromCode
+                      : defaultCoupon
+                  }
+                  data-pricing-product-sale-countdown={index}
+                />
+              )}
+            </>
           )}
           {showPPPBox &&
             !canViewRegionRestriction &&
@@ -612,17 +631,23 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   </ul>
                 </div>
               )}
+
               {features && (
-                <>
+                <div data-features="">
                   <strong>Features</strong>
-                  <ul data-features="" role="list">
-                    {features.map((feature: {value: string}) => (
+                  <ul role="list">
+                    {features.map((feature: {value: string; icon?: string}) => (
                       <li key={feature.value}>
+                        {feature.icon && (
+                          <span
+                            dangerouslySetInnerHTML={{__html: feature.icon}}
+                          />
+                        )}
                         <p>{feature.value}</p>
                       </li>
                     ))}
                   </ul>
-                </>
+                </div>
               )}
               {product.slug && lessons && (
                 <div data-contents="">
@@ -656,7 +681,9 @@ const WorkshopListItem: React.FC<{
       {module.image && (
         <div data-image="" aria-hidden="true">
           <Image
-            src={module.image.url}
+            src={
+              typeof module.image === 'object' ? module.image.url : module.image
+            }
             layout="fill"
             alt={module.title}
             aria-hidden="true"
