@@ -681,9 +681,7 @@ const WorkshopListItem: React.FC<{
       {module.image && (
         <div data-image="" aria-hidden="true">
           <Image
-            src={
-              typeof module.image === 'object' ? module.image.url : module.image
-            }
+            src={module.image.url}
             layout="fill"
             alt={module.title}
             aria-hidden="true"

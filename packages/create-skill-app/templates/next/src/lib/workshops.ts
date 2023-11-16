@@ -130,7 +130,7 @@ export const getWorkshop = async (slug: string) =>
             "slug": slug.current,
             moduleType,
             title,
-            "image": image.secure_url,
+            "image": {"url": image.secure_url},
             state,
           },
           features[]{

@@ -92,12 +92,10 @@ export type SanityProductModule = {
   title: string
   state?: 'draft' | 'published'
   description?: string
-  image:
-    | {
-        url: string
-        alt: string
-      }
-    | string
+  image: {
+    url: string
+    alt: string
+  }
   sections?: {
     _id: string
     title: string
