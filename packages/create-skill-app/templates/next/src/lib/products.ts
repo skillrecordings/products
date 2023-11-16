@@ -51,3 +51,33 @@ export async function getProduct(productId: string): Promise<Product | null> {
 
   return ProductSchema.parse(product)
 }
+
+export const getAllProducts = async () => {
+  const products = await sanityClient.fetch(
+    groq`*[_type == 'product'][]{
+    _id,
+    title,
+    description,
+    productId,
+    state,
+    "slug": slug.current,
+    _id,
+    image {
+      url,
+      alt
+    },
+    "modules" : modules[]->{
+      title,
+      moduleType,
+      "slug": slug.current,
+      "image": {"url": image.secure_url},
+      state,
+    },
+    "bonuses": *[_type == 'bonus'][]{...},
+    "features" : features[]{
+    value
+   }
+    }`,
+  )
+  return products
+}

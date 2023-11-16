@@ -71,7 +71,7 @@ export const getAllProducts = async () => {
       title,
       moduleType,
       "slug": slug.current,
-      "image": {"url": image.secure_url},
+      "image": image.asset->{url},
       state,
     },
     "bonuses": *[_type == 'bonus'][]{...},
