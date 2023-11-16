@@ -25,6 +25,8 @@ export const lessonsRouter = router({
       const section = input.section && (await getSection(input.section))
       const module = input.module && (await getModule(input.module))
 
+      // it seems like this conditional and return are going result in the
+      // case statement for `exercise` below never getting triggered.
       if (input.type === 'exercise') {
         return LessonResourceSchema.parse(lesson.solution)
       }
