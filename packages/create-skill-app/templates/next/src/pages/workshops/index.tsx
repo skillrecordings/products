@@ -19,6 +19,8 @@ import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {Progress, Skeleton} from '@skillrecordings/ui'
 import {getAllBonuses} from '@/lib/bonuses'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import Header from '@/components/app/header'
+import Container from '@/components/app/container'
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
@@ -28,7 +30,7 @@ export async function getStaticProps() {
   )
 
   return {
-    props: {workshops, defaultProduct, bonuses},
+    props: {modules: workshops, defaultProduct, bonuses},
     revalidate: 10,
   }
 }
@@ -43,10 +45,12 @@ const sectionsFlatMap = (sections: any[]) => {
 }
 
 const WorkshopsPage: React.FC<{
-  workshops: Module[]
+  modules: Module[]
   bonuses?: Module[]
+  title: string
   defaultProduct: Product
-}> = ({workshops, defaultProduct, bonuses}) => {
+}> = ({modules, title = 'Professional Workshops', defaultProduct, bonuses}) => {
+  const workshops = modules
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
@@ -61,54 +65,54 @@ const WorkshopsPage: React.FC<{
   const canViewContent = ability.can('view', 'Content')
 
   return (
+    <ModulesTemplate
+      title="Professional Workshops"
+      modules={modules}
+      bonuses={bonuses}
+    />
+  )
+}
+
+export default WorkshopsPage
+
+export const ModulesTemplate: React.FC<{
+  modules: Module[]
+  bonuses?: Module[]
+  title: string
+}> = ({title, modules, bonuses}) => {
+  const workshops = modules
+  return (
     <Layout
       meta={{
-        title: 'Workshops',
+        title,
         description: undefined,
         openGraph: {
           images: undefined,
         },
       }}
     >
-      <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-between px-5 pt-16 lg:flex-row lg:items-start">
-        <div className="flex flex-col items-center space-y-3 text-center lg:items-start lg:text-left">
-          <h1 className="flex flex-col text-4xl font-semibold">
-            <span className="mb-2 inline-block bg-gradient-to-r from-blue-500 to-fuchsia-600 bg-clip-text text-xs uppercase tracking-widest text-transparent dark:from-blue-300 dark:to-fuchsia-400">
-              Professional
-            </span>{' '}
-            Workshops
-          </h1>
-          <h2 className="w-full max-w-md text-base text-gray-600 dark:text-gray-400">
-            <Balancer>
-              A collection of exercise-driven, in-depth workshops.
-            </Balancer>
-          </h2>
-        </div>
-        <div className="flex w-full max-w-md items-center justify-center pt-16 lg:min-h-[204px] lg:justify-end lg:pl-8 lg:pt-0">
-          {abilityRulesStatus === 'loading' ? (
-            <div className="relative">
-              <ProductCTA
-                product={defaultProduct}
-                className="pointer-events-none w-full select-none opacity-0"
-              />
-              <Skeleton className="absolute left-0 top-0 h-full w-full rounded-md bg-foreground/5" />
-            </div>
-          ) : (
-            <>
-              {canViewContent ? null : (
-                <ProductCTA
-                  restricted={isRestricted}
-                  className="w-full"
-                  product={defaultProduct}
-                />
-              )}
-            </>
-          )}
-        </div>
-      </header>
-      <main className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col justify-center gap-5 px-5 pb-24 pt-16">
+      <Header
+        title={title}
+        // slots={[
+        //   {
+        //     component: (
+        //       <>
+        //         {canViewContent ? null : (
+        //           <ProductCTA
+        //             restricted={isRestricted}
+        //             className="w-full"
+        //             product={defaultProduct}
+        //           />
+        //         )}
+        //       </>
+        //     ),
+        //   },
+        // ]}
+      />
+
+      <Container as="main" className="border-b py-10">
         {workshops && (
-          <ul className="flex flex-col gap-5">
+          <ul className="flex flex-col items-center gap-5">
             {workshops.map((workshop, i) => {
               return (
                 <ModuleProgressProvider moduleSlug={workshop.slug.current}>
@@ -146,18 +150,17 @@ const WorkshopsPage: React.FC<{
             })}
           </ul>
         )}
-      </main>
+      </Container>
     </Layout>
   )
 }
-
-export default WorkshopsPage
 
 const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
   workshop,
   index,
 }) => {
-  const {title, slug, image, description, sections, lessons} = workshop
+  const {title, slug, image, description, sections, lessons, moduleType} =
+    workshop
   const router = useRouter()
   const moduleProgress = useModuleProgress()
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
@@ -165,8 +168,8 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
-        moduleSlug: workshop.slug.current,
-        moduleType: workshop.moduleType,
+        moduleSlug: slug.current,
+        moduleType: moduleType,
       })
     return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
   }
@@ -180,22 +183,30 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
     'lesson'
 
   const instructorName = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
-
+  const pathBuilder = (moduleType: string) => {
+    switch (moduleType) {
+      case 'bonus':
+        return '/bonuses/[module]'
+      case 'tutorial':
+        return '/tutorials/[module]'
+      case 'workshop':
+        return '/workshops/[module]'
+      default:
+        return '/workshops/[module]'
+    }
+  }
   return (
     <motion.li>
       <Link
-        className="shadow-soft-xl relative flex w-full flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-100 bg-white bg-gradient-to-tr from-transparent to-white/50 p-5 transition before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:border-transparent dark:from-gray-900 dark:to-gray-800 dark:hover:brightness-110 md:flex-row md:p-10 md:pl-10"
+        className="flex flex-col items-center gap-10 md:flex-row"
         href={{
-          pathname:
-            workshop.moduleType === 'bonus'
-              ? '/bonuses/[module]'
-              : '/workshops/[module]',
+          pathname: pathBuilder(moduleType),
           query: {
             module: slug.current,
           },
         }}
       >
-        {workshop.moduleType === 'bonus' ? (
+        {moduleType === 'bonus' ? (
           isModuleInProgress && moduleProgress?.moduleCompleted ? (
             <div
               className={cn(

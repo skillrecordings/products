@@ -17,16 +17,16 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
 
   return moduleProgressStatus === 'success' ? (
     <Dialog.Root>
-      <div className="flex w-full flex-col items-start justify-center py-8 sm:max-w-sm">
-        <h2 className="flex items-center gap-1 pb-2 text-2xl font-semibold">
+      <div className="flex w-full flex-col items-start justify-center py-8">
+        <h3 className="flex items-center gap-1 pb-2 text-lg font-semibold">
           Certificate
-        </h2>
-        <div className="relative flex w-full items-center justify-center rounded">
-          <div className="relative flex aspect-[1.414/1] h-full w-full flex-col items-center justify-center overflow-hidden rounded border border-gray-300/10 shadow-xl shadow-black/10">
+        </h3>
+        <div className="relative flex w-full items-center justify-center">
+          <div className="relative flex aspect-[1.414/1] h-full w-full flex-col items-center justify-center overflow-hidden rounded border">
             <Image
               alt=""
               aria-hidden="true"
-              src="https://res.cloudinary.com/epic-web/image/upload/v1695817975/certificate-thumbnail.jpg"
+              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1700132958/skill-template-certificate-thumbnail.png"
               fill
             />
             {module.image && (
@@ -53,7 +53,7 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
                     <div className="h-1 w-1 animate-pulse rounded-full bg-rose-600" />
                   </div>
                 )}
-                <div className="absolute bottom-6 rounded bg-primary px-4 py-2 font-semibold text-primary-foreground shadow-xl shadow-black/50 transition group-hover:scale-105 group-hover:brightness-110">
+                <div className="mt-16 rounded bg-primary px-4 py-2 font-semibold text-primary-foreground shadow transition group-hover:scale-105 group-hover:brightness-110">
                   Get Certificate
                 </div>
               </Dialog.Trigger>

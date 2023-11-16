@@ -11,7 +11,7 @@ export const PageSchema = z.object({
   slug: z.string(),
   description: z.nullable(z.string()).optional(),
   summary: z.nullable(z.string()).optional(),
-  body: z.string().nullable().optional(),
+  body: z.nullable(z.string()).optional(),
   state: z.enum(['published', 'draft']),
   image: z
     .object({
@@ -36,7 +36,7 @@ export const PagesSchema = z.array(PageSchema)
 
 export type Page = z.infer<typeof PageSchema>
 
-export const getPage = async (slug: string): Promise<Page> => {
+export const getPage = async (slug: string): Promise<Page | null> => {
   const page = await sanityClient.fetch(
     groq`*[_type == "page" && slug.current == $slug][0] {
         _id,
@@ -57,6 +57,9 @@ export const getPage = async (slug: string): Promise<Page> => {
     }`,
     {slug: `${slug}`},
   )
-
-  return PageSchema.parse(page)
+  if (page) {
+    return PageSchema.parse(page)
+  } else {
+    return null
+  }
 }
