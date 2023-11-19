@@ -32,7 +32,24 @@ const LessonsSidebarItem: React.FC<any> = () => {
   )
 }
 
-const LessonsSidebar: React.FC<any> = ({lesson, module}) => {
+type Lesson = {
+  title: string
+  slug: string
+}
+
+type Section = {
+  lessons?: Array<Lesson> | null
+}
+
+const LessonsSidebar: React.FC<{
+  lesson: {slug: string}
+  module: {
+    slug: {current?: string | null | undefined}
+    image?: string | null | undefined
+    title: string
+    sections?: Array<Section> | null
+  }
+}> = ({lesson, module}) => {
   const [activeElement, setActiveElement] = React.useState<string>(lesson.slug)
   const scrollableNodeRef: any = React.createRef()
 
@@ -48,15 +65,24 @@ const LessonsSidebar: React.FC<any> = ({lesson, module}) => {
     handlerScrollToActiveElem()
   }, [activeElement])
 
+  const lessons = module.sections?.[0]?.lessons || []
+
   return (
     <div className="flex min-h-[450px] w-full flex-col border border-black/[.08]">
       <div className="flex shrink-0 items-center border-b border-black/[.08] p-3">
-        <Link
-          href={`/playlists/${module.slug.current}`}
-          className="mr-3 h-16 w-16 shrink-0"
-        >
-          <Image src={module.image} alt="module image" width={64} height={64} />
-        </Link>
+        {module.image && (
+          <Link
+            href={`/playlists/${module.slug.current}`}
+            className="mr-3 h-16 w-16 shrink-0"
+          >
+            <Image
+              src={module.image}
+              alt="module image"
+              width={64}
+              height={64}
+            />
+          </Link>
+        )}
         <Link
           href={`/playlists/${module.slug.current}`}
           className="font-tt-demibold text-lg leading-tight"
@@ -70,7 +96,7 @@ const LessonsSidebar: React.FC<any> = ({lesson, module}) => {
           id="scroll-container"
           className="absolute inset-0 divide-y overflow-y-auto"
         >
-          {module.sections[0].lessons.map((item: any, i: number) => {
+          {lessons.map((item: Lesson, i: number) => {
             return (
               <li key={item.slug}>
                 <Element name={item.slug} />
