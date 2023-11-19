@@ -47,6 +47,11 @@ const LessonTemplate = () => {
             <h2 className="hidden leading-tight lg:block lg:text-4xl xl:text-5xl">
               {lesson.title}
             </h2>
+            {lesson.description && (
+              <article className="lg:mt-8">
+                <div className="prose prose-md">{lesson.description}</div>
+              </article>
+            )}
             <article className="lg:mt-8">
               <div className="prose prose-md">
                 <VideoTranscript transcript={videoResource?.transcript || ''} />
