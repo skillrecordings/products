@@ -1,15 +1,8 @@
 import * as React from 'react'
-import Link from 'next/link'
 import {useRouter} from 'next/router'
-import MuxPlayer, {
-  type MuxPlayerRefAttributes,
-  type MuxPlayerProps,
-} from '@mux/mux-player-react'
+import {type MuxPlayerRefAttributes} from '@mux/mux-player-react'
 import {Video} from '@skillrecordings/skill-lesson/video/video'
-import {
-  VideoProvider,
-  useMuxPlayer,
-} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {
@@ -24,14 +17,13 @@ import LessonsSidebar from 'components/lessons-sidebar'
 
 const LessonTemplate = () => {
   const router = useRouter()
-  const {muxPlayerProps} = useMuxPlayer()
-  const {videoResource, loadingVideoResource, videoResourceId} =
-    useVideoResource()
+  const {videoResource} = useVideoResource()
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {lesson, module} = useLesson()
   const addProgressMutation = trpc.progress.add.useMutation()
   const {data: defaultProduct} =
     trpc['testingJavascript.products'].getDefaultProduct.useQuery()
+
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -39,7 +31,7 @@ const LessonTemplate = () => {
       handleContinue={customContinueHandler}
       handlePlayFromBeginning={customPlayFromBeginningHandler}
     >
-      <div className="container max-w-6xl pt-4 pb-8 md:pb-12 md:pt-6 lg:pb-16">
+      <div className="container max-w-6xl pb-8 pt-4 md:pb-12 md:pt-6 lg:pb-16">
         <main className="relative mx-auto w-full items-start border-t border-transparent 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
           <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
             <Video
@@ -50,9 +42,9 @@ const LessonTemplate = () => {
             />
           </div>
         </main>
-        <div className="flex flex-col-reverse lg:flex-row mt-12">
+        <div className="mt-12 flex flex-col-reverse lg:flex-row">
           <div className="grow">
-            <h2 className="lg:text-4xl xl:text-5xl leading-tight hidden lg:block">
+            <h2 className="hidden leading-tight lg:block lg:text-4xl xl:text-5xl">
               {lesson.title}
             </h2>
             <article className="lg:mt-8">
@@ -61,8 +53,8 @@ const LessonTemplate = () => {
               </div>
             </article>
           </div>
-          <div className="w-full lg:max-w-[350px] shrink-0 lg:ml-8">
-            <h2 className="text-3xl md:text-[2.125rem] leading-tight block lg:hidden mb-8">
+          <div className="w-full shrink-0 lg:ml-8 lg:max-w-[350px]">
+            <h2 className="mb-8 block text-3xl leading-tight md:text-[2.125rem] lg:hidden">
               {lesson.title}
             </h2>
             <LessonsSidebar lesson={lesson} module={module} />
