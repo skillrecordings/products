@@ -3,34 +3,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import cx from 'classnames'
 import {Element, scroller} from 'react-scroll'
-import {useRouter} from 'next/router'
-import MuxPlayer, {
-  type MuxPlayerRefAttributes,
-  type MuxPlayerProps,
-} from '@mux/mux-player-react'
-import {Video} from '@skillrecordings/skill-lesson/video/video'
-import {
-  VideoProvider,
-  useMuxPlayer,
-} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
-import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
-import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import {
-  customPlayFromBeginningHandler,
-  customContinueHandler,
-} from 'utils/custom-handlers'
-import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
-
-import {trpc} from 'trpc/trpc.client'
-import Spinner from 'components/spinner'
-
-const LessonsSidebarItem: React.FC<any> = () => {
-  return (
-    <li>
-      <div>1</div>
-    </li>
-  )
-}
 
 type Lesson = {
   title: string
