@@ -66,9 +66,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       <header
         className={cn(
           'relative z-10 flex w-full flex-col items-center justify-center px-5 pb-8 pt-20 sm:pb-20 sm:pt-32',
-          {
-            'pt-32': defaultCouponData,
-          },
         )}
       >
         <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col">
