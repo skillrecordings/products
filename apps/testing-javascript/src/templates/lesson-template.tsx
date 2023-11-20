@@ -56,9 +56,9 @@ const LessonTemplate = () => {
             <h2 className="hidden leading-tight lg:block lg:text-4xl xl:text-5xl">
               {lesson.title}
             </h2>
-            {lesson.description && (
+            {lesson.body && (
               <article className="lg:mt-8">
-                <div className="prose md:prose-md">{lesson.description}</div>
+                <div className="prose md:prose-md">{lesson.body}</div>
               </article>
             )}
             <Code urls={codeUrls || {}} />
@@ -135,8 +135,8 @@ const GitHubUrls: React.FC<{
   const includesBranch = checkIfGitHubUrlContainsBranch(branchUrl)
 
   return (
-    <div className="flex flex-col items-center md:items-start space-y-4 md:space-y-6">
-      <div className="flex items-center flex-col md:flex-row">
+    <div className="flex flex-col items-center space-y-4 md:items-start md:space-y-6">
+      <div className="flex flex-col items-center md:flex-row">
         <a
           onClick={() => {
             // track('clicked github link', {
@@ -146,13 +146,13 @@ const GitHubUrls: React.FC<{
           href={branchUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center space-x-3 bg-[#141618] text-white px-[1.3rem] py-4 text-xl leading-none rounded-md duration-200 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.2)]"
+          className="inline-flex items-center space-x-3 rounded-md bg-[#141618] px-[1.3rem] py-4 text-xl leading-none text-white duration-200 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.2)]"
         >
           <FaGithub />
           <span>{message}</span>
         </a>
         {includesBranch && (
-          <p className="text-lg mt-3 md:mt-0 md:ml-5">
+          <p className="mt-3 text-lg md:ml-5 md:mt-0">
             The branch name corresponds to the lesson.
           </p>
         )}
