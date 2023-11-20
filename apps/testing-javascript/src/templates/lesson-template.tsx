@@ -18,6 +18,7 @@ import isEmpty from 'lodash/isEmpty'
 import {FaGithub} from 'react-icons/fa'
 import {IoCodeSharp} from 'react-icons/io5'
 import {CgNotes} from 'react-icons/cg'
+import ReactMarkdown from 'react-markdown'
 
 const LessonTemplate = () => {
   const router = useRouter()
@@ -56,9 +57,11 @@ const LessonTemplate = () => {
             <h2 className="hidden leading-tight lg:block lg:text-4xl xl:text-5xl">
               {lesson.title}
             </h2>
-            {lesson.description && (
+            {lesson.body && (
               <article className="lg:mt-8">
-                <div className="prose md:prose-md">{lesson.description}</div>
+                <ReactMarkdown className="prose md:prose-md">
+                  {lesson.body}
+                </ReactMarkdown>
               </article>
             )}
             <Code urls={codeUrls || {}} />
