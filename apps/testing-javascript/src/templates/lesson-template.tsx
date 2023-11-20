@@ -56,9 +56,9 @@ const LessonTemplate = () => {
             <h2 className="hidden leading-tight lg:block lg:text-4xl xl:text-5xl">
               {lesson.title}
             </h2>
-            {lesson.body && (
+            {lesson.description && (
               <article className="lg:mt-8">
-                <div className="prose md:prose-md">{lesson.body}</div>
+                <div className="prose md:prose-md">{lesson.description}</div>
               </article>
             )}
             <Code urls={codeUrls || {}} />
