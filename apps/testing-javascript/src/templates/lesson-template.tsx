@@ -223,8 +223,8 @@ const Code: React.FC<{
   }
 
   return (
-    <div>
-      <h2>{/* code icon */} Code</h2>
+    <div data-video-code="">
+      <h2 data-title="">{/* code icon */} Code</h2>
       <CodeSandboxEmbed url={codesandbox_url} />
       <GitHubUrls branchUrl={github_branch_url} diffUrl={github_diff_url} />
     </div>
