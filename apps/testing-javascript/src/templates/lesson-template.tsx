@@ -12,6 +12,7 @@ import {
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 
 import {trpc} from 'trpc/trpc.client'
+import {z} from 'zod'
 import Spinner from 'components/spinner'
 import LessonsSidebar from 'components/lessons-sidebar'
 import isEmpty from 'lodash/isEmpty'
@@ -33,6 +34,8 @@ const LessonTemplate = () => {
   ].getLessonCodeUrls.useQuery({
     _id: lesson._id,
   })
+
+  const description = z.string().nullish().parse(lesson.body)
 
   return (
     <VideoProvider
@@ -57,10 +60,10 @@ const LessonTemplate = () => {
             <h2 className="hidden leading-tight lg:block lg:text-4xl xl:text-5xl">
               {lesson.title}
             </h2>
-            {lesson.body && (
+            {description && (
               <article className="lg:mt-8">
                 <ReactMarkdown className="prose md:prose-md">
-                  {lesson.body}
+                  {description}
                 </ReactMarkdown>
               </article>
             )}
