@@ -91,9 +91,24 @@ const checkIfGitHubUrlContainsBranch = (
 const CodeSandboxEmbed: React.FC<{url: string | undefined}> = ({url}) => {
   if (!url) return null
 
+  const iframeRefCallback = function iframeRefCallback(iframe: any) {
+    if (iframe) {
+      iframe.contentWindow.location.replace(url)
+    }
+  }
+
   return (
-    // render the CodeSandbox Embed
-    <div>CodeSandbox Embed</div>
+    <div>
+      <iframe
+        ref={iframeRefCallback}
+        title="Code"
+        allowTransparency={true}
+        frameBorder="0"
+        scrolling="no"
+        width="100%"
+        height="550px"
+      />
+    </div>
   )
 }
 
