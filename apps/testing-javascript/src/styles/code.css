@@ -1,6 +1,6 @@
 [data-video-code] {
-  @apply mx-auto max-w-4xl p-5 py-16;
+  @apply mt-16 mb-10 lg:mb-0;
   [data-title] {
-    @apply flex items-baseline text-2xl font-semibold sm:text-3xl;
+    @apply text-2xl md:text-3xl mb-8 flex space-x-2 items-center;
   }
 }

@@ -15,6 +15,9 @@ import {trpc} from 'trpc/trpc.client'
 import Spinner from 'components/spinner'
 import LessonsSidebar from 'components/lessons-sidebar'
 import isEmpty from 'lodash/isEmpty'
+import {FaGithub} from 'react-icons/fa'
+import {IoCodeSharp} from 'react-icons/io5'
+import {CgNotes} from 'react-icons/cg'
 
 const LessonTemplate = () => {
   const router = useRouter()
@@ -55,13 +58,20 @@ const LessonTemplate = () => {
             </h2>
             {lesson.description && (
               <article className="lg:mt-8">
-                <div className="prose prose-md">{lesson.description}</div>
+                <div className="prose md:prose-md">{lesson.description}</div>
               </article>
             )}
             <Code urls={codeUrls || {}} />
-            <article className="lg:mt-8">
+            <article className="lg:mt-16">
+              <h3 data-transcript-title="">
+                <CgNotes color="#9396a4" size={20} />
+                <span>Transcript</span>
+              </h3>
               <div className="prose prose-md">
-                <VideoTranscript transcript={videoResource?.transcript || ''} />
+                <VideoTranscript
+                  transcript={videoResource?.transcript || ''}
+                  noTitle
+                />
               </div>
             </article>
           </div>
@@ -125,84 +135,33 @@ const GitHubUrls: React.FC<{
   const includesBranch = checkIfGitHubUrlContainsBranch(branchUrl)
 
   return (
-    <div>
-      <div
-      // className={css`
-      //   color: ${colorValues['gray-darken-30']};
-      //   display: flex;
-      //   align-items: flex-start;
-      //   flex-direction: column;
-      //   font-family: ${fonts.regular};
-      // `}
-      >
-        <div
-        // className={css`
-        //   display: flex;
-        //   flex-direction: row;
-        //   align-items: center;
-        //   ${bpMaxMD} {
-        //     flex-direction: column;
-        //     align-items: flex-start;
-        //   }
-        // `}
+    <div className="flex flex-col items-center md:items-start space-y-4 md:space-y-6">
+      <div className="flex items-center flex-col md:flex-row">
+        <a
+          onClick={() => {
+            // track('clicked github link', {
+            //   lesson: lessonSlug,
+            // })
+          }}
+          href={branchUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center space-x-3 bg-[#141618] text-white px-[1.3rem] py-4 text-xl leading-none rounded-md duration-200 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.2)]"
         >
-          <a
-            onClick={() => {
-              // track('clicked github link', {
-              //   lesson: lessonSlug,
-              // })
-            }}
-            href={branchUrl}
-            // className={css`
-            //   background-color: #141618;
-            //   color: white;
-            //   display: flex;
-            //   font-size: 20px;
-            //   align-items: center;
-            //   text-decoration: none;
-            //   padding: 1rem 1.3rem;
-            //   transition: 250ms all ease;
-            //   border-radius: 5px;
-            //   img {
-            //     filter: invert(1);
-            //     margin-right: 10px;
-            //     max-width: 20px;
-            //   }
-            //   &:hover {
-            //     box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.2);
-            //     transition: 250ms all ease;
-            //   }
-            // `}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {/* GitHub Icon missing */}
-            {/* <img src={iconGithub} alt="Github" />*/} {message}
-          </a>
-          {includesBranch && (
-            <p
-            // className={css`
-            //   font-size: 18px;
-            //   padding-left: 20px;
-            //   padding-top: 0;
-            //   ${bpMaxMD} {
-            //     padding-left: 0;
-            //     padding-top: 10px;
-            //   }
-            // `}
-            >
-              The branch name corresponds to the lesson.
-            </p>
-          )}
-        </div>
+          <FaGithub />
+          <span>{message}</span>
+        </a>
+        {includesBranch && (
+          <p className="text-lg mt-3 md:mt-0 md:ml-5">
+            The branch name corresponds to the lesson.
+          </p>
+        )}
       </div>
       {!isEmpty(diffUrl) && (
-        <div
-        // css={css`
-        //   padding-bottom: 15px;
-        // `}
-        >
-          <a href={diffUrl}>View the Code Diff on Github</a>
+        <div>
+          <a href={diffUrl} className="text-blue-600 underline">
+            View the Code Diff on Github
+          </a>
         </div>
       )}
     </div>
@@ -224,7 +183,10 @@ const Code: React.FC<{
 
   return (
     <div data-video-code="">
-      <h2 data-title="">{/* code icon */} Code</h2>
+      <h3 data-title="">
+        <IoCodeSharp color="#9396a4" size={24} />
+        <span>Code</span>
+      </h3>
       <CodeSandboxEmbed url={codesandbox_url} />
       <GitHubUrls branchUrl={github_branch_url} diffUrl={github_diff_url} />
     </div>
