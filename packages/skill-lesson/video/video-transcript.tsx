@@ -8,7 +8,8 @@ import {getTranscriptComponents} from '../markdown/transcript-components'
 
 export const VideoTranscript: React.FC<{
   transcript: string | any[]
-}> = ({transcript}) => {
+  noTitle?: boolean
+}> = ({transcript, noTitle = false}) => {
   const {handlePlay, canShowVideo, muxPlayerRef} = useMuxPlayer()
   const transcriptMarkdownComponent = getTranscriptComponents({
     handlePlay,
@@ -22,7 +23,7 @@ export const VideoTranscript: React.FC<{
 
   return (
     <div data-video-transcript="">
-      <h2 data-title="">Transcript</h2>
+      {!noTitle && <h2 data-title="">Transcript</h2>}
       <div data-transcript="">
         {typeof transcript === 'string' ? (
           <ReactMarkdown components={transcriptMarkdownComponent}>
