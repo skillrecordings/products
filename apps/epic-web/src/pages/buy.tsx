@@ -19,7 +19,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
 
   const token = await getToken({req})
-  const products = await getPricing()
+
+  const pricing = await getPricing('primary')
+  const products = pricing && pricing.products
 
   const availableBonuses = await getAvailableBonuses()
 
@@ -96,7 +98,7 @@ const BuyPage: React.FC<
         className="relative flex flex-col items-center justify-start"
       >
         <Sparkles />
-        {products[0]?.products
+        {products
           ?.filter((product: any) => product.state !== 'unavailable')
           .map((product, i) => {
             const ALLOW_PURCHASE =
