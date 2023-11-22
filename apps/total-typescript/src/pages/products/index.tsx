@@ -26,13 +26,12 @@ import {CheckIcon} from '@heroicons/react/solid'
 import ReactMarkdown from 'react-markdown'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
+import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
   const token = await getToken({req})
-  const pricing = await getPricing('primary')
-  const products = pricing && pricing.products
-
+  const products = await getAllProducts()
   const commerceProps = await propsForCommerce({
     query,
     token,
@@ -91,19 +90,17 @@ const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
 
   return (
     <>
-      {products
-        ?.filter((product) => product.state !== 'unavailable')
-        .map((product) => {
-          return (
-            <ProductTeaser
-              isPPPEnabled={isPPPEnabled}
-              product={product}
-              userId={userId}
-              key={product.title}
-              purchases={purchases}
-            />
-          )
-        })}
+      {products.map((product) => {
+        return (
+          <ProductTeaser
+            isPPPEnabled={isPPPEnabled}
+            product={product}
+            userId={userId}
+            key={product.title}
+            purchases={purchases}
+          />
+        )
+      })}
       {/* <div className="flex items-center justify-end w-full pt-3 pb-16 border-t border-gray-800">
         <label>
           <input
@@ -176,6 +173,10 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
       setMerchantCoupon(pppCoupon as any)
     }
   }, [isPPPAvailable, pppCoupon, isPPPEnabled, setMerchantCoupon])
+
+  if (product.state === 'unavailable' && !purchased) {
+    return null
+  }
 
   return (
     <div
