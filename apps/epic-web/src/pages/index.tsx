@@ -28,7 +28,7 @@ import {
   SanityProductModule,
 } from '@skillrecordings/commerce-server/dist/@types'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
-import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
+import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {Sparkles} from './buy'
 import ReactMarkdown from 'react-markdown'
@@ -121,7 +121,7 @@ const Index: NextPage<{
                 className="relative flex flex-col items-center justify-start"
               >
                 <Sparkles />
-                {products
+                {products[0]?.products
                   ?.filter((product: any) => product.state !== 'unavailable')
                   .map((product, i) => {
                     return (
@@ -639,7 +639,7 @@ export default Index
 
 export const getStaticProps: GetStaticProps = async () => {
   const sanityProduct = await getProduct(productId as string)
-  const products = await getAllProducts()
+  const products = await getPricing()
   const availableBonuses = await getAvailableBonuses()
   // get images from public folder
   const interviewImages = await readDirectoryContents('assets/interviews')

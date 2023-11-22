@@ -1,5 +1,4 @@
 import Layout from '@/components/app/layout'
-import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
 import {
   CommerceProps,
   SanityProduct,
@@ -26,11 +25,12 @@ import {CheckCircleIcon} from '@heroicons/react/outline'
 import {CheckIcon} from '@heroicons/react/solid'
 import ReactMarkdown from 'react-markdown'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const products = await getAllProducts()
   const {req, query} = context
   const token = await getToken({req})
+  const products = await getPricing()
 
   const commerceProps = await propsForCommerce({
     query,
@@ -90,7 +90,7 @@ const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
 
   return (
     <>
-      {products?.map((product) => {
+      {products[0]?.products?.map((product) => {
         return (
           <ProductTeaser
             isPPPEnabled={isPPPEnabled}

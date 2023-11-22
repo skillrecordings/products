@@ -4,11 +4,11 @@ import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import * as React from 'react'
 import {HomeTemplate} from '../templates/home-template'
-import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
+import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
-  const products = await getAllProducts()
+  const products = await getPricing()
 
   return await propsForCommerce({query, token, products})
 }
