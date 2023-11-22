@@ -121,7 +121,7 @@ const Index: NextPage<{
                 className="relative flex flex-col items-center justify-start"
               >
                 <Sparkles />
-                {products[0]?.products
+                {products
                   ?.filter((product: any) => product.state !== 'unavailable')
                   .map((product, i) => {
                     return (
@@ -639,7 +639,9 @@ export default Index
 
 export const getStaticProps: GetStaticProps = async () => {
   const sanityProduct = await getProduct(productId as string)
-  const products = await getPricing()
+  const pricing = await getPricing('primary')
+
+  const products = pricing && pricing.products
   const availableBonuses = await getAvailableBonuses()
   // get images from public folder
   const interviewImages = await readDirectoryContents('assets/interviews')
