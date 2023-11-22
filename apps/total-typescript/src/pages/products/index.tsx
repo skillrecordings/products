@@ -30,7 +30,8 @@ import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
   const token = await getToken({req})
-  const products = await getPricing()
+  const pricing = await getPricing('primary')
+  const products = pricing && pricing.products
 
   const commerceProps = await propsForCommerce({
     query,
@@ -90,7 +91,7 @@ const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
 
   return (
     <>
-      {products[0]?.products?.map((product) => {
+      {products?.map((product) => {
         return (
           <ProductTeaser
             isPPPEnabled={isPPPEnabled}
@@ -170,7 +171,7 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
 
   React.useEffect(() => {
     if (isPPPAvailable && pppCoupon && isPPPEnabled) {
-      setMerchantCoupon(pppCoupon)
+      setMerchantCoupon(pppCoupon as any)
     }
   }, [isPPPAvailable, pppCoupon, isPPPEnabled, setMerchantCoupon])
 
