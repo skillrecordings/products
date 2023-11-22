@@ -1,7 +1,7 @@
 import groq from 'groq'
 import {sanityClient} from '../utils/sanity-client'
 
-export const getPricing = async (slug: string) => {
+export const getPricing = async (slug: string = 'primary') => {
   const pricing = await sanityClient.fetch(
     groq`*[_type == 'pricing' && slug.current == $slug][0]{
     _id,
