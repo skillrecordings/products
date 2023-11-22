@@ -34,7 +34,7 @@ export const HomeTemplate: React.FC<
     useCoupon(couponFromCode)
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
-  const sortedProductsByName = products[0]?.products.sort((a, b) => {
+  const sortedProductsByName = products.sort((a, b) => {
     if (a.title === 'Core Volume') {
       return -1
     }

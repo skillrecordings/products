@@ -8,7 +8,8 @@ import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
-  const products = await getPricing()
+  const pricing = await getPricing('primary')
+  const products = pricing && pricing.products
 
   return await propsForCommerce({query, token, products})
 }
