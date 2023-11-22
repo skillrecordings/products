@@ -9,7 +9,8 @@ const contextualShareCard = async (
 ) => {
   try {
     const {getDefaultCoupon} = getSdk()
-    const products = await getPricing()
+    const pricing = await getPricing('primary')
+    const products = pricing.products
     const defaultCoupons = await getDefaultCoupon(
       products.map((product: SanityProduct) => product.productId),
     )
