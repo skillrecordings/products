@@ -18,7 +18,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
 
   const token = await getToken({req})
-  const products = await getPricing()
+  const pricing = await getPricing('primary')
+  const products = pricing && pricing.products
 
   return await propsForCommerce({query, token, products})
 }
@@ -43,7 +44,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
 
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
 
-  const sortedProductsByName = products[0].products.sort((a, b) => {
+  const sortedProductsByName = products.sort((a, b) => {
     if (a.title === 'Core Volume') {
       return -1
     }
