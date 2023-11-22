@@ -84,6 +84,7 @@ export type SanityProduct = {
     name: string
     image: string
   }
+  products: SanityProduct[]
 }
 
 export type SanityProductModule = {
