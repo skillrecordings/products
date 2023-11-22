@@ -10,15 +10,15 @@ import {getToken} from 'next-auth/jwt'
 import Image from 'next/legacy/image'
 import {motion, useScroll, useTransform} from 'framer-motion'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
-import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
 import cx from 'classnames'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
 
   const token = await getToken({req})
-  const products = await getAllProducts()
+  const products = await getPricing()
 
   return await propsForCommerce({query, token, products})
 }
@@ -43,7 +43,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
 
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
 
-  const sortedProductsByName = products.sort((a, b) => {
+  const sortedProductsByName = products[0].products.sort((a, b) => {
     if (a.title === 'Core Volume') {
       return -1
     }

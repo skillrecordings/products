@@ -1,7 +1,7 @@
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import Balancer from 'react-wrap-balancer'
-import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
+import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
 
   const token = await getToken({req})
-  const products = await getAllProducts()
+  const products = await getPricing()
 
   const availableBonuses = await getAvailableBonuses()
 
@@ -96,7 +96,7 @@ const BuyPage: React.FC<
         className="relative flex flex-col items-center justify-start"
       >
         <Sparkles />
-        {products
+        {products[0]?.products
           ?.filter((product: any) => product.state !== 'unavailable')
           .map((product, i) => {
             const ALLOW_PURCHASE =
