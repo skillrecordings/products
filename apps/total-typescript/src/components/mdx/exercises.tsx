@@ -144,6 +144,31 @@ const EditableObjectType = (props: {
   )
 }
 
+const RangeInput = (props: {
+  label: string
+  onChange: (value: number) => void
+  value: number
+  min: number
+  max: number
+}) => {
+  return (
+    <label className="flex flex-col items-center space-y-2">
+      <span className="block">{props.label}</span>
+      <input
+        type="range"
+        step={1}
+        max={props.max}
+        min={props.min}
+        className="w-48"
+        onChange={(e) => {
+          props.onChange(parseInt(e.target.value))
+        }}
+        value={props.value}
+      />
+    </label>
+  )
+}
+
 export const Example = () => {
   const [numOfKeys, setNumOfKeys] = useState(3)
   const [numOfKeysToOmit, setNumOfKeysToOmit] = useState(1)
@@ -156,42 +181,30 @@ export const Example = () => {
 
   return (
     <Box className="not-prose flex flex-col rounded bg-gray-800">
-      <Box className="flex justify-center bg-gray-700 p-6">
-        <label className="block">
-          <span className="block text-center">Number of keys</span>
-          <input
-            type="range"
-            step={1}
-            max={4}
-            min={1}
-            className="w-48"
-            onChange={(e) => {
-              setNumOfKeys(parseInt(e.target.value))
-            }}
-            value={numOfKeys}
-          />
-        </label>
+      <Box className="flex justify-center space-x-12 bg-gray-700 p-6">
+        <RangeInput
+          label="Number of keys"
+          onChange={(value) => {
+            setNumOfKeys(value)
+          }}
+          value={numOfKeys}
+          min={1}
+          max={4}
+        ></RangeInput>
+        <RangeInput
+          label="Number of keys to Omit"
+          onChange={(value) => {
+            setNumOfKeysToOmit(value)
+          }}
+          value={numOfKeysToOmit}
+          min={1}
+          max={3}
+        />
       </Box>
-      <Box className="flex items-center justify-center p-10 px-6">
-        <ObjectType typeName="Input" keys={keys}></ObjectType>
-      </Box>
-      <Box className="flex justify-center bg-gray-700 p-6">
-        <label className="block">
-          <span className="block text-center">Number of keys to Omit</span>
-          <input
-            type="range"
-            step={1}
-            max={3}
-            min={1}
-            className="w-48"
-            onChange={(e) => {
-              setNumOfKeysToOmit(parseInt(e.target.value))
-            }}
-            value={numOfKeysToOmit}
-          />
-        </label>
-      </Box>
-      <Box className="flex items-center justify-center p-10 px-6">
+      <Box className="space-y-8 p-10 px-12">
+        <div>
+          <ObjectType typeName="Input" keys={keys}></ObjectType>
+        </div>
         <div>
           <CodeLine>
             <CodeLine>
