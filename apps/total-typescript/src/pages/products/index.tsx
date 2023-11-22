@@ -91,17 +91,19 @@ const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
 
   return (
     <>
-      {products?.map((product) => {
-        return (
-          <ProductTeaser
-            isPPPEnabled={isPPPEnabled}
-            product={product}
-            userId={userId}
-            key={product.title}
-            purchases={purchases}
-          />
-        )
-      })}
+      {products
+        ?.filter((product) => product.state !== 'unavailable')
+        .map((product) => {
+          return (
+            <ProductTeaser
+              isPPPEnabled={isPPPEnabled}
+              product={product}
+              userId={userId}
+              key={product.title}
+              purchases={purchases}
+            />
+          )
+        })}
       {/* <div className="flex items-center justify-end w-full pt-3 pb-16 border-t border-gray-800">
         <label>
           <input
