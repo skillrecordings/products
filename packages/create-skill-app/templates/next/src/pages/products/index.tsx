@@ -35,11 +35,9 @@ import {
 } from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import Spinner from '@/components/spinner'
 import {Bonuses, PurchasedBadge} from '@/templates/purchased-product-template'
-import {getPricing} from '@/lib/products'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const pricing = await getPricing()
-  const products = pricing && pricing.products
+  const products = await getAllProducts()
   const {req, query} = context
   const token = await getToken({req})
 
