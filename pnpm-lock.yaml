@@ -8339,6 +8339,9 @@ importers:
       '@sanity/client':
         specifier: ^6.1.1
         version: 6.6.0
+      '@sanity/webhook':
+        specifier: ^3.0.1
+        version: 3.0.1
       '@skillrecordings/commerce-server':
         specifier: workspace:*
         version: link:../commerce-server
@@ -17933,6 +17936,13 @@ packages:
     dependencies:
       base64url: 3.0.1
       tslib: 2.6.2
+    dev: false
+
+  /@sanity/webhook@3.0.1:
+    resolution: {integrity: sha512-2eTDg/+TR8lSX2OH6wH7M8UUwZUsD/i8Raw9mFH9myt2mkPY3ns77cU6K1QL2ZhwIIDJT5tttTELURF7RjlzVg==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      base64url: 3.0.1
     dev: false
 
   /@sapphire/async-queue@1.5.0:

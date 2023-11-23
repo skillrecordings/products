@@ -687,6 +687,14 @@ export function getSdk(
       const product = await ctx.prisma.product.findFirst(options)
       return product
     },
+    async updateOrCreateProduct(options: Prisma.ProductUpsertArgs) {
+      const product = await ctx.prisma.product.upsert(options)
+      return product
+    },
+    async deleteProduct(options: Prisma.ProductDeleteArgs) {
+      const product = await ctx.prisma.product.delete(options)
+      return product
+    },
     async getPrice(options: Prisma.PriceFindFirstArgs) {
       const price = await ctx.prisma.price.findFirst(options)
       return price
