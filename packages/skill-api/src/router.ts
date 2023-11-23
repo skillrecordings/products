@@ -16,6 +16,7 @@ import {claimedSeats} from './core/services/claimed-seats'
 import {updateName} from './core/services/update-name'
 import {transferPurchase} from './core/services/transfer-purchase'
 import {stripeRefund} from './core/services/process-refund'
+import {processSanityProductsWebhook} from './core/services/sanity/process-sanity-products-webhook'
 
 export async function actionRouter({
   method,
@@ -70,6 +71,8 @@ export async function actionRouter({
         return await transferPurchase({params})
       case 'refund':
         return await stripeRefund({params})
+      case 'sanity-products-webhook':
+        return await processSanityProductsWebhook({params})
     }
   }
 
