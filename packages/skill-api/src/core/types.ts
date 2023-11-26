@@ -4,22 +4,6 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {IncomingRequest} from './index'
 import type {CookieSerializeOptions} from 'cookie'
 
-export type SkillRecordingsAction =
-  | 'send-feedback'
-  | 'test'
-  | 'prices'
-  | 'checkout'
-  | 'webhook'
-  | 'redeem'
-  | 'subscriber'
-  | 'answer'
-  | 'subscribe'
-  | 'lookup'
-  | 'sign-s3'
-  | 'claimed'
-  | 'transfer'
-  | 'nameUpdate'
-
 export interface SkillRecordingsHeader {
   key: string
   value: string
@@ -45,6 +29,7 @@ export interface PagesOptions {
 
 export interface InternalOptions {
   action: string
+  providerId?: string
   url?: string
   theme?: Theme
   debug?: boolean

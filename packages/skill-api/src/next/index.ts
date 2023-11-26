@@ -1,15 +1,14 @@
 import type {
-  SkillRecordingsAction,
   SkillRecordingsRequest,
   SkillRecordingsResponse,
 } from '../core/types'
 import {getDecodedToken} from '../client'
 import {IncomingRequest, SkillRecordingsHandler} from '../core'
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {PrismaClient} from '@skillrecordings/database'
 import {NextAuthOptions} from 'next-auth'
 import {parseBody} from 'next/dist/server/api-utils/node/parse-body'
 import {setCookie} from './utils'
+import {SkillRecordingsAction, SkillRecordingsProvider} from '../router'
 
 /** Extract the host from the environment */
 export function detectHost(forwardedHost: any) {
@@ -46,7 +45,7 @@ async function SkillRecordingsNextHandler(
       headers: req.headers,
       method: req.method,
       action: skillRecordings?.[0] as SkillRecordingsAction,
-      providerId: skillRecordings?.[1],
+      providerId: skillRecordings?.[1] as SkillRecordingsProvider,
       error: (req.query.error as string | undefined) ?? skillRecordings?.[1],
     },
     token,
