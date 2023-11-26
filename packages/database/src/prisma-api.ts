@@ -722,11 +722,21 @@ export function getSdk(
           expires: {
             gte: new Date(),
           },
-          ...(productIds && {
-            restrictedToProductId: {
-              in: productIds,
+          // we either want:
+          // 1) a coupon restricted to one of the given product IDs
+          // 2) a coupon that isn't restricted to a product ID
+          OR: [
+            {
+              ...(productIds && {
+                restrictedToProductId: {
+                  in: productIds,
+                },
+              }),
             },
-          }),
+            {
+              restrictedToProductId: null,
+            },
+          ],
         },
         orderBy: {
           percentageDiscount: 'desc',

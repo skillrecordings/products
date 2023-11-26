@@ -2,7 +2,7 @@ import * as React from 'react'
 import cx from 'classnames'
 import Image from 'next/image'
 import {isEmpty} from 'lodash'
-import Markdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown'
 import Balancer from 'react-wrap-balancer'
 import type {InterviewProps} from '@types'
 import Link from 'next/link'
@@ -43,7 +43,7 @@ const PlainInterview: React.FC<{
         </h3>
         <div className="mt-1 text-lg leading-normal">
           <Balancer>
-            <Markdown>{interview.description}</Markdown>
+            <ReactMarkdown>{interview.description}</ReactMarkdown>
           </Balancer>
         </div>
       </div>
@@ -104,7 +104,7 @@ const MultipleInterview: React.FC<{
         </h3>
         <div className="mt-1 text-lg leading-normal">
           <Balancer>
-            <Markdown>{interview.description}</Markdown>
+            <ReactMarkdown>{interview.description}</ReactMarkdown>
           </Balancer>
         </div>
       </div>
