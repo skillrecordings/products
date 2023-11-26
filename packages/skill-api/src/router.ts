@@ -18,17 +18,38 @@ import {transferPurchase} from './core/services/transfer-purchase'
 import {stripeRefund} from './core/services/process-refund'
 import {processSanityProductsWebhook} from './core/services/sanity/process-sanity-products-webhook'
 
+export type SkillRecordingsAction =
+  | 'send-feedback'
+  | 'test'
+  | 'prices'
+  | 'checkout'
+  | 'webhook'
+  | 'redeem'
+  | 'subscriber'
+  | 'answer'
+  | 'subscribe'
+  | 'lookup'
+  | 'sign-s3'
+  | 'claimed'
+  | 'transfer'
+  | 'nameUpdate'
+  | 'refund'
+
+export type SkillRecordingsProvider = 'stripe' | 'sanity'
+
 export async function actionRouter({
   method,
   req,
   action,
+  providerId,
   params,
   userOptions,
   token,
 }: {
   method: string
   req: IncomingRequest
-  action: any
+  action: SkillRecordingsAction
+  providerId?: SkillRecordingsProvider
   params: any
   userOptions: any
   token: any
@@ -56,6 +77,12 @@ export async function actionRouter({
       case 'checkout':
         return stripeCheckout({params})
       case 'webhook':
+        switch (providerId) {
+          case 'stripe':
+            return await processStripeWebhooks({params})
+          case 'sanity':
+            return await processSanityProductsWebhook({params})
+        }
         return await processStripeWebhooks({params})
       case 'subscribe':
         return await subscribeToConvertkit({params})
@@ -71,8 +98,6 @@ export async function actionRouter({
         return await transferPurchase({params})
       case 'refund':
         return await stripeRefund({params})
-      case 'sanity-products-webhook':
-        return await processSanityProductsWebhook({params})
     }
   }
 

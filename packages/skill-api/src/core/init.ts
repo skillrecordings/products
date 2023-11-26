@@ -1,12 +1,13 @@
 import {SkillRecordingsOptions} from '../next'
 import {InternalOptions} from './types'
 import {IncomingRequest} from './index'
+import {SkillRecordingsAction, SkillRecordingsProvider} from '../router'
 
 interface InitParams {
   host?: string
   userOptions: SkillRecordingsOptions
-  action: InternalOptions['action']
-  providerId?: string
+  action: SkillRecordingsAction
+  providerId?: SkillRecordingsProvider
   /** Is the incoming request a POST request? */
   isPost: boolean
   cookies: IncomingRequest['cookies']
@@ -16,6 +17,7 @@ interface InitParams {
  * Initialize options and cookies.
  * @param userOptions
  * @param action
+ * @param providerId
  * @param host
  * @param reqCookies
  * @param isPost
@@ -36,6 +38,7 @@ export async function init({
   const options: InternalOptions = {
     ...userOptions,
     action,
+    providerId,
     debug: false,
     pages: {},
     theme: {
