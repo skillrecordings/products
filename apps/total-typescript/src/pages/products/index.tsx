@@ -1,5 +1,4 @@
 import Layout from '@/components/app/layout'
-import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
 import {
   CommerceProps,
   SanityProduct,
@@ -26,12 +25,13 @@ import {CheckCircleIcon} from '@heroicons/react/outline'
 import {CheckIcon} from '@heroicons/react/solid'
 import ReactMarkdown from 'react-markdown'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
+import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const products = await getAllProducts()
   const {req, query} = context
   const token = await getToken({req})
-
+  const products = await getAllProducts()
   const commerceProps = await propsForCommerce({
     query,
     token,
@@ -90,7 +90,7 @@ const Products: React.FC<CommerceProps> = ({products, userId, purchases}) => {
 
   return (
     <>
-      {products?.map((product) => {
+      {products.map((product) => {
         return (
           <ProductTeaser
             isPPPEnabled={isPPPEnabled}
@@ -170,9 +170,13 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
 
   React.useEffect(() => {
     if (isPPPAvailable && pppCoupon && isPPPEnabled) {
-      setMerchantCoupon(pppCoupon)
+      setMerchantCoupon(pppCoupon as any)
     }
   }, [isPPPAvailable, pppCoupon, isPPPEnabled, setMerchantCoupon])
+
+  if (product.state === 'unavailable' && !purchased) {
+    return null
+  }
 
   return (
     <div

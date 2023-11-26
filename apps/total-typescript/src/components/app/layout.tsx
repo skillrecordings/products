@@ -85,10 +85,10 @@ const Layout: FunctionComponent<LayoutProps> = ({
       <div
         className={cn(
           'flex h-full min-h-screen flex-grow flex-col',
-          className,
           {
             'md:pt-19 pt-14 sm:pt-8 lg:pt-0': defaultCouponData,
           },
+          className,
         )}
       >
         {children}

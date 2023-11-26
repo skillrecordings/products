@@ -6,6 +6,8 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import cx from 'classnames'
+import {trpc} from '@/trpc/trpc.client'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 export async function getStaticProps() {
   const articles = await getAllArticles()
@@ -22,10 +24,14 @@ type ArticlesIndex = {
 
 const Articles: React.FC<ArticlesIndex> = ({articles}) => {
   const publishedArticles = articles.filter(({state}) => state === 'published')
+  const {data: defaultCouponData, status: defaultCouponStatus} =
+    trpc.pricing.defaultCoupon.useQuery()
 
   return (
     <Layout
-      className="bg-[#090E19]"
+      className={cn('bg-[#090E19]', {
+        'lg:pt-10': defaultCouponData,
+      })}
       meta={{
         title: 'TypeScript Articles by Matt Pocock',
         ogImage: {
