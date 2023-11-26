@@ -22,9 +22,9 @@ import {getOgImage} from '@/utils/get-og-image'
 import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 import {localProgressDb} from '@skillrecordings/skill-lesson/utils/dexie'
 import {
-  redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit-react-ui'
+  convertkitRedirectUrlBuilder,
+} from '@skillrecordings/ui'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd, VideoJsonLd} from '@skillrecordings/next-seo'
@@ -41,6 +41,7 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {getTranscriptComponents} from '@skillrecordings/skill-lesson/markdown/transcript-components'
 import Link from 'next/link'
+import Container from '@/components/app/container'
 
 const TipTemplate: React.FC<{
   tip: Tip
@@ -66,9 +67,13 @@ const TipTemplate: React.FC<{
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
-      const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
-        confirmToast: 'true',
-      })
+      const redirectUrl = convertkitRedirectUrlBuilder(
+        subscriber,
+        router.asPath,
+        {
+          confirmToast: 'true',
+        },
+      )
       email && setUserId(email)
       track('subscribed to email list', {
         lesson: tip.slug,
@@ -133,12 +138,12 @@ const TipTemplate: React.FC<{
       >
         <main className="mx-auto w-full pt-0">
           <div className="relative z-10 flex items-center justify-center">
-            <div className="flex w-full max-w-screen-xl flex-col">
+            <Container className="flex flex-col px-0 sm:px-0 lg:px-0">
               <Video ref={muxPlayerRef} tips={moreTips} />
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
-            </div>
+            </Container>
           </div>
           <article className="relative z-10 mx-auto w-full max-w-screen-md px-5 pb-16 pt-8 sm:pt-10">
             <div className="mx-auto w-full max-w-screen-xl pb-5">
@@ -163,7 +168,7 @@ const TipTemplate: React.FC<{
                 )}
                 {tipBody && (
                   <>
-                    <div className="prose w-full max-w-none pb-5 pt-5">
+                    <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert">
                       <MDX contents={tipBody} />
                     </div>
                   </>
@@ -196,15 +201,12 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
   const {videoResource} = useVideoResource()
 
   return (
-    <div className="relative xl:px-5">
+    <div className="relative">
       {displayOverlay && <TipOverlay tips={tips} />}
       <div
-        className={cx(
-          'flex items-center justify-center overflow-hidden xl:rounded-md',
-          {
-            hidden: displayOverlay,
-          },
-        )}
+        className={cx('flex items-center justify-center', {
+          hidden: displayOverlay,
+        })}
       >
         <MuxPlayer
           ref={ref}
@@ -229,7 +231,7 @@ const Transcript: React.FC<{
   return (
     <section aria-label="transcript">
       <h2 className="text-2xl font-bold">Transcript</h2>
-      <div className="prose max-w-none pt-4">
+      <div className="prose max-w-none pt-4 dark:prose-invert">
         <ReactMarkdown components={markdownComponents}>
           {transcript}
         </ReactMarkdown>
@@ -385,7 +387,7 @@ const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
       href={`https://twitter.com/i/status/${tweet}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="relative mb-5 mt-2 inline-flex flex-shrink-0 items-center justify-center space-x-2 bg-gray-700 px-5 py-4 font-semibold text-white transition-all duration-300 ease-in-out before:absolute before:left-0 before:top-0 before:z-[-1] before:h-full before:w-0 before:bg-gray-600 before:transition-all before:duration-300 before:ease-in-out  focus-visible:ring-white hover:brightness-110 hover:before:w-full"
+      className="relative mb-5 mt-2 inline-flex flex-shrink-0 items-center justify-center space-x-2 bg-gray-700 px-5 py-4 font-semibold text-white transition-all duration-300 ease-in-out before:absolute before:left-0 before:top-0 before:z-[-1] before:h-full before:w-0 before:bg-gray-600 before:transition-all before:duration-300 before:ease-in-out  hover:brightness-110 hover:before:w-full focus-visible:ring-white"
       onClick={() => {
         track('clicked reply on twitter')
       }}
@@ -419,6 +421,7 @@ const SubscribeForm = ({
         New {process.env.NEXT_PUBLIC_SITE_TITLE} tips delivered to your inbox
       </div>
       <SubscribeToConvertkitForm
+        className="flex items-center gap-5 [&>[data-sr-input-label]]:hidden"
         actionLabel={`Subscribe for more tips`}
         onSuccess={(subscriber, email) => {
           return handleOnSuccess(subscriber, email)

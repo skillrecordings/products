@@ -25,8 +25,9 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {motion} from 'framer-motion'
 import {motion as motion3d} from 'framer-motion-3d'
-import {Text} from '@react-three/drei'
+import {Icosahedron, Text, useTexture, Decal} from '@react-three/drei'
 import {useMedia} from 'react-use'
+import * as THREE from 'three'
 
 const defaultProductId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -170,8 +171,9 @@ const Home: NextPage<{
           <div className="flex h-full items-center gap-5">
             <div className="relative flex h-full items-center gap-1 opacity-50">
               <AnimatedThingy className="absolute -right-1/2" />
+              <AnimatedThingy className="absolute -right-1/2 z-20 opacity-90 mix-blend-difference [&>div]:bg-foreground" />
               <svg
-                className="w-5"
+                className="relative z-10 w-5"
                 viewBox="0 0 16 18"
                 aria-hidden="true"
                 fill="none"
@@ -228,7 +230,7 @@ const Home: NextPage<{
                 )
               })}
           </section>
-        ) : (
+        ) : subscriber ? null : (
           <div className="border-t" id="join">
             <Container className="flex items-center justify-center px-0 sm:px-0 lg:px-0">
               <PrimaryNewsletterCta className="w-full" />
@@ -249,7 +251,7 @@ const Hero = () => {
   }, [])
 
   const isMdScreen = useMedia('(min-width: 768px)')
-  return (
+  return mounted ? (
     <motion.div
       className="absolute left-0 top-0 h-full w-full"
       animate={{opacity: [0, 1]}}
@@ -271,7 +273,7 @@ const Hero = () => {
         }}
         shadows
       >
-        <Dodecahedron />
+        <Object />
         <ambientLight intensity={0.5} />
         <spotLight
           intensity={0.7}
@@ -308,23 +310,28 @@ const Hero = () => {
                 opacity: 0,
                 y: 0.2,
               }}
+              position={[0, 0, -0.4]}
             >
               <Text
-                color="white"
+                // color="white"
+                material={new THREE.MeshStandardMaterial({color: '#fafafa'})}
+                receiveShadow
                 fillOpacity={0.9}
                 fontSize={0.325}
                 font={'/fonts/378efe47-19c4-4140-a227-728b09adde45.woff'}
                 position={[0, 0.3, 0]}
               >{`Empower Developers`}</Text>
               <Text
+                material={new THREE.MeshStandardMaterial({color: '#fafafa'})}
+                receiveShadow
                 font={'/fonts/378efe47-19c4-4140-a227-728b09adde45.woff'}
-                color="white"
                 fillOpacity={0.9}
                 fontSize={0.325}
                 position={[0, -0.05, 0]}
               >{`and Grow Your Brand`}</Text>
             </motion3d.group>
             <motion3d.group
+              position={[0, 0, -0.4]}
               animate={{
                 opacity: [0, 1],
                 y: [-0.15, 0],
@@ -340,9 +347,10 @@ const Hero = () => {
               }}
             >
               <Text
+                material={new THREE.MeshStandardMaterial({color: '#1FD073'})}
+                receiveShadow
                 font={'/fonts/fcf3fad0-df0b-4a20-9c50-e5748f25a15d.woff'}
-                color="#1FD073"
-                fillOpacity={0.9}
+                fillOpacity={1}
                 fontSize={0.08}
                 position={[0, -0.45, 0]}
               >
@@ -351,16 +359,16 @@ const Hero = () => {
             </motion3d.group>
           </>
         )}
-        <mesh receiveShadow>
+        <mesh receiveShadow position={[0, 0, -0.42]}>
           <planeBufferGeometry attach="geometry" args={[1000, 1000]} />
           <meshPhongMaterial attach="material" color="#171717" />
         </mesh>
       </Canvas>
     </motion.div>
-  )
+  ) : null
 }
 
-function Dodecahedron() {
+function Object() {
   const {viewport, scene, size} = useThree()
   const targetPosition = [0, 0, 0]
   const targetRotation = [0, 0, 0]
@@ -369,7 +377,7 @@ function Dodecahedron() {
   const ref = React.useRef<any>(null)
 
   useFrame(({mouse}) => {
-    if (mouse.x === 0 && mouse.y === 0) {
+    if ((mouse.x === 0 && mouse.y === 0) || !mouse) {
       ref.current.position.x = viewport.width / 2.3
       ref.current.position.y = viewport.height / 2.7
     }
@@ -384,9 +392,12 @@ function Dodecahedron() {
     ref.current.rotation.y += (x * 1.5 - ref.current.rotation.y) * smoothFactor
   })
 
+  // const texture = useTexture('/icosahedron-texture.png')
+
   return (
     <>
-      <motion3d.mesh
+      <motion3d.group
+        ref={ref}
         animate={{
           opacity: [0, 1],
         }}
@@ -398,18 +409,31 @@ function Dodecahedron() {
         initial={{
           opacity: 0,
         }}
-        ref={ref}
-        receiveShadow
-        castShadow
       >
-        <icosahedronBufferGeometry args={[0.6]} attach="geometry" />
-        <meshStandardMaterial color={'#2B2B2B'} attach="material" />
-      </motion3d.mesh>
+        <Icosahedron castShadow receiveShadow args={[0.6]}>
+          <meshStandardMaterial attach="material" color="#2B2B2B" />
+          <Decal
+            debug={false}
+            castShadow
+            receiveShadow
+            polygonOffsetFactor={-1}
+            position={[0, 0, 0.5]}
+            rotation={[0, 0, 0]}
+            scale={[1, 0.5, 0.5]}
+            geometry={new THREE.IcosahedronGeometry(0.6, 0)}
+          >
+            <meshStandardMaterial
+              // map={texture}
+              color="#2B2B2B"
+            />
+          </Decal>
+        </Icosahedron>
+      </motion3d.group>
     </>
   )
 }
 
-const AnimatedThingy: React.FC<{className?: string}> = ({className}) => {
+export const AnimatedThingy: React.FC<{className?: string}> = ({className}) => {
   return (
     <motion.div
       className={cn('grid h-6 w-10 grid-cols-3 overflow-hidden', className)}

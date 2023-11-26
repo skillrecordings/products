@@ -6,12 +6,15 @@ export const config = {
   runtime: 'edge',
 }
 
-const dmSansFont = fetch(
-  new URL('../../../../public/fonts/DMSans-Medium.ttf', import.meta.url),
+const font = fetch(
+  new URL(
+    '../../../../public/fonts/a8455863-362b-408b-9e87-abf87d85cc02.ttf',
+    import.meta.url,
+  ),
 ).then((res) => res.arrayBuffer())
 
 export default async function handler(req: NextRequest) {
-  const dmSansFontData = await dmSansFont
+  const fontData = await font
 
   try {
     const {searchParams} = new URL(req.url)
@@ -29,16 +32,12 @@ export default async function handler(req: NextRequest) {
     return new ImageResponse(
       (
         <div
-          tw="flex w-full relative justify-center text-gray-900 items-center h-full justify-between"
+          tw="flex w-full relative justify-center text-black items-center h-full justify-between"
           style={{
-            backgroundColor: '#fafafa',
+            backgroundColor: '#B9F8D7',
           }}
         >
-          <div
-            tw="absolute flex items-center justify-end h-5 w-full bottom-0 left-0 pr-6"
-            style={{background: '#4F75FF'}}
-          ></div>
-          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-24 relative px-14">
+          <div tw="flex-1 flex flex-col justify-start h-full p-12 px-18 pr-24 relative">
             {hasImage ? (
               <div tw="flex items-center">
                 <img src={image} width={200} height={200} tw="mr-10" />
@@ -50,30 +49,30 @@ export default async function handler(req: NextRequest) {
               <Logo />
             )}
             <p
-              tw="tracking-tight font-bold leading-tight"
+              tw="tracking-tight leading-tight"
               style={{
-                fontSize: '4rem',
+                fontSize: '4.2rem',
                 fontFamily: 'DM Sans',
                 lineHeight: 1.1,
               }}
             >
               {title}
             </p>
-            {!hasImage && (
+            {/* {!hasImage && (
               <div tw="flex items-center absolute right-14 top-12">
                 <img
-                  src={`${process.env.NEXT_PUBLIC_URL}/instructor.png`}
+                  src={`${process.env.NEXT_PUBLIC_URL}/theo.jpg`}
                   tw="h-24 rounded-full bg-gray-100"
                 />
                 <p
                   style={{fontSize: 36, fontFamily: 'DM Sans'}}
-                  tw="text-3xl ml-6 mb-6 text-gray-700"
+                  tw="text-3xl ml-6 mb-6"
                 >
                   {process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME}{' '}
                   {process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}
                 </p>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       ),
@@ -83,9 +82,9 @@ export default async function handler(req: NextRequest) {
         fonts: [
           {
             name: 'DM Sans',
-            data: dmSansFontData,
+            data: fontData,
             style: 'normal',
-            weight: 400,
+            weight: 500,
           },
         ],
       },
@@ -99,9 +98,5 @@ export default async function handler(req: NextRequest) {
 }
 
 const Logo = () => {
-  return (
-    <div tw="text-5xl font-bold text-gray-700 py-5">
-      {process.env.NEXT_PUBLIC_SITE_TITLE}
-    </div>
-  )
+  return <div />
 }

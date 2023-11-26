@@ -23,7 +23,10 @@ import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useConvertkit} from './use-convertkit'
 import {useGlobalPlayerShortcuts} from './use-global-player-shortcut'
 import {type Section} from '../schemas/section'
-import {defaultHandleContinue} from '../video/default-handle-continue'
+import {
+  defaultHandleContinue,
+  NextPathBuilder,
+} from '../video/default-handle-continue'
 import {handlePlayFromBeginning as defaultHandlePlayFromBeginning} from '../utils/handle-play-from-beginning'
 import {type NextRouter} from 'next/router'
 import {type Module} from '../schemas/module'
@@ -40,6 +43,7 @@ type VideoContextType = {
   nextExerciseStatus?: 'error' | 'success' | 'loading'
   nextSection: Section | null
   path: string
+  nextPathBuilder?: NextPathBuilder
   inviteTeamPagePath?: string
   video?: {muxPlaybackId?: string}
   canShowVideo: boolean
@@ -54,6 +58,7 @@ type VideoContextType = {
     nextExercise?: Lesson | null
     handlePlay: () => void
     path: string
+    nextPathBuilder?: NextPathBuilder
   }) => Promise<any>
   handlePlayFromBeginning: (options: {
     router: NextRouter
@@ -71,6 +76,7 @@ type VideoProviderProps = {
   theme?: MuxPlayerProps['theme']
   exerciseSlug?: string
   path?: string
+  nextPathBuilder?: NextPathBuilder
   inviteTeamPagePath?: string
   muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>
   onEnded?: () => Promise<any>
@@ -83,6 +89,7 @@ type VideoProviderProps = {
     nextExercise?: Lesson | null
     handlePlay: () => void
     path: string
+    nextPathBuilder?: NextPathBuilder
   }) => Promise<any>
   handlePlayFromBeginning?: (options: {
     router: NextRouter
@@ -101,6 +108,7 @@ export const VideoProvider: React.FC<
   accentColor = '#3b82f6',
   theme,
   path = '',
+  nextPathBuilder,
   onEnded = async () => {},
   onModuleEnded = async () => {},
   onModuleStarted = async () => {},
@@ -283,6 +291,7 @@ export const VideoProvider: React.FC<
     nextSection: isNextSectionWip ? null : nextSection,
     video: videoResource,
     path,
+    nextPathBuilder,
     canShowVideo,
     refetchAbility,
     ability,

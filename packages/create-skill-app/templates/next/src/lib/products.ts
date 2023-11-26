@@ -35,13 +35,13 @@ export async function getProduct(productId: string): Promise<Product | null> {
         _createdAt,
         productId,
         title,
-        image,
+        "image": image.asset->{url, alt},
         state,
         "slug": slug.current,
         body,
         modules[]->{
           ...,
-          "image": image.asset->{url},
+          "image": {"url": image.secure_url},
         }
   }`,
     {productId},
@@ -50,4 +50,76 @@ export async function getProduct(productId: string): Promise<Product | null> {
   if (!product) return null
 
   return ProductSchema.parse(product)
+}
+
+export const getAllProducts = async () => {
+  const products = await sanityClient.fetch(
+    groq`*[_type == 'product'][]{
+    _id,
+    title,
+    description,
+    productId,
+    state,
+    "slug": slug.current,
+    _id,
+    image {
+      url,
+      alt
+    },
+    "modules" : modules[]->{
+      title,
+      moduleType,
+      "slug": slug.current,
+      "image": {"url": image.secure_url},
+      state,
+    },
+    "bonuses": *[_type == 'bonus'][]{...},
+    "features" : features[]{
+    value
+   }
+    }`,
+  )
+  return products
+}
+
+export const getPricing = async (slug: string = 'primary') => {
+  const pricing = await sanityClient.fetch(
+    groq`*[_type == 'pricing' && slug.current == $slug][0]{
+    _id,
+    title,
+    subtitle,
+    slug,
+    "products": products[]->{
+      _id,
+      title,
+      description,
+      productId,
+      state,
+      "slug": slug.current,
+      _id,
+      image {
+        url,
+        alt
+      },
+      "modules" : modules[]->{
+        title,
+        moduleType,
+        "slug": slug.current,
+        "image": {"url": image.secure_url},
+        state,
+      },
+      "bonuses": *[_type == 'bonus'][]{...},
+      "features" : features[]{
+      value
+    }
+    }
+    }`,
+    {
+      slug: slug,
+    },
+  )
+  if (!pricing) {
+    return null
+  }
+  return pricing
 }

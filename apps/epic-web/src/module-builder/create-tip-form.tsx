@@ -16,10 +16,10 @@ import {
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
-import {useFileChange} from './use-file-change'
 import {trpc} from 'trpc/trpc.client'
 import {useRouter} from 'next/router'
 import {processFile} from 'module-builder/cloudinary-video-uploader'
+import {useFileChange} from '@skillrecordings/skill-lesson/lib/use-file-change'
 
 type CreateTipFormState = 'idle' | 'ready' | 'uploading' | 'success' | 'error'
 
@@ -29,7 +29,7 @@ const CreateTipForm: React.FC = () => {
 
   const formSchema = z.object({
     video: z.string().optional(),
-    title: z.string().nonempty(),
+    title: z.string().min(1),
   })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

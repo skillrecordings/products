@@ -1,6 +1,6 @@
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {getSdk} from '@skillrecordings/database'
-import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
+import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 const contextualShareCard = async (
@@ -9,7 +9,8 @@ const contextualShareCard = async (
 ) => {
   try {
     const {getDefaultCoupon} = getSdk()
-    const products = await getAllProducts()
+    const pricing = await getPricing('primary')
+    const products = pricing.products
     const defaultCoupons = await getDefaultCoupon(
       products.map((product: SanityProduct) => product.productId),
     )

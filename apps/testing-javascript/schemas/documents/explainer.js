@@ -63,7 +63,7 @@ export default {
     {
       name: 'body',
       title: 'Body',
-      type: 'body',
+      type: 'markdown',
     },
     {
       name: 'description',
@@ -71,6 +71,25 @@ export default {
       description: 'Used as a short "SEO" summary on Twitter cards etc.',
       type: 'text',
       validation: (Rule) => Rule.max(160),
+    },
+    {
+      name: 'github_branch_url',
+      title: 'GitHub Branch URL',
+      description: 'The branch containing code relevant to this lesson',
+      type: 'url',
+    },
+    {
+      name: 'github_diff_url',
+      title: 'GitHub Diff Url',
+      description:
+        "A diff view between the previous lesson's code and this one",
+      type: 'url',
+    },
+    {
+      name: 'codesandbox_url',
+      title: 'CodeSandbox URL',
+      description: 'An embeddable CodeSandbox example for this lesson',
+      type: 'url',
     },
   ],
 }

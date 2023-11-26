@@ -79,7 +79,7 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
         </Dialog.Title>
         <div className="pointer-events-none relative flex items-center justify-center">
           <Image
-            src="https://res.cloudinary.com/epic-web/image/upload/v1695820973/certificate-editor.jpg"
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1700132958/skill-template-certificate-thumbnail.png"
             width={1263}
             height={893}
             alt=""

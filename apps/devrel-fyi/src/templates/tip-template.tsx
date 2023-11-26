@@ -2,6 +2,10 @@ import React, {RefObject} from 'react'
 import cx from 'classnames'
 import Layout from '@/components/app/layout'
 import ReactMarkdown from 'react-markdown'
+import {
+  SubscribeToConvertkitForm,
+  redirectUrlBuilder,
+} from '@skillrecordings/ui/forms/convertkit-subscribe-form'
 import MuxPlayer, {
   MuxPlayerProps,
   MuxPlayerRefAttributes,
@@ -21,10 +25,6 @@ import Image from 'next/legacy/image'
 import {getOgImage} from '@/utils/get-og-image'
 import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 import {localProgressDb} from '@skillrecordings/skill-lesson/utils/dexie'
-import {
-  redirectUrlBuilder,
-  SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit-react-ui'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd, VideoJsonLd} from '@skillrecordings/next-seo'
@@ -41,6 +41,9 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {getTranscriptComponents} from '@skillrecordings/skill-lesson/markdown/transcript-components'
 import Link from 'next/link'
+import Container from '@/components/app/container'
+import {AnimatedThingy} from '@/pages'
+import Balancer from 'react-wrap-balancer'
 
 const TipTemplate: React.FC<{
   tip: Tip
@@ -109,7 +112,7 @@ const TipTemplate: React.FC<{
         ]}
         datePublished={tip._updatedAt || new Date().toISOString()}
         authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
-        description={tip.description || 'Epic Web Tip'}
+        description={tip.description || 'DevRel Tip'}
       />
       <VideoJsonLd
         name={tip.title}
@@ -131,60 +134,77 @@ const TipTemplate: React.FC<{
           },
         }}
       >
-        <main className="mx-auto w-full pt-0">
-          <div className="relative z-10 flex items-center justify-center">
-            <div className="flex w-full max-w-screen-xl flex-col">
-              <Video ref={muxPlayerRef} tips={moreTips} />
-              {!subscriber && !loadingSubscriber && (
-                <SubscribeForm handleOnSuccess={handleOnSuccess} />
+        <main>
+          <Container className="px-0 sm:px-0 lg:px-0">
+            <Video ref={muxPlayerRef} tips={moreTips} />
+          </Container>
+          {!subscriber && !loadingSubscriber && (
+            <Container className="border-t px-0 sm:px-0 lg:px-0">
+              <SubscribeForm handleOnSuccess={handleOnSuccess} />
+            </Container>
+          )}
+          <Container
+            as="article"
+            className="relative flex grid-cols-3 flex-col gap-10 border-t lg:grid "
+          >
+            <div className="col-span-2 border-b pt-10 lg:border-b-0">
+              <h1 className="inline-flex w-full items-baseline text-3xl font-semibold lg:text-5xl">
+                <Balancer>{tip.title}</Balancer>
+                {tipCompleted && <span className="sr-only">(watched)</span>}
+              </h1>
+              {tipCompleted && (
+                <div aria-hidden="true">
+                  <span className="absolute right-10 top-10 font-mono text-xs font-bold uppercase text-primary">
+                    Watched
+                  </span>
+                </div>
+              )}
+
+              {tipBody && (
+                <div className="prose w-full max-w-none pt-10 sm:prose-lg">
+                  <MDX contents={tipBody} />
+                </div>
+              )}
+
+              {tip.transcript && (
+                <Transcript
+                  transcript={tip.transcript}
+                  muxPlayerRef={muxPlayerRef}
+                />
               )}
             </div>
-          </div>
-          <article className="relative z-10 mx-auto w-full max-w-screen-md px-5 pb-16 pt-8 sm:pt-10">
-            <div className="mx-auto w-full max-w-screen-xl pb-5">
-              <div className="flex flex-col gap-5">
-                <h1 className="inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
-                  {tip.title}
-                  {tipCompleted && <span className="sr-only">(watched)</span>}
-                </h1>
-                {tipCompleted && (
-                  <div
-                    aria-hidden="true"
-                    className="flex items-center gap-1 pb-[20px] pt-6"
-                  >
-                    <Icon
-                      name="Checkmark"
-                      className="h-5 w-5 text-emerald-600"
-                    />
-                    <span className="text-sm font-black uppercase text-emerald-600 opacity-90">
-                      Watched
+
+            {moreTips && moreTips.length > 0 && (
+              <div className="relative pb-10 lg:border-l lg:pl-10">
+                <Link
+                  href="https://x.com/t3dotgg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group mb-10 flex items-center gap-4 border-b border-dashed py-10"
+                >
+                  <Image
+                    className="inline-flex rounded-[2px]"
+                    src={require('../../public/theo.jpg')}
+                    alt="Theo"
+                    width={64}
+                    height={64}
+                  />
+                  <div className="flex flex-col opacity-75 transition group-hover:opacity-100">
+                    <span className="font-sans text-base font-medium leading-tight">
+                      Theo - t3.gg
+                    </span>
+                    <span className="flex items-center gap-1 font-sans text-sm font-light opacity-75">
+                      <span>Author & Instructor</span>
                     </span>
                   </div>
-                )}
-                {tipBody && (
-                  <>
-                    <div className="prose w-full max-w-none pb-5 pt-5">
-                      <MDX contents={tipBody} />
-                    </div>
-                  </>
-                )}
-                {tip.transcript && (
-                  <div className="w-full max-w-2xl pt-5">
-                    <Transcript
-                      transcript={tip.transcript}
-                      muxPlayerRef={muxPlayerRef}
-                    />
-                  </div>
-                )}
-                {tweet && <ReplyOnTwitter tweet={tweet} />}
-              </div>
-            </div>
-            {moreTips && moreTips.length > 0 && (
-              <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
+                </Link>
                 <MoreTips currentTip={tip} tips={moreTips} />
+                <AnimatedThingy className="absolute bottom-10 right-0 opacity-50" />
               </div>
             )}
-          </article>
+
+            {tweet && <ReplyOnTwitter tweet={tweet} />}
+          </Container>
         </main>
       </Layout>
     </VideoProvider>
@@ -196,20 +216,19 @@ const Video: React.FC<any> = React.forwardRef(({tips}, ref: any) => {
   const {videoResource} = useVideoResource()
 
   return (
-    <div className="relative xl:px-5">
+    <div>
       {displayOverlay && <TipOverlay tips={tips} />}
       <div
-        className={cx(
-          'flex items-center justify-center overflow-hidden xl:rounded-md',
-          {
-            hidden: displayOverlay,
-          },
-        )}
+        className={cx('flex items-center justify-center overflow-hidden', {
+          hidden: displayOverlay,
+        })}
       >
         <MuxPlayer
           ref={ref}
           {...(muxPlayerProps as MuxPlayerProps)}
           playbackId={videoResource?.muxPlaybackId}
+          accentColor="#9D9CD7"
+          primaryColor="#fff"
         />
       </div>
     </div>
@@ -227,9 +246,11 @@ const Transcript: React.FC<{
     muxPlayerRef,
   })
   return (
-    <section aria-label="transcript">
-      <h2 className="text-2xl font-bold">Transcript</h2>
-      <div className="prose max-w-none pt-4">
+    <section aria-label="transcript" className="group py-16">
+      <h2 className="font-mono text-lg font-bold uppercase sm:text-xl">
+        Transcript
+      </h2>
+      <div className="prose max-w-none pt-5 opacity-80 transition group-hover:opacity-100">
         <ReactMarkdown components={markdownComponents}>
           {transcript}
         </ReactMarkdown>
@@ -243,16 +264,16 @@ const MoreTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   tips,
 }) => {
   return (
-    <section>
-      <h2 className="pt-2 text-2xl font-bold">More Tips</h2>
-      <ul className="flex flex-col pt-4">
+    <section className="transition hover:opacity-100">
+      <h2 className="font-mono text-base font-bold uppercase">More Tips</h2>
+      <ul className="flex flex-col gap-5 pt-4">
         {tips
           .filter((tip) => tip._id !== currentTip._id)
           .map((tip) => {
             return (
               <li key={tip._id}>
                 <Link
-                  className="underline"
+                  className="text-lg text-primary hover:underline"
                   href={{
                     pathname: '/tips/[tip]',
                     query: {
@@ -407,16 +428,16 @@ const SubscribeForm = ({
   return (
     <div
       id="tip"
-      className="flex w-full flex-col items-center justify-between gap-5 px-5 pb-5 pt-4 md:flex-row"
+      className="flex w-full flex-col items-center justify-between lg:flex-row lg:gap-5"
     >
-      <div className="inline-flex flex-shrink-0 items-center gap-3">
+      <div className="inline-flex w-full flex-shrink-0 items-center gap-5 text-primary lg:w-auto">
         <div
           aria-hidden="true"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/10"
+          className="flex h-16 w-16 items-center justify-center bg-primary/10"
         >
           <MailIcon className="h-5 w-5 text-primary" />
         </div>
-        New {process.env.NEXT_PUBLIC_SITE_TITLE} tips delivered to your inbox
+        New DevRel Tips delivered to your inbox:
       </div>
       <SubscribeToConvertkitForm
         actionLabel={`Subscribe for more tips`}

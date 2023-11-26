@@ -69,7 +69,7 @@ export type FaqProps = {
 
 export type InterviewProps = {
   isMultiple: boolean
-  description: PortableTextBlock
+  description: string
   title: string
   slug: {
     current: string

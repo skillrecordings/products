@@ -135,7 +135,7 @@ const TipTemplate: React.FC<{
             className={cn(
               'relative z-10 flex items-center justify-center bg-gradient-to-b from-black/30 to-gray-900',
               {
-                'pt-14 sm:pt-8 lg:pt-8': defaultCouponData,
+                'lg:pt-8': defaultCouponData,
               },
             )}
           >

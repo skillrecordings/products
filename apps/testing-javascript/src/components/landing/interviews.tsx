@@ -2,7 +2,7 @@ import * as React from 'react'
 import cx from 'classnames'
 import Image from 'next/image'
 import {isEmpty} from 'lodash'
-import {PortableText} from '@portabletext/react'
+import ReactMarkdown from 'react-markdown'
 import Balancer from 'react-wrap-balancer'
 import type {InterviewProps} from '@types'
 import Link from 'next/link'
@@ -21,10 +21,10 @@ const PlainInterview: React.FC<{
   )
   const TitleElem = () => <Balancer>{interview.title}</Balancer>
   return (
-    <div className="flex flex-col items-center lg:items-start lg:flex-row space-y-4 lg:space-x-6 lg:space-y-0">
-      <div className="w-32 h-32 overflow-hidden rounded-md shrink-0 mt-1">
+    <div className="flex flex-col items-center space-y-4 lg:flex-row lg:items-start lg:space-x-6 lg:space-y-0">
+      <div className="mt-1 h-32 w-32 shrink-0 overflow-hidden rounded-md">
         {proTestingPurchased ? (
-          <Link href={`/interviews/${interview.slug}`}>
+          <Link href={`/interviews/${interview.slug.current}`}>
             <ImageElem />
           </Link>
         ) : (
@@ -32,9 +32,9 @@ const PlainInterview: React.FC<{
         )}
       </div>
       <div className="text-center lg:text-start">
-        <h3 className="text-xl font-tt-demibold">
+        <h3 className="font-tt-demibold text-xl">
           {proTestingPurchased ? (
-            <Link href={`/interviews/${interview.slug}`}>
+            <Link href={`/interviews/${interview.slug.current}`}>
               <TitleElem />
             </Link>
           ) : (
@@ -43,7 +43,7 @@ const PlainInterview: React.FC<{
         </h3>
         <div className="mt-1 text-lg leading-normal">
           <Balancer>
-            <PortableText value={interview.description} />
+            <ReactMarkdown>{interview.description}</ReactMarkdown>
           </Balancer>
         </div>
       </div>
@@ -56,7 +56,7 @@ const MultipleInterview: React.FC<{
   proTestingPurchased: boolean
 }> = ({interview, proTestingPurchased}) => {
   const ImageElem = () => (
-    <div className="overflow-hidden rounded-md flex max-w-lg lg:max-w-none">
+    <div className="flex max-w-lg overflow-hidden rounded-md lg:max-w-none">
       <div className="aspect-square w-1/2">
         <Image
           src={interview.portraits.image1.url}
@@ -79,20 +79,23 @@ const MultipleInterview: React.FC<{
   )
   const TitleElem = () => <Balancer>{interview.title}</Balancer>
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-4 md:gap-y-6 lg:gap-y-0 gap-x-2 place-items-start">
-      <div className="shrink-0 lg:mt-2 flex justify-center w-full">
+    <div className="grid grid-cols-1 place-items-start gap-x-2 gap-y-4 md:gap-y-6 lg:grid-cols-2 lg:gap-y-0">
+      <div className="flex w-full shrink-0 justify-center lg:mt-2">
         {proTestingPurchased ? (
-          <Link href={`/interviews/${interview.slug}`} className="flex">
+          <Link href={`/interviews/${interview.slug.current}`} className="flex">
             <ImageElem />
           </Link>
         ) : (
           <ImageElem />
         )}
       </div>
-      <div className="lg:pl-6 text-center lg:text-start w-full max-w-2xl mx-auto lg:w-auto">
-        <h3 className="text-xl md:text-2xl lg:text-3xl font-tt-demibold">
+      <div className="mx-auto w-full max-w-2xl text-center lg:w-auto lg:pl-6 lg:text-start">
+        <h3 className="font-tt-demibold text-xl md:text-2xl lg:text-3xl">
           {proTestingPurchased ? (
-            <Link href={`/interviews/${interview.slug}`} className="block">
+            <Link
+              href={`/interviews/${interview.slug.current}`}
+              className="block"
+            >
               <TitleElem />
             </Link>
           ) : (
@@ -101,7 +104,7 @@ const MultipleInterview: React.FC<{
         </h3>
         <div className="mt-1 text-lg leading-normal">
           <Balancer>
-            <PortableText value={interview.description} />
+            <ReactMarkdown>{interview.description}</ReactMarkdown>
           </Balancer>
         </div>
       </div>
@@ -122,11 +125,11 @@ const Interviews: React.FunctionComponent<{
   )
   return (
     <section className={cx(className)}>
-      <h2 className="text-3xl md:text-4xl lg:text-5xl text-center lg:text-start">
+      <h2 className="text-center text-3xl md:text-4xl lg:text-start lg:text-5xl">
         Interviews
       </h2>
       {!isEmpty(multipleInterviews) && (
-        <div className="mt-4 md:mt-10 lg:mt-8 space-y-8">
+        <div className="mt-4 space-y-8 md:mt-10 lg:mt-8">
           {multipleInterviews.map((multipleInterview) => {
             return (
               <MultipleInterview
@@ -139,7 +142,7 @@ const Interviews: React.FunctionComponent<{
         </div>
       )}
       {!isEmpty(plainInterviews) && (
-        <div className="grid md:grid-cols-2 md:gap-x-8 lg:gap-x-16 gap-y-10 md:gap-y-16 mt-10 md:mt-14 lg:mt-16">
+        <div className="mt-10 grid gap-y-10 md:mt-14 md:grid-cols-2 md:gap-x-8 md:gap-y-16 lg:mt-16 lg:gap-x-16">
           {plainInterviews.map((plainInterview) => {
             return (
               <PlainInterview
@@ -157,7 +160,7 @@ const Interviews: React.FunctionComponent<{
             href={process.env.NEXT_PUBLIC_PRINTABLES_DOWNLOAD_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 font-tt-medium hover:underline text-2xl"
+            className="font-tt-medium text-2xl text-blue-600 hover:underline"
           >
             Download All Interviews
           </a>

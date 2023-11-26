@@ -29,8 +29,7 @@ export default async function handler(req: NextRequest) {
 
     if (hasPercentageDiscount) {
       const percentageDiscount = searchParams.get('percentageDiscount')
-      const backgroundImageUrl =
-        'https://res.cloudinary.com/epic-web/image/upload/v1696939073/default-gen-share-card-bg_2x.png'
+      const backgroundImageUrl = ''
 
       return new ImageResponse(
         (

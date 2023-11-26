@@ -1,7 +1,7 @@
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import Balancer from 'react-wrap-balancer'
-import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
+import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
@@ -19,7 +19,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
 
   const token = await getToken({req})
-  const products = await getAllProducts()
+
+  const pricing = await getPricing('primary')
+  const products = pricing && pricing.products
 
   const availableBonuses = await getAvailableBonuses()
 

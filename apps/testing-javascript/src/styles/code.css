@@ -1,0 +1,6 @@
+[data-video-code] {
+  @apply mt-16 mb-10 lg:mb-0;
+  [data-title] {
+    @apply text-2xl md:text-3xl mb-8 flex space-x-2 items-center;
+  }
+}

@@ -30,6 +30,10 @@ const navigation = [
         title: 'Module Collection',
         href: '/docs/components/module-collection',
       },
+      {
+        title: 'MDX Components',
+        href: '/docs/components/mdx',
+      },
     ],
   },
   {

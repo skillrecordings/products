@@ -6,6 +6,7 @@ import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {serialize} from 'next-mdx-remote/serialize'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import WorkshopTemplate from '@/templates/workshop-template'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
@@ -33,7 +34,10 @@ const TutorialPage: React.FC<{
 }> = ({tutorial, tutorialBody}) => {
   return (
     <ModuleProgressProvider moduleSlug={tutorial.slug.current}>
-      <TutorialTemplate tutorial={tutorial} tutorialBody={tutorialBody} />
+      <WorkshopTemplate
+        workshop={tutorial}
+        workshopBodySerialized={tutorialBody}
+      />
     </ModuleProgressProvider>
   )
 }

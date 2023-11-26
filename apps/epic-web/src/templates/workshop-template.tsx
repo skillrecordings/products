@@ -22,6 +22,8 @@ import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coup
 import ModuleCertificate from 'certificate/module-certificate'
 import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import {CogIcon} from '@heroicons/react/outline'
+import * as Dialog from '@radix-ui/react-dialog'
+import CertificateForm from 'certificate/certificate-form'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -102,9 +104,9 @@ const WorkshopTemplate: React.FC<{
               </div>
               <Collection.Sections>
                 {moduleProgressStatus === 'success' ? (
-                  <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125 [&_[data-check-icon]]:text-blue-400 [&_[data-check-icon]]:opacity-100 [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-blue-500 [&_[data-progress]]:dark:bg-gray-600">
+                  <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125 [&_[data-check-icon]]:text-emerald-600 [&_[data-check-icon]]:opacity-100 [&_[data-check-icon]]:dark:text-emerald-400 [&_[data-progress='100']]:bg-transparent [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-emerald-500 [&_[data-progress]]:dark:bg-emerald-400">
                     <Collection.Lessons>
-                      <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
+                      <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&_svg]:text-teal-600 [&_svg]:opacity-100 [&_svg]:dark:text-teal-300" />
                     </Collection.Lessons>
                   </Collection.Section>
                 ) : (
@@ -186,54 +188,70 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
               </div>
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
-              <Link
-                href={
-                  firstSection && sections
-                    ? {
-                        pathname: `/[type]/[module]/[section]/[lesson]`,
-                        query: {
-                          type:
-                            tutorial.moduleType === 'bonus'
-                              ? 'bonuses'
-                              : 'workshops',
-                          module: slug.current,
-                          section: isModuleInProgress
-                            ? nextSection?.slug
-                            : firstSection.slug,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
-                        },
-                      }
-                    : {
-                        pathname: '/[type]/[module]/[lesson]',
-                        query: {
-                          type:
-                            tutorial.moduleType === 'bonus'
-                              ? 'bonuses'
-                              : 'workshops',
-                          module: slug.current,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
-                        },
-                      }
-                }
-                className={cx(
-                  'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
-                  {
-                    'animate-pulse': moduleProgressStatus === 'loading',
-                  },
-                )}
-                onClick={() => {
-                  track('clicked start learning', {module: slug.current})
-                }}
-              >
-                {isModuleInProgress ? 'Continue' : 'Start'} Learning
-                <span className="pl-2" aria-hidden="true">
-                  →
-                </span>
-              </Link>
+              {moduleProgress?.moduleCompleted ? (
+                <Dialog.Root>
+                  <Dialog.Trigger
+                    className={cx(
+                      'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
+                      {
+                        'animate-pulse': moduleProgressStatus !== 'success',
+                      },
+                    )}
+                  >
+                    Get Certificate
+                  </Dialog.Trigger>
+                  <CertificateForm module={tutorial} />
+                </Dialog.Root>
+              ) : (
+                <Link
+                  href={
+                    firstSection && sections
+                      ? {
+                          pathname: `/[type]/[module]/[section]/[lesson]`,
+                          query: {
+                            type:
+                              tutorial.moduleType === 'bonus'
+                                ? 'bonuses'
+                                : 'workshops',
+                            module: slug.current,
+                            section: isModuleInProgress
+                              ? nextSection?.slug
+                              : firstSection.slug,
+                            lesson: isModuleInProgress
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
+                          },
+                        }
+                      : {
+                          pathname: '/[type]/[module]/[lesson]',
+                          query: {
+                            type:
+                              tutorial.moduleType === 'bonus'
+                                ? 'bonuses'
+                                : 'workshops',
+                            module: slug.current,
+                            lesson: isModuleInProgress
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
+                          },
+                        }
+                  }
+                  className={cx(
+                    'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
+                    {
+                      'animate-pulse': moduleProgressStatus === 'loading',
+                    },
+                  )}
+                  onClick={() => {
+                    track('clicked start learning', {module: slug.current})
+                  }}
+                >
+                  {isModuleInProgress ? 'Continue' : 'Start'} Learning
+                  <span className="pl-2" aria-hidden="true">
+                    →
+                  </span>
+                </Link>
+              )}
               {github?.repo && (
                 <a
                   className="flex w-full items-center justify-center gap-2 rounded-md border-none border-gray-300 px-5 py-4 font-medium leading-tight transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-900 md:w-auto"

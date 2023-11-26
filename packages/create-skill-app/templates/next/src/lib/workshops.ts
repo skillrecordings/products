@@ -7,7 +7,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   title,
   slug,
   moduleType,
-  "image": image.asset->url,
+  "image": image.secure_url,
   _updatedAt,
   _createdAt,
   description,
@@ -115,7 +115,7 @@ export const getWorkshop = async (slug: string) =>
           },
           "resources": resources[@->._type in ['linkResource']]->
         },
-        "image": image.asset->url, 
+        "image": image.secure_url,
         // get product that includes current workshop and has
         // the largest number of modules so we can assume it's a bundle
         'product': *[_type == 'product' && references(^._id)] | order(count(modules) desc)[0]{
@@ -130,11 +130,12 @@ export const getWorkshop = async (slug: string) =>
             "slug": slug.current,
             moduleType,
             title,
-            "image": image.asset->{url, alt},
+            "image": {"url": image.secure_url},
             state,
           },
           features[]{
-            value
+            value,
+            icon
           }
         },
     }`,

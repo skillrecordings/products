@@ -28,6 +28,7 @@ import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {useRouter} from 'next/router'
 import {Skeleton} from '@skillrecordings/ui'
 import * as Collection from '@skillrecordings/ui/module/collection'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -58,10 +59,14 @@ const WorkshopTemplate: React.FC<{
     trpc.moduleProgress.bySlug.useQuery({
       slug: workshop.slug.current,
     })
+  const {data: defaultCouponData, status: defaultCouponStatus} =
+    trpc.pricing.defaultCoupon.useQuery()
 
   return (
     <Layout
-      className="mx-auto w-full pt-20 lg:max-w-4xl lg:pb-24"
+      className={cn('mx-auto w-full pt-20 lg:max-w-4xl lg:pb-24', {
+        'pt-24 sm:pt-16 lg:pt-24': defaultCouponData,
+      })}
       meta={{
         title: pageTitle,
         description,

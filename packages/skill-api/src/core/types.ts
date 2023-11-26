@@ -15,6 +15,10 @@ export type SkillRecordingsAction =
   | 'answer'
   | 'subscribe'
   | 'lookup'
+  | 'sign-s3'
+  | 'claimed'
+  | 'transfer'
+  | 'nameUpdate'
 
 export interface SkillRecordingsHeader {
   key: string

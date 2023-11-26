@@ -13,6 +13,7 @@
 @import './team.css';
 @import './video-overlays.css';
 @import './redeem-dialog.css';
+@import './code.css';
 
 @layer base {
   html {

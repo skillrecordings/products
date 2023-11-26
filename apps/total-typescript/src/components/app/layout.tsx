@@ -11,6 +11,7 @@ import {useFeedback} from '../../feedback-widget/feedback-context'
 import Footer from '@/components/app/footer'
 import GlobalSearchBar from '@/search-bar'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {trpc} from '@/trpc/trpc.client'
 
 type LayoutProps = {
   meta?: any
@@ -45,6 +46,8 @@ const Layout: FunctionComponent<LayoutProps> = ({
     keywords,
     date,
   } = meta || {}
+  const {data: defaultCouponData, status: defaultCouponStatus} =
+    trpc.pricing.defaultCoupon.useQuery()
 
   return (
     <div className="relative">
@@ -80,7 +83,13 @@ const Layout: FunctionComponent<LayoutProps> = ({
       {isFeedbackDialogOpen && feedbackComponent}
       {nav ? nav : isNull(nav) ? null : <Navigation />}
       <div
-        className={cn('flex h-full min-h-screen flex-grow flex-col', className)}
+        className={cn(
+          'flex h-full min-h-screen flex-grow flex-col',
+          {
+            'md:pt-19 pt-14 sm:pt-8 lg:pt-0': defaultCouponData,
+          },
+          className,
+        )}
       >
         {children}
       </div>

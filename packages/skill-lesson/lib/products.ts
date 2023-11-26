@@ -71,7 +71,7 @@ export const getAllProducts = async () => {
       title,
       moduleType,
       "slug": slug.current,
-      "image": image.asset->{url, alt},
+      "image": image.asset->{url},
       state,
     },
     "bonuses": *[_type == 'bonus'][]{...},
@@ -107,9 +107,7 @@ export const getProduct = async (productId: string) => {
     groq`*[_type == 'product' && productId == $productId][0] {
      "name": title,
      slug,
-     image {
-      url
-     },
+     "image": image.asset->{url, alt},
      state
     }`,
     {

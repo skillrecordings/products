@@ -4,18 +4,7 @@ import {
   SkillRecordingsHeader,
 } from './types'
 import {init} from './init'
-import renderPage from './pages'
-import {sendFeedbackFromUser} from './services/send-feedback-from-user'
-import {loadPrices} from './services/load-prices'
-import {stripeCheckout} from './services/stripe-checkout'
-import {redeemGoldenTicket} from './services/redeem-golden-ticket'
-import {processStripeWebhooks} from './services/process-stripe-webhook'
-import {
-  convertkitAnswerQuizQuestion,
-  convertkitLoadSubscriber,
-  subscribeToConvertkit,
-} from './services/convertkit'
-import {lookupUser} from './services/lookup-user'
+import {actionRouter} from '../router'
 
 export interface OutgoingResponse<
   Body extends string | Record<string, any> | any[] = any,
@@ -46,61 +35,14 @@ export async function SkillRecordingsHandler<
   Body extends string | Record<string, any> | any[],
 >(params: SkillRecordingsHandlerParams): Promise<OutgoingResponse<Body>> {
   const {options: userOptions, req, token} = params
+  const {action, method = 'GET'} = req
 
-  // TODO: implement errors
-  const {action, error, providerId, method = 'GET'} = req
-
-  const {options, cookies} = await init({
-    userOptions,
+  return await actionRouter({
+    method,
+    req,
     action,
-    providerId,
-    host: req.host,
-    cookies: req.cookies,
-    isPost: method === 'POST',
+    params,
+    userOptions,
+    token,
   })
-
-  if (method === 'GET') {
-    const render = renderPage({...options, query: req.query, cookies})
-
-    // TODO: implement override pages
-    //  pages are overrides so that you can render user defined pages
-    // but not implemented here
-    const {pages} = options
-
-    switch (action) {
-      case 'test':
-        return render.test()
-      case 'subscriber':
-        return await convertkitLoadSubscriber({params})
-    }
-  } else if (method === 'POST') {
-    switch (action) {
-      case 'send-feedback':
-        return await sendFeedbackFromUser({
-          emailAddress: req?.body?.email || token?.email,
-          feedbackText: req?.body?.text,
-          context: req?.body?.context,
-          config: userOptions,
-        })
-      case 'redeem':
-        return await redeemGoldenTicket({params, token})
-      case 'prices':
-        return await loadPrices({params})
-      case 'checkout':
-        return stripeCheckout({params})
-      case 'webhook':
-        return await processStripeWebhooks({params})
-      case 'subscribe':
-        return await subscribeToConvertkit({params})
-      case 'answer':
-        return await convertkitAnswerQuizQuestion({params})
-      case 'lookup':
-        return await lookupUser({params})
-    }
-  }
-
-  return {
-    status: 400,
-    body: `Error: This action with HTTP ${method} is not supported by Skill Recordings` as any,
-  }
 }

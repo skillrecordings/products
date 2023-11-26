@@ -19,6 +19,7 @@ export type SubscribeFormProps = {
   subscribeApiURL?: string
   id?: string
   fields?: Record<string, string>
+  className?: string
   [rest: string]: any
 }
 
@@ -71,6 +72,7 @@ export const SubscribeToConvertkitForm: React.FC<
   subscribeApiURL,
   id,
   fields,
+  className,
   ...rest
 }) => {
   const {isSubmitting, status, handleChange, handleSubmit} = useConvertkitForm({
@@ -85,6 +87,7 @@ export const SubscribeToConvertkitForm: React.FC<
     <form
       data-sr-convertkit-subscribe-form={status}
       onSubmit={handleSubmit}
+      className={className}
       {...rest}
     >
       <Label

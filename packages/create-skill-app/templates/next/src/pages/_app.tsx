@@ -15,6 +15,7 @@ import config from '../config'
 import {trpc} from '@/trpc/trpc.client'
 import Script from 'next/script'
 import {Session} from 'next-auth'
+import {ThemeProvider} from '@/components/app/theme-provider'
 
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
   amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
@@ -34,7 +35,14 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <ConvertkitProvider>
             <MDXProvider>
-              <Component {...pageProps} />
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <Component {...pageProps} />
+              </ThemeProvider>
             </MDXProvider>
           </ConvertkitProvider>
           <ReactQueryDevtools initialIsOpen={false} />

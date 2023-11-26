@@ -9,3 +9,7 @@
 [data-download-certificate-button]:hover span {
   @apply scale-105;
 }
+
+[data-transcript-title] {
+  @apply text-2xl md:text-3xl mb-0 flex items-center space-x-2;
+}

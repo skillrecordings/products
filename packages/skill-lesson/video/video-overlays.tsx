@@ -161,6 +161,7 @@ export const CompleteAndContinueButton = React.forwardRef<
     path,
     handlePlay,
     handleContinue,
+    nextPathBuilder,
   } = useMuxPlayer()
   const {lesson, module, section} = useLesson()
   const router = useRouter()
@@ -202,6 +203,7 @@ export const CompleteAndContinueButton = React.forwardRef<
                 handlePlay,
                 path,
                 section: nextSection ? nextSection : section,
+                nextPathBuilder,
               })
             },
           },
