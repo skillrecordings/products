@@ -6,7 +6,7 @@ import {useRouter} from 'next/router'
 import {trpc} from '@/trpc/trpc.client'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import {getAllProducts, getProduct} from '@/lib/products'
+import {getAllProducts, getPricing, getProduct} from '@/lib/products'
 import {getAvailableBonuses} from '@/lib/available-bonuses'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
@@ -26,7 +26,8 @@ const defaultProductId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
 export const getStaticProps: GetStaticProps = async () => {
   const defaultProduct = await getProduct(defaultProductId as string)
-  const products = await getAllProducts()
+  const pricing = await getPricing()
+  const products = pricing && pricing.products
   const availableBonuses = await getAvailableBonuses()
   const landingPage = await getPage('landing-page')
   const landingCopy = landingPage?.body

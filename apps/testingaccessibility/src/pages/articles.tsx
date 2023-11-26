@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Layout from 'components/app/layout'
 import Link from 'next/link'
-import Markdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown'
 import {GetServerSideProps} from 'next'
 import {format} from 'date-fns'
 import {SanityDocument} from '@sanity/client'
@@ -54,9 +54,9 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
                             {format(new Date(date), 'dd MMMM, y')}
                           </time>
                           {description && (
-                            <Markdown className="prose pt-3 pb-6">
+                            <ReactMarkdown className="prose pt-3 pb-6">
                               {description}
-                            </Markdown>
+                            </ReactMarkdown>
                           )}
                         </div>
                       </div>

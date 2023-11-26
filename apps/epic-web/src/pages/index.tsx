@@ -28,7 +28,7 @@ import {
   SanityProductModule,
 } from '@skillrecordings/commerce-server/dist/@types'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
-import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
+import {getPricing} from '@skillrecordings/skill-lesson/lib/pricing'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {Sparkles} from './buy'
 import ReactMarkdown from 'react-markdown'
@@ -639,7 +639,9 @@ export default Index
 
 export const getStaticProps: GetStaticProps = async () => {
   const sanityProduct = await getProduct(productId as string)
-  const products = await getAllProducts()
+  const pricing = await getPricing('primary')
+
+  const products = pricing && pricing.products
   const availableBonuses = await getAvailableBonuses()
   // get images from public folder
   const interviewImages = await readDirectoryContents('assets/interviews')

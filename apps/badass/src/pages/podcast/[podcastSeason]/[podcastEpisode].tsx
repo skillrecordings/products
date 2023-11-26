@@ -9,7 +9,7 @@ import {
   getPodcastSeason,
   PodcastEpisode,
 } from '../../../lib/podcast'
-import Markdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown'
 import {isEmpty} from 'lodash'
 import {genericCallToActionContent} from '../../../components/landing-content'
 import {
@@ -89,9 +89,9 @@ const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
         <div className="max-w-screen-md w-full mx-auto">
           <PodcastPlayer simplecastId={episode.simplecastId} />
           <article className="px-5">
-            <Markdown className="prose sm:prose-lg lg:prose-xl pt-3 max-w-3xl prose-p:text-neutral-200 first-letter:text-6xl first-letter:pr-3 first-letter:-mt-0.5 first-line:text-badass-pink-300 first-letter:font-expanded first-letter:float-left first-letter:text-badass-pink-500">
+            <ReactMarkdown className="prose sm:prose-lg lg:prose-xl pt-3 max-w-3xl prose-p:text-neutral-200 first-letter:text-6xl first-letter:pr-3 first-letter:-mt-0.5 first-line:text-badass-pink-300 first-letter:font-expanded first-letter:float-left first-letter:text-badass-pink-500">
               {episode.description}
-            </Markdown>
+            </ReactMarkdown>
             {isEmpty(episode.links) ? null : (
               <section className="sm:text-lg lg:text-xl pt-12">
                 <h2 className="font-expanded text-badass-pink-500 text-2xl pb-5">
@@ -123,9 +123,9 @@ const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
           <h2 className="sm:text-4xl text-2xl font-expanded bg-gradient-to-r from-neutral-500 to-neutral-700/60 bg-clip-text text-transparent sm:pt-32 pt-16 sm:pb-24 pb-16">
             Transcript
           </h2>
-          <Markdown className="prose sm:prose-base prose-sm prose-p:text-neutral-300 max-w-3xl md:px-10 px-5">
+          <ReactMarkdown className="prose sm:prose-base prose-sm prose-p:text-neutral-300 max-w-3xl md:px-10 px-5">
             {episode.transcript}
-          </Markdown>
+          </ReactMarkdown>
           <div className="lg:flex items-center justify-center hidden w-full mx-auto">
             <ParallaxImages y={y} />
           </div>

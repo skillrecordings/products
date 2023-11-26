@@ -14,6 +14,8 @@ import Balancer from 'react-wrap-balancer'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import cx from 'classnames'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {trpc} from '@/trpc/trpc.client'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 export const HomeTemplate: React.FC<
   React.PropsWithChildren<CommerceProps & {level?: string}>
@@ -45,9 +47,14 @@ export const HomeTemplate: React.FC<
     return 0
   })
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+  const {data: defaultCouponData, status: defaultCouponStatus} =
+    trpc.pricing.defaultCoupon.useQuery()
 
   return (
     <Layout
+      className={cn('', {
+        'lg:pt-16': defaultCouponData,
+      })}
       meta={{
         title: `Professional TypeScript Training by Matt Pocock `,
         ogImage: couponFromCode && {

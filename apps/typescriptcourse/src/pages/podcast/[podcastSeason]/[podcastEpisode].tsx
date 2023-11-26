@@ -9,7 +9,7 @@ import {
 import Layout from 'components/app/layout'
 import PortableTextComponents from 'components/portable-text'
 import PodcastPlayer from 'components/podcast-player'
-import Markdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown'
 import {PortableText, toPlainText} from '@portabletext/react'
 import {useRouter} from 'next/router'
 import {getOgImage} from 'utils/get-og-image'
@@ -84,7 +84,7 @@ const EpisodeLayout = ({episode}: {episode: PodcastEpisode}) => {
           {title}
         </h1>
         <div className="px-5 max-w-screen-md prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl mx-auto">
-          <Markdown>{description}</Markdown>
+          <ReactMarkdown>{description}</ReactMarkdown>
         </div>
         <PodcastPlayer simplecastId={simplecastId} />
         <div className="px-5 prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl max-w-screen-md mx-auto">
@@ -132,7 +132,7 @@ const EpisodeLayout = ({episode}: {episode: PodcastEpisode}) => {
         ) : null}
         <div className="px-5 max-w-screen-md mx-auto mt-20 prose opacity-90 md:prose-p:text-white/90 md:prose-headings:mx-auto md:prose-lg prose-p:my-5 md:prose-p:my-8 xl:prose-p:my-10 xl:prose-xl">
           <h2>Transcript</h2>
-          <Markdown>{transcript}</Markdown>
+          <ReactMarkdown>{transcript}</ReactMarkdown>
         </div>
       </main>
     </Layout>
