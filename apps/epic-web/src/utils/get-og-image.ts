@@ -4,14 +4,16 @@ type OgImageUrlOptions = {
   title: string
   image?: string | null
   byline?: string
+  type?: string
 }
 
 export const getOgImage = (options: OgImageUrlOptions) => {
-  const {title, image, byline} = options
+  const {title, image, byline, type} = options
 
   const query = new URLSearchParams({
     ...(image && {image}),
     ...(byline && {byline}),
+    ...(type && {type}),
     title: title,
   })
   const url =
