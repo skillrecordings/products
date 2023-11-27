@@ -66,7 +66,6 @@ const PricingSection: React.FC<{
                   userId={userId}
                   product={product}
                   purchased={purchasedProductsIds.includes(product.productId)}
-                  purchases={purchases}
                   index={i}
                   couponId={couponId}
                   allowPurchase={allowPurchase}

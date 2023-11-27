@@ -22,7 +22,6 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
   mdx,
   allowPurchase,
   userId,
-  purchases,
   couponFromCode,
   availableBonuses,
 }) => {
@@ -91,7 +90,6 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
                 userId={userId}
                 product={{...product, name: undefined, title: undefined} as any}
                 purchased={purchasedProductIds.includes(product.productId)}
-                purchases={purchases}
                 couponId={couponId}
                 couponFromCode={couponFromCode}
               />

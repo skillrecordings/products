@@ -5,7 +5,7 @@ import cx from 'classnames'
 import * as Switch from '@radix-ui/react-switch'
 import Image from 'next/legacy/image'
 import find from 'lodash/find'
-import type {Purchase, MerchantCoupon} from '@skillrecordings/database'
+import type {MerchantCoupon} from '@skillrecordings/database'
 import type {
   SanityProduct,
   FormattedPrice,
@@ -67,7 +67,6 @@ const formatUsd = (amount: number = 0) => {
 type PricingProps = {
   product: SanityProduct
   purchased?: boolean
-  purchases?: Purchase[]
   userId?: string
   index?: number
   couponId?: string
@@ -80,7 +79,6 @@ type PricingProps = {
  * Pricing component for the product.
  * @param product
  * @param purchased
- * @param purchases
  * @param userId - If user is logged in, this is the user's ID.
  * @param index
  * @param couponId
@@ -89,7 +87,6 @@ type PricingProps = {
 export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   product,
   purchased = false,
-  purchases = [],
   userId,
   index = 0,
   couponId,

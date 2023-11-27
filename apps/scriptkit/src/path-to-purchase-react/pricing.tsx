@@ -12,7 +12,6 @@ import SaleCountdown from './sale-countdown'
 import Spinner from 'components/spinner'
 import Image from 'next/legacy/image'
 import find from 'lodash/find'
-import {Purchase} from '@skillrecordings/database'
 import ReactMarkdown from 'react-markdown'
 import {isSellingLive} from '../utils/is-selling-live'
 import {MailIcon} from '@heroicons/react/solid'
@@ -47,7 +46,6 @@ const formatUsd = (amount: number = 0) => {
 type PricingProps = {
   product: SanityProduct
   purchased?: boolean
-  purchases?: Purchase[]
   userId?: string
   index?: number
   couponId?: string
@@ -59,7 +57,6 @@ type PricingProps = {
  * Pricing component for the product.
  * @param product
  * @param purchased
- * @param purchases
  * @param userId - If user is logged in, this is the user's ID.
  * @param index
  * @param couponId
@@ -68,7 +65,6 @@ type PricingProps = {
 export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   product,
   purchased = false,
-  purchases = [],
   userId,
   index = 0,
   couponId,

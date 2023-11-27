@@ -60,7 +60,6 @@ const Buy: React.FC<CommerceProps> = ({
                   userId={userId}
                   product={product}
                   purchased={purchasedProductIds.includes(product.productId)}
-                  purchases={purchases}
                   index={i}
                   couponId={couponId}
                   allowPurchase={allowPurchase}

@@ -121,7 +121,6 @@ const WorkshopTemplate: React.FC<{
                     product={product as SanityProduct}
                     allowPurchase={commerceProps?.allowPurchase}
                     cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
-                    purchases={commerceProps?.purchases}
                     userId={commerceProps?.userId}
                     options={{
                       withGuaranteeBadge: true,
