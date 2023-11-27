@@ -181,7 +181,6 @@ const FullStackWorkshopSeries: React.FC<ProductPageProps> = ({
                       purchased={purchasedProductIds.includes(
                         product.productId,
                       )}
-                      purchases={commerceProps?.purchases || []}
                       index={i}
                       couponId={couponId}
                       options={{

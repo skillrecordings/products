@@ -130,7 +130,6 @@ const Home: NextPage<{
                             purchased={purchasedProductIds.includes(
                               product.productId,
                             )}
-                            purchases={commerceProps?.purchases}
                             index={i}
                             couponId={couponId}
                           />

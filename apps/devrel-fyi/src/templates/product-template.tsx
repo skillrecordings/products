@@ -91,7 +91,6 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
                 userId={userId}
                 product={{...product, name: undefined, title: undefined} as any}
                 purchased={purchasedProductIds.includes(product.productId)}
-                purchases={purchases}
                 couponId={couponId}
                 couponFromCode={couponFromCode}
               />
@@ -226,6 +225,7 @@ export const useWorkshopCta = () => {
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
 
+  // remove this, it is KCD-products specific
   const hasPurchased = purchasedProductIds.includes(
     'kcd_product-f000186d-78c2-4b02-a763-85b2e5feec7b',
   )

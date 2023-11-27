@@ -126,7 +126,6 @@ export const HomeTemplate: React.FC<
                             index={i}
                             product={product}
                             userId={userId}
-                            purchases={purchases}
                             purchased={purchasedProductIds.includes(
                               product.productId,
                             )}

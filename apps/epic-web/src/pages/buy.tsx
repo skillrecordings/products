@@ -116,7 +116,6 @@ const BuyPage: React.FC<
                     userId={userId}
                     product={product}
                     purchased={purchasedProductIds.includes(product.productId)}
-                    purchases={purchases}
                     index={i}
                     couponId={couponId}
                     couponFromCode={couponFromCode}

@@ -170,7 +170,6 @@ const WorkshopTemplate: React.FC<{
                         product={product}
                         allowPurchase={product.state === 'active'}
                         cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
-                        purchases={commerceProps?.purchases}
                         userId={commerceProps?.userId}
                         options={{
                           withGuaranteeBadge: true,

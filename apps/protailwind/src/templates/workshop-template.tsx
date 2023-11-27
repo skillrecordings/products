@@ -152,7 +152,6 @@ const BuyWorkshop: React.FC<
   product,
   workshop,
   couponFromCode,
-  purchases = [],
   userId,
   products,
   couponIdFromCoupon,
@@ -208,7 +207,6 @@ const BuyWorkshop: React.FC<
             userId={userId}
             product={product}
             purchased={hasPurchased}
-            purchases={purchases}
             couponId={couponId}
             allowPurchase={allowPurchase}
           />

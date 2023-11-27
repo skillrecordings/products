@@ -3,7 +3,6 @@ import {GetServerSideProps} from 'next'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {Element} from 'react-scroll'
-import {PricingTiers} from '@skillrecordings/skill-lesson/path-to-purchase/product-tiers'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import Layout from '@/components/app/layout'
 import {getToken} from 'next-auth/jwt'
@@ -123,7 +122,6 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
                       purchased={purchasedProductIds.includes(
                         product.productId,
                       )}
-                      purchases={purchases}
                       index={i}
                       couponId={couponId}
                       allowPurchase={allowPurchase}
