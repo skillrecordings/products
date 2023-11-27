@@ -1,5 +1,9 @@
 import Layout from '@/components/app/layout'
 import {PickExample} from '@/components/mdx/exercises'
+import {OmitExample} from '@/components/mdx/omit-exercise'
+import {PartialExample} from '@/components/mdx/partial-exercise'
+import {ReadonlyExample} from '@/components/mdx/readonly-exercise'
+import {RequiredExample} from '@/components/mdx/required-exercise'
 import '@/styles/shiki-twoslash.css'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {format} from 'date-fns'
@@ -8,7 +12,20 @@ import Link from 'next/link'
 
 const _createdAt = '2018-04-02'
 
-const children = <PickExample />
+const children = (
+  <div className="space-y-12">
+    <h1>Omit</h1>
+    <OmitExample />
+    <h1>Pick</h1>
+    <PickExample />
+    <h1>Partial</h1>
+    <PartialExample />
+    <h1>Required</h1>
+    <RequiredExample />
+    <h1>Readonly</h1>
+    <ReadonlyExample />
+  </div>
+)
 
 const Page = () => {
   return (
