@@ -1,6 +1,13 @@
 import {cn} from '@skillrecordings/ui/utils/cn'
 import React, {ReactNode, useEffect, useState} from 'react'
 import {AnimatePresence, LayoutGroup, motion} from 'framer-motion'
+import {
+  Blue,
+  CodeLine,
+  Green,
+  Orange,
+  SingleLineObjectProperty,
+} from './code-elements'
 
 export const Box = (props: {
   children?: React.ReactNode
@@ -8,53 +15,9 @@ export const Box = (props: {
   style?: React.CSSProperties
 }) => {
   return (
-    <div className={cn(props.className, 'overflow-hidden')} style={props.style}>
+    <div className={cn(props.className, 'overflow-hidden')}>
       {props.children}
     </div>
-  )
-}
-
-export const Blue = (props: {
-  children?: React.ReactNode
-  className?: string
-}) => {
-  return (
-    <span className={cn('text-blue-400', props.className)}>
-      {props.children}
-    </span>
-  )
-}
-
-export const Sky = (props: {
-  children?: React.ReactNode
-  className?: string
-}) => {
-  return (
-    <span className={cn('text-sky-300', props.className)}>
-      {props.children}
-    </span>
-  )
-}
-
-export const Orange = (props: {
-  children?: React.ReactNode
-  className?: string
-}) => {
-  return (
-    <span className={cn('text-orange-300', props.className)}>
-      {props.children}
-    </span>
-  )
-}
-
-export const Green = (props: {
-  children?: React.ReactNode
-  className?: string
-}) => {
-  return (
-    <span className={cn('text-green-400', props.className)}>
-      {props.children}
-    </span>
   )
 }
 
@@ -86,52 +49,11 @@ export const HighlightBox = (props: {
   )
 }
 
-export const Divider = () => {
-  return (
-    <div className="flex h-6 items-center justify-center bg-gray-900 text-4xl text-white"></div>
-  )
-}
-
-const CodeLine = (props: {children?: React.ReactNode; delay?: number}) => {
-  return (
-    <motion.pre
-      layout
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      initial={{opacity: 0}}
-      className="m-0 p-0 text-gray-100"
-    >
-      {props.children}
-    </motion.pre>
-  )
-}
-
-const SingleLineObjectProperty = (props: {
-  propKey: string
-  value: React.ReactNode
-  delay?: number
-}) => {
-  return (
-    <CodeLine delay={props.delay}>
-      {`  `}
-      <Sky>{props.propKey}</Sky>: {props.value}
-    </CodeLine>
-  )
-}
-
-const ObjectType = (props: {
-  keys: string[]
-  typeName: string
-  delay?: number
-}) => {
+const ObjectType = (props: {keys: string[]; typeName: string}) => {
   return (
     <motion.div layout>
       <AnimatePresence>
-        <CodeLine key="line" delay={props.delay}>
+        <CodeLine key="line">
           <Blue>type</Blue> <Green>{props.typeName}</Green> = {`{`}
           <AnimatePresence mode="popLayout">
             {props.keys.length === 0 && (
@@ -144,7 +66,6 @@ const ObjectType = (props: {
             <SingleLineObjectProperty
               key={key}
               propKey={key}
-              delay={props.delay}
               value={
                 <>
                   <Green>string</Green>;
@@ -202,7 +123,7 @@ const useDelayedState = <T,>(initialState: T, delay: number) => {
   }, [currentState, delay])
 
   return {
-    firstDelay: delayedState,
+    delayedValue: delayedState,
     currentValue: currentState,
     set: setState,
   }
@@ -245,7 +166,7 @@ const TypeHelperAndVariable = (props: {
   arguments: {node: ReactNode; key: string}[]
 }) => {
   return (
-    <CodeLine delay={300}>
+    <CodeLine>
       <Blue>type</Blue> <Green>{props.variableName}</Green>
       {` = `}
       <Green>{props.typeName}</Green>
@@ -282,9 +203,9 @@ export const OmitExample = () => {
 
   const possibleKeys = ['a', 'b', 'c', 'd']
 
-  const keys = possibleKeys.slice(0, numOfKeys.firstDelay)
+  const keys = possibleKeys.slice(0, numOfKeys.delayedValue)
 
-  const keysToOmit = possibleKeys.slice(0, numOfKeysToOmit.firstDelay)
+  const keysToOmit = possibleKeys.slice(0, numOfKeysToOmit.delayedValue)
 
   return (
     <div className="not-prose flex flex-col rounded bg-gray-800 text-base">
@@ -312,7 +233,7 @@ export const OmitExample = () => {
 
         <motion.div layout className="space-y-8 p-10 px-12">
           <LayoutGroup>
-            <ObjectType typeName="Input" keys={keys} delay={300}></ObjectType>
+            <ObjectType typeName="Input" keys={keys}></ObjectType>
             <motion.div layout>
               <TypeHelperAndVariable
                 typeName="Omit"
@@ -330,7 +251,6 @@ export const OmitExample = () => {
               ></TypeHelperAndVariable>
               <HighlightBox className="">
                 <ObjectType
-                  delay={300}
                   typeName="Result"
                   keys={keys.filter((key) => !keysToOmit.includes(key))}
                 ></ObjectType>
@@ -343,20 +263,28 @@ export const OmitExample = () => {
   )
 }
 
+export const InputBox = (props: {children?: React.ReactNode}) => {
+  return (
+    <Box className="flex justify-center space-x-12 bg-gray-700 p-6">
+      {props.children}
+    </Box>
+  )
+}
+
 export const PickExample = () => {
   const numOfKeys = useDelayedState(3, 300)
   const numOfKeysToPick = useDelayedState(1, 300)
 
   const possibleKeys = ['a', 'b', 'c', 'd']
 
-  const keys = possibleKeys.slice(0, numOfKeys.firstDelay)
+  const keys = possibleKeys.slice(0, numOfKeys.delayedValue)
 
-  const keysToPick = possibleKeys.slice(0, numOfKeysToPick.firstDelay)
+  const keysToPick = possibleKeys.slice(0, numOfKeysToPick.delayedValue)
 
   return (
     <div className="not-prose flex flex-col rounded bg-gray-800 text-base">
       <LayoutGroup>
-        <Box className="flex justify-center space-x-12 bg-gray-700 p-6">
+        <InputBox>
           <RangeInput
             label="Input Keys"
             onChange={(value) => {
@@ -375,58 +303,55 @@ export const PickExample = () => {
             min={1}
             max={4}
           />
-        </Box>
+        </InputBox>
 
         <motion.div layout className="space-y-8 p-10 px-12">
-          <LayoutGroup>
-            <ObjectType typeName="Input" keys={keys} delay={300}></ObjectType>
-            <motion.div layout>
-              <TypeHelperAndVariable
-                typeName="Pick"
-                variableName="Result"
-                arguments={[
-                  {
-                    key: 'Input',
-                    node: <Green>Input</Green>,
-                  },
-                  {
-                    key: 'Union',
-                    node: (
-                      <>
-                        <div className="relative inline-block">
-                          <AnimatePresence>
-                            {keysToPick.length > keys.length && (
-                              <motion.div
-                                animate={{
-                                  opacity: 1,
-                                }}
-                                exit={{
-                                  opacity: 0,
-                                }}
-                                initial={{
-                                  opacity: 0,
-                                }}
-                                className="absolute bottom-[-2px] z-20 block h-1 w-full rounded bg-red-500"
-                              />
-                            )}
-                          </AnimatePresence>
-                          <StringUnion members={keysToPick} />
-                        </div>
-                      </>
-                    ),
-                  },
-                ]}
-              ></TypeHelperAndVariable>
+          <ObjectType typeName="Input" keys={keys}></ObjectType>
+          <div>
+            <TypeHelperAndVariable
+              typeName="Pick"
+              variableName="Result"
+              arguments={[
+                {
+                  key: 'Input',
+                  node: <Green>Input</Green>,
+                },
+                {
+                  key: 'Union',
+                  node: (
+                    <>
+                      <div className="relative inline-block">
+                        <AnimatePresence>
+                          {keysToPick.length > keys.length && (
+                            <motion.div
+                              animate={{
+                                opacity: 1,
+                              }}
+                              exit={{
+                                opacity: 0,
+                              }}
+                              initial={{
+                                opacity: 0,
+                              }}
+                              className="absolute bottom-[-2px] z-20 block h-1 w-full rounded bg-red-500"
+                            />
+                          )}
+                        </AnimatePresence>
+                        <StringUnion members={keysToPick} />
+                      </div>
+                    </>
+                  ),
+                },
+              ]}
+            ></TypeHelperAndVariable>
 
-              <HighlightBox className="">
-                <ObjectType
-                  delay={300}
-                  typeName="Result"
-                  keys={keys.filter((key) => keysToPick.includes(key))}
-                ></ObjectType>
-              </HighlightBox>
-            </motion.div>
-          </LayoutGroup>
+            <HighlightBox className="">
+              <ObjectType
+                typeName="Result"
+                keys={keys.filter((key) => keysToPick.includes(key))}
+              ></ObjectType>
+            </HighlightBox>
+          </div>
         </motion.div>
       </LayoutGroup>
     </div>
