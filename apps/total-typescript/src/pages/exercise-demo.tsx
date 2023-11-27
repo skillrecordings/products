@@ -1,5 +1,5 @@
 import Layout from '@/components/app/layout'
-import {Example} from '@/components/mdx/exercises'
+import {PickExample} from '@/components/mdx/exercises'
 import '@/styles/shiki-twoslash.css'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {format} from 'date-fns'
@@ -8,7 +8,7 @@ import Link from 'next/link'
 
 const _createdAt = '2018-04-02'
 
-const children = <Example />
+const children = <PickExample />
 
 const Page = () => {
   return (
