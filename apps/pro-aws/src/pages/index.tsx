@@ -17,6 +17,7 @@ import {getPage} from '@/lib/pages'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import Balancer from 'react-wrap-balancer'
 
 const defaultProductId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -76,12 +77,10 @@ const Home: NextPage<{
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
 
   return (
-    <Layout>
+    <Layout meta={{title: 'Navigate the AWS Maze with Confidence'}}>
       <header className="relative mx-auto flex aspect-square w-full max-w-screen-xl flex-col items-center justify-center border-x border-b py-24 sm:aspect-[1280/800]">
         <h1 className="leading-0 w-full text-center text-5xl font-bold text-white sm:text-7xl lg:text-8xl">
-          Lorem ipsum
-          <br />
-          dolor AWS amet
+          <Balancer>Navigate the AWS Maze with Confidence</Balancer>
         </h1>
         <h2 className="pt-2 text-base font-medium tracking-widest text-primary sm:pt-5 sm:text-xl lg:text-2xl">
           Professional AWS Training
@@ -111,7 +110,7 @@ const Home: NextPage<{
       </header>
       <main className="mx-auto w-full max-w-screen-xl border-x border-b pt-5 sm:pt-24">
         {landingCopy && (
-          <article className="prose mx-auto w-full max-w-2xl px-6 sm:prose-lg sm:px-3">
+          <article className="prose mx-auto w-full max-w-[45rem] px-6 sm:prose-lg sm:px-3">
             <MDX contents={landingCopy} />
           </article>
         )}
@@ -166,13 +165,14 @@ const Home: NextPage<{
           </div>
           <div className="max-w-lg px-6 pb-32 sm:px-0 sm:pb-5">
             <h3 className="text-3xl font-semibold text-white sm:text-4xl lg:text-5xl">
-              Lorem Adam Dolor Sit
+              I'm Adam.
             </h3>
             <p className="pt-5 text-lg leading-relaxed sm:pt-8">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-              ultrices porta metus, a imperdiet lorem aliquam finibus. Etiam
-              dapibus fermentum ligula, vel tincidunt dui tempus nec. Morbi a
-              hendrerit odio. Curabitur pellentesque tellus a condimentum.
+              I'm an AWS Hero and startup founder that's built web applications
+              used by millions of people across the world every day. I've spent
+              the last decade building on AWS, and when I started I was as lost
+              as you are today. I created Pro AWS to give everyone a path
+              through the maze to unleash our collective creativity.
             </p>
           </div>
           <Image
