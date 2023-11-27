@@ -27,7 +27,9 @@ export default async function NextAuthEndpoint(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  withSentry(NextAuth(req, res, createOptions({req, theme: productTheme})))
+  withSentry(
+    NextAuth(req, res, createOptions({req, theme: productTheme, providers})),
+  )
 }
 
 export const config = {
