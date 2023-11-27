@@ -8,7 +8,8 @@ import {
   HighlightBox,
   TypeHelperAndVariable,
   Union,
-  UnionMember,
+  ListMember,
+  InputBox,
 } from './interactive-code-elements'
 import {useDelayedState} from './use-delayed-state'
 
@@ -29,7 +30,7 @@ const possibleMembers = [
     element: <Blue>undefined</Blue>,
     key: 'undefined',
   },
-] satisfies UnionMember[]
+] satisfies ListMember[]
 
 export const NonNullableExercise = () => {
   const members = useDelayedState(possibleMembers.map((mem) => mem.key))
@@ -48,7 +49,7 @@ export const NonNullableExercise = () => {
   return (
     <div className="not-prose flex flex-col rounded bg-gray-800 text-base">
       <LayoutGroup>
-        <Box className="flex justify-center space-x-12 bg-gray-700 p-6">
+        <InputBox>
           <Checkboxes
             label="Input Members"
             checkboxes={possibleMembers.map((mem) => ({
@@ -58,7 +59,7 @@ export const NonNullableExercise = () => {
             }))}
             onChange={members.set}
           ></Checkboxes>
-        </Box>
+        </InputBox>
 
         <motion.div layout className="space-y-8 p-10 px-12">
           <LayoutGroup>

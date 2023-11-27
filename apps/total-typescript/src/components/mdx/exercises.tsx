@@ -3,6 +3,7 @@ import {
   Checkboxes,
   CodeLine,
   DarkGreen,
+  ErrorLine,
   Green,
   HighlightBox,
   InputBox,
@@ -79,27 +80,9 @@ export const PickExample = () => {
                 {
                   key: 'Union',
                   node: (
-                    <>
-                      <div className="relative inline-block">
-                        <AnimatePresence>
-                          {shouldShowError && (
-                            <motion.div
-                              animate={{
-                                opacity: 1,
-                              }}
-                              exit={{
-                                opacity: 0,
-                              }}
-                              initial={{
-                                opacity: 0,
-                              }}
-                              className="absolute bottom-[-2px] z-20 block h-1 w-full rounded bg-red-500"
-                            />
-                          )}
-                        </AnimatePresence>
-                        <StringUnion members={outputKeys} />
-                      </div>
-                    </>
+                    <ErrorLine show={shouldShowError}>
+                      <StringUnion members={outputKeys} />
+                    </ErrorLine>
                   ),
                 },
               ]}

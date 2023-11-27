@@ -11,7 +11,8 @@ import {
   RangeInput,
   TypeHelperAndVariable,
   Union,
-  UnionMember,
+  ListMember,
+  InputBox,
 } from './interactive-code-elements'
 import {useDelayedState} from './use-delayed-state'
 
@@ -36,7 +37,7 @@ const possibleMembers = [
     element: <LightGreen>400</LightGreen>,
     key: '400',
   },
-] satisfies UnionMember[]
+] satisfies ListMember[]
 
 export const ExcludeExample = () => {
   const members = useDelayedState(possibleMembers.map((mem) => mem.key))
@@ -56,7 +57,7 @@ export const ExcludeExample = () => {
   return (
     <div className="not-prose flex flex-col rounded bg-gray-800 text-base">
       <LayoutGroup>
-        <Box className="flex justify-center space-x-12 bg-gray-700 p-6">
+        <InputBox>
           <Checkboxes
             label="Input"
             checkboxes={possibleMembers.map((mem) => ({
@@ -66,7 +67,7 @@ export const ExcludeExample = () => {
             }))}
             onChange={members.set}
           ></Checkboxes>
-        </Box>
+        </InputBox>
 
         <motion.div layout className="space-y-8 p-10 px-12">
           <LayoutGroup>

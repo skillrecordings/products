@@ -4,6 +4,7 @@ import {
   Checkboxes,
   Green,
   HighlightBox,
+  InputBox,
   ObjectTypeOfStrings,
   RangeInput,
   StringUnion,
@@ -22,7 +23,7 @@ export const OmitExample = () => {
   return (
     <div className="not-prose flex flex-col rounded bg-gray-800 text-base">
       <LayoutGroup>
-        <Box className="flex justify-center space-x-12 bg-gray-700 p-6">
+        <InputBox>
           <RangeInput
             label="Number of keys"
             onChange={(value) => {
@@ -44,7 +45,7 @@ export const OmitExample = () => {
               }
             })}
           />
-        </Box>
+        </InputBox>
 
         <motion.div layout className="space-y-8 p-10 px-12">
           <LayoutGroup>

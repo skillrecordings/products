@@ -214,13 +214,8 @@ export const StringUnion = (props: {members: string[]}) => {
   )
 }
 
-export type UnionMember = {
-  element: React.ReactNode
-  key: React.Key
-}
-
 export const Union = (props: {
-  members: UnionMember[]
+  members: ListMember[]
   fallback?: React.ReactNode
 }) => {
   const fallback = props.fallback ?? <Blue>never</Blue>
@@ -266,6 +261,52 @@ export const Union = (props: {
   )
 }
 
+export type ListMember = {
+  element: React.ReactNode
+  key: string | number
+}
+
+export const CommaSeparatedList = (props: {members: ListMember[]}) => {
+  return (
+    <AnimatePresence mode="popLayout">
+      {props.members.map((member, index, array) => (
+        <motion.span
+          key={member.key}
+          animate={{
+            opacity: 1,
+          }}
+          initial={{opacity: 0}}
+          exit={{opacity: 0}}
+        >
+          {member.element}
+          <AnimatePresence mode="popLayout">
+            {index === array.length - 1 ? null : (
+              <motion.span
+                key={`comma_${member}`}
+                animate={{
+                  opacity: 1,
+                }}
+                initial={{opacity: 0}}
+                exit={{opacity: 0}}
+              >{`, `}</motion.span>
+            )}
+          </AnimatePresence>
+        </motion.span>
+      ))}
+    </AnimatePresence>
+  )
+}
+
+export const SingleLineTuple = (props: {members: ListMember[]}) => {
+  return (
+    <>
+      <span>[</span>
+      <CommaSeparatedList members={props.members} />
+      <span>]</span>
+    </>
+  )
+}
+
 export const TypeHelperAndVariable = (props: {
   variableName: string
   typeName: string
@@ -275,9 +316,20 @@ export const TypeHelperAndVariable = (props: {
     <CodeLine>
       <Blue>type</Blue> <Green>{props.variableName}</Green>
       {` = `}
-      <Green>{props.typeName}</Green>
+      <AnimatePresence mode="popLayout">
+        <motion.span
+          animate={{
+            opacity: 1,
+          }}
+          initial={{opacity: 0}}
+          exit={{opacity: 0}}
+          key={props.typeName}
+        >
+          <Green>{props.typeName}</Green>
+        </motion.span>
+      </AnimatePresence>
       {`<`}
-      <AnimatePresence>
+      <AnimatePresence mode="popLayout">
         {props.arguments.map((arg, index, array) => {
           return (
             <React.Fragment key={arg.key}>
@@ -305,7 +357,7 @@ export const TypeHelperAndVariable = (props: {
 
 export const InputBox = (props: {children?: React.ReactNode}) => {
   return (
-    <Box className="flex justify-center space-x-12 bg-gray-700 p-6">
+    <Box className="flex flex-col items-center justify-center gap-x-12 gap-y-6 bg-gray-700 p-6 md:flex-row">
       {props.children}
     </Box>
   )
@@ -346,6 +398,69 @@ export const Checkboxes = (props: {
           )
         })}
       </div>
+    </div>
+  )
+}
+
+export const RadioButtons = <T extends React.Key>(props: {
+  label: string
+  choices: {
+    value: T
+    label: React.ReactNode
+  }[]
+  value: T
+  onChange: (value: T) => void
+}) => {
+  return (
+    <div className="">
+      <p className="mb-1 text-center">{props.label}</p>
+      <div className="grid grid-cols-2 items-center gap-6 gap-y-2 md:grid-flow-col">
+        {props.choices.map((checkbox) => {
+          return (
+            <label key={checkbox.value} className="flex items-center space-x-2">
+              <input
+                type="radio"
+                className="bg-transparent"
+                value={String(checkbox.value)}
+                checked={checkbox.value === props.value}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    props.onChange(checkbox.value as T)
+                  }
+                }}
+              ></input>
+              <span className="text-sm">{checkbox.label}</span>
+            </label>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+export const ErrorLine = (props: {
+  show: boolean
+  children?: React.ReactNode
+}) => {
+  return (
+    <div className="relative inline-block">
+      <AnimatePresence>
+        {props.show && (
+          <motion.div
+            animate={{
+              opacity: 1,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+            initial={{
+              opacity: 0,
+            }}
+            className="absolute bottom-[-2px] z-20 block h-1 w-full rounded bg-red-500"
+          />
+        )}
+      </AnimatePresence>
+      {props.children}
     </div>
   )
 }

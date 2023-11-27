@@ -3,6 +3,7 @@ import {
   Box,
   Green,
   HighlightBox,
+  InputBox,
   ObjectTypeOfStrings,
   RangeInput,
   TypeHelperAndVariable,
@@ -19,7 +20,7 @@ export const RequiredExample = () => {
   return (
     <div className="not-prose flex flex-col rounded bg-gray-800 text-base">
       <LayoutGroup>
-        <Box className="flex justify-center space-x-12 bg-gray-700 p-6">
+        <InputBox>
           <RangeInput
             label="Input Keys"
             onChange={(value) => {
@@ -29,7 +30,7 @@ export const RequiredExample = () => {
             min={1}
             max={possibleKeys.length}
           ></RangeInput>
-        </Box>
+        </InputBox>
 
         <motion.div layout className="space-y-8 p-10 px-12">
           <LayoutGroup>

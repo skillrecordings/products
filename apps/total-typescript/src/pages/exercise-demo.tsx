@@ -2,11 +2,14 @@ import Layout from '@/components/app/layout'
 import {ExcludeExample} from '@/components/mdx/exclude-exercise'
 import {PickExample} from '@/components/mdx/exercises'
 import {ExtractExample} from '@/components/mdx/extract-exercise'
+import {StringManipulationExercises} from '@/components/mdx/lowercase-exercise'
 import {NonNullableExercise} from '@/components/mdx/non-nullable-exercise'
 import {OmitExample} from '@/components/mdx/omit-exercise'
+import {ParametersExercise} from '@/components/mdx/parameters-exercise'
 import {PartialExample} from '@/components/mdx/partial-exercise'
 import {ReadonlyExample} from '@/components/mdx/readonly-exercise'
 import {RequiredExample} from '@/components/mdx/required-exercise'
+import {ReturnTypeExercise} from '@/components/mdx/return-type-exercise'
 import '@/styles/shiki-twoslash.css'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {format} from 'date-fns'
@@ -33,6 +36,12 @@ const children = (
     <ExtractExample />
     <h1>NonNullable</h1>
     <NonNullableExercise />
+    <h1>Parameters</h1>
+    <ParametersExercise />
+    <h1>ReturnType</h1>
+    <ReturnTypeExercise />
+    <h1>String Manipulations</h1>
+    <StringManipulationExercises />
   </div>
 )
 
