@@ -1,5 +1,7 @@
 import Layout from '@/components/app/layout'
+import {ExcludeExample} from '@/components/mdx/exclude-exercise'
 import {PickExample} from '@/components/mdx/exercises'
+import {ExtractExample} from '@/components/mdx/extract-exercise'
 import {OmitExample} from '@/components/mdx/omit-exercise'
 import {PartialExample} from '@/components/mdx/partial-exercise'
 import {ReadonlyExample} from '@/components/mdx/readonly-exercise'
@@ -24,6 +26,10 @@ const children = (
     <RequiredExample />
     <h1>Readonly</h1>
     <ReadonlyExample />
+    <h1>Exclude</h1>
+    <ExcludeExample />
+    <h1>Extract</h1>
+    <ExtractExample />
   </div>
 )
 

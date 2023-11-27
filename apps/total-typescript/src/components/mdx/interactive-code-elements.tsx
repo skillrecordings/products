@@ -58,6 +58,17 @@ export const Sky = (props: {
   )
 }
 
+export const LightGreen = (props: {
+  children?: React.ReactNode
+  className?: string
+}) => {
+  return (
+    <span className={cn('text-emerald-200', props.className)}>
+      {props.children}
+    </span>
+  )
+}
+
 export const Orange = (props: {
   children?: React.ReactNode
   className?: string
@@ -145,7 +156,7 @@ export const HighlightBox = (props: {
         <motion.div
           layout
           className={cn(
-            'inline-block overflow-hidden rounded bg-gray-700 p-6 px-8',
+            'block overflow-hidden rounded bg-gray-700 p-6 px-8',
             props.className,
           )}
         >
@@ -194,21 +205,37 @@ export const ObjectTypeOfStrings = (props: {
 
 export const StringUnion = (props: {members: string[]}) => {
   return (
+    <Union
+      members={props.members.map((mem) => ({
+        element: <Orange>"{mem}"</Orange>,
+        key: mem,
+      }))}
+    />
+  )
+}
+
+export type UnionMember = {
+  element: React.ReactNode
+  key: React.Key
+}
+
+export const Union = (props: {members: UnionMember[]}) => {
+  return (
     <AnimatePresence mode="popLayout">
-      {props.members.map((key, index, array) => (
+      {props.members.map((member, index, array) => (
         <motion.span
-          key={key}
+          key={member.key}
           animate={{
             opacity: 1,
           }}
           initial={{opacity: 0}}
           exit={{opacity: 0}}
         >
-          <Orange>"{key}"</Orange>
+          {member.element}
           <AnimatePresence mode="popLayout">
             {index === array.length - 1 ? null : (
               <motion.span
-                key={`pipe_${key}`}
+                key={`pipe_${member}`}
                 animate={{
                   opacity: 1,
                 }}
