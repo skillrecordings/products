@@ -105,12 +105,12 @@ export const ReturnTypeExercise = () => {
             </CodeLine>
             <motion.div layout>
               <TypeHelperAndVariable
-                typeName="Parameters"
+                typeName="ReturnType"
                 variableName="Result"
                 arguments={[
                   {
-                    key: 'Input',
-                    node: <Green>Input</Green>,
+                    key: 'MyFunc',
+                    node: <Green>MyFunc</Green>,
                   },
                 ]}
               ></TypeHelperAndVariable>

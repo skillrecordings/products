@@ -72,8 +72,8 @@ export const ParametersExercise = () => {
                 variableName="Result"
                 arguments={[
                   {
-                    key: 'Input',
-                    node: <Green>Input</Green>,
+                    key: 'MyFunc',
+                    node: <Green>MyFunc</Green>,
                   },
                 ]}
               ></TypeHelperAndVariable>
