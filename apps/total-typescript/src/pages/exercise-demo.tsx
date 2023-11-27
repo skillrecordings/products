@@ -2,6 +2,7 @@ import Layout from '@/components/app/layout'
 import {ExcludeExample} from '@/components/mdx/exclude-exercise'
 import {PickExample} from '@/components/mdx/exercises'
 import {ExtractExample} from '@/components/mdx/extract-exercise'
+import {NonNullableExercise} from '@/components/mdx/non-nullable-exercise'
 import {OmitExample} from '@/components/mdx/omit-exercise'
 import {PartialExample} from '@/components/mdx/partial-exercise'
 import {ReadonlyExample} from '@/components/mdx/readonly-exercise'
@@ -30,6 +31,8 @@ const children = (
     <ExcludeExample />
     <h1>Extract</h1>
     <ExtractExample />
+    <h1>NonNullable</h1>
+    <NonNullableExercise />
   </div>
 )
 

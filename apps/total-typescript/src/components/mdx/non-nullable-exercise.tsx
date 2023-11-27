@@ -6,9 +6,6 @@ import {
   CodeLine,
   Green,
   HighlightBox,
-  LightGreen,
-  Orange,
-  RangeInput,
   TypeHelperAndVariable,
   Union,
   UnionMember,
@@ -17,36 +14,31 @@ import {useDelayedState} from './use-delayed-state'
 
 const possibleMembers = [
   {
-    element: <Orange>"a"</Orange>,
-    key: 'a',
+    element: <Green>string</Green>,
+    key: 'string',
   },
   {
-    element: <Orange>"b"</Orange>,
-    key: 'b',
+    element: <Green>number</Green>,
+    key: 'number',
   },
   {
-    element: <Orange>"c"</Orange>,
-    key: 'c',
+    element: <Blue>null</Blue>,
+    key: 'null',
   },
   {
-    element: <LightGreen>404</LightGreen>,
-    key: '404',
-  },
-  {
-    element: <LightGreen>400</LightGreen>,
-    key: '400',
+    element: <Blue>undefined</Blue>,
+    key: 'undefined',
   },
 ] satisfies UnionMember[]
 
-export const ExcludeExample = () => {
+export const NonNullableExercise = () => {
   const members = useDelayedState(possibleMembers.map((mem) => mem.key))
 
   const outputMembers = possibleMembers.filter(
     (mem) =>
       members.delayedValue.includes(mem.key) &&
-      mem.key !== 'a' &&
-      mem.key !== 'b' &&
-      mem.key !== 'c',
+      mem.key !== 'undefined' &&
+      mem.key !== 'null',
   )
 
   const inputMembers = possibleMembers.filter((mem) => {
@@ -58,7 +50,7 @@ export const ExcludeExample = () => {
       <LayoutGroup>
         <Box className="flex justify-center space-x-12 bg-gray-700 p-6">
           <Checkboxes
-            label="Input"
+            label="Input Members"
             checkboxes={possibleMembers.map((mem) => ({
               value: mem.key,
               label: <code>{mem.key}</code>,
@@ -77,16 +69,12 @@ export const ExcludeExample = () => {
             </CodeLine>
             <motion.div layout>
               <TypeHelperAndVariable
-                typeName="Exclude"
+                typeName="NonNullable"
                 variableName="Result"
                 arguments={[
                   {
                     key: 'Input',
                     node: <Green>Input</Green>,
-                  },
-                  {
-                    key: 'Union',
-                    node: <Green>string</Green>,
                   },
                 ]}
               ></TypeHelperAndVariable>
@@ -94,7 +82,10 @@ export const ExcludeExample = () => {
                 <CodeLine>
                   <Blue>type</Blue> <Green>Result</Green>
                   {` = `}
-                  <Union members={outputMembers}></Union>
+                  <Union
+                    members={outputMembers}
+                    fallback={<span>{`{}`}</span>}
+                  ></Union>
                   {`;`}
                 </CodeLine>
               </HighlightBox>

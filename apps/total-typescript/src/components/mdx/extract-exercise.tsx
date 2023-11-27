@@ -2,6 +2,7 @@ import {AnimatePresence, LayoutGroup, motion} from 'framer-motion'
 import {
   Blue,
   Box,
+  Checkboxes,
   CodeLine,
   Green,
   HighlightBox,
@@ -14,49 +15,56 @@ import {
 } from './interactive-code-elements'
 import {useDelayedState} from './use-delayed-state'
 
+const possibleMembers = [
+  {
+    element: <Orange>"a"</Orange>,
+    key: 'a',
+  },
+  {
+    element: <Orange>"b"</Orange>,
+    key: 'b',
+  },
+  {
+    element: <Orange>"c"</Orange>,
+    key: 'c',
+  },
+  {
+    element: <LightGreen>404</LightGreen>,
+    key: '404',
+  },
+  {
+    element: <LightGreen>400</LightGreen>,
+    key: '400',
+  },
+] satisfies UnionMember[]
+
 export const ExtractExample = () => {
-  const numOfMembers = useDelayedState(3)
+  const members = useDelayedState(possibleMembers.map((mem) => mem.key))
 
-  const possibleMembers: UnionMember[] = [
-    {
-      element: <LightGreen>404</LightGreen>,
-      key: 404,
-    },
-    {
-      element: <LightGreen>400</LightGreen>,
-      key: 400,
-    },
-    {
-      element: <Orange>"a"</Orange>,
-      key: 'a',
-    },
-    {
-      element: <Orange>"b"</Orange>,
-      key: 'b',
-    },
-    {
-      element: <Orange>"c"</Orange>,
-      key: 'c',
-    },
-  ]
+  const outputMembers = possibleMembers.filter(
+    (mem) =>
+      members.delayedValue.includes(mem.key) &&
+      mem.key !== '404' &&
+      mem.key !== '400',
+  )
 
-  const members = possibleMembers.slice(0, numOfMembers.delayedValue)
-
-  const outputMembers = members.filter((mem) => typeof mem.key === 'string')
+  const inputMembers = possibleMembers.filter((mem) => {
+    return members.delayedValue.includes(mem.key)
+  })
 
   return (
     <div className="not-prose flex flex-col rounded bg-gray-800 text-base">
       <LayoutGroup>
         <Box className="flex justify-center space-x-12 bg-gray-700 p-6">
-          <RangeInput
-            label="Inputs"
-            onChange={(value) => {
-              numOfMembers.set(value)
-            }}
-            value={numOfMembers.currentValue}
-            min={1}
-            max={possibleMembers.length}
-          ></RangeInput>
+          <Checkboxes
+            label="Input"
+            checkboxes={possibleMembers.map((mem) => ({
+              value: mem.key,
+              label: <code>{mem.key}</code>,
+              checked: members.currentValue.includes(mem.key),
+            }))}
+            onChange={members.set}
+          ></Checkboxes>
         </Box>
 
         <motion.div layout className="space-y-8 p-10 px-12">
@@ -64,7 +72,7 @@ export const ExtractExample = () => {
             <CodeLine>
               <Blue>type</Blue> <Green>Input</Green>
               {` = `}
-              <Union members={members}></Union>;
+              <Union members={inputMembers}></Union>;
             </CodeLine>
             <motion.div layout>
               <TypeHelperAndVariable
@@ -85,9 +93,6 @@ export const ExtractExample = () => {
                 <CodeLine>
                   <Blue>type</Blue> <Green>Result</Green>
                   {` = `}
-                  <AnimatePresence mode="popLayout">
-                    {outputMembers.length === 0 && <Blue>never</Blue>}
-                  </AnimatePresence>
                   <Union members={outputMembers}></Union>
                   {`;`}
                 </CodeLine>

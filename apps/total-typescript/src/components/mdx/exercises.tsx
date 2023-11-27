@@ -1,5 +1,6 @@
 import {AnimatePresence, LayoutGroup, motion} from 'framer-motion'
 import {
+  Checkboxes,
   CodeLine,
   DarkGreen,
   Green,
@@ -12,17 +13,21 @@ import {
 } from './interactive-code-elements'
 import {useDelayedState} from './use-delayed-state'
 
+const possibleKeys = ['a', 'b', 'c', 'd']
+
 export const PickExample = () => {
-  const numOfKeys = useDelayedState(3, 300)
-  const numOfKeysToPick = useDelayedState(1, 300)
+  const numOfInputKeys = useDelayedState(3, 300)
+  const keysToPick = useDelayedState(['a', 'b', 'c'])
 
-  const possibleKeys = ['a', 'b', 'c', 'd']
+  const inputKeys = possibleKeys.slice(0, numOfInputKeys.delayedValue)
 
-  const keys = possibleKeys.slice(0, numOfKeys.delayedValue)
+  const shouldShowError = keysToPick.delayedValue.some((key) => {
+    return !inputKeys.includes(key)
+  })
 
-  const keysToPick = possibleKeys.slice(0, numOfKeysToPick.delayedValue)
-
-  const shouldShowError = keysToPick.length > keys.length
+  const outputKeys = possibleKeys.filter((key) => {
+    return keysToPick.delayedValue.includes(key)
+  })
 
   return (
     <div className="not-prose flex flex-col rounded bg-gray-800 text-base">
@@ -31,27 +36,29 @@ export const PickExample = () => {
           <RangeInput
             label="Input Keys"
             onChange={(value) => {
-              numOfKeys.set(value)
+              numOfInputKeys.set(value)
             }}
-            value={numOfKeys.currentValue}
+            value={numOfInputKeys.currentValue}
             min={1}
             max={4}
           ></RangeInput>
-          <RangeInput
+          <Checkboxes
             label="Keys To Pick"
-            onChange={(value) => {
-              numOfKeysToPick.set(value)
-            }}
-            value={numOfKeysToPick.currentValue}
-            min={1}
-            max={4}
+            onChange={keysToPick.set}
+            checkboxes={possibleKeys.map((key) => {
+              return {
+                checked: keysToPick.currentValue.includes(key),
+                label: <code>{key}</code>,
+                value: key,
+              }
+            })}
           />
         </InputBox>
 
         <motion.div layout className="space-y-8 p-10 px-12">
           <ObjectTypeOfStrings
             typeName="Input"
-            keys={keys.map((key) => ({key}))}
+            keys={inputKeys.map((key) => ({key}))}
           ></ObjectTypeOfStrings>
           <div>
             <AnimatePresence mode="popLayout">
@@ -75,7 +82,7 @@ export const PickExample = () => {
                     <>
                       <div className="relative inline-block">
                         <AnimatePresence>
-                          {keysToPick.length > keys.length && (
+                          {shouldShowError && (
                             <motion.div
                               animate={{
                                 opacity: 1,
@@ -90,7 +97,7 @@ export const PickExample = () => {
                             />
                           )}
                         </AnimatePresence>
-                        <StringUnion members={keysToPick} />
+                        <StringUnion members={outputKeys} />
                       </div>
                     </>
                   ),
@@ -101,8 +108,8 @@ export const PickExample = () => {
             <HighlightBox className="">
               <ObjectTypeOfStrings
                 typeName="Result"
-                keys={keys
-                  .filter((key) => keysToPick.includes(key))
+                keys={inputKeys
+                  .filter((key) => outputKeys.includes(key))
                   .map((key) => ({key}))}
               ></ObjectTypeOfStrings>
             </HighlightBox>

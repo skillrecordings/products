@@ -219,7 +219,11 @@ export type UnionMember = {
   key: React.Key
 }
 
-export const Union = (props: {members: UnionMember[]}) => {
+export const Union = (props: {
+  members: UnionMember[]
+  fallback?: React.ReactNode
+}) => {
+  const fallback = props.fallback ?? <Blue>never</Blue>
   return (
     <AnimatePresence mode="popLayout">
       {props.members.map((member, index, array) => (
@@ -246,6 +250,18 @@ export const Union = (props: {members: UnionMember[]}) => {
           </AnimatePresence>
         </motion.span>
       ))}
+      {props.members.length === 0 && (
+        <motion.span
+          key={`never`}
+          animate={{
+            opacity: 1,
+          }}
+          initial={{opacity: 0}}
+          exit={{opacity: 0}}
+        >
+          {fallback}
+        </motion.span>
+      )}
     </AnimatePresence>
   )
 }
@@ -292,5 +308,44 @@ export const InputBox = (props: {children?: React.ReactNode}) => {
     <Box className="flex justify-center space-x-12 bg-gray-700 p-6">
       {props.children}
     </Box>
+  )
+}
+
+export const Checkboxes = (props: {
+  label: string
+  checkboxes: {
+    value: string
+    label: React.ReactNode
+    checked: boolean
+  }[]
+  onChange: (value: (current: string[]) => string[]) => void
+}) => {
+  return (
+    <div>
+      <p className="mb-1 text-center">{props.label}</p>
+      <div className="flex items-center space-x-4">
+        {props.checkboxes.map((checkbox) => {
+          return (
+            <label key={checkbox.value} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                value={checkbox.value}
+                checked={checkbox.checked}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    props.onChange((current) => [...current, checkbox.value])
+                  } else {
+                    props.onChange((current) =>
+                      current.filter((c) => c !== checkbox.value),
+                    )
+                  }
+                }}
+              ></input>
+              <span>{checkbox.label}</span>
+            </label>
+          )
+        })}
+      </div>
+    </div>
   )
 }

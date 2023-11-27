@@ -1,8 +1,7 @@
-import {AnimatePresence, LayoutGroup, motion} from 'framer-motion'
+import {LayoutGroup, motion} from 'framer-motion'
 import {
   Box,
-  CodeLine,
-  DarkGreen,
+  Checkboxes,
   Green,
   HighlightBox,
   ObjectTypeOfStrings,
@@ -12,15 +11,13 @@ import {
 } from './interactive-code-elements'
 import {useDelayedState} from './use-delayed-state'
 
+const possibleKeys = ['a', 'b', 'c', 'd']
+
 export const OmitExample = () => {
   const numOfKeys = useDelayedState(3)
-  const numOfKeysToOmit = useDelayedState(1)
-
-  const possibleKeys = ['a', 'b', 'c', 'd']
+  const keysToOmit = useDelayedState(possibleKeys.slice(0, 1))
 
   const keys = possibleKeys.slice(0, numOfKeys.delayedValue)
-
-  const keysToOmit = possibleKeys.slice(0, numOfKeysToOmit.delayedValue)
 
   return (
     <div className="not-prose flex flex-col rounded bg-gray-800 text-base">
@@ -36,14 +33,16 @@ export const OmitExample = () => {
             max={4}
           ></RangeInput>
 
-          <RangeInput
-            label="Number of keys to Omit"
-            onChange={(value) => {
-              numOfKeysToOmit.set(value)
-            }}
-            value={numOfKeysToOmit.currentValue}
-            min={1}
-            max={3}
+          <Checkboxes
+            label="Keys to Omit"
+            onChange={keysToOmit.set}
+            checkboxes={possibleKeys.map((key) => {
+              return {
+                checked: keysToOmit.currentValue.includes(key),
+                label: <code>{key}</code>,
+                value: key,
+              }
+            })}
           />
         </Box>
 
@@ -54,13 +53,6 @@ export const OmitExample = () => {
               keys={keys.map((key) => ({key}))}
             ></ObjectTypeOfStrings>
             <motion.div layout>
-              <AnimatePresence mode="popLayout">
-                {keysToOmit.length > 1 && (
-                  <CodeLine>
-                    <DarkGreen>{`// You can omit more than one key!`}</DarkGreen>
-                  </CodeLine>
-                )}
-              </AnimatePresence>
               <TypeHelperAndVariable
                 typeName="Omit"
                 variableName="Result"
@@ -71,7 +63,13 @@ export const OmitExample = () => {
                   },
                   {
                     key: 'Union',
-                    node: <StringUnion members={keysToOmit} />,
+                    node: (
+                      <StringUnion
+                        members={possibleKeys.filter((key) =>
+                          keysToOmit.delayedValue.includes(key),
+                        )}
+                      />
+                    ),
                   },
                 ]}
               ></TypeHelperAndVariable>
@@ -79,7 +77,7 @@ export const OmitExample = () => {
                 <ObjectTypeOfStrings
                   typeName="Result"
                   keys={keys
-                    .filter((key) => !keysToOmit.includes(key))
+                    .filter((key) => !keysToOmit.delayedValue.includes(key))
                     .map((key) => ({key}))}
                 ></ObjectTypeOfStrings>
               </HighlightBox>
