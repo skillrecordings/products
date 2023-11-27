@@ -23,10 +23,9 @@ export const CodeLine = (props: {children?: React.ReactNode}) => {
 export const SingleLineObjectProperty = (props: {
   propKey: string
   value: React.ReactNode
-  delay?: number
 }) => {
   return (
-    <CodeLine delay={props.delay}>
+    <CodeLine>
       {`  `}
       <Sky>{props.propKey}</Sky>: {props.value}
     </CodeLine>
