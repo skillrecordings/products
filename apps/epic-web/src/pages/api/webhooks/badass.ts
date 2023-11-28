@@ -1,4 +1,3 @@
-import {withSentry} from '@sentry/nextjs'
 import * as Sentry from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 
@@ -18,10 +17,4 @@ const sanityVideoResourceWebhook = async (
   }
 }
 
-export default withSentry(sanityVideoResourceWebhook)
-
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export default sanityVideoResourceWebhook

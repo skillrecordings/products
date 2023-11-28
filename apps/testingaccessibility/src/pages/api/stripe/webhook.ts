@@ -7,8 +7,6 @@ import {NEW_BULK_COUPON, NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
 import {PurchaseStatus} from '@skillrecordings/skill-api'
 import {prisma, getSdk} from '@skillrecordings/database'
 import {tagPurchaseConvertkit} from '@skillrecordings/convertkit-react-ui'
-import {withSentry} from '@sentry/nextjs'
-import * as Sentry from '@sentry/nextjs'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -100,7 +98,6 @@ const stripeWebhookHandler = async (
         res.status(200).send(`not-handled`)
       }
     } catch (err: any) {
-      Sentry.captureException(err)
       console.error(err)
       res.status(400).send(`Webhook Error: ${err.message}`)
       return
@@ -111,7 +108,7 @@ const stripeWebhookHandler = async (
   }
 }
 
-export default withSentry(stripeWebhookHandler)
+export default stripeWebhookHandler
 
 /**
  * ⛔️ do NOT remove the `bodyParser=false` from this config, otherwise
@@ -120,6 +117,5 @@ export default withSentry(stripeWebhookHandler)
 export const config = {
   api: {
     bodyParser: false,
-    externalResolver: true,
   },
 }

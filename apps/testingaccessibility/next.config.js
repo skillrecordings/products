@@ -1,7 +1,6 @@
 const withPlugins = require('next-compose-plugins')
 const withImages = require('next-images')
 const withMDX = require('@next/mdx')()
-const {withSentryConfig} = require('@sentry/nextjs')
 
 const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
@@ -40,18 +39,6 @@ const nextConfig = {
   },
 }
 
-const sentryWebpackPluginOptions = process.env.SENTRY_AUTH_TOKEN && {
-  // Additional config options for the Sentry Webpack plugin. Keep in mind that
-  // the following options are set automatically, and overriding them is not
-  // recommended:
-  //   release, url, org, project, authToken, configFile, stripPrefix,
-  //   urlPrefix, include, ignore
-  authToken: process.env.SENTRY_AUTH_TOKEN,
-  silent: true, // Suppresses all logs
-  // For all available options, see:
-  // https://github.com/getsentry/sentry-webpack-plugin#options.
-}
-
 const configWithPlugins = withPlugins(
   [
     withImages(),
@@ -66,11 +53,4 @@ const configWithPlugins = withPlugins(
   nextConfig,
 )
 
-if (sentryWebpackPluginOptions) {
-  module.exports = withSentryConfig(
-    configWithPlugins,
-    sentryWebpackPluginOptions,
-  )
-} else {
-  module.exports = configWithPlugins
-}
+module.exports = configWithPlugins

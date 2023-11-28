@@ -1,4 +1,3 @@
-import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
@@ -23,4 +22,4 @@ const videoThumb = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default withSentry(videoThumb)
+export default videoThumb
