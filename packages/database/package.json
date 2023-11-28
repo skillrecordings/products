@@ -22,7 +22,8 @@
     "validate": "DATABASE_URL=\"mysql://root@127.0.0.1:3306/turborepo\" npx prisma validate"
   },
   "dependencies": {
-    "@prisma/client": "^4.5.0",
+    "@prisma/client": "5.0.0",
+    "decimal.js": "^10.4.3",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
