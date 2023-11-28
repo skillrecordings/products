@@ -54,6 +54,7 @@
     --ring: 215 20.2% 65.1%;
 
     --radius: 0.5rem;
+    color-scheme: dark;
   }
 
   .dark {
@@ -87,6 +88,7 @@
     --ring: 21 85% 65%;
 
     --radius: 0.3rem;
+    color-scheme: dark;
   }
 }
 
