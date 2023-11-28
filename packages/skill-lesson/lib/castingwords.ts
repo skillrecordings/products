@@ -1,7 +1,6 @@
 import {z} from 'zod'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {writeTranscriptToVideoResource} from './sanity'
-import * as Sentry from '@sentry/nextjs'
 
 export const CastingwordsWebhookBody = z.object({
   audiofile: z.string(),
@@ -101,7 +100,6 @@ export const castingwordsWebhookReceiver = async (
         await writeTranscriptToVideoResource(audiofile, order)
         res.status(200).json({message: 'video resource updated'})
       } catch (e) {
-        Sentry.captureException(e)
         res.status(500).json({
           message: `Invalid query for Sanity document`,
         })
