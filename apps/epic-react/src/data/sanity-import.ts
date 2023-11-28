@@ -18,7 +18,6 @@
 import fs from 'fs'
 import fetch from 'node-fetch'
 import Mux from '@mux/mux-node'
-// import sanityClient from '@sanity/client'
 import {v4 as uuidv4} from 'uuid'
 import {z, ZodError} from 'zod'
 import csvParser from 'csv-parser'
