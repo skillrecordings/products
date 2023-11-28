@@ -74,7 +74,7 @@
     "@sanity/ui": "^1.0.12",
     "@sanity/vision": "^3.0.0",
     "@sanity/webhook": "^1.0.2",
-    "@sentry/nextjs": "^7.9.0",
+    "@sentry/nextjs": "^7.83.0",
     "@sindresorhus/slugify": "^2.1.0",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/commerce-server": "workspace:*",
