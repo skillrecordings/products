@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {getSdk, defaultContext} from '@skillrecordings/database'
-import {withSentry} from '@sentry/nextjs'
+
 import {getToken} from 'next-auth/jwt'
 
 const toggleLessonProgressForUser = async (
@@ -37,10 +37,4 @@ const toggleLessonProgressForUser = async (
   }
 }
 
-export default withSentry(toggleLessonProgressForUser)
-
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export default toggleLessonProgressForUser

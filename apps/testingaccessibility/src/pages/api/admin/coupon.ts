@@ -1,6 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {withSentry} from '@sentry/nextjs'
-import * as Sentry from '@sentry/nextjs'
+
 import {getToken} from 'next-auth/jwt'
 import {getSdk, prisma} from '@skillrecordings/database'
 const ROLES_WITH_ACCESS = ['ADMIN', 'SUPERADMIN']
@@ -86,7 +85,6 @@ const adminCouponGenerator = async (
 
       res.status(200).send(codes)
     } catch (error: any) {
-      Sentry.captureException(error)
       res.status(500).json({error: true, message: error.message})
     }
   } else {
@@ -95,10 +93,4 @@ const adminCouponGenerator = async (
   }
 }
 
-export default withSentry(adminCouponGenerator)
-
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export default adminCouponGenerator

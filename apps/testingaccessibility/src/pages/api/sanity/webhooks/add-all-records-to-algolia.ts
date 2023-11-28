@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {sanityClient} from 'utils/sanity-client'
 import {sanityAlgolia} from 'utils/algolia/sanity-algolia-client'
-import {withSentry} from '@sentry/nextjs'
+
 import {isValidRequest} from '@sanity/webhook'
 
 export const addAllRecordsToAlgolia = async (
@@ -34,4 +34,4 @@ export const addAllRecordsToAlgolia = async (
   }
 }
 
-export default withSentry(addAllRecordsToAlgolia)
+export default addAllRecordsToAlgolia
