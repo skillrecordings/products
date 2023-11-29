@@ -44,7 +44,7 @@ export const getAllTips = async (): Promise<Tip[]> => {
   return TipsSchema.parse(tips)
 }
 
-export const getTip = async (slug: string): Promise<Tip> => {
+export const getTip = async (slug: string): Promise<Tip | undefined> => {
   const tip = await sanityClient.fetch(
     groq`*[_type == "tip" && slug.current == $slug][0] {
         _id,
@@ -63,5 +63,7 @@ export const getTip = async (slug: string): Promise<Tip> => {
     {slug: `${slug}`},
   )
 
-  return TipSchema.parse(tip)
+  const parsedTip = TipSchema.safeParse(tip)
+
+  return parsedTip.success ? parsedTip.data : undefined
 }
