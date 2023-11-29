@@ -5,7 +5,6 @@ import NextAuth, {
 } from 'next-auth'
 import {createOptions} from '@skillrecordings/skill-api'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {withSentry} from '@sentry/nextjs'
 import GitHubProvider from 'next-auth/providers/github'
 import DiscordProvider from 'next-auth/providers/discord'
 
@@ -69,22 +68,14 @@ export default async function NextAuthEndpoint(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  withSentry(
-    NextAuth(
+  NextAuth(
+    req,
+    res,
+    createOptions({
       req,
-      res,
-      createOptions({
-        req,
-        theme: productTheme,
-        providers,
-        cookies,
-      }),
-    ),
+      theme: productTheme,
+      providers,
+      cookies,
+    }),
   )
-}
-
-export const config = {
-  api: {
-    externalResolver: true,
-  },
 }

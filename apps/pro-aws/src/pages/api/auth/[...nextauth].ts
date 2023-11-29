@@ -1,7 +1,7 @@
 import NextAuth, {NextAuthOptions, Theme} from 'next-auth'
 import {createOptions} from '@skillrecordings/skill-api'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {withSentry} from '@sentry/nextjs'
+
 import GitHubProvider from 'next-auth/providers/github'
 
 const productTheme: Theme = {
@@ -27,13 +27,5 @@ export default async function NextAuthEndpoint(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  withSentry(
-    NextAuth(req, res, createOptions({req, theme: productTheme, providers})),
-  )
-}
-
-export const config = {
-  api: {
-    externalResolver: true,
-  },
+  NextAuth(req, res, createOptions({req, theme: productTheme, providers}))
 }

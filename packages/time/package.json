@@ -1,6 +1,6 @@
 {
   "name": "@skillrecordings/time",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
   "main": "./dist/index.js",

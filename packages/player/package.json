@@ -1,6 +1,6 @@
 {
   "name": "@skillrecordings/player",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Internal, shared utilities",
   "author": "Joel Hooks",
   "main": "./dist/index.js",
@@ -38,9 +38,9 @@
   "devDependencies": {
     "@emotion/babel-plugin": "^11.3.0",
     "@emotion/babel-preset-css-prop": "^11.2.0",
-    "@skillrecordings/scripts": "0.0.6",
-    "@skillrecordings/tsconfig": "0.0.6",
-    "@skillrecordings/types": "0.0.6",
+    "@skillrecordings/scripts": "^0.0.7",
+    "@skillrecordings/tsconfig": "^0.0.7",
+    "@skillrecordings/types": "^0.0.7",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "@types/cookie": "^0.4.1",

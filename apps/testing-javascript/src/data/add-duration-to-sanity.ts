@@ -8,7 +8,7 @@
 // ```
 
 import fs from 'fs'
-import sanityClient from '@sanity/client'
+import {createClient} from '@sanity/client'
 import groq from 'groq'
 import {z} from 'zod'
 
@@ -38,7 +38,7 @@ const readJsonData = (path: string) => {
 }
 
 const addDurationToSanity = async () => {
-  const client = sanityClient({
+  const client = createClient({
     projectId: PROJECT_ID,
     dataset: DATASET,
     apiVersion: API_VERSION,

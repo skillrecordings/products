@@ -1,5 +1,5 @@
 import NextAuth, {type NextAuthOptions, Theme} from 'next-auth'
-import {withSentry} from '@sentry/nextjs'
+
 import {createOptions} from '@skillrecordings/skill-api'
 import {NextApiRequest, NextApiResponse} from 'next'
 
@@ -17,13 +17,5 @@ export default async function NextAuthEndpoint(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  return withSentry(
-    NextAuth(req, res, createOptions({req, theme: productTheme})),
-  )
-}
-
-export const config = {
-  api: {
-    externalResolver: true,
-  },
+  NextAuth(req, res, createOptions({req, theme: productTheme}))
 }

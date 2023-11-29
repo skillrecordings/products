@@ -1,5 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {withSentry} from '@sentry/nextjs'
+
 import * as Sentry from '@sentry/nextjs'
 import {getToken} from 'next-auth/jwt'
 import {getSdk, prisma} from '@skillrecordings/database'
@@ -95,10 +95,4 @@ const adminCouponGenerator = async (
   }
 }
 
-export default withSentry(adminCouponGenerator)
-
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export default adminCouponGenerator

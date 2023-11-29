@@ -2,7 +2,6 @@ import SkillRecordings, {
   SkillRecordingsOptions,
 } from '@skillrecordings/skill-api'
 import {nextAuthOptions} from '../auth/[...nextauth]'
-import {withSentry} from '@sentry/nextjs'
 
 export const skillOptions: SkillRecordingsOptions = {
   site: {
@@ -23,11 +22,10 @@ export const skillOptions: SkillRecordingsOptions = {
   nextAuthOptions,
 }
 
-export default withSentry(SkillRecordings(skillOptions))
+export default SkillRecordings(skillOptions)
 
 export const config = {
   api: {
     bodyParser: false,
-    externalResolver: true,
   },
 }

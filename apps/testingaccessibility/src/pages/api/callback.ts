@@ -1,5 +1,4 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {withSentry} from '@sentry/nextjs'
 
 const callback = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
@@ -35,4 +34,4 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default withSentry(callback)
+export default callback
