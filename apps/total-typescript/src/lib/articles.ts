@@ -36,7 +36,8 @@ export const getAllArticles = async (): Promise<Article[]> => {
         body
   }`)
 
-  return ArticlesSchema.parse(articles)
+  const parsedArticles = ArticlesSchema.safeParse(articles)
+  return parsedArticles.success ? parsedArticles.data : []
 }
 
 export const getArticle = async (
@@ -61,5 +62,7 @@ export const getArticle = async (
   if (!article) {
     return undefined
   }
-  return ArticleSchema.parse(article)
+
+  const parsedArticle = ArticleSchema.safeParse(article)
+  return parsedArticle.success ? parsedArticle.data : undefined
 }
