@@ -33,7 +33,7 @@ import {
 } from '../index'
 import toast from 'react-hot-toast'
 import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
-import {Decimal} from '@prisma/client/runtime'
+import type {Decimal} from '@skillrecordings/database'
 
 type Coupon = {
   id: string
