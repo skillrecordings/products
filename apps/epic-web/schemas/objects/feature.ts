@@ -10,5 +10,10 @@ export default defineType({
       type: 'string',
       title: 'Value',
     }),
+    defineField({
+      name: 'icon',
+      type: 'string',
+      title: 'SVG Icon',
+    }),
   ],
 })
