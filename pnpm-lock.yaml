@@ -132,37 +132,37 @@ importers:
         specifier: ^7.9.0
         version: 7.73.0
       '@skillrecordings/analytics':
-        specifier: workspace:*
+        specifier: 1.0.1
         version: link:../../packages/analytics
       '@skillrecordings/commerce-server':
-        specifier: workspace:*
+        specifier: 1.0.2
         version: link:../../packages/commerce-server
       '@skillrecordings/convertkit-react-ui':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/convertkit-react-ui
       '@skillrecordings/database':
-        specifier: workspace:*
-        version: link:../../packages/database
+        specifier: 1.0.2
+        version: 1.0.2
       '@skillrecordings/feedback-widget':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/feedback-widget
       '@skillrecordings/next-seo':
-        specifier: workspace:*
+        specifier: 1.0.2
         version: link:../../packages/next-seo
       '@skillrecordings/quiz':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/quiz
       '@skillrecordings/react':
-        specifier: workspace:*
+        specifier: 1.0.2
         version: link:../../packages/react
       '@skillrecordings/skill-api':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/skill-api
       '@skillrecordings/skill-lesson':
-        specifier: workspace:*
+        specifier: 1.0.1
         version: link:../../packages/skill-lesson
       '@skillrecordings/ui':
-        specifier: workspace:*
+        specifier: 1.0.1
         version: link:../../packages/ui
       '@slack/web-api':
         specifier: ^6.7.2
@@ -310,13 +310,13 @@ importers:
         specifier: ^12.2.2
         version: 12.3.4
       '@skillrecordings/scripts':
-        specifier: workspace:*
+        specifier: 0.0.7
         version: link:../../packages/scripts
       '@skillrecordings/tsconfig':
-        specifier: workspace:*
+        specifier: 0.0.7
         version: link:../../packages/tsconfig
       '@skillrecordings/types':
-        specifier: workspace:*
+        specifier: 0.0.7
         version: link:../../packages/types
       '@tailwindcss/typography':
         specifier: ^0.5.9
@@ -370,7 +370,7 @@ importers:
         specifier: ^8.19.0
         version: 8.51.0
       eslint-config-skill-recordings:
-        specifier: workspace:*
+        specifier: 0.0.2
         version: link:../../packages/eslint-config-skill-recordings
       jest:
         specifier: ^29.5.0
@@ -3303,7 +3303,7 @@ importers:
         version: link:../../packages/convertkit-sdk
       '@skillrecordings/database':
         specifier: 1.0.2
-        version: link:../../packages/database
+        version: 1.0.2
       '@skillrecordings/feedback-widget':
         specifier: 0.0.3
         version: link:../../packages/feedback-widget
@@ -3675,37 +3675,37 @@ importers:
         specifier: ^7.9.0
         version: 7.73.0
       '@skillrecordings/analytics':
-        specifier: workspace:*
+        specifier: 1.0.1
         version: link:../../packages/analytics
       '@skillrecordings/commerce-server':
-        specifier: workspace:*
+        specifier: 1.0.2
         version: link:../../packages/commerce-server
       '@skillrecordings/convertkit-react-ui':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/convertkit-react-ui
       '@skillrecordings/database':
-        specifier: workspace:*
-        version: link:../../packages/database
+        specifier: 1.0.2
+        version: 1.0.2
       '@skillrecordings/feedback-widget':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/feedback-widget
       '@skillrecordings/next-seo':
-        specifier: workspace:*
+        specifier: 1.0.2
         version: link:../../packages/next-seo
       '@skillrecordings/quiz':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/quiz
       '@skillrecordings/react':
-        specifier: workspace:*
+        specifier: 1.0.2
         version: link:../../packages/react
       '@skillrecordings/skill-api':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/skill-api
       '@skillrecordings/skill-lesson':
-        specifier: workspace:*
+        specifier: 1.0.1
         version: link:../../packages/skill-lesson
       '@skillrecordings/ui':
-        specifier: workspace:*
+        specifier: 1.0.1
         version: link:../../packages/ui
       '@slack/web-api':
         specifier: ^6.7.2
@@ -3862,13 +3862,13 @@ importers:
         specifier: ^12.2.2
         version: 12.3.4
       '@skillrecordings/scripts':
-        specifier: workspace:*
+        specifier: 0.0.7
         version: link:../../packages/scripts
       '@skillrecordings/tsconfig':
-        specifier: workspace:*
+        specifier: 0.0.7
         version: link:../../packages/tsconfig
       '@skillrecordings/types':
-        specifier: workspace:*
+        specifier: 0.0.7
         version: link:../../packages/types
       '@tailwindcss/typography':
         specifier: ^0.5.9
@@ -3919,7 +3919,7 @@ importers:
         specifier: ^8.19.0
         version: 8.51.0
       eslint-config-skill-recordings:
-        specifier: workspace:*
+        specifier: 0.0.2
         version: link:../../packages/eslint-config-skill-recordings
       jest:
         specifier: ^27.5.1
@@ -4030,37 +4030,37 @@ importers:
         specifier: ^2.1.0
         version: 2.2.1
       '@skillrecordings/analytics':
-        specifier: workspace:*
+        specifier: 1.0.1
         version: link:../../packages/analytics
       '@skillrecordings/commerce-server':
-        specifier: workspace:*
+        specifier: 1.0.2
         version: link:../../packages/commerce-server
       '@skillrecordings/convertkit-react-ui':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/convertkit-react-ui
       '@skillrecordings/database':
-        specifier: workspace:*
-        version: link:../../packages/database
+        specifier: 1.0.2
+        version: 1.0.2
       '@skillrecordings/next-seo':
-        specifier: workspace:*
+        specifier: 1.0.2
         version: link:../../packages/next-seo
       '@skillrecordings/quiz':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/quiz
       '@skillrecordings/react':
-        specifier: workspace:*
+        specifier: 1.0.2
         version: link:../../packages/react
       '@skillrecordings/skill-api':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/skill-api
       '@skillrecordings/skill-lesson':
-        specifier: workspace:*
+        specifier: 1.0.1
         version: link:../../packages/skill-lesson
       '@skillrecordings/time':
-        specifier: workspace:*
+        specifier: 0.0.13
         version: link:../../packages/time
       '@skillrecordings/ui':
-        specifier: workspace:*
+        specifier: 1.0.1
         version: link:../../packages/ui
       '@slack/web-api':
         specifier: ^6.7.2
@@ -4346,13 +4346,13 @@ importers:
         specifier: ^2.0.8
         version: 2.0.8
       '@skillrecordings/scripts':
-        specifier: workspace:*
+        specifier: 0.0.7
         version: link:../../packages/scripts
       '@skillrecordings/tsconfig':
-        specifier: workspace:*
+        specifier: 0.0.7
         version: link:../../packages/tsconfig
       '@skillrecordings/types':
-        specifier: workspace:*
+        specifier: 0.0.7
         version: link:../../packages/types
       '@testing-library/jest-dom':
         specifier: ^5.16.5
@@ -4406,7 +4406,7 @@ importers:
         specifier: ^8.19.0
         version: 8.51.0
       eslint-config-skill-recordings:
-        specifier: workspace:*
+        specifier: 0.0.2
         version: link:../../packages/eslint-config-skill-recordings
       husky:
         specifier: ^8.0.1
@@ -4575,28 +4575,28 @@ importers:
         specifier: ^0.16.2
         version: 0.16.2(@types/react@18.2.28)(react-dom@18.2.0)(react@18.2.0)
       '@skillrecordings/analytics':
-        specifier: workspace:*
+        specifier: 1.0.1
         version: link:../../packages/analytics
       '@skillrecordings/config':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/config
       '@skillrecordings/convertkit-react-ui':
-        specifier: workspace:*
+        specifier: 0.0.3
         version: link:../../packages/convertkit-react-ui
       '@skillrecordings/next-seo':
-        specifier: workspace:*
+        specifier: 1.0.2
         version: link:../../packages/next-seo
       '@skillrecordings/react':
-        specifier: workspace:*
+        specifier: 1.0.2
         version: link:../../packages/react
       '@skillrecordings/skill-lesson':
-        specifier: workspace:*
+        specifier: 1.0.1
         version: link:../../packages/skill-lesson
       '@skillrecordings/time':
-        specifier: workspace:*
+        specifier: 0.0.13
         version: link:../../packages/time
       '@skillrecordings/ui':
-        specifier: workspace:*
+        specifier: 1.0.1
         version: link:../../packages/ui
       '@stripe/stripe-js':
         specifier: ^1.21.1
@@ -4717,13 +4717,13 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0(webpack@5.88.2)
       '@skillrecordings/scripts':
-        specifier: workspace:*
+        specifier: 0.0.7
         version: link:../../packages/scripts
       '@skillrecordings/tsconfig':
-        specifier: workspace:*
+        specifier: 0.0.7
         version: link:../../packages/tsconfig
       '@skillrecordings/types':
-        specifier: workspace:*
+        specifier: 0.0.7
         version: link:../../packages/types
       '@tailwindcss/typography':
         specifier: ^0.5.9
@@ -4777,7 +4777,7 @@ importers:
         specifier: ^8.19.0
         version: 8.51.0
       eslint-config-skill-recordings:
-        specifier: workspace:*
+        specifier: 0.0.2
         version: link:../../packages/eslint-config-skill-recordings
       husky:
         specifier: ^7.0.4
@@ -4898,7 +4898,7 @@ importers:
         version: link:../../packages/convertkit-react-ui
       '@skillrecordings/database':
         specifier: 1.0.2
-        version: link:../../packages/database
+        version: 1.0.2
       '@skillrecordings/next-seo':
         specifier: 1.0.2
         version: link:../../packages/next-seo
@@ -5491,7 +5491,7 @@ importers:
         version: link:../../packages/convertkit-react-ui
       '@skillrecordings/database':
         specifier: 1.0.2
-        version: link:../../packages/database
+        version: 1.0.2
       '@skillrecordings/next-seo':
         specifier: 1.0.2
         version: link:../../packages/next-seo
@@ -6486,7 +6486,7 @@ importers:
         version: link:../../packages/convertkit-react-ui
       '@skillrecordings/database':
         specifier: 1.0.2
-        version: link:../../packages/database
+        version: 1.0.2
       '@skillrecordings/feedback-widget':
         specifier: 0.0.3
         version: link:../../packages/feedback-widget
@@ -6820,7 +6820,7 @@ importers:
         version: link:../../packages/convertkit-sdk
       '@skillrecordings/database':
         specifier: 1.0.2
-        version: link:../../packages/database
+        version: 1.0.2
       '@skillrecordings/next-seo':
         specifier: 1.0.2
         version: link:../../packages/next-seo
@@ -18330,6 +18330,15 @@ packages:
 
   /@skillrecordings/database@1.0.1:
     resolution: {integrity: sha512-x70ZWjB7L8kKa3e8sC3IJn2n/J2p2Iyzbz4Ay3bdykzb8tGXyeslJGMDXSIYPCZYxJ+bcAcFcfVBtVYdU65gIQ==}
+    dependencies:
+      '@prisma/client': 4.16.2(prisma@5.4.2)
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - prisma
+    dev: false
+
+  /@skillrecordings/database@1.0.2:
+    resolution: {integrity: sha512-G0XmFLgSfvtD/JKTqqYdBF0E5NX83eAHA1Nl31GtSVdN+fHnY7TqFFtTNi+6MSas6ToMnN1StEala1t8+dbwjA==}
     dependencies:
       '@prisma/client': 4.16.2(prisma@5.4.2)
       uuid: 9.0.1
