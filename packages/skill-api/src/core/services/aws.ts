@@ -1,7 +1,7 @@
-import {SkillRecordingsHandlerParams} from "../types"
-import {JWT} from "next-auth/jwt"
-import {OutgoingResponse} from "../index"
-import {getSignedUrlForVideoFile} from "../lib/get-signed-url"
+import {SkillRecordingsHandlerParams} from '../types'
+import {JWT} from 'next-auth/jwt'
+import {OutgoingResponse} from '../index'
+import {getSignedUrlForVideoFile} from '../lib/get-signed-url'
 
 export async function signs3UploadUrl({
   params,
@@ -13,7 +13,7 @@ export async function signs3UploadUrl({
   if (params.options.getAbility) {
     const ability = await params.options.getAbility(params.req)
 
-    if (!ability.can("create", "Content")) {
+    if (!ability.can('create', 'Content')) {
       return {
         status: 403,
       }
