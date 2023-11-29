@@ -52,8 +52,15 @@ export const lessonsRouter = router({
 
       const nextLessonIndex = indexOf(lessons, currentLesson) + 1
 
-      return lessons[nextLessonIndex]
-        ? LessonResourceSchema.parse(lessons[nextLessonIndex])
-        : null
+      if (lessons[nextLessonIndex]) {
+        const parsedLesson = LessonResourceSchema.safeParse(
+          lessons[nextLessonIndex],
+        )
+        if (parsedLesson.success) {
+          return parsedLesson.data
+        }
+      }
+
+      return null
     }),
 })

@@ -38,8 +38,11 @@ export const modulesRouter = router({
 
       let purchasedModules = []
 
-      if (token) {
-        const user = UserSchema.parse(token)
+      const parsedUser = UserSchema.safeParse(token)
+
+      let user = parsedUser.success ? parsedUser.data : undefined
+
+      if (user) {
         const productsPurchased =
           user.purchases?.map((purchase) => purchase.productId) || []
         const products = await getProducts(productsPurchased)
@@ -48,7 +51,7 @@ export const modulesRouter = router({
       }
 
       return defineRulesForPurchases({
-        ...(token && {user: UserSchema.parse(token)}),
+        ...(user && {user}),
         ...(convertkitSubscriber && {
           subscriber: convertkitSubscriber,
         }),
