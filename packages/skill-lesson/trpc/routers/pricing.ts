@@ -3,6 +3,7 @@ import {getSdk} from '@skillrecordings/database'
 import {
   formatPricesForProduct,
   getActiveMerchantCoupon,
+  getCouponForCode,
   getValidPurchases,
   propsForCommerce,
 } from '@skillrecordings/commerce-server'
@@ -191,6 +192,8 @@ export const pricing = router({
           couponId,
           productId,
         })
+
+      console.log({activeMerchantCoupon, defaultCoupon, usedCouponId})
 
       const productPrices = await formatPricesForProduct({
         productId,

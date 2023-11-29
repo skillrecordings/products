@@ -16,6 +16,8 @@ type PricingContextType = {
   isDiscount: (price?: FormattedPrice) => boolean
   merchantCoupon?: MinimalMerchantCoupon | undefined
   setMerchantCoupon: Dispatch<SetStateAction<MinimalMerchantCoupon | undefined>>
+  quantity: number
+  setQuantity: Dispatch<SetStateAction<number>>
 }
 
 const defaultPriceCheckContext: PricingContextType = {
@@ -24,6 +26,8 @@ const defaultPriceCheckContext: PricingContextType = {
   isDiscount: () => false,
   merchantCoupon: undefined,
   setMerchantCoupon: () => {},
+  quantity: 1,
+  setQuantity: () => {},
 }
 
 /**
@@ -82,6 +86,8 @@ export const PriceCheckProvider: React.FC<React.PropsWithChildren<any>> = ({
     MinimalMerchantCoupon | undefined
   >()
 
+  const [quantity, setQuantity] = React.useState(1)
+
   return (
     <PriceCheckContext.Provider
       value={{
@@ -90,6 +96,8 @@ export const PriceCheckProvider: React.FC<React.PropsWithChildren<any>> = ({
         isDiscount,
         merchantCoupon,
         setMerchantCoupon,
+        quantity,
+        setQuantity,
       }}
     >
       {children}

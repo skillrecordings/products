@@ -107,6 +107,28 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'upgredableTo',
+      title: 'Upgradable To',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'product'}],
+        }),
+      ],
+    }),
+    defineField({
+      name: 'upgredableFrom',
+      title: 'Upgradable From',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'product'}],
+        }),
+      ],
+    }),
+    defineField({
       name: 'body',
       title: 'Body',
       type: 'text',
