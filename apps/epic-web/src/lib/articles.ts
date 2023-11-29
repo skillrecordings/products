@@ -1,6 +1,7 @@
 import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
+// import * as Sentry from '@sentry/nextjs'
 
 export const ArticleSchema = z.object({
   _id: z.string(),
@@ -57,7 +58,7 @@ export const getAllArticles = async (): Promise<Article[]> => {
   return ArticlesSchema.parse(articles)
 }
 
-export const getArticle = async (slug: string): Promise<Article> => {
+export const getArticle = async (slug: string): Promise<Article | null> => {
   const article = await sanityClient.fetch(
     groq`*[_type == "article" && slug.current == $slug][0] {
         _id,
@@ -78,5 +79,12 @@ export const getArticle = async (slug: string): Promise<Article> => {
     {slug: `${slug}`},
   )
 
-  return ArticleSchema.parse(article)
+  const result = ArticleSchema.safeParse(article)
+
+  if (result.success) {
+    return result.data
+  } else {
+    // Sentry.captureMessage(`Unable to find Sanity Article with slug '${slug}'`)
+    return null
+  }
 }
