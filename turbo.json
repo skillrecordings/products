@@ -16,8 +16,8 @@
       "outputs": ["dist/**"]
     },
     "@skillrecordings/database#build": {
-      "cache": false,
       "dependsOn": ["^build", "generate"],
+      "env": ["DATABASE_URL"],
       "outputs": ["dist/**"]
     },
     "postbuild": {
