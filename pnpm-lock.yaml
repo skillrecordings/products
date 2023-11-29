@@ -7902,7 +7902,7 @@ importers:
         version: 0.17.0(react-dom@18.2.0)(react@18.2.0)
       '@skillrecordings/time':
         specifier: ^0.0.12
-        version: link:../time
+        version: 0.0.12
       '@tippyjs/react':
         specifier: ^4.2.6
         version: 4.2.6(react-dom@18.2.0)(react@18.2.0)
@@ -7932,13 +7932,13 @@ importers:
         specifier: ^11.2.0
         version: 11.11.0(@babel/core@7.23.2)
       '@skillrecordings/scripts':
-        specifier: 0.0.6
+        specifier: ^0.0.7
         version: link:../scripts
       '@skillrecordings/tsconfig':
-        specifier: 0.0.6
+        specifier: ^0.0.7
         version: link:../tsconfig
       '@skillrecordings/types':
-        specifier: 0.0.6
+        specifier: ^0.0.7
         version: link:../types
       '@testing-library/jest-dom':
         specifier: ^5.15.0
@@ -7981,7 +7981,7 @@ importers:
         version: 8.51.0
       eslint-config-skill-recordings:
         specifier: 0.0.1
-        version: link:../eslint-config-skill-recordings
+        version: 0.0.1(@typescript-eslint/eslint-plugin@2.34.0)(eslint@8.51.0)(jest@25.5.4)(typescript@5.1.6)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -8150,10 +8150,10 @@ importers:
     dependencies:
       '@skillrecordings/ability':
         specifier: 1.0.0
-        version: link:../ability
+        version: 1.0.0
       '@skillrecordings/analytics':
         specifier: 1.0.0
-        version: link:../analytics
+        version: 1.0.0(next@13.5.4)(react@18.2.0)
       '@skillrecordings/auth':
         specifier: '=0.0.6'
         version: 0.0.6(next@13.5.4)
@@ -8162,16 +8162,16 @@ importers:
         version: 0.0.2(axios@1.5.1)
       '@skillrecordings/commerce-server':
         specifier: 1.0.1
-        version: link:../commerce-server
+        version: 1.0.1
       '@skillrecordings/config':
         specifier: 0.0.2
-        version: link:../config
+        version: 0.0.2
       '@skillrecordings/database':
         specifier: 1.0.1
-        version: link:../database
+        version: 1.0.1
       '@skillrecordings/next-seo':
         specifier: 1.0.1
-        version: link:../next-seo
+        version: 1.0.1(next@13.5.4)(react-dom@18.2.0)(react@18.2.0)
       axios:
         specifier: ^1.4.0
         version: 1.5.1
@@ -18232,6 +18232,12 @@ packages:
       '@sinonjs/commons': 1.8.6
     dev: true
 
+  /@skillrecordings/ability@1.0.0:
+    resolution: {integrity: sha512-2hD4kvXGcz/mpnfU2u4sb3etLUIjA0bxsI+U1SufQRomdks3QnbL1Nb0gHNs0FHTEd6i4pkNvJPCsLJN8FQtdA==}
+    dependencies:
+      '@casl/ability': 6.5.0
+    dev: false
+
   /@skillrecordings/analytics@0.0.5:
     resolution: {integrity: sha512-D0L6SfaEJltJFpKdE3h1+3auDxldbifnfOI0eTlO36kSCeCdZKSFfgYOR5gWen9VTpCDAr/bXhX4K7SlGVTVlQ==}
     dev: false
@@ -18243,6 +18249,17 @@ packages:
       react: ^17.0.2 < 18.0.0
     dependencies:
       '@skillrecordings/types': 0.0.5
+      next: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
+      react: 18.2.0
+    dev: false
+
+  /@skillrecordings/analytics@1.0.0(next@13.5.4)(react@18.2.0):
+    resolution: {integrity: sha512-w+G0cjAo8MHq8wwwF4uvCEGbpJfR314KKBquML5QRkcK4FX0q6yjxbBw9RlnyG4Ht9W/zpNOmkc5+Ou9Wuk2Yg==}
+    peerDependencies:
+      next: '>= 11.1.2 < 13'
+      react: ^17.0.2 < 18.0.0
+    dependencies:
+      lodash: 4.17.21
       next: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       react: 18.2.0
     dev: false
@@ -18282,12 +18299,66 @@ packages:
       axios: 1.5.1
     dev: false
 
+  /@skillrecordings/commerce-server@1.0.1:
+    resolution: {integrity: sha512-GWlauz1VpCGt1BKc5dO8AlaP3Fb87erJKOtESb7r0WG+GnjawwbPapm4GlDW4T2Y2kSJ6EEe3n8PY9btCCQZ1Q==}
+    dependencies:
+      '@casl/ability': 6.5.0
+      '@skillrecordings/database': 1.0.1
+      '@skillrecordings/stripe-sdk': 1.0.2
+      date-fns: 2.30.0
+      lodash: 4.17.21
+      stripe: 8.222.0
+      zod: 3.22.4
+    transitivePeerDependencies:
+      - prisma
+    dev: false
+
   /@skillrecordings/config@0.0.1:
     resolution: {integrity: sha512-6epzXkuYUDTRpJybOdjMorrobGZqgfKOH2DDPtkfSkLIlwMmMuw3npEoe1pjxk2in87fzM/06F8FcrJQyOzFfg==}
     dev: false
 
+  /@skillrecordings/config@0.0.2:
+    resolution: {integrity: sha512-5hwoQwONcnR3Xc6uDMpPOqQDElff8IaG4cFqwaVQm0fv5obr/UmpScdyZ/I9vM4pEDCE0tr0ozn+etQjS3sXig==}
+    dev: false
+
   /@skillrecordings/cookies@0.0.1:
     resolution: {integrity: sha512-gSJujtLx4v8kC94IzBM36Npp/xpqTmgt/Z0ZbwiSJ95oOeqSGxP+MJIe8R/PFLt8e0q8Gkxx8dhJXrQoXA6wlw==}
+    dev: false
+
+  /@skillrecordings/database@1.0.1:
+    resolution: {integrity: sha512-x70ZWjB7L8kKa3e8sC3IJn2n/J2p2Iyzbz4Ay3bdykzb8tGXyeslJGMDXSIYPCZYxJ+bcAcFcfVBtVYdU65gIQ==}
+    dependencies:
+      '@prisma/client': 4.16.2(prisma@5.4.2)
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - prisma
+    dev: false
+
+  /@skillrecordings/next-seo@1.0.1(next@13.5.4)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-QddL8x7xWe3FrjtA0ZozSF64PPKZSZeIAPWxZ+ZhQb9zBBdea9KxGj+WitHs8jWgseq7Z+xThOZQ7t4o0WcIHQ==}
+    peerDependencies:
+      next: '>= 11.1.2 < 13'
+      react: ^17.0.2 < 18.0.0
+      react-dom: ^17.0.2 < 18.0.0
+    dependencies:
+      next: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@skillrecordings/stripe-sdk@1.0.2:
+    resolution: {integrity: sha512-nTL50uolJaqtVX0cSzIif+XFNBWpSfA2/a5Kp6ogjK9qFUdfi1WclUBw/SVUZcEXllvXj4OXwc98yeECZR2iCw==}
+    dependencies:
+      cookie: 0.5.0
+      date-fns: 2.30.0
+      encoding: 0.1.13
+      lodash: 4.17.21
+      node-fetch: 2.7.0(encoding@0.1.13)
+      stripe: 8.222.0
+    dev: false
+
+  /@skillrecordings/time@0.0.12:
+    resolution: {integrity: sha512-pfzligALVLPuq6Gwa98vqwSKaDluhig27JAssr9NNmwjYF/AP4D2PtF+ZicswpaD5t8KVYNb/uGajbuiy1pRjw==}
     dev: false
 
   /@skillrecordings/tsconfig@0.0.5:
@@ -20455,7 +20526,6 @@ packages:
       typescript: 5.1.6
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.51.0)(typescript@5.1.6):
     resolution: {integrity: sha512-TiZzBSJja/LbhNPvk6yc0JrX9XqhQ0hdh6M2svYfsHGejaKFIAGd9MQ+ERIMzLGlN/kZoYIgdxFV0PuljTKXag==}
@@ -25628,7 +25698,6 @@ packages:
       eslint: '>=7.0.0'
     dependencies:
       eslint: 8.51.0
-    dev: false
 
   /eslint-config-react-app@5.2.1(@typescript-eslint/eslint-plugin@2.34.0)(@typescript-eslint/parser@2.34.0)(babel-eslint@10.1.0)(eslint-plugin-flowtype@3.13.0)(eslint-plugin-import@2.28.1)(eslint-plugin-jsx-a11y@6.7.1)(eslint-plugin-react-hooks@2.5.1)(eslint-plugin-react@7.33.2)(eslint@6.8.0)(typescript@3.9.10):
     resolution: {integrity: sha512-pGIZ8t0mFLcV+6ZirRgYK6RVqUIKRIi9MmgzUEmrIknsn3AdO0I32asO86dJgloHq+9ZPl8UIg8mYrvgP5u2wQ==}
@@ -25693,6 +25762,22 @@ packages:
       - eslint-import-resolver-webpack
       - jest
       - supports-color
+    dev: true
+
+  /eslint-config-skill-recordings@0.0.1(@typescript-eslint/eslint-plugin@2.34.0)(eslint@8.51.0)(jest@25.5.4)(typescript@5.1.6):
+    resolution: {integrity: sha512-fP+fgZdafCa1M3c6nMyOp+nLe9wQKBHhyVEStkfbiQ42ym8wb/UUvI0YbRMMlrX9UbNjQTzmkD8d2aLMs1i3Jw==}
+    dependencies:
+      eslint-config-prettier: 8.10.0(eslint@8.51.0)
+      eslint-plugin-jest: 26.5.3(@typescript-eslint/eslint-plugin@2.34.0)(eslint@8.51.0)(jest@25.5.4)(typescript@5.1.6)
+      eslint-plugin-jsx-a11y: 6.7.1(eslint@8.51.0)
+      eslint-plugin-react: 7.33.2(eslint@8.51.0)
+      eslint-plugin-react-hooks: 4.6.0(eslint@8.51.0)
+    transitivePeerDependencies:
+      - '@typescript-eslint/eslint-plugin'
+      - eslint
+      - jest
+      - supports-color
+      - typescript
     dev: true
 
   /eslint-import-resolver-node@0.3.9:
@@ -26034,7 +26119,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - typescript
-    dev: false
 
   /eslint-plugin-jsx-a11y@6.7.1(eslint@8.26.0):
     resolution: {integrity: sha512-63Bog4iIethyo8smBklORknVjB0T2dwB8Mr/hIC+fBS0uyHdYYpzM/Ed+YC8VxTjlXHEWFOdmgwcDn1U2L9VCA==}
@@ -27496,7 +27580,6 @@ packages:
 
   /functional-red-black-tree@1.0.1:
     resolution: {integrity: sha512-dsKNQNdj6xA3T+QlADDA7mOSlX0qiMINjn0cgr+eGHGsbSHzTabcIogz2+p/iqP1Xs6EP/sS2SbqH+brGTbq0g==}
-    dev: false
 
   /functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
