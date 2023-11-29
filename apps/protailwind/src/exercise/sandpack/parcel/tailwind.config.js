@@ -1,3 +1,0 @@
-tailwind.config = {
-  theme: {},
-}
