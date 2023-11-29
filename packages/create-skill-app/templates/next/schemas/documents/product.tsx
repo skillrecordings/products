@@ -107,7 +107,7 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'upgredableTo',
+      name: 'upgradableTo',
       title: 'Upgradable To',
       type: 'array',
       of: [

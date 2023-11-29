@@ -64,7 +64,7 @@ const WorkshopTemplate: React.FC<{
 
   const canView = ability.can('view', 'Content')
   const router = useRouter()
-  const upgredableTo = product.upgredableTo
+  const upgradableTo = product.upgradableTo
   const couponId =
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
@@ -73,7 +73,7 @@ const WorkshopTemplate: React.FC<{
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
   const hasPurchasedUpgrade =
-    upgredableTo && purchasedProductIds.includes(upgredableTo.productId)
+    upgradableTo && purchasedProductIds.includes(upgradableTo.productId)
 
   return (
     <Layout
@@ -155,22 +155,22 @@ const WorkshopTemplate: React.FC<{
           )}
           {product &&
             ALLOW_PURCHASE &&
-            upgredableTo &&
+            upgradableTo &&
             !hasPurchasedUpgrade && (
               <>
                 <h3 className="text-xl font-bold">Bundle & Save</h3>
                 <Link
                   target="_blank"
-                  href={`/products/${upgredableTo.slug}`}
+                  href={`/products/${upgradableTo.slug}`}
                   className="group relative mb-8 mt-3 flex w-full rounded-lg border bg-card p-5 shadow-2xl shadow-gray-500/10 transition hover:brightness-95 dark:hover:brightness-125"
                 >
                   <div className="absolute -top-3 right-4 flex h-6 items-center rounded bg-amber-300 px-2 text-xs font-bold uppercase text-black">
                     Best Value
                   </div>
                   <div className="flex items-center gap-5">
-                    {upgredableTo.image && (
+                    {upgradableTo.image && (
                       <Image
-                        src={upgredableTo.image.url}
+                        src={upgradableTo.image.url}
                         alt=""
                         aria-hidden="true"
                         className="rounded-full"
@@ -180,12 +180,12 @@ const WorkshopTemplate: React.FC<{
                     )}
                     <div>
                       <h4 className="text-lg font-semibold">
-                        {upgredableTo.title}
+                        {upgradableTo.title}
                       </h4>
                       <p>
                         Includes{' '}
                         {
-                          upgredableTo.modules.filter(
+                          upgradableTo.modules.filter(
                             ({moduleType}: {moduleType: string}) =>
                               moduleType === 'workshop',
                           ).length
@@ -456,9 +456,9 @@ const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
   const {merchantCoupon, setMerchantCoupon, quantity} = usePriceCheck()
-  const upgredableTo = product.upgredableTo
+  const upgradableTo = product.upgradableTo
   const hasPurchasedUpgrade =
-    upgredableTo && purchasedProductIds.includes(upgredableTo.productId)
+    upgradableTo && purchasedProductIds.includes(upgradableTo.productId)
 
   return (
     <div data-pricing-container="" id="buy" key={product.name}>
@@ -473,7 +473,7 @@ const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
           withGuaranteeBadge: true,
         }}
         purchaseButtonRenderer={
-          upgredableTo && !hasPurchasedUpgrade
+          upgradableTo && !hasPurchasedUpgrade
             ? (commerceProps, product) => {
                 return (
                   <Link

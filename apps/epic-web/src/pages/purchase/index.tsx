@@ -46,7 +46,7 @@ const PurchasePage: React.FC<{product: Product}> = ({product}) => {
   const quantity = router.query.quantity as string
   const ppp = router.query.ppp as string
   const code = router.query.code as string
-  const upgrade = product.upgredableTo && product.upgredableTo[0]
+  const upgrade = product.upgradableTo && product.upgradableTo[0]
   const {data: commerceProps, status: propsForCommerceStatus} =
     trpcSkillLessons.pricing.propsForCommerce.useQuery({
       productId: productId,

@@ -69,7 +69,7 @@ export type SanityProduct = {
   state?: 'draft' | 'active' | 'unavailable'
   summary?: PortableTextBlock
   modules: SanityProductModule[]
-  upgredableTo?: SanityProduct
+  upgradableTo?: SanityProduct
   lessons?: {
     title: string
     state?: 'draft' | 'published'

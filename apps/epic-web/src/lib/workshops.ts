@@ -126,7 +126,7 @@ export const getWorkshop = async (slug: string) =>
           description,
           action,
           image,
-          upgredableTo[0]->{
+          upgradableTo[0]->{
             ...,
             productId,
             "slug": slug.current,
