@@ -14,6 +14,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const module = await getBonus(params?.module as string)
   const lesson = await getExercise(exerciseSlug)
+
+  if (!lesson) {
+    return {
+      notFound: true,
+    }
+  }
+
   const lessonBodySerialized =
     typeof lesson.body === 'string' &&
     (await serializeMDX(lesson.body, {

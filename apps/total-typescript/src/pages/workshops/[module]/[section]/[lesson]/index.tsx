@@ -18,6 +18,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const module = await getWorkshop(params?.module as string)
   const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSlug, false)
+
+  if (!lesson) {
+    return {
+      notFound: true,
+    }
+  }
+
   const lessonBodySerialized =
     typeof lesson.body === 'string' &&
     (await serializeMDX(lesson.body, {

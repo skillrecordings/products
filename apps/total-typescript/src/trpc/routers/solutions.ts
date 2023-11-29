@@ -11,6 +11,6 @@ export const solutionsRouter = router({
     )
     .query(async ({ctx, input}) => {
       const lesson = await getExercise(input.exerciseSlug)
-      return lesson.solution
+      return lesson ? lesson.solution : null
     }),
 })

@@ -18,6 +18,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const module = await getWorkshop(params?.module as string)
   const exercise = await getExercise(exerciseSlug)
+
+  if (!exercise) {
+    return {
+      notFound: true,
+    }
+  }
+
   const section = await getSection(sectionSlug)
   const solution = exercise.solution
   const solutionBodySerialized =

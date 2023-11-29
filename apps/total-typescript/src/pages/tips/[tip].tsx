@@ -10,6 +10,13 @@ import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const tip = await getTip(params?.tip as string)
   const tips = await getAllTips()
+
+  if (!tip) {
+    return {
+      notFound: true,
+    }
+  }
+
   const tipBodySerialized =
     tip.body &&
     (await serializeMDX(tip.body, {

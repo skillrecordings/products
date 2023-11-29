@@ -13,11 +13,12 @@ export const stackblitzResourceRouter = router({
     .query(async ({ctx, input}) => {
       const lesson = await getExercise(input.slug)
 
-      const stackblitz =
-        input.type === 'solution'
-          ? lesson.solution?.stackblitz
-          : lesson.stackblitz
+      if (!lesson) {
+        return null
+      }
 
-      return stackblitz
+      return input.type === 'solution'
+        ? lesson.solution?.stackblitz
+        : lesson.stackblitz
     }),
 })
