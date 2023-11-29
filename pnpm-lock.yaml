@@ -8149,8 +8149,8 @@ importers:
   packages/react:
     dependencies:
       '@skillrecordings/ability':
-        specifier: 1.0.0
-        version: 1.0.0
+        specifier: 1.0.1
+        version: link:../ability
       '@skillrecordings/analytics':
         specifier: 1.0.0
         version: 1.0.0(next@13.5.4)(react@18.2.0)
@@ -8161,17 +8161,17 @@ importers:
         specifier: '=0.0.2'
         version: 0.0.2(axios@1.5.1)
       '@skillrecordings/commerce-server':
-        specifier: 1.0.1
-        version: 1.0.1
+        specifier: 1.0.2
+        version: link:../commerce-server
       '@skillrecordings/config':
         specifier: 0.0.2
         version: 0.0.2
       '@skillrecordings/database':
-        specifier: 1.0.1
-        version: 1.0.1
+        specifier: 1.0.3
+        version: link:../database
       '@skillrecordings/next-seo':
-        specifier: 1.0.1
-        version: 1.0.1(next@13.5.4)(react-dom@18.2.0)(react@18.2.0)
+        specifier: 1.0.2
+        version: link:../next-seo
       axios:
         specifier: ^1.4.0
         version: 1.5.1
@@ -18232,12 +18232,6 @@ packages:
       '@sinonjs/commons': 1.8.6
     dev: true
 
-  /@skillrecordings/ability@1.0.0:
-    resolution: {integrity: sha512-2hD4kvXGcz/mpnfU2u4sb3etLUIjA0bxsI+U1SufQRomdks3QnbL1Nb0gHNs0FHTEd6i4pkNvJPCsLJN8FQtdA==}
-    dependencies:
-      '@casl/ability': 6.5.0
-    dev: false
-
   /@skillrecordings/analytics@0.0.5:
     resolution: {integrity: sha512-D0L6SfaEJltJFpKdE3h1+3auDxldbifnfOI0eTlO36kSCeCdZKSFfgYOR5gWen9VTpCDAr/bXhX4K7SlGVTVlQ==}
     dev: false
@@ -18299,20 +18293,6 @@ packages:
       axios: 1.5.1
     dev: false
 
-  /@skillrecordings/commerce-server@1.0.1:
-    resolution: {integrity: sha512-GWlauz1VpCGt1BKc5dO8AlaP3Fb87erJKOtESb7r0WG+GnjawwbPapm4GlDW4T2Y2kSJ6EEe3n8PY9btCCQZ1Q==}
-    dependencies:
-      '@casl/ability': 6.5.0
-      '@skillrecordings/database': 1.0.1
-      '@skillrecordings/stripe-sdk': 1.0.2
-      date-fns: 2.30.0
-      lodash: 4.17.21
-      stripe: 8.222.0
-      zod: 3.22.4
-    transitivePeerDependencies:
-      - prisma
-    dev: false
-
   /@skillrecordings/config@0.0.1:
     resolution: {integrity: sha512-6epzXkuYUDTRpJybOdjMorrobGZqgfKOH2DDPtkfSkLIlwMmMuw3npEoe1pjxk2in87fzM/06F8FcrJQyOzFfg==}
     dev: false
@@ -18323,38 +18303,6 @@ packages:
 
   /@skillrecordings/cookies@0.0.1:
     resolution: {integrity: sha512-gSJujtLx4v8kC94IzBM36Npp/xpqTmgt/Z0ZbwiSJ95oOeqSGxP+MJIe8R/PFLt8e0q8Gkxx8dhJXrQoXA6wlw==}
-    dev: false
-
-  /@skillrecordings/database@1.0.1:
-    resolution: {integrity: sha512-x70ZWjB7L8kKa3e8sC3IJn2n/J2p2Iyzbz4Ay3bdykzb8tGXyeslJGMDXSIYPCZYxJ+bcAcFcfVBtVYdU65gIQ==}
-    dependencies:
-      '@prisma/client': 4.16.2(prisma@5.4.2)
-      uuid: 9.0.1
-    transitivePeerDependencies:
-      - prisma
-    dev: false
-
-  /@skillrecordings/next-seo@1.0.1(next@13.5.4)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-QddL8x7xWe3FrjtA0ZozSF64PPKZSZeIAPWxZ+ZhQb9zBBdea9KxGj+WitHs8jWgseq7Z+xThOZQ7t4o0WcIHQ==}
-    peerDependencies:
-      next: '>= 11.1.2 < 13'
-      react: ^17.0.2 < 18.0.0
-      react-dom: ^17.0.2 < 18.0.0
-    dependencies:
-      next: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /@skillrecordings/stripe-sdk@1.0.2:
-    resolution: {integrity: sha512-nTL50uolJaqtVX0cSzIif+XFNBWpSfA2/a5Kp6ogjK9qFUdfi1WclUBw/SVUZcEXllvXj4OXwc98yeECZR2iCw==}
-    dependencies:
-      cookie: 0.5.0
-      date-fns: 2.30.0
-      encoding: 0.1.13
-      lodash: 4.17.21
-      node-fetch: 2.7.0(encoding@0.1.13)
-      stripe: 8.222.0
     dev: false
 
   /@skillrecordings/time@0.0.12:

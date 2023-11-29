@@ -23,14 +23,14 @@
     "testEnvironment": "node"
   },
   "dependencies": {
-    "@skillrecordings/ability": "1.0.0",
+    "@skillrecordings/ability": "1.0.1",
     "@skillrecordings/analytics": "1.0.0",
     "@skillrecordings/auth": "=0.0.6",
     "@skillrecordings/axios": "=0.0.2",
-    "@skillrecordings/commerce-server": "1.0.1",
+    "@skillrecordings/commerce-server": "1.0.2",
     "@skillrecordings/config": "0.0.2",
-    "@skillrecordings/database": "1.0.1",
-    "@skillrecordings/next-seo": "1.0.1",
+    "@skillrecordings/database": "1.0.3",
+    "@skillrecordings/next-seo": "1.0.2",
     "axios": "^1.4.0",
     "formik": "2.2.9",
     "nprogress": "^0.2.0",
