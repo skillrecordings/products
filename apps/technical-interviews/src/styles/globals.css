@@ -1,9 +1,0 @@
-@tailwind base;
-
-@tailwind components;
-@import './quiz.css';
-@import './primary-newsletter-cta.css';
-@import './nprogress.css';
-
-@tailwind utilities;
-@import './focus-visible.css';
