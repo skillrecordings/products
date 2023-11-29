@@ -28,5 +28,6 @@ export async function getConcept(slug?: string) {
     {slug},
   )
 
-  return ConceptSchema.parse(postContent)
+  const parsedConcept = ConceptSchema.safeParse(postContent)
+  return parsedConcept.success ? parsedConcept.data : null
 }

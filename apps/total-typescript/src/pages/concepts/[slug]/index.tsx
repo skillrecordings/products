@@ -16,6 +16,12 @@ import {linkedHeadingComponents} from '@/components/mdx'
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const concept = await getConcept(params?.slug as string)
 
+  if (!concept) {
+    return {
+      notFound: true,
+    }
+  }
+
   const {data, content} = matter(concept?.body || '')
   const conceptBodySerialized = await serializeMDX(content, {
     scope: data,
