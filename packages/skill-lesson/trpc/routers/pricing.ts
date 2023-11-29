@@ -236,8 +236,10 @@ export const pricing = router({
         return purchase.productId === defaultCoupon.product?.id
       })
 
-    if (!hasPurchasedProductFromDefaultCoupon) {
+    if (!hasPurchasedProductFromDefaultCoupon && defaultCoupon) {
       return defaultCoupon
     }
+
+    return null
   }),
 })
