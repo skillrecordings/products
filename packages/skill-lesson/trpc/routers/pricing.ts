@@ -3,6 +3,7 @@ import {getSdk} from '@skillrecordings/database'
 import {
   formatPricesForProduct,
   getActiveMerchantCoupon,
+  getCouponForCode,
   getValidPurchases,
   propsForCommerce,
 } from '@skillrecordings/commerce-server'
@@ -192,6 +193,8 @@ export const pricing = router({
           productId,
         })
 
+      console.log({activeMerchantCoupon, defaultCoupon, usedCouponId})
+
       const productPrices = await formatPricesForProduct({
         productId,
         country,
@@ -233,8 +236,10 @@ export const pricing = router({
         return purchase.productId === defaultCoupon.product?.id
       })
 
-    if (!hasPurchasedProductFromDefaultCoupon) {
+    if (!hasPurchasedProductFromDefaultCoupon && defaultCoupon) {
       return defaultCoupon
     }
+
+    return null
   }),
 })

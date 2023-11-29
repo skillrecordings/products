@@ -118,14 +118,20 @@ export const getWorkshop = async (slug: string) =>
         "image": image.asset->url, 
         // get product that includes current workshop and has
         // the largest number of modules so we can assume it's a bundle
-        'product': *[_type == 'product' && references(^._id)] | order(count(modules) desc)[0]{
+        'product': *[_type == 'product' && references(^._id)] | order(count(modules) asc)[0]{
           "name": title,
           "slug": slug.current,
           productId,
           state,
           description,
           action,
-          "image": image.asset->{url, alt},
+          image,
+          upgradableTo[0]->{
+            ...,
+            productId,
+            "slug": slug.current,
+            modules[]->{moduleType},
+          },
           modules[]->{
             "slug": slug.current,
             moduleType,
@@ -134,7 +140,8 @@ export const getWorkshop = async (slug: string) =>
             state,
           },
           features[]{
-            value
+            value,
+            icon
           }
         },
     }`,

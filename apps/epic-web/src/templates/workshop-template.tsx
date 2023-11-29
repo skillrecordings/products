@@ -24,6 +24,15 @@ import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import {CogIcon} from '@heroicons/react/outline'
 import * as Dialog from '@radix-ui/react-dialog'
 import CertificateForm from 'certificate/certificate-form'
+import {
+  PriceCheckProvider,
+  usePriceCheck,
+} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import {useRouter} from 'next/router'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -31,6 +40,15 @@ const WorkshopTemplate: React.FC<{
 }> = ({workshop, workshopBodySerialized}) => {
   const {title, ogImage, description, testimonials} = workshop
   const pageTitle = `${title} ${capitalize(workshop.moduleType)}`
+  const useAbilities = () => {
+    const {data: abilityRules, status: abilityRulesStatus} =
+      trpc.modules.rules.useQuery({
+        moduleSlug: workshop.slug.current,
+        moduleType: workshop.moduleType,
+      })
+    return createAppAbility(abilityRules || [])
+  }
+  const ability = useAbilities()
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
       slug: workshop.slug.current,
@@ -42,6 +60,20 @@ const WorkshopTemplate: React.FC<{
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
   )
+  const product = workshop?.product as SanityProduct
+
+  const canView = ability.can('view', 'Content')
+  const router = useRouter()
+  const upgradableTo = product.upgradableTo
+  const couponId =
+    commerceProps?.couponIdFromCoupon ||
+    (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
+  const purchases = commerceProps?.purchases || []
+  const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+  const ALLOW_PURCHASE =
+    router.query.allowPurchase === 'true' || product.state === 'active'
+  const hasPurchasedUpgrade =
+    upgradableTo && purchasedProductIds.includes(upgradableTo.productId)
 
   return (
     <Layout
@@ -65,8 +97,8 @@ const WorkshopTemplate: React.FC<{
           </div>
         </div>
       )}
-      <Header tutorial={workshop} />
-      <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
+      <Header module={workshop} canView={canView} />
+      <main className="z-10 flex flex-col gap-5 lg:flex-row">
         <div className="w-full flex-grow px-5">
           <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
             {workshopBodySerialized ? (
@@ -95,7 +127,77 @@ const WorkshopTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        <div className="w-full px-5 lg:max-w-sm lg:px-0">
+        <aside
+          className="right-0 top-28 w-full px-5 lg:absolute lg:max-w-sm lg:px-0"
+          data-workshop=""
+        >
+          {product && ALLOW_PURCHASE && !canView ? (
+            <>
+              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+                <WorkshopPricingWidget product={product} />
+              </PriceCheckProvider>
+            </>
+          ) : (
+            <>
+              {workshop.image && (
+                <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0">
+                  <Image
+                    priority
+                    src={workshop.image}
+                    alt={title}
+                    width={320}
+                    height={320}
+                    quality={100}
+                  />
+                </div>
+              )}
+            </>
+          )}
+          {product &&
+            ALLOW_PURCHASE &&
+            upgradableTo &&
+            !hasPurchasedUpgrade && (
+              <>
+                <h3 className="text-xl font-bold">Bundle & Save</h3>
+                <Link
+                  target="_blank"
+                  href={`/products/${upgradableTo.slug}`}
+                  className="group relative mb-8 mt-3 flex w-full rounded-lg border bg-card p-5 shadow-2xl shadow-gray-500/10 transition hover:brightness-95 dark:hover:brightness-125"
+                >
+                  <div className="absolute -top-3 right-4 flex h-6 items-center rounded bg-amber-300 px-2 text-xs font-bold uppercase text-black">
+                    Best Value
+                  </div>
+                  <div className="flex items-center gap-5">
+                    {upgradableTo.image && (
+                      <Image
+                        src={upgradableTo.image.url}
+                        alt=""
+                        aria-hidden="true"
+                        className="rounded-full"
+                        width={100}
+                        height={100}
+                      />
+                    )}
+                    <div>
+                      <h4 className="text-lg font-semibold">
+                        {upgradableTo.title}
+                      </h4>
+                      <p>
+                        Includes{' '}
+                        {
+                          upgradableTo.modules.filter(
+                            ({moduleType}: {moduleType: string}) =>
+                              moduleType === 'workshop',
+                          ).length
+                        }{' '}
+                        workshops.
+                      </p>
+                      {/* <span className="group-hover:underline">View more</span> */}
+                    </div>
+                  </div>
+                </Link>
+              </>
+            )}
           {workshop && (
             <Collection.Root module={workshop}>
               <div className="flex w-full items-center justify-between pb-3">
@@ -127,7 +229,7 @@ const WorkshopTemplate: React.FC<{
           {workshop.moduleType === 'workshop' && (
             <ModuleCertificate module={workshop} />
           )}
-        </div>
+        </aside>
       </main>
     </Layout>
   )
@@ -135,11 +237,15 @@ const WorkshopTemplate: React.FC<{
 
 export default WorkshopTemplate
 
-const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
-  const {title, slug, sections, image, github} = tutorial
+const Header: React.FC<{module: Module; canView: boolean}> = ({
+  module,
+  canView,
+}) => {
+  const {title, slug, sections, image, github} = module
+  const product = module.product as SanityProduct
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
-      slug: tutorial.slug.current,
+      slug: module.slug.current,
     })
 
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
@@ -147,13 +253,16 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
   const nextLesson = moduleProgress?.nextLesson
 
   const firstSection = first<Section>(sections)
-  const firstLesson = first<Lesson>(firstSection?.lessons || tutorial.lessons)
+  const firstLesson = first<Lesson>(firstSection?.lessons || module.lessons)
+  const router = useRouter()
+  const ALLOW_PURCHASE =
+    router.query.allowPurchase === 'true' || product.state === 'active'
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 pt-8 sm:pb-10 sm:pt-10 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-start px-5 pb-10 pt-8 sm:pb-16 sm:pt-10 md:flex-row">
         <div className="w-full text-center md:text-left">
-          {tutorial.moduleType === 'bonus' ? (
+          {module.moduleType === 'bonus' ? (
             <Link
               href="/bonuses"
               className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-orange-500 dark:text-orange-300"
@@ -187,7 +296,21 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                 <span>Kent C. Dodds</span>
               </div>
             </div>
-            <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
+            <div className="flex w-full flex-col items-start justify-center gap-3 pt-8 md:justify-start lg:flex-row lg:items-center">
+              {!canView && product && ALLOW_PURCHASE && (
+                <button
+                  onClick={() => {
+                    track('clicked get access', {module: slug.current})
+                    document.getElementById('buy')?.scrollIntoView({
+                      behavior: 'smooth',
+                    })
+                  }}
+                  type="button"
+                  className="relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-primary-foreground transition hover:brightness-110 focus-visible:ring-white md:hidden md:max-w-[240px]"
+                >
+                  Get Access
+                </button>
+              )}
               {moduleProgress?.moduleCompleted ? (
                 <Dialog.Root>
                   <Dialog.Trigger
@@ -200,7 +323,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                   >
                     Get Certificate
                   </Dialog.Trigger>
-                  <CertificateForm module={tutorial} />
+                  <CertificateForm module={module} />
                 </Dialog.Root>
               ) : (
                 <Link
@@ -210,7 +333,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                           pathname: `/[type]/[module]/[section]/[lesson]`,
                           query: {
                             type:
-                              tutorial.moduleType === 'bonus'
+                              module.moduleType === 'bonus'
                                 ? 'bonuses'
                                 : 'workshops',
                             module: slug.current,
@@ -226,7 +349,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                           pathname: '/[type]/[module]/[lesson]',
                           query: {
                             type:
-                              tutorial.moduleType === 'bonus'
+                              module.moduleType === 'bonus'
                                 ? 'bonuses'
                                 : 'workshops',
                             module: slug.current,
@@ -236,22 +359,29 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                           },
                         }
                   }
-                  className={cx(
-                    'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
+                  className={cn(
+                    'relative flex w-full items-center justify-center rounded-md border px-5 py-4 text-lg font-semibold transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
                     {
                       'animate-pulse': moduleProgressStatus === 'loading',
+                      'border-transparent bg-gradient-to-b from-blue-500 to-blue-600 text-primary-foreground':
+                        canView,
+                      'border-foreground/10 bg-foreground/5 text-foreground':
+                        !canView,
                     },
                   )}
                   onClick={() => {
                     track('clicked start learning', {module: slug.current})
                   }}
                 >
-                  {isModuleInProgress ? 'Continue' : 'Start'} Learning
-                  <span className="pl-2" aria-hidden="true">
-                    →
-                  </span>
+                  <Icon name="Playmark" aria-hidden="true" className="mr-1.5" />
+                  {canView ? (
+                    <>{isModuleInProgress ? 'Continue' : 'Start'} Learning</>
+                  ) : (
+                    <>Preview Workshop</>
+                  )}
                 </Link>
               )}
+
               {github?.repo && (
                 <a
                   className="flex w-full items-center justify-center gap-2 rounded-md border-none border-gray-300 px-5 py-4 font-medium leading-tight transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-900 md:w-auto"
@@ -269,7 +399,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
           </div>
         </div>
         {image && (
-          <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0 lg:-mr-5">
+          <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0 lg:hidden">
             <Image
               priority
               src={image}
@@ -302,3 +432,66 @@ const CourseMeta = ({
     }}
   />
 )
+
+const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
+  product,
+}) => {
+  const router = useRouter()
+
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({
+      productId: product.productId,
+      code: router.query.code as string,
+    })
+  const couponFromCode = commerceProps?.couponFromCode
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
+    commerceProps?.couponFromCode,
+  )
+  const couponId =
+    commerceProps?.couponIdFromCoupon ||
+    (validCoupon ? couponFromCode?.id : undefined)
+  console.log({couponFromCode, couponId, commerceProps})
+  const purchases = commerceProps?.purchases || []
+  const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+  const ALLOW_PURCHASE =
+    router.query.allowPurchase === 'true' || product.state === 'active'
+  const {merchantCoupon, setMerchantCoupon, quantity} = usePriceCheck()
+  const upgradableTo = product.upgradableTo
+  const hasPurchasedUpgrade =
+    upgradableTo && purchasedProductIds.includes(upgradableTo.productId)
+
+  return (
+    <div data-pricing-container="" id="buy" key={product.name}>
+      <Pricing
+        id="workshop-pricing"
+        // bonuses={bonuses}
+        allowPurchase={ALLOW_PURCHASE}
+        userId={commerceProps?.userId}
+        product={product}
+        options={{
+          withImage: true,
+          withGuaranteeBadge: true,
+        }}
+        purchaseButtonRenderer={
+          upgradableTo && !hasPurchasedUpgrade
+            ? (commerceProps, product) => {
+                return (
+                  <Link
+                    href={`/purchase?productId=${product.productId}&ppp=${
+                      merchantCoupon?.type === 'ppp'
+                    }&quantity=${quantity}&code=${couponId ?? false}`}
+                    data-pricing-product-checkout-button=""
+                  >
+                    <span>{product?.action || 'Buy Now'}</span>
+                  </Link>
+                )
+              }
+            : undefined
+        }
+        purchased={purchasedProductIds.includes(product.productId)}
+        couponId={couponId}
+        couponFromCode={couponFromCode}
+      />
+    </div>
+  )
+}

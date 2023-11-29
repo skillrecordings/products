@@ -46,6 +46,89 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'price',
+      title: 'Price',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'priceId',
+          title: 'Price ID',
+          type: 'string',
+        }),
+        defineField({
+          name: 'amount',
+          title: 'Amount',
+          type: 'number',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'merchantPrice',
+      title: 'Merchant Price',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'merchantPriceId',
+          title: 'Merchant Price ID',
+          type: 'string',
+        }),
+        defineField({
+          name: 'merchantAccountId',
+          title: 'Merchant Account ID',
+          type: 'string',
+        }),
+        defineField({
+          name: 'identifier',
+          title: 'Identifier',
+          type: 'string',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'merchantProduct',
+      title: 'Merchant Product',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'merchantProductId',
+          title: 'Merchant Product ID',
+          type: 'string',
+        }),
+        defineField({
+          name: 'merchantAccountId',
+          title: 'Merchant Account ID',
+          type: 'string',
+        }),
+        defineField({
+          name: 'identifier',
+          title: 'Identifier',
+          type: 'string',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'upgradableTo',
+      title: 'Upgradable To',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'product'}],
+        }),
+      ],
+    }),
+    defineField({
+      name: 'upgredableFrom',
+      title: 'Upgradable From',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'product'}],
+        }),
+      ],
+    }),
+    defineField({
       name: 'body',
       title: 'Body',
       type: 'text',
