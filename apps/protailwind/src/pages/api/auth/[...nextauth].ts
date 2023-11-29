@@ -1,7 +1,6 @@
 import NextAuth, {NextAuthOptions, Theme} from 'next-auth'
 import {createOptions} from '@skillrecordings/skill-api'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {withSentry} from '@sentry/nextjs'
 
 const productTheme: Theme = {
   colorScheme: 'auto',

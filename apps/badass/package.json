@@ -37,7 +37,7 @@
     "@portabletext/react": "^3.0.11",
     "@reach/dialog": "^0.16.2",
     "@sanity/client": "^6.1.1",
-    "@sentry/nextjs": "^7.9.0",
+    "@sentry/nextjs": "^7.83.0",
     "@sentry/tracing": "^7.9.0",
     "@skillrecordings/config": "workspace:*",
     "@skillrecordings/convertkit-react-ui": "workspace:*",

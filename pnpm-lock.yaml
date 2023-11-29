@@ -126,8 +126,8 @@ importers:
         specifier: ^1.0.2
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.73.0
@@ -430,8 +430,8 @@ importers:
         specifier: ^6.1.1
         version: 6.6.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.73.0
@@ -812,8 +812,8 @@ importers:
         specifier: ^1.0.2
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.73.0
@@ -1212,8 +1212,8 @@ importers:
         specifier: ^1.0.2
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.73.0
@@ -1624,8 +1624,8 @@ importers:
         specifier: ^3.0.0
         version: 3.18.0(@babel/runtime@7.23.2)(@codemirror/lint@6.4.2)(@codemirror/state@6.3.0)(@codemirror/theme-one-dark@6.1.2)(@lezer/common@1.1.0)(codemirror@6.0.1)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@5.3.11)
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.73.0
@@ -1982,8 +1982,8 @@ importers:
         specifier: ^1.0.2
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sindresorhus/slugify':
         specifier: ^2.1.0
         version: 2.2.1
@@ -2481,8 +2481,8 @@ importers:
         specifier: ^1.0.2
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.73.0
@@ -2890,8 +2890,8 @@ importers:
         specifier: ^1.0.2
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.73.0
@@ -3278,8 +3278,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.73.0
@@ -3669,8 +3669,8 @@ importers:
         specifier: ^1.0.2
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.73.0
@@ -4024,8 +4024,8 @@ importers:
         specifier: ^1.0.2
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sindresorhus/slugify':
         specifier: ^2.1.0
         version: 2.2.1
@@ -4879,8 +4879,8 @@ importers:
         specifier: ^3.0.0
         version: 3.18.0(@babel/runtime@7.23.2)(@codemirror/lint@6.4.2)(@codemirror/state@6.3.0)(@codemirror/theme-one-dark@6.1.2)(@lezer/common@1.1.0)(codemirror@6.0.1)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@5.3.11)
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.73.0
@@ -5153,8 +5153,8 @@ importers:
         specifier: ^3.0.0
         version: 3.18.0(@babel/runtime@7.23.2)(@codemirror/lint@6.4.2)(@codemirror/state@6.3.0)(@codemirror/theme-one-dark@6.1.2)(@lezer/common@1.1.0)(codemirror@6.0.1)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@5.3.11)
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.73.0
@@ -5471,12 +5471,6 @@ importers:
       '@sanity/webhook':
         specifier: ^1.0.2
         version: 1.1.0
-      '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
-      '@sentry/tracing':
-        specifier: ^7.9.0
-        version: 7.73.0
       '@skillrecordings/ability':
         specifier: workspace:*
         version: link:../../packages/ability
@@ -5974,8 +5968,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@skillrecordings/ability':
         specifier: workspace:*
         version: link:../../packages/ability
@@ -6473,8 +6467,8 @@ importers:
         specifier: ^1.0.2
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@sentry/tracing':
         specifier: ^7.9.0
         version: 7.73.0
@@ -6801,8 +6795,8 @@ importers:
         specifier: ^1.0.2
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@skillrecordings/analytics':
         specifier: workspace:*
         version: link:../../packages/analytics
@@ -7911,7 +7905,7 @@ importers:
         version: 0.17.0(react-dom@18.2.0)(react@18.2.0)
       '@skillrecordings/time':
         specifier: ^0.0.12
-        version: link:../time
+        version: 0.0.12
       '@tippyjs/react':
         specifier: ^4.2.6
         version: 4.2.6(react-dom@18.2.0)(react@18.2.0)
@@ -7941,13 +7935,13 @@ importers:
         specifier: ^11.2.0
         version: 11.11.0(@babel/core@7.23.2)
       '@skillrecordings/scripts':
-        specifier: 0.0.6
+        specifier: ^0.0.7
         version: link:../scripts
       '@skillrecordings/tsconfig':
-        specifier: 0.0.6
+        specifier: ^0.0.7
         version: link:../tsconfig
       '@skillrecordings/types':
-        specifier: 0.0.6
+        specifier: ^0.0.7
         version: link:../types
       '@testing-library/jest-dom':
         specifier: ^5.15.0
@@ -7990,7 +7984,7 @@ importers:
         version: 8.51.0
       eslint-config-skill-recordings:
         specifier: 0.0.1
-        version: link:../eslint-config-skill-recordings
+        version: 0.0.1(@typescript-eslint/eslint-plugin@2.34.0)(eslint@8.51.0)(jest@25.5.4)(typescript@5.1.6)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -8031,13 +8025,13 @@ importers:
         specifier: ^0.16.0
         version: 0.16.0(react-dom@18.2.0)(react@18.2.0)
       '@skillrecordings/analytics':
-        specifier: '=0.0.6'
-        version: 0.0.6(next@13.5.4)(react@18.2.0)
+        specifier: workspace:*
+        version: link:../analytics
       '@skillrecordings/auth':
-        specifier: '=0.0.6'
+        specifier: 0.0.6
         version: 0.0.6(next@13.5.4)
       '@skillrecordings/axios':
-        specifier: '=0.0.2'
+        specifier: 0.0.2
         version: 0.0.2(axios@1.5.1)
       '@skillrecordings/config':
         specifier: workspace:*
@@ -8077,8 +8071,8 @@ importers:
         specifier: workspace:*
         version: link:../scripts
       '@skillrecordings/tsconfig':
-        specifier: ^0.0.5
-        version: 0.0.5
+        specifier: workspace:*
+        version: link:../tsconfig
       '@skillrecordings/types':
         specifier: workspace:*
         version: link:../types
@@ -8158,28 +8152,28 @@ importers:
   packages/react:
     dependencies:
       '@skillrecordings/ability':
-        specifier: 1.0.0
+        specifier: workspace:*
         version: link:../ability
       '@skillrecordings/analytics':
-        specifier: 1.0.0
+        specifier: workspace:*
         version: link:../analytics
       '@skillrecordings/auth':
-        specifier: '=0.0.6'
+        specifier: 0.0.6
         version: 0.0.6(next@13.5.4)
       '@skillrecordings/axios':
-        specifier: '=0.0.2'
+        specifier: 0.0.2
         version: 0.0.2(axios@1.5.1)
       '@skillrecordings/commerce-server':
-        specifier: 1.0.1
+        specifier: workspace:*
         version: link:../commerce-server
       '@skillrecordings/config':
-        specifier: 0.0.2
+        specifier: workspace:*
         version: link:../config
       '@skillrecordings/database':
-        specifier: 1.0.1
+        specifier: workspace:*
         version: link:../database
       '@skillrecordings/next-seo':
-        specifier: 1.0.1
+        specifier: workspace:*
         version: link:../next-seo
       axios:
         specifier: ^1.4.0
@@ -8632,8 +8626,8 @@ importers:
         specifier: ^1.0.2
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@skillrecordings/ability':
         specifier: workspace:*
         version: link:../ability
@@ -9116,8 +9110,8 @@ importers:
         specifier: ^1.0.2
         version: 1.1.0
       '@sentry/nextjs':
-        specifier: ^7.9.0
-        version: 7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
+        specifier: ^7.83.0
+        version: 7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2)
       '@skillrecordings/ability':
         specifier: workspace:*
         version: link:../ability
@@ -17972,20 +17966,28 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@sentry/browser@7.73.0:
-    resolution: {integrity: sha512-e301hUixcJ5+HNKCJwajFF5smF4opXEFSclyWsJuFNufv5J/1C1SDhbwG2JjBt5zzdSoKWJKT1ewR6vpICyoDw==}
+  /@sentry-internal/tracing@7.83.0:
+    resolution: {integrity: sha512-fY1ZyOiQaaUTuoq5rO+G4/5Ov3n8BnfNK7ck97yAGxy3w+E1CwhVZkXHEvTngNfdYV3ArxvlrtPRb9STFRqXvQ==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry-internal/tracing': 7.73.0
-      '@sentry/core': 7.73.0
-      '@sentry/replay': 7.73.0
-      '@sentry/types': 7.73.0
-      '@sentry/utils': 7.73.0
-      tslib: 2.6.2
+      '@sentry/core': 7.83.0
+      '@sentry/types': 7.83.0
+      '@sentry/utils': 7.83.0
     dev: false
 
-  /@sentry/cli@1.75.2:
-    resolution: {integrity: sha512-CG0CKH4VCKWzEaegouWfCLQt9SFN+AieFESCatJ7zSuJmzF05ywpMusjxqRul6lMwfUhRKjGKOzcRJ1jLsfTBw==}
+  /@sentry/browser@7.83.0:
+    resolution: {integrity: sha512-8v7QEaC/fVAHn8pi59ZlJznr7ZdOQIgtz8DAOJeJsC2vHTAxQ9nVkoMkJWjTp/qaDHUjSe5ob6eqaChuhi6t2g==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@sentry-internal/tracing': 7.83.0
+      '@sentry/core': 7.83.0
+      '@sentry/replay': 7.83.0
+      '@sentry/types': 7.83.0
+      '@sentry/utils': 7.83.0
+    dev: false
+
+  /@sentry/cli@1.77.1:
+    resolution: {integrity: sha512-OtJ7U9LeuPUAY/xow9wwcjM9w42IJIpDtClTKI/RliE685vd/OJUIpiAvebHNthDYpQynvwb/0iuF4fonh+CKw==}
     engines: {node: '>= 8'}
     hasBin: true
     requiresBuild: true
@@ -18010,22 +18012,29 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@sentry/integrations@7.73.0:
-    resolution: {integrity: sha512-IjVpn4d+aSL9L1Ntu/oAdRwujz4BzzavDsZf96Xgc/AjBnjAEUT+wT1dAwluThfuKDXmWOJHhZ2cHHMfqI+7vw==}
+  /@sentry/core@7.83.0:
+    resolution: {integrity: sha512-fglvpw8aWM6nWXzCjAVXIMTiTEAQ9G9b85IpDd/7L8fuwaFTPQAUSJXupF2PfbpQ3FUYbJt80dxshbERVJG8vQ==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry/core': 7.73.0
-      '@sentry/types': 7.73.0
-      '@sentry/utils': 7.73.0
-      localforage: 1.10.0
-      tslib: 2.6.2
+      '@sentry/types': 7.83.0
+      '@sentry/utils': 7.83.0
     dev: false
 
-  /@sentry/nextjs@7.73.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2):
-    resolution: {integrity: sha512-WTTxb3xFFpQ9u8jLx2jXa5oJIlgQs3kQ7wjHoTVOuuk51kB3wtMvq546tA5Kmsgu5uInjznBe4f2qUFYdqiO9Q==}
+  /@sentry/integrations@7.83.0:
+    resolution: {integrity: sha512-KyptWUyg/Z+3qN1dBDDVcNNUzIwWpCO3mfiToV20LSeA+e/NS4IWTtsZKo2mqvoQQ/4QKcrMj7NbF5iOjKckaQ==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@sentry/core': 7.83.0
+      '@sentry/types': 7.83.0
+      '@sentry/utils': 7.83.0
+      localforage: 1.10.0
+    dev: false
+
+  /@sentry/nextjs@7.83.0(next@13.5.4)(react@18.2.0)(webpack@5.88.2):
+    resolution: {integrity: sha512-rJMUAqLcu4ZIajTn3UWBsrtGo6lmN5ZHxbxIzYatOUBau4WlgdHHc3UPaxQgoDc/K0etxwKLkddvFgqw/IVErQ==}
     engines: {node: '>=8'}
     peerDependencies:
-      next: ^10.0.8 || ^11.0 || ^12.0 || ^13.0
+      next: ^10.0.8 || ^11.0 || ^12.0 || ^13.0 || ^14.0
       react: 16.x || 17.x || 18.x
       webpack: '>= 4.0.0'
     peerDependenciesMeta:
@@ -18033,63 +18042,60 @@ packages:
         optional: true
     dependencies:
       '@rollup/plugin-commonjs': 24.0.0(rollup@2.78.0)
-      '@sentry/core': 7.73.0
-      '@sentry/integrations': 7.73.0
-      '@sentry/node': 7.73.0
-      '@sentry/react': 7.73.0(react@18.2.0)
-      '@sentry/types': 7.73.0
-      '@sentry/utils': 7.73.0
-      '@sentry/vercel-edge': 7.73.0
-      '@sentry/webpack-plugin': 1.20.0
+      '@sentry/core': 7.83.0
+      '@sentry/integrations': 7.83.0
+      '@sentry/node': 7.83.0
+      '@sentry/react': 7.83.0(react@18.2.0)
+      '@sentry/types': 7.83.0
+      '@sentry/utils': 7.83.0
+      '@sentry/vercel-edge': 7.83.0
+      '@sentry/webpack-plugin': 1.21.0
       chalk: 3.0.0
       next: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
       react: 18.2.0
+      resolve: 1.22.8
       rollup: 2.78.0
       stacktrace-parser: 0.1.10
-      tslib: 2.6.2
       webpack: 5.88.2(esbuild@0.19.4)
     transitivePeerDependencies:
       - encoding
       - supports-color
     dev: false
 
-  /@sentry/node@7.73.0:
-    resolution: {integrity: sha512-i50bRfmgkRRx0XXUbg9jGD/RuznDJxJXc4rBILhoJuhl+BjRIaoXA3ayplfJn8JLZxsNh75uJaCq4IUK70SORw==}
+  /@sentry/node@7.83.0:
+    resolution: {integrity: sha512-ibnON+5ovoGOsvcLxcWQu5XAc4rbkvDkzCP74YGnME3/NzRuo3cKam8bUL5Wlm15h68QzxskyNOLuj6BEJ6AfQ==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry-internal/tracing': 7.73.0
-      '@sentry/core': 7.73.0
-      '@sentry/types': 7.73.0
-      '@sentry/utils': 7.73.0
-      cookie: 0.5.0
+      '@sentry-internal/tracing': 7.83.0
+      '@sentry/core': 7.83.0
+      '@sentry/types': 7.83.0
+      '@sentry/utils': 7.83.0
       https-proxy-agent: 5.0.1
-      lru_map: 0.3.3
-      tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@sentry/react@7.73.0(react@18.2.0):
-    resolution: {integrity: sha512-RCGlxW0Xp5vsC38LGxUO0Xf11LBzfg75VN+KS3D2FS5GXl0R0JwgUyPNVlod7YMCfwytsKGhfP+YpQvHGQAVwg==}
+  /@sentry/react@7.83.0(react@18.2.0):
+    resolution: {integrity: sha512-8GjKRXkZH+FkmO0LaGEVOrTC9g6Csn7VnTVIqtnfX2hVxbdHnqyjhHDgnCbmW7JRb0X6//QK4CuLCWu8uApLBw==}
     engines: {node: '>=8'}
     peerDependencies:
       react: 15.x || 16.x || 17.x || 18.x
     dependencies:
-      '@sentry/browser': 7.73.0
-      '@sentry/types': 7.73.0
-      '@sentry/utils': 7.73.0
+      '@sentry/browser': 7.83.0
+      '@sentry/types': 7.83.0
+      '@sentry/utils': 7.83.0
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
-      tslib: 2.6.2
     dev: false
 
-  /@sentry/replay@7.73.0:
-    resolution: {integrity: sha512-a8IC9SowBisLYD2IdLkXzx7gN4iVwHDJhQvLp2B8ARs1PyPjJ7gCxSMHeGrYp94V0gOXtorNYkrxvuX8ayPROA==}
+  /@sentry/replay@7.83.0:
+    resolution: {integrity: sha512-B/rzmjmQ3ZWE68m4Z9rHIN3Fa/wkfVVTK+iSQtqErFflyMETMNwtWRNd6P9FhXnphEINZEbcn/UZF5w5xu/DfA==}
     engines: {node: '>=12'}
     dependencies:
-      '@sentry/core': 7.73.0
-      '@sentry/types': 7.73.0
-      '@sentry/utils': 7.73.0
+      '@sentry-internal/tracing': 7.83.0
+      '@sentry/core': 7.83.0
+      '@sentry/types': 7.83.0
+      '@sentry/utils': 7.83.0
     dev: false
 
   /@sentry/tracing@7.73.0:
@@ -18104,6 +18110,11 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /@sentry/types@7.83.0:
+    resolution: {integrity: sha512-Bd+zJcy8p1VgCfQqUprmUaw0QPWUV+GmCt6zJRHrHTb2pwLahXv6sHJvQ8F8Va6S7Keuy088U+kHzUFGQLMZMQ==}
+    engines: {node: '>=8'}
+    dev: false
+
   /@sentry/utils@7.73.0:
     resolution: {integrity: sha512-h3ZK/qpf4k76FhJV9uiSbvMz3V/0Ovy94C+5/9UgPMVCJXFmVsdw8n/dwANJ7LupVPfYP23xFGgebDMFlK1/2w==}
     engines: {node: '>=8'}
@@ -18112,21 +18123,28 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@sentry/vercel-edge@7.73.0:
-    resolution: {integrity: sha512-5EIJAuHG9w2OBrG76uH51Zlh4SMg3N8n29YiZgOtsBL0FU7AvBpxsIknECmmQOKPFrfCa0ycu2WSWgFXILCYGQ==}
+  /@sentry/utils@7.83.0:
+    resolution: {integrity: sha512-7SrZtgAn3pHFBqSSvV/VL0CWTBQ7VenJjok4+WGWd6/FhP3fKrEEd9rjVTUb2Pzq9WLJJYzdvxAG8RlggG+H4g==}
     engines: {node: '>=8'}
     dependencies:
-      '@sentry/core': 7.73.0
-      '@sentry/types': 7.73.0
-      '@sentry/utils': 7.73.0
-      tslib: 2.6.2
+      '@sentry/types': 7.83.0
     dev: false
 
-  /@sentry/webpack-plugin@1.20.0:
-    resolution: {integrity: sha512-Ssj1mJVFsfU6vMCOM2d+h+KQR7QHSfeIP16t4l20Uq/neqWXZUQ2yvQfe4S3BjdbJXz/X4Rw8Hfy1Sd0ocunYw==}
+  /@sentry/vercel-edge@7.83.0:
+    resolution: {integrity: sha512-ckYEKXo5rhj+HduFSTdfR9gFWlNmoz7+xkZ00F+2nM41ICrimer1pO0piD3nZCptlWMtUid8jfHffoCM/5CjQQ==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@sentry-internal/tracing': 7.83.0
+      '@sentry/core': 7.83.0
+      '@sentry/types': 7.83.0
+      '@sentry/utils': 7.83.0
+    dev: false
+
+  /@sentry/webpack-plugin@1.21.0:
+    resolution: {integrity: sha512-x0PYIMWcsTauqxgl7vWUY6sANl+XGKtx7DCVnnY7aOIIlIna0jChTAPANTfA2QrK+VK+4I/4JxatCEZBnXh3Og==}
     engines: {node: '>= 8'}
     dependencies:
-      '@sentry/cli': 1.75.2
+      '@sentry/cli': 1.77.1
       webpack-sources: 3.2.3
     transitivePeerDependencies:
       - encoding
@@ -18203,17 +18221,6 @@ packages:
     resolution: {integrity: sha512-D0L6SfaEJltJFpKdE3h1+3auDxldbifnfOI0eTlO36kSCeCdZKSFfgYOR5gWen9VTpCDAr/bXhX4K7SlGVTVlQ==}
     dev: false
 
-  /@skillrecordings/analytics@0.0.6(next@13.5.4)(react@18.2.0):
-    resolution: {integrity: sha512-fIPcCrXLgX3jn/4AA9zqBVOioqPRkKETE2SsGYNw37d2I0cdfMsKvgBkHDot223FWUq1KAn4BJf84LDBSSVEew==}
-    peerDependencies:
-      next: '>= 11.1.2 < 13'
-      react: ^17.0.2 < 18.0.0
-    dependencies:
-      '@skillrecordings/types': 0.0.5
-      next: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.3)
-      react: 18.2.0
-    dev: false
-
   /@skillrecordings/auth@0.0.6(next@13.5.4):
     resolution: {integrity: sha512-ZTU05/wJ3TjXyMII66zAEqCb7/4akxf7HFthsRFO/bEdGVNgpSgl/bo/btScoGNyOV84fVGv16MaAGFV3RtrLw==}
     peerDependencies:
@@ -18257,12 +18264,8 @@ packages:
     resolution: {integrity: sha512-gSJujtLx4v8kC94IzBM36Npp/xpqTmgt/Z0ZbwiSJ95oOeqSGxP+MJIe8R/PFLt8e0q8Gkxx8dhJXrQoXA6wlw==}
     dev: false
 
-  /@skillrecordings/tsconfig@0.0.5:
-    resolution: {integrity: sha512-buWxeiW18CnZDLZBue6zVaEtwBsh8kNvpUC+0UWTHbDGKOCr4QrCehk9A55/NR5d1D2wmL5Vsfkt7x6g0dUxdA==}
-    dev: true
-
-  /@skillrecordings/types@0.0.5:
-    resolution: {integrity: sha512-fWBj5hKs1lPGC0AJ8JPw/RWaNpagf5kU7t0fKdG0WqemN/c2dNchVwzjKtt3249VKpQVh53btZpZNLknPI2d6g==}
+  /@skillrecordings/time@0.0.12:
+    resolution: {integrity: sha512-pfzligALVLPuq6Gwa98vqwSKaDluhig27JAssr9NNmwjYF/AP4D2PtF+ZicswpaD5t8KVYNb/uGajbuiy1pRjw==}
     dev: false
 
   /@slack/logger@3.0.0:
@@ -20422,7 +20425,6 @@ packages:
       typescript: 5.1.6
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.51.0)(typescript@5.1.6):
     resolution: {integrity: sha512-TiZzBSJja/LbhNPvk6yc0JrX9XqhQ0hdh6M2svYfsHGejaKFIAGd9MQ+ERIMzLGlN/kZoYIgdxFV0PuljTKXag==}
@@ -25594,7 +25596,6 @@ packages:
       eslint: '>=7.0.0'
     dependencies:
       eslint: 8.51.0
-    dev: false
 
   /eslint-config-react-app@5.2.1(@typescript-eslint/eslint-plugin@2.34.0)(@typescript-eslint/parser@2.34.0)(babel-eslint@10.1.0)(eslint-plugin-flowtype@3.13.0)(eslint-plugin-import@2.28.1)(eslint-plugin-jsx-a11y@6.7.1)(eslint-plugin-react-hooks@2.5.1)(eslint-plugin-react@7.33.2)(eslint@6.8.0)(typescript@3.9.10):
     resolution: {integrity: sha512-pGIZ8t0mFLcV+6ZirRgYK6RVqUIKRIi9MmgzUEmrIknsn3AdO0I32asO86dJgloHq+9ZPl8UIg8mYrvgP5u2wQ==}
@@ -25659,6 +25660,22 @@ packages:
       - eslint-import-resolver-webpack
       - jest
       - supports-color
+    dev: true
+
+  /eslint-config-skill-recordings@0.0.1(@typescript-eslint/eslint-plugin@2.34.0)(eslint@8.51.0)(jest@25.5.4)(typescript@5.1.6):
+    resolution: {integrity: sha512-fP+fgZdafCa1M3c6nMyOp+nLe9wQKBHhyVEStkfbiQ42ym8wb/UUvI0YbRMMlrX9UbNjQTzmkD8d2aLMs1i3Jw==}
+    dependencies:
+      eslint-config-prettier: 8.10.0(eslint@8.51.0)
+      eslint-plugin-jest: 26.5.3(@typescript-eslint/eslint-plugin@2.34.0)(eslint@8.51.0)(jest@25.5.4)(typescript@5.1.6)
+      eslint-plugin-jsx-a11y: 6.7.1(eslint@8.51.0)
+      eslint-plugin-react: 7.33.2(eslint@8.51.0)
+      eslint-plugin-react-hooks: 4.6.0(eslint@8.51.0)
+    transitivePeerDependencies:
+      - '@typescript-eslint/eslint-plugin'
+      - eslint
+      - jest
+      - supports-color
+      - typescript
     dev: true
 
   /eslint-import-resolver-node@0.3.9:
@@ -26000,7 +26017,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - typescript
-    dev: false
 
   /eslint-plugin-jsx-a11y@6.7.1(eslint@8.26.0):
     resolution: {integrity: sha512-63Bog4iIethyo8smBklORknVjB0T2dwB8Mr/hIC+fBS0uyHdYYpzM/Ed+YC8VxTjlXHEWFOdmgwcDn1U2L9VCA==}
@@ -27462,7 +27478,6 @@ packages:
 
   /functional-red-black-tree@1.0.1:
     resolution: {integrity: sha512-dsKNQNdj6xA3T+QlADDA7mOSlX0qiMINjn0cgr+eGHGsbSHzTabcIogz2+p/iqP1Xs6EP/sS2SbqH+brGTbq0g==}
-    dev: false
 
   /functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
@@ -32129,10 +32144,6 @@ packages:
     resolution: {integrity: sha512-BpdYkt9EvGl8OfWHDQPISVpcl5xZthb+XPsbELj5AQXxIC8IriDZIQYjBJPEm5rS420sjZ0TLEzRcq5KdBhYrQ==}
     dependencies:
       es5-ext: 0.10.62
-    dev: false
-
-  /lru_map@0.3.3:
-    resolution: {integrity: sha512-Pn9cox5CsMYngeDbmChANltQl+5pi6XmTrraMSzhPmMBbmgcxmqWry0U3PGapCU1yB4/LqCcom7qhHZiF/jGfQ==}
     dev: false
 
   /lucide-react@0.224.0(react@18.2.0):

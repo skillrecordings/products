@@ -13,7 +13,6 @@
 import fs from 'fs'
 import fetch from 'node-fetch'
 import Mux from '@mux/mux-node'
-// import sanityClient from '@sanity/client'
 import {v4 as uuidv4} from 'uuid'
 import {z} from 'zod'
 import last from 'lodash/last'
@@ -250,19 +249,6 @@ const buildCastingWordsBlock = (
 }
 
 const importCourseData = async () => {
-  // Note: not using client because it doesn't directly support multi-object
-  // transactional creates. You have to drop down to directly calling API
-  // endpoints for that.
-  //
-  // const client = sanityClient({
-  //   projectId: PROJECT_ID,
-  //   dataset: DATASET,
-  //   apiVersion: API_VERSION,
-  //   // a token with write access
-  //   token: EDITOR_TOKEN,
-  //   useCdn: false,
-  // })
-
   const lessonSchema = z.object({
     id: z.coerce.string(),
     slug: z.string(),

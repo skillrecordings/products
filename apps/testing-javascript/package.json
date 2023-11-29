@@ -37,7 +37,7 @@
     "@sanity/icons": "^2.2.2",
     "@sanity/ui": "^1.0.12",
     "@sanity/vision": "^3.0.0",
-    "@sentry/nextjs": "^7.9.0",
+    "@sentry/nextjs": "^7.83.0",
     "@sentry/tracing": "^7.9.0",
     "@skillrecordings/ability": "workspace:*",
     "@skillrecordings/analytics": "workspace:*",

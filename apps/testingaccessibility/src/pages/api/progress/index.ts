@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {prisma} from '@skillrecordings/database'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
-import {withSentry} from '@sentry/nextjs'
+
 import {getToken} from 'next-auth/jwt'
 
 const getProgress = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -32,10 +32,4 @@ const getProgress = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default withSentry(getProgress)
-
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export default getProgress

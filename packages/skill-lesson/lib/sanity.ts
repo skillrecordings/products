@@ -13,7 +13,6 @@ import {sanityWriteClient} from '../utils/sanity-server'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {createMuxAsset} from './mux'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
-import * as Sentry from '@sentry/nextjs'
 
 const VideoResourceSchema = z.object({
   _id: z.string(),
@@ -186,7 +185,6 @@ export const sanityVideoResourceWebhook = async (
       res.status(500).json({success: false})
     }
   } catch (e) {
-    Sentry.captureException(e)
     res.status(200).json({success: true})
   }
 }

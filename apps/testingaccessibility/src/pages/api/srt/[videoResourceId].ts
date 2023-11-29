@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {withSentry} from '@sentry/nextjs'
+
 import {sanityClient} from 'utils/sanity-client'
 
 const srt = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -33,10 +33,4 @@ const srt = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default withSentry(srt)
-
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export default srt
