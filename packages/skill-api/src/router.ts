@@ -16,7 +16,7 @@ import {claimedSeats} from './core/services/claimed-seats'
 import {updateName} from './core/services/update-name'
 import {transferPurchase} from './core/services/transfer-purchase'
 import {stripeRefund} from './core/services/process-refund'
-import {processSanityProductsWebhook} from './core/services/sanity/process-sanity-products-webhook'
+import {processSanityWebhooks} from './core/services/process-sanity-webhooks'
 
 export type SkillRecordingsAction =
   | 'send-feedback'
@@ -81,7 +81,7 @@ export async function actionRouter({
           case 'stripe':
             return await processStripeWebhooks({params})
           case 'sanity':
-            return await processSanityProductsWebhook({params})
+            return await processSanityWebhooks({params})
         }
         return await processStripeWebhooks({params})
       case 'subscribe':
