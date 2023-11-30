@@ -70,6 +70,15 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
     productId = existingPurchase.productId
   }
 
+  if (!productId) {
+    return {
+      redirect: {
+        destination: `/products`,
+        permanent: false,
+      },
+    }
+  }
+
   const product = await getProduct({where: {id: productId}})
 
   // Load product `description` from Sanity
@@ -111,7 +120,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   } else {
     return {
       redirect: {
-        destination: `/`,
+        destination: `/products`,
         permanent: false,
       },
     }
