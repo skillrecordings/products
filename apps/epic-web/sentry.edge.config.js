@@ -12,7 +12,7 @@ Sentry.init({
     'https://b3cef546dbac47b3a16dea4ccbff4c29@o1184810.ingest.sentry.io/4503925131837440',
   // Adjust this value in production, or use tracesSampler for greater control
   tracesSampleRate: 1.0,
-  ignoreErrors: ['ResizeObserver loop'],
+  ignoreErrors: ['ResizeObserver'],
   // ...
   // Note: if you want to override the automatic release value, do not set a
   // `release` value here - use the environment variable `SENTRY_RELEASE`, so

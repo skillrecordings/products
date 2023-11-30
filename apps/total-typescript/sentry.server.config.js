@@ -14,7 +14,7 @@ Sentry.init({
     'https://936f0f7cc2484582b9a4ed2b8381248d@o1184810.ingest.sentry.io/6763299',
   // Adjust this value in production, or use tracesSampler for greater control
   tracesSampleRate: 0.2,
-  ignoreErrors: ['ResizeObserver loop'],
+  ignoreErrors: ['ResizeObserver'],
   profilesSampleRate: 1.0, // Profiling sample rate is relative to tracesSampleRate
   integrations: [
     // Add profiling integration to list of integrations
