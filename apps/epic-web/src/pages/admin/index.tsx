@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const AdminPage: React.FC<{progressData: any}> = ({progressData}) => {
   const {data: coupons, status: couponsStatus} = trpc.coupons.get.useQuery()
-  const {data: users, status: usersStatus} = trpc.users.get.useQuery()
+  // const {data: users, status: usersStatus} = trpc.users.get.useQuery()
 
   return (
     <Layout meta={{title: 'Admin'}}>
@@ -44,18 +44,14 @@ const AdminPage: React.FC<{progressData: any}> = ({progressData}) => {
         <h1>/Admin</h1>
       </header>
       <main className="flex flex-grow flex-col items-center space-y-5 pb-16">
-        <section className="mx-auto w-full max-w-screen-lg space-y-5 px-5 py-8">
+        {/* <section className="mx-auto w-full max-w-screen-lg space-y-5 px-5 py-8">
           <h3 className="text-2xl font-medium">Users</h3>
           {usersStatus === 'loading' ? (
             <Skeleton className="mt-5 bg-foreground/10 py-24" />
           ) : (
             <UsersDataTable users={users as any} />
           )}
-        </section>
-        <section className="mx-auto w-full max-w-screen-lg space-y-5 px-5 py-8">
-          <h3 className="text-2xl font-medium">Lesson completions</h3>
-          <LessonCompletionsChart progress={progressData} />
-        </section>
+        </section> */}
         <h2 className="w-full max-w-screen-lg px-5 text-left text-3xl font-bold">
           Coupons
         </h2>
@@ -70,6 +66,10 @@ const AdminPage: React.FC<{progressData: any}> = ({progressData}) => {
           ) : (
             coupons && <CouponDataTable coupons={coupons} />
           )}
+        </section>
+        <section className="mx-auto w-full max-w-screen-lg space-y-5 px-5 py-8">
+          <h3 className="text-2xl font-medium">Lesson completions</h3>
+          <LessonCompletionsChart progress={progressData} />
         </section>
       </main>
     </Layout>
