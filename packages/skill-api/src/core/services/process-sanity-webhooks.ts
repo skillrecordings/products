@@ -1,13 +1,12 @@
-import {SkillRecordingsHandlerParams} from '../../types'
+import {SkillRecordingsHandlerParams} from '../../index'
 import {OutgoingResponse} from '../../index'
-import {getSdk} from '@skillrecordings/database'
 import {Inngest} from 'inngest'
 import {SYNC_SANITY_PRODUCT} from '@skillrecordings/inngest'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 
-const webhookSecret = process.env.SANITY_WEBHOOK_SECRET as string // TODO: rename?
+const webhookSecret = process.env.SANITY_WEBHOOK_SECRET as string
 
-export async function processSanityProductsWebhook({
+export async function processSanityWebhooks({
   params,
 }: {
   params: SkillRecordingsHandlerParams
@@ -31,9 +30,9 @@ export async function processSanityProductsWebhook({
           body: 'Invalid webhook signature',
         }
       }
-      const product = req.body
-      console.log({product, req, params})
-      if (process.env.INNGEST_EVENT_KEY && product) {
+      const data = req.body
+
+      if (process.env.INNGEST_EVENT_KEY && data) {
         const inngest = new Inngest({
           id:
             process.env.INNGEST_APP_NAME ||
@@ -41,13 +40,13 @@ export async function processSanityProductsWebhook({
             'Sanity Products Webhook',
           eventKey: process.env.INNGEST_EVENT_KEY,
         })
-        console.log('sending inngest event')
-        await inngest.send({
-          name: SYNC_SANITY_PRODUCT,
-          data: {
-            product: req.body,
-          },
-        })
+        console.log('sending inngest event', data)
+        if (data._type === 'product') {
+          await inngest.send({
+            name: SYNC_SANITY_PRODUCT,
+            data,
+          })
+        }
       }
 
       return {
