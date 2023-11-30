@@ -4,6 +4,7 @@ import {sendVerificationRequest} from './send-verification-request'
 import {prisma} from '@skillrecordings/database'
 import EmailProvider from 'next-auth/providers/email'
 import {NextApiRequest} from 'next'
+import {Inngest} from 'inngest'
 
 async function getUser(userId: string) {
   return prisma.user.findUnique({
@@ -60,6 +61,25 @@ export function defaultNextAuthOptions(options: {
   const {theme, debug, req, cookies, providers = []} = options
   return {
     secret: process.env.NEXTAUTH_SECRET,
+    events: {
+      createUser: async ({user}) => {
+        if (process.env.INNGEST_EVENT_KEY) {
+          const inngest = new Inngest({
+            id:
+              process.env.INNGEST_APP_NAME ||
+              process.env.NEXT_PUBLIC_SITE_TITLE ||
+              'Sanity Products Webhook',
+            eventKey: process.env.INNGEST_EVENT_KEY,
+          })
+
+          await inngest.send({
+            name: 'user/created',
+            data: {},
+            user,
+          })
+        }
+      },
+    },
     session: {
       strategy: 'jwt',
     },
