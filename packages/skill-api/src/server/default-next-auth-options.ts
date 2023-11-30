@@ -109,16 +109,18 @@ export function defaultNextAuthOptions(options: {
       async session({session, token}) {
         if (token?.id) {
           const user = await getUser(token.id as string)
-          if (user) {
+          if (user && session.user) {
             const {roles, purchases} = user
-            session.purchases = purchases
-            session.role = roles
+            session.user.purchases = purchases
+            session.user.role = roles
+            // session.purchases = purchases
+            // session.role = roles
             token.purchases = purchases
             token.role = roles
           }
         } else {
           token.purchases = []
-          session.purchases = []
+          // session.user.purchases = []
         }
 
         return session

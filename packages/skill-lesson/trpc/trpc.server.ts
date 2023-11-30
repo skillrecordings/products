@@ -8,7 +8,7 @@
  * @see https://trpc.io/docs/v10/procedures
  */
 
-import {initTRPC} from '@trpc/server'
+import {TRPCError, initTRPC} from '@trpc/server'
 import superjson from 'superjson'
 import {type TrpcContext} from './trpc-context'
 
@@ -30,6 +30,40 @@ const t = initTRPC.context<TrpcContext>().create({
  * @see https://trpc.io/docs/v10/router
  */
 export const router = t.router
+
+const isAdmin = t.middleware(({ctx, next}) => {
+  console.log({session: ctx.session})
+  const userRole = ctx.session?.user?.role || 'User'
+  const isAdmin = ['ADMIN', 'SUPERADMIN'].includes(userRole)
+
+  if (!isAdmin) {
+    throw new TRPCError({code: 'UNAUTHORIZED'})
+  }
+
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: {...ctx.session, user: ctx.session?.user},
+    },
+  })
+})
+
+export const adminProcedure = t.procedure.use(isAdmin)
+
+const isAuthed = t.middleware(({ctx, next}) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({code: 'UNAUTHORIZED'})
+  }
+
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: {...ctx.session, user: ctx.session.user},
+    },
+  })
+})
+
+export const privateProcedure = t.procedure.use(isAuthed)
 
 /**
  * Create an unprotected procedure
