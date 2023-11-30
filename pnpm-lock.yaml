@@ -3263,6 +3263,9 @@ importers:
       '@amplitude/analytics-browser':
         specifier: ^1.3.0
         version: 1.13.1
+      '@amplitude/analytics-node':
+        specifier: ^1.3.4
+        version: 1.3.4
       '@amplitude/identify':
         specifier: ^1.10.2
         version: 1.10.2
@@ -6202,6 +6205,21 @@ packages:
   /@amplitude/analytics-core@1.2.3:
     resolution: {integrity: sha512-3WADE8IcxU7ZERMkBb0+JP7t6EekyFPM0djtNKXQaxgGgH3oqQzMmBCg19UnYYiBSHrZkpiMBLHNAvXL6HM7zg==}
     dependencies:
+      '@amplitude/analytics-types': 1.3.3
+      tslib: 2.6.2
+    dev: false
+
+  /@amplitude/analytics-core@1.2.4:
+    resolution: {integrity: sha512-i4wx7hhjx0vjpudx21UTIM0Uxn+yL7P82Uh4NHxIGVVrTmPG9f9lZvdLQRbYg229CwH9FnmLCAiicRtTTtnq7g==}
+    dependencies:
+      '@amplitude/analytics-types': 1.3.3
+      tslib: 2.6.2
+    dev: false
+
+  /@amplitude/analytics-node@1.3.4:
+    resolution: {integrity: sha512-R0H+fYV5KIfl1Q1symBynfTDiylLD7JfvIOFl0oZBynvFwg6v93xh09nG/oDqIQcnvn5fzlSjusXcMGebPjRYw==}
+    dependencies:
+      '@amplitude/analytics-core': 1.2.4
       '@amplitude/analytics-types': 1.3.3
       tslib: 2.6.2
     dev: false

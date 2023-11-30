@@ -4,6 +4,9 @@ import {
   getSubscriberByEmail,
   subscribeToForm,
 } from '@skillrecordings/convertkit-sdk'
+import {init, track, identify, Identify} from '@amplitude/analytics-node'
+
+init(process.env.AMPLITUDE_API_KEY)
 
 export const userCreated = inngest.createFunction(
   {
@@ -13,6 +16,17 @@ export const userCreated = inngest.createFunction(
   },
   {event: USER_CREATED_EVENT},
   async ({event, step}) => {
+    await step.run('track user created', async () => {
+      const identifyObj = new Identify()
+      identify(identifyObj, {
+        user_id: event.user.email,
+      })
+
+      track('created user account', undefined, {
+        user_id: event.user.email,
+      })
+    })
+
     let convertKitSubscriber = await step.run(
       'check if ConvertKit subscriber exists',
       async () => {
@@ -25,6 +39,9 @@ export const userCreated = inngest.createFunction(
       convertKitSubscriber = await step.run(
         'subscribe user to ConvertKit form',
         async () => {
+          track('subscribed to convertkit', undefined, {
+            user_id: event.user.email,
+          })
           return await subscribeToForm({
             email: event.user.email,
             formId: process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM,
