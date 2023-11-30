@@ -46,9 +46,12 @@ const WorkshopTemplate: React.FC<{
         moduleSlug: workshop.slug.current,
         moduleType: workshop.moduleType,
       })
-    return createAppAbility(abilityRules || [])
+    return {
+      ability: createAppAbility(abilityRules || []),
+      status: abilityRulesStatus,
+    }
   }
-  const ability = useAbilities()
+  const {ability, status: abilityRulesStatus} = useAbilities()
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
       slug: workshop.slug.current,
@@ -128,106 +131,119 @@ const WorkshopTemplate: React.FC<{
           )}
         </div>
         <aside
-          className="right-0 top-28 w-full px-5 lg:absolute lg:max-w-sm lg:px-0"
+          className="right-0 top-28 w-full px-5 lg:absolute lg:h-full lg:max-w-sm lg:px-0"
           data-workshop=""
         >
-          {product && ALLOW_PURCHASE && !canView ? (
+          {abilityRulesStatus === 'loading' ? (
             <>
-              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-                <WorkshopPricingWidget product={product} />
-              </PriceCheckProvider>
+              <Skeleton className="absolute left-0 top-0 flex h-full w-full flex-col items-center gap-5 rounded-lg border bg-card p-8">
+                <Skeleton className="flex aspect-square w-full max-w-[240px] rounded-md border bg-foreground/5 delay-75" />
+                <Skeleton className="mt-6 flex h-10 w-full rounded-md border bg-foreground/5 delay-75" />
+                <Skeleton className="flex h-10 w-full rounded-md border bg-foreground/5 delay-75" />
+                <Skeleton className="flex h-16 w-full rounded-md border bg-foreground/5 delay-75" />
+              </Skeleton>
             </>
           ) : (
             <>
-              {workshop.image && (
-                <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0">
-                  <Image
-                    priority
-                    src={workshop.image}
-                    alt={title}
-                    width={320}
-                    height={320}
-                    quality={100}
-                  />
-                </div>
+              {product && ALLOW_PURCHASE && !canView ? (
+                <>
+                  <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+                    <WorkshopPricingWidget product={product} />
+                  </PriceCheckProvider>
+                </>
+              ) : (
+                <>
+                  {workshop.image && (
+                    <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0">
+                      <Image
+                        priority
+                        src={workshop.image}
+                        alt={title}
+                        width={320}
+                        height={320}
+                        quality={100}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+              {product &&
+                ALLOW_PURCHASE &&
+                upgradableTo &&
+                !hasPurchasedUpgrade && (
+                  <>
+                    <h3 className="text-xl font-bold">Bundle & Save</h3>
+                    <Link
+                      target="_blank"
+                      href={`/products/${upgradableTo.slug}`}
+                      className="group relative mb-8 mt-3 flex w-full rounded-lg border bg-card p-5 shadow-2xl shadow-gray-500/10 transition hover:brightness-95 dark:hover:brightness-125"
+                    >
+                      <div className="absolute -top-3 right-4 flex h-6 items-center rounded bg-amber-300 px-2 text-xs font-bold uppercase text-black">
+                        Best Value
+                      </div>
+                      <div className="flex items-center gap-5">
+                        {upgradableTo.image && (
+                          <Image
+                            src={upgradableTo.image.url}
+                            alt=""
+                            aria-hidden="true"
+                            className="rounded-full"
+                            width={100}
+                            height={100}
+                          />
+                        )}
+                        <div>
+                          <h4 className="text-lg font-semibold">
+                            {upgradableTo.title}
+                          </h4>
+                          <p>
+                            Includes{' '}
+                            {
+                              upgradableTo.modules.filter(
+                                ({moduleType}: {moduleType: string}) =>
+                                  moduleType === 'workshop',
+                              ).length
+                            }{' '}
+                            workshops.
+                          </p>
+                          {/* <span className="group-hover:underline">View more</span> */}
+                        </div>
+                      </div>
+                    </Link>
+                  </>
+                )}
+              {workshop && (
+                <Collection.Root module={workshop}>
+                  <div className="flex w-full items-center justify-between pb-3">
+                    <h3 className="text-xl font-bold">Contents</h3>
+                    <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
+                  </div>
+                  <Collection.Sections>
+                    {moduleProgressStatus === 'success' ? (
+                      <Collection.Section className="border border-border shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-border dark:shadow-none dark:hover:brightness-125 [&_[data-check-icon]]:text-emerald-600 [&_[data-check-icon]]:opacity-100 [&_[data-check-icon]]:dark:text-emerald-400 [&_[data-progress='100']]:bg-transparent [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-emerald-500 [&_[data-progress]]:dark:bg-emerald-400">
+                        <Collection.Lessons className="border-border">
+                          <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&_svg]:text-teal-600 [&_svg]:opacity-100 [&_svg]:dark:text-teal-300" />
+                        </Collection.Lessons>
+                      </Collection.Section>
+                    ) : (
+                      <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-7" />
+                    )}
+                  </Collection.Sections>
+                  {/* Used if module has either none or single section so they can be styled differently */}
+                  <Collection.Lessons className="overflow-hidden rounded-md border border-gray-100 py-0 shadow-xl shadow-gray-500/10 dark:border-gray-900 dark:shadow-none">
+                    {moduleProgressStatus === 'success' ? (
+                      <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300 [&_[data-item]]:py-3" />
+                    ) : (
+                      <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-6 first-of-type:rounded-t last-of-type:rounded-b" />
+                    )}
+                  </Collection.Lessons>
+                </Collection.Root>
+              )}
+              <ResetProgress module={workshop} />
+              {workshop.moduleType === 'workshop' && (
+                <ModuleCertificate module={workshop} />
               )}
             </>
-          )}
-          {product &&
-            ALLOW_PURCHASE &&
-            upgradableTo &&
-            !hasPurchasedUpgrade && (
-              <>
-                <h3 className="text-xl font-bold">Bundle & Save</h3>
-                <Link
-                  target="_blank"
-                  href={`/products/${upgradableTo.slug}`}
-                  className="group relative mb-8 mt-3 flex w-full rounded-lg border bg-card p-5 shadow-2xl shadow-gray-500/10 transition hover:brightness-95 dark:hover:brightness-125"
-                >
-                  <div className="absolute -top-3 right-4 flex h-6 items-center rounded bg-amber-300 px-2 text-xs font-bold uppercase text-black">
-                    Best Value
-                  </div>
-                  <div className="flex items-center gap-5">
-                    {upgradableTo.image && (
-                      <Image
-                        src={upgradableTo.image.url}
-                        alt=""
-                        aria-hidden="true"
-                        className="rounded-full"
-                        width={100}
-                        height={100}
-                      />
-                    )}
-                    <div>
-                      <h4 className="text-lg font-semibold">
-                        {upgradableTo.title}
-                      </h4>
-                      <p>
-                        Includes{' '}
-                        {
-                          upgradableTo.modules.filter(
-                            ({moduleType}: {moduleType: string}) =>
-                              moduleType === 'workshop',
-                          ).length
-                        }{' '}
-                        workshops.
-                      </p>
-                      {/* <span className="group-hover:underline">View more</span> */}
-                    </div>
-                  </div>
-                </Link>
-              </>
-            )}
-          {workshop && (
-            <Collection.Root module={workshop}>
-              <div className="flex w-full items-center justify-between pb-3">
-                <h3 className="text-xl font-bold">Contents</h3>
-                <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
-              </div>
-              <Collection.Sections>
-                {moduleProgressStatus === 'success' ? (
-                  <Collection.Section className="border border-transparent shadow-xl shadow-gray-300/20 transition hover:brightness-100 dark:border-white/5 dark:shadow-none dark:hover:brightness-125 [&_[data-check-icon]]:text-emerald-600 [&_[data-check-icon]]:opacity-100 [&_[data-check-icon]]:dark:text-emerald-400 [&_[data-progress='100']]:bg-transparent [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-emerald-500 [&_[data-progress]]:dark:bg-emerald-400">
-                    <Collection.Lessons>
-                      <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&_svg]:text-teal-600 [&_svg]:opacity-100 [&_svg]:dark:text-teal-300" />
-                    </Collection.Lessons>
-                  </Collection.Section>
-                ) : (
-                  <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-7" />
-                )}
-              </Collection.Sections>
-              {/* Used if module has either none or single section so they can be styled differently */}
-              <Collection.Lessons className="overflow-hidden rounded-md border border-gray-100 py-0 shadow-xl shadow-gray-500/10 dark:border-gray-900 dark:shadow-none">
-                {moduleProgressStatus === 'success' ? (
-                  <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300 [&_[data-item]]:py-3" />
-                ) : (
-                  <Skeleton className="border-none bg-transparent bg-gradient-to-r from-white/5 to-transparent py-6 first-of-type:rounded-t last-of-type:rounded-b" />
-                )}
-              </Collection.Lessons>
-            </Collection.Root>
-          )}
-          <ResetProgress module={workshop} />
-          {workshop.moduleType === 'workshop' && (
-            <ModuleCertificate module={workshop} />
           )}
         </aside>
       </main>
