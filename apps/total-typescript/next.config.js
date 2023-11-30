@@ -46,6 +46,9 @@ const nextConfig = {
   async redirects() {
     return []
   },
+  sentry: {
+    hideSourceMaps: false,
+  },
   webpack: (config, {dev, isServer, webpack, nextRuntime}) => {
     config.module.rules.push({
       test: /\.node$/,
