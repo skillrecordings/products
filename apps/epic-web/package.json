@@ -11,7 +11,7 @@
     "dev:stripe": "stripe listen --forward-to localhost:3021/api/skill/webhook/stripe",
     "dev": "concurrently \"npm:dev:*\"",
     "dev:next": "next dev -p 3021",
-    "dev:inngest": "npx inngest-cli@latest dev -u http://localhost:3021/api/inngest",
+    "dev:inngest": "pnpx inngest-cli@latest dev -u http://localhost:3021/api/inngest",
     "dev:email": "email dev --dir ./src/emails",
     "dev:sanity": "sanity dev",
     "dev:setup": "vercel env pull .env.local && sed -i.bak '/^VERCEL/d' .env.local",
