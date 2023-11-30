@@ -24,6 +24,7 @@ import {
   PURCHASE_TRANSFERRED_EVENT,
   PurchaseTransferred,
 } from '@skillrecordings/skill-lesson/inngest/events'
+import {SANITY_WEBHOOK_EVENT, SanityWebhookEvent} from 'inngest/events/sanity'
 
 export type IngestEvents = {
   [TIP_VIDEO_UPLOADED_EVENT]: NewTipVideo
@@ -35,6 +36,7 @@ export type IngestEvents = {
   [EMAIL_WRITING_REQUESTED_EVENT]: EmailWritingRequested
   [EMAIL_WRITING_REQUEST_COMPLETED_EVENT]: EmailWritingRequestCompleted
   [PURCHASE_TRANSFERRED_EVENT]: PurchaseTransferred
+  [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,

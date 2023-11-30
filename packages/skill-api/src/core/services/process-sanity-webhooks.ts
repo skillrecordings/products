@@ -1,7 +1,6 @@
-import {SkillRecordingsHandlerParams} from '../../index'
-import {OutgoingResponse} from '../../index'
+import {SkillRecordingsHandlerParams} from '../types'
+import {OutgoingResponse} from '../index'
 import {Inngest} from 'inngest'
-import {SYNC_SANITY_PRODUCT} from '@skillrecordings/inngest'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 
 const webhookSecret = process.env.SANITY_WEBHOOK_SECRET as string
@@ -40,13 +39,11 @@ export async function processSanityWebhooks({
             'Sanity Products Webhook',
           eventKey: process.env.INNGEST_EVENT_KEY,
         })
-        console.log('sending inngest event', data)
-        if (data._type === 'product') {
-          await inngest.send({
-            name: SYNC_SANITY_PRODUCT,
-            data,
-          })
-        }
+
+        await inngest.send({
+          name: 'sanity/webhook',
+          data,
+        })
       }
 
       return {
