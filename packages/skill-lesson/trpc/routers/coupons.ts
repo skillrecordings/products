@@ -1,5 +1,5 @@
 import {type Purchase, prisma} from '@skillrecordings/database'
-import {publicProcedure, router} from '../trpc.server'
+import {adminProcedure, publicProcedure, router} from '../trpc.server'
 import {getToken} from 'next-auth/jwt'
 import {z} from 'zod'
 import {format} from 'date-fns'
@@ -49,7 +49,7 @@ export const couponsRouter = router({
     })
     return coupons
   }),
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.object({ids: z.array(z.string())}))
     .mutation(async ({ctx, input}) => {
       const coupons = await prisma.coupon.deleteMany({
