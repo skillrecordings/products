@@ -660,7 +660,7 @@
       }
       [data-pricing-product] {
         [data-pricing-product-image] {
-          @apply relative mx-auto h-80 w-80;
+          @apply relative mx-auto mb-8 mt-5 h-64 w-64;
           img {
           }
         }
@@ -687,7 +687,7 @@
             @apply hidden;
           }
           [data-name-badge] {
-            @apply hidden pb-2 text-center  text-sm font-extrabold uppercase text-brand;
+            @apply pb-4 text-center text-sm font-extrabold uppercase opacity-75;
           }
           [data-title] {
             @apply hidden px-5 text-center text-xl font-black sm:text-2xl;
@@ -948,7 +948,7 @@
               @apply inline-flex pb-3 text-lg font-medium;
             }
             [data-workshops] {
-              @apply hidden;
+              /* @apply hidden; */
               strong {
                 @apply pb-4;
               }
@@ -1059,7 +1059,7 @@
 
             [data-features] {
               strong {
-                @apply hidden;
+                @apply pb-2 pt-4;
               }
               li {
                 @apply flex items-center py-1;
