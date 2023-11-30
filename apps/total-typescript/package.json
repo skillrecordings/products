@@ -73,6 +73,7 @@
     "@sanity/vision": "^3.11.1",
     "@sanity/webhook": "^1.1.0",
     "@sentry/nextjs": "^7.83.0",
+    "@sentry/profiling-node": "^1.2.6",
     "@skillrecordings/ability": "workspace:*",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/commerce-server": "workspace:*",
