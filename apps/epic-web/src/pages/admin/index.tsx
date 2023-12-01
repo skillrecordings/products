@@ -21,11 +21,15 @@ import {
 } from 'chart.js'
 import UsersDataTable from '@skillrecordings/ui/admin/users-data-table'
 
+type ProgressData = Awaited<
+  ReturnType<ReturnType<typeof getSdk>['getLessonProgressCountsByDate']>
+>
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
-  const {getLessonProgresses} = getSdk()
+  const {getLessonProgressCountsByDate} = getSdk()
 
-  const progressData = await getLessonProgresses()
+  const progressData = await getLessonProgressCountsByDate()
 
   return {
     props: {
@@ -34,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const AdminPage: React.FC<{progressData: any}> = ({progressData}) => {
+const AdminPage: React.FC<{progressData: ProgressData}> = ({progressData}) => {
   const {data: coupons, status: couponsStatus} = trpc.coupons.get.useQuery()
   // const {data: users, status: usersStatus} = trpc.users.get.useQuery()
 
@@ -94,16 +98,10 @@ export type Coupon = {
 }
 
 const LessonCompletionsChart: React.FC<{
-  progress: ModuleProgress['lessons']
+  progress: ProgressData
 }> = ({progress}) => {
-  const dataByDate = progress.reduce((result: any, lesson: any) => {
-    const completedDate = new Date(lesson.completedAt).toLocaleDateString()
-    result[completedDate] = (result[completedDate] || 0) + 1
-    return result
-  }, {})
-
-  const chartData = Object.entries(dataByDate).map(([date, count]) => ({
-    date: date,
+  const chartData = progress.map(({count, completedAt}) => ({
+    date: completedAt,
     completionCount: count,
   }))
 

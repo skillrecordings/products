@@ -11,6 +11,8 @@ export function convertToSerializeForNextResponse(result: any) {
       result[resultKey]?.constructor?.name === 'i'
     ) {
       result[resultKey] = result[resultKey].toNumber()
+    } else if (result[resultKey]?.constructor?.name === 'BigInt') {
+      result[resultKey] = Number(result[resultKey])
     } else if (result[resultKey] instanceof Object) {
       result[resultKey] = convertToSerializeForNextResponse(result[resultKey])
     }

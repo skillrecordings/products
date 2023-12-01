@@ -347,6 +347,18 @@ export function getSdk(
       })
       return progresses
     },
+    async getLessonProgressCountsByDate() {
+      type ProgressCount = {
+        count: number
+        completedAt: string
+      }
+
+      const progressCountsByDate = await ctx.prisma.$queryRaw<
+        ProgressCount[]
+      >`select count(*) as count, completedAt from LessonProgress where completedAt > (now() - interval 60 day) group by completedAt order by completedAt asc;`
+
+      return progressCountsByDate
+    },
     async getPurchaseWithUser(purchaseId: string) {
       return await ctx.prisma.purchase.findFirst({
         where: {
