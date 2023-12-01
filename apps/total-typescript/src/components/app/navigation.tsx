@@ -6,12 +6,12 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import cx from 'classnames'
 import config from '@/config'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
-import {trpc} from '../../trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import NextLink, {type LinkProps} from 'next/link'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import {signOut, useSession} from 'next-auth/react'
 import toast from 'react-hot-toast'
-import {useFeedback} from '../../feedback-widget/feedback-context'
+import {useFeedback} from '@/feedback-widget/feedback-context'
 import {useSearchBar} from '@/search-bar/use-search-bar'
 import {motion, AnimationControls, useAnimationControls} from 'framer-motion'
 import {cn} from '@skillrecordings/ui/utils/cn'
@@ -85,6 +85,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
         /> */}
         <NavLink
           path="/workshops"
+          title="Workshops"
           label={
             <>
               <span
@@ -102,6 +103,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
         />
         <NavLink
           path="/tutorials"
+          title="Tutorials"
           label={
             <>
               <span
@@ -272,8 +274,9 @@ const NavLink: React.FC<
     path?: string
     className?: string
     onClick?: () => void
+    title?: string
   }>
-> = ({onClick, label, icon, path, className}) => {
+> = ({onClick, label, icon, path, className, title}) => {
   const router = useRouter()
   const isActive = router.asPath === path
   const IconEl = () =>
@@ -318,7 +321,7 @@ const NavLink: React.FC<
           className,
         )}
         onClick={() => {
-          track(`clicked ${label} link in nav`)
+          track(`clicked ${title ?? label} link in nav`)
         }}
       >
         {icon ? React.createElement(icon, {isActive}) : null}
