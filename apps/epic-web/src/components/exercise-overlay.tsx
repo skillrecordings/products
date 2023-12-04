@@ -19,7 +19,7 @@ const ExerciseOverlay = () => {
 
   const {data: lessonResources, status: lessonResourcesStatus} =
     trpc.lessonResources.byLessonSlug.useQuery({slug: lesson.slug})
-  const workshopAppDetails = lessonResources && lessonResources.workshopApp
+  const workshopAppDetailsPath = lessonResources?.workshopApp?.path
 
   const {data: moduleResources, status: moduleResourcesStatus} =
     trpc.moduleResources.byModuleSlug.useQuery({slug: module.slug.current!})
@@ -60,7 +60,7 @@ const ExerciseOverlay = () => {
                 Get Started
               </Link>
             </Button>
-            {workshopAppDetails && (
+            {workshopAppDetailsPath && (
               <div className="flex w-full flex-col gap-2">
                 <Button
                   asChild
@@ -69,7 +69,7 @@ const ExerciseOverlay = () => {
                   size={'lg'}
                 >
                   <a
-                    href={`http://localhost:${workshopApp?.localhost?.port}${workshopAppDetails?.path}`}
+                    href={`http://localhost:${workshopApp?.localhost?.port}${workshopAppDetailsPath}`}
                     target="_blank"
                     onClick={() => {
                       track('clicked open in workshop app', {

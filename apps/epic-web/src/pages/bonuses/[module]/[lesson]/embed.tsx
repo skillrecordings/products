@@ -4,6 +4,14 @@ import EmbedTemplate, {VideoEmbedPageProps} from 'templates/embed-template'
 import {getPropsForEmbed} from 'utils/get-props-for-embeds'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const props = await getPropsForEmbed(context, 'bonus', false)
+
+  if (!props) {
+    return {
+      notFound: true,
+    }
+  }
+
   const {
     module,
     section,
@@ -14,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     login: {providers, csrfToken},
     convertkitSubscriber,
     abilityRules,
-  } = await getPropsForEmbed(context, 'bonus', false)
+  } = props
 
   return {
     props: {
