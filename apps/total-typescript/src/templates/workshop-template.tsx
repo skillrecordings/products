@@ -27,7 +27,7 @@ import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {useRouter} from 'next/router'
 import {Skeleton} from '@skillrecordings/ui'
-import * as Collection from '@skillrecordings/ui/module/collection'
+import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
 const WorkshopTemplate: React.FC<{

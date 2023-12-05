@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Layout from '@/components/app/layout'
-import {CheckYourEmailTemplate} from '@skillrecordings/ui/templates/login'
+import {CheckYourEmailTemplate} from '@skillrecordings/skill-lesson/templates/login'
 import Container from '@/components/app/container'
 
 const CheckYourEmail = () => {

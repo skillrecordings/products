@@ -3,10 +3,32 @@ import * as Switch from '@radix-ui/react-switch'
 import {useLesson} from '../hooks/use-lesson'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useRouter} from 'next/router'
-import {motion} from 'framer-motion'
 import toast from 'react-hot-toast'
+import {cn} from '../utils/cn'
 
-const LessonCompletionToggle = () => {
+const LessonCompletionToggle: React.FC<
+  React.PropsWithChildren<{className?: string}>
+> = ({className, children}) => {
+  return (
+    <div data-lesson-completion-toggle="">
+      {children ? (
+        <form className={cn(className)}>{children}</form>
+      ) : (
+        <form>
+          <p data-title="">Finished this lesson?</p>
+          <Toggle>Mark as complete</Toggle>
+        </form>
+      )}
+    </div>
+  )
+}
+
+export default LessonCompletionToggle
+
+const Toggle: React.FC<React.PropsWithChildren<{className?: string}>> = ({
+  children,
+  className,
+}) => {
   const {module} = useLesson()
   const router = useRouter()
   const lessonSlug = router.query.lesson
@@ -53,42 +75,20 @@ const LessonCompletionToggle = () => {
       },
     )
   }
-
   return (
-    <div data-lesson-completion-toggle="">
-      <form>
-        <p data-title="">Finished this lesson?</p>
-        <label data-fetching={isFetching.toString()}>
-          <span data-label="">Mark as complete</span>
-          <Switch.Root
-            disabled={isFetching}
-            onClick={handleToggleLessonProgress}
-            checked={optimisticallyToggled}
-            // checked={moduleProgressStatus === 'success' && isLessonCompleted}
-          >
-            <Switch.Thumb />
-          </Switch.Root>
-          {/* {isFetching && (
-            <motion.div
-              data-loading-indicator=""
-              initial={{width: '0%', opacity: 0.2}}
-              animate={{
-                width: ['0%', '100%', '100%'],
-                opacity: [0.2, 1, 0],
-              }}
-              transition={{
-                duration: 1.5,
-                repeatDelay: 0.5,
-                repeat: Infinity,
-                type: 'spring',
-              }}
-              aria-hidden="true"
-            />
-          )} */}
-        </label>
-      </form>
-    </div>
+    <label className={className} data-fetching={isFetching.toString()}>
+      <span data-label="">{children ? children : 'Mark as completed'}</span>
+      <Switch.Root
+        disabled={isFetching}
+        onClick={handleToggleLessonProgress}
+        checked={optimisticallyToggled}
+      >
+        <Switch.Thumb />
+      </Switch.Root>
+    </label>
   )
 }
 
-export default LessonCompletionToggle
+const Root = LessonCompletionToggle
+
+export {Root, Toggle}

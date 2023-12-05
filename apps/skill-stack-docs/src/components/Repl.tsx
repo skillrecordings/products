@@ -1,5 +1,5 @@
 import React from 'react'
-import * as Collection from '@skillrecordings/ui/module/collection'
+import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import { Fence } from '@/components/Fence'
 
 const Repl: React.FC<any> = ({ example, children }) => {

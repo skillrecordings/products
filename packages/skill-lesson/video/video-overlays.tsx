@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {type SanityDocument} from '@sanity/client'
 import {motion} from 'framer-motion'
-import {SubscribeToConvertkitForm} from '@skillrecordings/convertkit-react-ui'
+import {SubscribeToConvertkitForm} from '../convertkit'
 import {Facebook, LinkedIn, Twitter} from '@skillrecordings/react'
 import {useRouter} from 'next/router'
 import ReactMarkdown from 'react-markdown'

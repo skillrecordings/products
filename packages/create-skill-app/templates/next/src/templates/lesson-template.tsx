@@ -8,11 +8,10 @@ import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonDescription} from '@skillrecordings/skill-lesson/video/lesson-description'
-import {LessonTitle} from '@skillrecordings/skill-lesson/video/lesson-title'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react'
 import {trpc} from '@/trpc/trpc.client'
-import LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
+import * as LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
 import {useSession} from 'next-auth/react'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import Balancer from 'react-wrap-balancer'
@@ -22,7 +21,7 @@ import pluralize from 'pluralize'
 import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import * as Collection from '@skillrecordings/ui/module/collection'
+import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import {Button, ScrollArea, ScrollBar, Skeleton} from '@skillrecordings/ui'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -33,6 +32,8 @@ import {getOgImage} from '@/utils/get-og-image'
 import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
+import Container from '@/components/app/container'
+import {track} from '@/utils/analytics'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -55,7 +56,7 @@ const ExerciseTemplate: React.FC<{
   const shareCard = ogImage ? ogImage : {url: moduleOGImage}
   //TODO path here could also include module slug and section (as appropriate)
   const path = `/${pluralize(module.moduleType)}`
-  const {data: session} = useSession()
+  const {data: session, status: sessionStatus} = useSession()
 
   const addProgressMutation = trpc.progress.add.useMutation()
   const {data: lessonResources, status: lessonResourcesStatus} =
@@ -128,21 +129,20 @@ const ExerciseTemplate: React.FC<{
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
           description={pageDescription || ''}
         />
-        <div className="relative flex flex-grow flex-col lg:flex-row 2xl:h-[calc(100vh-49px)] 2xl:overflow-y-hidden">
+        <Container className="flex px-5 sm:px-0 lg:px-0">
           <div className="relative z-40 hidden w-full lg:block lg:max-w-[330px]">
             <LessonList module={module} path={path} />
           </div>
-          <main className="relative mx-auto w-full max-w-[1480px] items-start border-gray-200 dark:border-gray-900 2xl:flex 2xl:max-w-none">
-            <div className="flex flex-col border-gray-200 scrollbar-thin scrollbar-thumb-foreground/10 dark:border-gray-800 2xl:relative 2xl:h-[calc(100vh-48px)] 2xl:w-full 2xl:overflow-y-scroll 2xl:border-r">
-              <div className="dark bg-gray-900">
-                <Video
-                  product={module?.product as SanityProduct}
-                  ref={muxPlayerRef}
-                  exerciseOverlayRenderer={() => <div>TODO</div>}
-                  loadingIndicator={<Spinner />}
-                />
-              </div>
-              <details data-mobile-module-lesson-list="">
+          <main className="relative w-full">
+            <div>
+              <Video
+                product={module?.product as SanityProduct}
+                ref={muxPlayerRef}
+                exerciseOverlayRenderer={() => <div>TODO</div>}
+                loadingIndicator={<Spinner />}
+              />
+              {/* MOBILE NAV */}
+              <details className="sm:hidden">
                 <summary>
                   <Balancer>
                     {section
@@ -159,25 +159,76 @@ const ExerciseTemplate: React.FC<{
                   path={path}
                 />
               </details>
-              <div className="relative hidden flex-grow border-t border-gray-200 dark:border-gray-900 2xl:block">
+              {/* <div className="relative hidden flex-grow border-t border-gray-200 dark:border-gray-900 2xl:block">
                 <VideoTranscript transcript={transcript} />
-              </div>
+              </div> */}
             </div>
-            <article className="relative flex-shrink-0 2xl:w-full 2xl:max-w-2xl">
+            <article className="relative flex-shrink-0 py-5 2xl:w-full 2xl:max-w-2xl">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 scrollbar-thin scrollbar-thumb-foreground/10 lg:py-6 2xl:h-[calc(100vh-48px)] 2xl:w-full 2xl:max-w-2xl 2xl:overflow-y-scroll">
-                <LessonTitle />
-                {lessonResources?.github && (
-                  <GitHubLink
+                {/* <LessonTitle /> */}
+                <div className="flex w-full flex-col items-center justify-between sm:flex-row">
+                  <div>
+                    <span
+                      className={cn(
+                        'text-xs font-semibold uppercase text-muted-foreground',
+                      )}
+                      // data-lesson-badge={lesson._type}
+                    >
+                      {lesson._type !== 'exercise' ? lesson._type : 'Problem'}
+                    </span>
+                    <h1 className="pt-2 text-4xl font-bold">
+                      <Balancer>{title}</Balancer>
+                    </h1>
+                  </div>
+                  {lessonResources?.github && (
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="gap-1 text-lg"
+                      size="lg"
+                    >
+                      <a
+                        onClick={() => {
+                          track('clicked github code link', {
+                            lesson: lesson.slug,
+                            module: module.slug.current,
+                            moduleType: module.moduleType,
+                            lessonType: lesson._type,
+                          })
+                        }}
+                        href={lessonResources.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Icon name="Github" /> <span>Code</span>
+                      </a>
+                    </Button>
+                  )}
+                  {/* <GitHubLink
+                    className="flex gap-2 p-3"
                     exercise={lesson}
                     loadingIndicator={<Spinner />}
                     module={module}
                     url={lessonResources.github}
                     repository="Code"
-                  />
-                )}
+                  /> */}
+                </div>
 
                 {(lessonBodySerialized || lessonBodyPreviewSerialized) && (
                   <LessonDescription
+                    className="prose prose-lg mt-10 max-w-none dark:prose-invert"
+                    loadingRenderer={(lesson) => {
+                      return (
+                        <div role="status">
+                          {new Array(6).fill(0).map((_, index) => (
+                            <div key={index} />
+                          ))}
+                          <span className="sr-only">
+                            Loading {lesson._type}
+                          </span>
+                        </div>
+                      )
+                    }}
                     mdxComponents={{
                       Callout: (props) => {
                         const {type, children} = props
@@ -187,30 +238,6 @@ const ExerciseTemplate: React.FC<{
                           </blockquote>
                         )
                       },
-                      // TODO: following only work in local workshop app
-                      InlineFile: (props) => {
-                        const {type, file} = props
-                        if (type) {
-                          return type
-                        }
-                        if (file) {
-                          return file
-                        }
-                        return null
-                      },
-                      LinkToApp: (props) => {
-                        const {to} = props
-                        return to
-                      },
-                      CodeFile: (props) => {
-                        return props.file
-                      },
-                      DiffLink: (props) => {
-                        return props.children
-                      },
-                      Link: (props) => {
-                        return props.children
-                      },
                     }}
                     lessonMDXBody={lessonBodySerialized}
                     lessonBodyPreview={lessonBodyPreviewSerialized}
@@ -218,14 +245,45 @@ const ExerciseTemplate: React.FC<{
                     loadingIndicator={<Spinner />}
                   />
                 )}
-                {displayLessonCompletionToggle && <LessonCompletionToggle />}
-              </div>
-              <div className="relative z-10 block flex-grow 2xl:hidden">
-                <VideoTranscript transcript={transcript} />
               </div>
             </article>
+            {displayLessonCompletionToggle && (
+              <section
+                aria-label="track progress"
+                className="group border-t py-10"
+              >
+                <div className="mx-auto flex w-full max-w-4xl items-center justify-center gap-5 px-5">
+                  {sessionStatus === 'loading' ? (
+                    <Skeleton className="h-10 w-full" />
+                  ) : (
+                    <>
+                      <h3>Finished this lesson?</h3>
+                      <LessonCompletionToggle.Root>
+                        <Button asChild variant="secondary">
+                          <LessonCompletionToggle.Toggle className="flex cursor-pointer flex-row-reverse items-center gap-1 rounded p-3 data-[fetching='true']:cursor-wait [&>button]:x-[relative,h-5,w-10,rounded-full,border,border-gray-700/50,bg-gray-800,shadow-md,shadow-black/50] [&_button>span[data-state='checked']]:x-[translate-x-5] [&_button>span]:x-[block,h-4,w-4,translate-x-0.5,rounded-full,bg-gray-200,shadow-sm,shadow-black/50,transition-all,ease-out] [&_button[data-state='checked']]:x-[bg-primary]">
+                            <span className="text-base">Mark as complete</span>
+                          </LessonCompletionToggle.Toggle>
+                        </Button>
+                      </LessonCompletionToggle.Root>
+                    </>
+                  )}
+                </div>
+              </section>
+            )}
+            {transcript && (
+              <section aria-label="transcript" className="group border-t pt-10">
+                <div className="mx-auto w-full max-w-4xl px-5">
+                  <h3 className="pb-5 text-xl font-bold">Transcript</h3>
+                  <VideoTranscript
+                    withTitle={false}
+                    transcript={transcript}
+                    className="prose max-w-none opacity-80 transition dark:prose-invert group-hover:opacity-100"
+                  />
+                </div>
+              </section>
+            )}
           </main>
-        </div>
+        </Container>
       </Layout>
     </VideoProvider>
   )
@@ -251,7 +309,7 @@ const LessonList: React.FC<{
   return (
     <div className="sticky top-0 border-r">
       <div ref={ref}>
-        <div className="relative z-10 flex items-center space-x-3 border-b border-r border-white/5 bg-gray-50 px-2 py-3 dark:bg-foreground/10 dark:shadow-xl dark:shadow-black/20">
+        <div className="relative z-10 flex items-center space-x-5 border-b bg-white px-5 py-3 dark:bg-foreground/10 dark:shadow-xl dark:shadow-black/20">
           {module.image && (
             <Image
               src={module.image}
@@ -261,10 +319,12 @@ const LessonList: React.FC<{
             />
           )}
           <div>
-            <h3 className="text-lg font-semibold leading-tight">
-              <Link href={`${path}/${module.slug.current!}`}>
-                {module.title}
-              </Link>
+            <h3 className="font-bold leading-tight">
+              <Balancer>
+                <Link href={`${path}/${module.slug.current!}`}>
+                  {module.title}
+                </Link>
+              </Balancer>
             </h3>
 
             {module?.github?.repo && (
@@ -286,7 +346,7 @@ const LessonList: React.FC<{
       </div>
 
       <ScrollAreaPrimitive.Root
-        className="relative flex flex-col"
+        className="relative flex flex-col bg-gray-50 dark:bg-background"
         style={scrollAreaClassName ? {} : {height: `calc(100vh - ${height}px)`}}
       >
         <div
@@ -332,12 +392,12 @@ const LessonList: React.FC<{
           >
             <Collection.Sections className="space-y-0 [&_[data-state]]:animate-none">
               {moduleProgressStatus === 'loading' ? (
-                <Skeleton className="h-14 rounded-none bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
+                <Skeleton className="h-24 rounded-none bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
               ) : (
-                <Collection.Section className="border-b font-semibold leading-tight transition data-[state]:rounded-none data-[state='closed']:opacity-75 data-[state='closed']:hover:opacity-100 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-blue-500 dark:[&>[data-check-icon]]:text-blue-300 [&>[data-progress]]:h-[2px] [&>[data-progress]]:bg-blue-500 dark:[&>[data-progress]]:bg-gray-700">
-                  <Collection.Lessons className="py-0">
+                <Collection.Section className="bg-transparent font-semibold leading-tight transition data-[state]:rounded-none data-[state='closed']:border-b data-[state='closed']:opacity-75 data-[state='closed']:hover:opacity-100 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-primary dark:[&>[data-check-icon]]:text-primary [&>[data-progress]]:h-[2px] [&>[data-progress]]:bg-primary dark:[&>[data-progress]]:bg-primary">
+                  <Collection.Lessons className="border-none bg-transparent px-2 pb-5 pt-0">
                     <Collection.Lesson
-                      className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500  dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
+                      className='rounded font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-primary  dark:[&_[data-check-icon]]:text-primary [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
                       scrollContainerRef={scrollContainerRef}
                     >
                       <Collection.Resources />

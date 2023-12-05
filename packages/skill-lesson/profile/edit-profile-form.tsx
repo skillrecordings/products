@@ -1,5 +1,5 @@
 import React from 'react'
-import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
+import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
@@ -13,9 +13,9 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from '../primitives'
+} from '@skillrecordings/ui'
 import toast from 'react-hot-toast'
-import {Icon} from '@skillrecordings/skill-lesson/icons'
+import {Icon} from '../icons'
 import {
   ClientSafeProvider,
   LiteralUnion,
