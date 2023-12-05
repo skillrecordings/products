@@ -30,9 +30,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../index'
+} from '@skillrecordings/ui'
 import toast from 'react-hot-toast'
-import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
+import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import type {Decimal} from '@skillrecordings/database'
 
 type Coupon = {

@@ -9,13 +9,13 @@
 @import './primary-newsletter-cta.css';
 @import './nprogress.css';
 @import './video/mux-player.css';
-@import './video/github-link.css';
+/* @import './video/github-link.css';
 @import './video/lesson-completion-toggle.css';
 @import './video/lesson-description.css';
-@import './video/lesson-title.css';
-@import './video/module-lesson-list.css';
+@import './video/lesson-title.css'; */
+/* @import './video/module-lesson-list.css'; */
 @import './video/video-overlays.css';
-@import './video/video-transcript.css';
+/* @import './video/video-transcript.css'; */
 @import './video/module-navigator.css';
 @import './focus-visible.css';
 @import '@code-hike/mdx/dist/index.css';

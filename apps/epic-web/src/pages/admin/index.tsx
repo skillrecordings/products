@@ -5,8 +5,11 @@ import {Decimal, getSdk} from '@skillrecordings/database'
 import {stringify} from 'superjson'
 import {Skeleton} from '@skillrecordings/ui'
 import {trpc} from 'trpc/trpc.client'
-import CouponDataTable from '@skillrecordings/ui/admin/coupon-data-table'
-import CouponGeneratorForm from '@skillrecordings/ui/admin/coupon-generator-form'
+import {
+  CouponDataTable,
+  CouponGeneratorForm,
+  // UsersDataTable
+} from '@skillrecordings/skill-lesson/admin'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {ModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
 import {Bar} from 'react-chartjs-2'
@@ -19,7 +22,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
-import UsersDataTable from '@skillrecordings/ui/admin/users-data-table'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context

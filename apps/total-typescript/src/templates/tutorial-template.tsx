@@ -18,7 +18,7 @@ import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import ModuleCertificate from '@/certificate/module-certificate'
-import * as Collection from '@skillrecordings/ui/module/collection'
+import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import {Skeleton} from '@skillrecordings/ui'
 import {LockClosedIcon} from '@heroicons/react/solid'
 

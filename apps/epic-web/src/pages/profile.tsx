@@ -3,7 +3,7 @@ import {getProviders} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import Layout from 'components/app/layout'
 import {getToken} from 'next-auth/jwt'
-import EditProfileForm from '@skillrecordings/ui/profile/edit-profile-form'
+import {EditProfileForm} from '@skillrecordings/skill-lesson/profile'
 
 const Profile: React.FC<React.PropsWithChildren<{providers: any}>> = ({
   providers,

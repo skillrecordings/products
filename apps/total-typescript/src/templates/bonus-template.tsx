@@ -16,7 +16,7 @@ import Balancer from 'react-wrap-balancer'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {LockClosedIcon} from '@heroicons/react/solid'
-import * as Collection from '@skillrecordings/ui/module/collection'
+import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import {Skeleton} from '@skillrecordings/ui'
 
 const BonusTemplate: React.FC<{

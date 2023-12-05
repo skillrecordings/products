@@ -5,11 +5,13 @@ import {hmsToSeconds} from '@skillrecordings/time'
 import ReactMarkdown from 'react-markdown'
 import {useMuxPlayer} from '../hooks/use-mux-player'
 import {getTranscriptComponents} from '../markdown/transcript-components'
+import {cn} from '../utils/cn'
 
 export const VideoTranscript: React.FC<{
   transcript: string | any[]
-  noTitle?: boolean
-}> = ({transcript, noTitle = false}) => {
+  withTitle?: boolean
+  className?: string
+}> = ({transcript, withTitle = true, className}) => {
   const {handlePlay, canShowVideo, muxPlayerRef} = useMuxPlayer()
   const transcriptMarkdownComponent = getTranscriptComponents({
     handlePlay,
@@ -23,8 +25,8 @@ export const VideoTranscript: React.FC<{
 
   return (
     <div data-video-transcript="">
-      {!noTitle && <h2 data-title="">Transcript</h2>}
-      <div data-transcript="">
+      {withTitle && <h2 data-title="">Transcript</h2>}
+      <div data-transcript="" className={cn(className)}>
         {typeof transcript === 'string' ? (
           <ReactMarkdown components={transcriptMarkdownComponent}>
             {transcript}

@@ -1,36 +1,31 @@
 import React from 'react'
-import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {type Section as SectionType} from '@skillrecordings/skill-lesson/schemas/section'
-import {type Lesson as LessonType} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
-import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {type Module} from '../../schemas/module'
+import {type Section as SectionType} from '../../schemas/section'
+import {type Lesson as LessonType} from '../../schemas/lesson'
+import {useLesson} from '../../hooks/use-lesson'
+import {track} from '../../utils/analytics'
 import {
   Accordion,
   AccordionContent,
   AccordionHeader,
   AccordionItem,
   AccordionTrigger,
-} from '../../primitives'
-import {type Scope, createContextScope} from '@radix-ui/react-context'
-import {Primitive} from '@radix-ui/react-primitive'
-import type * as Radix from '@radix-ui/react-primitive'
-import {capitalize, first, isEmpty, replace} from 'lodash'
-import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
-import Link from 'next/link'
-import pluralize from 'pluralize'
-import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '../../primitives'
-import {
-  type SectionProgress,
-  useModuleProgress,
-} from '@skillrecordings/skill-lesson/video/module-progress'
+} from '@skillrecordings/ui'
+import {type Scope, createContextScope} from '@radix-ui/react-context'
+import {Primitive} from '@radix-ui/react-primitive'
+import type * as Radix from '@radix-ui/react-primitive'
+import {capitalize, first, isEmpty, replace} from 'lodash'
+import {trpcSkillLessons} from '../../utils/trpc-skill-lessons'
+import Link from 'next/link'
+import pluralize from 'pluralize'
+import {type SectionProgress, useModuleProgress} from '../module-progress'
 import {CheckIcon, LockIcon} from 'lucide-react'
-import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
-import {cn} from '../../utils/cn'
+import {createAppAbility} from '../../utils/ability'
+import {cn} from '../../../ui/utils/cn'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import {useRouter} from 'next/router'
 

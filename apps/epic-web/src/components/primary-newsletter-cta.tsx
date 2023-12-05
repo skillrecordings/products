@@ -2,7 +2,7 @@ import * as React from 'react'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/ui/forms/convertkit-subscribe-form'
+} from '@skillrecordings/skill-lesson/convertkit'
 import {useRouter} from 'next/router'
 import {track} from 'utils/analytics'
 import {Button} from '@skillrecordings/ui'

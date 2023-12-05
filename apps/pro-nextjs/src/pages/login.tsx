@@ -4,7 +4,7 @@ import {GetServerSideProps} from 'next'
 import {getCsrfToken, getProviders} from 'next-auth/react'
 import LoginTemplate, {
   type LoginTemplateProps,
-} from '@skillrecordings/ui/templates/login'
+} from '@skillrecordings/skill-lesson/templates/login'
 import {Logo} from '@/components/app/navigation'
 import {AnimatedLogo} from '@/components/spinner'
 

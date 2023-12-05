@@ -12,7 +12,7 @@ import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {first} from 'lodash'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
-import * as Collection from '@skillrecordings/ui/module/collection'
+import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import Balancer from 'react-wrap-balancer'
 // import Testimonials from 'testimonials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
@@ -171,7 +171,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                       }
                 }
                 className={cx(
-                  'relative flex w-full items-center justify-center rounded border border-primary bg-primary px-4 py-3 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110 md:max-w-[240px]',
+                  'relative flex w-full items-center justify-center rounded border border-primary bg-primary px-4 py-3 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },
