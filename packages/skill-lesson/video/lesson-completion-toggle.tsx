@@ -77,7 +77,7 @@ const Toggle: React.FC<React.PropsWithChildren<{className?: string}>> = ({
   }
   return (
     <label className={className} data-fetching={isFetching.toString()}>
-      {children ? children : <span data-label="">Mark as completed</span>}
+      <span data-label="">{children ? children : 'Mark as completed'}</span>
       <Switch.Root
         disabled={isFetching}
         onClick={handleToggleLessonProgress}

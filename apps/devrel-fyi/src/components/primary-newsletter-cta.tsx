@@ -3,7 +3,7 @@ import Balancer from 'react-wrap-balancer'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/ui/forms/convertkit-subscribe-form'
+} from '@skillrecordings/skill-lesson/convertkit'
 import {useRouter} from 'next/router'
 import common from '../text/common'
 import {type Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
