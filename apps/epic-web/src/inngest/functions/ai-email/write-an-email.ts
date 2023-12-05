@@ -201,7 +201,7 @@ export const writeAnEmail = inngest.createFunction(
     - make sure the email has soul
     `
 
-    const fullPrompt: OpenAI.ChatCompletionMessage[] = [
+    const fullPrompt = [
       {role: 'system', content: singleline(systemPrompt)},
       {role: 'user', content: singleline(primarySystemWriterPrompt)},
       {role: 'assistant', content: aiResponse.choices[0].message.content},
