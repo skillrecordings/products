@@ -172,12 +172,10 @@ INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, pri
 -- Professional Web Forms
 
 INSERT INTO Product (id, name, status) VALUES
-('5ffdd0ef-a7a3-431e-b36b-f4232da7e454', 'Professional Web Forms
-', 1);
+('5ffdd0ef-a7a3-431e-b36b-f4232da7e454', 'Professional Web Forms', 1);
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
-('kcd_price_8bc1d2b9-35a0-4222-95cb-5a4d2e8b055a', '5ffdd0ef-a7a3-431e-b36b-f4232da7e454', 'Professional Web Forms
-', 1, 300);
+('kcd_price_8bc1d2b9-35a0-4222-95cb-5a4d2e8b055a', '5ffdd0ef-a7a3-431e-b36b-f4232da7e454', 'Professional Web Forms', 1, 300);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
 ('kcd_merchant_product_88f850b5-f57b-4cde-9c38-d4f55b9da1f7', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', '5ffdd0ef-a7a3-431e-b36b-f4232da7e454', 1, "prod_P8N6yyov9sfpCw");
