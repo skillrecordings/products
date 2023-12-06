@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/ui/forms/convertkit-subscribe-form'
+} from '@skillrecordings/skill-lesson/convertkit'
 import MuxPlayer, {
   MuxPlayerProps,
   MuxPlayerRefAttributes,

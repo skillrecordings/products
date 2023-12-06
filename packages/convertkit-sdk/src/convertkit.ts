@@ -219,13 +219,14 @@ export async function subscribeToForm(options: {
     })
 }
 
-export const getSubscriberByEmail = async (email: string) => {
+export const getSubscriberByEmail = async <T = {email: string}>(
+  email: string,
+): Promise<T | undefined> => {
   const {subscribers} = await fetch(
     `${convertkitBaseUrl}/subscribers?email_address=${email}&api_secret=${process.env.CONVERTKIT_API_SECRET}`,
   ).then((response) => response.json())
 
-  const subscriber = first(subscribers)
-  return subscriber
+  return first<T>(subscribers)
 }
 
 export async function fetchSubscriber(convertkitId: string | number) {

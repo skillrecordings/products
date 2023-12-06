@@ -19,7 +19,7 @@ import {getOgImage} from 'utils/get-og-image'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {format} from 'date-fns'
 // import Testimonials from 'testimonials'
-import * as Collection from '@skillrecordings/ui/module/collection'
+import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import {Skeleton} from '@skillrecordings/ui'
 
 const TutorialTemplate: React.FC<{

@@ -17,10 +17,7 @@ import {type Decimal} from '@skillrecordings/database'
 import ReactMarkdown from 'react-markdown'
 import {isSellingLive} from '../utils/is-selling-live'
 import {MailIcon} from '@heroicons/react/solid'
-import {
-  redirectUrlBuilder,
-  SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit-react-ui'
+import {redirectUrlBuilder, SubscribeToConvertkitForm} from '../convertkit'
 import {useConvertkit} from '../hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {track} from '../utils/analytics'

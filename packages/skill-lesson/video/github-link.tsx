@@ -4,6 +4,7 @@ import {Icon} from '../icons'
 import {useMuxPlayer} from '../hooks/use-mux-player'
 import {type Lesson} from '../schemas/lesson'
 import {type Module} from '../schemas/module'
+import {cn} from '../utils/cn'
 
 const GitHubLink: React.FC<{
   exercise: Lesson
@@ -12,12 +13,21 @@ const GitHubLink: React.FC<{
   url: string
   repository?: string | null
   file?: string
-}> = ({exercise, module, loadingIndicator, url, file, repository}) => {
+  className?: string
+}> = ({
+  exercise,
+  module,
+  loadingIndicator,
+  url,
+  file,
+  repository,
+  className,
+}) => {
   const {canShowVideo, loadingUserStatus} = useMuxPlayer()
 
   if (loadingUserStatus) {
     return (
-      <div data-github-link="" role="status">
+      <div data-github-link="" role="status" className={cn(className)}>
         {loadingIndicator}
         <span className="sr-only">Loading GitHub link</span>
       </div>
@@ -29,7 +39,7 @@ const GitHubLink: React.FC<{
   }
 
   return (
-    <div data-github-link="">
+    <div data-github-link="" className={cn(className)}>
       <div data-content="">
         <a
           onClick={() => {

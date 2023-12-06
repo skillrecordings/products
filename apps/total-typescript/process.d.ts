@@ -30,5 +30,7 @@ declare namespace NodeJS {
     SHIKI_ENDPOINT: string
     CLOUDINARY_API_KEY: string
     CLOUDINARY_API_SECRET: string
+    POSTMARK_KEY: string
+    AMPLITUDE_API_KEY: string
   }
 }

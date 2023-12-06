@@ -8,10 +8,10 @@ import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-vid
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from 'lib/sections'
-import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {serialize} from 'next-mdx-remote/serialize'
 import {remarkCodeBlocksShiki} from '@kentcdodds/md-temp'
 import {removePreContainerDivs, trimCodeBlocks} from 'utils/mdx'
+import * as Sentry from '@sentry/nextjs'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -21,6 +21,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const module = await getWorkshop(params?.module as string)
   const section = await getSection(sectionSlug)
   const exercise = await getExercise(exerciseSlug)
+
+  if (!exercise) {
+    const msg = `Unable to find Exercise for slug (${exerciseSlug}). Context: module (${params?.module}) and section (${sectionSlug})`
+    Sentry.captureMessage(msg)
+
+    return {
+      notFound: true,
+    }
+  }
+
   const solution = exercise.solution
   const lesson = exercise
   const solutionBodySerialized =

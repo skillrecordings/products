@@ -1,7 +1,4 @@
 import React from 'react'
-import {GetServerSideProps, NextApiRequest} from 'next'
-import {getSection} from 'lib/sections'
-import {getExercise} from 'lib/exercises'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {type Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
@@ -20,22 +17,13 @@ import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module
 import {useRouter} from 'next/router'
 import pluralize from 'pluralize'
 import {trpc} from 'trpc/trpc.client'
-import {getCsrfToken, getProviders, signIn, useSession} from 'next-auth/react'
-import {type LoginTemplateProps} from '@skillrecordings/ui/templates/login'
+import {useSession} from 'next-auth/react'
+import {type LoginTemplateProps} from '@skillrecordings/skill-lesson/templates/login'
 import Spinner from 'components/spinner'
 import {Button} from '@skillrecordings/ui'
 import Link from 'next/link'
-import {
-  UserSchema,
-  createAppAbility,
-  defineRulesForPurchases,
-} from '@skillrecordings/skill-lesson/utils/ability'
-import {getToken} from 'next-auth/jwt'
-import {getSubscriberFromCookie} from '@skillrecordings/skill-lesson/utils/ck-subscriber-from-cookie'
-import {getProducts} from '@skillrecordings/skill-lesson/lib/products'
-import {getVideoResource} from '@skillrecordings/skill-lesson/lib/video-resources'
+import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {Subscriber} from 'schemas/subscriber'
-import {getWorkshop} from 'lib/workshops'
 
 export type VideoEmbedPageProps = {
   module: Module

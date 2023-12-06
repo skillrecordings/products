@@ -30,10 +30,18 @@ export async function lessonForDeviceReq({
       country: req.headers['x-vercel-ip-country'] as string,
     })
 
-    if (lessonForDevice && !lessonForDevice.error) {
+    if (!('error' in lessonForDevice)) {
       res.status(200).json(lessonForDevice)
     } else {
-      if (user) {
+      if (
+        lessonForDevice.error === 'lesson-not-found' ||
+        lessonForDevice.error === 'video-resource-not-found'
+      ) {
+        res.status(404).end()
+      } else if (lessonForDevice.error === 'unauthorized-to-view-lesson') {
+        // unauthorized
+        res.status(401).end()
+      } else if (user) {
         if (lessonForDevice?.error === 'region-restricted') {
           const requestCountry = req.headers['x-vercel-ip-country'] as string
           const restrictedCountry = user?.purchases?.filter(

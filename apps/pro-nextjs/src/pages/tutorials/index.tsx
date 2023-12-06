@@ -9,7 +9,7 @@ import pluralize from 'pluralize'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
-} from '@skillrecordings/ui/forms/convertkit-subscribe-form'
+} from '@skillrecordings/skill-lesson/convertkit'
 import {useRouter} from 'next/router'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
