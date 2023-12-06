@@ -145,28 +145,6 @@ const WorkshopTemplate: React.FC<{
             </>
           ) : (
             <>
-              {product && ALLOW_PURCHASE && !canView ? (
-                <>
-                  <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-                    <WorkshopPricingWidget product={product} />
-                  </PriceCheckProvider>
-                </>
-              ) : (
-                <>
-                  {workshop.image && (
-                    <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0">
-                      <Image
-                        priority
-                        src={workshop.image}
-                        alt={title}
-                        width={320}
-                        height={320}
-                        quality={100}
-                      />
-                    </div>
-                  )}
-                </>
-              )}
               {product &&
                 ALLOW_PURCHASE &&
                 upgradableTo &&
@@ -212,6 +190,32 @@ const WorkshopTemplate: React.FC<{
                     </Link>
                   </>
                 )}
+              {product && ALLOW_PURCHASE && !canView ? (
+                <>
+                  <h3 className="mb-3 text-xl font-bold">
+                    Individual Workshop
+                  </h3>
+                  <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+                    <WorkshopPricingWidget product={product} />
+                  </PriceCheckProvider>
+                </>
+              ) : (
+                <>
+                  {workshop.image && (
+                    <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0">
+                      <Image
+                        priority
+                        src={workshop.image}
+                        alt={title}
+                        width={320}
+                        height={320}
+                        quality={100}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+
               {workshop && (
                 <Collection.Root module={workshop}>
                   <div className="flex w-full items-center justify-between pb-3">
