@@ -111,7 +111,10 @@ export async function postSaleToSlack(
       return await postToSlack({
         webClient: new WebClient(process.env.SLACK_TOKEN),
         channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
-        text: `Someone purchased ${purchaseInfo.stripeProduct.name}`,
+        text:
+          process.env.NODE_ENV === 'production'
+            ? `Someone purchased ${purchaseInfo.stripeProduct.name}`
+            : `Someone purchased ${purchaseInfo.stripeProduct.name} in ${process.env.NODE_ENV}`,
         attachments: [
           {
             fallback: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
@@ -122,7 +125,8 @@ export async function postSaleToSlack(
             } for ${`$${purchase.totalAmount}`}${
               isEmpty(purchase.upgradedFromId) ? '' : ' as an upgrade'
             }`,
-            color: '#eba234',
+            color:
+              process.env.NODE_ENV === 'production' ? '#eba234' : '#5ceb34',
             title: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
           },
         ],
