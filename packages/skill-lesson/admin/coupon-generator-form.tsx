@@ -1,5 +1,5 @@
 import React from 'react'
-import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
+import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
@@ -24,12 +24,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../primitives'
+} from '@skillrecordings/ui'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {cn} from '../utils/cn'
 import {format} from 'date-fns'
 import {CalendarIcon} from 'lucide-react'
-import Spinner from '@skillrecordings/skill-lesson/spinner'
+import Spinner from '../spinner'
 import toast from 'react-hot-toast'
 
 const formSchema = z.object({

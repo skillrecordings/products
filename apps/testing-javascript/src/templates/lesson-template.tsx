@@ -76,7 +76,7 @@ const LessonTemplate = () => {
               <div className="prose prose-md">
                 <VideoTranscript
                   transcript={videoResource?.transcript || ''}
-                  noTitle
+                  withTitle={false}
                 />
               </div>
             </article>

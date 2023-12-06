@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Layout from '@/components/app/layout'
-import {CheckYourEmailTemplate} from '@skillrecordings/ui/templates/login'
+import {CheckYourEmailTemplate} from '@skillrecordings/skill-lesson/templates/login'
 import Image from 'next/image'
 
 const CheckYourEmail = () => {

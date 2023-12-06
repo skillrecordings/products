@@ -30,7 +30,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../index'
+} from '@skillrecordings/ui'
 import {Product, Purchase} from '@prisma/client'
 
 // I would like to see an easy way to view and search user data,

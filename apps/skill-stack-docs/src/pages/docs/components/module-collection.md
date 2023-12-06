@@ -19,16 +19,16 @@ Displays an interactive list of sections and lessons within a module along with 
 
 ## Installation
 
-This component is part of `@skillrecordings/ui` package.
+This component is part of `@skillrecordings/skill-lesson` package.
 
 ```bash
-pnpm add @skillrecordings/ui
+pnpm add @skillrecordings/skill-lesson
 ```
 
 ## Anatomy
 
 ```tsx
-import * as Collection from '@skillrecordings/ui/module/collection'
+import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 ;() => (
   <Collection.Root module={workshop}>
     <Collection.Metadata />
