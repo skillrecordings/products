@@ -7,6 +7,10 @@ import {
 import {Purchase} from '@skillrecordings/database'
 import {sanityClient} from '../../../lib/sanity-client'
 import groq from 'groq'
+import {postToSlack} from '../../../server'
+import {WebClient} from '@slack/web-api'
+import pluralize from 'pluralize'
+import {isEmpty} from 'lodash'
 
 /**
  * @deprecated we purchase products not modules, modules belong to products
@@ -61,8 +65,13 @@ export async function convertkitTagPurchase(email: string, purchase: Purchase) {
       subscriber = await tagSubscriber(email, convertkitPurchasedTagId)
     }
 
-    if (!convertkitPurchasedTagId) {
-      throw new Error('‼️ set convertkit purchase tag id')
+    if (!convertkitPurchasedTagId && process.env.NODE_ENV === 'production') {
+      await postToSlack({
+        webClient: new WebClient(process.env.SLACK_TOKEN),
+        channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
+        text: `process.env.CONVERTKIT_PURCHASED_TAG_ID is not set for ${purchase.productId}`,
+        attachments: [],
+      })
     }
 
     const purchasedOnFieldName = sanityProduct
