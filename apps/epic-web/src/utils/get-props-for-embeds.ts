@@ -1,13 +1,7 @@
-import React from 'react'
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  NextApiRequest,
-  PreviewData,
-} from 'next'
+import {GetServerSidePropsContext, NextApiRequest, PreviewData} from 'next'
 import {getSection} from 'lib/sections'
 import {getExercise} from 'lib/exercises'
-import {getCsrfToken, getProviders, signIn, useSession} from 'next-auth/react'
+import {getCsrfToken, getProviders} from 'next-auth/react'
 
 import {
   UserSchema,
@@ -42,6 +36,11 @@ export const getPropsForEmbed = async (
     resourceType === 'tip'
       ? ((await getTip(lessonSlug)) as Exercise)
       : await getExercise(lessonSlug, false)
+
+  if (!lesson) {
+    return null
+  }
+
   // @ts-ignore
   const solution = lesson.solution || lesson
   const videoResourceId = isSolution

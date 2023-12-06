@@ -8,6 +8,7 @@ import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from 'lib/sections'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import * as Sentry from '@sentry/nextjs'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -17,6 +18,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const module = await getTutorial(params?.module as string)
   const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSlug, false)
+
+  if (!lesson) {
+    const msg = `Unable to find Exercise for slug (${lessonSlug}). Context: module (${params?.module}) and section (${sectionSlug})`
+    Sentry.captureMessage(msg)
+
+    return {
+      notFound: true,
+    }
+  }
+
   const lessonBodySerialized =
     typeof lesson.body === 'string' &&
     (await serializeMDX(lesson.body, {

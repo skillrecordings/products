@@ -7,6 +7,22 @@ import {getCurrentAbility} from '@skillrecordings/skill-lesson'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
+import {z} from 'zod'
+import * as Sentry from '@sentry/nextjs'
+
+const VideoResourceSchema = z.object({
+  transcript: z.coerce.string(),
+  muxPlaybackId: z.string(),
+})
+type VideoResource = z.infer<typeof VideoResourceSchema>
+
+type Error = {
+  error:
+    | 'video-resource-not-found'
+    | 'unauthorized-to-view-lesson'
+    | 'region-restricted'
+    | 'lesson-not-found'
+}
 
 type GetLessonProps = {
   useSolution?: boolean
@@ -23,47 +39,70 @@ export async function getLessonVideoForDevice({
   sectionSlug,
   user,
   country,
-}: GetLessonProps) {
+}: GetLessonProps): Promise<(VideoResource & {httpUrl: string}) | Error> {
   const module = await getModule(moduleSlug)
   const section = await getSection(sectionSlug)
   const lessonData = await getExercise(lessonSlug, false)
 
-  const lesson = useSolution ? (lessonData.solution as Lesson) : lessonData
+  if (lessonData) {
+    const lesson = useSolution ? (lessonData.solution as Lesson) : lessonData
 
-  const productsPurchased =
-    user?.purchases?.map((purchase) => purchase.productId) || []
-  const purchasedModules = await getProducts(productsPurchased)
+    const productsPurchased =
+      user?.purchases?.map((purchase) => purchase.productId) || []
+    const purchasedModules = await getProducts(productsPurchased)
 
-  const ability = getCurrentAbility({
-    user,
-    purchasedModules,
-    lesson,
-    section,
-    module,
-    country: country,
-  })
+    const ability = getCurrentAbility({
+      user,
+      purchasedModules,
+      lesson,
+      section,
+      module,
+      country: country,
+    })
 
-  if (ability.can('view', 'Content')) {
-    const videoResource = await sanityClient.fetch(
-      groq`*[_type in ['videoResource'] && _id == $id][0]{
+    if (ability.can('view', 'Content')) {
+      const sanityResponse = await sanityClient.fetch(
+        groq`*[_type in ['videoResource'] && _id == $id][0]{
       "transcript": transcript.text,
       "muxPlaybackId": muxAsset.muxPlaybackId
     }`,
-      {id: lesson.videoResourceId as string},
-    )
+        {id: lesson.videoResourceId as string},
+      )
+
+      const result = VideoResourceSchema.safeParse(sanityResponse)
+
+      if (result.success) {
+        const videoResource = result.data
+
+        return {
+          ...videoResource,
+          httpUrl: `${process.env.NEXT_PUBLIC_URL}/${
+            module.moduleType
+          }s/${moduleSlug}/${sectionSlug}/${lessonSlug}${
+            useSolution ? '/solution' : ''
+          }`,
+        }
+      } else {
+        return {
+          error: 'video-resource-not-found',
+        } as const
+      }
+    } else if (ability.can('view', 'RegionRestriction')) {
+      return {
+        error: 'region-restricted',
+      } as const
+    } else {
+      return {
+        error: 'unauthorized-to-view-lesson',
+      }
+    }
+  } else {
+    const msg = `Unable to find Exercise for slug (${lessonSlug}). Context: module (${moduleSlug}) and section (${sectionSlug})`
+    Sentry.captureMessage(msg)
 
     return {
-      ...videoResource,
-      httpUrl: `${process.env.NEXT_PUBLIC_URL}/${
-        module.moduleType
-      }s/${moduleSlug}/${sectionSlug}/${lessonSlug}${
-        useSolution ? '/solution' : ''
-      }`,
-    }
-  } else if (ability.can('view', 'RegionRestriction')) {
-    return {
-      error: 'region-restricted',
-    }
+      error: 'lesson-not-found',
+    } as const
   }
 }
 

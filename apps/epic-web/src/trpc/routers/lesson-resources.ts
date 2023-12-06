@@ -12,8 +12,8 @@ export const lessonResourcesRouter = router({
     .query(async ({ctx, input}) => {
       const lesson = await getExercise(input.slug)
 
-      const github = lesson.github
-      const workshopApp = lesson.workshopApp
+      const github = lesson?.github || undefined
+      const workshopApp = lesson?.workshopApp || undefined
 
       return {github, workshopApp}
     }),

@@ -5,6 +5,14 @@ import {getPropsForEmbed} from 'utils/get-props-for-embeds'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const isSolution = true
+  const props = await getPropsForEmbed(context, 'workshop', isSolution)
+
+  if (!props) {
+    return {
+      notFound: true,
+    }
+  }
+
   const {
     module,
     section,
@@ -15,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     login: {providers, csrfToken},
     convertkitSubscriber,
     abilityRules,
-  } = await getPropsForEmbed(context, 'workshop', isSolution)
+  } = props
 
   return {
     props: {
