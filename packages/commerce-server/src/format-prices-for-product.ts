@@ -5,6 +5,7 @@ import {FormattedPrice} from './@types'
 import isEmpty from 'lodash/isEmpty'
 import sum from 'lodash/sum'
 import {determineCouponToApply} from './determine-coupon-to-apply'
+import _ from 'lodash'
 
 // 10% premium for an upgrade
 // TODO: Display Coupon Errors
@@ -67,11 +68,13 @@ export async function getFixedDiscountForIndividualUpgrade({
   purchaseToBeUpgraded,
   productToBePurchased,
   purchaseWillBeRestricted,
+  userId,
   ctx = defaultContext,
 }: {
   purchaseToBeUpgraded: Purchase | null
   productToBePurchased: Product
   purchaseWillBeRestricted: boolean
+  userId: string | undefined
   ctx?: Context
 }) {
   // if there is no purchase to be upgraded, then this isn't an upgrade
@@ -100,7 +103,11 @@ export async function getFixedDiscountForIndividualUpgrade({
 
   // if Purchase To Be Upgraded is upgradeable to the Product To Be Purchased,
   // then look up the Price of the original product
-  const {getPrice, availableUpgradesForProduct} = getSdk({ctx})
+  const {
+    getPrice,
+    availableUpgradesForProduct,
+    pricesOfPurchasesTowardOneBundle,
+  } = getSdk({ctx})
   const upgradeIsAvailable = !isEmpty(
     await availableUpgradesForProduct(
       [purchaseToBeUpgraded],
@@ -108,13 +115,18 @@ export async function getFixedDiscountForIndividualUpgrade({
     ),
   )
   if (upgradeIsAvailable) {
-    const price = await getPrice({
-      where: {
-        productId: purchaseToBeUpgraded.productId,
-      },
+    const pricesToBeDiscounted = await pricesOfPurchasesTowardOneBundle({
+      userId,
+      bundleId: productToBePurchased.id,
     })
 
-    return price?.unitAmount.toNumber() || 0
+    const pricesArray = pricesToBeDiscounted.map((price) => {
+      return price.unitAmount.toNumber()
+    })
+
+    const total = _.sum(pricesArray)
+
+    return total
   }
 
   return 0
@@ -216,6 +228,7 @@ export async function formatPricesForProduct(
       purchaseToBeUpgraded: upgradeFromPurchase,
       productToBePurchased: product,
       purchaseWillBeRestricted: appliedCouponType === 'ppp',
+      userId,
       ctx,
     })
   }

@@ -332,7 +332,11 @@ export async function stripeCheckout({
             purchaseToBeUpgraded: upgradeFromPurchase,
             productToBePurchased: loadedProduct,
             purchaseWillBeRestricted,
+            userId,
           })
+
+        console.log('holi')
+        console.log({fixedDiscountForIndividualUpgrade})
 
         const fullPrice = loadedProduct.prices?.[0].unitAmount.toNumber()
         const calculatedPrice = getCalculatedPrice({

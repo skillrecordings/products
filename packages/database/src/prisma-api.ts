@@ -832,5 +832,43 @@ export function getSdk(
         },
       })
     },
+    async pricesOfPurchasesTowardOneBundle({
+      userId,
+      bundleId,
+    }: {
+      userId: string | undefined
+      bundleId: string
+    }) {
+      if (userId === undefined) return []
+
+      const upgradableProducts = await ctx.prisma.upgradableProducts.findMany({
+        where: {
+          upgradableToId: bundleId,
+        },
+      })
+
+      const upgradableFrom = upgradableProducts.map((product) => {
+        return product.upgradableFromId
+      })
+
+      const purchases = await ctx.prisma.purchase.findMany({
+        where: {
+          userId: userId,
+          productId: {in: upgradableFrom},
+        },
+      })
+
+      const purchasesMade = purchases.map((purchase) => {
+        return purchase.productId
+      })
+
+      const prices = await ctx.prisma.price.findMany({
+        where: {
+          productId: {in: purchasesMade},
+        },
+      })
+
+      return prices
+    },
   }
 }
