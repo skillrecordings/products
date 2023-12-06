@@ -3,6 +3,7 @@ import tips from './structure/tips'
 import tutorials from './structure/tutorials'
 import workshops from './structure/workshops'
 import bonuses from './structure/bonuses'
+import chapters from './structure/chapters'
 import pricing from './structure/pricing'
 import products from './structure/products'
 import interviews from './structure/interviews'
@@ -44,6 +45,7 @@ export default (S: any) =>
       articles(S),
       tips(S),
       bonuses(S),
+      chapters(S),
       emails(S),
       S.divider(),
       videoResources(S),
