@@ -1,14 +1,15 @@
-import {prisma} from '@skillrecordings/database'
-import {inngest} from 'inngest/inngest.server'
-import {SANITY_WEBHOOK_EVENT} from 'inngest/events/sanity'
 import groq from 'groq'
-import {createClient} from '@sanity/client'
 import z from 'zod'
-import {v4} from 'uuid'
-import {stripe} from '@skillrecordings/commerce-server'
 import {sanityProductCreated} from './sanity-product-created'
 import {sanityProductUpdated} from './sanity-product-updated'
+import {sanityProductDeleted} from './sanity-product-deleted'
 import {sanityWriteClient} from 'utils/sanity-server'
+
+export const sanityProductFunctions = [
+  sanityProductCreated,
+  sanityProductUpdated,
+  sanityProductDeleted,
+]
 
 export const loadSanityProduct = async (id: string) => {
   const sanityProductData = await sanityWriteClient.fetch(
@@ -19,11 +20,20 @@ export const loadSanityProduct = async (id: string) => {
           title,
           "slug": slug.current,
           quantityAvailable,
-          upgradableTo[]->
+          upgradableTo[]->{
+            _id,
+            productId
+          },
+          features[]{
+            value,
+            icon
+          },
+          image{
+            url
+          }
     }`,
     {id},
   )
-
   return BaseSanityProductSchema.parse(sanityProductData)
 }
 
@@ -33,25 +43,26 @@ export const BaseSanityProductSchema = z.object({
   slug: z.string(),
   unitAmount: z.number().default(0),
   quantityAvailable: z.number().default(-1),
-  productId: z.string().optional(),
-  upgradableTo: z.array(z.any()).nullable().optional(),
+  productId: z.string().nullable().optional(),
+  upgradableTo: z
+    .array(z.object({productId: z.string()}))
+    .nullable()
+    .optional(),
+  features: z
+    .array(
+      z.object({
+        value: z.string(),
+        icon: z.string(),
+      }),
+    )
+    .nullable()
+    .optional(),
+  image: z
+    .object({
+      url: z.string(),
+    })
+    .nullable()
+    .optional(),
 })
 
 export type BaseSanityProduct = z.infer<typeof BaseSanityProductSchema>
-
-export const sanityProductDeleted = inngest.createFunction(
-  {id: `product-delete`, name: 'Delete Product in Database'},
-  {
-    event: SANITY_WEBHOOK_EVENT,
-    if: 'event.data.event == "product.delete"',
-  },
-  async ({event, step}) => {
-    return false
-  },
-)
-
-export const productFunctions = [
-  sanityProductCreated,
-  sanityProductUpdated,
-  sanityProductDeleted,
-]

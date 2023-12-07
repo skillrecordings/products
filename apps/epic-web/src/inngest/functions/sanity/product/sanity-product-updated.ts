@@ -16,10 +16,24 @@ export const sanityProductUpdated = inngest.createFunction(
       return loadSanityProduct(event.data._id)
     })
 
+    const {
+      productId,
+      title,
+      quantityAvailable,
+      unitAmount,
+      slug,
+      image,
+      upgradableTo,
+    } = sanityProduct
+
+    if (!productId) {
+      throw new Error(`Product id not found`)
+    }
+
     const product = await step.run('get product in database', async () => {
       return await prisma.product.findUnique({
         where: {
-          id: sanityProduct.productId,
+          id: productId,
         },
         include: {
           prices: true,
@@ -28,21 +42,63 @@ export const sanityProductUpdated = inngest.createFunction(
     })
 
     if (!product) {
-      throw new Error(`Product not found [${sanityProduct.productId}]`)
+      throw new Error(`Product not found [${productId}]`)
     }
 
     const merchantProduct = await step.run('get merchant product', async () => {
       return await prisma.merchantProduct.findFirst({
         where: {
-          productId: product.id,
+          productId,
         },
       })
     })
 
     if (!merchantProduct) {
       throw new Error(
-        `Merchant Product not found for product id [${product.id}]`,
+        `Merchant Product not found for product id [${productId}]`,
       )
+    }
+
+    const currentProductUpgrades = await step.run(
+      'get product upgrades',
+      async () => {
+        return await prisma.upgradableProducts.findMany({
+          where: {
+            upgradableFromId: product.id,
+          },
+        })
+      },
+    )
+
+    const upgradeToIds = upgradableTo?.map(
+      (upgradeToProduct) => upgradeToProduct.productId,
+    )
+    const currentProductUpgradeIds = currentProductUpgrades?.map(
+      (currentProductUpgrade) => currentProductUpgrade.upgradableToId,
+    )
+    const upgradeToIdsMatch = upgradeToIds?.every((id) =>
+      currentProductUpgradeIds?.includes(id),
+    )
+
+    if (!upgradeToIdsMatch) {
+      await step.run('delete product upgrades', async () => {
+        return await prisma.upgradableProducts.deleteMany({
+          where: {
+            upgradableFromId: product.id,
+          },
+        })
+      })
+
+      if (upgradableTo) {
+        await step.run('create product upgrades', async () => {
+          return await prisma.upgradableProducts.createMany({
+            data: upgradableTo.map((upgradeToProduct) => ({
+              upgradableFromId: product.id,
+              upgradableToId: upgradeToProduct.productId,
+            })),
+          })
+        })
+      }
     }
 
     const stripeProduct = await step.run('get stripe product', async () => {
@@ -52,9 +108,9 @@ export const sanityProductUpdated = inngest.createFunction(
       return await stripe.products.retrieve(merchantProduct.identifier)
     })
 
-    const priceChanged = product.prices
+    const priceChanged = !product.prices
       .map((price) => Number(price.unitAmount))
-      .includes(sanityProduct.unitAmount)
+      .includes(unitAmount)
 
     if (priceChanged) {
       const currentMerchantPrice = await step.run(
@@ -82,13 +138,19 @@ export const sanityProductUpdated = inngest.createFunction(
         'create new stripe price',
         async () => {
           return await stripe.prices.create({
-            unit_amount: Math.floor(Number(sanityProduct.unitAmount) * 100),
+            unit_amount: Math.floor(Number(unitAmount) * 100),
             currency: 'usd',
             product: stripeProduct.id,
             active: true,
           })
         },
       )
+
+      await step.run('set stripeProduct default price', async () => {
+        return await stripe.products.update(stripeProduct.id, {
+          default_price: newStripePrice.id,
+        })
+      })
 
       await step.run('create new merchant price', async () => {
         const newMerchantPriceId = v4()
@@ -123,8 +185,8 @@ export const sanityProductUpdated = inngest.createFunction(
             id: product.prices[0].id,
           },
           data: {
-            nickname: sanityProduct.title,
-            unitAmount: sanityProduct.unitAmount,
+            nickname: title,
+            unitAmount,
           },
         })
       })
@@ -138,6 +200,20 @@ export const sanityProductUpdated = inngest.createFunction(
       }
     }
 
+    const updatedStripeProduct = await step.run(
+      'update stripe product',
+      async () => {
+        return await stripe.products.update(stripeProduct.id, {
+          name: title,
+          active: true,
+          ...(image && {images: [image.url]}),
+          metadata: {
+            slug,
+          },
+        })
+      },
+    )
+
     const updatedProduct = await step.run(
       'update product in database',
       async () => {
@@ -146,8 +222,8 @@ export const sanityProductUpdated = inngest.createFunction(
             id: product.id,
           },
           data: {
-            name: sanityProduct.title,
-            quantityAvailable: sanityProduct.quantityAvailable,
+            name: title,
+            quantityAvailable,
           },
           include: {
             prices: true,
@@ -157,6 +233,6 @@ export const sanityProductUpdated = inngest.createFunction(
       },
     )
 
-    return {updatedProduct}
+    return {updatedProduct, updatedStripeProduct}
   },
 )

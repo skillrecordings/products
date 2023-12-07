@@ -14,8 +14,9 @@ export default defineType({
     defineField({
       name: 'unitAmount',
       title: 'Unit Amount',
-      description: 'The Default Price',
+      description: 'Current Price',
       type: 'number',
+      validation: (Rule) => Rule.min(1).required(),
     }),
     defineField({
       name: 'quantityAvailable',
@@ -23,8 +24,14 @@ export default defineType({
       description: 'Set to -1 for unlimited',
       type: 'number',
       initialValue: -1,
+      validation: (Rule) => Rule.min(-1).required(),
     }),
-
+    defineField({
+      name: 'productId',
+      title: 'Skill Product ID',
+      type: 'string',
+      readOnly: true,
+    }),
     defineField({
       name: 'slug',
       title: 'Slug',

@@ -5,7 +5,7 @@ import {stripeCheckoutCompleted} from 'inngest/functions/stripe/checkout-complet
 import {lessonCompleted} from 'inngest/functions/progress/lesson-completed'
 import {writeAnEmail} from 'inngest/functions/ai-email/write-an-email'
 import {purchaseTransferComplete} from 'inngest/functions/purchase/purchase-transfer-complete'
-import {productFunctions} from 'inngest/functions/sanity/product'
+import {sanityProductFunctions} from 'inngest/functions/sanity/product'
 
 export const inngestConfig = {
   client: inngest,
@@ -18,6 +18,6 @@ export const inngestConfig = {
     lessonCompleted,
     writeAnEmail,
     purchaseTransferComplete,
-    ...productFunctions,
+    ...sanityProductFunctions,
   ],
 }
