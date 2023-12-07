@@ -12,15 +12,26 @@ export default defineType({
       type: 'string',
     }),
     defineField({
-      name: 'productId',
-      title: 'Product ID',
-      type: 'string',
+      name: 'unitAmount',
+      title: 'Unit Amount',
+      description: 'Current Price',
+      type: 'number',
+      validation: (Rule) => Rule.min(1).required(),
     }),
-    {
-      name: 'convertkitPurchasedTagId',
-      title: 'Convertkit Purchase Tag ID',
+    defineField({
+      name: 'quantityAvailable',
+      title: 'Quantity Available',
+      description: 'Set to -1 for unlimited',
+      type: 'number',
+      initialValue: -1,
+      validation: (Rule) => Rule.min(-1).required(),
+    }),
+    defineField({
+      name: 'productId',
+      title: 'Skill Product ID',
       type: 'string',
-    },
+      readOnly: true,
+    }),
     defineField({
       name: 'slug',
       title: 'Slug',
@@ -46,80 +57,8 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'price',
-      title: 'Price',
-      type: 'object',
-      fields: [
-        defineField({
-          name: 'priceId',
-          title: 'Price ID',
-          type: 'string',
-        }),
-        defineField({
-          name: 'amount',
-          title: 'Amount',
-          type: 'number',
-        }),
-      ],
-    }),
-    defineField({
-      name: 'merchantPrice',
-      title: 'Merchant Price',
-      type: 'object',
-      fields: [
-        defineField({
-          name: 'merchantPriceId',
-          title: 'Merchant Price ID',
-          type: 'string',
-        }),
-        defineField({
-          name: 'merchantAccountId',
-          title: 'Merchant Account ID',
-          type: 'string',
-        }),
-        defineField({
-          name: 'identifier',
-          title: 'Identifier',
-          type: 'string',
-        }),
-      ],
-    }),
-    defineField({
-      name: 'merchantProduct',
-      title: 'Merchant Product',
-      type: 'object',
-      fields: [
-        defineField({
-          name: 'merchantProductId',
-          title: 'Merchant Product ID',
-          type: 'string',
-        }),
-        defineField({
-          name: 'merchantAccountId',
-          title: 'Merchant Account ID',
-          type: 'string',
-        }),
-        defineField({
-          name: 'identifier',
-          title: 'Identifier',
-          type: 'string',
-        }),
-      ],
-    }),
-    defineField({
       name: 'upgradableTo',
       title: 'Upgradable To',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'product'}],
-        }),
-      ],
-    }),
-    defineField({
-      name: 'upgredableFrom',
-      title: 'Upgradable From',
       type: 'array',
       of: [
         defineArrayMember({

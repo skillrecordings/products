@@ -6,4 +6,5 @@ export const sanityWriteClient = createClient({
   useCdn: false, // `false` if you want to ensure fresh data
   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
   token: process.env.SANITY_API_TOKEN,
+  perspective: 'published',
 })
