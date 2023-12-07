@@ -24,6 +24,7 @@ export default {
           {title: 'Workshop', value: 'workshop'},
           {title: 'Tutorial', value: 'tutorial'},
           {title: 'Bonus', value: 'bonus'},
+          {title: 'Chapter', value: 'chapter'},
         ],
       },
     },
