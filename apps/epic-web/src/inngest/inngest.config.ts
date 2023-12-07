@@ -6,8 +6,6 @@ import {lessonCompleted} from 'inngest/functions/progress/lesson-completed'
 import {writeAnEmail} from 'inngest/functions/ai-email/write-an-email'
 import {purchaseTransferComplete} from 'inngest/functions/purchase/purchase-transfer-complete'
 import {productFunctions} from 'inngest/functions/sanity/product'
-import {LESSON_COMPLETED_EVENT} from '@skillrecordings/skill-lesson'
-import {prisma} from '@skillrecordings/database'
 
 export const inngestConfig = {
   client: inngest,
