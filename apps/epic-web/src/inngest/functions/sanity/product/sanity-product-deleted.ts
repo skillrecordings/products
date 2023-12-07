@@ -115,6 +115,21 @@ export const sanityProductDeleted = inngest.createFunction(
       })
     })
 
+    await step.run('delete product upgrades', async () => {
+      return await prisma.upgradableProducts.deleteMany({
+        where: {
+          OR: [
+            {
+              upgradableFromId: product.id,
+            },
+            {
+              upgradableToId: product.id,
+            },
+          ],
+        },
+      })
+    })
+
     await step.run('deactivate all stripe prices', async () => {
       return await Promise.all(
         merchantProduct.merchantPrices.map(async (merchantPrice) => {
