@@ -52,7 +52,6 @@ const t = initTRPC.context<TrpcContext>().create({
 export const router = t.router
 
 const isAdmin = t.middleware(({ctx, next}) => {
-  console.log({session: ctx.session})
   const userRole = ctx.session?.user?.role || 'User'
   const isAdmin = ['ADMIN', 'SUPERADMIN'].includes(userRole)
 
