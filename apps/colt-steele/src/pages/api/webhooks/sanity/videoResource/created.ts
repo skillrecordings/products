@@ -25,7 +25,7 @@ const sanityVideoResourceWebhook = async (
   res: NextApiResponse,
 ) => {
   const signature = req.headers[SIGNATURE_HEADER_NAME] as string
-  const isValid = isValidSignature(
+  const isValid = await isValidSignature(
     JSON.stringify(req.body),
     signature,
     process.env.SANITY_WEBHOOK_SECRET,
