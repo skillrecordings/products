@@ -1,10 +1,10 @@
 import {inngest} from 'inngest/inngest.server'
-import {SANITY_WEBHOOK_EVENT} from 'inngest/events/sanity'
 import {v4} from 'uuid'
 import {prisma} from '@skillrecordings/database'
 import {stripe} from '@skillrecordings/commerce-server'
-import {loadSanityProduct} from 'inngest/functions/sanity/product/index'
+import {loadSanityProduct} from './index'
 import {sanityWriteClient} from 'utils/sanity-server'
+import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
 
 export const sanityProductCreated = inngest.createFunction(
   {id: `product-create`, name: 'Create Product in Database'},

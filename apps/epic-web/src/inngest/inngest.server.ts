@@ -24,7 +24,10 @@ import {
   PURCHASE_TRANSFERRED_EVENT,
   PurchaseTransferred,
 } from '@skillrecordings/skill-lesson/inngest/events'
-import {SANITY_WEBHOOK_EVENT, SanityWebhookEvent} from 'inngest/events/sanity'
+import {
+  SANITY_WEBHOOK_EVENT,
+  SanityWebhookEvent,
+} from './functions/sanity/sanity-inngest-events'
 
 export type IngestEvents = {
   [TIP_VIDEO_UPLOADED_EVENT]: NewTipVideo
