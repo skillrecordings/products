@@ -24,6 +24,7 @@ export const sanityProductUpdated = inngest.createFunction(
       slug,
       image,
       upgradableTo,
+      state,
     } = sanityProduct
 
     if (!productId) {
@@ -224,6 +225,7 @@ export const sanityProductUpdated = inngest.createFunction(
           data: {
             name: title,
             quantityAvailable,
+            status: state === 'active' ? 1 : 0,
           },
           include: {
             prices: true,

@@ -25,6 +25,7 @@ export const sanityProductCreated = inngest.createFunction(
       image,
       features,
       upgradableTo,
+      state,
     } = sanityProduct
 
     const product = await step.run('create product in database', async () => {
@@ -34,6 +35,7 @@ export const sanityProductCreated = inngest.createFunction(
           id: newProductId,
           name: title,
           quantityAvailable,
+          status: state === 'active' ? 1 : 0,
         },
       })
     })
