@@ -16,7 +16,7 @@ export async function processSanityWebhooks({
       options: {nextAuthOptions},
     } = params
     const signature = req.headers[SIGNATURE_HEADER_NAME] as string
-    const isValid = isValidSignature(
+    const isValid = await isValidSignature(
       JSON.stringify(req.body),
       signature,
       webhookSecret,

@@ -11,7 +11,11 @@ export const sanityArticleWebhook = async (
   res: NextApiResponse,
 ) => {
   const signature = req.headers[SIGNATURE_HEADER_NAME] as string
-  const isValid = isValidSignature(JSON.stringify(req.body), signature, secret)
+  const isValid = await isValidSignature(
+    JSON.stringify(req.body),
+    signature,
+    secret,
+  )
 
   try {
     if (isValid) {

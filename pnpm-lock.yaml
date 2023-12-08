@@ -454,8 +454,8 @@ importers:
         specifier: ^3.9.0
         version: 3.20.2(@babel/runtime@7.23.5)(@codemirror/lint@6.4.2)(@codemirror/state@6.3.2)(@codemirror/theme-one-dark@6.1.2)(@lezer/common@1.1.1)(codemirror@6.0.1)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@5.3.11)
       '@sanity/webhook':
-        specifier: ^1.0.2
-        version: 1.1.0
+        specifier: ^4.0.0
+        version: 4.0.0
       '@sentry/nextjs':
         specifier: ^7.83.0
         version: 7.84.0(next@13.5.6)(react@18.2.0)(webpack@5.89.0)
@@ -854,8 +854,8 @@ importers:
         specifier: ^3.9.0
         version: 3.20.2(@babel/runtime@7.23.5)(@codemirror/lint@6.4.2)(@codemirror/state@6.3.2)(@codemirror/theme-one-dark@6.1.2)(@lezer/common@1.1.1)(codemirror@6.0.1)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@5.3.11)
       '@sanity/webhook':
-        specifier: ^1.0.2
-        version: 1.1.0
+        specifier: ^4.0.0
+        version: 4.0.0
       '@sentry/nextjs':
         specifier: ^7.83.0
         version: 7.84.0(next@13.5.6)(react@18.2.0)(webpack@5.89.0)
@@ -1624,8 +1624,8 @@ importers:
         specifier: ^3.9.1
         version: 3.20.2(@babel/runtime@7.23.5)(@codemirror/lint@6.4.2)(@codemirror/state@6.3.2)(@codemirror/theme-one-dark@6.1.2)(@lezer/common@1.1.1)(codemirror@6.0.1)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@5.3.11)
       '@sanity/webhook':
-        specifier: ^1.0.2
-        version: 1.1.0
+        specifier: ^4.0.0
+        version: 4.0.0
       '@sentry/nextjs':
         specifier: ^7.83.0
         version: 7.84.0(next@13.5.6)(react@18.2.0)(webpack@5.89.0)
@@ -2132,8 +2132,8 @@ importers:
         specifier: ^3.9.0
         version: 3.20.2(@babel/runtime@7.23.5)(@codemirror/lint@6.4.2)(@codemirror/state@6.3.2)(@codemirror/theme-one-dark@6.1.2)(@lezer/common@1.1.1)(codemirror@6.0.1)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@5.3.11)
       '@sanity/webhook':
-        specifier: ^1.0.2
-        version: 1.1.0
+        specifier: ^4.0.0
+        version: 4.0.0
       '@sentry/nextjs':
         specifier: ^7.83.0
         version: 7.84.0(next@13.5.6)(react@18.2.0)(webpack@5.89.0)
@@ -2541,8 +2541,8 @@ importers:
         specifier: ^3.9.0
         version: 3.20.2(@babel/runtime@7.23.5)(@codemirror/lint@6.4.2)(@codemirror/state@6.3.2)(@codemirror/theme-one-dark@6.1.2)(@lezer/common@1.1.1)(codemirror@6.0.1)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@5.3.11)
       '@sanity/webhook':
-        specifier: ^1.0.2
-        version: 1.1.0
+        specifier: ^4.0.0
+        version: 4.0.0
       '@sentry/nextjs':
         specifier: ^7.83.0
         version: 7.84.0(next@13.5.6)(react@18.2.0)(webpack@5.89.0)
@@ -3378,8 +3378,8 @@ importers:
         specifier: ^3.11.1
         version: 3.20.2(@babel/runtime@7.23.5)(@codemirror/lint@6.4.2)(@codemirror/state@6.3.2)(@codemirror/theme-one-dark@6.1.2)(@lezer/common@1.1.1)(codemirror@6.0.1)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@5.3.11)
       '@sanity/webhook':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^4.0.0
+        version: 4.0.0
       '@sentry/nextjs':
         specifier: ^7.83.0
         version: 7.84.0(next@13.5.6)(react@18.2.0)(webpack@5.89.0)
@@ -5010,8 +5010,8 @@ importers:
         specifier: ^6.1.1
         version: 6.9.1
       '@sanity/webhook':
-        specifier: ^3.0.1
-        version: 3.0.1
+        specifier: ^4.0.0
+        version: 4.0.0
       '@skillrecordings/commerce-server':
         specifier: workspace:*
         version: link:../commerce-server
@@ -5296,8 +5296,8 @@ importers:
         specifier: ^6.1.1
         version: 6.9.1
       '@sanity/webhook':
-        specifier: ^1.0.2
-        version: 1.1.0
+        specifier: ^4.0.0
+        version: 4.0.0
       '@sentry/nextjs':
         specifier: ^7.83.0
         version: 7.84.0(next@13.5.6)(react@18.2.0)(webpack@5.89.0)
@@ -5783,8 +5783,8 @@ importers:
         specifier: ^6.1.1
         version: 6.9.1
       '@sanity/webhook':
-        specifier: ^1.0.2
-        version: 1.1.0
+        specifier: ^4.0.0
+        version: 4.0.0
       '@sentry/nextjs':
         specifier: ^7.83.0
         version: 7.84.0(next@13.5.6)(react@18.2.0)(webpack@5.89.0)
@@ -14461,19 +14461,9 @@ packages:
       - react-is
     dev: false
 
-  /@sanity/webhook@1.1.0:
-    resolution: {integrity: sha512-gd+9+KbQhuwYo9jltboW6qyboSyu5AOpVH/B7b4cmL8Y8NSJIS23yfE7P8Yw8i66siVe4kkyOPQ2JBjhCfimTw==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      base64url: 3.0.1
-      tslib: 2.6.2
-    dev: false
-
-  /@sanity/webhook@3.0.1:
-    resolution: {integrity: sha512-2eTDg/+TR8lSX2OH6wH7M8UUwZUsD/i8Raw9mFH9myt2mkPY3ns77cU6K1QL2ZhwIIDJT5tttTELURF7RjlzVg==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      base64url: 3.0.1
+  /@sanity/webhook@4.0.0:
+    resolution: {integrity: sha512-IRjtj17tHSmxHWZvgRnLZbWj8J8G4jqOWOYC25eV4EcfVn1yZCs0x+km6+PSiJgOphSX6Nm1+X6UJOT+GnWIFw==}
+    engines: {node: '>=18.0.0'}
     dev: false
 
   /@selderee/plugin-htmlparser2@0.10.0:
@@ -18164,11 +18154,6 @@ packages:
 
   /base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
-
-  /base64url@3.0.1:
-    resolution: {integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==}
-    engines: {node: '>=6.0.0'}
-    dev: false
 
   /base@0.11.2:
     resolution: {integrity: sha512-5T6P4xPgpp0YDFvSWwEZ4NoE3aM4QBQXDzmVbraCkFj8zHM+mba8SyqB5DbZWyR7mYHo6Y7BdQo3MoA4m0TeQg==}

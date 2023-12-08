@@ -1,5 +1,5 @@
 import {PrismaClient} from '@prisma/client'
-import type {Decimal} from 'decimal.js'
+import {Decimal} from '@prisma/client/runtime/library'
 
 export * from '@prisma/client'
 
