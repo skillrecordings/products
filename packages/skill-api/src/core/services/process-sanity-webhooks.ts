@@ -22,11 +22,6 @@ export async function processSanityWebhooks({
       webhookSecret,
     )
 
-    console.log('req.body', req.body)
-    console.log('signature', signature)
-    console.log('isValid', isValid)
-    console.log('webhookSecret', webhookSecret)
-
     try {
       if (!isValid) {
         return {
