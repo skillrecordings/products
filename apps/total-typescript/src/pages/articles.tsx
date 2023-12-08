@@ -35,8 +35,8 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
       meta={{
         title: 'TypeScript Articles by Matt Pocock',
         ogImage: {
-          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1670957524/articles-card_2x_mxwbzs.png',
-          alt: 'TypeScript Articles',
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1702042103/ts-article-card_2x_kakhwd.png',
+          alt: 'TypeScript Articles by Matt Pocock',
         },
       }}
     >
@@ -57,12 +57,16 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
             width={350}
             height={350}
             alt=""
+            priority
+            placeholder="blur"
             aria-hidden="true"
           />
           <h1 className="relative z-10 text-center font-heading text-7xl font-bold text-slate-200 sm:text-8xl">
-            <span className="sr-only">TypeScript Articles by Matt Pocock</span>
             <span className="not-sr-only">Articles</span>
           </h1>
+          <p className="max-w-sm text-center text-lg text-rose-100/90">
+            TypeScript Articles by Matt Pocock
+          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-10 pt-5 sm:grid-cols-1 sm:gap-5 sm:pt-5 md:gap-10">

@@ -21,22 +21,34 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const LoginPage: React.FC<LoginTemplateProps> = ({csrfToken, providers}) => {
   return (
-    <Layout meta={{title: `Log in to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}}>
+    <Layout
+      meta={{
+        title: `Log in to ${process.env.NEXT_PUBLIC_SITE_TITLE}`,
+        ogImage: [
+          {
+            url: 'https://res.cloudinary.com/total-typescript/image/upload/v1702041929/ts-login-card_2x_g2ltgj.png',
+            alt: `Log in to ${process.env.NEXT_PUBLIC_SITE_TITLE}`,
+          },
+        ],
+      }}
+    >
       <LoginTemplate
         csrfToken={csrfToken}
         providers={providers}
-        title={`Log in to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}
+        title={`Log in`}
+        subtitle={`to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}
         image={
-          <div className="relative z-10 mx-auto flex w-20 max-w-sm items-center justify-center sm:-mt-24 sm:w-full">
+          <div className="pointer-events-none absolute z-10 -translate-y-52 sm:-translate-x-2 sm:-translate-y-56">
             <Image
               placeholder="blur"
-              src={require('../../public/assets/gem.png')}
+              src={require('../../public/assets/key@2x.png')}
               alt=""
               quality={100}
-              width={120}
-              height={120}
+              width={240}
+              height={240}
               priority
               aria-hidden="true"
+              className="w-48 sm:w-[240px]"
             />
           </div>
         }
