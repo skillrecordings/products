@@ -1,3 +1,6 @@
+import Layout from '@/components/app/layout'
+import Image from 'next/image'
+
 <div>
 
 ## What discounts are available?
@@ -155,23 +158,33 @@ You can [read them here](/privacy).
 
 </div>
 
-import Layout from '@/components/app/layout'
-
 export default ({children}) => (
   <Layout
     meta={{
       title: 'Total TypeScript FAQ',
       ogImage: {
-        url: 'https://res.cloudinary.com/total-typescript/image/upload/v1670523419/faq_2x_ic7jwz.png',
+        url: 'https://res.cloudinary.com/total-typescript/image/upload/v1702042160/ts-faq-card_2x_xfkwsz.png',
         alt: 'Total TypeScript FAQ',
       },
     }}
   >
     <main className="mx-auto w-full max-w-screen-lg p-5 pb-32">
-      <h1 className="pb-16 pt-32 text-center font-heading text-4xl font-bold sm:pb-32 sm:pt-40 sm:text-4xl lg:text-5xl">
-        Frequently Asked Questions
-      </h1>
-      <article className="prose mx-auto grid max-w-screen-lg grid-cols-1 prose-p:text-gray-200 prose-a:text-cyan-300 sm:prose-lg sm:gap-8 sm:prose-headings:mt-0 sm:prose-headings:font-semibold sm:prose-p:text-gray-200 md:grid-cols-2 md:gap-12 lg:gap-16">
+      <header className="relative flex flex-col items-center justify-center pb-5 pt-64 sm:pb-24 sm:pt-64">
+        <Image
+          src={require('../../public/assets/crystal-ball@2x.png')}
+          alt=""
+          aria-hidden="true"
+          priority
+          placeholder="blur"
+          width={350}
+          height={350}
+          className="absolute -translate-y-32 -rotate-12"
+        />
+        <h1 className="relative z-10 text-center font-heading text-7xl font-bold text-slate-200 sm:text-8xl">
+          FAQ
+        </h1>
+      </header>
+      <article className="prose mx-auto grid max-w-screen-lg grid-cols-1 sm:prose-lg prose-p:text-gray-200 prose-a:text-cyan-300 sm:gap-8 sm:prose-headings:mt-0 sm:prose-headings:font-semibold sm:prose-p:text-gray-200 md:grid-cols-2 md:gap-12 lg:gap-16">
         {children}
       </article>
     </main>
