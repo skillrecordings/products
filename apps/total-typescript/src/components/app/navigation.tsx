@@ -44,7 +44,7 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
       <nav
         aria-label="top"
         className={cx(
-          'absolute z-30 flex h-14 w-full flex-col items-center justify-center border-b border-gray-800/40 bg-black/30 pl-3 pr-0 print:hidden sm:h-16 sm:bg-black/30 sm:pl-4 md:pr-3',
+          'absolute z-30 flex h-14 w-full flex-col items-center justify-center border-b border-gray-800/40 bg-gray-950 pl-3 pr-0 print:hidden sm:h-16 sm:pl-4 md:pr-3',
           className,
           {
             'top-0': !defaultCouponData,

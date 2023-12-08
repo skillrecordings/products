@@ -12,6 +12,7 @@ export type LoginTemplateProps = {
   providers: Record<string, ClientSafeProvider>
   image?: React.ReactElement
   title?: string
+  subtitle?: string
 }
 
 const LoginTemplate: React.FC<React.PropsWithChildren<LoginTemplateProps>> = ({
@@ -19,6 +20,7 @@ const LoginTemplate: React.FC<React.PropsWithChildren<LoginTemplateProps>> = ({
   providers = {},
   image,
   title,
+  subtitle,
 }) => {
   const {
     register,
@@ -62,6 +64,7 @@ const LoginTemplate: React.FC<React.PropsWithChildren<LoginTemplateProps>> = ({
         <Balancer>
           {title ? title : `Log in to ${process.env.NEXT_PUBLIC_SITE_TITLE}`}
         </Balancer>
+        {subtitle && <span data-subtitle="">{subtitle}</span>}
       </h1>
       {query?.error === 'Verification' ? (
         <p data-verification-error="">

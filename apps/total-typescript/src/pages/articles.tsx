@@ -2,7 +2,7 @@ import Layout from '@/components/app/layout'
 import {Article, getAllArticles} from '@/lib/articles'
 import {drop, first} from 'lodash'
 import Balancer from 'react-wrap-balancer'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import cx from 'classnames'
@@ -35,19 +35,39 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
       meta={{
         title: 'TypeScript Articles by Matt Pocock',
         ogImage: {
-          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1670957524/articles-card_2x_mxwbzs.png',
-          alt: 'TypeScript Articles',
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1702042103/ts-article-card_2x_kakhwd.png',
+          alt: 'TypeScript Articles by Matt Pocock',
         },
       }}
     >
       <main className="mx-auto flex h-full w-full max-w-screen-lg flex-grow flex-col gap-5 px-5 pb-20 pt-20 md:pb-32 md:pt-24">
-        <h1 className="inline-flex items-center text-lg font-medium">
-          <TSLogo className="mr-2 w-6" />
-          TypeScript Articles{' '}
-          <span className="pl-1.5 font-light text-gray-300">
-            by Matt Pocock
-          </span>
-        </h1>
+        <Image
+          src={require('../../public/assets/landing/4-stars@2x.png')}
+          fill
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none select-none object-contain object-top"
+        />
+
+        <div className="relative flex w-full flex-col items-center justify-center pb-8 pt-48">
+          <Image
+            className="absolute -translate-y-28"
+            quality={100}
+            src={require('../../public/assets/candle@2x.png')}
+            width={350}
+            height={350}
+            alt=""
+            priority
+            placeholder="blur"
+            aria-hidden="true"
+          />
+          <h1 className="relative z-10 text-center font-heading text-7xl font-bold text-slate-200 sm:text-8xl">
+            <span className="not-sr-only">Articles</span>
+          </h1>
+          <p className="max-w-sm text-center text-lg text-rose-100/90">
+            TypeScript Articles by Matt Pocock
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 gap-10 pt-5 sm:grid-cols-1 sm:gap-5 sm:pt-5 md:gap-10">
           {publishedArticles.map((article) => {

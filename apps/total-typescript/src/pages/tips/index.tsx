@@ -31,17 +31,25 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
         title: 'TypeScript Tips by Matt Pocock',
         description: pageDescription,
         ogImage: {
-          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1663921088/tips/card_2x_b9zrcx.png',
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1702041879/ts-tips-card_2x_i7sjje.png',
           alt: 'TypeScript Tips by Matt Pocock',
         },
       }}
       className="flex flex-col items-center pb-24"
     >
-      <header className="relative z-10 flex flex-col items-center pb-16 pt-24 text-center sm:pt-40 lg:pb-24 lg:pt-40">
-        <h1 className="text-center font-heading text-4xl font-bold sm:text-5xl">
+      <header className="relative z-10 flex flex-col items-center justify-center overflow-x-hidden pb-16 pt-32 text-center sm:pt-40 lg:pb-24 lg:pt-48">
+        <h1 className="relative text-center font-heading text-6xl font-bold text-slate-200 lg:text-8xl">
           TypeScript Tips
         </h1>
-        <p className="max-w-sm pt-8 text-center text-lg text-rose-100/90">
+        <Image
+          src={require('../../../public/assets/wand@2x.png')}
+          alt=""
+          aria-hidden="true"
+          width={420}
+          height={420}
+          className="pointer-events-none absolute -translate-y-32 translate-x-16 sm:-translate-y-28 sm:translate-x-12"
+        />
+        <p className="max-w-sm pt-8 text-center text-lg text-cyan-100/90">
           {pageDescription}
         </p>
       </header>
