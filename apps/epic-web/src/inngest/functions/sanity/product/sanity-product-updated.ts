@@ -6,7 +6,15 @@ import {v4} from 'uuid'
 import {loadSanityProduct} from './index'
 
 export const sanityProductUpdated = inngest.createFunction(
-  {id: `product-update`, name: 'Update Product in Database'},
+  {
+    id: `product-update`,
+    name: 'Update Product in Database',
+    concurrency: 1,
+    debounce: {
+      key: 'event.data._id + "-" + event.data.event',
+      period: '30s',
+    },
+  },
   {
     event: SANITY_WEBHOOK_EVENT,
     if: 'event.data.event == "product.update"',
