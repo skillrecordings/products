@@ -34,6 +34,7 @@ import Spinner from '../spinner'
 import {isNextSectionEmpty} from '../utils/get-next-section'
 import {type ModuleProgress, useModuleProgress} from './module-progress'
 import * as ProgressBar from '@radix-ui/react-progress'
+import {Button} from '@skillrecordings/ui'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{dismissable?: boolean}>
@@ -286,7 +287,8 @@ const DefaultOverlay: React.FC = () => {
             setCompletedLessonCount={setCompletedLessonCount}
           />
           <div>
-            <button
+            {/* Substituted with the <Button /> below */}
+            {/* <button
               data-action="replay"
               onClick={() => {
                 track('clicked replay', {
@@ -304,7 +306,27 @@ const DefaultOverlay: React.FC = () => {
                 ↺
               </span>{' '}
               Replay Video
-            </button>
+            </button> */}
+            <Button
+              data-action="replay"
+              variant="ghost"
+              onClick={() => {
+                track('clicked replay', {
+                  lesson: lesson.slug,
+                  module: module.slug.current,
+                  location: 'exercise',
+                  moduleType: module.moduleType,
+                  lessonType: lesson._type,
+                })
+                setDisplayOverlay(false)
+                handlePlay()
+              }}
+            >
+              <span data-icon="" aria-hidden="true">
+                ↺
+              </span>{' '}
+              <span>Replay Video</span>
+            </Button>
             {lesson._type === 'solution' && (
               <Link
                 data-action="try-again"
@@ -421,9 +443,13 @@ const FinishedOverlay = () => {
           >
             Play from beginning
           </button>
-          <button data-action="replay" onClick={handlePlay}>
+          {/* Substituted with the <Button /> below */}
+          {/* <button data-action="replay" onClick={handlePlay}>
             <span aria-hidden="true">↺</span> Replay
-          </button>
+          </button> */}
+          <Button data-action="replay" variant="default" onClick={handlePlay}>
+            <span aria-hidden="true">↺</span> Replay
+          </Button>
         </div>
       </ModuleCtaProvider>
     </OverlayWrapper>
@@ -790,7 +816,7 @@ const FinishedSectionOverlay = () => {
             setCompletedLessonCount={setCompletedLessonCount}
           />
           <div>
-            <button
+            {/* <button
               data-action="replay"
               onClick={() => {
                 track('clicked replay', {
@@ -808,7 +834,7 @@ const FinishedSectionOverlay = () => {
                 ↺
               </span>{' '}
               Replay Video
-            </button>
+            </button> */}
             {lesson._type === 'solution' && (
               <Link
                 data-action="try-again"
