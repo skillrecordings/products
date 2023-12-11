@@ -117,7 +117,7 @@ const Home: React.FC<
     userId: commerceProps.userId,
     purchasedProductsIds,
     canViewContent,
-    mostValuedProductId: mostValuedProduct.productId,
+    mostValuedProductId: mostValuedProduct?.productId,
   })
 
   const proTestingPurchased =
