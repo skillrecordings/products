@@ -45,20 +45,38 @@ const OverlayWrapper: React.FC<
   return (
     <div data-video-overlay-wrapper="" id="video-overlay">
       {dismissable && (
-        <button
-          data-dismiss=""
-          onClick={() => {
-            track('dismissed video overlay', {
-              lesson: lesson.slug,
-              module: module.slug.current,
-              moduleType: module.moduleType,
-              lessonType: lesson._type,
-            })
-            setDisplayOverlay(false)
-          }}
-        >
-          Dismiss <XIcon aria-hidden="true" />
-        </button>
+        <>
+          {/* Substituted with the <Button /> below */}
+          {/* <button
+            data-dismiss=""
+            onClick={() => {
+              track('dismissed video overlay', {
+                lesson: lesson.slug,
+                module: module.slug.current,
+                moduleType: module.moduleType,
+                lessonType: lesson._type,
+              })
+              setDisplayOverlay(false)
+            }}
+          >
+            Dismiss <XIcon aria-hidden="true" />
+          </button> */}
+          <Button
+            data-dismiss=""
+            variant="ghost"
+            onClick={() => {
+              track('dismissed video overlay', {
+                lesson: lesson.slug,
+                module: module.slug.current,
+                moduleType: module.moduleType,
+                lessonType: lesson._type,
+              })
+              setDisplayOverlay(false)
+            }}
+          >
+            Dismiss <XIcon aria-hidden="true" />
+          </Button>
+        </>
       )}
       <div data-content="" {...props}>
         {children}
