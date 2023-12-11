@@ -45,6 +45,8 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const purchasedProductsIds =
     commerceProps.purchases?.map((purchase) => purchase.productId) || []
 
+  console.log({userId: commerceProps.userId, purchasedProductsIds})
+
   // `mostValuedProduct` is the product among the user's purchases that has
   // the most modules. E.g. if they original purchased the Standard and have
   // since upgraded to Pro, then we want to look up 'Pro' as the tier of
@@ -104,19 +106,19 @@ const Home: React.FC<
   interviews,
   mostValuedProduct,
   canViewContent,
-  hasChargesForPurchases,
-  hasBulkPurchase,
-  hasAvailableSeats,
 }) => {
   const router = useRouter()
-  const {
-    couponFromCode,
-    purchases = [],
-    userId,
-    products = [],
-    couponIdFromCoupon,
-    defaultCoupon,
-  } = commerceProps
+  const {couponFromCode, purchases = []} = commerceProps
+
+  const purchasedProductsIds =
+    commerceProps.purchases?.map((purchase) => purchase.productId) || []
+
+  console.log({
+    userId: commerceProps.userId,
+    purchasedProductsIds,
+    canViewContent,
+    mostValuedProductId: mostValuedProduct.productId,
+  })
 
   const proTestingPurchased =
     canViewContent &&
