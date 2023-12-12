@@ -126,6 +126,7 @@ export function defaultNextAuthOptions(options: {
         return session
       },
       async jwt({token, user: authUser, trigger, session}) {
+        console.log({token})
         if (trigger === 'update' && token?.id) {
           const user = await getUser(token.id as string)
           token.name = user?.name
