@@ -1,8 +1,9 @@
 import {ParsedUrlQuery} from 'querystring'
-import {Decimal, Purchase, getSdk, prisma} from '@skillrecordings/database'
+import {getSdk} from '@skillrecordings/database'
 import {convertToSerializeForNextResponse} from './prisma-next-serializer'
 import {getCouponForCode} from './get-coupon-for-code'
 import type {SanityProduct} from './@types'
+import isEmpty from 'lodash/isEmpty'
 
 export async function propsForCommerce({
   query,
@@ -20,9 +21,8 @@ export async function propsForCommerce({
 
   const {getDefaultCoupon, getPurchasesForUser} = getSdk()
 
-  const purchases = token?.sub
-    ? await getPurchasesForUser(token.sub as string)
-    : false
+  const purchases = await getPurchasesForUser(token?.sub)
+  const anyPurchases = !isEmpty(purchases)
 
   const couponIdFromCoupon = (query.coupon as string) || couponFromCode?.id
   const defaultCoupons = !token
@@ -42,7 +42,7 @@ export async function propsForCommerce({
         couponFromCode: convertToSerializeForNextResponse(couponFromCode),
       }),
       ...(couponIdFromCoupon && {couponIdFromCoupon}),
-      ...(purchases && {
+      ...(anyPurchases && {
         purchases: [
           ...purchases.map((purchase) =>
             convertToSerializeForNextResponse({
