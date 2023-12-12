@@ -509,7 +509,8 @@ const FinishedOverlay = () => {
           >
             <span aria-hidden="true">↺</span> Replay
           </Button>
-          <button
+          {/* Substituted with the <Button /> below */}
+          {/* <button
             data-action="restart"
             onClick={() => {
               track('clicked complete', {
@@ -536,7 +537,36 @@ const FinishedOverlay = () => {
             }}
           >
             Play from beginning
-          </button>
+          </button> */}
+          <Button
+            data-action="restart"
+            variant="ghost"
+            onClick={() => {
+              track('clicked complete', {
+                lesson: router.query.lesson as string,
+                module: module.slug.current,
+                location: 'exercise',
+                moduleType: module.moduleType,
+                lessonType: lesson._type,
+              })
+              addProgressMutation.mutate(
+                {lessonSlug: router.query.lesson as string},
+                {
+                  onSettled: (data, error, variables, context) => {
+                    handlePlayFromBeginning({
+                      router,
+                      module,
+                      section,
+                      path,
+                      handlePlay,
+                    })
+                  },
+                },
+              )
+            }}
+          >
+            Play from beginning
+          </Button>
         </div>
       </ModuleCtaProvider>
     </OverlayWrapper>
