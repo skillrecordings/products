@@ -24,7 +24,7 @@
   [data-actions] {
     @apply flex flex-wrap items-center justify-center gap-5 py-4 sm:py-8;
     [data-action='replay'] {
-      @apply rounded-full bg-gray-800 px-3 py-1 text-xl font-tt-medium transition hover:bg-gray-700 sm:px-5 sm:py-3;
+      @apply rounded-full bg-gray-800 px-3 py-1 text-xl font-tt-medium transition hover:bg-gray-700 sm:px-5 sm:py-3 space-x-2;
       [data-icon] {
       }
     }
@@ -303,10 +303,10 @@
   [data-actions] {
     @apply flex items-center justify-center divide-x divide-gray-700;
     [data-action='replay'] {
-      @apply px-3 py-1 text-lg font-tt-medium transition hover:bg-gray-900 sm:px-5 sm:py-3;
+      @apply px-3 py-1 text-lg font-tt-medium transition hover:bg-gray-900 sm:px-5 sm:py-3 space-x-2 text-gray-400 hover:text-white;
     }
     [data-action='restart'] {
-      @apply px-3 py-1 text-lg font-tt-medium transition hover:bg-gray-900 sm:px-5 sm:py-3;
+      @apply px-3 py-1 text-lg font-tt-medium transition hover:bg-gray-900 sm:px-5 sm:py-3 text-gray-400 hover:text-white border-none;
     }
   }
 }
