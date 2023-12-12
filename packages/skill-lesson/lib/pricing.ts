@@ -29,7 +29,8 @@ export const getPricing = async (slug: string = 'primary') => {
       },
       "bonuses": *[_type == 'bonus'][]{...},
       "features" : features[]{
-        value
+        value,
+        icon
       }
     }
     }`,
