@@ -404,10 +404,13 @@
 
             [data-features] {
               strong {
-                @apply flex;
+                @apply pb-2 pt-4;
               }
               li {
-                @apply flex items-start py-1 before:pr-2 before:font-bold before:text-primary before:content-['✓'];
+                @apply flex items-center py-1;
+                span {
+                  @apply pr-2;
+                }
               }
               p {
                 @apply text-base text-foreground;
