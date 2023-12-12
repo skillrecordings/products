@@ -190,53 +190,107 @@ export const CompleteAndContinueButton = React.forwardRef<
   )
 
   return (
-    <button
-      ref={ref}
-      onMouseOver={() => {
-        !isLessonCompleted && setCompletedLessonCount((prev) => prev + 1)
-      }}
-      onMouseOut={() => {
-        !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
-      }}
-      data-action="continue"
-      disabled={addProgressMutation.isLoading || addProgressMutation.isSuccess}
-      onClick={() => {
-        !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
-        track('clicked complete', {
-          lesson: router.query.lesson as string,
-          module: module.slug.current,
-          location: 'exercise',
-          moduleType: module.moduleType,
-          lessonType: lesson._type,
-        })
-        addProgressMutation.mutate(
-          {lessonSlug: router.query.lesson as string},
-          {
-            onSettled: (data, error, variables, context) => {
-              handleContinue({
-                router,
-                module,
-                nextExercise: nextExercise
-                  ? nextExercise
-                  : nextExerciseInSection,
-                handlePlay,
-                path,
-                section: nextSection ? nextSection : section,
-                nextPathBuilder,
-              })
+    <>
+      {/* Substituted with the <Button /> below */}
+      {/* <button
+        ref={ref}
+        onMouseOver={() => {
+          !isLessonCompleted && setCompletedLessonCount((prev) => prev + 1)
+        }}
+        onMouseOut={() => {
+          !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
+        }}
+        data-action="continue"
+        disabled={
+          addProgressMutation.isLoading || addProgressMutation.isSuccess
+        }
+        onClick={() => {
+          !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
+          track('clicked complete', {
+            lesson: router.query.lesson as string,
+            module: module.slug.current,
+            location: 'exercise',
+            moduleType: module.moduleType,
+            lessonType: lesson._type,
+          })
+          addProgressMutation.mutate(
+            {lessonSlug: router.query.lesson as string},
+            {
+              onSettled: (data, error, variables, context) => {
+                handleContinue({
+                  router,
+                  module,
+                  nextExercise: nextExercise
+                    ? nextExercise
+                    : nextExerciseInSection,
+                  handlePlay,
+                  path,
+                  section: nextSection ? nextSection : section,
+                  nextPathBuilder,
+                })
+              },
             },
-          },
-        )
-      }}
-    >
-      {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
-        <Spinner className="w-7 h-7 inline-block" />
-      ) : (
-        <span>
-          {isLessonCompleted ? 'Continue →' : 'Complete & Continue →'}
-        </span>
-      )}
-    </button>
+          )
+        }}
+      >
+        {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
+          <Spinner className="w-7 h-7 inline-block" />
+        ) : (
+          <span>
+            {isLessonCompleted ? 'Continue →' : 'Complete & Continue →'}
+          </span>
+        )}
+      </button> */}
+      <Button
+        data-action="continue"
+        ref={ref}
+        onMouseOver={() => {
+          !isLessonCompleted && setCompletedLessonCount((prev) => prev + 1)
+        }}
+        onMouseOut={() => {
+          !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
+        }}
+        disabled={
+          addProgressMutation.isLoading || addProgressMutation.isSuccess
+        }
+        onClick={() => {
+          !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
+          track('clicked complete', {
+            lesson: router.query.lesson as string,
+            module: module.slug.current,
+            location: 'exercise',
+            moduleType: module.moduleType,
+            lessonType: lesson._type,
+          })
+          addProgressMutation.mutate(
+            {lessonSlug: router.query.lesson as string},
+            {
+              onSettled: (data, error, variables, context) => {
+                handleContinue({
+                  router,
+                  module,
+                  nextExercise: nextExercise
+                    ? nextExercise
+                    : nextExerciseInSection,
+                  handlePlay,
+                  path,
+                  section: nextSection ? nextSection : section,
+                  nextPathBuilder,
+                })
+              },
+            },
+          )
+        }}
+      >
+        {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
+          <Spinner className="w-7 h-7 inline-block" />
+        ) : (
+          <span>
+            {isLessonCompleted ? 'Continue →' : 'Complete & Continue →'}
+          </span>
+        )}
+      </Button>
+    </>
   )
 })
 
@@ -367,7 +421,8 @@ const DefaultOverlay: React.FC = () => {
 }
 
 const FinishedOverlay = () => {
-  const {path, handlePlay, handlePlayFromBeginning} = useMuxPlayer()
+  const {path, handlePlay, handlePlayFromBeginning, setDisplayOverlay} =
+    useMuxPlayer()
   const {module, section, lesson} = useLesson()
   const router = useRouter()
   const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
@@ -433,6 +488,27 @@ const FinishedOverlay = () => {
           </LinkedIn>
         </div>
         <div data-actions="">
+          {/* Substituted with the <Button /> below */}
+          {/* <button data-action="replay" onClick={handlePlay}>
+            <span aria-hidden="true">↺</span> Replay
+          </button> */}
+          <Button
+            data-action="replay"
+            variant="ghost"
+            onClick={() => {
+              track('clicked replay', {
+                lesson: lesson.slug,
+                module: module.slug.current,
+                location: 'exercise',
+                moduleType: module.moduleType,
+                lessonType: lesson._type,
+              })
+              setDisplayOverlay(false)
+              handlePlay()
+            }}
+          >
+            <span aria-hidden="true">↺</span> Replay
+          </Button>
           <button
             data-action="restart"
             onClick={() => {
@@ -461,13 +537,6 @@ const FinishedOverlay = () => {
           >
             Play from beginning
           </button>
-          {/* Substituted with the <Button /> below */}
-          {/* <button data-action="replay" onClick={handlePlay}>
-            <span aria-hidden="true">↺</span> Replay
-          </button> */}
-          <Button data-action="replay" variant="default" onClick={handlePlay}>
-            <span aria-hidden="true">↺</span> Replay
-          </Button>
         </div>
       </ModuleCtaProvider>
     </OverlayWrapper>
