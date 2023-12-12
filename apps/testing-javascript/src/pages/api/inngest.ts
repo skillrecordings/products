@@ -1,5 +1,5 @@
 import {serve} from 'inngest/next'
-import {inngestConfig} from 'inngest/inngest.config'
+import {inngestConfig} from '../../inngest/inngest.config'
 
 export const config = {
   maxDuration: 300,
