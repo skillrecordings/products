@@ -1,4 +1,4 @@
-import {inngest} from 'inngest/inngest.server'
+import {inngest} from './inngest.server'
 
 export const inngestConfig = {
   client: inngest,
