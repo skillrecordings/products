@@ -507,7 +507,7 @@ const FinishedOverlay = () => {
               handlePlay()
             }}
           >
-            <span aria-hidden="true">↺</span> Replay
+            <span aria-hidden="true">↺</span> <span>Replay</span>
           </Button>
           {/* Substituted with the <Button /> below */}
           {/* <button
