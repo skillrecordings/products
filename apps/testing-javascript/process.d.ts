@@ -28,6 +28,7 @@ const envVariables = z.object({
   NEXT_PUBLIC_PRODUCT_NAME: z.string(),
   STRIPE_SECRET_TOKEN: z.string(),
   NEXT_PUBLIC_DEFAULT_PRODUCT_ID: z.string(),
+  INNGEST_APP_NAME: z.string(),
 })
 
 envVariables.parse(process.env)

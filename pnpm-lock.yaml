@@ -3034,6 +3034,9 @@ importers:
       '@skillrecordings/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@skillrecordings/inngest':
+        specifier: workspace:*
+        version: link:../../packages/inngest
       '@skillrecordings/next-seo':
         specifier: workspace:*
         version: link:../../packages/next-seo
@@ -3082,6 +3085,9 @@ importers:
       groq:
         specifier: ^2.15.0
         version: 2.33.2
+      inngest:
+        specifier: 3.1.1
+        version: 3.1.1(typescript@5.1.6)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
