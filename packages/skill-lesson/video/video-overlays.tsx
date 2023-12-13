@@ -45,38 +45,21 @@ const OverlayWrapper: React.FC<
   return (
     <div data-video-overlay-wrapper="" id="video-overlay">
       {dismissable && (
-        <>
-          {/* Substituted with the <Button /> below */}
-          {/* <button
-            data-dismiss=""
-            onClick={() => {
-              track('dismissed video overlay', {
-                lesson: lesson.slug,
-                module: module.slug.current,
-                moduleType: module.moduleType,
-                lessonType: lesson._type,
-              })
-              setDisplayOverlay(false)
-            }}
-          >
-            Dismiss <XIcon aria-hidden="true" />
-          </button> */}
-          <Button
-            data-dismiss=""
-            variant="ghost"
-            onClick={() => {
-              track('dismissed video overlay', {
-                lesson: lesson.slug,
-                module: module.slug.current,
-                moduleType: module.moduleType,
-                lessonType: lesson._type,
-              })
-              setDisplayOverlay(false)
-            }}
-          >
-            Dismiss <XIcon aria-hidden="true" />
-          </Button>
-        </>
+        <Button
+          data-dismiss=""
+          variant="ghost"
+          onClick={() => {
+            track('dismissed video overlay', {
+              lesson: lesson.slug,
+              module: module.slug.current,
+              moduleType: module.moduleType,
+              lessonType: lesson._type,
+            })
+            setDisplayOverlay(false)
+          }}
+        >
+          Dismiss <XIcon aria-hidden="true" />
+        </Button>
       )}
       <div data-content="" {...props}>
         {children}
@@ -190,107 +173,53 @@ export const CompleteAndContinueButton = React.forwardRef<
   )
 
   return (
-    <>
-      {/* Substituted with the <Button /> below */}
-      {/* <button
-        ref={ref}
-        onMouseOver={() => {
-          !isLessonCompleted && setCompletedLessonCount((prev) => prev + 1)
-        }}
-        onMouseOut={() => {
-          !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
-        }}
-        data-action="continue"
-        disabled={
-          addProgressMutation.isLoading || addProgressMutation.isSuccess
-        }
-        onClick={() => {
-          !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
-          track('clicked complete', {
-            lesson: router.query.lesson as string,
-            module: module.slug.current,
-            location: 'exercise',
-            moduleType: module.moduleType,
-            lessonType: lesson._type,
-          })
-          addProgressMutation.mutate(
-            {lessonSlug: router.query.lesson as string},
-            {
-              onSettled: (data, error, variables, context) => {
-                handleContinue({
-                  router,
-                  module,
-                  nextExercise: nextExercise
-                    ? nextExercise
-                    : nextExerciseInSection,
-                  handlePlay,
-                  path,
-                  section: nextSection ? nextSection : section,
-                  nextPathBuilder,
-                })
-              },
+    <Button
+      data-action="continue"
+      ref={ref}
+      onMouseOver={() => {
+        !isLessonCompleted && setCompletedLessonCount((prev) => prev + 1)
+      }}
+      onMouseOut={() => {
+        !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
+      }}
+      disabled={addProgressMutation.isLoading || addProgressMutation.isSuccess}
+      onClick={() => {
+        !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
+        track('clicked complete', {
+          lesson: router.query.lesson as string,
+          module: module.slug.current,
+          location: 'exercise',
+          moduleType: module.moduleType,
+          lessonType: lesson._type,
+        })
+        addProgressMutation.mutate(
+          {lessonSlug: router.query.lesson as string},
+          {
+            onSettled: (data, error, variables, context) => {
+              handleContinue({
+                router,
+                module,
+                nextExercise: nextExercise
+                  ? nextExercise
+                  : nextExerciseInSection,
+                handlePlay,
+                path,
+                section: nextSection ? nextSection : section,
+                nextPathBuilder,
+              })
             },
-          )
-        }}
-      >
-        {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
-          <Spinner className="w-7 h-7 inline-block" />
-        ) : (
-          <span>
-            {isLessonCompleted ? 'Continue →' : 'Complete & Continue →'}
-          </span>
-        )}
-      </button> */}
-      <Button
-        data-action="continue"
-        ref={ref}
-        onMouseOver={() => {
-          !isLessonCompleted && setCompletedLessonCount((prev) => prev + 1)
-        }}
-        onMouseOut={() => {
-          !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
-        }}
-        disabled={
-          addProgressMutation.isLoading || addProgressMutation.isSuccess
-        }
-        onClick={() => {
-          !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
-          track('clicked complete', {
-            lesson: router.query.lesson as string,
-            module: module.slug.current,
-            location: 'exercise',
-            moduleType: module.moduleType,
-            lessonType: lesson._type,
-          })
-          addProgressMutation.mutate(
-            {lessonSlug: router.query.lesson as string},
-            {
-              onSettled: (data, error, variables, context) => {
-                handleContinue({
-                  router,
-                  module,
-                  nextExercise: nextExercise
-                    ? nextExercise
-                    : nextExerciseInSection,
-                  handlePlay,
-                  path,
-                  section: nextSection ? nextSection : section,
-                  nextPathBuilder,
-                })
-              },
-            },
-          )
-        }}
-      >
-        {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
-          <Spinner className="w-7 h-7 inline-block" />
-        ) : (
-          <span>
-            {isLessonCompleted ? 'Continue →' : 'Complete & Continue →'}
-          </span>
-        )}
-      </Button>
-    </>
+          },
+        )
+      }}
+    >
+      {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
+        <Spinner className="w-7 h-7 inline-block" />
+      ) : (
+        <span>
+          {isLessonCompleted ? 'Continue →' : 'Complete & Continue →'}
+        </span>
+      )}
+    </Button>
   )
 })
 
@@ -359,26 +288,6 @@ const DefaultOverlay: React.FC = () => {
             setCompletedLessonCount={setCompletedLessonCount}
           />
           <div>
-            {/* Substituted with the <Button /> below */}
-            {/* <button
-              data-action="replay"
-              onClick={() => {
-                track('clicked replay', {
-                  lesson: lesson.slug,
-                  module: module.slug.current,
-                  location: 'exercise',
-                  moduleType: module.moduleType,
-                  lessonType: lesson._type,
-                })
-                setDisplayOverlay(false)
-                handlePlay()
-              }}
-            >
-              <span data-icon="" aria-hidden="true">
-                ↺
-              </span>{' '}
-              Replay Video
-            </button> */}
             <Button
               data-action="replay"
               variant="ghost"
@@ -488,10 +397,6 @@ const FinishedOverlay = () => {
           </LinkedIn>
         </div>
         <div data-actions="">
-          {/* Substituted with the <Button /> below */}
-          {/* <button data-action="replay" onClick={handlePlay}>
-            <span aria-hidden="true">↺</span> Replay
-          </button> */}
           <Button
             data-action="replay"
             variant="ghost"
@@ -509,35 +414,6 @@ const FinishedOverlay = () => {
           >
             <span aria-hidden="true">↺</span> <span>Replay</span>
           </Button>
-          {/* Substituted with the <Button /> below */}
-          {/* <button
-            data-action="restart"
-            onClick={() => {
-              track('clicked complete', {
-                lesson: router.query.lesson as string,
-                module: module.slug.current,
-                location: 'exercise',
-                moduleType: module.moduleType,
-                lessonType: lesson._type,
-              })
-              addProgressMutation.mutate(
-                {lessonSlug: router.query.lesson as string},
-                {
-                  onSettled: (data, error, variables, context) => {
-                    handlePlayFromBeginning({
-                      router,
-                      module,
-                      section,
-                      path,
-                      handlePlay,
-                    })
-                  },
-                },
-              )
-            }}
-          >
-            Play from beginning
-          </button> */}
           <Button
             data-action="restart"
             variant="ghost"
