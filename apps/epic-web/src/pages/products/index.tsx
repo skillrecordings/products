@@ -1,8 +1,8 @@
+import React from 'react'
 import Layout from 'components/app/layout'
 import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import React from 'react'
-
+import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {Purchase} from '@skillrecordings/database'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
@@ -65,31 +65,45 @@ type ProductsIndexProps = {
   products: SanityProduct[]
 }
 
-const ProductsIndex: React.FC<ProductsIndexProps> = ({purchases, products}) => {
-  const {displayedProducts, purchasedProductIds} = useProductIndex(
-    products,
+const Products = () => {
+  const {
     purchases,
-  )
+    displayedProducts,
+    purchasedProducts,
+    purchasedProductIds,
+    defaultFilterValue,
+  } = useProductsIndex()
 
+  return (
+    <>
+      {displayedProducts &&
+        displayedProducts.length > 0 &&
+        displayedProducts.map((product) => {
+          const purchase = purchases?.find(
+            (p) => p.productId === product.productId,
+          )
+
+          return (
+            <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+              <ProductCard product={product} purchase={purchase} />
+            </PriceCheckProvider>
+          )
+        })}
+    </>
+  )
+}
+
+const ProductsIndex: React.FC<ProductsIndexProps> = ({purchases, products}) => {
   return (
     <Layout meta={{title: 'Products'}}>
       <header className="flex items-center justify-center py-16 text-center">
         <h1 className="text-2xl font-bold">Products</h1>
       </header>
-      <main className="mx-auto w-full max-w-screen-md space-y-4 px-5">
-        <StateFilter products={products} purchases={purchases} />
-        {displayedProducts.length &&
-          displayedProducts.map((product) => {
-            const purchase = purchases?.find(
-              (p) => p.productId === product.productId,
-            )
-
-            return (
-              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-                <ProductCard product={product} purchase={purchase} />
-              </PriceCheckProvider>
-            )
-          })}
+      <main className="mx-auto w-full max-w-screen-md space-y-4 px-5 pb-16">
+        <ProductsIndexProvider products={products} purchases={purchases}>
+          <StateFilter />
+          <Products />
+        </ProductsIndexProvider>
       </main>
     </Layout>
   )
@@ -115,7 +129,8 @@ const ProductCard: React.FC<{
 
   const {mutate: redeemBonus} = trpc.bonuses.redeemBonus.useMutation()
 
-  const buyHref = `/buy`
+  const buyHref =
+    product.modules.length === 1 ? `/workshops/${product.slug}` : '/buy'
   const purchasedHref = `/products/${product.slug}`
 
   if (product.state === 'unavailable' && !purchase) {
@@ -132,7 +147,7 @@ const ProductCard: React.FC<{
           {purchase ? <PurchasedBadge /> : null}
         </div>
       </CardHeader>
-      <CardFooter className="space-x-2">
+      <CardFooter className="flex items-center space-x-2">
         {purchase ? (
           <>
             <Button variant="secondary" size="sm" asChild>
@@ -163,12 +178,12 @@ const ProductCard: React.FC<{
               <>
                 {product.slug && (
                   <Button size="sm" asChild>
-                    <Link href={buyHref}>Buy</Link>
+                    <Link href={buyHref}>Get Access</Link>
                   </Button>
                 )}
                 {purchase ? null : (
                   // <Price amount={Number(purchase.totalAmount)} />
-                  <div className="flex items-center space-x-3 pt-2 text-sm text-muted-foreground">
+                  <div className="flex items-center space-x-3 text-sm text-muted-foreground">
                     <>
                       <PriceDisplay
                         formattedPrice={formattedPrice}
@@ -189,13 +204,17 @@ const ProductCard: React.FC<{
   )
 }
 
-const StateFilter = ({
-  products,
-  purchases,
-}: Pick<ProductsIndexProps, 'products' | 'purchases'>) => {
+const StateFilter = () => {
   const router = useRouter()
-  const {purchasedProducts, defaultFilterValue, setDisplayedProducts} =
-    useProductIndex(products, purchases)
+  const {
+    products,
+    purchases,
+    purchasedProducts,
+    defaultFilterValue,
+    setDisplayedProducts,
+    displayedProducts,
+  } = useProductsIndex()
+
   const {data: sessionData, status: sessionStatus} = useSession()
 
   const handleValueChange = (value: string) => {
@@ -210,50 +229,27 @@ const StateFilter = ({
 
   return (
     <>
-      {sessionData?.user ? (
-        <SelectGroup>
-          <Select
-            onValueChange={handleValueChange}
-            defaultValue={defaultFilterValue.state}
-          >
-            <SelectTrigger className="h-8 w-[180px]">
-              <SelectValue placeholder="Products" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              {sessionData?.user && (
-                <SelectItem value="purchased">Purchased</SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-        </SelectGroup>
-      ) : null}
+      <SelectGroup>
+        <Select
+          onValueChange={handleValueChange}
+          defaultValue={defaultFilterValue.state}
+        >
+          <SelectTrigger className="h-8 w-[180px]">
+            <SelectValue placeholder="Products" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            {sessionData?.user && (
+              <SelectItem value="purchased">Purchased</SelectItem>
+            )}
+          </SelectContent>
+        </Select>
+      </SelectGroup>
     </>
   )
 }
-const useProductIndex = (
-  products: SanityProduct[],
-  purchases: Purchase[] | undefined,
-) => {
-  const router = useRouter()
-  const [defaultFilterValue, setDefaultFilterValue] = React.useState({
-    state: (router.query.s as string) || 'all',
-  })
-  const [displayedProducts, setDisplayedProducts] =
-    React.useState<SanityProduct[]>(products)
-  const purchasedProductIds = purchases?.map((purchase) => purchase.productId)
-  const purchasedProducts = products.filter((product) =>
-    purchasedProductIds?.includes(product.productId),
-  )
-
-  return {
-    defaultFilterValue,
-    purchasedProductIds,
-    setDefaultFilterValue,
-    setDisplayedProducts,
-    displayedProducts,
-    purchasedProducts,
-  }
+const useProductsIndex = () => {
+  return React.useContext(ProductsIndexContext)
 }
 
 const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
@@ -312,5 +308,71 @@ const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
         </>
       )}
     </div>
+  )
+}
+
+const defaultProductsIndexContext = {
+  purchases: [],
+  products: [],
+  defaultFilterValue: {state: 'all'},
+  purchasedProductIds: [],
+  setDefaultFilterValue: () => {},
+  setDisplayedProducts: () => {},
+  displayedProducts: [],
+  purchasedProducts: [],
+}
+
+const ProductsIndexContext = React.createContext<{
+  purchases: PurchaseWithProduct[]
+  products: SanityProduct[]
+  defaultFilterValue: {state: string}
+  purchasedProductIds: string[]
+  setDefaultFilterValue: (value: {state: string}) => void
+  setDisplayedProducts: (products: SanityProduct[]) => void
+  displayedProducts?: SanityProduct[]
+  purchasedProducts: SanityProduct[]
+}>(defaultProductsIndexContext)
+
+const ProductsIndexProvider: React.FC<
+  React.PropsWithChildren<{
+    purchases: PurchaseWithProduct[]
+    products: SanityProduct[]
+  }>
+> = ({purchases, products, children}) => {
+  const router = useRouter()
+  const [defaultFilterValue, setDefaultFilterValue] = React.useState({
+    state: (router.query.s as string) || 'all',
+  })
+  const purchasedProductIds = purchases?.map((purchase) => purchase.productId)
+  const purchasedProducts = products.filter((product) =>
+    purchasedProductIds?.includes(product.productId),
+  )
+
+  const initialProducts = React.useMemo(() => {
+    if (defaultFilterValue.state === 'all') {
+      return products
+    } else {
+      return purchasedProducts
+    }
+  }, [defaultFilterValue, products, purchases])
+
+  const [displayedProducts, setDisplayedProducts] =
+    React.useState<SanityProduct[]>(initialProducts)
+
+  return (
+    <ProductsIndexContext.Provider
+      value={{
+        purchases,
+        products,
+        defaultFilterValue,
+        purchasedProductIds,
+        setDefaultFilterValue,
+        setDisplayedProducts,
+        displayedProducts,
+        purchasedProducts,
+      }}
+    >
+      {children}
+    </ProductsIndexContext.Provider>
   )
 }
