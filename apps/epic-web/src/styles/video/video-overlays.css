@@ -31,9 +31,9 @@
   [data-progress] {
     @apply flex w-full max-w-sm items-center justify-center gap-2 pt-8;
     [data-progress-bar] {
-      @apply relative h-2 w-full overflow-hidden rounded-full bg-gray-700 shadow-inner;
+      @apply bg-gray-700 shadow-inner;
       [data-indicator] {
-        @apply relative h-full w-full flex-1 bg-primary transition-all duration-300 ease-out;
+        @apply duration-300 ease-out;
       }
     }
     [data-lessons-completed] {
@@ -187,9 +187,9 @@
   [data-progress] {
     @apply flex w-full max-w-sm items-center justify-center gap-2 pt-8;
     [data-progress-bar] {
-      @apply relative h-2 w-full overflow-hidden rounded-full bg-gray-700 shadow-inner;
+      @apply bg-gray-700 shadow-inner;
       [data-indicator] {
-        @apply relative h-full w-full flex-1 bg-primary transition-all duration-300 ease-out;
+        @apply duration-300 ease-out;
       }
     }
     [data-lessons-completed] {
