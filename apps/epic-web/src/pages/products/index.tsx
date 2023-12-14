@@ -78,17 +78,28 @@ const Products = () => {
     <>
       {displayedProducts &&
         displayedProducts.length > 0 &&
-        displayedProducts.map((product) => {
-          const purchase = purchases?.find(
-            (p) => p.productId === product.productId,
-          )
+        displayedProducts
+          .sort((product) => {
+            const purchase = purchases?.find(
+              (p) => p.productId === product.productId,
+            )
+            if (purchase) {
+              return -1
+            } else {
+              return 1
+            }
+          })
+          .map((product) => {
+            const purchase = purchases?.find(
+              (p) => p.productId === product.productId,
+            )
 
-          return (
-            <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-              <ProductCard product={product} purchase={purchase} />
-            </PriceCheckProvider>
-          )
-        })}
+            return (
+              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+                <ProductCard product={product} purchase={purchase} />
+              </PriceCheckProvider>
+            )
+          })}
     </>
   )
 }
@@ -129,9 +140,24 @@ const ProductCard: React.FC<{
 
   const {mutate: redeemBonus} = trpc.bonuses.redeemBonus.useMutation()
 
-  const buyHref =
-    product.modules.length === 1 ? `/workshops/${product.slug}` : '/buy'
+  const isSingleModuleProduct = product.modules.length === 1
+  const buyHref = isSingleModuleProduct ? `/workshops/${product.slug}` : '/buy'
   const purchasedHref = `/products/${product.slug}`
+
+  const useAbilities = () => {
+    const {data: abilityRules, status: abilityRulesStatus} =
+      trpc.modules.rules.useQuery({
+        moduleSlug: product.modules[0].slug,
+        moduleType: product.modules[0].moduleType,
+      })
+    return {
+      ability: createAppAbility(abilityRules || []),
+      status: abilityRulesStatus,
+    }
+  }
+  const {ability, status: abilityRulesStatus} = useAbilities()
+
+  const canView = ability.can('view', 'Content')
 
   if (product.state === 'unavailable' && !purchase) {
     return null
@@ -176,12 +202,18 @@ const ProductCard: React.FC<{
               'Unavailable'
             ) : (
               <>
-                {product.slug && (
-                  <Button size="sm" asChild>
-                    <Link href={buyHref}>Get Access</Link>
-                  </Button>
+                {isSingleModuleProduct && canView ? (
+                  <p className="opacity-80">Included in your bundle.</p>
+                ) : (
+                  <>
+                    {product.slug && (
+                      <Button size="sm" asChild>
+                        <Link href={buyHref}>Get Access</Link>
+                      </Button>
+                    )}
+                  </>
                 )}
-                {purchase ? null : (
+                {purchase || (isSingleModuleProduct && canView) ? null : (
                   // <Price amount={Number(purchase.totalAmount)} />
                   <div className="flex items-center space-x-3 text-sm text-muted-foreground">
                     <>
