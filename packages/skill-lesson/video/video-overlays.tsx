@@ -261,45 +261,20 @@ const DefaultOverlay: React.FC = () => {
           </Balancer>
         </p>
         {moduleProgress && session.status === 'authenticated' && (
-          <>
-            {/* Substituted with Progress primitive */}
-            {/* <div data-progress="">
-              <ProgressBar.Root
-                data-progress-bar=""
-                className="relative h-2 w-full overflow-hidden rounded-full bg-gray-700"
-                max={moduleProgress?.lessonCount}
-              >
-                <ProgressBar.Indicator
-                  data-indicator={moduleProgress?.percentComplete}
-                  style={{
-                    transform: `translateX(-${
-                      ((moduleProgress?.lessonCount -
-                        (completedLessonCount || 0)) /
-                        moduleProgress?.lessonCount) *
-                      100
-                    }%)`,
-                  }}
-                />
-              </ProgressBar.Root>
-              <div data-lessons-completed="">
-                {completedLessonCount} / {moduleProgress?.lessonCount} lessons
-                completed
-              </div>
-            </div> */}
-            <div data-progress="">
-              <Progress
-                value={
-                  ((moduleProgress?.lessonCount - (completedLessonCount || 0)) /
-                    moduleProgress?.lessonCount) *
-                  100
-                }
-              />
-              <div data-lessons-completed="">
-                {completedLessonCount} / {moduleProgress?.lessonCount} lessons
-                completed
-              </div>
+          <div data-progress="">
+            <Progress
+              value={
+                ((moduleProgress?.lessonCount - (completedLessonCount || 0)) /
+                  moduleProgress?.lessonCount) *
+                100
+              }
+              className="h-2"
+            />
+            <div data-lessons-completed="">
+              {completedLessonCount} / {moduleProgress?.lessonCount} lessons
+              completed
             </div>
-          </>
+          </div>
         )}
         <div data-actions="">
           <CompleteAndContinueButton
@@ -380,22 +355,15 @@ const FinishedOverlay = () => {
         </h2>
         {moduleProgress && session.status === 'authenticated' && (
           <div data-progress="">
-            <ProgressBar.Root
-              data-progress-bar=""
-              max={moduleProgress?.lessonCount}
-            >
-              <ProgressBar.Indicator
-                data-indicator={moduleProgress?.percentComplete}
-                style={{
-                  transform: `translateX(-${
-                    ((moduleProgress?.lessonCount -
-                      (moduleProgress.completedLessonCount || 0)) /
-                      moduleProgress?.lessonCount) *
-                    100
-                  }%)`,
-                }}
-              />
-            </ProgressBar.Root>
+            <Progress
+              value={
+                ((moduleProgress?.lessonCount -
+                  (moduleProgress.completedLessonCount || 0)) /
+                  moduleProgress?.lessonCount) *
+                100
+              }
+              className="h-2"
+            />
             <div data-lessons-completed="">
               {moduleProgress.completedLessonCount} /{' '}
               {moduleProgress?.lessonCount} lessons completed
@@ -798,22 +766,14 @@ const FinishedSectionOverlay = () => {
         </p>
         {moduleProgress && session.status === 'authenticated' && (
           <div data-progress="">
-            <ProgressBar.Root
-              data-progress-bar=""
-              max={moduleProgress?.lessonCount}
-            >
-              <ProgressBar.Indicator
-                data-indicator={moduleProgress?.percentComplete}
-                style={{
-                  transform: `translateX(-${
-                    ((moduleProgress?.lessonCount -
-                      (completedLessonCount || 0)) /
-                      moduleProgress?.lessonCount) *
-                    100
-                  }%)`,
-                }}
-              />
-            </ProgressBar.Root>
+            <Progress
+              value={
+                ((moduleProgress?.lessonCount - (completedLessonCount || 0)) /
+                  moduleProgress?.lessonCount) *
+                100
+              }
+              className="h-2"
+            />
             <div data-lessons-completed="">
               {completedLessonCount} / {moduleProgress?.lessonCount} lessons
               completed
