@@ -222,7 +222,6 @@ export default ConfPage
 const Header = () => {
   return (
     <header className="relative flex h-[calc(100svh-81px-212px)] w-full items-center justify-center bg-[radial-gradient(#1a1e2c,#080b16)]">
-      <h1>Epic Web Conf 2024</h1>
       <ConfLogo />
       <Image
         priority
@@ -493,7 +492,6 @@ const StarsEffect = () => {
   React.useEffect(() => {
     initParticlesEngine(async (engine: Engine) => {
       await loadSlim(engine)
-      //   await loadBasic(engine)
       await loadStarsPreset(engine as any)
     }).then(() => {
       setInit(true)
@@ -550,7 +548,6 @@ const StarsEffect = () => {
             },
             move: {
               direction: 'outside',
-
               enable: true,
               speed: {
                 max: 0.7,

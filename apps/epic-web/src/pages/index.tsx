@@ -9,7 +9,7 @@ import {track} from 'utils/analytics'
 import Image from 'next/image'
 import LandingCopy from 'components/landing-copy.mdx'
 import Particles, {initParticlesEngine} from '@tsparticles/react'
-import type {Container, Engine} from '@tsparticles/engine'
+import type {Engine} from '@tsparticles/engine'
 import {loadSlim} from '@tsparticles/slim'
 import KentImage from '../../public/kent-c-dodds.png'
 import {loadStarsPreset} from 'tsparticles-preset-stars'
@@ -403,34 +403,8 @@ function useParallax(value: MotionValue<number>, distance: number) {
 }
 
 const Header = () => {
-  const [init, setInit] = React.useState(false)
-  React.useEffect(() => {
-    initParticlesEngine(async (engine: Engine) => {
-      await loadSlim(engine)
-      await loadStarsPreset(engine as any)
-    }).then(() => {
-      setInit(true)
-    })
-  }, [])
-
-  const particlesLoaded = (container: any) => {
-    console.log({container})
-
-    return container
-  }
-
-  const ref = React.useRef(null)
-  const {scrollYProgress} = useScroll({target: ref})
-  const shipsParallax = useParallax(scrollYProgress, 50)
-  const foregroundMotionValue = useTransform(scrollYProgress, [0, 1], [1, 1.5])
-  const planetTransform = useTransform(scrollYProgress, [0, 1], [1, 1.5])
-  const planetAnimation = useSpring(planetTransform, {mass: 0.1})
-
   return (
-    <header
-      ref={ref}
-      className="relative flex min-h-[108vh] flex-col items-center justify-start overflow-hidden bg-black"
-    >
+    <header className="relative flex min-h-[108vh] flex-col items-center justify-start overflow-hidden bg-black">
       <div className="absolute top-[120px] z-40 mx-auto text-center sm:top-[14vh] xl:top-[16vh]">
         <h1 className="max-w-3xl px-5 font-bold text-white shadow-black drop-shadow-lg fluid-2xl sm:leading-tight sm:fluid-3xl lg:px-16">
           <span className="inline-flex pb-4 font-sans text-sm font-semibold uppercase tracking-wider text-orange-300 shadow-black drop-shadow-md">
@@ -458,7 +432,7 @@ const Header = () => {
         priority
         placeholder="empty"
       />
-      <motion.div className="flex h-full w-full items-start justify-center">
+      <div className="flex h-full w-full items-start justify-center">
         <Image
           className="absolute z-20 flex w-[500px] -translate-y-10 items-start justify-center sm:w-[600px] sm:-translate-y-24"
           src={require('../../public/assets/hero/small-planet-compressed.png')}
@@ -469,8 +443,8 @@ const Header = () => {
           priority
           placeholder="blur"
         />
-      </motion.div>
-      <motion.div className="absolute bottom-[25%] z-20 mx-auto w-[130px] sm:w-[180px] lg:w-[200px]">
+      </div>
+      <div className="absolute bottom-[25%] z-20 mx-auto w-[130px] sm:w-[180px] lg:w-[200px]">
         <Image
           src={require('../../public/assets/hero/ships-compressed.png')}
           width={250}
@@ -480,128 +454,9 @@ const Header = () => {
           priority
           placeholder="blur"
         />
-      </motion.div>
+      </div>
       <div className="absolute bottom-0 left-0 z-30 h-32 w-full bg-gradient-to-b from-transparent dark:to-background" />
-      {init && (
-        <>
-          <Particles
-            id="tsparticles2"
-            particlesLoaded={particlesLoaded}
-            className="absolute top-0 z-10 h-full w-full"
-            options={{
-              fullScreen: {
-                enable: false,
-              },
-              preset: 'stars',
-              retina_detect: true,
-              background: {
-                opacity: 0,
-              },
-              pauseOnOutsideViewport: true,
-              zLayers: 50,
-
-              particles: {
-                shadow: {
-                  blur: 20,
-                  color: '#F85C1F',
-                  enable: true,
-                },
-                number: {
-                  value: 50,
-                },
-                size: {
-                  value: {min: 1, max: 5},
-                },
-                opacity: {
-                  value: {
-                    min: 0.1,
-                    max: 0.5,
-                  },
-                  animation: {
-                    enable: true,
-                    speed: 0.2,
-                  },
-                },
-                color: {
-                  value: '#F85C1F',
-                },
-                move: {
-                  direction: 'outside',
-                  center: {
-                    x: 50,
-                    y: 5,
-                  },
-                  enable: true,
-                  speed: {
-                    max: 0.6,
-                    min: 0.1,
-                  },
-                  straight: false,
-                  random: true,
-                },
-              },
-            }}
-          />
-          <Particles
-            id="tsparticles"
-            particlesLoaded={particlesLoaded}
-            className="absolute left-0 top-0 z-0 h-full w-full"
-            options={{
-              fullScreen: {
-                enable: false,
-              },
-              preset: 'stars',
-              detectRetina: true,
-              background: {
-                opacity: 0,
-              },
-              pauseOnOutsideViewport: true,
-              zLayers: 10,
-              particles: {
-                number: {
-                  value: 300,
-                },
-                zIndex: {
-                  value: {
-                    min: 1,
-                    max: 5,
-                  },
-                },
-                shadow: {
-                  blur: 20,
-                  color: '#67CBEB',
-                  enable: true,
-                },
-                size: {
-                  value: {min: 1, max: 3.2},
-                },
-                color: {
-                  value: '#67CBEB',
-                },
-                opacity: {
-                  value: {
-                    min: 0.1,
-                    max: 0.95,
-                  },
-                },
-                move: {
-                  direction: 'outside',
-                  center: {
-                    x: 50,
-                    y: 200,
-                  },
-                  enable: true,
-                  speed: {
-                    max: 0.7,
-                    min: 0.2,
-                  },
-                  straight: true,
-                },
-              },
-            }}
-          />
-        </>
-      )}
+      <ParticlesHeroEffect />
     </header>
   )
 }
@@ -692,4 +547,147 @@ async function readDirectoryContents(directoryPath: string) {
     console.error(`Error reading directory: ${directoryPath}`, error)
     return []
   }
+}
+
+export const ParticlesHeroEffect = () => {
+  const [init, setInit] = React.useState(false)
+  React.useEffect(() => {
+    initParticlesEngine(async (engine: Engine) => {
+      await loadSlim(engine)
+      await loadStarsPreset(engine as any)
+    }).then(() => {
+      const timeout = setTimeout(() => {
+        setInit(true)
+      }, 750)
+      return () => {
+        clearTimeout(timeout)
+      }
+    })
+  }, [])
+
+  const particlesLoaded = (container: any) => {
+    return container
+  }
+
+  return init ? (
+    <>
+      <Particles
+        id="redParticles"
+        particlesLoaded={particlesLoaded}
+        className="absolute top-0 z-10 h-full w-full"
+        options={{
+          name: 'red',
+          fullScreen: {
+            enable: false,
+          },
+          preset: 'stars',
+          retina_detect: true,
+          background: {
+            opacity: 0,
+          },
+          pauseOnOutsideViewport: true,
+          zLayers: 1,
+          particles: {
+            shadow: {
+              blur: 20,
+              color: '#F85C1F',
+              enable: true,
+            },
+            number: {
+              value: 50,
+            },
+            size: {
+              value: {min: 1, max: 5},
+            },
+            opacity: {
+              value: {
+                min: 0.1,
+                max: 0.5,
+              },
+              animation: {
+                enable: true,
+                speed: 0.2,
+              },
+            },
+            color: {
+              value: '#F85C1F',
+            },
+            move: {
+              direction: 'outside',
+              center: {
+                x: 50,
+                y: 5,
+              },
+              enable: true,
+              speed: {
+                max: 0.6,
+                min: 0.1,
+              },
+              straight: false,
+              random: true,
+            },
+          },
+        }}
+      />
+      <Particles
+        id="blueParticles"
+        particlesLoaded={particlesLoaded}
+        className="absolute left-0 top-0 z-0 h-full w-full"
+        options={{
+          name: 'blue',
+          fullScreen: {
+            enable: false,
+          },
+          preset: 'stars',
+          detectRetina: true,
+          background: {
+            opacity: 0,
+          },
+          pauseOnOutsideViewport: true,
+          zLayers: 10,
+          particles: {
+            number: {
+              value: 300,
+            },
+            zIndex: {
+              value: {
+                min: 1,
+                max: 5,
+              },
+            },
+            shadow: {
+              blur: 20,
+              color: '#67CBEB',
+              enable: true,
+            },
+            size: {
+              value: {min: 1, max: 3.2},
+            },
+            color: {
+              value: '#67CBEB',
+            },
+            opacity: {
+              value: {
+                min: 0.1,
+                max: 0.95,
+              },
+            },
+            move: {
+              direction: 'outside',
+              center: {
+                x: 50,
+                y: 200,
+              },
+              enable: true,
+              speed: {
+                max: 0.7,
+                min: 0.2,
+              },
+              straight: true,
+            },
+          },
+        }}
+      />
+    </>
+  ) : null
 }
