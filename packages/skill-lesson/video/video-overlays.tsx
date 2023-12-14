@@ -33,7 +33,6 @@ import {portableTextComponents} from '../portable-text'
 import Spinner from '../spinner'
 import {isNextSectionEmpty} from '../utils/get-next-section'
 import {type ModuleProgress, useModuleProgress} from './module-progress'
-import * as ProgressBar from '@radix-ui/react-progress'
 import {Button} from '@skillrecordings/ui'
 import {Progress} from '@skillrecordings/ui'
 
