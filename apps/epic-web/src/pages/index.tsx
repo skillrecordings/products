@@ -8,7 +8,9 @@ import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {track} from 'utils/analytics'
 import Image from 'next/image'
 import LandingCopy from 'components/landing-copy.mdx'
-import Particles from 'react-particles'
+import Particles, {initParticlesEngine} from '@tsparticles/react'
+import type {Container, Engine} from '@tsparticles/engine'
+import {loadSlim} from '@tsparticles/slim'
 import KentImage from '../../public/kent-c-dodds.png'
 import {loadStarsPreset} from 'tsparticles-preset-stars'
 import fs from 'fs'
@@ -401,14 +403,21 @@ function useParallax(value: MotionValue<number>, distance: number) {
 }
 
 const Header = () => {
-  const particlesInit = useCallback(async (engine: any) => {
-    await loadStarsPreset(engine)
-    // await loadFull(engine)
+  const [init, setInit] = React.useState(false)
+  React.useEffect(() => {
+    initParticlesEngine(async (engine: Engine) => {
+      await loadSlim(engine)
+      await loadStarsPreset(engine as any)
+    }).then(() => {
+      setInit(true)
+    })
   }, [])
 
-  const particlesLoaded = useCallback(async (container: any) => {
-    await container
-  }, [])
+  const particlesLoaded = (container: any) => {
+    console.log({container})
+
+    return container
+  }
 
   const ref = React.useRef(null)
   const {scrollYProgress} = useScroll({target: ref})
@@ -416,6 +425,7 @@ const Header = () => {
   const foregroundMotionValue = useTransform(scrollYProgress, [0, 1], [1, 1.5])
   const planetTransform = useTransform(scrollYProgress, [0, 1], [1, 1.5])
   const planetAnimation = useSpring(planetTransform, {mass: 0.1})
+
   return (
     <header
       ref={ref}
@@ -472,138 +482,126 @@ const Header = () => {
         />
       </motion.div>
       <div className="absolute bottom-0 left-0 z-30 h-32 w-full bg-gradient-to-b from-transparent dark:to-background" />
-      <Particles
-        id="tsparticles2"
-        init={particlesInit}
-        loaded={particlesLoaded}
-        canvasClassName="absolute top-0 z-0 w-full h-full z-10"
-        className="absolute top-0 z-10 h-full w-full"
-        options={{
-          fullScreen: {
-            enable: false,
-          },
-          preset: 'stars',
-          retina_detect: true,
-          background: {
-            opacity: 0,
-          },
-          pauseOnOutsideViewport: true,
-          zLayers: 50,
+      {init && (
+        <>
+          <Particles
+            id="tsparticles2"
+            particlesLoaded={particlesLoaded}
+            className="absolute top-0 z-10 h-full w-full"
+            options={{
+              fullScreen: {
+                enable: false,
+              },
+              preset: 'stars',
+              retina_detect: true,
+              background: {
+                opacity: 0,
+              },
+              pauseOnOutsideViewport: true,
+              zLayers: 50,
 
-          particles: {
-            shadow: {
-              blur: 20,
-              color: '#F85C1F',
-              enable: true,
-            },
-            number: {
-              value: 50,
-            },
-
-            size: {
-              value: {min: 1, max: 5},
-            },
-            opacity: {
-              value: {
-                min: 0.1,
-                max: 0.5,
+              particles: {
+                shadow: {
+                  blur: 20,
+                  color: '#F85C1F',
+                  enable: true,
+                },
+                number: {
+                  value: 50,
+                },
+                size: {
+                  value: {min: 1, max: 5},
+                },
+                opacity: {
+                  value: {
+                    min: 0.1,
+                    max: 0.5,
+                  },
+                  animation: {
+                    enable: true,
+                    speed: 0.2,
+                  },
+                },
+                color: {
+                  value: '#F85C1F',
+                },
+                move: {
+                  direction: 'outside',
+                  center: {
+                    x: 50,
+                    y: 5,
+                  },
+                  enable: true,
+                  speed: {
+                    max: 0.6,
+                    min: 0.1,
+                  },
+                  straight: false,
+                  random: true,
+                },
               },
-              animation: {
-                enable: true,
-                speed: 0.2,
-                minimumValue: 0.1,
+            }}
+          />
+          <Particles
+            id="tsparticles"
+            particlesLoaded={particlesLoaded}
+            className="absolute left-0 top-0 z-0 h-full w-full"
+            options={{
+              fullScreen: {
+                enable: false,
               },
-            },
-            color: {
-              value: '#F85C1F',
-            },
-            move: {
-              direction: 'outside',
-              center: {
-                x: 50,
-                y: 5,
+              preset: 'stars',
+              detectRetina: true,
+              background: {
+                opacity: 0,
               },
-              enable: true,
-              speed: {
-                max: 0.6,
-                min: 0.1,
+              pauseOnOutsideViewport: true,
+              zLayers: 10,
+              particles: {
+                number: {
+                  value: 300,
+                },
+                zIndex: {
+                  value: {
+                    min: 1,
+                    max: 5,
+                  },
+                },
+                shadow: {
+                  blur: 20,
+                  color: '#67CBEB',
+                  enable: true,
+                },
+                size: {
+                  value: {min: 1, max: 3.2},
+                },
+                color: {
+                  value: '#67CBEB',
+                },
+                opacity: {
+                  value: {
+                    min: 0.1,
+                    max: 0.95,
+                  },
+                },
+                move: {
+                  direction: 'outside',
+                  center: {
+                    x: 50,
+                    y: 200,
+                  },
+                  enable: true,
+                  speed: {
+                    max: 0.7,
+                    min: 0.2,
+                  },
+                  straight: true,
+                },
               },
-              straight: false,
-              random: true,
-            },
-          },
-        }}
-      />
-      <Particles
-        id="tsparticles"
-        init={particlesInit}
-        loaded={particlesLoaded}
-        canvasClassName="absolute left-0 top-0 z-0 h-full w-full"
-        className="absolute left-0 top-0 z-0 h-full w-full"
-        options={{
-          fullScreen: {
-            enable: false,
-          },
-          preset: 'stars',
-          retina_detect: true,
-          background: {
-            opacity: 0,
-          },
-          pauseOnOutsideViewport: true,
-          zLayers: 10,
-          particles: {
-            number: {
-              value: 300,
-              density: {
-                enable: true,
-                area: 200,
-              },
-            },
-            zIndex: {
-              random: true,
-              value: {
-                min: 1,
-                max: 50,
-              },
-            },
-            shadow: {
-              blur: 20,
-              color: '#67CBEB',
-              enable: true,
-            },
-            size: {
-              value: {min: 1, max: 3.2},
-            },
-            color: {
-              // value: '#67CBEB',
-              value: {
-                h: 195,
-                s: 77,
-                l: 66,
-              },
-            },
-            opacity: {
-              value: {
-                min: 0.1,
-                max: 0.95,
-              },
-            },
-            move: {
-              direction: 'outside',
-              center: {
-                x: 50,
-                y: 200,
-              },
-              enable: true,
-              speed: {
-                max: 0.7,
-                min: 0.2,
-              },
-              straight: true,
-            },
-          },
-        }}
-      />
+            }}
+          />
+        </>
+      )}
     </header>
   )
 }
