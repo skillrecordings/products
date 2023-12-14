@@ -230,8 +230,15 @@ export async function stripeCheckout({
         include: {
           prices: true,
           merchantProducts: {
+            where: {
+              status: 1,
+            },
             include: {
-              merchantPrices: true,
+              merchantPrices: {
+                where: {
+                  status: 1,
+                },
+              },
             },
           },
         },
