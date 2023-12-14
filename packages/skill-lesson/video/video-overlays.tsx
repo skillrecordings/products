@@ -35,6 +35,7 @@ import {isNextSectionEmpty} from '../utils/get-next-section'
 import {type ModuleProgress, useModuleProgress} from './module-progress'
 import * as ProgressBar from '@radix-ui/react-progress'
 import {Button} from '@skillrecordings/ui'
+import {Progress} from '@skillrecordings/ui'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{dismissable?: boolean}>
@@ -260,28 +261,45 @@ const DefaultOverlay: React.FC = () => {
           </Balancer>
         </p>
         {moduleProgress && session.status === 'authenticated' && (
-          <div data-progress="">
-            <ProgressBar.Root
-              data-progress-bar=""
-              max={moduleProgress?.lessonCount}
-            >
-              <ProgressBar.Indicator
-                data-indicator={moduleProgress?.percentComplete}
-                style={{
-                  transform: `translateX(-${
-                    ((moduleProgress?.lessonCount -
-                      (completedLessonCount || 0)) /
-                      moduleProgress?.lessonCount) *
-                    100
-                  }%)`,
-                }}
+          <>
+            {/* Substituted with Progress primitive */}
+            {/* <div data-progress="">
+              <ProgressBar.Root
+                data-progress-bar=""
+                className="relative h-2 w-full overflow-hidden rounded-full bg-gray-700"
+                max={moduleProgress?.lessonCount}
+              >
+                <ProgressBar.Indicator
+                  data-indicator={moduleProgress?.percentComplete}
+                  style={{
+                    transform: `translateX(-${
+                      ((moduleProgress?.lessonCount -
+                        (completedLessonCount || 0)) /
+                        moduleProgress?.lessonCount) *
+                      100
+                    }%)`,
+                  }}
+                />
+              </ProgressBar.Root>
+              <div data-lessons-completed="">
+                {completedLessonCount} / {moduleProgress?.lessonCount} lessons
+                completed
+              </div>
+            </div> */}
+            <div data-progress="">
+              <Progress
+                value={
+                  ((moduleProgress?.lessonCount - (completedLessonCount || 0)) /
+                    moduleProgress?.lessonCount) *
+                  100
+                }
               />
-            </ProgressBar.Root>
-            <div data-lessons-completed="">
-              {completedLessonCount} / {moduleProgress?.lessonCount} lessons
-              completed
+              <div data-lessons-completed="">
+                {completedLessonCount} / {moduleProgress?.lessonCount} lessons
+                completed
+              </div>
             </div>
-          </div>
+          </>
         )}
         <div data-actions="">
           <CompleteAndContinueButton
