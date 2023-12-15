@@ -6,6 +6,7 @@ import {lessonCompleted} from 'inngest/functions/progress/lesson-completed'
 import {writeAnEmail} from 'inngest/functions/ai-email/write-an-email'
 import {purchaseTransferComplete} from 'inngest/functions/purchase/purchase-transfer-complete'
 import {sanityProductFunctions} from 'inngest/functions/sanity/product'
+import {bulkPurchasedRedeemed} from 'inngest/functions/purchase/bulk-purchase-redeemed'
 
 export const inngestConfig = {
   client: inngest,
@@ -18,6 +19,7 @@ export const inngestConfig = {
     lessonCompleted,
     writeAnEmail,
     purchaseTransferComplete,
+    bulkPurchasedRedeemed,
     ...sanityProductFunctions,
   ],
 }

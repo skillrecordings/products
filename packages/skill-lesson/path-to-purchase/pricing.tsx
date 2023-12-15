@@ -90,6 +90,12 @@ type PricingProps = {
  * @param couponId
  * @param couponFromCode
  * @param bonuses - Product Bonus (non-module)
+ * @param generallyAllowPurchase
+ * @param canViewRegionRestriction
+ * @param cancelUrl
+ * @param id
+ * @param purchaseButtonRenderer
+ * @param options
  * @constructor
  */
 export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
@@ -244,6 +250,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   React.useEffect(() => {
     setMounted(true)
   }, [])
+
+  console.log({bonuses})
 
   return (
     <div id={id}>
@@ -546,9 +554,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             <div data-main="">
               {bonuses &&
                 bonuses.length > 0 &&
-                bonuses[0].expiresAt &&
                 quantity === 1 &&
-                !Boolean(merchantCoupon?.type === 'ppp') && (
+                !Boolean(merchantCoupon?.type === 'ppp') &&
+                (bonuses[0].expiresAt ? (
                   <Countdown
                     date={bonuses[0].expiresAt}
                     renderer={({days, hours, minutes, seconds, completed}) => {
@@ -579,7 +587,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                                 Offer available for new purchases only. If
                                 you've already purchased both of the courses
                                 this offer does not apply. If you've purchased 1
-                                of the courses, you'll receive the other.
+                                of the courses, you'll receive the other. Not
+                                available for team or PPP purchases.
                               </div>
                             </ul>
                           </div>
@@ -587,7 +596,30 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       )
                     }}
                   />
-                )}
+                ) : (
+                  <div data-limited-bonuses="">
+                    <strong>limited offer</strong>
+                    <ul role="list">
+                      {bonuses.map((bonus) => {
+                        return (
+                          <li key={bonus.slug}>
+                            <LimitedBonusItem
+                              module={bonus as any}
+                              key={bonus.slug}
+                            />
+                          </li>
+                        )
+                      })}
+                      <div data-disclaimer="">
+                        Offer available for new purchases only. If you've
+                        already purchased both of the courses this offer does
+                        not apply. If you've purchased 1 of the courses, you'll
+                        receive the other. Not available for team or PPP
+                        purchases.
+                      </div>
+                    </ul>
+                  </div>
+                ))}
               {moduleBonuses &&
                 moduleBonuses.length > 0 &&
                 !Boolean(merchantCoupon) && (

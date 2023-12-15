@@ -3,7 +3,7 @@ import {sanityClient} from 'utils/sanity-client'
 
 export const getAvailableBonuses = async () => {
   const availableBonuses = await sanityClient.fetch(
-    groq`*[_type == "bonus" && expiresAt > $date && validFrom < $validFrom]{
+    groq`*[_type == "bonus" && (expiresAt > $date || expiresAt == null) && validFrom < $validFrom]{
     title,
     "slug": slug.current,
     "image": image.asset->{url},

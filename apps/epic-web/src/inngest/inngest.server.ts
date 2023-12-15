@@ -15,6 +15,8 @@ import {
   EmailWritingRequestCompleted,
 } from 'inngest/events'
 import {
+  BULK_PURCHASE_COUPON_REDEEMED,
+  BulkPurchaseCouponRedeemed,
   STRIPE_CHECKOUT_COMPLETED_EVENT,
   StripeCheckoutCompleted,
 } from '@skillrecordings/inngest'
@@ -40,6 +42,7 @@ export type IngestEvents = {
   [EMAIL_WRITING_REQUEST_COMPLETED_EVENT]: EmailWritingRequestCompleted
   [PURCHASE_TRANSFERRED_EVENT]: PurchaseTransferred
   [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
+  [BULK_PURCHASE_COUPON_REDEEMED]: BulkPurchaseCouponRedeemed
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,

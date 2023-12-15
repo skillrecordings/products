@@ -10,3 +10,15 @@ export type StripeCheckoutCompleted = {
     created: number
   }
 }
+
+export const BULK_PURCHASE_COUPON_REDEEMED =
+  'purchase/bulk.purchase.coupon.redeemed'
+
+export type BulkPurchaseCouponRedeemed = {
+  name: typeof BULK_PURCHASE_COUPON_REDEEMED
+  data: {
+    purchaseId: string
+    productId: string
+    bulkCouponUsedId: string
+  }
+}

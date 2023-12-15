@@ -8,6 +8,8 @@ import {PurchaseStatus} from '../../enums'
 import {sendServerEmail} from '../../server'
 import {type JWT} from 'next-auth/jwt'
 import {v4} from 'uuid'
+import {Inngest} from 'inngest'
+import {BULK_PURCHASE_COUPON_REDEEMED} from '@skillrecordings/inngest'
 
 export class CouponRedemptionError extends Error {
   couponId: string
@@ -54,11 +56,10 @@ export async function redeemGoldenTicket({
     const couponValidation = validateCoupon(coupon)
 
     if (coupon && couponValidation.isRedeemable) {
+      const bulkCouponId = coupon.bulkCouponPurchases[0]?.bulkCouponId
       // if the Coupon is the Bulk Coupon of a Bulk Purchase,
       // then a bulk coupon is being redeemed
-      const bulkCouponRedemption = Boolean(
-        coupon.bulkCouponPurchases[0]?.bulkCouponId,
-      )
+      const bulkCouponRedemption = Boolean(bulkCouponId)
 
       const {user} = await findOrCreateUser(email)
 
@@ -157,6 +158,25 @@ export async function redeemGoldenTicket({
           purchase.productId,
           params.options.slack,
         )
+      }
+
+      if (bulkCouponRedemption && process.env.INNGEST_EVENT_KEY) {
+        const inngest = new Inngest({
+          id:
+            process.env.INNGEST_APP_NAME ||
+            process.env.NEXT_PUBLIC_SITE_TITLE ||
+            'Stripe Handler',
+          eventKey: process.env.INNGEST_EVENT_KEY,
+        })
+        await inngest.send({
+          name: BULK_PURCHASE_COUPON_REDEEMED,
+          user,
+          data: {
+            purchaseId: purchase.id,
+            bulkCouponUsedId: bulkCouponId,
+            productId: purchase.productId,
+          },
+        })
       }
 
       return {
