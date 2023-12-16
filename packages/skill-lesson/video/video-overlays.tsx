@@ -34,6 +34,7 @@ import Spinner from '../spinner'
 import {isNextSectionEmpty} from '../utils/get-next-section'
 import {type ModuleProgress, useModuleProgress} from './module-progress'
 import * as ProgressBar from '@radix-ui/react-progress'
+import {Button} from '@skillrecordings/ui'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{dismissable?: boolean}>
@@ -44,8 +45,9 @@ const OverlayWrapper: React.FC<
   return (
     <div data-video-overlay-wrapper="" id="video-overlay">
       {dismissable && (
-        <button
+        <Button
           data-dismiss=""
+          variant="ghost"
           onClick={() => {
             track('dismissed video overlay', {
               lesson: lesson.slug,
@@ -57,7 +59,7 @@ const OverlayWrapper: React.FC<
           }}
         >
           Dismiss <XIcon aria-hidden="true" />
-        </button>
+        </Button>
       )}
       <div data-content="" {...props}>
         {children}
@@ -171,7 +173,8 @@ export const CompleteAndContinueButton = React.forwardRef<
   )
 
   return (
-    <button
+    <Button
+      data-action="continue"
       ref={ref}
       onMouseOver={() => {
         !isLessonCompleted && setCompletedLessonCount((prev) => prev + 1)
@@ -179,7 +182,6 @@ export const CompleteAndContinueButton = React.forwardRef<
       onMouseOut={() => {
         !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
       }}
-      data-action="continue"
       disabled={addProgressMutation.isLoading || addProgressMutation.isSuccess}
       onClick={() => {
         !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
@@ -217,7 +219,7 @@ export const CompleteAndContinueButton = React.forwardRef<
           {isLessonCompleted ? 'Continue →' : 'Complete & Continue →'}
         </span>
       )}
-    </button>
+    </Button>
   )
 })
 
@@ -286,8 +288,9 @@ const DefaultOverlay: React.FC = () => {
             setCompletedLessonCount={setCompletedLessonCount}
           />
           <div>
-            <button
+            <Button
               data-action="replay"
+              variant="ghost"
               onClick={() => {
                 track('clicked replay', {
                   lesson: lesson.slug,
@@ -303,8 +306,8 @@ const DefaultOverlay: React.FC = () => {
               <span data-icon="" aria-hidden="true">
                 ↺
               </span>{' '}
-              Replay Video
-            </button>
+              <span>Replay Video</span>
+            </Button>
             {lesson._type === 'solution' && (
               <Link
                 data-action="try-again"
@@ -327,7 +330,8 @@ const DefaultOverlay: React.FC = () => {
 }
 
 const FinishedOverlay = () => {
-  const {path, handlePlay, handlePlayFromBeginning} = useMuxPlayer()
+  const {path, handlePlay, handlePlayFromBeginning, setDisplayOverlay} =
+    useMuxPlayer()
   const {module, section, lesson} = useLesson()
   const router = useRouter()
   const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
@@ -393,8 +397,26 @@ const FinishedOverlay = () => {
           </LinkedIn>
         </div>
         <div data-actions="">
-          <button
+          <Button
+            data-action="replay"
+            variant="ghost"
+            onClick={() => {
+              track('clicked replay', {
+                lesson: lesson.slug,
+                module: module.slug.current,
+                location: 'exercise',
+                moduleType: module.moduleType,
+                lessonType: lesson._type,
+              })
+              setDisplayOverlay(false)
+              handlePlay()
+            }}
+          >
+            <span aria-hidden="true">↺</span> <span>Replay</span>
+          </Button>
+          <Button
             data-action="restart"
+            variant="ghost"
             onClick={() => {
               track('clicked complete', {
                 lesson: router.query.lesson as string,
@@ -420,10 +442,7 @@ const FinishedOverlay = () => {
             }}
           >
             Play from beginning
-          </button>
-          <button data-action="replay" onClick={handlePlay}>
-            <span aria-hidden="true">↺</span> Replay
-          </button>
+          </Button>
         </div>
       </ModuleCtaProvider>
     </OverlayWrapper>
@@ -790,7 +809,7 @@ const FinishedSectionOverlay = () => {
             setCompletedLessonCount={setCompletedLessonCount}
           />
           <div>
-            <button
+            {/* <button
               data-action="replay"
               onClick={() => {
                 track('clicked replay', {
@@ -808,7 +827,7 @@ const FinishedSectionOverlay = () => {
                 ↺
               </span>{' '}
               Replay Video
-            </button>
+            </button> */}
             {lesson._type === 'solution' && (
               <Link
                 data-action="try-again"

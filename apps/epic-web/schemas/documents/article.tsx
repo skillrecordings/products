@@ -1,4 +1,3 @@
-import React from 'react'
 import {MdOutlineArticle} from 'react-icons/md'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
@@ -13,6 +12,12 @@ export default defineType({
       title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'author',
+      title: 'Author',
+      type: 'reference',
+      to: {type: 'author'},
     }),
     defineField({
       name: 'slug',
