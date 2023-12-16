@@ -47,6 +47,7 @@ import Spinner from 'components/spinner'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
+import KentImage from '../../public/kent-c-dodds.png'
 
 const TipTemplate: React.FC<{
   tip: Tip
@@ -89,6 +90,8 @@ const TipTemplate: React.FC<{
       })
     }
   }
+
+  console.log('this is the tip info', tip)
 
   const handleVideoEnded = async () => {
     await localProgressDb.progress
@@ -151,6 +154,32 @@ const TipTemplate: React.FC<{
                     {tip.title}
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
+
+                  <div className="flex flex-col items-center justify-center gap-3 pt-4 md:flex-row md:justify-start">
+                    <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
+                      <Image
+                        priority={true}
+                        src={
+                          tip.author && tip.author.name !== null
+                            ? tip.author.image
+                            : KentImage
+                        }
+                        alt={
+                          tip.author && tip.author.name !== null
+                            ? tip.author.imageAlt
+                            : 'Kent C. Dodds'
+                        }
+                        width={50}
+                        height={50}
+                        quality={100}
+                      />
+                    </div>
+                    <div className="text-lg font-semibold text-gray-700 dark:text-gray-100">
+                      {tip.author && tip.author.name !== null
+                        ? tip.author.name
+                        : 'Kent C. Dodds'}
+                    </div>
+                  </div>
                   {tipCompleted ? (
                     <div
                       aria-hidden="true"
@@ -191,6 +220,7 @@ const TipTemplate: React.FC<{
                     </div>
                   )}
                 </div>
+
                 <div className="col-span-2">
                   {/* TODO: might want to add summary? */}
                   {tweet && <ReplyOnTwitter tweet={tweet} />}
