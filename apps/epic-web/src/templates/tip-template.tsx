@@ -154,9 +154,8 @@ const TipTemplate: React.FC<{
                     {tip.title}
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
-
-                  <div className="flex flex-col items-center justify-center gap-3 pt-4 md:flex-row md:justify-start">
-                    <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
+                  <div className="flex items-center justify-start gap-3 pt-4">
+                    <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
                       <Image
                         priority={true}
                         src={
@@ -174,6 +173,7 @@ const TipTemplate: React.FC<{
                         quality={100}
                       />
                     </div>
+
                     <div className="text-lg font-semibold text-gray-700 dark:text-gray-100">
                       {tip.author && tip.author.name !== null
                         ? tip.author.name
