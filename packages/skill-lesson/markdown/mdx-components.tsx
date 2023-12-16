@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image, {ImageProps} from 'next/image'
 import {Icon} from '../icons'
 import ReactMarkdown from 'react-markdown'
 import MuxPlayer from '@mux/mux-player-react'
@@ -152,6 +152,7 @@ const mdxComponents = {
   YouTube: ({videoId}: YouTubeProps) => {
     return <YouTube videoId={videoId} />
   },
+  Image: (props: ImageProps) => <Image {...props} />,
 }
 
 export default mdxComponents
