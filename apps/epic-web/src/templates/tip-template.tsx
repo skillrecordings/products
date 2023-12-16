@@ -91,7 +91,6 @@ const TipTemplate: React.FC<{
     }
   }
 
-  console.log('this is the tip info', tip)
 
   const handleVideoEnded = async () => {
     await localProgressDb.progress
