@@ -33,6 +33,12 @@ export default defineType({
       validation: (Rule) => Rule.max(90),
     }),
     defineField({
+      name: 'author',
+      title: 'Author',
+      type: 'reference',
+      to: {type: 'author'},
+    }),
+    defineField({
       name: 'explainerType',
       title: 'Explainer Type',
       type: 'string',
