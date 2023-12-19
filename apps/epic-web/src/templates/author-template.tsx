@@ -26,7 +26,7 @@ const AuthorTemplate: React.FC<{
   return (
     <Layout
       meta={{
-        title: author.name,
+        title: `${author.name} is Author on EpicWeb.Dev`,
         description: author.bio?.slice(0, 100),
         ogImage,
       }}

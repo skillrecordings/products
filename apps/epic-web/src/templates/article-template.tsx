@@ -96,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
       {image && (
-        <div className="relative flex aspect-video h-full w-full items-center justify-center overflow-hidden sm:rounded-lg">
+        <div className="relative flex aspect-video h-full w-full items-center justify-center overflow-hidden bg-foreground/5 sm:rounded-lg">
           <Image
             src={image}
             priority
