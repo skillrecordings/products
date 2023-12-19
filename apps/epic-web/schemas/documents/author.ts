@@ -14,6 +14,22 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      validation: (Rule) => Rule.required(),
+      options: {
+        source: 'name',
+        maxLength: 96,
+      },
+    }),
+    defineField({
+      name: 'bio',
+      title: 'Bio',
+      description: 'A short bio about the author.',
+      type: 'markdown',
+    }),
+    defineField({
       name: 'picture',
       title: 'Picture',
       type: 'image',
