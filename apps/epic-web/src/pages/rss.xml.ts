@@ -65,8 +65,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       ({state}) => state === 'published',
     )
     const workshops = await getAllWorkshops()
+    const sortedResources = [
+      ...tutorials,
+      ...tips,
+      ...articles,
+      ...workshops,
+    ].sort((a, b) => {
+      return new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime()
+    })
 
-    const feed = buildFeed([...tutorials, ...tips, ...articles, ...workshops])
+    const feed = buildFeed(sortedResources)
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
     res.setHeader('content-type', 'text/xml')
     res.write(feed.rss2()) // NOTE: You can also use feed.atom1() or feed.json1() for other feed formats
