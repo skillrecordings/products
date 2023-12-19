@@ -54,6 +54,11 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
         description,
         summary,
         body,
+        author-> {
+          name,
+          "image": picture.asset->url,
+          "imageAlt": picture.alt
+        },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
