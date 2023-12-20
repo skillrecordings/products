@@ -6,11 +6,6 @@ import MuxPlayer, {
   MuxPlayerRefAttributes,
 } from '@mux/mux-player-react'
 import {Tip} from 'lib/tips'
-import {
-  PortableText,
-  PortableTextComponents as PortableTextComponentsType,
-} from '@portabletext/react'
-import {hmsToSeconds} from '@skillrecordings/time'
 import {TipTeaser} from 'pages/tips'
 import {useRouter} from 'next/router'
 import {
@@ -19,12 +14,17 @@ import {
   PlayIcon,
   CheckCircleIcon,
   MailIcon,
+  BadgeCheckIcon,
+  CheckIcon,
 } from '@heroicons/react/solid'
 import {shuffle, take} from 'lodash'
 import {track} from '../utils/analytics'
 import Image from 'next/legacy/image'
 import {getOgImage} from 'utils/get-og-image'
-import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
+import {
+  useCompletedTips,
+  useTipComplete,
+} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 import {localProgressDb} from '@skillrecordings/skill-lesson/utils/dexie'
 import {
   redirectUrlBuilder,
@@ -42,12 +42,11 @@ import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-re
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {trpc} from 'trpc/trpc.client'
-import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
-import Spinner from 'components/spinner'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
-import KentImage from '../../public/kent-c-dodds.png'
+import ResourceAuthor from 'components/resource-author'
+import Link from 'next/link'
 
 const TipTemplate: React.FC<{
   tip: Tip
@@ -90,7 +89,6 @@ const TipTemplate: React.FC<{
       })
     }
   }
-
 
   const handleVideoEnded = async () => {
     await localProgressDb.progress
@@ -138,7 +136,7 @@ const TipTemplate: React.FC<{
       >
         <main className="mx-auto w-full" id="tip">
           <div className="relative z-10 flex items-center justify-center">
-            <div className="flex w-full max-w-screen-xl flex-col">
+            <div className="flex w-full max-w-screen-lg flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
@@ -147,93 +145,50 @@ const TipTemplate: React.FC<{
           </div>
           <article className="relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 xl:border-gray-800 xl:pt-10">
             <div className="mx-auto w-full max-w-screen-lg pb-5 lg:px-5">
-              <div className="flex w-full grid-cols-5 flex-col gap-0 sm:gap-10 xl:grid">
-                <div className="col-span-3">
-                  <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
+              <div className="flex w-full grid-cols-11 flex-col gap-0 sm:gap-10 lg:grid">
+                <div className="flex flex-col lg:col-span-8">
+                  <h1 className="font-heading relative inline-flex w-full max-w-2xl items-baseline pb-5 text-2xl font-black sm:text-3xl lg:text-4xl">
                     {tip.title}
-                    {tipCompleted && <span className="sr-only">(watched)</span>}
+                    {tipCompleted && (
+                      <>
+                        <span className="sr-only">(watched)</span>
+                        <CheckIcon
+                          aria-hidden="true"
+                          className="absolute -left-4 top-2 w-4 opacity-50 lg:-left-8 lg:w-6"
+                        />
+                      </>
+                    )}
                   </h1>
-                  <div className="flex items-center justify-start gap-3 pt-4">
-                    <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
-                      <Image
-                        priority={true}
-                        src={
-                          tip.author && tip.author.name !== null
-                            ? tip.author.image
-                            : KentImage
-                        }
-                        alt={
-                          tip.author && tip.author.name !== null
-                            ? tip.author.imageAlt
-                            : 'Kent C. Dodds'
-                        }
-                        width={50}
-                        height={50}
-                        quality={100}
-                      />
-                    </div>
-
-                    <div className="text-lg font-semibold text-gray-700 dark:text-gray-100">
-                      {tip.author && tip.author.name !== null
-                        ? tip.author.name
-                        : 'Kent C. Dodds'}
-                    </div>
-                  </div>
-                  {tipCompleted ? (
-                    <div
-                      aria-hidden="true"
-                      className="flex items-center gap-1 pb-[20px] pt-6"
-                    >
-                      <Icon
-                        name="Checkmark"
-                        className="h-5 w-5 text-emerald-600"
-                      />
-                      <span className="font-heading text-sm font-black uppercase text-emerald-600 opacity-90">
-                        Watched
-                      </span>
-                    </div>
-                  ) : (
-                    <Hr
-                      className={
-                        tipCompleted
-                          ? 'bg-emerald-400'
-                          : 'bg-indigo-500 dark:bg-indigo-400'
-                      }
-                    />
-                  )}
+                  <ResourceAuthor
+                    name={tip?.author?.name}
+                    slug={tip?.author?.slug}
+                    image={tip?.author?.image}
+                    className="inline-flex py-2 text-base font-semibold text-gray-700 dark:text-gray-300 lg:hidden [&_span]:font-bold"
+                  />
                   {tip.body && (
                     <>
                       <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert lg:prose-lg">
                         <MDX contents={tipBodySerialized} />
                       </div>
-                      <Hr
-                        className={
-                          tipCompleted ? 'bg-emerald-400' : 'bg-indigo-400'
-                        }
-                      />
                     </>
                   )}
-                  {tip.transcript && tip.body && (
+                  {tip.transcript && (
                     <div className="w-full max-w-2xl pt-5">
                       <VideoTranscript transcript={tip.transcript} />
                     </div>
                   )}
                 </div>
-
-                <div className="col-span-2">
-                  {/* TODO: might want to add summary? */}
-                  {tweet && <ReplyOnTwitter tweet={tweet} />}
-                  {tip.body && <RelatedTips currentTip={tip} tips={tips} />}
+                <div className="col-span-3">
+                  <ResourceAuthor
+                    name={tip?.author?.name}
+                    slug={tip?.author?.slug}
+                    image={tip?.author?.image}
+                    className="mx-0 hidden py-2 text-base font-semibold text-gray-700 dark:text-gray-300 lg:flex [&_span]:font-bold"
+                  />
+                  <RelatedTips currentTip={tip} tips={tips} />
+                  {/* {tweet && <ReplyOnTwitter tweet={tweet} />} */}
                 </div>
               </div>
-            </div>
-            <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
-              {tip.transcript && !tip.body && (
-                <div className="w-full max-w-2xl pt-5">
-                  <VideoTranscript transcript={tip.transcript} />
-                </div>
-              )}
-              {!tip.body && <RelatedTips currentTip={tip} tips={tips} />}
             </div>
           </article>
         </main>
@@ -271,22 +226,25 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   currentTip,
   tips,
 }) => {
+  const {completedTips} = useCompletedTips(tips.map((tip) => tip.slug))
+  const tipsToWatch = tips.filter((tip) =>
+    completedTips ? !completedTips.find((ct) => ct.lesson === tip.slug) : true,
+  )
+
   return (
-    <section className="mx-auto h-full w-full md:pl-3">
-      <h2 className="font-heading pt-2 text-2xl font-black">More Tips</h2>
-      <div className="flex flex-col pt-4">
-        {tips
+    <section className="mx-auto mt-8 h-full w-full border-t pt-8 md:pl-3">
+      <Link href="/tips" className="font-heading pt-2 text-2xl font-black">
+        More Tips
+      </Link>
+      <ul className="flex flex-col pt-4">
+        {take(tipsToWatch, 6)
           .filter((tip) => tip.slug !== currentTip.slug)
           .map((tip) => {
             return <TipTeaser key={tip.slug} tip={tip} />
           })}
-      </div>
+      </ul>
     </section>
   )
-}
-
-const Hr: React.FC<{className?: string}> = ({className}) => {
-  return <div className={cx('my-8 h-1 w-8', className)} aria-hidden="true" />
 }
 
 const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {

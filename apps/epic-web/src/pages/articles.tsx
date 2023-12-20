@@ -7,6 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
 import readingTime from 'reading-time'
+import ResourceAuthor from 'components/resource-author'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const articles = await getAllArticles()
@@ -43,7 +44,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
       </header>
       <main className="mx-auto grid w-full max-w-screen-lg grid-cols-1 flex-col gap-5 px-5 pb-24 sm:grid-cols-2 lg:gap-10">
         {publishedArticles.map((article) => {
-          const {title, image, slug, description, body} = article
+          const {title, image, slug, description, body, author} = article
           const estimatedReadingTime = readingTime(body)
           return (
             <article key={slug}>
@@ -80,20 +81,14 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                   </div>
                   <div className="relative z-10 flex w-full flex-col items-start justify-between space-y-10 pt-8 md:flex-row md:items-center md:space-y-0">
                     <div className="flex w-full items-center gap-10 text-sm text-gray-700 dark:text-gray-300">
-                      <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
-                          <Image
-                            src={require('../../public/kent-c-dodds.png')}
-                            width={54}
-                            height={54}
-                            alt="Kent C. Dodds"
-                          />
-                        </div>
-                        <div>
-                          <div className="block font-bold">Written by</div>
-                          <div>Kent C. Dodds</div>
-                        </div>
-                      </div>
+                      <ResourceAuthor
+                        as="div"
+                        name={author?.name}
+                        slug={author?.slug}
+                        image={author?.image}
+                        byline="Written by"
+                        className="text-sm font-normal text-gray-700 dark:text-gray-300 [&_span]:font-bold"
+                      />
                       <div>
                         <div className="block font-bold">Time to read</div>~{' '}
                         {estimatedReadingTime.minutes.toFixed(0)} minutes

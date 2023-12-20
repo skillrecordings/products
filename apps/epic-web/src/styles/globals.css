@@ -40,6 +40,9 @@
 .prose .ch-code {
   @apply bg-gray-900 dark:bg-gray-900 !important;
 }
+.prose .ch-code-scroll-parent {
+  @apply scrollbar-thin scrollbar-track-gray-900 scrollbar-thumb-gray-700;
+}
 .prose .ch-codeblock {
   @apply shadow-none;
 }
@@ -286,14 +289,18 @@ mux-player::part(vertical-layer) {
 }
 
 .prose
-  pre[data-line-numbers='false']:not([data-add]):not([data-remove]):not(:has([data-highlight]))
+  pre[data-line-numbers='false']:not([data-add]):not([data-remove]):not(
+    :has([data-highlight])
+  )
   .codeblock-line:before {
   width: 0;
   padding-right: 0;
 }
 
 .prose
-  pre[data-line-numbers='false']:not([data-add]):not([data-remove]):has([data-highlight])
+  pre[data-line-numbers='false']:not([data-add]):not([data-remove]):has(
+    [data-highlight]
+  )
   .codeblock-line:before {
   width: 2rem;
 }

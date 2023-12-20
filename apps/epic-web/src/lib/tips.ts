@@ -30,6 +30,7 @@ export const TipSchema = z.object({
   author: z
     .object({
       name: z.string(),
+      slug: z.string(),
       image: z.string(),
       imageAlt: z.string(),
     })
@@ -44,7 +45,7 @@ export type Tip = z.infer<typeof TipSchema>
 export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
   const tips = await sanityClient.fetch(groq`*[_type == "tip" ${
     onlyPublished ? `&& state == "published"` : ''
-  }] | order(_createdAt asc) {
+  }] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,
@@ -56,6 +57,7 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
         body,
         author-> {
           name,
+          "slug": slug.current,
           "image": picture.asset->url,
           "imageAlt": picture.alt
         },
@@ -83,6 +85,7 @@ export const getTip = async (slug: string): Promise<Tip> => {
         body,
         author-> {
           name,
+          "slug": slug.current,
           "image": picture.asset->url,
           "imageAlt": picture.alt
         },

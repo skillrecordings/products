@@ -13,6 +13,15 @@ export const ArticleSchema = z.object({
   description: z.nullable(z.string()).optional(),
   body: z.string(),
   state: z.enum(['published', 'draft']),
+  author: z
+    .object({
+      name: z.string(),
+      slug: z.string(),
+      image: z.string(),
+      imageAlt: z.string(),
+    })
+    .nullable()
+    .optional(),
   image: z
     .object({
       width: z.number(),
@@ -50,6 +59,12 @@ export const getAllArticles = async (): Promise<Article[]> => {
         body,
         image,
         ogImage,
+        author-> {
+          name,
+          "slug": slug.current,
+          "image": picture.asset->url,
+          "imageAlt": picture.alt
+        },
         resources[]->{
           ...
         }
@@ -72,6 +87,12 @@ export const getArticle = async (slug: string): Promise<Article | null> => {
         body,
         image,
         ogImage,
+        author-> {
+          name,
+          "slug": slug.current,
+          "image": picture.asset->url,
+          "imageAlt": picture.alt
+        },
         resources[]->{
           ...
         }
