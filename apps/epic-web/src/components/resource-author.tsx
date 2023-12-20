@@ -15,7 +15,7 @@ const ResourceAuthor: React.FC<{
 }> = ({
   name = config.author,
   slug = slugify(config.author),
-  image = `${process.env.NEXT_PUBLIC_URL}/${slugify(config.author)}.png`,
+  image = require('../../public/kent-c-dodds.png'),
   as = Link,
   byline,
   className,
