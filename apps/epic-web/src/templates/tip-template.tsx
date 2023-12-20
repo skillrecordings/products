@@ -386,7 +386,7 @@ const SubscribeForm = ({
 }) => {
   return (
     <div className="mx-auto flex w-full max-w-lg flex-col items-center justify-between gap-5 border-b border-gray-100 px-3 pb-5 pt-4 dark:border-white/5 md:pb-3 md:pt-3 lg:max-w-none lg:flex-row 2xl:px-0">
-      <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
+      <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-sm">
         <div
           aria-hidden="true"
           className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/10 dark:bg-blue-400/10"
