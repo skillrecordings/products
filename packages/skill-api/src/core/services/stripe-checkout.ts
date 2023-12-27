@@ -244,6 +244,19 @@ export async function stripeCheckout({
         },
       })
 
+      const merchantProductIdentifier =
+        loadedProduct?.merchantProducts?.[0]?.identifier
+      const merchantPriceIdentifier =
+        loadedProduct?.merchantProducts?.[0]?.merchantPrices?.[0]?.identifier
+
+      if (!merchantProductIdentifier || !merchantPriceIdentifier) {
+        throw new CheckoutError(
+          'No product was found',
+          String(loadedProduct?.id),
+          couponId as string,
+        )
+      }
+
       const merchantCoupon = couponId
         ? await getMerchantCoupon({
             where: {
@@ -313,9 +326,7 @@ export async function stripeCheckout({
             redeem_by: TWELVE_FOUR_HOURS_FROM_NOW,
             currency: 'USD',
             applies_to: {
-              products: [
-                loadedProduct.merchantProducts?.[0].identifier as string,
-              ],
+              products: [merchantProductIdentifier],
             },
           })
 
@@ -346,17 +357,6 @@ export async function stripeCheckout({
         throw new CheckoutError('No product was found', productId as string)
       }
 
-      const price =
-        loadedProduct.merchantProducts?.[0].merchantPrices?.[0].identifier
-
-      if (!price) {
-        throw new CheckoutError(
-          'no-pricing-available',
-          loadedProduct.id,
-          couponId as string,
-        )
-      }
-
       const successUrl = isUpgrade
         ? `${process.env.NEXT_PUBLIC_URL}/welcome?session_id={CHECKOUT_SESSION_ID}&upgrade=true`
         : `${process.env.NEXT_PUBLIC_URL}/thanks/purchase?session_id={CHECKOUT_SESSION_ID}`
@@ -380,7 +380,7 @@ export async function stripeCheckout({
         discounts,
         line_items: [
           {
-            price,
+            price: merchantPriceIdentifier,
             quantity: Number(quantity),
           },
         ],
