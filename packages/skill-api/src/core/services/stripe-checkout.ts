@@ -172,6 +172,8 @@ export async function stripeCheckout({
 
     const ip_address = req.headers['x-forwarded-for'] as string
 
+    let errorRedirectUrl: string | undefined = undefined
+
     try {
       const {getMerchantCoupon} = getSdk()
       const {
@@ -184,6 +186,8 @@ export async function stripeCheckout({
         cancelUrl = `${req.headers.origin}/buy`,
         usedCouponId,
       } = req.query
+
+      errorRedirectUrl = req.query.errorRedirectUrl
 
       const quantity = Number(queryQuantity)
 
@@ -408,6 +412,13 @@ export async function stripeCheckout({
         )
       }
     } catch (err: any) {
+      if (errorRedirectUrl) {
+        return {
+          redirect: errorRedirectUrl,
+          status: 303,
+        }
+      }
+
       return {
         status: 500,
         body: {error: true, message: err.message},

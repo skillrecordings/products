@@ -275,6 +275,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   bulk: isBuyingForTeam,
                   couponId: appliedMerchantCoupon?.id,
                   upgradeFromPurchaseId: formattedPrice?.upgradeFromPurchaseId,
+                  errorRedirectUrl: `${process.env.NEXT_PUBLIC_URL}/error?type=stripe-checkout`,
                 })}
                 method="POST"
               >
