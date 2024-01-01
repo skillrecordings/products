@@ -34,7 +34,6 @@ const ConfirmSubscriptionPage = () => {
             </Balancer>
           </p>
           <p className="text-sm text-gray-300 sm:text-base">
-            Thanks, <br />
             <Signature />
           </p>
         </div>
