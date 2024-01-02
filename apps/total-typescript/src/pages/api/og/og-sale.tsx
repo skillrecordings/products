@@ -7,14 +7,14 @@ export const config = {
 
 const larsseitFont = fetch(
   new URL(
-    '../../../../fonts/de9d52a7-4fdd-4918-a809-30c95835528f.woff',
+    '../../../../public/fonts/de9d52a7-4fdd-4918-a809-30c95835528f.woff',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
 
 const larsseitBoldFont = fetch(
   new URL(
-    '../../../../fonts/65c4497d-8c6b-45b3-b338-01b6f20be34d.woff',
+    '../../../../public/fonts/65c4497d-8c6b-45b3-b338-01b6f20be34d.woff',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
@@ -27,7 +27,7 @@ export default async function handler(req: NextRequest) {
     const {searchParams} = new URL(req.url)
     const hasDiscount = searchParams.has('discount')
     const discount = hasDiscount && searchParams.get('discount')
-    const defaultBackground = '../../../../card-sale-template@2x.png'
+    const defaultBackground = '../../../../public/card-sale-template@2x.png'
 
     return new ImageResponse(
       (
