@@ -7,21 +7,21 @@ export const config = {
 
 const magnatHeadFont = fetch(
   new URL(
-    `${process.env.NEXT_PUBLIC_URL}/fonts/6fecec1e-f4a1-49a8-8eb2-d3215d7a594e.woff`,
+    '../../../../../public/fonts/6fecec1e-f4a1-49a8-8eb2-d3215d7a594e.woff',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
 
 const magnatTextFont = fetch(
   new URL(
-    `${process.env.NEXT_PUBLIC_URL}/fonts/d5963985-9426-4ddd-9ee9-e0519f89608a.woff`,
+    '../../../../../public/fonts/d5963985-9426-4ddd-9ee9-e0519f89608a.woff',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
 
 const larsseitFont = fetch(
   new URL(
-    `${process.env.NEXT_PUBLIC_URL}/fonts/de9d52a7-4fdd-4918-a809-30c95835528f.woff`,
+    '../../../../../public/fonts/de9d52a7-4fdd-4918-a809-30c95835528f.woff',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
