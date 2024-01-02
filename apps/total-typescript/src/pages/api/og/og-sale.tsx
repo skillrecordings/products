@@ -7,14 +7,14 @@ export const config = {
 
 const larsseitFont = fetch(
   new URL(
-    '../../../../public/fonts/de9d52a7-4fdd-4918-a809-30c95835528f.woff',
+    `${process.env.NEXT_PUBLIC_URL}/public/fonts/de9d52a7-4fdd-4918-a809-30c95835528f.woff`,
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
 
 const larsseitBoldFont = fetch(
   new URL(
-    '../../../../public/fonts/65c4497d-8c6b-45b3-b338-01b6f20be34d.woff',
+    `${process.env.NEXT_PUBLIC_URL}/public/fonts/65c4497d-8c6b-45b3-b338-01b6f20be34d.woff`,
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
