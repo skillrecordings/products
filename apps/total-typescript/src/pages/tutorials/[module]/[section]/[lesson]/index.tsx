@@ -51,7 +51,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       lessonBodyPreviewSerialized,
       module,
       section,
-      transcript: lesson.transcript,
+      transcript: lesson.transcript || lesson.aiTranscript,
       videoResourceId: lesson.videoResourceId,
     },
     revalidate: 10,
