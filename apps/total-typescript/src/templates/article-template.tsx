@@ -45,9 +45,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         title,
         description: articleDescription,
         ogImage: {
-          url: `${process.env.NEXT_PUBLIC_URL}/api/og?title=${encodeURI(
-            title,
-          )}`,
+          url: `${
+            process.env.NEXT_PUBLIC_URL
+          }/api/og/og-default?title=${encodeURI(title)}`,
           alt: title,
         },
       }}
