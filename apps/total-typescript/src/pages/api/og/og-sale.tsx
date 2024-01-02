@@ -12,8 +12,16 @@ const larsseitFont = fetch(
   ),
 ).then((res) => res.arrayBuffer())
 
+const larsseitBoldFont = fetch(
+  new URL(
+    `${process.env.NEXT_PUBLIC_URL}/fonts/65c4497d-8c6b-45b3-b338-01b6f20be34d.woff`,
+    import.meta.url,
+  ),
+).then((res) => res.arrayBuffer())
+
 export default async function handler(req: NextRequest) {
   const larsseitFontData = await larsseitFont
+  const larsseitBoldFontData = await larsseitBoldFont
 
   try {
     const {searchParams} = new URL(req.url)
@@ -35,17 +43,27 @@ export default async function handler(req: NextRequest) {
           {hasDiscount && (
             <div
               tw="absolute flex items-center"
-              style={{left: '67px', bottom: '72px'}}
+              style={{left: '67px', bottom: '76px'}}
             >
               <div
-                tw="px-6 py-4 flex text-4xl leading-none uppercase font-extrabold bg-yellow-500"
-                style={{fontFamily: 'Larsseit', color: '#0A1020'}}
+                tw="px-6 pt-2 pb-4 flex text-4xl leading-tight uppercase"
+                style={{
+                  fontFamily: 'LarsseitBold',
+                  color: '#0A1020',
+                  fontSize: '40px',
+                  background:
+                    'linear-gradient(98deg, #FDE047 8.18%, #FBBF24 101.66%)',
+                }}
               >
                 Save {Number(discount) * 100}%
               </div>
               <div
-                tw="flex flex-col justify-center text-3xl text-yellow-500 font-bold uppercase leading-none ml-5"
-                style={{fontFamily: 'Larsseit'}}
+                tw="flex flex-col justify-center text-yellow-300 font-bold uppercase ml-5"
+                style={{
+                  fontFamily: 'Larsseit',
+                  fontSize: '32px',
+                  lineHeight: 1,
+                }}
               >
                 <div>for limited</div>
                 <div>time only</div>
@@ -63,6 +81,12 @@ export default async function handler(req: NextRequest) {
             data: larsseitFontData,
             style: 'normal',
             weight: 500,
+          },
+          {
+            name: 'LarsseitBold',
+            data: larsseitBoldFontData,
+            style: 'normal',
+            weight: 700,
           },
         ],
       },
