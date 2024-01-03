@@ -263,7 +263,8 @@ const DefaultOverlay: React.FC = () => {
           <div data-progress="">
             <Progress
               value={
-                ((moduleProgress?.lessonCount - (completedLessonCount || 0)) /
+                ((moduleProgress?.completedLessonCount +
+                  (completedLessonCount || 0)) /
                   moduleProgress?.lessonCount) *
                 100
               }
@@ -354,15 +355,7 @@ const FinishedOverlay = () => {
         </h2>
         {moduleProgress && session.status === 'authenticated' && (
           <div data-progress="">
-            <Progress
-              value={
-                ((moduleProgress?.lessonCount -
-                  (moduleProgress.completedLessonCount || 0)) /
-                  moduleProgress?.lessonCount) *
-                100
-              }
-              className="h-2"
-            />
+            <Progress value={moduleProgress.percentComplete} className="h-2" />
             <div data-lessons-completed="">
               {moduleProgress.completedLessonCount} /{' '}
               {moduleProgress?.lessonCount} lessons completed
@@ -767,7 +760,8 @@ const FinishedSectionOverlay = () => {
           <div data-progress="">
             <Progress
               value={
-                ((moduleProgress?.lessonCount - (completedLessonCount || 0)) /
+                ((moduleProgress?.completedLessonCount +
+                  (completedLessonCount || 0)) /
                   moduleProgress?.lessonCount) *
                 100
               }

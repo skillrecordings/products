@@ -37,7 +37,7 @@
       }
     }
     [data-lessons-completed] {
-      @apply flex-shrink-0 text-sm tabular-nums text-gray-300;
+      @apply flex-shrink-0 font-mono text-xs tabular-nums text-gray-300;
     }
   }
   [data-image] {
