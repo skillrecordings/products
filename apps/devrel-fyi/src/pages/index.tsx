@@ -32,7 +32,7 @@ import {
 } from '@/components/scribbles'
 import Link from 'next/link'
 import Balancer from 'react-wrap-balancer'
-import {Logo} from '@/components/app/navigation'
+import {Logo} from '@/components/logo'
 
 const defaultProductId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -104,7 +104,6 @@ const Home: NextPage<{
         className="relative flex min-h-[calc(100svh-80px)] max-w-screen-2xl flex-col items-center justify-center overflow-hidden border-x-0 to-transparent px-0 text-center before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:bg-gradient-to-r before:from-background before:to-transparent before:content-[''] after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:bg-gradient-to-l after:from-background after:to-transparent after:content-[''] sm:space-y-10 sm:before:w-56 sm:after:w-56 lg:px-0"
       >
         <video
-          src="/hero-video.mov"
           className="absolute left-0 top-0 z-0 h-full w-full object-cover opacity-75"
           ref={videoRef}
           playsInline
@@ -112,7 +111,9 @@ const Home: NextPage<{
           autoPlay
           muted
           loop
-        />
+        >
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
         <h1 className="relative z-10 scale-75 font-serif text-7xl lg:scale-100">
           <span className="relative inline-block">
             <span className="relative z-10 font-bold">Empower</span>
@@ -382,7 +383,7 @@ const Home: NextPage<{
           <div className="sm:border-t">
             <Container as="section" className="relative">
               <svg
-                className="bottom-10 right-10 hidden sm:absolute"
+                className="bottom-10 right-10 hidden sm:absolute sm:block"
                 aria-hidden="true"
                 width="177"
                 height="159"
