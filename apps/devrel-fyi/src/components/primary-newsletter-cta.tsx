@@ -7,12 +7,12 @@ import {
 import {useRouter} from 'next/router'
 import common from '../text/common'
 import {type Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
-import {twMerge} from 'tailwind-merge'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Button} from '@skillrecordings/ui'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {Annotation} from './annotation'
 import {useAnimatedSVG} from '@/hooks/use-animated-svg'
+import {AnimatedTwirlyArrow} from './scribbles'
 
 type PrimaryNewsletterCtaProps = {
   onSuccess?: () => void
@@ -109,13 +109,13 @@ export const PrimaryNewsletterCta: React.FC<
       {children ? (
         children
       ) : (
-        <div className="flex w-full flex-col items-center px-5 pb-8 text-center sm:px-10">
-          <h2 className="relative max-w-lg font-serif text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+        <div className="flex w-full flex-col items-center px-0 pb-8 text-center sm:px-10">
+          <h2 className="relative max-w-lg font-serif text-5xl font-bold leading-tight sm:text-5xl lg:text-6xl">
             Supercharge
             <br />
             Your DevRel Team
             <svg
-              className="absolute -left-5 -top-16 text-primary brightness-90 saturate-[1.2] sm:left-3"
+              className="absolute -left-5 -top-16 text-white sm:left-3"
               aria-hidden="true"
               width="92"
               height="72"
@@ -128,13 +128,23 @@ export const PrimaryNewsletterCta: React.FC<
                 fill="currentColor"
               />
             </svg>
+            <svg
+              className="absolute -right-56 -top-1/2 hidden w-64 rotate-12 text-white sm:block"
+              aria-hidden="true"
+              viewBox="0 0 150 150"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <AnimatedTwirlyArrow />
+            </svg>
           </h2>
           <h3 className="pt-4 text-center text-lg">{byline}</h3>
         </div>
       )}
       <div className="relative mx-auto w-full max-w-lg">
         <svg
-          className="absolute -bottom-10 -left-28 text-primary brightness-90 saturate-[1.2]"
+          className="absolute -bottom-10 -left-28 text-white"
+          aria-hidden="true"
           width="150"
           height="150"
           viewBox="0 0 150 150"
