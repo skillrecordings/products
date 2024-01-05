@@ -318,6 +318,7 @@ export const AnimatedThingy: React.FC<{className?: string}> = ({className}) => {
       {new Array(3).fill({}).map((_, i) => {
         return (
           <motion.div
+            key={i}
             initial={{
               opacity: 0,
             }}
