@@ -13,34 +13,33 @@ const Footer: React.FC<FooterProps> = ({className}) => {
   const {pathname, asPath} = useRouter()
   const isRoot = pathname === '/'
 
-  return (
-    <footer className={twMerge('border-t', className)}>
-      <Container className="flex h-full w-full items-center justify-between py-24 font-mono text-xs uppercase text-gray-300">
-        <div />
-        <div className="text-gray-500">{/* <CurrentTime /> */}</div>
-        {/* <Link
-          href="https://badass.dev"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <Image
-            src={require('../../../public/badge-badass.svg')}
-            alt="Powered by Badass.dev"
-            width={186 / 1.5}
-            height={56 / 1.5}
-          />
-        </Link> */}
+  return null
+  // <footer className={twMerge('border-t', className)}>
+  //   <Container className="flex h-full w-full items-center justify-between py-24 font-mono text-xs uppercase text-gray-300">
+  //     <div />
+  //     <div className="text-gray-500">{/* <CurrentTime /> */}</div>
+  //     {/* <Link
+  //       href="https://badass.dev"
+  //       rel="noopener noreferrer"
+  //       target="_blank"
+  //     >
+  //       <Image
+  //         src={require('../../../public/badge-badass.svg')}
+  //         alt="Powered by Badass.dev"
+  //         width={186 / 1.5}
+  //         height={56 / 1.5}
+  //       />
+  //     </Link> */}
 
-        {/* <Link
-            href="/privacy"
-            passHref
-            className="font-mono text-xs opacity-50 hover:opacity-100"
-          >
-            Terms & Conditions
-          </Link> */}
-      </Container>
-    </footer>
-  )
+  //     {/* <Link
+  //         href="/privacy"
+  //         passHref
+  //         className="font-mono text-xs opacity-50 hover:opacity-100"
+  //       >
+  //         Terms & Conditions
+  //       </Link> */}
+  //   </Container>
+  // </footer>
 }
 
 export default Footer
