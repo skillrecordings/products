@@ -22,24 +22,45 @@ export const useAnimatedSVG = ({
       return
     }
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        if (mirror) {
-          let newDirection = direction
-          let newIndex = prevIndex + newDirection
-          if (newIndex >= paths.length || newIndex < 0) {
-            newDirection = -direction
-            newIndex = prevIndex + newDirection
-          }
-          setDirection(newDirection)
-          return newIndex
-        } else {
-          return (prevIndex + 1) % paths.length
-        }
-      })
-    }, delayBetweenFrames)
+    let animationInterval: NodeJS.Timeout | undefined
+    const delayInterval = setInterval(() => {
+      // Clear previous animation interval
+      if (animationInterval) {
+        clearInterval(animationInterval)
+      }
 
-    return () => clearInterval(interval)
+      // Start new animation interval
+      animationInterval = setInterval(() => {
+        setCurrentIndex((prevIndex) => {
+          if (mirror) {
+            let newDirection = direction
+            let newIndex = prevIndex + newDirection
+            if (newIndex >= paths.length || newIndex < 0) {
+              newDirection = -direction
+              newIndex = prevIndex + newDirection
+            }
+            setDirection(newDirection)
+            return newIndex
+          } else {
+            return (prevIndex + 1) % paths.length
+          }
+        })
+      }, delayBetweenFrames)
+
+      // Stop animation after a couple of seconds
+      setTimeout(() => {
+        if (animationInterval) {
+          clearInterval(animationInterval)
+        }
+      }, 5000) // Change this value to control how long the animation lasts
+    }, Math.floor(Math.random() * (5000 - 2000 + 1)) + 1000) // Random delay between 1 and 3 seconds
+
+    return () => {
+      clearInterval(delayInterval)
+      if (animationInterval) {
+        clearInterval(animationInterval)
+      }
+    }
   }, [paths.length, direction])
 
   const AnimatedPath = () => (
