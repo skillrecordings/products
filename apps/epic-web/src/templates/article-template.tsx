@@ -14,7 +14,7 @@ import Share from 'components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
 import Spinner from 'components/spinner'
-import AboutKent from 'components/about-kent'
+import AuthorBio from 'components/author-bio'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import removeMarkdown from 'remove-markdown'
@@ -60,7 +60,16 @@ const ArticleTemplate: React.FC<{
         <MDX contents={articleBodySerialized} />
       </main>
       <Share title={title} />
-      <AboutKent title="Written by Kent C. Dodds" className="mt-16" />
+      {author?.name && author?.image && (
+        <AuthorBio
+          slug={author.slug}
+          name={author.name}
+          picture={{url: author.image, alt: author.name}}
+          title={(name) => `Written by ${name}`}
+          bio={author?.bio}
+          className="mt-16"
+        />
+      )}
       {!subscriber && <CTA article={article} />}
     </Layout>
   )

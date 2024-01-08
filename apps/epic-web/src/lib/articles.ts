@@ -18,7 +18,8 @@ export const ArticleSchema = z.object({
       name: z.string(),
       slug: z.string(),
       image: z.string(),
-      imageAlt: z.string(),
+      imageAlt: z.string().optional().nullable(),
+      bio: z.string().optional().nullable(),
     })
     .nullable()
     .optional(),
@@ -91,7 +92,8 @@ export const getArticle = async (slug: string): Promise<Article | null> => {
           name,
           "slug": slug.current,
           "image": picture.asset->url,
-          "imageAlt": picture.alt
+          "imageAlt": picture.alt,
+          bio,
         },
         resources[]->{
           ...

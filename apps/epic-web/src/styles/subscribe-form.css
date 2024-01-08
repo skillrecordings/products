@@ -33,7 +33,7 @@
       @apply inline-block w-full pb-1 text-base text-gray-300;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-md bg-gradient-to-tr from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white shadow-2xl shadow-cyan-900/50 transition focus-visible:ring-white hover:brightness-110;
+      @apply relative mt-2 flex items-center justify-center rounded-md bg-gradient-to-tr from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white shadow-2xl shadow-cyan-900/50 transition hover:brightness-110 focus-visible:ring-white;
       svg {
         @apply h-7 w-7;
       }
@@ -73,7 +73,7 @@
       @apply sr-only;
     }
     [data-sr-button] {
-      @apply relative flex flex-shrink-0 items-center justify-center rounded-md border border-blue-700/30 bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-2 text-base font-semibold text-white transition focus-visible:ring-white hover:brightness-110;
+      @apply relative flex flex-shrink-0 items-center justify-center rounded-md border border-blue-700/30 bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-2 text-base font-semibold text-white transition hover:brightness-110 focus-visible:ring-white;
       svg {
         @apply h-7 w-7;
       }
@@ -110,7 +110,7 @@
       @apply sr-only;
     }
     [data-sr-button] {
-      @apply relative flex flex-shrink-0 items-center justify-center rounded-md border border-blue-700/30 bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-2 text-base font-semibold text-white transition focus-visible:ring-white hover:brightness-110;
+      @apply relative flex flex-shrink-0 items-center justify-center rounded-md border border-blue-700/30 bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-2 text-base font-semibold text-white transition hover:brightness-110 focus-visible:ring-white;
       svg {
         @apply h-7 w-7;
       }
@@ -143,13 +143,13 @@
     }
 
     [data-sr-input-label] {
-      @apply block pb-1 text-gray-700 dark:text-gray-300;
+      @apply sr-only block text-gray-700 dark:text-gray-300;
     }
     abbr {
       @apply hidden;
     }
     [data-sr-button] {
-      @apply relative mt-5 flex w-full flex-shrink-0 items-center justify-center rounded-md border border-indigo-500 bg-indigo-500 px-6 py-3 text-lg font-semibold text-white shadow-xl shadow-black/10 transition focus-visible:ring-white hover:brightness-125 sm:w-auto md:mt-0;
+      @apply relative mt-5 flex h-full w-full flex-shrink-0 items-center justify-center rounded-md border bg-gradient-to-t from-blue-600 to-indigo-500 px-6 py-3 text-lg font-semibold text-white shadow-xl shadow-black/10 transition hover:brightness-125 focus-visible:ring-white sm:w-auto md:mt-0;
       svg {
         @apply h-7 w-7;
       }
@@ -179,7 +179,7 @@
       @apply inline-block w-full pb-1 text-base text-gray-600 dark:text-gray-300;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-md border border-white/5 bg-gradient-to-b from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white transition focus-visible:ring-white hover:brightness-110;
+      @apply relative mt-2 flex items-center justify-center rounded-md border border-white/5 bg-gradient-to-b from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white;
       svg {
         @apply h-7 w-7;
       }
