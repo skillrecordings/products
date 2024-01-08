@@ -103,10 +103,10 @@ const AdminPage: React.FC<{progressData: ProgressData}> = ({progressData}) => {
             coupons && <CouponDataTable coupons={coupons} />
           )}
         </section>
-        <section className="mx-auto w-full max-w-screen-lg border-t px-5 pt-10">
+        {/* <section className="mx-auto w-full max-w-screen-lg border-t px-5 pt-10">
           <h3 className="text-2xl font-medium">Lesson completions</h3>
           <LessonCompletionsChart progress={progressData} />
-        </section>
+        </section> */}
         <section className="mx-auto w-full max-w-screen-lg border-t px-5 pt-10">
           <h3 className="text-2xl font-medium">Create new</h3>
           <VideoUploader />
