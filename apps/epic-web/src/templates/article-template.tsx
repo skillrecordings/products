@@ -39,7 +39,9 @@ const ArticleTemplate: React.FC<{
   const ogImage = {url: _ogImage?.secure_url, alt: title}
   const pageDescription =
     description || `${removeMarkdown(body).substring(0, 157)}...`
-  const authorName = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
+  const authorName =
+    author?.name ||
+    `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
   const {subscriber, loadingSubscriber} = useConvertkit()
 
