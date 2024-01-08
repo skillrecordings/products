@@ -38,9 +38,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
       }}
     >
       <header className="mx-auto w-full max-w-screen-lg px-5 pb-3 pt-5 sm:pb-5 sm:pt-8">
-        <h1 className="text-lg font-semibold">
-          {title} <span className="font-normal">by Kent C. Dodds</span>
-        </h1>
+        <h1 className="text-lg font-semibold">{title}</h1>
       </header>
       <main className="mx-auto grid w-full max-w-screen-lg grid-cols-1 flex-col gap-5 px-5 pb-24 sm:grid-cols-2 lg:gap-10">
         {publishedArticles.map((article) => {

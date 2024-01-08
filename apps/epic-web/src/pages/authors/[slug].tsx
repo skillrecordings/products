@@ -26,7 +26,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     ? await getKentsResources()
     : await getAuthorResources(author?._id as string)
 
-  return {props: {author, resources}}
+  return {props: {author, resources}, revalidate: 10}
 }
 
 const AuthorPage: React.FC<{
