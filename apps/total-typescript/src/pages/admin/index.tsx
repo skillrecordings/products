@@ -10,6 +10,16 @@ import {
 } from '@skillrecordings/skill-lesson/admin'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import VideoUploader from '@/module-builder/video-uploader'
+import {Bar} from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js'
 
 type ProgressData = Awaited<
   ReturnType<ReturnType<typeof getSdk>['getLessonProgressCountsByDate']>
@@ -25,6 +35,48 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       progressData: progressData.map(convertToSerializeForNextResponse),
     },
   }
+}
+
+const LessonCompletionsChart: React.FC<{
+  progress: ProgressData
+}> = ({progress}) => {
+  const chartData = progress.map(({count, completedAt}) => ({
+    date: completedAt,
+    completionCount: count,
+  }))
+
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+  )
+
+  return (
+    <Bar
+      data={{
+        labels: chartData.map((d) => d.date),
+        datasets: [
+          {
+            label: 'completed lessons',
+            data: chartData.map((d) => d.completionCount),
+            backgroundColor: '#3174F1',
+          },
+        ],
+      }}
+      className="w-full"
+      options={{
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      }}
+    />
+  )
 }
 
 const AdminPage: React.FC<{progressData: ProgressData}> = ({progressData}) => {
@@ -50,6 +102,10 @@ const AdminPage: React.FC<{progressData: ProgressData}> = ({progressData}) => {
           ) : (
             coupons && <CouponDataTable coupons={coupons} />
           )}
+        </section>
+        <section className="mx-auto w-full max-w-screen-lg border-t px-5 pt-10">
+          <h3 className="text-2xl font-medium">Lesson completions</h3>
+          <LessonCompletionsChart progress={progressData} />
         </section>
         <section className="mx-auto w-full max-w-screen-lg border-t px-5 pt-10">
           <h3 className="text-2xl font-medium">Create new</h3>
