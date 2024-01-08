@@ -78,7 +78,9 @@ const CouponGeneratorForm = () => {
             name="percentOff"
             render={({field}) => (
               <FormItem>
-                <FormLabel htmlFor="percentOff">Discount Percentage</FormLabel>
+                <FormLabel htmlFor="percentOff" className="flex h-4">
+                  Discount Percentage
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="number"
