@@ -5,7 +5,7 @@ import Navigation from './navigation'
 import Footer from './footer'
 import {Toaster} from 'react-hot-toast'
 import localFont from 'next/font/local'
-import {maisonNeue, maisonNeueMono} from '@/utils/load-fonts'
+import {maisonNeue, maisonNeueMono, ttBarrels} from '@/utils/load-fonts'
 import Container from './container'
 
 type LayoutProps = {
@@ -47,7 +47,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
 
   return (
     <div
-      className={`relative antialiased ${maisonNeue.variable} ${maisonNeueMono.variable} font-sans`}
+      className={`relative antialiased ${ttBarrels.variable} ${maisonNeue.variable} ${maisonNeueMono.variable} font-sans`}
       id="layout"
     >
       <NextSeo

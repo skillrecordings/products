@@ -42,8 +42,8 @@ import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {getTranscriptComponents} from '@skillrecordings/skill-lesson/markdown/transcript-components'
 import Link from 'next/link'
 import Container from '@/components/app/container'
-import {AnimatedThingy} from '@/pages'
 import Balancer from 'react-wrap-balancer'
+import {AnimatedThingy} from '@/components/scribbles'
 
 const TipTemplate: React.FC<{
   tip: Tip

@@ -104,6 +104,7 @@
     "react-hot-toast": "^2.2.0",
     "react-icons": "^4.7.1",
     "react-markdown": "^8.0.6",
+    "react-rough-notation": "^1.0.5",
     "react-use": "^17.4.0",
     "react-wrap-balancer": "^0.2.4",
     "sanity": "^3.9.0",
@@ -142,6 +143,7 @@
     "@types/react-dom": "^18.2.4",
     "@types/react-gravatar": "^2.6.10",
     "@types/shortid": "^0.0.29",
+    "@types/three": "^0.141.0",
     "@types/uuid": "^9.0.2",
     "autoprefixer": "^10.4.2",
     "dotenv-flow": "^3.2.0",
@@ -155,8 +157,7 @@
     "tailwind-scrollbar": "^3.0.0",
     "tailwindcss": "^3.3.0",
     "typescript": "5.1.6",
-    "webpack": "^5.73.0",
-    "@types/three": "^0.141.0"
+    "webpack": "^5.73.0"
   },
   "prettier": {
     "bracketSpacing": false,

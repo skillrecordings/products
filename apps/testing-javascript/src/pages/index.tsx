@@ -22,6 +22,12 @@ import type {TestimonialProps, FaqProps, InterviewProps} from '@types'
 
 import LandingTemplate from 'templates/landing-template'
 
+const testingJavaScriptProductIds = [
+  'kcd_da6ab36c-b091-4f6f-90aa-d7db2fc798ff', // Basic
+  'kcd_fb976b99-0633-4329-bbfb-f5f76dc278b3', // Standard
+  'kcd_4f0b26ee-d61d-4245-a204-26f5774355a5', // Pro
+]
+
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const sessionToken = await getToken({req})
 
@@ -43,7 +49,11 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
     products,
   })
   const purchasedProductsIds =
-    commerceProps.purchases?.map((purchase) => purchase.productId) || []
+    commerceProps.purchases
+      ?.map((purchase) => purchase.productId)
+      ?.filter((productId) =>
+        testingJavaScriptProductIds.includes(productId),
+      ) || []
 
   // `mostValuedProduct` is the product among the user's purchases that has
   // the most modules. E.g. if they original purchased the Standard and have

@@ -72,7 +72,10 @@
     --border: 0 0% 11%;
     --input: 0 0% 15%;
 
-    --primary: 148 82% 85%;
+    /* mint green */
+    --mint: 148 82% 85%;
+    /* michelle green */
+    --primary: 146 56% 71%;
     --primary-foreground: 0 0% 0%;
 
     --secondary: 222.2 47.4% 11.2%;

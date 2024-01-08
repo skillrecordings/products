@@ -10,7 +10,7 @@ import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {Event} from 'lib/events'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
-import AboutKent from 'components/about-kent'
+import AuthorBio from 'components/author-bio'
 import Script from 'next/script'
 import {
   CalendarIcon,
@@ -78,7 +78,7 @@ const EventTemplate: React.FC<{
         </div>
       </main>
       <Share contentType="Live Workshop" title={title} />
-      <AboutKent title="Hosted by Kent C. Dodds" className="mt-16" />
+      <AuthorBio title={(name) => `Hosted by ${name}`} className="mt-16" />
     </Layout>
   )
 }

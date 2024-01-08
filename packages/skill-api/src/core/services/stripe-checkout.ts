@@ -140,7 +140,7 @@ const buildCouponName = (
     couponName = buildCouponNameWithProductName(
       'Upgrade from ',
       upgradeFromPurchase.product.name,
-      ` + PPP ${stripeCouponPercentOff * 100}% off`,
+      ` + PPP ${Math.floor(stripeCouponPercentOff * 100)}% off`,
     )
   } else if (
     availableUpgrade &&
