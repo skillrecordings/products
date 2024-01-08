@@ -135,7 +135,10 @@ const CouponGeneratorForm = () => {
                     </SelectTrigger>
                     <SelectContent>
                       {products?.map((product: SanityProduct) => (
-                        <SelectItem value={product.productId}>
+                        <SelectItem
+                          key={product.productId}
+                          value={product.productId}
+                        >
                           {product.title || product.name}
                         </SelectItem>
                       ))}
