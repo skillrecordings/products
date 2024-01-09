@@ -37,7 +37,7 @@
       @apply inline-block w-full pb-1 text-base text-gray-300;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-md bg-gradient-to-tr from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white shadow-2xl shadow-cyan-900/50 transition hover:brightness-110 focus-visible:ring-white;
+      @apply relative mt-2 flex items-center justify-center rounded-md bg-primary px-5 py-7 text-lg font-semibold text-white shadow-2xl shadow-cyan-900/50 transition hover:bg-primary/90 focus-visible:ring-white;
       svg {
         @apply h-7 w-7;
       }
@@ -183,7 +183,7 @@
       @apply inline-block w-full pb-1 text-base text-gray-600 dark:text-gray-300;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-md border border-white/5 bg-gradient-to-b from-indigo-500 to-indigo-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white;
+      @apply relative mt-2 flex items-center justify-center rounded-md bg-primary px-5 py-4 text-lg font-semibold text-white transition hover:bg-primary/90 focus-visible:ring-white;
       svg {
         @apply h-7 w-7;
       }
