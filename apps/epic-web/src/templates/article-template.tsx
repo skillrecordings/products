@@ -144,10 +144,10 @@ const Header: React.FC<HeaderProps> = ({article, estimatedReadingTime}) => {
 
 const CTA: React.FC<{article: Article}> = ({article}) => {
   const {slug} = article
-  const [starfieldSpeed, setStarfieldSpeed] = React.useState(0.5)
+
   return (
     <section
-      className="relative flex flex-col items-center justify-center bg-gray-100 px-5 py-16 dark:bg-black/40 md:pb-32 md:pt-24"
+      className="relative flex flex-col items-center justify-center bg-gray-100 px-5 py-16 dark:bg-gray-900 md:pb-32 md:pt-24"
       id="article"
     >
       <div className="max-w-sm text-center">
@@ -163,9 +163,7 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
             article: slug,
           })
         }}
-        setStarfieldSpeed={setStarfieldSpeed}
       />
-      <Starfield className="absolute" speed={starfieldSpeed} />
     </section>
   )
 }

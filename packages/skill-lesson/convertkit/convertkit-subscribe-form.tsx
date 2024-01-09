@@ -88,32 +88,36 @@ export const SubscribeToConvertkitForm: React.FC<
       className={className}
       {...rest}
     >
-      <Label
-        data-sr-input-label=""
-        htmlFor={id ? `first_name_${id}` : 'first_name'}
-      >
-        First Name
-      </Label>
-      <Input
-        className="h-auto"
-        name="first_name"
-        id={id ? `first_name_${id}` : 'first_name'}
-        onChange={handleChange}
-        placeholder="Preferred name"
-        type="text"
-      />
-      <Label data-sr-input-label="" htmlFor={id ? `email_${id}` : 'email'}>
-        Email*
-      </Label>
-      <Input
-        className="h-auto"
-        name="email"
-        id={id ? `email_${id}` : 'email'}
-        onChange={handleChange}
-        placeholder="you@example.com"
-        type="email"
-        required
-      />
+      <div data-sr-fieldset="" className="w-full">
+        <Label
+          data-sr-input-label=""
+          htmlFor={id ? `first_name_${id}` : 'first_name'}
+        >
+          First Name
+        </Label>
+        <Input
+          className="h-auto"
+          name="first_name"
+          id={id ? `first_name_${id}` : 'first_name'}
+          onChange={handleChange}
+          placeholder="Preferred name"
+          type="text"
+        />
+      </div>
+      <div data-sr-fieldset="" className="w-full">
+        <Label data-sr-input-label="" htmlFor={id ? `email_${id}` : 'email'}>
+          Email*
+        </Label>
+        <Input
+          className="h-auto"
+          name="email"
+          id={id ? `email_${id}` : 'email'}
+          onChange={handleChange}
+          placeholder="you@example.com"
+          type="email"
+          required
+        />
+      </div>
       {submitButtonElem ? (
         React.cloneElement(submitButtonElem, {
           type: 'submit',

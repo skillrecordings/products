@@ -70,7 +70,7 @@ const AuthorBio: React.FC<{
   name = 'Kent C. Dodds',
   picture = {url: KentImage, alt: 'Kent C. Dodds'},
   className,
-  slug,
+  slug = 'kent-c-dodds',
 }) => {
   return (
     <section
