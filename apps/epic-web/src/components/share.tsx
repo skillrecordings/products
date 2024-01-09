@@ -6,18 +6,21 @@ import {
   Facebook,
   CopyToClipboard,
 } from '@skillrecordings/react'
+import {type Author} from 'lib/authors'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
 import Balancer from 'react-wrap-balancer'
 
-const Share: React.FC<{title: string; contentType?: string}> = ({
-  title,
-  contentType = 'article',
-}) => {
+const Share: React.FC<{
+  title: string
+  contentType?: string
+  author?: Author | null
+}> = ({title, contentType = 'article', author}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const shareButtonClassName =
     'w-full flex items-center justify-center h-full px-7 py-7 dark:hover:bg-gray-700/50 hover:bg-gray-100 transition'
+  const authorTwitter = author?.twitterHandle
 
   return (
     <section className="mx-auto flex w-full max-w-screen-md items-center justify-center overflow-hidden border border-gray-200 bg-transparent pt-5 dark:border-transparent dark:bg-gray-800 sm:pl-5 sm:pt-0 dark:sm:border-0 md:rounded-lg">
@@ -38,7 +41,7 @@ const Share: React.FC<{title: string; contentType?: string}> = ({
             className={shareButtonClassName}
             svgClassName="w-4 h-4"
             link={url}
-            message={`${title} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`}
+            message={`${title}${authorTwitter ? ` by @${authorTwitter}` : ''}`}
           />
           <Facebook
             className={shareButtonClassName}

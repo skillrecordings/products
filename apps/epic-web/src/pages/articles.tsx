@@ -83,7 +83,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                         as="div"
                         name={author?.name}
                         slug={author?.slug}
-                        image={author?.image}
+                        image={author?.picture?.url}
                         byline="Written by"
                         className="text-sm font-normal text-gray-700 dark:text-gray-300 [&_span]:font-bold"
                       />

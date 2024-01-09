@@ -1,9 +1,7 @@
 import React from 'react'
 import Layout from 'components/app/layout'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {PortableText, toPlainText} from '@portabletext/react'
 import {useRouter} from 'next/router'
-import KentImage from '../../public/kent-c-dodds.png'
 import {type Article} from 'lib/articles'
 import Starfield from 'components/starfield'
 import {track} from 'utils/analytics'
@@ -12,8 +10,6 @@ import Image from 'next/image'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import Share from 'components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
-import Spinner from 'components/spinner'
 import AuthorBio from 'components/author-bio'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
@@ -54,6 +50,7 @@ const ArticleTemplate: React.FC<{
         datePublished={_createdAt}
         dateModified={_updatedAt}
         description={pageDescription}
+        type="Article"
         url={url}
       />
       <Header article={article} estimatedReadingTime={estimatedReadingTime} />
@@ -61,12 +58,15 @@ const ArticleTemplate: React.FC<{
       <main className="invert-svg prose mx-auto w-full max-w-3xl px-5 py-8 dark:prose-invert md:prose-xl prose-code:break-words prose-pre:bg-gray-900 prose-pre:leading-relaxed md:py-16 md:prose-code:break-normal">
         <MDX contents={articleBodySerialized} />
       </main>
-      <Share title={title} />
-      {author?.name && author?.image && (
+      <Share author={author} title={title} />
+      {author?.name && author?.picture && (
         <AuthorBio
           slug={author.slug}
           name={author.name}
-          picture={{url: author.image, alt: author.name}}
+          picture={{
+            url: author.picture.url,
+            alt: author.picture.alt || author.name,
+          }}
           title={(name) => `Written by ${name}`}
           bio={author?.bio}
           className="mt-16"
@@ -120,7 +120,7 @@ const Header: React.FC<HeaderProps> = ({article, estimatedReadingTime}) => {
             className="col-span-2 text-lg"
             name={author?.name}
             slug={author?.slug}
-            image={author?.image}
+            image={author?.picture?.url}
           />
           <div className="flex items-center justify-center gap-8 text-center sm:justify-end sm:gap-16 sm:text-left">
             <div className="flex flex-shrink-0 flex-col justify-center text-sm sm:w-auto sm:text-base">
@@ -163,16 +163,5 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
       />
       <Starfield className="absolute" speed={starfieldSpeed} />
     </section>
-  )
-}
-
-const Body: React.FC<{value: any[]}> = ({value}) => {
-  return (
-    <main className="invert-svg prose mx-auto w-full max-w-3xl px-5 py-8 dark:prose-invert md:prose-xl prose-code:break-words md:py-16 md:prose-code:break-normal">
-      <PortableText
-        value={value}
-        components={portableTextComponents({loadingIndicator: <Spinner />})}
-      />
-    </main>
   )
 }
