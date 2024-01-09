@@ -6,6 +6,7 @@ import {
   Facebook,
   CopyToClipboard,
 } from '@skillrecordings/react'
+import {cn} from '@skillrecordings/ui/utils/cn'
 import {type Author} from 'lib/authors'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
@@ -15,7 +16,8 @@ const Share: React.FC<{
   title: string
   contentType?: string
   author?: Author | null
-}> = ({title, contentType = 'article', author}) => {
+  className?: string
+}> = ({title, contentType = 'article', author, className}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const shareButtonClassName =
@@ -23,7 +25,12 @@ const Share: React.FC<{
   const authorTwitter = author?.twitterHandle
 
   return (
-    <section className="mx-auto flex w-full max-w-screen-md items-center justify-center overflow-hidden border border-gray-200 bg-transparent pt-5 dark:border-transparent dark:bg-gray-800 sm:pl-5 sm:pt-0 dark:sm:border-0 md:rounded-lg">
+    <section
+      className={cn(
+        'mx-auto flex w-full max-w-screen-md items-center justify-center overflow-hidden border border-gray-200 bg-transparent pt-5 dark:border-transparent dark:bg-gray-800 sm:pl-5 sm:pt-0 dark:sm:border-0 md:rounded-lg',
+        className,
+      )}
+    >
       <div className="mx-auto flex w-full max-w-screen-md flex-col items-center justify-between gap-5 sm:flex-row">
         <div>
           <p className="flex items-center text-lg font-medium">

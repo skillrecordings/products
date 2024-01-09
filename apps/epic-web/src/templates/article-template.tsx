@@ -15,6 +15,7 @@ import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import removeMarkdown from 'remove-markdown'
 import ResourceAuthor from 'components/resource-author'
+import Head from 'next/head'
 
 const ArticleTemplate: React.FC<{
   article: Article
@@ -43,6 +44,9 @@ const ArticleTemplate: React.FC<{
 
   return (
     <Layout meta={{title, description: pageDescription, ogImage}}>
+      <Head>
+        <script async src="https://platform.twitter.com/widgets.js" />
+      </Head>
       <ArticleJsonLd
         title={title}
         images={image ? [image] : []}
@@ -59,19 +63,19 @@ const ArticleTemplate: React.FC<{
         <MDX contents={articleBodySerialized} />
       </main>
       <Share author={author} title={title} />
-      {author?.name && author?.picture && (
-        <AuthorBio
-          slug={author.slug}
-          name={author.name}
-          picture={{
+      <AuthorBio
+        slug={author?.slug}
+        name={author?.name}
+        picture={
+          author?.picture && {
             url: author.picture.url,
             alt: author.picture.alt || author.name,
-          }}
-          title={(name) => `Written by ${name}`}
-          bio={author?.bio}
-          className="mt-16"
-        />
-      )}
+          }
+        }
+        title={(name) => `Written by ${name}`}
+        bio={author?.bio}
+        className=""
+      />
       {!subscriber && <CTA article={article} />}
     </Layout>
   )

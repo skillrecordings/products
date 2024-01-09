@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 const AuthorBio: React.FC<{
   bio?: string | React.ReactNode
-  picture?: {url: string; alt: string}
+  picture?: {url: string; alt: string} | null
   name?: string
   slug?: string
   title?: (name?: string) => string
