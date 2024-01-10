@@ -1,5 +1,5 @@
 {
-  "name": "epic-react-legacy",
+  "name": "epic-react",
   "private": true,
   "scripts": {
     "build": "next build",
