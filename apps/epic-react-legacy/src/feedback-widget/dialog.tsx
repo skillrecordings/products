@@ -50,7 +50,7 @@ const CloseButton = React.forwardRef<HTMLButtonElement, CloseButtonProps>(
         <button
           ref={ref}
           type="button"
-          className="inline-flex justify-center rounded-md border border-transparent p-2 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 hover:bg-gray-700 hover:shadow-inner"
+          className="inline-flex justify-center rounded-md border border-transparent p-2 text-sm font-medium transition hover:bg-gray-700 hover:shadow-inner focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900"
           onClick={handleCloseDialog}
         >
           <XIcon className="h-5 w-5" aria-hidden="true" />
