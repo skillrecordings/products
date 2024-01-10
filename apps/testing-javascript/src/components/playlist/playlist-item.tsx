@@ -107,18 +107,6 @@ const PlaylistItem: React.FC<{
             purchased ? 'mt-4' : 'mt-5 lg:mt-8',
           )}
         >
-          {purchased && (
-            <a
-              href="/"
-              className="py-1 px-2 space-x-2 sm:space-x-2 flex items-center text-base rounded-sm bg-gray-100 hover:bg-gray-200 duration-200"
-            >
-              <Icon
-                name="download"
-                className="w-[12px] h-[12px] sm:w-[14px] sm:h-[14px]"
-              />
-              <span>Download</span>
-            </a>
-          )}
           <div className="space-x-1 sm:space-x-2 flex items-center text-base">
             <Icon
               name="lesson"
