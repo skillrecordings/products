@@ -5,7 +5,7 @@ export default {
   additionalLinkTags: [
     {
       rel: 'icon',
-      href: `${process.env.NEXT_PUBLIC_URL}/favicon.ico`,
+      href: `${process.env.NEXT_PUBLIC_URL}/favicon-32x32.png`,
     },
   ],
   additionalMetaTags: [
