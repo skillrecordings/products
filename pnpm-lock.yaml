@@ -1615,7 +1615,7 @@ importers:
         specifier: ^5.73.0
         version: 5.89.0(esbuild@0.19.8)
 
-  apps/epic-react-legacy:
+  apps/epic-react-delete-me:
     dependencies:
       '@amplitude/analytics-browser':
         specifier: ^1.3.0
