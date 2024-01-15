@@ -66,6 +66,7 @@ export default defineType({
           {title: 'draft', value: 'draft'},
           {title: 'active', value: 'active'},
           {title: 'unavailable', value: 'unavailable'},
+          {title: 'archived', value: 'archived'},
         ],
       },
     }),
