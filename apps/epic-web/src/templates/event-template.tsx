@@ -124,7 +124,7 @@ const Header: React.FC<HeaderProps> = ({
     new Date(startsAt),
     'America/Los_Angeles',
     'h:mm a',
-  )} — ${format(new Date(endsAt), 'h:mm a')}`
+  )} — ${formatInTimeZone(new Date(endsAt), 'America/Los_Angeles', 'h:mm a')}`
 
   return (
     <header className="relative mx-auto w-full max-w-screen-lg">
