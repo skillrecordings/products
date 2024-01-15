@@ -6,7 +6,6 @@ import Balancer from 'react-wrap-balancer'
 import {format} from 'date-fns'
 import Image from 'next/image'
 import Share from 'components/share'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {Event} from 'lib/events'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
@@ -79,7 +78,19 @@ const EventTemplate: React.FC<{
         </div>
       </main>
       <Share contentType="Live Workshop" title={title} />
-      <AuthorBio title={(name) => `Hosted by ${name}`} className="mt-16" />
+      <AuthorBio
+        slug={event.author?.slug}
+        name={event.author?.name}
+        picture={
+          event.author?.picture && {
+            url: event.author.picture.url,
+            alt: event.author.picture.alt || event.author.name,
+          }
+        }
+        title={(name) => `Hosted by ${name}`}
+        bio={event.author?.bio}
+        className=""
+      />
     </Layout>
   )
 }

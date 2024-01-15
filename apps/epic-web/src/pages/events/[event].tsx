@@ -9,6 +9,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const event = await getEvent(params?.event as string)
   const mdx = event.body && (await serializeMDX(event.body))
+
   return {
     props: {event, mdx},
     revalidate: 10,
