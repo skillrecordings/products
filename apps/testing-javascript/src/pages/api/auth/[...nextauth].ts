@@ -8,6 +8,7 @@ const productTheme: Theme = {
 }
 
 export const nextAuthOptions: NextAuthOptions = createOptions({
+  debug: true,
   theme: productTheme,
 })
 
@@ -15,7 +16,11 @@ export default async function NextAuthEndpoint(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  return NextAuth(req, res, createOptions({req, theme: productTheme}))
+  return NextAuth(
+    req,
+    res,
+    createOptions({req, theme: productTheme, debug: true}),
+  )
 }
 
 export const config = {
