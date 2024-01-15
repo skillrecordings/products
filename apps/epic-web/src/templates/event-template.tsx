@@ -10,7 +10,6 @@ import {Event} from 'lib/events'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import AuthorBio from 'components/author-bio'
-import Script from 'next/script'
 import {
   CalendarIcon,
   ClockIcon,
@@ -39,16 +38,19 @@ const EventTemplate: React.FC<{
     ? {url: _ogImage.secure_url, alt: title}
     : getOgImage({
         title: title,
+        authorImage: event.author?.picture?.url,
+        authorName: event.author?.name,
       })
   const pageDescription =
     description ||
     (mdx ? `${mdx.compiledSource.substring(0, 157)}...` : undefined)
-  const author = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
+  const author =
+    event.author?.name ??
+    `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
 
   return (
     <Layout meta={{title, description: pageDescription, ogImage}}>
-      <Script src="https://js.tito.io/v2/" async />
       <EventJsonLd
         name={title}
         startDate={startsAt}
@@ -112,11 +114,18 @@ const Header: React.FC<HeaderProps> = ({
   image,
   timezone,
 }) => {
-  const eventDate = `${format(new Date(startsAt), 'MMMM d, yyyy')}`
-  const eventTime = `${format(new Date(startsAt), 'h:mm a')} — ${format(
-    new Date(endsAt),
-    'h:mm a',
-  )}`
+  const [eventDate, setEventDate] = React.useState<string | null>(null)
+  const [eventTime, setEventTime] = React.useState<string | null>(null)
+
+  React.useEffect(() => {
+    setEventDate(`${format(new Date(startsAt), 'MMMM d, yyyy')}`)
+    setEventTime(
+      `${format(new Date(startsAt), 'h:mm a')} — ${format(
+        new Date(endsAt),
+        'h:mm a',
+      )}`,
+    )
+  }, [])
 
   return (
     <header className="relative mx-auto w-full max-w-screen-lg">

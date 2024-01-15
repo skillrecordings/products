@@ -27,6 +27,16 @@ export default async function handler(req: NextRequest) {
     const type = hasType ? searchParams.get('type') : ''
     const isVideo = type === 'video'
 
+    const hasAuthorName = searchParams.has('authorName')
+    const authorName = hasAuthorName
+      ? searchParams.get('authorName')
+      : 'Kent C. Dodds'
+
+    const hasAuthorImage = searchParams.has('authorImage')
+    const authorImage = hasAuthorImage
+      ? searchParams.get('authorImage')
+      : 'https://www.epicweb.dev/kent-c-dodds.png'
+
     const DefaultTemplate = () => {
       return (
         <div
@@ -65,15 +75,12 @@ export default async function handler(req: NextRequest) {
             </p>
             {!hasImage && (
               <div tw="flex items-center absolute right-14 top-12">
-                <img
-                  src="https://www.epicweb.dev/kent-c-dodds.png"
-                  tw="h-24 rounded-full bg-gray-800"
-                />
+                <img src={authorImage} tw="h-24 rounded-full bg-gray-800" />
                 <p
                   style={{fontSize: 36, fontFamily: 'DM Sans'}}
                   tw="text-3xl ml-6 mb-6 text-gray-300"
                 >
-                  Kent C. Dodds
+                  {authorName}
                 </p>
               </div>
             )}
