@@ -4,6 +4,7 @@ import {EventJsonLd} from '@skillrecordings/next-seo'
 import {useRouter} from 'next/router'
 import Balancer from 'react-wrap-balancer'
 import {format} from 'date-fns'
+import {formatInTimeZone} from 'date-fns-tz'
 import Image from 'next/image'
 import Share from 'components/share'
 import {Event} from 'lib/events'
@@ -114,18 +115,16 @@ const Header: React.FC<HeaderProps> = ({
   image,
   timezone,
 }) => {
-  const [eventDate, setEventDate] = React.useState<string | null>(null)
-  const [eventTime, setEventTime] = React.useState<string | null>(null)
-
-  React.useEffect(() => {
-    setEventDate(`${format(new Date(startsAt), 'MMMM d, yyyy')}`)
-    setEventTime(
-      `${format(new Date(startsAt), 'h:mm a')} — ${format(
-        new Date(endsAt),
-        'h:mm a',
-      )}`,
-    )
-  }, [])
+  const eventDate = `${formatInTimeZone(
+    new Date(startsAt),
+    'America/Los_Angeles',
+    'MMMM d, yyyy',
+  )}`
+  const eventTime = `${formatInTimeZone(
+    new Date(startsAt),
+    'America/Los_Angeles',
+    'h:mm a',
+  )} — ${format(new Date(endsAt), 'h:mm a')}`
 
   return (
     <header className="relative mx-auto w-full max-w-screen-lg">
