@@ -20,7 +20,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = events.map((event: Event) => ({
     params: {event: event.slug},
   }))
-  return {paths, fallback: false}
+  return {paths, fallback: 'blocking'}
 }
 
 type EventPageProps = {

@@ -74,7 +74,8 @@ const EventTemplate: React.FC<{
         <Body mdx={mdx} />
         <div className="flex w-full items-center justify-center pb-16 pt-24 text-lg font-semibold">
           {/* @ts-ignore-next-line */}
-          <tito-widget event={`epic-web/${slug}`} />
+          {/*<tito-widget event={`epic-web/${slug}`} />*/}
+          {/*  show the buy widget for an associated product that gives access to the event */}
         </div>
       </main>
       <Share contentType="Live Workshop" title={title} />
