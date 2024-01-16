@@ -43,9 +43,10 @@ const Tweet: React.FC<TweetProps> = ({text, url, author}) => {
 type VideoProps = {
   url: string
   title?: string
+  poster?: string
 }
 
-const Video: React.FC<VideoProps> = ({url, title}) => {
+const Video: React.FC<VideoProps> = ({url, title, poster}) => {
   return (
     <figure data-body-video="" className="video">
       <video
@@ -53,6 +54,7 @@ const Video: React.FC<VideoProps> = ({url, title}) => {
         loop={true}
         controls={true}
         className="rounded-md"
+        poster={poster}
       >
         <source src={url} type="video/mp4" />
       </video>
@@ -137,8 +139,8 @@ const mdxComponents = {
   Tweet: ({text, url, author}: TweetProps) => {
     return <Tweet text={text} url={url} author={author} />
   },
-  Video: ({url, title}: VideoProps) => {
-    return <Video url={url} title={title} />
+  Video: ({url, title, poster}: VideoProps) => {
+    return <Video url={url} title={title} poster={poster} />
   },
   Testimonial: ({
     children,
@@ -153,6 +155,9 @@ const mdxComponents = {
     return <YouTube videoId={videoId} />
   },
   Image: (props: ImageProps) => <Image {...props} />,
+  ChecklistItem: ({children}: React.PropsWithChildren<{}>) => {
+    return <li data-checklist-item="">{children}</li>
+  },
 }
 
 export default mdxComponents
