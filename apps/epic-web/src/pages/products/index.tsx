@@ -10,7 +10,6 @@ import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {
   Button,
   Card,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -18,7 +17,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@skillrecordings/ui'
@@ -31,8 +29,8 @@ import {
 } from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {trpc} from 'trpc/trpc.client'
 import {
-  PriceDisplayProps,
   formatUsd,
+  PriceDisplayProps,
 } from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import Spinner from 'components/spinner'
 import {Bonuses, PurchasedBadge} from 'templates/purchased-product-template'
@@ -42,16 +40,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
   const token = await getToken({req})
 
-  const commerceProps = await propsForCommerce({
+  return await propsForCommerce({
     query,
     token,
     products: products.filter(
-      (product: {type: string; state: string}) =>
-        product.type === 'self-paced' && ['active'].includes(product.state),
+      (product: {type: string; state: string}) => product.type === 'self-paced',
     ),
   })
-
-  return commerceProps
 }
 
 type PurchaseWithProduct = Purchase & {
@@ -69,13 +64,7 @@ type ProductsIndexProps = {
 }
 
 const Products = () => {
-  const {
-    purchases,
-    displayedProducts,
-    purchasedProducts,
-    purchasedProductIds,
-    defaultFilterValue,
-  } = useProductsIndex()
+  const {purchases, displayedProducts, purchasedProductIds} = useProductsIndex()
 
   return (
     <>
@@ -129,19 +118,11 @@ const ProductCard: React.FC<{
   product: SanityProduct
   purchase: PurchaseWithProduct | undefined
 }> = ({product, purchase}) => {
-  const router = useRouter()
   const {data: formattedPrice, status: formattedPriceStatus} =
     trpc.pricing.formatted.useQuery({
       productId: product.productId as string,
       quantity: 1,
     })
-
-  const {data: availableBonuses = []} =
-    trpc.bonuses.availableBonusesForPurchase.useQuery({
-      purchaseId: purchase?.id,
-    })
-
-  const {mutate: redeemBonus} = trpc.bonuses.redeemBonus.useMutation()
 
   const isSingleModuleProduct = product.modules.length === 1
   const buyHref = isSingleModuleProduct ? `/workshops/${product.slug}` : '/buy'
@@ -158,7 +139,7 @@ const ProductCard: React.FC<{
       status: abilityRulesStatus,
     }
   }
-  const {ability, status: abilityRulesStatus} = useAbilities()
+  const {ability} = useAbilities()
 
   const canView = ability.can('view', 'Content')
 
@@ -166,7 +147,7 @@ const ProductCard: React.FC<{
     (product.state === 'unavailable' || product.state === 'archived') &&
     !purchase
   ) {
-    return null
+    return <div>No Products Found</div>
   }
 
   return (
@@ -220,7 +201,6 @@ const ProductCard: React.FC<{
                   </>
                 )}
                 {purchase || (isSingleModuleProduct && canView) ? null : (
-                  // <Price amount={Number(purchase.totalAmount)} />
                   <div className="flex items-center space-x-3 text-sm text-muted-foreground">
                     <>
                       <PriceDisplay
@@ -246,14 +226,12 @@ const StateFilter = () => {
   const router = useRouter()
   const {
     products,
-    purchases,
     purchasedProducts,
     defaultFilterValue,
     setDisplayedProducts,
-    displayedProducts,
   } = useProductsIndex()
 
-  const {data: sessionData, status: sessionStatus} = useSession()
+  const {data: sessionData} = useSession()
 
   const handleValueChange = (value: string) => {
     if (value === 'all') {
