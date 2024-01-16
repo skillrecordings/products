@@ -21,27 +21,23 @@ import {getVideoResource} from '@skillrecordings/skill-lesson/lib/video-resource
 import {getWorkshop} from '@/lib/workshops'
 import {ParsedUrlQuery} from 'querystring'
 import {getTutorial} from '@/lib/tutorials'
-import {getTip} from '@/lib/tips'
 import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
 import {getBonus} from '@/lib/bonuses'
 
 export const getPropsForEmbed = async (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
-  resourceType: 'tutorial' | 'workshop' | 'tip' | 'bonus',
+  resourceType: 'tutorial' | 'workshop' | 'bonus',
   isSolution?: boolean,
 ) => {
   // resource
   const {query} = context
   const {params} = context
-  const lessonSlug = (params?.lesson || params?.tip) as string
+  const lessonSlug = params?.lesson as string
   const sectionSlug = params?.section as string
   const moduleSlug = params?.module as string
   const module = await getModule(resourceType, moduleSlug)
   const section = await getSection(sectionSlug)
-  const lesson =
-    resourceType === 'tip'
-      ? ((await getTip(lessonSlug)) as Exercise)
-      : await getExercise(lessonSlug, false)
+  const lesson = await getExercise(lessonSlug, false)
   // @ts-ignore
   const solution = lesson.solution || lesson
   const videoResourceId = isSolution
@@ -114,7 +110,7 @@ export const getPropsForEmbed = async (
 }
 
 const getModule = async (
-  type: 'tutorial' | 'workshop' | 'tip' | 'bonus',
+  type: 'tutorial' | 'workshop' | 'bonus',
   slug: string,
 ) => {
   switch (type) {
@@ -124,12 +120,5 @@ const getModule = async (
       return await getWorkshop(slug)
     case 'bonus':
       return await getBonus(slug)
-    case 'tip':
-      return {
-        moduleType: 'tip',
-        slug: {
-          current: 'tips',
-        },
-      }
   }
 }

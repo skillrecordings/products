@@ -58,11 +58,6 @@ export const useNavigationLinks = () => {
       href: '/workshops',
     },
     {
-      label: 'Tips',
-      icon: () => '',
-      href: canCreateContent ? '/creator/tips' : '/tips',
-    },
-    {
       label: (
         <>
           <span className="sm:hidden lg:inline-block">Free</span> Tutorials

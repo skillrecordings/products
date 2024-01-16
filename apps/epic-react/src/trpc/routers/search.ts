@@ -17,7 +17,7 @@ export const searchRouter = router({
         `  *[_type in [${
           resourceType
             ? `"${resourceType}"`
-            : '"article", "tip", "module", "exercise", "explainer", "talk"'
+            : '"article", "module", "exercise", "explainer", "talk"'
         }]]
     | score(
       title match $searchQuery 
