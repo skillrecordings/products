@@ -1,10 +1,10 @@
 import {inngest} from 'inngest/inngest.server'
-import {SANITY_WEBHOOK_EVENT} from 'inngest/events/sanity'
 import {v4} from 'uuid'
 import {prisma} from '@skillrecordings/database'
 import {stripe} from '@skillrecordings/commerce-server'
-import {loadSanityProduct} from 'inngest/functions/sanity/product/index'
+import {loadSanityProduct} from './index'
 import {sanityWriteClient} from 'utils/sanity-server'
+import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
 
 export const sanityProductCreated = inngest.createFunction(
   {id: `product-create`, name: 'Create Product in Database'},
@@ -28,6 +28,8 @@ export const sanityProductCreated = inngest.createFunction(
       state,
     } = sanityProduct
 
+    const productStatus = state === 'active' ? 1 : 0
+
     const product = await step.run('create product in database', async () => {
       const newProductId = v4()
       return await prisma.product.create({
@@ -35,7 +37,7 @@ export const sanityProductCreated = inngest.createFunction(
           id: newProductId,
           name: title,
           quantityAvailable,
-          status: state === 'active' ? 1 : 0,
+          status: productStatus,
         },
       })
     })
@@ -106,13 +108,14 @@ export const sanityProductCreated = inngest.createFunction(
               productId: product.id,
               merchantAccountId: merchantAccount.id,
               identifier: stripeProduct.id,
+              status: 1,
             },
           })
         },
       )
 
       const merchantPrice = await step.run(
-        'create merchant product in database',
+        'create merchant price in database',
         async () => {
           const newMerchantPriceId = v4()
           return await prisma.merchantPrice.create({
@@ -122,6 +125,7 @@ export const sanityProductCreated = inngest.createFunction(
               priceId: price.id,
               merchantAccountId: merchantAccount.id,
               identifier: stripePrice.id,
+              status: 1,
             },
           })
         },

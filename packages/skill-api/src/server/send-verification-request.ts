@@ -90,13 +90,14 @@ export const sendVerificationRequest = async (
   ) {
     const transport = createTransport(server)
 
-    await transport.sendMail({
+    const result = await transport.sendMail({
       to: email,
       from,
       subject,
       text: text({url, host, expires}),
       html: html({url, host, email, expires}, theme),
     })
+    console.debug(`📧 Email sent to ${email}! [${result.response}]`)
   } else if (process.env.SKIP_EMAIL === 'true') {
     console.warn(`🚫 email sending is disabled.`)
   } else {

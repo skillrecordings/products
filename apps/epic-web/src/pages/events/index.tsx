@@ -80,20 +80,24 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                   </div>
                   <div className="relative z-10 flex w-full flex-col items-start justify-between space-y-10 pt-8 md:flex-row md:items-center md:space-y-0">
                     <div className="flex w-full items-center gap-10 text-sm text-gray-700 dark:text-gray-300">
-                      <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
-                          <Image
-                            src={require('../../../public/kent-c-dodds.png')}
-                            width={54}
-                            height={54}
-                            alt="Kent C. Dodds"
-                          />
+                      {event.author ? (
+                        <div className="flex items-center gap-3">
+                          {event.author.picture && (
+                            <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
+                              <Image
+                                src={event.author.picture.url}
+                                width={54}
+                                height={54}
+                                alt={event.author.name}
+                              />
+                            </div>
+                          )}
+                          <div>
+                            <div className="block font-bold">Hosted by</div>
+                            <div>{event.author.name}</div>
+                          </div>
                         </div>
-                        <div>
-                          <div className="block font-bold">Hosted by</div>
-                          <div>Kent C. Dodds</div>
-                        </div>
-                      </div>
+                      ) : null}
                       <div className="flex items-center gap-1">
                         <CalendarIcon className="w-5 opacity-80" />
                         {eventDate}

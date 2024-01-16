@@ -11,10 +11,10 @@ export default defineType({
       name: 'type',
       title: 'Type',
       type: 'string',
-      initialValue: 'tip',
-      validation: (Rule) => Rule.required(),
+      initialValue: 'highlight',
       options: {
         list: [
+          {title: 'Highlight', value: 'highlight'},
           {title: 'Tip', value: 'tip'},
           {title: 'Big Idea', value: 'big-idea'},
           {title: 'Reflection', value: 'reflection'},

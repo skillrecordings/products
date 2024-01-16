@@ -243,45 +243,39 @@ const MobileNav = () => {
         {status === 'unauthenticated' ? (
           <NavLink path="/login" label="Log in" />
         ) : null}
-        <li className="h-full">
-          <NavigationMenu.Root delayDuration={0} className="flex h-full">
-            <NavigationMenu.List className="flex h-full items-center justify-center">
-              <NavigationMenu.Item className="h-full">
-                <NavigationMenu.Trigger className="flex h-full items-center justify-center rounded-full px-2 py-2 hover:bg-gray-100">
-                  <MenuIcon className="h-5 w-5" aria-hidden />
-                  <span className="sr-only">Menu</span>
-                </NavigationMenu.Trigger>
-                <NavigationMenu.Content className="absolute left-0 top-full w-full border-t border-gray-100 bg-white shadow-2xl shadow-gray-500/20">
-                  <ul>
-                    {/* <MobileNavLink ... /> */}
-                    {status === 'authenticated' && (
-                      <>
-                        <div className="border-t border-gray-100 px-5 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide text-gray-700">
-                          Account
-                        </div>
-                        <ul>
-                          {canViewInvoice && (
-                            <MobileNavLink
-                              path="/purchases"
-                              label="Purchases"
-                            />
-                          )}
-                          {canViewTeam && (
-                            <MobileNavLink path="/team" label="Invite team" />
-                          )}
-                          <li>
-                            <LogOutButton className="flex h-full w-full items-center gap-0.5 px-5 py-3 text-base font-medium transition duration-100 hover:bg-gray-100 active:bg-transparent" />
-                          </li>
-                        </ul>
-                      </>
-                    )}
-                  </ul>
-                </NavigationMenu.Content>
-              </NavigationMenu.Item>
-            </NavigationMenu.List>
-            <NavigationMenu.Viewport className="w-full" />
-          </NavigationMenu.Root>
-        </li>
+        {status === 'authenticated' && (
+          <li className="h-full">
+            <NavigationMenu.Root delayDuration={0} className="flex h-full">
+              <NavigationMenu.List className="flex h-full items-center justify-center">
+                <NavigationMenu.Item className="h-full">
+                  <NavigationMenu.Trigger className="flex h-full items-center justify-center rounded-full px-2 py-2 hover:bg-gray-100">
+                    <MenuIcon className="h-5 w-5" aria-hidden />
+                    <span className="sr-only">Menu</span>
+                  </NavigationMenu.Trigger>
+                  <NavigationMenu.Content className="absolute left-0 top-full w-full border-t border-gray-100 bg-white shadow-2xl shadow-gray-500/20">
+                    <ul>
+                      <div className="border-t border-gray-100 px-5 pb-3 pt-5 font-mono text-xs font-semibold uppercase tracking-wide text-gray-700">
+                        Account
+                      </div>
+                      <ul>
+                        {canViewInvoice && (
+                          <MobileNavLink path="/purchases" label="Purchases" />
+                        )}
+                        {canViewTeam && (
+                          <MobileNavLink path="/team" label="Invite team" />
+                        )}
+                        <li>
+                          <LogOutButton className="flex h-full w-full items-center gap-0.5 px-5 py-3 text-base font-medium transition duration-100 hover:bg-gray-100 active:bg-transparent" />
+                        </li>
+                      </ul>
+                    </ul>
+                  </NavigationMenu.Content>
+                </NavigationMenu.Item>
+              </NavigationMenu.List>
+              <NavigationMenu.Viewport className="w-full" />
+            </NavigationMenu.Root>
+          </li>
+        )}
       </ul>
     </div>
   )

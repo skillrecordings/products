@@ -25,7 +25,7 @@ const buildFeed = (items: any) => {
   const feed = new Feed({
     id: hostUrl,
     link: hostUrl,
-    title: config.title,
+    title: process.env.NEXT_PUBLIC_SITE_TITLE,
     description: config.description,
     copyright: 'Copyright © ' + new Date().getFullYear() + ' ' + config.author,
     updated: new Date(items[0].date),

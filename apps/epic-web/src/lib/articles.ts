@@ -1,6 +1,7 @@
 import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
+import {AuthorSchema} from './authors'
 // import * as Sentry from '@sentry/nextjs'
 
 export const ArticleSchema = z.object({
@@ -13,6 +14,7 @@ export const ArticleSchema = z.object({
   description: z.nullable(z.string()).optional(),
   body: z.string(),
   state: z.enum(['published', 'draft']),
+  author: AuthorSchema.optional().nullable(),
   image: z
     .object({
       width: z.number(),
@@ -50,6 +52,22 @@ export const getAllArticles = async (): Promise<Article[]> => {
         body,
         image,
         ogImage,
+        author-> {
+          _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        name,
+        bio,
+        links[] {
+          url, label
+        },
+        picture {
+            "url": asset->url,
+            alt
+        },
+        "slug": slug.current,
+        },
         resources[]->{
           ...
         }
@@ -72,6 +90,23 @@ export const getArticle = async (slug: string): Promise<Article | null> => {
         body,
         image,
         ogImage,
+        author-> {
+          _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        name,
+        bio,
+        links[]{
+          url, label
+        },
+        twitterHandle,
+        picture {
+            "url": asset->url,
+            alt
+        },
+        "slug": slug.current,
+        },
         resources[]->{
           ...
         }

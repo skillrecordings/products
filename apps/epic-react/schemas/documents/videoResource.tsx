@@ -24,6 +24,22 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'state',
+      title: 'Current State',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'new',
+      options: {
+        list: [
+          {title: 'new', value: 'new'},
+          {title: 'preparing', value: 'preparing'},
+          {title: 'ready', value: 'ready'},
+          {title: 'errored', value: 'errored'},
+        ],
+      },
+      readOnly: true,
+    }),
+    defineField({
       name: 'originalMediaUrl',
       title: 'AWS S3 Url',
       description: 'A URL to the source video in an S3 Bucket',
@@ -44,9 +60,9 @@ export default defineType({
       type: 'muxAsset',
     }),
     defineField({
-      name: 'castingwords',
-      title: 'Castingwords',
-      type: 'castingwordsTranscript',
+      name: 'transcript',
+      title: 'Transcript',
+      type: 'transcript',
     }),
     defineField({
       name: 'duration',

@@ -1,4 +1,4 @@
-# Epic React
+# epic-react
 
 The working directory for this project is the same folder the README you are reading right now is located. All commands assume you are in the `{PROJECT_ROOT}/apps/epic-react` in your console.
 
@@ -21,6 +21,7 @@ Missing system dependencies should be installed. They will be assumed below.
 ## Serverless Access
 
 You may need access to the following serverless accounts to run the app:
+
 - Stripe (for Stripe env vars and Stripe CLI)
 - Vercel (for env vars, e.g. `POSTMARK_KEY`)
 - Planetscale (if needed) or use MySQL in Docker
@@ -41,19 +42,19 @@ pnpm install
 
 Copy the template `.env.local.template` file to `.env.local` and `.env.template` to `.env`
 
-🔒 `env.local` contains local __private environment variables__
+🔒 `env.local` contains local **private environment variables**
 
-* `ALGOLIA_API_WRITE_KEY`: Required when running `pnpm build` which invokes `next build` which use `NODE_ENV=production`.
-* `CONVERTKIT_API_SECRET`: not required for local development unless actively working on ConvertKit integration. Can be found in 1password.
-* `POSTMARK_KEY`: not required to run in dev, but enables email sending from local environment. Can be found in 1password.
-* `STRIPE_SECRET_TOKEN`: Not required unless you need to make an end to end purchase. Can be found in 1password.
-* `STRIPE_WEBHOOK_SECRET`: Not required unless you need to make a purchase. This value can be acquired by running `pnpm dev:stripe` and observing it there. The value is stable for your local `stripe` cli installation.
+- `ALGOLIA_API_WRITE_KEY`: Required when running `pnpm build` which invokes `next build` which use `NODE_ENV=production`.
+- `CONVERTKIT_API_SECRET`: not required for local development unless actively working on ConvertKit integration. Can be found in 1password.
+- `POSTMARK_KEY`: not required to run in dev, but enables email sending from local environment. Can be found in 1password.
+- `STRIPE_SECRET_TOKEN`: Not required unless you need to make an end to end purchase. Can be found in 1password.
+- `STRIPE_WEBHOOK_SECRET`: Not required unless you need to make a purchase. This value can be acquired by running `pnpm dev:stripe` and observing it there. The value is stable for your local `stripe` cli installation.
 
 👋 `.env` is **required by Prisma** and **only** contains `DATABASE_URL`. The full contents
 of this file by default are are:
 
 ```shell
-DATABASE_URL="mysql://root@localhost:3309/kcd-products"
+DATABASE_URL="mysql://root@localhost:3309/epic-react"
 ```
 
 You can use the provided templates. These files are ignored by git because they should **never be committed to the repository under any circumstances.**
@@ -83,7 +84,7 @@ At this point you successfully built the app without any errors, then you should
 pnpm dev
 ```
 
-The app will be served at `http://localhost:3020`.
+The app will be served at `http://localhost:3024`.
 
 You won't be able to do much without setting up a few other dependencies.
 
@@ -172,7 +173,7 @@ You'll need to install the [Stripe CLI](https://stripe.com/docs/stripe-cli) to c
 
 #### Login
 
-If you've just installed the Stripe CLI (or just been granted access to this Stripe account), you'll need to login via the commandline. Run `stripe login` and follow the prompts to connect your `stripe` CLI to the Epic React Stripe account. To confirm your connection, you should see a _Restricted Keys_ entry for your machine in the _Developers_ > _API Keys_ section of the Stripe Dashboard.
+If you've just installed the Stripe CLI (or just been granted access to this Stripe account), you'll need to login via the commandline. Run `stripe login` and follow the prompts to connect your `stripe` CLI to the epic-react Stripe account. To confirm your connection, you should see a _Restricted Keys_ entry for your machine in the _Developers_ > _API Keys_ section of the Stripe Dashboard.
 
 #### Listening to Webhook Events
 
@@ -182,7 +183,7 @@ Listen to webhook:
 pnpm dev:stripe
 ```
 
-The `dev:stripe` node script is a shorthand for `stripe listen --forward-to localhost:3020/api/skill/webhook/stripe`.
+The `dev:stripe` node script is a shorthand for `stripe listen --forward-to localhost:3024/api/skill/webhook/stripe`.
 
 `pnpm dev:stripe` starts listening for Stripe Webhook events. When it first starts, it will output a _webhook signing secret_ (`whsec_....`). You'll need to copy and paste this value into `.env.local` as the `STRIPE_WEBHOOK_SECRET`. It is required to make test purchases
 
@@ -293,3 +294,11 @@ pscale database restore-dump epic-react next-steps --dir ./seed_data/pscale_data
 ## Edit content
 
 Edit workshops with Sanity at [epic-react.sanity.studio](https://epic-react.sanity.studio/).
+
+## Edit content schema
+
+You can make changes to Sanity schema by editing contents inside `schema` directory. To run local version of Sanity:
+
+```
+pnpm dev:sanity
+```

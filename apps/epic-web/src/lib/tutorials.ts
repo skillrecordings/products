@@ -10,6 +10,7 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] | o
   _updatedAt,
   _createdAt,
   description,
+  moduleType,
   state,
   "sections": resources[@->._type == 'section']->{
     _id,

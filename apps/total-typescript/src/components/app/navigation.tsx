@@ -161,6 +161,7 @@ const MobileNav = () => {
   const ability = useAbilities()
   const canViewTeam = ability.can('view', 'Team')
   const canViewInvoice = ability.can('view', 'Invoice')
+  const canCreateContent = ability.can('create', 'Content')
 
   const {status} = useSession()
   const {setIsFeedbackDialogOpen} = useFeedback()
@@ -241,6 +242,9 @@ const MobileNav = () => {
                     {/* {canViewInvoice && (
                             <MobileNavLink path="/invoices" label="Invoices" />
                           )} */}
+                    {canCreateContent && (
+                      <MobileNavLink path="/admin" label="Admin" />
+                    )}
                     <MobileNavLink
                       label="Send Feedback"
                       onClick={() => {
@@ -459,6 +463,7 @@ const AccountDropdown = () => {
   const ability = useAbilities()
   const canViewTeam = ability.can('view', 'Team')
   const canViewInvoice = ability.can('view', 'Invoice')
+  const canCreateContent = ability.can('create', 'Content')
 
   const preventHover = (event: any) => {
     const e = event as Event
@@ -502,6 +507,11 @@ const AccountDropdown = () => {
                     <DropdownLink href="/invoices">Invoices</DropdownLink>
                   </li>
                 )} */}
+                {canCreateContent && (
+                  <li className="w-full">
+                    <DropdownLink href="/admin">Admin</DropdownLink>
+                  </li>
+                )}
                 <li className="w-full">
                   <DropdownLink href="/faq">FAQ</DropdownLink>
                 </li>

@@ -4,8 +4,29 @@ export default {
   author: `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
   additionalLinkTags: [
     {
+      rel: 'apple-touch-icon',
+      sizes: '180x180',
+      href: `${process.env.NEXT_PUBLIC_URL}/favicons/apple-touch-icon.png`,
+    },
+    {
       rel: 'icon',
-      href: `${process.env.NEXT_PUBLIC_URL}/favicon.ico`,
+      type: 'image/png',
+      sizes: '32x32',
+      href: `${process.env.NEXT_PUBLIC_URL}/favicons/favicon-32x32.png`,
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '16x16',
+      href: `${process.env.NEXT_PUBLIC_URL}/favicons/favicon-16x16.png`,
+    },
+    {
+      rel: 'manifest',
+      href: `${process.env.NEXT_PUBLIC_URL}/favicons/site.webmanifest`,
+    },
+    {
+      rel: 'shortcut icon',
+      href: `${process.env.NEXT_PUBLIC_URL}/favicons/favicon.ico`,
     },
   ],
   additionalMetaTags: [
@@ -16,6 +37,18 @@ export default {
     {
       property: 'keywords',
       content: process.env.NEXT_PUBLIC_SEO_KEYWORDS,
+    },
+    {
+      name: 'msapplication-TileColor',
+      content: '#ffffff',
+    },
+    {
+      name: 'msapplication-config',
+      content: '/favicons/browserconfig.xml',
+    },
+    {
+      name: 'theme-color',
+      content: '#ffffff',
     },
   ],
   twitter: {

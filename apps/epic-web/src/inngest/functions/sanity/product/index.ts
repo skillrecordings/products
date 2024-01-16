@@ -11,9 +11,9 @@ export const sanityProductFunctions = [
   sanityProductDeleted,
 ]
 
-export const loadSanityProduct = async (id: string) => {
-  const sanityProductData = await sanityWriteClient.fetch(
-    groq`*[_type == "product" && _id == $id][0] {
+export const loadSanityProduct = async (
+  id: string,
+  query = groq`*[_type == "product" && _id == $id][0] {
           _id,
           productId,
           unitAmount,
@@ -33,8 +33,8 @@ export const loadSanityProduct = async (id: string) => {
             url
           }
     }`,
-    {id},
-  )
+) => {
+  const sanityProductData = await sanityWriteClient.fetch(query, {id})
   return BaseSanityProductSchema.parse(sanityProductData)
 }
 

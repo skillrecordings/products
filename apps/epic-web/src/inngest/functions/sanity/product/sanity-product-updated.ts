@@ -1,9 +1,9 @@
 import {inngest} from 'inngest/inngest.server'
-import {SANITY_WEBHOOK_EVENT} from 'inngest/events/sanity'
 import {prisma} from '@skillrecordings/database'
 import {stripe} from '@skillrecordings/commerce-server'
 import {v4} from 'uuid'
 import {loadSanityProduct} from './index'
+import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
 
 export const sanityProductUpdated = inngest.createFunction(
   {

@@ -34,3 +34,30 @@ export const useTipComplete = (tipSlug: string) => {
 
   return {tipCompleted: completionEvents && completionEvents.length > 0, status}
 }
+
+export const useCompletedTips = (tipSlugs: string[]) => {
+  const {data: completedTips, status} = useQuery(
+    ['completionEvents', tipSlugs],
+    async () => {
+      const tipEvents = await localProgressDb.progress
+        .where('lesson')
+        .anyOf(tipSlugs)
+        .toArray()
+
+      return z
+        .array(TipEventSchema)
+        .parse(tipEvents)
+        .filter((tipEvent) => {
+          return (
+            tipEvent.eventName === 'completed video' &&
+            tipEvent.module === 'tips'
+          )
+        })
+    },
+  )
+
+  return {
+    completedTips,
+    status,
+  }
+}

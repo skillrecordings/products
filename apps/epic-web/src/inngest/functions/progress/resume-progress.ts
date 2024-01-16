@@ -25,6 +25,8 @@ export const resumeProgressAfterInactivity = inngest.createFunction(
 
     await step.sleep('wait for 30 days', '30d')
 
+    await step.sleep('wait for 30 days', '90d')
+
     return 'yup, here we are'
   },
 )

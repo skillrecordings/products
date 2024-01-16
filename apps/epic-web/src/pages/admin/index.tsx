@@ -2,16 +2,13 @@ import Layout from 'components/app/layout'
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import {Decimal, getSdk} from '@skillrecordings/database'
-import {stringify} from 'superjson'
 import {Skeleton} from '@skillrecordings/ui'
 import {trpc} from 'trpc/trpc.client'
 import {
   CouponDataTable,
   CouponGeneratorForm,
-  // UsersDataTable
 } from '@skillrecordings/skill-lesson/admin'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
-import {ModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
 import {Bar} from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -28,7 +25,6 @@ type ProgressData = Awaited<
 >
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {req, query, params} = context
   const {getLessonProgressCountsByDate} = getSdk()
 
   const progressData = await getLessonProgressCountsByDate()

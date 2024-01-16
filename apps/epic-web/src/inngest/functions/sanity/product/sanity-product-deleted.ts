@@ -1,7 +1,7 @@
 import {inngest} from 'inngest/inngest.server'
-import {SANITY_WEBHOOK_EVENT} from 'inngest/events/sanity'
 import {prisma} from '@skillrecordings/database'
 import {stripe} from '@skillrecordings/commerce-server'
+import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
 
 export const sanityProductDeleted = inngest.createFunction(
   {id: `product-delete`, name: 'Deactivate Product in Database'},

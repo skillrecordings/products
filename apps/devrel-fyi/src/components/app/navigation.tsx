@@ -27,6 +27,8 @@ import {ChevronDownIcon} from '@heroicons/react/outline'
 import Countdown, {zeroPad} from 'react-countdown'
 import Image from 'next/image'
 import Container from './container'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import {Logo} from '../logo'
 
 type NavigationProps = {
   className?: string
@@ -93,7 +95,7 @@ const Navigation: React.FC<NavigationProps> = ({
 
   const {data: lastPurchase, status: lastPurchaseStatus} =
     trpc.purchases.getLastPurchase.useQuery()
-
+  const {subscriber, loadingSubscriber} = useConvertkit()
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
   const hasPurchase = purchasedProductIds.length > 0
@@ -117,7 +119,10 @@ const Navigation: React.FC<NavigationProps> = ({
           aria-label="top"
           className={cn('relative mx-auto flex h-20 w-full text-sm', className)}
         >
-          <Container className="relative flex items-center justify-between">
+          <Container
+            className="relative flex max-w-full items-center justify-between border-x-0 lg:px-5"
+            wrapperClassName="lg:px-0 sm:px-0 px-0"
+          >
             <div className="flex items-center gap-2">
               <Link
                 href="/"
@@ -157,31 +162,36 @@ const Navigation: React.FC<NavigationProps> = ({
             </div>
             <div className="flex h-full items-center justify-end">
               {/* <Login className="hidden md:flex" /> */}
-              <button
-                onClick={() => {
-                  // scroll to #subscribe
-                  const subscribeSection = document.getElementById('join')
-                  if (subscribeSection) {
-                    subscribeSection.scrollIntoView({
-                      behavior: 'smooth',
-                      block: 'center',
-                    })
-                  } else {
-                    router.push('/#join')
-                  }
-                }}
-                type="button"
-                className="group absolute right-0 flex h-full items-center justify-center overflow-hidden bg-primary px-10 py-3 font-mono text-xs font-normal uppercase text-primary-foreground sm:font-bold"
-              >
-                Join
-                <div
-                  className="absolute -bottom-2.5 -right-2.5 h-5 w-5 rotate-45 bg-background transition group-hover:translate-x-5 group-aria-pressed:translate-x-5"
-                  aria-hidden="true"
-                ></div>
-              </button>
-              {/* <span className="font-mono text-xs opacity-50" aria-hidden="true">
-                <CurrentTime />
-              </span> */}
+              {subscriber ? null : (
+                <motion.button
+                  whileHover={{
+                    borderRadius: 0,
+                  }}
+                  style={{
+                    borderRadius: 40,
+                  }}
+                  transition={{
+                    type: 'spring',
+                    duration: 0.3,
+                  }}
+                  onClick={() => {
+                    // scroll to #subscribe
+                    const subscribeSection = document.getElementById('join')
+                    if (subscribeSection) {
+                      subscribeSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center',
+                      })
+                    } else {
+                      router.push('/#join')
+                    }
+                  }}
+                  type="button"
+                  className="group absolute right-0 flex h-full items-center justify-center overflow-hidden bg-mint px-10 py-3 font-mono text-xs font-bold uppercase text-primary-foreground"
+                >
+                  Join
+                </motion.button>
+              )}
               <User className="hidden md:flex" />
               {commercePropsStatus === 'success' && hasPurchase && (
                 <>
@@ -508,15 +518,6 @@ const NavToggle: React.FC<NavToggleProps> = ({
   )
 }
 
-export const Logo: React.FC<{className?: string}> = ({className}) => {
-  return (
-    <div className="flex items-start font-mono">
-      <span>devrel</span>
-      <span className="mt-[4px] text-xs text-primary">.fyi</span>
-    </div>
-  )
-}
-
 export const SaleBanner: React.FC<{size?: 'sm' | 'md' | 'lg'}> = ({size}) => {
   const currentSale = useAvailableSale()
 
@@ -541,7 +542,7 @@ export const SaleBanner: React.FC<{size?: 'sm' | 'md' | 'lg'}> = ({size}) => {
           <div className="flex w-full flex-col sm:w-auto sm:flex-row sm:items-center sm:space-x-2">
             <strong>
               Save {(Number(currentSale.percentageDiscount) * 100).toString()}%
-              on{' '}
+              on {/* @ts-ignore-next-line */}
               {currentSale.product?.name ||
                 process.env.NEXT_PUBLIC_PRODUCT_NAME}
             </strong>

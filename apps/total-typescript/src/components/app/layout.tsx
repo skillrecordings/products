@@ -34,6 +34,11 @@ const Layout: FunctionComponent<LayoutProps> = ({
   const router = useRouter()
   const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
 
+  const {data: defaultCouponData, status: defaultCouponStatus} =
+    trpc.pricing.defaultCoupon.useQuery()
+
+  const percentageDiscount = defaultCouponData?.percentageDiscount
+
   const {
     title,
     description,
@@ -41,13 +46,13 @@ const Layout: FunctionComponent<LayoutProps> = ({
     url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
     type = 'website',
     ogImage = {
-      url: `${process.env.NEXT_PUBLIC_URL}/card-save-20@2x.png?date=09/10/23`,
+      url: percentageDiscount
+        ? `${process.env.NEXT_PUBLIC_OG_IMAGE_URI}/og-sale?discount=${percentageDiscount}`
+        : `${process.env.NEXT_PUBLIC_URL}/card@2x.png?date=12/15/23`,
     },
     keywords,
     date,
   } = meta || {}
-  const {data: defaultCouponData, status: defaultCouponStatus} =
-    trpc.pricing.defaultCoupon.useQuery()
 
   return (
     <div className="relative">

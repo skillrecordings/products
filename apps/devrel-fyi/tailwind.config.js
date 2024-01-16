@@ -40,6 +40,7 @@ module.exports = {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
         },
+        mint: 'hsl(var(--mint))',
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
@@ -71,8 +72,9 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        sans: ['var(--font-maison-neue)'],
-        mono: ['var(--font-maison-neue-mono)'],
+        sans: ['var(--font-maison-neue)', ...defaultTheme.fontFamily.sans],
+        mono: ['var(--font-maison-neue-mono)', ...defaultTheme.fontFamily.mono],
+        serif: ['var(--font-tt-barrels)', ...defaultTheme.fontFamily.serif],
       },
       keyframes: {
         'accordion-down': {

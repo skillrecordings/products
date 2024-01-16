@@ -27,6 +27,15 @@ export const TipSchema = z.object({
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
+  author: z
+    .object({
+      name: z.string(),
+      slug: z.string(),
+      image: z.string(),
+      imageAlt: z.string(),
+    })
+    .nullable()
+    .optional(),
 })
 
 export const TipsSchema = z.array(TipSchema)
@@ -36,7 +45,7 @@ export type Tip = z.infer<typeof TipSchema>
 export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
   const tips = await sanityClient.fetch(groq`*[_type == "tip" ${
     onlyPublished ? `&& state == "published"` : ''
-  }] | order(_createdAt asc) {
+  }] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,
@@ -46,6 +55,12 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
         description,
         summary,
         body,
+        author-> {
+          name,
+          "slug": slug.current,
+          "image": picture.asset->url,
+          "imageAlt": picture.alt
+        },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
@@ -68,12 +83,19 @@ export const getTip = async (slug: string): Promise<Tip> => {
         description,
         summary,
         body,
+        author-> {
+          name,
+          "slug": slug.current,
+          "image": picture.asset->url,
+          "imageAlt": picture.alt
+        },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
         "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId
+
     }`,
     {slug},
   )

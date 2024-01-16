@@ -1,17 +1,16 @@
 #primary-newsletter-cta {
   [data-sr-convertkit-subscribe-form] {
-    @apply grid w-full grid-cols-2;
+    @apply flex w-full flex-col;
     [data-sr-input] {
-      @apply relative col-span-2 h-32 rounded-none border-b-0 border-l-0 border-r-0 px-10 py-5 text-lg font-light ring-offset-0 transition placeholder:text-foreground/75 focus-within:bg-white/5 focus-within:outline-none hover:bg-white/5 sm:col-span-1 sm:border-y sm:border-r-0 sm:text-xl sm:first-of-type:border-l-0 sm:first-of-type:border-r;
+      @apply mb-8 w-full rounded-full border-none bg-foreground px-8 py-6 text-xl text-background;
     }
     [data-sr-input-label] {
-      @apply sr-only mt-3 flex pb-1 text-base font-medium;
+      @apply inline-block px-8 pb-4;
     }
     [data-sr-input-asterisk] {
-      @apply opacity-50;
     }
     [data-sr-button] {
-      @apply col-span-2 mt-1 h-32 flex-shrink-0 overflow-hidden rounded-none text-lg transition after:absolute after:-bottom-2.5 after:-right-2.5 after:h-5 after:w-5 after:rotate-45 after:bg-background after:transition after:content-[''] hover:brightness-105 hover:after:translate-x-5 sm:text-xl;
+      @apply w-full rounded-full bg-background px-8 py-10 text-xl text-foreground focus-visible:outline-2 focus-visible:outline-white;
     }
   }
 }

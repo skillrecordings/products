@@ -14,7 +14,7 @@
 [data-video-overlay-wrapper] {
   @apply relative left-0 top-0 flex aspect-video w-full items-center justify-center bg-[#070B16];
   [data-dismiss] {
-    @apply absolute right-2 top-2 z-40 flex items-center gap-1 rounded px-3 py-2 text-sm font-medium text-gray-200 transition hover:bg-gray-800 sm:text-base;
+    @apply absolute right-2 top-2 z-40 flex items-center gap-1 rounded px-3 py-2 text-sm font-medium text-gray-200 transition hover:bg-gray-800 hover:text-inherit sm:text-base;
     svg {
       @apply h-5 w-5;
     }
@@ -32,9 +32,9 @@
   [data-progress] {
     @apply flex w-full max-w-sm items-center justify-center gap-2 pt-5;
     [data-progress-bar] {
-      @apply relative h-2 w-full overflow-hidden rounded-full bg-gray-700;
+      @apply bg-gray-700;
       [data-indicator] {
-        @apply relative h-full w-full flex-1 bg-teal-500 transition-all duration-300 ease-out;
+        @apply bg-teal-500 duration-300 ease-out;
       }
     }
     [data-lessons-completed] {
@@ -60,7 +60,7 @@
       @apply flex w-full items-center justify-center;
     }
     [data-action='replay'] {
-      @apply w-auto gap-1 rounded px-3 text-base font-medium text-gray-300 transition hover:text-white;
+      @apply w-auto gap-1 rounded px-3 text-base font-medium text-gray-300 transition hover:bg-transparent hover:text-white;
       [data-icon] {
       }
     }
@@ -71,7 +71,7 @@
       }
     }
     [data-action='continue'] {
-      @apply flex w-full items-center gap-1 rounded bg-gradient-to-t from-teal-600 to-teal-500 px-5 py-2 text-lg font-semibold text-white transition hover:bg-cyan-500 hover:saturate-[1.5] sm:col-span-2 sm:px-8 sm:py-3;
+      @apply flex h-auto w-full items-center gap-1 rounded bg-gradient-to-t from-teal-600 to-teal-500 px-5 py-2 text-lg font-semibold text-white transition hover:bg-cyan-500 hover:saturate-[1.5] sm:col-span-2 sm:px-8 sm:py-3;
       span {
         @apply drop-shadow;
       }
@@ -192,11 +192,11 @@
 [data-video-overlay='finished'] {
   @apply px-5 sm:px-0;
   [data-progress] {
-    @apply flex w-full max-w-sm items-center justify-center gap-2 pt-5;
+    @apply flex w-full max-w-sm items-center justify-center gap-2 pt-2 md:pt-5;
     [data-progress-bar] {
-      @apply relative h-2 w-full overflow-hidden rounded-full bg-gray-700;
+      @apply bg-gray-700;
       [data-indicator] {
-        @apply relative h-full w-full flex-1 bg-teal-500 transition-all duration-300 ease-out;
+        @apply bg-teal-500 duration-300 ease-out;
       }
     }
     [data-lessons-completed] {
@@ -204,7 +204,7 @@
     }
   }
   h2 {
-    @apply flex w-full max-w-lg flex-col items-center text-center text-xl;
+    @apply flex w-full max-w-lg flex-col items-center text-center text-base md:text-xl;
     span:first-of-type {
       @apply pb-5 font-text text-3xl font-bold;
     }
@@ -223,44 +223,13 @@
     @apply hidden px-2 text-left leading-tight sm:block sm:text-sm;
   }
   [data-actions] {
-    @apply flex items-center justify-center gap-4;
-    [data-action='restart'] {
+    @apply mt-0 flex items-center justify-center gap-4 md:mt-8;
+    /* [data-action='restart'] {
       @apply hidden;
-    }
-    [data-action='replay'] {
-      @apply absolute left-3 top-3 flex items-center gap-2 rounded bg-gray-800 px-3 py-2 hover:bg-gray-700;
-    }
-  }
-}
-[data-video-overlay='finished-section'] {
-  @apply px-5;
-  [data-image] {
-    @apply hidden items-center justify-center sm:flex sm:w-40 lg:w-auto;
-  }
-  [data-title] {
-    @apply pt-4 text-xl font-semibold sm:text-3xl;
-    span {
-      @apply font-normal text-gray-200;
-    }
-  }
-  [data-actions] {
-    @apply flex flex-wrap items-center justify-center gap-3 py-4 sm:py-8;
-    [data-action='replay'] {
-      @apply rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3;
-    }
+    } */
+    [data-action='replay'],
     [data-action='restart'] {
-      @apply flex items-center gap-1 rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-3;
-      [data-icon] {
-        @apply h-5 w-5;
-      }
-    }
-    [data-action='continue'] {
-      @apply flex items-center gap-1 rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-3;
-      [data-icon] {
-      }
-    }
-    [data-action='continue']:disabled {
-      @apply cursor-wait;
+      @apply w-auto gap-1 rounded px-3 text-base font-medium text-gray-300 transition hover:bg-transparent hover:text-white;
     }
   }
 }

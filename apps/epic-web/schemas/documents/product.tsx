@@ -43,6 +43,19 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'type',
+      title: 'Product Type',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'self-paced',
+      options: {
+        list: [
+          {title: 'self-paced', value: 'self-paced'},
+          {title: 'live', value: 'live'},
+        ],
+      },
+    }),
+    defineField({
       name: 'state',
       title: 'Current State',
       type: 'string',
@@ -53,6 +66,7 @@ export default defineType({
           {title: 'draft', value: 'draft'},
           {title: 'active', value: 'active'},
           {title: 'unavailable', value: 'unavailable'},
+          {title: 'archived', value: 'archived'},
         ],
       },
     }),
@@ -91,7 +105,12 @@ export default defineType({
       name: 'modules',
       title: 'Modules',
       type: 'array',
-      of: [defineArrayMember({type: 'reference', to: [{type: 'module'}]})],
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'module'}, {type: 'event'}],
+        }),
+      ],
     }),
     defineField({
       name: 'action',

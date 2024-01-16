@@ -53,7 +53,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       solutionBodyPreviewSerialized,
       module,
       section,
-      transcript: solution?.transcript,
+      transcript: solution?.transcript || solution?.aiTranscript,
       videoResourceId: solution?.videoResourceId,
     },
     revalidate: 10,
