@@ -4,7 +4,7 @@ import {GetServerSideProps, GetStaticPaths, GetStaticProps} from 'next'
 import EventTemplate from 'templates/event-template'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
-import {getSdk} from '@skillrecordings/database'
+import {getSdk, prisma} from '@skillrecordings/database'
 import {getAvailableBonuses} from 'lib/available-bonuses'
 import {getToken} from 'next-auth/jwt'
 import {getProductBySlug} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
@@ -37,9 +37,35 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     products: [product],
   })
 
+  const purchaseCount = await prisma.purchase.count({
+    where: {
+      productId: product.productId,
+      status: {
+        in: ['VALID', 'RESTRICTED'],
+      },
+    },
+  })
+
+  const productWithQuantityAvailable = await prisma.product.findUnique({
+    where: {
+      id: product.productId,
+    },
+    select: {
+      quantityAvailable: true,
+    },
+  })
+
   if (!token?.sub) {
     return {
-      props: {...commerceProps.props, event, product, mdx, availableBonuses},
+      props: {
+        ...commerceProps.props,
+        event,
+        product,
+        mdx,
+        availableBonuses,
+        quantityAvailable: productWithQuantityAvailable?.quantityAvailable,
+        purchaseCount,
+      },
     }
   }
 
@@ -67,12 +93,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       existingPurchase: convertToSerializeForNextResponse(existingPurchase),
       product,
       event,
+      mdx,
+      quantityAvailable: productWithQuantityAvailable?.quantityAvailable,
+      purchaseCount,
     },
   }
 }
 
 export type EventPageProps = {
   event: Event
+  quantityAvailable: number
+  purchaseCount: number
   mdx: MDXRemoteSerializeResult
 } & CommerceProps
 

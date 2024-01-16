@@ -162,7 +162,10 @@ const ProductCard: React.FC<{
 
   const canView = ability.can('view', 'Content')
 
-  if (product.state === 'unavailable' && !purchase) {
+  if (
+    (product.state === 'unavailable' || product.state === 'archived') &&
+    !purchase
+  ) {
     return null
   }
 

@@ -43,6 +43,7 @@ export const getProductBySlug = async (productSlug: string) => {
   productId,
   description,
   state,
+  type,
   title,
   body,
   _createdAt,
