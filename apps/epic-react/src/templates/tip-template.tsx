@@ -22,9 +22,9 @@ import {getOgImage} from '@/utils/get-og-image'
 import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 import {localProgressDb} from '@skillrecordings/skill-lesson/utils/dexie'
 import {
+  redirectUrlBuilder,
   SubscribeToConvertkitForm,
-  convertkitRedirectUrlBuilder,
-} from '@skillrecordings/ui'
+} from '@skillrecordings/convertkit-react-ui'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd, VideoJsonLd} from '@skillrecordings/next-seo'
@@ -67,13 +67,9 @@ const TipTemplate: React.FC<{
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
-      const redirectUrl = convertkitRedirectUrlBuilder(
-        subscriber,
-        router.asPath,
-        {
-          confirmToast: 'true',
-        },
-      )
+      const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
+        confirmToast: 'true',
+      })
       email && setUserId(email)
       track('subscribed to email list', {
         lesson: tip.slug,

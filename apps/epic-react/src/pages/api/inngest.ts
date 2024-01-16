@@ -1,5 +1,5 @@
 import {serve} from 'inngest/next'
-import {inngest, syncSanityProductsWithDb} from '@skillrecordings/inngest'
+import {inngest} from '@skillrecordings/inngest'
 
 export const config = {
   maxDuration: 300,
@@ -7,5 +7,5 @@ export const config = {
 
 export default serve({
   client: inngest,
-  functions: [syncSanityProductsWithDb],
+  functions: [],
 })
