@@ -15,6 +15,11 @@ import {
 } from '@skillrecordings/commerce-server'
 import {Purchase} from 'pages/products/[slug]'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {Product} from 'lib/products'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import PurchasedProductTemplate from 'templates/purchased-product-template'
+import ProductTemplate from 'templates/product-template'
+import PurchasedEventTemplate from 'templates/purchased-event-template'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
@@ -64,7 +69,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         product,
         mdx,
         availableBonuses,
-        quantityAvailable: productWithQuantityAvailable?.quantityAvailable,
+        quantityAvailable:
+          productWithQuantityAvailable?.quantityAvailable || -1,
         purchaseCount,
       },
     }
@@ -95,7 +101,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       product,
       event,
       mdx,
-      quantityAvailable: productWithQuantityAvailable?.quantityAvailable,
+      quantityAvailable: productWithQuantityAvailable?.quantityAvailable || -1,
       purchaseCount,
     },
   }
@@ -105,11 +111,28 @@ export type EventPageProps = {
   event: Event
   quantityAvailable: number
   purchaseCount: number
+  product: Product
   mdx: MDXRemoteSerializeResult
+  hasPurchasedCurrentProduct: boolean
+  existingPurchase: {id: string; product: {id: string; name: string}}
+  purchases: Purchase[]
+  userId: string
 } & CommerceProps
 
 const EventPage = (props: EventPageProps) => {
-  return <EventTemplate {...props} />
+  const {hasPurchasedCurrentProduct} = props
+
+  return (
+    <>
+      {hasPurchasedCurrentProduct ? (
+        <PriceCheckProvider purchasedProductIds={[props.product.productId]}>
+          <PurchasedEventTemplate {...props} />
+        </PriceCheckProvider>
+      ) : (
+        <EventTemplate {...props} />
+      )}
+    </>
+  )
 }
 
 export default EventPage
