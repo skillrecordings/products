@@ -8,7 +8,7 @@ export const ProductSchema = z.object({
   _updatedAt: z.string(),
   _createdAt: z.string(),
   title: z.string(),
-  type: z.enum(['self-paced', 'live']).optional(),
+  type: z.enum(['self-paced', 'live']),
   slug: z.string(),
   image: z
     .object({
