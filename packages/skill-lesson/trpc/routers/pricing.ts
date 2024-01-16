@@ -19,7 +19,7 @@ const merchantCouponSchema = z.object({
 })
 
 const PricingFormattedInputSchema = z.object({
-  productId: z.string(),
+  productId: z.string().optional(),
   quantity: z.number(),
   couponId: z.string().optional(),
   merchantCoupon: merchantCouponSchema.optional(),
@@ -157,6 +157,8 @@ export const pricing = router({
       const purchases = getValidPurchases(
         await getPurchasesForUser(verifiedUserId),
       )
+
+      if (!productId) throw new Error('productId is required')
 
       const country =
         (ctx.req.headers['x-vercel-ip-country'] as string) ||
