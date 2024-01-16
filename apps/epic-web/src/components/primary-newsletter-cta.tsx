@@ -31,26 +31,29 @@ export const PrimaryNewsletterCta: React.FC<
     <section
       id="subscribe"
       className={cn(
-        'relative flex w-full flex-col items-center justify-center overflow-hidden bg-muted px-5 pb-24',
+        'relative flex w-full flex-col items-center justify-center bg-muted px-5 pb-24',
         className,
       )}
     >
-      {mounted ? (
-        <Image
-          width={400}
-          height={400}
-          src={
-            theme === 'light'
-              ? require('../../public/assets/illo-light-incoming-transmission.png')
-              : require('../../public/assets/illo-incoming-transmission.png')
-          }
-          alt=""
-          loading="eager"
-          aria-hidden="true"
-        />
-      ) : (
-        <Skeleton className="aspect-square h-full w-full max-w-[400px] bg-foreground/5" />
-      )}
+      <div className="-mt-40">
+        {mounted ? (
+          <Image
+            className="relative sm:-translate-x-8"
+            width={400}
+            height={400}
+            src={
+              theme === 'light'
+                ? require('../../public/assets/illo-light-incoming-transmission.png')
+                : require('../../public/assets/illo-incoming-transmission.png')
+            }
+            alt=""
+            loading="eager"
+            aria-hidden="true"
+          />
+        ) : (
+          <Skeleton className="aspect-square h-full w-full max-w-[400px] bg-foreground/5" />
+        )}
+      </div>
       <h2 className="text-center text-3xl font-bold sm:text-4xl">
         Follow EpicWeb.dev
       </h2>
