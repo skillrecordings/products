@@ -56,6 +56,14 @@ export const EventSchema = z.object({
     .partial()
     .optional()
     .nullable(),
+  product: z
+    .object({
+      _id: z.string(),
+      slug: z.string(),
+      title: z.string(),
+      productId: z.string(),
+    })
+    .nullable(),
 })
 
 export const EventsSchema = z.array(EventSchema)
@@ -96,6 +104,12 @@ export const getAllEvents = async (): Promise<Event[]> => {
         body,
         image,
         ogImage,
+        "product": *[_type in ['product'] && references(^._id)][0]{
+          _id,
+          productId,
+          "slug": slug.current,
+          title
+        }
   }`)
 
   return EventsSchema.parse(events)
@@ -135,6 +149,13 @@ export const getEvent = async (slug: string): Promise<Event> => {
         body,
         image,
         ogImage,
+        "product": *[_type in ['product'] && references(^._id)][0]{
+          _id,
+          productId,
+          "slug": slug.current,
+          title
+        },
+        
     }`,
     {slug: `${slug}`},
   )
