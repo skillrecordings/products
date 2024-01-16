@@ -1551,6 +1551,9 @@ importers:
       '@types/node':
         specifier: ^18.16.13
         version: 18.19.2
+      '@types/node-fetch':
+        specifier: ^2.6.2
+        version: 2.6.9
       '@types/nodemailer':
         specifier: ^6.4.4
         version: 6.4.14
@@ -1572,12 +1575,21 @@ importers:
       '@types/shortid':
         specifier: ^0.0.29
         version: 0.0.29
+      '@types/stream-chain':
+        specifier: ^2.0.1
+        version: 2.0.4
+      '@types/stream-json':
+        specifier: ^1.7.3
+        version: 1.7.7
       '@types/uuid':
         specifier: ^9.0.2
         version: 9.0.7
       autoprefixer:
         specifier: ^10.4.2
         version: 10.4.16(postcss@8.4.32)
+      csv-parser:
+        specifier: ^3.0.0
+        version: 3.0.0
       dotenv-flow:
         specifier: ^3.2.0
         version: 3.3.0
@@ -1593,6 +1605,9 @@ importers:
       jest-mock-extended:
         specifier: ^2.0.4
         version: 2.0.9(jest@27.5.1)(typescript@5.1.6)
+      node-fetch:
+        specifier: ^2.6.7
+        version: 2.7.0(encoding@0.1.13)
       postcss:
         specifier: ^8.4.14
         version: 8.4.32
@@ -1602,6 +1617,15 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.2.5
         version: 0.2.8(prettier@2.8.8)
+      slugify:
+        specifier: ^1.6.2
+        version: 1.6.6
+      stream-chain:
+        specifier: ^2.2.5
+        version: 2.2.5
+      stream-json:
+        specifier: ^1.7.5
+        version: 1.8.0
       tailwind-scrollbar:
         specifier: ^3.0.0
         version: 3.0.5(tailwindcss@3.3.5)
@@ -18450,7 +18474,7 @@ packages:
   /axios@0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
     transitivePeerDependencies:
       - debug
     dev: false
@@ -18458,14 +18482,14 @@ packages:
   /axios@0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
     transitivePeerDependencies:
       - debug
 
   /axios@0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
     transitivePeerDependencies:
       - debug
     dev: false
@@ -18473,7 +18497,7 @@ packages:
   /axios@0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -18482,7 +18506,7 @@ packages:
   /axios@1.6.2:
     resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}
     dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
+      follow-redirects: 1.15.3(debug@2.6.9)
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:

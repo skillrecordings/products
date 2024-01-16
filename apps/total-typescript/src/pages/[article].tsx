@@ -1,4 +1,9 @@
-import {Article, getAllArticles, getArticle} from '@/lib/articles'
+import {
+  Article,
+  getAllArticles,
+  getOtherArticles,
+  getArticle,
+} from '@/lib/articles'
 import {GetStaticPaths, GetStaticProps, NextPage} from 'next'
 import ArticleTemplate from '@/templates/article-template'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
@@ -24,15 +29,13 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     }))
 
   // Fetch first 6 articles only
-  const articles = (await getAllArticles())
-    .filter((a) => a.slug !== article.slug)
-    .slice(0, 6)
+  const otherArticles = await getOtherArticles(article.slug, {limit: 6})
 
   return {
     props: {
       article,
       articleBody,
-      articles,
+      articles: otherArticles,
     },
     revalidate: 10,
   }
