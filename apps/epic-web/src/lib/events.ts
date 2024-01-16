@@ -115,7 +115,7 @@ export const getAllEvents = async (): Promise<Event[]> => {
   return EventsSchema.parse(events)
 }
 
-export const getEvent = async (slug: string): Promise<Event> => {
+export const getEvent = async (slug: string): Promise<Event | null> => {
   const event = await sanityClient.fetch(
     groq`*[_type == "event" && slug.current == $slug][0] {
         _id,
@@ -160,5 +160,5 @@ export const getEvent = async (slug: string): Promise<Event> => {
     {slug: `${slug}`},
   )
 
-  return EventSchema.parse(event)
+  return EventSchema.nullable().parse(event)
 }

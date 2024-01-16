@@ -22,14 +22,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const availableBonuses = await getAvailableBonuses()
   const token = await getToken({req})
   const event = await getEvent(params?.event as string)
-  const product = await getProductBySlug(event.product?.slug as string)
-  const mdx = event.body && (await serializeMDX(event.body))
 
   if (!event) {
     return {
       notFound: true,
     }
   }
+
+  const product = await getProductBySlug(event.product?.slug as string)
+  const mdx = event.body && (await serializeMDX(event.body))
 
   const commerceProps = await propsForCommerce({
     query,
