@@ -56,8 +56,8 @@ export const getOtherArticles = async (
   const limit = validateLimit(options?.limit)
   const querySlice = limit ? `[0...${limit}]` : ''
 
-  const articles =
-    await sanityClient.fetch(groq`*[_type == "article" && state == "published" && slug.current != ${slug}] | order(_createdAt desc) {
+  const articles = await sanityClient.fetch(
+    groq`*[_type == "article" && state == "published" && slug.current != $slug] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,
@@ -69,7 +69,9 @@ export const getOtherArticles = async (
         "image": image.asset->url,
         summary,
         body
-  }${querySlice}`)
+  }${querySlice}`,
+    {slug},
+  )
 
   const parsedArticles = ArticlesSchema.safeParse(articles)
   return parsedArticles.success ? parsedArticles.data : []
