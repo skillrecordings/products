@@ -139,8 +139,8 @@ const mdxComponents = {
   Tweet: ({text, url, author}: TweetProps) => {
     return <Tweet text={text} url={url} author={author} />
   },
-  Video: ({url, title}: VideoProps) => {
-    return <Video url={url} title={title} />
+  Video: ({url, title, poster}: VideoProps) => {
+    return <Video url={url} title={title} poster={poster} />
   },
   Testimonial: ({
     children,
