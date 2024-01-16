@@ -119,7 +119,7 @@ const Header: React.FC<HeaderProps> = ({article, estimatedReadingTime}) => {
             )}
           </div>
         )}
-        <div className="flex w-full max-w-screen-lg flex-col gap-5 px-5 pt-8 text-base text-gray-700 dark:text-gray-300 sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:text-base md:gap-16 lg:px-0">
+        <div className="flex w-full max-w-screen-lg flex-col items-center justify-center gap-5 px-5 pt-8 text-base text-gray-700 dark:text-gray-300 sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:text-base md:gap-16 lg:px-0">
           <ResourceAuthor
             className="col-span-2 text-lg"
             name={author?.name}
@@ -146,17 +146,7 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
   const {slug} = article
 
   return (
-    <section
-      className="relative flex flex-col items-center justify-center bg-gray-100 px-5 py-16 dark:bg-gray-900 md:pb-32 md:pt-24"
-      id="article"
-    >
-      <div className="max-w-sm text-center">
-        <p className="pb-5 text-4xl font-bold">Stay up to date</p>
-        <p className="pb-10 text-lg opacity-80">
-          Subscribe to the newsletter to stay up to date with articles, courses
-          and much more!
-        </p>
-      </div>
+    <section className="pt-5">
       <PrimaryNewsletterCta
         onSubmit={() => {
           track('subscribed from article', {
