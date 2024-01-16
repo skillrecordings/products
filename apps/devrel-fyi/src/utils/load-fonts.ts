@@ -1,5 +1,73 @@
 import localFont from 'next/font/local'
 
+export const ttBarrels = localFont({
+  preload: true,
+  display: 'block',
+  variable: '--font-tt-barrels',
+  src: [
+    {
+      path: '../styles/fonts/serif/80C38698.woff2',
+      weight: '900',
+      style: 'italic',
+    },
+    {
+      path: '../styles/fonts/serif/8AB9108A.woff2',
+      weight: '900',
+      style: 'normal',
+    },
+    {
+      path: '../styles/fonts/serif/B5647F5C.woff2',
+      weight: '700',
+      style: 'italic',
+    },
+    {
+      path: '../styles/fonts/serif/25C99140.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../styles/fonts/serif/12954555.woff2',
+      weight: '600',
+      style: 'italic',
+    },
+    {
+      path: '../styles/fonts/serif/DF433239.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: '../styles/fonts/serif/4AFF60A1.woff2',
+      weight: '800',
+      style: 'italic',
+    },
+    {
+      path: '../styles/fonts/serif/850F85D6.woff2',
+      weight: '800',
+      style: 'normal',
+    },
+    {
+      path: '../styles/fonts/serif/8AFECACD.woff2',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: '../styles/fonts/serif/398C6061.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../styles/fonts/serif/D10615CD.woff2',
+      weight: '300',
+      style: 'italic',
+    },
+    {
+      path: '../styles/fonts/serif/45F4B692.woff2',
+      weight: '300',
+      style: 'normal',
+    },
+  ],
+})
+
 export const maisonNeue = localFont({
   preload: true,
   display: 'block',

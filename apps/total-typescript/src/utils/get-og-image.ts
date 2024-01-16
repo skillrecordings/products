@@ -17,8 +17,9 @@ export const getOgImage = (options: OgImageUrlOptions) => {
     title: title,
   })
   const url =
-    (process.env.NODE_ENV === 'development' ? '' : CLOUDINARY_FETCH_BASE_URL) +
+    // (process.env.NODE_ENV === 'development' ? '' : CLOUDINARY_FETCH_BASE_URL) +
     process.env.NEXT_PUBLIC_OG_IMAGE_URI +
+    '/og-default' +
     `?${query.toString()}`
 
   return {

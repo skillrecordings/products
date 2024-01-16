@@ -72,13 +72,15 @@ const CouponGeneratorForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <fieldset className="grid-cols-4 gap-5 md:grid">
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <fieldset className="grid-cols-4 gap-5 md:grid space-y-5 md:space-y-0">
           <FormField
             name="percentOff"
             render={({field}) => (
               <FormItem>
-                <FormLabel htmlFor="percentOff">Discount Percentage</FormLabel>
+                <FormLabel htmlFor="percentOff" className="flex h-4">
+                  Discount Percentage
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -133,7 +135,10 @@ const CouponGeneratorForm = () => {
                     </SelectTrigger>
                     <SelectContent>
                       {products?.map((product: SanityProduct) => (
-                        <SelectItem value={product.productId}>
+                        <SelectItem
+                          key={product.productId}
+                          value={product.productId}
+                        >
                           {product.title || product.name}
                         </SelectItem>
                       ))}
@@ -258,7 +263,7 @@ const CouponGeneratorForm = () => {
             )}
           />
         </fieldset>
-        <div className="flex items-end gap-5">
+        <div className="flex items-end gap-5 mt-8">
           <div className="flex sm:items-end gap-5 justify-between w-full sm:flex-row flex-col">
             <div className="flex gap-5 items-end">
               <FormField

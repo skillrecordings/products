@@ -48,7 +48,7 @@ export const SurveyPopup = ({
 }: SurveyPopupProps) => {
   const shouldReduceMotion = useReducedMotion()
   return (
-    <div className="relative">
+    <div className="relative print:hidden">
       <CurrentOfferPopupContext.Provider
         value={{isPopupOpen, handlePopupDismissed, handlePopupClosed}}
       >
@@ -132,7 +132,7 @@ const SurveyPopupDismissalButtons = () => {
       {!isAnswered && (
         <>
           <button
-            className="absolute top-0 right-0 rounded p-1 text-gray-300 transition hover:bg-gray-700/50"
+            className="absolute right-0 top-0 rounded p-1 text-gray-300 transition hover:bg-gray-700/50"
             type="button"
             onClick={handlePopupClosed}
           >
@@ -140,7 +140,7 @@ const SurveyPopupDismissalButtons = () => {
             <XIcon className="h-4 w-4" aria-hidden="true" />
           </button>
           <button
-            className="absolute left-3 bottom-3 rounded p-2 text-sm text-gray-300 hover:underline"
+            className="absolute bottom-3 left-3 rounded p-2 text-sm text-gray-300 hover:underline"
             type="button"
             onClick={handlePopupDismissed}
           >

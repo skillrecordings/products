@@ -10,6 +10,7 @@ export const ExerciseSchema = z
     stackblitz: z.nullable(z.string()).optional(),
     videoResourceId: z.nullable(z.string()).optional(),
     transcript: z.nullable(z.string()).optional(),
+    aiTranscript: z.nullable(z.string()).optional(),
     solution: z.nullable(
       z
         .object({
@@ -17,6 +18,7 @@ export const ExerciseSchema = z
           stackblitz: z.nullable(z.string()).optional(),
           videoResourceId: z.nullable(z.string()).optional(),
           transcript: z.nullable(z.string()).optional(),
+          aiTranscript: z.nullable(z.string()).optional(),
         })
         .merge(ResourceSchema)
         .optional(),
@@ -50,6 +52,7 @@ export const getExerciseMedia = async (exerciseSlug: string) => {
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+        "aiTranscript": resources[@->._type == 'videoResource'][0]-> transcript.text,
         "slug": slug.current,
       }
     }`,
@@ -75,6 +78,7 @@ export const getExercise = async (
       "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
       "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      "aiTranscript": resources[@->._type == 'videoResource'][0]-> transcript.text,
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,
@@ -85,6 +89,7 @@ export const getExercise = async (
         "stackblitz": resources[@._type == 'stackblitz'][0].openFile,
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+        "aiTranscript": resources[@->._type == 'videoResource'][0]-> transcript.text,
         "slug": slug.current,
       }
     }`,

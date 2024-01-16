@@ -4,7 +4,7 @@ import {useRouter} from 'next/router'
 import Balancer from 'react-wrap-balancer'
 import Image from 'next/image'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
-import AboutKent from 'components/about-kent'
+import AuthorBio from 'components/author-bio'
 import {trpc} from 'trpc/trpc.client'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
@@ -102,7 +102,7 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
         />
       </main>
       {/* <Share contentType="Live Workshop" title={title} /> */}
-      <AboutKent title="Your Instructor" className="mt-0 pt-0" />
+      <AuthorBio title={() => 'Your Instructor'} className="mt-0 pt-0" />
     </Layout>
   )
 }

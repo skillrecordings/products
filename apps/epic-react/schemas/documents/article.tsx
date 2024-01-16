@@ -44,22 +44,35 @@ export default defineType({
       of: [
         defineArrayMember({type: 'linkResource'}),
         defineArrayMember({type: 'tweet'}),
+        defineArrayMember({type: 'reference', to: [{type: 'article'}]}),
       ],
     }),
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'body',
+      type: 'markdown',
+      description: 'Body in MDX',
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'summary',
       title: 'Summary',
-      type: 'body',
+      description: 'Used in teaser card on Articles index page.',
+      type: 'markdown',
     }),
     defineField({
       name: 'image',
-      title: 'Image',
-      type: 'image',
+      title: 'Article Image',
+      description:
+        'Used as a header image and thumbnail. Aspect ratio should be 16:9.',
+      type: 'cloudinary.asset',
+    }),
+    defineField({
+      name: 'ogImage',
+      title: 'Open Graph Image',
+      description:
+        'Used as a preview image on Twitter cards etc. Size should be 1200×630.',
+      type: 'cloudinary.asset',
     }),
     defineField({
       name: 'description',
@@ -72,14 +85,11 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      media: 'image.asset.url',
     },
     prepare(selection) {
-      const {title, media} = selection
-      console.log({selection})
+      const {title} = selection
       return {
         title,
-        media: media && <img src={media} alt={title} />,
       }
     },
   },

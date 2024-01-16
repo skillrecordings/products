@@ -15,6 +15,11 @@ const Footer = () => {
       href: '/talks',
       icon: () => {},
     },
+    {
+      label: 'Newsletter',
+      href: '/newsletter',
+      icon: () => {},
+    },
   ]
 
   const contactLinks = [

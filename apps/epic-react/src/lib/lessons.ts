@@ -1,50 +1,114 @@
+import {Purchase, User} from '@skillrecordings/database'
+import {getModule} from '@skillrecordings/skill-lesson/lib/modules'
+import {getSection} from '@/lib/sections'
+import {getExercise} from '@/lib/exercises'
+import {getProducts} from '@skillrecordings/skill-lesson/lib/products'
+import {getCurrentAbility} from '@skillrecordings/skill-lesson'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
-import {z} from 'zod'
 
-export const LessonSchema = z.object({
-  _id: z.string(),
-  _type: z.enum(['exercise', 'explainer', 'interview']),
-  _updatedAt: z.string(),
-  title: z.string(),
-  description: z.string().nullable(),
-  slug: z.string(),
-  body: z.any(), // figure out how to type this better
-  videoResourceId: z.string(),
-  transcript: z.any().array(),
-})
+type GetLessonProps = {
+  useSolution?: boolean
+  lessonSlug: string
+  moduleSlug: string
+  sectionSlug: string
+  country: string
+  user?: User & {purchases: Purchase[]}
+}
+export async function getLessonVideoForDevice({
+  useSolution = false,
+  lessonSlug,
+  moduleSlug,
+  sectionSlug,
+  user,
+  country,
+}: GetLessonProps) {
+  const module = await getModule(moduleSlug)
+  const section = await getSection(sectionSlug)
+  const lessonData = await getExercise(lessonSlug, false)
 
-export const getLesson = async (slug: string) => {
-  const exercise = await sanityClient.fetch(
-    `*[_type in ['exercise', 'explainer', 'interview'] && slug.current == $slug][0]{
-      _id,
-      _type,
-      _updatedAt,
-      title,
-      description,
-      "slug": slug.current,
-      body,
-      "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
-      "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+  const lesson = useSolution ? (lessonData.solution as Lesson) : lessonData
+
+  const productsPurchased =
+    user?.purchases?.map((purchase) => purchase.productId) || []
+  const purchasedModules = await getProducts(productsPurchased)
+
+  const ability = getCurrentAbility({
+    user,
+    purchasedModules,
+    lesson,
+    section,
+    module,
+    country: country,
+  })
+
+  if (ability.can('view', 'Content')) {
+    const videoResource = await sanityClient.fetch(
+      groq`*[_type in ['videoResource'] && _id == $id][0]{
+      "transcript": transcript.text,
+      "muxPlaybackId": muxAsset.muxPlaybackId
     }`,
-    {slug},
-  )
+      {id: lesson.videoResourceId as string},
+    )
 
-  return LessonSchema.parse(exercise)
+    return {
+      ...videoResource,
+      httpUrl: `${process.env.NEXT_PUBLIC_URL}/${
+        module.moduleType
+      }s/${moduleSlug}/${sectionSlug}/${lessonSlug}${
+        useSolution ? '/solution' : ''
+      }`,
+    }
+  } else if (ability.can('view', 'RegionRestriction')) {
+    return {
+      error: 'region-restricted',
+    }
+  }
 }
 
-export const getAllLessons = async () => {
-  const lessons =
-    await sanityClient.fetch(groq`*[_type in ['exercise', 'explainer', 'interview']]{
+export const getLessonWithModule = async (id: string): Promise<any> => {
+  return await sanityClient.fetch(
+    `*[_id == $id][0]{
       _id,
-      _type,
-      _updatedAt,
       title,
       description,
-      "slug": slug.current,
-      body,
-      "videoResourceId": resources[@->._type == 'videoResource'][0],
-    }`)
-
-  return LessonSchema.array().parse(lessons)
+      "solution": resources[@._type == 'solution'][0]{
+        _key,
+      },
+      "section": *[_type in ['section'] && references(^._id)][0]{
+        _id,
+        "slug": slug.current,
+      },
+    } | {
+      ...,
+      "module": *[_type in ['module'] && references(^.section._id)][0] {
+        _type,
+        title,
+        slug,
+        body,
+        moduleType,
+        _id,
+        github,
+        description,
+        github,
+        "sections": resources[@->._type == 'section']->{
+          _id,
+          title,
+          description,
+          "slug": slug.current,
+          "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson']]->{
+            _id,
+            _type,
+            title,
+            description,
+            "slug": slug.current
+          },
+          "resources": resources[@->._type in ['linkResource']]->
+        },
+        "image": image.asset->url, 
+      }
+    }`,
+    {id},
+  )
 }

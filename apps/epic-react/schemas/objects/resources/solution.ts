@@ -50,14 +50,15 @@ export default defineType({
           type: 'reference',
           to: [{type: 'videoResource'}],
         }),
-        defineArrayMember({type: 'muxVideo'}),
         defineArrayMember({type: 'stackblitz'}),
+        defineArrayMember({type: 'githubRepo'}),
       ],
     }),
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'body',
+      type: 'markdown',
+      description: 'Body in MDX',
     }),
     defineField({
       name: 'description',
