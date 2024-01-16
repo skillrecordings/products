@@ -8,6 +8,7 @@ export const ProductSchema = z.object({
   _updatedAt: z.string(),
   _createdAt: z.string(),
   title: z.string(),
+  type: z.enum(['self-paced', 'live']).optional(),
   slug: z.string(),
   image: z
     .object({
@@ -35,6 +36,7 @@ export async function getProduct(productId: string): Promise<Product> {
         _createdAt,
         productId,
         title,
+        type,
         image,
         state,
         "slug": slug.current,

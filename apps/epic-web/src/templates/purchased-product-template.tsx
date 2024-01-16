@@ -307,21 +307,23 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
             width={300}
             height={300}
           />
-          <div className="pt-10">
-            <span className="block pb-4 text-sm font-semibold uppercase">
-              Workshops
-            </span>
-            {product.modules.map((module) => {
-              return (
-                <ModuleProgressProvider
-                  key={module.slug}
-                  moduleSlug={module.slug}
-                >
-                  <ModuleItem module={module} />
-                </ModuleProgressProvider>
-              )
-            })}
-          </div>
+          {product?.type === 'self-paced' && product.modules && (
+            <div className="pt-10">
+              <span className="block pb-4 text-sm font-semibold uppercase">
+                Workshops
+              </span>
+              {product.modules.map((module) => {
+                return (
+                  <ModuleProgressProvider
+                    key={module.slug}
+                    moduleSlug={module.slug}
+                  >
+                    <ModuleItem module={module} />
+                  </ModuleProgressProvider>
+                )
+              })}
+            </div>
+          )}
         </aside>
       </main>
     </Layout>
