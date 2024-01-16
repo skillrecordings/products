@@ -17,7 +17,8 @@ export const ProductSchema = z.object({
     .optional(),
   productId: z.string().optional(),
   body: z.nullable(z.string()).optional(),
-  state: z.enum(['draft', 'active', 'unavailable']),
+  type: z.enum(['live', 'self-paced']),
+  state: z.enum(['draft', 'active', 'unavailable', 'archived']),
   modules: z.array(z.any()).optional(),
   upgradableTo: z.array(z.any()).nullable().optional(),
 })
@@ -35,8 +36,10 @@ export async function getProduct(productId: string): Promise<Product> {
         _createdAt,
         productId,
         title,
+        type,
         image,
         state,
+        type,
         "slug": slug.current,
         body,
         upgradableTo[]->{

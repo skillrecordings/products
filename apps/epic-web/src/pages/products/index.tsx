@@ -45,7 +45,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const commerceProps = await propsForCommerce({
     query,
     token,
-    products,
+    products: products.filter(
+      (product: {type: string; state: string}) =>
+        product.type === 'self-paced' && ['active'].includes(product.state),
+    ),
   })
 
   return commerceProps
@@ -159,7 +162,10 @@ const ProductCard: React.FC<{
 
   const canView = ability.can('view', 'Content')
 
-  if (product.state === 'unavailable' && !purchase) {
+  if (
+    (product.state === 'unavailable' || product.state === 'archived') &&
+    !purchase
+  ) {
     return null
   }
 

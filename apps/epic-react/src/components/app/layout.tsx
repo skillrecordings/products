@@ -13,7 +13,13 @@ const inter = Inter({
 })
 
 type LayoutProps = {
-  meta?: NextSeoProps & {titleAppendSiteName?: boolean}
+  meta?: NextSeoProps & {
+    titleAppendSiteName?: boolean
+    url?: string
+    type?: string
+    ogImage?: {url: string; alt: string}
+    date?: string
+  }
   noIndex?: boolean
   className?: string
   nav?: React.ReactElement | null
@@ -42,12 +48,12 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   const {
     title,
     description,
-    openGraph,
     titleAppendSiteName = true,
-    defaultTitle = process.env.NEXT_PUBLIC_SITE_TITLE,
+    url,
+    type = 'website',
+    ogImage,
+    date,
   } = meta || {}
-
-  const {url} = openGraph || {}
 
   return (
     <div
@@ -62,7 +68,16 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
             ? `%s | ${process.env.NEXT_PUBLIC_SITE_TITLE}`
             : undefined
         }
-        openGraph={openGraph}
+        openGraph={{
+          title,
+          description,
+          type,
+          url,
+          images: ogImage ? [ogImage] : undefined,
+          article: {
+            publishedTime: date,
+          },
+        }}
         canonical={url}
         noindex={noIndex}
       />

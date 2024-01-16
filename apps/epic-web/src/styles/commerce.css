@@ -441,26 +441,33 @@
   }
 
   [data-event] {
-    /* ⭐️ To target specific workshop: [data-workshop="workshop-slug"] */
+    /* ⭐️ To target specific event: [data-event="event-slug"] */
     [data-pricing-container] {
-      @apply flex flex-col items-center;
+      @apply flex w-full flex-col items-center pb-0;
     }
-
     #main-pricing {
       [data-pricing-product] {
+        @apply w-full;
         [data-pricing-product-image] {
+          @apply hidden;
         }
         article {
-          @apply -mt-16 border border-foreground/10 bg-background pb-8 pt-10 shadow-none;
+          @apply w-full border-0 bg-transparent pt-0 shadow-none;
         }
         [data-pricing-product-header] {
           [data-byline] {
             @apply hidden;
           }
+          [data-title] {
+            @apply hidden;
+          }
+          [data-name-badge] {
+            @apply hidden;
+          }
           [data-name-badge] {
           }
           [data-price-container] {
-            @apply flex h-[76px] items-center justify-center gap-0.5;
+            @apply flex h-[76px] items-center justify-center gap-0.5 pt-0;
             sup {
               @apply align-sub text-base font-black text-gray-500;
             }
