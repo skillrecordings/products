@@ -114,13 +114,13 @@ const EventTemplate: React.FC<
       />
       <main
         data-event={slug}
-        className="mx-auto flex w-full max-w-screen-lg gap-12 px-5 py-8 md:py-16"
+        className="mx-auto flex w-full max-w-screen-lg flex-col gap-12 px-5 py-10 md:flex-row md:py-16"
       >
         <div className="w-full">
-          <h1 className="w-full font-semibold tracking-tight fluid-2xl sm:fluid-3xl">
+          <h1 className="w-full font-semibold tracking-tight fluid-3xl">
             <Balancer>{title}</Balancer>
           </h1>
-          <h2 className="pt-4 text-2xl text-gray-700 dark:text-sky-200">
+          <h2 className="pt-4 text-xl text-gray-700 dark:text-sky-200 sm:text-2xl">
             Live Workshop with{' '}
             <Link
               href={`/authors/${author?.slug}`}
@@ -144,8 +144,7 @@ const EventTemplate: React.FC<
             <MDX contents={mdx} />
           </article>
         </div>
-
-        <aside className="relative w-full max-w-xs">
+        <aside className="relative mx-auto w-full max-w-xs">
           <div className="flex w-full flex-col items-center rounded-xl bg-white pb-5 shadow-soft-xl dark:bg-foreground/5">
             {image && (
               <div className="relative flex h-full w-full items-center justify-center px-3">
