@@ -259,7 +259,6 @@ const EventPricingWidget: React.FC<{
   const couponId =
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? couponFromCode?.id : undefined)
-  console.log({couponFromCode, couponId, commerceProps})
   const purchases = commerceProps?.purchases || []
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   const ALLOW_PURCHASE =
