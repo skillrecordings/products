@@ -60,13 +60,14 @@ export type SanityProduct = {
   name: string
   title?: string
   action: string
+  type?: 'self-paced' | 'live'
   description?: string
   slug?: string
   image: {
     url: string
     alt: string
   }
-  state?: 'draft' | 'active' | 'unavailable'
+  state?: 'draft' | 'active' | 'unavailable' | 'archived'
   summary?: PortableTextBlock
   modules: SanityProductModule[]
   upgradableTo?: SanityProduct

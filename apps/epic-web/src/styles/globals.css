@@ -423,3 +423,7 @@ mux-player::part(vertical-layer) {
   width: 200px;
   margin-left: -200px;
 }
+
+[data-checklist-item] {
+  @apply relative list-none !pl-6 before:absolute before:left-0 before:text-primary before:content-["✓"] sm:!pl-8;
+}
