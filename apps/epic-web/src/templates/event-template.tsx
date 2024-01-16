@@ -17,11 +17,19 @@ import {
   LocationMarkerIcon,
 } from '@heroicons/react/outline'
 import {getOgImage} from 'utils/get-og-image'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
+import {trpc} from 'trpc/trpc.client'
+import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 
-const EventTemplate: React.FC<{
-  event: Event
-  mdx: MDXRemoteSerializeResult
-}> = ({event, mdx}) => {
+const EventTemplate: React.FC<
+  {
+    event: Event
+    mdx: MDXRemoteSerializeResult
+  } & CommerceProps
+> = (props) => {
+  const {event, mdx, products, ...commerceProps} = props
   const router = useRouter()
   const {
     title,
@@ -49,6 +57,26 @@ const EventTemplate: React.FC<{
     event.author?.name ??
     `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
+
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+  const hasPurchase = purchasedProductIds.length > 0
+
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
+    commerceProps.couponFromCode,
+    {
+      image: {
+        url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
+        width: 132,
+        height: 112,
+      },
+      title: products[0].title as string,
+      description: products[0]?.description,
+    },
+  )
+  const couponId =
+    commerceProps?.couponIdFromCoupon ||
+    (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
 
   return (
     <Layout meta={{title, description: pageDescription, ogImage}}>
@@ -78,6 +106,33 @@ const EventTemplate: React.FC<{
           {/* @ts-ignore-next-line */}
           {/*<tito-widget event={`epic-web/${slug}`} />*/}
           {/*  show the buy widget for an associated product that gives access to the event */}
+          {products
+            ?.filter((product: any) => product.state !== 'unavailable')
+            .map((product, i) => {
+              const ALLOW_PURCHASE =
+                router.query.allowPurchase === 'true' ||
+                product.state === 'active'
+              return (
+                <PriceCheckProvider
+                  key={product.slug}
+                  purchasedProductIds={purchasedProductIds}
+                >
+                  <div data-pricing-container="" key={product.name}>
+                    <Pricing
+                      allowPurchase={ALLOW_PURCHASE}
+                      userId={commerceProps.userId}
+                      product={product}
+                      purchased={purchasedProductIds.includes(
+                        product.productId,
+                      )}
+                      index={i}
+                      couponId={couponId}
+                      couponFromCode={commerceProps.couponFromCode}
+                    />
+                  </div>
+                </PriceCheckProvider>
+              )
+            })}
         </div>
       </main>
       <Share contentType="Live Workshop" title={title} />
