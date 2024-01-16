@@ -43,9 +43,10 @@ const Tweet: React.FC<TweetProps> = ({text, url, author}) => {
 type VideoProps = {
   url: string
   title?: string
+  poster?: string
 }
 
-const Video: React.FC<VideoProps> = ({url, title}) => {
+const Video: React.FC<VideoProps> = ({url, title, poster}) => {
   return (
     <figure data-body-video="" className="video">
       <video
@@ -53,6 +54,7 @@ const Video: React.FC<VideoProps> = ({url, title}) => {
         loop={true}
         controls={true}
         className="rounded-md"
+        poster={poster}
       >
         <source src={url} type="video/mp4" />
       </video>
