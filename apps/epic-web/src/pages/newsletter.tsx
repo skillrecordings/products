@@ -14,9 +14,10 @@ const NewsletterPage = () => {
           url: 'https://res.cloudinary.com/epic-web/image/upload/v1704809114/card-newsletter_2x.png',
         },
       }}
+      className="bg-[radial-gradient(ellipse_at_top,#EAEBFF_0%,transparent_65%)] dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)]"
     >
       <main className="mx-auto flex w-full flex-col items-center justify-center">
-        <PrimaryNewsletterCta className="bg-transparent" />
+        <PrimaryNewsletterCta className="mt-40 bg-transparent" />
       </main>
     </Layout>
   )
