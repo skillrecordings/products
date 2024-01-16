@@ -28,6 +28,8 @@ export const sanityProductCreated = inngest.createFunction(
       state,
     } = sanityProduct
 
+    const productStatus = state === 'active' ? 1 : 0
+
     const product = await step.run('create product in database', async () => {
       const newProductId = v4()
       return await prisma.product.create({
@@ -35,7 +37,7 @@ export const sanityProductCreated = inngest.createFunction(
           id: newProductId,
           name: title,
           quantityAvailable,
-          status: state === 'active' ? 1 : 0,
+          status: productStatus,
         },
       })
     })
@@ -106,13 +108,14 @@ export const sanityProductCreated = inngest.createFunction(
               productId: product.id,
               merchantAccountId: merchantAccount.id,
               identifier: stripeProduct.id,
+              status: 1,
             },
           })
         },
       )
 
       const merchantPrice = await step.run(
-        'create merchant product in database',
+        'create merchant price in database',
         async () => {
           const newMerchantPriceId = v4()
           return await prisma.merchantPrice.create({
@@ -122,6 +125,7 @@ export const sanityProductCreated = inngest.createFunction(
               priceId: price.id,
               merchantAccountId: merchantAccount.id,
               identifier: stripePrice.id,
+              status: 1,
             },
           })
         },
