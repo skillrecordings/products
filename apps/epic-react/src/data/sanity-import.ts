@@ -1131,6 +1131,10 @@ const SanityData = (function () {
       lessonTitlesPath,
     )
 
+    if (dataFilePath === undefined) {
+      throw new Error('Sanity Import Path missing from env vars')
+    }
+
     const lessonMetadataPath = dataFilePath
     const {
       lessonMetadataById,
