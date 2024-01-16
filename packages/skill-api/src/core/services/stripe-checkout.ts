@@ -16,6 +16,7 @@ import {
 } from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
 import {NextApiRequest} from 'next'
+import {z} from 'zod'
 
 /**
  * Given a specific user we want to lookup their Stripe
@@ -161,6 +162,24 @@ const buildCouponName = (
   return couponName
 }
 
+const LoadedProductSchema = z.object({
+  id: z.string(),
+  merchantProducts: z
+    .array(
+      z.object({
+        identifier: z.string(),
+        merchantPrices: z
+          .array(
+            z.object({
+              identifier: z.string(),
+            }),
+          )
+          .nonempty({message: 'MerchantPrice is missing'}),
+      }),
+    )
+    .nonempty({message: 'MerchantProduct is missing'}),
+})
+
 export async function stripeCheckout({
   params,
 }: {
@@ -248,6 +267,30 @@ export async function stripeCheckout({
         },
       })
 
+      const result = LoadedProductSchema.safeParse(loadedProduct)
+
+      if (!result.success) {
+        const errorMessages = result.error.errors
+          .map((err) => err.message)
+          .join(', ')
+
+        // Send `errorMessages` to Sentry so we can deal with it right away.
+        console.log(`No product (${productId}) was found (${errorMessages})`)
+
+        throw new CheckoutError(
+          `No product was found`,
+          String(loadedProduct?.id),
+          couponId as string,
+        )
+      }
+
+      const loadedProductData = result.data
+
+      const merchantProductIdentifier =
+        loadedProductData.merchantProducts[0].identifier
+      const merchantPriceIdentifier =
+        loadedProductData.merchantProducts[0].merchantPrices[0].identifier
+
       const merchantCoupon = couponId
         ? await getMerchantCoupon({
             where: {
@@ -317,9 +360,7 @@ export async function stripeCheckout({
             redeem_by: TWELVE_FOUR_HOURS_FROM_NOW,
             currency: 'USD',
             applies_to: {
-              products: [
-                loadedProduct.merchantProducts?.[0].identifier as string,
-              ],
+              products: [merchantProductIdentifier],
             },
           })
 
@@ -350,17 +391,6 @@ export async function stripeCheckout({
         throw new CheckoutError('No product was found', productId as string)
       }
 
-      const price =
-        loadedProduct.merchantProducts?.[0].merchantPrices?.[0].identifier
-
-      if (!price) {
-        throw new CheckoutError(
-          'no-pricing-available',
-          loadedProduct.id,
-          couponId as string,
-        )
-      }
-
       const successUrl = isUpgrade
         ? `${process.env.NEXT_PUBLIC_URL}/welcome?session_id={CHECKOUT_SESSION_ID}&upgrade=true`
         : `${process.env.NEXT_PUBLIC_URL}/thanks/purchase?session_id={CHECKOUT_SESSION_ID}`
@@ -384,7 +414,7 @@ export async function stripeCheckout({
         discounts,
         line_items: [
           {
-            price,
+            price: merchantPriceIdentifier,
             quantity: Number(quantity),
           },
         ],

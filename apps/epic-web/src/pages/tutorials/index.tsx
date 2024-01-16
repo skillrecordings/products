@@ -43,7 +43,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         title: `Free Web Development Tutorials from Kent C. Dodds`,
         description: `Free Web Development tutorials by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1681815745/epicweb.dev/tutorials/card_2x.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1704808424/card-tutorials_2x.png',
         },
       }}
     >

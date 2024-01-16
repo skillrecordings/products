@@ -10,6 +10,16 @@ export const AuthorSchema = z.object({
   name: z.string(),
   slug: z.string(),
   bio: z.string().optional().nullable(),
+  twitterHandle: z.string().optional().nullable(),
+  links: z
+    .array(
+      z.object({
+        label: z.string().optional().nullable(),
+        url: z.string(),
+      }),
+    )
+    .optional()
+    .nullable(),
   picture: z
     .object({
       url: z.string(),
@@ -32,8 +42,12 @@ export const getAllAuthors = async (): Promise<Author[]> => {
         _createdAt,
         name,
         bio,
+        twitterHandle,
+        links[]{
+          url, label
+        },
         picture->{
-            "assets": asset->url,
+          "url": asset->url,
             alt
         },
         "slug": slug.current,
@@ -51,6 +65,10 @@ export const getAuthor = async (slug: string): Promise<Author | null> => {
         _createdAt,
         name,
         bio,
+        twitterHandle,
+        links[]{
+          url, label
+        },
         picture {
             "url": asset->url,
             alt

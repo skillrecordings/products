@@ -5,7 +5,8 @@ export default defineType({
   name: 'exercise',
   type: 'document',
   title: 'Exercise',
-  description: 'A type of Lesson',
+  description:
+    'A type of Lesson that has 2-parts, a problem (the exercise) and a solution.',
   icon: MdOutlineWorkspaces,
   preview: {
     select: {
@@ -42,19 +43,6 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'exerciseType',
-      title: 'Exercise Type',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-      options: {
-        list: [
-          {title: 'Solution', value: 'solution'},
-          {title: 'Xtra Solution', value: 'xtraSolution'},
-          {title: 'Break', value: 'break'},
-        ],
-      },
-    }),
-    defineField({
       name: 'resources',
       title: 'Resources',
       type: 'array',
@@ -65,16 +53,17 @@ export default defineType({
           to: [{type: 'videoResource'}],
         }),
         defineArrayMember({type: 'solution'}),
-        defineArrayMember({type: 'muxVideo'}),
         defineArrayMember({type: 'stackblitz'}),
         defineArrayMember({type: 'testimonial'}),
         defineArrayMember({type: 'linkResource'}),
+        defineArrayMember({type: 'githubRepo'}),
       ],
     }),
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'body',
+      description: 'Body in MDX',
+      type: 'markdown',
     }),
     defineField({
       name: 'description',

@@ -100,6 +100,7 @@ export const couponsRouter = router({
             expires: expires
               ? new Date(expires?.setHours(23, 59, 0, 0)).toISOString()
               : null,
+            default: !restrictedToProductId,
           },
         })
         codes += `${process.env.NEXT_PUBLIC_URL}?code=${coupon.id}\n`

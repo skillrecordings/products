@@ -35,6 +35,22 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'state',
+      title: 'Current State',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'new',
+      options: {
+        list: [
+          {title: 'new', value: 'new'},
+          {title: 'processing', value: 'processing'},
+          {title: 'reviewing', value: 'reviewing'},
+          {title: 'published', value: 'published'},
+          {title: 'retired', value: 'retired'},
+        ],
+      },
+    }),
+    defineField({
       name: 'resources',
       title: 'Resources',
       type: 'array',
@@ -45,13 +61,14 @@ export default defineType({
     }),
     defineField({
       name: 'body',
+      description: 'Body in MDX',
       title: 'Body',
-      type: 'body',
+      type: 'markdown',
     }),
     defineField({
       name: 'summary',
       title: 'Summary',
-      type: 'body',
+      type: 'markdown',
     }),
     defineField({
       name: 'description',

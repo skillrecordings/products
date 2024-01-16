@@ -9,6 +9,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const event = await getEvent(params?.event as string)
   const mdx = event.body && (await serializeMDX(event.body))
+
   return {
     props: {event, mdx},
     revalidate: 10,
@@ -20,7 +21,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = events.map((event: Event) => ({
     params: {event: event.slug},
   }))
-  return {paths, fallback: false}
+  return {paths, fallback: 'blocking'}
 }
 
 type EventPageProps = {

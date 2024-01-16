@@ -4,14 +4,13 @@ import {EventJsonLd} from '@skillrecordings/next-seo'
 import {useRouter} from 'next/router'
 import Balancer from 'react-wrap-balancer'
 import {format} from 'date-fns'
+import {formatInTimeZone} from 'date-fns-tz'
 import Image from 'next/image'
 import Share from 'components/share'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {Event} from 'lib/events'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
-import AboutKent from 'components/about-kent'
-import Script from 'next/script'
+import AuthorBio from 'components/author-bio'
 import {
   CalendarIcon,
   ClockIcon,
@@ -40,16 +39,19 @@ const EventTemplate: React.FC<{
     ? {url: _ogImage.secure_url, alt: title}
     : getOgImage({
         title: title,
+        authorImage: event.author?.picture?.url,
+        authorName: event.author?.name,
       })
   const pageDescription =
     description ||
     (mdx ? `${mdx.compiledSource.substring(0, 157)}...` : undefined)
-  const author = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
+  const author =
+    event.author?.name ??
+    `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
 
   return (
     <Layout meta={{title, description: pageDescription, ogImage}}>
-      <Script src="https://js.tito.io/v2/" async />
       <EventJsonLd
         name={title}
         startDate={startsAt}
@@ -74,11 +76,24 @@ const EventTemplate: React.FC<{
         <Body mdx={mdx} />
         <div className="flex w-full items-center justify-center pb-16 pt-24 text-lg font-semibold">
           {/* @ts-ignore-next-line */}
-          <tito-widget event={`epic-web/${slug}`} />
+          {/*<tito-widget event={`epic-web/${slug}`} />*/}
+          {/*  show the buy widget for an associated product that gives access to the event */}
         </div>
       </main>
       <Share contentType="Live Workshop" title={title} />
-      <AboutKent title="Hosted by Kent C. Dodds" className="mt-16" />
+      <AuthorBio
+        slug={event.author?.slug}
+        name={event.author?.name}
+        picture={
+          event.author?.picture && {
+            url: event.author.picture.url,
+            alt: event.author.picture.alt || event.author.name,
+          }
+        }
+        title={(name) => `Hosted by ${name}`}
+        bio={event.author?.bio}
+        className=""
+      />
     </Layout>
   )
 }
@@ -100,11 +115,16 @@ const Header: React.FC<HeaderProps> = ({
   image,
   timezone,
 }) => {
-  const eventDate = `${format(new Date(startsAt), 'MMMM d, yyyy')}`
-  const eventTime = `${format(new Date(startsAt), 'h:mm a')} — ${format(
-    new Date(endsAt),
-    'h:mm a',
+  const eventDate = `${formatInTimeZone(
+    new Date(startsAt),
+    'America/Los_Angeles',
+    'MMMM d, yyyy',
   )}`
+  const eventTime = `${formatInTimeZone(
+    new Date(startsAt),
+    'America/Los_Angeles',
+    'h:mm a',
+  )} — ${formatInTimeZone(new Date(endsAt), 'America/Los_Angeles', 'h:mm a')}`
 
   return (
     <header className="relative mx-auto w-full max-w-screen-lg">

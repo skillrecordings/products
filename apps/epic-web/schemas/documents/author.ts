@@ -1,4 +1,4 @@
-import {UserIcon} from '@sanity/icons'
+import {TwitterIcon, UserIcon} from '@sanity/icons'
 import {defineField, defineType} from 'sanity'
 
 export default defineType({
@@ -24,6 +24,12 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'twitterHandle',
+      title: 'Twitter handle',
+      type: 'string',
+      description: 'without @ symbol',
+    }),
+    defineField({
       name: 'bio',
       title: 'Bio',
       description: 'A short bio about the author.',
@@ -43,6 +49,31 @@ export default defineType({
       ],
       options: {hotspot: true},
       validation: (rule) => rule.required(),
+    }),
+
+    defineField({
+      name: 'links',
+      title: 'Links',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'link',
+          title: 'Link',
+          fields: [
+            {
+              name: 'label',
+              type: 'string',
+              title: 'Label',
+            },
+            {
+              name: 'url',
+              type: 'url',
+              title: 'URL',
+            },
+          ],
+        },
+      ],
     }),
   ],
 })
