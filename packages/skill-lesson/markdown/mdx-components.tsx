@@ -155,6 +155,9 @@ const mdxComponents = {
     return <YouTube videoId={videoId} />
   },
   Image: (props: ImageProps) => <Image {...props} />,
+  ChecklistItem: ({children}: React.PropsWithChildren<{}>) => {
+    return <li data-checklist-item="">{children}</li>
+  },
 }
 
 export default mdxComponents
