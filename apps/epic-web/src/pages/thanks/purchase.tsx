@@ -81,7 +81,6 @@ const InlineTeamInvite = ({
 }) => {
   if (!bulkCouponId) return null
 
-  // TODO: Update for live event products
 
   return (
     <div className="mx-auto w-full px-5">
