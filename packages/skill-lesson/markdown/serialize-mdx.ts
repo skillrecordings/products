@@ -63,8 +63,8 @@ const serializeMDX = async (
           rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}], rehypeSlug],
           remarkPlugins: [
             [
-              useShikiTwoslash ? shikiRemotePlugin : remarkCodeHike,
-              syntaxHighlighterOptions,
+              shikiRemotePlugin,
+              syntaxHighlighterOptions satisfies ShikiRemotePluginOptions,
             ],
           ],
         },
