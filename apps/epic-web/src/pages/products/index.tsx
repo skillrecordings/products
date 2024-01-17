@@ -87,7 +87,10 @@ const Products = () => {
             )
 
             return (
-              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+              <PriceCheckProvider
+                key={product.slug}
+                purchasedProductIds={purchasedProductIds}
+              >
                 <ProductCard product={product} purchase={purchase} />
               </PriceCheckProvider>
             )

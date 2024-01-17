@@ -61,6 +61,7 @@ export const getAllProducts = async () => {
     description,
     productId,
     state,
+    type,
     "slug": slug.current,
     _id,
     image {
