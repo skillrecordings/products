@@ -73,7 +73,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         mdx,
         availableBonuses,
         quantityAvailable:
-          productWithQuantityAvailable?.quantityAvailable || -1,
+          (productWithQuantityAvailable &&
+            productWithQuantityAvailable.quantityAvailable - purchaseCount) ||
+          -1,
         purchaseCount,
       },
     }

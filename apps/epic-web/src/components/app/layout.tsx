@@ -1,11 +1,12 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
 import {Toaster} from 'react-hot-toast'
-import Navigation, {useAvailableSale} from 'components/app/navigation'
+import Navigation from 'components/app/navigation'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Footer from './footer'
 import GlobalSearchBar from 'search-bar'
 import '../../search-bar/cmdk.css'
+import {useGlobalBanner} from 'hooks/use-global-banner'
 
 type LayoutProps = {
   meta?: any
@@ -13,9 +14,11 @@ type LayoutProps = {
   className?: string
   children?: any
   navigationClassName?: string
+  globalBannerClassName?: string
   navigationContainerClassName?: string
-  navigationSize?: 'sm' | 'md' | 'lg'
   withFooter?: boolean
+  enableScrollAnimation?: boolean
+  enableGlobalBanner?: boolean
 }
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
@@ -24,9 +27,11 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   meta,
   noIndex,
   navigationClassName,
+  globalBannerClassName,
   navigationContainerClassName,
-  navigationSize,
   withFooter = true,
+  enableScrollAnimation = true,
+  enableGlobalBanner = true,
 }) => {
   const {
     title,
@@ -37,7 +42,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
     ogImage,
     date,
   } = meta || {}
-  const currentSale = useAvailableSale()
+  const {isShowingSiteBanner, bannerHeight} = useGlobalBanner()
 
   return (
     <>
@@ -78,16 +83,18 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       />
       <Navigation
         className={navigationClassName}
-        size={navigationSize}
         navigationContainerClassName={navigationContainerClassName}
+        globalBannerClassName={globalBannerClassName}
+        enableScrollAnimation={enableScrollAnimation}
+        enableGlobalBanner={enableGlobalBanner}
       />
       <div
         id="layout"
+        style={{
+          marginTop: isShowingSiteBanner ? bannerHeight : '0',
+        }}
         className={cn(
-          `relative flex h-full min-h-screen flex-grow flex-col pt-[48px] sm:pt-[80px]`,
-          {
-            'mt-[36px]': currentSale,
-          },
+          `relative flex h-full min-h-screen flex-grow flex-col pt-[48px] sm:pt-12`,
           className,
         )}
       >

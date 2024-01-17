@@ -192,7 +192,6 @@ const EventTemplate: React.FC<
         }
         title={(name) => `Hosted by ${name}`}
         bio={event.author?.bio}
-        className=""
       />
     </Layout>
   )
@@ -263,10 +262,6 @@ const EventPricingWidget: React.FC<{
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
-  const {merchantCoupon, setMerchantCoupon, quantity} = usePriceCheck()
-  const upgradableTo = product.upgradableTo
-  const hasPurchasedUpgrade =
-    upgradableTo && purchasedProductIds.includes(upgradableTo.productId)
   const cancelUrl = process.env.NEXT_PUBLIC_URL + router.asPath
   const hasPurchased = purchasedProductIds.includes(product.productId)
   return (

@@ -3,7 +3,6 @@ import {getSdk} from '@skillrecordings/database'
 import {
   formatPricesForProduct,
   getActiveMerchantCoupon,
-  getCouponForCode,
   getValidPurchases,
   propsForCommerce,
 } from '@skillrecordings/commerce-server'
@@ -31,7 +30,6 @@ const checkForAnyAvailableUpgrades = async ({
   upgradeFromPurchaseId,
   productId,
   purchases,
-  country,
 }: {
   upgradeFromPurchaseId: string | undefined
   productId: string
@@ -208,12 +206,10 @@ export const pricing = router({
         usedCouponId,
       })
 
-      const formattedPrice = {
+      return {
         ...productPrices,
         ...(defaultCoupon && {defaultCoupon}),
       }
-
-      return formattedPrice
     }),
   defaultCoupon: publicProcedure.query(async ({ctx}) => {
     const token = await getToken({req: ctx.req})

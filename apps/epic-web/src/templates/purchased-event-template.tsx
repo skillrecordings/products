@@ -39,7 +39,8 @@ import ReactMarkdown from 'react-markdown'
 import {useBonuses} from 'hooks/use-bonuses'
 import toast from 'react-hot-toast'
 import {EventPageProps} from 'pages/events/[event]'
-import {EventDetails} from './event-template'
+import {EventDetails} from 'templates/event-template'
+import AuthorBio from 'components/author-bio'
 
 const PurchasedEventTemplate = ({
   purchases = [],
@@ -233,6 +234,19 @@ const PurchasedEventTemplate = ({
             <h1 className="font-text pt-5 text-3xl font-semibold sm:text-4xl">
               <Balancer>{product.title}</Balancer>
             </h1>
+            <AuthorBio
+              slug={event.author?.slug}
+              name={event.author?.name}
+              picture={
+                event.author?.picture && {
+                  url: event.author.picture.url,
+                  alt: event.author.picture.alt || event.author.name,
+                }
+              }
+              title={(name) => `Hosted by ${name}`}
+              bio={event.author?.bio}
+              className="m-0 py-5 sm:py-12"
+            />
           </header>
           <div className="">
             {purchase.bulkCoupon && (

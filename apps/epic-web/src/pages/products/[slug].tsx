@@ -99,7 +99,7 @@ export type ProductPageProps = {
 } & CommerceProps
 
 const ProductPage: React.FC<ProductPageProps> = (props) => {
-  const {workshop, hasPurchasedCurrentProduct} = props
+  const {hasPurchasedCurrentProduct} = props
 
   return (
     <>
