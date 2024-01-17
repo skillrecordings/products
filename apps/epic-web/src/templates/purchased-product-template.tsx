@@ -38,6 +38,7 @@ import MuxPlayer from '@mux/mux-player-react'
 import ReactMarkdown from 'react-markdown'
 import {useBonuses} from 'hooks/use-bonuses'
 import toast from 'react-hot-toast'
+import {Product} from 'lib/products'
 
 const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   purchases = [],
@@ -286,7 +287,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                   purchaseToUpgrade={purchaseToUpgrade}
                   formattedPrice={formattedPrice}
                   formattedPriceStatus={status}
-                  product={product as unknown as SanityProduct}
+                  product={product}
                   purchase={purchase}
                   userId={purchase.userId}
                 />
@@ -438,7 +439,7 @@ const RedeemBonusButton = ({
 
 const Upgrade: React.FC<{
   purchase: Purchase
-  product: SanityProduct
+  product: Product
   userId: string | undefined
   purchaseToUpgrade: any
   formattedPrice: FormattedPrice | undefined
