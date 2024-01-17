@@ -8,7 +8,7 @@ export const ProductSchema = z.object({
   _updatedAt: z.string(),
   _createdAt: z.string(),
   title: z.string(),
-  description: z.string(),
+  description: z.string().nullable(),
   slug: z.string(),
   image: z
     .object({
@@ -50,7 +50,7 @@ export async function getProduct(productId: string): Promise<Product> {
         type,
         "slug": slug.current,
         body,
-        "welcomeVideo": welcomeVideo->{"muxPlaybackId":muxAsset.muxPlaybackId, poster}
+        "welcomeVideo": welcomeVideo->{"muxPlaybackId":muxAsset.muxPlaybackId, poster},
         upgradableTo[]->{
           ...,
           modules[]->{
