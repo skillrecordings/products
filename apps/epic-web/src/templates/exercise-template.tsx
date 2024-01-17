@@ -36,6 +36,7 @@ import {PreWithButtons} from 'utils/mdx'
 import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 import {WorkshopAppBanner} from 'components/workshop-app'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import {useGlobalBanner} from 'hooks/use-global-banner'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -93,7 +94,7 @@ const ExerciseTemplate: React.FC<{
 
   const displayWorkshopAppBanner =
     canViewContent && module.moduleType === 'workshop'
-
+  const {isShowingSiteBanner} = useGlobalBanner()
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -112,8 +113,9 @@ const ExerciseTemplate: React.FC<{
           description: pageDescription,
         }}
         navigationClassName="w-full max-w-none"
-        navigationContainerClassName="relative dark:shadow-none"
-        navigationSize="sm"
+        enableScrollAnimation={false}
+        globalBannerClassName="absolute"
+        navigationContainerClassName={'relative'}
         className="pt-0 sm:pt-0"
       >
         <CourseJsonLd
