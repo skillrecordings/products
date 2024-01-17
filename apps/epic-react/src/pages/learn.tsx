@@ -33,11 +33,27 @@ const Learn: React.FC<{workshops: Workshop[]}> = ({workshops}) => {
       <Header title={title} />
       <main className="mx-auto w-full max-w-screen-lg px-5">
         <h2 className="text-center text-5xl">Learn Page</h2>
-        <ul>
+        <ul className="space-y-6">
           {workshops.map((workshop: Workshop) => {
             return (
-              <li key={workshop._id}>
+              <li key={workshop._id} className="flex space-x-6">
                 <Image src={workshop.image} alt="" width={200} height={200} />
+                <div className="space-y-3">
+                  <h3 className="text-2xl">{workshop.title}</h3>
+                  <ul>
+                    {workshop.sections.map((section) => {
+                      return (
+                        <Link
+                          key={section._id}
+                          href={`/workshops/${workshop.slug}/${section.slug}`}
+                          className="block"
+                        >
+                          {section.title}
+                        </Link>
+                      )
+                    })}
+                  </ul>
+                </div>
               </li>
             )
           })}

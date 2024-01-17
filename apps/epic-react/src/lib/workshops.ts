@@ -13,6 +13,7 @@ export const WorkshopSchema = z.object({
   description: z.nullable(z.string()).optional(),
   image: z.string(),
   state: z.enum(['published', 'draft']),
+  sections: z.any().array(),
 })
 
 export const WorkshopsSchema = z.array(WorkshopSchema)
