@@ -36,10 +36,10 @@ const Share: React.FC<{
           <p className="flex items-center text-lg font-medium">
             <HeartIcon
               aria-hidden="true"
-              className="mr-4 inline-block h-5 w-5 flex-shrink-0 text-rose-400/90"
+              className="mr-4 inline-block h-5 w-5 flex-shrink-0 animate-heartbeat text-rose-400/90"
             />
             <span className="leading-tight">
-              <Balancer>Share this {contentType} with your friends</Balancer>
+              Share this {contentType} with your friends
             </span>
           </p>
         </div>
