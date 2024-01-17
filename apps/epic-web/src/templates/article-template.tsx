@@ -74,7 +74,6 @@ const ArticleTemplate: React.FC<{
         }
         title={(name) => `Written by ${name}`}
         bio={author?.bio}
-        className=""
       />
       {!subscriber && <CTA article={article} />}
     </Layout>

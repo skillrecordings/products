@@ -39,12 +39,15 @@ import ReactMarkdown from 'react-markdown'
 import {useBonuses} from 'hooks/use-bonuses'
 import toast from 'react-hot-toast'
 import {EventPageProps} from 'pages/events/[event]'
+import {EventDetails} from 'templates/event-template'
+import AuthorBio from 'components/author-bio'
 
 const PurchasedEventTemplate = ({
   purchases = [],
   product,
   existingPurchase,
   userId,
+  event,
 }: EventPageProps) => {
   const router = useRouter()
   const {data: session, status: sessionStatus} = useSession()
@@ -212,6 +215,19 @@ const PurchasedEventTemplate = ({
             <h1 className="font-text pt-5 text-3xl font-semibold sm:text-4xl">
               <Balancer>{product.title}</Balancer>
             </h1>
+            <AuthorBio
+              slug={event.author?.slug}
+              name={event.author?.name}
+              picture={
+                event.author?.picture && {
+                  url: event.author.picture.url,
+                  alt: event.author.picture.alt || event.author.name,
+                }
+              }
+              title={(name) => `Hosted by ${name}`}
+              bio={event.author?.bio}
+              className="m-0 py-5 sm:py-12"
+            />
           </header>
           <div className="">
             {purchase.bulkCoupon && (
@@ -289,23 +305,8 @@ const PurchasedEventTemplate = ({
               height={300}
             />
           )}
-          {product?.type === 'self-paced' && product.modules && (
-            <div className="pt-10">
-              <span className="block pb-4 text-sm font-semibold uppercase">
-                Workshops
-              </span>
-              {product.modules.map((module) => {
-                return (
-                  <ModuleProgressProvider
-                    key={module.slug}
-                    moduleSlug={module.slug}
-                  >
-                    <ModuleItem module={module} />
-                  </ModuleProgressProvider>
-                )
-              })}
-            </div>
-          )}
+
+          <EventDetails event={event} />
         </aside>
       </main>
     </Layout>
