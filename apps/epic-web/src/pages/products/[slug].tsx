@@ -19,6 +19,7 @@ import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import ProductTemplate from 'templates/product-template'
 import {getAvailableBonuses} from 'lib/available-bonuses'
+import {Product} from 'lib/products'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
@@ -89,7 +90,7 @@ export type Purchase = {
 
 export type ProductPageProps = {
   userId: string
-  product: SanityProduct
+  product: Product
   existingPurchase: {id: string; product: {id: string; name: string}}
   purchases: Purchase[]
   hasPurchasedCurrentProduct: boolean
@@ -99,7 +100,7 @@ export type ProductPageProps = {
 } & CommerceProps
 
 const ProductPage: React.FC<ProductPageProps> = (props) => {
-  const {workshop, hasPurchasedCurrentProduct} = props
+  const {hasPurchasedCurrentProduct} = props
 
   return (
     <>

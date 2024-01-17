@@ -3,7 +3,6 @@ import {getSdk} from '@skillrecordings/database'
 import {
   formatPricesForProduct,
   getActiveMerchantCoupon,
-  getCouponForCode,
   getValidPurchases,
   propsForCommerce,
 } from '@skillrecordings/commerce-server'
@@ -19,7 +18,7 @@ const merchantCouponSchema = z.object({
 })
 
 const PricingFormattedInputSchema = z.object({
-  productId: z.string(),
+  productId: z.string().optional(),
   quantity: z.number(),
   couponId: z.string().optional(),
   merchantCoupon: merchantCouponSchema.optional(),
@@ -31,7 +30,6 @@ const checkForAnyAvailableUpgrades = async ({
   upgradeFromPurchaseId,
   productId,
   purchases,
-  country,
 }: {
   upgradeFromPurchaseId: string | undefined
   productId: string
@@ -158,6 +156,8 @@ export const pricing = router({
         await getPurchasesForUser(verifiedUserId),
       )
 
+      if (!productId) throw new Error('productId is required')
+
       const country =
         (ctx.req.headers['x-vercel-ip-country'] as string) ||
         process.env.DEFAULT_COUNTRY ||
@@ -206,12 +206,10 @@ export const pricing = router({
         usedCouponId,
       })
 
-      const formattedPrice = {
+      return {
         ...productPrices,
         ...(defaultCoupon && {defaultCoupon}),
       }
-
-      return formattedPrice
     }),
   defaultCoupon: publicProcedure.query(async ({ctx}) => {
     const token = await getToken({req: ctx.req})

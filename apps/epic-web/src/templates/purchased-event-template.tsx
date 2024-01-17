@@ -38,19 +38,22 @@ import MuxPlayer from '@mux/mux-player-react'
 import ReactMarkdown from 'react-markdown'
 import {useBonuses} from 'hooks/use-bonuses'
 import toast from 'react-hot-toast'
-import {Product} from 'lib/products'
+import {EventPageProps} from 'pages/events/[event]'
+import {EventDetails} from 'templates/event-template'
+import AuthorBio from 'components/author-bio'
 
-const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
+const PurchasedEventTemplate = ({
   purchases = [],
   product,
   existingPurchase,
   userId,
-}) => {
+  event,
+}: EventPageProps) => {
   const router = useRouter()
   const {data: session, status: sessionStatus} = useSession()
 
   const isUpgrade = Boolean(router.query.upgrade)
-  const withWelcomeBanner = isUpgrade || Boolean(router.query.welcome)
+  const withWelcomeBanner = true // isUpgrade || Boolean(router.query.welcome)
 
   const purchasesForCurrentProduct = purchases.filter((purchase: Purchase) => {
     return (
@@ -78,6 +81,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
       ).length,
     )
   const {merchantCoupon} = usePriceCheck()
+
   const {data: formattedPrice, status} = trpc.pricing.formatted.useQuery({
     productId: product.productId,
     quantity: 1,
@@ -108,12 +112,8 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
     ['0deg', '-3deg'],
   )
 
-  const welcomeVideo =
-    product?.welcomeVideo?.muxPlaybackId ||
-    'uAWjlKTFcFwHpqUzpwbBehoa00aS3iIO77Wm2g9hJb4A' // full stack vol. 1
-  const welcomeVideoPoster =
-    product?.welcomeVideo?.poster ||
-    'https://res.cloudinary.com/epic-web/image/upload/v1697358228/after-purchase-video-poster.jpg'
+  const welcomeVideo = product?.welcomeVideo?.muxPlaybackId
+  const welcomeVideoPoster = product?.welcomeVideo?.poster
 
   return (
     <Layout meta={{title: product.title}}>
@@ -126,8 +126,19 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
           }}
           className="relative mx-auto mt-8 flex w-full max-w-screen-lg flex-col items-center px-5"
         >
-          <section className="relative flex w-full flex-col-reverse overflow-hidden rounded-md border border-white/5 bg-gradient-to-tr from-primary to-indigo-500 text-primary-foreground selection:bg-gray-900 md:grid md:grid-cols-8">
-            <div className="col-span-4 flex flex-col justify-between p-5 pt-8 sm:p-8 md:pt-8">
+          <section
+            className={cn(
+              'relative flex w-full flex-col-reverse overflow-hidden rounded-md border border-white/5 bg-gradient-to-tr from-primary to-indigo-500 text-primary-foreground selection:bg-gray-900',
+              {
+                'md:grid md:grid-cols-8': welcomeVideo,
+              },
+            )}
+          >
+            <div
+              className={cn(
+                'col-span-4 flex flex-col justify-between p-5 pt-8 sm:p-8 md:pt-8',
+              )}
+            >
               <div className="space-y-3">
                 <p className="text-xl font-semibold">
                   Hey {session?.user?.name || 'there'}{' '}
@@ -153,43 +164,24 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                   <>
                     <p>
                       <Balancer>
-                        Welcome to {process.env.NEXT_PUBLIC_SITE_TITLE}! We're
-                        thrilled to have you here. Below, you'll find everything
-                        you need to manage your purchase and access related
-                        information. If you have any questions or need
-                        assistance at any point, please don't hesitate to{' '}
+                        <strong>
+                          Welcome to {product.title}! We're thrilled to have you
+                          join us for this event.
+                        </strong>{' '}
+                        Below, you'll find everything you need to manage your
+                        purchase and access related information. If you have any
+                        questions or need assistance at any point, please don't
+                        hesitate to{' '}
                         <Link className="text-white underline" href="/contact">
                           contact us
                         </Link>
                         .
                       </Balancer>
                     </p>
-                    <p>
-                      <Balancer>
-                        Ready to dive in? Our{' '}
-                        <Link
-                          href="/get-started"
-                          className="text-white underline"
-                          target="_blank"
-                        >
-                          Getting Started guide
-                        </Link>{' '}
-                        will help you get started smoothly.
-                      </Balancer>
-                    </p>
                   </>
                 )}
               </div>
               <div className="mt-10 flex items-center space-x-2">
-                <Button
-                  size="sm"
-                  className="bg-white font-medium text-gray-900 shadow-soft-md hover:bg-gray-200"
-                  asChild
-                >
-                  <Link href="/get-started" target="_blank">
-                    Get Started
-                  </Link>
-                </Button>
                 <Button
                   size="sm"
                   className="bg-gray-900 font-medium text-white shadow-soft-md hover:bg-gray-800"
@@ -202,15 +194,16 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 </Button>
               </div>
             </div>
-
-            <div className="col-span-4 flex w-full items-center justify-center p-5 sm:p-8 md:pl-0">
-              <MuxPlayer
-                playbackId={welcomeVideo}
-                className="w-full rounded shadow-xl"
-                accentColor="#3b82f6"
-                poster={welcomeVideoPoster}
-              />
-            </div>
+            {welcomeVideo && (
+              <div className="col-span-4 flex w-full items-center justify-center p-5 sm:p-8 md:pl-0">
+                <MuxPlayer
+                  playbackId={welcomeVideo}
+                  className="w-full rounded shadow-xl"
+                  accentColor="#3b82f6"
+                  poster={welcomeVideoPoster}
+                />
+              </div>
+            )}
           </section>
           <div
             className="h-1 w-[99%] rounded-b-md bg-primary brightness-125 dark:brightness-75"
@@ -241,6 +234,19 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
             <h1 className="font-text pt-5 text-3xl font-semibold sm:text-4xl">
               <Balancer>{product.title}</Balancer>
             </h1>
+            <AuthorBio
+              slug={event.author?.slug}
+              name={event.author?.name}
+              picture={
+                event.author?.picture && {
+                  url: event.author.picture.url,
+                  alt: event.author.picture.alt || event.author.name,
+                }
+              }
+              title={(name) => `Hosted by ${name}`}
+              bio={event.author?.bio}
+              className="m-0 py-5 sm:py-12"
+            />
           </header>
           <div className="">
             {purchase.bulkCoupon && (
@@ -253,7 +259,6 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                   existingPurchase={existingPurchase}
                   setPersonalPurchase={setPersonalPurchase}
                 />
-
                 <H2>Team members</H2>
                 <ClaimedTeamSeats
                   session={session}
@@ -287,7 +292,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                   purchaseToUpgrade={purchaseToUpgrade}
                   formattedPrice={formattedPrice}
                   formattedPriceStatus={status}
-                  product={product}
+                  product={product as unknown as SanityProduct}
                   purchase={purchase}
                   userId={purchase.userId}
                 />
@@ -318,30 +323,14 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
               height={300}
             />
           )}
-          {product?.type === 'self-paced' && product.modules && (
-            <div className="pt-10">
-              <span className="block pb-4 text-sm font-semibold uppercase">
-                Workshops
-              </span>
-              {product.modules.map((module) => {
-                return (
-                  <ModuleProgressProvider
-                    key={module.slug}
-                    moduleSlug={module.slug}
-                  >
-                    <ModuleItem module={module} />
-                  </ModuleProgressProvider>
-                )
-              })}
-            </div>
-          )}
+          <EventDetails event={event} />
         </aside>
       </main>
     </Layout>
   )
 }
 
-export default PurchasedProductTemplate
+export default PurchasedEventTemplate
 
 export const Bonuses: React.FC<{purchase?: Purchase}> = ({purchase}) => {
   const {availableBonuses} = useBonuses(purchase?.id)
@@ -439,7 +428,7 @@ const RedeemBonusButton = ({
 
 const Upgrade: React.FC<{
   purchase: Purchase
-  product: Product
+  product: SanityProduct
   userId: string | undefined
   purchaseToUpgrade: any
   formattedPrice: FormattedPrice | undefined

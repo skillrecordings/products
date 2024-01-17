@@ -74,7 +74,6 @@ const ArticleTemplate: React.FC<{
         }
         title={(name) => `Written by ${name}`}
         bio={author?.bio}
-        className=""
       />
       {!subscriber && <CTA article={article} />}
     </Layout>
@@ -94,14 +93,14 @@ const Header: React.FC<HeaderProps> = ({article, estimatedReadingTime}) => {
   return (
     <div className="bg-[radial-gradient(ellipse_at_top,#EAEBFF_0%,transparent_65%)] dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)]">
       <header className="relative mx-auto w-full max-w-screen-lg">
-        <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-16">
+        <div className="relative flex w-full flex-col items-center justify-center pb-14 pt-24 sm:pb-24 sm:pt-32">
           <div className="flex flex-grow items-center justify-center">
-            <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-2xl sm:fluid-3xl md:font-bold">
+            <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-3xl sm:fluid-3xl md:font-bold">
               {title}
             </h1>
           </div>
         </div>
-        {image?.secure_url && (
+        {image?.secure_url && router.asPath === '/epic-stack' && (
           <div className="relative flex aspect-video h-full w-full items-center justify-center overflow-hidden bg-foreground/5 sm:rounded-lg">
             <Image
               src={image.secure_url}
@@ -111,28 +110,31 @@ const Header: React.FC<HeaderProps> = ({article, estimatedReadingTime}) => {
               quality={100}
               fill
             />
-            {router.asPath === '/epic-stack' && (
-              <iframe
-                className="absolute h-[calc(100%-32px)] w-[calc(100%-32px)] rounded-md shadow-2xl shadow-black/50"
-                src={`https://www.youtube.com/embed/yMK5SVRASxM?autoplay=1&origin=${process.env.NEXT_PUBLIC_URL}`}
-              />
-            )}
+            <iframe
+              className="absolute h-[calc(100%-32px)] w-[calc(100%-32px)] rounded-md shadow-2xl shadow-black/50"
+              src={`https://www.youtube.com/embed/yMK5SVRASxM?autoplay=1&origin=${process.env.NEXT_PUBLIC_URL}`}
+            />
           </div>
         )}
-        <div className="flex w-full max-w-screen-lg flex-col items-center justify-center gap-5 px-5 pt-8 text-base text-gray-700 dark:text-gray-300 sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:text-base md:gap-16 lg:px-0">
+        <div className="mx-auto flex w-full max-w-3xl flex-row justify-center gap-5 px-5 pt-8 text-base text-gray-700 dark:text-gray-300 sm:items-center sm:justify-between sm:gap-10 sm:text-base md:gap-16 lg:px-5">
           <ResourceAuthor
-            className="col-span-2 text-lg"
+            className="col-span-2 flex-shrink-0 text-base sm:text-lg [&_span]:font-mono [&_span]:text-xs [&_span]:font-semibold [&_span]:uppercase [&_span]:opacity-75"
             name={author?.name}
             slug={author?.slug}
             image={author?.picture?.url}
+            byline="Author"
           />
-          <div className="flex items-center justify-center gap-8 text-center sm:justify-end sm:gap-16 sm:text-left">
-            <div className="flex flex-shrink-0 flex-col justify-center text-sm sm:w-auto sm:text-base">
-              <span className="font-semibold">Time to read</span>~{' '}
-              {estimatedReadingTime} minutes
+          <div className="hidden items-center justify-start gap-8 text-left text-sm sm:flex sm:justify-end sm:gap-16 sm:text-base">
+            <div className="flex flex-shrink-0 flex-col justify-center font-semibold sm:w-auto">
+              <span className=" font-mono text-xs font-semibold uppercase opacity-75">
+                Reading time
+              </span>
+              ~ {estimatedReadingTime} minutes
             </div>
-            <div className="flex flex-shrink-0 flex-col text-sm sm:w-auto sm:text-base">
-              <span className="font-semibold">Published</span>
+            <div className="flex flex-shrink-0 flex-col justify-center font-semibold sm:w-auto">
+              <span className=" font-mono text-xs font-semibold uppercase opacity-75">
+                Published
+              </span>
               {format(new Date(_updatedAt), 'dd MMMM, y')}
             </div>
           </div>

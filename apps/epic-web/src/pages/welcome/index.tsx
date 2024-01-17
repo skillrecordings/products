@@ -62,7 +62,9 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
           destination:
             upgrade === 'true'
               ? `/products/${product.slug}?upgrade=true`
-              : `/products/${product.slug}?welcome=true`,
+              : product.type === 'self-paced'
+              ? `/products/${product.slug}?welcome=true`
+              : `/events/${product.slug}?welcome=true`,
           permanent: false,
         },
       }

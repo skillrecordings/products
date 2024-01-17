@@ -114,15 +114,6 @@ type HeaderProps = {
 }
 
 const Header: React.FC<HeaderProps> = ({title, hasPurchased, product}) => {
-  const {scrollY} = useScroll()
-  const headerScrollRotation = useTransform(
-    scrollY,
-    // Map y from these values:
-    [0, 600],
-    // Into these values:
-    ['0deg', '-3deg'],
-  )
-
   return (
     <header className="relative mx-auto w-full max-w-screen-lg px-2">
       <div className="relative flex w-full flex-col items-center justify-center pt-10 sm:pt-16">

@@ -40,6 +40,43 @@ export const getAllArticles = async (): Promise<Article[]> => {
   return parsedArticles.success ? parsedArticles.data : []
 }
 
+const validateLimit = (limit?: number) => {
+  if (limit && limit > 0) {
+    return limit
+  } else {
+    return undefined
+  }
+}
+
+// Get a certain number of other articles that don't match the given slug
+export const getOtherArticles = async (
+  slug: string,
+  options?: {limit?: number},
+): Promise<Article[]> => {
+  const limit = validateLimit(options?.limit)
+  const querySlice = limit ? `[0...${limit}]` : ''
+
+  const articles = await sanityClient.fetch(
+    groq`*[_type == "article" && state == "published" && slug.current != $slug] | order(_createdAt desc) {
+        _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        "slug": slug.current,
+        title,
+        state,
+        description,
+        "image": image.asset->url,
+        summary,
+        body
+  }${querySlice}`,
+    {slug},
+  )
+
+  const parsedArticles = ArticlesSchema.safeParse(articles)
+  return parsedArticles.success ? parsedArticles.data : []
+}
+
 export const getArticle = async (
   slug: string,
 ): Promise<Article | undefined> => {

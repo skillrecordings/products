@@ -11,6 +11,7 @@ const ParamsSchema = z
     upgradeFromPurchaseId: z.string().optional(),
     cancelUrl: z.string().optional(),
     usedCouponId: z.string().optional(),
+    errorRedirectUrl: z.string().optional(),
   })
   .transform((params) => {
     return {

@@ -54,20 +54,29 @@ const serializeMDX = async (
   {scope, syntaxHighlighterOptions, useShikiTwoslash}: SerializeMDXProps = {},
 ): Promise<MDXRemoteSerializeResult> => {
   if (useShikiTwoslash) {
-    const mdxContent = await serialize(text, {
-      scope,
-      mdxOptions: {
-        useDynamicImport: true,
-        rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}], rehypeSlug],
-        remarkPlugins: [
-          [
-            shikiRemotePlugin,
-            syntaxHighlighterOptions satisfies ShikiRemotePluginOptions,
+    const timeoutInMilliseconds = 5000 // Set your desired timeout duration here
+    const mdxContent = await Promise.race([
+      serialize(text, {
+        scope,
+        mdxOptions: {
+          useDynamicImport: true,
+          rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}], rehypeSlug],
+          remarkPlugins: [
+            [
+              shikiRemotePlugin,
+              syntaxHighlighterOptions satisfies ShikiRemotePluginOptions,
+            ],
           ],
-        ],
-      },
-    })
-    return mdxContent
+        },
+      }),
+      new Promise((_, reject) =>
+        setTimeout(
+          () => reject(new Error('😭 shiki mdx serialization timed out')),
+          timeoutInMilliseconds,
+        ),
+      ),
+    ])
+    return mdxContent as MDXRemoteSerializeResult
   } else {
     const lineNumbers =
       syntaxHighlighterOptions && 'lineNumbers' in syntaxHighlighterOptions
