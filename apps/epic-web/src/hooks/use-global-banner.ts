@@ -8,7 +8,7 @@ export const useActiveLiveEvent = () => {
   const router = useRouter()
   const {data: products} = trpc.products.getAllProducts.useQuery()
   const events = products?.filter((product: SanityProduct) => {
-    return product.type === 'live' && product.state === 'draft'
+    return product.type === 'live' && product.state === 'active'
   })
   const event = events && events?.[0]
 
