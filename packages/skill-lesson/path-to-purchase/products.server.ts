@@ -48,7 +48,6 @@ export const getProductBySlug = async (productSlug: string) => {
   body,
   _createdAt,
   action,
-  "welcomeVideo": welcomeVideo->{muxAsset{muxPlaybackId}, poster},
   image {
     url,
     alt

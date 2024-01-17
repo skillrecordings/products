@@ -112,7 +112,7 @@ const PurchasedEventTemplate = ({
     ['0deg', '-3deg'],
   )
 
-  const welcomeVideo = product?.welcomeVideo?.muxAsset?.muxPlaybackId
+  const welcomeVideo = product?.welcomeVideo?.muxPlaybackId
   const welcomeVideoPoster = product?.welcomeVideo?.poster
 
   return (
@@ -318,7 +318,7 @@ const PurchasedEventTemplate = ({
             <Image
               className="rounded-full"
               src={product.image.url}
-              alt={product.name}
+              alt={product.title}
               width={300}
               height={300}
             />

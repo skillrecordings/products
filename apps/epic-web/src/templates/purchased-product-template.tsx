@@ -108,14 +108,14 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   )
 
   const welcomeVideo =
-    product?.welcomeVideo?.muxAsset?.muxPlaybackId ||
+    product?.welcomeVideo?.muxPlaybackId ||
     'uAWjlKTFcFwHpqUzpwbBehoa00aS3iIO77Wm2g9hJb4A' // full stack vol. 1
   const welcomeVideoPoster =
     product?.welcomeVideo?.poster ||
     'https://res.cloudinary.com/epic-web/image/upload/v1697358228/after-purchase-video-poster.jpg'
 
   return (
-    <Layout meta={{title: product.name}}>
+    <Layout meta={{title: product.title}}>
       {withWelcomeBanner ? (
         <motion.div
           style={{
@@ -238,7 +238,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
           <header className="">
             <PurchasedBadge>{getPurchaseLabel()}</PurchasedBadge>
             <h1 className="font-text pt-5 text-3xl font-semibold sm:text-4xl">
-              <Balancer>{product.name}</Balancer>
+              <Balancer>{product.title}</Balancer>
             </h1>
           </header>
           <div className="">
@@ -286,7 +286,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                   purchaseToUpgrade={purchaseToUpgrade}
                   formattedPrice={formattedPrice}
                   formattedPriceStatus={status}
-                  product={product}
+                  product={product as unknown as SanityProduct}
                   purchase={purchase}
                   userId={purchase.userId}
                 />
@@ -308,13 +308,15 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
           </div>
         </article>
         <aside className="flex flex-shrink-0 flex-col items-center py-10 pr-5 md:mb-0 lg:min-h-screen lg:w-4/12 lg:items-end">
-          <Image
-            className="rounded-full"
-            src={product.image.url}
-            alt={product.name}
-            width={300}
-            height={300}
-          />
+          {product.image && (
+            <Image
+              className="rounded-full"
+              src={product.image.url}
+              alt={product.title}
+              width={300}
+              height={300}
+            />
+          )}
           {product?.type === 'self-paced' && product.modules && (
             <div className="pt-10">
               <span className="block pb-4 text-sm font-semibold uppercase">

@@ -116,7 +116,7 @@ export type EventPageProps = {
   event: Event
   quantityAvailable: number
   purchaseCount: number
-  product: SanityProduct
+  product: Product
   mdx: MDXRemoteSerializeResult
   hasPurchasedCurrentProduct: boolean
   existingPurchase: {id: string; product: {id: string; name: string}}
