@@ -40,6 +40,7 @@ const nextConfig = {
   experimental: {scrollRestoration: true, mdxRs: true},
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
+  staticPageGenerationTimeout: 180,
   images: {
     domains: IMAGE_HOST_DOMAINS,
   },
