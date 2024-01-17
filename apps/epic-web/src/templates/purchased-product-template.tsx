@@ -107,6 +107,13 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
     ['0deg', '-3deg'],
   )
 
+  const welcomeVideo =
+    product?.welcomeVideo?.muxAsset?.muxPlaybackId ||
+    'uAWjlKTFcFwHpqUzpwbBehoa00aS3iIO77Wm2g9hJb4A' // full stack vol. 1
+  const welcomeVideoPoster =
+    product?.welcomeVideo?.poster ||
+    'https://res.cloudinary.com/epic-web/image/upload/v1697358228/after-purchase-video-poster.jpg'
+
   return (
     <Layout meta={{title: product.name}}>
       {withWelcomeBanner ? (
@@ -175,7 +182,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
               <div className="mt-10 flex items-center space-x-2">
                 <Button
                   size="sm"
-                  className="bg-white font-medium text-gray-900 shadow-soft-md"
+                  className="bg-white font-medium text-gray-900 shadow-soft-md hover:bg-gray-200"
                   asChild
                 >
                   <Link href="/get-started" target="_blank">
@@ -184,7 +191,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 </Button>
                 <Button
                   size="sm"
-                  className="bg-gray-900 font-medium text-white shadow-soft-md"
+                  className="bg-gray-900 font-medium text-white shadow-soft-md hover:bg-gray-800"
                   asChild
                 >
                   <Link href="https://kcd.im/discord" target="_blank">
@@ -194,12 +201,13 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 </Button>
               </div>
             </div>
+
             <div className="col-span-4 flex w-full items-center justify-center p-5 sm:p-8 md:pl-0">
               <MuxPlayer
-                playbackId="uAWjlKTFcFwHpqUzpwbBehoa00aS3iIO77Wm2g9hJb4A"
+                playbackId={welcomeVideo}
                 className="w-full rounded shadow-xl"
                 accentColor="#3b82f6"
-                poster="https://res.cloudinary.com/epic-web/image/upload/v1697358228/after-purchase-video-poster.jpg"
+                poster={welcomeVideoPoster}
               />
             </div>
           </section>

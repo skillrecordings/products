@@ -119,6 +119,13 @@ export default defineType({
     }),
     defineField({name: 'image', title: 'Image', type: 'externalImage'}),
     defineField({
+      name: 'welcomeVideo',
+      title: 'Welcome Video',
+      description: 'A video resource that will be shown on the product page',
+      type: 'reference',
+      to: [{type: 'videoResource'}],
+    }),
+    defineField({
       name: 'order',
       title: 'Order',
       type: 'number',

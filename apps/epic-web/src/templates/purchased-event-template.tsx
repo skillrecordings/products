@@ -39,12 +39,14 @@ import ReactMarkdown from 'react-markdown'
 import {useBonuses} from 'hooks/use-bonuses'
 import toast from 'react-hot-toast'
 import {EventPageProps} from 'pages/events/[event]'
+import {EventDetails} from './event-template'
 
 const PurchasedEventTemplate = ({
   purchases = [],
   product,
   existingPurchase,
   userId,
+  event,
 }: EventPageProps) => {
   const router = useRouter()
   const {data: session, status: sessionStatus} = useSession()
@@ -109,6 +111,9 @@ const PurchasedEventTemplate = ({
     ['0deg', '-3deg'],
   )
 
+  const welcomeVideo = product?.welcomeVideo?.muxAsset?.muxPlaybackId
+  const welcomeVideoPoster = product?.welcomeVideo?.poster
+
   return (
     <Layout meta={{title: product.title}}>
       {withWelcomeBanner ? (
@@ -120,8 +125,19 @@ const PurchasedEventTemplate = ({
           }}
           className="relative mx-auto mt-8 flex w-full max-w-screen-lg flex-col items-center px-5"
         >
-          <section className="relative flex w-full flex-col-reverse overflow-hidden rounded-md border border-white/5 bg-gradient-to-tr from-primary to-indigo-500 text-primary-foreground selection:bg-gray-900 md:grid md:grid-cols-8">
-            <div className="col-span-4 flex flex-col justify-between p-5 pt-8 sm:p-8 md:pt-8">
+          <section
+            className={cn(
+              'relative flex w-full flex-col-reverse overflow-hidden rounded-md border border-white/5 bg-gradient-to-tr from-primary to-indigo-500 text-primary-foreground selection:bg-gray-900',
+              {
+                'md:grid md:grid-cols-8': welcomeVideo,
+              },
+            )}
+          >
+            <div
+              className={cn(
+                'col-span-4 flex flex-col justify-between p-5 pt-8 sm:p-8 md:pt-8',
+              )}
+            >
               <div className="space-y-3">
                 <p className="text-xl font-semibold">
                   Hey {session?.user?.name || 'there'}{' '}
@@ -147,11 +163,14 @@ const PurchasedEventTemplate = ({
                   <>
                     <p>
                       <Balancer>
-                        Welcome to {product.title}! We're thrilled to have you
-                        join us for this event. Below, you'll find everything
-                        you need to manage your purchase and access related
-                        information. If you have any questions or need
-                        assistance at any point, please don't hesitate to{' '}
+                        <strong>
+                          Welcome to {product.title}! We're thrilled to have you
+                          join us for this event.
+                        </strong>{' '}
+                        Below, you'll find everything you need to manage your
+                        purchase and access related information. If you have any
+                        questions or need assistance at any point, please don't
+                        hesitate to{' '}
                         <Link className="text-white underline" href="/contact">
                           contact us
                         </Link>
@@ -164,7 +183,7 @@ const PurchasedEventTemplate = ({
               <div className="mt-10 flex items-center space-x-2">
                 <Button
                   size="sm"
-                  className="bg-gray-900 font-medium text-white shadow-soft-md"
+                  className="bg-gray-900 font-medium text-white shadow-soft-md hover:bg-gray-800"
                   asChild
                 >
                   <Link href="https://kcd.im/discord" target="_blank">
@@ -174,14 +193,16 @@ const PurchasedEventTemplate = ({
                 </Button>
               </div>
             </div>
-            <div className="col-span-4 flex w-full items-center justify-center p-5 sm:p-8 md:pl-0">
-              <MuxPlayer
-                playbackId="uAWjlKTFcFwHpqUzpwbBehoa00aS3iIO77Wm2g9hJb4A"
-                className="w-full rounded shadow-xl"
-                accentColor="#3b82f6"
-                poster="https://res.cloudinary.com/epic-web/image/upload/v1697358228/after-purchase-video-poster.jpg"
-              />
-            </div>
+            {welcomeVideo && (
+              <div className="col-span-4 flex w-full items-center justify-center p-5 sm:p-8 md:pl-0">
+                <MuxPlayer
+                  playbackId={welcomeVideo}
+                  className="w-full rounded shadow-xl"
+                  accentColor="#3b82f6"
+                  poster={welcomeVideoPoster}
+                />
+              </div>
+            )}
           </section>
           <div
             className="h-1 w-[99%] rounded-b-md bg-primary brightness-125 dark:brightness-75"
@@ -224,7 +245,6 @@ const PurchasedEventTemplate = ({
                   existingPurchase={existingPurchase}
                   setPersonalPurchase={setPersonalPurchase}
                 />
-
                 <H2>Team members</H2>
                 <ClaimedTeamSeats
                   session={session}
@@ -284,28 +304,12 @@ const PurchasedEventTemplate = ({
             <Image
               className="rounded-full"
               src={product.image.url}
-              alt={product.title}
+              alt={product.name}
               width={300}
               height={300}
             />
           )}
-          {product?.type === 'self-paced' && product.modules && (
-            <div className="pt-10">
-              <span className="block pb-4 text-sm font-semibold uppercase">
-                Workshops
-              </span>
-              {product.modules.map((module) => {
-                return (
-                  <ModuleProgressProvider
-                    key={module.slug}
-                    moduleSlug={module.slug}
-                  >
-                    <ModuleItem module={module} />
-                  </ModuleProgressProvider>
-                )
-              })}
-            </div>
-          )}
+          <EventDetails event={event} />
         </aside>
       </main>
     </Layout>

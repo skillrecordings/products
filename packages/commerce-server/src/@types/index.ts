@@ -67,6 +67,12 @@ export type SanityProduct = {
     url: string
     alt: string
   }
+  welcomeVideo?: {
+    muxAsset: {
+      muxPlaybackId: string
+    }
+    poster?: string
+  }
   state?: 'draft' | 'active' | 'unavailable' | 'archived'
   summary?: PortableTextBlock
   modules: SanityProductModule[]
