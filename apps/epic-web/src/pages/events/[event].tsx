@@ -14,7 +14,10 @@ import {
   propsForCommerce,
 } from '@skillrecordings/commerce-server'
 import {Purchase} from 'pages/products/[slug]'
-import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import type {
+  CommerceProps,
+  SanityProduct,
+} from '@skillrecordings/commerce-server/dist/@types'
 import {Product} from 'lib/products'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import PurchasedProductTemplate from 'templates/purchased-product-template'

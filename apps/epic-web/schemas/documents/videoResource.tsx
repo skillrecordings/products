@@ -70,6 +70,12 @@ export default defineType({
       type: 'transcript',
     }),
     defineField({
+      name: 'poster',
+      title: 'Poster',
+      description: "A URL to the video's poster image",
+      type: 'url',
+    }),
+    defineField({
       name: 'duration',
       title: 'Duration',
       type: 'number',
