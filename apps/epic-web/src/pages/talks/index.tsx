@@ -29,10 +29,10 @@ const TalksIndex: React.FC<TalksIndex> = ({talks}) => {
   return (
     <Layout
       meta={{
-        title: `Epic Web Dev Talks by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
+        title: `Epic Web Dev Talks`,
         description: pageDescription,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1696399658/card-talks_2x.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1705611435/epicweb.dev/og/card-talks_2x.png',
         },
       }}
     >
