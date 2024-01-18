@@ -54,7 +54,7 @@ const serializeMDX = async (
   {scope, syntaxHighlighterOptions, useShikiTwoslash}: SerializeMDXProps = {},
 ): Promise<MDXRemoteSerializeResult> => {
   if (useShikiTwoslash) {
-    const timeoutInMilliseconds = 5000 // Set your desired timeout duration here
+    const timeoutInMilliseconds = 180000 // Set your desired timeout duration here
     const mdxContent = await Promise.race([
       serialize(text, {
         scope,
