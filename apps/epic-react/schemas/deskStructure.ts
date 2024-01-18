@@ -12,6 +12,7 @@ import videoResources from './structure/videoResources'
 import sections from './structure/sections'
 import links from './structure/links'
 import bonuses from './structure/bonuses'
+import interviews from './structure/interviews'
 
 const hiddenDocTypes = (listItem: any) =>
   ![
@@ -31,7 +32,7 @@ const hiddenDocTypes = (listItem: any) =>
 
 export default (S: any) =>
   S.list()
-    .title('Studio')
+    .title('Epic React')
     .items([
       pricing(S),
       products(S),
@@ -42,6 +43,7 @@ export default (S: any) =>
       bonuses(S),
       pages(S),
       tips(S),
+      interviews(S),
       S.divider(),
       lessons(S),
       exercises(S),
