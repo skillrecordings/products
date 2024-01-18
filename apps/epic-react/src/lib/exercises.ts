@@ -10,7 +10,7 @@ export const ExerciseSchema = z
     github: z.nullable(z.string()).optional(),
     videoResourceId: z.nullable(z.string()).optional(),
     transcript: z.nullable(z.string()).optional(),
-    legacyTranscript: z.nullable(z.string()).optional(),
+    // legacyTranscript: z.nullable(z.string()).optional(),
     solution: z.nullable(
       z
         .object({
