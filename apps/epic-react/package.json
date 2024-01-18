@@ -122,6 +122,7 @@
   },
   "devDependencies": {
     "@next/env": "^12.2.2",
+    "@sanity/block-content-to-markdown": "^0.0.5",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",
     "@skillrecordings/types": "workspace:*",
