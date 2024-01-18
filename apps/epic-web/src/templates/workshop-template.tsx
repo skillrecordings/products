@@ -131,7 +131,12 @@ const WorkshopTemplate: React.FC<{
           )}
         </div>
         <aside
-          className="right-0 top-28 w-full px-5 lg:absolute lg:h-full lg:max-w-sm lg:px-0"
+          className={cn(
+            'right-0 top-28 w-full px-5 lg:absolute lg:max-w-sm lg:px-0',
+            {
+              'lg:h-full': abilityRulesStatus === 'loading',
+            },
+          )}
           data-workshop=""
         >
           {abilityRulesStatus === 'loading' ? (
