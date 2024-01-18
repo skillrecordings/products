@@ -24,6 +24,7 @@ export default defineType({
         list: [
           {title: 'Workshop', value: 'workshop'},
           {title: 'Tutorial', value: 'tutorial'},
+          {title: 'Bonus', value: 'bonus'},
         ],
       },
     }),
