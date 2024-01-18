@@ -9,6 +9,7 @@ import Icon from 'components/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import Balancer from 'react-wrap-balancer'
 import {getAllTalks, Talk} from 'lib/talks'
+import ResourceAuthor from 'components/resource-author'
 
 export async function getStaticProps() {
   const talks = await getAllTalks(false)
@@ -22,8 +23,7 @@ type TalksIndex = {
   talks: Talk[]
 }
 
-const pageDescription =
-  'A collection of Web Development talks by Kent C. Dodds.'
+const pageDescription = 'A collection of Web Development talks.'
 
 const TalksIndex: React.FC<TalksIndex> = ({talks}) => {
   return (
@@ -132,6 +132,13 @@ const TalkCard: React.FC<{talk: Talk}> = ({talk}) => {
             {title} {tipCompleted && <span className="sr-only">(watched)</span>}
           </Link>
         </h2>
+        <ResourceAuthor
+          name={talk?.author?.name}
+          slug={talk?.author?.slug}
+          image={talk.author?.image}
+          as="div"
+          className="mt-3 gap-2 text-sm font-normal opacity-75 [&_img]:w-8"
+        />
       </div>
     </article>
   )

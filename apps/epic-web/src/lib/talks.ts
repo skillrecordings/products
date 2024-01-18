@@ -28,6 +28,15 @@ export const TalkSchema = z.object({
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
+  author: z
+    .object({
+      name: z.string(),
+      slug: z.string(),
+      image: z.string(),
+      imageAlt: z.string(),
+    })
+    .nullable()
+    .optional(),
 })
 
 export const TalksSchema = z.array(TalkSchema)
@@ -51,7 +60,13 @@ export const getAllTalks = async (onlyPublished = true): Promise<Talk[]> => {
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-        "tweetId":  resources[@._type == 'tweet'][0].tweetId
+        "tweetId":  resources[@._type == 'tweet'][0].tweetId,
+        author-> {
+          name,
+          "slug": slug.current,
+          "image": picture.asset->url,
+          "imageAlt": picture.alt
+        },
   }`)
 
   return TalksSchema.parse(talks)
@@ -74,7 +89,13 @@ export const getTalk = async (slug: string): Promise<Talk> => {
         "slug": slug.current,
         "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
-        "tweetId":  resources[@._type == 'tweet'][0].tweetId
+        "tweetId":  resources[@._type == 'tweet'][0].tweetId, 
+        author-> {
+          name,
+          "slug": slug.current,
+          "image": picture.asset->url,
+          "imageAlt": picture.alt
+        },
     }`,
     {slug},
   )

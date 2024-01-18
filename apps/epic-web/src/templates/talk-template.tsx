@@ -45,6 +45,7 @@ import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import {Talk} from 'lib/talks'
 import Link from 'next/link'
+import ResourceAuthor from 'components/resource-author'
 
 const TalkTemplate: React.FC<{
   talk: Talk
@@ -150,12 +151,19 @@ const TalkTemplate: React.FC<{
                   </Link>
                   <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
                     {talk.title}
+
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
+                  <ResourceAuthor
+                    className="my-2 inline-flex text-base font-semibold text-gray-700 dark:text-gray-300 [&_img]:w-10 [&_span]:font-bold"
+                    name={talk.author?.name}
+                    slug={talk.author?.slug}
+                    image={talk.author?.image}
+                  />
                   {tipCompleted ? (
                     <div
                       aria-hidden="true"
-                      className="flex items-center gap-1 pb-[20px] pt-6"
+                      className="flex items-center gap-1 pb-[20px] pt-4"
                     >
                       <Icon
                         name="Checkmark"
