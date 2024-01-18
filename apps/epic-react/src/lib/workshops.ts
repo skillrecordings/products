@@ -1,34 +1,15 @@
-import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
-import z from 'zod'
-
-export const WorkshopSchema = z.object({
-  _id: z.string(),
-  _type: z.string(),
-  _updatedAt: z.string(),
-  _createdAt: z.string(),
-  title: z.string(),
-  slug: z.string(),
-  moduleType: z.string(),
-  description: z.nullable(z.string()).optional(),
-  image: z.string(),
-  state: z.enum(['published', 'draft']),
-  sections: z.any().array(),
-})
-
-export const WorkshopsSchema = z.array(WorkshopSchema)
-
-export type Workshop = z.infer<typeof WorkshopSchema>
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 
 const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | order(_createdAt asc) {
   _id,
   _type,
+  title,
+  slug,
+  moduleType,
+  "image": image.secure_url,
   _updatedAt,
   _createdAt,
-  title,
-  "slug": slug.current,
-  moduleType,
-  "image": image.url,
   description,
   state,
   'product': *[_type=='product' && references(^._id)][]{
@@ -79,13 +60,11 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   }
 }`
 
-export const getAllWorkshops = async (): Promise<Workshop[]> => {
-  const workshops = await sanityClient.fetch(workshopsQuery)
-  return WorkshopsSchema.parse(workshops)
-}
+export const getAllWorkshops = async () =>
+  await sanityClient.fetch(workshopsQuery)
 
-export const getWorkshop = async (slug: string): Promise<Workshop> => {
-  const workshop = await sanityClient.fetch(
+export const getWorkshop = async (slug: string) =>
+  await sanityClient.fetch(
     groq`*[_type == "module" && moduleType == 'workshop' && slug.current == $slug][0]{
         "id": _id,
         _type,
@@ -162,5 +141,3 @@ export const getWorkshop = async (slug: string): Promise<Workshop> => {
     }`,
     {slug: `${slug}`},
   )
-  return WorkshopSchema.parse(workshop)
-}
