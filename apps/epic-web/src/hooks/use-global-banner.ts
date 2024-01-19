@@ -1,14 +1,14 @@
-import {SanityProduct} from "@skillrecordings/commerce-server/dist/@types"
-import {useScroll} from "framer-motion"
-import {useRouter} from "next/router"
-import React from "react"
-import {trpc} from "trpc/trpc.client"
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {useScroll} from 'framer-motion'
+import {useRouter} from 'next/router'
+import React from 'react'
+import {trpc} from 'trpc/trpc.client'
 
 export const useActiveLiveEvent = () => {
   const router = useRouter()
   const {data: products} = trpc.products.getAllProducts.useQuery()
   const events = products?.filter((product: SanityProduct) => {
-    return product.type === "live" && product.state === "active"
+    return product.type === 'live' && product.state === 'active'
   })
   const event = events && events?.[0]
 
@@ -19,7 +19,7 @@ export const useActiveLiveEvent = () => {
     {
       enabled: Boolean(event?.productId),
       refetchInterval: 30000, // 30 seconds
-    }
+    },
   )
 
   const {data: commerceProps} = trpc.pricing.propsForCommerce.useQuery(
@@ -28,12 +28,12 @@ export const useActiveLiveEvent = () => {
     },
     {
       enabled: Boolean(event?.productId),
-    }
+    },
   )
 
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
-  const hasPurchase = purchasedProductIds.length > 0
+  const hasPurchase = purchasedProductIds.includes(event?.productId as string)
 
   // if there's an active event with availability
   // if user haven't purchased the event
@@ -56,35 +56,39 @@ export const useAvailableSale = () => {
   const {data} = trpc.pricing.defaultCoupon.useQuery()
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
-      productId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
+      productId: data?.product?.id,
     })
 
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
-  const hasPurchase = purchasedProductIds.length > 0
+  const hasPurchase = purchasedProductIds.includes(data?.product?.id)
 
   if (!data) return null
   if (hasPurchase) return null
 
-  return {...data, bannerHeight: data ? 36 : 0}
+  return {...data}
 }
 
 export const useGlobalBanner = () => {
   const activeSale = useAvailableSale()
   const activeEvent = useActiveLiveEvent()
+
   const {scrollYProgress} = useScroll()
   const [scrollDirection, setScrollDirection] = React.useState<
-    "up" | "down" | null
+    'up' | 'down' | null
   >(null)
   const [lastScrollYProgress, setLastScrollYProgress] = React.useState(0)
 
   React.useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange((currentScrollYProgress) => {
-      setScrollDirection(
-        currentScrollYProgress > lastScrollYProgress ? "down" : "up"
-      )
-      setLastScrollYProgress(currentScrollYProgress)
-    })
+    const unsubscribe = scrollYProgress.on(
+      'change',
+      (currentScrollYProgress) => {
+        setScrollDirection(
+          currentScrollYProgress > lastScrollYProgress ? 'down' : 'up',
+        )
+        setLastScrollYProgress(currentScrollYProgress)
+      },
+    )
 
     return () => unsubscribe()
   }, [lastScrollYProgress, scrollYProgress])
