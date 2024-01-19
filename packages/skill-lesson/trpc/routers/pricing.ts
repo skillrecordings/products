@@ -193,8 +193,6 @@ export const pricing = router({
           productId,
         })
 
-      console.log({activeMerchantCoupon, defaultCoupon, usedCouponId})
-
       const productPrices = await formatPricesForProduct({
         productId,
         country,

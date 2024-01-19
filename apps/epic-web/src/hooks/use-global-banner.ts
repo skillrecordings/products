@@ -43,7 +43,7 @@ export const useActiveLiveEvent = () => {
     availability &&
     availability.quantityAvailable > 0 &&
     !hasPurchase &&
-    router.asPath !== `/events/${event.slug}`
+    !router.asPath.includes(`/events/${event.slug}`)
   ) {
     return {
       event,
@@ -56,12 +56,12 @@ export const useAvailableSale = () => {
   const {data} = trpc.pricing.defaultCoupon.useQuery()
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
-      productId: data?.product?.id,
+      productId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
     })
 
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
-  const hasPurchase = purchasedProductIds.includes(data?.product?.id)
+  const hasPurchase = purchasedProductIds.length > 0
 
   if (!data) return null
   if (hasPurchase) return null
