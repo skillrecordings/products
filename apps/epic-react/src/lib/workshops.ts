@@ -1,5 +1,6 @@
 import groq from 'groq'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+import {z} from 'zod'
 
 const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | order(_createdAt asc) {
   _id,
@@ -33,31 +34,6 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
       value
     }
   },
-  "sections": resources[@->._type == 'section']->{
-    _id,
-    _type,
-    _updatedAt,
-    title,
-    description,
-    "slug": slug.current,
-    "lessons": resources[@->._type in ['exercise', 'explainer']]->{
-      _id,
-      _type,
-      _updatedAt,
-      title,
-      description,
-      "slug": slug.current,
-      "solution": resources[@._type == 'solution'][0]{
-        _key,
-        _type,
-        "_updatedAt": ^._updatedAt,
-        title,
-        description,
-        "slug": slug.current,
-      }
-    },
-    "resources": resources[@->._type in ['linkResource']]->
-  },
   "resources": resources[@->._type in ['section', 'explainer']]->{
     _id,
     _type,
@@ -83,8 +59,47 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   }
 }`
 
-export const getAllWorkshops = async () =>
-  await sanityClient.fetch(workshopsQuery)
+export const WorkshopSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  title: z.string(),
+  slug: z.object({current: z.string()}),
+  moduleType: z.string(),
+  image: z.string(),
+  _updatedAt: z.string(),
+  _createdAt: z.string(),
+  description: z.string().nullable(),
+  state: z.string(), // TODO: make this a union/literal of the 3 states
+  resources: z.array(
+    z.object({
+      _id: z.string(),
+      _type: z.union([z.literal('section'), z.literal('explainer')]),
+      _updatedAt: z.string(),
+      title: z.string(),
+      slug: z.object({current: z.string()}),
+      explainerType: z.string().optional(),
+      resources: z
+        .array(
+          z.object({
+            _id: z.string(),
+            _type: z.union([z.literal('explainer'), z.literal('exercise')]),
+            _updatedAt: z.string(),
+            title: z.string(),
+            slug: z.object({current: z.string()}),
+            description: z.string().nullable(),
+            explainerType: z.string().optional(),
+          }),
+        )
+        .optional(),
+    }),
+  ),
+})
+
+export const getAllWorkshops = async () => {
+  const result = await sanityClient.fetch(workshopsQuery)
+
+  return WorkshopSchema.array().parse(result)
+}
 
 export const getWorkshop = async (slug: string) =>
   await sanityClient.fetch(
