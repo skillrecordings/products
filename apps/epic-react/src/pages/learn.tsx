@@ -8,6 +8,8 @@ import config from '@/config'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Header from '@/components/app/header'
 import {getOgImage} from '@/utils/get-og-image'
+import {WorkshopSchema} from '@/lib/workshops'
+import React from 'react'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const workshops = await getAllWorkshops()
@@ -19,11 +21,30 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 }
 
+const ResourceLink: React.FC<{
+  _id: string
+  title: string
+  workshopSlug: string
+  resourceSlug: string
+}> = ({_id, title, workshopSlug, resourceSlug}) => {
+  return (
+    <Link
+      key={_id}
+      href={`/workshops/${workshopSlug}/${resourceSlug}`}
+      className="block"
+    >
+      {title}
+    </Link>
+  )
+}
+
 const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
-  workshops,
+  workshops: unparsedWorkshops,
   bonuses,
 }) => {
   const title = 'Learn'
+
+  const workshops = WorkshopSchema.array().parse(unparsedWorkshops)
 
   return (
     <Layout
@@ -38,7 +59,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
       <main className="mx-auto w-full max-w-screen-lg px-5">
         <h2 className="text-center text-5xl">Learn Page</h2>
         <ul className="space-y-6">
-          {workshops.map((workshop: any) => {
+          {workshops.map((workshop) => {
             return (
               <li key={workshop._id} className="flex space-x-6">
                 <div className="shrink-0">
@@ -47,20 +68,44 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
                 <div className="space-y-3">
                   <h3 className="text-2xl">{workshop.title}</h3>
                   <ul>
-                    {workshop.resources.map((resource: any) => {
-                      return (
-                        <Link
-                          key={resource._id}
-                          href={
-                            resource._type === 'section'
-                              ? `/workshops/${workshop.slug.current}/${resource.resources[0].slug.current}`
-                              : `/workshops/${workshop.slug.current}/${resource.slug.current}`
-                          }
-                          className="block"
-                        >
-                          {resource.title}
-                        </Link>
-                      )
+                    {workshop.resources.map((resource) => {
+                      if (resource._type === 'explainer') {
+                        return (
+                          <ResourceLink
+                            _id={resource._id}
+                            title={resource.title}
+                            workshopSlug={workshop.slug.current}
+                            resourceSlug={resource.slug.current}
+                          />
+                        )
+                      }
+
+                      if (resource._type === 'section') {
+                        const sectionResources = resource.resources || []
+                        return (
+                          <>
+                            <h4 className="text-1xl font-bold">
+                              Section: {resource.title}
+                            </h4>
+                            <ul>
+                              {sectionResources.map((sectionResource) => {
+                                return (
+                                  <li>
+                                    <ResourceLink
+                                      _id={sectionResource._id}
+                                      title={sectionResource.title}
+                                      workshopSlug={workshop.slug.current}
+                                      resourceSlug={
+                                        sectionResource.slug.current
+                                      }
+                                    />
+                                  </li>
+                                )
+                              })}
+                            </ul>
+                          </>
+                        )
+                      }
                     })}
                   </ul>
                 </div>
