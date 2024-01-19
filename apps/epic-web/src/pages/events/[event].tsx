@@ -64,20 +64,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   })
 
+  const baseProps = {
+    ...commerceProps.props,
+    event,
+    mdx,
+    availableBonuses,
+    quantityAvailable:
+      (productWithQuantityAvailable &&
+        productWithQuantityAvailable.quantityAvailable - purchaseCount) ||
+      -1,
+    product,
+    purchaseCount,
+  }
+
   if (!token?.sub) {
     return {
-      props: {
-        ...commerceProps.props,
-        event,
-        product,
-        mdx,
-        availableBonuses,
-        quantityAvailable:
-          (productWithQuantityAvailable &&
-            productWithQuantityAvailable.quantityAvailable - purchaseCount) ||
-          -1,
-        purchaseCount,
-      },
+      props: baseProps,
     }
   }
 
@@ -89,15 +91,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   if (!purchaseForProduct) {
     return {
-      props: {
-        ...commerceProps.props,
-        event,
-        mdx,
-        availableBonuses,
-        quantityAvailable:
-          productWithQuantityAvailable?.quantityAvailable || -1,
-        product,
-      },
+      props: baseProps,
     }
   }
 
@@ -108,14 +102,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      ...commerceProps.props,
+      ...baseProps,
       hasPurchasedCurrentProduct: Boolean(purchase),
       existingPurchase: convertToSerializeForNextResponse(existingPurchase),
-      product,
-      event,
-      mdx,
       quantityAvailable: productWithQuantityAvailable?.quantityAvailable || -1,
-      purchaseCount,
     },
   }
 }
