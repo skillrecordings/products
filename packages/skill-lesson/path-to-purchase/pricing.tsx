@@ -295,11 +295,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
           ) : null}
           {options.saleCountdownRenderer
             ? options.saleCountdownRenderer({
-                coupon:
-                  Number(couponFromCode?.percentageDiscount) >=
-                  Number(defaultCoupon?.percentageDiscount)
+                coupon: defaultCoupon
+                  ? Number(couponFromCode?.percentageDiscount) >=
+                    Number(defaultCoupon?.percentageDiscount)
                     ? couponFromCode
-                    : defaultCoupon,
+                    : defaultCoupon
+                  : couponFromCode,
               })
             : null}
           {purchased ? (
@@ -494,10 +495,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               {(isSellingLive || allowPurchase) && !purchased && (
                 <SaleCountdown
                   coupon={
-                    Number(couponFromCode?.percentageDiscount) >=
-                    Number(defaultCoupon?.percentageDiscount)
-                      ? couponFromCode
-                      : defaultCoupon
+                    defaultCoupon
+                      ? Number(couponFromCode?.percentageDiscount) >=
+                        Number(defaultCoupon?.percentageDiscount)
+                        ? couponFromCode
+                        : defaultCoupon
+                      : couponFromCode
                   }
                   data-pricing-product-sale-countdown={index}
                 />

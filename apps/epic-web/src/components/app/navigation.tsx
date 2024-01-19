@@ -959,11 +959,18 @@ export const Banner: React.FC<{
   className?: string
   enableScrollAnimation?: boolean
 }> = ({className, enableScrollAnimation}) => {
+  const router = useRouter()
   const currentSale = useAvailableSale()
   const activeEvent = useActiveLiveEvent()
   const {bannerHeight, scrollDirection} = useGlobalBanner()
-  if (!currentSale && !activeEvent) return null
+  const code = router.query.code
+  const productOnSale = currentSale?.sanityProduct
+  const productPath =
+    (productOnSale?.type === 'live' ? '/events' : '/products') +
+    '/' +
+    productOnSale?.slug
 
+  if (!currentSale && !activeEvent) return null
   return (
     <div
       style={{
@@ -977,7 +984,7 @@ export const Banner: React.FC<{
     >
       {currentSale ? (
         <Link
-          href="/buy"
+          href={productOnSale ? productPath : '/buy'}
           className={cn(`flex h-full w-full bg-primary py-1.5 text-white`)}
           onClick={() => {
             track('clicked sale banner cta', {
@@ -1010,13 +1017,15 @@ export const Banner: React.FC<{
               />
             </div>
             <div className="flex-shrink-0 rounded bg-white px-2 py-0.5 font-semibold text-primary shadow-md">
-              Become an Epic Dev
+              {productOnSale?.action ?? `Become an Epic Dev`}
             </div>
           </div>
         </Link>
       ) : activeEvent ? (
         <Link
-          href={`/events/${activeEvent.event.slug}`}
+          href={`/events/${activeEvent.event.slug}${
+            code ? '?code=' + code : ''
+          }`}
           className={cn(`flex h-full w-full bg-primary py-1.5 text-white`)}
           onClick={() => {
             track('clicked sale banner cta', {

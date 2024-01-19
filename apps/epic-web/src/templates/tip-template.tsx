@@ -68,7 +68,9 @@ const TipTemplate: React.FC<{
   const ogImage = getOgImage({
     title: tip.title || 'tip',
     type: 'video',
-    image: `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
+    image:
+      tip.videoPosterUrl ??
+      `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
   })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
