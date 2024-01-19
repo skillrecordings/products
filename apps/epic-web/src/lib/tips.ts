@@ -14,6 +14,7 @@ export const TipSchema = z.object({
   summary: z.string().optional().nullable(),
   muxPlaybackId: z.nullable(z.string()).optional(),
   state: z.enum(['new', 'processing', 'reviewing', 'published', 'retired']),
+  videoPosterUrl: z.nullable(z.string()).optional(),
   sandpack: z
     .array(
       z.object({
@@ -90,6 +91,7 @@ export const getTip = async (slug: string): Promise<Tip> => {
           "imageAlt": picture.alt
         },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+        "videoPosterUrl": resources[@->._type == 'videoResource'][0]->poster,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
         "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
