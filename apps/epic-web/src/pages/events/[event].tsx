@@ -89,7 +89,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   if (!purchaseForProduct) {
     return {
-      props: {...commerceProps.props, event, availableBonuses},
+      props: {
+        ...commerceProps.props,
+        event,
+        mdx,
+        availableBonuses,
+        quantityAvailable:
+          productWithQuantityAvailable?.quantityAvailable || -1,
+        product,
+      },
     }
   }
 
