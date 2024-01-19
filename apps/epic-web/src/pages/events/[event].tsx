@@ -69,10 +69,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     event,
     mdx,
     availableBonuses,
-    quantityAvailable:
-      (productWithQuantityAvailable &&
-        productWithQuantityAvailable.quantityAvailable - purchaseCount) ||
-      -1,
+    quantityAvailable: productWithQuantityAvailable?.quantityAvailable || -1,
     product,
     purchaseCount,
   }
@@ -105,7 +102,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       ...baseProps,
       hasPurchasedCurrentProduct: Boolean(purchase),
       existingPurchase: convertToSerializeForNextResponse(existingPurchase),
-      quantityAvailable: productWithQuantityAvailable?.quantityAvailable || -1,
     },
   }
 }
