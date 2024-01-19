@@ -70,3 +70,57 @@ test('if a default coupon is passed that is valid and has a 100% discount it is 
   expect(result.isValid).toEqual(true)
   expect(result.isRedeemable).toEqual(false)
 })
+
+test('valid if product it is restricted to matches current product as only product', async () => {
+  const coupon = {
+    id: 'valid-coupon-id',
+    type: 'special',
+    percentageDiscount: new Prisma.Decimal(0.5),
+    restrictedToProductId: `product-id`,
+  } as Prisma.CouponUncheckedCreateInput
+  const result = validateCoupon(coupon as Coupon, ['product-id'])
+
+  expect(result.isValid).toEqual(true)
+})
+
+test('valid if product it is restricted to matches current products list', async () => {
+  const coupon = {
+    id: 'valid-coupon-id',
+    type: 'special',
+    percentageDiscount: new Prisma.Decimal(0.5),
+    restrictedToProductId: `product-id`,
+  } as Prisma.CouponUncheckedCreateInput
+  const result = validateCoupon(coupon as Coupon, [
+    'product-id',
+    'another-product-id',
+  ])
+
+  expect(result.isValid).toEqual(true)
+})
+
+test('not valid if product it is restricted to not in products list', async () => {
+  const coupon = {
+    id: 'valid-coupon-id',
+    type: 'special',
+    percentageDiscount: new Prisma.Decimal(0.5),
+    restrictedToProductId: `product-id`,
+  } as Prisma.CouponUncheckedCreateInput
+  const result = validateCoupon(coupon as Coupon, [
+    'good-product-id',
+    'another-product-id',
+  ])
+
+  expect(result.isValid).toEqual(false)
+})
+
+test('not valid if product it is restricted and empty products list', async () => {
+  const coupon = {
+    id: 'valid-coupon-id',
+    type: 'special',
+    percentageDiscount: new Prisma.Decimal(0.5),
+    restrictedToProductId: `product-id`,
+  } as Prisma.CouponUncheckedCreateInput
+  const result = validateCoupon(coupon as Coupon)
+
+  expect(result.isValid).toEqual(false)
+})

@@ -1,5 +1,5 @@
 import {ParsedUrlQuery} from 'querystring'
-import {Decimal, Purchase, getSdk, prisma} from '@skillrecordings/database'
+import {getSdk} from '@skillrecordings/database'
 import {convertToSerializeForNextResponse} from './prisma-next-serializer'
 import {getCouponForCode} from './get-coupon-for-code'
 import type {SanityProduct} from './@types'
@@ -13,7 +13,11 @@ export async function propsForCommerce({
   token: {sub?: string} | null
   products: SanityProduct[]
 }) {
-  const couponFromCode = await getCouponForCode(query.code as string)
+  const productIds = products.map((product) => product.productId)
+  const couponFromCode = await getCouponForCode(
+    query.code as string,
+    productIds,
+  )
   const allowPurchase =
     Boolean(process.env.NEXT_PUBLIC_SELLING_LIVE === 'true') ||
     Boolean(query.allowPurchase)
@@ -24,10 +28,9 @@ export async function propsForCommerce({
     ? await getPurchasesForUser(token.sub as string)
     : false
 
-  const couponIdFromCoupon = (query.coupon as string) || couponFromCode?.id
-  const defaultCoupons = !token
-    ? await getDefaultCoupon(products.map((product) => product.productId))
-    : null
+  const couponIdFromCoupon =
+    (query.coupon as string) || (couponFromCode?.isValid && couponFromCode.id)
+  const defaultCoupons = !token ? await getDefaultCoupon(productIds) : null
 
   return {
     props: {
