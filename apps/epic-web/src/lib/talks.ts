@@ -14,6 +14,7 @@ export const TalkSchema = z.object({
   body: z.string().optional().nullable(),
   summary: z.string().optional().nullable(),
   muxPlaybackId: z.nullable(z.string()).optional(),
+  videoPosterUrl: z.nullable(z.string()).optional(),
   state: z.enum(['new', 'processing', 'reviewing', 'published', 'retired']),
   sandpack: z
     .array(
@@ -46,7 +47,7 @@ export type Talk = z.infer<typeof TalkSchema>
 export const getAllTalks = async (onlyPublished = true): Promise<Talk[]> => {
   const talks = await sanityClient.fetch(groq`*[_type == "talk" ${
     onlyPublished ? `&& state == "published"` : ''
-  }] | order(_createdAt asc) {
+  }] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,
@@ -86,6 +87,7 @@ export const getTalk = async (slug: string): Promise<Talk> => {
         body,
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "videoPosterUrl": resources[@->._type == 'videoResource'][0]->poster,
         "slug": slug.current,
         "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,

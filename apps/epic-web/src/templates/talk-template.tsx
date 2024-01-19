@@ -62,7 +62,9 @@ const TalkTemplate: React.FC<{
   const ogImage = getOgImage({
     title: talk.title,
     type: 'video',
-    image: `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
+    image:
+      talk.videoPosterUrl ??
+      `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
   })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
@@ -177,8 +179,8 @@ const TalkTemplate: React.FC<{
                     <Hr
                       className={
                         tipCompleted
-                          ? 'bg-emerald-400'
-                          : 'bg-indigo-500 dark:bg-indigo-400'
+                          ? 'bg-emerald-500 dark:bg-emerald-400'
+                          : 'bg-foreground/10'
                       }
                     />
                   )}
@@ -343,7 +345,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
       >
         <div className="relative z-10 flex flex-col">
           <span className="font-heading pb-1 text-xs font-bold uppercase tracking-wide text-gray-400">
-            Tip
+            Talk
           </span>
           <span className="font-medium">
             {suggestedTip.title}{' '}

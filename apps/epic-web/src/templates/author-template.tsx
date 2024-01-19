@@ -114,7 +114,7 @@ const AuthorTemplate: React.FC<{
                         )}
                         {resource.muxPlaybackId && (
                           <Image
-                            src={`https://image.mux.com/${resource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`}
+                            src={`https://image.mux.com/${resource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve&time=0`}
                             alt={resource.title}
                             width={200 / 1.5}
                             height={113 / 1.5}

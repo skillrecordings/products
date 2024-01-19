@@ -29,20 +29,22 @@ const TalksIndex: React.FC<TalksIndex> = ({talks}) => {
   return (
     <Layout
       meta={{
-        title: `Epic Web Dev Talks`,
+        title: `Epic Dev Talks`,
         description: pageDescription,
         ogImage: {
           url: 'https://res.cloudinary.com/epic-web/image/upload/v1705611435/epicweb.dev/og/card-talks_2x.png',
         },
       }}
     >
-      <main className="relative z-10 flex flex-col items-center justify-center pb-8 pt-10 md:pb-5 md:pt-16">
-        <h1 className="font-heading px-5 text-center text-3xl font-bold sm:text-4xl">
-          Talks
+      <header className="mx-auto flex w-full max-w-4xl flex-col items-center space-y-3 px-5 py-16 text-center">
+        <h1 className="mx-auto text-center text-4xl font-semibold">
+          Epic Dev Talks
         </h1>
-        <p className="max-w-lg px-5 pb-16 pt-8 text-center text-lg text-gray-600 dark:text-gray-400">
+        <h2 className="w-full max-w-md text-base text-gray-600 dark:text-gray-500">
           <Balancer>{pageDescription}</Balancer>
-        </p>
+        </h2>
+      </header>
+      <main className="relative z-10 flex flex-col items-center justify-center pb-8 md:pb-5">
         <div className="mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 md:grid-cols-2">
           {talks.map((talk) => {
             return <TalkCard talk={talk} key={talk.slug} />
@@ -58,7 +60,7 @@ export default TalksIndex
 const TalkCard: React.FC<{talk: Talk}> = ({talk}) => {
   const {title} = talk
   const muxPlaybackId = talk?.muxPlaybackId
-  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
+  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve&time=0`
   // const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
   //   tip?.videoResourceId
   // }`

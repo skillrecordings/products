@@ -113,7 +113,7 @@ export const getAuthorResources = async (
   id: string,
 ): Promise<AuthorResource[] | null> => {
   const resources = await sanityClient.fetch(
-    groq`*[author->_id == $id && _type in ["article", "tip", "module"] && state == 'published'] | order(_createdAt desc) {
+    groq`*[author->_id == $id && _type in ["article", "tip", "module", "talk"] && state == 'published'] | order(_createdAt desc) {
             _id,
             _type,
             _updatedAt,
