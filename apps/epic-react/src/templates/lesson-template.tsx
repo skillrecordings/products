@@ -306,8 +306,6 @@ const LessonList: React.FC<{
 
   const [ref, {height}] = useMeasure<HTMLDivElement>()
 
-  console.log({MODULE: module})
-
   return (
     <div className="sticky top-0 border-r">
       <div ref={ref}>
