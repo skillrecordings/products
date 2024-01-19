@@ -9,13 +9,17 @@ const SaleCountdown: React.FC<
   // storing coupon in state so that it doesn't rerender
   // and cause layout shift when quantity changes
   const [storedCoupon, setStoredCoupon] = React.useState(coupon)
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
   React.useEffect(() => {
     coupon && setStoredCoupon(coupon)
   }, [coupon])
 
   if (!storedCoupon?.expires) return null
 
-  return (
+  return mounted ? (
     <Countdown
       date={storedCoupon.expires}
       renderer={(props) =>
@@ -26,7 +30,7 @@ const SaleCountdown: React.FC<
         )
       }
     />
-  )
+  ) : null
 }
 
 export default SaleCountdown
