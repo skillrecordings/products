@@ -53,7 +53,7 @@ export const useActiveLiveEvent = () => {
 }
 
 export const useAvailableSale = () => {
-  const {data} = trpc.pricing.defaultCoupon.useQuery()
+  const {data: couponData} = trpc.pricing.defaultCoupon.useQuery()
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
       productId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
@@ -62,11 +62,17 @@ export const useAvailableSale = () => {
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
   const hasPurchase = purchasedProductIds.length > 0
+  const {data: sanityProduct} = trpc.products.getProductById.useQuery(
+    {productId: couponData?.restrictedToProductId as string},
+    {
+      enabled: Boolean(couponData?.restrictedToProductId),
+    },
+  )
 
-  if (!data) return null
+  if (!couponData) return null
   if (hasPurchase) return null
 
-  return {...data}
+  return {...couponData, sanityProduct}
 }
 
 export const useGlobalBanner = () => {
@@ -92,6 +98,7 @@ export const useGlobalBanner = () => {
 
     return () => unsubscribe()
   }, [lastScrollYProgress, scrollYProgress])
+
   return {
     isShowingSiteBanner: Boolean(activeSale || activeEvent),
     bannerHeight: 32,
