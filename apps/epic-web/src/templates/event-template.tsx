@@ -114,8 +114,21 @@ const EventTemplate: React.FC<
       />
       <main
         data-event={slug}
-        className="mx-auto flex w-full max-w-screen-lg flex-col gap-12 px-5 py-10 md:flex-row md:py-16"
+        className="mx-auto flex w-full max-w-screen-lg flex-col gap-8 px-5 py-5 md:flex-row md:py-16"
       >
+        {image && (
+          <div className="relative flex h-full w-full items-center justify-center px-3 sm:hidden">
+            <Image
+              src={image}
+              priority
+              alt=""
+              width={250}
+              height={250}
+              aria-hidden="true"
+              quality={100}
+            />
+          </div>
+        )}
         <div className="w-full">
           <h1 className="w-full font-semibold tracking-tight fluid-3xl">
             <Balancer>{title}</Balancer>

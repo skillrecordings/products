@@ -45,6 +45,7 @@ import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import {Talk} from 'lib/talks'
 import Link from 'next/link'
+import ResourceAuthor from 'components/resource-author'
 
 const TalkTemplate: React.FC<{
   talk: Talk
@@ -61,7 +62,9 @@ const TalkTemplate: React.FC<{
   const ogImage = getOgImage({
     title: talk.title,
     type: 'video',
-    image: `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
+    image:
+      talk.videoPosterUrl ??
+      `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
   })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
@@ -150,12 +153,19 @@ const TalkTemplate: React.FC<{
                   </Link>
                   <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
                     {talk.title}
+
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
+                  <ResourceAuthor
+                    className="my-2 inline-flex text-base font-semibold text-gray-700 dark:text-gray-300 [&_img]:w-10 [&_span]:font-bold"
+                    name={talk.author?.name}
+                    slug={talk.author?.slug}
+                    image={talk.author?.image}
+                  />
                   {tipCompleted ? (
                     <div
                       aria-hidden="true"
-                      className="flex items-center gap-1 pb-[20px] pt-6"
+                      className="flex items-center gap-1 pb-[20px] pt-4"
                     >
                       <Icon
                         name="Checkmark"
@@ -169,8 +179,8 @@ const TalkTemplate: React.FC<{
                     <Hr
                       className={
                         tipCompleted
-                          ? 'bg-emerald-400'
-                          : 'bg-indigo-500 dark:bg-indigo-400'
+                          ? 'bg-emerald-500 dark:bg-emerald-400'
+                          : 'bg-foreground/10'
                       }
                     />
                   )}
@@ -335,7 +345,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
       >
         <div className="relative z-10 flex flex-col">
           <span className="font-heading pb-1 text-xs font-bold uppercase tracking-wide text-gray-400">
-            Tip
+            Talk
           </span>
           <span className="font-medium">
             {suggestedTip.title}{' '}

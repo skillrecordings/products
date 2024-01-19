@@ -158,11 +158,11 @@ export default async function handler(req: NextRequest) {
             <Logo />
           </div>
 
-          <div tw="w-1/2 left-16 absolute z-10 flex bottom-16 pr-16">
+          <div tw="w-1/2 left-16 absolute z-10 flex bottom-24 pr-16">
             <p
               tw="tracking-tight font-bold leading-tight"
               style={{
-                fontSize: '2.5rem',
+                fontSize: '2.75rem',
                 fontFamily: 'DM Sans',
                 lineHeight: 1.1,
               }}

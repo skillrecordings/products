@@ -57,7 +57,7 @@ export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
          */
         if (!node.meta?.includes('twoslash')) {
           await prepHighlighter(opts.theme)
-          const html = await highlighter!.codeToHtml(code, {
+          const html = highlighter!.codeToHtml(code, {
             lang: node.lang ?? undefined,
           })
 
@@ -86,13 +86,25 @@ export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
             theme: opts.theme,
           }),
         })
+          .then((r) => {
+            console.log('SHIKI SERVICE RESPONSE', r.status, r.statusText)
+            if (r.ok) {
+              return r
+            } else {
+              throw new Error(r.statusText)
+            }
+          })
+          .catch((e) => {
+            console.error('SHIKI SERVICE ERROR', e)
+            throw e
+          })
 
         if (response.ok) {
           node.type = 'html'
           node.value = await response.text()
           node.children = []
         } else {
-          console.error(await response.text())
+          console.error(response)
         }
       } catch (e) {
         console.error(e)

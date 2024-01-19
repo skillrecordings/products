@@ -24,6 +24,7 @@ export default defineType({
         list: [
           {title: 'Workshop', value: 'workshop'},
           {title: 'Tutorial', value: 'tutorial'},
+          {title: 'Bonus', value: 'bonus'},
         ],
       },
     }),
@@ -111,7 +112,7 @@ export default defineType({
       const {title, media, type} = selection
       return {
         title: `${title} ${capitalize(type)}`,
-        media: media && <img src={media.secure_url} alt={title} />,
+        media: media && <img src={media.url} alt={title} />,
       }
     },
   },

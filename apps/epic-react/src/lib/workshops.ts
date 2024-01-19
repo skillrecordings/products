@@ -7,7 +7,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   title,
   slug,
   moduleType,
-  "image": image.secure_url,
+  "image": image.url,
   _updatedAt,
   _createdAt,
   description,
@@ -57,6 +57,29 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
       }
     },
     "resources": resources[@->._type in ['linkResource']]->
+  },
+  "resources": resources[@->._type in ['section', 'explainer']]->{
+    _id,
+    _type,
+    _updatedAt,
+    title,
+    slug,
+    (_type == 'explainer') => {
+      explainerType
+    },
+    (_type == 'section') => {
+      "resources": resources[@->._type in ['explainer', 'exercise']]->{
+        _id,
+        _type,
+        _updatedAt,
+        title,
+        slug,
+        description,
+        (_type == 'explainer') => {
+          explainerType
+        },
+      }
+    }
   }
 }`
 
@@ -114,6 +137,29 @@ export const getWorkshop = async (slug: string) =>
             }
           },
           "resources": resources[@->._type in ['linkResource']]->
+        },
+        "resources": resources[@->._type in ['section', 'explainer']]->{
+          _id,
+          _type,
+          _updatedAt,
+          title,
+          slug,
+          (_type == 'explainer') => {
+            explainerType
+          },
+          (_type == 'section') => {
+            "resources": resources[@->._type in ['explainer', 'exercise']]->{
+              _id,
+              _type,
+              _updatedAt,
+              title,
+              slug,
+              description,
+              (_type == 'explainer') => {
+                explainerType
+              },
+            }
+          }
         },
         "image": image.secure_url,
         // get product that includes current workshop and has
