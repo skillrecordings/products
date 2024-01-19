@@ -1,4 +1,7 @@
-import {formatPricesForProduct} from './format-prices-for-product'
+import {
+  formatPricesForProduct,
+  getFixedDiscountForIndividualUpgrade,
+} from './format-prices-for-product'
 import {getCalculatedPrice} from './get-calculated-price'
 
 import {
@@ -462,6 +465,124 @@ test('PPP coupon not available for non-ppp purchasers', async () => {
   })
 
   expect(product.availableCoupons.length).toBe(0)
+})
+
+test.only('multiple purchases applies fixed discount for bundle upgrade', async () => {
+  const mockPurchaseOne = {
+    totalAmount: new Prisma.Decimal(55),
+    id: 'purchase-123',
+    status: 'Valid',
+    bulkCouponId: '',
+    city: '',
+    country: '',
+    createdAt: new Date(),
+    ip_address: '',
+    merchantChargeId: '',
+    merchantSessionId: '',
+    productId: 'purchased-product-id1',
+    redeemedBulkCouponId: '',
+    state: '',
+    upgradedFromId: '',
+    userId: 'user-123',
+    couponId: '',
+  }
+
+  const mockPurchaseTwo = {
+    totalAmount: new Prisma.Decimal(55),
+    id: 'purchase-124',
+    status: 'Valid',
+    bulkCouponId: '',
+    city: '',
+    country: '',
+    createdAt: new Date(),
+    ip_address: '',
+    merchantChargeId: '',
+    merchantSessionId: '',
+    productId: 'purchased-product-id2',
+    redeemedBulkCouponId: '',
+    state: '',
+    upgradedFromId: '',
+    userId: 'user-123',
+    couponId: '',
+  }
+
+  const mockPriceOne = {
+    id: 'price-id1',
+    createdAt: new Date(),
+    status: 1,
+    productId: DEFAULT_PRODUCT_ID,
+    nickname: 'bah',
+    unitAmount: new Prisma.Decimal(55),
+  }
+
+  const mockPriceTwo = {
+    id: 'price-id2',
+    createdAt: new Date(),
+    status: 1,
+    productId: DEFAULT_PRODUCT_ID,
+    nickname: 'bah',
+    unitAmount: new Prisma.Decimal(55),
+  }
+
+  const mockProductOne = {
+    id: 'product-1',
+    name: 'basic',
+    createdAt: new Date(),
+    key: 'hey',
+    status: 1,
+    quantityAvailable: -1,
+  }
+
+  const mockProductTwo = {
+    id: 'product-2',
+    name: 'intermediate',
+    createdAt: new Date(),
+    key: 'hey2',
+    status: 1,
+    quantityAvailable: -1,
+  }
+
+  // @ts-ignore
+  mockCtx.prisma.product.findMany.mockResolvedValueOnce({
+    ...mockUpgradeProduct,
+    ...mockProductOne,
+    ...mockProductTwo,
+  })
+
+  mockCtx.prisma.upgradableProducts.findMany.mockResolvedValue([
+    {
+      // @ts-ignore
+      upgradableTo: {id: mockUpgradeProduct.id, name: mockUpgradeProduct.name},
+      upgradableFrom: {id: mockProductOne.id, name: mockProductOne.name},
+    },
+    {
+      // @ts-ignore
+      upgradableTo: {id: mockUpgradeProduct.id, name: mockUpgradeProduct.name},
+      upgradableFrom: {id: mockProductTwo.id, name: mockProductTwo.name},
+    },
+  ])
+
+  mockCtx.prisma.purchase.findMany.mockResolvedValueOnce([
+    {
+      ...mockPurchaseOne,
+      ...mockPurchaseTwo,
+    },
+  ])
+
+  mockCtx.prisma.price.findMany.mockResolvedValueOnce([
+    mockPriceOne,
+    mockPriceTwo,
+  ])
+
+  const fixedDiscount = await getFixedDiscountForIndividualUpgrade({
+    purchaseToBeUpgraded: mockPurchaseOne,
+    productToBePurchased: mockUpgradeProduct,
+    purchaseWillBeRestricted: false, // ppp
+    userId: 'userId',
+    ctx: mockCtx,
+  })
+
+  expect(fixedDiscount).toBe(110)
 })
 
 const UPGRADE_PURCHASE_ID = 'upgrade-product-id'
