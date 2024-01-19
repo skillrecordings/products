@@ -1,7 +1,10 @@
 import {getSdk} from '@skillrecordings/database'
 import {validateCoupon} from './validate-coupon'
 
-export async function getCouponForCode(code: string) {
+export async function getCouponForCode(
+  code: string,
+  productIds: string[] = [],
+) {
   const {getCoupon} = getSdk()
 
   let couponFromCode =
@@ -13,7 +16,7 @@ export async function getCouponForCode(code: string) {
   if (couponFromCode) {
     return {
       ...couponFromCode,
-      ...validateCoupon(couponFromCode),
+      ...validateCoupon(couponFromCode, productIds),
     }
   }
 }

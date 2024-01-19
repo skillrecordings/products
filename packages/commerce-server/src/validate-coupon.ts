@@ -1,7 +1,10 @@
 import {isBefore} from 'date-fns'
 import {Coupon} from '@skillrecordings/database'
 
-export const validateCoupon = (coupon: Coupon | null) => {
+export const validateCoupon = (
+  coupon: Coupon | null,
+  productIds: string[] = [],
+) => {
   if (!coupon) {
     return {
       isValid: false,
@@ -16,6 +19,17 @@ export const validateCoupon = (coupon: Coupon | null) => {
   const isExpired = coupon.expires
     ? isBefore(new Date(coupon.expires), new Date())
     : false
+
+  if (
+    coupon.restrictedToProductId &&
+    !productIds.includes(coupon.restrictedToProductId)
+  ) {
+    return {
+      isValid: false,
+      isRedeemable: false,
+      error: 'coupon-not-valid-for-product',
+    }
+  }
 
   const isValid = !isUsedUp && !isExpired
 
