@@ -6,7 +6,7 @@ const bonusesQuery = groq`*[_type == "module" && moduleType == 'bonus'] | order(
   _type,
   title,
   slug,
-  "image": image.asset->url,
+  "image": image.url,
   _updatedAt,
   moduleType,
   _createdAt,
@@ -47,7 +47,7 @@ export const getBonus = async (slug: string) =>
           description,
           "slug": slug.current
         },
-        "image": image.asset->url,
+        "image": image.url,
         // get product that includes current workshop and has
         // the largest number of modules so we can assume it's a bundle
         'product': *[_type == 'product' && references(^._id)] | order(count(modules) desc)[0]{
