@@ -24,7 +24,7 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
   const publishedEvents =
     process.env.NODE_ENV === 'development'
       ? events
-      : events.filter(({state}) => state === 'active')
+      : events.filter(({state}) => state === 'published')
 
   return (
     <Layout
