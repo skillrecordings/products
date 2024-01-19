@@ -299,6 +299,7 @@ const EventPricingWidget: React.FC<{
           withGuaranteeBadge: true,
           teamQuantityLimit:
             quantityAvailable && quantityAvailable > 5 ? 5 : quantityAvailable,
+          isPPPEnabled: false,
         }}
         purchased={hasPurchased}
         couponId={couponId}
