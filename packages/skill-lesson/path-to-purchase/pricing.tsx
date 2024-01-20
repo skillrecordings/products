@@ -90,6 +90,12 @@ type PricingProps = {
  * @param couponId
  * @param couponFromCode
  * @param bonuses - Product Bonus (non-module)
+ * @param generallyAllowPurchase
+ * @param canViewRegionRestriction
+ * @param cancelUrl
+ * @param id
+ * @param purchaseButtonRenderer
+ * @param options
  * @constructor
  */
 export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
@@ -121,7 +127,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   },
   options = {
     withImage: true,
-    isPPPEnabled: false,
+    isPPPEnabled: true,
     withGuaranteeBadge: true,
     saleCountdownRenderer: () => null,
     teamQuantityLimit: 100,
@@ -203,6 +209,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   // do not show the box if purchased
   // do not show the box if it's a downgrade
   const showPPPBox =
+    isPPPEnabled &&
     Boolean(availablePPPCoupon || appliedPPPCoupon) &&
     !purchased &&
     !isDowngrade(formattedPrice) &&
