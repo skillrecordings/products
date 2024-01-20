@@ -37,6 +37,7 @@ const EventTemplate: React.FC<
     mdx: MDXRemoteSerializeResult
     quantityAvailable: number
     purchaseCount: number
+    totalQuantity: number
   } & CommerceProps
 > = (props) => {
   const {
@@ -45,6 +46,7 @@ const EventTemplate: React.FC<
     products,
     quantityAvailable,
     purchaseCount,
+    totalQuantity,
     ...commerceProps
   } = props
 
@@ -94,8 +96,8 @@ const EventTemplate: React.FC<
       description: product?.description,
     },
   )
+  const isSoldOut = purchaseCount === totalQuantity
 
-  const isSoldOut = purchaseCount === quantityAvailable
   return (
     <Layout meta={{title, description: pageDescription, ogImage}}>
       {redeemableCoupon && <RedeemDialogForCoupon />}

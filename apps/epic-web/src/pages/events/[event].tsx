@@ -73,6 +73,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       (productWithQuantityAvailable &&
         productWithQuantityAvailable?.quantityAvailable - purchaseCount) ||
       -1,
+    totalQuantity: productWithQuantityAvailable?.quantityAvailable,
     product,
     purchaseCount,
   }
@@ -112,6 +113,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export type EventPageProps = {
   event: Event
   quantityAvailable: number
+  totalQuantity: number
   purchaseCount: number
   product: Product
   mdx: MDXRemoteSerializeResult
