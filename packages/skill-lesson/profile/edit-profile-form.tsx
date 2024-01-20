@@ -103,6 +103,7 @@ const EditProfileForm: React.FC<{providers: Providers}> = ({providers}) => {
                   <FormLabel htmlFor="email">Email</FormLabel>
                   <FormControl>
                     <Input
+                      readOnly
                       disabled
                       id="email"
                       {...field}
@@ -126,7 +127,7 @@ const EditProfileForm: React.FC<{providers: Providers}> = ({providers}) => {
             />
           </fieldset>
           {providers && (
-            <fieldset className="w-full">
+            <fieldset className="w-full mt-5">
               <h3 className="text-lg font-bold">Accounts</h3>
               <ul className="divide-y border-b">
                 <li className="flex items-center justify-between py-3">
