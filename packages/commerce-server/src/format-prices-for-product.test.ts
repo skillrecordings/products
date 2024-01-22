@@ -13,7 +13,7 @@ import {
 } from '@skillrecordings/database'
 import {getBulkDiscountPercent} from './bulk-coupon'
 import {first} from 'lodash'
-import {MerchantCoupon, Prisma} from '@skillrecordings/database'
+import {MerchantCoupon, Coupon, Prisma} from '@skillrecordings/database'
 
 let mockCtx: MockContext
 let ctx: Context
@@ -101,6 +101,56 @@ for (const quantity of [69, 89, 99]) {
     expect(expectedPrice).toBe(calculatedPrice)
   })
 }
+
+test('does not apply restricted coupon to other product', async () => {
+  const OTHER_PRODUCT_ID = 'other-product-id'
+  const ONE_OFF_COUPON_FROM_CODE = 'one-off-coupon-from-code-id'
+  const ONE_OFF_MERCHANT_COUPON_ID = 'one-off-merchant-coupon-id'
+
+  // const mockProductOne = {
+  //   id: OTHER_PRODUCT_ID,
+  //   name: 'basic',
+  //   createdAt: new Date(),
+  //   key: 'hey',
+  //   status: 1,
+  //   quantityAvailable: -1,
+  // }
+
+  const mockOneOffCoupon = {
+    id: ONE_OFF_COUPON_FROM_CODE,
+    merchantCouponId: ONE_OFF_MERCHANT_COUPON_ID,
+    restrictedToProductId: OTHER_PRODUCT_ID,
+  } as Coupon
+
+  const mockOneOffMerchantCoupon = {
+    id: ONE_OFF_MERCHANT_COUPON_ID,
+    type: 'special',
+    percentageDiscount: new Prisma.Decimal(0.2),
+    identifier: 'coupon',
+    status: 1,
+    merchantAccountId: 'merchant-account',
+  }
+
+  mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(
+    mockOneOffMerchantCoupon,
+  )
+
+  mockCtx.prisma.coupon.findFirst.mockResolvedValue(mockOneOffCoupon)
+
+  const {calculatedPrice, unitPrice, appliedMerchantCoupon} =
+    await formatPricesForProduct({
+      productId: DEFAULT_PRODUCT_ID,
+      quantity: 1,
+      merchantCouponId: ONE_OFF_MERCHANT_COUPON_ID,
+      usedCouponId: ONE_OFF_COUPON_FROM_CODE,
+      ctx,
+    })
+
+  const expectedPrice = 100
+
+  expect(expectedPrice).toBe(calculatedPrice)
+  expect(appliedMerchantCoupon).toBe(undefined)
+})
 
 test('product with quantity 5 calculatedPrice to have discount applied', async () => {
   mockCtx.prisma.merchantCoupon.findMany.mockResolvedValue([
