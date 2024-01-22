@@ -15,7 +15,11 @@ import {
 } from '@skillrecordings/ui'
 import {GetStaticProps} from 'next'
 import {useKey} from 'react-use'
-import {SubscribeToConvertkitForm} from '@skillrecordings/skill-lesson/convertkit'
+import {
+  SubscribeToConvertkitForm,
+  redirectUrlBuilder,
+} from '@skillrecordings/skill-lesson/convertkit'
+import {useRouter} from 'next/router'
 
 const TITO_URL = undefined // 'https://ti.to/epic-web/epic-web-conf-2024'
 const CK_CONF_2024_FIELD = {
@@ -52,6 +56,7 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
   const [showingSpeakerDetail, setShowingSpeakerDetail] = React.useState<
     boolean | Speaker
   >(false)
+  const router = useRouter()
 
   return (
     <Layout
@@ -189,7 +194,12 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
         </h2>
         {!TITO_URL && (
           <SubscribeToConvertkitForm
-            id="subscribe"
+            onSuccess={(subscriber: any) => {
+              if (subscriber) {
+                const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
+                router.push(redirectUrl)
+              }
+            }}
             className="mx-auto mb-3 flex w-full max-w-2xl flex-col items-end gap-3 px-5 sm:flex-row"
             submitButtonElem={<Button size="sm">Follow Epic Web Conf</Button>}
             fields={CK_CONF_2024_FIELD}
