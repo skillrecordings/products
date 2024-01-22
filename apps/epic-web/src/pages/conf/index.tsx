@@ -13,27 +13,27 @@ import {
   DialogTitle,
   Button,
 } from '@skillrecordings/ui'
-import {GetStaticProps} from 'next'
+import {GetServerSideProps} from 'next'
 import {useKey} from 'react-use'
 import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
 } from '@skillrecordings/skill-lesson/convertkit'
 import {useRouter} from 'next/router'
+import {shuffle} from 'lodash'
 
 const TITO_URL = undefined // 'https://ti.to/epic-web/epic-web-conf-2024'
 const CK_CONF_2024_FIELD = {
   [`conf_2024`]: new Date().toISOString().slice(0, 10),
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const speakersWall = await fetch(
     'https://sessionize.com/api/v2/epg94f49/view/Speakers',
   ).then((res) => res.json())
 
   return {
-    props: {speakers: speakersWall},
-    revalidate: 10,
+    props: {speakers: shuffle(speakersWall)},
   }
 }
 
@@ -418,7 +418,7 @@ const Header = () => {
           )}
         </Button>
       </div>
-      <div className="absolute -bottom-16 right-[-370px] flex items-center justify-center sm:bottom-auto sm:right-[-690px]">
+      <div className="absolute -bottom-16 right-[-370px] flex items-center justify-center sm:bottom-auto sm:right-[-690px] xl:right-[-600px] 2xl:right-[-370px]">
         <Image
           priority
           src={HeroPlanetImage}
@@ -440,7 +440,7 @@ const Header = () => {
         />
       </div>
       <div
-        className="absolute bottom-0 left-0 flex h-20 w-full bg-gradient-to-t from-background to-transparent"
+        className="absolute bottom-0 left-0 flex h-20 w-full bg-gradient-to-t from-foreground to-transparent dark:from-background"
         aria-hidden="true"
       />
     </header>
