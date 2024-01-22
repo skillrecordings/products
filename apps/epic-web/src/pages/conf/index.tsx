@@ -378,15 +378,15 @@ const SpeakerDetail: React.FC<{
 const Header = () => {
   return (
     <header className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#080B16]">
-      <div className="relative z-10 mx-auto w-full max-w-screen-lg px-5 pb-16 pt-8 sm:pb-48 sm:pt-48">
+      <div className="relative z-10 mx-auto w-full max-w-screen-lg px-5 pb-16 pt-16 sm:pb-48 sm:pt-48">
         <h1 className="max-w-xl text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
           Epic Web Dev Conference 2024
         </h1>
         <h2 className="max-w-sm pt-5 text-xl text-[#93A1D7] lg:max-w-full">
           The Full Stack Web Development Conference of Epic proportions
         </h2>
-        <hr className="mb-5 mt-12 max-w-xl border-[#202537]" />
-        <div className="grid max-w-sm grid-cols-2 items-center gap-5 lg:flex lg:max-w-lg lg:gap-14">
+        <hr className="relative z-0 mb-5 mt-12 max-w-[200px] border-[#202537] sm:max-w-lg lg:max-w-xl" />
+        <div className="grid max-w-sm grid-cols-1 items-center gap-5 sm:grid-cols-2 lg:flex lg:max-w-lg lg:gap-14">
           <div>
             <div className="font-mono text-sm uppercase tracking-wide text-[#93A1D7]">
               Conference Day
@@ -418,7 +418,7 @@ const Header = () => {
           )}
         </Button>
       </div>
-      <div className="absolute right-[-690px] top-0 flex items-center justify-center sm:top-auto">
+      <div className="absolute -bottom-16 right-[-370px] flex items-center justify-center sm:bottom-auto sm:right-[-690px]">
         <Image
           priority
           src={HeroPlanetImage}
@@ -436,7 +436,7 @@ const Header = () => {
           quality={100}
           width={326}
           height={209}
-          className="absolute w-40 -translate-x-48 translate-y-40 sm:w-auto sm:-translate-x-48 sm:translate-y-28"
+          className="absolute z-10 w-48 -translate-x-24 translate-y-20 sm:w-auto sm:-translate-x-48 sm:translate-y-28"
         />
       </div>
       <div
