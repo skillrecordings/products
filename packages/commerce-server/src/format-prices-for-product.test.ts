@@ -467,7 +467,7 @@ test('PPP coupon not available for non-ppp purchasers', async () => {
   expect(product.availableCoupons.length).toBe(0)
 })
 
-test.only('multiple purchases applies fixed discount for bundle upgrade', async () => {
+test('multiple purchases applies fixed discount for bundle upgrade', async () => {
   const mockPurchaseOne = {
     totalAmount: new Prisma.Decimal(55),
     id: 'purchase-123',
