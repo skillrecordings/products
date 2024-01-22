@@ -27,13 +27,14 @@ const IMAGE_HOST_DOMAINS = [
   `epicweb.dev`,
   `image.mux.com`,
   'localhost',
+  'sessionize.com',
   process.env.NEXT_PUBLIC_HOST,
 ]
 
 const nextConfig = {
   transpilePackages: ['@skillrecordings/skill-lesson', '@skillrecordings/ui'],
   eslint: {ignoreDuringBuilds: true},
-  experimental: {scrollRestoration: true},
+  // experimental: {scrollRestoration: true},
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
   images: {

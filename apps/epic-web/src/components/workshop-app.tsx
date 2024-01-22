@@ -16,9 +16,9 @@ const WorkshopAppBanner: React.FC<{
 }) => {
   return (
     <div className={cn('w-full', className)}>
-      <div className="">
-        <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-          <div className="flex items-center gap-4 text-xl font-bold leading-tight">
+      <div className="rounded bg-foreground/5 p-5 sm:bg-transparent sm:p-0">
+        <div className="flex flex-col items-start text-left">
+          <div className="flex items-center gap-4 text-lg font-bold leading-tight sm:text-xl">
             <WorkshopAppIcon />{' '}
             <Link
               href={`/get-started${moduleSlug ? `?module=${moduleSlug}` : ''}`}
@@ -28,7 +28,7 @@ const WorkshopAppBanner: React.FC<{
               Run in Workshop App
             </Link>
           </div>
-          <p className="pt-3 opacity-75">{description}</p>
+          <p className="pt-3 text-sm opacity-75 sm:text-base">{description}</p>
           <Button
             asChild
             variant="outline"

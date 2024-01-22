@@ -63,8 +63,16 @@ type ProductsIndexProps = {
   products: SanityProduct[]
 }
 
-const Products = () => {
-  const {purchases, displayedProducts, purchasedProductIds} = useProductsIndex()
+const Products: React.FC<ProductsIndexProps> = ({products}) => {
+  const {
+    purchases,
+    displayedProducts,
+    purchasedProductIds,
+    purchasedProducts,
+    setDisplayedProducts,
+    setDefaultFilterValue,
+  } = useProductsIndex()
+  const router = useRouter()
 
   return (
     <>
@@ -95,6 +103,23 @@ const Products = () => {
               </PriceCheckProvider>
             )
           })}
+      {purchasedProducts.length === 0 ? (
+        <div>
+          You haven't purchased any Epic Web products yet.{' '}
+          {products && (
+            <button
+              onClick={() => {
+                router.push('/products', undefined, {shallow: true})
+                setDefaultFilterValue({state: 'all'})
+                setDisplayedProducts(products)
+              }}
+              className="text-primary underline"
+            >
+              Browse
+            </button>
+          )}
+        </div>
+      ) : null}
     </>
   )
 }
@@ -108,7 +133,7 @@ const ProductsIndex: React.FC<ProductsIndexProps> = ({purchases, products}) => {
       <main className="mx-auto w-full max-w-screen-md space-y-4 px-5 pb-16">
         <ProductsIndexProvider products={products} purchases={purchases}>
           <StateFilter />
-          <Products />
+          <Products purchases={purchases} products={products} />
         </ProductsIndexProvider>
       </main>
     </Layout>
@@ -232,6 +257,7 @@ const StateFilter = () => {
     purchasedProducts,
     defaultFilterValue,
     setDisplayedProducts,
+    setDefaultFilterValue,
   } = useProductsIndex()
 
   const {data: sessionData} = useSession()
@@ -240,9 +266,11 @@ const StateFilter = () => {
     if (value === 'all') {
       router.push('/products', undefined, {shallow: true})
       setDisplayedProducts(products)
+      setDefaultFilterValue({state: 'all'})
     } else {
       router.push('/products?s=' + value, undefined, {shallow: true})
       setDisplayedProducts(purchasedProducts)
+      setDefaultFilterValue({state: value})
     }
   }
 
@@ -251,6 +279,7 @@ const StateFilter = () => {
       <SelectGroup>
         <Select
           onValueChange={handleValueChange}
+          value={defaultFilterValue.state}
           defaultValue={defaultFilterValue.state}
         >
           <SelectTrigger className="h-8 w-[180px]">
@@ -373,7 +402,7 @@ const ProductsIndexProvider: React.FC<
     } else {
       return purchasedProducts
     }
-  }, [defaultFilterValue, products, purchases])
+  }, [defaultFilterValue, products, purchasedProducts])
 
   const [displayedProducts, setDisplayedProducts] =
     React.useState<SanityProduct[]>(initialProducts)

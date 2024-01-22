@@ -3,16 +3,16 @@ import Layout from 'components/app/layout'
 const ConfirmSubscriptionPage = () => {
   return (
     <Layout meta={{title: 'Confirm your subscription'}}>
-      <main className="flex-grow flex items-center justify-center flex-col px-5 py-24">
-        <div className="max-w-xl text-center font-light flex flex-col items-center justify-center">
+      <main className="flex flex-grow flex-col items-center justify-center px-5 py-24">
+        <div className="flex max-w-xl flex-col items-center justify-center text-center font-light">
           <img
             src="/email-confirm.svg"
             alt="an email client with a confirmation email"
           />
-          <h1 className="font-bold sm:text-4xl text-3xl py-8 font-text max-w-lg mx-auto w-full">
+          <h1 className="font-text mx-auto w-full max-w-lg py-8 text-3xl font-bold sm:text-4xl">
             Please check your inbox for an email that just got sent.
           </h1>
-          <p className="sm:text-lg leading-relaxed mx-auto pb-8">
+          <p className="mx-auto pb-8 leading-relaxed sm:text-lg">
             You'll need to click the confirmation link to receive any further
             emails. If you don't see the email after a few minutes, you might
             check your spam folder or other filters and add{' '}

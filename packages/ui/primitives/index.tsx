@@ -89,6 +89,14 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
 } from './alert-dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './dialog'
 
 export {
   Button,
@@ -171,4 +179,10 @@ export {
   AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 }

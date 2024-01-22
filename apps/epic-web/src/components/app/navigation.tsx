@@ -55,7 +55,10 @@ export const useNavigationLinks = () => {
   const ability = useAbilities()
   const canCreateContent = ability.can('create', 'Content')
   const {theme} = useTheme()
-
+  const [hasMounted, setHasMounted] = React.useState(false)
+  React.useEffect(() => {
+    setHasMounted(true)
+  }, [])
   return [
     {
       label: (
@@ -64,14 +67,18 @@ export const useNavigationLinks = () => {
         </>
       ),
       icon: (isHovered: boolean) => (
-        <WorkshopsIcon isHovered={isHovered} theme={theme} />
+        <WorkshopsIcon
+          isHovered={isHovered}
+          theme={hasMounted ? theme : 'dark'}
+        />
       ),
+
       href: '/workshops',
     },
     {
       label: 'Tips',
       icon: (isHovered: boolean) => (
-        <TipsIcon isHovered={isHovered} theme={theme} />
+        <TipsIcon isHovered={isHovered} theme={hasMounted ? theme : 'dark'} />
       ),
       href: canCreateContent ? '/creator/tips' : '/tips',
     },
@@ -82,15 +89,23 @@ export const useNavigationLinks = () => {
         </>
       ),
       icon: (isHovered: boolean) => (
-        <TutorialsIcon isHovered={isHovered} theme={theme} />
+        <TutorialsIcon
+          isHovered={isHovered}
+          theme={hasMounted ? theme : 'dark'}
+        />
       ),
+
       href: '/tutorials',
     },
     {
       label: 'Articles',
       icon: (isHovered: boolean) => (
-        <ArticlesIcon isHovered={isHovered} theme={theme} />
+        <ArticlesIcon
+          isHovered={isHovered}
+          theme={hasMounted ? theme : 'dark'}
+        />
       ),
+
       href: '/articles',
     },
     // {
@@ -448,7 +463,7 @@ export const ArticlesIcon: React.FC<IconProps> = ({
   isHovered,
   theme = 'dark',
 }) => {
-  const id = Math.random() * 100
+  const id = `articles_icon_${theme}`
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -505,7 +520,7 @@ export const TutorialsIcon: React.FC<IconProps> = ({
   isHovered,
   theme = 'dark',
 }) => {
-  const id = Math.random() * 100
+  const id = `tutorials_icon_${theme}`
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -774,7 +789,7 @@ const EventsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
 }
 
 export const TipsIcon: React.FC<IconProps> = ({isHovered, theme = 'dark'}) => {
-  const id = Math.random() * 100
+  const id = `tips_icon_${theme}`
 
   return (
     <svg
@@ -826,7 +841,7 @@ export const TipsIcon: React.FC<IconProps> = ({isHovered, theme = 'dark'}) => {
 }
 
 export const WorkshopsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
-  const id = Math.random() * 100
+  const id = `workshops_icon_${theme}`
   return (
     <svg
       width="18"
@@ -874,7 +889,7 @@ export const WorkshopsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
 }
 
 export const ExerciseIcon: React.FC<IconProps> = ({isHovered, theme}) => {
-  const id = Math.random() * 100
+  const id = `exercise_icon_${theme}`
   return (
     <svg
       width="22"
@@ -916,7 +931,7 @@ export const ExerciseIcon: React.FC<IconProps> = ({isHovered, theme}) => {
 }
 
 export const TalkIcon: React.FC<IconProps> = ({isHovered, theme}) => {
-  const id = Math.random() * 100
+  const id = `talk_icon_${theme}`
   return (
     <svg
       width="19"
