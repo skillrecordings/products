@@ -221,6 +221,7 @@ export async function formatPricesForProduct(
       productId: product.id,
       purchaseToBeUpgraded: upgradeFromPurchase,
       autoApplyPPP,
+      usedCoupon,
     })
 
   const fireFixedDiscountForIndividualUpgrade = async () => {

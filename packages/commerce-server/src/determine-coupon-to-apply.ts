@@ -17,6 +17,12 @@ const DetermineCouponToApplyParamsSchema = z.object({
   productId: z.string(),
   purchaseToBeUpgraded: PurchaseSchema.nullable(),
   autoApplyPPP: z.boolean(),
+  usedCoupon: z
+    .object({
+      merchantCouponId: z.string().nullable(),
+      restrictedToProductId: z.string().nullable(),
+    })
+    .nullable(),
 })
 
 type DetermineCouponToApplyParams = z.infer<
@@ -40,17 +46,25 @@ export const determineCouponToApply = async (
     productId,
     purchaseToBeUpgraded,
     autoApplyPPP,
+    usedCoupon,
   } = DetermineCouponToApplyParamsSchema.parse(params)
   // TODO: What are the lookups and logic checks we can
   // skip when there is no appliedMerchantCouponId?
 
   const {getMerchantCoupon, getPurchasesForUser} = getSdk({ctx: prismaCtx})
 
-  const candidateMerchantCoupon = merchantCouponId
-    ? await getMerchantCoupon({
-        where: {id: merchantCouponId},
-      })
-    : null
+  // if usedCoupon is restricted to a different product, we shouldn't apply it
+  const couponRestrictedToDifferentProduct =
+    usedCoupon?.merchantCouponId === merchantCouponId &&
+    usedCoupon?.restrictedToProductId &&
+    usedCoupon?.restrictedToProductId !== productId
+
+  const candidateMerchantCoupon =
+    !couponRestrictedToDifferentProduct && merchantCouponId
+      ? await getMerchantCoupon({
+          where: {id: merchantCouponId},
+        })
+      : null
 
   const specialMerchantCouponToApply =
     candidateMerchantCoupon?.type === SPECIAL_TYPE
