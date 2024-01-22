@@ -360,11 +360,13 @@ test('applied ppp coupon should have id property', async () => {
 })
 
 test('applies fixed discount for previous purchase', async () => {
+  const userId = 'user-123'
   mockDefaultAndUpgradeProduct()
 
   const product = await formatPricesForProduct({
     productId: UPGRADE_PRODUCT_ID,
     upgradeFromPurchaseId: UPGRADE_PURCHASE_ID,
+    userId,
     ctx,
   })
 
@@ -389,6 +391,7 @@ test('applies fixed discount for all previous purchases on PPP upgrade', async (
 })
 
 test('applies previous-purchase fixed discount and site-wide discount', async () => {
+  const userId = 'user-123'
   // 20% site-wide discount
   mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(
     MOCK_SITE_SALE_COUPON,
@@ -400,6 +403,7 @@ test('applies previous-purchase fixed discount and site-wide discount', async ()
     productId: UPGRADE_PRODUCT_ID,
     upgradeFromPurchaseId: UPGRADE_PURCHASE_ID,
     merchantCouponId: SITE_SALE_COUPON_ID,
+    userId,
     ctx,
   })
 
@@ -408,12 +412,14 @@ test('applies previous-purchase fixed discount and site-wide discount', async ()
 })
 
 test('PPP is auto-applied to upgrade when original purchase was PPP', async () => {
+  const userId = 'user-123'
   mockPPPPurchaseAndUpgradeProduct()
 
   const product = await formatPricesForProduct({
     productId: UPGRADE_PRODUCT_ID,
     upgradeFromPurchaseId: UPGRADE_PURCHASE_ID,
     country: 'IN',
+    userId,
     ctx,
   })
 
@@ -702,7 +708,7 @@ function mockDefaultAndUpgradeProduct() {
   mockCtx.prisma.price.findFirst.mockResolvedValueOnce(mockUpgradePrice)
 
   // fixed discount price lookup
-  mockCtx.prisma.price.findFirst.mockResolvedValueOnce(mockPrice)
+  mockCtx.prisma.price.findMany.mockResolvedValueOnce([mockPrice])
 }
 
 const mockPPPPurchaseAndUpgradeProduct = () => {
@@ -757,7 +763,7 @@ const mockPPPPurchaseAndUpgradeProduct = () => {
   mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(MOCK_INDIA_COUPON)
 
   // fixed discount price lookup
-  mockCtx.prisma.price.findFirst.mockResolvedValueOnce(mockPrice)
+  mockCtx.prisma.price.findMany.mockResolvedValueOnce([mockPrice])
 }
 
 const mockTwoPurchasePPPPathToUpgradeProduct = () => {
