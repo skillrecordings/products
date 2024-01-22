@@ -15,9 +15,10 @@ import {
 } from '@skillrecordings/ui'
 import {GetStaticProps} from 'next'
 import {useKey} from 'react-use'
+import {SubscribeToConvertkitForm} from '@skillrecordings/skill-lesson/convertkit'
 
 const TITO_URL = undefined // 'https://ti.to/epic-web/epic-web-conf-2024'
-const CK_SUBSCRIBER_FIELD = {
+const CK_CONF_2024_FIELD = {
   [`conf_2024`]: new Date().toISOString().slice(0, 10),
 }
 
@@ -183,6 +184,18 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
           <span aria-hidden="true">{'//'}</span> Full schedule TBA{' '}
           <span aria-hidden="true">{'//'}</span>
         </p>
+        <h2 className="pb-5 pt-3 text-center text-2xl font-semibold">
+          Front Row News
+        </h2>
+        {!TITO_URL && (
+          <SubscribeToConvertkitForm
+            id="subscribe"
+            className="mx-auto mb-3 flex w-full max-w-2xl flex-col items-end gap-3 px-5 sm:flex-row"
+            submitButtonElem={<Button size="sm">Follow Epic Web Conf</Button>}
+            fields={CK_CONF_2024_FIELD}
+            actionLabel="Follow Epic Web Conf"
+          />
+        )}
         <section className="relative flex w-full flex-col items-center justify-center overflow-hidden px-5 pb-16">
           <div className="relative z-10 mx-auto flex h-[200px] w-full max-w-screen-lg flex-col items-center justify-center sm:h-[320px]">
             {TITO_URL && (
@@ -437,7 +450,9 @@ const SpeakersList: React.FC<{
   return (
     <>
       <section className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16 pt-10">
-        <h2 className="w-full pb-10 text-5xl font-bold">Speakers</h2>
+        <h2 className="w-full pb-10 text-4xl font-bold sm:text-5xl">
+          Speakers
+        </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
           {speakers.map((speaker) => {
             return (
