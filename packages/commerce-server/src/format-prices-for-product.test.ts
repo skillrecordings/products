@@ -107,15 +107,6 @@ test('does not apply restricted coupon to other product', async () => {
   const ONE_OFF_COUPON_FROM_CODE = 'one-off-coupon-from-code-id'
   const ONE_OFF_MERCHANT_COUPON_ID = 'one-off-merchant-coupon-id'
 
-  // const mockProductOne = {
-  //   id: OTHER_PRODUCT_ID,
-  //   name: 'basic',
-  //   createdAt: new Date(),
-  //   key: 'hey',
-  //   status: 1,
-  //   quantityAvailable: -1,
-  // }
-
   const mockOneOffCoupon = {
     id: ONE_OFF_COUPON_FROM_CODE,
     merchantCouponId: ONE_OFF_MERCHANT_COUPON_ID,
