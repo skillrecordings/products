@@ -61,7 +61,7 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
         description:
           'The Full Stack Web Development Conference of Epic proportions.',
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1705667041/conf-card_2x.jpg',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1705933051/conf-card_2x.jpg',
         },
       }}
     >
