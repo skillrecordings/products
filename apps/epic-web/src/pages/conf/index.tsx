@@ -13,7 +13,7 @@ import {
   DialogTitle,
   Button,
 } from '@skillrecordings/ui'
-import {GetServerSideProps} from 'next'
+import {GetServerSideProps, GetStaticProps} from 'next'
 import {useKey} from 'react-use'
 import {
   SubscribeToConvertkitForm,
@@ -27,13 +27,13 @@ const CK_CONF_2024_FIELD = {
   [`conf_2024`]: new Date().toISOString().slice(0, 10),
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const speakersWall = await fetch(
-    'https://sessionize.com/api/v2/epg94f49/view/Speakers',
+export const getStaticProps: GetStaticProps = async () => {
+  const speakers = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/conf-speakers`,
   ).then((res) => res.json())
-
   return {
-    props: {speakers: shuffle(speakersWall)},
+    props: {speakers: shuffle(speakers)},
+    revalidate: 60 * 5,
   }
 }
 
@@ -1062,9 +1062,9 @@ const sponsorsData = {
           <path
             d="M87.9856 83.9766C88.3496 86.1586 87.3723 88.3638 86.0387 90.1287C84.705 91.8936 83.0129 93.3576 81.6198 95.076C79.8068 97.3121 78.4998 100.061 78.4556 102.94C78.4114 105.818 79.7953 108.799 82.3044 110.21C83.7086 111 85.3628 111.264 86.9726 111.199C91.2332 111.025 95.0918 108.682 98.4693 106.08C103.2 102.433 107.402 98.156 111.859 94.1797C116.682 89.8774 121.903 85.8686 127.912 83.488C138.517 79.2863 150.595 80.5717 161.437 84.1168C168.811 86.5279 175.798 89.9185 182.787 93.31"
             stroke="currentColor"
-            stroke-width="1.48562"
-            stroke-miterlimit="10"
-            stroke-linecap="round"
+            strokeWidth="1.48562"
+            strokeMiterlimit="10"
+            strokeLinecap="round"
           />
           <path
             d="M99.431 49.6409C102.347 60.5223 98.5288 81.5582 87.6474 84.4739C76.766 87.3895 62.9417 71.0808 60.026 60.1994C57.1104 49.318 63.5679 38.1333 74.4492 35.2177C85.3306 32.302 96.5153 38.7595 99.431 49.6409Z"
