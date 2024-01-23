@@ -132,8 +132,6 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       initialOpenedSections as string[],
     )
 
-    const {section: activeSection} = useLesson()
-
     const hasSections = sections && sections.length > 0
     const onlyHasSingleSection = hasSections && sections.length === 1
 
@@ -153,10 +151,10 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
     })
 
     React.useEffect(() => {
-      if (!activeSection && nextSection?.slug) {
+      if (!currentSection && nextSection?.slug) {
         setOpenedSections([nextSection?.slug])
       }
-    }, [nextSection?.slug, activeSection])
+    }, [nextSection?.slug, currentSection])
 
     return (
       <CollectionProvider
