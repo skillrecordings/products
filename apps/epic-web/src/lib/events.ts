@@ -72,7 +72,7 @@ export type Event = z.infer<typeof EventSchema>
 
 export const getAllEvents = async (): Promise<Event[]> => {
   const events =
-    await sanityClient.fetch(groq`*[_type == "event"] | order(startsAt desc) {
+    await sanityClient.fetch(groq`*[_type == "event"] | order(startsAt asc) {
         _id,
         _type,
         _updatedAt,

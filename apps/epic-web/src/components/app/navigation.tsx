@@ -108,13 +108,13 @@ export const useNavigationLinks = () => {
 
       href: '/articles',
     },
-    // {
-    //   label: 'Live Events',
-    //   icon: (isHovered: boolean) => (
-    //     <EventsIcon isHovered={isHovered} theme={theme} />
-    //   ),
-    //   href: '/events',
-    // },
+    {
+      label: 'Events',
+      icon: (isHovered: boolean) => (
+        <EventsIcon isHovered={isHovered} theme={hasMounted ? theme : 'dark'} />
+      ),
+      href: '/events',
+    },
   ]
 }
 
