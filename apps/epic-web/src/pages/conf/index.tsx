@@ -187,6 +187,7 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
           showingSpeakerDetail={showingSpeakerDetail}
           setShowingSpeakerDetail={setShowingSpeakerDetail}
         />
+        {/* <Workshops speakers={speakers} /> */}
         <p className="mb-16 block w-full text-center font-mono text-sm uppercase text-[#93A1D7]">
           <span aria-hidden="true">{'//'}</span> Full schedule TBA{' '}
           <span aria-hidden="true">{'//'}</span>
@@ -473,7 +474,11 @@ const SpeakersList: React.FC<{
 
   return (
     <>
-      <section className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16 pt-10">
+      <section
+        id="speakers"
+        aria-label="speakers"
+        className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16 pt-10"
+      >
         <h2 className="w-full pb-10 text-4xl font-bold sm:text-5xl">
           Speakers
         </h2>
@@ -548,10 +553,157 @@ const SpeakersList: React.FC<{
   )
 }
 
+const workshopsData = [
+  {
+    title: 'Pixel Perfect Figma to Tailwind',
+    description: (
+      <>
+        <p>
+          Getting started with automated testing can be extremely intimidating.
+          There’s just so much to learn! What to test, how to test, testing
+          setup, assertion libraries, test frameworks… It’s overwhelming, to say
+          the least.
+        </p>
+        <p>
+          But it doesn’t have to be. Even a rocket ship can be broken down into
+          smaller pieces that make up its foundation. And testing code is not
+          rocket science. I am here to teach you the fundamentals, essential
+          mental models, and practical skills so you can tackle any test at any
+          level.
+        </p>
+        <p>
+          This workshop is aimed at complete beginners as well as developers who
+          have already been writing tests for some time but feel that something
+          is missing, that each test is still, somehow, a struggle and a
+          challenge. A walk in the dark. If you want to turn on the light and
+          get confident when testing, you’ve come to the right place.
+        </p>
+      </>
+    ),
+    date: 'Wednesday, April 10, 2024',
+    time: 'from 10:00 am - 4:00 pm MT and includes lunch',
+    instructor: 'Simon Vrachliotis',
+  },
+  {
+    title: 'Testing Fundamentals in JavaScript',
+    description: (
+      <>
+        <p>
+          Getting started with automated testing can be extremely intimidating.
+          There’s just so much to learn! What to test, how to test, testing
+          setup, assertion libraries, test frameworks… It’s overwhelming, to say
+          the least.
+        </p>
+
+        <p>
+          But it doesn’t have to be. Even a rocket ship can be broken down into
+          smaller pieces that make up its foundation. And testing code is not
+          rocket science. I am here to teach you the fundamentals, essential
+          mental models, and practical skills so you can tackle any test at any
+          level.
+        </p>
+
+        <p>
+          This workshop is aimed at complete beginners as well as developers who
+          have already been writing tests for some time but feel that something
+          is missing, that each test is still, somehow, a struggle and a
+          challenge. A walk in the dark. If you want to turn on the light and
+          get confident when testing, you’ve come to the right place.
+        </p>
+      </>
+    ),
+    date: 'Wednesday, April 10, 2024',
+    time: 'from 10:00 am - 4:00 pm MT and includes lunch',
+    instructor: 'Artem Zakharchenko',
+  },
+  {
+    title: 'Advanced React Patterns',
+    description: (
+      <>
+        <p>
+          Building reusable hooks and components can be tricky. Just like any
+          other kind of abstraction, you can easily find yourself captive to its
+          maintenance. Whether it's the dreaded "apropcalypse" of a component
+          with tons of props, or a custom hook with too many options, it's not
+          fun for maintainers or users alike. Inevitably, the
+          incidentally-abstracted "reusable" React hooks and components will
+          ultimately slow you down or be abandoned for duplication. It doesn't
+          have to be like this.
+        </p>
+        <p>
+          By the end of this workshop, you'll have a deep understanding of how
+          component libraries work and how to implement your own components and
+          hooks that are powerful, flexible, and easy to use. This will
+          demystify the patterns that power the libraries you use every day and
+          will help you use them more effectively. Beyond that, you'll learn
+          important patterns that will help you get your codebase ready for
+          React Server Components through the proper use of composition as well
+          as ways to deal with real-world scenarios you bump into every day in
+          React applications. All taught by one of the top React instructors in
+          the world (Kent even created and popularized some of the patterns
+          you'll learn).
+        </p>
+        <p>
+          We look forward to you joining and increasing your own skills as a
+          React developer.
+        </p>
+      </>
+    ),
+    date: 'Wednesday, April 10, 2024',
+    time: 'from 10:00 am - 4:00 pm MT and includes lunch',
+    instructor: 'Kent C. Dodds',
+  },
+]
+
+const Workshops: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
+  const getProfilePictureForWorkshopInstructor = (name: string) => {
+    const speaker = speakers.find((s) => s.fullName === name)
+    return speaker?.profilePicture as string
+  }
+  return (
+    <section
+      id="workshops"
+      aria-label="workshops"
+      className="mx-auto w-full max-w-screen-lg px-5 py-8"
+    >
+      <h2 className="w-full pb-10 text-4xl font-bold sm:text-5xl">Workshops</h2>
+      <div className="grid grid-cols-3 gap-10">
+        {workshopsData.map(({title, description, date, instructor}) => {
+          return (
+            <div key={title}>
+              <h3 className="pb-2 text-2xl font-semibold">{title}</h3>
+              <span className="flex items-center gap-2">
+                <Image
+                  src={getProfilePictureForWorkshopInstructor(instructor)}
+                  width={50}
+                  height={50}
+                  alt={instructor}
+                  className="rounded-full"
+                />{' '}
+                <div className="flex flex-col">
+                  <span className="font-semibold">{instructor}</span>
+                  <time className="text-sm">{date}</time>
+                </div>
+              </span>
+
+              {/* <p>{date}</p> */}
+              <div className="mt-5 text-sm [&_p]:pb-2">{description}</div>
+            </div>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
 const Sponsors = () => {
   const {platinum, gold, silver, community} = sponsorsData
   return (
-    <section className="mx-auto flex w-full max-w-screen-lg scale-90 flex-col items-center justify-center gap-10 pb-16 pt-8 lg:scale-100 [&_p]:text-[#93A1D7]">
+    <section
+      id="sponsors"
+      aria-label="sponsors"
+      className="mx-auto flex w-full max-w-screen-lg scale-90 flex-col items-center justify-center gap-10 pb-16 pt-8 lg:scale-100 [&_p]:text-[#93A1D7]"
+    >
       <h2 className="text-3xl font-semibold">Sponsors</h2>
       <div className="flex flex-col items-center gap-8 px-5 sm:flex-row sm:gap-16 sm:px-10">
         <p className="w-20 font-mono text-sm uppercase">Platinum:</p>
@@ -758,6 +910,49 @@ const sponsorsData = {
   ],
   community: [
     {
+      name: 'Google',
+      url: 'https://google.com',
+      logo: (
+        <svg
+          className="w-28"
+          viewBox="0 0 120 60"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M32.3769 26.446H19.8569V30.161H28.7369C28.2969 35.361 23.9639 37.593 19.8719 37.593C18.5756 37.5987 17.2911 37.3461 16.0935 36.8499C14.8958 36.3537 13.809 35.624 12.8965 34.7032C11.984 33.7824 11.2641 32.689 10.7788 31.487C10.2935 30.2849 10.0525 28.9982 10.0699 27.702C10.0699 22.078 14.4239 17.748 19.8839 17.748C24.0959 17.748 26.5779 20.433 26.5779 20.433L29.1779 17.739C29.1779 17.739 25.8379 14.022 19.7479 14.022C11.9929 14.022 5.9939 20.567 5.9939 27.636C5.9939 34.563 11.6369 41.318 19.9439 41.318C27.2509 41.318 32.5999 36.312 32.5999 28.91C32.5999 27.348 32.3729 26.446 32.3729 26.446H32.3769Z"
+            fill="currentColor"
+            // fill="#4885ED"
+          />
+          <path
+            d="M42.634 23.7549C37.496 23.7549 33.814 27.7719 33.814 32.4549C33.814 37.2089 37.384 41.2999 42.694 41.2999C47.5 41.2999 51.437 37.6269 51.437 32.5569C51.437 26.7569 46.857 23.7539 42.634 23.7539V23.7549ZM42.684 27.2009C45.21 27.2009 47.604 29.2439 47.604 32.5349C47.604 35.7549 45.22 37.8569 42.672 37.8569C39.872 37.8569 37.672 35.6149 37.672 32.5089C37.672 29.4689 39.852 27.2009 42.692 27.2009H42.684Z"
+            fill="currentColor"
+            // fill="#DB3236"
+          />
+          <path
+            d="M61.8151 23.7549C56.6771 23.7549 52.9951 27.7719 52.9951 32.4549C52.9951 37.2089 56.5651 41.2999 61.8751 41.2999C66.6811 41.2999 70.6181 37.6269 70.6181 32.5569C70.6181 26.7569 66.0381 23.7539 61.8151 23.7539V23.7549ZM61.8651 27.2009C64.3911 27.2009 66.7851 29.2439 66.7851 32.5349C66.7851 35.7549 64.4011 37.8569 61.8531 37.8569C59.0531 37.8569 56.8531 35.6149 56.8531 32.5089C56.8531 29.4689 59.0331 27.2009 61.8731 27.2009H61.8651Z"
+            fill="currentColor"
+            // fill="#F4C20D"
+          />
+          <path
+            d="M80.6281 23.7649C75.9121 23.7649 72.2061 27.8949 72.2061 32.5309C72.2061 37.8109 76.5031 41.3129 80.5461 41.3129C83.0461 41.3129 84.3761 40.3199 85.3461 39.1809V40.9109C85.3461 43.9379 83.5081 45.7509 80.7341 45.7509C78.0541 45.7509 76.7101 43.7579 76.2341 42.6279L72.8621 44.0279C74.0581 46.5579 76.4661 49.1949 80.7621 49.1949C85.4621 49.1949 89.0241 46.2419 89.0241 40.0479V24.2919H85.3601V25.7779C84.2301 24.5579 82.6821 23.7649 80.6301 23.7649H80.6281ZM80.9681 27.2049C83.2801 27.2049 85.6541 29.1789 85.6541 32.5499C85.6541 35.9769 83.2841 37.8649 80.9171 37.8649C78.4031 37.8649 76.0641 35.8249 76.0641 32.5819C76.0641 29.2139 78.4941 27.2049 80.9681 27.2049Z"
+            fill="currentColor"
+            // fill="#4885ED"
+          />
+          <path
+            d="M105.4 23.7439C100.952 23.7439 97.217 27.2839 97.217 32.5039C97.217 38.0299 101.38 41.3069 105.817 41.3069C109.529 41.3069 111.817 39.2769 113.167 37.4569L110.134 35.4389C109.347 36.6589 108.031 37.8539 105.836 37.8539C103.37 37.8539 102.236 36.5039 101.533 35.1939L113.296 30.3139L112.696 28.8839C111.56 26.0839 108.908 23.7439 105.4 23.7439ZM105.553 27.1179C107.156 27.1179 108.309 27.9699 108.799 28.9919L100.943 32.2749C100.603 29.7329 103.013 27.1179 105.543 27.1179H105.553Z"
+            fill="currentColor"
+            // fill="#DB3236"
+          />
+          <path
+            d="M91.6001 40.7869H95.4641V14.9299H91.6001V40.7869Z"
+            fill="currentColor"
+            // fill="#3CBA54"
+          />
+        </svg>
+      ),
+    },
+    {
       name: 'Turso',
       url: 'https://turso.tech',
       logo: (
@@ -790,7 +985,8 @@ const sponsorsData = {
           />
           <path
             d="M306.974 10.9017L299.346 5.19527L284.27 21.3339L272.183 3.87493L265.23 7.06744L274.797 31.4735L270.367 36.216L236.028 0L228.245 3.85641L258.782 69.4898L230.169 79.5494H229.487L213.975 61.1026L198.451 79.5652H108.521L92.9966 61.1026L77.4406 79.6031H76.9604L48.1897 69.4885L78.7288 3.85641L70.9454 0L36.6051 36.2151L32.1752 31.4726L41.7435 7.06655L34.7906 3.87401L22.7039 21.333L7.62807 5.19527L0 10.9017L23.4697 50.0686L11.3912 62.8063L15.6141 95.0447L43.5877 105.729L43.5322 119.668H17.043V125.684L27.2966 140.311L43.5322 146.188V240.805L85.03 302.565L94.5406 325.72L109.486 303.924L124.977 325.72L138.539 303.924L153.486 325.72L168.432 303.924L181.995 325.72L197.485 303.924L212.43 325.72L221.941 302.565L263.439 240.805V146.188L279.674 140.311L289.928 125.684V119.668H263.439L263.479 105.693L291.357 95.0454L295.58 62.8072L283.501 50.0695L306.974 10.9017ZM185.788 264.93H99.6503L110.417 243.011L121.185 264.93L131.951 250.24L142.718 264.93L153.486 250.239L164.253 264.93L175.021 250.24L185.788 264.93L196.554 243.011L207.322 264.93H185.788ZM238.521 164.632L193.731 179.355L191.801 220.899L153.438 229.4L115.076 220.899L113.146 179.355L68.3558 164.632V142.455L126.259 158.862L125.553 214.873H181.322L180.617 158.862L238.52 142.455L238.521 164.632Z"
-            fill="#4FF8D2"
+            fill="currentColor"
+            // fill="#4FF8D2"
           />
         </svg>
       ),
