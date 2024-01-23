@@ -743,15 +743,12 @@ const Workshops: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
                   </time>
                 </div>
               </span>
-
-              {/* <p>{date}</p> */}
-              {/* <div className="mt-5 text-sm [&_p]:pb-2">{description}</div> */}
             </div>
           )
         })}
       </div>
       <div
-        className="pointer-events-none absolute left-1/3 z-0 h-96 w-96 rounded-full bg-indigo-300/5 blur-3xl"
+        className="pointer-events-none absolute left-1/3 z-0 hidden h-96 w-96 rounded-full bg-indigo-300/5 blur-3xl lg:block"
         aria-hidden="true"
       />
     </section>
