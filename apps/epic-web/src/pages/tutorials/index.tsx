@@ -102,15 +102,6 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                         </h3>
                         <div className="flex items-center gap-3 pt-4 text-gray-600 dark:text-gray-400">
                           <div className="flex items-center justify-center gap-2 overflow-hidden rounded-full">
-                            {/* <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-background">
-                            <Image
-                              src={require('../../../public/kent-c-dodds.png')}
-                              alt="Kent C. Dodds"
-                              width={48}
-                              height={48}
-                            />
-                          </div>
-                          <span>Kent C. Dodds</span> */}
                             <ResourceAuthor
                               name={author?.name}
                               slug={author?.slug}

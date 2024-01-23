@@ -18,6 +18,7 @@ import Testimonials from 'testimonials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {Skeleton} from '@skillrecordings/ui'
+import ResourceAuthor from 'components/resource-author'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
@@ -89,8 +90,8 @@ const TutorialTemplate: React.FC<{
 
 export default TutorialTemplate
 
-const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
-  const {title, slug, sections, image, github} = tutorial
+const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
+  const {title, slug, sections, image, github, author} = tutorial
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
       slug: tutorial.slug.current,
@@ -118,19 +119,11 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
           </h1>
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-900">
-                  <Image
-                    src={require('../../public/kent-c-dodds.png')}
-                    alt="Kent C. Dodds"
-                    width={48}
-                    height={48}
-                    priority
-                    placeholder="blur"
-                  />
-                </div>
-                <span>Kent C. Dodds</span>
-              </div>
+              <ResourceAuthor
+                name={author?.name}
+                slug={author?.slug}
+                image={author?.image}
+              />
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
               <Link
