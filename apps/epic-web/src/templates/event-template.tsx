@@ -136,7 +136,8 @@ const EventTemplate: React.FC<
             <Balancer>{title}</Balancer>
           </h1>
           <h2 className="pt-4 text-xl text-gray-700 dark:text-sky-200 sm:text-2xl">
-            Live Workshop with{' '}
+            Live Workshop <br className="block sm:hidden" />
+            with{' '}
             <Link
               href={`/authors/${author?.slug}`}
               target="_blank"

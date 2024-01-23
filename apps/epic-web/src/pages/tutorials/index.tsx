@@ -12,6 +12,7 @@ import {
 } from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import ResourceAuthor from 'components/resource-author'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -24,7 +25,7 @@ export async function getStaticProps() {
 
 // There are multiple sections containing arrays of lessons. I'd like to flat map them into a single array of lessons.
 const sectionsFlatMap = (sections: any[]) => {
-  const map = sections.flatMap((section) => {
+  const map = sections?.flatMap((section) => {
     return section.lessons || []
   })
 
@@ -40,8 +41,8 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
   return (
     <Layout
       meta={{
-        title: `Free Web Development Tutorials from Kent C. Dodds`,
-        description: `Free Web Development tutorials by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
+        title: `Free Web Development Tutorials`,
+        description: `Free Web Development that will help you learn professional web developer through exercise driven examples.`,
         ogImage: {
           url: 'https://res.cloudinary.com/epic-web/image/upload/v1704808424/card-tutorials_2x.png',
         },
@@ -64,69 +65,72 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
       <main className="relative z-10 flex flex-col items-center justify-center pt-16 md:pb-5">
         {tutorials && (
           <ul className="grid w-full max-w-screen-lg grid-cols-1 flex-col gap-5 px-5 sm:gap-8 lg:grid-cols-2">
-            {tutorials.map(({title, slug, image, description, sections}, i) => {
-              return (
-                <li key={slug.current}>
-                  <Link
-                    className="relative flex flex-col items-center gap-10 overflow-hidden rounded-xl bg-white p-10 shadow-2xl shadow-gray-500/20 transition hover:bg-gray-50 dark:border-transparent dark:bg-white/5 dark:shadow-none dark:hover:bg-white/10"
-                    href={{
-                      pathname: '/tutorials/[module]',
-                      query: {
-                        module: slug.current,
-                      },
-                    }}
-                  >
-                    {image && (
-                      <div className="flex flex-shrink-0 items-center justify-center">
-                        <Image
-                          src={image}
-                          alt={title}
-                          width={240}
-                          quality={100}
-                          height={240}
-                          priority
-                        />
-                      </div>
-                    )}{' '}
-                    <div>
-                      {' '}
-                      {i === 0 && (
-                        <span className="rounded-full border border-gray-200 bg-transparent px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:border-transparent dark:bg-amber-400/20 dark:text-amber-300">
-                          New
-                        </span>
-                      )}
-                      <h3 className="mt-3 w-full max-w-xl text-2xl font-semibold sm:text-3xl">
-                        <Balancer>{title}</Balancer>
-                      </h3>
-                      <div className="flex items-center gap-3 pt-4 text-gray-600 dark:text-gray-400">
-                        <div className="flex items-center justify-center gap-2 overflow-hidden rounded-full">
-                          <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-background">
-                            <Image
-                              src={require('../../../public/kent-c-dodds.png')}
-                              alt="Kent C. Dodds"
-                              width={48}
-                              height={48}
+            {tutorials.map(
+              ({title, slug, image, description, sections, author}, i) => {
+                return (
+                  <li key={slug.current}>
+                    <Link
+                      className="relative flex h-full flex-col items-center gap-10 overflow-hidden rounded-xl bg-white p-10 shadow-2xl shadow-gray-500/20 transition hover:bg-gray-50 dark:border-transparent dark:bg-white/5 dark:shadow-none dark:hover:bg-white/10"
+                      href={{
+                        pathname: '/tutorials/[module]',
+                        query: {
+                          module: slug.current,
+                        },
+                      }}
+                    >
+                      {image && (
+                        <div className="flex flex-shrink-0 items-center justify-center">
+                          <Image
+                            src={image}
+                            alt={title}
+                            width={240}
+                            quality={100}
+                            height={240}
+                            priority
+                          />
+                        </div>
+                      )}{' '}
+                      <div className="w-full">
+                        {' '}
+                        {i === 0 && (
+                          <span className="absolute right-5 top-5 rounded-full border border-gray-200 bg-transparent px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:border-transparent dark:bg-amber-400/20 dark:text-amber-300">
+                            New
+                          </span>
+                        )}
+                        <h3 className="mt-3 w-full max-w-xl text-2xl font-semibold sm:text-3xl">
+                          <Balancer>{title}</Balancer>
+                        </h3>
+                        <div className="flex items-center gap-3 pt-4 text-gray-600 dark:text-gray-400">
+                          <div className="flex items-center justify-center gap-2 overflow-hidden rounded-full">
+                            <ResourceAuthor
+                              name={author?.name}
+                              slug={author?.slug}
+                              image={author?.image}
+                              as="div"
                             />
                           </div>
-                          <span>Kent C. Dodds</span>
-                        </div>
-                        {'・'}
-                        <div>
-                          {sectionsFlatMap(sections).length}{' '}
-                          {pluralize(
-                            sectionsFlatMap(sections)[0]._type,
-                            sectionsFlatMap(sections).length,
+                          {sectionsFlatMap(sections) && (
+                            <>
+                              {'・'}
+                              <div>
+                                {sectionsFlatMap(sections)?.length}{' '}
+                                {pluralize(
+                                  sectionsFlatMap(sections)[0]._type,
+                                  sectionsFlatMap(sections)?.length,
+                                )}
+                              </div>
+                            </>
                           )}
                         </div>
+                        {description && (
+                          <p className="text-gray-300">{description}</p>
+                        )}
                       </div>
-                      {description && (
-                        <p className="text-gray-300">{description}</p>
-                      )}
-                    </div>
-                  </Link>
-                </li>
-              )
-            })}
+                    </Link>
+                  </li>
+                )
+              },
+            )}
             <li
               id="tutorials-index"
               className="relative flex flex-col items-center justify-center gap-10 overflow-hidden rounded-xl border-2 border-dashed p-10 text-xl text-gray-600 transition dark:border-white/5 dark:text-gray-400"

@@ -8,6 +8,8 @@ import {track} from 'utils/analytics'
 import {Event, getAllEvents} from 'lib/events'
 import {format} from 'date-fns'
 import {CalendarIcon, ClockIcon} from '@heroicons/react/outline'
+import {trpc} from 'trpc/trpc.client'
+import Spinner from 'components/spinner'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const events = await getAllEvents()
@@ -20,7 +22,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const Events: React.FC<{events: Event[]}> = ({events}) => {
   const title = 'Live Events'
-  const pageDescription = 'Live Events and Workshops with Kent C. Dodds'
+  const pageDescription = 'Live Events and Workshops'
   const publishedEvents =
     process.env.NODE_ENV === 'development'
       ? events
@@ -32,15 +34,18 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
         title,
         description: pageDescription,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1683189692/epicweb.dev/events/card-events_2x.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1706001310/card-events_2x.png',
           alt: title,
         },
       }}
     >
-      <header className="mx-auto w-full max-w-3xl px-5 pb-3 pt-28 sm:pb-10 sm:pt-32">
-        <h1 className="text-lg font-semibold">
-          <span className="font-normal">Epic Web</span> {title}
+      <header className="mx-auto flex w-full max-w-4xl flex-col items-center space-y-3 px-5 py-16 text-center">
+        <h1 className="mx-auto text-center text-4xl font-semibold">
+          Epic Events
         </h1>
+        <h2 className="w-full max-w-md text-base text-gray-600 dark:text-indigo-200/60">
+          <Balancer>{pageDescription}</Balancer>
+        </h2>
       </header>
       <main className="mx-auto grid w-full max-w-3xl grid-cols-1 flex-col gap-5 px-5 pb-24">
         {publishedEvents.map((event) => {
@@ -51,6 +56,16 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
             new Date(endsAt),
             'h:mm a',
           )}`
+
+          const {data: availability} =
+            trpc.products.getQuantityAvailableById.useQuery(
+              {
+                productId: event?.product?.productId as string,
+              },
+              {
+                enabled: Boolean(event?.product?.productId),
+              },
+            )
 
           return (
             <article key={slug}>
@@ -79,7 +94,7 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                     )}
                   </div>
                   <div className="relative z-10 flex w-full flex-col items-start justify-between space-y-10 pt-8 md:flex-row md:items-center md:space-y-0">
-                    <div className="flex w-full items-center gap-10 text-sm text-gray-700 dark:text-gray-300">
+                    <div className="flex w-full flex-col gap-8 text-sm text-gray-700 dark:text-gray-300 lg:flex-row lg:items-center">
                       {event.author ? (
                         <div className="flex items-center gap-3">
                           {event.author.picture && (
@@ -98,13 +113,21 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                           </div>
                         </div>
                       ) : null}
-                      <div className="flex items-center gap-1">
-                        <CalendarIcon className="w-5 opacity-80" />
-                        {eventDate}
+                      <div>
+                        <div className="flex items-start gap-1">
+                          <CalendarIcon className="w-5 opacity-80" />
+                          <div>
+                            <strong>{eventDate}</strong>
+                            <div>{eventTime} (PST)</div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <ClockIcon className="w-5 opacity-80" />
-                        {eventTime} (Pacific time)
+                      <div className="flex items-center gap-1 font-bold">
+                        {availability?.quantityAvailable ?? (
+                          <Spinner className="w-3" />
+                        )}{' '}
+                        sposts left
+                        {/* <ClockIcon className="w-5 opacity-80" /> */}
                       </div>
                     </div>
                   </div>

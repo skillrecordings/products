@@ -108,13 +108,13 @@ export const useNavigationLinks = () => {
 
       href: '/articles',
     },
-    // {
-    //   label: 'Live Events',
-    //   icon: (isHovered: boolean) => (
-    //     <EventsIcon isHovered={isHovered} theme={theme} />
-    //   ),
-    //   href: '/events',
-    // },
+    {
+      label: 'Events',
+      icon: (isHovered: boolean) => (
+        <EventsIcon isHovered={isHovered} theme={hasMounted ? theme : 'dark'} />
+      ),
+      href: '/events',
+    },
   ]
 }
 
@@ -744,7 +744,7 @@ const EventsIcon: React.FC<IconProps> = ({isHovered, theme}) => {
       fill="none"
       viewBox="0 0 18 18"
     >
-      <g clip-path="url(#a)">
+      <g clipPath="url(#a)">
         <path
           fill="url(#b)"
           d="M17.586 3.08a.756.756 0 0 0-.784.07l-4.8 3.6V4.5a3 3 0 0 0-3-3H3a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3v-2.25l4.8 3.6a.748.748 0 0 0 .786.07.751.751 0 0 0 .414-.67V3.75a.751.751 0 0 0-.414-.67Z"
@@ -1002,8 +1002,10 @@ export const Banner: React.FC<{
           href={productOnSale ? productPath : '/buy'}
           className={cn(`flex h-full w-full bg-primary py-1.5 text-white`)}
           onClick={() => {
-            track('clicked sale banner cta', {
+            track('clicked banner cta', {
               location: 'nav',
+              type: 'sale',
+              title: currentSale.product?.name,
             })
           }}
         >
@@ -1043,8 +1045,10 @@ export const Banner: React.FC<{
           }`}
           className={cn(`flex h-full w-full bg-primary py-1.5 text-white`)}
           onClick={() => {
-            track('clicked sale banner cta', {
+            track('clicked banner cta', {
               location: 'nav',
+              type: 'event',
+              title: activeEvent.event.title,
             })
           }}
         >

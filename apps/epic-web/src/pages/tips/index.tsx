@@ -40,7 +40,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
     >
       <header className="mx-auto flex w-full max-w-4xl flex-col items-center space-y-3 px-5 py-16 text-center">
         <h1 className="mx-auto text-center text-4xl font-semibold">Tips</h1>
-        <h2 className="w-full max-w-md text-base text-gray-600 dark:text-gray-500">
+        <h2 className="w-full max-w-md text-base text-gray-600 dark:text-indigo-200/60">
           <Balancer>{pageDescription}</Balancer>
         </h2>
       </header>
