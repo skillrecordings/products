@@ -203,6 +203,9 @@
               [data-guarantee] {
                 @apply block pt-3 text-center text-xs text-gray-600 dark:text-gray-400;
               }
+              [data-live-event] {
+                @apply block pt-3 text-center text-xs text-gray-600 dark:text-gray-400;
+              }
               legend {
               }
               [data-team-switch] {
@@ -579,6 +582,9 @@
               [data-guarantee] {
                 @apply block pt-3 text-center text-xs text-gray-600 dark:text-gray-400;
               }
+              [data-live-event] {
+                @apply block pt-3 text-center text-xs text-gray-600 dark:text-gray-400;
+              }
               legend {
               }
               [data-team-switch] {
@@ -649,6 +655,10 @@
         }
 
         [data-guarantee] {
+          @apply hidden;
+          /* @apply flex justify-center pt-8 align-middle; */
+        }
+        [data-live-event] {
           @apply hidden;
           /* @apply flex justify-center pt-8 align-middle; */
         }
@@ -865,6 +875,9 @@
           form {
             fieldset {
               [data-guarantee] {
+                @apply block pt-3 text-center text-xs text-gray-600 dark:text-gray-400;
+              }
+              [data-live-event] {
                 @apply block pt-3 text-center text-xs text-gray-600 dark:text-gray-400;
               }
               legend {
@@ -1188,6 +1201,9 @@
             [data-guarantee] {
               @apply block pt-3 text-center text-xs text-gray-200;
             }
+            [data-live-event] {
+              @apply block pt-3 text-center text-xs text-gray-200;
+            }
             legend {
             }
             [data-team-switch] {
@@ -1287,6 +1303,10 @@
         }
       }
       [data-guarantee] {
+        @apply hidden;
+        /* @apply flex justify-center pt-8 align-middle; */
+      }
+      [data-live-event] {
         @apply hidden;
         /* @apply flex justify-center pt-8 align-middle; */
       }

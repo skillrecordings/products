@@ -298,7 +298,8 @@ const EventPricingWidget: React.FC<{
         product={product}
         options={{
           withImage: false,
-          withGuaranteeBadge: true,
+          withGuaranteeBadge: false,
+          isLiveEvent: true,
           teamQuantityLimit:
             quantityAvailable && quantityAvailable > 5 ? 5 : quantityAvailable,
           isPPPEnabled: false,

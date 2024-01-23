@@ -74,6 +74,7 @@ type PricingProps = {
   options?: {
     withImage?: boolean
     withGuaranteeBadge?: boolean
+    isLiveEvent?: boolean
     isPPPEnabled?: boolean
     teamQuantityLimit?: number
     saleCountdownRenderer?: ({coupon}: {coupon: any}) => React.ReactNode
@@ -129,12 +130,18 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     withImage: true,
     isPPPEnabled: true,
     withGuaranteeBadge: true,
+    isLiveEvent: false,
     saleCountdownRenderer: () => null,
     teamQuantityLimit: 100,
   },
 }) => {
-  const {withImage, isPPPEnabled, withGuaranteeBadge, teamQuantityLimit} =
-    options
+  const {
+    withImage,
+    isPPPEnabled,
+    withGuaranteeBadge,
+    isLiveEvent,
+    teamQuantityLimit,
+  } = options
   const {
     addPrice,
     isDowngrade,
@@ -477,6 +484,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     {purchaseButtonRenderer(formattedPrice, product, status)}
                     {withGuaranteeBadge && (
                       <span data-guarantee="">30-Day Money-Back Guarantee</span>
+                    )}
+                    {isLiveEvent && (
+                      <span data-live-event="">
+                        Tickets to live events are non-refundable, but can be
+                        transferred
+                      </span>
                     )}
                   </fieldset>
                 </form>
