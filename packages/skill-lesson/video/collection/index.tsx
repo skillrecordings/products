@@ -289,7 +289,9 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
       }
     }
 
-    if (!module.sections) return null
+    const resources = module.sections
+
+    if (!resources) return null
 
     return (
       <Accordion
@@ -303,12 +305,12 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
           ref={forwardedRef}
           className={cn('space-y-2', sectionsProps.className)}
         >
-          {module.sections?.map?.((section) => {
+          {resources.map((resource) => {
             const childrenWithProps = React.Children.map(children, (child) => {
               if (React.isValidElement<SectionProps>(child)) {
                 return React.cloneElement(child, {
-                  key: section._id,
-                  section: section,
+                  key: resource._id,
+                  section: resource,
                 })
               }
               return null
@@ -316,7 +318,7 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
 
             return (
               childrenWithProps || (
-                <Section key={section._id} section={section} />
+                <Section key={resource._id} section={resource} />
               )
             )
           })}
