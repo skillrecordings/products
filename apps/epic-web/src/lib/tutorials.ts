@@ -1,7 +1,7 @@
 import groq from 'groq'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 
-const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] | order(_createdAt desc) {
+const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && state == 'published'] | order(_createdAt desc) {
   _id,
   _type,
   title,
@@ -12,6 +12,12 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] | o
   description,
   moduleType,
   state,
+  author-> {
+          name,
+          "slug": slug.current,
+          "image": picture.asset->url,
+          "imageAlt": picture.alt
+        },
   "sections": resources[@->._type == 'section']->{
     _id,
     _type,
@@ -58,6 +64,12 @@ export const getTutorial = async (slug: string) =>
       _updatedAt,
       "image": image.asset->url,
       body,
+      author-> {
+          name,
+          "slug": slug.current,
+          "image": picture.asset->url,
+          "imageAlt": picture.alt
+        },
       "testimonials": resources[@->._type == 'testimonial']->{
         _id,
         _type,
