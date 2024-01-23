@@ -1002,8 +1002,10 @@ export const Banner: React.FC<{
           href={productOnSale ? productPath : '/buy'}
           className={cn(`flex h-full w-full bg-primary py-1.5 text-white`)}
           onClick={() => {
-            track('clicked sale banner cta', {
+            track('clicked banner cta', {
               location: 'nav',
+              type: 'sale',
+              title: currentSale.product?.name,
             })
           }}
         >
@@ -1043,8 +1045,10 @@ export const Banner: React.FC<{
           }`}
           className={cn(`flex h-full w-full bg-primary py-1.5 text-white`)}
           onClick={() => {
-            track('clicked sale banner cta', {
+            track('clicked banner cta', {
               location: 'nav',
+              type: 'event',
+              title: activeEvent.event.title,
             })
           }}
         >
