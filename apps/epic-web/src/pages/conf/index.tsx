@@ -21,6 +21,7 @@ import {
 } from '@skillrecordings/skill-lesson/convertkit'
 import {useRouter} from 'next/router'
 import {shuffle} from 'lodash'
+import {track} from 'utils/analytics'
 
 const TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2024'
 const CK_CONF_2024_FIELD = {
@@ -159,6 +160,13 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
               <Link
                 href="https://maps.app.goo.gl/hhuhKHLTbANYyo41A"
                 target="_blank"
+                onClick={() => {
+                  track('clicked platinum sponsor', {
+                    title: 'conf2024',
+                    type: 'venue',
+                    location: 'map',
+                  })
+                }}
                 rel="noopener noreferrer"
                 className="group absolute -bottom-16 flex scale-[0.8] items-center justify-center rounded bg-white text-gray-900 before:absolute before:-top-1.5 before:-ml-7 before:h-3 before:w-3 before:rotate-45 before:bg-white before:content-[''] sm:-bottom-10 sm:scale-100"
               >
@@ -232,6 +240,13 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
                     href={TITO_URL}
                     rel="noopener noreferrer"
                     target="_blank"
+                    onClick={() => {
+                      track('clicked buy tickets', {
+                        title: 'conf2024',
+                        type: 'event',
+                        location: 'bottom',
+                      })
+                    }}
                   >
                     Buy Tickets <ChevronRightIcon className="-mr-2 ml-2 w-4" />
                   </Link>
@@ -431,7 +446,18 @@ const Header = () => {
           size="lg"
         >
           {TITO_URL && (
-            <Link href={TITO_URL} target="_blank" rel="noopener noreferrer">
+            <Link
+              href={TITO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                track('clicked buy tickets', {
+                  title: 'conf2024',
+                  type: 'event',
+                  location: 'top',
+                })
+              }}
+            >
               Buy Tickets <ChevronRightIcon className="-mr-2 ml-2 w-4" />
             </Link>
           )}
@@ -503,7 +529,14 @@ const SpeakersList: React.FC<{
                 role="button"
                 aria-haspopup="dialog"
                 aria-expanded={showingSpeakerDetail ? 'true' : 'false'}
-                onClick={() => setShowingSpeakerDetail(speaker)}
+                onClick={() => {
+                  setShowingSpeakerDetail(speaker)
+                  track('clicked speaker', {
+                    title: 'conf2024',
+                    type: 'speaker',
+                    location: speaker.fullName,
+                  })
+                }}
               >
                 <motion.div
                   animate={{
@@ -675,7 +708,23 @@ const Workshops: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
         {workshopsData.map(({title, description, date, time, instructor}) => {
           return (
             <div key={title} className="pt-3 [&_time]:text-[#D6DEFF]">
-              <h3 className="pb-2 text-2xl font-semibold">{title}</h3>
+              <h3 className="pb-2 text-2xl font-semibold">
+                <Link
+                  href={TITO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                  onClick={() => {
+                    track(`clicked workshop`, {
+                      title: 'conf2024',
+                      type: 'workshop',
+                      location: title,
+                    })
+                  }}
+                >
+                  {title}
+                </Link>
+              </h3>
               <span className="flex items-center gap-2.5">
                 <Image
                   src={getProfilePictureForWorkshopInstructor(instructor)}
@@ -725,6 +774,13 @@ const Sponsors = () => {
             return (
               <Link
                 href={s.url}
+                onClick={() => {
+                  track('clicked platinum sponsor', {
+                    title: 'conf2024',
+                    type: 'sponsor',
+                    location: s.name,
+                  })
+                }}
                 key={s.name}
                 className="flex items-center justify-center opacity-90 transition hover:opacity-100"
                 target="_blank"
@@ -743,6 +799,13 @@ const Sponsors = () => {
             return (
               <Link
                 href={s.url}
+                onClick={() => {
+                  track('clicked gold sponsor', {
+                    title: 'conf2024',
+                    type: 'sponsor',
+                    location: s.name,
+                  })
+                }}
                 key={s.name}
                 className="flex items-center justify-center opacity-90 transition hover:opacity-100"
                 target="_blank"
@@ -760,6 +823,13 @@ const Sponsors = () => {
               <Link
                 href={s.url}
                 key={s.name}
+                onClick={() => {
+                  track('clicked silver sponsor', {
+                    title: 'conf2024',
+                    type: 'sponsor',
+                    location: s.name,
+                  })
+                }}
                 className="flex items-center justify-center opacity-90 transition hover:opacity-100"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -778,6 +848,13 @@ const Sponsors = () => {
               <Link
                 href={s.url}
                 key={s.name}
+                onClick={() => {
+                  track('clicked community sponsor', {
+                    title: 'conf2024',
+                    type: 'sponsor',
+                    location: s.name,
+                  })
+                }}
                 className="flex items-center justify-center opacity-90 transition hover:opacity-100"
                 target="_blank"
                 rel="noopener noreferrer"
