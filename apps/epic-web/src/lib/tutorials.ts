@@ -1,53 +1,56 @@
 import groq from 'groq'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 
-const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && state == 'published'] | order(_createdAt desc) {
-  _id,
-  _type,
-  title,
-  slug,
-  "image": image.asset->url,
-  _updatedAt,
-  _createdAt,
-  description,
-  moduleType,
-  state,
-  author-> {
-          name,
-          "slug": slug.current,
-          "image": picture.asset->url,
-          "imageAlt": picture.alt
-        },
-  "sections": resources[@->._type == 'section']->{
+export const getAllTutorials = async (onlyPublished = true) => {
+  const tutorials = await sanityClient.fetch(
+    groq`*[_type == "module" && moduleType == 'tutorial' ${
+      onlyPublished ? ` && state == 'published'` : ''
+    }] | order(_createdAt desc) {
     _id,
     _type,
-    _updatedAt,
     title,
+    slug,
+    "image": image.asset->url,
+    _updatedAt,
+    _createdAt,
     description,
-    "slug": slug.current,
-    "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson']]->{
+    moduleType,
+    state,
+    author-> {
+      name,
+      "slug": slug.current,
+      "image": picture.asset->url,
+      "imageAlt": picture.alt
+    },
+    "sections": resources[@->._type == 'section']->{
       _id,
       _type,
       _updatedAt,
       title,
       description,
       "slug": slug.current,
-      "solution": resources[@._type == 'solution'][0]{
-        _key,
+      "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson']]->{
+        _id,
         _type,
-        "_updatedAt": ^._updatedAt,
+        _updatedAt,
         title,
         description,
         "slug": slug.current,
-      }
-    },
-    "resources": resources[@->._type in ['linkResource']]->
-  }
-}`
-
-export const getAllTutorials = async () =>
-  await sanityClient.fetch(tutorialsQuery)
-
+        "solution": resources[@._type == 'solution'][0]{
+          _key,
+          _type,
+          "_updatedAt": ^._updatedAt,
+          title,
+          description,
+          "slug": slug.current,
+        }
+      },
+      "resources": resources[@->._type in ['linkResource']]->
+    }
+  }`,
+  )
+  return tutorials
+}
 export const getTutorial = async (slug: string) =>
   await sanityClient.fetch(
     groq`*[_type == "module" && moduleType == 'tutorial' && slug.current == $slug][0]{

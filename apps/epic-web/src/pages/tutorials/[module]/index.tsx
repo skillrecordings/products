@@ -27,7 +27,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const tutorials = await getAllTutorials()
+  const tutorials = await getAllTutorials(false)
   const paths = tutorials.map((tutorial: any) => ({
     params: {module: tutorial.slug.current},
   }))

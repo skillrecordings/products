@@ -9,7 +9,7 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {trpc} from 'trpc/trpc.client'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {first} from 'lodash'
+import {capitalize, first} from 'lodash'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
@@ -19,6 +19,7 @@ import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {Skeleton} from '@skillrecordings/ui'
 import ResourceAuthor from 'components/resource-author'
+import {CogIcon} from '@heroicons/react/solid'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
@@ -33,7 +34,7 @@ const TutorialTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full max-w-screen-lg pt-10 sm:pt-24 lg:pb-24"
+      className="mx-auto w-full max-w-screen-lg pt-10 sm:pt-20 lg:pb-24"
       meta={{
         title: pageTitle,
         description,
@@ -44,6 +45,14 @@ const TutorialTemplate: React.FC<{
       }}
     >
       <CourseMeta title={pageTitle} description={description} />
+      {tutorial.state === 'draft' && (
+        <div className="sm:px-3">
+          <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded sm:text-base">
+            <CogIcon className="h-4 w-4" /> {capitalize(tutorial.moduleType)}{' '}
+            under development — you're viewing a draft version.
+          </div>
+        </div>
+      )}
       <Header tutorial={tutorial} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="px-5">
@@ -58,7 +67,9 @@ const TutorialTemplate: React.FC<{
           {tutorial && (
             <Collection.Root module={tutorial}>
               <div className="flex w-full items-center justify-between pb-3">
-                <h3 className="text-xl font-bold">Contents</h3>
+                {(tutorial.lessons || tutorial.sections) && (
+                  <h3 className="text-xl font-bold">Contents</h3>
+                )}
                 <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
               </div>
               <Collection.Sections>
@@ -126,46 +137,48 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
               />
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
-              <Link
-                href={
-                  firstSection && sections
-                    ? {
-                        pathname: '/tutorials/[module]/[section]/[lesson]',
-                        query: {
-                          module: slug.current,
-                          section: isModuleInProgress
-                            ? nextSection?.slug
-                            : firstSection.slug,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
-                        },
-                      }
-                    : {
-                        pathname: '/tutorials/[module]/[lesson]',
-                        query: {
-                          module: slug.current,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
-                        },
-                      }
-                }
-                className={cx(
-                  'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
-                  {
-                    'animate-pulse': moduleProgressStatus === 'loading',
-                  },
-                )}
-                onClick={() => {
-                  track('clicked start learning', {module: slug.current})
-                }}
-              >
-                {isModuleInProgress ? 'Continue' : 'Start'} Learning
-                <span className="pl-2" aria-hidden="true">
-                  →
-                </span>
-              </Link>
+              {(tutorial.lessons || tutorial.sections) && (
+                <Link
+                  href={
+                    firstSection && sections
+                      ? {
+                          pathname: '/tutorials/[module]/[section]/[lesson]',
+                          query: {
+                            module: slug.current,
+                            section: isModuleInProgress
+                              ? nextSection?.slug
+                              : firstSection.slug,
+                            lesson: isModuleInProgress
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
+                          },
+                        }
+                      : {
+                          pathname: '/tutorials/[module]/[lesson]',
+                          query: {
+                            module: slug.current,
+                            lesson: isModuleInProgress
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
+                          },
+                        }
+                  }
+                  className={cx(
+                    'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
+                    {
+                      'animate-pulse': moduleProgressStatus === 'loading',
+                    },
+                  )}
+                  onClick={() => {
+                    track('clicked start learning', {module: slug.current})
+                  }}
+                >
+                  {isModuleInProgress ? 'Continue' : 'Start'} Learning
+                  <span className="pl-2" aria-hidden="true">
+                    →
+                  </span>
+                </Link>
+              )}
               {github?.repo && (
                 <a
                   className="flex w-full items-center justify-center gap-2 rounded-md border border-gray-300 px-5 py-4 font-medium leading-tight transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 md:w-auto"

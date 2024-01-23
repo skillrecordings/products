@@ -33,6 +33,7 @@ import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {useRouter} from 'next/router'
+import ResourceAuthor from 'components/resource-author'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -80,7 +81,7 @@ const WorkshopTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full max-w-screen-lg pt-10 sm:pt-24 lg:pb-24"
+      className="mx-auto w-full max-w-screen-lg pt-10 sm:pt-20 lg:pb-24"
       meta={{
         title: pageTitle,
         description,
@@ -307,19 +308,7 @@ const Header: React.FC<{module: Module; canView: boolean}> = ({
           </h1>
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-900">
-                  <Image
-                    src={require('../../public/kent-c-dodds.png')}
-                    alt="Kent C. Dodds"
-                    width={48}
-                    height={48}
-                    priority
-                    placeholder="blur"
-                  />
-                </div>
-                <span>Kent C. Dodds</span>
-              </div>
+              <ResourceAuthor name={'Kent C. Dodds'} slug={'kent-c-dodds'} />
             </div>
             <div className="flex w-full flex-col items-start justify-center gap-3 pt-8 md:justify-start lg:flex-row lg:items-center">
               {!canView && product && ALLOW_PURCHASE && (
