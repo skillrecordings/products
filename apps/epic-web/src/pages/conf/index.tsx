@@ -29,10 +29,10 @@ const CK_CONF_2024_FIELD = {
 
 export const getStaticProps: GetStaticProps = async () => {
   const speakers = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/conf-speakers`,
+    'https://sessionize.com/api/v2/epg94f49/view/Speakers',
   ).then((res) => res.json())
   return {
-    props: {speakers: shuffle(speakers)},
+    props: {speakers: speakers},
     revalidate: 60 * 5,
   }
 }
@@ -57,6 +57,10 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
     boolean | Speaker
   >(false)
   const router = useRouter()
+  const [shuffledSpeakers, setShuffledSpeakers] = React.useState<Speaker[]>([])
+  React.useEffect(() => {
+    setShuffledSpeakers(shuffle(speakers))
+  }, [])
 
   return (
     <Layout
@@ -183,11 +187,11 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
           </div>
         </section>
         <SpeakersList
-          speakers={speakers}
+          speakers={shuffledSpeakers}
           showingSpeakerDetail={showingSpeakerDetail}
           setShowingSpeakerDetail={setShowingSpeakerDetail}
         />
-        {/* <Workshops speakers={speakers} /> */}
+        <Workshops speakers={speakers} />
         <p className="mb-16 block w-full text-center font-mono text-sm uppercase text-[#93A1D7]">
           <span aria-hidden="true">{'//'}</span> Full schedule TBA{' '}
           <span aria-hidden="true">{'//'}</span>
@@ -585,7 +589,7 @@ const workshopsData = [
     instructor: 'Simon Vrachliotis',
   },
   {
-    title: 'Testing Fundamentals in JavaScript',
+    title: 'Testing Fundamentals in TypeScript',
     description: (
       <>
         <p>
@@ -664,34 +668,43 @@ const Workshops: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
     <section
       id="workshops"
       aria-label="workshops"
-      className="mx-auto w-full max-w-screen-lg px-5 py-8"
+      className="relative mx-auto flex w-full max-w-screen-lg flex-col justify-between gap-0 px-5 pb-32 md:flex-row md:gap-20"
     >
-      <h2 className="w-full pb-10 text-4xl font-bold sm:text-5xl">Workshops</h2>
-      <div className="grid grid-cols-3 gap-10">
-        {workshopsData.map(({title, description, date, instructor}) => {
+      <h2 className="pb-10 text-4xl font-bold sm:text-5xl">Workshops</h2>
+      <div className="flex flex-col gap-10 lg:pr-16">
+        {workshopsData.map(({title, description, date, time, instructor}) => {
           return (
-            <div key={title}>
+            <div key={title} className="pt-3 [&_time]:text-[#D6DEFF]">
               <h3 className="pb-2 text-2xl font-semibold">{title}</h3>
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-2.5">
                 <Image
                   src={getProfilePictureForWorkshopInstructor(instructor)}
-                  width={50}
-                  height={50}
+                  width={60}
+                  height={60}
                   alt={instructor}
                   className="rounded-full"
                 />{' '}
                 <div className="flex flex-col">
-                  <span className="font-semibold">{instructor}</span>
-                  <time className="text-sm">{date}</time>
+                  <span className="text-lg font-semibold">{instructor}</span>
+                  <time dateTime={date} className="text-sm">
+                    {date}
+                  </time>
+                  <time dateTime={time} className="text-sm">
+                    {time}
+                  </time>
                 </div>
               </span>
 
               {/* <p>{date}</p> */}
-              <div className="mt-5 text-sm [&_p]:pb-2">{description}</div>
+              {/* <div className="mt-5 text-sm [&_p]:pb-2">{description}</div> */}
             </div>
           )
         })}
       </div>
+      <div
+        className="pointer-events-none absolute left-1/3 z-0 h-96 w-96 rounded-full bg-indigo-300/5 blur-3xl"
+        aria-hidden="true"
+      />
     </section>
   )
 }
