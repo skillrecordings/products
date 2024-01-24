@@ -5,6 +5,7 @@ import Link from 'next/link'
 import HeroPlanetImage from '../../../public/assets/conf/conf-hero.jpg'
 import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/solid'
 import {AnimatePresence, motion} from 'framer-motion'
+import {format, parseISO} from 'date-fns'
 import {
   Dialog,
   DialogContent,
@@ -12,6 +13,10 @@ import {
   DialogHeader,
   DialogTitle,
   Button,
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
 } from '@skillrecordings/ui'
 import {GetServerSideProps, GetStaticProps} from 'next'
 import {useKey} from 'react-use'
@@ -22,6 +27,7 @@ import {
 import {useRouter} from 'next/router'
 import {shuffle} from 'lodash'
 import {track} from 'utils/analytics'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 const TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2024'
 const CK_CONF_2024_FIELD = {
@@ -32,9 +38,15 @@ export const getStaticProps: GetStaticProps = async () => {
   const speakers = await fetch(
     'https://sessionize.com/api/v2/epg94f49/view/Speakers',
   ).then((res) => res.json())
+  // const schedule = await fetch(
+  //   'https://sessionize.com/api/v2/epg94f49/view/GridSmart',
+  // ).then((res) => res.json())
 
   return {
-    props: {speakers: speakers},
+    props: {
+      speakers,
+      // schedule
+    },
     revalidate: 60 * 5,
   }
 }
@@ -54,7 +66,32 @@ type Speaker = {
   isTopSpeaker: boolean
 }
 
-const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
+type Session = {
+  id: string
+  title: string
+  description: string
+  startsAt: string
+  endsAt: string
+  speakers: {name: string; id: string}[]
+}
+
+type Room = {
+  id: number
+  name: string
+  sessions: Session[]
+}
+
+type Day = {
+  date: string
+  rooms: Room[]
+}
+
+type Schedule = Day[]
+
+const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
+  speakers,
+  schedule,
+}) => {
   const [showingSpeakerDetail, setShowingSpeakerDetail] = React.useState<
     boolean | Speaker
   >(false)
@@ -200,6 +237,7 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
           setShowingSpeakerDetail={setShowingSpeakerDetail}
         />
         <Workshops speakers={speakers} />
+        {/* <Schedule schedule={schedule} speakers={speakers} /> */}
         <p className="mb-16 block w-full text-center font-mono text-sm uppercase text-[#93A1D7]">
           <span aria-hidden="true">{'//'}</span> Full schedule TBA{' '}
           <span aria-hidden="true">{'//'}</span>
@@ -337,9 +375,9 @@ const SpeakerDetail: React.FC<{
   useKey(
     'ArrowRight',
     (event) => {
-      if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey) {
+      if (!showingSpeakerDetail) return
+      if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey)
         return
-      }
       handleViewNextSpeaker()
     },
     {},
@@ -349,9 +387,9 @@ const SpeakerDetail: React.FC<{
   useKey(
     'ArrowLeft',
     (event) => {
-      if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey) {
+      if (!showingSpeakerDetail) return
+      if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey)
         return
-      }
       handleViewPrevSpeaker()
     },
     {},
@@ -693,10 +731,6 @@ const workshopsData = [
 ]
 
 const Workshops: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
-  const getProfilePictureForWorkshopInstructor = (name: string) => {
-    const speaker = speakers.find((s) => s.fullName === name)
-    return speaker?.profilePicture as string
-  }
   return (
     <section
       id="workshops"
@@ -727,7 +761,10 @@ const Workshops: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
               </h3>
               <span className="flex items-center gap-2.5">
                 <Image
-                  src={getProfilePictureForWorkshopInstructor(instructor)}
+                  src={getProfilePictureForWorkshopInstructor(
+                    instructor,
+                    speakers,
+                  )}
                   width={60}
                   height={60}
                   alt={instructor}
@@ -1205,4 +1242,126 @@ const sponsorsData = {
       ),
     },
   ],
+}
+
+const Schedule: React.FC<{schedule: Schedule; speakers: Speaker[]}> = ({
+  schedule,
+  speakers,
+}) => {
+  return (
+    <section
+      id="schedule"
+      aria-label="schedule"
+      className="mx-auto w-full max-w-screen-lg p-4"
+    >
+      <h2 className="pb-10 text-4xl font-bold sm:text-5xl">Schedule</h2>
+      {schedule.map((day) => (
+        <div key={day.date} className="mb-8">
+          <h2 className="mb-4 text-2xl font-bold">
+            {format(parseISO(day.date), 'EEEE, dd/MM/yyyy')}
+          </h2>
+          {day.rooms.map((room) => (
+            <div key={room.id} className="mb-6">
+              <h3 className="mb-2 text-lg font-semibold">Room: {room.name}</h3>
+              <Accordion type="single" collapsible className="w-full">
+                <ul className="flex flex-col divide-y divide-white/10">
+                  {room.sessions.map((session) => {
+                    const speaker = session?.speakers[0]?.name
+
+                    const Speaker: React.FC<{className?: string}> = ({
+                      className,
+                    }) => {
+                      return (
+                        <div className={cn('items-center gap-2', className)}>
+                          <Image
+                            alt=""
+                            aria-hidden="true"
+                            src={getProfilePictureForWorkshopInstructor(
+                              speaker,
+                              speakers,
+                            )}
+                            width={40}
+                            height={40}
+                            className="w-8 rounded-full md:w-auto"
+                          />
+                          <span className="text-sm">{speaker}</span>
+                        </div>
+                      )
+                    }
+
+                    const AccordionTriggerComp = session.description
+                      ? AccordionTrigger
+                      : 'div'
+
+                    return (
+                      <AccordionItem
+                        value={session.id}
+                        key={session.id}
+                        asChild
+                      >
+                        <li>
+                          <AccordionTriggerComp className="w-full">
+                            <div
+                              className={cn(
+                                'md:group flex w-full items-start gap-3 py-2 md:items-center',
+                                {
+                                  '': session.title === 'Break',
+                                },
+                              )}
+                            >
+                              <div className="flex w-full max-w-[80px] items-center pt-2 text-[#D6DEFF] md:max-w-[160px] md:pt-0">
+                                <p className="whitespace-nowrap text-left text-xs font-semibold tabular-nums leading-none md:text-sm md:font-medium">
+                                  {format(
+                                    parseISO(session.startsAt),
+                                    'hh:mm a',
+                                  )}{' '}
+                                  {'–'} <br className="block md:hidden" />
+                                  {format(
+                                    parseISO(session.endsAt),
+
+                                    'hh:mm a',
+                                  )}
+                                </p>
+                              </div>
+                              <div className="col-span-4 w-full md:col-span-3">
+                                <div className="flex flex-col items-start text-left">
+                                  <h4 className="text-lg font-semibold leading-tight">
+                                    {session.title}
+                                  </h4>
+                                  {speaker && (
+                                    <Speaker className="flex md:hidden" />
+                                  )}
+                                </div>
+                                {/* <p className="text-sm">{session.description}</p> */}
+                              </div>
+                              {speaker && (
+                                <Speaker className="hidden w-full max-w-[200px] md:flex" />
+                              )}
+                            </div>
+                          </AccordionTriggerComp>
+                          <AccordionContent>
+                            <p className="pb-5 text-left text-sm leading-relaxed text-[#D6DEFF] md:ml-[160px] md:px-3 md:text-base">
+                              {session.description}
+                            </p>
+                          </AccordionContent>
+                        </li>
+                      </AccordionItem>
+                    )
+                  })}
+                </ul>
+              </Accordion>
+            </div>
+          ))}
+        </div>
+      ))}
+    </section>
+  )
+}
+
+const getProfilePictureForWorkshopInstructor = (
+  name: string,
+  speakers: Speaker[],
+) => {
+  const speaker = speakers.find((s) => s.fullName === name)
+  return speaker?.profilePicture as string
 }
