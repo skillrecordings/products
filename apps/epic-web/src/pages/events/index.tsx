@@ -126,7 +126,7 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                         {availability?.quantityAvailable ?? (
                           <Spinner className="w-3" />
                         )}{' '}
-                        sposts left
+                        spots left
                         {/* <ClockIcon className="w-5 opacity-80" /> */}
                       </div>
                     </div>
