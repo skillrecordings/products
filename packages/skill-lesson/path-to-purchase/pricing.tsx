@@ -136,11 +136,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   },
 }) => {
   const {
-    withImage,
-    isPPPEnabled,
-    withGuaranteeBadge,
-    isLiveEvent,
-    teamQuantityLimit,
+    withImage = true,
+    isPPPEnabled = true,
+    withGuaranteeBadge = true,
+    isLiveEvent = false,
+    teamQuantityLimit = 100,
   } = options
   const {
     addPrice,
@@ -221,7 +221,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     !purchased &&
     !isDowngrade(formattedPrice) &&
     !isBuyingForTeam &&
-    allowPurchaseWith.pppCoupon
+    allowPurchaseWith?.pppCoupon
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
@@ -487,8 +487,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     )}
                     {isLiveEvent && (
                       <span data-live-event="">
-                        Tickets to live events are non-refundable, but can be
-                        transferred
+                        <Balancer>
+                          Tickets to live events are non-refundable, but can be
+                          transferred
+                        </Balancer>
                       </span>
                     )}
                   </fieldset>
