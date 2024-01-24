@@ -31,6 +31,8 @@ import first from 'lodash/first'
 import {AnimatePresence, motion} from 'framer-motion'
 import {buildStripeCheckoutPath} from '../utils/build-stripe-checkout-path'
 import Countdown from 'react-countdown'
+import {get, snakeCase} from 'lodash'
+import {setConvertkitSubscriberFields} from '@skillrecordings/convertkit-sdk'
 
 const getNumericValue = (
   value: string | number | Decimal | undefined,
@@ -179,6 +181,17 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
       purchaseId: formattedPrice?.upgradeFromPurchaseId,
     })
 
+  const {data: availability, status: availabilityStatus} =
+    trpcSkillLessons.products.getQuantityAvailableById.useQuery(
+      {
+        productId: productId,
+      },
+      {
+        enabled: Boolean(productId),
+        refetchInterval: 30000, // 30 seconds
+      },
+    )
+
   const defaultCoupon = formattedPrice?.defaultCoupon
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
@@ -223,7 +236,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     !isBuyingForTeam &&
     allowPurchaseWith?.pppCoupon
 
-  const handleOnSuccess = (subscriber: any, email?: string) => {
+  const handleOnSubscribeSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
       const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
         confirmToast: 'true',
@@ -259,6 +272,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     setMounted(true)
   }, [])
 
+  const isSoldOut =
+    product.type === 'live' &&
+    !purchased &&
+    availability?.quantityAvailable === 0
+
   return (
     <div id={id}>
       <div data-pricing-product={index}>
@@ -275,36 +293,68 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             />
           </div>
         )}
+
         <article>
           {(isSellingLive || allowPurchase) && !purchased ? (
             <div data-pricing-product-header="">
+              {product.type === 'live' &&
+                availability?.quantityTotal !== -1 && (
+                  <div
+                    data-quantity-available={
+                      isSoldOut ? 'sold-out' : availability?.quantityAvailable
+                    }
+                  >
+                    {availabilityStatus === 'loading'
+                      ? null
+                      : isSoldOut
+                      ? 'Sold out'
+                      : `${availability?.quantityAvailable} spots left.`}
+                  </div>
+                )}
               <p data-name-badge="">{name}</p>
               {title && (
                 <h2 data-title>
                   <Balancer>{title}</Balancer>
                 </h2>
               )}
-              <PriceDisplay status={status} formattedPrice={formattedPrice} />
-              {isRestrictedUpgrade ? (
-                <div data-byline="">All region access</div>
+              {isSoldOut ? (
+                <SubscribeForm
+                  fields={{
+                    [`interested_${snakeCase(product?.slug)}`.toLowerCase()]:
+                      new Date().toISOString().slice(0, 10),
+                  }}
+                  description="Join the waitlist to get notified when this or similar event gets scheduled."
+                  handleOnSubscribeSuccess={handleOnSubscribeSuccess}
+                  actionLabel="Join waitlist"
+                />
               ) : (
-                <div data-byline="">
-                  {appliedMerchantCoupon?.type === 'ppp'
-                    ? 'Regional access'
-                    : formattedPrice?.upgradeFromPurchaseId
-                    ? `Upgrade Pricing`
-                    : 'Full access'}
-                </div>
+                <>
+                  <PriceDisplay
+                    status={status}
+                    formattedPrice={formattedPrice}
+                  />
+                  {isRestrictedUpgrade ? (
+                    <div data-byline="">All region access</div>
+                  ) : (
+                    <div data-byline="">
+                      {appliedMerchantCoupon?.type === 'ppp'
+                        ? 'Regional access'
+                        : formattedPrice?.upgradeFromPurchaseId
+                        ? `Upgrade Pricing`
+                        : 'Full access'}
+                    </div>
+                  )}
+                  {formattedPrice?.upgradeFromPurchaseId &&
+                    !isRestrictedUpgrade &&
+                    fixedDiscount > 0 && (
+                      <div data-byline="">
+                        {`${formatUsd(fixedDiscount).dollars}.${
+                          formatUsd(fixedDiscount).cents
+                        } credit applied`}
+                      </div>
+                    )}
+                </>
               )}
-              {formattedPrice?.upgradeFromPurchaseId &&
-                !isRestrictedUpgrade &&
-                fixedDiscount > 0 && (
-                  <div data-byline="">
-                    {`${formatUsd(fixedDiscount).dollars}.${
-                      formatUsd(fixedDiscount).cents
-                    } credit applied`}
-                  </div>
-                )}
             </div>
           ) : null}
           {options.saleCountdownRenderer
@@ -368,7 +418,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               <div data-downgrade-container="">
                 <div data-downgrade="">Unavailable</div>
               </div>
-            ) : (
+            ) : isSoldOut ? null : (
               <div data-purchase-container="">
                 <form
                   action={buildStripeCheckoutPath({
@@ -508,7 +558,9 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 purchase yet! We plan to launch in mid October 2023.
               </div>
               {!subscriber && !loadingSubscriber && (
-                <SubscribeForm handleOnSuccess={handleOnSuccess} />
+                <SubscribeForm
+                  handleOnSubscribeSuccess={handleOnSubscribeSuccess}
+                />
               )}
             </div>
           )}
@@ -941,35 +993,81 @@ const RegionalPricingBox: React.FC<
 }
 
 const SubscribeForm = ({
-  handleOnSuccess,
+  handleOnSubscribeSuccess,
+  description = "If you'd like to get notified and receive the best discounts, please subscribe below:",
+  actionLabel = 'Get Notified',
+  fields,
 }: {
-  handleOnSuccess: (subscriber: any, email?: string) => void
+  handleOnSubscribeSuccess: (subscriber: any, email?: string) => void
+  description?: string
+  actionLabel?: string
+  fields?: Record<string, string>
 }) => {
+  const {subscriber, loadingSubscriber} = useConvertkit()
+  const mutateSubscriberFields =
+    trpcSkillLessons.convertkit.addFields.useMutation()
+
+  const isOnWaitlist =
+    subscriber &&
+    fields &&
+    Object.keys(fields).every(
+      (key) =>
+        subscriber.fields.hasOwnProperty(key) &&
+        typeof subscriber.fields[key] === 'string',
+    )
+
   return (
     <div
       id="pricing"
       data-pricing-subscribing-form=""
-      className="flex w-full max-w-sm flex-col items-center justify-between pb-8"
+      className="flex w-full max-w-sm flex-col items-center justify-between"
     >
       <div className="inline-flex max-w-xs flex-shrink-0 items-center gap-2 text-base font-medium leading-tight">
         <div
           aria-hidden="true"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-800"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-foreground/5"
         >
-          <MailIcon className="h-5 w-5 text-cyan-300" />
+          <MailIcon className="h-5 w-5 text-foreground" />
         </div>{' '}
-        <Balancer>
-          If you'd like to get notified and receive the best discounts, please
-          subscribe below:
-        </Balancer>
+        {isOnWaitlist ? (
+          <span>You're on the waitlist.</span>
+        ) : (
+          <Balancer>{description}</Balancer>
+        )}
       </div>
-      <SubscribeToConvertkitForm
-        formId={Number(process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM)}
-        actionLabel="Get Notified"
-        onSuccess={(subscriber, email) => {
-          return handleOnSuccess(subscriber, email)
-        }}
-      />
+      {subscriber ? (
+        <>
+          {!isOnWaitlist && (
+            <button
+              data-sr-button="waitlist"
+              disabled={mutateSubscriberFields.isLoading}
+              onClick={async (e) => {
+                if (fields) {
+                  await mutateSubscriberFields.mutateAsync({
+                    subscriber,
+                    fields,
+                  })
+                  handleOnSubscribeSuccess(subscriber, subscriber.email_address)
+                } else {
+                  console.error('No fields provided to subscribe form')
+                }
+              }}
+              type="button"
+            >
+              {actionLabel ?? 'Join waitlist'}
+            </button>
+          )}
+        </>
+      ) : (
+        <SubscribeToConvertkitForm
+          actionLabel={actionLabel}
+          fields={fields}
+          onSuccess={(subscriber, email) => {
+            track('subscribed', {location: 'pricing', ...fields})
+            return handleOnSubscribeSuccess(subscriber, email)
+          }}
+        />
+      )}
     </div>
   )
 }

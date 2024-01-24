@@ -91,7 +91,7 @@ export const confirmSubscriptionToast = (email?: string) => {
               (<strong>{email}</strong>)
             </>
           )}{' '}
-          for an email that just got sent. Thanks and enjoy!
+          for an email that just got sent. Thanks!
         </p>
       </div>
     ),

@@ -96,7 +96,6 @@ const EventTemplate: React.FC<
       description: product?.description,
     },
   )
-  const isSoldOut = purchaseCount === totalQuantity
 
   return (
     <Layout meta={{title, description: pageDescription, ogImage}}>
@@ -175,22 +174,14 @@ const EventTemplate: React.FC<
                 />
               </div>
             )}
-            {isSoldOut ? (
-              <div className="-mb-5 flex w-[105%] items-center justify-center rounded-sm bg-foreground px-4 py-3 text-center text-lg font-semibold text-background">
-                Sold Out
-              </div>
-            ) : (
-              <>
-                {product && product.state !== 'unavailable' && (
-                  <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-                    <EventPricingWidget
-                      commerceProps={{...commerceProps, products}}
-                      product={product as SanityProduct}
-                      quantityAvailable={quantityAvailable}
-                    />
-                  </PriceCheckProvider>
-                )}
-              </>
+            {product && product.state !== 'unavailable' && (
+              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+                <EventPricingWidget
+                  commerceProps={{...commerceProps, products}}
+                  product={product as SanityProduct}
+                  quantityAvailable={quantityAvailable}
+                />
+              </PriceCheckProvider>
             )}
             <EventDetails event={event} />
           </div>
@@ -282,16 +273,6 @@ const EventPricingWidget: React.FC<{
   const hasPurchased = purchasedProductIds.includes(product.productId)
   return (
     <div data-pricing-container="" id="buy" key={product.name}>
-      {!hasPurchased && (
-        <div className="flex w-full items-center justify-center text-center">
-          <strong className="font-semibold">
-            {quantityAvailable <= 5
-              ? `Only ${quantityAvailable}`
-              : quantityAvailable}{' '}
-            spots left.
-          </strong>
-        </div>
-      )}
       <Pricing
         cancelUrl={cancelUrl}
         allowPurchase={ALLOW_PURCHASE}
