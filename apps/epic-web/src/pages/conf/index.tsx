@@ -414,7 +414,7 @@ const Header = () => {
     <header className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#080B16]">
       <div className="relative z-10 mx-auto w-full max-w-screen-lg px-5 pb-16 pt-16 sm:pb-48 sm:pt-48">
         <h1 className="max-w-xl text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
-          <span className="font-normal">Epic Web Dev</span> Conference 2024
+          <span className="font-normal">Epic Web</span> Conference 2024
         </h1>
         <h2 className="max-w-sm pt-5 text-xl text-[#93A1D7] lg:max-w-full">
           The Full Stack Web Development Conference of Epic proportions
