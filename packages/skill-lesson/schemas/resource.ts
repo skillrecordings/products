@@ -1,6 +1,7 @@
 import z from 'zod'
 
 export const ResourceSchema = z.object({
+  _id: z.string(),
   _type: z.string(),
   _updatedAt: z.string().optional(),
   title: z.string(),
