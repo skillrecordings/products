@@ -202,4 +202,28 @@ export const convertkitRouter = router({
 
       await setConvertkitSubscriberFields(subscriber, startedModuleField)
     }),
+  addFields: publicProcedure
+    .input(
+      z.object({
+        subscriber: SubscriberSchema,
+        fields: z.record(z.string()),
+      }),
+    )
+    .mutation(async ({ctx, input}) => {
+      try {
+        const {subscriber, fields} = input
+        await setConvertkitSubscriberFields(
+          {id: subscriber.id, fields: subscriber.fields},
+          fields,
+        )
+        return {
+          success: true,
+        }
+      } catch (error) {
+        console.log(`Couldn't set convertkit fields`, error)
+        return {
+          success: false,
+        }
+      }
+    }),
 })
