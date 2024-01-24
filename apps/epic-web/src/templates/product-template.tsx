@@ -11,7 +11,7 @@ import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import cx from 'classnames'
 import {useScroll, useTransform} from 'framer-motion'
-import {CheckCircleIcon} from '@heroicons/react/solid'
+import {CheckCircleIcon, ChevronLeftIcon} from '@heroicons/react/solid'
 import Link from 'next/link'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
@@ -117,6 +117,12 @@ const Header: React.FC<HeaderProps> = ({title, hasPurchased, product}) => {
   return (
     <header className="relative mx-auto w-full max-w-screen-lg px-2">
       <div className="relative flex w-full flex-col items-center justify-center pt-10 sm:pt-16">
+        <Link
+          className="inline-flex text-center text-sm text-indigo-300 hover:underline"
+          href="/products"
+        >
+          <ChevronLeftIcon className="w-4" /> All products
+        </Link>
         <div className="flex flex-grow flex-col items-center justify-center">
           {hasPurchased && (
             <Link
