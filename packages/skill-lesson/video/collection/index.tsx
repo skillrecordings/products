@@ -289,7 +289,9 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
       }
     }
 
-    const resources = module.sections
+    const resources = module.useResourcesInsteadOfSections
+      ? module.resources
+      : module.sections
 
     if (!resources) return null
 
@@ -306,21 +308,45 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
           className={cn('space-y-2', sectionsProps.className)}
         >
           {resources.map((resource) => {
-            const childrenWithProps = React.Children.map(children, (child) => {
-              if (React.isValidElement<SectionProps>(child)) {
-                return React.cloneElement(child, {
-                  key: resource._id,
-                  section: resource,
-                })
-              }
-              return null
-            })
-
-            return (
-              childrenWithProps || (
-                <Section key={resource._id} section={resource} />
+            if (resource._type === 'section') {
+              const childrenWithProps = React.Children.map(
+                children,
+                (child) => {
+                  if (React.isValidElement<SectionProps>(child)) {
+                    return React.cloneElement(child, {
+                      key: resource._id,
+                      section: resource,
+                    })
+                  }
+                  return null
+                },
               )
-            )
+
+              return (
+                childrenWithProps || (
+                  <Section key={resource._id} section={resource} />
+                )
+              )
+            } else {
+              return (
+                <Primitive.ul
+                  ref={forwardedRef}
+                  // {...lessonsProps }
+                  className={cn(
+                    'bg-background border-x border-b border-card py-2 rounded-b',
+                    // lessonsProps.className,
+                  )}
+                >
+                  <li key={resource._id}>
+                    <Lesson
+                      section={undefined}
+                      lesson={resource}
+                      index={resource._id}
+                    />
+                  </li>
+                </Primitive.ul>
+              )
+            }
           })}
         </Primitive.ul>
       </Accordion>
@@ -471,7 +497,7 @@ type PrimitiveLiProps = Radix.ComponentPropsWithoutRef<typeof Primitive.li>
 interface LessonProps extends PrimitiveLiProps {
   lesson?: LessonType
   section?: SectionType
-  index?: number
+  index?: number | string
   scrollContainerRef?: React.RefObject<HTMLDivElement>
 }
 
@@ -578,10 +604,10 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                         ) : (
                           <span
                             className="w-4 h-4 flex items-center justify-center"
-                            data-index={`${index + 1}`}
+                            data-index={`${index}`}
                             aria-hidden="true"
                           >
-                            {index + 1}
+                            {index}
                           </span>
                         )}
                       </>
@@ -610,10 +636,10 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                     ) : (
                       <span
                         className="w-4 h-4 flex items-center justify-center"
-                        data-index={`${index + 1}`}
+                        data-index={`${index}`}
                         aria-hidden="true"
                       >
-                        {index + 1}
+                        {index}
                       </span>
                     )}
                   </>
