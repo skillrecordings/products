@@ -32,6 +32,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const speakers = await fetch(
     'https://sessionize.com/api/v2/epg94f49/view/Speakers',
   ).then((res) => res.json())
+
   return {
     props: {speakers: speakers},
     revalidate: 60 * 5,
@@ -125,7 +126,6 @@ const ConfPage: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
                   strokeLinejoin="round"
                 />
               </svg>
-
               <p>
                 The event is set at the foot of the beautiful Rocky Mountains in{' '}
                 <strong>Park City, Utah</strong>, and the{' '}
@@ -862,6 +862,12 @@ const Sponsors = () => {
           })}
         </div>
       </div>
+      <Link
+        href="mailto:conf@epicweb.dev?subject=Sponsoring Epic Web Conf 2024"
+        className="inline-flex items-center text-center text-[#93A1D7] underline transition hover:brightness-110"
+      >
+        Become a sponsor
+      </Link>
     </section>
   )
 }
