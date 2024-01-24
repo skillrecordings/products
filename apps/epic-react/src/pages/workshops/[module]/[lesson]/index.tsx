@@ -16,6 +16,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const sectionSlug = params?.section as string
 
   const module = await getWorkshop(params?.module as string)
+
+  const moduleWithSectionsAndLessons = {
+    ...module,
+    useResourcesInsteadOfSections: true,
+  }
+
   const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSlug, false)
   const lessonBodySerialized =
@@ -31,7 +37,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       lesson,
       lessonBodySerialized,
       lessonBodyPreviewSerialized: lessonBodySerialized,
-      module,
+      module: moduleWithSectionsAndLessons,
       section,
       transcript: lesson.transcript,
       videoResourceId: lesson.videoResourceId,
