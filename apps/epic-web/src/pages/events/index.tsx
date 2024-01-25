@@ -171,9 +171,7 @@ export const ConfBanner: React.FC<{className?: string; title?: string}> = ({
       <Link
         href="/conf"
         onClick={() => {
-          track('clicked epic web conference banner', {
-            location: 'events',
-          })
+          track('clicked epic web conference banner')
         }}
         className="group relative flex flex-col overflow-hidden rounded bg-gray-900 p-8 text-white transition hover:brightness-110"
       >
@@ -220,7 +218,6 @@ export const ConfBanner: React.FC<{className?: string; title?: string}> = ({
           className="absolute -right-5 bottom-10 max-w-[10rem] transition duration-1000 group-hover:-translate-x-5 group-hover:-translate-y-2 sm:-bottom-5 sm:max-w-full"
         />
       </Link>
-      <div></div>
     </section>
   )
 }

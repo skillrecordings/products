@@ -77,11 +77,11 @@ const ArticleTemplate: React.FC<{
         bio={author?.bio}
         className="sm:py-10"
       />
-      {!subscriber && <CTA article={article} />}
       <ConfBanner
         title="Learn more at Epic Web Conference"
-        className="mx-auto mb-10 w-full max-w-3xl"
+        className="mx-auto mb-5 w-full max-w-3xl px-5 sm:mb-10 sm:px-0"
       />
+      {!subscriber && <CTA article={article} />}
     </Layout>
   )
 }
@@ -154,7 +154,7 @@ const CTA: React.FC<{article: Article}> = ({article}) => {
   const {slug} = article
 
   return (
-    <section className="pt-5">
+    <section className="pt-16">
       <PrimaryNewsletterCta
         onSubmit={() => {
           track('subscribed from article', {

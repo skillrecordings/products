@@ -47,6 +47,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@skillrecordings/ui'
+import {ConfBanner} from './events'
 
 const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -97,6 +98,7 @@ const Index: NextPage<{
         navigationClassName=""
       >
         <Header />
+        <ConfBanner className="relative z-50 mx-auto mb-10 w-full max-w-screen-md px-5 sm:mb-0 sm:mt-[-265px]" />
         <main className="">
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
           <Article

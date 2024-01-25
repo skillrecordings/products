@@ -12,6 +12,9 @@ import {Card, CardContent, CardHeader} from '@skillrecordings/ui'
 import {CheckIcon} from '@heroicons/react/solid'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import ResourceAuthor from 'components/resource-author'
+import {ConfBanner} from 'pages/events'
+import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 export async function getStaticProps() {
   const tips = await getAllTips()
@@ -28,6 +31,7 @@ type TipsIndex = {
 const pageDescription = 'A collection of valuable Web Development tips.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
+  const {subscriber} = useConvertkit()
   return (
     <Layout
       meta={{
@@ -44,7 +48,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
           <Balancer>{pageDescription}</Balancer>
         </h2>
       </header>
-      <main className="relative z-10 flex flex-col items-center justify-center sm:pb-16">
+      <main className="relative z-10 flex flex-col items-center justify-center">
         <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-0 sm:gap-3 sm:px-5">
           {tips
             .filter(({state}) => state === 'published')
@@ -52,6 +56,8 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
               return <TipCard tip={tip} key={tip.slug} i={i} />
             })}
         </div>
+        <ConfBanner className="mt-5 w-full max-w-screen-lg px-5 sm:mt-10" />
+        {!subscriber && <PrimaryNewsletterCta className="mt-32" />}
       </main>
     </Layout>
   )

@@ -13,6 +13,8 @@ import {
 import {useRouter} from 'next/router'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import ResourceAuthor from 'components/resource-author'
+import {ConfBanner} from 'pages/events'
+import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -62,7 +64,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
           </Balancer>
         </h2>
       </header>
-      <main className="relative z-10 flex flex-col items-center justify-center pt-16 md:pb-5">
+      <main className="relative z-10 flex flex-col items-center justify-center pt-16">
         {tutorials && (
           <ul className="grid w-full max-w-screen-lg grid-cols-1 flex-col gap-5 px-5 sm:gap-8 lg:grid-cols-2">
             {tutorials.map(
@@ -70,7 +72,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                 return (
                   <li key={slug.current}>
                     <Link
-                      className="relative flex h-full flex-col items-center gap-10 overflow-hidden rounded-xl bg-white p-10 shadow-2xl shadow-gray-500/20 transition hover:bg-gray-50 dark:border-transparent dark:bg-white/5 dark:shadow-none dark:hover:bg-white/10"
+                      className="relative flex h-full flex-col items-center gap-10 overflow-hidden rounded bg-white p-10 shadow-2xl shadow-gray-500/20 transition hover:bg-gray-50 dark:border-transparent dark:bg-gray-900 dark:shadow-none dark:hover:brightness-110"
                       href={{
                         pathname: '/tutorials/[module]',
                         query: {
@@ -131,7 +133,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                 )
               },
             )}
-            <li
+            {/* <li
               id="tutorials-index"
               className="relative flex flex-col items-center justify-center gap-10 overflow-hidden rounded-xl border-2 border-dashed p-10 text-xl text-gray-600 transition dark:border-white/5 dark:text-gray-400"
             >
@@ -149,9 +151,14 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                   }}
                 />
               )}
-            </li>
+            </li> */}
           </ul>
         )}
+        <ConfBanner
+          title="Learn in person at Epic Web Conference"
+          className="mx-auto my-10 w-full max-w-screen-lg px-5"
+        />
+        {!subscriber && <PrimaryNewsletterCta className="mt-20" />}
       </main>
     </Layout>
   )
