@@ -26,13 +26,10 @@ const TeamMembersBlock: React.FC<TeamMembersBlockProps> = ({
   return (
     <div
       data-team-members-block=""
+      data-reduced-top-margin={reducedTopMargin}
+      data-reduced-bottom-margin={reducedBottomMargin}
       className="not-prose"
-      style={{
-        marginBottom: reducedBottomMargin ? '1rem' : 'inherit',
-        marginTop: reducedTopMargin ? '1rem' : 'inherit',
-      }}
     >
-      {description && <p data-team-members-description>{description}</p>}
       <div data-team-members-info-wrapper={!multiple ? 'flex' : ''}>
         <div data-team-member-portrait="">
           <Image
@@ -47,6 +44,7 @@ const TeamMembersBlock: React.FC<TeamMembersBlockProps> = ({
           <div data-team-members-title>{title}</div>
         </div>
       </div>
+      {description && <p data-team-members-description>{description}</p>}
     </div>
   )
 }
