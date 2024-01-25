@@ -4,9 +4,10 @@ import Spinner from 'components/spinner'
 
 export type TweetEmbedProps = {
   tweetId: string
+  caption?: string
 }
 
-const TweetEmbed: React.FC<TweetEmbedProps> = ({tweetId}) => {
+const TweetEmbed: React.FC<TweetEmbedProps> = ({tweetId, caption}) => {
   return (
     <div data-tweet-embed>
       <TwitterTweetEmbed
@@ -23,6 +24,11 @@ const TweetEmbed: React.FC<TweetEmbedProps> = ({tweetId}) => {
           </div>
         }
       />
+      {caption && (
+        <div data-tweet-embed-caption-holder="">
+          <h4 data-tweet-embed-caption="">{caption}</h4>
+        </div>
+      )}
     </div>
   )
 }
