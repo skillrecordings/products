@@ -7,6 +7,9 @@ export type ImageWithCaptionProps = {
   alt?: string
   captionTitle?: string
   captionSubtitle?: string
+  reducedMargins?: boolean
+  noMarginTop?: boolean
+  caption?: string
 }
 
 const ImageWithCaption: React.FC<ImageWithCaptionProps> = ({
@@ -16,10 +19,19 @@ const ImageWithCaption: React.FC<ImageWithCaptionProps> = ({
   alt = '',
   captionTitle,
   captionSubtitle,
+  reducedMargins = false,
+  noMarginTop = false,
+  caption,
 }) => {
   return (
-    <div data-image-with-caption="" className="not-prose">
+    <div
+      data-image-with-caption=""
+      data-image-reduced-margins={reducedMargins}
+      data-image-no-margin-top={noMarginTop}
+      className="not-prose"
+    >
       <Image src={src} width={width} height={height} alt={alt} />
+      {caption && <h4 data-image-with-caption-text="">{caption}</h4>}
       {(captionTitle || captionSubtitle) && (
         <div data-image-with-caption-holder>
           {captionTitle && (
