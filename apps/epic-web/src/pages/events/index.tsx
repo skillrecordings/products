@@ -7,7 +7,7 @@ import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {Event, getAllEvents} from 'lib/events'
 import {format} from 'date-fns'
-import {CalendarIcon, ClockIcon} from '@heroicons/react/outline'
+import {CalendarIcon, LocationMarkerIcon} from '@heroicons/react/outline'
 import {trpc} from 'trpc/trpc.client'
 import Spinner from 'components/spinner'
 
@@ -48,6 +48,7 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
         </h2>
       </header>
       <main className="mx-auto grid w-full max-w-3xl grid-cols-1 flex-col gap-5 px-5 pb-24">
+        <ConfBanner />
         {publishedEvents.map((event) => {
           const {title, image, slug, description, startsAt, endsAt, state} =
             event
@@ -67,6 +68,8 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
               },
             )
 
+          const isSoldOut = availability?.quantityAvailable === 0
+
           return (
             <article key={slug}>
               <Link
@@ -85,10 +88,20 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                   </div>
                 )}
                 <div className="flex h-full flex-col justify-between rounded-lg border border-gray-200 px-5 py-8 dark:border-gray-800 md:px-8">
+                  {/* {image?.secure_url && (
+                    <div>
+                      <Image
+                        src={image.secure_url}
+                        alt={title}
+                        width={200}
+                        height={200}
+                      />
+                    </div>
+                  )} */}
                   <div className="relative z-10">
                     <h2 className="text-2xl font-bold">{title}</h2>
                     {description && (
-                      <p className="line-clamp-3 w-full pt-3 text-gray-600 dark:text-gray-400">
+                      <p className="line-clamp-3 w-full pt-3 text-blue-900/80 dark:text-indigo-200/80 sm:text-lg">
                         {description}
                       </p>
                     )}
@@ -115,7 +128,7 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                       ) : null}
                       <div>
                         <div className="flex items-start gap-1">
-                          <CalendarIcon className="w-5 opacity-80" />
+                          <CalendarIcon className="w-4 translate-y-0.5 text-blue-900/80 dark:text-indigo-200/80" />
                           <div>
                             <strong>{eventDate}</strong>
                             <div>{eventTime} (PST)</div>
@@ -123,11 +136,16 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                         </div>
                       </div>
                       <div className="flex items-center gap-1 font-bold">
-                        {availability?.quantityAvailable ?? (
-                          <Spinner className="w-3" />
-                        )}{' '}
-                        spots left
-                        {/* <ClockIcon className="w-5 opacity-80" /> */}
+                        {isSoldOut ? (
+                          'Sold out'
+                        ) : (
+                          <>
+                            {availability?.quantityAvailable ?? (
+                              <Spinner className="w-3" />
+                            )}{' '}
+                            spots left
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -142,3 +160,63 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
 }
 
 export default Events
+
+const ConfBanner = () => {
+  return (
+    <section aria-label="Epic Web Conference 2024">
+      <Link
+        href="/conf"
+        onClick={() => {
+          track('clicked epic web conference banner', {
+            location: 'events',
+          })
+        }}
+        className="group relative flex flex-col overflow-hidden rounded bg-gray-900 p-8 transition hover:brightness-110"
+      >
+        <h3 className="relative z-10 max-w-sm text-xl font-bold sm:text-xl lg:text-2xl">
+          Epic Web Conference 2024
+        </h3>
+        <p className="relative z-10 max-w-xs pt-2 text-blue-900/80 dark:text-indigo-200/80 sm:text-lg">
+          The Full Stack Web Development Conference of Epic proportions
+        </p>
+        <hr className="relative z-0 mb-5 mt-5 max-w-[200px] border-[#202537] sm:max-w-lg lg:max-w-xl" />
+        <div className="relative z-10 flex flex-col gap-5 md:flex-row md:items-center md:gap-10">
+          <div className="flex items-start gap-1 text-sm">
+            <CalendarIcon className="w-4 translate-y-0.5 text-blue-900/80 dark:text-indigo-200/80" />
+            <div>
+              <strong>April 11th, 2024</strong>
+              <div>9am—5pm</div>
+            </div>
+          </div>
+          <div className="flex items-start gap-1 text-sm">
+            <LocationMarkerIcon className="w-4 translate-y-0.5 text-blue-900/80 dark:text-indigo-200/80" />
+            <div>
+              <strong>Park City, UT</strong>
+              <div>Prospector Square Theatre</div>
+            </div>
+          </div>
+          <div className="text-sm font-semibold">Tickets on sale!</div>
+        </div>
+        <Image
+          src={require('../../../public/assets/conf/banner-bg@2x.png')}
+          alt=""
+          aria-hidden="true"
+          width={302}
+          height={302}
+          quality={100}
+          className="absolute -right-24 top-0 z-0 sm:right-0"
+        />
+        <Image
+          src={require('../../../public/assets/conf/banner-ship@2x.png')}
+          alt=""
+          aria-hidden="true"
+          width={515 / 2}
+          height={330 / 2}
+          quality={100}
+          className="absolute -right-5 bottom-10 max-w-[10rem] transition duration-1000 group-hover:-translate-x-5 group-hover:-translate-y-2 sm:-bottom-5 sm:max-w-full"
+        />
+      </Link>
+      <div></div>
+    </section>
+  )
+}
