@@ -9,7 +9,7 @@ import Card from 'components/card'
 import TitleWithStars from 'components/title-with-stars'
 
 const meta = {
-  title: 'Badass Partners',
+  title: 'Badass Articles',
   ogImage: {
     url: 'https://badass.dev/card@2x.png',
   },
