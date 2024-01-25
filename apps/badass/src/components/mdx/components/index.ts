@@ -44,6 +44,11 @@ export {
 } from './accented-title'
 
 export {
+  default as AccentedSubtitle,
+  type AccentedSubtitleProps,
+} from './accented-subtitle'
+
+export {
   default as TeamMembersBlock,
   type TeamMembersBlockProps,
 } from './team-members-block'
@@ -51,3 +56,8 @@ export {
 export {default as CalloutTitle, type CalloutTitleProps} from './callout-title'
 
 export {default as Toc, TocItem, type TocItemProps} from './toc'
+
+export {
+  default as ContentWithTopGap,
+  type ContentWithTopGapProps,
+} from './content-with-top-gap'

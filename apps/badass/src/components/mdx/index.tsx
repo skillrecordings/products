@@ -21,6 +21,8 @@ import {
   ImageWithCaptionProps,
   AccentedTitle,
   AccentedTitleProps,
+  AccentedSubtitle,
+  AccentedSubtitleProps,
   TeamMembersBlock,
   TeamMembersBlockProps,
   CalloutTitle,
@@ -28,6 +30,8 @@ import {
   Toc,
   TocItem,
   TocItemProps,
+  ContentWithTopGap,
+  ContentWithTopGapProps,
 } from './components'
 
 const mdxComponents = {
@@ -51,8 +55,16 @@ const mdxComponents = {
       </BodyBlockquote>
     )
   },
-  BodyImage: ({src, width, height, alt}: BodyImageProps) => {
-    return <BodyImage src={src} width={width} height={height} alt={alt} />
+  BodyImage: ({src, width, height, alt, caption}: BodyImageProps) => {
+    return (
+      <BodyImage
+        src={src}
+        width={width}
+        height={height}
+        alt={alt}
+        caption={caption}
+      />
+    )
   },
   ImageWithCaption: ({
     src,
@@ -61,6 +73,9 @@ const mdxComponents = {
     alt,
     captionTitle,
     captionSubtitle,
+    reducedMargins,
+    noMarginTop,
+    caption,
   }: ImageWithCaptionProps) => {
     return (
       <ImageWithCaption
@@ -70,6 +85,9 @@ const mdxComponents = {
         alt={alt}
         captionTitle={captionTitle}
         captionSubtitle={captionSubtitle}
+        reducedMargins={reducedMargins}
+        noMarginTop={noMarginTop}
+        caption={caption}
       />
     )
   },
@@ -79,8 +97,8 @@ const mdxComponents = {
   RelatedTeamMembers: ({children}: React.PropsWithChildren) => {
     return <RelatedTeamMembers>{children}</RelatedTeamMembers>
   },
-  TweetEmbed: ({tweetId}: TweetEmbedProps) => {
-    return <TweetEmbed tweetId={tweetId} />
+  TweetEmbed: ({tweetId, caption}: TweetEmbedProps) => {
+    return <TweetEmbed tweetId={tweetId} caption={caption} />
   },
   TweetEmbedDouble: ({tweetId_1, tweetId_2}: TweetEmbedDoubleProps) => {
     return <TweetEmbedDouble tweetId_1={tweetId_1} tweetId_2={tweetId_2} />
@@ -116,8 +134,14 @@ const mdxComponents = {
       />
     )
   },
-  AccentedTitle: ({text, color}: AccentedTitleProps) => {
-    return <AccentedTitle text={text} color={color} />
+  AccentedTitle: ({text, color, balanced}: AccentedTitleProps) => {
+    return <AccentedTitle text={text} color={color} balanced={balanced} />
+  },
+  AccentedSubtitle: ({
+    children,
+    color,
+  }: React.PropsWithChildren<AccentedSubtitleProps>) => {
+    return <AccentedSubtitle color={color}>{children}</AccentedSubtitle>
   },
   CalloutTitle: ({
     children,
@@ -155,6 +179,9 @@ const mdxComponents = {
   },
   TocItem: ({title, anchor}: TocItemProps) => {
     return <TocItem title={title} anchor={anchor} />
+  },
+  ContentWithTopGap: ({children}: React.PropsWithChildren) => {
+    return <ContentWithTopGap>{children}</ContentWithTopGap>
   },
 }
 
