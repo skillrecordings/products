@@ -10,6 +10,7 @@ import {format} from 'date-fns'
 import {CalendarIcon, LocationMarkerIcon} from '@heroicons/react/outline'
 import {trpc} from 'trpc/trpc.client'
 import Spinner from 'components/spinner'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const events = await getAllEvents()
@@ -161,9 +162,12 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
 
 export default Events
 
-const ConfBanner = () => {
+export const ConfBanner: React.FC<{className?: string; title?: string}> = ({
+  className,
+  title = 'Epic Web Conference 2024',
+}) => {
   return (
-    <section aria-label="Epic Web Conference 2024">
+    <section aria-label="Epic Web Conference 2024" className={cn(className)}>
       <Link
         href="/conf"
         onClick={() => {
@@ -171,25 +175,25 @@ const ConfBanner = () => {
             location: 'events',
           })
         }}
-        className="group relative flex flex-col overflow-hidden rounded bg-gray-900 p-8 transition hover:brightness-110"
+        className="group relative flex flex-col overflow-hidden rounded bg-gray-900 p-8 text-white transition hover:brightness-110"
       >
-        <h3 className="relative z-10 max-w-sm text-xl font-bold sm:text-xl lg:text-2xl">
-          Epic Web Conference 2024
+        <h3 className="relative z-10 max-w-lg text-xl font-bold sm:text-xl lg:text-2xl">
+          {title}
         </h3>
-        <p className="relative z-10 max-w-xs pt-2 text-blue-900/80 dark:text-indigo-200/80 sm:text-lg">
+        <p className="relative z-10 max-w-xs pt-2 text-indigo-200/80 sm:text-lg">
           The Full Stack Web Development Conference of Epic proportions
         </p>
         <hr className="relative z-0 mb-5 mt-5 max-w-[200px] border-[#202537] sm:max-w-lg lg:max-w-xl" />
         <div className="relative z-10 flex flex-col gap-5 md:flex-row md:items-center md:gap-10">
           <div className="flex items-start gap-1 text-sm">
-            <CalendarIcon className="w-4 translate-y-0.5 text-blue-900/80 dark:text-indigo-200/80" />
+            <CalendarIcon className="w-4 translate-y-0.5 text-indigo-200/80" />
             <div>
               <strong>April 11th, 2024</strong>
               <div>9am—5pm</div>
             </div>
           </div>
           <div className="flex items-start gap-1 text-sm">
-            <LocationMarkerIcon className="w-4 translate-y-0.5 text-blue-900/80 dark:text-indigo-200/80" />
+            <LocationMarkerIcon className="w-4 translate-y-0.5 text-indigo-200/80" />
             <div>
               <strong>Park City, UT</strong>
               <div>Prospector Square Theatre</div>

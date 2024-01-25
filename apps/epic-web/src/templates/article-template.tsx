@@ -16,6 +16,7 @@ import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import removeMarkdown from 'remove-markdown'
 import ResourceAuthor from 'components/resource-author'
 import Head from 'next/head'
+import {ConfBanner} from 'pages/events'
 
 const ArticleTemplate: React.FC<{
   article: Article
@@ -74,8 +75,13 @@ const ArticleTemplate: React.FC<{
         }
         title={(name) => `Written by ${name}`}
         bio={author?.bio}
+        className="sm:py-10"
       />
       {!subscriber && <CTA article={article} />}
+      <ConfBanner
+        title="Learn more at Epic Web Conference"
+        className="mx-auto mb-10 w-full max-w-3xl"
+      />
     </Layout>
   )
 }

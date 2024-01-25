@@ -21,13 +21,13 @@ const Share: React.FC<{
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
   const shareButtonClassName =
-    'w-full flex items-center justify-center h-full px-7 py-7 dark:hover:bg-gray-700/50 hover:bg-gray-100 transition'
+    'w-full flex items-center justify-center h-full px-7 py-7 hover:bg-foreground/5 transition'
   const authorTwitter = author?.twitterHandle
 
   return (
     <section
       className={cn(
-        'mx-auto flex w-full max-w-screen-md items-center justify-center overflow-hidden border border-gray-200 bg-transparent pt-5 dark:border-transparent dark:bg-gray-800 sm:pl-5 sm:pt-0 dark:sm:border-0 md:rounded-lg',
+        'mx-auto flex w-full max-w-screen-md items-center justify-center overflow-hidden border border-gray-200 bg-transparent pt-5 dark:border-transparent dark:bg-gray-900 sm:pl-5 sm:pt-0 dark:sm:border-0 md:rounded',
         className,
       )}
     >
@@ -43,7 +43,7 @@ const Share: React.FC<{
             </span>
           </p>
         </div>
-        <div className="flex w-full items-center justify-center divide-x divide-gray-200 border-t border-gray-200 pt-0 dark:divide-gray-700 dark:border-gray-700 sm:w-auto sm:border-t-0 dark:sm:border-t-0">
+        <div className="flex w-full items-center justify-center divide-x divide-gray-200 border-t border-gray-200 pt-0 dark:divide-background dark:border-background sm:w-auto sm:border-t-0 dark:sm:border-t-0">
           <Twitter
             className={shareButtonClassName}
             svgClassName="w-4 h-4"
