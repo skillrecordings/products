@@ -107,6 +107,9 @@ module.exports = {
             strong: {
               fontWeight: 700,
             },
+            'strong a': {
+              fontWeight: 'inherit',
+            },
             ol: {
               fontStyle: 'italic',
             },
