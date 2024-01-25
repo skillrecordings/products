@@ -1,3 +1,4 @@
+import Balancer from 'react-wrap-balancer'
 import {isNumber} from 'lodash'
 import Image from 'next/image'
 
@@ -42,7 +43,11 @@ const SkeletonHandSeparator: React.FC<SkeletonHandSeparatorProps> = ({
           alt="separator"
         />
       </div>
-      {title && <h3 data-skeleton-hand-separator-title="">{title}</h3>}
+      {title && (
+        <h3 data-skeleton-hand-separator-title="">
+          <Balancer>{title}</Balancer>
+        </h3>
+      )}
       {subtitle && <h4 data-skeleton-hand-separator-subtitle="">{subtitle}</h4>}
     </div>
   ) : null
