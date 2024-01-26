@@ -31,7 +31,7 @@ export const FeedbackForm: React.FC<
       onSubmit={submitFeedbackForm}
     >
       {({errors, touched, isSubmitting}) => (
-        <Form data-sr-feeback-widget-form="">
+        <Form data-sr-feeback-widget-form="" placeholder="">
           <FeedbackField
             errors={errors}
             touched={touched}
