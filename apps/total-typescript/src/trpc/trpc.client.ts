@@ -8,7 +8,7 @@ import type {AppRouter} from '@/trpc/routers/_app'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
 export const trpc = createTRPCNext<AppRouter>({
-  unstable_overrides: {
+  overrides: {
     useMutation: {
       /**
        * This function is called whenever a `.useMutation` succeeds

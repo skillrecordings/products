@@ -57,7 +57,7 @@
     "@skillrecordings/skill-lesson": "workspace:*",
     "@skillrecordings/ui": "workspace:*",
     "@slack/web-api": "^6.7.2",
-    "@tanstack/react-query": "^4.36.1",
+    "@tanstack/react-query": "4.35.7",
     "@tanstack/react-query-devtools": "^4.24.10",
     "@tiptap/extension-highlight": "^2.0.0-beta.33",
     "@tiptap/extension-link": "^2.0.0-beta.37",

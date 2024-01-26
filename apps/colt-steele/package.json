@@ -59,7 +59,7 @@
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/ui": "workspace:*",
     "@slack/web-api": "^6.7.2",
-    "@tanstack/react-query": "^4.36.1",
+    "@tanstack/react-query": "4.35.7",
     "@tiptap/extension-highlight": "^2.1.12",
     "@tiptap/extension-link": "^2.1.12",
     "@tiptap/extension-typography": "^2.1.12",

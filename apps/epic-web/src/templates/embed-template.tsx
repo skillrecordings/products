@@ -186,7 +186,7 @@ const Video: React.FC<
 
     const {data: session} = useSession()
 
-    return abilityRulesStatus === 'loading' ? (
+    return abilityRulesStatus !== 'success' ? (
       <Spinner className="h-8 w-8 sm:h-10 sm:w-10" />
     ) : (
       <>
