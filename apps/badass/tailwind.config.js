@@ -117,6 +117,9 @@ module.exports = {
             'ol > li::marker': {
               color: 'white',
             },
+            a: {
+              textDecoration: 'none',
+            },
           },
         },
       }),
