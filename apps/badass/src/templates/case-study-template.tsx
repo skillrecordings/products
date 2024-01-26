@@ -58,6 +58,7 @@ const CaseStudyTemplate: React.FC<
         image={heroImage}
         publishedDate={publishedDate}
         partnerName={partnerName}
+        caseStudySlug={slug}
       />
       <main data-template-case-study={slug} className="pb-10">
         <div className="max-w-screen-md lg:max-w-[880px] lg:px-14 mx-auto w-full">
@@ -94,10 +95,14 @@ const Header: React.FC<
     image: string | null | undefined
     publishedDate: string
     partnerName: string
+    caseStudySlug: string
   }>
-> = ({title, image, publishedDate, partnerName}) => {
+> = ({title, image, publishedDate, partnerName, caseStudySlug}) => {
   return (
-    <header className="flex flex-col md:flex-row items-center max-w-7xl mx-auto w-full px-5">
+    <header
+      data-case-study-template-header=""
+      data-case-study-template-slug={caseStudySlug}
+    >
       <div className="w-full md:w-2/5 lg:w-1/2 shrink-0">
         {image && (
           <Image
@@ -110,7 +115,10 @@ const Header: React.FC<
         )}
       </div>
       <div className="w-full md:w-3/5 lg:w-1/2 md:pl-10 lg:pl-16 xl:pl-24 shrink-0">
-        <h3 className="text-badass-red-400 font-script text-2xl md:text-3xl lg:text-[2.5rem]">
+        <h3
+          data-header-label=""
+          className="text-badass-red-400 font-script text-2xl md:text-3xl lg:text-[2.5rem]"
+        >
           Case Study
         </h3>
         <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl leading-tight md:leading-tight lg:leading-tight mt-2">
