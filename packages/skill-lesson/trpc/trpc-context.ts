@@ -40,4 +40,6 @@ export const createContext = async ({
   }
 }
 
-export type TrpcContext = inferAsyncReturnType<typeof createContext>
+export type TrpcContext = inferAsyncReturnType<typeof createContext> & {
+  links?: any
+}

@@ -1,4 +1,5 @@
-import * as React from 'react'
+'use client'
+
 import {
   MDXRemote,
   MDXRemoteSerializeResult,
@@ -19,10 +20,13 @@ const defaultComponents = {
  * @returns <MDXRemote components={components} {...contents} />
  */
 
-const MDX: React.FC<{
+const MDX = ({
+  contents,
+  components,
+}: {
   contents: MDXRemoteSerializeResult
   components?: MDXRemoteProps['components']
-}> = ({contents, components}) => {
+}) => {
   return (
     <MDXRemote
       components={{...defaultComponents, ...components}}
