@@ -1,7 +1,6 @@
 import React from 'react'
 import Layout from 'components/app/layout'
 import {GetStaticProps} from 'next'
-import Balancer from 'react-wrap-balancer'
 import {getAllArticles, type Article} from 'lib/articles'
 import Link from 'next/link'
 import Image from 'next/image'

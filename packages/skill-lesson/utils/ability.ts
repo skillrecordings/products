@@ -15,7 +15,7 @@ export const UserSchema = z.object({
   purchases: z.array(z.any()).optional(),
   id: z.string().optional(),
   name: z.nullable(z.string().optional()),
-  email: z.string().optional(),
+  email: z.string().optional().nullable(),
 })
 
 export type User = z.infer<typeof UserSchema>
