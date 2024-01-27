@@ -16,8 +16,6 @@ export default async function ArticleEditPage({
   const ability = getCurrentAbility({user: session?.user})
   const article = await getArticle(params?.slug as string)
 
-  console.log({session, ability})
-
   if (!article || !ability.can('create', 'Content')) {
     notFound()
   }
