@@ -4,7 +4,7 @@ import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-serve
 import {getSdk} from '@skillrecordings/database'
 import {GetServerSideProps} from 'next'
 import {format} from 'date-fns'
-import Layout from 'components/layout'
+import Layout from '@/components/layout'
 import Link from 'next/link'
 import {getToken} from 'next-auth/jwt'
 import {Purchase} from '@skillrecordings/database'

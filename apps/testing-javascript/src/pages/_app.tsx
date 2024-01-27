@@ -10,7 +10,7 @@ import {DefaultSeo} from '@skillrecordings/next-seo'
 
 import config from '../config'
 
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import {initNProgress} from '@skillrecordings/skill-lesson/utils/init-nprogess'
 
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {

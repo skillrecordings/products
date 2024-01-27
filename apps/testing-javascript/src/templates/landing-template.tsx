@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Image from 'next/image'
 import type {SanityDocument} from '@sanity/client'
-import type {TestimonialProps, FaqProps, InterviewProps} from '@types'
+import type {TestimonialProps, FaqProps, InterviewProps} from '@/@types/'
 import type {
   CommerceProps,
   SanityProduct,
@@ -9,15 +9,15 @@ import type {
 import Balancer from 'react-wrap-balancer'
 import MuxPlayer from '@mux/mux-player-react'
 
-import PricingSection from 'components/pricing-section'
-import LandingCopy from 'components/landing/landing-copy.mdx'
-import Testimonials from 'components/landing/testimonials'
-import Faqs from 'components/landing/faqs'
-import Greeting from 'components/landing/greeting'
-import Printables from 'components/landing/printables'
-import Interviews from 'components/landing/interviews'
-import WhatIsInTestingJavascript from 'components/landing/what-is-in-testing-javascript'
-import AccessYourCourse from 'components/landing/access-your-course'
+import PricingSection from '@/components/pricing-section'
+import LandingCopy from '@/components/landing/landing-copy.mdx'
+import Testimonials from '@/components/landing/testimonials'
+import Faqs from '@/components/landing/faqs'
+import Greeting from '@/components/landing/greeting'
+import Printables from '@/components/landing/printables'
+import Interviews from '@/components/landing/interviews'
+import WhatIsInTestingJavascript from '@/components/landing/what-is-in-testing-javascript'
+import AccessYourCourse from '@/components/landing/access-your-course'
 
 type LandingTemplateProps = {
   canViewContent: boolean

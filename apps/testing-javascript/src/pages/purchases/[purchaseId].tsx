@@ -3,8 +3,8 @@ import {type GetServerSideProps} from 'next'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import PurchaseDetailsTemplate, {
   type PurchaseDetailsProps,
-} from 'purchase-details/purchase-details-template'
-import {getActiveProduct} from 'server/products.server'
+} from '@/purchase-details/purchase-details-template'
+import {getActiveProduct} from '@/server/products.server'
 import {getSdk} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
 import isString from 'lodash/isString'

@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {Signature} from './confirm'
 
 const ConfirmedSubscriptionPage = () => {

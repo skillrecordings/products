@@ -10,7 +10,7 @@ import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-serv
 import {groupBy} from 'lodash'
 import {getToken} from 'next-auth/jwt'
 import {v4} from 'uuid'
-import {inngest} from 'utils/inngest.server'
+import {inngest} from '@/utils/inngest.server'
 
 export const tipsRouter = router({
   update: publicProcedure

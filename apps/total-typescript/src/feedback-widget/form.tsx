@@ -36,7 +36,7 @@ export const FeedbackForm: React.FC<
         const isCodeQuestion = values.context.category === 'code'
 
         return (
-          <Form className="flex flex-col space-y-5">
+          <Form className="flex flex-col space-y-5" placeholder="">
             <div
               className={cx({'pointer-events-none blur-sm': isCodeQuestion})}
             >
@@ -135,7 +135,7 @@ export const SubmitButton: React.FC<
     <button
       type="submit"
       disabled={isSubmitting}
-      className="inline-flex justify-center rounded-lg border border-transparent bg-gradient-to-b from-cyan-400 to-cyan-500 px-4 py-3 text-base font-semibold text-black transition focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 hover:bg-cyan-300 hover:shadow-lg hover:brightness-110"
+      className="inline-flex justify-center rounded-lg border border-transparent bg-gradient-to-b from-cyan-400 to-cyan-500 px-4 py-3 text-base font-semibold text-black transition hover:bg-cyan-300 hover:shadow-lg hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2"
     >
       {isSubmitting ? (
         <>

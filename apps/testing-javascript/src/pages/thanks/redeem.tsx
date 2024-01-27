@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {type GetServerSideProps} from 'next'
 import {getSdk} from '@skillrecordings/database'
-import Layout from 'components/layout'
+import Layout from '@/components/layout'
 import {MailIcon} from '@heroicons/react/solid'
 import Balancer from 'react-wrap-balancer'
 

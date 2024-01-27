@@ -46,7 +46,7 @@ const ContactForm = () => {
       enableReinitialize
     >
       {({errors, touched, isSubmitting, values}) => (
-        <Form className="flex w-full flex-col space-y-5">
+        <Form className="flex w-full flex-col space-y-5" placeholder="">
           <ContactEmailField errors={errors} touched={touched} />
           <FeedbackField
             label="Your message"

@@ -1,5 +1,5 @@
 import {publicProcedure, router} from '@skillrecordings/skill-lesson'
-import {getAllProducts, getActiveProduct} from 'server/products.server'
+import {getAllProducts, getActiveProduct} from '@/server/products.server'
 
 export const productsRouter = router({
   getProducts: publicProcedure.query(async () => {

@@ -7,9 +7,9 @@ import * as Dialog from '@radix-ui/react-dialog'
 import {XIcon} from '@heroicons/react/solid'
 import MuxPlayer from '@mux/mux-player-react'
 
-import Icon from 'components/icons'
-import CertificateForm from 'components/certificate-form'
-import {trpc} from 'trpc/trpc.client'
+import Icon from '@/components/icons'
+import CertificateForm from '@/components/certificate-form'
+import {trpc} from '@/trpc/trpc.client'
 import {z} from 'zod'
 import flatten from 'lodash/flatten'
 

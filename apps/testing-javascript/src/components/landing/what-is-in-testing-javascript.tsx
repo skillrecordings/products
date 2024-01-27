@@ -5,7 +5,7 @@ import type {SanityDocument} from '@sanity/client'
 import Balancer from 'react-wrap-balancer'
 import type {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 
-import Playlist from 'components/playlist'
+import Playlist from '@/components/playlist'
 
 const WhatIsInTestingJavascript: React.FunctionComponent<{
   mostValuedProduct: SanityProduct

@@ -3,11 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {PortableText} from '@portabletext/react'
 
-import {useModuleProgress} from 'utils/module-progress'
-import Layout from 'components/layout'
-import Icon from 'components/icons'
-import {secondsToFormattedTime} from 'lib/secondsToFormattedTime'
-import {Module} from '@types'
+import {useModuleProgress} from '@/utils/module-progress'
+import Layout from '@/components/layout'
+import Icon from '@/components/icons'
+import {secondsToFormattedTime} from '@/lib/secondsToFormattedTime'
+import {Module} from '@/@types/'
 
 const LessonItem: React.FC<{lesson: any; index: number}> = ({
   lesson,

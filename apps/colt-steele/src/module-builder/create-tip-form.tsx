@@ -19,11 +19,11 @@ import {z} from 'zod'
 import MuxPlayer from '@mux/mux-player-react'
 import {useFileChange} from './use-file-change'
 import {uploadToS3} from './upload-file'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import {useRouter} from 'next/router'
 import axios from 'axios'
 import {v4} from 'uuid'
-import {processFile} from 'module-builder/cloudinary-video-uploader'
+import {processFile} from '@/module-builder/cloudinary-video-uploader'
 
 type CreateTipFormState = 'idle' | 'ready' | 'uploading' | 'success' | 'error'
 

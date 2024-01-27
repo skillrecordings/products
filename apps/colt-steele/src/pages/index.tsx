@@ -1,8 +1,8 @@
 import React from 'react'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import type {NextPage} from 'next'
 import Image from 'next/image'
-import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
+import {PrimaryNewsletterCta} from '@/components/primary-newsletter-cta'
 
 import {
   easeInOut,

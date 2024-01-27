@@ -1,6 +1,6 @@
 import * as React from 'react'
-import Layout from 'components/layout'
-import config from 'config'
+import Layout from '@/components/layout'
+import config from '@/config'
 
 const ConfirmSubscriptionPage = () => {
   return (

@@ -1,6 +1,5 @@
 import React from 'react'
-import Layout from 'components/app/layout'
-import config from 'config'
+import Layout from '@/components/app/layout'
 import Image from 'next/image'
 
 const ConfirmSubscriptionPage = () => {
