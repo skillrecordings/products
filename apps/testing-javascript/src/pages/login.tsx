@@ -3,7 +3,7 @@ import {getCsrfToken, getProviders} from 'next-auth/react'
 import {useForm} from 'react-hook-form'
 import {type GetServerSideProps} from 'next'
 import Image from 'next/legacy/image'
-import Layout from 'components/layout'
+import Layout from '@/components/layout'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
 

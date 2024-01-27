@@ -1,5 +1,5 @@
 import {publicProcedure, router} from '@skillrecordings/skill-lesson'
-import {getLessonCodeUrls} from 'server/lessons.server'
+import {getLessonCodeUrls} from '@/server/lessons.server'
 import {z} from 'zod'
 
 export const lessonsRouter = router({

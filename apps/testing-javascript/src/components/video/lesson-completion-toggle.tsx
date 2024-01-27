@@ -1,6 +1,6 @@
 import * as Switch from '@radix-ui/react-switch'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
 

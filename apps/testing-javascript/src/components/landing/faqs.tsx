@@ -1,7 +1,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 import {PortableText} from '@portabletext/react'
-import type {FaqProps} from '@types'
+import type {FaqProps} from '@/@types/'
 
 const Faqs: React.FunctionComponent<{
   faqs: FaqProps[]

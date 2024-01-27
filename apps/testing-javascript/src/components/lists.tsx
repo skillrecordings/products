@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Icon from 'components/icons'
+import Icon from '@/components/icons'
 
 export const CheckMarkItem: React.FC<{children?: React.ReactNode}> = ({
   children,

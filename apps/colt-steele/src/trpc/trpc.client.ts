@@ -2,10 +2,9 @@ import {httpBatchLink, loggerLink} from '@trpc/client'
 import {createTRPCNext} from '@trpc/next'
 import {inferRouterInputs, inferRouterOutputs} from '@trpc/server'
 import superjson from 'superjson'
-import type {AppRouter} from 'trpc/routers/_app'
+import type {AppRouter} from '@/trpc/routers/_app'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 
-// @ts-expect-error
 export const trpc = createTRPCNext<AppRouter>({
   overrides: {
     useMutation: {

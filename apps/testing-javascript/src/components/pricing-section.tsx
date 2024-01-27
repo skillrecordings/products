@@ -7,7 +7,7 @@ import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coup
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import Balancer from 'react-wrap-balancer'
 
-import {Pricing} from 'path-to-purchase/pricing'
+import {Pricing} from '@/path-to-purchase/pricing'
 
 const PRODUCTS_RANKS = {
   'kcd_da6ab36c-b091-4f6f-90aa-d7db2fc798ff': 1,

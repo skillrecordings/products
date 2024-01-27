@@ -1,7 +1,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 import Image from 'next/image'
-import type {TestimonialProps} from '@types'
+import type {TestimonialProps} from '@/@types/'
 
 const Testimonials: React.FunctionComponent<{
   testimonials: TestimonialProps[]

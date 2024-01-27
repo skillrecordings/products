@@ -1,7 +1,7 @@
 import {serve} from 'inngest/next'
 import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-server'
 import {createMuxAsset} from '@skillrecordings/skill-lesson/lib/mux'
-import {inngest} from 'utils/inngest.server'
+import {inngest} from '@/utils/inngest.server'
 import Mux from '@mux/mux-node'
 
 type NewTipVideo = {

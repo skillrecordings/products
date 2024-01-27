@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import {Button, Skeleton} from '@skillrecordings/ui'
-import EditTipForm, {Video} from 'module-builder/edit-tip-form'
+import EditTipForm, {Video} from '@/module-builder/edit-tip-form'
 import {twMerge} from 'tailwind-merge'
 import Balancer from 'react-wrap-balancer'
 import {useRouter} from 'next/router'
-import {trpc} from 'trpc/trpc.client'
-import Layout from 'components/app/layout'
+import {trpc} from '@/trpc/trpc.client'
+import Layout from '@/components/app/layout'
 import cn from 'classnames'
-import {type Tip} from 'lib/tips'
+import {type Tip} from '@/lib/tips'
 import {RxPlus, RxPencil1, RxEyeOpen} from 'react-icons/rx'
 
 const EditTip: React.FC<{slug?: string}> = ({slug}) => {

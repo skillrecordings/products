@@ -1,6 +1,6 @@
 import React from 'react'
-import Layout from 'components/app/layout'
-import {getAllTips, Tip} from 'lib/tips'
+import Layout from '@/components/app/layout'
+import {getAllTips, Tip} from '@/lib/tips'
 import Balancer from 'react-wrap-balancer'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
@@ -8,7 +8,7 @@ import {useRouter} from 'next/router'
 import {useTipComplete} from '../../hooks/use-tip-complete'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
-import Header from 'components/app/header'
+import Header from '@/components/app/header'
 
 export async function getStaticProps() {
   const tips = await getAllTips()

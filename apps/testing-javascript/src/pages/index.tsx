@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Layout from 'components/layout'
+import Layout from '@/components/layout'
 import type {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {isEmpty} from 'lodash'
@@ -13,14 +13,14 @@ import type {
 } from '@skillrecordings/commerce-server/dist/@types'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import {getCurrentAbility} from '@skillrecordings/ability'
-import {getAllProducts, getActiveProduct} from 'server/products.server'
-import {getAllPlaylists} from 'lib/playlists'
-import {getAllTestimonials} from 'lib/testimonials'
-import {getAllFaqs} from 'lib/faqs'
-import {getAllInterviews} from 'lib/interviews'
-import type {TestimonialProps, FaqProps, InterviewProps} from '@types'
+import {getAllProducts, getActiveProduct} from '@/server/products.server'
+import {getAllPlaylists} from '@/lib/playlists'
+import {getAllTestimonials} from '@/lib/testimonials'
+import {getAllFaqs} from '@/lib/faqs'
+import {getAllInterviews} from '@/lib/interviews'
+import type {TestimonialProps, FaqProps, InterviewProps} from '@/@types/'
 
-import LandingTemplate from 'templates/landing-template'
+import LandingTemplate from '@/templates/landing-template'
 
 const testingJavaScriptProductIds = [
   'kcd_da6ab36c-b091-4f6f-90aa-d7db2fc798ff', // Basic

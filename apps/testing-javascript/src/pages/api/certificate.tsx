@@ -1,4 +1,4 @@
-import handleCreateCertificate from 'server/certificate.server'
+import handleCreateCertificate from '@/server/certificate.server'
 import {NextRequest} from 'next/server'
 
 export const config = {

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import {isEmpty} from 'lodash'
 import ReactMarkdown from 'react-markdown'
 import Balancer from 'react-wrap-balancer'
-import type {InterviewProps} from '@types'
+import type {InterviewProps} from '@/@types/'
 import Link from 'next/link'
 
 const PlainInterview: React.FC<{

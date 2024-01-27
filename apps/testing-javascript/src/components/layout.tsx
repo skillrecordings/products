@@ -4,7 +4,7 @@ import {NextSeo} from '@skillrecordings/next-seo'
 import cx from 'classnames'
 import {Toaster} from 'react-hot-toast'
 import Navigation from './navigation'
-import type {LayoutProps} from '@types'
+import type {LayoutProps} from '@/@types/'
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   children,

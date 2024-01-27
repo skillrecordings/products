@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {type GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
-import Layout from 'components/layout'
+import Layout from '@/components/layout'
 import {
   getSdk,
   type Purchase,

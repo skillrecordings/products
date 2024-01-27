@@ -8,13 +8,13 @@ import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-re
 import {
   customPlayFromBeginningHandler,
   customContinueHandler,
-} from 'utils/custom-handlers'
+} from '@/utils/custom-handlers'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import {z} from 'zod'
-import Spinner from 'components/spinner'
-import LessonsSidebar from 'components/lessons-sidebar'
+import Spinner from '@/components/spinner'
+import LessonsSidebar from '@/components/lessons-sidebar'
 import isEmpty from 'lodash/isEmpty'
 import {FaGithub} from 'react-icons/fa'
 import {IoCodeSharp} from 'react-icons/io5'

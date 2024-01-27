@@ -1,13 +1,13 @@
 import React from 'react'
-import Layout from 'components/app/layout'
-import {getAllTutorials} from 'lib/tutorials'
+import Layout from '@/components/app/layout'
+import {getAllTutorials} from '@/lib/tutorials'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import Link from 'next/link'
 import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
-import Header from 'components/app/header'
+import Header from '@/components/app/header'
 import pluralize from 'pluralize'
-import {getOgImage} from 'utils/get-og-image'
+import {getOgImage} from '@/utils/get-og-image'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()

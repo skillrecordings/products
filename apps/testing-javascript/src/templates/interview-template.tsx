@@ -4,9 +4,9 @@ import {type MuxPlayerRefAttributes} from '@mux/mux-player-react'
 import {Video} from '@skillrecordings/skill-lesson/video/video'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import {customPlayFromBeginningHandler} from 'utils/custom-handlers'
+import {customPlayFromBeginningHandler} from '@/utils/custom-handlers'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
-import Spinner from 'components/spinner'
+import Spinner from '@/components/spinner'
 import type {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 
 const InterviewTemplate = ({interview}: {interview: Lesson}) => {

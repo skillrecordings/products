@@ -1,19 +1,19 @@
 import React from 'react'
 import cx from 'classnames'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import MuxPlayer, {
   MuxPlayerProps,
   MuxPlayerRefAttributes,
 } from '@mux/mux-player-react'
 import Balancer from 'react-wrap-balancer'
-import {Tip} from 'lib/tips'
-import {TipTeaser} from 'pages/tips'
+import {Tip} from '@/lib/tips'
+import {TipTeaser} from '@/pages/tips'
 import {useRouter} from 'next/router'
 import {XIcon, ChatAltIcon, MailIcon} from '@heroicons/react/solid'
 import {shuffle, take} from 'lodash'
 import {track} from '../utils/analytics'
 import Image from 'next/legacy/image'
-import {getOgImage} from 'utils/get-og-image'
+import {getOgImage} from '@/utils/get-og-image'
 import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 import {localProgressDb} from '@skillrecordings/skill-lesson/utils/dexie'
 import {
@@ -23,7 +23,7 @@ import {
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import Icon from 'components/icons'
+import Icon from '@/components/icons'
 import {
   useMuxPlayer,
   VideoProvider,
@@ -31,7 +31,7 @@ import {
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'

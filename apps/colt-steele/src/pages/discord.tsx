@@ -1,7 +1,7 @@
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import Link from 'next/link'
-import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
+import {PrimaryNewsletterCta} from '@/components/primary-newsletter-cta'
 import Balancer from 'react-wrap-balancer'
 
 const Discord = () => {

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Layout from 'components/app/layout'
+import Layout from '@/components/app/layout'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {Video} from '@skillrecordings/skill-lesson/video/video'
@@ -26,13 +26,13 @@ import {
   ProblemLink,
   SolutionLink,
 } from '@skillrecordings/skill-lesson/video/module-lesson-list/lesson-list'
-import Spinner from 'components/spinner'
+import Spinner from '@/components/spinner'
 // import {getExerciseGitHubUrl} from 'exercise/get-exercise-github-url'
 import pluralize from 'pluralize'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import {getOgImage} from 'utils/get-og-image'
-import ExerciseOverlay from 'components/exercise-overlay'
+import {getOgImage} from '@/utils/get-og-image'
+import ExerciseOverlay from '@/components/exercise-overlay'
 
 const LessonTemplate: React.FC<{
   transcript: string

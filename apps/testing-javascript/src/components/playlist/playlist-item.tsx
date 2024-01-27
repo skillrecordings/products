@@ -10,9 +10,9 @@ import {XIcon} from '@heroicons/react/solid'
 import MuxPlayer from '@mux/mux-player-react'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
-import Icon from 'components/icons'
-import {useModuleProgress} from 'utils/module-progress'
-import {secondsToFormattedTime} from 'lib/secondsToFormattedTime'
+import Icon from '@/components/icons'
+import {useModuleProgress} from '@/utils/module-progress'
+import {secondsToFormattedTime} from '@/lib/secondsToFormattedTime'
 
 const PlaylistItem: React.FC<{
   playlist: SanityDocument

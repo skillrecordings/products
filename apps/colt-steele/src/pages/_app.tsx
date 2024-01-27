@@ -10,7 +10,7 @@ import {SessionProvider} from 'next-auth/react'
 import {FeedbackProvider} from '@skillrecordings/feedback-widget'
 import * as amplitude from '@amplitude/analytics-browser'
 import config from '../config'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import Script from 'next/script'
 import {Session} from 'next-auth'
 

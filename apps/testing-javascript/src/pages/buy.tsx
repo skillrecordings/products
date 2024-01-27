@@ -3,9 +3,9 @@ import {type GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 
-import Layout from 'components/layout'
-import PricingSection from 'components/pricing-section'
-import {getAllProducts} from 'server/products.server'
+import Layout from '@/components/layout'
+import PricingSection from '@/components/pricing-section'
+import {getAllProducts} from '@/server/products.server'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context

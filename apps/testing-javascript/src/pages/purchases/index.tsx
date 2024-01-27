@@ -4,7 +4,7 @@ import {type GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import PurchasesIndexTemplate, {
   type PurchasesIndexProps,
-} from 'purchase-details/purchases-index-template'
+} from '@/purchase-details/purchases-index-template'
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,

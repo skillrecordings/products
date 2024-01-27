@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
-import Layout from 'components/layout'
+import Layout from '@/components/layout'
 import {
   convertToSerializeForNextResponse,
   determinePurchaseType,
@@ -19,9 +19,9 @@ import CopyInviteLink from '@skillrecordings/skill-lesson/team/copy-invite-link'
 import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
 import {first} from 'lodash'
-import {getAllProducts} from 'server/products.server'
+import {getAllProducts} from '@/server/products.server'
 import {type SanityDocument} from '@sanity/client'
-import {InvoiceCard} from 'pages/invoices'
+import {InvoiceCard} from '@/pages/invoices'
 import {MailIcon} from '@heroicons/react/solid'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

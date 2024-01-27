@@ -1,13 +1,13 @@
 import React from 'react'
-import Layout from 'components/layout'
+import Layout from '@/components/layout'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
-import InterviewTemplate from 'templates/interview-template'
+import InterviewTemplate from '@/templates/interview-template'
 import {
   getAllInterviews,
   getInterview,
   getInterviewModule,
-} from 'lib/interviews'
+} from '@/lib/interviews'
 import {z} from 'zod'
 import type {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import type {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'

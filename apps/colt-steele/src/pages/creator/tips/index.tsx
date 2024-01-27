@@ -1,6 +1,6 @@
 import React from 'react'
 import {trpc} from '../../../trpc/trpc.client'
-import EditTip from 'pages/creator/tips/[slug]/index'
+import EditTip from '@/pages/creator/tips/[slug]/index'
 
 const CreatorTipsIndex = () => {
   const {data: tips} = trpc.tips.all.useQuery()

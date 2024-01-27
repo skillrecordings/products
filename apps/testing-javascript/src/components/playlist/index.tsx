@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {SanityDocument} from '@sanity/client'
-import PlaylistItem from 'components/playlist/playlist-item'
-import {ModuleProgressProvider} from 'utils/module-progress'
+import PlaylistItem from '@/components/playlist/playlist-item'
+import {ModuleProgressProvider} from '@/utils/module-progress'
 
 const Playlist: React.FC<{
   playlist: SanityDocument
