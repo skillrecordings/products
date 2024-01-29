@@ -10,9 +10,10 @@ const SelfRedeemButton: React.FC<
     bulkCouponId: string
     onSuccess: (redeemedPurchase: Purchase) => void
     disabled: boolean
+    productId?: string
     className?: string
   }>
-> = ({userEmail, bulkCouponId, onSuccess, disabled, children}) => {
+> = ({userEmail, bulkCouponId, onSuccess, disabled, productId, children}) => {
   const [isLoading, setIsLoading] = React.useState(false)
   return (
     <Button
@@ -22,7 +23,7 @@ const SelfRedeemButton: React.FC<
       onClick={() => {
         if (userEmail) {
           setIsLoading(true)
-          handleSelfRedeem(userEmail, bulkCouponId, (params) => {
+          handleSelfRedeem(userEmail, bulkCouponId, productId, (params) => {
             if (params.status === 'success') {
               onSuccess(params.redeemedPurchase)
             } else {

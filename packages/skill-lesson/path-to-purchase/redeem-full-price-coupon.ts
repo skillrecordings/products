@@ -1,10 +1,12 @@
 export async function redeemFullPriceCoupon({
   email,
   couponId,
+  productIds,
   sendEmail = true,
 }: {
   email: string
   couponId: string
+  productIds: string[]
   sendEmail?: boolean
 }) {
   return await fetch(`/api/skill/redeem/coupon`, {
@@ -12,6 +14,7 @@ export async function redeemFullPriceCoupon({
     body: JSON.stringify({
       email,
       couponId,
+      productIds,
       sendEmail,
     }),
     headers: {

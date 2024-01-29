@@ -16,6 +16,7 @@ interface RedeemDialogProps {
   open: boolean
   couponId: string
   product?: {
+    id: string
     image?: {
       url: string
       width: number
@@ -29,6 +30,9 @@ interface RedeemDialogProps {
 const RedeemDialog = ({open = false, couponId, product}: RedeemDialogProps) => {
   const {data: session} = useSession()
   const router = useRouter()
+
+  const productIds: string[] = product?.id ? [product.id] : []
+
   const formik = useFormik({
     initialValues: {
       email: session?.user?.email || '',
@@ -38,6 +42,7 @@ const RedeemDialog = ({open = false, couponId, product}: RedeemDialogProps) => {
       const {purchase, redeemingForCurrentUser} = await redeemFullPriceCoupon({
         email,
         couponId,
+        productIds,
       })
 
       if (purchase.error) {

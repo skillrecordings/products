@@ -10,6 +10,7 @@ type CouponValidator = {
 export function useCoupon(
   coupon?: CouponValidator,
   product?: {
+    id: string
     image?: {
       url: string
       width: number

@@ -673,6 +673,7 @@ const InviteTeam: React.FC<{
             disabled={Boolean(purchaseDetails?.existingPurchase)}
             userEmail={session?.user?.email}
             bulkCouponId={purchaseDetails?.purchase?.bulkCoupon?.id}
+            productId={product?.productId}
             onSuccess={(redeemedPurchase) => {
               if (redeemedPurchase) {
                 refetchAbility()
