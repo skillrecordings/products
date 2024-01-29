@@ -193,31 +193,29 @@ const WorkshopTemplate: React.FC<{
             <WorkshopCTA module={workshop} />
             {workshop && (
               <div className="-mx-10 mt-10 border-t px-10 pt-8">
-                <Collection.Root module={workshop}>
-                  <div className="flex w-full items-center justify-between pb-3">
-                    <h3 className="text-lg font-semibold">Contents</h3>
-                    <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
-                  </div>
-                  <Collection.Sections>
-                    {moduleProgressStatus === 'success' ? (
-                      <Collection.Section className="border transition hover:brightness-100 [&_[data-check-icon]]:text-primary [&_[data-check-icon]]:opacity-100 [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-primary">
-                        <Collection.Lessons className="border-border">
-                          <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-[0.6rem] before:leading-none before:text-muted-foreground hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100" />
-                        </Collection.Lessons>
-                      </Collection.Section>
-                    ) : (
-                      <Skeleton className="py-7" />
-                    )}
-                  </Collection.Sections>
-                  {/* Used if module has either none or single section so they can be styled differently */}
-                  <Collection.Lessons className="overflow-hidden rounded-md border py-0">
-                    {moduleProgressStatus === 'success' ? (
-                      <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-[0.6rem] before:leading-none before:text-muted-foreground hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100" />
-                    ) : (
-                      <Skeleton className="py-6 first-of-type:rounded-t last-of-type:rounded-b" />
-                    )}
-                  </Collection.Lessons>
-                </Collection.Root>
+                {moduleProgressStatus === 'success' ? (
+                  <>
+                    <Collection.Root module={workshop}>
+                      <div className="flex w-full items-center justify-between pb-3">
+                        <h3 className="text-lg font-semibold">Contents</h3>
+                        <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
+                      </div>
+                      <Collection.Sections>
+                        <Collection.Section className="border transition hover:brightness-100 [&_[data-check-icon]]:text-primary [&_[data-check-icon]]:opacity-100 [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-primary">
+                          <Collection.Lessons className="border-border">
+                            <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-[0.6rem] before:leading-none before:text-muted-foreground hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100" />
+                          </Collection.Lessons>
+                        </Collection.Section>
+                      </Collection.Sections>
+                      {/* Used for module that has either mixed lessons with sections, no sections whatsoever, or single section */}
+                      <Collection.Lessons className="overflow-hidden rounded-md border py-0">
+                        <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-[0.6rem] before:leading-none before:text-muted-foreground hover:opacity-100 [&>div>svg]:text-primary [&>div>svg]:opacity-100" />
+                      </Collection.Lessons>
+                    </Collection.Root>
+                  </>
+                ) : (
+                  <Skeleton className="py-7" />
+                )}
                 {isModuleInProgress && (
                   <ResetProgressTriggerAndDialog module={workshop} />
                 )}
