@@ -321,7 +321,7 @@ const LessonList: React.FC<{
           <div>
             <h3 className="font-bold leading-tight">
               <Balancer>
-                <Link href={`${path}/${module.slug.current!}`}>
+                <Link href={`${path}/${module.slug.current}`}>
                   {module.title}
                 </Link>
               </Balancer>

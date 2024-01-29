@@ -262,7 +262,7 @@ const LessonList: React.FC<{
           )}
           <div>
             <h3 className="text-lg font-semibold leading-tight">
-              <Link href={`${path}/${module.slug.current!}`}>
+              <Link href={`${path}/${module.slug.current}`}>
                 {module.title}
               </Link>
             </h3>

@@ -23,7 +23,7 @@ const ExerciseOverlay = () => {
   // const workshopAppDetails = lessonResources && lessonResources.workshopApp
 
   // const {data: moduleResources, status: moduleResourcesStatus} =
-  //   trpc.moduleResources.byModuleSlug.useQuery({slug: module.slug.current!})
+  //   trpc.moduleResources.byModuleSlug.useQuery({slug: module.slug.current})
   // const workshopApp = moduleResources && moduleResources.workshopApp
 
   const exerciseDir =
