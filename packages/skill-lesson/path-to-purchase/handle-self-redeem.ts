@@ -14,11 +14,15 @@ type CallbackParams =
 export async function handleSelfRedeem(
   email: string,
   bulkCouponId: string,
+  productId: string | undefined,
   callback: (params: CallbackParams) => void,
 ) {
+  const productIds = productId ? [productId] : []
+
   const {purchase: redeemedPurchase} = await redeemFullPriceCoupon({
     email,
     couponId: bulkCouponId,
+    productIds,
     sendEmail: false,
   })
   if (redeemedPurchase && !redeemedPurchase.error) {

@@ -42,7 +42,7 @@ export async function redeemGoldenTicket({
     } = params
     const {findOrCreateUser, getCouponWithBulkPurchases} = getSdk()
 
-    const {email: baseEmail, couponId, sendEmail = true} = req.body
+    const {email: baseEmail, couponId, sendEmail = true, productIds} = req.body
 
     if (!baseEmail) throw new Error(`invaild-email-${baseEmail}`)
 
@@ -51,7 +51,7 @@ export async function redeemGoldenTicket({
 
     const coupon = await getCouponWithBulkPurchases(couponId)
 
-    const couponValidation = validateCoupon(coupon)
+    const couponValidation = validateCoupon(coupon, productIds)
 
     if (coupon && couponValidation.isRedeemable) {
       // if the Coupon is the Bulk Coupon of a Bulk Purchase,

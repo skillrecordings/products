@@ -54,6 +54,7 @@ const BuyPage: React.FC<
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     couponFromCode,
     {
+      id: products[0].productId,
       image: {
         url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
         width: 132,

@@ -97,6 +97,7 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
                   setPersonalPurchase(redeemedPurchase)
                   setSelfRedemptionSucceeded(true)
                 }}
+                productId={purchase.product.id}
                 disabled={!hasRedemptionsLeft}
               />
             </div>
