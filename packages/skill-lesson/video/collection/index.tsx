@@ -71,7 +71,6 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
     const {
       __scopeCollection,
       module,
-
       children,
       checkIconRenderer = () => (
         <CheckIcon
@@ -132,6 +131,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       initialOpenedSections as string[],
     )
 
+    const {section: activeSection} = useLesson()
     const hasSections = sections && sections.length > 0
     const onlyHasSingleSection = hasSections && sections.length === 1
 
@@ -151,14 +151,23 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
     })
 
     React.useEffect(() => {
-      if (!currentSection && nextSection?.slug) {
+      if (!activeSection && nextSection?.slug) {
         setOpenedSections([nextSection?.slug])
       }
-    }, [nextSection?.slug, currentSection])
+    }, [nextSection?.slug, activeSection])
+
+    const mixedLessonsAndSections = module?.resources?.map((resource) => {
+      switch (resource._type) {
+        case 'section':
+          return getSectionChildren(children, {section: resource})
+        default:
+          return getLessonChildren(children, {lesson: resource})
+      }
+    })
 
     return (
       <CollectionProvider
-        module={module}
+        module={{...module}}
         openedSections={openedSections}
         sectionProgressRenderer={sectionProgressRenderer}
         setOpenedSections={setOpenedSections}
@@ -170,7 +179,15 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       >
         <TooltipProvider>
           {children ? (
-            <>{onlyHasSingleSection ? childrenForSingleSection : children}</>
+            <>
+              {module.useResourcesInsteadOfSections ? (
+                <Sections>{mixedLessonsAndSections}</Sections>
+              ) : onlyHasSingleSection ? (
+                childrenForSingleSection
+              ) : (
+                children
+              )}
+            </>
           ) : (
             <>
               <Metadata />
@@ -289,12 +306,6 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
       }
     }
 
-    const resources = module.useResourcesInsteadOfSections
-      ? module.resources
-      : module.sections
-
-    if (!resources) return null
-
     return (
       <Accordion
         type="multiple"
@@ -307,46 +318,22 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
           ref={forwardedRef}
           className={cn('space-y-2', sectionsProps.className)}
         >
-          {resources.map((resource) => {
-            if (resource._type === 'section') {
-              const childrenWithProps = React.Children.map(
-                children,
-                (child) => {
-                  if (React.isValidElement<SectionProps>(child)) {
-                    return React.cloneElement(child, {
-                      key: resource._id,
-                      section: resource,
-                    })
-                  }
-                  return null
-                },
-              )
+          {module.sections?.map?.((section) => {
+            const childrenWithProps = React.Children.map(children, (child) => {
+              if (React.isValidElement<SectionProps>(child)) {
+                return React.cloneElement(child, {
+                  key: section._id,
+                  section: section,
+                })
+              }
+              return null
+            })
 
-              return (
-                childrenWithProps || (
-                  <Section key={resource._id} section={resource} />
-                )
+            return (
+              childrenWithProps || (
+                <Section key={section._id} section={section} />
               )
-            } else {
-              return (
-                <Primitive.ul
-                  ref={forwardedRef}
-                  // {...lessonsProps }
-                  className={cn(
-                    'bg-background border-x border-b border-card py-2 rounded-b',
-                    // lessonsProps.className,
-                  )}
-                >
-                  <li key={resource._id}>
-                    <Lesson
-                      section={undefined}
-                      lesson={resource}
-                      index={resource._id}
-                    />
-                  </li>
-                </Primitive.ul>
-              )
-            }
+            )
           })}
         </Primitive.ul>
       </Accordion>
@@ -607,7 +594,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                             data-index={`${index}`}
                             aria-hidden="true"
                           >
-                            {index}
+                            {Number(index) + 1}
                           </span>
                         )}
                       </>
@@ -639,7 +626,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                         data-index={`${index}`}
                         aria-hidden="true"
                       >
-                        {index}
+                        {Number(index) + 1}
                       </span>
                     )}
                   </>
@@ -816,6 +803,50 @@ const useScrollToActiveLesson = (
         top: activeElementOffset,
       })
   }, [activeElementToScrollTo, scrollContainerRef])
+}
+
+const getLessonChildren = (children: React.ReactNode, props: LessonProps) => {
+  let lessonChildren: React.ReactElement[] = []
+
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement<LessonsProps>(child) && child.type === Lessons) {
+      React.Children.forEach(child.props.children, (lessonChild) => {
+        if (
+          React.isValidElement<LessonProps>(lessonChild) &&
+          lessonChild.type === Lesson
+        ) {
+          const clonedLesson = React.cloneElement(lessonChild, {
+            ...props,
+          })
+          lessonChildren.push(clonedLesson)
+        }
+      })
+    }
+  })
+
+  return lessonChildren
+}
+
+const getSectionChildren = (children: React.ReactNode, props: SectionProps) => {
+  let sectionChildren: React.ReactElement[] = []
+
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement<SectionsProps>(child) && child.type === Sections) {
+      React.Children.forEach(child.props.children, (sectionChild) => {
+        if (
+          React.isValidElement<SectionProps>(sectionChild) &&
+          sectionChild.type === Section
+        ) {
+          const clonedSection = React.cloneElement(sectionChild, {
+            ...props,
+          })
+          sectionChildren.push(clonedSection)
+        }
+      })
+    }
+  })
+
+  return sectionChildren
 }
 
 /* -------------------------------------------------------------------------------------------------*/
