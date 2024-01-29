@@ -87,6 +87,7 @@ const EventTemplate: React.FC<
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps.couponFromCode,
     {
+      id: product.productId,
       image: {
         url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
         width: 132,
