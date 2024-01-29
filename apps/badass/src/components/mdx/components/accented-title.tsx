@@ -1,9 +1,16 @@
+import Balancer from 'react-wrap-balancer'
+
 export type AccentedTitleProps = {
   text: string
   color?: string
+  balanced?: boolean
 }
 
-const AccentedTitle: React.FC<AccentedTitleProps> = ({text, color}) => {
+const AccentedTitle: React.FC<AccentedTitleProps> = ({
+  text,
+  color,
+  balanced,
+}) => {
   return (
     <div
       data-accented-title=""
@@ -12,7 +19,11 @@ const AccentedTitle: React.FC<AccentedTitleProps> = ({text, color}) => {
     >
       {text && (
         <div data-accented-title-wrapper="">
-          <h3 data-accented-title-text>{text}</h3>
+          <h3 data-accented-title-text="">
+            {text}
+            {/* <Balancer>{text}</Balancer> */}
+            {/* {balanced ? <Balancer>{text}</Balancer> : text} */}
+          </h3>
         </div>
       )}
     </div>
