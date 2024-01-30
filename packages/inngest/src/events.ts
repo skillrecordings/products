@@ -10,3 +10,10 @@ export type StripeCheckoutCompleted = {
     created: number
   }
 }
+
+export const STRIPE_WEBHOOK_RECEIVED_EVENT = 'stripe/webhook.received'
+
+export type StripeWebhookReceived = {
+  name: typeof STRIPE_WEBHOOK_RECEIVED_EVENT
+  data: {id: string; type: string; data: Record<string, any>}
+}

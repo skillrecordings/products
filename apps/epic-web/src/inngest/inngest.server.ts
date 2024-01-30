@@ -16,7 +16,9 @@ import {
 } from 'inngest/events'
 import {
   STRIPE_CHECKOUT_COMPLETED_EVENT,
-  StripeCheckoutCompleted,
+  STRIPE_WEBHOOK_RECEIVED_EVENT,
+  type StripeCheckoutCompleted,
+  type StripeWebhookReceived,
 } from '@skillrecordings/inngest'
 import {
   LESSON_COMPLETED_EVENT,
@@ -35,6 +37,7 @@ export type IngestEvents = {
   [TIP_VIDEO_SRT_READY_EVENT]: SRTReadyEvent
   [TIP_VIDEO_LLM_SUGGESTIONS_CREATED_EVENT]: LLMSuggestionsCreated
   [STRIPE_CHECKOUT_COMPLETED_EVENT]: StripeCheckoutCompleted
+  [STRIPE_WEBHOOK_RECEIVED_EVENT]: StripeWebhookReceived
   [LESSON_COMPLETED_EVENT]: LessonCompleted
   [EMAIL_WRITING_REQUESTED_EVENT]: EmailWritingRequested
   [EMAIL_WRITING_REQUEST_COMPLETED_EVENT]: EmailWritingRequestCompleted

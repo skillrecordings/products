@@ -10,7 +10,10 @@ import {buffer} from 'micro'
 import {postSaleToSlack, sendServerEmail} from '../../server'
 import {convertkitTagPurchase} from './convertkit'
 import {Inngest} from 'inngest'
-import {STRIPE_CHECKOUT_COMPLETED_EVENT} from '@skillrecordings/inngest'
+import {
+  STRIPE_CHECKOUT_COMPLETED_EVENT,
+  STRIPE_WEBHOOK_RECEIVED_EVENT,
+} from '@skillrecordings/inngest'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
@@ -43,6 +46,21 @@ export async function processStripeWebhooks({
     } = getSdk()
     try {
       event = stripe.webhooks.constructEvent(buf, sig as string, webhookSecret)
+
+      if (process.env.INNGEST_EVENT_KEY) {
+        console.log('sending inngest webhook received event')
+        const inngest = new Inngest({
+          id:
+            process.env.INNGEST_APP_NAME ||
+            process.env.NEXT_PUBLIC_SITE_TITLE ||
+            'Stripe Handler',
+          eventKey: process.env.INNGEST_EVENT_KEY,
+        })
+        await inngest.send({
+          name: STRIPE_WEBHOOK_RECEIVED_EVENT,
+          data: event,
+        })
+      }
 
       if (event.type === 'checkout.session.completed') {
         const {user, purchase, purchaseInfo} = await recordNewPurchase(

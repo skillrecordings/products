@@ -35,5 +35,6 @@ declare namespace NodeJS {
     DISCORD_CLIENT_SECRET: string
     NEXT_PUBLIC_DEFAULT_PRODUCT_ID: string
     SLACK_EMAIL_POST_CHANNEL: string
+    SLACK_INVOICE_POST_CHANNEL: string
   }
 }

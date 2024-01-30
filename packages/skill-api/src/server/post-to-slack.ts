@@ -14,6 +14,7 @@ export type PostToSlackOptions = {
   attachments: MessageAttachment[]
   channel: string
   webClient: WebClient
+  icon_emoji?: string
   username?: string
   text?: string
 }
@@ -26,10 +27,12 @@ export async function postToSlack(
     attachments,
     channel,
     text,
+    icon_emoji = ':robot_face:',
     username = 'Announce Bot',
   } = options
   try {
     return await webClient.chat.postMessage({
+      icon_emoji,
       username,
       attachments,
       channel,
