@@ -145,7 +145,28 @@ const Home: React.FC<
     }
   }, [router])
 
-  const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(couponFromCode)
+  const restrictedToProduct = couponFromCode?.restrictedToProductId
+    ? products.find(
+        (product) => product.productId === couponFromCode.restrictedToProductId,
+      )
+    : undefined
+
+  const productMetadata = restrictedToProduct
+    ? {
+        ...restrictedToProduct,
+        id: restrictedToProduct.productId,
+        image: {
+          ...restrictedToProduct.image,
+          width: 132,
+          height: 112,
+        },
+      }
+    : undefined
+
+  const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(
+    couponFromCode,
+    productMetadata,
+  )
 
   return (
     <Layout>
