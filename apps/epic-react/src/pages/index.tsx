@@ -61,9 +61,14 @@ const Home: NextPage<{
       productId: defaultProduct?.productId,
     })
 
+  // TODO: should we move the coupon call down into `<Pricing>` so that it
+  // can be called separate for each product?
+  const productId = products[0]?.productId
+
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
     {
+      id: productId,
       image: {
         url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
         width: 132,

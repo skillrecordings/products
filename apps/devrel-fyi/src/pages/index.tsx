@@ -71,7 +71,7 @@ const Home: NextPage<{
 
   // TODO: should we move the coupon call down into `<Pricing>` so that it
   // can be called separate for each product?
-  const productId = products[0].productId
+  const productId = products[0]?.productId
 
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
