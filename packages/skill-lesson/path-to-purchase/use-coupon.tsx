@@ -16,7 +16,7 @@ export function useCoupon(
       width: number
       height: number
     }
-    title: string
+    title?: string
     description?: string
   },
 ) {
