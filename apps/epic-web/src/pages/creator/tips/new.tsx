@@ -16,7 +16,7 @@ const NewTip = () => {
           <AlertTitle>First upload a video</AlertTitle>
           <AlertDescription>
             When your video upload has been completed you will be able to add a
-            tile and additional details to your tip.
+            title and additional details to your tip.
           </AlertDescription>
         </Alert>
         <br />
