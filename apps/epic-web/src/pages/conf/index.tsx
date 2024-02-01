@@ -29,11 +29,13 @@ import {shuffle} from 'lodash'
 import {track} from 'utils/analytics'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {DocumentIcon, StarIcon} from '@heroicons/react/outline'
+import {DialogTrigger} from '@radix-ui/react-dialog'
 
 const TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2024'
 const CK_CONF_2024_FIELD = {
   [`conf_2024`]: new Date().toISOString().slice(0, 10),
 }
+const HOTEL_PROMO_CODE = 'W14'
 
 export const getStaticProps: GetStaticProps = async () => {
   const speakers = await fetch(
@@ -199,7 +201,7 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
                 href="https://maps.app.goo.gl/hhuhKHLTbANYyo41A"
                 target="_blank"
                 onClick={() => {
-                  track('clicked platinum sponsor', {
+                  track('clicked venue', {
                     title: 'conf2024',
                     type: 'venue',
                     location: 'map',
@@ -237,12 +239,13 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
           showingSpeakerDetail={showingSpeakerDetail}
           setShowingSpeakerDetail={setShowingSpeakerDetail}
         />
-        <Workshops speakers={speakers} />
-        {/* <Schedule schedule={schedule} speakers={speakers} /> */}
         <p className="mb-16 block w-full text-center font-mono text-sm uppercase text-[#93A1D7]">
           <span aria-hidden="true">{'//'}</span> Full schedule TBA{' '}
           <span aria-hidden="true">{'//'}</span>
         </p>
+        <Workshops speakers={speakers} />
+        {/* <Schedule schedule={schedule} speakers={speakers} /> */}
+        <HotelSection />
         <Sponsors />
         {!TITO_URL && (
           <>
@@ -1645,4 +1648,132 @@ const getProfilePictureForWorkshopInstructor = (
 ) => {
   const speaker = speakers.find((s) => s.fullName === name)
   return speaker?.profilePicture as string
+}
+
+const HotelSection = () => {
+  return (
+    <section className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-between gap-8 px-5 pb-0 sm:pb-24 md:flex-row lg:gap-14">
+      <div>
+        <Link
+          href="https://www.marriott.com/en-us/hotels/slcsc-sheraton-park-city/overview/"
+          target="_blank"
+          onClick={() => {
+            track('clicked platinum sponsor', {
+              title: 'conf2024',
+              type: 'venue',
+              location: 'map',
+            })
+          }}
+          rel="noopener noreferrer"
+          className="group relative flex flex-col items-center justify-center before:absolute before:-bottom-1.5 before:h-3 before:w-3 before:rotate-45 before:border-b before:border-r before:border-[#E79C33] before:bg-[#FFB753] before:content-[''] md:before:-right-1.5 md:before:top-10 md:before:border-b-0 md:before:border-r md:before:border-t md:before:border-[#313646] md:before:bg-[#1E212C]"
+        >
+          <div className="flex items-center justify-center rounded-t border border-[#313646] bg-[#1E212C]">
+            <div className="flex items-center justify-center overflow-hidden rounded-tl">
+              <Image
+                src={require('../../../public/assets/conf/sheraton-park-city-hotel@2x.jpg')}
+                alt="Sheraton Park City Hotel"
+                width={152}
+                height={152}
+                loading="eager"
+                className="transition duration-300 ease-in-out group-hover:scale-105"
+              />
+            </div>
+            <div className="px-4 py-2 pr-5 sm:px-5 sm:py-5 sm:pr-7">
+              <h3 className="text-lg font-semibold leading-tight sm:text-xl sm:leading-tight">
+                Sheraton Park City Hotel
+              </h3>
+              <div className="mt-3 inline-flex text-sm">
+                1895 Sidewinder DR
+                <br />
+                Park City, UT 84060
+              </div>
+            </div>
+          </div>
+          <div className="inline-flex w-full items-center gap-3 rounded-b border border-[#E79C33] bg-[#FFB753] px-3 py-2 text-sm font-semibold text-black">
+            <svg
+              width="26"
+              height="26"
+              viewBox="0 0 26 26"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.29 0.715874C12.6812 0.321464 13.3188 0.321464 13.71 0.715875L15.8192 2.84247C16.0466 3.07181 16.3709 3.17715 16.6897 3.12531L19.646 2.6446C20.1943 2.55545 20.7102 2.93025 20.7948 3.47927L21.2512 6.43946C21.3004 6.75869 21.5008 7.03449 21.7892 7.17995L24.4635 8.52874C24.9595 8.77889 25.1565 9.38534 24.9023 9.87926L23.5316 12.5423C23.3837 12.8295 23.3837 13.1705 23.5316 13.4577L24.9023 16.1207C25.1565 16.6147 24.9595 17.2211 24.4635 17.4713L21.7892 18.82C21.5008 18.9655 21.3004 19.2413 21.2512 19.5605L20.7948 22.5207C20.7102 23.0697 20.1943 23.4446 19.646 23.3554L16.6897 22.8747C16.3709 22.8228 16.0466 22.9282 15.8192 23.1575L13.71 25.2841C13.3188 25.6785 12.6812 25.6785 12.29 25.2841L10.1808 23.1575C9.95336 22.9282 9.62914 22.8228 9.31032 22.8747L6.35398 23.3554C5.80568 23.4446 5.2898 23.0697 5.20516 22.5207L4.74879 19.5605C4.69957 19.2413 4.49919 18.9655 4.21079 18.82L1.53651 17.4713C1.04052 17.2211 0.843472 16.6147 1.0977 16.1207L2.46844 13.4577C2.61626 13.1705 2.61626 12.8295 2.46844 12.5423L1.0977 9.87926C0.843472 9.38534 1.04052 8.77889 1.53651 8.52874L4.21079 7.17995C4.49919 7.03449 4.69957 6.75869 4.74879 6.43946L5.20516 3.47927C5.2898 2.93025 5.80568 2.55545 6.35398 2.6446L9.31032 3.12531C9.62914 3.17715 9.95336 3.07181 10.1808 2.84247L12.29 0.715874Z"
+                fill="#1E212C"
+              />
+              <path
+                d="M9.98805 13.2138C9.55783 13.2138 9.16794 13.1197 8.81839 12.9314C8.46883 12.7343 8.19098 12.4564 7.98483 12.0979C7.77868 11.7394 7.67561 11.3136 7.67561 10.8207C7.67561 10.3277 7.77868 9.90196 7.98483 9.54344C8.19098 9.18493 8.46883 8.91155 8.81839 8.72333C9.16794 8.52615 9.56231 8.42756 10.0015 8.42756C10.4317 8.42756 10.8171 8.52615 11.1577 8.72333C11.5073 8.91155 11.7851 9.18493 11.9913 9.54344C12.1974 9.90196 12.3005 10.3277 12.3005 10.8207C12.3005 11.3136 12.1974 11.7394 11.9913 12.0979C11.7851 12.4564 11.5073 12.7343 11.1577 12.9314C10.8082 13.1197 10.4183 13.2138 9.98805 13.2138ZM9.47716 18L14.7877 8.58889H16.4683L11.1577 18H9.47716ZM9.98805 12.0172C10.248 12.0172 10.4721 11.9186 10.6603 11.7214C10.8485 11.5153 10.9426 11.215 10.9426 10.8207C10.9426 10.4263 10.8485 10.126 10.6603 9.91989C10.481 9.71374 10.2569 9.61067 9.98805 9.61067C9.71916 9.61067 9.49061 9.71374 9.30239 9.91989C9.12313 10.126 9.0335 10.4263 9.0335 10.8207C9.0335 11.215 9.12313 11.5153 9.30239 11.7214C9.49061 11.9186 9.71916 12.0172 9.98805 12.0172ZM16.0112 18.1613C15.5809 18.1613 15.1911 18.0672 14.8415 17.879C14.4919 17.6818 14.2141 17.404 14.0079 17.0454C13.8018 16.6869 13.6987 16.2612 13.6987 15.7682C13.6987 15.2753 13.8018 14.854 14.0079 14.5044C14.2141 14.1459 14.4919 13.8726 14.8415 13.6843C15.1911 13.4871 15.5854 13.3886 16.0246 13.3886C16.4548 13.3886 16.8402 13.4871 17.1808 13.6843C17.5304 13.8726 17.8082 14.1459 18.0144 14.5044C18.2205 14.854 18.3236 15.2753 18.3236 15.7682C18.3236 16.2612 18.2205 16.6869 18.0144 17.0454C17.8082 17.404 17.5304 17.6818 17.1808 17.879C16.8402 18.0672 16.4504 18.1613 16.0112 18.1613ZM16.0112 16.9648C16.2801 16.9648 16.5041 16.8662 16.6834 16.669C16.8716 16.4629 16.9657 16.1626 16.9657 15.7682C16.9657 15.3739 16.8716 15.0736 16.6834 14.8674C16.5041 14.6613 16.2801 14.5582 16.0112 14.5582C15.7423 14.5582 15.5137 14.6613 15.3255 14.8674C15.1462 15.0736 15.0566 15.3739 15.0566 15.7682C15.0566 16.1626 15.1462 16.4629 15.3255 16.669C15.5137 16.8662 15.7423 16.9648 16.0112 16.9648Z"
+                fill="#D1D7EA"
+              />
+            </svg>
+            <span>
+              Enter the promo code “{HOTEL_PROMO_CODE}” for a discounted rate.
+            </span>
+          </div>
+        </Link>
+      </div>
+      <div className="w-full max-w-md text-center md:text-left lg:max-w-lg">
+        <h3 className="text-2xl font-semibold sm:text-3xl">
+          Looking for a place to stay?
+        </h3>
+        <p className="mt-3 text-[#D6DEFF] sm:text-lg">
+          We’ve partnered with Sheraton Park City Hotel to offer you a
+          discounted rate on available rooms. Enter the promo code “W14” for a
+          discount.{' '}
+          <Dialog>
+            <DialogTrigger
+              className="underline"
+              onClick={() => {
+                track('clicked hotel promo code instructions')
+              }}
+            >
+              Instructions
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle className="text-2xl">Instructions</DialogTitle>
+              </DialogHeader>
+              <DialogDescription>
+                <ul className="flex list-inside list-decimal flex-col space-y-2 text-white/90">
+                  <li>
+                    Go to{' '}
+                    <Link
+                      href="https://www.marriott.com/en-us/hotels/slcsc-sheraton-park-city/overview/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline"
+                    >
+                      Sheraton Park City Hotel website
+                    </Link>
+                  </li>
+                  <li>
+                    Use the drop-down menu on the right called Special Rates and
+                    choose Corp/Promo Code.
+                  </li>
+                  <li>Enter the Promo Code "W14" and press Done</li>
+                  <li>
+                    Select the dates for your stay and press "View Rates" to see
+                    the available rooms at their discounted rate
+                  </li>
+                </ul>
+                <Link
+                  href={`${process.env.NEXT_PUBLIC_URL}/assets/conf/hotel-promo-code.jpg`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Image
+                    className="mt-3 rounded"
+                    src={require('../../../public/assets/conf/hotel-promo-code.jpg')}
+                    alt="Hotel promo code instructions"
+                    width={978 / 2}
+                    height={864 / 2}
+                  />
+                </Link>
+              </DialogDescription>
+            </DialogContent>
+          </Dialog>
+        </p>
+      </div>
+    </section>
+  )
 }
