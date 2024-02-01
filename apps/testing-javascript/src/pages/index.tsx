@@ -125,7 +125,6 @@ const Home: React.FC<
     userId,
     products = [],
     couponIdFromCoupon,
-    defaultCoupon,
   } = commerceProps
 
   const proTestingPurchased =

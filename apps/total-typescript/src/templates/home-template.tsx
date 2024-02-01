@@ -26,7 +26,6 @@ export const HomeTemplate: React.FC<
   userId,
   products,
   couponIdFromCoupon,
-  defaultCoupon,
   allowPurchase,
 }) => {
   const skillLevel = useSkillLevel(level)
@@ -83,7 +82,6 @@ export const HomeTemplate: React.FC<
           alt: 'Golden Ticket',
         },
       }}
-      defaultCoupon={defaultCoupon}
     >
       <Header level={skillLevel} />
       <main>

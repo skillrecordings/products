@@ -13,7 +13,6 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
   allowPurchase,
   couponFromCode,
   couponIdFromCoupon,
-  defaultCoupon,
   purchases = [],
   userId,
   workshop,
@@ -39,7 +38,6 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
               alt: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}`,
             },
       }}
-      defaultCoupon={defaultCoupon}
     >
       <Image
         layout="fill"

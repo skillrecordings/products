@@ -29,10 +29,6 @@ export type FormattedPrice = {
   appliedMerchantCoupon?: MinimalMerchantCoupon
   upgradeFromPurchaseId?: string
   upgradeFromPurchase?: Purchase
-  defaultCoupon?: {
-    expires?: string
-    percentageDiscount: string
-  }
   upgradedProduct?: ProductWithPrices | null
   bulk: boolean
   usedCouponId?: string
@@ -51,7 +47,6 @@ export type CommerceProps = {
   userId?: string
   purchases?: Purchase[]
   products: SanityProduct[]
-  defaultCoupon?: DefaultCoupon
   allowPurchase?: boolean
 }
 

@@ -47,7 +47,6 @@ const BuyPage: React.FC<
   userId,
   products,
   couponIdFromCoupon,
-  defaultCoupon,
   allowPurchase,
   bonuses,
 }) => {

@@ -48,7 +48,6 @@ export type LayoutProps = {
   noNav?: boolean
   navClassName?: string
   footer?: React.ReactElement | null
-  defaultCoupon?: DefaultCoupon
   children?: any
 }
 
