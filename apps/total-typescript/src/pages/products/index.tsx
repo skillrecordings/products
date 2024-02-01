@@ -155,7 +155,6 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
 
   const isRestrictedUpgrade = purchaseToUpgrade?.status === 'Restricted'
 
-  const defaultCoupon = formattedPrice?.defaultCoupon
   const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
   const pppCoupon = getFirstPPPCoupon(formattedPrice?.availableCoupons)
