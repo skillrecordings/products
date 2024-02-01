@@ -168,9 +168,25 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
               </svg>
               <p>
                 The event is set at the foot of the beautiful Rocky Mountains in{' '}
-                <strong>Park City, Utah</strong>, and the{' '}
-                <strong>free live stream</strong> is there to reach even the
-                most distant Epic web developers.
+                <strong>
+                  <Link
+                    href="https://maps.app.goo.gl/cic8yYJ35ER1JM32A"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Park City, Utah
+                  </Link>
+                </strong>{', and the '}
+                <strong>
+                  <Link
+                    href="https://www.youtube.com/watch?v=Q0fwzlwTLWk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    free live stream
+                  </Link>
+                </strong>
+                {' is there to reach even the most distant Epic web developers.'}
               </p>
               <p>
                 You'll want to be here in Park City to rub shoulders with some
