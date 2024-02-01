@@ -173,6 +173,7 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
                     href="https://maps.app.goo.gl/cic8yYJ35ER1JM32A"
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="underline"
                   >
                     Park City, Utah
                   </Link>
@@ -182,6 +183,7 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
                     href="https://www.youtube.com/watch?v=Q0fwzlwTLWk"
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="underline"
                   >
                     free live stream
                   </Link>
