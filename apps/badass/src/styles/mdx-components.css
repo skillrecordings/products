@@ -345,3 +345,8 @@
 [data-content-with-top-gap] {
   @apply mt-16;
 }
+
+/* EmbedVideo */
+[data-embed-video-wrapper] {
+  @apply overflow-hidden rounded-2xl my-20 md:my-28 lg:my-32;
+}
