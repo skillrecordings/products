@@ -61,3 +61,5 @@ export {
   default as ContentWithTopGap,
   type ContentWithTopGapProps,
 } from './content-with-top-gap'
+
+export {default as EmbedVideo, type EmbedVideoProps} from './embed-video'

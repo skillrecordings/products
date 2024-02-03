@@ -15,6 +15,15 @@ export const CaseStudySchema = z.object({
   heroImage: z.nullable(z.string()).optional(),
   cardImage: z.nullable(z.string()).optional(),
   description: z.nullable(z.string()).optional(),
+  video: z
+    .array(
+      z.object({
+        muxPlaybackId: z.string(),
+        transcript: z.array(z.any()).nullable(),
+      }),
+    )
+    .optional()
+    .nullable(),
   body: z.any().array().nullable().optional(),
   markdownBody: z.string(),
   summary: z.any().array().nullable().optional(),
@@ -64,6 +73,10 @@ export const getCaseStudy = async (slug: string): Promise<CaseStudy> => {
         "cardImage": cardImage.url,
         "ogImage": ogImage.url,
         summary,
+        "video": resources[@->._type == 'videoResource']-> {
+          "transcript": castingwords.transcript,
+          "muxPlaybackId": muxAsset.muxPlaybackId
+        },
         markdownBody,
         body[]{
         ...,

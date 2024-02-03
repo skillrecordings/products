@@ -32,6 +32,8 @@ import {
   TocItemProps,
   ContentWithTopGap,
   ContentWithTopGapProps,
+  EmbedVideo,
+  EmbedVideoProps,
 } from './components'
 
 const mdxComponents = {
@@ -182,6 +184,15 @@ const mdxComponents = {
   },
   ContentWithTopGap: ({children}: React.PropsWithChildren) => {
     return <ContentWithTopGap>{children}</ContentWithTopGap>
+  },
+  EmbedVideo: ({playbackId, poster, title}: EmbedVideoProps) => {
+    return (
+      <EmbedVideo
+        playbackId={playbackId}
+        {...(poster && {poster})}
+        {...(title && {title})}
+      />
+    )
   },
 }
 
