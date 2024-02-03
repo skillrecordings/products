@@ -153,75 +153,87 @@ export const CompleteAndContinueButton = React.forwardRef<
   HTMLButtonElement,
   {
     setCompletedLessonCount: React.Dispatch<React.SetStateAction<number>>
+    completedLessonCount: number
     nextSection?: any
     nextExercise?: any
   }
->(({setCompletedLessonCount, nextSection, nextExercise}, ref) => {
-  const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
-  const {
-    nextExercise: nextExerciseInSection,
-    path,
-    handlePlay,
-    handleContinue,
-    nextPathBuilder,
-  } = useMuxPlayer()
-  const {lesson, module, section} = useLesson()
-  const router = useRouter()
-  const moduleProgress = useModuleProgress()
-  const isLessonCompleted = moduleProgress?.lessons.find(
-    (l) => l.slug === lesson.slug && l.lessonCompleted,
-  )
+>(
+  (
+    {setCompletedLessonCount, nextSection, nextExercise, completedLessonCount},
+    ref,
+  ) => {
+    const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
+    const {
+      nextExercise: nextExerciseInSection,
+      path,
+      handlePlay,
+      handleContinue,
+      nextPathBuilder,
+    } = useMuxPlayer()
+    const {lesson, module, section} = useLesson()
+    const router = useRouter()
+    const moduleProgress = useModuleProgress()
+    const isLessonCompleted = moduleProgress?.lessons.find(
+      (l) => l.slug === lesson.slug && l.lessonCompleted,
+    )
 
-  return (
-    <Button
-      data-action="continue"
-      ref={ref}
-      onMouseOver={() => {
-        !isLessonCompleted && setCompletedLessonCount((prev) => prev + 1)
-      }}
-      onMouseOut={() => {
-        !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
-      }}
-      disabled={addProgressMutation.isLoading || addProgressMutation.isSuccess}
-      onClick={() => {
-        !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
-        track('clicked complete', {
-          lesson: router.query.lesson as string,
-          module: module.slug.current,
-          location: 'exercise',
-          moduleType: module.moduleType,
-          lessonType: lesson._type,
-        })
-        addProgressMutation.mutate(
-          {lessonSlug: router.query.lesson as string},
-          {
-            onSettled: (data, error, variables, context) => {
-              handleContinue({
-                router,
-                module,
-                nextExercise: nextExercise
-                  ? nextExercise
-                  : nextExerciseInSection,
-                handlePlay,
-                path,
-                section: nextSection ? nextSection : section,
-                nextPathBuilder,
-              })
+    const isDisabled =
+      addProgressMutation.isLoading || addProgressMutation.isSuccess
+
+    return (
+      <Button
+        data-action="continue"
+        ref={ref}
+        onMouseOver={() => {
+          if (!isDisabled) {
+            !isLessonCompleted && setCompletedLessonCount((prev) => prev + 1)
+          }
+        }}
+        onMouseOut={() => {
+          if (!isDisabled) {
+            !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
+          }
+        }}
+        disabled={isDisabled}
+        onClick={() => {
+          track('clicked complete', {
+            lesson: router.query.lesson as string,
+            module: module.slug.current,
+            location: 'exercise',
+            moduleType: module.moduleType,
+            lessonType: lesson._type,
+          })
+          addProgressMutation.mutate(
+            {lessonSlug: router.query.lesson as string},
+            {
+              onSettled: (data, error, variables, context) => {
+                handleContinue({
+                  router,
+                  module,
+                  nextExercise: nextExercise
+                    ? nextExercise
+                    : nextExerciseInSection,
+                  handlePlay,
+                  path,
+                  section: nextSection ? nextSection : section,
+                  nextPathBuilder,
+                })
+              },
             },
-          },
-        )
-      }}
-    >
-      {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
-        <Spinner className="w-7 h-7 inline-block" />
-      ) : (
-        <span>
-          {isLessonCompleted ? 'Continue →' : 'Complete & Continue →'}
-        </span>
-      )}
-    </Button>
-  )
-})
+          )
+        }}
+      >
+        {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
+          <Spinner className="w-7 h-7 inline-block" />
+        ) : (
+          <span>
+            {isLessonCompleted ? 'Continue →' : 'Complete & Continue →'}
+          </span>
+        )}
+      </Button>
+    )
+  },
+)
 
 const DefaultOverlay: React.FC = () => {
   const {nextExercise, handlePlay, setDisplayOverlay} = useMuxPlayer()
@@ -278,6 +290,7 @@ const DefaultOverlay: React.FC = () => {
         )}
         <div data-actions="">
           <CompleteAndContinueButton
+            completedLessonCount={completedLessonCount}
             setCompletedLessonCount={setCompletedLessonCount}
           />
           <div>
@@ -779,6 +792,7 @@ const FinishedSectionOverlay = () => {
             nextSection={nextSection}
             nextExercise={nextExercise}
             setCompletedLessonCount={setCompletedLessonCount}
+            completedLessonCount={completedLessonCount}
           />
           <div>
             {/* <button
