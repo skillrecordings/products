@@ -1,6 +1,9 @@
+import Image from 'next/image'
+import toast from 'react-hot-toast'
 import Balancer from 'react-wrap-balancer'
 import {isNumber} from 'lodash'
-import Image from 'next/image'
+import {useCopyToClipboard} from 'react-use'
+import {isBrowser} from 'utils/is-browser'
 
 type imagesElemType = {
   imageUrl: string
@@ -27,8 +30,21 @@ const SkeletonHandSeparator: React.FC<SkeletonHandSeparatorProps> = ({
   title,
   subtitle,
 }) => {
+  const [state, copyToClipboard] = useCopyToClipboard()
+  const linkToTitle = `#${id}`
+  const handleOnClick = () => {
+    if (isBrowser()) {
+      const url = window.location.href
+      const hash = window.location.hash
+      const strippedUrl = url.replace(hash, '')
+      copyToClipboard(strippedUrl + linkToTitle)
+      toast.success('Copied')
+    }
+  }
+
   const handNumber = isNumber(number) && `hand-${number}`
   const data = handNumber && images[handNumber as keyof imagesObjType]
+
   return data ? (
     <div
       data-skeleton-hand-separator=""
@@ -44,7 +60,15 @@ const SkeletonHandSeparator: React.FC<SkeletonHandSeparatorProps> = ({
         />
       </div>
       {title && (
-        <h3 data-skeleton-hand-separator-title="">
+        <h3 data-skeleton-hand-separator-title="" className="group">
+          <a
+            data-title-anchor-link=""
+            className="group-hover:opacity-100"
+            href={linkToTitle}
+            onClick={handleOnClick}
+          >
+            #
+          </a>
           <Balancer>{title}</Balancer>
         </h3>
       )}
