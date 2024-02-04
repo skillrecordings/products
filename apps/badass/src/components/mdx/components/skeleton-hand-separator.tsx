@@ -7,7 +7,7 @@ export type SkeletonHandSeparatorProps = {
   id: string
   number: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
   title: string
-  subtitle: string
+  subtitle?: string
 }
 
 const SkeletonHandSeparator: React.FC<SkeletonHandSeparatorProps> = ({
