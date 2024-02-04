@@ -140,7 +140,7 @@
 [data-skeleton-hand-separator] {
   @apply flex flex-col items-center mt-24 md:mt-28 lg:mt-32 text-center mb-[3.25rem];
   [data-skeleton-hand-separator-number-holder] {
-    @apply font-symbol flex items-center space-x-8 text-white text-[70px];
+    @apply font-symbol flex items-center space-x-8 text-white text-[70px] leading-[90px];
     font-feature-settings: 'ss02' on;
   }
   [data-skeleton-hand-separator-title] {
