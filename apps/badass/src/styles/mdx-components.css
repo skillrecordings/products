@@ -139,8 +139,9 @@
 /* SkeletonhandSeparator */
 [data-skeleton-hand-separator] {
   @apply flex flex-col items-center mt-24 md:mt-28 lg:mt-32 text-center mb-[3.25rem];
-  [data-skeleton-hand-separator-image-holder] {
-    @apply w-40 md:w-64;
+  [data-skeleton-hand-separator-number-holder] {
+    @apply font-symbol flex items-center space-x-8 text-white text-[70px];
+    font-feature-settings: 'ss02' on;
   }
   [data-skeleton-hand-separator-title] {
     @apply text-[1.25rem] sm:text-[1.5rem] lg:text-[2rem] font-heading leading-tight mt-9 text-neutral-200 relative max-w-[44rem] px-8;
