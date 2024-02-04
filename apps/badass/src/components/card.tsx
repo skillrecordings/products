@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import {twMerge} from 'tailwind-merge'
 import cx from 'classnames'
 
@@ -38,10 +39,11 @@ const Card: React.FC<CardProps> = ({
   isEven,
 }) => {
   return (
-    <div
+    <Link
+      href={href}
       className={twMerge(
         cx(
-          'rounded-2xl border-2 border-badass-gray-800 duration-150 hover:bg-badass-gray-800 flex flex-col items-center px-4 overflow-hidden',
+          'rounded-2xl border-2 border-badass-gray-800 duration-150 hover:bg-badass-gray-800 flex flex-col items-center px-4 overflow-hidden group',
           {
             'pb-10 lg:pb-14': type === 'caseStudy' || type === 'project',
             'pb-10': type === 'article',
@@ -148,12 +150,15 @@ const Card: React.FC<CardProps> = ({
           )}
         </div>
         <ButtonSecondary
-          href={href}
+          tag="button"
           size="middle"
-          className={cx({
-            'mt-6 lg:mt-10': !horizontalOrientation,
-            'mt-4': horizontalOrientation,
-          })}
+          className={cx(
+            'group-hover:border-badass-green-500 group-hover:bg-badass-green-500 group-hover:text-black',
+            {
+              'mt-6 lg:mt-10': !horizontalOrientation,
+              'mt-4': horizontalOrientation,
+            },
+          )}
         >
           <span>{ctaText}</span>
           {type === 'project' && (
@@ -165,7 +170,7 @@ const Card: React.FC<CardProps> = ({
           )}
         </ButtonSecondary>
       </div>
-    </div>
+    </Link>
   )
 }
 export default Card
