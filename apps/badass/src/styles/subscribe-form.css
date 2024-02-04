@@ -7,7 +7,10 @@
       display: none;
     }
   }
-  [data-sr-input-wrapper] {
+  [data-sr-fieldset] {
+    & + [data-sr-fieldset] {
+      @apply mt-6;
+    }
     label {
       @apply block font-mono uppercase text-base leading-none;
     }
@@ -18,8 +21,4 @@
       @apply text-white opacity-70;
     }
   }
-}
-
-[data-sr-input-wrapper] + [data-sr-input-wrapper] {
-  @apply mt-6;
 }
