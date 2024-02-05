@@ -63,3 +63,8 @@ export {
 } from './content-with-top-gap'
 
 export {default as EmbedVideo, type EmbedVideoProps} from './embed-video'
+
+export {
+  default as DecoratedList,
+  type DecoratedListProps,
+} from './decorated-list'
