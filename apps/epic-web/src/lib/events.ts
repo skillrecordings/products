@@ -33,13 +33,23 @@ export const EventSchema = z.object({
   _createdAt: z.string(),
   title: z.string(),
   slug: z.string(),
-  startsAt: z.string(),
-  endsAt: z.string(),
+  startsAt: z.string().nullable(),
+  endsAt: z.string().nullable(),
   author: AuthorSchema.nullable(),
   description: z.nullable(z.string()).optional(),
   body: z.nullable(z.string()).optional(),
   state: z.enum(['published', 'draft']),
   timezone: z.nullable(z.string().url()).optional(),
+  events: z
+    .array(
+      z.object({
+        title: z.string(),
+        startsAt: z.string(),
+        endsAt: z.string(),
+      }),
+    )
+    .nullable()
+    .optional(),
   image: z
     .object({
       width: z.number(),
@@ -104,6 +114,7 @@ export const getAllEvents = async (): Promise<Event[]> => {
         body,
         image,
         ogImage,
+        events[]{...},
         "product": *[_type in ['product'] && references(^._id)][0]{
           _id,
           productId,
@@ -122,6 +133,7 @@ export const getEvent = async (slug: string): Promise<Event | null> => {
         _type,
         _updatedAt,
         _createdAt,
+        events[]{...},
         author-> {
           _id,
           _type,
