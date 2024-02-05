@@ -354,3 +354,17 @@
 [data-embed-video-wrapper] {
   @apply overflow-hidden rounded-2xl my-20 md:my-28 lg:my-32;
 }
+
+/* DecoratedList */
+[data-decorated-list] {
+  @apply text-gray-200 space-y-9 my-14 list-["w"] pl-8;
+  li {
+    @apply relative pl-4;
+    &::marker {
+      @apply font-symbol text-[1.75rem] pr-12;
+    }
+  }
+  &[data-decorated-list-color='yellow'] li::marker {
+    @apply text-badass-yellow-500;
+  }
+}

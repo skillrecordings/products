@@ -34,6 +34,8 @@ import {
   ContentWithTopGapProps,
   EmbedVideo,
   EmbedVideoProps,
+  DecoratedList,
+  DecoratedListProps,
 } from './components'
 
 const mdxComponents = {
@@ -192,6 +194,17 @@ const mdxComponents = {
         {...(poster && {poster})}
         {...(title && {title})}
       />
+    )
+  },
+  DecoratedList: ({
+    children,
+    color,
+    type,
+  }: React.PropsWithChildren<DecoratedListProps>) => {
+    return (
+      <DecoratedList color={color} type={type}>
+        {children}
+      </DecoratedList>
     )
   },
 }
