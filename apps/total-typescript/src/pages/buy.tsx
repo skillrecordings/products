@@ -29,7 +29,6 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
   userId,
   products,
   couponIdFromCoupon,
-  defaultCoupon,
   allowPurchase,
 }) => {
   const {scrollYProgress} = useScroll()
@@ -88,7 +87,6 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
             }
           : undefined,
       }}
-      defaultCoupon={defaultCoupon}
     >
       <Image
         layout="fill"

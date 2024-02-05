@@ -71,7 +71,8 @@ export const getTutorial = async (slug: string) =>
           name,
           "slug": slug.current,
           "image": picture.asset->url,
-          "imageAlt": picture.alt
+          "imageAlt": picture.alt,
+          twitterHandle,
         },
       "testimonials": resources[@->._type == 'testimonial']->{
         _id,

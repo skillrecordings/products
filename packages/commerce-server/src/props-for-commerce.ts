@@ -22,7 +22,7 @@ export async function propsForCommerce({
     Boolean(process.env.NEXT_PUBLIC_SELLING_LIVE === 'true') ||
     Boolean(query.allowPurchase)
 
-  const {getDefaultCoupon, getPurchasesForUser} = getSdk()
+  const {getPurchasesForUser} = getSdk()
 
   const purchases = token?.sub
     ? await getPurchasesForUser(token.sub as string)
@@ -30,16 +30,9 @@ export async function propsForCommerce({
 
   const couponIdFromCoupon =
     (query.coupon as string) || (couponFromCode?.isValid && couponFromCode.id)
-  const defaultCoupons = !token ? await getDefaultCoupon(productIds) : null
 
   return {
     props: {
-      ...(defaultCoupons && {
-        defaultCoupon: convertToSerializeForNextResponse({
-          expires: defaultCoupons.defaultCoupon.expires,
-          percentageDiscount: defaultCoupons.defaultCoupon.percentageDiscount,
-        }),
-      }),
       ...(token?.sub ? {userId: token?.sub} : {}),
       ...(couponFromCode && {
         couponFromCode: convertToSerializeForNextResponse(couponFromCode),
