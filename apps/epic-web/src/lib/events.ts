@@ -40,6 +40,16 @@ export const EventSchema = z.object({
   body: z.nullable(z.string()).optional(),
   state: z.enum(['published', 'draft']),
   timezone: z.nullable(z.string().url()).optional(),
+  events: z
+    .array(
+      z.object({
+        title: z.string(),
+        startsAt: z.string(),
+        endsAt: z.string(),
+      }),
+    )
+    .nullable()
+    .optional(),
   image: z
     .object({
       width: z.number(),
@@ -122,6 +132,7 @@ export const getEvent = async (slug: string): Promise<Event | null> => {
         _type,
         _updatedAt,
         _createdAt,
+        events[]{...},
         author-> {
           _id,
           _type,

@@ -30,6 +30,7 @@ import type {
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import Link from 'next/link'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import pluralize from 'pluralize'
 
 const EventTemplate: React.FC<
   {
@@ -63,7 +64,7 @@ const EventTemplate: React.FC<
     ogImage: _ogImage,
     author,
   } = event
-  const product = products[0]
+  const product = products && products[0]
   const image = event?.image?.secure_url
   const ogImage = _ogImage?.secure_url
     ? {url: _ogImage.secure_url, alt: title}
@@ -87,13 +88,13 @@ const EventTemplate: React.FC<
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps.couponFromCode,
     {
-      id: product.productId,
+      id: product?.productId,
       image: {
         url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
         width: 132,
         height: 112,
       },
-      title: product.title as string,
+      title: product?.title as string,
       description: product?.description,
     },
   )
@@ -136,7 +137,8 @@ const EventTemplate: React.FC<
             <Balancer>{title}</Balancer>
           </h1>
           <h2 className="pt-4 text-xl text-gray-700 dark:text-sky-200 sm:text-2xl">
-            Live Workshop <br className="block sm:hidden" />
+            Live {pluralize('Workshop', event.events?.length || 1)}{' '}
+            <br className="block sm:hidden" />
             with{' '}
             <Link
               href={`/authors/${author?.slug}`}
@@ -210,7 +212,7 @@ export default EventTemplate
 export const EventDetails: React.FC<{
   event: Event
 }> = ({event}) => {
-  const {startsAt, endsAt, timezone, image} = event
+  const {startsAt, endsAt, timezone, events, image} = event
   const eventDate = `${formatInTimeZone(
     new Date(startsAt),
     'America/Los_Angeles',
@@ -222,35 +224,109 @@ export const EventDetails: React.FC<{
     'h:mm a',
   )} — ${formatInTimeZone(new Date(endsAt), 'America/Los_Angeles', 'h:mm a')}`
 
+  interface GroupedEvents {
+    [title: string]: {
+      dates: string[]
+      time: string
+    }
+  }
+
+  const groupedEvents: GroupedEvents =
+    events &&
+    events.reduce((acc: any, event) => {
+      const {title, startsAt, endsAt} = event
+      const formattedDate = `${formatInTimeZone(
+        new Date(startsAt),
+        'America/Los_Angeles',
+        'MMMM d, yyyy',
+      )}`
+
+      const startTime = `${formatInTimeZone(
+        new Date(startsAt),
+        'America/Los_Angeles',
+        'ha',
+      )}`.toLowerCase()
+      const endTime = `${formatInTimeZone(
+        new Date(endsAt),
+        'America/Los_Angeles',
+        'ha',
+      )}`.toLowerCase()
+
+      const timeRange = `${startTime}-${endTime}`
+      if (!acc[title]) {
+        acc[title] = {dates: [formattedDate], time: timeRange}
+      } else {
+        acc[title].dates.push(formattedDate)
+        // Assuming the time range is the same for all events with the same title
+      }
+      return acc
+    }, {})
+
   return (
     <div className="mt-5 flex flex-col border-t pt-5">
-      <h2 className="px-5 pb-4 text-xl font-semibold">Event Details</h2>
-      <div className="flex flex-col text-base font-semibold opacity-90">
-        <div className="flex items-center gap-2 px-5 py-2">
-          <CalendarIcon className="h-5 w-5 flex-shrink-0 text-gray-600 dark:text-blue-300" />{' '}
-          {eventDate}
-        </div>
-        <div className="flex items-baseline gap-2 px-5 py-2">
-          <ClockIcon className="relative h-5 w-5 flex-shrink-0 translate-y-1 text-gray-600 dark:text-blue-300" />{' '}
-          <div>
-            {eventTime} (Pacific time){' '}
-            {timezone && (
-              <a
-                href={timezone}
-                rel="noopener noreferrer"
-                target="_blank"
-                className="font-normal underline"
-              >
-                timezones
-              </a>
-            )}
+      <h2 className="px-5 pb-4 text-xl font-semibold">
+        {pluralize('Event', events?.length || 1)} Details
+      </h2>
+
+      {events && groupedEvents ? (
+        <ul className="flex flex-col gap-3 px-5">
+          <li className="flex items-center gap-1 font-semibold">
+            <LocationMarkerIcon className="h-5 w-5 text-gray-600 dark:text-blue-300" />{' '}
+            Location: Zoom (online remote)
+          </li>
+          {Object.entries(groupedEvents).map(([title, {dates, time}]) => {
+            const uniqueDates = Array.from(dates) // Ensure dates are unique
+            const formattedDates =
+              uniqueDates.length > 1
+                ? `${uniqueDates.slice(0, -1).join(', ')} & ${uniqueDates.slice(
+                    -1,
+                  )}`
+                : uniqueDates[0]
+            return (
+              <li key={title}>
+                <strong className="text-lg font-semibold leading-tight">
+                  {title}
+                </strong>
+                <div className="flex items-center gap-1 pt-1 text-sm">
+                  <CalendarIcon className="h-5 w-5 flex-shrink-0 text-gray-600 dark:text-blue-300" />{' '}
+                  <div>{formattedDates}</div>
+                </div>
+                <div className="flex items-center gap-1 pt-1 text-sm">
+                  <ClockIcon className="relative h-5 w-5 flex-shrink-0 text-gray-600 dark:text-blue-300" />{' '}
+                  <div>{time} (Pacific time)</div>
+                </div>
+              </li>
+            )
+          })}
+        </ul>
+      ) : (
+        <div className="flex flex-col text-base font-semibold opacity-90">
+          <div className="flex items-center gap-2 px-5 py-2">
+            <CalendarIcon className="h-5 w-5 flex-shrink-0 text-gray-600 dark:text-blue-300" />{' '}
+            {eventDate}
+          </div>
+          <div className="flex items-baseline gap-2 px-5 py-2">
+            <ClockIcon className="relative h-5 w-5 flex-shrink-0 translate-y-1 text-gray-600 dark:text-blue-300" />{' '}
+            <div>
+              {eventTime} (Pacific time){' '}
+              {timezone && (
+                <a
+                  href={timezone}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  className="font-normal underline"
+                >
+                  timezones
+                </a>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center gap-2 px-5 py-2">
+            <LocationMarkerIcon className="h-5 w-5 text-gray-600 dark:text-blue-300" />{' '}
+            Zoom (online remote)
           </div>
         </div>
-        <div className="flex items-center gap-2 px-5 py-2">
-          <LocationMarkerIcon className="h-5 w-5 text-gray-600 dark:text-blue-300" />{' '}
-          Zoom (online remote)
-        </div>
-      </div>
+      )}
     </div>
   )
 }

@@ -39,7 +39,7 @@ export default defineType({
         timeFormat: 'HH:mm',
         timeStep: 15,
       },
-      validation: (Rule) => Rule.required(),
+      // validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'endsAt',
@@ -51,7 +51,51 @@ export default defineType({
         timeFormat: 'HH:mm',
         timeStep: 15,
       },
-      validation: (Rule) => Rule.required(),
+      // validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'events',
+      title: 'Events',
+      description:
+        'If this is a series of events, add them here. Otherwise, leave this empty.',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'title',
+              title: 'Title',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'startsAt',
+              title: 'Starts at (Pacific time)',
+              description: 'When does the event start?',
+              type: 'datetime',
+              options: {
+                dateFormat: 'YYYY-MM-DD',
+                timeFormat: 'HH:mm',
+                timeStep: 15,
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'endsAt',
+              title: 'Ends at (Pacific time)',
+              description: 'When does the event end?',
+              type: 'datetime',
+              options: {
+                dateFormat: 'YYYY-MM-DD',
+                timeFormat: 'HH:mm',
+                timeStep: 15,
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+        },
+      ],
     }),
     defineField({
       name: 'state',

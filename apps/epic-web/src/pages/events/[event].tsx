@@ -37,8 +37,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  const product = await getProductBySlug(event.product?.slug as string)
+  const product =
+    event.product && (await getProductBySlug(event.product?.slug as string))
   const mdx = event.body && (await serializeMDX(event.body))
+
+  if (!product) {
+    return {
+      props: {
+        event,
+        mdx,
+        availableBonuses,
+        quantityAvailable: -1,
+        totalQuantity: -1,
+        product,
+        purchaseCount: 0,
+      },
+    }
+  }
 
   const commerceProps = await propsForCommerce({
     query,
@@ -115,7 +130,7 @@ export type EventPageProps = {
   quantityAvailable: number
   totalQuantity: number
   purchaseCount: number
-  product: Product
+  product?: Product
   mdx: MDXRemoteSerializeResult
   hasPurchasedCurrentProduct: boolean
   existingPurchase: {id: string; product: {id: string; name: string}}
@@ -129,7 +144,7 @@ const EventPage = (props: EventPageProps) => {
   return (
     <>
       {hasPurchasedCurrentProduct ? (
-        <PriceCheckProvider purchasedProductIds={[props.product.productId]}>
+        <PriceCheckProvider purchasedProductIds={[props.product?.productId]}>
           <PurchasedEventTemplate {...props} />
         </PriceCheckProvider>
       ) : (
