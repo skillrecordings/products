@@ -53,11 +53,15 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
         {publishedEvents.map((event) => {
           const {title, image, slug, description, startsAt, endsAt, state} =
             event
-          const eventDate = `${format(new Date(startsAt), 'MMMM d, yyyy')}`
-          const eventTime = `${format(new Date(startsAt), 'h:mm a')} — ${format(
-            new Date(endsAt),
-            'h:mm a',
-          )}`
+          const eventDate =
+            startsAt && `${format(new Date(startsAt), 'MMMM d, yyyy')}`
+          const eventTime =
+            startsAt &&
+            endsAt &&
+            `${format(new Date(startsAt), 'h:mm a')} — ${format(
+              new Date(endsAt),
+              'h:mm a',
+            )}`
 
           const {data: availability} =
             trpc.products.getQuantityAvailableById.useQuery(
