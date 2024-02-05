@@ -114,6 +114,7 @@ export const getAllEvents = async (): Promise<Event[]> => {
         body,
         image,
         ogImage,
+        events[]{...},
         "product": *[_type in ['product'] && references(^._id)][0]{
           _id,
           productId,

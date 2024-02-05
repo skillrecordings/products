@@ -131,15 +131,41 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                           </div>
                         </div>
                       ) : null}
-                      <div>
-                        <div className="flex items-start gap-1">
-                          <CalendarIcon className="w-4 translate-y-0.5 text-blue-900/80 dark:text-indigo-200/80" />
-                          <div>
-                            <strong>{eventDate}</strong>
-                            <div>{eventTime} (PST)</div>
+                      {eventDate && (
+                        <div>
+                          <div className="flex items-start gap-1">
+                            <CalendarIcon className="w-4 translate-y-0.5 text-blue-900/80 dark:text-indigo-200/80" />
+                            <div>
+                              <strong>{eventDate}</strong>
+                              <div>{eventTime} (PST)</div>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      )}
+                      {event.events && (
+                        <div>
+                          <div className="flex items-start gap-1">
+                            <CalendarIcon className="w-4 translate-y-0.5 text-blue-900/80 dark:text-indigo-200/80" />
+                            <div>
+                              <strong>
+                                {format(
+                                  new Date(event.events[0].startsAt),
+                                  'MMMM d, yyyy',
+                                )}
+                                {' – '}
+                                {format(
+                                  new Date(
+                                    event.events[
+                                      event.events.length - 1
+                                    ].endsAt,
+                                  ),
+                                  'MMMM d, yyyy',
+                                )}
+                              </strong>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                       <div className="flex items-center gap-1 font-bold">
                         {isSoldOut ? (
                           'Sold out'
