@@ -241,22 +241,23 @@ export const EventDetails: React.FC<{
     events &&
     events.reduce((acc: any, event) => {
       const {title, startsAt, endsAt} = event
-      const formattedDate = `${formatInTimeZone(
+      const formattedDate = `${format(
         new Date(startsAt),
-        'America/Los_Angeles',
         'MMMM d, yyyy',
+        // 'America/Los_Angeles',
       )}`
 
-      const startTime = `${formatInTimeZone(
+      const startTime = `${format(
         new Date(startsAt),
-        'America/Los_Angeles',
         'ha',
-      )}`.toLowerCase()
-      const endTime = `${formatInTimeZone(
+        // 'America/Los_Angeles',
+      )}`
+
+      const endTime = `${format(
         new Date(endsAt),
-        'America/Los_Angeles',
         'ha',
-      )}`.toLowerCase()
+        // 'America/Los_Angeles',
+      )}`
 
       const timeRange = `${startTime}-${endTime}`
       if (!acc[title]) {
