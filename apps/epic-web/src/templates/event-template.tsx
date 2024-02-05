@@ -73,6 +73,7 @@ const EventTemplate: React.FC<
         authorImage: event.author?.picture?.url,
         authorName: event.author?.name,
       })
+
   const pageDescription =
     description ||
     (mdx ? `${mdx.compiledSource.substring(0, 157)}...` : undefined)
@@ -104,8 +105,8 @@ const EventTemplate: React.FC<
       {redeemableCoupon && <RedeemDialogForCoupon />}
       <EventJsonLd
         name={title}
-        startDate={startsAt}
-        endDate={endsAt}
+        startDate={startsAt as string}
+        endDate={endsAt as string}
         location={{name: 'Zoom'} as any}
         title={title}
         images={image ? [image] : []}
@@ -213,16 +214,21 @@ export const EventDetails: React.FC<{
   event: Event
 }> = ({event}) => {
   const {startsAt, endsAt, timezone, events, image} = event
-  const eventDate = `${formatInTimeZone(
-    new Date(startsAt),
-    'America/Los_Angeles',
-    'MMMM d, yyyy',
-  )}`
-  const eventTime = `${formatInTimeZone(
-    new Date(startsAt),
-    'America/Los_Angeles',
-    'h:mm a',
-  )} — ${formatInTimeZone(new Date(endsAt), 'America/Los_Angeles', 'h:mm a')}`
+  const eventDate =
+    startsAt &&
+    `${formatInTimeZone(
+      new Date(startsAt),
+      'America/Los_Angeles',
+      'MMMM d, yyyy',
+    )}`
+  const eventTime =
+    startsAt &&
+    endsAt &&
+    `${formatInTimeZone(
+      new Date(startsAt),
+      'America/Los_Angeles',
+      'h:mm a',
+    )} — ${formatInTimeZone(new Date(endsAt), 'America/Los_Angeles', 'h:mm a')}`
 
   interface GroupedEvents {
     [title: string]: {
@@ -269,7 +275,7 @@ export const EventDetails: React.FC<{
       </h2>
 
       {events && groupedEvents ? (
-        <ul className="flex flex-col gap-3 px-5">
+        <ul className="flex flex-col gap-4 px-5">
           <li className="flex items-center gap-1 font-semibold">
             <LocationMarkerIcon className="h-5 w-5 text-gray-600 dark:text-blue-300" />{' '}
             Location: Zoom (online remote)
