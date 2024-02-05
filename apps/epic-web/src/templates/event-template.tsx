@@ -160,7 +160,7 @@ const EventTemplate: React.FC<
           </h2>
           <hr className="my-10 flex h-px w-full bg-border" />
           <article className="invert-svg prose mx-auto w-full max-w-none dark:prose-invert md:prose-xl prose-code:break-words md:prose-code:break-normal">
-            <MDX contents={mdx} />
+            <MDX components={{Image}} contents={mdx} />
           </article>
         </div>
         <aside className="relative mx-auto w-full max-w-xs">
