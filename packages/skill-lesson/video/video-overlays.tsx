@@ -343,7 +343,9 @@ const FinishedOverlay = () => {
   const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
 
   const shareUrl = `${process.env.NEXT_PUBLIC_URL}${path}/${module.slug.current}`
-  const shareMessage = `${module.title} ${module.moduleType} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER}`
+  const shareMessage = `${module.title} ${module.moduleType} by @${
+    module?.author?.twitterHandle || process.env.NEXT_PUBLIC_PARTNER_TWITTER
+  }`
   const shareButtonStyles =
     'bg-gray-800 flex items-center gap-2 rounded px-3 py-2 hover:bg-gray-700'
   const isNextSectionWIP = isNextSectionEmpty({
