@@ -7,7 +7,6 @@ import {
 import {signs3UploadUrl} from './core/services/aws'
 import {sendFeedbackFromUser} from './core/services/send-feedback-from-user'
 import {redeemGoldenTicket} from './core/services/redeem-golden-ticket'
-import {loadPrices} from './core/services/load-prices'
 import {stripeCheckout} from './core/services/stripe-checkout'
 import {processStripeWebhooks} from './core/services/process-stripe-webhook'
 import {lookupUser} from './core/services/lookup-user'
@@ -72,8 +71,6 @@ export async function actionRouter({
         })
       case 'redeem':
         return await redeemGoldenTicket({params, token})
-      case 'prices':
-        return await loadPrices({params})
       case 'checkout':
         return stripeCheckout({params})
       case 'webhook':
