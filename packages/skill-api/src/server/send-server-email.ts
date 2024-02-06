@@ -42,9 +42,9 @@ export async function createVerificationUrl({
   const token = (await emailProvider.generateVerificationToken?.()) ?? v4()
 
   const ONE_DAY_IN_SECONDS = 86400
-  const expires =
-    expiresAt ||
-    new Date(Date.now() + (emailProvider.maxAge ?? ONE_DAY_IN_SECONDS) * 1000)
+  const durationInMilliseconds =
+    (emailProvider.maxAge ?? ONE_DAY_IN_SECONDS) * 1000
+  const expires = expiresAt || new Date(Date.now() + durationInMilliseconds)
 
   await nextAuthOptions?.adapter?.createVerificationToken?.({
     identifier: email,
