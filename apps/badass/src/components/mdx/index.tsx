@@ -101,8 +101,10 @@ const mdxComponents = {
   RelatedTeamMembers: ({children}: React.PropsWithChildren) => {
     return <RelatedTeamMembers>{children}</RelatedTeamMembers>
   },
-  TweetEmbed: ({tweetId, caption}: TweetEmbedProps) => {
-    return <TweetEmbed tweetId={tweetId} caption={caption} />
+  TweetEmbed: ({tweetId, caption, showCards}: TweetEmbedProps) => {
+    return (
+      <TweetEmbed tweetId={tweetId} caption={caption} showCards={showCards} />
+    )
   },
   TweetEmbedDouble: ({tweetId_1, tweetId_2}: TweetEmbedDoubleProps) => {
     return <TweetEmbedDouble tweetId_1={tweetId_1} tweetId_2={tweetId_2} />
