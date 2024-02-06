@@ -50,6 +50,19 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'card_color',
+      title: 'Card color',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'red',
+      options: {
+        list: [
+          {title: 'red', value: 'red'},
+          {title: 'green', value: 'green'},
+        ],
+      },
+    }),
+    defineField({
       name: 'resources',
       title: 'Resources',
       type: 'array',
