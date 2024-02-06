@@ -1,0 +1,8 @@
+[data-badass-card] {
+  &[data-badass-card-is-featured='red'] {
+    @apply bg-[#C5330B] hover:bg-[#C5330B]/80;
+  }
+  &[data-badass-card-is-featured='green'] {
+    @apply bg-badass-green-600 hover:bg-badass-green-600/80;
+  }
+}

@@ -4,6 +4,7 @@
 @import './fonts.css';
 @import './mdx-components.css';
 @import './subscribe-form.css';
+@import './card.css';
 
 @tailwind base;
 @tailwind components;
