@@ -58,7 +58,7 @@ const Card: React.FC<CardProps> = ({
         className,
       )}
       {...(featuredCardColor && {
-        'data-badass-card-is-featured': featuredCardColor,
+        'data-badass-featured-card-color': featuredCardColor,
       })}
     >
       {imageUrl && (
