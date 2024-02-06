@@ -60,13 +60,78 @@ const LessonItem: React.FC<{lesson: any; index: number}> = ({
   )
 }
 
+const getNextLessonDetails = ({
+  firstLessonSlug,
+  nextLessonSlug,
+  moduleCompleted,
+  completedLessonCount,
+}: {
+  firstLessonSlug: string
+  nextLessonSlug: string | undefined
+  moduleCompleted: boolean
+  completedLessonCount: number
+}) => {
+  // Three Options Are:
+  //
+  // 1. if the module has been completed
+  //    - 'Watch Again'
+  //    - nextLessonSlug is firstLessonSlug
+  //
+  // 2. if the module has not been started
+  //    - 'Start Watching'
+  //    - nextLessonSlug is firstLessonSlug
+  //
+  // 3. if the module has been started
+  //    - 'Continue Watching'
+  //    - nextLessonSlug is nextLessonSlug
+
+  if (moduleCompleted) {
+    return {
+      status: 'MODULE_COMPLETED' as const,
+      buttonText: 'Watch Again',
+      nextLessonSlug: firstLessonSlug,
+    }
+  }
+
+  if (completedLessonCount > 0) {
+    return {
+      status: 'MODULE_IN_PROGRESS' as const,
+      buttonText: 'Continue Watching',
+      nextLessonSlug,
+    }
+  }
+
+  return {
+    status: 'MODULE_UNSTARTED' as const,
+    buttonText: 'Start Watching',
+    nextLessonSlug: firstLessonSlug,
+  }
+}
+
 const WorkshopTemplate: React.FC<{
   workshop: Module
 }> = ({workshop}) => {
   const lessons = workshop?.sections?.[0]?.lessons || []
   const moduleProgress = useModuleProgress()
-  const firstLessonSlug = lessons?.[0].slug
-  const nextLessonSlug = moduleProgress?.nextLesson?.slug
+
+  let nextLessonDetails: ReturnType<typeof getNextLessonDetails>
+
+  {
+    const firstLessonSlug = lessons?.[0].slug
+    const nextLessonSlug = moduleProgress?.nextLesson?.slug
+    const moduleCompleted = moduleProgress?.moduleCompleted || false
+    const completedLessonCount = moduleProgress?.completedLessonCount || 0
+
+    nextLessonDetails = getNextLessonDetails({
+      firstLessonSlug,
+      nextLessonSlug,
+      moduleCompleted,
+      completedLessonCount,
+    })
+  }
+
+  const {nextLessonSlug, buttonText} = nextLessonDetails
+
   const ogImage = {
     url: `${process.env.NEXT_PUBLIC_URL}${
       process.env.NEXT_PUBLIC_OG_IMAGE_MODULE_API_URL
@@ -116,20 +181,11 @@ const WorkshopTemplate: React.FC<{
               )}
             </div>
             <Link
-              href={
-                nextLessonSlug
-                  ? `/lessons/${nextLessonSlug}`
-                  : `/lessons/${firstLessonSlug}`
-              }
+              href={`/lessons/${nextLessonSlug}`}
               className="mt-7 flex min-h-[50px] items-center space-x-4 rounded-md bg-gray-100 px-6 py-2 text-black duration-100 hover:bg-gray-200"
             >
               <Icon name="play" className="h-[10px] w-[10px]" />
-              <span>
-                {nextLessonSlug && nextLessonSlug !== firstLessonSlug
-                  ? 'Continue'
-                  : 'Start'}{' '}
-                Watching
-              </span>
+              <span>{buttonText}</span>
             </Link>
             <div className="mt-7">
               <PortableText
