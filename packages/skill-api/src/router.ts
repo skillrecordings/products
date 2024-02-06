@@ -16,6 +16,7 @@ import {updateName} from './core/services/update-name'
 import {transferPurchase} from './core/services/transfer-purchase'
 import {stripeRefund} from './core/services/process-refund'
 import {processSanityWebhooks} from './core/services/process-sanity-webhooks'
+import {createMagicLink} from './core/services/create-magic-link'
 
 export type SkillRecordingsAction =
   | 'send-feedback'
@@ -33,6 +34,7 @@ export type SkillRecordingsAction =
   | 'transfer'
   | 'nameUpdate'
   | 'refund'
+  | 'create-magic-link'
 
 export type SkillRecordingsProvider = 'stripe' | 'sanity'
 
@@ -95,6 +97,8 @@ export async function actionRouter({
         return await transferPurchase({params})
       case 'refund':
         return await stripeRefund({params})
+      case 'create-magic-link':
+        return await createMagicLink({params})
     }
   }
 
