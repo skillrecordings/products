@@ -13,6 +13,7 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Icon from '@/components/icons'
 import {useModuleProgress} from '@/utils/module-progress'
 import {secondsToFormattedTime} from '@/lib/secondsToFormattedTime'
+import {getNextLessonDetails} from '@/utils/get-next-lesson-details'
 
 const PlaylistItem: React.FC<{
   playlist: SanityDocument
@@ -20,8 +21,25 @@ const PlaylistItem: React.FC<{
 }> = ({playlist, purchased}) => {
   const lessons = playlist?.sections?.[0]?.lessons || []
   const moduleProgress = useModuleProgress()
-  const firstLessonSlug = lessons?.[0].slug
-  const nextLessonSlug = moduleProgress?.nextLesson?.slug
+
+  let nextLessonDetails: ReturnType<typeof getNextLessonDetails>
+
+  {
+    const firstLessonSlug = lessons?.[0].slug
+    const nextLessonSlug = moduleProgress?.nextLesson?.slug
+    const moduleCompleted = moduleProgress?.moduleCompleted || false
+    const completedLessonCount = moduleProgress?.completedLessonCount || 0
+
+    nextLessonDetails = getNextLessonDetails({
+      firstLessonSlug,
+      nextLessonSlug,
+      moduleCompleted,
+      completedLessonCount,
+    })
+  }
+
+  const {nextLessonSlug, buttonText} = nextLessonDetails
+
   return (
     <li className="flex flex-col items-center md:items-start space-y-6 md:space-y-0 md:flex-row md:space-x-8 lg:space-x-12">
       <div className="flex flex-col item-center shrink-0 space-y-4 md:space-y-6 lg:space-y-8">
@@ -152,11 +170,7 @@ const PlaylistItem: React.FC<{
         </div>
         {purchased && (
           <Link
-            href={
-              nextLessonSlug
-                ? `/lessons/${nextLessonSlug}`
-                : `/lessons/${firstLessonSlug}`
-            }
+            href={`/lessons/${nextLessonSlug}`}
             className="space-x-4 inline-flex items-center bg-gray-100 text-black px-6 py-2 rounded-md mt-7 hover:bg-gray-200 duration-100 min-h-[50px]"
             onClick={() => {
               track('clicked view workshop module', {
@@ -165,12 +179,7 @@ const PlaylistItem: React.FC<{
             }}
           >
             <Icon name="play" className="w-[10px] h-[10px]" />
-            <span>
-              {nextLessonSlug && nextLessonSlug !== firstLessonSlug
-                ? 'Continue'
-                : 'Start'}{' '}
-              Watching
-            </span>
+            <span>{buttonText}</span>
           </Link>
         )}
         {playlist?.body && (
