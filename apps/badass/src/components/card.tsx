@@ -20,6 +20,7 @@ type CardProps = {
   description?: string | null | undefined
   publishedDate?: string
   isEven?: boolean
+  featuredCardColor?: string
   className?: string
 }
 
@@ -37,9 +38,11 @@ const Card: React.FC<CardProps> = ({
   authorAvatarUrl,
   description,
   isEven,
+  featuredCardColor,
 }) => {
   return (
     <Link
+      data-badass-card=""
       href={href}
       className={twMerge(
         cx(
@@ -54,6 +57,9 @@ const Card: React.FC<CardProps> = ({
         ),
         className,
       )}
+      {...(featuredCardColor && {
+        'data-badass-card-is-featured': featuredCardColor,
+      })}
     >
       {imageUrl && (
         <div

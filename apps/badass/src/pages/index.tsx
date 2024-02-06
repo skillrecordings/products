@@ -437,7 +437,7 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
               ctaText="View"
               authorName="Joel Hooks"
               authorAvatarUrl="/joel-hooks.jpg"
-              className="bg-[#C5330B] hover:bg-[#C5330B]"
+              featuredCardColor={latestArticle.card_color}
             />
           )}
         </div>
