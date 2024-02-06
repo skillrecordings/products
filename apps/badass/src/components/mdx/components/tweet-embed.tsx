@@ -5,16 +5,21 @@ import Spinner from 'components/spinner'
 export type TweetEmbedProps = {
   tweetId: string
   caption?: string
+  showCards?: boolean
 }
 
-const TweetEmbed: React.FC<TweetEmbedProps> = ({tweetId, caption}) => {
+const TweetEmbed: React.FC<TweetEmbedProps> = ({
+  tweetId,
+  caption,
+  showCards,
+}) => {
   return (
     <div data-tweet-embed>
       <TwitterTweetEmbed
         tweetId={tweetId}
         options={{
           theme: 'dark',
-          cards: 'hidden',
+          cards: showCards ? 'visible' : 'hidden',
           width: 550,
           align: 'center',
         }}
