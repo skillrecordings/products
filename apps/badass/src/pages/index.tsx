@@ -29,6 +29,7 @@ import ImageSecretSauce from '../../public/assets/sauce@2x.png'
 import ImageStars1 from '../../public/assets/stars-1-new@2x.png'
 import ImageStars1Mobile from '../../public/assets/stars-1-new-mobile@2x.png'
 import ImageStars2 from '../../public/assets/stars-2-new@2x.png'
+import {date} from 'zod'
 
 type LandingPageProps = {
   caseStudies: CaseStudy[]
@@ -395,7 +396,10 @@ const PodcastsSection: React.FC<PodcastsSectionProps> = ({podcasts}) => {
 }
 
 const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
-  const mainArticle = articles.find((article) => article.slug === 'the-process')
+  const latestArticle = articles.sort(
+    (a, b) =>
+      new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime(),
+  )[0]
   const restArticles = articles
     .filter((article) => article.slug !== 'the-process')
     .splice(0, 4)
@@ -422,13 +426,13 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({articles}) => {
     >
       <div className="mt-6 md:mt-10 lg:mt-20 gap-y-2 md:gap-y-0 md:gap-x-4 lg:gap-x-16 flex flex-col md:flex-row items-center">
         <div className="md:w-1/2">
-          {mainArticle && (
+          {latestArticle && (
             <Card
-              key={mainArticle._id}
-              imageUrl={mainArticle.image}
-              title={mainArticle.title}
-              description={mainArticle.description}
-              href={`/${mainArticle.slug}`}
+              key={latestArticle._id}
+              imageUrl={latestArticle.image}
+              title={latestArticle.title}
+              description={latestArticle.description}
+              href={`/${latestArticle.slug}`}
               type="article"
               ctaText="View"
               authorName="Joel Hooks"
