@@ -1,5 +1,5 @@
 import {NextAuthOptions, Theme} from 'next-auth'
-import {createHash, randomBytes} from 'crypto'
+import {createHash} from 'crypto'
 import type {
   HTMLEmailParams,
   MagicLinkEmailType,
@@ -20,6 +20,47 @@ function hashToken(token: string, options: any) {
   )
 }
 
+export async function createVerificationUrl({
+  email,
+  nextAuthOptions,
+  callbackUrl,
+  expiresAt,
+}: {
+  email: string
+  nextAuthOptions: NextAuthOptions | undefined
+  callbackUrl?: string
+  expiresAt?: Date
+}) {
+  if (!nextAuthOptions) return
+
+  const emailProvider: any = nextAuthOptions.providers.find(
+    (provider) => provider.id === 'email',
+  )
+
+  callbackUrl = (callbackUrl || baseUrl) as string
+
+  const token = (await emailProvider.generateVerificationToken?.()) ?? v4()
+
+  const ONE_DAY_IN_SECONDS = 86400
+  const expires =
+    expiresAt ||
+    new Date(Date.now() + (emailProvider.maxAge ?? ONE_DAY_IN_SECONDS) * 1000)
+
+  await nextAuthOptions?.adapter?.createVerificationToken?.({
+    identifier: email,
+    token: hashToken(token, {
+      provider: emailProvider,
+      secret: nextAuthOptions.secret,
+    }),
+    expires,
+  })
+
+  const params = new URLSearchParams({callbackUrl, token, email})
+  const verificationUrl = `${baseUrl}/api/auth/callback/${emailProvider.id}?${params}`
+
+  return {url: verificationUrl, token, expires}
+}
+
 export async function sendServerEmail({
   email,
   callbackUrl,
@@ -37,38 +78,24 @@ export async function sendServerEmail({
   text?: (options: TextEmailParams) => string
   expiresAt?: Date | null
 }) {
-  if (!nextAuthOptions) return
+  const verificationDetails = await createVerificationUrl({
+    email,
+    nextAuthOptions,
+    callbackUrl,
+    expiresAt: expiresAt || undefined,
+  })
+
+  if (!verificationDetails) return
+
+  const {url, token, expires} = verificationDetails
 
   const emailProvider: any = nextAuthOptions.providers.find(
     (provider) => provider.id === 'email',
   )
 
-  callbackUrl = (callbackUrl || baseUrl) as string
-
-  const identifier = email
-
-  const token = (await emailProvider.generateVerificationToken?.()) ?? v4()
-
-  const ONE_DAY_IN_SECONDS = 86400
-  const expires =
-    expiresAt ||
-    new Date(Date.now() + (emailProvider.maxAge ?? ONE_DAY_IN_SECONDS) * 1000)
-
-  await nextAuthOptions?.adapter?.createVerificationToken?.({
-    identifier,
-    token: hashToken(token, {
-      provider: emailProvider,
-      secret: nextAuthOptions.secret,
-    }),
-    expires,
-  })
-
-  const params = new URLSearchParams({callbackUrl, token, email: identifier})
-  const _url = `${baseUrl}/api/auth/callback/${emailProvider.id}?${params}`
-
   await sendVerificationRequest({
-    identifier,
-    url: _url,
+    identifier: email,
+    url,
     theme: nextAuthOptions.theme || {colorScheme: 'auto'},
     provider: emailProvider.options,
     token: token as string,
