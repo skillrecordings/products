@@ -41,7 +41,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
       )}
     >
       <div className="mt-6 md:mt-10 lg:mt-20 gap-y-2 md:gap-y-0 md:gap-x-4 lg:gap-x-16 flex flex-col md:flex-row items-center">
-        <div className="md:w-1/2">
+        <div className="w-full md:w-1/2">
           {latestArticle && (
             <Card
               key={latestArticle._id}
@@ -57,7 +57,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
             />
           )}
         </div>
-        <div className="md:w-1/2">
+        <div className="w-full md:w-1/2">
           <ul>
             {restArticles.map((article) => {
               return (
