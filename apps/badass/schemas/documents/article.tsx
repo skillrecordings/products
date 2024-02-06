@@ -141,12 +141,19 @@ export default defineType({
     select: {
       title: 'title',
       media: 'externalImage.url',
+      bgColor: 'card_color',
     },
     prepare(selection) {
-      const {media, title} = selection
+      const {media, title, bgColor} = selection
       return {
         title,
-        media: media && <img src={media} alt={title} />,
+        media: media && (
+          <div
+            style={{backgroundColor: bgColor, width: '100%', height: '100%'}}
+          >
+            <img src={media} alt={title} />
+          </div>
+        ),
       }
     },
   },
