@@ -44,13 +44,23 @@ export async function createMagicLink({
     const {req} = params
     requireSkillSecret(req)
 
-    const email = z.string().parse(req.query.email)
+    const {email, expiresIn} = z
+      .object({email: z.string(), expiresIn: z.coerce.number().optional()})
+      .parse(req.query)
 
     const {nextAuthOptions} = params.options
+
+    let expiresAt: Date | undefined = undefined
+
+    if (expiresIn) {
+      const durationInMilliseconds = expiresIn * 1000
+      expiresAt = new Date(Date.now() + durationInMilliseconds)
+    }
 
     const verificationDetails = await createVerificationUrl({
       email,
       nextAuthOptions,
+      expiresAt,
     })
 
     if (!verificationDetails) {
