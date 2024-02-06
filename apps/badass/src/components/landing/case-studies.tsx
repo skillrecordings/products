@@ -15,7 +15,7 @@ const CaseStudies: React.FC<CaseStudiesProps> = ({caseStudies}) => {
       subtitle="A Deep Dive into our Processes"
     >
       <div className="grid md:grid-cols-2 w-full gap-4 mt-8 lg:mt-[4.5rem]">
-        {caseStudies.map((caseStudy) => {
+        {caseStudies.slice(0, 4).map((caseStudy) => {
           return (
             <Card
               key={caseStudy._id}
