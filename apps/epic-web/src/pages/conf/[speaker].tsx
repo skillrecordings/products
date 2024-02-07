@@ -21,6 +21,12 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     return slugify(speaker.fullName) === params?.speaker
   })
 
+  if (!speaker) {
+    return {
+      notFound: true,
+    }
+  }
+
   const sessions = await fetch(
     'https://sessionize.com/api/v2/epg94f49/view/Sessions',
   ).then((res) => res.json())
@@ -46,7 +52,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         speaker: slugify(speaker.fullName),
       },
     })),
-    fallback: true,
+    fallback: false,
   }
 }
 
@@ -74,7 +80,7 @@ const ConfSpeaker: React.FC<{
             <ChevronLeftIcon className="w-4" aria-hidden="true" /> Speakers
           </Link>
           <h1 className="text-5xl font-bold">{speaker.fullName}</h1>
-          <h2 className="pt-4 text-2xl text-[#93A1D7]">{speaker.tagLine}</h2>
+          <h2 className="pt-2 text-2xl text-[#93A1D7]">{speaker.tagLine}</h2>
         </div>
         <div className="mt-14 flex w-full justify-between gap-10">
           <div className="flex w-full max-w-[280px] flex-col gap-16">
