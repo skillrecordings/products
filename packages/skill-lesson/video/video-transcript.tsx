@@ -11,11 +11,17 @@ export const VideoTranscript: React.FC<{
   transcript: string | any[]
   withTitle?: boolean
   className?: string
-}> = ({transcript, withTitle = true, className}) => {
+  canShowVideo?: boolean
+}> = ({
+  transcript,
+  withTitle = true,
+  className,
+  canShowVideo: _canShowVideo = false,
+}) => {
   const {handlePlay, canShowVideo, muxPlayerRef} = useMuxPlayer()
   const transcriptMarkdownComponent = getTranscriptComponents({
     handlePlay,
-    canShowVideo,
+    canShowVideo: _canShowVideo || canShowVideo,
     muxPlayerRef,
   })
 

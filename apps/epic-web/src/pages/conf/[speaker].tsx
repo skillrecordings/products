@@ -11,6 +11,14 @@ import toast from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {ChevronLeftIcon} from '@heroicons/react/outline'
+import {sanityClient} from 'utils/sanity-client'
+import groq from 'groq'
+import MuxPlayer, {MuxPlayerRefAttributes} from '@mux/mux-player-react'
+import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
+import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
+import Image from 'next/image'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const speakers = await fetch(
@@ -20,6 +28,23 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const speaker: Speaker = speakers.find((speaker: Speaker) => {
     return slugify(speaker.fullName) === params?.speaker
   })
+
+  const video = await sanityClient.fetch(
+    groq`
+    *[_type == "videoResource" && _id == $id][0]{
+      _id,
+      "_type": "tip",
+      "slug": slug.current,
+      "muxPlaybackId": muxAsset.muxPlaybackId,
+      transcript { text },
+      "videoResourceId": _id,
+      poster,
+    }
+  `,
+    {
+      id: null, // 'zZ4ErPnSL4ZWs2Du0ONL6z',
+    },
+  )
 
   if (!speaker) {
     return {
@@ -36,6 +61,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   return {
     props: {
       speaker: {...speaker, sessions: fullSpeakerSessions} || null,
+      video: video || null,
     },
     revalidate: 60 * 15,
   }
@@ -56,36 +82,87 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-const ConfSpeaker: React.FC<{
+type ConfSpeakerPageProps = {
   speaker: Omit<Speaker, 'sessions'> & {sessions: Session[]}
-}> = ({speaker}) => {
-  const router = useRouter()
-  const shareUrl = process.env.NEXT_PUBLIC_URL + '/conf/' + router.query.speaker
+  video?: {
+    _id: string
+    muxPlaybackId: string
+    transcript: {text: string}
+    poster?: string
+  }
+}
 
+const ConfSpeaker: React.FC<ConfSpeakerPageProps> = ({speaker, video}) => {
   return (
     <Layout
-      className="overflow-x-hidden"
+      className="overflow-x-hidden bg-foreground text-background dark:bg-background dark:text-foreground"
       meta={{
         title: `${speaker.fullName} is speaking at Epic Web Conf 2024`,
       }}
     >
-      <main className="relative mx-auto w-full max-w-screen-lg px-5 pt-20">
-        <BgGraphic className="absolute -right-48 -top-48 -z-10" />
-        <div className="absolute -right-48 -top-1/2 h-[600px] w-[600px] rounded-full bg-[#93A1D7] opacity-30 blur-[500px]" />
+      <LessonProvider
+        lesson={
+          {
+            ...video,
+            _type: 'interview',
+            slug: slugify(speaker.fullName),
+          } as any
+        }
+        module={
+          {
+            moduleType: 'interview',
+            slug: {current: 'speakers'},
+            lessons: [
+              {
+                ...video,
+                slug: slugify(speaker.fullName),
+                _type: 'interview',
+              },
+            ],
+          } as any
+        }
+      >
+        <VideoResourceProvider videoResourceId={video?._id as string}>
+          <ConfSpeakerTemplate speaker={speaker} video={video} />
+        </VideoResourceProvider>
+      </LessonProvider>
+    </Layout>
+  )
+}
+
+export default ConfSpeaker
+
+const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
+  speaker,
+  video,
+}) => {
+  const router = useRouter()
+  const shareUrl = process.env.NEXT_PUBLIC_URL + '/conf/' + router.query.speaker
+  const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
+  return (
+    <VideoProvider muxPlayerRef={muxPlayerRef}>
+      <main className="relative mx-auto w-full max-w-screen-lg px-5 pt-16">
+        <BgGraphic className="absolute -right-48 -top-48 z-0" />
+        <div className="absolute -right-48 -top-48 h-[600px] w-[600px] rounded-full bg-[#93A1D7] opacity-30 blur-[500px]" />
         <div>
           <Link
             href="/conf#speakers"
-            className="mb-5 flex items-center gap-1 text-sm opacity-75 transition hover:underline hover:opacity-100"
+            className="mb-5 flex items-center gap-1 text-sm text-[#93A1D7] opacity-90 transition hover:underline hover:opacity-100"
           >
             <ChevronLeftIcon className="w-4" aria-hidden="true" /> Speakers
           </Link>
           <h1 className="text-5xl font-bold">{speaker.fullName}</h1>
           <h2 className="pt-2 text-2xl text-[#93A1D7]">{speaker.tagLine}</h2>
         </div>
-        <div className="mt-14 flex w-full justify-between gap-10">
-          <div className="flex w-full max-w-[280px] flex-col gap-16">
-            <div>
-              <h3 className="flex border-b pb-2 text-xl font-semibold">
+        <div className={cn('mt-14 flex w-full justify-between gap-10')}>
+          <div
+            className={cn('flex w-full flex-col gap-16', {
+              'max-w-[280px]': video,
+              'max-w-[400px]': !video,
+            })}
+          >
+            <div className="w-full">
+              <h3 className="flex border-b border-gray-800 pb-2 text-xl font-semibold dark:border-border">
                 Keynotes
               </h3>
               <ul className="mt-5">
@@ -113,13 +190,15 @@ const ConfSpeaker: React.FC<{
               </ul>
             </div>
             <div>
-              <h3 className="flex border-b pb-2 text-xl font-semibold">Bio</h3>
+              <h3 className="flex border-b border-gray-800 pb-2 text-xl font-semibold dark:border-border">
+                Bio
+              </h3>
               <ReactMarkdown className="prose prose-sm prose-invert mt-3 prose-p:text-[#D6DEFF]">
                 {speaker.bio}
               </ReactMarkdown>
             </div>
             <div>
-              <h3 className="flex border-b pb-2 text-xl font-semibold">
+              <h3 className="flex border-b border-gray-800 pb-2 text-xl font-semibold dark:border-border">
                 Share
               </h3>
               <div className="mt-1 flex items-center">
@@ -136,22 +215,49 @@ const ConfSpeaker: React.FC<{
               </div>
             </div>
           </div>
-          <div className="flex h-full w-full flex-col gap-7">
-            <div className="aspect-video h-full w-full max-w-[670px] rounded border bg-gray-900"></div>
-            <div>
-              <h3 className="flex border-b pb-2 text-xl font-semibold">
-                Transcript
-              </h3>
+          {video ? (
+            <div className="flex h-full w-full flex-col gap-0">
+              <h3 className="flex pb-2 text-xl font-semibold">Interview</h3>
+              <MuxPlayer
+                accentColor="#93A1D7"
+                ref={muxPlayerRef}
+                playbackId={video.muxPlaybackId}
+                poster={video.poster}
+                className="aspect-video rounded border border-gray-800 dark:border-border"
+              />
+              {/* <div className="aspect-video h-full w-full max-w-[670px] rounded border bg-gray-900" /> */}
+              {video?.transcript.text && (
+                <div className="mt-4 [&_[data-video-transcript]]:p-0">
+                  <div className="relative mt-3 max-h-[400px] overflow-y-auto rounded border border-gray-800 bg-gray-900 p-5">
+                    <VideoTranscript
+                      canShowVideo
+                      withTitle={false}
+                      transcript={video?.transcript.text}
+                      className="!sm:prose-sm prose !prose-sm !prose-invert p-0 dark:prose-invert"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
+          ) : (
+            <div className="relative z-10">
+              <Image
+                priority
+                quality={100}
+                className="rounded shadow-soft-3xl"
+                src={speaker.profilePicture}
+                alt={speaker.fullName}
+                width={300}
+                height={300}
+              />
+            </div>
+          )}
         </div>
         <BuyTicketsCTA />
       </main>
-    </Layout>
+    </VideoProvider>
   )
 }
-
-export default ConfSpeaker
 
 type Session = {
   questionAnswers?: any[]
