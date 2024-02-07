@@ -409,6 +409,9 @@ export async function stripeCheckout({
           'US',
         ip_address,
         ...(usedCouponId && {usedCouponId}),
+        productId: loadedProduct.id,
+        product: loadedProduct.name,
+        ...(user && {userId: user.id}),
       }
 
       const session = await stripe.checkout.sessions.create({
