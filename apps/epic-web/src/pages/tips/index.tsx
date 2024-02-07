@@ -35,7 +35,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
   return (
     <Layout
       meta={{
-        title: `Epic Web Dev Tips by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
+        title: `Epic Web Dev Tips`,
         description: pageDescription,
         ogImage: {
           url: 'https://res.cloudinary.com/epic-web/image/upload/v1704808424/card-tips_2x.png',

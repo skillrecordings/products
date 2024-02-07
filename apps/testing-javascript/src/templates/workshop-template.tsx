@@ -8,6 +8,7 @@ import Layout from '@/components/layout'
 import Icon from '@/components/icons'
 import {secondsToFormattedTime} from '@/lib/secondsToFormattedTime'
 import {Module} from '@/@types/'
+import {getNextLessonDetails} from '@/utils/get-next-lesson-details'
 
 const LessonItem: React.FC<{lesson: any; index: number}> = ({
   lesson,
@@ -65,8 +66,25 @@ const WorkshopTemplate: React.FC<{
 }> = ({workshop}) => {
   const lessons = workshop?.sections?.[0]?.lessons || []
   const moduleProgress = useModuleProgress()
-  const firstLessonSlug = lessons?.[0].slug
-  const nextLessonSlug = moduleProgress?.nextLesson?.slug
+
+  let nextLessonDetails: ReturnType<typeof getNextLessonDetails>
+
+  {
+    const firstLessonSlug = lessons?.[0].slug
+    const nextLessonSlug = moduleProgress?.nextLesson?.slug
+    const moduleCompleted = moduleProgress?.moduleCompleted || false
+    const completedLessonCount = moduleProgress?.completedLessonCount || 0
+
+    nextLessonDetails = getNextLessonDetails({
+      firstLessonSlug,
+      nextLessonSlug,
+      moduleCompleted,
+      completedLessonCount,
+    })
+  }
+
+  const {nextLessonSlug, buttonText} = nextLessonDetails
+
   const ogImage = {
     url: `${process.env.NEXT_PUBLIC_URL}${
       process.env.NEXT_PUBLIC_OG_IMAGE_MODULE_API_URL
@@ -116,20 +134,11 @@ const WorkshopTemplate: React.FC<{
               )}
             </div>
             <Link
-              href={
-                nextLessonSlug
-                  ? `/lessons/${nextLessonSlug}`
-                  : `/lessons/${firstLessonSlug}`
-              }
+              href={`/lessons/${nextLessonSlug}`}
               className="mt-7 flex min-h-[50px] items-center space-x-4 rounded-md bg-gray-100 px-6 py-2 text-black duration-100 hover:bg-gray-200"
             >
               <Icon name="play" className="h-[10px] w-[10px]" />
-              <span>
-                {nextLessonSlug && nextLessonSlug !== firstLessonSlug
-                  ? 'Continue'
-                  : 'Start'}{' '}
-                Watching
-              </span>
+              <span>{buttonText}</span>
             </Link>
             <div className="mt-7">
               <PortableText
