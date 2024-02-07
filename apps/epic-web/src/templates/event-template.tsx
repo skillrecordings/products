@@ -214,6 +214,7 @@ export const EventDetails: React.FC<{
   event: Event
 }> = ({event}) => {
   const {startsAt, endsAt, timezone, events, image} = event
+  console.log('event info', event)
   const eventDate =
     startsAt &&
     `${formatInTimeZone(
@@ -221,6 +222,7 @@ export const EventDetails: React.FC<{
       'America/Los_Angeles',
       'MMMM d, yyyy',
     )}`
+
   const eventTime =
     startsAt &&
     endsAt &&
@@ -247,16 +249,16 @@ export const EventDetails: React.FC<{
         // 'America/Los_Angeles',
       )}`
 
-      const startTime = `${format(
+      const startTime = `${formatInTimeZone(
         new Date(startsAt),
+        'America/Los_Angeles',
         'ha',
-        // 'America/Los_Angeles',
       )}`
 
-      const endTime = `${format(
+      const endTime = `${formatInTimeZone(
         new Date(endsAt),
+        'America/Los_Angeles',
         'ha',
-        // 'America/Los_Angeles',
       )}`
 
       const timeRange = `${startTime}-${endTime}`
@@ -289,6 +291,7 @@ export const EventDetails: React.FC<{
                     -1,
                   )}`
                 : uniqueDates[0]
+
             return (
               <li key={title}>
                 <strong className="text-lg font-semibold leading-tight">
