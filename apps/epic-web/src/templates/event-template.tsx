@@ -214,7 +214,6 @@ export const EventDetails: React.FC<{
   event: Event
 }> = ({event}) => {
   const {startsAt, endsAt, timezone, events, image} = event
-  console.log('event info', event)
   const eventDate =
     startsAt &&
     `${formatInTimeZone(
