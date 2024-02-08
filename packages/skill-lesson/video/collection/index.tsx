@@ -156,15 +156,6 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       }
     }, [nextSection?.slug, activeSection])
 
-    const mixedLessonsAndSections = module?.resources?.map((resource) => {
-      switch (resource._type) {
-        case 'section':
-          return getSectionChildren(children, {section: resource})
-        default:
-          return getLessonChildren(children, {lesson: resource})
-      }
-    })
-
     return (
       <CollectionProvider
         module={{...module}}
@@ -179,15 +170,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       >
         <TooltipProvider>
           {children ? (
-            <>
-              {module.useResourcesInsteadOfSections ? (
-                <Sections>{mixedLessonsAndSections}</Sections>
-              ) : onlyHasSingleSection ? (
-                childrenForSingleSection
-              ) : (
-                children
-              )}
-            </>
+            <>{onlyHasSingleSection ? childrenForSingleSection : children}</>
           ) : (
             <>
               <Metadata />
@@ -306,6 +289,11 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
       }
     }
 
+    const resources =
+      (module.useResourcesInsteadOfSections
+        ? module.resources
+        : module.sections) || []
+
     return (
       <Accordion
         type="multiple"
@@ -318,22 +306,31 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
           ref={forwardedRef}
           className={cn('space-y-2', sectionsProps.className)}
         >
-          {module.sections?.map?.((section) => {
-            const childrenWithProps = React.Children.map(children, (child) => {
-              if (React.isValidElement<SectionProps>(child)) {
-                return React.cloneElement(child, {
-                  key: section._id,
-                  section: section,
-                })
-              }
-              return null
-            })
+          {resources.map?.((resource) => {
+            if (resource._type === 'section') {
+              const section = resource
 
-            return (
-              childrenWithProps || (
-                <Section key={section._id} section={section} />
+              const childrenWithProps = React.Children.map(
+                children,
+                (child) => {
+                  if (React.isValidElement<SectionProps>(child)) {
+                    return React.cloneElement(child, {
+                      key: section._id,
+                      section: section,
+                    })
+                  }
+                  return null
+                },
               )
-            )
+
+              return (
+                childrenWithProps || (
+                  <Section key={section._id} section={section} />
+                )
+              )
+            } else {
+              return <Lesson lesson={resource} />
+            }
           })}
         </Primitive.ul>
       </Accordion>
