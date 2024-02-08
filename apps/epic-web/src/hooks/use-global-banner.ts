@@ -61,7 +61,7 @@ export const useAvailableSale = () => {
 
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
-  const hasPurchase = purchasedProductIds.length > 0
+  const hasPurchase = purchasedProductIds.includes(couponData?.product?.id)
   const {data: sanityProduct} = trpc.products.getProductById.useQuery(
     {productId: couponData?.restrictedToProductId as string},
     {

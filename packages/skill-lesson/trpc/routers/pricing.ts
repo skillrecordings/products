@@ -218,11 +218,9 @@ export const pricing = router({
       await getPurchasesForUser(verifiedUserId),
     )
     const products = await getAllProducts()
-    const defaultCoupons = !token
-      ? await getDefaultCoupon(
-          products.map((product: SanityProduct) => product.productId),
-        )
-      : null
+    const defaultCoupons = await getDefaultCoupon(
+      products.map((product: SanityProduct) => product.productId),
+    )
 
     const defaultCoupon = defaultCoupons?.defaultCoupon
 
