@@ -25,7 +25,7 @@ export const ProductSchema = z.object({
   welcomeVideo: z
     .object({
       muxPlaybackId: z.string(),
-      poster: z.string().optional(),
+      poster: z.string().optional().nullable(),
     })
     .nullable(),
 })
