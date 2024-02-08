@@ -5,6 +5,8 @@ import {type CaseStudy, getAllCaseStudies} from 'lib/case-studies'
 import {type Podcast, getAllPodcastEpisodes} from 'lib/podcast'
 import {type Article, getAllArticles} from 'lib/articles'
 
+// import 'keen-slider/keen-slider.min.css'
+
 import Layout from 'components/layout'
 import {
   headerContent,
@@ -18,8 +20,6 @@ import CaseStudies from 'components/landing/case-studies'
 import OtherProducts from 'components/landing/other-products'
 import Podcasts from 'components/landing/podcasts'
 import Articles from 'components/landing/articles'
-
-import 'keen-slider/keen-slider.min.css'
 
 type LandingPageProps = {
   caseStudies: CaseStudy[]
@@ -40,7 +40,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
         <section className="flex flex-col items-center justify-center py-16 mt-14 md:mt-0 md:pt-1 lg:pt-14">
           <CaseStudies caseStudies={caseStudies} />
           <OtherProducts />
-          <Podcasts podcasts={podcasts} />
+          <Podcasts podcasts={podcasts} className="mt-14 md:mt-16 lg:mt-36" />
           <Articles articles={articles} />
         </section>
         <CallToActionForm content={genericCallToActionContent} />

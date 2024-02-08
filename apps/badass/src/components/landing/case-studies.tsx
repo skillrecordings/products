@@ -7,9 +7,13 @@ import {ButtonSecondary} from 'components/buttons'
 
 type CaseStudiesProps = {
   caseStudies: CaseStudy[]
+  maxItems?: number
 }
 
-const CaseStudies: React.FC<CaseStudiesProps> = ({caseStudies}) => {
+const CaseStudies: React.FC<CaseStudiesProps> = ({
+  caseStudies,
+  maxItems = 4,
+}) => {
   return (
     <ContentSection
       title="badass case studies"
@@ -30,7 +34,7 @@ const CaseStudies: React.FC<CaseStudiesProps> = ({caseStudies}) => {
       )}
     >
       <div className="grid md:grid-cols-2 w-full gap-4 mt-8 lg:mt-[4.5rem]">
-        {caseStudies.slice(0, 4).map((caseStudy) => {
+        {caseStudies.slice(0, maxItems).map((caseStudy) => {
           return (
             <Card
               key={caseStudy._id}
