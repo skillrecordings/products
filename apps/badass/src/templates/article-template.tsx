@@ -29,6 +29,7 @@ const ArticleTemplate: React.FC<
     _createdAt: date,
     video,
     image,
+    externalImage,
     shareCardDetails,
   } = article
   const {
@@ -68,7 +69,7 @@ const ArticleTemplate: React.FC<
         },
       }}
     >
-      <Header title={title} date={date} image={image} />
+      <Header title={title} date={date} image={externalImage} />
       <main className="pb-10">
         <div className="">
           <div className="px-5 pb-16 pt-10 md:pt-16 lg:px-0">
