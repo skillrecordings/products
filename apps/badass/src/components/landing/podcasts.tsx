@@ -8,8 +8,11 @@ import Icon from 'components/icons'
 import ContentSection from 'components/content-section'
 import {ButtonSecondary} from 'components/buttons'
 
+import 'keen-slider/keen-slider.min.css'
+
 type PodcastsProps = {
   podcasts: Podcast[]
+  className?: string
 }
 
 const Arrow = (props: {
@@ -111,7 +114,7 @@ const calculateActiveSlidesPerView = () => {
   return activeSlidesPerView
 }
 
-const Podcasts: React.FC<PodcastsProps> = ({podcasts}) => {
+const Podcasts: React.FC<PodcastsProps> = ({podcasts, className}) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const [loaded, setLoaded] = React.useState(false)
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
@@ -140,7 +143,7 @@ const Podcasts: React.FC<PodcastsProps> = ({podcasts}) => {
     <ContentSection
       title="Badass Podcast"
       subtitle="Tune in to our Badass Course Builders Podcast"
-      className="mt-14 md:mt-16 lg:mt-36"
+      className={className}
       subtitleClassName="md:max-w-[34rem]"
       renderAdditionalComponent={() => (
         <PodcastsSectionControls
