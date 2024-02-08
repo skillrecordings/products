@@ -39,7 +39,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
     _type,
     _updatedAt,
     title,
-    slug,
+    "slug": slug.current,
     (_type == 'explainer') => {
       explainerType
     },
@@ -49,7 +49,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
         _type,
         _updatedAt,
         title,
-        slug,
+        "slug": slug.current,
         description,
         (_type == 'explainer') => {
           explainerType
@@ -76,7 +76,7 @@ export const WorkshopSchema = z.object({
       _type: z.union([z.literal('section'), z.literal('explainer')]),
       _updatedAt: z.string(),
       title: z.string(),
-      slug: z.object({current: z.string()}),
+      slug: z.string(),
       explainerType: z.string().optional(),
       resources: z
         .array(
@@ -85,7 +85,7 @@ export const WorkshopSchema = z.object({
             _type: z.union([z.literal('explainer'), z.literal('exercise')]),
             _updatedAt: z.string(),
             title: z.string(),
-            slug: z.object({current: z.string()}),
+            slug: z.string(),
             description: z.string().nullable(),
             explainerType: z.string().optional(),
           }),
@@ -158,7 +158,7 @@ export const getWorkshop = async (slug: string) =>
           _type,
           _updatedAt,
           title,
-          slug,
+          "slug": slug.current,
           (_type == 'explainer') => {
             explainerType
           },
@@ -168,7 +168,7 @@ export const getWorkshop = async (slug: string) =>
               _type,
               _updatedAt,
               title,
-              slug,
+              "slug": slug.current,
               description,
               (_type == 'explainer') => {
                 explainerType
