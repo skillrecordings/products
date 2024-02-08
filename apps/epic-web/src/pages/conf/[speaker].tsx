@@ -108,6 +108,7 @@ const ConfSpeaker: React.FC<ConfSpeakerPageProps> = ({speaker, video}) => {
       meta={{
         title: `${speaker.fullName} is speaking at Epic Web Conf 2024`,
         ogImage,
+        description: speaker.bio.substring(0, 157) + '...',
       }}
     >
       <LessonProvider
