@@ -1,5 +1,6 @@
 import React from 'react'
 import Layout from 'components/app/layout'
+import MuxPlayer from '@mux/mux-player-react'
 import {EventJsonLd} from '@skillrecordings/next-seo'
 import {useRouter} from 'next/router'
 import Balancer from 'react-wrap-balancer'
@@ -160,7 +161,7 @@ const EventTemplate: React.FC<
           </h2>
           <hr className="my-10 flex h-px w-full bg-border" />
           <article className="invert-svg prose mx-auto w-full max-w-none dark:prose-invert md:prose-xl prose-code:break-words md:prose-code:break-normal">
-            <MDX components={{Image}} contents={mdx} />
+            <MDX components={{Image, MuxPlayer}} contents={mdx} />
           </article>
         </div>
         <aside className="relative mx-auto w-full max-w-xs">
