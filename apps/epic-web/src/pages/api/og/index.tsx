@@ -276,7 +276,7 @@ export default async function handler(req: NextRequest) {
               style={{
                 fontSize: '4rem',
                 fontFamily: 'DM Sans',
-                lineHeight: 0.5,
+                lineHeight: 0.9,
               }}
             >
               {title}
