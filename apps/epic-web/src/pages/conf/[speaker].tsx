@@ -150,7 +150,7 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
   const router = useRouter()
   const shareUrl = process.env.NEXT_PUBLIC_URL + '/conf/' + router.query.speaker
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
-
+  const [isTranscriptExpanded, setIsTranscriptExpanded] = React.useState(false)
   return (
     <VideoProvider muxPlayerRef={muxPlayerRef}>
       <main className="relative mx-auto w-full max-w-screen-lg px-5 pt-10 md:pt-16">
@@ -175,7 +175,7 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
           )}
         >
           <div
-            className={cn('flex w-full flex-col gap-16', {
+            className={cn('flex w-full flex-col gap-12', {
               'md:max-w-[280px]': video,
               'md:max-w-[400px]': !video,
             })}
@@ -246,8 +246,13 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
               </div>
               {/* <div className="aspect-video h-full w-full max-w-[670px] rounded border bg-gray-900" /> */}
               {video?.transcript?.text && (
-                <div className="mt-4 [&_[data-video-transcript]]:p-0">
-                  <div className="relative mt-3 max-h-[400px] overflow-y-auto rounded border border-gray-800 bg-gray-900 p-5">
+                <div className="relative flex flex-col sm:items-center [&_[data-video-transcript]]:p-0">
+                  <div
+                    className={cn('relative overflow-y-hidden', {
+                      'max-h-[150px] sm:max-h-[300px]': !isTranscriptExpanded,
+                      'max-h-[none] pb-10 sm:pb-16': isTranscriptExpanded,
+                    })}
+                  >
                     <VideoTranscript
                       canShowVideo
                       withTitle={false}
@@ -255,6 +260,27 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
                       className="!sm:prose-sm prose !prose-sm !prose-invert p-0 dark:prose-invert"
                     />
                   </div>
+                  {!isTranscriptExpanded && (
+                    <div
+                      aria-hidden="true"
+                      className="absolute bottom-0 left-0 h-32 w-full bg-gradient-to-t from-foreground via-foreground to-transparent dark:from-background dark:via-background sm:h-40"
+                    />
+                  )}
+                  <button
+                    className={cn(
+                      'absolute inline-flex rounded border border-gray-800 bg-gray-900 px-2 py-0.5 text-sm font-semibold shadow-soft-xl transition hover:bg-gray-800 sm:px-3 sm:py-1 sm:text-base',
+                      {
+                        'bottom-10 sm:bottom-10': !isTranscriptExpanded,
+                        'bottom-0 sm:bottom-0': isTranscriptExpanded,
+                      },
+                    )}
+                    type="button"
+                    onClick={() => {
+                      setIsTranscriptExpanded((prev) => !prev)
+                    }}
+                  >
+                    {isTranscriptExpanded ? 'Collapse' : 'Expand'} Transcript
+                  </button>
                 </div>
               )}
             </div>

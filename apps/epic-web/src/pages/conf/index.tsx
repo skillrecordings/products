@@ -31,6 +31,7 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import {DocumentIcon, StarIcon} from '@heroicons/react/outline'
 import {DialogTrigger} from '@radix-ui/react-dialog'
 import {EventJsonLd} from '@skillrecordings/next-seo'
+import Balancer from 'react-wrap-balancer'
 
 export const CONF_24_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2024'
 const CK_CONF_2024_FIELD = {
@@ -2113,11 +2114,11 @@ export const BuyTicketsCTA = () => {
         {CONF_24_TITO_URL && (
           <>
             <h2 className="pb-10 text-center text-2xl font-semibold sm:text-3xl">
-              See you at the Epic Web Conf!
+              <Balancer>See you at the Epic Web Conf!</Balancer>
             </h2>
             <Button
               asChild
-              className="h-12 rounded-sm bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-base font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110"
+              className="h-12 rounded-sm bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:text-base"
               size="lg"
             >
               <Link
