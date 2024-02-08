@@ -39,7 +39,7 @@ export const ModuleSchema = z
       })
       .nullish(),
     slug: z.object({
-      current: z.string().nullish(),
+      current: z.string(),
     }),
     lessons: z
       .array(z.intersection(LessonResourceSchema, ExerciseSchema))
