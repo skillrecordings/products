@@ -200,7 +200,7 @@ const PurchasedEventTemplate = ({
                   playbackId={welcomeVideo}
                   className="w-full rounded shadow-xl"
                   accentColor="#3b82f6"
-                  poster={welcomeVideoPoster}
+                  poster={welcomeVideoPoster || undefined}
                 />
               </div>
             )}
