@@ -25,7 +25,17 @@ export default async function handler(req: NextRequest) {
     const image = searchParams.get('image')
     const hasType = searchParams.has('type')
     const type = hasType ? searchParams.get('type') : ''
-    const isVideo = type === 'video'
+
+    const getTemplateByType = (type: string) => {
+      switch (type) {
+        case 'video':
+          return <VideoTemplate />
+        case 'interview':
+          return <InterviewTemplate />
+        default:
+          return <DefaultTemplate />
+      }
+    }
 
     const hasAuthorName = searchParams.has('authorName')
     const authorName = hasAuthorName
@@ -190,21 +200,132 @@ export default async function handler(req: NextRequest) {
       )
     }
 
-    return new ImageResponse(
-      isVideo ? <VideoTemplate /> : <DefaultTemplate />,
-      {
-        width: 1200,
-        height: 630,
-        fonts: [
-          {
-            name: 'DM Sans',
-            data: dmSansFontData,
-            style: 'normal',
-            weight: 400,
-          },
-        ],
-      },
-    )
+    const InterviewTemplate = () => {
+      return (
+        <div
+          tw="flex w-full relative justify-center text-white items-center h-full"
+          style={{
+            background:
+              'linear-gradient(254deg, #2C344E 1.81%, #0B132E 95.83%)',
+          }}
+        >
+          {hasImage && (
+            <img
+              src={image}
+              tw="absolute -right-1/4 bottom-0 opacity-90 rounded-md shadow-2xl z-0"
+              style={{
+                aspectRatio: '480/270',
+                height: 630,
+              }}
+            />
+          )}
+
+          <svg
+            className="relative"
+            xmlns="http://www.w3.org/2000/svg"
+            width="715"
+            height="630"
+            viewBox="0 0 715 630"
+            fill="none"
+          >
+            <path
+              d="M0 0H715L594 630H0V0Z"
+              fill="url(#paint0_linear_669_3995)"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_669_3995"
+                x1="704.328"
+                y1="18.1731"
+                x2="-78.1359"
+                y2="275.78"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stopColor="#2C344E" />
+                <stop offset="1" stopColor="#0B132E" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div
+            tw="w-32 h-32 items-center justify-center z-50 rounded-full flex absolute z-10 right-[480px] text-white shadow-2xl"
+            style={{
+              background:
+                'linear-gradient(225deg, #4F75FF 29.29%, #30AFFF 70.6%)',
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              tw="w-10 h-10 ml-2"
+              viewBox="0 0 16 16"
+            >
+              <g fill="currentColor">
+                <path
+                  fill="currentColor"
+                  d="M14,7.999c0-0.326-0.159-0.632-0.427-0.819l-10-7C3.269-0.034,2.869-0.058,2.538,0.112 C2.207,0.285,2,0.626,2,0.999v14.001c0,0.373,0.207,0.715,0.538,0.887c0.331,0.17,0.73,0.146,1.035-0.068l10-7 C13.841,8.633,14,8.327,14,8.001C14,8,14,8,14,7.999C14,8,14,8,14,7.999z"
+                ></path>
+              </g>
+            </svg>
+          </div>
+          <div tw="absolute left-16 top-20 z-10 flex">
+            <Logo />
+          </div>
+
+          <div tw="w-1/2 left-16 absolute z-10 flex-col flex bottom-32 pr-16">
+            <p
+              tw="tracking-tight font-bold leading-tight"
+              style={{
+                fontSize: '4rem',
+                fontFamily: 'DM Sans',
+                lineHeight: 0.5,
+              }}
+            >
+              {title}
+            </p>
+            <p
+              style={{
+                fontSize: '2rem',
+                fontFamily: 'DM Sans',
+                lineHeight: 1.1,
+                color: '#93A1D7',
+                opacity: 0.9,
+              }}
+            >
+              is speaking at Epic Web Conf
+            </p>
+          </div>
+
+          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-24 relative px-14">
+            {!hasImage && (
+              <div tw="flex items-center absolute right-14 top-12">
+                <img
+                  src="https://www.epicweb.dev/kent-c-dodds.png"
+                  tw="h-24 rounded-full bg-gray-800"
+                />
+                <p
+                  style={{fontSize: 36, fontFamily: 'DM Sans'}}
+                  tw="text-3xl ml-6 mb-6 text-gray-300"
+                >
+                  Kent C. Dodds
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )
+    }
+
+    return new ImageResponse(getTemplateByType(type), {
+      width: 1200,
+      height: 630,
+      fonts: [
+        {
+          name: 'DM Sans',
+          data: dmSansFontData,
+          style: 'normal',
+          weight: 400,
+        },
+      ],
+    })
   } catch (e: any) {
     console.log(`${e.message}`)
     return new Response(`Failed to generate the image`, {

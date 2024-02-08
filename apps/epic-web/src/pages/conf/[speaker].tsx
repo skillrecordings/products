@@ -21,6 +21,7 @@ import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import Image from 'next/image'
 import {format} from 'date-fns'
 import pluralize from 'pluralize'
+import {getOgImage} from 'utils/get-og-image'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const speakers = await fetch(
@@ -95,11 +96,18 @@ type ConfSpeakerPageProps = {
 }
 
 const ConfSpeaker: React.FC<ConfSpeakerPageProps> = ({speaker, video}) => {
+  const ogImage = getOgImage({
+    title: speaker.fullName,
+    type: video?.poster ? 'interview' : 'default',
+    image: video?.poster || speaker.profilePicture,
+  })
+
   return (
     <Layout
       className="overflow-x-hidden bg-foreground text-background dark:bg-background dark:text-foreground"
       meta={{
         title: `${speaker.fullName} is speaking at Epic Web Conf 2024`,
+        ogImage,
       }}
     >
       <LessonProvider
@@ -141,9 +149,10 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
   const router = useRouter()
   const shareUrl = process.env.NEXT_PUBLIC_URL + '/conf/' + router.query.speaker
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
+
   return (
     <VideoProvider muxPlayerRef={muxPlayerRef}>
-      <main className="relative mx-auto w-full max-w-screen-lg px-5 pt-16">
+      <main className="relative mx-auto w-full max-w-screen-lg px-5 pt-10 md:pt-16">
         <BgGraphic className="absolute -right-48 -top-48 z-0" />
         <div className="absolute -right-48 -top-48 h-[600px] w-[600px] rounded-full bg-[#93A1D7] opacity-30 blur-[500px]" />
         <div>
@@ -154,14 +163,20 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
             <ChevronLeftIcon className="w-4" aria-hidden="true" /> Epic Web Conf
             '24 Speakers
           </Link>
-          <h1 className="text-5xl font-bold">{speaker.fullName}</h1>
-          <h2 className="pt-2 text-2xl text-[#93A1D7]">{speaker.tagLine}</h2>
+          <h1 className="text-4xl font-bold md:text-5xl">{speaker.fullName}</h1>
+          <h2 className="pt-2 text-xl text-[#93A1D7] md:text-2xl">
+            {speaker.tagLine}
+          </h2>
         </div>
-        <div className={cn('mt-14 flex w-full justify-between gap-10')}>
+        <div
+          className={cn(
+            'relative z-10 mt-14 flex w-full flex-col justify-between gap-10 md:flex-row',
+          )}
+        >
           <div
             className={cn('flex w-full flex-col gap-16', {
-              'max-w-[280px]': video,
-              'max-w-[400px]': !video,
+              'md:max-w-[280px]': video,
+              'md:max-w-[400px]': !video,
             })}
           >
             <div className="w-full">
