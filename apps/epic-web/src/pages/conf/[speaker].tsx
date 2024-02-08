@@ -2,7 +2,7 @@ import React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import slugify from '@sindresorhus/slugify'
 import Layout from 'components/app/layout'
-import {BuyTicketsCTA, type Speaker} from './index'
+import {BuyTicketsCTA, CONF_24_TITO_URL, type Speaker} from './index'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import formatInTimeZone from 'date-fns-tz/formatInTimeZone'
 import ReactMarkdown from 'react-markdown'
@@ -19,6 +19,8 @@ import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import Image from 'next/image'
+import {format} from 'date-fns'
+import pluralize from 'pluralize'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const speakers = await fetch(
@@ -31,7 +33,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
   const video = await sanityClient.fetch(
     groq`
-    *[_type == "videoResource" && _id == $id][0]{
+    *[_type == "videoResource" && slug.current == $slug][0]{
       _id,
       "_type": "tip",
       "slug": slug.current,
@@ -42,7 +44,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     }
   `,
     {
-      id: null, // 'zZ4ErPnSL4ZWs2Du0ONL6z',
+      slug: `conf-interview-${slugify(speaker.fullName)}`, // 'zZ4ErPnSL4ZWs2Du0ONL6z',
     },
   )
 
@@ -149,7 +151,8 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
             href="/conf#speakers"
             className="mb-5 flex items-center gap-1 text-sm text-[#93A1D7] opacity-90 transition hover:underline hover:opacity-100"
           >
-            <ChevronLeftIcon className="w-4" aria-hidden="true" /> Speakers
+            <ChevronLeftIcon className="w-4" aria-hidden="true" /> Epic Web Conf
+            '24 Speakers
           </Link>
           <h1 className="text-5xl font-bold">{speaker.fullName}</h1>
           <h2 className="pt-2 text-2xl text-[#93A1D7]">{speaker.tagLine}</h2>
@@ -169,25 +172,23 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
                 {speaker.sessions &&
                   speaker.sessions.map((session) => {
                     return (
-                      <li className="flex flex-col" key={session.id}>
+                      <li className="flex flex-col pb-2" key={session.id}>
                         <div className="text-[#93A1D7]">
-                          {formatInTimeZone(
-                            session.startsAt,
-                            'America/Los_Angeles',
-                            'h:mm a',
-                          )}
-                          —
-                          {formatInTimeZone(
-                            session.endsAt,
-                            'America/Los_Angeles',
-                            'h:mm a',
-                          )}
+                          {format(new Date(session.startsAt), 'EEEE, h:mm a')}—
+                          {format(new Date(session.endsAt), 'h:mm a')}
                         </div>
                         <div>{session.title}</div>
                       </li>
                     )
                   })}
               </ul>
+              <Link
+                className="mt-5 inline-flex rounded bg-primary px-3 py-1 font-semibold text-primary-foreground transition hover:brightness-125"
+                href={CONF_24_TITO_URL}
+                target="_blank"
+              >
+                Buy {pluralize('Ticket', speaker.sessions.length)}
+              </Link>
             </div>
             <div>
               <h3 className="flex border-b border-gray-800 pb-2 text-xl font-semibold dark:border-border">
@@ -218,15 +219,17 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
           {video ? (
             <div className="flex h-full w-full flex-col gap-0">
               <h3 className="flex pb-2 text-xl font-semibold">Interview</h3>
-              <MuxPlayer
-                accentColor="#93A1D7"
-                ref={muxPlayerRef}
-                playbackId={video.muxPlaybackId}
-                poster={video.poster}
-                className="aspect-video rounded border border-gray-800 dark:border-border"
-              />
+              <div className="flex aspect-video items-center justify-center rounded border border-gray-800 dark:border-border">
+                <MuxPlayer
+                  accentColor="#93A1D7"
+                  ref={muxPlayerRef}
+                  playbackId={video.muxPlaybackId}
+                  poster={video.poster}
+                  className="rounded"
+                />
+              </div>
               {/* <div className="aspect-video h-full w-full max-w-[670px] rounded border bg-gray-900" /> */}
-              {video?.transcript.text && (
+              {video?.transcript?.text && (
                 <div className="mt-4 [&_[data-video-transcript]]:p-0">
                   <div className="relative mt-3 max-h-[400px] overflow-y-auto rounded border border-gray-800 bg-gray-900 p-5">
                     <VideoTranscript

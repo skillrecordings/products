@@ -30,8 +30,9 @@ import {track} from 'utils/analytics'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {DocumentIcon, StarIcon} from '@heroicons/react/outline'
 import {DialogTrigger} from '@radix-ui/react-dialog'
+import {EventJsonLd} from '@skillrecordings/next-seo'
 
-const TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2024'
+export const CONF_24_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2024'
 const CK_CONF_2024_FIELD = {
   [`conf_2024`]: new Date().toISOString().slice(0, 10),
 }
@@ -117,6 +118,38 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
         },
       }}
     >
+      <EventJsonLd
+        name="Epic Web Conf 2024"
+        startDate="2024-04-10T08:00:00-07:00"
+        endDate="2024-04-11T17:00:00-07:00"
+        location={{
+          name: 'Prospector Square Theatre',
+          address: {
+            streetAddress: '2175 Sidewinder Dr',
+            addressLocality: 'Park City',
+            postalCode: '84060',
+            addressRegion: 'UT',
+            addressCountry: 'US',
+          },
+        }}
+        offers={[
+          {
+            seller: {name: 'epicweb.dev'},
+            price: '300.00',
+            priceCurrency: 'USD',
+            url: CONF_24_TITO_URL,
+            validFrom: '2024-01-01T08:00',
+          },
+        ]}
+        performer={[
+          {
+            name: 'Epic Web',
+            url: 'https://epic-web.dev',
+          },
+        ]}
+        image="https://res.cloudinary.com/epic-web/image/upload/v1705997895/conf-card_2x.jpg"
+        description="The Full Stack Web Development Conference of Epic proportions."
+      />
       <Header />
       <main>
         <section className="mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 sm:grid-cols-2 sm:gap-10 [&_p]:text-lg [&_p]:leading-relaxed [&_p]:text-[#D6DEFF]">
@@ -268,7 +301,7 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
         {/* <Schedule schedule={schedule} speakers={speakers} /> */}
         <HotelSection />
         <Sponsors />
-        {!TITO_URL && (
+        {!CONF_24_TITO_URL && (
           <>
             <h2 className="pb-5 pt-3 text-center text-3xl font-semibold">
               Front Row News
@@ -446,9 +479,9 @@ const Header = () => {
           className="mt-10 h-12 rounded-sm bg-gradient-to-tr from-[#50BBFF] to-[#6397FF] font-mono text-base font-bold uppercase tracking-wide text-gray-950 transition hover:brightness-110"
           size="lg"
         >
-          {TITO_URL && (
+          {CONF_24_TITO_URL && (
             <Link
-              href={TITO_URL}
+              href={CONF_24_TITO_URL}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => {
@@ -815,7 +848,7 @@ const Workshops: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
                 <div className="mb-5">{image}</div>
                 <h3 className="pb-4 text-xl font-bold">
                   <Link
-                    href={TITO_URL}
+                    href={CONF_24_TITO_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:underline"
@@ -2077,7 +2110,7 @@ export const BuyTicketsCTA = () => {
   return (
     <section className="relative flex w-full flex-col items-center justify-center overflow-hidden px-5 pb-16">
       <div className="relative z-10 mx-auto flex h-[240px] w-full max-w-screen-lg flex-col items-center justify-center sm:h-[320px]">
-        {TITO_URL && (
+        {CONF_24_TITO_URL && (
           <>
             <h2 className="pb-10 text-center text-2xl font-semibold sm:text-3xl">
               See you at the Epic Web Conf!
@@ -2088,7 +2121,7 @@ export const BuyTicketsCTA = () => {
               size="lg"
             >
               <Link
-                href={TITO_URL}
+                href={CONF_24_TITO_URL}
                 rel="noopener noreferrer"
                 target="_blank"
                 onClick={() => {
