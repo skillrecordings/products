@@ -182,7 +182,7 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
           >
             <div className="w-full">
               <h3 className="flex border-b border-gray-800 pb-2 text-xl font-semibold dark:border-border">
-                Keynotes
+                Talks
               </h3>
               <ul className="mt-5">
                 {speaker.sessions &&
