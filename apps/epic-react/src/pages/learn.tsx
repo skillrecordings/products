@@ -75,7 +75,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
                             _id={resource._id}
                             title={resource.title}
                             workshopSlug={workshop.slug.current}
-                            resourceSlug={resource.slug.current}
+                            resourceSlug={resource.slug}
                           />
                         )
                       }
@@ -95,9 +95,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
                                       _id={sectionResource._id}
                                       title={sectionResource.title}
                                       workshopSlug={workshop.slug.current}
-                                      resourceSlug={
-                                        sectionResource.slug.current
-                                      }
+                                      resourceSlug={sectionResource.slug}
                                     />
                                   </li>
                                 )
