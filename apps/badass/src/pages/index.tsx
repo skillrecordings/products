@@ -5,8 +5,6 @@ import {type CaseStudy, getAllCaseStudies} from 'lib/case-studies'
 import {type Podcast, getAllPodcastEpisodes} from 'lib/podcast'
 import {type Article, getAllArticles} from 'lib/articles'
 
-// import 'keen-slider/keen-slider.min.css'
-
 import Layout from 'components/layout'
 import {
   headerContent,
