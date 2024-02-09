@@ -3,7 +3,11 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import Link from 'next/link'
 import HeroPlanetImage from '../../../public/assets/conf/conf-hero.jpg'
-import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/solid'
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  PlayIcon,
+} from '@heroicons/react/solid'
 import {AnimatePresence, motion} from 'framer-motion'
 import {format, parseISO} from 'date-fns'
 import {
@@ -32,6 +36,9 @@ import {DocumentIcon, StarIcon} from '@heroicons/react/outline'
 import {DialogTrigger} from '@radix-ui/react-dialog'
 import {EventJsonLd} from '@skillrecordings/next-seo'
 import Balancer from 'react-wrap-balancer'
+import {sanityClient} from 'utils/sanity-client'
+import groq from 'groq'
+import slugify from '@sindresorhus/slugify'
 
 export const CONF_24_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2024'
 const CK_CONF_2024_FIELD = {
@@ -47,9 +54,28 @@ export const getStaticProps: GetStaticProps = async () => {
   //   'https://sessionize.com/api/v2/epg94f49/view/GridSmart',
   // ).then((res) => res.json())
 
+  let speakersWithVideos = []
+  for (const speaker of speakers) {
+    const video = await sanityClient.fetch(groq`
+    *[_type == "videoResource" && slug.current == 'conf-interview-${slugify(
+      speaker.fullName,
+    )}'][0] {
+      _id,
+      "_type": "tip",
+      "slug": slug.current,
+      "muxPlaybackId": muxAsset.muxPlaybackId,
+      transcript { text },
+      "videoResourceId": _id,
+      poster,
+    }
+  `)
+    const newSpeaker = {...speaker, video}
+    speakersWithVideos.push(newSpeaker)
+  }
+
   return {
     props: {
-      speakers,
+      speakers: speakersWithVideos,
       // schedule
     },
     revalidate: 60 * 5,
@@ -57,6 +83,15 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 
 export type Speaker = {
+  video?: {
+    _id: string
+    _type: 'tip'
+    slug: string
+    muxPlaybackId: string
+    transcript: {text: string}
+    videoResourceId: string
+    poster: string
+  }
   id: string
   bio: string
   firstName: string
@@ -537,6 +572,8 @@ const SpeakersList: React.FC<{
   const [hoveredItem, setHoveredItem] = React.useState<Speaker | null>()
   const [isHovering, setIsHovering] = React.useState(false)
 
+  const router = useRouter()
+
   return (
     <>
       <section
@@ -550,22 +587,10 @@ const SpeakersList: React.FC<{
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
           {speakers.map((speaker) => {
             return (
-              <motion.div
-                onMouseEnter={() => {
-                  setHoveredItem(speaker)
-                  setIsHovering(true)
-                }}
-                onMouseLeave={() => {
-                  setIsHovering(false)
-                }}
+              <Link
                 key={speaker.id}
-                className="relative flex flex-col items-center p-2 sm:p-6"
-                tabIndex={0}
-                role="button"
-                aria-haspopup="dialog"
-                aria-expanded={showingSpeakerDetail ? 'true' : 'false'}
+                href={`/conf/${slugify(speaker.fullName)}`}
                 onClick={() => {
-                  setShowingSpeakerDetail(speaker)
                   track('clicked speaker', {
                     title: 'conf2024',
                     type: 'speaker',
@@ -574,44 +599,80 @@ const SpeakersList: React.FC<{
                 }}
               >
                 <motion.div
-                  animate={{
-                    filter:
-                      isHovering && hoveredItem?.id !== speaker.id
-                        ? 'saturate(0.5)'
-                        : 'saturate(1)',
+                  onMouseEnter={() => {
+                    setHoveredItem(speaker)
+                    setIsHovering(true)
                   }}
-                  className="bg-gray-950"
+                  onMouseLeave={() => {
+                    setIsHovering(false)
+                  }}
+                  className="relative flex flex-col items-center p-2 sm:p-6"
+                  tabIndex={0}
+                  role="button"
+                  aria-haspopup={!speaker?.video && 'dialog'}
+                  aria-expanded={showingSpeakerDetail ? 'true' : 'false'}
                 >
-                  <Image
-                    loading="eager"
-                    className="rounded opacity-90"
-                    src={speaker.profilePicture}
-                    alt={speaker.fullName}
-                    width={230}
-                    height={230}
-                  />
-                </motion.div>
-                <h3 className="w-full pt-4 text-lg font-semibold leading-tight">
-                  {speaker.fullName}
-                </h3>
-                <h4 className="w-full pt-1 text-sm text-[#D6DEFF]">
-                  {speaker.tagLine}
-                </h4>
-                <AnimatePresence mode="wait">
-                  {isHovering && hoveredItem?.id !== speaker.id && (
-                    <motion.div
-                      initial={{
-                        opacity: 0,
-                      }}
-                      exit={{opacity: 0}}
-                      animate={{
-                        opacity: [0, 0.4],
-                      }}
-                      className="absolute h-full w-full bg-foreground dark:bg-background"
+                  <motion.div
+                    animate={{
+                      filter:
+                        isHovering && hoveredItem?.id !== speaker.id
+                          ? 'saturate(0.5)'
+                          : 'saturate(1)',
+                    }}
+                    className="relative bg-gray-950"
+                  >
+                    <Image
+                      loading="eager"
+                      className="rounded opacity-90"
+                      src={speaker.profilePicture}
+                      alt={speaker.fullName}
+                      width={230}
+                      height={230}
                     />
-                  )}
-                </AnimatePresence>
-              </motion.div>
+                    {speaker?.video ? (
+                      <motion.div
+                        initial={{
+                          opacity: 0,
+                          scale: 0.9,
+                        }}
+                        animate={{
+                          opacity:
+                            isHovering && hoveredItem?.id === speaker.id
+                              ? 1
+                              : 0,
+                          scale:
+                            isHovering && hoveredItem?.id === speaker.id
+                              ? 1
+                              : 0.9,
+                        }}
+                        className="absolute bottom-3 right-3 flex items-center justify-center rounded-full bg-gray-900"
+                      >
+                        <PlayIcon className="h-5 w-5" />
+                      </motion.div>
+                    ) : null}
+                  </motion.div>
+                  <h3 className="w-full pt-4 text-lg font-semibold leading-tight">
+                    {speaker.fullName}
+                  </h3>
+                  <h4 className="w-full pt-1 text-sm text-[#D6DEFF]">
+                    {speaker.tagLine}
+                  </h4>
+                  <AnimatePresence mode="wait">
+                    {isHovering && hoveredItem?.id !== speaker.id && (
+                      <motion.div
+                        initial={{
+                          opacity: 0,
+                        }}
+                        exit={{opacity: 0}}
+                        animate={{
+                          opacity: [0, 0.4],
+                        }}
+                        className="absolute h-full w-full bg-foreground dark:bg-background"
+                      />
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              </Link>
             )
           })}
         </div>

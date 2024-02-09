@@ -155,7 +155,7 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
     <VideoProvider muxPlayerRef={muxPlayerRef}>
       <main className="relative mx-auto w-full max-w-screen-lg px-5 pt-10 md:pt-16">
         <BgGraphic className="absolute -right-48 -top-48 z-0" />
-        <div className="absolute -right-48 -top-48 h-[600px] w-[600px] rounded-full bg-[#93A1D7] opacity-30 blur-[500px]" />
+        <div className="absolute -right-48 -top-48 h-[300px] w-[300px] rounded-full bg-[#93A1D7] opacity-30 blur-[500px] md:h-[600px] md:w-[600px]" />
         <div>
           <Link
             href="/conf#speakers"
@@ -171,7 +171,10 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
         </div>
         <div
           className={cn(
-            'relative z-10 mt-14 flex w-full flex-col justify-between gap-10 md:flex-row',
+            'relative z-10 mt-14 flex w-full flex-col-reverse gap-10 md:flex-row',
+            {
+              'justify-between': video,
+            },
           )}
         >
           <div
