@@ -54,6 +54,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import CertificateForm from '@/certificate/certificate-form'
 import {RxReset} from 'react-icons/rx'
 import pluralize from 'pluralize'
+import {lessonPathBuilder} from '@/utils/lesson-path-builder'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -195,7 +196,10 @@ const WorkshopTemplate: React.FC<{
               <div className="-mx-10 mt-10 border-t px-10 pt-8">
                 {moduleProgressStatus === 'success' ? (
                   <>
-                    <Collection.Root module={workshop}>
+                    <Collection.Root
+                      module={workshop}
+                      lessonPathBuilder={lessonPathBuilder}
+                    >
                       <div className="flex w-full items-center justify-between pb-3">
                         <h3 className="text-lg font-semibold">Contents</h3>
                         <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
