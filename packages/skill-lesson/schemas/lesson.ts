@@ -10,4 +10,6 @@ export const LessonResourceSchema = z
   })
   .merge(ResourceSchema)
 
+export const SolutionResourceSchema = LessonResourceSchema.omit({_id: true})
+
 export type Lesson = z.infer<typeof LessonResourceSchema>
