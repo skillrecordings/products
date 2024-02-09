@@ -10,6 +10,8 @@ import {hasAvailableSeats, hasBulkPurchase} from '@skillrecordings/ability'
 
 import {type Lesson} from '../schemas/lesson'
 
+type Solution = Omit<Lesson, '_id'>
+
 export const UserSchema = z.object({
   role: z.string().optional(),
   purchases: z.array(z.any()).optional(),
@@ -35,7 +37,7 @@ export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>
 type ViewerAbilityInput = {
   user?: User
   subscriber?: any
-  lesson?: Lesson
+  lesson?: Lesson | Solution
   module?: SanityDocument
   section?: SanityDocument
   isSolution?: boolean
@@ -134,6 +136,13 @@ const isFreelyVisible = ({
   lesson,
   isSolution,
 }: ViewerAbilityInput) => {
+  const hasId = lesson && '_id' in lesson
+
+  // return false if it is a 'Solution'
+  if (isSolution || lesson?._type === 'solution' || !hasId) {
+    return false
+  }
+
   const lessons = section ? section.lessons : module?.lessons || []
   const isFirstLesson =
     (lesson?._type === 'exercise' ||
