@@ -1,5 +1,5 @@
 import z from 'zod'
-import {LessonResourceSchema} from './lesson'
+import {LessonResourceSchema, SolutionResourceSchema} from './lesson'
 import {ExerciseSchema} from './exercise'
 import {CollectionSchema} from './collection'
 import {SectionSchema} from './section'
@@ -42,7 +42,13 @@ export const ModuleSchema = z
       current: z.string(),
     }),
     lessons: z
-      .array(z.intersection(LessonResourceSchema, ExerciseSchema))
+      .array(
+        z.intersection(
+          LessonResourceSchema,
+          SolutionResourceSchema,
+          ExerciseSchema,
+        ),
+      )
       .nullish(),
     sections: z.array(SectionSchema).nullish(),
     testimonials: z.array(TestimonialSchema).nullish(),
