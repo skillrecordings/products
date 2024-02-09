@@ -49,6 +49,11 @@ type CollectionContextValue = {
     sectionProgress?: SectionProgress,
   ) => React.ReactNode
   resourcesRenderer?: (type?: string) => React.ReactNode
+  lessonPathBuilder: (
+    lesson: LessonType,
+    module: Module,
+    section?: SectionType,
+  ) => {pathname: string; query: {[key: string]: string}}
   path?: string
 }
 const [CollectionProvider, useCollectionContext] =
@@ -64,6 +69,11 @@ interface CollectionProps extends PrimitiveDivProps {
     sectionProgress?: SectionProgress,
   ) => React.ReactNode
   resourcesRenderer?: (type?: string) => React.ReactNode
+  lessonPathBuilder?: (
+    lesson: LessonType,
+    module: Module,
+    section?: SectionType,
+  ) => {pathname: string; query: {[key: string]: string}}
 }
 
 const Collection = React.forwardRef<CollectionElement, CollectionProps>(
@@ -111,6 +121,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
         )
       },
       resourcesRenderer,
+      lessonPathBuilder = getLessonHref,
       ...collectionProps
     } = props
     const {sections, lessons} = module
@@ -167,6 +178,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
         path={path}
         scope={__scopeCollection}
         resourcesRenderer={resourcesRenderer}
+        lessonPathBuilder={lessonPathBuilder}
       >
         <TooltipProvider>
           {children ? (
@@ -496,8 +508,14 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
       scrollContainerRef,
       ...lessonProps
     } = props
-    const {module, checkIconRenderer, lockIconRenderer, path, openedSections} =
-      useCollectionContext(COLLECTION_NAME, __scopeCollection)
+    const {
+      module,
+      checkIconRenderer,
+      lockIconRenderer,
+      path,
+      openedSections,
+      lessonPathBuilder,
+    } = useCollectionContext(COLLECTION_NAME, __scopeCollection)
     const moduleProgress = useModuleProgress()
 
     const useAbilities = () => {
@@ -551,6 +569,8 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
     useScrollToActiveLesson(activeElementToScrollTo, scrollContainerRef)
 
     if (!lesson) return null
+
+    const lessonPath = lessonPathBuilder(lesson, module, section)
 
     return (
       <Primitive.li
@@ -609,7 +629,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
               {isLessonActive && <div ref={scrollElRef} aria-hidden="true" />}
               <Link
                 data-item={lesson._type}
-                href={getLessonHref(lesson, module, section)}
+                href={lessonPath}
                 passHref
                 scroll={activeLesson ? false : true}
               >

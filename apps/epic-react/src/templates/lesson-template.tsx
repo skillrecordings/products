@@ -34,6 +34,7 @@ import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import Container from '@/components/app/container'
 import {track} from '@/utils/analytics'
+import {lessonPathBuilder} from '@/utils/lesson-path-builder'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -360,6 +361,7 @@ const LessonList: React.FC<{
         >
           <Collection.Root
             module={module}
+            lessonPathBuilder={lessonPathBuilder}
             resourcesRenderer={(type) => {
               return (
                 <>
