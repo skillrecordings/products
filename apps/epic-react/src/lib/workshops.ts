@@ -2,6 +2,55 @@ import groq from 'groq'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {z} from 'zod'
 
+const workshopsForProductQuery = groq`*[_type == "product" && productId == $productId][0]{
+  "workshops": modules[@->._type == "module" && @->.moduleType == 'workshop']->{
+    _id,
+    _type,
+    title,
+    state,
+    slug,
+    body,
+    moduleType,
+    description,
+    _createdAt,
+    _updatedAt,
+    "resources": resources[@->._type in ['section', 'explainer']]->{
+      _id,
+      _type,
+      _updatedAt,
+      title,
+      "slug": slug.current,
+      (_type == 'explainer') => {
+        explainerType
+      },
+      (_type == 'section') => {
+        "lessons": resources[@->._type in ['explainer', 'exercise']]->{
+          _id,
+          _type,
+          _updatedAt,
+          title,
+          "slug": slug.current,
+          description,
+          (_type == 'explainer') => {
+            explainerType
+          },
+        }
+      }
+    },
+    "image": image.secure_url,
+  }
+}`
+
+export const getWorkshopsForProduct = async ({
+  productId,
+}: {
+  productId: string
+}) => {
+  const result = await sanityClient.fetch(workshopsForProductQuery, {productId})
+
+  return WorkshopSchema.array().parse(result.workshops)
+}
+
 const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | order(_createdAt asc) {
   _id,
   _type,
