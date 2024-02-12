@@ -27,7 +27,7 @@ const defaultProductId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 export const getStaticProps: GetStaticProps = async () => {
   const defaultProduct = await getProduct(defaultProductId as string)
   const pricing = await getPricing()
-  const products = pricing && pricing.products
+  const products = (pricing && pricing.products) || []
   const availableBonuses = await getAvailableBonuses()
   const landingPage = await getPage('landing-page')
   const landingCopy = landingPage?.body
