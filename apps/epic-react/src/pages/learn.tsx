@@ -1,6 +1,6 @@
 import Layout from '@/components/app/layout'
 import {getWorkshopsForProduct} from '@/lib/workshops'
-import {getAllBonuses} from '@/lib/bonuses'
+import {BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
 import {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -14,9 +14,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const productId = 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38'
 
   const workshops = await getWorkshopsForProduct({productId})
-
-  // TODO: get bonuses based on `productId` level?
-  const bonuses = await getAllBonuses()
+  const bonuses = await getBonusesForProduct({productId})
 
   return {
     props: {workshops, bonuses},
@@ -42,11 +40,12 @@ const ResourceLink: React.FC<{
 
 const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
   workshops: unparsedWorkshops,
-  bonuses,
+  bonuses: unparsedBonuses,
 }) => {
   const title = 'Learn'
 
   const workshops = WorkshopSchema.array().parse(unparsedWorkshops)
+  const bonuses = BonusSchema.array().parse(unparsedBonuses)
 
   return (
     <Layout
@@ -112,7 +111,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
               </li>
             )
           })}
-          {bonuses.map((bonus: any) => {
+          {bonuses.map((bonus) => {
             return (
               <li key={bonus._id} className="flex space-x-6">
                 <div className="shrink-0">
@@ -121,14 +120,15 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
                 <div className="space-y-3">
                   <h3 className="text-2xl">{bonus.title}</h3>
                   <ul>
-                    {bonus.lessons.map((lesson: any) => {
+                    {bonus.resources.map((resource) => {
+                      // TODO: is `/workshops/...` the right path prefix for interviews?
                       return (
                         <Link
-                          key={lesson._id}
-                          href={`/workshops/${bonus.slug.current}/${lesson.slug}`}
+                          key={resource._id}
+                          href={`/workshops/${bonus.slug}/${resource.slug}`}
                           className="block"
                         >
-                          {lesson.title}
+                          {resource.title}
                         </Link>
                       )
                     })}

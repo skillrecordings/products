@@ -1,5 +1,62 @@
 import groq from 'groq'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+import {z} from 'zod'
+
+const ResourceSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  _updatedAt: z.string(),
+  title: z.string(),
+  description: z.string(),
+  slug: z.string(),
+})
+
+export const BonusSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  title: z.string(),
+  state: z.string(),
+  slug: z.object({current: z.string()}),
+  moduleType: z.string(),
+  description: z.string(),
+  _createdAt: z.string(),
+  _updatedAt: z.string(),
+  resources: z.array(ResourceSchema),
+  image: z.string(),
+})
+
+const bonusesForProductQuery = groq`*[_type == "product" && productId == $productId][0]{
+  "bonuses": modules[@->._type == "module" && @->.moduleType == "bonus"]->{
+    _id,
+    _type,
+    title,
+    state,
+    slug,
+    moduleType,
+    description,
+    _createdAt,
+    _updatedAt,
+    "resources": resources[@->._type in ["interview"]]->{
+      _id,
+      _type,
+      _updatedAt,
+      title,
+      description,
+      "slug": slug.current
+    },
+    "image": image.url,
+  }
+}`
+
+export const getBonusesForProduct = async ({
+  productId,
+}: {
+  productId: string
+}) => {
+  const result = await sanityClient.fetch(bonusesForProductQuery, {productId})
+
+  return BonusSchema.array().parse(result.bonuses)
+}
 
 const bonusesQuery = groq`*[_type == "module" && moduleType == 'bonus'] | order(_createdAt desc) {
   _id,
