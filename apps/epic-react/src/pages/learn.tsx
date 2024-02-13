@@ -1,7 +1,7 @@
 import Layout from '@/components/app/layout'
-import {getAllWorkshops} from '@/lib/workshops'
+import {getAllWorkshops, getWorkshopsForProduct} from '@/lib/workshops'
 import {getAllBonuses} from '@/lib/bonuses'
-import {GetStaticProps} from 'next'
+import {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import config from '@/config'
@@ -11,13 +11,17 @@ import {getOgImage} from '@/utils/get-og-image'
 import {WorkshopSchema} from '@/lib/workshops'
 import React from 'react'
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const workshops = await getAllWorkshops()
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+  // TODO: load the user's purchases and figure out what product they should have access to
+  const productId = 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38'
+
+  const workshops = await getWorkshopsForProduct({productId})
+
+  // TODO: get bonuses based on `productId` level?
   const bonuses = await getAllBonuses()
 
   return {
     props: {workshops, bonuses},
-    revalidate: 10,
   }
 }
 
