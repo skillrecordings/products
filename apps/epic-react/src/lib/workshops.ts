@@ -37,7 +37,7 @@ const workshopsForProductQuery = groq`*[_type == "product" && productId == $prod
         }
       }
     },
-    "image": image.secure_url,
+    "image": image.url,
   }
 }`
 
