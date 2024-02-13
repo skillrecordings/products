@@ -24,7 +24,7 @@ const workshopsForProductQuery = groq`*[_type == "product" && productId == $prod
         explainerType
       },
       (_type == 'section') => {
-        "lessons": resources[@->._type in ['explainer', 'exercise']]->{
+        "resources": resources[@->._type in ['explainer', 'exercise']]->{
           _id,
           _type,
           _updatedAt,
