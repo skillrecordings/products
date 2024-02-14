@@ -2000,7 +2000,7 @@ export const Schedule: React.FC<{
         </h2>
         <button
           type="button"
-          className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-white/10 bg-foreground px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:border-input dark:bg-background dark:hover:bg-white/5 print:hidden"
+          className="hidden h-10 items-center justify-center whitespace-nowrap rounded-md border border-white/10 bg-foreground px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:border-input dark:bg-background dark:hover:bg-white/5 md:inline-flex print:hidden"
           onClick={() => {
             const scheduleRoute = window.open('/conf/schedule', '_blank')
             scheduleRoute?.print()
