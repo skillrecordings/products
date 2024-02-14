@@ -1830,6 +1830,9 @@ importers:
       '@skillrecordings/skill-lesson':
         specifier: workspace:*
         version: link:../../packages/skill-lesson
+      '@skillrecordings/stripe-sdk':
+        specifier: workspace:*
+        version: link:../../packages/stripe-sdk
       '@skillrecordings/time':
         specifier: workspace:*
         version: link:../../packages/time
@@ -5204,6 +5207,9 @@ importers:
       '@skillrecordings/inngest':
         specifier: workspace:*
         version: link:../inngest
+      '@skillrecordings/stripe-sdk':
+        specifier: workspace:*
+        version: link:../stripe-sdk
       '@slack/web-api':
         specifier: ^6.7.2
         version: 6.12.0
@@ -5514,6 +5520,9 @@ importers:
       '@skillrecordings/skill-api':
         specifier: workspace:*
         version: link:../skill-api
+      '@skillrecordings/stripe-sdk':
+        specifier: workspace:*
+        version: link:../stripe-sdk
       '@skillrecordings/time':
         specifier: workspace:*
         version: link:../time

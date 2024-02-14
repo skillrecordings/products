@@ -10,7 +10,6 @@ import {type NextAuthOptions, type Theme} from 'next-auth'
 import process from 'process'
 import {format} from 'date-fns'
 import {getToken} from 'next-auth/jwt'
-import {type Stripe, stripe} from '@skillrecordings/commerce-server'
 import {
   type HTMLEmailParams,
   sendServerEmail,
@@ -20,6 +19,12 @@ import {publicProcedure, router} from '../trpc.server'
 import mjml2html from 'mjml'
 import {PURCHASE_TRANSFERRED_EVENT} from '../../inngest/events'
 import {Inngest} from 'inngest'
+import {
+  defaultContext as defaultStripeContext,
+  Stripe,
+} from '@skillrecordings/stripe-sdk'
+
+const {stripe} = defaultStripeContext
 
 const canInitiateTransfer = async ({
   purchaseUserTransfer,

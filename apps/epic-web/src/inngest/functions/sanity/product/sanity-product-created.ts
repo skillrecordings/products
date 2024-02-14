@@ -1,10 +1,12 @@
 import {inngest} from 'inngest/inngest.server'
 import {v4} from 'uuid'
 import {prisma} from '@skillrecordings/database'
-import {stripe} from '@skillrecordings/commerce-server'
+import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
 import {loadSanityProduct} from './index'
 import {sanityWriteClient} from 'utils/sanity-server'
 import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
+
+const {stripe} = defaultStripeContext
 
 export const sanityProductCreated = inngest.createFunction(
   {id: `product-create`, name: 'Create Product in Database'},

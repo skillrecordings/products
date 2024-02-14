@@ -1,9 +1,11 @@
 import {inngest} from 'inngest/inngest.server'
 import {prisma} from '@skillrecordings/database'
-import {stripe} from '@skillrecordings/commerce-server'
 import {v4} from 'uuid'
 import {loadSanityProduct} from './index'
 import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
+import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
+
+const {stripe} = defaultStripeContext
 
 export const sanityProductUpdated = inngest.createFunction(
   {

@@ -2,6 +2,8 @@ import {mockDeep, DeepMockProxy} from 'jest-mock-extended'
 
 import Stripe from 'stripe'
 
+export {Stripe}
+
 const stripeClient = new Stripe(process.env.STRIPE_SECRET_TOKEN, {
   apiVersion: '2020-08-27',
 })

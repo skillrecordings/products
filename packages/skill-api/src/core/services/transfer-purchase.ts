@@ -1,7 +1,9 @@
 import {OutgoingResponse} from '../index'
 import {SkillRecordingsHandlerParams} from '../types'
 import {prisma} from '@skillrecordings/database'
-import {stripe} from '@skillrecordings/commerce-server'
+import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
+
+const {stripe} = defaultStripeContext
 
 export async function transferPurchase({
   params,

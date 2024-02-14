@@ -1,4 +1,3 @@
-import renderPage from './core/pages'
 import {
   convertkitAnswerQuizQuestion,
   convertkitLoadSubscriber,
