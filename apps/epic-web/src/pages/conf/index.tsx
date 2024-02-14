@@ -50,9 +50,9 @@ export const getStaticProps: GetStaticProps = async () => {
   const speakers = await fetch(
     'https://sessionize.com/api/v2/epg94f49/view/Speakers',
   ).then((res) => res.json())
-  // const schedule = await fetch(
-  //   'https://sessionize.com/api/v2/epg94f49/view/GridSmart',
-  // ).then((res) => res.json())
+  const schedule = await fetch(
+    'https://sessionize.com/api/v2/epg94f49/view/GridSmart',
+  ).then((res) => res.json())
 
   let speakersWithVideos = []
   for (const speaker of speakers) {
@@ -76,7 +76,7 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       speakers: speakersWithVideos,
-      // schedule
+      schedule,
     },
     revalidate: 60 * 5,
   }
@@ -126,7 +126,7 @@ type Day = {
   rooms: Room[]
 }
 
-type Schedule = Day[]
+export type Schedule = Day[]
 
 const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
   speakers,
@@ -329,12 +329,12 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
           showingSpeakerDetail={showingSpeakerDetail}
           setShowingSpeakerDetail={setShowingSpeakerDetail}
         />
-        <p className="mb-16 block w-full text-center font-mono text-sm uppercase text-[#93A1D7]">
+        {/* <p className="mb-16 block w-full text-center font-mono text-sm uppercase text-[#93A1D7]">
           <span aria-hidden="true">{'//'}</span> Full schedule TBA{' '}
           <span aria-hidden="true">{'//'}</span>
-        </p>
+        </p> */}
+        <Schedule schedule={schedule} speakers={speakers} />
         <Workshops speakers={speakers} />
-        {/* <Schedule schedule={schedule} speakers={speakers} /> */}
         <HotelSection />
         <Sponsors />
         {!CONF_24_TITO_URL && (
@@ -1983,26 +1983,43 @@ const sponsorsData = {
   ],
 }
 
-const Schedule: React.FC<{schedule: Schedule; speakers: Speaker[]}> = ({
-  schedule,
-  speakers,
-}) => {
+export const Schedule: React.FC<{
+  schedule: Schedule
+  speakers: Speaker[]
+  title?: string
+}> = ({schedule, speakers, title = 'Schedule'}) => {
   return (
     <section
       id="schedule"
       aria-label="schedule"
-      className="mx-auto w-full max-w-screen-lg p-4"
+      className="mx-auto w-full max-w-screen-lg sm:p-4"
     >
-      <h2 className="pb-10 text-4xl font-bold sm:text-5xl">Schedule</h2>
+      <div className="item-scenter flex w-full flex-col justify-between gap-5 md:flex-row">
+        <h2 className="px-4 pb-10 text-4xl font-bold sm:px-0 sm:text-5xl print:hidden">
+          {title}
+        </h2>
+        <button
+          type="button"
+          className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-white/10 bg-foreground px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:border-input dark:bg-background dark:hover:bg-white/5 print:hidden"
+          onClick={() => {
+            const scheduleRoute = window.open('/conf/schedule', '_blank')
+            scheduleRoute?.print()
+          }}
+        >
+          Save as PDF
+        </button>
+      </div>
       {schedule.map((day) => (
         <div key={day.date} className="mb-8">
-          <h2 className="mb-4 text-2xl font-bold">
+          <h2 className="mb-4 px-4 text-2xl font-bold sm:px-0 print:text-black">
             {format(parseISO(day.date), 'EEEE, dd/MM/yyyy')}
           </h2>
           {day.rooms.map((room) => (
             <div key={room.id} className="mb-6">
-              <h3 className="mb-2 text-lg font-semibold">Room: {room.name}</h3>
-              <Accordion type="single" collapsible className="w-full">
+              <h3 className="mb-2 px-4 text-lg font-semibold sm:px-0 print:text-black">
+                Room: {room.name}
+              </h3>
+              <Accordion type="multiple" className="w-full">
                 <ul className="flex flex-col divide-y divide-white/10">
                   {room.sessions.map((session) => {
                     const speaker = session?.speakers[0]?.name
@@ -2036,10 +2053,19 @@ const Schedule: React.FC<{schedule: Schedule; speakers: Speaker[]}> = ({
                       <AccordionItem
                         value={session.id}
                         key={session.id}
+                        className="border-b-0"
                         asChild
                       >
                         <li>
-                          <AccordionTriggerComp className="w-full">
+                          <AccordionTriggerComp
+                            className={cn(
+                              'w-full px-2 [&_[data-chevron]]:print:hidden',
+                              {
+                                'transition hover:bg-white/5':
+                                  session.description,
+                              },
+                            )}
+                          >
                             <div
                               className={cn(
                                 'md:group flex w-full items-start gap-3 py-2 md:items-center',
@@ -2048,7 +2074,7 @@ const Schedule: React.FC<{schedule: Schedule; speakers: Speaker[]}> = ({
                                 },
                               )}
                             >
-                              <div className="flex w-full max-w-[80px] items-center pt-2 text-[#D6DEFF] md:max-w-[160px] md:pt-0">
+                              <div className="flex w-full max-w-[80px] items-center pt-2 text-[#D6DEFF] md:max-w-[160px] md:pt-0 print:text-black">
                                 <p className="whitespace-nowrap text-left text-xs font-semibold tabular-nums leading-none md:text-sm md:font-medium">
                                   {format(
                                     parseISO(session.startsAt),
@@ -2064,11 +2090,11 @@ const Schedule: React.FC<{schedule: Schedule; speakers: Speaker[]}> = ({
                               </div>
                               <div className="col-span-4 w-full md:col-span-3">
                                 <div className="flex flex-col items-start text-left">
-                                  <h4 className="text-lg font-semibold leading-tight">
+                                  <h4 className="font-semibold leading-tight sm:text-lg print:text-black">
                                     {session.title}
                                   </h4>
                                   {speaker && (
-                                    <Speaker className="flex md:hidden" />
+                                    <Speaker className="mt-2 flex md:hidden print:text-black" />
                                   )}
                                 </div>
                                 {/* <p className="text-sm">{session.description}</p> */}
@@ -2079,7 +2105,7 @@ const Schedule: React.FC<{schedule: Schedule; speakers: Speaker[]}> = ({
                             </div>
                           </AccordionTriggerComp>
                           <AccordionContent>
-                            <p className="pb-5 text-left text-sm leading-relaxed text-[#D6DEFF] md:ml-[160px] md:px-3 md:text-base">
+                            <p className="px-4 pb-5 text-left text-sm leading-relaxed text-[#D6DEFF] md:ml-[160px] md:px-5 md:text-base print:text-black">
                               {session.description}
                             </p>
                           </AccordionContent>
