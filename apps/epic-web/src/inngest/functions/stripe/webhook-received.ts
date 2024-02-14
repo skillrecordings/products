@@ -3,10 +3,14 @@ import {STRIPE_WEBHOOK_RECEIVED_EVENT} from '@skillrecordings/inngest'
 import {Redis} from '@upstash/redis'
 import {prisma} from '@skillrecordings/database'
 import {NonRetriableError} from 'inngest'
-import {stripe} from '@skillrecordings/commerce-server'
 import {postToSlack} from '@skillrecordings/skill-api'
 import {WebClient} from '@slack/web-api'
-import {Stripe} from 'stripe'
+import {
+  defaultContext as defaultStripeContext,
+  Stripe,
+} from '@skillrecordings/stripe-sdk'
+
+const {stripe} = defaultStripeContext
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,

@@ -56,6 +56,7 @@
     "@skillrecordings/ui": "workspace:*",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
+    "@skillrecordings/stripe-sdk": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@tailwindcss/typography": "^0.5.9",
     "@tanstack/react-query": "4.35.7",

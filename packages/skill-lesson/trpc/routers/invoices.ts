@@ -1,7 +1,9 @@
 import {z} from 'zod'
 import {publicProcedure, router} from '../trpc.server'
 import {getSdk} from '@skillrecordings/database'
-import {stripe} from '@skillrecordings/commerce-server'
+import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
+
+const {stripe} = defaultStripeContext
 
 export const invoicesRouter = router({
   getChargeDetails: publicProcedure

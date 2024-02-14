@@ -11,12 +11,14 @@ import {first} from 'lodash'
 import {add} from 'date-fns'
 import {
   getCalculatedPrice,
-  stripe,
   getFixedDiscountForIndividualUpgrade,
 } from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
 import {NextApiRequest} from 'next'
 import {z} from 'zod'
+import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
+
+const {stripe} = defaultStripeContext
 
 /**
  * Given a specific user we want to lookup their Stripe

@@ -3,7 +3,6 @@ import {OutgoingResponse} from '../index'
 import {getSdk, prisma} from '@skillrecordings/database'
 import {
   recordNewPurchase,
-  stripe,
   NO_ASSOCIATED_PRODUCT,
 } from '@skillrecordings/commerce-server'
 import {buffer} from 'micro'
@@ -14,6 +13,9 @@ import {
   STRIPE_CHECKOUT_COMPLETED_EVENT,
   STRIPE_WEBHOOK_RECEIVED_EVENT,
 } from '@skillrecordings/inngest'
+import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
+
+const {stripe} = defaultStripeContext
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
