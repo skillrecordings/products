@@ -1000,7 +1000,9 @@ export const Banner: React.FC<{
       {currentSale ? (
         <Link
           href={productOnSale ? productPath : '/buy'}
-          className={cn(`flex h-full w-full bg-primary py-1.5 text-white`)}
+          className={cn(
+            `flex h-full w-full bg-primary py-1.5 text-white print:hidden`,
+          )}
           onClick={() => {
             track('clicked banner cta', {
               location: 'nav',

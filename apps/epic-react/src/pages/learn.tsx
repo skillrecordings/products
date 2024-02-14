@@ -22,17 +22,12 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 }
 
 const ResourceLink: React.FC<{
-  _id: string
   title: string
   workshopSlug: string
   resourceSlug: string
-}> = ({_id, title, workshopSlug, resourceSlug}) => {
+}> = ({title, workshopSlug, resourceSlug}) => {
   return (
-    <Link
-      key={_id}
-      href={`/workshops/${workshopSlug}/${resourceSlug}`}
-      className="block"
-    >
+    <Link href={`/workshops/${workshopSlug}/${resourceSlug}`} className="block">
       {title}
     </Link>
   )
@@ -46,6 +41,8 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
 
   const workshops = WorkshopSchema.array().parse(unparsedWorkshops)
   const bonuses = BonusSchema.array().parse(unparsedBonuses)
+
+  console.log({workshops})
 
   return (
     <Layout
@@ -73,7 +70,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
                       if (resource._type === 'explainer') {
                         return (
                           <ResourceLink
-                            _id={resource._id}
+                            key={resource._id}
                             title={resource.title}
                             workshopSlug={workshop.slug.current}
                             resourceSlug={resource.slug}
@@ -81,28 +78,14 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
                         )
                       }
 
-                      if (resource._type === 'section') {
-                        const sectionResources = resource.resources || []
+                      if (resource._type === 'section' && resource?.resources) {
                         return (
-                          <>
-                            <h4 className="text-1xl font-bold">
-                              Section: {resource.title}
-                            </h4>
-                            <ul>
-                              {sectionResources.map((sectionResource) => {
-                                return (
-                                  <li>
-                                    <ResourceLink
-                                      _id={sectionResource._id}
-                                      title={sectionResource.title}
-                                      workshopSlug={workshop.slug.current}
-                                      resourceSlug={sectionResource.slug}
-                                    />
-                                  </li>
-                                )
-                              })}
-                            </ul>
-                          </>
+                          <ResourceLink
+                            key={resource._id}
+                            title={resource.title}
+                            workshopSlug={workshop.slug.current}
+                            resourceSlug={resource.resources[0].slug}
+                          />
                         )
                       }
                     })}
