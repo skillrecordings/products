@@ -1,6 +1,7 @@
 import Layout from '@/components/app/layout'
 import {Article, getAllArticles} from '@/lib/articles'
-import {drop, first} from 'lodash'
+import {useSearchBar} from '@/search-bar/use-search-bar'
+import {SearchIcon} from '@heroicons/react/outline'
 import Balancer from 'react-wrap-balancer'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,12 +10,24 @@ import cx from 'classnames'
 import {trpc} from '@/trpc/trpc.client'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Heading from '@/components/heading'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+import groq from 'groq'
+import {useRouter} from 'next/router'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+
+const ARTICLES_PER_PAGE = 5
 
 export async function getStaticProps() {
+  // const articles = await getPaginatedArticles(0, ARTICLES_PER_PAGE)
+  // const articlesCount = await sanityClient.fetch(
+  //   groq`count(*[_type == "article" && state == "published"])`,
+  // )
   const articles = await getAllArticles()
-
   return {
-    props: {articles},
+    props: {
+      articles,
+      // articlesCount
+    },
     revalidate: 10,
   }
 }
@@ -24,10 +37,11 @@ type ArticlesIndex = {
 }
 
 const Articles: React.FC<ArticlesIndex> = ({articles}) => {
-  const publishedArticles = articles.filter(({state}) => state === 'published')
   const {data: defaultCouponData, status: defaultCouponStatus} =
     trpc.pricing.defaultCoupon.useQuery()
   const pageDescription = 'TypeScript Articles by Matt Pocock'
+  // const {articlesToRender, paginatedArticlesStatus, pages, currentPage} =
+  //   usePaginatedArticles(articlesCount, ARTICLES_PER_PAGE, articles)
 
   return (
     <Layout
@@ -45,8 +59,9 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
     >
       <Heading title="Articles" description={pageDescription} />
       <main className="mx-auto flex h-full w-full flex-grow flex-col gap-5 px-5 ">
-        <div className="grid grid-cols-1 gap-10 py-10 sm:grid-cols-1 sm:gap-5 sm:py-16 md:gap-10">
-          {publishedArticles.map((article) => {
+        <div className="grid grid-cols-1 gap-10 py-10 sm:grid-cols-1 sm:gap-5 sm:py-10 md:gap-10">
+          <SearchBar totalCount={articles.length} />
+          {articles.map((article) => {
             return (
               <article
                 className="mx-auto w-full max-w-screen-lg"
@@ -202,5 +217,44 @@ const TSLogo: React.FC<{className?: string}> = ({className = 'w-5'}) => {
         fillRule="evenodd"
       />
     </svg>
+  )
+}
+
+const SearchBar: React.FC<{totalCount: number}> = ({totalCount}) => {
+  const {
+    open: isSearchBarOpen,
+    setOpen: setOpenSearchBar,
+    setResourceType,
+  } = useSearchBar()
+
+  return (
+    <button
+      className="group relative mx-auto flex w-full max-w-sm items-center justify-between rounded-md border border-gray-800 bg-gray-950 px-4 py-3 before:absolute before:-top-px before:left-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-red-300 before:to-transparent before:opacity-50 before:content-['']"
+      onClick={() => {
+        setOpenSearchBar(!isSearchBarOpen)
+      }}
+    >
+      <div className="flex items-center gap-2">
+        <SearchIcon
+          className="h-3.5 w-3.5 opacity-80 transition group-hover:opacity-100"
+          aria-hidden="true"
+        />
+        <span
+          className={cn(
+            'block opacity-50 transition group-hover:opacity-75 md:block lg:block',
+            {},
+          )}
+        >
+          Search through {totalCount} articles
+        </span>
+      </div>
+      <kbd
+        className="-mb-0.5 hidden items-center gap-0.5 rounded px-1 font-mono text-xs font-semibold text-gray-300 md:flex"
+        aria-label="shortcut"
+      >
+        <span>⌘</span>
+        <span>K</span>
+      </kbd>
+    </button>
   )
 }

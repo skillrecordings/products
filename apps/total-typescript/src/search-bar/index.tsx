@@ -7,13 +7,15 @@ import {useRouter} from 'next/router'
 import {SearchIcon} from '@heroicons/react/solid'
 import {useSearchBar} from './use-search-bar'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {debounce} from 'lodash'
+import {isBrowser} from '@/utils/is-browser'
 
 const GlobalSearchBar = () => {
   const [query, setQuery] = React.useState('')
   const debouncedQuery = useDebounce(query, 500)
+  const {resourceType} = useSearchBar()
   const {data: searchResults, status} = trpc.search.resultsForQuery.useQuery({
     query: debouncedQuery,
+    resourceType,
   })
 
   const {open, setOpen} = useSearchBar()
@@ -42,6 +44,11 @@ const GlobalSearchBar = () => {
 
   return (
     <Command.Dialog
+      // container={
+      //   isBrowser()
+      //     ? (window.document.getElementById('layout') as HTMLElement)
+      //     : undefined
+      // }
       value={inputValue}
       onValueChange={setInputValue}
       shouldFilter={false}
@@ -57,7 +64,9 @@ const GlobalSearchBar = () => {
             setQuery(e)
           }}
           autoFocus
-          placeholder="Search Total TypeScript..."
+          placeholder={`Search ${
+            resourceType ? `${resourceType}s` : 'Pro Next.js...'
+          }`}
         />
       </div>
       <Command.List>

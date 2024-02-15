@@ -1,5 +1,7 @@
+import {trpc} from '@/trpc/trpc.client'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
+import {useRouter} from 'next/router'
 import z from 'zod'
 
 export const ArticleSchema = z.object({
@@ -19,6 +21,30 @@ export const ArticleSchema = z.object({
 export const ArticlesSchema = z.array(ArticleSchema)
 
 export type Article = z.infer<typeof ArticleSchema>
+
+export const getPaginatedArticles = async (
+  offset = 0,
+  limit = 20,
+): Promise<Article[]> => {
+  const articles = await sanityClient.fetch(
+    groq`*[_type == "article" && state == "published" ] | order(_createdAt desc) [${offset}...${limit}] {
+        _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        "slug": slug.current,
+        title,
+        state,
+        description,
+        "image": image.asset->url,
+        summary,
+        body
+  }`,
+  )
+
+  const parsedArticles = ArticlesSchema.safeParse(articles)
+  return parsedArticles.success ? parsedArticles.data : []
+}
 
 export const getAllArticles = async (): Promise<Article[]> => {
   const articles =
@@ -102,4 +128,33 @@ export const getArticle = async (
 
   const parsedArticle = ArticleSchema.safeParse(article)
   return parsedArticle.success ? parsedArticle.data : undefined
+}
+
+export const usePaginatedArticles = (
+  totalArticlesCount = 0,
+  articlesPerPage = 5,
+  initialArticles: Article[],
+) => {
+  const router = useRouter()
+  const page = Number(router.query.page) || 1
+  const offset = (page - 1) * articlesPerPage
+  const limit = articlesPerPage * page
+  const {data: paginatedArticles, status: paginatedArticlesStatus} =
+    trpc.articles.getPaginatedArticles.useQuery(
+      {
+        offset: offset,
+        limit: limit,
+      },
+      {
+        enabled: page > 1,
+      },
+    )
+  const articlesToRender = page > 1 ? paginatedArticles : initialArticles
+
+  return {
+    articlesToRender,
+    paginatedArticlesStatus,
+    pages: new Array(Math.ceil(totalArticlesCount / articlesPerPage)).fill(0),
+    currentPage: page,
+  }
 }

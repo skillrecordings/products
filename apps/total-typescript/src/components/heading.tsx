@@ -47,6 +47,7 @@ const Heading: React.FC<React.PropsWithChildren<HeadingProps>> = ({
           alt=""
           fill
           className="object-cover"
+          sizes="1600px"
           quality={100}
           priority
         />

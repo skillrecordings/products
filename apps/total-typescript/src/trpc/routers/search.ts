@@ -8,12 +8,18 @@ export const searchRouter = router({
     .input(
       z.object({
         query: z.string(),
+        resourceType: z.string().optional(),
         numResults: z.number().default(20),
       }),
     )
     .query(async ({ctx, input}) => {
+      const {resourceType} = input
       const results = await sanityClient.fetch(
-        `  *[_type in ["article", "tip", "module", "exercise", "explainer"]]
+        `  *[_type in [${
+          resourceType
+            ? `"${resourceType}"`
+            : `"article", "tip", "module", "exercise", "explainer"`
+        }] && state == "published"]
     | score(
       title match $searchQuery 
       || _type match "module"
