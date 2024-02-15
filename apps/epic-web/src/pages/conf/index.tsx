@@ -2022,11 +2022,13 @@ export const Schedule: React.FC<{
               <Accordion type="multiple" className="w-full">
                 <ul className="flex flex-col divide-y divide-white/10">
                   {room.sessions.map((session) => {
+                    const hasMultipleSpeakers = session?.speakers?.length > 1
                     const speaker = session?.speakers[0]?.name
 
-                    const Speaker: React.FC<{className?: string}> = ({
-                      className,
-                    }) => {
+                    const Speaker: React.FC<{
+                      className?: string
+                      speaker: string
+                    }> = ({className, speaker}) => {
                       return (
                         <div className={cn('items-center gap-2', className)}>
                           <Image
@@ -2040,7 +2042,9 @@ export const Schedule: React.FC<{
                             height={40}
                             className="w-8 rounded-full md:w-auto"
                           />
-                          <span className="text-sm">{speaker}</span>
+                          <span className="text-sm leading-tight">
+                            {speaker}
+                          </span>
                         </div>
                       )
                     }
@@ -2089,18 +2093,56 @@ export const Schedule: React.FC<{
                                 </p>
                               </div>
                               <div className="col-span-4 w-full md:col-span-3">
-                                <div className="flex flex-col items-start text-left">
+                                <div className="flex w-full flex-col items-start text-left">
                                   <h4 className="font-semibold leading-tight sm:text-lg print:text-black">
                                     {session.title}
                                   </h4>
-                                  {speaker && (
-                                    <Speaker className="mt-2 flex md:hidden print:text-black" />
+                                  {hasMultipleSpeakers ? (
+                                    <div className="flex w-full items-center gap-2">
+                                      {session?.speakers?.map((speaker) => {
+                                        return (
+                                          <Speaker
+                                            key={speaker.name}
+                                            speaker={speaker.name}
+                                            className="mt-2 flex w-full max-w-none md:hidden print:text-black"
+                                          />
+                                        )
+                                      })}
+                                    </div>
+                                  ) : (
+                                    <>
+                                      {speaker && (
+                                        <Speaker
+                                          speaker={speaker}
+                                          className="mt-2 flex md:hidden print:text-black"
+                                        />
+                                      )}
+                                    </>
                                   )}
                                 </div>
                                 {/* <p className="text-sm">{session.description}</p> */}
                               </div>
-                              {speaker && (
-                                <Speaker className="hidden w-full max-w-[200px] md:flex" />
+                              {hasMultipleSpeakers ? (
+                                <div className="hidden w-full items-center gap-2 md:flex">
+                                  {session?.speakers?.map((speaker) => {
+                                    return (
+                                      <Speaker
+                                        key={speaker.name}
+                                        speaker={speaker.name}
+                                        className="hidden w-full max-w-[200px] md:flex"
+                                      />
+                                    )
+                                  })}
+                                </div>
+                              ) : (
+                                <>
+                                  {speaker && (
+                                    <Speaker
+                                      speaker={speaker}
+                                      className="hidden w-full max-w-[200px] md:flex"
+                                    />
+                                  )}
+                                </>
                               )}
                             </div>
                           </AccordionTriggerComp>
