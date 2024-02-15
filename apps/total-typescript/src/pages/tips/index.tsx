@@ -7,6 +7,7 @@ import {CheckCircleIcon, PlayIcon} from '@heroicons/react/solid'
 import {useRouter} from 'next/router'
 import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
 import Balancer from 'react-wrap-balancer'
+import Heading from '@/components/heading'
 
 export async function getStaticProps() {
   const tips = await getAllTips()
@@ -37,34 +38,14 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
       }}
       className="flex flex-col items-center pb-24"
     >
-      <header className="relative z-10 flex flex-col items-center justify-center overflow-x-hidden pb-16 pt-32 text-center sm:pt-40 lg:pb-24 lg:pt-48">
-        <h1 className="relative text-center font-heading text-6xl font-bold text-slate-200 lg:text-8xl">
-          TypeScript Tips
-        </h1>
-        <Image
-          src={require('../../../public/assets/wand@2x.png')}
-          alt=""
-          aria-hidden="true"
-          width={420}
-          height={420}
-          className="pointer-events-none absolute -translate-y-32 translate-x-16 sm:-translate-y-28 sm:translate-x-12"
-        />
-        <p className="max-w-sm pt-8 text-center text-lg text-cyan-100/90">
-          {pageDescription}
-        </p>
-      </header>
+      <Heading title="TypeScript Tips" description={pageDescription} />
       <main className="relative z-10 mx-auto flex w-full max-w-screen-md flex-col px-3 sm:px-5">
-        {tips.map((tip) => {
-          return <TipTeaser tip={tip} key={tip.slug} />
-        })}
+        <div className="pt-16">
+          {tips.map((tip) => {
+            return <TipTeaser tip={tip} key={tip.slug} />
+          })}
+        </div>
       </main>
-      <Image
-        fill
-        aria-hidden="true"
-        alt=""
-        src={require('../../../public/assets/landing/bg-divider-3.png')}
-        className="-z-10 object-contain object-top"
-      />
     </Layout>
   )
 }

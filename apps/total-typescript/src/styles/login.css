@@ -42,10 +42,10 @@
 [data-check-your-email] {
   @apply relative flex flex-grow flex-col items-center justify-center px-5 pb-16 pt-5;
   [data-container] {
-    @apply mx-auto flex w-full max-w-md flex-col items-center gap-5 text-center;
+    @apply mx-auto flex w-full max-w-md flex-col items-center text-center;
   }
   [data-title] {
-    @apply text-center font-text text-3xl font-extrabold leading-9 sm:text-4xl lg:text-5xl;
+    @apply pb-5 text-center font-text text-3xl font-extrabold leading-9 sm:text-4xl lg:text-5xl;
   }
   [data-message] {
     @apply max-w-sm text-lg text-gray-300;

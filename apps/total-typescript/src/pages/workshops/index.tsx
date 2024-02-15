@@ -7,6 +7,7 @@ import {getAllWorkshops} from '@/lib/workshops'
 import {getAllBonuses} from '@/lib/bonuses'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Balancer from 'react-wrap-balancer'
+import Heading from '@/components/heading'
 
 const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/total-typescript/image/fetch/dpr_auto,f_auto,q_auto:good/`
 
@@ -46,18 +47,13 @@ const WorkshopsPage: React.FC<{
         description: `Professional TypeScript workshops by Matt Pocock that will help you learn TypeScript as a professional web developer through exercise driven examples.`,
       }}
     >
-      <main className="relative z-10 flex flex-col items-center justify-center py-32 sm:py-40">
-        <h1 className="px-5 text-center font-heading text-5xl font-bold sm:text-5xl">
-          Professional TypeScript Workshops
-        </h1>
-        <p className="max-w-lg px-5 pt-8 text-center text-lg text-rose-100/90">
-          <Balancer>
-            A collection of professional, exercise-driven, in-depth, self-paced
-            TypeScript workshops for you to achieve TypeScript wizardry.
-          </Balancer>
-        </p>
+      <Heading
+        title="Professional TypeScript Workshops"
+        description="A collection of professional, exercise-driven, in-depth, self-paced TypeScript workshops for you to achieve TypeScript wizardry."
+      />
+      <main className="relative z-10 flex flex-col items-center justify-center">
         {modules && (
-          <ul className="flex max-w-screen-md flex-col px-5 pt-10 sm:pt-20">
+          <ul className="flex max-w-screen-md flex-col px-5 py-10 sm:py-20">
             <div className="space-y-14">
               {standaloneWorkshops.map((module, i) => (
                 <WorkshopTeaser
@@ -103,13 +99,6 @@ const WorkshopsPage: React.FC<{
           </ul>
         )}
       </main>
-      <Image
-        fill
-        aria-hidden="true"
-        alt=""
-        src={require('../../../public/assets/landing/bg-divider-3.png')}
-        className="-z-10 object-contain object-top"
-      />
     </Layout>
   )
 }

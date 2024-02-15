@@ -11,8 +11,9 @@ const CheckYourEmail = () => {
           <div className="flex max-w-screen-md items-center justify-center">
             <Image
               quality={100}
-              src={require('../../public/assets/landing/water-particles@2x.png')}
+              src={require('../../public/assets/login-check-your-email@2x.png')}
               alt=""
+              width={350}
               aria-hidden="true"
               priority
               placeholder="blur"

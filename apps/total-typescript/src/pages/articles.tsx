@@ -8,6 +8,7 @@ import ReactMarkdown from 'react-markdown'
 import cx from 'classnames'
 import {trpc} from '@/trpc/trpc.client'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import Heading from '@/components/heading'
 
 export async function getStaticProps() {
   const articles = await getAllArticles()
@@ -26,53 +27,31 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
   const publishedArticles = articles.filter(({state}) => state === 'published')
   const {data: defaultCouponData, status: defaultCouponStatus} =
     trpc.pricing.defaultCoupon.useQuery()
+  const pageDescription = 'TypeScript Articles by Matt Pocock'
 
   return (
     <Layout
-      className={cn('bg-[#090E19]', {
+      className={cn('', {
         'lg:pt-10': defaultCouponData,
       })}
       meta={{
         title: 'TypeScript Articles by Matt Pocock',
+        description: pageDescription,
         ogImage: {
           url: 'https://res.cloudinary.com/total-typescript/image/upload/v1702042103/ts-article-card_2x_kakhwd.png',
           alt: 'TypeScript Articles by Matt Pocock',
         },
       }}
     >
-      <main className="mx-auto flex h-full w-full max-w-screen-lg flex-grow flex-col gap-5 px-5 pb-20 pt-20 md:pb-32 md:pt-24">
-        <Image
-          src={require('../../public/assets/landing/4-stars@2x.png')}
-          fill
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none select-none object-contain object-top"
-        />
-
-        <div className="relative flex w-full flex-col items-center justify-center pb-8 pt-48">
-          <Image
-            className="absolute -translate-y-28"
-            quality={100}
-            src={require('../../public/assets/candle@2x.png')}
-            width={350}
-            height={350}
-            alt=""
-            priority
-            placeholder="blur"
-            aria-hidden="true"
-          />
-          <h1 className="relative z-10 text-center font-heading text-7xl font-bold text-slate-200 sm:text-8xl">
-            <span className="not-sr-only">Articles</span>
-          </h1>
-          <p className="max-w-sm text-center text-lg text-rose-100/90">
-            TypeScript Articles by Matt Pocock
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-10 pt-5 sm:grid-cols-1 sm:gap-5 sm:pt-5 md:gap-10">
+      <Heading title="Articles" description={pageDescription} />
+      <main className="mx-auto flex h-full w-full flex-grow flex-col gap-5 px-5 ">
+        <div className="grid grid-cols-1 gap-10 py-10 sm:grid-cols-1 sm:gap-5 sm:py-16 md:gap-10">
           {publishedArticles.map((article) => {
             return (
-              <article className="w-full" key={article.slug}>
+              <article
+                className="mx-auto w-full max-w-screen-lg"
+                key={article.slug}
+              >
                 <Link
                   href={article.slug}
                   className="group grid grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-10"
@@ -93,7 +72,7 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
                   <div>
                     <h2
                       className={cx(
-                        'max-w-3xl font-text text-2xl font-semibold sm:text-3xl',
+                        'max-w-3xl font-sans text-2xl font-semibold sm:text-3xl',
                       )}
                     >
                       <Balancer>{article.title}</Balancer>

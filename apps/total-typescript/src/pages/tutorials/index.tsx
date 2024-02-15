@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import Heading from '@/components/heading'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -24,29 +25,27 @@ const sectionsFlatMap = (sections: any[]) => {
   return map
 }
 
+const pageDescription =
+  'A collection of free, exercise-driven, in-depth TypeScript tutorials for you to use on your journey to TypeScript wizardry.'
+
 const TutorialsPage: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
   return (
     <Layout
       meta={{
         title: `Free TypeScript Tutorials from Matt Pocock`,
-        description: `Free TypeScript tutorials by Matt Pocock that will help you learn how to use TypeScript as a professional web developer through exercise driven examples.`,
+        description: pageDescription,
         ogImage: {
           url: 'https://res.cloudinary.com/total-typescript/image/upload/v1663164063/tutorials-card_2x_gsi059.png',
         },
       }}
     >
-      <main className="relative z-10 flex flex-col items-center justify-center py-32 sm:py-40">
-        <h1 className="px-5 text-center font-heading text-5xl font-bold sm:text-5xl">
-          Free TypeScript Tutorials
-        </h1>
-        <p className="max-w-lg px-5 pt-8 text-center text-lg text-rose-100/90">
-          <Balancer>
-            A collection of free, exercise-driven, in-depth TypeScript tutorials
-            for you to use on your journey to TypeScript wizardry.
-          </Balancer>
-        </p>
+      <Heading
+        title="Free TypeScript Tutorials"
+        description={pageDescription}
+      />
+      <main className="relative z-10 flex flex-col items-center justify-center">
         {tutorials && (
-          <ul className="flex max-w-screen-md flex-col gap-5 px-5 pt-10 sm:gap-8 sm:pt-20">
+          <ul className="flex max-w-screen-md flex-col gap-5 px-5 py-10 sm:gap-8 sm:py-20">
             {tutorials.map(({title, slug, image, description, sections}, i) => {
               return (
                 <li
@@ -114,13 +113,6 @@ const TutorialsPage: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
           </ul>
         )}
       </main>
-      <Image
-        fill
-        aria-hidden="true"
-        alt=""
-        src={require('../../../public/assets/landing/bg-divider-3.png')}
-        className="-z-10 object-contain object-top"
-      />
     </Layout>
   )
 }
