@@ -134,7 +134,7 @@ const GetStarted = React.forwardRef<HTMLDivElement>((props, ref) => {
           variants={!shouldReduceMotion ? container : undefined}
           initial="hidden"
           whileInView="show"
-          viewport={{once: false}}
+          viewport={{once: true}}
           className="relative space-y-16 from-gray-800 via-gray-800 to-emerald-300 px-5 before:absolute before:h-full before:bg-gradient-to-b before:content-[''] sm:px-0 sm:before:-ml-20 sm:before:w-px"
         >
           <motion.li
@@ -278,7 +278,7 @@ export const RuleItem: React.FC<React.PropsWithChildren<{title: string}>> = ({
 const Header: React.FC<{getStartedRef: any}> = ({getStartedRef}) => {
   const shouldReduceMotion = useReducedMotion()
   return (
-    <header className="relative mx-auto flex w-full max-w-screen-2xl flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-gray-900 to-gray-950 px-5 pt-24 md:flex-row md:px-16 lg:px-0 lg:pl-32">
+    <header className="relative mx-auto flex w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-gray-900 to-gray-950 px-5 pt-24 md:flex-row md:px-16 lg:px-0 lg:pl-32">
       <div className="relative z-10 flex w-full flex-col pb-16 text-center sm:text-left lg:w-auto">
         <motion.h1
           initial={!shouldReduceMotion ? {opacity: 0, x: -30} : undefined}
@@ -347,7 +347,7 @@ const Header: React.FC<{getStartedRef: any}> = ({getStartedRef}) => {
           src={require('../../../public/assets/ts-reset@2x.png')}
           quality={100}
           alt="TS Reset by Matt Pocock"
-          className="pointer-events-none select-none "
+          className="pointer-events-none select-none"
           width={760}
           placeholder="empty"
           priority
@@ -423,6 +423,7 @@ const CTA = () => {
     >
       <motion.div
         initial={{x: shouldReduceMotion ? 0 : -30}}
+        viewport={{once: true}}
         whileInView={
           !shouldReduceMotion
             ? {
@@ -455,6 +456,7 @@ const CTA = () => {
         </Button>
       </motion.div>
       <motion.div
+        viewport={{once: true}}
         whileInView={
           !shouldReduceMotion
             ? {
@@ -487,6 +489,7 @@ const Examples = () => {
     <section className="w-full bg-gray-950/50 py-0 sm:py-16">
       <motion.div
         initial={!shouldReduceMotion ? {y: -50, opacity: 0} : undefined}
+        viewport={{once: true}}
         whileInView={
           !shouldReduceMotion
             ? {
@@ -513,6 +516,7 @@ const Rules = () => {
     <section className="w-full bg-gray-950/50 px-5 pb-16 pt-10 lg:px-0">
       <motion.div
         initial={!shouldReduceMotion ? {y: -50, opacity: 0} : undefined}
+        viewport={{once: true}}
         whileInView={
           !shouldReduceMotion
             ? {
