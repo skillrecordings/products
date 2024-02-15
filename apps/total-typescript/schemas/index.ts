@@ -14,6 +14,7 @@ import product from './documents/product'
 import article from './documents/article'
 import concept from './documents/concept'
 import email from './documents/email'
+import chapterResource from './documents/chapterResource'
 // —— objects
 // body
 import body from './objects/body'
@@ -54,6 +55,7 @@ export const schemaTypes = [
   article,
   concept,
   email,
+  chapterResource,
   // objects
   body,
   bodyVideo,

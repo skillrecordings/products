@@ -73,6 +73,7 @@ export default {
             {title: 'Explainer', type: 'explainer'},
             {title: 'Interview', type: 'interview'},
             {title: 'Testimonial', type: 'testimonial'},
+            {title: 'Chapter Resource', type: 'chapterResource'},
             {type: 'linkResource'},
             {title: 'CTA', type: 'cta'},
           ],
