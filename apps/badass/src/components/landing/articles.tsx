@@ -9,9 +9,10 @@ import {ButtonSecondary} from 'components/buttons'
 
 type ArticlesProps = {
   articles: Article[]
+  className?: string
 }
 
-const Articles: React.FC<ArticlesProps> = ({articles}) => {
+const Articles: React.FC<ArticlesProps> = ({articles, className = ''}) => {
   const latestArticle = articles.sort(
     (a, b) =>
       new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime(),
@@ -24,7 +25,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
       title="Badass Articles"
       subtitle="Our Key Lessons Learned Along the Way"
       subtitleClassName="md:max-w-[450px] lg:max-w-[500px] xl:max-w-none"
-      className="mt-14 md:mt-[60px] lg:mt-36"
+      className={className}
       renderAdditionalComponent={() => (
         <>
           <ButtonSecondary href="/articles" size="small" className="lg:hidden">

@@ -39,7 +39,10 @@ const LandingPage: React.FC<LandingPageProps> = ({
           <CaseStudies caseStudies={caseStudies} />
           <OtherProducts />
           <Podcasts podcasts={podcasts} className="mt-14 md:mt-16 lg:mt-36" />
-          <Articles articles={articles} />
+          <Articles
+            articles={articles}
+            className="mt-14 md:mt-[60px] lg:mt-36"
+          />
         </section>
         <CallToActionForm content={genericCallToActionContent} />
       </main>

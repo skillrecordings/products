@@ -114,7 +114,7 @@ const calculateActiveSlidesPerView = () => {
   return activeSlidesPerView
 }
 
-const Podcasts: React.FC<PodcastsProps> = ({podcasts, className}) => {
+const Podcasts: React.FC<PodcastsProps> = ({podcasts, className = ''}) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const [loaded, setLoaded] = React.useState(false)
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
