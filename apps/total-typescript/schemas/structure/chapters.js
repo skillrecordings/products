@@ -1,9 +1,9 @@
-import {MdBook} from 'react-icons/md'
+import {MdMenuBook} from 'react-icons/md'
 
 const chapters = (S) =>
   S.listItem()
     .title('Chapters')
-    .icon(MdBook)
+    .icon(MdMenuBook)
     .child(
       S.documentTypeList('module')
         .filter('moduleType == "chapter"')
