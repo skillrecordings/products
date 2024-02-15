@@ -99,7 +99,7 @@ const Index: NextPage<{
         navigationClassName=""
       >
         <Header />
-        <ConfBanner className="relative z-50 mx-auto mb-10 w-full max-w-screen-md px-5 sm:mb-0 sm:mt-[-265px]" />
+        <ConfBanner className="relative z-40 mx-auto mb-10 w-full max-w-screen-md px-5 sm:mb-0 sm:mt-[-265px]" />
         <main className="">
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
           <Article
