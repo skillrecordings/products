@@ -8,11 +8,10 @@ import {type Podcast, getAllPodcastEpisodes} from 'lib/podcast'
 import {type Article, getAllArticles} from 'lib/articles'
 
 import Layout from 'components/layout'
-import ContentSection from 'components/content-section'
-import Card from 'components/card'
-import {ButtonPrimary, ButtonSecondary} from 'components/buttons'
+import {ButtonPrimary} from 'components/buttons'
 import CaseStudies from 'components/landing/case-studies'
 import Podcasts from 'components/landing/podcasts'
+import Articles from 'components/landing/articles'
 
 import 'keen-slider/keen-slider.min.css'
 
@@ -20,62 +19,6 @@ type ConfirmationPageProps = {
   caseStudies: CaseStudy[]
   podcasts: Podcast[]
   articles: Article[]
-}
-
-type ArticlesProps = {
-  articles: Article[]
-}
-
-const Articles: React.FC<ArticlesProps> = ({articles}) => {
-  const latestArticles = articles
-    .sort(
-      (a, b) =>
-        new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime(),
-    )
-    .slice(0, 2)
-  return (
-    <ContentSection
-      title="Badass Articles"
-      subtitle="Our Key Lessons Learned Along the Way"
-      subtitleClassName="md:max-w-[450px] lg:max-w-[500px] xl:max-w-none"
-      renderAdditionalComponent={() => (
-        <>
-          <ButtonSecondary href="/articles" size="small" className="lg:hidden">
-            View All Articles
-          </ButtonSecondary>
-          <ButtonSecondary
-            href="/articles"
-            size="middle"
-            className="hidden lg:inline-flex"
-          >
-            View All Articles
-          </ButtonSecondary>
-        </>
-      )}
-    >
-      <div className="mt-6 md:mt-10 lg:mt-20 gap-y-2 md:gap-y-0 md:gap-x-4 lg:gap-x-16 flex flex-col md:flex-row items-center">
-        <div className="grid md:grid-cols-2 gap-4">
-          {latestArticles.map((article) => {
-            console.log({image: article.image})
-            return (
-              <Card
-                key={article._id}
-                imageUrl={article.externalImage}
-                title={article.title}
-                description={article.description}
-                href={`/${article.slug}`}
-                type="article"
-                ctaText="View"
-                authorName="Joel Hooks"
-                authorAvatarUrl="/joel-hooks.jpg"
-                featuredCardColor={article.card_color}
-              />
-            )
-          })}
-        </div>
-      </div>
-    </ContentSection>
-  )
 }
 
 const DontMissUpdates = () => {
