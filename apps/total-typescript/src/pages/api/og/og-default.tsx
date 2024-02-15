@@ -68,7 +68,7 @@ export default async function handler(req: NextRequest) {
               }}
             />
           )}
-          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-16 relative">
+          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-32 relative">
             <p tw="text-cyan-200" style={{fontSize: 48}}>
               TotalTypeScript.com{type && <span tw="text-white">/{type}</span>}
             </p>
