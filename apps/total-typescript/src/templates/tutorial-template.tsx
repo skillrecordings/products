@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from '@/components/app/layout'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import Link from 'next/link'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
@@ -221,12 +221,11 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
         )}
       </header>
       <Image
-        layout="fill"
         aria-hidden="true"
         alt=""
         src={require('../../public/assets/landing/bg-divider-3.png')}
-        objectPosition={'top'}
-        className="-z-10 object-contain"
+        fill
+        className="-z-10 object-contain object-top"
       />
     </>
   )

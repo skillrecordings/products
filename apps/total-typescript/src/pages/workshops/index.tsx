@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '@/components/app/layout'
 import {SanityDocument} from '@sanity/client'
 import Link from 'next/link'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {getAllWorkshops} from '@/lib/workshops'
 import {getAllBonuses} from '@/lib/bonuses'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
@@ -104,12 +104,11 @@ const WorkshopsPage: React.FC<{
         )}
       </main>
       <Image
-        layout="fill"
+        fill
         aria-hidden="true"
         alt=""
         src={require('../../../public/assets/landing/bg-divider-3.png')}
-        objectPosition={'top'}
-        className="-z-10 object-contain"
+        className="-z-10 object-contain object-top"
       />
     </Layout>
   )

@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router'
 import {MDXComponents} from '../mdx'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
@@ -17,10 +17,11 @@ export const SubscribeToNewsletter = ({level}: {level?: SkillLevel}) => {
       className="flex flex-col items-center bg-[#081021] py-40"
       slot={
         <Image
+          alt=""
+          aria-hidden="true"
           src="/assets/landing/bg-divider-7.png"
-          layout="fill"
-          className="pointer-events-none select-none object-contain"
-          objectPosition="top center"
+          fill
+          className="pointer-events-none select-none object-contain object-top"
           quality={100}
         />
       }

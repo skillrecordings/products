@@ -71,12 +71,11 @@ const ProductsIndex: React.FC<ProductsIndexProps> = ({
         </PriceCheckProvider>
       </main>
       <Image
-        layout="fill"
+        fill
         aria-hidden="true"
         alt=""
         src={require('../../../public/assets/landing/bg-divider-3.png')}
-        objectPosition={'top'}
-        className="-z-10 object-contain"
+        className="-z-10 object-contain object-top"
       />
     </Layout>
   )

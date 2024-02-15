@@ -1,7 +1,7 @@
 import Layout from '@/components/app/layout'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {Article} from '@/lib/articles'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import Share from '@/components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {ArticleNewsletterCta} from '@/components/primary-newsletter-cta'
@@ -102,7 +102,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
               alt=""
               aria-hidden="true"
               quality={100}
-              layout="fill"
+              fill
             />
           </div>
         )}

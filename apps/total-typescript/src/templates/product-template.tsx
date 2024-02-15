@@ -2,7 +2,7 @@ import React from 'react'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {Element} from 'react-scroll'
 import Layout from '@/components/app/layout'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {motion, useScroll, useTransform} from 'framer-motion'
 import {PricingTiers} from '@skillrecordings/skill-lesson/path-to-purchase/product-tiers'
 import {ProductPageProps} from '@/pages/products/[slug]'
@@ -40,12 +40,11 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
       }}
     >
       <Image
-        layout="fill"
         aria-hidden="true"
         alt=""
         src={require('../../public/assets/landing/bg-divider-3.png')}
-        objectPosition={'top'}
-        className="select-none object-contain"
+        fill
+        className="select-none object-contain object-top"
         quality={100}
       />
       <main className="relative z-10 flex flex-col items-center justify-center py-24 sm:py-28">
@@ -64,7 +63,7 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
             src={require('../../public/assets/landing/bg-divider-5.png')}
             alt=""
             aria-hidden="true"
-            layout="fill"
+            fill
             className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
             quality={100}
           />
@@ -91,12 +90,11 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
         </div>
       </main>
       <Image
-        layout="fill"
         aria-hidden="true"
         alt=""
         src={require('../../public/assets/landing/bg-divider-7.png')}
-        objectPosition={'bottom'}
-        className="select-none object-contain"
+        fill
+        className="select-none object-contain object-bottom"
         quality={100}
       />
     </Layout>

@@ -3,7 +3,7 @@ import Layout from '@/components/app/layout'
 import Spinner from '@/components/spinner'
 import queryString from 'query-string'
 import toast from 'react-hot-toast'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import cx from 'classnames'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {getSdk, User} from '@skillrecordings/database'
@@ -249,12 +249,10 @@ const CertificateImage: React.FC<CertificateImageProps> = ({
       )}
       <Image
         src={require('../../../../public/assets/landing/bg-divider-5.png')}
-        layout="fill"
-        objectFit="contain"
-        objectPosition="bottom"
+        fill
         alt=""
         aria-hidden="true"
-        className="pointer-events-none select-none"
+        className="pointer-events-none select-none object-contain object-bottom"
         quality={100}
       />
     </div>

@@ -1,4 +1,4 @@
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import * as React from 'react'
 import {SkillLevel} from './use-skill-level'
 
@@ -52,7 +52,7 @@ export const Header = ({level}: {level?: SkillLevel}) => {
       </div>
       <Image
         src={require('../../../public/assets/landing/bg-divider-1.png')}
-        layout="fill"
+        fill
         className="pointer-events-none translate-y-48 select-none object-contain object-bottom"
         alt=""
         aria-hidden="true"

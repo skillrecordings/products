@@ -1,5 +1,5 @@
 import {NextRouter, useRouter} from 'next/router'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
@@ -34,9 +34,10 @@ export const PrimaryNewsletterCta = ({level}: {level?: SkillLevel}) => {
       slot={
         <Image
           src="/assets/landing/bg-divider-7.png"
-          layout="fill"
-          className="pointer-events-none select-none object-contain"
-          objectPosition="top center"
+          fill
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none select-none object-contain object-top"
           quality={100}
         />
       }

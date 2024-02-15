@@ -2,7 +2,7 @@ import Layout from '@/components/app/layout'
 import {ArticleNewsletterCta} from '@/components/primary-newsletter-cta'
 import Share from '@/components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 const DOWNLOAD_URL =
@@ -118,6 +118,7 @@ const ExtensionPage = () => {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2">
                       <Image
+                        alt={author.name}
                         placeholder="blur"
                         src={author.image}
                         width={44}

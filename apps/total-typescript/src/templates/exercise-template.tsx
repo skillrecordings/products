@@ -231,10 +231,8 @@ const ExerciseTemplate: React.FC<{
                 src={require('../../public/assets/landing/bg-divider-6.png')}
                 alt=""
                 aria-hidden="true"
-                layout="fill"
-                objectFit="contain"
-                objectPosition="center top"
-                className="pointer-events-none z-0 select-none"
+                fill
+                className="pointer-events-none z-0 select-none object-contain object-top"
                 priority
               />
             </article>

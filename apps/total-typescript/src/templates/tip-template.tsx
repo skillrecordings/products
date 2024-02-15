@@ -23,7 +23,7 @@ import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outlin
 import {shuffle, take} from 'lodash'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Navigation from '@/components/app/navigation'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {getOgImage} from '@/utils/get-og-image'
 import {useTipComplete} from '../hooks/use-tip-complete'
 import {localProgressDb} from '../utils/dexie'
@@ -216,9 +216,8 @@ const TipTemplate: React.FC<{
             src={require('../../public/assets/landing/bg-divider-6.png')}
             alt=""
             aria-hidden="true"
-            layout="fill"
-            objectPosition="center top"
-            className="pointer-events-none -z-10 select-none object-contain"
+            fill
+            className="pointer-events-none -z-10 select-none object-contain object-top"
             priority
           />
         </main>
@@ -352,7 +351,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
         src={thumbnail}
         alt=""
         aria-hidden="true"
-        layout="fill"
+        fill
         className="blur-xs z-0 object-cover opacity-30 transition group-hover:opacity-40 group-hover:brightness-150"
         quality={100}
       />

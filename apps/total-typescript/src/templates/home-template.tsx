@@ -6,7 +6,7 @@ import {useSkillLevel} from '@/components/home/use-skill-level'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {Element} from 'react-scroll'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {MDXComponents} from '../components/mdx'
 import {isSellingLive} from '@/utils/is-selling-live'
 import {SubscribeToNewsletter} from '@/components/home/home-newsletter-cta'
@@ -92,9 +92,10 @@ export const HomeTemplate: React.FC<
             slot={
               <Image
                 src="/assets/landing/bg-divider-7.png"
-                layout="fill"
-                className="pointer-events-none select-none object-contain"
-                objectPosition="top center"
+                fill
+                alt=""
+                aria-hidden="true"
+                className="pointer-events-none select-none object-contain object-top"
                 quality={100}
               />
             }
@@ -110,7 +111,7 @@ export const HomeTemplate: React.FC<
                 src={require('../../public/assets/landing/bg-divider-5.png')}
                 alt=""
                 aria-hidden="true"
-                layout="fill"
+                fill
                 className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
                 quality={100}
               />
@@ -177,12 +178,11 @@ export const HomeTemplate: React.FC<
         )}
         <div className="pointer-events-none select-none">
           <Image
-            layout="fill"
             aria-hidden="true"
             alt=""
             src={require('../../public/assets/landing/bg-divider-4.png')}
-            objectPosition={'top'}
-            className="rotate-180 select-none object-contain"
+            fill
+            className="rotate-180 select-none object-contain object-top"
             quality={100}
           />
         </div>

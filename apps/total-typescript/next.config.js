@@ -42,7 +42,16 @@ const nextConfig = {
   reactStrictMode: true,
   staticPageGenerationTimeout: 180,
   images: {
-    domains: IMAGE_HOST_DOMAINS,
+    remotePatterns: [
+      ...IMAGE_HOST_DOMAINS.map((domain) => ({
+        protocol: 'https',
+        hostname: domain,
+      })),
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+    ],
   },
   async redirects() {
     return []

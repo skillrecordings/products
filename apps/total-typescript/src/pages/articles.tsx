@@ -84,7 +84,7 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
                         src={article.image}
                         alt=""
                         aria-hidden="true"
-                        layout="fill"
+                        fill
                         quality={100}
                         priority
                       />
@@ -151,7 +151,7 @@ export const ArticleTeaser: React.FC<ArticleTeaserProps> = ({article}) => {
               src={image}
               alt=""
               aria-hidden="true"
-              layout="fill"
+              fill
               quality={100}
             />
           </div>

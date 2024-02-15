@@ -19,7 +19,9 @@ import {FeedbackProvider} from '@/feedback-widget/feedback-context'
 import {trpc} from '@/trpc/trpc.client'
 import {SearchProvider} from '@/search-bar/use-search-bar'
 
-amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
+if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
+  amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
+}
 
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()

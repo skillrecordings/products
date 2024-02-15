@@ -6,7 +6,7 @@ import {Element} from 'react-scroll'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import Layout from '@/components/app/layout'
 import {getToken} from 'next-auth/jwt'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import {motion, useScroll, useTransform} from 'framer-motion'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import cx from 'classnames'
@@ -89,12 +89,11 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
       }}
     >
       <Image
-        layout="fill"
+        fill
         aria-hidden="true"
         alt=""
         src={require('../../public/assets/landing/bg-divider-3.png')}
-        objectPosition={'top'}
-        className="select-none object-contain"
+        className="select-none object-contain object-top"
         quality={100}
       />
       <main className="relative z-10 flex flex-col items-center justify-center py-28 sm:py-36">
@@ -106,7 +105,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
             src={require('../../public/assets/landing/bg-divider-5.png')}
             alt=""
             aria-hidden="true"
-            layout="fill"
+            fill
             className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
             quality={100}
           />
