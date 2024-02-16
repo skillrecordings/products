@@ -9,6 +9,7 @@ import {NextAuthOptions} from 'next-auth'
 import {parseBody} from 'next/dist/server/api-utils/node/parse-body'
 import {setCookie} from './utils'
 import {SkillRecordingsAction, SkillRecordingsProvider} from '../router'
+import {PaymentOptions} from '../server/default-payment-options'
 
 /** Extract the host from the environment */
 export function detectHost(forwardedHost: any) {
@@ -119,6 +120,7 @@ export interface SkillRecordingsOptions {
   }
   slack?: SlackConfig
   nextAuthOptions?: NextAuthOptions
+  paymentOptions?: PaymentOptions
   getAbility?: (req: IncomingRequest) => any
 }
 
