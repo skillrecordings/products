@@ -92,14 +92,14 @@ const Articles: React.FC<ArticlesProps> = ({articles, className = ''}) => {
                     <div className="flex space-x-2 lg:space-x-4 items-center">
                       <div className="rounded-full overflow-hidden">
                         <Image
-                          src="/joel-hooks.jpg"
-                          alt="Joel Hooks"
+                          src={article.authorAvatar}
+                          alt={article.author}
                           width={40}
                           height={40}
                         />
                       </div>
                       <div className="text-white opacity-80 uppercase font-mono tracking-[0.16px]">
-                        Joel Hooks
+                        {article.author}
                       </div>
                     </div>
                     <ButtonSecondary
