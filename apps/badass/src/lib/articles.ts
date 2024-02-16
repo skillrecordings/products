@@ -30,6 +30,11 @@ export const ArticleSchema = z.object({
   summary: z.any().array().nullable().optional(),
   state: z.enum(['published', 'draft']),
   card_color: z.enum(['red', 'green']),
+  // new fields below
+  // TODO: clean up types
+  markdownBody: z.string().nullable(),
+  articleHeaderImage: z.string().nullable().optional(),
+  shareCardImage: z.string().nullable().optional(),
 })
 
 export const ArticlesSchema = z.array(ArticleSchema)
@@ -58,7 +63,10 @@ export const getAllArticles = async (): Promise<Article[]> => {
           "subtitle": shareCardDetails.subtitle,
           "image": shareCardDetails.image.url
         },
-        card_color
+        card_color,
+        markdownBody,
+        "articleHeaderImage": articleHeaderImage.url,
+        "shareCardImage": shareCardImage.url
   }`)
 
   return ArticlesSchema.parse(articles)
@@ -92,7 +100,10 @@ export const getArticle = async (
           "subtitle": shareCardDetails.subtitle,
           "image": shareCardDetails.image.url
         },
-        card_color
+        card_color,
+        markdownBody,
+        "articleHeaderImage": articleHeaderImage.url,
+        "shareCardImage": shareCardImage.url
     }`,
     {slug: `${slug}`},
   )

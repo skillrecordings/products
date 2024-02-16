@@ -62,10 +62,10 @@ export default async function handleCreateOgImage(req: NextRequest) {
                 </div>
               </div>
             </div>
-            <div tw="flex flex-col items-center w-[880px] text-center">
+            <div tw="flex flex-col items-center w-[880px]">
               {title && (
                 <h2
-                  tw="text-8xl text-white"
+                  tw="text-7xl text-white"
                   style={{
                     fontFamily: 'Espiritu Regular',
                   }}

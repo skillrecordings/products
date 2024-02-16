@@ -143,7 +143,7 @@ const Card: React.FC<CardProps> = ({
                 </div>
               )}
               {description && (
-                <h3 className="text-neutral-200 leading-normal md:leading-[1.25] mt-4 text-center text-base md:text-xl font-medium opacity-80">
+                <h3 className="text-neutral-200 leading-normal md:leading-[1.25] mt-4 text-center text-base md:text-xl font-medium opacity-80 line-clamp-2">
                   {description}
                 </h3>
               )}
