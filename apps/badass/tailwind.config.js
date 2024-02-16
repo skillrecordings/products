@@ -120,6 +120,9 @@ module.exports = {
             a: {
               textDecoration: 'none',
             },
+            code: {
+              fontWeight: 500,
+            },
           },
         },
       }),
