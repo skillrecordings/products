@@ -36,6 +36,8 @@ import {
   EmbedVideoProps,
   DecoratedList,
   DecoratedListProps,
+  FloatedImage,
+  FloatedImageProps,
 } from './components'
 
 const mdxComponents = {
@@ -202,11 +204,23 @@ const mdxComponents = {
     children,
     color,
     type,
+    reducedSpacing,
   }: React.PropsWithChildren<DecoratedListProps>) => {
     return (
-      <DecoratedList color={color} type={type}>
+      <DecoratedList color={color} type={type} reducedSpacing={reducedSpacing}>
         {children}
       </DecoratedList>
+    )
+  },
+  FloatedImage: ({src, width, height, alt, floatSide}: FloatedImageProps) => {
+    return (
+      <FloatedImage
+        src={src}
+        width={width}
+        height={height}
+        alt={alt}
+        floatSide={floatSide}
+      />
     )
   },
 }

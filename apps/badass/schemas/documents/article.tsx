@@ -80,6 +80,22 @@ export default defineType({
       // validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'articleHeaderImage',
+      title: 'Article Header Image: NEW',
+      type: 'externalImage',
+    }),
+    defineField({
+      name: 'markdownBody',
+      title: 'Article Body (markdown): NEW',
+      type: 'markdown',
+      // validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'shareCardImage',
+      title: 'Share Card Image: NEW',
+      type: 'externalImage',
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',

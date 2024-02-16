@@ -68,3 +68,5 @@ export {
   default as DecoratedList,
   type DecoratedListProps,
 } from './decorated-list'
+
+export {default as FloatedImage, type FloatedImageProps} from './floated-image'

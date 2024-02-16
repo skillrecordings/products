@@ -9,13 +9,15 @@ import {ButtonSecondary} from 'components/buttons'
 
 type ArticlesProps = {
   articles: Article[]
+  className?: string
 }
 
-const Articles: React.FC<ArticlesProps> = ({articles}) => {
+const Articles: React.FC<ArticlesProps> = ({articles, className = ''}) => {
   const latestArticle = articles.sort(
     (a, b) =>
       new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime(),
   )[0]
+  console.log({latestArticle})
   const restArticles = articles
     .filter((article) => article.slug !== latestArticle.slug)
     .splice(0, 4)
@@ -24,7 +26,7 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
       title="Badass Articles"
       subtitle="Our Key Lessons Learned Along the Way"
       subtitleClassName="md:max-w-[450px] lg:max-w-[500px] xl:max-w-none"
-      className="mt-14 md:mt-[60px] lg:mt-36"
+      className={className}
       renderAdditionalComponent={() => (
         <>
           <ButtonSecondary href="/articles" size="small" className="lg:hidden">
@@ -51,8 +53,8 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
               href={`/${latestArticle.slug}`}
               type="article"
               ctaText="View"
-              authorName="Joel Hooks"
-              authorAvatarUrl="/joel-hooks.jpg"
+              authorName={latestArticle.author}
+              authorAvatarUrl={latestArticle.authorAvatar}
               featuredCardColor={latestArticle.card_color}
             />
           )}
@@ -90,14 +92,14 @@ const Articles: React.FC<ArticlesProps> = ({articles}) => {
                     <div className="flex space-x-2 lg:space-x-4 items-center">
                       <div className="rounded-full overflow-hidden">
                         <Image
-                          src="/joel-hooks.jpg"
-                          alt="Joel Hooks"
+                          src={article.authorAvatar}
+                          alt={article.author}
                           width={40}
                           height={40}
                         />
                       </div>
                       <div className="text-white opacity-80 uppercase font-mono tracking-[0.16px]">
-                        Joel Hooks
+                        {article.author}
                       </div>
                     </div>
                     <ButtonSecondary
