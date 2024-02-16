@@ -17,7 +17,6 @@ const Articles: React.FC<ArticlesProps> = ({articles, className = ''}) => {
     (a, b) =>
       new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime(),
   )[0]
-  console.log({latestArticle})
   const restArticles = articles
     .filter((article) => article.slug !== latestArticle.slug)
     .splice(0, 4)
