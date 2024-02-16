@@ -17,9 +17,12 @@ import {getToken} from 'next-auth/jwt'
 import {NextApiRequest} from 'next'
 import {z} from 'zod'
 import {SkillRecordingsOptions} from '../../next'
-import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
+import {
+  defaultContext as defaultStripeContext,
+  Stripe,
+} from '@skillrecordings/stripe-sdk'
 
-const {stripe} = defaultStripeContext
+const {stripe: defaultStripe} = defaultStripeContext
 
 /**
  * Given a specific user we want to lookup their Stripe
@@ -27,7 +30,7 @@ const {stripe} = defaultStripeContext
  * create it.
  * @param userId
  */
-async function findOrCreateStripeCustomerId(userId: string) {
+async function findOrCreateStripeCustomerId(userId: string, stripe: Stripe) {
   const user = await prisma.user.findUnique({
     where: {
       id: userId as string,
@@ -198,6 +201,13 @@ export async function stripeCheckout({
 
     let errorRedirectUrl: string | undefined = undefined
 
+    const stripe =
+      options.paymentOptions?.providers.stripe?.paymentClient || defaultStripe
+
+    if (!stripe) {
+      throw new Error('Stripe client is missing')
+    }
+
     try {
       const {getMerchantCoupon} = getSdk()
       const {
@@ -250,7 +260,7 @@ export async function stripeCheckout({
           : null
 
       const customerId = user
-        ? await findOrCreateStripeCustomerId(user.id)
+        ? await findOrCreateStripeCustomerId(user.id, stripe)
         : false
 
       const loadedProduct = await prisma.product.findFirst({

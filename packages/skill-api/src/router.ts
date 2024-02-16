@@ -100,9 +100,9 @@ export async function actionRouter({
       case 'nameUpdate':
         return await updateName({params})
       case 'transfer':
-        return await transferPurchase({params})
+        return await transferPurchase({params, paymentOptions})
       case 'refund':
-        return await stripeRefund({params})
+        return await stripeRefund({params, paymentOptions})
       case 'create-magic-link':
         return await createMagicLink({params})
     }

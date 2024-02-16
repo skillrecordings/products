@@ -1,14 +1,19 @@
 import {OutgoingResponse} from '../index'
 import {SkillRecordingsHandlerParams} from '../types'
 import {getSdk} from '@skillrecordings/database'
-import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
+import {
+  defaultContext as defaultStripeContext,
+  Stripe,
+} from '@skillrecordings/stripe-sdk'
 
-const {stripe} = defaultStripeContext
+const {stripe: defaultStripe} = defaultStripeContext
 
 export async function stripeRefund({
   params,
+  paymentOptions,
 }: {
   params: SkillRecordingsHandlerParams
+  paymentOptions: {stripeCtx: {stripe: Stripe}} | undefined
 }): Promise<OutgoingResponse> {
   try {
     const {req} = params
@@ -22,6 +27,12 @@ export async function stripeRefund({
           error: 'Unauthorized',
         },
       }
+    }
+
+    const stripe = paymentOptions?.stripeCtx.stripe || defaultStripe
+
+    if (!stripe) {
+      throw new Error('Stripe client is missing')
     }
 
     const merchantChargeId =
