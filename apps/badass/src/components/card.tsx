@@ -128,8 +128,8 @@ const Card: React.FC<CardProps> = ({
           {type === 'article' && (
             <>
               {authorName && authorAvatarUrl && (
-                <div className="flex space-x-2 md:space-x-4 items-center mt-5 md:mt-6">
-                  <div className="w-9 h-9 md:w-12 md:h-12 rounded-full overflow-hidden">
+                <div className="flex space-x-2 items-center mt-5 md:mt-6">
+                  <div className="w-10 h-10 rounded-full overflow-hidden">
                     <Image
                       src={authorAvatarUrl}
                       alt={authorName}
