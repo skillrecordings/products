@@ -79,7 +79,14 @@ export type PurchaseInfo = {
   stripeProduct: Stripe.Product
 }
 
-export async function recordNewPurchase(checkoutSessionId: string): Promise<{
+type Options = {
+  stripeCtx?: StripeContext
+}
+
+export async function recordNewPurchase(
+  checkoutSessionId: string,
+  options: Options,
+): Promise<{
   user: any
   purchase: Purchase
   purchaseInfo: PurchaseInfo
@@ -92,7 +99,9 @@ export async function recordNewPurchase(checkoutSessionId: string): Promise<{
     getMerchantProduct,
   } = getSdk()
 
-  const purchaseInfo = await stripeData({checkoutSessionId})
+  const {stripeCtx} = options
+
+  const purchaseInfo = await stripeData({checkoutSessionId, stripeCtx})
 
   const {
     stripeCustomerId,

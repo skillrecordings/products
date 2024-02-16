@@ -13,16 +13,21 @@ import {
   STRIPE_CHECKOUT_COMPLETED_EVENT,
   STRIPE_WEBHOOK_RECEIVED_EVENT,
 } from '@skillrecordings/inngest'
-import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
+import {
+  defaultContext as defaultStripeContext,
+  Stripe,
+} from '@skillrecordings/stripe-sdk'
 
-const {stripe} = defaultStripeContext
+const {stripe: defaultStripe} = defaultStripeContext
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
 export async function processStripeWebhooks({
   params,
+  paymentOptions,
 }: {
   params: SkillRecordingsHandlerParams
+  paymentOptions: {stripeCtx: {stripe: Stripe}} | undefined
 }): Promise<OutgoingResponse> {
   try {
     const {
@@ -35,6 +40,12 @@ export async function processStripeWebhooks({
         status: 500,
         body: `no raw request found for stripe verification, check bodyParser config!`,
       }
+    }
+
+    const stripe = paymentOptions?.stripeCtx.stripe || defaultStripe
+
+    if (!paymentOptions || !stripe) {
+      throw new Error('Stripe client is missing')
     }
 
     const buf = await buffer(rawReq)
@@ -67,6 +78,7 @@ export async function processStripeWebhooks({
       if (event.type === 'checkout.session.completed') {
         const {user, purchase, purchaseInfo} = await recordNewPurchase(
           event.data.object.id,
+          paymentOptions,
         )
 
         if (!user) throw new Error('no-user-created')

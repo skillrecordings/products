@@ -16,6 +16,7 @@ import {
 import {getToken} from 'next-auth/jwt'
 import {NextApiRequest} from 'next'
 import {z} from 'zod'
+import {SkillRecordingsOptions} from '../../next'
 import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
 
 const {stripe} = defaultStripeContext
@@ -184,8 +185,10 @@ const LoadedProductSchema = z.object({
 
 export async function stripeCheckout({
   params,
+  options,
 }: {
   params: SkillRecordingsHandlerParams
+  options: SkillRecordingsOptions
 }): Promise<OutgoingResponse> {
   try {
     const {req} = params

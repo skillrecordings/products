@@ -16,6 +16,7 @@ import {transferPurchase} from './core/services/transfer-purchase'
 import {stripeRefund} from './core/services/process-refund'
 import {processSanityWebhooks} from './core/services/process-sanity-webhooks'
 import {createMagicLink} from './core/services/create-magic-link'
+import {SkillRecordingsOptions} from './next'
 
 export type SkillRecordingsAction =
   | 'send-feedback'
@@ -51,9 +52,12 @@ export async function actionRouter({
   action: SkillRecordingsAction
   providerId?: SkillRecordingsProvider
   params: any
-  userOptions: any
+  userOptions: SkillRecordingsOptions
   token: any
 }) {
+  const stripe = userOptions.paymentOptions?.providers.stripe?.paymentClient
+  const paymentOptions = stripe ? {stripeCtx: {stripe}} : undefined
+
   if (method === 'GET') {
     switch (action) {
       case 'subscriber':
@@ -73,15 +77,18 @@ export async function actionRouter({
       case 'redeem':
         return await redeemGoldenTicket({params, token})
       case 'checkout':
-        return stripeCheckout({params})
+        return stripeCheckout({params, options: userOptions})
       case 'webhook':
         switch (providerId) {
           case 'stripe':
-            return await processStripeWebhooks({params})
+            return await processStripeWebhooks({
+              params,
+              paymentOptions,
+            })
           case 'sanity':
             return await processSanityWebhooks({params})
         }
-        return await processStripeWebhooks({params})
+        return await processStripeWebhooks({params, paymentOptions})
       case 'subscribe':
         return await subscribeToConvertkit({params})
       case 'answer':
