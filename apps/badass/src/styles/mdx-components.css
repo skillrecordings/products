@@ -212,7 +212,7 @@
 
 /* AccentedTitle */
 [data-accented-title] {
-  @apply mt-16 mb-12 md:mt-20 md:mb-14 lg:mt-24 lg:mb-16 flex justify-center;
+  @apply mt-14 mb-10 md:mt-16 md:mb-12 lg:mt-20 lg:mb-14 flex justify-center;
   [data-accented-title-wrapper] {
     @apply flex justify-center text-badass-green-400 before:leading-none after:leading-none before:content-["s"] before:font-symbol after:content-["t"] after:font-symbol before:text-7xl after:text-7xl text-center before:mr-3 after:ml-3;
   }
