@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({
         >
           Article
         </h3>
-        <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl leading-tight md:leading-tight lg:leading-tight mt-2">
+        <h2 className="font-heading text-3xl md:text-4xl lg:text-[2.5rem] leading-tight md:leading-tight lg:leading-[1.2] mt-2">
           <Balancer>{title}</Balancer>
         </h2>
         <div className="mt-4 lg:mt-6 flex items-center space-x-2">

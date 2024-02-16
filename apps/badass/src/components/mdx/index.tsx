@@ -142,8 +142,8 @@ const mdxComponents = {
       />
     )
   },
-  AccentedTitle: ({text, color, balanced}: AccentedTitleProps) => {
-    return <AccentedTitle text={text} color={color} balanced={balanced} />
+  AccentedTitle: ({text, color, href}: AccentedTitleProps) => {
+    return <AccentedTitle text={text} color={color} href={href} />
   },
   AccentedSubtitle: ({
     children,
