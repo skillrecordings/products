@@ -33,7 +33,7 @@ const Articles: React.FC<React.PropsWithChildren<ArticlesProps>> = ({
                 return (
                   <Card
                     key={article._id}
-                    imageUrl={article.externalImage}
+                    imageUrl={article.articleHeaderImage}
                     title={article.title}
                     authorName={article.author}
                     authorAvatarUrl={article.authorAvatar}
