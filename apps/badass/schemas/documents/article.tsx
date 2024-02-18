@@ -73,12 +73,6 @@ export default defineType({
         }),
       ],
     }),
-    // defineField({
-    //   name: 'body',
-    //   title: 'Article Body',
-    //   type: 'body',
-    //   validation: (Rule) => Rule.required(),
-    // }),
     defineField({
       name: 'articleHeaderImage',
       title: 'Header Image',
@@ -102,45 +96,6 @@ export default defineType({
       title: 'Share Card Image',
       type: 'externalImage',
     }),
-    // defineField({
-    //   name: 'image',
-    //   title: 'Image',
-    //   type: 'image',
-    // }),
-    // defineField({
-    //   name: 'externalImage',
-    //   title: 'External Image',
-    //   type: 'externalImage',
-    // }),
-    // defineField({
-    //   name: 'summary',
-    //   title: 'Summary',
-    //   type: 'body',
-    // }),
-    // defineField({
-    //   name: 'shareCardDetails',
-    //   title: 'Share Card details',
-    //   type: 'object',
-    //   fields: [
-    //     {
-    //       name: 'title',
-    //       title: 'Title',
-    //       type: 'string',
-    //       description: 'max 30 chars',
-    //     },
-    //     {
-    //       name: 'subtitle',
-    //       title: 'Subtitle',
-    //       type: 'string',
-    //     },
-    //     {
-    //       name: 'image',
-    //       title: 'Image',
-    //       type: 'externalImage',
-    //       description: 'Optional. Should have 1:1 aspect ratio',
-    //     },
-    //   ],
-    // }),
     defineField({
       name: 'concepts',
       title: 'Concepts',
