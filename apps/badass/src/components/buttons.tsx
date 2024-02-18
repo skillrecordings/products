@@ -9,6 +9,7 @@ type ButtonProps = {
   fluid?: boolean
   disabled?: boolean
   className?: string
+  onClick?: () => void
 }
 
 const commonStyles =
@@ -26,6 +27,7 @@ const ButtonPrimary: React.FC<React.PropsWithChildren<ButtonProps>> = ({
   fluid,
   disabled,
   className = '',
+  onClick,
   children,
 }) => {
   const conditionalStyles = {
@@ -49,6 +51,7 @@ const ButtonPrimary: React.FC<React.PropsWithChildren<ButtonProps>> = ({
         cx(commonStyles, commonPrimaryStyles, conditionalStyles),
         className,
       )}
+      onClick={onClick}
     >
       {children}
     </button>
