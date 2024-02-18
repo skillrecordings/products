@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({
   publishedDate,
 }) => {
   return (
-    <header className="flex flex-col md:flex-row items-center max-w-5xl mx-auto w-full px-5 lg:space-x-12">
+    <header className="flex flex-col md:flex-row items-center max-w-5xl mx-auto w-full px-5 lg:space-x-8">
       <div className="w-full max-w-[400px] lg:max-w-none lg:w-[440px] shrink-0">
         {imageUrl && (
           <Image
@@ -125,7 +125,7 @@ const ArticleTemplate: React.FC<
         },
       }}
     >
-      {/* {articleBodySerialized ? (
+      {articleBodySerialized ? (
         <>
           <Header
             title={title}
@@ -148,45 +148,48 @@ const ArticleTemplate: React.FC<
           </main>
         </>
       ) : (
-        <> */}
-      <ArticleHeader
-        title={title}
-        publishedDate={publishedDate}
-        image={externalImage}
-      />
-      <main className="pb-10">
-        <div className="">
-          <div className="px-5 pb-16 pt-10 md:pt-16 lg:px-0">
-            {video ? (
-              <div className="mx-auto w-full max-w-screen-md pb-5">
-                <MuxVideo
-                  className="aspect-video w-full"
-                  playbackId={video.muxPlaybackId}
-                  streamType="on-demand"
-                />
-              </div>
-            ) : null}
-            <article className="mx-auto w-full max-w-screen-md prose sm:prose-lg lg:prose-xl first-letter:float-left first-letter:-mt-0.5 first-letter:pr-3 first-letter:font-expanded first-letter:text-6xl first-letter:text-badass-pink-500 prose-p:text-neutral-200 prose-code:rounded prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-pre:prose-code:bg-transparent sm:prose-code:text-[80%] md:prose-code:text-sm lg:prose-code:text-[78%]">
-              <PortableText value={body} components={PortableTextComponents} />
-            </article>
-            {video?.transcript ? (
-              <section className="w-full max-w-screen-md mx-auto mt-16 md:mt-24">
-                <h2 className="font-heading text-3xl leading-tight sm:text-4xl sm:leading-tight text-center">
-                  Full Transcript
-                </h2>
-                <div className="prose sm:prose-base prose-sm prose-p:text-neutral-300 mt-12">
+        <>
+          <ArticleHeader
+            title={title}
+            publishedDate={publishedDate}
+            image={externalImage}
+          />
+          <main className="pb-10">
+            <div className="">
+              <div className="px-5 pb-16 pt-10 md:pt-16 lg:px-0">
+                {video ? (
+                  <div className="mx-auto w-full max-w-screen-md pb-5">
+                    <MuxVideo
+                      className="aspect-video w-full"
+                      playbackId={video.muxPlaybackId}
+                      streamType="on-demand"
+                    />
+                  </div>
+                ) : null}
+                <article className="mx-auto w-full max-w-screen-md prose sm:prose-lg lg:prose-xl first-letter:float-left first-letter:-mt-0.5 first-letter:pr-3 first-letter:font-expanded first-letter:text-6xl first-letter:text-badass-pink-500 prose-p:text-neutral-200 prose-code:rounded prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-pre:prose-code:bg-transparent sm:prose-code:text-[80%] md:prose-code:text-sm lg:prose-code:text-[78%]">
                   <PortableText
-                    value={video.transcript}
+                    value={body}
                     components={PortableTextComponents}
                   />
-                </div>
-              </section>
-            ) : null}
-          </div>
-        </div>
-      </main>
-      {/* </>
-      )} */}
+                </article>
+                {video?.transcript ? (
+                  <section className="w-full max-w-screen-md mx-auto mt-16 md:mt-24">
+                    <h2 className="font-heading text-3xl leading-tight sm:text-4xl sm:leading-tight text-center">
+                      Full Transcript
+                    </h2>
+                    <div className="prose sm:prose-base prose-sm prose-p:text-neutral-300 mt-12">
+                      <PortableText
+                        value={video.transcript}
+                        components={PortableTextComponents}
+                      />
+                    </div>
+                  </section>
+                ) : null}
+              </div>
+            </div>
+          </main>
+        </>
+      )}
       <CallToActionForm content={genericCallToActionContent} />
     </Layout>
   )
