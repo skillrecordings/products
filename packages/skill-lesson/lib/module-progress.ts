@@ -1,6 +1,6 @@
-import {getModuleStructure} from './modules'
+import {getModuleStructure, ResourceStructure} from './modules'
 import {LessonProgress, prisma} from '@skillrecordings/database'
-import {sortBy, uniqBy} from 'lodash'
+import {sortBy, uniqBy, isEmpty} from 'lodash'
 import {ModuleProgressSchema} from '../video/module-progress'
 
 function sortByUpdatedAt(lessons: LessonProgress[]) {
@@ -16,12 +16,21 @@ export async function getModuleProgress({
 }) {
   const module = await getModuleStructure(moduleSlug)
 
-  const allModuleLessons =
-    module.sections.length > 0
-      ? module.sections
-          .filter((section) => section?.lessons?.length)
-          .flatMap((section) => section.lessons)
-      : module.lessons
+  type LessonStructure = NonNullable<ResourceStructure['resources']>[0]
+
+  const allModuleSections: Array<ResourceStructure> = []
+  const allModuleLessons: Array<LessonStructure> = []
+  for (const resource of module.resources) {
+    if (resource._type === 'section') {
+      allModuleSections.push(resource)
+
+      for (const lesson of resource.resources || []) {
+        allModuleLessons.push(lesson)
+      }
+    } else {
+      allModuleLessons.push(resource)
+    }
+  }
 
   const lessonIds = allModuleLessons.map((lesson) => lesson._id)
 
@@ -53,11 +62,11 @@ export async function getModuleProgress({
     }
   })
 
-  const moduleProgressSections = module.sections
-    .filter((section) => section.lessons)
+  const moduleProgressSections = allModuleSections
+    .filter((section) => !isEmpty(section.resources))
     .map((section) => {
       const sectionProgressLessons =
-        section.lessons?.map((lesson) => {
+        section.resources?.map((lesson) => {
           return {
             id: lesson._id,
             slug: lesson.slug,
@@ -92,25 +101,20 @@ export async function getModuleProgress({
       }
     })
 
-  const hasEmptySection = module.sections.some((section) => {
-    return !section.lessons
+  const hasEmptySection = allModuleSections.some((section) => {
+    return isEmpty(section.resources)
   })
 
   return ModuleProgressSchema.parse({
     moduleId: module._id,
     nextLesson:
-      moduleProgressLessons.find(
-        (lesson: {lessonCompleted: boolean}) => !lesson.lessonCompleted,
-      ) || null,
+      moduleProgressLessons.find((lesson) => !lesson.lessonCompleted) || null,
     nextSection:
-      moduleProgressSections.find(
-        (section: {sectionCompleted: boolean}) => !section.sectionCompleted,
-      ) || null,
+      moduleProgressSections.find((section) => !section.sectionCompleted) ||
+      null,
     moduleCompleted: hasEmptySection
       ? false // if there are empty sections, we consider the module incomplete
-      : moduleProgressLessons.every(
-          (lesson: {lessonCompleted: boolean}) => lesson.lessonCompleted,
-        ),
+      : moduleProgressLessons.every((lesson) => lesson.lessonCompleted),
     percentComplete: Math.round(
       (moduleLessonProgress.length / allModuleLessons.length) * 100,
     ),

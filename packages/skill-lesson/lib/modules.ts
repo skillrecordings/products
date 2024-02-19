@@ -15,7 +15,8 @@ const SectionSchema = CoreResourceSchema.merge(
 )
 const ResourceSchema = CoreResourceSchema.merge(
   z.object({
-    resources: CoreResourceSchema.array(),
+    _type: z.string(),
+    resources: CoreResourceSchema.array().optional(),
   }),
 )
 const ModuleSchema = CoreResourceSchema.merge(
@@ -25,6 +26,8 @@ const ModuleSchema = CoreResourceSchema.merge(
     resources: ResourceSchema.array(),
   }),
 )
+
+export type ResourceStructure = z.infer<typeof ResourceSchema>
 
 const toQuotedList = (identifiers: string[]): string => {
   return identifiers.map((identifier) => `'${identifier}'`).join(', ')
@@ -55,6 +58,7 @@ const moduleStructureQuery = groq`*[_type == "module" && slug.current == $slug][
     lessonTypes,
   )}]]->{
     _id,
+    _type,
     title,
     "slug": slug.current,
     (_type == 'section') => {
