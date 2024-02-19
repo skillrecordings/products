@@ -1,8 +1,11 @@
+import {cn} from '@skillrecordings/ui/utils/cn'
 import Image from 'next/image'
 
 type HeadingProps = {
   title: string
+  className?: string
   description?: string
+  withImage?: boolean
 }
 
 const getImageByTitle = (title: string) => {
@@ -27,11 +30,18 @@ const getImageByTitle = (title: string) => {
 
 const Heading: React.FC<React.PropsWithChildren<HeadingProps>> = ({
   children,
+  className,
   title,
   description,
+  withImage = true,
 }) => {
   return (
-    <header className="flex w-full flex-col items-center overflow-x-hidden pt-40 text-center">
+    <header
+      className={cn(
+        'flex w-full flex-col items-center overflow-x-hidden pt-40 text-center',
+        className,
+      )}
+    >
       <h1 className="mt-36 max-w-screen-md text-balance font-heading text-5xl font-bold md:text-5xl lg:text-6xl">
         {title}
       </h1>
@@ -42,7 +52,11 @@ const Heading: React.FC<React.PropsWithChildren<HeadingProps>> = ({
       )}
       <div className="pointer-events-none absolute top-0 -z-10 h-[600px] w-full max-w-[1600px] select-none">
         <Image
-          src={getImageByTitle(title)}
+          src={
+            withImage
+              ? getImageByTitle(title)
+              : require('../../public/assets/headings/bg@2x.png')
+          }
           aria-hidden="true"
           alt=""
           fill

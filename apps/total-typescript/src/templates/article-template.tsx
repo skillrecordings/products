@@ -81,7 +81,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           <div className="flex items-center gap-3 pt-8">
             <div className="flex items-center justify-center overflow-hidden rounded-full">
               <Image
-                src={require('../../public/matt-pocock.jpeg')}
+                src={require('../../public/matt-pocock.jpg')}
                 alt="Matt Pocock"
                 width={40}
                 height={40}
