@@ -1,6 +1,4 @@
-import {getModule} from './modules'
-import {Section} from '../schemas/section'
-import {Lesson} from '../schemas/lesson'
+import {getModuleStructure} from './modules'
 import {LessonProgress, prisma} from '@skillrecordings/database'
 import {sortBy, uniqBy} from 'lodash'
 import {ModuleProgressSchema} from '../video/module-progress'
@@ -16,16 +14,16 @@ export async function getModuleProgress({
   moduleSlug: string
   userId: string
 }) {
-  const module = await getModule(moduleSlug)
+  const module = await getModuleStructure(moduleSlug)
 
   const allModuleLessons =
     module.sections.length > 0
       ? module.sections
-          .filter((section: Section) => section?.lessons?.length)
-          .flatMap((section: Section) => section.lessons)
+          .filter((section) => section?.lessons?.length)
+          .flatMap((section) => section.lessons)
       : module.lessons
 
-  const lessonIds = allModuleLessons.map((lesson: Lesson) => lesson._id)
+  const lessonIds = allModuleLessons.map((lesson) => lesson._id)
 
   const moduleLessonProgress = await prisma.lessonProgress.findMany({
     where: {
@@ -41,7 +39,7 @@ export async function getModuleProgress({
     'lessonId',
   )
 
-  const moduleProgressLessons = allModuleLessons.map((lesson: Lesson) => {
+  const moduleProgressLessons = allModuleLessons.map((lesson) => {
     return {
       id: lesson._id,
       slug: lesson.slug,
@@ -56,10 +54,10 @@ export async function getModuleProgress({
   })
 
   const moduleProgressSections = module.sections
-    .filter((section: Section) => section.lessons)
-    .map((section: Section) => {
+    .filter((section) => section.lessons)
+    .map((section) => {
       const sectionProgressLessons =
-        section.lessons?.map((lesson: Lesson) => {
+        section.lessons?.map((lesson) => {
           return {
             id: lesson._id,
             slug: lesson.slug,
@@ -94,7 +92,7 @@ export async function getModuleProgress({
       }
     })
 
-  const hasEmptySection = module.sections.some((section: Section) => {
+  const hasEmptySection = module.sections.some((section) => {
     return !section.lessons
   })
 

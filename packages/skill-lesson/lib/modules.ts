@@ -1,5 +1,77 @@
 import groq from 'groq'
 import {sanityClient} from '../utils/sanity-client'
+import {z} from 'zod'
+
+const CoreResourceSchema = z.object({
+  _id: z.string(),
+  slug: z.string(),
+  title: z.string(),
+})
+const LessonSchema = CoreResourceSchema
+const SectionSchema = CoreResourceSchema.merge(
+  z.object({
+    lessons: LessonSchema.array(),
+  }),
+)
+const ResourceSchema = CoreResourceSchema.merge(
+  z.object({
+    resources: CoreResourceSchema.array(),
+  }),
+)
+const ModuleSchema = CoreResourceSchema.merge(
+  z.object({
+    sections: SectionSchema.array(),
+    lessons: LessonSchema.array(),
+    resources: ResourceSchema.array(),
+  }),
+)
+
+const toQuotedList = (identifiers: string[]): string => {
+  return identifiers.map((identifier) => `'${identifier}'`).join(', ')
+}
+
+const lessonTypes = ['lesson', 'exercise', 'explainer', 'interview']
+
+const lessonStructureSubQuery = `resources[@->._type in [${toQuotedList(
+  lessonTypes,
+)}]]->{
+  _id,
+  title,
+  "slug": slug.current,
+}`
+
+const moduleStructureQuery = groq`*[_type == "module" && slug.current == $slug][0]{
+  _id,
+  title,
+  "slug": slug.current,
+  "sections": resources[@->._type == 'section']->{
+    _id,
+    title,
+    "slug": slug.current,
+    "lessons": ${lessonStructureSubQuery},
+  },
+  "lessons": ${lessonStructureSubQuery},
+  "resources": resources[@->._type in ['section', ${toQuotedList(
+    lessonTypes,
+  )}]]->{
+    _id,
+    title,
+    "slug": slug.current,
+    (_type == 'section') => {
+      "resources": resources[@->._type in [${toQuotedList(lessonTypes)}]]->{
+        _id,
+        title,
+        "slug": slug.current,
+      }
+    }
+  }
+}`
+
+export const getModuleStructure = async (slug: string) => {
+  const result = await sanityClient.fetch(moduleStructureQuery, {slug})
+
+  return ModuleSchema.parse(result)
+}
 
 const modulesQuery = groq`*[_type == "module" && state == 'published'] | order(_createdAt desc) {
   _id,
