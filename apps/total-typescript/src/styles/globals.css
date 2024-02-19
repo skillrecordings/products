@@ -119,6 +119,10 @@ since they tend to clash with prism-theme.css */
   @apply shadow-none;
 }
 
+.ch-code-scroll-parent {
+  @apply scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-500/75;
+}
+
 body {
   @apply overflow-y-scroll;
 }
