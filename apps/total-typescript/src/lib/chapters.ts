@@ -61,6 +61,8 @@ export async function getChapterResource(slug: string) {
   const resource = await sanityClient.fetch(
     groq`*[_type == 'chapterResource' && slug.current == $slug][0]{
             _type,
+            _updatedAt,
+            _createdAt,
             title,
             slug,
             body,
@@ -77,7 +79,6 @@ export async function getChapterResource(slug: string) {
   )
   const result = ChapterResourceSchema.safeParse(resource)
 
-  // return ChapterResourceSchema.safeParse(resource)
   if (result.success) {
     return result.data
   } else {
