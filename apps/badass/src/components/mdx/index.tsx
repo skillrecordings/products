@@ -41,6 +41,8 @@ import {
   FancyTitleWithSubtitle,
   FancyTitleWithSubtitleProps,
   FullTranscript,
+  ResourcesLinks,
+  ResourcesLinksProps,
 } from './components'
 
 const mdxComponents = {
@@ -231,6 +233,9 @@ const mdxComponents = {
   },
   FullTranscript: ({children}: React.PropsWithChildren) => {
     return <FullTranscript>{children}</FullTranscript>
+  },
+  ResourcesLinks: ({resources}: ResourcesLinksProps) => {
+    return <ResourcesLinks resources={resources} />
   },
 }
 

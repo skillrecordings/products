@@ -77,3 +77,8 @@ export {
 } from './fancy-title-with-subtitle'
 
 export {default as FullTranscript} from './full-transcript'
+
+export {
+  default as ResourcesLinks,
+  type ResourcesLinksProps,
+} from './resources-links'
