@@ -1,18 +1,21 @@
-import Layout from '@/components/app/layout'
-import {getWorkshopsForProduct} from '@/lib/workshops'
-import {BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
+import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import Header from '@/components/app/header'
+
+import {
+  ModuleProgressProvider,
+  useModuleProgress,
+} from '@skillrecordings/skill-lesson/video/module-progress'
+import {getWorkshopsForProduct, WorkshopSchema, Workshop} from '@/lib/workshops'
+import {BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
 import {getOgImage} from '@/utils/get-og-image'
-import {WorkshopSchema} from '@/lib/workshops'
-import React from 'react'
+import Layout from '@/components/app/layout'
+import Header from '@/components/app/header'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   // TODO: load the user's purchases and figure out what product they should have access to
   const productId = 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38'
-
   const workshops = await getWorkshopsForProduct({productId})
   const bonuses = await getBonusesForProduct({productId})
 
@@ -25,11 +28,104 @@ const ResourceLink: React.FC<{
   title: string
   workshopSlug: string
   resourceSlug: string
-}> = ({title, workshopSlug, resourceSlug}) => {
+  isCompleted: boolean
+}> = ({title, workshopSlug, resourceSlug, isCompleted}) => {
   return (
     <Link href={`/workshops/${workshopSlug}/${resourceSlug}`} className="block">
+      {isCompleted && '✅'}
       {title}
     </Link>
+  )
+}
+
+// const isLessonCompleted = (
+//   resourceId: string,
+//   lessons: {
+//     id: string
+//     lessonCompleted: boolean
+//   }[],
+// ) => {
+//   const lesson = lessons.find((lesson) => lesson.id === resourceId)
+//   return lesson ? lesson.lessonCompleted : false
+// }
+
+// const isSectionCompleted = (
+//   resourceId: string,
+//   sections: {
+//     id: string
+//     sectionCompleted: boolean
+//   }[],
+// ) => {
+//   const section = sections.find((section) => section.id === resourceId)
+//   return section ? section.sectionCompleted : false
+// }
+
+const isResourceCompleted = (
+  resourceId: string,
+  resourceType: 'lesson' | 'section',
+  arr: {
+    id: string
+    lessonCompleted?: boolean
+    sectionCompleted?: boolean
+  }[],
+) => {
+  const result = arr.find((item) => item.id === resourceId)
+  return result
+    ? resourceType === 'lesson'
+      ? result.lessonCompleted
+      : result.sectionCompleted
+    : false
+}
+
+const WorkshopItem = ({workshop}: {workshop: Workshop}) => {
+  const moduleProgress = useModuleProgress()
+  return (
+    <div className="space-y-3">
+      <h3 className="text-2xl">{workshop.title}</h3>
+      <ul>
+        {workshop.resources.map((resource) => {
+          if (resource._type === 'explainer') {
+            const isCompleted =
+              (moduleProgress &&
+                isResourceCompleted(
+                  resource._id,
+                  'lesson',
+                  moduleProgress?.lessons,
+                )) ||
+              false
+            return (
+              <ResourceLink
+                key={resource._id}
+                title={resource.title}
+                workshopSlug={workshop.slug.current}
+                resourceSlug={resource.slug}
+                isCompleted={isCompleted}
+              />
+            )
+          }
+
+          if (resource._type === 'section' && resource?.resources) {
+            const isCompleted =
+              (moduleProgress &&
+                isResourceCompleted(
+                  resource._id,
+                  'section',
+                  moduleProgress?.sections,
+                )) ||
+              false
+            return (
+              <ResourceLink
+                key={resource._id}
+                title={resource.title}
+                workshopSlug={workshop.slug.current}
+                resourceSlug={resource.resources[0].slug}
+                isCompleted={isCompleted}
+              />
+            )
+          }
+        })}
+      </ul>
+    </div>
   )
 }
 
@@ -41,8 +137,6 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
 
   const workshops = WorkshopSchema.array().parse(unparsedWorkshops)
   const bonuses = BonusSchema.array().parse(unparsedBonuses)
-
-  console.log({workshops})
 
   return (
     <Layout
@@ -59,39 +153,19 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
         <ul className="space-y-6">
           {workshops.map((workshop) => {
             return (
-              <li key={workshop._id} className="flex space-x-6">
-                <div className="shrink-0">
-                  <Image src={workshop.image} alt="" width={200} height={200} />
-                </div>
-                <div className="space-y-3">
-                  <h3 className="text-2xl">{workshop.title}</h3>
-                  <ul>
-                    {workshop.resources.map((resource) => {
-                      if (resource._type === 'explainer') {
-                        return (
-                          <ResourceLink
-                            key={resource._id}
-                            title={resource.title}
-                            workshopSlug={workshop.slug.current}
-                            resourceSlug={resource.slug}
-                          />
-                        )
-                      }
-
-                      if (resource._type === 'section' && resource?.resources) {
-                        return (
-                          <ResourceLink
-                            key={resource._id}
-                            title={resource.title}
-                            workshopSlug={workshop.slug.current}
-                            resourceSlug={resource.resources[0].slug}
-                          />
-                        )
-                      }
-                    })}
-                  </ul>
-                </div>
-              </li>
+              <ModuleProgressProvider moduleSlug={workshop.slug.current}>
+                <li key={workshop._id} className="flex space-x-6">
+                  <div className="shrink-0">
+                    <Image
+                      src={workshop.image}
+                      alt=""
+                      width={200}
+                      height={200}
+                    />
+                  </div>
+                  <WorkshopItem workshop={workshop} />
+                </li>
+              </ModuleProgressProvider>
             )
           })}
           {bonuses.map((bonus) => {

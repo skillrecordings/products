@@ -251,3 +251,5 @@ export const getWorkshop = async (slug: string) =>
     }`,
     {slug: `${slug}`},
   )
+
+export type Workshop = z.infer<typeof WorkshopSchema>
