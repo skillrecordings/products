@@ -1,31 +1,22 @@
 import * as React from 'react'
-import cx from 'classnames'
 import {GetStaticPaths, GetStaticProps} from 'next'
+import Link from 'next/link'
+import Image from 'next/legacy/image'
+import * as dateFns from 'date-fns'
+import {PlayIcon} from '@heroicons/react/solid'
+import {useScroll, motion, useTransform} from 'framer-motion'
+
 import {
   getAllPodcastSeasons,
   getPodcastSeason,
   PodcastSeason,
-} from '../../../lib/podcast'
-import Layout from '../../../components/layout'
-import Link from 'next/link'
-import {useScroll, motion, useTransform} from 'framer-motion'
-import * as dateFns from 'date-fns'
-import {PlayIcon} from '@heroicons/react/solid'
-import Image from 'next/legacy/image'
+} from 'lib/podcast'
+import Layout from 'components/layout'
+import PodcastParallaxImages from 'components/podcast-parallax-images'
 import GooglePodcasts from '../../../../public/assets/podcast/google.svg'
 import SpotifyPodcasts from '../../../../public/assets/podcast/spotify.svg'
 import ApplePodcasts from '../../../../public/assets/podcast/apple.svg'
-import GlowingMushroom from '../../../../public/assets/glowing-mushrooms@2x.png'
-import MagicMushroom from '../../../../public/assets/magic-mushroom@2x.png'
 import Tentacle from '../../../../public/assets/tentacle@2x.png'
-import PurpleMushroom from '../../../../public/assets/purple-mushroom@2x.png'
-import RedDiamond from '../../../../public/assets/red-diamond@2x.png'
-import GreenDiamond from '../../../../public/assets/green-diamond@2x.png'
-import Hammer from '../../../../public/assets/hammer@2x.png'
-import ChantarelleMushroom from '../../../../public/assets/chantarelle-mushroom@2x.png'
-import Stars1 from '../../../../public/assets/stars-1@2x.png'
-import Stars2 from '../../../../public/assets/stars-2@2x.png'
-import {isNull} from 'lodash'
 import Joel from '../../../../public/joel-hooks.jpg'
 import Vinyl from '../../../../public/assets/podcast/vinyl@2x.png'
 
@@ -115,7 +106,7 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
           {season.episodes.length} Episodes
         </h2>
         <div ref={ref} className="relative flex flex-col items-center">
-          <ParallaxImages y={y} />
+          <PodcastParallaxImages y={y} />
           <div className="space-y-16 sm:p-24 p-10 bg-white/[0.07] max-w-screen-lg lg:mx-auto -mx-5 lg:rounded-xl">
             {season.episodes.map((episode) => (
               <div
@@ -187,54 +178,6 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
 }
 
 export default PodcastSeason
-
-export const ParallaxImages: React.FC<any> = ({y}) => {
-  const images = [
-    Hammer,
-    Stars1,
-    MagicMushroom,
-    Stars2,
-    ChantarelleMushroom,
-    PurpleMushroom,
-    Stars1,
-    RedDiamond,
-    GreenDiamond,
-  ]
-
-  return (
-    <motion.div className="grid pointer-events-none absolute top-0 h-[150%] max-w-screen-xl xl:px-16 xl:w-full md:w-[100%] w-[105%] grid-cols-2 z-10">
-      {images.map((image, i) => {
-        if (isNull(image)) {
-          return <div />
-        }
-        return (
-          <motion.div
-            style={{y}}
-            key={i}
-            className={cx('lg:w-24 sm:w-24 w-16', {
-              'justify-self-end': i % 2,
-              'place-self-center': i % 2,
-            })}
-          >
-            <div
-              className={cx('', {
-                'rotate-12': i % 2,
-                '-rotate-12': !(i % 2),
-              })}
-            >
-              <Image
-                className="drop-shadow-xl"
-                src={image}
-                alt=""
-                aria-hidden="true"
-              />
-            </div>
-          </motion.div>
-        )
-      })}
-    </motion.div>
-  )
-}
 
 const Providers = () => {
   return (
