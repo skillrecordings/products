@@ -111,7 +111,7 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      media: 'externalImage.url',
+      media: 'articleHeaderImage.url',
       bgColor: 'card_color',
     },
     prepare(selection) {
