@@ -83,7 +83,7 @@ export default async function handler(req: NextRequest) {
             </p>
             <div tw="flex items-center absolute right-14 top-12">
               <img
-                src="https://www.mattpocock.com/face.jpeg"
+                src="https://www.totaltypescript.com/matt-pocock.jpg"
                 tw="h-24 rounded-full"
               />
               <p

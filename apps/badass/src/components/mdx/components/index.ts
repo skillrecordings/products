@@ -70,3 +70,10 @@ export {
 } from './decorated-list'
 
 export {default as FloatedImage, type FloatedImageProps} from './floated-image'
+
+export {
+  default as FancyTitleWithSubtitle,
+  type FancyTitleWithSubtitleProps,
+} from './fancy-title-with-subtitle'
+
+export {default as FullTranscript} from './full-transcript'

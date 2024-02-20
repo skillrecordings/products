@@ -2,10 +2,10 @@ import Layout from '@/components/app/layout'
 import drop from 'lodash/drop'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
-import {TwitterIcon} from './welcome'
 import {team, instructor, description} from '@/components/credits'
 import cx from 'classnames'
 import Balancer from 'react-wrap-balancer'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 
 const Credits = () => {
   return (
@@ -65,7 +65,7 @@ const Instructor = () => {
             target="_blank"
             className="font-display mt-5 inline-flex items-center space-x-1 rounded-full border border-gray-700 p-3 font-medium text-gray-300 transition hover:border-gray-600 hover:text-cyan-300 hover:underline"
           >
-            <TwitterIcon />
+            <Icon name="Twitter" />
             <span className="sr-only">{instructor?.name}'s Twitter</span>
           </a>
         )}
@@ -112,7 +112,7 @@ const Team = () => {
                   target="_blank"
                   className="font-display mt-2 inline-flex items-center space-x-1 rounded-full border border-gray-700 p-3 font-medium text-gray-300 transition hover:border-gray-600 hover:text-cyan-300 hover:underline"
                 >
-                  <TwitterIcon />
+                  <Icon name="Twitter" />
                   <span className="sr-only">{name}'s Twitter</span>
                 </a>
               )}

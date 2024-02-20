@@ -132,12 +132,9 @@ const TipTemplate: React.FC<{
       >
         <main id="tip" className="mx-auto w-full">
           <div
-            className={cn(
-              'relative z-10 flex items-center justify-center bg-gradient-to-b from-black/30 to-gray-900',
-              {
-                'lg:pt-8': defaultCouponData,
-              },
-            )}
+            className={cn('relative z-10 flex items-center justify-center', {
+              'lg:pt-8': defaultCouponData,
+            })}
           >
             <div className="-mb-1.5 flex w-full max-w-screen-xl flex-col">
               <Video ref={muxPlayerRef} tips={tips} />
@@ -148,9 +145,9 @@ const TipTemplate: React.FC<{
           </div>
           <article className="relative z-10 border-l border-transparent px-5 pb-16 xl:border-gray-800">
             <div className="mx-auto w-full max-w-screen-xl pt-5 sm:pt-10 ">
-              <div className="flex flex-col gap-0 sm:gap-10 md:flex-row">
-                <div className="w-full">
-                  <h1 className="inline-flex w-full max-w-2xl items-baseline text-3xl font-bold lg:text-4xl">
+              <div className="flex grid-cols-12 flex-col gap-0 sm:gap-10 md:grid">
+                <div className="col-span-7 w-full">
+                  <h1 className="inline-flex w-full max-w-2xl items-baseline text-3xl font-bold sm:text-4xl lg:text-5xl">
                     {tip.title}
                     {tipCompleted && <span className="sr-only">(watched)</span>}
                   </h1>
@@ -167,13 +164,7 @@ const TipTemplate: React.FC<{
                         Watched
                       </span>
                     </div>
-                  ) : (
-                    <Hr
-                      className={
-                        tipCompleted ? 'border-teal-400' : 'border-cyan-400'
-                      }
-                    />
-                  )}
+                  ) : null}
                   {tipBodySerialized && (
                     <>
                       <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg prose-headings:font-medium prose-p:text-gray-200">
@@ -192,7 +183,7 @@ const TipTemplate: React.FC<{
                     </div>
                   )}
                 </div>
-                <div className="w-full">
+                <div className="col-span-5 w-full">
                   <div className="prose prose-lg w-full max-w-none pb-5 font-medium lg:prose-xl prose-p:text-gray-200">
                     {tipSummarySerialized && (
                       <MDX contents={tipSummarySerialized} />
@@ -212,14 +203,6 @@ const TipTemplate: React.FC<{
               {!tip.body && <RelatedTips currentTip={tip} tips={tips} />}
             </div>
           </article>
-          <Image
-            src={require('../../public/assets/landing/bg-divider-6.png')}
-            alt=""
-            aria-hidden="true"
-            fill
-            className="pointer-events-none -z-10 select-none object-contain object-top"
-            priority
-          />
         </main>
       </Layout>
     </VideoProvider>

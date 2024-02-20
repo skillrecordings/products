@@ -15,7 +15,7 @@ export const team: Human[] = [
     description:
       'Matt designed, created and recorded the learning material for Total TypeScript. He’s tested and refined the material through live workshops and has created a collection of professional, exercise-driven, in-depth, self-paced TypeScript workshops to help you build your understanding and achieve TypeScript wizardry.',
     twitter: 'mattpocockuk',
-    image: require('../../public/credits/matt-pocock.jpeg'),
+    image: require('../../public/matt-pocock.jpg'),
   },
   {
     name: 'Joel Hooks',

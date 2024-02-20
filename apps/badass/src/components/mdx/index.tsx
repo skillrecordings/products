@@ -38,6 +38,9 @@ import {
   DecoratedListProps,
   FloatedImage,
   FloatedImageProps,
+  FancyTitleWithSubtitle,
+  FancyTitleWithSubtitleProps,
+  FullTranscript,
 } from './components'
 
 const mdxComponents = {
@@ -222,6 +225,12 @@ const mdxComponents = {
         floatSide={floatSide}
       />
     )
+  },
+  FancyTitleWithSubtitle: ({title, subtitle}: FancyTitleWithSubtitleProps) => {
+    return <FancyTitleWithSubtitle title={title} subtitle={subtitle} />
+  },
+  FullTranscript: ({children}: React.PropsWithChildren) => {
+    return <FullTranscript>{children}</FullTranscript>
   },
 }
 

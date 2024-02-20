@@ -18,20 +18,10 @@ export const ArticleSchema = z.object({
     })
     .optional()
     .nullable(),
-  shareCardDetails: z.object({
-    title: z.nullable(z.string()).optional(),
-    subtitle: z.nullable(z.string()).optional(),
-    image: z.nullable(z.string()).optional(),
-  }),
-  image: z.nullable(z.string()).optional(),
-  externalImage: z.nullable(z.string()).optional(),
   description: z.nullable(z.string()).optional(),
-  body: z.any().array().nullable().optional(),
-  summary: z.any().array().nullable().optional(),
   state: z.enum(['published', 'draft']),
   card_color: z.enum(['red', 'green']),
-  // new fields below
-  // TODO: clean up types
+  // TODO: clean up the types
   markdownBody: z.string().nullable(),
   articleHeaderImage: z.string().nullable().optional(),
   shareCardImage: z.string().nullable().optional(),
@@ -54,15 +44,6 @@ export const getAllArticles = async (): Promise<Article[]> => {
         author,
         "authorAvatar": authorAvatar.url,
         description,
-        "image": image.asset->url,
-        "externalImage": externalImage.url,
-        summary,
-        body,
-        "shareCardDetails": {
-          "title": shareCardDetails.title,
-          "subtitle": shareCardDetails.subtitle,
-          "image": shareCardDetails.image.url
-        },
         card_color,
         markdownBody,
         "articleHeaderImage": articleHeaderImage.url,
@@ -76,7 +57,7 @@ export const getArticle = async (
   slug: string,
 ): Promise<Article | undefined> => {
   const article = await sanityClient.fetch(
-    groq`*[_type == "article" && slug.current == $slug][0] {
+    groq`*[_type == "article" && state == 'published' && slug.current == $slug][0] {
         _id,
         _type,
         _updatedAt,
@@ -91,15 +72,6 @@ export const getArticle = async (
         },
         state,
         description,
-        "image": image.asset->url,
-        "externalImage": externalImage.url,
-        summary,
-        body,
-        "shareCardDetails": {
-          "title": shareCardDetails.title,
-          "subtitle": shareCardDetails.subtitle,
-          "image": shareCardDetails.image.url
-        },
         card_color,
         markdownBody,
         "articleHeaderImage": articleHeaderImage.url,

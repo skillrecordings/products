@@ -46,7 +46,7 @@ const Articles: React.FC<ArticlesProps> = ({articles, className = ''}) => {
           {latestArticle && (
             <Card
               key={latestArticle._id}
-              imageUrl={latestArticle.image}
+              imageUrl={latestArticle.articleHeaderImage}
               title={latestArticle.title}
               description={latestArticle.description}
               href={`/${latestArticle.slug}`}

@@ -61,7 +61,7 @@ export const InvoiceCard: React.FC<{purchase: Purchase | any}> = ({
   purchase,
 }) => {
   return (
-    <div className="flex flex-col items-start justify-between rounded-lg border border-gray-700/30 bg-gray-800 p-5 shadow-xl shadow-black/10 sm:flex-row sm:items-center">
+    <div className="flex flex-col items-start justify-between rounded-lg border bg-card p-5 shadow-xl shadow-black/10 sm:flex-row sm:items-center">
       <div className="flex w-full gap-2">
         <div>
           <DocumentTextIcon aria-hidden className="w-6 text-cyan-500" />

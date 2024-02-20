@@ -1,6 +1,6 @@
 #purchase-transfer {
   [data-transfer-state] {
-    @apply flex flex-col  gap-3 rounded-lg border border-gray-700/30 bg-gray-800 p-5 shadow-xl shadow-black/10;
+    @apply flex flex-col  gap-3 rounded-lg border bg-card p-5 shadow-xl shadow-black/10;
     p {
       @apply font-normal text-gray-100;
     }

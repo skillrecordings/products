@@ -74,72 +74,27 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'body',
-      title: 'Article Body',
-      type: 'body',
-      // validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: 'articleHeaderImage',
-      title: 'Article Header Image: NEW',
+      title: 'Header Image',
       type: 'externalImage',
     }),
     defineField({
+      name: 'description',
+      title: 'Short Description',
+      description: 'Used as a short summary (up to 160 chars)',
+      type: 'text',
+      validation: (Rule) => Rule.max(160),
+    }),
+    defineField({
       name: 'markdownBody',
-      title: 'Article Body (markdown): NEW',
+      title: 'Body (markdown)',
       type: 'markdown',
       // validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'shareCardImage',
-      title: 'Share Card Image: NEW',
+      title: 'Share Card Image',
       type: 'externalImage',
-    }),
-    defineField({
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-    }),
-    defineField({
-      name: 'externalImage',
-      title: 'External Image',
-      type: 'externalImage',
-    }),
-    defineField({
-      name: 'summary',
-      title: 'Summary',
-      type: 'body',
-    }),
-    defineField({
-      name: 'shareCardDetails',
-      title: 'Share Card details',
-      type: 'object',
-      fields: [
-        {
-          name: 'title',
-          title: 'Title',
-          type: 'string',
-          description: 'max 30 chars',
-        },
-        {
-          name: 'subtitle',
-          title: 'Subtitle',
-          type: 'string',
-        },
-        {
-          name: 'image',
-          title: 'Image',
-          type: 'externalImage',
-          description: 'Optional. Should have 1:1 aspect ratio',
-        },
-      ],
-    }),
-    defineField({
-      name: 'description',
-      title: 'Short Description',
-      description: 'Used as a short "SEO" summary on Twitter cards etc.',
-      type: 'text',
-      validation: (Rule) => Rule.max(160),
     }),
     defineField({
       name: 'concepts',
@@ -156,7 +111,7 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      media: 'externalImage.url',
+      media: 'articleHeaderImage.url',
       bgColor: 'card_color',
     },
     prepare(selection) {
