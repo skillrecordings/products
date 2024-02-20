@@ -150,7 +150,7 @@ export const ArticleTeaser: React.FC<ArticleTeaserProps> = ({article}) => {
             />
           </div>
         )}
-        <h2 className="w-full pt-5 font-text text-3xl font-bold">
+        <h2 className="w-full pt-5 text-2xl font-bold sm:text-3xl">
           <Balancer>{title}</Balancer>
         </h2>
         <div className="w-full pt-3 leading-relaxed text-gray-300">

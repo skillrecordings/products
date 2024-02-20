@@ -132,10 +132,7 @@ const ShortBio: React.FC<{className?: string}> = ({className}) => {
       />
       <div className="flex flex-col">
         <strong className="text-lg font-semibold">Matt Pocock</strong>
-        <p className="text-gray-200">
-          Matt is a well-regarded TypeScript expert known for his ability to
-          demystify complex TypeScript concepts.
-        </p>
+        <p className="text-gray-200">{config.authorBio}</p>
       </div>
     </Link>
   )

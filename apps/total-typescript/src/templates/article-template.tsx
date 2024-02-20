@@ -15,6 +15,7 @@ import {linkedHeadingComponents, ShareImageMDX} from '@/components/mdx'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {trpc} from '@/trpc/trpc.client'
 import Link from 'next/link'
+import config from '@/config'
 
 type ArticleTemplateProps = {
   article: Article
@@ -51,7 +52,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           alt: title,
         },
       }}
-      className="bg-black/40"
     >
       <ArticleJsonLd
         title={title}
@@ -65,50 +65,66 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       />
       <header
         className={cn(
-          'relative z-10 flex w-full flex-col items-center justify-center px-5 pb-8 pt-20 sm:pb-20 sm:pt-32',
+          'relative z-10 mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center gap-10 px-5 pb-8 pt-20 sm:pb-20 sm:pt-32 lg:flex-row lg:gap-0',
         )}
       >
-        <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col">
+        <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-shrink-0 flex-col">
           <Link
             href="/articles"
-            className="pb-5 text-sm opacity-75 transition hover:opacity-100 sm:text-base"
+            className="group mb-5 flex items-center gap-1 text-sm text-primary opacity-75 transition hover:opacity-100 sm:mb-12 sm:text-base"
           >
-            ← All Articles
+            <span
+              aria-hidden="true"
+              className="relative transition group-hover:-translate-x-1"
+            >
+              ←
+            </span>
+            <span>All Articles</span>
           </Link>
-          <h1 className="block text-left font-text text-4xl font-extrabold sm:text-4xl md:text-5xl">
+          <h1 className="block text-left font-text text-4xl font-bold sm:text-5xl md:text-6xl">
             {title}
           </h1>
-          <div className="flex items-center gap-3 pt-8">
-            <div className="flex items-center justify-center overflow-hidden rounded-full">
-              <Image
-                src={require('../../public/matt-pocock.jpg')}
-                alt="Matt Pocock"
-                width={40}
-                height={40}
-                priority
-              />
+          <div className="mt-10 flex w-full justify-center gap-10">
+            <div className="flex flex-grow items-start gap-3">
+              <div className="flex items-center justify-center overflow-hidden rounded-full">
+                <Image
+                  src={require('../../public/matt-pocock.jpg')}
+                  alt="Matt Pocock"
+                  width={56}
+                  height={56}
+                  priority
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-lg font-semibold">{config.author}</span>
+                <span className="max-w-sm text-balance text-sm text-slate-400 sm:text-base">
+                  {config.authorBio}
+                </span>
+              </div>
             </div>
-            <span className="font-medium">Matt Pocock</span>
-            <time dateTime={_createdAt} className="pl-5 text-sm text-gray-300">
-              {format(new Date(_createdAt), 'MMM dd, y')}
-            </time>
           </div>
         </div>
         {image && (
-          <div className="relative mt-5 aspect-video h-full w-full max-w-screen-lg overflow-hidden rounded-lg">
+          <div className="relative flex h-full w-full flex-col items-end lg:-ml-40 lg:translate-y-16 lg:brightness-125">
             <Image
-              className="scale-[2] sm:scale-100"
+              className="scale-[1] rounded-lg sm:scale-100"
               src={image}
               alt=""
               aria-hidden="true"
+              width={1920 / 2}
+              height={1080 / 2}
               quality={100}
-              fill
+              priority
+              // fill
             />
+            <time dateTime={_createdAt} className="pt-3 text-sm text-slate-600">
+              Published on {format(new Date(_createdAt), 'MMM dd, y')}
+            </time>
           </div>
         )}
       </header>
-      <main className="relative z-10 pt-5">
-        <div className="prose relative z-10 mx-auto w-full max-w-3xl px-5 sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
+      <main className="relative z-10 px-5 pt-10">
+        <div className="prose relative z-10 mx-auto w-full max-w-3xl sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
           {articleBody && (
             <MDX
               contents={articleBody}
@@ -136,7 +152,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
             <ArticleNewsletterCta article={article} />
           )}
         </section>
-        <section className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-8 px-5 pb-32 sm:grid-cols-2">
+        <section className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-8 pb-32 sm:grid-cols-2">
           {articles
             .filter((article) => article.state === 'published')
             .map((article) => {

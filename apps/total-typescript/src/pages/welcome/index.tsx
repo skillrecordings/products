@@ -20,6 +20,7 @@ import {trpc} from '../../trpc/trpc.client'
 import {Transfer} from '@/purchase-transfer/purchase-transfer'
 import {getProduct} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
+import {Twitter} from '@skillrecordings/react'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
@@ -255,7 +256,7 @@ const Header: React.FC<
         )}
         <div className="flex w-full flex-col items-center text-center sm:items-start sm:text-left">
           <h1 className="w-full font-text text-3xl font-bold sm:text-3xl lg:text-4xl">
-            <span className="block pb-4 font-sans text-sm font-semibold uppercase tracking-wide text-cyan-300">
+            <span className="block pb-4 font-sans text-sm font-semibold uppercase tracking-wide text-primary">
               {upgrade ? `You've Upgraded ` : `Welcome to `}
             </span>
             <Balancer>Total TypeScript {purchase.product.name}</Balancer>
@@ -265,7 +266,7 @@ const Header: React.FC<
               <div className="flex flex-wrap justify-center gap-3 pt-8 sm:justify-start">
                 <Link
                   href={`/workshops/${product?.modules[0]?.slug.current}`}
-                  className="w-full rounded-lg bg-cyan-400 px-5 py-3 text-lg font-semibold text-gray-900 shadow-xl shadow-black/10 transition hover:brightness-110 sm:w-auto"
+                  className="w-full rounded bg-primary px-5 py-3 text-lg font-semibold text-gray-900 text-primary-foreground shadow-xl shadow-black/10 transition hover:brightness-110 sm:w-auto"
                 >
                   Start Learning
                 </Link>
@@ -274,7 +275,7 @@ const Header: React.FC<
                 !isGithubConnected ? (
                   <button
                     onClick={() => signIn(githubProvider.id)}
-                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-gray-800 px-5 py-3 text-lg font-semibold text-white shadow-xl shadow-black/10 transition hover:brightness-110 sm:w-auto"
+                    className="flex w-full items-center justify-center gap-2 rounded bg-gray-800 px-5 py-3 text-lg font-semibold text-white shadow-xl shadow-black/10 transition hover:brightness-110 sm:w-auto"
                   >
                     <Icon name="Github" size="20" />
                     Connect {githubProvider.name}
@@ -328,24 +329,10 @@ const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
         target="_blank"
         className="flex items-center gap-2 self-start rounded-md border border-cyan-500 px-5 py-2.5 font-semibold text-cyan-400 transition hover:bg-cyan-600/20"
       >
-        <TwitterIcon /> Share with your friends!
+        <Icon name="Twitter" /> Share with your friends!
       </a>
     </div>
   )
 }
-
-export const TwitterIcon = () => (
-  <svg
-    aria-hidden="true"
-    height="16"
-    width="16"
-    viewBox="0 0 16 16"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g fill="currentColor">
-      <path d="M16,3c-0.6,0.3-1.2,0.4-1.9,0.5c0.7-0.4,1.2-1,1.4-1.8c-0.6,0.4-1.3,0.6-2.1,0.8c-0.6-0.6-1.5-1-2.4-1 C9.3,1.5,7.8,3,7.8,4.8c0,0.3,0,0.5,0.1,0.7C5.2,5.4,2.7,4.1,1.1,2.1c-0.3,0.5-0.4,1-0.4,1.7c0,1.1,0.6,2.1,1.5,2.7 c-0.5,0-1-0.2-1.5-0.4c0,0,0,0,0,0c0,1.6,1.1,2.9,2.6,3.2C3,9.4,2.7,9.4,2.4,9.4c-0.2,0-0.4,0-0.6-0.1c0.4,1.3,1.6,2.3,3.1,2.3 c-1.1,0.9-2.5,1.4-4.1,1.4c-0.3,0-0.5,0-0.8,0c1.5,0.9,3.2,1.5,5,1.5c6,0,9.3-5,9.3-9.3c0-0.1,0-0.3,0-0.4C15,4.3,15.6,3.7,16,3z" />
-    </g>
-  </svg>
-)
 
 export default Welcome

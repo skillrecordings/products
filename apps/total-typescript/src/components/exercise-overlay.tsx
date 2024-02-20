@@ -26,7 +26,7 @@ const ExerciseOverlay = () => {
     <div className=" bg-black/30 ">
       {stackblitz ? (
         <>
-          <div className="flex w-full items-center justify-between p-3 pl-5 font-medium sm:text-lg">
+          <div className="hidden w-full items-center justify-between p-3 pl-5 font-medium sm:flex sm:text-lg">
             <div className="flex flex-col">
               <div>Now it's your turn! Try solving this exercise.</div>
             </div>
@@ -173,7 +173,7 @@ const Actions = () => {
       </button>
       {nextExercise && (
         <button
-          className="rounded bg-cyan-600 px-3 py-1 text-lg font-semibold transition hover:bg-cyan-500 sm:px-5 sm:py-2"
+          className="rounded bg-primary px-3 py-1 text-lg font-semibold text-primary-foreground transition hover:brightness-105 sm:px-5 sm:py-2"
           onClick={() => {
             track('clicked continue to solution', {
               lesson: lesson.slug,

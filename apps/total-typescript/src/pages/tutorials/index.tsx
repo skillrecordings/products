@@ -45,25 +45,14 @@ const TutorialsPage: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
       />
       <main className="relative z-10 flex flex-col items-center justify-center">
         {tutorials && (
-          <ul className="flex max-w-screen-md flex-col gap-5 px-5 py-10 sm:gap-8 sm:py-20">
+          <ul className="flex max-w-screen-lg flex-col gap-5 px-5 py-10 sm:gap-5 sm:py-20">
             {tutorials.map(({title, slug, image, description, sections}, i) => {
               return (
                 <li
                   key={slug.current}
-                  className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-black/20 p-10 shadow-2xl md:flex-row"
+                  className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border bg-card p-10 shadow-2xl md:flex-row"
                 >
                   {image && (
-                    <div className="flex flex-shrink-0 items-center justify-center">
-                      <Image
-                        src={image}
-                        alt={title}
-                        width={300}
-                        quality={100}
-                        height={300}
-                      />
-                    </div>
-                  )}
-                  <div>
                     <Link
                       href={{
                         pathname: '/tutorials/[module]',
@@ -71,13 +60,34 @@ const TutorialsPage: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
                           module: slug.current,
                         },
                       }}
-                      className="text-3xl font-semibold hover:underline sm:text-4xl"
+                      className="flex flex-shrink-0 items-center justify-center"
                     >
-                      {title}
+                      <Image
+                        src={image}
+                        alt={title}
+                        width={300}
+                        quality={100}
+                        height={300}
+                      />
                     </Link>
-                    <div className="pb-3 pt-4 font-mono text-xs font-semibold uppercase text-cyan-300">
+                  )}
+                  <div>
+                    <h2>
+                      <Link
+                        href={{
+                          pathname: '/tutorials/[module]',
+                          query: {
+                            module: slug.current,
+                          },
+                        }}
+                        className="text-3xl font-semibold hover:underline sm:text-4xl"
+                      >
+                        {title}
+                      </Link>
+                    </h2>
+                    <div className="mt-3 pb-3 font-mono text-xs font-semibold uppercase text-primary">
                       {i === 0 && (
-                        <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
+                        <span className="mr-3 rounded-full bg-primary px-2 py-0.5 font-sans font-semibold uppercase text-primary-foreground">
                           New
                         </span>
                       )}
@@ -86,7 +96,7 @@ const TutorialsPage: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
                       )}
                     </div>
                     {description && (
-                      <p className="text-gray-300">{description}</p>
+                      <p className="mt-5 text-gray-300">{description}</p>
                     )}
                     <Link
                       href={{
@@ -106,7 +116,6 @@ const TutorialsPage: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
                       </span>
                     </Link>
                   </div>
-                  <StripesLeft className="absolute left-0 top-0 hidden w-5 md:block" />
                 </li>
               )
             })}
@@ -114,26 +123,6 @@ const TutorialsPage: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
         )}
       </main>
     </Layout>
-  )
-}
-
-const StripesLeft: React.FC<{className?: string}> = ({className = ''}) => {
-  return (
-    <svg
-      aria-hidden="true"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 28 570"
-    >
-      <path
-        fill="#1F2937"
-        fillRule="evenodd"
-        d="M0 24.586v2.828l26-26V0h-1.414L0 24.586Zm26-12-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-26 26v2.828l26-26v-2.828Zm0 14-24.96 24.96c.229.696.492 1.377.79 2.039L26 533.414v-2.828Zm0 14L6.447 564.139c.481.463.985.904 1.509 1.32L26 547.414v-2.828Zm0 14-10.646 10.646c.757.211 1.532.381 2.322.506L26 561.414v-2.828Z"
-        clipRule="evenodd"
-      />
-      <path stroke="#1F2937" strokeWidth="2" d="M27 0v570" />
-    </svg>
   )
 }
 

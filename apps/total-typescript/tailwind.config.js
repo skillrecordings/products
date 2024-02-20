@@ -101,10 +101,14 @@ module.exports = {
               color: theme('colors.gray.300'),
             },
             a: {
-              color: theme('colors.cyan.300'),
+              color: theme('colors.primary.DEFAULT'),
+              textDecoration: 'none',
             },
             'a:hover': {
-              color: theme('colors.cyan.200'),
+              textDecoration: 'underline',
+            },
+            'a:hover': {
+              textDecoration: 'underline',
             },
             p: {
               color: theme('colors.gray.300'),

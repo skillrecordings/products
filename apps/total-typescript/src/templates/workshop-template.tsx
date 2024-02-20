@@ -64,8 +64,8 @@ const WorkshopTemplate: React.FC<{
 
   return (
     <Layout
-      className={cn('mx-auto w-full pt-20 lg:max-w-4xl lg:pb-24', {
-        'pt-24 sm:pt-16 lg:pt-24': defaultCouponData,
+      className={cn('mx-auto w-full pt-12 lg:max-w-screen-lg lg:pb-24', {
+        // 'pt-24 sm:pt-16 lg:pt-24': defaultCouponData,
       })}
       meta={{
         title: pageTitle,
@@ -100,7 +100,7 @@ const WorkshopTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        <div className="flex w-full flex-col px-5 pt-8 lg:max-w-xs lg:px-0 lg:pt-0">
+        <div className="flex w-full flex-col px-5 pt-8 lg:max-w-sm lg:px-0 lg:pt-0">
           {product && commercePropsStatus === 'loading' ? (
             <div className="mb-8 flex flex-col space-y-2" role="status">
               <div className="sr-only">Loading commerce details</div>
@@ -260,16 +260,22 @@ const Header: React.FC<{
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-8 sm:pt-8 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-5 sm:pt-8 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
             href="/workshops"
-            className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300"
+            className="group mb-4 inline-flex items-center pb-1 text-base text-primary opacity-80 transition hover:opacity-100"
           >
-            Pro Workshop
+            <span
+              className="relative pr-2 transition group-hover:-translate-x-1"
+              aria-hidden="true"
+            >
+              ←
+            </span>{' '}
+            <span className="">All Pro Workshops</span>
           </Link>
-          <h1 className="font-text text-4xl font-bold sm:text-5xl lg:text-6xl">
-            <Balancer>{title}</Balancer>
+          <h1 className="text-balance font-text text-4xl font-bold sm:text-5xl lg:text-6xl">
+            {title}
           </h1>
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
@@ -325,7 +331,7 @@ const Header: React.FC<{
                     'animate-pulse': moduleProgressStatus === 'loading',
                     'bg-cyan-400 text-black hover:bg-cyan-300':
                       hasPurchased || !product,
-                    'bg-cyan-300/20 text-cyan-300 hover:bg-cyan-300/30':
+                    'border-2 border-cyan-300/10 bg-cyan-300/20 text-cyan-300 hover:bg-cyan-300/30':
                       !hasPurchased && product,
                   },
                 )}
@@ -363,8 +369,9 @@ const Header: React.FC<{
             <Image
               src={image}
               alt={title}
-              width={400}
-              height={400}
+              priority
+              width={450}
+              height={450}
               quality={100}
             />
           </div>

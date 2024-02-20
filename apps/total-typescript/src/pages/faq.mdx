@@ -1,5 +1,6 @@
 import Layout from '@/components/app/layout'
 import Image from 'next/image'
+import Heading from '@/components/heading'
 
 <div>
 
@@ -168,22 +169,8 @@ export default ({children}) => (
       },
     }}
   >
-    <main className="mx-auto w-full max-w-screen-lg p-5 pb-32">
-      <header className="relative flex flex-col items-center justify-center pb-5 pt-64 sm:pb-24 sm:pt-64">
-        <Image
-          src={require('../../public/assets/crystal-ball@2x.png')}
-          alt=""
-          aria-hidden="true"
-          priority
-          placeholder="blur"
-          width={350}
-          height={350}
-          className="absolute -translate-y-32 -rotate-12"
-        />
-        <h1 className="relative z-10 text-center font-heading text-7xl font-bold text-slate-200 sm:text-8xl">
-          FAQ
-        </h1>
-      </header>
+    <Heading title="Frequently Asked Questions" className="pb-10" />
+    <main className="mx-auto mt-5 w-full max-w-screen-lg p-5 pb-32">
       <article className="prose mx-auto grid max-w-screen-lg grid-cols-1 sm:prose-lg prose-p:text-gray-200 prose-a:text-cyan-300 sm:gap-8 sm:prose-headings:mt-0 sm:prose-headings:font-semibold sm:prose-p:text-gray-200 md:grid-cols-2 md:gap-12 lg:gap-16">
         {children}
       </article>
