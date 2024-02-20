@@ -25,7 +25,7 @@ type Props = {
 
 const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
   className,
-  containerClassName = 'max-w-screen-lg flex items-stretch justify-between w-full h-full',
+  containerClassName = 'flex items-stretch justify-between w-full h-full',
   isMinified = false,
 }) => {
   const {data: defaultCouponData, status: defaultCouponStatus} =
@@ -35,7 +35,7 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
     <>
       <SaleMessageBar
         className={cn(
-          'absolute left-0 top-0 z-30 flex h-14 w-full flex-row justify-center space-x-2 space-y-2 bg-gradient-to-r from-amber-300 to-amber-400 px-2 py-2 text-black sm:h-8 sm:flex-row sm:items-center sm:space-y-0',
+          'absolute left-0 top-0 z-30 flex h-14 w-full flex-row justify-center space-x-2 space-y-2 bg-gradient-to-r from-amber-300 to-amber-400 px-2 py-2 text-black sm:h-8 sm:flex-row sm:items-center sm:space-y-0 print:hidden',
           {
             'lg:pl-[calc(280px+20px)] xl:pl-[calc(320px)]': isMinified,
           },
@@ -44,9 +44,11 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
       <nav
         aria-label="top"
         className={cx(
-          'absolute z-30 flex h-14 w-full flex-col items-center justify-center border-b border-gray-800/40 bg-gray-950 pl-3 pr-0 print:hidden sm:h-16 sm:pl-4 md:pr-3',
+          'z-30 flex h-14 w-full flex-col items-center justify-center border-b bg-background pl-3 pr-0 sm:h-16 sm:pl-4 md:pr-3 print:hidden',
           className,
           {
+            fixed: !isMinified,
+            absolute: isMinified,
             'top-0': !defaultCouponData,
             'top-14 sm:top-8': defaultCouponData,
           },
@@ -99,7 +101,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
               Workshops
             </>
           }
-          icon={KeyIcon}
+          // icon={KeyIcon}
         />
         <NavLink
           path="/tutorials"
@@ -117,13 +119,21 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
               Tutorials
             </>
           }
-          icon={PlayIcon}
+          // icon={PlayIcon}
         />
-        <NavLink path="/tips" label="Tips" icon={FireIcon} />
-        <NavLink path="/articles" label="Articles" icon={BookIcon} />
-        <SearchBar isMinified={isMinified} />
+        <NavLink
+          path="/tips"
+          label="Tips"
+          // icon={FireIcon}
+        />
+        <NavLink
+          path="/articles"
+          label="Articles"
+          // icon={BookIcon}
+        />
       </div>
       <div className="flex h-full items-center justify-center">
+        {status === 'loading' ? null : <SearchBar isMinified={isMinified} />}
         {status === 'unauthenticated' && <NavLink path="/faq" label="FAQ" />}
         {status === 'authenticated' ? (
           <>
@@ -198,7 +208,7 @@ const MobileNav = () => {
               variants={container}
               initial="hidden"
               animate="show"
-              className="absolute left-0 top-14 z-20 w-full overflow-hidden border-b border-white/10 bg-gray-950 pb-5 shadow-2xl shadow-black/60"
+              className="absolute left-0 top-14 z-20 w-full overflow-hidden border-b border-border bg-card pb-5 shadow-2xl shadow-black/60"
             >
               <MobileNavLink
                 path="/workshops"
@@ -285,50 +295,27 @@ const NavLink: React.FC<
   const isActive = router.asPath === path
   const IconEl = () =>
     React.isValidElement(icon) ? React.createElement(icon, {isActive}) : null
-
-  if (onClick) {
-    return (
-      <li className="">
-        <button
-          onClick={onClick}
-          aria-current={isActive ? 'page' : undefined}
-          className={cx(
-            'group flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
-            {
-              '': isActive,
-            },
-            className,
-          )}
-        >
-          <span
-            className={cx('transition group-hover:opacity-100', {
-              'opacity-100': isActive,
-              'opacity-90': !isActive,
-            })}
-          >
-            {label}
-          </span>
-        </button>
-      </li>
-    )
-  }
-  return path ? (
-    <li className="">
-      <NextLink
-        href={path}
-        passHref
+  const Comp = onClick ? 'button' : NextLink
+  return (
+    <li className="h-full">
+      <Comp
+        onClick={onClick}
+        href={path as string}
+        aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'group flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
+          'group relative flex h-full items-center gap-0.5 px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
           {
-            '': isActive,
+            'before:absolute before:-bottom-px before:left-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-primary before:to-transparent before:opacity-75 before:content-[""]':
+              isActive,
           },
           className,
         )}
-        onClick={() => {
-          track(`clicked ${title ?? label} link in nav`)
+        style={{
+          backgroundImage: `radial-gradient(circle at 50% 200%, ${
+            isActive ? 'hsla(177, 87%, 75%, 0.4)' : 'transparent'
+          } 0%, transparent 60%)`,
         }}
       >
-        {icon ? React.createElement(icon, {isActive}) : null}
         <span
           className={cx('transition group-hover:opacity-100', {
             'opacity-100': isActive,
@@ -337,9 +324,63 @@ const NavLink: React.FC<
         >
           {label}
         </span>
-      </NextLink>
+      </Comp>
     </li>
-  ) : null
+  )
+  // if (onClick) {
+  //   return (
+  //     <li className="">
+  //       <button
+  //         onClick={onClick}
+  //         aria-current={isActive ? 'page' : undefined}
+  //         className={cx(
+  //           'group flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
+  //           {
+  //             'border-b-2': isActive,
+  //           },
+  //           className,
+  //         )}
+  //       >
+  //         <span
+  //           className={cx('transition group-hover:opacity-100', {
+  //             'opacity-100': isActive,
+  //             'opacity-90': !isActive,
+  //           })}
+  //         >
+  //           {label}
+  //         </span>
+  //       </button>
+  //     </li>
+  //   )
+  // }
+  // return path ? (
+  //   <li className="">
+  //     <NextLink
+  //       href={path}
+  //       passHref
+  //       className={cx(
+  //         'group flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
+  //         {
+  //           '': isActive,
+  //         },
+  //         className,
+  //       )}
+  //       onClick={() => {
+  //         track(`clicked ${title ?? label} link in nav`)
+  //       }}
+  //     >
+  //       {icon ? React.createElement(icon, {isActive}) : null}
+  //       <span
+  //         className={cx('transition group-hover:opacity-100', {
+  //           'opacity-100': isActive,
+  //           'opacity-90': !isActive,
+  //         })}
+  //       >
+  //         {label}
+  //       </span>
+  //     </NextLink>
+  //   </li>
+  // ) : null
 }
 
 const MobileNavLink: React.FC<

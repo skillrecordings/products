@@ -25,9 +25,6 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({children}) => {
     if (router.asPath === '/articles') {
       setResourceType('article')
     }
-    if (router.asPath === '/tutorials') {
-      setResourceType('tutorial')
-    }
 
     return () => {
       setResourceType(undefined)

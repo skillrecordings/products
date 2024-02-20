@@ -88,17 +88,8 @@ export const HomeTemplate: React.FC<
         <Copy level={skillLevel} />
         {isSellingLive ? (
           <MDXComponents.Section
-            className="-mb-40 flex flex-col items-center bg-[#081021] py-24 pb-56 sm:py-40 sm:pb-56"
-            slot={
-              <Image
-                src="/assets/landing/bg-divider-7.png"
-                fill
-                alt=""
-                aria-hidden="true"
-                className="pointer-events-none select-none object-contain object-top"
-                quality={100}
-              />
-            }
+            className="-mb-40 flex flex-col items-center py-24 pb-56 sm:py-40 sm:pb-56"
+            slot={null}
           >
             <h2 className="mx-auto max-w-screen-lg px-3 text-center font-heading text-3xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
               <Balancer>Your Total TypeScript Adventure Starts Now</Balancer>

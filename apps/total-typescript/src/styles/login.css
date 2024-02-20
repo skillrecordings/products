@@ -15,17 +15,17 @@
     [data-input-container] {
       @apply relative mt-1 rounded-md shadow-sm;
       [data-icon] {
-        @apply pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3;
+        @apply pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600;
         svg {
           @apply h-5 w-5;
         }
       }
       [data-input] {
-        @apply mb-3 block w-full rounded-md border border-white border-opacity-20 bg-gray-900 py-5 pl-10 text-base text-white placeholder-gray-400 focus:border-cyan-300 focus-visible:ring-offset-0;
+        @apply mb-3 block w-full rounded-md border border-gray-600 bg-input py-7 pl-10 text-base text-white placeholder-gray-400 focus:border-cyan-300 focus-visible:ring-offset-0;
       }
     }
     [data-button] {
-      @apply mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-gradient-to-b from-cyan-400 to-cyan-500 px-5 py-5 font-semibold text-black shadow-xl shadow-black/20 transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-cyan-100;
+      @apply mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-gradient-to-b from-cyan-400 to-cyan-500 px-5 py-7 text-base font-semibold text-black shadow-xl shadow-black/20 transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-cyan-100;
     }
   }
   [data-separator] {
@@ -34,7 +34,7 @@
   [data-providers-container] {
     @apply mx-auto w-full space-y-2 sm:max-w-sm;
     [data-button] {
-      @apply flex w-full items-center justify-center rounded-md border border-transparent bg-gray-700 px-5 py-5 font-semibold text-white shadow-xl shadow-black/20 transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-cyan-100;
+      @apply relative flex w-full items-center justify-center rounded-md border border-border bg-card px-5 py-7 text-base font-semibold text-white shadow-xl shadow-black/20 transition before:absolute before:-top-px before:left-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent before:content-[""] hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-cyan-100;
     }
   }
 }

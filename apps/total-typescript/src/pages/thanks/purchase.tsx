@@ -162,11 +162,11 @@ const ThankYou: React.FC<ThankYouProps> = ({title, byline, product, email}) => {
           </div>
         )}
         <div className="flex w-full flex-col items-start">
-          <h1 className="w-full font-text text-3xl font-black sm:text-3xl lg:text-4xl">
-            <span className="block pb-4 font-sans text-sm font-semibold uppercase text-cyan-300">
+          <h1 className="w-full text-lg font-semibold sm:text-xl lg:text-2xl">
+            <span className="block pb-4 text-sm font-semibold uppercase text-primary">
               Success!
             </span>
-            <Balancer>{title}</Balancer>
+            <span className="w-full text-balance">{title}</span>
           </h1>
           <p className="pt-5 text-lg font-normal text-gray-100">
             <Balancer>{byline}</Balancer>
@@ -179,19 +179,17 @@ const ThankYou: React.FC<ThankYouProps> = ({title, byline, product, email}) => {
 
 export const LoginLink: React.FC<{email: string}> = ({email}) => {
   return (
-    <div className="relative mx-auto flex w-full items-center justify-between gap-5 overflow-hidden rounded-xl border-2 border-cyan-400 p-7 shadow-2xl shadow-cyan-300/10 selection:bg-white sm:p-12">
+    <div className="relative mx-auto flex w-full items-center justify-between gap-5 overflow-hidden rounded-xl border bg-card p-7 shadow-2xl sm:p-12">
       <div className="relative z-10">
-        <p className="inline-flex rounded-full bg-cyan-300 px-3 py-1 text-xs font-semibold uppercase text-gray-900 sm:text-sm">
+        <p className="inline-flex rounded-full bg-primary/20 px-3 py-1 text-xs font-semibold uppercase text-primary sm:text-sm">
           Final step
         </p>
-        <h2 className="mx-auto py-5 font-text text-2xl font-extrabold sm:text-3xl lg:text-4xl">
-          <Balancer>
-            Please check your inbox for a <strong>login link</strong> that just
-            got sent.
-          </Balancer>
+        <h2 className="mx-auto text-balance py-5 text-xl font-bold sm:text-2xl lg:text-3xl">
+          Please check your inbox for a <strong>login link</strong> that just
+          got sent.
         </h2>
-        <div className="mb-3 inline-flex items-center gap-2 rounded-lg bg-cyan-300 px-4 py-2 text-gray-900 shadow-lg shadow-cyan-600/20">
-          <MailIcon className="h-5 w-5 flex-shrink-0 text-cyan-600" />{' '}
+        <div className="mb-3 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-gray-900 shadow-lg shadow-cyan-600/20">
+          <MailIcon className="h-5 w-5 flex-shrink-0 text-slate-900/40" />{' '}
           <strong className="inline-block break-all font-semibold">
             Email sent to: {email}
           </strong>
@@ -283,7 +281,7 @@ const ThanksVerify: React.FC<
   return (
     <>
       <Layout footer={null} meta={{title: 'Purchase Successful'}}>
-        <main className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-5 py-24">
+        <main className="mx-auto flex w-full max-w-screen-md flex-col gap-8 px-5 py-24">
           <ThankYou
             title={title}
             byline={byline}

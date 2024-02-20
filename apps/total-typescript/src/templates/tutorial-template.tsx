@@ -20,7 +20,8 @@ import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import ModuleCertificate from '@/certificate/module-certificate'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import {Skeleton} from '@skillrecordings/ui'
-import {LockClosedIcon} from '@heroicons/react/solid'
+import {LockClosedIcon, PlayIcon} from '@heroicons/react/solid'
+import {ChevronLeftIcon} from '@heroicons/react/outline'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
@@ -35,7 +36,7 @@ const TutorialTemplate: React.FC<{
 
   return (
     <Layout
-      className="mx-auto w-full pt-20 lg:max-w-4xl lg:pb-24"
+      className="mx-auto w-full pt-12 lg:max-w-screen-lg lg:pb-24"
       meta={{
         title: pageTitle,
         description,
@@ -51,14 +52,14 @@ const TutorialTemplate: React.FC<{
       <Header tutorial={tutorial} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="px-5">
-          <article className="prose prose-lg w-full max-w-none text-white prose-a:text-cyan-300 hover:prose-a:text-cyan-200 lg:max-w-xl">
+          <article className="prose prose-lg w-full max-w-none lg:max-w-xl">
             <MDX contents={tutorialBodySerialized} />
           </article>
           {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        <div className="flex w-full flex-col px-5 lg:max-w-xs lg:px-0">
+        <div className="flex w-full flex-col px-5 lg:max-w-sm lg:px-0">
           {tutorial && (
             <Collection.Root
               module={tutorial}
@@ -75,24 +76,26 @@ const TutorialTemplate: React.FC<{
             >
               <div className="flex w-full items-baseline justify-between pb-3">
                 <h3 className="text-2xl font-semibold">Contents</h3>
-                <Collection.Metadata className="font-mono text-sm font-semibold uppercase text-gray-300" />
+                <Collection.Metadata className="text-sm opacity-70" />
               </div>
               <Collection.Sections>
                 {moduleProgressStatus === 'success' ? (
                   <Collection.Section className="border px-3 py-3 [&>[data-check-icon]]:text-cyan-300 [&>[data-check-icon]]:opacity-100 [&>[data-progress]]:bg-gray-400/5">
-                    <Collection.Lessons className="border-x border-b border-border bg-black/20">
-                      <Collection.Lesson className="before:pl-8 [&>div>div]:hover:underline [&>div>span]:font-mono [&>div]:pl-2 [&>div]:pr-3" />
+                    <Collection.Lessons className="border-x border-b border-border bg-background">
+                      <Collection.Lesson className="before:pl-8 [&>div>span]:font-mono [&>div]:pl-2 [&>div]:pr-3 [&_[data-item]]:transition [&_[data-item]]:hover:bg-card [&div>div]:hover:underline" />
                     </Collection.Lessons>
                   </Collection.Section>
                 ) : (
                   <Skeleton className="border bg-background py-6" />
                 )}
               </Collection.Sections>
-              <Collection.Lessons className="border-x-0 border-b-0">
+              <Collection.Lessons className="rounded border border-border bg-card">
                 {moduleProgressStatus === 'success' ? (
-                  <Collection.Lesson className="before:pl-6 [&>div>div]:hover:underline [&>div>span]:font-mono [&>div]:px-0" />
+                  <Collection.Lesson className="before:pl-8 [&>div>span]:font-mono [&>div]:pl-2 [&>div]:pr-3 [&_[data-item]]:transition [&_[data-item]]:hover:bg-card [&div>div]:hover:underline" />
                 ) : (
-                  <Skeleton className="my-2 border bg-background py-5" />
+                  <div className="px-3">
+                    <Skeleton className="my-1.5 bg-white/5 py-5" />
+                  </div>
                 )}
               </Collection.Lessons>
             </Collection.Root>
@@ -123,13 +126,19 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-8 sm:pt-8 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-5 sm:pt-8 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
             href="/tutorials"
-            className="pb-1 font-mono text-sm font-semibold uppercase tracking-wide text-cyan-300"
+            className="group mb-4 inline-flex items-center pb-1 text-base text-primary opacity-80 transition hover:opacity-100"
           >
-            Tutorial
+            <span
+              className="relative pr-2 transition group-hover:-translate-x-1"
+              aria-hidden="true"
+            >
+              ←
+            </span>{' '}
+            <span className="">All Tutorials</span>
           </Link>
           <h1 className="text-center font-text text-4xl font-bold sm:text-5xl md:text-left lg:text-6xl">
             <Balancer>{title}</Balancer>
@@ -143,6 +152,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                     alt="Matt Pocock"
                     width={48}
                     height={48}
+                    priority
                   />
                 </div>
                 <span>Matt Pocock</span>
@@ -178,7 +188,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                       }
                 }
                 className={cx(
-                  'flex w-full items-center justify-center rounded bg-cyan-400 px-5 py-4 font-semibold leading-tight text-black transition hover:bg-cyan-300 md:w-auto',
+                  'flex w-full items-center justify-center rounded border-2 border-primary bg-primary px-7 py-4 font-semibold leading-tight text-black transition md:w-auto',
                   {
                     'animate-pulse': moduleProgressStatus === 'loading',
                   },
@@ -188,9 +198,11 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
                 }}
               >
                 {isModuleInProgress ? 'Continue' : 'Start'} Learning
-                <span className="pl-2" aria-hidden="true">
-                  →
-                </span>
+                <Icon
+                  name="Playmark"
+                  className="ml-3 w-2.5 opacity-75"
+                  aria-hidden="true"
+                />
               </Link>
               {github?.repo && (
                 <a
@@ -213,18 +225,19 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
             <Image
               src={image}
               alt={title}
-              width={400}
-              height={400}
+              priority
+              width={450}
+              height={450}
               quality={100}
             />
           </div>
         )}
       </header>
       <Image
+        fill
         aria-hidden="true"
         alt=""
         src={require('../../public/assets/landing/bg-divider-3.png')}
-        fill
         className="-z-10 object-contain object-top"
       />
     </>
