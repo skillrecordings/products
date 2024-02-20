@@ -65,7 +65,7 @@ const GlobalSearchBar = () => {
           }}
           autoFocus
           placeholder={`Search ${
-            resourceType ? `${resourceType}s` : 'Pro Next.js...'
+            resourceType ? `${resourceType}s` : 'Total TypeScript'
           }`}
         />
       </div>
