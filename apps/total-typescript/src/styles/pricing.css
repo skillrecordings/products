@@ -70,7 +70,7 @@
         }
 
         [data-name-badge] {
-          @apply inline-flex rounded-full px-4 py-1 pb-1.5 text-sm font-semibold uppercase tracking-wide text-cyan-300 drop-shadow-md;
+          @apply hidden;
         }
 
         [data-price-container] {
