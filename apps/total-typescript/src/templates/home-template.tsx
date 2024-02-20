@@ -89,7 +89,7 @@ export const HomeTemplate: React.FC<
         {isSellingLive ? (
           <MDXComponents.Section
             className="-mb-40 flex flex-col items-center py-24 pb-56 sm:py-40 sm:pb-56"
-            slot={null}
+            // slot={null}
           >
             <h2 className="mx-auto max-w-screen-lg px-3 text-center font-heading text-3xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
               <Balancer>Your Total TypeScript Adventure Starts Now</Balancer>
@@ -167,7 +167,7 @@ export const HomeTemplate: React.FC<
         ) : (
           <SubscribeToNewsletter level={skillLevel} />
         )}
-        <div className="pointer-events-none select-none">
+        {/* <div className="pointer-events-none select-none">
           <Image
             aria-hidden="true"
             alt=""
@@ -176,7 +176,7 @@ export const HomeTemplate: React.FC<
             className="rotate-180 select-none object-contain object-top"
             quality={100}
           />
-        </div>
+        </div> */}
 
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       </main>
