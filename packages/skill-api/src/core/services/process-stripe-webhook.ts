@@ -42,9 +42,12 @@ export async function processStripeWebhooks({
       }
     }
 
+    const _paymentOptions = paymentOptions || {
+      stripeCtx: {stripe: defaultStripe},
+    }
     const stripe = paymentOptions?.stripeCtx.stripe || defaultStripe
 
-    if (!paymentOptions || !stripe) {
+    if (!stripe) {
       throw new Error('Stripe client is missing')
     }
 
@@ -78,7 +81,7 @@ export async function processStripeWebhooks({
       if (event.type === 'checkout.session.completed') {
         const {user, purchase, purchaseInfo} = await recordNewPurchase(
           event.data.object.id,
-          paymentOptions,
+          _paymentOptions,
         )
 
         if (!user) throw new Error('no-user-created')
