@@ -400,10 +400,10 @@
 [data-fancy-title-with-subtitle] {
   @apply mt-20 mb-8 md:mt-24 md:mb-9 lg:mt-28 lg:mb-10 text-center space-y-4;
   [data-fancy-title] {
-    @apply text-badass-red-400 font-expanded text-2xl leading-normal;
+    @apply text-badass-red-400 font-expanded text-xl md:text-2xl leading-normal;
   }
   [data-fancy-subtitle] {
-    @apply text-badass-pink-500 font-script text-[2.5rem] leading-[0.6];
+    @apply text-badass-pink-500 font-script text-3xl sm:text-4xl md:text-[2.5rem] leading-[0.6];
   }
 }
 
