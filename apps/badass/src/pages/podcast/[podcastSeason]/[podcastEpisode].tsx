@@ -7,12 +7,23 @@ import {
   PodcastEpisode,
 } from 'lib/podcast'
 
+import serializeMdx from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
+
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const episode = await getPodcastEpisode(params?.podcastEpisode as string)
+  const episodeDescriptionSerialized = await serializeMdx(episode.description, {
+    syntaxHighlighterOptions: {
+      theme: 'one-dark-pro',
+    },
+  })
+  const episodeTranscriptSerialized = await serializeMdx(episode.transcript)
 
   return {
     props: {
       episode,
+      episodeDescriptionSerialized,
+      episodeTranscriptSerialized,
     },
     revalidate: 10,
   }
@@ -36,8 +47,24 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-const PodcastEpisode: React.FC<{episode: PodcastEpisode}> = ({episode}) => {
-  return <PodcastEpisodeTemplate episode={episode} />
+type PodcastEpisodeProps = {
+  episode: PodcastEpisode
+  episodeDescriptionSerialized: MDXRemoteSerializeResult
+  episodeTranscriptSerialized: MDXRemoteSerializeResult
+}
+
+const PodcastEpisode: React.FC<PodcastEpisodeProps> = ({
+  episode,
+  episodeDescriptionSerialized,
+  episodeTranscriptSerialized,
+}) => {
+  return (
+    <PodcastEpisodeTemplate
+      episode={episode}
+      episodeDescriptionSerialized={episodeDescriptionSerialized}
+      episodeTranscriptSerialized={episodeTranscriptSerialized}
+    />
+  )
 }
 
 export default PodcastEpisode
