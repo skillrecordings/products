@@ -1,15 +1,14 @@
-import React from 'react'
-import {toPlainText} from '@portabletext/react'
-import Layout from 'components/layout'
+import * as React from 'react'
 import Image from 'next/image'
-import {CallToActionForm} from 'components/call-to-action-form'
-import {genericCallToActionContent} from '../components/landing-content'
+import Balancer from 'react-wrap-balancer'
 import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
-import mdxComponents from 'components/mdx'
 
-import Balancer from 'react-wrap-balancer'
 import type {CaseStudy} from 'lib/case-studies'
+import Layout from 'components/layout'
+import {CallToActionForm} from 'components/call-to-action-form'
+import {genericCallToActionContent} from 'components/landing-content'
+import mdxComponents from 'components/mdx'
 
 type CaseStudyTemplateProps = {
   caseStudy: CaseStudy
@@ -23,7 +22,6 @@ const CaseStudyTemplate: React.FC<
     title,
     slug,
     description,
-    body,
     heroImage,
     ogImage,
     _createdAt: date,
@@ -31,15 +29,12 @@ const CaseStudyTemplate: React.FC<
     publishedDate,
   } = caseStudy
 
-  const shortDescription =
-    description || (body && toPlainText(body).substring(0, 157) + '...')
-
   return (
     <Layout
       className="overflow-hidden"
       meta={{
         title,
-        description: shortDescription,
+        description: description,
         type: 'article',
         date,
         article: {
