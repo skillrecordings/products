@@ -24,7 +24,6 @@ export const CaseStudySchema = z.object({
     )
     .optional()
     .nullable(),
-  body: z.any().array().nullable().optional(),
   markdownBody: z.string(),
   summary: z.any().array().nullable().optional(),
   state: z.enum(['published', 'draft']),
@@ -77,34 +76,7 @@ export const getCaseStudy = async (slug: string): Promise<CaseStudy> => {
           "transcript": castingwords.transcript,
           "muxPlaybackId": muxAsset.muxPlaybackId
         },
-        markdownBody,
-        body[]{
-        ...,
-        markDefs[]{
-          ...,
-        },
-        _type == "bodyClientProfile" => {
-          ...,
-          "image": image.asset->url
-        },
-        _type == "bodyContributorProfile" => {
-          ...,
-          "image": image.asset->url
-        },
-        _type == 'bodyGrid' => {
-            ...,
-            items[]{
-              _type == "bodyClientProfile" => {
-                ...,
-                "image": image.asset->url
-              },
-              _type == "bodyContributorProfile" => {
-                ...,
-                "image": image.asset->url
-              },
-          }
-        }
-      },
+        markdownBody
     }`,
     {slug},
   )
