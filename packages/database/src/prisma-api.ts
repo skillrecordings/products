@@ -355,7 +355,19 @@ export function getSdk(
 
       const progressCountsByDate = await ctx.prisma.$queryRaw<
         ProgressCount[]
-      >`select count(*) as count, completedAt from LessonProgress where completedAt > (now() - interval 60 day) group by completedAt order by completedAt asc;`
+      >`select
+        count(*) as count,
+        progressInRange.completedAt as completedAt
+      from (
+        select
+          DATE_FORMAT(completedAt, '%Y-%m-%d') as completedAt
+        from LessonProgress
+        where completedAt > (now() - interval 45 day)
+        order by completedAt desc
+      ) as progressInRange
+      group by progressInRange.completedAt
+      order by progressInRange.completedAt asc;
+      `
 
       return progressCountsByDate
     },
