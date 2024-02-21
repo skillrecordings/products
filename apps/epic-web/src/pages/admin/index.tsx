@@ -27,7 +27,7 @@ type ProgressData = Awaited<
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {getLessonProgressCountsByDate} = getSdk()
 
-  const progressData: any[] = [] // await getLessonProgressCountsByDate()
+  const progressData: any[] = await getLessonProgressCountsByDate()
 
   return {
     props: {
