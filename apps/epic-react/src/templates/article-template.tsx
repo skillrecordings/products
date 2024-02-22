@@ -50,7 +50,7 @@ const ArticleTemplate: React.FC<ArticleProps> = ({frontMatter, mdx}) => {
         url={url}
       />
       {/* <TableOfContents article={article} /> */}
-      <main className="prose mx-auto w-full max-w-3xl px-5 py-8 md:prose-lg prose-code:break-words md:py-16 md:prose-code:break-normal">
+      <main className="prose mx-auto w-full max-w-3xl px-5 py-8 text-white md:prose-lg prose-code:break-words md:py-16 md:prose-code:break-normal">
         <MDX contents={mdx} />
       </main>
     </Layout>
