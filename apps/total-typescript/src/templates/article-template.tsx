@@ -279,7 +279,7 @@ const BookTeaserCTA: React.FC<{withImage?: boolean; className?: string}> = ({
       )}
       <div
         className={cn(
-          'flex flex-col gap-2 text-xl leading-relaxed text-gray-200',
+          'flex w-full flex-col gap-2 text-xl leading-relaxed text-gray-200',
           {
             '-mt-10 p-5 md:mt-0 md:py-0 md:pl-0 md:pr-10': withImage,
             'p-5 sm:p-10': !withImage,
@@ -295,7 +295,7 @@ const BookTeaserCTA: React.FC<{withImage?: boolean; className?: string}> = ({
               If you’d like to receive updates about the book and all things
               TypeScript, subscribe below:
             </p>
-            <div className="pt-3">
+            <div className="flex w-full pt-3">
               <SubscribeToConvertkitForm
                 fields={ckBookInterest}
                 onSuccess={(subscriber, email) => {
@@ -311,7 +311,7 @@ const BookTeaserCTA: React.FC<{withImage?: boolean; className?: string}> = ({
                     router.push(redirectUrl)
                   }
                 }}
-                className="flex flex-col gap-5 md:flex-row md:items-end [&_button]:h-12 [&_button]:text-base [&_button]:font-semibold [&_input]:h-12 [&_input]:border-white/10 [&_input]:bg-background [&_input]:bg-gray-900 [&_input]:text-base"
+                className="flex w-full max-w-none flex-col gap-5 md:flex-row md:items-end [&_button]:h-12 [&_button]:text-base [&_button]:font-semibold [&_input]:h-12 [&_input]:border-white/10 [&_input]:bg-background [&_input]:bg-gray-900 [&_input]:text-base"
               />
             </div>
           </>
