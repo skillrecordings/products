@@ -70,6 +70,7 @@ export default defineType({
             {title: 'Exercise', type: 'exercise'},
             {title: 'Explainer', type: 'explainer'},
             {title: 'Section', type: 'section'},
+            {title: 'Interview', type: 'interview'},
             {type: 'linkResource'},
           ],
         }),
