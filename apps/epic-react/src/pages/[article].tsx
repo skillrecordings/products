@@ -7,8 +7,6 @@ import ArticleTemplate from '@/templates/article-template'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 
-const MDX_ARTICLES_FOLDER = 'src/content/articles'
-
 export interface FrontMatter {
   title: string
   slug: string
@@ -26,10 +24,11 @@ export interface ArticleProps {
 }
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
+  const slug = params?.article
   const filePath = path.join(
     process.cwd(),
-    MDX_ARTICLES_FOLDER,
-    `${params?.article as string}.mdx`,
+    process.env.NEXT_PUBLIC_MDX_ARTICLES_FOLDER as string,
+    `${slug}.mdx`,
   )
   const fileContents = fs.readFileSync(filePath, 'utf8')
   const {content, data} = matter(fileContents)
@@ -47,7 +46,8 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     excerpt: data.excerpt,
     keywords,
   }
-  const mdxSource = await serializeMDX(content)
+
+  const mdxSource = await serializeMDX(content, {scope: data})
 
   return {
     props: {
@@ -58,15 +58,15 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const postsDirectory = path.join(process.cwd(), MDX_ARTICLES_FOLDER)
-  const filenames = fs.readdirSync(postsDirectory)
-  const paths = filenames.map((filename) => {
-    return {
-      params: {
-        article: filename.replace(/\.mdx$/, ''),
-      },
-    }
-  })
+  const directory = path.join(
+    process.cwd(),
+    process.env.NEXT_PUBLIC_MDX_ARTICLES_FOLDER as string,
+  )
+  const filenames = fs.readdirSync(directory)
+
+  const paths = filenames.map((filename) => ({
+    params: {article: filename.replace(/\.mdx$/, '')},
+  }))
 
   return {
     paths,
