@@ -55,7 +55,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         ogImage: {
           url: `${
             process.env.NEXT_PUBLIC_OG_IMAGE_URI
-          }/og-default?title=${encodeURI(title)}`,
+          }/og-default?title=${encodeURI(title)}&type=${
+            article.articleType || 'article'
+          }`,
           alt: title,
         },
       }}
@@ -88,7 +90,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
             </span>
             <span>All Articles</span>
           </Link>
-          <h1 className="block text-left font-text text-4xl font-bold sm:text-5xl md:text-6xl">
+          <h1 className="block text-balance text-left font-text text-4xl font-bold sm:text-5xl md:text-6xl">
             {title}
           </h1>
           <div className="mt-10 flex w-full justify-center gap-10">
@@ -114,10 +116,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         {image && (
           <div
             className={cn(
-              'relative flex h-full w-full flex-col items-end lg:-ml-40 lg:translate-y-16 lg:brightness-125',
-              {
-                '': article.articleType !== 'bookTeaser',
-              },
+              'relative flex h-full w-full flex-col items-end lg:-ml-24 lg:translate-y-16 lg:brightness-125',
             )}
           >
             <Image
@@ -129,7 +128,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
               height={1080 / 2}
               quality={100}
               priority
-              // fill
             />
             <time dateTime={_createdAt} className="pt-3 text-sm text-slate-600">
               Published on {format(new Date(_createdAt), 'MMM dd, y')}
@@ -138,7 +136,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         )}
       </header>
       <main className="relative z-10 px-5 pt-10">
-        {article.articleType === 'bookTeaser' && !subscriber ? (
+        {article.articleType === 'bookTeaser' ? (
           <BookTeaserCTA withImage={false} className="mb-10" />
         ) : null}
         <div className="prose relative z-10 mx-auto w-full max-w-3xl sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
@@ -164,7 +162,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           </div>
         </div>
         <section className="relative z-10 overflow-hidden px-5 pb-24">
-          {!subscriber && !loadingSubscriber && getCTAForArticleType(article)}
+          <ArticleCTA article={article} />
           <Share
             title={title}
             contentType={
@@ -237,12 +235,16 @@ const ArticleBodyCTA: React.FC<
   )
 }
 
-const getCTAForArticleType = (article: Article) => {
+const ArticleCTA: React.FC<{article: Article}> = ({article}) => {
+  const {subscriber, loadingSubscriber} = useConvertkit()
+
   switch (article.articleType) {
     case 'bookTeaser':
       return <BookTeaserCTA className="max-w-4xl" />
     default:
-      return <ArticleNewsletterCta article={article} />
+      return !subscriber && !loadingSubscriber ? (
+        <ArticleNewsletterCta article={article} />
+      ) : null
   }
 }
 
