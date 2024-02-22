@@ -416,11 +416,3 @@ suggest you try some of these profiling strategies on your app and then try
 state colocation to improve the performance of your components.
 
 Good luck!
-
-import Article from '../components/article'
-
-export default ({children, pageContext, ...props}) => (
-  <Article {...pageContext} {...props}>
-    {children}
-  </Article>
-)
