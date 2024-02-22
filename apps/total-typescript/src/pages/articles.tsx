@@ -14,6 +14,7 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import {useRouter} from 'next/router'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {BookIcon} from '@/components/app/navigation'
 
 const ARTICLES_PER_PAGE = 5
 
@@ -92,6 +93,11 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
                     >
                       <Balancer>{article.title}</Balancer>
                     </h2>
+                    {article.articleType === 'bookTeaser' ? (
+                      <div className="flex items-center gap-1.5 pt-2 font-text text-base font-medium text-orange-300">
+                        <BookIcon className="text-orange-300" /> Book Teaser
+                      </div>
+                    ) : null}
                     <div className="max-w-xl pt-5 leading-relaxed text-gray-400">
                       {article.summary ? (
                         <ReactMarkdown
@@ -153,6 +159,11 @@ export const ArticleTeaser: React.FC<ArticleTeaserProps> = ({article}) => {
         <h2 className="w-full pt-5 text-2xl font-bold sm:text-3xl">
           <Balancer>{title}</Balancer>
         </h2>
+        {article.articleType === 'bookTeaser' ? (
+          <div className="flex items-center gap-1.5 pt-2 font-text text-base font-medium text-orange-300">
+            <BookIcon className="text-orange-300" /> Book Teaser
+          </div>
+        ) : null}
         <div className="w-full pt-3 leading-relaxed text-gray-300">
           {summary ? (
             <ReactMarkdown
