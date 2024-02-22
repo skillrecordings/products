@@ -138,7 +138,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         )}
       </header>
       <main className="relative z-10 px-5 pt-10">
-        {article.articleType === 'bookTeaser' && !subscriber ? (
+        {article.articleType === 'bookTeaser' &&
+        !subscriber &&
+        !loadingSubscriber ? (
           <BookTeaserCTA withImage={false} className="mb-10" />
         ) : null}
         <div className="prose relative z-10 mx-auto w-full max-w-3xl sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
