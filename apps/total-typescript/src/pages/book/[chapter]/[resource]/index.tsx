@@ -52,6 +52,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       resource: chapterResource,
       mdxBody,
     },
+    revalidate: 60,
   }
 }
 
@@ -92,20 +93,19 @@ const BookResource: React.FC<{
         withImage={false}
       />
       <main className="mx-auto flex h-full w-full max-w-screen-lg flex-grow flex-col gap-10 px-5 pb-24 pt-16">
-        <div className="flex w-full grid-cols-12 flex-col gap-10 lg:grid">
-          <div className="mx-auto flex w-full max-w-3xl flex-col-reverse gap-5 border-b pb-10 lg:hidden">
+        <div className="flex w-full flex-col gap-10">
+          <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-5 md:pb-10">
             <ShortBio className="" />
-            <BookPreviewCTAVertical />
+            <BookPreviewCTA />
           </div>
           {mdxBody && (
             <article className="prose relative z-10 col-span-8 mx-auto w-full max-w-3xl sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
               <MDX contents={mdxBody} />
             </article>
           )}
-          <aside className="col-span-4 hidden flex-col gap-5 lg:flex">
-            <ShortBio />
+          {/* <aside className="col-span-4 hidden flex-col gap-5 lg:flex">
             <BookPreviewCTAVertical />
-          </aside>
+          </aside> */}
         </div>
         <BookPreviewCTA />
       </main>
@@ -142,23 +142,26 @@ const BookPreviewCTA = () => {
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
   return (
-    <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center gap-3 rounded-lg border border-white/10 bg-white/5 md:flex-row">
-      <div className="flex-shrink-0">
+    <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center gap-0 rounded-lg border bg-gradient-to-r from-black/10 to-card md:flex-row">
+      <div className="-my-5 flex-shrink-0">
         <Image
-          src={require('../../../../../public/assets/crystal@2x.png')}
+          src={require('../../../../../public/assets/book@2x.png')}
           aria-hidden="true"
           alt=""
-          width={235}
-          height={235}
+          width={495 / 1.5}
+          height={523 / 1.5}
+          quality={100}
+          priority
+          className="relative md:-ml-10 md:rotate-[16deg]"
         />
       </div>
-      <div className="flex flex-col gap-2 p-5 text-xl leading-relaxed text-gray-200 md:py-0 md:pl-0 md:pr-5">
-        <p className="text-2xl font-semibold">
-          Pssst, this is a preview from upcoming book.
+      <div className="-mt-10 flex flex-col gap-2 p-5 text-xl leading-relaxed text-gray-200 md:mt-0 md:py-0 md:pl-0 md:pr-10">
+        <p className="text-center text-2xl font-semibold md:text-left">
+          Pssst, this is a preview from my upcoming book.
         </p>
         {!subscriber && (
           <>
-            <p className="text-lg opacity-80">
+            <p className="text-balance text-center text-lg text-slate-300 md:text-left">
               If you’d like to receive updates about the book and all things
               TypeScript, subscribe below:
             </p>
@@ -177,7 +180,7 @@ const BookPreviewCTA = () => {
                     router.push(redirectUrl)
                   }
                 }}
-                className="flex flex-col gap-5 md:flex-row md:items-end [&_button]:h-9 [&_button]:font-semibold [&_input]:border-white/10 [&_input]:bg-gray-900"
+                className="flex flex-col gap-5 md:flex-row md:items-end [&_button]:h-12 [&_button]:text-base [&_button]:font-semibold [&_input]:h-12 [&_input]:border-white/10 [&_input]:bg-background [&_input]:bg-gray-900 [&_input]:text-base"
               />
             </div>
           </>
@@ -197,11 +200,11 @@ const BookPreviewCTAVertical = () => {
     <div className="mx-auto flex w-full flex-col items-center rounded-lg border border-white/10 bg-gradient-to-b from-cyan-200/10 via-white/5 to-white/5">
       <div className="flex-shrink-0">
         <Image
-          src={require('../../../../../public/assets/crystal@2x.png')}
+          src={require('../../../../../public/assets/book@2x.png')}
           aria-hidden="true"
           alt=""
-          width={235}
-          height={235}
+          width={495 / 2}
+          height={523 / 2}
           className="drop-shadow-2xl"
         />
       </div>
