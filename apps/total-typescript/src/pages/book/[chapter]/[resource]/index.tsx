@@ -141,6 +141,10 @@ const ShortBio: React.FC<{className?: string}> = ({className}) => {
 const BookPreviewCTA = () => {
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
+  const ckBookInterest = {
+    [`book_interest`.toLowerCase()]: new Date().toISOString().slice(0, 10),
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center gap-0 rounded-lg border bg-gradient-to-r from-black/10 to-card md:flex-row">
       <div className="-my-5 flex-shrink-0">
@@ -167,59 +171,6 @@ const BookPreviewCTA = () => {
             </p>
             <div className="pt-3">
               <SubscribeToConvertkitForm
-                onSuccess={(subscriber, email) => {
-                  if (subscriber) {
-                    email && setUserId(email)
-                    track('subscribed to email list', {
-                      location: 'home',
-                    })
-                    const redirectUrl = redirectUrlBuilder(
-                      subscriber,
-                      '/confirm',
-                    )
-                    router.push(redirectUrl)
-                  }
-                }}
-                className="flex flex-col gap-5 md:flex-row md:items-end [&_button]:h-12 [&_button]:text-base [&_button]:font-semibold [&_input]:h-12 [&_input]:border-white/10 [&_input]:bg-background [&_input]:bg-gray-900 [&_input]:text-base"
-              />
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  )
-}
-
-const BookPreviewCTAVertical = () => {
-  const ckBookInterest = {
-    [`book_interest`.toLowerCase()]: new Date().toISOString().slice(0, 10),
-  }
-  const {subscriber, loadingSubscriber} = useConvertkit()
-  const router = useRouter()
-  return (
-    <div className="mx-auto flex w-full flex-col items-center rounded-lg border border-white/10 bg-gradient-to-b from-cyan-200/10 via-white/5 to-white/5">
-      <div className="flex-shrink-0">
-        <Image
-          src={require('../../../../../public/assets/book@2x.png')}
-          aria-hidden="true"
-          alt=""
-          width={495 / 2}
-          height={523 / 2}
-          className="drop-shadow-2xl"
-        />
-      </div>
-      <div className="flex flex-col gap-2 px-5 pb-5 text-xl leading-relaxed text-gray-200">
-        <p className="text-xl font-semibold">
-          Pssst, this is a preview from my upcoming book.
-        </p>
-        {!subscriber && (
-          <>
-            <p className="text-base opacity-80">
-              If you’d like to receive updates about the book and all things
-              TypeScript, subscribe below:
-            </p>
-            <div className="pt-3">
-              <SubscribeToConvertkitForm
                 fields={ckBookInterest}
                 onSuccess={(subscriber, email) => {
                   if (subscriber) {
@@ -234,7 +185,7 @@ const BookPreviewCTAVertical = () => {
                     router.push(redirectUrl)
                   }
                 }}
-                className="flex flex-col [&_button]:mt-3 [&_button]:h-10 [&_button]:font-semibold [&_input]:border-white/10 [&_input]:bg-gray-900"
+                className="flex flex-col gap-5 md:flex-row md:items-end [&_button]:h-12 [&_button]:text-base [&_button]:font-semibold [&_input]:h-12 [&_input]:border-white/10 [&_input]:bg-background [&_input]:bg-gray-900 [&_input]:text-base"
               />
             </div>
           </>
