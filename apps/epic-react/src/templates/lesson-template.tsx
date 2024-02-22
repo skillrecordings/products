@@ -84,6 +84,7 @@ const ExerciseTemplate: React.FC<{
   const displayLessonCompletionToggle =
     (lesson._type === 'solution' ||
       lesson._type === 'explainer' ||
+      lesson._type === 'exercise' ||
       lesson._type === 'lesson' ||
       lesson._type === 'interview') &&
     session
