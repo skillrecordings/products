@@ -670,31 +670,32 @@ export const KeyIcon: React.FC<{isActive?: boolean}> = ({isActive = false}) => {
   )
 }
 
-export const BookIcon: React.FC<{isActive?: boolean}> = ({
+export const BookIcon: React.FC<{isActive?: boolean; className?: string}> = ({
   isActive = false,
+  className,
 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="w-[15px]"
+      className={cn('w-[15px] text-[#A9A7FF]', className)}
       fill="none"
       viewBox="0 0 13 13"
     >
       <path
-        stroke="#A9A7FF"
+        stroke="currentColor"
         strokeLinecap="square"
         strokeMiterlimit="10"
         d="M7 10v.75C7 12 8.25 12 8.25 12h-6C1.55 12 1 11.45 1 10.75V10h6Zm2.5-7H12v-.75c0-.7-.55-1.25-1.25-1.25S9.5 1.55 9.5 2.25V3Z"
       />
       <path
-        stroke="#A9A7FF"
+        stroke="currentColor"
         strokeLinecap="square"
         strokeMiterlimit="10"
         d="M2.5 10V2.25c0-.7.55-1.25 1.25-1.25h7c-.7 0-1.25.55-1.25 1.25v8.5c0 .7-.55 1.25-1.25 1.25H2.5"
       />
       <path
-        fill={isActive ? '#A9A7FF' : 'none'}
-        stroke="#A9A7FF"
+        fill={isActive ? 'currentColor' : 'none'}
+        stroke="currentColor"
         strokeLinecap="square"
         strokeMiterlimit="10"
         d="M2.5 2.25V10H7v.75C7 11.3 7.408 12 8.25 12c.7 0 1.25-.55 1.25-1.25v-8.5c0-.7.55-1.25 1.25-1.25h-7c-.7 0-1.25.55-1.25 1.25Z"

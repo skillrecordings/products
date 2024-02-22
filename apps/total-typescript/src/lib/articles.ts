@@ -9,6 +9,11 @@ export const ArticleSchema = z.object({
   _type: z.string(),
   _updatedAt: z.string(),
   _createdAt: z.string(),
+  articleType: z
+    .enum(['article', 'bookTeaser', 'announcement'])
+    .nullable()
+    .optional()
+    .default('article'),
   title: z.string(),
   slug: z.string(),
   image: z.nullable(z.string()).optional(),
@@ -54,6 +59,7 @@ export const getAllArticles = async (): Promise<Article[]> => {
         _updatedAt,
         _createdAt,
         "slug": slug.current,
+        articleType,
         title,
         state,
         description,
@@ -113,6 +119,7 @@ export const getArticle = async (
         _updatedAt,
         _createdAt,
         "slug": slug.current,
+        articleType,
         title,
         state,
         description,

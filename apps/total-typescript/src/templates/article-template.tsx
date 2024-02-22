@@ -16,6 +16,13 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import {trpc} from '@/trpc/trpc.client'
 import Link from 'next/link'
 import config from '@/config'
+import {useRouter} from 'next/router'
+import {
+  redirectUrlBuilder,
+  SubscribeToConvertkitForm,
+} from '@skillrecordings/skill-lesson/convertkit'
+import {setUserId} from '@amplitude/analytics-browser'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 type ArticleTemplateProps = {
   article: Article
@@ -105,7 +112,14 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           </div>
         </div>
         {image && (
-          <div className="relative flex h-full w-full flex-col items-end lg:-ml-40 lg:translate-y-16 lg:brightness-125">
+          <div
+            className={cn(
+              'relative flex h-full w-full flex-col items-end lg:-ml-40 lg:translate-y-16 lg:brightness-125',
+              {
+                '': article.articleType !== 'bookTeaser',
+              },
+            )}
+          >
             <Image
               className="scale-[1] rounded-lg sm:scale-100"
               src={image}
@@ -124,6 +138,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         )}
       </header>
       <main className="relative z-10 px-5 pt-10">
+        {article.articleType === 'bookTeaser' && !subscriber ? (
+          <BookTeaserCTA withImage={false} className="mb-10" />
+        ) : null}
         <div className="prose relative z-10 mx-auto w-full max-w-3xl sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
           {articleBody && (
             <MDX
@@ -138,7 +155,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
               }}
             />
           )}
-          <div className="flex w-36 -rotate-6 gap-2 pt-10 text-gray-400">
+          <div className="flex w-36 -rotate-6 items-center gap-2 text-gray-400">
             —
             <Image
               src={require('../../public/assets/signature.svg')}
@@ -147,10 +164,13 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           </div>
         </div>
         <section className="relative z-10 overflow-hidden px-5 pb-24">
-          <Share title={title} />
-          {!subscriber && !loadingSubscriber && (
-            <ArticleNewsletterCta article={article} />
-          )}
+          {!subscriber && !loadingSubscriber && getCTAForArticleType(article)}
+          <Share
+            title={title}
+            contentType={
+              article.articleType === 'bookTeaser' ? 'Book Teaser' : undefined
+            }
+          />
         </section>
         <section className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-8 pb-32 sm:grid-cols-2">
           {articles
@@ -212,6 +232,90 @@ const ArticleBodyCTA: React.FC<
         >
           {action}
         </Link>
+      </div>
+    </div>
+  )
+}
+
+const getCTAForArticleType = (article: Article) => {
+  switch (article.articleType) {
+    case 'bookTeaser':
+      return <BookTeaserCTA className="max-w-4xl" />
+    default:
+      return <ArticleNewsletterCta article={article} />
+  }
+}
+
+const BookTeaserCTA: React.FC<{withImage?: boolean; className?: string}> = ({
+  withImage = true,
+  className,
+}) => {
+  const {subscriber, loadingSubscriber} = useConvertkit()
+  const router = useRouter()
+  const ckBookInterest = {
+    [`book_interest`.toLowerCase()]: new Date().toISOString().slice(0, 10),
+  }
+
+  return (
+    <div
+      className={cn(
+        'mx-auto flex w-full max-w-3xl flex-col items-center gap-0 rounded-lg border bg-card md:flex-row',
+        className,
+      )}
+    >
+      {withImage && (
+        <div className="-my-5 flex-shrink-0">
+          <Image
+            src={require('../../public/assets/book@2x.png')}
+            aria-hidden="true"
+            alt=""
+            width={495 / 1.5}
+            height={523 / 1.5}
+            quality={100}
+            priority
+            className="relative md:-ml-10 md:rotate-[16deg]"
+          />
+        </div>
+      )}
+      <div
+        className={cn(
+          'flex w-full flex-col gap-2 text-xl leading-relaxed text-gray-200',
+          {
+            '-mt-10 p-5 md:mt-0 md:py-0 md:pl-0 md:pr-10': withImage,
+            'p-5 sm:p-10': !withImage,
+          },
+        )}
+      >
+        <p className="text-center text-2xl font-semibold md:text-left">
+          Pssst, this is a preview from my upcoming book.
+        </p>
+        {!subscriber && (
+          <>
+            <p className="text-balance text-center text-sm text-slate-400 sm:text-base md:text-left">
+              If you’d like to receive updates about the book and all things
+              TypeScript, subscribe below:
+            </p>
+            <div className="flex w-full pt-3">
+              <SubscribeToConvertkitForm
+                fields={ckBookInterest}
+                onSuccess={(subscriber, email) => {
+                  if (subscriber) {
+                    email && setUserId(email)
+                    track('subscribed to email list', {
+                      location: 'home',
+                    })
+                    const redirectUrl = redirectUrlBuilder(
+                      subscriber,
+                      '/confirm',
+                    )
+                    router.push(redirectUrl)
+                  }
+                }}
+                className="flex w-full max-w-none flex-col gap-5 md:flex-row md:items-end [&_button]:h-12 [&_button]:text-base [&_button]:font-semibold [&_input]:h-12 [&_input]:border-white/10 [&_input]:bg-background [&_input]:bg-gray-900 [&_input]:text-base"
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
