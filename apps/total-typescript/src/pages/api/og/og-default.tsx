@@ -69,9 +69,13 @@ export default async function handler(req: NextRequest) {
             />
           )}
           <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-32 relative">
-            <p tw="text-cyan-200" style={{fontSize: 48}}>
-              TotalTypeScript.com{type && <span tw="text-white">/{type}</span>}
-            </p>
+            {type !== 'bookTeaser' ? (
+              <p tw="text-cyan-200" style={{fontSize: 48}}>
+                TotalTypeScript.com
+              </p>
+            ) : (
+              <div />
+            )}
             <p
               tw="text-7xl tracking-tight font-bold leading-tight pr-16"
               style={{
@@ -93,6 +97,14 @@ export default async function handler(req: NextRequest) {
                 Matt Pocock
               </p>
             </div>
+            {type === 'bookTeaser' ? (
+              <img
+                src={'https://totaltypescript.com/assets/book@2x.png'}
+                width={495}
+                height={523}
+                tw="absolute -left-5 -top-16"
+              />
+            ) : null}
           </div>
         </div>
       ),

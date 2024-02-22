@@ -55,7 +55,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         ogImage: {
           url: `${
             process.env.NEXT_PUBLIC_OG_IMAGE_URI
-          }/og-default?title=${encodeURI(title)}`,
+          }/og-default?title=${encodeURI(title)}&type=${
+            article.articleType || 'article'
+          }`,
           alt: title,
         },
       }}
