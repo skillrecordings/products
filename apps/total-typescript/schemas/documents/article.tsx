@@ -37,6 +37,19 @@ export default {
       },
     },
     {
+      name: 'articleType',
+      title: 'Article Type',
+      type: 'string',
+      initialValue: 'article',
+      options: {
+        list: [
+          {title: 'Article', value: 'article'},
+          {title: 'Book Teaser', value: 'bookTeaser'},
+          {title: 'Announcement', value: 'announcement'},
+        ],
+      },
+    },
+    {
       name: 'resources',
       title: 'Resources',
       type: 'array',
