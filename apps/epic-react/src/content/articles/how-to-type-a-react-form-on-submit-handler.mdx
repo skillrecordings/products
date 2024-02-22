@@ -159,11 +159,3 @@ So now:
 3. We don't have to use a type cast, so TypeScript can be more useful for us.
 
 I hope that's helpful to you!
-
-import Article from '../components/article'
-
-export default ({children, pageContext, ...props}) => (
-  <Article {...pageContext} {...props}>
-    {children}
-  </Article>
-)

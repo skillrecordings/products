@@ -65,11 +65,3 @@ Luckily, now we have react-query, React hooks, and a brilliant context API and
 that's all most applications will ever need for server cache and UI state
 management. I love it. And I'll teach you all about it on
 [EpicReact.Dev](https://epicreact.dev) 🚀
-
-import Article from '../components/article'
-
-export default ({children, pageContext, ...props}) => (
-  <Article {...pageContext} {...props}>
-    {children}
-  </Article>
-)

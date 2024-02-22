@@ -327,11 +327,3 @@ the solution is to either:
 2. Put that value in `useState`/`useReducer` so an update will trigger a render.
 
 Hope that cleared up some confusion for you! Good luck.
-
-import Article from '../components/article'
-
-export default ({children, pageContext, ...props}) => (
-  <Article {...pageContext} {...props}>
-    {children}
-  </Article>
-)

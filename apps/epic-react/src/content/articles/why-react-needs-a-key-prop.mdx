@@ -247,11 +247,3 @@ prop now, can you think of situations where you could use a `key` prop
 _outside_ an array? The `key` prop has less to do with arrays, and more to do
 with controlling when a component is reused or disposed of and created anew.
 Give that some thought 😄
-
-import Article from '../components/article'
-
-export default ({children, pageContext, ...props}) => (
-  <Article {...pageContext} {...props}>
-    {children}
-  </Article>
-)
