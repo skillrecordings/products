@@ -1436,6 +1436,9 @@ importers:
       framer-motion:
         specifier: ^10.12.4
         version: 10.18.0(react-dom@18.2.0)(react@18.2.0)
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
       groq:
         specifier: ^2.15.0
         version: 2.33.2
@@ -20184,7 +20187,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
     dev: false
-    bundledDependencies: false
 
   /create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
