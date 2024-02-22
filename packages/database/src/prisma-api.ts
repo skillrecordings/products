@@ -457,7 +457,7 @@ export function getSdk(
       upgradedFromPurchaseId: string | undefined
       usedCouponId: string | undefined
       country?: string
-    }) {
+    }): Promise<Purchase> {
       const {
         userId,
         stripeChargeId,
@@ -474,6 +474,28 @@ export function getSdk(
         country,
         usedCouponId,
       } = options
+
+      const existingMerchantCharge = await ctx.prisma.merchantCharge.findFirst({
+        where: {
+          identifier: stripeChargeId,
+        },
+      })
+
+      // check if a purchase already exists for this Stripe Merchant Charge
+      // ID. if so, return that instead of trying to recreate all of the
+      // records. this will avoid unique identifier errors and duplicate
+      // records.
+      const existingPurchaseForCharge = existingMerchantCharge
+        ? await ctx.prisma.purchase.findFirst({
+            where: {merchantChargeId: existingMerchantCharge?.id},
+          })
+        : null
+
+      // EARLY RETURN with the existing purchase in case the webhook is being re-run
+      if (existingPurchaseForCharge) {
+        return existingPurchaseForCharge
+      }
+
       // we are using uuids so we can generate this!
       // this is needed because the following actions
       // are dependant
@@ -617,20 +639,24 @@ export function getSdk(
       })
 
       if (coupon) {
-        return await ctx.prisma.$transaction([
+        const [newPurchase] = await ctx.prisma.$transaction([
           purchase,
           merchantCharge,
           coupon,
           purchaseUserTransfer,
           merchantSession,
         ])
+
+        return newPurchase
       } else {
-        return await ctx.prisma.$transaction([
+        const [newPurchase] = await ctx.prisma.$transaction([
           purchase,
           merchantCharge,
           purchaseUserTransfer,
           merchantSession,
         ])
+
+        return newPurchase
       }
     },
     async findOrCreateMerchantCustomer({
