@@ -82,11 +82,11 @@ const SectionHeading: React.FC<any> = ({
       )}
       <h2
         className={cx(
-          'mx-auto py-12 text-center font-heading text-4xl font-bold md:text-5xl',
+          'mx-auto text-balance py-12 text-center font-heading text-4xl font-bold md:text-5xl',
           className,
         )}
       >
-        <Balancer>{children}</Balancer>
+        {children}
       </h2>
       {dividerBottom && (
         <DecorativeImage
@@ -292,14 +292,28 @@ export const LinkedHeading: React.FC<LinkedHeadingProps> = ({
     </>
   )
 
-  return React.createElement(
-    as,
-    {
-      className: 'group cursor-pointer relative',
-      onClick: handleOnClick,
-      ...props,
-    },
-    newChildren,
+  const H = () =>
+    React.createElement(
+      as,
+      {
+        className: 'group cursor-pointer relative scroll-mt-20',
+        onClick: handleOnClick,
+        ...props,
+      },
+      props.children,
+    )
+
+  return (
+    <span className="group">
+      <a
+        href={linkToTitle}
+        className="absolute left-[-1.5ch] pr-3 !text-gray-600 no-underline opacity-0 transition group-hover:opacity-100 hover:!text-cyan-300"
+        aria-hidden="true"
+      >
+        #
+      </a>
+      <H />
+    </span>
   )
 }
 
