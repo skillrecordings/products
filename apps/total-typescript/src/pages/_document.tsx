@@ -1,6 +1,5 @@
 import * as React from 'react'
 import {Html, Head, Main, NextScript} from 'next/document'
-import Fonts from '@/utils/fonts'
 
 export default function Document() {
   return (
@@ -12,7 +11,6 @@ export default function Document() {
           title="RSS Feed for TotalTypeScript.com"
           href="/rss.xml"
         />
-        <Fonts />
       </Head>
       <body className="antialiased">
         <Main />
