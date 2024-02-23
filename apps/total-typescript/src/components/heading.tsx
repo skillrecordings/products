@@ -21,7 +21,7 @@ const getImageByTitle = (title: string) => {
   if (title === 'Check your email') {
     return require('../../public/assets/headings/check-your-email@2x.png')
   }
-  if (title === 'Frequently Asked Questions') {
+  if (title === 'Free TypeScript Tutorials') {
     return require('../../public/assets/headings/faq@2x.png')
   }
 
