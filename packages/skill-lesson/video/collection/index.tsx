@@ -687,7 +687,7 @@ interface ResourceProps extends PrimitiveLiProps {
   type?: string
 }
 
-const useSesourceLinkBuilder = (modulePath?: string, resourcePath?: string) => {
+const useResourceLinkBuilder = (modulePath?: string, resourcePath?: string) => {
   const {section, module, lesson} = useLesson()
 
   const pathname = `/[module]/${section ? `[section]/` : ``}[lesson]`
@@ -725,7 +725,7 @@ const Resource = React.forwardRef<ResourceElement, ResourceProps>(
 
     const router = useRouter()
 
-    const {resourcePathname, resourceHref} = useSesourceLinkBuilder(
+    const {resourcePathname, resourceHref} = useResourceLinkBuilder(
       modulePath,
       path,
     )
