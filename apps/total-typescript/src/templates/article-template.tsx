@@ -57,11 +57,11 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         title,
         description: articleDescription,
         ogImage: {
-          url: `${
-            process.env.NEXT_PUBLIC_OG_IMAGE_URI
-          }/og-default?title=${encodeURI(title)}&type=${
-            article.articleType || 'article'
-          }`,
+          url: isBookTeaser
+            ? 'https://res.cloudinary.com/total-typescript/image/upload/v1708677659/book-teaser--card_2x_fe7p0d.jpg'
+            : `${
+                process.env.NEXT_PUBLIC_OG_IMAGE_URI
+              }/og-default?title=${encodeURI(title)}`,
           alt: title,
         },
       }}
