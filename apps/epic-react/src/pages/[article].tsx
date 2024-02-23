@@ -3,10 +3,11 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import ArticleTemplate from '@/templates/article-template'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+
 import {type FrontMatter, type Article} from '@/@types/mdx-articles'
+import ArticleTemplate from '@/templates/article-template'
 
 export interface ArticlePageProps {
   allArticles: Article[]
