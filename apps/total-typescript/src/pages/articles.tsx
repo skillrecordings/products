@@ -80,6 +80,7 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
                         alt=""
                         aria-hidden="true"
                         fill
+                        sizes="(min-width: 768px) 400px, 600px"
                         quality={100}
                         priority
                       />

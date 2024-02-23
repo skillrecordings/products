@@ -5,28 +5,28 @@ import {getProduct} from '@skillrecordings/skill-lesson/path-to-purchase/product
 
 const magnatHeadFont = fetch(
   new URL(
-    '../../public/fonts/6fecec1e-f4a1-49a8-8eb2-d3215d7a594e.woff',
+    '../styles/fonts/6fecec1e-f4a1-49a8-8eb2-d3215d7a594e.woff',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
 
 const magnatHeadExtraBoldFont = fetch(
   new URL(
-    '../../public/fonts/d6c82f9e-b1c6-42e4-8ba7-b08485ad4122.woff',
+    '../styles/fonts/d6c82f9e-b1c6-42e4-8ba7-b08485ad4122.woff',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
 
 const magnatTextFont = fetch(
   new URL(
-    '../../public/fonts/d5963985-9426-4ddd-9ee9-e0519f89608a.woff',
+    '../styles/fonts/d5963985-9426-4ddd-9ee9-e0519f89608a.woff',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
 
 const larsseitFont = fetch(
   new URL(
-    '../../public/fonts/d9275214-bcba-4615-a78a-9a15740d63ad.woff',
+    '../styles/fonts/d9275214-bcba-4615-a78a-9a15740d63ad.woff',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
