@@ -27,9 +27,9 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        heading: ['Magnat Head', ...defaultTheme.fontFamily.sans],
-        text: ['Magnat Text', ...defaultTheme.fontFamily.sans],
-        sans: ['Larsseit', ...defaultTheme.fontFamily.sans],
+        heading: ['var(--font-magnat-head)', ...defaultTheme.fontFamily.sans],
+        text: ['var(--font-magnat-text)', ...defaultTheme.fontFamily.sans],
+        sans: ['var(--font-larsseit)', ...defaultTheme.fontFamily.sans],
       },
       borderRadius: {
         lg: `var(--radius)`,

@@ -7,21 +7,21 @@ export const config = {
 
 const magnatHeadFont = fetch(
   new URL(
-    '../../../../public/fonts/6fecec1e-f4a1-49a8-8eb2-d3215d7a594e.woff',
+    '../../../styles/fonts/6fecec1e-f4a1-49a8-8eb2-d3215d7a594e.woff',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
 
 const magnatTextFont = fetch(
   new URL(
-    '../../../../public/fonts/d5963985-9426-4ddd-9ee9-e0519f89608a.woff',
+    '../../../styles/fonts/d5963985-9426-4ddd-9ee9-e0519f89608a.woff',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
 
 const larsseitFont = fetch(
   new URL(
-    '../../../../public/fonts/de9d52a7-4fdd-4918-a809-30c95835528f.woff',
+    '../../../styles/fonts/de9d52a7-4fdd-4918-a809-30c95835528f.woff',
     import.meta.url,
   ),
 ).then((res) => res.arrayBuffer())
@@ -69,13 +69,9 @@ export default async function handler(req: NextRequest) {
             />
           )}
           <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-32 relative">
-            {type !== 'bookTeaser' ? (
-              <p tw="text-cyan-200" style={{fontSize: 48}}>
-                TotalTypeScript.com
-              </p>
-            ) : (
-              <div />
-            )}
+            <p tw="text-[#D1D6E2]" style={{fontSize: 48}}>
+              TotalTypeScript.com
+            </p>
             <p
               tw="text-7xl tracking-tight font-bold leading-tight pr-16"
               style={{
@@ -97,14 +93,6 @@ export default async function handler(req: NextRequest) {
                 Matt Pocock
               </p>
             </div>
-            {type === 'bookTeaser' ? (
-              <img
-                src={'https://totaltypescript.com/assets/book@2x.png'}
-                width={495}
-                height={523}
-                tw="absolute -left-5 -top-16"
-              />
-            ) : null}
           </div>
         </div>
       ),
