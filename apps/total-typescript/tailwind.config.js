@@ -57,6 +57,11 @@ module.exports = {
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        salmon: {
+          DEFAULT: 'hsl(7 100% 75%)',
+          foreground: 'hsl(7 100% 85%)',
+          background: 'hsl(7 100% 75%)',
+        },
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',

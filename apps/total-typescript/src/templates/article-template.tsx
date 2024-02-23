@@ -1,6 +1,7 @@
 import Layout from '@/components/app/layout'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {Article} from '@/lib/articles'
+import {motion, useReducedMotion} from 'framer-motion'
 import Image from 'next/image'
 import Share from '@/components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
@@ -47,6 +48,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   const {data: defaultCouponData, status: defaultCouponStatus} =
     trpc.pricing.defaultCoupon.useQuery()
 
+  const isBookTeaser = article.articleType === 'bookTeaser'
+  const shouldReduceMotion = useReducedMotion()
+
   return (
     <Layout
       meta={{
@@ -74,27 +78,56 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       />
       <header
         className={cn(
-          'relative z-10 mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center gap-10 px-5 pb-8 pt-20 sm:pb-20 sm:pt-32 lg:flex-row lg:gap-0',
+          'relative z-10 mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center gap-10 px-5 pb-8 pt-24 sm:pb-16 sm:pt-32 lg:flex-row lg:gap-0',
         )}
       >
-        <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-shrink-0 flex-col">
-          <Link
-            href="/articles"
-            className="group mb-5 flex items-center gap-1 text-sm text-primary opacity-75 transition hover:opacity-100 sm:mb-12 sm:text-base"
-          >
-            <span
-              aria-hidden="true"
-              className="relative transition group-hover:-translate-x-1"
+        <div
+          className={cn(
+            'relative z-10 mx-auto flex w-full max-w-2xl flex-shrink-0 flex-col items-center text-center',
+          )}
+        >
+          {isBookTeaser ? (
+            <div className="relative mb-5 inline-flex items-center justify-center overflow-hidden rounded-full bg-border p-px sm:mb-8">
+              <div className="relative z-10 inline-flex rounded-full bg-background px-4 py-1.5 font-sans text-sm font-normal text-salmon-foreground">
+                Book Teaser
+              </div>
+              {!shouldReduceMotion && (
+                <motion.div
+                  className="absolute h-40 w-5 bg-salmon/75 blur-sm"
+                  animate={{
+                    rotateZ: [0, 360],
+                  }}
+                  transition={{
+                    duration: 5,
+                    ease: 'linear',
+                    repeat: Infinity,
+                  }}
+                />
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/articles"
+              className="group mb-5 flex items-center gap-1 text-sm text-primary opacity-75 transition hover:opacity-100 sm:mb-8 sm:text-base"
             >
-              ←
-            </span>
-            <span>All Articles</span>
-          </Link>
-          <h1 className="block text-balance text-left font-text text-4xl font-bold sm:text-5xl md:text-6xl">
+              <span
+                aria-hidden="true"
+                className="relative transition group-hover:-translate-x-1"
+              >
+                ←
+              </span>
+              <span>All Articles</span>
+            </Link>
+          )}
+          <h1 className="block text-balance font-text text-4xl font-bold sm:text-4xl md:text-5xl">
             {title}
           </h1>
           <div className="mt-10 flex w-full justify-center gap-10">
-            <div className="flex flex-grow items-start gap-3">
+            <div
+              className={cn('flex items-center gap-3', {
+                // 'flex-grow': !isBookTeaser,
+              })}
+            >
               <div className="flex items-center justify-center overflow-hidden rounded-full">
                 <Image
                   src={require('../../public/matt-pocock.jpg')}
@@ -104,7 +137,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
                   priority
                 />
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col text-left">
                 <span className="text-lg font-semibold">{config.author}</span>
                 <span className="max-w-sm text-balance text-sm text-slate-400 sm:text-base">
                   {config.authorBio}
@@ -113,7 +146,10 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
             </div>
           </div>
         </div>
-        {image && (
+        {/* {isBookTeaser && (
+          <div className="absolute top-24 aspect-[12/16] h-full w-full max-w-sm rounded-lg border border-dashed" />
+        )} */}
+        {/* {image && !isBookTeaser && (
           <div
             className={cn(
               'relative flex h-full w-full flex-col items-end lg:-ml-24 lg:translate-y-16 lg:brightness-125',
@@ -133,12 +169,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
               Published on {format(new Date(_createdAt), 'MMM dd, y')}
             </time>
           </div>
-        )}
+        )} */}
       </header>
       <main className="relative z-10 px-5 pt-10">
-        {article.articleType === 'bookTeaser' ? (
-          <BookTeaserCTA withImage={false} className="mb-10" />
-        ) : null}
         <div className="prose relative z-10 mx-auto w-full max-w-3xl sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
           {articleBody && (
             <MDX
@@ -289,7 +322,7 @@ const BookTeaserCTA: React.FC<{withImage?: boolean; className?: string}> = ({
         )}
       >
         <p className="text-center text-2xl font-semibold md:text-left">
-          Pssst, this is a preview from my upcoming book.
+          This is a preview from my upcoming book.
         </p>
         {!subscriber && (
           <>

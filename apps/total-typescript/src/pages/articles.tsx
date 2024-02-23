@@ -70,12 +70,12 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
               >
                 <Link
                   href={article.slug}
-                  className="group grid grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-10"
+                  className="group flex flex-col items-center gap-5 md:flex-row md:gap-10"
                 >
                   {article.image && (
-                    <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-gray-800/40">
+                    <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-gray-800/40 md:aspect-square md:max-w-[300px]">
                       <Image
-                        className="scale-150 transition duration-500 ease-in-out sm:scale-100 sm:group-hover:scale-105"
+                        className="object-cover transition duration-500 ease-in-out sm:group-hover:scale-105"
                         src={article.image}
                         alt=""
                         aria-hidden="true"
@@ -85,10 +85,10 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
                       />
                     </div>
                   )}
-                  <div>
+                  <div className="w-full">
                     <h2
                       className={cx(
-                        'max-w-3xl font-sans text-2xl font-semibold sm:text-3xl',
+                        'text-balance font-sans text-2xl font-semibold sm:text-3xl',
                       )}
                     >
                       <Balancer>{article.title}</Balancer>
