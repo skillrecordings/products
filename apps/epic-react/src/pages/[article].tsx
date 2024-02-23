@@ -6,19 +6,10 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import ArticleTemplate from '@/templates/article-template'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {type FrontMatter, type Article} from '@/@types/mdx-articles'
 
-export interface FrontMatter {
-  title: string
-  slug: string
-  date: string
-  image: string
-  socialImage: string
-  imageAlt?: string
-  excerpt: string
-  keywords?: string[] | null
-}
-
-export interface ArticleProps {
+export interface ArticlePageProps {
+  allArticles: Article[]
   mdx: MDXRemoteSerializeResult
   frontMatter: FrontMatter
 }
@@ -49,8 +40,34 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
   const mdxSource = await serializeMDX(content, {scope: data})
 
+  const directory = path.join(
+    process.cwd(),
+    process.env.NEXT_PUBLIC_MDX_ARTICLES_FOLDER as string,
+  )
+  const filenames = fs.readdirSync(directory)
+
+  const allArticles = filenames
+    .map((filename) => {
+      const filePath = path.join(directory, filename)
+      const fileContents = fs.readFileSync(filePath, 'utf8')
+      const {data} = matter(fileContents)
+      const formattedDate =
+        typeof data.date === 'string' ? data.date : data.date.toISOString()
+
+      return {
+        title: data.title,
+        date: formattedDate,
+        excerpt: data.excerpt,
+        image: data.image,
+        imageAlt: data.imageAlt,
+        slug: filename.replace(/\.mdx$/, ''),
+      }
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
   return {
     props: {
+      allArticles,
       mdx: mdxSource,
       frontMatter,
     },
@@ -74,8 +91,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-const Article: React.FC<ArticleProps> = ({mdx, frontMatter}) => {
-  return <ArticleTemplate mdx={mdx} frontMatter={frontMatter} />
+const Article: React.FC<ArticlePageProps> = ({
+  allArticles,
+  mdx,
+  frontMatter,
+}) => {
+  return (
+    <ArticleTemplate
+      allArticles={allArticles}
+      mdx={mdx}
+      frontMatter={frontMatter}
+    />
+  )
 }
 
 export default Article
