@@ -29,25 +29,13 @@ const handleOnSuccess = (
 export const PrimaryNewsletterCta = ({level}: {level?: SkillLevel}) => {
   const router = useRouter()
   return (
-    <MDXComponents.Section
-      className="flex flex-col items-center bg-[#081021] py-40"
-      slot={
-        <Image
-          src="/assets/landing/bg-divider-7.png"
-          fill
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none select-none object-contain object-top"
-          quality={100}
-        />
-      }
-    >
-      <div className="flex items-center justify-center">
+    <div>
+      <div className="flex items-center justify-center pt-24">
         <Image
           src={require('../../public/assets/landing/scroll-ts@2x.png')}
           quality={100}
-          width={650 / 1.8}
-          height={650 / 1.8}
+          width={650 / 2.2}
+          height={650 / 2.2}
           alt=""
           aria-hidden="true"
           placeholder="blur"
@@ -62,7 +50,7 @@ export const PrimaryNewsletterCta = ({level}: {level?: SkillLevel}) => {
       >
         <div className="mx-auto max-w-sm">
           <SubscribeToConvertkitForm
-            actionLabel="Subscribe"
+            actionLabel="Sign Up"
             onSuccess={(subscriber?: any, email?: string) => {
               return handleOnSuccess(router, subscriber, email)
             }}
@@ -72,7 +60,7 @@ export const PrimaryNewsletterCta = ({level}: {level?: SkillLevel}) => {
       <p className="text-center text-gray-400">
         I respect your privacy. Unsubscribe at any time.
       </p>
-    </MDXComponents.Section>
+    </div>
   )
 }
 

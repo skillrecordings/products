@@ -1,6 +1,7 @@
 import React from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import {XIcon} from '@heroicons/react/solid'
+import {isBrowser} from '@/utils/is-browser'
 
 type DialogProps = {
   handleCloseDialog: () => void
@@ -18,7 +19,13 @@ const DialogComp: React.FC<React.PropsWithChildren<DialogProps>> = ({
 
   return (
     <Dialog.Root open={isOpen}>
-      <Dialog.Portal>
+      <Dialog.Portal
+        container={
+          isBrowser()
+            ? (window.document.getElementById('layout') as HTMLElement)
+            : undefined
+        }
+      >
         <Dialog.Overlay className="fixed inset-0 z-40 bg-black/40 backdrop-blur" />
         <Dialog.Content
           // onPointerDownOutside={handleCloseDialog}
