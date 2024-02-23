@@ -13,7 +13,7 @@ export const LessonSchema = z
           .object({
             _key: z.string(),
           })
-          .merge(ResourceSchema)
+          .merge(ResourceSchema.omit({_id: true}))
           .optional(),
       )
       .optional(),
