@@ -92,7 +92,7 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
                         'text-balance font-sans text-2xl font-semibold sm:text-3xl',
                       )}
                     >
-                      <Balancer>{article.title}</Balancer>
+                      {article.title}
                     </h2>
                     {article.articleType === 'bookTeaser' ? (
                       <div className="flex items-center gap-1.5 pt-2 font-text text-base font-medium text-orange-300">
@@ -104,7 +104,9 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
                         <ReactMarkdown
                           components={{
                             a: ({children}) => <span>{children}</span>,
-                            p: ({children}) => <Balancer>{children}</Balancer>,
+                            p: ({children}) => (
+                              <p className="text-balance">{children}</p>
+                            ),
                           }}
                         >
                           {article.summary}
