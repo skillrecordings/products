@@ -54,6 +54,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
 
   return (
     <div
+      id="layout"
       className={`relative font-sans ${larsseit.variable} ${magnatHead.variable} ${magnatText.variable}`}
     >
       <NextSeo

@@ -44,11 +44,11 @@ const GlobalSearchBar = () => {
 
   return (
     <Command.Dialog
-      // container={
-      //   isBrowser()
-      //     ? (window.document.getElementById('layout') as HTMLElement)
-      //     : undefined
-      // }
+      container={
+        isBrowser()
+          ? (window.document.getElementById('layout') as HTMLElement)
+          : undefined
+      }
       value={inputValue}
       onValueChange={setInputValue}
       shouldFilter={false}
