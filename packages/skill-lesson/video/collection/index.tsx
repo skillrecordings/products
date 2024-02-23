@@ -18,7 +18,7 @@ import {
 import {type Scope, createContextScope} from '@radix-ui/react-context'
 import {Primitive} from '@radix-ui/react-primitive'
 import type * as Radix from '@radix-ui/react-primitive'
-import {capitalize, first, isEmpty, replace} from 'lodash'
+import {capitalize, first, isEmpty, isEqual, pick} from 'lodash'
 import {trpcSkillLessons} from '../../utils/trpc-skill-lessons'
 import Link from 'next/link'
 import pluralize from 'pluralize'
@@ -555,11 +555,20 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
     const showContinue = isNextLesson && completedLessonCount > 0
 
     const router = useRouter()
-    const currentPath = section
-      ? `${path}/${module.slug.current}/${section.slug}/${lesson?.slug}`
-      : `${path}/${module.slug.current}/${lesson?.slug}`
 
-    const isActive = router.asPath.includes(currentPath)
+    // Check if this Lesson matches the one referenced by the current URL
+    const pathElementsFromUrl = pick(router.query, [
+      'module',
+      'section',
+      'lesson',
+    ])
+    const pathElementsFromCurrentLesson = {
+      module: module.slug.current,
+      section: section?.slug,
+      lesson: lesson?.slug,
+    }
+    const isActive = isEqual(pathElementsFromUrl, pathElementsFromCurrentLesson)
+
     const {lesson: activeLesson} = useLesson()
     const isLessonActive = activeLesson?.slug === lesson?.slug
 
