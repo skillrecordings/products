@@ -79,8 +79,16 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
   const {setIsFeedbackDialogOpen} = useFeedback()
 
   return (
-    <ul className={cx('hidden w-full items-center justify-between md:flex')}>
-      <div className="flex h-full items-center pl-3">
+    <ul className={cx('hidden w-full items-center justify-end md:flex')}>
+      <div
+        className={cn(
+          ' left-0 top-0 flex h-full w-full items-center justify-start  ',
+          {
+            'absolute pl-16 lg:justify-center lg:pl-0': !isMinified,
+            'pl-4': isMinified,
+          },
+        )}
+      >
         {/* <hr
           className="ml-4 mr-1 h-1/4 w-px border-transparent bg-gray-700 lg:ml-5 lg:mr-2"
           aria-hidden="true"
@@ -88,6 +96,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
         <NavLink
           path="/workshops"
           title="Workshops"
+          className="font-semibold"
           label={
             <>
               <span
@@ -106,6 +115,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
         <NavLink
           path="/tutorials"
           title="Tutorials"
+          className="font-semibold"
           label={
             <>
               <span
@@ -124,20 +134,23 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
         <NavLink
           path="/tips"
           label="Tips"
+          className="font-semibold"
           // icon={FireIcon}
         />
         <NavLink
           path="/articles"
           label="Articles"
+          className="font-semibold"
           // icon={BookIcon}
         />
       </div>
-      <div className="flex h-full items-center justify-center">
+      <div className="flex h-full flex-shrink-0 items-center justify-center">
         {status === 'loading' ? null : <SearchBar isMinified={isMinified} />}
         {status === 'unauthenticated' && <NavLink path="/faq" label="FAQ" />}
         {status === 'authenticated' ? (
           <>
             <NavLink
+              className="lg:text-sm"
               label={
                 <>
                   {/* <span
@@ -300,25 +313,21 @@ const NavLink: React.FC<
   const IconEl = () =>
     React.isValidElement(icon) ? React.createElement(icon, {isActive}) : null
   const Comp = onClick ? 'button' : NextLink
+
   return (
-    <li className="h-full">
+    <motion.li className="flex h-full items-center justify-center">
       <Comp
         onClick={onClick}
         href={path as string}
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'group relative flex h-full items-center gap-0.5 px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
+          'group relative flex h-full items-center justify-center gap-0.5 px-2 py-2 text-sm font-normal transition duration-500 ease-in-out hover:bg-[radial-gradient(circle_at_50%_200%,hsla(177,87%,75%,0.4)_0%,_transparent_60%)] active:bg-transparent sm:min-w-[60px] sm:gap-1 sm:px-2 lg:min-w-[80px] lg:px-2.5 lg:text-base xl:px-3',
           {
-            'before:absolute before:-bottom-px before:left-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-primary before:to-transparent before:opacity-75 before:content-[""]':
+            'bg-[radial-gradient(circle_at_50%_200%,hsla(177,87%,75%,0.4)_0%,_transparent_60%)] before:absolute before:-bottom-px before:left-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-primary before:to-transparent before:opacity-75 before:content-[""]':
               isActive,
           },
           className,
         )}
-        style={{
-          backgroundImage: `radial-gradient(circle at 50% 200%, ${
-            isActive ? 'hsla(177, 87%, 75%, 0.4)' : 'transparent'
-          } 0%, transparent 60%)`,
-        }}
       >
         <span
           className={cx('transition group-hover:opacity-100', {
@@ -329,7 +338,7 @@ const NavLink: React.FC<
           {label}
         </span>
       </Comp>
-    </li>
+    </motion.li>
   )
   // if (onClick) {
   //   return (
@@ -468,7 +477,7 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
       passHref
       aria-label={`${config.title} Home`}
       className={cx(
-        'group group flex h-full flex-shrink-0 items-center font-text text-base font-semibold text-white md:text-lg lg:text-xl',
+        'group group relative z-10 flex h-full flex-shrink-0 items-center font-text text-base font-semibold text-white md:text-lg lg:text-xl',
         className,
       )}
       tabIndex={router.pathname === '/' ? -1 : 0}
@@ -528,7 +537,7 @@ const AccountDropdown = () => {
             <NavigationMenu.Trigger
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
-              className="flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium hover:radix-state-closed:bg-white/5 radix-state-open:bg-[#1F2735] sm:gap-1 sm:px-3 lg:text-base"
+              className="flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium hover:radix-state-closed:bg-white/5 radix-state-open:bg-[#1F2735] sm:gap-1 sm:px-3 lg:text-sm"
             >
               Account <ChevronDownIcon className="h-4 w-4" aria-hidden />
             </NavigationMenu.Trigger>
@@ -587,7 +596,7 @@ const SearchBar: React.FC<{isMinified?: boolean | undefined}> = ({
 
   return (
     <button
-      className="group flex items-center gap-1 rounded-md px-2.5 py-2 text-base font-medium opacity-90 transition hover:opacity-100 sm:px-2 sm:py-2 md:px-2 md:text-sm lg:px-2 lg:text-base"
+      className="group flex items-center gap-1 rounded-md px-2.5 py-2 font-normal opacity-90 transition hover:opacity-100 sm:px-2 sm:py-2 md:px-2 md:text-sm lg:px-2 lg:text-sm"
       onClick={() => {
         setOpenSearchBar(!isSearchBarOpen)
       }}
