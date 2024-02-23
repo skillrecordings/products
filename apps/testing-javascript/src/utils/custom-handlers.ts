@@ -1,7 +1,10 @@
 import {type NextRouter} from 'next/router'
 import {type Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
+import {
+  type Lesson,
+  type Solution,
+} from '@skillrecordings/skill-lesson/schemas/lesson'
 
 export const customPlayFromBeginningHandler = async ({
   router,
@@ -40,7 +43,7 @@ export const customContinueHandler = async ({
   router: NextRouter
   module: Module
   section?: Section | null
-  nextExercise?: Lesson | null
+  nextExercise?: Lesson | Solution | null
   handlePlay: () => void
   path: string
 }) => {

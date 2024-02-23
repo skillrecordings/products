@@ -18,7 +18,7 @@ import {
 } from './use-player-prefs'
 import {getNextSection, isNextSectionEmpty} from '../utils/get-next-section'
 import {type AppAbility, createAppAbility} from '../utils/ability'
-import {type Lesson} from '../schemas/lesson'
+import {type Lesson, type Solution} from '../schemas/lesson'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useConvertkit} from './use-convertkit'
 import {useGlobalPlayerShortcuts} from './use-global-player-shortcut'
@@ -39,7 +39,7 @@ type VideoContextType = {
   setDisplayOverlay: (value: boolean) => void
   handlePlay: () => void
   displayOverlay: boolean
-  nextExercise?: Lesson | null
+  nextExercise?: Lesson | Solution | null
   nextExerciseStatus?: 'error' | 'success' | 'loading'
   nextSection: Section | null
   path: string
@@ -55,7 +55,7 @@ type VideoContextType = {
     router: NextRouter
     module: Module
     section?: Section | null
-    nextExercise?: Lesson | null
+    nextExercise?: Lesson | Solution | null
     handlePlay: () => void
     path: string
     nextPathBuilder?: NextPathBuilder
@@ -86,7 +86,7 @@ type VideoProviderProps = {
     router: NextRouter
     module: Module
     section?: Section | null
-    nextExercise?: Lesson | null
+    nextExercise?: Lesson | Solution | null
     handlePlay: () => void
     path: string
     nextPathBuilder?: NextPathBuilder

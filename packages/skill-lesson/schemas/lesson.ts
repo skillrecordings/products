@@ -13,3 +13,4 @@ export const LessonResourceSchema = z
 export const SolutionResourceSchema = LessonResourceSchema.omit({_id: true})
 
 export type Lesson = z.infer<typeof LessonResourceSchema>
+export type Solution = z.infer<typeof SolutionResourceSchema>
