@@ -201,18 +201,16 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
               label="Log in"
               className="min-w-full sm:min-w-full lg:min-w-full lg:text-sm"
             />
-            {!loadingSubscriber &&
-              !subscriber &&
-              status !== 'authenticated' && (
-                <>
-                  <div className="px-1.5" aria-hidden="true" />
-                  <NavLink
-                    className="h-auto min-w-full rounded bg-primary font-semibold text-primary-foreground sm:min-w-full lg:min-w-full lg:text-sm"
-                    path={'/newsletter'}
-                    label={'Sign Up'}
-                  />
-                </>
-              )}
+            {!loadingSubscriber && !subscriber && (
+              <>
+                <div className="px-1.5" aria-hidden="true" />
+                <NavLink
+                  className="h-auto min-w-full rounded bg-primary font-semibold text-primary-foreground sm:min-w-full lg:min-w-full lg:text-sm"
+                  path={'/newsletter'}
+                  label={'Sign Up'}
+                />
+              </>
+            )}
           </>
         ) : (
           <div aria-hidden="true" />
