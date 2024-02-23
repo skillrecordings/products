@@ -5,17 +5,10 @@ import Layout from '@/components/app/layout'
 import {GetStaticProps, NextPage} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-
-interface ArticleFrontmatter {
-  title: string
-  slug: string
-  date: string
-  excerpt: string
-  image: string
-}
+import {type Article} from '@/@types/mdx-articles'
 
 interface ArticlesPageProps {
-  articles: ArticleFrontmatter[]
+  articles: Article[]
 }
 
 const ArticlesPage: NextPage<ArticlesPageProps> = ({articles}) => {
@@ -76,6 +69,7 @@ export const getStaticProps: GetStaticProps = async () => {
         date: formattedDate,
         excerpt: data.excerpt,
         image: data.image,
+        imageAlt: data.imageAlt,
         slug: filename.replace(/\.mdx$/, ''),
       }
     })
