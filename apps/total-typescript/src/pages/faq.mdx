@@ -159,6 +159,9 @@ You can [read them here](/privacy).
 
 </div>
 
+import Link from 'next/link'
+import {Button} from '@skillrecordings/ui'
+
 export default ({children}) => (
   <Layout
     meta={{
@@ -170,6 +173,15 @@ export default ({children}) => (
     }}
   >
     <Heading title="Frequently Asked Questions" className="pb-10" />
+    <div className="flex w-full items-center pb-4">
+      <Button
+        size="lg"
+        asChild
+        className="mx-auto inline-flex text-base font-semibold"
+      >
+        <Link href="/buy">Get Access Now →</Link>
+      </Button>
+    </div>
     <main className="mx-auto mt-5 w-full max-w-screen-lg p-5 pb-32">
       <article className="prose mx-auto grid max-w-screen-lg grid-cols-1 sm:prose-lg prose-p:text-gray-200 prose-a:text-cyan-300 sm:gap-8 sm:prose-headings:mt-0 sm:prose-headings:font-semibold sm:prose-p:text-gray-200 md:grid-cols-2 md:gap-12 lg:gap-16">
         {children}

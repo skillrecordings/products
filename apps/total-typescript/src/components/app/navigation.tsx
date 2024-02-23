@@ -16,6 +16,8 @@ import {useSearchBar} from '@/search-bar/use-search-bar'
 import {motion, AnimationControls, useAnimationControls} from 'framer-motion'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import SaleMessageBar from './message-bar'
+import Gravatar from 'react-gravatar'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 type Props = {
   className?: string
@@ -77,6 +79,14 @@ type DesktopNavProps = {
 const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
   const {status} = useSession()
   const {setIsFeedbackDialogOpen} = useFeedback()
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({
+      productId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
+    })
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
     <ul className={cx('hidden w-full items-center justify-end md:flex')}>
@@ -146,7 +156,14 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
       </div>
       <div className="flex h-full flex-shrink-0 items-center justify-center">
         {status === 'loading' ? null : <SearchBar isMinified={isMinified} />}
-        {status === 'unauthenticated' && <NavLink path="/faq" label="FAQ" />}
+        {status === 'unauthenticated' && (
+          <NavLink
+            className="min-w-full sm:min-w-full lg:min-w-full lg:text-sm"
+            path="/faq"
+            label="FAQ"
+          />
+        )}
+
         {status === 'authenticated' ? (
           <>
             <NavLink
@@ -169,9 +186,34 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
               }}
             />
             <AccountDropdown />
+            {/* {purchasedProductIds.length > 0 ? null : (
+              <NavLink
+                className="h-auto min-w-full rounded bg-primary text-primary-foreground sm:min-w-full lg:min-w-full lg:text-sm"
+                path={'/buy'}
+                label={'Buy'}
+              />
+            )} */}
           </>
         ) : status === 'unauthenticated' ? (
-          <NavLink path="/login" label="Log in" />
+          <>
+            <NavLink
+              path="/login"
+              label="Log in"
+              className="min-w-full sm:min-w-full lg:min-w-full lg:text-sm"
+            />
+            {!loadingSubscriber &&
+              !subscriber &&
+              status !== 'authenticated' && (
+                <>
+                  <div className="px-1.5" aria-hidden="true" />
+                  <NavLink
+                    className="h-auto min-w-full rounded bg-primary font-semibold text-primary-foreground sm:min-w-full lg:min-w-full lg:text-sm"
+                    path={'/newsletter'}
+                    label={'Sign Up'}
+                  />
+                </>
+              )}
+          </>
         ) : (
           <div aria-hidden="true" />
         )}
@@ -186,6 +228,8 @@ const MobileNav = () => {
   const canViewInvoice = ability.can('view', 'Invoice')
   const canCreateContent = ability.can('create', 'Content')
   const canViewProfile = ability.can('edit', 'User')
+
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
   const {status} = useSession()
   const {setIsFeedbackDialogOpen} = useFeedback()
@@ -212,8 +256,19 @@ const MobileNav = () => {
         <li className="px-1">
           <SearchBar />
         </li>
-        {status === 'unauthenticated' ? (
+        {status === 'unauthenticated' && subscriber && !loadingSubscriber ? (
           <NavLink path="/login" label="Log in" />
+        ) : null}
+        {!loadingSubscriber && !subscriber && status !== 'authenticated' ? (
+          <>
+            <div className="px-0.5" aria-hidden="true" />
+            <NavLink
+              className="h-auto min-w-full rounded bg-primary font-semibold text-primary-foreground sm:min-w-full lg:min-w-full lg:text-sm"
+              path={'/newsletter'}
+              label={'Sign Up'}
+            />
+            <div className="px-1.5" aria-hidden="true" />
+          </>
         ) : null}
         <NavToggle isMenuOpened={isMenuOpen} setMenuOpened={setMenuOpen} />
         {isMenuOpen && (
@@ -245,6 +300,9 @@ const MobileNav = () => {
                 icon={<BookIcon />}
               />
               <MobileNavLink path="/faq" label="FAQ" />
+              {status === 'unauthenticated' && (
+                <MobileNavLink path="/login" label="Log In" />
+              )}
               {status === 'authenticated' && (
                 <>
                   <motion.div
@@ -323,7 +381,7 @@ const NavLink: React.FC<
         className={cx(
           'group relative flex h-full items-center justify-center gap-0.5 px-2 py-2 text-sm font-normal transition duration-500 ease-in-out hover:bg-[radial-gradient(circle_at_50%_200%,hsla(177,87%,75%,0.4)_0%,_transparent_60%)] active:bg-transparent sm:min-w-[60px] sm:gap-1 sm:px-2 lg:min-w-[80px] lg:px-2.5 lg:text-base xl:px-3',
           {
-            'bg-[radial-gradient(circle_at_50%_200%,hsla(177,87%,75%,0.4)_0%,_transparent_60%)] before:absolute before:-bottom-px before:left-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-primary before:to-transparent before:opacity-75 before:content-[""]':
+            'bg-[radial-gradient(circle_at_50%_220%,hsla(177,87%,75%,0.4)_0%,_transparent_60%)] before:absolute before:-bottom-px before:left-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-primary before:to-transparent before:opacity-75 before:content-[""]':
               isActive,
           },
           className,
@@ -340,60 +398,6 @@ const NavLink: React.FC<
       </Comp>
     </motion.li>
   )
-  // if (onClick) {
-  //   return (
-  //     <li className="">
-  //       <button
-  //         onClick={onClick}
-  //         aria-current={isActive ? 'page' : undefined}
-  //         className={cx(
-  //           'group flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
-  //           {
-  //             'border-b-2': isActive,
-  //           },
-  //           className,
-  //         )}
-  //       >
-  //         <span
-  //           className={cx('transition group-hover:opacity-100', {
-  //             'opacity-100': isActive,
-  //             'opacity-90': !isActive,
-  //           })}
-  //         >
-  //           {label}
-  //         </span>
-  //       </button>
-  //     </li>
-  //   )
-  // }
-  // return path ? (
-  //   <li className="">
-  //     <NextLink
-  //       href={path}
-  //       passHref
-  //       className={cx(
-  //         'group flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
-  //         {
-  //           '': isActive,
-  //         },
-  //         className,
-  //       )}
-  //       onClick={() => {
-  //         track(`clicked ${title ?? label} link in nav`)
-  //       }}
-  //     >
-  //       {icon ? React.createElement(icon, {isActive}) : null}
-  //       <span
-  //         className={cx('transition group-hover:opacity-100', {
-  //           'opacity-100': isActive,
-  //           'opacity-90': !isActive,
-  //         })}
-  //       >
-  //         {label}
-  //       </span>
-  //     </NextLink>
-  //   </li>
-  // ) : null
 }
 
 const MobileNavLink: React.FC<
@@ -519,7 +523,7 @@ const AccountDropdown = () => {
   const canViewInvoice = ability.can('view', 'Invoice')
   const canCreateContent = ability.can('create', 'Content')
   const canViewProfile = ability.can('edit', 'User')
-
+  const {data: sessionData, status: sessionStatus} = useSession()
   const preventHover = (event: any) => {
     const e = event as Event
     return e.preventDefault()
@@ -539,7 +543,19 @@ const AccountDropdown = () => {
               onPointerLeave={preventHover}
               className="flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium hover:radix-state-closed:bg-white/5 radix-state-open:bg-[#1F2735] sm:gap-1 sm:px-3 lg:text-sm"
             >
-              Account <ChevronDownIcon className="h-4 w-4" aria-hidden />
+              <Gravatar
+                className="h-7 w-7 rounded-full"
+                email={sessionData?.user?.email as string}
+                default="mp"
+              />
+              <div className="flex flex-col pl-0.5">
+                <span className="inline-flex gap-0.5 text-sm font-bold leading-tight">
+                  <span className="truncate sm:max-w-[8rem] lg:max-w-[11rem] xl:max-w-none">
+                    {sessionData?.user?.name?.split(' ')[0]}
+                  </span>{' '}
+                  <ChevronDownIcon className="w-2" />
+                </span>
+              </div>
             </NavigationMenu.Trigger>
             <NavigationMenu.Content
               onPointerMove={preventHover}
@@ -596,7 +612,7 @@ const SearchBar: React.FC<{isMinified?: boolean | undefined}> = ({
 
   return (
     <button
-      className="group flex items-center gap-1 rounded-md px-2.5 py-2 font-normal opacity-90 transition hover:opacity-100 sm:px-2 sm:py-2 md:px-2 md:text-sm lg:px-2 lg:text-sm"
+      className="group relative z-10 flex h-full items-center gap-1 px-2.5 py-2 text-sm font-normal opacity-90 transition hover:opacity-100 sm:px-2 sm:py-2 md:px-2 lg:px-2 lg:text-sm"
       onClick={() => {
         setOpenSearchBar(!isSearchBarOpen)
       }}
@@ -608,8 +624,8 @@ const SearchBar: React.FC<{isMinified?: boolean | undefined}> = ({
         />
         <span
           className={cx('', {
-            'block md:hidden lg:block xl:block': isMinified,
-            'block md:block lg:block': !isMinified,
+            'block md:hidden lg:hidden xl:hidden': isMinified,
+            'block md:hidden lg:hidden': !isMinified,
           })}
         >
           Search

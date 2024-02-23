@@ -3797,6 +3797,9 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      react-gravatar:
+        specifier: ^2.6.3
+        version: 2.6.3(react@18.2.0)
       react-hook-form:
         specifier: ^7.29.0
         version: 7.49.3(react@18.2.0)
@@ -3951,6 +3954,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.4
         version: 18.2.18
+      '@types/react-gravatar':
+        specifier: ^2.6.10
+        version: 2.6.14
       '@types/react-scroll':
         specifier: ^1.8.3
         version: 1.8.10
@@ -20187,6 +20193,7 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
     dev: false
+    bundledDependencies: false
 
   /create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
