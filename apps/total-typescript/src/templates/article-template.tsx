@@ -146,9 +146,18 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
             </div>
           </div>
         </div>
-        {/* {isBookTeaser && (
-          <div className="absolute top-24 aspect-[12/16] h-full w-full max-w-sm rounded-lg border border-dashed" />
-        )} */}
+        {isBookTeaser && (
+          <div className="absolute top-14 after:absolute after:bottom-0 after:left-0 after:h-32 after:w-full after:bg-gradient-to-t after:from-background after:via-background after:to-transparent after:content-[''] sm:top-16">
+            <Image
+              src={require('../../public/assets/book-teaser-bg@2x.jpg')}
+              width={800}
+              alt=""
+              quality={100}
+              priority
+              aria-hidden="true"
+            />
+          </div>
+        )}
         {/* {image && !isBookTeaser && (
           <div
             className={cn(
@@ -186,15 +195,14 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
               }}
             />
           )}
-          <div className="flex w-36 -rotate-6 items-center gap-2 text-gray-400">
-            —
+          <div className="mx-auto flex w-32 -rotate-6 items-center gap-2 text-slate-500">
             <Image
               src={require('../../public/assets/signature.svg')}
               alt="Matt's signature"
             />
           </div>
         </div>
-        <section className="relative z-10 overflow-hidden px-5 pb-24">
+        <section className="relative z-10 overflow-hidden px-5 pb-24 pt-16">
           <ArticleCTA article={article} />
           <Share
             title={title}
