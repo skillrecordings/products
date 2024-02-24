@@ -79,15 +79,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   })
 
+  let quantityAvailable = -1
+
+  if(productWithQuantityAvailable) {
+    quantityAvailable = productWithQuantityAvailable.quantityAvailable - purchaseCount
+  }
+
+  if(quantityAvailable < 0) {
+    quantityAvailable = -1
+  }
+
   const baseProps = {
     ...commerceProps.props,
     event,
     mdx,
     availableBonuses,
-    quantityAvailable:
-      (productWithQuantityAvailable &&
-        productWithQuantityAvailable?.quantityAvailable - purchaseCount) ||
-      -1,
+    quantityAvailable,
     totalQuantity: productWithQuantityAvailable?.quantityAvailable,
     product,
     purchaseCount,
