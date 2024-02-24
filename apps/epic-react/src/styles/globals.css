@@ -21,6 +21,7 @@
 @import '@code-hike/mdx/dist/index.css';
 @import './ui/button.css';
 @import './login.css';
+@import '../../node_modules/simplebar-react/dist/simplebar.min.css';
 
 @layer base {
   :root {
