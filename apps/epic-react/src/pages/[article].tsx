@@ -98,7 +98,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-const Article: React.FC<ArticlePageProps> = ({
+const ArticlePage: React.FC<ArticlePageProps> = ({
   allArticles,
   mdx,
   frontMatter,
@@ -112,4 +112,4 @@ const Article: React.FC<ArticlePageProps> = ({
   )
 }
 
-export default Article
+export default ArticlePage
