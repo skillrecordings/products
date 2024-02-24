@@ -1,0 +1,351 @@
+---
+title: What Epic React Is And How It Came To Be
+slug: what-epic-react-is-and-how-it-came-to-be
+simplecastId: 18966df9-de92-4c64-8cec-68356c36e807
+description: Kent tells the story of how he discovered React and then walks through Epic React's methodology and how it came to be.
+number: 2
+image: 'https://epicreact.dev/podcast/what-epic-react-is-and-how-it-came-to-be@2x.png'
+---
+
+When Kent was first looking into React, it was like it was what he was trying to make Angular do with Angular Formly, just without all of the framework getting in the way. React allowed Kent to use JavaScript to build his app rather than work around the framework to make it. He began to see the indication that Angular Two was not going to fix what he didn't like about AngularJS. It was at this point Kent started planning on switching to React at some point.
+
+Kent has been teaching React pretty much since he first learned it. He started by teaching it to co-workers and then at paid venues.  Kent has learned a lot about teaching React and has read a lot of research on making people understand it.
+
+In Epic React, you will learn React's basics to super-advanced topics and even experimental topics like Suspense. You'll then be given a real, practical scenario to apply what you've been taught to an actual application.
+
+Epic React has 25 hours or so worth of content for you. You watch a video, and then you spend the next 20 minutes or 30 minutes fixing or solving a problem. In the video, you aren't taught concepts that you need to learn to solve the problem. Instead, you are given the resources you need to learn those things. It's as if Kent hired you to solve the problem for him, and it is up to you to figure it out.
+
+You must struggle. If you don't struggle, you're not learning. But confusing isn't good. The point isn't for you to be confused, but to work hard and feel a little uncomfortable.
+
+Finally, Epic React presents you with a capstone project where you will apply everything that you've learned to an actual codebase with a real backend. This is where you'll bridge the gap from incrementing a counter to solving real-world problems.
+
+<PodcastTranscript>
+
+**Michael Chan:**  
+Hey Kent.
+
+**Kent C. Dodds:**  
+Hey, Michael. What's up?
+
+**Michael Chan:**  
+Not much. I am super excited to talk with you about React today. In our last episode we talked all about your career leading up to React, kind of all the technologies that you were involved in, whether that be Java, early JavaScript, Angular, Backbone. There were so many things that you have done, a lot of testing in there, but you're super excited about React. So today I just want to talk about why React, why you're hyped on it now, why you're excited about your new course, Epic React. All the things React.
+
+**Michael Chan:**  
+To dive in just tell me like what was the first thing that pumped you up on React? Like when you saw it you were like, this is it. This is where I want to live.
+
+**Kent C. Dodds:**  
+Man. I first thought of React when I was reading to NG-Conf. I was listening to a podcast. They were interviewing probably Pete Hunt and Christopher Shido, I think. They were talking about this thing they were building called React. I was driving up to Salt Lake to, I think it was the first NG-Conf. Yeah, it was the first NG conf. Maybe it was the second. I can't remember.
+
+**Michael Chan:**  
+That was like the big Angular conference, right?
+
+**Kent C. Dodds:**  
+Yeah.
+
+**Michael Chan:**  
+For people who don't know what the NG attribute is for.
+
+**Kent C. Dodds:**  
+Yeah, yeah. I was like hey, this thing sounds interesting but I'm going to an Angular conference. You know? At the time Angular JS was at the top of the world. It was the thing. If you weren't doing Angular then what even were you doing? Maybe Ember, I guess.
+
+**Michael Chan:**  
+But Angular had dominated, for sure.
+
+**Kent C. Dodds:**  
+It was so on top. I was kind of feeling, especially as a younger engineer I was like I'm on the winning team. So I'm hearing about this React thing. I'm like, yeah, it sounds interesting. I think it was at NG Conf that I talked to a few people there who were like yeah, React, it seems like of interesting. It's worth a check out. It was the next week I was like yeah, I'll check it out. I went through the tutorial and started reading through the docs and it said in the docs just give it five minutes and I was like all right. I can give this thing five minutes. I saw the JSX and I was like, gross. You know? That's disgusting. So wrong. Then literally five minutes in I was like no, this is it. I found it. This is great. Like all of the things that ... there were so many things about Angular that I was like, that's not my favorite but it's fine. But then there were so many things I didn't know that I didn't like about Angular. I didn't know that it could be better.
+
+**Kent C. Dodds:**  
+When I was using Angular, and this is Angular JS. I never really got into Angular Two.
+
+**Michael Chan:**  
+Sure.
+
+**Kent C. Dodds:**  
+When I was using Angular I kind of found myself trying to push more of my stuff into JavaScript. I created Angular Formly. Well, I didn't create it. I actually inherited it and maintained it for a number of years. Like the whole idea of Angular Formly is let's take your forms and move as much of those over to your JavaScript as possible to just make it so that you can have, like make these form elements that are really imperative so you have a lot of power and then the users of those things can use a really declarative API. It was awesome. I loved, loved Angular Formly and was happy to maintain it.
+
+**Kent C. Dodds:**  
+When I was looking into React it was like this is basically what I was trying to make Angular do with Angular Formly just without all of the framework getting in the way. By that, I mean React allowed me to use JavaScript to work with the framework rather than ... sorry. Use JavaScript to build my app rather than work around the framework to build my app. There was no template DSL. There's React elements. For some reason I caught onto the idea of React elements and like JSX is just a React create element. JSX is just JavaScript.
+
+**Michael Chan:**  
+Sure.
+
+**Kent C. Dodds:**  
+I caught onto that vision really quickly, just like light bulb moment for me. Like this is the thing. I found it. And it really was just a few minutes of working with it that ... I remember reading through the docs and they'd have these little snippets of like, "We do things this way for this reason." You know, that's like a good programming idea. I can't remember, like if you go back to early 2015 I tweet about like here's a quote from the docs. Isn't this mind-blowing? This is so true or whatever. Yeah. It just really connected with me.
+
+**Kent C. Dodds:**  
+It wasn't like ... It took me a whole, almost another year before I actually made the switch over to React but it was pretty early on I was like, my days with Angular JS are numbered. I'm going to be doing React eventually.
+
+**Michael Chan:**  
+Wild. As you're going through that, you're deeply entrenched in another community and you're kind of like eyeing this other community, like this has more of the ideals that I'm interested and what-not. I'm curious what that tension felt like, because I think we're going to talk about this. When you know it's time to switch later on in these episodes, but I'm curious what that tension felt like. Was it kind of clear immediately that you were going to make this switch? Or was there a period of well, do I see it out with this Angular thing or do I jump right into react?
+
+**Kent C. Dodds:**  
+Yeah. There was definitely tension. Angular, Angular Two was going to come and save us all from the things we didn't like about Angular One. I don't mean that in an offensive way to anybody who is using Angular One. Every framework has things you don't like about it. There are things about React I don't like, that I would like to see changed. But, yeah. I was hanging onto that. In fact, I gave a talk at a conference about Angular Two as a preview, like this is the way things look and literally the next week everything in my talk was irrelevant because they changed everything.
+
+**Kent C. Dodds:**  
+I was definitely, and actually fun story, so I got my company to send me to Ryan Florence's week-long React training. It was called React Week. It was here in Utah and while I was at this training he was doing some really basic stuff so I was like I kind of already know this. I actually was in conversations with the Angular team and because of my work with Angular Formly they had me advise them on the Angular Two API forms. Actually Angular Formly is very heavily influenced the Angular API that people use today which is pretty cool. During that week I actually jumped out of the training so I could go find a room to do a video chat with the Angular team. I'm supposed to be learning React but I was hanging out with the Angular team. Good times.
+
+**Kent C. Dodds:**  
+There was still this hope that Angular is going to fix all the things that I don't like about Angular JS and it won't make a difference. They're fine. The further that we got along with Angular Two the more and more they said they wouldn't do this, they wouldn't do that, and then no, we actually do need the do this. We need our own module system. Whatever it is. You have this, you know, there were so many things I was like no. I began to see the writing on the wall that Angular Two was not going to solve the things I didn't like about Angular JS. That was kind of where I started thinking yeah, I think I'm going to switch over to React at some point.
+
+**Michael Chan:**  
+Now, you mentioned that there's a couple things that you don't like about React still. I'm going to jump in there right away because why not? Like I'm sure people's ears are tickling.
+
+**Kent C. Dodds:**  
+I'm sure they're like, I want to hear what this is.
+
+**Michael Chan:**  
+Why don't we dive into that, because no framework is perfect. Like there's no perfect general framework, right? These things have to apply to a bunch of use cases and a bunch of different styles of programming. I'm kind of curious what are a couple of the things right now that you feel like, you know what? This isn't quite my favorite? It doesn't quite do what I want it to do in React?
+
+**Kent C. Dodds:**  
+Honestly, this isn't really about the technology itself but it is important to me and that is Facebook. It's a double-edged sword with Facebook being the creator, I guess, or the maintainer of the framework. On the one hand you've got this massive company that serves infinity users and they have so many hard use cases that they have to solve at a huge scale. Then at the same time they're interested in making sure that it's solved at a small scale too because they have internal projects at Facebook that use it. It needs to satisfy those small use cases and these enormous use cases at the same time. That is awesome. If I were to say there's one of my favorite features of React that is it.
+
+**Kent C. Dodds:**  
+But then also my least favorite of React is that as well, because Facebook as a company, I have problems with that company. Just ethical, moral issues as a company. I'm not happy with that being the place where React is at. It could an approach like View where it's just totally independent. This guy does this full time and he does a great job of it, but then they have to struggle to make sure that they are handling the use cases at scale, where Facebook has access to all of that. There's no perfect solution there but that, I would say, is my biggest thing.
+
+**Kent C. Dodds:**  
+As far as technical things about React that I would like to see changed there's this JSX Two that they've been talking about. Like just slightly different syntax. That would be cool. There are several things in there, like class instead of class name and different things like that. I've gotten really used to JSX as it is today but as a teacher I see people trying these different things and they're like well, it's not really like HTML. A couple of things could help mitigate some of those problems.
+
+**Kent C. Dodds:**  
+Also, to get deep into the weeds event delegation is a real pain for some of the ... it just adds some extra ... Most of the time you don't notice it but when you do it is a bit of a pain. Just having that single ... I mean, event delegation as a general practice, that's fine, but having that thing be bound to the document body rather than to the root node. Anyway, that's sort of irrelevant but one of those things that I'd like to see changed.
+
+**Kent C. Dodds:**  
+Probably a bigger one is I'd like to see React Suspense get released.
+
+**Michael Chan:**  
+Sure.
+
+**Kent C. Dodds:**  
+That would be great.
+
+**Michael Chan:**  
+As you were talking about your experience with Angular Two I was thinking about where we're at right now, right? Because I know that you've probably given talks or released courses where it's like, hey, this is the next thing? And it's like actually, no.
+
+**Kent C. Dodds:**  
+Yeah. Actually this is an important difference, though. The React team was really, really super hyper concerned about an Angular Two effect when they released Hooks. I think that was very responsible of them to be so concerned about that, and I feel like they handled the Hooks release really well.
+
+**Kent C. Dodds:**  
+The difference between React Suspense and Angular Two is definitely not how long they've been working on it, because Angular Two, they worked on it forever, years, and now React Suspense is years. But I think that the difference is it's not a fundamental shift. Like when they introduced Angular Two it was like here's a tombstone. This is a concept that you had to deal with in Angular JS and now it's dead. You don't need to worry. As they were giving that presentation even they will admit it was a terrible way to present it, but what they because were saying like, all of that time that you've spent investing in understanding these concepts, wasted.
+
+**Michael Chan:**  
+Yeah, right. Yeah, yeah.
+
+**Kent C. Dodds:**  
+React Suspense, maybe a little bit. Like okay, yeah, we're not going to be using use-effect or component lifecycles for asynchrony anymore. But I feel like that's pretty lightweight compared to the Angular Two thing where it's like basically the entire framework is different.
+
+**Kent C. Dodds:**  
+I remember, I was working on an Angular JS project at the time and we were faced with okay, so we're going to upgrade to Angular Two obviously, right? But just thinking about that was like this is basically migrating to an entirely different framework and if we're going to do that we may as well migrate to React. So migrating to React suspense will not be that at all because you just enable concurrent mode. Now you can use the Suspense, cool features, and then you iteratively add Suspense awesomeness as you go. There's no wonkiness about that either. That's the same thing with Hooks where with Angular they were like you can use this NG upgrade thing to go from Angular JS to Angular but it was very hacky to make that work. Whereas with React Suspense, once you have concurrent mode enabled, which is no small feat. I'm sure that will be a bit of a challenge for people, but once you have that going then iterating your way to the suspense feature won't be a huge thing.
+
+**Kent C. Dodds:**  
+I'm a little bit less concerned about Suspense. My biggest thing is just I want to know.
+
+**Michael Chan:**  
+I want to know. Now you mentioned the migration strategy of react and I really think that they have done a brilliant job. I mean, over the last few years they have changed almost the whole framework and it's been largely painless. Part of that is because they try to move slowly and again have the benefit of-
+
+**Kent C. Dodds:**  
+Intentionally.
+
+**Michael Chan:**  
+Have the benefit of Facebook scale, so they have to migrate there, whatever, 100,000 million components that they have. You know? So they feel the pain when we have to do the same thing. And I love that. I think as you mentioned that's one of the greatest benefits of React is that scale, because so many times like the framework creators are like okay, we invented the next great thing and upgrade your apps. It's a new thing, it's a new day. Like re-write them.
+
+**Kent C. Dodds:**  
+Yeah, yeah. The next thing, so why would anybody want to do the old thing? Yeah.
+
+**Michael Chan:**  
+Yeah, yeah. One thing that ... another thing you mentioned is the challenge of JSX. I don't want to talk about that because it feels like a lot ... I liken this to VIM sometimes where so much of the cost is up front and I feel like so many people coming to React, the cost in learning it and the investment is up-front. Once you get past those initial hurdles it's actually, it's downhill from there, but you got to do a pretty big climb. How is it that you have helped people through that initial hurdle of HTML to JSX? Because you really do, I mean, if you've been running HTML for 20 years it's kind of like hey, your experience is actually a detriment to you.
+
+**Kent C. Dodds:**  
+Yeah, that's a fair point. Yeah. One of the things that I like about JSX is that the difference between JSX and HTML is for the most part available on a single page in the docs. Right? There are a handful of attributes that are different. You know? How you handle SVGs with colons in the attributes, I would wager a guess that 99% of the people listening to this right now have never had to do that for one thing. So it's not like a super common thing anyway, but there are those little subtle things here and there and those are the types of things. You just have those docs open as a reference for whenever you have differences. But the biggest challenge that I find with that initial hill that you have to climb that you're talking about is getting an understanding that JSX converts to React.createelementcall. So it's function calls.
+
+**Kent C. Dodds:**  
+Once you are able to look at JSX and say okay, I know what this looks like if I were to write it in just regular JavaScript, then all of the sudden the whole world opens up to you and you understand why you can't do certain things. Like, why can't I do an if statement in the attribute list? Or why can't I, whatever. Or what's so special about the children position of JSX?
+
+**Michael Chan:**  
+Right.
+
+**Kent C. Dodds:**  
+Different things like that, which is why in Epic React, in the fundamentals, I start with here. Let's just create an element, like a dom element. Let's do document.createelement and let's look at that thing and now let's ... and we'll render that with document.body.append and whatever and now let's try creating a react element. Let's console log that thing and see what that is. Now let's go over to JSX and we'll console log the JSX and these are exactly the same thing. The reason you can't do an if statement is because that would be like doing an if statement in an arguments list which anybody with experience doing JavaScript knows this clearly doesn't make any sense.
+
+**Kent C. Dodds:**  
+That's probably the biggest hurdles is being able to, like once you can look at JSX and say okay, I can see the JavaScript in my mind for what that is, then everything changes. But, yeah. I agree. That's the first, biggest hurdle.
+
+**Michael Chan:**  
+I love that. And I love that you start teaching from that position. I think a lot of education, even this conversation, right? It's hard to understand the value of React without understanding the history of why those decisions needed to be made? Right? And maybe that history is Angular, maybe that history is Ember or whatever framework you were using before. I love that you kind of start from core principles to say, hey, this is how ... ever since we've had a dom we've created elements like this. Then taking it from JavaScript to React.
+
+**Michael Chan:**  
+You mentioned Epic React and I want to kind of transition into that. What is, at a high level, what is this? Because you've released plenty of courses on React before, done tons of workshops, what does Epic React represent and why is it special?
+
+**Kent C. Dodds:**  
+Michael, man. Epic React, it is so much. It represents like ... How long have I been working on React? Since I learned to type. Epic React, it represents everything that I know about React and everything I know about teaching React effectively. I've been teaching React pretty much since I first learned it, teaching it to co-workers and then teaching it at paid venues and things. I've learned so much about teaching this effectively and read research and all kinds of things on how I can get people to understand this. The reason that I care so much is because React has enabled me to do really amazing things and my core goal of my life is to make the world a better place and the best way I can do that is by using software, because I'm a software developer. I try to use software to make the world a better place.
+
+**Kent C. Dodds:**  
+As I've developed my skills as a teacher I'm able to magnify the amount of good that I can do in the world by teaching other people to make software, really quality, high quality software, and react is the best way to do that. React represents my effort in trying to make the world a better place by disseminating this information to other people who hopefully will use that knowledge to make the world a better place.
+
+**Kent C. Dodds:**  
+It represents, basically, my attempt at giving people a single place they can come to and learn everything that they need to know about React. I've never done any React before or every never even done any programming before so I'll give you ... I don't teach you JavaScript but I give you the resources that you need to go learn it because there is the expectation that you know JavaScript and HTML and CSS. Just like even the fundamental ideas and have some experience with that and I'll give you the resources to go brush up on that.
+
+**Kent C. Dodds:**  
+Once you're at that point from start to finish I'll teach you React all the way to super-advanced topics and even experimental topics like Suspense. Then I'll give you a real, practical scenario where you can apply what I've taught you to a real application. Then hopefully you take that and move on to making the world a better place with the skills that I've taught you. So that's what Epic React is to me.
+
+**Michael Chan:**  
+Awesome, awesome. How does it tie in to some of your other courses? I know you have beginner's guide to React. You have a course on Suspense. Do you have other courses that you teach people through?
+
+**Kent C. Dodds:**  
+Yeah, yeah. I've got Advanced React Patterns and Refactoring from Hooks ... or from Classes to Hooks. I've got a bunch of courses on React and testing and all sorts, like testing React apps.
+
+**Kent C. Dodds:**  
+So what makes Epic React special is that it's the first time that I have taken the workshop format that I have, that I've developed over years, and applied it to a video course. I actually did do a little bit of this in testing JavaScript as kind of an experiment and it worked so great. But over the last several years I've been developing my ability to really make sure that the concepts I'm teaching people are sticking and so in a workshop setting that's a lot easier because I can see people's faces and I can see how things are working. It's a little harder to do that on video but I've developed a really great mechanism for making sure that, and based on research that I've read, for making sure that the concepts that I'm teaching people are going to stick and so the unique thing about Epic React is that I will introduce a topic or a problem for people to solve and then I send them off to go solve it.
+
+**Kent C. Dodds:**  
+And I don't teach really the concepts that you need to learn to go solve it. Instead if say, here are the resources you need to go to to go learn those things. I basically have hired you to solve this problem for me and I leave it up to you to figure it out.
+
+**Michael Chan:**  
+I like that. I like that.
+
+**Kent C. Dodds:**  
+Yeah. And it works so great because you're using your brain just like you would on the job, which is where you're going to learn the best. Then once you're finished then you can come back and I'll work through the solution and we can compare notes and if you got it wrong then that actually is even better because you'll remember it better for getting it wrong. Anyway, I could talk about this forever but that's what's so special about Epic React is that it's more than just a video course that you throw up on the Chromecast and sit back and watch on your big screen TV. It's an interactive, very time intensive, I don't know, it's going to be like 25 hours or so worth of content of you, you watch this one video then you spend the next 20 minutes or 30 minutes fixing that or solving that problem. Then you can move on and watch me solve it and go on to the next. This is basically a React bootcamp, is what Epic React is.
+
+**Michael Chan:**  
+I love that. React bootcamp. Now something that I really like about the approach you're taking is that kind of like pain-first approach. You're sending them out into the world like hey, here's how you fish, right? Here's all the stuff, the places that you're going to get this information from. But then everyone is forced into a position where they have to feel that pain of kind of not knowing, maybe feeling a little bit inadequate or underprepared and what-not and then kind of coming together and having a really good lens into why the solution that you're presenting is important or good or maybe even better than what they came up with on their own.
+
+**Michael Chan:**  
+Do you see a lot of light bulb moments when everyone comes back and you start actually coating up the example in the way that you know how React works?
+
+**Kent C. Dodds:**  
+Yeah. So when I do remote workshops it's a little harder to see those light bulb moments but when I do it in person I can see that there's always a couple people in the workshop who has their entire emotional state on their face.
+
+**Michael Chan:**  
+That's true.
+
+**Kent C. Dodds:**  
+You can see them really thinking through things and like, oh, and then their eyes go ... It's fun to watch that and I always know that those are the ones that are really going to nail it and remember the stuff. They're going to ask me the right questions. This is actually why throwing them into the deep end first and luckily there aren't sharks in there. They'll be fine. Just throwing them in the deep end, let them struggle a little bit and I tell them that. I say, it's important that you struggle. If you don't struggle you're not learning. Learning is a struggle. I tell them confusion is not good. I don't want you to be confused, but working hard at it, feeling a little uncomfortable. That's important.
+
+**Kent C. Dodds:**  
+Yeah. Seeing that struggle and then they don't even have to finish the whole exercise. The idea is just get your mind into this state so that when you watch me go through the exercise you've been exposed to the problem enough to understand what I'm talking about. That's the real difference between just a video course that you watch on your Apple TV and what we have here. It's because you are forced to struggle with it for a little bit, get your head in the right problem space, and then you can watch the video and get an idea of okay, I see how Kent approached solving that problem. Yeah, there will be light bulb moments. Prepare your light bulbs.
+
+**Michael Chan:**  
+Something that I am really excited about about this Epic React podcast is we're going to talk about React but we're really going to talk about the things that maybe won't be covered in the course which is going to be how to take this to your day jobs and how to actually build a career using the things that you've learned in React. Kind of the more meta of like how do you actually build your career and progress and develop as a software developer?
+
+**Michael Chan:**  
+That brings me to an interesting point which is a lot of times React is a front-end framework and I know that there's a lot of things that are ... a lot of times it can feel like we're just developing half of a framework. I'm kind of curious how you-
+
+**Kent C. Dodds:**  
+Right, yeah.
+
+**Michael Chan:**  
+Or half of an application, right? I'm curious how you incorporate that knowledge and knowing that people are going to need a backend, need some backend experience, into Epic React to make sure that people really are ready to hit the ground running?
+
+**Kent C. Dodds:**  
+Yeah. That's a great question, Michael. We don't dive into back ends really at all in Epic react. I leave some room for maybe having some course on how to use a platform or a backend as a service or something. There's definitely potential for that because I do want people to be able to just hit the ground running. My target audience is people who will not be building the backend. I think that we are at a stage in the software world where you can't really be a full-stack developer.
+
+**Michael Chan:**  
+Yeah, yeah.
+
+**Kent C. Dodds:**  
+That thing just does not exist because not just the technical prowess but if you really want to be a full stack developer you have to also understand all the security implications of everything that you're doing and that is not realistic, I think, for anybody. Especially the audience that I'm targeting. Like if you know nothing about React and you're just getting started into programming it's really unlikely that I can teach you all of React and all of the things you need to know for backend.
+
+**Michael Chan:**  
+Right.
+
+**Kent C. Dodds:**  
+So, yeah. We don't get into backend. What I do is we have a backend that we use and we interact with that and we have, like I built out an authentication module that would be similar to the kind of thing that you would use. Like I don't recommend any company build authentication unless their company is authentication. Yeah, yeah. There's that hot take for you.
+
+**Michael Chan:**  
+Hot takes.
+
+**Kent C. Dodds:**  
+Like you will do it wrong. I strongly advise you seeking a pre-build solution for that. Auth0 is a great one. There are many others. Grab something off the shelf for your authentication. Grab something off the shelf for your backend, for your data management, that sort of stuff. I'm here to teach you everything you need to know. This is the cool thing. Because I know that the No Code Movement and everything, they're trying to commoditize the front end and eventually they probably will. AI is going to eat our world eventually, anyway, but I think that the front end is probably going to be one of the last things to be commoditized.
+
+**Kent C. Dodds:**  
+Whereas already we saw infrastructure as a service, then platform as a service, and now we're seeing back ends as a service. We have authentication as a service and now the job of us front-end engineers is to piece all these things together into a cohesive application. Yeah. I will probably include some content on Epic React for, let's just choose a couple of these and piece them together and let me show you how to do that, but the challenge is I don't know which one of these pieces you're going to want to choose. I can recommend some of these and that's what I do. That's part of the value of Epic React is there are millions of ways to do everything and I give you a specific, here's what I recommend. That can be valuable for that reason and I'll probably do it eventually. But that's kind of my take on this is yes, you can hit the ground running, try not to build your own backend. There are other services that you can use for that.
+
+**Kent C. Dodds:**  
+What I'll probably end up doing is adding a little appendix for, "Here's how you build serverless functions," because the services that we have now for having this little snippet of code that needs to be private, needs to run on a server somewhere. That is one video. You know?
+
+**Michael Chan:**  
+Yeah.
+
+**Kent C. Dodds:**  
+This kind of stuff is easy. The front-end stuff still takes a lot of work and that's what Epic React is focused on.
+
+**Michael Chan:**  
+I think that's a really interesting approach. I think it's so hard right now to, like the back end is a moving target. Right? It really does feel like it just kind of, like you said, it's being consumed by serverless and all that and it's hard to know what you're ... maybe your company is mid-transition. Right? Like you're going from some monolith application and hitting those endpoints to serverless and I like that you are giving particular the tools they need to be an effective front-end developer and target whatever service that ends up needing to be.
+
+**Michael Chan:**  
+Because one of the beauties of having React and doing so much in the client is that you don't need to be aware of the back end in the same ways, right? As long as they're decoupled you can authenticate, you can get your data. Whether that be REST or GraphQL or whatever. As long as you have the tools in your tool belt to kind of grab that data effectively, then you're really good to go.
+
+**Kent C. Dodds:**  
+Yeah. That is so true, Michael. One other thing I just want to make sure is clear is I'm not recommending that everything just go off and use serverless. I don't think that is the answer. Eventually maybe it will be. I don't know. The back end is being commoditized and lots of it can be but it's not 100% there. You can't just go say, okay, I'm going to use Airtable for my back end. That's not going to work for every application. I absolutely see value in their being back end engineers but that's kind of what I see is the full stack engineers, they exist. Like they're not a unicorn or something, but they're becoming less and less available.
+
+**Michael Chan:**  
+Sure.
+
+**Kent C. Dodds:**  
+One of the ways that I provided a huge amount of value to PayPal was that I was super good at React. I could solve their front-end problems really well and then I could delegate all of my backend problems to their amazing back-end engineers. So that's kind of what Epic React is focused on. It's like if you want to build your own thing that's totally cool. Go use a back end as a service. It really doesn't take a lot of time to wire those things up. You can get Hasura for your GraphQL and different whatever, you know, serverless functions for the little bits of server logic you need to do. Yeah. You can totally build your small app by yourself, 100%, full stack. Whatever. But if you're at a company you probably want to have back-end engineers. Those are the two personas that I'm targeting and I think that applies to 90% of people doing React.
+
+**Michael Chan:**  
+Yeah, yeah. I agree. I feel like we've seen a lot of full-stack frameworks. It feels almost like people who identify as full-stack developers have kind of continued to really love frameworks like Rails or Laravel and there's still a huge amount of space for that. It seems really kind of, those seem to be almost like the entrepreneurial frameworks, I guess, because it's all in one box. We've seen in this client-driven space a lot of just like hey, the back end might change. I might be hitting 10 different back ends, right?
+
+**Kent C. Dodds:**  
+Yeah, yeah.
+
+**Michael Chan:**  
+What you're saying is so true, that you can just be, you can have an amazing career just being an incredibly React developer and being the person who can reliably tie all of those services together to make a product. Why is it that you think that the front-end space is going to be last in that wave of AI and service-based commoditization of web development work?
+
+**Kent C. Dodds:**  
+Yeah. That's a great question. I think that it's mostly because, like think about the business folks who come to you with requirements. They might say hey, I need to have some database. I don't care what it is. I don't know care what it looks like. You put flowers on it. Whatever. I don't care. I need to have some way to communicate with that and there needs to be this extra logic that on this second Monday of the month I need to do this thing. Okay, but I don't care what language you use. I don't care about that at all. Then they come to the front end and they say, well, I need this button over here and I need it to look like this and when you click on this then I want it to do this other thing. I can see the No Code Movement, like drag and drop GUIs or whatever making that work, but I feel like that's harder than genericizing databases. You know?
+
+**Kent C. Dodds:**  
+So that's kind of what ... It could be my personal bias because I'm well-served when everything else is commoditized and all that's left is what I can do. With my bias, I guess, it seems to make sense to me that the business requirements for the UI are just so much more particular than the business requirements for the back-end stuff.
+
+**Michael Chan:**  
+I love that. As we bring things to a close on this episode, what are some of the concepts that you're just most excited about in Epic React, that you think people are going to walk away with just being like, "Oh my Gosh. I had no idea I could do this. I had no idea I could do this this simply." What are some of your just highlight moments in Epic React?
+
+**Kent C. Dodds:**  
+I've got the something stuff. It's funny. I didn't expect to be the testing guy. I never really planned on being the testing guy but I guess I am now and I wrote the library that everybody uses for testing React now. Seeing people just explode with joy when they start using my testing tools and following my testing advice. I don't see that as much with brand new developers who've never done any of it. They're just like, this is what it's like. This is kind of fun. But with people who have had the pain of things in the past, like I love that. So I'm excited for any of you who are listening who have struggled with testing in the past prepare your lives to get so much better.
+
+**Kent C. Dodds:**  
+It's not just the tools. There are things that I will show you that will make things better, so if you've already been using the tools and you still struggle I will show you things that will make that better. I also have this workshop on patterns that you can use in React to simplify things. I'm excited for people to see that. I'm really excited for people to see how all of these things that I teach you apply in an actual codebase because we take all these concepts and we put it in a real codebase and I think that is pretty special as well, where it's like okay, now I understand why you do things this way. It's not just so you can have a counter that increments every time I click this button but it actually, I use this to set the ratings, the star ratings for this book or to do a de-bounce on the text input of this notes text area. Whatever.
+
+**Kent C. Dodds:**  
+I think those are a couple of things that I'm especially excited about. The React Suspense thing, I've got Suspense in there. Like hey, this is a preview. It's kind of fun. It's interesting and what-not, but not super applicable. Like the fundamentals. I always love teaching those fundamentals because it's just so, it's different from the way that lots of people learn the fundamentals. I'll have people who are like, I've been using React for four years and I've never understood this. I love that. So I like the way that this will approach teaching the fundamentals and in general I like the approach to learning that this has to offer for people so I'm excited to get feedback on that, too.
+
+**Michael Chan:**  
+Now you're experimenting with a new way of actually leading people through your curriculum and I just wanted to take a couple minutes and talk about that and why you're excited about, I'm trying to incorporate Discord and Cohorts. I can't say it. Cohorts.
+
+**Kent C. Dodds:**  
+Discord, co-herds.
+
+**Michael Chan:**  
+Yeah, co-herds.
+
+**Kent C. Dodds:**  
+Yeah, yeah. I literally just this last weekend started to ... Well, no. I've been thinking about this forever. But this last weekend I kind of came up with this idea. With learning I am so interested in how do I take the knowledge and experience that I have and fastrack you so you don't have to spend the time doing what I've done? Like this is the cool thing about specialization. Ever since people started saying, okay, I'll go farm and you go make the farming tools and then we'll be fine. Specialization is so cool. I've specialized in learning this stuff and learning how to teach it so that you can specialize in building your product. So I will just fasttrack you into the knowledge and then you can go build your thing and I'll just keep on learning the stuff and I'll keep on teaching it to you. So I've specialized in that.
+
+**Kent C. Dodds:**  
+I am so committed to figuring out how I can make sure you don't forget what I've taught you, because that is an instructor's biggest challenge is how do I make sure you don't forget? And how do I help you translate this into action on your product so you can make the world a better place. Like that's my goal. I want you to make the world a better place. If found in giving workshops and especially in prepping for Epic React, all of these workshops that I teach on Epic React are actual workshops that I've given many times to groups of people and I was about ready to record all of these because I had them all ready and then I thought you know what? I'm just going to go through them all one more time. So I'm going to get a master class together. They're going to buy tickets to all of these workshops back to back over the course of two months.
+
+**Kent C. Dodds:**  
+What was really cool about that was I was able to see people go from the very beginning all the way through the whole thing and they developed a really cool relationship with each other. They were able to interact and learn together. Based on studies and research that I've done and my own personal experience, anecdotal evidence to support that, I've found that people who are working together to learn something are going to remember it better. They'll be able to apply it, they'll be able to teach each other. The idea of the KCD Cohort in my Discord is just that in general. The Cohort is pretty intentionally unstructured where I just, all that I provide is I do these regular office hours that you can come to and ask me any questions and that's just anybody, whether they're in a cohort or not. Then I provide a place for people to say, hey, I want to learn something. Let's find everybody else who wants to learn that same thing, go through some material.
+
+**Kent C. Dodds:**  
+We have a cohort leader who sets up a schedule and anybody who is cool, I'm good with that schedule. They sign up and then I give them a place, like a special place on my Discord where they can interact, both video and asynchronously through text and they go through the material together. I'm super jazzed about this because I feel like they will be so much more effective at going through the material that I create or anyone else. I actually don't care. They can go through whatever and I just want to provide people with a space where they can work through some material together and fast-track their learning experience so that they can go off and make the world a better place.
+
+**Michael Chan:**  
+Awesome. I love the idea that you're bringing people together so that they can help each other, which is such a big part of making the world a better place through software is working together as a team. Understanding other people's different perspectives. Like I'm really excited about this idea for you.
+
+**Kent C. Dodds:**  
+Yeah. I'm super jazzed.
+
+**Michael Chan:**  
+That brings us to the close of this one. We've talked a lot about your history and what you're excited about now with Epic React and I think for the remaining episodes we really want to focus on things that are going to be outside of React directly. We're going to help everyone build up their careers in web development. I know coming up next we're going to be talking about how to gain experience as a software engineer, lessons that you've learned from open source. It's not all rainbows and unicorns. What projects you should say yes to and which ones you should say no to. I'm really excited. I know you have a lot of experience on all of these topics and I'm really excited to share that with our listeners in the upcoming episodes.
+
+**Kent C. Dodds:**  
+All right. I'm super excited, too.
+
+**Michael Chan:**  
+Cool, cool, cool. We did it.
+
+**Kent C. Dodds:**  
+Yay.
+
+</PodcastTranscript>
