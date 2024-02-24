@@ -1,0 +1,331 @@
+---
+title: Techniques For Writing Maintainable Code
+slug: techniques-for-writing-maintainable-code
+simplecastId: c0e6f857-c1ed-4a27-af10-396a6527810a
+description: Kent talks about the various patterns that he uses to make his code more maintainable.
+number: 6
+image: 'https://epicreact.dev/podcast/techniques-for-writing-maintainable-code@2x.png'
+---
+
+The only thing that matters in software is the experience of the user. And, even though the user will never see your code, the quality of it actually affects them indirectly. The reason that the user cares about how you write your code is that it affects how long it takes to get new features out the door. Something that takes three weeks might only take a few days if the code was written in a more maintainable way and optimized for changes.
+
+There are many patterns that we can use to make our code more maintainable, but the key is to know when to use them. If patterns are inappropriately used, it can lead to the code actually becoming harder to make changes to. For example, sometimes it's better to have a small amount of duplication than it is to create a hasty abstraction.
+
+<PodcastTranscript>
+
+**Michael Chan:**  
+Hey, Kent.
+
+**Kent C. Dodds:**  
+Hey, Michael.
+
+**Michael Chan:**  
+You have this amazing blog post titled, I'm going to pull it up right now. Why users care about how you write code? I love that title. I want to dive right into the deep end of the importance of considering your users when you're in that flow state, just knock it. You're hacking, you're knocking out code, just slaying these features, because this is something that is so overlooked by developers who just want to kind of level up in terms of knowledge. So if you don't mind, can you give us a high level overview of like, what you mean when you say, why your users care about how you write code?
+
+**Kent C. Dodds:**  
+Yeah. So the blog post was inspired by a much older blog post by Ryan doll who created Node and is working on Deno now. The blog post was titled, I hate almost all software. He says, "The only thing that matters in software is the experience of the user." And he says a bunch of other things about why he hates all software. The assertion is so true. His blog post kind of asserts that your user doesn't care about how you write your code. I kind of assert the opposite with the same underlying premise that the only thing that matters in software is the experience of the user. My assertion, I guess, is that the quality of your software impacts the user in indirect ways and very strong, indirect. There's a very strong, indirect connection there. In the blog post, I give an example of when I was at Domo and I was tasked with getting a single check box and a label in there, and then, that needed to be connected to our backbone model and then, save to the back end and stuff.
+
+**Kent C. Dodds:**  
+Normally that should take just the time that it took me to explain that to you should be very fast, very easy to do. But this particular area of the code was in a thousand long line view, backbone view. It was just kind of like... You might think of it as a component. You could sort of loosely... Depending on the way that you use backbone views. But then that extended. So like inheritance, it extended a 2000 line backbone view. This is like... That's a lot of code. And this does not include the markup either. This is just the logic portion, attaching events and certain stuff like that. So it was a lot. And then on top of that, there was the model and everything.
+
+**Kent C. Dodds:**  
+This ended up taking me two weeks or something like that. I estimated it would take a week because I knew how hard it would be and then it actually took me closer to three weeks.
+
+**Michael Chan:**  
+This is an experience that I identify with and I'm sure many people identify with.
+
+**Kent C. Dodds:**  
+Yeah. If you haven't had this type of inexperience, don't worry, you'll get it. It's a very normal thing to happen, unfortunately. And the reason it happens is because there are lots of different paths to get us to this place, but the place that we're in is an unmaintainable mess. It's just a hot mess of garbage code that we need to untangle to make any changes to. Most of the time this doesn't happen on purpose. Sometimes people come into things and they're just like, "I just got to ship and what works I'm going to do." And other times people are like, "I'm going to architect the final end-all-be-all solution." And that's how we get into this mess.
+
+**Kent C. Dodds:**  
+So it happens on both sides of the spectrum, but yeah, that's kind of what I mean when I say... And just to take it a little bit more home to what we're talking about here, the reason that the user cares about how you write your code is because it took my users three weeks to get this checkbox. Whereas if the code had been written differently and in a more maintainable way, or at least in a way that optimized for the changes that were inevitably going to happen, then my users would have gotten that feature in two days.
+
+**Kent C. Dodds:**  
+Do the users care about that? Yes. They care about the user experience and the ship-ability, the reliability of the application that I'm sending to them is an enormous part of the user experience. And so that's the indirect connection between the way that you write your code and the user's experience.
+
+**Michael Chan:**  
+This is interesting because it feels like both Ryan Doll's assertion that users don't care about your code, but then your assertion that they do care about how you write the code are both true. Right? They don't care that you're using backbone or React or the specific ways in which you kind of like achieve maintainability, but they do care that you can move quickly and reliably.
+
+**Kent C. Dodds:**  
+Right.
+
+**Michael Chan:**  
+I guess it's an interesting topic because it feels nuanced to me in a way that most conversations on the internet are not. It's like React solves all my problems. Right? And then there's a bunch of people who are like, "Oh well, we wanted templates. So view is better. Because, you can just write class instead of class name." Right? And all of these things are kind of like not really serving the conversation of how we write maintainable code. And so I'm kind of curious, how do you see... What were the shortcomings in this example, where things weren't maintainable? And how do you kind of think about that as you're developing code?
+
+**Kent C. Dodds:**  
+Well, I would say that I think that it would be a lie to not acknowledge that my own skill was probably... Had something to do with this. This is pretty early on in my career, but I feel like I had a pretty good understanding of how to use backbone, how to use backbone models appropriately and everything. This wasn't my first rodeo. I fixed bugs, it added features before.
+
+**Michael Chan:**  
+Second or plus rodeo.
+
+**Kent C. Dodds:**  
+Yeah. What made this unique was that there was no thought I think, to the process of abstraction that had been added to this code. We had this base view that was responsible for a couple of things and the idea behind the space view was so it could be shared, because lots of other pages, lots of other "components" were using the same sort of thing. Then we had the underlying view that I was using or the view that inherited from that base view, which was also quite large. The size of a thing is pretty irrelevant to me. What really matters is the concerns of the thing and the number of concerns that were mixed in this particular... I can't give you specifics. This was years ago, but I do remember in retrospect, the number of concerns that this thing had was too many. And so that made it difficult because I didn't know whether I needed to add my logic to this method or that method or the other, because I didn't know which concern concerned the thing that I was talking about.
+
+**Kent C. Dodds:**  
+What ended up happening is I either... I don't remember specifically what I did, I just remember the pain, but I either would add a new method, like entirely new thing to this for my specific use-case or I hijacked another one that looked correct that worked to suit my use case. And then this wasn't just one place. There was also the backbone model and several other places that I had to touch, so that everything would work. How do I load this data now and how do I make sure that this has persisted in the backend? And so, this is just the natural course of events. We have one little change we want to make, we want to change as little as possible because we didn't write this thing in the first place and if we make too many changes, we could break something. And so we changed as little as possible with not too much thought about the way the abstractions are today and whether they suit our needs and whether those abstractions should be removed. Abstractions just exist for themselves at that point. You just don't want to mess with them.
+
+**Kent C. Dodds:**  
+This is CSS like to the team. Nobody wants to remove CSS and so you just leave it in place and you don't want to edit it either. So you add your own thing. This is the same thing when abstractions pile on top of themselves and eventually you get this 3000 lines of JavaScript that is all extending itself and it's just really difficult to deal with. So I think that was this case was just lots different developers came into this code with their specific use-case in mind, without considering the overall picture of what we were trying to accomplish with this component and were just thinking about what's this thing and how do I make as few changes as possible to just make it work?
+
+**Kent C. Dodds:**  
+Then of course, there was no such things as tests. So we were even more afraid of making changes because we couldn't verify that we didn't break anything.
+
+**Michael Chan:**  
+I'm kind of curious how you manage that tension. Right? Because, obviously you're working in a thing that has had a lot of band-aids stuck to it.
+
+**Kent C. Dodds:**  
+Yeah.
+
+**Michael Chan:**  
+I know that it can be really daunting I guess, to talk to your manager and be like, "Hey, adding that thing that you asked me to do, that should be pretty obvious. It's going to take a week." Right? And ends up taking three weeks. That can be super stressful. Right?
+
+**Kent C. Dodds:**  
+Yeah.
+
+**Michael Chan:**  
+Because everyone else up to this point has been saying yes, and just slapping the bandaid on. And so I'm kind of curious how you manage that tension. Did you have to say yes, a bunch in another, a bunch of other places and knock those out so that you had enough latitude to take time on this one? How did you manage that, interpersonally?
+
+**Kent C. Dodds:**  
+Yeah, actually I'm ashamed to say that at the time I just made the problem worse. So I didn't do anything to make it better. I was also thoughtless in the way things went and I wanted to make it as... I wanted to change as little as possible. I was also afraid of breaking things if. I were to do this now, though, and actually, no, I did this. When I was at PayPal, we had a bit of a hot mess with our CSS. You go to paypal.com/transfer and this page shows. It's actually different from what I built, designs change. But it showed a bunch of different links to the different ways you can transfer money. So send it to a friend to request them from a friend or send it abroad or whatever.
+
+**Kent C. Dodds:**  
+We had a bunch of different variations on this page, depending on what country you're coming from, or if you're in this test or that test or whatever. Because of all those different variations, pretty much every variation had its own CSS file and they all kind of... Some of them in sort of inherited from another and so it was really difficult to make any change to this. And you're either like, "Let's just copy and paste this and override things." Or CSS just in general when it's done in the cascading style is very difficult to manage.
+
+**Michael Chan:**  
+Yeah. It's so easy to do poorly. More than programming languages, even, I mean, I think CSS has a programming language, but more than general purpose programming languages, it's so easy to just kind of like reach through all of the things and then change the thing and make it the most important thing and then just mess things up for everybody thereon after.
+
+**Kent C. Dodds:**  
+Totally. We were talking about changing as little as possible, so you don't break anything and CSS makes that so easy. What you end up doing is you change as little as possible every single time. Nothing can be changed without breaking something. So this was the problem that we had and it wasn't just the CSS. It was also we had lots of components that were pseudo-shared and everything and not really thought through abstractions. And so when I was given the task to add another variant to this page, I'd never worked on it before. We had a sister team and they actually owned that page and they'd asked me to help them with this.
+
+**Kent C. Dodds:**  
+I wasn't familiar with this. We all worked in the same code base and I looked around at a little bit and I said, I can either just do the same thing that everybody else has been doing and just copy all of this and make changes or try to retrofit this abstraction, to more of a Frankenstein to make it work for me or I can actually back out all the abstraction for everything and just say total duplication for each one of these and then find the commonalities and make abstractions for those.
+
+**Kent C. Dodds:**  
+That's going to take me longer, but by the end of it, we'll be way better off. And so they said, "Yeah, let's do it." I think that what made them say yes was I had proven myself as an engineer and they knew that I would be successful in doing that. It wasn't exactly a rewrite. For that page, I guess it technically was a bit of a rewrite. It was a contained enough portion that they trusted based on my past experience and what I'd done for them in the past that I would be successful in doing it. And so they said and I said, "Listen, I can spend three weeks on this, just making it work. And every single..." This is exactly what I said, I remember this. "Every single time we do this, we'll take three weeks to do it. Or you can give me five weeks and I'll make it so that it only takes a day to do this"
+
+**Kent C. Dodds:**  
+I did and it worked, it worked great. It was awesome. This is where glamorous came out of, out of this. So I was like, "I'm done with this CSS giant file, nobody understands. We're going to use the CSS and JS library." I still like CSS and JS. I think it's awesome. I know that they're like really cool new trends that you may not have to use CSS and JS to accomplish this, but componentized, CSS and JS is what I... Or CSS was what I was going for and CSS and JS was the way to, to do that. So I created glamorous so that we could have componentized CSS. That made a huge difference.
+
+**Michael Chan:**  
+Oh sure.
+
+**Kent C. Dodds:**  
+Just duplicating everything and then saying, okay. So here's everything totally duplicated. They're isolated from each other. Now that I'm looking at this, what is similar and what is not. Once you see that, then you're like, "Okay, aha. I now see where these abstractions go. What makes sense to be abstracted here and there." I actually have a blog post about this, I call it AHA programming. It's avoid hasty abstractions. This is a process that Sandi Metz recommends. It's just like back out of the abstraction, see what's common and then abstract the things that are common with the knowledge that you now have. It worked out great.
+
+**Michael Chan:**  
+You stole my segue. I was going to lead into that. So now that we're on it, I really like this. I know that for me... I think I've tweeted about this, but so much of the job of an architect is really just to look at all of the things? Everyone wants to write code, right? This is where the source of so many problems coming back, don't repeat yourself. I feel like the job of so many architects is you just rehydrate everything and then in retrospect, pull out the pieces that are actually shared and kind of make sure that they're done in composable ways. And so you have this really great AHA thing for it. I think you and \[Shia 00:15:25\] kind of collaborated on this in a way.
+
+**Kent C. Dodds:**  
+Yeah.
+
+**Michael Chan:**  
+So let's talk about this, avoiding hasty abstractions. What does a hasty abstraction look like?
+
+**Kent C. Dodds:**  
+It's the kind of thing... I think most of us have dealt with a hasty abstraction or... So there's small hasty abstractions and really big ones. The small ones are the type of abstractions that you create while you're coding. So you're in the middle of coding and before you start on this next line, you think, "Oh, this next chunk of code I'm about to work on would go great in an isolated function." And so before you even start, you're nodding, we've all done this. You're like, before you even start... Or even like a React component. Oh, this next thing I'm going to do would make a great React component. So before you-
+
+**Michael Chan:**  
+New file.
+
+**Kent C. Dodds:**  
+Yeah.
+
+**Michael Chan:**  
+Module.js.
+
+**Kent C. Dodds:**  
+Yeah. Hopefully that's the next level, but yes, absolutely. Whether it's in a new file or just above or below where the code is... You start writing it out and you're like, "Oh yeah, I guess I'm going to need this parameter. I'm going to need that one and that one and that one." Eventually you have like this function that it accepts arguments, it returns the values. Maybe it performs side effects. It doesn't have to be pure. Either way, this applies to whether you're doing pure function or not. And then by the end of it, this function is kind of complicated, just in the number of things you have to pass to it. And if you had instead just stopped yourself and said, "No, I'm not making functions until I'm done and we're just going to stick this all in line right here. Then you might've found out that actually what you thought was one function is three different functions." Or maybe it would be easier if you took more of the code and put that in a separate function. Or maybe having an inline is better. It doesn't really matter.
+
+**Kent C. Dodds:**  
+This is what avoid hasting abstractions is all about. At least one portion of it on the small side is as you're coding, don't try to make abstractions until you're done. And this isn't a dogmatic thing. You go ahead and do whatever you want to, but this is just a mindset to have around, around thinking about abstractions. I find that I'm normally much better off if I just inline and write as much dirty code as I can and then look at it when I'm done and say, "Oh, okay, here's a very clear." I've been doing this twice or three times in a couple places and there's only two differences between those. So I'm going to go ahead and copy that. Or, I'm doing something very similar in these three places, I'm going to try and abstract that and then I find out that no, they're different enough that making an abstraction for those things is more complicated than just duplicating that code. But you don't really know that or get that insight unless you avoid the hasty abstraction. Because the hasty abstraction is one that's really difficult to change.
+
+**Kent C. Dodds:**  
+So then that's on the small side. There's also the big side of a hasty abstraction where somebody makes that abstraction and it just persists forever and we are hasty and adding things to that abstraction. Because it exists, we must add to it. So you have a really complicated format, currency function. This is a real example from PayPal. And so you just keep on adding different, oh yeah. The Yen doesn't have a decimal point. So now we have to have like a specificity or what was the word I used the precision and then, "Oh, there's different, tons of different things you throw into the abstraction and React components are probably the biggest culprit of these problems." Like, "Oh, there's another prop." And Oh, "Let's keep adding props. Oh this has too many props." I'm going to make another prop called options or config and that's going to be an object that literally is just for props. I don't care what you call it, those are more props.
+
+**Michael Chan:**  
+The more props I've checked.
+
+**Kent C. Dodds:**  
+Exactly. And so, these things tend to happen over time. You're just building more abstraction on top of this abstraction. It also becomes ultimately really hard to make changes too in the future and that's how you can tell if it was a hasty abstraction, is if it's hard to change.
+
+**Michael Chan:**  
+Yeah. I think Sandi Metz tends to talk about these as like God objects. You have these things that are kind of immutable. You can kind of add to them a little bit, but you don't really know what the side effects of adding to them is going to be longterm, but you just kind of keep doing it because there's no other options.
+
+**Kent C. Dodds:**  
+You got to ship. Yeah. Or you don't have the time to stop your and back out of the abstraction, look at what's common and make new abstractions. This is a human problem and sometimes you really don't have the time. But when I hit those situations, you take a look at my website code, there is copy paste everywhere. Because for my website, I'm not selling anything on there. I'm just giving people free access to my blogs and stuff. It's not that important. If it goes down or if something... There's a bug it's like, "Who cares? I don't care too much." And so I can't dedicate a huge amount of time to making abstractions for things because I don't really care if it is hard to change stuff on that site.
+
+**Kent C. Dodds:**  
+When I come to a problem and I see it, this abstraction looks kind of, it would be useful for this situation and then I play around with it for a while and I realized that it's not, instead of adding to the abstraction, to make it, retrofit it for my use, I actually just copy and paste it and make a totally different copy of this. And because it's not super important to me as like something that's reliable, I'm only in it once a week or something. I just leave the duplication. But the next step, if I really wanted to maintain this in a great way, the next step would be to find the commonalities and make a new abstraction that fits between those two. That's what I would...
+
+**Kent C. Dodds:**  
+That's what I did at PayPal. That's what I would do, if I were building a product that I cared about, especially if I have a team of engineers I'm working with, I want to, if I have something I care about and I want it to live for an extended period of time, then I'm going to back out of the abstraction when I can see clearly that this is not working and then find the similarities and make a new abstraction out of that. Or maybe no abstraction at all. Sometimes it's just duplicated and that's fine.
+
+**Michael Chan:**  
+Yeah. It sounds to me like there's almost like two minds that you need to have and you need to be able to kind of turn the other one off when you're in a certain mode. You have the author mode where you're just writing, writing, writing, putting things out. And in that, in that mode, it's safer to like duplicate, make sure that everything in this thing is kind of isolated and changeable, very easily. But then you have that editor mode where, okay, we're coming back, we're looking at these things at a high level now trying to figure out like what the composable parts of it are and then now introducing again that coupling, but doing it in a more retrospective kind of way where you're taking a step back, looking at the whole picture, looking at what's there. Kind of like trying to organize it in such a way that it works together. Does that seem kind of accurate-
+
+**Kent C. Dodds:**  
+Dude. That's such a great analogy. I'm a hobbyist novelist. In the writing world, this is an actual thing that many writers recommend is when you're writing, you're just writing, you don't edit, you just write. And then you take that writing head off, you put your editor hat on and when you're editing, you don't write, you just edit. Because there are different skills, they require different skills and, and different things that you're thinking about when you do those things. I think the same, that analogy makes so much sense to me.
+
+**Kent C. Dodds:**  
+So I feel great about that, recommending that as a good thought process of when you are writing code, don't abstract, just forget about abstraction, get it working. Then once it's working, then you can back up, take your writer hat off, your author hat off, get your editor hat on and just look at it all and say, "Okay, now that it works..." And maybe you put some tests in place to make sure it stays working as you're refactoring. That can be also very useful. "Now that it works, how can I change this so that it is easy to maintain in the long run?"
+
+**Kent C. Dodds:**  
+Maybe I changed an abstraction in a way, just to make things work, that might fit super well in the longterm, may not be easy to change. Let's change that abstraction in some way. But yeah, I would recommend also like avoid changing abstractions. So if you need to accept a new parameter, instead of that, just make a new version of the function and then your editor can come back and look at this and be like, "Actually I think those two could be the same." Or maybe it's better to keep them separate or maybe there's a piece inside of each one that could be shared or..." Composability is awesome. So yeah, I think that's a great, great way to think about it.
+
+**Michael Chan:**  
+Now we've mentioned composability several times and I know that in the bad code you mentioned inheritance and so I want to kind of flush this out for a lot of people who aren't too familiar with A, what these terms are, but then also kind of what the specifics of them are. I know solid is kind of this big, grouping of principles that is designed to help you think about things in terms of composition. But tell me a little bit about kind of the difference between inheritance and composition and how that impacts maintainability.
+
+**Kent C. Dodds:**  
+That is a great question. So Dan Abramov has recently started this, What the fork is? Except he doesn't use fork, but that actually is... There's the curse free mirror. So you can go to what the fork is slash composition. He recently just days ago wrote about this and it's really great. So I'd recommend anybody who's curious to look into this, but basically there are kind of two competing ideas and I guess, compositions kind of like the hero of the story. Because most people have moved on from inheritance as a code-sharing mechanism for at least UI code. And so the idea behind inheritance is you say, you have the classic example of animal and then dog. And so a dog inherits properties from animal.
+
+**Kent C. Dodds:**  
+It makes a lot of sense in our minds, but it actually ends up being a really difficult thing to map to code because then anything that you change in the parent class is going to impact the children and it's not always obvious how those impacts or how those changes are going to impact those things. Because a dog is 100% an animal, right? And so then like if you need to change something that applies to creatures with four legs, then you need to have an intermediary class so that it only applies to those and then update all of those things to just inherit from the one thing. So, yeah, and then you have this hierarchy of inheritance that just becomes really difficult to follow, when you're from a maintenance standpoint.
+
+**Kent C. Dodds:**  
+Now there are plenty of people who are still like totally on board with this object-oriented programming idea and it works for them. But I think for UI, especially we've largely moved away from modeling things as inheritance and that kind of thing to composition where instead of saying, "Okay, an animal should have a say method." Because every animal can say they can bark or they can meow or whatever. "Instead of we just have... If there's something that needs to be reuse to between these different types of animals, then we'll make a function that can then be called in isolation." And so then if you say, okay, actually we want to have something special for four-legged creatures. Then we just make functions that are useful for the four-legged creatures and just the four-legged creatures can call those functions.
+
+**Kent C. Dodds:**  
+I haven't thought too much about this analogy. So hopefully it's making sense, but that's kind of the way that I see the difference. Is that composition allows you to take multiple pieces and they could be small. Often I think there are smaller, but they could be also very big. That's irrelevant, but they're just these functional pieces that when put together can create something bigger than themselves. Right? That allows you to piece things together in a way that makes duplication a lot easier, actually, because you can just make a copy of this thing and remove that function call, because this specific situation doesn't need to call that function or whatever. Just in general, it makes change easier.
+
+**Michael Chan:**  
+Yeah.
+
+**Kent C. Dodds:**  
+Yeah. That's kind of how I think about composition, big fan. I think it's great. You can definitely go too far with it. I've seen people go like, "This function creates that function and it curries this thing and then it binds that thing." And whatever." So I've seen... People contributed to my open-source projects. I've rejected PRs that were overly composed, but yeah, in general it's a good idea.
+
+**Michael Chan:**  
+Yeah. It seems like a balancing act, right? You can go way too far with all of these things where it's... And I've done that. You go way too far with currying, because it seems like super fun. Then a week later you're like, "Why didn't I just have this be one function?" Because I only ever use it in this one way.
+
+**Kent C. Dodds:**  
+Yes. Or even if you use it two ways, those functions were single line functions, just copy and paste that thing. Who cares? And if you're really worried about changing one, forgetting to change the other, just put them side-by-side. It's no big deal, duplication, lots of people freak out about duplication. That's a solid programming principles thing too. Solid programming principles, they're great. Go read up about them. One of them is dry programming, but I've stepped away from dry. Do not repeat yourself. It's too dogmatic for me. And that's, that's where AHA came from. It's just like, "Let's just be more thoughtful about the abstractions and how easy it is to deal with code that is following these types of patterns." Because ultimately all of that plays back on the user's experience.
+
+**Michael Chan:**  
+Yeah. Something that I've found helpful as a designer and a developer is thinking about inheritance as a way of having just in-time types of solutions. So, in your example of having, you have an animal and then you have a dog and then all animals can have some kind of say or speak type of functionality. It feels more like when you think about things in terms of composition, it's less about you don't have to model the whole world and every animal has this capability, right? Maybe your product doesn't care that dogs speak and tell a certain point. So you don't need to compose that functionality in, until you actually need dogs to speak. Right? There's something about composition that allows you to think about things in terms of their practical effects and delay some of those decisions until it's time to make a dog speak. And then it's like, "Oh, okay, well actually dogs speak differently than cats." That's fine. So we'll just have that coded up two different ways. It doesn't matter that all animals speak, they speak differently and that's fine.
+
+**Kent C. Dodds:**  
+Yeah. And then you can have it coded up two different ways and you look at them both and you're like, "I can see a couple of pieces in here that are legit, the same. So I can make a function here and a function there and they can compose those abilities." Then if the dog changes the way it talks and that's fine, which is like, "I will no longer call that function and I will have a different one or I'll just inline the specific use cases." And it becomes a lot easier to follow. Ultimately, this is the key principle of all of this. It becomes a lot easier to change. That's the biggest thing that we're going for because unless you're shipping to space and you can't send software updates, you are constantly going to be changing this thing. And so that's what you should be optimizing for because that's the hardest thing to do, once you've shipped.
+
+**Michael Chan:**  
+Yeah. So I think that's a good segue into, there's all these principles that guide you into making change easy. Right? But they can feel a little bit daunting at times. I'm curious, bringing it back to React, what are some of the things that people can think about? What are some of the applications of these solid principles that people should be thinking about as they design their components for composition? What are some of the patterns that are most popular that seem to work?
+
+**Kent C. Dodds:**  
+Yeah, that's a great question. I have been investigating patterns for a long time and playing around with some. I've created some that have gotten some steam in the community. I think patterns are awesome to know about and can really improve the maintainability of your React components. Some of these patterns that I've taught about actually were adopted into React. And so now the context, the provider pattern that was popular, right? Well, it actually unfortunately was not popularized, but it was encoded into a React broadcast by Michael Jackson and he did like great work there and I think that really inspired the context API with that render prop API and then hooks came around and everything changed and it was awesome. But yeah, React broadcast is awesome. The provider pattern as a general idea, and now that that's built in as context, but then Ryan Florence taught me the compound components pattern, which I love.
+
+**Kent C. Dodds:**  
+If you want good examples of that is Reach UI. They have tons of compound components. That's like how they do that. But you think of compound components is like the select an option elements in HTML. So you render a select-by-itself. It's useless. It doesn't do anything useful. You render an option-by-itself. Also useless. It doesn't do anything, but you put them together and then there's some implicit state shared between the select. So the Slack looks at the options and that's what it displays. The option is selected and now that select just stores that state of what is selected and the option knows that it's the one selected. So it's the one that shows up. And so like these two things put together, share some implicit state and form a more complete user experience.
+
+**Kent C. Dodds:**  
+We can build this ourselves for things like our own custom select or maybe a menu, like a dropdown or a taps component, an accordion. Almost anything you can think of can be implemented as compound components. What's great about this is if you're thinking about a tabs UI, I don't know about you, but I've built plenty of these kinds of components and what you do is you say, "Okay, here's my top component. Here's my props." And the prop is going to be items and then items, it's going to be an array of all of the tabs, right? Maybe you'd call it tabs. Then each one of the items inside of that array is going to be a configuration object for that tab. So you'll have the title of the tab and you'll have the contents for the tab and maybe you'll have a disabled option so that it can be disabled. Eventually you get pretty interestingly complicated options here. And those are basically just props.
+
+**Kent C. Dodds:**  
+And so with that type of a UI, it's very inflexible. You don't have any control. What if I want to have a special gap between these two tabs? Or if we're talking about an accordion, a gap between these accordion items. Or maybe I want the title to look a little different for this one, when it's open, there's so many things that can be unique to each user experience you're trying to build with these components. So compound components are a great way to solve this problem because it allows you to hide away the implicit state-sharing between this accordion and then the accordion item and then also give the flexibility, like the rendering flexibility to the users. So there are a bunch more, but I don't know if you had any thoughts around compound components as a pattern.
+
+**Michael Chan:**  
+Yeah. I mean, I love the notion. I think that, that explains it really well. The relationship of selects it to option. I think sometimes it's kind of hard to understand what specifically is a compound component versus some of the specific patterns that are used. But I think that that's a really good example of, these two things are useless independent of each other, but when you stick them together, now they have kind of some implicit relationship that share a state. That's all stuff that you wouldn't have. It would be cumbersome to have to reconnect again.
+
+**Kent C. Dodds:**  
+Right.
+
+**Michael Chan:**  
+Creating that connective tissue every time is not great and it's just going to result in you creating more components that may be poorly named or poorly integrated. And you can just kind of hide that away in this concept of these compound components that can share state through context or whatever means.
+
+**Kent C. Dodds:**  
+Yeah, precisely. Most people are going to have a design system or some set of components that are shareable. That's great. So like you say, "Okay, we'll render this." Or they'll have a CSS file that has all of their beautiful styles and you just say, "Okay, put this class name here and that class name there." But then you have to wire the state together. The cool thing about compound components is that it allows you to share that state that's needed to be shared, but do so implicitly. And so, that's the cool thing about compound components. Also in Epic Reactive we talk about prop collections and getters. Those are pretty cool. But I want to skip that and talk about the state-reducer pattern, because this is one of my favorites.
+
+**Michael Chan:**  
+Oh, same.
+
+**Kent C. Dodds:**  
+Yeah, it's great. So, the state-reducer pattern came from a downshift. I was building downshift and somebody came to me and said, "Hey, listen, I need to change the behavior of this thing." So downshift is an auto-complete, input type of component. So you can use it for a dropdown or something, but you could do a type ahead or whatever, but any UI that you have where you... Like in Twitter, you hit the at symbol, you start typing somebody's name, that thing that pops up down, you could use that, use downshift to build that. So somebody was trying... I think they were trying to build a multi-select.
+
+**Kent C. Dodds:**  
+In downshift, when you click on one of the items that pops down, it selects that item and then it makes the menu go away. But if you're building a multi-select, you don't want the menu to go away, you want to be able to click multiple of those. Right? You scroll, click another one, scroll, click another one.
+
+**Michael Chan:**  
+Yeah.
+
+**Kent C. Dodds:**  
+And so for a library to be useful, it has to make opinions, it has to take a stance on something. And so I took the stance on let's make the modal or the little dropdown go away when an item is selected or at least change that state. We don't render anything in downshifts, you render that stuff. But, it will change the state, but this person said, "Hey, I want to not change this state for my specific case. So could we have a prop called, don't close on click?" Or something. I don't remember what the suggestion was, but this is the moment. The pinnacle, the precipice of greatness is right here where somebody comes with a new use case and maybe they suggested, or you have this thought like, "Okay, I need a prop for that use case."
+
+**Kent C. Dodds:**  
+That's when you stop and you say, "Maybe I don't want to build every use case in this component. And maybe I could think about things a little bit differently and turn it on its head and say, no, you're the one with the use-case, you're going to tell me what to do." That's what the state-reducer pattern is all about. And this is what I came up with. I think when I initially created it, it was called modified state change. But the idea is that right before I make a state change, I'm going to call your function and I'll say, Here's the current state, here are the changes and here's the reason that we're making these changes." Then with that information, you should know whether you want this change to happen and what the new state change should be.
+
+**Kent C. Dodds:**  
+So I'll call that function and you give me back what the change should be. You can just return the same changes I'm suggesting, or you can make your own modifications to that change. Whatever it is, that's what I'm going to update the state to be. So now you can say, well, if the user... Or if open-state is changing because the user clicked on an item, I don't want that as open state to change. And so you have the total power. If you want to have it close on the second click, you can do that too. You have all of the power in the world. And as soon as I added the state reducer pattern to downshift, I stopped getting so many issues. It was amazing because everybody could solve their own problem.
+
+**Kent C. Dodds:**  
+So by thinking about things a little bit differently and that's an implementation of a principle called the inversion of control principle. So you say, I'm not going to have an opinion here. I'm going to give that to you and you tell me what I should do about this. Yeah, that's just another example of a situation where I was able to save myself a ton of headache by not having an opinion on that and instead giving people the power to do whatever they want it to do.
+
+**Michael Chan:**  
+Yeah. I love this because this thing is not a React-specific thing. I talk about this a lot, right? The best React programmers. If you want to like level up your game and be the best React programmer, you should just set your sights on being the best programmer. Right? Understanding how inversion of control works because this pattern that you're talking about isn't even React components, right? It's a prop for a function, which is just baked into the language.
+
+**Kent C. Dodds:**  
+Yes, this is one of the things that attracted me to React in the first place was I was doing AngularJS. And I was thinking, I'm learning a lot about AngularJS, but I'm not learning a whole lot about Angular or, uh, I I'm learning a lot about Angular, but not a whole lot about JS. So, with React, what really attracted me to it was I thought, "Once I get past this JSX thing, which is like a two hour learning experience from 90% of what you need to know, and then I get past this React component life cycle, or now that we have hooks, once you get past the hooks..." Which is, that takes some time to learn that stuff.
+
+**Michael Chan:**  
+Sure.
+
+**Kent C. Dodds:**  
+But once you get past that, you're done, you're hanging out in JS land the rest of the time.
+
+**Michael Chan:**  
+Yeah.
+
+**Kent C. Dodds:**  
+That really attracted me to React and yeah, it ends up working out really nicely. Like you said, inversion of control has been a thing forever. This is what's also really cool. It's like, all of the really interesting innovations that are happening in React with these patterns or anything else are coming from people who are studying these types of things in epic academic research papers from years ago, like you think XState or a frame or emotion, or react-spring, or all of these things are either rediscoveries and re-applications of old principles or just thinking about things a little bit differently. They have nothing to do with React, specifically.
+
+**Michael Chan:**  
+I love that. Now we're getting kind of close to the end of time on this episode, but we got to talk about kind of rules and linters and all that kind of stuff. Because I know personally, I gave a talk that kind of aligns with a lot of the things you're saying. It was titled hot garbage, clean code is dead. It was really, just turning the knife on this idea of, why do we care so much about the cleanliness of code versus the principles that it represents, or how composable it is or how adaptable to change it as over time? We're so fixated on clean code and we insert all of these tools to make sure that our code is clean. I'm kind of curious, what's your take on all of this in light of all of the things that you've said so far?
+
+**Kent C. Dodds:**  
+So, clean code is a mess. So the thing is with clean code is very subjective. What is clean to you? Clean to me is I can change it and I can understand. Implicit in the idea if I can change it, is I can understand what's going on. It doesn't take me... It doesn't require that I'm the one who built this last week for me to be able to understand what's happening. Sometimes even a week is too long. Sometimes even a few minutes is too long. Let's face it, I don't always write clean code, but I think a lot of people are fooled into believing that clean code means that we always put an if statement here and two spaces and then whatever, the format of our code.
+
+**Kent C. Dodds:**  
+Luckily I think most of the industry, the JavaScript ecosystem has gone all in on Prettier and we're just like, everybody's using it. The only people that I've seen who are not our senior architects who just care way too much about code format. So those people eventually will learn hopefully, or I don't know. I don't know how to help those people. So formatting is one thing, but then there's also organizing the properties in an object based on alphabetical order or the length of the property. We spent so much time working on stuff that... Actually the user does not care about that and your maintainability will not be impacted at all by following this rule. In fact, it will be impacted just in a negative way.
+
+**Michael Chan:**  
+Right.
+
+**Kent C. Dodds:**  
+So I can understand some things \[inaudible 00:44:40\] complexity. It's like how many... If statements are in this function of code, how many different branches can this code flow through? That, to me is a key indicator. I'm not going to block something from going to production because it has a \[inaudible 00:44:56\] complexity of 12 or something, too many branches. But it is a key indicator to me like, "Huh, maybe I could simplify this."
+
+**Michael Chan:**  
+Sure.
+
+**Kent C. Dodds:**  
+It's a warning to me that says, "If you're going to do any sort of cleaning up of this code, start here, because to the computer, it seems like this could be confusing." And so there are definitely different statically analyzable problems in software that can be addressed by tools like ESLint and then there's formatting stuff that can be addressed by Prettier, but outside of a handful of those things, lots of what these tools do are just get in the way of us productively shipping software, which is really frustrating. So I just have to say it, if you're using anything ESLint related from Airbnb, the eslint-config-airbnb, just please get rid of that. It is way too dogmatic and will just get in your way.
+
+**Kent C. Dodds:**  
+I can appreciate the idea behind consistency and stuff, but there are some things that I don't think it makes that... Move the needle enough to justify the amount of yelling at the computer or computer yelling at you. The order of your imports, probably not all that important. Sometimes it is. If there's a side effect on the import, yeah, okay. That's different case. Probably should avoid doing that as well. But in most cases, these things are in the way more than they are not.
+
+**Michael Chan:**  
+Yeah. There's different... I think something that gets lost a lot of times is the notion that there are different needs for consistency that a publicly traded thousands of engineers company has. They have full-time engineers, they have contract engineers. They have a lot of different needs than maybe for a company, a small company you've got like 20 engineers. That stuff can be solved with like, "Hey, do we do it this way or the other way?"
+
+**Kent C. Dodds:**  
+Yeah.
+
+**Michael Chan:**  
+Some type of like Wiki, right? Having those conversations is, based on your needs is a better way to solve it. So many times.
+
+**Kent C. Dodds:**  
+Yeah. That's a very good point having a company where you have contractors who they come in one day and then they leave the next. And so there's a lot of turnover on the engineers that are working on the, on the software. That would be a good situation for more these rules that I'm more classifying as basically useless. They could be a little bit more useful in those types of situations, but I still... Organizing the properties in an object by alphabet, please no, please no. So just in general, avoid overly dogmatic useless rules. I think we do it because we feel productive.
+
+**Michael Chan:**  
+Yeah.
+
+**Kent C. Dodds:**  
+We do it especially... This is why we tweak our editor and why we asked the speaker what font they're using and all of that stuff, because it gives us this illusion that we're being productive, but I'll just break it to you, we're not. That is not productivity.
+
+**Michael Chan:**  
+Yeah. It's just action-faking. It's not good.
+
+**Kent C. Dodds:**  
+Yeah. I like that.
+
+**Michael Chan:**  
+Well Kent, this has been amazing. We've about so many things we talked about coupling, inheritance, composition, maintainability, and kind of like what that looks like in React code. I know that you go into so much more depth about the patterns in Epic React. So I'm excited for people to learn about that from you because you seem to have a really great grasp of it, but I think that's it for today. We have so many more episodes on just kind of like how to keep learning and how to, kind of how your mindset shifts when you do move from employee to independent. I'm really excited to talk with you about those.
+
+**Kent C. Dodds:**  
+I am too. Thanks, Michael.
+
+</PodcastTranscript>
