@@ -10,7 +10,7 @@ import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {getIsoDate} from '@/utils/get-iso-date'
 import {getOgImage} from '@/utils/get-og-image'
 import config from '@/config'
-import {type FrontMatter, type Article} from '@/@types/mdx-articles'
+import {type ArticleFrontMatter, type Article} from '@/@types/mdx-article'
 import Layout from '@/components/app/layout'
 import Divider from '@/components/divider'
 import mdxComponents from '@/components/mdx-components'
@@ -18,7 +18,7 @@ import mdxComponents from '@/components/mdx-components'
 interface ArticleTemplateProps {
   allArticles: Article[]
   mdx: MDXRemoteSerializeResult
-  frontMatter: FrontMatter
+  frontMatter: ArticleFrontMatter
 }
 
 const YouMightAlsoLike: React.FC<{articles: Article[]}> = ({articles}) => {
@@ -63,7 +63,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   frontMatter,
   mdx,
 }) => {
-  console.log({allArticles})
   const router = useRouter()
   const {
     title,

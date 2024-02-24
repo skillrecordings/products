@@ -6,13 +6,13 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 
-import {type FrontMatter, type Article} from '@/@types/mdx-articles'
+import {type ArticleFrontMatter, type Article} from '@/@types/mdx-article'
 import ArticleTemplate from '@/templates/article-template'
 
 export interface ArticlePageProps {
   allArticles: Article[]
   mdx: MDXRemoteSerializeResult
-  frontMatter: FrontMatter
+  frontMatter: ArticleFrontMatter
 }
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
@@ -29,7 +29,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       data.date = data.date.toISOString()
     }
     const keywords = Array.isArray(data.keywords) ? data.keywords : null
-    const frontMatter: FrontMatter = {
+    const frontMatter: ArticleFrontMatter = {
       title: data.title,
       slug: data.slug,
       date: data?.date,

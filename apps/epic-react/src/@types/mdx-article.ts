@@ -1,6 +1,4 @@
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-
-export interface FrontMatter {
+export interface ArticleFrontMatter {
   title: string
   slug: string
   date: string
