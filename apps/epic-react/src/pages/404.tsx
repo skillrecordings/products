@@ -4,15 +4,15 @@ import Layout from '@/components/app/layout'
 
 export default function Custom404() {
   return (
-    <Layout meta={{title: 'Not Found'}}>
-      <main className="absolute left-0 top-0 mx-auto flex min-h-screen w-full max-w-full flex-col justify-center text-white">
+    <Layout meta={{title: 'Not Found'}} className="relative">
+      <main className="absolute inset-0 mx-auto flex w-full max-w-full flex-col justify-center text-white">
         <Image
           src="/assets/sky@2x.jpg"
           alt="a lost cosmonaut"
           fill
-          className="object-cover"
+          className="relative z-[-1] object-cover"
         />
-        <div className="absolute top-0 z-10 flex min-h-screen w-full flex-col items-center justify-center">
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
           <div className="w-28">
             <Image
               src="/assets/cosmonaut@2x.png"
