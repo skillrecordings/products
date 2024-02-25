@@ -49,11 +49,7 @@ export const useNavigationLinks = () => {
 
   return [
     {
-      label: (
-        <>
-          <span className="sm:hidden lg:inline-block">Pro</span> Workshops
-        </>
-      ),
+      label: 'Workshops',
       icon: () => '',
       href: '/workshops',
     },
@@ -61,6 +57,11 @@ export const useNavigationLinks = () => {
       label: 'Articles',
       icon: () => '',
       href: '/articles',
+    },
+    {
+      label: 'Podcast',
+      icon: () => '',
+      href: '/podcast/kents-career-path-through-web-development',
     },
   ]
 }
