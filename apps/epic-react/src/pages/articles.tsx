@@ -5,7 +5,7 @@ import {GetStaticProps, NextPage} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import {type Article} from '@/@types/mdx-articles'
+import {type Article} from '@/@types/mdx-article'
 import Layout from '@/components/app/layout'
 import Divider from '@/components/divider'
 
