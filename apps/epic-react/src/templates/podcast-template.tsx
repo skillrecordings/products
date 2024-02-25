@@ -1,21 +1,15 @@
 import * as React from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
 import {useRouter} from 'next/router'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import useClipboard from 'react-use-clipboard'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import {ArticleJsonLd} from '@skillrecordings/next-seo'
-
-import {getIsoDate} from '@/utils/get-iso-date'
-import {getOgImage} from '@/utils/get-og-image'
-import config from '@/config'
 import {type PodcastFrontMatter} from '@/@types/mdx-podcast'
 import Layout from '@/components/app/layout'
 import Divider from '@/components/divider'
 import mdxComponents from '@/components/mdx-components'
-import PodcastPlayer from '@/components/podcast-player'
+import PodcastPlayer from '@/components/podcasts/podcast-player'
+import EpisodesList from '@/components/podcasts/episodes-list'
 
 interface PodcastTemplateProps {
   allPodcasts: PodcastFrontMatter[]
@@ -28,41 +22,20 @@ const PodcastTemplate: React.FC<PodcastTemplateProps> = ({
   frontMatter,
   mdx,
 }) => {
-  console.log({allPodcasts})
   const router = useRouter()
   const {title, slug, number, description, simplecastId, image} = frontMatter
   const [isCopiedToClipboard, setCopiedToClipboard] = useClipboard(
     `https://epicreact.dev/podcast/${slug}`,
   )
-  // const isoDate = getIsoDate(date)
-  // const ogImage = socialImage
-  //   ? {url: socialImage as string}
-  //   : getOgImage({title})
-  // const pageDescription = excerpt
-  // const author = config.author
-  // const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
-  // const {subscriber, loadingSubscriber} = useConvertkit()
-  // const restArticles = allArticles.filter((article) => article.slug !== slug)
 
   return (
     <Layout
       meta={{
         title,
-        // description: pageDescription,
-        // openGraph: {
-        //   images: ogImage ? [ogImage] : undefined,
-        // },
+        description,
+        ogImage: {url: `${process.env.NEXT_PUBLIC_URL}${image}`, alt: title},
       }}
     >
-      {/* <ArticleJsonLd
-        title={title}
-        images={image ? [image] : []}
-        authorName={author}
-        datePublished={isoDate}
-        dateModified={isoDate}
-        description={pageDescription}
-        url={url}
-      /> */}
       <main className="relative mx-auto mt-16 grid max-w-screen-xl grid-cols-1 gap-8 px-6 py-6 sm:mt-20 sm:px-8 sm:py-14 lg:grid-cols-9">
         <article className="col-span-1 lg:col-span-5 xl:col-span-6">
           <header>
@@ -138,7 +111,7 @@ const PodcastTemplate: React.FC<PodcastTemplateProps> = ({
             </div>
           </footer>
         </article>
-        {/* <List episodes={allEpisodes} location={location} /> */}
+        <EpisodesList episodes={allPodcasts} location={router.asPath} />
       </main>
     </Layout>
   )

@@ -1,0 +1,94 @@
+import React from 'react'
+import Link from 'next/link'
+import SimpleBar from 'simplebar-react'
+import {scroller} from 'react-scroll'
+import {useWindowSize, useMedia} from 'react-use'
+import {type PodcastFrontMatter} from '@/@types/mdx-podcast'
+
+interface EpisodesList {
+  episodes: PodcastFrontMatter[]
+  location: string
+}
+
+const EpisodesList = ({episodes, location}: EpisodesList) => {
+  const [isMounted, setIsMounted] = React.useState(false)
+  const scrollableNodeRef = React.useRef()
+  const {height} = useWindowSize()
+
+  const isTablet = useMedia('(max-width: 768px)')
+  const maxHeight = isTablet ? '30rem' : (height - 140) / 1.05
+
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  React.useEffect(() => {
+    if (isMounted && scrollableNodeRef.current) {
+      scroller.scrollTo(location, {
+        duration: 100,
+        delay: 0,
+        offset: -10,
+        smooth: 'easeInOutQuart',
+        containerId: 'simplebar-container',
+      })
+    }
+  }, [location, isMounted])
+
+  return isMounted ? (
+    <div className="relative col-span-1 h-full text-base lg:col-span-4 xl:col-span-3">
+      <nav className="sm:sticky sm:top-20 ">
+        <div className="text-xxs pb-4 font-semibold uppercase tracking-wide text-gray-600">
+          Episodes
+        </div>
+        <div className="overflow-hidden rounded-lg border-2 border-gray-200">
+          <SimpleBar
+            scrollableNodeProps={{
+              ref: scrollableNodeRef,
+              id: 'simplebar-container',
+            }}
+            style={{maxHeight: maxHeight, height: '100%'}}
+            className="overscroll-contain"
+          >
+            <ul
+              id="container"
+              className="grid grid-cols-1 gap-1 bg-gray-100 p-3"
+            >
+              {episodes.map((episode) => {
+                const {title, slug, number} = episode
+                const isActive = location.includes(`/podcast/${slug}`)
+                return (
+                  <li key={episode.slug} id={`/podcast/${slug}`}>
+                    <Link
+                      href={`/podcast/${slug}`}
+                      className={`${
+                        isActive
+                          ? 'text-text overflow-hidden bg-background hover:bg-background'
+                          : 'hover:text-text text-gray-800 hover:bg-gray-200'
+                      } relative flex rounded-md p-3 pl-4 font-semibold transition-colors duration-150 ease-in-out md:p-4 md:pl-6`}
+                    >
+                      {isActive && (
+                        <div className="absolute left-0 top-0 h-full w-1 bg-blue-500" />
+                      )}
+                      <span
+                        className={`text-xxs mr-2 leading-7 ${
+                          isActive
+                            ? 'text-blue-500 opacity-100'
+                            : 'text-text opacity-50'
+                        }`}
+                      >
+                        {number}
+                      </span>
+                      {title}
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </SimpleBar>
+        </div>
+      </nav>
+    </div>
+  ) : null
+}
+
+export default EpisodesList
