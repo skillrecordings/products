@@ -205,7 +205,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
               <>
                 <div className="px-1.5" aria-hidden="true" />
                 <NavLink
-                  className="h-fit min-w-full rounded bg-primary font-semibold text-primary-foreground sm:min-w-full lg:min-w-full lg:text-sm"
+                  className="min-w-full rounded bg-primary font-semibold text-primary-foreground sm:h-8 sm:min-w-full lg:min-w-full lg:text-sm"
                   path={'/newsletter'}
                   label={'Sign Up'}
                 />
