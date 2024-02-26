@@ -87,6 +87,13 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
                     </div>
                   )}
                   <div className="w-full">
+                    {article.articleType === 'bookTeaser' ? (
+                      <div className="relative mb-2 inline-flex items-center justify-center overflow-hidden rounded-full bg-salmon-background/30 p-px sm:mb-4">
+                        <div className="relative z-10 inline-flex rounded-full bg-background px-4 py-1.5 font-sans text-sm font-normal text-salmon-foreground">
+                          Book Teaser
+                        </div>
+                      </div>
+                    ) : null}
                     <h2
                       className={cx(
                         'text-balance font-sans text-2xl font-semibold sm:text-3xl',
@@ -94,11 +101,6 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
                     >
                       {article.title}
                     </h2>
-                    {article.articleType === 'bookTeaser' ? (
-                      <div className="flex items-center gap-1.5 pt-2 font-text text-base font-medium text-orange-300">
-                        <BookIcon className="text-orange-300" /> Book Teaser
-                      </div>
-                    ) : null}
                     <div className="max-w-xl pt-5 leading-relaxed text-gray-400">
                       {article.summary ? (
                         <ReactMarkdown
