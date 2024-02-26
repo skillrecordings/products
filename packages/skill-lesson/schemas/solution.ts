@@ -5,6 +5,6 @@ export const SolutionSchema = z
   .object({
     _key: z.string().optional(),
   })
-  .merge(ResourceSchema)
+  .merge(ResourceSchema.omit({_id: true}))
 
 export type Solution = z.infer<typeof SolutionSchema>

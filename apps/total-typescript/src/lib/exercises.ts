@@ -20,7 +20,7 @@ export const ExerciseSchema = z
           transcript: z.nullable(z.string()).optional(),
           aiTranscript: z.nullable(z.string()).optional(),
         })
-        .merge(ResourceSchema)
+        .merge(ResourceSchema.omit({_id: true}))
         .optional(),
     ),
   })
