@@ -1,10 +1,10 @@
 import {ResourceSchema} from './resource'
 import z from 'zod'
-import {LessonResourceSchema} from './lesson'
+import {SolutionResourceSchema} from './lesson'
 
 export const ExerciseSchema = z
   .object({
-    solution: z.nullable(LessonResourceSchema.optional()),
+    solution: z.nullable(SolutionResourceSchema.optional()),
   })
   .merge(ResourceSchema)
 
