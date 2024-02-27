@@ -19,16 +19,10 @@ export type SubscribeFormProps = {
   id?: string
   fields?: Record<string, string>
   className?: string
+  validationSchema?: Yup.ObjectSchema<any>
   validateOnChange?: boolean
   [rest: string]: any
 }
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email address').required('Required'),
-  first_name: Yup.string()
-    .min(2, 'Name must be at least 2 characters')
-    .required('Required'),
-})
 
 /**
  * This form posts to a designated api URL (assumes `/api/convertkit/subscribe
@@ -80,6 +74,7 @@ export const SubscribeToConvertkitForm: React.FC<
   id,
   fields,
   className,
+  validationSchema,
   validateOnChange,
   ...rest
 }) => {
