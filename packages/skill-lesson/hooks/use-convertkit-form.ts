@@ -22,7 +22,7 @@ export function useConvertkitForm({
   onSuccess: (subscriber: Subscriber, email?: string) => void
   onError: (error?: any) => void
   fields?: any
-  validationSchema?: any
+  validationSchema?: Yup.ObjectSchema<any>
   validateOnChange?: boolean
 }): {
   isSubmitting: boolean

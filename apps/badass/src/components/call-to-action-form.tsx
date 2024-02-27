@@ -1,20 +1,12 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
 import Image from 'next/legacy/image'
-import * as Yup from 'yup'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
 } from '@skillrecordings/skill-lesson/convertkit'
 
 import LevelUp from '../../public/assets/level-up@2x.png'
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email address').required('Required'),
-  first_name: Yup.string()
-    .min(2, 'Name must be at least 2 characters')
-    .required('Required'),
-})
 
 export const CallToActionForm: React.FC<React.PropsWithChildren<any>> = ({
   content,
@@ -45,7 +37,7 @@ export const CallToActionForm: React.FC<React.PropsWithChildren<any>> = ({
             <div className="mt-16 md:mt-48 lg:mt-40">
               <SubscribeToConvertkitForm
                 actionLabel={content.button}
-                onSuccess={(subscriber: any) => {
+                onSuccess={(subscriber) => {
                   if (subscriber) {
                     const redirectUrl = redirectUrlBuilder(
                       subscriber,
@@ -54,7 +46,6 @@ export const CallToActionForm: React.FC<React.PropsWithChildren<any>> = ({
                     router.push(redirectUrl)
                   }
                 }}
-                validationSchema={validationSchema}
                 validateOnChange={true}
               />
               <p className="text-center md:text-left lg:text-center text-base text-badass-gray-300 leading-tight mt-6 md:mt-8">
