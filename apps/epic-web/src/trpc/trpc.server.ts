@@ -4,9 +4,18 @@ import {
   unstable_httpBatchStreamLink,
 } from '@trpc/client'
 import {headers} from 'next/headers'
-import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+
 import superjson from 'superjson'
 import {AppRouter} from 'trpc/routers/_app'
+
+const getBaseUrl = () => {
+  if (typeof window !== 'undefined') return '' // browser should use relative url
+  if (process.env.NEXT_PUBLIC_URL) {
+    return process.env.NEXT_PUBLIC_URL
+  }
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}` // SSR should use vercel url
+  return `http://localhost:${process.env.PORT ?? 3021}` // dev SSR should use localhost
+}
 
 export const trpc = createTRPCProxyClient<AppRouter>({
   transformer: superjson,
@@ -17,7 +26,7 @@ export const trpc = createTRPCProxyClient<AppRouter>({
         (op.direction === 'down' && op.result instanceof Error),
     }),
     unstable_httpBatchStreamLink({
-      url: getBaseUrl(),
+      url: `${getBaseUrl()}/api/trpc`,
       headers() {
         const heads = new Map(headers())
         heads.set('x-trpc-source', 'rsc')
