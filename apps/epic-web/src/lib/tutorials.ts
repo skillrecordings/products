@@ -1,5 +1,75 @@
 import groq from 'groq'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+import {z} from 'zod'
+
+const authorSchema = z.object({
+  name: z.string(),
+  slug: z.string(),
+  image: z.string().nullable(),
+  imageAlt: z.string().nullable(),
+  twitterHandle: z.string().nullable(),
+})
+
+const resourceSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  _updatedAt: z.string(),
+  body: z.string().nullable(),
+  author: authorSchema.nullable(),
+})
+
+const solutionSchema = z.object({
+  _key: z.string(),
+  _type: z.string(),
+  _updatedAt: z.string(),
+  title: z.string().nullable(),
+  description: z.string().nullable(),
+  slug: z.string(),
+})
+
+const lessonSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  _updatedAt: z.string(),
+  title: z.string().nullable(),
+  description: z.string().nullable(),
+  slug: z.string(),
+  solution: solutionSchema.nullable(),
+})
+
+const sectionSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  _updatedAt: z.string(),
+  title: z.string().nullable(),
+  description: z.string().nullable(),
+  slug: z.string(),
+  lessons: z.array(lessonSchema),
+  resources: z.array(resourceSchema),
+})
+
+const tutorialSchema = z.object({
+  id: z.string(),
+  _type: z.string(),
+  title: z.string(),
+  state: z.string().nullable(),
+  slug: z.object({
+    current: z.string(),
+  }),
+  moduleType: z.string(),
+  _id: z.string(),
+  github: z.string().nullable(),
+  ogImage: z.string().nullable(),
+  description: z.string().nullable(),
+  _updatedAt: z.string(),
+  image: z.string().nullable(),
+  body: z.string().nullable(),
+  author: authorSchema.nullable(),
+  testimonials: z.array(resourceSchema),
+  sections: z.array(sectionSchema),
+})
+
+export type Tutorial = z.infer<typeof tutorialSchema>
 
 export const getAllTutorials = async (onlyPublished = true) => {
   const tutorials = await sanityClient.fetch(

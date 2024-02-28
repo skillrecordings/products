@@ -176,7 +176,7 @@ mux-player::part(vertical-layer) {
     @apply border-border;
   }
   body {
-    @apply overflow-y-scroll bg-background text-foreground;
+    @apply bg-background text-foreground;
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 }

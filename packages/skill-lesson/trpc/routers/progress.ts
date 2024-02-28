@@ -6,6 +6,7 @@ import {getToken} from 'next-auth/jwt'
 import {getLesson} from '../../lib/lesson-resource'
 import {LESSON_COMPLETED_EVENT} from '../../inngest/events'
 import {Inngest} from 'inngest'
+import {revalidateTag} from 'next/cache'
 
 async function sendInngestProgressEvent({
   user,

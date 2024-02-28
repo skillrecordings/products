@@ -97,6 +97,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './dialog'
+import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from './resizable'
 
 export {
   Button,
@@ -185,4 +186,7 @@ export {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
 }

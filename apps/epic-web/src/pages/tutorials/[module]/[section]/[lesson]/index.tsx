@@ -36,6 +36,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         showCopyButton: true,
       },
     }))
+
   const lessonBodyPreviewSerialized =
     typeof lesson.body === 'string' &&
     (await serializeMDX(lesson.body.substring(0, 300), {
