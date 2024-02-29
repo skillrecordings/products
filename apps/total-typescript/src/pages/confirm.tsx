@@ -14,10 +14,10 @@ const ConfirmSubscriptionPage = () => {
           />
         </div>
         <div className="max-w-xl text-center">
-          <h1 className="mx-auto w-full max-w-lg py-8 font-text text-3xl font-bold sm:text-4xl">
+          <h1 className="mx-auto w-full max-w-lg py-8 text-3xl font-semibold sm:text-4xl">
             Please check your inbox for an email that just got sent.
           </h1>
-          <p className="mx-auto pb-8 leading-relaxed text-gray-200 sm:text-lg">
+          <p className="mx-auto text-balance pb-8 leading-relaxed text-gray-200 sm:text-lg">
             You'll need to click the confirmation link to receive any further
             emails. If you don't see the email after a few minutes, you might
             check your spam folder or other filters and add{' '}

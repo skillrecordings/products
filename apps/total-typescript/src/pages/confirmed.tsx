@@ -8,15 +8,15 @@ import Link from 'next/link'
 const ConfirmedSubscriptionPage = () => {
   return (
     <Layout footer={null}>
-      <main className="flex flex-grow flex-col items-center justify-center px-5">
+      <main className="flex flex-grow flex-col items-center justify-center px-5 py-32">
         <Image />
-        <div className="max-w-lg text-center font-light">
-          <h1 className="py-8 font-text text-4xl font-bold lg:text-5xl">
-            You're Signed Up!
+        <div className="flex max-w-lg flex-col items-center text-center font-light">
+          <h1 className="text-balance pb-5 text-3xl font-semibold lg:text-4xl">
+            Thanks for confirming your email address.
           </h1>
-          <p className="mx-auto pb-8 font-medium leading-relaxed text-slate-300 sm:text-xl">
-            Thanks for confirming your email address — you're all set to receive{' '}
-            emails from me about {process.env.NEXT_PUBLIC_SITE_TITLE}.
+          <p className="mx-auto text-balance pb-10 font-normal leading-relaxed text-slate-300 sm:text-lg">
+            You're all set to receive emails from{' '}
+            {process.env.NEXT_PUBLIC_SITE_TITLE}.
           </p>
           <Button
             asChild
@@ -26,9 +26,9 @@ const ConfirmedSubscriptionPage = () => {
                 location: 'confirmed subscription',
               })
             }}
-            className="w-full max-w-[150px] text-lg font-semibold"
+            className="h-12 bg-gradient-to-tr from-[#4BCCE5] to-[#8AF7F1] text-lg font-semibold"
           >
-            <Link href="/login">Log In</Link>
+            <Link href="/login">Continue to Login</Link>
           </Button>
         </div>
       </main>

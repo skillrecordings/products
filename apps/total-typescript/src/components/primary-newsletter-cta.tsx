@@ -3,12 +3,11 @@ import Image from 'next/image'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit-react-ui'
+} from '@skillrecordings/skill-lesson/convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import * as React from 'react'
 import {SkillLevel} from './home/use-skill-level'
-import {MDXComponents} from './mdx'
 import {snakeCase} from 'lodash'
 import {Article} from '@/lib/articles'
 
