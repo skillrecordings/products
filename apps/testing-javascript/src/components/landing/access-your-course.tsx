@@ -13,6 +13,8 @@ import {trpc} from '@/trpc/trpc.client'
 import {z} from 'zod'
 import flatten from 'lodash/flatten'
 
+const INTREVIEWS_PLAYLIST_SLUG = 'expert-interviews-module'
+
 const AccessYourCourse: React.FunctionComponent<{
   product: SanityProduct
   className?: string
@@ -30,29 +32,32 @@ const AccessYourCourse: React.FunctionComponent<{
       z.object({
         slug: z.string(),
         sections: z.array(
-          z.object({lessons: z.array(z.object({slug: z.string()}))}),
+          z.object({
+            lessons: z.array(z.object({_id: z.string()})),
+          }),
         ),
       }),
     )
     const parsedPlaylists = PlaylistSchema.parse(playlists)
-    const lessonsByPlaylistSlug = parsedPlaylists.map(
-      (playlist) =>
-        [
-          playlist.slug,
-          flatten(playlist.sections.map((section) => section.lessons)),
-        ] as const,
-    )
-
-    const interviewsPlaylistSlug = 'testing-javascript-interviews-bonus-de29'
+    const lessonsByPlaylistSlug = parsedPlaylists
+      .map(
+        (playlist) =>
+          [
+            playlist.slug,
+            flatten(playlist.sections.map((section) => section.lessons)),
+          ] as const,
+      )
+      .filter((playlist) => {
+        const [playlistSlug] = playlist
+        return playlistSlug !== INTREVIEWS_PLAYLIST_SLUG
+      })
 
     courseCompleted = lessonsByPlaylistSlug.every((playlistLessons) => {
-      const [playlistSlug, lessons] = playlistLessons
-
-      if (playlistSlug === interviewsPlaylistSlug) return true
+      const [_, lessons] = playlistLessons
 
       return lessons.every((lesson) => {
         const matchingLessonProgress = lessonProgress.find(
-          ({lessonSlug}) => lessonSlug === lesson.slug,
+          ({lessonId}) => lessonId === lesson._id,
         )
         return Boolean(matchingLessonProgress?.completedAt)
       })
