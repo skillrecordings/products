@@ -83,7 +83,6 @@ export const bonusesRouter = router({
               upgradedFromId: z.string().nullable(),
               bulkCouponId: z.string().nullable(),
               redeemedBulkCouponId: z.string().nullable(),
-              merchantPurchaseId: z.string().nullable(),
             })
             .parse({
               id: v4(),
@@ -101,7 +100,6 @@ export const bonusesRouter = router({
               upgradedFromId: null,
               bulkCouponId: null,
               redeemedBulkCouponId: null,
-              merchantPurchaseId: null,
             })
 
           json = await ctx.prisma.purchase.create({data: purchaseData})
