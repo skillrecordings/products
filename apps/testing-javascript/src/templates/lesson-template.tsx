@@ -43,6 +43,9 @@ const LessonTemplate = () => {
       exerciseSlug={router.query.lesson as string}
       handleContinue={customContinueHandler}
       handlePlayFromBeginning={customPlayFromBeginningHandler}
+      onModuleEnded={async () => {
+        addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
+      }}
     >
       <div className="container max-w-6xl pb-8 pt-4 md:pb-12 md:pt-6 lg:pb-16">
         <main className="relative mx-auto w-full items-start border-t border-transparent 2xl:flex 2xl:max-w-none 2xl:border-gray-800">
