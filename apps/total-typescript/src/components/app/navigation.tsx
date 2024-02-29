@@ -107,6 +107,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
           path="/workshops"
           title="Workshops"
           className="font-semibold"
+          labelString="Pro Workshops"
           label={
             <>
               <span
@@ -126,6 +127,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
           path="/tutorials"
           title="Tutorials"
           className="font-semibold"
+          labelString="Free Tutorials"
           label={
             <>
               <span
@@ -168,19 +170,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
           <>
             <NavLink
               className="lg:text-sm"
-              label={
-                <>
-                  {/* <span
-                    className={cx('hidden ', {
-                      'xl:inline-block': isMinified,
-                      'lg:inline-block': !isMinified,
-                    })}
-                  >
-                    Send
-                  </span>{' '} */}
-                  Feedback
-                </>
-              }
+              label="Feedback"
               onClick={() => {
                 setIsFeedbackDialogOpen(true, 'header')
               }}
@@ -249,8 +239,8 @@ const MobileNav = () => {
   }
 
   return (
-    <div className="block md:hidden">
-      <ul className="flex h-full items-center justify-center">
+    <div className="flex items-center md:hidden">
+      <ul className="flex items-center justify-center">
         <li className="px-1">
           <SearchBar />
         </li>
@@ -261,7 +251,7 @@ const MobileNav = () => {
           <>
             <div className="px-0.5" aria-hidden="true" />
             <NavLink
-              className="h-auto min-w-full rounded bg-primary font-semibold text-primary-foreground sm:min-w-full lg:min-w-full lg:text-sm"
+              className="min-w-full rounded bg-primary font-semibold text-primary-foreground sm:h-5 sm:min-w-full lg:min-w-full lg:text-sm"
               path={'/newsletter'}
               label={'Sign Up'}
             />
@@ -359,11 +349,12 @@ const NavLink: React.FC<
     label: string | React.ReactElement
     icon?: React.FC<{isActive?: boolean}>
     path?: string
+    labelString?: string
     className?: string
-    onClick?: () => void
+    onClick?: (e: React.MouseEvent) => void
     title?: string
   }>
-> = ({onClick, label, icon, path, className, title}) => {
+> = ({onClick, label, icon, path, className, title, labelString}) => {
   const router = useRouter()
   const isActive = router.asPath === path
   const IconEl = () =>
@@ -373,7 +364,10 @@ const NavLink: React.FC<
   return (
     <motion.li className="flex h-full items-center justify-center">
       <Comp
-        onClick={onClick}
+        onClick={(e) => {
+          track(`clicked ${labelString || label} link in nav`)
+          onClick && onClick(e)
+        }}
         href={path as string}
         aria-current={isActive ? 'page' : undefined}
         className={cx(
@@ -459,6 +453,10 @@ const DropdownLink: React.FC<
       <NavigationMenu.Link
         active={isActive}
         {...props}
+        onClick={(e) => {
+          track(`clicked ${props.children} link in nav`)
+          props?.onClick && props.onClick(e)
+        }}
         className={cx(
           'flex w-full rounded px-2 py-2 transition hover:bg-gray-700',
           props.className,
@@ -539,6 +537,9 @@ const AccountDropdown = () => {
             <NavigationMenu.Trigger
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
+              onClick={() => {
+                track('clicked account dropdown in nav')
+              }}
               className="flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium hover:radix-state-closed:bg-white/5 radix-state-open:bg-[#1F2735] sm:gap-1 sm:px-3 lg:text-sm"
             >
               <Gravatar
@@ -613,6 +614,7 @@ const SearchBar: React.FC<{isMinified?: boolean | undefined}> = ({
       className="group relative z-10 flex h-full items-center gap-1 px-2.5 py-2 text-sm font-normal opacity-90 transition hover:opacity-100 sm:px-2 sm:py-2 md:px-2 lg:px-2 lg:text-sm"
       onClick={() => {
         setOpenSearchBar(!isSearchBarOpen)
+        track('clicked Search in nav')
       }}
     >
       <div className="flex items-center gap-1">
@@ -792,9 +794,10 @@ const NavToggle: React.FC<NavToggleProps> = ({
 
   return (
     <button
-      className="z-10 mr-2 flex h-10 w-10 items-center justify-center rounded-md p-1 md:hidden"
+      className="z-10 mr-2 flex h-12 w-12 items-center justify-center rounded-md p-1 md:hidden"
       onClick={async () => {
         // menuControls.start(isMenuOpened ? 'close' : 'open')
+        track('clicked mobile nav toggle')
         setMenuOpened(!isMenuOpened)
         if (!isMenuOpened) {
           await path02Controls.start(path02Variants.moving)
