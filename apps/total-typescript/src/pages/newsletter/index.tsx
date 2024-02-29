@@ -39,11 +39,16 @@ const testimonials = [
 
 const NewsletterPage = () => {
   const title = 'Sign Up to Total TypeScript'
-  const ogImage = getOgImage({title})
   const router = useRouter()
   return (
     <Layout
-      meta={{title, ogImage, titleAppendSiteName: false}}
+      meta={{
+        title,
+        ogImage: {
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1709220896/card--newsletter_2x_hzzwge.jpg',
+        },
+        titleAppendSiteName: false,
+      }}
       className="w-full"
     >
       <main className="mx-auto mt-16 w-full">
