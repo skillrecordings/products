@@ -13,7 +13,7 @@ import {trpc} from '@/trpc/trpc.client'
 import {z} from 'zod'
 import flatten from 'lodash/flatten'
 
-const INTREVIEWS_PLAYLIST_SLUG = 'expert-interviews-module'
+const INTERVIEWS_PLAYLIST_SLUG = 'expert-interviews-module'
 
 const AccessYourCourse: React.FunctionComponent<{
   product: SanityProduct
@@ -49,7 +49,7 @@ const AccessYourCourse: React.FunctionComponent<{
       )
       .filter((playlist) => {
         const [playlistSlug] = playlist
-        return playlistSlug !== INTREVIEWS_PLAYLIST_SLUG
+        return playlistSlug !== INTERVIEWS_PLAYLIST_SLUG
       })
 
     courseCompleted = lessonsByPlaylistSlug.every((playlistLessons) => {
