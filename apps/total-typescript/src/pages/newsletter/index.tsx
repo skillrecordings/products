@@ -17,7 +17,7 @@ const handleOnSubscribe = (
   if (subscriber) {
     email && setUserId(email)
     track('subscribed to email list', {
-      location: 'home',
+      location: 'newsletter',
     })
     const redirectUrl = redirectUrlBuilder(subscriber, '/confirm')
     router.push(redirectUrl)
