@@ -11,6 +11,7 @@ import toast from 'react-hot-toast'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import Heading from '@/components/heading'
 import Spinner from '@/components/spinner'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const providers = await getProviders()
@@ -89,24 +90,6 @@ const LoginPage: React.FC<LoginTemplateProps> = ({csrfToken, providers}) => {
         data-login-template=""
         className="flex w-full flex-col items-center px-5"
       >
-        {/* <div className="pointer-events-none absolute z-10 -translate-y-52 sm:-translate-x-2 sm:-translate-y-56">
-          <Image
-            placeholder="blur"
-            src={require('../../public/assets/key@2x.png')}
-            alt=""
-            quality={100}
-            width={240}
-            height={240}
-            priority
-            aria-hidden="true"
-            className="w-48 sm:w-[240px]"
-          />
-        </div>
-        <h1 data-title="" className="text-balance">
-          Log in
-          <span data-subtitle="">to {process.env.NEXT_PUBLIC_SITE_TITLE}</span>
-        </h1> */}
-
         {query?.error === 'Verification' ? (
           <p data-verification-error="" className="text-balance">
             That sign in link is no longer valid. It may have been used already
@@ -120,7 +103,16 @@ const LoginPage: React.FC<LoginTemplateProps> = ({csrfToken, providers}) => {
             if you need help.
           </p>
         ) : null}
-        <form data-form="" method="post" action="/api/auth/signin/email">
+        <form
+          data-form=""
+          method="post"
+          onSubmit={() => {
+            track('clicked email me a login link', {
+              location: 'login',
+            })
+          }}
+          action="/api/auth/signin/email"
+        >
           <Label data-label="" htmlFor="email">
             Email address
           </Label>
