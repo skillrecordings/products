@@ -209,7 +209,7 @@ export const magnatText = localFont({
 
 // Larsseit
 export const larsseit = localFont({
-  preload: true,
+  preload: false, // true,
   display: 'swap',
   variable: '--font-larsseit',
   src: [
