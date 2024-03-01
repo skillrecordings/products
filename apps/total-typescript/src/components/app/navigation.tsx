@@ -793,40 +793,44 @@ const NavToggle: React.FC<NavToggleProps> = ({
   const path02Controls = useAnimationControls()
 
   return (
-    <button
-      className="z-10 mr-2 flex h-12 w-12 items-center justify-center rounded-md p-1 md:hidden"
-      onClick={async () => {
-        // menuControls.start(isMenuOpened ? 'close' : 'open')
-        track('clicked mobile nav toggle')
-        setMenuOpened(!isMenuOpened)
-        if (!isMenuOpened) {
-          await path02Controls.start(path02Variants.moving)
-          path01Controls.start(path01Variants.open)
-          path02Controls.start(path02Variants.open)
-        } else {
-          path01Controls.start(path01Variants.closed)
-          await path02Controls.start(path02Variants.moving)
-          path02Controls.start(path02Variants.closed)
-        }
-      }}
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24">
-        <motion.path
-          {...path01Variants.closed}
-          animate={path01Controls}
-          transition={{duration: 0.2}}
-          stroke="currentColor"
-          strokeWidth={1.5}
-        />
-        <motion.path
-          {...path02Variants.closed}
-          animate={path02Controls}
-          transition={{duration: 0.2}}
-          stroke="currentColor"
-          strokeWidth={1.5}
-        />
-      </svg>
-    </button>
+    <li>
+      <button
+        aria-label="Toggle Menu"
+        aria-expanded={isMenuOpened}
+        className="z-10 mr-2 flex h-12 w-12 items-center justify-center rounded-md p-1 md:hidden"
+        onClick={async () => {
+          // menuControls.start(isMenuOpened ? 'close' : 'open')
+          track('clicked mobile nav toggle')
+          setMenuOpened(!isMenuOpened)
+          if (!isMenuOpened) {
+            await path02Controls.start(path02Variants.moving)
+            path01Controls.start(path01Variants.open)
+            path02Controls.start(path02Variants.open)
+          } else {
+            path01Controls.start(path01Variants.closed)
+            await path02Controls.start(path02Variants.moving)
+            path02Controls.start(path02Variants.closed)
+          }
+        }}
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24">
+          <motion.path
+            {...path01Variants.closed}
+            animate={path01Controls}
+            transition={{duration: 0.2}}
+            stroke="currentColor"
+            strokeWidth={1.5}
+          />
+          <motion.path
+            {...path02Variants.closed}
+            animate={path02Controls}
+            transition={{duration: 0.2}}
+            stroke="currentColor"
+            strokeWidth={1.5}
+          />
+        </svg>
+      </button>
+    </li>
   )
 }
 
