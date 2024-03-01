@@ -80,7 +80,7 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
   }
 
   return (
-    <Dialog.Portal>
+    <Dialog.Portal container={window.document.getElementById('layout')}>
       <Dialog.Overlay className="fixed inset-0 z-30 bg-black/20 backdrop-blur-sm" />
       <Dialog.Content className="fixed left-[50%] top-[50%] z-50 max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] border border-gray-700/50 bg-gray-800 p-[25px] shadow-2xl shadow-black/40 focus:outline-none">
         <Dialog.Title className="border-b border-gray-700 pb-3 text-xl font-semibold">

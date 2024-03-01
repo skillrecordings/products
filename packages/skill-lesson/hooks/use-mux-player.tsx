@@ -51,6 +51,7 @@ type VideoContextType = {
   loadingUserStatus: boolean
   ability: AppAbility
   muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>
+  moduleCertificateRenderer?: () => React.ReactNode
   handleContinue: (options: {
     router: NextRouter
     module: Module
@@ -82,6 +83,7 @@ type VideoProviderProps = {
   onEnded?: () => Promise<any>
   onModuleEnded?: () => Promise<any>
   onModuleStarted?: () => Promise<any>
+  moduleCertificateRenderer?: () => React.ReactNode
   handleContinue?: (options: {
     router: NextRouter
     module: Module
@@ -112,6 +114,7 @@ export const VideoProvider: React.FC<
   onEnded = async () => {},
   onModuleEnded = async () => {},
   onModuleStarted = async () => {},
+  moduleCertificateRenderer = () => null,
   handleContinue = defaultHandleContinue,
   handlePlayFromBeginning = defaultHandlePlayFromBeginning,
   exerciseSlug,
@@ -285,6 +288,7 @@ export const VideoProvider: React.FC<
     setPlayerPrefs,
     setDisplayOverlay: setDisplayOverlayCallback,
     handlePlay,
+    moduleCertificateRenderer,
     displayOverlay,
     nextExercise,
     nextExerciseStatus,

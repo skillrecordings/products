@@ -40,6 +40,7 @@ import {
 } from '@skillrecordings/skill-lesson/video/video-overlays'
 import {useModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import ModuleCertificate from '@/certificate/module-certificate'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -147,6 +148,15 @@ const ExerciseTemplate: React.FC<{
           },
         })
       }}
+      moduleCertificateRenderer={() => (
+        <div className="mt-5 flex w-full max-w-[200px] items-center justify-center sm:max-w-[320px]">
+          <ModuleCertificate
+            className="py-0"
+            module={module}
+            withTitle={false}
+          />
+        </div>
+      )}
     >
       <Layout
         meta={{title: pageTitle, ...shareCard, description: pageDescription}}
