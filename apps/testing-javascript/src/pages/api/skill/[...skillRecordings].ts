@@ -1,16 +1,16 @@
 import SkillRecordings, {
   type SkillRecordingsOptions,
-  // defaultPaymentOptions,
-  // StripeProvider,
-} from '@skillrecordings/skill-api'
+  defaultPaymentOptions,
+  StripeProvider,
+} from '@skillrecordings/skill-api/src'
 import {nextAuthOptions} from '../auth/[...nextauth]'
 
-// const paymentOptions = defaultPaymentOptions({
-//   stripeProvider: StripeProvider({
-//     stripeSecretKey: process.env.STRIPE_SECRET_TOKEN,
-//     apiVersion: '2020-08-27',
-//   }),
-// })
+const paymentOptions = defaultPaymentOptions({
+  stripeProvider: StripeProvider({
+    stripeSecretKey: process.env.STRIPE_SECRET_TOKEN,
+    apiVersion: '2020-08-27',
+  }),
+})
 
 export const skillOptions: SkillRecordingsOptions = {
   site: {
@@ -18,7 +18,7 @@ export const skillOptions: SkillRecordingsOptions = {
     supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
   },
   nextAuthOptions,
-  // paymentOptions,
+  paymentOptions,
 }
 
 export default SkillRecordings(skillOptions)
