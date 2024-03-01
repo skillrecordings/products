@@ -89,8 +89,8 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
   const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
-    <ul className={cx('hidden w-full items-center justify-end md:flex')}>
-      <div
+    <div className={cx('hidden w-full items-center justify-end md:flex')}>
+      <ul
         className={cn(
           ' left-0 top-0 flex h-full w-full items-center justify-start  ',
           {
@@ -155,8 +155,8 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
           className="font-semibold"
           // icon={BookIcon}
         />
-      </div>
-      <div className="flex h-full flex-shrink-0 items-center justify-center">
+      </ul>
+      <ul className="flex h-full flex-shrink-0 items-center justify-center">
         {status === 'loading' ? null : <SearchBar isMinified={isMinified} />}
         {status === 'unauthenticated' && (
           <NavLink
@@ -205,8 +205,8 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
         ) : (
           <div aria-hidden="true" />
         )}
-      </div>
-    </ul>
+      </ul>
+    </div>
   )
 }
 
