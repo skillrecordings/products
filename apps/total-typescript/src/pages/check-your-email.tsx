@@ -7,6 +7,7 @@ const CheckYourEmail = () => {
   return (
     <Layout meta={{title: 'Check your email'}}>
       <CheckYourEmailTemplate
+        title={'Check Your Email'}
         image={
           <div className="flex max-w-screen-md items-center justify-center">
             <Image

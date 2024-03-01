@@ -4,8 +4,13 @@ import {Signature} from './confirm'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Button} from '@skillrecordings/ui'
 import Link from 'next/link'
+import {useSession} from 'next-auth/react'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 const ConfirmedSubscriptionPage = () => {
+  const {data: session} = useSession()
+  const {subscriber, loadingSubscriber} = useConvertkit()
+
   return (
     <Layout footer={null}>
       <main className="flex flex-grow flex-col items-center justify-center px-5 py-32">
@@ -18,18 +23,20 @@ const ConfirmedSubscriptionPage = () => {
             You're all set to receive emails from{' '}
             {process.env.NEXT_PUBLIC_SITE_TITLE}.
           </p>
-          <Button
-            asChild
-            size="lg"
-            onClick={() => {
-              track('clicked log in', {
-                location: 'confirmed subscription',
-              })
-            }}
-            className="h-12 bg-gradient-to-tr from-[#4BCCE5] to-[#8AF7F1] text-lg font-semibold"
-          >
-            <Link href="/login">Continue to Login</Link>
-          </Button>
+          {!session && (
+            <Button
+              asChild
+              size="lg"
+              onClick={() => {
+                track('clicked log in', {
+                  location: 'confirmed subscription',
+                })
+              }}
+              className="h-12 bg-gradient-to-tr from-[#4BCCE5] to-[#8AF7F1] text-base font-semibold"
+            >
+              <Link href="/login?prefill=true">Continue to Login</Link>
+            </Button>
+          )}
         </div>
       </main>
     </Layout>
