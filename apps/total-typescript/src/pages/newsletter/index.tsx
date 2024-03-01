@@ -1,4 +1,3 @@
-import {getOgImage} from '@/utils/get-og-image'
 import {
   redirectUrlBuilder,
   SubscribeToConvertkitForm,
@@ -61,10 +60,10 @@ const NewsletterPage = () => {
           aria-label="Sign up to Total TypeScript"
         >
           <div className="flex max-w-xl flex-col items-center gap-7 text-center">
-            <h2 className="text-balance text-3xl font-medium sm:text-4xl">
+            <h1 className="text-balance text-3xl font-medium sm:text-4xl">
               Join over 30,000 developers on their journey to TypeScript mastery
-            </h2>
-            <h1 className="text-balance text-lg font-normal text-slate-300 sm:text-xl">
+            </h1>
+            <h2 className="text-balance text-lg font-normal text-slate-300 sm:text-xl">
               A comprehensive production-grade TypeScript training by{' '}
               <Image
                 src={require('../../../public/matt-pocock.jpg')}
@@ -77,7 +76,7 @@ const NewsletterPage = () => {
                 height={30}
               />
               Matt Pocock
-            </h1>
+            </h2>
           </div>
           <SubscribeToConvertkitForm
             className="mt-12 flex w-full max-w-[360px] flex-col gap-5 [&_button]:mt-2 [&_button]:h-14 [&_button]:bg-gradient-to-tr [&_button]:from-[#4BCCE5] [&_button]:to-[#8AF7F1] [&_button]:text-base [&_button]:font-semibold [&_input]:h-14 [&_input]:border-[#2B394E] [&_input]:bg-black/30 [&_input]:px-4 [&_input]:text-base [&_input]:shadow-inner [&_input]:transition hover:[&_input]:border-[#3C506D]"
