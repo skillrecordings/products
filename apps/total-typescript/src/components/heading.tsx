@@ -21,7 +21,7 @@ const getImageByTitle = (title: string) => {
   if (title === 'Check your email') {
     return require('../../public/assets/headings/check-your-email@2x.png')
   }
-  if (title === 'Frequently Asked Questions') {
+  if (title === 'Free TypeScript Tutorials') {
     return require('../../public/assets/headings/faq@2x.png')
   }
 
@@ -38,7 +38,7 @@ const Heading: React.FC<React.PropsWithChildren<HeadingProps>> = ({
   return (
     <header
       className={cn(
-        'flex w-full flex-col items-center overflow-x-hidden pt-40 text-center',
+        'flex w-full flex-col items-center overflow-x-hidden pb-5 pt-40 text-center',
         className,
       )}
     >

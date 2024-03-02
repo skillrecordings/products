@@ -15,7 +15,7 @@ const InterviewTemplate = ({interview}: {interview: Lesson}) => {
     useVideoResource()
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
 
-  const nextInterviewPath = ({lesson}: {lesson: Lesson | null}) => {
+  const nextInterviewPath = ({lesson}: {lesson: {slug: string} | null}) => {
     return {
       query: {lesson: lesson?.slug},
       pathname: '/interviews/[lesson]',

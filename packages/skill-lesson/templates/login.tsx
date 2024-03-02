@@ -155,9 +155,10 @@ const LoginTemplate: React.FC<React.PropsWithChildren<LoginTemplateProps>> = ({
 
 export default LoginTemplate
 
-export const CheckYourEmailTemplate: React.FC<{image?: React.ReactElement}> = ({
-  image,
-}) => {
+export const CheckYourEmailTemplate: React.FC<{
+  image?: React.ReactElement
+  title?: string
+}> = ({image, title = 'Check your email'}) => {
   React.useEffect(() => {
     toast.success('Check your email', {
       icon: '✉️',
@@ -168,7 +169,7 @@ export const CheckYourEmailTemplate: React.FC<{image?: React.ReactElement}> = ({
     <main data-check-your-email="">
       <div data-container="">
         {image ? image : null}
-        <h1 data-title="">Check your email</h1>
+        <h1 data-title="">{title}</h1>
         <p data-message="">
           A login link will be sent to your email! Use it and you&apos;ll be
           able to access your account.

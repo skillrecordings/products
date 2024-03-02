@@ -136,7 +136,7 @@ export async function recordNewPurchase(
     merchantAccountId,
   })
 
-  const [purchase] = await createMerchantChargeAndPurchase({
+  const purchase = await createMerchantChargeAndPurchase({
     userId: user.id,
     stripeChargeId,
     stripeCouponId,

@@ -19,7 +19,7 @@ export const searchRouter = router({
           resourceType
             ? `"${resourceType}"`
             : `"article", "tip", "module", "exercise", "explainer"`
-        }] && state == "published"]
+        }] && state == "published" && moduleType != 'chapter']
     | score(
       title match $searchQuery 
       || _type match "module"

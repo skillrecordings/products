@@ -1,16 +1,9 @@
 [data-login-template] {
-  @apply relative mx-auto flex w-full flex-grow flex-col items-center justify-center p-5 pb-16 pt-40 text-white sm:pt-56 md:pb-40;
-  [data-title] {
-    @apply flex w-full flex-col items-center justify-center pt-3 text-center font-text text-7xl font-bold leading-9 sm:pt-8 sm:text-8xl;
-  }
-  [data-subtitle] {
-    @apply mt-5 font-text text-xl font-normal text-gray-300 sm:mt-3;
-  }
   [data-verification-error] {
     @apply max-w-sm pt-4 text-center sm:mx-auto sm:w-full sm:pt-8;
   }
   [data-form] {
-    @apply w-full pt-8 sm:mx-auto sm:max-w-sm sm:pt-10 sm:text-lg;
+    @apply w-full sm:mx-auto sm:max-w-sm sm:pt-3 sm:text-lg;
 
     [data-input-container] {
       @apply relative mt-1 rounded-md shadow-sm;

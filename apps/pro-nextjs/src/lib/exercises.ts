@@ -34,7 +34,7 @@ export const ExerciseSchema = z
             )
             .optional(),
         })
-        .merge(ResourceSchema)
+        .merge(ResourceSchema.omit({_id: true}))
         .optional(),
     ),
   })

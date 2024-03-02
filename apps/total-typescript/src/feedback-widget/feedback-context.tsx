@@ -1,10 +1,11 @@
 import React from 'react'
-import FeedbackDialog from './feedback-dialog'
+// import FeedbackDialog from './feedback-dialog'
+import dynamic from 'next/dynamic'
 
 type FeedbackContextType = {
   isFeedbackDialogOpen: boolean
   setIsFeedbackDialogOpen: (value: boolean, location?: string) => void
-  feedbackComponent: React.ReactElement
+  feedbackComponent: React.ReactElement | null
   location: string
 }
 
@@ -27,7 +28,8 @@ export const FeedbackProvider: React.FC<React.PropsWithChildren<any>> = ({
   const [isFeedbackDialogOpen, setIsFeedbackDialogOpen] =
     React.useState<boolean>(false)
   const [location, setLocation] = React.useState<string>('navigation')
-
+  const FeedbackDialog =
+    isFeedbackDialogOpen && dynamic(() => import('./feedback-dialog'))
   return (
     <FeedbackContext.Provider
       value={{
@@ -36,7 +38,8 @@ export const FeedbackProvider: React.FC<React.PropsWithChildren<any>> = ({
           location && setLocation(location)
           setIsFeedbackDialogOpen(value)
         },
-        feedbackComponent: <FeedbackDialog />,
+        feedbackComponent:
+          isFeedbackDialogOpen && FeedbackDialog ? <FeedbackDialog /> : null,
         location,
       }}
     >

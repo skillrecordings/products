@@ -6,7 +6,10 @@ import {publicProcedure, router} from '../trpc.server'
 import {getModule} from '../../lib/modules'
 import {getSection} from '../../lib/sections'
 import {getLesson} from '../../lib/lesson-resource'
-import {LessonResourceSchema} from '../../schemas/lesson'
+import {
+  SolutionResourceSchema,
+  LessonResourceSchema,
+} from '../../schemas/lesson'
 
 export const lessonsRouter = router({
   getNextLesson: publicProcedure
@@ -28,7 +31,7 @@ export const lessonsRouter = router({
       // it seems like this conditional and return are going result in the
       // case statement for `exercise` below never getting triggered.
       if (input.type === 'exercise') {
-        return LessonResourceSchema.parse(lesson.solution)
+        return SolutionResourceSchema.parse(lesson.solution)
       }
 
       const lessons = section ? section.lessons : module.lessons

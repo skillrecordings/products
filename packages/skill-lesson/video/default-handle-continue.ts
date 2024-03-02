@@ -1,7 +1,7 @@
 import {type Module} from '../schemas/module'
 import {type Section} from '../schemas/section'
 import {type Exercise} from '../schemas/exercise'
-import {type Lesson} from '../schemas/lesson'
+import {type Lesson, type Solution} from '../schemas/lesson'
 import {type NextRouter} from 'next/router'
 
 type ObjectUrl = Parameters<NextRouter['push']>[0]
@@ -11,7 +11,7 @@ export type NextPathBuilder =
   | ((options: {
       module: Module
       section: Section | null
-      lesson: Lesson | null
+      lesson: {slug: string} | null
     }) => ObjectUrl)
 
 export const defaultHandleContinue = async ({
@@ -26,7 +26,7 @@ export const defaultHandleContinue = async ({
   router: NextRouter
   module: Module
   section?: Section | null
-  nextExercise?: Lesson | null
+  nextExercise?: Lesson | Solution | null
   handlePlay: () => void
   path: string
   nextPathBuilder?: NextPathBuilder

@@ -1,7 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
 import Navigation from '@/components/app/navigation'
-import {twMerge} from 'tailwind-merge'
 import isNull from 'lodash/isNull'
 import {Toaster} from 'react-hot-toast'
 import {useRouter} from 'next/router'
@@ -11,6 +10,7 @@ import Footer from '@/components/app/footer'
 import GlobalSearchBar from '@/search-bar'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {trpc} from '@/trpc/trpc.client'
+import {larsseit, magnatHead, magnatText} from '@/utils/load-fonts'
 
 type LayoutProps = {
   meta?: any
@@ -53,7 +53,10 @@ const Layout: FunctionComponent<LayoutProps> = ({
   } = meta || {}
 
   return (
-    <div className="relative">
+    <div
+      id="layout"
+      className={`relative font-sans ${larsseit.variable} ${magnatHead.variable} ${magnatText.variable}`}
+    >
       <NextSeo
         title={title}
         description={description}

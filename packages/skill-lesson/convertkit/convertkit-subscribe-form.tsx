@@ -1,4 +1,5 @@
 import React from 'react'
+import * as Yup from 'yup'
 import {Input, Label, Button} from '@skillrecordings/ui'
 import {type Subscriber} from '../schemas/subscriber'
 import {useConvertkitForm} from '../hooks/use-convertkit-form'
@@ -18,6 +19,8 @@ export type SubscribeFormProps = {
   id?: string
   fields?: Record<string, string>
   className?: string
+  validationSchema?: Yup.ObjectSchema<any>
+  validateOnChange?: boolean
   [rest: string]: any
 }
 
@@ -71,15 +74,20 @@ export const SubscribeToConvertkitForm: React.FC<
   id,
   fields,
   className,
+  validationSchema,
+  validateOnChange,
   ...rest
 }) => {
-  const {isSubmitting, status, handleChange, handleSubmit} = useConvertkitForm({
-    formId,
-    onSuccess,
-    onError,
-    fields,
-    submitUrl: subscribeApiURL,
-  })
+  const {isSubmitting, status, handleChange, handleSubmit, errors, touched} =
+    useConvertkitForm({
+      formId,
+      onSuccess,
+      onError,
+      fields,
+      submitUrl: subscribeApiURL,
+      validationSchema,
+      validateOnChange,
+    })
 
   return (
     <form
@@ -96,6 +104,9 @@ export const SubscribeToConvertkitForm: React.FC<
           First Name
         </Label>
         <Input
+          data-input-with-error={Boolean(
+            touched.first_name && errors.first_name,
+          )}
           className="h-auto"
           name="first_name"
           id={id ? `first_name_${id}` : 'first_name'}
@@ -103,12 +114,16 @@ export const SubscribeToConvertkitForm: React.FC<
           placeholder="Preferred name"
           type="text"
         />
+        {validationSchema && touched.first_name && errors.first_name && (
+          <p data-input-error-message>{errors.first_name}</p>
+        )}
       </div>
       <div data-sr-fieldset="" className="w-full">
         <Label data-sr-input-label="" htmlFor={id ? `email_${id}` : 'email'}>
           Email*
         </Label>
         <Input
+          data-input-with-error={Boolean(touched.email && errors.email)}
           className="h-auto"
           name="email"
           id={id ? `email_${id}` : 'email'}
@@ -117,6 +132,9 @@ export const SubscribeToConvertkitForm: React.FC<
           type="email"
           required
         />
+        {validationSchema && touched.email && errors.email && (
+          <p data-input-error-message>{errors.email}</p>
+        )}
       </div>
       {submitButtonElem ? (
         React.cloneElement(submitButtonElem, {
@@ -132,8 +150,13 @@ export const SubscribeToConvertkitForm: React.FC<
         <Button
           variant="default"
           size="lg"
-          disabled={Boolean(isSubmitting)}
+          disabled={
+            (touched.first_name && errors.first_name) ||
+            (touched.email && errors.email) ||
+            Boolean(isSubmitting)
+          }
           type="submit"
+          formNoValidate={Boolean(validationSchema)}
         >
           {isSubmitting ? <Spinner className="w-5 h-5" /> : actionLabel}
         </Button>

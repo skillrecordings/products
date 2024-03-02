@@ -2,7 +2,6 @@ import React, {FunctionComponent} from 'react'
 import {NextSeo, type NextSeoProps} from '@skillrecordings/next-seo'
 import {twMerge} from 'tailwind-merge'
 import Navigation from './navigation'
-import Footer from './footer'
 import {Inter} from 'next/font/google'
 import {Toaster} from 'react-hot-toast'
 
@@ -26,7 +25,6 @@ type LayoutProps = {
   footer?: React.ReactElement | null
   children?: any
   withNavigation?: boolean
-  withFooter?: boolean
   navigationProps?: {
     className?: string
   }
@@ -41,9 +39,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   meta,
   noIndex,
   withNavigation = true,
-  withFooter = true,
   navigationProps,
-  footerProps,
 }) => {
   const {
     title,
@@ -91,7 +87,6 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       >
         {children}
       </div>
-      {withFooter && <Footer {...footerProps} />}
     </div>
   )
 }

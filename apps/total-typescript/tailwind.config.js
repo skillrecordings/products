@@ -27,9 +27,9 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        heading: ['Magnat Head', ...defaultTheme.fontFamily.sans],
-        text: ['Magnat Text', ...defaultTheme.fontFamily.sans],
-        sans: ['Larsseit', ...defaultTheme.fontFamily.sans],
+        heading: ['var(--font-magnat-head)', ...defaultTheme.fontFamily.sans],
+        text: ['var(--font-magnat-text)', ...defaultTheme.fontFamily.sans],
+        sans: ['var(--font-larsseit)', ...defaultTheme.fontFamily.sans],
       },
       borderRadius: {
         lg: `var(--radius)`,
@@ -57,6 +57,11 @@ module.exports = {
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        salmon: {
+          DEFAULT: 'hsl(7 100% 75%)',
+          foreground: 'hsl(7 100% 85%)',
+          background: 'hsl(7 100% 75%)',
+        },
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',

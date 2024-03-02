@@ -275,7 +275,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const isSoldOut =
     product.type === 'live' &&
     !purchased &&
-    availability?.quantityAvailable === 0
+    availability?.quantityAvailable &&
+    availability.quantityAvailable <= 0
 
   return (
     <div id={id}>

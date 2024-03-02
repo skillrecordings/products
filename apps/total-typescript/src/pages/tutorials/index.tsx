@@ -50,7 +50,7 @@ const TutorialsPage: React.FC<{tutorials: Module[]}> = ({tutorials}) => {
               return (
                 <li
                   key={slug.current}
-                  className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border bg-card p-10 shadow-2xl md:flex-row"
+                  className="relative flex flex-col items-center gap-10 rounded-lg border bg-card p-10 shadow-2xl after:absolute after:-top-px after:left-0 after:h-px after:w-full after:bg-gradient-to-r after:from-transparent after:via-[#57687C]/40 after:to-transparent after:content-[''] md:flex-row"
                 >
                   {image && (
                     <Link

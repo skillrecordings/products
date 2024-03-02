@@ -190,7 +190,7 @@
   }
 }
 [data-video-overlay='finished'] {
-  @apply px-5 sm:px-0;
+  @apply h-full w-full px-5 pb-24 pt-10 sm:px-0 lg:pb-5 lg:pt-5 xl:aspect-video;
   [data-progress] {
     @apply flex w-full max-w-sm items-center justify-center gap-2 pt-2 md:pt-5;
     [data-progress-bar] {
@@ -223,7 +223,7 @@
     @apply hidden px-2 text-left leading-tight sm:block sm:text-sm;
   }
   [data-actions] {
-    @apply mt-0 flex items-center justify-center gap-4 md:mt-8;
+    @apply mt-10 flex items-center justify-center gap-4 md:mt-8;
     /* [data-action='restart'] {
       @apply hidden;
     } */

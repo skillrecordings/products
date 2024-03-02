@@ -1,6 +1,7 @@
 import Layout from '@/components/app/layout'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {Article} from '@/lib/articles'
+import {motion, useReducedMotion} from 'framer-motion'
 import Image from 'next/image'
 import Share from '@/components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
@@ -16,6 +17,13 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import {trpc} from '@/trpc/trpc.client'
 import Link from 'next/link'
 import config from '@/config'
+import {useRouter} from 'next/router'
+import {
+  redirectUrlBuilder,
+  SubscribeToConvertkitForm,
+} from '@skillrecordings/skill-lesson/convertkit'
+import {setUserId} from '@amplitude/analytics-browser'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 type ArticleTemplateProps = {
   article: Article
@@ -40,15 +48,20 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   const {data: defaultCouponData, status: defaultCouponStatus} =
     trpc.pricing.defaultCoupon.useQuery()
 
+  const isBookTeaser = article.articleType === 'bookTeaser'
+  const shouldReduceMotion = useReducedMotion()
+
   return (
     <Layout
       meta={{
         title,
         description: articleDescription,
         ogImage: {
-          url: `${
-            process.env.NEXT_PUBLIC_OG_IMAGE_URI
-          }/og-default?title=${encodeURI(title)}`,
+          url: isBookTeaser
+            ? 'https://res.cloudinary.com/total-typescript/image/upload/v1708677659/book-teaser--card_2x_fe7p0d.jpg'
+            : `${
+                process.env.NEXT_PUBLIC_OG_IMAGE_URI
+              }/og-default?title=${encodeURI(title)}`,
           alt: title,
         },
       }}
@@ -65,27 +78,56 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       />
       <header
         className={cn(
-          'relative z-10 mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center gap-10 px-5 pb-8 pt-20 sm:pb-20 sm:pt-32 lg:flex-row lg:gap-0',
+          'relative z-10 mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center gap-10 px-5 pb-8 pt-24 sm:pb-16 sm:pt-32 lg:flex-row lg:gap-0',
         )}
       >
-        <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-shrink-0 flex-col">
-          <Link
-            href="/articles"
-            className="group mb-5 flex items-center gap-1 text-sm text-primary opacity-75 transition hover:opacity-100 sm:mb-12 sm:text-base"
-          >
-            <span
-              aria-hidden="true"
-              className="relative transition group-hover:-translate-x-1"
+        <div
+          className={cn(
+            'relative z-10 mx-auto flex w-full max-w-2xl flex-shrink-0 flex-col items-center text-center',
+          )}
+        >
+          {isBookTeaser ? (
+            <div className="relative mb-5 inline-flex items-center justify-center overflow-hidden rounded-full bg-border p-px sm:mb-8">
+              <div className="relative z-10 inline-flex rounded-full bg-background px-4 py-1.5 font-sans text-sm font-normal text-salmon-foreground">
+                Book Teaser
+              </div>
+              {!shouldReduceMotion && (
+                <motion.div
+                  className="absolute h-40 w-5 bg-salmon/75 blur-sm"
+                  animate={{
+                    rotateZ: [0, 360],
+                  }}
+                  transition={{
+                    duration: 5,
+                    ease: 'linear',
+                    repeat: Infinity,
+                  }}
+                />
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/articles"
+              className="group mb-5 flex items-center gap-1 text-sm text-primary opacity-75 transition hover:opacity-100 sm:mb-8 sm:text-base"
             >
-              ←
-            </span>
-            <span>All Articles</span>
-          </Link>
-          <h1 className="block text-left font-text text-4xl font-bold sm:text-5xl md:text-6xl">
+              <span
+                aria-hidden="true"
+                className="relative transition group-hover:-translate-x-1"
+              >
+                ←
+              </span>
+              <span>All Articles</span>
+            </Link>
+          )}
+          <h1 className="block text-balance font-text text-4xl font-bold sm:text-4xl md:text-5xl">
             {title}
           </h1>
           <div className="mt-10 flex w-full justify-center gap-10">
-            <div className="flex flex-grow items-start gap-3">
+            <div
+              className={cn('flex items-center gap-3', {
+                // 'flex-grow': !isBookTeaser,
+              })}
+            >
               <div className="flex items-center justify-center overflow-hidden rounded-full">
                 <Image
                   src={require('../../public/matt-pocock.jpg')}
@@ -95,7 +137,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
                   priority
                 />
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col text-left">
                 <span className="text-lg font-semibold">{config.author}</span>
                 <span className="max-w-sm text-balance text-sm text-slate-400 sm:text-base">
                   {config.authorBio}
@@ -104,8 +146,24 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
             </div>
           </div>
         </div>
-        {image && (
-          <div className="relative flex h-full w-full flex-col items-end lg:-ml-40 lg:translate-y-16 lg:brightness-125">
+        {isBookTeaser && (
+          <div className="absolute top-14 after:absolute after:bottom-0 after:left-0 after:h-32 after:w-full after:bg-gradient-to-t after:from-background after:via-background after:to-transparent after:content-[''] sm:top-16">
+            <Image
+              src={require('../../public/assets/book-teaser-bg@2x.jpg')}
+              width={800}
+              alt=""
+              quality={100}
+              priority
+              aria-hidden="true"
+            />
+          </div>
+        )}
+        {/* {image && !isBookTeaser && (
+          <div
+            className={cn(
+              'relative flex h-full w-full flex-col items-end lg:-ml-24 lg:translate-y-16 lg:brightness-125',
+            )}
+          >
             <Image
               className="scale-[1] rounded-lg sm:scale-100"
               src={image}
@@ -115,13 +173,12 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
               height={1080 / 2}
               quality={100}
               priority
-              // fill
             />
             <time dateTime={_createdAt} className="pt-3 text-sm text-slate-600">
               Published on {format(new Date(_createdAt), 'MMM dd, y')}
             </time>
           </div>
-        )}
+        )} */}
       </header>
       <main className="relative z-10 px-5 pt-10">
         <div className="prose relative z-10 mx-auto w-full max-w-3xl sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
@@ -138,19 +195,21 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
               }}
             />
           )}
-          <div className="flex w-36 -rotate-6 gap-2 pt-10 text-gray-400">
-            —
+          <div className="mx-auto flex w-32 -rotate-6 items-center gap-2 text-slate-500">
             <Image
               src={require('../../public/assets/signature.svg')}
               alt="Matt's signature"
             />
           </div>
         </div>
-        <section className="relative z-10 overflow-hidden px-5 pb-24">
-          <Share title={title} />
-          {!subscriber && !loadingSubscriber && (
-            <ArticleNewsletterCta article={article} />
-          )}
+        <section className="relative z-10 overflow-hidden px-5 pb-24 pt-16">
+          <ArticleCTA article={article} />
+          <Share
+            title={title}
+            contentType={
+              article.articleType === 'bookTeaser' ? 'Book Teaser' : undefined
+            }
+          />
         </section>
         <section className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-8 pb-32 sm:grid-cols-2">
           {articles
@@ -212,6 +271,94 @@ const ArticleBodyCTA: React.FC<
         >
           {action}
         </Link>
+      </div>
+    </div>
+  )
+}
+
+const ArticleCTA: React.FC<{article: Article}> = ({article}) => {
+  const {subscriber, loadingSubscriber} = useConvertkit()
+
+  switch (article.articleType) {
+    case 'bookTeaser':
+      return <BookTeaserCTA className="max-w-4xl" />
+    default:
+      return !subscriber && !loadingSubscriber ? (
+        <ArticleNewsletterCta article={article} />
+      ) : null
+  }
+}
+
+const BookTeaserCTA: React.FC<{withImage?: boolean; className?: string}> = ({
+  withImage = true,
+  className,
+}) => {
+  const {subscriber, loadingSubscriber} = useConvertkit()
+  const router = useRouter()
+  const ckBookInterest = {
+    [`book_interest`.toLowerCase()]: new Date().toISOString().slice(0, 10),
+  }
+
+  return (
+    <div
+      className={cn(
+        'mx-auto flex w-full max-w-3xl flex-col items-center gap-0 rounded-lg border bg-card md:flex-row',
+        className,
+      )}
+    >
+      {withImage && (
+        <div className="-my-5 flex-shrink-0">
+          <Image
+            src={require('../../public/assets/book@2x.png')}
+            aria-hidden="true"
+            alt=""
+            width={495 / 1.5}
+            height={523 / 1.5}
+            quality={100}
+            priority
+            className="relative md:-ml-10 md:rotate-[16deg]"
+          />
+        </div>
+      )}
+      <div
+        className={cn(
+          'flex w-full flex-col gap-2 text-xl leading-relaxed text-gray-200',
+          {
+            '-mt-10 p-5 md:mt-0 md:py-0 md:pl-0 md:pr-10': withImage,
+            'p-5 sm:p-10': !withImage,
+          },
+        )}
+      >
+        <p className="text-center text-2xl font-semibold md:text-left">
+          This is a preview from my upcoming book.
+        </p>
+        {!subscriber && (
+          <>
+            <p className="text-balance text-center text-sm text-slate-400 sm:text-base md:text-left">
+              If you’d like to receive updates about the book and all things
+              TypeScript, subscribe below:
+            </p>
+            <div className="flex w-full pt-3">
+              <SubscribeToConvertkitForm
+                fields={ckBookInterest}
+                onSuccess={(subscriber, email) => {
+                  if (subscriber) {
+                    email && setUserId(email)
+                    track('subscribed to email list', {
+                      location: 'home',
+                    })
+                    const redirectUrl = redirectUrlBuilder(
+                      subscriber,
+                      '/confirm',
+                    )
+                    router.push(redirectUrl)
+                  }
+                }}
+                className="flex w-full max-w-none flex-col gap-5 md:flex-row md:items-end [&_button]:h-12 [&_button]:text-base [&_button]:font-semibold [&_input]:h-12 [&_input]:border-white/10 [&_input]:bg-background [&_input]:bg-gray-900 [&_input]:text-base"
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

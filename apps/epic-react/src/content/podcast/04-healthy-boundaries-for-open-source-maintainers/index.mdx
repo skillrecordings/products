@@ -1,0 +1,334 @@
+---
+title: Healthy Boundaries For Open-Source Maintainers
+slug: healthy-boundaries-for-open-source-maintainers
+simplecastId: ae81af61-cdeb-4462-841d-033fcb33b6d5
+description: Kent talks about how he got into open-source and some of the mistakes he made when it came to setting boundaries with time, effort, and people.
+number: 4
+image: '/podcast-images/healthy-boundaries-for-open-source-maintainers@2x.png'
+---
+
+Open-source projects are great. You have complete control of the project, or so you think. It's very easy to find yourself losing control of the amount of time that you spend working on the project. It's also very easy to get caught up in the feature requests people are making.
+
+Kent had to learn how to only spend just enough time on a project. Now, the only issues that he addresses are issues that he runs into that he is personally experiencing. Sometimes he will also work on stuff that he thinks will be fun. But, the point is is that he only works on things that he personally needs to be done.
+
+<PodcastTranscript>
+
+**Michael Chan:**  
+Hey Kent.
+
+**Kent C. Dodds:**  
+Hey, what's up? I was going to call you Chantastic.
+
+**Michael Chan:**  
+You can.
+
+**Kent C. Dodds:**  
+But hi, Michael. Hi, Chantastic. You're fantastic, Chantastic.
+
+**Michael Chan:**  
+Thanks Kent. We're talking about open source and you have had just a really prolific career in open source. I want to talk about how it's been good for you, but then also, how maybe it's been not so great or been too demanding or emotionally exhausting, or all of the kind of things, because I know that everyone wants to put this thing in the world like the world loves, but not everyone sees the work and the heartache and the pain that goes into that. I thought that'd be a fun thing to talk about. But to open up, why don't you tell me how your open source journey started?
+
+**Kent C. Dodds:**  
+Yeah, my first pull request was fixing Java doc in the Play framework. It's a Java back end framework and I just noticed a typo I think it was the word value. They missed the A. I fixed that, made up my first ever pull request. They made me sign this thing called the CLA, configure license agreement, and I was like, "All right, I guess. If that's what it takes to get this typo fixed."
+
+**Kent C. Dodds:**  
+And then they merged that in. That was my first ever pull request on GitHub. I think it was my first real exposure to GitHub. Actually, no. I had been putting up some stuff on GitHub. For me, before I really got into git and GitHub, I was using Dropbox to host all of my stuff. That worked out pretty well with the multiple computers I was using and stuff. I was able to revert because they had history. But if I had a big thing that I'd done, there's no chance in heaven that I would be able to figure out how to get that stuff back.
+
+**Kent C. Dodds:**  
+Switching over to git, GitHub just became the default place where I just put stuff. At school, I would build little projects or tiny libraries that I would use in multiple projects. I put them all on GitHub. I didn't ever really expect people to use it, but I still documented on okayish, just like, "This is what this thing is and here's how you use it."
+
+**Kent C. Dodds:**  
+If you look back at my old GitHub profile, you'll see some Java libraries and stuff and just with a bunch of utility methods and then eventually I did make that first pull requests. That was still a Java thing. And then it was a while before I started getting more and more serious into doing open source contributing and maintaining a project that people actually use.
+
+**Michael Chan:**  
+What did it feel like to have that first pull request merged? Because I know there can be a big gap when you're starting your career, feeling like, "There's me and then there's everyone else who knows what they're doing, understands how open source works, and does really high quality work." What did it feel like to have that first thing accepted into a big project?
+
+**Kent C. Dodds:**  
+I know that a lot of people feel really nervous about getting involved in open source. That was not my experience. I guess there's a level of hubris or just confidence in myself. Maybe I didn't know enough to know that I was out of my league. I don't know. It just didn't register to me as something stress inducing or anything. It's just like I'm fixing a typo, big whoop. I was never really super nervous about it. I was contributing code to that company a lot.
+
+**Kent C. Dodds:**  
+For me, when it was first merged, it was like, "Hey, sweet. This is my first ever pull request that a framework is using." The Play framework is not a small thing. There's a lot of-
+
+**Michael Chan:**  
+No, it's a big framework.
+
+**Kent C. Dodds:**  
+It's a big framework. Yeah, that was pretty cool. But it was a typo. I didn't feel a huge sense of accomplishment. Now, looking back being exposed to the number of people that I've helped get into open source, it actually is a big deal for a lot of people to get that first pull request in. I have a renewed appreciation for the maintainers who... They had a bot that asked... Or no, I think they asked me explicitly themselves to sign the CLA and they spent, I don't know, maybe five minutes of their lives dedicated to helping me get a typo fixed in Java doc.
+
+**Kent C. Dodds:**  
+At the time, I was just shrugged it off. But now as a maintainer of bigger projects, I know that that doesn't come for free because you have hundreds of contributions like that every week or every month in a big framework like that. It takes some time. I really do appreciate that they spent that time helping me do that.
+
+**Michael Chan:**  
+Yeah, absolutely. Now, I know that a big part of open source is community and it's making people feel welcome for all contributions. I know that this has been a big thing for you. You've had all contributors where you try to make sure that anyone who makes a pull request actually lands a commit is recognized in the documentation. I'm curious, where does that come from? Obviously, I don't think this is something that was maybe publicized as big on the README before you had started building this tool. Where did that desire come from to make sure that everyone had their face on that that README?
+
+**Kent C. Dodds:**  
+I stand on the shoulders of giants every day. There are so many things that I know and that I teach people or that I encode in my libraries or whatever that I wouldn't have been able to figure that out myself. I'm not perfect at it. I don't always give credit where it's due. I try to, but I don't always succeed. But I really think that it's important that we do that, that we do try our hardest to say these aren't my original ideas. This is where this idea came from.
+
+**Kent C. Dodds:**  
+That's just how I feel about things generally more than just code. It's just everything. Credit the work of others. There are a couple of thoughts that I have with this. That's one side of things that's motivated this all contributors thing. For the uninitiated, all contributors is a specification that I created for basically a table of all the people who've contributed to the project. Your first thought to that is GitHub shows you all the people who have committed code, but there are other people who contribute in different ways. There are people who help a lot on the community sites, answering questions and stuff like that. That's not going to show up in any graph like that. That's why I created this all contributor. And it's also really cool to see your face on the README. Who doesn't want that?
+
+**Michael Chan:**  
+Totally.
+
+**Kent C. Dodds:**  
+That's what all-
+
+**Michael Chan:**  
+Companies pay thousands of dollars to have their logo on the README. Yeah, it feels it good at all levels.
+
+**Kent C. Dodds:**  
+Yeah. Exactly. That's what all contributors is. The one half where I just feel really motivated to make sure people are credited for the work that they do and then the other side of it is years ago, I was maintaining a library called Angular-Formly. It was a library that was written by somebody else. I started using it really heavily and then they handed it off to me because they weren't using it anymore. I maintained it and it probably is still the number one forms library for AngularJS. It got to be pretty big in that community.
+
+**Kent C. Dodds:**  
+We could probably dive a little deeper into this, but there was a time in my life where I spent way too much time doing open source. My wife and I had a little friction at some points because I just spent too much time doing open source. It was pretty common for somebody to open a bug on that project or any of my projects and I would have it fixed before they checked their email again to see if I'd responded.
+
+**Kent C. Dodds:**  
+I remember one time in particular, they filed an issue I said, "I know exactly what this is. I'll have a fixed publish in five minutes." It was just boom and I'm done. I had the releases automated and tests and everything. I knew exactly what it was. It was two or three line change. It was really easy. They've given accolades. "Oh, this is an amazing project. Thank you for being such an amazing maintainer." My head is growing the whole time.
+
+**Kent C. Dodds:**  
+There was one time when somebody said, "Hey, there's this problem." And I said, "Oh, I know exactly what it is. I'll have this done really quick." When you've got a library and you're fixing a bug, pretty much every time I have this situation, I will write the test first to reproduce the bug. That is the quintessential, TDD situation for me. I've got a bug, let me write a test to reproduce it to make sure I fix that. I'd written the test and then the change was a single line. I just needed to change something on a single line. I changed that single line, the test passed, and I was like, "Sweet," and right before I committed it, I was like, "That was so easy for me. I bet it would mean a lot for somebody to do this instead of me. What if I just had somebody else do this?"
+
+**Kent C. Dodds:**  
+I stopped right where I was. I actually committed the test. But of course, it was failing. I skipped it. I did like the it.skip or whatever. I committed the test but not the finished version. And then in the issue I wrote out step by step guide of what you would need to do to fix this. Turn the test back on. Here's exactly the line that you need to change and here's how you need to change it. It was extremely handholding. Because my goal wasn't to have somebody struggle to figure out how to solve the problem. My goal was to get somebody to contribute to open source for the first time. I don't need them to have extra hurdles in the process because there are plenty of hurdles as it is.
+
+**Kent C. Dodds:**  
+I make this issue super straightforward. And then at the end, I said, "I will only accept a contribution for this from somebody who's never contributed to open source before." And then I tweeted that out and it got a lot of attention. Somebody volunteered first. I said, "Whoever comments first is the one who gets it." I figured that this would be a pretty popular thing. People would want to do.
+
+**Kent C. Dodds:**  
+Somebody volunteered. It wasn't very long, but it was certainly longer than had I just pushed myself. It was an investment myself, but the person who contributed that and made that fix became a contributor to the project and did more stuff. It was an investment in that person. I did that a number of other times in the project. I called this first timers only. I made an issue for that. Somebody made a Twitter bot that will tweet every time a GitHub issue gets labeled first timers only added to it. Scott Hanselman and I collaborated on firsttimersonly.com, which give some resources on how to contribute to open source.
+
+**Kent C. Dodds:**  
+It became this big thing. And then I made a how to contribute to open source thing on Egghead that I point a lot of people too and there was a repo there. It was just a practice repo. It was called Stack Overflow copy/paste where you'd go to Stack Overflow thing and copy/paste a utility function and add it to this module. It was actually published like it's a real thing. It worked out really nice. I helped 100 people make their first pull request on that repo.
+
+**Kent C. Dodds:**  
+Since that first time where I decided, "I'm going to let somebody else do this one." Because it was so easy for me. Let somebody else try. I have totally shifted the way that I view open source as a much more collaborative thing, where I'm willing to put in extra work so that I can give other people opportunities. Ultimately, it ends up being better for everybody because then I can move on from a project and I know other people have worked in the project and they can keep it going. There's a bunch of stuff in there.
+
+**Michael Chan:**  
+Yeah, a lot of stuff.
+
+**Kent C. Dodds:**  
+That's some of the things that motivate me around open source and helping people.
+
+**Michael Chan:**  
+I feel like that story covers the entire arc of the topics that we were hoping to cover today. I feel like maybe we should just backup to the first part of that which is that tension of overcommitting to open source or maybe open source addiction, if you will. It's definitely a thing and I want to talk about, I guess, what is it that you think that is? Is it the desire to just look smart, inflate your ego? Is it a desire to maybe do things a way that you've seen them not done well?" I've opened issues for 10 open source projects. No one said anything. I want to be the person who can fix it in five minutes." What are some of those feelings that go into that initial stage of an open source project where you got the issues, but now it's running your life?
+
+**Kent C. Dodds:**  
+Yeah. Oh, man. For me, it's not ever been about maintaining a project better than someone else. I will admit that if I have created a project... I'll just give a specific example. I sometimes go over to the enzyme issues. Enzyme for those who don't know is a testing library for React that predates React Testing Library, which I created and I didn't like the way enzyme did stuff and there was no way I can get my ideas into enzyme. I made my own thing. Yes, I will sometimes go over to enzymes repo and I'll look that they have hundreds of issues and pull requests and stuff and just smile at my own six or seven.
+
+**Kent C. Dodds:**  
+There's a little bit of competition feeling there. I realized that's not entirely healthy. Yeah, probably shouldn't do that. But for the most part, the addiction that I have had to open source wasn't really driven by wanting to be the best maintainer. Honestly, it's a little hard to describe.
+
+**Kent C. Dodds:**  
+But when you create something that has... Let's say you spend two hours trying to solve this problem and you spent that two hours and you ship it off to the world, assuming that it would take the every engineer who uses it the same amount of time to solve that problem for themselves if it weren't for your thing, then you have 2000 people or 10,000 people using your stuff. You saved 20,000 hours. There's a high with that man.
+
+**Kent C. Dodds:**  
+I feel like the king of the world when I think about the number of hours and time that I've saved people and really I'm motivated to make the world a better place and the more time that I can save people on useless stuff, testing library to use, or how to write tests effectively and get confidence in their codebase, the more time I'm able to save people doing that, the more they're able to pursue whatever it is they're doing to make the world a better place. There is just something about that that makes me really, really motivated to work on this.
+
+**Kent C. Dodds:**  
+And then on top of that, there's just the challenge of programming. There was one night in particular, I was working on this library called API check, which is basically like react PropTypes as a separate module before they made prop types a separate module. I actually open an issue on React and I was like, "Could you make the PropTypes thing a separate thing?" And they're like, "Nope." I made API check because I was using API check for Angular-Formly to do some runtime checking of your configurations and stuff like that. It was really cool.
+
+**Kent C. Dodds:**  
+But I remember it was like, I don't know, 10:00 in the evening, the kids have gone to bed. My wife is hanging out by herself. She likes that anyway to spend some time alone after kids are talking to her all day. I'm just chillin', working on stuff with API check, and I was in flow, and I was just super excited about working on this thing. That's another cool thing about open source is you don't have a product manager. You get to decide. It's totally up to you. You get to take this any direction that you want. You're going to spend the time doing whatever you want to do and making this project the thing that you want to use.
+
+**Michael Chan:**  
+I think about... What was that movie? The one where you go into the subconscious, what was that movie?
+
+**Kent C. Dodds:**  
+Matrix? Or Inception?
+
+**Michael Chan:**  
+Inception. Yeah, that's the one. I just remember they were constructing these worlds and tearing them down. There's a scene where they're actually building it. It's not just like the Lego stuff. But you're actually seeing these worlds be built and then you're destroying the parts that don't work anymore. When you're in that zone, it's so fun. There's a real high that comes with having that full control over this entire world of a new open source project.
+
+**Kent C. Dodds:**  
+Yeah. It's totally euphoric. It's really exciting. I love it. I love it so much. When it's something that you've decided you want to do and you can get into flow and work projects and stuff. I'm making this drop down and it's super exciting. I've gotten there, but it's easier to do that when you're working on your own thing. You're going to be the one consuming this API and like, "Wow, this is a great idea. Let me try this. Oh, that was a bad idea." You're just into it.
+
+**Kent C. Dodds:**  
+It's 10:00 PM. And then, it starts getting a little bit later and my wife starts texting me, "Are you almost done?" What do you say when you're a programmer? "Yeah, of course. I'm almost done."
+
+**Michael Chan:**  
+A few minutes away. No big deal.
+
+**Kent C. Dodds:**  
+Totally. And then, new ideas pop in your head or the thing you tried didn't work out or my personal favorite, you have to push it to a CI and then it doesn't work and you don't know why. You had to muck around with configuration again and push it up again and wait 10 minutes every time. Stuff like that happens.
+
+**Kent C. Dodds:**  
+And this night in particular, it was not CI or anything, it was just like I was in and I just kept having ideas. And I was like, "Oh, now I want to add the .isRequired field. I want to do all these different fancy programming things and it was just so fun." And I kept on telling her that I was almost done
+
+**Kent C. Dodds:**  
+Until at 2:00 in the morning, she comes downstairs and she's like, "Are you coming?" She was not happy with me. In retrospect, I should have just said, "I'm super in it right now. I'm not going to come to bed. Is that okay? You just go to bed by yourself if that's all right." This is relatively earlier in our marriage and so we didn't going to bed at different times and stuff. I think we both would have done a lot better having been married for nine years now. At the time, that was when I realized that maybe this open source thing that I've got is encroaching on areas of my life where it shouldn't.
+
+**Michael Chan:**  
+Interesting.
+
+**Kent C. Dodds:**  
+And I should take a step back. Literally, nobody was asking for the features I was building. It was just something I was into. I built cool features and they're useful, people use them when I was done but, honestly, who cares? Nobody's asking for it today and even if they are, that person has no right to come between you and your spouse or whatever other relationships you've got and your own personal health. Staying up till 2:00 in the morning working when you're in flow, that's fun. Go for it.
+
+**Michael Chan:**  
+It's a party night. That's your weekend.
+
+**Kent C. Dodds:**  
+Yeah. I'm sure it impacted my day. The next day, I was tired and probably not very nice and stuff. Take care of yourself. Don't do that often and just be aware that you're not going to be super pleasant the next day. But that was when I started realized that first of all, I need to not do that, string my wife along and tell her I'm almost done, when I'm not.
+
+**Kent C. Dodds:**  
+But then also, when you work on an open source project that people are actively using, they can just naturally... Especially when you've given them the impression that you will respond to their requests, they naturally fall into this idea that you'll continue to do so. It really is a sense of entitlement and I don't necessarily mean that in a bad way. Entitlement's not great and some people are total jerks and really expect you to do stuff for free. But I created for myself this impression for others that I will just do stuff for them for free and I will sacrifice my family relationships and whatever else to solve their problems.
+
+**Kent C. Dodds:**  
+So over the last few years, I've developed this change of attitude where now I'm like, "Your problem's not my problem. I will enable you to solve your problem because I'm on GitHub and you can make pull requests and I'll review those when I have time. But I am not going to solve your problems for you anymore." Now, the only problems that I solve, the only issues that I address are issues that I run into that I personally am experiencing. Or sometimes I will also work on stuff when I think it'll just be a fun time and I've got the time to do it. But that was a big change for me around that time where I just said, "I'm only working on stuff that I need done."
+
+**Kent C. Dodds:**  
+Before it was like, "I'm working on all this stuff so that my thing can be the thing. Everybody will use this thing and it's going to be so awesome." Now, it's like, "If my thing solves your problem, that's awesome. If it doesn't, you can contribute and solve your problem. That's great. But I'm not doing work for free for you."
+
+**Michael Chan:**  
+This is really interesting because it sounds in your experience what happened was you modeled that in your own creation of open source. You would go to the project and say, "I really need this feature. Can we do it?" And he would say, "Actually, that's on our roadmap," and then you went off and made your own thing.
+
+**Michael Chan:**  
+So I imagine that it's additionally frustrating when someone comes into your project, after you've done that, you've forked it, if you will, and they come in and they're like, "This has to do this thing," and pissy about what it does or doesn't do? And then doesn't either contribute or follow that forking trend of like, "Okay, cool. This doesn't do that thing. I guess I'll just fork the concept or fork the code," or do whatever and take it in a new direction.
+
+**Michael Chan:**  
+It sounds like it took you maybe a little bit of time to get there, but to expect in others what you expected from yourself, which is to solve your problem and share in kind hopefully.
+
+**Kent C. Dodds:**  
+Yeah, exactly. Early on in my open source life, I saw every new issue of somebody saying like, "I need this feature." I saw that as a business requirement from a customer and when you get a customer business requirement, what do you do? You have to implement it or you drop the client, but I didn't want to drop any clients because I wanted all of the clients.
+
+**Michael Chan:**  
+Total domination or nothing.
+
+**Kent C. Dodds:**  
+That's right. What I found was, if I go around things with that attitude, then I add all the features and there are so many problems with that. I have a talk called Managing open Source Projects. In it, I explained that the more complexity that you add to your codebase, the more documentation you have to worry about, the more API surface layer or area...
+
+**Kent C. Dodds:**  
+Actually, I think I talked about this in my Simply React talk, where these are different patterns you can implement to keep things simple. But I just found that the more stuff I added, the less useful it became which is really interesting. So instead of adding more, maybe inverting control a little bit to expose the ability for people to do what they need to do, make it more flexible, even though they maybe have to do a little bit of work or just sometimes straight up saying no.
+
+**Kent C. Dodds:**  
+Early on, it was like, "I'll just implement all the things," but then it just became really hard to maintain. Therefore, I never handed Angular-Formly off to anybody. Even though I felt like I did an okay job of onboarding people onto it, it got so complicated that I could never find anybody to take that over. That repo's archived. People still use it, the website's still up, and I think I get several thousand visitors a week or something on that website still. It's very popular. AngularJS is not going away anytime soon. But yeah, nobody's maintaining that project at all.
+
+**Kent C. Dodds:**  
+From that I learned, I really need to make sure that what I'm making is maintainable by more than just me or by me in six months. I don't have to say yes to everybody's problems. I can take that as not as business requirements from a customer but as suggestions in the suggestion box that I can take really.
+
+**Kent C. Dodds:**  
+I used to also make sure that I looked at every single issue that was ever filed against my repos. I responded and I answered questions and everything. I don't do that anymore either. I still get emails for every single comment and whatever and I'll glance at it really briefly. If I see somebody say something wrong or do something wrong with the library, I will often just ignore it and I'll let somebody else deal with it or they can figure it out on their own later. It seems really heartless, but it is a self-care mechanism.
+
+**Kent C. Dodds:**  
+My attitude toward open source has changed, but I feel like my impact on open source has been increased, despite that, which is interesting.
+
+**Michael Chan:**  
+Interesting. You brought up some interesting stuff that I really want to talk about because I think inversion of control, as you mentioned, is something that people struggle with a lot and I don't necessarily want to talk about inversion of control except for how it plays into open source and it does feel like there is this tension a lot of times to have a thing that does everything because that's what demos well, versus having something that does a small part of the thing because that's going to be the most long lasting.
+
+**Michael Chan:**  
+Think of a framework that is constantly having to evolve and adapt and has thousands of pull requests versus something like Lodash where there's these utility functions. In Lodash, you can just pick what you want, you can pick one of them, if you just need to extend JavaScript in one way, and how so much of that code is better suited to stand the test of time than these things that solve the whole world.
+
+**Michael Chan:**  
+I'm curious, how have your projects, I guess, modeled, what you're calling inversion of control and giving people the tools to solve their own problem versus solving it for them and then trying to feel the wave of issues that then become their problem but your problem now?
+
+**Kent C. Dodds:**  
+That's the thing. This is all part of Epic React. A React example is very perfect here. I think one of the best examples of inversion of control that I've implemented was in downshift. This is a library that allows you to make enhanced inputs. You type in it, it autocompletes, or there's a type of head or you can even use it for drop downs or multi selects and stuff like that.
+
+**Kent C. Dodds:**  
+Downshift differed from everything else in the fact that it did not render anything for you. There were libraries that were headlist, so called before, but this was the first enhanced input or autocomplete or select thing that implemented that idea, and it did so using render props. Now, downshift has hooks that I would recommend instead. That was just a form of inversion of control.
+
+**Kent C. Dodds:**  
+But then, a great example of how I took that further is you'll notice that these complex react components end up accepting millions of props because we're trying to cover every use case in the world. I remember getting an issue from somebody who wanted to change some of the opinions that I've taken inside of downshift. For a library to be useful, it has to make opinions. It has to do something otherwise it's not useful at all. It just does my own thing.
+
+**Kent C. Dodds:**  
+I did have some opinions on what happens should the drop down open when the user clicks in there? Or should it only open when they start typing? Or should it close when they select an item? I think that was the specific issue.
+
+**Kent C. Dodds:**  
+This user didn't want the drop down to close when the user selected an item probably because they were trying to build a multi-select. They wanted to add a prop that was close on select or something like that. They could disable that behavior. That's not a hard thing to do. Wherever you've got that click handler, when a user clicks on an item, you just have if props.close on select, then do this thing. Otherwise, do this other thing. Really easy for that to happen.
+
+**Kent C. Dodds:**  
+But another thing that's really easy is for the next person to come and say, "I want this change of behavior." And another person say, "I want this change." And eventually, you have use case specific props. It's just something you never want to have. This is a prop for this use case and this is a prop for this use case. And then you have a third use case that nobody's asking for, which is the combination of those two props.
+
+**Kent C. Dodds:**  
+It just explodes exponentially. I've done this before. I'd experienced this and I didn't want to experience it again with downshift. I thought, "How could I make it so that I can support their use case and literally every other use case if somebody wanted to customize the state?" And so I thought, "What if we just say except some function and we say, 'Function, I'm about to make a state change. Here's what it was before, here's what it is now, and here's why I'm making the change. Tell me what the change should be. If you don't do anything, I'll just make this change. But if you want to make some alteration to that, then I'll change it to whatever you want it to be."
+
+**Kent C. Dodds:**  
+I think I initially called that prop modify state change and then I decided instead on state reducer because redux was a big thing at the time. Still is. I changed the arguments to be state and changes would have a type prop that you could use to determine what is happening. This is clicking out of the drop down or this is clicking on an item or whatever it is.
+
+**Kent C. Dodds:**  
+And then when I implemented that, then the whole world opened up for people. They could customize anything about this in such a simple way. It was so easy. Questions stopped happening. People didn't have questions about how to customize stuff anymore because this was so straightforward. I found out later that reason components, like ReasonML, ReasonReact, those recent components actually have a reducer prop just built into the framework. Every component has a reducer prop, I guess, that is basically this. It just allows you to control how state changes happened which was validating to me, but that was the state reducer pattern.
+
+**Kent C. Dodds:**  
+I still use that. I teach that in Epic React. And that inversion of control just gives people... That is how I was able to solve so many use cases with this open source library without making it more complex for everybody.
+
+**Michael Chan:**  
+I think the way you said it is something that I really love and something that I guess my own work have tried to communicate to people where it's like yes. If we do it the way that you're suggesting, it will solve it for you today. If we flip it on its head a little bit, if we take the opportunity to say, "This isn't just one problem, but it could be 1000 problems." If we flip it then we can solve every problem now and for forever.
+
+**Kent C. Dodds:**  
+Yeah, exactly.
+
+**Michael Chan:**  
+It's such an appealing thing, especially in open source, because then issues come in and I don't have to give you control of something that you already have control over. You already own it, just use it.
+
+**Kent C. Dodds:**  
+That's one of the cool things about React too is just the level of composition. Now, that we have hooks, the sky's the limit. You've got one monster hook that does all the things and then somebody wants you to change some little thing, break that thing into several other hooks and then your monster hook now is just composing those things together and instead of using the monster hook, just use the parts of the little hooks that you want and you just expose the little hooks that build up this monster hook and now you have total control.
+
+**Kent C. Dodds:**  
+The same thing with components as well. Like at PayPal, I had a base component and then a component on top of that for styling stuff or for something else and then a component on top of that for styling three different variants of this thing. You could build on top of any of those three layers for total customizability and just the composition, inversion of control gives your users a ton of power without sacrificing your time and your docs.
+
+**Michael Chan:**  
+And your docs. This is all really good feedback for people who are looking to make a dent in open source. We're getting close to the end of our time for this episode, but I want to close with when do you let go of an open source project? Because these things can be so personal and you've spent your nights and weekends and blood, sweat, and tears poured into these products. I'm curious, how have you thought about emotionally letting go of these projects, handing them over, when not to hand them over, when to just shutter them or leave them archived? Tell me a little bit about how you think about that for each project.
+
+**Kent C. Dodds:**  
+It is hard to put so much effort into it and then decide to let it go or hand it off to someone else. I have several projects that were successfully handed off and part of my attitude change has been if somebody else is going to do it, then that's great because I can benefit from their work and I can go do some other cool thing. At first, it was like, "Oh, how sad I don't want to leave this thing." But now I'm like, "Sweet. Sick. Take it, please." I have so many other things I want to do with my time.
+
+**Kent C. Dodds:**  
+It's not super hard for me now to hand things off. It was at the beginning but as I've developed more and more things that I want to do or come up with more and more ideas, old projects that are already working for me and are pretty much just in maintenance mode, I'm more than happy to hand those off.
+
+**Kent C. Dodds:**  
+Sometimes, you'll get somebody who will rip off your project or maybe they're not even being intentional about ripping it off, they just decided that it would be easier for them to build their own version of this thing and that's the way open source works. Nobody says you have to contribute to an existing project. It should not be offensive that somebody doesn't use your project. Who cares? I'm writing code. I wouldn't say that this was a rip off at all. They had a different use case from when I built.
+
+**Kent C. Dodds:**  
+But when I was at PayPal, I built this project called Glamorous. It was a CSS and JS project built on top of Glamour. Glamorous was based on styled components. I guess you could say I ripped off styled components in some ways, except I didn't like the template literals with CSS syntax. I really liked object syntax. That's why I built Glamorous. And there were a couple other differences too, and it was great. I ran Glamorous for a year or so and it was going awesome. We had some problems here and there and we were working on them, trying to make things fast and whatever.
+
+**Kent C. Dodds:**  
+And then Emotion came out and \[Kai 00:37:04\] who created Emotion, he had actually contributed to Glamorous quite a bit and then he decided to rip out Glamor underneath the hood. And actually, Sunil Pai who wrote Glamor gave Kai some ideas and had some experience experiments. Kai rewrote that whole engine underneath the hood and built his own thing called Emotion.
+
+**Kent C. Dodds:**  
+When I saw Emotion, I was like, "Solves so many of the problems that I have in Glamorous, I sure wish he contributed those solutions to my project. That'd be nice." But it would have been a lot of work to do that. I guess what do I do now? I could get mad at Kai but that'd be stupid. So I didn't. I was like, "Kai, this is awesome. Great job." And then what do I do with Glamorous? Do I say, "We'll get to fixing those things that Kai's fixed in Emotion? Or do I just say, "Thanks, Kai. Now, I don't have to deal with Glamorous anymore?" And that's what I did.
+
+**Michael Chan:**  
+Hey, Glamorous users, here's your new library.
+
+**Kent C. Dodds:**  
+Yeah, exactly. Actually, somebody made a code mod for switching us over major. He made a code mod for automatically switching your Glamorous code to Emotion because they were pretty similar in the API. That was reasonably possible and most projects were able to just migrate automatically in an hour. It worked out awesome. Now, I don't do anything with CSS and JS libraries anymore. I use Emotion. I think it's awesome. We actually use it and Epic React. It works out great. I'm so glad that I don't have to do that anymore.
+
+**Michael Chan:**  
+And it freed you up to become a testing guy.
+
+**Kent C. Dodds:**  
+Yeah, exactly. I'm happier in that position, I think. Letting it go, it's tough. When I left the Angular community for the React community, I had these Angular projects, several open source libraries, and I asked Ryan Florence. I was like, "Ryan, what did you do when you left the Ember community?" And it was just really simple for him. He's just like, "If they're popular enough, then people will pick it up and they'll take it over. And if they're not, then they'll just die. And if they're not popular enough, then who cares? If people don't care enough to take over the project and fix it themselves, then they don't care enough." So nobody cares. It doesn't matter.
+
+**Kent C. Dodds:**  
+That actually was really nice for me. I like pretty much all my Angular projects. I don't think there's any of them that were taken over. Nobody stepped up which was interesting to me. But it was okay. Everything was fine. It ends up being okay.
+
+**Michael Chan:**  
+We've talked about letting things go or letting things die or handing them off. But I've heard you say people can pull React Testing Library from your cold dead fingers. How do you decide what to keep?
+
+**Kent C. Dodds:**  
+React Testing Library is tricky. Honestly, I would love to hand that off to somebody else's, the actual maintainer. That would be so nice. Save me so much time. The real problem is I am so invested in the correctness of React Testing Library. I really want to make sure that no decision is made that will take it in a wrong direction. I know that James had this similar issue with Prettier when he was handing off Prettier. He's like, "I can't do this anymore, but I really want to make sure the direction is correct." I'm not exactly sure how he finally decided to hand it off.
+
+**Kent C. Dodds:**  
+But I am feeling like I'm in that spot right now where I'm like, "I'd really like to hand it off to somebody else but I really am struggling with the idea of giving my baby to somebody else and having them raised by a stranger." I imagined that eventually I won't be the core maintainer and the main maintainer of the core testing library. I'm not the maintainer of all the testing library implementations either. I only maintain the DOM Testing Library which is the one that most of them are built on top of and Cypress Testing Library and React Testing Library.
+
+**Kent C. Dodds:**  
+I definitely foresee a future where I'm not maintaining all of those and somebody else's. But it's just really difficult for me to say, "Here you go. Please don't ruin it."
+
+**Kent C. Dodds:**  
+If I'm being honest, too, part of it is I have courses that are built around these frameworks too and I want to make sure that changes are respectful of the people that I'm teaching. Breaking changes aren't just made willy-nilly. It's more than just the courses. Because I'm not the only maintainer of these things either, and maybe I should just trust the other maintainer a little bit more. I got to do a little more introspection there.
+
+**Michael Chan:**  
+There's an interesting distinction there where React Testing Library, you've built the API around principles, principles that you believe really strongly for testing, and it's really, really hard to share those principles completely with someone else. There's always some type of degradation or different opinions start to come in and those can really effect in profound ways the outcome of that library and the way that it's used. I can definitely see why that would be a hard thing to let go of because principals are just really hard to codify.
+
+**Kent C. Dodds:**  
+Yeah. And if they misinterpret some principle... A lot of it has to do with my level of experience and testing. I know that if we add this API, it will cause people to write these kinds of tests which are bad and go against our principles. But not everybody has the experience to see that adding that API will cause this effect. Downshift, I was able to hand that off, that wasn't a huge thing. And especially since I wasn't really using it actively anyway. But React Testing Library, that's something I'm using and I'm actively teaching. It's really hard for me to say, "I'm going to hand this off. Hopefully, you don't make any mistakes in adding API's that encourage poor tests or something."
+
+**Kent C. Dodds:**  
+We've got some maintainers who have better ideas around testing than even I do. I feel like we'd probably be in really good hands if I did decide to hand it off, but I don't think I'm quite ready.
+
+**Michael Chan:**  
+I'm sure you'll get to that point eventually. Kent, thanks so much for talking us through how you think about open sores and all of your vast experiences there. You've had a lot of them in a very short period of time. I'm really excited to continue our conversations and talk about how you keep it productive, building an audience, speaking in public, how to learn, all kinds of exciting stuff coming up real soon. Thanks, Kent.
+
+**Kent C. Dodds:**  
+Thank you.
+
+</PodcastTranscript>
