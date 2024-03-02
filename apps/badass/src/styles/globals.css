@@ -23,27 +23,6 @@ body {
   @apply antialiased bg-black text-white font-sans;
 }
 
-/* [data-sr-convertkit-subscribe-form] {
-  @apply max-w-sm mx-auto;
-
-  [data-sr-input] {
-    @apply bg-black py-3 px-4 bg-opacity-40 rounded-md w-full focus:ring-badass-pink-400 border-none;
-  }
-  [data-sr-input-label] {
-    @apply flex pt-4 pb-1;
-  }
-  [data-sr-button] {
-    @apply block w-full px-4 py-2 font-semibold tracking-wide text-center text-white uppercase rounded bg-gradient-to-r from-indigo-600 to-blue-500 mt-6;
-  }
-  [data-sr-button][disabled] {
-  }
-}
-
-[data-sr-convertkit-subscribe-form='success'] {
-}
-[data-sr-convertkit-subscribe-form='error'] {
-} */
-
 /*
 This will hide the focus indicator if the element receives focus via the mouse,
 but it will still show up on keyboard focus.

@@ -3,7 +3,6 @@
 import {loggerLink, unstable_httpBatchStreamLink} from '@trpc/client'
 import superjson from 'superjson'
 import type {AppRouter} from 'trpc/routers/_app'
-import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import {createTRPCReact} from '@trpc/react-query'
 import {useState} from 'react'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
@@ -41,7 +40,7 @@ export function TRPCReactProvider(props: {
             (op.direction === 'down' && op.result instanceof Error),
         }),
         unstable_httpBatchStreamLink({
-          url: getBaseUrl(),
+          url: `${getBaseUrl()}/api/trpc`,
           headers() {
             const heads = new Map(props.headers)
             heads.set('x-trpc-source', 'react')
@@ -59,4 +58,13 @@ export function TRPCReactProvider(props: {
       </trpc.Provider>
     </QueryClientProvider>
   )
+}
+
+const getBaseUrl = () => {
+  if (typeof window !== 'undefined') return '' // browser should use relative url
+  if (process.env.NEXT_PUBLIC_URL) {
+    return process.env.NEXT_PUBLIC_URL
+  }
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}` // SSR should use vercel url
+  return `http://localhost:${process.env.PORT ?? 3021}` // dev SSR should use localhost
 }

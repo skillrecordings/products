@@ -37,6 +37,7 @@ const InterviewSchema = z.object({
   }),
   resources: z
     .object({
+      _id: z.string(),
       videoResourceId: z.string(),
       _type: z.string(),
       slug: z.string(),
@@ -77,6 +78,7 @@ export const getInterviewModule = async () => {
       description,
       portraits,
       "resources": resources[@->._type == 'videoResource'][]->{
+        _id,
         "videoResourceId": _id,
         _type,
         "slug": slug.current,
@@ -104,6 +106,7 @@ export const getInterview = async (slug: string) => {
     description,
     portraits,
     "resources": resources[@->._type == 'videoResource'][]->{
+      _id,
       "videoResourceId": _id,
       _type,
       "slug": slug.current,

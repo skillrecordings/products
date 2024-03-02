@@ -1436,6 +1436,9 @@ importers:
       framer-motion:
         specifier: ^10.12.4
         version: 10.18.0(react-dom@18.2.0)(react@18.2.0)
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
       groq:
         specifier: ^2.15.0
         version: 2.33.2
@@ -1508,9 +1511,15 @@ importers:
       react-markdown:
         specifier: ^8.0.6
         version: 8.0.7(@types/react@18.2.48)(react@18.2.0)
+      react-scroll:
+        specifier: ^1.8.6
+        version: 1.9.0(react-dom@18.2.0)(react@18.2.0)
       react-use:
         specifier: ^17.4.0
         version: 17.5.0(react-dom@18.2.0)(react@18.2.0)
+      react-use-clipboard:
+        specifier: ^1.0.7
+        version: 1.0.9(react-dom@18.2.0)(react@18.2.0)
       react-wrap-balancer:
         specifier: ^0.2.4
         version: 0.2.4(react@18.2.0)
@@ -1529,6 +1538,9 @@ importers:
       shortid:
         specifier: ^2.2.16
         version: 2.2.16
+      simplebar-react:
+        specifier: ^3.2.4
+        version: 3.2.4(react@18.2.0)
       singleline:
         specifier: ^2.0.0
         version: 2.0.0
@@ -1620,6 +1632,9 @@ importers:
       '@types/react-gravatar':
         specifier: ^2.6.10
         version: 2.6.14
+      '@types/react-scroll':
+        specifier: ^1.8.3
+        version: 1.8.10
       '@types/shortid':
         specifier: ^0.0.29
         version: 0.0.29
@@ -3794,6 +3809,9 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      react-gravatar:
+        specifier: ^2.6.3
+        version: 2.6.3(react@18.2.0)
       react-hook-form:
         specifier: ^7.29.0
         version: 7.49.3(react@18.2.0)
@@ -3948,6 +3966,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.4
         version: 18.2.18
+      '@types/react-gravatar':
+        specifier: ^2.6.10
+        version: 2.6.14
       '@types/react-scroll':
         specifier: ^1.8.3
         version: 1.8.10
@@ -16912,6 +16933,12 @@ packages:
     dev: false
     optional: true
 
+  /@types/lodash-es@4.17.12:
+    resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
+    dependencies:
+      '@types/lodash': 4.14.202
+    dev: false
+
   /@types/lodash.clonedeep@4.5.9:
     resolution: {integrity: sha512-19429mWC+FyaAhOLzsS8kZUsI+/GmBAQ0HFiCPsKGU+7pBXOQWhyrY6xNNDwUSX8SMZMJvuFVMF9O5dQOlQK9Q==}
     dependencies:
@@ -19356,6 +19383,10 @@ packages:
       three: 0.134.0
     dev: false
 
+  /can-use-dom@0.1.0:
+    resolution: {integrity: sha512-ceOhN1DL7Y4O6M0j9ICgmTYziV89WMd96SvSl0REd8PMgrY0B/WBOPoed5S1KUmJqXgUXh8gzSe6E3ae27upsQ==}
+    dev: false
+
   /caniuse-api@3.0.0:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
@@ -20184,7 +20215,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
     dev: false
-    bundledDependencies: false
 
   /create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
@@ -34868,6 +34898,24 @@ packages:
 
   /simple-wcswidth@1.0.1:
     resolution: {integrity: sha512-xMO/8eNREtaROt7tJvWJqHBDTMFN4eiQ5I4JRMuilwfnFcV5W9u7RUkueNkdw0jPqGMX36iCywelS5yilTuOxg==}
+    dev: false
+
+  /simplebar-core@1.2.4:
+    resolution: {integrity: sha512-P+Sqshef4fq3++gQ82TgNYcgl3qZFSCP5jS2/8NMmw18oagXOijMzs1G+vm6RUY3oMvpwH3wGoqh9u6SyDjHfQ==}
+    dependencies:
+      '@types/lodash-es': 4.17.12
+      can-use-dom: 0.1.0
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+    dev: false
+
+  /simplebar-react@3.2.4(react@18.2.0):
+    resolution: {integrity: sha512-ogLN79e7JUm82wJChD7NSUB+4EHCFvDkjXpiu8hT1Alk7DnCekUWds61NXcsP9jC97KOgF5To/AVjYFbX0olgg==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      simplebar-core: 1.2.4
     dev: false
 
   /singleline@2.0.0:

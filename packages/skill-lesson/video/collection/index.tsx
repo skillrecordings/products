@@ -18,7 +18,7 @@ import {
 import {type Scope, createContextScope} from '@radix-ui/react-context'
 import {Primitive} from '@radix-ui/react-primitive'
 import type * as Radix from '@radix-ui/react-primitive'
-import {capitalize, first, isEmpty, replace} from 'lodash'
+import {capitalize, first, isEmpty, isEqual, pick} from 'lodash'
 import {trpcSkillLessons} from '../../utils/trpc-skill-lessons'
 import Link from 'next/link'
 import pluralize from 'pluralize'
@@ -49,6 +49,11 @@ type CollectionContextValue = {
     sectionProgress?: SectionProgress,
   ) => React.ReactNode
   resourcesRenderer?: (type?: string) => React.ReactNode
+  lessonPathBuilder: (
+    lesson: LessonType,
+    module: Module,
+    section?: SectionType,
+  ) => {pathname: string; query: {[key: string]: string}}
   path?: string
 }
 const [CollectionProvider, useCollectionContext] =
@@ -64,6 +69,11 @@ interface CollectionProps extends PrimitiveDivProps {
     sectionProgress?: SectionProgress,
   ) => React.ReactNode
   resourcesRenderer?: (type?: string) => React.ReactNode
+  lessonPathBuilder?: (
+    lesson: LessonType,
+    module: Module,
+    section?: SectionType,
+  ) => {pathname: string; query: {[key: string]: string}}
 }
 
 const Collection = React.forwardRef<CollectionElement, CollectionProps>(
@@ -71,7 +81,6 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
     const {
       __scopeCollection,
       module,
-
       children,
       checkIconRenderer = () => (
         <CheckIcon
@@ -112,6 +121,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
         )
       },
       resourcesRenderer,
+      lessonPathBuilder = getLessonHref,
       ...collectionProps
     } = props
     const {sections, lessons} = module
@@ -133,7 +143,6 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
     )
 
     const {section: activeSection} = useLesson()
-
     const hasSections = sections && sections.length > 0
     const onlyHasSingleSection = hasSections && sections.length === 1
 
@@ -160,7 +169,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
 
     return (
       <CollectionProvider
-        module={module}
+        module={{...module}}
         openedSections={openedSections}
         sectionProgressRenderer={sectionProgressRenderer}
         setOpenedSections={setOpenedSections}
@@ -169,6 +178,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
         path={path}
         scope={__scopeCollection}
         resourcesRenderer={resourcesRenderer}
+        lessonPathBuilder={lessonPathBuilder}
       >
         <TooltipProvider>
           {children ? (
@@ -291,7 +301,10 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
       }
     }
 
-    if (!module.sections) return null
+    const resources =
+      (module.useResourcesInsteadOfSections
+        ? module.resources
+        : module.sections) || []
 
     return (
       <Accordion
@@ -305,22 +318,31 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
           ref={forwardedRef}
           className={cn('space-y-2', sectionsProps.className)}
         >
-          {module.sections?.map?.((section) => {
-            const childrenWithProps = React.Children.map(children, (child) => {
-              if (React.isValidElement<SectionProps>(child)) {
-                return React.cloneElement(child, {
-                  key: section._id,
-                  section: section,
-                })
-              }
-              return null
-            })
+          {resources.map?.((resource) => {
+            if (resource._type === 'section') {
+              const section = resource
 
-            return (
-              childrenWithProps || (
-                <Section key={section._id} section={section} />
+              const childrenWithProps = React.Children.map(
+                children,
+                (child) => {
+                  if (React.isValidElement<SectionProps>(child)) {
+                    return React.cloneElement(child, {
+                      key: section._id,
+                      section: section,
+                    })
+                  }
+                  return null
+                },
               )
-            )
+
+              return (
+                childrenWithProps || (
+                  <Section key={section._id} section={section} />
+                )
+              )
+            } else {
+              return <Lesson lesson={resource} />
+            }
           })}
         </Primitive.ul>
       </Accordion>
@@ -471,7 +493,7 @@ type PrimitiveLiProps = Radix.ComponentPropsWithoutRef<typeof Primitive.li>
 interface LessonProps extends PrimitiveLiProps {
   lesson?: LessonType
   section?: SectionType
-  index?: number
+  index?: number | string
   scrollContainerRef?: React.RefObject<HTMLDivElement>
 }
 
@@ -486,8 +508,14 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
       scrollContainerRef,
       ...lessonProps
     } = props
-    const {module, checkIconRenderer, lockIconRenderer, path, openedSections} =
-      useCollectionContext(COLLECTION_NAME, __scopeCollection)
+    const {
+      module,
+      checkIconRenderer,
+      lockIconRenderer,
+      path,
+      openedSections,
+      lessonPathBuilder,
+    } = useCollectionContext(COLLECTION_NAME, __scopeCollection)
     const moduleProgress = useModuleProgress()
 
     const useAbilities = () => {
@@ -527,11 +555,20 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
     const showContinue = isNextLesson && completedLessonCount > 0
 
     const router = useRouter()
-    const currentPath = section
-      ? `${path}/${module.slug.current}/${section.slug}/${lesson?.slug}`
-      : `${path}/${module.slug.current}/${lesson?.slug}`
 
-    const isActive = router.asPath.includes(currentPath)
+    // Check if this Lesson matches the one referenced by the current URL
+    const pathElementsFromUrl = pick(router.query, [
+      'module',
+      'section',
+      'lesson',
+    ])
+    const pathElementsFromCurrentLesson = {
+      module: module.slug.current,
+      section: section?.slug,
+      lesson: lesson?.slug,
+    }
+    const isActive = isEqual(pathElementsFromUrl, pathElementsFromCurrentLesson)
+
     const {lesson: activeLesson} = useLesson()
     const isLessonActive = activeLesson?.slug === lesson?.slug
 
@@ -541,6 +578,8 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
     useScrollToActiveLesson(activeElementToScrollTo, scrollContainerRef)
 
     if (!lesson) return null
+
+    const lessonPath = lessonPathBuilder(lesson, module, section)
 
     return (
       <Primitive.li
@@ -578,10 +617,10 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                         ) : (
                           <span
                             className="w-4 h-4 flex items-center justify-center"
-                            data-index={`${index + 1}`}
+                            data-index={`${index}`}
                             aria-hidden="true"
                           >
-                            {index + 1}
+                            {Number(index) + 1}
                           </span>
                         )}
                       </>
@@ -599,7 +638,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
               {isLessonActive && <div ref={scrollElRef} aria-hidden="true" />}
               <Link
                 data-item={lesson._type}
-                href={getLessonHref(lesson, module, section)}
+                href={lessonPath}
                 passHref
                 scroll={activeLesson ? false : true}
               >
@@ -610,10 +649,10 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                     ) : (
                       <span
                         className="w-4 h-4 flex items-center justify-center"
-                        data-index={`${index + 1}`}
+                        data-index={`${index}`}
                         aria-hidden="true"
                       >
-                        {index + 1}
+                        {Number(index) + 1}
                       </span>
                     )}
                   </>
@@ -677,7 +716,7 @@ interface ResourceProps extends PrimitiveLiProps {
   type?: string
 }
 
-const useSesourceLinkBuilder = (modulePath?: string, resourcePath?: string) => {
+const useResourceLinkBuilder = (modulePath?: string, resourcePath?: string) => {
   const {section, module, lesson} = useLesson()
 
   const pathname = `/[module]/${section ? `[section]/` : ``}[lesson]`
@@ -715,7 +754,7 @@ const Resource = React.forwardRef<ResourceElement, ResourceProps>(
 
     const router = useRouter()
 
-    const {resourcePathname, resourceHref} = useSesourceLinkBuilder(
+    const {resourcePathname, resourceHref} = useResourceLinkBuilder(
       modulePath,
       path,
     )
@@ -790,6 +829,50 @@ const useScrollToActiveLesson = (
         top: activeElementOffset,
       })
   }, [activeElementToScrollTo, scrollContainerRef])
+}
+
+const getLessonChildren = (children: React.ReactNode, props: LessonProps) => {
+  let lessonChildren: React.ReactElement[] = []
+
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement<LessonsProps>(child) && child.type === Lessons) {
+      React.Children.forEach(child.props.children, (lessonChild) => {
+        if (
+          React.isValidElement<LessonProps>(lessonChild) &&
+          lessonChild.type === Lesson
+        ) {
+          const clonedLesson = React.cloneElement(lessonChild, {
+            ...props,
+          })
+          lessonChildren.push(clonedLesson)
+        }
+      })
+    }
+  })
+
+  return lessonChildren
+}
+
+const getSectionChildren = (children: React.ReactNode, props: SectionProps) => {
+  let sectionChildren: React.ReactElement[] = []
+
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement<SectionsProps>(child) && child.type === Sections) {
+      React.Children.forEach(child.props.children, (sectionChild) => {
+        if (
+          React.isValidElement<SectionProps>(sectionChild) &&
+          sectionChild.type === Section
+        ) {
+          const clonedSection = React.cloneElement(sectionChild, {
+            ...props,
+          })
+          sectionChildren.push(clonedSection)
+        }
+      })
+    }
+  })
+
+  return sectionChildren
 }
 
 /* -------------------------------------------------------------------------------------------------*/

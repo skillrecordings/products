@@ -16,6 +16,8 @@ import {useSearchBar} from '@/search-bar/use-search-bar'
 import {motion, AnimationControls, useAnimationControls} from 'framer-motion'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import SaleMessageBar from './message-bar'
+import Gravatar from 'react-gravatar'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 type Props = {
   className?: string
@@ -77,10 +79,26 @@ type DesktopNavProps = {
 const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
   const {status} = useSession()
   const {setIsFeedbackDialogOpen} = useFeedback()
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({
+      productId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
+    })
+  const purchasedProductIds =
+    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
-    <ul className={cx('hidden w-full items-center justify-between md:flex')}>
-      <div className="flex h-full items-center pl-3">
+    <div className={cx('hidden w-full items-center justify-end md:flex')}>
+      <ul
+        className={cn(
+          ' left-0 top-0 flex h-full w-full items-center justify-start  ',
+          {
+            'absolute pl-16 lg:justify-center lg:pl-0': !isMinified,
+            'pl-4': isMinified,
+          },
+        )}
+      >
         {/* <hr
           className="ml-4 mr-1 h-1/4 w-px border-transparent bg-gray-700 lg:ml-5 lg:mr-2"
           aria-hidden="true"
@@ -88,6 +106,8 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
         <NavLink
           path="/workshops"
           title="Workshops"
+          className="font-semibold"
+          labelString="Pro Workshops"
           label={
             <>
               <span
@@ -106,6 +126,8 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
         <NavLink
           path="/tutorials"
           title="Tutorials"
+          className="font-semibold"
+          labelString="Free Tutorials"
           label={
             <>
               <span
@@ -124,46 +146,67 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
         <NavLink
           path="/tips"
           label="Tips"
+          className="font-semibold"
           // icon={FireIcon}
         />
         <NavLink
           path="/articles"
           label="Articles"
+          className="font-semibold"
           // icon={BookIcon}
         />
-      </div>
-      <div className="flex h-full items-center justify-center">
+      </ul>
+      <ul className="flex h-full flex-shrink-0 items-center justify-center">
         {status === 'loading' ? null : <SearchBar isMinified={isMinified} />}
-        {status === 'unauthenticated' && <NavLink path="/faq" label="FAQ" />}
+        {status === 'unauthenticated' && (
+          <NavLink
+            className="min-w-full sm:min-w-full lg:min-w-full lg:text-sm"
+            path="/faq"
+            label="FAQ"
+          />
+        )}
+
         {status === 'authenticated' ? (
           <>
             <NavLink
-              label={
-                <>
-                  {/* <span
-                    className={cx('hidden ', {
-                      'xl:inline-block': isMinified,
-                      'lg:inline-block': !isMinified,
-                    })}
-                  >
-                    Send
-                  </span>{' '} */}
-                  Feedback
-                </>
-              }
+              className="lg:text-sm"
+              label="Feedback"
               onClick={() => {
                 setIsFeedbackDialogOpen(true, 'header')
               }}
             />
             <AccountDropdown />
+            {/* {purchasedProductIds.length > 0 ? null : (
+              <NavLink
+                className="h-auto min-w-full rounded bg-primary text-primary-foreground sm:min-w-full lg:min-w-full lg:text-sm"
+                path={'/buy'}
+                label={'Buy'}
+              />
+            )} */}
           </>
         ) : status === 'unauthenticated' ? (
-          <NavLink path="/login" label="Log in" />
+          <>
+            <NavLink
+              path="/login"
+              label="Log in"
+              className="min-w-full sm:min-w-full lg:min-w-full lg:text-sm"
+            />
+            {!loadingSubscriber && !subscriber && (
+              <>
+                <div className="px-1.5" aria-hidden="true" />
+                <NavLink
+                  className="min-w-full rounded bg-primary font-semibold text-primary-foreground sm:h-8 sm:min-w-full lg:min-w-full lg:text-sm"
+                  path={'/newsletter'}
+                  label={'Sign Up'}
+                />
+              </>
+            )}
+          </>
         ) : (
           <div aria-hidden="true" />
         )}
-      </div>
-    </ul>
+      </ul>
+    </div>
   )
 }
 
@@ -173,6 +216,8 @@ const MobileNav = () => {
   const canViewInvoice = ability.can('view', 'Invoice')
   const canCreateContent = ability.can('create', 'Content')
   const canViewProfile = ability.can('edit', 'User')
+
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
   const {status} = useSession()
   const {setIsFeedbackDialogOpen} = useFeedback()
@@ -194,13 +239,24 @@ const MobileNav = () => {
   }
 
   return (
-    <div className="block md:hidden">
-      <ul className="flex h-full items-center justify-center">
+    <div className="flex items-center md:hidden">
+      <ul className="flex items-center justify-center">
         <li className="px-1">
           <SearchBar />
         </li>
-        {status === 'unauthenticated' ? (
+        {status === 'unauthenticated' && subscriber && !loadingSubscriber ? (
           <NavLink path="/login" label="Log in" />
+        ) : null}
+        {!loadingSubscriber && !subscriber && status !== 'authenticated' ? (
+          <>
+            <div className="px-0.5" aria-hidden="true" />
+            <NavLink
+              className="min-w-full rounded bg-primary font-semibold text-primary-foreground sm:h-5 sm:min-w-full lg:min-w-full lg:text-sm"
+              path={'/newsletter'}
+              label={'Sign Up'}
+            />
+            <div className="px-1.5" aria-hidden="true" />
+          </>
         ) : null}
         <NavToggle isMenuOpened={isMenuOpen} setMenuOpened={setMenuOpen} />
         {isMenuOpen && (
@@ -232,6 +288,9 @@ const MobileNav = () => {
                 icon={<BookIcon />}
               />
               <MobileNavLink path="/faq" label="FAQ" />
+              {status === 'unauthenticated' && (
+                <MobileNavLink path="/login" label="Log In" />
+              )}
               {status === 'authenticated' && (
                 <>
                   <motion.div
@@ -290,35 +349,35 @@ const NavLink: React.FC<
     label: string | React.ReactElement
     icon?: React.FC<{isActive?: boolean}>
     path?: string
+    labelString?: string
     className?: string
-    onClick?: () => void
+    onClick?: (e: React.MouseEvent) => void
     title?: string
   }>
-> = ({onClick, label, icon, path, className, title}) => {
+> = ({onClick, label, icon, path, className, title, labelString}) => {
   const router = useRouter()
   const isActive = router.asPath === path
   const IconEl = () =>
     React.isValidElement(icon) ? React.createElement(icon, {isActive}) : null
   const Comp = onClick ? 'button' : NextLink
+
   return (
-    <li className="h-full">
+    <motion.li className="flex h-full items-center justify-center">
       <Comp
-        onClick={onClick}
+        onClick={(e) => {
+          track(`clicked ${labelString || label} link in nav`)
+          onClick && onClick(e)
+        }}
         href={path as string}
         aria-current={isActive ? 'page' : undefined}
         className={cx(
-          'group relative flex h-full items-center gap-0.5 px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
+          'group relative flex h-full items-center justify-center gap-0.5 px-2 py-2 text-sm font-normal transition duration-500 ease-in-out hover:bg-[radial-gradient(circle_at_50%_200%,hsla(177,87%,75%,0.4)_0%,_transparent_60%)] active:bg-transparent sm:min-w-[60px] sm:gap-1 sm:px-2 lg:min-w-[80px] lg:px-2.5 lg:text-base xl:px-3',
           {
-            'before:absolute before:-bottom-px before:left-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-primary before:to-transparent before:opacity-75 before:content-[""]':
+            'bg-[radial-gradient(circle_at_50%_220%,hsla(177,87%,75%,0.4)_0%,_transparent_60%)] before:absolute before:-bottom-px before:left-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-primary before:to-transparent before:opacity-75 before:content-[""]':
               isActive,
           },
           className,
         )}
-        style={{
-          backgroundImage: `radial-gradient(circle at 50% 200%, ${
-            isActive ? 'hsla(177, 87%, 75%, 0.4)' : 'transparent'
-          } 0%, transparent 60%)`,
-        }}
       >
         <span
           className={cx('transition group-hover:opacity-100', {
@@ -329,62 +388,8 @@ const NavLink: React.FC<
           {label}
         </span>
       </Comp>
-    </li>
+    </motion.li>
   )
-  // if (onClick) {
-  //   return (
-  //     <li className="">
-  //       <button
-  //         onClick={onClick}
-  //         aria-current={isActive ? 'page' : undefined}
-  //         className={cx(
-  //           'group flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
-  //           {
-  //             'border-b-2': isActive,
-  //           },
-  //           className,
-  //         )}
-  //       >
-  //         <span
-  //           className={cx('transition group-hover:opacity-100', {
-  //             'opacity-100': isActive,
-  //             'opacity-90': !isActive,
-  //           })}
-  //         >
-  //           {label}
-  //         </span>
-  //       </button>
-  //     </li>
-  //   )
-  // }
-  // return path ? (
-  //   <li className="">
-  //     <NextLink
-  //       href={path}
-  //       passHref
-  //       className={cx(
-  //         'group flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium transition active:bg-transparent sm:gap-1 sm:px-2 lg:px-2.5 lg:text-base xl:px-3',
-  //         {
-  //           '': isActive,
-  //         },
-  //         className,
-  //       )}
-  //       onClick={() => {
-  //         track(`clicked ${title ?? label} link in nav`)
-  //       }}
-  //     >
-  //       {icon ? React.createElement(icon, {isActive}) : null}
-  //       <span
-  //         className={cx('transition group-hover:opacity-100', {
-  //           'opacity-100': isActive,
-  //           'opacity-90': !isActive,
-  //         })}
-  //       >
-  //         {label}
-  //       </span>
-  //     </NextLink>
-  //   </li>
-  // ) : null
 }
 
 const MobileNavLink: React.FC<
@@ -448,6 +453,10 @@ const DropdownLink: React.FC<
       <NavigationMenu.Link
         active={isActive}
         {...props}
+        onClick={(e) => {
+          track(`clicked ${props.children} link in nav`)
+          props?.onClick && props.onClick(e)
+        }}
         className={cx(
           'flex w-full rounded px-2 py-2 transition hover:bg-gray-700',
           props.className,
@@ -468,7 +477,7 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
       passHref
       aria-label={`${config.title} Home`}
       className={cx(
-        'group group flex h-full flex-shrink-0 items-center font-text text-base font-semibold text-white md:text-lg lg:text-xl',
+        'group group relative z-10 flex h-full flex-shrink-0 items-center font-text text-base font-semibold text-white md:text-lg lg:text-xl',
         className,
       )}
       tabIndex={router.pathname === '/' ? -1 : 0}
@@ -510,7 +519,7 @@ const AccountDropdown = () => {
   const canViewInvoice = ability.can('view', 'Invoice')
   const canCreateContent = ability.can('create', 'Content')
   const canViewProfile = ability.can('edit', 'User')
-
+  const {data: sessionData, status: sessionStatus} = useSession()
   const preventHover = (event: any) => {
     const e = event as Event
     return e.preventDefault()
@@ -528,9 +537,24 @@ const AccountDropdown = () => {
             <NavigationMenu.Trigger
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
-              className="flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium hover:radix-state-closed:bg-white/5 radix-state-open:bg-[#1F2735] sm:gap-1 sm:px-3 lg:text-base"
+              onClick={() => {
+                track('clicked account dropdown in nav')
+              }}
+              className="flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium hover:radix-state-closed:bg-white/5 radix-state-open:bg-[#1F2735] sm:gap-1 sm:px-3 lg:text-sm"
             >
-              Account <ChevronDownIcon className="h-4 w-4" aria-hidden />
+              <Gravatar
+                className="h-7 w-7 rounded-full"
+                email={sessionData?.user?.email as string}
+                default="mp"
+              />
+              <div className="flex flex-col pl-0.5">
+                <span className="inline-flex gap-0.5 text-sm font-bold leading-tight">
+                  <span className="truncate sm:max-w-[8rem] lg:max-w-[11rem] xl:max-w-none">
+                    {sessionData?.user?.name?.split(' ')[0]}
+                  </span>{' '}
+                  <ChevronDownIcon className="w-2" />
+                </span>
+              </div>
             </NavigationMenu.Trigger>
             <NavigationMenu.Content
               onPointerMove={preventHover}
@@ -587,9 +611,10 @@ const SearchBar: React.FC<{isMinified?: boolean | undefined}> = ({
 
   return (
     <button
-      className="group flex items-center gap-1 rounded-md px-2.5 py-2 text-base font-medium opacity-90 transition hover:opacity-100 sm:px-2 sm:py-2 md:px-2 md:text-sm lg:px-2 lg:text-base"
+      className="group relative z-10 flex h-full items-center gap-1 px-2.5 py-2 text-sm font-normal opacity-90 transition hover:opacity-100 sm:px-2 sm:py-2 md:px-2 lg:px-2 lg:text-sm"
       onClick={() => {
         setOpenSearchBar(!isSearchBarOpen)
+        track('clicked Search in nav')
       }}
     >
       <div className="flex items-center gap-1">
@@ -599,8 +624,8 @@ const SearchBar: React.FC<{isMinified?: boolean | undefined}> = ({
         />
         <span
           className={cx('', {
-            'block md:hidden lg:block xl:block': isMinified,
-            'block md:block lg:block': !isMinified,
+            'block md:hidden lg:hidden xl:hidden': isMinified,
+            'block md:hidden lg:hidden': !isMinified,
           })}
         >
           Search
@@ -670,31 +695,32 @@ export const KeyIcon: React.FC<{isActive?: boolean}> = ({isActive = false}) => {
   )
 }
 
-export const BookIcon: React.FC<{isActive?: boolean}> = ({
+export const BookIcon: React.FC<{isActive?: boolean; className?: string}> = ({
   isActive = false,
+  className,
 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="w-[15px]"
+      className={cn('w-[15px] text-[#A9A7FF]', className)}
       fill="none"
       viewBox="0 0 13 13"
     >
       <path
-        stroke="#A9A7FF"
+        stroke="currentColor"
         strokeLinecap="square"
         strokeMiterlimit="10"
         d="M7 10v.75C7 12 8.25 12 8.25 12h-6C1.55 12 1 11.45 1 10.75V10h6Zm2.5-7H12v-.75c0-.7-.55-1.25-1.25-1.25S9.5 1.55 9.5 2.25V3Z"
       />
       <path
-        stroke="#A9A7FF"
+        stroke="currentColor"
         strokeLinecap="square"
         strokeMiterlimit="10"
         d="M2.5 10V2.25c0-.7.55-1.25 1.25-1.25h7c-.7 0-1.25.55-1.25 1.25v8.5c0 .7-.55 1.25-1.25 1.25H2.5"
       />
       <path
-        fill={isActive ? '#A9A7FF' : 'none'}
-        stroke="#A9A7FF"
+        fill={isActive ? 'currentColor' : 'none'}
+        stroke="currentColor"
         strokeLinecap="square"
         strokeMiterlimit="10"
         d="M2.5 2.25V10H7v.75C7 11.3 7.408 12 8.25 12c.7 0 1.25-.55 1.25-1.25v-8.5c0-.7.55-1.25 1.25-1.25h-7c-.7 0-1.25.55-1.25 1.25Z"
@@ -767,39 +793,44 @@ const NavToggle: React.FC<NavToggleProps> = ({
   const path02Controls = useAnimationControls()
 
   return (
-    <button
-      className="z-10 mr-2 flex h-10 w-10 items-center justify-center rounded-md p-1 md:hidden"
-      onClick={async () => {
-        // menuControls.start(isMenuOpened ? 'close' : 'open')
-        setMenuOpened(!isMenuOpened)
-        if (!isMenuOpened) {
-          await path02Controls.start(path02Variants.moving)
-          path01Controls.start(path01Variants.open)
-          path02Controls.start(path02Variants.open)
-        } else {
-          path01Controls.start(path01Variants.closed)
-          await path02Controls.start(path02Variants.moving)
-          path02Controls.start(path02Variants.closed)
-        }
-      }}
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24">
-        <motion.path
-          {...path01Variants.closed}
-          animate={path01Controls}
-          transition={{duration: 0.2}}
-          stroke="currentColor"
-          strokeWidth={1.5}
-        />
-        <motion.path
-          {...path02Variants.closed}
-          animate={path02Controls}
-          transition={{duration: 0.2}}
-          stroke="currentColor"
-          strokeWidth={1.5}
-        />
-      </svg>
-    </button>
+    <li>
+      <button
+        aria-label="Toggle Menu"
+        aria-expanded={isMenuOpened}
+        className="z-10 mr-2 flex h-12 w-12 items-center justify-center rounded-md p-1 md:hidden"
+        onClick={async () => {
+          // menuControls.start(isMenuOpened ? 'close' : 'open')
+          track('clicked mobile nav toggle')
+          setMenuOpened(!isMenuOpened)
+          if (!isMenuOpened) {
+            await path02Controls.start(path02Variants.moving)
+            path01Controls.start(path01Variants.open)
+            path02Controls.start(path02Variants.open)
+          } else {
+            path01Controls.start(path01Variants.closed)
+            await path02Controls.start(path02Variants.moving)
+            path02Controls.start(path02Variants.closed)
+          }
+        }}
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24">
+          <motion.path
+            {...path01Variants.closed}
+            animate={path01Controls}
+            transition={{duration: 0.2}}
+            stroke="currentColor"
+            strokeWidth={1.5}
+          />
+          <motion.path
+            {...path02Variants.closed}
+            animate={path02Controls}
+            transition={{duration: 0.2}}
+            stroke="currentColor"
+            strokeWidth={1.5}
+          />
+        </svg>
+      </button>
+    </li>
   )
 }
 

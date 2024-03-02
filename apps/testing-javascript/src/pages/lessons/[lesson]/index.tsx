@@ -35,6 +35,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const LessonPage: React.FC<{
   lesson: LessonResource & {
+    _id: string
     _type: string
     section: Section
   }

@@ -18,7 +18,7 @@ import {
 } from './use-player-prefs'
 import {getNextSection, isNextSectionEmpty} from '../utils/get-next-section'
 import {type AppAbility, createAppAbility} from '../utils/ability'
-import {type Lesson} from '../schemas/lesson'
+import {type Lesson, type Solution} from '../schemas/lesson'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 import {useConvertkit} from './use-convertkit'
 import {useGlobalPlayerShortcuts} from './use-global-player-shortcut'
@@ -39,7 +39,7 @@ type VideoContextType = {
   setDisplayOverlay: (value: boolean) => void
   handlePlay: () => void
   displayOverlay: boolean
-  nextExercise?: Lesson | null
+  nextExercise?: Lesson | Solution | null
   nextExerciseStatus?: 'error' | 'success' | 'loading'
   nextSection: Section | null
   path: string
@@ -51,11 +51,12 @@ type VideoContextType = {
   loadingUserStatus: boolean
   ability: AppAbility
   muxPlayerRef: React.RefObject<MuxPlayerRefAttributes>
+  moduleCertificateRenderer?: () => React.ReactNode
   handleContinue: (options: {
     router: NextRouter
     module: Module
     section?: Section | null
-    nextExercise?: Lesson | null
+    nextExercise?: Lesson | Solution | null
     handlePlay: () => void
     path: string
     nextPathBuilder?: NextPathBuilder
@@ -82,11 +83,12 @@ type VideoProviderProps = {
   onEnded?: () => Promise<any>
   onModuleEnded?: () => Promise<any>
   onModuleStarted?: () => Promise<any>
+  moduleCertificateRenderer?: () => React.ReactNode
   handleContinue?: (options: {
     router: NextRouter
     module: Module
     section?: Section | null
-    nextExercise?: Lesson | null
+    nextExercise?: Lesson | Solution | null
     handlePlay: () => void
     path: string
     nextPathBuilder?: NextPathBuilder
@@ -112,6 +114,7 @@ export const VideoProvider: React.FC<
   onEnded = async () => {},
   onModuleEnded = async () => {},
   onModuleStarted = async () => {},
+  moduleCertificateRenderer = () => null,
   handleContinue = defaultHandleContinue,
   handlePlayFromBeginning = defaultHandlePlayFromBeginning,
   exerciseSlug,
@@ -285,6 +288,7 @@ export const VideoProvider: React.FC<
     setPlayerPrefs,
     setDisplayOverlay: setDisplayOverlayCallback,
     handlePlay,
+    moduleCertificateRenderer,
     displayOverlay,
     nextExercise,
     nextExerciseStatus,

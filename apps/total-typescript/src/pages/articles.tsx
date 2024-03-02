@@ -14,6 +14,7 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import {useRouter} from 'next/router'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {BookIcon} from '@/components/app/navigation'
 
 const ARTICLES_PER_PAGE = 5
 
@@ -69,35 +70,45 @@ const Articles: React.FC<ArticlesIndex> = ({articles}) => {
               >
                 <Link
                   href={article.slug}
-                  className="group grid grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-10"
+                  className="group flex flex-col items-center gap-5 md:flex-row md:gap-10"
                 >
                   {article.image && (
-                    <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-gray-800/40">
+                    <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-gray-800/40 md:aspect-square md:max-w-[300px]">
                       <Image
-                        className="scale-150 transition duration-500 ease-in-out sm:scale-100 sm:group-hover:scale-105"
+                        className="object-cover transition duration-500 ease-in-out sm:group-hover:scale-105"
                         src={article.image}
                         alt=""
                         aria-hidden="true"
                         fill
+                        sizes="(min-width: 768px) 400px, 600px"
                         quality={100}
                         priority
                       />
                     </div>
                   )}
-                  <div>
+                  <div className="w-full">
+                    {article.articleType === 'bookTeaser' ? (
+                      <div className="relative mb-2 inline-flex items-center justify-center overflow-hidden rounded-full bg-salmon-background/30 p-px sm:mb-4">
+                        <div className="relative z-10 inline-flex rounded-full bg-background px-4 py-1.5 font-sans text-sm font-normal text-salmon-foreground">
+                          Book Teaser
+                        </div>
+                      </div>
+                    ) : null}
                     <h2
                       className={cx(
-                        'max-w-3xl font-sans text-2xl font-semibold sm:text-3xl',
+                        'text-balance font-sans text-2xl font-semibold sm:text-3xl',
                       )}
                     >
-                      <Balancer>{article.title}</Balancer>
+                      {article.title}
                     </h2>
                     <div className="max-w-xl pt-5 leading-relaxed text-gray-400">
                       {article.summary ? (
                         <ReactMarkdown
                           components={{
                             a: ({children}) => <span>{children}</span>,
-                            p: ({children}) => <Balancer>{children}</Balancer>,
+                            p: ({children}) => (
+                              <p className="text-balance">{children}</p>
+                            ),
                           }}
                         >
                           {article.summary}
@@ -153,6 +164,11 @@ export const ArticleTeaser: React.FC<ArticleTeaserProps> = ({article}) => {
         <h2 className="w-full pt-5 text-2xl font-bold sm:text-3xl">
           <Balancer>{title}</Balancer>
         </h2>
+        {article.articleType === 'bookTeaser' ? (
+          <div className="flex items-center gap-1.5 pt-2 font-text text-base font-medium text-orange-300">
+            <BookIcon className="text-orange-300" /> Book Teaser
+          </div>
+        ) : null}
         <div className="w-full pt-3 leading-relaxed text-gray-300">
           {summary ? (
             <ReactMarkdown

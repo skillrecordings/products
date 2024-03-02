@@ -7,8 +7,13 @@ import cx from 'classnames'
 import Balancer from 'react-wrap-balancer'
 import * as Dialog from '@radix-ui/react-dialog'
 import CertificateForm from './certificate-form'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
-const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
+const ModuleCertificate: React.FC<{
+  module: Module
+  withTitle?: boolean
+  className?: string
+}> = ({module, withTitle = true, className}) => {
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
       slug: module.slug.current,
@@ -17,10 +22,17 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
 
   return moduleProgressStatus === 'success' ? (
     <Dialog.Root>
-      <div className="flex w-full flex-col items-start justify-center py-8 sm:max-w-sm">
-        <h2 className="flex items-center gap-1 pb-2 text-2xl font-semibold">
-          Certificate
-        </h2>
+      <div
+        className={cn(
+          'flex w-full flex-col items-start justify-center py-8 sm:max-w-sm',
+          className,
+        )}
+      >
+        {withTitle && (
+          <h2 className="flex items-center gap-1 pb-2 text-2xl font-semibold">
+            Certificate
+          </h2>
+        )}
         <div className="relative flex w-full items-center justify-center rounded">
           <div className="relative flex aspect-[1.414/1] h-full w-full flex-col items-center justify-center overflow-hidden rounded border border-gray-300/10 shadow-xl shadow-black/10">
             <Image

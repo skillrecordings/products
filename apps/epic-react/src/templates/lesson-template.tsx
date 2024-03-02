@@ -34,6 +34,7 @@ import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import Container from '@/components/app/container'
 import {track} from '@/utils/analytics'
+import {lessonPathBuilder} from '@/utils/lesson-path-builder'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -84,6 +85,7 @@ const ExerciseTemplate: React.FC<{
   const displayLessonCompletionToggle =
     (lesson._type === 'solution' ||
       lesson._type === 'explainer' ||
+      lesson._type === 'exercise' ||
       lesson._type === 'lesson' ||
       lesson._type === 'interview') &&
     session
@@ -359,6 +361,7 @@ const LessonList: React.FC<{
         >
           <Collection.Root
             module={module}
+            lessonPathBuilder={lessonPathBuilder}
             resourcesRenderer={(type) => {
               return (
                 <>
@@ -406,9 +409,9 @@ const LessonList: React.FC<{
                 </Collection.Section>
               )}
             </Collection.Sections>
-            {/* Used if module has either none or single section so they can be styled differently */}
+            {/* Used for module that has either mixed lessons with sections, no sections whatsoever, or single section */}
             <Collection.Lessons className="py-0">
-              <Collection.Lesson className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500  dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500' />
+              <Collection.Lesson className='bg-teal-800 font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500  dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500' />
             </Collection.Lessons>
           </Collection.Root>
         </ScrollAreaPrimitive.Viewport>

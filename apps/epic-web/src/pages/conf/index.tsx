@@ -607,10 +607,9 @@ const SpeakersList: React.FC<{
                     setIsHovering(false)
                   }}
                   className="relative flex flex-col items-center p-2 sm:p-6"
-                  tabIndex={0}
-                  role="button"
-                  aria-haspopup={!speaker?.video && 'dialog'}
-                  aria-expanded={showingSpeakerDetail ? 'true' : 'false'}
+                  // tabIndex={0}
+                  // aria-haspopup={!speaker?.video && 'dialog'}
+                  // aria-expanded={showingSpeakerDetail ? 'true' : 'false'}
                 >
                   <motion.div
                     animate={{
@@ -677,11 +676,11 @@ const SpeakersList: React.FC<{
           })}
         </div>
       </section>
-      <SpeakerDetail
+      {/* <SpeakerDetail
         speakers={speakers}
         showingSpeakerDetail={showingSpeakerDetail}
         setShowingSpeakerDetail={setShowingSpeakerDetail}
-      />
+      /> */}
     </>
   )
 }

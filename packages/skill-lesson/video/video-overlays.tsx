@@ -174,7 +174,7 @@ export const CompleteAndContinueButton = React.forwardRef<
     const router = useRouter()
     const moduleProgress = useModuleProgress()
     const isLessonCompleted = moduleProgress?.lessons.find(
-      (l) => l.slug === lesson.slug && l.lessonCompleted,
+      (l) => l.slug === router.query.lesson && l.lessonCompleted,
     )
 
     const isDisabled =
@@ -185,12 +185,12 @@ export const CompleteAndContinueButton = React.forwardRef<
         data-action="continue"
         ref={ref}
         onMouseOver={() => {
-          if (!isDisabled) {
+          if (!isDisabled && !moduleProgress?.moduleCompleted) {
             !isLessonCompleted && setCompletedLessonCount((prev) => prev + 1)
           }
         }}
         onMouseOut={() => {
-          if (!isDisabled) {
+          if (!isDisabled && !moduleProgress?.moduleCompleted) {
             !isLessonCompleted && setCompletedLessonCount((prev) => prev - 1)
           }
         }}
@@ -203,24 +203,37 @@ export const CompleteAndContinueButton = React.forwardRef<
             moduleType: module.moduleType,
             lessonType: lesson._type,
           })
-          addProgressMutation.mutate(
-            {lessonSlug: router.query.lesson as string},
-            {
-              onSettled: (data, error, variables, context) => {
-                handleContinue({
-                  router,
-                  module,
-                  nextExercise: nextExercise
-                    ? nextExercise
-                    : nextExerciseInSection,
-                  handlePlay,
-                  path,
-                  section: nextSection ? nextSection : section,
-                  nextPathBuilder,
-                })
+
+          if (!isLessonCompleted) {
+            addProgressMutation.mutate(
+              {lessonSlug: router.query.lesson as string},
+              {
+                onSettled: (data, error, variables, context) => {
+                  handleContinue({
+                    router,
+                    module,
+                    nextExercise: nextExercise
+                      ? nextExercise
+                      : nextExerciseInSection,
+                    handlePlay,
+                    path,
+                    section: nextSection ? nextSection : section,
+                    nextPathBuilder,
+                  })
+                },
               },
-            },
-          )
+            )
+          } else {
+            handleContinue({
+              router,
+              module,
+              nextExercise: nextExercise ? nextExercise : nextExerciseInSection,
+              handlePlay,
+              path,
+              section: nextSection ? nextSection : section,
+              nextPathBuilder,
+            })
+          }
         }}
       >
         {addProgressMutation.isLoading || addProgressMutation.isSuccess ? (
@@ -336,8 +349,13 @@ const DefaultOverlay: React.FC = () => {
 }
 
 const FinishedOverlay = () => {
-  const {path, handlePlay, handlePlayFromBeginning, setDisplayOverlay} =
-    useMuxPlayer()
+  const {
+    path,
+    handlePlay,
+    handlePlayFromBeginning,
+    setDisplayOverlay,
+    moduleCertificateRenderer,
+  } = useMuxPlayer()
   const {module, section, lesson} = useLesson()
   const router = useRouter()
   const addProgressMutation = trpcSkillLessons.progress.add.useMutation()
@@ -346,8 +364,7 @@ const FinishedOverlay = () => {
   const shareMessage = `${module.title} ${module.moduleType} by @${
     module?.author?.twitterHandle || process.env.NEXT_PUBLIC_PARTNER_TWITTER
   }`
-  const shareButtonStyles =
-    'bg-gray-800 flex items-center gap-2 rounded px-3 py-2 hover:bg-gray-700'
+
   const isNextSectionWIP = isNextSectionEmpty({
     module,
     currentSection: section,
@@ -365,18 +382,34 @@ const FinishedOverlay = () => {
               ? `You've finished all currently available lessons in this workshop. We'll keep you posted when next section is released!`
               : moduleCompleted
               ? `You've finished "${module.title}" ${module.moduleType}.`
-              : `This was the last lesson from "${module.title}" ${module.moduleType}. You can continue watching other lessons.`}
+              : `This was the last lesson from "${module.title}" ${
+                  module.moduleType
+                }. ${
+                  moduleCertificateRenderer
+                    ? 'Finish all lessons to earn a certificate!'
+                    : ''
+                }`}
           </Balancer>
         </h2>
         {moduleProgress && session.status === 'authenticated' && (
-          <div data-progress="">
-            <Progress value={moduleProgress.percentComplete} className="h-2" />
-            <div data-lessons-completed="">
-              {moduleProgress.completedLessonCount} /{' '}
-              {moduleProgress?.lessonCount} lessons completed
-            </div>
-          </div>
+          <>
+            {moduleCompleted && moduleCertificateRenderer ? (
+              moduleCertificateRenderer()
+            ) : (
+              <div data-progress="">
+                <Progress
+                  value={moduleProgress.percentComplete}
+                  className="h-2"
+                />
+                <div data-lessons-completed="">
+                  {moduleProgress.completedLessonCount} /{' '}
+                  {moduleProgress?.lessonCount} lessons completed
+                </div>
+              </div>
+            )}
+          </>
         )}
+
         <p data-title="">Share with your friends</p>
         <div data-share-actions="">
           <Twitter link={shareUrl} message={shareMessage} data-action="share">

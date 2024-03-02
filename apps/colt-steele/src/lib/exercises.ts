@@ -38,7 +38,7 @@ export const ExerciseSchema = z
           videoResourceId: z.nullable(z.string()).optional(),
           transcript: z.nullable(z.any().array().or(z.string())).optional(),
         })
-        .merge(ResourceSchema)
+        .merge(ResourceSchema.omit({_id: true}))
         .optional(),
     ),
   })

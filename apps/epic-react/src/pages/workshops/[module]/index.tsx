@@ -16,7 +16,10 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     : null
 
   return {
-    props: {workshop, workshopBodySerialized},
+    props: {
+      workshop: {...workshop, useResourcesInsteadOfSections: true},
+      workshopBodySerialized,
+    },
     revalidate: 10,
   }
 }

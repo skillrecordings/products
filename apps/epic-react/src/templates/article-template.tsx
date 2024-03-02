@@ -1,42 +1,87 @@
-import React from 'react'
-import Layout from '@/components/app/layout'
-import {ArticleJsonLd} from '@skillrecordings/next-seo'
-import {useRouter} from 'next/router'
-import AuthorImage from '../../public/instructor.png'
-import {type Article} from '@/lib/articles'
-import {format} from 'date-fns'
+import * as React from 'react'
+import Link from 'next/link'
 import Image from 'next/image'
-import {PrimaryNewsletterCta} from '@/components/primary-newsletter-cta'
-import Share from '@/components/share'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import Balancer from 'react-wrap-balancer'
-import config from '@/config'
+import {useRouter} from 'next/router'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
-import {getOgImage} from '@/utils/get-og-image'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import {ArticleJsonLd} from '@skillrecordings/next-seo'
 
-const ArticleTemplate: React.FC<{
-  article: Article
+import {getIsoDate} from '@/utils/get-iso-date'
+import {getOgImage} from '@/utils/get-og-image'
+import config from '@/config'
+import {type ArticleFrontMatter, type Article} from '@/@types/mdx-article'
+import Layout from '@/components/app/layout'
+import Divider from '@/components/divider'
+import mdxComponents from '@/components/mdx-components'
+
+interface ArticleTemplateProps {
+  allArticles: Article[]
   mdx: MDXRemoteSerializeResult
-}> = ({article, mdx}) => {
+  frontMatter: ArticleFrontMatter
+}
+
+const YouMightAlsoLike: React.FC<{articles: Article[]}> = ({articles}) => {
+  return (
+    <section>
+      <h3 className="mb-8 text-xs uppercase text-gray-700 opacity-75">
+        YOU MIGHT ALSO LIKE
+      </h3>
+      <ul className="grid gap-8 leading-relaxed md:grid-cols-2">
+        {articles.map((article: Article) => {
+          return (
+            <li key={article.slug} className="flex min-h-[120px]">
+              <Link
+                href={`/${article.slug}`}
+                className="flex w-full transform flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-gray-200 text-center transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-xl sm:flex-row sm:text-left"
+              >
+                <div className="relative h-full w-full shrink-0 overflow-hidden sm:w-[45%]">
+                  <Image
+                    src={`/articles-images${article.image}`}
+                    alt={article.imageAlt}
+                    fill
+                    sizes="(max-width: 768px) 690px, 460px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="w-full p-6 sm:p-5">
+                  <h3 className="text-lg font-semibold leading-tight">
+                    {article.title}
+                  </h3>
+                </div>
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </section>
+  )
+}
+
+const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
+  allArticles,
+  frontMatter,
+  mdx,
+}) => {
   const router = useRouter()
   const {
     title,
-    description,
-    body,
-    _updatedAt,
-    _createdAt,
-    ogImage: _ogImage,
-  } = article
-  const image = article?.image?.secure_url
-  const ogImage = _ogImage
-    ? {url: _ogImage?.secure_url as string, alt: title}
+    excerpt,
+    socialImage,
+    image,
+    imageAlt = '',
+    date,
+    slug,
+  } = frontMatter
+  const isoDate = getIsoDate(date)
+  const ogImage = socialImage
+    ? {url: socialImage as string}
     : getOgImage({title})
-  const pageDescription = description || `${body.substring(0, 157)}...`
+  const pageDescription = excerpt
   const author = config.author
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
   const {subscriber, loadingSubscriber} = useConvertkit()
+  const restArticles = allArticles.filter((article) => article.slug !== slug)
 
   return (
     <Layout
@@ -52,135 +97,33 @@ const ArticleTemplate: React.FC<{
         title={title}
         images={image ? [image] : []}
         authorName={author}
-        datePublished={_createdAt}
-        dateModified={_updatedAt}
+        datePublished={isoDate}
+        dateModified={isoDate}
         description={pageDescription}
         url={url}
       />
-      <Header
-        author={author}
-        title={title}
-        _createdAt={_createdAt}
-        image={image}
-      />
-      {/* <TableOfContents article={article} /> */}
-      <Body mdx={mdx} />
-      <Share title={title} />
-      <AboutAuthor author={author} />
-      {!subscriber && <CTA article={article} />}
+      <main className="mx-auto w-full max-w-3xl px-5 py-8 md:py-16">
+        <h1 className="mx-auto mb-4 mt-24 max-w-screen-md px-5 text-center text-3xl font-bold leading-tight sm:px-0 sm:text-4xl">
+          {title}
+        </h1>
+        <h3 className="mb-10 text-center text-sm opacity-75">by {author}</h3>
+        <Divider />
+        <div className="mx-auto mt-16 max-w-screen-lg overflow-hidden rounded-none lg:rounded-lg">
+          <Image
+            src={`/articles-images${image}`}
+            alt={imageAlt}
+            width={2280}
+            height={1080}
+          />
+        </div>
+        <div className="prose mt-8 text-white md:prose-lg prose-code:break-words md:prose-code:break-normal">
+          <MDX contents={mdx} components={{...mdxComponents}} />
+        </div>
+        <Divider className="my-40" />
+        <YouMightAlsoLike articles={restArticles} />
+      </main>
     </Layout>
   )
 }
 
 export default ArticleTemplate
-
-type HeaderProps = {
-  title: string
-  author: string
-  _createdAt: string
-  image: any
-}
-
-const Header: React.FC<HeaderProps> = ({title, author, _createdAt, image}) => {
-  return (
-    <header className="relative mx-auto w-full">
-      <div className="relative flex w-full flex-col items-center justify-center pb-10 pt-10 sm:pb-16 sm:pt-24">
-        <div className="flex flex-grow items-center justify-center">
-          <h1 className="w-full max-w-screen-md px-5 text-center text-4xl font-semibold tracking-tight sm:text-5xl md:font-bold">
-            <Balancer>{title}</Balancer>
-          </h1>
-        </div>
-      </div>
-      {image && (
-        <div className="relative mx-auto aspect-video h-full w-full max-w-screen-lg overflow-hidden lg:rounded-lg">
-          <Image
-            src={image}
-            priority
-            alt=""
-            aria-hidden="true"
-            quality={100}
-            fill
-          />
-        </div>
-      )}
-      <div className="mx-auto flex w-full max-w-screen-md flex-col gap-5 px-5 pt-8 text-base text-foreground sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:text-base md:gap-16 lg:px-0">
-        <div className="col-span-2 flex items-center justify-center gap-3 md:justify-start">
-          <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-foreground/10">
-            <Image
-              priority={true}
-              src={AuthorImage}
-              alt={author}
-              width={56}
-              height={56}
-              quality={100}
-            />
-          </div>
-          <div className="text-lg font-semibold">{author}</div>
-        </div>
-        <div className="flex items-center justify-center gap-8 text-center sm:justify-end sm:gap-16 sm:text-left">
-          <div className="flex flex-shrink-0 flex-col text-sm sm:w-auto sm:text-base">
-            <span className="font-semibold">Published</span>
-            {format(new Date(_createdAt), 'dd MMMM, y')}
-          </div>
-        </div>
-      </div>
-    </header>
-  )
-}
-
-const CTA: React.FC<{article: Article}> = ({article}) => {
-  const {slug} = article
-
-  return (
-    <section
-      className="relative flex flex-col items-center justify-center px-5 py-16 md:pb-32 md:pt-24"
-      id="article"
-    >
-      <PrimaryNewsletterCta
-        title="Stay up to date"
-        byline="Subscribe to the newsletter to stay up to date with articles, courses and much more!"
-        onSuccess={() => {
-          track('subscribed from article', {
-            article: slug,
-          })
-        }}
-      />
-    </section>
-  )
-}
-
-const AboutAuthor: React.FC<{author: string}> = ({author}) => {
-  return (
-    <section className="mx-auto flex w-full max-w-screen-md flex-col items-center gap-10 px-5 py-16 md:flex-row md:py-24">
-      <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200">
-        <Image
-          src={AuthorImage}
-          width={140}
-          height={140}
-          alt={author}
-          className="aspect-square"
-        />
-      </div>
-      <div className="text-center md:text-left">
-        <p className="pb-3 text-xl font-semibold">
-          Written by {process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME}{' '}
-          {process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}
-        </p>
-        <p className="text-lg text-opacity-80">
-          {process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} is a world renowned
-          speaker, teacher, and trainer and he's actively involved in the open
-          source community as a maintainer and contributor of hundreds of
-          popular npm packages.
-        </p>
-      </div>
-    </section>
-  )
-}
-
-const Body: React.FC<{mdx: MDXRemoteSerializeResult}> = ({mdx}) => {
-  return (
-    <main className="prose mx-auto w-full max-w-3xl px-5 py-8 md:prose-lg prose-code:break-words md:py-16 md:prose-code:break-normal">
-      <MDX contents={mdx} />
-    </main>
-  )
-}

@@ -109,7 +109,7 @@ const WorkshopTeaser: React.FC<{module: SanityDocument; i: number}> = ({
 }) => {
   const {title, slug, image, description, sections, state} = module
   return (
-    <li className="relative flex flex-col items-center gap-10 overflow-hidden rounded-lg border border-gray-700/50 bg-gray-800/20 p-8 shadow-2xl md:flex-row">
+    <li className="relative flex flex-col items-center gap-10 rounded-lg border bg-card p-10 shadow-2xl after:absolute after:-top-px after:left-0 after:h-px after:w-full after:bg-gradient-to-r after:from-transparent after:via-[#57687C]/40 after:to-transparent after:content-[''] md:flex-row">
       <Link
         href={{
           pathname: '/workshops/[module]',
