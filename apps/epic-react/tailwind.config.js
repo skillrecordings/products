@@ -18,19 +18,56 @@ module.exports = {
     './node_modules/@skillrecordings/skill-lesson/video/**/*.tsx',
   ],
   theme: {
-    container: {
-      center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1280px',
-      },
-    },
+    // container: {
+    //   center: true,
+    //   padding: '2rem',
+    //   screens: {
+    //     '2xl': '1280px',
+    //   },
+    // },
     extend: {
       screens: {
         '2xl': '1820px',
       },
+      textColor: {
+        primary: 'var(--color-text-primary)',
+        text: 'var(--color-text-text)',
+        white: 'var(--color-text-white)',
+        primary: 'var(--color-text-primary)',
+        react: 'var(--color-react)',
+      },
+      backgroundColor: {
+        background: 'var(--color-bg-background)',
+        navigation: 'var(--color-bg-navigation)',
+        black: 'var(--color-bg-black)',
+      },
+      boxShadow: {
+        outline: '0 0 0 3px var(--color-text-primary)',
+      },
       colors: {
         gray: colors.slate,
+        'er-gray': {
+          100: 'var(--color-gray-100)',
+          200: 'var(--color-gray-200)',
+          300: 'var(--color-gray-300)',
+          400: 'var(--color-gray-400)',
+          500: 'var(--color-gray-500)',
+          600: 'var(--color-gray-600)',
+          700: 'var(--color-gray-700)',
+          800: 'var(--color-gray-800)',
+          900: 'var(--color-gray-900)',
+        },
+        blue: {
+          100: '#EBF1FF',
+          200: '#CCDCFF',
+          300: '#ADC6FF',
+          400: '#709CFF',
+          500: '#3371FF',
+          600: '#2E66E6',
+          700: '#1F4499',
+          800: '#173373',
+          900: '#0F224D',
+        },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -88,8 +125,21 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       typography: (theme) => ({
-        DEFAULT: {
-          css: {},
+        default: {
+          css: {
+            color: 'var(--color-gray-900)',
+            'h1, h2, h3, h4, blockquote, i, em, strong': {
+              color: 'var(--color-text-text)',
+            },
+            a: {color: 'var(--color-text-primary)'},
+            code: {
+              color: 'var(--color-text)',
+              padding: '2px 3px',
+              background: 'var(--color-gray-200)',
+              borderRadius: 3,
+            },
+            pre: {margin: '0px', padding: '0px'},
+          },
         },
       }),
     },
