@@ -18,22 +18,13 @@ module.exports = {
     './node_modules/@skillrecordings/skill-lesson/video/**/*.tsx',
   ],
   theme: {
-    // container: {
-    //   center: true,
-    //   padding: '2rem',
-    //   screens: {
-    //     '2xl': '1280px',
-    //   },
-    // },
     extend: {
       screens: {
         '2xl': '1820px',
       },
       textColor: {
-        primary: 'var(--color-text-primary)',
         text: 'var(--color-text-text)',
-        white: 'var(--color-text-white)',
-        primary: 'var(--color-text-primary)',
+        'er-primary': 'var(--color-text-primary)',
         react: 'var(--color-react)',
       },
       backgroundColor: {
