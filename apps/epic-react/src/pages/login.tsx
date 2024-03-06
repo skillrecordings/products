@@ -32,11 +32,13 @@ const LoginPage: React.FC<LoginTemplateProps> = ({csrfToken, providers}) => {
         className="relative z-[-1] object-cover"
       />
       <div className="absolute inset-0 mx-auto flex w-full max-w-full flex-col justify-center">
-        <LoginTemplate
-          csrfToken={csrfToken}
-          providers={providers}
-          title="Sign into your account"
-        />
+        <div className="container">
+          <LoginTemplate
+            csrfToken={csrfToken}
+            providers={providers}
+            title="Sign into your account"
+          />
+        </div>
       </div>
     </Layout>
   )
