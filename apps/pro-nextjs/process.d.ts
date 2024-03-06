@@ -3,6 +3,7 @@ declare namespace NodeJS {
     NEXTAUTH_URL: string
     NEXTAUTH_SECRET: string
     NEXT_PUBLIC_SITE_TITLE: string
+    NEXT_PUBLIC_APP_NAME: string
     NEXT_PUBLIC_URL: string
     NEXT_PUBLIC_PARTNER_FIRST_NAME: string
     NEXT_PUBLIC_PARTNER_LAST_NAME: string

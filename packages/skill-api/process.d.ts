@@ -5,5 +5,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_DEFAULT_PRODUCT_ID: string
     SLACK_ANNOUNCE_CHANNEL_ID: string
     STRIPE_WEBHOOK_SECRET: string
+    NEXT_PUBLIC_APP_NAME: string
   }
 }
