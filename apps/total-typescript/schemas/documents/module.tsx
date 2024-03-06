@@ -25,6 +25,7 @@ export default {
           {title: 'Tutorial', value: 'tutorial'},
           {title: 'Bonus', value: 'bonus'},
           {title: 'Chapter', value: 'chapter'},
+          {title: 'Book', value: 'book'},
         ],
       },
     },
@@ -60,12 +61,12 @@ export default {
       name: 'resources',
       title: 'Resources',
       description:
-        'Exercise, Section, Explainer, Interview, Testimonial, or Link Resource in the Module',
+        'Exercise, Section, Explainer, Interview, Testimonial, Link Resource, Chapter Resource, Chapter module, or CTA in the Module',
       type: 'array',
       of: [
         {
           title:
-            'Exercise, Section, Explainer, Interview, Testimonial, or Link Resource',
+            'Exercise, Section, Explainer, Interview, Testimonial, Link Resource, Chapter Resource, Chapter module, or CTA',
           type: 'reference',
           to: [
             {title: 'Exercise', type: 'exercise'},
@@ -73,6 +74,7 @@ export default {
             {title: 'Explainer', type: 'explainer'},
             {title: 'Interview', type: 'interview'},
             {title: 'Testimonial', type: 'testimonial'},
+            {title: 'Chapter', type: 'module', moduleType: 'chapter'},
             {title: 'Chapter Resource', type: 'chapterResource'},
             {type: 'linkResource'},
             {title: 'CTA', type: 'cta'},

@@ -14,6 +14,7 @@ import links from './structure/links'
 import emails from './structure/emails'
 import videoResources from './structure/videoResources'
 import chapterResources from './structure/chapterResources'
+import books from './structure/books'
 
 const hiddenDocTypes = (listItem: any) =>
   ![
@@ -30,7 +31,7 @@ const hiddenDocTypes = (listItem: any) =>
     'section',
     'linkResource',
     'interview',
-    'email',
+    'mail',
     'chapterResource',
   ].includes(listItem.getId())
 
@@ -46,9 +47,10 @@ export default (S: any) =>
       articles(S),
       tips(S),
       bonuses(S),
+      S.divider(),
+      books(S),
       chapters(S),
       chapterResources(S),
-      emails(S),
       S.divider(),
       videoResources(S),
       exercises(S),
@@ -56,6 +58,7 @@ export default (S: any) =>
       explainers(S),
       interviews(S),
       links(S),
+      emails(S),
       S.divider(),
       ...S.documentTypeListItems().filter(hiddenDocTypes),
     ])
