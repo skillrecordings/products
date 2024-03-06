@@ -27,66 +27,80 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 47.4% 11.2%;
-
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
-
     --border: 214.3 31.8% 94.4%;
     --input: 214.3 31.8% 94.4%;
-
     --card: 0 0% 100%;
     --card-foreground: 222.2 47.4% 11.2%;
-
     --primary: 222 47% 11%;
     --primary-foreground: 210 40% 98%;
-
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-
     --destructive: 0 100% 50%;
     --destructive-foreground: 210 40% 98%;
-
     --ring: 215 20.2% 65.1%;
-
     --radius: 0.5rem;
+
+    --color-text-primary: #225feb;
+    --color-text-text: #212732;
+    --color-text-white: #ffffff;
+    --color-bg-background: #ffffff;
+    --color-bg-navigation: rgba(255, 255, 255, 0.9);
+    --color-bg-black: #0e182a;
+    --color-gray-100: #f0f2f7;
+    --color-gray-200: #e2e7ed;
+    --color-gray-300: #d8dee6;
+    --color-gray-400: #c3ced8;
+    --color-gray-500: #a0aec0;
+    --color-gray-600: #718096;
+    --color-gray-700: #4a5568;
+    --color-gray-800: #293448;
+    --color-gray-900: #1a202c;
+    --color-react: #1e75d9;
   }
   .dark {
     --background: 219, 50%, 11%;
     --foreground: 213 31% 91%;
-
     --muted: 223 47% 11%;
     --muted-foreground: 215.4 16.3% 56.9%;
-
     --accent: 216 34% 17%;
     --accent-foreground: 210 40% 98%;
-
     --popover: 224 71% 4%;
     --popover-foreground: 215 20.2% 65.1%;
-
     --border: 216 34% 17%;
     --input: 216 34% 17%;
-
     --card: 224 71% 4%;
     --card-foreground: 213 31% 91%;
-
     --primary: 222 47% 11%;
     --primary-foreground: 222.2 47.4% 1.2%;
-
     --secondary: 222.2 47.4% 11.2%;
     --secondary-foreground: 210 40% 98%;
-
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
-
     --ring: 216 34% 17%;
-
     --radius: 0.5rem;
+
+    --color-text-primary: #81a7ff;
+    --color-text-text: #ffffff;
+    --color-text-white: #ffffff;
+    --color-bg-background: #0e182a;
+    --color-bg-navigation: rgba(14, 24, 42, 0.9);
+    --color-bg-black: #0e182a;
+    --color-gray-100: #132035;
+    --color-gray-200: #222f44;
+    --color-gray-300: #384357;
+    --color-gray-400: #718096;
+    --color-gray-500: #a0aec0;
+    --color-gray-600: #cbd5e0;
+    --color-gray-700: #e2e8f0;
+    --color-gray-800: #edf2f7;
+    --color-gray-900: #f7fafc;
+    --color-react: #9eddf8;
   }
 }
 
@@ -97,5 +111,196 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+  .container {
+    @apply mx-auto max-w-screen-md p-5 text-text;
+  }
+  .btn-primary {
+    @apply inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out;
+    color: white !important;
+    @screen md {
+      @apply px-4 py-3 text-base;
+    }
+  }
+  .btn-primary:hover {
+    @apply bg-indigo-500;
+    text-decoration: none !important;
+  }
+  .btn-primary:focus {
+    @apply shadow-outline-indigo border-indigo-700 outline-none;
+  }
+  .btn-primary:active {
+    @apply bg-indigo-700;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center rounded-md border border-transparent bg-gray-200 px-3 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out;
+    color: white !important;
+    @screen md {
+      @apply px-4 py-3 text-base;
+    }
+  }
+  .btn-secondary:hover {
+    @apply bg-indigo-600;
+    text-decoration: none !important;
+  }
+  .btn-secondary:focus {
+    @apply shadow-outline-indigo border-indigo-700 outline-none;
+  }
+  .btn-secondary:active {
+    @apply bg-indigo-700;
+  }
+
+  ::selection {
+    background: #3371ff;
+    color: white;
+  }
+
+  .autolink-header {
+    @apply absolute -ml-5 inline-block;
+
+    svg {
+      fill: var(--color-gray-300);
+    }
+    svg:hover {
+      fill: var(--color-gray-800);
+    }
+  }
+
+  .font-numeric {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /*
+  This will hide the focus indicator if the element receives focus via the mouse,
+  but it will still show up on keyboard focus.
+*/
+  .js-focus-visible :focus:not(.focus-visible) {
+    outline: none;
+  }
+
+  /* Links */
+
+  .links a {
+    @apply text-primary;
+  }
+
+  .links a:hover {
+    @apply underline;
+  }
+
+  /* Navigation */
+
+  .navigation {
+    @apply bg-navigation;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* purgecss start ignore */
+
+  /* Markdown Styles */
+  /* Global */
+  .markdown {
+    @apply text-sm leading-relaxed text-text;
+    @screen sm {
+      @apply text-lg;
+    }
+  }
+  /* Headers */
+  .markdown h1 {
+    @screen md {
+      @apply text-3xl;
+    }
+    @apply my-8 flex items-center text-2xl font-bold leading-tight;
+    overflow-wrap: anywhere;
+    word-wrap: anywhere;
+  }
+
+  .markdown h2 {
+    @screen md {
+      @apply text-2xl;
+    }
+    @apply my-6 flex items-center text-xl font-bold leading-tight;
+    overflow-wrap: anywhere;
+    word-wrap: anywhere;
+  }
+
+  .markdown h3,
+  .markdown h4,
+  .markdown h5,
+  .markdown h6 {
+    @screen md {
+      @apply text-xl;
+    }
+    @apply my-4 flex items-center text-lg font-semibold leading-tight;
+    overflow-wrap: anywhere;
+    word-wrap: anywhere;
+  }
+  /* Links */
+  .markdown a {
+    @apply text-primary;
+  }
+  .markdown a:hover {
+    @apply underline;
+  }
+  /* Paragraph */
+  .markdown p {
+    @apply mb-5;
+  }
+  /* Lists */
+  .markdown ul,
+  .markdown ol {
+    @apply mb-4 ml-8;
+  }
+  .markdown li > p,
+  .markdown li > ul,
+  .markdown li > ol {
+    @apply mb-0;
+  }
+  .markdown ol {
+    @apply list-decimal;
+  }
+  .markdown ul {
+    @apply list-disc;
+  }
+  /* Blockquotes */
+  .markdown blockquote {
+    @apply mx-6 mb-4 border-l-4 border-gray-400 bg-gray-100 p-2 italic;
+  }
+  .markdown blockquote > p {
+    @apply mb-0;
+  }
+  /* Tables */
+  .markdown td,
+  .markdown th {
+    @apply border border-gray-400 px-2 py-1;
+  }
+  .markdown tr:nth-child(odd) {
+    @apply bg-gray-100;
+  }
+  .markdown table {
+    @apply mb-6;
+  }
+
+  /* Code in titles */
+  .markdown code {
+    @apply border-b-2 border-gray-200;
+    font-size: 90%;
+  }
+
+  /* Code in paragraphs */
+  .markdown p > code {
+    @apply rounded-sm border-transparent bg-gray-200 text-sm font-semibold;
+    padding: 3px 4px 1px 4px;
+  }
+
+  .markdown hr {
+    @apply my-8;
+  }
+
+  /* iframe */
+  .markdown iframe {
+    margin-bottom: 1.25rem;
   }
 }
