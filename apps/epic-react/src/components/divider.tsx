@@ -17,7 +17,7 @@ const Divider = ({className = ''}: {className?: string}) => (
           duration: 1.5,
           ease: 'linear',
         }}
-        className="mx-auto w-24 text-[#9eddf8]"
+        className="mx-auto w-24 text-react"
         width="123"
         height="16"
         viewBox="0 0 123 16"

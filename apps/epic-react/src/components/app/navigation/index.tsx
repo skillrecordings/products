@@ -7,13 +7,20 @@ import {useMedia} from 'react-use'
 import {isEmpty} from 'lodash'
 import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'
+import {
+  Button,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@skillrecordings/ui'
 
 import {trpc} from '@/trpc/trpc.client'
 
 import MessageBar from '@/components/app/navigation/message-bar'
 import Logo from '@/components/app/navigation/logo'
 import {ThemeToggle} from '@/components/app/theme-toggle'
-import {Sun, Moon, Message, Logout} from '@/components/icons'
+import {Message, Logout} from '@/components/icons'
 import Skeleton from '@/components/skeleton'
 
 type NavigationProps = {
@@ -164,31 +171,30 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
               </Feedback>
             ) : null} */}
 
-            {/* TODO: <Feedback /> component */}
-            {/* <ColorModeToggle isTablet={isTablet} /> */}
             <ThemeToggle />
 
             {isAuthenticated ? (
-              // TODO: implement popover
-              // <Tippy
-              //   animation={false}
-              //   content={
-              //     !isTablet && (
-              //       <span className="py-2rounded-md border border-gray-100 bg-background px-3 text-xs text-text sm:text-opacity-75 md:px-2">
-              //         Log Out
-              //       </span>
-              //     )
-              //   }
-              // >
-              <button
-                className="px-3 py-2 transition-opacity duration-150 ease-in-out hover:opacity-100 sm:opacity-75 md:px-2"
-                type="button"
-                onClick={() => signOut()}
-              >
-                {isTablet ? 'Log Out' : <Logout />}
-              </button>
-            ) : // </Tippy>
-            null}
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => signOut()}
+                      className="border-none p-2 opacity-75 transition-opacity duration-150 ease-in-out hover:bg-transparent hover:opacity-100"
+                    >
+                      {isTablet ? 'Log Out' : <Logout />}
+                      <span className="sr-only">Log out</span>
+                    </Button>
+                  </TooltipTrigger>
+                  {!isTablet && (
+                    <TooltipContent>
+                      <p>Log Out</p>
+                    </TooltipContent>
+                  )}
+                </Tooltip>
+              </TooltipProvider>
+            ) : null}
           </div>
         </>
       )
