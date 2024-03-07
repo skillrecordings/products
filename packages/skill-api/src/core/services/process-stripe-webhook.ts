@@ -134,18 +134,23 @@ export async function receiveStripeWebhooks({
       // 3. tell the appropriate app to handle it...
       // 4. return a 200
 
-      const {siteName} = z
+      const {siteName: targetSiteName} = z
         .object({siteName: z.string().default(METADATA_MISSING_SITE_NAME)})
         .parse(event.data.object.metadata)
 
-      if (siteName === 'testing-javascript') {
+      if (targetSiteName === 'testing-javascript') {
         // send event to TJS processing endpoint
         const internalStripeWebhookEndpoint = z
           .string()
           .parse(process.env.TESTING_JAVASCRIPT_INTERNAL_STRIPE_URL)
+        const skillSecret = z
+          .string({
+            required_error: 'TJS_SKILL_SECRET must be set in this environemnt',
+          })
+          .parse(process.env.TJS_SKILL_SECRET)
 
         const headers = new Headers({
-          'x-skill-secret': process.env.SKILL_SECRET || '',
+          'x-skill-secret': skillSecret,
         })
 
         // not awaiting the fetch so that endpoint can return 200 right away
@@ -155,7 +160,7 @@ export async function receiveStripeWebhooks({
           body: JSON.stringify(event),
         })
 
-        return {status: 200, body: `handled by ${siteName}`}
+        return {status: 200, body: `handled by ${targetSiteName}`}
       } else {
         return await processStripeWebhook(event, {
           nextAuthOptions,
