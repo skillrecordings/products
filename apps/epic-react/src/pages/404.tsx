@@ -21,8 +21,8 @@ export default function Custom404() {
               height={700}
             />
           </div>
-          <div className="pt-3 text-xl font-light opacity-25">404</div>
-          <h1 className="pt-10 text-2xl font-semibold">Not Found</h1>
+          <div className="pt-3 text-2xl font-light opacity-25">404</div>
+          <h1 className="pt-10 text-3xl font-semibold">Not Found</h1>
         </div>
       </main>
     </Layout>
