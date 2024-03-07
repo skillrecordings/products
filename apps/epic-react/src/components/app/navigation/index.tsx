@@ -25,7 +25,7 @@ import Skeleton from '@/components/skeleton'
 import Feedback from '@/components/feedback'
 
 type NavigationProps = {
-  children: React.ReactNode
+  children?: React.ReactNode
   className?: string
 }
 
