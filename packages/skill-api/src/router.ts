@@ -7,7 +7,10 @@ import {signs3UploadUrl} from './core/services/aws'
 import {sendFeedbackFromUser} from './core/services/send-feedback-from-user'
 import {redeemGoldenTicket} from './core/services/redeem-golden-ticket'
 import {stripeCheckout} from './core/services/stripe-checkout'
-import {processStripeWebhooks} from './core/services/process-stripe-webhook'
+import {
+  receiveStripeWebhooks,
+  receiveInternalStripeWebhooks,
+} from './core/services/process-stripe-webhook'
 import {lookupUser} from './core/services/lookup-user'
 import {IncomingRequest} from './core'
 import {claimedSeats} from './core/services/claimed-seats'
@@ -36,7 +39,7 @@ export type SkillRecordingsAction =
   | 'refund'
   | 'create-magic-link'
 
-export type SkillRecordingsProvider = 'stripe' | 'sanity'
+export type SkillRecordingsProvider = 'stripe' | 'stripe-internal' | 'sanity'
 
 export async function actionRouter({
   method,
@@ -81,14 +84,19 @@ export async function actionRouter({
       case 'webhook':
         switch (providerId) {
           case 'stripe':
-            return await processStripeWebhooks({
+            return await receiveStripeWebhooks({
+              params,
+              paymentOptions,
+            })
+          case 'stripe-internal':
+            return await receiveInternalStripeWebhooks({
               params,
               paymentOptions,
             })
           case 'sanity':
             return await processSanityWebhooks({params})
         }
-        return await processStripeWebhooks({params, paymentOptions})
+        return await receiveStripeWebhooks({params, paymentOptions})
       case 'subscribe':
         return await subscribeToConvertkit({params})
       case 'answer':
