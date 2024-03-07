@@ -1,88 +1,107 @@
-import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
-import groq from 'groq'
 import z from 'zod'
-
-export const ChapterSchema = z.object({
-  _type: z.string(),
-  _updatedAt: z.string().optional(),
-  title: z.string(),
-  slug: z.object({
-    current: z.string(),
-  }),
-  moduleType: z.string(),
-})
+import {sanityQuery} from '@/server/sanity.server'
+import groq from 'groq'
+import type {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 
 export const ChapterResourceSchema = z.object({
+  _id: z.string(),
   _type: z.string(),
-  title: z.string(),
   _updatedAt: z.string(),
   _createdAt: z.string(),
+  title: z.string(),
   slug: z.object({
     current: z.string(),
   }),
-  body: z.string(),
-  state: z.enum(['published', 'draft']),
-  chapter: ChapterSchema,
+  body: z.string().optional(),
+  mdx: z.unknown() as z.Schema<MDXRemoteSerializeResult>,
+  video: z
+    .object({
+      videoResourceId: z.string(),
+    })
+    .nullable()
+    .optional(),
+  solution: z
+    .object({
+      video: z
+        .object({
+          videoResourceId: z.string(),
+        })
+        .nullable()
+        .optional(),
+    })
+    .nullable()
+    .optional(),
+})
+
+export const ChapterSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  _updatedAt: z.string(),
+  _createdAt: z.string(),
+  title: z.string(),
+  slug: z.object({
+    current: z.string(),
+  }),
+  moduleType: z.literal('chapter'),
+  resources: z.array(ChapterResourceSchema),
 })
 
 export type Chapter = z.infer<typeof ChapterSchema>
 export type ChapterResource = z.infer<typeof ChapterResourceSchema>
 
-export async function getAllChapterResources() {
-  const resources = await sanityClient.fetch(
-    groq`*[_type == 'chapterResource']{
+export async function getChapter(slugOrId: string) {
+  const chapter = await sanityQuery<Chapter>(
+    groq`*[_type == 'module' && moduleType == 'chapter' && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
+        _id,
         _type,
         _updatedAt,
         _createdAt,
         title,
         slug,
-        body,
-        state,
-        'chapter': *[_type=='module' && moduleType=='chapter' && references(^._id)][0]{
+        moduleType,
+        'resources': resources[]->{
+          _id,
           _type,
           _updatedAt,
+          _createdAt,
           title,
           slug,
-          moduleType
-        }
+          body,
+          'lesson': resources[@->._type == 'videoResource'][0]->{
+            "videoResourceId": _id,
+          },
+          'solution': resources[@._type == 'solution'][0]{
+            'videoResourceId': resources[@->._type == 'videoResource'][0]->._id,
+          },
+        },
     }`,
+    {tags: ['chapter', slugOrId]},
   )
 
-  const result = z.array(ChapterResourceSchema).safeParse(resources)
+  const parsed = ChapterSchema.safeParse(chapter)
 
-  if (result.success) {
-    return result.data
+  if (!parsed.success) {
+    console.error('Error parsing chapter', slugOrId)
+    console.error(parsed.error)
+    return null
   } else {
-    throw new Error('Could not find chapter resources')
+    const serializedChapterResources = await serializeBodyToMdx(
+      parsed.data.resources,
+    )
+    const data = {...parsed.data, resources: serializedChapterResources}
+
+    return data
   }
 }
 
-export async function getChapterResource(slug: string) {
-  const resource = await sanityClient.fetch(
-    groq`*[_type == 'chapterResource' && slug.current == $slug][0]{
-            _type,
-            _updatedAt,
-            _createdAt,
-            title,
-            slug,
-            body,
-            state,
-            'chapter': *[_type=='module' && moduleType=='chapter' && references(^._id)][0]{
-                _type,
-                _updatedAt,
-                title,
-                slug,
-                moduleType
-            }
-        }`,
-    {slug},
-  )
-  const result = ChapterResourceSchema.safeParse(resource)
-
-  if (result.success) {
-    return result.data
-  } else {
-    throw new Error('Could not find chapter resource')
-    return null
-  }
+const serializeBodyToMdx = async (chapterResources: ChapterResource[]) => {
+  const promises = chapterResources.map(async (resource) => {
+    if (resource.body) {
+      const mdx = await serializeMDX(resource.body as string, {})
+      return {...resource, mdx}
+    }
+    return resource
+  })
+  return Promise.all(promises)
 }
