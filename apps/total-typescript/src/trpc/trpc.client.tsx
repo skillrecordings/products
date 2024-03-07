@@ -66,5 +66,5 @@ export const getBaseUrl = () => {
     return process.env.NEXT_PUBLIC_URL
   }
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}` // SSR should use vercel url
-  return `http://localhost:${process.env.PORT ?? 3021}` // dev SSR should use localhost
+  return `http://localhost:${process.env.PORT ?? 3016}` // dev SSR should use localhost
 }
