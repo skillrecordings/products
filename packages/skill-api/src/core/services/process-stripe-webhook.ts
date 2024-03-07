@@ -38,14 +38,7 @@ export async function receiveInternalStripeWebhooks({
     const {
       req,
       options: {nextAuthOptions},
-      rawReq,
     } = params
-    if (!rawReq) {
-      return {
-        status: 500,
-        body: `no raw request found for stripe verification, check bodyParser config!`,
-      }
-    }
 
     const skillSecret = req.headers['x-skill-secret'] as string
 
@@ -63,7 +56,7 @@ export async function receiveInternalStripeWebhooks({
     }
     const stripe = paymentOptions?.stripeCtx.stripe || defaultStripe
 
-    const event: any = req.body
+    const event: any = req.body.event
 
     return await processStripeWebhook(event, {
       nextAuthOptions,
@@ -150,14 +143,15 @@ export async function receiveStripeWebhooks({
           .parse(process.env.TJS_SKILL_SECRET)
 
         const headers = new Headers({
+          'Content-Type': 'application/json',
           'x-skill-secret': skillSecret,
         })
 
         // not awaiting the fetch so that endpoint can return 200 right away
-        fetch(internalStripeWebhookEndpoint, {
+        await fetch(internalStripeWebhookEndpoint, {
           method: 'POST',
           headers,
-          body: JSON.stringify(event),
+          body: JSON.stringify({event}),
         })
 
         return {status: 200, body: `handled by ${targetSiteName}`}
