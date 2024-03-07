@@ -1,5 +1,6 @@
+'use client'
 import React from 'react'
-import {NextRouter, useRouter} from 'next/router'
+import {usePathname, useRouter} from 'next/navigation'
 import {ChevronDownIcon} from '@heroicons/react/solid'
 import {SearchIcon} from '@heroicons/react/outline'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
@@ -356,7 +357,8 @@ const NavLink: React.FC<
   }>
 > = ({onClick, label, icon, path, className, title, labelString}) => {
   const router = useRouter()
-  const isActive = router.asPath === path
+  const pathname = usePathname()
+  const isActive = pathname === path
   const IconEl = () =>
     React.isValidElement(icon) ? React.createElement(icon, {isActive}) : null
   const Comp = onClick ? 'button' : NextLink
@@ -446,7 +448,8 @@ const DropdownLink: React.FC<
   React.PropsWithChildren<LinkProps & {className?: string}>
 > = ({href, ...props}) => {
   const router = useRouter()
-  const isActive = router.asPath === href
+  const pathname = usePathname()
+  const isActive = pathname === href
 
   return (
     <NextLink href={href} passHref legacyBehavior>
@@ -471,6 +474,7 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
   isMinified,
 }) => {
   const router = useRouter()
+  const pathname = usePathname()
   return (
     <NextLink
       href="/"
@@ -480,7 +484,7 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
         'group group relative z-10 flex h-full flex-shrink-0 items-center font-text text-base font-semibold text-white md:text-lg lg:text-xl',
         className,
       )}
-      tabIndex={router.pathname === '/' ? -1 : 0}
+      tabIndex={pathname === '/' ? -1 : 0}
     >
       <span
         aria-hidden={!isMinified}
@@ -648,7 +652,7 @@ const SearchBar: React.FC<{isMinified?: boolean | undefined}> = ({
   )
 }
 
-export const handleLogOut = async (router: NextRouter) => {
+export const handleLogOut = async () => {
   const data = await signOut({
     redirect: false,
     callbackUrl: '/',
@@ -662,7 +666,7 @@ const LogOutButton: React.FC<{className?: string}> = ({className}) => {
     <>
       <button
         onClick={async () => {
-          await handleLogOut(router)
+          await handleLogOut()
           toast.success('Logged out successfully')
         }}
         className={cn(
