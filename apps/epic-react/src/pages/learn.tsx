@@ -147,7 +147,50 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
         },
       }}
     >
-      <Header title={title} />
+      <section>
+        <Image
+          src="/assets/flying-rocket-xl@2x.webp"
+          alt=""
+          width={1600}
+          height={273}
+          className="hidden w-full dark:xl:block"
+        />
+        <Image
+          src="/assets/flying-rocket-light-xl@2x.webp"
+          alt=""
+          width={1600}
+          height={273}
+          className="hidden w-full xl:block dark:xl:hidden"
+        />
+        <Image
+          src="/assets/flying-rocket@2x.webp"
+          alt=""
+          width={1600}
+          height={273}
+          className="hidden w-full dark:md:block dark:xl:hidden"
+        />
+        <Image
+          src="/assets/flying-rocket-light@2x.webp"
+          alt=""
+          width={1600}
+          height={273}
+          className="hidden w-full md:block dark:md:hidden xl:hidden"
+        />
+        <Image
+          src="/assets/flying-rocket-sm@2x.webp"
+          alt=""
+          width={1600}
+          height={273}
+          className="hidden w-full dark:block dark:md:hidden"
+        />
+        <Image
+          src="/assets/flying-rocket-light-sm@2x.webp"
+          alt=""
+          width={1600}
+          height={273}
+          className="block w-full dark:hidden md:hidden"
+        />
+      </section>
       <main className="mx-auto w-full max-w-screen-lg px-5">
         <h2 className="text-center text-5xl">Learn Page</h2>
         <ul className="space-y-6">
