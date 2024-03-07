@@ -1,12 +1,11 @@
 import * as React from 'react'
-import {Suspense} from 'react'
-import {AxiomWebVitals} from 'next-axiom'
 import config from '@/config'
 import {Providers} from '@/app/_components/providers'
 import '@/styles/globals.css'
 import {larsseit, magnatHead, magnatText} from '@/utils/load-fonts'
 import {TRPCReactProvider} from '@/trpc/trpc.client'
 import {headers} from 'next/headers'
+import {AxiomWebVitals} from 'next-axiom'
 import Navigation from '@/components/app/navigation'
 
 export const metadata = {
@@ -27,7 +26,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           <TRPCReactProvider headers={headers()}>
             {/* <Party /> */}
             <Navigation />
-            <main className="flex-co flex h-full min-h-screen flex-grow">
+            <main className="flex h-full min-h-screen flex-grow flex-col">
               {children}
             </main>
           </TRPCReactProvider>
