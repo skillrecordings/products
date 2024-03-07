@@ -94,8 +94,10 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogFooter,
   DialogTitle,
   DialogTrigger,
+  DialogPortal,
 } from './dialog'
 
 export {
@@ -183,6 +185,8 @@ export {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogFooter,
   DialogTitle,
   DialogTrigger,
+  DialogPortal,
 }

@@ -22,6 +22,7 @@ import Logo from '@/components/app/navigation/logo'
 import {ThemeToggle} from '@/components/app/theme-toggle'
 import {Message, Logout} from '@/components/icons'
 import Skeleton from '@/components/skeleton'
+import Feedback from '@/components/feedback'
 
 type NavigationProps = {
   children: React.ReactNode
@@ -154,7 +155,7 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
                 cx(
                   'rounded-lg border-transparent px-3 py-2 leading-tight text-text transition-colors duration-150 ease-in-out  md:border md:bg-blue-500 md:text-white md:hover:bg-blue-600',
                   {
-                    'bg-background text-text sm:opacity-100 md:bg-background md:text-text':
+                    'bg-background text-text sm:opacity-100 md:bg-background md:text-text md:hover:text-white':
                       location === '/learn',
                   },
                 ),
@@ -163,13 +164,18 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
               Workshops
             </Link>
           ) : null}
-          <div className="flex flex-col items-start sm:flex-row sm:items-center">
+          <div
+            className={twMerge(
+              cx('flex items-start', {
+                'flex-col': isTablet,
+                'flex-row items-center': !isTablet,
+              }),
+            )}
+          >
             {/* TODO: <Feedback /> component */}
-            {/* {isAuthenticated ? (
-              <Feedback className="px-3 py-2 transition-opacity duration-150 ease-in-out hover:opacity-100 sm:opacity-75 md:px-2">
-                {isTablet ? 'Send Feedback' : <Message />}
-              </Feedback>
-            ) : null} */}
+            {isAuthenticated ? (
+              <Feedback>{isTablet ? 'Send Feedback' : <Message />}</Feedback>
+            ) : null}
 
             <ThemeToggle />
 
@@ -181,7 +187,15 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
                       variant="ghost"
                       size="icon"
                       onClick={() => signOut()}
-                      className="border-none p-2 opacity-75 transition-opacity duration-150 ease-in-out hover:bg-transparent hover:opacity-100"
+                      className={twMerge(
+                        cx(
+                          'w-auto border-none p-2 px-3 text-base text-text transition-opacity duration-150 ease-in-out hover:bg-transparent hover:opacity-100',
+                          {
+                            'opacity-100': isTablet,
+                            'opacity-75': !isTablet,
+                          },
+                        ),
+                      )}
                     >
                       {isTablet ? 'Log Out' : <Logout />}
                       <span className="sr-only">Log out</span>
