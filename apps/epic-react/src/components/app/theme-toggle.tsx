@@ -1,6 +1,10 @@
 'use client'
 
 import * as React from 'react'
+import {useMedia} from 'react-use'
+import cx from 'classnames'
+import {twMerge} from 'tailwind-merge'
+
 import {Sun, Moon} from '@/components/icons'
 import {useTheme} from 'next-themes'
 import {
@@ -13,7 +17,7 @@ import {
 
 export function ThemeToggle() {
   const {theme, setTheme} = useTheme()
-
+  const isTablet = useMedia('(max-width: 920px)')
   return (
     <TooltipProvider>
       <Tooltip>
@@ -24,9 +28,23 @@ export function ThemeToggle() {
             onClick={() => {
               setTheme(theme === 'light' ? 'dark' : 'light')
             }}
-            className="border-none p-2 opacity-75 transition-opacity duration-150 ease-in-out hover:bg-transparent hover:opacity-100"
+            className={twMerge(
+              cx(
+                'w-auto border-none p-2 px-3 text-base text-text transition-opacity duration-150 ease-in-out hover:bg-transparent hover:opacity-100',
+                {
+                  'opacity-100': isTablet,
+                  'opacity-75': !isTablet,
+                },
+              ),
+            )}
           >
-            {theme === 'light' ? <Moon /> : <Sun />}
+            {isTablet ? (
+              `Activate ${theme === 'light' ? 'Dark' : 'Light'} Mode`
+            ) : theme === 'light' ? (
+              <Moon />
+            ) : (
+              <Sun />
+            )}
             <span className="sr-only">Toggle theme</span>
           </Button>
         </TooltipTrigger>
