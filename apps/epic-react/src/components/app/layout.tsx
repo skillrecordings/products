@@ -82,7 +82,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       {withNavigation && <Navigation {...navigationProps} />}
       <div
         className={twMerge(
-          'flex h-full min-h-[calc(100svh-61px)] flex-grow flex-col',
+          'mt-[61px] flex min-h-[calc(100svh-61px)] flex-grow flex-col',
           className,
         )}
       >
