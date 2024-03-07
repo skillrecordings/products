@@ -6,6 +6,7 @@ import type {AppRouter} from '@/trpc/routers/_app'
 import {createTRPCReact} from '@trpc/react-query'
 import {useState} from 'react'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import {getBaseUrl} from '@/utils/get-base-url'
 
 export const trpc = createTRPCReact<AppRouter>({
   overrides: {
@@ -58,13 +59,4 @@ export function TRPCReactProvider(props: {
       </trpc.Provider>
     </QueryClientProvider>
   )
-}
-
-const getBaseUrl = () => {
-  if (typeof window !== 'undefined') return '' // browser should use relative url
-  if (process.env.NEXT_PUBLIC_URL) {
-    return process.env.NEXT_PUBLIC_URL
-  }
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}` // SSR should use vercel url
-  return `http://localhost:${process.env.PORT ?? 3021}` // dev SSR should use localhost
 }
