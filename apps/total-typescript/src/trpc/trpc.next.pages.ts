@@ -2,10 +2,8 @@ import {httpBatchLink, loggerLink} from '@trpc/client'
 import {createTRPCNext} from '@trpc/next'
 import {inferRouterInputs, inferRouterOutputs} from '@trpc/server'
 import superjson from 'superjson'
-
 import type {AppRouter} from '@/trpc/routers/_app'
-
-import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import {getBaseUrl} from '@/utils/get-base-url'
 
 export const trpc = createTRPCNext<AppRouter>({
   overrides: {

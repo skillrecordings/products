@@ -16,7 +16,7 @@ import {SessionProvider} from 'next-auth/react'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import * as amplitude from '@amplitude/analytics-browser'
 import {FeedbackProvider} from '@/feedback-widget/feedback-context'
-import {trpc} from '@/trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.next.pages'
 import {SearchProvider} from '@/search-bar/use-search-bar'
 
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
