@@ -9,6 +9,7 @@ const envVariables = z.object({
   NEXTAUTH_URL: z.string(),
   NEXTAUTH_SECRET: z.string(),
   NEXT_PUBLIC_SITE_TITLE: z.string(),
+  NEXT_PUBLIC_APP_NAME: z.string(),
   NEXT_PUBLIC_URL: z.string(),
   NEXT_PUBLIC_PARTNER_FIRST_NAME: z.string(),
   NEXT_PUBLIC_PARTNER_LAST_NAME: z.string(),

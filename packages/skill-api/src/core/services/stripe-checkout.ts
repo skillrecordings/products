@@ -427,6 +427,7 @@ export async function stripeCheckout({
         productId: loadedProduct.id,
         product: loadedProduct.name,
         ...(user && {userId: user.id}),
+        siteName: process.env.NEXT_PUBLIC_APP_NAME,
       }
 
       const session = await stripe.checkout.sessions.create({

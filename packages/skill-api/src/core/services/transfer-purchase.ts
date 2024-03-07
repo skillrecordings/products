@@ -114,6 +114,9 @@ export async function transferPurchase({
         updateMerchantCustomer.identifier,
         {
           email: targetUserEmail,
+          metadata: {
+            siteName: process.env.NEXT_PUBLIC_APP_NAME,
+          },
         },
       )
     }
