@@ -15,7 +15,7 @@ const EpisodesList = ({episodes, location}: EpisodesList) => {
   const scrollableNodeRef = React.useRef()
   const {height} = useWindowSize()
 
-  const isTablet = useMedia('(max-width: 768px)')
+  const isTablet = useMedia('(max-width: 768px)', false)
   const maxHeight = isTablet ? '30rem' : (height - 140) / 1.05
 
   React.useEffect(() => {
@@ -62,8 +62,8 @@ const EpisodesList = ({episodes, location}: EpisodesList) => {
                       href={`/podcast/${slug}`}
                       className={`${
                         isActive
-                          ? 'text-text overflow-hidden bg-background hover:bg-background'
-                          : 'hover:text-text text-gray-800 hover:bg-gray-200'
+                          ? 'overflow-hidden bg-background text-text hover:bg-background'
+                          : 'text-gray-800 hover:bg-gray-200 hover:text-text'
                       } relative flex rounded-md p-3 pl-4 font-semibold transition-colors duration-150 ease-in-out md:p-4 md:pl-6`}
                     >
                       {isActive && (

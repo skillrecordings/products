@@ -22,7 +22,7 @@ import {
 } from '@skillrecordings/ui'
 
 const Feedback: React.FC<{children: React.ReactNode}> = ({children}) => {
-  const isTablet = useMedia('(max-width: 920px)')
+  const isTablet = useMedia('(max-width: 920px)', false)
   return (
     <Dialog>
       <DialogTrigger asChild>

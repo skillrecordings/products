@@ -48,9 +48,9 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
   const router = useRouter()
   const location = usePathname()
   const currentSale = useAvailableSale()
-  const isMobile = useMedia('(max-width: 640px)')
-  const isTablet = useMedia('(max-width: 920px)')
-  const isXL = useMedia('(min-width: 1200px)')
+  const isMobile = useMedia('(max-width: 640px)', false)
+  const isTablet = useMedia('(max-width: 920px)', false)
+  const isXL = useMedia('(min-width: 1200px)', false)
   const {scrollY} = useScroll()
   const messageBarTransform = useTransform(
     scrollY,
@@ -69,7 +69,7 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
     isAuthenticated
   const purchasedOnlyTeam = isTeamPurchaser(sessionData?.user)
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     setMounted(true)
   }, [])
 
