@@ -17,7 +17,7 @@ import {
 
 export function ThemeToggle() {
   const {theme, setTheme} = useTheme()
-  const isTablet = useMedia('(max-width: 920px)')
+  const isTablet = useMedia('(max-width: 920px)', false)
   return (
     <TooltipProvider>
       <Tooltip>

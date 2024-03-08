@@ -154,6 +154,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
           width={1600}
           height={273}
           className="hidden w-full dark:xl:block"
+          priority
         />
         <Image
           src="/assets/flying-rocket-light-xl@2x.webp"
@@ -161,6 +162,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
           width={1600}
           height={273}
           className="hidden w-full xl:block dark:xl:hidden"
+          priority
         />
         <Image
           src="/assets/flying-rocket@2x.webp"
@@ -168,6 +170,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
           width={1600}
           height={273}
           className="hidden w-full dark:md:block dark:xl:hidden"
+          priority
         />
         <Image
           src="/assets/flying-rocket-light@2x.webp"
@@ -175,6 +178,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
           width={1600}
           height={273}
           className="hidden w-full md:block dark:md:hidden xl:hidden"
+          priority
         />
         <Image
           src="/assets/flying-rocket-sm@2x.webp"
@@ -182,6 +186,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
           width={1600}
           height={273}
           className="hidden w-full dark:block dark:md:hidden"
+          priority
         />
         <Image
           src="/assets/flying-rocket-light-sm@2x.webp"
@@ -189,6 +194,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
           width={1600}
           height={273}
           className="block w-full dark:hidden md:hidden"
+          priority
         />
       </section>
       <main className="mx-auto w-full max-w-screen-lg px-5">
@@ -196,8 +202,11 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
         <ul className="space-y-6">
           {workshops.map((workshop) => {
             return (
-              <ModuleProgressProvider moduleSlug={workshop.slug.current}>
-                <li key={workshop._id} className="flex space-x-6">
+              <ModuleProgressProvider
+                moduleSlug={workshop.slug.current}
+                key={workshop._id}
+              >
+                <li className="flex space-x-6">
                   <div className="shrink-0">
                     <Image
                       src={workshop.image}
