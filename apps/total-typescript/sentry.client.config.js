@@ -3,12 +3,12 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from '@sentry/nextjs'
-import {BrowserTracing} from '@sentry/tracing'
+// import {BrowserTracing} from '@sentry/tracing'
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
 
 Sentry.init({
-  integrations: [new BrowserTracing()],
+  // integrations: [new BrowserTracing()],
   ignoreErrors: ['ResizeObserver'],
   dsn:
     SENTRY_DSN ||
