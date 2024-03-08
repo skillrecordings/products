@@ -23,13 +23,13 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           id="layout"
           className={`relative font-sans ${larsseit.variable} ${magnatHead.variable} ${magnatText.variable}`}
         >
-          <TRPCReactProvider headers={headers()}>
-            {/* <Party /> */}
-            {/* <Navigation /> */}
-            <main className="flex h-full min-h-screen flex-grow flex-col">
-              {children}
-            </main>
-          </TRPCReactProvider>
+          {/* <TRPCReactProvider headers={headers()}> */}
+          {/* <Party /> */}
+          {/* <Navigation /> */}
+          <main className="flex h-full min-h-screen flex-grow flex-col">
+            {children}
+          </main>
+          {/* </TRPCReactProvider> */}
         </body>
       </html>
     </Providers>
