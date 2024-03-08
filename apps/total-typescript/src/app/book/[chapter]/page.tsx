@@ -7,10 +7,34 @@ import {getServerAuthSession} from '@/server/auth'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {notFound} from 'next/navigation'
 import {StackblitzIframe} from '@/app/_components/stackblitz-iframe'
+import {type Metadata, type ResolvingMetadata} from 'next'
+import {getOgImage} from '@/utils/get-og-image'
 
 type Props = {
   params: {chapter: string}
   searchParams: {[key: string]: string | string[] | undefined}
+}
+
+export async function generateMetadata(
+  {params, searchParams}: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const chapter = await getChapter(params.chapter)
+
+  if (!chapter) {
+    return parent as Metadata
+  }
+
+  return {
+    title: chapter.title,
+    openGraph: {
+      images: [
+        getOgImage({
+          title: chapter.title,
+        }),
+      ],
+    },
+  }
 }
 
 const ChapterRoute: React.FC<Props> = async ({params, searchParams}) => {
@@ -26,7 +50,11 @@ const ChapterRoute: React.FC<Props> = async ({params, searchParams}) => {
     <div className="flex flex-col divide-y divide-dashed divide-gray-200">
       {chapter.resources.map(({title, mdx, slug, video, solution, code}) => {
         return (
-          <section className="py-20" key={slug.current} id={slug.current}>
+          <section
+            className="py-8 sm:py-20"
+            key={slug.current}
+            id={slug.current}
+          >
             <div className="prose prose-light max-w-none sm:prose-lg lg:prose-xl prose-p:font-normal">
               <h2>{title}</h2>
               {video && (

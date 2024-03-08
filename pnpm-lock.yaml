@@ -3578,9 +3578,6 @@ importers:
       '@sentry/profiling-node':
         specifier: ^1.2.6
         version: 1.3.5(@sentry/node@7.105.0)
-      '@sentry/tracing':
-        specifier: ^7.9.0
-        version: 7.98.0
       '@skillrecordings/ability':
         specifier: workspace:*
         version: link:../../packages/ability

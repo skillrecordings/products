@@ -1,7 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import MuxPlayer, {type MuxPlayerProps} from '@mux/mux-player-react'
+import {type MuxPlayerProps} from '@mux/mux-player-react'
+import MuxPlayer from '@mux/mux-player-react/lazy'
 import {use} from 'react'
 import {cn} from '@skillrecordings/ui/utils/cn'
 

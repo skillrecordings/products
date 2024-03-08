@@ -28,10 +28,15 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
   }
 
   return (
-    <div className="mx-auto grid w-full max-w-screen-2xl grid-cols-12 gap-16 px-5 py-20 sm:px-10 xl:px-20">
+    <div className="mx-auto flex w-full max-w-screen-2xl grid-cols-12 flex-col gap-16 px-5 pt-8 sm:px-10 md:grid md:pt-0 xl:px-20">
       <aside className="relative col-span-4">
-        <div className="sticky top-20 flex flex-col gap-5 text-lg">
-          <div>Chapter {currentChapterIndex}:</div>
+        <div className="sticky top-16 flex flex-col gap-5 text-lg">
+          <div>
+            <Link href="/book" className="underline">
+              Book
+            </Link>{' '}
+            <span>/</span> Chapter {currentChapterIndex}:
+          </div>
           <h1 className="text-balance text-4xl font-bold !leading-tight">
             {chapter.title}
           </h1>
