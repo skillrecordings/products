@@ -285,25 +285,40 @@ export const processStripeWebhook = async (
       },
     })
 
-    const user = merchantCustomer?.user
+    const currentUser = merchantCustomer?.user
 
-    if (user) {
-      const currentEmail = user.email
-      const {email, name} = eventObject
+    if (currentUser) {
+      const {email: targetEmail, name} = z
+        .object({
+          email: z.string(),
+          name: z.string().optional(),
+        })
+        .parse(eventObject)
 
-      const {user: updateUser} = await findOrCreateUser(email, name)
+      const {previous_attributes} = z
+        .object({
+          previous_attributes: z
+            .object({email: z.string().optional()})
+            .optional(),
+        })
+        .parse(event.data)
+
+      const previousEmail = previous_attributes?.email
+
+      const transferringToDifferentUser = previousEmail
+        ? targetEmail.toLowerCase() !== previousEmail.toLowerCase()
+        : false
+
+      const {user: updateUser} = await findOrCreateUser(targetEmail, name)
 
       await transferPurchasesToNewUser({
         merchantCustomerId: merchantCustomer.id,
         userId: updateUser.id,
       })
 
-      if (
-        currentEmail.toLowerCase() !== email.toLowerCase() &&
-        nextAuthOptions
-      ) {
+      if (transferringToDifferentUser && nextAuthOptions) {
         await sendServerEmail({
-          email,
+          email: targetEmail,
           callbackUrl: `${process.env.NEXTAUTH_URL}`,
           nextAuthOptions,
         })
