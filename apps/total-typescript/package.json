@@ -75,6 +75,7 @@
     "@sanity/webhook": "^4.0.0",
     "@sentry/nextjs": "^7.83.0",
     "@sentry/profiling-node": "^1.2.6",
+    "@sentry/tracing": "^7.9.0",
     "@skillrecordings/ability": "workspace:*",
     "@skillrecordings/analytics": "workspace:*",
     "@skillrecordings/commerce-server": "workspace:*",
