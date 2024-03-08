@@ -1,4 +1,4 @@
-// import {Logger} from 'next-axiom'
+import {Logger} from 'next-axiom'
 
 type SanityQueryOptions = {
   useCdn?: boolean
@@ -18,7 +18,7 @@ export async function sanityQuery<T = any>(
   query: string,
   options: SanityQueryOptions = defaultSanityQueryOptions,
 ): Promise<T> {
-  // const log = new Logger()
+  const log = new Logger()
 
   const signal =
     options.cache === 'no-cache' ? new AbortController().signal : undefined
@@ -51,11 +51,11 @@ export async function sanityQuery<T = any>(
       return result as T
     })
     .catch((error) => {
-      // log.error(error)
+      log.error(error)
       console.error(error)
       throw error
     })
     .finally(() => {
-      // log.flush()
+      log.flush()
     })
 }
