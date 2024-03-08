@@ -17,7 +17,7 @@ export const metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <Providers>
-      <html lang="en" suppressHydrationWarning={true}>
+      <html lang="en" className="light antialiased">
         <AxiomWebVitals />
         <body
           id="layout"
@@ -25,7 +25,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         >
           <TRPCReactProvider headers={headers()}>
             {/* <Party /> */}
-            <Navigation />
+            {/* <Navigation /> */}
             <main className="flex h-full min-h-screen flex-grow flex-col">
               {children}
             </main>

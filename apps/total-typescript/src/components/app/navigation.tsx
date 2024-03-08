@@ -47,7 +47,7 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
       <nav
         aria-label="top"
         className={cx(
-          'z-30 flex h-14 w-full flex-col items-center justify-center border-b bg-background pl-3 pr-0 sm:h-16 sm:pl-4 md:pr-3 print:hidden',
+          'dark z-30 flex h-14 w-full flex-col items-center justify-center border-b bg-background pl-3 pr-0 text-foreground sm:h-16 sm:pl-4 md:pr-3 print:hidden',
           className,
           {
             fixed: !isMinified,

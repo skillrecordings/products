@@ -23,15 +23,22 @@ export const ChapterResourceSchema = z.object({
     .optional(),
   solution: z
     .object({
-      video: z
+      videoResourceId: z.string(),
+      code: z
         .object({
-          videoResourceId: z.string(),
+          openFile: z.string().optional().nullable(),
         })
-        .nullable()
-        .optional(),
+        .optional()
+        .nullable(),
     })
-    .nullable()
-    .optional(),
+    .optional()
+    .nullable(),
+  code: z
+    .object({
+      openFile: z.string().optional().nullable(),
+    })
+    .optional()
+    .nullable(),
 })
 
 export const ChapterSchema = z.object({
@@ -44,6 +51,14 @@ export const ChapterSchema = z.object({
     current: z.string(),
   }),
   moduleType: z.literal('chapter'),
+  github: z
+    .object({
+      _type: z.literal('github'),
+      repo: z.string(),
+      title: z.string(),
+    })
+    .optional()
+    .nullable(),
   resources: z.array(ChapterResourceSchema),
 })
 
@@ -60,6 +75,7 @@ export async function getChapter(slugOrId: string) {
         title,
         slug,
         moduleType,
+        github,
         'resources': resources[]->{
           _id,
           _type,
@@ -68,11 +84,17 @@ export async function getChapter(slugOrId: string) {
           title,
           slug,
           body,
-          'lesson': resources[@->._type == 'videoResource'][0]->{
+          'video': resources[@->._type == 'videoResource'][0]->{
             "videoResourceId": _id,
+          },
+          "code": resources[@._type == 'stackblitz'][0]{
+            openFile
           },
           'solution': resources[@._type == 'solution'][0]{
             'videoResourceId': resources[@->._type == 'videoResource'][0]->._id,
+            "code": resources[@._type == 'stackblitz'][0]{
+              openFile
+            }
           },
         },
     }`,
@@ -98,7 +120,11 @@ export async function getChapter(slugOrId: string) {
 const serializeBodyToMdx = async (chapterResources: ChapterResource[]) => {
   const promises = chapterResources.map(async (resource) => {
     if (resource.body) {
-      const mdx = await serializeMDX(resource.body as string, {})
+      const mdx = await serializeMDX(resource.body as string, {
+        syntaxHighlighterOptions: {
+          theme: 'github-light',
+        },
+      })
       return {...resource, mdx}
     }
     return resource

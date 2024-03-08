@@ -18,6 +18,10 @@ module.exports = {
     './node_modules/@skillrecordings/skill-lesson/video/**/*.tsx',
   ],
   theme: {
+    fluidTypography: {
+      lineHeight: 1.8,
+      maxTypeScale: 1.5,
+    },
     container: {
       center: true,
       padding: '2rem',
@@ -95,6 +99,43 @@ module.exports = {
         '2xl': '1820px',
       },
       typography: (theme) => ({
+        light: {
+          css: {
+            color: theme('colors.foreground'),
+            code: {
+              color: theme('colors.foreground'),
+              background: theme('colors.gray.200'),
+            },
+            'h1, h2, h3, h4': {
+              color: theme('colors.foreground'),
+            },
+            li: {
+              color: theme('colors.foreground'),
+            },
+            a: {
+              color: theme('colors.foreground'),
+              textDecoration: 'underline',
+            },
+            'a:hover': {
+              textDecoration: 'underline',
+            },
+            'a:hover': {
+              textDecoration: 'underline',
+            },
+            p: {
+              color: theme('colors.foreground'),
+            },
+            strong: {
+              color: theme('colors.foreground'),
+            },
+            'code::before': {
+              content: "''",
+            },
+            'code::after': {
+              content: "''",
+            },
+          },
+        },
         DEFAULT: {
           css: {
             color: theme('colors.white'),
@@ -134,6 +175,7 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/typography'),
+    require('tailwind-fluid-typography'),
     require('tailwind-scrollbar'),
     require('tailwindcss-radix'),
     require('tailwindcss-animate'),

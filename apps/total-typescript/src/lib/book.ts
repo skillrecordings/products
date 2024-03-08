@@ -12,7 +12,7 @@ export const BookSchema = z.object({
   slug: z.object({
     current: z.string(),
   }),
-  chapters: z.array(ChapterSchema).nullable(),
+  chapters: z.array(ChapterSchema),
 })
 
 export type Book = z.infer<typeof BookSchema>

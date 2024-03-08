@@ -1,9 +1,12 @@
+import * as React from 'react'
 import {bookComponents} from '@/app/_components/mdx'
+import VideoPlayer from '@/app/_components/video-player'
 import {getChapter} from '@/lib/chapters'
+import {getVideoResource} from '@/lib/videos'
 import {getServerAuthSession} from '@/server/auth'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {notFound} from 'next/navigation'
-import type React from 'react'
+import {StackblitzIframe} from '@/app/_components/stackblitz-iframe'
 
 type Props = {
   params: {chapter: string}
@@ -13,23 +16,46 @@ type Props = {
 const ChapterRoute: React.FC<Props> = async ({params, searchParams}) => {
   const chapter = await getChapter(params.chapter)
   const session = await getServerAuthSession()
+  const isAdmin = session?.user.role === 'ADMIN'
 
   if (!chapter) {
     notFound()
   }
 
   return (
-    <div>
-      {chapter.resources.map(({title, mdx, slug}) => {
+    <div className="flex flex-col divide-y divide-dashed divide-gray-200">
+      {chapter.resources.map(({title, mdx, slug, video, solution, code}) => {
         return (
-          <section
-            key={slug.current}
-            id={slug.current}
-            className="scroll-mt-16"
-          >
-            <div className="prose prose-lg max-w-none py-10 lg:prose-xl">
+          <section className="py-20" key={slug.current} id={slug.current}>
+            <div className="prose prose-light max-w-none sm:prose-lg lg:prose-xl prose-p:font-normal">
               <h2>{title}</h2>
+              {video && (
+                <VideoPlayer
+                  videoResourceLoader={
+                    isAdmin
+                      ? getVideoResource(video.videoResourceId)
+                      : undefined
+                  }
+                  title={title}
+                />
+              )}
               {mdx && <MDX contents={mdx} components={bookComponents} />}
+              {code && chapter.github && (
+                <StackblitzIframe
+                  file={code.openFile}
+                  repo={chapter.github.repo}
+                />
+              )}
+              <h3>Solution</h3>
+              {solution && (
+                <VideoPlayer
+                  videoResourceLoader={
+                    isAdmin
+                      ? getVideoResource(solution.videoResourceId)
+                      : undefined
+                  }
+                />
+              )}
             </div>
           </section>
         )

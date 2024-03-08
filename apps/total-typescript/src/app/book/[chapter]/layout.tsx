@@ -1,9 +1,11 @@
+import * as React from 'react'
 import {getChapter, type Chapter} from '@/lib/chapters'
 import {sanityQuery} from '@/server/sanity.server'
 import groq from 'groq'
 import {findIndex} from 'lodash'
 import Link from 'next/link'
 import {notFound} from 'next/navigation'
+import {ChapterResourceList} from '@/app/_components/chapter-resource-list'
 
 export const metadata = {
   name: 'Chapter',
@@ -19,26 +21,34 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
   params,
 }) => {
   const chapter = await getChapter(params.chapter)
+  const {nextChapter, currentChapterIndex} = await getChapterPositions(chapter)
 
   if (!chapter) {
     notFound()
   }
 
   return (
-    <div className="grid grid-cols-12 px-5 py-20">
+    <div className="mx-auto grid w-full max-w-screen-2xl grid-cols-12 gap-16 px-5 py-20 sm:px-10 xl:px-20">
       <aside className="relative col-span-4">
-        <div className="sticky top-20 flex flex-col gap-5">
-          <h1 className="text-3xl font-bold">{chapter.title}</h1>
-          <ul>
-            {chapter.resources.map(({title, slug}) => {
-              return (
-                <li key={slug.current}>
-                  <Link href={`#${slug.current}`}>{title}</Link>
-                </li>
-              )
-            })}
-          </ul>
-          <ChapterNavigation chapter={chapter} />
+        <div className="sticky top-20 flex flex-col gap-5 text-lg">
+          <div>Chapter {currentChapterIndex}:</div>
+          <h1 className="text-balance text-4xl font-bold !leading-tight">
+            {chapter.title}
+          </h1>
+          <ChapterResourceList chapter={chapter} />
+          <div>
+            {nextChapter && (
+              <div>
+                Next:{' '}
+                <Link
+                  className="font-semibold underline"
+                  href={nextChapter.slug}
+                >
+                  {nextChapter.title}
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </aside>
       <article className="col-span-8">{children}</article>
@@ -48,7 +58,9 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
 
 export default ChapterLayout
 
-const ChapterNavigation: React.FC<{chapter: Chapter}> = async ({chapter}) => {
+async function getChapterPositions(chapter: Chapter | null) {
+  if (!chapter) return {}
+
   const allChapters = await sanityQuery<{
     chapters: {
       _id: string
@@ -85,13 +97,9 @@ const ChapterNavigation: React.FC<{chapter: Chapter}> = async ({chapter}) => {
       ? chapters[currentChapterIndex - 1]
       : null
 
-  return (
-    <div>
-      {nextChapter && (
-        <div>
-          Next: <Link href={nextChapter.slug}>{nextChapter.title}</Link>
-        </div>
-      )}
-    </div>
-  )
+  return {
+    nextChapter,
+    currentChapterIndex: currentChapterIndex + 1,
+    prevChapter,
+  }
 }
