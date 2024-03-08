@@ -53,13 +53,14 @@
     "@skillrecordings/database": "workspace:*",
     "@skillrecordings/inngest": "workspace:*",
     "@skillrecordings/react": "workspace:*",
-    "@skillrecordings/ui": "workspace:*",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/stripe-sdk": "workspace:*",
     "@skillrecordings/time": "workspace:*",
+    "@skillrecordings/ui": "workspace:*",
     "@tailwindcss/typography": "^0.5.9",
     "@tanstack/react-query": "4.35.7",
+    "@tanstack/react-table": "^8.10.7",
     "@trpc/client": "10.45.0",
     "@trpc/next": "10.45.0",
     "@trpc/react-query": "10.45.0",
@@ -91,7 +92,7 @@
     "lucide-react": "^0.224.0",
     "mjml": "^4.12.0",
     "mjml-react": "^2.0.8",
-    "next": "^14.1.0",
+    "next": "^14.1.3",
     "next-auth": "^4.23.2",
     "next-mdx-remote": "=4.4.1",
     "nodemailer": "^6.7.2",
@@ -119,7 +120,6 @@
     "tailwind-merge": "^1.12.0",
     "tailwind-scrollbar": "^3.0.0",
     "tailwindcss": "^3.4.1",
-    "@tanstack/react-table": "^8.10.7",
     "typescript": "5.1.6",
     "unified": "^10.1.2",
     "uuid": "^9.0.0",
@@ -128,7 +128,7 @@
   },
   "devDependencies": {
     "@types/nprogress": "^0.2.0",
-    "@types/uuid": "^9.0.2",
-    "@types/shortid": "^0.0.29"
+    "@types/shortid": "^0.0.29",
+    "@types/uuid": "^9.0.2"
   }
 }

@@ -35,7 +35,7 @@ cd packages/{{packagename}} && pnpm dev
 
 ## Adding a Project to Vercel
 
-The build command needs to be scoped to the specific project so we aren't building all of the repos for every single run. The `-w` flag runs ppm in the root of the project so all projects are built.
+The build command needs to be scoped to the specific project so we aren't building all of the repos for every single run. The `-w` flag runs pnpm in the root of the project so all projects are built.
 
 `build`:
 
