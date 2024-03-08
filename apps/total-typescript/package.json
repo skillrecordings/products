@@ -13,7 +13,7 @@
     "dev": "next dev -p 3016",
     "dev:sanity": "sanity dev",
     "dev:setup": "vercel env pull .env.local && sed -i.bak '/^VERCEL/d' .env.local",
-    "dev:stripe": "stripe listen --forward-to localhost:3016/api/skill/webhook/stripe",
+    "dev:stripe": "./scripts/check-stripe && stripe listen --forward-to localhost:3016/api/skill/webhook/stripe",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "start": "next start -p 3016",
     "test": "jest"
