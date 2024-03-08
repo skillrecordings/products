@@ -32,7 +32,7 @@ const ChapterRoute: React.FC<Props> = async ({params, searchParams}) => {
               {video && (
                 <VideoPlayer
                   videoResourceLoader={
-                    isAdmin
+                    isAdmin && video.videoResourceId
                       ? getVideoResource(video.videoResourceId)
                       : undefined
                   }
@@ -46,15 +46,17 @@ const ChapterRoute: React.FC<Props> = async ({params, searchParams}) => {
                   repo={chapter.github.repo}
                 />
               )}
-              <h3>Solution</h3>
               {solution && (
-                <VideoPlayer
-                  videoResourceLoader={
-                    isAdmin
-                      ? getVideoResource(solution.videoResourceId)
-                      : undefined
-                  }
-                />
+                <>
+                  <h3>Solution</h3>
+                  <VideoPlayer
+                    videoResourceLoader={
+                      isAdmin && solution.videoResourceId
+                        ? getVideoResource(solution.videoResourceId)
+                        : undefined
+                    }
+                  />
+                </>
               )}
             </div>
           </section>
