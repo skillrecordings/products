@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Expected stripe display name
+EXPECTED_STRING="Total TypeScript"
+
+# Currently connected stripe display name
+COMMAND_OUTPUT=$(
+	stripe config --list | grep '^display_name' | awk -F'=' '{print $2}' | xargs
+)
+
+# Compare the expected string with the command output
+if [ "$EXPECTED_STRING" = "$COMMAND_OUTPUT" ]; then
+    exit 0 # exit with status 0, indicating success/match
+else
+    echo "Mismatched Stripe accounts, expected $EXPECTED_STRING, got $COMMAND_OUTPUT."
+    exit 1 # exit with status 1, indicating failure/no match
+fi

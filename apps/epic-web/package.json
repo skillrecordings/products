@@ -8,7 +8,7 @@
     "db:schema": "prisma migrate dev --create-only",
     "db:start": "docker compose up -d",
     "db:studio": "prisma studio",
-    "dev:stripe": "stripe listen --forward-to localhost:3021/api/skill/webhook/stripe",
+    "dev:stripe": "./scripts/check-stripe && stripe listen --forward-to localhost:3021/api/skill/webhook/stripe",
     "dev": "concurrently \"npm:dev:*\"",
     "dev:next": "next dev -p 3021",
     "dev:inngest": "pnpx inngest-cli@latest dev -u http://localhost:3021/api/inngest",
