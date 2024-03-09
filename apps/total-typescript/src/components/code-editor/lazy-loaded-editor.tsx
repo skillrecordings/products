@@ -9,12 +9,22 @@ export const LazyLoadedEditor = React.lazy(() =>
   }),
 )
 
-export const MDXEditor = (props: {
-  language?: Language
-  code: string
-  children?: React.ReactNode
-}) => {
-  return <LazyLoadedEditor language={props.language} code={props.code} />
+export const MDXEditor = (props: {children?: any}) => {
+  // Yes, we're diving into React's internals to grab the
+  // code from the <pre> element
+  const code = props.children?.props?.children?.props?.children
+
+  if (!code) {
+    return null
+  }
+
+  let language = props.children?.props?.children?.props?.className
+
+  if (language) {
+    language = language.replace('language-', '') as Language
+  }
+
+  return <LazyLoadedEditor code={code} language={language} />
 }
 
 export const EditorTest = () => {
