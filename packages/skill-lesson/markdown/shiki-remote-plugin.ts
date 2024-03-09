@@ -4,6 +4,7 @@ import defaultTheme from 'shiki/themes/github-dark.json'
 
 interface MarkdownNode {
   type: string
+  name?: string
   children?: MarkdownNode[]
 }
 
@@ -17,6 +18,13 @@ const visitCodeNodes = async (
   node: MarkdownNode,
   transformer: (node: CodeNode) => Promise<void>,
 ) => {
+  /**
+   * Abort if the wrapping node is an Editor component
+   */
+  if (node.type === 'mdxJsxFlowElement' && node.name === 'Editor') {
+    return
+  }
+
   if (node.type === 'code') {
     await transformer(node as CodeNode)
   }

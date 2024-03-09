@@ -43,7 +43,7 @@ export const EagerlyLoadedEditor = (props: CodeEditorProps) => {
         language={resolveLanguage(props.language)}
         options={{
           minimap: {enabled: false, showSlider: 'mouseover'},
-          fontSize: 14,
+          fontSize: 16,
           glyphMargin: false,
           tabSize: 2,
           lineNumbers: 'off',
