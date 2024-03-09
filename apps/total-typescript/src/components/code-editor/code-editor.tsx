@@ -1,4 +1,5 @@
 import Editor from '@monaco-editor/react'
+import {useState} from 'react'
 import {prettierLoader} from './prettier-loader'
 
 const resolveLanguage = (language: Language | undefined): Language => {
@@ -28,17 +29,30 @@ export type CodeEditorProps = {
   code: string
 }
 
+const getHeight = (code: string) => {
+  return code.split('\n').length * 24
+}
+
+let incrementable = 0
+
 /**
  * Eagerly loaded code editor
  *
  * This should not be used directly, instead use ./lazy-loaded-editor.tsx
  */
 export const EagerlyLoadedEditor = (props: CodeEditorProps) => {
+  // Needs to be a different file name for each editor on-screen
+  const [path] = useState(() => {
+    incrementable++
+    return `main-${incrementable}.ts`
+  })
+
   return (
-    <div className="h-72 rounded bg-[#1e2632] py-6">
+    <div className="my-10 rounded bg-[#1e2632] py-6">
       <Editor
-        path="main.ts"
+        path={path}
         loading={<div>Loading Code Editor...</div>}
+        height={getHeight(props.code)}
         defaultValue={props.code}
         language={resolveLanguage(props.language)}
         options={{
@@ -48,10 +62,10 @@ export const EagerlyLoadedEditor = (props: CodeEditorProps) => {
           tabSize: 2,
           lineNumbers: 'off',
           scrollbar: {
-            vertical: 'auto',
+            vertical: 'hidden',
             horizontal: 'auto',
           },
-          scrollBeyondLastLine: false,
+          scrollBeyondLastLine: true,
         }}
         onMount={(editor, monaco) => {
           // Enable prettier
@@ -62,13 +76,12 @@ export const EagerlyLoadedEditor = (props: CodeEditorProps) => {
                 try {
                   return [
                     {
-                      text: await prettierLoader.format(editor.getValue()),
+                      text: await prettierLoader.format(model.getValue()),
                       range: model.getFullModelRange(),
                     },
                   ]
                 } catch (err) {
                   console.error(err)
-                } finally {
                 }
               },
             },
@@ -93,7 +106,7 @@ export const EagerlyLoadedEditor = (props: CodeEditorProps) => {
             label: 'Save',
             keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS],
             run: () => {
-              editor.getAction('editor.action.formatDocument')?.run()
+              editor.getAction('editor.action.formatDocument')?.run(path)
             },
           })
         }}
