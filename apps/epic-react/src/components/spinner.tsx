@@ -1,6 +1,4 @@
-import * as React from 'react'
-
-const Spinner: React.FunctionComponent<
+const Spinner: React.FC<
   React.PropsWithChildren<{
     className?: string
   }>

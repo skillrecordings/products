@@ -113,7 +113,7 @@
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
   .container {
-    @apply mx-auto max-w-screen-md p-5 text-text;
+    @apply mx-auto max-w-screen-md p-5;
   }
   .btn-primary {
     @apply inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out;
