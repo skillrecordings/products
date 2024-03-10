@@ -35,7 +35,7 @@ const EpisodesList = ({episodes, location}: EpisodesList) => {
   }, [location, isMounted])
 
   return isMounted ? (
-    <div className="relative col-span-1 h-full text-lg lg:col-span-4 xl:col-span-3">
+    <div className="relative col-span-1 h-full text-lg leading-normal lg:col-span-4 xl:col-span-3">
       <nav className="sm:sticky sm:top-20 ">
         <div className="pb-4 text-xs font-semibold uppercase tracking-wide text-er-gray-600">
           Episodes
