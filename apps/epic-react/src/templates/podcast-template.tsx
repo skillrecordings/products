@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
+import Balancer from 'react-wrap-balancer'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import useClipboard from 'react-use-clipboard'
@@ -36,11 +37,11 @@ const PodcastTemplate: React.FC<PodcastTemplateProps> = ({
         ogImage: {url: `${process.env.NEXT_PUBLIC_URL}${image}`, alt: title},
       }}
     >
-      <main className="relative mx-auto mt-16 grid max-w-screen-xl grid-cols-1 gap-8 px-6 py-6 sm:mt-20 sm:px-8 sm:py-14 lg:grid-cols-9">
+      <main className="relative mx-auto grid max-w-screen-xl grid-cols-1 gap-8 px-6 pb-6 pt-[31px] sm:px-8 sm:pb-14 sm:pt-[75px] lg:grid-cols-9">
         <article className="col-span-1 lg:col-span-5 xl:col-span-6">
           <header>
-            <h1 className="text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl">
-              {title}
+            <h1 className="text-3xl font-bold leading-tight sm:text-4xl sm:leading-tight lg:text-[2.75rem] lg:leading-tight">
+              <Balancer>{title}</Balancer>
             </h1>
             <PodcastPlayer episodeId={simplecastId} />
             <h2 className="prose-xl max-w-none font-semibold">{description}</h2>
@@ -72,7 +73,7 @@ const PodcastTemplate: React.FC<PodcastTemplateProps> = ({
                   onClick={() => setCopiedToClipboard()}
                 >
                   <svg
-                    className="text-react mr-1"
+                    className="mr-1 text-react"
                     xmlns="http://www.w3.org/2000/svg"
                     width="22"
                     height="22"

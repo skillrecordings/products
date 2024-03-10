@@ -35,12 +35,12 @@ const EpisodesList = ({episodes, location}: EpisodesList) => {
   }, [location, isMounted])
 
   return isMounted ? (
-    <div className="relative col-span-1 h-full text-base lg:col-span-4 xl:col-span-3">
+    <div className="relative col-span-1 h-full text-lg lg:col-span-4 xl:col-span-3">
       <nav className="sm:sticky sm:top-20 ">
-        <div className="text-xxs pb-4 font-semibold uppercase tracking-wide text-gray-600">
+        <div className="pb-4 text-xs font-semibold uppercase tracking-wide text-er-gray-600">
           Episodes
         </div>
-        <div className="overflow-hidden rounded-lg border-2 border-gray-200">
+        <div className="overflow-hidden rounded-lg border-2 border-er-gray-200">
           <SimpleBar
             scrollableNodeProps={{
               ref: scrollableNodeRef,
@@ -51,7 +51,7 @@ const EpisodesList = ({episodes, location}: EpisodesList) => {
           >
             <ul
               id="container"
-              className="grid grid-cols-1 gap-1 bg-gray-100 p-3"
+              className="grid grid-cols-1 gap-1 bg-er-gray-100 p-3"
             >
               {episodes.map((episode) => {
                 const {title, slug, number} = episode
@@ -63,14 +63,14 @@ const EpisodesList = ({episodes, location}: EpisodesList) => {
                       className={`${
                         isActive
                           ? 'overflow-hidden bg-background text-text hover:bg-background'
-                          : 'text-gray-800 hover:bg-gray-200 hover:text-text'
+                          : 'text-er-gray-800 hover:bg-er-gray-200 hover:text-text'
                       } relative flex rounded-md p-3 pl-4 font-semibold transition-colors duration-150 ease-in-out md:p-4 md:pl-6`}
                     >
                       {isActive && (
                         <div className="absolute left-0 top-0 h-full w-1 bg-blue-500" />
                       )}
                       <span
-                        className={`text-xxs mr-2 leading-7 ${
+                        className={`mr-2 text-xs leading-7 ${
                           isActive
                             ? 'text-blue-500 opacity-100'
                             : 'text-text opacity-50'
