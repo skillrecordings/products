@@ -14,6 +14,8 @@ interface CodeNode extends MarkdownNode {
   meta: string | null
 }
 
+const NODES_TO_ABORT = ['Editor', 'TranspilePreview']
+
 const visitCodeNodes = async (
   node: MarkdownNode,
   transformer: (node: CodeNode) => Promise<void>,
@@ -21,7 +23,11 @@ const visitCodeNodes = async (
   /**
    * Abort if the wrapping node is an Editor component
    */
-  if (node.type === 'mdxJsxFlowElement' && node.name === 'Editor') {
+  if (
+    node.type === 'mdxJsxFlowElement' &&
+    node.name &&
+    NODES_TO_ABORT.includes(node.name)
+  ) {
     return
   }
 
