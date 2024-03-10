@@ -116,7 +116,7 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       typography: (theme) => ({
-        default: {
+        DEFAULT: {
           css: {
             color: 'var(--color-gray-900)',
             'h1, h2, h3, h4, blockquote, i, em, strong': {
