@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import {signOut, useSession} from 'next-auth/react'
+import {useSession} from 'next-auth/react'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
 import {isOnlyTeamPurchaser} from '@/utils/is-only-team-purchaser'

@@ -1,14 +1,16 @@
 import * as React from 'react'
-// import useDarkMode from 'use-dark-mode'
+import {useTheme} from 'next-themes'
 import {motion} from 'framer-motion'
 
 const PodcastPlayer = ({episodeId}: {episodeId: string}) => {
-  // const darkMode = useDarkMode()
+  const {theme} = useTheme()
   const [state, setState] = React.useState({loading: true})
   const iframeRef = React.useRef<HTMLIFrameElement | null>(null)
   React.useEffect(() => {
     if (iframeRef.current) {
-      iframeRef.current.src = `https://player.simplecast.com/${episodeId}?dark=true&color=162238`
+      iframeRef.current.src = `https://player.simplecast.com/${episodeId}?dark=${
+        theme === 'dark'
+      }&color=${theme === 'dark' ? '162238' : 'FFFFFF'}`
     }
     iframeRef.current?.addEventListener('load', () =>
       setState({loading: false}),
@@ -18,7 +20,7 @@ const PodcastPlayer = ({episodeId}: {episodeId: string}) => {
         setState({loading: false}),
       )
     }
-  }, [])
+  }, [theme])
   return (
     <div className="relative my-8 overflow-hidden rounded-sm">
       {state.loading && (
@@ -39,15 +41,7 @@ const PodcastPlayer = ({episodeId}: {episodeId: string}) => {
         </motion.div>
       )}
 
-      <iframe
-        ref={iframeRef}
-        height="200px"
-        width="100%"
-        seamless
-        // src={`https://player.simplecast.com/${episodeId}?dark=${
-        //   darkMode.value ? true : false
-        // }&color=${darkMode.value ? '162238' : 'FFFFFF'}`}
-      />
+      <iframe ref={iframeRef} height="200px" width="100%" seamless />
     </div>
   )
 }
