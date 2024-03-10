@@ -158,8 +158,8 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
           ) : null}
           <div
             className={twMerge(
-              cx('flex items-start', {
-                'flex-col': isTablet,
+              cx('flex', {
+                'flex-col items-start': isTablet,
                 'flex-row items-center': !isTablet,
               }),
             )}
@@ -181,7 +181,7 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
                       onClick={() => signOut()}
                       className={twMerge(
                         cx(
-                          'w-auto border-none p-2 px-3 text-base text-text transition-opacity duration-150 ease-in-out hover:bg-transparent hover:opacity-100',
+                          'w-auto border-none px-3 py-2 text-base text-text transition-opacity duration-150 ease-in-out hover:bg-transparent hover:opacity-100 md:px-2',
                           {
                             'opacity-100': isTablet,
                             'opacity-75': !isTablet,
