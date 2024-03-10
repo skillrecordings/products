@@ -1,6 +1,6 @@
 import {motion} from 'framer-motion'
 
-export default function Skeleton(props: any) {
+const Skeleton = (props: any) => {
   return (
     <motion.div
       className={`relative h-5 overflow-hidden rounded-md bg-gray-300 ${
@@ -20,3 +20,5 @@ export default function Skeleton(props: any) {
     </motion.div>
   )
 }
+
+export default Skeleton

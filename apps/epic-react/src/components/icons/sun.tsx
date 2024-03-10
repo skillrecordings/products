@@ -1,6 +1,4 @@
-import * as React from 'react'
-
-export default function Sun() {
+const Sun = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -45,3 +43,5 @@ export default function Sun() {
     </svg>
   )
 }
+
+export default Sun

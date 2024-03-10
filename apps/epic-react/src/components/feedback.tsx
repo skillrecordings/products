@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {useMedia} from 'react-use'
 import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'

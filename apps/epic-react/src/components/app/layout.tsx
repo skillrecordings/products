@@ -1,4 +1,3 @@
-import React, {FunctionComponent} from 'react'
 import {NextSeo, type NextSeoProps} from '@skillrecordings/next-seo'
 import {twMerge} from 'tailwind-merge'
 import Navigation from './navigation'
@@ -34,7 +33,7 @@ type LayoutProps = {
   }
 }
 
-const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
+const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   children,
   className,
   meta,

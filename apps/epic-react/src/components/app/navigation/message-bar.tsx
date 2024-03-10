@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import {motion} from 'framer-motion'
 import {scroller} from 'react-scroll'
 import {useRouter, usePathname} from 'next/navigation'

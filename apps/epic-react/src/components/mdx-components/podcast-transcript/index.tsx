@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import SimpleBar from 'simplebar-react'
 
 const PodcastTranscript = ({children}: {children: React.ReactNode}) => {
