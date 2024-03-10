@@ -1,26 +1,28 @@
-import React from 'react'
-import Layout from '@/components/app/layout'
 import type {GetStaticProps, NextPage} from 'next'
-import {PrimaryNewsletterCta} from '@/components/primary-newsletter-cta'
 import {useRouter} from 'next/router'
-import {trpc} from '@/trpc/trpc.client'
+import Image from 'next/image'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import Balancer from 'react-wrap-balancer'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import {getAllProducts, getPricing, getProduct} from '@/lib/products'
-import {getAvailableBonuses} from '@/lib/available-bonuses'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
-import Image from 'next/image'
-import {getPage} from '@/lib/pages'
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+
+import {getAllProducts, getPricing, getProduct} from '@/lib/products'
+import {getAvailableBonuses} from '@/lib/available-bonuses'
+import {getPage} from '@/lib/pages'
+import {trpc} from '@/trpc/trpc.client'
 import config from '../config'
-import Container from '@/components/app/container'
-import Balancer from 'react-wrap-balancer'
-import {cn} from '@skillrecordings/ui/utils/cn'
 import {pricingClassNames} from '@/styles/commerce'
+
+import Container from '@/components/app/container'
+import Layout from '@/components/app/layout'
+import Footer from '@/components/app/footer'
+import {PrimaryNewsletterCta} from '@/components/primary-newsletter-cta'
 
 const defaultProductId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -172,7 +174,7 @@ const Home: NextPage<{
           </div>
         </Container>
       </main>
-      <div aria-hidden="true" className="py-10" />
+      <Footer />
     </Layout>
   )
 }

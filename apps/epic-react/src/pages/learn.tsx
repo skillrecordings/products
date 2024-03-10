@@ -11,7 +11,7 @@ import {getWorkshopsForProduct, WorkshopSchema, Workshop} from '@/lib/workshops'
 import {BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
 import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
-import Header from '@/components/app/header'
+import Footer from '@/components/app/footer'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   // TODO: load the user's purchases and figure out what product they should have access to
@@ -248,6 +248,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
           })}
         </ul>
       </main>
+      <Footer />
     </Layout>
   )
 }
