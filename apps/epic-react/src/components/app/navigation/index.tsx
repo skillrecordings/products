@@ -16,6 +16,7 @@ import {
 } from '@skillrecordings/ui'
 
 import {trpc} from '@/trpc/trpc.client'
+import {isOnlyTeamPurchaser} from '@/utils/is-only-team-purchaser'
 
 import MessageBar from '@/components/app/navigation/message-bar'
 import Logo from '@/components/app/navigation/logo'
@@ -30,15 +31,6 @@ type NavigationProps = {
 }
 
 const sellingLive = true
-
-const isTeamPurchaser = (user: any) => {
-  return (
-    !isEmpty(user?.purchases) &&
-    user.purchases.every((purchase: any) => {
-      return Boolean(purchase.bulkCouponId)
-    })
-  )
-}
 
 const Navigation: React.FC<NavigationProps> = ({children}) => {
   const {data: sessionData, status: sessionStatus} = useSession()
@@ -67,7 +59,7 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
     currentSale?.percentageDiscount &&
     !location.includes('modules') &&
     isAuthenticated
-  const purchasedOnlyTeam = isTeamPurchaser(sessionData?.user)
+  const purchasedOnlyTeam = isOnlyTeamPurchaser(sessionData?.user)
 
   React.useEffect(() => {
     setMounted(true)
