@@ -185,29 +185,3 @@ export const EagerlyLoadedFullWidthEditor = (props: CodeEditorProps) => {
     </div>
   )
 }
-
-export const EagerlyLoadedTranspilePreview = (
-  props: Omit<CodeEditorProps, 'onEmittedJavaScript'>,
-) => {
-  const [code, setCode] = useState<string | undefined>(undefined)
-
-  return (
-    <div className="not-prose my-10  grid grid-cols-1 gap-4  rounded bg-[#1e2632] py-6 md:grid-cols-2">
-      <div className="h-40 md:h-72">
-        <EagerlyLoadedEditor
-          {...props}
-          onEmittedJavaScript={setCode}
-          fontSize={16}
-        />
-      </div>
-      <div className="h-40 md:h-72">
-        <EagerlyLoadedEditor
-          code={code ?? ''}
-          language="js"
-          readonly
-          fontSize={12}
-        />
-      </div>
-    </div>
-  )
-}
