@@ -1,10 +1,18 @@
 import React from 'react'
 import type {Language} from './code-editor'
 
-export const LazyLoadedEditor = React.lazy(() =>
+export const LazyLoadedFullWidthEditor = React.lazy(() =>
   import('./code-editor').then((res) => {
     return {
-      default: res.EagerlyLoadedEditor,
+      default: res.EagerlyLoadedFullWidthEditor,
+    }
+  }),
+)
+
+export const LazyLoadedTranspilePreview = React.lazy(() =>
+  import('./code-editor').then((res) => {
+    return {
+      default: res.EagerlyLoadedTranspilePreview,
     }
   }),
 )
@@ -24,9 +32,11 @@ export const MDXEditor = (props: {children?: any}) => {
     language = language.replace('language-', '') as Language
   }
 
-  return <LazyLoadedEditor code={code} language={language} />
+  return <LazyLoadedFullWidthEditor code={code} language={language} />
 }
 
 export const EditorTest = () => {
-  return <LazyLoadedEditor language="ts" code={`const wow = () => {}`} />
+  return (
+    <LazyLoadedTranspilePreview language="ts" code={`const wow = () => {}`} />
+  )
 }
