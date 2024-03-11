@@ -1,60 +1,42 @@
-import React from 'react'
-import type {Language} from './code-editor'
+import React, {useLayoutEffect} from 'react'
+import type {CodeEditorProps} from './code-editor'
 
-export const LazyLoadedFullWidthEditor = React.lazy(() =>
+const _LazyLoadedEditor = React.lazy(() =>
   import('./code-editor').then((res) => {
     return {
-      default: res.EagerlyLoadedFullWidthEditor,
+      default: res.EagerlyLoadedEditor,
     }
   }),
 )
 
-export const LazyLoadedTranspilePreview = React.lazy(() =>
-  import('./transpile-preview').then((res) => {
-    return {
-      default: res.EagerlyLoadedTranspilePreview,
+const LoadWhenVisible = (props: {children: React.ReactNode}) => {
+  const [isVisible, setIsVisible] = React.useState(false)
+
+  const ref = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting)
+    })
+
+    observer.observe(ref.current!)
+
+    return () => {
+      observer.disconnect()
     }
-  }),
-)
+  }, [])
 
-export const MDXEditor = (props: {children?: any}) => {
-  // Yes, we're diving into React's internals to grab the
-  // code from the <pre> element
-  const code = props.children?.props?.children?.props?.children
-
-  if (!code) {
-    return null
-  }
-
-  let language = props.children?.props?.children?.props?.className
-
-  if (language) {
-    language = language.replace('language-', '') as Language
-  }
-
-  return <LazyLoadedFullWidthEditor code={code} language={language} />
-}
-
-export const MDXTranspilePreview = (props: {children?: any}) => {
-  // Yes, we're diving into React's internals to grab the
-  // code from the <pre> element
-  const code = props.children?.props?.children?.props?.children
-
-  if (!code) {
-    return null
-  }
-
-  let language = props.children?.props?.children?.props?.className
-
-  if (language) {
-    language = language.replace('language-', '') as Language
-  }
-
-  return <LazyLoadedTranspilePreview code={code} language={language} />
-}
-
-export const EditorTest = () => {
   return (
-    <LazyLoadedTranspilePreview language="ts" code={`const wow = () => {}`} />
+    <div ref={ref} className="h-full">
+      {isVisible ? props.children : null}
+    </div>
+  )
+}
+
+export const LazyLoadedEditor = (props: CodeEditorProps) => {
+  return (
+    <LoadWhenVisible>
+      <_LazyLoadedEditor {...props} />
+    </LoadWhenVisible>
   )
 }
