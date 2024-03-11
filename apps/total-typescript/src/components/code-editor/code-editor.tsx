@@ -50,10 +50,6 @@ export type CodeEditorProps = {
   onEmittedJavaScript?: (code: string) => void
 }
 
-const getHeight = (code: string) => {
-  return code.split('\n').length * 24
-}
-
 let incrementable = 0
 
 /**
@@ -86,14 +82,18 @@ export const EagerlyLoadedEditor = (props: CodeEditorProps) => {
       return
     }
 
-    const worker =
-      await monacoRef.current.languages.typescript.getTypeScriptWorker()
+    try {
+      const worker =
+        await monacoRef.current.languages.typescript.getTypeScriptWorker()
 
-    const client = await worker(uri)
+      const client = await worker(uri)
 
-    const emitOutput = await client.getEmitOutput(uri.toString())
+      const emitOutput = await client.getEmitOutput(uri.toString())
 
-    props.onEmittedJavaScript(emitOutput.outputFiles[0].text)
+      props.onEmittedJavaScript(emitOutput.outputFiles[0].text)
+    } catch (e) {
+      console.error('Getting emitted JavaScript failed', e)
+    }
   }
 
   return (
@@ -175,13 +175,5 @@ export const EagerlyLoadedEditor = (props: CodeEditorProps) => {
         reportEmittedJavaScript()
       }}
     />
-  )
-}
-
-export const EagerlyLoadedFullWidthEditor = (props: CodeEditorProps) => {
-  return (
-    <div className="my-10 rounded bg-[#1e2632] py-6">
-      <EagerlyLoadedEditor {...props} />
-    </div>
   )
 }

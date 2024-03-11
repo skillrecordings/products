@@ -10,7 +10,7 @@ import toast from 'react-hot-toast'
 import {useCopyToClipboard} from 'react-use'
 import Balancer from 'react-wrap-balancer'
 import {twMerge} from 'tailwind-merge'
-import {MDXEditor, MDXTranspilePreview} from '../code-editor/lazy-loaded-editor'
+import {MDXEditor, MDXTranspilePreview} from '../code-editor/mdx-editor'
 
 export const MDXComponents = {
   TypeError: (props) => <TypeError {...props} />,
