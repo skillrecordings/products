@@ -6,7 +6,7 @@ import {getVideoResource} from '@/lib/videos'
 import {getServerAuthSession} from '@/server/auth'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {notFound} from 'next/navigation'
-import {StackblitzIframe} from '@/app/_components/stackblitz-iframe'
+import {StackblitzIframe} from '@/app/book/_components/stackblitz-iframe'
 import {type Metadata, type ResolvingMetadata} from 'next'
 import {getOgImage} from '@/utils/get-og-image'
 
@@ -56,7 +56,7 @@ const ChapterRoute: React.FC<Props> = async ({params, searchParams}) => {
             id={slug.current}
           >
             <div className="prose prose-light max-w-none sm:prose-lg lg:prose-xl prose-p:font-normal">
-              <h2>{title}</h2>
+              <h1>{title}</h1>
               {video && (
                 <VideoPlayer
                   videoResourceLoader={

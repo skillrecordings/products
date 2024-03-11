@@ -164,8 +164,10 @@ const serializeBodyToMdx = async (chapterResources: ChapterResource[]) => {
     let solution = resource.solution
     if (solution && solution.body) {
       const mdx = await serializeMDX(solution.body as string, {
+        useShikiTwoslash: true,
         syntaxHighlighterOptions: {
-          theme: 'github-light',
+          authorization: process.env.SHIKI_AUTH_TOKEN,
+          endpoint: process.env.SHIKI_ENDPOINT,
         },
       })
       solution = {...solution, mdx}
@@ -173,8 +175,10 @@ const serializeBodyToMdx = async (chapterResources: ChapterResource[]) => {
 
     if (resource.body) {
       const mdx = await serializeMDX(resource.body as string, {
+        useShikiTwoslash: true,
         syntaxHighlighterOptions: {
-          theme: 'github-light',
+          authorization: process.env.SHIKI_AUTH_TOKEN,
+          endpoint: process.env.SHIKI_ENDPOINT,
         },
       })
       return {...resource, mdx, solution}

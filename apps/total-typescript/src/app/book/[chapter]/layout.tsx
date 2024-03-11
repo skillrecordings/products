@@ -5,7 +5,7 @@ import groq from 'groq'
 import {findIndex} from 'lodash'
 import Link from 'next/link'
 import {notFound} from 'next/navigation'
-import {ChapterResourceList} from '@/app/_components/chapter-resource-list'
+import {ChapterResourceList} from '@/app/book/_components/chapter-resource-list'
 
 export const metadata = {
   name: 'Chapter',
@@ -29,17 +29,17 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
 
   return (
     <div className="mx-auto flex w-full max-w-screen-2xl grid-cols-12 flex-col gap-16 px-5 pt-8 sm:px-10 md:grid md:pt-0 xl:px-20">
-      <aside className="relative col-span-4">
-        <div className="sticky top-16 flex flex-col gap-5 text-lg">
+      <aside className="relative col-span-3">
+        <div className="sticky top-16 flex flex-col gap-5 text-sm">
           <div>
             <Link href="/book" className="underline">
               Book
             </Link>{' '}
             <span>/</span> Chapter {currentChapterIndex}:
           </div>
-          <h1 className="text-balance text-4xl font-bold !leading-tight">
+          <strong className="text-balance text-2xl font-bold !leading-tight">
             {chapter.title}
-          </h1>
+          </strong>
           <ChapterResourceList chapter={chapter} />
           <div>
             {nextChapter && (
@@ -56,14 +56,14 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
           </div>
         </div>
       </aside>
-      <article className="col-span-8">{children}</article>
+      <article className="col-span-9">{children}</article>
     </div>
   )
 }
 
 export default ChapterLayout
 
-async function getChapterPositions(chapter: Chapter | null) {
+export async function getChapterPositions(chapter: Chapter | null) {
   if (!chapter) return {}
 
   const allChapters = await sanityQuery<{

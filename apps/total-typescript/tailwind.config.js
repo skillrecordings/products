@@ -102,10 +102,6 @@ module.exports = {
         light: {
           css: {
             color: theme('colors.foreground'),
-            code: {
-              color: theme('colors.foreground'),
-              background: theme('colors.gray.200'),
-            },
             'h1, h2, h3, h4': {
               color: theme('colors.foreground'),
             },

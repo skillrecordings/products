@@ -39,8 +39,9 @@ export const ChapterResourceList: React.FC<{chapter: Chapter}> = ({
     <ul className="flex list-disc flex-col gap-1.5 font-medium">
       {chapter.resources.map(({title, slug}) => {
         const isActive =
-          currentlyViewingSection === slug.current ||
-          params?.resource === slug.current
+          params?.resource === slug.current ||
+          currentlyViewingSection === slug.current
+
         return (
           <li key={slug.current}>
             <Link
