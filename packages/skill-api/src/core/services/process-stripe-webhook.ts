@@ -83,6 +83,48 @@ export async function receiveInternalStripeWebhooks({
   }
 }
 
+const determineEventProcessor = (siteName: string) => {
+  if (siteName === 'testing-javascript') {
+    const internalStripeWebhookEndpoint = z
+      .string()
+      .parse(process.env.TESTING_JAVASCRIPT_INTERNAL_STRIPE_URL)
+    const skillSecret = z
+      .string({
+        required_error: 'TJS_SKILL_SECRET must be set in this environemnt',
+      })
+      .parse(process.env.TJS_SKILL_SECRET)
+
+    return {
+      handler: 'testing-javascript' as const,
+      details: {
+        skillSecret,
+        webhookEndpoint: internalStripeWebhookEndpoint,
+      },
+    }
+  } else if (siteName === 'epic-react') {
+    const internalStripeWebhookEndpoint = z
+      .string()
+      .parse(process.env.EPIC_REACT_INTERNAL_STRIPE_URL)
+    const skillSecret = z
+      .string({
+        required_error: 'TJS_SKILL_SECRET must be set in this environemnt',
+      })
+      .parse(process.env.ER_SKILL_SECRET)
+
+    return {
+      handler: 'epic-react' as const,
+      details: {
+        skillSecret,
+        webhookEndpoint: internalStripeWebhookEndpoint,
+      },
+    }
+  } else {
+    return {
+      handler: 'self' as const,
+    }
+  }
+}
+
 export async function receiveStripeWebhooks({
   params,
   paymentOptions,
@@ -144,16 +186,10 @@ export async function receiveStripeWebhooks({
         .object({siteName: z.string().default(METADATA_MISSING_SITE_NAME)})
         .parse(event.data.object.metadata)
 
-      if (targetSiteName === 'testing-javascript') {
-        // send event to TJS processing endpoint
-        const internalStripeWebhookEndpoint = z
-          .string()
-          .parse(process.env.TESTING_JAVASCRIPT_INTERNAL_STRIPE_URL)
-        const skillSecret = z
-          .string({
-            required_error: 'TJS_SKILL_SECRET must be set in this environemnt',
-          })
-          .parse(process.env.TJS_SKILL_SECRET)
+      const {handler, details} = determineEventProcessor(targetSiteName)
+
+      if (handler !== 'self') {
+        const {skillSecret, webhookEndpoint} = details
 
         const payloadString = JSON.stringify({event})
         const contentLength = Buffer.byteLength(payloadString, 'utf8')
@@ -165,13 +201,13 @@ export async function receiveStripeWebhooks({
         })
 
         // not awaiting the fetch so that endpoint can return 200 right away
-        await nodeFetch(internalStripeWebhookEndpoint, {
+        await nodeFetch(webhookEndpoint, {
           method: 'POST',
           headers,
           body: payloadString,
         })
 
-        return {status: 200, body: `handled by ${targetSiteName}`}
+        return {status: 200, body: `handled by ${handler}`}
       } else {
         return await processStripeWebhook(event, {
           nextAuthOptions,
