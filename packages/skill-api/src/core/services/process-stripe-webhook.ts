@@ -58,7 +58,6 @@ export async function receiveInternalStripeWebhooks({
     const _paymentOptions = paymentOptions || {
       stripeCtx: {stripe: defaultStripe},
     }
-    const stripe = paymentOptions?.stripeCtx.stripe || defaultStripe
 
     body = req.body
     event = req.body.event
