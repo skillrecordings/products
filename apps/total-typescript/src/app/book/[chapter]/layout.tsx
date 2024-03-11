@@ -47,7 +47,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                 Next:{' '}
                 <Link
                   className="font-semibold underline"
-                  href={nextChapter.slug}
+                  href={`/book/${nextChapter.slug}`}
                 >
                   {nextChapter.title}
                 </Link>

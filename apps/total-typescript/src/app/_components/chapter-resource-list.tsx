@@ -3,6 +3,7 @@
 import type {Chapter} from '@/lib/chapters'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Link from 'next/link'
+import {useParams} from 'next/navigation'
 import * as React from 'react'
 
 export const ChapterResourceList: React.FC<{chapter: Chapter}> = ({
@@ -11,6 +12,7 @@ export const ChapterResourceList: React.FC<{chapter: Chapter}> = ({
   const [currentlyViewingSection, setCurrentlyViewingSection] = React.useState<
     string | null
   >(null)
+  const params = useParams()
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -36,13 +38,16 @@ export const ChapterResourceList: React.FC<{chapter: Chapter}> = ({
   return (
     <ul className="flex list-disc flex-col gap-1.5 font-medium">
       {chapter.resources.map(({title, slug}) => {
+        const isActive =
+          currentlyViewingSection === slug.current ||
+          params?.resource === slug.current
         return (
           <li key={slug.current}>
             <Link
               className={cn('hover:underline', {
-                underline: currentlyViewingSection === slug.current,
+                underline: isActive,
               })}
-              href={`#${slug.current}`}
+              href={params?.resource ? slug.current : `#${slug.current}`}
             >
               {title}
             </Link>

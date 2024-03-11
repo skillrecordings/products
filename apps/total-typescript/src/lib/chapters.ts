@@ -23,6 +23,8 @@ export const ChapterResourceSchema = z.object({
     .optional(),
   solution: z
     .object({
+      body: z.string().optional(),
+      mdx: z.unknown() as z.Schema<MDXRemoteSerializeResult>,
       videoResourceId: z.string(),
       code: z
         .object({
@@ -91,6 +93,7 @@ export async function getChapter(slugOrId: string) {
             openFile
           },
           'solution': resources[@._type == 'solution'][0]{
+            body,
             'videoResourceId': resources[@->._type == 'videoResource'][0]->._id,
             "code": resources[@._type == 'stackblitz'][0]{
               openFile
@@ -117,17 +120,66 @@ export async function getChapter(slugOrId: string) {
   }
 }
 
+export async function getChapterResource(slugOrId: string) {
+  const chapterResource = await sanityQuery<ChapterResource>(
+    groq`*[_type in ['exercise', 'lesson', 'explainer', 'solution'] && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
+        _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        title,
+        slug,
+        body,
+        'video': resources[@->._type == 'videoResource'][0]->{
+          "videoResourceId": _id,
+        },
+        "code": resources[@._type == 'stackblitz'][0]{
+          openFile
+        },
+        'solution': resources[@._type == 'solution'][0]{
+          body,
+          'videoResourceId': resources[@->._type == 'videoResource'][0]->_id,
+          "code": resources[@._type == 'stackblitz'][0]{
+            openFile
+          }
+        },
+      }`,
+    {tags: ['resource', slugOrId]},
+  )
+
+  const parsed = ChapterResourceSchema.safeParse(chapterResource)
+
+  if (!parsed.success) {
+    console.error('Error parsing chapter resource', slugOrId)
+    console.error(parsed.error)
+    return null
+  } else {
+    const serializedChapterResource = await serializeBodyToMdx([parsed.data])
+    return serializedChapterResource[0]
+  }
+}
+
 const serializeBodyToMdx = async (chapterResources: ChapterResource[]) => {
   const promises = chapterResources.map(async (resource) => {
+    let solution = resource.solution
+    if (solution && solution.body) {
+      const mdx = await serializeMDX(solution.body as string, {
+        syntaxHighlighterOptions: {
+          theme: 'github-light',
+        },
+      })
+      solution = {...solution, mdx}
+    }
+
     if (resource.body) {
       const mdx = await serializeMDX(resource.body as string, {
         syntaxHighlighterOptions: {
           theme: 'github-light',
         },
       })
-      return {...resource, mdx}
+      return {...resource, mdx, solution}
     }
-    return resource
+    return {...resource, solution}
   })
   return Promise.all(promises)
 }
