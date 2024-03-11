@@ -120,6 +120,45 @@ export async function getChapter(slugOrId: string) {
   }
 }
 
+export async function getChapterResource(slugOrId: string) {
+  const chapterResource = await sanityQuery<ChapterResource>(
+    groq`*[_type in ['exercise', 'lesson', 'explainer', 'solution'] && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
+        _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        title,
+        slug,
+        body,
+        'video': resources[@->._type == 'videoResource'][0]->{
+          "videoResourceId": _id,
+        },
+        "code": resources[@._type == 'stackblitz'][0]{
+          openFile
+        },
+        'solution': resources[@._type == 'solution'][0]{
+          body,
+          'videoResourceId': resources[@->._type == 'videoResource'][0]->_id,
+          "code": resources[@._type == 'stackblitz'][0]{
+            openFile
+          }
+        },
+      }`,
+    {tags: ['resource', slugOrId]},
+  )
+
+  const parsed = ChapterResourceSchema.safeParse(chapterResource)
+
+  if (!parsed.success) {
+    console.error('Error parsing chapter resource', slugOrId)
+    console.error(parsed.error)
+    return null
+  } else {
+    const serializedChapterResource = await serializeBodyToMdx([parsed.data])
+    return serializedChapterResource[0]
+  }
+}
+
 const serializeBodyToMdx = async (chapterResources: ChapterResource[]) => {
   const promises = chapterResources.map(async (resource) => {
     let solution = resource.solution
