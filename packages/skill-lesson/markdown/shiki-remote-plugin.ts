@@ -1,6 +1,6 @@
 import type {Transformer} from 'unified'
 import {Highlighter, getHighlighter} from 'shiki'
-import defaultTheme from 'shiki/themes/github-dark.json'
+import defaultTheme from './vs-dark-theme.json'
 
 interface MarkdownNode {
   type: string
