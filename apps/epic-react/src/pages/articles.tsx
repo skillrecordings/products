@@ -54,7 +54,7 @@ const ArticlesPage: NextPage<ArticlesPageProps> = ({articles}) => {
                     />
                   </header>
                   <section className="flex h-full flex-col px-5 py-5 sm:px-8 sm:py-10">
-                    <h2 className="pb-5 text-xl font-semibold leading-tight sm:text-2xl">
+                    <h2 className="pb-5 text-2xl font-semibold leading-tight sm:text-3xl">
                       {article.title}
                     </h2>
                     <div className="prose opacity-75 transition-opacity duration-200 ease-in-out hover:opacity-100">
