@@ -77,13 +77,18 @@ const ChapterRoute: React.FC<Props> = async ({params, searchParams}) => {
               {solution && (
                 <>
                   <h3>Solution</h3>
-                  <VideoPlayer
-                    videoResourceLoader={
-                      isAdmin && solution.videoResourceId
-                        ? getVideoResource(solution.videoResourceId)
-                        : undefined
-                    }
-                  />
+                  {solution.videoResourceId && (
+                    <VideoPlayer
+                      videoResourceLoader={
+                        isAdmin && solution.videoResourceId
+                          ? getVideoResource(solution.videoResourceId)
+                          : undefined
+                      }
+                    />
+                  )}
+                  {solution.mdx && (
+                    <MDX contents={solution.mdx} components={bookComponents} />
+                  )}
                 </>
               )}
             </div>
