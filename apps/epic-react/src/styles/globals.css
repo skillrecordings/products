@@ -4,7 +4,7 @@
 
 /* @import './tips.css'; */
 /* @import './commerce.css'; */
-/* TODO: convert */ 
+/* TODO: convert */
 @import './quiz.css';
 @import './primary-newsletter-cta.css';
 @import './nprogress.css';
@@ -50,7 +50,7 @@
     --color-text-text: #212732;
     --color-text-white: #ffffff;
     --color-bg-background: #ffffff;
-    --color-bg-navigation: rgba(255, 255, 255, 0.9);
+    --color-bg-navigation: rgba(255, 255, 255, 0.96);
     --color-bg-black: #0e182a;
     --color-gray-100: #f0f2f7;
     --color-gray-200: #e2e7ed;
@@ -89,7 +89,7 @@
     --color-text-text: #ffffff;
     --color-text-white: #ffffff;
     --color-bg-background: #0e182a;
-    --color-bg-navigation: rgba(14, 24, 42, 0.9);
+    --color-bg-navigation: rgba(14, 24, 42, 0.98);
     --color-bg-black: #0e182a;
     --color-gray-100: #132035;
     --color-gray-200: #222f44;
@@ -303,4 +303,30 @@
   .markdown iframe {
     margin-bottom: 1.25rem;
   }
+}
+
+/* code-hike code blocks */
+.ch-code {
+  @apply rounded-[5px] border border-[#2f3d56] bg-[#142035] !important;
+}
+.ch-codeblock {
+  @apply overflow-visible shadow-none;
+}
+
+.ch-code-scroll-parent {
+  @apply text-base leading-relaxed scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-500/75;
+}
+
+.prose
+  :where(code):not(
+    :where([class~='not-prose'], [class~='not-prose'] *)
+  )::before,
+.prose
+  :where(code):not(
+    :where([class~='not-prose'], [class~='not-prose'] *)
+  )::after {
+  content: '';
+}
+.prose :where(img):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  border-radius: 5px;
 }

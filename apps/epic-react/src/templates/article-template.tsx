@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import Balancer from 'react-wrap-balancer'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
@@ -23,19 +24,19 @@ interface ArticleTemplateProps {
 
 const YouMightAlsoLike: React.FC<{articles: Article[]}> = ({articles}) => {
   return (
-    <section>
-      <h3 className="mb-8 text-xs uppercase text-gray-700 opacity-75">
+    <section className="mx-auto max-w-screen-lg pb-24">
+      <h3 className="mb-8 text-sm uppercase text-er-gray-700 opacity-75">
         YOU MIGHT ALSO LIKE
       </h3>
       <ul className="grid gap-8 leading-relaxed md:grid-cols-2">
         {articles.map((article: Article) => {
           return (
-            <li key={article.slug} className="flex min-h-[120px]">
+            <li key={article.slug}>
               <Link
                 href={`/${article.slug}`}
-                className="flex w-full transform flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-gray-200 text-center transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-xl sm:flex-row sm:text-left"
+                className="flex transform flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-er-gray-200 text-center transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-xl sm:flex-row sm:text-left"
               >
-                <div className="relative h-full w-full shrink-0 overflow-hidden sm:w-[45%]">
+                <div className="relative aspect-[350/166] h-full w-full shrink-0 overflow-hidden sm:aspect-[auto] sm:min-h-[120px] sm:w-56 md:w-[45%]">
                   <Image
                     src={`/articles-images${article.image}`}
                     alt={article.imageAlt}
@@ -45,7 +46,7 @@ const YouMightAlsoLike: React.FC<{articles: Article[]}> = ({articles}) => {
                   />
                 </div>
                 <div className="w-full p-6 sm:p-5">
-                  <h3 className="text-lg font-semibold leading-tight">
+                  <h3 className="line-clamp-3 text-xl font-semibold leading-tight">
                     {article.title}
                   </h3>
                 </div>
@@ -102,13 +103,13 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         description={pageDescription}
         url={url}
       />
-      <main className="mx-auto w-full max-w-3xl px-5 py-8 md:py-16">
-        <h1 className="mx-auto mb-4 mt-24 max-w-screen-md px-5 text-center text-3xl font-bold leading-tight sm:px-0 sm:text-4xl">
-          {title}
+      <main className="mx-auto w-full px-5 py-8 md:pb-16 md:pt-[19px]">
+        <h1 className="mx-auto mb-4 mt-[68px] max-w-screen-md px-5 text-center text-4xl font-bold leading-tight sm:mt-24 sm:px-0 sm:text-[44px]">
+          <Balancer>{title}</Balancer>
         </h1>
-        <h3 className="mb-10 text-center text-sm opacity-75">by {author}</h3>
+        <h3 className="mb-10 text-center opacity-75">by {author}</h3>
         <Divider />
-        <div className="mx-auto mt-16 max-w-screen-lg overflow-hidden rounded-none lg:rounded-lg">
+        <div className="-mx-5 mt-16 max-w-screen-lg overflow-hidden rounded-none lg:mx-auto lg:rounded-lg">
           <Image
             src={`/articles-images${image}`}
             alt={imageAlt}
@@ -116,10 +117,10 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
             height={1080}
           />
         </div>
-        <div className="prose mt-8 text-white md:prose-lg prose-code:break-words md:prose-code:break-normal">
+        <div className="prose mx-auto mt-8 pb-24 md:prose-lg lg:prose-xl sm:pb-32 md:mt-16 md:px-8 lg:mt-24">
           <MDX contents={mdx} components={{...mdxComponents}} />
         </div>
-        <Divider className="my-40" />
+        <Divider />
         <YouMightAlsoLike articles={restArticles} />
       </main>
     </Layout>
