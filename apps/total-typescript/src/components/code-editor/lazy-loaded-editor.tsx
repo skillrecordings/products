@@ -1,4 +1,4 @@
-import React, {useLayoutEffect} from 'react'
+import React from 'react'
 import type {CodeEditorProps} from './code-editor'
 
 const _LazyLoadedEditor = React.lazy(() =>
