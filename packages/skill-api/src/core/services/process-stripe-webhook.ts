@@ -177,11 +177,6 @@ export async function receiveStripeWebhooks({
         })
       }
 
-      // 1. verify and extract details from Stripe webhook request
-      // 2. send details to inngest if available
-      // 3. tell the appropriate app to handle it...
-      // 4. return a 200
-
       const {siteName: targetSiteName} = z
         .object({siteName: z.string().default(METADATA_MISSING_SITE_NAME)})
         .parse(event.data.object.metadata)
