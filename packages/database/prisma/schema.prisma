@@ -229,6 +229,8 @@ model Purchase {
   user                  User?                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   status                String                 @default("Valid")
   purchaseUserTransfers PurchaseUserTransfer[]
+
+  @@index([userId])
 }
 
 model Session {
