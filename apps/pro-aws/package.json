@@ -29,7 +29,7 @@
     "@portabletext/react": "^1.0.6",
     "@radix-ui/react-accordion": "^1.0.0",
     "@radix-ui/react-alert-dialog": "^0.1.7",
-    "@radix-ui/react-dialog": "^0.1.7",
+    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^1.0.0",
     "@radix-ui/react-navigation-menu": "^1.1.1",
     "@radix-ui/react-switch": "^1.0.1",

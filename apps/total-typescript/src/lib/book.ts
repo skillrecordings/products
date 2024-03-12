@@ -1,5 +1,5 @@
 import {sanityQuery} from '@/server/sanity.server'
-import {ChapterSchema} from './chapters'
+import {ChapterSchema, chapterResourceQuery} from './chapters'
 import z from 'zod'
 import groq from 'groq'
 
@@ -20,6 +20,14 @@ export type Book = z.infer<typeof BookSchema>
 export async function getBook(slugOrId: string) {
   const book = await sanityQuery<Book>(
     groq`*[_type == 'module' && moduleType == 'book' && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
+        _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        moduleType,
+        title,
+        slug,
+        'chapters': resources[]->{
           _id,
           _type,
           _updatedAt,
@@ -27,24 +35,10 @@ export async function getBook(slugOrId: string) {
           moduleType,
           title,
           slug,
-          'chapters': resources[]->{
-            _id,
-            _type,
-            _updatedAt,
-            _createdAt,
-            moduleType,
-            title,
-            slug,
-            'resources': resources[]->{
-              _id,
-              _type,
-              _updatedAt,
-              _createdAt,
-              title,
-              slug,
-              body,
-            }
+          'resources': resources[]->{
+            ${chapterResourceQuery}
           }
+        }
       }`,
     {tags: ['book', slugOrId]},
   )

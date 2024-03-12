@@ -3,6 +3,7 @@ import {sanityQuery} from '@/server/sanity.server'
 import groq from 'groq'
 import type {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
+import {findIndex} from 'lodash'
 
 export const ChapterResourceSchema = z.object({
   _id: z.string(),
@@ -79,26 +80,7 @@ export async function getChapter(slugOrId: string) {
         moduleType,
         github,
         'resources': resources[]->{
-          _id,
-          _type,
-          _updatedAt,
-          _createdAt,
-          title,
-          slug,
-          body,
-          'video': resources[@->._type == 'videoResource'][0]->{
-            "videoResourceId": _id,
-          },
-          "code": resources[@._type == 'stackblitz'][0]{
-            openFile
-          },
-          'solution': resources[@._type == 'solution'][0]{
-            body,
-            'videoResourceId': resources[@->._type == 'videoResource'][0]->._id,
-            "code": resources[@._type == 'stackblitz'][0]{
-              openFile
-            }
-          },
+          ${chapterResourceQuery}
         },
     }`,
     {tags: ['chapter', slugOrId]},
@@ -120,29 +102,33 @@ export async function getChapter(slugOrId: string) {
   }
 }
 
+export const chapterResourceQuery = `
+  _id,
+  _type,
+  _updatedAt,
+  _createdAt,
+  title,
+  slug,
+  body,
+  'video': resources[@->._type == 'videoResource'][0]->{
+    "videoResourceId": _id,
+  },
+  'code': resources[@._type == 'stackblitz'][0]{
+    openFile
+  },
+  'solution': resources[@._type == 'solution'][0]{
+    body,
+    'videoResourceId': resources[@->._type == 'videoResource'][0]->_id,
+    "code": resources[@._type == 'stackblitz'][0]{
+      openFile
+    }
+  },
+`
+
 export async function getChapterResource(slugOrId: string) {
   const chapterResource = await sanityQuery<ChapterResource>(
     groq`*[_type in ['exercise', 'lesson', 'explainer', 'solution'] && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
-        _id,
-        _type,
-        _updatedAt,
-        _createdAt,
-        title,
-        slug,
-        body,
-        'video': resources[@->._type == 'videoResource'][0]->{
-          "videoResourceId": _id,
-        },
-        "code": resources[@._type == 'stackblitz'][0]{
-          openFile
-        },
-        'solution': resources[@._type == 'solution'][0]{
-          body,
-          'videoResourceId': resources[@->._type == 'videoResource'][0]->_id,
-          "code": resources[@._type == 'stackblitz'][0]{
-            openFile
-          }
-        },
+        ${chapterResourceQuery}
       }`,
     {tags: ['resource', slugOrId]},
   )
@@ -164,10 +150,11 @@ const serializeBodyToMdx = async (chapterResources: ChapterResource[]) => {
     let solution = resource.solution
     if (solution && solution.body) {
       const mdx = await serializeMDX(solution.body as string, {
-        useShikiTwoslash: true,
+        // useShikiTwoslash: true,
         syntaxHighlighterOptions: {
-          authorization: process.env.SHIKI_AUTH_TOKEN,
-          endpoint: process.env.SHIKI_ENDPOINT,
+          theme: 'github-light',
+          // authorization: process.env.SHIKI_AUTH_TOKEN,
+          // endpoint: process.env.SHIKI_ENDPOINT,
         },
       })
       solution = {...solution, mdx}
@@ -175,10 +162,11 @@ const serializeBodyToMdx = async (chapterResources: ChapterResource[]) => {
 
     if (resource.body) {
       const mdx = await serializeMDX(resource.body as string, {
-        useShikiTwoslash: true,
+        // useShikiTwoslash: true,
         syntaxHighlighterOptions: {
-          authorization: process.env.SHIKI_AUTH_TOKEN,
-          endpoint: process.env.SHIKI_ENDPOINT,
+          theme: 'github-light',
+          // authorization: process.env.SHIKI_AUTH_TOKEN,
+          // endpoint: process.env.SHIKI_ENDPOINT,
         },
       })
       return {...resource, mdx, solution}
@@ -186,4 +174,92 @@ const serializeBodyToMdx = async (chapterResources: ChapterResource[]) => {
     return {...resource, solution}
   })
   return Promise.all(promises)
+}
+
+export async function getChapterPositions(chapter: Chapter | null) {
+  if (!chapter) return {}
+
+  const allChapters = await sanityQuery<{
+    chapters: {
+      _id: string
+      slug: string
+      title: string
+      resources: {
+        _id: string
+        slug: string
+        title: string
+      }[]
+    }[]
+  }>(
+    groq`*[_type == 'module' && moduleType == 'book'][0]{
+    'chapters': resources[]->{
+      _id,
+      "slug": slug.current,
+      title,
+      "resources": resources[]->{
+        _id,
+        "slug": slug.current,
+        title,
+      }
+    }
+    
+  }`,
+    {tags: ['chapters']},
+  )
+
+  const chapters = allChapters.chapters
+
+  const currentChapterIndex = findIndex(chapters, {
+    _id: chapter._id,
+    slug: chapter.slug.current,
+    title: chapter.title,
+  })
+
+  const nextChapter =
+    findIndex(chapters, chapters[currentChapterIndex + 1]) !== -1
+      ? chapters[currentChapterIndex + 1]
+      : null
+
+  const prevChapter =
+    findIndex(chapters, chapters[currentChapterIndex - 1]) !== -1
+      ? chapters[currentChapterIndex - 1]
+      : null
+
+  return {
+    nextChapter,
+    currentChapterIndex: currentChapterIndex + 1,
+    prevChapter,
+    chapters,
+  }
+}
+
+export async function getResourcePositions(
+  chapter: Chapter | null,
+  currentResource: ChapterResource,
+) {
+  if (!chapter || !currentResource) return {}
+
+  const currentResourceIndex = findIndex(chapter.resources, currentResource)
+
+  const nextResource =
+    findIndex(
+      chapter.resources,
+      chapter.resources[currentResourceIndex + 1],
+    ) !== -1
+      ? chapter.resources[currentResourceIndex + 1]
+      : null
+
+  const prevResource =
+    findIndex(
+      chapter.resources,
+      chapter.resources[currentResourceIndex - 1],
+    ) !== -1
+      ? chapter.resources[currentResourceIndex - 1]
+      : null
+
+  return {
+    currentResourceIndex: currentResourceIndex + 1,
+    nextResource,
+    prevResource,
+  }
 }

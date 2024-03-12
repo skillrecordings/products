@@ -42,10 +42,22 @@ const BookRoute = async () => {
                       <li key={resource.slug.current}>
                         <Link
                           href={`/book/${chapter.slug.current}/${resource.slug.current}`}
-                          className="hover:underline"
+                          className="font-medium hover:underline"
                         >
                           {resource.title}
                         </Link>
+                        {resource?.solution && (
+                          <>
+                            {' '}
+                            |{' '}
+                            <Link
+                              href={`/book/${chapter.slug.current}/${resource.slug.current}/solution`}
+                              className=" hover:underline"
+                            >
+                              Solution
+                            </Link>
+                          </>
+                        )}
                       </li>
                     )
                   })}

@@ -108,6 +108,13 @@ module.exports = {
             li: {
               color: theme('colors.foreground'),
             },
+            code: {
+              background: theme('colors.gray.100'),
+              color: theme('colors.foreground'),
+            },
+            'p > code': {
+              fontSize: '80% !important',
+            },
             a: {
               color: theme('colors.foreground'),
               textDecoration: 'underline',

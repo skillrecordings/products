@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
-    "@radix-ui/react-dialog": "^0.1.7",
+    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-radio-group": "^1.1.1",
     "@skillrecordings/skill-api": "workspace:*",
     "@tiptap/extension-highlight": "^2.1.12",
