@@ -1,26 +1,29 @@
-import React from 'react'
-import Image, {ImageProps} from 'next/image'
-import cx from 'classnames'
-import Balancer from 'react-wrap-balancer'
-import {Twitter, CopyToClipboard} from '@skillrecordings/react'
-import Link from 'next/link'
-import toast from 'react-hot-toast'
-import {useRouter} from 'next/router'
-import {twMerge} from 'tailwind-merge'
-import {useCopyToClipboard} from 'react-use'
 import {isBrowser} from '@/utils/is-browser'
+import {CopyToClipboard, Twitter} from '@skillrecordings/react'
+import cx from 'classnames'
 import {type MDXComponents as MDXComponentsType} from 'mdx/types'
+import Image, {ImageProps} from 'next/image'
+import Link from 'next/link'
+import {useRouter} from 'next/router'
+import React from 'react'
+import toast from 'react-hot-toast'
+import {useCopyToClipboard} from 'react-use'
+import Balancer from 'react-wrap-balancer'
+import {twMerge} from 'tailwind-merge'
+import {MDXEditor, MDXTranspilePreview} from '../code-editor/mdx-editor'
 
 export const MDXComponents = {
-  TypeError: (props: TypeErrorProps) => <TypeError {...props} />,
-  Topics: (props: TopicsProps) => <Topics {...props} />,
-  Image: (props: any) => <DecorativeImage {...props} />,
-  Section: (props: any) => <Section {...props} />,
-  SectionHeading: (props: any) => <SectionHeading {...props} />,
-  ErrorFromHell: (props: any) => <ErrorFromHell {...props} />,
-  Testimonial: (props: any) => <Testimonial {...props} />,
-  Module: (props: any) => <Module {...props} />,
-}
+  TypeError: (props) => <TypeError {...props} />,
+  Topics: (props) => <Topics {...props} />,
+  Image: (props) => <DecorativeImage {...props} />,
+  Section: (props) => <Section {...props} />,
+  SectionHeading: (props) => <SectionHeading {...props} />,
+  ErrorFromHell: (props) => <ErrorFromHell {...props} />,
+  Testimonial: (props) => <Testimonial {...props} />,
+  Module: (props) => <Module {...props} />,
+  Editor: (props) => <MDXEditor {...props} />,
+  TranspilePreview: (props) => <MDXTranspilePreview {...props} />,
+} satisfies Record<string, React.FC<any>>
 
 type TypeErrorProps = {
   children: React.ReactNode

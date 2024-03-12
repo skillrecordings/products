@@ -1,12 +1,13 @@
-import React from 'react'
+import * as React from 'react'
 import SimpleBar from 'simplebar-react'
+import cn from 'classnames'
 
 const PodcastTranscript = ({children}: {children: React.ReactNode}) => {
   const [isOpen, setOpen] = React.useState(false)
 
   const Toggle = () => (
     <button
-      className="flex items-center justify-center pt-6 text-primary hover:underline"
+      className="flex items-center justify-center pt-6 text-er-primary hover:underline"
       onClick={() => setOpen(!isOpen)}
     >
       {isOpen ? (
@@ -59,9 +60,10 @@ const PodcastTranscript = ({children}: {children: React.ReactNode}) => {
         <Toggle />
       </div>
       <SimpleBar
-        className={`${
-          isOpen ? 'h-auto' : 'h-96'
-        } overflow-y-auto overscroll-contain rounded-lg border-gray-200 bg-gray-100 px-4 text-sm sm:px-7 sm:text-base`}
+        className={cn(
+          'overflow-y-auto overscroll-contain rounded-lg border-er-gray-200 bg-er-gray-100 px-4 text-sm sm:px-7 sm:text-base',
+          isOpen ? 'h-auto' : 'h-96',
+        )}
       >
         {children}
       </SimpleBar>

@@ -1,4 +1,3 @@
-import React, {FunctionComponent} from 'react'
 import {NextSeo, type NextSeoProps} from '@skillrecordings/next-seo'
 import {twMerge} from 'tailwind-merge'
 import Navigation from './navigation'
@@ -34,7 +33,7 @@ type LayoutProps = {
   }
 }
 
-const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
+const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   children,
   className,
   meta,
@@ -54,7 +53,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
 
   return (
     <div
-      className={`relative ${inter.variable} font-sans antialiased`}
+      className={`relative ${inter.variable} font-sans text-text antialiased`}
       id="layout"
     >
       <NextSeo
@@ -82,7 +81,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       {withNavigation && <Navigation {...navigationProps} />}
       <div
         className={twMerge(
-          'mt-[61px] flex min-h-[calc(100svh-61px)] flex-grow flex-col',
+          'mt-[57px] flex min-h-[calc(100svh-57px)] flex-grow flex-col sm:mt-[61px] sm:min-h-[calc(100svh-61px)]',
           className,
         )}
       >

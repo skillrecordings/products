@@ -16,6 +16,7 @@ import {
 } from '@skillrecordings/ui'
 
 import {trpc} from '@/trpc/trpc.client'
+import {isOnlyTeamPurchaser} from '@/utils/is-only-team-purchaser'
 
 import MessageBar from '@/components/app/navigation/message-bar'
 import Logo from '@/components/app/navigation/logo'
@@ -31,15 +32,6 @@ type NavigationProps = {
 
 const sellingLive = true
 
-const isTeamPurchaser = (user: any) => {
-  return (
-    !isEmpty(user?.purchases) &&
-    user.purchases.every((purchase: any) => {
-      return Boolean(purchase.bulkCouponId)
-    })
-  )
-}
-
 const Navigation: React.FC<NavigationProps> = ({children}) => {
   const {data: sessionData, status: sessionStatus} = useSession()
   const [isOpen, setOpen] = React.useState<boolean>(false)
@@ -48,9 +40,9 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
   const router = useRouter()
   const location = usePathname()
   const currentSale = useAvailableSale()
-  const isMobile = useMedia('(max-width: 640px)')
-  const isTablet = useMedia('(max-width: 920px)')
-  const isXL = useMedia('(min-width: 1200px)')
+  const isMobile = useMedia('(max-width: 640px)', false)
+  const isTablet = useMedia('(max-width: 920px)', false)
+  const isXL = useMedia('(min-width: 1200px)', false)
   const {scrollY} = useScroll()
   const messageBarTransform = useTransform(
     scrollY,
@@ -67,9 +59,9 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
     currentSale?.percentageDiscount &&
     !location.includes('modules') &&
     isAuthenticated
-  const purchasedOnlyTeam = isTeamPurchaser(sessionData?.user)
+  const purchasedOnlyTeam = isOnlyTeamPurchaser(sessionData?.user)
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     setMounted(true)
   }, [])
 
@@ -166,8 +158,8 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
           ) : null}
           <div
             className={twMerge(
-              cx('flex items-start', {
-                'flex-col': isTablet,
+              cx('flex', {
+                'flex-col items-start': isTablet,
                 'flex-row items-center': !isTablet,
               }),
             )}
@@ -189,7 +181,7 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
                       onClick={() => signOut()}
                       className={twMerge(
                         cx(
-                          'w-auto border-none p-2 px-3 text-base text-text transition-opacity duration-150 ease-in-out hover:bg-transparent hover:opacity-100',
+                          'w-auto border-none px-3 py-2 text-base text-text transition-opacity duration-150 ease-in-out hover:bg-transparent hover:opacity-100 md:px-2',
                           {
                             'opacity-100': isTablet,
                             'opacity-75': !isTablet,

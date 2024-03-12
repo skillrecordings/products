@@ -50,7 +50,7 @@
     --color-text-text: #212732;
     --color-text-white: #ffffff;
     --color-bg-background: #ffffff;
-    --color-bg-navigation: rgba(255, 255, 255, 0.9);
+    --color-bg-navigation: rgba(255, 255, 255, 0.96);
     --color-bg-black: #0e182a;
     --color-gray-100: #f0f2f7;
     --color-gray-200: #e2e7ed;
@@ -89,7 +89,7 @@
     --color-text-text: #ffffff;
     --color-text-white: #ffffff;
     --color-bg-background: #0e182a;
-    --color-bg-navigation: rgba(14, 24, 42, 0.9);
+    --color-bg-navigation: rgba(14, 24, 42, 0.98);
     --color-bg-black: #0e182a;
     --color-gray-100: #132035;
     --color-gray-200: #222f44;
@@ -113,7 +113,7 @@
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
   .container {
-    @apply mx-auto max-w-screen-md p-5 text-text;
+    @apply mx-auto max-w-screen-md p-5;
   }
   .btn-primary {
     @apply inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white transition duration-150 ease-in-out;
@@ -303,4 +303,30 @@
   .markdown iframe {
     margin-bottom: 1.25rem;
   }
+}
+
+/* code-hike code blocks */
+.ch-code {
+  @apply rounded-[5px] border border-[#2f3d56] bg-[#142035] !important;
+}
+.ch-codeblock {
+  @apply overflow-visible shadow-none;
+}
+
+.ch-code-scroll-parent {
+  @apply text-base leading-relaxed scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-500/75;
+}
+
+.prose
+  :where(code):not(
+    :where([class~='not-prose'], [class~='not-prose'] *)
+  )::before,
+.prose
+  :where(code):not(
+    :where([class~='not-prose'], [class~='not-prose'] *)
+  )::after {
+  content: '';
+}
+.prose :where(img):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  border-radius: 5px;
 }

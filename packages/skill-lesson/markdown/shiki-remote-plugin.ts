@@ -1,9 +1,10 @@
 import type {Transformer} from 'unified'
 import {Highlighter, getHighlighter} from 'shiki'
-import defaultTheme from 'shiki/themes/github-dark.json'
+import defaultTheme from './vs-dark-theme.json'
 
 interface MarkdownNode {
   type: string
+  name?: string
   children?: MarkdownNode[]
 }
 
@@ -13,10 +14,23 @@ interface CodeNode extends MarkdownNode {
   meta: string | null
 }
 
+const NODES_TO_ABORT = ['Editor', 'TranspilePreview']
+
 const visitCodeNodes = async (
   node: MarkdownNode,
   transformer: (node: CodeNode) => Promise<void>,
 ) => {
+  /**
+   * Abort if the wrapping node is an Editor component
+   */
+  if (
+    node.type === 'mdxJsxFlowElement' &&
+    node.name &&
+    NODES_TO_ABORT.includes(node.name)
+  ) {
+    return
+  }
+
   if (node.type === 'code') {
     await transformer(node as CodeNode)
   }
