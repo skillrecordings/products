@@ -9,6 +9,8 @@ import {notFound} from 'next/navigation'
 import {type Metadata, type ResolvingMetadata} from 'next'
 import {getOgImage} from '@/utils/get-og-image'
 import {Challenge} from '../../_components/challenge'
+import {getBookMode} from './layout'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 type Props = {
   params: {chapter: string; resource: string}
@@ -51,20 +53,34 @@ const ChapterResourceRoute: React.FC<Props> = async ({
   }
 
   const {title, mdx, video, solution, code, slug} = resource
+  const {mode} = getBookMode()
 
   return (
     <section>
-      <h1 className="mb-10 text-balance text-3xl font-bold sm:mb-14 sm:text-4xl lg:text-5xl">
-        {title}
-      </h1>
+      {mode === 'book' && (
+        <h1 className="mb-10 text-balance text-3xl font-bold sm:mb-14 sm:text-4xl lg:text-5xl">
+          {title}
+        </h1>
+      )}
       <div className="prose prose-light max-w-none sm:prose-lg lg:prose-xl prose-p:font-normal">
         {isAdmin && video && (
-          <div className="mb-5 sm:float-left sm:mr-10 sm:w-1/2">
+          <div
+            className={cn('mb-5', {
+              'sm:float-left sm:mr-10 sm:w-1/2': mode === 'book',
+            })}
+          >
             <VideoPlayer
               className="rounded"
               videoResourceLoader={getVideoResource(video.videoResourceId)}
               title={title}
             />
+          </div>
+        )}
+        {mode === 'video' && (
+          <div className="not-prose">
+            <h1 className="mb-10 text-balance text-3xl font-bold sm:mb-14 sm:text-4xl lg:text-5xl">
+              {title}
+            </h1>
           </div>
         )}
         {mdx && <MDX contents={mdx} components={bookComponents} />}

@@ -9,9 +9,11 @@ import Link from 'next/link'
 import {notFound} from 'next/navigation'
 import {ChapterResourceList} from '@/app/book/_components/chapter-resource-list'
 import {
+  BookOpenIcon,
   BookmarkIcon,
   ChevronRightIcon,
   MenuAlt1Icon,
+  PlayIcon,
 } from '@heroicons/react/outline'
 import {
   Menubar,
@@ -33,6 +35,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@skillrecordings/ui/primitives/tooltip'
+import {cookies} from 'next/headers'
+import ModeToggle from '../../_components/mode-toggle'
+import {getServerAuthSession} from '@/server/auth'
 
 export const metadata = {
   name: 'Chapter',
@@ -60,10 +65,18 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
   if (!chapter) {
     notFound()
   }
+  const session = await getServerAuthSession()
+  const isAdmin = session?.user.role === 'ADMIN' // TODO: use proper can can check
+  const {mode} = getBookMode()
 
   return (
     <div className="relative">
-      <div className="mx-auto flex w-full max-w-4xl flex-col items-center">
+      <div
+        className={cn('mx-auto flex w-full flex-col items-center', {
+          'max-w-4xl': mode === 'book',
+          'max-w-screen-xl': mode === 'video',
+        })}
+      >
         <aside className="sticky top-0 z-20 flex h-16 w-full items-center border border-t-0 bg-background leading-none lg:w-[calc(100%+160px)]">
           <Menubar className="space-x-0 border-0 p-0">
             <MenubarMenu>
@@ -106,7 +119,26 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
             </div>
           </div>
           <div className="ml-auto flex">
-            <TooltipProvider>
+            <TooltipProvider delayDuration={0}>
+              {isAdmin && (
+                <Tooltip>
+                  <TooltipTrigger
+                    asChild
+                    className="flex size-16 items-center justify-center border-l"
+                  >
+                    <ModeToggle mode={mode}>
+                      {mode === 'book' ? (
+                        <PlayIcon className="w-5" />
+                      ) : (
+                        <BookOpenIcon className="w-5" />
+                      )}
+                    </ModeToggle>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    Switch to {mode === 'book' ? 'Video' : 'Book'} Mode
+                  </TooltipContent>
+                </Tooltip>
+              )}
               <Tooltip>
                 <TooltipTrigger className="flex size-16 items-center justify-center border-l">
                   <BookmarkIcon className="w-5" />
@@ -145,7 +177,12 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
             </TooltipProvider>
           </div>
         </aside>
-        <article className="mx-auto w-full max-w-4xl px-5 py-8 sm:py-16">
+        <article
+          className={cn('mx-auto w-full px-5', {
+            'max-w-4xl py-8 sm:py-16': mode === 'book',
+            'max-w-screen-xl': mode === 'video',
+          })}
+        >
           {children}
         </article>
       </div>
@@ -178,3 +215,12 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
 }
 
 export default ChapterLayout
+
+export function getBookMode() {
+  const cookieStore = cookies()
+
+  const bookPrefsCookie = cookieStore.get('bookPrefs')
+  const prefs = bookPrefsCookie ? JSON.parse(bookPrefsCookie.value) : {}
+  const mode: 'video' | 'book' = prefs.mode || 'book'
+  return {mode}
+}
