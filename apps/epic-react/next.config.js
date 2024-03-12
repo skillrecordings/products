@@ -20,32 +20,12 @@ const sentryWebpackPluginOptions = process.env.SENTRY_AUTH_TOKEN && {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 }
 
-const IMAGES_REMOTE_PATTERNS = [
-  {
-    protocol: 'https',
-    hostname: 'res.cloudinary.com',
-    pathname: '**',
-  },
-  {
-    protocol: 'https',
-    hostname: 'd2eip9sf3oo6c2.cloudfront.net',
-    pathname: '**',
-  },
-  {
-    protocol: 'https',
-    hostname: 'cdn.sanity.io',
-    pathname: '**',
-  },
-  {
-    protocol: 'https',
-    hostname: 'image.mux.com',
-    pathname: '**',
-  },
-  {
-    protocol: 'http',
-    hostname: process.env.NEXT_PUBLIC_HOST,
-    pathname: '**',
-  },
+const IMAGE_HOST_DOMAINS = [
+  `res.cloudinary.com`,
+  `d2eip9sf3oo6c2.cloudfront.net`,
+  `cdn.sanity.io`,
+  `image.mux.com`,
+  process.env.NEXT_PUBLIC_HOST,
 ]
 
 /**
@@ -59,7 +39,16 @@ const nextConfig = {
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
   images: {
-    remotePatterns: IMAGES_REMOTE_PATTERNS,
+    remotePatterns: [
+      ...IMAGE_HOST_DOMAINS.map((domain) => ({
+        protocol: 'https',
+        hostname: domain,
+      })),
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+    ],
   },
   async redirects() {
     return []
