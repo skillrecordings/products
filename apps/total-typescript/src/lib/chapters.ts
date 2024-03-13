@@ -62,7 +62,7 @@ export const ChapterSchema = z.object({
     })
     .optional()
     .nullable(),
-  resources: z.array(ChapterResourceSchema).optional(),
+  resources: z.array(ChapterResourceSchema).optional().nullable(),
 })
 
 export type Chapter = z.infer<typeof ChapterSchema>
@@ -72,7 +72,7 @@ export async function getChapter(
   slugOrId: string,
   withResources: boolean = true,
 ) {
-  const chapter = await sanityQuery<Chapter>(
+  const chapter = await sanityQuery<Chapter | Omit<Chapter, 'resources'>>(
     groq`*[_type == 'module' && moduleType == 'chapter' && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
         _id,
         _type,
@@ -91,20 +91,28 @@ export async function getChapter(
     {tags: ['chapter', slugOrId]},
   )
 
-  const parsed = ChapterSchema.safeParse(chapter)
+  if (withResources) {
+    const parsed = ChapterSchema.safeParse(chapter)
 
-  if (!parsed.success) {
-    console.error('Error parsing chapter', slugOrId)
-    console.error(parsed.error)
-    return null
-  } else {
-    if (parsed.data.resources) {
-      const serializedChapterResources = await serializeBodyToMdx(
-        parsed.data.resources,
-      )
+    if (!parsed.success) {
+      console.error('Error parsing chapter with resources', slugOrId)
+      console.error(parsed.error)
+      return null
+    } else {
+      const serializedChapterResources =
+        parsed.data.resources &&
+        (await serializeBodyToMdx(parsed.data.resources))
       const data = {...parsed.data, resources: serializedChapterResources}
 
       return data
+    }
+  } else {
+    const parsed = ChapterSchema.omit({resources: true}).safeParse(chapter)
+
+    if (!parsed.success) {
+      console.error('Error parsing chapter', slugOrId)
+      console.error(parsed.error)
+      return null
     } else {
       return parsed.data
     }

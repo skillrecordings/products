@@ -30,12 +30,7 @@ const BookRoute = async () => {
           {book.chapters.map((chapter) => {
             return (
               <li key={chapter.slug.current}>
-                <Link
-                  href={`/book/${chapter.slug.current}`}
-                  className="text-lg font-semibold hover:underline"
-                >
-                  {chapter.title}
-                </Link>
+                <span className="text-lg font-semibold">{chapter.title}</span>
                 <ul className="list-inside list-disc">
                   {chapter.resources?.map((resource) => {
                     return (
