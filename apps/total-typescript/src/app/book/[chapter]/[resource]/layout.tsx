@@ -152,7 +152,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                   </TooltipTrigger>
                   <TooltipContent>Add Bookmark</TooltipContent>
                 </Tooltip>
-                {(nextResource || nextChapter) && (
+                {(nextResource || nextChapter?.resources) && (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Link
@@ -160,7 +160,10 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                         href={
                           nextResource
                             ? `/book/${chapter.slug.current}/${nextResource.slug.current}`
-                            : `/book/${nextChapter?.slug}/${nextChapter?.resources[0].slug}`
+                            : `/book/${nextChapter?.slug}/${
+                                nextChapter?.resources &&
+                                nextChapter?.resources[0].slug
+                              }`
                         }
                       >
                         <ChevronRightIcon className="w-5" />
@@ -171,7 +174,8 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                       {nextResource
                         ? nextResource.title
                         : nextChapter
-                        ? nextChapter.resources[0].title
+                        ? nextChapter.resources &&
+                          nextChapter.resources[0].title
                         : null}
                     </TooltipContent>
                   </Tooltip>
@@ -200,7 +204,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                 <Link href={nextResource.slug.current}>Continue ➔</Link>
               </Button>
             </>
-          ) : nextChapter ? (
+          ) : nextChapter?.resources ? (
             <>
               <p>Next Up</p>
               <strong className="text-2xl font-bold">
@@ -325,7 +329,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                 </Link>
               </Button>
             </>
-          ) : nextChapter ? (
+          ) : nextChapter?.resources ? (
             <>
               <p>Next Up</p>
               <strong className="text-2xl font-bold">

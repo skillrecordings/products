@@ -62,13 +62,16 @@ export const ChapterSchema = z.object({
     })
     .optional()
     .nullable(),
-  resources: z.array(ChapterResourceSchema),
+  resources: z.array(ChapterResourceSchema).optional(),
 })
 
 export type Chapter = z.infer<typeof ChapterSchema>
 export type ChapterResource = z.infer<typeof ChapterResourceSchema>
 
-export async function getChapter(slugOrId: string) {
+export async function getChapter(
+  slugOrId: string,
+  withResources: boolean = true,
+) {
   const chapter = await sanityQuery<Chapter>(
     groq`*[_type == 'module' && moduleType == 'chapter' && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
         _id,
@@ -79,9 +82,11 @@ export async function getChapter(slugOrId: string) {
         slug,
         moduleType,
         github,
-        'resources': resources[]->{
-          ${chapterResourceQuery}
-        },
+        ${
+          withResources
+            ? `'resources': resources[]->{${chapterResourceQuery}},`
+            : ''
+        }
     }`,
     {tags: ['chapter', slugOrId]},
   )
@@ -93,12 +98,16 @@ export async function getChapter(slugOrId: string) {
     console.error(parsed.error)
     return null
   } else {
-    const serializedChapterResources = await serializeBodyToMdx(
-      parsed.data.resources,
-    )
-    const data = {...parsed.data, resources: serializedChapterResources}
+    if (parsed.data.resources) {
+      const serializedChapterResources = await serializeBodyToMdx(
+        parsed.data.resources,
+      )
+      const data = {...parsed.data, resources: serializedChapterResources}
 
-    return data
+      return data
+    } else {
+      return parsed.data
+    }
   }
 }
 
@@ -237,7 +246,7 @@ export async function getResourcePositions(
   chapter: Chapter | null,
   currentResource: ChapterResource,
 ) {
-  if (!chapter || !currentResource) return {}
+  if (!chapter || !currentResource || !chapter.resources) return {}
 
   const currentResourceIndex = findIndex(chapter.resources, currentResource)
 
