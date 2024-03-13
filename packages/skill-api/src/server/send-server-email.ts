@@ -93,6 +93,8 @@ export async function sendServerEmail({
     (provider) => provider.id === 'email',
   )
 
+  console.log('%%% about to sendVerificationRequest %%%')
+
   await sendVerificationRequest({
     identifier: email,
     url,
