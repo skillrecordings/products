@@ -27,11 +27,13 @@ export const MDXEditor = (props: {children?: any}) => {
   // code from the <pre> element
   const extracted = extractCodeAndLanguage(props)
 
+  const [code, setCode] = useState(extracted?.code)
+
   if (!extracted) {
     return null
   }
 
-  const {code, language} = extracted
+  const {language} = extracted
 
   return (
     <div
@@ -40,7 +42,7 @@ export const MDXEditor = (props: {children?: any}) => {
         height: getHeight(code),
       }}
     >
-      <LazyLoadedEditor code={code} language={language} />
+      <LazyLoadedEditor code={code} onChange={setCode} language={language} />
     </div>
   )
 }
@@ -49,17 +51,20 @@ export const MDXTranspilePreview = (props: {children?: any}) => {
   const extracted = extractCodeAndLanguage(props)
   const [jsCode, setJsCode] = useState<string | undefined>(undefined)
 
+  const [tsCode, setTsCode] = useState(extracted?.code)
+
   if (!extracted) {
     return null
   }
 
-  const {code, language} = extracted
+  const {language} = extracted
 
   return (
     <div className="not-prose my-10  grid grid-cols-1 gap-2   md:grid-cols-2">
       <div className="relative h-60 rounded bg-[#1e2632] py-6 md:h-72">
         <LazyLoadedEditor
-          code={code}
+          code={tsCode}
+          onChange={setTsCode}
           language={language}
           onEmittedJavaScript={setJsCode}
           fontSize={16}
