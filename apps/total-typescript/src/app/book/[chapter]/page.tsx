@@ -48,7 +48,7 @@ const ChapterRoute: React.FC<Props> = async ({params, searchParams}) => {
 
   return (
     <div className="flex flex-col divide-y divide-dashed divide-gray-200">
-      {chapter.resources.map(({title, mdx, slug, video, solution, code}) => {
+      {chapter?.resources?.map(({title, mdx, slug, video, solution, code}) => {
         return (
           <section
             className="py-8 sm:py-20"

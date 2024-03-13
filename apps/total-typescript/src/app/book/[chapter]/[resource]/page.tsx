@@ -45,7 +45,8 @@ const ChapterResourceRoute: React.FC<Props> = async ({
   searchParams,
   isSolution = false,
 }) => {
-  const chapter = await getChapter(params.chapter)
+  const withResources = false
+  const chapter = await getChapter(params.chapter, withResources)
   const resource = await getChapterResource(params.resource)
   const session = await getServerAuthSession()
   const isAdmin = session?.user.role === 'ADMIN' // TODO: use proper can can check

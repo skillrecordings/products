@@ -29,7 +29,7 @@ export const NextResourceButton: React.FC<{
               ? `/book/${chapter.slug.current}/${resource.slug.current}/solution`
               : nextResource
               ? `/book/${chapter.slug.current}/${nextResource.slug.current}`
-              : nextChapter
+              : nextChapter?.resources
               ? `/book/${nextChapter.slug}/${nextChapter.resources[0].slug}`
               : ''
           }
@@ -43,7 +43,7 @@ export const NextResourceButton: React.FC<{
           ? `Solution`
           : nextResource
           ? nextResource.title
-          : nextChapter
+          : nextChapter?.resources
           ? nextChapter.resources[0].title
           : null}
       </TooltipContent>

@@ -7,6 +7,8 @@ export const ChapterResourceList: React.FC<{
 }> = async ({chapterLoader}) => {
   const chapter = await chapterLoader
 
+  if (!chapter?.resources) return null
+
   return (
     <>
       {chapter?.resources.map((resource) => {
