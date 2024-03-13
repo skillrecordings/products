@@ -68,9 +68,11 @@ export async function receiveInternalStripeWebhooks({
     })
   } catch (error: any) {
     console.log(
-      `webhook/stripe-internal error: ${
-        (error.message, JSON.stringify(event), JSON.stringify(body))
-      }`,
+      `webhook/stripe-internal error: ${{
+        message: error.message,
+        event: JSON.stringify(event),
+        body: JSON.stringify(body),
+      }}`,
     )
 
     return {
@@ -152,16 +154,20 @@ export async function receiveStripeWebhooks({
           })
           .parse(process.env.TJS_SKILL_SECRET)
 
+        const payloadString = JSON.stringify({event})
+        const contentLength = Buffer.byteLength(payloadString, 'utf8')
+
         const headers = new Headers({
           'Content-Type': 'application/json',
           'x-skill-secret': skillSecret,
+          'Content-Length': contentLength.toString(),
         })
 
         // not awaiting the fetch so that endpoint can return 200 right away
         await fetch(internalStripeWebhookEndpoint, {
           method: 'POST',
           headers,
-          body: JSON.stringify({event}),
+          body: payloadString,
         })
 
         return {status: 200, body: `handled by ${targetSiteName}`}
