@@ -63,6 +63,8 @@ export async function receiveInternalStripeWebhooks({
       paymentOptions: _paymentOptions,
     })
   } catch (error: any) {
+    console.log(`webhook/stripe-internal error: ${error.message}`)
+
     return {
       status: 500,
       body: {error: true, message: error.message},
