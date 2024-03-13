@@ -7,7 +7,6 @@ import {Input} from '@skillrecordings/ui/primitives/input'
 import {Label} from '@skillrecordings/ui/primitives/label'
 import {Button} from '@skillrecordings/ui/primitives/button'
 import Link from 'next/link'
-import {FormDescription} from '@skillrecordings/ui/primitives/form'
 import {
   Dialog,
   DialogContent,
@@ -19,6 +18,7 @@ import {
 } from '@skillrecordings/ui/primitives/dialog'
 import {CogIcon, InformationCircleIcon} from '@heroicons/react/outline'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
+import {usePathname} from 'next/navigation'
 
 export const Challenge: React.FC<{repo: string; file: string}> = ({
   repo,
