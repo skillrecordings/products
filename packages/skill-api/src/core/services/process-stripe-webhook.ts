@@ -18,6 +18,7 @@ import {
   Stripe,
 } from '@skillrecordings/stripe-sdk'
 import {z} from 'zod'
+import nodeFetch, {Headers} from 'node-fetch'
 
 const {stripe: defaultStripe} = defaultStripeContext
 
@@ -164,7 +165,7 @@ export async function receiveStripeWebhooks({
         })
 
         // not awaiting the fetch so that endpoint can return 200 right away
-        await fetch(internalStripeWebhookEndpoint, {
+        await nodeFetch(internalStripeWebhookEndpoint, {
           method: 'POST',
           headers,
           body: payloadString,
