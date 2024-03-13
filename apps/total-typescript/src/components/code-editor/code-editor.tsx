@@ -102,13 +102,7 @@ export const EagerlyLoadedEditor = (props: CodeEditorProps) => {
       path={path}
       loading={<div>Loading Code Editor...</div>}
       // height={getHeight(props.code)}
-      {...(props.readonly
-        ? {
-            value: props.code,
-          }
-        : {
-            defaultValue: props.code,
-          })}
+      value={props.code}
       onChange={(code) => {
         props.onChange?.(code)
 
