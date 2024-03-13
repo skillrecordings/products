@@ -5,20 +5,22 @@ import {ChevronRightIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
 import {usePathname} from 'next/navigation'
 import {
+  Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@skillrecordings/ui/primitives/tooltip'
+import type {Chapter, ChapterResource} from '@/lib/chapters'
 
 export const NextResourceButton: React.FC<{
-  resource: any
-  nextResource: any
-  chapter: any
-  nextChapter: any
+  resource: ChapterResource | null
+  nextResource?: ChapterResource | null
+  chapter: Chapter
+  nextChapter?: Chapter | null
 }> = ({resource, nextResource, chapter, nextChapter}) => {
   const pathname = usePathname()
   const isSolution = pathname?.endsWith('/solution')
   return (
-    <>
+    <Tooltip>
       <TooltipTrigger asChild>
         <Link
           className="flex size-16 items-center justify-center border-l"
@@ -45,6 +47,6 @@ export const NextResourceButton: React.FC<{
           ? nextChapter.resources[0].title
           : null}
       </TooltipContent>
-    </>
+    </Tooltip>
   )
 }

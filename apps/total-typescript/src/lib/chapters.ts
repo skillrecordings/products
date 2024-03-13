@@ -226,7 +226,7 @@ export async function getChapterPositions(chapter: Chapter | null) {
       : null
 
   return {
-    nextChapter,
+    nextChapter: nextChapter as Chapter | null,
     currentChapterIndex: currentChapterIndex + 1,
     prevChapter,
     chapters,

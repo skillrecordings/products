@@ -38,7 +38,6 @@ import {
 import {cookies, headers} from 'next/headers'
 import ModeToggle from '../../_components/mode-toggle'
 import {getServerAuthSession} from '@/server/auth'
-import {revalidatePath} from 'next/cache'
 import {NextResourceButton} from '../../_components/next-resource-button'
 
 export const metadata = {
@@ -56,8 +55,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
 }) => {
   const chapter = await getChapter(params.chapter)
   const chapterLoader = getChapter(params.chapter)
-  const resource =
-    params.resource && (await getChapterResource(params.resource))
+  const resource = await getChapterResource(params.resource as string)
 
   const {nextChapter, currentChapterIndex, chapters} =
     await getChapterPositions(chapter)
@@ -299,41 +297,12 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                 {(nextResource ||
                   nextChapter ||
                   (resource && resource.solution)) && (
-                  <Tooltip>
-                    <NextResourceButton
-                      chapter={chapter}
-                      nextChapter={nextChapter}
-                      nextResource={nextResource}
-                      resource={resource}
-                    />
-                    {/* <TooltipTrigger>
-                      <Link
-                        className="flex size-16 items-center justify-center border-l"
-                        href={
-                          !isSolution && resource && resource?.solution
-                            ? `/book/${chapter.slug.current}/${resource.slug.current}/solution`
-                            : nextResource
-                            ? `/book/${chapter.slug.current}/${nextResource.slug.current}`
-                            : nextChapter
-                            ? `/book/${nextChapter.slug}/${nextChapter.resources[0].slug}`
-                            : ''
-                        }
-                      >
-                        <ChevronRightIcon className="w-5" />
-                      </Link>
-                    </TooltipTrigger> 
-                    <TooltipContent>
-                      Next:{' '}
-                      {!isSolution && resource && resource.solution
-                        ? `Solution`
-                        : nextResource
-                        ? nextResource.title
-                        : nextChapter
-                        ? nextChapter.resources[0].title
-                        : null}
-                    </TooltipContent>
-                    */}
-                  </Tooltip>
+                  <NextResourceButton
+                    chapter={chapter}
+                    nextChapter={nextChapter}
+                    nextResource={nextResource}
+                    resource={resource}
+                  />
                 )}
               </TooltipProvider>
             </div>
