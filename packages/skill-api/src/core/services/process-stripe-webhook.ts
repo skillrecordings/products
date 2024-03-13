@@ -106,7 +106,7 @@ const determineEventProcessor = (siteName: string) => {
       .parse(process.env.EPIC_REACT_INTERNAL_STRIPE_URL)
     const skillSecret = z
       .string({
-        required_error: 'TJS_SKILL_SECRET must be set in this environemnt',
+        required_error: 'ER_SKILL_SECRET must be set in this environemnt',
       })
       .parse(process.env.ER_SKILL_SECRET)
 
