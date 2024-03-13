@@ -37,7 +37,7 @@ const BookRoute = async () => {
                   {chapter.title}
                 </Link>
                 <ul className="list-inside list-disc">
-                  {chapter.resources.map((resource) => {
+                  {chapter.resources?.map((resource) => {
                     return (
                       <li key={resource.slug.current}>
                         <Link
