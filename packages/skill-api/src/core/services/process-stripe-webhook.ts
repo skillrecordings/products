@@ -68,11 +68,11 @@ export async function receiveInternalStripeWebhooks({
     })
   } catch (error: any) {
     console.log(
-      `webhook/stripe-internal error: ${{
+      `webhook/stripe-internal error: ${JSON.stringify({
         message: error.message,
-        event: JSON.stringify(event),
-        body: JSON.stringify(body),
-      }}`,
+        event: event,
+        body: body,
+      })}`,
     )
 
     return {
