@@ -78,32 +78,38 @@ export async function sendServerEmail({
   text?: (options: TextEmailParams) => string
   expiresAt?: Date | null
 }) {
-  const verificationDetails = await createVerificationUrl({
-    email,
-    nextAuthOptions,
-    callbackUrl,
-    expiresAt: expiresAt || undefined,
-  })
+  try {
+    const verificationDetails = await createVerificationUrl({
+      email,
+      nextAuthOptions,
+      callbackUrl,
+      expiresAt: expiresAt || undefined,
+    })
 
-  if (!verificationDetails) return
+    if (!verificationDetails) return
 
-  const {url, token, expires} = verificationDetails
+    const {url, token, expires} = verificationDetails
 
-  const emailProvider: any = nextAuthOptions.providers.find(
-    (provider) => provider.id === 'email',
-  )
+    const emailProvider: any = nextAuthOptions.providers.find(
+      (provider) => provider.id === 'email',
+    )
 
-  console.log('%%% about to sendVerificationRequest %%%')
+    console.log('%%% about to sendVerificationRequest %%%')
 
-  await sendVerificationRequest({
-    identifier: email,
-    url,
-    theme: nextAuthOptions.theme || {colorScheme: 'auto'},
-    provider: emailProvider.options,
-    token: token as string,
-    expires,
-    type,
-    html,
-    text,
-  })
+    await sendVerificationRequest({
+      identifier: email,
+      url,
+      theme: nextAuthOptions.theme || {colorScheme: 'auto'},
+      provider: emailProvider.options,
+      token: token as string,
+      expires,
+      type,
+      html,
+      text,
+    })
+  } catch (error: any) {
+    console.log({location: 'sendServerEmail', error})
+
+    throw new Error('Unable to sendVerificationRequest')
+  }
 }
