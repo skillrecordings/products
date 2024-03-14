@@ -149,7 +149,6 @@ export async function getChapterResource(slugOrId: string, withBody = true) {
   const chapterResource = await sanityQuery<ChapterResource>(
     groq`*[_type in ['exercise', 'lesson', 'explainer', 'solution'] && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
         ${chapterResourceQuery(withBody)}
-      },
       }`,
     {tags: ['resource', slugOrId]},
   )
