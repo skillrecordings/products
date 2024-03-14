@@ -56,11 +56,11 @@ const ChapterResourceRoute: React.FC<Props> = async ({
     notFound()
   }
 
-  let {title, mdx, video, solution, code, slug} = resource
+  let {title, body, video, solution, code, slug} = resource
 
   if (isSolution) {
     title = `Solution: ${title}`
-    mdx = solution?.mdx as any
+    body = solution?.body
     video = {videoResourceId: solution?.videoResourceId} as any
   }
 
