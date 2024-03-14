@@ -53,7 +53,8 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
   children,
   params,
 }) => {
-  const chapter = await getChapter(params.chapter)
+  const withResources = false
+  const chapter = await getChapter(params.chapter, withResources)
   const chapterLoader = getChapter(params.chapter)
   const resource = await getChapterResource(params.resource as string)
 
