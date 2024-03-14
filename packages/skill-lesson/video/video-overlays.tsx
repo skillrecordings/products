@@ -257,11 +257,7 @@ const DefaultOverlay: React.FC = () => {
   const moduleProgress = useModuleProgress()
 
   const [completedLessonCount, setCompletedLessonCount] =
-    React.useState<number>(0)
-
-  React.useEffect(() => {
-    setCompletedLessonCount(moduleProgress?.completedLessonCount || 0)
-  }, [moduleProgress])
+    React.useState<number>(moduleProgress?.completedLessonCount || 0)
 
   const session = useSession()
 
@@ -287,12 +283,7 @@ const DefaultOverlay: React.FC = () => {
         {moduleProgress && session.status === 'authenticated' && (
           <div data-progress="">
             <Progress
-              value={
-                ((moduleProgress?.completedLessonCount +
-                  (completedLessonCount || 0)) /
-                  moduleProgress?.lessonCount) *
-                100
-              }
+              value={(completedLessonCount / moduleProgress?.lessonCount) * 100}
               className="h-2"
             />
             <div data-lessons-completed="">
@@ -372,6 +363,11 @@ const FinishedOverlay = () => {
   const moduleProgress = useModuleProgress()
   const session = useSession()
   const moduleCompleted = moduleProgress?.moduleCompleted
+
+  const hasCertificate = Boolean(
+    moduleCertificateRenderer && moduleCertificateRenderer(),
+  )
+
   return (
     <OverlayWrapper data-video-overlay="finished">
       <ModuleCtaProvider>
@@ -385,7 +381,7 @@ const FinishedOverlay = () => {
               : `This was the last lesson from "${module.title}" ${
                   module.moduleType
                 }. ${
-                  moduleCertificateRenderer
+                  hasCertificate
                     ? 'Finish all lessons to earn a certificate!'
                     : ''
                 }`}
@@ -777,11 +773,7 @@ const FinishedSectionOverlay = () => {
   const moduleProgress = useModuleProgress()
 
   const [completedLessonCount, setCompletedLessonCount] =
-    React.useState<number>(0)
-
-  React.useEffect(() => {
-    setCompletedLessonCount(moduleProgress?.completedLessonCount || 0)
-  }, [moduleProgress])
+    React.useState<number>(moduleProgress?.completedLessonCount || 0)
 
   const session = useSession()
 
@@ -808,12 +800,7 @@ const FinishedSectionOverlay = () => {
         {moduleProgress && session.status === 'authenticated' && (
           <div data-progress="">
             <Progress
-              value={
-                ((moduleProgress?.completedLessonCount +
-                  (completedLessonCount || 0)) /
-                  moduleProgress?.lessonCount) *
-                100
-              }
+              value={(completedLessonCount / moduleProgress?.lessonCount) * 100}
               className="h-2"
             />
             <div data-lessons-completed="">

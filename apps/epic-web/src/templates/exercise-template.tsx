@@ -285,7 +285,7 @@ const LessonList: React.FC<{
   return (
     <div className="sticky top-0 border-r">
       <div ref={ref}>
-        <div className="relative z-10 flex items-center space-x-3 border-b border-r border-white/5 bg-gray-50 px-2 py-3 dark:bg-foreground/10 dark:shadow-xl dark:shadow-black/20">
+        <div className="relative z-10 flex items-center space-x-3 border-b bg-white px-2 py-3 dark:border-white/5 dark:bg-foreground/10 dark:shadow-xl dark:shadow-black/20">
           {module.image && (
             <Image
               src={module.image}
