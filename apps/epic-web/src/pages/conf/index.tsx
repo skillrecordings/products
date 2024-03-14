@@ -687,138 +687,6 @@ const SpeakersList: React.FC<{
 
 const workshopsData = [
   {
-    title: 'Pixel Perfect Figma to Tailwind',
-    image: (
-      <svg
-        aria-hidden="true"
-        className="w-32"
-        // width="152"
-        // height="152"
-        viewBox="0 0 152 152"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect
-          x="0.5"
-          y="0.5"
-          width="151"
-          height="151"
-          rx="15.5"
-          stroke="#2A2E3F"
-        />
-        <path
-          d="M122.859 58.6533C121.203 63.7716 118.645 67.6608 115.204 70.3563C111.271 73.4378 106.134 75 99.7505 75C93.823 75 89.5269 73.653 86.1317 71.7384C82.7254 69.8177 80.2044 67.3155 77.8228 64.9482C77.8227 64.9482 77.8226 64.9481 77.8226 64.9481L77.7795 64.9052C74.8986 62.0389 72.1724 59.3264 68.3438 58.3896C65.0159 57.5752 61.8744 57.776 58.9379 59.0087C56.6061 59.9874 54.425 61.6076 52.3903 63.8491C54.0468 58.7296 56.6057 54.8398 60.0463 52.1439C63.9793 49.0622 69.116 47.5 75.5009 47.5C81.4285 47.5 85.7241 48.8466 89.1188 50.7611C92.5246 52.6819 95.0451 55.1845 97.4268 57.5537L97.4269 57.5537L97.4751 57.6017C100.354 60.4643 103.079 63.1741 106.907 64.1103C110.235 64.9257 113.377 64.7254 116.313 63.493C118.645 62.5145 120.825 60.8945 122.859 58.6533ZM82.656 92.6122L82.6562 92.6122C85.9841 93.4267 89.1256 93.2258 92.0621 91.9932C94.3941 91.0144 96.5754 89.394 98.6102 87.1523C96.9543 92.2719 94.3954 96.1614 90.9546 98.857C87.0217 101.938 81.885 103.5 75.5009 103.5C69.5725 103.5 65.2764 102.153 61.8814 100.238C58.4755 98.3177 55.9549 95.8156 53.5732 93.4482C53.5732 93.4482 53.5731 93.4481 53.5731 93.4481L53.53 93.4053C50.6491 90.5389 47.9229 87.8264 44.0924 86.8897C40.7655 86.0752 37.6244 86.276 34.6881 87.5087C32.3563 88.4875 30.1751 90.1078 28.1402 92.3496C29.7961 87.2299 32.3551 83.3399 35.7959 80.6439C39.7288 77.5622 44.8655 76 51.2495 76C57.177 76 61.4731 77.3475 64.8683 79.2625C68.2746 81.1838 70.7956 83.6864 73.1774 86.0538L73.2256 86.1017C76.1046 88.9643 78.8298 91.6741 82.656 92.6122Z"
-          stroke="#A3ABC6"
-        />
-      </svg>
-    ),
-    description: (
-      <>
-        <p>
-          Getting started with automated testing can be extremely intimidating.
-          There’s just so much to learn! What to test, how to test, testing
-          setup, assertion libraries, test frameworks… It’s overwhelming, to say
-          the least.
-        </p>
-        <p>
-          But it doesn’t have to be. Even a rocket ship can be broken down into
-          smaller pieces that make up its foundation. And testing code is not
-          rocket science. I am here to teach you the fundamentals, essential
-          mental models, and practical skills so you can tackle any test at any
-          level.
-        </p>
-        <p>
-          This workshop is aimed at complete beginners as well as developers who
-          have already been writing tests for some time but feel that something
-          is missing, that each test is still, somehow, a struggle and a
-          challenge. A walk in the dark. If you want to turn on the light and
-          get confident when testing, you’ve come to the right place.
-        </p>
-      </>
-    ),
-    date: 'Wednesday, April 10, 2024',
-    time: 'from 10:00 am - 4:00 pm MT and includes lunch',
-    instructor: 'Simon Vrachliotis',
-  },
-  {
-    title: 'Testing Fundamentals in TypeScript',
-    image: (
-      <svg
-        aria-hidden="true"
-        className="w-32"
-        // width="152"
-        // height="152"
-        viewBox="0 0 152 152"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect
-          x="0.5"
-          y="0.5"
-          width="151"
-          height="151"
-          rx="15.5"
-          stroke="#2A2E3F"
-        />
-        <path
-          d="M79.9331 73.2999L119.506 91.9546C122.122 93.1878 122.198 96.8817 119.635 98.2219L80.2847 118.801C77.5269 120.243 74.2376 120.243 71.4798 118.801L32.1293 98.2219C29.5664 96.8816 29.6428 93.1878 32.2588 91.9546L71.8314 73.2999C74.3966 72.0907 77.3679 72.0907 79.9331 73.2999Z"
-          stroke="#A3ABC6"
-        />
-        <path
-          d="M79.9331 55.1385L119.506 73.7932C122.122 75.0264 122.198 78.7203 119.635 80.0605L80.2847 100.639C77.5269 102.082 74.2376 102.082 71.4798 100.639L32.1293 80.0605C29.5664 78.7203 29.6428 75.0264 32.2588 73.7932L71.8314 55.1385C74.3966 53.9293 77.3679 53.9293 79.9331 55.1385Z"
-          fill="#0A0D19"
-          stroke="#A3ABC6"
-        />
-        <path
-          d="M79.9331 36.3126L119.506 54.9673C122.122 56.2005 122.198 59.8943 119.635 61.2346L80.2847 81.8136C77.5269 83.2558 74.2376 83.2558 71.4798 81.8136L32.1293 61.2346C29.5664 59.8943 29.6428 56.2005 32.2588 54.9673L71.8314 36.3126C74.3966 35.1034 77.3679 35.1034 79.9331 36.3126Z"
-          fill="#0A0D19"
-          stroke="#A3ABC6"
-        />
-        <path
-          d="M54.4514 49.8685L38.7808 57.5116C37.7973 57.9913 37.8104 58.7409 38.81 59.186L54.7378 66.2775C55.7374 66.7226 57.345 66.6945 58.3285 66.2148L73.9991 58.5718C74.9826 58.0921 74.9695 57.3424 73.9699 56.8974L58.0421 49.8059C57.0425 49.3608 55.4348 49.3889 54.4514 49.8685Z"
-          stroke="#A3ABC6"
-          stroke-miterlimit="10"
-          stroke-linecap="square"
-        />
-        <path
-          d="M51.0594 61.3169L58.2408 61.1916L58.1005 53.1545"
-          stroke="#A3ABC6"
-          stroke-miterlimit="10"
-          stroke-linecap="square"
-        />
-      </svg>
-    ),
-    description: (
-      <>
-        <p>
-          Getting started with automated testing can be extremely intimidating.
-          There’s just so much to learn! What to test, how to test, testing
-          setup, assertion libraries, test frameworks… It’s overwhelming, to say
-          the least.
-        </p>
-
-        <p>
-          But it doesn’t have to be. Even a rocket ship can be broken down into
-          smaller pieces that make up its foundation. And testing code is not
-          rocket science. I am here to teach you the fundamentals, essential
-          mental models, and practical skills so you can tackle any test at any
-          level.
-        </p>
-
-        <p>
-          This workshop is aimed at complete beginners as well as developers who
-          have already been writing tests for some time but feel that something
-          is missing, that each test is still, somehow, a struggle and a
-          challenge. A walk in the dark. If you want to turn on the light and
-          get confident when testing, you’ve come to the right place.
-        </p>
-      </>
-    ),
-    date: 'Wednesday, April 10, 2024',
-    time: 'from 10:00 am - 4:00 pm MT and includes lunch',
-    instructor: 'Artem Zakharchenko',
-  },
-  {
     title: 'Advanced React Patterns',
     image: (
       <svg
@@ -898,53 +766,60 @@ const Workshops: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
     <section
       id="workshops"
       aria-label="workshops"
-      className="relative mx-auto flex w-full max-w-screen-lg flex-col justify-between gap-0 px-5 pb-32 md:flex-col"
+      className="relative mx-auto flex w-full max-w-screen-lg flex-col justify-between gap-0 px-5 pb-32 pt-16 md:flex-row"
     >
-      <h2 className="pb-5 text-3xl font-bold sm:text-4xl">Workshops</h2>
-      <div className="flex w-full grid-cols-3 flex-col gap-10 md:grid">
+      <h2 className="pb-5 text-center text-3xl font-bold sm:text-left sm:text-4xl">
+        Workshop
+      </h2>
+      <div className="flex flex-col gap-10 sm:flex-row">
         {workshopsData.map(
           ({title, image, description, date, time, instructor}) => {
             return (
-              <div key={title} className="pt-3 [&_time]:text-[#D6DEFF]">
-                <div className="mb-5">{image}</div>
-                <h3 className="pb-4 text-xl font-bold">
-                  <Link
-                    href={CONF_24_TITO_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline"
-                    onClick={() => {
-                      track(`clicked workshop`, {
-                        title: 'conf2024',
-                        type: 'workshop',
-                        location: title,
-                      })
-                    }}
-                  >
-                    {title}
-                  </Link>
-                </h3>
-                <span className="flex items-start gap-2.5">
-                  <Image
-                    src={getProfilePictureForWorkshopInstructor(
-                      instructor,
-                      speakers,
-                    )}
-                    width={48}
-                    height={48}
-                    alt={instructor}
-                    className="mt-1.5 rounded"
-                  />{' '}
-                  <div className="flex flex-col">
-                    <span className="font-semibold">{instructor}</span>
-                    <time dateTime={date} className="text-sm">
-                      {date}
-                    </time>
-                    <time dateTime={time} className="text-sm">
-                      {time}
-                    </time>
-                  </div>
-                </span>
+              <div
+                key={title}
+                className="flex flex-col items-center justify-center gap-5 rounded border border-[#313646] bg-[#1E212C]/50 p-5 sm:flex-row [&_time]:text-[#D6DEFF]"
+              >
+                <div className="rounded-xl bg-background">{image}</div>
+                <div>
+                  <h3 className="pb-4 text-center text-2xl font-bold sm:text-left">
+                    <Link
+                      href={CONF_24_TITO_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline"
+                      onClick={() => {
+                        track(`clicked workshop`, {
+                          title: 'conf2024',
+                          type: 'workshop',
+                          location: title,
+                        })
+                      }}
+                    >
+                      {title}
+                    </Link>
+                  </h3>
+                  <span className="flex items-start gap-2.5">
+                    <Image
+                      src={getProfilePictureForWorkshopInstructor(
+                        instructor,
+                        speakers,
+                      )}
+                      width={48}
+                      height={48}
+                      alt={instructor}
+                      className="mt-1.5 rounded-full"
+                    />{' '}
+                    <div className="flex flex-col">
+                      <span className="font-semibold">{instructor}</span>
+                      <time dateTime={date} className="text-sm">
+                        {date}
+                      </time>
+                      <time dateTime={time} className="text-sm">
+                        {time}
+                      </time>
+                    </div>
+                  </span>
+                </div>
               </div>
             )
           },
