@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* @import './tips.css'; */
-/* @import './commerce.css'; */
+@import './commerce.css';
 /* TODO: convert */
 @import './quiz.css';
 @import './primary-newsletter-cta.css';
