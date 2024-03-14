@@ -1,10 +1,8 @@
 import * as React from 'react'
-import {bookComponents} from '@/app/_components/mdx'
 import VideoPlayer from '@/app/_components/video-player'
 import {getChapter, getChapterResource} from '@/lib/chapters'
 import {getVideoResource} from '@/lib/videos'
 import {getServerAuthSession} from '@/server/auth'
-import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {notFound} from 'next/navigation'
 import {type Metadata, type ResolvingMetadata} from 'next'
 import {getOgImage} from '@/utils/get-og-image'
@@ -13,6 +11,7 @@ import {getBookMode} from './layout'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {MDXRemote} from 'next-mdx-remote/rsc'
 import {Skeleton} from '@skillrecordings/ui/primitives/skeleton'
+import {codeToHtml} from '@/utils/shiki'
 
 type Props = {
   params: {chapter: string; resource: string}
@@ -66,6 +65,19 @@ const ChapterResourceRoute: React.FC<Props> = async ({
 
   const {mode} = getBookMode()
 
+  const mdxComponents = {
+    pre: async (props: any) => {
+      const children = props?.children.props.children
+      const language =
+        props?.children.props.className?.split('-')[1] || 'typescript'
+      const html = await codeToHtml({
+        code: children,
+        language,
+      })
+      return <div dangerouslySetInnerHTML={{__html: html}} />
+    },
+  }
+
   const BookLayout = () => {
     return (
       <section>
@@ -89,7 +101,9 @@ const ChapterResourceRoute: React.FC<Props> = async ({
           <React.Suspense
             fallback={<Skeleton className="h-48 w-full rounded bg-gray-100" />}
           >
-            {resource.body && <MDXRemote source={resource.body} />}
+            {resource.body && (
+              <MDXRemote source={resource.body} components={mdxComponents} />
+            )}
           </React.Suspense>
           {isAdmin && chapter.github?.repo && code?.openFile && (
             <Challenge repo={chapter.github?.repo} file={code.openFile} />
@@ -116,7 +130,12 @@ const ChapterResourceRoute: React.FC<Props> = async ({
                   <Skeleton className="h-48 w-full rounded bg-gray-100" />
                 }
               >
-                {solution.body && <MDXRemote source={solution.body} />}
+                {solution.body && (
+                  <MDXRemote
+                    source={solution.body}
+                    components={mdxComponents}
+                  />
+                )}
               </React.Suspense>
             </>
           )}
@@ -151,7 +170,9 @@ const ChapterResourceRoute: React.FC<Props> = async ({
           <React.Suspense
             fallback={<Skeleton className="h-48 w-full rounded bg-gray-100" />}
           >
-            {resource.body && <MDXRemote source={resource.body} />}
+            {resource.body && (
+              <MDXRemote source={resource.body} components={mdxComponents} />
+            )}
           </React.Suspense>
           {isAdmin && chapter.github?.repo && code?.openFile && (
             <Challenge repo={chapter.github?.repo} file={code.openFile} />

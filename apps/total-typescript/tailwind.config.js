@@ -112,6 +112,9 @@ module.exports = {
               background: theme('colors.gray.100'),
               color: theme('colors.foreground'),
             },
+            'pre > code': {
+              background: 'none',
+            },
             'p > code': {
               fontSize: '80% !important',
             },
