@@ -18,24 +18,32 @@ import {getTutorial} from 'lib/tutorials'
 import {getTip} from 'lib/tips'
 import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
 import {getBonus} from 'lib/bonuses'
+import {getTalk} from 'lib/talks'
 
 export const getPropsForEmbed = async (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
-  resourceType: 'tutorial' | 'workshop' | 'tip' | 'bonus',
+  resourceType: 'tutorial' | 'workshop' | 'tip' | 'bonus' | 'talk',
   isSolution?: boolean,
 ) => {
   // resource
   const {query} = context
   const {params} = context
-  const lessonSlug = (params?.lesson || params?.tip) as string
+  const lessonSlug = (params?.lesson || params?.tip || params?.talk) as string
   const sectionSlug = params?.section as string
   const moduleSlug = params?.module as string
   const module = await getModule(resourceType, moduleSlug)
   const section = await getSection(sectionSlug)
-  const lesson =
-    resourceType === 'tip'
-      ? ((await getTip(lessonSlug)) as Exercise)
-      : await getExercise(lessonSlug, false)
+  const getLesson = async () => {
+    switch (resourceType) {
+      case 'tip':
+        return (await getTip(lessonSlug)) as Exercise
+      case 'talk':
+        return (await getTalk(lessonSlug)) as Exercise
+      default:
+        return await getExercise(lessonSlug, false)
+    }
+  }
+  const lesson = await getLesson()
 
   if (!lesson) {
     return null
@@ -113,7 +121,7 @@ export const getPropsForEmbed = async (
 }
 
 const getModule = async (
-  type: 'tutorial' | 'workshop' | 'tip' | 'bonus',
+  type: 'tutorial' | 'workshop' | 'tip' | 'bonus' | 'talk',
   slug: string,
 ) => {
   switch (type) {
@@ -123,6 +131,13 @@ const getModule = async (
       return await getWorkshop(slug)
     case 'bonus':
       return await getBonus(slug)
+    case 'talk':
+      return {
+        moduleType: 'talk',
+        slug: {
+          current: 'talks',
+        },
+      }
     case 'tip':
       return {
         moduleType: 'tip',
