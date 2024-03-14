@@ -57,8 +57,8 @@ export const ChapterSchema = z.object({
   github: z
     .object({
       _type: z.literal('github'),
-      repo: z.string(),
-      title: z.string(),
+      repo: z.string().optional().nullable(),
+      title: z.string().optional().nullable(),
     })
     .optional()
     .nullable(),
@@ -68,65 +68,68 @@ export const ChapterSchema = z.object({
 export type Chapter = z.infer<typeof ChapterSchema>
 export type ChapterResource = z.infer<typeof ChapterResourceSchema>
 
-export async function getChapter(
-  slugOrId: string,
-  withResources: boolean = true,
-) {
-  const chapter = await sanityQuery<Chapter | Omit<Chapter, 'resources'>>(
-    groq`*[_type == 'module' && moduleType == 'chapter' && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
-        _id,
-        _type,
-        _updatedAt,
-        _createdAt,
-        title,
-        slug,
-        moduleType,
-        github,
-        ${
-          withResources
-            ? `'resources': resources[]->{${chapterResourceQuery}},`
-            : ''
-        }
-    }`,
-    {tags: ['chapter', slugOrId]},
-  )
-
-  if (withResources) {
-    const parsed = ChapterSchema.safeParse(chapter)
-
-    if (!parsed.success) {
-      console.error('Error parsing chapter with resources', slugOrId)
-      console.error(parsed.error)
-      return null
-    } else {
-      const serializedChapterResources =
-        parsed.data.resources &&
-        (await serializeBodyToMdx(parsed.data.resources))
-      const data = {...parsed.data, resources: serializedChapterResources}
-
-      return data
-    }
-  } else {
-    const parsed = ChapterSchema.omit({resources: true}).safeParse(chapter)
-
-    if (!parsed.success) {
-      console.error('Error parsing chapter', slugOrId)
-      console.error(parsed.error)
-      return null
-    } else {
-      return parsed.data
-    }
-  }
-}
-
-export const chapterResourceQuery = `
+const chapterQuery = `
   _id,
   _type,
   _updatedAt,
   _createdAt,
   title,
   slug,
-  body,
+  moduleType,
+  github,
+`
+
+export async function getChapter(slugOrId: string) {
+  const chapter = await sanityQuery<Omit<Chapter, 'resources'>>(
+    groq`*[_type == 'module' && moduleType == 'chapter' && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
+       ${chapterQuery}
+    }`,
+    {tags: ['chapter', slugOrId]},
+  )
+
+  const parsed = ChapterSchema.omit({resources: true}).safeParse(chapter)
+
+  if (!parsed.success) {
+    console.error('Error parsing chapter', slugOrId)
+    console.error(parsed.error)
+    return null
+  } else {
+    return parsed.data
+  }
+}
+
+export async function getChapterWithResources(slugOrId: string) {
+  const chapter = await sanityQuery<Chapter | Omit<Chapter, 'resources'>>(
+    groq`*[_type == 'module' && moduleType == 'chapter' && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
+       ${chapterQuery}
+      'resources': resources[]->{${chapterResourceQuery()}},
+    }`,
+    {tags: ['chapter', slugOrId]},
+  )
+
+  const parsed = ChapterSchema.safeParse(chapter)
+
+  if (!parsed.success) {
+    console.error('Error parsing chapter with resources', slugOrId)
+    console.error(parsed.error)
+    return null
+  } else {
+    const serializedChapterResources =
+      parsed.data.resources && (await serializeBodyToMdx(parsed.data.resources))
+    const data = {...parsed.data, resources: serializedChapterResources}
+
+    return data
+  }
+}
+
+export const chapterResourceQuery = (withBody = false) => `
+  _id,
+  _type,
+  _updatedAt,
+  _createdAt,
+  title,
+  slug,
+  ${withBody ? 'body,' : ''}
   'video': resources[@->._type == 'videoResource'][0]->{
     "videoResourceId": _id,
   },
@@ -134,7 +137,7 @@ export const chapterResourceQuery = `
     openFile
   },
   'solution': resources[@._type == 'solution'][0]{
-    body,
+    ${withBody ? 'body,' : ''}
     'videoResourceId': resources[@->._type == 'videoResource'][0]->_id,
     "code": resources[@._type == 'stackblitz'][0]{
       openFile
@@ -142,10 +145,11 @@ export const chapterResourceQuery = `
   },
 `
 
-export async function getChapterResource(slugOrId: string) {
+export async function getChapterResource(slugOrId: string, withBody = true) {
   const chapterResource = await sanityQuery<ChapterResource>(
     groq`*[_type in ['exercise', 'lesson', 'explainer', 'solution'] && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
-        ${chapterResourceQuery}
+        ${chapterResourceQuery(withBody)}
+      },
       }`,
     {tags: ['resource', slugOrId]},
   )
@@ -193,8 +197,11 @@ const serializeBodyToMdx = async (chapterResources: ChapterResource[]) => {
   return Promise.all(promises)
 }
 
-export async function getChapterPositions(chapter: Chapter | null) {
-  if (!chapter) return {}
+export async function getChapterPositions(
+  chapterSlug: string,
+  resourceSlug?: string,
+) {
+  if (!chapterSlug) return {}
 
   const allChapters = await sanityQuery<{
     chapters: {
@@ -205,6 +212,7 @@ export async function getChapterPositions(chapter: Chapter | null) {
         _id: string
         slug: string
         title: string
+        solution?: {_key: string} | null
       }[]
     }[]
   }>(
@@ -217,6 +225,7 @@ export async function getChapterPositions(chapter: Chapter | null) {
         _id,
         "slug": slug.current,
         title,
+        'solution': resources[@._type == 'solution'][0]{_key},
       }
     }
     
@@ -227,9 +236,7 @@ export async function getChapterPositions(chapter: Chapter | null) {
   const chapters = allChapters.chapters
 
   const currentChapterIndex = findIndex(chapters, {
-    _id: chapter._id,
-    slug: chapter.slug.current,
-    title: chapter.title,
+    slug: chapterSlug,
   })
 
   const nextChapter =
@@ -242,41 +249,129 @@ export async function getChapterPositions(chapter: Chapter | null) {
       ? chapters[currentChapterIndex - 1]
       : null
 
+  const currentChapter = chapters[currentChapterIndex]
+
+  const resources = currentChapter.resources
+
+  const currentResourceIndex = findIndex(currentChapter.resources, {
+    slug: resourceSlug,
+  })
+
+  const nextResource =
+    findIndex(resources, resources[currentResourceIndex + 1]) !== -1
+      ? resources[currentResourceIndex + 1]
+      : null
+
+  const firstResourceInNextChapter = nextChapter?.resources[0]
+
+  const prevResource =
+    findIndex(resources, resources[currentResourceIndex - 1]) !== -1
+      ? resources[currentResourceIndex - 1]
+      : null
+
+  const lastResourceInPrevChapter =
+    prevChapter?.resources[prevChapter.resources.length - 1]
+
+  const currentResource = resources[currentResourceIndex]
+
   return {
     nextChapter: nextChapter as Chapter | null,
     currentChapterIndex: currentChapterIndex + 1,
+    currentChapter,
     prevChapter,
     chapters,
+    nextResource: nextResource || firstResourceInNextChapter,
+    prevResource: prevResource || lastResourceInPrevChapter,
+    currentResourceIndex: currentResourceIndex + 1,
+    currentResource,
   }
 }
 
 export async function getResourcePositions(
-  chapter: Chapter | null,
-  currentResource: ChapterResource,
+  resourceSlug: string,
+  chapter?: Chapter | null,
 ) {
-  if (!chapter || !currentResource || !chapter.resources) return {}
+  if (!chapter || !resourceSlug) return {}
 
-  const currentResourceIndex = findIndex(chapter.resources, currentResource)
+  let resources
+  if (chapter.resources) {
+    resources = chapter.resources
+  } else {
+    const chapterWithResources = await getChapterWithResources(
+      chapter.slug.current,
+    )
+    if (chapterWithResources && chapterWithResources.resources) {
+      resources = chapterWithResources.resources
+    }
+  }
+
+  const currentResourceIndex = findIndex(chapter.resources, {
+    slug: {current: resourceSlug},
+  })
+
+  if (!resources) return {}
 
   const nextResource =
-    findIndex(
-      chapter.resources,
-      chapter.resources[currentResourceIndex + 1],
-    ) !== -1
-      ? chapter.resources[currentResourceIndex + 1]
+    findIndex(resources, resources[currentResourceIndex + 1]) !== -1
+      ? resources[currentResourceIndex + 1]
       : null
 
   const prevResource =
-    findIndex(
-      chapter.resources,
-      chapter.resources[currentResourceIndex - 1],
-    ) !== -1
-      ? chapter.resources[currentResourceIndex - 1]
+    findIndex(resources, resources[currentResourceIndex - 1]) !== -1
+      ? resources[currentResourceIndex - 1]
       : null
 
   return {
     currentResourceIndex: currentResourceIndex + 1,
     nextResource,
     prevResource,
+  }
+}
+
+export async function nextResourceUrlBuilder(
+  currentResourceSlug: string,
+  currentChapterSlug: string,
+  withSolution?: boolean,
+  isSolution?: boolean, // TODO: check if we're currently on /solution route
+) {
+  const {nextChapter, nextResource, currentChapter, currentResource} =
+    await getChapterPositions(currentChapterSlug, currentResourceSlug)
+
+  if (
+    nextResource ||
+    nextChapter ||
+    (currentResource && currentResource.solution)
+  ) {
+    return {
+      url:
+        withSolution &&
+        !isSolution &&
+        currentResource &&
+        currentResource?.solution
+          ? `/book/${currentChapter.slug}/${currentResource.slug}/solution`
+          : nextResource &&
+            currentChapter.resources.find((r) => r.slug === nextResource.slug)
+          ? `/book/${currentChapter.slug}/${nextResource.slug}`
+          : nextChapter?.resources
+          ? `/book/${nextChapter.slug}/${nextChapter.resources[0].slug}`
+          : '',
+      label:
+        withSolution &&
+        !isSolution &&
+        currentResource &&
+        currentResource.solution
+          ? `Solution`
+          : nextResource &&
+            currentChapter.resources.find((r) => r.slug === nextResource.slug)
+          ? nextResource.title
+          : nextChapter?.resources
+          ? nextChapter.resources[0].title
+          : null,
+    }
+  } else {
+    return {
+      url: null,
+      label: null,
+    }
   }
 }

@@ -12,7 +12,17 @@ export const BookSchema = z.object({
   slug: z.object({
     current: z.string(),
   }),
-  chapters: z.array(ChapterSchema),
+  chapters: z.array(
+    ChapterSchema.extend({
+      firstResource: z.object({
+        _id: z.string(),
+        slug: z.object({
+          current: z.string(),
+        }),
+        title: z.string(),
+      }),
+    }),
+  ),
 })
 
 export type Book = z.infer<typeof BookSchema>
@@ -35,8 +45,9 @@ export async function getBook(slugOrId: string) {
           moduleType,
           title,
           slug,
+          'firstResource': resources[0]->{_id, slug, title},
           'resources': resources[]->{
-            ${chapterResourceQuery}
+            ${chapterResourceQuery()}
           }
         }
       }`,

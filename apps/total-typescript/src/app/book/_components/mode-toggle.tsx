@@ -1,6 +1,5 @@
 'use client'
 
-import type {ReadonlyRequestCookies} from 'next/dist/server/web/spec-extension/adapters/request-cookies'
 import React from 'react'
 import {useCookies} from 'react-cookie'
 import {useRouter} from 'next/navigation'

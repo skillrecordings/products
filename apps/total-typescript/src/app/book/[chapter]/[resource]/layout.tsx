@@ -3,7 +3,7 @@ import {
   getChapter,
   getChapterPositions,
   getChapterResource,
-  getResourcePositions,
+  getChapterWithResources,
 } from '@/lib/chapters'
 import Link from 'next/link'
 import {notFound, usePathname} from 'next/navigation'
@@ -38,7 +38,8 @@ import {
 import {cookies, headers} from 'next/headers'
 import ModeToggle from '../../_components/mode-toggle'
 import {getServerAuthSession} from '@/server/auth'
-import {NextResourceButton} from '../../_components/next-resource-button'
+import {ChaptersList} from '../../_components/chapters-list'
+import {NextResource} from '../../_components/next-resource'
 
 export const metadata = {
   name: 'Chapter',
@@ -46,30 +47,20 @@ export const metadata = {
 }
 
 type Props = {
-  params: {chapter: string; resource?: string}
+  params: {chapter: string; resource: string}
 }
 
 const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
   children,
   params,
 }) => {
-  const withResources = false
-  const chapter = await getChapter(params.chapter, withResources)
-  const chapterLoader = getChapter(params.chapter)
-  const resource = await getChapterResource(params.resource as string)
+  const chapter = await getChapter(params.chapter)
+  const resource = await getChapterResource(params.resource as string, false)
 
-  const {nextChapter, currentChapterIndex, chapters} =
-    await getChapterPositions(chapter)
-  const resourcePositions =
-    resource && (await getResourcePositions(chapter, resource))
-  const {nextResource} = resourcePositions || {}
-  const heads = headers()
-  const pathname = heads.get('next-url')
-  const isSolution = pathname?.endsWith('/solution')
-
-  if (!chapter) {
+  if (!chapter || !resource) {
     notFound()
   }
+
   const session = await getServerAuthSession()
   const isAdmin = session?.user.role === 'ADMIN' // TODO: use proper can can check
   const {mode} = getBookMode()
@@ -91,7 +82,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                 </MenubarTrigger>
                 <MenubarContent className="max-h-[calc(100vh-80px)] overflow-y-auto">
                   <React.Suspense fallback={'Loading...'}>
-                    <ChapterResourceList chapterLoader={chapterLoader} />
+                    <ChapterResourceList currentChapterSlug={params.chapter} />
                   </React.Suspense>
                   <MenubarSeparator />
                   <MenubarSub>
@@ -100,21 +91,9 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                       {/* Chapter {currentChapterIndex}: {chapter.title} */}
                     </MenubarSubTrigger>
                     <MenubarSubContent>
-                      {chapters?.map((chapter, i) => {
-                        const isActive = i === currentChapterIndex - 1
-                        return (
-                          <MenubarItem asChild key={chapter.slug}>
-                            <Link
-                              href={`/book/${chapter.slug}/${chapter.resources[0].slug}`}
-                              className={cn('', {
-                                underline: isActive,
-                              })}
-                            >
-                              {i + 1}. {chapter.title}
-                            </Link>
-                          </MenubarItem>
-                        )
-                      })}
+                      <React.Suspense fallback={'Loading'}>
+                        <ChaptersList currentChapterSlug={params.chapter} />
+                      </React.Suspense>
                     </MenubarSubContent>
                   </MenubarSub>
                 </MenubarContent>
@@ -153,34 +132,22 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                   </TooltipTrigger>
                   <TooltipContent>Add Bookmark</TooltipContent>
                 </Tooltip>
-                {(nextResource || nextChapter?.resources) && (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        className="flex size-16 items-center justify-center border-l"
-                        href={
-                          nextResource
-                            ? `/book/${chapter.slug.current}/${nextResource.slug.current}`
-                            : `/book/${nextChapter?.slug}/${
-                                nextChapter?.resources &&
-                                nextChapter?.resources[0].slug
-                              }`
-                        }
-                      >
-                        <ChevronRightIcon className="w-5" />
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      Next:{' '}
-                      {nextResource
-                        ? nextResource.title
-                        : nextChapter
-                        ? nextChapter.resources &&
-                          nextChapter.resources[0].title
-                        : null}
-                    </TooltipContent>
-                  </Tooltip>
-                )}
+                <React.Suspense
+                  fallback={
+                    <div className="flex size-16 cursor-wait items-center justify-center border-l">
+                      <ChevronRightIcon className="w-5" />
+                    </div>
+                  }
+                >
+                  <NextResource
+                    currentChapterSlug={params.chapter}
+                    currentResourceSlug={params.resource}
+                  />
+                </React.Suspense>
+                {/* <Tooltip>
+                  <TooltipTrigger asChild>
+                  </TooltipTrigger>
+                </Tooltip> */}
               </TooltipProvider>
             </div>
           </aside>
@@ -193,10 +160,11 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
             {children}
           </article>
         </div>
-        <div className="flex w-full flex-col items-center justify-center gap-5 px-5 py-16 text-center">
+        {/* TODO: Separate Pagination Component since we need to load full chapter
+        data... */}
+        {/* <div className="flex w-full flex-col items-center justify-center gap-5 px-5 py-16 text-center">
           {nextResource ? (
             <>
-              {/* TODO: Get correct H level in respect to mdx body */}
               <p>Next Up</p>
               <strong className="text-2xl font-bold">
                 {nextResource.title}
@@ -220,7 +188,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
               </Button>
             </>
           ) : null}
-        </div>
+        </div> */}
       </div>
     )
   }
@@ -237,7 +205,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                 </MenubarTrigger>
                 <MenubarContent className="max-h-[calc(100vh-80px)] overflow-y-auto">
                   <React.Suspense fallback={'Loading...'}>
-                    <ChapterResourceList chapterLoader={chapterLoader} />
+                    <ChapterResourceList currentChapterSlug={params.chapter} />
                   </React.Suspense>
                   <MenubarSeparator />
                   <MenubarSub>
@@ -246,21 +214,9 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                       {/* Chapter {currentChapterIndex}: {chapter.title} */}
                     </MenubarSubTrigger>
                     <MenubarSubContent>
-                      {chapters?.map((chapter, i) => {
-                        const isActive = i === currentChapterIndex - 1
-                        return (
-                          <MenubarItem asChild key={chapter.slug}>
-                            <Link
-                              href={`/book/${chapter.slug}/${chapter.resources[0].slug}`}
-                              className={cn('', {
-                                underline: isActive,
-                              })}
-                            >
-                              {i + 1}. {chapter.title}
-                            </Link>
-                          </MenubarItem>
-                        )
-                      })}
+                      <React.Suspense fallback={'Loading'}>
+                        <ChaptersList currentChapterSlug={params.chapter} />
+                      </React.Suspense>
                     </MenubarSubContent>
                   </MenubarSub>
                 </MenubarContent>
@@ -299,32 +255,35 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                   </TooltipTrigger>
                   <TooltipContent>Add Bookmark</TooltipContent>
                 </Tooltip>
-                {(nextResource ||
-                  nextChapter ||
-                  (resource && resource.solution)) && (
-                  <NextResourceButton
-                    chapter={chapter}
-                    nextChapter={nextChapter}
-                    nextResource={nextResource}
-                    resource={resource}
+                <React.Suspense
+                  fallback={
+                    <div className="flex size-16 cursor-wait items-center justify-center border-l">
+                      <ChevronRightIcon className="w-5" />
+                    </div>
+                  }
+                >
+                  <NextResource
+                    currentChapterSlug={params.chapter}
+                    currentResourceSlug={params.resource}
+                    withSolution
                   />
-                )}
+                </React.Suspense>
               </TooltipProvider>
             </div>
           </aside>
           <article className={cn('mx-auto w-full', {})}>{children}</article>
         </div>
-        <div className="flex w-full flex-col items-center justify-center gap-5 px-5 py-16 text-center">
+        {/* TODO: Pagination component */}
+        {/* <div className="flex w-full flex-col items-center justify-center gap-5 px-5 py-16 text-center">
           {nextResource ? (
             <>
-              {/* TODO: Get correct H level in respect to mdx body */}
               <p>Next Up</p>
               <strong className="text-2xl font-bold">
                 {nextResource.title}
               </strong>
               <Button asChild>
                 <Link
-                  href={`/book/${chapter.slug.current}/${nextResource.slug.current}`}
+                  href={`/book/${params.chapter}/${nextResource.slug.current}`}
                 >
                   Continue ➔
                 </Link>
@@ -345,7 +304,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
               </Button>
             </>
           ) : null}
-        </div>
+        </div> */}
       </div>
     )
   }
