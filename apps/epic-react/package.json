@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev -p 3024",
     "dev:sanity": "sanity dev",
-    "dev:stripe": "./scripts/check-stripe && stripe listen --forward-to localhost:3024/api/skill/webhook/stripe",
+    "dev:stripe": "echo 'Run epic-web `pnpm dev` to handle stripe webhooks for kcd-products' && exit 1",
     "build": "next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "start": "next start -p 3024",
