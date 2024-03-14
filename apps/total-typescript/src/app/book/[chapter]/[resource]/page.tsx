@@ -84,7 +84,9 @@ const ChapterResourceRoute: React.FC<Props> = async ({
               />
             </div>
           )}
-          {mdx && <MDX contents={mdx} components={bookComponents} />}
+          <React.Suspense fallback={'Loading...'}>
+            {mdx && <MDX contents={mdx} components={bookComponents} />}
+          </React.Suspense>
           {isAdmin && chapter.github?.repo && code?.openFile && (
             <Challenge repo={chapter.github?.repo} file={code.openFile} />
           )}
@@ -105,6 +107,7 @@ const ChapterResourceRoute: React.FC<Props> = async ({
                   />
                 </div>
               )}
+
               {solution.mdx && (
                 <MDX contents={solution.mdx} components={bookComponents} />
               )}
@@ -138,7 +141,6 @@ const ChapterResourceRoute: React.FC<Props> = async ({
               {title}
             </h1>
           </div>
-
           {mdx && <MDX contents={mdx} components={bookComponents} />}
           {isAdmin && chapter.github?.repo && code?.openFile && (
             <Challenge repo={chapter.github?.repo} file={code.openFile} />
