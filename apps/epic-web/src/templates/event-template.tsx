@@ -101,6 +101,12 @@ const EventTemplate: React.FC<
     },
   )
 
+  const isUpcoming = event.startsAt
+    ? new Date(event.startsAt) > new Date()
+    : event.events?.[0]?.startsAt
+    ? new Date(event.events[0].startsAt) > new Date()
+    : false
+
   return (
     <Layout meta={{title, description: pageDescription, ogImage}}>
       {redeemableCoupon && <RedeemDialogForCoupon />}
@@ -179,7 +185,7 @@ const EventTemplate: React.FC<
                 />
               </div>
             )}
-            {product && product.state !== 'unavailable' && (
+            {product && product.state !== 'unavailable' && isUpcoming && (
               <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
                 <EventPricingWidget
                   commerceProps={{...commerceProps, products}}

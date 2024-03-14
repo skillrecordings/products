@@ -28,6 +28,13 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
     process.env.NODE_ENV === 'development'
       ? events
       : events.filter(({state}) => state === 'published')
+  const hasUpcomingEvents = publishedEvents.some((event) =>
+    event.startsAt
+      ? new Date(event.startsAt) > new Date()
+      : event.events?.[0]?.startsAt
+      ? new Date(event.events[0].startsAt) > new Date()
+      : false,
+  )
 
   return (
     <Layout
@@ -50,6 +57,14 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
       </header>
       <main className="mx-auto grid w-full max-w-3xl grid-cols-1 flex-col gap-5 px-5 pb-24">
         <ConfBanner />
+        {!hasUpcomingEvents && (
+          <>
+            <div className="py-5 text-lg">
+              There are no scheduled live events at the moment.
+            </div>
+            <h3 className="text-2xl font-bold">Past Events</h3>
+          </>
+        )}
         {publishedEvents.map((event) => {
           const {title, image, slug, description, startsAt, endsAt, state} =
             event
@@ -74,6 +89,14 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
             )
 
           const isSoldOut = availability?.quantityAvailable === 0
+
+          const isUpcoming = eventDate
+            ? new Date(startsAt) > new Date()
+            : event.events?.[0]?.startsAt
+            ? new Date(event.events[0].startsAt) > new Date()
+            : false
+
+          const isPast = !isUpcoming && !isSoldOut
 
           return (
             <article key={slug}>
@@ -111,7 +134,7 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                       </p>
                     )}
                   </div>
-                  <div className="relative z-10 flex w-full flex-col items-start justify-between space-y-10 pt-8 md:flex-row md:items-center md:space-y-0">
+                  <div className="z-10 flex w-full flex-col items-start justify-between space-y-10 pt-8 md:flex-row md:items-center md:space-y-0">
                     <div className="flex w-full flex-col gap-8 text-sm text-gray-700 dark:text-gray-300 lg:flex-row lg:items-center">
                       {event.author ? (
                         <div className="flex items-center gap-3">
@@ -169,13 +192,17 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                       <div className="flex items-center gap-1 font-bold">
                         {isSoldOut ? (
                           'Sold out'
-                        ) : (
+                        ) : isUpcoming ? (
                           <>
                             {availability?.quantityAvailable ?? (
                               <Spinner className="w-3" />
                             )}{' '}
                             spots left
                           </>
+                        ) : (
+                          <div className="rounded bg-gray-100 px-3 py-1.5 dark:bg-gray-900">
+                            Past Event
+                          </div>
                         )}
                       </div>
                     </div>
