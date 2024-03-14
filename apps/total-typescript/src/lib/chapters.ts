@@ -1,8 +1,6 @@
 import z from 'zod'
 import {sanityQuery} from '@/server/sanity.server'
 import groq from 'groq'
-import type {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {findIndex} from 'lodash'
 
 export const ChapterResourceSchema = z.object({
@@ -15,7 +13,6 @@ export const ChapterResourceSchema = z.object({
     current: z.string(),
   }),
   body: z.string().optional(),
-  mdx: z.unknown() as z.Schema<MDXRemoteSerializeResult>,
   video: z
     .object({
       videoResourceId: z.string(),
@@ -25,7 +22,6 @@ export const ChapterResourceSchema = z.object({
   solution: z
     .object({
       body: z.string().optional(),
-      mdx: z.unknown() as z.Schema<MDXRemoteSerializeResult>,
       videoResourceId: z.string(),
       code: z
         .object({
@@ -114,11 +110,11 @@ export async function getChapterWithResources(slugOrId: string) {
     console.error(parsed.error)
     return null
   } else {
-    const serializedChapterResources =
-      parsed.data.resources && (await serializeBodyToMdx(parsed.data.resources))
-    const data = {...parsed.data, resources: serializedChapterResources}
+    // const serializedChapterResources =
+    //   parsed.data.resources && (await serializeBodyToMdx(parsed.data.resources))
+    // const data = {...parsed.data, resources: serializedChapterResources}
 
-    return data
+    return parsed.data
   }
 }
 
@@ -160,40 +156,10 @@ export async function getChapterResource(slugOrId: string, withBody = true) {
     console.error(parsed.error)
     return null
   } else {
-    const serializedChapterResource = await serializeBodyToMdx([parsed.data])
-    return serializedChapterResource[0]
+    return parsed.data
+    // const serializedChapterResource = await serializeBodyToMdx([parsed.data])
+    // return serializedChapterResource[0]
   }
-}
-
-const serializeBodyToMdx = async (chapterResources: ChapterResource[]) => {
-  const promises = chapterResources.map(async (resource) => {
-    let solution = resource.solution
-    if (solution && solution.body) {
-      const mdx = await serializeMDX(solution.body as string, {
-        // useShikiTwoslash: true,
-        syntaxHighlighterOptions: {
-          theme: 'github-light',
-          // authorization: process.env.SHIKI_AUTH_TOKEN,
-          // endpoint: process.env.SHIKI_ENDPOINT,
-        },
-      })
-      solution = {...solution, mdx}
-    }
-
-    if (resource.body) {
-      const mdx = await serializeMDX(resource.body as string, {
-        // useShikiTwoslash: true,
-        syntaxHighlighterOptions: {
-          theme: 'github-light',
-          // authorization: process.env.SHIKI_AUTH_TOKEN,
-          // endpoint: process.env.SHIKI_ENDPOINT,
-        },
-      })
-      return {...resource, mdx, solution}
-    }
-    return {...resource, solution}
-  })
-  return Promise.all(promises)
 }
 
 export async function getChapterPositions(

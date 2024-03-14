@@ -11,6 +11,8 @@ import {getOgImage} from '@/utils/get-og-image'
 import {Challenge} from '../../_components/challenge'
 import {getBookMode} from './layout'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {MDXRemote} from 'next-mdx-remote/rsc'
+import {Skeleton} from '@skillrecordings/ui/primitives/skeleton'
 
 type Props = {
   params: {chapter: string; resource: string}
@@ -84,8 +86,10 @@ const ChapterResourceRoute: React.FC<Props> = async ({
               />
             </div>
           )}
-          <React.Suspense fallback={'Loading...'}>
-            {mdx && <MDX contents={mdx} components={bookComponents} />}
+          <React.Suspense
+            fallback={<Skeleton className="h-48 w-full rounded bg-gray-100" />}
+          >
+            {resource.body && <MDXRemote source={resource.body} />}
           </React.Suspense>
           {isAdmin && chapter.github?.repo && code?.openFile && (
             <Challenge repo={chapter.github?.repo} file={code.openFile} />
@@ -107,10 +111,13 @@ const ChapterResourceRoute: React.FC<Props> = async ({
                   />
                 </div>
               )}
-
-              {solution.mdx && (
-                <MDX contents={solution.mdx} components={bookComponents} />
-              )}
+              <React.Suspense
+                fallback={
+                  <Skeleton className="h-48 w-full rounded bg-gray-100" />
+                }
+              >
+                {solution.body && <MDXRemote source={solution.body} />}
+              </React.Suspense>
             </>
           )}
         </div>
@@ -141,7 +148,11 @@ const ChapterResourceRoute: React.FC<Props> = async ({
               {title}
             </h1>
           </div>
-          {mdx && <MDX contents={mdx} components={bookComponents} />}
+          <React.Suspense
+            fallback={<Skeleton className="h-48 w-full rounded bg-gray-100" />}
+          >
+            {resource.body && <MDXRemote source={resource.body} />}
+          </React.Suspense>
           {isAdmin && chapter.github?.repo && code?.openFile && (
             <Challenge repo={chapter.github?.repo} file={code.openFile} />
           )}
