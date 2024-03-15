@@ -8,20 +8,6 @@ the `{PROJECT_ROOT}/apps/testing-javascript` in your console.
 cd apps/testing-javascript
 ```
 
-## Validate your local environment
-
-You need to ensure that you have all of the necessary system-level dependencies
-installed.
-
-From `apps/testing-javascript` you can run the following command to validate
-your environment:
-
-```shell
-bin/validate
-```
-
-Missing system dependencies should be installed. They will be assumed below.
-
 ## Serverless Access
 
 You may need access to the following serverless accounts to run the app:
