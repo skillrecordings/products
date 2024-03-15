@@ -7,6 +7,7 @@ It was generated using `create-skill-app` and is meant as a starting point for a
 Both `.env.development` and `.env.production` files are used to store environment variables. They have some basic default values that need to be updated for the product and client. This would be a lot better if they were generated with the answers to questions when you run `create-skill-app`, but that isn't the case today.  Feel free to add it!
 
 - [ ] Update `.env.development` and `.env.production` with real values
+- [ ] Copy `.env.development.local.example` to `env.development.local` and populate any needed real values
 
 ## Database
 

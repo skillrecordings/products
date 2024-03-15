@@ -45,9 +45,12 @@ to `.env`
   local environment. Can be found in 1password.
 * `STRIPE_SECRET_TOKEN`: Not required unless you need to make an end to end
   purchase. Can be found in 1password.
-* `STRIPE_WEBHOOK_SECRET`: Not required unless you need to make a purchase. This
-  value can be acquired by running `pnpm dev:stripe` and observing it there. The
-  value is stable for your local `stripe` cli installation.
+* `SKILL_SECRET`: Required for interaction with any access-protected API
+  skill-api endpoint, such as `webhook/stripe-internal` used for any Stripe
+  interaction like making purchases. Add to `.env.local` using whatever secret
+  value (recommended: generate a value with this command `echo "sks_$(uuidgen |
+  tr '[:upper:]' '[:lower:]')"`). See _Stripe_ section for the rest of the
+  setup instructions.
 
 👋 `.env` is **required by Prisma** and **only** contains `DATABASE_URL`. The
 full contents
@@ -190,38 +193,20 @@ located in 1password or via Postmark and can be added to `.env.local`.
 
 ### Stripe CLI
 
-#### Installation
+This app works in coordination with `epic-web`'s stripe webhook handling API.
+In order to go through a full purchase flow, process refunds, etc., the
+`epic-web` app will also need to be running (`cd ../epic-web; pnpm dev`). The
+`epic-web` `pnpm dev` command will run both the Next.js dev server (running its
+API) and a local Stripe webhook listener. Any Testing JavaScript Stripe events
+will hit the `epic-web` webhook endpoint and will be forwarded to
+`testing-javascript`'s `api/skill/webhook/stripe-internal` endpoint.
 
-You'll need to install the [Stripe CLI](https://stripe.com/docs/stripe-cli) to
-capture web hooks locally and make test purchases.
+Prerequisites:
 
-#### Login
-
-If you've just installed the Stripe CLI (or just been granted access to this
-Stripe account), you'll need to login via the commandline. Run `stripe login`
-and follow the prompts to connect your `stripe` CLI to the Testing JavaScript
-Stripe account. To confirm your connection, you should see a _Restricted Keys_
-entry for your machine in the _Developers_ > _API Keys_ section of the Stripe
-Dashboard.
-
-#### Listening to Webhook Events
-
-Listen to webhook:
-
-```shell
-pnpm dev:stripe
-```
-
-The `dev:stripe` node script is a shorthand
-for `stripe listen --forward-to localhost:3018/api/skill/webhook/stripe`.
-
-`pnpm dev:stripe` starts listening for Stripe Webhook events. When it first
-starts, it will output a _webhook signing secret_ (`whsec_....`). You'll need to
-copy and paste this value into `.env.local` as the `STRIPE_WEBHOOK_SECRET`. It
-is required to make test purchases
-
-👋 If you aren't listening to webhooks you can still make a purchase but your
-local environment will not be notified!
+- Have `epic-web` fully setup and running locally
+- Set the `SKILL_SECRET` value for this app in `.env.local`
+- Use that same `SKILL_SECRET` value in `epic-web`'s `.env.development.local`
+  with the key `TJS_SKILL_SECRET`
 
 ### Connect to the Planetscale database
 
