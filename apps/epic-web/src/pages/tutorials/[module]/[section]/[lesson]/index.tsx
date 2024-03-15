@@ -32,7 +32,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     typeof lesson.body === 'string' &&
     (await serializeMDX(lesson.body, {
       syntaxHighlighterOptions: {
-        // theme: 'material-theme-palenight',
+        theme: 'material-palenight',
         showCopyButton: true,
       },
     }))
@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     typeof lesson.body === 'string' &&
     (await serializeMDX(lesson.body.substring(0, 300), {
       syntaxHighlighterOptions: {
-        // theme: 'material-theme-palenight',
+        theme: 'material-palenight',
       },
     }))
 
