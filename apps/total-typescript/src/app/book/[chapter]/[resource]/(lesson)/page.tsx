@@ -23,7 +23,7 @@ export async function generateMetadata(
   {params, searchParams}: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const resource = await getChapterResource(params.resource)
+  const resource = await getChapterResource(params.resource, false)
 
   if (!resource) {
     return parent as Metadata
@@ -72,19 +72,21 @@ const ChapterResourceRoute: React.FC<Props> = async ({
           {title}
         </h1>
         <div className="prose prose-light max-w-none sm:prose-lg lg:prose-xl prose-p:font-normal">
-          {isAdmin && video && (
-            <div
-              className={cn('mb-5', {
-                'sm:float-left sm:mr-10 sm:w-1/2': mode === 'book',
-              })}
-            >
-              <VideoPlayer
-                className="rounded"
-                videoResourceLoader={getVideoResource(video.videoResourceId)}
-                title={title}
-              />
-            </div>
-          )}
+          <React.Suspense fallback="Loading...">
+            {isAdmin && video && (
+              <div
+                className={cn('mb-5', {
+                  'sm:float-left sm:mr-10 sm:w-1/2': mode === 'book',
+                })}
+              >
+                <VideoPlayer
+                  className="rounded"
+                  videoResourceLoader={getVideoResource(video.videoResourceId)}
+                  title={title}
+                />
+              </div>
+            )}
+          </React.Suspense>
           <React.Suspense
             fallback={<Skeleton className="h-48 w-full rounded bg-gray-100" />}
           >

@@ -31,6 +31,7 @@ import ModeToggle from '../../../_components/mode-toggle'
 import {getServerAuthSession} from '@/server/auth'
 import {ChaptersList} from '../../../_components/chapters-list'
 import {NextResource} from '../../../_components/next-resource'
+import {Skeleton} from '@skillrecordings/ui/primitives/skeleton'
 
 export const metadata = {
   name: 'Chapter',
@@ -45,14 +46,6 @@ type BookResourceLayoutProps = {
 const BookResourceLayout: React.FC<
   React.PropsWithChildren<BookResourceLayoutProps>
 > = async ({children, isSolution, params}) => {
-  const chapter = await getChapter(params.chapter)
-  const withBody = false
-  const resource = await getChapterResource(params.resource as string, withBody)
-
-  if (!chapter || !resource) {
-    notFound()
-  }
-
   const session = await getServerAuthSession()
   const isAdmin = session?.user.role === 'ADMIN' // TODO: use proper can can check
   const {mode} = getBookMode()
@@ -91,10 +84,14 @@ const BookResourceLayout: React.FC<
               </MenubarMenu>
             </Menubar>
             <div className="overflow-x-auto px-5 text-xs sm:text-base">
-              <div>
-                <span className="font-semibold">{chapter.title}</span> /{' '}
-                {resource && resource.title}
-              </div>
+              <React.Suspense
+                fallback={<Skeleton className="h-3 w-48 bg-gray-200" />}
+              >
+                <Title
+                  chapterSlug={params.chapter}
+                  resourceSlug={params.resource}
+                />
+              </React.Suspense>
             </div>
             <div className="ml-auto flex">
               <TooltipProvider delayDuration={0}>
@@ -211,10 +208,14 @@ const BookResourceLayout: React.FC<
               </MenubarMenu>
             </Menubar>
             <div className="overflow-x-auto px-5 text-xs sm:text-base">
-              <div>
-                <span className="font-semibold">{chapter.title}</span> /{' '}
-                {resource && resource.title}
-              </div>
+              <React.Suspense
+                fallback={<Skeleton className="h-3 w-full bg-gray-100" />}
+              >
+                <Title
+                  chapterSlug={params.chapter}
+                  resourceSlug={params.resource}
+                />
+              </React.Suspense>
             </div>
             <div className="ml-auto flex">
               <TooltipProvider delayDuration={0}>
@@ -310,4 +311,22 @@ export function getBookMode() {
   const prefs = bookPrefsCookie ? JSON.parse(bookPrefsCookie.value) : {}
   const mode: 'video' | 'book' = prefs.mode || 'book'
   return {mode}
+}
+
+const Title: React.FC<{chapterSlug: string; resourceSlug: string}> = async ({
+  chapterSlug,
+  resourceSlug,
+}) => {
+  const chapter = await getChapter(chapterSlug)
+  const withBody = false
+  const resource = await getChapterResource(resourceSlug, withBody)
+
+  if (!chapter || !resource) return null
+
+  return (
+    <div>
+      <span className="font-semibold">{chapter.title}</span> /{' '}
+      {resource && resource.title}
+    </div>
+  )
 }
