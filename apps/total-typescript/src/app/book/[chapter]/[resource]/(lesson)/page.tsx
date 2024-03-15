@@ -6,7 +6,7 @@ import {getServerAuthSession} from '@/server/auth'
 import {notFound} from 'next/navigation'
 import {type Metadata, type ResolvingMetadata} from 'next'
 import {getOgImage} from '@/utils/get-og-image'
-import {Challenge} from '../../_components/challenge'
+import {Challenge} from '../../../_components/challenge'
 import {getBookMode} from './layout'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {MDXRemote} from 'next-mdx-remote/rsc'
@@ -55,7 +55,7 @@ const ChapterResourceRoute: React.FC<Props> = async ({
     notFound()
   }
 
-  let {title, body, video, solution, code, slug} = resource
+  let {_id, title, body, video, solution, code, slug} = resource
 
   if (isSolution) {
     title = `Solution: ${title}`

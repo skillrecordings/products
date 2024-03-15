@@ -1,12 +1,6 @@
 import * as React from 'react'
-import {
-  getChapter,
-  getChapterPositions,
-  getChapterResource,
-  getChapterWithResources,
-} from '@/lib/chapters'
-import Link from 'next/link'
-import {notFound, usePathname} from 'next/navigation'
+import {getChapter, getChapterResource} from '@/lib/chapters'
+import {notFound} from 'next/navigation'
 import {ChapterResourceList} from '@/app/book/_components/chapter-resource-list'
 import {
   BookOpenIcon,
@@ -18,17 +12,14 @@ import {
 import {
   Menubar,
   MenubarContent,
-  MenubarItem,
   MenubarMenu,
   MenubarSeparator,
-  MenubarShortcut,
   MenubarSub,
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
 } from '@skillrecordings/ui/primitives/menubar'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import {Button} from '@skillrecordings/ui/primitives/button'
 import {
   Tooltip,
   TooltipContent,
@@ -36,26 +27,27 @@ import {
   TooltipTrigger,
 } from '@skillrecordings/ui/primitives/tooltip'
 import {cookies, headers} from 'next/headers'
-import ModeToggle from '../../_components/mode-toggle'
+import ModeToggle from '../../../_components/mode-toggle'
 import {getServerAuthSession} from '@/server/auth'
-import {ChaptersList} from '../../_components/chapters-list'
-import {NextResource} from '../../_components/next-resource'
+import {ChaptersList} from '../../../_components/chapters-list'
+import {NextResource} from '../../../_components/next-resource'
 
 export const metadata = {
   name: 'Chapter',
   description: 'Chapter',
 }
 
-type Props = {
-  params: {chapter: string; resource: string}
+export type BookResourceLayoutProps = {
+  params: {chapter: string; resource: string; solution?: string}
+  isSolution?: boolean
 }
 
-const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
-  children,
-  params,
-}) => {
+const BookResourceLayout: React.FC<
+  React.PropsWithChildren<BookResourceLayoutProps>
+> = async ({children, isSolution, params}) => {
   const chapter = await getChapter(params.chapter)
-  const resource = await getChapterResource(params.resource as string, false)
+  const withBody = false
+  const resource = await getChapterResource(params.resource as string, withBody)
 
   if (!chapter || !resource) {
     notFound()
@@ -141,6 +133,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                   <NextResource
                     currentChapterSlug={params.chapter}
                     currentResourceSlug={params.resource}
+                    isSolution={isSolution}
                   />
                 </React.Suspense>
               </TooltipProvider>
@@ -260,6 +253,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                   <NextResource
                     currentChapterSlug={params.chapter}
                     currentResourceSlug={params.resource}
+                    isSolution={isSolution}
                     withSolution
                   />
                 </React.Suspense>
@@ -307,7 +301,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
   return mode === 'book' ? <BookLayout /> : <VideoLayout />
 }
 
-export default ChapterLayout
+export default BookResourceLayout
 
 export function getBookMode() {
   const cookieStore = cookies()

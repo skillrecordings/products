@@ -301,7 +301,7 @@ export async function nextResourceUrlBuilder(
 ) {
   const {nextChapter, nextResource, currentChapter, currentResource} =
     await getChapterPositions(currentChapterSlug, currentResourceSlug)
-
+  console.log({isSolution})
   if (
     nextResource ||
     nextChapter ||

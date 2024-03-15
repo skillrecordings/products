@@ -1,4 +1,6 @@
 import {codeToHtml} from '@/utils/shiki'
+import type {MergeComponents} from '@mdx-js/react/lib'
+import type {MDXComponents} from 'mdx/types'
 
 export const mdxComponents = {
   pre: async (props: any) => {
@@ -12,4 +14,4 @@ export const mdxComponents = {
     })
     return <div dangerouslySetInnerHTML={{__html: html}} />
   },
-}
+} as MDXComponents | MergeComponents
