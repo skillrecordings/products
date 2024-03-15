@@ -37,7 +37,7 @@ export const metadata = {
   description: 'Chapter',
 }
 
-export type BookResourceLayoutProps = {
+type BookResourceLayoutProps = {
   params: {chapter: string; resource: string; solution?: string}
   isSolution?: boolean
 }

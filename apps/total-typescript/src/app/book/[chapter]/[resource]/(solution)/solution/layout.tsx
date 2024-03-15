@@ -1,9 +1,7 @@
 import type React from 'react'
-import BookResourceLayout, {
-  type BookResourceLayoutProps,
-} from '../../(lesson)/layout'
+import BookResourceLayout from '../../(lesson)/layout'
 
-const SolutionLayout: React.FC<BookResourceLayoutProps> = (props) => {
+const SolutionLayout: React.FC<any> = (props) => {
   return (
     <BookResourceLayout
       {...props}
