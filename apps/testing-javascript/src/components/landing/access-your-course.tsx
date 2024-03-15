@@ -151,7 +151,7 @@ const AccessYourCourse: React.FunctionComponent<{
             <Dialog.Content className="fixed left-1/2 top-1/2 z-40 w-full -translate-x-1/2 -translate-y-1/2 container max-w-6xl">
               <MuxPlayer
                 streamType="on-demand"
-                playbackId="lZ7JLEsycJZ1hi9D02NlGo701t2IILWuXssviaT9fy8u8"
+                playbackId="JQdURmWoO9fy9QTSY5KvGsD1K7XpPPMXZxyKWqIeqa8"
               />
               <Dialog.Close className="absolute right-7 -top-14 rounded-full px-3 py-1 space-x-2 flex items-center bg-gray-100 hover:bg-white duration-200">
                 <span>close</span>
