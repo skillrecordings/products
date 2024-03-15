@@ -174,7 +174,6 @@
     "sanity-plugin-markdown": "^4.1.0",
     "sanity-plugin-taxonomy-manager": "^2.1.0",
     "sharp": "^0.33.0",
-    "shiki": "0.14.5",
     "shortid": "^2.2.16",
     "styled-components": "^5.2",
     "superjson": "=1.11.0",
@@ -192,6 +191,7 @@
   },
   "devDependencies": {
     "@next/env": "^12.2.2",
+    "shiki": "1.1.7",
     "@portabletext/types": "^2.0.8",
     "@skillrecordings/scripts": "workspace:*",
     "@skillrecordings/tsconfig": "workspace:*",

@@ -88,7 +88,6 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                   <MenubarSub>
                     <MenubarSubTrigger className="px-2 py-1 font-medium">
                       Chapters
-                      {/* Chapter {currentChapterIndex}: {chapter.title} */}
                     </MenubarSubTrigger>
                     <MenubarSubContent>
                       <React.Suspense fallback={'Loading'}>
@@ -144,10 +143,6 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                     currentResourceSlug={params.resource}
                   />
                 </React.Suspense>
-                {/* <Tooltip>
-                  <TooltipTrigger asChild>
-                  </TooltipTrigger>
-                </Tooltip> */}
               </TooltipProvider>
             </div>
           </aside>

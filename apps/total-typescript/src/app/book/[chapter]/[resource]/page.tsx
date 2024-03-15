@@ -11,7 +11,7 @@ import {getBookMode} from './layout'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {MDXRemote} from 'next-mdx-remote/rsc'
 import {Skeleton} from '@skillrecordings/ui/primitives/skeleton'
-import {codeToHtml} from '@/utils/shiki'
+import {mdxComponents} from '@/app/_components/mdx'
 
 type Props = {
   params: {chapter: string; resource: string}
@@ -64,19 +64,6 @@ const ChapterResourceRoute: React.FC<Props> = async ({
   }
 
   const {mode} = getBookMode()
-
-  const mdxComponents = {
-    pre: async (props: any) => {
-      const children = props?.children.props.children
-      const language =
-        props?.children.props.className?.split('-')[1] || 'typescript'
-      const html = await codeToHtml({
-        code: children,
-        language,
-      })
-      return <div dangerouslySetInnerHTML={{__html: html}} />
-    },
-  }
 
   const BookLayout = () => {
     return (
