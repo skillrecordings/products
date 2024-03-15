@@ -297,11 +297,11 @@ export async function nextResourceUrlBuilder(
   currentResourceSlug: string,
   currentChapterSlug: string,
   withSolution?: boolean,
-  isSolution?: boolean, // TODO: check if we're currently on /solution route
+  isSolution?: boolean,
 ) {
   const {nextChapter, nextResource, currentChapter, currentResource} =
     await getChapterPositions(currentChapterSlug, currentResourceSlug)
-  console.log({isSolution})
+
   if (
     nextResource ||
     nextChapter ||

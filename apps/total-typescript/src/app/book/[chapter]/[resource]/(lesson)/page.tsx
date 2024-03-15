@@ -55,7 +55,7 @@ const ChapterResourceRoute: React.FC<Props> = async ({
     notFound()
   }
 
-  let {_id, title, body, video, solution, code, slug} = resource
+  let {title, body, video, solution, code} = resource
 
   if (isSolution) {
     title = `Solution: ${title}`
@@ -88,9 +88,7 @@ const ChapterResourceRoute: React.FC<Props> = async ({
           <React.Suspense
             fallback={<Skeleton className="h-48 w-full rounded bg-gray-100" />}
           >
-            {resource.body && (
-              <MDXRemote source={resource.body} components={mdxComponents} />
-            )}
+            {body && <MDXRemote source={body} components={mdxComponents} />}
           </React.Suspense>
           {isAdmin && chapter.github?.repo && code?.openFile && (
             <Challenge repo={chapter.github?.repo} file={code.openFile} />
@@ -157,9 +155,7 @@ const ChapterResourceRoute: React.FC<Props> = async ({
           <React.Suspense
             fallback={<Skeleton className="h-48 w-full rounded bg-gray-100" />}
           >
-            {resource.body && (
-              <MDXRemote source={resource.body} components={mdxComponents} />
-            )}
+            {body && <MDXRemote source={body} components={mdxComponents} />}
           </React.Suspense>
           {isAdmin && chapter.github?.repo && code?.openFile && (
             <Challenge repo={chapter.github?.repo} file={code.openFile} />

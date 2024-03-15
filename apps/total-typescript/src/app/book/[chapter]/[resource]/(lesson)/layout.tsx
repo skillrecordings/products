@@ -26,7 +26,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@skillrecordings/ui/primitives/tooltip'
-import {cookies, headers} from 'next/headers'
+import {cookies} from 'next/headers'
 import ModeToggle from '../../../_components/mode-toggle'
 import {getServerAuthSession} from '@/server/auth'
 import {ChaptersList} from '../../../_components/chapters-list'
