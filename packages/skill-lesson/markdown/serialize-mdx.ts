@@ -1,10 +1,8 @@
 import {remarkCodeHike} from '@code-hike/mdx'
 import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
-// import {SerializeOptions} from 'next-mdx-remote/dist/types'
 import {nodeTypes} from '@mdx-js/mdx'
 import {serialize} from 'next-mdx-remote/serialize'
 import rehypeRaw from 'rehype-raw'
-import defaultTheme from 'shiki/themes/github-dark.json'
 import {
   ShikiRemotePluginOptions,
   shikiRemotePlugin,
@@ -98,9 +96,7 @@ const serializeMDX = async (
           [
             remarkCodeHike,
             {
-              theme: theme
-                ? require(`shiki/themes/${theme}.json`)
-                : defaultTheme,
+              theme: theme || 'dark-plus',
               autoImport: false,
               lineNumbers,
               showCopyButton,
@@ -117,32 +113,25 @@ const serializeMDX = async (
 export default serializeMDX
 
 type ShikiTheme =
-  | 'css-variables'
   | 'dark-plus'
   | 'dracula-soft'
   | 'dracula'
-  | 'github-dark-dimmed'
   | 'github-dark'
+  | 'github-dark-dimmed'
   | 'github-light'
-  | 'hc_light'
   | 'light-plus'
-  | 'material-theme-darker'
-  | 'material-theme-lighter'
-  | 'material-theme-ocean'
-  | 'material-theme-palenight'
-  | 'material-theme'
+  | 'material-darker'
+  | 'material-default'
+  | 'material-lighter'
+  | 'material-ocean'
+  | 'material-palenight'
   | 'min-dark'
   | 'min-light'
   | 'monokai'
   | 'nord'
   | 'one-dark-pro'
   | 'poimandres'
-  | 'rose-pine-dawn'
-  | 'rose-pine-moon'
-  | 'rose-pine'
   | 'slack-dark'
   | 'slack-ochin'
   | 'solarized-dark'
   | 'solarized-light'
-  | 'vitesse-dark'
-  | 'vitesse-light'
