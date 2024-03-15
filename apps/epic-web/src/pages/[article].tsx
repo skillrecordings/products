@@ -18,7 +18,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const articleBodySerialized = await serializeMDX(article.body, {
     syntaxHighlighterOptions: {
-      theme: 'material-theme-palenight',
+      theme: 'material-palenight',
       showCopyButton: true,
     },
   })

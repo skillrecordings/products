@@ -53,7 +53,8 @@ let highlighter: Highlighter | undefined = undefined
 const prepHighlighter = async (theme: string | undefined) => {
   if (!highlighter) {
     highlighter = await getHighlighter({
-      theme: theme ? require(`shiki/themes/${theme}.json`) : defaultTheme,
+      themes: [theme ? theme : defaultTheme],
+      langs: ['typescript'],
     })
   }
 }
@@ -72,7 +73,8 @@ export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
         if (!node.meta?.includes('twoslash')) {
           await prepHighlighter(opts.theme)
           const html = highlighter!.codeToHtml(code, {
-            lang: node.lang ?? undefined,
+            lang: node.lang ?? 'typescript',
+            theme: opts.theme || defaultTheme,
           })
 
           node.type = 'html'

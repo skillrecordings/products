@@ -20,6 +20,7 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
 }) => {
   const [field] = useField({name: 'text'})
   const editor = useEditor({
+    // @ts-ignore
     extensions: [StarterKit, Highlight, Typography, Link],
     content: field.value,
     onUpdate: ({editor}) => {

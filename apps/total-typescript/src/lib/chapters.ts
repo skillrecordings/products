@@ -252,52 +252,11 @@ export async function getChapterPositions(
   }
 }
 
-export async function getResourcePositions(
-  resourceSlug: string,
-  chapter?: Chapter | null,
-) {
-  if (!chapter || !resourceSlug) return {}
-
-  let resources
-  if (chapter.resources) {
-    resources = chapter.resources
-  } else {
-    const chapterWithResources = await getChapterWithResources(
-      chapter.slug.current,
-    )
-    if (chapterWithResources && chapterWithResources.resources) {
-      resources = chapterWithResources.resources
-    }
-  }
-
-  const currentResourceIndex = findIndex(chapter.resources, {
-    slug: {current: resourceSlug},
-  })
-
-  if (!resources) return {}
-
-  const nextResource =
-    findIndex(resources, resources[currentResourceIndex + 1]) !== -1
-      ? resources[currentResourceIndex + 1]
-      : null
-
-  const prevResource =
-    findIndex(resources, resources[currentResourceIndex - 1]) !== -1
-      ? resources[currentResourceIndex - 1]
-      : null
-
-  return {
-    currentResourceIndex: currentResourceIndex + 1,
-    nextResource,
-    prevResource,
-  }
-}
-
 export async function nextResourceUrlBuilder(
   currentResourceSlug: string,
   currentChapterSlug: string,
   withSolution?: boolean,
-  isSolution?: boolean, // TODO: check if we're currently on /solution route
+  isSolution?: boolean,
 ) {
   const {nextChapter, nextResource, currentChapter, currentResource} =
     await getChapterPositions(currentChapterSlug, currentResourceSlug)

@@ -15,7 +15,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       talk.body &&
       (await serializeMDX(talk.body, {
         syntaxHighlighterOptions: {
-          theme: 'material-theme-palenight',
+          theme: 'material-palenight',
           showCopyButton: true,
         },
       }))

@@ -1,5 +1,5 @@
-import {getBookMode} from '../layout'
-import ChapterResourceRoute from '../page'
+import {getBookMode} from '../../(lesson)/layout'
+import ChapterResourceRoute from '../../(lesson)/page'
 
 const SolutionRoute = async (props: any) => {
   const {mode} = getBookMode()

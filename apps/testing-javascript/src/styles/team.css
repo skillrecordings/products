@@ -19,7 +19,7 @@
 /* Shared form component */
 
 [data-invite-team] {
-  @apply flex flex-col rounded-lg border border-gray-700/30 bg-gray-800 p-5 shadow-xl shadow-black/10;
+  @apply flex flex-col rounded-lg border border-gray-100 bg-transparent p-5 shadow-xl shadow-gray-400/5;
   [data-title] {
     @apply py-3;
     /* 3 seats left */
@@ -34,7 +34,7 @@
     }
   }
   [data-redeem] {
-    @apply mt-5 flex flex-col items-center gap-3 border-t border-gray-700/60 pt-5 sm:mt-8 sm:flex-row sm:justify-between;
+    @apply mt-5 flex flex-col items-center gap-3 border-t border-gray-100 pt-5 sm:mt-8 sm:flex-row sm:justify-between;
     [data-title] {
       /* Or get access yourself */
       @apply flex items-center gap-1 font-semibold;
@@ -62,7 +62,7 @@
 /* Self redeem button */
 
 [data-self-redeem-button] {
-  @apply rounded-md border border-cyan-500 px-4 py-2 font-medium text-cyan-400 transition hover:bg-cyan-600/20;
+  @apply flex shrink-0 items-center gap-1 rounded-md px-5 py-2 text-lg font-semibold text-white transition hover:bg-indigo-700 ml-3 bg-indigo-600;
 }
 [data-self-redeem-button][disabled] {
   @apply cursor-not-allowed opacity-30;

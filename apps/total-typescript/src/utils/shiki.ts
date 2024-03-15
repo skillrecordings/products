@@ -8,10 +8,22 @@ export const codeToHtml = async ({
   language: string
 }) => {
   const highlighter = await getHighlighter({
-    themes: ['github-dark'],
+    themes: ['dark-plus'],
+    langs: ['ts'],
   })
+
+  await highlighter.loadLanguage('typescript')
+  await highlighter.loadLanguage('javascript')
+  await highlighter.loadLanguage('tsx')
+  await highlighter.loadLanguage('jsx')
+  await highlighter.loadLanguage('json')
+  await highlighter.loadLanguage('bash')
+  await highlighter.loadLanguage('yaml')
+  await highlighter.loadLanguage('markdown')
+  await highlighter.loadLanguage('html')
 
   return highlighter.codeToHtml(code, {
     lang: language,
+    theme: 'dark-plus',
   })
 }
