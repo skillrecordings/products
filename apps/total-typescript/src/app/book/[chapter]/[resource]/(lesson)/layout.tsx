@@ -31,6 +31,7 @@ import ModeToggle from '../../../_components/mode-toggle'
 import {getServerAuthSession} from '@/server/auth'
 import {ChaptersList} from '../../../_components/chapters-list'
 import {NextResource} from '../../../_components/next-resource'
+import {toggleMode} from '@/app/book/_components/toggle-book-mode'
 
 export const metadata = {
   name: 'Chapter',
@@ -104,7 +105,7 @@ const BookResourceLayout: React.FC<
                       asChild
                       className="flex size-16 items-center justify-center border-l"
                     >
-                      <ModeToggle mode={mode}>
+                      <ModeToggle toggleMode={toggleMode} mode={mode}>
                         {mode === 'book' ? (
                           <PlayIcon className="w-5" />
                         ) : (
@@ -224,7 +225,7 @@ const BookResourceLayout: React.FC<
                       asChild
                       className="flex size-16 items-center justify-center border-l"
                     >
-                      <ModeToggle mode={mode}>
+                      <ModeToggle toggleMode={toggleMode} mode={mode}>
                         {mode === 'book' ? (
                           <PlayIcon className="w-5" />
                         ) : (
