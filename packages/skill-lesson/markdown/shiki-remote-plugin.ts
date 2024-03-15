@@ -53,7 +53,7 @@ let highlighter: Highlighter | undefined = undefined
 const prepHighlighter = async (theme: string | undefined) => {
   if (!highlighter) {
     highlighter = await getHighlighter({
-      themes: [theme ? require(`shiki/themes/${theme}.json`) : defaultTheme],
+      themes: [theme ? theme : defaultTheme],
       langs: ['typescript'],
     })
   }

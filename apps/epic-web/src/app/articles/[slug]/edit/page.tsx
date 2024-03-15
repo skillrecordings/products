@@ -22,7 +22,7 @@ export default async function ArticleEditPage({
 
   const articleBodySerialized = await serializeMDX(article.body, {
     syntaxHighlighterOptions: {
-      theme: 'material-theme-palenight',
+      // theme: 'material-theme-palenight',
       showCopyButton: true,
     },
   })
