@@ -35,9 +35,6 @@ export async function receiveInternalStripeWebhooks({
   params: SkillRecordingsHandlerParams
   paymentOptions: PaymentOptions | undefined
 }): Promise<OutgoingResponse> {
-  let event: any
-  let body: any
-
   try {
     const {
       req,
@@ -59,22 +56,13 @@ export async function receiveInternalStripeWebhooks({
       stripeCtx: {stripe: defaultStripe},
     }
 
-    body = req.body
-    event = req.body.event
+    const event = req.body.event
 
     return await processStripeWebhook(event, {
       nextAuthOptions,
       paymentOptions: _paymentOptions,
     })
   } catch (error: any) {
-    console.log(
-      `webhook/stripe-internal error: ${JSON.stringify({
-        message: error.message,
-        event: event,
-        body: body,
-      })}`,
-    )
-
     return {
       status: 500,
       body: {error: true, message: error.message},
