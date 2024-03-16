@@ -9,7 +9,10 @@ const VideoResourceSchema = z.object({
 
 export type VideoResource = z.infer<typeof VideoResourceSchema>
 
-export async function getVideoResource(videoResourceId: string) {
+export async function getVideoResource(videoResourceId?: string) {
+  if (!videoResourceId) {
+    return null
+  }
   const videoResource = await sanityQuery<VideoResource>(
     groq`*[_type == 'videoResource' && _id == "${videoResourceId}"][0]{
         _id,

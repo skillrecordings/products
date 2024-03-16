@@ -1,31 +1,41 @@
+'use server'
+
 import {sanityQuery} from '@/server/sanity.server'
-import {ChapterSchema, chapterResourceQuery} from './chapters'
-import z from 'zod'
+import {chapterResourceQuery} from './chapters'
 import groq from 'groq'
+import {
+  Book,
+  BookSchema,
+  ChapterListSchema,
+} from '@/app/book/_schema/book-schemas'
 
-export const BookSchema = z.object({
-  _id: z.string(),
-  _type: z.string(),
-  _updatedAt: z.string(),
-  moduleType: z.literal('book'),
-  title: z.string(),
-  slug: z.object({
-    current: z.string(),
-  }),
-  chapters: z.array(
-    ChapterSchema.extend({
-      firstResource: z.object({
-        _id: z.string(),
-        slug: z.object({
-          current: z.string(),
-        }),
-        title: z.string(),
-      }),
-    }),
-  ),
-})
+export async function getChapterList(slugOrId: string) {
+  const book = await sanityQuery<Book>(
+    groq`*[_type == 'module' && moduleType == 'book' && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
+      "chapters": resources[]->{
+           title,
+          slug,
+          'resources': resources[]->{
+            title,
+            slug,
+            'solution': resources[@._type == 'solution'][0]._key
+          }
+      }}`,
+    {tags: ['book', slugOrId]},
+  )
 
-export type Book = z.infer<typeof BookSchema>
+  console.log(JSON.stringify(book))
+
+  const parsed = ChapterListSchema.safeParse(book.chapters)
+
+  if (!parsed.success) {
+    console.error('Error parsing book', slugOrId)
+    console.error(parsed.error)
+    return null
+  } else {
+    return parsed.data
+  }
+}
 
 export async function getBook(slugOrId: string) {
   const book = await sanityQuery<Book>(

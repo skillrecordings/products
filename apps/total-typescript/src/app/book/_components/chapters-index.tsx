@@ -1,14 +1,13 @@
 import * as React from 'react'
-import {getBook} from '@/lib/book'
+import {getChapterList} from '@/lib/book'
 import Link from 'next/link'
-import {findIndex} from 'lodash'
 
 export const ChaptersIndex: React.FC = async () => {
-  const book = await getBook('total-typescript')
+  const chapters = await getChapterList('total-typescript')
 
-  return book?.chapters ? (
+  return chapters ? (
     <>
-      {book.chapters.map((chapter) => {
+      {chapters.map((chapter) => {
         return (
           <li key={chapter.slug.current}>
             <span className="text-lg font-semibold">{chapter.title}</span>
