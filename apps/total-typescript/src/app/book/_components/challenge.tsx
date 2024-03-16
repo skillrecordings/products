@@ -20,12 +20,14 @@ import {CogIcon, InformationCircleIcon} from '@heroicons/react/outline'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {usePathname} from 'next/navigation'
 
-export const Challenge: React.FC<{repo: string; file: string}> = ({
+export const Challenge: React.FC<{repo?: string | null; file?: string}> = ({
   repo,
   file,
 }) => {
   const startCommand = getStartCommand({_type: 'exercise'}, file)
   const [cookies, setCookie] = useCookies(['bookPrefs'])
+
+  if (!repo) return null
 
   const localProjectDir: string = cookies.bookPrefs?.localProjectDir || ''
   const ide: string = cookies.bookPrefs?.ide || 'vscode'

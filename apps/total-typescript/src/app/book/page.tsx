@@ -23,9 +23,7 @@ const BookRoute = async () => {
       <div className="flex flex-col gap-3">
         <strong>Chapters</strong>
         <ul className="flex list-decimal flex-col gap-2 text-left">
-          <Suspense fallback={'Loading...'}>
-            <ChaptersIndex />
-          </Suspense>
+          <ChaptersIndex />
         </ul>
       </div>
     </div>
