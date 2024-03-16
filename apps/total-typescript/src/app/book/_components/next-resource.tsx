@@ -13,13 +13,19 @@ export const NextResource: React.FC<
     currentResourceSlug: string
     currentChapterSlug: string
     withSolution?: boolean
+    isSolution?: boolean
   }>
-> = async ({currentResourceSlug, currentChapterSlug, withSolution}) => {
+> = async ({
+  currentResourceSlug,
+  currentChapterSlug,
+  withSolution = false,
+  isSolution = false,
+}) => {
   const {url, label} = await nextResourceUrlBuilder(
     currentResourceSlug,
     currentChapterSlug,
     withSolution,
-    // TODO: handle isSolution
+    isSolution, // TODO: handle isSolution
   )
 
   return url ? (

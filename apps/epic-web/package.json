@@ -40,7 +40,7 @@
     "@aws-sdk/client-s3": "^3.441.0",
     "@aws-sdk/s3-request-presigner": "^3.441.0",
     "@cloudinary/react": "^1.5.0",
-    "@code-hike/mdx": "^0.8.2",
+    "@code-hike/mdx": "^0.9.0",
     "@heroicons/react": "^1.0.6",
     "@hookform/resolvers": "^2.9.8",
     "@kentcdodds/md-temp": "^5.0.0",

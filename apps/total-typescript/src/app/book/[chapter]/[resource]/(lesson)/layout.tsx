@@ -1,12 +1,6 @@
 import * as React from 'react'
-import {
-  getChapter,
-  getChapterPositions,
-  getChapterResource,
-  getChapterWithResources,
-} from '@/lib/chapters'
-import Link from 'next/link'
-import {notFound, usePathname} from 'next/navigation'
+import {getChapter, getChapterResource} from '@/lib/chapters'
+import {notFound} from 'next/navigation'
 import {ChapterResourceList} from '@/app/book/_components/chapter-resource-list'
 import {
   BookOpenIcon,
@@ -18,49 +12,40 @@ import {
 import {
   Menubar,
   MenubarContent,
-  MenubarItem,
   MenubarMenu,
   MenubarSeparator,
-  MenubarShortcut,
   MenubarSub,
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
 } from '@skillrecordings/ui/primitives/menubar'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import {Button} from '@skillrecordings/ui/primitives/button'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@skillrecordings/ui/primitives/tooltip'
-import {cookies, headers} from 'next/headers'
-import ModeToggle from '../../_components/mode-toggle'
+import {cookies} from 'next/headers'
+import ModeToggle from '../../../_components/mode-toggle'
 import {getServerAuthSession} from '@/server/auth'
-import {ChaptersList} from '../../_components/chapters-list'
-import {NextResource} from '../../_components/next-resource'
+import {ChaptersList} from '../../../_components/chapters-list'
+import {NextResource} from '../../../_components/next-resource'
+import {Skeleton} from '@skillrecordings/ui/primitives/skeleton'
 
 export const metadata = {
   name: 'Chapter',
   description: 'Chapter',
 }
 
-type Props = {
-  params: {chapter: string; resource: string}
+type BookResourceLayoutProps = {
+  params: {chapter: string; resource: string; solution?: string}
+  isSolution?: boolean
 }
 
-const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
-  children,
-  params,
-}) => {
-  const chapter = await getChapter(params.chapter)
-  const resource = await getChapterResource(params.resource as string, false)
-
-  if (!chapter || !resource) {
-    notFound()
-  }
-
+const BookResourceLayout: React.FC<
+  React.PropsWithChildren<BookResourceLayoutProps>
+> = async ({children, isSolution, params}) => {
   const session = await getServerAuthSession()
   const isAdmin = session?.user.role === 'ADMIN' // TODO: use proper can can check
   const {mode} = getBookMode()
@@ -88,7 +73,6 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                   <MenubarSub>
                     <MenubarSubTrigger className="px-2 py-1 font-medium">
                       Chapters
-                      {/* Chapter {currentChapterIndex}: {chapter.title} */}
                     </MenubarSubTrigger>
                     <MenubarSubContent>
                       <React.Suspense fallback={'Loading'}>
@@ -100,10 +84,14 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
               </MenubarMenu>
             </Menubar>
             <div className="overflow-x-auto px-5 text-xs sm:text-base">
-              <div>
-                <span className="font-semibold">{chapter.title}</span> /{' '}
-                {resource && resource.title}
-              </div>
+              <React.Suspense
+                fallback={<Skeleton className="h-3 w-48 bg-gray-200" />}
+              >
+                <Title
+                  chapterSlug={params.chapter}
+                  resourceSlug={params.resource}
+                />
+              </React.Suspense>
             </div>
             <div className="ml-auto flex">
               <TooltipProvider delayDuration={0}>
@@ -113,7 +101,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                       asChild
                       className="flex size-16 items-center justify-center border-l"
                     >
-                      <ModeToggle mode={mode}>
+                      <ModeToggle>
                         {mode === 'book' ? (
                           <PlayIcon className="w-5" />
                         ) : (
@@ -142,12 +130,9 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                   <NextResource
                     currentChapterSlug={params.chapter}
                     currentResourceSlug={params.resource}
+                    isSolution={isSolution}
                   />
                 </React.Suspense>
-                {/* <Tooltip>
-                  <TooltipTrigger asChild>
-                  </TooltipTrigger>
-                </Tooltip> */}
               </TooltipProvider>
             </div>
           </aside>
@@ -223,10 +208,14 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
               </MenubarMenu>
             </Menubar>
             <div className="overflow-x-auto px-5 text-xs sm:text-base">
-              <div>
-                <span className="font-semibold">{chapter.title}</span> /{' '}
-                {resource && resource.title}
-              </div>
+              <React.Suspense
+                fallback={<Skeleton className="h-3 w-full bg-gray-100" />}
+              >
+                <Title
+                  chapterSlug={params.chapter}
+                  resourceSlug={params.resource}
+                />
+              </React.Suspense>
             </div>
             <div className="ml-auto flex">
               <TooltipProvider delayDuration={0}>
@@ -236,7 +225,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                       asChild
                       className="flex size-16 items-center justify-center border-l"
                     >
-                      <ModeToggle mode={mode}>
+                      <ModeToggle>
                         {mode === 'book' ? (
                           <PlayIcon className="w-5" />
                         ) : (
@@ -265,6 +254,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
                   <NextResource
                     currentChapterSlug={params.chapter}
                     currentResourceSlug={params.resource}
+                    isSolution={isSolution}
                     withSolution
                   />
                 </React.Suspense>
@@ -312,7 +302,7 @@ const ChapterLayout: React.FC<React.PropsWithChildren<Props>> = async ({
   return mode === 'book' ? <BookLayout /> : <VideoLayout />
 }
 
-export default ChapterLayout
+export default BookResourceLayout
 
 export function getBookMode() {
   const cookieStore = cookies()
@@ -321,4 +311,22 @@ export function getBookMode() {
   const prefs = bookPrefsCookie ? JSON.parse(bookPrefsCookie.value) : {}
   const mode: 'video' | 'book' = prefs.mode || 'book'
   return {mode}
+}
+
+const Title: React.FC<{chapterSlug: string; resourceSlug: string}> = async ({
+  chapterSlug,
+  resourceSlug,
+}) => {
+  const chapter = await getChapter(chapterSlug)
+  const withBody = false
+  const resource = await getChapterResource(resourceSlug, withBody)
+
+  if (!chapter || !resource) return null
+
+  return (
+    <div>
+      <span className="font-semibold">{chapter.title}</span> /{' '}
+      {resource && resource.title}
+    </div>
+  )
 }

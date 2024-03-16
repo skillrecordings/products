@@ -20,7 +20,7 @@
     "@aws-sdk/s3-request-presigner": "^3.441.0",
     "@axiomhq/axiom-node": "^0.10.0",
     "@casl/ability": "^6.3.2",
-    "@code-hike/mdx": "^0.8.2",
+    "@code-hike/mdx": "^0.9.0",
     "@heroicons/react": "^1.0.6",
     "@hookform/resolvers": "^2.9.8",
     "@mdx-js/mdx": "^2.3.0",
@@ -112,7 +112,7 @@
     "refractor": "^4.5.0",
     "rehype-raw": "^6.1.1",
     "rehype-slug": "^5.1.0",
-    "shiki": "^0.14.1",
+    "shiki": "1.1.7",
     "shortid": "^2.2.16",
     "speakingurl": "^14.0.1",
     "styled-jsx": "5.1.1",
@@ -127,6 +127,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@shikijs/rehype": "^1.1.7",
     "@types/nprogress": "^0.2.0",
     "@types/shortid": "^0.0.29",
     "@types/uuid": "^9.0.2"
