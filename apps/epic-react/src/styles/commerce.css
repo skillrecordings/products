@@ -1,7 +1,17 @@
 [data-pricing-product] {
-  /* [data-guarantee-image] {
-    @apply hidden;
-  } */
+  [data-title] {
+    @apply text-center text-2xl font-medium leading-8 text-er-gray-900;
+  }
+  @apply rounded-lg bg-background;
+  [data-pricing-product-header] {
+    @apply px-6 pb-6 pt-16;
+  }
+  [data-purchase-container] {
+    @apply px-6 pb-10;
+  }
+  [data-pricing-footer] {
+    @apply rounded-b-lg border-t-2 border-er-gray-100 px-5 pb-8 pt-5 sm:px-8 sm:py-7;
+  }
 }
 [data-price-container] {
   @apply flex justify-center px-3 leading-none tracking-tight text-er-gray-900 sm:text-6xl;
@@ -20,18 +30,12 @@
   }
 }
 [data-pricing-product='2'] {
-  @apply relative rounded-lg border-2 border-yellow-300;
+  @apply relative border-2 border-yellow-300;
   [data-pricing-product-image] {
     @apply absolute left-0 right-0 top-0 mx-auto h-[108px] w-[108px] -translate-y-1/2;
   }
   [data-pricing-product-header] {
-    @apply rounded-t-lg bg-background px-6 pb-6 pt-20;
-  }
-  [data-purchase-container] {
-    @apply rounded-t-lg bg-background px-6 pb-10;
-  }
-  [data-pricing-footer] {
-    @apply rounded-b-lg border-t-2 border-er-gray-100 bg-background px-5 pb-8 pt-5 sm:px-8 sm:py-7;
+    @apply pt-20;
   }
   [data-title] {
     @apply text-center text-2xl font-semibold leading-9 text-er-gray-900 sm:-mx-6 sm:text-4xl;
