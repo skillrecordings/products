@@ -75,8 +75,10 @@ type PricingProps = {
     formattedPrice: any,
     product: SanityProduct,
     status: QueryStatus,
+    ctaText?: string,
   ) => React.ReactNode
   options?: {
+    purchaseButtonCtaText?: string
     withImage?: boolean
     withGuaranteeBadge?: boolean
     isLiveEvent?: boolean
@@ -116,7 +118,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   canViewRegionRestriction = false,
   cancelUrl,
   id = 'main-pricing',
-  purchaseButtonRenderer = (formattedPrice, product, status) => {
+  purchaseButtonRenderer = (formattedPrice, product, status, ctaText) => {
     return (
       <button
         data-pricing-product-checkout-button=""
@@ -126,7 +128,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         <span>
           {formattedPrice?.upgradeFromPurchaseId
             ? `Upgrade Now`
-            : product?.action || `Buy Now`}
+            : product?.action || ctaText}
         </span>
       </button>
     )
@@ -146,6 +148,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     withGuaranteeBadge = true,
     isLiveEvent = false,
     teamQuantityLimit = 100,
+    purchaseButtonCtaText = 'Buy Now',
   } = options
   const {
     addPrice,
@@ -535,7 +538,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       </div>
                     )}
 
-                    {purchaseButtonRenderer(formattedPrice, product, status)}
+                    {purchaseButtonRenderer(
+                      formattedPrice,
+                      product,
+                      status,
+                      purchaseButtonCtaText,
+                    )}
                     {withGuaranteeBadge && (
                       <span data-guarantee="">30-Day Money-Back Guarantee</span>
                     )}
