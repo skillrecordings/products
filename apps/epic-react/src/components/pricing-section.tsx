@@ -102,9 +102,10 @@ const PricingSection: React.FC<{
                       index={0}
                       couponId={couponId}
                       allowPurchase={true}
+                      id="pricing-basic"
                       options={{
                         withGuaranteeBadge: false,
-                        purchaseButtonCtaText: 'Learn React',
+                        forIndividualsOnly: true,
                       }}
                       // allowPurchase={true}
                       // unavailable={productRank < highestPurchasedProductRank}
@@ -128,6 +129,7 @@ const PricingSection: React.FC<{
                       index={2}
                       couponId={couponId}
                       allowPurchase={true}
+                      id="pricing-pro"
                       options={{
                         withGuaranteeBadge: false,
                         purchaseButtonCtaText: 'Ship React Apps Like a Pro',
@@ -154,9 +156,10 @@ const PricingSection: React.FC<{
                       index={1}
                       couponId={couponId}
                       allowPurchase={true}
+                      id="pricing-standard"
                       options={{
                         withGuaranteeBadge: false,
-                        purchaseButtonCtaText: 'Learn React',
+                        forIndividualsOnly: true,
                       }}
                       // allowPurchase={true}
                       // unavailable={productRank < highestPurchasedProductRank}
