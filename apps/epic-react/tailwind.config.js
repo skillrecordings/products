@@ -59,6 +59,12 @@ module.exports = {
           800: '#173373',
           900: '#0F224D',
         },
+        yellow: {
+          300: '#faca15',
+          400: '#e3a008',
+          600: '#9f580a',
+          800: '#723b13',
+        },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
