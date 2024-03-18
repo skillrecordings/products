@@ -154,18 +154,6 @@ const Interviews: React.FunctionComponent<{
           })}
         </div>
       )}
-      {proTestingPurchased && (
-        <div className="mt-12 text-center">
-          <a
-            href={process.env.NEXT_PUBLIC_PRINTABLES_DOWNLOAD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-tt-medium text-2xl text-blue-600 hover:underline"
-          >
-            Download All Interviews
-          </a>
-        </div>
-      )}
     </section>
   )
 }
