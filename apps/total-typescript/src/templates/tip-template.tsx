@@ -177,7 +177,7 @@ const TipTemplate: React.FC<{
                       />
                     </>
                   )}
-                  {tip.transcript && (
+                  {tip.transcript && tip.body && (
                     <div className="w-full max-w-2xl pt-5">
                       <VideoTranscript transcript={tip.transcript} />
                     </div>
