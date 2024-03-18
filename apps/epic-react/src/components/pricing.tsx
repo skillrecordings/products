@@ -79,6 +79,7 @@ type PricingProps = {
   ) => React.ReactNode
   options?: {
     purchaseButtonCtaText?: string
+    forIndividualsOnly?: boolean
     withImage?: boolean
     withGuaranteeBadge?: boolean
     isLiveEvent?: boolean
@@ -134,6 +135,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     )
   },
   options = {
+    purchaseButtonCtaText: 'Learn React',
+    forIndividualsOnly: false,
     withImage: true,
     isPPPEnabled: true,
     withGuaranteeBadge: true,
@@ -143,12 +146,13 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   },
 }) => {
   const {
+    purchaseButtonCtaText = 'Learn React',
+    forIndividualsOnly = false,
     withImage = true,
     isPPPEnabled = true,
     withGuaranteeBadge = true,
     isLiveEvent = false,
     teamQuantityLimit = 100,
-    purchaseButtonCtaText = 'Buy Now',
   } = options
   const {
     addPrice,
@@ -443,44 +447,46 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 >
                   <fieldset>
                     <legend className="sr-only">{name}</legend>
-                    <div data-team-switch="">
-                      <label htmlFor="team-switch">
-                        Buying for myself or for my team
-                      </label>
-                      <button
-                        role="button"
-                        type="button"
-                        onClick={() => {
-                          setIsBuyingForTeam(false)
-                          setQuantity(1)
-                        }}
-                      >
-                        For Individuals
-                      </button>
-                      <Switch.Root
-                        aria-label={
-                          isBuyingForTeam ? 'For teams' : 'For individuals'
-                        }
-                        onCheckedChange={() => {
-                          setIsBuyingForTeam(!isBuyingForTeam)
-                          isBuyingForTeam ? setQuantity(1) : setQuantity(5)
-                        }}
-                        checked={isBuyingForTeam}
-                        id="team-switch"
-                      >
-                        <Switch.Thumb />
-                      </Switch.Root>
-                      <button
-                        role="button"
-                        type="button"
-                        onClick={() => {
-                          setIsBuyingForTeam(true)
-                          setQuantity(5)
-                        }}
-                      >
-                        For Teams
-                      </button>
-                    </div>
+                    {!forIndividualsOnly && (
+                      <div data-team-switch="">
+                        <label htmlFor="team-switch">
+                          Buying for myself or for my team
+                        </label>
+                        <button
+                          role="button"
+                          type="button"
+                          onClick={() => {
+                            setIsBuyingForTeam(false)
+                            setQuantity(1)
+                          }}
+                        >
+                          For Individuals
+                        </button>
+                        <Switch.Root
+                          aria-label={
+                            isBuyingForTeam ? 'For teams' : 'For individuals'
+                          }
+                          onCheckedChange={() => {
+                            setIsBuyingForTeam(!isBuyingForTeam)
+                            isBuyingForTeam ? setQuantity(1) : setQuantity(5)
+                          }}
+                          checked={isBuyingForTeam}
+                          id="team-switch"
+                        >
+                          <Switch.Thumb />
+                        </Switch.Root>
+                        <button
+                          role="button"
+                          type="button"
+                          onClick={() => {
+                            setIsBuyingForTeam(true)
+                            setQuantity(5)
+                          }}
+                        >
+                          For Teams
+                        </button>
+                      </div>
+                    )}
                     {isBuyingForTeam && (
                       <div data-quantity-input="">
                         <div>
