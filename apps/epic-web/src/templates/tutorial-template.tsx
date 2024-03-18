@@ -55,7 +55,7 @@ const TutorialTemplate: React.FC<{
       )}
       <Header tutorial={tutorial} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <div className="px-5">
+        <div className="w-full px-5">
           <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
             <MDX contents={tutorialBodySerialized} />
           </article>
@@ -63,7 +63,7 @@ const TutorialTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        <div className="w-full px-5 lg:max-w-xs lg:px-0">
+        <div className="w-full px-5 lg:max-w-sm xl:px-0">
           {tutorial && (
             <Collection.Root module={tutorial}>
               <div className="flex w-full items-center justify-between pb-3">
