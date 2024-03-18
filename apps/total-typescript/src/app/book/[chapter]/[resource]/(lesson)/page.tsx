@@ -9,11 +9,12 @@ import {getOgImage} from '@/utils/get-og-image'
 import {Challenge} from '../../../_components/challenge'
 import {getBookMode} from './layout'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import {MDXRemote} from 'next-mdx-remote/rsc'
 import {Skeleton} from '@skillrecordings/ui/primitives/skeleton'
-import {mdxComponents} from '@/app/_components/mdx'
 import {Suspense} from 'react'
 import Link from 'next/link'
+import {type MDXRemoteSerializeResult} from 'next-mdx-remote/rsc'
+import {mdxComponents} from '@/app/_components/mdx'
+import {MDXBody} from '@/app/book/_components/mdx-body'
 
 type Props = {
   params: {chapter: string; resource: string}
@@ -54,11 +55,12 @@ const ChapterResourceRoute: React.FC<Props> = async ({
     notFound()
   }
 
-  let {title, body, video, solution, code} = resource
+  let {title, body, video, solution, mdx} = resource
 
   if (isSolution) {
     title = `Solution: ${title}`
     body = solution?.body
+    mdx = solution?.mdx
     video = {videoResourceId: solution?.videoResourceId} as any
   }
 
@@ -67,6 +69,7 @@ const ChapterResourceRoute: React.FC<Props> = async ({
   return mode === 'book' ? (
     <BookLayout
       title={title}
+      mdx={mdx}
       chapter={chapter}
       mode={mode}
       video={video}
@@ -74,7 +77,13 @@ const ChapterResourceRoute: React.FC<Props> = async ({
       solution={solution}
     />
   ) : (
-    <VideoLayout title={title} chapter={chapter} video={video} body={body} />
+    <VideoLayout
+      title={title}
+      chapter={chapter}
+      video={video}
+      body={body}
+      mdx={mdx}
+    />
   )
 }
 
@@ -86,6 +95,7 @@ const BookLayout = async ({
   chapter,
   code,
   solution,
+  mdx,
 }: {
   title: string
   mode: string
@@ -93,7 +103,12 @@ const BookLayout = async ({
   body?: string | null
   chapter: {github?: {repo?: string | null} | null | undefined}
   code?: {openFile: string}
-  solution?: {videoResourceId: string; body?: string | null} | null
+  solution?: {
+    videoResourceId: string
+    body?: string | null
+    mdx?: MDXRemoteSerializeResult
+  } | null
+  mdx?: MDXRemoteSerializeResult
 }) => {
   return (
     <section>
@@ -114,10 +129,11 @@ const BookLayout = async ({
             />
           </div>
         )}
-
-        {body && <MDXRemote source={body} components={mdxComponents} />}
+        <MDXBody mdx={mdx} />
+        {/* {mdx && <MDXRemote {...mdx} />} */}
+        {/* {body && <MDXRemote source={body} components={mdxComponents} />} */}
         <AuthedChallenge repo={chapter.github?.repo} file={code?.openFile} />
-
+        {/* {JSON.stringify(mdx)} */}
         {solution && (
           <>
             <div className="mt-16 border-t">
@@ -133,9 +149,10 @@ const BookLayout = async ({
                 />
               </div>
             )}
-            {solution.body && (
+            {solution.mdx && <MDXBody mdx={solution.mdx} />}
+            {/* {solution.body && (
               <MDXRemote source={solution.body} components={mdxComponents} />
-            )}
+            )} */}
           </>
         )}
       </div>
@@ -149,10 +166,12 @@ const VideoLayout = async ({
   body,
   chapter,
   code,
+  mdx,
 }: {
   title: string
   video?: {videoResourceId: string} | null
   body?: string | null
+  mdx?: MDXRemoteSerializeResult
   chapter: {github?: {repo?: string | null} | null | undefined}
   code?: {openFile: string}
 }) => {
@@ -178,7 +197,8 @@ const VideoLayout = async ({
             {title}
           </h1>
         </div>
-        {body && <MDXRemote source={body} components={mdxComponents} />}
+        {mdx && <MDXBody mdx={mdx} />}
+        {/* {body && <MDXRemote source={body} components={mdxComponents} />} */}
         <AuthedChallenge repo={chapter.github?.repo} file={code?.openFile} />
       </div>
     </section>
