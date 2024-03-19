@@ -181,9 +181,9 @@ const Icons = {
 type IconNames = keyof typeof Icons
 
 const Icon: React.FC<IconProperties> = ({
-  viewBox,
+  viewBox = '0 0 16 16',
   title,
-  size,
+  size = '16',
   name,
   ...props
 }) => (
@@ -192,6 +192,7 @@ const Icon: React.FC<IconProperties> = ({
     height={size}
     viewBox={viewBox}
     aria-hidden={!title}
+    role="img"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
@@ -199,11 +200,5 @@ const Icon: React.FC<IconProperties> = ({
     {Icons[name]()}
   </svg>
 )
-
-Icon.defaultProps = {
-  viewBox: '0 0 16 16',
-  size: '16',
-  role: 'img',
-}
 
 export {Icon, type IconNames}
