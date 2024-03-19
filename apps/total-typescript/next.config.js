@@ -37,7 +37,7 @@ const nextConfig = {
   transpilePackages: ['@skillrecordings/skill-lesson', '@skillrecordings/ui'],
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   eslint: {ignoreDuringBuilds: true},
-  experimental: {scrollRestoration: true, mdxRs: true},
+  experimental: {scrollRestoration: true, mdxRs: true, ppr: true},
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
   staticPageGenerationTimeout: 180,

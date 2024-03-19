@@ -1,14 +1,18 @@
+'use client'
+
 import * as React from 'react'
 import {getBook} from '@/lib/book'
 import {MenubarItem} from '@skillrecordings/ui/primitives/menubar'
 import Link from 'next/link'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {findIndex} from 'lodash'
+import type {Book, ChapterList} from '../_schema/book-schemas'
 
-export const ChaptersList: React.FC<{currentChapterSlug: string}> = async ({
-  currentChapterSlug,
-}) => {
-  const book = await getBook('total-typescript')
+export const ChaptersList: React.FC<{
+  bookLoader: Promise<Book | null>
+  currentChapterSlug?: string
+}> = ({bookLoader, currentChapterSlug}) => {
+  const book = React.use(bookLoader)
   const currentChapterIndex = findIndex(book?.chapters, (chapter) => {
     return chapter.slug.current === currentChapterSlug
   })

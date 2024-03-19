@@ -1,11 +1,13 @@
+'use client'
+
 import * as React from 'react'
-import {getChapterWithResources} from '@/lib/chapters'
+import {type Chapter} from '@/lib/chapters'
 import {ChapterResourceListItem} from './chapter-resource-list-item'
 
 export const ChapterResourceList: React.FC<{
-  currentChapterSlug: string
-}> = async ({currentChapterSlug}) => {
-  const chapter = await getChapterWithResources(currentChapterSlug)
+  chapterWithResourcesLoader: Promise<Chapter | null>
+}> = ({chapterWithResourcesLoader}) => {
+  const chapter = React.use(chapterWithResourcesLoader)
 
   if (!chapter?.resources) return null
 

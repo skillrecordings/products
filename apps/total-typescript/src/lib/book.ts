@@ -24,8 +24,6 @@ export async function getChapterList(slugOrId: string) {
     {tags: ['book', slugOrId]},
   )
 
-  console.log(JSON.stringify(book))
-
   const parsed = ChapterListSchema.safeParse(book.chapters)
 
   if (!parsed.success) {

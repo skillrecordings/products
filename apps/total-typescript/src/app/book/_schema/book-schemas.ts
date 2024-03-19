@@ -44,3 +44,5 @@ export const ChapterListSchema = z.array(
       .nullable(),
   }),
 )
+
+export type ChapterList = z.infer<typeof ChapterListSchema>

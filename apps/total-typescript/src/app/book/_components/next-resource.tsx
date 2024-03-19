@@ -1,44 +1,32 @@
-import React from 'react'
-import {nextResourceUrlBuilder} from '@/lib/chapters'
-import Link, {type LinkProps} from 'next/link'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@skillrecordings/ui/primitives/tooltip'
-import {ChevronRightIcon} from '@heroicons/react/outline'
+'use client'
 
-export const NextResource: React.FC<
+import React, {use} from 'react'
+import Link from 'next/link'
+import {cn} from '@skillrecordings/ui/utils/cn'
+
+type Props = {
+  nextResourceLoader: Promise<{url: string | null; label: string | null}>
+}
+
+export const NextResourceLink: React.FC<
   React.PropsWithChildren<{
-    currentResourceSlug: string
-    currentChapterSlug: string
-    withSolution?: boolean
-    isSolution?: boolean
+    nextResourceLoader: Promise<any>
+    className?: string
   }>
-> = async ({
-  currentResourceSlug,
-  currentChapterSlug,
-  withSolution = false,
-  isSolution = false,
-}) => {
-  const {url, label} = await nextResourceUrlBuilder(
-    currentResourceSlug,
-    currentChapterSlug,
-    withSolution,
-    isSolution, // TODO: handle isSolution
-  )
+> = ({nextResourceLoader, className, children}) => {
+  const {url} = use(nextResourceLoader)
 
   return url ? (
-    <Tooltip>
-      <TooltipTrigger>
-        <Link
-          href={url}
-          className="flex size-16 items-center justify-center border-l"
-        >
-          <ChevronRightIcon className="w-5" />
-        </Link>
-      </TooltipTrigger>
-      <TooltipContent>{label}</TooltipContent>
-    </Tooltip>
+    <Link href={url} className={cn(className)}>
+      {children}
+    </Link>
   ) : null
+}
+
+export const NextResourceTitle: React.FC<Omit<Props, 'className'>> = ({
+  nextResourceLoader,
+}) => {
+  const {label} = use(nextResourceLoader)
+
+  return label ? <>{label}</> : null
 }

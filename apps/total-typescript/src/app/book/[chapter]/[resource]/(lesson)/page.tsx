@@ -1,6 +1,11 @@
 import * as React from 'react'
 import VideoPlayer from '@/app/_components/video-player'
-import {getChapter, getChapterResource} from '@/lib/chapters'
+import {
+  getChapter,
+  getChapterResource,
+  type Chapter,
+  type ChapterResource,
+} from '@/lib/chapters'
 import {getVideoResource} from '@/lib/videos'
 import {getServerAuthSession} from '@/server/auth'
 import {notFound} from 'next/navigation'
@@ -160,16 +165,14 @@ const VideoLayout = async ({
     <section className="w-full">
       <div
         className={cn(
-          'relative flex h-full max-h-[calc(100vh-64px)] w-full items-center justify-center bg-black',
+          'relative flex h-full w-full items-center justify-center bg-black',
         )}
       >
         {video && (
-          <div className="aspect-video h-full w-full">
-            <AuthedVideoPlayer
-              videoResourceId={video?.videoResourceId}
-              title={title}
-            />
-          </div>
+          <AuthedVideoPlayer
+            videoResourceId={video?.videoResourceId}
+            title={title}
+          />
         )}
       </div>
       <div className="prose prose-light mx-auto w-full max-w-4xl px-5 py-10 sm:prose-lg lg:prose-xl prose-p:font-normal">
