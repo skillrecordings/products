@@ -26,7 +26,6 @@ const IMAGE_HOST_DOMAINS = [
   `cdn.sanity.io`,
   `epicweb.dev`,
   `image.mux.com`,
-  'localhost',
   'sessionize.com',
   process.env.NEXT_PUBLIC_HOST,
 ]
@@ -38,7 +37,16 @@ const nextConfig = {
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
   images: {
-    domains: IMAGE_HOST_DOMAINS,
+    remotePatterns: [
+      ...IMAGE_HOST_DOMAINS.map((domain) => ({
+        protocol: 'https',
+        hostname: domain,
+      })),
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+    ],
   },
   async redirects() {
     return [
