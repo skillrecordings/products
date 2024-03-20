@@ -10,6 +10,12 @@ const PRODUCT_BASIC_ID = 'kcd_910c9191-5a69-4019-ad1d-c55bea7e9714'
 const PRODUCT_STANDARD_ID = 'kcd_8acc60f1-8c3f-4093-b20d-f60fc6e0cf61'
 const PRODUCT_PRO_ID = 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38'
 
+const productsSortOrder: {[key: string]: number} = {
+  [PRODUCT_BASIC_ID]: 1,
+  [PRODUCT_PRO_ID]: 2,
+  [PRODUCT_STANDARD_ID]: 3,
+}
+
 const removeModuleBySlug = (
   products: any[],
   slugToRemove: string,
@@ -40,11 +46,6 @@ const PricingSection: React.FC<{
   },
   className,
 }) => {
-  const productsSortOrder: {[key: string]: number} = {
-    [PRODUCT_BASIC_ID]: 1,
-    [PRODUCT_PRO_ID]: 2,
-    [PRODUCT_STANDARD_ID]: 3,
-  }
   const sortedProducts = [...products].sort(
     (a, b) => productsSortOrder[a.productId] - productsSortOrder[b.productId],
   )
