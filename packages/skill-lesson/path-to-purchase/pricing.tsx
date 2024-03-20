@@ -598,7 +598,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             {product.description &&
               (isSellingLive || allowPurchase) &&
               !purchased && (
-                <div className="prose prose-sm mx-auto max-w-sm px-5 sm:prose-base prose-p:text-gray-200">
+                <div
+                  data-product-description=""
+                  className="prose prose-sm mx-auto max-w-sm px-5 sm:prose-base prose-p:text-gray-200"
+                >
                   <ReactMarkdown>{product.description}</ReactMarkdown>
                 </div>
               )}
