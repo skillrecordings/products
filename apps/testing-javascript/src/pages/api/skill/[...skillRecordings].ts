@@ -1,8 +1,10 @@
 import SkillRecordings, {
   type SkillRecordingsOptions,
+} from '@skillrecordings/skill-api'
+import {
   defaultPaymentOptions,
   StripeProvider,
-} from '@skillrecordings/skill-api'
+} from '@skillrecordings/commerce-server'
 import {nextAuthOptions} from '../auth/[...nextauth]'
 
 const paymentOptions = defaultPaymentOptions({
