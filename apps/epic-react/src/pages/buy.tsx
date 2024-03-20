@@ -1,31 +1,8 @@
 import * as React from 'react'
-import Balancer from 'react-wrap-balancer'
-
 import {GetServerSideProps} from 'next'
-import type {
-  CommerceProps,
-  SanityProduct,
-} from '@skillrecordings/commerce-server/dist/@types'
-import {
-  convertToSerializeForNextResponse,
-  propsForCommerce,
-} from '@skillrecordings/commerce-server'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
-import {
-  getActiveProducts,
-  getProductBySlug,
-} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
-import PurchasedProductTemplate from '@/templates/purchased-product-template'
-import {getSdk} from '@skillrecordings/database'
-import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
-import {getWorkshop} from '@/lib/workshops'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import ProductTemplate from '@/templates/product-template'
-import {getAvailableBonuses} from '@/lib/available-bonuses'
-
-import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
+import Balancer from 'react-wrap-balancer'
 
 import {getAllProducts} from '@/lib/products'
 import Layout from '@/components/app/layout'
