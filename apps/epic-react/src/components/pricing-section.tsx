@@ -1,10 +1,10 @@
 import * as React from 'react'
-import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
-import {PricingTiers} from '@skillrecordings/skill-lesson/path-to-purchase/product-tiers'
 import type {
+  CommerceProps,
   SanityProduct,
   SanityProductModule,
 } from '@skillrecordings/commerce-server/dist/@types'
+import {PricingTiers} from '@skillrecordings/skill-lesson/path-to-purchase/product-tiers'
 
 const PRODUCT_BASIC_ID = 'kcd_910c9191-5a69-4019-ad1d-c55bea7e9714'
 const PRODUCT_STANDARD_ID = 'kcd_8acc60f1-8c3f-4093-b20d-f60fc6e0cf61'
