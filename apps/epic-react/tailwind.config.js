@@ -37,6 +37,7 @@ module.exports = {
       },
       colors: {
         gray: colors.slate,
+        'cool-gray': 'var(--color-cool-gray)',
         'er-gray': {
           100: 'var(--color-gray-100)',
           200: 'var(--color-gray-200)',

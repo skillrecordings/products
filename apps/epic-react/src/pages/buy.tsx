@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const Buy: React.FC<any> = ({commerceProps}) => {
   return (
     <Layout meta={{title: 'Buy'}}>
-      <main className="bg-er-gray-100 pb-24 pt-[211px]">
+      <main className="bg-er-gray-100 pb-24 pt-20 sm:pt-28 md:pt-32 lg:pt-40 xl:pt-[211px]">
         <div className="space-y-5 text-center">
           <h1 className="pb-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
             <Balancer>Get Really Good At React</Balancer>

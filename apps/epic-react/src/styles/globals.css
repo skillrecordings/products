@@ -62,6 +62,7 @@
     --color-gray-800: #293448;
     --color-gray-900: #1a202c;
     --color-react: #1e75d9;
+    --color-cool-gray: #64748b;
   }
   .dark {
     --background: 219, 50%, 11%;
@@ -101,6 +102,7 @@
     --color-gray-800: #edf2f7;
     --color-gray-900: #f7fafc;
     --color-react: #9eddf8;
+    --color-cool-gray: #64748b;
   }
 }
 
