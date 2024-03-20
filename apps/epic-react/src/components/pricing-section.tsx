@@ -52,7 +52,6 @@ const PricingSection: React.FC<{
     sortedProducts,
     'welcome-to-epic-react',
   )
-  console.log({sortedProducts, filteredProducts})
   return (
     <div className="relative z-0">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
