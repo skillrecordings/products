@@ -42,7 +42,7 @@ import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import {Talk} from 'lib/talks'
 import Link from 'next/link'
-import ResourceAuthor from 'components/resource-author'
+import ResourceContributor from 'components/resource-contributor'
 import {ConfLogo} from 'pages/conf'
 import {ChevronLeftIcon} from '@heroicons/react/outline'
 
@@ -162,7 +162,7 @@ const TalkTemplate: React.FC<{
                     )}
                   </div>
                   {tipCompleted && <span className="sr-only">(watched)</span>}
-                  <ResourceAuthor
+                  <ResourceContributor
                     className="my-2 inline-flex text-base font-semibold text-gray-700 dark:text-gray-300 [&_img]:w-10 [&_span]:font-bold"
                     name={talk.author?.name}
                     slug={talk.author?.slug}

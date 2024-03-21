@@ -2,7 +2,7 @@ import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 
-export const AuthorSchema = z.object({
+export const ContributorSchema = z.object({
   _id: z.string(),
   _type: z.string(),
   _updatedAt: z.string(),
@@ -29,12 +29,12 @@ export const AuthorSchema = z.object({
     .nullable(),
 })
 
-export const AuthorsSchema = z.array(AuthorSchema)
+export const ContributorsSchema = z.array(ContributorSchema)
 
-export type Author = z.infer<typeof AuthorSchema>
+export type Contributor = z.infer<typeof ContributorSchema>
 
-export const getAllAuthors = async (): Promise<Author[]> => {
-  const authors =
+export const getAllContributors = async (): Promise<Contributor[]> => {
+  const contributors =
     await sanityClient.fetch(groq`*[_type == "author"] | order(_createdAt desc) {
         _id,
         _type,
@@ -53,11 +53,13 @@ export const getAllAuthors = async (): Promise<Author[]> => {
         "slug": slug.current,
   }`)
 
-  return AuthorsSchema.parse(authors)
+  return ContributorsSchema.parse(contributors)
 }
 
-export const getAuthor = async (slug: string): Promise<Author | null> => {
-  const author = await sanityClient.fetch(
+export const getContributor = async (
+  slug: string,
+): Promise<Contributor | null> => {
+  const contributor = await sanityClient.fetch(
     groq`*[_type == "author" && slug.current == $slug][0] {
         _id,
         _type,
@@ -78,7 +80,7 @@ export const getAuthor = async (slug: string): Promise<Author | null> => {
     {slug: `${slug}`},
   )
 
-  const result = AuthorSchema.safeParse(author)
+  const result = ContributorSchema.safeParse(contributor)
 
   if (result.success) {
     return result.data
@@ -92,7 +94,7 @@ export const getAuthor = async (slug: string): Promise<Author | null> => {
 // AUTHOR RESOURCES
 // ————————————————————————————————————————————————————————————————————————————————
 
-export const AuthorResourceSchema = z.object({
+export const ContributorResourceSchema = z.object({
   _id: z.string(),
   _type: z.string(),
   _updatedAt: z.string(),
@@ -105,13 +107,13 @@ export const AuthorResourceSchema = z.object({
   muxPlaybackId: z.string().optional().nullable(),
 })
 
-export const AuthorResourcesSchema = z.array(AuthorResourceSchema)
+export const ContributorResourcesSchema = z.array(ContributorResourceSchema)
 
-export type AuthorResource = z.infer<typeof AuthorResourceSchema>
+export type ContributorResource = z.infer<typeof ContributorResourceSchema>
 
-export const getAuthorResources = async (
+export const getContributorResources = async (
   id: string,
-): Promise<AuthorResource[] | null> => {
+): Promise<ContributorResource[] | null> => {
   const resources = await sanityClient.fetch(
     groq`*[author->_id == $id && _type in ["article", "tip", "module", "talk"] && state == 'published'] | order(_createdAt desc) {
             _id,
@@ -129,7 +131,7 @@ export const getAuthorResources = async (
     {id},
   )
 
-  const result = AuthorResourcesSchema.safeParse(resources)
+  const result = ContributorResourcesSchema.safeParse(resources)
 
   if (result.success) {
     return result.data
@@ -138,7 +140,9 @@ export const getAuthorResources = async (
   }
 }
 
-export const getKentsResources = async (): Promise<AuthorResource[] | null> => {
+export const getKentsResources = async (): Promise<
+  ContributorResource[] | null
+> => {
   const resources = await sanityClient.fetch(
     groq`*[author == null && _type in ["article", "tip", "module"] && state == 'published'] | order(_createdAt desc) {
             _id,
@@ -154,7 +158,7 @@ export const getKentsResources = async (): Promise<AuthorResource[] | null> => {
             "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
     }`,
   )
-  const result = AuthorResourcesSchema.safeParse(resources)
+  const result = ContributorResourcesSchema.safeParse(resources)
 
   if (result.success) {
     return result.data

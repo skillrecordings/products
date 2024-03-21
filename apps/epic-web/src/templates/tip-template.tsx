@@ -45,7 +45,7 @@ import {trpc} from 'trpc/trpc.client'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
-import ResourceAuthor from 'components/resource-author'
+import ResourceContributor from 'components/resource-contributor'
 import Link from 'next/link'
 
 const TipTemplate: React.FC<{
@@ -161,7 +161,7 @@ const TipTemplate: React.FC<{
                       </>
                     )}
                   </h1>
-                  <ResourceAuthor
+                  <ResourceContributor
                     name={tip?.author?.name}
                     slug={tip?.author?.slug}
                     image={tip?.author?.image}
@@ -181,7 +181,7 @@ const TipTemplate: React.FC<{
                   )}
                 </div>
                 <div className="col-span-3">
-                  <ResourceAuthor
+                  <ResourceContributor
                     name={tip?.author?.name}
                     slug={tip?.author?.slug}
                     image={tip?.author?.image}

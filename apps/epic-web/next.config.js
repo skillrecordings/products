@@ -55,6 +55,11 @@ const nextConfig = {
         destination: '/epic-stack',
         permanent: false,
       },
+      {
+        source: '/authors/:slug*',
+        destination: '/contributors/:slug*',
+        permanent: true,
+      },
     ]
   },
   sentry: {

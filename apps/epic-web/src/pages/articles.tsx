@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
 import readingTime from 'reading-time'
-import ResourceAuthor from 'components/resource-author'
+import ResourceContributor from 'components/resource-contributor'
 import {ConfBanner} from './events'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
@@ -82,7 +82,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                     </div>
                     <div className="relative z-10 flex w-full flex-col items-start justify-between space-y-10 pt-8 md:flex-row md:items-center md:space-y-0">
                       <div className="flex w-full items-center gap-10 text-sm text-gray-700 dark:text-gray-300">
-                        <ResourceAuthor
+                        <ResourceContributor
                           as="div"
                           name={author?.name}
                           slug={author?.slug}

@@ -8,7 +8,7 @@ import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-comple
 import Icon from 'components/icons'
 import Balancer from 'react-wrap-balancer'
 import {getAllConf24Talks, getAllTalks, Talk} from 'lib/talks'
-import ResourceAuthor from 'components/resource-author'
+import ResourceContributor from 'components/resource-contributor'
 import {ConfLogo, IS_PAST_CONF_24} from 'pages/conf'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
@@ -134,7 +134,7 @@ const TalkItem: React.FC<{
         </div>
         <div>
           <h3 className="text-xl font-semibold">{talk.title}</h3>
-          <ResourceAuthor
+          <ResourceContributor
             name={talk?.author?.name}
             slug={talk?.author?.slug}
             image={talk.author?.image}
