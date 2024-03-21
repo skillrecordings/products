@@ -116,21 +116,21 @@ export async function postSaleToSlack(
         channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
         text:
           process.env.NODE_ENV === 'production'
-            ? `Someone purchased ${purchaseInfo.stripeProduct.name}`
-            : `Someone purchased ${purchaseInfo.stripeProduct.name} in ${process.env.NODE_ENV}`,
+            ? `Someone purchased ${purchaseInfo.product.name}`
+            : `Someone purchased ${purchaseInfo.product.name} in ${process.env.NODE_ENV}`,
         attachments: [
           {
-            fallback: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
+            fallback: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.product.name}`,
             text: `Somebody (${purchaseInfo.email}) bought ${
               purchaseInfo.quantity
             } ${pluralize('copy', purchaseInfo.quantity)} of ${
-              purchaseInfo.stripeProduct.name
+              purchaseInfo.product.name
             } for ${`$${purchase.totalAmount}`}${
               isEmpty(purchase.upgradedFromId) ? '' : ' as an upgrade'
             }`,
             color:
               process.env.NODE_ENV === 'production' ? '#eba234' : '#5ceb34',
-            title: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.stripeProduct.name}`,
+            title: `Sold (${purchaseInfo.quantity}) ${purchaseInfo.product.name}`,
           },
         ],
       })

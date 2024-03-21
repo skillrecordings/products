@@ -7,6 +7,10 @@ import {
 } from '@skillrecordings/stripe-sdk'
 import {NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
 import {determinePurchaseType, PurchaseType} from './determine-purchase-type'
+import {
+  PaymentProvider,
+  PurchaseInfo,
+} from './providers/default-payment-options'
 
 export const NO_ASSOCIATED_PRODUCT = 'no-associated-product'
 export class PurchaseError extends Error {
@@ -68,24 +72,9 @@ export async function stripeData(options: StripeDataOptions) {
   }
 }
 
-export type PurchaseInfo = {
-  stripeCustomerId: string
-  email: string | null
-  name: string | null
-  stripeProductId: string
-  stripeChargeId: string
-  quantity: number
-  stripeChargeAmount: number
-  stripeProduct: Stripe.Product
-}
-
-type Options = {
-  stripeCtx?: StripeContext
-}
-
 export async function recordNewPurchase(
   checkoutSessionId: string,
-  options: Options,
+  options: {paymentProvider: PaymentProvider},
 ): Promise<{
   user: any
   purchase: Purchase
@@ -99,19 +88,19 @@ export async function recordNewPurchase(
     getMerchantProduct,
   } = getSdk()
 
-  const {stripeCtx} = options
-
-  const purchaseInfo = await stripeData({checkoutSessionId, stripeCtx})
+  const purchaseInfo = await options.paymentProvider.getPurchaseInfo(
+    checkoutSessionId,
+  )
 
   const {
-    stripeCustomerId,
+    customerIdentifier,
     email,
     name,
-    stripeProductId,
-    stripeChargeId,
-    stripeCouponId,
+    productIdentifier,
+    chargeIdentifier,
+    couponIdentifier,
     quantity,
-    stripeChargeAmount,
+    chargeAmount,
     metadata,
   } = purchaseInfo
 
@@ -119,32 +108,32 @@ export async function recordNewPurchase(
 
   const {user, isNewUser} = await findOrCreateUser(email, name)
 
-  const merchantProduct = await getMerchantProduct(stripeProductId)
+  const merchantProduct = await getMerchantProduct(productIdentifier)
 
   if (!merchantProduct)
     throw new PurchaseError(
       NO_ASSOCIATED_PRODUCT,
       checkoutSessionId,
       email,
-      stripeProductId,
+      productIdentifier,
     )
   const {id: merchantProductId, productId, merchantAccountId} = merchantProduct
 
   const {id: merchantCustomerId} = await findOrCreateMerchantCustomer({
     user: user,
-    identifier: stripeCustomerId,
+    identifier: customerIdentifier,
     merchantAccountId,
   })
 
   const purchase = await createMerchantChargeAndPurchase({
     userId: user.id,
-    stripeChargeId,
-    stripeCouponId,
+    stripeChargeId: chargeIdentifier,
+    stripeCouponId: couponIdentifier,
     merchantAccountId,
     merchantProductId,
     merchantCustomerId,
     productId,
-    stripeChargeAmount,
+    stripeChargeAmount: chargeAmount,
     quantity,
     bulk: metadata?.bulk === 'true',
     country: metadata?.country,
