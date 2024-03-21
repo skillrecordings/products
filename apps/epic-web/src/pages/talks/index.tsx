@@ -12,7 +12,7 @@ import {getAllTalks, Talk} from 'lib/talks'
 import ResourceAuthor from 'components/resource-author'
 
 export async function getStaticProps() {
-  const talks = await getAllTalks(false)
+  const talks = await getAllTalks()
   return {
     props: {talks},
     revalidate: 10,

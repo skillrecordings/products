@@ -80,9 +80,10 @@ export const EventsSchema = z.array(EventSchema)
 
 export type Event = z.infer<typeof EventSchema>
 
-export const getAllEvents = async (): Promise<Event[]> => {
-  const events =
-    await sanityClient.fetch(groq`*[_type == "event"] | order(_createdAt desc) {
+export const getAllEvents = async (onlyPublished = true): Promise<Event[]> => {
+  const events = await sanityClient.fetch(groq`*[_type == "event" ${
+    onlyPublished ? `&& state == "published"` : ''
+  }] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,
