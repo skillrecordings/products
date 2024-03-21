@@ -62,6 +62,7 @@ export default defineType({
       of: [
         {
           type: 'object',
+          title: 'Simple Event',
           fields: [
             defineField({
               name: 'title',
@@ -94,6 +95,10 @@ export default defineType({
               validation: (Rule) => Rule.required(),
             }),
           ],
+        },
+        {
+          type: 'reference',
+          to: {type: 'talk'},
         },
       ],
     }),

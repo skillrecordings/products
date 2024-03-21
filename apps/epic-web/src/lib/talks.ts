@@ -16,6 +16,15 @@ export const TalkSchema = z.object({
   muxPlaybackId: z.nullable(z.string()).optional(),
   videoPosterUrl: z.nullable(z.string()).optional(),
   state: z.enum(['new', 'processing', 'reviewing', 'published', 'retired']),
+  // event: z.any(),
+  event: z
+    .object({
+      title: z.string(),
+      slug: z.string(),
+      state: z.enum(['draft', 'published']),
+    })
+    .nullable()
+    .optional(),
   sandpack: z
     .array(
       z.object({
@@ -57,6 +66,11 @@ export const getAllTalks = async (onlyPublished = true): Promise<Talk[]> => {
         description,
         summary,
         body,
+        "event": *[_type == "event" && references(^._id)][0] {
+          title,
+          "slug": slug.current,
+          state,
+        },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
@@ -85,6 +99,11 @@ export const getTalk = async (slug: string): Promise<Talk> => {
         description,
         summary,
         body,
+        "event": *[_type == "event" && references(^._id)][0] {
+          title,
+          "slug": slug.current,
+          state,
+        },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "videoPosterUrl": resources[@->._type == 'videoResource'][0]->poster,
@@ -103,4 +122,36 @@ export const getTalk = async (slug: string): Promise<Talk> => {
   )
 
   return TalkSchema.parse(pickBy(talk))
+}
+
+export const getAllConf24Talks = async (count?: number): Promise<Talk[]> => {
+  const event =
+    await sanityClient.fetch(groq`*[_type == "event" && slug.current == "conf"][0] {
+      "talks": events[@->._type == 'talk'][${count ? `0...${count}` : ''}]->{
+        _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        title,
+        state,
+        description,
+        summary,
+        body,
+        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "slug": slug.current,
+        "transcript": resources[@->._type == 'videoResource'][0]->castingwords.transcript,
+        "tweetId":  resources[@._type == 'tweet'][0].tweetId,
+        author-> {
+          name,
+          "slug": slug.current,
+          "image": picture.asset->url,
+          "imageAlt": picture.alt
+        },
+      }
+  }`)
+  if (!event) {
+    return []
+  }
+  return TalksSchema.parse(event.talks)
 }

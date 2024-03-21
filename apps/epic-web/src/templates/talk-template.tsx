@@ -37,15 +37,14 @@ import {
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
-import {trpc} from 'trpc/trpc.client'
-import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
-import Spinner from 'components/spinner'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import {Talk} from 'lib/talks'
 import Link from 'next/link'
-import ResourceAuthor from 'components/resource-author'
+import ResourceContributor from 'components/resource-contributor'
+import {ConfLogo} from 'pages/conf'
+import {ChevronLeftIcon} from '@heroicons/react/outline'
 
 const TalkTemplate: React.FC<{
   talk: Talk
@@ -147,16 +146,23 @@ const TalkTemplate: React.FC<{
                   <Link
                     href="/talks"
                     passHref
-                    className="mb-3 block text-sm opacity-75 transition hover:opacity-100"
+                    className="mb-3 flex items-center gap-0.5 text-sm opacity-75 transition hover:opacity-100"
                   >
-                    ← All Talks
+                    <ChevronLeftIcon className="w-3" aria-hidden="true" /> All
+                    Talks
                   </Link>
-                  <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-3xl font-black lg:text-4xl">
-                    {talk.title}
-
-                    {tipCompleted && <span className="sr-only">(watched)</span>}
-                  </h1>
-                  <ResourceAuthor
+                  <div className="flex w-full items-center justify-between">
+                    <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-balance text-3xl font-black lg:text-4xl">
+                      {talk.title}
+                    </h1>
+                    {talk.event && talk.event.slug === 'conf' && (
+                      <Link href="/conf">
+                        <ConfLogo />
+                      </Link>
+                    )}
+                  </div>
+                  {tipCompleted && <span className="sr-only">(watched)</span>}
+                  <ResourceContributor
                     className="my-2 inline-flex text-base font-semibold text-gray-700 dark:text-gray-300 [&_img]:w-10 [&_span]:font-bold"
                     name={talk.author?.name}
                     slug={talk.author?.slug}
@@ -175,42 +181,27 @@ const TalkTemplate: React.FC<{
                         Watched
                       </span>
                     </div>
-                  ) : (
-                    <Hr
-                      className={
-                        tipCompleted
-                          ? 'bg-emerald-500 dark:bg-emerald-400'
-                          : 'bg-foreground/10'
-                      }
-                    />
-                  )}
+                  ) : null}
                   {talk.body && (
                     <>
-                      <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert lg:prose-lg">
+                      <div className="prose w-full max-w-none pb-5 dark:prose-invert lg:prose-lg">
                         <MDX contents={talkBodySerialized} />
                       </div>
                     </>
                   )}
                   {talk.transcript && (
-                    <div className="w-full pt-8">
-                      <VideoTranscript transcript={talk.transcript} />
+                    <div className="mt-16 w-full border-t pt-10">
+                      <h3 className="text-xl font-semibold">Transcript</h3>
+                      <VideoTranscript
+                        className="!pt-0"
+                        withTitle={false}
+                        transcript={talk.transcript}
+                      />
                     </div>
                   )}
                 </div>
-                {/* <div className="col-span-2"> */}
-                {/* TODO: might want to add summary? */}
-                {/* {talk.body && <RelatedTips currentTip={tip} tips={tips} />} */}
-                {/* </div> */}
               </div>
             </div>
-            {/* <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-10 sm:pt-10 md:flex-row">
-              {talk.transcript && !talk.body && (
-                <div className="w-full max-w-2xl pt-5">
-                  <VideoTranscript transcript={talk.transcript} />
-                </div>
-              )} */}
-            {/* {!tip.body && <RelatedTips currentTip={tip} tips={tips} />} */}
-            {/* </div> */}
           </article>
         </main>
       </Layout>
@@ -227,7 +218,7 @@ const Video: React.FC<any> = React.forwardRef(({talks}, ref: any) => {
       {displayOverlay && <TipOverlay talks={talks} />}
       <div
         className={cx(
-          'flex items-center justify-center  overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b-md',
+          'flex items-center justify-center overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b',
           {
             hidden: displayOverlay,
           },
@@ -407,7 +398,7 @@ const SubscribeForm = ({
   handleOnSuccess: (subscriber: any, email?: string) => void
 }) => {
   return (
-    <div className="mx-auto flex w-full max-w-lg flex-col items-center justify-between gap-5 border-b border-gray-200 px-3 pb-5 pt-4 dark:border-gray-700/80 md:pb-3 md:pt-3 lg:max-w-none lg:flex-row 2xl:px-0">
+    <div className="mx-auto mt-2 flex w-full max-w-lg flex-col items-center justify-between gap-5 rounded border bg-card px-3 pb-5 pt-4 md:pb-3 md:pt-3 lg:max-w-none lg:flex-row 2xl:px-0">
       <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
         <div
           aria-hidden="true"

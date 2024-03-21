@@ -2,10 +2,10 @@ import React from 'react'
 import KentImage from '../../public/kent-c-dodds.png'
 import Image from 'next/image'
 import {twMerge} from 'tailwind-merge'
-import {Author} from 'lib/authors'
+import {Contributor} from 'lib/contributors'
 import Link from 'next/link'
 
-const AuthorBio: React.FC<{
+const ContributorBio: React.FC<{
   bio?: string | React.ReactNode
   picture?: {url: string; alt: string} | null
   name?: string
@@ -81,7 +81,7 @@ const AuthorBio: React.FC<{
     >
       <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
         {picture?.url && (
-          <Link href={`/authors/${slug}`}>
+          <Link href={`/contributors/${slug}`}>
             <Image
               src={picture.url}
               width={200}
@@ -95,7 +95,7 @@ const AuthorBio: React.FC<{
 
       <div className="text-center md:text-left">
         <Link
-          href={`/authors/${slug}`}
+          href={`/contributors/${slug}`}
           className="inline-block pb-3 text-xl font-semibold hover:underline"
         >
           {title(name)}
@@ -108,4 +108,4 @@ const AuthorBio: React.FC<{
   )
 }
 
-export default AuthorBio
+export default ContributorBio

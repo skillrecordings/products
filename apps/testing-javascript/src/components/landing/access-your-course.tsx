@@ -92,7 +92,7 @@ const AccessYourCourse: React.FunctionComponent<{
                     rel="noopener noreferrer"
                     className="border-b-2  border-tjs-yellow hover:bg-tjs-yellow duration-200"
                   >
-                    <b>KCD discord server</b>
+                    <b>Epic Web discord server</b>
                   </a>
                   .{' '}
                   <a
