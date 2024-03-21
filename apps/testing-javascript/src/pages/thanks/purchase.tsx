@@ -5,7 +5,6 @@ import {
   convertToSerializeForNextResponse,
   determinePurchaseType,
   type PurchaseType,
-  stripeData,
 } from '@skillrecordings/commerce-server'
 import type {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {
@@ -23,32 +22,34 @@ import {getAllProducts} from '@/server/products.server'
 import {type SanityDocument} from '@sanity/client'
 import {InvoiceCard} from '@/pages/invoices'
 import {MailIcon} from '@heroicons/react/solid'
+import {paymentOptions} from '../api/skill/[...skillRecordings]'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context
 
-  const {session_id} = query
+  const session_id =
+    query.session_id instanceof Array ? query.session_id[0] : query.session_id
 
-  if (!session_id) {
+  const paymentProvider = paymentOptions.providers.stripe
+
+  if (!session_id || !paymentProvider) {
     return {
       notFound: true,
     }
   }
 
-  const purchaseInfo = await stripeData({
-    checkoutSessionId: session_id as string,
-  })
+  const purchaseInfo = await paymentProvider.getPurchaseInfo(session_id)
 
   const {
     email,
-    stripeChargeId,
+    chargeIdentifier,
     quantity: seatsPurchased,
-    stripeProduct,
+    product,
   } = purchaseInfo
 
-  const stripeProductName = stripeProduct.name
+  const stripeProductName = product.name
 
-  const purchase = await getSdk().getPurchaseForStripeCharge(stripeChargeId)
+  const purchase = await getSdk().getPurchaseForStripeCharge(chargeIdentifier)
 
   if (!purchase || !email) {
     return {
@@ -57,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const purchaseType = await determinePurchaseType({
-    checkoutSessionId: session_id as string,
+    checkoutSessionId: session_id,
   })
 
   const products = await getAllProducts()

@@ -7,7 +7,7 @@ import {
 } from '@skillrecordings/commerce-server'
 import {nextAuthOptions} from '../auth/[...nextauth]'
 
-const paymentOptions = defaultPaymentOptions({
+export const paymentOptions = defaultPaymentOptions({
   stripeProvider: StripeProvider({
     stripeSecretKey: process.env.STRIPE_SECRET_TOKEN,
     apiVersion: '2020-08-27',
