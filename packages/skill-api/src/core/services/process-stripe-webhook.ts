@@ -4,9 +4,12 @@ import {getSdk, prisma} from '@skillrecordings/database'
 import {
   recordNewPurchase,
   NO_ASSOCIATED_PRODUCT,
+  StripeProvider,
+  defaultPaymentOptions,
 } from '@skillrecordings/commerce-server'
 import {buffer} from 'micro'
-import {postSaleToSlack, sendServerEmail} from '../../server'
+import {postSaleToSlack, sendServerEmail} from '../../server' // TODO: add import path helper to tsconfig
+import type {PaymentOptions} from '@skillrecordings/commerce-server'
 import {convertkitTagPurchase} from './convertkit'
 import {Inngest} from 'inngest'
 import {
@@ -26,7 +29,19 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
 const METADATA_MISSING_SITE_NAME = 'metadata-missing-site-name'
 
-type PaymentOptions = {stripeCtx: {stripe: Stripe}}
+// type PaymentOptions = {stripeCtx: {stripe: Stripe}}
+
+const getStripeClient = (paymentOptions: PaymentOptions | undefined) => {
+  return paymentOptions?.providers.stripe?.paymentClient
+}
+
+const constructFallbackStripePaymentOptions = (
+  stripe: Stripe,
+): PaymentOptions => {
+  return defaultPaymentOptions({
+    stripeProvider: StripeProvider({defaultStripeClient: stripe}),
+  })
+}
 
 export async function receiveInternalStripeWebhooks({
   params,
@@ -52,9 +67,8 @@ export async function receiveInternalStripeWebhooks({
       }
     }
 
-    const _paymentOptions = paymentOptions || {
-      stripeCtx: {stripe: defaultStripe},
-    }
+    const _paymentOptions =
+      paymentOptions || constructFallbackStripePaymentOptions(defaultStripe)
 
     const event = req.body.event
 
@@ -132,10 +146,9 @@ export async function receiveStripeWebhooks({
       }
     }
 
-    const _paymentOptions = paymentOptions || {
-      stripeCtx: {stripe: defaultStripe},
-    }
-    const stripe = paymentOptions?.stripeCtx.stripe || defaultStripe
+    const _paymentOptions =
+      paymentOptions || constructFallbackStripePaymentOptions(defaultStripe)
+    const stripe = getStripeClient(paymentOptions) || defaultStripe
 
     if (!stripe) {
       throw new Error('Stripe client is missing')
@@ -232,6 +245,14 @@ export const processStripeWebhook = async (
 ) => {
   const {paymentOptions, nextAuthOptions} = options
 
+  const stripeProvider = paymentOptions.providers.stripe
+
+  if (!stripeProvider) {
+    throw new Error(
+      'Stripe Provider must be configured to process Stripe webhooks',
+    )
+  }
+
   const eventType: string = event.type
   const stripeIdentifier: string = event.data.object.id
   const eventObject = event.data.object
@@ -245,7 +266,7 @@ export const processStripeWebhook = async (
   if (eventType === 'checkout.session.completed') {
     const {user, purchase, purchaseInfo} = await recordNewPurchase(
       stripeIdentifier,
-      paymentOptions,
+      {paymentProvider: stripeProvider},
     )
 
     if (!user) throw new Error('no-user-created')

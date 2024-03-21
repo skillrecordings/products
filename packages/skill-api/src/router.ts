@@ -86,17 +86,20 @@ export async function actionRouter({
           case 'stripe':
             return await receiveStripeWebhooks({
               params,
-              paymentOptions,
+              paymentOptions: userOptions.paymentOptions,
             })
           case 'stripe-internal':
             return await receiveInternalStripeWebhooks({
               params,
-              paymentOptions,
+              paymentOptions: userOptions.paymentOptions,
             })
           case 'sanity':
             return await processSanityWebhooks({params})
         }
-        return await receiveStripeWebhooks({params, paymentOptions})
+        return await receiveStripeWebhooks({
+          params,
+          paymentOptions: userOptions.paymentOptions,
+        })
       case 'subscribe':
         return await subscribeToConvertkit({params})
       case 'answer':
@@ -108,9 +111,9 @@ export async function actionRouter({
       case 'nameUpdate':
         return await updateName({params})
       case 'transfer':
-        return await transferPurchase({params, paymentOptions})
+        return await transferPurchase({params, paymentOptions}) // update this to PaymentOptions
       case 'refund':
-        return await stripeRefund({params, paymentOptions})
+        return await stripeRefund({params, paymentOptions}) // update this to PaymentOptions
       case 'create-magic-link':
         return await createMagicLink({params})
     }
