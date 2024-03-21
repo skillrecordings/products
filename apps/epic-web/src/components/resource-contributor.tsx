@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const ResourceAuthor: React.FC<{
+const ResourceContributor: React.FC<{
   name?: string
   slug?: string
   image?: string
@@ -24,7 +24,7 @@ const ResourceAuthor: React.FC<{
 
   return (
     <Component
-      href={`/authors/${slug}`}
+      href={`/contributors/${slug}`}
       className={cn(
         'flex items-center justify-start gap-3 font-semibold text-gray-700  dark:text-gray-100',
         {
@@ -54,4 +54,4 @@ const ResourceAuthor: React.FC<{
   )
 }
 
-export default ResourceAuthor
+export default ResourceContributor

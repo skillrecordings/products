@@ -11,7 +11,7 @@ import Balancer from 'react-wrap-balancer'
 import {Card, CardContent, CardHeader} from '@skillrecordings/ui'
 import {CheckIcon} from '@heroicons/react/solid'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import ResourceAuthor from 'components/resource-author'
+import ResourceContributor from 'components/resource-contributor'
 import {ConfBanner} from 'pages/events'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
@@ -121,7 +121,7 @@ const TipCard: React.FC<{tip: Tip; i: number}> = ({tip, i}) => {
         <h2 className="text-base font-semibold leading-tight sm:text-lg">
           {title} {tipCompleted && <span className="sr-only">(watched)</span>}
         </h2>
-        <ResourceAuthor
+        <ResourceContributor
           name={tip?.author?.name}
           slug={tip?.author?.slug}
           image={tip?.author?.image}

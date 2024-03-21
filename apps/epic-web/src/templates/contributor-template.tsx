@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {Author, AuthorResource} from 'lib/authors'
+import {type Contributor, type ContributorResource} from 'lib/contributors'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import pluralize from 'pluralize'
@@ -8,26 +8,25 @@ import Link from 'next/link'
 import {getIcon} from 'pages/search'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {useTheme} from 'next-themes'
-import {Logo} from 'components/app/navigation'
-import {ShieldCheckIcon, SparklesIcon} from '@heroicons/react/solid'
+import {ShieldCheckIcon} from '@heroicons/react/solid'
 import {getOgImage} from 'utils/get-og-image'
 
-const AuthorTemplate: React.FC<{
-  author: Author
-  resources: AuthorResource[]
-}> = ({author, resources}) => {
+const ContributorTemplate: React.FC<{
+  contributor: Contributor
+  resources: ContributorResource[]
+}> = ({contributor, resources}) => {
   const {theme} = useTheme()
-  const isKent = author.slug === 'kent-c-dodds'
+  const isKent = contributor.slug === 'kent-c-dodds'
   const ogImage = getOgImage({
-    title: author.name,
-    image: author?.picture?.url,
-    path: '/author',
+    title: contributor.name,
+    image: contributor?.picture?.url,
+    path: '/contributor',
   })
   return (
     <Layout
       meta={{
-        title: `${author.name} is Author on EpicWeb.Dev`,
-        description: author.bio?.slice(0, 100),
+        title: `${contributor.name} is Instructor on EpicWeb.Dev`,
+        description: contributor.bio?.slice(0, 100),
         ogImage,
       }}
     >
@@ -35,12 +34,12 @@ const AuthorTemplate: React.FC<{
       <main className="relative mx-auto flex w-full max-w-screen-lg grid-cols-12 flex-col gap-5 pb-0 md:grid md:px-5 md:pb-16 lg:px-0">
         <aside className="relative col-span-3 -mt-5 px-5 md:px-0">
           <div className="sticky top-20 flex flex-col">
-            {author.picture?.url && (
+            {contributor.picture?.url && (
               <div className="relative h-40 w-40">
                 <Image
                   fill
-                  src={author.picture.url}
-                  alt={author.picture?.alt}
+                  src={contributor.picture.url}
+                  alt={contributor.picture?.alt}
                   className="rounded-full bg-foreground/5 object-cover"
                   priority
                 />
@@ -51,10 +50,10 @@ const AuthorTemplate: React.FC<{
                 ) : null}
               </div>
             )}
-            <h1 className="pt-3 text-xl font-bold">{author.name}</h1>
-            {author.bio && (
+            <h1 className="pt-3 text-xl font-bold">{contributor.name}</h1>
+            {contributor.bio && (
               <ReactMarkdown className="prose prose-sm w-full overflow-y-auto pt-2 dark:prose-invert prose-p:opacity-80">
-                {author.bio}
+                {contributor.bio}
               </ReactMarkdown>
             )}
             <hr className="mt-5 flex h-px w-full bg-border md:hidden" />
@@ -139,4 +138,4 @@ const AuthorTemplate: React.FC<{
   )
 }
 
-export default AuthorTemplate
+export default ContributorTemplate

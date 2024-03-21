@@ -1,7 +1,7 @@
 import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
-import {AuthorSchema} from './authors'
+import {ContributorSchema} from './contributors'
 // import * as Sentry from '@sentry/nextjs'
 
 export const ArticleSchema = z.object({
@@ -14,7 +14,7 @@ export const ArticleSchema = z.object({
   description: z.nullable(z.string()).optional(),
   body: z.string(),
   state: z.enum(['published', 'draft']),
-  author: AuthorSchema.optional().nullable(),
+  author: ContributorSchema.optional().nullable(),
   image: z
     .object({
       width: z.number(),
