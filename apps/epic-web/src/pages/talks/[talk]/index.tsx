@@ -1,7 +1,6 @@
 import React from 'react'
 import {GetStaticPaths, GetStaticProps, NextPage} from 'next'
 import {getAllTalks, getTalk, Talk} from 'lib/talks'
-import TipTemplate from 'templates/tip-template'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
@@ -11,15 +10,15 @@ import TalkTemplate from 'templates/talk-template'
 export const getStaticProps: GetStaticProps = async ({params}) => {
   try {
     const talk = await getTalk(params?.talk as string)
-    const talkBodySerialized =
-      talk.body &&
-      (await serializeMDX(talk.body, {
-        syntaxHighlighterOptions: {
-          theme: 'material-palenight',
-          showCopyButton: true,
-        },
-      }))
-    const talks = await getAllTalks(false)
+    const talkBodySerialized = talk.body
+      ? await serializeMDX(talk.body, {
+          syntaxHighlighterOptions: {
+            theme: 'material-palenight',
+            showCopyButton: true,
+          },
+        })
+      : null
+    const talks = await getAllTalks()
 
     return {
       props: {

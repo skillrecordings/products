@@ -1,6 +1,7 @@
 import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
+import {TalkSchema} from './talks'
 
 export const AuthorSchema = z.object({
   _id: z.string(),
@@ -42,11 +43,13 @@ export const EventSchema = z.object({
   timezone: z.nullable(z.string().url()).optional(),
   events: z
     .array(
-      z.object({
-        title: z.string(),
-        startsAt: z.string(),
-        endsAt: z.string(),
-      }),
+      z
+        .object({
+          title: z.string(),
+          startsAt: z.string(),
+          endsAt: z.string(),
+        })
+        .or(TalkSchema),
     )
     .nullable()
     .optional(),

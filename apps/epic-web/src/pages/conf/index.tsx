@@ -22,7 +22,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@skillrecordings/ui'
-import {GetServerSideProps, GetStaticProps} from 'next'
+import {GetStaticProps} from 'next'
 import {useKey} from 'react-use'
 import {
   SubscribeToConvertkitForm,
@@ -39,8 +39,11 @@ import Balancer from 'react-wrap-balancer'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import slugify from '@sindresorhus/slugify'
+import {getAllConf24Talks, type Talk} from 'lib/talks'
 
+export const IS_PAST_CONF_24 = false
 export const CONF_24_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2024'
+
 const CK_CONF_2024_FIELD = {
   [`conf_2024`]: new Date().toISOString().slice(0, 10),
 }
@@ -53,6 +56,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const schedule = await fetch(
     'https://sessionize.com/api/v2/epg94f49/view/GridSmart',
   ).then((res) => res.json())
+  const talks = await getAllConf24Talks(4)
 
   let speakersWithVideos = []
   for (const speaker of speakers) {
@@ -77,8 +81,9 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       speakers: speakersWithVideos,
       schedule,
+      talks,
     },
-    revalidate: 60 * 5,
+    revalidate: IS_PAST_CONF_24 ? false : 60 * 5,
   }
 }
 
@@ -128,10 +133,11 @@ type Day = {
 
 export type Schedule = Day[]
 
-const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
-  speakers,
-  schedule,
-}) => {
+const ConfPage: React.FC<{
+  speakers: Speaker[]
+  schedule: Schedule
+  talks: Talk[]
+}> = ({speakers, schedule, talks}) => {
   const [showingSpeakerDetail, setShowingSpeakerDetail] = React.useState<
     boolean | Speaker
   >(false)
@@ -187,7 +193,8 @@ const ConfPage: React.FC<{speakers: Speaker[]; schedule: Schedule}> = ({
         description="The Full Stack Web Development Conference of Epic proportions."
       />
       <Header />
-      <main>
+      {IS_PAST_CONF_24 && <Talks talks={talks} />}
+      <main className="relative z-10">
         <section className="mx-auto grid w-full max-w-screen-lg grid-cols-1 gap-5 px-5 sm:grid-cols-2 sm:gap-10 [&_p]:text-lg [&_p]:leading-relaxed [&_p]:text-[#D6DEFF]">
           <div>
             <p>
@@ -510,28 +517,49 @@ const Header = () => {
             <div className="text-lg text-[#D6DEFF]">Park City, UT</div>
           </div>
         </div>
-        <Button
-          asChild
-          className="mt-10 h-12 rounded-sm bg-gradient-to-tr from-[#50BBFF] to-[#6397FF] font-mono text-base font-bold uppercase tracking-wide text-gray-950 transition hover:brightness-110"
-          size="lg"
-        >
-          {CONF_24_TITO_URL && (
+        {IS_PAST_CONF_24 ? (
+          <Button
+            asChild
+            className="mt-10 h-12 rounded-sm bg-gradient-to-tr from-[#50BBFF] to-[#6397FF] font-mono text-base font-bold uppercase tracking-wide text-gray-950 transition hover:brightness-110"
+            size="lg"
+          >
             <Link
-              href={CONF_24_TITO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/talks"
               onClick={() => {
-                track('clicked buy tickets', {
+                track('clicked watch recordings', {
                   title: 'conf2024',
                   type: 'event',
                   location: 'top',
                 })
               }}
             >
-              Buy Tickets <ChevronRightIcon className="-mr-2 ml-2 w-4" />
+              Watch Recordings
             </Link>
-          )}
-        </Button>
+          </Button>
+        ) : (
+          <Button
+            asChild
+            className="mt-10 h-12 rounded-sm bg-gradient-to-tr from-[#50BBFF] to-[#6397FF] font-mono text-base font-bold uppercase tracking-wide text-gray-950 transition hover:brightness-110"
+            size="lg"
+          >
+            {CONF_24_TITO_URL && (
+              <Link
+                href={CONF_24_TITO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  track('clicked buy tickets', {
+                    title: 'conf2024',
+                    type: 'event',
+                    location: 'top',
+                  })
+                }}
+              >
+                Buy Tickets <ChevronRightIcon className="-mr-2 ml-2 w-4" />
+              </Link>
+            )}
+          </Button>
+        )}
       </div>
       <div className="absolute bottom-0 right-[-370px] flex items-center justify-center sm:bottom-auto sm:right-[-690px] xl:right-[-600px] 2xl:right-[-370px]">
         <Image
@@ -703,7 +731,7 @@ const workshopsData = [
           y="0.5"
           width="151"
           height="151"
-          rx="15.5"
+          rx="5"
           stroke="#2A2E3F"
         />
         <path
@@ -759,6 +787,91 @@ const workshopsData = [
     time: 'from 10:00 am - 4:00 pm MT and includes lunch',
     instructor: 'Kent C. Dodds',
   },
+  {
+    title: 'How to Build Epic Commerce Experiences',
+    image: (
+      <svg
+        className="w-32"
+        viewBox="0 0 152 152"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          x="0.5"
+          y="0.5"
+          width="151"
+          height="151"
+          rx="5"
+          stroke="#2A2E3F"
+        />
+        <path
+          d="M104.608 49.0803C104.551 48.6652 104.187 48.4355 103.887 48.4102C103.587 48.3852 97.239 47.9146 97.239 47.9146C97.239 47.9146 92.8304 43.5379 92.3465 43.0534C91.8624 42.5692 90.9168 42.7165 90.5497 42.8245C90.4957 42.8405 89.5865 43.1211 88.0826 43.5865C86.6099 39.3487 84.0109 35.4544 79.4385 35.4544C79.3122 35.4544 79.1823 35.4595 79.0524 35.4669C77.752 33.7471 76.1412 33 74.7498 33C64.0985 33 59.0098 46.3152 57.4143 53.0815C53.2755 54.364 50.3353 55.2757 49.9597 55.3937C47.6495 56.1184 47.5764 56.1912 47.2731 58.3681C47.0448 60.0161 41 106.763 41 106.763L88.1022 115.588L113.624 110.067C113.624 110.067 104.664 49.4954 104.608 49.0803ZM85.4793 44.3916L81.4937 45.6252C81.4951 45.3443 81.4965 45.068 81.4965 44.7657C81.4965 42.132 81.1309 40.0114 80.5444 38.3303C82.9004 38.626 84.4694 41.3067 85.4793 44.3916ZM77.6218 38.8526C78.2768 40.4939 78.7027 42.8493 78.7027 46.0277C78.7027 46.1904 78.7013 46.3391 78.6999 46.4895C76.1079 47.2923 73.2913 48.164 70.4685 49.0385C72.0535 42.9215 75.0244 39.967 77.6218 38.8526ZM74.4572 35.8569C74.917 35.8569 75.3801 36.013 75.8233 36.3181C72.4097 37.9244 68.7508 41.9699 67.2056 50.0489L60.6991 52.064C62.509 45.9018 66.8067 35.8569 74.4572 35.8569Z"
+          fill="#2A2E3F"
+        />
+        <path
+          d="M103.887 48.4102C103.587 48.3852 97.239 47.9147 97.239 47.9147C97.239 47.9147 92.8304 43.5379 92.3465 43.0534C92.1654 42.8732 91.9212 42.7808 91.6659 42.741L88.1045 115.588L113.624 110.067C113.624 110.067 104.664 49.4954 104.608 49.0803C104.551 48.6652 104.187 48.4355 103.887 48.4102Z"
+          fill="#1D202C"
+        />
+        <path
+          d="M79.4385 62.5119L76.2915 71.8727C76.2915 71.8727 73.5344 70.4012 70.1546 70.4012C65.1999 70.4012 64.9505 73.5106 64.9505 74.2941C64.9505 78.5694 76.0951 80.2075 76.0951 90.2217C76.0951 98.1005 71.098 103.174 64.36 103.174C56.2746 103.174 52.1397 98.1417 52.1397 98.1417L54.3047 90.9887C54.3047 90.9887 58.5549 94.6377 62.1414 94.6377C64.4849 94.6377 65.4381 92.7926 65.4381 91.4445C65.4381 85.8676 56.295 85.6189 56.295 76.4551C56.295 68.7423 61.8309 61.2786 73.0056 61.2786C77.3113 61.2786 79.4385 62.5119 79.4385 62.5119Z"
+          fill="#6A7085"
+        />
+      </svg>
+    ),
+    description: (
+      <>
+        <p>
+          Building a custom storefront with Shopify allows you to build unique
+          and stand-out shopping experiences. It lets you integrate immersive
+          content with a great checkout experience. But for this to work, you
+          must empower content teams with excellent authoring experiences.
+        </p>
+        <p>
+          In this comprehensive 6-hour workshop, Simeon and Knut will take you
+          through setting up a Shopify-powered Remix/Hydrogen storefront and
+          integrate content from Sanity – the only CMS to be Shopify Plus
+          Certified. You will learn how to set up a Hydrogen project connected
+          to Shopify, enable embedding live product data inside of content
+          presentations, customize content authoring experiences, and more.
+        </p>
+        <p>
+          Transform your web development skills into creating more engaging,
+          efficient, and unique e-commerce sites.
+        </p>
+        <p>
+          <strong>Your instructors:</strong>
+        </p>
+        <p>
+          Simeon Griggs (Principal Educator at Sanity) brings a wealth of
+          experience as a web developer and educator. Having collaborated with
+          leading teams at Spotify, Puma, and AT&T, Simeon specializes in
+          tailoring developer resources to enhance team capabilities in creating
+          cutting-edge web experiences. @simeongriggs
+        </p>
+        <p>
+          Knut Melvær (Head of Developer Education and Community at Sanity) has
+          contributed actively to the web development scene since the early
+          2000s. His rich background, from coding to academia as a university
+          lecturer, equips him with a unique perspective on technology education
+          and community building. @kmelve
+        </p>
+      </>
+    ),
+    date: 'Wednesday, April 10, 2024',
+    time: 'from 10:00 am - 4:00 pm MT and includes lunch',
+    instructor: [
+      {
+        name: 'Simeon Griggs',
+        image:
+          'https://res.cloudinary.com/epic-web/image/upload/v1711027557/simeon-griggs.jpg',
+      },
+      {
+        name: 'Knut Melvær',
+        image:
+          'https://res.cloudinary.com/epic-web/image/upload/v1711027557/knut-melv%C3%A6r.jpg',
+      },
+    ],
+  },
 ]
 
 const Workshops: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
@@ -766,27 +879,41 @@ const Workshops: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
     <section
       id="workshops"
       aria-label="workshops"
-      className="relative mx-auto flex w-full max-w-screen-lg flex-col justify-between gap-0 px-5 pb-32 pt-16 md:flex-row"
+      className="relative mx-auto flex w-full max-w-screen-lg flex-col justify-between gap-0 px-5 pb-32 pt-16 md:flex-col"
     >
       <h2 className="pb-5 text-center text-3xl font-bold sm:text-left sm:text-4xl">
-        Workshop
+        Workshops
       </h2>
-      <div className="flex flex-col gap-10 sm:flex-row">
+      <div className="flex flex-col gap-5 lg:flex-row">
         {workshopsData.map(
           ({title, image, description, date, time, instructor}) => {
             return (
               <div
                 key={title}
-                className="flex flex-col items-center justify-center gap-5 rounded border border-[#313646] bg-[#1E212C]/50 p-5 sm:flex-row [&_time]:text-[#D6DEFF]"
+                className="flex flex-col items-start justify-center gap-5 rounded border border-[#313646] bg-[#1E212C]/50 p-5 sm:flex-row sm:justify-start [&_time]:text-[#D6DEFF]"
               >
-                <div className="rounded-xl bg-background">{image}</div>
+                <Link
+                  href={CONF_24_TITO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-xl bg-background"
+                  onClick={() => {
+                    track(`clicked workshop`, {
+                      title: 'conf2024',
+                      type: 'workshop',
+                      location: title,
+                    })
+                  }}
+                >
+                  {image}
+                </Link>
                 <div>
-                  <h3 className="pb-4 text-center text-2xl font-bold sm:text-left">
+                  <h3 className="w-full pb-4 text-left text-2xl font-bold">
                     <Link
                       href={CONF_24_TITO_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:underline"
+                      className="text-balance hover:underline"
                       onClick={() => {
                         track(`clicked workshop`, {
                           title: 'conf2024',
@@ -799,18 +926,45 @@ const Workshops: React.FC<{speakers: Speaker[]}> = ({speakers}) => {
                     </Link>
                   </h3>
                   <span className="flex items-start gap-2.5">
-                    <Image
-                      src={getProfilePictureForWorkshopInstructor(
-                        instructor,
-                        speakers,
-                      )}
-                      width={48}
-                      height={48}
-                      alt={instructor}
-                      className="mt-1.5 rounded-full"
-                    />{' '}
+                    {typeof instructor === 'string' && (
+                      <Image
+                        src={getProfilePictureForWorkshopInstructor(
+                          instructor,
+                          speakers,
+                        )}
+                        width={48}
+                        height={48}
+                        alt={instructor}
+                        className="mt-1.5 rounded-full"
+                      />
+                    )}
+
                     <div className="flex flex-col">
-                      <span className="font-semibold">{instructor}</span>
+                      <span className="font-semibold">
+                        {typeof instructor === 'string' ? (
+                          instructor
+                        ) : (
+                          <div className="mb-2 flex flex-row gap-3">
+                            {instructor.map(({name, image}) => {
+                              return (
+                                <span
+                                  key={name}
+                                  className="flex items-center gap-2 leading-tight"
+                                >
+                                  <Image
+                                    src={image}
+                                    width={48}
+                                    height={48}
+                                    alt={name}
+                                    className="rounded-full"
+                                  />
+                                  {name}
+                                </span>
+                              )
+                            })}
+                          </div>
+                        )}
+                      </span>
                       <time dateTime={date} className="text-sm">
                         {date}
                       </time>
@@ -2240,5 +2394,100 @@ export const BuyTicketsCTA = () => {
         aria-hidden="true"
       />
     </section>
+  )
+}
+
+const Talks: React.FC<{talks: Talk[] | null}> = ({talks}) => {
+  if (!talks) {
+    return null
+  }
+
+  return (
+    <div className="relative z-0 pb-16">
+      {/* <BgGraphic className="pointer-events-none absolute left-0 top-0 z-0 select-none" /> */}
+      <div className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col border-b border-white/10 px-5 pb-16">
+        <div className="mb-5 flex w-full items-center justify-between">
+          <h3 className="text-2xl font-semibold">Talks</h3>
+          <Link
+            href="/talks"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-sm font-semibold underline"
+          >
+            <ChevronRightIcon className="w-5" />
+            <span className="sr-only">View All Talks</span>
+          </Link>
+        </div>
+        <ul className="relative grid grid-cols-3 gap-3 overflow-x-hidden pr-24 after:pointer-events-none after:absolute after:right-0 after:top-0 after:h-full after:w-80 after:bg-gradient-to-r after:from-transparent after:to-gray-950 after:content-['']">
+          {/* CAROUSEL WITH TALK CARDS WITH THUMBNAILS, TITLES, ETC. */}
+          {talks.map((talk, index) => {
+            const isLast = index === talks.length - 1
+            const thumbnail = `https://image.mux.com/${talk?.muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve&time=0`
+            return (
+              <li
+                key={talk._id}
+                className={cn('', {
+                  'absolute col-start-4 ml-3 w-[288px]': isLast,
+                })}
+              >
+                <Link
+                  href={`/conf/talks/${talk.slug}`}
+                  className="flex flex-col"
+                >
+                  <Image
+                    src={thumbnail}
+                    width={720 / 2}
+                    height={405 / 2}
+                    alt={talk.title}
+                    aria-hidden="true"
+                    className="rounded"
+                  />
+                  <h4 className="mt-2 text-lg font-semibold">{talk.title}</h4>
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+export const ConfLogo = () => {
+  return (
+    <svg
+      className="w-40"
+      viewBox="0 0 167 44"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M22.8026 21.207C22.0236 21.6376 21.1286 22.0975 20.1266 22.5582C16.1459 24.3886 10.4577 26.2417 3.64094 26.3178L2.85578 26.3266L2.71334 25.5544C2.50262 24.4121 2.3795 23.2304 2.3795 22.0106C2.3795 11.1912 11.1806 2.39011 22 2.39011C24.9855 2.39011 27.8193 3.06088 30.3567 4.26001L32.9629 2.9314C29.734 1.06728 25.9905 0 22 0C9.87613 0 0 9.87613 0 22C0 26.8398 1.57384 31.3214 4.23623 34.9595C8.79508 34.1832 11.6552 32.3567 11.6552 32.3567C11.6552 32.3567 9.82899 35.213 9.05254 39.7726C12.6885 42.4296 17.1656 44 22 44C34.1239 44 44 34.1239 44 22C44 18.0164 42.9357 14.277 41.0756 11.05L39.7492 13.651C40.9492 16.1891 41.6205 19.0239 41.6205 22.0106C41.6205 32.83 32.8194 41.6311 22 41.6311C20.7795 41.6311 19.6087 41.5078 18.4577 41.2976L17.684 41.1562L17.6928 40.3697C17.7689 33.5477 19.622 27.8594 21.4525 23.8799C21.9128 22.8791 22.3723 21.9851 22.8026 21.207Z"
+        fill="url(#paint0_linear_198_101)"
+      />
+      <path
+        d="M33.4621 17.069L28.4145 15.5956L26.9408 10.5375L43.6857 0.31427L33.4621 17.069Z"
+        fill="currentColor"
+      />
+      <path
+        d="M60.6587 16.525V21.25H68.4087V24H57.7837V6.5H68.2837V9.25H60.6587V13.8H67.6587V16.525H60.6587ZM72.0405 6.5H78.4905C80.1405 6.5 81.5155 7.05 82.6155 8.15C83.7405 9.25 84.2905 10.625 84.2905 12.25C84.2905 13.875 83.7405 15.225 82.6155 16.35C81.5155 17.45 80.1405 18 78.4905 18H74.9155V24H72.0405V6.5ZM74.9155 15.3H78.4905C80.1905 15.3 81.4155 14.025 81.4155 12.25C81.4155 10.475 80.1905 9.2 78.4905 9.2H74.9155V15.3ZM87.5366 24V6.5H90.4116V24H87.5366ZM102.684 24.325C100.059 24.325 97.8587 23.45 96.1337 21.725C94.4087 19.975 93.5337 17.825 93.5337 15.25C93.5337 12.675 94.4087 10.525 96.1337 8.8C97.8587 7.05 100.059 6.175 102.684 6.175C105.859 6.175 108.709 7.775 110.209 10.35L107.709 11.8C106.784 10.075 104.884 8.975 102.684 8.975C100.809 8.975 99.3087 9.575 98.1337 10.75C96.9837 11.925 96.4087 13.425 96.4087 15.25C96.4087 17.075 96.9837 18.575 98.1337 19.75C99.3087 20.925 100.809 21.525 102.684 21.525C104.884 21.525 106.809 20.425 107.709 18.7L110.209 20.125C109.484 21.4 108.434 22.425 107.084 23.2C105.759 23.95 104.284 24.325 102.684 24.325ZM120.25 24H116.925L111.975 6.5H115L118.675 20.175L122.65 6.5H125.3L129.25 20.175L132.925 6.5H135.95L131 24H127.675L123.975 11.225L120.25 24ZM142.076 16.525V21.25H149.826V24H139.201V6.5H149.701V9.25H142.076V13.8H149.076V16.525H142.076ZM163.758 14.925C165.283 15.725 166.208 17.175 166.208 19C166.208 20.425 165.708 21.625 164.683 22.575C163.658 23.525 162.433 24 160.958 24H153.458V6.5H160.408C161.833 6.5 163.058 6.975 164.033 7.9C165.033 8.825 165.533 9.975 165.533 11.35C165.533 12.875 164.933 14.05 163.758 14.925ZM160.408 9.2H156.333V13.8H160.408C161.683 13.8 162.658 12.8 162.658 11.5C162.658 10.2 161.683 9.2 160.408 9.2ZM156.333 21.3H160.958C162.283 21.3 163.333 20.225 163.333 18.85C163.333 17.475 162.283 16.4 160.958 16.4H156.333V21.3Z"
+        fill="currentColor"
+      />
+      <path
+        d="M63.3612 41.9404C61.507 41.9404 59.9706 41.3223 58.7522 40.0862C57.5337 38.8501 56.9333 37.3314 56.9333 35.5125C56.9333 33.6936 57.5337 32.1573 58.7522 30.9388C59.9706 29.7027 61.507 29.0846 63.3612 29.0846C65.6039 29.0846 67.617 30.2148 68.6766 31.9983L66.5751 33.2168C65.9571 32.1043 64.7739 31.4509 63.3612 31.4509C62.1604 31.4509 61.1891 31.8217 60.4474 32.5811C59.7234 33.3404 59.3526 34.3117 59.3526 35.5125C59.3526 36.6957 59.7234 37.6669 60.4474 38.4262C61.1891 39.1856 62.1604 39.5564 63.3612 39.5564C64.7739 39.5564 65.9924 38.8854 66.5751 37.8082L68.6766 39.0267C67.617 40.8102 65.6215 41.9404 63.3612 41.9404ZM83.8093 40.0862C82.5555 41.3223 81.0368 41.9404 79.2533 41.9404C77.4697 41.9404 75.951 41.3223 74.6972 40.0862C73.4611 38.8324 72.843 37.3137 72.843 35.5125C72.843 33.7113 73.4611 32.1926 74.6972 30.9564C75.951 29.7027 77.4697 29.0846 79.2533 29.0846C81.0368 29.0846 82.5555 29.7027 83.8093 30.9564C85.0631 32.1926 85.6812 33.7113 85.6812 35.5125C85.6812 37.3137 85.0631 38.8324 83.8093 40.0862ZM76.4101 38.4262C77.1695 39.1856 78.1231 39.5564 79.2533 39.5564C80.3834 39.5564 81.337 39.1856 82.0964 38.4262C82.8557 37.6669 83.2442 36.6957 83.2442 35.5125C83.2442 34.3293 82.8557 33.3581 82.0964 32.5987C81.337 31.8394 80.3834 31.4509 79.2533 31.4509C78.1231 31.4509 77.1695 31.8394 76.4101 32.5987C75.6508 33.3581 75.2623 34.3293 75.2623 35.5125C75.2623 36.6957 75.6508 37.6669 76.4101 38.4262ZM97.9011 36.8722V29.3318H100.338V41.6932H98.4839L93.1861 34.1351V41.6932H90.7492V29.3318H92.6034L97.9011 36.8722ZM113.368 29.3318V31.6628H108.423V34.5942H113.227V36.9252H108.423V41.6932H105.986V29.3318H113.368ZM125.916 41.6932H118.057V40.5807L122.507 36.0952C123.779 34.8238 124.415 33.7289 124.415 32.8283C124.415 31.2567 123.284 30.3207 121.925 30.3207C120.653 30.3207 119.735 30.9035 119.152 32.069L118.11 31.4509C118.887 29.9146 120.3 29.1199 121.925 29.1199C122.914 29.1199 123.779 29.4554 124.521 30.1265C125.28 30.7799 125.651 31.6805 125.651 32.8283C125.651 34.2587 124.821 35.5125 123.355 36.9782L119.823 40.4924H125.916V41.6932ZM138.818 40.1745C138.005 41.3223 136.858 41.9051 135.374 41.9051C133.891 41.9051 132.743 41.3223 131.913 40.1745C131.101 39.009 130.695 37.455 130.695 35.5125C130.695 33.57 131.101 32.016 131.913 30.8682C132.743 29.7027 133.891 29.1199 135.374 29.1199C136.858 29.1199 138.005 29.7027 138.818 30.8682C139.648 32.016 140.054 33.57 140.054 35.5125C140.054 37.455 139.648 39.009 138.818 40.1745ZM132.831 39.3445C133.449 40.2451 134.297 40.7043 135.374 40.7043C136.451 40.7043 137.299 40.2451 137.9 39.3445C138.518 38.4439 138.818 37.1548 138.818 35.5125C138.818 33.8702 138.518 32.5811 137.9 31.6805C137.299 30.7799 136.451 30.3207 135.374 30.3207C134.297 30.3207 133.449 30.7799 132.831 31.6805C132.231 32.5811 131.931 33.8702 131.931 35.5125C131.931 37.1548 132.231 38.4439 132.831 39.3445ZM152.682 41.6932H144.824V40.5807L149.274 36.0952C150.545 34.8238 151.181 33.7289 151.181 32.8283C151.181 31.2567 150.051 30.3207 148.691 30.3207C147.42 30.3207 146.502 30.9035 145.919 32.069L144.877 31.4509C145.654 29.9146 147.067 29.1199 148.691 29.1199C149.68 29.1199 150.545 29.4554 151.287 30.1265C152.047 30.7799 152.417 31.6805 152.417 32.8283C152.417 34.2587 151.587 35.5125 150.122 36.9782L146.59 40.4924H152.682V41.6932ZM164.617 38.0554H166.207V39.2209H164.617V41.6932H163.381V39.2209H156.847V38.0554L161.439 29.3318H162.798L158.207 38.0554H163.381V34.2764H164.617V38.0554Z"
+        fill="#3F94FF"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_198_101"
+          x1="31.1115"
+          y1="12.8885"
+          x2="12.9394"
+          y2="31.0708"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#4F75FF" />
+          <stop offset="1" stop-color="#30AFFF" />
+        </linearGradient>
+      </defs>
+    </svg>
   )
 }
