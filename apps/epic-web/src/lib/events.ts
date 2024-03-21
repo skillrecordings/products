@@ -43,13 +43,11 @@ export const EventSchema = z.object({
   timezone: z.nullable(z.string().url()).optional(),
   events: z
     .array(
-      z
-        .object({
-          title: z.string(),
-          startsAt: z.string(),
-          endsAt: z.string(),
-        })
-        .or(TalkSchema),
+      z.object({
+        title: z.string(),
+        startsAt: z.string(),
+        endsAt: z.string(),
+      }),
     )
     .nullable()
     .optional(),
