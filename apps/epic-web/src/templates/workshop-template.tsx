@@ -33,7 +33,7 @@ import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {useRouter} from 'next/router'
-import ResourceAuthor from 'components/resource-author'
+import ResourceContributor from 'components/resource-contributor'
 
 const WorkshopTemplate: React.FC<{
   workshop: Module
@@ -308,7 +308,10 @@ const Header: React.FC<{module: Module; canView: boolean}> = ({
           </h1>
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
-              <ResourceAuthor name={'Kent C. Dodds'} slug={'kent-c-dodds'} />
+              <ResourceContributor
+                name={'Kent C. Dodds'}
+                slug={'kent-c-dodds'}
+              />
             </div>
             <div className="flex w-full flex-col items-start justify-center gap-3 pt-8 md:justify-start lg:flex-row lg:items-center">
               {!canView && product && ALLOW_PURCHASE && (

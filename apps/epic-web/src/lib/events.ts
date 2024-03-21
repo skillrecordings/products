@@ -1,6 +1,7 @@
 import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
+import {TalkSchema} from './talks'
 
 export const AuthorSchema = z.object({
   _id: z.string(),
@@ -80,9 +81,10 @@ export const EventsSchema = z.array(EventSchema)
 
 export type Event = z.infer<typeof EventSchema>
 
-export const getAllEvents = async (): Promise<Event[]> => {
-  const events =
-    await sanityClient.fetch(groq`*[_type == "event"] | order(_createdAt desc) {
+export const getAllEvents = async (onlyPublished = true): Promise<Event[]> => {
+  const events = await sanityClient.fetch(groq`*[_type == "event" ${
+    onlyPublished ? `&& state == "published"` : ''
+  }] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,

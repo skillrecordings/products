@@ -37,6 +37,7 @@ module.exports = {
       },
       colors: {
         gray: colors.slate,
+        'cool-gray': 'var(--color-cool-gray)',
         'er-gray': {
           100: 'var(--color-gray-100)',
           200: 'var(--color-gray-200)',
@@ -58,6 +59,12 @@ module.exports = {
           700: '#1F4499',
           800: '#173373',
           900: '#0F224D',
+        },
+        yellow: {
+          300: '#faca15',
+          400: '#e3a008',
+          600: '#9f580a',
+          800: '#723b13',
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

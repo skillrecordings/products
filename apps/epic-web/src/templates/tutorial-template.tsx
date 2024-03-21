@@ -18,7 +18,7 @@ import Testimonials from 'testimonials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {Skeleton} from '@skillrecordings/ui'
-import ResourceAuthor from 'components/resource-author'
+import ResourceContributor from 'components/resource-contributor'
 import {CogIcon} from '@heroicons/react/solid'
 
 const TutorialTemplate: React.FC<{
@@ -130,7 +130,7 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
           </h1>
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
-              <ResourceAuthor
+              <ResourceContributor
                 name={author?.name}
                 slug={author?.slug}
                 image={author?.image}

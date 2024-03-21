@@ -354,7 +354,7 @@ function getSessionDetailsForSpeaker(
   return fullDetails
 }
 
-const BgGraphic: React.FC<{className?: string}> = ({className}) => {
+export const BgGraphic: React.FC<{className?: string}> = ({className}) => {
   return (
     <svg
       className={cn('', className)}

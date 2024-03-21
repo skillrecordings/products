@@ -10,11 +10,11 @@ import Image from 'next/image'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import Share from 'components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import AuthorBio from 'components/author-bio'
+import AuthorBio from 'components/contributor-bio'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import removeMarkdown from 'remove-markdown'
-import ResourceAuthor from 'components/resource-author'
+import ResourceContributor from 'components/resource-contributor'
 import Head from 'next/head'
 import {ConfBanner} from 'pages/events'
 
@@ -63,7 +63,7 @@ const ArticleTemplate: React.FC<{
       <main className="invert-svg prose mx-auto w-full max-w-3xl px-5 py-8 dark:prose-invert md:prose-xl prose-code:break-words prose-pre:bg-gray-900 prose-pre:leading-relaxed md:py-16 md:prose-code:break-normal">
         <MDX contents={articleBodySerialized} />
       </main>
-      <Share author={author} title={title} />
+      <Share contributor={author} title={title} />
       <AuthorBio
         slug={author?.slug}
         name={author?.name}
@@ -123,7 +123,7 @@ const Header: React.FC<HeaderProps> = ({article, estimatedReadingTime}) => {
           </div>
         )}
         <div className="mx-auto flex w-full max-w-3xl flex-row justify-center gap-5 px-5 pt-8 text-base text-gray-700 dark:text-gray-300 sm:items-center sm:justify-between sm:gap-10 sm:text-base md:gap-16 lg:px-5">
-          <ResourceAuthor
+          <ResourceContributor
             className="col-span-2 flex-shrink-0 text-base sm:text-lg [&_span]:font-mono [&_span]:text-xs [&_span]:font-semibold [&_span]:uppercase [&_span]:opacity-75"
             name={author?.name}
             slug={author?.slug}
