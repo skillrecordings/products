@@ -56,8 +56,8 @@ const nextConfig = {
         permanent: false,
       },
       {
-        source: '/authors/:slug',
-        destination: '/contributors/:slug',
+        source: '/authors/:slug*',
+        destination: '/contributors/:slug*',
         permanent: true,
       },
     ]
