@@ -38,12 +38,12 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
         title: `Epic Dev Talks`,
         description: pageDescription,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1705611435/epicweb.dev/og/card-talks_2x.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1711085322/talks-card_2x.png',
         },
       }}
       className="relative mx-auto flex w-full max-w-screen-lg grid-cols-12 flex-col gap-5 pb-0 md:grid md:px-5 md:pb-16 lg:px-0"
     >
-      <header className="col-span-3 flex w-full flex-col items-start px-3 py-10">
+      <header className="col-span-3 flex w-full flex-col items-center px-3 py-10 sm:items-start">
         <div className="relative flex items-center justify-center">
           <Image
             src="https://res.cloudinary.com/epic-web/image/upload/v1711021972/talks-h1_2x.png"
@@ -53,23 +53,23 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
           />
           <h1 className="absolute text-4xl font-bold text-white">Talks</h1>
         </div>
-        <h2 className="text-balance pt-3 text-sm font-medium">
+        <h2 className="text-balance pt-3 font-medium sm:text-sm">
           {pageDescription}
         </h2>
       </header>
-      <main className="relative z-10 col-span-9 flex w-full flex-col items-center gap-5 py-10">
+      <main className="relative z-10 col-span-9 flex w-full flex-col items-center gap-5 sm:py-10">
         {conf24Talks && (
-          <div className="relative flex w-full flex-col overflow-hidden rounded border bg-card p-5">
-            <div className="relative z-10 flex w-full items-center gap-4 p-5 md:gap-12">
+          <div className="relative flex w-full flex-col overflow-hidden border-y bg-card py-5 sm:p-5 md:rounded md:border">
+            <div className="relative z-10 flex w-full flex-col items-center justify-center gap-4 p-5 text-center md:flex-row md:justify-start md:gap-12 md:text-left">
               <Link href="/conf">
                 <ConfLogo />
               </Link>
-              <h2 className="text-xl">
+              <h3 className="text-balance text-lg sm:text-xl">
                 Talks from{' '}
                 <Link href="/conf" className="font-bold hover:underline">
                   Epic Web Conf 2024
                 </Link>
-              </h2>
+              </h3>
             </div>
             <ul className="relative z-10 flex w-full flex-col">
               {conf24Talks.map((talk, i) => {
@@ -116,7 +116,7 @@ const TalkItem: React.FC<{
         )}
         tabIndex={-1}
       >
-        <div className="relative flex items-center justify-center overflow-hidden rounded border">
+        <div className="relative flex w-[100px] flex-shrink-0 items-center justify-center overflow-hidden rounded border sm:w-auto">
           <Image
             src={thumbnail}
             alt=""
@@ -133,7 +133,9 @@ const TalkItem: React.FC<{
           </div>
         </div>
         <div>
-          <h3 className="text-xl font-semibold">{talk.title}</h3>
+          <h4 className="text-base font-semibold leading-tight sm:text-xl sm:leading-tight">
+            {talk.title}
+          </h4>
           <ResourceContributor
             name={talk?.author?.name}
             slug={talk?.author?.slug}
