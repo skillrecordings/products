@@ -407,9 +407,29 @@ export async function stripeCheckout({
         throw new CheckoutError('No product was found', productId as string)
       }
 
-      const successUrl = isUpgrade
-        ? `${process.env.NEXT_PUBLIC_URL}/welcome?session_id={CHECKOUT_SESSION_ID}&upgrade=true`
-        : `${process.env.NEXT_PUBLIC_URL}/thanks/purchase?session_id={CHECKOUT_SESSION_ID}`
+      let successUrl: string = (() => {
+        const baseQueryParams = {
+          session_id: '{CHECKOUT_SESSION_ID}',
+          provider: 'stripe',
+        }
+
+        if (isUpgrade) {
+          const queryParamString = new URLSearchParams({
+            ...baseQueryParams,
+            upgrade: 'true',
+          }).toString()
+          const url = `${process.env.NEXT_PUBLIC_URL}/welcome?${queryParamString}`
+
+          return url
+        } else {
+          const queryParamString = new URLSearchParams(
+            baseQueryParams,
+          ).toString()
+
+          const url = `${process.env.NEXT_PUBLIC_URL}/thanks/purchase?${queryParamString}`
+          return url
+        }
+      })()
 
       const metadata = {
         ...(Boolean(availableUpgrade && upgradeFromPurchase) && {
