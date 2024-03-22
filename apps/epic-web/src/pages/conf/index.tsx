@@ -2465,16 +2465,15 @@ const Talks: React.FC<{talks: Talk[] | null}> = ({talks}) => {
             <span className="sr-only">View All Talks</span>
           </Link>
         </div>
-        <ul className="relative grid grid-cols-3 gap-3 overflow-x-hidden pr-24 after:pointer-events-none after:absolute after:right-0 after:top-0 after:h-full after:w-80 after:bg-gradient-to-r after:from-transparent after:to-gray-950 after:content-['']">
-          {/* CAROUSEL WITH TALK CARDS WITH THUMBNAILS, TITLES, ETC. */}
+        <ul className="relative flex flex-row gap-3 overflow-x-hidden pr-24 after:pointer-events-none after:absolute after:right-0 after:top-0 after:h-full after:w-80 after:bg-gradient-to-r after:from-transparent after:to-gray-950 after:content-['']">
           {talks.map((talk, index) => {
             const isLast = index === talks.length - 1
             const thumbnail = `https://image.mux.com/${talk?.muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve&time=0`
             return (
               <li
                 key={talk._id}
-                className={cn('', {
-                  'absolute col-start-4 ml-3 w-[288px]': isLast,
+                className={cn('w-full min-w-[250px]', {
+                  '': isLast,
                 })}
               >
                 <Link

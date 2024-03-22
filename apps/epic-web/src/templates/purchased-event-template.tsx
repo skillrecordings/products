@@ -40,7 +40,7 @@ import {useBonuses} from 'hooks/use-bonuses'
 import toast from 'react-hot-toast'
 import {EventPageProps} from 'pages/events/[event]'
 import {EventDetails} from 'templates/event-template'
-import AuthorBio from 'components/author-bio'
+import AuthorBio from 'components/contributor-bio'
 
 const PurchasedEventTemplate = ({
   purchases = [],

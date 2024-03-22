@@ -52,7 +52,6 @@ const ExerciseTemplate: React.FC<{
   const ogImage = getOgImage({
     title,
     type: 'video',
-    byline: module.title,
     image: `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
   })
   const {ogImage: moduleOGImage, description: moduleDescription} = module

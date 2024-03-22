@@ -1,337 +1,437 @@
-// @ts-nocheck
 import {ImageResponse} from '@vercel/og'
 import {NextRequest} from 'next/server'
+import type React from 'react'
 
 export const config = {
   runtime: 'edge',
 }
 
-const dmSansFont = fetch(
+const getTemplateByType = (
+  title: string,
+  type?: string,
+  muxPlaybackId?: string,
+  image?: string,
+  bgImage?: string,
+  authorName?: string,
+  authorImage?: string,
+) => {
+  switch (type) {
+    case 'video':
+      return (
+        <VideoTemplate
+          title={title}
+          // contributor={contributor}
+          image={image}
+        />
+      )
+    case 'interview':
+      return <InterviewTemplate image={image} title={title} />
+
+    case 'background-thumbnail':
+      return (
+        <BackgroundThumbnailTemplate
+          bgImage={bgImage}
+          muxPlaybackId={muxPlaybackId}
+          title={title}
+          image={image}
+          authorName={authorName}
+          authorImage={authorImage}
+        />
+      )
+    default:
+      return <DefaultTemplate title={title} image={image} />
+  }
+}
+
+const dmSansMedium = fetch(
   new URL('../../../../public/fonts/DMSans-Medium.ttf', import.meta.url),
+).then((res) => res.arrayBuffer())
+const dmSansBold = fetch(
+  new URL('../../../../public/fonts/DMSans-Bold.ttf', import.meta.url),
 ).then((res) => res.arrayBuffer())
 
 export default async function handler(req: NextRequest) {
-  const dmSansFontData = await dmSansFont
+  const dmSansMediumData = await dmSansMedium
+  const dmSansBoldData = await dmSansBold
 
   try {
     const {searchParams} = new URL(req.url)
     const hasTitle = searchParams.has('title')
     const hasByline = searchParams.has('byline')
     const byline = hasByline ? searchParams.get('byline') : ''
-    const title = hasTitle
-      ? searchParams.get('title')?.slice(0, 100)
-      : 'My Default Title'
+    let title = 'My Default Title'
+    if (hasTitle) {
+      title = searchParams.get('title')?.slice(0, 100) || 'My Default Title'
+    }
     const hasImage = searchParams.has('image')
-    const image = searchParams.get('image')
+    let image: string | undefined
+    if (hasImage) {
+      image = searchParams.get('image') || undefined
+    }
+    const hasMuxPlaybackId = searchParams.has('muxPlaybackId')
+    let muxPlaybackId: string | undefined
+    if (hasMuxPlaybackId) {
+      muxPlaybackId = searchParams.get('muxPlaybackId') || undefined
+    }
     const hasType = searchParams.has('type')
-    const type = hasType ? searchParams.get('type') : ''
+    let type: string | undefined
+    if (hasType) {
+      type = searchParams.get('type') || undefined
+    }
 
-    const getTemplateByType = (type: string) => {
-      switch (type) {
-        case 'video':
-          return <VideoTemplate />
-        case 'interview':
-          return <InterviewTemplate />
-        default:
-          return <DefaultTemplate />
-      }
+    const hasBgImage = searchParams.has('bgImage')
+    let bgImage: string | undefined
+    if (hasBgImage) {
+      bgImage = searchParams.get('bgImage') || undefined
     }
 
     const hasAuthorName = searchParams.has('authorName')
-    const authorName = hasAuthorName
-      ? searchParams.get('authorName')
-      : 'Kent C. Dodds'
+    let authorName: string | undefined
+    if (hasAuthorName) {
+      authorName = searchParams.get('authorName') || 'Kent C. Dodds'
+    }
 
     const hasAuthorImage = searchParams.has('authorImage')
-    const authorImage = hasAuthorImage
-      ? searchParams.get('authorImage')
-      : 'https://www.epicweb.dev/kent-c-dodds.png'
-
-    const DefaultTemplate = () => {
-      return (
-        <div
-          tw="flex w-full relative justify-center text-white items-center h-full justify-between"
-          style={{
-            backgroundColor: '#080B16',
-          }}
-        >
-          <div
-            tw="absolute flex items-center justify-end h-5 w-full bottom-0 left-0 pr-6"
-            style={{background: '#4F75FF'}}
-          ></div>
-          {/* <div tw="absolute" style={{bottom: 24, left: 24, fontSize: 26}}>
-            epicweb.dev
-          </div> */}
-          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-24 relative px-14">
-            {hasImage ? (
-              <div tw="flex items-center">
-                <img src={image} width={200} height={200} tw="mr-10" />
-                {hasByline && (
-                  <p tw="text-5xl leading-tight font-semibold">{byline}</p>
-                )}
-              </div>
-            ) : (
-              <Logo />
-            )}
-            <p
-              tw="tracking-tight font-bold leading-tight"
-              style={{
-                fontSize: '4rem',
-                fontFamily: 'DM Sans',
-                lineHeight: 1.1,
-              }}
-            >
-              {title}
-            </p>
-            {!hasImage && (
-              <div tw="flex items-center absolute right-14 top-12">
-                <img src={authorImage} tw="h-24 rounded-full bg-gray-800" />
-                <p
-                  style={{fontSize: 36, fontFamily: 'DM Sans'}}
-                  tw="text-3xl ml-6 mb-6 text-gray-300"
-                >
-                  {authorName}
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      )
+    let authorImage: string | undefined
+    if (hasAuthorImage) {
+      authorImage =
+        searchParams.get('authorImage') ||
+        'https://www.epicweb.dev/kent-c-dodds.png'
     }
 
-    const VideoTemplate = () => {
-      return (
-        <div
-          tw="flex w-full relative justify-center text-white items-center h-full"
-          style={{
-            background:
-              'linear-gradient(254deg, #2C344E 1.81%, #0B132E 95.83%)',
-          }}
-        >
-          {hasImage && (
-            <img
-              src={image}
-              tw="absolute right-0 bottom-0 opacity-90 rounded-md shadow-2xl z-0"
-              style={{
-                aspectRatio: '480/270',
-                height: 630,
-              }}
-            />
-          )}
-
-          <div
-            tw="w-32 h-32 items-center justify-center rounded-full flex absolute z-10 right-56 text-white shadow-2xl"
-            style={{
-              background:
-                'linear-gradient(225deg, #4F75FF 29.29%, #30AFFF 70.6%)',
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              tw="w-10 h-10 ml-2"
-              viewBox="0 0 16 16"
-            >
-              <g fill="currentColor">
-                <path
-                  fill="currentColor"
-                  d="M14,7.999c0-0.326-0.159-0.632-0.427-0.819l-10-7C3.269-0.034,2.869-0.058,2.538,0.112 C2.207,0.285,2,0.626,2,0.999v14.001c0,0.373,0.207,0.715,0.538,0.887c0.331,0.17,0.73,0.146,1.035-0.068l10-7 C13.841,8.633,14,8.327,14,8.001C14,8,14,8,14,7.999C14,8,14,8,14,7.999z"
-                ></path>
-              </g>
-            </svg>
-          </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="715"
-            height="630"
-            viewBox="0 0 715 630"
-            fill="none"
-          >
-            <path
-              d="M0 0H715L594 630H0V0Z"
-              fill="url(#paint0_linear_669_3995)"
-            />
-            <defs>
-              <linearGradient
-                id="paint0_linear_669_3995"
-                x1="704.328"
-                y1="18.1731"
-                x2="-78.1359"
-                y2="275.78"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#2C344E" />
-                <stop offset="1" stopColor="#0B132E" />
-              </linearGradient>
-            </defs>
-          </svg>
-          <div tw="absolute left-16 top-16 z-10 flex">
-            <Logo />
-          </div>
-
-          <div tw="w-1/2 left-16 absolute z-10 flex bottom-24 pr-16">
-            <p
-              tw="tracking-tight font-bold leading-tight"
-              style={{
-                fontSize: '2.75rem',
-                fontFamily: 'DM Sans',
-                lineHeight: 1.1,
-              }}
-            >
-              {title}
-            </p>
-          </div>
-          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-24 relative px-14">
-            {!hasImage && (
-              <div tw="flex items-center absolute right-14 top-12">
-                <img
-                  src="https://www.epicweb.dev/kent-c-dodds.png"
-                  tw="h-24 rounded-full bg-gray-800"
-                />
-                <p
-                  style={{fontSize: 36, fontFamily: 'DM Sans'}}
-                  tw="text-3xl ml-6 mb-6 text-gray-300"
-                >
-                  Kent C. Dodds
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      )
-    }
-
-    const InterviewTemplate = () => {
-      return (
-        <div
-          tw="flex w-full relative justify-center text-white items-center h-full"
-          style={{
-            background:
-              'linear-gradient(254deg, #2C344E 1.81%, #0B132E 95.83%)',
-          }}
-        >
-          {hasImage && (
-            <img
-              src={image}
-              tw="absolute -right-1/4 bottom-0 opacity-90 rounded-md shadow-2xl z-0"
-              style={{
-                aspectRatio: '480/270',
-                height: 630,
-              }}
-            />
-          )}
-
-          <svg
-            className="relative"
-            xmlns="http://www.w3.org/2000/svg"
-            width="715"
-            height="630"
-            viewBox="0 0 715 630"
-            fill="none"
-          >
-            <path
-              d="M0 0H715L594 630H0V0Z"
-              fill="url(#paint0_linear_669_3995)"
-            />
-            <defs>
-              <linearGradient
-                id="paint0_linear_669_3995"
-                x1="704.328"
-                y1="18.1731"
-                x2="-78.1359"
-                y2="275.78"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#2C344E" />
-                <stop offset="1" stopColor="#0B132E" />
-              </linearGradient>
-            </defs>
-          </svg>
-          <div
-            tw="w-32 h-32 items-center justify-center z-50 rounded-full flex absolute z-10 right-[480px] text-white shadow-2xl"
-            style={{
-              background:
-                'linear-gradient(225deg, #4F75FF 29.29%, #30AFFF 70.6%)',
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              tw="w-10 h-10 ml-2"
-              viewBox="0 0 16 16"
-            >
-              <g fill="currentColor">
-                <path
-                  fill="currentColor"
-                  d="M14,7.999c0-0.326-0.159-0.632-0.427-0.819l-10-7C3.269-0.034,2.869-0.058,2.538,0.112 C2.207,0.285,2,0.626,2,0.999v14.001c0,0.373,0.207,0.715,0.538,0.887c0.331,0.17,0.73,0.146,1.035-0.068l10-7 C13.841,8.633,14,8.327,14,8.001C14,8,14,8,14,7.999C14,8,14,8,14,7.999z"
-                ></path>
-              </g>
-            </svg>
-          </div>
-          <div tw="absolute left-16 top-20 z-10 flex">
-            <Logo />
-          </div>
-
-          <div tw="w-1/2 left-16 absolute z-10 flex-col flex bottom-32 pr-16">
-            <p
-              tw="tracking-tight font-bold leading-tight"
-              style={{
-                fontSize: '4rem',
-                fontFamily: 'DM Sans',
-                lineHeight: 0.9,
-              }}
-            >
-              {title}
-            </p>
-            <p
-              style={{
-                fontSize: '2rem',
-                fontFamily: 'DM Sans',
-                lineHeight: 1.1,
-                color: '#93A1D7',
-                opacity: 0.9,
-              }}
-            >
-              is speaking at Epic Web Conf
-            </p>
-          </div>
-
-          <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-24 relative px-14">
-            {!hasImage && (
-              <div tw="flex items-center absolute right-14 top-12">
-                <img
-                  src="https://www.epicweb.dev/kent-c-dodds.png"
-                  tw="h-24 rounded-full bg-gray-800"
-                />
-                <p
-                  style={{fontSize: 36, fontFamily: 'DM Sans'}}
-                  tw="text-3xl ml-6 mb-6 text-gray-300"
-                >
-                  Kent C. Dodds
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      )
-    }
-
-    return new ImageResponse(getTemplateByType(type), {
-      width: 1200,
-      height: 630,
-      fonts: [
-        {
-          name: 'DM Sans',
-          data: dmSansFontData,
-          style: 'normal',
-          weight: 400,
-        },
-      ],
-    })
+    return new ImageResponse(
+      getTemplateByType(
+        title,
+        type,
+        muxPlaybackId,
+        image,
+        bgImage,
+        authorName,
+        authorImage,
+      ),
+      {
+        width: 1200,
+        height: 630,
+        fonts: [
+          {
+            name: 'DM Sans',
+            data: dmSansMediumData,
+            style: 'normal',
+            weight: 400,
+          },
+          {
+            name: 'DM Sans',
+            data: dmSansBoldData,
+            style: 'normal',
+            weight: 600,
+          },
+        ],
+      },
+    )
   } catch (e: any) {
     console.log(`${e.message}`)
     return new Response(`Failed to generate the image`, {
       status: 500,
     })
   }
+}
+
+const DefaultTemplate: React.FC<{title: string; image?: string}> = ({
+  title,
+  image,
+}) => {
+  return (
+    <div
+      tw="flex w-full relative justify-center text-white items-center h-full justify-between"
+      style={{
+        backgroundColor: '#080B16',
+      }}
+    >
+      <div
+        tw="absolute flex items-center justify-end h-5 w-full bottom-0 left-0 pr-6"
+        style={{background: '#4F75FF'}}
+      ></div>
+
+      <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-24 relative px-14">
+        {image ? (
+          <div tw="flex items-center">
+            <img src={image} width={200} height={200} tw="mr-10" />
+          </div>
+        ) : (
+          <Logo />
+        )}
+        <p
+          tw="tracking-tight font-bold leading-tight"
+          style={{
+            fontSize: '4rem',
+            fontFamily: 'DM Sans',
+            lineHeight: 1.1,
+          }}
+        >
+          {title}
+        </p>
+        {/* {!hasImage && (
+          <div tw="flex items-center absolute right-14 top-12">
+            <img src={authorImage} tw="h-24 rounded-full bg-gray-800" />
+            <p
+              style={{fontSize: 36, fontFamily: 'DM Sans'}}
+              tw="text-3xl ml-6 mb-6 text-gray-300"
+            >
+              {authorName}
+            </p>
+          </div>
+        )} */}
+      </div>
+    </div>
+  )
+}
+
+const VideoTemplate: React.FC<{
+  title: string
+  contributor?: {
+    name: string
+    image?: string
+  }
+  image?: string
+}> = ({title, image}) => {
+  return (
+    <div
+      tw="flex w-full relative justify-center text-white items-center h-full"
+      style={{
+        background: 'linear-gradient(254deg, #2C344E 1.81%, #0B132E 95.83%)',
+      }}
+    >
+      {image && (
+        <img
+          src={image}
+          tw="absolute right-0 bottom-0 opacity-90 rounded-md shadow-2xl"
+          style={{
+            aspectRatio: '480/270',
+            height: 630,
+          }}
+        />
+      )}
+
+      <div
+        tw="w-32 h-32 items-center justify-center rounded-full flex absolute right-56 text-white shadow-2xl"
+        style={{
+          background: 'linear-gradient(225deg, #4F75FF 29.29%, #30AFFF 70.6%)',
+        }}
+      >
+        <div tw="flex items-center justify-center ml-2">
+          <svg
+            width={40}
+            height={40}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+          >
+            <g fill="currentColor">
+              <path
+                fill="currentColor"
+                d="M14,7.999c0-0.326-0.159-0.632-0.427-0.819l-10-7C3.269-0.034,2.869-0.058,2.538,0.112 C2.207,0.285,2,0.626,2,0.999v14.001c0,0.373,0.207,0.715,0.538,0.887c0.331,0.17,0.73,0.146,1.035-0.068l10-7 C13.841,8.633,14,8.327,14,8.001C14,8,14,8,14,7.999C14,8,14,8,14,7.999z"
+              ></path>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div tw="flex absolute left-0 top-0">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="715"
+          height="630"
+          viewBox="0 0 715 630"
+          fill="none"
+        >
+          <path d="M0 0H715L594 630H0V0Z" fill="url(#paint0_linear_669_3995)" />
+          <defs>
+            <linearGradient
+              id="paint0_linear_669_3995"
+              x1="704.328"
+              y1="18.1731"
+              x2="-78.1359"
+              y2="275.78"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#2C344E" />
+              <stop offset="1" stopColor="#0B132E" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div tw="absolute left-16 top-16 z-10 flex">
+        <Logo />
+      </div>
+      <div tw="w-1/2 left-16 absolute z-10 flex bottom-24 pr-16">
+        <p
+          tw="tracking-tight font-bold leading-tight"
+          style={{
+            fontSize: '2.75rem',
+            fontFamily: 'DM Sans',
+            lineHeight: 1.1,
+          }}
+        >
+          {title}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+const InterviewTemplate: React.FC<{image?: string; title: string}> = ({
+  image,
+  title,
+}) => {
+  return (
+    <div
+      tw="flex w-full relative justify-center text-white items-center h-full"
+      style={{
+        background: 'linear-gradient(254deg, #2C344E 1.81%, #0B132E 95.83%)',
+      }}
+    >
+      {image && (
+        <img
+          src={image}
+          tw="absolute -right-1/4 bottom-0 opacity-90 rounded-md shadow-2xl z-0"
+          style={{
+            aspectRatio: '480/270',
+            height: 630,
+          }}
+        />
+      )}
+
+      <svg
+        className="relative"
+        xmlns="http://www.w3.org/2000/svg"
+        width="715"
+        height="630"
+        viewBox="0 0 715 630"
+        fill="none"
+      >
+        <path d="M0 0H715L594 630H0V0Z" fill="url(#paint0_linear_669_3995)" />
+        <defs>
+          <linearGradient
+            id="paint0_linear_669_3995"
+            x1="704.328"
+            y1="18.1731"
+            x2="-78.1359"
+            y2="275.78"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#2C344E" />
+            <stop offset="1" stopColor="#0B132E" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div
+        tw="w-32 h-32 items-center justify-center z-50 rounded-full flex absolute z-10 right-[480px] text-white shadow-2xl"
+        style={{
+          background: 'linear-gradient(225deg, #4F75FF 29.29%, #30AFFF 70.6%)',
+        }}
+      >
+        <div tw="w-10 h-10 ml-2 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+            <g fill="currentColor">
+              <path
+                fill="currentColor"
+                d="M14,7.999c0-0.326-0.159-0.632-0.427-0.819l-10-7C3.269-0.034,2.869-0.058,2.538,0.112 C2.207,0.285,2,0.626,2,0.999v14.001c0,0.373,0.207,0.715,0.538,0.887c0.331,0.17,0.73,0.146,1.035-0.068l10-7 C13.841,8.633,14,8.327,14,8.001C14,8,14,8,14,7.999C14,8,14,8,14,7.999z"
+              ></path>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div tw="absolute left-16 top-20 z-10 flex">
+        <Logo />
+      </div>
+
+      <div tw="w-1/2 left-16 absolute z-10 flex-col flex bottom-32 pr-16">
+        <p
+          tw="tracking-tight font-bold leading-tight"
+          style={{
+            fontSize: '4rem',
+            fontFamily: 'DM Sans',
+            lineHeight: 0.9,
+          }}
+        >
+          {title}
+        </p>
+        <p
+          style={{
+            fontSize: '2rem',
+            fontFamily: 'DM Sans',
+            lineHeight: 1.1,
+            color: '#93A1D7',
+            opacity: 0.9,
+          }}
+        >
+          is speaking at Epic Web Conf
+        </p>
+      </div>
+
+      <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-24 relative px-14">
+        {!image && (
+          <div tw="flex items-center absolute right-14 top-12">
+            <img
+              src="https://www.epicweb.dev/kent-c-dodds.png"
+              tw="h-24 rounded-full bg-gray-800"
+            />
+            <p
+              style={{fontSize: 36, fontFamily: 'DM Sans'}}
+              tw="text-3xl ml-6 mb-6 text-gray-300"
+            >
+              Kent C. Dodds
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+const BackgroundThumbnailTemplate: React.FC<{
+  title: string
+  image?: string
+  muxPlaybackId?: string
+  bgImage?: string
+  authorName?: string
+  authorImage?: string
+}> = ({title, image, bgImage, muxPlaybackId, authorName, authorImage}) => {
+  const videoThumbnail =
+    bgImage ||
+    `https://image.mux.com/${muxPlaybackId}/thumbnail.jpg?width=1200&height=675&time=0`
+
+  return (
+    <div
+      tw="flex w-full relative justify-center text-white items-center h-full"
+      style={{
+        background: 'linear-gradient(254deg, #080B16 0%, #12141E 100%)',
+      }}
+    >
+      <div
+        tw="absolute left-0 top-0 w-full h-full opacity-10"
+        style={{
+          filter: 'blur(3px)',
+          width: 1200,
+          height: 630,
+          backgroundImage: `url(${videoThumbnail})`,
+          backgroundSize: '1200px 675px',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+        }}
+      />
+      <div tw="flex flex-col items-center">
+        <Logo />
+        <h1 tw="mt-20 text-6xl leading-tight font-bold text-center w-full px-32">
+          {title}
+        </h1>
+        {authorName && authorImage && (
+          <div tw="flex items-center mt-10">
+            <img src={authorImage} tw="h-20 rounded-full bg-gray-800" />
+            <span tw="text-3xl ml-5">{authorName}</span>
+          </div>
+        )}
+      </div>
+    </div>
+  )
 }
 
 const Logo = () => {

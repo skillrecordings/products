@@ -4,14 +4,14 @@ import {getAllTips, Tip} from 'lib/tips'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
-import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
+import {useResourceComplete} from '@skillrecordings/skill-lesson/hooks/use-resource-complete'
 import Icon from 'components/icons'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
 import Balancer from 'react-wrap-balancer'
 import {Card, CardContent, CardHeader} from '@skillrecordings/ui'
 import {CheckIcon} from '@heroicons/react/solid'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import ResourceAuthor from 'components/resource-author'
+import ResourceContributor from 'components/resource-contributor'
 import {ConfBanner} from 'pages/events'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
@@ -70,7 +70,7 @@ const TipCard: React.FC<{tip: Tip; i: number}> = ({tip, i}) => {
   const muxPlaybackId = tip?.muxPlaybackId
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
   const router = useRouter()
-  const {tipCompleted} = useTipComplete(tip.slug)
+  const {resourceCompleted} = useResourceComplete(tip.slug)
 
   return (
     <Link
@@ -91,7 +91,7 @@ const TipCard: React.FC<{tip: Tip; i: number}> = ({tip, i}) => {
         <div className=" flex items-center justify-center">
           <span className="sr-only">
             Play {title}{' '}
-            {tipCompleted && <span className="sr-only">(completed)</span>}
+            {resourceCompleted && <span className="sr-only">(completed)</span>}
           </span>
           <div className="flex w-full items-center justify-center">
             <Image
@@ -116,12 +116,15 @@ const TipCard: React.FC<{tip: Tip; i: number}> = ({tip, i}) => {
           className="absolute right-5 top-5 z-20 flex items-center gap-2"
           aria-hidden="true"
         >
-          {tipCompleted && <CheckIcon className="w-4" aria-label="Watched" />}
+          {resourceCompleted && (
+            <CheckIcon className="w-4" aria-label="Watched" />
+          )}
         </div>
         <h2 className="text-base font-semibold leading-tight sm:text-lg">
-          {title} {tipCompleted && <span className="sr-only">(watched)</span>}
+          {title}{' '}
+          {resourceCompleted && <span className="sr-only">(watched)</span>}
         </h2>
-        <ResourceAuthor
+        <ResourceContributor
           name={tip?.author?.name}
           slug={tip?.author?.slug}
           image={tip?.author?.image}
@@ -137,7 +140,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   const {title, muxPlaybackId} = tip
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
   const router = useRouter()
-  const {tipCompleted} = useTipComplete(tip.slug)
+  const {resourceCompleted} = useResourceComplete(tip.slug)
 
   return (
     <li className="flex w-full flex-col pb-5">
@@ -153,7 +156,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
         <div className="relative flex items-center justify-center overflow-hidden rounded border">
           <span className="sr-only">
             Play {title}{' '}
-            {tipCompleted && <span className="sr-only">(completed)</span>}
+            {resourceCompleted && <span className="sr-only">(completed)</span>}
           </span>
           <div className="flex w-full items-center justify-center">
             <Image
@@ -169,7 +172,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             className="absolute flex scale-50 items-center justify-center rounded-full bg-background p-4 text-foreground opacity-100 transition"
             aria-hidden="true"
           >
-            {tipCompleted ? (
+            {resourceCompleted ? (
               <>
                 <Icon
                   name="Checkmark"
@@ -191,7 +194,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
         </div>
         <h3 className="w-full pt-1 font-semibold leading-tight">
           <Balancer>{title}</Balancer>
-          {tipCompleted && <span className="sr-only">(watched)</span>}
+          {resourceCompleted && <span className="sr-only">(watched)</span>}
         </h3>
       </Link>
     </li>

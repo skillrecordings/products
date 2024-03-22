@@ -44,6 +44,7 @@ export const TalkSchema = z.object({
       slug: z.string(),
       image: z.string(),
       imageAlt: z.string(),
+      twitterHandle: z.string().optional(),
     })
     .nullable()
     .optional(),
@@ -53,10 +54,53 @@ export const TalksSchema = z.array(TalkSchema)
 
 export type Talk = z.infer<typeof TalkSchema>
 
-export const getAllTalks = async (onlyPublished = true): Promise<Talk[]> => {
+export const getRelatedTalks = async (
+  talk: Talk,
+  count: number,
+): Promise<Talk[]> => {
+  const talks = await sanityClient.fetch(
+    groq`*[_type == "talk" && references(^._id)][0...${count}] | order(_createdAt desc) {
+        _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        title,
+        state,
+        description,
+        summary,
+        body,
+        "event": *[_type == "event" && references(^._id)][0] {
+          title,
+          "slug": slug.current,
+          state,
+        },
+        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "slug": slug.current,
+        "transcript": resources[@->._type == 'videoResource'][
+          0
+        ]->castingwords.transcript,
+        "tweetId":  resources[@._type == 'tweet'][0].tweetId,
+        author-> {
+          name,
+          "slug": slug.current,
+          "image": picture.asset->url,
+          "imageAlt": picture.alt,
+          twitterHandle,
+        },
+    }`,
+    talk,
+  )
+  return TalksSchema.parse(talks)
+}
+
+export const getAllTalks = async (
+  onlyPublished = true,
+  limit?: number,
+): Promise<Talk[]> => {
   const talks = await sanityClient.fetch(groq`*[_type == "talk" ${
     onlyPublished ? `&& state == "published"` : ''
-  }] | order(_createdAt desc) {
+  }][${limit ? `0...${limit}` : ''}] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,
@@ -80,7 +124,8 @@ export const getAllTalks = async (onlyPublished = true): Promise<Talk[]> => {
           name,
           "slug": slug.current,
           "image": picture.asset->url,
-          "imageAlt": picture.alt
+          "imageAlt": picture.alt,
+          twitterHandle,
         },
   }`)
 
@@ -115,7 +160,8 @@ export const getTalk = async (slug: string): Promise<Talk> => {
           name,
           "slug": slug.current,
           "image": picture.asset->url,
-          "imageAlt": picture.alt
+          "imageAlt": picture.alt,
+          twitterHandle,
         },
     }`,
     {slug},

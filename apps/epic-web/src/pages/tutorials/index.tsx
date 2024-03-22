@@ -12,7 +12,7 @@ import {
 } from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import ResourceAuthor from 'components/resource-author'
+import ResourceContributor from 'components/resource-contributor'
 import {ConfBanner} from 'pages/events'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 
@@ -104,7 +104,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                         </h3>
                         <div className="flex items-center gap-3 pt-4 text-gray-600 dark:text-gray-400">
                           <div className="flex items-center justify-center gap-2 overflow-hidden rounded-full">
-                            <ResourceAuthor
+                            <ResourceContributor
                               name={author?.name}
                               slug={author?.slug}
                               image={author?.image}

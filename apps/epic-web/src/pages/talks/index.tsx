@@ -4,11 +4,11 @@ import {Tip} from 'lib/tips'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
-import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
+import {useResourceComplete} from '@skillrecordings/skill-lesson/hooks/use-resource-complete'
 import Icon from 'components/icons'
 import Balancer from 'react-wrap-balancer'
 import {getAllConf24Talks, getAllTalks, Talk} from 'lib/talks'
-import ResourceAuthor from 'components/resource-author'
+import ResourceContributor from 'components/resource-contributor'
 import {ConfLogo, IS_PAST_CONF_24} from 'pages/conf'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
@@ -38,12 +38,12 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
         title: `Epic Dev Talks`,
         description: pageDescription,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1705611435/epicweb.dev/og/card-talks_2x.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1711085322/talks-card_2x.png',
         },
       }}
       className="relative mx-auto flex w-full max-w-screen-lg grid-cols-12 flex-col gap-5 pb-0 md:grid md:px-5 md:pb-16 lg:px-0"
     >
-      <header className="col-span-3 flex w-full flex-col items-start px-3 py-10">
+      <header className="col-span-3 flex w-full flex-col items-center px-3 py-10 sm:items-start">
         <div className="relative flex items-center justify-center">
           <Image
             src="https://res.cloudinary.com/epic-web/image/upload/v1711021972/talks-h1_2x.png"
@@ -53,23 +53,23 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
           />
           <h1 className="absolute text-4xl font-bold text-white">Talks</h1>
         </div>
-        <h2 className="text-balance pt-3 text-sm font-medium">
+        <h2 className="text-balance pt-3 font-medium sm:text-sm">
           {pageDescription}
         </h2>
       </header>
-      <main className="relative z-10 col-span-9 flex w-full flex-col items-center gap-5 py-10">
+      <main className="relative z-10 col-span-9 flex w-full flex-col items-center gap-5 sm:py-10">
         {conf24Talks && (
-          <div className="relative flex w-full flex-col overflow-hidden rounded border bg-card p-5">
-            <div className="relative z-10 flex w-full items-center gap-4 p-5 md:gap-12">
+          <div className="relative flex w-full flex-col overflow-hidden border-y bg-card py-5 sm:p-5 md:rounded md:border">
+            <div className="relative z-10 flex w-full flex-col items-center justify-center gap-4 p-5 text-center md:flex-row md:justify-start md:gap-12 md:text-left">
               <Link href="/conf">
                 <ConfLogo />
               </Link>
-              <h2 className="text-xl">
+              <h3 className="text-balance text-lg sm:text-xl">
                 Talks from{' '}
                 <Link href="/conf" className="font-bold hover:underline">
                   Epic Web Conf 2024
                 </Link>
-              </h2>
+              </h3>
             </div>
             <ul className="relative z-10 flex w-full flex-col">
               {conf24Talks.map((talk, i) => {
@@ -92,7 +92,7 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
 
 export default TalksIndex
 
-const TalkItem: React.FC<{
+export const TalkItem: React.FC<{
   talk: Talk
   path?: string
   i: number
@@ -102,7 +102,7 @@ const TalkItem: React.FC<{
   const muxPlaybackId = talk?.muxPlaybackId
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve&time=0`
 
-  const {tipCompleted} = useTipComplete(talk.slug)
+  const {resourceCompleted} = useResourceComplete(talk.slug)
 
   return (
     <li key={slug}>
@@ -116,7 +116,7 @@ const TalkItem: React.FC<{
         )}
         tabIndex={-1}
       >
-        <div className="relative flex items-center justify-center overflow-hidden rounded border">
+        <div className="relative flex w-[100px] flex-shrink-0 items-center justify-center overflow-hidden rounded border sm:w-auto">
           <Image
             src={thumbnail}
             alt=""
@@ -133,8 +133,10 @@ const TalkItem: React.FC<{
           </div>
         </div>
         <div>
-          <h3 className="text-xl font-semibold">{talk.title}</h3>
-          <ResourceAuthor
+          <h4 className="text-base font-semibold leading-tight sm:text-xl sm:leading-tight">
+            {talk.title}
+          </h4>
+          <ResourceContributor
             name={talk?.author?.name}
             slug={talk?.author?.slug}
             image={talk.author?.image}
@@ -151,8 +153,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   const {title, muxPlaybackId} = tip
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
   const router = useRouter()
-  const {tipCompleted} = useTipComplete(tip.slug)
-  // const tipCompleted = false
+  const {resourceCompleted} = useResourceComplete(tip.slug)
 
   return (
     <article className="flex items-center gap-5 py-4">
@@ -177,7 +178,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
         >
           <span className="sr-only">
             Play {title}{' '}
-            {tipCompleted && <span className="sr-only">(completed)</span>}
+            {resourceCompleted && <span className="sr-only">(completed)</span>}
           </span>
           <div className="flex w-16 items-center justify-center sm:w-auto">
             <Image
@@ -193,7 +194,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             className="absolute flex scale-50 items-center justify-center text-white opacity-100 transition"
             aria-hidden="true"
           >
-            {tipCompleted ? (
+            {resourceCompleted ? (
               <>
                 <Icon
                   name="Checkmark"
@@ -222,7 +223,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
           className="inline-flex items-start gap-1 hover:underline"
         >
           <Balancer>{title}</Balancer>{' '}
-          {tipCompleted && <span className="sr-only">(watched)</span>}
+          {resourceCompleted && <span className="sr-only">(watched)</span>}
         </Link>
       </h2>
     </article>

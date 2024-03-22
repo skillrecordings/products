@@ -11,7 +11,7 @@ import Share from 'components/share'
 import {Event} from 'lib/events'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
-import AuthorBio from 'components/author-bio'
+import AuthorBio from 'components/contributor-bio'
 import {
   CalendarIcon,
   ClockIcon,
@@ -149,7 +149,7 @@ const EventTemplate: React.FC<
             <br className="block sm:hidden" />
             with{' '}
             <Link
-              href={`/authors/${author?.slug}`}
+              href={`/contributors/${author?.slug}`}
               target="_blank"
               className="hover:underline"
             >
