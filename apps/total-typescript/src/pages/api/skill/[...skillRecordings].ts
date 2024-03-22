@@ -6,6 +6,17 @@ import {nextAuthOptions} from '../auth/[...nextauth]'
 import {NextApiRequest} from 'next'
 import {getToken} from 'next-auth/jwt'
 import {UserSchema, getCurrentAbility} from '@skillrecordings/skill-lesson'
+import {
+  defaultPaymentOptions,
+  StripeProvider,
+} from '@skillrecordings/commerce-server'
+
+export const paymentOptions = defaultPaymentOptions({
+  stripeProvider: StripeProvider({
+    stripeSecretKey: process.env.STRIPE_SECRET_TOKEN,
+    apiVersion: '2020-08-27',
+  }),
+})
 
 export const skillOptions: SkillRecordingsOptions = {
   site: {
@@ -28,6 +39,7 @@ export const skillOptions: SkillRecordingsOptions = {
     return getCurrentAbility({user: UserSchema.parse(token)})
   },
   nextAuthOptions,
+  paymentOptions,
 }
 
 export default SkillRecordings(skillOptions)

@@ -1,8 +1,5 @@
 import * as React from 'react'
-import {
-  convertToSerializeForNextResponse,
-  stripeData,
-} from '@skillrecordings/commerce-server'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import Balancer from 'react-wrap-balancer'
 import {getProviders, signIn, useSession} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
@@ -20,24 +17,28 @@ import {trpc} from '../../trpc/trpc.client'
 import {Transfer} from '@/purchase-transfer/purchase-transfer'
 import {getProduct} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
-import {Twitter} from '@skillrecordings/react'
+import {paymentOptions} from '../api/skill/[...skillRecordings]'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
-  const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
+  const {purchaseId: purchaseQueryParam, upgrade} = query
   const token = await getToken({req})
   const providers = await getProviders()
   const {getPurchaseDetails} = getSdk()
 
   let purchaseId = purchaseQueryParam
 
-  if (session_id) {
-    const {stripeChargeId} = await stripeData({
-      checkoutSessionId: session_id as string,
-    })
+  const session_id =
+    query.session_id instanceof Array ? query.session_id[0] : query.session_id
+
+  const paymentProvider = paymentOptions.providers.stripe
+
+  if (session_id && paymentProvider) {
+    const {chargeIdentifier} = await paymentProvider.getPurchaseInfo(session_id)
+
     const purchase = await prisma.purchase.findFirst({
       where: {
         merchantCharge: {
-          identifier: stripeChargeId,
+          identifier: chargeIdentifier,
         },
       },
     })
