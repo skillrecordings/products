@@ -7,7 +7,6 @@ import MuxPlayer, {
 } from '@mux/mux-player-react'
 import {Tip} from 'lib/tips'
 
-import {TipTeaser} from 'pages/tips'
 import {useRouter} from 'next/router'
 import {
   XIcon,
@@ -20,7 +19,7 @@ import {shuffle, take} from 'lodash'
 import {track} from '../utils/analytics'
 import Image from 'next/legacy/image'
 import {getOgImage} from 'utils/get-og-image'
-import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
+import {useResourceComplete} from '@skillrecordings/skill-lesson/hooks/use-resource-complete'
 import {localProgressDb} from '@skillrecordings/skill-lesson/utils/dexie'
 import {
   redirectUrlBuilder,
@@ -44,7 +43,13 @@ import {Talk} from 'lib/talks'
 import Link from 'next/link'
 import ResourceContributor from 'components/resource-contributor'
 import {ConfLogo} from 'pages/conf'
-import {ChevronLeftIcon} from '@heroicons/react/outline'
+import {CheckIcon, ChevronLeftIcon} from '@heroicons/react/outline'
+import ReactMarkdown from 'react-markdown'
+import {getTranscriptComponents} from '@skillrecordings/skill-lesson/markdown/transcript-components'
+import {TalkItem} from 'pages/talks'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {Button} from '@skillrecordings/ui/primitives/button'
+import Share from 'components/share'
 
 const TalkTemplate: React.FC<{
   talk: Talk
@@ -55,7 +60,7 @@ const TalkTemplate: React.FC<{
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
-  const {tipCompleted} = useTipComplete(talk.slug)
+  const {resourceCompleted} = useResourceComplete(talk.slug)
   const {videoResourceId} = useVideoResource()
   const thumbnail = `https://image.mux.com/${talk.muxPlaybackId}/thumbnail.jpg?width=1200&height=675&time=0`
 
@@ -105,20 +110,22 @@ const TalkTemplate: React.FC<{
       exerciseSlug={talk.slug}
       path="/talks"
     >
-      <ArticleJsonLd
-        url={`${process.env.NEXT_PUBLIC_URL}/talks/${talk.slug}`}
-        title={talk.title || 'talk'}
-        images={[
-          `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
-        ]}
-        datePublished={talk._updatedAt || new Date().toISOString()}
-        authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
-        description={talk.description || 'Epic Web Talk'}
-      />
+      {talk.body && (
+        <ArticleJsonLd
+          url={`${process.env.NEXT_PUBLIC_URL}/talks/${talk.slug}`}
+          title={talk.title || 'talk'}
+          images={[
+            `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
+          ]}
+          datePublished={talk._createdAt || new Date().toISOString()}
+          authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
+          description={talk.description || 'Epic Web Talk'}
+        />
+      )}
       <VideoJsonLd
         name={talk.title || 'talk'}
         description={talk.description || 'Epic Web Talk'}
-        uploadDate={talk._updatedAt || new Date().toISOString()}
+        uploadDate={talk._createdAt || new Date().toISOString()}
         thumbnailUrls={[
           `https://image.mux.com/${talk.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`,
         ]}
@@ -141,67 +148,61 @@ const TalkTemplate: React.FC<{
               )}
             </div>
           </div>
-          <article className=" relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-10 xl:border-gray-800 xl:pt-10">
+          <article className=" relative z-10 border-l border-transparent px-5 pb-16 pt-8 sm:pt-8 xl:border-gray-800 xl:pt-10">
             <div className="mx-auto w-full max-w-screen-md pb-5">
-              <div className="flex w-full flex-col gap-0 sm:gap-10 ">
-                <div className="">
+              <div className="flex flex-col items-start">
+                <div className="mb-3 flex w-full items-center justify-between text-muted-foreground">
                   <Link
                     href="/talks"
                     passHref
-                    className="mb-3 flex items-center gap-0.5 text-sm opacity-75 transition hover:opacity-100"
+                    className="flex items-center gap-0.5 text-sm text-muted-foreground transition hover:text-foreground"
                   >
-                    <ChevronLeftIcon className="w-3" aria-hidden="true" /> All
+                    <ChevronLeftIcon className="w-3" aria-hidden="true" />
                     Talks
                   </Link>
-                  <div className="flex w-full items-center justify-between">
-                    <h1 className="font-heading inline-flex w-full max-w-2xl items-baseline text-balance text-3xl font-black lg:text-4xl">
-                      {talk.title}
-                    </h1>
-                    {talk.event && talk.event.slug === 'conf' && (
-                      <Link href="/conf">
-                        <ConfLogo />
-                      </Link>
-                    )}
-                  </div>
-                  {tipCompleted && <span className="sr-only">(watched)</span>}
-                  <ResourceContributor
-                    className="my-2 inline-flex text-base font-semibold text-gray-700 dark:text-gray-300 [&_img]:w-10 [&_span]:font-bold"
-                    name={talk.author?.name}
-                    slug={talk.author?.slug}
-                    image={talk.author?.image}
-                  />
-                  {tipCompleted ? (
+                  {resourceCompleted ? (
                     <div
                       aria-hidden="true"
-                      className="flex items-center gap-1 pb-[20px] pt-4"
+                      className="flex items-center gap-0.5"
                     >
-                      <Icon
-                        name="Checkmark"
-                        className="h-5 w-5 text-emerald-600"
-                      />
-                      <span className="font-heading text-sm font-black uppercase text-emerald-600 opacity-90">
-                        Watched
-                      </span>
+                      <CheckIcon className="w-4" />
+                      <span className="text-sm">Watched</span>
                     </div>
                   ) : null}
-                  {talk.body && (
-                    <>
-                      <div className="prose w-full max-w-none pb-5 dark:prose-invert lg:prose-lg">
-                        <MDX contents={talkBodySerialized} />
-                      </div>
-                    </>
-                  )}
-                  {talk.transcript && (
-                    <div className="mt-16 w-full border-t pt-10">
-                      <h3 className="text-xl font-semibold">Transcript</h3>
-                      <VideoTranscript
-                        className="!pt-0"
-                        withTitle={false}
-                        transcript={talk.transcript}
-                      />
-                    </div>
+                </div>
+                <div className="flex w-full items-center justify-between">
+                  <h1 className="inline-flex w-full max-w-2xl items-baseline text-balance text-3xl font-bold lg:text-4xl">
+                    {talk.title}
+                  </h1>
+                  {talk.event && talk.event.slug === 'conf' && (
+                    <Link href="/conf">
+                      <ConfLogo />
+                    </Link>
                   )}
                 </div>
+
+                <ResourceContributor
+                  className="mt-3 inline-flex text-base [&_img]:w-10 [&_span]:font-normal"
+                  name={talk.author?.name}
+                  slug={talk.author?.slug}
+                  image={talk.author?.image}
+                />
+
+                {talk.body && (
+                  <>
+                    <div className="prose mt-5 w-full max-w-none pb-5 dark:prose-invert lg:prose-lg">
+                      <MDX contents={talkBodySerialized} />
+                    </div>
+                  </>
+                )}
+                <Share
+                  className="mt-5"
+                  title={talk.title}
+                  contentType="talk"
+                  contributor={talk.author}
+                />
+                <Transcript talk={talk} />
+                <RelatedTalks talks={talks} />
               </div>
             </div>
           </article>
@@ -209,6 +210,57 @@ const TalkTemplate: React.FC<{
       </Layout>
     </VideoProvider>
   )
+}
+
+const Transcript: React.FC<{talk: Talk}> = ({talk}) => {
+  const {handlePlay, muxPlayerRef} = useMuxPlayer()
+  const transcriptMarkdownComponent = getTranscriptComponents({
+    handlePlay,
+    canShowVideo: true,
+    muxPlayerRef,
+  })
+  const [isExpanded, setIsExpanded] = React.useState(false)
+
+  return talk.transcript ? (
+    <div className="mt-14 w-full">
+      <h3 className="mb-5 text-2xl font-semibold">Transcript</h3>
+      <div
+        className={cn(
+          'group relative flex flex-col items-center justify-start',
+          {
+            'h-96 overflow-hidden after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:h-48 after:w-full after:bg-gradient-to-t after:from-background after:to-transparent after:content-[""]':
+              !isExpanded,
+            'h-auto': isExpanded,
+          },
+        )}
+      >
+        <ReactMarkdown
+          className={cn(
+            'prose w-full max-w-none transition dark:prose-invert',
+            {
+              'opacity-75 group-hover:opacity-100': !isExpanded,
+            },
+          )}
+          components={transcriptMarkdownComponent}
+        >
+          {talk.transcript}
+        </ReactMarkdown>
+        <Button
+          variant="secondary"
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={cn(
+            'z-10 shadow-soft-md hover:bg-secondary hover:brightness-90 dark:hover:brightness-110',
+            {
+              'absolute bottom-16': !isExpanded,
+              'mt-5': isExpanded,
+            },
+          )}
+        >
+          {isExpanded ? 'Collapse' : 'Expand'} Transcript
+        </Button>
+      </div>
+    </div>
+  ) : null
 }
 
 const Video: React.FC<any> = React.forwardRef(({talks}, ref: any) => {
@@ -236,26 +288,19 @@ const Video: React.FC<any> = React.forwardRef(({talks}, ref: any) => {
   )
 })
 
-const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
-  currentTip,
-  tips,
-}) => {
+const RelatedTalks: React.FC<{talks: Talk[]}> = ({talks}) => {
+  if (!talks) return null
+
   return (
-    <section className="mx-auto h-full w-full md:pl-3">
-      <h2 className="font-heading pt-2 text-2xl font-black">More Tips</h2>
-      <div className="flex flex-col pt-4">
-        {tips
-          .filter((tip) => tip.slug !== currentTip.slug)
-          .map((tip) => {
-            return <TipTeaser key={tip.slug} tip={tip} />
-          })}
-      </div>
+    <section className="mx-auto mt-10 h-full w-full">
+      <h3 className="text-2xl font-bold">Related Talks</h3>
+      <ul className="flex flex-col pt-4">
+        {talks.map((talk, i) => {
+          return <TalkItem i={i} key={talk.slug} talk={talk} />
+        })}
+      </ul>
     </section>
   )
-}
-
-const Hr: React.FC<{className?: string}> = ({className}) => {
-  return <div className={cx('my-8 h-1 w-8', className)} aria-hidden="true" />
 }
 
 const TipOverlay: React.FC<{talks: Talk[]}> = ({talks}) => {
@@ -289,7 +334,6 @@ const TipOverlay: React.FC<{talks: Talk[]}> = ({talks}) => {
         </button>
       </div>
       <div className="ft-0 top-0 z-20 flex h-full w-full flex-col items-center justify-center p-2 text-center text-lg leading-relaxed lg:absolute">
-        {/* <ShareTip lesson={tip} /> */}
         <div className="grid h-full w-full grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {take(
             shuffle(
@@ -310,7 +354,7 @@ const TipOverlay: React.FC<{talks: Talk[]}> = ({talks}) => {
 const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   const router = useRouter()
   const {handlePlay} = useMuxPlayer()
-  const {tipCompleted} = useTipComplete(suggestedTip.slug)
+  const {resourceCompleted} = useResourceComplete(suggestedTip.slug)
 
   const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${
     suggestedTip.videoResourceId
@@ -342,7 +386,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
           </span>
           <span className="font-medium">
             {suggestedTip.title}{' '}
-            {tipCompleted && <span className="sr-only">(watched)</span>}
+            {resourceCompleted && <span className="sr-only">(watched)</span>}
           </span>
         </div>
         <Image
@@ -357,7 +401,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
           className="absolute left-0 top-0 flex h-full w-full items-start justify-end p-5"
           aria-hidden="true"
         >
-          {tipCompleted ? (
+          {resourceCompleted ? (
             <>
               <CheckCircleIcon
                 className="absolute h-10 w-10 text-teal-400 transition group-hover:opacity-0"
@@ -371,26 +415,6 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
         </div>
       </button>
     </div>
-  )
-}
-
-const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
-  return (
-    <a
-      href={`https://twitter.com/i/status/${tweet}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="relative mb-5 mt-2 inline-flex flex-shrink-0 items-center justify-center space-x-2 bg-gray-700 px-5 py-4 font-semibold text-white transition-all duration-300 ease-in-out before:absolute before:left-0 before:top-0 before:z-[-1] before:h-full before:w-0 before:bg-gray-600 before:transition-all before:duration-300 before:ease-in-out  hover:brightness-110 hover:before:w-full focus-visible:ring-white"
-      onClick={() => {
-        track('clicked reply on twitter')
-      }}
-    >
-      <ChatAltIcon
-        aria-hidden="true"
-        className="relative h-5 w-5 text-sky-500"
-      />
-      <span>Discuss on Twitter</span>
-    </a>
   )
 }
 

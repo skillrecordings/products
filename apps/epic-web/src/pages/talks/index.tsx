@@ -4,7 +4,7 @@ import {Tip} from 'lib/tips'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import {useRouter} from 'next/router'
-import {useTipComplete} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
+import {useResourceComplete} from '@skillrecordings/skill-lesson/hooks/use-resource-complete'
 import Icon from 'components/icons'
 import Balancer from 'react-wrap-balancer'
 import {getAllConf24Talks, getAllTalks, Talk} from 'lib/talks'
@@ -92,7 +92,7 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
 
 export default TalksIndex
 
-const TalkItem: React.FC<{
+export const TalkItem: React.FC<{
   talk: Talk
   path?: string
   i: number
@@ -102,7 +102,7 @@ const TalkItem: React.FC<{
   const muxPlaybackId = talk?.muxPlaybackId
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve&time=0`
 
-  const {tipCompleted} = useTipComplete(talk.slug)
+  const {resourceCompleted} = useResourceComplete(talk.slug)
 
   return (
     <li key={slug}>
@@ -153,8 +153,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
   const {title, muxPlaybackId} = tip
   const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
   const router = useRouter()
-  const {tipCompleted} = useTipComplete(tip.slug)
-  // const tipCompleted = false
+  const {resourceCompleted} = useResourceComplete(tip.slug)
 
   return (
     <article className="flex items-center gap-5 py-4">
@@ -179,7 +178,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
         >
           <span className="sr-only">
             Play {title}{' '}
-            {tipCompleted && <span className="sr-only">(completed)</span>}
+            {resourceCompleted && <span className="sr-only">(completed)</span>}
           </span>
           <div className="flex w-16 items-center justify-center sm:w-auto">
             <Image
@@ -195,7 +194,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             className="absolute flex scale-50 items-center justify-center text-white opacity-100 transition"
             aria-hidden="true"
           >
-            {tipCompleted ? (
+            {resourceCompleted ? (
               <>
                 <Icon
                   name="Checkmark"
@@ -224,7 +223,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
           className="inline-flex items-start gap-1 hover:underline"
         >
           <Balancer>{title}</Balancer>{' '}
-          {tipCompleted && <span className="sr-only">(watched)</span>}
+          {resourceCompleted && <span className="sr-only">(watched)</span>}
         </Link>
       </h2>
     </article>

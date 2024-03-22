@@ -18,13 +18,13 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
           },
         })
       : null
-    const talks = await getAllTalks()
+    const relatedTalks = await getAllTalks(true, 4)
 
     return {
       props: {
         talk,
         talkBodySerialized,
-        talks,
+        talks: relatedTalks.filter((t) => t.slug !== talk.slug),
         transcript: talk.transcript,
         videoResourceId: talk.videoResourceId,
       },
@@ -67,9 +67,7 @@ const TalkPage: NextPage<TalkPageProps> = ({
     },
     moduleType: 'talk',
     lessons: talks,
-    resources: talks?.filter(
-      (talkToCompare) => talkToCompare.slug !== talk.slug,
-    ),
+    resources: talks,
   }
 
   return (

@@ -22,9 +22,9 @@ import {track} from '../utils/analytics'
 import Image from 'next/legacy/image'
 import {getOgImage} from 'utils/get-og-image'
 import {
-  useCompletedTips,
-  useTipComplete,
-} from '@skillrecordings/skill-lesson/hooks/use-tip-complete'
+  useCompletedResources,
+  useResourceComplete,
+} from '@skillrecordings/skill-lesson/hooks/use-resource-complete'
 import {localProgressDb} from '@skillrecordings/skill-lesson/utils/dexie'
 import {
   redirectUrlBuilder,
@@ -57,7 +57,7 @@ const TipTemplate: React.FC<{
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
-  const {tipCompleted} = useTipComplete(tip.slug)
+  const {resourceCompleted} = useResourceComplete(tip.slug)
   const {videoResourceId} = useVideoResource()
   const {data: tipResources} = trpc.tipResources.bySlug.useQuery({
     slug: tip.slug,
@@ -151,7 +151,7 @@ const TipTemplate: React.FC<{
                 <div className="flex flex-col lg:col-span-8">
                   <h1 className="font-heading relative inline-flex w-full max-w-2xl items-baseline pb-5 text-2xl font-black sm:text-3xl lg:text-4xl">
                     {tip.title}
-                    {tipCompleted && (
+                    {resourceCompleted && (
                       <>
                         <span className="sr-only">(watched)</span>
                         <CheckIcon
@@ -228,9 +228,13 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   currentTip,
   tips,
 }) => {
-  const {completedTips} = useCompletedTips(tips.map((tip) => tip.slug))
+  const {completedResources} = useCompletedResources(
+    tips.map((tip) => tip.slug),
+  )
   const tipsToWatch = tips.filter((tip) =>
-    completedTips ? !completedTips.find((ct) => ct.lesson === tip.slug) : true,
+    completedResources
+      ? !completedResources.find((ct) => ct.lesson === tip.slug)
+      : true,
   )
 
   return (
@@ -299,7 +303,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
 const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
   const router = useRouter()
   const {handlePlay} = useMuxPlayer()
-  const {tipCompleted} = useTipComplete(suggestedTip.slug)
+  const {resourceCompleted} = useResourceComplete(suggestedTip.slug)
 
   const thumbnail = `https://image.mux.com/${suggestedTip.muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve`
 
@@ -329,7 +333,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
           </span>
           <span className="font-medium">
             {suggestedTip.title}{' '}
-            {tipCompleted && <span className="sr-only">(watched)</span>}
+            {resourceCompleted && <span className="sr-only">(watched)</span>}
           </span>
         </div>
         <Image
@@ -344,7 +348,7 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
           className="absolute left-0 top-0 flex h-full w-full items-start justify-end p-5"
           aria-hidden="true"
         >
-          {tipCompleted ? (
+          {resourceCompleted ? (
             <>
               <CheckCircleIcon
                 className="absolute h-10 w-10 text-teal-400 transition group-hover:opacity-0"

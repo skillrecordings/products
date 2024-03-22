@@ -10,12 +10,11 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import {type Contributor} from 'lib/contributors'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
-import Balancer from 'react-wrap-balancer'
 
 const Share: React.FC<{
   title: string
   contentType?: string
-  contributor?: Contributor | null
+  contributor?: Pick<Contributor, 'name' | 'twitterHandle'> | null
   className?: string
 }> = ({title, contentType = 'article', contributor, className}) => {
   const router = useRouter()
@@ -48,7 +47,7 @@ const Share: React.FC<{
             className={shareButtonClassName}
             svgClassName="w-4 h-4"
             link={url}
-            message={`${title}${
+            message={`${title}, ${contentType ? contentType : ''}${
               contributorTwitterHandle ? ` by @${contributorTwitterHandle}` : ''
             }`}
           />
