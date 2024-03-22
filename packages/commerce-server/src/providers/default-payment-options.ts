@@ -47,19 +47,26 @@ export type StripeProviderFunction = (
 ) => StripeProvider
 
 type Paypal = 'paypal-client'
-type PaypalProvider = {name: 'paypal'; paymentClient: Paypal}
+type PaypalProvider = {
+  name: 'paypal'
+  paymentClient: Paypal
+} & PaymentProviderFunctionality
 type PaypalProviderFunction = (options: {
   paypalSecretKey: string
 }) => PaypalProvider
 
 type PaymentProviderOptions = StripeProvider | PaypalProvider
 
-export type PaymentOptions = {
-  providers: {
-    stripe?: StripeProvider
-    paypal?: PaypalProvider
-  }
+type SupportedProviders = {
+  stripe?: StripeProvider
+  paypal?: PaypalProvider
 }
+export type PaymentOptions = {
+  getProvider: (providerName: string) => PaymentProvider | undefined
+  providers: SupportedProviders
+}
+
+type ProviderNames = Readonly<Array<keyof PaymentOptions['providers']>>
 
 // Two concepts for the providers:
 // 1. We have the Payment Provider Functions (factories?) that take a few config values
@@ -69,10 +76,23 @@ export const defaultPaymentOptions = (options: {
   stripeProvider?: StripeProvider
   paypalProvider?: PaypalProvider
 }): PaymentOptions => {
+  const supportedProviderNames: ProviderNames = ['stripe', 'paypal'] as const
+
+  const providers: SupportedProviders = {
+    stripe: options.stripeProvider,
+    paypal: options.paypalProvider,
+  }
+
   return {
-    providers: {
-      stripe: options.stripeProvider,
-      paypal: options.paypalProvider,
+    getProvider: (providerName: string) => {
+      for (const supportedProviderName of supportedProviderNames) {
+        if (providerName === supportedProviderName) {
+          return providers[supportedProviderName]
+        }
+      }
+
+      return undefined
     },
+    providers,
   }
 }

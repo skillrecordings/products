@@ -7,7 +7,7 @@ import {
   getSdk,
   prisma,
 } from '@skillrecordings/database'
-import {first} from 'lodash'
+import {first, isEmpty} from 'lodash'
 import {add} from 'date-fns'
 import {
   getCalculatedPrice,
@@ -23,6 +23,24 @@ import {
 } from '@skillrecordings/stripe-sdk'
 
 const {stripe: defaultStripe} = defaultStripeContext
+
+const buildSearchParams = (params: object) => {
+  // implementing this instead of using `URLSearchParams` because that API
+  // does URL encoding of values in the URL like the curly braces in
+  // `session_id={CHECKOUT_SESSION_ID}` which needs to get passed to stripe
+  // as is.
+  if (isEmpty(params)) {
+    return ''
+  } else {
+    const paramsAsString = Object.entries(params)
+      .map(([key, value]) => {
+        return `${key}=${value}`
+      })
+      .join('&')
+
+    return paramsAsString
+  }
+}
 
 /**
  * Given a specific user we want to lookup their Stripe
@@ -414,17 +432,15 @@ export async function stripeCheckout({
         }
 
         if (isUpgrade) {
-          const queryParamString = new URLSearchParams({
+          const queryParamString = buildSearchParams({
             ...baseQueryParams,
             upgrade: 'true',
-          }).toString()
+          })
           const url = `${process.env.NEXT_PUBLIC_URL}/welcome?${queryParamString}`
 
           return url
         } else {
-          const queryParamString = new URLSearchParams(
-            baseQueryParams,
-          ).toString()
+          const queryParamString = buildSearchParams(baseQueryParams)
 
           const url = `${process.env.NEXT_PUBLIC_URL}/thanks/purchase?${queryParamString}`
           return url
