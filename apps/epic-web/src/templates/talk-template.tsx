@@ -57,13 +57,15 @@ const TalkTemplate: React.FC<{
   const router = useRouter()
   const {tipCompleted} = useTipComplete(talk.slug)
   const {videoResourceId} = useVideoResource()
+  const thumbnail = `https://image.mux.com/${talk.muxPlaybackId}/thumbnail.jpg?width=1200&height=675&time=0`
 
   const ogImage = getOgImage({
     title: talk.title,
-    type: 'video',
-    image:
-      talk.videoPosterUrl ??
-      `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
+    type: 'background-thumbnail',
+    muxPlaybackId: talk.muxPlaybackId ?? undefined,
+    bgImage: talk.videoPosterUrl ?? thumbnail,
+    authorName: talk.author?.name ?? undefined,
+    authorImage: talk.author?.image ?? undefined,
   })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
