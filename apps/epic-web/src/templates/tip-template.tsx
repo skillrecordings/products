@@ -33,7 +33,6 @@ import {
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {ArticleJsonLd, VideoJsonLd} from '@skillrecordings/next-seo'
-import Icon from 'components/icons'
 import {
   useMuxPlayer,
   VideoProvider,

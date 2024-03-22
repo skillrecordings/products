@@ -15,14 +15,14 @@ export const useResourceComplete = (resourceSlug: string) => {
   const {data: completionEvents, status} = useQuery(
     ['completionEvents', resourceSlug],
     async () => {
-      const tipEvents = await localProgressDb.progress
+      const resourceEvents = await localProgressDb.progress
         .where('lesson')
         .equals(resourceSlug)
         .toArray()
 
       return z
         .array(ResourceEventSchema)
-        .parse(tipEvents)
+        .parse(resourceEvents)
         .filter((tipEvent) => {
           return tipEvent.eventName === 'completed video'
         })
