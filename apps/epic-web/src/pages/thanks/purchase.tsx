@@ -5,7 +5,6 @@ import {
   convertToSerializeForNextResponse,
   determinePurchaseType,
   PurchaseType,
-  stripeData,
 } from '@skillrecordings/commerce-server'
 import {getSdk, Purchase} from '@skillrecordings/database'
 import CopyInviteLink from '@skillrecordings/skill-lesson/team/copy-invite-link'
@@ -17,32 +16,34 @@ import {isEmpty} from 'lodash'
 import {Transfer} from 'purchase-transfer/purchase-transfer'
 import {trpc} from 'trpc/trpc.client'
 import {getPostPurchaseThanksText} from 'utils/get-post-purchase-thanks-text'
+import {paymentOptions} from 'pages/api/skill/[...skillRecordings]'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context
 
-  const {session_id} = query
+  const session_id =
+    query.session_id instanceof Array ? query.session_id[0] : query.session_id
 
-  if (!session_id) {
+  const paymentProvider = paymentOptions.providers.stripe
+
+  if (!session_id || !paymentProvider) {
     return {
       notFound: true,
     }
   }
 
-  const purchaseInfo = await stripeData({
-    checkoutSessionId: session_id as string,
-  })
+  const purchaseInfo = await paymentProvider.getPurchaseInfo(session_id)
 
   const {
     email,
-    stripeChargeId,
+    chargeIdentifier,
     quantity: seatsPurchased,
-    stripeProduct,
+    product: merchantProduct,
   } = purchaseInfo
 
-  const stripeProductName = stripeProduct.name
+  const stripeProductName = merchantProduct.name
 
-  const purchase = await getSdk().getPurchaseForStripeCharge(stripeChargeId)
+  const purchase = await getSdk().getPurchaseForStripeCharge(chargeIdentifier)
 
   if (!purchase || !email) {
     return {
@@ -51,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const purchaseType = await determinePurchaseType({
-    checkoutSessionId: session_id as string,
+    checkoutSessionId: session_id,
   })
 
   const product = await getProduct(purchase.productId)
@@ -80,7 +81,6 @@ const InlineTeamInvite = ({
   seatsPurchased: number
 }) => {
   if (!bulkCouponId) return null
-
 
   return (
     <div className="mx-auto w-full px-5">
