@@ -1,10 +1,7 @@
 import * as React from 'react'
 import {DownloadIcon} from '@heroicons/react/outline'
-import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {useLocalStorage} from 'react-use'
 import {GetServerSideProps} from 'next'
-import {Coupon, MerchantProduct} from '@skillrecordings/database'
-import {Stripe} from 'stripe'
 import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from 'components/app/layout'
 import format from 'date-fns/format'
@@ -66,7 +63,9 @@ const Invoice: React.FC<
 
   const {charge, product, bulkCoupon, quantity} = chargeDetails.result
 
-  const customer = charge.customer as Stripe.Customer
+  const customer = z
+    .object({name: z.string().nullish(), email: z.string().nullish()})
+    .parse(charge.customer)
   const formatUsd = (amount: number) => {
     return Intl.NumberFormat('en-US', {
       style: 'currency',
