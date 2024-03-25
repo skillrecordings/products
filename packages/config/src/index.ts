@@ -13,7 +13,7 @@ export const CONVERTKIT_SIGNUP_FORM =
   process.env.NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM
 export const CONVERTKIT_SUBSCRIBE_API_URL =
   process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL ||
-  '/api/convertkit/subscribe'
+  '/api/skill/subscribe/convertkit'
 
 // TODO: create unique keys for site authorization
 export const USER_KEY = process.env.NEXT_PUBLIC_USER_KEY || 'user'
