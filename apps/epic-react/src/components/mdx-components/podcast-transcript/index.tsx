@@ -61,7 +61,7 @@ const PodcastTranscript = ({children}: {children: React.ReactNode}) => {
       </div>
       <SimpleBar
         className={cn(
-          'overflow-y-auto overscroll-contain rounded-lg border-er-gray-200 bg-er-gray-100 px-4 text-sm sm:px-7 sm:text-base',
+          'overflow-y-auto overscroll-contain rounded-lg border-er-gray-200 bg-er-gray-100 px-4 text-base sm:px-7 sm:text-lg',
           isOpen ? 'h-auto' : 'h-96',
         )}
       >
