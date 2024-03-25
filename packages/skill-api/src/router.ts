@@ -39,7 +39,11 @@ export type SkillRecordingsAction =
   | 'refund'
   | 'create-magic-link'
 
-export type SkillRecordingsProvider = 'stripe' | 'stripe-internal' | 'sanity'
+export type SkillRecordingsProvider =
+  | 'stripe'
+  | 'stripe-internal'
+  | 'sanity'
+  | 'convertkit'
 
 export async function actionRouter({
   method,
@@ -101,6 +105,10 @@ export async function actionRouter({
           paymentOptions: userOptions.paymentOptions,
         })
       case 'subscribe':
+        switch (providerId) {
+          case 'convertkit':
+            return await subscribeToConvertkit({params})
+        }
         return await subscribeToConvertkit({params})
       case 'answer':
         return await convertkitAnswerQuizQuestion({params})
