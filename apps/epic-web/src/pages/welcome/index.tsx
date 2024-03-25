@@ -1,40 +1,38 @@
 import * as React from 'react'
-import {DocumentTextIcon, UserGroupIcon} from '@heroicons/react/outline'
-import {
-  convertToSerializeForNextResponse,
-  stripeData,
-} from '@skillrecordings/commerce-server'
 import {useSession} from 'next-auth/react'
 import {GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import Layout from 'components/app/layout'
 import {getSdk, prisma} from '@skillrecordings/database'
 import Link from 'next/link'
-import {first, isString} from 'lodash'
+import {isString} from 'lodash'
 import InviteTeam from '@skillrecordings/skill-lesson/team'
 import {InvoiceCard} from 'pages/invoices'
-import MuxPlayer from '@mux/mux-player-react'
 import {SanityDocument} from '@sanity/client'
 import Image from 'next/legacy/image'
 import {trpc} from '../../trpc/trpc.client'
 import {Transfer} from 'purchase-transfer/purchase-transfer'
 import {getProduct} from 'lib/products'
+import {paymentOptions} from 'pages/api/skill/[...skillRecordings]'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
-  const {purchaseId: purchaseQueryParam, session_id, upgrade} = query
+  const {purchaseId: purchaseQueryParam, upgrade} = query
+  const session_id =
+    query.session_id instanceof Array ? query.session_id[0] : query.session_id
   const token = await getToken({req})
   const {getPurchaseDetails} = getSdk()
 
+  const paymentProvider = paymentOptions.providers.stripe
+
   let purchaseId = purchaseQueryParam
 
-  if (session_id) {
-    const {stripeChargeId} = await stripeData({
-      checkoutSessionId: session_id as string,
-    })
+  if (session_id && paymentProvider) {
+    const {chargeIdentifier} = await paymentProvider.getPurchaseInfo(session_id)
+
     const purchase = await prisma.purchase.findFirst({
       where: {
         merchantCharge: {
-          identifier: stripeChargeId,
+          identifier: chargeIdentifier,
         },
       },
     })
