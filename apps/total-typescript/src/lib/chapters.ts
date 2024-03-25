@@ -94,11 +94,14 @@ export async function getChapter(slugOrId: string) {
   }
 }
 
-export async function getChapterWithResources(slugOrId: string) {
+export async function getChapterWithResources(
+  slugOrId: string,
+  withBody = false,
+) {
   const chapter = await sanityQuery<Chapter | Omit<Chapter, 'resources'>>(
     groq`*[_type == 'module' && moduleType == 'chapter' && (slug.current == "${slugOrId}" || _id == "${slugOrId}")][0]{
        ${chapterQuery}
-      'resources': resources[]->{${chapterResourceQuery()}},
+      'resources': resources[]->{${chapterResourceQuery(withBody)}},
     }`,
     {tags: ['chapter', slugOrId]},
   )
