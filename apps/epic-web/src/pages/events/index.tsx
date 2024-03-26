@@ -7,10 +7,16 @@ import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {Event, getAllEvents} from 'lib/events'
 import {format} from 'date-fns'
-import {CalendarIcon, LocationMarkerIcon} from '@heroicons/react/outline'
+import {
+  CalendarIcon,
+  LocationMarkerIcon,
+  PlayIcon,
+} from '@heroicons/react/outline'
 import {trpc} from 'trpc/trpc.client'
 import Spinner from 'components/spinner'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import Icon from 'components/icons'
+import {IS_PAST_CONF_24} from 'pages/conf'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const events = await getAllEvents()
@@ -223,10 +229,16 @@ export const ConfBanner: React.FC<{className?: string; title?: string}> = ({
   className,
   title = 'Epic Web Conference 2024',
 }) => {
+  const {data, status} = trpc.conf.livestream.useQuery()
+  const showLivestream = status === 'success' && data?.showLivestream
+  if (IS_PAST_CONF_24) {
+    return null
+  }
+
   return (
     <section aria-label="Epic Web Conference 2024" className={cn(className)}>
       <Link
-        href="/conf"
+        href={'/conf'}
         onClick={() => {
           track('clicked epic web conference banner')
         }}
@@ -239,23 +251,38 @@ export const ConfBanner: React.FC<{className?: string; title?: string}> = ({
           The Full Stack Web Development Conference of Epic proportions
         </p>
         <hr className="relative z-0 mb-5 mt-5 max-w-[200px] border-[#202537] sm:max-w-lg lg:max-w-xl" />
-        <div className="relative z-10 flex flex-col gap-5 md:flex-row md:items-center md:gap-10">
-          <div className="flex items-start gap-1 text-sm">
-            <CalendarIcon className="w-4 translate-y-0.5 text-indigo-200/80" />
-            <div>
-              <strong>April 11th, 2024</strong>
-              <div>9am—5pm</div>
+        {showLivestream && (
+          <div className="absolute right-5 top-3 z-10 flex items-center gap-2">
+            <div className="h-3 w-3 animate-heartbeat rounded-full bg-red-500" />
+            <div className="text-lg font-semibold">Live</div>
+          </div>
+        )}
+        {data?.showLivestream ? (
+          <div className="relative z-10 flex flex-col gap-5 md:flex-row md:items-center md:gap-10">
+            <div className="flex items-center gap-2 rounded bg-red-500 px-3 py-1.5">
+              <Icon name="Playmark" className="w-3" />
+              <div className="text-lg font-semibold">Watch livestream</div>
             </div>
           </div>
-          <div className="flex items-start gap-1 text-sm">
-            <LocationMarkerIcon className="w-4 translate-y-0.5 text-indigo-200/80" />
-            <div>
-              <strong>Park City, UT</strong>
-              <div>Prospector Square Theatre</div>
+        ) : (
+          <div className="relative z-10 flex flex-col gap-5 md:flex-row md:items-center md:gap-10">
+            <div className="flex items-start gap-1 text-sm">
+              <CalendarIcon className="w-4 translate-y-0.5 text-indigo-200/80" />
+              <div>
+                <strong>April 11th, 2024</strong>
+                <div>9am—5pm</div>
+              </div>
             </div>
+            <div className="flex items-start gap-1 text-sm">
+              <LocationMarkerIcon className="w-4 translate-y-0.5 text-indigo-200/80" />
+              <div>
+                <strong>Park City, UT</strong>
+                <div>Prospector Square Theatre</div>
+              </div>
+            </div>
+            <div className="text-sm font-semibold">Tickets on sale!</div>
           </div>
-          <div className="text-sm font-semibold">Tickets on sale!</div>
-        </div>
+        )}
         <Image
           src={require('../../../public/assets/conf/banner-bg@2x.png')}
           alt=""
