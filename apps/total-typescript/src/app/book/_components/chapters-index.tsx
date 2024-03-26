@@ -10,7 +10,12 @@ export const ChaptersIndex: React.FC = async () => {
       {chapters.map((chapter) => {
         return (
           <li key={chapter.slug.current}>
-            <span className="text-lg font-semibold">{chapter.title}</span>
+            <Link
+              href={`/book/${chapter.slug.current}`}
+              className="text-lg font-semibold"
+            >
+              {chapter.title}
+            </Link>
             <ul className="list-inside list-disc">
               {chapter.resources?.map((resource) => {
                 return (

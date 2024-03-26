@@ -61,7 +61,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
         description={description}
         titleTemplate={
           titleAppendSiteName
-            ? `%s | ${process.env.NEXT_PUBLIC_SITE_TITLE}`
+            ? `%s | ${process.env.NEXT_PUBLIC_SITE_TITLE} by ${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
             : undefined
         }
         openGraph={{

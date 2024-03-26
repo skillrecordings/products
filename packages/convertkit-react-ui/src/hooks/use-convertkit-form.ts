@@ -11,8 +11,7 @@ import {
  * @deprecated use @skillrecordings/skill-lesson/hooks/use-convertkit-form instead
  **/
 export function useConvertkitForm({
-  submitUrl = process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL ||
-    CONVERTKIT_SUBSCRIBE_API_URL,
+  submitUrl = CONVERTKIT_SUBSCRIBE_API_URL,
   formId = (CONVERTKIT_SIGNUP_FORM || 0) as number,
   fields,
   onSuccess,
