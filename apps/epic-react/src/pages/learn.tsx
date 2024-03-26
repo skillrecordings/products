@@ -282,23 +282,6 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
                     <Image src={bonus.image} alt="" width={200} height={200} />
                   </div>
                   <WorkshopItem bonus={bonus} />
-                  {/* <div className="space-y-3">
-                    <h3 className="text-2xl">{bonus.title}</h3>
-                    <ul>
-                      {bonus.resources.map((resource) => {
-                        // TODO: is `/workshops/...` the right path prefix for interviews?
-                        return (
-                          <Link
-                            key={resource._id}
-                            href={`/workshops/${bonus.slug}/${resource.slug}`}
-                            className="block"
-                          >
-                            {resource.title}
-                          </Link>
-                        )
-                      })}
-                    </ul>
-                  </div> */}
                 </li>
               </ModuleProgressProvider>
             )
