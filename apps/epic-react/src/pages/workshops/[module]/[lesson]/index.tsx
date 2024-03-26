@@ -21,7 +21,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const module = isBonusModule
     ? await getBonus(moduleSlug)
     : await getWorkshop(moduleSlug)
-  console.log({module: module})
 
   const moduleWithSectionsAndLessons = {
     ...module,
@@ -55,12 +54,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const tutorials = await getAllWorkshops()
   const bonuses = await getAllBonuses()
-  // const mergedResources = [...tutorials, ...bonuses]
-  // console.log({
-  //   tutorials: tutorials.length,
-  //   bonuses: bonuses.length,
-  //   mergedResources: mergedResources.length,
-  // })
 
   const paths = [...tutorials, ...bonuses].flatMap((tutorial: any) => {
     return (
@@ -90,9 +83,7 @@ const ExercisePage: React.FC<any> = ({
   transcript,
   videoResourceId,
 }) => {
-  console.log({module})
   return (
-    // <div>123</div>
     <ModuleProgressProvider moduleSlug={module.slug.current}>
       <LessonProvider lesson={lesson} module={module} section={section}>
         <VideoResourceProvider videoResourceId={videoResourceId}>
