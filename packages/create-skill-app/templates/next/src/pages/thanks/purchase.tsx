@@ -5,7 +5,6 @@ import {
   convertToSerializeForNextResponse,
   determinePurchaseType,
   PurchaseType,
-  stripeData,
 } from '@skillrecordings/commerce-server'
 import {
   EXISTING_BULK_COUPON,
@@ -23,32 +22,36 @@ import {getProduct} from '@/lib/products'
 import {isEmpty} from 'lodash'
 import {Transfer} from '@/purchase-transfer/purchase-transfer'
 import {trpc} from '@/trpc/trpc.client'
+import {paymentOptions} from '../api/skill/[...skillRecordings]'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context
+  const provider =
+    (query.provider instanceof Array ? query.provider[0] : query.provider) ||
+    'stripe'
+  const session_id =
+    query.session_id instanceof Array ? query.session_id[0] : query.session_id
 
-  const {session_id} = query
+  const paymentProvider = paymentOptions.getProvider(provider)
 
-  if (!session_id) {
+  if (!session_id || !paymentProvider) {
     return {
       notFound: true,
     }
   }
 
-  const purchaseInfo = await stripeData({
-    checkoutSessionId: session_id as string,
-  })
+  const purchaseInfo = await paymentProvider.getPurchaseInfo(session_id)
 
   const {
     email,
-    stripeChargeId,
+    chargeIdentifier,
     quantity: seatsPurchased,
-    stripeProduct,
+    product: merchantProduct,
   } = purchaseInfo
 
-  const stripeProductName = stripeProduct.name
+  const stripeProductName = merchantProduct.name
 
-  const purchase = await getSdk().getPurchaseForStripeCharge(stripeChargeId)
+  const purchase = await getSdk().getPurchaseForStripeCharge(chargeIdentifier)
 
   if (!purchase || !email) {
     return {
@@ -57,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const purchaseType = await determinePurchaseType({
-    checkoutSessionId: session_id as string,
+    checkoutSessionId: session_id,
   })
 
   const product = await getProduct(purchase.productId)
