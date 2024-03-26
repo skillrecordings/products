@@ -2,13 +2,19 @@ import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import cx from 'classnames'
+import {twMerge} from 'tailwind-merge'
 
 import {
   ModuleProgressProvider,
   useModuleProgress,
 } from '@skillrecordings/skill-lesson/video/module-progress'
-import {getWorkshopsForProduct, WorkshopSchema, Workshop} from '@/lib/workshops'
-import {BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
+import {
+  getWorkshopsForProduct,
+  WorkshopSchema,
+  type Workshop,
+} from '@/lib/workshops'
+import {BonusSchema, getBonusesForProduct, type Bonus} from '@/lib/bonuses'
 import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
@@ -90,66 +96,86 @@ const isResourceCompleted = (
     : false
 }
 
-const WorkshopItem = ({workshop}: {workshop: Workshop}) => {
-  console.log({workshop})
+const WorkshopItem = ({
+  workshop,
+  bonus,
+}: {
+  workshop?: Workshop
+  bonus?: Bonus
+}) => {
+  const computedResource = workshop || bonus
   const moduleProgress = useModuleProgress()
   return (
-    <div className="relative w-full before:absolute before:left-4 before:top-0 before:z-[-1] before:h-[calc(100%+8rem)] before:w-px before:bg-er-gray-300 before:content-[''] sm:before:bg-er-gray-200">
-      <div className="pl-0 sm:pl-11">
-        <h3 className="mb-2 text-2xl font-semibold sm:text-3xl">
-          <Link
-            href={`/workshops/${workshop.slug.current}/${workshop.resources[0].slug}`}
-          >
-            {workshop.title}
-          </Link>
-        </h3>
-        <div className="text-base text-er-gray-700 sm:text-lg">
-          {workshop.body}
-        </div>
-      </div>
-      <ul className="mt-6 w-full">
-        {workshop.resources.map((resource) => {
-          if (resource._type === 'explainer') {
-            const isCompleted = Boolean(
-              moduleProgress &&
-                isResourceCompleted(
-                  resource._id,
-                  'lesson',
-                  moduleProgress?.lessons,
-                ),
-            )
-            return (
-              <ResourceLink
-                key={resource._id}
-                title={resource.title}
-                workshopSlug={workshop.slug.current}
-                resourceSlug={resource.slug}
-                isCompleted={isCompleted}
-              />
-            )
-          }
+    <div
+      className={twMerge(
+        cx(
+          "relative w-full before:absolute before:left-4 before:top-0 before:z-[-1] before:h-[calc(100%+8rem)] before:w-px before:bg-er-gray-300 before:content-[''] sm:before:bg-er-gray-200",
+          {'before:top-[-3rem]': Boolean(bonus)},
+        ),
+      )}
+    >
+      {computedResource && (
+        <>
+          <div className="pl-0 sm:pl-11">
+            <h3 className="mb-2 text-2xl font-semibold sm:text-3xl">
+              <Link
+                href={`/workshops/${computedResource.slug.current}/${computedResource.resources[0].slug}`}
+              >
+                {computedResource.title}
+              </Link>
+            </h3>
+            <div className="text-base text-er-gray-700 sm:text-lg">
+              {computedResource.body}
+            </div>
+          </div>
+          <ul className="mt-6 w-full">
+            {computedResource.resources.map((resource) => {
+              if (
+                resource._type === 'explainer' ||
+                resource._type === 'interview'
+              ) {
+                const isCompleted = Boolean(
+                  moduleProgress &&
+                    isResourceCompleted(
+                      resource._id,
+                      'lesson',
+                      moduleProgress?.lessons,
+                    ),
+                )
+                return (
+                  <ResourceLink
+                    key={resource._id}
+                    title={resource.title}
+                    workshopSlug={computedResource.slug.current}
+                    resourceSlug={resource.slug}
+                    isCompleted={isCompleted}
+                  />
+                )
+              }
 
-          if (resource._type === 'section' && resource?.resources) {
-            const isCompleted = Boolean(
-              moduleProgress &&
-                isResourceCompleted(
-                  resource._id,
-                  'section',
-                  moduleProgress?.sections,
-                ),
-            )
-            return (
-              <ResourceLink
-                key={resource._id}
-                title={resource.title}
-                workshopSlug={workshop.slug.current}
-                resourceSlug={resource.resources[0].slug}
-                isCompleted={isCompleted}
-              />
-            )
-          }
-        })}
-      </ul>
+              if (resource._type === 'section' && resource?.resources) {
+                const isCompleted = Boolean(
+                  moduleProgress &&
+                    isResourceCompleted(
+                      resource._id,
+                      'section',
+                      moduleProgress?.sections,
+                    ),
+                )
+                return (
+                  <ResourceLink
+                    key={resource._id}
+                    title={resource.title}
+                    workshopSlug={computedResource.slug.current}
+                    resourceSlug={resource.resources[0].slug}
+                    isCompleted={isCompleted}
+                  />
+                )
+              }
+            })}
+          </ul>
+        </>
+      )}
     </div>
   )
 }
@@ -162,6 +188,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
 
   const workshops = WorkshopSchema.array().parse(unparsedWorkshops)
   const bonuses = BonusSchema.array().parse(unparsedBonuses)
+  console.log({bonuses})
 
   return (
     <Layout
@@ -246,28 +273,34 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
           })}
           {bonuses.map((bonus) => {
             return (
-              <li key={bonus._id} className="flex space-x-6">
-                <div className="shrink-0">
-                  <Image src={bonus.image} alt="" width={200} height={200} />
-                </div>
-                <div className="space-y-3">
-                  <h3 className="text-2xl">{bonus.title}</h3>
-                  <ul>
-                    {bonus.resources.map((resource) => {
-                      // TODO: is `/workshops/...` the right path prefix for interviews?
-                      return (
-                        <Link
-                          key={resource._id}
-                          href={`/workshops/${bonus.slug}/${resource.slug}`}
-                          className="block"
-                        >
-                          {resource.title}
-                        </Link>
-                      )
-                    })}
-                  </ul>
-                </div>
-              </li>
+              <ModuleProgressProvider
+                moduleSlug={bonus.slug.current}
+                key={bonus._id}
+              >
+                <li className="flex flex-col items-center rounded-lg bg-er-gray-100 p-8 sm:flex-row sm:items-start sm:bg-transparent sm:p-0">
+                  <div className="mb-4 mr-0 w-full max-w-xs p-8 sm:mb-0 sm:mr-8">
+                    <Image src={bonus.image} alt="" width={200} height={200} />
+                  </div>
+                  <WorkshopItem bonus={bonus} />
+                  {/* <div className="space-y-3">
+                    <h3 className="text-2xl">{bonus.title}</h3>
+                    <ul>
+                      {bonus.resources.map((resource) => {
+                        // TODO: is `/workshops/...` the right path prefix for interviews?
+                        return (
+                          <Link
+                            key={resource._id}
+                            href={`/workshops/${bonus.slug}/${resource.slug}`}
+                            className="block"
+                          >
+                            {resource.title}
+                          </Link>
+                        )
+                      })}
+                    </ul>
+                  </div> */}
+                </li>
+              </ModuleProgressProvider>
             )
           })}
         </ul>
