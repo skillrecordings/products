@@ -7,7 +7,7 @@ const ResourceSchema = z.object({
   _type: z.string(),
   _updatedAt: z.string(),
   title: z.string(),
-  description: z.string(),
+  description: z.string().nullable(),
   slug: z.string(),
 })
 
@@ -15,7 +15,7 @@ export const BonusSchema = z.object({
   _id: z.string(),
   _type: z.string(),
   title: z.string(),
-  state: z.string(),
+  state: z.union([z.literal('published'), z.literal('draft')]),
   slug: z.object({current: z.string()}),
   moduleType: z.string(),
   description: z.string(),
@@ -23,6 +23,7 @@ export const BonusSchema = z.object({
   _updatedAt: z.string(),
   resources: z.array(ResourceSchema),
   image: z.string(),
+  body: z.string().nullable(),
 })
 
 const bonusesForProductQuery = groq`*[_type == "product" && productId == $productId][0]{
@@ -36,6 +37,7 @@ const bonusesForProductQuery = groq`*[_type == "product" && productId == $produc
     description,
     _createdAt,
     _updatedAt,
+    body,
     "resources": resources[@->._type in ["interview"]]->{
       _id,
       _type,
@@ -69,6 +71,7 @@ const bonusesQuery = groq`*[_type == "module" && moduleType == 'bonus'] | order(
   _createdAt,
   description,
   state,
+  body,
   "lessons": resources[@->._type in ['interview']]->{
     _id,
     _type,
@@ -96,6 +99,7 @@ export const getBonus = async (slug: string) =>
         ogImage,
         description,
         _updatedAt,
+        body,
         "lessons": resources[@->._type in ['interview']]->{
           _id,
           _type,
@@ -128,3 +132,5 @@ export const getBonus = async (slug: string) =>
     }`,
     {slug: `${slug}`},
   )
+
+export type Bonus = z.infer<typeof BonusSchema>
