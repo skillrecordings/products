@@ -9,12 +9,8 @@ import {
   ModuleProgressProvider,
   useModuleProgress,
 } from '@skillrecordings/skill-lesson/video/module-progress'
-import {
-  getWorkshopsForProduct,
-  WorkshopSchema,
-  type Workshop,
-} from '@/lib/workshops'
-import {BonusSchema, getBonusesForProduct, type Bonus} from '@/lib/bonuses'
+import {getWorkshopsForProduct, Workshop, WorkshopSchema} from '@/lib/workshops'
+import {Bonus, BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
 import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
@@ -96,86 +92,90 @@ const isResourceCompleted = (
     : false
 }
 
-const WorkshopItem = ({
-  workshop,
-  bonus,
-}: {
-  workshop?: Workshop
-  bonus?: Bonus
-}) => {
-  const computedResource = workshop || bonus
+type WorkshopResource = Workshop['resources'][0]
+type BonusResource = Bonus['resources'][0]
+
+type Module = {
+  _type: string
+  title: string
+  body: string | null
+  slug: {
+    current: string
+  }
+  resources: Array<WorkshopResource | BonusResource>
+}
+
+const WorkshopItem = ({module}: {module: Module}) => {
+  const isBonusModule = module._type === 'bonus'
+
   const moduleProgress = useModuleProgress()
   return (
     <div
       className={twMerge(
         cx(
           "relative w-full before:absolute before:left-4 before:top-0 before:z-[-1] before:h-[calc(100%+8rem)] before:w-px before:bg-er-gray-300 before:content-[''] sm:before:bg-er-gray-200",
-          {'before:top-[-3rem]': Boolean(bonus)},
+          {'before:top-[-3rem]': isBonusModule},
         ),
       )}
     >
-      {computedResource && (
-        <>
-          <div className="pl-0 sm:pl-11">
-            <h3 className="mb-2 text-2xl font-semibold sm:text-3xl">
-              <Link
-                href={`/workshops/${computedResource.slug.current}/${computedResource.resources[0].slug}`}
-              >
-                {computedResource.title}
-              </Link>
-            </h3>
-            <div className="text-base text-er-gray-700 sm:text-lg">
-              {computedResource.body}
-            </div>
-          </div>
-          <ul className="mt-6 w-full">
-            {computedResource.resources.map((resource) => {
-              if (
-                resource._type === 'explainer' ||
-                resource._type === 'interview'
-              ) {
-                const isCompleted = Boolean(
-                  moduleProgress &&
-                    isResourceCompleted(
-                      resource._id,
-                      'lesson',
-                      moduleProgress?.lessons,
-                    ),
-                )
-                return (
-                  <ResourceLink
-                    key={resource._id}
-                    title={resource.title}
-                    workshopSlug={computedResource.slug.current}
-                    resourceSlug={resource.slug}
-                    isCompleted={isCompleted}
-                  />
-                )
-              }
+      <div className="pl-0 sm:pl-11">
+        <h3 className="mb-2 text-2xl font-semibold sm:text-3xl">
+          <Link
+            href={`/workshops/${module.slug.current}/${module.resources[0].slug}`}
+          >
+            {module.title}
+          </Link>
+        </h3>
+        <div className="text-base text-er-gray-700 sm:text-lg">
+          {module.body}
+        </div>
+      </div>
+      <ul className="mt-6 w-full">
+        {module.resources.map((resource) => {
+          if (
+            resource._type === 'explainer' ||
+            resource._type === 'interview'
+          ) {
+            const isCompleted = Boolean(
+              moduleProgress &&
+                isResourceCompleted(
+                  resource._id,
+                  'lesson',
+                  moduleProgress?.lessons,
+                ),
+            )
+            return (
+              <ResourceLink
+                key={resource._id}
+                title={resource.title}
+                workshopSlug={module.slug.current}
+                resourceSlug={resource.slug}
+                isCompleted={isCompleted}
+              />
+            )
+          }
 
-              if (resource._type === 'section' && resource?.resources) {
-                const isCompleted = Boolean(
-                  moduleProgress &&
-                    isResourceCompleted(
-                      resource._id,
-                      'section',
-                      moduleProgress?.sections,
-                    ),
-                )
-                return (
-                  <ResourceLink
-                    key={resource._id}
-                    title={resource.title}
-                    workshopSlug={computedResource.slug.current}
-                    resourceSlug={resource.resources[0].slug}
-                    isCompleted={isCompleted}
-                  />
-                )
-              }
-            })}
-          </ul>
-        </>
-      )}
+          if (resource._type === 'section' && resource?.resources) {
+            const isCompleted = Boolean(
+              moduleProgress &&
+                isResourceCompleted(
+                  resource._id,
+                  'section',
+                  moduleProgress?.sections,
+                ),
+            )
+            return (
+              <ResourceLink
+                key={resource._id}
+                title={resource.title}
+                workshopSlug={module.slug.current}
+                resourceSlug={resource.resources[0].slug}
+                isCompleted={isCompleted}
+              />
+            )
+          }
+        })}
+      </ul>
     </div>
   )
 }
@@ -265,7 +265,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
                       height={256}
                     />
                   </div>
-                  <WorkshopItem workshop={workshop} />
+                  <WorkshopItem module={workshop} />
                 </li>
               </ModuleProgressProvider>
             )
@@ -280,7 +280,7 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
                   <div className="mb-4 mr-0 w-full max-w-xs p-8 sm:mb-0 sm:mr-8">
                     <Image src={bonus.image} alt="" width={200} height={200} />
                   </div>
-                  <WorkshopItem bonus={bonus} />
+                  <WorkshopItem module={bonus} />
                 </li>
               </ModuleProgressProvider>
             )
