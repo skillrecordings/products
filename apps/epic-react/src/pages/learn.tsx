@@ -188,7 +188,6 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
 
   const workshops = WorkshopSchema.array().parse(unparsedWorkshops)
   const bonuses = BonusSchema.array().parse(unparsedBonuses)
-  console.log({bonuses})
 
   return (
     <Layout
