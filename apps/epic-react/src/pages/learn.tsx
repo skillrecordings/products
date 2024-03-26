@@ -2,13 +2,15 @@ import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import cx from 'classnames'
+import {twMerge} from 'tailwind-merge'
 
 import {
   ModuleProgressProvider,
   useModuleProgress,
 } from '@skillrecordings/skill-lesson/video/module-progress'
-import {getWorkshopsForProduct, WorkshopSchema, Workshop} from '@/lib/workshops'
-import {BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
+import {getWorkshopsForProduct, Workshop, WorkshopSchema} from '@/lib/workshops'
+import {Bonus, BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
 import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
@@ -30,35 +32,48 @@ const ResourceLink: React.FC<{
   resourceSlug: string
   isCompleted: boolean
 }> = ({title, workshopSlug, resourceSlug, isCompleted}) => {
+  const [isHovered, setHovered] = React.useState<Boolean>(false)
   return (
-    <Link href={`/workshops/${workshopSlug}/${resourceSlug}`} className="block">
-      {isCompleted && '✅'}
-      {title}
-    </Link>
+    <li>
+      <Link
+        onMouseOver={() => setHovered(true)}
+        onMouseOut={() => setHovered(false)}
+        href={`/workshops/${workshopSlug}/${resourceSlug}`}
+        className="-mx-3 flex w-full items-center rounded-lg p-3 transition-colors duration-75 ease-in-out hover:bg-er-gray-100"
+      >
+        {/* {isCompleted && '✅'}
+        {title} */}
+        <div
+          className={`${
+            isCompleted ? 'bg-green-500' : 'bg-blue-500'
+          } flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-er-gray-100 text-white`}
+        >
+          {isCompleted ? (
+            isHovered ? (
+              /* prettier-ignore */
+              <svg width="12" height="12" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" fillRule="evenodd" d="M2.7703788,0.495243511 L8.34575007,4.07941076 C8.5780351,4.22873685 8.6452866,4.53809377 8.49596052,4.7703788 C8.45722752,4.83063012 8.4060014,4.88185624 8.34575007,4.92058924 L2.7703788,8.50475649 C2.53809377,8.65408257 2.22873685,8.58683107 2.07941076,8.35454605 C2.02756519,8.27389738 2,8.18004306 2,8.08416725 L2,0.915832749 C2,0.639690374 2.22385763,0.415832749 2.5,0.415832749 C2.59587581,0.415832749 2.68973013,0.443397939 2.7703788,0.495243511 Z"/></svg>
+            ) : (
+              /* prettier-ignore */
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path fill="currentColor" d="M9.61758474,0.604546834 C9.98992108,0.232322926 10.5742099,0.201304267 10.9818717,0.511490857 L11.088381,0.604546834 L11.181454,0.711073215 C11.460673,1.07802033 11.4634675,1.58799129 11.1898583,1.95777394 L11.088418,2.07545417 L5.54082318,7.62304901 C5.16848685,7.99527292 4.58419802,8.02629158 4.17650775,7.71607647 L4.06998989,7.62301199 L1.29198741,4.84493546 C0.897792985,4.43679585 0.90343052,3.78803751 1.30465812,3.38680991 C1.67245009,3.01901794 2.24823664,2.98363151 2.65932864,3.28717119 L2.76708129,3.37836276 L4.80527808,5.41663154 L9.61758474,0.604546834 Z"/></svg>
+            )
+          ) : (
+            /* prettier-ignore */
+            <svg width="12" height="12" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" fillRule="evenodd" d="M2.7703788,0.495243511 L8.34575007,4.07941076 C8.5780351,4.22873685 8.6452866,4.53809377 8.49596052,4.7703788 C8.45722752,4.83063012 8.4060014,4.88185624 8.34575007,4.92058924 L2.7703788,8.50475649 C2.53809377,8.65408257 2.22873685,8.58683107 2.07941076,8.35454605 C2.02756519,8.27389738 2,8.18004306 2,8.08416725 L2,0.915832749 C2,0.639690374 2.22385763,0.415832749 2.5,0.415832749 C2.59587581,0.415832749 2.68973013,0.443397939 2.7703788,0.495243511 Z"/></svg>
+          )}
+        </div>
+        <h4 className="ml-3 flex w-full flex-wrap items-center text-base leading-tight sm:text-xl sm:font-medium">
+          {workshopSlug === 'welcome-to-epic-react' &&
+            resourceSlug === 'welcome-to-epic-react' && (
+              <span className="my-1 mr-2 flex items-center rounded-full bg-yellow-300 px-2 py-1 text-xs font-semibold uppercase leading-none text-yellow-800">
+                Start here
+              </span>
+            )}
+          {title}
+        </h4>
+      </Link>
+    </li>
   )
 }
-
-// const isLessonCompleted = (
-//   resourceId: string,
-//   lessons: {
-//     id: string
-//     lessonCompleted: boolean
-//   }[],
-// ) => {
-//   const lesson = lessons.find((lesson) => lesson.id === resourceId)
-//   return lesson ? lesson.lessonCompleted : false
-// }
-
-// const isSectionCompleted = (
-//   resourceId: string,
-//   sections: {
-//     id: string
-//     sectionCompleted: boolean
-//   }[],
-// ) => {
-//   const section = sections.find((section) => section.id === resourceId)
-//   return section ? section.sectionCompleted : false
-// }
 
 const isResourceCompleted = (
   resourceId: string,
@@ -77,27 +92,63 @@ const isResourceCompleted = (
     : false
 }
 
-const WorkshopItem = ({workshop}: {workshop: Workshop}) => {
+type WorkshopResource = Workshop['resources'][0]
+type BonusResource = Bonus['resources'][0]
+
+type Module = {
+  _type: string
+  title: string
+  body: string | null
+  slug: {
+    current: string
+  }
+  resources: Array<WorkshopResource | BonusResource>
+}
+
+const WorkshopItem = ({module}: {module: Module}) => {
+  const isBonusModule = module._type === 'bonus'
+
   const moduleProgress = useModuleProgress()
   return (
-    <div className="space-y-3">
-      <h3 className="text-2xl">{workshop.title}</h3>
-      <ul>
-        {workshop.resources.map((resource) => {
-          if (resource._type === 'explainer') {
-            const isCompleted =
-              (moduleProgress &&
+    <div
+      className={twMerge(
+        cx(
+          "relative w-full before:absolute before:left-4 before:top-0 before:z-[-1] before:h-[calc(100%+8rem)] before:w-px before:bg-er-gray-300 before:content-[''] sm:before:bg-er-gray-200",
+          {'before:top-[-3rem]': isBonusModule},
+        ),
+      )}
+    >
+      <div className="pl-0 sm:pl-11">
+        <h3 className="mb-2 text-2xl font-semibold sm:text-3xl">
+          <Link
+            href={`/workshops/${module.slug.current}/${module.resources[0].slug}`}
+          >
+            {module.title}
+          </Link>
+        </h3>
+        <div className="text-base text-er-gray-700 sm:text-lg">
+          {module.body}
+        </div>
+      </div>
+      <ul className="mt-6 w-full">
+        {module.resources.map((resource) => {
+          if (
+            resource._type === 'explainer' ||
+            resource._type === 'interview'
+          ) {
+            const isCompleted = Boolean(
+              moduleProgress &&
                 isResourceCompleted(
                   resource._id,
                   'lesson',
                   moduleProgress?.lessons,
-                )) ||
-              false
+                ),
+            )
             return (
               <ResourceLink
                 key={resource._id}
                 title={resource.title}
-                workshopSlug={workshop.slug.current}
+                workshopSlug={module.slug.current}
                 resourceSlug={resource.slug}
                 isCompleted={isCompleted}
               />
@@ -105,19 +156,19 @@ const WorkshopItem = ({workshop}: {workshop: Workshop}) => {
           }
 
           if (resource._type === 'section' && resource?.resources) {
-            const isCompleted =
-              (moduleProgress &&
+            const isCompleted = Boolean(
+              moduleProgress &&
                 isResourceCompleted(
                   resource._id,
                   'section',
                   moduleProgress?.sections,
-                )) ||
-              false
+                ),
+            )
             return (
               <ResourceLink
                 key={resource._id}
                 title={resource.title}
-                workshopSlug={workshop.slug.current}
+                workshopSlug={module.slug.current}
                 resourceSlug={resource.resources[0].slug}
                 isCompleted={isCompleted}
               />
@@ -197,53 +248,41 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
           priority
         />
       </section>
-      <main className="mx-auto w-full max-w-screen-lg px-5">
-        <h2 className="text-center text-5xl">Learn Page</h2>
-        <ul className="space-y-6">
+      <main className="mx-auto w-full max-w-screen-lg px-4 pb-20 pt-4 sm:px-8 sm:pt-20">
+        <ul className="grid grid-cols-1 gap-4 sm:gap-16">
           {workshops.map((workshop) => {
             return (
               <ModuleProgressProvider
                 moduleSlug={workshop.slug.current}
                 key={workshop._id}
               >
-                <li className="flex space-x-6">
-                  <div className="shrink-0">
+                <li className="flex flex-col items-center rounded-lg bg-er-gray-100 p-8 sm:flex-row sm:items-start sm:bg-transparent sm:p-0">
+                  <div className="mb-4 mr-0 w-full max-w-xs p-8 sm:mb-0 sm:mr-8">
                     <Image
                       src={workshop.image}
                       alt=""
-                      width={200}
-                      height={200}
+                      width={256}
+                      height={256}
                     />
                   </div>
-                  <WorkshopItem workshop={workshop} />
+                  <WorkshopItem module={workshop} />
                 </li>
               </ModuleProgressProvider>
             )
           })}
           {bonuses.map((bonus) => {
             return (
-              <li key={bonus._id} className="flex space-x-6">
-                <div className="shrink-0">
-                  <Image src={bonus.image} alt="" width={200} height={200} />
-                </div>
-                <div className="space-y-3">
-                  <h3 className="text-2xl">{bonus.title}</h3>
-                  <ul>
-                    {bonus.resources.map((resource) => {
-                      // TODO: is `/workshops/...` the right path prefix for interviews?
-                      return (
-                        <Link
-                          key={resource._id}
-                          href={`/workshops/${bonus.slug}/${resource.slug}`}
-                          className="block"
-                        >
-                          {resource.title}
-                        </Link>
-                      )
-                    })}
-                  </ul>
-                </div>
-              </li>
+              <ModuleProgressProvider
+                moduleSlug={bonus.slug.current}
+                key={bonus._id}
+              >
+                <li className="flex flex-col items-center rounded-lg bg-er-gray-100 p-8 sm:flex-row sm:items-start sm:bg-transparent sm:p-0">
+                  <div className="mb-4 mr-0 w-full max-w-xs p-8 sm:mb-0 sm:mr-8">
+                    <Image src={bonus.image} alt="" width={200} height={200} />
+                  </div>
+                  <WorkshopItem module={bonus} />
+                </li>
+              </ModuleProgressProvider>
             )
           })}
         </ul>

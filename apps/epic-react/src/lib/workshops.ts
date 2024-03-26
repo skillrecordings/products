@@ -62,6 +62,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   _createdAt,
   description,
   state,
+  body,
   'product': *[_type=='product' && references(^._id)][]{
     "slug": slug.current,
     state,
@@ -118,7 +119,8 @@ export const WorkshopSchema = z.object({
   _updatedAt: z.string(),
   _createdAt: z.string(),
   description: z.string().nullable(),
-  state: z.string(), // TODO: make this a union/literal of the 3 states
+  body: z.string().nullable(),
+  state: z.union([z.literal('published'), z.literal('draft')]),
   resources: z.array(
     z.object({
       _id: z.string(),

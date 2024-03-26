@@ -30,7 +30,7 @@
   [data-pricing-footer] {
     @apply rounded-b-lg border-t-2 border-er-gray-100 px-5 pb-8 pt-5 sm:px-8 sm:py-7;
     [data-product-description] {
-      @apply max-w-none px-0 pb-6 pt-2 text-base;
+      @apply max-w-none px-0 pb-6 pt-2 text-lg;
       p {
         @apply text-text;
       }
@@ -58,11 +58,26 @@
     }
   }
   [data-bonuses] {
-    @apply mb-8;
+    @apply mb-10;
+    strong {
+      @apply mb-2;
+    }
+  }
+  [data-features] {
+    strong {
+      @apply mb-3 block;
+    }
+    ul {
+      @apply space-y-4 text-lg;
+      li {
+        @apply flex before:mr-3 before:text-yellow-400 before:content-['✓'];
+      }
+    }
   }
   [data-workshops] {
+    @apply mb-10;
     strong {
-      @apply mb-3;
+      @apply mb-3 block;
     }
   }
   [data-workshops],
@@ -152,8 +167,16 @@
   [data-title] {
     @apply text-center text-2xl font-semibold leading-9 text-er-gray-900 sm:-mx-6 sm:text-4xl;
   }
+  [data-features] {
+    strong {
+      @apply text-xl;
+    }
+  }
   [data-workshops],
   [data-bonuses] {
+    strong {
+      @apply text-xl;
+    }
     li {
       @apply space-x-6;
       p {

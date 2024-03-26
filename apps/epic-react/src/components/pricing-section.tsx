@@ -62,8 +62,7 @@ const PricingSection: React.FC<{
           purchases={purchases}
           couponIdFromCoupon={couponIdFromCoupon}
           couponFromCode={couponFromCode}
-          allowPurchase={true}
-          // allowPurchase={allowPurchase}
+          allowPurchase={allowPurchase}
         />
       </div>
     </div>
