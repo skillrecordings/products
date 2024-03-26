@@ -3,9 +3,9 @@ import {prisma} from '@skillrecordings/database'
 import {v4} from 'uuid'
 import {loadSanityProduct} from './index'
 import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
-import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
+import {paymentOptions} from 'pages/api/skill/[...skillRecordings]'
 
-const {stripe} = defaultStripeContext
+const stripe = paymentOptions.providers.stripe?.paymentClient
 
 export const sanityProductUpdated = inngest.createFunction(
   {
@@ -22,6 +22,10 @@ export const sanityProductUpdated = inngest.createFunction(
     if: 'event.data.event == "product.update"',
   },
   async ({event, step}) => {
+    if (!stripe) {
+      throw new Error('Payment provider (Stripe) is missing')
+    }
+
     const sanityProduct = await step.run('get sanity product', async () => {
       return loadSanityProduct(event.data._id)
     })

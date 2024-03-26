@@ -5,22 +5,21 @@ import {prisma} from '@skillrecordings/database'
 import {NonRetriableError} from 'inngest'
 import {postToSlack} from '@skillrecordings/skill-api'
 import {WebClient} from '@slack/web-api'
-import {
-  defaultContext as defaultStripeContext,
-  Stripe,
-} from '@skillrecordings/stripe-sdk'
+import {paymentOptions} from 'pages/api/skill/[...skillRecordings]'
+import {z} from 'zod'
 
-const {stripe} = defaultStripeContext
+const stripe = paymentOptions.providers.stripe?.paymentClient
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-})
+const CustomerSchema = z.object({id: z.string(), email: z.string()})
 
 export const stripeWebhookReceived = inngest.createFunction(
   {id: `stripe-webhook-received`, name: 'Stripe Webhook Received'},
   {event: STRIPE_WEBHOOK_RECEIVED_EVENT},
   async ({event, step}) => {
+    if (!stripe) {
+      throw new Error('Payment provider (Stripe) is missing')
+    }
+
     const stripeAccountId = await step.run(
       'get stripe account id',
       async () => {
@@ -54,9 +53,9 @@ export const stripeWebhookReceived = inngest.createFunction(
         }
 
         const customer = await step.run('get customer', async () => {
-          return (await stripe.customers.retrieve(
-            invoice.customer as string,
-          )) as Stripe.Customer
+          return CustomerSchema.parse(
+            await stripe.customers.retrieve(invoice.customer as string),
+          )
         })
 
         if (!customer) {

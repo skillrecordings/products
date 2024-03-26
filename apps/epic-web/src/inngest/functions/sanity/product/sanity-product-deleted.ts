@@ -1,9 +1,9 @@
 import {inngest} from 'inngest/inngest.server'
 import {prisma} from '@skillrecordings/database'
 import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
-import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
+import {paymentOptions} from 'pages/api/skill/[...skillRecordings]'
 
-const {stripe} = defaultStripeContext
+const stripe = paymentOptions.providers.stripe?.paymentClient
 
 export const sanityProductDeleted = inngest.createFunction(
   {id: `product-delete`, name: 'Deactivate Product in Database'},
@@ -12,6 +12,10 @@ export const sanityProductDeleted = inngest.createFunction(
     if: 'event.data.event == "product.delete"',
   },
   async ({event, step}) => {
+    if (!stripe) {
+      throw new Error('Payment provider (Stripe) is missing')
+    }
+
     const {productId} = event.data
 
     if (!productId) {

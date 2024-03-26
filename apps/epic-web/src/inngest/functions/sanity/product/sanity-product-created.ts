@@ -1,12 +1,12 @@
 import {inngest} from 'inngest/inngest.server'
 import {v4} from 'uuid'
 import {prisma} from '@skillrecordings/database'
-import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
 import {loadSanityProduct} from './index'
 import {sanityWriteClient} from 'utils/sanity-server'
 import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
+import {paymentOptions} from 'pages/api/skill/[...skillRecordings]'
 
-const {stripe} = defaultStripeContext
+const stripe = paymentOptions.providers.stripe?.paymentClient
 
 export const sanityProductCreated = inngest.createFunction(
   {id: `product-create`, name: 'Create Product in Database'},
@@ -15,6 +15,10 @@ export const sanityProductCreated = inngest.createFunction(
     if: 'event.data.event == "product.create"',
   },
   async ({event, step}) => {
+    if (!stripe) {
+      throw new Error('Payment provider (Stripe) is missing')
+    }
+
     const sanityProduct = await step.run('get sanity product', async () => {
       return loadSanityProduct(event.data._id)
     })
