@@ -14,7 +14,7 @@ export type SubscribeFormProps = {
   submitButtonElem?: React.ReactElement
   onError?: (error?: any) => void
   onSuccess?: (subscriber?: Subscriber, email?: string) => void
-  formId?: number
+  formId?: string
   subscribeApiURL?: string
   id?: string
   fields?: Record<string, string>
