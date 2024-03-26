@@ -31,7 +31,7 @@ export default defineType({
     defineField({
       name: 'state',
       title: 'Current State',
-      type: 'string',
+      type: 'literal',
       validation: (Rule) => Rule.required(),
       initialValue: 'draft',
       options: {
