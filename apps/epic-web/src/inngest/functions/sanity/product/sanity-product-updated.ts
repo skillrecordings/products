@@ -4,6 +4,7 @@ import {v4} from 'uuid'
 import {loadSanityProduct} from './index'
 import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
 import {paymentOptions} from 'pages/api/skill/[...skillRecordings]'
+import {NonRetriableError} from 'inngest'
 
 const stripe = paymentOptions.providers.stripe?.paymentClient
 
@@ -23,7 +24,7 @@ export const sanityProductUpdated = inngest.createFunction(
   },
   async ({event, step}) => {
     if (!stripe) {
-      throw new Error('Payment provider (Stripe) is missing')
+      throw new NonRetriableError('Payment provider (Stripe) is missing')
     }
 
     const sanityProduct = await step.run('get sanity product', async () => {

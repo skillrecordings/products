@@ -1,6 +1,5 @@
 import {inngest} from 'inngest/inngest.server'
 import {STRIPE_WEBHOOK_RECEIVED_EVENT} from '@skillrecordings/inngest'
-import {Redis} from '@upstash/redis'
 import {prisma} from '@skillrecordings/database'
 import {NonRetriableError} from 'inngest'
 import {postToSlack} from '@skillrecordings/skill-api'
@@ -17,7 +16,7 @@ export const stripeWebhookReceived = inngest.createFunction(
   {event: STRIPE_WEBHOOK_RECEIVED_EVENT},
   async ({event, step}) => {
     if (!stripe) {
-      throw new Error('Payment provider (Stripe) is missing')
+      throw new NonRetriableError('Payment provider (Stripe) is missing')
     }
 
     const stripeAccountId = await step.run(
