@@ -27,10 +27,13 @@ import {paymentOptions} from '../api/skill/[...skillRecordings]'
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {query} = context
 
+  const provider =
+    (query.provider instanceof Array ? query.provider[0] : query.provider) ||
+    'stripe'
   const session_id =
     query.session_id instanceof Array ? query.session_id[0] : query.session_id
 
-  const paymentProvider = paymentOptions.providers.stripe
+  const paymentProvider = paymentOptions.getProvider(provider)
 
   if (!session_id || !paymentProvider) {
     return {

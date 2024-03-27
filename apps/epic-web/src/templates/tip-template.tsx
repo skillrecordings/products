@@ -161,9 +161,9 @@ const TipTemplate: React.FC<{
                     )}
                   </h1>
                   <ResourceContributor
-                    name={tip?.author?.name}
-                    slug={tip?.author?.slug}
-                    image={tip?.author?.image}
+                    name={tip?.instructor?.name}
+                    slug={tip?.instructor?.slug}
+                    image={tip?.instructor?.picture?.url}
                     className="inline-flex py-2 text-base font-semibold text-gray-700 dark:text-gray-300 lg:hidden [&_span]:font-bold"
                   />
                   {tip.body && (
@@ -181,9 +181,9 @@ const TipTemplate: React.FC<{
                 </div>
                 <div className="col-span-3">
                   <ResourceContributor
-                    name={tip?.author?.name}
-                    slug={tip?.author?.slug}
-                    image={tip?.author?.image}
+                    name={tip?.instructor?.name}
+                    slug={tip?.instructor?.slug}
+                    image={tip?.instructor?.picture?.url}
                     className="mx-0 hidden py-2 text-base font-semibold text-gray-700 dark:text-gray-300 lg:flex [&_span]:font-bold"
                   />
                   <RelatedTips currentTip={tip} tips={tips} />

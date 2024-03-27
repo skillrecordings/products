@@ -107,7 +107,7 @@
       @apply inline-block text-gray-400 decoration-transparent;
     }
     [data-sr-button] {
-      @apply relative mt-5 flex flex-shrink-0 items-center justify-center rounded-md bg-gradient-to-t from-cyan-500 to-cyan-300 px-5 py-2 text-lg font-semibold text-black shadow-2xl shadow-black/80 transition hover:brightness-125 focus-visible:ring-white md:mt-0;
+      @apply relative mt-5 flex flex-shrink-0 items-center justify-center rounded bg-primary px-5 py-2 text-lg font-semibold text-black text-primary-foreground shadow-2xl shadow-black/80 transition hover:brightness-125 focus-visible:ring-white md:mt-0;
       svg {
         @apply h-7 w-7;
       }

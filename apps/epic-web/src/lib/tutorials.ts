@@ -16,11 +16,21 @@ export const getAllTutorials = async (onlyPublished = true) => {
     description,
     moduleType,
     state,
-    author-> {
+    "instructor": contributors[@.role == 'instructor'][0].contributor->{
+      _id,
+      _type,
+      _updatedAt,
+      _createdAt,
       name,
+      bio,
+      links[] {
+        url, label
+      },
+      picture {
+          "url": asset->url,
+          alt
+      },
       "slug": slug.current,
-      "image": picture.asset->url,
-      "imageAlt": picture.alt
     },
     "sections": resources[@->._type == 'section']->{
       _id,
@@ -67,13 +77,22 @@ export const getTutorial = async (slug: string) =>
       _updatedAt,
       "image": image.asset->url,
       body,
-      author-> {
-          name,
-          "slug": slug.current,
-          "image": picture.asset->url,
-          "imageAlt": picture.alt,
-          twitterHandle,
+      "instructor": contributors[@.role == 'instructor'][0].contributor->{
+        _id,
+        _type,
+        _updatedAt,
+        _createdAt,
+        name,
+        bio,
+        links[] {
+          url, label
         },
+        picture {
+            "url": asset->url,
+            alt
+        },
+        "slug": slug.current,
+      },
       "testimonials": resources[@->._type == 'testimonial']->{
         _id,
         _type,

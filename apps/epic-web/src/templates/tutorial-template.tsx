@@ -102,7 +102,7 @@ const TutorialTemplate: React.FC<{
 export default TutorialTemplate
 
 const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
-  const {title, slug, sections, image, github, author} = tutorial
+  const {title, slug, sections, image, github, instructor} = tutorial
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
       slug: tutorial.slug.current,
@@ -131,9 +131,9 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
               <ResourceContributor
-                name={author?.name}
-                slug={author?.slug}
-                image={author?.image}
+                name={instructor?.name}
+                slug={instructor?.slug}
+                image={instructor?.picture?.url}
               />
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">

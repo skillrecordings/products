@@ -53,6 +53,17 @@ export const StackBlitzIframe: React.FC<{
   )
 }
 
+const findLastPathPartStartingWithANumber = (path: string) => {
+  const split = path.split('/')
+
+  return split.findLast((part) => {
+    const firstChar = part[0]
+    return !isNaN(Number(firstChar))
+  })
+}
+
+const DEFAULT = 'e-01'
+
 // Figures out start command: e.g. s-01, e-02, etc
 export const getStartCommand = (
   exercise: {_type: string},
@@ -60,13 +71,13 @@ export const getStartCommand = (
 ) => {
   // Reasonably sensbile fallback, not sure
   // what we should do when Stacblitz is not defined
-  if (!stackblitz) return 'e-01'
+  if (!stackblitz) return DEFAULT
 
-  const stackblitzSplit = stackblitz.split('/')
+  const pathPart = findLastPathPartStartingWithANumber(stackblitz)
 
-  const lastPathPart = stackblitzSplit[stackblitzSplit.length - 1]
+  if (!pathPart) return DEFAULT
 
-  const codeFileNumber = lastPathPart.split('-')[0]
+  const codeFileNumber = pathPart.split('-')[0]
 
   const startCommand = `${exercise._type.substring(0, 1)}-${codeFileNumber}`
 

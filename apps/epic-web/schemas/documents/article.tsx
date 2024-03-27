@@ -14,10 +14,9 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'author',
-      title: 'Author',
-      type: 'reference',
-      to: {type: 'author'},
+      name: 'contributors',
+      type: 'contributors',
+      title: 'Contributors',
     }),
     defineField({
       name: 'slug',

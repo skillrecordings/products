@@ -28,6 +28,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
       ? articles
       : articles.filter(({state}) => state === 'published')
   const {subscriber} = useConvertkit()
+
   return (
     <Layout
       meta={{

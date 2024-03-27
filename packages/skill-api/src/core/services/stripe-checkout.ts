@@ -7,7 +7,7 @@ import {
   getSdk,
   prisma,
 } from '@skillrecordings/database'
-import {first} from 'lodash'
+import {first, isEmpty} from 'lodash'
 import {add} from 'date-fns'
 import {
   getCalculatedPrice,
@@ -23,6 +23,24 @@ import {
 } from '@skillrecordings/stripe-sdk'
 
 const {stripe: defaultStripe} = defaultStripeContext
+
+const buildSearchParams = (params: object) => {
+  // implementing this instead of using `URLSearchParams` because that API
+  // does URL encoding of values in the URL like the curly braces in
+  // `session_id={CHECKOUT_SESSION_ID}` which needs to get passed to stripe
+  // as is.
+  if (isEmpty(params)) {
+    return ''
+  } else {
+    const paramsAsString = Object.entries(params)
+      .map(([key, value]) => {
+        return `${key}=${value}`
+      })
+      .join('&')
+
+    return paramsAsString
+  }
+}
 
 /**
  * Given a specific user we want to lookup their Stripe
@@ -407,9 +425,27 @@ export async function stripeCheckout({
         throw new CheckoutError('No product was found', productId as string)
       }
 
-      const successUrl = isUpgrade
-        ? `${process.env.NEXT_PUBLIC_URL}/welcome?session_id={CHECKOUT_SESSION_ID}&upgrade=true`
-        : `${process.env.NEXT_PUBLIC_URL}/thanks/purchase?session_id={CHECKOUT_SESSION_ID}`
+      let successUrl: string = (() => {
+        const baseQueryParams = {
+          session_id: '{CHECKOUT_SESSION_ID}',
+          provider: 'stripe',
+        }
+
+        if (isUpgrade) {
+          const queryParamString = buildSearchParams({
+            ...baseQueryParams,
+            upgrade: 'true',
+          })
+          const url = `${process.env.NEXT_PUBLIC_URL}/welcome?${queryParamString}`
+
+          return url
+        } else {
+          const queryParamString = buildSearchParams(baseQueryParams)
+
+          const url = `${process.env.NEXT_PUBLIC_URL}/thanks/purchase?${queryParamString}`
+          return url
+        }
+      })()
 
       const metadata = {
         ...(Boolean(availableUpgrade && upgradeFromPurchase) && {

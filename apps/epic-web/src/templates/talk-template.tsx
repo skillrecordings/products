@@ -69,8 +69,8 @@ const TalkTemplate: React.FC<{
     type: 'background-thumbnail',
     muxPlaybackId: talk.muxPlaybackId ?? undefined,
     bgImage: talk.videoPosterUrl ?? thumbnail,
-    authorName: talk.author?.name ?? undefined,
-    authorImage: talk.author?.image ?? undefined,
+    authorName: talk.presenter?.name ?? undefined,
+    authorImage: talk.presenter?.picture?.url ?? undefined,
   })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
@@ -183,9 +183,9 @@ const TalkTemplate: React.FC<{
 
                 <ResourceContributor
                   className="mt-3 inline-flex text-base [&_img]:w-10 [&_span]:font-normal"
-                  name={talk.author?.name}
-                  slug={talk.author?.slug}
-                  image={talk.author?.image}
+                  name={talk.presenter?.name}
+                  slug={talk.presenter?.slug}
+                  image={talk.presenter?.picture?.url}
                 />
 
                 {talk.body && (
@@ -199,7 +199,7 @@ const TalkTemplate: React.FC<{
                   className="mt-5"
                   title={talk.title}
                   contentType="talk"
-                  contributor={talk.author}
+                  contributor={talk.presenter}
                 />
                 <Transcript talk={talk} />
                 <RelatedTalks talks={talks} />
@@ -351,7 +351,9 @@ const TipOverlay: React.FC<{talks: Talk[]}> = ({talks}) => {
   )
 }
 
-const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
+const VideoOverlayTipCard: React.FC<{suggestedTip: Talk}> = ({
+  suggestedTip,
+}) => {
   const router = useRouter()
   const {handlePlay} = useMuxPlayer()
   const {resourceCompleted} = useResourceComplete(suggestedTip.slug)

@@ -299,7 +299,7 @@ export const processStripeWebhook = async (
     if (nextAuthOptions) {
       await sendServerEmail({
         email,
-        callbackUrl: `${process.env.NEXT_PUBLIC_URL}/welcome?purchaseId=${purchase.id}`,
+        callbackUrl: `${process.env.NEXT_PUBLIC_URL}/welcome?purchaseId=${purchase.id}&provider=stripe`,
         nextAuthOptions,
         type: 'purchase',
       })

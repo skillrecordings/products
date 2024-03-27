@@ -68,7 +68,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         {tutorials && (
           <ul className="grid w-full max-w-screen-lg grid-cols-1 flex-col gap-5 px-5 sm:gap-8 lg:grid-cols-2">
             {tutorials.map(
-              ({title, slug, image, description, sections, author}, i) => {
+              ({title, slug, image, description, sections, instructor}, i) => {
                 return (
                   <li key={slug.current}>
                     <Link
@@ -105,9 +105,9 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                         <div className="flex items-center gap-3 pt-4 text-gray-600 dark:text-gray-400">
                           <div className="flex items-center justify-center gap-2 overflow-hidden rounded-full">
                             <ResourceContributor
-                              name={author?.name}
-                              slug={author?.slug}
-                              image={author?.image}
+                              name={instructor?.name}
+                              slug={instructor?.slug}
+                              image={instructor?.picture?.url}
                               as="div"
                             />
                           </div>

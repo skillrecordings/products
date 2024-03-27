@@ -6,7 +6,6 @@ import {
   getAllContributors,
   getContributor,
   getContributorResources,
-  getKentsResources,
 } from 'lib/contributors'
 import ContributorTemplate from 'templates/contributor-template'
 
@@ -20,11 +19,8 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
-  const isKent = params?.slug === 'kent-c-dodds'
   const contributor = await getContributor(params?.slug as string)
-  const resources = isKent
-    ? await getKentsResources()
-    : await getContributorResources(contributor?._id as string)
+  const resources = await getContributorResources(contributor?._id as string)
 
   return {props: {contributor, resources}, revalidate: 10}
 }

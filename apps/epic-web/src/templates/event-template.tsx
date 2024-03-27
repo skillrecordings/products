@@ -63,7 +63,7 @@ const EventTemplate: React.FC<
     slug,
     timezone,
     ogImage: _ogImage,
-    author,
+    host,
   } = event
   const product = products && products[0]
   const image = event?.image?.secure_url
@@ -71,15 +71,15 @@ const EventTemplate: React.FC<
     ? {url: _ogImage.secure_url, alt: title}
     : getOgImage({
         title: title,
-        authorImage: event.author?.picture?.url,
-        authorName: event.author?.name,
+        authorImage: event.host?.picture?.url,
+        authorName: event.host?.name,
       })
 
   const pageDescription =
     description ||
     (mdx ? `${mdx.compiledSource.substring(0, 157)}...` : undefined)
-  const authorName =
-    author?.name ??
+  const hostName =
+    host?.name ??
     `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
 
@@ -117,7 +117,7 @@ const EventTemplate: React.FC<
         location={{name: 'Zoom'} as any}
         title={title}
         images={image ? [image] : []}
-        authorName={author}
+        authorName={hostName}
         datePublished={_createdAt}
         dateModified={_updatedAt}
         description={pageDescription}
@@ -149,20 +149,20 @@ const EventTemplate: React.FC<
             <br className="block sm:hidden" />
             with{' '}
             <Link
-              href={`/contributors/${author?.slug}`}
+              href={`/contributors/${host?.slug}`}
               target="_blank"
               className="hover:underline"
             >
-              {author?.picture?.url && (
+              {host?.picture?.url && (
                 <Image
-                  src={author?.picture?.url}
-                  alt={authorName}
+                  src={host?.picture?.url}
+                  alt={hostName}
                   width={48}
                   height={48}
                   className="ml-1 mr-2 inline-block rounded-full"
                 />
               )}
-              {authorName}
+              {hostName}
             </Link>
           </h2>
           <hr className="my-10 flex h-px w-full bg-border" />
@@ -200,16 +200,16 @@ const EventTemplate: React.FC<
       </main>
       <Share contentType="Live Workshop" title={title} />
       <AuthorBio
-        slug={event.author?.slug}
-        name={event.author?.name}
+        slug={event.host?.slug}
+        name={event.host?.name}
         picture={
-          event.author?.picture && {
-            url: event.author.picture.url,
-            alt: event.author.picture.alt || event.author.name,
+          event.host?.picture && {
+            url: event.host.picture.url,
+            alt: event.host.picture.alt || event.host.name,
           }
         }
         title={(name) => `Hosted by ${name}`}
-        bio={event.author?.bio}
+        bio={event.host?.bio}
       />
     </Layout>
   )

@@ -2,6 +2,7 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 import {pickBy} from 'lodash'
+import {ContributorSchema} from './contributors'
 
 export const TalkSchema = z.object({
   _id: z.string(),
@@ -16,7 +17,6 @@ export const TalkSchema = z.object({
   muxPlaybackId: z.nullable(z.string()).optional(),
   videoPosterUrl: z.nullable(z.string()).optional(),
   state: z.enum(['new', 'processing', 'reviewing', 'published', 'retired']),
-  // event: z.any(),
   event: z
     .object({
       title: z.string(),
@@ -38,16 +38,7 @@ export const TalkSchema = z.object({
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
-  author: z
-    .object({
-      name: z.string(),
-      slug: z.string(),
-      image: z.string(),
-      imageAlt: z.string(),
-      twitterHandle: z.string().optional(),
-    })
-    .nullable()
-    .optional(),
+  presenter: ContributorSchema.optional().nullable(),
 })
 
 export const TalksSchema = z.array(TalkSchema)
@@ -81,12 +72,21 @@ export const getRelatedTalks = async (
           0
         ]->castingwords.transcript,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId,
-        author-> {
+        "presenter": contributors[@.role == 'presenter'][0].contributor->{
+          _id,
+          _type,
+          _updatedAt,
+          _createdAt,
           name,
+          bio,
+          links[] {
+            url, label
+          },
+          picture {
+              "url": asset->url,
+              alt
+          },
           "slug": slug.current,
-          "image": picture.asset->url,
-          "imageAlt": picture.alt,
-          twitterHandle,
         },
     }`,
     talk,
@@ -120,12 +120,21 @@ export const getAllTalks = async (
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId,
-        author-> {
+        "presenter": contributors[@.role == 'presenter'][0].contributor->{
+          _id,
+          _type,
+          _updatedAt,
+          _createdAt,
           name,
+          bio,
+          links[] {
+            url, label
+          },
+          picture {
+              "url": asset->url,
+              alt
+          },
           "slug": slug.current,
-          "image": picture.asset->url,
-          "imageAlt": picture.alt,
-          twitterHandle,
         },
   }`)
 
@@ -156,12 +165,21 @@ export const getTalk = async (slug: string): Promise<Talk> => {
         "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId, 
-        author-> {
+        "presenter": contributors[@.role == 'presenter'][0].contributor->{
+          _id,
+          _type,
+          _updatedAt,
+          _createdAt,
           name,
+          bio,
+          links[] {
+            url, label
+          },
+          picture {
+              "url": asset->url,
+              alt
+          },
           "slug": slug.current,
-          "image": picture.asset->url,
-          "imageAlt": picture.alt,
-          twitterHandle,
         },
     }`,
     {slug},
@@ -188,11 +206,21 @@ export const getAllConf24Talks = async (count?: number): Promise<Talk[]> => {
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]->castingwords.transcript,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId,
-        author-> {
+        "presenter": contributors[@.role == 'presenter'][0].contributor->{
+          _id,
+          _type,
+          _updatedAt,
+          _createdAt,
           name,
+          bio,
+          links[] {
+            url, label
+          },
+          picture {
+              "url": asset->url,
+              alt
+          },
           "slug": slug.current,
-          "image": picture.asset->url,
-          "imageAlt": picture.alt
         },
       }
   }`)

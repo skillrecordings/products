@@ -9,7 +9,7 @@ import {
 
 export function useConvertkitForm({
   submitUrl = CONVERTKIT_SUBSCRIBE_API_URL,
-  formId = (CONVERTKIT_SIGNUP_FORM || 0) as number,
+  formId = CONVERTKIT_SIGNUP_FORM || '0',
   fields,
   onSuccess,
   onError,
@@ -17,7 +17,7 @@ export function useConvertkitForm({
   validateOnChange = false,
 }: {
   submitUrl?: string
-  formId?: number
+  formId?: string
   onSuccess: (subscriber: Subscriber, email?: string) => void
   onError: (error?: any) => void
   fields?: any

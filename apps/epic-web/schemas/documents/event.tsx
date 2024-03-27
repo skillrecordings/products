@@ -24,10 +24,9 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'author',
-      title: 'Author',
-      type: 'reference',
-      to: {type: 'author'},
+      name: 'contributors',
+      type: 'contributors',
+      title: 'Contributors',
     }),
     defineField({
       name: 'startsAt',

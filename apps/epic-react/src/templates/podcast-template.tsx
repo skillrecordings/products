@@ -57,7 +57,7 @@ const PodcastTemplate: React.FC<PodcastTemplateProps> = ({
               </h2>
               <div className="mt-4 flex flex-wrap items-center justify-center">
                 <a
-                  className="m-1 flex items-center rounded-lg bg-gray-100 px-3 py-2 leading-6 transition-colors duration-200 ease-in-out hover:bg-gray-200"
+                  className="m-1 flex items-center rounded-lg bg-er-gray-100 px-3 py-2 leading-6 transition-colors duration-200 ease-in-out hover:bg-er-gray-200"
                   href={`https://twitter.com/intent/tweet/?text=${encodeURIComponent(
                     title + ', podcast with @kentcdodds',
                   )}&url=${encodeURIComponent(
@@ -69,7 +69,7 @@ const PodcastTemplate: React.FC<PodcastTemplateProps> = ({
                   <span>Tweet</span>
                 </a>
                 <button
-                  className="m-1 flex items-center rounded-lg bg-gray-100 px-3 py-2 leading-6 transition-colors duration-200 ease-in-out hover:bg-gray-200"
+                  className="m-1 flex items-center rounded-lg bg-er-gray-100 px-3 py-2 leading-6 transition-colors duration-200 ease-in-out hover:bg-er-gray-200"
                   onClick={() => setCopiedToClipboard()}
                 >
                   <svg

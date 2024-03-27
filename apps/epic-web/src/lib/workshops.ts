@@ -12,6 +12,22 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   _createdAt,
   description,
   state,
+  "instructor": contributors[@.role == 'instructor'][0].contributor->{
+      _id,
+      _type,
+      _updatedAt,
+      _createdAt,
+      name,
+      bio,
+      links[] {
+        url, label
+      },
+      picture {
+          "url": asset->url,
+          alt
+      },
+      "slug": slug.current,
+    },
   'product': *[_type=='product' && references(^._id)][]{
     "slug": slug.current,
     state,
@@ -79,6 +95,22 @@ export const getWorkshop = async (slug: string) =>
         ogImage,
         description,
         _updatedAt,
+        "instructor": contributors[@.role == 'instructor'][0].contributor->{
+          _id,
+          _type,
+          _updatedAt,
+          _createdAt,
+          name,
+          bio,
+          links[] {
+            url, label
+          },
+          picture {
+              "url": asset->url,
+              alt
+          },
+          "slug": slug.current,
+        },
         "testimonials": resources[@->._type == 'testimonial']->{
           _id,
           _type,
