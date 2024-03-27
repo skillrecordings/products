@@ -235,16 +235,16 @@ const PurchasedEventTemplate = ({
               <Balancer>{product.title}</Balancer>
             </h1>
             <AuthorBio
-              slug={event.author?.slug}
-              name={event.author?.name}
+              slug={event.host?.slug}
+              name={event.host?.name}
               picture={
-                event.author?.picture && {
-                  url: event.author.picture.url,
-                  alt: event.author.picture.alt || event.author.name,
+                event.host?.picture && {
+                  url: event.host.picture.url,
+                  alt: event.host.picture.alt || event.host.name,
                 }
               }
               title={(name) => `Hosted by ${name}`}
-              bio={event.author?.bio}
+              bio={event.host?.bio}
               className="m-0 py-5 sm:py-12"
             />
           </header>
