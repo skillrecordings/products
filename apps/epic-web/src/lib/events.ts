@@ -1,31 +1,7 @@
 import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
-import {TalkSchema} from './talks'
-
-export const AuthorSchema = z.object({
-  _id: z.string(),
-  _type: z.string(),
-  _updatedAt: z.string(),
-  _createdAt: z.string(),
-  name: z.string(),
-  bio: z.string(),
-  links: z
-    .object({
-      url: z.string(),
-      label: z.string(),
-    })
-    .array()
-    .nullable(),
-  twitterHandle: z.string(),
-  picture: z
-    .object({
-      url: z.string(),
-      alt: z.string(),
-    })
-    .nullable(),
-  slug: z.string(),
-})
+import {ContributorSchema} from './contributors'
 
 export const EventSchema = z.object({
   _id: z.string(),
@@ -36,7 +12,7 @@ export const EventSchema = z.object({
   slug: z.string(),
   startsAt: z.string().nullable(),
   endsAt: z.string().nullable(),
-  author: AuthorSchema.nullable(),
+  author: ContributorSchema.nullable(),
   description: z.nullable(z.string()).optional(),
   body: z.nullable(z.string()).optional(),
   state: z.enum(['published', 'draft']),
@@ -89,22 +65,21 @@ export const getAllEvents = async (onlyPublished = true): Promise<Event[]> => {
         _type,
         _updatedAt,
         _createdAt,
-        author-> {
+        "author": contributors[@.role == 'host'][0].contributor->{
           _id,
           _type,
           _updatedAt,
           _createdAt,
           name,
           bio,
-          links[]{
+          links[] {
             url, label
           },
-          twitterHandle,
           picture {
               "url": asset->url,
               alt
           },
-          "slug": slug.current
+          "slug": slug.current,
         },
         title,
         state,
@@ -136,22 +111,21 @@ export const getEvent = async (slug: string): Promise<Event | null> => {
         _updatedAt,
         _createdAt,
         events[]{...},
-        author-> {
+        "author": contributors[@.role == 'host'][0].contributor->{
           _id,
           _type,
           _updatedAt,
           _createdAt,
           name,
           bio,
-          links[]{
+          links[] {
             url, label
           },
-          twitterHandle,
           picture {
               "url": asset->url,
               alt
           },
-          "slug": slug.current
+          "slug": slug.current,
         },
         title,
         state,

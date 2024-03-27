@@ -30,6 +30,11 @@ export default defineType({
       to: {type: 'author'},
     }),
     defineField({
+      name: 'contributors',
+      type: 'contributors',
+      title: 'Contributors',
+    }),
+    defineField({
       name: 'startsAt',
       title: 'Starts at (Pacific time)',
       description: 'When does the event start?',

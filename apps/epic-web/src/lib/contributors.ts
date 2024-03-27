@@ -2,6 +2,16 @@ import {sanityClient} from '../utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 
+export const ContributorRoleSchema = z.enum([
+  'author',
+  'instructor',
+  'host',
+  'presenter',
+  'editor',
+  'reviewer',
+  'illustrator',
+])
+
 export const ContributorSchema = z.object({
   _id: z.string(),
   _type: z.string(),
@@ -32,6 +42,7 @@ export const ContributorSchema = z.object({
 export const ContributorsSchema = z.array(ContributorSchema)
 
 export type Contributor = z.infer<typeof ContributorSchema>
+export type ContributorRole = z.infer<typeof ContributorRoleSchema>
 
 export const getAllContributors = async (): Promise<Contributor[]> => {
   const contributors =

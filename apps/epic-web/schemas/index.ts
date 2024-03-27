@@ -18,6 +18,7 @@ import talk from './documents/talk'
 import interview from './documents/interview'
 import bonus from './documents/bonus'
 import author from './documents/author'
+import contributor from './documents/contributor'
 // —— objects
 import body from './objects/body'
 import bodyVideo from './objects/bodyVideo'
@@ -41,6 +42,7 @@ import feature from './objects/feature'
 import github from './objects/resources/github'
 import transcript from './objects/transcript'
 import workshopApp from './objects/workshop-app'
+import contributors from './objects/contributors'
 
 export const schemaTypes = [
   // —— documents
@@ -63,6 +65,7 @@ export const schemaTypes = [
   interview,
   bonus,
   author,
+  contributor,
   // —— objects
   body,
   bodyVideo,
@@ -86,4 +89,5 @@ export const schemaTypes = [
   bodyTestimonial,
   feature,
   workshopApp,
+  contributors,
 ]

@@ -107,7 +107,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
                             <ResourceContributor
                               name={author?.name}
                               slug={author?.slug}
-                              image={author?.image}
+                              image={author?.picture?.url}
                               as="div"
                             />
                           </div>

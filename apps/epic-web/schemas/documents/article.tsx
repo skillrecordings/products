@@ -20,6 +20,11 @@ export default defineType({
       to: {type: 'author'},
     }),
     defineField({
+      name: 'contributors',
+      type: 'contributors',
+      title: 'Contributors',
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',

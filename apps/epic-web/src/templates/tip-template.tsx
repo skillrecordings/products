@@ -163,7 +163,7 @@ const TipTemplate: React.FC<{
                   <ResourceContributor
                     name={tip?.author?.name}
                     slug={tip?.author?.slug}
-                    image={tip?.author?.image}
+                    image={tip?.author?.picture?.url}
                     className="inline-flex py-2 text-base font-semibold text-gray-700 dark:text-gray-300 lg:hidden [&_span]:font-bold"
                   />
                   {tip.body && (
@@ -183,7 +183,7 @@ const TipTemplate: React.FC<{
                   <ResourceContributor
                     name={tip?.author?.name}
                     slug={tip?.author?.slug}
-                    image={tip?.author?.image}
+                    image={tip?.author?.picture?.url}
                     className="mx-0 hidden py-2 text-base font-semibold text-gray-700 dark:text-gray-300 lg:flex [&_span]:font-bold"
                   />
                   <RelatedTips currentTip={tip} tips={tips} />

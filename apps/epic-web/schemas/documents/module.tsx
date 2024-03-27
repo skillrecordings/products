@@ -22,6 +22,11 @@ export default defineType({
       to: {type: 'author'},
     }),
     defineField({
+      name: 'contributors',
+      type: 'contributors',
+      title: 'Contributors',
+    }),
+    defineField({
       name: 'moduleType',
       title: 'Module Type',
       type: 'string',
