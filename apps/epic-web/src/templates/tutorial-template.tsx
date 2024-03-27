@@ -133,7 +133,7 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
               <ResourceContributor
                 name={author?.name}
                 slug={author?.slug}
-                image={author?.image}
+                image={author?.picture?.url}
               />
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
