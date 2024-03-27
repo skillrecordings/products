@@ -127,7 +127,7 @@ const TipCard: React.FC<{tip: Tip; i: number}> = ({tip, i}) => {
         <ResourceContributor
           name={tip?.author?.name}
           slug={tip?.author?.slug}
-          image={tip?.author?.image}
+          image={tip?.author?.picture?.url}
           as="div"
           className="mt-3 gap-2 text-sm font-normal opacity-75 [&_img]:w-8"
         />

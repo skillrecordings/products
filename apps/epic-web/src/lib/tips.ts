@@ -2,6 +2,7 @@ import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
 import z from 'zod'
 import {pickBy} from 'lodash'
+import {ContributorSchema} from './contributors'
 export const TipSchema = z.object({
   _id: z.string(),
   _type: z.string(),
@@ -28,15 +29,7 @@ export const TipSchema = z.object({
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
-  author: z
-    .object({
-      name: z.string(),
-      slug: z.string(),
-      image: z.string(),
-      imageAlt: z.string(),
-    })
-    .nullable()
-    .optional(),
+  author: ContributorSchema.optional().nullable(),
 })
 
 export const TipsSchema = z.array(TipSchema)
@@ -56,11 +49,21 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
         description,
         summary,
         body,
-        author-> {
+        "author": contributors[@.role == 'instructor'][0].contributor->{
+          _id,
+          _type,
+          _updatedAt,
+          _createdAt,
           name,
+          bio,
+          links[] {
+            url, label
+          },
+          picture {
+              "url": asset->url,
+              alt
+          },
           "slug": slug.current,
-          "image": picture.asset->url,
-          "imageAlt": picture.alt
         },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
@@ -84,11 +87,21 @@ export const getTip = async (slug: string): Promise<Tip> => {
         description,
         summary,
         body,
-        author-> {
+        "author": contributors[@.role == 'instructor'][0].contributor->{
+          _id,
+          _type,
+          _updatedAt,
+          _createdAt,
           name,
+          bio,
+          links[] {
+            url, label
+          },
+          picture {
+              "url": asset->url,
+              alt
+          },
           "slug": slug.current,
-          "image": picture.asset->url,
-          "imageAlt": picture.alt
         },
         "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
         "videoPosterUrl": resources[@->._type == 'videoResource'][0]->poster,
