@@ -11,6 +11,9 @@ import {useCopyToClipboard} from 'react-use'
 import Balancer from 'react-wrap-balancer'
 import {twMerge} from 'tailwind-merge'
 import {MDXEditor, MDXTranspilePreview} from '../code-editor/mdx-editor'
+import {useFeedback} from '@/feedback-widget/feedback-context'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {ChatAltIcon} from '@heroicons/react/outline'
 
 export const MDXComponents = {
   TypeError: (props) => <TypeError {...props} />,
@@ -325,4 +328,32 @@ export const linkedHeadingComponents: MDXComponentsType = {
   h2: (props) => <LinkedHeading as="h2" {...props} />,
   h3: (props) => <LinkedHeading as="h3" {...props} />,
   h4: (props) => <LinkedHeading as="h4" {...props} />,
+}
+
+export const FeedbackFormButton: React.FC<
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+> = (props) => {
+  const {setIsFeedbackDialogOpen} = useFeedback()
+  return (
+    <button
+      {...props}
+      type="button"
+      className={cn(
+        'flex items-center justify-center gap-2 rounded bg-primary px-4 py-2 text-center text-base font-semibold text-primary-foreground transition hover:brightness-105',
+        props.className,
+      )}
+      onClick={() => {
+        setIsFeedbackDialogOpen(true)
+      }}
+    >
+      {props.children ? (
+        props.children
+      ) : (
+        <>
+          <ChatAltIcon aria-hidden="true" className="h-5 w-5" />{' '}
+          {'Send Me a Message'}
+        </>
+      )}
+    </button>
+  )
 }
