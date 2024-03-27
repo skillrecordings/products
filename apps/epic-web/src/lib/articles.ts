@@ -52,21 +52,21 @@ export const getAllArticles = async (): Promise<Article[]> => {
         body,
         image,
         ogImage,
-        author-> {
+        "author": contributors[@.role == 'author'][0].contributor->{
           _id,
-        _type,
-        _updatedAt,
-        _createdAt,
-        name,
-        bio,
-        links[] {
-          url, label
-        },
-        picture {
-            "url": asset->url,
-            alt
-        },
-        "slug": slug.current,
+          _type,
+          _updatedAt,
+          _createdAt,
+          name,
+          bio,
+          links[] {
+            url, label
+          },
+          picture {
+              "url": asset->url,
+              alt
+          },
+          "slug": slug.current,
         },
         resources[]->{
           ...
@@ -90,22 +90,21 @@ export const getArticle = async (slug: string): Promise<Article | null> => {
         body,
         image,
         ogImage,
-        author-> {
+        "author": contributors[@.role == 'author'][0].contributor->{
           _id,
-        _type,
-        _updatedAt,
-        _createdAt,
-        name,
-        bio,
-        links[]{
-          url, label
-        },
-        twitterHandle,
-        picture {
-            "url": asset->url,
-            alt
-        },
-        "slug": slug.current,
+          _type,
+          _updatedAt,
+          _createdAt,
+          name,
+          bio,
+          links[] {
+            url, label
+          },
+          picture {
+              "url": asset->url,
+              alt
+          },
+          "slug": slug.current,
         },
         resources[]->{
           ...
