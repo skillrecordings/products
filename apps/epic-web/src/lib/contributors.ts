@@ -46,7 +46,7 @@ export type ContributorRole = z.infer<typeof ContributorRoleSchema>
 
 export const getAllContributors = async (): Promise<Contributor[]> => {
   const contributors =
-    await sanityClient.fetch(groq`*[_type == "author"] | order(_createdAt desc) {
+    await sanityClient.fetch(groq`*[_type == "contributor"] | order(_createdAt desc) {
         _id,
         _type,
         _updatedAt,
@@ -71,7 +71,7 @@ export const getContributor = async (
   slug: string,
 ): Promise<Contributor | null> => {
   const contributor = await sanityClient.fetch(
-    groq`*[_type == "author" && slug.current == $slug][0] {
+    groq`*[_type == "contributor" && slug.current == $slug][0] {
         _id,
         _type,
         _updatedAt,
@@ -102,7 +102,7 @@ export const getContributor = async (
 }
 
 // ————————————————————————————————————————————————————————————————————————————————
-// AUTHOR RESOURCES
+// CONTRIBUTOR RESOURCES
 // ————————————————————————————————————————————————————————————————————————————————
 
 export const ContributorResourceSchema = z.object({
@@ -126,7 +126,7 @@ export const getContributorResources = async (
   id: string,
 ): Promise<ContributorResource[] | null> => {
   const resources = await sanityClient.fetch(
-    groq`*[author->_id == $id && _type in ["article", "tip", "module", "talk"] && state == 'published'] | order(_createdAt desc) {
+    groq`*[$id in contributors[].contributor._ref && _type in ["article", "tip", "module", "talk"] && state == 'published'] | order(_createdAt desc) {
             _id,
             _type,
             _updatedAt,
@@ -142,33 +142,6 @@ export const getContributorResources = async (
     {id},
   )
 
-  const result = ContributorResourcesSchema.safeParse(resources)
-
-  if (result.success) {
-    return result.data
-  } else {
-    return null
-  }
-}
-
-export const getKentsResources = async (): Promise<
-  ContributorResource[] | null
-> => {
-  const resources = await sanityClient.fetch(
-    groq`*[author == null && _type in ["article", "tip", "module"] && state == 'published'] | order(_createdAt desc) {
-            _id,
-            _type,
-            _updatedAt,
-            _createdAt,
-            title,
-            description,
-            summary,
-            "slug": slug.current,
-            "moduleType": moduleType,
-            "image": coalesce(image.asset->url, image.secure_url),
-            "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
-    }`,
-  )
   const result = ContributorResourcesSchema.safeParse(resources)
 
   if (result.success) {

@@ -17,7 +17,6 @@ import event from './documents/event'
 import talk from './documents/talk'
 import interview from './documents/interview'
 import bonus from './documents/bonus'
-import author from './documents/author'
 import contributor from './documents/contributor'
 // —— objects
 import body from './objects/body'
@@ -64,7 +63,6 @@ export const schemaTypes = [
   talk,
   interview,
   bonus,
-  author,
   contributor,
   // —— objects
   body,

@@ -16,6 +16,7 @@ import talks from './structure/talks'
 import bonuses from './structure/bonuses'
 import interviews from './structure/interviews'
 import liveProducts from './structure/live-products'
+import contributors from './structure/contributors'
 
 const hiddenDocTypes = (listItem: any) =>
   ![
@@ -34,6 +35,7 @@ const hiddenDocTypes = (listItem: any) =>
     'event',
     'talk',
     'interview',
+    'contributor',
   ].includes(listItem.getId())
 
 export default (S: any) =>
@@ -43,6 +45,8 @@ export default (S: any) =>
       pricing(S),
       products(S),
       liveProducts(S),
+      S.divider(),
+      contributors(S),
       S.divider(),
       workshops(S),
       tutorials(S),
@@ -60,6 +64,7 @@ export default (S: any) =>
       interviews(S),
       sections(S),
       links(S),
+
       S.divider(),
       ...S.documentTypeListItems().filter(hiddenDocTypes),
     ])
