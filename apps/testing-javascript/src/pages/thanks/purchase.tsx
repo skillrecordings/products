@@ -3,7 +3,7 @@ import {GetServerSideProps} from 'next'
 import Layout from '@/components/layout'
 import {
   convertToSerializeForNextResponse,
-  determinePurchaseType,
+  determinePurchaseTypeViaStripe,
   type PurchaseType,
 } from '@skillrecordings/commerce-server'
 import type {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
@@ -60,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  const purchaseType = await determinePurchaseType({
+  const purchaseType = await determinePurchaseTypeViaStripe({
     checkoutSessionId: session_id,
   })
 

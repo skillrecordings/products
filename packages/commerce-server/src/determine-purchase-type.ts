@@ -131,6 +131,15 @@ type DeterminePurchaseTypeOptions = {
   stripeCtx?: StripeContext
 }
 
+export async function determinePurchaseTypeViaStripe(
+  options: DeterminePurchaseTypeOptions,
+): Promise<PurchaseType> {
+  return determinePurchaseType(options)
+}
+
+// TODO: Next thing is to pull `determinePurchaseType` logic up into the
+// `getPurchaseInfo` interface and have the `purchaseType` be returned
+// along with the rest of the _purchase info_ data.
 export async function determinePurchaseType(
   options: DeterminePurchaseTypeOptions,
 ): Promise<PurchaseType> {

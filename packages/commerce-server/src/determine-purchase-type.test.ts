@@ -1,4 +1,4 @@
-import {determinePurchaseType} from './determine-purchase-type'
+import {determinePurchaseTypeViaStripe} from './determine-purchase-type'
 
 import {
   MockContext,
@@ -36,7 +36,7 @@ describe('when the user email is known', () => {
   test('for a new individual purchase', async () => {
     mockIndividualPurchase()
 
-    const purchaseType = await determinePurchaseType({
+    const purchaseType = await determinePurchaseTypeViaStripe({
       checkoutSessionId: 'cs_123',
       prismaCtx: mockCtx,
       stripeCtx: stripeMockCtx,
