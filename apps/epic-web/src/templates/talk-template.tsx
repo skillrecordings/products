@@ -70,7 +70,7 @@ const TalkTemplate: React.FC<{
     muxPlaybackId: talk.muxPlaybackId ?? undefined,
     bgImage: talk.videoPosterUrl ?? thumbnail,
     authorName: talk.author?.name ?? undefined,
-    authorImage: talk.author?.image ?? undefined,
+    authorImage: talk.author?.picture?.url ?? undefined,
   })
 
   const handleOnSuccess = (subscriber: any, email?: string) => {
@@ -185,7 +185,7 @@ const TalkTemplate: React.FC<{
                   className="mt-3 inline-flex text-base [&_img]:w-10 [&_span]:font-normal"
                   name={talk.author?.name}
                   slug={talk.author?.slug}
-                  image={talk.author?.image}
+                  image={talk.author?.picture?.url}
                 />
 
                 {talk.body && (
@@ -351,7 +351,9 @@ const TipOverlay: React.FC<{talks: Talk[]}> = ({talks}) => {
   )
 }
 
-const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
+const VideoOverlayTipCard: React.FC<{suggestedTip: Talk}> = ({
+  suggestedTip,
+}) => {
   const router = useRouter()
   const {handlePlay} = useMuxPlayer()
   const {resourceCompleted} = useResourceComplete(suggestedTip.slug)

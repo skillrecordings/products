@@ -139,7 +139,7 @@ export const TalkItem: React.FC<{
           <ResourceContributor
             name={talk?.author?.name}
             slug={talk?.author?.slug}
-            image={talk.author?.image}
+            image={talk.author?.picture?.url}
             as="div"
             className="mt-3 gap-2 text-sm font-normal [&_img]:w-8"
           />
