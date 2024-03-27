@@ -25,6 +25,7 @@ export default defineType({
             list: [
               {title: 'Author', value: 'author'},
               {title: 'Instructor', value: 'instructor'},
+              {title: 'Host', value: 'host'},
               {title: 'Presenter', value: 'presenter'},
               {title: 'Editor', value: 'editor'},
               {title: 'Reviewer', value: 'reviewer'},
