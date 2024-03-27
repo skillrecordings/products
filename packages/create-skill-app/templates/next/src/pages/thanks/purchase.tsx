@@ -3,7 +3,7 @@ import {GetServerSideProps} from 'next'
 import Layout from '@/components/app/layout'
 import {
   convertToSerializeForNextResponse,
-  determinePurchaseType,
+  determinePurchaseTypeViaStripe,
   PurchaseType,
 } from '@skillrecordings/commerce-server'
 import {
@@ -59,8 +59,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  const purchaseType = await determinePurchaseType({
-    checkoutSessionId: session_id,
+  const purchaseType = await determinePurchaseTypeViaStripe({
+    checkoutSessionId: session_id as string,
   })
 
   const product = await getProduct(purchase.productId)

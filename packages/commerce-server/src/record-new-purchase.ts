@@ -6,7 +6,10 @@ import {
   Context as StripeContext,
 } from '@skillrecordings/stripe-sdk'
 import {NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
-import {determinePurchaseType, PurchaseType} from './determine-purchase-type'
+import {
+  determinePurchaseTypeViaStripe,
+  PurchaseType,
+} from './determine-purchase-type'
 import {
   PaymentProvider,
   PurchaseInfo,
@@ -143,7 +146,7 @@ export async function recordNewPurchase(
     checkoutSessionId,
   })
 
-  let purchaseType = await determinePurchaseType({checkoutSessionId})
+  let purchaseType = await determinePurchaseTypeViaStripe({checkoutSessionId})
 
   if (purchaseType === null) {
     // TODO: report that we did not get a valid purchase type for this checkoutSessionId
