@@ -12,7 +12,11 @@ import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import removeMarkdown from 'remove-markdown'
 import '@/styles/shiki-twoslash.css'
-import {linkedHeadingComponents, ShareImageMDX} from '@/components/mdx'
+import {
+  FeedbackFormButton,
+  linkedHeadingComponents,
+  ShareImageMDX,
+} from '@/components/mdx'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {trpc} from '@/trpc/trpc.client'
 import Link from 'next/link'
@@ -190,6 +194,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
                 ),
                 ...linkedHeadingComponents,
                 hr: () => <hr className="border-gray-700" />,
+                FeedbackFormButton: (props) => (
+                  <FeedbackFormButton {...props} />
+                ),
               }}
             />
           )}
