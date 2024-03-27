@@ -142,21 +142,21 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                   </div>
                   <div className="z-10 flex w-full flex-col items-start justify-between space-y-10 pt-8 md:flex-row md:items-center md:space-y-0">
                     <div className="flex w-full flex-col gap-8 text-sm text-gray-700 dark:text-gray-300 lg:flex-row lg:items-center">
-                      {event.author ? (
+                      {event.host ? (
                         <div className="flex items-center gap-3">
-                          {event.author.picture && (
+                          {event.host.picture && (
                             <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
                               <Image
-                                src={event.author.picture.url}
+                                src={event.host.picture.url}
                                 width={54}
                                 height={54}
-                                alt={event.author.name}
+                                alt={event.host.name}
                               />
                             </div>
                           )}
                           <div>
                             <div className="block font-bold">Hosted by</div>
-                            <div>{event.author.name}</div>
+                            <div>{event.host.name}</div>
                           </div>
                         </div>
                       ) : null}

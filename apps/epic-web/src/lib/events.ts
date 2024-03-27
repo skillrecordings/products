@@ -12,7 +12,7 @@ export const EventSchema = z.object({
   slug: z.string(),
   startsAt: z.string().nullable(),
   endsAt: z.string().nullable(),
-  author: ContributorSchema.nullable(),
+  host: ContributorSchema.nullable(),
   description: z.nullable(z.string()).optional(),
   body: z.nullable(z.string()).optional(),
   state: z.enum(['published', 'draft']),
@@ -65,7 +65,7 @@ export const getAllEvents = async (onlyPublished = true): Promise<Event[]> => {
         _type,
         _updatedAt,
         _createdAt,
-        "author": contributors[@.role == 'host'][0].contributor->{
+        "host": contributors[@.role == 'host'][0].contributor->{
           _id,
           _type,
           _updatedAt,
@@ -111,7 +111,7 @@ export const getEvent = async (slug: string): Promise<Event | null> => {
         _updatedAt,
         _createdAt,
         events[]{...},
-        "author": contributors[@.role == 'host'][0].contributor->{
+        "host": contributors[@.role == 'host'][0].contributor->{
           _id,
           _type,
           _updatedAt,

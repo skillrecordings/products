@@ -38,7 +38,7 @@ export const TalkSchema = z.object({
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
-  author: ContributorSchema.optional().nullable(),
+  presenter: ContributorSchema.optional().nullable(),
 })
 
 export const TalksSchema = z.array(TalkSchema)
@@ -72,7 +72,7 @@ export const getRelatedTalks = async (
           0
         ]->castingwords.transcript,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId,
-        "author": contributors[@.role == 'presenter'][0].contributor->{
+        "presenter": contributors[@.role == 'presenter'][0].contributor->{
           _id,
           _type,
           _updatedAt,
@@ -120,7 +120,7 @@ export const getAllTalks = async (
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId,
-        "author": contributors[@.role == 'presenter'][0].contributor->{
+        "presenter": contributors[@.role == 'presenter'][0].contributor->{
           _id,
           _type,
           _updatedAt,
@@ -165,7 +165,7 @@ export const getTalk = async (slug: string): Promise<Talk> => {
         "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
         "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId, 
-        "author": contributors[@.role == 'presenter'][0].contributor->{
+        "presenter": contributors[@.role == 'presenter'][0].contributor->{
           _id,
           _type,
           _updatedAt,
@@ -206,7 +206,7 @@ export const getAllConf24Talks = async (count?: number): Promise<Talk[]> => {
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]->castingwords.transcript,
         "tweetId":  resources[@._type == 'tweet'][0].tweetId,
-        "author": contributors[@.role == 'presenter'][0].contributor->{
+        "presenter": contributors[@.role == 'presenter'][0].contributor->{
           _id,
           _type,
           _updatedAt,

@@ -125,9 +125,9 @@ const TipCard: React.FC<{tip: Tip; i: number}> = ({tip, i}) => {
           {resourceCompleted && <span className="sr-only">(watched)</span>}
         </h2>
         <ResourceContributor
-          name={tip?.author?.name}
-          slug={tip?.author?.slug}
-          image={tip?.author?.picture?.url}
+          name={tip?.instructor?.name}
+          slug={tip?.instructor?.slug}
+          image={tip?.instructor?.picture?.url}
           as="div"
           className="mt-3 gap-2 text-sm font-normal opacity-75 [&_img]:w-8"
         />

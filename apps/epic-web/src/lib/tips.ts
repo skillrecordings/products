@@ -29,7 +29,7 @@ export const TipSchema = z.object({
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.string()).optional(),
   tweetId: z.nullable(z.string()).optional(),
-  author: ContributorSchema.optional().nullable(),
+  instructor: ContributorSchema.optional().nullable(),
 })
 
 export const TipsSchema = z.array(TipSchema)
@@ -49,7 +49,7 @@ export const getAllTips = async (onlyPublished = true): Promise<Tip[]> => {
         description,
         summary,
         body,
-        "author": contributors[@.role == 'instructor'][0].contributor->{
+        "instructor": contributors[@.role == 'instructor'][0].contributor->{
           _id,
           _type,
           _updatedAt,
@@ -87,7 +87,7 @@ export const getTip = async (slug: string): Promise<Tip> => {
         description,
         summary,
         body,
-        "author": contributors[@.role == 'instructor'][0].contributor->{
+        "instructor": contributors[@.role == 'instructor'][0].contributor->{
           _id,
           _type,
           _updatedAt,

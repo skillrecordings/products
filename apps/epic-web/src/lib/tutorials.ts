@@ -16,7 +16,7 @@ export const getAllTutorials = async (onlyPublished = true) => {
     description,
     moduleType,
     state,
-    "author": contributors[@.role == 'instructor'][0].contributor->{
+    "instructor": contributors[@.role == 'instructor'][0].contributor->{
       _id,
       _type,
       _updatedAt,
@@ -77,7 +77,7 @@ export const getTutorial = async (slug: string) =>
       _updatedAt,
       "image": image.asset->url,
       body,
-      "author": contributors[@.role == 'instructor'][0].contributor->{
+      "instructor": contributors[@.role == 'instructor'][0].contributor->{
         _id,
         _type,
         _updatedAt,
