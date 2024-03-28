@@ -7,6 +7,7 @@ import {
   PurchaseInfo,
   PurchaseInfoSchema,
 } from './default-payment-options'
+import {determinePurchaseType} from '../determine-purchase-type'
 
 export const StripeProvider: StripeProviderFunction = (config) => {
   const stripeClient =
@@ -40,6 +41,11 @@ export const StripeProvider: StripeProviderFunction = (config) => {
       ? PurchaseMetadata.parse(metadata)
       : undefined
 
+    const purchaseType = await determinePurchaseType({
+      chargeIdentifier: stripeChargeId,
+      email,
+    })
+
     const info: PurchaseInfo = {
       customerIdentifier: stripeCustomerId,
       email,
@@ -51,6 +57,7 @@ export const StripeProvider: StripeProviderFunction = (config) => {
       quantity,
       chargeAmount: stripeChargeAmount,
       metadata: parsedMetadata,
+      purchaseType,
     }
 
     return PurchaseInfoSchema.parse(info)

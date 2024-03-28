@@ -1,5 +1,6 @@
 import Stripe from 'stripe'
 import {z} from 'zod'
+import {purchaseTypeSchema} from '../determine-purchase-type'
 
 type StripeConfig = {
   stripeSecretKey: string
@@ -24,6 +25,7 @@ export const PurchaseInfoSchema = z.object({
   quantity: z.number(),
   chargeAmount: z.number(),
   metadata: PurchaseMetadata.passthrough().optional(),
+  purchaseType: purchaseTypeSchema,
 })
 export type PurchaseInfo = z.infer<typeof PurchaseInfoSchema>
 
