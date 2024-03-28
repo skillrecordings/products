@@ -31,46 +31,6 @@ export class PurchaseError extends Error {
   }
 }
 
-type StripeDataOptions = {
-  checkoutSessionId: string
-  stripeCtx?: StripeContext
-}
-
-export async function stripeData(options: StripeDataOptions) {
-  const {stripeCtx, checkoutSessionId} = options
-  const {getCheckoutSession} = getStripeSdk({ctx: stripeCtx})
-
-  const checkoutSession = await getCheckoutSession(checkoutSessionId)
-
-  const {customer, line_items, payment_intent, metadata} = checkoutSession
-  const {email, name, id: stripeCustomerId} = customer as Stripe.Customer
-  const lineItem = first(line_items?.data) as Stripe.LineItem
-  const stripePrice = lineItem.price
-  const quantity = lineItem.quantity || 1
-  const stripeProduct = stripePrice?.product as Stripe.Product
-  const {charges} = payment_intent as Stripe.PaymentIntent
-  const stripeCharge = first<Stripe.Charge>(charges.data)
-  const stripeChargeId = stripeCharge?.id as string
-  const stripeChargeAmount = stripeCharge?.amount || 0
-
-  // extract MerchantCoupon identifier if used for purchase
-  const discount = first(lineItem.discounts)
-  const stripeCouponId = discount?.discount.coupon.id
-
-  return {
-    stripeCustomerId,
-    email,
-    name,
-    stripeProductId: stripeProduct.id,
-    stripeProduct,
-    stripeChargeId,
-    stripeCouponId,
-    quantity,
-    stripeChargeAmount,
-    metadata,
-  }
-}
-
 export async function recordNewPurchase(
   checkoutSessionId: string,
   options: {paymentProvider: PaymentProvider},
