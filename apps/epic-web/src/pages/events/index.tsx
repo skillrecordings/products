@@ -181,17 +181,19 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                             <CalendarIcon className="w-4 translate-y-0.5 text-blue-900/80 dark:text-indigo-200/80" />
                             <div>
                               <strong>
-                                {format(
+                                {formatInTimeZone(
                                   new Date(event.events[0].startsAt),
+                                  PT,
                                   'MMMM d, yyyy',
                                 )}
                                 {' – '}
-                                {format(
+                                {formatInTimeZone(
                                   new Date(
                                     event.events[
                                       event.events.length - 1
                                     ].endsAt,
                                   ),
+                                  PT,
                                   'MMMM d, yyyy',
                                 )}
                               </strong>
