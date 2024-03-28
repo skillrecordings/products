@@ -215,7 +215,7 @@ export const EventDetails: React.FC<{
   event: Event
 }> = ({event}) => {
   const {startsAt, endsAt, timezone, events, image} = event
-
+  const PT = 'America/Los_Angeles'
   const eventDate =
     startsAt &&
     `${formatInTimeZone(
@@ -251,24 +251,11 @@ export const EventDetails: React.FC<{
         'MMMM d, yyyy',
       )}`
 
-      const startsAtDate = new Date(startsAt)
-      const endsAtDate = new Date(endsAt)
-
-      // Since the original time is in UTC and we want to display it in PT (which is 2 hours ahead ofUTC),
-      // we can simply add 2 hours to the UTC hours.
-      startsAtDate.setUTCHours(startsAtDate.getUTCHours() + 2)
-      endsAtDate.setUTCHours(endsAtDate.getUTCHours() + 2)
-
-      const startsAtHour = startsAtDate.getUTCHours()
-      const endsAtHour = endsAtDate.getUTCHours()
-      const formattedStartsAtTime = `${startsAtHour % 12 || 12}${
-        startsAtHour < 12 ? 'AM' : 'PM'
-      }`
-      const formattedEndsAtTime = `${endsAtHour % 12 || 12}${
-        endsAtHour < 12 ? 'AM' : 'PM'
-      }`
-
-      const timeRange = `${formattedStartsAtTime}-${formattedEndsAtTime}`
+      const timeRange = `${formatInTimeZone(
+        new Date(startsAt),
+        PT,
+        'ha',
+      )}-${formatInTimeZone(new Date(endsAt), PT, 'ha')}`
       if (!acc[title]) {
         acc[title] = {dates: [formattedDate], time: timeRange}
       } else {
