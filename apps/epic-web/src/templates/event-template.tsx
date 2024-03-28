@@ -4,7 +4,6 @@ import MuxPlayer from '@mux/mux-player-react'
 import {EventJsonLd} from '@skillrecordings/next-seo'
 import {useRouter} from 'next/router'
 import Balancer from 'react-wrap-balancer'
-import {format} from 'date-fns'
 import {formatInTimeZone} from 'date-fns-tz'
 import Image from 'next/image'
 import Share from 'components/share'
@@ -18,19 +17,14 @@ import {
   LocationMarkerIcon,
 } from '@heroicons/react/outline'
 import {getOgImage} from 'utils/get-og-image'
-import {
-  PriceCheckProvider,
-  usePriceCheck,
-} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
-import {trpc} from 'trpc/trpc.client'
 import type {
   CommerceProps,
   SanityProduct,
 } from '@skillrecordings/commerce-server/dist/@types'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import Link from 'next/link'
-import {cn} from '@skillrecordings/ui/utils/cn'
 import pluralize from 'pluralize'
 
 const EventTemplate: React.FC<
@@ -221,6 +215,7 @@ export const EventDetails: React.FC<{
   event: Event
 }> = ({event}) => {
   const {startsAt, endsAt, timezone, events, image} = event
+
   const eventDate =
     startsAt &&
     `${formatInTimeZone(
@@ -249,25 +244,31 @@ export const EventDetails: React.FC<{
     events &&
     events.reduce((acc: any, event) => {
       const {title, startsAt, endsAt} = event
-      const formattedDate = `${format(
+
+      const formattedDate = `${formatInTimeZone(
         new Date(startsAt),
+        'America/Los_Angeles',
         'MMMM d, yyyy',
-        // 'America/Los_Angeles',
       )}`
 
-      const startTime = `${formatInTimeZone(
-        new Date(startsAt),
-        'America/Los_Angeles',
-        'ha',
-      )}`
+      const startsAtDate = new Date(startsAt)
+      const endsAtDate = new Date(endsAt)
 
-      const endTime = `${formatInTimeZone(
-        new Date(endsAt),
-        'America/Los_Angeles',
-        'ha',
-      )}`
+      // Since the original time is in UTC and we want to display it in PT (which is 2 hours ahead ofUTC),
+      // we can simply add 2 hours to the UTC hours.
+      startsAtDate.setUTCHours(startsAtDate.getUTCHours() + 2)
+      endsAtDate.setUTCHours(endsAtDate.getUTCHours() + 2)
 
-      const timeRange = `${startTime}-${endTime}`
+      const startsAtHour = startsAtDate.getUTCHours()
+      const endsAtHour = endsAtDate.getUTCHours()
+      const formattedStartsAtTime = `${startsAtHour % 12 || 12}${
+        startsAtHour < 12 ? 'AM' : 'PM'
+      }`
+      const formattedEndsAtTime = `${endsAtHour % 12 || 12}${
+        endsAtHour < 12 ? 'AM' : 'PM'
+      }`
+
+      const timeRange = `${formattedStartsAtTime}-${formattedEndsAtTime}`
       if (!acc[title]) {
         acc[title] = {dates: [formattedDate], time: timeRange}
       } else {
@@ -303,9 +304,9 @@ export const EventDetails: React.FC<{
                 <strong className="text-lg font-semibold leading-tight">
                   {title}
                 </strong>
-                <div className="flex items-center gap-1 pt-1 text-sm">
-                  <CalendarIcon className="h-5 w-5 flex-shrink-0 text-gray-600 dark:text-blue-300" />{' '}
-                  <div>{formattedDates}</div>
+                <div className="mt-2 flex items-baseline gap-1 text-sm">
+                  <CalendarIcon className="relative h-5 w-5 flex-shrink-0 translate-y-1.5 text-gray-600 dark:text-blue-300" />{' '}
+                  <div>{formattedDates} (Pacific time)</div>
                 </div>
                 <div className="flex items-center gap-1 pt-1 text-sm">
                   <ClockIcon className="relative h-5 w-5 flex-shrink-0 text-gray-600 dark:text-blue-300" />{' '}
@@ -314,6 +315,18 @@ export const EventDetails: React.FC<{
               </li>
             )
           })}
+          {timezone && (
+            <div className="flex items-center gap-1 pt-1 text-sm">
+              <a
+                href={timezone}
+                rel="noopener noreferrer"
+                target="_blank"
+                className="font-normal underline"
+              >
+                timezones
+              </a>
+            </div>
+          )}
         </ul>
       ) : (
         <div className="flex flex-col text-base font-semibold opacity-90">
