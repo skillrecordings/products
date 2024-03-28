@@ -1,15 +1,11 @@
 import {Stripe} from 'stripe'
-import {first, isEmpty} from 'lodash'
+import {first} from 'lodash'
 import {type Purchase, getSdk} from '@skillrecordings/database'
 import {
   getStripeSdk,
   Context as StripeContext,
 } from '@skillrecordings/stripe-sdk'
-import {NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
-import {
-  determinePurchaseTypeViaStripe,
-  PurchaseType,
-} from './determine-purchase-type'
+import {PurchaseType} from './determine-purchase-type'
 import {
   PaymentProvider,
   PurchaseInfo,
@@ -105,6 +101,7 @@ export async function recordNewPurchase(
     quantity,
     chargeAmount,
     metadata,
+    purchaseType,
   } = purchaseInfo
 
   if (!email) throw new PurchaseError(`no-email`, checkoutSessionId)
@@ -145,15 +142,6 @@ export async function recordNewPurchase(
     usedCouponId: metadata?.usedCouponId,
     checkoutSessionId,
   })
-
-  let purchaseType = await determinePurchaseTypeViaStripe({checkoutSessionId})
-
-  if (purchaseType === null) {
-    // TODO: report that we did not get a valid purchase type for this checkoutSessionId
-    //
-    // then fallback to NEW_INDIVIDUAL_PURCHASE
-    purchaseType = NEW_INDIVIDUAL_PURCHASE
-  }
 
   return {
     purchase,
