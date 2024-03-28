@@ -1,7 +1,5 @@
 import {isEmpty, sortBy} from 'lodash'
 import {getSdk, Context} from '@skillrecordings/database'
-import {Context as StripeContext} from '@skillrecordings/stripe-sdk'
-import {stripeData} from './record-new-purchase'
 import {
   EXISTING_BULK_COUPON,
   NEW_BULK_COUPON,
