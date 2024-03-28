@@ -10,6 +10,8 @@ import {
 import {determinePurchaseType} from '../determine-purchase-type'
 
 export const StripeProvider: StripeProviderFunction = (config) => {
+  // TODO: once we're fully migrated to StripeProvider, we can remove the
+  // `defaultStripeClient` option and just initialize the Stripe client
   const stripeClient =
     'defaultStripeClient' in config
       ? config.defaultStripeClient

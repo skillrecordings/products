@@ -125,32 +125,6 @@ const summarizePurchases = (
   }
 }
 
-type DeterminePurchaseTypeViaStripeOptions = {
-  checkoutSessionId: string
-  prismaCtx?: Context
-  stripeCtx?: StripeContext
-}
-
-export async function determinePurchaseTypeViaStripe(
-  options: DeterminePurchaseTypeViaStripeOptions,
-): Promise<PurchaseType> {
-  const {stripeCtx, checkoutSessionId} = options
-
-  // Grab the Stripe Charge ID associated with the completed checkout session
-  // so that we can reference the associated purchase in our database.
-  const purchaseInfo = await stripeData({
-    checkoutSessionId: checkoutSessionId as string,
-    stripeCtx,
-  })
-  const {email, stripeChargeId} = purchaseInfo
-
-  return determinePurchaseType({
-    email,
-    chargeIdentifier: stripeChargeId,
-    prismaCtx: options.prismaCtx,
-  })
-}
-
 type DeterminePurchaseTypeOptions = {
   chargeIdentifier: string
   email: string | null
