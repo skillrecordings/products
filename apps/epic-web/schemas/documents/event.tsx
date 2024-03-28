@@ -30,7 +30,7 @@ export default defineType({
     }),
     defineField({
       name: 'startsAt',
-      title: 'Starts at (Pacific time)',
+      title: 'Starts at (in UTC)',
       description: 'When does the event start?',
       type: 'datetime',
       options: {
@@ -42,7 +42,7 @@ export default defineType({
     }),
     defineField({
       name: 'endsAt',
-      title: 'Ends at (Pacific time)',
+      title: 'Ends at (in UTC)',
       description: 'When does the event end?',
       type: 'datetime',
       options: {
@@ -71,7 +71,7 @@ export default defineType({
             }),
             defineField({
               name: 'startsAt',
-              title: 'Starts at (Pacific time)',
+              title: 'Starts at (in UTC)',
               description: 'When does the event start?',
               type: 'datetime',
               options: {
@@ -83,7 +83,7 @@ export default defineType({
             }),
             defineField({
               name: 'endsAt',
-              title: 'Ends at (Pacific time)',
+              title: 'Ends at (in UTC)',
               description: 'When does the event end?',
               type: 'datetime',
               options: {

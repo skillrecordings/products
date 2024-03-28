@@ -217,21 +217,16 @@ export const EventDetails: React.FC<{
   const {startsAt, endsAt, timezone, events, image} = event
   const PT = 'America/Los_Angeles'
   const eventDate =
-    startsAt &&
-    `${formatInTimeZone(
-      new Date(startsAt),
-      'America/Los_Angeles',
-      'MMMM d, yyyy',
-    )}`
+    startsAt && `${formatInTimeZone(new Date(startsAt), PT, 'MMMM d, yyyy')}`
 
   const eventTime =
     startsAt &&
     endsAt &&
-    `${formatInTimeZone(
-      new Date(startsAt),
-      'America/Los_Angeles',
+    `${formatInTimeZone(new Date(startsAt), PT, 'h:mm a')} — ${formatInTimeZone(
+      new Date(endsAt),
+      PT,
       'h:mm a',
-    )} — ${formatInTimeZone(new Date(endsAt), 'America/Los_Angeles', 'h:mm a')}`
+    )}`
 
   interface GroupedEvents {
     [title: string]: {
@@ -247,7 +242,7 @@ export const EventDetails: React.FC<{
 
       const formattedDate = `${formatInTimeZone(
         new Date(startsAt),
-        'America/Los_Angeles',
+        PT,
         'MMMM d, yyyy',
       )}`
 

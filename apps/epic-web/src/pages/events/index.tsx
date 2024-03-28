@@ -17,6 +17,7 @@ import Spinner from 'components/spinner'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Icon from 'components/icons'
 import {IS_PAST_CONF_24} from 'pages/conf'
+import {formatInTimeZone} from 'date-fns-tz'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const events = await getAllEvents()
@@ -41,6 +42,7 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
       ? new Date(event.events[0].startsAt) > new Date()
       : false,
   )
+  const PT = 'America/Los_Angeles'
 
   return (
     <Layout
@@ -75,14 +77,16 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
           const {title, image, slug, description, startsAt, endsAt, state} =
             event
           const eventDate =
-            startsAt && `${format(new Date(startsAt), 'MMMM d, yyyy')}`
+            startsAt &&
+            `${formatInTimeZone(new Date(startsAt), PT, 'MMMM d, yyyy')}`
           const eventTime =
             startsAt &&
             endsAt &&
-            `${format(new Date(startsAt), 'h:mm a')} — ${format(
-              new Date(endsAt),
+            `${formatInTimeZone(
+              new Date(startsAt),
+              PT,
               'h:mm a',
-            )}`
+            )} — ${formatInTimeZone(new Date(endsAt), PT, 'h:mm a')}`
 
           const {data: availability} =
             trpc.products.getQuantityAvailableById.useQuery(
@@ -166,7 +170,7 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                             <CalendarIcon className="w-4 translate-y-0.5 text-blue-900/80 dark:text-indigo-200/80" />
                             <div>
                               <strong>{eventDate}</strong>
-                              <div>{eventTime} (PST)</div>
+                              <div>{eventTime} (PT)</div>
                             </div>
                           </div>
                         </div>
