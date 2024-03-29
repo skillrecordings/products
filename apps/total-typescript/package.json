@@ -89,7 +89,6 @@
     "@skillrecordings/react": "workspace:*",
     "@skillrecordings/skill-api": "workspace:*",
     "@skillrecordings/skill-lesson": "workspace:*",
-    "@skillrecordings/stripe-sdk": "workspace:*",
     "@skillrecordings/time": "workspace:*",
     "@skillrecordings/ui": "workspace:*",
     "@stackblitz/sdk": "^1.9.0",
