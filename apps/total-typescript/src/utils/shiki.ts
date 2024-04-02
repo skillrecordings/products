@@ -9,7 +9,7 @@ export const codeToHtml = async ({
 }) => {
   const highlighter = await getHighlighter({
     themes: ['dark-plus'],
-    langs: ['ts'],
+    langs: ['typescript'],
   })
 
   await highlighter.loadLanguage('typescript')
