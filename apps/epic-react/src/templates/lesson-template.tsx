@@ -154,43 +154,40 @@ const ExerciseTemplate: React.FC<{
             <motion.div
               className={isTheaterMode ? ' col-span-6' : 'col-span-4'}
             >
-              <>
-                <div className="-mx-5 md:mx-0">
-                  <motion.div
-                    layout
-                    // className="relative overflow-hidden rounded-none bg-gray-100 md:rounded-md"
-                  >
-                    <Video
-                      product={module?.product as SanityProduct}
-                      ref={muxPlayerRef}
-                      exerciseOverlayRenderer={() => <div>TODO</div>}
-                      loadingIndicator={<Spinner />}
-                    />
-                  </motion.div>
-                </div>
+              <div className="-mx-5 md:mx-0">
                 <motion.div
-                  className={
-                    isTheaterMode
-                      ? 'grid grid-cols-1 md:grid-cols-6 md:gap-4'
-                      : ''
-                  }
+                  layout
+                  // className="relative overflow-hidden rounded-none bg-gray-100 md:rounded-md"
                 >
-                  <div className={isTheaterMode ? 'col-span-4' : ''}>
-                    <div className="my-5 grid w-full grid-flow-row items-start justify-between gap-4 sm:my-6 sm:grid-flow-col sm:items-center sm:gap-0">
-                      <div className="grid grid-flow-row items-start gap-4 sm:grid-flow-col sm:items-center">
-                        <button
-                          onClick={() => setIsTheaterMode(!isTheaterMode)}
-                        >
-                          123
-                        </button>
-                        {/* <PlaybackRateButton
+                  <Video
+                    product={module?.product as SanityProduct}
+                    ref={muxPlayerRef}
+                    exerciseOverlayRenderer={() => <div>TODO</div>}
+                    loadingIndicator={<Spinner />}
+                  />
+                </motion.div>
+              </div>
+              <motion.div
+                className={
+                  isTheaterMode
+                    ? 'grid grid-cols-1 md:grid-cols-6 md:gap-4'
+                    : ''
+                }
+              >
+                <div className={isTheaterMode ? 'col-span-4' : ''}>
+                  <div className="my-5 grid w-full grid-flow-row items-start justify-between gap-4 sm:my-6 sm:grid-flow-col sm:items-center sm:gap-0">
+                    <div className="grid grid-flow-row items-start gap-4 sm:grid-flow-col sm:items-center">
+                      <button onClick={() => setIsTheaterMode(!isTheaterMode)}>
+                        123
+                      </button>
+                      {/* <PlaybackRateButton
                             availableRates={AVAILABLE_PLAYBACK_RATES}
                             playbackRate={playbackRate}
                             setPlaybackRate={setPlaybackRate}
                           />
                           <RepositoryLink codeUrl={collection.code_url} /> */}
 
-                        {/* {!next &&
+                      {/* {!next &&
                             course.slug === 'welcome-to-epic-react-1044' && (
                               <Link
                                 to="/modules/react-fundamentals"
@@ -200,8 +197,8 @@ const ExerciseTemplate: React.FC<{
                                 {'Start learning React'}
                               </Link>
                             )} */}
-                      </div>
-                      {/* {videoData && isAuthenticated() && (
+                    </div>
+                    {/* {videoData && isAuthenticated() && (
                           <LessonCompleteToggle
                             lesson_view_url={videoData.lesson_view_url}
                             authToken={authToken}
@@ -213,136 +210,136 @@ const ExerciseTemplate: React.FC<{
                             previous={previous}
                           />
                         )} */}
-                    </div>
-                    <hr className="opacity-50" />
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Error dignissimos neque, hic fugit, sequi ipsum quia officia
-                    alias molestiae cum nisi harum enim maiores culpa voluptate
-                    quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                    consectetur adipisicing elit. Magnam minus porro ut dolor
-                    esse, labore quibusdam, temporibus maiores unde quae,
-                    architecto quidem ducimus. Voluptates harum id eos, quae
-                    dicta quaerat. Lorem ipsum, dolor sit amet consectetur
-                    adipisicing elit. Error dignissimos neque, hic fugit, sequi
-                    ipsum quia officia alias molestiae cum nisi harum enim
-                    maiores culpa voluptate quis dolore! At, iusto! Lorem ipsum
-                    dolor sit, amet consectetur adipisicing elit. Magnam minus
-                    porro ut dolor esse, labore quibusdam, temporibus maiores
-                    unde quae, architecto quidem ducimus. Voluptates harum id
-                    eos, quae dicta quaerat. Lorem ipsum, dolor sit amet
-                    consectetur adipisicing elit. Error dignissimos neque, hic
-                    fugit, sequi ipsum quia officia alias molestiae cum nisi
-                    harum enim maiores culpa voluptate quis dolore! At, iusto!
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Magnam minus porro ut dolor esse, labore quibusdam,
-                    temporibus maiores unde quae, architecto quidem ducimus.
-                    Voluptates harum id eos, quae dicta quaerat. Lorem ipsum,
-                    dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Error
-                    dignissimos neque, hic fugit, sequi ipsum quia officia alias
-                    molestiae cum nisi harum enim maiores culpa voluptate quis
-                    dolore! At, iusto! Lorem ipsum dolor sit, amet consectetur
-                    adipisicing elit. Magnam minus porro ut dolor esse, labore
-                    quibusdam, temporibus maiores unde quae, architecto quidem
-                    ducimus. Voluptates harum id eos, quae dicta quaerat.
-                    {/* {summaryMdx && (
+                  </div>
+                  <hr className="opacity-50" />
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Error dignissimos neque, hic fugit, sequi ipsum quia officia
+                  alias molestiae cum nisi harum enim maiores culpa voluptate
+                  quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
+                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
+                  officia alias molestiae cum nisi harum enim maiores culpa
+                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
+                  consectetur adipisicing elit. Magnam minus porro ut dolor
+                  esse, labore quibusdam, temporibus maiores unde quae,
+                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
+                  quaerat.
+                  {/* {summaryMdx && (
                         <>
                           <div className="prose my-8 max-w-none lg:prose-lg">
                             <MDXRenderer>
@@ -359,15 +356,15 @@ const ExerciseTemplate: React.FC<{
                           player={playerRef}
                         />
                       )} */}
-                  </div>
-                  {isTheaterMode && (
-                    <div className="relative mt-6 w-full sm:pb-5 md:col-span-2 md:pl-2">
-                      <motion.div
-                        layoutId="list"
-                        className="sm:sticky sm:top-20"
-                        style={{height: listMaxHeight}}
-                      >
-                        {/* <List
+                </div>
+                {isTheaterMode && (
+                  <div className="relative mt-6 w-full sm:pb-5 md:col-span-2 md:pl-2">
+                    <motion.div
+                      layoutId="list"
+                      className="sm:sticky sm:top-20"
+                      style={{height: listMaxHeight}}
+                    >
+                      {/* <List
                             isTheaterMode={isTheaterMode}
                             toggleTheaterMode={toggleTheaterMode}
                             collection={course}
@@ -375,12 +372,11 @@ const ExerciseTemplate: React.FC<{
                             moduleProgress={moduleProgress}
                             listMaxHeight={listMaxHeight}
                           /> */}
-                        <LessonList module={module} path={path} />
-                      </motion.div>
-                    </div>
-                  )}
-                </motion.div>
-              </>
+                      <LessonList module={module} path={path} />
+                    </motion.div>
+                  </div>
+                )}
+              </motion.div>
             </motion.div>
             {!isTheaterMode && (
               <div className="mt-6 w-full sm:mt-0 sm:pb-5 md:col-span-2 md:pl-2">
