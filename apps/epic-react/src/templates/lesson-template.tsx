@@ -98,11 +98,12 @@ const ExerciseTemplate: React.FC<{
       lesson._type === 'interview') &&
     session
 
-  // TODO: added
-  const [isTheaterMode, setIsTheaterMode] = useLocalStorage(
-    'theaterMode',
-    false,
-  )
+  // TODO: fix hydration issue
+  // const [isTheaterMode, setIsTheaterMode] = useLocalStorage(
+  //   'theaterMode',
+  //   false,
+  // )
+  const [isTheaterMode, setIsTheaterMode] = React.useState<boolean>(false)
 
   const {height} = useWindowSize()
   const listMaxHeight = (height - 65) / 1.25
