@@ -76,21 +76,6 @@ const ExerciseTemplate: React.FC<{
     ? section.lessons && section.lessons.length
     : module.lessons && module.lessons.length
 
-  const useAbilities = () => {
-    const {data: abilityRules, status: abilityRulesStatus} =
-      trpc.modules.rules.useQuery({
-        moduleSlug: module.slug.current,
-        moduleType: 'workshop',
-        lessonSlug: lesson.slug,
-        isSolution: lesson._type === 'solution',
-        sectionSlug: section?.slug,
-      })
-    return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
-  }
-  const {ability, abilityRulesStatus} = useAbilities()
-
-  const canViewContent = ability.can('view', 'Content')
-
   const displayLessonCompletionToggle =
     (lesson._type === 'solution' ||
       lesson._type === 'explainer' ||
