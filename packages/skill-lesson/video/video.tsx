@@ -21,6 +21,7 @@ type VideoProps = {
   product?: SanityProduct
   exerciseOverlayRenderer?: () => void
   defaultOverlayRenderer?: () => void
+  blockedOverlayRenderer?: () => void
   loadingIndicator: React.ReactElement
 }
 
@@ -34,6 +35,7 @@ export const Video: React.FC<
       product,
       exerciseOverlayRenderer = () => <DefaultOverlay />,
       defaultOverlayRenderer = () => <DefaultOverlay />,
+      blockedOverlayRenderer = () => <BlockedOverlay product={product} />,
       loadingIndicator,
     },
     ref,
@@ -62,15 +64,11 @@ export const Video: React.FC<
                 <>
                   {nextExercise ? (
                     <>
-                      {isExercise ? (
-                        canShowVideo ? (
-                          exerciseOverlayRenderer()
-                        ) : (
-                          <BlockedOverlay product={product} />
-                        )
-                      ) : (
-                        defaultOverlayRenderer()
-                      )}
+                      {isExercise
+                        ? canShowVideo
+                          ? exerciseOverlayRenderer()
+                          : blockedOverlayRenderer()
+                        : defaultOverlayRenderer()}
                     </>
                   ) : nextSection ? (
                     <FinishedSectionOverlay />
@@ -100,7 +98,7 @@ export const Video: React.FC<
                   {loadingUserStatus || loadingVideoResource ? (
                     <LoadingOverlay loadingIndicator={loadingIndicator} />
                   ) : (
-                    <BlockedOverlay product={product} />
+                    blockedOverlayRenderer()
                   )}
                 </>
               )}
