@@ -8,10 +8,15 @@ export const mdxComponents = {
     const language =
       props?.children.props.className?.split('-')[1] || 'typescript'
 
-    const html = await codeToHtml({
-      code: children,
-      language,
-    })
-    return <div dangerouslySetInnerHTML={{__html: html}} />
+    try {
+      const html = await codeToHtml({
+        code: children,
+        language,
+      })
+      return <div dangerouslySetInnerHTML={{__html: html}} />
+    } catch (error) {
+      console.error(error)
+      return <pre {...props} />
+    }
   },
 } as MDXComponents | MergeComponents

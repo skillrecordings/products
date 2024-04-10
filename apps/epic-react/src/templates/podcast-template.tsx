@@ -52,7 +52,7 @@ const PodcastTemplate: React.FC<PodcastTemplateProps> = ({
           </section>
           <footer className="py-20">
             <div className="mx-auto mb-16 flex max-w-screen-md flex-col items-center justify-center py-5 sm:py-10">
-              <h2 className="text-center text-xl font-bold leading-tight sm:text-2xl">
+              <h2 className="text-center text-2xl font-bold leading-tight sm:text-3xl">
                 Share This Episode With Your Friends
               </h2>
               <div className="mt-4 flex flex-wrap items-center justify-center">
