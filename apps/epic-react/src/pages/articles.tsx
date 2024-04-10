@@ -33,7 +33,7 @@ const ArticlesPage: NextPage<ArticlesPageProps> = ({articles}) => {
       }}
     >
       <main className="mx-auto w-full max-w-screen-lg px-5">
-        <h1 className="text-center text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl">
+        <h1 className="mt-14 text-center text-3xl font-bold leading-tight sm:mt-28 sm:text-4xl lg:text-[44px]">
           Epic React Articles
         </h1>
         <Divider className="mb-16 mt-10" />
