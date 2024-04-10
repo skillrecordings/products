@@ -7,6 +7,7 @@ import {
   useMeasure,
   useSize,
 } from 'react-use'
+import BlockedOverlay from '@/components/video-overlays/blocked-overlay'
 
 import Layout from '@/components/app/layout'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
@@ -34,7 +35,7 @@ import {Button, ScrollArea, ScrollBar, Skeleton} from '@skillrecordings/ui'
 import Image from 'next/image'
 import Link from 'next/link'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
-import {capitalize} from 'lodash'
+import {capitalize, divide} from 'lodash'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {getOgImage} from '@/utils/get-og-image'
 import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
@@ -164,6 +165,7 @@ const ExerciseTemplate: React.FC<{
                     product={module?.product as SanityProduct}
                     ref={muxPlayerRef}
                     exerciseOverlayRenderer={() => <div>TODO</div>}
+                    blockedOverlayRenderer={BlockedOverlay}
                     loadingIndicator={<Spinner />}
                   />
                 </motion.div>
@@ -176,43 +178,31 @@ const ExerciseTemplate: React.FC<{
                 }
               >
                 <div className={isTheaterMode ? 'col-span-4' : ''}>
-                  <div className="my-5 grid w-full grid-flow-row items-start justify-between gap-4 sm:my-6 sm:grid-flow-col sm:items-center sm:gap-0">
-                    <div className="grid grid-flow-row items-start gap-4 sm:grid-flow-col sm:items-center">
-                      <button onClick={() => setIsTheaterMode(!isTheaterMode)}>
-                        123
-                      </button>
-                      {/* <PlaybackRateButton
-                            availableRates={AVAILABLE_PLAYBACK_RATES}
-                            playbackRate={playbackRate}
-                            setPlaybackRate={setPlaybackRate}
-                          />
-                          <RepositoryLink codeUrl={collection.code_url} /> */}
-
-                      {/* {!next &&
-                            course.slug === 'welcome-to-epic-react-1044' && (
-                              <Link
-                                to="/modules/react-fundamentals"
-                                state={collection}
-                                className="inline-flex items-center rounded-lg border border-transparent bg-blue-500 px-4 py-3 text-sm font-medium leading-none text-white transition duration-150 ease-in-out hover:bg-blue-600"
-                              >
-                                {'Start learning React'}
-                              </Link>
-                            )} */}
-                    </div>
-                    {/* {videoData && isAuthenticated() && (
-                          <LessonCompleteToggle
-                            lesson_view_url={videoData.lesson_view_url}
-                            authToken={authToken}
-                            collection={collection}
-                            resource={resource}
-                            next={next}
-                            nextSection={nextSection}
-                            courseSlug={course.slug}
-                            previous={previous}
-                          />
-                        )} */}
+                  <div className="flex w-full items-center justify-end py-5 sm:py-6">
+                    <button onClick={() => setIsTheaterMode(!isTheaterMode)}>
+                      123
+                    </button>
+                    {displayLessonCompletionToggle && (
+                      <section aria-label="track progress" className="group">
+                        <div className="mx-auto flex w-full max-w-4xl items-center justify-center gap-5 px-5">
+                          {/* {sessionStatus === 'loading' ? (
+                            <Skeleton className="h-10 w-full" />
+                          ) : ( */}
+                          <LessonCompletionToggle.Root>
+                            <Button asChild variant="secondary">
+                              <LessonCompletionToggle.Toggle className="flex cursor-pointer flex-row-reverse items-center gap-1 rounded p-3 data-[fetching='true']:cursor-wait [&>button]:x-[relative,h-5,w-10,rounded-full,border,border-gray-700/50,bg-gray-800,shadow-md,shadow-black/50] [&_button>span[data-state='checked']]:x-[translate-x-5] [&_button>span]:x-[block,h-4,w-4,translate-x-0.5,rounded-full,bg-gray-200,shadow-sm,shadow-black/50,transition-all,ease-out] [&_button[data-state='checked']]:x-[bg-primary]">
+                                <span className="text-base">
+                                  Mark as complete
+                                </span>
+                              </LessonCompletionToggle.Toggle>
+                            </Button>
+                          </LessonCompletionToggle.Root>
+                          {/* )} */}
+                        </div>
+                      </section>
+                    )}
                   </div>
-                  <hr className="opacity-50" />
+                  <hr className="border-er-gray-300 opacity-50" />
                   Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                   Error dignissimos neque, hic fugit, sequi ipsum quia officia
                   alias molestiae cum nisi harum enim maiores culpa voluptate
