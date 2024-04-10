@@ -6,23 +6,22 @@ import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-vid
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from '@/lib/sections'
-import {getAllWorkshops, getWorkshop} from '@/lib/workshops'
+import {getWorkshop} from '@/lib/workshops'
+import {getAllBonuses, getBonus} from '@/lib/bonuses'
 import {serialize} from 'next-mdx-remote/serialize'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const lessonSlug = params?.lesson as string
-  const sectionSlug = params?.section as string
-  const moduleSlug = params?.module as string
-  const module = await getWorkshop(moduleSlug)
+  const interviewSlug = params?.interview as string
+  const bonusSlug = params?.bonus as string
+  const bonus = await getBonus(bonusSlug)
 
   const moduleWithSectionsAndLessons = {
-    ...module,
+    ...bonus,
     useResourcesInsteadOfSections: true,
   }
 
-  const section = await getSection(sectionSlug)
-  const lesson = await getExercise(lessonSlug, false)
+  const lesson = await getExercise(interviewSlug, false)
   const lessonBodySerialized =
     typeof lesson.body === 'string' &&
     (await serialize(lesson.body, {
@@ -37,7 +36,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       lessonBodySerialized,
       lessonBodyPreviewSerialized: lessonBodySerialized,
       module: moduleWithSectionsAndLessons,
-      section,
       transcript: lesson.transcript,
       videoResourceId: lesson.videoResourceId,
     },
@@ -46,28 +44,25 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-  const tutorials = await getAllWorkshops()
+  const bonuses = await getAllBonuses()
+  const interviews = bonuses[0]
 
-  const paths = tutorials.flatMap((tutorial: any) => {
-    return (
-      tutorial.sections?.flatMap((section: any) => {
-        return (
-          section.lessons?.map((lesson: any) => ({
-            params: {
-              module: tutorial.slug.current,
-              section: section.slug,
-              lesson: lesson.slug,
-            },
-          })) || []
-        )
-      }) || []
-    )
-  })
+  console.log({bonuses, lessons: bonuses[0].lessons})
+
+  const paths =
+    interviews.lessons.map((interview: any) => {
+      return {
+        params: {
+          bonus: interviews.slug.current,
+          interview: interview.slug,
+        },
+      }
+    }) || []
 
   return {paths, fallback: 'blocking'}
 }
 
-const ExercisePage: React.FC<any> = ({
+const InterviewPage: React.FC<any> = ({
   lesson,
   lessonBodySerialized,
   lessonBodyPreviewSerialized,
@@ -91,4 +86,4 @@ const ExercisePage: React.FC<any> = ({
   )
 }
 
-export default ExercisePage
+export default InterviewPage
