@@ -52,5 +52,11 @@ The `STRIPE_SECRET_TOKEN` (test) must be set in `.env.local` for commerce to fun
 
 - [ ] update `STRIPE_SECRET_TOKEN` in `.env.local`
 
+## React Email
 
+If you want to run the dev server with `react-email`, you have to opt-in to
+that by include the `WITH_EMAIL` environment variable like so:
 
+```bash
+$ WITH_EMAIL=TRUE pnpm dev
+```

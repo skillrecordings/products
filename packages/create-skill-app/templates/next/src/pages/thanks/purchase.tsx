@@ -3,7 +3,6 @@ import {GetServerSideProps} from 'next'
 import Layout from '@/components/app/layout'
 import {
   convertToSerializeForNextResponse,
-  determinePurchaseType,
   PurchaseType,
 } from '@skillrecordings/commerce-server'
 import {
@@ -47,6 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     chargeIdentifier,
     quantity: seatsPurchased,
     product: merchantProduct,
+    purchaseType,
   } = purchaseInfo
 
   const stripeProductName = merchantProduct.name
@@ -58,10 +58,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       notFound: true,
     }
   }
-
-  const purchaseType = await determinePurchaseType({
-    checkoutSessionId: session_id,
-  })
 
   const product = await getProduct(purchase.productId)
 

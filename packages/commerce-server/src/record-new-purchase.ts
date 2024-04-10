@@ -1,12 +1,11 @@
 import {Stripe} from 'stripe'
-import {first, isEmpty} from 'lodash'
+import {first} from 'lodash'
 import {type Purchase, getSdk} from '@skillrecordings/database'
 import {
   getStripeSdk,
   Context as StripeContext,
 } from '@skillrecordings/stripe-sdk'
-import {NEW_INDIVIDUAL_PURCHASE} from '@skillrecordings/types'
-import {determinePurchaseType, PurchaseType} from './determine-purchase-type'
+import {PurchaseType} from './determine-purchase-type'
 import {
   PaymentProvider,
   PurchaseInfo,
@@ -29,46 +28,6 @@ export class PurchaseError extends Error {
     this.checkoutSessionId = checkoutSessionId
     this.email = email
     this.productId = productId
-  }
-}
-
-type StripeDataOptions = {
-  checkoutSessionId: string
-  stripeCtx?: StripeContext
-}
-
-export async function stripeData(options: StripeDataOptions) {
-  const {stripeCtx, checkoutSessionId} = options
-  const {getCheckoutSession} = getStripeSdk({ctx: stripeCtx})
-
-  const checkoutSession = await getCheckoutSession(checkoutSessionId)
-
-  const {customer, line_items, payment_intent, metadata} = checkoutSession
-  const {email, name, id: stripeCustomerId} = customer as Stripe.Customer
-  const lineItem = first(line_items?.data) as Stripe.LineItem
-  const stripePrice = lineItem.price
-  const quantity = lineItem.quantity || 1
-  const stripeProduct = stripePrice?.product as Stripe.Product
-  const {charges} = payment_intent as Stripe.PaymentIntent
-  const stripeCharge = first<Stripe.Charge>(charges.data)
-  const stripeChargeId = stripeCharge?.id as string
-  const stripeChargeAmount = stripeCharge?.amount || 0
-
-  // extract MerchantCoupon identifier if used for purchase
-  const discount = first(lineItem.discounts)
-  const stripeCouponId = discount?.discount.coupon.id
-
-  return {
-    stripeCustomerId,
-    email,
-    name,
-    stripeProductId: stripeProduct.id,
-    stripeProduct,
-    stripeChargeId,
-    stripeCouponId,
-    quantity,
-    stripeChargeAmount,
-    metadata,
   }
 }
 
@@ -102,6 +61,7 @@ export async function recordNewPurchase(
     quantity,
     chargeAmount,
     metadata,
+    purchaseType,
   } = purchaseInfo
 
   if (!email) throw new PurchaseError(`no-email`, checkoutSessionId)
@@ -142,15 +102,6 @@ export async function recordNewPurchase(
     usedCouponId: metadata?.usedCouponId,
     checkoutSessionId,
   })
-
-  let purchaseType = await determinePurchaseType({checkoutSessionId})
-
-  if (purchaseType === null) {
-    // TODO: report that we did not get a valid purchase type for this checkoutSessionId
-    //
-    // then fallback to NEW_INDIVIDUAL_PURCHASE
-    purchaseType = NEW_INDIVIDUAL_PURCHASE
-  }
 
   return {
     purchase,
