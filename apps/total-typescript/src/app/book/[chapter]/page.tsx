@@ -10,10 +10,11 @@ import {mdxComponents} from '@/app/_components/mdx'
 import Link from 'next/link'
 import {notFound} from 'next/navigation'
 import {ChapterToC} from '../_components/chapter-toc'
+import {getChapterList} from '@/lib/book'
 
 const ChapterPage: React.FC<{params: {chapter: string}}> = async ({params}) => {
   const chapter = await getChapterWithResources(params.chapter, true)
-
+  const chaptersLoader = getChapterList('total-typescript')
   if (!chapter) {
     return notFound()
   }
@@ -22,7 +23,7 @@ const ChapterPage: React.FC<{params: {chapter: string}}> = async ({params}) => {
 
   return (
     <div>
-      <div className="bg-muted py-48">
+      <div className="bg-white/5 py-48">
         <div className="mx-auto flex w-full max-w-screen-lg flex-col px-3">
           <Link href="/book" className="mb-3 text-lg text-muted-foreground">
             Chapter {Number(chapterPositions.currentChapterIndex)}
@@ -31,7 +32,7 @@ const ChapterPage: React.FC<{params: {chapter: string}}> = async ({params}) => {
         </div>
       </div>
       <div className="relative mx-auto flex w-full max-w-screen-lg flex-col gap-10 md:flex-row">
-        <div className="prose prose-light mx-auto flex w-full max-w-3xl flex-col sm:prose-lg lg:prose-xl prose-p:font-normal">
+        <div className="prose prose-invert mx-auto flex w-full max-w-2xl flex-col sm:prose-lg lg:prose-xl prose-p:font-normal">
           {chapter?.resources &&
             chapter?.resources?.map((resource) => {
               return (
@@ -76,7 +77,7 @@ const ChapterPage: React.FC<{params: {chapter: string}}> = async ({params}) => {
           )}
         </div>
         <div className="pt-20">
-          <ChapterToC chapter={chapter} />
+          <ChapterToC chaptersLoader={chaptersLoader} />
         </div>
       </div>
     </div>

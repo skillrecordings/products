@@ -1,7 +1,5 @@
 import {isEmpty, sortBy} from 'lodash'
 import {getSdk, Context} from '@skillrecordings/database'
-import {Context as StripeContext} from '@skillrecordings/stripe-sdk'
-import {stripeData} from './record-new-purchase'
 import {
   EXISTING_BULK_COUPON,
   NEW_BULK_COUPON,
@@ -126,36 +124,27 @@ const summarizePurchases = (
 }
 
 type DeterminePurchaseTypeOptions = {
-  checkoutSessionId: string
+  chargeIdentifier: string
+  email: string | null
   prismaCtx?: Context
-  stripeCtx?: StripeContext
 }
 
 export async function determinePurchaseType(
   options: DeterminePurchaseTypeOptions,
 ): Promise<PurchaseType> {
-  const {prismaCtx, stripeCtx, ...noContextOptions} = options
-  const {checkoutSessionId} = noContextOptions
+  const {email, chargeIdentifier, prismaCtx} = options
 
   const {getUserByEmail, getPurchasesForUser, getPurchaseForStripeCharge} =
     getSdk({ctx: prismaCtx})
 
   try {
-    // Grab the Stripe Charge ID associated with the completed checkout session
-    // so that we can reference the associated purchase in our database.
-    const purchaseInfo = await stripeData({
-      checkoutSessionId: checkoutSessionId as string,
-      stripeCtx,
-    })
-    const {email, stripeChargeId} = purchaseInfo
-
     const user = !!email && (await getUserByEmail(email))
     const {id: userId} = user || {}
 
     // Find the purchase record associated with this Stripe Checkout Session
     // (via the `stripeChargeId`).
     const checkoutSessionPurchase = await getPurchaseForStripeCharge(
-      stripeChargeId,
+      chargeIdentifier,
     )
 
     // return early if we don't have a userId or a purchase corresponding to

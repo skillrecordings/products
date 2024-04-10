@@ -1,65 +1,121 @@
 'use client'
 
-import type {Chapter} from '@/lib/chapters'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Link from 'next/link'
 import React from 'react'
-import ModeToggle from './mode-toggle'
+import {useParams, usePathname} from 'next/navigation'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@skillrecordings/ui/primitives/accordion'
+import type {ChapterList} from '../_schema/book-schemas'
 
-export const ChapterToC: React.FC<{chapter: Chapter}> = ({chapter}) => {
-  const [activeResource, setActiveResource] = React.useState<string | null>(
-    null,
-  )
-  React.useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveResource(entry.target.id)
-          }
-        })
-      },
-      {threshold: 0},
-    )
+export const ChapterToC: React.FC<{
+  chaptersLoader: Promise<ChapterList | null>
+}> = ({chaptersLoader}) => {
+  const chapters = React.use(chaptersLoader)
+  const params = useParams()
+  const pathname = usePathname()
 
-    const resources = chapter?.resources || []
-    resources.forEach((resource) => {
-      const el = document.getElementById(resource.slug.current)
-      if (el) observer.observe(el)
-    })
+  return chapters ? (
+    <Accordion
+      type="single"
+      defaultValue={params?.chapter as string}
+      collapsible
+      className="flex flex-col gap-1"
+    >
+      {chapters.map((chapter) => {
+        return (
+          <AccordionItem
+            className="rounded border bg-white/5"
+            value={chapter.slug.current}
+            key={chapter.slug.current}
+          >
+            <AccordionTrigger className="flex w-full px-3 py-2.5 text-left text-lg font-semibold leading-tight transition hover:bg-white/5">
+              {chapter.title}
+            </AccordionTrigger>
+            <AccordionContent className="pb-3">
+              <ul className="flex flex-col">
+                {chapter.resources?.map((resource) => {
+                  const isActiveSolution = pathname?.includes('/solution')
+                  const isActive = resource.slug.current === params?.resource
 
-    return () => {
-      resources.forEach((resource) => {
-        const el = document.getElementById(resource.slug.current)
-        if (el) observer.unobserve(el)
-      })
-    }
-  }, []) // Empty dependency array means this effect runs once on mount and cleanup on unmount
+                  return (
+                    <li key={resource.slug.current} className="">
+                      {resource.solution ? (
+                        <div className="flex flex-col">
+                          <Link
+                            href={`/book/${chapter.slug.current}/${resource.slug.current}`}
+                            className={cn(
+                              'flex px-3 py-2 text-base font-medium text-gray-200 transition hover:bg-white/5 hover:text-white',
+                              {
+                                'bg-white/10': isActive && !isActiveSolution,
+                              },
+                            )}
+                          >
+                            {resource.title}
+                          </Link>
+                          <div className="flex flex-col">
+                            {/* <Link
+                              href={`/book/${chapter.slug.current}/${resource.slug.current}`}
+                              className={cn(
+                                'flex px-5 py-1.5 text-base font-medium text-gray-200 transition hover:bg-white/5 hover:text-white',
+                                {
+                                  'bg-white/10': isActive && !isActiveSolution,
+                                },
+                              )}
+                            >
+                              Problem
+                            </Link> */}
+                            <Link
+                              href={`/book/${chapter.slug.current}/${resource.slug.current}/solution`}
+                              className={cn(
+                                'flex px-5 py-1.5 text-sm font-medium text-gray-200 transition hover:bg-white/5 hover:text-white',
+                                {
+                                  'bg-white/10': isActive && isActiveSolution,
+                                },
+                              )}
+                            >
+                              Solution
+                            </Link>
+                          </div>
+                        </div>
+                      ) : (
+                        <Link
+                          href={`/book/${chapter.slug.current}/${resource.slug.current}`}
+                          className={cn(
+                            'flex px-3 py-2 text-base font-medium text-gray-200 transition hover:bg-white/5 hover:text-white',
+                            {
+                              'bg-white/10': isActive,
+                            },
+                          )}
+                        >
+                          {resource.title}
+                        </Link>
+                      )}
 
-  return (
-    <div className="sticky top-5">
-      {/* <Link href={`/book/${chapter.slug.current}/${activeResource}`}>nav</Link>
-      <ModeToggle>change mode</ModeToggle> */}
-      <strong>In this chapter</strong>
-      {chapter?.resources && (
-        <ul className="mt-3 flex flex-col gap-2">
-          {chapter?.resources?.map((resource) => {
-            const isActive = activeResource === resource.slug.current
-            return (
-              <li key={resource.slug.current}>
-                <Link
-                  className={cn('', {
-                    'font-semibold': isActive,
-                  })}
-                  href={`#${resource.slug.current}`}
-                >
-                  {resource.title}
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-      )}
-    </div>
-  )
+                      {/* {resource?.solution && (
+                      <>
+                        {' '}
+                        |{' '}
+                        <Link
+                          href={`/book/${chapter.slug.current}/${resource.slug.current}/solution`}
+                          className=" hover:underline"
+                        >
+                          Solution
+                        </Link>
+                      </>
+                    )} */}
+                    </li>
+                  )
+                })}
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
+        )
+      })}
+    </Accordion>
+  ) : null
 }

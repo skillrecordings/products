@@ -1,9 +1,5 @@
 import {NextRequest, NextResponse} from 'next/server'
-import {
-  getMiddlewareResponse,
-  SITE_ROOT_PATH,
-} from './server/get-middleware-response'
-import {getTutorial} from '@/lib/tutorials'
+import {getMiddlewareResponse} from './server/get-middleware-response'
 import {
   legacySectionlessRedirect,
   sectionlessPattern,
