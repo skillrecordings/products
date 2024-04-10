@@ -37,9 +37,9 @@ describe('when the user email is known', () => {
     mockIndividualPurchase()
 
     const purchaseType = await determinePurchaseType({
-      checkoutSessionId: 'cs_123',
+      email: 'customer@example.com',
+      chargeIdentifier: 'cs_124',
       prismaCtx: mockCtx,
-      stripeCtx: stripeMockCtx,
     })
 
     expect(purchaseType).toBe(NEW_INDIVIDUAL_PURCHASE)
@@ -66,9 +66,6 @@ function mockUser() {
 }
 
 function mockIndividualPurchase() {
-  // mock Stripe data for:
-  // const purchaseInfo = await stripeData(checkoutSessionId as string)
-  // const {email, stripeChargeId} = purchaseInfo
   // no existing purchases for user
   const newPurchase = {
     id: 'purchase_123',
