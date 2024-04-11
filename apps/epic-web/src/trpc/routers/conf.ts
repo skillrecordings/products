@@ -12,7 +12,7 @@ export const confRouter = router({
 
     return {
       showLivestream,
-      livestreamUrl: 'https://www.youtube.com/watch?v=Q0fwzlwTLWk',
+      livestreamUrl: 'https://www.youtube.com/watch?v=8117-JmjgOA',
     }
   }),
 })
