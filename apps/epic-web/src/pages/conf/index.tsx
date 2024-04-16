@@ -205,7 +205,7 @@ const ConfPage: React.FC<{
       ) : livestreamData?.showLivestream ? (
         <div className="relative z-10 mx-auto mb-16 w-full max-w-screen-lg px-5 sm:-mt-24">
           <iframe
-            src="https://www.youtube.com/embed/Q0fwzlwTLWk?si=Pk_B2HSxk64eeih1"
+            src="https://www.youtube.com/embed/8117-JmjgOA?si=KX7jZhIPULbqGZm-"
             title="YouTube video player"
             className="aspect-video w-full rounded border border-white/5"
             frameBorder="0"

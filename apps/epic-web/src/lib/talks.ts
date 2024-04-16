@@ -227,5 +227,6 @@ export const getAllConf24Talks = async (count?: number): Promise<Talk[]> => {
   if (!event) {
     return []
   }
-  return TalksSchema.parse(event.talks)
+  return event.talks
+  // return TalksSchema.parse(event.talks)
 }
