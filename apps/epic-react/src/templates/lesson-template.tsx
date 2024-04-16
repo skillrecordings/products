@@ -59,7 +59,7 @@ const ExerciseTemplate: React.FC<{
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? ogImage : {url: moduleOGImage}
   //TODO path here could also include module slug and section (as appropriate)
-  const path = `/${pluralize(module.moduleType)}`
+  const path = `/${pluralize('module')}`
   const {data: session, status: sessionStatus} = useSession()
 
   const addProgressMutation = trpc.progress.add.useMutation()
@@ -77,6 +77,8 @@ const ExerciseTemplate: React.FC<{
       lesson._type === 'lesson' ||
       lesson._type === 'interview') &&
     session
+
+  const epicReactModule = {...module, moduleType: 'module'}
 
   // TODO: fix hydration issue
   // const [isTheaterMode, setIsTheaterMode] = useLocalStorage(
@@ -348,7 +350,7 @@ const ExerciseTemplate: React.FC<{
                   style={{maxHeight: 'calc(100dvh - 300px)'}}
                 >
                   <LessonList
-                    module={module}
+                    module={epicReactModule}
                     path={path}
                     isTheaterMode={isTheaterMode}
                     theaterModeHandler={setIsTheaterMode}

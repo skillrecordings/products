@@ -6,10 +6,9 @@ import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-vid
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from '@/lib/sections'
-import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {getAllWorkshops, getWorkshop} from '@/lib/workshops'
-import {getAllBonuses, getBonus} from '@/lib/bonuses'
 import {serialize} from 'next-mdx-remote/serialize'
+import {getAllBonuses, getBonus} from '@/lib/bonuses'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -17,7 +16,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const sectionSlug = params?.section as string
   const moduleSlug = params?.module as string
   const isBonusModule = moduleSlug === 'epic-react-expert-interviews'
-
   const module = isBonusModule
     ? await getBonus(moduleSlug)
     : await getWorkshop(moduleSlug)

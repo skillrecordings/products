@@ -31,14 +31,15 @@ const ResourceLink: React.FC<{
   workshopSlug: string
   resourceSlug: string
   isCompleted: boolean
-}> = ({title, workshopSlug, resourceSlug, isCompleted}) => {
+  isBonusModule?: boolean
+}> = ({title, workshopSlug, resourceSlug, isCompleted, isBonusModule}) => {
   const [isHovered, setHovered] = React.useState<Boolean>(false)
   return (
     <li>
       <Link
         onMouseOver={() => setHovered(true)}
         onMouseOut={() => setHovered(false)}
-        href={`/workshops/${workshopSlug}/${resourceSlug}`}
+        href={`/modules/${workshopSlug}/${resourceSlug}`}
         className="-mx-3 flex w-full items-center rounded-lg p-3 transition-colors duration-75 ease-in-out hover:bg-er-gray-100"
       >
         {/* {isCompleted && '✅'}
@@ -98,6 +99,7 @@ type BonusResource = Bonus['resources'][0]
 type Module = {
   _type: string
   title: string
+  moduleType: string
   body: string | null
   slug: {
     current: string
@@ -106,7 +108,7 @@ type Module = {
 }
 
 const WorkshopItem = ({module}: {module: Module}) => {
-  const isBonusModule = module._type === 'bonus'
+  const isBonusModule = module.moduleType === 'bonus'
 
   const moduleProgress = useModuleProgress()
   return (
@@ -121,7 +123,7 @@ const WorkshopItem = ({module}: {module: Module}) => {
       <div className="pl-0 sm:pl-11">
         <h3 className="mb-2 text-2xl font-semibold sm:text-3xl">
           <Link
-            href={`/workshops/${module.slug.current}/${module.resources[0].slug}`}
+            href={`/modules/${module.slug.current}/${module.resources[0]?.slug}`}
           >
             {module.title}
           </Link>
@@ -151,6 +153,7 @@ const WorkshopItem = ({module}: {module: Module}) => {
                 workshopSlug={module.slug.current}
                 resourceSlug={resource.slug}
                 isCompleted={isCompleted}
+                isBonusModule={isBonusModule}
               />
             )
           }

@@ -58,7 +58,13 @@ Copy the template `.env.local.template` file to `.env.local` and `.env.template`
 of this file by default are are:
 
 ```shell
-DATABASE_URL="mysql://root@localhost:3309/epic-react"
+DATABASE_URL="mysql://root@localhost:3309/kcd-products"
+```
+
+To create the Prisma client run:
+
+```shell
+pnpm -w generate
 ```
 
 You can use the provided templates. These files are ignored by git because they should **never be committed to the repository under any circumstances.**

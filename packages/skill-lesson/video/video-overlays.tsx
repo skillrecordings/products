@@ -499,7 +499,6 @@ const BlockedOverlay: React.FC<{
   )
 
   const canViewTeam = ability.can('view', 'Team')
-
   return (
     <div data-video-overlay="blocked" id="video-overlay">
       <Image
@@ -510,7 +509,7 @@ const BlockedOverlay: React.FC<{
         aria-hidden="true"
         priority
       />
-      {module.moduleType === 'tutorial' ? (
+      {module?.moduleType === 'tutorial' ? (
         <>
           <div data-subscribe="">
             <div data-col="1">
@@ -652,12 +651,14 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
                         href={`/bonuses/${module.slug}`}
                         target="_blank"
                       >
-                        <Image
-                          src={module.image?.url ?? module.image}
-                          alt={`${module.title} workshop`}
-                          width={60}
-                          height={60}
-                        />
+                        {(module.image?.url || module.image) && (
+                          <Image
+                            src={module.image?.url ?? module.image}
+                            alt={`${module.title} workshop`}
+                            width={60}
+                            height={60}
+                          />
+                        )}
                       </Link>
                     )
                   })}
