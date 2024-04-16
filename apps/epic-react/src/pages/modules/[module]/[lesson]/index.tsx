@@ -6,22 +6,28 @@ import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-vid
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from '@/lib/sections'
-import {getWorkshop} from '@/lib/workshops'
-import {getAllBonuses, getBonus} from '@/lib/bonuses'
+import {getAllWorkshops, getWorkshop} from '@/lib/workshops'
 import {serialize} from 'next-mdx-remote/serialize'
+import {getAllBonuses, getBonus} from '@/lib/bonuses'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const interviewSlug = params?.interview as string
-  const bonusSlug = params?.bonus as string
-  const bonus = await getBonus(bonusSlug)
+  console.log({params})
+  const lessonSlug = params?.lesson as string
+  const sectionSlug = params?.section as string
+  const moduleSlug = params?.module as string
+  const isBonusModule = moduleSlug === 'epic-react-expert-interviews'
+  const module = isBonusModule
+    ? await getBonus(moduleSlug)
+    : await getWorkshop(moduleSlug)
 
   const moduleWithSectionsAndLessons = {
-    ...bonus,
+    ...module,
     useResourcesInsteadOfSections: true,
   }
 
-  const lesson = await getExercise(interviewSlug, false)
+  const section = await getSection(sectionSlug)
+  const lesson = await getExercise(lessonSlug, false)
   const lessonBodySerialized =
     typeof lesson.body === 'string' &&
     (await serialize(lesson.body, {
@@ -36,6 +42,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       lessonBodySerialized,
       lessonBodyPreviewSerialized: lessonBodySerialized,
       module: moduleWithSectionsAndLessons,
+      section,
       transcript: lesson.transcript,
       videoResourceId: lesson.videoResourceId,
     },
@@ -44,25 +51,30 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
+  const tutorials = await getAllWorkshops()
   const bonuses = await getAllBonuses()
-  const interviews = bonuses[0]
 
-  console.log({bonuses, lessons: bonuses[0].lessons})
+  const paths = [...tutorials, ...bonuses].flatMap((tutorial: any) => {
+    return (
+      tutorial.sections?.flatMap((section: any) => {
+        return (
+          section.lessons?.map((lesson: any) => ({
+            params: {
+              module: tutorial.slug.current,
+              section: section.slug,
+              lesson: lesson.slug,
+            },
+          })) || []
+        )
+      }) || []
+    )
+  })
 
-  const paths =
-    interviews.lessons.map((interview: any) => {
-      return {
-        params: {
-          bonus: interviews.slug.current,
-          interview: interview.slug,
-        },
-      }
-    }) || []
-
+  console.log({paths})
   return {paths, fallback: 'blocking'}
 }
 
-const InterviewPage: React.FC<any> = ({
+const ExercisePage: React.FC<any> = ({
   lesson,
   lessonBodySerialized,
   lessonBodyPreviewSerialized,
@@ -71,6 +83,15 @@ const InterviewPage: React.FC<any> = ({
   transcript,
   videoResourceId,
 }) => {
+  console.log({
+    lesson,
+    lessonBodySerialized,
+    lessonBodyPreviewSerialized,
+    module,
+    section,
+    transcript,
+    videoResourceId,
+  })
   return (
     <ModuleProgressProvider moduleSlug={module.slug.current}>
       <LessonProvider lesson={lesson} module={module} section={section}>
@@ -86,4 +107,4 @@ const InterviewPage: React.FC<any> = ({
   )
 }
 
-export default InterviewPage
+export default ExercisePage

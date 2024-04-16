@@ -34,15 +34,12 @@ const ResourceLink: React.FC<{
   isBonusModule?: boolean
 }> = ({title, workshopSlug, resourceSlug, isCompleted, isBonusModule}) => {
   const [isHovered, setHovered] = React.useState<Boolean>(false)
-  const resourceLink = isBonusModule
-    ? `/bonuses/${workshopSlug}/${resourceSlug}`
-    : `/workshops/${workshopSlug}/${resourceSlug}`
   return (
     <li>
       <Link
         onMouseOver={() => setHovered(true)}
         onMouseOut={() => setHovered(false)}
-        href={resourceLink}
+        href={`/modules/${workshopSlug}/${resourceSlug}`}
         className="-mx-3 flex w-full items-center rounded-lg p-3 transition-colors duration-75 ease-in-out hover:bg-er-gray-100"
       >
         {/* {isCompleted && '✅'}
@@ -112,9 +109,6 @@ type Module = {
 
 const WorkshopItem = ({module}: {module: Module}) => {
   const isBonusModule = module.moduleType === 'bonus'
-  const moduleLink = isBonusModule
-    ? `/bonuses/${module.slug.current}/${module.resources[0]?.slug}`
-    : `/workshops/${module.slug.current}/${module.resources[0]?.slug}`
 
   const moduleProgress = useModuleProgress()
   return (
@@ -128,7 +122,11 @@ const WorkshopItem = ({module}: {module: Module}) => {
     >
       <div className="pl-0 sm:pl-11">
         <h3 className="mb-2 text-2xl font-semibold sm:text-3xl">
-          <Link href={moduleLink}>{module.title}</Link>
+          <Link
+            href={`/modules/${module.slug.current}/${module.resources[0]?.slug}`}
+          >
+            {module.title}
+          </Link>
         </h3>
         <div className="text-base text-er-gray-700 sm:text-lg">
           {module.body}

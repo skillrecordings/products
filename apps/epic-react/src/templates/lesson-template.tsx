@@ -56,7 +56,7 @@ const ExerciseTemplate: React.FC<{
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? ogImage : {url: moduleOGImage}
   //TODO path here could also include module slug and section (as appropriate)
-  const path = `/${pluralize(module.moduleType)}`
+  const path = `/${pluralize('module')}`
   const {data: session, status: sessionStatus} = useSession()
 
   const addProgressMutation = trpc.progress.add.useMutation()
@@ -71,7 +71,7 @@ const ExerciseTemplate: React.FC<{
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
         moduleSlug: module.slug.current,
-        moduleType: 'workshop',
+        moduleType: 'module',
         lessonSlug: lesson.slug,
         isSolution: lesson._type === 'solution',
         sectionSlug: section?.slug,
@@ -89,6 +89,8 @@ const ExerciseTemplate: React.FC<{
       lesson._type === 'lesson' ||
       lesson._type === 'interview') &&
     session
+
+  const epicReactModule = {...module, moduleType: 'module'}
 
   return (
     <VideoProvider
@@ -133,7 +135,7 @@ const ExerciseTemplate: React.FC<{
         />
         <Container className="flex px-5 sm:px-0 lg:px-0">
           <div className="relative z-40 hidden w-full lg:block lg:max-w-[330px]">
-            <LessonList module={module} path={path} />
+            <LessonList module={epicReactModule} path={path} />
           </div>
           <main className="relative w-full">
             <div>
@@ -161,7 +163,7 @@ const ExerciseTemplate: React.FC<{
                   path={path}
                 />
               </details>
-              {/* <div className="relative hidden flex-grow border-t border-gray-200 dark:border-gray-900 2xl:block">
+              {/* <div className="relative flex-grow hidden border-t border-gray-200 dark:border-gray-900 2xl:block">
                 <VideoTranscript transcript={transcript} />
               </div> */}
             </div>
