@@ -29,25 +29,27 @@ export const PricingTiers: React.FC<
 
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   return (
-    <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+    <>
       {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       <div data-pricing-container="">
         {products?.map((productWithOptions, i) => {
           const {options, ...product} = productWithOptions
           return (
-            <Pricing
-              key={product.name}
-              userId={userId}
-              product={product}
-              purchased={purchasedProductIds.includes(product.productId)}
-              index={i}
-              couponId={couponId}
-              allowPurchase={allowPurchase}
-              options={options}
-            />
+            <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+              <Pricing
+                key={product.name}
+                userId={userId}
+                product={product}
+                purchased={purchasedProductIds.includes(product.productId)}
+                index={i}
+                couponId={couponId}
+                allowPurchase={allowPurchase}
+                options={options}
+              />
+            </PriceCheckProvider>
           )
         })}
       </div>
-    </PriceCheckProvider>
+    </>
   )
 }
