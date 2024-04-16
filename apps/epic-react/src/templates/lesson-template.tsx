@@ -388,7 +388,6 @@ const LessonList: React.FC<{
       slug: module.slug.current,
     })
 
-  // const [ref, {height}] = useMeasure<HTMLDivElement>()
 
   return (
     <div className="group relative">
