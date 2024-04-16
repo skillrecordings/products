@@ -85,8 +85,6 @@ const ExerciseTemplate: React.FC<{
   // )
   const [isTheaterMode, setIsTheaterMode] = React.useState<boolean>(false)
 
-  // const {height} = useWindowSize()
-  // const listMaxHeight = height - 300
 
   return (
     <VideoProvider
