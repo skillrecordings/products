@@ -1,13 +1,6 @@
 import * as React from 'react'
 import {motion, AnimateSharedLayout} from 'framer-motion'
 import cx from 'classnames'
-// import {
-//   useMedia,
-//   useWindowSize,
-//   useLocalStorage,
-//   useMeasure,
-//   useSize,
-// } from 'react-use'
 import BlockedOverlay from '@/components/video-overlays/blocked-overlay'
 
 import Layout from '@/components/app/layout'
