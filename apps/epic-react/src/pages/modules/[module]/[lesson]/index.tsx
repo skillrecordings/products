@@ -12,7 +12,6 @@ import {getAllBonuses, getBonus} from '@/lib/bonuses'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  console.log({params})
   const lessonSlug = params?.lesson as string
   const sectionSlug = params?.section as string
   const moduleSlug = params?.module as string
