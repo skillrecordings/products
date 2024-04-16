@@ -134,6 +134,7 @@ const PurchaseSchema = z
     ip_address: z.string().nullable(),
     status: z.union([
       z.literal('Valid'),
+      z.literal('Restricted'),
       z.literal('Refunded'),
       z.literal('Banned'),
     ]),
