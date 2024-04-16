@@ -85,7 +85,7 @@ const ExerciseTemplate: React.FC<{
     session
 
   const epicReactModule = {...module, moduleType: 'module'}
-  
+
   // TODO: fix hydration issue
   // const [isTheaterMode, setIsTheaterMode] = useLocalStorage(
   //   'theaterMode',
@@ -363,7 +363,7 @@ const ExerciseTemplate: React.FC<{
                   className="sm:sticky sm:top-20"
                   style={{height: listMaxHeight}}
                 >
-                  <LessonList module={module} path={path} />
+                  <LessonList module={epicReactModule} path={path} />
                   {/* <List
                       isTheaterMode={isTheaterMode}
                       toggleTheaterMode={toggleTheaterMode}
