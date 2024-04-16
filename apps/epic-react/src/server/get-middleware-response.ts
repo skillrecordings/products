@@ -18,7 +18,7 @@ export async function getMiddlewareResponse(req: NextRequest) {
         response = rewriteToPath('/learn', req)
       }
     } catch (error) {
-      response = rewriteToPath('/login', req)
+      response = rewriteToPath('/', req)
     }
   }
 
