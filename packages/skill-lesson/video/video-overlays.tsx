@@ -501,16 +501,14 @@ const BlockedOverlay: React.FC<{
   const canViewTeam = ability.can('view', 'Team')
   return (
     <div data-video-overlay="blocked" id="video-overlay">
-      {thumbnail && (
-        <Image
-          data-thumbnail=""
-          src={thumbnail}
-          fill
-          alt=""
-          aria-hidden="true"
-          priority
-        />
-      )}
+      <Image
+        data-thumbnail=""
+        src={thumbnail}
+        fill
+        alt=""
+        aria-hidden="true"
+        priority
+      />
       {module?.moduleType === 'tutorial' ? (
         <>
           <div data-subscribe="">
