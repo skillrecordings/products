@@ -51,18 +51,6 @@ const WorkshopsPage: React.FC<{
   defaultProduct: Product
 }> = ({modules, title = 'Professional Workshops', defaultProduct, bonuses}) => {
   const workshops = modules
-  const useAbilities = () => {
-    const {data: abilityRules, status: abilityRulesStatus} =
-      trpc.modules.rules.useQuery({
-        moduleSlug: workshops && workshops[0]?.slug.current,
-        moduleType: 'workshop',
-      })
-    return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
-  }
-  const {ability, abilityRulesStatus} = useAbilities()
-
-  const isRestricted = ability.can('view', 'RegionRestriction')
-  const canViewContent = ability.can('view', 'Content')
 
   return (
     <ModulesTemplate
