@@ -81,15 +81,6 @@ const ExercisePage: React.FC<any> = ({
   transcript,
   videoResourceId,
 }) => {
-  console.log({
-    lesson,
-    lessonBodySerialized,
-    lessonBodyPreviewSerialized,
-    module,
-    section,
-    transcript,
-    videoResourceId,
-  })
   return (
     <ModuleProgressProvider moduleSlug={module.slug.current}>
       <LessonProvider lesson={lesson} module={module} section={section}>
