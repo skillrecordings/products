@@ -172,7 +172,10 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
     }
   }, [isPPPAvailable, pppCoupon, isPPPEnabled, setMerchantCoupon])
 
-  if (product.state === 'unavailable' && !purchased) {
+  if (
+    (product.state === 'unavailable' || product.state === 'draft') &&
+    !purchased
+  ) {
     return null
   }
 
