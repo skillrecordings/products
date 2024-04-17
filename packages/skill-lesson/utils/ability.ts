@@ -251,6 +251,7 @@ export function defineRulesForPurchases(
 
   if (['ADMIN', 'SUPERADMIN'].includes(user?.role as string)) {
     can('create', 'Content')
+    can('view', 'Content')
   }
 
   return rules
