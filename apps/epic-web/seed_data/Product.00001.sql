@@ -1,8 +1,8 @@
 INSERT INTO MerchantAccount (id, status, identifier, label) VALUES
 ("kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e", 1, "acct_1HzmnqIugVgg5liQ", "stripe");
 
-INSERT INTO Product (id, name, status) VALUES
-('kcd_4f0b26ee-d61d-4245-a204-26f5774355a5', "Testing JavaScript Pro", 1);
+INSERT INTO Product (id, name, productType, status) VALUES
+('kcd_4f0b26ee-d61d-4245-a204-26f5774355a5', "Testing JavaScript Pro", 'self-paced', 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
 ('kcd_47479d9f-10a0-4725-a6ee-5eac6299067a', "kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e", 'kcd_4f0b26ee-d61d-4245-a204-26f5774355a5', 1, "prod_NJvuoglTLIYE60");
@@ -13,8 +13,8 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('kcd_99c9b532-6f12-4662-a93e-ac69bea7306a', 'kcd_47479d9f-10a0-4725-a6ee-5eac6299067a', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, "kcd_0a823046-d7d0-43d1-a39d-896cd76baff2", "price_1MZI37IugVgg5liQOBPzPBQv");
 
-INSERT INTO Product (id, name, status) VALUES
-('kcd_fb976b99-0633-4329-bbfb-f5f76dc278b3', "Testing JavaScript Standard", 1);
+INSERT INTO Product (id, name, productType status) VALUES
+('kcd_fb976b99-0633-4329-bbfb-f5f76dc278b3', "Testing JavaScript Standard", 'self-paced', 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
 ('kcd_85b2ceb9-6b6b-4545-af1e-826fd5bacfd2', "kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e", 'kcd_fb976b99-0633-4329-bbfb-f5f76dc278b3', 1, "prod_NJvuQnX13D2e7n");
@@ -25,8 +25,8 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('kcd_9c47a9ff-8d04-4649-bece-e69c93dbc6cc', 'kcd_85b2ceb9-6b6b-4545-af1e-826fd5bacfd2', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, "kcd_4a502214-ae2b-4256-a575-789fc82d8c7b", "price_1MZI37IugVgg5liQVGX0IspL");
 
-INSERT INTO Product (id, name, status) VALUES
-('kcd_da6ab36c-b091-4f6f-90aa-d7db2fc798ff', "Testing JavaScript Basic", 1);
+INSERT INTO Product (id, name, productType, status) VALUES
+('kcd_da6ab36c-b091-4f6f-90aa-d7db2fc798ff', "Testing JavaScript Basic", 'self-paced', 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
 ('kcd_34e6140e-77e1-46ca-95f9-ef96a096aa9e', "kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e", 'kcd_da6ab36c-b091-4f6f-90aa-d7db2fc798ff', 1, "prod_NJvur3aADf36J8");
@@ -37,8 +37,8 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('kcd_29062dfd-818e-4f55-a2d5-905ea1407a42', 'kcd_34e6140e-77e1-46ca-95f9-ef96a096aa9e', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, "kcd_1a194e9c-9eff-430e-a295-531d38ed6086", "price_1MZI36IugVgg5liQd7hJqnfD");
 
-INSERT INTO Product (id, name, status) VALUES
-('kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38', "Epic React Pro", 1);
+INSERT INTO Product (id, name, productType, status) VALUES
+('kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38', "Epic React Pro", 'self-paced' 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
 ('kcd_754b9122-5f02-4789-ad66-fe792eef1b5c', "kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e", 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38', 1, "prod_NJvu5JtYQvqHdc");
@@ -49,8 +49,8 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('kcd_9d63d7fe-6620-4df8-963e-5ee8db317e6f', 'kcd_754b9122-5f02-4789-ad66-fe792eef1b5c', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, "kcd_3bd9544d-9ed0-4dae-97d5-118e51ca6df5", "price_1MZI36IugVgg5liQ8H51fLQO");
 
-INSERT INTO Product (id, name, status) VALUES
-('kcd_8acc60f1-8c3f-4093-b20d-f60fc6e0cf61', "Epic React Standard", 1);
+INSERT INTO Product (id, name, productType, status) VALUES
+('kcd_8acc60f1-8c3f-4093-b20d-f60fc6e0cf61', "Epic React Standard", 'self-paced', 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
 ('kcd_a427eaf5-2abe-43af-a5ac-14884fc76f0e', "kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e", 'kcd_8acc60f1-8c3f-4093-b20d-f60fc6e0cf61', 1, "prod_NJvu44Xno5stmu");
@@ -61,8 +61,8 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('kcd_c19d9c1a-14b6-4e31-b8b4-cbfce4054de6', 'kcd_a427eaf5-2abe-43af-a5ac-14884fc76f0e', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, "kcd_af23cd3e-a6f9-4b6f-9785-a973f81c9008", "price_1MZI36IugVgg5liQ4SSj94a0");
 
-INSERT INTO Product (id, name, status) VALUES
-('kcd_910c9191-5a69-4019-ad1d-c55bea7e9714', "Epic React Basic", 1);
+INSERT INTO Product (id, name, productType, status) VALUES
+('kcd_910c9191-5a69-4019-ad1d-c55bea7e9714', "Epic React Basic", 'self-paced', 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
 ('kcd_8082cc16-de5a-4646-af70-1a609273818d', "kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e", 'kcd_910c9191-5a69-4019-ad1d-c55bea7e9714', 1, "prod_NJvu9ruwFuWsPE");
@@ -72,8 +72,8 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 
 
 
-INSERT INTO Product (id, name, status) VALUES
-('kcd_product-f000186d-78c2-4b02-a763-85b2e5feec7b', "Full-Stack Workshop Series Vol 1", 1);
+INSERT INTO Product (id, name, productType, status) VALUES
+('kcd_product-f000186d-78c2-4b02-a763-85b2e5feec7b', "Full-Stack Workshop Series Vol 1", 'self-paced', 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
 ('kcd_merchant_product_9ea5d6d2-57f9-43c1-b4d2-07f1693b464f', "kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e", 'kcd_product-f000186d-78c2-4b02-a763-85b2e5feec7b', 1, "prod_O7TG5fydlJVgna");
@@ -157,8 +157,8 @@ INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentag
 
 -- Full Stack Vol 1
 
-INSERT INTO Product (id, name, status) VALUES
-('kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002', 'Full Stack Vol 1', 1);
+INSERT INTO Product (id, name, productType, status) VALUES
+('kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002', 'Full Stack Vol 1', 'self-paced', 1);
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 ('kcd_price_72cc00f9-24b8-4607-955f-c59714d3b1c8', 'kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002', 'Full Stack Vol 1', 1, 1299);
@@ -171,8 +171,8 @@ INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, pri
 
 -- Professional Web Forms
 
-INSERT INTO Product (id, name, status) VALUES
-('5ffdd0ef-a7a3-431e-b36b-f4232da7e454', 'Professional Web Forms', 1);
+INSERT INTO Product (id, name, productType, status) VALUES
+('5ffdd0ef-a7a3-431e-b36b-f4232da7e454', 'Professional Web Forms', 'self-paced', 1);
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 ('kcd_price_8bc1d2b9-35a0-4222-95cb-5a4d2e8b055a', '5ffdd0ef-a7a3-431e-b36b-f4232da7e454', 'Professional Web Forms', 1, 300);
@@ -185,8 +185,8 @@ INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, pri
 
 -- Data Modeling Deep Dive
 
-INSERT INTO Product (id, name, status) VALUES
-('2267e543-51fa-4d71-a02f-ad9ba71a1f8e', 'Data Modeling Deep Dive', 1);
+INSERT INTO Product (id, name, productType, status) VALUES
+('2267e543-51fa-4d71-a02f-ad9ba71a1f8e', 'Data Modeling Deep Dive', 'self-paced', 1);
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 ('kcd_price_c12abbc0-7866-4600-9820-689e05290c4c', '2267e543-51fa-4d71-a02f-ad9ba71a1f8e', 'Data Modeling Deep Dive', 1, 300);
@@ -199,8 +199,8 @@ INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, pri
 
 -- Authentication Strategies & Implementation
 
-INSERT INTO Product (id, name, status) VALUES
-('0143b3f6-d5dd-4f20-9898-38da609799ca', 'Authentication Strategies & Implementation', 1);
+INSERT INTO Product (id, name, productType, status) VALUES
+('0143b3f6-d5dd-4f20-9898-38da609799ca', 'Authentication Strategies & Implementation', 'self-paced', 1);
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 ('kcd_price_0cda4731-1c41-4e10-9554-b172edcacce2', '0143b3f6-d5dd-4f20-9898-38da609799ca', 'Authentication Strategies & Implementation', 1, 300);
@@ -213,7 +213,7 @@ INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, pri
 
 -- Web Application Testing
 
-INSERT INTO Product (id, name, status) VALUES
+INSERT INTO Product (id, name, productType, status) VALUES
 ('2e5b2993-d069-4e43-a7f1-24cffa83f7ac', 'Web Application Testing', 1);
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
@@ -227,8 +227,8 @@ INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, pri
 
 -- Full Stack Foundations
 
-INSERT INTO Product (id, name, status) VALUES
-('dc9b750c-e3bc-4b0a-b7d2-d04a481afa0d', 'Full Stack Foundations', 1);
+INSERT INTO Product (id, name, productType, status) VALUES
+('dc9b750c-e3bc-4b0a-b7d2-d04a481afa0d', 'Full Stack Foundations', 'self-paced', 1);
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 ('kcd_price_7bd2007b-21cc-4db5-99f7-fe0664089e0a', 'dc9b750c-e3bc-4b0a-b7d2-d04a481afa0d', 'Full Stack Foundations', 1, 300);
