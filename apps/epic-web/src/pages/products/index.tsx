@@ -171,84 +171,84 @@ const ProductCard: React.FC<{
 
   const canView = ability.can('view', 'Content')
 
-  if (
-    (product.state === 'unavailable' ||
-      product.state === 'archived' ||
-      product.state == 'draft') &&
-    !purchase
-  ) {
-    return <div>No Products Found</div>
-  }
-
   return (
-    <Card className="relative">
-      <CardHeader className="flex w-full flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">
-        <CardTitle className="w-full text-xl hover:underline">
-          <Link href={purchase ? purchasedHref : buyHref}>{product.title}</Link>
-        </CardTitle>
-        <div className="flex items-center gap-3">
-          {purchase ? <PurchasedBadge /> : null}
-        </div>
-      </CardHeader>
-      <CardFooter className="flex items-center space-x-2">
-        {purchase ? (
-          <>
-            <Button variant="secondary" size="sm" asChild>
-              <Link href={purchasedHref}>
-                {purchase.bulkCoupon ? 'Manage & Details' : 'Manage & Details'}
+    <>
+      {(product.state === 'active' ||
+        (product.state === 'unavailable' && purchase)) && (
+        <Card className="relative">
+          <CardHeader className="flex w-full flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">
+            <CardTitle className="w-full text-xl hover:underline">
+              <Link href={purchase ? purchasedHref : buyHref}>
+                {product.title}
               </Link>
-            </Button>
-            {purchase.merchantChargeId && (
-              <Button variant="outline" asChild size="sm">
-                <Link
-                  href={{
-                    pathname: '/invoices/[merchantChargeId]',
-                    query: {
-                      merchantChargeId: purchase.merchantChargeId,
-                    },
-                  }}
-                >
-                  Invoice
-                </Link>
-              </Button>
-            )}
-          </>
-        ) : (
-          <>
-            {product.state === 'unavailable' ? (
-              'Unavailable'
+            </CardTitle>
+            <div className="flex items-center gap-3">
+              {purchase ? <PurchasedBadge /> : null}
+            </div>
+          </CardHeader>
+          <CardFooter className="flex items-center space-x-2">
+            {purchase ? (
+              <>
+                <Button variant="secondary" size="sm" asChild>
+                  <Link href={purchasedHref}>
+                    {purchase.bulkCoupon
+                      ? 'Manage & Details'
+                      : 'Manage & Details'}
+                  </Link>
+                </Button>
+                {purchase.merchantChargeId && (
+                  <Button variant="outline" asChild size="sm">
+                    <Link
+                      href={{
+                        pathname: '/invoices/[merchantChargeId]',
+                        query: {
+                          merchantChargeId: purchase.merchantChargeId,
+                        },
+                      }}
+                    >
+                      Invoice
+                    </Link>
+                  </Button>
+                )}
+              </>
             ) : (
               <>
-                {isSingleModuleProduct && canView ? (
-                  <p className="opacity-80">Included in your bundle.</p>
+                {product.state === 'unavailable' ? (
+                  'Unavailable'
                 ) : (
                   <>
-                    {product.slug && (
-                      <Button size="sm" asChild>
-                        <Link href={buyHref}>Get Access</Link>
-                      </Button>
+                    {isSingleModuleProduct && canView ? (
+                      <p className="opacity-80">Included in your bundle.</p>
+                    ) : (
+                      <>
+                        {product.slug && (
+                          <Button size="sm" asChild>
+                            <Link href={buyHref}>Get Access</Link>
+                          </Button>
+                        )}
+                      </>
+                    )}
+                    {purchase || (isSingleModuleProduct && canView) ? null : (
+                      <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+                        <>
+                          <PriceDisplay
+                            formattedPrice={formattedPrice}
+                            status={formattedPriceStatus}
+                          />
+                        </>
+                      </div>
                     )}
                   </>
                 )}
-                {purchase || (isSingleModuleProduct && canView) ? null : (
-                  <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                    <>
-                      <PriceDisplay
-                        formattedPrice={formattedPrice}
-                        status={formattedPriceStatus}
-                      />
-                    </>
-                  </div>
-                )}
               </>
             )}
-          </>
-        )}
-      </CardFooter>
-      <div className="px-5 [&_h2]:mt-0 [&_h2]:pb-4 [&_h2]:pt-2 [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:uppercase [&_h2]:tracking-wide [&_h2]:opacity-90 [&_ul]:pb-5">
-        <Bonuses purchase={purchase as any} />
-      </div>
-    </Card>
+          </CardFooter>
+          <div className="px-5 [&_h2]:mt-0 [&_h2]:pb-4 [&_h2]:pt-2 [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:uppercase [&_h2]:tracking-wide [&_h2]:opacity-90 [&_ul]:pb-5">
+            <Bonuses purchase={purchase as any} />
+          </div>
+        </Card>
+      )}
+    </>
   )
 }
 
