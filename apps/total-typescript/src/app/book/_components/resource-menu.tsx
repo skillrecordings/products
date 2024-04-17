@@ -53,7 +53,7 @@ export const ResourceMenu: React.FC<{
   mode,
 }) => {
   return (
-    <aside className="sticky top-0 z-20 flex h-16 w-full items-center border border-t-0 bg-background leading-none lg:w-[calc(100%+160px)]">
+    <aside className="sticky top-16 z-20 flex h-16 w-full items-center border border-t-0 bg-background leading-none lg:w-[calc(100%+160px)]">
       <Menubar className="space-x-0 border-0 p-0">
         <MenubarMenu>
           <MenubarTrigger className="flex h-16 w-16 items-center justify-center rounded-none border-r p-2">
@@ -92,7 +92,7 @@ export const ResourceMenu: React.FC<{
                 asChild
                 className="flex size-16 items-center justify-center border-l"
               >
-                <ModeToggle>
+                <ModeToggle mode={mode}>
                   {mode === 'book' ? (
                     <PlayIcon className="w-5" />
                   ) : (

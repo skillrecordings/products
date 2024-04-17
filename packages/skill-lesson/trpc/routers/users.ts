@@ -1,10 +1,10 @@
 import {getSdk, Purchase} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
-import {publicProcedure, router} from '../trpc.server'
+import {adminProcedure, router} from '../trpc.server'
 import {z} from 'zod'
 
 export const usersRouter = router({
-  get: publicProcedure
+  get: adminProcedure
     .input(
       z
         .object({

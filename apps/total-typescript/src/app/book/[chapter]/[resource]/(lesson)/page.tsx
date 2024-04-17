@@ -102,14 +102,14 @@ const BookLayout = async ({
 }) => {
   return (
     <section>
-      <h1 className="mb-10 text-balance text-3xl font-bold sm:mb-14 sm:text-4xl lg:text-5xl">
+      <h1 className="mb-10 text-balance font-text text-4xl font-bold sm:mb-14 sm:text-5xl lg:text-6xl">
         {title}
       </h1>
-      <div className="prose prose-light max-w-none sm:prose-lg lg:prose-xl prose-p:font-normal">
+      <div className="prose prose-invert max-w-none sm:prose-lg lg:prose-xl prose-p:font-normal">
         {video && (
           <div
             className={cn('mb-5', {
-              'sm:float-left sm:mr-10 sm:w-1/2': mode === 'book',
+              // 'sm:float-left sm:mr-10 sm:w-1/2': mode === 'book',
             })}
           >
             <AuthedVideoPlayer
@@ -130,7 +130,10 @@ const BookLayout = async ({
               {/* <Link href={slug.current + '/solution'}>Navigate ➔</Link> */}
             </div>
             {solution.videoResourceId && (
-              <div className="sm:float-right sm:ml-10 sm:w-1/2">
+              <div
+                className="mb-5"
+                // className="sm:float-right sm:ml-10 sm:w-1/2"
+              >
                 <AuthedVideoPlayer
                   videoResourceId={solution?.videoResourceId}
                   title={`Solution: ${title}`}
@@ -175,7 +178,7 @@ const VideoLayout = async ({
           />
         )}
       </div>
-      <div className="prose prose-light mx-auto w-full max-w-4xl px-5 py-10 sm:prose-lg lg:prose-xl prose-p:font-normal">
+      <div className="prose prose-invert mx-auto w-full max-w-4xl px-5 py-10 sm:prose-lg lg:prose-xl prose-p:font-normal">
         <div className="not-prose">
           <h1 className="mb-5 text-balance text-3xl font-bold sm:mb-10 sm:text-4xl lg:text-5xl">
             {title}
@@ -208,7 +211,7 @@ const AuthedChallenge = async ({
           <Challenge repo={repo} file={file} />
         </Suspense>
       ) : (
-        <div>
+        <div className="flex h-full w-full items-center justify-center rounded bg-white/5 p-5">
           <Link href="/newsletter">Join the Newsletter</Link>
         </div>
       )}
@@ -231,7 +234,7 @@ const AuthedVideoPlayer = async ({
 
   if (!isAdmin)
     return (
-      <div>
+      <div className="flex h-full w-full items-center justify-center rounded bg-white/5 p-5">
         <Link href="/newsletter">Join the Newsletter</Link>
       </div>
     )

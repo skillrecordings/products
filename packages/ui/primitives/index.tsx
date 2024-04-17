@@ -137,6 +137,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from './drawer'
+import {Switch} from './switch'
 
 export {
   Button,
@@ -259,4 +260,5 @@ export {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
+  Switch,
 }

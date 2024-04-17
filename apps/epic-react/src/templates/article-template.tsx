@@ -9,7 +9,6 @@ import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 
 import {getIsoDate} from '@/utils/get-iso-date'
-import {getOgImage} from '@/utils/get-og-image'
 import config from '@/config'
 import {type ArticleFrontMatter, type Article} from '@/@types/mdx-article'
 import Layout from '@/components/app/layout'
@@ -75,9 +74,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
     slug,
   } = frontMatter
   const isoDate = getIsoDate(date)
-  const ogImage = socialImage
-    ? {url: socialImage as string}
-    : getOgImage({title})
   const pageDescription = excerpt
   const author = config.author
   const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
@@ -89,8 +85,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       meta={{
         title,
         description: pageDescription,
-        openGraph: {
-          images: ogImage ? [ogImage] : undefined,
+        ogImage: {
+          url: `${process.env.NEXT_PUBLIC_URL}${socialImage}`,
+          alt: title,
         },
       }}
     >

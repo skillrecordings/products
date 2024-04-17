@@ -7,8 +7,11 @@ import {
   PurchaseInfo,
   PurchaseInfoSchema,
 } from './default-payment-options'
+import {determinePurchaseType} from '../determine-purchase-type'
 
 export const StripeProvider: StripeProviderFunction = (config) => {
+  // TODO: once we're fully migrated to StripeProvider, we can remove the
+  // `defaultStripeClient` option and just initialize the Stripe client
   const stripeClient =
     'defaultStripeClient' in config
       ? config.defaultStripeClient
@@ -40,6 +43,11 @@ export const StripeProvider: StripeProviderFunction = (config) => {
       ? PurchaseMetadata.parse(metadata)
       : undefined
 
+    const purchaseType = await determinePurchaseType({
+      chargeIdentifier: stripeChargeId,
+      email,
+    })
+
     const info: PurchaseInfo = {
       customerIdentifier: stripeCustomerId,
       email,
@@ -51,6 +59,7 @@ export const StripeProvider: StripeProviderFunction = (config) => {
       quantity,
       chargeAmount: stripeChargeAmount,
       metadata: parsedMetadata,
+      purchaseType,
     }
 
     return PurchaseInfoSchema.parse(info)

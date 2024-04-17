@@ -76,11 +76,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
   ).then((res) => res.json())
 
   return {
-    paths: speakers.map((speaker: Speaker) => ({
-      params: {
-        speaker: slugify(speaker.fullName),
-      },
-    })),
+    paths: speakers
+      .filter((speaker: Speaker) => !speaker.fullName.includes('DevTools'))
+      .map((speaker: Speaker) => ({
+        params: {
+          speaker: slugify(speaker.fullName),
+        },
+      })),
     fallback: false,
   }
 }

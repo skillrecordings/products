@@ -119,6 +119,12 @@ since they tend to clash with prism-theme.css */
 @tailwind utilities;
 @import './focus-visible.css';
 
+/* book shiki code blocks */
+
+.dark-plus {
+  @apply rounded border border-gray-100 bg-background dark:border-0 dark:bg-white/5 !important;
+}
+
 /* code-hike code blocks */
 .ch-code {
   @apply rounded border border-gray-100 bg-background dark:border-0 dark:bg-white/5 !important;

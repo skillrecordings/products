@@ -27,6 +27,41 @@
   [data-purchase-container] {
     @apply px-6 pb-10;
   }
+  [data-purchased-container] {
+    [data-purchased] {
+      @apply flex justify-center text-xl;
+      svg {
+        @apply mr-1 w-6;
+      }
+    }
+    [data-buy-more-seats] {
+      @apply my-6 flex flex-col items-center space-y-6;
+      button {
+        @apply rounded-sm border border-yellow-300 px-4 py-2 text-lg duration-150 hover:bg-yellow-300;
+      }
+    }
+    [data-buy-more-seats-form] {
+      @apply flex flex-col items-center;
+      [data-seats-form] {
+        @apply flex items-center justify-center;
+        label {
+          @apply mr-3;
+        }
+        button {
+          @apply flex h-full items-center justify-center rounded border-none bg-gray-700/50 px-3 py-2 font-mono sm:hidden;
+        }
+        input {
+          @apply mx-1 max-w-[70px] rounded-md border border-yellow-400 bg-transparent py-2 pl-3 font-mono font-bold sm:mx-0;
+        }
+      }
+      [data-pricing-product-header] {
+        @apply flex flex-col items-center space-y-8 pt-4;
+      }
+    }
+  }
+  [data-downgrade-container] {
+    @apply mb-4 flex justify-center font-semibold opacity-70;
+  }
   [data-pricing-footer] {
     @apply rounded-b-lg border-t-2 border-er-gray-100 px-5 pb-8 pt-5 sm:px-8 sm:py-7;
     [data-product-description] {
@@ -90,6 +125,9 @@
     }
     li {
       @apply flex items-center space-x-4;
+      a {
+        @apply flex items-center space-x-4;
+      }
       p {
         @apply text-lg text-er-gray-700;
       }

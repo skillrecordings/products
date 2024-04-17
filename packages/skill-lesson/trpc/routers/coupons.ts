@@ -1,8 +1,7 @@
-import {type Purchase, prisma} from '@skillrecordings/database'
+import {prisma} from '@skillrecordings/database'
 import {adminProcedure, publicProcedure, router} from '../trpc.server'
 import {getToken} from 'next-auth/jwt'
 import {z} from 'zod'
-import {format} from 'date-fns'
 
 export const couponsRouter = router({
   claimedBy: publicProcedure
@@ -41,7 +40,7 @@ export const couponsRouter = router({
 
       return []
     }),
-  get: publicProcedure.query(async ({ctx}) => {
+  get: adminProcedure.query(async ({ctx}) => {
     const coupons = await prisma.coupon.findMany({
       orderBy: {
         createdAt: 'desc',
@@ -61,7 +60,7 @@ export const couponsRouter = router({
       })
       return coupons
     }),
-  create: publicProcedure
+  create: adminProcedure
     .input(
       z.object({
         quantity: z.string(),
