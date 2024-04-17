@@ -6,6 +6,7 @@ const PodcastPlayer = ({episodeId}: {episodeId: string}) => {
   const {theme} = useTheme()
   const [state, setState] = React.useState({loading: true})
   const iframeRef = React.useRef<HTMLIFrameElement | null>(null)
+
   React.useEffect(() => {
     if (iframeRef.current) {
       iframeRef.current.src = `https://player.simplecast.com/${episodeId}?dark=${
@@ -20,7 +21,7 @@ const PodcastPlayer = ({episodeId}: {episodeId: string}) => {
         setState({loading: false}),
       )
     }
-  }, [theme])
+  }, [theme, episodeId])
   return (
     <div className="relative my-8 overflow-hidden rounded-sm">
       {state.loading && (
