@@ -172,156 +172,154 @@ const ProductTeaser: React.FC<ProductTeaserProps> = ({
     }
   }, [isPPPAvailable, pppCoupon, isPPPEnabled, setMerchantCoupon])
 
-  if (
-    (product.state === 'unavailable' || product.state === 'draft') &&
-    !purchased
-  ) {
-    return null
-  }
-
   return (
-    <div
-    // className="rounded-md border border-gray-700/20 bg-gray-800/20 p-8 px-2 py-0.5 shadow-2xl"
-    >
-      <div className="mt-4 flex grid-cols-5 flex-col md:grid">
-        <aside className="col-span-2">
-          {product.image && (
-            <Image
-              src={product.image.url}
-              alt={product.title || `Product image`}
-              width={300}
-              height={300}
-              className="mx-auto"
-            />
-          )}
-        </aside>
-        <div className="col-span-3 flex flex-col gap-3 py-5 pt-5 sm:pl-3 sm:pr-8 md:pt-5">
-          <div className="self-center font-mono text-xs font-semibold uppercase text-cyan-300 sm:self-start">
-            {product.slug === 'core-volume-react-bundle' ? (
-              <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
-                FEATURED PRODUCT
-              </span>
-            ) : product.slug === 'advanced-react-with-typescript' ? (
-              <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
-                NEW
-              </span>
-            ) : null}
-          </div>
-          <h3 className="text-center font-text text-3xl font-bold sm:text-left sm:text-4xl">
-            <Link
-              href={{
-                pathname: '/products/[slug]',
-                query: {
-                  slug: product.slug,
-                },
-              }}
-              className="decoration-cyan-300 underline-offset-4 transition hover:underline sm:flex-row"
-              onClick={() => {
-                track('clicked view product', {
-                  product: product.slug,
-                })
-              }}
-            >
-              <Balancer>{product.title}</Balancer>
-            </Link>
-          </h3>
-          <div className="flex flex-col-reverse items-center justify-center gap-3 pt-2 sm:flex-row sm:justify-start">
-            <div className="w-full sm:w-auto">
-              <Link
-                href={{
-                  pathname: '/products/[slug]',
-                  query: {
-                    slug: product.slug,
-                  },
-                }}
-                className="group flex items-center justify-center gap-1 rounded bg-gray-800 px-4 py-2 font-medium text-cyan-300 transition hover:bg-gray-700/75 sm:inline-flex sm:text-lg"
-                onClick={() => {
-                  track('clicked view product', {
-                    product: product.slug,
-                    location: 'button',
-                  })
-                }}
-              >
-                View{' '}
-                <span className="relative transition group-hover:translate-x-1">
-                  →
-                </span>
-              </Link>
-            </div>
-            <div className="flex items-center justify-center gap-3 sm:justify-start">
-              {purchased ? (
-                <div className="flex gap-1 text-lg text-gray-300">
-                  <CheckCircleIcon className="w-5" /> Purchased
+    <>
+      {(product.state === 'active' ||
+        (product.state === 'unavailable' && purchased)) && (
+        <div
+        // className="rounded-md border border-gray-700/20 bg-gray-800/20 p-8 px-2 py-0.5 shadow-2xl"
+        >
+          <div className="mt-4 flex grid-cols-5 flex-col md:grid">
+            <aside className="col-span-2">
+              {product.image && (
+                <Image
+                  src={product.image.url}
+                  alt={product.title || `Product image`}
+                  width={300}
+                  height={300}
+                  className="mx-auto"
+                />
+              )}
+            </aside>
+            <div className="col-span-3 flex flex-col gap-3 py-5 pt-5 sm:pl-3 sm:pr-8 md:pt-5">
+              <div className="self-center font-mono text-xs font-semibold uppercase text-cyan-300 sm:self-start">
+                {product.slug === 'core-volume-react-bundle' ? (
+                  <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
+                    FEATURED PRODUCT
+                  </span>
+                ) : product.slug === 'advanced-react-with-typescript' ? (
+                  <span className="mr-3 rounded-full bg-cyan-300 px-2 py-0.5 font-sans font-semibold uppercase text-black">
+                    NEW
+                  </span>
+                ) : null}
+              </div>
+              <h3 className="text-center font-text text-3xl font-bold sm:text-left sm:text-4xl">
+                <Link
+                  href={{
+                    pathname: '/products/[slug]',
+                    query: {
+                      slug: product.slug,
+                    },
+                  }}
+                  className="decoration-cyan-300 underline-offset-4 transition hover:underline sm:flex-row"
+                  onClick={() => {
+                    track('clicked view product', {
+                      product: product.slug,
+                    })
+                  }}
+                >
+                  <Balancer>{product.title}</Balancer>
+                </Link>
+              </h3>
+              <div className="flex flex-col-reverse items-center justify-center gap-3 pt-2 sm:flex-row sm:justify-start">
+                <div className="w-full sm:w-auto">
+                  <Link
+                    href={{
+                      pathname: '/products/[slug]',
+                      query: {
+                        slug: product.slug,
+                      },
+                    }}
+                    className="group flex items-center justify-center gap-1 rounded bg-gray-800 px-4 py-2 font-medium text-cyan-300 transition hover:bg-gray-700/75 sm:inline-flex sm:text-lg"
+                    onClick={() => {
+                      track('clicked view product', {
+                        product: product.slug,
+                        location: 'button',
+                      })
+                    }}
+                  >
+                    View{' '}
+                    <span className="relative transition group-hover:translate-x-1">
+                      →
+                    </span>
+                  </Link>
                 </div>
-              ) : null}
-            </div>
-          </div>
+                <div className="flex items-center justify-center gap-3 sm:justify-start">
+                  {purchased ? (
+                    <div className="flex gap-1 text-lg text-gray-300">
+                      <CheckCircleIcon className="w-5" /> Purchased
+                    </div>
+                  ) : null}
+                </div>
+              </div>
 
-          <div className="w-full">
-            <ReactMarkdown className="prose prose-sm w-full max-w-none pt-5 sm:prose-lg prose-p:text-gray-300">
-              {product.description || ''}
-            </ReactMarkdown>
-          </div>
-          {product.modules?.length && (
-            <>
+              <div className="w-full">
+                <ReactMarkdown className="prose prose-sm w-full max-w-none pt-5 sm:prose-lg prose-p:text-gray-300">
+                  {product.description || ''}
+                </ReactMarkdown>
+              </div>
+              {product.modules?.length && (
+                <>
+                  <h4 className="pt-5 text-sm font-semibold uppercase text-gray-300">
+                    Includes
+                  </h4>
+                  <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2">
+                    {product.modules.map((module) => {
+                      return (
+                        <Link
+                          href={{
+                            pathname: BONUS_SLUGS.has(module.slug)
+                              ? '/bonuses/[slug]'
+                              : '/workshops/[slug]',
+                            query: {
+                              slug: module.slug,
+                            },
+                          }}
+                          className="group flex w-full flex-row items-center gap-2"
+                        >
+                          {module.image && (
+                            <Image
+                              src={module.image.url}
+                              alt={module.title}
+                              width={72}
+                              height={72}
+                            />
+                          )}
+                          <span className="w-full leading-tight text-gray-200 transition group-hover:text-white group-hover:underline">
+                            {BONUS_SLUGS.has(module.slug) ? (
+                              <h3 className="font-semibold text-yellow-200">
+                                Bonus🎁
+                              </h3>
+                            ) : null}
+                            <Balancer>{module.title}</Balancer>
+                          </span>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </>
+              )}
               <h4 className="pt-5 text-sm font-semibold uppercase text-gray-300">
-                Includes
+                Features
               </h4>
-              <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2">
-                {product.modules.map((module) => {
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {product.features?.map((feature) => {
                   return (
-                    <Link
-                      href={{
-                        pathname: BONUS_SLUGS.has(module.slug)
-                          ? '/bonuses/[slug]'
-                          : '/workshops/[slug]',
-                        query: {
-                          slug: module.slug,
-                        },
-                      }}
-                      className="group flex w-full flex-row items-center gap-2"
-                    >
-                      {module.image && (
-                        <Image
-                          src={module.image.url}
-                          alt={module.title}
-                          width={72}
-                          height={72}
-                        />
-                      )}
-                      <span className="w-full leading-tight text-gray-200 transition group-hover:text-white group-hover:underline">
-                        {BONUS_SLUGS.has(module.slug) ? (
-                          <h3 className="font-semibold text-yellow-200">
-                            Bonus🎁
-                          </h3>
-                        ) : null}
-                        <Balancer>{module.title}</Balancer>
-                      </span>
-                    </Link>
+                    <div className="flex items-center space-x-2 text-base text-gray-300">
+                      <CheckIcon
+                        className="h-4 w-4 text-cyan-300"
+                        aria-hidden="true"
+                      />{' '}
+                      <span>{feature.value}</span>
+                    </div>
                   )
                 })}
               </div>
-            </>
-          )}
-          <h4 className="pt-5 text-sm font-semibold uppercase text-gray-300">
-            Features
-          </h4>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {product.features?.map((feature) => {
-              return (
-                <div className="flex items-center space-x-2 text-base text-gray-300">
-                  <CheckIcon
-                    className="h-4 w-4 text-cyan-300"
-                    aria-hidden="true"
-                  />{' '}
-                  <span>{feature.value}</span>
-                </div>
-              )
-            })}
+            </div>
           </div>
+          <footer className="flex items-center px-5 py-3"></footer>
         </div>
-      </div>
-      <footer className="flex items-center px-5 py-3"></footer>
-    </div>
+      )}
+    </>
   )
 }
