@@ -1,4 +1,4 @@
-import {rewriteToPath} from './rewrite-next-response-to-path'
+import {redirectToPath} from './redirect-next-response-to-path'
 import {NextRequest, NextResponse} from 'next/server'
 
 import {getToken} from 'next-auth/jwt'
@@ -13,9 +13,8 @@ export async function getMiddlewareResponse(req: NextRequest) {
   if (req.nextUrl.pathname === SITE_ROOT_PATH) {
     try {
       const user = UserSchema.parse(token)
-
       if (user) {
-        response = rewriteToPath('/learn', req)
+        response = redirectToPath('/learn', req)
       }
     } catch (error) {
       return response
