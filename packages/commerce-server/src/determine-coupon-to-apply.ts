@@ -71,7 +71,11 @@ export const determineCouponToApply = async (
       ? candidateMerchantCoupon
       : null
 
-  const userPurchases = await getPurchasesForUser(userId)
+  const userAllPurchases = await getPurchasesForUser(userId)
+
+  const userPurchases = userAllPurchases.filter(
+    (purchase) => purchase.product?.productType === 'self-paced',
+  )
 
   const pppDetails = await getPPPDetails({
     specialMerchantCoupon: specialMerchantCouponToApply,
@@ -356,7 +360,7 @@ const getQualifyingSeatCount = async ({
 }) => {
   const {getPurchasesForUser} = getSdk({ctx: prismaCtx})
   const userPurchases = await getPurchasesForUser(userId)
-  const bulkPurchase = userPurchases.find(
+  const bulkPurchase = userPurchases?.find(
     ({productId, bulkCoupon}) =>
       productId === purchasingProductId && Boolean(bulkCoupon),
   )
