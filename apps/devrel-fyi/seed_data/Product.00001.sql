@@ -6,7 +6,7 @@ INSERT INTO MerchantAccount (id, status, identifier, label) VALUES
 -- Placeholder Product
 
 INSERT INTO Product (id, name, productType, status) VALUES
-('placeholder-product-id-1', 'Full Stack Vol 1', 'self-paced' 1);
+('placeholder-product-id-1', 'Full Stack Vol 1', 'self-paced', 1);
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 ('kcd_price_72cc00f9-24b8-4607-955f-c59714d3b1c8', 'placeholder-product-id-1', 'Full Stack Vol 1', 1, 1299);
