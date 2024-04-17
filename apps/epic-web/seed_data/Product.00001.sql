@@ -13,7 +13,7 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('kcd_99c9b532-6f12-4662-a93e-ac69bea7306a', 'kcd_47479d9f-10a0-4725-a6ee-5eac6299067a', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, "kcd_0a823046-d7d0-43d1-a39d-896cd76baff2", "price_1MZI37IugVgg5liQOBPzPBQv");
 
-INSERT INTO Product (id, name, productType status) VALUES
+INSERT INTO Product (id, name, productType, status) VALUES
 ('kcd_fb976b99-0633-4329-bbfb-f5f76dc278b3', "Testing JavaScript Standard", 'self-paced', 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
