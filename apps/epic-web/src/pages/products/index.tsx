@@ -172,7 +172,9 @@ const ProductCard: React.FC<{
   const canView = ability.can('view', 'Content')
 
   if (
-    (product.state === 'unavailable' || product.state === 'archived') &&
+    (product.state === 'unavailable' ||
+      product.state === 'archived' ||
+      product.state == 'draft') &&
     !purchase
   ) {
     return <div>No Products Found</div>
