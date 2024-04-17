@@ -122,7 +122,7 @@ To run MySQL (via Docker) execute the following command:
 
 ```shell
 pnpm db:start
-pnpm db:push
+DATABASE_URL="mysql://root@localhost:3309/kcd-products" pnpm db:push
 ```
 
 This starts the MySQL container (running on port `3309`) and applies any schema changes as needed.
