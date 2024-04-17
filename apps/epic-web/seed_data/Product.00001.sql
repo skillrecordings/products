@@ -38,7 +38,7 @@ INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, pri
 ('kcd_29062dfd-818e-4f55-a2d5-905ea1407a42', 'kcd_34e6140e-77e1-46ca-95f9-ef96a096aa9e', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 1, "kcd_1a194e9c-9eff-430e-a295-531d38ed6086", "price_1MZI36IugVgg5liQd7hJqnfD");
 
 INSERT INTO Product (id, name, productType, status) VALUES
-('kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38', "Epic React Pro", 'self-paced' 1);
+('kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38', "Epic React Pro", 'self-paced', 1);
 
 INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
 ('kcd_754b9122-5f02-4789-ad66-fe792eef1b5c', "kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e", 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38', 1, "prod_NJvu5JtYQvqHdc");
@@ -214,7 +214,7 @@ INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, pri
 -- Web Application Testing
 
 INSERT INTO Product (id, name, productType, status) VALUES
-('2e5b2993-d069-4e43-a7f1-24cffa83f7ac', 'Web Application Testing', 1);
+('2e5b2993-d069-4e43-a7f1-24cffa83f7ac', 'Web Application Testing', 'self-paced', 1);
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 ('kcd_price_181ebe25-e37c-4f49-8a90-ceac246333ae', '2e5b2993-d069-4e43-a7f1-24cffa83f7ac', '2eWeb Application Testing', 1, 300);
