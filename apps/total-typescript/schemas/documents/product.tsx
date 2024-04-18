@@ -26,10 +26,9 @@ export default {
     {
       name: 'unitAmount',
       title: 'Unit Amount',
-      description: 'number',
+      description: 'Current Price',
+      type: 'number',
       validation: (Rule) => Rule.min(1).required(),
-
-      type: 'string',
     },
     {
       name: 'convertkitPurchasedTagId',
