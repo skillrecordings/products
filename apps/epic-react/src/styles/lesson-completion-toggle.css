@@ -1,0 +1,5 @@
+[data-lesson-completion-toggle] {
+  [data-fetching] {
+    @apply h-auto py-0;
+  }
+}
