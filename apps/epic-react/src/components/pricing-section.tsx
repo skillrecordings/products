@@ -16,6 +16,18 @@ const productsSortOrder: {[key: string]: number} = {
   [PRODUCT_STANDARD_ID]: 3,
 }
 
+const productOptions: {[key: string]: {allowTeamPurchase: boolean}} = {
+  [PRODUCT_BASIC_ID]: {
+    allowTeamPurchase: false,
+  },
+  [PRODUCT_PRO_ID]: {
+    allowTeamPurchase: true,
+  },
+  [PRODUCT_STANDARD_ID]: {
+    allowTeamPurchase: false,
+  },
+}
+
 const removeModuleBySlug = (
   products: any[],
   slugToRemove: string,
@@ -53,11 +65,19 @@ const PricingSection: React.FC<{
     sortedProducts,
     'welcome-to-epic-react',
   )
+
+  const productsWithOptions = filteredProducts.map((product) => {
+    return {
+      ...product,
+      options: productOptions[product.productId],
+    }
+  })
+
   return (
     <div className="relative z-0">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <PricingTiers
-          products={filteredProducts}
+          products={productsWithOptions}
           userId={userId}
           purchases={purchases}
           couponIdFromCoupon={couponIdFromCoupon}
