@@ -27,6 +27,7 @@ type LayoutProps = {
   withNavigation?: boolean
   navigationProps?: {
     className?: string
+    navChildren: React.ReactNode
   }
   footerProps?: {
     className?: string
