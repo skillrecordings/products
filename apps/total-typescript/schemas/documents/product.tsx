@@ -12,8 +12,23 @@ export default {
     },
     {
       name: 'productId',
-      title: 'Product ID',
+      title: 'Skill Product ID',
       type: 'string',
+    },
+    {
+      name: 'quantityAvailable',
+      title: 'Quantity Available',
+      type: 'number',
+      description: 'Set to -1 for unlimited',
+      initialValue: -1,
+      validation: (Rule) => Rule.min(-1).required(),
+    },
+    {
+      name: 'unitAmount',
+      title: 'Unit Amount',
+      description: 'Current Price',
+      type: 'number',
+      validation: (Rule) => Rule.min(1).required(),
     },
     {
       name: 'convertkitPurchasedTagId',
