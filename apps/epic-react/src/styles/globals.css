@@ -22,6 +22,7 @@
 @import './ui/button.css';
 @import './login.css';
 @import './lesson-completion-toggle.css';
+@import './lessons-list.css';
 @import '../../node_modules/simplebar-react/dist/simplebar.min.css';
 
 @layer base {
@@ -332,26 +333,4 @@
 }
 .prose :where(img):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
   border-radius: 5px;
-}
-
-/* Lessons list */
-[data-lessons-list] {
-  [data-progress] {
-    @apply hidden;
-  }
-  & > [data-active] {
-    @apply bg-transparent font-semibold hover:bg-er-gray-300;
-    &[data-active='true'] {
-      @apply bg-er-gray-200 hover:bg-er-gray-300;
-    }
-    & > a {
-      @apply py-4;
-      [data-check-icon] {
-        @apply text-green-500;
-      }
-      & > span {
-        @apply hidden;
-      }
-    }
-  }
 }
