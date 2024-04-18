@@ -31,6 +31,19 @@ export default {
       validation: (Rule) => Rule.min(1).required(),
     },
     {
+      name: 'type',
+      title: 'Product Type',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'self-paced',
+      options: {
+        list: [
+          {title: 'self-paced', value: 'self-paced'},
+          {title: 'live', value: 'live'},
+        ],
+      },
+    },
+    {
       name: 'convertkitPurchasedTagId',
       title: 'Convertkit Purchase Tag ID',
       type: 'string',
