@@ -1,43 +1,90 @@
 import * as React from 'react'
-import {motion, AnimateSharedLayout} from 'framer-motion'
-import cx from 'classnames'
-import BlockedOverlay from '@/components/video-overlays/blocked-overlay'
+import {useRouter} from 'next/router'
+import Image from 'next/image'
+import Link from 'next/link'
+import {useSession} from 'next-auth/react'
+import {motion} from 'framer-motion'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {MuxPlayerRefAttributes} from '@mux/mux-player-react'
+import pluralize from 'pluralize'
+import {capitalize, divide} from 'lodash'
+import Balancer from 'react-wrap-balancer'
 
-import Layout from '@/components/app/layout'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {ArticleJsonLd, CourseJsonLd} from '@skillrecordings/next-seo'
 import {Video} from '@skillrecordings/skill-lesson/video/video'
-import {useRouter} from 'next/router'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import * as Collection from '@skillrecordings/skill-lesson/video/collection'
+import * as LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {Button, ScrollArea, ScrollBar, Skeleton} from '@skillrecordings/ui'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {LessonDescription} from '@skillrecordings/skill-lesson/video/lesson-description'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
-import {MuxPlayerRefAttributes} from '@mux/mux-player-react'
-import {trpc} from '@/trpc/trpc.client'
-import * as LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
-import {useSession} from 'next-auth/react'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import Balancer from 'react-wrap-balancer'
-import Spinner from '@/components/spinner'
-import pluralize from 'pluralize'
 import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import * as Collection from '@skillrecordings/skill-lesson/video/collection'
-import {Button, ScrollArea, ScrollBar, Skeleton} from '@skillrecordings/ui'
-import Image from 'next/image'
-import Link from 'next/link'
-import {Icon} from '@skillrecordings/skill-lesson/icons'
-import {capitalize, divide} from 'lodash'
-import {cn} from '@skillrecordings/ui/utils/cn'
-import {getOgImage} from '@/utils/get-og-image'
-import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
-import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
+
+import {trpc} from '@/trpc/trpc.client'
+import BlockedOverlay from '@/components/video-overlays/blocked-overlay'
 import Container from '@/components/app/container'
+import Spinner from '@/components/spinner'
+import Layout from '@/components/app/layout'
+import ProgressBar from '@/components/progress-bar'
+import {getOgImage} from '@/utils/get-og-image'
 import {track} from '@/utils/analytics'
 import {lessonPathBuilder} from '@/utils/lesson-path-builder'
+
+const NavigationProgressModule: React.FC<{
+  module: Module
+  moduleProgress: any
+  moduleProgressStatus: 'error' | 'loading' | 'success'
+}> = ({module, moduleProgress, moduleProgressStatus}) => {
+  const percentComplete = moduleProgress
+    ? Number(
+        (
+          (100 * moduleProgress.completedLessonCount) /
+          moduleProgress.lessonCount
+        ).toFixed(0),
+      )
+    : 0
+  return moduleProgress ? (
+    moduleProgressStatus === 'loading' ? (
+      <Skeleton className="h-10 w-[220px] rounded-md bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
+    ) : (
+      <div className="flex items-center">
+        <span className="ml-2 mr-3 text-lg text-er-gray-500">/</span>
+        {module?.image && (
+          <div className="mr-2 inline-block h-10 w-10">
+            <Image
+              src={module.image}
+              alt={module.title}
+              width={40}
+              height={40}
+            />
+          </div>
+        )}
+        <div className="flex flex-col">
+          {module?.resources && (
+            <h4 className="inline-block text-sm font-semibold leading-tight md:text-base">
+              <Link
+                href={`/modules/${module.slug.current}/${module.resources[0]?.slug}`}
+              >
+                {module.title}
+              </Link>
+            </h4>
+          )}
+          <ProgressBar percentComplete={percentComplete} />
+        </div>
+      </div>
+    )
+  ) : null
+}
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -55,12 +102,17 @@ const ExerciseTemplate: React.FC<{
     image: module.image,
   })
   const {ogImage: moduleOGImage, description: moduleDescription} = module
-  const pageTitle = `${title}`
+  const pageTitle = title
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? ogImage : {url: moduleOGImage}
   //TODO path here could also include module slug and section (as appropriate)
   const path = `/${pluralize('module')}`
   const {data: session, status: sessionStatus} = useSession()
+
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: module.slug.current,
+    })
 
   const addProgressMutation = trpc.progress.add.useMutation()
   const {data: lessonResources, status: lessonResourcesStatus} =
@@ -87,7 +139,6 @@ const ExerciseTemplate: React.FC<{
   // )
   const [isTheaterMode, setIsTheaterMode] = React.useState<boolean>(false)
 
-
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -106,6 +157,15 @@ const ExerciseTemplate: React.FC<{
             images: [{url: shareCard.url as string}],
             description: pageDescription as string,
           },
+        }}
+        navigationProps={{
+          navChildren: (
+            <NavigationProgressModule
+              module={epicReactModule}
+              moduleProgress={moduleProgress}
+              moduleProgressStatus={moduleProgressStatus}
+            />
+          ),
         }}
       >
         <CourseJsonLd
@@ -333,6 +393,7 @@ const ExerciseTemplate: React.FC<{
                     >
                       <LessonList
                         module={module}
+                        moduleProgressStatus={moduleProgressStatus}
                         path={path}
                         isTheaterMode={isTheaterMode}
                         theaterModeHandler={setIsTheaterMode}
@@ -351,6 +412,7 @@ const ExerciseTemplate: React.FC<{
                 >
                   <LessonList
                     module={epicReactModule}
+                    moduleProgressStatus={moduleProgressStatus}
                     path={path}
                     isTheaterMode={isTheaterMode}
                     theaterModeHandler={setIsTheaterMode}
@@ -370,6 +432,7 @@ export default ExerciseTemplate
 
 const LessonList: React.FC<{
   module: Module
+  moduleProgressStatus: 'error' | 'loading' | 'success'
   className?: string
   scrollAreaClassName?: string
   path: string
@@ -377,6 +440,7 @@ const LessonList: React.FC<{
   theaterModeHandler: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({
   module,
+  moduleProgressStatus,
   className,
   scrollAreaClassName,
   path,
@@ -384,12 +448,6 @@ const LessonList: React.FC<{
   theaterModeHandler,
 }) => {
   const scrollContainerRef = React.useRef<any>(null)
-
-  const {data: moduleProgress, status: moduleProgressStatus} =
-    trpc.moduleProgress.bySlug.useQuery({
-      slug: module.slug.current,
-    })
-
 
   return (
     <div className="group relative">
@@ -487,7 +545,7 @@ const LessonList: React.FC<{
               {moduleProgressStatus === 'loading' ? (
                 <Skeleton className="h-24 rounded-none bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
               ) : (
-                <Collection.Section className="border-er-gray-200 bg-transparent font-semibold leading-tight transition data-[state='open']:rounded-none data-[state]:rounded-none data-[state='closed']:border-b hover:bg-er-gray-300 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-primary dark:[&>[data-check-icon]]:text-primary [&>[data-progress]]:h-[2px] [&>[data-progress]]:bg-primary dark:[&>[data-progress]]:bg-primary">
+                <Collection.Section className="border-er-gray-200 bg-transparent font-semibold leading-tight transition data-[state='open']:rounded-none data-[state]:rounded-none data-[state='closed']:border-b hover:bg-er-gray-300 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-green-500 dark:[&>[data-check-icon]]:text-green-500 [&>[data-progress]]:h-[2px] [&>[data-progress]]:bg-primary dark:[&>[data-progress]]:bg-primary">
                   <Collection.Lessons className="border-none bg-transparent py-0">
                     <Collection.Lesson
                       className='pl-4 transition before:hidden data-[active="true"]:bg-white hover:bg-er-gray-300 dark:data-[active="true"]:bg-er-gray-200 dark:hover:data-[active="true"]:bg-er-gray-300 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-green-500 [&_[data-check-icon]]:opacity-100 dark:[&_[data-check-icon]]:text-green-500 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:transition [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
@@ -510,8 +568,8 @@ const LessonList: React.FC<{
       </ScrollAreaPrimitive.Root>
       <button
         onClick={() => theaterModeHandler(!isTheaterMode)}
-        className={cx(
-          'absolute right-2 z-10 flex items-center justify-center rounded-md bg-background p-2 text-text opacity-0 duration-150 group-hover:opacity-75 group-hover:hover:bg-blue-500 group-hover:hover:opacity-100',
+        className={cn(
+          'absolute right-2 z-10 hidden items-center justify-center rounded-md bg-background p-2 text-text opacity-0 duration-150 group-hover:opacity-75 group-hover:hover:bg-blue-500 group-hover:hover:opacity-100 lg:flex',
           isTheaterMode ? 'top-2' : 'bottom-2',
         )}
       >
