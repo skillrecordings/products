@@ -180,6 +180,7 @@ model Price {
 model Product {
   id               String               @id @default(uuid())
   name             String
+  productType      String?
   key              String?
   createdAt        DateTime             @default(now())
   status           Int                  @default(0)

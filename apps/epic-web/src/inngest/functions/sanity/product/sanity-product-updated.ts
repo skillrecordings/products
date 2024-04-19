@@ -40,6 +40,7 @@ export const sanityProductUpdated = inngest.createFunction(
       image,
       upgradableTo,
       state,
+      type,
     } = sanityProduct
 
     if (!productId) {
@@ -241,6 +242,7 @@ export const sanityProductUpdated = inngest.createFunction(
             name: title,
             quantityAvailable,
             status: state === 'active' ? 1 : 0,
+            productType: type,
           },
           include: {
             prices: true,
