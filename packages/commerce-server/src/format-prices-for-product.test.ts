@@ -638,7 +638,7 @@ test('PPP available for self-paced workshop having a valid live-event purchase',
     ctx,
   })
 
-  expect(availableCoupons.length).toBe(1)
+  expect(availableCoupons[0].type).toBe('ppp')
 })
 
 test('multiple purchases applies fixed discount for bundle upgrade', async () => {
