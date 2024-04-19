@@ -26,13 +26,13 @@ import Skeleton from '@/components/skeleton'
 import Feedback from '@/components/feedback'
 
 type NavigationProps = {
-  children?: React.ReactNode
+  navChildren?: React.ReactNode
   className?: string
 }
 
-const sellingLive = true
+const sellingLive = process.env.NEXT_PUBLIC_SELLING_LIVE
 
-const Navigation: React.FC<NavigationProps> = ({children}) => {
+const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
   const {data: sessionData, status: sessionStatus} = useSession()
   const [isOpen, setOpen] = React.useState<boolean>(false)
   const [hasMounted, setMounted] = React.useState(false)
@@ -243,13 +243,13 @@ const Navigation: React.FC<NavigationProps> = ({children}) => {
           </Link>
 
           {/* TODO: reference: epic-react-gatsby-main/src/layouts/video-resource-page-layout.js */}
-          {children && isXL && (
+          {navChildren && (
             <motion.div
-              className="ml-4 text-text"
+              className="ml-4 hidden text-text xl:block"
               initial={false}
               transition={{type: 'spring', mass: 0.35, velocity: 1}}
             >
-              {children}
+              {navChildren}
             </motion.div>
           )}
         </div>
