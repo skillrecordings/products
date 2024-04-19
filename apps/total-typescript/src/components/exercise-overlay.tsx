@@ -9,6 +9,8 @@ import {ExclamationIcon} from '@heroicons/react/solid'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import Link from 'next/link'
+import {Button} from '@skillrecordings/ui'
 
 const ExerciseOverlay = () => {
   const {lesson, module} = useLesson()
@@ -22,9 +24,17 @@ const ExerciseOverlay = () => {
   const isStackblitzCompatibleBrowser = !(isSafari || isFirefox)
   const {exerciseGitHubUrl} = getExerciseGitHubUrl({stackblitz, module})
 
+  // Check if stackblitz URL ends with a valid extension
+  const validExtensions: string[] = ['.tsx', '.ts', '.js', '.jsx']
+  const stackblitzFilename: string = stackblitz?.split('/').pop() || ''
+  const stackblitzExtension: string = stackblitzFilename.split('.').pop() || ''
+  const isStackblitzSuitable: boolean = validExtensions.includes(
+    '.' + stackblitzExtension,
+  )
+
   return (
     <div className=" bg-black/30 ">
-      {stackblitz ? (
+      {isStackblitzSuitable ? (
         <>
           <div className="hidden w-full items-center justify-between p-3 pl-5 font-medium sm:flex sm:text-lg">
             <div className="flex flex-col">
@@ -97,24 +107,62 @@ const ExerciseOverlay = () => {
           )}
         </>
       ) : (
-        github?.repo && (
-          <div className="aspect-video">
-            <p className="font-text text-3xl font-bold">Now it’s your turn!</p>
-            <p className="">
-              Try solving this exercise inside{' '}
-              <a
-                href={`https://github.com/total-typescript/${github.repo}/blob/main/${stackblitz}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1 rounded-sm bg-gray-800 px-1 py-0.5 font-mono text-sm"
-              >
-                <Icon name="Github" /> {stackblitz}
-              </a>{' '}
-              file.
-            </p>
-            <Actions />
+        <div className="aspect-video">
+          <div className="relative flex h-full w-full flex-col items-center justify-center gap-3 px-5 pb-10 pt-20 text-center md:pb-24 md:pt-16">
+            <div className="pb-8">
+              <p className="text-2xl font-semibold">
+                Now it’s your turn! Try solving this exercise.{' '}
+              </p>
+              <p className="text-xl">This exercise needs to be run locally</p>
+            </div>
+            <div>
+              {module.github && (
+                <Button
+                  asChild
+                  className="group relative flex flex-col items-center rounded-l bg-transparent pl-0 pr-0 sm:flex-row"
+                  size="lg"
+                >
+                  <Link href={exerciseGitHubUrl} target="_blank">
+                    <span className="flex h-full flex-shrink-0 items-center rounded bg-primary pl-7 pr-7 sm:rounded-l sm:rounded-r-none sm:pr-2">
+                      <Icon name="Github" size="20" className="mr-2" />
+                      Exercise Files
+                    </span>
+                    <span className="-ml-px hidden h-full flex-shrink-0 items-center justify-center rounded-r bg-primary pr-7 text-sm  transition sm:flex">
+                      /{stackblitz}
+                    </span>
+                  </Link>
+                </Button>
+              )}
+            </div>
+            {module?.github?.repo && (
+              <p className="pt-3 text-sm text-gray-200 sm:pt-2">
+                Start by cloning the{' '}
+                <a
+                  className="underline"
+                  href={`https://github.com/total-typescript/${module.github.repo}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  project repository
+                </a>{' '}
+                and follow instructions in the{' '}
+                <a
+                  className="underline"
+                  href={`https://github.com/total-typescript/${module.github.repo}#readme`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  README
+                </a>{' '}
+                to complete this exercise.
+              </p>
+            )}
+
+            <div className="bottom-10 flex items-center justify-center gap-3 pt-10 md:absolute md:pt-0">
+              <Actions />
+            </div>
           </div>
-        )
+        </div>
       )}
       {github?.repo && (
         <div className="flex aspect-video flex-col items-center justify-center gap-5 p-3 text-center sm:hidden">
