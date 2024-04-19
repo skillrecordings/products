@@ -571,7 +571,7 @@ test('PPP available for self-paced workshop having a valid live-event purchase',
     key: 'live event',
     status: 1,
     quantityAvailable: -1,
-    productType: 'live-event',
+    productType: 'live',
   }
 
   const mockPriceLiveEvent = {
@@ -603,7 +603,7 @@ test('PPP available for self-paced workshop having a valid live-event purchase',
     product: {
       id: 'product-live',
       name: 'live event workshop',
-      productType: 'live-event',
+      productType: 'live',
     },
   }
 
@@ -638,7 +638,7 @@ test('PPP available for self-paced workshop having a valid live-event purchase',
     ctx,
   })
 
-  expect(availableCoupons[0].type).toBe('ppp')
+  expect(availableCoupons[0]?.type).toBe('ppp')
 })
 
 test('multiple purchases applies fixed discount for bundle upgrade', async () => {
