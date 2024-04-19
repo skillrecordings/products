@@ -393,7 +393,7 @@ const ExerciseTemplate: React.FC<{
                       style={{maxHeight: 'calc(100dvh - 300px)'}}
                     >
                       <LessonList
-                        module={module}
+                        module={epicReactModule}
                         moduleProgressStatus={moduleProgressStatus}
                         path={path}
                         isTheaterMode={isTheaterMode}
