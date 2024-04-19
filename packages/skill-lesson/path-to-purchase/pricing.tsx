@@ -80,6 +80,7 @@ type PricingProps = {
     isPPPEnabled?: boolean
     teamQuantityLimit?: number
     saleCountdownRenderer?: ({coupon}: {coupon: any}) => React.ReactNode
+    allowTeamPurchase?: boolean
   }
   id?: string
 }
@@ -135,6 +136,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     isLiveEvent: false,
     saleCountdownRenderer: () => null,
     teamQuantityLimit: 100,
+    allowTeamPurchase: true,
   },
 }) => {
   const {
@@ -143,6 +145,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     withGuaranteeBadge = true,
     isLiveEvent = false,
     teamQuantityLimit = 100,
+    allowTeamPurchase = true,
   } = options
   const {
     addPrice,
@@ -437,44 +440,46 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 >
                   <fieldset>
                     <legend className="sr-only">{name}</legend>
-                    <div data-team-switch="">
-                      <label htmlFor="team-switch">
-                        Buying for myself or for my team
-                      </label>
-                      <button
-                        role="button"
-                        type="button"
-                        onClick={() => {
-                          setIsBuyingForTeam(false)
-                          setQuantity(1)
-                        }}
-                      >
-                        For myself
-                      </button>
-                      <Switch.Root
-                        aria-label={
-                          isBuyingForTeam ? 'For my team' : 'For myself'
-                        }
-                        onCheckedChange={() => {
-                          setIsBuyingForTeam(!isBuyingForTeam)
-                          isBuyingForTeam ? setQuantity(1) : setQuantity(5)
-                        }}
-                        checked={isBuyingForTeam}
-                        id="team-switch"
-                      >
-                        <Switch.Thumb />
-                      </Switch.Root>
-                      <button
-                        role="button"
-                        type="button"
-                        onClick={() => {
-                          setIsBuyingForTeam(true)
-                          setQuantity(5)
-                        }}
-                      >
-                        For my team
-                      </button>
-                    </div>
+                    {allowTeamPurchase && (
+                      <div data-team-switch="">
+                        <label htmlFor="team-switch">
+                          Buying for myself or for my team
+                        </label>
+                        <button
+                          role="button"
+                          type="button"
+                          onClick={() => {
+                            setIsBuyingForTeam(false)
+                            setQuantity(1)
+                          }}
+                        >
+                          For myself
+                        </button>
+                        <Switch.Root
+                          aria-label={
+                            isBuyingForTeam ? 'For my team' : 'For myself'
+                          }
+                          onCheckedChange={() => {
+                            setIsBuyingForTeam(!isBuyingForTeam)
+                            isBuyingForTeam ? setQuantity(1) : setQuantity(5)
+                          }}
+                          checked={isBuyingForTeam}
+                          id="team-switch"
+                        >
+                          <Switch.Thumb />
+                        </Switch.Root>
+                        <button
+                          role="button"
+                          type="button"
+                          onClick={() => {
+                            setIsBuyingForTeam(true)
+                            setQuantity(5)
+                          }}
+                        >
+                          For my team
+                        </button>
+                      </div>
+                    )}
                     {isBuyingForTeam && (
                       <div data-quantity-input="">
                         <div>
