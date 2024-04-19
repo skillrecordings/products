@@ -19,6 +19,7 @@ import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
+import {ModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
 import * as LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
@@ -42,7 +43,7 @@ import {lessonPathBuilder} from '@/utils/lesson-path-builder'
 
 const NavigationProgressModule: React.FC<{
   module: Module
-  moduleProgress: any
+  moduleProgress: ModuleProgress
   moduleProgressStatus: 'error' | 'loading' | 'success'
 }> = ({module, moduleProgress, moduleProgressStatus}) => {
   const percentComplete = moduleProgress
@@ -162,7 +163,7 @@ const ExerciseTemplate: React.FC<{
           navChildren: (
             <NavigationProgressModule
               module={epicReactModule}
-              moduleProgress={moduleProgress}
+              moduleProgress={moduleProgress as ModuleProgress}
               moduleProgressStatus={moduleProgressStatus}
             />
           ),
