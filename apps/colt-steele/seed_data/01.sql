@@ -160,7 +160,7 @@ CREATE TABLE `Price` (
 CREATE TABLE `Product` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `productType` VARCHAR(191) NOT NULL,
+    `productType` VARCHAR(191) NULL,
     `key` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `status` INTEGER NOT NULL DEFAULT 0,
