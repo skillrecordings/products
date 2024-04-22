@@ -18,8 +18,8 @@ const Party = ({
     return Math.floor(min + Math.random() * (max - min + 1))
   }
 
-  function drawStar(ctx: any) {
-    const numPoints = (this as any).numPoints || (randomInt(4, 6) as number)
+  function drawStar(this: any, ctx: any) {
+    const numPoints = this.numPoints || (randomInt(4, 6) as number)
     this.numPoints = numPoints
     const outerRadius = this.w
     const innerRadius = outerRadius / 2
