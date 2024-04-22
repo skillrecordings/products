@@ -530,11 +530,11 @@ const AccountDropdown = () => {
   }
 
   return (
-    <li className="h-full">
+    <li className="relative h-full">
       <NavigationMenu.Root
         aria-label="Account"
         delayDuration={0}
-        className="relative flex h-full"
+        className="flex h-full"
       >
         <NavigationMenu.List className="flex h-full items-center justify-center">
           <NavigationMenu.Item className="">
@@ -563,7 +563,7 @@ const AccountDropdown = () => {
             <NavigationMenu.Content
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
-              className="absolute left-0 top-[90%] w-full rounded"
+              className="absolute right-0 top-[90%] w-full min-w-[110px] rounded"
             >
               <ul className="flex w-full flex-col items-start rounded bg-[#1F2735] p-1 text-sm lg:text-base">
                 {canViewTeam && (
