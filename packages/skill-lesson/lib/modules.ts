@@ -184,7 +184,7 @@ export const getModuleById = async (id: string) =>
         _type,
         title,
         "slug": slug.current,
-        "image": image.asset->url,
+        "image": image.url,
     }`,
     {id: `${id}`},
   )
