@@ -158,6 +158,7 @@ export const getWorkshop = async (slug: string) =>
           description,
           action,
           image,
+          unitAmount,
           upgradableTo[0]->{
             ...,
             productId,
