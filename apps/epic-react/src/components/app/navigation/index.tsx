@@ -128,6 +128,22 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
           >
             FAQ
           </Link>
+          {isAuthenticated ? (
+            <Link
+              href="/learn"
+              className={twMerge(
+                cx(
+                  'rounded-lg px-3 py-2 text-text transition-all duration-150 ease-in-out lg:bg-blue-500 lg:text-white',
+                  {
+                    'bg-er-gray-100 sm:opacity-100 lg:bg-er-gray-100 lg:text-text':
+                      location === '/learn',
+                  },
+                ),
+              )}
+            >
+              Modules
+            </Link>
+          ) : null}
           {/* TODO: sellingLive? */}
           {sellingLive && !isAuthenticated ? (
             <Link
