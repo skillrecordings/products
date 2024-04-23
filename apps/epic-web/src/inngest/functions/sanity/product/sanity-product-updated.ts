@@ -44,11 +44,11 @@ export const sanityProductUpdated = inngest.createFunction(
     } = sanityProduct
 
     if (!productId) {
-      throw new Error(`Product id not found`)
+      throw new NonRetriableError(`Product id not found`)
     }
 
     const product = await step.run('get product in database', async () => {
-      return await prisma.product.findUnique({
+      const product = await prisma.product.findUnique({
         where: {
           id: productId,
         },
@@ -56,25 +56,29 @@ export const sanityProductUpdated = inngest.createFunction(
           prices: true,
         },
       })
+
+      if (!product) {
+        throw new Error(`Product not found [${productId}]`)
+      }
+
+      return product
     })
 
-    if (!product) {
-      throw new Error(`Product not found [${productId}]`)
-    }
-
     const merchantProduct = await step.run('get merchant product', async () => {
-      return await prisma.merchantProduct.findFirst({
+      const merchantProduct = await prisma.merchantProduct.findFirst({
         where: {
           productId,
         },
       })
-    })
 
-    if (!merchantProduct) {
-      throw new Error(
-        `Merchant Product not found for product id [${productId}]`,
-      )
-    }
+      if (!merchantProduct) {
+        throw new Error(
+          `Merchant Product not found for product id [${productId}]`,
+        )
+      }
+
+      return merchantProduct
+    })
 
     const currentProductUpgrades = await step.run(
       'get product upgrades',
@@ -120,8 +124,9 @@ export const sanityProductUpdated = inngest.createFunction(
 
     const stripeProduct = await step.run('get stripe product', async () => {
       if (!merchantProduct?.identifier) {
-        throw new Error('Merchant Product not found')
+        throw new NonRetriableError('Merchant Product not found')
       }
+
       return await stripe.products.retrieve(merchantProduct.identifier)
     })
 
