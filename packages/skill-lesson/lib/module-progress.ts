@@ -62,6 +62,13 @@ export async function getModuleProgress({
     }
   })
 
+  const latestCompletedLesson = [...filteredModuleLessonProgress]
+    .sort(
+      (a, b) =>
+        (b?.completedAt?.getTime() || 0) - (a?.completedAt?.getTime() || 0),
+    )
+    .shift()
+
   const moduleProgressSections = allModuleSections
     .filter((section) => !isEmpty(section.resources))
     .map((section) => {
@@ -105,6 +112,10 @@ export async function getModuleProgress({
     return isEmpty(section.resources)
   })
 
+  const moduleCompleted = hasEmptySection
+    ? false // if there are empty sections, we consider the module incomplete
+    : moduleProgressLessons.every((lesson) => lesson.lessonCompleted)
+
   return ModuleProgressSchema.parse({
     moduleId: module._id,
     nextLesson:
@@ -112,9 +123,7 @@ export async function getModuleProgress({
     nextSection:
       moduleProgressSections.find((section) => !section.sectionCompleted) ||
       null,
-    moduleCompleted: hasEmptySection
-      ? false // if there are empty sections, we consider the module incomplete
-      : moduleProgressLessons.every((lesson) => lesson.lessonCompleted),
+    moduleCompleted,
     percentComplete: Math.round(
       (moduleLessonProgress.length / allModuleLessons.length) * 100,
     ),
@@ -124,5 +133,8 @@ export async function getModuleProgress({
     lessonCount: allModuleLessons.length,
     lessons: moduleProgressLessons,
     sections: moduleProgressSections,
+    moduleCompletedAt: moduleCompleted
+      ? latestCompletedLesson?.completedAt
+      : null,
   })
 }

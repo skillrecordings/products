@@ -21,7 +21,7 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import {ModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
-import * as LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
+import LessonCompleteToggle from '@/components/lesson-completion-toggle'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
@@ -226,21 +226,7 @@ const ExerciseTemplate: React.FC<{
                     )}
                     {displayLessonCompletionToggle && (
                       <section aria-label="track progress" className="group">
-                        <div className="mx-auto flex w-full max-w-4xl items-center justify-center gap-5 px-5">
-                          {/* {sessionStatus === 'loading' ? (
-                            <Skeleton className="h-10 w-full" />
-                          ) : ( */}
-                          <LessonCompletionToggle.Root>
-                            <Button asChild variant="secondary">
-                              <LessonCompletionToggle.Toggle className="flex cursor-pointer flex-row-reverse items-center gap-1 rounded p-3 data-[fetching='true']:cursor-wait [&>button]:x-[relative,h-5,w-10,rounded-full,border,border-gray-700/50,bg-gray-800,shadow-md,shadow-black/50] [&_button>span[data-state='checked']]:x-[translate-x-5] [&_button>span]:x-[block,h-4,w-4,translate-x-0.5,rounded-full,bg-gray-200,shadow-sm,shadow-black/50,transition-all,ease-out] [&_button[data-state='checked']]:x-[bg-primary]">
-                                <span className="text-base">
-                                  Mark as complete
-                                </span>
-                              </LessonCompletionToggle.Toggle>
-                            </Button>
-                          </LessonCompletionToggle.Root>
-                          {/* )} */}
-                        </div>
+                        <LessonCompleteToggle />
                       </section>
                     )}
                   </div>
