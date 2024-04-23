@@ -33,14 +33,15 @@ import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 
 import {trpc} from '@/trpc/trpc.client'
+import {getOgImage} from '@/utils/get-og-image'
+import {track} from '@/utils/analytics'
+import {lessonPathBuilder} from '@/utils/lesson-path-builder'
 import BlockedOverlay from '@/components/video-overlays/blocked-overlay'
 import Container from '@/components/app/container'
 import Spinner from '@/components/spinner'
 import Layout from '@/components/app/layout'
 import ProgressBar from '@/components/progress-bar'
-import {getOgImage} from '@/utils/get-og-image'
-import {track} from '@/utils/analytics'
-import {lessonPathBuilder} from '@/utils/lesson-path-builder'
+import RepositoryLink from '@/components/repository-link'
 
 const NavigationProgressModule: React.FC<{
   module: Module
@@ -133,6 +134,7 @@ const ExerciseTemplate: React.FC<{
     session
 
   const epicReactModule = {...module, moduleType: 'module'}
+  console.log(epicReactModule)
 
   // TODO: fix hydration issue
   // const [isTheaterMode, setIsTheaterMode] = useLocalStorage(
@@ -221,7 +223,10 @@ const ExerciseTemplate: React.FC<{
                 }
               >
                 <div className={isTheaterMode ? 'col-span-4' : ''}>
-                  <div className="flex w-full items-center justify-end py-5 sm:py-6">
+                  <div className="flex w-full items-center justify-between py-5 sm:py-6">
+                    {epicReactModule.github?.repo && (
+                      <RepositoryLink codeUrl={epicReactModule.github.repo} />
+                    )}
                     {displayLessonCompletionToggle && (
                       <section aria-label="track progress" className="group">
                         <div className="mx-auto flex w-full max-w-4xl items-center justify-center gap-5 px-5">
