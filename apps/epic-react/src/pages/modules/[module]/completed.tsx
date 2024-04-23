@@ -40,11 +40,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   }
-  const {moduleCompleted, nextLesson, moduleCompletedAt} =
-    await getModuleProgress({
-      moduleSlug: module?.slug.current,
-      userId: token.sub,
-    })
+  const {moduleCompleted, nextLesson} = await getModuleProgress({
+    moduleSlug: module?.slug.current,
+    userId: token.sub,
+  })
 
   if (!moduleCompleted) {
     return {
@@ -59,16 +58,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       module: moduleWithSectionsAndLessons,
       nextModule,
-      moduleCompletedAt: moduleCompletedAt?.toISOString(),
     },
   }
 }
 
-const CompletedPage: React.FC<any> = ({
-  module,
-  nextModule,
-  moduleCompletedAt,
-}) => {
+const CompletedPage: React.FC<any> = ({module, nextModule}) => {
   return (
     <>
       <Layout
