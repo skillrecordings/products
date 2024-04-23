@@ -134,7 +134,6 @@ const ExerciseTemplate: React.FC<{
     session
 
   const epicReactModule = {...module, moduleType: 'module'}
-  console.log(epicReactModule)
 
   // TODO: fix hydration issue
   // const [isTheaterMode, setIsTheaterMode] = useLocalStorage(
@@ -142,8 +141,6 @@ const ExerciseTemplate: React.FC<{
   //   false,
   // )
   const [isTheaterMode, setIsTheaterMode] = React.useState<boolean>(false)
-
-  console.log({transcript, lessonBodySerialized, lessonBodyPreviewSerialized})
 
   return (
     <VideoProvider
