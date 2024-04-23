@@ -72,7 +72,7 @@ export const ModuleProgressSchema = z.object({
       lessonCompleted: z.boolean().default(false),
     }),
   ),
-  moduleCompletedAt: z.date().nullable(),
+  moduleCompletedAt: z.string().nullable(),
 })
 
 export type ModuleProgress = z.infer<typeof ModuleProgressSchema>
