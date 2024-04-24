@@ -134,7 +134,7 @@ export async function getModuleProgress({
     lessons: moduleProgressLessons,
     sections: moduleProgressSections,
     moduleCompletedAt: moduleCompleted
-      ? latestCompletedLesson?.completedAt
+      ? String(latestCompletedLesson?.completedAt)
       : null,
   })
 }
