@@ -1062,8 +1062,8 @@ export const Banner: React.FC<{
               </strong>{' '}
               <span>
                 {activeEvent.quantityAvailable}{' '}
-                {(pluralize('spot', activeEvent.quantityAvailable), true)} left
-                for {activeEvent.event.title} workshop.
+                {pluralize('spot', activeEvent.quantityAvailable)} left for{' '}
+                {activeEvent.event.title} workshop.
               </span>
             </p>
             <div className="flex-shrink-0 rounded bg-white px-2 py-0.5 font-semibold text-primary shadow-md">
