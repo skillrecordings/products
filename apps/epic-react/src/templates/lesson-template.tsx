@@ -4,13 +4,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {useSession} from 'next-auth/react'
 import {motion} from 'framer-motion'
-import {cn} from '@skillrecordings/ui/utils/cn'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react'
 import pluralize from 'pluralize'
 import {capitalize, divide} from 'lodash'
 import Balancer from 'react-wrap-balancer'
 
+import {cn} from '@skillrecordings/ui/utils/cn'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {ArticleJsonLd, CourseJsonLd} from '@skillrecordings/next-seo'
 import {Video} from '@skillrecordings/skill-lesson/video/video'
@@ -20,7 +21,7 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import {ModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
-import * as LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
+import LessonCompleteToggle from '@/components/lesson-completion-toggle'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
@@ -32,14 +33,15 @@ import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 
 import {trpc} from '@/trpc/trpc.client'
+import {getOgImage} from '@/utils/get-og-image'
+import {track} from '@/utils/analytics'
+import {lessonPathBuilder} from '@/utils/lesson-path-builder'
 import BlockedOverlay from '@/components/video-overlays/blocked-overlay'
 import Container from '@/components/app/container'
 import Spinner from '@/components/spinner'
 import Layout from '@/components/app/layout'
 import ProgressBar from '@/components/progress-bar'
-import {getOgImage} from '@/utils/get-og-image'
-import {track} from '@/utils/analytics'
-import {lessonPathBuilder} from '@/utils/lesson-path-builder'
+import RepositoryLink from '@/components/repository-link'
 
 const NavigationProgressModule: React.FC<{
   module: Module
@@ -218,172 +220,21 @@ const ExerciseTemplate: React.FC<{
                 }
               >
                 <div className={isTheaterMode ? 'col-span-4' : ''}>
-                  <div className="flex w-full items-center justify-end py-5 sm:py-6">
+                  <div className="flex w-full items-center justify-between py-5 sm:py-6">
+                    {epicReactModule.github?.repo && (
+                      <RepositoryLink codeUrl={epicReactModule.github.repo} />
+                    )}
                     {displayLessonCompletionToggle && (
                       <section aria-label="track progress" className="group">
-                        <div className="mx-auto flex w-full max-w-4xl items-center justify-center gap-5 px-5">
-                          {/* {sessionStatus === 'loading' ? (
-                            <Skeleton className="h-10 w-full" />
-                          ) : ( */}
-                          <LessonCompletionToggle.Root>
-                            <Button asChild variant="secondary">
-                              <LessonCompletionToggle.Toggle className="flex cursor-pointer flex-row-reverse items-center gap-1 rounded p-3 data-[fetching='true']:cursor-wait [&>button]:x-[relative,h-5,w-10,rounded-full,border,border-gray-700/50,bg-gray-800,shadow-md,shadow-black/50] [&_button>span[data-state='checked']]:x-[translate-x-5] [&_button>span]:x-[block,h-4,w-4,translate-x-0.5,rounded-full,bg-gray-200,shadow-sm,shadow-black/50,transition-all,ease-out] [&_button[data-state='checked']]:x-[bg-primary]">
-                                <span className="text-base">
-                                  Mark as complete
-                                </span>
-                              </LessonCompletionToggle.Toggle>
-                            </Button>
-                          </LessonCompletionToggle.Root>
-                          {/* )} */}
-                        </div>
+                        <LessonCompleteToggle />
                       </section>
                     )}
                   </div>
                   <hr className="border-er-gray-300 opacity-50" />
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Error dignissimos neque, hic fugit, sequi ipsum quia officia
-                  alias molestiae cum nisi harum enim maiores culpa voluptate
-                  quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat.
-                  {/* {summaryMdx && (
-                        <>
-                          <div className="prose my-8 max-w-none lg:prose-lg">
-                            <MDXRenderer>
-                              {summaryMdx.childMdx.body}
-                            </MDXRenderer>
-                          </div>
-                          <hr className="opacity-50" />
-                        </>
-                      )}
-                      {videoData && (
-                        <Transcript
-                          setPlaying={setPlaying}
-                          resourceId={slug}
-                          player={playerRef}
-                        />
-                      )} */}
+                  <div className="md:prose-md prose mx-auto mt-8 max-w-none pb-12 sm:pb-16 md:mt-10 lg:mt-12">
+                    <MDX contents={lessonBodySerialized} />
+                    <VideoTranscript transcript={transcript} />
+                  </div>
                 </div>
                 {isTheaterMode && (
                   <div className="relative mt-6 w-full sm:pb-5 md:col-span-2 md:pl-2">
@@ -493,10 +344,6 @@ const LessonList: React.FC<{
         className="relative flex flex-col bg-gray-50 dark:bg-background"
         style={scrollAreaClassName ? {} : {maxHeight: `calc(100dvh - 300px)`}}
       >
-        {/* <div
-          className="pointer-events-none absolute bottom-0 left-0 z-10 h-24 w-full bg-gradient-to-t from-background to-transparent"
-          aria-hidden
-        /> */}
         <ScrollAreaPrimitive.Viewport
           className={cn(
             'flex-grow rounded-md border border-er-gray-200',
@@ -558,7 +405,6 @@ const LessonList: React.FC<{
                 </Collection.Section>
               )}
             </Collection.Sections>
-            {/* Used for module that has either mixed lessons with sections, no sections whatsoever, or single section */}
             <Collection.Lessons className="bg-er-gray-100 py-0">
               <Collection.Lesson className='bg-transparent font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500  dark:[&_[data-check-icon]]:text-green-500 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500' />
             </Collection.Lessons>

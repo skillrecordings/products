@@ -55,35 +55,32 @@ export default async function handleCreateCertificate(req: NextRequest) {
     }
 
     const ModuleTemplate = () => {
-      const backgroundImage =
-        'https://res.cloudinary.com/epic-web/image/upload/v1695817673/certificate-background.jpg'
-
       return (
         <div
-          tw="flex w-full relative text-white items-center h-full justify-center"
+          tw="flex w-full relative items-center h-full justify-center"
           style={{
             backgroundColor: '#0A1020',
-            backgroundImage: `url(${backgroundImage})`,
+            backgroundImage: `url('${process.env.NEXT_PUBLIC_URL}/assets/epic-react-certificate-bg.svg')`,
             backgroundSize: '100% 100%',
             backgroundRepeat: 'no-repeat',
           }}
         >
-          <p
+          {/* <p
             tw="text-3xl absolute top-18 right-20"
             style={{fontFamily: 'Magnat Text'}}
           >
             Certificate of Completion
-          </p>
+          </p> */}
           <div tw="flex flex-col items-center justify-center h-full">
             <img
               src={module.image}
-              width={550}
-              height={550}
+              width={350}
+              height={350}
               tw="absolute top-24"
             />
             <div tw="flex flex-col items-center justify-center mt-72">
               <p
-                tw="text-7xl leading-none flex pb-10"
+                tw="text-7xl leading-none flex pb-10 text-gray-700"
                 style={{fontFamily: 'Magnat Head Extrabold'}}
               >
                 {name}
@@ -97,7 +94,7 @@ export default async function handleCreateCertificate(req: NextRequest) {
             </div>
           </div>
           <div
-            tw="absolute text-2xl text-right right-16 bottom-16 flex"
+            tw="absolute text-2xl text-right right-16 bottom-24 flex"
             style={{fontFamily: 'Larsseit'}}
           >
             {issuedDate}
