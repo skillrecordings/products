@@ -33,6 +33,7 @@ export const sanityProductCreated = inngest.createFunction(
       features,
       upgradableTo,
       state,
+      type,
     } = sanityProduct
 
     const productStatus = state === 'active' ? 1 : 0
@@ -45,6 +46,7 @@ export const sanityProductCreated = inngest.createFunction(
           name: title,
           quantityAvailable,
           status: productStatus,
+          productType: type,
         },
       })
     })

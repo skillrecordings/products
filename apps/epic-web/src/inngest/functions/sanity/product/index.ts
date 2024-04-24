@@ -21,6 +21,7 @@ export const loadSanityProduct = async (
           "slug": slug.current,
           quantityAvailable,
           state,
+          type,
           upgradableTo[]->{
             _id,
             productId
@@ -43,6 +44,7 @@ export const BaseSanityProductSchema = z.object({
   title: z.string(),
   slug: z.string(),
   state: z.enum(['draft', 'active', 'unavailable']).default('draft'),
+  type: z.enum(['self-paced', 'live']).default('self-paced'),
   unitAmount: z.number().default(0),
   quantityAvailable: z.number().default(-1),
   productId: z.string().nullable().optional(),

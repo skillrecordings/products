@@ -36,6 +36,7 @@ import {
   useAvailableSale,
   useGlobalBanner,
 } from 'hooks/use-global-banner'
+import pluralize from 'pluralize'
 
 type NavigationProps = {
   className?: string
@@ -1060,7 +1061,8 @@ export const Banner: React.FC<{
                 New live event scheduled!
               </strong>{' '}
               <span>
-                {activeEvent.quantityAvailable} spots left for{' '}
+                {activeEvent.quantityAvailable}{' '}
+                {pluralize('spot', activeEvent.quantityAvailable)} left for{' '}
                 {activeEvent.event.title} workshop.
               </span>
             </p>

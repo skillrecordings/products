@@ -426,6 +426,7 @@ export function getSdk(
                 select: {
                   id: true,
                   name: true,
+                  productType: true,
                 },
               },
             },
