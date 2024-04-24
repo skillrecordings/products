@@ -33,6 +33,7 @@ import {buildStripeCheckoutPath} from '../utils/build-stripe-checkout-path'
 import Countdown from 'react-countdown'
 import {get, snakeCase} from 'lodash'
 import {setConvertkitSubscriberFields} from '@skillrecordings/convertkit-sdk'
+import pluralize from 'pluralize'
 
 const getNumericValue = (
   value: string | number | Decimal | undefined,
@@ -312,7 +313,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       ? null
                       : isSoldOut
                       ? 'Sold out'
-                      : `${availability?.quantityAvailable} spots left.`}
+                      : `${pluralize(
+                          'spot',
+                          availability?.quantityAvailable,
+                          true,
+                        )} left.`}
                   </div>
                 )}
               <p data-name-badge="">{name}</p>
