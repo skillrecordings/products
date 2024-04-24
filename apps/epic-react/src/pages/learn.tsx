@@ -208,10 +208,15 @@ const Learn: React.FC<{
   bonuses: unparsedBonuses,
   commerceProps,
 }) => {
+  const [isMounted, setIsMounted] = React.useState(false)
   const title = 'Learn'
 
   const workshops = WorkshopSchema.array().parse(unparsedWorkshops)
   const bonuses = BonusSchema.array().parse(unparsedBonuses)
+
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   return (
     <Layout
@@ -272,7 +277,7 @@ const Learn: React.FC<{
           priority
         />
       </section>
-      {commerceProps?.purchases && (
+      {isMounted && commerceProps?.purchases && (
         <WelcomeBanner purchases={commerceProps.purchases} />
       )}
       <main className="mx-auto w-full max-w-screen-lg px-4 pb-20 pt-4 sm:px-8 sm:pt-20">
