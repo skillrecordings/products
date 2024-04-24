@@ -1,7 +1,7 @@
-import {inngest} from 'inngest/inngest.server'
+import {inngest} from '@/inngest/inngest.server'
 import {prisma} from '@skillrecordings/database'
 import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
-import {paymentOptions} from 'pages/api/skill/[...skillRecordings]'
+import {paymentOptions} from '@/pages/api/skill/[...skillRecordings]'
 import {NonRetriableError} from 'inngest'
 
 const stripe = paymentOptions.providers.stripe?.paymentClient
@@ -20,11 +20,11 @@ export const sanityProductDeleted = inngest.createFunction(
     const {productId} = event.data
 
     if (!productId) {
-      throw new NonRetriableError(`Product id not found`)
+      throw new Error(`Product id not found`)
     }
 
     const product = await step.run('get product in database', async () => {
-      const product = await prisma.product.findUnique({
+      return await prisma.product.findUnique({
         where: {
           id: productId,
         },
@@ -32,13 +32,11 @@ export const sanityProductDeleted = inngest.createFunction(
           prices: true,
         },
       })
-
-      if (!product) {
-        throw new Error(`Product not found [${productId}]`)
-      }
-
-      return product
     })
+
+    if (!product) {
+      throw new Error(`Product not found [${productId}]`)
+    }
 
     await step.run('deactivate product', async () => {
       return await prisma.product.update({
@@ -69,7 +67,7 @@ export const sanityProductDeleted = inngest.createFunction(
     })
 
     const merchantProduct = await step.run('get merchant product', async () => {
-      const merchantProduct = await prisma.merchantProduct.findFirst({
+      return await prisma.merchantProduct.findFirst({
         where: {
           productId,
         },
@@ -77,15 +75,13 @@ export const sanityProductDeleted = inngest.createFunction(
           merchantPrices: true,
         },
       })
-
-      if (!merchantProduct) {
-        throw new Error(
-          `Merchant Product not found for product id [${productId}]`,
-        )
-      }
-
-      return merchantProduct
     })
+
+    if (!merchantProduct) {
+      throw new Error(
+        `Merchant Product not found for product id [${productId}]`,
+      )
+    }
 
     await step.run('deactivate merchant product', async () => {
       return await prisma.merchantProduct.update({
@@ -115,9 +111,8 @@ export const sanityProductDeleted = inngest.createFunction(
 
     const stripeProduct = await step.run('get stripe product', async () => {
       if (!merchantProduct?.identifier) {
-        throw new NonRetriableError('Merchant Product not found')
+        throw new Error('Merchant Product not found')
       }
-
       return await stripe.products.retrieve(merchantProduct.identifier)
     })
 

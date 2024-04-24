@@ -61,10 +61,11 @@ const WorkshopTemplate: React.FC<{
   workshopBodySerialized: MDXRemoteSerializeResult
 }> = ({workshop, workshopBodySerialized}) => {
   const {title, ogImage, image, description, testimonials} = workshop
-  const pageTitle = `${title} ${capitalize(workshop.moduleType)}`
+  const epicReactModule = {...workshop, moduleType: 'module'}
+  const pageTitle = `${title} ${capitalize(epicReactModule.moduleType)}`
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
-      slug: workshop.slug.current,
+      slug: epicReactModule.slug.current,
     })
 
   const {data: commerceProps, status: commercePropsStatus} =
@@ -73,13 +74,13 @@ const WorkshopTemplate: React.FC<{
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
   )
-  const product = workshop.product as SanityProduct
+  const product = epicReactModule.product as SanityProduct
 
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
-        moduleSlug: workshop.slug.current,
-        moduleType: workshop.moduleType,
+        moduleSlug: epicReactModule.slug.current,
+        moduleType: epicReactModule.moduleType,
       })
     return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
   }
@@ -104,17 +105,17 @@ const WorkshopTemplate: React.FC<{
       <Container className="px-0 sm:px-0 lg:px-0">
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
         <CourseMeta title={pageTitle} description={description} />
-        {workshop.state === 'draft' && (
+        {epicReactModule.state === 'draft' && (
           <div className="flex w-full items-center justify-center gap-2 border border-orange-500/20 bg-orange-500/10 px-5 py-3 text-xs leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:text-sm">
             <CogIcon className="h-4 w-4 animate-[spin_10s_linear_infinite]" />{' '}
-            {capitalize(workshop.moduleType)} under development — you're viewing
-            a draft version.
+            {capitalize(epicReactModule.moduleType)} under development — you're
+            viewing a draft version.
           </div>
         )}
       </Container>
       <Container className="grid grid-cols-10 border-b border-r-0 lg:pr-0">
         <main className="col-span-6 pr-10 pt-10">
-          <Header module={workshop} />
+          <Header module={epicReactModule} />
           <article className="prose prose-lg w-full max-w-none py-10 dark:prose-invert">
             {workshopBodySerialized ? (
               <MDX
@@ -191,13 +192,13 @@ const WorkshopTemplate: React.FC<{
                 )}
               </>
             )}
-            <WorkshopCTA module={workshop} />
-            {workshop && (
+            <WorkshopCTA module={epicReactModule} />
+            {epicReactModule && (
               <div className="-mx-10 mt-10 border-t px-10 pt-8">
                 {moduleProgressStatus === 'success' ? (
                   <>
                     <Collection.Root
-                      module={workshop}
+                      module={epicReactModule}
                       lessonPathBuilder={lessonPathBuilder}
                     >
                       <div className="flex w-full items-center justify-between pb-3">
@@ -221,13 +222,13 @@ const WorkshopTemplate: React.FC<{
                   <Skeleton className="py-7" />
                 )}
                 {isModuleInProgress && (
-                  <ResetProgressTriggerAndDialog module={workshop} />
+                  <ResetProgressTriggerAndDialog module={epicReactModule} />
                 )}
               </div>
             )}
-            {workshop.moduleType === 'workshop' && (
+            {epicReactModule.moduleType === 'workshop' && (
               <div className="-mx-10 mt-10 border-t px-10">
-                <ModuleCertificate module={workshop} />
+                <ModuleCertificate module={epicReactModule} />
               </div>
             )}
           </div>
@@ -355,11 +356,13 @@ const WorkshopCTA: React.FC<{module: Module; className?: string}> = ({
           <Button
             size="lg"
             asChild
-            className={cn('h-14 gap-2 text-base font-semibold', className, {
+            className={cn('h-14 gap-2 text-base font-semibold ', className, {
               'animate-pulse': moduleProgressStatus !== 'success',
             })}
           >
-            <Dialog.Trigger>Get Certificate</Dialog.Trigger>
+            <Dialog.Trigger className="dark:text-white">
+              Get Certificate
+            </Dialog.Trigger>
           </Button>
           <CertificateForm module={module} />
         </Dialog.Root>
@@ -378,7 +381,7 @@ const WorkshopCTA: React.FC<{module: Module; className?: string}> = ({
                 ? {
                     pathname: `/[type]/[module]/[section]/[lesson]`,
                     query: {
-                      type: pluralize(module.moduleType),
+                      type: pluralize('module'),
                       module: slug.current,
                       section: isModuleInProgress
                         ? nextSection?.slug
@@ -391,7 +394,7 @@ const WorkshopCTA: React.FC<{module: Module; className?: string}> = ({
                 : {
                     pathname: '/[type]/[module]/[lesson]',
                     query: {
-                      type: pluralize(module.moduleType),
+                      type: pluralize('module'),
                       module: slug.current,
                       lesson: isModuleInProgress
                         ? nextLesson?.slug

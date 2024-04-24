@@ -1,0 +1,21 @@
+/* Lessons list */
+[data-lessons-list] {
+  [data-progress] {
+    @apply hidden;
+  }
+  & > [data-active] {
+    @apply bg-transparent font-semibold before:hidden hover:bg-er-gray-300;
+    &[data-active='true'] {
+      @apply bg-er-gray-200 hover:bg-er-gray-300;
+    }
+    & > a {
+      @apply py-4;
+      [data-check-icon] {
+        @apply text-green-500;
+      }
+      & > span {
+        @apply hidden;
+      }
+    }
+  }
+}

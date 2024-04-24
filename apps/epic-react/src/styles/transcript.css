@@ -1,0 +1,9 @@
+[data-video-transcript] {
+  @apply mt-12 border-t pt-10;
+  [data-title] {
+    @apply mt-0;
+  }
+  [data-timestamp] {
+    @apply text-er-primary no-underline hover:underline;
+  }
+}

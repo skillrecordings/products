@@ -1,10 +1,10 @@
-import {inngest} from 'inngest/inngest.server'
+import {inngest} from '@/inngest/inngest.server'
 import {v4} from 'uuid'
 import {prisma} from '@skillrecordings/database'
 import {loadSanityProduct} from './index'
-import {sanityWriteClient} from 'utils/sanity-server'
+import {sanityWriteClient} from '@/utils/sanity-server'
 import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
-import {paymentOptions} from 'pages/api/skill/[...skillRecordings]'
+import {paymentOptions} from '@/pages/api/skill/[...skillRecordings]'
 import {NonRetriableError} from 'inngest'
 
 const stripe = paymentOptions.providers.stripe?.paymentClient

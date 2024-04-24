@@ -3,7 +3,7 @@ import z from 'zod'
 import {sanityProductCreated} from './sanity-product-created'
 import {sanityProductUpdated} from './sanity-product-updated'
 import {sanityProductDeleted} from './sanity-product-deleted'
-import {sanityWriteClient} from 'utils/sanity-server'
+import {sanityWriteClient} from '@/utils/sanity-server'
 
 export const sanityProductFunctions = [
   sanityProductCreated,
@@ -44,9 +44,13 @@ export const BaseSanityProductSchema = z.object({
   title: z.string(),
   slug: z.string(),
   state: z.enum(['draft', 'active', 'unavailable']).default('draft'),
-  type: z.enum(['self-paced', 'live']).default('self-paced'),
   unitAmount: z.number().default(0),
   quantityAvailable: z.number().default(-1),
+  type: z
+    .enum(['self-paced', 'live'])
+    .default('self-paced')
+    .nullable()
+    .optional(),
   productId: z.string().nullable().optional(),
   upgradableTo: z
     .array(z.object({productId: z.string()}))
