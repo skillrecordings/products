@@ -156,7 +156,7 @@ const ConfPage: React.FC<{
 
   return (
     <Layout
-      className="bg-foreground text-background dark:bg-background dark:text-foreground"
+      className="bg-foreground pt-16 text-background dark:bg-background dark:text-foreground"
       meta={{
         title: 'Epic Web Conf 2024',
         titleAppendSiteName: false,
@@ -237,133 +237,15 @@ const ConfPage: React.FC<{
             </p>
           </div>
         </section>
-        <section className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16 pt-10 sm:pt-16">
-          <div className="flex flex-col items-center rounded border border-[#313646] bg-[#1E212C] lg:flex-row">
-            <div className="flex max-w-md flex-col gap-5 py-6 pl-6 pr-6 sm:py-8 sm:pl-10 sm:pr-0 lg:py-14 lg:pl-16 [&_p]:text-lg [&_p]:leading-relaxed [&_p]:text-[#D6DEFF]">
-              <svg
-                className=""
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M16.75 8.5C16.75 13.75 10 18.25 10 18.25C10 18.25 3.25 13.75 3.25 8.5C3.25 6.70979 3.96116 4.9929 5.22703 3.72703C6.4929 2.46116 8.20979 1.75 10 1.75C11.7902 1.75 13.5071 2.46116 14.773 3.72703C16.0388 4.9929 16.75 6.70979 16.75 8.5Z"
-                  stroke="#3FACFF"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M10 10.75C11.2426 10.75 12.25 9.74264 12.25 8.5C12.25 7.25736 11.2426 6.25 10 6.25C8.75736 6.25 7.75 7.25736 7.75 8.5C7.75 9.74264 8.75736 10.75 10 10.75Z"
-                  stroke="#3FACFF"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <p>
-                The event is set at the foot of the beautiful Rocky Mountains in{' '}
-                <strong>
-                  <Link
-                    href="https://maps.app.goo.gl/cic8yYJ35ER1JM32A"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline"
-                  >
-                    Park City, Utah
-                  </Link>
-                </strong>
-                {', and the '}
-                <strong>
-                  <Link
-                    href="https://www.youtube.com/watch?v=Q0fwzlwTLWk"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline"
-                  >
-                    free live stream
-                  </Link>
-                </strong>
-                {
-                  ' is there to reach even the most distant Epic web developers.'
-                }
-              </p>
-              <p>
-                You'll want to be here in Park City to rub shoulders with some
-                of the best developers working on the web, just like you.
-              </p>
-            </div>
-            <div className="relative flex flex-col items-center justify-center">
-              <div className="relative">
-                <div
-                  className="absolute left-0 top-0 hidden h-full w-56 bg-gradient-to-r from-[#1E212C] to-transparent lg:block"
-                  aria-hidden="true"
-                />
-                <div
-                  className="absolute left-0 top-0 block h-40 w-full bg-gradient-to-b from-[#1E212C] to-transparent lg:hidden"
-                  aria-hidden="true"
-                />
-                <Image
-                  width={554}
-                  height={424}
-                  src={require('../../../public/assets/conf/venue-map-2.png')}
-                  loading="eager"
-                  alt=""
-                  aria-hidden="true"
-                  quality={100}
-                />
-              </div>
-              <Link
-                href="https://maps.app.goo.gl/hhuhKHLTbANYyo41A"
-                target="_blank"
-                onClick={() => {
-                  track('clicked venue', {
-                    title: 'conf2024',
-                    type: 'venue',
-                    location: 'map',
-                  })
-                }}
-                rel="noopener noreferrer"
-                className="group absolute -bottom-16 flex scale-[0.8] items-center justify-center rounded bg-white text-gray-900 before:absolute before:-top-1.5 before:-ml-7 before:h-3 before:w-3 before:rotate-45 before:bg-white before:content-[''] sm:-bottom-10 sm:scale-100"
-              >
-                <div className="overflow-hidden rounded-l">
-                  <Image
-                    src={require('../../../public/assets/conf/venue-photo-2.jpg')}
-                    alt="Prospector Square Theatre"
-                    width={152}
-                    height={152}
-                    loading="eager"
-                    className="transition duration-300 ease-in-out group-hover:scale-105"
-                  />
-                </div>
-                <div className="px-4 py-2 pr-5 sm:px-5 sm:py-5 sm:pr-7">
-                  <h3 className="text-lg font-semibold leading-tight sm:text-xl sm:leading-tight">
-                    Prospector Square Theatre
-                  </h3>
-                  <div className="mt-3 inline-flex text-sm hover:underline">
-                    2175 Sidewinder Dr
-                    <br />
-                    Park City, UT, 84060
-                  </div>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </section>
+        {!IS_PAST_CONF_24 && <Location />}
+        <Schedule schedule={schedule} speakers={speakers} />
         <SpeakersList
           speakers={shuffledSpeakers}
           showingSpeakerDetail={showingSpeakerDetail}
           setShowingSpeakerDetail={setShowingSpeakerDetail}
         />
-        {/* <p className="mb-16 block w-full text-center font-mono text-sm uppercase text-[#93A1D7]">
-          <span aria-hidden="true">{'//'}</span> Full schedule TBA{' '}
-          <span aria-hidden="true">{'//'}</span>
-        </p> */}
-        <Schedule schedule={schedule} speakers={speakers} />
-        <Workshops speakers={speakers} />
-        <HotelSection />
+        {!IS_PAST_CONF_24 && <Workshops speakers={speakers} />}
+        {!IS_PAST_CONF_24 && <HotelSection />}
         <Sponsors />
         {!CONF_24_TITO_URL && (
           <>
@@ -2240,6 +2122,7 @@ export const Schedule: React.FC<{
                               {
                                 'transition hover:bg-white/5':
                                   session.description,
+                                'pr-6': !session.description,
                               },
                             )}
                           >
@@ -2555,10 +2438,10 @@ const Talks: React.FC<{talks: Talk[] | null}> = ({talks}) => {
           <h3 className="text-2xl font-semibold">Talks</h3>
           <Link
             href="/talks"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-sm font-semibold underline"
+            className="flex items-center justify-center whitespace-nowrap rounded-md border border-white/10 px-5 py-3 text-sm font-semibold"
           >
+            <span>View All Talks</span>
             <ChevronRightIcon className="w-5" />
-            <span className="sr-only">View All Talks</span>
           </Link>
         </div>
         <ul className="relative flex flex-row gap-3 overflow-x-hidden pr-24 after:pointer-events-none after:absolute after:right-0 after:top-0 after:h-full after:w-80 after:bg-gradient-to-r after:from-transparent after:to-gray-950 after:content-['']">
@@ -2633,5 +2516,123 @@ export const ConfLogo = () => {
         </linearGradient>
       </defs>
     </svg>
+  )
+}
+
+const Location = () => {
+  return (
+    <section className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pb-16 pt-10 sm:pt-16">
+      <div className="flex flex-col items-center rounded border border-[#313646] bg-[#1E212C] lg:flex-row">
+        <div className="flex max-w-md flex-col gap-5 py-6 pl-6 pr-6 sm:py-8 sm:pl-10 sm:pr-0 lg:py-14 lg:pl-16 [&_p]:text-lg [&_p]:leading-relaxed [&_p]:text-[#D6DEFF]">
+          <svg
+            className=""
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16.75 8.5C16.75 13.75 10 18.25 10 18.25C10 18.25 3.25 13.75 3.25 8.5C3.25 6.70979 3.96116 4.9929 5.22703 3.72703C6.4929 2.46116 8.20979 1.75 10 1.75C11.7902 1.75 13.5071 2.46116 14.773 3.72703C16.0388 4.9929 16.75 6.70979 16.75 8.5Z"
+              stroke="#3FACFF"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M10 10.75C11.2426 10.75 12.25 9.74264 12.25 8.5C12.25 7.25736 11.2426 6.25 10 6.25C8.75736 6.25 7.75 7.25736 7.75 8.5C7.75 9.74264 8.75736 10.75 10 10.75Z"
+              stroke="#3FACFF"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <p>
+            The event is set at the foot of the beautiful Rocky Mountains in{' '}
+            <strong>
+              <Link
+                href="https://maps.app.goo.gl/cic8yYJ35ER1JM32A"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                Park City, Utah
+              </Link>
+            </strong>
+            {', and the '}
+            <strong>
+              <Link
+                href="https://www.youtube.com/watch?v=Q0fwzlwTLWk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                free live stream
+              </Link>
+            </strong>
+            {' is there to reach even the most distant Epic web developers.'}
+          </p>
+          <p>
+            You'll want to be here in Park City to rub shoulders with some of
+            the best developers working on the web, just like you.
+          </p>
+        </div>
+        <div className="relative flex flex-col items-center justify-center">
+          <div className="relative">
+            <div
+              className="absolute left-0 top-0 hidden h-full w-56 bg-gradient-to-r from-[#1E212C] to-transparent lg:block"
+              aria-hidden="true"
+            />
+            <div
+              className="absolute left-0 top-0 block h-40 w-full bg-gradient-to-b from-[#1E212C] to-transparent lg:hidden"
+              aria-hidden="true"
+            />
+            <Image
+              width={554}
+              height={424}
+              src={require('../../../public/assets/conf/venue-map-2.png')}
+              loading="eager"
+              alt=""
+              aria-hidden="true"
+              quality={100}
+            />
+          </div>
+          <Link
+            href="https://maps.app.goo.gl/hhuhKHLTbANYyo41A"
+            target="_blank"
+            onClick={() => {
+              track('clicked venue', {
+                title: 'conf2024',
+                type: 'venue',
+                location: 'map',
+              })
+            }}
+            rel="noopener noreferrer"
+            className="group absolute -bottom-16 flex scale-[0.8] items-center justify-center rounded bg-white text-gray-900 before:absolute before:-top-1.5 before:-ml-7 before:h-3 before:w-3 before:rotate-45 before:bg-white before:content-[''] sm:-bottom-10 sm:scale-100"
+          >
+            <div className="overflow-hidden rounded-l">
+              <Image
+                src={require('../../../public/assets/conf/venue-photo-2.jpg')}
+                alt="Prospector Square Theatre"
+                width={152}
+                height={152}
+                loading="eager"
+                className="transition duration-300 ease-in-out group-hover:scale-105"
+              />
+            </div>
+            <div className="px-4 py-2 pr-5 sm:px-5 sm:py-5 sm:pr-7">
+              <h3 className="text-lg font-semibold leading-tight sm:text-xl sm:leading-tight">
+                Prospector Square Theatre
+              </h3>
+              <div className="mt-3 inline-flex text-sm hover:underline">
+                2175 Sidewinder Dr
+                <br />
+                Park City, UT, 84060
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </section>
   )
 }

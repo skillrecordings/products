@@ -2,7 +2,12 @@ import React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import slugify from '@sindresorhus/slugify'
 import Layout from 'components/app/layout'
-import {BuyTicketsCTA, CONF_24_TITO_URL, type Speaker} from './index'
+import {
+  BuyTicketsCTA,
+  CONF_24_TITO_URL,
+  IS_PAST_CONF_24,
+  type Speaker,
+} from './index'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import formatInTimeZone from 'date-fns-tz/formatInTimeZone'
 import ReactMarkdown from 'react-markdown'
@@ -22,6 +27,8 @@ import Image from 'next/image'
 import {format} from 'date-fns'
 import pluralize from 'pluralize'
 import {getOgImage} from 'utils/get-og-image'
+import {Button} from '@skillrecordings/ui'
+import Icon from 'components/icons'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const speakers = await fetch(
@@ -158,18 +165,28 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
       <main className="relative mx-auto w-full max-w-screen-lg px-5 pt-10 md:pt-16">
         <BgGraphic className="absolute -right-48 -top-48 z-0" />
         <div className="absolute -right-48 -top-48 h-[300px] w-[300px] rounded-full bg-[#93A1D7] opacity-30 blur-[500px] md:h-[600px] md:w-[600px]" />
-        <div>
-          <Link
-            href="/conf#speakers"
-            className="mb-5 flex items-center gap-1 text-sm text-[#93A1D7] opacity-90 transition hover:underline hover:opacity-100"
-          >
-            <ChevronLeftIcon className="w-4" aria-hidden="true" /> Epic Web Conf
-            '24 Speakers
-          </Link>
-          <h1 className="text-4xl font-bold md:text-5xl">{speaker.fullName}</h1>
-          <h2 className="pt-2 text-xl text-[#93A1D7] md:text-2xl">
-            {speaker.tagLine}
-          </h2>
+        <div className="flex w-full flex-col items-center gap-8 sm:flex-row sm:justify-between">
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
+            <Link
+              href="/conf#speakers"
+              className="mb-5 flex items-center gap-1 text-sm text-[#93A1D7] opacity-90 transition hover:underline hover:opacity-100"
+            >
+              <ChevronLeftIcon className="w-4" aria-hidden="true" /> Epic Web
+              Conf '24 Speakers
+            </Link>
+            <h1 className="text-4xl font-bold md:text-5xl">
+              {speaker.fullName}
+            </h1>
+            <h2 className="pt-2 text-xl text-[#93A1D7] md:text-2xl">
+              {speaker.tagLine}
+            </h2>
+          </div>
+          {/* TODO: Fix link */}
+          <Button asChild className="relative z-10 font-semibold">
+            <Link href={`/talks`}>
+              Watch Talk <Icon name="Playmark" className="ml-2 h-3 w-3" />
+            </Link>
+          </Button>
         </div>
         <div
           className={cn(
@@ -187,7 +204,7 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
           >
             <div className="w-full">
               <h3 className="flex border-b border-gray-800 pb-2 text-xl font-semibold dark:border-border">
-                Talks
+                {pluralize('Talk', speaker.sessions.length)}
               </h3>
               <ul className="mt-5">
                 {speaker.sessions &&
@@ -203,13 +220,15 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
                     )
                   })}
               </ul>
-              <Link
-                className="mt-5 inline-flex rounded bg-primary px-3 py-1 font-semibold text-primary-foreground transition hover:brightness-125"
-                href={CONF_24_TITO_URL}
-                target="_blank"
-              >
-                Buy {pluralize('Ticket', speaker.sessions.length)}
-              </Link>
+              {!IS_PAST_CONF_24 && (
+                <Link
+                  className="mt-5 inline-flex rounded bg-primary px-3 py-1 font-semibold text-primary-foreground transition hover:brightness-125"
+                  href={CONF_24_TITO_URL}
+                  target="_blank"
+                >
+                  Buy {pluralize('Ticket', speaker.sessions.length)}
+                </Link>
+              )}
             </div>
             <div>
               <h3 className="flex border-b border-gray-800 pb-2 text-xl font-semibold dark:border-border">
@@ -303,7 +322,7 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
             </div>
           )}
         </div>
-        <BuyTicketsCTA />
+        {!IS_PAST_CONF_24 && <BuyTicketsCTA />}
       </main>
     </VideoProvider>
   )
