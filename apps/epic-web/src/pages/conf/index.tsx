@@ -43,7 +43,7 @@ import {getAllConf24Talks, type Talk} from 'lib/talks'
 import {trpc} from 'trpc/trpc.client'
 import Icon from 'components/icons'
 
-export const IS_PAST_CONF_24 = false
+export const IS_PAST_CONF_24 = true
 export const CONF_24_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2024'
 
 const CK_CONF_2024_FIELD = {
@@ -384,7 +384,7 @@ const ConfPage: React.FC<{
             />
           </>
         )}
-        <BuyTicketsCTA />
+        {!IS_PAST_CONF_24 && <BuyTicketsCTA />}
       </main>
     </Layout>
   )
@@ -1196,7 +1196,7 @@ const Sponsors = () => {
           })}
         </div>
       </div>
-      <div className="relative mt-5 flex w-full flex-col items-center justify-center gap-10 pb-12 pt-5 before:absolute before:bottom-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] sm:flex-row">
+      <div className="relative mt-5 flex w-full flex-col items-center justify-center gap-10 pb-12 pt-5 sm:flex-row">
         <Link
           href="mailto:conf@epicweb.dev?subject=Sponsoring Epic Web Conf 2024"
           className="inline-flex items-center gap-1 text-center text-[#93A1D7] transition hover:brightness-125"
