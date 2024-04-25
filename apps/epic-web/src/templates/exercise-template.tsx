@@ -37,7 +37,6 @@ import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 import {WorkshopAppBanner} from 'components/workshop-app'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {useGlobalBanner} from 'hooks/use-global-banner'
-import {ConfBanner} from 'pages/events'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -173,11 +172,6 @@ const ExerciseTemplate: React.FC<{
               <div className="relative hidden flex-grow border-t border-gray-200 dark:border-gray-900 2xl:block">
                 <VideoTranscript transcript={transcript} />
               </div>
-              {module.moduleType === 'tutorial' && (
-                <div className="mx-auto hidden w-full max-w-4xl px-5 pb-10 2xl:block">
-                  <ConfBanner title="Learn more at Epic Web Conf" />
-                </div>
-              )}
             </div>
             <article className="relative flex-shrink-0 2xl:w-full 2xl:max-w-2xl">
               <div className="relative z-10 mx-auto max-w-4xl px-5 py-5 scrollbar-thin scrollbar-thumb-foreground/10 lg:py-6 2xl:h-[calc(100vh)] 2xl:w-full 2xl:max-w-2xl 2xl:overflow-y-scroll">
@@ -251,11 +245,6 @@ const ExerciseTemplate: React.FC<{
               <div className="relative z-10 block flex-grow 2xl:hidden">
                 <VideoTranscript transcript={transcript} />
               </div>
-              {module.moduleType === 'tutorial' && (
-                <div className="mx-auto mb-10 block w-full max-w-4xl px-5 2xl:hidden">
-                  <ConfBanner title="Learn more at Epic Web Conf" />
-                </div>
-              )}
             </article>
           </main>
         </div>

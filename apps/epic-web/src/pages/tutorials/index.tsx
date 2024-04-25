@@ -13,7 +13,6 @@ import {
 import {useRouter} from 'next/router'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import ResourceContributor from 'components/resource-contributor'
-import {ConfBanner} from 'pages/events'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 
 export async function getStaticProps() {
@@ -154,10 +153,7 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
             </li> */}
           </ul>
         )}
-        <ConfBanner
-          title="Learn in person at Epic Web Conference"
-          className="mx-auto my-10 w-full max-w-screen-lg px-5"
-        />
+
         {!subscriber && <PrimaryNewsletterCta className="mt-20" />}
       </main>
     </Layout>
