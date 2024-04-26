@@ -276,11 +276,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     setMounted(true)
   }, [])
 
-  const isSoldOut =
+  const isSoldOut = Boolean(
     product.type === 'live' &&
-    !purchased &&
-    availability?.quantityAvailable &&
-    availability.quantityAvailable <= 0
+      !purchased &&
+      (availability?.quantityAvailable || 0) <= 0,
+  )
 
   return (
     <div id={id}>
