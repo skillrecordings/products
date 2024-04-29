@@ -34,8 +34,12 @@ export const PricingTiers: React.FC<
       <div data-pricing-container="">
         {products?.map((productWithOptions, i) => {
           const {options, ...product} = productWithOptions
+          console.log({productWithOptions})
           return (
-            <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+            <PriceCheckProvider
+              key={productWithOptions.slug}
+              purchasedProductIds={purchasedProductIds}
+            >
               <Pricing
                 key={product.name}
                 userId={userId}
