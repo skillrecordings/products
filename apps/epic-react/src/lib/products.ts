@@ -41,7 +41,7 @@ export async function getProduct(productId: string): Promise<Product | null> {
         body,
         modules[]->{
           ...,
-          "image": {"url": image.secure_url},
+          "image": image.url,
         }
   }`,
     {productId},
