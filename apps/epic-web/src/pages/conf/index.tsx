@@ -2108,6 +2108,14 @@ export const Schedule: React.FC<{
                       ? AccordionTrigger
                       : 'div'
 
+                    const lowerCaseSlug = session.title.toLowerCase().trim()
+                    let talkSlug
+                    if (lowerCaseSlug === 'surprise!') {
+                      talkSlug = 'let-me-be'
+                    } else {
+                      talkSlug = slugify(lowerCaseSlug)
+                    }
+
                     return (
                       <AccordionItem
                         value={session.id}
@@ -2203,9 +2211,22 @@ export const Schedule: React.FC<{
                             </div>
                           </AccordionTriggerComp>
                           <AccordionContent>
-                            <p className="px-4 pb-5 text-left text-sm leading-relaxed text-[#D6DEFF] md:ml-[160px] md:px-5 md:text-base print:text-black">
-                              {session.description}
-                            </p>
+                            <div className="px-4 pb-5 text-left text-sm leading-relaxed text-[#D6DEFF] md:ml-[160px] md:px-5 md:text-base print:text-black">
+                              <p>{session.description}</p>
+                              {!lowerCaseSlug.includes('welcome') &&
+                                !lowerCaseSlug.includes('farewell') &&
+                                !lowerCaseSlug.includes('workshop') && (
+                                  <Link
+                                    href={`/talks/${talkSlug}`}
+                                    className="flex whitespace-nowrap pt-4 text-sm font-semibold"
+                                  >
+                                    <span className="flex items-center rounded border  border-white/10 px-5 py-3">
+                                      <span>View Talk</span>
+                                      <ChevronRightIcon className="ml-1 w-5" />
+                                    </span>
+                                  </Link>
+                                )}
+                            </div>
                           </AccordionContent>
                         </li>
                       </AccordionItem>

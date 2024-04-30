@@ -181,12 +181,6 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
               {speaker.tagLine}
             </h2>
           </div>
-          {/* TODO: Fix link */}
-          <Button asChild className="relative z-10 font-semibold">
-            <Link href={`/talks`}>
-              Watch Talk <Icon name="Playmark" className="ml-2 h-3 w-3" />
-            </Link>
-          </Button>
         </div>
         <div
           className={cn(
@@ -209,14 +203,41 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
               <ul className="mt-5">
                 {speaker.sessions &&
                   speaker.sessions.map((session) => {
+                    const lowerCaseSlug = session.title.toLowerCase().trim()
+                    let talkSlug
+                    if (lowerCaseSlug === 'surprise!') {
+                      talkSlug = 'let-me-be'
+                    } else {
+                      talkSlug = slugify(lowerCaseSlug)
+                    }
                     return (
-                      <li className="flex flex-col pb-2" key={session.id}>
-                        <div className="text-[#93A1D7]">
-                          {format(new Date(session.startsAt), 'EEEE, h:mm a')}—
-                          {format(new Date(session.endsAt), 'h:mm a')}
-                        </div>
-                        <div>{session.title}</div>
-                      </li>
+                      <React.Fragment key={session.id}>
+                        <li className="flex flex-col pb-2">
+                          <div className="text-[#93A1D7]">
+                            {format(new Date(session.startsAt), 'EEEE, h:mm a')}
+                            —{format(new Date(session.endsAt), 'h:mm a')}
+                          </div>
+                          <div>{session.title}</div>
+                        </li>
+                        {!lowerCaseSlug.includes('welcome') &&
+                          !lowerCaseSlug.includes('farewell') &&
+                          !lowerCaseSlug.includes('workshop') && (
+                            <div className="pt-4">
+                              <Button
+                                asChild
+                                className="relative z-10 font-semibold"
+                              >
+                                <Link href={`/talks/${talkSlug}`}>
+                                  Watch Talk
+                                  <Icon
+                                    name="Playmark"
+                                    className="ml-2 h-3 w-3"
+                                  />
+                                </Link>
+                              </Button>
+                            </div>
+                          )}
+                      </React.Fragment>
                     )
                   })}
               </ul>
