@@ -24,7 +24,6 @@ export default defineType({
       name: 'moduleType',
       title: 'Module Type',
       type: 'string',
-      validation: (Rule) => Rule.required(),
       options: {
         list: [
           {title: 'Workshop', value: 'workshop'},
