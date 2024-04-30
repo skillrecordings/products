@@ -7,6 +7,9 @@ import {motion, useScroll, useTransform} from 'framer-motion'
 import {PricingTiers} from '@skillrecordings/skill-lesson/path-to-purchase/product-tiers'
 import {ProductPageProps} from '@/pages/products/[slug]'
 import Link from 'next/link'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 
 const ProductTemplate: React.FC<ProductPageProps> = ({
   products,
@@ -19,6 +22,34 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
 }) => {
   const {scrollYProgress} = useScroll()
   const y = useTransform(scrollYProgress, [0, 1], [0, -100])
+
+  const restrictedToProduct = couponFromCode?.restrictedToProductId
+    ? products.find(
+        (product) => product.productId === couponFromCode.restrictedToProductId,
+      )
+    : undefined
+
+  const productMetadata = restrictedToProduct
+    ? {
+        ...restrictedToProduct,
+        id: restrictedToProduct.productId,
+        image: {
+          ...restrictedToProduct.image,
+          width: 132,
+          height: 112,
+        },
+      }
+    : undefined
+
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
+    couponFromCode,
+    productMetadata,
+  )
+
+  const couponId =
+    couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
+
+  const purchasedProductIds = purchases.map((purchase) => purchase.productId)
 
   return (
     <Layout
@@ -68,14 +99,16 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
             quality={100}
           />
         </motion.div>
-        <section className="px-5">
-          <Element name="buy" aria-hidden="true" />
-          <PricingTiers
-            products={products}
+        <section className="px-5 pt-40">
+          {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+          <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+            <Element name="buy" aria-hidden="true" />
+          </PriceCheckProvider>
+          <Pricing
             userId={userId}
-            purchases={purchases}
-            couponIdFromCoupon={couponIdFromCoupon}
-            couponFromCode={couponFromCode}
+            product={products[0]}
+            purchased={purchasedProductIds.includes(products[0].productId)}
+            couponId={couponId}
             allowPurchase={allowPurchase}
           />
         </section>
