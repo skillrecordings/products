@@ -2,7 +2,7 @@ import MuxPlayer from '@mux/mux-player-react'
 
 const IntroTourVideo = () => {
   return (
-    <div className="-mx-8 mb-10 overflow-auto rounded-none border border-transparent sm:overflow-hidden sm:rounded-md sm:border-er-gray-100">
+    <div className="mb-10 overflow-auto rounded-none border border-transparent sm:overflow-hidden sm:rounded-md sm:border-er-gray-100 lg:-mx-8">
       <MuxPlayer
         streamType="on-demand"
         playbackId="aYqygpEcRs14JrREocaLqqrTuMY4kZKSV7DwWLJNEb00"

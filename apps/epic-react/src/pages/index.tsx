@@ -1,6 +1,7 @@
-import type {GetStaticProps, NextPage} from 'next'
+import type {GetServerSideProps, NextPage} from 'next'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
+import {getToken} from 'next-auth/jwt'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Balancer from 'react-wrap-balancer'
 import {
@@ -12,13 +13,15 @@ import {
 } from 'framer-motion'
 import {InView} from 'react-intersection-observer'
 
-// import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
-import {getProduct} from '@/lib/products'
+import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
+import {getProduct, getAllProducts} from '@/lib/products'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
 import LandingCopy from '@/components/landing-copy.mdx'
 import Divider from '@/components/divider'
+import PricingSection from '@/components/pricing-section'
 
 import imgSky from '../../public/assets/sky@2x.jpg'
 import imgBigPlanet from '../../public/assets/big-planet@2x.png'
@@ -28,18 +31,27 @@ import imgLandingRocket from '../../public/assets/landing-rocket@2x.png'
 
 const DEFAULT_PRODUCT_ID = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+  const token = await getToken({req})
+  const products = await getAllProducts()
+  const {props: commerceProps} = await propsForCommerce({
+    query,
+    token,
+    products,
+  })
   const defaultProduct = await getProduct(DEFAULT_PRODUCT_ID as string)
   const modules = defaultProduct?.modules
     ? defaultProduct.modules.slice(1, -1)
     : []
 
   return {
-    props: {modules},
-    revalidate: 10,
+    props: {modules, commerceProps},
   }
 }
-const Home: React.FC<{modules: any[]}> = ({modules}) => {
+const Home: React.FC<{modules: any[]; commerceProps: CommerceProps}> = ({
+  modules,
+  commerceProps,
+}) => {
   console.log({modules})
   // const shouldReduceMotion = useReducedMotion()
   const {scrollY} = useScroll()
@@ -149,7 +161,7 @@ const Home: React.FC<{modules: any[]}> = ({modules}) => {
             </div>
           </div>
         </section>
-        <section className="mt-12 py-8 sm:mt-0">
+        <section className="mx-auto mt-12 w-full max-w-screen-lg px-4 py-8 sm:mt-0 sm:px-8">
           <div className="prose mx-auto lg:prose-xl">
             <LandingCopy />
           </div>
@@ -161,7 +173,6 @@ const Home: React.FC<{modules: any[]}> = ({modules}) => {
           <Divider className="mb-16 mt-8" />
           <ul>
             {modules.map((module, i) => {
-              const isOdd = false
               return (
                 <InView key={module.slug.current} threshold={0.2}>
                   {({inView, ref, entry}) => {
@@ -176,9 +187,6 @@ const Home: React.FC<{modules: any[]}> = ({modules}) => {
                           transition={{mass: 0.7, type: 'spring'}}
                           className="mx-auto flex w-full items-center justify-center px-20 sm:col-span-1 sm:row-start-1 sm:px-5"
                         >
-                          {/* <div className="w-full">
-                            <ImageByCollection collection={module.slug} />
-                          </div> */}
                           {module?.image && module?.slug?.current && (
                             <Image
                               src={module.image}
@@ -207,7 +215,23 @@ const Home: React.FC<{modules: any[]}> = ({modules}) => {
             })}
           </ul>
         </div>
-        <div className="my-16 bg-er-gray-100 pb-16 pt-8"></div>
+        <div className="my-16 bg-er-gray-100 pb-16 pt-8">
+          <div className="px-5 text-center">
+            <h1 className="py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
+              Join over 7000 Developers and Get Really Good At React
+            </h1>
+            <p className="mx-auto mt-5 max-w-4xl text-xl text-react sm:text-2xl">
+              The beautiful thing about learning is that nobody can take it away
+              from you.
+            </p>
+          </div>
+          <div className="mt-16 lg:mt-32">
+            <PricingSection
+              commerceProps={commerceProps}
+              className="mb-28 mt-12 md:mt-14 lg:mb-32 lg:mt-16"
+            />
+          </div>
+        </div>
       </main>
       <Footer />
     </Layout>

@@ -41,7 +41,7 @@ const data = [
 
 const Testimonials = () => {
   return (
-    <div className="grid grid-cols-1 gap-4 py-5 md:-mx-24 md:grid-cols-2 md:py-10">
+    <div className="grid grid-cols-1 gap-4 py-5 md:grid-cols-2 md:py-10 lg:-mx-24">
       {data.map((testimonial) => {
         return (
           <article
