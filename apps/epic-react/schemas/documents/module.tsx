@@ -57,6 +57,12 @@ export default defineType({
       type: 'githubRepo',
     }),
     defineField({
+      name: 'duration',
+      title: 'Duration',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'resources',
       title: 'Resources',
       description: 'Exercises, Sections, or Explainers in the Module',
@@ -75,6 +81,11 @@ export default defineType({
           ],
         }),
       ],
+    }),
+    defineField({
+      name: 'tagline',
+      title: 'Tagline',
+      type: 'string',
     }),
     defineField({
       name: 'body',
