@@ -4,6 +4,7 @@ import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
 import Balancer from 'react-wrap-balancer'
 
+import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {getAllProducts} from '@/lib/products'
 import Layout from '@/components/app/layout'
 import PricingSection from '@/components/pricing-section'
@@ -25,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-const Buy: React.FC<any> = ({commerceProps}) => {
+const Buy: React.FC<{commerceProps: CommerceProps}> = ({commerceProps}) => {
   return (
     <Layout meta={{title: 'Buy'}}>
       <main className="bg-er-gray-100 pb-24 pt-20 sm:pt-28 md:pt-32 lg:pt-40 xl:pt-[211px]">
