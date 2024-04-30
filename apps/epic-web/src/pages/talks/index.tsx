@@ -108,7 +108,7 @@ export const TalkItem: React.FC<{
 }> = ({talk, path = 'talks', withBg = true, i}) => {
   const {title, slug} = talk
   const muxPlaybackId = talk?.muxPlaybackId
-  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve&time=0`
+  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve&time=13`
 
   const {resourceCompleted} = useResourceComplete(talk.slug)
 
