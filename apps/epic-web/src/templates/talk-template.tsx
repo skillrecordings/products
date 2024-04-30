@@ -181,12 +181,22 @@ const TalkTemplate: React.FC<{
                   )}
                 </div>
 
-                <ResourceContributor
-                  className="mt-3 inline-flex text-base [&_img]:w-10 [&_span]:font-normal"
-                  name={talk.presenter?.name}
-                  slug={talk.presenter?.slug}
-                  image={talk.presenter?.picture?.url}
-                />
+                {talk.presenter && (
+                  <ResourceContributor
+                    className="mt-3 inline-flex text-base [&_img]:w-10 [&_span]:font-normal"
+                    name={talk.presenter?.name}
+                    slug={talk.presenter?.slug}
+                    image={talk.presenter?.picture?.url}
+                  />
+                )}
+                {talk.oneTimeContributor && (
+                  <ResourceContributor
+                    className="mt-3 inline-flex text-base [&_img]:w-10 [&_span]:font-normal"
+                    name={talk.oneTimeContributor?.name as string}
+                    image={talk.oneTimeContributor?.picProfile as string}
+                    disableLink={true}
+                  />
+                )}
 
                 {talk.body && (
                   <>
