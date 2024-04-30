@@ -136,13 +136,24 @@ export const TalkItem: React.FC<{
           <h4 className="text-base font-semibold leading-tight sm:text-xl sm:leading-tight">
             {talk.title}
           </h4>
-          <ResourceContributor
-            name={talk?.presenter?.name}
-            slug={talk?.presenter?.slug}
-            image={talk.presenter?.picture?.url}
-            as="div"
-            className="mt-3 gap-2 text-sm font-normal [&_img]:w-8"
-          />
+          {talk.presenter && (
+            <ResourceContributor
+              as="div"
+              className="mt-3 gap-2 text-sm font-normal [&_img]:w-8"
+              name={talk.presenter?.name}
+              slug={talk.presenter?.slug}
+              image={talk.presenter?.picture?.url}
+            />
+          )}
+          {talk.oneTimeContributor && (
+            <ResourceContributor
+              name={talk.oneTimeContributor?.name as string}
+              image={talk.oneTimeContributor?.picProfile as string}
+              disableLink={true}
+              as="div"
+              className="mt-3 gap-2 text-sm font-normal [&_img]:w-8"
+            />
+          )}
         </div>
       </Link>
     </li>
