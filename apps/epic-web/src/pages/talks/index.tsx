@@ -72,18 +72,26 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
               </h3>
             </div>
             <ul className="relative z-10 flex w-full flex-col">
-              {conf24Talks.map((talk, i) => {
-                return (
-                  <TalkItem withBg={false} talk={talk} i={i} key={talk.slug} />
-                )
-              })}
+              {conf24Talks.map((confTalk, i) => (
+                <TalkItem
+                  withBg={false}
+                  talk={confTalk}
+                  i={i}
+                  key={confTalk.slug}
+                />
+              ))}
             </ul>
           </div>
         )}
         <ul className="flex w-full flex-col">
-          {talks.map((talk, i) => {
-            return <TalkItem talk={talk} i={i} key={talk.slug} />
-          })}
+          {talks
+            .filter(
+              (talk) =>
+                !conf24Talks?.some((confTalk) => confTalk.slug === talk.slug),
+            )
+            .map((talk, i) => (
+              <TalkItem talk={talk} i={i} key={talk.slug} />
+            ))}
         </ul>
       </main>
     </Layout>
