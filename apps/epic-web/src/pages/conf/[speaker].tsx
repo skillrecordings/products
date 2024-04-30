@@ -211,7 +211,7 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
                       talkSlug = slugify(lowerCaseSlug)
                     }
                     return (
-                      <React.Fragment key={session.id}>
+                      <>
                         <li className="flex flex-col pb-2">
                           <div className="text-[#93A1D7]">
                             {format(new Date(session.startsAt), 'EEEE, h:mm a')}
@@ -237,7 +237,7 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
                               </Button>
                             </div>
                           )}
-                      </React.Fragment>
+                      </>
                     )
                   })}
               </ul>
