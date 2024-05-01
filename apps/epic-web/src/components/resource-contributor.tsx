@@ -12,6 +12,7 @@ const ResourceContributor: React.FC<{
   byline?: string
   className?: string
   as?: string
+  disableLink?: boolean
 }> = ({
   name = config.author,
   slug = slugify(config.author),
@@ -19,8 +20,37 @@ const ResourceContributor: React.FC<{
   as = Link,
   byline,
   className,
+  disableLink = false,
 }) => {
   const Component = as
+
+  if (disableLink) {
+    return (
+      <div
+        className={cn(
+          'flex items-center justify-start gap-3 font-semibold text-gray-700  dark:text-gray-100',
+          className,
+        )}
+      >
+        <div className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
+          {image && name && (
+            <Image
+              priority
+              src={image}
+              alt={name}
+              width={56}
+              height={56}
+              quality={100}
+            />
+          )}
+        </div>
+        <div className="flex flex-col">
+          {byline && <span>{byline}</span>}
+          {name}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <Component

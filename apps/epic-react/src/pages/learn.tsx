@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
+import {getToken} from 'next-auth/jwt'
 import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
@@ -9,20 +10,35 @@ import {
   ModuleProgressProvider,
   useModuleProgress,
 } from '@skillrecordings/skill-lesson/video/module-progress'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {getWorkshopsForProduct, Workshop, WorkshopSchema} from '@/lib/workshops'
+import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {getAllProducts} from '@/lib/products'
 import {Bonus, BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
 import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
+import WelcomeBanner from '@/components/welcome-banner'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   // TODO: load the user's purchases and figure out what product they should have access to
+  const token = await getToken({req})
+  const products = await getAllProducts()
+  const {props: commerceProps} = await propsForCommerce({
+    query,
+    token,
+    products,
+  })
   const productId = 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38'
   const workshops = await getWorkshopsForProduct({productId})
   const bonuses = await getBonusesForProduct({productId})
 
   return {
-    props: {workshops, bonuses},
+    props: {
+      workshops,
+      bonuses,
+      commerceProps,
+    },
   }
 }
 
@@ -183,14 +199,24 @@ const WorkshopItem = ({module}: {module: Module}) => {
   )
 }
 
-const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
+const Learn: React.FC<{
+  workshops: any[]
+  bonuses: any[]
+  commerceProps: CommerceProps
+}> = ({
   workshops: unparsedWorkshops,
   bonuses: unparsedBonuses,
+  commerceProps,
 }) => {
+  const [isMounted, setIsMounted] = React.useState(false)
   const title = 'Learn'
 
   const workshops = WorkshopSchema.array().parse(unparsedWorkshops)
   const bonuses = BonusSchema.array().parse(unparsedBonuses)
+
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   return (
     <Layout
@@ -251,6 +277,9 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
           priority
         />
       </section>
+      {isMounted && commerceProps?.purchases && (
+        <WelcomeBanner purchases={commerceProps.purchases} />
+      )}
       <main className="mx-auto w-full max-w-screen-lg px-4 pb-20 pt-4 sm:px-8 sm:pt-20">
         <ul className="grid grid-cols-1 gap-4 sm:gap-16">
           {workshops.map((workshop) => {

@@ -72,18 +72,27 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
               </h3>
             </div>
             <ul className="relative z-10 flex w-full flex-col">
-              {conf24Talks.map((talk, i) => {
-                return (
-                  <TalkItem withBg={false} talk={talk} i={i} key={talk.slug} />
-                )
-              })}
+              {conf24Talks.map((confTalk, i) => (
+                <TalkItem
+                  thumbnailTime={18}
+                  withBg={false}
+                  talk={confTalk}
+                  i={i}
+                  key={confTalk.slug}
+                />
+              ))}
             </ul>
           </div>
         )}
         <ul className="flex w-full flex-col">
-          {talks.map((talk, i) => {
-            return <TalkItem talk={talk} i={i} key={talk.slug} />
-          })}
+          {talks
+            .filter(
+              (talk) =>
+                !conf24Talks?.some((confTalk) => confTalk.slug === talk.slug),
+            )
+            .map((talk, i) => (
+              <TalkItem talk={talk} i={i} key={talk.slug} />
+            ))}
         </ul>
       </main>
     </Layout>
@@ -97,10 +106,11 @@ export const TalkItem: React.FC<{
   path?: string
   i: number
   withBg?: boolean
-}> = ({talk, path = 'talks', withBg = true, i}) => {
+  thumbnailTime?: number
+}> = ({talk, path = 'talks', withBg = true, thumbnailTime = 0, i}) => {
   const {title, slug} = talk
   const muxPlaybackId = talk?.muxPlaybackId
-  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve&time=0`
+  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve&time=${thumbnailTime}`
 
   const {resourceCompleted} = useResourceComplete(talk.slug)
 
@@ -133,16 +143,27 @@ export const TalkItem: React.FC<{
           </div>
         </div>
         <div>
-          <h4 className="text-base font-semibold leading-tight sm:text-xl sm:leading-tight">
+          <h4 className="text-balance text-base font-semibold leading-tight sm:text-xl sm:leading-tight">
             {talk.title}
           </h4>
-          <ResourceContributor
-            name={talk?.presenter?.name}
-            slug={talk?.presenter?.slug}
-            image={talk.presenter?.picture?.url}
-            as="div"
-            className="mt-3 gap-2 text-sm font-normal [&_img]:w-8"
-          />
+          {talk.presenter && (
+            <ResourceContributor
+              as="div"
+              className="mt-3 gap-2 text-sm font-normal [&_img]:w-8"
+              name={talk.presenter?.name}
+              slug={talk.presenter?.slug}
+              image={talk.presenter?.picture?.url}
+            />
+          )}
+          {talk.oneTimeContributor && !talk.presenter && (
+            <ResourceContributor
+              name={talk.oneTimeContributor?.name as string}
+              image={talk.oneTimeContributor?.picProfile as string}
+              disableLink={true}
+              as="div"
+              className="mt-3 gap-2 text-sm font-normal [&_img]:w-8"
+            />
+          )}
         </div>
       </Link>
     </li>

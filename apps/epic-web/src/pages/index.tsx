@@ -47,7 +47,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@skillrecordings/ui'
-import {ConfBanner} from './events'
 
 const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -99,7 +98,6 @@ const Index: NextPage<{
         navigationClassName=""
       >
         <Header />
-        <ConfBanner className="relative z-40 mx-auto mb-10 w-full max-w-screen-md px-5 sm:mb-0 sm:mt-[-265px]" />
         <main className="">
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
           <Article
@@ -179,11 +177,11 @@ const Article: React.FC<{
   interviewImages: string[]
 }> = ({workshops, interviewImages}) => {
   return (
-    <article className="prose mx-auto max-w-3xl px-5 pt-0 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-16">
+    <article className="prose mx-auto max-w-3xl px-5 pt-0 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-5">
       <LandingCopy
         components={{
           // ...linkedHeadingComponents,
-          Testimonial: ({children, author, url}) => {
+          Testimonial: ({children, author, url}: any) => {
             return (
               <blockquote className="relative !my-0 flex flex-col justify-between rounded-md border-l-0 bg-white !p-5 not-italic text-foreground dark:bg-white/5 lg:!p-8">
                 <div className="prose dark:prose-invert sm:prose-lg prose-p:font-medium">
@@ -230,7 +228,7 @@ const Article: React.FC<{
             )
           },
           WorkshopAppScreenshot,
-          AboutKent: ({children}) => {
+          AboutKent: ({children}: any) => {
             return (
               <div className="rounded-lg border bg-white px-8 py-3 dark:bg-white/5 sm:px-10 sm:py-5">
                 <Image
@@ -255,7 +253,7 @@ const Article: React.FC<{
             features,
             path = 'bonuses',
             children,
-          }) => {
+          }: any) => {
             return (
               <li
                 id={slug}
@@ -334,7 +332,7 @@ const Article: React.FC<{
             meta,
             features,
             path = 'workshops',
-          }) => {
+          }: any) => {
             return (
               <li
                 id={slug}
@@ -391,7 +389,7 @@ const Article: React.FC<{
               </li>
             )
           },
-          li: ({children}) => {
+          li: ({children}: any) => {
             return (
               <li className='list-none py-1 pl-7 before:-ml-7 before:pr-3 before:text-emerald-500 before:content-["✓"] dark:before:text-emerald-300 sm:before:-ml-2'>
                 {children}

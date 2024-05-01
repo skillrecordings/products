@@ -1,5 +1,5 @@
 [data-video-transcript] {
-  @apply mt-12 border-t pt-10;
+  @apply [&:not(:last-child)]:mt-12 [&:not(:last-child)]:border-t [&:not(:last-child)]:pt-10;
   [data-title] {
     @apply mt-0;
   }

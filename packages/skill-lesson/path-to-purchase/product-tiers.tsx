@@ -35,7 +35,10 @@ export const PricingTiers: React.FC<
         {products?.map((productWithOptions, i) => {
           const {options, ...product} = productWithOptions
           return (
-            <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+            <PriceCheckProvider
+              key={productWithOptions.slug}
+              purchasedProductIds={purchasedProductIds}
+            >
               <Pricing
                 key={product.name}
                 userId={userId}

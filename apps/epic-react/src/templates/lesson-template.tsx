@@ -221,8 +221,10 @@ const ExerciseTemplate: React.FC<{
               >
                 <div className={isTheaterMode ? 'col-span-4' : ''}>
                   <div className="flex w-full items-center justify-between py-5 sm:py-6">
-                    {epicReactModule.github?.repo && (
+                    {epicReactModule.github?.repo ? (
                       <RepositoryLink codeUrl={epicReactModule.github.repo} />
+                    ) : (
+                      <div />
                     )}
                     {displayLessonCompletionToggle && (
                       <section aria-label="track progress" className="group">

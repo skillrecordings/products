@@ -18,6 +18,7 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import Icon from 'components/icons'
 import {IS_PAST_CONF_24} from 'pages/conf'
 import {formatInTimeZone} from 'date-fns-tz'
+import pluralize from 'pluralize'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const events = await getAllEvents()
@@ -64,7 +65,6 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
         </h2>
       </header>
       <main className="mx-auto grid w-full max-w-3xl grid-cols-1 flex-col gap-5 px-5 pb-24">
-        <ConfBanner />
         {!hasUpcomingEvents && (
           <>
             <div className="py-5 text-lg">
@@ -209,7 +209,8 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                             {availability?.quantityAvailable ?? (
                               <Spinner className="w-3" />
                             )}{' '}
-                            spots left
+                            {pluralize('spot', availability?.quantityAvailable)}{' '}
+                            left
                           </>
                         ) : (
                           <div className="rounded bg-gray-100 px-3 py-1.5 dark:bg-gray-900">
@@ -224,6 +225,7 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
             </article>
           )
         })}
+        <ConfBanner />
       </main>
     </Layout>
   )
@@ -286,7 +288,6 @@ export const ConfBanner: React.FC<{className?: string; title?: string}> = ({
                 <div>Prospector Square Theatre</div>
               </div>
             </div>
-            <div className="text-sm font-semibold">Tickets on sale!</div>
           </div>
         )}
         <Image
