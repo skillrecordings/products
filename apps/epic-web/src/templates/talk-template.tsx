@@ -189,7 +189,7 @@ const TalkTemplate: React.FC<{
                     image={talk.presenter?.picture?.url}
                   />
                 )}
-                {talk.oneTimeContributor && (
+                {talk.oneTimeContributor && !talk.presenter && (
                   <ResourceContributor
                     className="mt-3 inline-flex text-base [&_img]:w-10 [&_span]:font-normal"
                     name={talk.oneTimeContributor?.name as string}

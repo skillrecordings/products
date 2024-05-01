@@ -256,7 +256,7 @@ export const getAllConf24Talks = async (count?: number): Promise<Talk[]> => {
 
 export const getConfTalkBySpeaker = async (name: string): Promise<Talk> => {
   const talk = await sanityClient.fetch(
-    groq`*[_type == "talk"  && contributors[0].name == $name][0] {
+    groq`*[_type == "talk" && contributors[0].name == $name][0] {
         _id,
         _type,
         contributors,
