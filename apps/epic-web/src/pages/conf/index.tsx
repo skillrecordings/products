@@ -2179,7 +2179,10 @@ export const Schedule: React.FC<{
                                 </p>
                               </div>
                               <div className="col-span-4 w-full md:col-span-3">
-                                <div className="flex w-full flex-row items-center gap-2 text-left">
+                                <div className="flex w-full flex-col items-start gap-2 text-left md:flex-row md:items-center">
+                                  <h4 className="w-full font-semibold leading-tight sm:text-lg print:text-black">
+                                    {session.title}
+                                  </h4>
                                   {talk &&
                                     !session.title.includes(
                                       'OPTIONAL WORKSHOP REQUIRES A SEPARATE TICKET',
@@ -2199,9 +2202,6 @@ export const Schedule: React.FC<{
                                         </Link>
                                       </Button>
                                     )}
-                                  <h4 className="w-full font-semibold leading-tight sm:text-lg print:text-black">
-                                    {session.title}
-                                  </h4>
                                   {hasMultipleSpeakers ? (
                                     <div className="flex w-full items-center gap-2 md:hidden">
                                       {session?.speakers?.map((speaker) => {
