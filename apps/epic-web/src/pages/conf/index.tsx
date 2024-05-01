@@ -2468,7 +2468,7 @@ const Talks: React.FC<{talks: Talk[] | null}> = ({talks}) => {
         <ul className="relative flex flex-row gap-3 overflow-x-hidden pr-24 after:pointer-events-none after:absolute after:right-0 after:top-0 after:h-full after:w-80 after:bg-gradient-to-r after:from-transparent after:to-gray-950 after:content-['']">
           {talks.map((talk, index) => {
             const isLast = index === talks.length - 1
-            const thumbnail = `https://image.mux.com/${talk?.muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve&time=0`
+            const thumbnail = `https://image.mux.com/${talk?.muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve&time=13`
             return (
               <li
                 key={talk._id}
