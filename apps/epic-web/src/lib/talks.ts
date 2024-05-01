@@ -253,3 +253,33 @@ export const getAllConf24Talks = async (count?: number): Promise<Talk[]> => {
   return event.talks
   // return TalksSchema.parse(event.talks)
 }
+
+export const getConfTalkBySpeaker = async (name: string): Promise<Talk> => {
+  const talk = await sanityClient.fetch(
+    groq`*[_type == "talk"  && contributors[0].name == $name][0] {
+        _id,
+        _type,
+        contributors,
+        _updatedAt,
+        _createdAt,
+        title,
+        state,
+        description,
+        summary,
+        body,
+        "event": *[_type == "event" && references(^._id)][0] {
+          title,
+          "slug": slug.current,
+          state,
+        },
+        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "slug": slug.current,
+    }`,
+    {name},
+  )
+  if (!talk) {
+    throw new Error('Talk not found')
+  }
+  return TalkSchema.parse(talk)
+}
