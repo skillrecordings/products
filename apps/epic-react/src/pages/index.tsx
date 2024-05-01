@@ -216,19 +216,29 @@ const Home: React.FC<{modules: any[]; commerceProps: CommerceProps}> = ({
           </ul>
         </div>
         <div className="my-16 bg-er-gray-100 pb-16 pt-8">
-          <div className="px-5 text-center">
-            <h1 className="py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
-              Join over 7000 Developers and Get Really Good At React
-            </h1>
-            <p className="mx-auto mt-5 max-w-4xl text-xl text-react sm:text-2xl">
-              The beautiful thing about learning is that nobody can take it away
-              from you.
-            </p>
+          <div className="py-12 lg:py-16">
+            <div className="px-5 text-center">
+              <h1 className="py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
+                Join over 7000 Developers and Get Really Good At React
+              </h1>
+              <p className="mx-auto mt-5 max-w-4xl text-xl text-react sm:text-2xl">
+                The beautiful thing about learning is that nobody can take it
+                away from you.
+              </p>
+            </div>
+            <div className="mt-16 lg:mt-32">
+              <PricingSection
+                commerceProps={commerceProps}
+                className="mb-28 mt-12 md:mt-14 lg:mb-32 lg:mt-16"
+              />
+            </div>
           </div>
-          <div className="mt-16 lg:mt-32">
-            <PricingSection
-              commerceProps={commerceProps}
-              className="mb-28 mt-12 md:mt-14 lg:mb-32 lg:mt-16"
+          <div className="mx-auto h-48 w-48">
+            <Image
+              src="/assets/money-back-guarantee-badge.svg"
+              alt="30 day money back guarantee"
+              width={192}
+              height={192}
             />
           </div>
         </div>
