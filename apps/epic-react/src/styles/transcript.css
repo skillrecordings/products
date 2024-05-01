@@ -1,0 +1,9 @@
+[data-video-transcript] {
+  @apply [&:not(:last-child)]:mt-12 [&:not(:last-child)]:border-t [&:not(:last-child)]:pt-10;
+  [data-title] {
+    @apply mt-0;
+  }
+  [data-timestamp] {
+    @apply text-er-primary no-underline hover:underline;
+  }
+}

@@ -92,7 +92,7 @@ const WorkshopTemplate: React.FC<{
       }}
     >
       {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-      <CourseMeta title={pageTitle} description={description} />
+      <CourseMeta product={product} />
       {workshop.state === 'draft' && (
         <div className="sm:px-3">
           <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded sm:text-base">
@@ -432,21 +432,34 @@ const Header: React.FC<{module: Module; canView: boolean}> = ({
   )
 }
 
-const CourseMeta = ({
-  title,
-  description,
-}: {
-  title: string
-  description?: string | null | undefined
-}) => (
+const CourseMeta = ({product}: {product: SanityProduct}) => (
   <CourseJsonLd
-    courseName={title}
-    description={description || ''}
+    courseName={product.title || ''}
+    description={product.description || ''}
     provider={{
       name: `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
       type: 'Person',
       url: isBrowser() ? document.location.href : process.env.NEXT_PUBLIC_URL,
     }}
+    offers={[
+      {
+        price: product.unitAmount,
+        priceCurrency: 'USD',
+        category: 'Paid',
+      },
+    ]}
+    hasCourseInstance={[
+      {
+        courseMode: 'Online',
+        courseWorkload: 'PT22H',
+        instructor: [
+          {
+            type: 'Person',
+            name: `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
+          },
+        ],
+      },
+    ]}
   />
 )
 

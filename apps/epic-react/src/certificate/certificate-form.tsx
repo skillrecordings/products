@@ -23,7 +23,7 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
     shouldUseNativeValidation: true,
     defaultValues: {
       name: session?.user?.name || '',
-      certificateUrl: `/api/certificate?moduleId=${module._id}&userId=${userData?.id}`,
+      certificateUrl: `/api/certificate?moduleId=${module._id}&userId=${userData?.id}&name=${session?.user?.name}`,
     },
   })
   const userNameMutation = trpc.user.updateName.useMutation({
@@ -53,45 +53,51 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
   }
 
   const imagePath = process.env.NEXT_PUBLIC_URL + watch().certificateUrl
-  // const [certUrl, setCertUrl] = React.useState(
-  //   `${process.env.NEXT_PUBLIC_URL}/api/certificate?moduleId=${module._id}`,
-  // )
 
   React.useEffect(() => {
     if (userStatus === 'success' && userData?.id) {
       form.setValue(
         'certificateUrl',
-        `${process.env.NEXT_PUBLIC_URL}/api/certificate?moduleId=${module._id}&userId=${userData?.id}`,
+        `${process.env.NEXT_PUBLIC_URL}/api/certificate?moduleId=${module._id}&userId=${userData?.id}&name=${session?.user?.name}`,
       )
     }
   }, [userData, userStatus])
 
-  const certUrl = `${process.env.NEXT_PUBLIC_URL}/api/certificate?moduleId=${module._id}&userId=${userData?.id}`
+  const certUrl = `${process.env.NEXT_PUBLIC_URL}/api/certificate?moduleId=${module._id}&userId=${userData?.id}&name=${session?.user?.name}`
 
   const urlInputRef = React.useRef<HTMLInputElement>(null)
   const isSubmitting = form.formState.isSubmitting
   return (
     <Dialog.Portal container={window.document.getElementById('layout')}>
-      <Dialog.Overlay className="fixed inset-0 z-30 bg-black/20 backdrop-blur-sm" />
+      <Dialog.Overlay className="bg-black/20 fixed inset-0 z-30 backdrop-blur-sm" />
       <Dialog.Content className="fixed left-[50%] top-[50%] z-50 max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] border border-gray-100 bg-white p-[25px] shadow-2xl shadow-black/20 focus:outline-none dark:border-gray-700/50 dark:bg-gray-800 dark:shadow-black/40">
         <Dialog.Title className=" pb-3 text-xl font-semibold dark:border-gray-700">
           Your Certificate of Completion
         </Dialog.Title>
         <div className="pointer-events-none relative flex items-center justify-center">
           <Image
-            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1700132958/skill-template-certificate-thumbnail.png"
+            src="/assets/epic-react-certificate-bg.svg"
             width={1263}
             height={893}
             alt=""
             className="w-full rounded-lg shadow-xl"
           />
-          <div className="absolute -mt-10 flex flex-col items-center text-center text-white">
-            {module.image && (
-              <Image src={module.image} alt="" width={120} height={120} />
-            )}
-            <div className="text-xl font-bold">{form.watch('name')}</div>
-            <div className="pt-1 text-[0.5rem] text-gray-300">
-              Has successfully completed the {module.title} {module.moduleType}.
+          {module.image && (
+            <Image
+              className="absolute top-8"
+              src={module.image}
+              alt=""
+              width={75}
+              height={75}
+            />
+          )}
+          <div className="absolute flex flex-col items-center text-center">
+            <div className="mt-16">
+              <div className="text-xl font-bold">{form.watch('name')}</div>
+              <div className="pt-1 text-[0.5rem] text-gray-300">
+                Has successfully completed the {module.title}{' '}
+                {module.moduleType}.
+              </div>
             </div>
           </div>
           <div className="absolute bottom-5 right-5 text-[0.4rem] opacity-75">
@@ -144,7 +150,7 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
                 )}
               >
                 <a
-                  download
+                  download={`${module.slug.current}-certificate.png`}
                   href={watch().certificateUrl}
                   onClick={() => {
                     track('downloaded workshop certificate', {

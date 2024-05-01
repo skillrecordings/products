@@ -1,49 +1,93 @@
 import * as React from 'react'
-import {motion, AnimateSharedLayout} from 'framer-motion'
-import {
-  useMedia,
-  useWindowSize,
-  useLocalStorage,
-  useMeasure,
-  useSize,
-} from 'react-use'
-import BlockedOverlay from '@/components/video-overlays/blocked-overlay'
+import {useRouter} from 'next/router'
+import Image from 'next/image'
+import Link from 'next/link'
+import {useSession} from 'next-auth/react'
+import {motion} from 'framer-motion'
+import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {MuxPlayerRefAttributes} from '@mux/mux-player-react'
+import pluralize from 'pluralize'
+import {capitalize, divide} from 'lodash'
+import Balancer from 'react-wrap-balancer'
 
-import Layout from '@/components/app/layout'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {ArticleJsonLd, CourseJsonLd} from '@skillrecordings/next-seo'
 import {Video} from '@skillrecordings/skill-lesson/video/video'
-import {useRouter} from 'next/router'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
+import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useVideoResource} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
+import * as Collection from '@skillrecordings/skill-lesson/video/collection'
+import {ModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
+import LessonCompleteToggle from '@/components/lesson-completion-toggle'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
+import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {Button, ScrollArea, ScrollBar, Skeleton} from '@skillrecordings/ui'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {LessonDescription} from '@skillrecordings/skill-lesson/video/lesson-description'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
-import {MuxPlayerRefAttributes} from '@mux/mux-player-react'
-import {trpc} from '@/trpc/trpc.client'
-import * as LessonCompletionToggle from '@skillrecordings/skill-lesson/video/lesson-completion-toggle'
-import {useSession} from 'next-auth/react'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import Balancer from 'react-wrap-balancer'
-import Spinner from '@/components/spinner'
-import pluralize from 'pluralize'
 import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import * as Collection from '@skillrecordings/skill-lesson/video/collection'
-import {Button, ScrollArea, ScrollBar, Skeleton} from '@skillrecordings/ui'
-import Image from 'next/image'
-import Link from 'next/link'
-import {Icon} from '@skillrecordings/skill-lesson/icons'
-import {capitalize, divide} from 'lodash'
-import {cn} from '@skillrecordings/ui/utils/cn'
-import {getOgImage} from '@/utils/get-og-image'
-import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
-import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
-import Container from '@/components/app/container'
+
+import {trpc} from '@/trpc/trpc.client'
+import {getOgImage} from '@/utils/get-og-image'
 import {track} from '@/utils/analytics'
 import {lessonPathBuilder} from '@/utils/lesson-path-builder'
+import BlockedOverlay from '@/components/video-overlays/blocked-overlay'
+import Container from '@/components/app/container'
+import Spinner from '@/components/spinner'
+import Layout from '@/components/app/layout'
+import ProgressBar from '@/components/progress-bar'
+import RepositoryLink from '@/components/repository-link'
+
+const NavigationProgressModule: React.FC<{
+  module: Module
+  moduleProgress: ModuleProgress
+  moduleProgressStatus: 'error' | 'loading' | 'success'
+}> = ({module, moduleProgress, moduleProgressStatus}) => {
+  const percentComplete = moduleProgress
+    ? Number(
+        (
+          (100 * moduleProgress.completedLessonCount) /
+          moduleProgress.lessonCount
+        ).toFixed(0),
+      )
+    : 0
+  return moduleProgress ? (
+    moduleProgressStatus === 'loading' ? (
+      <Skeleton className="h-10 w-[220px] rounded-md bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
+    ) : (
+      <div className="flex items-center">
+        <span className="ml-2 mr-3 text-lg text-er-gray-500">/</span>
+        {module?.image && (
+          <div className="mr-2 inline-block h-10 w-10">
+            <Image
+              src={module.image}
+              alt={module.title}
+              width={40}
+              height={40}
+            />
+          </div>
+        )}
+        <div className="flex flex-col">
+          {module?.resources && (
+            <h4 className="inline-block text-sm font-semibold leading-tight md:text-base">
+              <Link
+                href={`/modules/${module.slug.current}/${module.resources[0]?.slug}`}
+              >
+                {module.title}
+              </Link>
+            </h4>
+          )}
+          <ProgressBar percentComplete={percentComplete} />
+        </div>
+      </div>
+    )
+  ) : null
+}
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -61,12 +105,17 @@ const ExerciseTemplate: React.FC<{
     image: module.image,
   })
   const {ogImage: moduleOGImage, description: moduleDescription} = module
-  const pageTitle = `${title}`
+  const pageTitle = title
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? ogImage : {url: moduleOGImage}
   //TODO path here could also include module slug and section (as appropriate)
-  const path = `/${pluralize(module.moduleType)}`
+  const path = `/${pluralize('module')}`
   const {data: session, status: sessionStatus} = useSession()
+
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: module.slug.current,
+    })
 
   const addProgressMutation = trpc.progress.add.useMutation()
   const {data: lessonResources, status: lessonResourcesStatus} =
@@ -84,15 +133,14 @@ const ExerciseTemplate: React.FC<{
       lesson._type === 'interview') &&
     session
 
+  const epicReactModule = {...module, moduleType: 'module'}
+
   // TODO: fix hydration issue
   // const [isTheaterMode, setIsTheaterMode] = useLocalStorage(
   //   'theaterMode',
   //   false,
   // )
   const [isTheaterMode, setIsTheaterMode] = React.useState<boolean>(false)
-
-  const {height} = useWindowSize()
-  const listMaxHeight = (height - 65) / 1.25
 
   return (
     <VideoProvider
@@ -112,6 +160,15 @@ const ExerciseTemplate: React.FC<{
             images: [{url: shareCard.url as string}],
             description: pageDescription as string,
           },
+        }}
+        navigationProps={{
+          navChildren: (
+            <NavigationProgressModule
+              module={epicReactModule}
+              moduleProgress={moduleProgress as ModuleProgress}
+              moduleProgressStatus={moduleProgressStatus}
+            />
+          ),
         }}
       >
         <CourseJsonLd
@@ -144,7 +201,7 @@ const ExerciseTemplate: React.FC<{
               <div className="-mx-5 md:mx-0">
                 <motion.div
                   layout
-                  // className="relative overflow-hidden rounded-none bg-gray-100 md:rounded-md"
+                  className="relative overflow-hidden rounded-none bg-gray-100 md:rounded-md"
                 >
                   <Video
                     product={module?.product as SanityProduct}
@@ -163,192 +220,38 @@ const ExerciseTemplate: React.FC<{
                 }
               >
                 <div className={isTheaterMode ? 'col-span-4' : ''}>
-                  <div className="flex w-full items-center justify-end py-5 sm:py-6">
-                    <button onClick={() => setIsTheaterMode(!isTheaterMode)}>
-                      123
-                    </button>
+                  <div className="flex w-full items-center justify-between py-5 sm:py-6">
+                    {epicReactModule.github?.repo ? (
+                      <RepositoryLink codeUrl={epicReactModule.github.repo} />
+                    ) : (
+                      <div />
+                    )}
                     {displayLessonCompletionToggle && (
                       <section aria-label="track progress" className="group">
-                        <div className="mx-auto flex w-full max-w-4xl items-center justify-center gap-5 px-5">
-                          {/* {sessionStatus === 'loading' ? (
-                            <Skeleton className="h-10 w-full" />
-                          ) : ( */}
-                          <LessonCompletionToggle.Root>
-                            <Button asChild variant="secondary">
-                              <LessonCompletionToggle.Toggle className="flex cursor-pointer flex-row-reverse items-center gap-1 rounded p-3 data-[fetching='true']:cursor-wait [&>button]:x-[relative,h-5,w-10,rounded-full,border,border-gray-700/50,bg-gray-800,shadow-md,shadow-black/50] [&_button>span[data-state='checked']]:x-[translate-x-5] [&_button>span]:x-[block,h-4,w-4,translate-x-0.5,rounded-full,bg-gray-200,shadow-sm,shadow-black/50,transition-all,ease-out] [&_button[data-state='checked']]:x-[bg-primary]">
-                                <span className="text-base">
-                                  Mark as complete
-                                </span>
-                              </LessonCompletionToggle.Toggle>
-                            </Button>
-                          </LessonCompletionToggle.Root>
-                          {/* )} */}
-                        </div>
+                        <LessonCompleteToggle />
                       </section>
                     )}
                   </div>
                   <hr className="border-er-gray-300 opacity-50" />
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Error dignissimos neque, hic fugit, sequi ipsum quia officia
-                  alias molestiae cum nisi harum enim maiores culpa voluptate
-                  quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat. Lorem ipsum, dolor sit amet consectetur adipisicing
-                  elit. Error dignissimos neque, hic fugit, sequi ipsum quia
-                  officia alias molestiae cum nisi harum enim maiores culpa
-                  voluptate quis dolore! At, iusto! Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Magnam minus porro ut dolor
-                  esse, labore quibusdam, temporibus maiores unde quae,
-                  architecto quidem ducimus. Voluptates harum id eos, quae dicta
-                  quaerat.
-                  {/* {summaryMdx && (
-                        <>
-                          <div className="prose my-8 max-w-none lg:prose-lg">
-                            <MDXRenderer>
-                              {summaryMdx.childMdx.body}
-                            </MDXRenderer>
-                          </div>
-                          <hr className="opacity-50" />
-                        </>
-                      )}
-                      {videoData && (
-                        <Transcript
-                          setPlaying={setPlaying}
-                          resourceId={slug}
-                          player={playerRef}
-                        />
-                      )} */}
+                  <div className="md:prose-md prose mx-auto mt-8 max-w-none pb-12 sm:pb-16 md:mt-10 lg:mt-12">
+                    <MDX contents={lessonBodySerialized} />
+                    <VideoTranscript transcript={transcript} />
+                  </div>
                 </div>
                 {isTheaterMode && (
                   <div className="relative mt-6 w-full sm:pb-5 md:col-span-2 md:pl-2">
                     <motion.div
                       layoutId="list"
                       className="sm:sticky sm:top-20"
-                      style={{height: listMaxHeight}}
+                      style={{maxHeight: 'calc(100dvh - 300px)'}}
                     >
-                      {/* <List
-                            isTheaterMode={isTheaterMode}
-                            toggleTheaterMode={toggleTheaterMode}
-                            collection={course}
-                            location={location}
-                            moduleProgress={moduleProgress}
-                            listMaxHeight={listMaxHeight}
-                          /> */}
-                      <LessonList module={module} path={path} />
+                      <LessonList
+                        module={epicReactModule}
+                        moduleProgressStatus={moduleProgressStatus}
+                        path={path}
+                        isTheaterMode={isTheaterMode}
+                        theaterModeHandler={setIsTheaterMode}
+                      />
                     </motion.div>
                   </div>
                 )}
@@ -358,18 +261,16 @@ const ExerciseTemplate: React.FC<{
               <div className="mt-6 w-full sm:mt-0 sm:pb-5 md:col-span-2 md:pl-2">
                 <motion.div
                   layoutId="list"
-                  className="sm:sticky sm:top-20"
-                  style={{height: listMaxHeight}}
+                  className="sm:sticky sm:top-[81px]"
+                  style={{maxHeight: 'calc(100dvh - 300px)'}}
                 >
-                  <LessonList module={module} path={path} />
-                  {/* <List
-                      isTheaterMode={isTheaterMode}
-                      toggleTheaterMode={toggleTheaterMode}
-                      collection={course}
-                      location={location}
-                      moduleProgress={moduleProgress}
-                      listMaxHeight={listMaxHeight}
-                    /> */}
+                  <LessonList
+                    module={epicReactModule}
+                    moduleProgressStatus={moduleProgressStatus}
+                    path={path}
+                    isTheaterMode={isTheaterMode}
+                    theaterModeHandler={setIsTheaterMode}
+                  />
                 </motion.div>
               </div>
             )}
@@ -385,22 +286,26 @@ export default ExerciseTemplate
 
 const LessonList: React.FC<{
   module: Module
+  moduleProgressStatus: 'error' | 'loading' | 'success'
   className?: string
   scrollAreaClassName?: string
   path: string
-}> = ({module, className, scrollAreaClassName, path}) => {
+  isTheaterMode: boolean
+  theaterModeHandler: React.Dispatch<React.SetStateAction<boolean>>
+}> = ({
+  module,
+  moduleProgressStatus,
+  className,
+  scrollAreaClassName,
+  path,
+  isTheaterMode,
+  theaterModeHandler,
+}) => {
   const scrollContainerRef = React.useRef<any>(null)
 
-  const {data: moduleProgress, status: moduleProgressStatus} =
-    trpc.moduleProgress.bySlug.useQuery({
-      slug: module.slug.current,
-    })
-
-  const [ref, {height}] = useMeasure<HTMLDivElement>()
-
   return (
-    <div>
-      <div ref={ref}>
+    <div className="group relative">
+      {/* <div ref={ref}>
         <div className="relative z-10 flex items-center space-x-5 border-b bg-white px-5 py-3 dark:bg-foreground/10 dark:shadow-xl dark:shadow-black/20">
           {module.image && (
             <Image
@@ -435,18 +340,18 @@ const LessonList: React.FC<{
             )}
           </div>
         </div>
-      </div>
+      </div> */}
 
       <ScrollAreaPrimitive.Root
         className="relative flex flex-col bg-gray-50 dark:bg-background"
-        style={scrollAreaClassName ? {} : {height: `calc(100vh - ${height}px)`}}
+        style={scrollAreaClassName ? {} : {maxHeight: `calc(100dvh - 300px)`}}
       >
-        <div
-          className="pointer-events-none absolute bottom-0 left-0 z-10 h-24 w-full bg-gradient-to-t from-background to-transparent"
-          aria-hidden
-        />
         <ScrollAreaPrimitive.Viewport
-          className={cn('flex-grow pb-[48px]', className, scrollAreaClassName)}
+          className={cn(
+            'flex-grow rounded-md border border-er-gray-200',
+            className,
+            scrollAreaClassName,
+          )}
           ref={scrollContainerRef}
         >
           <Collection.Root
@@ -483,14 +388,17 @@ const LessonList: React.FC<{
               )
             }}
           >
-            <Collection.Sections className="space-y-0 [&_[data-state]]:animate-none">
+            <Collection.Sections
+              data-lessons-list
+              className="space-y-0 bg-er-gray-100 [&_[data-state]]:animate-none"
+            >
               {moduleProgressStatus === 'loading' ? (
                 <Skeleton className="h-24 rounded-none bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
               ) : (
-                <Collection.Section className="bg-transparent font-semibold leading-tight transition data-[state]:rounded-none data-[state='closed']:border-b data-[state='closed']:opacity-75 data-[state='closed']:hover:opacity-100 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-primary dark:[&>[data-check-icon]]:text-primary [&>[data-progress]]:h-[2px] [&>[data-progress]]:bg-primary dark:[&>[data-progress]]:bg-primary">
-                  <Collection.Lessons className="border-none bg-transparent px-2 pb-5 pt-0">
+                <Collection.Section className="border-er-gray-200 bg-transparent font-semibold leading-tight transition data-[state='open']:rounded-none data-[state]:rounded-none data-[state='closed']:border-b hover:bg-er-gray-300 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-green-500 dark:[&>[data-check-icon]]:text-green-500 [&>[data-progress]]:h-[2px] [&>[data-progress]]:bg-primary dark:[&>[data-progress]]:bg-primary">
+                  <Collection.Lessons className="border-none bg-transparent py-0">
                     <Collection.Lesson
-                      className='rounded font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-primary  dark:[&_[data-check-icon]]:text-primary [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
+                      className='pl-4 transition before:hidden data-[active="true"]:bg-white hover:bg-er-gray-300 dark:data-[active="true"]:bg-er-gray-200 dark:hover:data-[active="true"]:bg-er-gray-300 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-green-500 [&_[data-check-icon]]:opacity-100 dark:[&_[data-check-icon]]:text-green-500 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:transition [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
                       scrollContainerRef={scrollContainerRef}
                     >
                       <Collection.Resources />
@@ -499,15 +407,29 @@ const LessonList: React.FC<{
                 </Collection.Section>
               )}
             </Collection.Sections>
-            {/* Used for module that has either mixed lessons with sections, no sections whatsoever, or single section */}
-            <Collection.Lessons className="py-0">
-              <Collection.Lesson className='bg-teal-800 font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500  dark:[&_[data-check-icon]]:text-blue-300 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500' />
+            <Collection.Lessons className="bg-er-gray-100 py-0">
+              <Collection.Lesson className='bg-transparent font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-blue-500  dark:[&_[data-check-icon]]:text-green-500 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500' />
             </Collection.Lessons>
           </Collection.Root>
         </ScrollAreaPrimitive.Viewport>
         <ScrollBar />
         <ScrollAreaPrimitive.Corner />
       </ScrollAreaPrimitive.Root>
+      <button
+        onClick={() => theaterModeHandler(!isTheaterMode)}
+        className={cn(
+          'absolute right-2 z-10 hidden items-center justify-center rounded-md bg-background p-2 text-text opacity-0 duration-150 group-hover:opacity-75 group-hover:hover:bg-blue-500 group-hover:hover:opacity-100 lg:flex',
+          isTheaterMode ? 'top-2' : 'bottom-2',
+        )}
+      >
+        {isTheaterMode ? (
+          // prettier-ignore
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16"><g fill="currentColor"><path fill="currentColor" d="M7,7v8c0,0.6,0.4,1,1,1h0c0.6,0,1-0.4,1-1V7h5L8,0L2,7H7z"></path></g></svg>
+        ) : (
+          // prettier-ignore
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16"><g fill="currentColor"><path fill="currentColor" d="M9,9V1c0-0.6-0.4-1-1-1h0C7.4,0,7,0.4,7,1v8H2l6,7l6-7H9z"></path></g></svg>
+        )}
+      </button>
     </div>
   )
 }

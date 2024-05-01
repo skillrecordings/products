@@ -484,34 +484,161 @@ test('PPP can be forced to not auto-apply for upgrade', async () => {
   expect(product.calculatedPrice).toBe(155)
 })
 
-test('PPP coupon not available for non-ppp purchasers', async () => {
-  const mockPurchases = [
-    {
-      status: 'Valid',
+test('PPP coupon not available if user has a self-paced valid purchase', async () => {
+  const mockAnotherSelfPacedProduct = {
+    id: 'product-self-paced2',
+    name: 'self paced workshop',
+    createdAt: new Date(),
+    key: 'self-paced2',
+    status: 1,
+    quantityAvailable: -1,
+    productType: 'self-paced',
+  }
+
+  const mockPriceAnotherSelfPaced = {
+    id: 'price-self-paced',
+    createdAt: new Date(),
+    status: 1,
+    productId: 'product-self-paced2',
+    nickname: 'self-paced2',
+    unitAmount: new Prisma.Decimal(55),
+  }
+
+  const mockAnotherSelfPacedPurchase = {
+    totalAmount: new Prisma.Decimal(55),
+    id: 'purchase-self-paced',
+    status: 'Valid',
+    createdAt: new Date(),
+    productId: 'product-self-paced2',
+    userId: 'user-1',
+    bulkCouponId: '',
+    city: '',
+    country: '',
+    ip_address: '',
+    merchantChargeId: '',
+    merchantSessionId: '',
+    redeemedBulkCouponId: '',
+    state: '',
+    upgradedFromId: '',
+    couponId: '',
+    product: {
+      id: 'product-self-paced2',
+      name: 'self paced workshop',
+      productType: 'self-paced',
     },
+  }
+
+  // @ts-ignore
+  mockCtx.prisma.product.findFirst.mockResolvedValueOnce({
+    ...mockAnotherSelfPacedProduct,
+  })
+
+  // @ts-ignore
+  mockCtx.prisma.price.findMany.mockResolvedValueOnce([
+    mockPriceAnotherSelfPaced,
+  ])
+
+  // @ts-ignore
+  mockCtx.prisma.purchase.findMany.mockResolvedValueOnce([
     {
-      status: 'Valid',
+      ...mockAnotherSelfPacedPurchase,
     },
-  ]
+  ])
 
   mockCtx.prisma.merchantCoupon.findMany.mockResolvedValue([MOCK_INDIA_COUPON])
 
   // @ts-ignore
-  mockCtx.prisma.purchase.findMany.mockResolvedValue(mockPurchases)
-
-  // @ts-ignore
   mockCtx.prisma.user.findFirst.mockResolvedValue({
-    id: 'default-user',
+    id: 'user-1',
   })
 
-  const product = await formatPricesForProduct({
+  const {availableCoupons} = await formatPricesForProduct({
     productId: DEFAULT_PRODUCT_ID,
-    userId: 'default-user',
+    userId: 'user-1',
+    quantity: 1,
     country: 'IN',
     ctx,
   })
 
-  expect(product.availableCoupons.length).toBe(0)
+  expect(availableCoupons.length).toBe(0)
+})
+
+test('PPP available for self-paced workshop having a valid live-event purchase', async () => {
+  const mockLiveEventProduct = {
+    id: 'product-live',
+    name: 'live event workshop',
+    createdAt: new Date(),
+    key: 'live event',
+    status: 1,
+    quantityAvailable: -1,
+    productType: 'live',
+  }
+
+  const mockPriceLiveEvent = {
+    id: 'price-live',
+    createdAt: new Date(),
+    status: 1,
+    productId: 'product-live',
+    nickname: 'live',
+    unitAmount: new Prisma.Decimal(55),
+  }
+
+  const mockLiveEventPurchase = {
+    totalAmount: new Prisma.Decimal(55),
+    id: 'purchase-live-event',
+    status: 'Valid',
+    createdAt: new Date(),
+    productId: 'product-live',
+    userId: 'user-1',
+    bulkCouponId: '',
+    city: '',
+    country: '',
+    ip_address: '',
+    merchantChargeId: '',
+    merchantSessionId: '',
+    redeemedBulkCouponId: '',
+    state: '',
+    upgradedFromId: '',
+    couponId: '',
+    product: {
+      id: 'product-live',
+      name: 'live event workshop',
+      productType: 'live',
+    },
+  }
+
+  // @ts-ignore
+  mockCtx.prisma.product.findFirst.mockResolvedValueOnce({
+    ...mockLiveEventProduct,
+    prices: [mockPriceLiveEvent],
+  })
+
+  // @ts-ignore
+  mockCtx.prisma.price.findMany.mockResolvedValueOnce([mockPriceLiveEvent])
+
+  // @ts-ignore
+  mockCtx.prisma.purchase.findMany.mockResolvedValueOnce([
+    {
+      ...mockLiveEventPurchase,
+    },
+  ])
+
+  mockCtx.prisma.merchantCoupon.findMany.mockResolvedValue([MOCK_INDIA_COUPON])
+
+  // @ts-ignore
+  mockCtx.prisma.user.findFirst.mockResolvedValue({
+    id: 'user-1',
+  })
+
+  const {availableCoupons} = await formatPricesForProduct({
+    productId: DEFAULT_PRODUCT_ID,
+    userId: 'user-1',
+    quantity: 1,
+    country: 'IN',
+    ctx,
+  })
+
+  expect(availableCoupons[0]?.type).toBe('ppp')
 })
 
 test('multiple purchases applies fixed discount for bundle upgrade', async () => {
@@ -578,6 +705,7 @@ test('multiple purchases applies fixed discount for bundle upgrade', async () =>
     key: 'hey',
     status: 1,
     quantityAvailable: -1,
+    productType: 'self-paced',
   }
 
   const mockProductTwo = {
@@ -587,6 +715,7 @@ test('multiple purchases applies fixed discount for bundle upgrade', async () =>
     key: 'hey2',
     status: 1,
     quantityAvailable: -1,
+    productType: 'self-paced',
   }
 
   // @ts-ignore
@@ -648,6 +777,7 @@ const mockProduct = {
   key: 'hey',
   status: 1,
   quantityAvailable: -1,
+  productType: 'self-paced',
 }
 
 const mockUpgradeProduct = {
@@ -657,6 +787,7 @@ const mockUpgradeProduct = {
   key: 'hey',
   status: 1,
   quantityAvailable: -1,
+  productType: 'self-paced',
 }
 
 const mockPrice = {

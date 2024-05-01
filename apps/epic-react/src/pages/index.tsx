@@ -1,178 +1,247 @@
-import type {GetStaticProps, NextPage} from 'next'
+import type {GetServerSideProps, NextPage} from 'next'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
+import {getToken} from 'next-auth/jwt'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import Balancer from 'react-wrap-balancer'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
-import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
-import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  // useReducedMotion,
+} from 'framer-motion'
+import {InView} from 'react-intersection-observer'
+
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
-import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
-
-import {getAllProducts, getPricing, getProduct} from '@/lib/products'
-import {getAvailableBonuses} from '@/lib/available-bonuses'
-import {getPage} from '@/lib/pages'
-import {trpc} from '@/trpc/trpc.client'
-import config from '../config'
-import {pricingClassNames} from '@/styles/commerce'
-
-import Container from '@/components/app/container'
+import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
+import {getProduct, getAllProducts} from '@/lib/products'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
-import {PrimaryNewsletterCta} from '@/components/primary-newsletter-cta'
+import LandingCopy from '@/components/landing-copy.mdx'
+import Divider from '@/components/divider'
+import PricingSection from '@/components/pricing-section'
 
-const defaultProductId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
+import imgSky from '../../public/assets/sky@2x.jpg'
+import imgBigPlanet from '../../public/assets/big-planet@2x.png'
+import imgRingPlanet from '../../public/assets/ring-planet@2x.png'
+import imgMoon from '../../public/assets/moon@2x.png'
+import imgLandingRocket from '../../public/assets/landing-rocket@2x.png'
 
-export const getStaticProps: GetStaticProps = async () => {
-  const defaultProduct = await getProduct(defaultProductId as string)
-  const pricing = await getPricing()
-  const products = (pricing && pricing.products) || []
-  const availableBonuses = await getAvailableBonuses()
-  const landingPage = await getPage('landing-page')
-  const landingCopy = landingPage?.body
-    ? await serializeMDX(landingPage?.body)
-    : null
+const DEFAULT_PRODUCT_ID = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
+
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+  const token = await getToken({req})
+  const products = await getAllProducts()
+  const {props: commerceProps} = await propsForCommerce({
+    query,
+    token,
+    products,
+  })
+  const defaultProduct = await getProduct(DEFAULT_PRODUCT_ID as string)
+  const modules = defaultProduct?.modules
+    ? defaultProduct.modules.slice(1, -1)
+    : []
 
   return {
-    props: {
-      defaultProduct,
-      landingCopy,
-      products,
-      bonuses: availableBonuses,
-    },
-    revalidate: 10,
+    props: {modules, commerceProps},
   }
 }
-
-const Home: NextPage<{
-  defaultProduct?: SanityProduct
-  products: SanityProduct[]
-  bonuses: any[]
-  landingCopy?: MDXRemoteSerializeResult
-}> = ({defaultProduct, products, bonuses, landingCopy}) => {
-  const router = useRouter()
-  const ALLOW_PURCHASE =
-    router.query.allowPurchase === 'true' || defaultProduct?.state === 'active'
-  const {subscriber, loadingSubscriber} = useConvertkit()
-  const {data: commerceProps, status: commercePropsStatus} =
-    trpc.pricing.propsForCommerce.useQuery({
-      ...router.query,
-      productId: defaultProduct?.productId,
-    })
-
-  // TODO: should we move the coupon call down into `<Pricing>` so that it
-  // can be called separate for each product?
-  const productId = products[0]?.productId
-
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    commerceProps?.couponFromCode,
-    {
-      id: productId,
-      image: {
-        url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
-        width: 132,
-        height: 112,
-      },
-      title: defaultProduct?.title as string,
-      description: defaultProduct?.description,
+const Home: React.FC<{modules: any[]; commerceProps: CommerceProps}> = ({
+  modules,
+  commerceProps,
+}) => {
+  console.log({modules})
+  // const shouldReduceMotion = useReducedMotion()
+  const {scrollY} = useScroll()
+  const planetYRange = useTransform(scrollY, [48, 330], [0, 170])
+  const animatePlanetYMovement = useSpring(planetYRange, {
+    stiffness: 50,
+    damping: 20,
+  })
+  const ringPlanetXRange = useTransform(scrollY, [48, 230], [0, 100])
+  const animateRingPlanetXMovement = useSpring(ringPlanetXRange, {
+    stiffness: 100,
+    damping: 90,
+  })
+  const moonXRange = useTransform(scrollY, [48, 230], [0, -100])
+  const animateMoonXMovement = useSpring(moonXRange, {
+    stiffness: 100,
+    damping: 90,
+  })
+  const planetScaleRange = useTransform(scrollY, [150, 210], [1, 0.6])
+  const animatePlanetScale = useSpring(planetScaleRange, {
+    stiffness: 50,
+    damping: 90,
+  })
+  const rocketYRange = useTransform(scrollY, [8, 300], [0, -160])
+  const animateRocketMovement = useSpring(rocketYRange, {
+    stiffness: 100,
+    damping: 20,
+  })
+  const moduleImageVariants = {
+    visible: {opacity: 1, scale: 1, y: 0},
+    hidden: {
+      opacity: 0,
+      scale: 0.8,
+      y: 50,
     },
-  )
+  }
 
-  const couponId =
-    commerceProps?.couponIdFromCoupon ||
-    (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
-
-  const purchasedProductIds =
-    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
-  const instructorName = `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`
   return (
     <Layout>
-      <Container as="header" className="py-48">
-        <h1 className="leading-0 w-full text-center text-4xl font-bold sm:text-5xl lg:text-6xl">
-          <Balancer>{config.description}</Balancer>
-        </h1>
-        <div className="mt-10 flex items-center justify-center gap-2">
-          <Image
-            src={require('../../public/instructor.png')}
-            alt={instructorName}
-            width={48}
-            height={48}
-          />
-          <span>{instructorName}</span>
-        </div>
-      </Container>
       <main>
-        <Container className="pb-24">
-          {landingCopy && (
-            <article className="prose mx-auto w-full max-w-2xl px-6 dark:prose-invert sm:prose-lg sm:px-3">
-              <MDX contents={landingCopy} />
-            </article>
-          )}
-        </Container>
-        <Container className="border-t py-10">
-          {ALLOW_PURCHASE ? (
-            <section id="buy" className="py-16">
-              <h2 className="pb-10 text-center text-4xl font-bold">Buy Now</h2>
-              <div className="items-starts flex justify-center gap-10">
-                {products
-                  ?.filter((product: any) => product.state !== 'unavailable')
-                  .map((product, i) => {
-                    return (
-                      <PriceCheckProvider
-                        key={product.slug}
-                        purchasedProductIds={purchasedProductIds}
-                      >
-                        <div className={pricingClassNames()} key={product.name}>
-                          <Pricing
-                            options={{
-                              withGuaranteeBadge: false,
-                            }}
-                            bonuses={bonuses}
-                            allowPurchase={ALLOW_PURCHASE}
-                            userId={commerceProps?.userId}
-                            product={product}
-                            purchased={purchasedProductIds.includes(
-                              product.productId,
-                            )}
-                            index={i}
-                            couponId={couponId}
-                          />
-                        </div>
-                      </PriceCheckProvider>
-                    )
-                  })}
+        <section className="relative">
+          <div className="pb-16">
+            <div
+              className="absolute inset-0 z-0 h-[860px] w-full bg-background bg-cover bg-scroll bg-[50%_top] bg-no-repeat lg:bg-fixed"
+              style={{backgroundImage: `url("${imgSky.src}")`}}
+            />
+            <div className="relative flex h-[720px] flex-col items-center justify-center text-center sm:h-[860px]">
+              <div className="flex h-full flex-col items-center justify-center pt-0 sm:pt-10">
+                <div className="mb-0 w-32 sm:mb-10 sm:w-40">
+                  <Image
+                    src="/assets/five-stars@2x.png"
+                    alt="5 out of 5 stars"
+                    width={210}
+                    height={33}
+                  />
+                </div>
+                <div className="min-h-[173px]">
+                  <h1 className="px-5 pt-8 text-2xl font-semibold leading-normal text-white transition-opacity sm:pt-0 sm:leading-tight md:max-w-3xl md:text-4xl lg:text-[2.75rem] lg:leading-tight">
+                    Confidently Ship Well-Architected Production Ready React
+                    Apps Like a Pro
+                  </h1>
+                </div>
               </div>
-            </section>
-          ) : (
-            <PrimaryNewsletterCta className="py-16" />
-          )}
-        </Container>
-        <Container
-          as="section"
-          className="relative flex flex-col items-center justify-center gap-5 border-y py-16 sm:flex-row sm:gap-10"
-        >
-          <div className="relative">
+              <div className="flex h-full w-full items-end justify-center">
+                <div className="relative -bottom-[130px] z-10 mb-0 h-full max-h-[100px] w-full sm:-bottom-[50px] sm:max-h-[240px] md:-bottom-[65px] lg:-bottom-[70px]">
+                  <Image src={imgBigPlanet} alt="big planet" fill />
+                </div>
+              </div>
+              <motion.div
+                className="absolute bottom-[20%] left-[5px] w-full max-w-[110px] sm:left-[20px] sm:max-w-[220px] md:left-[10vw]"
+                style={{
+                  x: animateRingPlanetXMovement,
+                  y: animatePlanetYMovement,
+                  scale: animatePlanetScale,
+                  opacity: animatePlanetScale,
+                }}
+              >
+                <Image
+                  src={imgRingPlanet}
+                  alt="ring planet"
+                  width={512}
+                  height={258}
+                />
+              </motion.div>
+              <motion.div
+                className="absolute inset-x-0 -bottom-[100px] z-20 mx-auto max-w-[130px] sm:max-w-[150px]"
+                style={{y: animateRocketMovement}}
+              >
+                <Image
+                  src={imgLandingRocket}
+                  alt="rocket"
+                  width={329}
+                  height={1184}
+                />
+              </motion.div>
+              <motion.div
+                className="absolute bottom-[20%] right-[10px] w-full max-w-[80px] sm:right-[10vw] sm:max-w-[120px]"
+                style={{
+                  x: animateMoonXMovement,
+                  y: animatePlanetYMovement,
+                  scale: animatePlanetScale,
+                  opacity: animatePlanetScale,
+                }}
+              >
+                <Image src={imgMoon} alt="moon" width={274} height={268} />
+              </motion.div>
+            </div>
+          </div>
+        </section>
+        <section className="mx-auto mt-12 w-full max-w-screen-lg px-4 py-8 sm:mt-0 sm:px-8">
+          <div className="prose mx-auto lg:prose-xl">
+            <LandingCopy />
+          </div>
+        </section>
+        <div className="mx-auto max-w-screen-lg px-5 sm:px-8">
+          <h2 className="mt-20 text-center text-4xl font-semibold">
+            The Workshops in Epic React Include:
+          </h2>
+          <Divider className="mb-16 mt-8" />
+          <ul>
+            {modules.map((module, i) => {
+              return (
+                <InView key={module.slug.current} threshold={0.2}>
+                  {({inView, ref, entry}) => {
+                    return (
+                      <li
+                        ref={ref}
+                        className="my-5 grid grid-cols-1 items-center gap-8 rounded-lg px-5 py-10 sm:my-32 sm:grid-cols-3 sm:grid-rows-1 sm:px-0 sm:py-0"
+                      >
+                        <motion.div
+                          animate={inView ? 'visible' : 'hidden'}
+                          variants={moduleImageVariants}
+                          transition={{mass: 0.7, type: 'spring'}}
+                          className="mx-auto flex w-full items-center justify-center px-20 sm:col-span-1 sm:row-start-1 sm:px-5"
+                        >
+                          {module?.image && module?.slug?.current && (
+                            <Image
+                              src={module.image}
+                              alt={module.slug.current}
+                              width={512}
+                              height={512}
+                            />
+                          )}
+                        </motion.div>
+                        <div className="sm:col-span-2 sm:row-start-1">
+                          <h2 className="mb-3 text-center text-4xl font-semibold leading-tight sm:text-left">
+                            {module.title}
+                          </h2>
+                          <h3 className="mb-5 text-center text-lg font-medium leading-normal text-react sm:text-left lg:text-xl">
+                            {module.tagline}
+                          </h3>
+                          <div className="mb-5 text-center text-lg font-medium leading-normal sm:text-left lg:text-lg lg:leading-[1.77]">
+                            {module.body}
+                          </div>
+                        </div>
+                      </li>
+                    )
+                  }}
+                </InView>
+              )
+            })}
+          </ul>
+        </div>
+        <div className="my-16 bg-er-gray-100 pb-16 pt-8">
+          <div className="py-12 lg:py-16">
+            <div className="px-5 text-center">
+              <h1 className="py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
+                Join over 7000 Developers and Get Really Good At React
+              </h1>
+              <p className="mx-auto mt-5 max-w-4xl text-xl text-react sm:text-2xl">
+                The beautiful thing about learning is that nobody can take it
+                away from you.
+              </p>
+            </div>
+            <div className="mt-16 lg:mt-32">
+              <PricingSection
+                commerceProps={commerceProps}
+                className="mb-28 mt-12 md:mt-14 lg:mb-32 lg:mt-16"
+              />
+            </div>
+          </div>
+          <div className="mx-auto h-48 w-48">
             <Image
-              src={require('../../public/instructor.png')}
-              alt={config.author}
-              width={200}
-              height={200}
-              quality={100}
+              src="/assets/money-back-guarantee-badge.svg"
+              alt="30 day money back guarantee"
+              width={192}
+              height={192}
             />
           </div>
-          <div className="max-w-lg px-6 pb-32 sm:px-0 sm:pb-5">
-            <h3 className="text-2xl font-semibold">Lorem ipsum dolor</h3>
-            <p className="pt-5">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-              ultrices porta metus, a imperdiet lorem aliquam finibus. Etiam
-              dapibus fermentum ligula, vel tincidunt dui tempus nec. Morbi a
-              hendrerit odio. Curabitur pellentesque tellus a condimentum.
-            </p>
-          </div>
-        </Container>
+        </div>
       </main>
       <Footer />
     </Layout>

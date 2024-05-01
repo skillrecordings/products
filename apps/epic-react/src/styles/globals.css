@@ -22,6 +22,8 @@
 @import './ui/button.css';
 @import './login.css';
 @import './lesson-completion-toggle.css';
+@import './lessons-list.css';
+@import './transcript.css';
 @import '../../node_modules/simplebar-react/dist/simplebar.min.css';
 
 @layer base {

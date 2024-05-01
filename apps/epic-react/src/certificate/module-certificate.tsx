@@ -26,7 +26,7 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
             <Image
               alt=""
               aria-hidden="true"
-              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1700132958/skill-template-certificate-thumbnail.png"
+              src="/assets/epic-react-certificate-bg.svg"
               fill
             />
             {module.image && (
@@ -53,7 +53,7 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
                     <div className="h-1 w-1 animate-pulse rounded-full bg-rose-600" />
                   </div>
                 )}
-                <div className="mt-16 rounded bg-primary px-4 py-2 font-semibold text-primary-foreground shadow transition group-hover:scale-105 group-hover:brightness-110">
+                <div className="mt-16 rounded bg-primary px-4 py-2 font-semibold text-primary-foreground shadow transition group-hover:scale-105 group-hover:brightness-110 dark:bg-primary dark:text-white">
                   Get Certificate
                 </div>
               </Dialog.Trigger>

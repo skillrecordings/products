@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
+import {getToken} from 'next-auth/jwt'
 import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
@@ -9,20 +10,35 @@ import {
   ModuleProgressProvider,
   useModuleProgress,
 } from '@skillrecordings/skill-lesson/video/module-progress'
+import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {getWorkshopsForProduct, Workshop, WorkshopSchema} from '@/lib/workshops'
+import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {getAllProducts} from '@/lib/products'
 import {Bonus, BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
 import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
+import WelcomeBanner from '@/components/welcome-banner'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   // TODO: load the user's purchases and figure out what product they should have access to
+  const token = await getToken({req})
+  const products = await getAllProducts()
+  const {props: commerceProps} = await propsForCommerce({
+    query,
+    token,
+    products,
+  })
   const productId = 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38'
   const workshops = await getWorkshopsForProduct({productId})
   const bonuses = await getBonusesForProduct({productId})
 
   return {
-    props: {workshops, bonuses},
+    props: {
+      workshops,
+      bonuses,
+      commerceProps,
+    },
   }
 }
 
@@ -31,14 +47,15 @@ const ResourceLink: React.FC<{
   workshopSlug: string
   resourceSlug: string
   isCompleted: boolean
-}> = ({title, workshopSlug, resourceSlug, isCompleted}) => {
+  isBonusModule?: boolean
+}> = ({title, workshopSlug, resourceSlug, isCompleted, isBonusModule}) => {
   const [isHovered, setHovered] = React.useState<Boolean>(false)
   return (
     <li>
       <Link
         onMouseOver={() => setHovered(true)}
         onMouseOut={() => setHovered(false)}
-        href={`/workshops/${workshopSlug}/${resourceSlug}`}
+        href={`/modules/${workshopSlug}/${resourceSlug}`}
         className="-mx-3 flex w-full items-center rounded-lg p-3 transition-colors duration-75 ease-in-out hover:bg-er-gray-100"
       >
         {/* {isCompleted && '✅'}
@@ -98,6 +115,7 @@ type BonusResource = Bonus['resources'][0]
 type Module = {
   _type: string
   title: string
+  moduleType: string
   body: string | null
   slug: {
     current: string
@@ -106,7 +124,7 @@ type Module = {
 }
 
 const WorkshopItem = ({module}: {module: Module}) => {
-  const isBonusModule = module._type === 'bonus'
+  const isBonusModule = module.moduleType === 'bonus'
 
   const moduleProgress = useModuleProgress()
   return (
@@ -121,7 +139,7 @@ const WorkshopItem = ({module}: {module: Module}) => {
       <div className="pl-0 sm:pl-11">
         <h3 className="mb-2 text-2xl font-semibold sm:text-3xl">
           <Link
-            href={`/workshops/${module.slug.current}/${module.resources[0].slug}`}
+            href={`/modules/${module.slug.current}/${module.resources[0]?.slug}`}
           >
             {module.title}
           </Link>
@@ -151,6 +169,7 @@ const WorkshopItem = ({module}: {module: Module}) => {
                 workshopSlug={module.slug.current}
                 resourceSlug={resource.slug}
                 isCompleted={isCompleted}
+                isBonusModule={isBonusModule}
               />
             )
           }
@@ -180,14 +199,24 @@ const WorkshopItem = ({module}: {module: Module}) => {
   )
 }
 
-const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
+const Learn: React.FC<{
+  workshops: any[]
+  bonuses: any[]
+  commerceProps: CommerceProps
+}> = ({
   workshops: unparsedWorkshops,
   bonuses: unparsedBonuses,
+  commerceProps,
 }) => {
+  const [isMounted, setIsMounted] = React.useState(false)
   const title = 'Learn'
 
   const workshops = WorkshopSchema.array().parse(unparsedWorkshops)
   const bonuses = BonusSchema.array().parse(unparsedBonuses)
+
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   return (
     <Layout
@@ -248,6 +277,9 @@ const Learn: React.FC<{workshops: any[]; bonuses: any[]}> = ({
           priority
         />
       </section>
+      {isMounted && commerceProps?.purchases && (
+        <WelcomeBanner purchases={commerceProps.purchases} />
+      )}
       <main className="mx-auto w-full max-w-screen-lg px-4 pb-20 pt-4 sm:px-8 sm:pt-20">
         <ul className="grid grid-cols-1 gap-4 sm:gap-16">
           {workshops.map((workshop) => {

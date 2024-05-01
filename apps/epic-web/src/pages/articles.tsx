@@ -7,7 +7,6 @@ import Image from 'next/image'
 import {track} from 'utils/analytics'
 import readingTime from 'reading-time'
 import ResourceContributor from 'components/resource-contributor'
-import {ConfBanner} from './events'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
@@ -103,7 +102,6 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
             )
           })}
         </div>
-        <ConfBanner className="mx-auto w-full max-w-screen-lg px-5" />
       </main>
       <div>{!subscriber && <PrimaryNewsletterCta className="mt-32" />}</div>
     </Layout>

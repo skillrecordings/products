@@ -5,8 +5,14 @@ import {
   UserCreated,
 } from '@skillrecordings/skill-lesson/inngest/events'
 
+import {
+  SANITY_WEBHOOK_EVENT,
+  SanityWebhookEvent,
+} from './functions/sanity/sanity-inngest-events'
+
 export type IngestEvents = {
   [USER_CREATED_EVENT]: UserCreated
+  [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
 }
 
 export const inngest = new Inngest({

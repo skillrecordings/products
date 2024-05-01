@@ -12,7 +12,6 @@ import {Card, CardContent, CardHeader} from '@skillrecordings/ui'
 import {CheckIcon} from '@heroicons/react/solid'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import ResourceContributor from 'components/resource-contributor'
-import {ConfBanner} from 'pages/events'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
@@ -56,7 +55,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
               return <TipCard tip={tip} key={tip.slug} i={i} />
             })}
         </div>
-        <ConfBanner className="mt-5 w-full max-w-screen-lg px-5 sm:mt-10" />
+
         {!subscriber && <PrimaryNewsletterCta className="mt-32" />}
       </main>
     </Layout>

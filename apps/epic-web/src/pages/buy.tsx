@@ -14,6 +14,9 @@ import Image from 'next/image'
 import React from 'react'
 import {getAvailableBonuses} from 'lib/available-bonuses'
 import {useRouter} from 'next/router'
+import {CourseJsonLd} from '@skillrecordings/next-seo'
+import {isBrowser} from 'utils/is-browser'
+import {description, instructor} from 'components/credits'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
@@ -72,7 +75,10 @@ const BuyPage: React.FC<
   return (
     <Layout
       meta={{
-        title: 'Buy Epic Web',
+        title: 'Buy The Epic Web Full-Stack Vol 1 Bundle for You and Your Team',
+        description:
+          "Save $250 and gain access to five of Kent's workshops in this bundle. Save more with bulk purchase discounts for your team!",
+        canonical: 'https://www.epicweb.dev/buy',
         ogImage: couponFromCode
           ? {
               url: 'https://res.cloudinary.com/epic-web/image/upload/v1687852770/golden-ticket.png',
@@ -86,6 +92,53 @@ const BuyPage: React.FC<
         <h1 className="max-w-lg text-2xl font-bold sm:text-3xl lg:text-4xl">
           <Balancer>Become a Professional Full Stack Web Developer</Balancer>
         </h1>
+        <CourseJsonLd
+          courseName="Full Stack Vol 1"
+          description="The most comprehensive guide to professional web development by Kent C. Dodds."
+          provider={{
+            name: 'Kent C. Dodds',
+            type: 'Person',
+            url: 'https://kentcdodds.com',
+          }}
+          offers={[
+            {
+              price: '1200.00',
+              priceCurrency: 'USD',
+              category: 'Paid',
+              about: [
+                'Full-Stack Web Development',
+                'React',
+                'Web Forms',
+                'Data Modeling',
+                'Web Application Testing',
+                'Authentication',
+              ],
+            },
+          ]}
+          image={[
+            'https://res.cloudinary.com/epic-web/image/upload/v1701332598/full-stack-vol-1.png',
+          ]}
+          hasCourseInstance={[
+            {
+              courseMode: 'Online',
+              courseWorkload: 'PT64H',
+              instructor: [
+                {
+                  type: 'Person',
+                  name: 'Kent C. Dodds',
+                  description:
+                    "Kent C. Dodds is a world renowned speaker, teacher, and trainer and he's actively involved in the open source community as a maintainer and contributor of hundreds of popular npm packages.",
+                },
+              ],
+            },
+          ]}
+          hasPart={products.map((product) => ({
+            type: 'Course',
+            name: product.title,
+            url: `https://www.epicweb.dev/workshops/${product.slug}`,
+            description: product.description,
+          }))}
+        />
         <h2 className="max-w-lg pt-5 text-lg text-gray-600 dark:text-gray-400">
           <Balancer>
             The most comprehensive guide to professional web development by Kent
