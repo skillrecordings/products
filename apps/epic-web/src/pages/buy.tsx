@@ -16,7 +16,7 @@ import {getAvailableBonuses} from 'lib/available-bonuses'
 import {useRouter} from 'next/router'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {isBrowser} from 'utils/is-browser'
-import {instructor} from 'components/credits'
+import {description, instructor} from 'components/credits'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
@@ -75,7 +75,10 @@ const BuyPage: React.FC<
   return (
     <Layout
       meta={{
-        title: 'Buy Epic Web',
+        title: 'Buy The Epic Web Full-Stack Vol 1 Bundle for You and Your Team',
+        description:
+          "Save $250 and gain access to five of Kent's workshops in this bundle. Save more with bulk purchase discounts for your team!",
+        canonical: 'https://www.epicweb.dev/buy',
         ogImage: couponFromCode
           ? {
               url: 'https://res.cloudinary.com/epic-web/image/upload/v1687852770/golden-ticket.png',
@@ -95,9 +98,7 @@ const BuyPage: React.FC<
           provider={{
             name: 'Kent C. Dodds',
             type: 'Person',
-            url: isBrowser()
-              ? document.location.href
-              : process.env.NEXT_PUBLIC_URL,
+            url: 'https://kentcdodds.com',
           }}
           offers={[
             {
