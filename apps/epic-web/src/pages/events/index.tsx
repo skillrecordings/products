@@ -206,11 +206,15 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
                           'Sold out'
                         ) : isUpcoming ? (
                           <>
-                            {availability?.quantityAvailable ?? (
+                            {availability?.quantityAvailable ? (
+                              `${pluralize(
+                                'spot',
+                                availability.quantityAvailable,
+                                true,
+                              )} left`
+                            ) : (
                               <Spinner className="w-3" />
-                            )}{' '}
-                            {pluralize('spot', availability?.quantityAvailable)}{' '}
-                            left
+                            )}
                           </>
                         ) : (
                           <div className="rounded bg-gray-100 px-3 py-1.5 dark:bg-gray-900">
