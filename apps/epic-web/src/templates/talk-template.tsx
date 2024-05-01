@@ -189,7 +189,7 @@ const TalkTemplate: React.FC<{
                     image={talk.presenter?.picture?.url}
                   />
                 )}
-                {talk.oneTimeContributor && (
+                {talk.oneTimeContributor && !talk.presenter && (
                   <ResourceContributor
                     className="mt-3 inline-flex text-base [&_img]:w-10 [&_span]:font-normal"
                     name={talk.oneTimeContributor?.name as string}
@@ -306,7 +306,9 @@ const RelatedTalks: React.FC<{talks: Talk[]}> = ({talks}) => {
       <h3 className="text-2xl font-bold">Related Talks</h3>
       <ul className="flex flex-col pt-4">
         {talks.map((talk, i) => {
-          return <TalkItem i={i} key={talk.slug} talk={talk} />
+          return (
+            <TalkItem i={i} key={talk.slug} thumbnailTime={16} talk={talk} />
+          )
         })}
       </ul>
     </section>
@@ -436,7 +438,7 @@ const SubscribeForm = ({
   handleOnSuccess: (subscriber: any, email?: string) => void
 }) => {
   return (
-    <div className="mx-auto mt-2 flex w-full max-w-lg flex-col items-center justify-between gap-5 rounded border bg-card px-3 pb-5 pt-4 md:pb-3 md:pt-3 lg:max-w-none lg:flex-row 2xl:px-0">
+    <div className="mx-auto mt-2 flex w-full max-w-lg flex-col items-center justify-between gap-5 rounded border bg-card px-3 pb-5 pt-4 md:pb-3 md:pt-3 lg:max-w-none lg:flex-row 2xl:px-3">
       <div className="inline-flex items-center gap-2 text-lg font-semibold leading-tight md:text-base lg:flex-shrink-0 lg:text-lg">
         <div
           aria-hidden="true"

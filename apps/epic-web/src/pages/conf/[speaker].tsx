@@ -29,6 +29,7 @@ import pluralize from 'pluralize'
 import {getOgImage} from 'utils/get-og-image'
 import {Button} from '@skillrecordings/ui'
 import Icon from 'components/icons'
+import {getConfTalkBySpeaker, type Talk} from 'lib/talks'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const speakers = await fetch(
@@ -38,6 +39,8 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const speaker: Speaker = speakers.find((speaker: Speaker) => {
     return slugify(speaker.fullName) === params?.speaker
   })
+
+  const talk = await getConfTalkBySpeaker(speaker.fullName)
 
   const video = await sanityClient.fetch(
     groq`
@@ -72,6 +75,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     props: {
       speaker: {...speaker, sessions: fullSpeakerSessions} || null,
       video: video || null,
+      talk: talk || null,
     },
     revalidate: 60 * 15,
   }
@@ -96,6 +100,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 type ConfSpeakerPageProps = {
   speaker: Omit<Speaker, 'sessions'> & {sessions: Session[]}
+  talk: Talk | null
   video?: {
     _id: string
     muxPlaybackId: string
@@ -104,7 +109,11 @@ type ConfSpeakerPageProps = {
   }
 }
 
-const ConfSpeaker: React.FC<ConfSpeakerPageProps> = ({speaker, video}) => {
+const ConfSpeaker: React.FC<ConfSpeakerPageProps> = ({
+  speaker,
+  video,
+  talk,
+}) => {
   const ogImage = getOgImage({
     title: speaker.fullName,
     type: video?.poster ? 'interview' : 'default',
@@ -143,7 +152,7 @@ const ConfSpeaker: React.FC<ConfSpeakerPageProps> = ({speaker, video}) => {
         }
       >
         <VideoResourceProvider videoResourceId={video?._id as string}>
-          <ConfSpeakerTemplate speaker={speaker} video={video} />
+          <ConfSpeakerTemplate speaker={speaker} video={video} talk={talk} />
         </VideoResourceProvider>
       </LessonProvider>
     </Layout>
@@ -155,6 +164,7 @@ export default ConfSpeaker
 const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
   speaker,
   video,
+  talk,
 }) => {
   const router = useRouter()
   const shareUrl = process.env.NEXT_PUBLIC_URL + '/conf/' + router.query.speaker
@@ -181,12 +191,13 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
               {speaker.tagLine}
             </h2>
           </div>
-          {/* TODO: Fix link */}
-          <Button asChild className="relative z-10 font-semibold">
-            <Link href={`/talks`}>
-              Watch Talk <Icon name="Playmark" className="ml-2 h-3 w-3" />
-            </Link>
-          </Button>
+          {talk && (
+            <Button asChild className="relative z-10 font-semibold">
+              <Link href={`/talks/${talk?.slug}`}>
+                Watch Talk <Icon name="Playmark" className="ml-2 h-3 w-3" />
+              </Link>
+            </Button>
+          )}
         </div>
         <div
           className={cn(

@@ -39,7 +39,12 @@ import Balancer from 'react-wrap-balancer'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import slugify from '@sindresorhus/slugify'
-import {getAllConf24Talks, type Talk} from 'lib/talks'
+import {
+  getAllConf24Talks,
+  getConfTalkBySpeaker,
+  getConfTalkByTitle,
+  type Talk,
+} from 'lib/talks'
 import {trpc} from 'trpc/trpc.client'
 import Icon from 'components/icons'
 
@@ -55,11 +60,32 @@ export const getStaticProps: GetStaticProps = async () => {
   const speakers = await fetch(
     'https://sessionize.com/api/v2/epg94f49/view/Speakers',
   ).then((res) => res.json())
-  const schedule = await fetch(
+  const schedule: Schedule = await fetch(
     'https://sessionize.com/api/v2/epg94f49/view/GridSmart',
   ).then((res) => res.json())
   const talks = await getAllConf24Talks(4)
-
+  const scheduleWithTalks = await Promise.all(
+    schedule.map(async (day) => {
+      const rooms = await Promise.all(
+        day.rooms.map(async (room) => {
+          const sessions = await Promise.all(
+            room.sessions.map(async (session) => {
+              const speakerName = session.speakers[0]?.name
+              const talkByTitle = session.title
+                ? await getConfTalkByTitle(session.title)
+                : null
+              const talkBySpeaker = speakerName
+                ? await getConfTalkBySpeaker(speakerName)
+                : null
+              return {...session, talk: talkByTitle || talkBySpeaker || null}
+            }),
+          )
+          return {...room, sessions}
+        }),
+      )
+      return {...day, rooms}
+    }),
+  )
   let speakersWithVideos = []
   for (const speaker of speakers) {
     const video = await sanityClient.fetch(groq`
@@ -84,7 +110,7 @@ export const getStaticProps: GetStaticProps = async () => {
       speakers: speakersWithVideos.filter(
         (speaker) => !speaker.fullName.includes('DevTools'),
       ),
-      schedule,
+      schedule: scheduleWithTalks,
       talks,
     },
     revalidate: IS_PAST_CONF_24 ? false : 60 * 5,
@@ -122,6 +148,7 @@ type Session = {
   startsAt: string
   endsAt: string
   speakers: {name: string; id: string}[]
+  talk?: Talk | null
 }
 
 type Room = {
@@ -2074,6 +2101,7 @@ export const Schedule: React.FC<{
                   {room.sessions.map((session) => {
                     const hasMultipleSpeakers = session?.speakers?.length > 1
                     const speaker = session?.speakers[0]?.name
+                    const talk = session?.talk
 
                     const Speaker: React.FC<{
                       className?: string
@@ -2104,7 +2132,9 @@ export const Schedule: React.FC<{
                       )
                     }
 
-                    const AccordionTriggerComp = session.description
+                    const AccordionTriggerComp = talk
+                      ? 'div'
+                      : session.description
                       ? AccordionTrigger
                       : 'div'
 
@@ -2149,12 +2179,31 @@ export const Schedule: React.FC<{
                                 </p>
                               </div>
                               <div className="col-span-4 w-full md:col-span-3">
-                                <div className="flex w-full flex-col items-start text-left">
-                                  <h4 className="font-semibold leading-tight sm:text-lg print:text-black">
+                                <div className="flex w-full flex-col items-start gap-2 text-left md:flex-row md:items-center">
+                                  <h4 className="w-full font-semibold leading-tight sm:text-lg print:text-black">
                                     {session.title}
                                   </h4>
+                                  {talk &&
+                                    !session.title.includes(
+                                      'OPTIONAL WORKSHOP REQUIRES A SEPARATE TICKET',
+                                    ) && (
+                                      <Button
+                                        asChild
+                                        size="sm"
+                                        variant="secondary"
+                                        className="inline-flex font-semibold"
+                                      >
+                                        <Link href={`/talks/${talk.slug}`}>
+                                          Watch{' '}
+                                          <Icon
+                                            name="Playmark"
+                                            className="ml-2 h-3 w-3"
+                                          />
+                                        </Link>
+                                      </Button>
+                                    )}
                                   {hasMultipleSpeakers ? (
-                                    <div className="flex w-full items-center gap-2">
+                                    <div className="flex w-full items-center gap-2 md:hidden">
                                       {session?.speakers?.map((speaker) => {
                                         return (
                                           <Speaker
@@ -2447,7 +2496,7 @@ const Talks: React.FC<{talks: Talk[] | null}> = ({talks}) => {
         <ul className="relative flex flex-row gap-3 overflow-x-hidden pr-24 after:pointer-events-none after:absolute after:right-0 after:top-0 after:h-full after:w-80 after:bg-gradient-to-r after:from-transparent after:to-gray-950 after:content-['']">
           {talks.map((talk, index) => {
             const isLast = index === talks.length - 1
-            const thumbnail = `https://image.mux.com/${talk?.muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve&time=0`
+            const thumbnail = `https://image.mux.com/${talk?.muxPlaybackId}/thumbnail.png?width=720&height=405&fit_mode=preserve&time=16`
             return (
               <li
                 key={talk._id}
@@ -2455,10 +2504,7 @@ const Talks: React.FC<{talks: Talk[] | null}> = ({talks}) => {
                   '': isLast,
                 })}
               >
-                <Link
-                  href={`/conf/talks/${talk.slug}`}
-                  className="flex flex-col"
-                >
+                <Link href={`/talks/${talk.slug}`} className="flex flex-col">
                   <Image
                     src={thumbnail}
                     width={720 / 2}

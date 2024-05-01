@@ -74,6 +74,7 @@ const TalksIndex: React.FC<TalksIndex> = ({talks, conf24Talks}) => {
             <ul className="relative z-10 flex w-full flex-col">
               {conf24Talks.map((confTalk, i) => (
                 <TalkItem
+                  thumbnailTime={18}
                   withBg={false}
                   talk={confTalk}
                   i={i}
@@ -105,10 +106,11 @@ export const TalkItem: React.FC<{
   path?: string
   i: number
   withBg?: boolean
-}> = ({talk, path = 'talks', withBg = true, i}) => {
+  thumbnailTime?: number
+}> = ({talk, path = 'talks', withBg = true, thumbnailTime = 0, i}) => {
   const {title, slug} = talk
   const muxPlaybackId = talk?.muxPlaybackId
-  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve&time=0`
+  const thumbnail = `https://image.mux.com/${muxPlaybackId}/thumbnail.png?width=480&height=270&fit_mode=preserve&time=${thumbnailTime}`
 
   const {resourceCompleted} = useResourceComplete(talk.slug)
 
@@ -141,7 +143,7 @@ export const TalkItem: React.FC<{
           </div>
         </div>
         <div>
-          <h4 className="text-base font-semibold leading-tight sm:text-xl sm:leading-tight">
+          <h4 className="text-balance text-base font-semibold leading-tight sm:text-xl sm:leading-tight">
             {talk.title}
           </h4>
           {talk.presenter && (
@@ -153,7 +155,7 @@ export const TalkItem: React.FC<{
               image={talk.presenter?.picture?.url}
             />
           )}
-          {talk.oneTimeContributor && (
+          {talk.oneTimeContributor && !talk.presenter && (
             <ResourceContributor
               name={talk.oneTimeContributor?.name as string}
               image={talk.oneTimeContributor?.picProfile as string}
