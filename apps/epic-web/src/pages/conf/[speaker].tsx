@@ -191,12 +191,13 @@ const ConfSpeakerTemplate: React.FC<ConfSpeakerPageProps> = ({
               {speaker.tagLine}
             </h2>
           </div>
-          {/* TODO: Fix link */}
-          <Button asChild className="relative z-10 font-semibold">
-            <Link href={`/talks/${talk?.slug}`}>
-              Watch Talk <Icon name="Playmark" className="ml-2 h-3 w-3" />
-            </Link>
-          </Button>
+          {talk && (
+            <Button asChild className="relative z-10 font-semibold">
+              <Link href={`/talks/${talk?.slug}`}>
+                Watch Talk <Icon name="Playmark" className="ml-2 h-3 w-3" />
+              </Link>
+            </Button>
+          )}
         </div>
         <div
           className={cn(

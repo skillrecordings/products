@@ -254,7 +254,9 @@ export const getAllConf24Talks = async (count?: number): Promise<Talk[]> => {
   // return TalksSchema.parse(event.talks)
 }
 
-export const getConfTalkBySpeaker = async (name: string): Promise<Talk> => {
+export const getConfTalkBySpeaker = async (
+  name: string,
+): Promise<Talk | null> => {
   const talk = await sanityClient.fetch(
     groq`*[_type == "talk" && contributors[0].name == $name][0] {
         _id,
@@ -279,7 +281,7 @@ export const getConfTalkBySpeaker = async (name: string): Promise<Talk> => {
     {name},
   )
   if (!talk) {
-    throw new Error('Talk not found')
+    return null
   }
   return TalkSchema.parse(talk)
 }
