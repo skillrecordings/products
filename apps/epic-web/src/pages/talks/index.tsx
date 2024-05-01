@@ -155,7 +155,7 @@ export const TalkItem: React.FC<{
               image={talk.presenter?.picture?.url}
             />
           )}
-          {talk.oneTimeContributor && (
+          {talk.oneTimeContributor && !talk.presenter && (
             <ResourceContributor
               name={talk.oneTimeContributor?.name as string}
               image={talk.oneTimeContributor?.picProfile as string}
