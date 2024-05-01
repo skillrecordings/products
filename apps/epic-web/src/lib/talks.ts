@@ -285,3 +285,35 @@ export const getConfTalkBySpeaker = async (
   }
   return TalkSchema.parse(talk)
 }
+
+export const getConfTalkByTitle = async (
+  title: string,
+): Promise<Talk | null> => {
+  const talk = await sanityClient.fetch(
+    groq`*[_type == "talk" && title == $title][0] {
+        _id,
+        _type,
+        contributors,
+        _updatedAt,
+        _createdAt,
+        title,
+        state,
+        description,
+        summary,
+        body,
+        "event": *[_type == "event" && references(^._id)][0] {
+          title,
+          "slug": slug.current,
+          state,
+        },
+        "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
+        "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
+        "slug": slug.current,
+    }`,
+    {title},
+  )
+  if (!talk) {
+    return null
+  }
+  return TalkSchema.parse(talk)
+}
