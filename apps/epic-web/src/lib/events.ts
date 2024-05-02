@@ -150,3 +150,32 @@ export const getEvent = async (slug: string): Promise<Event | null> => {
 
   return EventSchema.nullable().parse(event)
 }
+
+export const EventConfSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  title: z.string(),
+  slug: z.string(),
+  description: z.string(),
+})
+
+export const EventsConfSchema = z.array(EventConfSchema)
+
+export type EventConf = z.infer<typeof EventConfSchema>
+
+export const getEventConf = async (
+  slug: string = 'conf',
+): Promise<EventConf | null> => {
+  const eventConf = await sanityClient.fetch(
+    groq`*[_type == "event" && slug.current == "conf"][0] {
+        _id,
+        _type,
+        title,
+        "slug": slug.current,
+        description,
+    }`,
+    {slug: `${slug}`},
+  )
+
+  return EventConfSchema.parse(eventConf)
+}
