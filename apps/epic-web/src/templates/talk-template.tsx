@@ -142,7 +142,7 @@ const TalkTemplate: React.FC<{
         <main className="mx-auto w-full pt-0" id="talk">
           <div className="relative z-10 flex items-center justify-center">
             <div className="flex w-full max-w-screen-xl flex-col">
-              <Video ref={muxPlayerRef} talks={talks} />
+              <Video ref={muxPlayerRef} talks={talks} talk={talk} />
               {!subscriber && !loadingSubscriber && (
                 <SubscribeForm handleOnSuccess={handleOnSuccess} />
               )}
@@ -273,30 +273,33 @@ const Transcript: React.FC<{talk: Talk}> = ({talk}) => {
   ) : null
 }
 
-const Video: React.FC<any> = React.forwardRef(({talks}, ref: any) => {
-  const {muxPlayerProps, displayOverlay} = useMuxPlayer()
-  const {videoResource} = useVideoResource()
+const Video: React.FC<{talks: Talk[]; talk: Talk; ref: any}> = React.forwardRef(
+  ({talks, talk}, ref: any) => {
+    const {muxPlayerProps, displayOverlay} = useMuxPlayer()
+    const {videoResource} = useVideoResource()
 
-  return (
-    <div className="relative">
-      {displayOverlay && <TipOverlay talks={talks} />}
-      <div
-        className={cx(
-          'flex items-center justify-center overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b',
-          {
-            hidden: displayOverlay,
-          },
-        )}
-      >
-        <MuxPlayer
-          ref={ref}
-          {...(muxPlayerProps as MuxPlayerProps)}
-          playbackId={videoResource?.muxPlaybackId}
-        />
+    return (
+      <div className="relative">
+        {displayOverlay && <TipOverlay talks={talks} />}
+        <div
+          className={cx(
+            'flex items-center justify-center overflow-hidden shadow-gray-600/40 sm:shadow-2xl xl:rounded-b',
+            {
+              hidden: displayOverlay,
+            },
+          )}
+        >
+          <MuxPlayer
+            ref={ref}
+            {...(muxPlayerProps as MuxPlayerProps)}
+            poster={talk?.videoPosterUrl || undefined}
+            playbackId={videoResource?.muxPlaybackId}
+          />
+        </div>
       </div>
-    </div>
-  )
-})
+    )
+  },
+)
 
 const RelatedTalks: React.FC<{talks: Talk[]}> = ({talks}) => {
   if (!talks) return null
