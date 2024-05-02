@@ -20,6 +20,11 @@ const Footer = () => {
       href: '/newsletter',
       icon: () => {},
     },
+    {
+      label: 'Conf 2024',
+      href: '/conf',
+      icon: () => {},
+    },
   ]
 
   const contactLinks = [

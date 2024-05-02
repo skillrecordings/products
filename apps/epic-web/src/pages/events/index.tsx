@@ -5,7 +5,7 @@ import Balancer from 'react-wrap-balancer'
 import Link from 'next/link'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
-import {Event, getAllEvents} from 'lib/events'
+import {Event, getAllEvents, getEventConf} from 'lib/events'
 import {format} from 'date-fns'
 import {
   CalendarIcon,
@@ -22,14 +22,18 @@ import pluralize from 'pluralize'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const events = await getAllEvents()
+  const confEvent = await getEventConf()
 
   return {
-    props: {events},
+    props: {events, confEvent},
     revalidate: 10,
   }
 }
 
-const Events: React.FC<{events: Event[]}> = ({events}) => {
+const Events: React.FC<{events: Event[]; confEvent: Event | null}> = ({
+  events,
+  confEvent,
+}) => {
   const title = 'Live Events'
   const pageDescription = 'Live Events and Workshops'
   const publishedEvents =
@@ -230,6 +234,23 @@ const Events: React.FC<{events: Event[]}> = ({events}) => {
           )
         })}
         <ConfBanner />
+        <article>
+          <h2 className="py-4 text-3xl font-semibold">Conferences</h2>
+          <Link
+            href={`/conf`}
+            passHref
+            className="group relative flex h-full w-full flex-col overflow-hidden transition hover:bg-gray-100/80 dark:hover:bg-gray-900/40"
+          >
+            <div className="flex flex-col justify-between rounded-lg border border-gray-200 px-5 py-8 dark:border-gray-800 md:px-8">
+              <div className="relative z-10">
+                <h2 className="text-2xl font-bold">{confEvent?.title}</h2>
+                <p className="line-clamp-3 w-full pt-3 text-blue-900/80 dark:text-indigo-200/80 sm:text-lg">
+                  {confEvent?.description}
+                </p>
+              </div>
+            </div>
+          </Link>
+        </article>
       </main>
     </Layout>
   )
