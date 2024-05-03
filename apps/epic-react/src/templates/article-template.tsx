@@ -14,6 +14,8 @@ import {type ArticleFrontMatter, type Article} from '@/@types/mdx-article'
 import Layout from '@/components/app/layout'
 import Divider from '@/components/divider'
 import mdxComponents from '@/components/mdx-components'
+import ShareCta from '@/components/share-cta'
+import SubscribeToReactEmailCourseCta from '@/components/subscribe-react-email-course-cta'
 
 interface ArticleTemplateProps {
   allArticles: Article[]
@@ -118,6 +120,18 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           <MDX contents={mdx} components={{...mdxComponents}} />
         </div>
         <Divider />
+        {subscriber ? (
+          <ShareCta title={title} slug={slug} />
+        ) : (
+          <SubscribeToReactEmailCourseCta>
+            <h2 className="mb-2 text-center text-2xl font-bold leading-tight sm:text-3xl">
+              Get my free 7-part email course on React!
+            </h2>
+            <h3 className="mb-10 text-center text-base leading-tight text-react">
+              Delivered straight to your inbox.
+            </h3>
+          </SubscribeToReactEmailCourseCta>
+        )}
         <YouMightAlsoLike articles={restArticles} />
       </main>
     </Layout>
