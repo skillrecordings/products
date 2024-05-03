@@ -11,6 +11,7 @@ import Divider from '@/components/divider'
 import mdxComponents from '@/components/mdx-components'
 import PodcastPlayer from '@/components/podcasts/podcast-player'
 import EpisodesList from '@/components/podcasts/episodes-list'
+import SubscribeToReactEmailCourseCta from '@/components/subscribe-react-email-course-cta'
 
 interface PodcastTemplateProps {
   allPodcasts: PodcastFrontMatter[]
@@ -101,14 +102,14 @@ const PodcastTemplate: React.FC<PodcastTemplateProps> = ({
               </Countdown>
             )} */}
             <div className="mt-20">
-              {/* <Subscribe>
+              <SubscribeToReactEmailCourseCta>
                 <h2 className="mb-2 text-center text-2xl font-bold leading-tight sm:text-3xl">
                   Get my free 7-part email course on React!
                 </h2>
-                <h3 className="text-react mb-10 text-center text-base leading-tight">
+                <p className="mb-10 text-center text-base leading-tight text-react">
                   Delivered straight to your inbox.
-                </h3>
-              </Subscribe> */}
+                </p>
+              </SubscribeToReactEmailCourseCta>
             </div>
           </footer>
         </article>
