@@ -16,6 +16,7 @@ import Divider from '@/components/divider'
 import mdxComponents from '@/components/mdx-components'
 import ShareCta from '@/components/share-cta'
 import SubscribeToReactEmailCourseCta from '@/components/subscribe-react-email-course-cta'
+import {truncate} from 'lodash'
 
 interface ArticleTemplateProps {
   allArticles: Article[]
@@ -26,9 +27,9 @@ interface ArticleTemplateProps {
 const YouMightAlsoLike: React.FC<{articles: Article[]}> = ({articles}) => {
   return (
     <section className="mx-auto max-w-screen-lg pb-24">
-      <h3 className="mb-8 text-sm uppercase text-er-gray-700 opacity-75">
-        YOU MIGHT ALSO LIKE
-      </h3>
+      <h2 className="mb-8 text-sm uppercase text-er-gray-700 opacity-75">
+        Additional Articles You Might Also Like
+      </h2>
       <ul className="grid gap-8 leading-relaxed md:grid-cols-2">
         {articles.map((article: Article) => {
           return (
@@ -85,8 +86,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   return (
     <Layout
       meta={{
-        title,
-        description: pageDescription,
+        title: truncate(title, {length: 75}),
+        description: truncate(pageDescription, {length: 155}),
+        url,
         ogImage: {
           url: `${process.env.NEXT_PUBLIC_URL}${socialImage}`,
           alt: title,
@@ -127,9 +129,9 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
             <h2 className="mb-2 text-center text-2xl font-bold leading-tight sm:text-3xl">
               Get my free 7-part email course on React!
             </h2>
-            <h3 className="mb-10 text-center text-base leading-tight text-react">
+            <p className="mb-10 text-center text-base leading-tight text-react">
               Delivered straight to your inbox.
-            </h3>
+            </p>
           </SubscribeToReactEmailCourseCta>
         )}
         <YouMightAlsoLike articles={restArticles} />

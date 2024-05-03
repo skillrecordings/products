@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
 import Balancer from 'react-wrap-balancer'
+import {truncate} from 'lodash'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import useClipboard from 'react-use-clipboard'
@@ -33,8 +34,9 @@ const PodcastTemplate: React.FC<PodcastTemplateProps> = ({
   return (
     <Layout
       meta={{
-        title,
-        description,
+        title: truncate(title, {length: 75}),
+        description: truncate(description, {length: 155}),
+        url: `${process.env.NEXT_PUBLIC_URL}/podcasts/${slug}`,
         ogImage: {url: `${process.env.NEXT_PUBLIC_URL}${image}`, alt: title},
       }}
     >
@@ -45,7 +47,7 @@ const PodcastTemplate: React.FC<PodcastTemplateProps> = ({
               <Balancer>{title}</Balancer>
             </h1>
             <PodcastPlayer episodeId={simplecastId} />
-            <h2 className="prose-xl max-w-none font-semibold">{description}</h2>
+            <p className="prose-xl max-w-none font-semibold">{description}</p>
             <Divider className="my-10 ml-0" />
           </header>
           <section className="prose prose-lg max-w-none lg:prose-xl">

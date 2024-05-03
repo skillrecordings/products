@@ -37,9 +37,9 @@ const EpisodesList = ({episodes, location}: EpisodesList) => {
   return isMounted ? (
     <div className="relative col-span-1 h-full text-lg leading-normal lg:col-span-4 xl:col-span-3">
       <nav className="sm:sticky sm:top-20 ">
-        <div className="pb-4 text-xs font-semibold uppercase leading-normal tracking-wide text-er-gray-600">
+        <h2 className="pb-4 text-xs font-semibold uppercase leading-normal tracking-wide text-er-gray-600">
           Episodes
-        </div>
+        </h2>
         <div className="overflow-hidden rounded-lg border-2 border-er-gray-200">
           <SimpleBar
             scrollableNodeProps={{
