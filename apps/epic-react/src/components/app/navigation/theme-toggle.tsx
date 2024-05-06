@@ -3,9 +3,8 @@
 import {useMedia} from 'react-use'
 import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'
-
-import {Sun, Moon} from '@/components/icons'
 import {useTheme} from 'next-themes'
+
 import {
   Button,
   Tooltip,
@@ -13,8 +12,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@skillrecordings/ui'
+import {Sun, Moon} from '@/components/icons'
 
-export function ThemeToggle() {
+export default () => {
   const {theme, setTheme} = useTheme()
   const isTablet = useMedia('(max-width: 920px)', false)
   return (

@@ -4,6 +4,8 @@ import Navigation from './navigation'
 import {Inter} from 'next/font/google'
 import {Toaster} from 'react-hot-toast'
 
+import {useFeedback} from '@/components/feedback-widget/feedback-context'
+
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -51,6 +53,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
     ogImage,
     date,
   } = meta || {}
+  const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
 
   return (
     <div
@@ -79,6 +82,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
         noindex={noIndex}
       />
       <Toaster position="top-center" />
+      {isFeedbackDialogOpen && feedbackComponent}
       {withNavigation && <Navigation {...navigationProps} />}
       <div
         className={twMerge(
