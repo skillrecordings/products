@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import {ChapterResourceList} from '@/app/book/_components/chapter-resource-list'
+import {ChapterResourceList} from '@/app/book-app/_components/chapter-resource-list'
 import {
   BookOpenIcon,
   BookmarkIcon,

@@ -14,21 +14,21 @@ import {
   NextResourceTitle,
 } from '../../../_components/next-resource'
 import {Button} from '@skillrecordings/ui/primitives/button'
-import {ResourceMenu} from '@/app/book/_components/resource-menu'
+import {ResourceMenu} from '@/app/book-app/_components/resource-menu'
 import {getBook, getChapterList} from '@/lib/book'
 import Link from 'next/link'
-import ModeToggle from '@/app/book/_components/mode-toggle'
+import ModeToggle from '@/app/book-app/_components/mode-toggle'
 import {Switch} from '@skillrecordings/ui/primitives/switch'
 import {Label} from '@skillrecordings/ui/primitives/label'
-import {toggleMode} from '@/app/book/_components/toggle-book-mode'
+import {toggleMode} from '@/app/book-app/_components/toggle-book-mode'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@skillrecordings/ui/primitives/tooltip'
-import {ChapterToC} from '@/app/book/_components/chapter-toc'
-import {ChaptersIndex} from '@/app/book/_components/chapters-index'
+import {ChapterToC} from '@/app/book-app/_components/chapter-toc'
+import {ChaptersIndex} from '@/app/book-app/_components/chapters-index'
 
 export const metadata = {
   name: 'Chapter',

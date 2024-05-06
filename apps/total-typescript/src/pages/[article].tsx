@@ -54,7 +54,7 @@ export type ArticlePageProps = {
   articleBody: MDXRemoteSerializeResult
 }
 
-const Article: NextPage<ArticlePageProps> = ({
+const ArticleRoute: NextPage<ArticlePageProps> = ({
   article,
   articleBody,
   articles,
@@ -68,4 +68,4 @@ const Article: NextPage<ArticlePageProps> = ({
   )
 }
 
-export default Article
+export default ArticleRoute
