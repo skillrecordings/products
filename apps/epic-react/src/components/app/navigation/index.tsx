@@ -7,6 +7,7 @@ import {useMedia} from 'react-use'
 import {isEmpty} from 'lodash'
 import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'
+
 import {
   Button,
   Tooltip,
@@ -20,10 +21,10 @@ import {isOnlyTeamPurchaser} from '@/utils/is-only-team-purchaser'
 
 import MessageBar from '@/components/app/navigation/message-bar'
 import Logo from '@/components/app/navigation/logo'
-import {ThemeToggle} from '@/components/app/theme-toggle'
-import {Message, Logout} from '@/components/icons'
+import ThemeToggle from '@/components/app/navigation/theme-toggle'
+import FeedbackButton from '@/components/app/navigation/feedback-button'
+import {Logout} from '@/components/icons'
 import Skeleton from '@/components/skeleton'
-import Feedback from '@/components/feedback'
 
 type NavigationProps = {
   navChildren?: React.ReactNode
@@ -42,7 +43,6 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
   const currentSale = useAvailableSale()
   const isMobile = useMedia('(max-width: 640px)', false)
   const isTablet = useMedia('(max-width: 920px)', false)
-  const isXL = useMedia('(min-width: 1200px)', false)
   const {scrollY} = useScroll()
   const messageBarTransform = useTransform(
     scrollY,
@@ -162,10 +162,7 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
               }),
             )}
           >
-            {/* TODO: <Feedback /> component */}
-            {isAuthenticated ? (
-              <Feedback>{isTablet ? 'Send Feedback' : <Message />}</Feedback>
-            ) : null}
+            {isAuthenticated && <FeedbackButton />}
 
             <ThemeToggle />
 
