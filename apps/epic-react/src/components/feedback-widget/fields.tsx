@@ -1,6 +1,5 @@
 import React from 'react'
 import {useEditor, EditorContent} from '@tiptap/react'
-import {CheckIcon} from '@heroicons/react/solid'
 import {RadioGroup} from '@headlessui/react'
 import {useField} from 'formik'
 import Typography from '@tiptap/extension-typography'
@@ -32,7 +31,7 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
         id: 'text',
         name: 'text',
         class:
-          'prose min-h-[150px] max-h-[250px] overflow-y-auto shadow-md shadow-black/50 bg-gray-800 p-3 focus:ring-cyan-300 block w-full border border-gray-700 rounded-md',
+          'prose min-h-[150px] max-h-[250px] overflow-y-auto border-er-gray-200 bg-background p-3 focus:ring-indigo-500 block w-full border rounded-md',
       },
     },
   })
@@ -51,15 +50,16 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
     <div>
       <div className="flex w-full items-center justify-between">
         <label
-          className="inline-block flex-shrink-0 pb-1 font-semibold"
+          className="inline-block flex-shrink-0 pb-1 text-xs font-semibold md:text-base"
           htmlFor="text"
         >
-          {label} <span className="font-normal text-gray-300">(required)</span>
+          {label}{' '}
+          <span className="font-normal text-er-gray-600">(required)</span>
         </label>
         {errors.text && touched.text ? (
           <div
             aria-live="polite"
-            className="inline-block pb-1 text-xs font-medium leading-tight text-pink-300 sm:text-sm"
+            className="inline-block pb-1 text-xs font-medium leading-tight text-red-500 sm:text-sm"
           >
             {errors.text}
           </div>
@@ -67,8 +67,7 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
       </div>
       <div
         className={cx({
-          'rounded-md ring ring-pink-300 ring-opacity-80 ring-offset-gray-900':
-            errors.text && touched.text,
+          'rounded-md': errors.text && touched.text,
         })}
       >
         <EditorContent editor={editor} name="text" id="text" />
@@ -85,12 +84,12 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
 export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
   const [field] = useField({name: props.name})
   return (
-    <div>
+    <div className="flex items-center justify-center space-x-4">
       <label
-        className="inline-flex pb-1 font-semibold"
+        className="inline-flex pb-1 text-base font-semibold"
         htmlFor="context.emotion"
       >
-        Emotion
+        Pick an emoji
       </label>
       <RadioGroup
         {...props}
@@ -107,16 +106,11 @@ export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
               value={emotion}
               className={({active, checked}) =>
                 `${
-                  active
-                    ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-gray-900'
-                    : ''
+                  checked
+                    ? 'border-er-gray-400 bg-er-gray-300 text-white hover:bg-er-gray-200'
+                    : 'bg-background hover:bg-er-gray-200'
                 }
-              ${
-                checked
-                  ? 'bg-gray-600 bg-opacity-75 text-white shadow-inner hover:bg-gray-600'
-                  : 'bg-gray-800 hover:bg-gray-700/80'
-              }
-                relative flex cursor-pointer rounded-lg border border-gray-700 px-4 py-3 transition focus:outline-none`
+                relative flex cursor-pointer rounded-full border border-er-gray-200 px-4 py-3 transition focus:outline-none`
               }
             >
               {({checked}) => (
@@ -130,9 +124,6 @@ export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
                   >
                     {getEmoji(emotion).image}
                   </RadioGroup.Label>
-                  {checked && (
-                    <CheckIcon className="absolute bottom-1 right-1 h-4 w-4 text-gray-100" />
-                  )}
                 </>
               )}
             </RadioGroup.Option>
@@ -142,70 +133,3 @@ export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
     </div>
   )
 }
-
-// export const CategoryField: React.FC<
-//   React.PropsWithChildren<{
-//     name: string
-//     categories?: string[]
-//     id: string
-//   }>
-// > = ({name, categories = ['general', 'help', 'code'], id}, ...rest) => {
-//   const [field] = useField({name})
-//   return (
-//     <div>
-//       <label
-//         className="inline-flex pb-1 font-semibold"
-//         htmlFor="context.emotion"
-//       >
-//         Category
-//       </label>
-//       <RadioGroup
-//         {...rest}
-//         name={name}
-//         id={id}
-//         value={field.value}
-//         onChange={(value: string) => {
-//           field.onChange({target: {value, name: name}})
-//         }}
-//       >
-//         <RadioGroup.Label className="sr-only">Pick a category</RadioGroup.Label>
-//         <div className="flex items-center space-x-3">
-//           {categories.map((category) => (
-//             <RadioGroup.Option
-//               key={category}
-//               value={category}
-//               className={({active, checked}) =>
-//                 `${
-//                   active
-//                     ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-gray-900'
-//                     : ''
-//                 }
-//               ${
-//                 checked
-//                   ? 'bg-gray-600 bg-opacity-75 text-white shadow-inner hover:bg-gray-600'
-//                   : 'bg-gray-800 hover:bg-gray-700/80'
-//               }
-//               relative flex cursor-pointer rounded-lg border border-gray-700 px-4 py-3.5 transition focus:outline-none`
-//               }
-//             >
-//               {({checked}) => (
-//                 <>
-//                   <RadioGroup.Label
-//                     className={`cursor-pointer font-medium ${
-//                       checked ? 'text-gray-100' : 'text-gray-100'
-//                     }`}
-//                   >
-//                     {category}
-//                   </RadioGroup.Label>
-//                   {checked && (
-//                     <CheckIcon className="absolute bottom-1 right-1 h-4 w-4 text-gray-100" />
-//                   )}
-//                 </>
-//               )}
-//             </RadioGroup.Option>
-//           ))}
-//         </div>
-//       </RadioGroup>
-//     </div>
-//   )
-// }

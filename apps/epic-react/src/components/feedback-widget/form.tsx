@@ -1,19 +1,11 @@
 import React from 'react'
 import * as Yup from 'yup'
-import cx from 'classnames'
-import {
-  // CategoryField,
-  EmotionField,
-  FeedbackField,
-} from './fields'
-import {useFeedback} from './feedback-context'
-import {Formik, Form, FormikHelpers} from 'formik'
-import {CheckIcon} from '@heroicons/react/solid'
+import {EmotionField, FeedbackField} from './fields'
+import {Formik, Form} from 'formik'
 import {XCircleIcon} from '@heroicons/react/outline'
 import Spinner from '@/components/spinner'
 import {FeedbackContext} from '@skillrecordings/skill-api'
 import {useFeedbackForm} from './use-feedback-form'
-import Link from 'next/link'
 
 export type FeedbackFormValues = {
   text: string
@@ -26,10 +18,20 @@ const FeedbackValidationSchema = Yup.object().shape({
 })
 
 export const FeedbackForm: React.FC<
-  React.PropsWithChildren<React.PropsWithChildren<{location: string}>>
-> = ({location}) => {
+  React.PropsWithChildren<
+    React.PropsWithChildren<{
+      setFormSubmitted: React.Dispatch<React.SetStateAction<boolean>>
+      location: string
+    }>
+  >
+> = ({setFormSubmitted, location}) => {
   const {initialValues, submitFeedbackForm, isSubmitted, error} =
     useFeedbackForm({location})
+
+  React.useEffect(() => {
+    if (isSubmitted) setFormSubmitted(true)
+  }, [isSubmitted])
+
   return (
     <Formik
       initialValues={initialValues}
@@ -37,47 +39,16 @@ export const FeedbackForm: React.FC<
       onSubmit={submitFeedbackForm}
     >
       {({errors, touched, isSubmitting, values}) => {
-        const isCodeQuestion = values.context.category === 'code'
-
         return (
           <Form className="flex flex-col space-y-5" placeholder="">
-            <div
-              className={cx({'pointer-events-none blur-sm': isCodeQuestion})}
-            >
-              {' '}
-              <FeedbackField
-                errors={errors}
-                touched={touched}
-                isSubmitted={isSubmitted}
-                showMarkdown={false}
-              />
-            </div>
-            <div className="flex w-full flex-col space-y-5 md:flex-row md:space-x-10 md:space-y-0">
-              <div
-                className={cx({'pointer-events-none blur-sm': isCodeQuestion})}
-              >
-                <EmotionField name="context.emotion" id="context.emotion" />
-              </div>
-              {/* <CategoryField name="context.category" id="context.category" /> */}
-            </div>
-            {isCodeQuestion ? (
-              <div className="pt-0.5 text-center">
-                If you have any TypeScript/code related question or need help
-                solving an exercise,{' '}
-                <Link
-                  className="font-medium text-cyan-300 hover:underline"
-                  href="/discord"
-                  target="_blank"
-                >
-                  ask on my Discord server ↗︎
-                </Link>
-              </div>
-            ) : (
-              <SubmitButton isSubmitting={isSubmitting}>
-                Send feedback
-              </SubmitButton>
-            )}
-            {isSubmitted && <ConfirmationMessage />}
+            <EmotionField name="context.emotion" id="context.emotion" />
+            <FeedbackField
+              errors={errors}
+              touched={touched}
+              isSubmitted={isSubmitted}
+              showMarkdown={false}
+            />
+            <SubmitButton isSubmitting={isSubmitting}>Send</SubmitButton>
             {error && <ErrorMessage>{error}</ErrorMessage>}
           </Form>
         )
@@ -100,35 +71,6 @@ export const ErrorMessage: React.FC<React.PropsWithChildren<unknown>> = ({
   )
 }
 
-export const ConfirmationMessage = ({
-  message = `Feedback sent, thank you!`,
-  isModal = true,
-}: {
-  message?: string
-  isModal?: boolean
-}) => {
-  const {setIsFeedbackDialogOpen} = useFeedback()
-  return (
-    <div
-      aria-live="polite"
-      className="flex flex-wrap items-center justify-center rounded-md bg-teal-300/20 px-5 py-4 text-center text-sm font-semibold text-teal-300"
-    >
-      <CheckIcon className="mr-1 h-4 w-4" aria-hidden="true" />{' '}
-      <span>{message}</span>
-      {isModal && (
-        <button
-          className="inline-block pl-2 underline"
-          onClick={() => {
-            setIsFeedbackDialogOpen(false)
-          }}
-        >
-          Close
-        </button>
-      )}
-    </div>
-  )
-}
-
 type SubmitButtonProps = {
   isSubmitting: boolean
 }
@@ -140,7 +82,7 @@ export const SubmitButton: React.FC<
     <button
       type="submit"
       disabled={isSubmitting}
-      className="inline-flex justify-center rounded-lg border border-transparent bg-primary px-4 py-3 text-base font-semibold text-black transition hover:shadow-lg hover:brightness-110 hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2"
+      className="self-end rounded-md bg-blue-500 px-4 py-2 text-lg font-semibold text-white duration-200 hover:bg-blue-600"
     >
       {isSubmitting ? (
         <>
