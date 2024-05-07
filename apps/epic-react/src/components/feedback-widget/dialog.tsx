@@ -34,14 +34,14 @@ const DialogComp: React.FC<React.PropsWithChildren<DialogProps>> = ({
           onEscapeKeyDown={handleCloseDialog}
           className="fixed left-5 right-5 top-1/2 z-50 mx-auto max-h-[85vh] w-auto max-w-[680px] -translate-y-1/2 rounded-lg border border-indigo-500 bg-background p-8 shadow-2xl shadow-black/50"
         >
+          <CloseButton
+            ref={closeButtonRef}
+            handleCloseDialog={handleCloseDialog}
+          />
           {isFormSubmitted ? (
-            <ConfirmationMessage handleCloseDialog={handleCloseDialog} />
+            <ConfirmationMessage />
           ) : (
             <>
-              <CloseButton
-                ref={closeButtonRef}
-                handleCloseDialog={handleCloseDialog}
-              />
               <Dialog.Title className="mb-6 mt-4 text-center text-xl font-semibold md:text-2xl">
                 {title}
               </Dialog.Title>
@@ -78,36 +78,16 @@ const CloseButton = React.forwardRef<HTMLButtonElement, CloseButtonProps>(
 
 export const ConfirmationMessage = ({
   message = `Feedback sent, thank you!`,
-  isModal = true,
-  handleCloseDialog,
 }: {
   message?: string
-  isModal?: boolean
-  handleCloseDialog: () => void
 }) => {
-  // const {setIsFeedbackDialogOpen} = useFeedback()
-  React.useEffect(() => {
-    const timeoutId = setTimeout(handleCloseDialog, 3000)
-
-    return () => {
-      clearTimeout(timeoutId)
-    }
-  }, [])
   return (
     <div
       aria-live="polite"
-      className="flex flex-wrap items-center justify-center rounded-md bg-teal-300/20 px-5 py-4 text-center text-sm font-semibold text-teal-300"
+      className="mt-3 flex flex-wrap items-center justify-center space-x-2 text-center text-xl font-semibold text-text"
     >
-      <CheckIcon className="mr-1 h-4 w-4" aria-hidden="true" />{' '}
+      <CheckIcon className="h-6 w-6 text-green-500" aria-hidden="true" />{' '}
       <span>{message}</span>
-      {isModal && (
-        <button
-          className="inline-block pl-2 underline"
-          onClick={handleCloseDialog}
-        >
-          Close
-        </button>
-      )}
     </div>
   )
 }
