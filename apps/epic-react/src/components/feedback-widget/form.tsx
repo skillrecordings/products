@@ -6,6 +6,7 @@ import {XCircleIcon} from '@heroicons/react/outline'
 import Spinner from '@/components/spinner'
 import {FeedbackContext} from '@skillrecordings/skill-api'
 import {useFeedbackForm} from './use-feedback-form'
+import cx from 'classnames'
 
 export type FeedbackFormValues = {
   text: string
@@ -82,11 +83,16 @@ export const SubmitButton: React.FC<
     <button
       type="submit"
       disabled={isSubmitting}
-      className="self-end rounded-md bg-blue-500 px-4 py-2 text-lg font-semibold text-white duration-200 hover:bg-blue-600"
+      className={cx(
+        'flex h-10 w-20 items-center justify-center self-end rounded-md bg-blue-500 px-4 text-lg font-semibold leading-none text-white duration-200 hover:bg-blue-600',
+        {
+          'cursor-not-allowed opacity-60': isSubmitting,
+        },
+      )}
     >
       {isSubmitting ? (
         <>
-          <Spinner className="mr-1 w-4" aria-hidden="true" /> Sending...
+          <Spinner className="w-4" aria-hidden="true" />
         </>
       ) : (
         children
