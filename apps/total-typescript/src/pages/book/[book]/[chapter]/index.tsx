@@ -12,7 +12,6 @@ import type {GetStaticPaths, GetStaticProps} from 'next'
 import type {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import Link from 'next/link'
 import '@/styles/shiki-twoslash.css'
-import {useInView} from 'framer-motion'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
@@ -106,6 +105,8 @@ const BookChapterRoute: React.FC<{
   })
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const articleRef = React.useRef<HTMLDivElement>(null)
+  const tocMaxWidth = useToCMaxWidth(articleRef)
 
   return (
     <Layout
@@ -124,17 +125,18 @@ const BookChapterRoute: React.FC<{
       </div>
       {isMenuOpen && (
         <nav className="fixed left-0 top-0 z-20 flex h-screen w-full flex-col items-center justify-center bg-[#ADF2F2] text-[#103838]">
-          <ol className="flex flex-col gap-3">
+          <ol className="grid grid-cols-2 gap-x-10 gap-y-5">
             {book.chapters.map((chapter, i) => (
               <li key={chapter._id}>
                 <Link
-                  className="font-heading text-4xl font-semibold italic"
+                  className="inline-flex items-baseline gap-3 font-heading text-4xl font-semibold italic"
                   href={`/book/${book.slug.current}/${chapter.slug}`}
                   onClick={() => {
                     setIsMenuOpen(false)
                   }}
                 >
-                  {chapter.title}
+                  <span className="text-xl">{i + 1}</span>
+                  <span>{chapter.title}</span>
                 </Link>
               </li>
             ))}
@@ -146,7 +148,9 @@ const BookChapterRoute: React.FC<{
         // bg-[#001816]
       >
         <nav className="flex items-center justify-between">
-          <div className="font-heading text-base">{book.title}</div>
+          <div className="font-heading text-base text-[#AFF2F2]">
+            {book.title}
+          </div>
           <button
             type="button"
             aria-expanded={isMenuOpen}
@@ -208,7 +212,10 @@ const BookChapterRoute: React.FC<{
           </> */}
         </section>
         <article className="mx-auto max-w-3xl p-5">
-          <div className="prose max-w-none sm:prose-lg lg:prose-xl prose-headings:scroll-m-20 prose-headings:text-[#ECFFFF] prose-h2:mt-[15%] prose-h3:mt-[10%] prose-p:text-[#D9FFFF] prose-code:bg-[#112E2C] prose-code:text-[#D9FFFF] prose-pre:p-0 prose-li:text-[#D9FFFF] lg:prose-p:text-justify [&_.code-container]:p-5">
+          <div
+            ref={articleRef}
+            className="prose max-w-none sm:prose-lg lg:prose-xl prose-headings:scroll-m-20 prose-headings:text-[#ECFFFF] prose-h2:mt-[15%] prose-h3:mt-[10%] prose-p:text-[#D9FFFF] prose-code:bg-[#112E2C] prose-code:text-[#D9FFFF] prose-pre:p-0 prose-li:text-[#D9FFFF] lg:prose-p:text-justify [&_.code-container]:p-5"
+          >
             <MDX
               contents={chapterBody}
               components={{
@@ -218,84 +225,82 @@ const BookChapterRoute: React.FC<{
           </div>
         </article>
         {toc && (
-          <aside className="absolute left-0 top-0 flex h-screen flex-col items-center justify-center">
-            <nav className="group fixed left-0 max-h-screen  py-5 scrollbar-thin hover:overflow-y-auto">
-              <strong className="relative inline-flex translate-x-0 text-lg opacity-0 transition group-hover:translate-x-5 group-hover:opacity-100">
+          <aside className="absolute left-0 top-0 z-20 flex h-screen flex-col items-center justify-center mix-blend-difference">
+            <nav className="group fixed left-0 max-h-screen py-16 pr-5 scrollbar-thin hover:overflow-y-auto">
+              <strong className="relative inline-flex translate-x-0 text-lg opacity-0 transition group-hover:translate-x-7 group-hover:opacity-100">
                 In this chapter
               </strong>
-              <ol className="mt-3 flex flex-col text-gray-200 [&_*]:duration-300">
-                {toc
-                  // .filter(({level}) => level < 3)
-                  .map((item, i) => (
-                    <li key={item.slug}>
-                      <Link
-                        className="inline-flex min-h-4 items-center gap-2 leading-tight transition hover:text-foreground"
-                        href={`#${item.slug}`}
+              <ol className="mt-3 flex flex-col text-white [&_*]:duration-300">
+                {toc.map((item, i) => (
+                  <li key={item.slug}>
+                    <Link
+                      className="inline-flex min-h-3 items-center gap-2 leading-tight transition hover:text-foreground"
+                      href={`#${item.slug}`}
+                    >
+                      <div
+                        className={cn(
+                          'relative h-px w-5 bg-white opacity-50 transition group-hover:-translate-x-5',
+                          {
+                            'bg-[#ADF2F2] opacity-100':
+                              visibleHeadingId === item.slug,
+                          },
+                        )}
+                      />
+                      <span
+                        className={cn(
+                          'relative  -translate-x-10 truncate text-nowrap opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-[#ADF2F2]',
+                          {
+                            'text-[#ADF2F2] group-hover:opacity-100':
+                              visibleHeadingId === item.slug,
+                          },
+                        )}
+                        style={{
+                          maxWidth: tocMaxWidth,
+                        }}
                       >
-                        {/* <span
-                          className="w-4 text-sm opacity-60"
-                          aria-hidden="true"
-                        >
-                          {i + 1}
-                        </span> */}
-                        <div
-                          className={cn(
-                            'relative h-px w-5 bg-white opacity-50 transition group-hover:-translate-x-5',
-                            {
-                              'bg-[#ADF2F2] opacity-100':
-                                visibleHeadingId === item.slug,
-                            },
-                          )}
-                        />
-                        <span
-                          className={cn(
-                            'relative max-w-full -translate-x-10 truncate text-ellipsis opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-[#ADF2F2]',
-                            {
-                              'text-[#ADF2F2] group-hover:opacity-100':
-                                visibleHeadingId === item.slug,
-                            },
-                          )}
-                        >
-                          {item.text}
-                        </span>
-                      </Link>
-                      {item.items.length > 0 && (
-                        <ol className="">
-                          {item.items
-                            .filter(({level}) => level < 4)
-                            .map((subItem) => (
-                              <li key={subItem.slug}>
-                                <Link
-                                  className="inline-flex min-h-4 items-center gap-2"
-                                  href={`#${subItem.slug}`}
+                        {item.text.replace(/`/g, '')}
+                      </span>
+                    </Link>
+                    {item.items.length > 0 && (
+                      <ol>
+                        {item.items
+                          .filter(({level}) => level < 4)
+                          .map((subItem) => (
+                            <li key={subItem.slug}>
+                              <Link
+                                className="inline-flex min-h-3 items-center gap-2"
+                                href={`#${subItem.slug}`}
+                              >
+                                <div
+                                  className={cn(
+                                    'relative h-px w-3 bg-white opacity-50 transition group-hover:-translate-x-5',
+                                    {
+                                      'bg-[#ADF2F2] opacity-100':
+                                        visibleHeadingId === subItem.slug,
+                                    },
+                                  )}
+                                />
+                                <span
+                                  className={cn(
+                                    'relative ml-6  -translate-x-10 truncate text-nowrap opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-[#ADF2F2]',
+                                    {
+                                      'text-[#ADF2F2] group-hover:opacity-100':
+                                        visibleHeadingId === subItem.slug,
+                                    },
+                                  )}
+                                  style={{
+                                    maxWidth: tocMaxWidth,
+                                  }}
                                 >
-                                  <div
-                                    className={cn(
-                                      'relative h-px w-3 bg-white opacity-50 transition group-hover:-translate-x-5',
-                                      {
-                                        'bg-[#ADF2F2] opacity-100':
-                                          visibleHeadingId === subItem.slug,
-                                      },
-                                    )}
-                                  />
-                                  <span
-                                    className={cn(
-                                      'relative ml-8 max-w-full -translate-x-10 truncate text-ellipsis opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-[#ADF2F2]',
-                                      {
-                                        'text-[#ADF2F2] group-hover:opacity-100':
-                                          visibleHeadingId === subItem.slug,
-                                      },
-                                    )}
-                                  >
-                                    {subItem.text}
-                                  </span>
-                                </Link>
-                              </li>
-                            ))}
-                        </ol>
-                      )}
-                    </li>
-                  ))}
+                                  {subItem.text.replace(/`/g, '')}
+                                </span>
+                              </Link>
+                            </li>
+                          ))}
+                      </ol>
+                    )}
+                  </li>
+                ))}
               </ol>
             </nav>
           </aside>
@@ -318,6 +323,17 @@ const BookChapterRoute: React.FC<{
           )}
         </div>
       </main>
+      {process.env.NODE_ENV === 'development' && (
+        <div className="fixed bottom-3 right-3 z-50 bg-black">
+          <span className="sm:hidden">base</span>
+          <span className="hidden sm:block md:hidden">sm</span>
+          <span className="hidden md:block lg:hidden">md</span>
+          <span className="hidden lg:block xl:hidden">lg</span>
+          <span className="hidden xl:block 2xl:hidden">xl</span>
+          <span className="3xl:hidden hidden 2xl:block">2xl</span>
+          <span className="3xl:block 4xl:hidden hidden">3xl</span>
+        </div>
+      )}
     </Layout>
   )
 }
@@ -428,4 +444,29 @@ const useVisibleHeading = (
   }, [headingIds, options])
 
   return visibleHeadingId
+}
+
+const useToCMaxWidth = (articleRef: React.RefObject<HTMLDivElement>) => {
+  const [tocMaxWidth, setTocMaxWidth] = React.useState('100%')
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      const articleSpaceFromLeft =
+        articleRef.current?.getBoundingClientRect().left
+      setTocMaxWidth(
+        articleSpaceFromLeft ? `${articleSpaceFromLeft - 50}px` : '100%',
+      )
+    }
+
+    // Call handleResize right away so that tocMaxWidth gets set initially
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [articleRef]) // Dependency on articleRef to re-run effect if it changes
+
+  return tocMaxWidth
 }
