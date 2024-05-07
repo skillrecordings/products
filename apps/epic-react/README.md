@@ -52,7 +52,7 @@ Copy the template `.env.local.template` file to `.env.local` and `.env.template`
   skill-api endpoint, such as `webhook/stripe-internal` used for any Stripe
   interaction like making purchases. Add to `.env.local` using whatever secret
   value (recommended: generate a value with this command `echo "sks_$(uuidgen |
-  tr '[:upper:]' '[:lower:]')"`).
+tr '[:upper:]' '[:lower:]')"`).
 
 👋 `.env` is **required by Prisma** and **only** contains `DATABASE_URL`. The full contents
 of this file by default are are:
@@ -305,3 +305,7 @@ You can make changes to Sanity schema by editing contents inside `schema` direct
 ```
 pnpm dev:sanity
 ```
+
+## "Send feedback" feature
+
+Be sure to use proper `POSTMARK_KEY` in `.env.*` files to be able to test out the "send feedback" feature.
