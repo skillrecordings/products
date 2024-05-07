@@ -13,6 +13,7 @@ export const BookChapterSchema = z.object({
   slug: z.string(),
   moduleType: z.literal('chapter'),
   body: z.string().optional().nullable(),
+  description: z.string().optional().nullable(),
   github: z
     .object({
       _type: z.literal('github'),
@@ -94,6 +95,7 @@ export async function getBookChapter(chapterSlugOrId: string) {
         _updatedAt,
         _createdAt,
         moduleType,
+        description,
         title,
         slug,
         'github': github,

@@ -1,6 +1,5 @@
 // import type {Book} from '@/app/book/_schema/book-schemas'
 import * as React from 'react'
-import {WebPageJsonLdProps} from '@skillrecordings/next-seo'
 import Layout from '@/components/app/layout'
 import {getBook, type Book} from '@/lib/book'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
