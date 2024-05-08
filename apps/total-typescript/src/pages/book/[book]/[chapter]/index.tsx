@@ -12,6 +12,22 @@ import type {GetStaticPaths, GetStaticProps} from 'next'
 import type {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import Link from 'next/link'
 import '@/styles/shiki-twoslash.css'
+import {motion, useScroll, type Variants} from 'framer-motion'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  Dialog,
+  DialogContent,
+} from '@skillrecordings/ui'
+import {
+  DialogClose,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@skillrecordings/ui/primitives/dialog'
+import {XIcon} from '@heroicons/react/outline'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
@@ -106,7 +122,12 @@ const BookChapterRoute: React.FC<{
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const articleRef = React.useRef<HTMLDivElement>(null)
-  const tocMaxWidth = useToCMaxWidth(articleRef)
+  const chapterNavMaxWidth = useChapterNavMaxWidth(articleRef)
+  const {scrollYProgress} = useScroll()
+
+  React.useEffect(() => {
+    chapter && setIsMenuOpen(false)
+  }, [chapter])
 
   return (
     <Layout
@@ -119,58 +140,67 @@ const BookChapterRoute: React.FC<{
     >
       <div className="fixed left-0 top-0 h-screen w-full p-5 pt-10">
         <div
-          className="h-full w-full border border-[#062F2B]"
+          className="hidden h-full w-full border border-[#062F2B] lg:block"
           aria-hidden="true"
         />
       </div>
-      {isMenuOpen && (
-        <nav className="fixed left-0 top-0 z-20 flex h-screen w-full flex-col items-center justify-center bg-[#ADF2F2] text-[#103838]">
-          <ol className="grid grid-cols-2 gap-x-10 gap-y-5">
-            {book.chapters.map((chapter, i) => (
-              <li key={chapter._id}>
-                <Link
-                  className="inline-flex items-baseline gap-3 font-heading text-4xl font-semibold italic"
-                  href={`/book/${book.slug.current}/${chapter.slug}`}
-                  onClick={() => {
-                    setIsMenuOpen(false)
-                  }}
-                >
-                  <span className="text-xl">{i + 1}</span>
-                  <span>{chapter.title}</span>
-                </Link>
-              </li>
-            ))}
-          </ol>
-        </nav>
-      )}
-      <header
-        className="fixed left-0 top-0 z-20 h-10 w-full p-2 px-5 mix-blend-difference"
-        // bg-[#001816]
-      >
+      <ChaptersMenu
+        isMenuOpen={isMenuOpen}
+        book={book}
+        setIsMenuOpen={setIsMenuOpen}
+      />
+
+      <header className="fixed left-0 top-0 z-20 h-10 w-full border-b border-[#0f2927] bg-[#001816] p-2 px-5 lg:border-none lg:bg-transparent lg:mix-blend-difference">
         <nav className="flex items-center justify-between">
-          <div className="font-heading text-base text-[#AFF2F2]">
+          <div className="font-heading text-base font-medium text-[#AFF2F2]">
             {book.title}
           </div>
-          <button
-            type="button"
-            aria-expanded={isMenuOpen}
-            aria-label="Book chapters"
-            className="flex flex-col gap-1 p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <div className="h-px w-5 bg-[#AFF2F2]" />
-            <div className="h-px w-5 bg-[#AFF2F2]" />
-          </button>
+          <div className="flex items-center gap-5">
+            <div className="relative h-3 w-16 border border-white/10">
+              <motion.div
+                className="absolute left-0 top-0 h-full w-full origin-left bg-[#AFF2F2]"
+                style={{
+                  scaleX: scrollYProgress,
+                }}
+              />
+            </div>
+            <TooltipProvider>
+              <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    aria-expanded={isMenuOpen}
+                    aria-label="Book chapters"
+                    className="flex flex-col p-1"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="22"
+                      height="17"
+                      fill="none"
+                      viewBox="0 0 22 17"
+                    >
+                      <path
+                        stroke="#AFF2F2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M21 1H4a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h17M6 6.5h15m-15 4h15"
+                      />
+                    </svg>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent className="z-50 rounded-sm bg-[#AFF2F2] text-[#001816]">
+                  Chapters
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </nav>
       </header>
+
       <main className="relative z-10">
         <section className="relative flex min-h-screen w-full flex-col items-center justify-center p-5">
-          {/* <Link
-            className="inline-flex text-center text-lg text-primary"
-            href={`/book/${book.slug.current}`}
-          >
-            {book.title}
-          </Link> */}
           <div className="absolute left-5 top-10 flex h-[calc(100%-4rem)] w-[calc(100%-2.5rem)] flex-col items-center justify-center gap-20 overflow-hidden bg-[#AFF2F2] p-16 text-center text-[#103838]">
             <p className="relative z-10 inline-flex items-center gap-3 font-text text-xl font-medium">
               <span className="h-px w-10 bg-[#103838]" aria-hidden="true" />{' '}
@@ -189,27 +219,6 @@ const BookChapterRoute: React.FC<{
               {chapterIndex + 1}
             </div>
           </div>
-          {/* cool book effect */}
-          {/* <>
-          <div className="relative z-10 flex aspect-[1/1.42] h-full w-full max-w-[637px] items-center justify-center overflow-hidden bg-[#AFF2F2] text-[#103838]">
-            <p className="absolute top-14 inline-flex items-center gap-3 font-text">
-              <span className="h-px w-10 bg-[#103838]" aria-hidden="true" />{' '}
-              Chapter {chapterIndex + 1}{' '}
-              <span className="h-px w-10 bg-[#103838]" aria-hidden="true" />
-            </p>
-            <h1 className="absolute flex text-nowrap text-center font-heading text-[10vw] font-bold italic">
-              {chapter.title}
-            </h1>
-            {chapter.description && (
-              <p className="absolute bottom-24 max-w-sm text-balance text-center font-text">
-                {chapter.description}
-              </p>
-            )}
-          </div>
-          <h1 className="absolute z-0 flex text-nowrap text-center font-heading text-[10vw] font-bold italic text-[#ADF2F2]">
-            {chapter.title}
-          </h1>
-          </> */}
         </section>
         <article className="mx-auto max-w-3xl p-5">
           <div
@@ -225,87 +234,15 @@ const BookChapterRoute: React.FC<{
           </div>
         </article>
         {toc && (
-          <aside className="absolute left-0 top-0 z-20 flex h-screen flex-col items-center justify-center mix-blend-difference">
-            <nav className="group fixed left-0 max-h-screen py-16 pr-5 scrollbar-thin hover:overflow-y-auto">
-              <strong className="relative inline-flex translate-x-0 text-lg opacity-0 transition group-hover:translate-x-7 group-hover:opacity-100">
-                In this chapter
-              </strong>
-              <ol className="mt-3 flex flex-col text-white [&_*]:duration-300">
-                {toc.map((item, i) => (
-                  <li key={item.slug}>
-                    <Link
-                      className="inline-flex min-h-3 items-center gap-2 leading-tight transition hover:text-foreground"
-                      href={`#${item.slug}`}
-                    >
-                      <div
-                        className={cn(
-                          'relative h-px w-5 bg-white opacity-50 transition group-hover:-translate-x-5',
-                          {
-                            'bg-[#ADF2F2] opacity-100':
-                              visibleHeadingId === item.slug,
-                          },
-                        )}
-                      />
-                      <span
-                        className={cn(
-                          'relative  -translate-x-10 truncate text-nowrap opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-[#ADF2F2]',
-                          {
-                            'text-[#ADF2F2] group-hover:opacity-100':
-                              visibleHeadingId === item.slug,
-                          },
-                        )}
-                        style={{
-                          maxWidth: tocMaxWidth,
-                        }}
-                      >
-                        {item.text.replace(/`/g, '')}
-                      </span>
-                    </Link>
-                    {item.items.length > 0 && (
-                      <ol>
-                        {item.items
-                          .filter(({level}) => level < 4)
-                          .map((subItem) => (
-                            <li key={subItem.slug}>
-                              <Link
-                                className="inline-flex min-h-3 items-center gap-2"
-                                href={`#${subItem.slug}`}
-                              >
-                                <div
-                                  className={cn(
-                                    'relative h-px w-3 bg-white opacity-50 transition group-hover:-translate-x-5',
-                                    {
-                                      'bg-[#ADF2F2] opacity-100':
-                                        visibleHeadingId === subItem.slug,
-                                    },
-                                  )}
-                                />
-                                <span
-                                  className={cn(
-                                    'relative ml-6  -translate-x-10 truncate text-nowrap opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-[#ADF2F2]',
-                                    {
-                                      'text-[#ADF2F2] group-hover:opacity-100':
-                                        visibleHeadingId === subItem.slug,
-                                    },
-                                  )}
-                                  style={{
-                                    maxWidth: tocMaxWidth,
-                                  }}
-                                >
-                                  {subItem.text.replace(/`/g, '')}
-                                </span>
-                              </Link>
-                            </li>
-                          ))}
-                      </ol>
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </nav>
-          </aside>
+          <>
+            <ChapterSideNav
+              className="hidden lg:flex"
+              toc={toc}
+              visibleHeadingId={visibleHeadingId}
+              chapterNavMaxWidth={chapterNavMaxWidth}
+            />
+          </>
         )}
-
         <div className="flex items-center gap-10">
           {prevChapter && (
             <div className="w-full py-16 text-center">
@@ -323,16 +260,14 @@ const BookChapterRoute: React.FC<{
           )}
         </div>
       </main>
-      {process.env.NODE_ENV === 'development' && (
-        <div className="fixed bottom-3 right-3 z-50 bg-black">
-          <span className="sm:hidden">base</span>
-          <span className="hidden sm:block md:hidden">sm</span>
-          <span className="hidden md:block lg:hidden">md</span>
-          <span className="hidden lg:block xl:hidden">lg</span>
-          <span className="hidden xl:block 2xl:hidden">xl</span>
-          <span className="3xl:hidden hidden 2xl:block">2xl</span>
-          <span className="3xl:block 4xl:hidden hidden">3xl</span>
-        </div>
+      {toc && (
+        <ChapterMobileNav
+          toc={toc}
+          chapter={chapter}
+          book={book}
+          className="flex lg:hidden"
+          visibleHeadingId={visibleHeadingId}
+        />
       )}
     </Layout>
   )
@@ -446,19 +381,19 @@ const useVisibleHeading = (
   return visibleHeadingId
 }
 
-const useToCMaxWidth = (articleRef: React.RefObject<HTMLDivElement>) => {
-  const [tocMaxWidth, setTocMaxWidth] = React.useState('100%')
+const useChapterNavMaxWidth = (articleRef: React.RefObject<HTMLDivElement>) => {
+  const [chapterNavMaxWidth, setChapterNavMaxWidth] = React.useState('100%')
 
   React.useEffect(() => {
     const handleResize = () => {
       const articleSpaceFromLeft =
         articleRef.current?.getBoundingClientRect().left
-      setTocMaxWidth(
+      setChapterNavMaxWidth(
         articleSpaceFromLeft ? `${articleSpaceFromLeft - 50}px` : '100%',
       )
     }
 
-    // Call handleResize right away so that tocMaxWidth gets set initially
+    // Call handleResize right away so that chapterNavMaxWidth gets set initially
     handleResize()
 
     window.addEventListener('resize', handleResize)
@@ -468,5 +403,306 @@ const useToCMaxWidth = (articleRef: React.RefObject<HTMLDivElement>) => {
     }
   }, [articleRef]) // Dependency on articleRef to re-run effect if it changes
 
-  return tocMaxWidth
+  return chapterNavMaxWidth
+}
+
+const ChaptersMenu: React.FC<{
+  book: Book
+  setIsMenuOpen: React.Dispatch<boolean>
+  isMenuOpen: boolean
+}> = ({book, setIsMenuOpen, isMenuOpen}) => {
+  const container: Variants = {
+    hidden: {
+      opacity: 0,
+
+      transition: {duration: 0.5},
+    },
+    show: {
+      opacity: 1,
+
+      transition: {staggerChildren: 0.05, type: 'easeInOut'},
+    },
+  }
+
+  const item: Variants = {
+    hidden: {opacity: 0, y: -20},
+    show: {opacity: 1, y: 0},
+  }
+
+  return (
+    <>
+      <Dialog
+        open={isMenuOpen}
+        onOpenChange={(open) => {
+          setIsMenuOpen(open)
+        }}
+      >
+        <DialogContent
+          withCloseButton={false}
+          className="left-0 top-0 h-full w-full max-w-none translate-x-0 translate-y-0"
+        >
+          <motion.nav
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="fixed left-0 top-0 flex h-screen w-full flex-col items-center justify-start overflow-y-auto bg-[#ADF2F2] py-10 text-[#103838] scrollbar-none sm:py-16"
+          >
+            <DialogHeader className="w-full border-b border-[#96dbdb] p-5 pb-5 sm:p-10 sm:pb-24">
+              <DialogTitle className="flex w-full flex-col">
+                <motion.span className="font-heading text-3xl font-bold sm:text-[6vw]">
+                  {book.title}
+                </motion.span>
+              </DialogTitle>
+            </DialogHeader>
+            <motion.ol className="flex w-full flex-col ">
+              {book.chapters.map((chapter, i) => (
+                <motion.li variants={item} key={chapter._id}>
+                  <Link
+                    className="flex items-center gap-5 px-5 py-5 font-text text-xl font-semibold transition duration-300 hover:bg-[#96dbdb] sm:gap-10 sm:px-10 sm:py-16 sm:text-[4vw] sm:italic"
+                    href={`/book/${book.slug.current}/${chapter.slug}`}
+                  >
+                    <span className="font-mono text-xs opacity-50">
+                      {i + 1}
+                    </span>
+                    <span>{chapter.title}</span>
+                  </Link>
+                </motion.li>
+              ))}
+              <DialogClose className="fixed right-5 top-0.5 p-2">
+                <XIcon className="h-5 w-5" />
+              </DialogClose>
+            </motion.ol>
+          </motion.nav>
+        </DialogContent>
+      </Dialog>
+    </>
+  )
+}
+
+const ChapterSideNav: React.FC<{
+  toc: Heading[]
+  visibleHeadingId: string | null
+  chapterNavMaxWidth: string
+  className?: string
+}> = ({toc, visibleHeadingId, chapterNavMaxWidth, className}) => {
+  return (
+    <aside
+      className={cn(
+        'absolute left-0 top-0 z-20 flex h-screen flex-col items-center justify-center mix-blend-difference',
+        className,
+      )}
+    >
+      <nav className="group fixed left-0 max-h-screen py-16 pr-5 scrollbar-none hover:overflow-y-auto">
+        <strong className="relative inline-flex translate-x-0 text-lg opacity-0 transition group-hover:translate-x-7 group-hover:opacity-100">
+          In this chapter
+        </strong>
+        <ol className="mt-3 flex flex-col text-white [&_*]:duration-300">
+          {toc.map((item, i) => (
+            <li key={item.slug}>
+              <Link
+                className="inline-flex min-h-3 items-center gap-2 leading-tight transition hover:text-foreground"
+                href={`#${item.slug}`}
+              >
+                <div
+                  className={cn(
+                    'relative h-px w-5 bg-white opacity-50 transition group-hover:-translate-x-5',
+                    {
+                      'bg-[#ADF2F2] opacity-100':
+                        visibleHeadingId === item.slug,
+                    },
+                  )}
+                />
+                <span
+                  className={cn(
+                    'relative -translate-x-10 truncate text-nowrap opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-[#ADF2F2]',
+                    {
+                      'text-[#ADF2F2] group-hover:opacity-100':
+                        visibleHeadingId === item.slug,
+                    },
+                  )}
+                  style={{
+                    maxWidth: chapterNavMaxWidth,
+                  }}
+                >
+                  {item.text.replace(/`/g, '')}
+                </span>
+              </Link>
+              {item.items.length > 0 && (
+                <ol>
+                  {item.items
+                    .filter(({level}) => level < 4)
+                    .map((subItem) => (
+                      <li key={subItem.slug}>
+                        <Link
+                          className="inline-flex min-h-3 items-center gap-2"
+                          href={`#${subItem.slug}`}
+                        >
+                          <div
+                            className={cn(
+                              'relative h-px w-3 bg-white opacity-50 transition group-hover:-translate-x-5',
+                              {
+                                'bg-[#ADF2F2] opacity-100':
+                                  visibleHeadingId === subItem.slug,
+                              },
+                            )}
+                          />
+                          <span
+                            className={cn(
+                              'relative ml-6  -translate-x-10 truncate text-nowrap opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-[#ADF2F2]',
+                              {
+                                'text-[#ADF2F2] group-hover:opacity-100':
+                                  visibleHeadingId === subItem.slug,
+                              },
+                            )}
+                            style={{
+                              maxWidth: chapterNavMaxWidth,
+                            }}
+                          >
+                            {subItem.text.replace(/`/g, '')}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                </ol>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </aside>
+  )
+}
+
+const ChapterMobileNav: React.FC<{
+  toc: Heading[]
+  book: Book
+  chapter: BookChapter
+  visibleHeadingId: string | null
+  className?: string
+}> = ({toc, visibleHeadingId, className, chapter, book}) => {
+  const currentChapterIndex = book.chapters.findIndex(
+    (c) => c._id === chapter._id,
+  )
+  const container: Variants = {
+    hidden: {
+      opacity: 0,
+
+      transition: {duration: 0.2},
+    },
+    show: {
+      opacity: 1,
+
+      transition: {staggerChildren: 0.05, type: 'easeInOut'},
+    },
+  }
+
+  const item: Variants = {
+    hidden: {opacity: 0, x: -30},
+    show: {
+      opacity: 1,
+      x: 0,
+      transition: {staggerChildren: 0.05, type: 'easeInOut', duration: 0.1},
+    },
+  }
+  return (
+    <Dialog>
+      <DialogTrigger
+        className={cn(
+          'fixed bottom-3 right-3 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-[#001816] text-sm font-medium text-white/80',
+          className,
+        )}
+      >
+        ToC
+      </DialogTrigger>
+      <DialogContent
+        withCloseButton={false}
+        className="left-0 top-0 z-50 flex h-full w-full max-w-none translate-x-0 translate-y-0 flex-col bg-[#001816] p-0 py-16 text-[#D9FFFF]"
+      >
+        <DialogHeader className="p-5">
+          <DialogTitle>
+            <motion.span
+              className="relative flex flex-col items-center justify-center gap-2"
+              animate={{
+                opacity: [0, 1],
+              }}
+              transition={{
+                ease: 'easeInOut',
+                duration: 0.5,
+              }}
+            >
+              <p className="relative z-10 inline-flex items-center gap-3 font-text text-sm font-medium">
+                <span className="h-px w-10 bg-[#103838]" aria-hidden="true" />{' '}
+                Chapter {currentChapterIndex + 1}{' '}
+                <span className="h-px w-10 bg-[#103838]" aria-hidden="true" />
+              </p>
+              <strong className="text-balance px-2 font-heading text-3xl font-semibold italic">
+                {chapter.title}
+              </strong>
+            </motion.span>
+          </DialogTitle>
+        </DialogHeader>
+        <motion.nav
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="overflow-y-auto p-5 py-8 text-lg"
+        >
+          <motion.strong
+            animate={{
+              opacity: [0, 1],
+            }}
+            transition={{
+              ease: 'easeInOut',
+              duration: 0.5,
+              delay: 0.2,
+            }}
+            className="font-text text-sm font-semibold opacity-65"
+          >
+            In this chapter
+          </motion.strong>
+          <motion.ol className="mt-3 flex flex-col gap-2 [&_*]:duration-300">
+            {toc.map((heading, i) => (
+              <motion.li variants={item} key={heading.slug}>
+                <DialogClose asChild>
+                  <Link href={`#${heading.slug}`} className="font-semibold">
+                    <span
+                      className={cn('', {
+                        '': visibleHeadingId === heading.slug,
+                      })}
+                    >
+                      {heading.text.replace(/`/g, '')}
+                    </span>
+                  </Link>
+                </DialogClose>
+                {heading.items.length > 0 && (
+                  <ol>
+                    {heading.items
+                      .filter(({level}) => level < 4)
+                      .map((subItem) => (
+                        <motion.li variants={item} key={subItem.slug}>
+                          <DialogClose asChild>
+                            <Link className="ml-5" href={`#${subItem.slug}`}>
+                              <span
+                                className={cn('', {
+                                  '': visibleHeadingId === subItem.slug,
+                                })}
+                              >
+                                {subItem.text.replace(/`/g, '')}
+                              </span>
+                            </Link>
+                          </DialogClose>
+                        </motion.li>
+                      ))}
+                  </ol>
+                )}
+              </motion.li>
+            ))}
+          </motion.ol>
+        </motion.nav>
+        <DialogClose className="fixed bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
+          <XIcon className="h-4 w-4" />
+        </DialogClose>
+      </DialogContent>
+    </Dialog>
+  )
 }
