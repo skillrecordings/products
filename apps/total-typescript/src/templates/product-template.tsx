@@ -103,14 +103,14 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
           {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
           <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
             <Element name="buy" aria-hidden="true" />
+            <Pricing
+              userId={userId}
+              product={products[0]}
+              purchased={purchasedProductIds.includes(products[0].productId)}
+              couponId={couponId}
+              allowPurchase={allowPurchase}
+            />
           </PriceCheckProvider>
-          <Pricing
-            userId={userId}
-            product={products[0]}
-            purchased={purchasedProductIds.includes(products[0].productId)}
-            couponId={couponId}
-            allowPurchase={allowPurchase}
-          />
         </section>
         <div className="flex w-full items-center justify-center pt-16">
           <Image
