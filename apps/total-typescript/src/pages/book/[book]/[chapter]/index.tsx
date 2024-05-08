@@ -27,7 +27,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@skillrecordings/ui/primitives/dialog'
-import {XIcon} from '@heroicons/react/outline'
+import {ViewListIcon, XIcon} from '@heroicons/react/outline'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
@@ -136,20 +136,14 @@ const BookChapterRoute: React.FC<{
       }}
       nav={null}
       footer={null}
-      className="overflow-hidden bg-[#001816] selection:bg-[#ADF2F2]"
+      className="relative overflow-hidden bg-[#001816] selection:bg-[#ADF2F2]"
     >
-      <div className="fixed left-0 top-0 h-screen w-full p-5 pt-10">
-        <div
-          className="hidden h-full w-full border border-[#062F2B] lg:block"
-          aria-hidden="true"
-        />
-      </div>
       <ChaptersMenu
-        isMenuOpen={isMenuOpen}
         book={book}
+        chapter={chapter}
+        isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
       />
-
       <header className="fixed left-0 top-0 z-20 h-10 w-full border-b border-[#0f2927] bg-[#001816] p-2 px-5 lg:border-none lg:bg-transparent lg:mix-blend-difference">
         <nav className="flex items-center justify-between">
           <div className="font-heading text-base font-medium text-[#AFF2F2]">
@@ -198,10 +192,16 @@ const BookChapterRoute: React.FC<{
           </div>
         </nav>
       </header>
-
       <main className="relative z-10">
-        <section className="relative flex min-h-screen w-full flex-col items-center justify-center p-5">
-          <div className="absolute left-5 top-10 flex h-[calc(100%-4rem)] w-[calc(100%-2.5rem)] flex-col items-center justify-center gap-20 overflow-hidden bg-[#AFF2F2] p-16 text-center text-[#103838]">
+        {/* OUTLINE */}
+        <div
+          className="pointer-events-none fixed left-0 top-0 z-20 h-screen w-full p-5 pt-10"
+          aria-hidden="true"
+        >
+          <div className="hidden h-full w-full border border-[#062F2B] lg:block" />
+        </div>
+        <section className="relative z-30 flex min-h-screen w-full flex-col items-center justify-center bg-[#001816]">
+          <div className="absolute left-5 top-10 flex h-[calc(100%-2.5rem)] w-[calc(100%-2.5rem)] flex-col items-center justify-center gap-20 overflow-hidden bg-[#AFF2F2] p-16 text-center text-[#103838]">
             <p className="relative z-10 inline-flex items-center gap-3 font-text text-xl font-medium">
               <span className="h-px w-10 bg-[#103838]" aria-hidden="true" />{' '}
               Chapter {chapterIndex + 1}{' '}
@@ -210,7 +210,7 @@ const BookChapterRoute: React.FC<{
             <h1 className="relative z-10 text-balance font-heading text-5xl font-bold italic sm:text-8xl">
               {chapter.title}
             </h1>
-            <p className="relative z-10 max-w-md text-balance text-center font-text text-xl">
+            <p className="relative z-10 max-w-md text-balance text-center font-text text-base sm:text-xl">
               {chapter.description
                 ? chapter.description
                 : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec cursus viverra porta. Nulla accumsan ornare laoreet.'}
@@ -220,46 +220,52 @@ const BookChapterRoute: React.FC<{
             </div>
           </div>
         </section>
-        <article className="mx-auto max-w-3xl p-5">
-          <div
-            ref={articleRef}
-            className="prose max-w-none sm:prose-lg lg:prose-xl prose-headings:scroll-m-20 prose-headings:text-[#ECFFFF] prose-h2:mt-[15%] prose-h3:mt-[10%] prose-p:text-[#D9FFFF] prose-code:bg-[#112E2C] prose-code:text-[#D9FFFF] prose-pre:p-0 prose-li:text-[#D9FFFF] lg:prose-p:text-justify [&_.code-container]:p-5"
-          >
-            <MDX
-              contents={chapterBody}
-              components={{
-                ...bookMdxComponents,
-              }}
-            />
-          </div>
-        </article>
-        {toc && (
-          <>
+        <div className="relative z-10 h-full w-full bg-[#001816] pb-16">
+          {toc && (
             <ChapterSideNav
-              className="hidden lg:flex"
+              className="z-10 hidden lg:flex"
               toc={toc}
               visibleHeadingId={visibleHeadingId}
               chapterNavMaxWidth={chapterNavMaxWidth}
             />
-          </>
-        )}
-        <div className="flex items-center gap-10">
-          {prevChapter && (
-            <div className="w-full py-16 text-center">
-              <Link href={`/book/${book.slug.current}/${prevChapter.slug}`}>
-                Previous chapter: {prevChapter.title}
-              </Link>
-            </div>
           )}
-          {nextChapter && (
-            <div className="w-full py-16 text-center">
-              <Link href={`/book/${book.slug.current}/${nextChapter.slug}`}>
-                Next chapter: {nextChapter.title}
-              </Link>
+          <article className="mx-auto max-w-3xl p-5">
+            <div
+              ref={articleRef}
+              className="prose max-w-none sm:prose-lg lg:prose-xl prose-headings:scroll-m-20 prose-headings:text-[#ECFFFF] prose-h2:mt-[15%] prose-h3:mt-[10%] prose-p:text-justify prose-p:text-[#D9FFFF] prose-code:bg-[#112E2C] prose-code:text-[#D9FFFF] prose-pre:p-0 prose-li:text-justify prose-li:text-[#D9FFFF] [&_.code-container]:p-5"
+            >
+              <MDX
+                contents={chapterBody}
+                components={{
+                  ...bookMdxComponents,
+                }}
+              />
             </div>
-          )}
+          </article>
         </div>
       </main>
+      <section className="fixed bottom-0 left-0 z-0 grid h-screen w-full grid-cols-1 items-center justify-end gap-10 bg-[#062F2B] p-5 pb-24 pt-11 sm:grid-cols-2 sm:pb-5">
+        {prevChapter && (
+          <Link
+            href={`/book/${book.slug.current}/${prevChapter.slug}`}
+            className="flex h-full w-full flex-col justify-end p-5 font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-[#173936] sm:text-5xl lg:p-16"
+          >
+            <span>☜</span>
+            <span className="text-balance">{prevChapter.title}</span>
+          </Link>
+        )}
+        {nextChapter && (
+          <Link
+            href={`/book/${book.slug.current}/${nextChapter.slug}`}
+            className="flex h-full w-full flex-col items-end justify-end p-5 text-right font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-[#173936] sm:text-5xl lg:p-16"
+          >
+            <span>☞</span>
+            <span className="text-balance">{nextChapter.title}</span>
+          </Link>
+        )}
+      </section>
+
+      <div aria-hidden="true" className="h-screen" />
       {toc && (
         <ChapterMobileNav
           toc={toc}
@@ -408,9 +414,10 @@ const useChapterNavMaxWidth = (articleRef: React.RefObject<HTMLDivElement>) => {
 
 const ChaptersMenu: React.FC<{
   book: Book
+  chapter: BookChapter
   setIsMenuOpen: React.Dispatch<boolean>
   isMenuOpen: boolean
-}> = ({book, setIsMenuOpen, isMenuOpen}) => {
+}> = ({book, chapter: currentChapter, setIsMenuOpen, isMenuOpen}) => {
   const container: Variants = {
     hidden: {
       opacity: 0,
@@ -445,29 +452,47 @@ const ChaptersMenu: React.FC<{
             variants={container}
             initial="hidden"
             animate="show"
-            className="fixed left-0 top-0 flex h-screen w-full flex-col items-center justify-start overflow-y-auto bg-[#ADF2F2] py-10 text-[#103838] scrollbar-none sm:py-16"
+            className="fixed left-0 top-0 flex h-screen w-full flex-col items-center justify-start overflow-y-auto bg-[#ADF2F2] py-5 text-[#103838] scrollbar-none sm:py-16"
           >
-            <DialogHeader className="w-full border-b border-[#96dbdb] p-5 pb-5 sm:p-10 sm:pb-24">
+            <DialogHeader className="w-full border-b border-[#96dbdb] p-5 pb-8 sm:p-10 sm:pb-5">
               <DialogTitle className="flex w-full flex-col">
-                <motion.span className="font-heading text-3xl font-bold sm:text-[6vw]">
+                <motion.span className="font-heading text-3xl font-extrabold sm:text-[6vw]">
                   {book.title}
                 </motion.span>
               </DialogTitle>
+              <p className="sm:text-lefttext-center font-sans text-lg font-semibold opacity-75 sm:pt-16">
+                Chapters Index
+              </p>
             </DialogHeader>
-            <motion.ol className="flex w-full flex-col ">
-              {book.chapters.map((chapter, i) => (
-                <motion.li variants={item} key={chapter._id}>
-                  <Link
-                    className="flex items-center gap-5 px-5 py-5 font-text text-xl font-semibold transition duration-300 hover:bg-[#96dbdb] sm:gap-10 sm:px-10 sm:py-16 sm:text-[4vw] sm:italic"
-                    href={`/book/${book.slug.current}/${chapter.slug}`}
-                  >
-                    <span className="font-mono text-xs opacity-50">
-                      {i + 1}
-                    </span>
-                    <span>{chapter.title}</span>
-                  </Link>
-                </motion.li>
-              ))}
+            <motion.ol className="flex w-full flex-col">
+              {book.chapters.map((chapter, i) => {
+                const isCurrentChapter = chapter._id === currentChapter._id
+
+                return (
+                  <motion.li variants={item} key={chapter._id}>
+                    <Link
+                      className={cn(
+                        'flex items-center gap-5 px-5 py-5 font-text text-xl font-semibold transition duration-300 hover:bg-[#96dbdb] sm:gap-10 sm:px-10 sm:py-16 sm:text-[4vw] sm:italic',
+                        {
+                          'bg-[#103838] text-[#ADF2F2] hover:bg-[#103838] hover:text-[#ADF2F2] hover:brightness-110':
+                            isCurrentChapter,
+                        },
+                      )}
+                      href={`/book/${book.slug.current}/${chapter.slug}`}
+                    >
+                      <span className="font-mono text-xs opacity-50">
+                        {i + 1}
+                      </span>
+                      <span>{chapter.title}</span>
+                      {isCurrentChapter && (
+                        <span className="not-italic" aria-hidden="true">
+                          ☜
+                        </span>
+                      )}
+                    </Link>
+                  </motion.li>
+                )
+              })}
               <DialogClose className="fixed right-5 top-0.5 p-2">
                 <XIcon className="h-5 w-5" />
               </DialogClose>
@@ -488,11 +513,11 @@ const ChapterSideNav: React.FC<{
   return (
     <aside
       className={cn(
-        'absolute left-0 top-0 z-20 flex h-screen flex-col items-center justify-center mix-blend-difference',
+        'fixed left-0 top-0 flex h-screen flex-col items-center justify-center mix-blend-difference',
         className,
       )}
     >
-      <nav className="group fixed left-0 max-h-screen py-16 pr-5 scrollbar-none hover:overflow-y-auto">
+      <nav className="group py-16 pr-5 scrollbar-none hover:overflow-y-auto">
         <strong className="relative inline-flex translate-x-0 text-lg opacity-0 transition group-hover:translate-x-7 group-hover:opacity-100">
           In this chapter
         </strong>
@@ -608,15 +633,15 @@ const ChapterMobileNav: React.FC<{
     <Dialog>
       <DialogTrigger
         className={cn(
-          'fixed bottom-3 right-3 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-[#001816] text-sm font-medium text-white/80',
+          'fixed bottom-3 right-3 z-50 flex h-12 w-12 items-center justify-center rounded-full  bg-white text-sm font-medium text-[#001816]',
           className,
         )}
       >
-        ToC
+        <ViewListIcon className="h-5 w-5 " />
       </DialogTrigger>
       <DialogContent
         withCloseButton={false}
-        className="left-0 top-0 z-50 flex h-full w-full max-w-none translate-x-0 translate-y-0 flex-col bg-[#001816] p-0 py-16 text-[#D9FFFF]"
+        className="left-0 top-0 z-50 flex h-full w-full max-w-none translate-x-0 translate-y-0 flex-col bg-[#001816] p-0 py-5 text-[#D9FFFF]"
       >
         <DialogHeader className="p-5">
           <DialogTitle>
@@ -699,8 +724,8 @@ const ChapterMobileNav: React.FC<{
             ))}
           </motion.ol>
         </motion.nav>
-        <DialogClose className="fixed bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
-          <XIcon className="h-4 w-4" />
+        <DialogClose className="fixed bottom-3 right-3 flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#001816]">
+          <XIcon className="h-5 w-5" />
         </DialogClose>
       </DialogContent>
     </Dialog>
