@@ -229,3 +229,21 @@
     @apply mt-5 block w-full transform rounded-lg border border-transparent bg-yellow-400 px-6 py-5 text-center text-lg font-semibold leading-none text-white transition-all duration-150 ease-in-out hover:scale-105 focus:border-yellow-600 focus:outline-none sm:text-xl sm:leading-none;
   }
 }
+
+/* PPP */
+[data-ppp-container] {
+  @apply mx-5 mb-6 rounded-lg border-2 border-er-gray-300 bg-er-gray-100 p-7;
+}
+
+[data-ppp-header] {
+  @apply space-y-4 text-lg;
+  strong {
+    @apply block text-center text-xl font-semibold leading-normal sm:text-left;
+    img {
+      @apply inline-block;
+    }
+  }
+  & + label {
+    @apply mt-4 inline-flex cursor-pointer items-center space-x-2 rounded-md  border border-er-gray-300 bg-background px-4 py-3 font-semibold duration-150 hover:bg-blue-300 hover:bg-opacity-25;
+  }
+}
