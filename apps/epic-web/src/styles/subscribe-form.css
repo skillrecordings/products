@@ -207,5 +207,5 @@
 }
 
 [data-pricing-subscribing-form] > div {
-  @apply mt-5 border-t py-4;
+  @apply mt-1 border-t py-4;
 }

@@ -282,6 +282,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
       (availability?.quantityAvailable || 0) <= 0,
   )
 
+  const isLoadingAvailabilityForLiveProduct = Boolean(
+    product.type === 'live' && availabilityStatus === 'loading',
+  )
+
   return (
     <div id={id}>
       <div data-pricing-product={index}>
@@ -326,7 +330,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   <Balancer>{title}</Balancer>
                 </h2>
               )}
-              {isSoldOut ? (
+              {isLoadingAvailabilityForLiveProduct ? (
+                <div data-loading-availability-for-live-product="">
+                  <Spinner />
+                </div>
+              ) : isSoldOut ? (
                 <SubscribeForm
                   fields={{
                     [`interested_${snakeCase(product?.slug)}`.toLowerCase()]:

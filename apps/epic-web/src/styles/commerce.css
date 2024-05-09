@@ -458,6 +458,9 @@
           @apply w-full border-0 bg-transparent pt-0 shadow-none;
         }
         [data-pricing-product-header] {
+          [data-loading-availability-for-live-product] {
+            @apply flex h-[254px] items-center justify-center;
+          }
           [data-quantity-available] {
             @apply inline-flex w-full items-center justify-center text-center font-semibold;
             svg {
