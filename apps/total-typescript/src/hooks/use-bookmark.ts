@@ -1,6 +1,6 @@
 import {useQuery} from '@tanstack/react-query'
 import {z} from 'zod'
-import {localProgressDb} from '../utils/dexie'
+import {localBookDb} from '../utils/dexie'
 
 export const BookmarkEventSchema = z.object({
   resource: z.string(),
@@ -18,7 +18,7 @@ export const useBookmark = (id: string) => {
     status,
     refetch,
   } = useQuery(['bookmarkEvent', id], async () => {
-    const bookmarkEvent = await localProgressDb.bookmarks
+    const bookmarkEvent = await localBookDb.bookmarks
       .where('resource')
       .equals(id)
       .first()

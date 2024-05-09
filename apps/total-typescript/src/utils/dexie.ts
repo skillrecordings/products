@@ -7,6 +7,20 @@ export interface ProgressEvent {
   module: string
   createdOn: Date
 }
+
+export class MySubClassedDexie extends Dexie {
+  progress!: Table<ProgressEvent>
+
+  constructor() {
+    super('total-typescript')
+    this.version(1).stores({
+      progress: '++id, eventName, lesson, module',
+    })
+  }
+}
+
+export const localProgressDb = new MySubClassedDexie()
+
 export interface BookmarkEvent {
   id?: number
   eventName: string
@@ -16,17 +30,15 @@ export interface BookmarkEvent {
   createdOn: Date
 }
 
-export class MySubClassedDexie extends Dexie {
-  progress!: Table<ProgressEvent>
+export class MySubClassedBookDexie extends Dexie {
   bookmarks!: Table<BookmarkEvent>
 
   constructor() {
-    super('total-typescript')
+    super('total-typescript-books')
     this.version(1).stores({
-      progress: '++id, eventName, lesson, module',
       bookmarks: '++id, eventName, module, section, resource, createdOn',
     })
   }
 }
 
-export const localProgressDb = new MySubClassedDexie()
+export const localBookDb = new MySubClassedBookDexie()

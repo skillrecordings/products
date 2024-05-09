@@ -32,7 +32,7 @@ import {BookmarkIcon as BookmarkIconSolid} from '@heroicons/react/solid'
 import {useCopyToClipboard} from 'react-use'
 import {isBrowser} from '@/utils/is-browser'
 import toast from 'react-hot-toast'
-import {localProgressDb} from '@/utils/dexie'
+import {localBookDb} from '@/utils/dexie'
 import {useBookmark} from '@/hooks/use-bookmark'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
@@ -136,7 +136,7 @@ const BookChapterRoute: React.FC<{
   }, [chapter])
 
   const handleAddBookmark = async (id?: string) => {
-    await localProgressDb.bookmarks
+    await localBookDb.bookmarks
       .add({
         eventName: 'bookmark',
         module: book.title,
@@ -821,11 +821,11 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
       </span>
       {onAddBookmark && (
         <button
-          className="absolute right-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 p-2 transition duration-300 group-hover:bg-white/20 hover:bg-white/20 sm:top-1"
+          className="absolute right-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 group-hover:bg-amber-300/20 hover:bg-amber-300/20 sm:top-1"
           type="button"
           onClick={async () => {
             if (resourceBookmarked) {
-              await localProgressDb.bookmarks
+              await localBookDb.bookmarks
                 .delete(resourceBookmarked.id as number)
                 .then(() => {
                   toast.success('Bookmark removed')
@@ -838,9 +838,9 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
           }}
         >
           {resourceBookmarked ? (
-            <BookmarkIconSolid className="h-5 w-5" />
+            <BookmarkIconSolid className="h-5 w-5 text-amber-200" />
           ) : (
-            <BookmarkIcon className="h-5 w-5" />
+            <BookmarkIcon className="h-5 w-5 text-amber-200" />
           )}
           <span className="sr-only">Add Bookmark</span>
         </button>
