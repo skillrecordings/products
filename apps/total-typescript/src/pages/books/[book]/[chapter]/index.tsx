@@ -250,13 +250,6 @@ const BookChapterRoute: React.FC<{
             />
           )}
           <article className="mx-auto max-w-3xl p-5">
-            <button
-              onClick={async () => {
-                await handleAddBookmark()
-              }}
-            >
-              blabla
-            </button>
             <div
               ref={articleRef}
               className="prose max-w-none sm:prose-lg lg:prose-xl prose-headings:scroll-m-20 prose-headings:text-[#ECFFFF] prose-h2:mt-[15%] prose-h3:mt-[10%] prose-p:text-justify prose-p:text-[#D9FFFF] prose-code:bg-[#112E2C] prose-code:text-[#D9FFFF] prose-pre:p-0 prose-li:text-justify prose-li:text-[#D9FFFF] [&_.code-container]:p-5"
