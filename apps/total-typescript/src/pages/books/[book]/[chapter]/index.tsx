@@ -27,7 +27,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@skillrecordings/ui/primitives/dialog'
-import {ViewListIcon, XIcon} from '@heroicons/react/outline'
+import {BookmarkIcon, ViewListIcon, XIcon} from '@heroicons/react/outline'
+import {BookmarkIcon as BookmarkIconSolid} from '@heroicons/react/solid'
+import {useCopyToClipboard} from 'react-use'
+import {isBrowser} from '@/utils/is-browser'
+import toast from 'react-hot-toast'
+import {localProgressDb} from '@/utils/dexie'
+import {useBookmark} from '@/hooks/use-bookmark'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
@@ -129,6 +135,20 @@ const BookChapterRoute: React.FC<{
     chapter && setIsMenuOpen(false)
   }, [chapter])
 
+  const handleAddBookmark = async (id?: string) => {
+    await localProgressDb.bookmarks
+      .add({
+        eventName: 'bookmark',
+        module: book.title,
+        section: chapter.title,
+        resource: id,
+        createdOn: new Date(),
+      })
+      .then(() => {
+        toast.success('Bookmark added')
+      })
+  }
+
   return (
     <Layout
       meta={{
@@ -144,7 +164,7 @@ const BookChapterRoute: React.FC<{
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
       />
-      <header className="fixed left-0 top-0 z-20 h-10 w-full border-b border-[#0f2927] bg-[#001816] p-2 px-5 lg:border-none lg:bg-transparent lg:mix-blend-difference">
+      <header className="fixed left-0 top-0 z-20 h-10 w-full border-b border-[#0f2927] bg-[#001816] p-2 px-5 lg:border-none ">
         <nav className="flex items-center justify-between">
           <div className="font-heading text-base font-medium text-[#AFF2F2]">
             {book.title}
@@ -230,6 +250,13 @@ const BookChapterRoute: React.FC<{
             />
           )}
           <article className="mx-auto max-w-3xl p-5">
+            <button
+              onClick={async () => {
+                await handleAddBookmark()
+              }}
+            >
+              blabla
+            </button>
             <div
               ref={articleRef}
               className="prose max-w-none sm:prose-lg lg:prose-xl prose-headings:scroll-m-20 prose-headings:text-[#ECFFFF] prose-h2:mt-[15%] prose-h3:mt-[10%] prose-p:text-justify prose-p:text-[#D9FFFF] prose-code:bg-[#112E2C] prose-code:text-[#D9FFFF] prose-pre:p-0 prose-li:text-justify prose-li:text-[#D9FFFF] [&_.code-container]:p-5"
@@ -237,7 +264,27 @@ const BookChapterRoute: React.FC<{
               <MDX
                 contents={chapterBody}
                 components={{
-                  ...bookMdxComponents,
+                  h2: (props) => {
+                    return (
+                      <LinkedHeading
+                        onAddBookmark={handleAddBookmark}
+                        as="h2"
+                        {...props}
+                      />
+                    )
+                  },
+                  h3: (props) => {
+                    return (
+                      <LinkedHeading
+                        onAddBookmark={handleAddBookmark}
+                        as="h3"
+                        {...props}
+                      />
+                    )
+                  },
+                  h4: (props) => {
+                    return <h4 {...props} />
+                  },
                 }}
               />
             </div>
@@ -281,17 +328,7 @@ const BookChapterRoute: React.FC<{
 
 export default BookChapterRoute
 
-const bookMdxComponents = {
-  h2: (props) => {
-    return <h2 {...props} />
-  },
-  h3: (props) => {
-    return <h3 {...props} />
-  },
-  h4: (props) => {
-    return <h4 {...props} />
-  },
-} as MDXComponents
+const bookMdxComponents = {} as MDXComponents
 
 type Heading = {
   level: number
@@ -729,5 +766,85 @@ const ChapterMobileNav: React.FC<{
         </DialogClose>
       </DialogContent>
     </Dialog>
+  )
+}
+
+interface LinkedHeadingProps extends React.HTMLProps<HTMLHeadingElement> {
+  as?: Extract<
+    keyof JSX.IntrinsicElements,
+    'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  >
+  onAddBookmark?: (id?: string) => Promise<void>
+}
+
+const LinkedHeading: React.FC<LinkedHeadingProps> = ({
+  as = 'h2',
+  onAddBookmark,
+  ...props
+}) => {
+  const [state, copyToClipboard] = useCopyToClipboard()
+  const linkToTitle = `#${props.id}`
+  const {resourceBookmarked, refetch} = useBookmark(props.id as string)
+  const handleOnClick = () => {
+    if (isBrowser()) {
+      const url = window.location.href
+      const hash = window.location.hash
+      const strippedUrl = url.replace(hash, '')
+
+      copyToClipboard(strippedUrl + linkToTitle)
+      toast.success('Link copied')
+    }
+  }
+
+  const H = () =>
+    React.createElement(
+      as,
+      {
+        className: 'group cursor-pointer relative pr-10',
+        onClick: handleOnClick,
+        ...props,
+      },
+      props.children,
+    )
+
+  return (
+    <span className="relative">
+      <span className="group relative">
+        <a
+          href={linkToTitle}
+          className="absolute left-[-2ch] pr-3 !text-white/50 no-underline opacity-0 transition group-hover:opacity-100 hover:!text-cyan-300"
+          aria-hidden="true"
+        >
+          #
+        </a>
+        <H />
+      </span>
+      {onAddBookmark && (
+        <button
+          className="absolute right-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 p-2 transition duration-300 group-hover:bg-white/20 hover:bg-white/20 sm:top-1"
+          type="button"
+          onClick={async () => {
+            if (resourceBookmarked) {
+              await localProgressDb.bookmarks
+                .delete(resourceBookmarked.id as number)
+                .then(() => {
+                  toast.success('Bookmark removed')
+                })
+              await refetch()
+            } else {
+              await onAddBookmark(props.id)
+              await refetch()
+            }
+          }}
+        >
+          {resourceBookmarked ? (
+            <BookmarkIconSolid className="h-5 w-5" />
+          ) : (
+            <BookmarkIcon className="h-5 w-5" />
+          )}
+          <span className="sr-only">Add Bookmark</span>
+        </button>
+      )}
+    </span>
   )
 }
