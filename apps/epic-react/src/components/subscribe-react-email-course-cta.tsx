@@ -11,10 +11,9 @@ const SubscribeToReactEmailCourseCta: React.FC<
   const router = useRouter()
 
   return (
-    <div className="mx-auto mb-4 max-w-screen-md">
+    <div className="mx-auto max-w-screen-md">
       {children}
       <form
-        className="mt-4"
         method="post"
         onSubmit={async (event) => {
           event.preventDefault()

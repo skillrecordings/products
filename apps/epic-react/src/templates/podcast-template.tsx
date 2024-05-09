@@ -5,7 +5,6 @@ import {truncate} from 'lodash'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import useClipboard from 'react-use-clipboard'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {type PodcastFrontMatter} from '@/@types/mdx-podcast'
 import Layout from '@/components/app/layout'
 import Divider from '@/components/divider'
@@ -26,7 +25,7 @@ const PodcastTemplate: React.FC<PodcastTemplateProps> = ({
   mdx,
 }) => {
   const router = useRouter()
-  const {title, slug, number, description, simplecastId, image} = frontMatter
+  const {title, slug, description, simplecastId, image} = frontMatter
   const [isCopiedToClipboard, setCopiedToClipboard] = useClipboard(
     `https://epicreact.dev/podcast/${slug}`,
   )
@@ -100,11 +99,6 @@ const PodcastTemplate: React.FC<PodcastTemplateProps> = ({
                 </button>
               </div>
             </div>
-            {/* {!sellingLive && (
-              <Countdown date={1601395200000}>
-                <Divider />
-              </Countdown>
-            )} */}
             <div className="mt-20">
               <SubscribeToReactEmailCourseCta>
                 <h2 className="mb-2 text-center text-2xl font-bold leading-tight sm:text-3xl">
