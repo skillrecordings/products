@@ -1,4 +1,3 @@
-// import type {Book} from '@/app/book/_schema/book-schemas'
 import * as React from 'react'
 import Layout from '@/components/app/layout'
 import {getBook, type Book} from '@/lib/book'
@@ -65,7 +64,7 @@ const BookRoute: React.FC<{
         <header className="flex flex-col items-center justify-center gap-5 py-16">
           <h1 className="font-heading text-5xl font-bold">{book.title}</h1>
           <Button asChild>
-            <Link href={`/book/${book.slug.current}/${book.chapters[0].slug}`}>
+            <Link href={`/books/${book.slug.current}/${book.chapters[0].slug}`}>
               Start Reading
             </Link>
           </Button>
@@ -89,7 +88,7 @@ const BookRoute: React.FC<{
                     <li key={chapter._id}>
                       <Link
                         className="inline-flex items-baseline gap-3 py-1"
-                        href={`/book/${book.slug.current}/${chapter.slug}`}
+                        href={`/books/${book.slug.current}/${chapter.slug}`}
                       >
                         <span
                           className="w-3 text-sm opacity-60"

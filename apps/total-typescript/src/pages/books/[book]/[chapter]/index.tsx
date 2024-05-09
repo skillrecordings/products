@@ -287,7 +287,7 @@ const BookChapterRoute: React.FC<{
       <section className="fixed bottom-0 left-0 z-0 grid h-screen w-full grid-cols-1 items-center justify-end gap-10 bg-[#062F2B] p-5 pb-24 pt-11 sm:grid-cols-2 sm:pb-5">
         {prevChapter && (
           <Link
-            href={`/book/${book.slug.current}/${prevChapter.slug}`}
+            href={`/books/${book.slug.current}/${prevChapter.slug}`}
             className="flex h-full w-full flex-col justify-end p-5 font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-[#173936] sm:text-5xl lg:p-16"
           >
             <span>☜</span>
@@ -296,7 +296,7 @@ const BookChapterRoute: React.FC<{
         )}
         {nextChapter && (
           <Link
-            href={`/book/${book.slug.current}/${nextChapter.slug}`}
+            href={`/books/${book.slug.current}/${nextChapter.slug}`}
             className="flex h-full w-full flex-col items-end justify-end p-5 text-right font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-[#173936] sm:text-5xl lg:p-16"
           >
             <span>☞</span>
@@ -508,7 +508,7 @@ const ChaptersMenu: React.FC<{
                             isCurrentChapter,
                         },
                       )}
-                      href={`/book/${book.slug.current}/${chapter.slug}`}
+                      href={`/books/${book.slug.current}/${chapter.slug}`}
                     >
                       <span className="font-mono text-xs opacity-50">
                         {i + 1}
