@@ -125,14 +125,16 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
         {subscriber ? (
           <ShareCta title={title} slug={slug} />
         ) : (
-          <SubscribeToReactEmailCourseCta>
-            <h2 className="mb-2 text-center text-2xl font-bold leading-tight sm:text-3xl">
-              Get my free 7-part email course on React!
-            </h2>
-            <p className="mb-10 text-center text-base leading-tight text-react">
-              Delivered straight to your inbox.
-            </p>
-          </SubscribeToReactEmailCourseCta>
+          <div className="py-24 sm:py-32">
+            <SubscribeToReactEmailCourseCta>
+              <h2 className="mb-2 text-center text-2xl font-bold leading-tight sm:text-3xl">
+                Get my free 7-part email course on React!
+              </h2>
+              <p className="mb-10 text-center text-base leading-tight text-react">
+                Delivered straight to your inbox.
+              </p>
+            </SubscribeToReactEmailCourseCta>
+          </div>
         )}
         <YouMightAlsoLike articles={restArticles} />
       </main>
