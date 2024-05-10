@@ -72,7 +72,7 @@ const bonusesQuery = groq`*[_type == "module" && moduleType == 'bonus'] | order(
   description,
   state,
   body,
-  "lessons": resources[@->._type in ['interview']]->{
+  "resources": resources[@->._type in ['interview']]->{
     _id,
     _type,
     _updatedAt,
@@ -99,8 +99,9 @@ export const getBonus = async (slug: string) => {
         ogImage,
         description,
         _updatedAt,
+        _createdAt,
         body,
-        "lessons": resources[@->._type in ['interview']]->{
+        "resources": resources[@->._type in ['interview']]->{
           _id,
           _type,
           _updatedAt,
