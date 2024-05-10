@@ -247,7 +247,9 @@ export const getWorkshop = async (slug: string) => {
     {slug: `${slug}`},
   )
 
-  return WorkshopSchema.merge(z.object({github: z.string()}))
+  return WorkshopSchema.merge(
+    z.object({github: z.object({repo: z.string()}).nullable()}),
+  )
     .passthrough()
     .parse(result)
 }
