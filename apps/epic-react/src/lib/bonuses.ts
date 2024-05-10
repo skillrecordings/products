@@ -84,8 +84,8 @@ const bonusesQuery = groq`*[_type == "module" && moduleType == 'bonus'] | order(
 
 export const getAllBonuses = async () => await sanityClient.fetch(bonusesQuery)
 
-export const getBonus = async (slug: string) =>
-  await sanityClient.fetch(
+export const getBonus = async (slug: string) => {
+  const result = await sanityClient.fetch(
     groq`*[_type == "module" && moduleType == 'bonus' && slug.current == $slug][0]{
         "id": _id,
         _type,
@@ -132,5 +132,8 @@ export const getBonus = async (slug: string) =>
     }`,
     {slug: `${slug}`},
   )
+
+  return BonusSchema.parse(result)
+}
 
 export type Bonus = z.infer<typeof BonusSchema>
