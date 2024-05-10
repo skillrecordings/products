@@ -174,7 +174,7 @@ const WorkshopItem = ({module}: {module: Module}) => {
             )
           }
 
-          if (resource._type === 'section' && resource?.resources) {
+          if (resource._type === 'section' && resource?.lessons) {
             const isCompleted = Boolean(
               moduleProgress &&
                 isResourceCompleted(
@@ -188,7 +188,7 @@ const WorkshopItem = ({module}: {module: Module}) => {
                 key={resource._id}
                 title={resource.title}
                 workshopSlug={module.slug.current}
-                resourceSlug={resource.resources[0].slug}
+                resourceSlug={resource.lessons[0].slug}
                 isCompleted={isCompleted}
               />
             )
