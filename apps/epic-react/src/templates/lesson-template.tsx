@@ -7,8 +7,6 @@ import {motion} from 'framer-motion'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {MuxPlayerRefAttributes} from '@mux/mux-player-react'
 import pluralize from 'pluralize'
-import {capitalize, divide} from 'lodash'
-import Balancer from 'react-wrap-balancer'
 
 import {cn} from '@skillrecordings/ui/utils/cn'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
@@ -25,19 +23,16 @@ import LessonCompleteToggle from '@/components/lesson-completion-toggle'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import {Button, ScrollArea, ScrollBar, Skeleton} from '@skillrecordings/ui'
+import {ScrollBar, Skeleton} from '@skillrecordings/ui'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {LessonDescription} from '@skillrecordings/skill-lesson/video/lesson-description'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
-import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 
 import {trpc} from '@/trpc/trpc.client'
-// import {getOgImage} from '@/utils/get-og-image'
 import {track} from '@/utils/analytics'
 import {lessonPathBuilder} from '@/utils/lesson-path-builder'
 import BlockedOverlay from '@/components/video-overlays/blocked-overlay'
-import Container from '@/components/app/container'
 import Spinner from '@/components/spinner'
 import Layout from '@/components/app/layout'
 import ProgressBar from '@/components/progress-bar'
@@ -97,26 +92,23 @@ const ExerciseTemplate: React.FC<{
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const router = useRouter()
   const {lesson, section, module} = useLesson()
-  console.log({lesson, section, module})
   const {videoResourceId} = useVideoResource()
   const {title, description: exerciseDescription} = lesson
-  // const ogImage = getOgImage({
-  //   title,
-  //   byline: module.title,
-  //   image: module.image,
-  // })
+  const lessonSectionTitle = section?.title
   const ogImage = `${
     process.env.NEXT_PUBLIC_URL
   }/api/og/?moduleTitle=${encodeURIComponent(
     module.title as string,
   )}&moduleImage=${encodeURIComponent(
     module.image as string,
-  )}&lessonTitle=${encodeURIComponent(title)}`
+  )}&lessonTitle=${encodeURIComponent(title)}${
+    lessonSectionTitle
+      ? `&lessonSectionTitle=${encodeURIComponent(lessonSectionTitle)}`
+      : ''
+  }`
   const {description: moduleDescription} = module
   const pageTitle = title
   const pageDescription = exerciseDescription || moduleDescription
-  // const shareCard = ogImage ? ogImage : {url: moduleOGImage}
-  //TODO path here could also include module slug and section (as appropriate)
   const path = `/${pluralize('module')}`
   const {data: session, status: sessionStatus} = useSession()
 
@@ -314,43 +306,6 @@ const LessonList: React.FC<{
 
   return (
     <div className="group relative">
-      {/* <div ref={ref}>
-        <div className="relative z-10 flex items-center space-x-5 border-b bg-white px-5 py-3 dark:bg-foreground/10 dark:shadow-xl dark:shadow-black/20">
-          {module.image && (
-            <Image
-              src={module.image}
-              width={75}
-              height={75}
-              alt={module.title}
-            />
-          )}
-          <div>
-            <h3 className="font-bold leading-tight">
-              <Balancer>
-                <Link href={`${path}/${module.slug.current}`}>
-                  {module.title}
-                </Link>
-              </Balancer>
-            </h3>
-
-            {module?.github?.repo && (
-              <Button
-                asChild
-                size="sm"
-                className="mt-2 inline-flex h-auto items-center space-x-1 px-1.5 py-1 text-xs font-semibold uppercase leading-none"
-              >
-                <Link href={module?.github?.repo + '#setup'} target="_blank">
-                  <Icon name="Github" size="16" />
-                  <span>
-                    {module.moduleType === 'tutorial' ? 'Code' : 'Workshop App'}
-                  </span>
-                </Link>
-              </Button>
-            )}
-          </div>
-        </div>
-      </div> */}
-
       <ScrollAreaPrimitive.Root
         className="relative flex flex-col bg-gray-50 dark:bg-background"
         style={scrollAreaClassName ? {} : {maxHeight: `calc(100dvh - 300px)`}}
