@@ -33,7 +33,7 @@ import GitHubLink from '@skillrecordings/skill-lesson/video/github-link'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 
 import {trpc} from '@/trpc/trpc.client'
-import {getOgImage} from '@/utils/get-og-image'
+// import {getOgImage} from '@/utils/get-og-image'
 import {track} from '@/utils/analytics'
 import {lessonPathBuilder} from '@/utils/lesson-path-builder'
 import BlockedOverlay from '@/components/video-overlays/blocked-overlay'
@@ -97,17 +97,25 @@ const ExerciseTemplate: React.FC<{
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const router = useRouter()
   const {lesson, section, module} = useLesson()
+  console.log({lesson, section, module})
   const {videoResourceId} = useVideoResource()
   const {title, description: exerciseDescription} = lesson
-  const ogImage = getOgImage({
-    title,
-    byline: module.title,
-    image: module.image,
-  })
-  const {ogImage: moduleOGImage, description: moduleDescription} = module
+  // const ogImage = getOgImage({
+  //   title,
+  //   byline: module.title,
+  //   image: module.image,
+  // })
+  const ogImage = `${
+    process.env.NEXT_PUBLIC_URL
+  }/api/og/?moduleTitle=${encodeURIComponent(
+    module.title as string,
+  )}&moduleImage=${encodeURIComponent(
+    module.image as string,
+  )}&lessonTitle=${encodeURIComponent(title)}`
+  const {description: moduleDescription} = module
   const pageTitle = title
   const pageDescription = exerciseDescription || moduleDescription
-  const shareCard = ogImage ? ogImage : {url: moduleOGImage}
+  // const shareCard = ogImage ? ogImage : {url: moduleOGImage}
   //TODO path here could also include module slug and section (as appropriate)
   const path = `/${pluralize('module')}`
   const {data: session, status: sessionStatus} = useSession()
@@ -156,9 +164,10 @@ const ExerciseTemplate: React.FC<{
       <Layout
         meta={{
           title: pageTitle,
-          openGraph: {
-            images: [{url: shareCard.url as string}],
-            description: pageDescription as string,
+          description: pageDescription as string,
+          ogImage: {
+            url: ogImage as string,
+            alt: title,
           },
         }}
         navigationProps={{
