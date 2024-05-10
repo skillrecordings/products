@@ -25,6 +25,7 @@ export default async function handler(req: NextRequest) {
     const moduleTitle = searchParams.get('moduleTitle')
     const moduleImage = searchParams.get('moduleImage')
     const lessonTitle = searchParams.get('lessonTitle')
+    const lessonSectionTitle = searchParams.get('lessonSectionTitle')
 
     return new ImageResponse(
       (
@@ -38,7 +39,7 @@ export default async function handler(req: NextRequest) {
             padding: '30px',
           }}
         >
-          <div style={{display: 'flex', width: '100%', height: '100px'}}>
+          <div style={{display: 'flex', width: '100%', marginBottom: '30px'}}>
             <img
               width="250"
               height="70"
@@ -52,7 +53,7 @@ export default async function handler(req: NextRequest) {
               display: 'flex',
               width: '100%',
               justifyContent: 'center',
-              height: '220px',
+              marginBottom: '20px',
             }}
           >
             <img
@@ -72,7 +73,7 @@ export default async function handler(req: NextRequest) {
               color: '#9eddf8',
               fontFamily: 'Inter',
               fontSize: '32px',
-              height: '64px',
+              marginBottom: '20px',
             }}
           >
             {moduleTitle}
@@ -86,9 +87,12 @@ export default async function handler(req: NextRequest) {
               color: '#ffffff',
               fontFamily: 'Inter Semibold',
               fontSize: '48px',
+              paddingLeft: '100px',
+              paddingRight: '100px',
             }}
           >
             {lessonTitle}
+            {lessonSectionTitle ? `: ${lessonSectionTitle}` : ''}
           </div>
         </div>
       ),
