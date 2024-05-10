@@ -24,7 +24,7 @@ const workshopsForProductQuery = groq`*[_type == "product" && productId == $prod
         explainerType
       },
       (_type == 'section') => {
-        "resources": resources[@->._type in ['explainer', 'exercise']]->{
+        "lessons": resources[@->._type in ['explainer', 'exercise']]->{
           _id,
           _type,
           _updatedAt,
@@ -247,7 +247,9 @@ export const getWorkshop = async (slug: string) => {
     {slug: `${slug}`},
   )
 
-  return WorkshopSchema.parse(result)
+  return WorkshopSchema.merge(z.object({github: z.string()}))
+    .passthrough()
+    .parse(result)
 }
 
 export type Workshop = z.infer<typeof WorkshopSchema>
