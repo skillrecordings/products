@@ -129,7 +129,7 @@ export const WorkshopSchema = z.object({
       title: z.string(),
       slug: z.string(),
       explainerType: z.string().optional(),
-      resources: z
+      lessons: z
         .array(
           z.object({
             _id: z.string(),
@@ -152,8 +152,8 @@ export const getAllWorkshops = async () => {
   return WorkshopSchema.array().parse(result)
 }
 
-export const getWorkshop = async (slug: string) =>
-  await sanityClient.fetch(
+export const getWorkshop = async (slug: string) => {
+  const result = await sanityClient.fetch(
     groq`*[_type == "module" && moduleType == 'workshop' && slug.current == $slug][0]{
         "id": _id,
         _type,
@@ -167,6 +167,7 @@ export const getWorkshop = async (slug: string) =>
         workshopApp,
         ogImage,
         description,
+        _createdAt,
         _updatedAt,
         "testimonials": resources[@->._type == 'testimonial']->{
           _id,
@@ -245,5 +246,8 @@ export const getWorkshop = async (slug: string) =>
     }`,
     {slug: `${slug}`},
   )
+
+  return WorkshopSchema.parse(result)
+}
 
 export type Workshop = z.infer<typeof WorkshopSchema>

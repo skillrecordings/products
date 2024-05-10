@@ -9,11 +9,52 @@ import {getSection} from '@/lib/sections'
 import {getAllWorkshops, getWorkshop} from '@/lib/workshops'
 import {serialize} from 'next-mdx-remote/serialize'
 import {getAllBonuses, getBonus} from '@/lib/bonuses'
+import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {modulesIntegration} from '@sentry/nextjs'
+
+type ModuleWithResources = {
+  slug: {current: string}
+  resources: {
+    _type: 'lesson' | 'exercise' | 'explainer' | 'interview' | 'section'
+    slug: string
+    lessons?: {_type: string; slug: string}[]
+  }[]
+}
+
+const getSectionForLesson = (
+  module: ModuleWithResources,
+  lessonSlug: string,
+) => {
+  const lessonIsTopLevel = Boolean(
+    module.resources.find((resource) => {
+      return resource._type !== 'section' && resource.slug === lessonSlug
+    }),
+  )
+
+  if (lessonIsTopLevel) {
+    return null
+  } else {
+    const section = module.resources.find((resource) => {
+      if (
+        resource._type === 'section' &&
+        'lessons' in resource &&
+        resource.lessons
+      ) {
+        return resource.lessons.some((lesson) => {
+          return lesson.slug === lessonSlug
+        })
+      }
+
+      return false
+    })
+
+    return section || null
+  }
+}
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const lessonSlug = params?.lesson as string
-  const sectionSlug = params?.section as string
   const moduleSlug = params?.module as string
   const isBonusModule = moduleSlug === 'epic-react-expert-interviews'
   const module = isBonusModule
@@ -25,8 +66,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
     useResourcesInsteadOfSections: true,
   }
 
-  const section = await getSection(sectionSlug)
+  const _section = getSectionForLesson(module, lessonSlug)
+  const section = _section ? await getSection(_section?.slug) : null
   const lesson = await getExercise(lessonSlug, false)
+
   const lessonBodySerialized =
     typeof lesson.body === 'string' &&
     (await serialize(lesson.body, {
