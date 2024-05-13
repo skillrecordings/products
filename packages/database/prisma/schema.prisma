@@ -260,6 +260,7 @@ model User {
   deviceAccessTokens      DeviceAccessToken[]    @relation("User")
   comments                Comment[]
   roles                   String                 @default("User")
+  fields                  Json?
 }
 
 model VerificationToken {
