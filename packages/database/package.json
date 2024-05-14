@@ -36,6 +36,7 @@
     "jest-mock-extended": "^3.0.4",
     "prisma": "^5.2.0",
     "rimraf": "^3.0.2",
+    "ts-node": "^10.9.1",
     "tsup": "^5.11.13",
     "tsx": "^3.7.1",
     "typescript": "5.1.6"
