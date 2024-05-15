@@ -1,7 +1,6 @@
-import {motion, useReducedMotion} from 'framer-motion'
-import axios from 'axios'
 import React from 'react'
 import {useRouter} from 'next/router'
+import FancyButton from '@/components/fancy-button'
 
 const SubscribeToReactEmailCourseCta: React.FC<
   React.PropsWithChildren<any>
@@ -59,7 +58,9 @@ const SubscribeToReactEmailCourseCta: React.FC<
           </div>
         </div>
         <div className="mt-5 flex w-full items-center justify-center">
-          <FancyButton />
+          <FancyButton tag="button" type="submit">
+            Join Now
+          </FancyButton>
         </div>
       </form>
     </div>
@@ -67,40 +68,3 @@ const SubscribeToReactEmailCourseCta: React.FC<
 }
 
 export default SubscribeToReactEmailCourseCta
-
-const FancyButton: React.FC<React.PropsWithChildren<any>> = ({children}) => {
-  const shouldReduceMotion = useReducedMotion()
-  const [isHovered, setIsHovered] = React.useState(false)
-
-  const hoverStart = {
-    left: '0%',
-    transition: {duration: 0.4, type: 'spring'},
-  }
-
-  const hoverEnd = {
-    left: '150%',
-    transition: {duration: 0.4, type: 'spring'},
-  }
-
-  return (
-    <motion.button
-      type="submit"
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      className="relative mt-8 transform overflow-hidden rounded-lg bg-blue-500 px-5 py-3 font-bold text-white transition-all duration-150 ease-in-out hover:scale-110 hover:bg-blue-600 hover:shadow-lg"
-    >
-      Join Now
-      <motion.div
-        initial={{
-          left: '0%',
-          width: 20,
-          filter: 'blur(15px)',
-          transform: 'skew(-30deg)',
-          opacity: 0.5,
-        }}
-        animate={isHovered && !shouldReduceMotion ? hoverStart : hoverEnd}
-        className="absolute left-0 top-0 -ml-8 h-full bg-white"
-      />
-    </motion.button>
-  )
-}
