@@ -71,12 +71,12 @@ export const InvoiceCard: React.FC<{
     >
       <div
         className={cn(
-          'flex items-start rounded-lg border border-gray-100 bg-white px-5 py-6 dark:border-gray-800 dark:bg-gray-900',
+          'flex items-start rounded-lg border border-er-gray-100 bg-background px-5 py-6 dark:border-er-gray-200',
           className,
         )}
       >
         <div>
-          <DocumentTextIcon aria-hidden className="w-6 text-primary" />
+          <DocumentTextIcon aria-hidden className="w-6 text-text" />
         </div>
         <div
           data-content=""
@@ -84,11 +84,11 @@ export const InvoiceCard: React.FC<{
         >
           <div className="font-semibold group-hover:underline">
             Invoice:{' '}
-            <span className="font-medium text-gray-700 group-hover:underline dark:text-gray-300">
+            <span className="font-medium text-er-gray-700 group-hover:underline dark:text-er-gray-500">
               <Balancer>{purchase?.product?.name}</Balancer>
             </span>
           </div>
-          <div className="flex flex-wrap text-sm md:pr-2">
+          <div className="flex flex-wrap text-base md:pr-2">
             <span className="after:content-['・']">
               <sup>US</sup>
               {formatUsd(purchase.totalAmount).dollars}

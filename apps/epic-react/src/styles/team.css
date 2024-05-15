@@ -1,0 +1,50 @@
+[data-invite-team] {
+  @apply flex flex-col rounded-lg border border-er-gray-100 bg-background p-5 dark:border-er-gray-200;
+  [data-title] {
+    @apply py-3;
+    /* 3 seats left */
+    strong {
+      @apply font-semibold;
+    }
+  }
+  [data-copy-invite-link-container] {
+    @apply w-full;
+    [data-copy-invite-link] {
+      /* optional */
+    }
+  }
+  [data-redeem] {
+    @apply mt-5 flex flex-col items-center gap-3 border-t border-er-gray-100 pt-5 dark:border-er-gray-200 sm:mt-8 sm:flex-row sm:justify-end;
+    [data-title] {
+      /* Or get access yourself */
+      @apply flex items-center gap-1 font-normal;
+    }
+    [data-self-redeem-button] {
+      @apply inline-flex transform cursor-pointer items-center justify-center rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold leading-8 text-white duration-100 hover:bg-blue-600;
+    }
+  }
+}
+
+/* Copy invite link form */
+[data-copy-invite-link] {
+  label {
+    /* Invite share link */
+    @apply sr-only;
+  }
+  div {
+    @apply flex gap-3 pt-2;
+  }
+  input {
+    @apply w-full rounded-md border border-er-gray-200 bg-er-gray-100 px-3 py-2 text-sm font-semibold selection:bg-indigo-500 selection:text-white dark:bg-background dark:text-white;
+  }
+  input[disabled] {
+    @apply opacity-50;
+  }
+  [data-sr-button] {
+    @apply inline-flex transform cursor-pointer items-center justify-center whitespace-nowrap rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold leading-8 text-white duration-100 hover:bg-blue-600;
+    /* @apply flex flex-shrink-0 items-center gap-1 rounded-md bg-indigo-400/20 px-5 py-2 text-sm font-semibold text-indigo-500 transition hover:bg-indigo-400/30 dark:text-indigo-300; */
+  }
+  [data-sr-button][disabled] {
+    @apply cursor-not-allowed opacity-30;
+  }
+}
