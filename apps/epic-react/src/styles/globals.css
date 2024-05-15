@@ -16,6 +16,7 @@
 @import './lesson-completion-toggle.css';
 @import './lessons-list.css';
 @import './transcript.css';
+@import './team.css';
 @import '../../node_modules/simplebar-react/dist/simplebar.min.css';
 
 @layer base {
