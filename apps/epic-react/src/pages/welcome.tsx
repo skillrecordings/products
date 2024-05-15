@@ -251,12 +251,6 @@ const Header: React.FC<
             >
               Start Learning
             </FancyButton>
-            // <Link
-            //   href={`/playlists/${product.modules[0].slug}`}
-            //   className="mt-8 transform overflow-hidden rounded-lg bg-blue-500 px-5 py-3 font-bold text-white transition-all duration-150 ease-in-out hover:scale-110 hover:bg-blue-600 hover:shadow-lg"
-            // >
-            //   Start Learning
-            // </Link>
           )}
         </div>
       </div>
