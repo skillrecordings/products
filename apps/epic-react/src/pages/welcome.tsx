@@ -325,5 +325,3 @@ export const XIcon = () => (
 )
 
 export default Welcome
-
-// http://localhost:3024/welcome?purchaseId=c4818fed-0ddc-44c8-a6c7-db95e24a772f&provider=stripe
