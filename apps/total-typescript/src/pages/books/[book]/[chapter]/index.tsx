@@ -61,16 +61,17 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const prevChapter = chapters?.[currentChapterIndex - 1] || null
   const toc = chapter.body && extractHeadingsFromMarkdown(chapter.body)
   const bodyWithParsedComments =
-    chapter.body && chapter.body.replace('<!--', '{/*').replace('-->', '*/}')
+    chapter.body &&
+    chapter.body.replaceAll('<!--', '`{/*').replaceAll('-->', '*/}`')
 
   const chapterBody =
     bodyWithParsedComments &&
     (await serializeMDX(bodyWithParsedComments, {
-      useShikiTwoslash: false,
-      // syntaxHighlighterOptions: {
-      //   authorization: process.env.SHIKI_AUTH_TOKEN,
-      //   endpoint: process.env.SHIKI_ENDPOINT,
-      // },
+      useShikiTwoslash: true,
+      syntaxHighlighterOptions: {
+        authorization: process.env.SHIKI_AUTH_TOKEN,
+        endpoint: process.env.SHIKI_ENDPOINT,
+      },
     }))
 
   return {
