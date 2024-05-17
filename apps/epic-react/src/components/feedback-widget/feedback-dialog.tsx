@@ -10,7 +10,6 @@ const Feedback = () => {
   const handleCloseDialog = () => {
     setIsFeedbackDialogOpen(false, 'navigation')
   }
-  console.log({isFormSubmitted})
   return (
     <FeedbackDialog
       title="Tell me how you feel about it"
