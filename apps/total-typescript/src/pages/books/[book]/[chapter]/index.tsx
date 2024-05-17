@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Layout from '@/components/app/layout'
+import {AArrowDown, AArrowUp, ALargeSmall} from 'lucide-react'
 import {getBook, getBookChapter, type Book, type BookChapter} from '@/lib/book'
 import slugify from '@sindresorhus/slugify'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
@@ -12,7 +13,7 @@ import type {GetStaticPaths, GetStaticProps} from 'next'
 import type {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import Link from 'next/link'
 import '@/styles/shiki-twoslash.css'
-import {motion, useScroll, type Variants} from 'framer-motion'
+import {motion, useInView, useScroll, type Variants} from 'framer-motion'
 import {
   Tooltip,
   TooltipContent,
@@ -20,6 +21,10 @@ import {
   TooltipTrigger,
   Dialog,
   DialogContent,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  Slider,
 } from '@skillrecordings/ui'
 import {
   DialogClose,
@@ -27,7 +32,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@skillrecordings/ui/primitives/dialog'
-import {BookmarkIcon, ViewListIcon, XIcon} from '@heroicons/react/outline'
+import {
+  BookmarkIcon,
+  ScaleIcon,
+  ViewListIcon,
+  XIcon,
+} from '@heroicons/react/outline'
 import {BookmarkIcon as BookmarkIconSolid} from '@heroicons/react/solid'
 import {useCopyToClipboard} from 'react-use'
 import {isBrowser} from '@/utils/is-browser'
@@ -50,15 +60,17 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const nextChapter = chapters?.[currentChapterIndex + 1] || null
   const prevChapter = chapters?.[currentChapterIndex - 1] || null
   const toc = chapter.body && extractHeadingsFromMarkdown(chapter.body)
+  const bodyWithParsedComments =
+    chapter.body && chapter.body.replace('<!--', '{/*').replace('-->', '*/}')
 
   const chapterBody =
-    chapter.body &&
-    (await serializeMDX(chapter.body, {
-      useShikiTwoslash: false,
-      // syntaxHighlighterOptions: {
-      //   authorization: process.env.SHIKI_AUTH_TOKEN,
-      //   endpoint: process.env.SHIKI_ENDPOINT,
-      // },
+    bodyWithParsedComments &&
+    (await serializeMDX(bodyWithParsedComments, {
+      useShikiTwoslash: true,
+      syntaxHighlighterOptions: {
+        authorization: process.env.SHIKI_AUTH_TOKEN,
+        endpoint: process.env.SHIKI_ENDPOINT,
+      },
     }))
 
   return {
@@ -149,6 +161,25 @@ const BookChapterRoute: React.FC<{
       })
   }
 
+  const heroRef = React.useRef<HTMLDivElement>(null)
+  const [isScrolledPastHero, setIsScrolledPastHero] = React.useState(false)
+
+  const isHeroInView = useInView(heroRef, {
+    amount: 0.2,
+  })
+
+  React.useEffect(() => {
+    if (!isHeroInView) {
+      setIsScrolledPastHero(true)
+    } else {
+      setIsScrolledPastHero(false)
+    }
+  }, [isHeroInView])
+
+  const FONT_SIZES = ['sm', 'base', 'lg']
+
+  const [fontSizeIndex, setFontSizeIndex] = React.useState(1)
+
   return (
     <Layout
       meta={{
@@ -169,7 +200,47 @@ const BookChapterRoute: React.FC<{
           <div className="font-heading text-base font-medium text-[#AFF2F2]">
             {book.title}
           </div>
+          {isScrolledPastHero && <div>{chapter.title}</div>}
           <div className="flex items-center gap-5">
+            <div className="flex items-stretch">
+              <Popover>
+                <PopoverTrigger className="flex items-stretch justify-center">
+                  <ALargeSmall className="w-5" />
+                </PopoverTrigger>
+                <PopoverContent className="flex items-center gap-2 bg-[#001816] text-white">
+                  <button
+                    disabled={fontSizeIndex === 0}
+                    type="button"
+                    onClick={() => {
+                      if (fontSizeIndex !== 0) {
+                        setFontSizeIndex(fontSizeIndex - 1)
+                      }
+                    }}
+                  >
+                    <AArrowDown className="w-4" />
+                  </button>
+                  <Slider
+                    value={[fontSizeIndex]}
+                    min={0}
+                    max={FONT_SIZES.length - 1}
+                    onValueChange={(value) => {
+                      setFontSizeIndex(value[0])
+                    }}
+                  />
+                  <button
+                    disabled={fontSizeIndex === FONT_SIZES.length - 1}
+                    type="button"
+                    onClick={() => {
+                      if (fontSizeIndex < FONT_SIZES.length - 1) {
+                        setFontSizeIndex(fontSizeIndex + 1)
+                      }
+                    }}
+                  >
+                    <AArrowUp className="w-4" />
+                  </button>
+                </PopoverContent>
+              </Popover>
+            </div>
             <div className="relative h-3 w-16 border border-white/10">
               <motion.div
                 className="absolute left-0 top-0 h-full w-full origin-left bg-[#AFF2F2]"
@@ -220,7 +291,10 @@ const BookChapterRoute: React.FC<{
         >
           <div className="hidden h-full w-full border border-[#062F2B] lg:block" />
         </div>
-        <section className="relative z-30 flex min-h-screen w-full flex-col items-center justify-center bg-[#001816]">
+        <section
+          ref={heroRef}
+          className="relative z-30 flex min-h-screen w-full flex-col items-center justify-center bg-[#001816]"
+        >
           <div className="absolute left-5 top-10 flex h-[calc(100%-2.5rem)] w-[calc(100%-2.5rem)] flex-col items-center justify-center gap-20 overflow-hidden bg-[#AFF2F2] p-16 text-center text-[#103838]">
             <p className="relative z-10 inline-flex items-center gap-3 font-text text-xl font-medium">
               <span className="h-px w-10 bg-[#103838]" aria-hidden="true" />{' '}
@@ -249,10 +323,22 @@ const BookChapterRoute: React.FC<{
               chapterNavMaxWidth={chapterNavMaxWidth}
             />
           )}
-          <article className="mx-auto max-w-3xl p-5">
+          <article
+            className={cn('mx-auto p-5 pt-16', {
+              'max-w-3xl': fontSizeIndex === 1 || fontSizeIndex === 0,
+              'max-w-4xl': fontSizeIndex === 2,
+            })}
+          >
             <div
               ref={articleRef}
-              className="prose max-w-none sm:prose-lg lg:prose-xl prose-headings:scroll-m-20 prose-headings:text-[#ECFFFF] prose-h2:mt-[15%] prose-h3:mt-[10%] prose-p:text-justify prose-p:text-[#D9FFFF] prose-code:bg-[#112E2C] prose-code:text-[#D9FFFF] prose-pre:p-0 prose-li:text-justify prose-li:text-[#D9FFFF] [&_.code-container]:p-5"
+              className={cn(
+                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-[#ECFFFF] prose-h2:mt-[15%] prose-h3:mt-[10%] prose-p:text-justify prose-p:text-[#D9FFFF] prose-code:text-[#D9FFFF] prose-li:text-justify prose-li:text-[#D9FFFF] [&>li>code]:bg-[#112E2C] [&>p>code]:bg-[#112E2C] [&_h2>code]:bg-[#112E2C] [&_h3>code]:bg-[#112E2C] [&_h4>code]:bg-[#112E2C]',
+                {
+                  'prose-sm sm:prose-base lg:prose-lg': fontSizeIndex === 0,
+                  'prose-base sm:prose-lg lg:prose-xl': fontSizeIndex === 1,
+                  'prose-lg sm:prose-xl lg:prose-2xl': fontSizeIndex === 2,
+                },
+              )}
             >
               <MDX
                 contents={chapterBody}
@@ -543,7 +629,7 @@ const ChapterSideNav: React.FC<{
   return (
     <aside
       className={cn(
-        'fixed left-0 top-0 flex h-screen flex-col items-center justify-center mix-blend-difference',
+        'fixed left-0 top-0 flex h-screen origin-left scale-90 flex-col items-center justify-center mix-blend-difference',
         className,
       )}
     >
@@ -569,7 +655,7 @@ const ChapterSideNav: React.FC<{
                 />
                 <span
                   className={cn(
-                    'relative -translate-x-10 truncate text-nowrap opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-[#ADF2F2]',
+                    'relative -translate-x-10 truncate text-nowrap font-semibold opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-[#ADF2F2]',
                     {
                       'text-[#ADF2F2] group-hover:opacity-100':
                         visibleHeadingId === item.slug,
