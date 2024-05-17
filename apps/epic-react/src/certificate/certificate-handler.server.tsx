@@ -8,10 +8,7 @@ import {getProduct} from '@skillrecordings/skill-lesson/path-to-purchase/product
 import {getToken} from 'next-auth/jwt'
 
 const larsseitFont = fetch(
-  new URL(
-    '../../public/fonts/d9275214-bcba-4615-a78a-9a15740d63ad.woff',
-    import.meta.url,
-  ),
+  new URL('../../public/fonts/larsseit.woff', import.meta.url),
 ).then((res) => res.arrayBuffer())
 
 export default async function handleCreateCertificate(req: NextRequest) {
