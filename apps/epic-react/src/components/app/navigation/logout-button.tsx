@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from '@skillrecordings/ui'
 
-export default () => {
+export default ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
   const isTablet = useMedia('(max-width: 920px)', false)
   return (
     <TooltipProvider>
@@ -23,7 +23,10 @@ export default () => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => signOut()}
+            onClick={() => {
+              handlerCloseMenu()
+              signOut()
+            }}
             className={twMerge(
               cx(
                 'w-auto border-none px-3 py-2 text-base text-text transition-opacity duration-150 ease-in-out hover:bg-transparent hover:opacity-100 md:px-2',

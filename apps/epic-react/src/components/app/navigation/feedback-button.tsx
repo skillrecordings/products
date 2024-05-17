@@ -14,7 +14,7 @@ import {
 } from '@skillrecordings/ui'
 import {useFeedback} from '@/components/feedback-widget/feedback-context'
 
-export default () => {
+export default ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
   const {setIsFeedbackDialogOpen} = useFeedback()
   const isTablet = useMedia('(max-width: 920px)', false)
   return (
@@ -31,6 +31,7 @@ export default () => {
               ),
             )}
             onClick={() => {
+              handlerCloseMenu()
               setIsFeedbackDialogOpen(true)
             }}
           >

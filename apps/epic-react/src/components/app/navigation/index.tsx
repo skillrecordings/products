@@ -4,13 +4,14 @@ import {useRouter, usePathname} from 'next/navigation'
 import {useSession} from 'next-auth/react'
 import {motion, useScroll, useTransform, useSpring} from 'framer-motion'
 import {useMedia} from 'react-use'
-import {isEmpty, startsWith} from 'lodash'
+import {isEmpty} from 'lodash'
 import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'
 
 import {trpc} from '@/trpc/trpc.client'
 import {isOnlyTeamPurchaser} from '@/utils/is-only-team-purchaser'
 
+import MobileNavigation from '@/components/app/navigation/mobile-navigation'
 import MessageBar from '@/components/app/navigation/message-bar'
 import Logo from '@/components/app/navigation/logo'
 import ThemeToggle from '@/components/app/navigation/theme-toggle'
@@ -53,6 +54,8 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
     isAuthenticated
   const purchasedOnlyTeam = isOnlyTeamPurchaser(sessionData?.user)
 
+  const handlerCloseMobileMenu = React.useCallback(() => setOpen(false), [])
+
   React.useEffect(() => {
     setMounted(true)
   }, [])
@@ -68,6 +71,7 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
                 router.push('/?buy')
               }}
               className="flex cursor-pointer rounded-lg bg-blue-500 px-3 py-2 text-white transition-all  duration-150 ease-in-out hover:bg-blue-600"
+              data-navi-item=""
             >
               Buy Epic React
             </button>
@@ -87,6 +91,7 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
                     },
                   ),
                 )}
+                data-navi-item=""
               >
                 {item.label}
               </Link>
@@ -96,6 +101,7 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
             <Link
               href="/login"
               className="rounded-lg px-3 py-2 text-text transition-all duration-150 ease-in-out lg:bg-blue-500 lg:text-white lg:hover:bg-blue-600"
+              data-navi-item=""
             >
               Restore Purchases
             </Link>
@@ -108,9 +114,13 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
               }),
             )}
           >
-            {isAuthenticated && <FeedbackButton />}
-            <ThemeToggle />
-            {isAuthenticated && <LogoutButton />}
+            {isAuthenticated && (
+              <FeedbackButton handlerCloseMenu={handlerCloseMobileMenu} />
+            )}
+            <ThemeToggle handlerCloseMenu={handlerCloseMobileMenu} />
+            {isAuthenticated && (
+              <LogoutButton handlerCloseMenu={handlerCloseMobileMenu} />
+            )}
           </div>
         </>
       )
@@ -195,11 +205,11 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
                 />
               </motion.svg>
             </button>
-            {isOpen ? (
-              <div className="navigation absolute left-0 top-[3.25rem] mt-1 grid w-full grid-flow-row justify-start p-3">
+            {isOpen && (
+              <MobileNavigation setOpen={setOpen}>
                 <Links isTablet={true} />
-              </div>
-            ) : null}
+              </MobileNavigation>
+            )}
           </>
         ) : (
           <div className="grid grid-flow-col items-center gap-2 text-xs sm:text-base">
@@ -212,19 +222,6 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
 }
 
 export default Navigation
-
-const MenuPath = (props: any) => (
-  <motion.path
-    fill="transparent"
-    strokeWidth="2"
-    stroke="currentColor"
-    strokeLinecap="round"
-    transition={{
-      type: 'spring',
-    }}
-    {...props}
-  />
-)
 
 export const useAvailableSale = () => {
   const {data} = trpc.pricing.defaultCoupon.useQuery()
@@ -242,6 +239,19 @@ export const useAvailableSale = () => {
 
   return {...data, bannerHeight: data ? 36 : 0}
 }
+
+const MenuPath = (props: any) => (
+  <motion.path
+    fill="transparent"
+    strokeWidth="2"
+    stroke="currentColor"
+    strokeLinecap="round"
+    transition={{
+      type: 'spring',
+    }}
+    {...props}
+  />
+)
 
 const menuItems = [
   {
