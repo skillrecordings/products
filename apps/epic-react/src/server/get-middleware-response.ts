@@ -21,6 +21,17 @@ export async function getMiddlewareResponse(req: NextRequest) {
     }
   }
 
+  if (req.nextUrl.pathname === '/login') {
+    try {
+      const user = UserSchema.parse(token)
+      if (user) {
+        response = redirectToPath('/learn', req)
+      }
+    } catch (error) {
+      return response
+    }
+  }
+
   if (req.nextUrl.pathname === '/podcast') {
     try {
       response = redirectToPath(
