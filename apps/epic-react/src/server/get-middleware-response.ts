@@ -21,5 +21,16 @@ export async function getMiddlewareResponse(req: NextRequest) {
     }
   }
 
+  if (req.nextUrl.pathname === '/podcast') {
+    try {
+      response = redirectToPath(
+        '/podcast/kents-career-path-through-web-development',
+        req,
+      )
+    } catch (error) {
+      return response
+    }
+  }
+
   return response
 }
