@@ -14,6 +14,7 @@ const workshopsForProductQuery = groq`*[_type == "product" && productId == $prod
     description,
     _createdAt,
     _updatedAt,
+    github,
     "resources": resources[@->._type in ['section', 'explainer']]->{
       _id,
       _type,
@@ -63,6 +64,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   description,
   state,
   body,
+  github,
   'product': *[_type=='product' && references(^._id)][]{
     "slug": slug.current,
     state,
@@ -121,6 +123,7 @@ export const WorkshopSchema = z.object({
   description: z.string().nullable(),
   body: z.string().nullable(),
   state: z.union([z.literal('published'), z.literal('draft')]),
+  github: z.object({repo: z.string()}).nullable().optional(),
   resources: z.array(
     z.object({
       _id: z.string(),
