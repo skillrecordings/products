@@ -344,9 +344,7 @@ const BookChapterRoute: React.FC<{
               {chapter.title}
             </h1>
             <p className="relative z-10 max-w-md text-balance text-center font-text text-base sm:text-xl">
-              {chapter.description
-                ? chapter.description
-                : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec cursus viverra porta. Nulla accumsan ornare laoreet.'}
+              {chapter.description ? chapter.description : null}
             </p>
             <div className="absolute z-0 font-heading text-[80vh] font-bold opacity-5">
               {chapterIndex + 1}
@@ -953,7 +951,7 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
             } else {
               await onAddBookmark({
                 id: props.id as string,
-                children: props.children as string,
+                children: childrenToString(props.children),
               })
               await refetch()
             }
@@ -969,4 +967,16 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
       )}
     </span>
   )
+}
+
+function childrenToString(children: React.ReactNode): any {
+  return React.Children.toArray(children).reduce((str, child) => {
+    if (typeof child === 'string') {
+      return str + child
+    }
+    if (React.isValidElement(child) && child.props.children) {
+      return str + childrenToString(child.props.children)
+    }
+    return str
+  }, '')
 }
