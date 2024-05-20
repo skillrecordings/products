@@ -410,24 +410,28 @@ const BookChapterRoute: React.FC<{
           </article>
         </div>
       </main>
-      <section className="fixed bottom-0 left-0 z-0 grid h-screen w-full grid-cols-1 items-center justify-end gap-10 bg-[#062F2B] p-5 pb-24 pt-11 sm:grid-cols-2 sm:pb-5">
-        {prevChapter && (
+      <section className="fixed bottom-0 left-0 z-0 grid h-screen w-full grid-cols-1 items-center justify-end gap-10 bg-gray-800 p-5 pb-24 pt-11 sm:grid-cols-2 sm:pb-5">
+        {prevChapter ? (
           <Link
             href={`/books/${book.slug.current}/${prevChapter.slug}`}
-            className="flex h-full w-full flex-col justify-end p-5 font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-[#173936] sm:text-5xl lg:p-16"
+            className="flex h-full w-full flex-col justify-end p-5 font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-gray-700 sm:text-5xl lg:p-16"
           >
             <span>☜</span>
             <span className="text-balance">{prevChapter.title}</span>
           </Link>
+        ) : (
+          <div />
         )}
-        {nextChapter && (
+        {nextChapter ? (
           <Link
             href={`/books/${book.slug.current}/${nextChapter.slug}`}
-            className="flex h-full w-full flex-col items-end justify-end p-5 text-right font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-[#173936] sm:text-5xl lg:p-16"
+            className="flex h-full w-full flex-col items-end justify-end p-5 text-right font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-gray-700 sm:text-5xl lg:p-16"
           >
             <span>☞</span>
             <span className="text-balance">{nextChapter.title}</span>
           </Link>
+        ) : (
+          <div />
         )}
       </section>
 
