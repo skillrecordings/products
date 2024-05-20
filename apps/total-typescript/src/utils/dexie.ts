@@ -25,8 +25,14 @@ export interface BookmarkEvent {
   id?: number
   eventName: string
   module: string
-  section: string
-  resource?: string
+  section: {
+    title: string
+    slug: string
+  }
+  resource: {
+    id: string
+    children: string
+  }
   createdOn: Date
 }
 
@@ -36,7 +42,8 @@ export class MySubClassedBookDexie extends Dexie {
   constructor() {
     super('total-typescript-books')
     this.version(1).stores({
-      bookmarks: '++id, eventName, module, section, resource, createdOn',
+      bookmarks:
+        '++id, eventName, module, [section.title+section.slug], [resource.id+resource.children], createdOn',
     })
   }
 }

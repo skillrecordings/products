@@ -40,6 +40,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
   const {
     title,
     description,
+    defaultTitle = process.env.NEXT_PUBLIC_SITE_TITLE,
     titleAppendSiteName = true,
     url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
     type = 'website',
@@ -59,6 +60,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
     >
       <NextSeo
         title={title}
+        defaultTitle={defaultTitle}
         description={description}
         titleTemplate={
           titleAppendSiteName

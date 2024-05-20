@@ -32,12 +32,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@skillrecordings/ui/primitives/dialog'
-import {
-  BookmarkIcon,
-  ScaleIcon,
-  ViewListIcon,
-  XIcon,
-} from '@heroicons/react/outline'
+import {BookmarkIcon, ViewListIcon, XIcon} from '@heroicons/react/outline'
 import {BookmarkIcon as BookmarkIconSolid} from '@heroicons/react/solid'
 import {useCopyToClipboard} from 'react-use'
 import {isBrowser} from '@/utils/is-browser'
@@ -67,11 +62,11 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const chapterBody =
     bodyWithParsedComments &&
     (await serializeMDX(bodyWithParsedComments, {
-      useShikiTwoslash: true,
-      syntaxHighlighterOptions: {
-        authorization: process.env.SHIKI_AUTH_TOKEN,
-        endpoint: process.env.SHIKI_ENDPOINT,
-      },
+      useShikiTwoslash: false,
+      // syntaxHighlighterOptions: {
+      //   authorization: process.env.SHIKI_AUTH_TOKEN,
+      //   endpoint: process.env.SHIKI_ENDPOINT,
+      // },
     }))
 
   return {
@@ -148,13 +143,16 @@ const BookChapterRoute: React.FC<{
     chapter && setIsMenuOpen(false)
   }, [chapter])
 
-  const handleAddBookmark = async (id?: string) => {
+  const handleAddBookmark = async (heading: {id: string; children: string}) => {
     await localBookDb.bookmarks
       .add({
         eventName: 'bookmark',
-        module: book.title,
-        section: chapter.title,
-        resource: id,
+        module: book.slug.current,
+        section: {
+          title: chapter.title,
+          slug: chapter.slug,
+        },
+        resource: heading,
         createdOn: new Date(),
       })
       .then(() => {
@@ -185,10 +183,14 @@ const BookChapterRoute: React.FC<{
     <Layout
       meta={{
         title: chapter.title,
+        defaultTitle: book.title,
+        ogImage: {
+          url: `${process.env.NEXT_PUBLIC_URL}/api/og/og-book?title=${chapter.title}`,
+        },
       }}
       nav={null}
       footer={null}
-      className="relative overflow-hidden bg-[#001816] selection:bg-[#ADF2F2]"
+      className="relative overflow-hidden"
     >
       <ChaptersMenu
         book={book}
@@ -196,55 +198,94 @@ const BookChapterRoute: React.FC<{
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
       />
-      <header className="fixed left-0 top-0 z-20 h-10 w-full border-b border-[#0f2927] bg-[#001816] p-2 px-5 lg:border-none ">
+      <header className="fixed left-0 top-0 z-20 h-10 w-full border-b border-gray-800 bg-background p-2 px-5 lg:border-none">
         <nav className="flex items-center justify-between">
-          <div className="font-heading text-base font-medium text-[#AFF2F2]">
+          <Link
+            href={`/books/${book.slug.current}`}
+            className="font-heading text-base font-medium transition ease-in-out hover:text-primary"
+          >
             {book.title}
-          </div>
-          {isScrolledPastHero && <div>{chapter.title}</div>}
+          </Link>
+          <motion.div
+            className="hidden font-heading text-base font-medium sm:block"
+            initial={{
+              opacity: 0,
+              y: -10,
+            }}
+            animate={{
+              opacity: isScrolledPastHero ? 1 : 0,
+              y: isScrolledPastHero ? 0 : -10,
+            }}
+          >
+            {chapter.title}
+          </motion.div>
           <div className="flex items-center gap-5">
             <div className="flex items-stretch">
-              <Popover>
-                <PopoverTrigger className="flex items-stretch justify-center">
-                  <ALargeSmall className="w-5" />
-                </PopoverTrigger>
-                <PopoverContent className="flex items-center gap-2 bg-[#001816] text-white">
-                  <button
-                    disabled={fontSizeIndex === 0}
-                    type="button"
-                    onClick={() => {
-                      if (fontSizeIndex !== 0) {
-                        setFontSizeIndex(fontSizeIndex - 1)
-                      }
-                    }}
-                  >
-                    <AArrowDown className="w-4" />
-                  </button>
-                  <Slider
-                    value={[fontSizeIndex]}
-                    min={0}
-                    max={FONT_SIZES.length - 1}
-                    onValueChange={(value) => {
-                      setFontSizeIndex(value[0])
-                    }}
-                  />
-                  <button
-                    disabled={fontSizeIndex === FONT_SIZES.length - 1}
-                    type="button"
-                    onClick={() => {
-                      if (fontSizeIndex < FONT_SIZES.length - 1) {
-                        setFontSizeIndex(fontSizeIndex + 1)
-                      }
-                    }}
-                  >
-                    <AArrowUp className="w-4" />
-                  </button>
-                </PopoverContent>
-              </Popover>
+              <TooltipProvider>
+                <Tooltip delayDuration={0}>
+                  <Popover>
+                    <TooltipTrigger asChild>
+                      <PopoverTrigger className="flex items-stretch justify-center transition ease-in-out hover:text-primary">
+                        <svg
+                          width="20"
+                          height="13"
+                          viewBox="0 0 20 13"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M8.50722 12L7.51838 9.81157H2.9308L2.02301 12H0.547852L5.50827 0.636414H6.02701L11.1982 12H8.50722ZM3.48196 8.51473H6.91859L5.13543 4.55936L3.48196 8.51473Z"
+                            fill="currentColor"
+                          />
+                          <path
+                            d="M16.1188 3.73262C18.2748 3.73262 19.6365 4.85115 19.6365 7.20168V12.0162H18.6315L17.7399 10.0223C17.2049 11.4975 16.0053 12.1621 14.5626 12.1621C12.9902 12.1621 12.0013 11.3354 12.0013 10.1358C12.0013 8.4661 13.7197 7.37999 17.3184 7.15305V6.7802C17.3184 5.6941 16.8969 4.98083 15.6649 4.98083C14.4167 4.98083 13.7197 5.75894 13.7197 7.10441H12.4552C12.4552 4.99705 13.8007 3.73262 16.1188 3.73262ZM15.3893 10.7842C16.5241 10.7842 17.2698 9.79536 17.3184 8.1581C15.5028 8.23915 14.3357 8.70926 14.3357 9.79536C14.3357 10.3789 14.7247 10.7842 15.3893 10.7842Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </PopoverTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent className="flex items-center gap-2 bg-background text-foreground">
+                      Text size settings
+                    </TooltipContent>
+                    <PopoverContent className="flex items-center gap-2 bg-background text-foreground">
+                      <button
+                        disabled={fontSizeIndex === 0}
+                        type="button"
+                        onClick={() => {
+                          if (fontSizeIndex !== 0) {
+                            setFontSizeIndex(fontSizeIndex - 1)
+                          }
+                        }}
+                      >
+                        <AArrowDown className="w-4" />
+                      </button>
+                      <Slider
+                        value={[fontSizeIndex]}
+                        min={0}
+                        max={FONT_SIZES.length - 1}
+                        onValueChange={(value) => {
+                          setFontSizeIndex(value[0])
+                        }}
+                      />
+                      <button
+                        disabled={fontSizeIndex === FONT_SIZES.length - 1}
+                        type="button"
+                        onClick={() => {
+                          if (fontSizeIndex < FONT_SIZES.length - 1) {
+                            setFontSizeIndex(fontSizeIndex + 1)
+                          }
+                        }}
+                      >
+                        <AArrowUp className="w-4" />
+                      </button>
+                    </PopoverContent>
+                  </Popover>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             <div className="relative h-3 w-16 border border-white/10">
               <motion.div
-                className="absolute left-0 top-0 h-full w-full origin-left bg-[#AFF2F2]"
+                className="absolute left-0 top-0 h-full w-full origin-left bg-primary"
                 style={{
                   scaleX: scrollYProgress,
                 }}
@@ -257,7 +298,7 @@ const BookChapterRoute: React.FC<{
                     type="button"
                     aria-expanded={isMenuOpen}
                     aria-label="Book chapters"
-                    className="flex flex-col p-1"
+                    className="flex flex-col p-1 text-primary"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                   >
                     <svg
@@ -268,15 +309,15 @@ const BookChapterRoute: React.FC<{
                       viewBox="0 0 22 17"
                     >
                       <path
-                        stroke="#AFF2F2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         d="M21 1H4a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h17M6 6.5h15m-15 4h15"
                       />
                     </svg>
                   </button>
                 </TooltipTrigger>
-                <TooltipContent className="z-50 rounded-sm bg-[#AFF2F2] text-[#001816]">
+                <TooltipContent className="z-50 bg-background text-foreground">
                   Chapters
                 </TooltipContent>
               </Tooltip>
@@ -290,40 +331,38 @@ const BookChapterRoute: React.FC<{
           className="pointer-events-none fixed left-0 top-0 z-20 h-screen w-full p-5 pt-10"
           aria-hidden="true"
         >
-          <div className="hidden h-full w-full border border-[#062F2B] lg:block" />
+          <div className="hidden h-full w-full border border-gray-800 lg:block" />
         </div>
         <section
           ref={heroRef}
-          className="relative z-30 flex min-h-screen w-full flex-col items-center justify-center bg-[#001816]"
+          className="relative z-10 flex min-h-[80vh] w-full flex-col items-center justify-center bg-background"
         >
-          <div className="absolute left-5 top-10 flex h-[calc(100%-2.5rem)] w-[calc(100%-2.5rem)] flex-col items-center justify-center gap-20 overflow-hidden bg-[#AFF2F2] p-16 text-center text-[#103838]">
+          <div className="absolute left-5 top-10 flex h-[calc(100%-2.5rem)] w-[calc(100%-2.5rem)] flex-col items-center justify-center gap-20 overflow-hidden border-x border-b border-gray-800 p-16 text-center lg:border ">
             <p className="relative z-10 inline-flex items-center gap-3 font-text text-xl font-medium">
-              <span className="h-px w-10 bg-[#103838]" aria-hidden="true" />{' '}
+              <span className="h-px w-10 bg-gray-800" aria-hidden="true" />{' '}
               Chapter {chapterIndex + 1}{' '}
-              <span className="h-px w-10 bg-[#103838]" aria-hidden="true" />
+              <span className="h-px w-10 bg-gray-800" aria-hidden="true" />
             </p>
-            <h1 className="relative z-10 text-balance font-heading text-5xl font-bold italic sm:text-8xl">
+            <h1 className="relative z-10 text-balance font-heading text-5xl font-bold italic text-white sm:text-8xl">
               {chapter.title}
             </h1>
             <p className="relative z-10 max-w-md text-balance text-center font-text text-base sm:text-xl">
-              {chapter.description
-                ? chapter.description
-                : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec cursus viverra porta. Nulla accumsan ornare laoreet.'}
+              {chapter.description ? chapter.description : null}
             </p>
-            <div className="absolute z-0 font-heading text-[80vh] font-bold opacity-10">
+            <div className="absolute z-0 font-heading text-[80vh] font-bold opacity-5">
               {chapterIndex + 1}
             </div>
           </div>
         </section>
-        <div className="relative z-10 h-full w-full bg-[#001816] pb-16">
-          {toc && (
-            <ChapterSideNav
-              className="z-10 hidden lg:flex"
-              toc={toc}
-              visibleHeadingId={visibleHeadingId}
-              chapterNavMaxWidth={chapterNavMaxWidth}
-            />
-          )}
+        {toc && (
+          <ChapterSideNav
+            className="z-30 hidden lg:flex"
+            toc={toc}
+            visibleHeadingId={visibleHeadingId}
+            chapterNavMaxWidth={chapterNavMaxWidth}
+          />
+        )}
+        <div className="relative z-10 h-full w-full bg-background pb-16">
           <article
             className={cn('mx-auto p-5 pt-16', {
               'max-w-3xl': fontSizeIndex === 1 || fontSizeIndex === 0,
@@ -333,7 +372,7 @@ const BookChapterRoute: React.FC<{
             <div
               ref={articleRef}
               className={cn(
-                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-[#ECFFFF] prose-h2:mt-[15%] prose-h3:mt-[10%] prose-p:text-justify prose-p:text-[#D9FFFF] prose-code:text-[#D9FFFF] prose-li:text-justify prose-li:text-[#D9FFFF] [&>li>code]:bg-[#112E2C] [&>p>code]:bg-[#112E2C] [&_h2>code]:bg-[#112E2C] [&_h3>code]:bg-[#112E2C] [&_h4>code]:bg-[#112E2C]',
+                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-white prose-p:text-justify prose-p:text-foreground prose-code:text-foreground prose-li:text-justify prose-li:text-foreground [&>li>code]:bg-gray-800 [&>p>code]:bg-gray-800 [&_h2>code]:bg-gray-800 [&_h3>code]:bg-gray-800 [&_h4>code]:bg-gray-800',
                 {
                   'prose-sm sm:prose-base lg:prose-lg': fontSizeIndex === 0,
                   'prose-base sm:prose-lg lg:prose-xl': fontSizeIndex === 1,
@@ -371,24 +410,28 @@ const BookChapterRoute: React.FC<{
           </article>
         </div>
       </main>
-      <section className="fixed bottom-0 left-0 z-0 grid h-screen w-full grid-cols-1 items-center justify-end gap-10 bg-[#062F2B] p-5 pb-24 pt-11 sm:grid-cols-2 sm:pb-5">
-        {prevChapter && (
+      <section className="fixed bottom-0 left-0 z-0 grid h-screen w-full grid-cols-1 items-center justify-end gap-10 bg-gray-800 p-5 pb-24 pt-11 sm:grid-cols-2 sm:pb-5">
+        {prevChapter ? (
           <Link
             href={`/books/${book.slug.current}/${prevChapter.slug}`}
-            className="flex h-full w-full flex-col justify-end p-5 font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-[#173936] sm:text-5xl lg:p-16"
+            className="flex h-full w-full flex-col justify-end p-5 font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-gray-700 sm:text-5xl lg:p-16"
           >
             <span>☜</span>
             <span className="text-balance">{prevChapter.title}</span>
           </Link>
+        ) : (
+          <div />
         )}
-        {nextChapter && (
+        {nextChapter ? (
           <Link
             href={`/books/${book.slug.current}/${nextChapter.slug}`}
-            className="flex h-full w-full flex-col items-end justify-end p-5 text-right font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-[#173936] sm:text-5xl lg:p-16"
+            className="flex h-full w-full flex-col items-end justify-end p-5 text-right font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-gray-700 sm:text-5xl lg:p-16"
           >
             <span>☞</span>
             <span className="text-balance">{nextChapter.title}</span>
           </Link>
+        ) : (
+          <div />
         )}
       </section>
 
@@ -569,15 +612,15 @@ const ChaptersMenu: React.FC<{
             variants={container}
             initial="hidden"
             animate="show"
-            className="fixed left-0 top-0 flex h-screen w-full flex-col items-center justify-start overflow-y-auto bg-[#ADF2F2] py-5 text-[#103838] scrollbar-none sm:py-16"
+            className="fixed left-0 top-0 flex h-screen w-full flex-col items-center justify-start overflow-y-auto bg-background py-5 text-foreground scrollbar-none sm:py-8"
           >
-            <DialogHeader className="w-full border-b border-[#96dbdb] p-5 pb-8 sm:p-10 sm:pb-5">
+            <DialogHeader className="w-full border-b border-gray-800 p-5 pb-8 sm:p-10 sm:pb-5">
               <DialogTitle className="flex w-full flex-col">
-                <motion.span className="font-heading text-3xl font-extrabold sm:text-[6vw]">
-                  {book.title}
+                <motion.span className="text-2xl font-semibold sm:text-3xl">
+                  <Link href={`/books/${book.slug.current}`}>{book.title}</Link>
                 </motion.span>
               </DialogTitle>
-              <p className="sm:text-lefttext-center font-sans text-lg font-semibold opacity-75 sm:pt-16">
+              <p className="sm:text-lefttext-center font-sans text-lg font-normal opacity-75 sm:pt-16">
                 Chapters Index
               </p>
             </DialogHeader>
@@ -589,9 +632,9 @@ const ChaptersMenu: React.FC<{
                   <motion.li variants={item} key={chapter._id}>
                     <Link
                       className={cn(
-                        'flex items-center gap-5 px-5 py-5 font-text text-xl font-semibold transition duration-300 hover:bg-[#96dbdb] sm:gap-10 sm:px-10 sm:py-16 sm:text-[4vw] sm:italic',
+                        'flex items-center gap-5 px-5 py-5 font-text text-xl font-semibold transition duration-300 hover:bg-primary hover:text-background sm:gap-10 sm:px-10 sm:py-16 sm:text-[4vw] sm:italic',
                         {
-                          'bg-[#103838] text-[#ADF2F2] hover:bg-[#103838] hover:text-[#ADF2F2] hover:brightness-110':
+                          'bg-gray-800 text-primary hover:brightness-110':
                             isCurrentChapter,
                         },
                       )}
@@ -635,10 +678,10 @@ const ChapterSideNav: React.FC<{
       )}
     >
       <nav className="group py-16 pr-5 scrollbar-none hover:overflow-y-auto">
-        <strong className="relative inline-flex translate-x-0 text-lg opacity-0 transition group-hover:translate-x-7 group-hover:opacity-100">
+        <strong className="relative inline-flex translate-x-0 text-lg font-semibold text-white opacity-0 transition group-hover:translate-x-7 group-hover:opacity-100">
           In this chapter
         </strong>
-        <ol className="mt-3 flex flex-col text-white [&_*]:duration-300">
+        <ol className="mt-3 flex flex-col [&_*]:duration-300">
           {toc.map((item, i) => (
             <li key={item.slug}>
               <Link
@@ -647,18 +690,17 @@ const ChapterSideNav: React.FC<{
               >
                 <div
                   className={cn(
-                    'relative h-px w-5 bg-white opacity-50 transition group-hover:-translate-x-5',
+                    'relative h-px w-5 bg-gray-500 transition group-hover:-translate-x-5',
                     {
-                      'bg-[#ADF2F2] opacity-100':
-                        visibleHeadingId === item.slug,
+                      'bg-primary opacity-100': visibleHeadingId === item.slug,
                     },
                   )}
                 />
                 <span
                   className={cn(
-                    'relative -translate-x-10 truncate text-nowrap font-semibold opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-[#ADF2F2]',
+                    'relative -translate-x-10 truncate text-nowrap font-semibold text-white opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-primary',
                     {
-                      'text-[#ADF2F2] group-hover:opacity-100':
+                      'text-primary group-hover:opacity-100':
                         visibleHeadingId === item.slug,
                     },
                   )}
@@ -681,16 +723,15 @@ const ChapterSideNav: React.FC<{
                         >
                           <div
                             className={cn(
-                              'relative h-px w-3 bg-white opacity-50 transition group-hover:-translate-x-5',
+                              'relative h-px w-3 bg-gray-500 transition group-hover:-translate-x-5',
                               {
-                                'bg-[#ADF2F2] opacity-100':
-                                  visibleHeadingId === subItem.slug,
+                                'bg-primary': visibleHeadingId === subItem.slug,
                               },
                             )}
                           />
                           <span
                             className={cn(
-                              'relative ml-6  -translate-x-10 truncate text-nowrap opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-[#ADF2F2]',
+                              'relative ml-6 -translate-x-10 truncate text-nowrap opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100 hover:text-primary',
                               {
                                 'text-[#ADF2F2] group-hover:opacity-100':
                                   visibleHeadingId === subItem.slug,
@@ -750,7 +791,7 @@ const ChapterMobileNav: React.FC<{
     <Dialog>
       <DialogTrigger
         className={cn(
-          'fixed bottom-3 right-3 z-50 flex h-12 w-12 items-center justify-center rounded-full  bg-white text-sm font-medium text-[#001816]',
+          'fixed bottom-3 right-3 z-50 flex h-12 w-12 items-center justify-center rounded-full  bg-white text-sm font-medium text-background',
           className,
         )}
       >
@@ -758,9 +799,9 @@ const ChapterMobileNav: React.FC<{
       </DialogTrigger>
       <DialogContent
         withCloseButton={false}
-        className="left-0 top-0 z-50 flex h-full w-full max-w-none translate-x-0 translate-y-0 flex-col bg-[#001816] p-0 py-5 text-[#D9FFFF]"
+        className="left-0 top-0 z-50 flex h-full w-full max-w-none translate-x-0 translate-y-0 flex-col bg-background p-0 py-5 text-foreground"
       >
-        <DialogHeader className="p-5">
+        <DialogHeader className="border-b border-gray-800 p-5">
           <DialogTitle>
             <motion.span
               className="relative flex flex-col items-center justify-center gap-2"
@@ -773,11 +814,11 @@ const ChapterMobileNav: React.FC<{
               }}
             >
               <p className="relative z-10 inline-flex items-center gap-3 font-text text-sm font-medium">
-                <span className="h-px w-10 bg-[#103838]" aria-hidden="true" />{' '}
+                <span className="h-px w-10 bg-gray-800" aria-hidden="true" />{' '}
                 Chapter {currentChapterIndex + 1}{' '}
-                <span className="h-px w-10 bg-[#103838]" aria-hidden="true" />
+                <span className="h-px w-10 bg-gray-800" aria-hidden="true" />
               </p>
-              <strong className="text-balance px-2 font-heading text-3xl font-semibold italic">
+              <strong className="text-balance px-2 font-heading text-3xl font-semibold italic text-white">
                 {chapter.title}
               </strong>
             </motion.span>
@@ -787,7 +828,7 @@ const ChapterMobileNav: React.FC<{
           variants={container}
           initial="hidden"
           animate="show"
-          className="overflow-y-auto p-5 py-8 text-lg"
+          className="overflow-y-auto p-5 py-0 text-lg"
         >
           <motion.strong
             animate={{
@@ -798,7 +839,7 @@ const ChapterMobileNav: React.FC<{
               duration: 0.5,
               delay: 0.2,
             }}
-            className="font-text text-sm font-semibold opacity-65"
+            className="text-sm font-semibold uppercase opacity-65"
           >
             In this chapter
           </motion.strong>
@@ -806,7 +847,10 @@ const ChapterMobileNav: React.FC<{
             {toc.map((heading, i) => (
               <motion.li variants={item} key={heading.slug}>
                 <DialogClose asChild>
-                  <Link href={`#${heading.slug}`} className="font-semibold">
+                  <Link
+                    href={`#${heading.slug}`}
+                    className="font-semibold text-white"
+                  >
                     <span
                       className={cn('', {
                         '': visibleHeadingId === heading.slug,
@@ -854,7 +898,7 @@ interface LinkedHeadingProps extends React.HTMLProps<HTMLHeadingElement> {
     keyof JSX.IntrinsicElements,
     'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   >
-  onAddBookmark?: (id?: string) => Promise<void>
+  onAddBookmark?: (heading: {id: string; children: string}) => Promise<void>
 }
 
 const LinkedHeading: React.FC<LinkedHeadingProps> = ({
@@ -888,11 +932,11 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
     )
 
   return (
-    <span className="relative">
-      <span className="group relative">
+    <span className="relative inline-flex w-full items-center">
+      <span className="group relative inline-flex w-full items-center">
         <a
           href={linkToTitle}
-          className="absolute left-[-2ch] pr-3 !text-white/50 no-underline opacity-0 transition group-hover:opacity-100 hover:!text-cyan-300"
+          className="absolute left-[-2ch] translate-y-3 pr-3 !text-white/50 no-underline opacity-0 transition group-hover:opacity-100 hover:!text-cyan-300"
           aria-hidden="true"
         >
           #
@@ -901,7 +945,7 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
       </span>
       {onAddBookmark && (
         <button
-          className="absolute right-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 group-hover:bg-amber-300/20 hover:bg-amber-300/20 sm:top-1"
+          className="absolute right-0 flex h-8 w-8 translate-y-2 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 group-hover:bg-amber-300/20 hover:bg-amber-300/20"
           type="button"
           onClick={async () => {
             if (resourceBookmarked) {
@@ -912,7 +956,10 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
                 })
               await refetch()
             } else {
-              await onAddBookmark(props.id)
+              await onAddBookmark({
+                id: props.id as string,
+                children: childrenToString(props.children),
+              })
               await refetch()
             }
           }}
@@ -927,4 +974,16 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
       )}
     </span>
   )
+}
+
+function childrenToString(children: React.ReactNode): any {
+  return React.Children.toArray(children).reduce((str, child) => {
+    if (typeof child === 'string') {
+      return str + child
+    }
+    if (React.isValidElement(child) && child.props.children) {
+      return str + childrenToString(child.props.children)
+    }
+    return str
+  }, '')
 }
