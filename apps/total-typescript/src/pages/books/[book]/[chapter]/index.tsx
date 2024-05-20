@@ -184,6 +184,9 @@ const BookChapterRoute: React.FC<{
       meta={{
         title: chapter.title,
         defaultTitle: book.title,
+        ogImage: {
+          url: `${process.env.NEXT_PUBLIC_URL}/api/og/og-book?title=${chapter.title}`,
+        },
       }}
       nav={null}
       footer={null}
@@ -332,7 +335,7 @@ const BookChapterRoute: React.FC<{
         </div>
         <section
           ref={heroRef}
-          className="relative z-10 flex min-h-screen w-full flex-col items-center justify-center bg-background"
+          className="relative z-10 flex min-h-[80vh] w-full flex-col items-center justify-center bg-background"
         >
           <div className="absolute left-5 top-10 flex h-[calc(100%-2.5rem)] w-[calc(100%-2.5rem)] flex-col items-center justify-center gap-20 overflow-hidden border-x border-b border-gray-800 p-16 text-center lg:border ">
             <p className="relative z-10 inline-flex items-center gap-3 font-text text-xl font-medium">

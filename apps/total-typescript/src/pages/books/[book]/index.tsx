@@ -71,6 +71,9 @@ const BookRoute: React.FC<{
       meta={{
         title: book.title,
         type: 'book',
+        ogImage: {
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1716213713/typescript-essentials-book-og_2x_nu5tqz.png',
+        },
       }}
     >
       <Heading title={book.title}>
