@@ -343,7 +343,7 @@ const BookChapterRoute: React.FC<{
               Chapter {chapterIndex + 1}{' '}
               <span className="h-px w-10 bg-gray-800" aria-hidden="true" />
             </p>
-            <h1 className="relative z-10 text-balance font-heading text-5xl font-bold italic sm:text-8xl">
+            <h1 className="relative z-10 text-balance font-heading text-5xl font-bold italic text-white sm:text-8xl">
               {chapter.title}
             </h1>
             <p className="relative z-10 max-w-md text-balance text-center font-text text-base sm:text-xl">
