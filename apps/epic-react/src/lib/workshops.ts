@@ -250,11 +250,7 @@ export const getWorkshop = async (slug: string) => {
     {slug: `${slug}`},
   )
 
-  return WorkshopSchema.merge(
-    z.object({github: z.object({repo: z.string()}).nullable()}),
-  )
-    .passthrough()
-    .parse(result)
+  return WorkshopSchema.passthrough().parse(result)
 }
 
 export type Workshop = z.infer<typeof WorkshopSchema>
