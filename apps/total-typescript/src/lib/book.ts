@@ -97,7 +97,7 @@ export async function getBookChapter(chapterSlugOrId: string) {
         moduleType,
         description,
         title,
-        slug,
+        "slug": slug.current,
         'github': github,
         body,
 

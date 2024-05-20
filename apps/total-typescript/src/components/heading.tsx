@@ -52,6 +52,7 @@ const Heading: React.FC<React.PropsWithChildren<HeadingProps>> = ({
           {description}
         </p>
       )}
+      {children}
       <div className="pointer-events-none absolute top-0 -z-10 h-[600px] w-full max-w-[1600px] select-none">
         <Image
           src={

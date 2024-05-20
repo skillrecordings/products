@@ -32,12 +32,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@skillrecordings/ui/primitives/dialog'
-import {
-  BookmarkIcon,
-  ScaleIcon,
-  ViewListIcon,
-  XIcon,
-} from '@heroicons/react/outline'
+import {BookmarkIcon, ViewListIcon, XIcon} from '@heroicons/react/outline'
 import {BookmarkIcon as BookmarkIconSolid} from '@heroicons/react/solid'
 import {useCopyToClipboard} from 'react-use'
 import {isBrowser} from '@/utils/is-browser'
@@ -148,13 +143,16 @@ const BookChapterRoute: React.FC<{
     chapter && setIsMenuOpen(false)
   }, [chapter])
 
-  const handleAddBookmark = async (id?: string) => {
+  const handleAddBookmark = async (heading: {id: string; children: string}) => {
     await localBookDb.bookmarks
       .add({
         eventName: 'bookmark',
-        module: book.title,
-        section: chapter.title,
-        resource: id,
+        module: book.slug.current,
+        section: {
+          title: chapter.title,
+          slug: chapter.slug,
+        },
+        resource: heading,
         createdOn: new Date(),
       })
       .then(() => {
@@ -185,6 +183,7 @@ const BookChapterRoute: React.FC<{
     <Layout
       meta={{
         title: chapter.title,
+        defaultTitle: book.title,
       }}
       nav={null}
       footer={null}
@@ -198,10 +197,24 @@ const BookChapterRoute: React.FC<{
       />
       <header className="fixed left-0 top-0 z-20 h-10 w-full border-b border-[#0f2927] bg-[#001816] p-2 px-5 lg:border-none ">
         <nav className="flex items-center justify-between">
-          <div className="font-heading text-base font-medium text-[#AFF2F2]">
+          <Link
+            href={`/books/${book.slug.current}`}
+            className="font-heading text-base font-medium text-[#AFF2F2]"
+          >
             {book.title}
-          </div>
-          {isScrolledPastHero && <div>{chapter.title}</div>}
+          </Link>
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: -10,
+            }}
+            animate={{
+              opacity: isScrolledPastHero ? 1 : 0,
+              y: isScrolledPastHero ? 0 : -10,
+            }}
+          >
+            {chapter.title}
+          </motion.div>
           <div className="flex items-center gap-5">
             <div className="flex items-stretch">
               <Popover>
@@ -854,7 +867,7 @@ interface LinkedHeadingProps extends React.HTMLProps<HTMLHeadingElement> {
     keyof JSX.IntrinsicElements,
     'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   >
-  onAddBookmark?: (id?: string) => Promise<void>
+  onAddBookmark?: (heading: {id: string; children: string}) => Promise<void>
 }
 
 const LinkedHeading: React.FC<LinkedHeadingProps> = ({
@@ -912,7 +925,10 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
                 })
               await refetch()
             } else {
-              await onAddBookmark(props.id)
+              await onAddBookmark({
+                id: props.id as string,
+                children: props.children as string,
+              })
               await refetch()
             }
           }}
