@@ -4,6 +4,7 @@ import {Cookie} from './cookie'
 import fetch from 'node-fetch'
 import {format} from 'date-fns'
 import first from 'lodash/first'
+import {z} from 'zod'
 
 const convertkitBaseUrl =
   process.env.CONVERTKIT_BASE_URL || 'https://api.convertkit.com/v3/'
@@ -14,6 +15,15 @@ export const oneYear = 365 * 24 * hour
 export function formatDate(date: Date) {
   return format(date, 'yyyy-MM-dd HH:mm:ss z')
 }
+
+const TagSubscriberResponseSchema = z.object({
+  subscription: z.object({
+    subscriber: z.object({
+      id: z.string(),
+      fields: z.record(z.string().nullable()).optional(),
+    }),
+  }),
+})
 
 export async function updateSubscriber(subscriber: {
   id: number
@@ -101,13 +111,17 @@ export async function tagSubscriber(email: string, tagId: string) {
     }),
   })
     .then((res) => res.json())
-    .then(({subscription}: any) => {
-      return subscription.subscriber
+    .then((jsonRes: any) => {
+      const result = TagSubscriberResponseSchema.safeParse(jsonRes)
+      if (!result.success) {
+        return undefined
+      }
+      return result.data.subscription.subscriber
     })
 }
 
 export async function setConvertkitSubscriberFields(
-  subscriber: {id: string | number; fields: Record<string, string | null>},
+  subscriber: {id: string | number; fields?: Record<string, string | null>},
   fields: Record<string, string>,
 ) {
   for (const field in fields) {
@@ -127,7 +141,7 @@ export async function setConvertkitSubscriberFields(
 
 export async function createConvertkitCustomField(
   customField: string,
-  subscriber: {fields: Record<string, string | null>; id: string | number},
+  subscriber: {fields?: Record<string, string | null>; id: string | number},
 ) {
   try {
     if (!process.env.CONVERTKIT_API_SECRET) {
@@ -137,11 +151,14 @@ export async function createConvertkitCustomField(
 
     subscriber = await fetchSubscriber(subscriber.id)
 
-    const fieldExists =
-      subscriber?.fields &&
-      !isEmpty(
-        find(Object.keys(subscriber.fields), (field) => field === customField),
-      )
+    const fieldExists = subscriber?.fields
+      ? !isEmpty(
+          find(
+            Object.keys(subscriber.fields),
+            (field) => field === customField,
+          ),
+        )
+      : false
 
     if (!fieldExists) {
       await fetch(`${convertkitBaseUrl}/custom_fields`, {
