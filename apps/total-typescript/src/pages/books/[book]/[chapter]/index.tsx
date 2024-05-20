@@ -62,11 +62,11 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const chapterBody =
     bodyWithParsedComments &&
     (await serializeMDX(bodyWithParsedComments, {
-      useShikiTwoslash: true,
-      syntaxHighlighterOptions: {
-        authorization: process.env.SHIKI_AUTH_TOKEN,
-        endpoint: process.env.SHIKI_ENDPOINT,
-      },
+      useShikiTwoslash: false,
+      // syntaxHighlighterOptions: {
+      //   authorization: process.env.SHIKI_AUTH_TOKEN,
+      //   endpoint: process.env.SHIKI_ENDPOINT,
+      // },
     }))
 
   return {
@@ -372,7 +372,7 @@ const BookChapterRoute: React.FC<{
             <div
               ref={articleRef}
               className={cn(
-                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-white prose-h2:mt-[15%] prose-h3:mt-[10%] prose-p:text-justify prose-p:text-foreground prose-code:text-foreground prose-li:text-justify prose-li:text-foreground [&>li>code]:bg-gray-800 [&>p>code]:bg-gray-800 [&_h2>code]:bg-gray-800 [&_h3>code]:bg-gray-800 [&_h4>code]:bg-gray-800',
+                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-white prose-p:text-justify prose-p:text-foreground prose-code:text-foreground prose-li:text-justify prose-li:text-foreground [&>li>code]:bg-gray-800 [&>p>code]:bg-gray-800 [&_h2>code]:bg-gray-800 [&_h3>code]:bg-gray-800 [&_h4>code]:bg-gray-800',
                 {
                   'prose-sm sm:prose-base lg:prose-lg': fontSizeIndex === 0,
                   'prose-base sm:prose-lg lg:prose-xl': fontSizeIndex === 1,
@@ -932,11 +932,11 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
     )
 
   return (
-    <span className="relative">
-      <span className="group relative">
+    <span className="relative inline-flex w-full items-center">
+      <span className="group relative inline-flex w-full items-center">
         <a
           href={linkToTitle}
-          className="absolute left-[-2ch] pr-3 !text-white/50 no-underline opacity-0 transition group-hover:opacity-100 hover:!text-cyan-300"
+          className="absolute left-[-2ch] translate-y-3 pr-3 !text-white/50 no-underline opacity-0 transition group-hover:opacity-100 hover:!text-cyan-300"
           aria-hidden="true"
         >
           #
@@ -945,7 +945,7 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
       </span>
       {onAddBookmark && (
         <button
-          className="absolute right-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 group-hover:bg-amber-300/20 hover:bg-amber-300/20 sm:top-1"
+          className="absolute right-0 flex h-8 w-8 translate-y-2 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 group-hover:bg-amber-300/20 hover:bg-amber-300/20"
           type="button"
           onClick={async () => {
             if (resourceBookmarked) {
