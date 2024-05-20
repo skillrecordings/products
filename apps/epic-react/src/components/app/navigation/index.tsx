@@ -54,7 +54,7 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
     isAuthenticated
   const purchasedOnlyTeam = isOnlyTeamPurchaser(sessionData?.user)
 
-  const handlerCloseMobileMenu = React.useCallback(() => setOpen(false), [])
+  const handlerCloseMobileMenu = () => setOpen(false)
 
   React.useEffect(() => {
     setMounted(true)
