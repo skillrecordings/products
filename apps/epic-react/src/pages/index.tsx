@@ -1,19 +1,15 @@
-import type {GetServerSideProps, NextPage} from 'next'
-import {useRouter} from 'next/router'
+import type {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import {getToken} from 'next-auth/jwt'
-import {cn} from '@skillrecordings/ui/utils/cn'
-import Balancer from 'react-wrap-balancer'
 import {
   motion,
   useScroll,
   useTransform,
   useSpring,
-  // useReducedMotion,
+  useReducedMotion,
 } from 'framer-motion'
 import {InView} from 'react-intersection-observer'
 
-import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {getProduct, getAllProducts} from '@/lib/products'
@@ -52,30 +48,49 @@ const Home: React.FC<{modules: any[]; commerceProps: CommerceProps}> = ({
   modules,
   commerceProps,
 }) => {
-  console.log({modules})
-  // const shouldReduceMotion = useReducedMotion()
+  const shouldReduceMotion = useReducedMotion()
   const {scrollY} = useScroll()
-  const planetYRange = useTransform(scrollY, [48, 330], [0, 170])
+  const planetYRange = useTransform(
+    scrollY,
+    [48, shouldReduceMotion ? 48 : 330],
+    [0, shouldReduceMotion ? 0 : 170],
+  )
   const animatePlanetYMovement = useSpring(planetYRange, {
     stiffness: 50,
     damping: 20,
   })
-  const ringPlanetXRange = useTransform(scrollY, [48, 230], [0, 100])
+  const ringPlanetXRange = useTransform(
+    scrollY,
+    [48, shouldReduceMotion ? 48 : 230],
+    [0, shouldReduceMotion ? 0 : 100],
+  )
   const animateRingPlanetXMovement = useSpring(ringPlanetXRange, {
     stiffness: 100,
     damping: 90,
   })
-  const moonXRange = useTransform(scrollY, [48, 230], [0, -100])
+  const moonXRange = useTransform(
+    scrollY,
+    [48, shouldReduceMotion ? 48 : 230],
+    [0, shouldReduceMotion ? 0 : -100],
+  )
   const animateMoonXMovement = useSpring(moonXRange, {
     stiffness: 100,
     damping: 90,
   })
-  const planetScaleRange = useTransform(scrollY, [150, 210], [1, 0.6])
+  const planetScaleRange = useTransform(
+    scrollY,
+    [150, shouldReduceMotion ? 150 : 210],
+    [1, shouldReduceMotion ? 1 : 0.6],
+  )
   const animatePlanetScale = useSpring(planetScaleRange, {
     stiffness: 50,
     damping: 90,
   })
-  const rocketYRange = useTransform(scrollY, [8, 300], [0, -160])
+  const rocketYRange = useTransform(
+    scrollY,
+    [8, shouldReduceMotion ? 8 : 300],
+    [0, shouldReduceMotion ? 0 : -160],
+  )
   const animateRocketMovement = useSpring(rocketYRange, {
     stiffness: 100,
     damping: 20,
