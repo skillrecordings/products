@@ -62,11 +62,11 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const chapterBody =
     bodyWithParsedComments &&
     (await serializeMDX(bodyWithParsedComments, {
-      useShikiTwoslash: false,
-      // syntaxHighlighterOptions: {
-      //   authorization: process.env.SHIKI_AUTH_TOKEN,
-      //   endpoint: process.env.SHIKI_ENDPOINT,
-      // },
+      useShikiTwoslash: true,
+      syntaxHighlighterOptions: {
+        authorization: process.env.SHIKI_AUTH_TOKEN,
+        endpoint: process.env.SHIKI_ENDPOINT,
+      },
     }))
 
   return {
