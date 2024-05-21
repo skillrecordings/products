@@ -166,6 +166,15 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
   const moduleProgress = useModuleProgress()
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
 
+  let instructor = workshop.instructor || {
+    name: 'Kent C. Dodds',
+    slug: 'kent-c-dodds',
+    picture: {
+      url: require('../../../public/kent-c-dodds.png'),
+      alt: 'Kent C. Dodds',
+    },
+  }
+
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
@@ -277,13 +286,13 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
             <div className="flex items-center gap-2 overflow-hidden rounded-full sm:justify-center">
               <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-background">
                 <Image
-                  src={require('../../../public/kent-c-dodds.png')}
-                  alt="Kent C. Dodds"
+                  src={instructor.picture.url}
+                  alt={instructor.name}
                   width={36}
                   height={36}
                 />
               </div>
-              <span>Kent C. Dodds</span>
+              <span>{instructor.name}</span>
             </div>
             {moduleProgress?.lessonCount && (
               <>

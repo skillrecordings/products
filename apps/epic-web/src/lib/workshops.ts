@@ -1,5 +1,80 @@
 import groq from 'groq'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+import {z} from 'zod'
+import {ContributorSchema} from './contributors'
+
+const SlugSchema = z.object({current: z.string()})
+
+const LinkResourceSchema = z.object({
+  url: z.string(),
+  label: z.string().optional(),
+})
+
+const ImageSchema = z.object({
+  url: z.string(),
+  alt: z.string().optional(),
+})
+
+const ModuleSchema = z.object({
+  slug: z.string(),
+  moduleType: z.string(),
+  title: z.string(),
+  image: ImageSchema.optional(),
+  state: z.string(),
+})
+
+const EpicWebProductSchema = z.object({
+  modules: z.array(ModuleSchema),
+})
+
+const LessonSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  _updatedAt: z.string(),
+  title: z.string(),
+  description: z.string(),
+  slug: SlugSchema,
+  solution: z
+    .object({
+      _key: z.string(),
+      _type: z.string(),
+      _updatedAt: z.string(),
+      title: z.string(),
+      description: z.string(),
+      slug: z.string(),
+    })
+    .optional(),
+})
+
+const SectionSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  _updatedAt: z.string(),
+  title: z.string(),
+  description: z.string(),
+  slug: SlugSchema,
+  lessons: z.array(LessonSchema),
+  resources: z.array(LinkResourceSchema),
+})
+
+const WorkshopSchema = z.object({
+  _id: z.string(),
+  _type: z.string(),
+  title: z.string(),
+  slug: z.object({current: z.string()}),
+  moduleType: z.string(),
+  image: ImageSchema.shape.url,
+  _updatedAt: z.string().optional(),
+  _createdAt: z.string().optional(),
+  description: z.nullable(z.string()).optional(),
+  body: z.string().optional().nullable(),
+  state: z.string(),
+  instructor: ContributorSchema,
+  product: EpicWebProductSchema,
+  sections: z.array(SectionSchema),
+})
+
+export type Workshop = z.infer<typeof WorkshopSchema>
 
 const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop' && state == 'published'] | order(_createdAt asc) {
   _id,
