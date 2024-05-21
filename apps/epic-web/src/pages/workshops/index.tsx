@@ -21,6 +21,8 @@ import {Progress, Skeleton} from '@skillrecordings/ui'
 import {getAllBonuses} from 'lib/bonuses'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
+import type {Workshop} from 'lib/workshops'
+
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
   const bonuses = await getAllBonuses()
@@ -44,7 +46,7 @@ const sectionsFlatMap = (sections: any[]) => {
 }
 
 const WorkshopsPage: React.FC<{
-  workshops: Module[]
+  workshops: Workshop[]
   bonuses?: Module[]
   fullStackWorkshopSeriesProduct: Product
 }> = ({workshops, fullStackWorkshopSeriesProduct, bonuses}) => {
@@ -116,8 +118,8 @@ const WorkshopsPage: React.FC<{
             {workshops.map((workshop, i) => {
               return (
                 <ModuleProgressProvider moduleSlug={workshop.slug.current}>
-                  <WorkshopTeaser
-                    workshop={workshop}
+                  <Teaser
+                    module={workshop}
                     key={workshop.slug.current}
                     index={i}
                   />
@@ -140,11 +142,7 @@ const WorkshopsPage: React.FC<{
             {bonuses.map((bonus, i) => {
               return (
                 <ModuleProgressProvider moduleSlug={bonus.slug.current}>
-                  <WorkshopTeaser
-                    workshop={bonus}
-                    key={bonus.slug.current}
-                    index={i}
-                  />
+                  <Teaser module={bonus} key={bonus.slug.current} index={i} />
                 </ModuleProgressProvider>
               )
             })}
@@ -157,16 +155,18 @@ const WorkshopsPage: React.FC<{
 
 export default WorkshopsPage
 
-const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
-  workshop,
-  index,
-}) => {
-  const {title, slug, image, description, sections, lessons} = workshop
+const Teaser: React.FC<{
+  module: Workshop | Module
+  index: number
+}> = ({module, index}) => {
+  let {title, slug, image, description} = module
+  let content = 'lessons' in module ? module.lessons : module.sections
+
   const router = useRouter()
   const moduleProgress = useModuleProgress()
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
 
-  let instructor = workshop.instructor || {
+  let instructor = module.instructor || {
     name: 'Kent C. Dodds',
     slug: 'kent-c-dodds',
     picture: {
@@ -178,8 +178,8 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
-        moduleSlug: workshop.slug.current,
-        moduleType: workshop.moduleType,
+        moduleSlug: module.slug.current,
+        moduleType: module.moduleType,
       })
     return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
   }
@@ -188,26 +188,18 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
   const canViewContent = ability.can('view', 'Content')
   const ref = React.useRef(null)
   const lessonType =
-    (sections && sectionsFlatMap(sections)[0]?._type) ||
-    (lessons && lessons[0]._type)
+    content &&
+    (content[0]._type === 'section'
+      ? sectionsFlatMap(content)[0]._type
+      : content[0]._type)
 
   return (
-    <motion.li
-    // initial={{opacity: 0}}
-    // whileInView={{
-    //   opacity: 1,
-    // }}
-    // transition={{
-    //   type: 'spring',
-    //   damping: 20,
-    //   stiffness: 100,
-    // }}
-    >
+    <motion.li>
       <Link
         className="relative flex w-full flex-col items-center gap-10 overflow-hidden rounded-md border border-gray-100 bg-white bg-gradient-to-tr from-transparent to-white/50 p-5 shadow-soft-xl transition before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:border-transparent dark:from-gray-900 dark:to-gray-800 dark:hover:brightness-110 md:flex-row md:p-10 md:pl-16"
         href={{
           pathname:
-            workshop.moduleType === 'bonus'
+            module.moduleType === 'bonus'
               ? '/bonuses/[module]'
               : '/workshops/[module]',
           query: {
@@ -215,7 +207,7 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
           },
         }}
       >
-        {workshop.moduleType === 'bonus' ? (
+        {module.moduleType === 'bonus' ? (
           isModuleInProgress && moduleProgress?.moduleCompleted ? (
             <div
               className={cn(
@@ -286,7 +278,10 @@ const WorkshopTeaser: React.FC<{workshop: Module; index: number}> = ({
             <div className="flex items-center gap-2 overflow-hidden rounded-full sm:justify-center">
               <div className="flex items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-background">
                 <Image
-                  src={instructor.picture.url}
+                  src={
+                    instructor?.picture?.url ||
+                    '../../../public/kent-c-dodds.png'
+                  }
                   alt={instructor.name}
                   width={36}
                   height={36}
