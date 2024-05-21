@@ -44,7 +44,7 @@ const Heading: React.FC<React.PropsWithChildren<HeadingProps>> = ({
         className,
       )}
     >
-      <h1 className="mt-36 max-w-screen-md text-balance font-heading text-5xl font-bold md:text-5xl lg:text-6xl">
+      <h1 className="mt-36 max-w-screen-md text-balance font-heading text-5xl font-bold text-white md:text-5xl lg:text-6xl">
         {title}
       </h1>
       {description && (
