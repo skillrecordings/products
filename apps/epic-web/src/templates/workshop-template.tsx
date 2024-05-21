@@ -224,7 +224,7 @@ const WorkshopTemplate: React.FC<{
               )}
 
               {workshop && (
-                <Collection.Root module={workshop}>
+                <Collection.Root module={workshop as Module}>
                   <div className="flex w-full items-center justify-between pb-3">
                     <h3 className="text-xl font-bold">Contents</h3>
                     <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
@@ -250,9 +250,9 @@ const WorkshopTemplate: React.FC<{
                   </Collection.Lessons>
                 </Collection.Root>
               )}
-              <ResetProgress module={workshop} />
+              <ResetProgress module={workshop as Module} />
               {workshop.moduleType === 'workshop' && (
-                <ModuleCertificate module={workshop} />
+                <ModuleCertificate module={workshop as Module} />
               )}
             </>
           )}
@@ -343,7 +343,7 @@ const Header: React.FC<{module: Workshop; canView: boolean}> = ({
                   >
                     Get Certificate
                   </Dialog.Trigger>
-                  <CertificateForm module={module} />
+                  <CertificateForm module={module as Module} />
                 </Dialog.Root>
               ) : (
                 <Link
