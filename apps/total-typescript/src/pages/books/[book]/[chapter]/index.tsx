@@ -373,7 +373,8 @@ const BookChapterRoute: React.FC<{
             <div
               ref={articleRef}
               className={cn(
-                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-white prose-p:text-justify prose-p:text-foreground prose-code:text-white prose-li:text-justify prose-li:text-foreground [&>li>code]:bg-gray-800 [&>p>code]:bg-gray-800 [&_.code-container]:p-5 [&_.shiki]:p-0 [&_h2>code]:bg-gray-800 [&_h3>code]:bg-gray-800 [&_h4>code]:bg-gray-800',
+                // [&_.code-container]:p-5 [&_.shiki]:p-0
+                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-white prose-p:text-justify prose-p:text-foreground prose-code:text-white prose-li:text-justify prose-li:text-foreground [&>li>code]:bg-gray-800 [&>p>code]:bg-gray-800 [&_h2>code]:bg-gray-800 [&_h3>code]:bg-gray-800 [&_h4>code]:bg-gray-800',
                 {
                   'prose-sm sm:prose-base lg:prose-lg': fontSizeIndex === 0,
                   'prose-base sm:prose-lg lg:prose-xl': fontSizeIndex === 1,
