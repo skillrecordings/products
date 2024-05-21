@@ -107,7 +107,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
         <NavLink
           path="/workshops"
           title="Workshops"
-          className="font-semibold"
+          className="font-medium text-white"
           labelString="Pro Workshops"
           label={
             <>
@@ -127,7 +127,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
         <NavLink
           path="/tutorials"
           title="Tutorials"
-          className="font-semibold"
+          className="font-medium text-white"
           labelString="Free Tutorials"
           label={
             <>
@@ -147,13 +147,13 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
         <NavLink
           path="/tips"
           label="Tips"
-          className="font-semibold"
+          className="font-medium text-white"
           // icon={FireIcon}
         />
         <NavLink
           path="/articles"
           label="Articles"
-          className="font-semibold"
+          className="font-medium text-white"
           // icon={BookIcon}
         />
       </ul>

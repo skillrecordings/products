@@ -373,7 +373,7 @@ const BookChapterRoute: React.FC<{
             <div
               ref={articleRef}
               className={cn(
-                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-white prose-p:text-justify prose-p:text-foreground prose-code:text-foreground prose-li:text-justify prose-li:text-foreground [&>li>code]:bg-gray-800 [&>p>code]:bg-gray-800 [&_.code-container]:p-5 [&_.shiki]:p-0 [&_h2>code]:bg-gray-800 [&_h3>code]:bg-gray-800 [&_h4>code]:bg-gray-800',
+                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-white prose-p:text-justify prose-p:text-foreground prose-code:text-white prose-li:text-justify prose-li:text-foreground [&>li>code]:bg-gray-800 [&>p>code]:bg-gray-800 [&_.code-container]:p-5 [&_.shiki]:p-0 [&_h2>code]:bg-gray-800 [&_h3>code]:bg-gray-800 [&_h4>code]:bg-gray-800',
                 {
                   'prose-sm sm:prose-base lg:prose-lg': fontSizeIndex === 0,
                   'prose-base sm:prose-lg lg:prose-xl': fontSizeIndex === 1,
@@ -421,7 +421,7 @@ const BookChapterRoute: React.FC<{
               aria-hidden="true"
               className="absolute font-heading text-[30vw] font-bold text-background/50 md:static"
             >
-              {chapterIndex - 1}
+              {chapterIndex}
             </div>
             <div className="relative z-10 flex flex-col text-balance transition ease-in-out group-hover:text-white">
               <span className="mb-3 font-sans text-sm font-medium uppercase tracking-wide opacity-75">
@@ -442,7 +442,7 @@ const BookChapterRoute: React.FC<{
               aria-hidden="true"
               className="absolute font-heading text-[30vw] font-bold text-background/50 md:static"
             >
-              {chapterIndex + 1}
+              {chapterIndex + 2}
             </div>
             <div className="relative z-10 flex flex-col text-balance transition ease-in-out group-hover:text-white">
               <span className="mb-3 font-sans text-sm font-medium uppercase tracking-wide opacity-75">

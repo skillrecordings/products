@@ -77,7 +77,11 @@ const BookRoute: React.FC<{
       }}
     >
       <Heading title={book.title}>
-        <Button asChild>
+        <Button
+          size="lg"
+          className="bg-gradient-to-tr from-[#4BCCE5] to-[#8AF7F1]"
+          asChild
+        >
           {lastBookmarkedResource ? (
             <Link
               className="mt-10 rounded-sm font-semibold"
