@@ -161,19 +161,11 @@ const Teaser: React.FC<{
 }> = ({module, index}) => {
   let {title, slug, image, description} = module
   let content = 'lessons' in module ? module.lessons : module.sections
+  let instructor = 'instructor' in module ? module.instructor : null
 
   const router = useRouter()
   const moduleProgress = useModuleProgress()
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
-
-  let instructor = module.instructor || {
-    name: 'Kent C. Dodds',
-    slug: 'kent-c-dodds',
-    picture: {
-      url: require('../../../public/kent-c-dodds.png'),
-      alt: 'Kent C. Dodds',
-    },
-  }
 
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
@@ -280,14 +272,14 @@ const Teaser: React.FC<{
                 <Image
                   src={
                     instructor?.picture?.url ||
-                    '../../../public/kent-c-dodds.png'
+                    require('../../../public/kent-c-dodds.png')
                   }
-                  alt={instructor.name}
+                  alt={instructor?.name || 'Kent C. Dodds'}
                   width={36}
                   height={36}
                 />
               </div>
-              <span>{instructor.name}</span>
+              <span>{instructor?.name || 'Kent C. Dodds'}</span>
             </div>
             {moduleProgress?.lessonCount && (
               <>

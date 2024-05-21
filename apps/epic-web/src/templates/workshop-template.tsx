@@ -34,9 +34,10 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {useRouter} from 'next/router'
 import ResourceContributor from 'components/resource-contributor'
+import type {Workshop} from 'lib/workshops'
 
 const WorkshopTemplate: React.FC<{
-  workshop: Module
+  workshop: Workshop
   workshopBodySerialized: MDXRemoteSerializeResult
 }> = ({workshop, workshopBodySerialized}) => {
   const {title, ogImage, description, testimonials} = workshop
@@ -263,7 +264,7 @@ const WorkshopTemplate: React.FC<{
 
 export default WorkshopTemplate
 
-const Header: React.FC<{module: Module; canView: boolean}> = ({
+const Header: React.FC<{module: Workshop; canView: boolean}> = ({
   module,
   canView,
 }) => {
@@ -309,8 +310,10 @@ const Header: React.FC<{module: Module; canView: boolean}> = ({
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
               <ResourceContributor
-                name={'Kent C. Dodds'}
-                slug={'kent-c-dodds'}
+                name={module.instructor.name || 'Kent C. Dodds'}
+                slug={module.instructor?.slug || 'kent-c-dodds'}
+                image={module.instructor?.picture?.url}
+                as="div"
               />
             </div>
             <div className="flex w-full flex-col items-start justify-center gap-3 pt-8 md:justify-start lg:flex-row lg:items-center">
