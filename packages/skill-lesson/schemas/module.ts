@@ -12,19 +12,6 @@ export const ModuleSchema = z
     ogImage: z.string().nullish(),
     image: z.string().nullish(),
     product: z.object({productId: z.string(), name: z.string()}).nullish(),
-    instructor: z
-      .object({
-        _id: z.string(),
-        name: z.string(),
-        slug: z.string(),
-        bio: z.string(),
-        links: z
-          .array(z.object({url: z.string(), label: z.string()}))
-          .nullish(),
-        picture: z.object({url: z.string(), alt: z.string()}),
-      })
-      .nullable()
-      .optional(),
     author: z
       .object({
         name: z.string(),
