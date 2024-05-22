@@ -199,9 +199,11 @@ const WorkshopTemplate: React.FC<{
                 )}
               {product && ALLOW_PURCHASE && !canView ? (
                 <>
-                  <h3 className="mb-3 text-xl font-bold">
-                    Individual Workshop
-                  </h3>
+                  {upgradableTo && (
+                    <h3 className="mb-3 text-xl font-bold">
+                      Individual Workshop
+                    </h3>
+                  )}
                   <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
                     <WorkshopPricingWidget product={product} />
                   </PriceCheckProvider>
