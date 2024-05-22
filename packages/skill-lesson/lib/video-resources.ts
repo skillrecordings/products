@@ -10,7 +10,8 @@ export const getVideoResource = async (id: string): Promise<VideoResource> => {
     groq`*[_type in ['videoResource'] && _id == $id][0]{
       _id,
       "transcript": castingwords.transcript,
-      "muxPlaybackId": muxAsset.muxPlaybackId
+      "muxPlaybackId": muxAsset.muxPlaybackId,
+      poster,
     }`,
     {id},
   )

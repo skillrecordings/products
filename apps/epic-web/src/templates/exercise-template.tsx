@@ -46,12 +46,14 @@ const ExerciseTemplate: React.FC<{
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const router = useRouter()
   const {lesson, section, module} = useLesson()
-  const {videoResourceId} = useVideoResource()
+  const {videoResourceId, videoResource} = useVideoResource()
   const {title, description: exerciseDescription} = lesson
   const ogImage = getOgImage({
     title,
     type: 'video',
-    image: `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
+    image: videoResource?.poster
+      ? videoResource.poster
+      : `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
   })
   const {ogImage: moduleOGImage, description: moduleDescription} = module
   const pageTitle = `${title}`
