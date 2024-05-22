@@ -134,7 +134,7 @@ const WorkshopTemplate: React.FC<{
         </div>
         <aside
           className={cn(
-            'right-0 top-28 w-full px-5 lg:absolute lg:max-w-sm lg:px-0',
+            'relative right-0 w-full px-5 lg:absolute lg:top-28 lg:max-w-sm lg:px-0',
             {
               'lg:h-full': abilityRulesStatus === 'loading',
             },
