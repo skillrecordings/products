@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'
+import * as Dialog from '@radix-ui/react-dialog'
 
 import {
   ModuleProgressProvider,
@@ -19,6 +20,7 @@ import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
 import WelcomeBanner from '@/components/welcome-banner'
+import CertificateForm from '@/certificate/certificate-form'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   // TODO: load the user's purchases and figure out what product they should have access to
@@ -113,6 +115,7 @@ type WorkshopResource = Workshop['resources'][0]
 type BonusResource = Bonus['resources'][0]
 
 type Module = {
+  _id: string
   _type: string
   title: string
   moduleType: string
@@ -126,7 +129,13 @@ type Module = {
   resources: Array<WorkshopResource | BonusResource>
 }
 
-const WorkshopItem = ({module}: {module: Module}) => {
+const WorkshopItem = ({
+  module,
+  isMounted,
+}: {
+  module: Module
+  isMounted?: boolean
+}) => {
   const isBonusModule = module.moduleType === 'bonus'
 
   const moduleProgress = useModuleProgress()
@@ -214,6 +223,22 @@ const WorkshopItem = ({module}: {module: Module}) => {
           }
         })}
       </ul>
+      {isMounted && moduleProgress?.moduleCompleted && (
+        <div className="relative mt-8 bg-background">
+          <Dialog.Root>
+            <Dialog.Trigger
+              className={cx(
+                'flex items-center rounded-lg border-2 border-emerald-600 px-4 py-3 text-base font-semibold text-text transition-colors duration-100 ease-in-out hover:bg-indigo-300 hover:bg-opacity-25',
+              )}
+            >
+              {/* prettier-ignore */}
+              <svg className="mr-2 text-text" width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M3 17a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1zm3.293-7.707a1 1 0 0 1 1.414 0L9 10.586V3a1 1 0 1 1 2 0v7.586l1.293-1.293a1 1 0 1 1 1.414 1.414l-3 3a1 1 0 0 1-1.414 0l-3-3a1 1 0 0 1 0-1.414z" fill="currentColor"/></g></svg>
+              Workshop Certificate
+            </Dialog.Trigger>
+            <CertificateForm module={module} />
+          </Dialog.Root>
+        </div>
+      )}
     </div>
   )
 }
@@ -316,7 +341,7 @@ const Learn: React.FC<{
                       height={256}
                     />
                   </div>
-                  <WorkshopItem module={workshop} />
+                  <WorkshopItem module={workshop} isMounted={isMounted} />
                 </li>
               </ModuleProgressProvider>
             )

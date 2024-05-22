@@ -131,12 +131,12 @@ const CompletedPage: React.FC<any> = ({module, nextModule}) => {
                 Great work!
               </h1>
               {module && (
-                <p className="mb-8 text-center text-base  text-gray-600 sm:text-lg md:text-left">
+                <p className="mb-8 text-center text-base text-er-gray-600 sm:text-lg md:text-left">
                   You&apos;ve completed {module.title} workshop.
                 </p>
               )}
               {module && <ModuleCertificate module={module} />}
-              {module && <div className="mt-10 h-px w-full bg-gray-200" />}
+              {module && <div className="mt-4 h-px w-full bg-er-gray-200" />}
               {/* {nextLesson && (
                 <Link
                   className="mt-10 px-4 py-3 md:px-5 md:py-4 md:text-base inline-flex items-center font-semibold text-sm border border-transparent leading-6 rounded-md text-white bg-indigo-600 hover:bg-indigo-500 transition-colors ease-in-out duration-150"
