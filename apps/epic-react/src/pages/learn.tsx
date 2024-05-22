@@ -64,7 +64,7 @@ const ResourceLink: React.FC<{
         {title} */}
         <div
           className={`${
-            isCompleted ? 'bg-green-500' : 'bg-blue-500'
+            isCompleted ? 'bg-emerald-600' : 'bg-blue-500'
           } flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-er-gray-100 text-white`}
         >
           {isCompleted ? (

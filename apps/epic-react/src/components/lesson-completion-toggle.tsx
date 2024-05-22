@@ -76,8 +76,8 @@ const LessonCompleteToggle = () => {
           type="button"
           className={`relative flex h-[46px] cursor-pointer items-center justify-center overflow-hidden rounded-lg leading-7 transition-colors duration-200 ease-in-out ${
             isLessonCompleted
-              ? 'bg-green-500 px-3 py-2 hover:bg-green-600 '
-              : 'bg-green-500 px-5 py-2 hover:bg-green-600'
+              ? 'bg-emerald-600 px-3 py-2 hover:bg-emerald-700 '
+              : 'bg-emerald-600 px-5 py-2 hover:bg-emerald-600'
           }`}
           animate={{
             width: isLessonCompleted ? 46 : '100%',
