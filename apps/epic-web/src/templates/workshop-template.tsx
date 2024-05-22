@@ -14,7 +14,7 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import Balancer from 'react-wrap-balancer'
-import Testimonials from 'testimonials'
+// import Testimonials from 'testimonials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {Skeleton} from '@skillrecordings/ui'
@@ -40,7 +40,7 @@ const WorkshopTemplate: React.FC<{
   workshop: Workshop
   workshopBodySerialized: MDXRemoteSerializeResult
 }> = ({workshop, workshopBodySerialized}) => {
-  const {title, ogImage, description, testimonials} = workshop
+  const {title, ogImage, description} = workshop
   const pageTitle = `${title} ${capitalize(workshop.moduleType)}`
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
@@ -65,11 +65,11 @@ const WorkshopTemplate: React.FC<{
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
   )
-  const product = workshop?.product as SanityProduct
+  const product = workshop?.product as unknown as SanityProduct
 
   const canView = ability.can('view', 'Content')
   const router = useRouter()
-  const upgradableTo = product.upgradableTo
+  const upgradableTo = product?.upgradableTo
   const couponId =
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
@@ -128,9 +128,9 @@ const WorkshopTemplate: React.FC<{
               <p className="opacity-75">No description found.</p>
             )}
           </article>
-          {testimonials && testimonials?.length > 0 && (
+          {/* {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
-          )}
+          )} */}
         </div>
         <aside
           className={cn(
@@ -224,7 +224,7 @@ const WorkshopTemplate: React.FC<{
               )}
 
               {workshop && (
-                <Collection.Root module={workshop as Module}>
+                <Collection.Root module={workshop as unknown as Module}>
                   <div className="flex w-full items-center justify-between pb-3">
                     <h3 className="text-xl font-bold">Contents</h3>
                     <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
@@ -269,7 +269,7 @@ const Header: React.FC<{module: Workshop; canView: boolean}> = ({
   canView,
 }) => {
   const {title, slug, sections, image, github} = module
-  const product = module.product as SanityProduct
+  const product = module.product as unknown as SanityProduct
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
       slug: module.slug.current,
@@ -279,8 +279,8 @@ const Header: React.FC<{module: Workshop; canView: boolean}> = ({
   const nextSection = moduleProgress?.nextSection
   const nextLesson = moduleProgress?.nextLesson
 
-  const firstSection = first<Section>(sections)
-  const firstLesson = first<Lesson>(firstSection?.lessons || module.lessons)
+  const firstSection = first(sections)
+  const firstLesson = first(firstSection?.lessons)
   const router = useRouter()
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
@@ -310,10 +310,9 @@ const Header: React.FC<{module: Workshop; canView: boolean}> = ({
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
               <ResourceContributor
-                name={module.instructor.name || 'Kent C. Dodds'}
+                name={module?.instructor?.name || 'Kent C. Dodds'}
                 slug={module.instructor?.slug || 'kent-c-dodds'}
                 image={module.instructor?.picture?.url}
-                as="div"
               />
             </div>
             <div className="flex w-full flex-col items-start justify-center gap-3 pt-8 md:justify-start lg:flex-row lg:items-center">
@@ -489,7 +488,7 @@ const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
   const {merchantCoupon, setMerchantCoupon, quantity} = usePriceCheck()
-  const upgradableTo = product.upgradableTo
+  const upgradableTo = product?.upgradableTo
   const hasPurchasedUpgrade =
     upgradableTo && purchasedProductIds.includes(upgradableTo.productId)
 

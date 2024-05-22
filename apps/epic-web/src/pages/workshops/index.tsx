@@ -22,16 +22,29 @@ import {getAllBonuses} from 'lib/bonuses'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
 import type {Workshop} from 'lib/workshops'
+import {getFullStackVol1Workshops} from '../../lib/workshops'
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
+  const fullStackVol1Workshops = await getFullStackVol1Workshops()
   const bonuses = await getAllBonuses()
   const fullStackWorkshopSeriesProduct = await getProduct(
     process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
   )
 
   return {
-    props: {workshops, fullStackWorkshopSeriesProduct, bonuses},
+    props: {
+      workshops: workshops.filter((workshop) => {
+        return !fullStackVol1Workshops.some((fullStackWorkshop) => {
+          return workshop.slug.current === fullStackWorkshop.slug.current
+        })
+      }),
+      fullStackVol1Workshops: fullStackVol1Workshops.filter((workshop) => {
+        return workshop.moduleType !== 'bonus'
+      }),
+      fullStackWorkshopSeriesProduct,
+      bonuses,
+    },
     revalidate: 10,
   }
 }
@@ -47,13 +60,19 @@ const sectionsFlatMap = (sections: any[]) => {
 
 const WorkshopsPage: React.FC<{
   workshops: Workshop[]
+  fullStackVol1Workshops: Workshop[]
   bonuses?: Module[]
   fullStackWorkshopSeriesProduct: Product
-}> = ({workshops, fullStackWorkshopSeriesProduct, bonuses}) => {
+}> = ({
+  workshops,
+  fullStackWorkshopSeriesProduct,
+  bonuses,
+  fullStackVol1Workshops,
+}) => {
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
-        moduleSlug: workshops[0].slug.current,
+        moduleSlug: fullStackVol1Workshops?.[0]?.slug.current,
         moduleType: 'workshop',
       })
     return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
@@ -118,6 +137,26 @@ const WorkshopsPage: React.FC<{
             {workshops.map((workshop, i) => {
               return (
                 <ModuleProgressProvider moduleSlug={workshop.slug.current}>
+                  <Teaser module={workshop} key={workshop.slug.current} />
+                </ModuleProgressProvider>
+              )
+            })}
+          </ul>
+        )}
+        {fullStackVol1Workshops && (
+          <ul className="flex flex-col gap-5">
+            <div className="relative flex items-center justify-center py-5">
+              <h3 className="relative z-10 bg-background px-3 py-1 text-center font-mono text-sm font-medium uppercase">
+                Full Stack Volume 1
+              </h3>
+              <div
+                className="absolute h-px w-full bg-foreground/5"
+                aria-hidden
+              />
+            </div>
+            {fullStackVol1Workshops.map((workshop, i) => {
+              return (
+                <ModuleProgressProvider moduleSlug={workshop.slug.current}>
                   <Teaser
                     module={workshop}
                     key={workshop.slug.current}
@@ -157,7 +196,7 @@ export default WorkshopsPage
 
 const Teaser: React.FC<{
   module: Workshop | Module
-  index: number
+  index?: number
 }> = ({module, index}) => {
   let {title, slug, image, description} = module
   let content = 'lessons' in module ? module.lessons : module.sections
@@ -181,9 +220,9 @@ const Teaser: React.FC<{
   const ref = React.useRef(null)
   const lessonType =
     content &&
-    (content[0]._type === 'section'
-      ? sectionsFlatMap(content)[0]._type
-      : content[0]._type)
+    (content?.[0]?._type === 'section'
+      ? sectionsFlatMap(content)[0]?._type
+      : content[0]?._type)
 
   return (
     <motion.li>
@@ -213,7 +252,7 @@ const Teaser: React.FC<{
               ✓
             </div>
           ) : null
-        ) : (
+        ) : typeof index === 'number' ? (
           <div
             className={cn(
               'absolute left-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-transparent text-xs font-semibold uppercase leading-none tracking-wider text-gray-600 shadow-inner dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400',
@@ -227,7 +266,7 @@ const Teaser: React.FC<{
               ? '✓'
               : `${index + 1}`}
           </div>
-        )}
+        ) : null}
         {image && (
           <div className="flex items-center justify-center lg:flex-shrink-0">
             <Image
