@@ -8,6 +8,7 @@ import {linkedHeadingComponents} from 'components/mdx'
 import {motion, useScroll, useTransform} from 'framer-motion'
 import {Page, getPage} from 'lib/pages'
 import {getProduct} from 'lib/products'
+import {getAllWorkshops} from 'lib/workshops'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {useTheme} from 'next-themes'
 import Image from 'next/image'
@@ -20,7 +21,7 @@ export const getStaticProps = async () => {
   const page = await getPage('get-started')
   const bodyMdx = page.body && (await serializeMDX(page.body))
   const product = await getProduct(process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID)
-  const workshops = product.modules
+  const workshops = await getAllWorkshops()
 
   return {
     props: {
@@ -38,7 +39,7 @@ const GetStartedPage: React.FC<{
   workshops: {
     title: string
     slug: {current: string}
-    image?: {url: string}
+    image?: string
     github?: {repo: string}
   }[]
 }> = ({page, body, workshops}) => {
@@ -80,7 +81,7 @@ const GetStartedPage: React.FC<{
           >
             {currentModule.image && (
               <Image
-                src={currentModule.image.url}
+                src={currentModule.image}
                 width={50}
                 height={50}
                 aria-hidden
@@ -142,12 +143,13 @@ const Workshops: React.FC<{workshops: any[]}> = ({workshops}) => {
         {workshops.map((workshop) => {
           if (!workshop?.github?.repo) return null
           const deployedUrl = getDeployedWorkshopAppUrl(workshop.github.repo)
+
           return (
             <li className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2">
               <div className="flex items-center gap-3">
-                {workshop.image?.url ? (
+                {workshop.image ? (
                   <Image
-                    src={workshop.image.url}
+                    src={workshop.image}
                     width={50}
                     height={50}
                     alt={workshop.title}
@@ -251,6 +253,8 @@ export const getDeployedWorkshopAppUrl = (repo: string) => {
       return 'https://auth.epicweb.dev'
     case 'https://github.com/epicweb-dev/full-stack-testing':
       return 'https://testing.epicweb.dev'
+    case 'https://github.com/epicweb-dev/testing-fundamentals':
+      return 'https://epicweb-dev-testing-fundamentals.fly.dev'
   }
 }
 
