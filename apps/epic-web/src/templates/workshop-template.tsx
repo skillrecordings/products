@@ -280,7 +280,7 @@ const Header: React.FC<{module: Workshop; canView: boolean}> = ({
   const nextLesson = moduleProgress?.nextLesson
 
   const firstSection = first(sections)
-  const firstLesson = first(firstSection?.lessons)
+  const firstLesson = first(firstSection?.lessons || module.lessons)
   const router = useRouter()
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
@@ -379,7 +379,7 @@ const Header: React.FC<{module: Workshop; canView: boolean}> = ({
                         }
                   }
                   className={cn(
-                    'relative flex w-full items-center justify-center rounded-md border px-5 py-4 text-lg font-semibold transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
+                    'relative flex w-full items-center justify-center rounded-md border px-5 py-4 text-lg font-semibold capitalize transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
                     {
                       'animate-pulse': moduleProgressStatus === 'loading',
                       'border-transparent bg-gradient-to-b from-blue-500 to-blue-600 text-primary-foreground':
@@ -396,7 +396,7 @@ const Header: React.FC<{module: Workshop; canView: boolean}> = ({
                   {canView ? (
                     <>{isModuleInProgress ? 'Continue' : 'Start'} Learning</>
                   ) : (
-                    <>Preview Workshop</>
+                    <>Preview {module.moduleType}</>
                   )}
                 </Link>
               )}
