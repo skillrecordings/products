@@ -43,6 +43,7 @@ const WorkshopSchema = z.object({
     .optional(),
   instructor: ContributorSchema.optional().nullable(),
   product: z.array(ProductSchema).optional().nullable(),
+  lessons: z.array(z.any()).optional().nullable(),
   sections: z
     .array(
       z.object({
