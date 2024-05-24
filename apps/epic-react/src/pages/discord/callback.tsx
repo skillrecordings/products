@@ -10,23 +10,24 @@ import Layout from '@/components/app/layout'
 
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
-  res,
   query,
 }) {
   const token = await getToken({req})
-
   const {code} = query
-
-  if (!code) {
-    res.writeHead(302, {Location: '/discord'})
-    res.end()
-    return {props: {}}
-  }
 
   if (!token) {
     return {
       redirect: {
         destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  if (!code) {
+    return {
+      redirect: {
+        destination: '/discord',
         permanent: false,
       },
     }
