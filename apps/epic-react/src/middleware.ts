@@ -4,7 +4,7 @@ import {getMiddlewareResponse} from './server/get-middleware-response'
 const PUBLIC_FILE = /\.(.*)$/
 
 export const config = {
-  matcher: ['/'],
+  matcher: ['/', '/login', '/podcast'],
 }
 
 export async function middleware(req: NextRequest) {

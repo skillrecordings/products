@@ -14,7 +14,7 @@ import {
 } from '@skillrecordings/ui'
 import {Sun, Moon} from '@/components/icons'
 
-export default () => {
+export default ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
   const {theme, setTheme} = useTheme()
   const isTablet = useMedia('(max-width: 920px)', false)
   return (
@@ -25,6 +25,7 @@ export default () => {
             variant="outline"
             size="icon"
             onClick={() => {
+              handlerCloseMenu()
               setTheme(theme === 'light' ? 'dark' : 'light')
             }}
             className={twMerge(

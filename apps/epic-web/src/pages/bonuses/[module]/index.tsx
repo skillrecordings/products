@@ -4,7 +4,7 @@ import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import {getAllWorkshops, getWorkshop} from 'lib/workshops'
+import {type Workshop} from 'lib/workshops'
 import WorkshopTemplate from 'templates/workshop-template'
 import {getAllBonuses, getBonus} from 'lib/bonuses'
 
@@ -36,7 +36,7 @@ const BonusPage: React.FC<{
   return (
     <ModuleProgressProvider moduleSlug={bonus.slug.current}>
       <WorkshopTemplate
-        workshop={bonus}
+        workshop={bonus as Workshop}
         workshopBodySerialized={bonusBodySerialized}
       />
     </ModuleProgressProvider>

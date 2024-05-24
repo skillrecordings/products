@@ -1,29 +1,22 @@
 import * as React from 'react'
 import Link from 'next/link'
 import {useRouter, usePathname} from 'next/navigation'
-import {signOut, useSession} from 'next-auth/react'
+import {useSession} from 'next-auth/react'
 import {motion, useScroll, useTransform, useSpring} from 'framer-motion'
 import {useMedia} from 'react-use'
 import {isEmpty} from 'lodash'
 import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'
 
-import {
-  Button,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@skillrecordings/ui'
-
 import {trpc} from '@/trpc/trpc.client'
 import {isOnlyTeamPurchaser} from '@/utils/is-only-team-purchaser'
 
+import MobileNavigation from '@/components/app/navigation/mobile-navigation'
 import MessageBar from '@/components/app/navigation/message-bar'
 import Logo from '@/components/app/navigation/logo'
 import ThemeToggle from '@/components/app/navigation/theme-toggle'
 import FeedbackButton from '@/components/app/navigation/feedback-button'
-import {Logout} from '@/components/icons'
+import LogoutButton from '@/components/app/navigation/logout-button'
 import Skeleton from '@/components/skeleton'
 
 type NavigationProps = {
@@ -61,6 +54,8 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
     isAuthenticated
   const purchasedOnlyTeam = isOnlyTeamPurchaser(sessionData?.user)
 
+  const handlerCloseMobileMenu = () => setOpen(false)
+
   React.useEffect(() => {
     setMounted(true)
   }, [])
@@ -76,82 +71,39 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
                 router.push('/?buy')
               }}
               className="flex cursor-pointer rounded-lg bg-blue-500 px-3 py-2 text-white transition-all  duration-150 ease-in-out hover:bg-blue-600"
+              data-navi-item=""
             >
               Buy Epic React
             </button>
           ) : null}
-          <Link
-            href="/articles"
-            className={twMerge(
-              cx(
-                'rounded-md px-3 py-2 text-text transition-opacity duration-150 ease-in-out hover:opacity-100 sm:opacity-75',
-                {'bg-er-gray-100 sm:opacity-100': location === '/articles'},
-              ),
-            )}
-          >
-            Articles
-          </Link>
-          <Link
-            href="/livestreams"
-            className={twMerge(
-              cx(
-                'rounded-md px-3 py-2 text-text transition-opacity duration-150 ease-in-out hover:opacity-100 sm:opacity-75',
-                {'bg-er-gray-100 sm:opacity-100': location === '/livestreams'},
-              ),
-            )}
-          >
-            Livestreams
-          </Link>
-          <Link
-            href="/podcast/kents-career-path-through-web-development"
-            className={twMerge(
-              cx(
-                'rounded-md px-3 py-2 text-text transition-opacity duration-150 ease-in-out hover:opacity-100 sm:opacity-75',
-                {
-                  'bg-er-gray-100 sm:opacity-100':
-                    location.startsWith('/podcast/'),
-                },
-              ),
-            )}
-          >
-            Podcast
-          </Link>
-          <Link
-            href="/faq"
-            className={twMerge(
-              cx(
-                'rounded-md px-3 py-2 text-text transition-opacity duration-150 ease-in-out hover:opacity-100 sm:opacity-75',
-                {'bg-er-gray-100 sm:opacity-100': location === '/faq'},
-              ),
-            )}
-          >
-            FAQ
-          </Link>
+          {menuItems.map((item) => {
+            return (
+              <Link
+                key={item.label}
+                href={item.slug}
+                className={twMerge(
+                  cx(
+                    'rounded-md px-3 py-2 text-text transition-opacity duration-150 ease-in-out hover:opacity-100 sm:opacity-75',
+                    {
+                      'bg-er-gray-200 sm:opacity-100': location.startsWith(
+                        item.slug,
+                      ),
+                    },
+                  ),
+                )}
+                data-navi-item=""
+              >
+                {item.label}
+              </Link>
+            )
+          })}
           {sellingLive && !isAuthenticated ? (
             <Link
               href="/login"
               className="rounded-lg px-3 py-2 text-text transition-all duration-150 ease-in-out lg:bg-blue-500 lg:text-white lg:hover:bg-blue-600"
+              data-navi-item=""
             >
               Restore Purchases
-            </Link>
-          ) : null}
-
-          {isAuthenticated &&
-          !isEmpty(sessionData?.user?.purchases) &&
-          !purchasedOnlyTeam ? (
-            <Link
-              href="/learn"
-              className={twMerge(
-                cx(
-                  'rounded-lg border-transparent px-3 py-2 leading-tight text-text transition-colors duration-150 ease-in-out  md:border md:bg-blue-500 md:text-white md:hover:bg-blue-600',
-                  {
-                    'bg-background text-text sm:opacity-100 md:bg-background md:text-text md:hover:text-white':
-                      location === '/learn',
-                  },
-                ),
-              )}
-            >
-              Modules
             </Link>
           ) : null}
           <div
@@ -162,40 +114,13 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
               }),
             )}
           >
-            {isAuthenticated && <FeedbackButton />}
-
-            <ThemeToggle />
-
-            {isAuthenticated ? (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => signOut()}
-                      className={twMerge(
-                        cx(
-                          'w-auto border-none px-3 py-2 text-base text-text transition-opacity duration-150 ease-in-out hover:bg-transparent hover:opacity-100 md:px-2',
-                          {
-                            'opacity-100': isTablet,
-                            'opacity-75': !isTablet,
-                          },
-                        ),
-                      )}
-                    >
-                      {isTablet ? 'Log Out' : <Logout />}
-                      <span className="sr-only">Log out</span>
-                    </Button>
-                  </TooltipTrigger>
-                  {!isTablet && (
-                    <TooltipContent>
-                      <p>Log Out</p>
-                    </TooltipContent>
-                  )}
-                </Tooltip>
-              </TooltipProvider>
-            ) : null}
+            {isAuthenticated && (
+              <FeedbackButton handlerCloseMenu={handlerCloseMobileMenu} />
+            )}
+            <ThemeToggle handlerCloseMenu={handlerCloseMobileMenu} />
+            {isAuthenticated && (
+              <LogoutButton handlerCloseMenu={handlerCloseMobileMenu} />
+            )}
           </div>
         </>
       )
@@ -280,11 +205,11 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
                 />
               </motion.svg>
             </button>
-            {isOpen ? (
-              <div className="navigation absolute left-0 top-[3.25rem] mt-1 grid w-full grid-flow-row justify-start p-3">
+            {isOpen && (
+              <MobileNavigation setOpen={setOpen}>
                 <Links isTablet={true} />
-              </div>
-            ) : null}
+              </MobileNavigation>
+            )}
           </>
         ) : (
           <div className="grid grid-flow-col items-center gap-2 text-xs sm:text-base">
@@ -297,19 +222,6 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
 }
 
 export default Navigation
-
-const MenuPath = (props: any) => (
-  <motion.path
-    fill="transparent"
-    strokeWidth="2"
-    stroke="currentColor"
-    strokeLinecap="round"
-    transition={{
-      type: 'spring',
-    }}
-    {...props}
-  />
-)
 
 export const useAvailableSale = () => {
   const {data} = trpc.pricing.defaultCoupon.useQuery()
@@ -327,3 +239,39 @@ export const useAvailableSale = () => {
 
   return {...data, bannerHeight: data ? 36 : 0}
 }
+
+const MenuPath = (props: any) => (
+  <motion.path
+    fill="transparent"
+    strokeWidth="2"
+    stroke="currentColor"
+    strokeLinecap="round"
+    transition={{
+      type: 'spring',
+    }}
+    {...props}
+  />
+)
+
+const menuItems = [
+  {
+    label: 'Articles',
+    slug: '/articles',
+  },
+  {
+    label: 'Livestreams',
+    slug: '/livestreams',
+  },
+  {
+    label: 'Podcast',
+    slug: '/podcast',
+  },
+  {
+    label: 'FAQ',
+    slug: '/faq',
+  },
+  {
+    label: 'Modules',
+    slug: '/learn',
+  },
+]

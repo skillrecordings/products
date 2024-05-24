@@ -1,11 +1,26 @@
 import {
   getModule,
-  getModuleById,
+  // getModuleById,
 } from '@skillrecordings/skill-lesson/lib/modules'
 import {ImageResponse} from '@vercel/og'
 import {NextRequest} from 'next/server'
 import {getProduct} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
 import {getToken} from 'next-auth/jwt'
+import {sanityClient} from 'utils/sanity-client'
+import groq from 'groq'
+
+const getModuleById = async (moduleId: string) => {
+  return await sanityClient.fetch(
+    groq`*[_type == "module" && _id == $id][0]{
+        "id": _id,
+        _type,
+        title,
+        "slug": slug.current,
+        "image": image.asset->url,
+    }`,
+    {id: `${moduleId}`},
+  )
+}
 
 const larsseitFont = fetch(
   new URL(
@@ -53,7 +68,7 @@ export default async function handleCreateCertificate(req: NextRequest) {
           throw Error
       }
     }
-
+    console.log({module})
     const ModuleTemplate = () => {
       const backgroundImage =
         'https://res.cloudinary.com/epic-web/image/upload/v1695817673/certificate-background.jpg'

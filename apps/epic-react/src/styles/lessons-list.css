@@ -11,7 +11,7 @@
     & > a {
       @apply py-4;
       [data-check-icon] {
-        @apply text-green-500;
+        @apply text-emerald-600;
       }
       & > span {
         @apply hidden;

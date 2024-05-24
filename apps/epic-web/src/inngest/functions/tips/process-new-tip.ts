@@ -106,57 +106,7 @@ export const processNewTip = inngest.createFunction(
         })
       })
 
-      await step.run('Send Transcript for LLM Suggestions', async () => {
-        // this step initiates a call to worker and then doesn't bother waiting for a response
-        // the sleep is just a small hedge to make sure we don't close the connection immediately
-        // but the worker seems to run just fine if we don't bother waiting for a response
-        // this isn't great, really, but waiting for the worker response times it out consistently
-        // even with shorter content
-        fetch(
-          `https://deepgram-wrangler.skillstack.workers.dev/tipMetadataLLM?videoResourceId=${event.data.videoResourceId}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              transcript: transcript.data.transcript.text,
-              tipId: event.data.tipId,
-            }),
-          },
-        )
-        await sleep(1000)
-        return 'Transcript sent to LLM'
-      })
-
-      const llmResponse = await step.waitForEvent(
-        'wait for the llm suggestions to be completed',
-        {
-          event: TIP_VIDEO_LLM_SUGGESTIONS_CREATED_EVENT,
-          match: 'data.videoResourceId',
-          timeout: '1h',
-        },
-      )
-
-      if (llmResponse) {
-        await step.run('Update Tip with Generated Text', async () => {
-          const title = llmResponse.data.llmSuggestions?.titles?.[0]
-          const body = llmResponse.data.llmSuggestions?.body
-          const description = llmResponse.data.llmSuggestions?.descriptions?.[0]
-          return await sanityWriteClient
-            .patch(event.data.tipId)
-            .set({
-              title,
-              description,
-              body,
-              state: 'reviewing',
-            })
-            .commit()
-        })
-        return {llmSuggestions: llmResponse.data.llmSuggestions, transcript}
-      } else {
-        return {transcript, llmSuggestions: null}
-      }
+      return {transcript, llmSuggestions: null}
     } else {
       throw new Error('Transcript not created within 1 hours')
     }

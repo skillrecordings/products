@@ -9,8 +9,6 @@ import {sanityClient} from '../../../lib/sanity-client'
 import groq from 'groq'
 import {postToSlack} from '../../../server'
 import {WebClient} from '@slack/web-api'
-import pluralize from 'pluralize'
-import {isEmpty} from 'lodash'
 
 /**
  * @deprecated we purchase products not modules, modules belong to products
@@ -46,57 +44,62 @@ async function getSanityProduct(productId: string) {
 
 export async function convertkitTagPurchase(email: string, purchase: Purchase) {
   // skip CK tagging in development
-  if (process.env.SKIP_CK_TAGGING === 'true') return
+  if (process.env.SKIP_CK_TAGGING === 'true')
+    return {tagged: false, reason: 'SKIP_CK_TAGGING is true'}
 
   try {
     const sanityProduct = await getSanityProduct(purchase.productId)
 
-    const convertkitPurchasedTagId =
+    const convertkitPurchasedTagId: string | undefined =
       sanityProduct?.convertkitPurchasedTagId ||
       process.env.CONVERTKIT_PURCHASED_TAG_ID
 
-    let subscriber
+    if (!convertkitPurchasedTagId) {
+      if (process.env.NODE_ENV === 'production') {
+        await postToSlack({
+          webClient: new WebClient(process.env.SLACK_TOKEN),
+          channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
+          text: `process.env.CONVERTKIT_PURCHASED_TAG_ID is not set for ${purchase.productId}`,
+          attachments: [],
+        })
+      }
 
-    if (sanityProduct?.convertkitPurchasedTagId) {
-      subscriber = await tagSubscriber(email, convertkitPurchasedTagId)
+      // no tagging is going to happen (unless we want to lookup by email), so return early
+      return {
+        tagged: false,
+        reason: 'convertkitPurchasedTagId is not set',
+      }
     }
 
-    if (process.env.CONVERTKIT_PURCHASED_TAG_ID) {
-      subscriber = await tagSubscriber(email, convertkitPurchasedTagId)
-    }
-
-    if (!convertkitPurchasedTagId && process.env.NODE_ENV === 'production') {
-      await postToSlack({
-        webClient: new WebClient(process.env.SLACK_TOKEN),
-        channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
-        text: `process.env.CONVERTKIT_PURCHASED_TAG_ID is not set for ${purchase.productId}`,
-        attachments: [],
-      })
-    }
-
-    const purchasedOnFieldName = sanityProduct
-      ? `purchased_${sanityProduct.slug.current.replace(/-/gi, '_')}_on`
-      : process.env.CONVERTKIT_PURCHASED_ON_FIELD_NAME || 'purchased_on'
-
-    await setConvertkitSubscriberFields(subscriber, {
-      [purchasedOnFieldName]: format(new Date(), 'yyyy-mm-dd HH:MM'),
-    })
+    let subscriber = await tagSubscriber(email, convertkitPurchasedTagId)
 
     if (subscriber) {
+      const purchasedOnFieldName = sanityProduct
+        ? `purchased_${sanityProduct.slug.current.replace(/-/gi, '_')}_on`
+        : process.env.CONVERTKIT_PURCHASED_ON_FIELD_NAME || 'purchased_on'
+
+      await setConvertkitSubscriberFields(subscriber, {
+        [purchasedOnFieldName]: format(new Date(), 'yyyy-mm-dd HH:MM'),
+      })
+
       return {
-        status: 200,
-        body: subscriber,
-        cookies: getConvertkitSubscriberCookie(subscriber),
-        headers: [{key: 'Cache-Control', value: 'max-age=10'}],
+        tagged: true,
+        details: {
+          body: subscriber,
+          cookies: getConvertkitSubscriberCookie(subscriber),
+          headers: [{key: 'Cache-Control', value: 'max-age=10'}],
+        },
       }
     } else {
       return {
-        status: 200,
+        tagged: false,
+        reason: 'subscriber not found',
       }
     }
   } catch (e) {
     console.log(e)
-    return false
+
+    return {tagged: false, reason: `error: ${e}`}
   }
 
   return true

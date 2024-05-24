@@ -44,7 +44,7 @@ const Heading: React.FC<React.PropsWithChildren<HeadingProps>> = ({
         className,
       )}
     >
-      <h1 className="mt-36 max-w-screen-md text-balance font-heading text-5xl font-bold md:text-5xl lg:text-6xl">
+      <h1 className="mt-36 max-w-screen-md text-balance font-heading text-5xl font-bold text-white md:text-5xl lg:text-6xl">
         {title}
       </h1>
       {description && (
@@ -52,6 +52,7 @@ const Heading: React.FC<React.PropsWithChildren<HeadingProps>> = ({
           {description}
         </p>
       )}
+      {children}
       <div className="pointer-events-none absolute top-0 -z-10 h-[600px] w-full max-w-[1600px] select-none">
         <Image
           src={

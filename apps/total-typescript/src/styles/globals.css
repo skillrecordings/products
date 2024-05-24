@@ -44,8 +44,11 @@
       @apply bg-cyan-300 text-gray-900;
     }
 
+    --gray-950: 217 45% 6%;
+    --gray-900: 219 44% 8%;
+
     --background: 220 43% 10%;
-    --foreground: 0 0% 100%;
+    --foreground: 214 43% 83%;
 
     --muted: 210 58% 84%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -56,7 +59,7 @@
     --border: 219 35% 19%;
     --input: 220 43% 10%;
 
-    --card: 218 45% 11%;
+    --card: 220 36% 12%;
     --card-foreground: 222.2 47.4% 11.2%;
 
     --primary: 177 87% 75%;
@@ -83,6 +86,12 @@
   }
   body {
     @apply bg-background text-foreground;
+    h1,
+    h2,
+    h3,
+    h4 {
+      @apply text-white;
+    }
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 }

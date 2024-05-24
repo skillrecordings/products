@@ -14,7 +14,7 @@ import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import Balancer from 'react-wrap-balancer'
-import Testimonials from 'testimonials'
+// import Testimonials from 'testimonials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {Skeleton} from '@skillrecordings/ui'
@@ -34,12 +34,13 @@ import {cn} from '@skillrecordings/ui/utils/cn'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {useRouter} from 'next/router'
 import ResourceContributor from 'components/resource-contributor'
+import type {Workshop} from 'lib/workshops'
 
 const WorkshopTemplate: React.FC<{
-  workshop: Module
+  workshop: Workshop
   workshopBodySerialized: MDXRemoteSerializeResult
 }> = ({workshop, workshopBodySerialized}) => {
-  const {title, ogImage, description, testimonials} = workshop
+  const {title, ogImage, description} = workshop
   const pageTitle = `${title} ${capitalize(workshop.moduleType)}`
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
@@ -64,11 +65,11 @@ const WorkshopTemplate: React.FC<{
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
   )
-  const product = workshop?.product as SanityProduct
+  const product = workshop?.product as unknown as SanityProduct
 
   const canView = ability.can('view', 'Content')
   const router = useRouter()
-  const upgradableTo = product.upgradableTo
+  const upgradableTo = product?.upgradableTo
   const couponId =
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
@@ -127,13 +128,13 @@ const WorkshopTemplate: React.FC<{
               <p className="opacity-75">No description found.</p>
             )}
           </article>
-          {testimonials && testimonials?.length > 0 && (
+          {/* {testimonials && testimonials?.length > 0 && (
             <Testimonials testimonials={testimonials} />
-          )}
+          )} */}
         </div>
         <aside
           className={cn(
-            'right-0 top-28 w-full px-5 lg:absolute lg:max-w-sm lg:px-0',
+            'relative right-0 w-full px-5 lg:absolute lg:top-28 lg:max-w-sm lg:px-0',
             {
               'lg:h-full': abilityRulesStatus === 'loading',
             },
@@ -198,9 +199,11 @@ const WorkshopTemplate: React.FC<{
                 )}
               {product && ALLOW_PURCHASE && !canView ? (
                 <>
-                  <h3 className="mb-3 text-xl font-bold">
-                    Individual Workshop
-                  </h3>
+                  {upgradableTo && (
+                    <h3 className="mb-3 text-xl font-bold">
+                      Individual Workshop
+                    </h3>
+                  )}
                   <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
                     <WorkshopPricingWidget product={product} />
                   </PriceCheckProvider>
@@ -223,7 +226,7 @@ const WorkshopTemplate: React.FC<{
               )}
 
               {workshop && (
-                <Collection.Root module={workshop}>
+                <Collection.Root module={workshop as unknown as Module}>
                   <div className="flex w-full items-center justify-between pb-3">
                     <h3 className="text-xl font-bold">Contents</h3>
                     <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
@@ -249,9 +252,9 @@ const WorkshopTemplate: React.FC<{
                   </Collection.Lessons>
                 </Collection.Root>
               )}
-              <ResetProgress module={workshop} />
+              <ResetProgress module={workshop as Module} />
               {workshop.moduleType === 'workshop' && (
-                <ModuleCertificate module={workshop} />
+                <ModuleCertificate module={workshop as Module} />
               )}
             </>
           )}
@@ -263,12 +266,12 @@ const WorkshopTemplate: React.FC<{
 
 export default WorkshopTemplate
 
-const Header: React.FC<{module: Module; canView: boolean}> = ({
+const Header: React.FC<{module: Workshop; canView: boolean}> = ({
   module,
   canView,
 }) => {
   const {title, slug, sections, image, github} = module
-  const product = module.product as SanityProduct
+  const product = module.product as unknown as SanityProduct
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
       slug: module.slug.current,
@@ -278,8 +281,8 @@ const Header: React.FC<{module: Module; canView: boolean}> = ({
   const nextSection = moduleProgress?.nextSection
   const nextLesson = moduleProgress?.nextLesson
 
-  const firstSection = first<Section>(sections)
-  const firstLesson = first<Lesson>(firstSection?.lessons || module.lessons)
+  const firstSection = first(sections)
+  const firstLesson = first(firstSection?.lessons || module.lessons)
   const router = useRouter()
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
@@ -309,8 +312,9 @@ const Header: React.FC<{module: Module; canView: boolean}> = ({
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start">
               <ResourceContributor
-                name={'Kent C. Dodds'}
-                slug={'kent-c-dodds'}
+                name={module?.instructor?.name || 'Kent C. Dodds'}
+                slug={module.instructor?.slug || 'kent-c-dodds'}
+                image={module.instructor?.picture?.url}
               />
             </div>
             <div className="flex w-full flex-col items-start justify-center gap-3 pt-8 md:justify-start lg:flex-row lg:items-center">
@@ -340,7 +344,7 @@ const Header: React.FC<{module: Module; canView: boolean}> = ({
                   >
                     Get Certificate
                   </Dialog.Trigger>
-                  <CertificateForm module={module} />
+                  <CertificateForm module={module as Module} />
                 </Dialog.Root>
               ) : (
                 <Link
@@ -377,7 +381,7 @@ const Header: React.FC<{module: Module; canView: boolean}> = ({
                         }
                   }
                   className={cn(
-                    'relative flex w-full items-center justify-center rounded-md border px-5 py-4 text-lg font-semibold transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
+                    'relative flex w-full items-center justify-center rounded-md border px-5 py-4 text-lg font-semibold capitalize transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
                     {
                       'animate-pulse': moduleProgressStatus === 'loading',
                       'border-transparent bg-gradient-to-b from-blue-500 to-blue-600 text-primary-foreground':
@@ -394,7 +398,7 @@ const Header: React.FC<{module: Module; canView: boolean}> = ({
                   {canView ? (
                     <>{isModuleInProgress ? 'Continue' : 'Start'} Learning</>
                   ) : (
-                    <>Preview Workshop</>
+                    <>Preview {module.moduleType}</>
                   )}
                 </Link>
               )}
@@ -486,7 +490,7 @@ const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
   const {merchantCoupon, setMerchantCoupon, quantity} = usePriceCheck()
-  const upgradableTo = product.upgradableTo
+  const upgradableTo = product?.upgradableTo
   const hasPurchasedUpgrade =
     upgradableTo && purchasedProductIds.includes(upgradableTo.productId)
 

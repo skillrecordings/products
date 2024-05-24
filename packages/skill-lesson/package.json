@@ -89,7 +89,7 @@
     "inngest": "3.1.1",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
-    "lucide-react": "^0.224.0",
+    "lucide-react": "^0.378.0",
     "mjml": "^4.12.0",
     "mjml-react": "^2.0.8",
     "next": "14.2.0-canary.30",

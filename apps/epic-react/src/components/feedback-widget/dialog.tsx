@@ -86,7 +86,7 @@ export const ConfirmationMessage = ({
       aria-live="polite"
       className="mt-3 flex flex-wrap items-center justify-center space-x-2 text-center text-xl font-semibold text-text"
     >
-      <CheckIcon className="h-6 w-6 text-green-500" aria-hidden="true" />{' '}
+      <CheckIcon className="h-6 w-6 text-emerald-600" aria-hidden="true" />{' '}
       <span>{message}</span>
     </div>
   )
