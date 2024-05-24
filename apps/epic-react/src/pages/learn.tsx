@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'
+import * as Dialog from '@radix-ui/react-dialog'
 
 import {
   ModuleProgressProvider,
@@ -19,6 +20,7 @@ import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
 import WelcomeBanner from '@/components/welcome-banner'
+import CertificateForm from '@/certificate/certificate-form'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   // TODO: load the user's purchases and figure out what product they should have access to
@@ -62,7 +64,7 @@ const ResourceLink: React.FC<{
         {title} */}
         <div
           className={`${
-            isCompleted ? 'bg-green-500' : 'bg-blue-500'
+            isCompleted ? 'bg-emerald-600' : 'bg-blue-500'
           } flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-er-gray-100 text-white`}
         >
           {isCompleted ? (
@@ -113,6 +115,7 @@ type WorkshopResource = Workshop['resources'][0]
 type BonusResource = Bonus['resources'][0]
 
 type Module = {
+  _id: string
   _type: string
   title: string
   moduleType: string
@@ -120,10 +123,19 @@ type Module = {
   slug: {
     current: string
   }
+  github?: {
+    repo: string
+  } | null
   resources: Array<WorkshopResource | BonusResource>
 }
 
-const WorkshopItem = ({module}: {module: Module}) => {
+const WorkshopItem = ({
+  module,
+  isMounted,
+}: {
+  module: Module
+  isMounted?: boolean
+}) => {
   const isBonusModule = module.moduleType === 'bonus'
 
   const moduleProgress = useModuleProgress()
@@ -147,6 +159,22 @@ const WorkshopItem = ({module}: {module: Module}) => {
         <div className="text-base text-er-gray-700 sm:text-lg">
           {module.body}
         </div>
+        {module.github?.repo && (
+          <div className="mt-6 flex">
+            <Link
+              href={module.github.repo}
+              className="focus:shadow-outline-blue active:bg-er-gray-50 inline-flex items-center rounded-lg border border-er-gray-300 bg-er-gray-100 px-3 py-2 text-sm font-semibold leading-4 text-er-gray-700 duration-150 hover:bg-er-gray-200 focus:border-blue-300 focus:outline-none active:text-er-gray-800"
+            >
+              <svg className="mr-1" width="20" height="20" viewBox="0 0 24 24">
+                <g fill="currentColor">
+                  <path fill="none" d="M0 0h24v24H0z"></path>
+                  <path d="M12 2C6.475 2 2 6.475 2 12a9.994 9.994 0 0 0 6.838 9.488c.5.087.687-.213.687-.476 0-.237-.013-1.024-.013-1.862-2.512.463-3.162-.612-3.362-1.175-.113-.288-.6-1.175-1.025-1.413-.35-.187-.85-.65-.013-.662.788-.013 1.35.725 1.538 1.025.9 1.512 2.338 1.087 2.912.825.088-.65.35-1.087.638-1.337-2.225-.25-4.55-1.113-4.55-4.938 0-1.088.387-1.987 1.025-2.688-.1-.25-.45-1.275.1-2.65 0 0 .837-.262 2.75 1.026a9.28 9.28 0 0 1 2.5-.338c.85 0 1.7.112 2.5.337 1.912-1.3 2.75-1.024 2.75-1.024.55 1.375.2 2.4.1 2.65.637.7 1.025 1.587 1.025 2.687 0 3.838-2.337 4.688-4.562 4.938.362.312.675.912.675 1.85 0 1.337-.013 2.412-.013 2.75 0 .262.188.574.688.474A10.016 10.016 0 0 0 22 12c0-5.525-4.475-10-10-10z"></path>
+                </g>
+              </svg>
+              Repository
+            </Link>
+          </div>
+        )}
       </div>
       <ul className="mt-6 w-full">
         {module.resources.map((resource) => {
@@ -195,6 +223,22 @@ const WorkshopItem = ({module}: {module: Module}) => {
           }
         })}
       </ul>
+      {isMounted && moduleProgress?.moduleCompleted && (
+        <div className="relative mt-8 bg-background">
+          <Dialog.Root>
+            <Dialog.Trigger
+              className={cx(
+                'flex items-center rounded-lg border-2 border-emerald-600 px-4 py-3 text-base font-semibold text-text transition-colors duration-100 ease-in-out hover:bg-indigo-300 hover:bg-opacity-25',
+              )}
+            >
+              {/* prettier-ignore */}
+              <svg className="mr-2 text-text" width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M3 17a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1zm3.293-7.707a1 1 0 0 1 1.414 0L9 10.586V3a1 1 0 1 1 2 0v7.586l1.293-1.293a1 1 0 1 1 1.414 1.414l-3 3a1 1 0 0 1-1.414 0l-3-3a1 1 0 0 1 0-1.414z" fill="currentColor"/></g></svg>
+              Module Certificate
+            </Dialog.Trigger>
+            <CertificateForm module={module} />
+          </Dialog.Root>
+        </div>
+      )}
     </div>
   )
 }
@@ -297,7 +341,7 @@ const Learn: React.FC<{
                       height={256}
                     />
                   </div>
-                  <WorkshopItem module={workshop} />
+                  <WorkshopItem module={workshop} isMounted={isMounted} />
                 </li>
               </ModuleProgressProvider>
             )

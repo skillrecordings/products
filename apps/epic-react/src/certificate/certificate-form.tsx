@@ -126,7 +126,7 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
               />
               <Button
                 variant="outline"
-                className="inline-flex items-center justify-center rounded border border-primary px-3 py-2 text-lg font-medium text-foreground hover:bg-transparent disabled:text-white dark:disabled:text-gray-800"
+                className="inline-flex items-center justify-center rounded border border-primary bg-primary px-3 py-2 text-base font-semibold text-white hover:bg-primary/80 hover:text-white disabled:text-white dark:disabled:text-gray-800"
                 type="submit"
                 disabled={isSubmitting}
               >
@@ -157,8 +157,10 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
                       module: module.slug.current,
                     })
                   }}
+                  className="text-white hover:bg-primary/80 sm:text-base"
                 >
-                  Download <DownloadIcon className="w-4" />
+                  <DownloadIcon className="w-4" />
+                  Get Your Sertificate
                 </a>
               </Button>
               <div className="flex w-full flex-col border-t border-gray-100 pt-5 dark:border-gray-700">

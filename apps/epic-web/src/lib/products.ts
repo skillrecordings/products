@@ -21,7 +21,7 @@ export const ProductSchema = z.object({
   type: z.enum(['live', 'self-paced']),
   state: z.enum(['draft', 'active', 'unavailable', 'archived']),
   modules: z.array(z.any()).optional(),
-  upgradableTo: z.array(z.any()).nullable().optional(),
+  upgradableTo: z.any(),
   welcomeVideo: z
     .object({
       muxPlaybackId: z.string(),

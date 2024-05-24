@@ -135,7 +135,7 @@ module.exports = {
               background: 'var(--color-gray-200)',
               borderRadius: 3,
             },
-            pre: {margin: '0px', padding: '0px'},
+            pre: {margin: '0px'},
           },
         },
       }),

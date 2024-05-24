@@ -62,11 +62,11 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const chapterBody =
     bodyWithParsedComments &&
     (await serializeMDX(bodyWithParsedComments, {
-      useShikiTwoslash: false,
-      // syntaxHighlighterOptions: {
-      //   authorization: process.env.SHIKI_AUTH_TOKEN,
-      //   endpoint: process.env.SHIKI_ENDPOINT,
-      // },
+      useShikiTwoslash: true,
+      syntaxHighlighterOptions: {
+        authorization: process.env.SHIKI_AUTH_TOKEN,
+        endpoint: process.env.SHIKI_ENDPOINT,
+      },
     }))
 
   return {
@@ -199,15 +199,15 @@ const BookChapterRoute: React.FC<{
         setIsMenuOpen={setIsMenuOpen}
       />
       <header className="fixed left-0 top-0 z-20 h-10 w-full border-b border-gray-800 bg-background p-2 px-3 sm:px-5 lg:border-none">
-        <nav className="flex items-center justify-between">
+        <nav className="flex items-center justify-between gap-5">
           <Link
             href={`/books/${book.slug.current}`}
-            className="font-heading text-base font-medium text-white transition ease-in-out hover:text-primary sm:text-foreground"
+            className="flex-shrink-0 font-heading text-base font-medium text-white transition ease-in-out hover:text-primary sm:text-foreground"
           >
             {book.title}
           </Link>
           <motion.div
-            className="hidden font-heading text-base font-medium sm:block"
+            className="hidden truncate overflow-ellipsis font-heading text-base font-medium sm:block"
             initial={{
               opacity: 0,
               y: -10,
@@ -339,7 +339,7 @@ const BookChapterRoute: React.FC<{
           className="relative z-10 flex min-h-[80vh] w-full flex-col items-center justify-center bg-background"
         >
           <div className="absolute left-0 top-0 flex h-[calc(100%-2.5rem)] w-full flex-col items-center justify-center gap-20 overflow-hidden border-b border-gray-800 p-5 text-center sm:left-5 sm:top-10 sm:w-[calc(100%-2.5rem)] sm:border-x sm:p-16 lg:border">
-            <p className="relative z-10 inline-flex items-center gap-3 font-text text-xl font-medium text-primary">
+            <p className="relative z-10 inline-flex items-center gap-3 font-text text-base font-medium text-primary sm:text-xl">
               {/* <span className="h-px w-10 bg-gray-800" aria-hidden="true" />{' '} */}
               Chapter {chapterIndex + 1}{' '}
               {/* <span className="h-px w-10 bg-gray-800" aria-hidden="true" /> */}
@@ -373,7 +373,8 @@ const BookChapterRoute: React.FC<{
             <div
               ref={articleRef}
               className={cn(
-                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-white prose-p:text-justify prose-p:text-foreground prose-code:text-foreground prose-li:text-justify prose-li:text-foreground [&>li>code]:bg-gray-800 [&>p>code]:bg-gray-800 [&_h2>code]:bg-gray-800 [&_h3>code]:bg-gray-800 [&_h4>code]:bg-gray-800',
+                // [&_.code-container]:p-5 [&_.shiki]:p-0
+                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-white prose-p:text-justify prose-p:text-foreground prose-code:text-white prose-li:text-justify prose-li:text-foreground [&>li>code]:bg-gray-800 [&>p>code]:bg-gray-800 [&_h2>code]:bg-gray-800 [&_h3>code]:bg-gray-800 [&_h4>code]:bg-gray-800',
                 {
                   'prose-sm sm:prose-base lg:prose-lg': fontSizeIndex === 0,
                   'prose-base sm:prose-lg lg:prose-xl': fontSizeIndex === 1,
@@ -411,14 +412,24 @@ const BookChapterRoute: React.FC<{
           </article>
         </div>
       </main>
-      <section className="fixed bottom-0 left-0 z-0 grid h-screen w-full grid-cols-1 items-center justify-end gap-10 bg-gray-800 p-5 pb-24 pt-11 sm:grid-cols-2 sm:pb-5">
+      <section className="bottom-0 left-0 flex w-full grid-cols-2 flex-col-reverse items-center justify-end gap-10 bg-gray-800 p-5 pb-24 pt-11 sm:pb-5 md:fixed md:z-0 md:grid md:h-screen">
         {prevChapter ? (
           <Link
             href={`/books/${book.slug.current}/${prevChapter.slug}`}
-            className="flex h-full w-full flex-col justify-end p-5 font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-gray-700 sm:text-5xl lg:p-16"
+            className="group relative flex h-full w-full flex-col items-center justify-center px-5 py-8 text-center font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-gray-700 sm:text-4xl md:justify-between lg:p-16 lg:pt-32 lg:text-5xl"
           >
-            <span>☜</span>
-            <span className="text-balance">{prevChapter.title}</span>
+            <div
+              aria-hidden="true"
+              className="absolute font-heading text-[30vw] font-bold text-background/50 md:static"
+            >
+              {chapterIndex}
+            </div>
+            <div className="relative z-10 flex flex-col text-balance transition ease-in-out group-hover:text-white">
+              <span className="mb-3 font-sans text-sm font-medium uppercase tracking-wide opacity-75">
+                Previous
+              </span>
+              {prevChapter.title}
+            </div>
           </Link>
         ) : (
           <div />
@@ -426,17 +437,27 @@ const BookChapterRoute: React.FC<{
         {nextChapter ? (
           <Link
             href={`/books/${book.slug.current}/${nextChapter.slug}`}
-            className="flex h-full w-full flex-col items-end justify-end p-5 text-right font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-gray-700 sm:text-5xl lg:p-16"
+            className="group relative flex h-full w-full flex-col items-center justify-center px-5 py-8 text-center font-heading text-2xl font-bold transition duration-300 ease-in-out hover:bg-gray-700 sm:text-4xl md:justify-between lg:p-16 lg:pt-32 lg:text-5xl"
           >
-            <span>☞</span>
-            <span className="text-balance">{nextChapter.title}</span>
+            <div
+              aria-hidden="true"
+              className="absolute font-heading text-[30vw] font-bold text-background/50 md:static"
+            >
+              {chapterIndex + 2}
+            </div>
+            <div className="relative z-10 flex flex-col text-balance transition ease-in-out group-hover:text-white">
+              <span className="mb-3 font-sans text-sm font-medium uppercase tracking-wide opacity-75">
+                Next
+              </span>
+              {nextChapter.title}
+            </div>
           </Link>
         ) : (
           <div />
         )}
       </section>
 
-      <div aria-hidden="true" className="h-screen" />
+      <div aria-hidden="true" className="md:h-screen" />
       {toc && (
         <ChapterMobileNav
           toc={toc}

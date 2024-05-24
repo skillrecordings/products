@@ -151,6 +151,9 @@ module.exports = {
             'h1, h2, h3, h4, blockquote': {
               color: theme('colors.gray.100'),
             },
+            a: {
+              color: '#86A0FF',
+            },
             code: {
               color: theme('colors.gray.200'),
               backgroundColor: theme('colors.gray.800'),

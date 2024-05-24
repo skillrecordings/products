@@ -165,6 +165,15 @@ module.exports = {
             p: {
               color: theme('colors.gray.300'),
             },
+            blockquote: {
+              borderLeftColor: theme('colors.primary.DEFAULT'),
+            },
+            'blockquote > p::before': {
+              color: theme('colors.white'),
+            },
+            'blockquote > p::after': {
+              color: theme('colors.white'),
+            },
             strong: {
               color: theme('colors.gray.200'),
             },
