@@ -65,7 +65,7 @@ export default function DiscordCallback() {
       meta={{
         title: 'Connect EpicReact to Discord',
         description:
-          'Connect your EpicReact account to your KCD Discord account.',
+          'Connect your EpicReact account to your Epic Web Discord account.',
       }}
     >
       <div className="container">
@@ -80,8 +80,8 @@ export default function DiscordCallback() {
             {syncingAccount ? (
               <>
                 <h1>
-                  ♻️ Currently syncing Epic React to the KCD Discord server.
-                  Please wait!
+                  ♻️ Currently syncing Epic React to the Epic Web Discord
+                  server. Please wait!
                 </h1>
               </>
             ) : error ? (
@@ -105,8 +105,8 @@ export default function DiscordCallback() {
                             userData.discordUser.user.email ?? 'email unknown'
                           })`
                         : null}{' '}
-                      has been updated! You are a member of the KCD Discord with
-                      the Epic React role!
+                      has been updated! You are a member of the Epic Web Discord
+                      with the Epic React role!
                     </p>
                     <p>
                       <a
@@ -132,7 +132,7 @@ export default function DiscordCallback() {
               <h2 className="text-2xl font-bold">FAQ</h2>
               <div>
                 <h3 className="text-lg font-bold">
-                  The KCD Discord doesn't show up in my server list?
+                  The Epic Web Discord doesn't show up in my server list?
                 </h3>
                 <p>
                   The authorization flow uses the Discord account{' '}
