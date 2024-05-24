@@ -19,17 +19,18 @@ export default function Discord() {
               className="w-full cursor-pointer rounded-lg bg-blue-500 px-5 py-3 text-center font-semibold text-white transition duration-150 ease-in-out hover:bg-blue-700"
               href={process.env.DISCORD_AUTHORIZE}
             >
-              Connect to KCD Discord
+              Connect to Epic Web Discord
             </a>
             <p className="pb-6 pt-6">
               You can connect Epic React to{' '}
-              <a href="https://kcd.im/discord">the KCD Discord</a> to get some
-              extra perks. If you aren't already a member, this will add you to
-              the server immediately.
+              <a href="https://kcd.im/discord">the Epic Web Discord</a> to get
+              some extra perks. If you aren't already a member, this will add
+              you to the server immediately.
             </p>
             <p className="pb-6">
               If you don't already have a Discord account, you will have the
-              chance to make one before being added to the KCD Discord server.
+              chance to make one before being added to the Epic Web Discord
+              server.
             </p>
           </div>
         </div>
