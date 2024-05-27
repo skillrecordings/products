@@ -241,7 +241,7 @@ const Invoice: React.FC<
           </div>
         </div>
         {!bulkCoupon && purchaseUserTransfers ? (
-          <div className="py-16">
+          <div className="py-16 print:hidden">
             <Transfer
               purchaseUserTransfers={purchaseUserTransfers}
               refetch={refetch}

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {renderToString} from 'react-dom/server'
 import Layout from '@/components/app/layout'
 import {AArrowDown, AArrowUp, ALargeSmall} from 'lucide-react'
 import {getBook, getBookChapter, type Book, type BookChapter} from '@/lib/book'
@@ -494,8 +495,10 @@ const extractHeadingsFromMarkdown = (markdown: string): Heading[] => {
     let slug = slugify(text, {
       decamelize: false,
       customReplacements: [
-        ['Node.js', 'nodejs'],
-        ['react.js', 'reactjs'],
+        // ['Node.js', 'nodejs'],
+        // ['react.js', 'reactjs'],
+        ['&', ''],
+        ['.', ''],
       ],
     })
 
@@ -636,7 +639,7 @@ const ChaptersMenu: React.FC<{
             animate="show"
             className="fixed left-0 top-0 flex h-screen w-full flex-col items-center justify-start overflow-y-auto bg-background py-5 text-foreground scrollbar-none sm:py-8"
           >
-            <DialogHeader className="w-full border-b border-gray-800 p-5 pb-8 sm:p-10 sm:pb-5">
+            <DialogHeader className="mx-auto w-full max-w-4xl border-b border-gray-800 p-5 pb-8 sm:p-10 sm:pb-5">
               <DialogTitle className="flex w-full flex-col">
                 <motion.span className="text-2xl font-semibold sm:text-3xl">
                   <Link href={`/books/${book.slug.current}`}>{book.title}</Link>
@@ -646,7 +649,7 @@ const ChaptersMenu: React.FC<{
                 Chapters Index
               </p>
             </DialogHeader>
-            <motion.ol className="flex w-full flex-col pb-24">
+            <motion.ol className="mx-auto flex w-full max-w-4xl flex-col pb-24">
               {book.chapters.map((chapter, i) => {
                 const isCurrentChapter = chapter._id === currentChapter._id
 
@@ -654,7 +657,7 @@ const ChaptersMenu: React.FC<{
                   <motion.li variants={item} key={chapter._id}>
                     <Link
                       className={cn(
-                        'flex items-center gap-5 px-5 py-5 font-text text-xl font-semibold transition duration-300 hover:bg-primary hover:text-background sm:gap-10 sm:px-10 sm:py-16 sm:text-[4vw] sm:italic',
+                        'flex items-center gap-5 rounded px-5 py-5 font-text text-xl font-semibold transition duration-300 hover:bg-primary hover:text-background sm:gap-10 sm:px-10 sm:py-5 sm:text-3xl sm:italic',
                         {
                           'bg-gray-800 text-primary hover:brightness-110':
                             isCurrentChapter,
@@ -954,6 +957,8 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
         className: 'group cursor-pointer relative pr-10',
         onClick: handleOnClick,
         ...props,
+        // rehypeSlug treats ampersands as invalid characters so this is a workaround for that
+        id: props?.id?.replaceAll('--', '-'),
       },
       props.children,
     )

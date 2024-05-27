@@ -1,11 +1,13 @@
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Image from 'next/image'
+import type React from 'react'
 
 type HeadingProps = {
   title: string
   className?: string
   description?: string
   withImage?: boolean
+  image?: React.ReactElement | null
 }
 
 const getImageByTitle = (title: string) => {
@@ -24,7 +26,7 @@ const getImageByTitle = (title: string) => {
   if (title === 'Free TypeScript Tutorials') {
     return require('../../public/assets/headings/faq@2x.png')
   }
-  if (title === 'TypeScript Essentials') {
+  if (title === 'Total TypeScript Essentials') {
     return require('../../public/assets/headings/book@2x.png')
   }
   return require('../../public/assets/headings/default@2x.png')
@@ -36,6 +38,7 @@ const Heading: React.FC<React.PropsWithChildren<HeadingProps>> = ({
   title,
   description,
   withImage = true,
+  image,
 }) => {
   return (
     <header
@@ -44,6 +47,7 @@ const Heading: React.FC<React.PropsWithChildren<HeadingProps>> = ({
         className,
       )}
     >
+      {image ? image : null}
       <h1 className="mt-36 max-w-screen-md text-balance font-heading text-5xl font-bold text-white md:text-5xl lg:text-6xl">
         {title}
       </h1>

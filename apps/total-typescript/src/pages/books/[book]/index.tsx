@@ -20,6 +20,7 @@ import Heading from '@/components/heading'
 import {Trash, BookText} from 'lucide-react'
 import {localBookDb} from '@/utils/dexie'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
@@ -72,11 +73,26 @@ const BookRoute: React.FC<{
         title: book.title,
         type: 'book',
         ogImage: {
-          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1716213713/typescript-essentials-book-og_2x_nu5tqz.png',
+          url:
+            book.ogImage ||
+            'https://res.cloudinary.com/total-typescript/image/upload/v1716213713/typescript-essentials-book-og_2x_nu5tqz.png',
         },
       }}
     >
-      <Heading title={book.title}>
+      <Heading
+        // image={
+        //   book.image ? (
+        //     <Image
+        //       src={book.image}
+        //       width={1892 / 5}
+        //       height={1636 / 5}
+        //       alt={book.title}
+        //     />
+        //   ) : null
+        // }
+        // withImage={false}
+        title={book.title}
+      >
         <Button
           size="lg"
           className="bg-gradient-to-tr from-[#4BCCE5] to-[#8AF7F1]"
