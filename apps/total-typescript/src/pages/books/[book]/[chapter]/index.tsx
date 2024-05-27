@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {renderToString} from 'react-dom/server'
 import Layout from '@/components/app/layout'
 import {AArrowDown, AArrowUp, ALargeSmall} from 'lucide-react'
 import {getBook, getBookChapter, type Book, type BookChapter} from '@/lib/book'
@@ -203,9 +202,29 @@ const BookChapterRoute: React.FC<{
         <nav className="flex items-center justify-between gap-5">
           <Link
             href={`/books/${book.slug.current}`}
-            className="flex-shrink-0 font-heading text-base font-medium text-white transition ease-in-out hover:text-primary sm:text-foreground"
+            className="flex flex-shrink-0 items-center justify-center font-heading text-base font-medium text-foreground transition ease-in-out hover:text-primary"
           >
-            {book.title}
+            <span className="hidden sm:inline-block">{book.title}</span>
+            <svg
+              className="inline-block w-5 sm:hidden"
+              // width="16"
+              // height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11.75 1.5C9.679 1.5 8 2.395 8 3.5C8 2.395 6.321 1.5 4.25 1.5C2.179 1.5 0.5 2.395 0.5 3.5V14.5C0.5 13.395 2.179 12.5 4.25 12.5C6.321 12.5 8 13.395 8 14.5C8 13.395 9.679 12.5 11.75 12.5C13.821 12.5 15.5 13.395 15.5 14.5V3.5C15.5 2.395 13.821 1.5 11.75 1.5Z"
+                stroke="currentColor"
+                strokeMiterlimit="10"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M5.98567 10.0333C5.70553 10.0333 5.53545 9.85326 5.53545 9.55311V6.20479H4.57164C4.3482 6.20479 4.18478 6.04471 4.18478 5.82794C4.18478 5.60783 4.3482 5.44775 4.57164 5.44775H7.40304C7.62982 5.44775 7.7899 5.6045 7.7899 5.82794C7.7899 6.04805 7.62982 6.20479 7.40304 6.20479H6.43589V9.55311C6.43589 9.84993 6.26248 10.0333 5.98567 10.0333ZM8.04335 9.06287C8.04335 8.83609 8.2001 8.67601 8.40353 8.67601C8.55361 8.67601 8.677 8.73938 8.83708 8.9128C9.09387 9.20961 9.43404 9.36302 9.8309 9.36302C10.3645 9.36302 10.668 9.14958 10.668 8.7794C10.668 8.47258 10.4545 8.28249 9.96097 8.16576L9.28063 7.99901C8.49691 7.81892 8.10672 7.40205 8.10672 6.74172C8.10672 5.90464 8.76705 5.36104 9.78088 5.36104C10.3245 5.36104 10.8114 5.51779 11.1115 5.79459C11.3183 5.98135 11.4284 6.19479 11.4284 6.40489C11.4284 6.61499 11.2816 6.7584 11.0648 6.7584C10.9248 6.7584 10.8047 6.69837 10.698 6.56497C10.4946 6.26149 10.1877 6.0914 9.79422 6.0914C9.32065 6.0914 9.01717 6.31818 9.01717 6.67169C9.01717 6.95516 9.22394 7.15526 9.64748 7.25198L10.3312 7.41539C11.1649 7.60548 11.5584 8.00902 11.5584 8.67935C11.5584 9.54644 10.8681 10.0967 9.78088 10.0967C9.19059 10.0967 8.667 9.9333 8.36685 9.64983C8.15674 9.4564 8.04335 9.25296 8.04335 9.06287Z"
+                fill="white"
+              />
+            </svg>
           </Link>
           <motion.div
             className="hidden truncate overflow-ellipsis font-heading text-base font-medium sm:block"
@@ -300,21 +319,46 @@ const BookChapterRoute: React.FC<{
                     type="button"
                     aria-expanded={isMenuOpen}
                     aria-label="Book chapters"
-                    className="flex flex-col p-1 text-primary"
+                    className="flex flex-col p-1 text-foreground transition hover:text-primary"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                   >
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="22"
-                      height="17"
+                      className="w-4"
+                      // width="16"
+                      // height="16"
+                      viewBox="0 0 16 16"
                       fill="none"
-                      viewBox="0 0 22 17"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
+                        d="M4.5 3.5H11.5"
                         stroke="currentColor"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M21 1H4a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h17M6 6.5h15m-15 4h15"
+                      />
+                      <path
+                        d="M4.5 6.5H11.5"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M4.5 9.5H7.5"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M13.5 0.5H2.5C1.94772 0.5 1.5 0.947715 1.5 1.5V14.5C1.5 15.0523 1.94772 15.5 2.5 15.5H13.5C14.0523 15.5 14.5 15.0523 14.5 14.5V1.5C14.5 0.947715 14.0523 0.5 13.5 0.5Z"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M1.5 12.5H14.5"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                     </svg>
                   </button>
@@ -657,7 +701,7 @@ const ChaptersMenu: React.FC<{
                   <motion.li variants={item} key={chapter._id}>
                     <Link
                       className={cn(
-                        'flex items-center gap-5 rounded px-5 py-5 font-text text-xl font-semibold transition duration-300 hover:bg-primary hover:text-background sm:gap-10 sm:px-10 sm:py-5 sm:text-3xl sm:italic',
+                        'flex items-center gap-5 rounded px-5 py-3 font-text text-xl font-semibold transition duration-300 hover:bg-primary hover:text-background sm:gap-10 sm:px-10 sm:py-5 sm:text-3xl sm:italic',
                         {
                           'bg-gray-800 text-primary hover:brightness-110':
                             isCurrentChapter,
@@ -996,11 +1040,20 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
             }
           }}
         >
-          {resourceBookmarked ? (
-            <BookmarkIconSolid className="h-5 w-5 text-amber-200" />
-          ) : (
-            <BookmarkIcon className="h-5 w-5 text-amber-200" />
-          )}
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                {resourceBookmarked ? (
+                  <BookmarkIconSolid className="h-5 w-5 text-amber-200" />
+                ) : (
+                  <BookmarkIcon className="h-5 w-5 text-amber-200" />
+                )}
+              </TooltipTrigger>
+              <TooltipContent className="bg-background text-foreground">
+                {resourceBookmarked ? 'Remove bookmark' : 'Add bookmark'}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <span className="sr-only">Add Bookmark</span>
         </button>
       )}
