@@ -12,6 +12,7 @@ import Layout from '@/components/app/layout'
 import {getToken} from 'next-auth/jwt'
 import {getModuleProgress} from '@skillrecordings/skill-lesson/lib/module-progress'
 import ModuleCertificate from '@/certificate/module-certificate'
+import {MODULES_WITH_NO_CERTIFICATE} from '@/pages/learn'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {params, req} = context
@@ -69,9 +70,10 @@ const CompletedPage: React.FC<any> = ({module, nextModule}) => {
         meta={{
           title: `Congratulations on completing ${module.title}!`,
         }}
+        className="justify-center"
       >
         <Party />
-        <div className="flex h-full min-h-screen w-full items-center justify-center p-8 pt-20 text-text sm:pt-0 lg:p-0">
+        <div className="flex w-full items-center justify-center p-8 pt-20 text-text sm:pt-0 lg:p-0">
           <div className="mx-auto grid max-w-screen-lg grid-cols-1 items-center justify-center gap-16 md:grid-cols-5">
             <motion.div
               initial={{scale: 0.6}}
@@ -135,7 +137,10 @@ const CompletedPage: React.FC<any> = ({module, nextModule}) => {
                   You&apos;ve completed {module.title} workshop.
                 </p>
               )}
-              {module && <ModuleCertificate module={module} />}
+              {module &&
+                !MODULES_WITH_NO_CERTIFICATE.includes(module.slug.current) && (
+                  <ModuleCertificate module={module} />
+                )}
               {module && <div className="mt-4 h-px w-full bg-er-gray-200" />}
               {/* {nextLesson && (
                 <Link
