@@ -267,7 +267,7 @@ model User {
 model UserPrefs {
   id          String       @id @default(uuid())
   userId      String
-  type        String?
+  type        String
   fields      Json?        @default("{}")
   user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime     @default(now())
