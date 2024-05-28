@@ -22,6 +22,8 @@ import Footer from '@/components/app/footer'
 import WelcomeBanner from '@/components/welcome-banner'
 import CertificateForm from '@/certificate/certificate-form'
 
+export const MODULES_WITH_NO_CERTIFICATE = ['welcome-to-epic-react']
+
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   // TODO: load the user's purchases and figure out what product they should have access to
   const token = await getToken({req})
@@ -223,22 +225,24 @@ const WorkshopItem = ({
           }
         })}
       </ul>
-      {isMounted && moduleProgress?.moduleCompleted && (
-        <div className="relative mt-8 bg-background">
-          <Dialog.Root>
-            <Dialog.Trigger
-              className={cx(
-                'flex items-center rounded-lg border-2 border-emerald-600 px-4 py-3 text-base font-semibold text-text transition-colors duration-100 ease-in-out hover:bg-indigo-300 hover:bg-opacity-25',
-              )}
-            >
-              {/* prettier-ignore */}
-              <svg className="mr-2 text-text" width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M3 17a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1zm3.293-7.707a1 1 0 0 1 1.414 0L9 10.586V3a1 1 0 1 1 2 0v7.586l1.293-1.293a1 1 0 1 1 1.414 1.414l-3 3a1 1 0 0 1-1.414 0l-3-3a1 1 0 0 1 0-1.414z" fill="currentColor"/></g></svg>
-              Module Certificate
-            </Dialog.Trigger>
-            <CertificateForm module={module} />
-          </Dialog.Root>
-        </div>
-      )}
+      {isMounted &&
+        moduleProgress?.moduleCompleted &&
+        !MODULES_WITH_NO_CERTIFICATE.includes(module.slug.current) && (
+          <div className="relative mt-8 bg-background">
+            <Dialog.Root>
+              <Dialog.Trigger
+                className={cx(
+                  'flex items-center rounded-lg border-2 border-emerald-600 px-4 py-3 text-base font-semibold text-text transition-colors duration-100 ease-in-out hover:bg-indigo-300 hover:bg-opacity-25',
+                )}
+              >
+                {/* prettier-ignore */}
+                <svg className="mr-2 text-text" width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M3 17a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1zm3.293-7.707a1 1 0 0 1 1.414 0L9 10.586V3a1 1 0 1 1 2 0v7.586l1.293-1.293a1 1 0 1 1 1.414 1.414l-3 3a1 1 0 0 1-1.414 0l-3-3a1 1 0 0 1 0-1.414z" fill="currentColor"/></g></svg>
+                Module Certificate
+              </Dialog.Trigger>
+              <CertificateForm module={module} />
+            </Dialog.Root>
+          </div>
+        )}
     </div>
   )
 }
