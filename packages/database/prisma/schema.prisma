@@ -261,6 +261,17 @@ model User {
   comments                Comment[]
   roles                   String                 @default("User")
   fields                  Json?                  @default("{}")
+  prefs                   UserPrefs[]
+}
+
+model UserPrefs {
+  id          String       @id @default(uuid())
+  userId      String
+  type        String       @default("Global")
+  fields      Json?        @default("{}")
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime?
 }
 
 model VerificationToken {
