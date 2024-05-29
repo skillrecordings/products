@@ -1,5 +1,9 @@
 import {publicProcedure, router} from '@skillrecordings/skill-lesson'
-import {getLocalUserPrefs, setLocalUserPrefs} from '@/lib/user-prefs'
+import {
+  getLocalUserPrefs,
+  localPrefsFieldsSchema,
+  setLocalUserPrefs,
+} from '@/lib/user-prefs'
 import {getToken} from 'next-auth/jwt'
 import {z} from 'zod'
 
@@ -8,10 +12,7 @@ export const userPrefsRouter = router({
     .input(
       z.object({
         resourceId: z.string(),
-        fields: z.object({
-          path: z.string(),
-          protocol: z.string(),
-        }),
+        fields: localPrefsFieldsSchema,
       }),
     )
     .mutation(async ({ctx, input}) => {

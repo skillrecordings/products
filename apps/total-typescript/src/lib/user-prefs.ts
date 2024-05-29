@@ -3,10 +3,16 @@ import {prisma} from '@skillrecordings/database'
 
 const LOCAL_PREFS_TYPE = 'Local'
 
-const localPrefsFieldsSchema = z.object({
-  path: z.string(),
-  protocol: z.string(),
+export const localPrefsFieldsSchema = z.object({
+  // Represents the path to the project directory on the user's local machine.
+  // This is used when the user wants to open a project that is stored locally.
+  localDirectoryPath: z.string(),
+  // Represents the protocol used to launch the user's preferred IDE via a deep link.
+  // This could be something like `vscode://` or `jetbrains://`, depending on the user's preference.
+  editorLaunchProtocol: z.string(),
 })
+
+type LocalPrefsFields = z.infer<typeof localPrefsFieldsSchema>
 
 const userPrefsSchema = z.object({
   id: z.string(),
@@ -32,10 +38,7 @@ export async function setLocalUserPrefs({
 }: {
   resourceId: string
   userId: string
-  fields: {
-    path: string
-    protocol: string
-  }
+  fields: LocalPrefsFields
 }) {
   if (!userId) {
     throw new Error('Unauthorized')
@@ -75,8 +78,8 @@ export async function setLocalUserPrefs({
         fields: {
           ...existingFields,
           [resourceId]: {
-            path: fields.path,
-            protocol: fields.protocol,
+            localDirectoryPath: fields.localDirectoryPath,
+            editorLaunchProtocol: fields.editorLaunchProtocol,
           },
         },
         updatedAt: new Date(),
@@ -91,8 +94,8 @@ export async function setLocalUserPrefs({
         type: LOCAL_PREFS_TYPE,
         fields: {
           [resourceId]: {
-            path: fields.path,
-            protocol: fields.protocol,
+            localDirectoryPath: fields.localDirectoryPath,
+            editorLaunchProtocol: fields.editorLaunchProtocol,
           },
         },
       },
