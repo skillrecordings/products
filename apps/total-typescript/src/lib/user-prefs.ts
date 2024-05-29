@@ -20,7 +20,7 @@ type LocalPrefsFields = z.infer<typeof localPrefsFieldsSchema>
 const userPrefsSchema = z.object({
   id: z.string(),
   userId: z.string(),
-  type: z.enum(['Global', 'Local']).default('Global'),
+  type: z.enum(['Global', LOCAL_PREFS_TYPE]).default('Global'),
   fields: z.record(z.unknown()).or(z.unknown()).default({}),
   createdAt: z.date(),
   updatedAt: z.date().optional().nullable(),
@@ -28,7 +28,7 @@ const userPrefsSchema = z.object({
 
 const localUserPrefsSchema = userPrefsSchema.extend({
   fields: z.record(localPrefsFieldsSchema),
-  type: z.literal('Local'),
+  type: z.literal(LOCAL_PREFS_TYPE),
 })
 
 export type UserPrefs = z.infer<typeof userPrefsSchema>
