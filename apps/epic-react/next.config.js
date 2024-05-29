@@ -37,9 +37,6 @@ const nextConfig = {
   eslint: {ignoreDuringBuilds: true},
   experimental: {
     scrollRestoration: true,
-    turbotrace: {
-      logAll: true,
-    },
   },
   productionBrowserSourceMaps: true,
   reactStrictMode: true,
