@@ -9,7 +9,10 @@ export const localPrefsFieldsSchema = z.object({
   localDirectoryPath: z.string(),
   // Represents the protocol used to launch the user's preferred IDE via a deep link.
   // This could be something like `vscode://` or `jetbrains://`, depending on the user's preference.
-  editorLaunchProtocol: z.string(),
+  editorLaunchProtocol: z
+    .enum(['vscode://file/', 'jetbrains://web-storm/navigate/reference?path='])
+    .or(z.string())
+    .default('vscode://file/'),
 })
 
 type LocalPrefsFields = z.infer<typeof localPrefsFieldsSchema>
@@ -17,7 +20,7 @@ type LocalPrefsFields = z.infer<typeof localPrefsFieldsSchema>
 const userPrefsSchema = z.object({
   id: z.string(),
   userId: z.string(),
-  type: z.union([z.literal('Global'), z.literal('Local')]).default('Global'),
+  type: z.enum(['Global', 'Local']).default('Global'),
   fields: z.record(z.unknown()).or(z.unknown()).default({}),
   createdAt: z.date(),
   updatedAt: z.date().optional().nullable(),
@@ -61,7 +64,7 @@ export async function setLocalUserPrefs({
 
   let localPrefs
 
-  if (userWithLocalPrefs) {
+  if (userWithLocalPrefs?.prefs[0]) {
     // If the user has local preferences, we prepare to update them
     const existingFields =
       typeof userWithLocalPrefs.prefs[0].fields === 'object'
@@ -138,7 +141,7 @@ export async function getLocalUserPrefs({
     },
   })
 
-  if (!userWithLocalPrefs) {
+  if (!userWithLocalPrefs?.prefs[0]) {
     return null
   }
   // Extract and validate the local preferences
