@@ -10,6 +10,7 @@ export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const workshop = await getWorkshop(params?.module as string)
+
   const workshopBodySerialized = workshop.body
     ? await serializeMDX(workshop.body)
     : null

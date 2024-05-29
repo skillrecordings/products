@@ -30,6 +30,18 @@ export default defineType({
       description: 'without @ symbol',
     }),
     defineField({
+      name: 'saleAnnounceChannel',
+      title: 'Slack Sale Announce Channel',
+      type: 'string',
+      description: 'the Ding Ding channel to announce sales',
+    }),
+    defineField({
+      name: 'slackChannel',
+      title: 'CC Slack Contributor Channel',
+      type: 'string',
+      description: 'the contributors work group in slack',
+    }),
+    defineField({
       name: 'bio',
       title: 'Bio',
       description: 'A short bio about the author.',
