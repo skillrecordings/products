@@ -56,6 +56,10 @@ export const getProductBySlug = async (productSlug: string) => {
   },
   modules[]->{
     "slug": slug.current,
+    "instructors": contributors[@.role == 'instructor'].contributor->{
+              ...,
+              "slug": slug.current,
+          },
     moduleType,
     title,
     "image": image.asset->{url, alt},
