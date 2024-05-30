@@ -21,19 +21,17 @@ import {ProductPageProps} from 'pages/products/[slug]'
 const ProductTemplate: React.FC<ProductPageProps> = ({
   product,
   mdx,
-  allowPurchase,
   userId,
   couponFromCode,
   availableBonuses,
 }) => {
   const router = useRouter()
-  const {title, image, slug} = product
+  const {title, ogImage} = product
 
-  const {data: commerceProps, status: commercePropsStatus} =
-    trpc.pricing.propsForCommerce.useQuery({
-      ...router.query,
-      productId: product.productId,
-    })
+  const {data: commerceProps} = trpc.pricing.propsForCommerce.useQuery({
+    ...router.query,
+    productId: product.productId,
+  })
 
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
@@ -41,12 +39,6 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
   )
-
-  const {data: formattedPrice, status: formattedPriceStatus} =
-    trpc.pricing.formatted.useQuery({
-      productId: product.productId as string,
-      quantity: 1,
-    })
 
   const couponId =
     commerceProps?.couponIdFromCoupon ||
@@ -60,10 +52,12 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
       meta={{
         title,
         description: product.description,
-        ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1687853482/card-full-stack-workshop-series-vol-1_2x.png',
-          alt: title,
-        },
+        ...(ogImage && {
+          ogImage: {
+            url: ogImage,
+            alt: title,
+          },
+        }),
       }}
     >
       <Header
@@ -89,6 +83,7 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
                 purchased={purchasedProductIds.includes(product.productId)}
                 couponId={couponId}
                 couponFromCode={couponFromCode}
+                cancelUrl={cancelUrl}
               />
             </div>
           </PriceCheckProvider>
@@ -102,7 +97,22 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
         />
       </main>
       {/* <Share contentType="Live Workshop" title={title} /> */}
-      <AuthorBio title={() => 'Your Instructor'} className="mt-0 pt-0" />
+      {product.modules
+        ?.reduce((instructors: any[], module: any) => {
+          if (module.instructors) {
+            module.instructors.forEach((instructor: any) => {
+              if (!instructors.some((i) => i._id === instructor._id)) {
+                instructors.push(instructor)
+              }
+            })
+          }
+
+          console.log({instructors, module})
+          return instructors
+        }, [])
+        .map((instructor) => (
+          <AuthorBio {...instructor} className="mt-0 pt-0" />
+        ))}
     </Layout>
   )
 }

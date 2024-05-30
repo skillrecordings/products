@@ -982,7 +982,7 @@ export const Banner: React.FC<{
   const code = router.query.code
   const productOnSale = currentSale?.sanityProduct
   const productPath =
-    (productOnSale?.type === 'live' ? '/events' : '/products') +
+    (productOnSale?.type === 'live' ? '/events' : '/workshops') +
     '/' +
     productOnSale?.slug
 

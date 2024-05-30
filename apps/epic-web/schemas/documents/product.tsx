@@ -119,6 +119,11 @@ export default defineType({
     }),
     defineField({name: 'image', title: 'Image', type: 'externalImage'}),
     defineField({
+      name: 'ogImage',
+      title: 'Share card URL',
+      type: 'url',
+    }),
+    defineField({
       name: 'welcomeVideo',
       title: 'Welcome Video',
       description: 'A video resource that will be shown on the product page',
