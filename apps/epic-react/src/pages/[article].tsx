@@ -16,69 +16,75 @@ export interface ArticlePageProps {
 }
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
-  try {
-    const slug = params?.article
-    const filePath = path.join(
-      process.cwd(),
-      process.env.NEXT_PUBLIC_MDX_ARTICLES_FOLDER as string,
-      `${slug}.mdx`,
-    )
-    const fileContents = fs.readFileSync(filePath, 'utf8')
-    const {content, data} = matter(fileContents)
-    if (data.date instanceof Date) {
-      data.date = data.date.toISOString()
-    }
-    const keywords = Array.isArray(data.keywords) ? data.keywords : null
-    const frontMatter: ArticleFrontMatter = {
-      title: data.title,
-      slug: data.slug,
-      date: data?.date,
-      image: data?.image,
-      socialImage: data?.socialImage,
-      imageAlt: data?.imageAlt,
-      excerpt: data.excerpt,
-      keywords,
-    }
+  // try {
+  //   const slug = params?.article
+  //   const filePath = path.join(
+  //     process.cwd(),
+  //     process.env.NEXT_PUBLIC_MDX_ARTICLES_FOLDER as string,
+  //     `${slug}.mdx`,
+  //   )
+  //   const fileContents = fs.readFileSync(filePath, 'utf8')
+  //   const {content, data} = matter(fileContents)
+  //   if (data.date instanceof Date) {
+  //     data.date = data.date.toISOString()
+  //   }
+  //   const keywords = Array.isArray(data.keywords) ? data.keywords : null
+  //   const frontMatter: ArticleFrontMatter = {
+  //     title: data.title,
+  //     slug: data.slug,
+  //     date: data?.date,
+  //     image: data?.image,
+  //     socialImage: data?.socialImage,
+  //     imageAlt: data?.imageAlt,
+  //     excerpt: data.excerpt,
+  //     keywords,
+  //   }
 
-    const mdxSource = await serializeMDX(content, {scope: data})
+  //   const mdxSource = await serializeMDX(content, {scope: data})
 
-    const directory = path.join(
-      process.cwd(),
-      process.env.NEXT_PUBLIC_MDX_ARTICLES_FOLDER as string,
-    )
-    const filenames = fs.readdirSync(directory)
+  //   const directory = path.join(
+  //     process.cwd(),
+  //     process.env.NEXT_PUBLIC_MDX_ARTICLES_FOLDER as string,
+  //   )
+  //   const filenames = fs.readdirSync(directory)
 
-    const allArticles = filenames
-      .map((filename) => {
-        const filePath = path.join(directory, filename)
-        const fileContents = fs.readFileSync(filePath, 'utf8')
-        const {data} = matter(fileContents)
-        const formattedDate =
-          typeof data.date === 'string' ? data.date : data.date.toISOString()
+  //   const allArticles = filenames
+  //     .map((filename) => {
+  //       const filePath = path.join(directory, filename)
+  //       const fileContents = fs.readFileSync(filePath, 'utf8')
+  //       const {data} = matter(fileContents)
+  //       const formattedDate =
+  //         typeof data.date === 'string' ? data.date : data.date.toISOString()
 
-        return {
-          title: data.title,
-          date: formattedDate,
-          excerpt: data.excerpt,
-          image: data.image,
-          imageAlt: data.imageAlt,
-          slug: filename.replace(/\.mdx$/, ''),
-        }
-      })
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  //       return {
+  //         title: data.title,
+  //         date: formattedDate,
+  //         excerpt: data.excerpt,
+  //         image: data.image,
+  //         imageAlt: data.imageAlt,
+  //         slug: filename.replace(/\.mdx$/, ''),
+  //       }
+  //     })
+  //     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
-    return {
-      props: {
-        allArticles,
-        mdx: mdxSource,
-        frontMatter,
-      },
-    }
-  } catch (error) {
-    return {
-      notFound: true,
-    }
-  }
+  //   return {
+  //     props: {
+  //       allArticles,
+  //       mdx: mdxSource,
+  //       frontMatter,
+  //     },
+  //   }
+  // } catch (error) {
+  //   return {
+  //     notFound: true,
+  //   }
+  // }
+
+  return {notFound: true}
+  // if (process.env.NODE_ENV === 'production') {
+  //   return {notFound: true}
+  // }
+  // return {props: {}}
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
