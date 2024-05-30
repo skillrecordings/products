@@ -10,6 +10,7 @@ import {stackblitzResourceRouter} from './stackblitz-resources'
 import {searchRouter} from './search'
 import {certificateRouter} from './certificate'
 import {articlesRouter} from './articles'
+import {userPrefsRouter} from './user-prefs'
 
 export const appRouter = mergeRouters(
   router({
@@ -20,6 +21,7 @@ export const appRouter = mergeRouters(
     search: searchRouter,
     certificate: certificateRouter,
     articles: articlesRouter,
+    userPrefs: userPrefsRouter,
   }),
   skillLessonRouter,
 )
