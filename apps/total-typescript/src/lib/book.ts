@@ -36,6 +36,14 @@ export const BookSchema = z.object({
   body: z.string().optional().nullable(),
   ogImage: z.string().optional().nullable(),
   image: z.string().optional().nullable(),
+  github: z
+    .object({
+      _type: z.literal('github'),
+      repo: z.string().optional().nullable(),
+      title: z.string().optional().nullable(),
+    })
+    .optional()
+    .nullable(),
   chapters: z.array(
     BookChapterSchema,
     // ChapterSchema.extend({
@@ -64,6 +72,7 @@ export async function getBook(slugOrId: string) {
         title,
         slug,
         body,
+        github,
         ogImage,
         "image": image.asset->url,
         'chapters': resources[]->{
