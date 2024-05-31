@@ -70,7 +70,7 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
                 setOpen(false)
                 router.push('/?buy')
               }}
-              className="flex cursor-pointer rounded-lg bg-blue-500 px-3 py-2 text-white transition-all  duration-150 ease-in-out hover:bg-blue-600"
+              className="mb-2 flex cursor-pointer rounded-lg bg-blue-500 px-3 py-2 text-white  transition-all duration-150 ease-in-out hover:bg-blue-600"
               data-navi-item=""
             >
               Buy Epic React
