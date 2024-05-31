@@ -6,6 +6,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'
 import * as Dialog from '@radix-ui/react-dialog'
+import {isEmpty} from 'lodash'
 
 import {
   ModuleProgressProvider,
@@ -325,7 +326,7 @@ const Learn: React.FC<{
           priority
         />
       </section>
-      {isMounted && commerceProps?.purchases && (
+      {isMounted && !isEmpty(commerceProps?.purchases) && (
         <WelcomeBanner purchases={commerceProps.purchases} />
       )}
       <main className="mx-auto w-full max-w-screen-lg px-4 pb-20 pt-4 sm:px-8 sm:pt-20">
