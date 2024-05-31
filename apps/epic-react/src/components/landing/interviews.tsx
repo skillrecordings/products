@@ -75,7 +75,7 @@ const Interviews = () => {
         return (
           <div
             key={interview.title}
-            className="flex items-center space-x-4 rounded-lg border border-er-gray-200 p-3 duration-150 hover:scale-105 sm:p-5"
+            className="flex cursor-default items-center space-x-4 rounded-lg border border-er-gray-200 p-3 duration-150 sm:p-5"
           >
             <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-full sm:h-24 sm:w-24">
               <Image
