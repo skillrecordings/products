@@ -54,9 +54,20 @@ export const ConvertkitProvider: React.FC<
       identify(subscriber)
 
       if (!isEmpty(ckSubscriberId)) {
-        if (router.asPath.match(/confirmToast=true/))
+        if (router.asPath.match(/confirmToast=true/)) {
           confirmSubscriptionToast(subscriber.email_address)
-        removeQueryParamsFromRouter(router, [CK_SUBSCRIBER_KEY])
+        }
+        if (params.get(CK_SUBSCRIBER_KEY)) {
+          params.delete(CK_SUBSCRIBER_KEY)
+          await router.replace(
+            {
+              pathname: router.pathname,
+              query: params.toString(),
+            },
+            undefined,
+            {shallow: true},
+          )
+        }
       }
 
       return subscriber || false
