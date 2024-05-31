@@ -63,7 +63,7 @@ const Footer = () => {
                 transform="translate(4 3)"
               />
             </svg>
-            Join the KCD Discord
+            Join Epic Web Discord
           </Link>
         )}
         {(hasAccessToLearn || purchasedOnlyTeam) && (
