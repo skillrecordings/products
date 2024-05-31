@@ -16,6 +16,12 @@ import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import removeMarkdown from 'remove-markdown'
 import ResourceContributor from 'components/resource-contributor'
 import Head from 'next/head'
+import {useAvailableSale} from 'hooks/use-global-banner'
+import {productOnSalePathBuilder} from 'components/app/navigation'
+import {Button} from '@skillrecordings/ui'
+import Link from 'next/link'
+import Countdown, {zeroPad} from 'react-countdown'
+import {ChevronRightIcon} from '@heroicons/react/solid'
 
 const ArticleTemplate: React.FC<{
   article: Article
@@ -62,6 +68,7 @@ const ArticleTemplate: React.FC<{
       <main className="invert-svg prose mx-auto w-full max-w-3xl px-5 py-8 dark:prose-invert md:prose-xl prose-code:break-words prose-pre:bg-gray-900 prose-pre:leading-relaxed md:py-16 md:prose-code:break-normal">
         <MDX contents={articleBodySerialized} />
       </main>
+      {subscriber && <LimitedOfferCTA />}
       <Share contributor={author} title={title} />
       <AuthorBio
         slug={author?.slug}
@@ -77,7 +84,7 @@ const ArticleTemplate: React.FC<{
         className="sm:py-10"
       />
 
-      {!subscriber && <CTA article={article} />}
+      <NewsletterCTA article={article} />
     </Layout>
   )
 }
@@ -146,18 +153,120 @@ const Header: React.FC<HeaderProps> = ({article, estimatedReadingTime}) => {
   )
 }
 
-const CTA: React.FC<{article: Article}> = ({article}) => {
+const NewsletterCTA: React.FC<{article: Article}> = ({article}) => {
   const {slug} = article
+
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
     <section className="pt-16">
-      <PrimaryNewsletterCta
-        onSubmit={() => {
-          track('subscribed from article', {
-            article: slug,
-          })
-        }}
-      />
+      {subscriber ? null : (
+        <PrimaryNewsletterCta
+          onSubmit={() => {
+            track('subscribed from article', {
+              article: slug,
+            })
+          }}
+        />
+      )}
     </section>
+  )
+}
+
+const LimitedOfferCTA: React.FC = () => {
+  const activeSale = useAvailableSale()
+  if (!activeSale || !activeSale.product) return null
+  const title = activeSale.product.title
+  const contributor = activeSale.product.modules?.[0].instructors[0]
+  const description = activeSale.product.modules?.[0].description
+  return (
+    <div className="mx-auto w-full max-w-3xl px-3 pb-10 sm:px-0">
+      <strong className="inline-flex pb-2 text-sm uppercase text-amber-600 dark:text-amber-300">
+        Limited Offer — Save{' '}
+        {(Number(activeSale.percentageDiscount) * 100).toString()}%
+      </strong>
+      <div className="flex w-full flex-col items-center justify-center gap-8 rounded-lg border bg-card">
+        <div className="flex flex-col items-center justify-center gap-8 px-5 pt-10 sm:flex-row">
+          {activeSale.product.image?.url && (
+            <Link
+              href={productOnSalePathBuilder(activeSale.product)}
+              className="flex-shrink-0"
+            >
+              <Image
+                src={activeSale.product.image?.url}
+                alt={activeSale.product.title}
+                width={220}
+                height={220}
+              />
+            </Link>
+          )}
+          <div className="flex flex-col items-start gap-3">
+            <strong className="text-sm font-semibold uppercase text-primary dark:brightness-150">
+              New self-paced workshop
+            </strong>
+            {title && (
+              <h3 className="text-balance text-2xl font-semibold sm:text-3xl">
+                <Link
+                  href={productOnSalePathBuilder(activeSale.product)}
+                  className="hover:underline"
+                >
+                  {title}
+                </Link>
+              </h3>
+            )}
+            {contributor && (
+              <ResourceContributor
+                className="text-sm [&_img]:w-10"
+                as="div"
+                {...contributor}
+                image={contributor.picture?.url}
+              />
+            )}
+            {description && (
+              <p className="text-balance opacity-90">{description}</p>
+            )}
+          </div>
+        </div>
+        <div className="flex w-full flex-col items-center justify-between gap-3 rounded-b-lg bg-gradient-to-r from-primary to-indigo-500 px-5 py-3 text-white sm:flex-row">
+          <div className="flex items-center gap-2 text-sm sm:text-base">
+            <div
+              className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-background text-xs font-semibold leading-none text-foreground"
+              aria-hidden="true"
+            >
+              %
+            </div>
+            <Countdown
+              date={activeSale.expires?.toString()}
+              renderer={({days, hours, minutes, seconds}) => {
+                return (
+                  <span className="">
+                    <strong>
+                      Save{' '}
+                      {(Number(activeSale.percentageDiscount) * 100).toString()}
+                      % for limited time only.
+                    </strong>{' '}
+                    <span>Price goes up in:</span>{' '}
+                    <span className="font-orig tabular-nums">{days}d</span>{' '}
+                    <span className="font-orig tabular-nums">{hours}h</span>{' '}
+                    <span className="font-orig tabular-nums">{minutes}m</span>{' '}
+                    <span className="font-orig tabular-nums">
+                      {zeroPad(seconds)}s
+                    </span>
+                  </span>
+                )
+              }}
+            />
+          </div>
+          <Button
+            asChild
+            className="w-full bg-white pr-2.5 text-sm font-semibold text-primary shadow-lg hover:bg-gray-100 sm:w-auto"
+          >
+            <Link href={productOnSalePathBuilder(activeSale.product)}>
+              Learn more <ChevronRightIcon className="w-4" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </div>
   )
 }

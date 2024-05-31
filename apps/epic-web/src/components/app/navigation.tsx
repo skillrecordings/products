@@ -37,6 +37,7 @@ import {
   useGlobalBanner,
 } from 'hooks/use-global-banner'
 import pluralize from 'pluralize'
+import type {Product} from 'lib/products'
 
 type NavigationProps = {
   className?: string
@@ -971,6 +972,16 @@ export const TalkIcon: React.FC<IconProps> = ({isHovered, theme}) => {
   )
 }
 
+export const productOnSalePathBuilder = (product: Product) => {
+  if (product.type === 'live') {
+    return `/events/${product.slug}`
+  } else if (product.modules && product.modules.length > 1) {
+    return `/products/${product.slug}`
+  } else {
+    return `/workshops/${product?.modules?.[0].slug.current}`
+  }
+}
+
 export const Banner: React.FC<{
   className?: string
   enableScrollAnimation?: boolean
@@ -980,11 +991,8 @@ export const Banner: React.FC<{
   const activeEvent = useActiveLiveEvent()
   const {bannerHeight, scrollDirection} = useGlobalBanner()
   const code = router.query.code
-  const productOnSale = currentSale?.sanityProduct
-  const productPath =
-    (productOnSale?.type === 'live' ? '/events' : '/workshops') +
-    '/' +
-    productOnSale?.slug
+  const productOnSale = currentSale?.product
+  const productPath = productOnSale && productOnSalePathBuilder(productOnSale)
 
   if (!currentSale && !activeEvent) return null
   return (
@@ -998,9 +1006,9 @@ export const Banner: React.FC<{
         'translate-y-0': scrollDirection === 'up' && enableScrollAnimation,
       })}
     >
-      {currentSale ? (
+      {currentSale && productOnSale ? (
         <Link
-          href={productOnSale ? productPath : '/buy'}
+          href={productPath || '/buy'}
           className={cn(
             `flex h-full w-full bg-primary py-1.5 text-white print:hidden`,
           )}
@@ -1008,7 +1016,7 @@ export const Banner: React.FC<{
             track('clicked banner cta', {
               location: 'nav',
               type: 'sale',
-              title: currentSale.product?.name,
+              title: productOnSale.title,
             })
           }}
         >
@@ -1016,8 +1024,7 @@ export const Banner: React.FC<{
             <div className="flex w-full flex-col sm:w-auto sm:flex-row sm:items-center sm:space-x-2">
               <strong>
                 Save {(Number(currentSale.percentageDiscount) * 100).toString()}
-                %{' '}
-                {currentSale.product?.name && `on ${currentSale.product.name}`}
+                % {productOnSale.title && `on ${productOnSale.title}`}
               </strong>
               <Countdown
                 date={currentSale.expires?.toString()}

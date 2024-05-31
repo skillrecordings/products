@@ -62,7 +62,7 @@ export const useAvailableSale = () => {
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
   const hasPurchase = purchasedProductIds.includes(couponData?.product?.id)
-  const {data: sanityProduct} = trpc.products.getProductById.useQuery(
+  const {data: product} = trpc.epicProducts.getProduct.useQuery(
     {productId: couponData?.restrictedToProductId as string},
     {
       enabled: Boolean(couponData?.restrictedToProductId),
@@ -72,7 +72,7 @@ export const useAvailableSale = () => {
   if (!couponData) return null
   if (hasPurchase) return null
 
-  return {...couponData, sanityProduct}
+  return {...couponData, product}
 }
 
 export const useGlobalBanner = () => {
