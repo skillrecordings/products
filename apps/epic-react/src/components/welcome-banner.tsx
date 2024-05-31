@@ -42,7 +42,7 @@ const WelcomeBanner: React.FC<{purchases: any}> = ({purchases}) => {
                     href={'/discord'}
                     className="flex items-center justify-center rounded-md border border-transparent bg-indigo-800 px-4 py-2 text-base font-semibold leading-6 text-white transition duration-150 ease-in-out hover:bg-indigo-900 focus:shadow-outline focus:outline-none"
                   >
-                    {'⭐️ Join KCD Discord'}
+                    ⭐️ Join Epic Web Discord
                   </Link>
                 </div>
               </div>
