@@ -19,7 +19,7 @@
     @apply hidden;
   }
   [data-pricing-product-header] {
-    @apply px-6 pb-6 pt-16;
+    @apply px-4 pb-6 pt-16 md:px-6;
     [data-byline] {
       @apply hidden;
     }
@@ -138,24 +138,24 @@
   }
 }
 [data-price-container] {
-  @apply mt-4 flex justify-center px-3 text-5xl leading-none tracking-tight text-er-gray-900 sm:text-6xl;
+  @apply mt-4 flex justify-center text-[40px] leading-none tracking-tight text-er-gray-900 sm:text-6xl md:px-3;
   sup {
     @apply hidden;
   }
   [data-price] {
-    @apply flex font-bold;
+    @apply flex items-center font-bold;
     span {
       @apply ml-1 mt-1 align-super text-2xl leading-none;
     }
   }
   [data-price-discounted] {
-    @apply ml-6 text-2xl font-normal;
+    @apply ml-3 text-2xl font-normal md:ml-6;
   }
   [data-full-price] {
     @apply relative flex items-center justify-center text-cool-gray before:absolute before:h-[2px] before:w-full before:-rotate-12 before:scale-105 before:bg-cool-gray before:opacity-90 before:content-[''];
   }
   [data-percent-off] {
-    @apply rounded-sm bg-yellow-300 px-1 py-1 text-sm font-bold uppercase leading-none tracking-wide text-[#0e182a];
+    @apply whitespace-nowrap rounded-sm bg-yellow-300 px-1 py-1 text-sm font-bold uppercase leading-none tracking-wide text-[#0e182a];
   }
 }
 
