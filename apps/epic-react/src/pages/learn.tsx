@@ -146,7 +146,7 @@ const WorkshopItem = ({
     <div
       className={twMerge(
         cx(
-          "relative w-full before:absolute before:left-4 before:top-0 before:z-[-1] before:h-[calc(100%+8rem)] before:w-px before:bg-er-gray-300 before:content-[''] sm:before:bg-er-gray-200",
+          "relative w-full before:absolute before:left-4 before:top-0 before:z-[-1] before:h-[calc(100%+8rem)] before:w-0 before:bg-er-gray-300 before:content-[''] sm:before:w-px sm:before:bg-er-gray-200",
           {'before:top-[-3rem]': isBonusModule},
         ),
       )}
