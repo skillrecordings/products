@@ -1,0 +1,441 @@
+Forms are a huge part of the web. Literally every interaction the user takes to
+make changes to backend data should use a `form`. Some forms are pretty simple,
+but in a real world scenario they get complicated quickly. You need to submit
+the form data the user entered, respond to server errors, validate the user
+input as they're typing (but not before they've blurred the input please), and
+sometimes you even need to build custom-made UI elements for form input types
+that aren't supported (styleable selects, date pickers, etc.).
+
+All this extra stuff your forms need to do is just more JavaScript the browser
+has to execute while the user is interacting with your form. This often leads to
+performance problems that are tricky. Sometimes there's a particular component
+that's the obvious problem and optimizing that one component will fix things and
+you can go on your merry way.
+
+But often there's not a single bottleneck. Often the problem is that every user
+interaction triggers every component to re-render which is the performance
+bottleneck. I've had countless people ask me about this problem. Memoization
+won't help them because these form field components accept props that are indeed
+changing.
+
+The easiest way to fix this is to just not react to every user interaction
+(don't use `onChange`). Unfortunately, this isn't really practical for many use
+cases. We want to display feedback to the user as they're interacting with our
+form, not just once they've hit the submit button.
+
+So, assuming we _do_ need to react to a user's interaction, what's the best way
+to do that without suffering from "perf death by a thousand cuts?" The solution?
+[State colocation](https://kcd.im/colocate-state)!
+
+## The demo
+
+Allow me to demonstrate the problem and solution for you with a contrived
+example. Anyone who has experienced the problem above should hopefully be able
+to translate this contrived example to a real experience of their past. And if
+you haven't experienced this problem yet, hopefully you'll trust me when I say
+the problem is real and the solution works for most use cases.
+
+You'll find the full demo in
+[this codesandbox](https://codesandbox.io/s/form-perf-demo-240ho). Here's a
+screenshot of what it is:
+
+![Overview of the app showing two sections with ten fields and a submit button](https://res.cloudinary.com/kentcdodds-com/image/upload/f_auto,q_auto,dpr_2.0/v1622084161/epicreact.dev/articles/improve-the-performance-of-your-react-forms/app-overview_wwy6ds.png)
+
+This is rendered by the following `<App />` component:
+
+```tsx
+function App() {
+  return (
+    <div>
+      <h1>Slow Form</h1>
+      <SlowForm />
+      <hr />
+      <h1>Fast Form</h1>
+      <FastForm />
+    </div>
+  )
+}
+```
+
+Each of the forms function exactly the same, but if you try it out the
+`<SlowForm />` is observably slower (try typing into any field quickly). What
+they each render is a list of fields which all have the same validation logic
+applied:
+
+- You can only enter lower-case characters
+- The text length must be between 3 and 10 characters
+- Only display an error message if the field has been "touched" or if the form
+  has been submitted.
+- When the form is submitted, all the data for the fields is logged to the
+  console.
+
+At the top of the file you get a few knobs to test things out:
+
+```tsx
+window.PENALTY = 150_000
+const FIELDS_COUNT = 10
+```
+
+The `FIELDS_COUNT` controls how many fields are rendered.
+
+The `PENALTY` is used in our `<Penalty />` component which each of the fields
+renders to simulate a component that takes a bit of extra time to render:
+
+```tsx
+let currentPenaltyValue = 2
+function PenaltyComp() {
+  for (let index = 2; index < window.PENALTY; index++) {
+    currentPenaltyValue = currentPenaltyValue ** index
+  }
+  return null
+}
+```
+
+Effectively `PENALTY` just controls how many times the loop runs to make the
+exponentiation operator run for each field. Note, because `PENALTY` is on
+`window` you can change it while the app is running to test out different
+penalties. This is useful to adjust it for the speed of your own device. Your
+computer and my computer have different performance characteristics so some of
+your measurements may be a bit different from mine. It's all relative.
+
+All right, with that explanation out of the way, let's look at the
+`<SlowForm />` first.
+
+### `<SlowForm />`
+
+```tsx
+/**
+ * When managing the state higher in the tree you also have prop drilling to
+ * deal with. Compare these props to the FastInput component
+ */
+function SlowInput({
+  name,
+  fieldValues,
+  touchedFields,
+  wasSubmitted,
+  handleChange,
+  handleBlur,
+}: {
+  name: string
+  fieldValues: Record<string, string>
+  touchedFields: Record<string, boolean>
+  wasSubmitted: boolean
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  handleBlur: (event: React.FocusEvent<HTMLInputElement>) => void
+}) {
+  const value = fieldValues[name]
+  const touched = touchedFields[name]
+  const errorMessage = getFieldError(value)
+  const displayErrorMessage = (wasSubmitted || touched) && errorMessage
+
+  return (
+    <div key={name}>
+      <PenaltyComp />
+      <label htmlFor={`${name}-input`}>{name}:</label> <input
+        id={`${name}-input`}
+        name={name}
+        type="text"
+        onChange={handleChange}
+        onBlur={handleBlur}
+        pattern="[a-z]{3,10}"
+        required
+        aria-describedby={displayErrorMessage ? `${name}-error` : undefined}
+      />
+      {displayErrorMessage ? (
+        <span role="alert" id={`${name}-error`} className="error-message">
+          {errorMessage}
+        </span>
+      ) : null}
+    </div>
+  )
+}
+
+/**
+ * The SlowForm component takes the approach that's most common: control all
+ * fields and manage the state higher up in the React tree. This means that
+ * EVERY field will be re-rendered on every keystroke. Normally this is no
+ * big deal. But if you have some components that are even a little expensive
+ * to re-render, add them all up together and you're toast!
+ */
+function SlowForm() {
+  const [fieldValues, setFieldValues] = React.useReducer(
+    (s: typeof initialFieldValues, a: typeof initialFieldValues) => ({
+      ...s,
+      ...a,
+    }),
+    initialFieldValues,
+  )
+  const [touchedFields, setTouchedFields] = React.useReducer(
+    (s: typeof initialTouchedFields, a: typeof initialTouchedFields) => ({
+      ...s,
+      ...a,
+    }),
+    initialTouchedFields,
+  )
+  const [wasSubmitted, setWasSubmitted] = React.useState(false)
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const formIsValid = fieldNames.every(
+      (name) => !getFieldError(fieldValues[name]),
+    )
+
+    setWasSubmitted(true)
+    if (formIsValid) {
+      console.log(`Slow Form Submitted`, fieldValues)
+    }
+  }
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setFieldValues({[event.currentTarget.name]: event.currentTarget.value})
+  }
+
+  function handleBlur(event: React.FocusEvent<HTMLInputElement>) {
+    setTouchedFields({[event.currentTarget.name]: true})
+  }
+
+  return (
+    <form noValidate onSubmit={handleSubmit}>
+      {fieldNames.map((name) => (
+        <SlowInput
+          key={name}
+          name={name}
+          fieldValues={fieldValues}
+          touchedFields={touchedFields}
+          wasSubmitted={wasSubmitted}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+        />
+      ))}
+      <button type="submit">Submit</button>
+    </form>
+  )
+}
+```
+
+I know there's a lot going on there. Feel free to take your time to get an idea
+of how it works. The key thing to keep in mind is that all the state is managed
+in the `<SlowForm />` component and the state is passed as props to the
+underlying fields.
+
+Alright, so let's profile an interaction with this form. I've built this for
+production
+([with profiling enabled](https://kentcdodds.com/blog/profile-a-react-app-for-performance)).
+To keep our testing consistent, the interaction I'll do is focus on the first
+input, type the character "a" and then "blur" (click out of) that input.
+
+I'll start a
+[Performance profiling session with the Browser DevTools](https://developer.chrome.com/docs/devtools/evaluate-performance/reference/)
+with a 6x slowdown to simulate a slower mobile device. Here's what the profile
+looks like:
+
+![Chrome DevTools Performance Tab showing 97 milliseconds on a keypress event](https://res.cloudinary.com/kentcdodds-com/image/upload/f_auto,q_auto,dpr_2.0/v1622131136/epicreact.dev/articles/improve-the-performance-of-your-react-forms/slow-performance-tab_odesxq.png)
+
+Wowza. Check that out! 97 milliseconds on that keypress event. Remember that we
+only have ~16 milliseconds to do our JavaScript magic. Any longer than that and
+things start feeling really janky. And at the bottom there it's telling us we've
+blocked the main thread for 112 milliseconds just by typing a single character
+and blurring that input. Yikes.
+
+Don't forget this _is_ a 6x slowdown, so it won't be quite that bad for many
+users, but it's still an indication of a severe performance issue.
+
+Let's try the React DevTools profiler and observe what React is doing when we
+interact with one of the form fields like that.
+
+![The React DevTools profiler tab showing all children of the SlowForm component are re-rendering](https://res.cloudinary.com/kentcdodds-com/image/upload/f_auto,q_auto,dpr_2.0/v1622131136/epicreact.dev/articles/improve-the-performance-of-your-react-forms/slow-react-profiler_vyumda.png)
+
+Huh, so it appears that every field is re-rendering. But they don't need to!
+Only the one I'm interacting with does!
+
+Your first instinct to fix this might be to memoize each of your field
+components. The problem is you'd have to make sure you memoize all the props
+that are passed which can really spider out to the rest of the codebase quickly.
+On top of that, we'd have to restructure our props so we only pass primitive or
+memoizeable values. I try to avoid memoizing if I can for these reasons. And I
+can! Let's try state colocation instead!
+
+### `<FastForm />`
+
+Here's the exact same experience, restructured to put the state within the
+individual fields. Again, take your time to read and understand what's going on
+here:
+
+```tsx
+/**
+ * Not much we need to pass here. The `name` is important because that's how
+ * we retrieve the field's value from the form.elements when the form's
+ * submitted. The wasSubmitted is useful to know whether we should display
+ * all the error message even if this field hasn't been touched. But everything
+ * else is managed internally which means this field doesn't experience
+ * unnecessary re-renders like the SlowInput component.
+ */
+function FastInput({
+  name,
+  wasSubmitted,
+}: {
+  name: string
+  wasSubmitted: boolean
+}) {
+  const [value, setValue] = React.useState('')
+  const [touched, setTouched] = React.useState(false)
+  const errorMessage = getFieldError(value)
+  const displayErrorMessage = (wasSubmitted || touched) && errorMessage
+
+  return (
+    <div key={name}>
+      <PenaltyComp />
+      <label htmlFor={`${name}-input`}>{name}:</label> <input
+        id={`${name}-input`}
+        name={name}
+        type="text"
+        onChange={(event) => setValue(event.currentTarget.value)}
+        onBlur={() => setTouched(true)}
+        pattern="[a-z]{3,10}"
+        required
+        aria-describedby={displayErrorMessage ? `${name}-error` : undefined}
+      />
+      {displayErrorMessage ? (
+        <span role="alert" id={`${name}-error`} className="error-message">
+          {errorMessage}
+        </span>
+      ) : null}
+    </div>
+  )
+}
+
+/**
+ * The FastForm component takes the uncontrolled approach. Rather than keeping
+ * track of all the values and passing the values to each field, we let the
+ * fields keep track of things themselves and we retrieve the values from the
+ * form.elements when it's submitted.
+ */
+function FastForm() {
+  const [wasSubmitted, setWasSubmitted] = React.useState(false)
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const fieldValues = Object.fromEntries(formData.entries())
+
+    const formIsValid = Object.values(fieldValues).every(
+      (value: string) => !getFieldError(value),
+    )
+
+    setWasSubmitted(true)
+    if (formIsValid) {
+      console.log(`Fast Form Submitted`, fieldValues)
+    }
+  }
+
+  return (
+    <form noValidate onSubmit={handleSubmit}>
+      {fieldNames.map((name) => (
+        <FastInput key={name} name={name} wasSubmitted={wasSubmitted} />
+      ))}
+      <button type="submit">Submit</button>
+    </form>
+  )
+}
+```
+
+Got it? Again, lots happening, but the most important thing to know there is the
+state is being managed within the form fields themselves rather than in the
+parent. Let's try out the performance profiler on this now:
+
+![Chrome DevTools Performance Tab showing 15.33 milliseconds on a keypress event](https://res.cloudinary.com/kentcdodds-com/image/upload/f_auto,q_auto,dpr_2.0/v1622131136/epicreact.dev/articles/improve-the-performance-of-your-react-forms/fast-performance-tab_vnefkb.png)
+
+NICE! Not only are we within the 16 millisecond budget, but you might have
+noticed it says we had a total blocking time of 0 milliseconds! That's a lot
+better than 112 milliseconds 😅 And remember, that we're on a 6x slowdown so for
+many users it will be even better.
+
+Let's pop open the React DevTools and make sure we're only rendering the
+component that needs to be rendered with this interaction:
+
+![The React DevTools profiler tab showing the only component that re-rendered was the FastField component and it's children](https://res.cloudinary.com/kentcdodds-com/image/upload/f_auto,q_auto,dpr_2.0/v1622131136/epicreact.dev/articles/improve-the-performance-of-your-react-forms/fast-react-profiler_u9arcy.png)
+
+Sweet! The only component that re-rendered was the one that needed to. In fact,
+the `<FastForm />` component didn't re-render, so as a result none of the other
+children needed to either so we didn't need to muck around with memoization at
+all.
+
+## Nuance...
+
+Now, sometimes you have fields that need to know one another's value for their
+own validation (for example, a "confirm password" field needs to know the value
+of the "password" field to validate it is the same). In that case, you have a
+few options. You could hoist the state to the least common parent which is not
+ideal because it means every component will re-render when that state changes
+and then you may need to start worrying about memoization (nice that React gives
+us the option!).
+
+Another option is to put it into context local to your component so only the
+context provider and consumers re-render when it's changed. Just make sure you
+structure things so you can take advantage of
+[this optimization](https://kentcdodds.com/blog/optimize-react-re-renders) or it
+won't be much better.
+
+A third option is to step outside of React and reference the DOM directly. The
+concerned component(s) could attach their own `change` event listener to their
+parent form and check whether the changed value is the one they need to validate
+against.
+
+[Brooks Lybrand](https://twitter.com/BrooksLybrand) created an example of both
+of two of these alternatives you can check out if you'd like to get a better
+idea of what I mean:
+
+- [Context Provider](https://codesandbox.io/s/form-perf-demo-context-pmhnp)
+- [Reference the DOM](https://codesandbox.io/s/form-perf-demo-forked-rblg5)
+
+The nice thing is that you can try each of these approaches and choose the one
+you like best (or the one you dislike the least 😅).
+
+## Conclusion
+
+You can try the demo yourself here:
+
+<iframe
+  src="https://codesandbox.io/embed/240ho?view=Editor+%2B+Preview&module=%2Fsrc%2Findex.tsx"
+  style={{
+    width: '100%',
+    height: '500px',
+    border: 0,
+    borderRadius: '5px',
+    overflow: 'hidden',
+  }}
+  title="form-perf-demo"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+/>
+
+Remember if you want to try profiling with the Chrome DevTools Performance tab,
+make sure you have built it for production and play around with the throttle and
+the `PENALTY` value.
+
+At the end of the day, what matters most is _your_ application code. So I
+suggest you try some of these profiling strategies on your app and then try
+state colocation to improve the performance of your components.
+
+Good luck!
+
+import ArticleTemplate from '@/templates/article-template'
+
+export default ({children}) => (
+  <ArticleTemplate
+    meta={{
+      title: 'Improve the Performance of your React Forms',
+      slug: 'improve-the-performance-of-your-react-forms',
+      date: '2021-05-26',
+      image: '/improve-the-performance-of-your-react-forms/image@2x.png',
+      socialImage:
+        '/articles-images/improve-the-performance-of-your-react-forms/card@2x.png',
+      imageAlt:
+        'abstract and futuristicly visualized set of performant web forms',
+      excerpt:
+        "Forms can get slow pretty fast. Let's explore how state colocation can keep our React forms fast.",
+    }}
+  >
+    {children}
+  </ArticleTemplate>
+)

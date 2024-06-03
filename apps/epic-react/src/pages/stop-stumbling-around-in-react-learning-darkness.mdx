@@ -1,0 +1,133 @@
+At the end of a long day when the lights are out and I lie down in bed ready to
+fall into a blissful sleep, sometimes my wife will remind me that I forgot to
+lock the back door. When this happens, for some reason I often decide
+(irrationally) to take a chance in the darkness rather than turn on my phone's
+flashlight. Maybe it's because I like living on the edge. Maybe I'm not
+thinking. Whatever the reason, doing this is... dangerous.
+
+It's dangerous because I have four children and a dog who's as black as night.
+If I'm lucky, I'll return to the sanctuary of my bed unscathed with nothing more
+than an increased heart rate (what a rush!). But often I'll also have stepped on
+some toys, kicked a door frame, bumped into the banister, and on really
+unfortunate nights, stepped on my snoozing dog (sorry Gemma!).
+
+Learning can be a lot like stumbling around in the darkness. Except not only is
+there no illumination to guide you, you're also in someone else's house and
+their kids are less clean than yours and their dogs are darker and less
+forgiving than yours. Sound terrifying? If you've ever learned something new,
+you know it is.
+
+The big problem is you don't know what you don't know. This means you don't know
+what to look for. You try something and it "works" but you don't know why it
+works or whether there's a better or easier (less painful) way to do it. You're
+trying to lock the back door and you walk around the couch 8 times because
+you're not sure whether there's a more direct route to get there. If you're
+lucky, you've got other co-workers alongside you.
+
+If you're really lucky they've done this before and can guide you along. But
+more often they're either too busy or they're just as inexperienced as you are
+and all they can do is hold your hand and tell you "it's going to be ok." While
+this is appreciated, it's not directly helpful.
+
+When you're learning something new, you're stumbling in the sea of things you
+don't know you don't know. Perhaps you've cobbled together API docs from here, a
+tutorial from there, an online course from way over there, and a tweet or two
+from back there. You attempt to piece those things together in your mind to try
+to give you something that resembles knowledge and experience, but often you'll
+find you've tried to shove a round peg in a square hole. There's no cohesion.
+And in your rush to create a candle to light your way, you've forgotten the
+wick.
+
+The other day I tweeted this:
+
+https://twitter.com/kentcdodds/status/1310042224600649729
+
+I had several people make the suggestion that "learning isn't suffering." I
+actually agree with this. "Suffering" is the wrong word for what learning
+**should be**. Learning **is** a struggle, but it **should be** guided struggle
+where you are presented with problems, but also the right tools and information
+you need to identify and implement the solution.
+
+Far too many online courses posing as "learning resources" completely take away
+that struggle. They sit you in a high chair and attempt to spoon feed you
+knowledge. Unfortunately, leaving out the struggle is basically like forgetting
+to put food on the spoon 🥄. All the movements are there, but none of the
+sustenance. They show you the happy path of what you're trying to do and leave
+you to fend for yourself on error messages (or worse, silent errors) only to
+later realize that the solution they've given you won't work for the problem
+you're facing.
+
+There's different kind of struggles though. There's the struggle of working
+through a problem with a solution that you've been guided into by experience.
+This first kind of struggle is what creates retention so you can use that as a
+gained skill later. And then there's the struggle of hitting a wall on some
+unrelated problem that's simply a road block to what you're really trying to
+learn.
+
+Maybe you haven't experienced the first, but you've probably experienced the
+second. That wall-hitting struggle is so often (and unfortunately) unavoidable.
+Eventually you'll bust down that wall and you'll leave victorious with knowledge
+of how to bust down that wall in the future, but the victory is hollow because
+you'll never hit that wall again anyway. It's a side-quest with all the
+challenge, but none of the reward. Maybe it's fun in the moment, but when you're
+done your product is not shipped and your manager is not sure you deserve the
+raise you asked for.
+
+Another struggle involves the struggle of "holding it wrong" or "using the wrong
+tool for the job." This often comes from learning about the tools that are
+available, but not learning how the tools work, how they should be used, what
+problems they're intended to solve, and (just as important) what problems
+they're _not_ intended to solve. For example, maybe you heard once that using
+`React.useCallback`, `React.useMemo`, and `React.memo` will improve performance,
+so you start applying those tools everywhere. And now you're struggling because
+your code is more complex than it needs to be and in the back of your mind
+you're worried about that one time the component didn't re-render when it should
+have.
+
+Learning _can be_ suffering if you're doing the wrong kind of struggling.
+Stumbling around in the learning darkness is not fun or productive. It's
+frustrating and far too many people give up completely when that's their
+experience when struggling to learn.
+
+But there's a way to avoid suffering when learning: **Have a complete and
+cohesive guide that provides the right kind of struggle and a support system to
+help you avoid the wrong kind.**
+
+This is [EpicReact.Dev](https://epicreact.dev)
+
+It's not a candle. It's a freaking spotlight.
+
+EpicReact is not just a "happy path" video course that will leave you with all
+the pieces, no instructions, and no support telephone number. EpicReact is a
+series of workshops that shows you the tools you can use, how to use them, and
+gives you experience with the right kind of struggle. The kind that helps you
+side-step distracting and wasteful side-quests and promotes the reward bearing
+ones. The kind of struggle that requires work on your part, but work that gives
+you actual learning retention. It's the kind of struggle that gives you a
+support system for those times when you're really stuck and things aren't quite
+clicking for you.
+
+Stop stumbling around in React learning darkness. I've got a spotlight for you
+so you don't step on any legos or poor innocent dogs. I'm excited to give you
+the _right_ kind of learning struggle on [EpicReact.Dev](https://epicreact.dev).
+
+import ArticleTemplate from '@/templates/article-template'
+
+export default ({children}) => (
+  <ArticleTemplate
+    meta={{
+      title: 'Stop Stumbling Around in React Learning Darkness',
+      slug: 'stop-stumbling-around-in-react-learning-darkness',
+      date: '2020-09-28',
+      image: '/stop-stumbling-around-in-react-learning-darkness/image@2x.png',
+      socialImage:
+        '/articles-images/stop-stumbling-around-in-react-learning-darkness/card@2x.png',
+      imageAlt:
+        'illustration of stairs in darkness with spotlight shedding light as a metaphor for react.js',
+      excerpt:
+        'Epic React is your learning spotlight so you can ship harder, better, faster, stronger.',
+    }}
+  >
+    {children}
+  </ArticleTemplate>
+)

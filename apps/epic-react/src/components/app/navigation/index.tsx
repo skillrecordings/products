@@ -254,10 +254,10 @@ const MenuPath = (props: any) => (
 )
 
 const menuItems = [
-  // {
-  //   label: 'Articles',
-  //   slug: '/articles',
-  // },
+  {
+    label: 'Articles',
+    slug: '/articles',
+  },
   {
     label: 'Livestreams',
     slug: '/livestreams',

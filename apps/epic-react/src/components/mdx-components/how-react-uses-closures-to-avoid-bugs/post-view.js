@@ -11,13 +11,13 @@ function PostView({post, onLikeClick}) {
   return (
     <article className="mt-2 rounded-md bg-background p-4">
       <h4 className="prose-reset text-2xl font-bold">{post.title}</h4>
-      <div className="text-gray-600">by {author.name}</div>
+      <div className="text-er-gray-600">by {author.name}</div>
       <p>{post.content}</p>
-      <div className="border-t border-gray-200 pt-4">
+      <div className="border-t border-er-gray-200 pt-4">
         <button
           onClick={onLikeClick}
           title={userLiked ? 'Unlike this post' : 'Like this post'}
-          className="rounded-md bg-red-200 bg-opacity-25 px-3 py-1 transition-all duration-150 ease-in-out hover:bg-red-500 hover:bg-opacity-25"
+          className="post-app-like-button rounded-md px-3 py-1 transition-all duration-150 ease-in-out"
         >
           {userLiked ? '❤️' : '♡'} {postLikes.length}
         </button>
