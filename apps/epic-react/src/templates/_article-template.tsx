@@ -19,73 +19,69 @@ import SubscribeToReactEmailCourseCta from '@/components/subscribe-react-email-c
 import {truncate} from 'lodash'
 
 interface ArticleTemplateProps {
-  // allArticles: Article[]
-  // mdx: MDXRemoteSerializeResult
-  // frontMatter: ArticleFrontMatter
-  meta: {
-    title: string
-    slug: string
-    date: string
-    image: string
-    socialImage: string
-    imageAlt: string
-    excerpt: string
-  }
-  children: any
+  allArticles: Article[]
+  mdx: MDXRemoteSerializeResult
+  frontMatter: ArticleFrontMatter
 }
 
-// const YouMightAlsoLike: React.FC<{articles: Article[]}> = ({articles}) => {
-//   return (
-//     <section className="mx-auto max-w-screen-lg pb-24">
-//       <h2 className="mb-8 text-sm uppercase text-er-gray-700 opacity-75">
-//         Additional Articles You Might Also Like
-//       </h2>
-//       <ul className="grid gap-8 leading-relaxed md:grid-cols-2">
-//         {articles.map((article: Article) => {
-//           return (
-//             <li key={article.slug}>
-//               <Link
-//                 href={`/${article.slug}`}
-//                 className="flex transform flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-er-gray-200 text-center transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-xl sm:flex-row sm:text-left"
-//               >
-//                 <div className="relative aspect-[350/166] h-full w-full shrink-0 overflow-hidden sm:aspect-[auto] sm:min-h-[120px] sm:w-56 md:w-[45%]">
-//                   <Image
-//                     src={`/articles-images${article.image}`}
-//                     alt={article.imageAlt}
-//                     fill
-//                     sizes="(max-width: 768px) 690px, 460px"
-//                     className="object-cover"
-//                   />
-//                 </div>
-//                 <div className="w-full p-6 sm:p-5">
-//                   <h3 className="line-clamp-3 text-xl font-semibold leading-tight">
-//                     {article.title}
-//                   </h3>
-//                 </div>
-//               </Link>
-//             </li>
-//           )
-//         })}
-//       </ul>
-//     </section>
-//   )
-// }
+const YouMightAlsoLike: React.FC<{articles: Article[]}> = ({articles}) => {
+  return (
+    <section className="mx-auto max-w-screen-lg pb-24">
+      <h2 className="mb-8 text-sm uppercase text-er-gray-700 opacity-75">
+        Additional Articles You Might Also Like
+      </h2>
+      <ul className="grid gap-8 leading-relaxed md:grid-cols-2">
+        {articles.map((article: Article) => {
+          return (
+            <li key={article.slug}>
+              <Link
+                href={`/${article.slug}`}
+                className="flex transform flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-er-gray-200 text-center transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-xl sm:flex-row sm:text-left"
+              >
+                <div className="relative aspect-[350/166] h-full w-full shrink-0 overflow-hidden sm:aspect-[auto] sm:min-h-[120px] sm:w-56 md:w-[45%]">
+                  <Image
+                    src={`/articles-images${article.image}`}
+                    alt={article.imageAlt}
+                    fill
+                    sizes="(max-width: 768px) 690px, 460px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="w-full p-6 sm:p-5">
+                  <h3 className="line-clamp-3 text-xl font-semibold leading-tight">
+                    {article.title}
+                  </h3>
+                </div>
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </section>
+  )
+}
 
 const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
-  // allArticles,
-  // frontMatter,
-  // mdx,
-  meta,
-  children,
+  allArticles,
+  frontMatter,
+  mdx,
 }) => {
-  // const router = useRouter()
-  const {title, slug, date, image, socialImage, imageAlt, excerpt} = meta
+  const router = useRouter()
+  const {
+    title,
+    excerpt,
+    socialImage,
+    image,
+    imageAlt = '',
+    date,
+    slug,
+  } = frontMatter
   const isoDate = getIsoDate(date)
   const pageDescription = excerpt
   const author = config.author
-  const url = `${process.env.NEXT_PUBLIC_URL}/${slug}`
+  const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
   const {subscriber, loadingSubscriber} = useConvertkit()
-  // const restArticles = allArticles.filter((article) => article.slug !== slug)
+  const restArticles = allArticles.filter((article) => article.slug !== slug)
 
   return (
     <Layout
@@ -123,7 +119,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           />
         </div>
         <div className="prose mx-auto mt-8 pb-24 md:prose-lg lg:prose-xl sm:pb-32 md:mt-16 md:px-8 lg:mt-24">
-          {children}
+          <MDX contents={mdx} components={{...mdxComponents}} />
         </div>
         <Divider />
         {subscriber ? (
@@ -140,7 +136,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
             </SubscribeToReactEmailCourseCta>
           </div>
         )}
-        {/* <YouMightAlsoLike articles={restArticles} /> */}
+        <YouMightAlsoLike articles={restArticles} />
       </main>
     </Layout>
   )
