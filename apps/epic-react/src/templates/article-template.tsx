@@ -1,91 +1,75 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import {useRouter} from 'next/router'
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import Balancer from 'react-wrap-balancer'
-import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 
 import {getIsoDate} from '@/utils/get-iso-date'
 import config from '@/config'
-import {type ArticleFrontMatter, type Article} from '@/@types/mdx-article'
+import {type Article} from '@/@types/mdx-article'
 import Layout from '@/components/app/layout'
 import Divider from '@/components/divider'
-import mdxComponents from '@/components/mdx-components'
 import ShareCta from '@/components/share-cta'
 import SubscribeToReactEmailCourseCta from '@/components/subscribe-react-email-course-cta'
 import {truncate} from 'lodash'
+import articlesObj from '@/content/articles'
 
 interface ArticleTemplateProps {
-  // allArticles: Article[]
-  // mdx: MDXRemoteSerializeResult
-  // frontMatter: ArticleFrontMatter
-  meta: {
-    title: string
-    slug: string
-    date: string
-    image: string
-    socialImage: string
-    imageAlt: string
-    excerpt: string
-  }
+  meta: Article
   children: any
 }
 
-// const YouMightAlsoLike: React.FC<{articles: Article[]}> = ({articles}) => {
-//   return (
-//     <section className="mx-auto max-w-screen-lg pb-24">
-//       <h2 className="mb-8 text-sm uppercase text-er-gray-700 opacity-75">
-//         Additional Articles You Might Also Like
-//       </h2>
-//       <ul className="grid gap-8 leading-relaxed md:grid-cols-2">
-//         {articles.map((article: Article) => {
-//           return (
-//             <li key={article.slug}>
-//               <Link
-//                 href={`/${article.slug}`}
-//                 className="flex transform flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-er-gray-200 text-center transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-xl sm:flex-row sm:text-left"
-//               >
-//                 <div className="relative aspect-[350/166] h-full w-full shrink-0 overflow-hidden sm:aspect-[auto] sm:min-h-[120px] sm:w-56 md:w-[45%]">
-//                   <Image
-//                     src={`/articles-images${article.image}`}
-//                     alt={article.imageAlt}
-//                     fill
-//                     sizes="(max-width: 768px) 690px, 460px"
-//                     className="object-cover"
-//                   />
-//                 </div>
-//                 <div className="w-full p-6 sm:p-5">
-//                   <h3 className="line-clamp-3 text-xl font-semibold leading-tight">
-//                     {article.title}
-//                   </h3>
-//                 </div>
-//               </Link>
-//             </li>
-//           )
-//         })}
-//       </ul>
-//     </section>
-//   )
-// }
+const YouMightAlsoLike: React.FC<{articles: Article[]}> = ({articles}) => {
+  return (
+    <section className="mx-auto max-w-screen-lg pb-24">
+      <h2 className="mb-8 text-sm uppercase text-er-gray-700 opacity-75">
+        Additional Articles You Might Also Like
+      </h2>
+      <ul className="grid gap-8 leading-relaxed md:grid-cols-2">
+        {articles.map((article: Article) => {
+          return (
+            <li key={article.slug}>
+              <Link
+                href={`/${article.slug}`}
+                className="flex transform flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-er-gray-200 text-center transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-xl sm:flex-row sm:text-left"
+              >
+                <div className="relative aspect-[350/166] h-full w-full shrink-0 overflow-hidden sm:aspect-[auto] sm:min-h-[120px] sm:w-56 md:w-[45%]">
+                  <Image
+                    src={`/articles-images${article.image}`}
+                    alt={article.imageAlt}
+                    fill
+                    sizes="(max-width: 768px) 690px, 460px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="w-full p-6 sm:p-5">
+                  <h3 className="line-clamp-3 text-xl font-semibold leading-tight">
+                    {article.title}
+                  </h3>
+                </div>
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </section>
+  )
+}
 
-const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
-  // allArticles,
-  // frontMatter,
-  // mdx,
-  meta,
-  children,
-}) => {
-  // const router = useRouter()
+const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
   const {title, slug, date, image, socialImage, imageAlt, excerpt} = meta
   const isoDate = getIsoDate(date)
   const pageDescription = excerpt
   const author = config.author
   const url = `${process.env.NEXT_PUBLIC_URL}/${slug}`
   const {subscriber, loadingSubscriber} = useConvertkit()
-  // const restArticles = allArticles.filter((article) => article.slug !== slug)
+  const restArticles: Article[] = Object.values(articlesObj)
+    .sort(
+      (a: Article, b: Article) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime(),
+    )
+    .filter((article) => article.slug !== slug)
 
   return (
     <Layout
@@ -140,7 +124,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
             </SubscribeToReactEmailCourseCta>
           </div>
         )}
-        {/* <YouMightAlsoLike articles={restArticles} /> */}
+        <YouMightAlsoLike articles={restArticles} />
       </main>
     </Layout>
   )
