@@ -121,20 +121,10 @@ time to start.**
 And I'm excited to teach you how on [EpicReact.Dev](https://epicreact.dev).
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
-  <ArticleTemplate
-    meta={{
-      title: 'Avoid soul-crushing components',
-      slug: 'soul-crushing-components',
-      date: '2020-09-07',
-      image: '/soul-crushing-components/image@2x.png',
-      socialImage: '/articles-images/soul-crushing-components/card@2x.png',
-      imageAlt: 'stylized react components',
-      excerpt:
-        'Truly maintainable, flexible, simple, and reusable components require more thought than: "I need it to do this differently, so I\'ll accept a new prop for that". Seasoned React developers know this leads to nothing but pain and frustration for both the maintainer and user of the component.',
-    }}
-  >
+  <ArticleTemplate meta={articles['soul-crushing-components']}>
     {children}
   </ArticleTemplate>
 )

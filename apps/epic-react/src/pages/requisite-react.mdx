@@ -157,20 +157,10 @@ And this is exactly why I created [EpicReact.Dev](https://epicreact.dev): To
 help you level-up your professional React knowledge and productivity.
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
-  <ArticleTemplate
-    meta={{
-      title: 'Requisite React',
-      slug: 'requisite-react',
-      date: '2020-09-10',
-      image: '/requisite-react/image@2x.png',
-      socialImage: '/articles-images/requisite-react/card@2x.png',
-      imageAlt: 'illustration of website layers',
-      excerpt:
-        "When was the last time you saw an error and had _no idea_ what it meant (and therefore no idea what to do about it)? Today? Yeah, you're not alone... Let's talk about how to fix that.",
-    }}
-  >
+  <ArticleTemplate meta={articles['requisite-react']}>
     {children}
   </ArticleTemplate>
 )

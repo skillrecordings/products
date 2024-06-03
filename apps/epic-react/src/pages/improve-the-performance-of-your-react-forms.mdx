@@ -420,21 +420,11 @@ state colocation to improve the performance of your components.
 Good luck!
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
   <ArticleTemplate
-    meta={{
-      title: 'Improve the Performance of your React Forms',
-      slug: 'improve-the-performance-of-your-react-forms',
-      date: '2021-05-26',
-      image: '/improve-the-performance-of-your-react-forms/image@2x.png',
-      socialImage:
-        '/articles-images/improve-the-performance-of-your-react-forms/card@2x.png',
-      imageAlt:
-        'abstract and futuristicly visualized set of performant web forms',
-      excerpt:
-        "Forms can get slow pretty fast. Let's explore how state colocation can keep our React forms fast.",
-    }}
+    meta={articles['improve-the-performance-of-your-react-forms']}
   >
     {children}
   </ArticleTemplate>

@@ -57,21 +57,10 @@ management. I love it. And I'll teach you all about it on
 [EpicReact.Dev](https://epicreact.dev) 🚀
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
-  <ArticleTemplate
-    meta={{
-      title: 'My State Management Mistake',
-      slug: 'my-state-management-mistake',
-      date: '2020-09-17',
-      image: '/my-state-management-mistake/image@2x.png',
-      socialImage: '/articles-images/my-state-management-mistake/card@2x.png',
-      imageAlt:
-        'abstract illustration interpretting state management in React application',
-      excerpt:
-        "It wasn't a library. It was the way I was thinking about and defining state.",
-    }}
-  >
+  <ArticleTemplate meta={articles['my-state-management-mistake']}>
     {children}
   </ArticleTemplate>
 )

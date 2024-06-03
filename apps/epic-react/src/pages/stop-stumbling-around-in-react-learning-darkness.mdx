@@ -112,21 +112,11 @@ so you don't step on any legos or poor innocent dogs. I'm excited to give you
 the _right_ kind of learning struggle on [EpicReact.Dev](https://epicreact.dev).
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
   <ArticleTemplate
-    meta={{
-      title: 'Stop Stumbling Around in React Learning Darkness',
-      slug: 'stop-stumbling-around-in-react-learning-darkness',
-      date: '2020-09-28',
-      image: '/stop-stumbling-around-in-react-learning-darkness/image@2x.png',
-      socialImage:
-        '/articles-images/stop-stumbling-around-in-react-learning-darkness/card@2x.png',
-      imageAlt:
-        'illustration of stairs in darkness with spotlight shedding light as a metaphor for react.js',
-      excerpt:
-        'Epic React is your learning spotlight so you can ship harder, better, faster, stronger.',
-    }}
+    meta={articles['stop-stumbling-around-in-react-learning-darkness']}
   >
     {children}
   </ArticleTemplate>

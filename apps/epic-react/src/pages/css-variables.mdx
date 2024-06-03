@@ -270,20 +270,8 @@ Enjoy exploring that.
 CSS variables (custom properties) are awesome. Give them a look. Good luck!
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
-  <ArticleTemplate
-    meta={{
-      title: 'Use CSS Variables instead of React Context',
-      slug: 'css-variables',
-      date: '2020-10-29',
-      image: '/css-variables/image@2x.png',
-      socialImage: '/articles-images/css-variables/card@2x.png',
-      imageAlt: 'two TV remote controllers in black and white',
-      excerpt:
-        'How and why you should use CSS variables (custom properties) for theming instead of React context.',
-    }}
-  >
-    {children}
-  </ArticleTemplate>
+  <ArticleTemplate meta={articles['css-variables']}>{children}</ArticleTemplate>
 )

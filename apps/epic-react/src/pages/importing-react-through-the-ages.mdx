@@ -280,21 +280,10 @@ worry about my imports. And that's my overly long blog post answer for a very
 common question I get. Hope it was helpful!
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
-  <ArticleTemplate
-    meta={{
-      title: 'Importing React Through the Ages',
-      slug: 'importing-react-through-the-ages',
-      date: '2020-11-10',
-      image: '/importing-react-through-the-ages/image@2x.png',
-      socialImage:
-        '/articles-images/importing-react-through-the-ages/card@2x.png',
-      imageAlt:
-        'illustration of an old TV with bad signal, transmitting image of react.js logo with mustache',
-      excerpt: 'How and why I import react using a namespace',
-    }}
-  >
+  <ArticleTemplate meta={articles['importing-react-through-the-ages']}>
     {children}
   </ArticleTemplate>
 )

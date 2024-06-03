@@ -200,21 +200,10 @@ problems.
 I'm excited to show you more on [EpicReact.Dev](https://epicreact.dev)!
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
-  <ArticleTemplate
-    meta={{
-      title: "One React mistake that's slowing you down",
-      slug: 'one-react-mistake-thats-slowing-you-down',
-      date: '2020-09-25',
-      image: '/one-react-mistake-thats-slowing-you-down/image@2x.png',
-      socialImage:
-        '/articles-images/one-react-mistake-thats-slowing-you-down/card@2x.png',
-      imageAlt: 'silhouette of an falling object that is being blocked',
-      excerpt:
-        'Simplify and speed up your app development using React composition',
-    }}
-  >
+  <ArticleTemplate meta={articles['one-react-mistake-thats-slowing-you-down']}>
     {children}
   </ArticleTemplate>
 )

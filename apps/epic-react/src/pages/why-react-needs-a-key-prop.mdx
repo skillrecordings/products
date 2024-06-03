@@ -239,19 +239,10 @@ with controlling when a component is reused or disposed of and created anew.
 Give that some thought 😄
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
-  <ArticleTemplate
-    meta={{
-      title: 'Why React needs a key prop',
-      slug: 'why-react-needs-a-key-prop',
-      date: '2021-04-20',
-      image: '/why-react-needs-a-key-prop/image@2x.png',
-      socialImage: '/articles-images/why-react-needs-a-key-prop/card@2x.png',
-      imageAlt: 'a row of door keys',
-      excerpt: "Why can't React just magically know what to do without a key?",
-    }}
-  >
+  <ArticleTemplate meta={articles['why-react-needs-a-key-prop']}>
     {children}
   </ArticleTemplate>
 )

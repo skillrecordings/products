@@ -68,20 +68,10 @@ benefits of data colocation as well as pre-loading of code, data, and assets and
 how to do that both with "suspense for data fetching" as well as without.
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
-  <ArticleTemplate
-    meta={{
-      title: 'Render as you fetch (with and without suspense)',
-      slug: 'render-as-you-fetch',
-      date: '2020-09-21',
-      image: '/render-as-you-fetch/image@2x.png',
-      socialImage: '/articles-images/render-as-you-fetch/card@2x.png',
-      imageAlt: 'illustration of web user interface with data being loaded',
-      excerpt:
-        'Speed up your app\'s loading of code/data/assets with "render as you fetch" with and without React Suspense for Data Fetching',
-    }}
-  >
+  <ArticleTemplate meta={articles['render-as-you-fetch']}>
     {children}
   </ArticleTemplate>
 )
