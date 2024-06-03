@@ -39,7 +39,14 @@ const getTemplateByType = (
         />
       )
     default:
-      return <DefaultTemplate title={title} image={image} />
+      return (
+        <DefaultTemplate
+          authorImage={authorImage}
+          authorName={authorName}
+          title={title}
+          image={image}
+        />
+      )
   }
 }
 
@@ -136,10 +143,12 @@ export default async function handler(req: NextRequest) {
   }
 }
 
-const DefaultTemplate: React.FC<{title: string; image?: string}> = ({
-  title,
-  image,
-}) => {
+const DefaultTemplate: React.FC<{
+  title: string
+  image?: string
+  authorName?: string
+  authorImage?: string
+}> = ({title, image, authorName, authorImage}) => {
   return (
     <div
       tw="flex w-full relative justify-center text-white items-center h-full justify-between"
@@ -149,16 +158,23 @@ const DefaultTemplate: React.FC<{title: string; image?: string}> = ({
     >
       <div
         tw="absolute flex items-center justify-end h-5 w-full bottom-0 left-0 pr-6"
-        style={{background: '#4F75FF'}}
-      ></div>
-
-      <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-24 relative px-14">
+        style={{background: 'linear-gradient(90deg, #4F75FF 0%, #684FFF 100%)'}}
+      />
+      <div tw="flex-1 flex flex-col justify-between h-full pt-12 pb-32 relative px-14">
         {image ? (
           <div tw="flex items-center">
             <img src={image} width={200} height={200} tw="mr-10" />
           </div>
         ) : (
           <Logo />
+        )}
+        {authorName && (
+          <div tw="flex items-center absolute right-16 top-10">
+            {authorImage && (
+              <img src={authorImage} tw="h-20 rounded-full bg-gray-800" />
+            )}
+            <div tw="text-3xl opacity-80 ml-4">{authorName}</div>
+          </div>
         )}
         <p
           tw="tracking-tight font-bold leading-tight"

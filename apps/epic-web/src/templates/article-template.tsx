@@ -22,6 +22,7 @@ import {Button} from '@skillrecordings/ui'
 import Link from 'next/link'
 import Countdown, {zeroPad} from 'react-countdown'
 import {ChevronRightIcon} from '@heroicons/react/solid'
+import {getOgImage} from 'utils/get-og-image'
 
 const ArticleTemplate: React.FC<{
   article: Article
@@ -39,7 +40,11 @@ const ArticleTemplate: React.FC<{
     ogImage: _ogImage,
   } = article
   const image = article?.image?.secure_url
-  const ogImage = {url: _ogImage?.secure_url, alt: title}
+  const ogImage = getOgImage({
+    title,
+    authorName: author?.name,
+    authorImage: author?.picture?.url,
+  })
   const pageDescription =
     description || `${removeMarkdown(body).substring(0, 157)}...`
   const authorName =
@@ -104,7 +109,7 @@ const Header: React.FC<HeaderProps> = ({article, estimatedReadingTime}) => {
       <header className="relative mx-auto w-full max-w-screen-lg">
         <div className="relative flex w-full flex-col items-center justify-center pb-14 pt-24 sm:pb-24 sm:pt-32">
           <div className="flex flex-grow items-center justify-center">
-            <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-3xl sm:fluid-3xl md:font-bold">
+            <h1 className="w-full max-w-screen-xl text-balance px-5 text-center font-semibold tracking-tight fluid-3xl sm:fluid-3xl md:font-bold">
               {title}
             </h1>
           </div>
