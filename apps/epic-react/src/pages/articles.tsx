@@ -1,13 +1,11 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
-import {GetStaticProps, NextPage} from 'next'
+import {NextPage, GetStaticProps} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import {type Article} from '@/@types/mdx-article'
 import Layout from '@/components/app/layout'
 import Divider from '@/components/divider'
+import articlesObj from '@/content/articles'
 
 interface ArticlesPageProps {
   articles: Article[]
@@ -27,9 +25,6 @@ const ArticlesPage: NextPage<ArticlesPageProps> = ({articles}) => {
     <Layout
       meta={{
         title,
-        // openGraph: {
-        //   images: [getOgImage({title})],
-        // },
       }}
     >
       <main className="mx-auto w-full max-w-screen-lg px-5">
@@ -75,30 +70,10 @@ const ArticlesPage: NextPage<ArticlesPageProps> = ({articles}) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const directory = path.join(
-    process.cwd(),
-    process.env.NEXT_PUBLIC_MDX_ARTICLES_FOLDER as string,
+  const articles: Article[] = Object.values(articlesObj).sort(
+    (a: Article, b: Article) =>
+      new Date(b.date).getTime() - new Date(a.date).getTime(),
   )
-  const filenames = fs.readdirSync(directory)
-
-  const articles = filenames
-    .map((filename) => {
-      const filePath = path.join(directory, filename)
-      const fileContents = fs.readFileSync(filePath, 'utf8')
-      const {data} = matter(fileContents)
-      const formattedDate =
-        typeof data.date === 'string' ? data.date : data.date.toISOString()
-
-      return {
-        title: data.title,
-        date: formattedDate,
-        excerpt: data.excerpt,
-        image: data.image,
-        imageAlt: data.imageAlt,
-        slug: filename.replace(/\.mdx$/, ''),
-      }
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   return {
     props: {

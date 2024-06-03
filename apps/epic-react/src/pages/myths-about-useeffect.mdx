@@ -359,21 +359,10 @@ abstractions built on top of them in [EpicReact.Dev](https://epicreact.dev) 🚀
 Join me.
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
-  <ArticleTemplate
-    meta={{
-      title: 'Myths about useEffect',
-      slug: 'myths-about-useeffect',
-      date: '2020-09-24',
-      image: '/myths-about-useeffect/image@2x.png',
-      socialImage: '/articles-images/myths-about-useeffect/card@2x.png',
-      imageAlt:
-        'abstract illustration of synchronised elements floating in a space',
-      excerpt:
-        'Some common mistakes I see people make with useEffect and how to avoid them.',
-    }}
-  >
+  <ArticleTemplate meta={articles['myths-about-useeffect']}>
     {children}
   </ArticleTemplate>
 )

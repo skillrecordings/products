@@ -292,21 +292,10 @@ confusing until you have a solid grasp on how closures work. Despite that, this
 is a good change, and our apps are more bug-free thanks to it. 🚫🐛🚫
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
-  <ArticleTemplate
-    meta={{
-      title: 'How React Uses Closures to Avoid Bugs',
-      slug: 'how-react-uses-closures-to-avoid-bugs',
-      date: '2020-11-13',
-      image: '/how-react-uses-closures-to-avoid-bugs/image@2x.png',
-      socialImage:
-        '/articles-images/how-react-uses-closures-to-avoid-bugs/card@2x.png',
-      imageAlt: 'a helix',
-      excerpt:
-        'The sneaky, surreptitious bug that React saved us from by using closures.',
-    }}
-  >
+  <ArticleTemplate meta={articles['how-react-uses-closures-to-avoid-bugs']}>
     {children}
   </ArticleTemplate>
 )

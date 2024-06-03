@@ -119,19 +119,11 @@ In EpicReact.Dev, I'll show you how to use the Profiler tab in production:
 ![React DevTools Profiler tab with a component graph](/articles-images/why-youve-been-bad-about-profiling-react-apps/profile-present-prod.png)
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
   <ArticleTemplate
-    meta={{
-      title: "Why you've been bad about Profiling React Apps",
-      slug: 'why-youve-been-bad-about-profiling-react-apps',
-      date: '2020-09-14',
-      image: '/why-youve-been-bad-about-profiling-react-apps/image@2x.png',
-      socialImage:
-        '/articles-images/why-youve-been-bad-about-profiling-react-apps/card@2x.png',
-      imageAlt: 'stylized performance profile tab in developer tools',
-      excerpt: 'Is your app as fast as you think it is for your users?',
-    }}
+    meta={articles['why-youve-been-bad-about-profiling-react-apps']}
   >
     {children}
   </ArticleTemplate>

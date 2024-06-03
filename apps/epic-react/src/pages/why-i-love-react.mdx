@@ -151,20 +151,10 @@ And I've been working hard on [something](https://EpicReact.Dev) that will
 really help you with that 😉
 
 import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
 
 export default ({children}) => (
-  <ArticleTemplate
-    meta={{
-      title: 'Why I Love React',
-      slug: 'why-i-love-react',
-      date: '2020-08-31',
-      image: '/why-i-love-react/image@2x.png',
-      socialImage: '/articles-images/why-i-love-react/card@2x.png',
-      imageAlt: 'stylized rockets with react logo, ready to launch',
-      excerpt:
-        'I still remember when I first heard about React. It was January 2014. I was listening to a podcast. Pete Hunt and Jordan Walke were on talking about this framework they created at Facebook that with no support for two way data-binding, no built-in HTTP library, no dependency injection, and in place of templates it had this weird XML-like syntax for the UI. And to top it all off, I was listening to it while driving to the first ever ng-conf.',
-    }}
-  >
+  <ArticleTemplate meta={articles['why-i-love-react']}>
     {children}
   </ArticleTemplate>
 )
