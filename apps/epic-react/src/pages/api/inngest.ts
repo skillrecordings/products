@@ -1,11 +1,8 @@
 import {serve} from 'inngest/next'
-import {inngest} from '@skillrecordings/inngest'
+import {inngestConfig} from '@/inngest/inngest.config'
 
 export const config = {
   maxDuration: 300,
 }
 
-export default serve({
-  client: inngest,
-  functions: [],
-})
+export default serve(inngestConfig)
