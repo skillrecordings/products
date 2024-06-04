@@ -5,10 +5,15 @@ import {
   type StripeCheckoutCompleted,
   type StripeWebhookReceived,
 } from '@skillrecordings/inngest'
+import {
+  SANITY_WEBHOOK_EVENT,
+  SanityWebhookEvent,
+} from './functions/sanity/sanity-inngest-events'
 
 export type IngestEvents = {
   [STRIPE_CHECKOUT_COMPLETED_EVENT]: StripeCheckoutCompleted
   [STRIPE_WEBHOOK_RECEIVED_EVENT]: StripeWebhookReceived
+  [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,

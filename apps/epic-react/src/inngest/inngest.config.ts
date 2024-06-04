@@ -1,8 +1,13 @@
 import {inngest} from '@/inngest/inngest.server'
 import {stripeCheckoutCompleted} from '@/inngest/functions/stripe/checkout-completed'
+import {sanityProductFunctions} from '@/inngest/functions/sanity/product'
 import {stripeWebhookReceived} from '@/inngest/functions/stripe/webhook-received'
 
 export const inngestConfig = {
   client: inngest,
-  functions: [stripeCheckoutCompleted, stripeWebhookReceived],
+  functions: [
+    stripeCheckoutCompleted,
+    stripeWebhookReceived,
+    ...sanityProductFunctions,
+  ],
 }
