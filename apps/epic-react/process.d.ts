@@ -24,5 +24,6 @@ declare namespace NodeJS {
     STRIPE_SECRET_TOKEN: string
     CASTINGWORDS_API_TOKEN: string
     SANITY_WEBHOOK_SECRET: string
+    INNGEST_APP_NAME: string
   }
 }
