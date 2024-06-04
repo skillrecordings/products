@@ -15,20 +15,22 @@ export default function SetLocalDevPrefsDialog({
   resourceTitle,
   githubRepositoryUrl,
   githubRepositoryName,
+  isDialogOpen = false,
 }: {
   children?: React.ReactNode
   resourceId: string
   resourceTitle: string
   githubRepositoryUrl: string
   githubRepositoryName: string
+  isDialogOpen?: boolean
 }) {
   return (
-    <Dialog>
+    <Dialog defaultOpen={isDialogOpen}>
       {children || <DialogTrigger>Open</DialogTrigger>}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            Configure Your Local Development Preferences for {resourceTitle}
+          <DialogTitle className="text-xl leading-tight">
+            Configure Local Development Preferences for {resourceTitle}
           </DialogTitle>
           <DialogDescription className="text-gray-400">
             This will be used to open exercises in your preferred IDE.

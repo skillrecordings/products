@@ -23,6 +23,7 @@ import {
 } from '@skillrecordings/ui'
 import {trpc} from '@/trpc/trpc.client'
 import {AlertCircle} from 'lucide-react'
+import slugify from '@sindresorhus/slugify'
 
 export default function LocalDevPrefsForm({
   resourceId,
@@ -32,12 +33,14 @@ export default function LocalDevPrefsForm({
   githubRepositoryName: string
 }) {
   const {mutateAsync: setLocalPrefs} = trpc.userPrefs.setLocal.useMutation()
-
+  const {data: userPrefs} = trpc.userPrefs.getLocal.useQuery({
+    resourceId,
+  })
   const form = useForm<z.infer<typeof localPrefsFieldsSchema>>({
     resolver: zodResolver(localPrefsFieldsSchema),
     defaultValues: {
-      editorLaunchProtocol: 'vscode://file/',
-      localDirectoryPath: '',
+      editorLaunchProtocol: userPrefs?.editorLaunchProtocol || 'vscode://file/',
+      localDirectoryPath: userPrefs?.localDirectoryPath || '',
     },
   })
 
@@ -123,7 +126,12 @@ export default function LocalDevPrefsForm({
           render={({field}) => (
             <FormItem>
               <FormLabel>
-                Full path to <code>{githubRepositoryName || 'project'}</code>{' '}
+                Full path to{' '}
+                <code>
+                  {slugify(githubRepositoryName, {
+                    customReplacements: [['TypeScript', 'typescript']],
+                  }) || 'project'}
+                </code>{' '}
                 directory on your computer
               </FormLabel>
               <FormControl>
@@ -132,8 +140,10 @@ export default function LocalDevPrefsForm({
               <FormDescription>
                 Example:{' '}
                 <code>
-                  /Users/username/learning/total-typescript/
-                  {githubRepositoryName}
+                  /Users/Jane/learning/total-typescript/
+                  {slugify(githubRepositoryName, {
+                    customReplacements: [['TypeScript', 'typescript']],
+                  })}
                 </code>
               </FormDescription>
               <FormMessage />

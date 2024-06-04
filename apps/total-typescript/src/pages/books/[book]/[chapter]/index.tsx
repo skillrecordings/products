@@ -1,6 +1,12 @@
 import * as React from 'react'
 import Layout from '@/components/app/layout'
-import {AArrowDown, AArrowUp, ALargeSmall} from 'lucide-react'
+import SetLocalDevPrefsDialog from '../../../../exercise/local-dev-prefs/dialog'
+import {
+  AArrowDown,
+  AArrowUp,
+  CogIcon,
+  MessageCircleCodeIcon,
+} from 'lucide-react'
 import {getBook, getBookChapter, type Book, type BookChapter} from '@/lib/book'
 import slugify from '@sindresorhus/slugify'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
@@ -25,6 +31,7 @@ import {
   PopoverTrigger,
   PopoverContent,
   Slider,
+  Button,
 } from '@skillrecordings/ui'
 import {
   DialogClose,
@@ -39,6 +46,10 @@ import {isBrowser} from '@/utils/is-browser'
 import toast from 'react-hot-toast'
 import {localBookDb} from '@/utils/dexie'
 import {useBookmark} from '@/hooks/use-bookmark'
+import {useSession} from 'next-auth/react'
+import {trpc} from '@/trpc/trpc.client'
+
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
@@ -319,7 +330,7 @@ const BookChapterRoute: React.FC<{
                     type="button"
                     aria-expanded={isMenuOpen}
                     aria-label="Book chapters"
-                    className="flex flex-col p-1 text-foreground transition hover:text-primary"
+                    className="flex items-center gap-2 p-1 text-sm text-foreground transition hover:text-primary"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                   >
                     <svg
@@ -360,11 +371,11 @@ const BookChapterRoute: React.FC<{
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />
-                    </svg>
+                    </svg>{' '}
                   </button>
                 </TooltipTrigger>
                 <TooltipContent className="z-50 bg-background text-foreground">
-                  Chapters
+                  Chapters Index
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -427,10 +438,29 @@ const BookChapterRoute: React.FC<{
                 },
               )}
             >
+              <Exercise
+                filePath="/src/028-mutability/097-let-and-const-inference.problem.ts"
+                book={book}
+              />
               <MDX
                 contents={chapterBody}
                 components={{
-                  h2: (props) => {
+                  Exercise: ({
+                    filePath,
+                    title,
+                    ...rest
+                  }: {
+                    filePath: string
+                    title?: string
+                  }) => (
+                    <Exercise
+                      filePath={filePath}
+                      title={title}
+                      book={book}
+                      {...rest}
+                    />
+                  ),
+                  h2: (props: any) => {
                     return (
                       <LinkedHeading
                         onAddBookmark={handleAddBookmark}
@@ -439,7 +469,7 @@ const BookChapterRoute: React.FC<{
                       />
                     )
                   },
-                  h3: (props) => {
+                  h3: (props: any) => {
                     return (
                       <LinkedHeading
                         onAddBookmark={handleAddBookmark}
@@ -448,7 +478,7 @@ const BookChapterRoute: React.FC<{
                       />
                     )
                   },
-                  h4: (props) => {
+                  h4: (props: any) => {
                     return <h4 {...props} />
                   },
                 }}
@@ -1071,4 +1101,137 @@ function childrenToString(children: React.ReactNode): any {
     }
     return str
   }, '')
+}
+
+const Exercise = ({
+  filePath,
+  book,
+  title,
+}: {
+  filePath: string
+  book: Book
+  title?: string
+}) => {
+  const {data: session} = useSession()
+  const {data: userPrefs, status: userPrefsStatus} =
+    trpc.userPrefs.getLocal.useQuery(
+      {
+        resourceId: book._id,
+      },
+      {
+        enabled: Boolean(session?.user && book),
+      },
+    )
+  const [isPrefsDialogOpen, setIsPrefsDialogOpen] = React.useState(false)
+  const canOpenExerciseInLocalEditor = Boolean(userPrefs)
+
+  return (
+    <div className="not-prose relative mt-10 flex flex-col items-center gap-5 rounded-lg bg-[#1B222F] px-5 pb-8 pt-2 sm:px-6">
+      <div
+        className="flex w-full items-center justify-center"
+        aria-hidden="true"
+      >
+        <div className="absolute -top-2.5 h-5 w-5 rotate-45 bg-[#1B222F]" />
+      </div>
+      {title && (
+        <p className="inline-flex items-center gap-2 text-balance text-center text-base sm:text-lg">
+          <MessageCircleCodeIcon className="w-5 text-white/70" /> {title}
+        </p>
+      )}
+      <div className="relative flex items-center">
+        {session?.user ? (
+          <>
+            {canOpenExerciseInLocalEditor ? (
+              <div className="flex items-center">
+                <Button
+                  asChild
+                  disabled={!canOpenExerciseInLocalEditor}
+                  className="not-prose rounded-r-none font-semibold"
+                >
+                  <Link
+                    href={`${userPrefs?.editorLaunchProtocol}${userPrefs?.localDirectoryPath}${filePath}`}
+                  >
+                    Open in Editor
+                  </Link>
+                </Button>
+                <SetLocalDevPrefsDialog
+                  resourceId={book._id}
+                  resourceTitle={book.title}
+                  githubRepositoryName={book.github?.title as string}
+                  githubRepositoryUrl={book.github?.repo as string}
+                  isDialogOpen={isPrefsDialogOpen}
+                >
+                  <DialogTrigger asChild>
+                    <Button className="gap-1 rounded-l-none bg-primary/80 px-2.5">
+                      <CogIcon className="h-4 w-4" />
+                    </Button>
+                  </DialogTrigger>
+                </SetLocalDevPrefsDialog>
+              </div>
+            ) : (
+              <SetLocalDevPrefsDialog
+                resourceId={book._id}
+                resourceTitle={book.title}
+                githubRepositoryName={book.github?.title as string}
+                githubRepositoryUrl={book.github?.repo as string}
+                isDialogOpen={isPrefsDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    className="gap-2 border border-white/5 bg-white/5 text-white hover:bg-white/10"
+                  >
+                    <CogIcon className="h-4 w-4" /> Configure Local Development
+                  </Button>
+                </DialogTrigger>
+              </SetLocalDevPrefsDialog>
+            )}
+            {book?.github?.repo && (
+              <>
+                <div className="mx-5 h-5 w-px bg-white/10" />
+                <Button
+                  variant="secondary"
+                  asChild
+                  className="gap-2 border border-white/5 bg-white/5 text-white hover:bg-white/10"
+                >
+                  <a
+                    href={`https://github.com/total-typescript/${book.github.repo}/blob/main${filePath}`}
+                    target="_blank"
+                  >
+                    <Icon name="Github" /> GitHub
+                  </a>
+                </Button>
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            <p className="text-base">
+              <Link href="/login" className="text-primary underline">
+                Log in
+              </Link>{' '}
+              to launch exercises in your editor
+            </p>
+            {book?.github?.repo && (
+              <>
+                <div className="mx-5 h-5 w-px bg-white/10" />
+                <Button
+                  variant="secondary"
+                  asChild
+                  className="gap-2 border border-white/5 bg-white/5 text-white hover:bg-white/10"
+                >
+                  <a
+                    href={`https://github.com/total-typescript/${book.github.repo}/blob/main${filePath}`}
+                    target="_blank"
+                  >
+                    <Icon name="Github" /> GitHub
+                  </a>
+                </Button>
+              </>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  )
 }
