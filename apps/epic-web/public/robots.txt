@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.epicweb.dev
+
+# Sitemaps
+Sitemap: https://www.epicweb.dev/sitemap.xml
+Sitemap: https://www.epicweb.dev/server-sitemap.xml
