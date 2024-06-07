@@ -5549,7 +5549,7 @@ importers:
         version: 7.107.0(next@14.2.0-canary.30)(react@18.3.0-canary-a870b2d54-20240314)
       '@shikijs/twoslash':
         specifier: ^1.6.2
-        version: 1.6.2(typescript@5.1.6)
+        version: 1.6.2(typescript@5.4.5)
       '@skillrecordings/ability':
         specifier: workspace:*
         version: link:../ability
@@ -5675,7 +5675,7 @@ importers:
         version: 2.33.2
       inngest:
         specifier: 3.1.1
-        version: 3.1.1(typescript@5.1.6)
+        version: 3.1.1(typescript@5.4.5)
       js-cookie:
         specifier: ^3.0.1
         version: 3.0.5
@@ -5777,10 +5777,10 @@ importers:
         version: 3.4.1(ts-node@10.9.2)
       twoslash-cdn:
         specifier: ^0.2.6
-        version: 0.2.6(typescript@5.1.6)
+        version: 0.2.6(typescript@5.4.5)
       typescript:
-        specifier: 5.1.6
-        version: 5.1.6
+        specifier: ^5.4.5
+        version: 5.4.5
       unified:
         specifier: ^10.1.2
         version: 10.1.2
@@ -17768,11 +17768,11 @@ packages:
       shiki: 1.1.7
     dev: true
 
-  /@shikijs/twoslash@1.6.2(typescript@5.1.6):
+  /@shikijs/twoslash@1.6.2(typescript@5.4.5):
     resolution: {integrity: sha512-s2dtnY0WY9RagnS3z2tkS4hNhz2mW2DXlfo3XmfT2yExkFQ4kg3W/gquB07hl4ebIuwI87u2sppVYBUZQQ53RA==}
     dependencies:
       '@shikijs/core': 1.6.2
-      twoslash: 0.2.6(typescript@5.1.6)
+      twoslash: 0.2.6(typescript@5.4.5)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -41213,13 +41213,13 @@ packages:
   /tweetnacl@0.14.5:
     resolution: {integrity: sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==}
 
-  /twoslash-cdn@0.2.6(typescript@5.1.6):
+  /twoslash-cdn@0.2.6(typescript@5.4.5):
     resolution: {integrity: sha512-x5Pwytp2a9g4YKSRZGOixizHX0fkTM5M0HRHvL18Xlhcpl7+0LG+avhCybDQuNNwgs5sVRtmwaKnFob1QQ6sog==}
     peerDependencies:
       typescript: '*'
     dependencies:
-      twoslash: 0.2.6(typescript@5.1.6)
-      typescript: 5.1.6
+      twoslash: 0.2.6(typescript@5.4.5)
+      typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -41228,14 +41228,14 @@ packages:
     resolution: {integrity: sha512-8NbJlYeRdBcCTQ7ui7pdRPC1NL16aOnoYNz06oBW+W0qWNuiQXHgE8UeNvbA038aDd6ZPuuD5WedsBIESocB4g==}
     dev: false
 
-  /twoslash@0.2.6(typescript@5.1.6):
+  /twoslash@0.2.6(typescript@5.4.5):
     resolution: {integrity: sha512-DcAKIyXMB6xNs+SOw/oF8GvUr/cfJSqznngVXYbAUIVfTW3M8vWSEoCaz/RgSD+M6vwtK8DJ4/FmYBF5MN8BGw==}
     peerDependencies:
       typescript: '*'
     dependencies:
       '@typescript/vfs': 1.5.0
       twoslash-protocol: 0.2.6
-      typescript: 5.1.6
+      typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
     dev: false

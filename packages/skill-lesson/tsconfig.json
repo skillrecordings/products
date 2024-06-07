@@ -3,7 +3,10 @@
   "display": "default",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "lib": ["dom", "ES2019"],
+    "lib": [
+      "dom",
+      "ES2019"
+    ],
     "module": "ESNext",
     "target": "es6",
     "composite": false,
@@ -19,8 +22,13 @@
     "preserveWatchOutput": true,
     "skipLibCheck": true,
     "strict": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noEmit": true
   },
-  "exclude": ["node_modules"],
-  "include": ["."]
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "."
+  ]
 }
