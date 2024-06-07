@@ -23,7 +23,7 @@ const twoslash = createTwoslashFromCDN({
 
 const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
   renderer: rendererClassic(),
-  throws: false,
+  throws: true,
   langs: LANGS,
   explicitTrigger: false,
   twoslashOptions: {
@@ -126,18 +126,23 @@ export function shikiTwoslashPlugin(
         console.error(e)
       }
 
-      const newCode = code.replace(CUT_REGEX, ['// ---cut---', ''].join('\n'))
+      try {
+        const newCode = code.replace(CUT_REGEX, ['// ---cut---', ''].join('\n'))
 
-      await twoslash.prepareTypes(newCode)
-      const html = await codeToHtml(newCode, {
-        lang: node.lang ?? 'typescript',
-        theme: opts.theme || defaultTheme,
-        transformers: [transformerTwoslash as any],
-      })
+        await twoslash.prepareTypes(newCode)
+        const html = await codeToHtml(newCode, {
+          lang: node.lang ?? 'typescript',
+          theme: opts.theme || defaultTheme,
+          transformers: [transformerTwoslash as any],
+        })
 
-      node.type = 'html'
-      node.value = html
-      node.children = []
+        node.type = 'html'
+        node.value = html
+        node.children = []
+      } catch (e) {
+        console.error('Failed to run twoslash')
+        console.error(e)
+      }
     })
   }
 }
