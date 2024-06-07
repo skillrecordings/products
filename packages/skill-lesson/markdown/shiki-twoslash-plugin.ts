@@ -9,7 +9,7 @@ import {createStorage} from 'unstorage'
 
 const storage = createStorage()
 
-const LANGS = ['typescript', 'js', 'json', 'tsx', 'html', 'bash']
+const LANGS = ['typescript', 'ts', 'js', 'json', 'tsx', 'html', 'bash']
 
 const twoslash = createTwoslashFromCDN({
   storage,
@@ -25,9 +25,13 @@ const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
   renderer: rendererClassic(),
   throws: false,
   langs: LANGS,
+  explicitTrigger: false,
   twoslashOptions: {
     compilerOptions: {
       lib: ['dom', 'dom.iterable', 'esnext'],
+      target: 99 /* ESNext */,
+      strict: true,
+      isolatedModules: true,
     },
   },
 })
