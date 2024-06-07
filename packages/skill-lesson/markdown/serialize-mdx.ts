@@ -5,8 +5,8 @@ import {serialize} from 'next-mdx-remote/serialize'
 import rehypeRaw from 'rehype-raw'
 import {
   ShikiRemotePluginOptions,
-  shikiTwoslashPlugin,
-} from './shiki-twoslash-plugin'
+  shikiRemotePlugin,
+} from './shiki-remote-plugin'
 import rehypeSlug from 'rehype-slug'
 
 /**
@@ -61,7 +61,7 @@ const serializeMDX = async (
           rehypePlugins: [[rehypeRaw, {passThrough: nodeTypes}], rehypeSlug],
           remarkPlugins: [
             [
-              shikiTwoslashPlugin,
+              shikiRemotePlugin,
               syntaxHighlighterOptions satisfies ShikiRemotePluginOptions,
             ],
           ],
