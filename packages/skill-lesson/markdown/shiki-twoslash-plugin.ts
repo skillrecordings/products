@@ -22,6 +22,7 @@ const twoslash = createTwoslashFromCDN({
 const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
   renderer: rendererClassic(),
   throws: false,
+  langs: ['ts', 'tsx', 'json', 'javascript', 'jsx'],
   twoslashOptions: {
     compilerOptions: {
       lib: ['dom', 'dom.iterable', 'esnext'],
