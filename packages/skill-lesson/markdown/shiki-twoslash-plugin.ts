@@ -3,22 +3,34 @@ import type {Transformer} from 'unified'
 import defaultTheme from './vs-dark-theme.json'
 
 import {createTransformerFactory, rendererClassic} from '@shikijs/twoslash/core'
-import {codeToHtml} from 'shiki'
 import {createTwoslashFromCDN} from 'twoslash-cdn'
 import {createStorage} from 'unstorage'
+import {codeToHtml} from 'shiki'
+import type {CompilerOptions} from 'typescript'
+import fsDriver from 'unstorage/drivers/fs'
+import path from 'path'
 
-const storage = createStorage()
+const storage = createStorage({
+  driver: fsDriver({
+    base: path.resolve(process.cwd(), '.twoslash-cache'),
+  }),
+})
 
 const LANGS = ['typescript', 'ts', 'js', 'json', 'tsx', 'html', 'bash']
 
+const compilerOptions: CompilerOptions = {
+  target: 9 /* ES2022 */,
+  strict: true,
+  allowJs: true,
+  checkJs: true,
+  noEmit: true,
+  module: 99 /* ESNext */,
+  moduleResolution: 100 /* Bundler */,
+}
+
 const twoslash = createTwoslashFromCDN({
   storage,
-  compilerOptions: {
-    lib: ['dom', 'dom.iterable', 'esnext'],
-    target: 99 /* ESNext */,
-    strict: true,
-  },
-  fetcher: fetch,
+  compilerOptions,
 })
 
 const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
@@ -26,11 +38,7 @@ const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
   throws: true,
   langs: LANGS,
   twoslashOptions: {
-    compilerOptions: {
-      lib: ['dom', 'dom.iterable', 'esnext'],
-      target: 99 /* ESNext */,
-      strict: true,
-    },
+    compilerOptions,
   },
 })
 
@@ -74,7 +82,7 @@ const visitCodeNodes = async (
   }
 }
 
-export interface ShikiRemotePluginOptions {
+export interface ShikiTwoslashPluginOptions {
   endpoint: string
   authorization: string
   theme?: string
@@ -94,7 +102,7 @@ const prepHighlighter = async (theme: string | undefined) => {
 const CUT_REGEX = /\/\/ ---cut---\n\n/g
 
 export function shikiTwoslashPlugin(
-  opts: ShikiRemotePluginOptions,
+  opts: ShikiTwoslashPluginOptions,
 ): Transformer {
   return async (ast) => {
     await visitCodeNodes(ast, async (node) => {

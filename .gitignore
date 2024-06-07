@@ -18,3 +18,4 @@ tsconfig.tsbuildinfo
 apps/*/test-results
 
 .eslintcache
+.twoslash-cache
