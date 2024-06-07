@@ -9,6 +9,8 @@ import {createStorage} from 'unstorage'
 
 const storage = createStorage()
 
+const LANGS = ['typescript', 'js', 'json', 'tsx', 'html', 'bash']
+
 const twoslash = createTwoslashFromCDN({
   storage,
   compilerOptions: {
@@ -22,7 +24,7 @@ const twoslash = createTwoslashFromCDN({
 const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
   renderer: rendererClassic(),
   throws: false,
-  langs: ['ts', 'tsx', 'json', 'javascript', 'jsx'],
+  langs: LANGS,
   twoslashOptions: {
     compilerOptions: {
       lib: ['dom', 'dom.iterable', 'esnext'],
@@ -82,7 +84,7 @@ const prepHighlighter = async (theme: string | undefined) => {
   if (!highlighter) {
     highlighter = await getHighlighter({
       themes: [theme ? theme : defaultTheme],
-      langs: ['typescript'],
+      langs: LANGS,
     })
   }
 }
