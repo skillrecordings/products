@@ -26,6 +26,7 @@ const compilerOptions: CompilerOptions = {
   noEmit: true,
   module: 99 /* ESNext */,
   moduleResolution: 100 /* Bundler */,
+  jsx: 2 /* React */,
 }
 
 const twoslash = createTwoslashFromCDN({
