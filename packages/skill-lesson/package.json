@@ -113,7 +113,7 @@
     "refractor": "^4.5.0",
     "rehype-raw": "^6.1.1",
     "rehype-slug": "^5.1.0",
-    "shiki": "1.1.7",
+    "shiki": "1.6.2",
     "shortid": "^2.2.16",
     "speakingurl": "^14.0.1",
     "styled-jsx": "5.1.1",

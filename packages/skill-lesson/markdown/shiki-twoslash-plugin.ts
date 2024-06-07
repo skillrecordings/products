@@ -17,21 +17,19 @@ const twoslash = createTwoslashFromCDN({
     lib: ['dom', 'dom.iterable', 'esnext'],
     target: 99 /* ESNext */,
     strict: true,
-    isolatedModules: true,
   },
+  fetcher: fetch,
 })
 
 const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
   renderer: rendererClassic(),
   throws: true,
   langs: LANGS,
-  explicitTrigger: false,
   twoslashOptions: {
     compilerOptions: {
       lib: ['dom', 'dom.iterable', 'esnext'],
       target: 99 /* ESNext */,
       strict: true,
-      isolatedModules: true,
     },
   },
 })
@@ -133,7 +131,7 @@ export function shikiTwoslashPlugin(
         const html = await codeToHtml(newCode, {
           lang: node.lang ?? 'typescript',
           theme: opts.theme || defaultTheme,
-          transformers: [transformerTwoslash as any],
+          transformers: [transformerTwoslash],
         })
 
         node.type = 'html'
