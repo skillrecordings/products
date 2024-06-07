@@ -8,12 +8,18 @@ import {createStorage} from 'unstorage'
 import {codeToHtml} from 'shiki'
 import type {CompilerOptions} from 'typescript'
 import fsDriver from 'unstorage/drivers/fs'
+import memoryDriver from 'unstorage/drivers/memory'
 import path from 'path'
 
+// CI is enabled on build, but not on rebuild.
+const isRebuild = Boolean(process.env.CI)
+
 const storage = createStorage({
-  driver: fsDriver({
-    base: path.resolve(process.cwd(), '.twoslash-cache'),
-  }),
+  driver: isRebuild
+    ? fsDriver({
+        base: path.resolve(process.cwd(), '.twoslash-cache'),
+      })
+    : memoryDriver(),
 })
 
 const LANGS = ['typescript', 'ts', 'js', 'json', 'tsx', 'html', 'bash']
