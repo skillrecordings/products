@@ -1,6 +1,33 @@
-import type {Transformer} from 'unified'
 import {Highlighter, getHighlighter} from 'shiki'
+import type {Transformer} from 'unified'
 import defaultTheme from './vs-dark-theme.json'
+
+import {createTransformerFactory, rendererClassic} from '@shikijs/twoslash/core'
+import {codeToHtml} from 'shiki'
+import {createTwoslashFromCDN} from 'twoslash-cdn'
+import {createStorage} from 'unstorage'
+
+const storage = createStorage()
+
+const twoslash = createTwoslashFromCDN({
+  storage,
+  compilerOptions: {
+    lib: ['dom', 'dom.iterable', 'esnext'],
+    target: 99 /* ESNext */,
+    strict: true,
+    isolatedModules: true,
+  },
+})
+
+const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
+  renderer: rendererClassic(),
+  throws: false,
+  twoslashOptions: {
+    compilerOptions: {
+      lib: ['dom', 'dom.iterable', 'esnext'],
+    },
+  },
+})
 
 interface MarkdownNode {
   type: string
@@ -59,7 +86,11 @@ const prepHighlighter = async (theme: string | undefined) => {
   }
 }
 
-export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
+const CUT_REGEX = /\/\/ ---cut---\n\n/g
+
+export function shikiTwoslashPlugin(
+  opts: ShikiRemotePluginOptions,
+): Transformer {
   return async (ast) => {
     await visitCodeNodes(ast, async (node) => {
       const code = node.value
@@ -88,43 +119,18 @@ export function shikiRemotePlugin(opts: ShikiRemotePluginOptions): Transformer {
         console.error(e)
       }
 
-      try {
-        const response = await fetch(opts.endpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: opts.authorization,
-          },
-          body: JSON.stringify({
-            code,
-            lang: node.lang,
-            meta: node.meta,
-            theme: opts.theme,
-          }),
-        })
-          .then((r) => {
-            console.log('SHIKI SERVICE RESPONSE', r.status, r.statusText)
-            if (r.ok) {
-              return r
-            } else {
-              throw new Error(r.statusText)
-            }
-          })
-          .catch((e) => {
-            console.error('SHIKI SERVICE ERROR', e)
-            throw e
-          })
+      const newCode = code.replace(CUT_REGEX, ['// ---cut---', ''].join('\n'))
 
-        if (response.ok) {
-          node.type = 'html'
-          node.value = await response.text()
-          node.children = []
-        } else {
-          console.error(response)
-        }
-      } catch (e) {
-        console.error(e)
-      }
+      await twoslash.prepareTypes(newCode)
+      const html = await codeToHtml(newCode, {
+        lang: node.lang ?? 'typescript',
+        theme: opts.theme || defaultTheme,
+        transformers: [transformerTwoslash as any],
+      })
+
+      node.type = 'html'
+      node.value = html
+      node.children = []
     })
   }
 }
