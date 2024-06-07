@@ -3,29 +3,49 @@ import type {Transformer} from 'unified'
 import defaultTheme from './vs-dark-theme.json'
 
 import {createTransformerFactory, rendererClassic} from '@shikijs/twoslash/core'
-import {codeToHtml} from 'shiki'
 import {createTwoslashFromCDN} from 'twoslash-cdn'
 import {createStorage} from 'unstorage'
+import {codeToHtml} from 'shiki'
+import type {CompilerOptions} from 'typescript'
+import fsDriver from 'unstorage/drivers/fs'
+import memoryDriver from 'unstorage/drivers/memory'
+import path from 'path'
 
-const storage = createStorage()
+// CI is enabled on build, but not on rebuild.
+const isInitialBuild = Boolean(process.env.CI)
+
+const storage = createStorage({
+  driver: isInitialBuild
+    ? fsDriver({
+        base: path.resolve(process.cwd(), '.twoslash-cache'),
+      })
+    : memoryDriver(),
+})
+
+const LANGS = ['typescript', 'ts', 'js', 'json', 'tsx', 'html', 'bash']
+
+const compilerOptions: CompilerOptions = {
+  target: 9 /* ES2022 */,
+  strict: true,
+  allowJs: true,
+  checkJs: true,
+  noEmit: true,
+  module: 99 /* ESNext */,
+  moduleResolution: 100 /* Bundler */,
+  jsx: 2 /* React */,
+}
 
 const twoslash = createTwoslashFromCDN({
   storage,
-  compilerOptions: {
-    lib: ['dom', 'dom.iterable', 'esnext'],
-    target: 99 /* ESNext */,
-    strict: true,
-    isolatedModules: true,
-  },
+  compilerOptions,
 })
 
 const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
   renderer: rendererClassic(),
-  throws: false,
+  throws: true,
+  langs: LANGS,
   twoslashOptions: {
-    compilerOptions: {
-      lib: ['dom', 'dom.iterable', 'esnext'],
-    },
+    compilerOptions,
   },
 })
 
@@ -69,7 +89,7 @@ const visitCodeNodes = async (
   }
 }
 
-export interface ShikiRemotePluginOptions {
+export interface ShikiTwoslashPluginOptions {
   endpoint: string
   authorization: string
   theme?: string
@@ -81,7 +101,7 @@ const prepHighlighter = async (theme: string | undefined) => {
   if (!highlighter) {
     highlighter = await getHighlighter({
       themes: [theme ? theme : defaultTheme],
-      langs: ['typescript'],
+      langs: LANGS,
     })
   }
 }
@@ -89,7 +109,7 @@ const prepHighlighter = async (theme: string | undefined) => {
 const CUT_REGEX = /\/\/ ---cut---\n\n/g
 
 export function shikiTwoslashPlugin(
-  opts: ShikiRemotePluginOptions,
+  opts: ShikiTwoslashPluginOptions,
 ): Transformer {
   return async (ast) => {
     await visitCodeNodes(ast, async (node) => {
@@ -119,18 +139,23 @@ export function shikiTwoslashPlugin(
         console.error(e)
       }
 
-      const newCode = code.replace(CUT_REGEX, ['// ---cut---', ''].join('\n'))
+      try {
+        const newCode = code.replace(CUT_REGEX, ['// ---cut---', ''].join('\n'))
 
-      await twoslash.prepareTypes(newCode)
-      const html = await codeToHtml(newCode, {
-        lang: node.lang ?? 'typescript',
-        theme: opts.theme || defaultTheme,
-        transformers: [transformerTwoslash as any],
-      })
+        await twoslash.prepareTypes(newCode)
+        const html = await codeToHtml(newCode, {
+          lang: node.lang ?? 'typescript',
+          theme: opts.theme || defaultTheme,
+          transformers: [transformerTwoslash],
+        })
 
-      node.type = 'html'
-      node.value = html
-      node.children = []
+        node.type = 'html'
+        node.value = html
+        node.children = []
+      } catch (e) {
+        console.error('Failed to run twoslash')
+        console.error(e)
+      }
     })
   }
 }

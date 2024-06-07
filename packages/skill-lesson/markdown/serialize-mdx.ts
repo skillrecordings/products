@@ -4,7 +4,7 @@ import {nodeTypes} from '@mdx-js/mdx'
 import {serialize} from 'next-mdx-remote/serialize'
 import rehypeRaw from 'rehype-raw'
 import {
-  ShikiRemotePluginOptions,
+  ShikiTwoslashPluginOptions,
   shikiTwoslashPlugin,
 } from './shiki-twoslash-plugin'
 import rehypeSlug from 'rehype-slug'
@@ -39,7 +39,7 @@ type SerializeMDXProps = {
 } & (
   | {
       useShikiTwoslash: true
-      syntaxHighlighterOptions: ShikiRemotePluginOptions
+      syntaxHighlighterOptions: ShikiTwoslashPluginOptions
     }
   | {
       useShikiTwoslash?: false
@@ -62,7 +62,7 @@ const serializeMDX = async (
           remarkPlugins: [
             [
               shikiTwoslashPlugin,
-              syntaxHighlighterOptions satisfies ShikiRemotePluginOptions,
+              syntaxHighlighterOptions satisfies ShikiTwoslashPluginOptions,
             ],
           ],
         },
