@@ -12,10 +12,10 @@ import memoryDriver from 'unstorage/drivers/memory'
 import path from 'path'
 
 // CI is enabled on build, but not on rebuild.
-const isRebuild = Boolean(process.env.CI)
+const isInitialBuild = Boolean(process.env.CI)
 
 const storage = createStorage({
-  driver: isRebuild
+  driver: isInitialBuild
     ? fsDriver({
         base: path.resolve(process.cwd(), '.twoslash-cache'),
       })
