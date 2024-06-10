@@ -22,7 +22,7 @@ const storage = createStorage({
     : memoryDriver(),
 })
 
-const LANGS = ['typescript', 'ts', 'js', 'json', 'tsx', 'html', 'bash']
+const LANGS = ['typescript', 'ts', 'js', 'json', 'tsx', 'html', 'bash', 'txt']
 
 const compilerOptions: CompilerOptions = {
   target: 9 /* ES2022 */,
@@ -43,7 +43,6 @@ const twoslash = createTwoslashFromCDN({
 const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
   renderer: rendererClassic(),
   throws: true,
-  langs: LANGS,
   twoslashOptions: {
     compilerOptions,
   },
@@ -124,7 +123,7 @@ export function shikiTwoslashPlugin(
         if (!node.meta?.includes('twoslash')) {
           await prepHighlighter(opts.theme)
           const html = highlighter!.codeToHtml(code, {
-            lang: node.lang ?? 'typescript',
+            lang: node.lang ?? 'txt',
             theme: opts.theme || defaultTheme,
           })
 
