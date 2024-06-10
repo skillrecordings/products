@@ -7,6 +7,8 @@ module.exports = {
   sitemapSize: 5000,
   generateRobotsTxt: true,
   exclude: [
+    '/activate',
+    '/oauth',
     '/server-sitemap.xml',
     '/confirm',
     '/confirmed',
