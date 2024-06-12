@@ -1,9 +1,7 @@
 import * as React from 'react'
 import {DownloadIcon} from '@heroicons/react/outline'
-import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {useLocalStorage} from 'react-use'
 import {GetServerSideProps} from 'next'
-import {Coupon, MerchantProduct} from '@skillrecordings/database'
 import {Stripe} from 'stripe'
 import fromUnixTime from 'date-fns/fromUnixTime'
 import Layout from '@/components/app/layout'
@@ -13,16 +11,42 @@ import {Transfer} from '../../purchase-transfer/purchase-transfer'
 import {MailIcon} from '@heroicons/react/solid'
 import {z} from 'zod'
 import {useRouter} from 'next/router'
+import {getSdk} from '@skillrecordings/database'
+import {getToken} from 'next-auth/jwt'
 
-export const getServerSideProps: GetServerSideProps = async ({query}) => {
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {merchantChargeId} = z
     .object({merchantChargeId: z.string()})
     .parse(query)
 
-  return {
-    props: {
-      merchantChargeId,
-    },
+  const session = await getToken({req})
+  const {getMerchantCharge, getPurchaseForStripeCharge} = getSdk()
+  const merchantCharge = await getMerchantCharge(merchantChargeId)
+
+  if (!merchantCharge) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
+  const purchase = await getPurchaseForStripeCharge(merchantCharge.identifier)
+
+  if (purchase?.userId === session?.id) {
+    return {
+      props: {
+        merchantChargeId,
+      },
+    }
+  } else {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
   }
 }
 
