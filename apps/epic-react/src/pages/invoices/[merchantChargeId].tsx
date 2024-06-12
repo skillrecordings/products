@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   if (!merchantCharge) {
     return {
       redirect: {
-        destination: '/',
+        destination: '/404',
         permanent: false,
       },
     }
@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   } else {
     return {
       redirect: {
-        destination: '/',
+        destination: '/404',
         permanent: false,
       },
     }
