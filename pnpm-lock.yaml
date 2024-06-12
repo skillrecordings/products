@@ -1836,6 +1836,9 @@ importers:
       '@skillrecordings/convertkit-react-ui':
         specifier: workspace:*
         version: link:../../packages/convertkit-react-ui
+      '@skillrecordings/convertkit-sdk':
+        specifier: workspace:*
+        version: link:../../packages/convertkit-sdk
       '@skillrecordings/database':
         specifier: workspace:*
         version: link:../../packages/database
