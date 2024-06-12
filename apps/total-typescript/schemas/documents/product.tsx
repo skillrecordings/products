@@ -47,6 +47,7 @@ export default {
       name: 'convertkitPurchasedTagId',
       title: 'Convertkit Purchase Tag ID',
       type: 'string',
+      readOnly: true,
     },
     {
       name: 'slug',

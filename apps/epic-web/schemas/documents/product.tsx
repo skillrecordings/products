@@ -33,6 +33,12 @@ export default defineType({
       readOnly: true,
     }),
     defineField({
+      name: 'convertkitPurchasedTagId',
+      title: 'Convertkit Purchase Tag ID',
+      type: 'string',
+      readOnly: true,
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
