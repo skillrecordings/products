@@ -200,6 +200,38 @@ export async function subscribeToTag(email: string, tagId: string) {
   })
 }
 
+export async function createPurchasedTag(name: string) {
+  if (!process.env.CONVERTKIT_API_SECRET) {
+    console.warn('set CONVERTKIT_API_SECRET')
+    return null
+  }
+
+  try {
+    const response = await fetch(`${convertkitBaseUrl}/tags`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify({
+        api_secret: process.env.CONVERTKIT_API_SECRET,
+        name,
+      }),
+    })
+
+    if (!response.ok) {
+      console.error(`Failed to create tag: ${response.statusText}`)
+      return null
+    }
+
+    const data = await response.json()
+    console.log('Tag created successfully')
+    return data
+  } catch (error) {
+    console.error('Error creating tag:', error)
+    return null
+  }
+}
+
 export async function subscribeToForm(options: {
   email: string
   first_name?: string
