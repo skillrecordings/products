@@ -79,7 +79,7 @@ export async function convertkitTagPurchase(email: string, purchase: Purchase) {
         : process.env.CONVERTKIT_PURCHASED_ON_FIELD_NAME || 'purchased_on'
 
       await setConvertkitSubscriberFields(subscriber, {
-        [purchasedOnFieldName]: format(new Date(), 'yyyy-mm-dd HH:MM'),
+        [purchasedOnFieldName]: format(new Date(), 'yyyy-MM-dd HH:mm:ss z'),
       })
 
       return {
