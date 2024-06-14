@@ -438,10 +438,6 @@ const BookChapterRoute: React.FC<{
                 },
               )}
             >
-              <Exercise
-                filePath="/src/028-mutability/097-let-and-const-inference.problem.ts"
-                book={book}
-              />
               <MDX
                 contents={chapterBody}
                 components={{
@@ -531,7 +527,6 @@ const BookChapterRoute: React.FC<{
           <div />
         )}
       </section>
-
       <div aria-hidden="true" className="md:h-screen" />
       {toc && (
         <ChapterMobileNav
@@ -1210,7 +1205,7 @@ const Exercise = ({
               <Link href="/login" className="text-primary underline">
                 Log in
               </Link>{' '}
-              to launch exercises in your editor
+              to open in your editor
             </p>
             {book?.github?.repo && (
               <>
