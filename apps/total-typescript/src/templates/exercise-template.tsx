@@ -107,14 +107,6 @@ const ExerciseTemplate: React.FC<{
             />
           </>
         )}
-        {/* {lesson._type === 'explainer' && (
-          <ExplainerLink
-            lesson={lesson}
-            module={module}
-            section={section}
-            path={path}
-          />
-        )} */}
       </>
     )
   }
