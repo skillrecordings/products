@@ -20,7 +20,13 @@ import type {GetStaticPaths, GetStaticProps} from 'next'
 import type {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import Link from 'next/link'
 import '@/styles/shiki-twoslash.css'
-import {motion, useInView, useScroll, type Variants} from 'framer-motion'
+import {
+  motion,
+  useInView,
+  useReducedMotion,
+  useScroll,
+  type Variants,
+} from 'framer-motion'
 import {
   Tooltip,
   TooltipContent,
@@ -149,7 +155,6 @@ const BookChapterRoute: React.FC<{
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const articleRef = React.useRef<HTMLDivElement>(null)
-  const sidebarRef = React.useRef<HTMLDivElement>(null)
 
   const {scrollYProgress} = useScroll()
 
@@ -487,8 +492,8 @@ const BookChapterRoute: React.FC<{
       <main className="relative z-10">
         {/* OUTLINE */}
         <div
-          className="pointer-events-none fixed left-0 top-0 z-20 h-screen w-full p-5 pt-10"
           aria-hidden="true"
+          className="pointer-events-none fixed left-0 top-0 z-20 h-screen w-full p-5 pt-10"
         >
           <div className="hidden h-full w-full border border-gray-800 lg:block" />
         </div>
@@ -588,87 +593,11 @@ const BookChapterRoute: React.FC<{
             </div>
           </article>
           {toc && sidebarPlacement === 'right' && (
-            <aside
-              className={cn('relative w-full max-w-[300px] pl-5 pt-20', {
-                'hidden xl:block': fontSizeIndex === 2,
-                'hidden lg:block': fontSizeIndex !== 2,
-              })}
-            >
-              <div
-                className="sticky top-16 h-[calc(100vh-7rem)] overflow-y-auto pr-3 scrollbar-thin scrollbar-track-white/5 scrollbar-thumb-white/10"
-                ref={sidebarRef}
-              >
-                <strong>On this page</strong>
-                <nav className="group">
-                  <ol className="mt-3 flex flex-col [&_*]:duration-300">
-                    {toc.map((item, i) => (
-                      <li key={item.slug}>
-                        <Link
-                          className="inline-flex min-h-3 items-center gap-2 py-2 leading-tight transition hover:text-foreground"
-                          href={`#${item.slug}`}
-                        >
-                          {/* <div
-                          className={cn(
-                            'relative h-px w-5 bg-gray-400 transition group-hover:-translate-x-5',
-                            {
-                              'bg-primary opacity-100':
-                                visibleHeadingId === item.slug,
-                            },
-                          )}
-                        /> */}
-                          <span
-                            className={cn(
-                              'relative  font-semibold text-white  transition hover:text-primary',
-                              {
-                                'text-primary group-hover:opacity-100':
-                                  visibleHeadingId === item.slug,
-                              },
-                            )}
-                          >
-                            {item.text.replace(/`/g, '')}
-                          </span>
-                        </Link>
-                        {item.items.length > 0 && (
-                          <ol>
-                            {item.items
-                              .filter(({level}) => level < 4)
-                              .map((subItem) => (
-                                <li key={subItem.slug}>
-                                  <Link
-                                    className="relative inline-flex min-h-3 items-center gap-2 py-1"
-                                    href={`#${subItem.slug}`}
-                                  >
-                                    <div
-                                      className={cn(
-                                        'absolute left-1 top-0 h-full w-[2px] bg-white/10',
-                                        {
-                                          'bg-primary':
-                                            visibleHeadingId === subItem.slug,
-                                        },
-                                      )}
-                                    />
-                                    <span
-                                      className={cn(
-                                        'relative pl-5 transition hover:text-primary',
-                                        {
-                                          'text-[#ADF2F2] group-hover:opacity-100':
-                                            visibleHeadingId === subItem.slug,
-                                        },
-                                      )}
-                                    >
-                                      {subItem.text.replace(/`/g, '')}
-                                    </span>
-                                  </Link>
-                                </li>
-                              ))}
-                          </ol>
-                        )}
-                      </li>
-                    ))}
-                  </ol>
-                </nav>
-              </div>
-            </aside>
+            <RightToCSideBar
+              toc={toc}
+              fontSizeIndex={fontSizeIndex}
+              visibleHeadingId={visibleHeadingId}
+            />
           )}
         </div>
       </main>
@@ -1402,5 +1331,150 @@ const Exercise = ({
         )}
       </div>
     </div>
+  )
+}
+
+const RightToCSideBar = ({
+  toc,
+  fontSizeIndex,
+  visibleHeadingId,
+}: {
+  toc: Heading[]
+  fontSizeIndex: number
+  visibleHeadingId: string | null
+}) => {
+  const scrollAreaRef = React.useRef<HTMLDivElement>(null)
+  const [isScrolled, setIsScrolled] = React.useState(false)
+  const shouldReduceMotion = useReducedMotion()
+
+  // Update isScrolled state based on scroll position
+  React.useEffect(() => {
+    const handleScroll = () => {
+      scrollAreaRef?.current &&
+        setIsScrolled(scrollAreaRef.current.scrollTop > 0)
+    }
+
+    const scrollArea = scrollAreaRef.current
+    scrollArea?.addEventListener('scroll', handleScroll)
+
+    return () => {
+      scrollArea?.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+  React.useEffect(() => {
+    let timeoutId: NodeJS.Timeout | null = null
+
+    if (scrollAreaRef.current && visibleHeadingId) {
+      timeoutId = setTimeout(() => {
+        const element =
+          scrollAreaRef.current?.querySelector(`[data-active="true"]`)
+        const offset = 80
+        if (element) {
+          const top = (element as HTMLElement).offsetTop - offset
+          scrollAreaRef.current!.scrollTo({
+            top,
+            behavior: shouldReduceMotion ? 'instant' : 'smooth',
+          })
+        }
+      }, 500) // 500ms delay
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+    }
+  }, [scrollAreaRef, visibleHeadingId])
+  return (
+    <aside
+      className={cn('relative w-full max-w-[300px] pl-5 pt-20', {
+        'hidden xl:block': fontSizeIndex === 2,
+        'hidden lg:block': fontSizeIndex !== 2,
+      })}
+    >
+      <div className="sticky top-16">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-0 left-0 z-10 h-20 w-full bg-gradient-to-t from-background to-transparent"
+        />
+        {isScrolled && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 top-0 z-10 h-20 w-full bg-gradient-to-b from-background to-transparent"
+          />
+        )}
+        <div
+          className="h-[calc(100vh-7rem)] overflow-y-auto pb-20 scrollbar-none"
+          ref={scrollAreaRef}
+        >
+          <strong>On this page</strong>
+          <nav className="group">
+            <ol className="mt-3 flex flex-col">
+              {toc.map((item, i) => (
+                <li
+                  key={item.slug}
+                  data-active={visibleHeadingId === item.slug}
+                >
+                  <Link
+                    className="inline-flex min-h-3 items-center gap-2 py-2 leading-tight transition hover:text-foreground"
+                    href={`#${item.slug}`}
+                  >
+                    <span
+                      className={cn(
+                        'relative font-semibold text-white transition hover:text-primary',
+                        {
+                          'text-primary group-hover:opacity-100':
+                            visibleHeadingId === item.slug,
+                        },
+                      )}
+                    >
+                      {item.text.replace(/`/g, '')}
+                    </span>
+                  </Link>
+                  {item.items.length > 0 && (
+                    <ol>
+                      {item.items
+                        .filter(({level}) => level < 4)
+                        .map((subItem) => (
+                          <li
+                            key={subItem.slug}
+                            data-active={visibleHeadingId === subItem.slug}
+                          >
+                            <Link
+                              className="relative inline-flex min-h-3 items-center gap-2 py-1"
+                              href={`#${subItem.slug}`}
+                            >
+                              <div
+                                className={cn(
+                                  'absolute left-1 top-0 h-full w-[2px] bg-white/10',
+                                  {
+                                    'bg-primary':
+                                      visibleHeadingId === subItem.slug,
+                                  },
+                                )}
+                              />
+                              <span
+                                className={cn(
+                                  'relative pl-5 transition hover:text-primary',
+                                  {
+                                    'text-[#ADF2F2] group-hover:opacity-100':
+                                      visibleHeadingId === subItem.slug,
+                                  },
+                                )}
+                              >
+                                {subItem.text.replace(/`/g, '')}
+                              </span>
+                            </Link>
+                          </li>
+                        ))}
+                    </ol>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </aside>
   )
 }
