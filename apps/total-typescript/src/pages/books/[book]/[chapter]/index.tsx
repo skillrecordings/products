@@ -530,7 +530,6 @@ const BookChapterRoute: React.FC<{
           <div />
         )}
       </section>
-
       <div aria-hidden="true" className="md:h-screen" />
       {toc && (
         <ChapterMobileNav
@@ -1219,7 +1218,7 @@ const Exercise = ({
               <Link href="/login" className="text-primary underline">
                 Log in
               </Link>{' '}
-              to launch exercises in your editor
+              to open in your editor
             </p>
             {book?.github?.repo && (
               <>
