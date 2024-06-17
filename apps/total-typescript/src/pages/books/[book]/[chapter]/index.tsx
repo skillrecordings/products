@@ -50,6 +50,7 @@ import {useSession} from 'next-auth/react'
 import {trpc} from '@/trpc/trpc.client'
 
 import {Icon} from '@skillrecordings/skill-lesson/icons'
+import ReactMarkdown from 'react-markdown'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
@@ -448,14 +449,16 @@ const BookChapterRoute: React.FC<{
                   }: {
                     filePath: string
                     title?: string
-                  }) => (
-                    <Exercise
-                      filePath={filePath}
-                      title={title}
-                      book={book}
-                      {...rest}
-                    />
-                  ),
+                  }) => {
+                    return (
+                      <Exercise
+                        filePath={filePath}
+                        title={title}
+                        book={book}
+                        {...rest}
+                      />
+                    )
+                  },
                   h2: (props: any) => {
                     return (
                       <LinkedHeading
@@ -1130,7 +1133,17 @@ const Exercise = ({
       </div>
       {title && (
         <p className="inline-flex items-center gap-2 text-balance text-center text-base sm:text-lg">
-          <MessageCircleCodeIcon className="w-5 text-white/70" /> {title}
+          <MessageCircleCodeIcon className="w-5 text-white/70" />{' '}
+          <ReactMarkdown
+            components={{
+              p: ({children}) => children,
+              code: ({children}) => (
+                <code className="!bg-white/5">{children}</code>
+              ),
+            }}
+          >
+            {title}
+          </ReactMarkdown>
         </p>
       )}
       <div className="relative flex items-center">
