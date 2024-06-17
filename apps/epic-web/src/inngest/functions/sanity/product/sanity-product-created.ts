@@ -6,7 +6,7 @@ import {sanityWriteClient} from 'utils/sanity-server'
 import {SANITY_WEBHOOK_EVENT} from '../sanity-inngest-events'
 import {paymentOptions} from 'pages/api/skill/[...skillRecordings]'
 import {NonRetriableError} from 'inngest'
-import {createPurchasedTag} from '@skillrecordings/convertkit-sdk'
+import {createConvertkitTag} from '@skillrecordings/convertkit-sdk'
 
 const stripe = paymentOptions.providers.stripe?.paymentClient
 
@@ -42,7 +42,7 @@ export const sanityProductCreated = inngest.createFunction(
     const purchasedTag = await step.run(
       'create tag in ConvertKit',
       async () => {
-        return await createPurchasedTag(`purchased: ${title}`)
+        return await createConvertkitTag(`purchased: ${title}`)
       },
     )
 

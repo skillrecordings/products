@@ -200,7 +200,7 @@ export async function subscribeToTag(email: string, tagId: string) {
   })
 }
 
-export async function createPurchasedTag(name: string) {
+export async function createConvertkitTag(name: string) {
   if (!process.env.CONVERTKIT_API_SECRET) {
     console.warn('set CONVERTKIT_API_SECRET')
     return null
