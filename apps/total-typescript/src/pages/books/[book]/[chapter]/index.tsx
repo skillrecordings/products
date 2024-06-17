@@ -5,6 +5,7 @@ import {
   AArrowDown,
   AArrowUp,
   CogIcon,
+  MenuIcon,
   MessageCircleCodeIcon,
 } from 'lucide-react'
 import {getBook, getBookChapter, type Book, type BookChapter} from '@/lib/book'
@@ -148,7 +149,8 @@ const BookChapterRoute: React.FC<{
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const articleRef = React.useRef<HTMLDivElement>(null)
-  const chapterNavMaxWidth = useChapterNavMaxWidth(articleRef)
+  const sidebarRef = React.useRef<HTMLDivElement>(null)
+
   const {scrollYProgress} = useScroll()
 
   React.useEffect(() => {
@@ -188,8 +190,12 @@ const BookChapterRoute: React.FC<{
   }, [isHeroInView])
 
   const FONT_SIZES = ['sm', 'base', 'lg']
-
   const [fontSizeIndex, setFontSizeIndex] = React.useState(1)
+
+  const SIDEBAR_PLACEMENTS = ['left', 'right']
+  const [sidebarPlacement, setSidebarPlacement] = React.useState('right')
+
+  const chapterNavMaxWidth = useChapterNavMaxWidth(articleRef, sidebarPlacement)
 
   return (
     <Layout
@@ -202,7 +208,7 @@ const BookChapterRoute: React.FC<{
       }}
       nav={null}
       footer={null}
-      className="relative overflow-hidden"
+      className="relative"
     >
       <ChaptersMenu
         book={book}
@@ -219,8 +225,6 @@ const BookChapterRoute: React.FC<{
             <span className="hidden sm:inline-block">{book.title}</span>
             <svg
               className="inline-block w-5 sm:hidden"
-              // width="16"
-              // height="16"
               viewBox="0 0 16 16"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -239,7 +243,7 @@ const BookChapterRoute: React.FC<{
             </svg>
           </Link>
           <motion.div
-            className="hidden truncate overflow-ellipsis font-heading text-base font-medium sm:block"
+            className="hidden truncate overflow-ellipsis font-sans text-sm font-medium sm:block"
             initial={{
               opacity: 0,
               y: -10,
@@ -249,7 +253,12 @@ const BookChapterRoute: React.FC<{
               y: isScrolledPastHero ? 0 : -10,
             }}
           >
-            {chapter.title}
+            <Link
+              href={`/books/${book.slug.current}/${chapter.slug}`}
+              className="transition ease-in-out hover:text-primary"
+            >
+              {chapter.title}
+            </Link>
           </motion.div>
           <div className="flex items-center gap-5">
             <div className="flex items-stretch">
@@ -257,60 +266,154 @@ const BookChapterRoute: React.FC<{
                 <Tooltip delayDuration={0}>
                   <Popover>
                     <TooltipTrigger asChild>
-                      <PopoverTrigger className="flex h-full items-stretch justify-center p-1 transition ease-in-out hover:text-primary">
+                      <PopoverTrigger className="group flex h-full items-stretch justify-center p-1 transition ease-in-out hover:text-primary">
                         <svg
-                          width="20"
-                          height="13"
-                          viewBox="0 0 20 13"
-                          fill="none"
+                          className="transition duration-500 ease-in-out group-hover:rotate-90"
                           xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
                         >
-                          <path
-                            d="M8.50722 12L7.51838 9.81157H2.9308L2.02301 12H0.547852L5.50827 0.636414H6.02701L11.1982 12H8.50722ZM3.48196 8.51473H6.91859L5.13543 4.55936L3.48196 8.51473Z"
-                            fill="currentColor"
-                          />
-                          <path
-                            d="M16.1188 3.73262C18.2748 3.73262 19.6365 4.85115 19.6365 7.20168V12.0162H18.6315L17.7399 10.0223C17.2049 11.4975 16.0053 12.1621 14.5626 12.1621C12.9902 12.1621 12.0013 11.3354 12.0013 10.1358C12.0013 8.4661 13.7197 7.37999 17.3184 7.15305V6.7802C17.3184 5.6941 16.8969 4.98083 15.6649 4.98083C14.4167 4.98083 13.7197 5.75894 13.7197 7.10441H12.4552C12.4552 4.99705 13.8007 3.73262 16.1188 3.73262ZM15.3893 10.7842C16.5241 10.7842 17.2698 9.79536 17.3184 8.1581C15.5028 8.23915 14.3357 8.70926 14.3357 9.79536C14.3357 10.3789 14.7247 10.7842 15.3893 10.7842Z"
-                            fill="currentColor"
-                          />
+                          <g
+                            strokeWidth="1"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeMiterlimit="10"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <circle
+                              cx="8"
+                              cy="8"
+                              r="2.5"
+                              stroke="currentColor"
+                            />
+                            <path d="M13.5,8 c0-0.465-0.064-0.913-0.172-1.344l1.917-1.107l-1.5-2.598L11.83,4.057c-0.644-0.626-1.441-1.093-2.33-1.344V0.5h-3v2.212 C5.612,2.964,4.815,3.431,4.17,4.057L2.255,2.951l-1.5,2.598l1.917,1.107C2.564,7.087,2.5,7.535,2.5,8 c0,0.464,0.064,0.913,0.172,1.344l-1.917,1.107l1.5,2.598l1.916-1.106c0.644,0.626,1.441,1.093,2.33,1.344V15.5h3v-2.212 c0.889-0.252,1.685-0.719,2.33-1.344l1.916,1.106l1.5-2.598l-1.917-1.107C13.436,8.913,13.5,8.464,13.5,8z"></path>{' '}
+                          </g>
                         </svg>
                       </PopoverTrigger>
                     </TooltipTrigger>
-                    <TooltipContent className="flex items-center gap-2 bg-background text-foreground">
-                      Text size settings
+                    <TooltipContent className="bg-background text-foreground">
+                      Text{' '}
+                      <span className="hidden lg:inline-block">& Layout</span>{' '}
+                      options
                     </TooltipContent>
-                    <PopoverContent className="flex w-auto items-center gap-2 bg-background text-foreground">
-                      <button
-                        disabled={fontSizeIndex === 0}
-                        type="button"
-                        onClick={() => {
-                          if (fontSizeIndex !== 0) {
-                            setFontSizeIndex(fontSizeIndex - 1)
-                          }
-                        }}
-                      >
-                        <AArrowDown className="w-4" />
-                      </button>
-                      <Slider
-                        className="w-24"
-                        value={[fontSizeIndex]}
-                        min={0}
-                        max={FONT_SIZES.length - 1}
-                        onValueChange={(value) => {
-                          setFontSizeIndex(value[0])
-                        }}
-                      />
-                      <button
-                        disabled={fontSizeIndex === FONT_SIZES.length - 1}
-                        type="button"
-                        onClick={() => {
-                          if (fontSizeIndex < FONT_SIZES.length - 1) {
-                            setFontSizeIndex(fontSizeIndex + 1)
-                          }
-                        }}
-                      >
-                        <AArrowUp className="w-4" />
-                      </button>
+                    <PopoverContent className="flex w-auto flex-col items-start gap-2 bg-background text-foreground">
+                      <div className="flex flex-col">
+                        <label
+                          htmlFor="font-size-slider"
+                          className="mb-1 text-sm text-opacity-75"
+                        >
+                          Text size
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <button
+                            disabled={fontSizeIndex === 0}
+                            type="button"
+                            className={cn('opacity-70 transition ', {
+                              'hover:opacity-100': fontSizeIndex !== 0,
+                            })}
+                            onClick={() => {
+                              if (fontSizeIndex !== 0) {
+                                setFontSizeIndex(fontSizeIndex - 1)
+                              }
+                            }}
+                          >
+                            <AArrowDown className="w-4" />
+                          </button>
+                          <Slider
+                            id="font-size-slider"
+                            className="w-24 transition hover:brightness-125"
+                            value={[fontSizeIndex]}
+                            min={0}
+                            max={FONT_SIZES.length - 1}
+                            onValueChange={(value) => {
+                              setFontSizeIndex(value[0])
+                            }}
+                          />
+                          <button
+                            disabled={fontSizeIndex === FONT_SIZES.length - 1}
+                            type="button"
+                            className={cn('opacity-70 transition ', {
+                              'hover:opacity-100':
+                                fontSizeIndex < FONT_SIZES.length - 1,
+                            })}
+                            onClick={() => {
+                              if (fontSizeIndex < FONT_SIZES.length - 1) {
+                                setFontSizeIndex(fontSizeIndex + 1)
+                              }
+                            }}
+                          >
+                            <AArrowUp className="w-4" />
+                          </button>
+                        </div>
+                      </div>
+                      <div className="hidden flex-col lg:flex">
+                        <label
+                          htmlFor="sidebar-position"
+                          className="mb-1 text-sm text-opacity-75"
+                        >
+                          Table of contents position
+                        </label>
+                        <div className="flex items-center">
+                          {SIDEBAR_PLACEMENTS.map((placement, i) => (
+                            <button
+                              id="sidebar-position"
+                              key={placement}
+                              type="button"
+                              aria-selected={sidebarPlacement === placement}
+                              onClick={() => setSidebarPlacement(placement)}
+                              className={cn(
+                                'border p-2 transition ease-in-out',
+                                {
+                                  'border-primary bg-primary text-background':
+                                    placement === sidebarPlacement,
+                                  'border-gray-700 bg-white/10 text-foreground transition hover:bg-white/20':
+                                    placement !== sidebarPlacement,
+                                  'rounded-l': i === 0,
+                                  'rounded-r':
+                                    i === SIDEBAR_PLACEMENTS.length - 1,
+                                },
+                              )}
+                            >
+                              <span className="sr-only">{placement}</span>
+                              {placement === 'left' ? (
+                                <svg
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="17"
+                                  height="14"
+                                  fill="none"
+                                  viewBox="0 0 17 14"
+                                >
+                                  <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M14.5.5h-12A1.5 1.5 0 0 0 1 2v10a1.5 1.5 0 0 0 1.5 1.5h12A1.5 1.5 0 0 0 16 12V2A1.5 1.5 0 0 0 14.5.5ZM5 .5v13M1 7h2M1 4h2m-2 6h2"
+                                  />
+                                </svg>
+                              ) : (
+                                <svg
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="14"
+                                  fill="none"
+                                  viewBox="0 0 16 14"
+                                >
+                                  <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M14 .5H2A1.5 1.5 0 0 0 .5 2v10A1.5 1.5 0 0 0 2 13.5h12a1.5 1.5 0 0 0 1.5-1.5V2A1.5 1.5 0 0 0 14 .5ZM8.5.5v13M11 7h2m-2-3h2m-2 6h2"
+                                  />
+                                </svg>
+                              )}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </PopoverContent>
                   </Popover>
                 </Tooltip>
@@ -336,8 +439,6 @@ const BookChapterRoute: React.FC<{
                   >
                     <svg
                       className="w-4"
-                      // width="16"
-                      // height="16"
                       viewBox="0 0 16 16"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -412,7 +513,7 @@ const BookChapterRoute: React.FC<{
             </div>
           </div>
         </section>
-        {toc && (
+        {toc && sidebarPlacement === 'left' && (
           <ChapterSideNav
             className="z-30 hidden lg:flex"
             toc={toc}
@@ -420,9 +521,10 @@ const BookChapterRoute: React.FC<{
             chapterNavMaxWidth={chapterNavMaxWidth}
           />
         )}
-        <div className="relative z-10 h-full w-full bg-background pb-16">
+
+        <div className="relative z-10 flex h-full w-full justify-center bg-background pb-16">
           <article
-            className={cn('mx-auto p-5 pt-5 sm:pt-16', {
+            className={cn('w-full p-5 pt-5 sm:pt-16', {
               'max-w-3xl': fontSizeIndex === 1 || fontSizeIndex === 0,
               'max-w-4xl': fontSizeIndex === 2,
             })}
@@ -431,11 +533,12 @@ const BookChapterRoute: React.FC<{
               ref={articleRef}
               className={cn(
                 // [&_.code-container]:p-5 [&_.shiki]:p-0
-                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-white prose-p:text-justify prose-p:text-foreground prose-code:text-white prose-li:text-justify prose-li:text-foreground [&>li>code]:bg-gray-800 [&>p>code]:bg-gray-800 [&_h2>code]:bg-gray-800 [&_h3>code]:bg-gray-800 [&_h4>code]:bg-gray-800',
+                'prose max-w-none prose-headings:scroll-m-20 prose-headings:text-white prose-p:text-foreground prose-code:text-white prose-li:text-foreground [&>li>code]:bg-gray-800 [&>p>code]:bg-gray-800 [&_h2>code]:bg-gray-800 [&_h3>code]:bg-gray-800 [&_h4>code]:bg-gray-800',
                 {
                   'prose-sm sm:prose-base lg:prose-lg': fontSizeIndex === 0,
                   'prose-base sm:prose-lg lg:prose-xl': fontSizeIndex === 1,
                   'prose-lg sm:prose-xl lg:prose-2xl': fontSizeIndex === 2,
+                  'prose-p:text-justify prose-li:text-justify': false,
                 },
               )}
             >
@@ -484,6 +587,89 @@ const BookChapterRoute: React.FC<{
               />
             </div>
           </article>
+          {toc && sidebarPlacement === 'right' && (
+            <aside
+              className={cn('relative w-full max-w-[300px] pl-5 pt-20', {
+                'hidden xl:block': fontSizeIndex === 2,
+                'hidden lg:block': fontSizeIndex !== 2,
+              })}
+            >
+              <div
+                className="sticky top-16 h-[calc(100vh-7rem)] overflow-y-auto pr-3 scrollbar-thin scrollbar-track-white/5 scrollbar-thumb-white/10"
+                ref={sidebarRef}
+              >
+                <strong>On this page</strong>
+                <nav className="group">
+                  <ol className="mt-3 flex flex-col [&_*]:duration-300">
+                    {toc.map((item, i) => (
+                      <li key={item.slug}>
+                        <Link
+                          className="inline-flex min-h-3 items-center gap-2 py-2 leading-tight transition hover:text-foreground"
+                          href={`#${item.slug}`}
+                        >
+                          {/* <div
+                          className={cn(
+                            'relative h-px w-5 bg-gray-400 transition group-hover:-translate-x-5',
+                            {
+                              'bg-primary opacity-100':
+                                visibleHeadingId === item.slug,
+                            },
+                          )}
+                        /> */}
+                          <span
+                            className={cn(
+                              'relative  font-semibold text-white  transition hover:text-primary',
+                              {
+                                'text-primary group-hover:opacity-100':
+                                  visibleHeadingId === item.slug,
+                              },
+                            )}
+                          >
+                            {item.text.replace(/`/g, '')}
+                          </span>
+                        </Link>
+                        {item.items.length > 0 && (
+                          <ol>
+                            {item.items
+                              .filter(({level}) => level < 4)
+                              .map((subItem) => (
+                                <li key={subItem.slug}>
+                                  <Link
+                                    className="relative inline-flex min-h-3 items-center gap-2 py-1"
+                                    href={`#${subItem.slug}`}
+                                  >
+                                    <div
+                                      className={cn(
+                                        'absolute left-1 top-0 h-full w-[2px] bg-white/10',
+                                        {
+                                          'bg-primary':
+                                            visibleHeadingId === subItem.slug,
+                                        },
+                                      )}
+                                    />
+                                    <span
+                                      className={cn(
+                                        'relative pl-5 transition hover:text-primary',
+                                        {
+                                          'text-[#ADF2F2] group-hover:opacity-100':
+                                            visibleHeadingId === subItem.slug,
+                                        },
+                                      )}
+                                    >
+                                      {subItem.text.replace(/`/g, '')}
+                                    </span>
+                                  </Link>
+                                </li>
+                              ))}
+                          </ol>
+                        )}
+                      </li>
+                    ))}
+                  </ol>
+                </nav>
+              </div>
+            </aside>
+          )}
         </div>
       </main>
       <section className="bottom-0 left-0 flex w-full grid-cols-2 flex-col-reverse items-center justify-end gap-10 bg-gray-800 p-5 pb-24 pt-11 sm:pb-5 md:fixed md:z-0 md:grid md:h-screen">
@@ -644,27 +830,32 @@ const useVisibleHeading = (
   return visibleHeadingId
 }
 
-const useChapterNavMaxWidth = (articleRef: React.RefObject<HTMLDivElement>) => {
+const useChapterNavMaxWidth = (
+  articleRef: React.RefObject<HTMLDivElement>,
+  sidebarPlacement: string,
+) => {
   const [chapterNavMaxWidth, setChapterNavMaxWidth] = React.useState('100%')
 
   React.useEffect(() => {
-    const handleResize = () => {
-      const articleSpaceFromLeft =
-        articleRef.current?.getBoundingClientRect().left
-      setChapterNavMaxWidth(
-        articleSpaceFromLeft ? `${articleSpaceFromLeft - 50}px` : '100%',
-      )
+    if (sidebarPlacement === 'left') {
+      const handleResize = () => {
+        const articleSpaceFromLeft =
+          articleRef.current?.getBoundingClientRect().left
+        setChapterNavMaxWidth(
+          articleSpaceFromLeft ? `${articleSpaceFromLeft - 50}px` : '100%',
+        )
+      }
+
+      // Call handleResize right away so that chapterNavMaxWidth gets set initially
+      handleResize()
+
+      window.addEventListener('resize', handleResize)
+
+      return () => {
+        window.removeEventListener('resize', handleResize)
+      }
     }
-
-    // Call handleResize right away so that chapterNavMaxWidth gets set initially
-    handleResize()
-
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [articleRef]) // Dependency on articleRef to re-run effect if it changes
+  }, [articleRef, sidebarPlacement]) // Dependency on articleRef to re-run effect if it changes
 
   return chapterNavMaxWidth
 }
@@ -886,11 +1077,11 @@ const ChapterMobileNav: React.FC<{
     <Dialog>
       <DialogTrigger
         className={cn(
-          'fixed bottom-3 right-3 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-white text-sm font-medium text-background',
+          'fixed bottom-3 right-3 z-40 flex items-center justify-center gap-1 rounded bg-gray-800 px-3 py-2 text-sm font-medium text-foreground',
           className,
         )}
       >
-        <ViewListIcon className="h-5 w-5 " />
+        <MenuIcon className="h-5 w-5 " /> On this page
       </DialogTrigger>
       <DialogContent
         withCloseButton={false}
@@ -898,16 +1089,7 @@ const ChapterMobileNav: React.FC<{
       >
         <DialogHeader className="border-b border-gray-800 p-5">
           <DialogTitle>
-            <motion.span
-              className="relative flex flex-col items-center justify-center gap-2"
-              // animate={{
-              //   opacity: [0, 1],
-              // }}
-              // transition={{
-              //   ease: 'easeInOut',
-              //   duration: 0.5,
-              // }}
-            >
+            <span className="relative flex flex-col items-center justify-center gap-2">
               <p className="relative z-10 inline-flex items-center gap-3 font-text text-sm font-medium">
                 <span className="h-px w-10 bg-gray-800" aria-hidden="true" />{' '}
                 Chapter {currentChapterIndex + 1}{' '}
@@ -916,34 +1098,16 @@ const ChapterMobileNav: React.FC<{
               <strong className="text-balance px-2 font-heading text-3xl font-semibold italic text-white">
                 {chapter.title}
               </strong>
-            </motion.span>
+            </span>
           </DialogTitle>
         </DialogHeader>
-        <motion.nav className="overflow-y-auto p-5 py-0 text-lg">
-          <motion.strong
-            // animate={{
-            //   opacity: [0, 1],
-            // }}
-            // transition={{
-            //   ease: 'easeInOut',
-            //   duration: 0.5,
-            //   delay: 0.2,
-            // }}
-            className="text-sm font-semibold uppercase opacity-65"
-          >
+        <nav className="overflow-y-auto p-5 py-0 text-lg">
+          <strong className="text-sm font-semibold uppercase opacity-65">
             In this chapter
-          </motion.strong>
-          <motion.ol
-            className="mt-3 flex flex-col gap-2 pb-16"
-            // variants={container}
-            // initial="hidden"
-            // animate="show"
-          >
+          </strong>
+          <ol className="mt-3 flex flex-col gap-2 pb-16">
             {toc.map((heading, i) => (
-              <motion.li
-                // variants={item}
-                key={heading.slug}
-              >
+              <li key={heading.slug}>
                 <div>
                   <DialogClose asChild>
                     <Link
@@ -965,10 +1129,7 @@ const ChapterMobileNav: React.FC<{
                     {heading.items
                       .filter(({level}) => level < 4)
                       .map((subItem) => (
-                        <motion.li
-                          // variants={item}
-                          key={subItem.slug}
-                        >
+                        <li key={subItem.slug}>
                           <div className="pl-5">
                             <DialogClose asChild>
                               <Link
@@ -979,14 +1140,14 @@ const ChapterMobileNav: React.FC<{
                               </Link>
                             </DialogClose>
                           </div>
-                        </motion.li>
+                        </li>
                       ))}
                   </ol>
                 )}
-              </motion.li>
+              </li>
             ))}
-          </motion.ol>
-        </motion.nav>
+          </ol>
+        </nav>
         <DialogClose className="fixed bottom-3 right-3 flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#001816]">
           <XIcon className="h-5 w-5" />
         </DialogClose>
@@ -1049,7 +1210,7 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
       </span>
       {onAddBookmark && (
         <button
-          className="absolute right-0 flex h-8 w-8 translate-y-2 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 group-hover:bg-amber-300/20 hover:bg-amber-300/20"
+          className="absolute right-0 flex h-8 w-8 translate-y-2 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 group-hover:bg-amber-300/20 hover:bg-amber-300/20 sm:translate-y-3"
           type="button"
           onClick={async () => {
             if (resourceBookmarked) {
