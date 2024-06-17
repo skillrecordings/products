@@ -1,7 +1,6 @@
 import {Highlighter, getHighlighter} from 'shiki'
 import type {Transformer} from 'unified'
 import defaultTheme from './vs-dark-theme.json'
-
 import {createTransformerFactory, rendererClassic} from '@shikijs/twoslash/core'
 import {createTwoslashFromCDN} from 'twoslash-cdn'
 import {createStorage} from 'unstorage'
@@ -43,6 +42,10 @@ const twoslash = createTwoslashFromCDN({
 const transformerTwoslash = createTransformerFactory(twoslash.runSync)({
   renderer: rendererClassic(),
   throws: true,
+  onTwoslashError: (error: unknown, code: string, lang: string) => {
+    console.debug('Twoslash error', error)
+    return code
+  },
   twoslashOptions: {
     compilerOptions,
   },
