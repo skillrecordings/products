@@ -50,6 +50,7 @@ import {TalkItem} from 'pages/talks'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {Button} from '@skillrecordings/ui/primitives/button'
 import Share from 'components/share'
+import {ResourceCTA} from 'components/cta/resource-cta'
 
 const TalkTemplate: React.FC<{
   talk: Talk
@@ -211,6 +212,7 @@ const TalkTemplate: React.FC<{
                   contentType="talk"
                   contributor={talk.presenter}
                 />
+                <ResourceCTA resourceIdOrSlug={talk._id} className="mt-5" />
                 <Transcript talk={talk} />
                 <RelatedTalks talks={talks} />
               </div>

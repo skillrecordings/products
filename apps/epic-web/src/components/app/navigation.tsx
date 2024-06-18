@@ -972,13 +972,17 @@ export const TalkIcon: React.FC<IconProps> = ({isHovered, theme}) => {
   )
 }
 
-export const productOnSalePathBuilder = (product: Product) => {
+export const productOnSalePathBuilder = (product: {
+  slug: string
+  type: 'live' | 'self-paced'
+  modules?: {slug: {current: string}}[]
+}) => {
   if (product.type === 'live') {
     return `/events/${product.slug}`
   } else if (product.modules && product.modules.length > 1) {
     return `/products/${product.slug}`
   } else {
-    return `/workshops/${product?.modules?.[0].slug.current}`
+    return `/workshops/${product?.modules?.[0]?.slug?.current}`
   }
 }
 

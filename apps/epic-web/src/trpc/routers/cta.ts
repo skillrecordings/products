@@ -8,7 +8,98 @@ import {
 } from '@skillrecordings/commerce-server'
 import {getSdk, prisma} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
-import {getProduct} from 'lib/products'
+import {ProductSchema, getProduct} from 'lib/products'
+
+const ActivePromotionSchema = z.object({
+  id: z.string(),
+  code: z.string().nullable(),
+  createdAt: z.date(),
+  expires: z.date().nullable(),
+  maxUses: z.number(),
+  default: z.boolean(),
+  merchantCouponId: z.string().nullable(),
+  status: z.number(),
+  usedCount: z.number(),
+  percentageDiscount: z.string().or(z.number()),
+  restrictedToProductId: z.string().nullable(),
+  bulkPurchaseId: z.string().nullable(),
+  product: ProductSchema.nullable(),
+})
+
+export type CTA_ActivePromotion = z.infer<typeof ActivePromotionSchema>
+
+const LiveProductSchema = z.object({
+  _id: z.string(),
+  title: z.string(),
+  type: z.literal('live'),
+  productId: z.string(),
+  slug: z.string(),
+  description: z.string().optional().nullable(),
+  image: z
+    .object({
+      url: z.string(),
+    })
+    .optional()
+    .nullable(),
+})
+
+const ActiveLiveEventSchema = z.object({
+  quantityAvailable: z.number(),
+  product: LiveProductSchema,
+})
+
+export type CTA_ActiveLiveEvent = z.infer<typeof ActiveLiveEventSchema>
+
+const ContributorProductSchema = z.object({
+  _id: z.string(),
+  title: z.string(),
+  type: z.literal('self-paced'),
+  productId: z.string(),
+  slug: z.string(),
+  description: z.string().optional().nullable(),
+  image: z
+    .object({
+      url: z.string(),
+    })
+    .optional()
+    .nullable(),
+  modules: z.array(
+    z.object({
+      totalLessons: z.number().optional().nullable(),
+      _id: z.string(),
+      title: z.string(),
+      slug: z.object({
+        current: z.string(),
+      }),
+      image: z
+        .object({
+          url: z.string(),
+        })
+        .optional()
+        .nullable(),
+      description: z.string().optional().nullable(),
+      instructor: z
+        .object({
+          _id: z.string(),
+          _type: z.string(),
+          _updatedAt: z.string(),
+          _createdAt: z.string(),
+          name: z.string(),
+          slug: z.string(),
+          picture: z
+            .object({
+              url: z.string(),
+            })
+            .optional()
+            .nullable(),
+        })
+        .nullable()
+        .optional(),
+    }),
+  ),
+})
+
+export type CTA_ContributorProduct = z.infer<typeof ContributorProductSchema>
 
 export const ctaRouter = router({
   forResource: publicProcedure
@@ -57,10 +148,15 @@ export const ctaRouter = router({
             title,
             type,
             productId,
+            image {url},
+            "slug": slug.current,
+            description,
             "modules": modules[]->{
                 _id,
                 title,
-                "slug": slug.current,
+                slug,
+                "image": image.asset->{url},
+                description,
                 "instructor": contributors[@.role == 'instructor'][0].contributor->{
                     _id,
                     _type,
@@ -68,7 +164,12 @@ export const ctaRouter = router({
                     _createdAt,
                     name,
                     "slug": slug.current,
+                    picture {
+                        "url": asset->url,
+                        alt
+                    },
                 },
+                "totalLessons": count(resources[@->._type == 'section']->resources[@->._type in ['exercise', 'explainer', 'lesson']])
             }
         }`)
 
@@ -78,48 +179,71 @@ export const ctaRouter = router({
             title,
             type,
             productId,
+            "slug": slug.current,
+            description,
+            image {url},
         }`)
 
-      const latestLiveProduct = liveProducts?.[0]
+      const parsedLatestLiveProduct = LiveProductSchema.safeParse(
+        liveProducts[0],
+      )
 
       // CURRENT_ACTIVE_LIVE_EVENT
 
-      if (latestLiveProduct) {
-        const purchaseCount = await prisma.purchase.count({
-          where: {
-            productId: latestLiveProduct.productId,
-            status: {
-              in: ['VALID', 'RESTRICTED'],
+      if (!parsedLatestLiveProduct.success) {
+        console.error('Error parsing latest live product')
+        console.error(parsedLatestLiveProduct.error)
+      } else {
+        const latestLiveProduct = parsedLatestLiveProduct.data
+
+        if (latestLiveProduct) {
+          const purchaseCount = await prisma.purchase.count({
+            where: {
+              productId: latestLiveProduct.productId,
+              status: {
+                in: ['VALID', 'RESTRICTED'],
+              },
             },
-          },
-        })
+          })
 
-        const productWithQuantityAvailable = await prisma.product.findUnique({
-          where: {
-            id: latestLiveProduct.productId,
-          },
-          select: {
-            quantityAvailable: true,
-          },
-        })
+          const productWithQuantityAvailable = await prisma.product.findUnique({
+            where: {
+              id: latestLiveProduct.productId,
+            },
+            select: {
+              quantityAvailable: true,
+            },
+          })
 
-        const quantityTotal =
-          productWithQuantityAvailable?.quantityAvailable || -1
-        const quantityAvailable = quantityTotal - purchaseCount
-        const {props: commerceProps} = await propsForCommerce({
-          query: input,
-          token,
-          products: [{productId: latestLiveProduct.productId}] as any,
-        })
+          const quantityTotal =
+            productWithQuantityAvailable?.quantityAvailable || -1
+          const quantityAvailable = quantityTotal - purchaseCount
+          const {props: commerceProps} = await propsForCommerce({
+            query: input,
+            token,
+            products: [{productId: latestLiveProduct.productId}] as any,
+          })
 
-        const purchasedProductIds =
-          commerceProps?.purchases?.map((purchase) => purchase.productId) || []
-        const hasPurchase = purchasedProductIds.includes(
-          latestLiveProduct?.productId as string,
-        )
+          const purchasedProductIds =
+            commerceProps?.purchases?.map((purchase) => purchase.productId) ||
+            []
+          const hasPurchase = purchasedProductIds.includes(
+            latestLiveProduct?.productId as string,
+          )
 
-        if (quantityAvailable > 0 && !hasPurchase) {
-          CURRENT_ACTIVE_LIVE_EVENT = latestLiveProduct
+          if (quantityAvailable > 0 && !hasPurchase) {
+            const currentActiveLiveEvent = ActiveLiveEventSchema.safeParse({
+              quantityAvailable,
+              product: latestLiveProduct,
+            })
+
+            if (!currentActiveLiveEvent.success) {
+              console.error('Error parsing current active live event')
+              console.error(currentActiveLiveEvent.error)
+            } else {
+              CURRENT_ACTIVE_LIVE_EVENT = currentActiveLiveEvent.data
+            }
+          }
         }
       }
 
@@ -145,7 +269,17 @@ export const ctaRouter = router({
           const product = await getProduct(
             defaultCoupon.restrictedToProductId as string,
           )
-          CURRENT_ACTIVE_PROMOTION = product
+          const activePromotion = ActivePromotionSchema.safeParse({
+            ...defaultCoupon,
+            product,
+          })
+
+          if (!activePromotion.success) {
+            console.error('Error parsing active promotion')
+            console.error(activePromotion.error)
+          } else {
+            CURRENT_ACTIVE_PROMOTION = activePromotion.data
+          }
         }
       }
 
@@ -156,18 +290,38 @@ export const ctaRouter = router({
           (module: any) => module?.instructor?._id === contributor._id,
         ),
       )
-
+      let contributorProducts
       if (productsByContributor.length > 0) {
-        HAS_PRODUCT = productsByContributor[0]
+        // get random product, this could be improved by intergrating tags, or similar
+        const product =
+          productsByContributor[
+            Math.floor(Math.random() * productsByContributor.length)
+          ]
+        const parsedProduct = ContributorProductSchema.safeParse(product)
+
+        if (!parsedProduct.success) {
+          console.error('Error parsing contributor product')
+          console.error(parsedProduct.error)
+        } else {
+          HAS_PRODUCT = parsedProduct.data
+        }
+
+        const parsedProductsByContributor = z
+          .array(ContributorProductSchema)
+          .safeParse(productsByContributor)
+
+        if (!parsedProductsByContributor.success) {
+          console.error('Error parsing products by contributor')
+          console.error(parsedProductsByContributor.error)
+        } else {
+          contributorProducts = parsedProductsByContributor.data
+        }
       }
 
       return {
         CURRENT_ACTIVE_LIVE_EVENT,
         CURRENT_ACTIVE_PROMOTION,
         HAS_PRODUCT,
-        productsByContributor: productsByContributor,
       }
-
-      // if CURRENT_ACTIVE_LIVE_EVENT showLiveCTA() else if CURRENT_ACTIVE_PROMOTION showPromotionCta() else if HAS_PRODUCT showProductCta() else showDefaultCta()
     }),
 })
