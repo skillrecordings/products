@@ -37,6 +37,7 @@ import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 import {WorkshopAppBanner} from 'components/workshop-app'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {useGlobalBanner} from 'hooks/use-global-banner'
+import {ResourceCTA} from 'components/cta/resource-cta'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -246,6 +247,9 @@ const ExerciseTemplate: React.FC<{
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
                 <VideoTranscript transcript={transcript} />
+                {module.moduleType === 'tutorial' && (
+                  <ResourceCTA resourceIdOrSlug={module._id} />
+                )}
               </div>
             </article>
           </main>
@@ -345,11 +349,11 @@ const LessonList: React.FC<{
                       </Collection.Resource>
                     </>
                   )}
-                  {type === 'explainer' && (
+                  {/* {type === 'explainer' && (
                     <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
                       Explainer
                     </Collection.Resource>
-                  )}
+                  )} */}
                 </>
               )
             }}
