@@ -21,6 +21,8 @@ import {Trash, BookText} from 'lucide-react'
 import {localBookDb} from '@/utils/dexie'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
@@ -75,47 +77,69 @@ const BookRoute: React.FC<{
         ogImage: {
           url:
             book.ogImage ||
-            'https://res.cloudinary.com/total-typescript/image/upload/v1716213713/typescript-essentials-book-og_2x_nu5tqz.png',
+            'https://res.cloudinary.com/total-typescript/image/upload/v1718801512/typescript-essentials_b2myrp.jpg',
         },
       }}
+      className="overflow-x-hidden"
     >
-      <Heading
-        // image={
-        //   book.image ? (
-        //     <Image
-        //       src={book.image}
-        //       width={1892 / 5}
-        //       height={1636 / 5}
-        //       alt={book.title}
-        //     />
-        //   ) : null
-        // }
-        // withImage={false}
-        title={book.title}
+      <header
+        className={cn(
+          'relative mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center md:flex-row md:items-start',
+        )}
       >
-        <Button
-          size="lg"
-          className="bg-gradient-to-tr from-[#4BCCE5] to-[#8AF7F1]"
-          asChild
-        >
-          {lastBookmarkedResource ? (
-            <Link
-              className="mt-10 rounded-sm font-semibold"
-              href={`/books/${book.slug.current}/${lastBookmarkedResource.section.slug}#${lastBookmarkedResource.resource.id}`}
-            >
-              Continue Reading
-            </Link>
-          ) : (
-            <Link
-              className="mt-10"
-              href={`/books/${book.slug.current}/${book.chapters[0].slug}`}
-            >
-              Start Reading
-            </Link>
+        <div className="pointer-events-none relative -z-10 mt-[55px] flex w-[800px] max-w-[1100px] select-none sm:mt-[63px] md:-ml-[40%] md:w-full lg:-ml-[30%]">
+          <Image
+            src={require('../../../../public/assets/headings/typescript-pro-essentials@2x.png')}
+            aria-hidden="true"
+            alt=""
+            className=""
+            quality={80}
+            priority
+          />
+        </div>
+        <div className="relative -mt-[150px] flex-shrink-0 text-center md:-ml-48 md:-mt-0 md:pt-28 md:text-left lg:pt-36">
+          <h1 className=" text-balance font-heading text-5xl font-bold text-white md:text-5xl lg:text-6xl">
+            {book.title === 'Total TypeScript Essentials' ? (
+              <>
+                <div className="text-2xl font-normal text-primary">
+                  Total TypeScript
+                </div>
+                <div>Essentials</div>
+              </>
+            ) : (
+              book.title
+            )}
+          </h1>
+          {book.description && (
+            <h2 className="w-full max-w-xs text-balance pt-5 text-base text-[#94A5BB]">
+              {book.description}
+            </h2>
           )}
-        </Button>
-      </Heading>
-      <main className="mx-auto w-full max-w-screen-lg px-5 pb-16 xl:px-0">
+          <Button
+            size="lg"
+            className="bg-gradient-to-tr from-[#4BCCE5] to-[#8AF7F1]"
+            asChild
+          >
+            {lastBookmarkedResource ? (
+              <Link
+                className="mt-10 rounded-sm font-semibold"
+                href={`/books/${book.slug.current}/${lastBookmarkedResource.section.slug}#${lastBookmarkedResource.resource.id}`}
+              >
+                Continue Reading <span className="ml-2">→</span>
+              </Link>
+            ) : (
+              <Link
+                className="mt-10"
+                href={`/books/${book.slug.current}/${book.chapters[0].slug}`}
+              >
+                Start Reading <span className="ml-2">→</span>
+              </Link>
+            )}
+          </Button>
+        </div>
+      </header>
+
+      <main className="relative z-10 mx-auto mt-10 w-full max-w-screen-lg border-t border-white/5 px-5 pb-16 sm:pt-5 md:-mt-28 lg:-mt-40 xl:px-0">
         <div className="flex grid-cols-8 flex-col-reverse gap-10 py-8 md:grid">
           <article className="prose col-span-5 max-w-none sm:prose-lg">
             {bookBody ? (
@@ -125,11 +149,13 @@ const BookRoute: React.FC<{
             )}
           </article>
           <aside className="col-span-3 flex flex-col gap-8">
+            <Banner />
             <nav
               aria-label={`Book navigation consisting of ${book.chapters.length} chapters`}
             >
-              <strong className="mb-2 inline-flex items-center gap-1 font-semibold">
-                <BookText className="h-4 w-4 opacity-75" /> Chapters
+              <strong className="mb-2 inline-flex items-center gap-1 font-semibold text-white">
+                <BookText className="h-4 w-4 text-foreground opacity-75" />{' '}
+                Chapters
               </strong>
               <ol className="overflow-hidden rounded border border-white/10">
                 {book.chapters.map((chapter, i) => {
@@ -153,8 +179,9 @@ const BookRoute: React.FC<{
               </ol>
             </nav>
             <nav aria-label="Your bookmarks">
-              <strong className="mb-2 inline-flex items-center gap-1 font-semibold">
-                <BookmarkIcon className="h-4 w-4 opacity-75" /> Bookmarks
+              <strong className="mb-2 inline-flex items-center gap-1 font-semibold text-white">
+                <BookmarkIcon className="h-4 w-4 text-foreground opacity-75" />{' '}
+                Bookmarks
               </strong>
               {bookmarks && bookmarks.length > 0 ? (
                 <>
@@ -229,5 +256,45 @@ const BookmarkItem = ({
         </Button>
       )}
     </li>
+  )
+}
+
+const Banner = () => {
+  return (
+    <Link
+      onClick={() => {
+        track('clicked_pro_essentials_banner', {
+          location: 'book_page',
+        })
+      }}
+      href="/workshops/typescript-pro-essentials"
+      className="group flex w-full items-center justify-between rounded border border-[#E9BDA6] transition duration-300 ease-in-out hover:bg-[#E9BDA6]/5 md:overflow-hidden lg:overflow-visible"
+    >
+      <div className="flex h-full flex-shrink-0 flex-col items-start justify-between py-6 pl-6">
+        <h3 className="flex flex-col text-left">
+          <div className="text-lg leading-tight text-[#E9BDA6]">TypeScript</div>
+          <div className="text-2xl font-semibold text-white">
+            Pro Essentials
+          </div>
+        </h3>
+        <div className="mt-5 inline-flex items-center justify-center rounded border border-[#E9BDA6] px-8 py-2 text-center text-sm font-semibold text-[#E9BDA6] transition duration-300 ease-in-out group-hover:brightness-125 lg:mt-0">
+          <span className="relative transition duration-300 ease-in-out group-hover:-translate-x-2">
+            Go Pro
+          </span>
+          <span className="absolute translate-x-5 opacity-0 transition duration-300 ease-in-out group-hover:translate-x-6 group-hover:opacity-100">
+            →
+          </span>
+        </div>
+      </div>
+      <Image
+        className="-mb-8 sm:max-w-[180px] lg:-mr-6 lg:max-w-full"
+        src={
+          'https://res.cloudinary.com/total-typescript/image/upload/v1718804538/TypeScript-Pro-Essentials-banner_2x_o37gbv.png'
+        }
+        width={203}
+        height={203}
+        alt="TypeScript Pro Essentials"
+      />
+    </Link>
   )
 }
