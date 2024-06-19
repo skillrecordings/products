@@ -40,12 +40,18 @@ export const LessonList: React.FC<{
 
   React.useEffect(() => {
     const activeElementOffset = activeElRef.current?.offsetTop
+    const sectionElement = document.querySelector(
+      `[data-accordion-trigger][data-state="open"]`,
+    )
+    const sectionElementHeight = sectionElement?.clientHeight || 48
 
     activeElementOffset &&
       scrollContainerRef.current?.scrollTo({
         top:
           activeElementOffset -
-          (module.sections && module.sections.length > 1 ? 48 : 0),
+          (module.sections && module.sections.length > 1
+            ? Number(sectionElementHeight)
+            : 0),
       })
   }, [router, activeElRef, scrollContainerRef, module, openedSection])
 
@@ -231,7 +237,7 @@ const Section = React.forwardRef<
             <ul>
               {section.lessons?.map((lesson: Lesson, index: number) => {
                 return (
-                  <>
+                  <React.Fragment key={section._id + '_' + lesson._id}>
                     {index === 0 && isSectionOpened && (
                       <div
                         ref={activeElRef}
@@ -242,7 +248,6 @@ const Section = React.forwardRef<
                     <Lesson
                       lessonResourceRenderer={lessonResourceRenderer}
                       isCurrentSection={isCurrentSection}
-                      key={lesson._id}
                       lesson={lesson}
                       module={module}
                       section={section}
@@ -250,7 +255,7 @@ const Section = React.forwardRef<
                       path={path}
                       ref={activeElRef}
                     />
-                  </>
+                  </React.Fragment>
                 )
               })}
             </ul>
@@ -599,7 +604,7 @@ const SectionResources = ({
           // and present it based on it's structure that doesn't assume a resource
           // is simply a URL
           return (
-            <li key={resource.url}>
+            <li key={section._id + '_' + resource.url}>
               <Link
                 href={resource.url}
                 passHref
