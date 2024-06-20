@@ -81,7 +81,7 @@
           }
 
           [data-price] {
-            @apply flex;
+            @apply flex text-white;
           }
 
           [data-price-discounted] {
@@ -385,9 +385,9 @@
         article {
           @apply w-full pt-40;
           [data-pricing-product-header] {
-            @apply pt-5;
+            @apply pt-12;
             [data-name-badge] {
-              /* @apply hidden; */
+              @apply block;
             }
           }
           [data-purchase-container] {
