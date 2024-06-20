@@ -74,6 +74,17 @@ export default {
       },
     },
     {
+      name: 'upgradableTo',
+      title: 'Upgradable To',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'product'}],
+        },
+      ],
+    },
+    {
       name: 'description',
       title: 'Description',
       type: 'text',
