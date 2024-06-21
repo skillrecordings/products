@@ -20,10 +20,12 @@ export const bookmarksRouter = router({
         throw new Error('Unauthorized')
       }
 
-      return await getBookmarkByResourceId({
+      const bookmark = await getBookmarkByResourceId({
         userId: token.id as string,
         resourceId: input.id,
       })
+
+      return ReturnedBookmarkSchema.parse(bookmark)
     }),
   getBookmarksForUser: publicProcedure.query(async ({ctx}) => {
     const token = await getToken({req: ctx.req})
