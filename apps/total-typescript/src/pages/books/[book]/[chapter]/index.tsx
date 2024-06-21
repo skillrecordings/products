@@ -1288,7 +1288,15 @@ const Exercise = ({
           )}
         </>
       )}
-      <div className="flex w-full flex-wrap items-center justify-between gap-5 pl-3 pr-1 pt-3">
+      <div
+        className={cn(
+          'flex w-full flex-wrap items-center justify-between gap-5 pr-1 pt-3',
+          {
+            'pl-3': !session?.user,
+            'pl-1': session?.user,
+          },
+        )}
+      >
         <div className="relative flex w-full items-center justify-between">
           {session?.user ? (
             <>
