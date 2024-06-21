@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useDeviceDetect} from '@/hooks/use-device-detect'
 import {useRouter} from 'next/router'
@@ -11,6 +12,14 @@ import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import Link from 'next/link'
 import {Button} from '@skillrecordings/ui'
+import SetLocalDevPrefsDialog from '@/exercise/local-dev-prefs/dialog'
+import {
+  DialogClose,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@skillrecordings/ui/primitives/dialog'
+import {CogIcon} from 'lucide-react'
 
 const ExerciseOverlay = () => {
   const {lesson, module} = useLesson()
@@ -31,6 +40,7 @@ const ExerciseOverlay = () => {
   const isStackblitzSuitable: boolean = validExtensions.includes(
     '.' + stackblitzExtension,
   )
+  const [isPrefsDialogOpen, setIsPrefsDialogOpen] = React.useState(false)
 
   return (
     <div className=" bg-black/30 ">
@@ -117,21 +127,42 @@ const ExerciseOverlay = () => {
             </div>
             <div>
               {module.github && (
-                <Button
-                  asChild
-                  className="group relative flex flex-col items-center rounded-l bg-transparent pl-0 pr-0 sm:flex-row"
-                  size="lg"
-                >
-                  <Link href={exerciseGitHubUrl} target="_blank">
-                    <span className="flex h-full flex-shrink-0 items-center rounded bg-primary pl-7 pr-7 sm:rounded-l sm:rounded-r-none sm:pr-2">
-                      <Icon name="Github" size="20" className="mr-2" />
-                      Exercise Files
-                    </span>
-                    <span className="-ml-px hidden h-full flex-shrink-0 items-center justify-center rounded-r bg-primary pr-7 text-sm  transition sm:flex">
-                      /{stackblitz}
-                    </span>
-                  </Link>
-                </Button>
+                <>
+                  <div className="flex space-x-4">
+                    <SetLocalDevPrefsDialog
+                      resourceId={lesson._id}
+                      resourceTitle={module.title}
+                      githubRepositoryName={module?.github?.title as string}
+                      githubRepositoryUrl={exerciseGitHubUrl as string}
+                      isDialogOpen={isPrefsDialogOpen}
+                    >
+                      <DialogTrigger asChild>
+                        <Button
+                          className="group relative flex flex-col items-center rounded-l pl-7 pr-7 sm:flex-row"
+                          size="lg"
+                        >
+                          <CogIcon className="mr-2 h-4 w-4" /> Configure Local
+                          Development
+                        </Button>
+                      </DialogTrigger>
+                    </SetLocalDevPrefsDialog>
+                    <Button
+                      asChild
+                      className="group relative flex flex-col items-center rounded-l bg-transparent pl-0 pr-0 sm:flex-row"
+                      size="lg"
+                    >
+                      <Link href={exerciseGitHubUrl} target="_blank">
+                        <span className="flex h-full flex-shrink-0 items-center rounded bg-gray-800 pl-7 pr-7 text-white sm:rounded-l sm:rounded-r-none sm:pr-2">
+                          <Icon name="Github" size="20" className="mr-2" />
+                          Exercise Files
+                        </span>
+                        <span className="-ml-px hidden h-full flex-shrink-0 items-center justify-center rounded-r bg-gray-800 pr-7 text-sm text-white transition sm:flex">
+                          /{stackblitz}
+                        </span>
+                      </Link>
+                    </Button>
+                  </div>
+                </>
               )}
             </div>
             {module?.github?.repo && (
