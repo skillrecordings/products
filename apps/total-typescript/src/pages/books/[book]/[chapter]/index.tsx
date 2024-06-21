@@ -1138,7 +1138,7 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
       toast.success('Bookmark removed')
     },
     onError: (error) => {
-      toast.error(error.message)
+      toast.error('Error removing bookmark')
     },
   })
 
