@@ -56,8 +56,6 @@ import {
 import {useCopyToClipboard} from 'react-use'
 import {isBrowser} from '@/utils/is-browser'
 import toast from 'react-hot-toast'
-import {localBookDb} from '@/utils/dexie'
-import {useBookmark} from '@/hooks/use-bookmark'
 import {useSession} from 'next-auth/react'
 import {trpc} from '@/trpc/trpc.client'
 
@@ -162,6 +160,14 @@ const BookChapterRoute: React.FC<{
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const articleRef = React.useRef<HTMLDivElement>(null)
+  const addBookmarkMutation = trpc.bookmarks.addBookmark.useMutation({
+    onSuccess: (data) => {
+      toast.success('Bookmark added to the database')
+    },
+    onError: (error) => {
+      toast.error('Error adding bookmark to the database')
+    },
+  })
 
   const {scrollYProgress} = useScroll()
 
@@ -170,20 +176,14 @@ const BookChapterRoute: React.FC<{
   }, [chapter])
 
   const handleAddBookmark = async (heading: {id: string; children: string}) => {
-    await localBookDb.bookmarks
-      .add({
-        eventName: 'bookmark',
-        module: book.slug.current,
-        section: {
-          title: chapter.title,
-          slug: chapter.slug,
-        },
-        resource: heading,
-        createdOn: new Date(),
-      })
-      .then(() => {
-        toast.success('Bookmark added')
-      })
+    addBookmarkMutation.mutate({
+      module: book.slug.current,
+      section: {
+        title: chapter.title,
+        slug: chapter.slug,
+      },
+      resource: heading,
+    })
   }
 
   const heroRef = React.useRef<HTMLDivElement>(null)
@@ -1120,7 +1120,9 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
 }) => {
   const [state, copyToClipboard] = useCopyToClipboard()
   const linkToTitle = `#${props.id}`
-  const {resourceBookmarked, refetch} = useBookmark(props.id as string)
+  const {data: resourceBookmarked} = trpc.bookmarks.getBookmark.useQuery({
+    id: props.id as string,
+  })
   const handleOnClick = () => {
     if (isBrowser()) {
       const url = window.location.href
@@ -1131,6 +1133,14 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
       toast.success('Link copied')
     }
   }
+  const deleteBookmarkMutation = trpc.bookmarks.deleteBookmark.useMutation({
+    onSuccess: () => {
+      toast.success('Bookmark removed')
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
 
   const H = () =>
     React.createElement(
@@ -1163,18 +1173,12 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
           type="button"
           onClick={async () => {
             if (resourceBookmarked) {
-              await localBookDb.bookmarks
-                .delete(resourceBookmarked.id as number)
-                .then(() => {
-                  toast.success('Bookmark removed')
-                })
-              await refetch()
+              deleteBookmarkMutation.mutate({id: resourceBookmarked.id})
             } else {
               await onAddBookmark({
                 id: props.id as string,
                 children: childrenToString(props.children),
               })
-              await refetch()
             }
           }}
         >

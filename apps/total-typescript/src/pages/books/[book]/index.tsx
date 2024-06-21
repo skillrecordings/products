@@ -10,19 +10,14 @@ import groq from 'groq'
 import type {GetStaticPaths, GetStaticProps} from 'next'
 import type {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import Link from 'next/link'
-import {
-  useBookProgress,
-  useBookmark,
-  useBookmarks,
-  type BookmarkEvent,
-} from '@/hooks/use-bookmark'
+import type {Bookmark} from '@/lib/bookmarks'
 import Heading from '@/components/heading'
 import {Trash, BookText} from 'lucide-react'
-import {localBookDb} from '@/utils/dexie'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {trpc} from '@/trpc/trpc.client'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
@@ -66,8 +61,11 @@ const BookRoute: React.FC<{
   book: Book
   bookBody: MDXRemoteSerializeResult | null
 }> = ({book, bookBody}) => {
-  const {lastBookmarkedResource} = useBookProgress(book.slug.current)
-  const {bookmarks, refetch: refetchBookmarks} = useBookmarks(book.slug.current)
+  const {data: lastBookmarkedResource} =
+    trpc.bookmarks.lastBookmarkedResource.useQuery({
+      bookSlug: book.slug.current,
+    })
+  const {data: bookmarks} = trpc.bookmarks.getBookmarksForUser.useQuery()
 
   return (
     <Layout
@@ -192,7 +190,6 @@ const BookRoute: React.FC<{
                           key={bookmark.id}
                           book={book}
                           bookmark={bookmark}
-                          refetch={refetchBookmarks}
                         />
                       )
                     })}
@@ -214,17 +211,18 @@ const BookRoute: React.FC<{
 
 export default BookRoute
 
-const BookmarkItem = ({
-  bookmark,
-  book,
-  refetch,
-}: {
-  bookmark: BookmarkEvent
-  book: Book
-  refetch: () => void
-}) => {
-  const {resourceBookmarked} = useBookmark(bookmark.resource.id as string)
-
+const BookmarkItem = ({bookmark, book}: {bookmark: Bookmark; book: Book}) => {
+  const {data: resourceBookmarked} = trpc.bookmarks.getBookmark.useQuery({
+    id: bookmark.resource.id as string,
+  })
+  const deleteBookmarkMutation = trpc.bookmarks.deleteBookmark.useMutation({
+    onSuccess: () => {
+      toast.success('Bookmark removed')
+    },
+    onError: (error) => {
+      toast.error('Error removing bookmark')
+    },
+  })
   return (
     <li
       key={bookmark.resource.id}
@@ -244,12 +242,7 @@ const BookmarkItem = ({
           variant="destructive"
           className="absolute right-3 h-6 w-6 bg-background text-foreground opacity-0 transition ease-in-out group-hover:opacity-100 group-focus-visible:opacity-100 focus:opacity-100"
           onClick={async () => {
-            await localBookDb.bookmarks
-              .delete(resourceBookmarked.id as number)
-              .then(() => {
-                toast.success('Bookmark removed')
-                refetch()
-              })
+            deleteBookmarkMutation.mutate({id: resourceBookmarked.id})
           }}
         >
           <Trash className="h-3 w-3" />

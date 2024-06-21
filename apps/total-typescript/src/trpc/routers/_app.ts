@@ -12,6 +12,7 @@ import {certificateRouter} from './certificate'
 import {articlesRouter} from './articles'
 import {userPrefsRouter} from './user-prefs'
 import {exercisesRouter} from './exercises'
+import {bookmarksRouter} from './bookmarks'
 
 export const appRouter = mergeRouters(
   router({
@@ -24,6 +25,7 @@ export const appRouter = mergeRouters(
     articles: articlesRouter,
     userPrefs: userPrefsRouter,
     exercises: exercisesRouter,
+    bookmarks: bookmarksRouter,
   }),
   skillLessonRouter,
 )
