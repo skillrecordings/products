@@ -5779,8 +5779,8 @@ importers:
         specifier: ^3.4.1
         version: 3.4.1(ts-node@10.9.2)
       twoslash-cdn:
-        specifier: ^0.2.6
-        version: 0.2.6(typescript@5.4.5)
+        specifier: ^0.2.8
+        version: 0.2.8(typescript@5.4.5)
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -41216,12 +41216,12 @@ packages:
   /tweetnacl@0.14.5:
     resolution: {integrity: sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==}
 
-  /twoslash-cdn@0.2.6(typescript@5.4.5):
-    resolution: {integrity: sha512-x5Pwytp2a9g4YKSRZGOixizHX0fkTM5M0HRHvL18Xlhcpl7+0LG+avhCybDQuNNwgs5sVRtmwaKnFob1QQ6sog==}
+  /twoslash-cdn@0.2.8(typescript@5.4.5):
+    resolution: {integrity: sha512-jbGsUfDG7P8O8nuPUDAy1Ul4jOGP42nzuCP44rEF3NHmnvK3+5gEMZWqDHxry5DTSDr1+G1F8p0djnjdwMUUiA==}
     peerDependencies:
       typescript: '*'
     dependencies:
-      twoslash: 0.2.6(typescript@5.4.5)
+      twoslash: 0.2.8(typescript@5.4.5)
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -41231,6 +41231,10 @@ packages:
     resolution: {integrity: sha512-8NbJlYeRdBcCTQ7ui7pdRPC1NL16aOnoYNz06oBW+W0qWNuiQXHgE8UeNvbA038aDd6ZPuuD5WedsBIESocB4g==}
     dev: false
 
+  /twoslash-protocol@0.2.8:
+    resolution: {integrity: sha512-8l439jrFEJiQmQ6ugFtYXgHpQDp3nBYVF6RR88doLarFGWhjfq0sgntgQYc2aDmJb87Jzhh4EicV8k9DrqpIZg==}
+    dev: false
+
   /twoslash@0.2.6(typescript@5.4.5):
     resolution: {integrity: sha512-DcAKIyXMB6xNs+SOw/oF8GvUr/cfJSqznngVXYbAUIVfTW3M8vWSEoCaz/RgSD+M6vwtK8DJ4/FmYBF5MN8BGw==}
     peerDependencies:
@@ -41238,6 +41242,18 @@ packages:
     dependencies:
       '@typescript/vfs': 1.5.0
       twoslash-protocol: 0.2.6
+      typescript: 5.4.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /twoslash@0.2.8(typescript@5.4.5):
+    resolution: {integrity: sha512-mQiUB4SvBF58FJkEEtXvVhTO1h0oDpTZuEAyaC8xwf4P6392ydSFhsMiUBbJEOvaelN9DLesViopn3E9O2GKOA==}
+    peerDependencies:
+      typescript: '*'
+    dependencies:
+      '@typescript/vfs': 1.5.0
+      twoslash-protocol: 0.2.8
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
