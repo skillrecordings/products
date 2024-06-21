@@ -117,7 +117,7 @@ const BookRoute: React.FC<{
           )}
           <Button
             size="lg"
-            className="bg-gradient-to-tr from-[#4BCCE5] to-[#8AF7F1]"
+            className="bg-gradient-to-tr from-[#4BCCE5] to-[#8AF7F1] font-semibold"
             asChild
           >
             {lastBookmarkedResource ? (
@@ -149,7 +149,7 @@ const BookRoute: React.FC<{
             )}
           </article>
           <aside className="col-span-3 flex flex-col gap-8">
-            <Banner />
+            <ProEssentialsBanner />
             <nav
               aria-label={`Book navigation consisting of ${book.chapters.length} chapters`}
             >
@@ -259,7 +259,7 @@ const BookmarkItem = ({
   )
 }
 
-const Banner = () => {
+const ProEssentialsBanner = () => {
   return (
     <Link
       onClick={() => {

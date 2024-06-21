@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Layout from '@/components/app/layout'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import SetLocalDevPrefsDialog from '../../../../exercise/local-dev-prefs/dialog'
 import {
   AArrowDown,
@@ -63,6 +64,7 @@ import {trpc} from '@/trpc/trpc.client'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import ReactMarkdown from 'react-markdown'
 import Image from 'next/image'
+import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
@@ -821,6 +823,10 @@ const ChaptersMenu: React.FC<{
     show: {opacity: 1, y: 0},
   }
 
+  const {ability, abilityRulesStatus} = useAbilities()
+
+  const canViewTypeScriptProEssentials = ability.can('view', 'Content')
+
   return (
     <>
       <Dialog
@@ -881,6 +887,12 @@ const ChaptersMenu: React.FC<{
               <DialogClose className="fixed right-2 top-0.5 rounded-full bg-gray-800 p-3 transition ease-in-out hover:bg-gray-700 active:bg-gray-700 sm:right-5">
                 <XIcon className="h-5 w-5" />
               </DialogClose>
+              {!canViewTypeScriptProEssentials &&
+                abilityRulesStatus === 'success' && (
+                  <motion.li variants={item} className="px-5">
+                    <ProEssentialsBanner />
+                  </motion.li>
+                )}
             </motion.ol>
           </motion.nav>
         </DialogContent>
@@ -1281,7 +1293,9 @@ const Exercise = ({
                 </svg>
               </div>
               <div className="absolute bottom-0 left-0 z-10 w-full border-t border-white/5 bg-background/50 px-4 py-3 text-sm font-medium backdrop-blur-md">
-                {exercise.section?.workshop?.title}: {exercise.title}
+                {exercise?.section?.workshop?.title ||
+                  'TypeScript Pro Essentials'}
+                : {exercise?.title || title}
               </div>
               <Image src={thumbnail} fill alt="" />
             </Link>
@@ -1524,8 +1538,43 @@ const RightToCSideBar = ({
   fontSizeIndex: number
   visibleHeadingId: string | null
 }) => {
+  const {ability, abilityRulesStatus} = useAbilities()
+
+  const canViewTypeScriptProEssentials = ability.can('view', 'Content')
+
   const scrollAreaRef = React.useRef<HTMLDivElement>(null)
   const [isScrolled, setIsScrolled] = React.useState(false)
+  const [isScrolledAllTheWayDown, setIsScrolledAllTheWayDown] =
+    React.useState(false)
+
+  // determine whether use scrolled all the way down inside scrollAreaRef
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const {scrollTop, scrollHeight, clientHeight} = scrollAreaRef.current!
+      setIsScrolledAllTheWayDown(
+        scrollHeight <= clientHeight ||
+          scrollTop + clientHeight >= scrollHeight,
+      )
+    }
+
+    const scrollArea = scrollAreaRef.current
+    if (scrollArea) {
+      // Initial check in case the content or viewport size changes
+      handleScroll()
+      scrollArea.addEventListener('scroll', handleScroll)
+
+      // Resize observer to handle dynamic content or window resizing
+      const resizeObserver = new ResizeObserver(handleScroll)
+      resizeObserver.observe(scrollArea)
+
+      return () => {
+        scrollArea.removeEventListener('scroll', handleScroll)
+        resizeObserver.unobserve(scrollArea)
+      }
+    }
+  }, [scrollAreaRef.current])
+
   const shouldReduceMotion = useReducedMotion()
 
   // Update isScrolled state based on scroll position
@@ -1541,7 +1590,8 @@ const RightToCSideBar = ({
     return () => {
       scrollArea?.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, [scrollAreaRef.current])
+
   React.useEffect(() => {
     let timeoutId: NodeJS.Timeout | null = null
 
@@ -1565,7 +1615,18 @@ const RightToCSideBar = ({
         clearTimeout(timeoutId)
       }
     }
-  }, [scrollAreaRef, visibleHeadingId])
+  }, [scrollAreaRef.current, visibleHeadingId])
+
+  const bannerRef = React.useRef<HTMLAnchorElement>(null)
+  const [bannerHeight, setBannerHeight] = React.useState(0)
+
+  React.useEffect(() => {
+    if (bannerRef.current) {
+      const padding = 20
+      setBannerHeight(bannerRef.current.clientHeight + padding)
+    }
+  }, [bannerRef.current, setBannerHeight])
+
   return (
     <aside
       className={cn('relative w-full max-w-[300px] pl-5 pt-20', {
@@ -1574,18 +1635,32 @@ const RightToCSideBar = ({
       })}
     >
       <div className="sticky top-16">
-        <div
+        <motion.div
+          initial={{
+            opacity: 1,
+          }}
+          animate={{opacity: isScrolledAllTheWayDown ? 0 : 1}}
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 left-0 z-10 h-20 w-full bg-gradient-to-t from-background to-transparent"
+          style={{
+            bottom: bannerHeight,
+          }}
+          className={`pointer-events-none absolute left-0 z-10 h-20 w-full bg-gradient-to-t from-background to-transparent`}
         />
-        {isScrolled && (
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute left-0 top-0 z-10 h-20 w-full bg-gradient-to-b from-background to-transparent"
-          />
-        )}
+
+        <motion.div
+          initial={{opacity: 0}}
+          animate={{
+            opacity: isScrolled ? 1 : 0,
+          }}
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-0 z-10 h-20 w-full bg-gradient-to-b from-background to-transparent"
+        />
+
         <div
-          className="h-[calc(100vh-7rem)] overflow-y-auto pb-20 scrollbar-none"
+          className={`h-full overflow-y-auto scrollbar-none`}
+          style={{
+            maxHeight: `calc(100vh - 7rem - ${bannerHeight}px)`,
+          }}
           ref={scrollAreaRef}
         >
           <strong>On this page</strong>
@@ -1655,7 +1730,64 @@ const RightToCSideBar = ({
             </ol>
           </nav>
         </div>
+        {!canViewTypeScriptProEssentials &&
+          abilityRulesStatus === 'success' && (
+            <ProEssentialsBanner ref={bannerRef} />
+          )}
       </div>
     </aside>
   )
+}
+const ProEssentialsBanner = React.forwardRef<HTMLAnchorElement, {}>(
+  (props, ref) => {
+    return (
+      <Link
+        ref={ref}
+        onClick={() => {
+          track('clicked_pro_essentials_banner', {
+            location: 'book_page',
+          })
+        }}
+        href="/workshops/typescript-pro-essentials"
+        className="group mt-5 flex w-full items-center justify-between overflow-hidden rounded bg-gradient-to-tr from-white/5 to-white/10 transition duration-300 ease-in-out hover:bg-[#E9BDA6]/5"
+      >
+        <div className="flex h-full flex-shrink-0 flex-col items-start justify-between py-4 pl-4">
+          <h3 className="flex flex-col text-left">
+            <div className="text-base leading-tight text-[#E9BDA6]">
+              TypeScript
+            </div>
+            <div className="text-xl font-semibold text-white">
+              Pro Essentials
+            </div>
+          </h3>
+          <div className="mt-5 inline-flex items-center justify-center rounded border border-[#E9BDA6] px-8 py-2 text-center text-sm font-semibold text-[#E9BDA6] transition duration-300 ease-in-out group-hover:brightness-125">
+            <span className="relative transition duration-300 ease-in-out group-hover:-translate-x-2">
+              Go Pro
+            </span>
+            <span className="absolute translate-x-5 opacity-0 transition duration-300 ease-in-out group-hover:translate-x-6 group-hover:opacity-100">
+              →
+            </span>
+          </div>
+        </div>
+        <Image
+          className="lg:max-w-full"
+          src={
+            'https://res.cloudinary.com/total-typescript/image/upload/v1718804538/TypeScript-Pro-Essentials-banner_2x_o37gbv.png'
+          }
+          width={130}
+          height={130}
+          alt="TypeScript Pro Essentials"
+        />
+      </Link>
+    )
+  },
+)
+
+const useAbilities = () => {
+  const {data: abilityRules, status: abilityRulesStatus} =
+    trpc.modules.rules.useQuery({
+      moduleSlug: 'typescript-pro-essentials',
+      moduleType: 'workshop',
+    })
+  return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
 }
