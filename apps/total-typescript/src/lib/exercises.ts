@@ -63,11 +63,11 @@ export const getExerciseMedia = async (exerciseSlug: string) => {
 }
 
 export const getExercise = async (
-  slug: string,
+  slugOrId: string,
   includeMedia: boolean = true,
 ): Promise<Exercise | undefined> => {
   const exercise = await sanityClient.fetch(
-    `*[_type in ['exercise', 'explainer', 'interview'] && slug.current == $slug][0]{
+    groq`*[_type in ['exercise', 'explainer', 'interview'] && slug.current == $slugOrId || _id == $slugOrId][0]{
       _id,
       _type,
       _updatedAt,
@@ -93,7 +93,7 @@ export const getExercise = async (
         "slug": slug.current,
       }
     }`,
-    {slug},
+    {slugOrId},
   )
 
   const parsedExercise = ExerciseSchema.safeParse(exercise)
