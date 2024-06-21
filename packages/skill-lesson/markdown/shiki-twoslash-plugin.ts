@@ -24,6 +24,7 @@ const storage = createStorage({
 const LANGS = ['typescript', 'ts', 'js', 'json', 'tsx', 'html', 'bash', 'txt']
 
 const compilerOptions: CompilerOptions = {
+  lib: ['dom', 'dom.iterable', 'esnext'],
   target: 9 /* ES2022 */,
   strict: true,
   allowJs: true,
