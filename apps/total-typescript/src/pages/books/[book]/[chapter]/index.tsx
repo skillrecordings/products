@@ -162,10 +162,10 @@ const BookChapterRoute: React.FC<{
   const articleRef = React.useRef<HTMLDivElement>(null)
   const addBookmarkMutation = trpc.bookmarks.addBookmark.useMutation({
     onSuccess: (data) => {
-      toast.success('Bookmark added to the database')
+      toast.success('Bookmark added')
     },
     onError: (error) => {
-      toast.error('Error adding bookmark to the database')
+      toast.error('Error adding bookmark')
     },
   })
 
