@@ -115,12 +115,12 @@ export async function getFixedDiscountForIndividualUpgrade({
     ),
   )
   if (upgradeIsAvailable) {
-    const pricesToBeDiscounted = await pricesOfPurchasesTowardOneBundle({
+    const pricesTowardDiscount = await pricesOfPurchasesTowardOneBundle({
       userId,
       bundleId: productToBePurchased.id,
     })
 
-    const pricesArray = pricesToBeDiscounted.map((price) => {
+    const pricesArray = pricesTowardDiscount.map((price) => {
       return price.unitAmount.toNumber()
     })
 
