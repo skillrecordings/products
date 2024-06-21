@@ -25,7 +25,7 @@ export const bookmarksRouter = router({
         resourceId: input.id,
       })
 
-      return ReturnedBookmarkSchema.parse(bookmark)
+      return ReturnedBookmarkSchema.nullable().parse(bookmark)
     }),
   getBookmarksForUser: publicProcedure.query(async ({ctx}) => {
     const token = await getToken({req: ctx.req})
