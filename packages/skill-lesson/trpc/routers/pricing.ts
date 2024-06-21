@@ -43,6 +43,18 @@ const checkForAnyAvailableUpgrades = async ({
   const productIdsAlreadyPurchased = validPurchases.map(
     (purchase) => purchase.productId,
   )
+  const productsAlreadyUpgradedFrom = validPurchases
+    .map((purchase) => {
+      if (!purchase.upgradedFromId) return null
+
+      const upgradedFromPurchase = validPurchases.find(
+        (innerPurchase) => innerPurchase.id === purchase.upgradedFromId,
+      )
+      if (!upgradedFromPurchase) return null
+
+      return upgradedFromPurchase.productId
+    })
+    .filter((id): id is string => Boolean(id))
 
   const potentialUpgrades = await availableUpgradesForProduct(
     validPurchases,
@@ -57,9 +69,21 @@ const checkForAnyAvailableUpgrades = async ({
     (
       availableUpgrade: AvailableUpgrade,
     ): availableUpgrade is AvailableUpgrade => {
-      return !productIdsAlreadyPurchased.includes(
+      const alreadyPurchased = productIdsAlreadyPurchased.includes(
         availableUpgrade.upgradableTo.id,
       )
+
+      // filter out upgrade paths that are no longer available.
+      //
+      // for instance, if a user has already done an upgrade purchase from
+      // `Basic` to `Standard`, then we would no longer want to offer the
+      // `Basic` to `Pro` upgrade path. Only the `Standard` to `Pro` should
+      // be available at that point.
+      const alreadyUpgradedFrom = productsAlreadyUpgradedFrom.includes(
+        availableUpgrade.upgradableFrom.id,
+      )
+
+      return !alreadyPurchased && !alreadyUpgradedFrom
     },
   )
 
