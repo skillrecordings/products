@@ -1331,7 +1331,7 @@ const Exercise = ({
                     resourceId={book._id}
                     resourceTitle={book.title}
                     githubRepositoryName={book.github?.title as string}
-                    githubRepositoryUrl={book.github?.repo as string}
+                    githubRepositoryUrl={`https://github.com/total-typescript/${book.github?.repo}`}
                     isDialogOpen={isPrefsDialogOpen}
                   >
                     <DialogTrigger asChild>
@@ -1346,7 +1346,7 @@ const Exercise = ({
                   resourceId={book._id}
                   resourceTitle={book.title}
                   githubRepositoryName={book.github?.title as string}
-                  githubRepositoryUrl={book.github?.repo as string}
+                  githubRepositoryUrl={`https://github.com/total-typescript/${book.github?.repo}`}
                   isDialogOpen={isPrefsDialogOpen}
                 >
                   <DialogTrigger asChild>
