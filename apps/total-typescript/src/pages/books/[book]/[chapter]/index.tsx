@@ -71,7 +71,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
   const chapter = await getBookChapter(params?.chapter as string)
 
-  if (!chapter) {
+  if (!chapter || !book) {
     return {
       notFound: true,
     }
