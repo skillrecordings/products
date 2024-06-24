@@ -61,16 +61,19 @@ export const PriceCheckProvider: React.FC<React.PropsWithChildren<any>> = ({
         return false
       }
 
+      const unitPriceOfPurchasedProducts = []
       for (const productId of purchasedProductIds) {
-        for (const key in prices) {
-          if (key === productId) {
-            if (prices[key].unitPrice > price.unitPrice) {
-              return true
-            }
-          }
+        const purchasedPrice = prices[productId]
+        if (purchasedPrice) {
+          unitPriceOfPurchasedProducts.push(purchasedPrice.unitPrice)
         }
       }
-      return false
+
+      // if any purchased product has a unit price greater than the price
+      // we are checking, then it is a downgrade
+      return unitPriceOfPurchasedProducts.some(
+        (unitPrice) => unitPrice > price.unitPrice,
+      )
     },
     [prices],
   )
