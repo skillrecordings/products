@@ -50,22 +50,26 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
 
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+  const product = products[0]
 
   return (
     <Layout
       meta={{
-        title: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}`,
-        titleAppendSiteName: false,
-        description: workshop ? workshop.description : undefined,
+        title: `Buy ${product.title || product.name}`,
+        description: workshop ? workshop.description : product.description,
         ogImage: couponFromCode
           ? {
               url: 'https://res.cloudinary.com/total-typescript/image/upload/v1669888351/illustrations/golden-ticket_2x_hkd8x3.png',
               alt: 'Golden Ticket',
             }
           : {
-              url: workshop
+              url: workshop?.ogImage
                 ? workshop.ogImage
-                : 'https://res.cloudinary.com/total-typescript/image/upload/v1670407830/pricing/card_2x_isoiaa.png',
+                : `${
+                    process.env.NEXT_PUBLIC_URL
+                  }/api/og/og-product?title=${encodeURIComponent(
+                    product.title || product.name,
+                  )}&image=${product.image.url}`,
               alt: `Buy ${process.env.NEXT_PUBLIC_SITE_TITLE}`,
             },
       }}
@@ -105,8 +109,8 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
             <Element name="buy" aria-hidden="true" />
             <Pricing
               userId={userId}
-              product={products[0]}
-              purchased={purchasedProductIds.includes(products[0].productId)}
+              product={product}
+              purchased={purchasedProductIds.includes(product.productId)}
               couponId={couponId}
               allowPurchase={allowPurchase}
             />

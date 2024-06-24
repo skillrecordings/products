@@ -71,7 +71,20 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   const isRestrictedUpgrade = purchaseToUpgrade?.status === 'Restricted'
 
   return (
-    <Layout meta={{title: product.name}}>
+    <Layout
+      meta={{
+        title: product.name,
+        description: product.description,
+        ogImage: {
+          url: `${
+            process.env.NEXT_PUBLIC_URL
+          }/api/og/og-product?title=${encodeURIComponent(
+            product.title || product.name,
+          )}&image=${product.image.url}`,
+          alt: product.name,
+        },
+      }}
+    >
       <main
         data-product-page=""
         className="mx-auto flex w-full flex-col-reverse gap-10 lg:flex-row"
