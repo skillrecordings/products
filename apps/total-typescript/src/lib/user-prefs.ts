@@ -155,5 +155,5 @@ export async function getLocalUserPrefs({
   // Extract the local preferences for the provided resourceId
   const localUserPrefsForResource = parsedLocalPrefs.data.fields[resourceId]
 
-  return localUserPrefsForResource
+  return localUserPrefsForResource || null
 }
