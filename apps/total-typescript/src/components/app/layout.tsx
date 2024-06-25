@@ -45,9 +45,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
     url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`,
     type = 'website',
     ogImage = {
-      url: percentageDiscount
-        ? `${process.env.NEXT_PUBLIC_OG_IMAGE_URI}/og-sale?discount=${percentageDiscount}`
-        : `${process.env.NEXT_PUBLIC_URL}/card@2x.png?date=12/15/23`,
+      url: `${process.env.NEXT_PUBLIC_URL}/api/og/og-root`,
     },
     keywords,
     date,
