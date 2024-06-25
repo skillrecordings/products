@@ -35,7 +35,7 @@
     [data-pricing-product='1'] {
       article {
         [data-pricing-product-header] {
-          @apply pt-12;
+          @apply pt-20;
         }
       }
     }

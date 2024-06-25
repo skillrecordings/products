@@ -55,14 +55,11 @@ export const HomeTemplate: React.FC<
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
   const sortedProductsByName = products.sort((a, b) => {
-    if (a.title === 'Core Volume') {
+    if (a.title === 'TypeScript Pro Essentials') {
       return -1
     }
-    if (b.title === 'Core Volume + React Bundle') {
+    if (b.title === 'Complete Volume') {
       return 0
-    }
-    if (b.title === 'Advanced React with TypeScript') {
-      return 1
     }
     return 0
   })
@@ -87,15 +84,22 @@ export const HomeTemplate: React.FC<
       <main>
         <Copy level={skillLevel} />
         {isSellingLive ? (
-          <MDXComponents.Section
-            className="-mb-40 flex flex-col items-center py-24 pb-56 sm:py-40 sm:pb-56"
+          <div
+            className="flex flex-col items-center pb-16 pt-24 sm:pt-32"
             // slot={null}
           >
-            <h2 className="mx-auto max-w-screen-lg px-3 text-center font-heading text-3xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl">
-              <Balancer>Your Total TypeScript Adventure Starts Now</Balancer>
+            <Image
+              width={300}
+              src={require('../../public/assets/feather@2x.png')}
+              alt=""
+              aria-hidden="true"
+              className="mb-16 max-w-[300px] -rotate-12 sm:max-w-full"
+            />
+            <h2 className="mx-auto max-w-screen-lg text-balance px-3 text-center font-heading text-3xl font-bold sm:text-5xl lg:text-6xl xl:text-6xl">
+              Your Total TypeScript Adventure Starts Now
             </h2>
             <div
-              className="flex w-full flex-col items-center pb-32 pt-12"
+              className="flex w-full flex-col items-center px-5 pb-0 pt-12 sm:pb-24"
               id="buy"
             >
               <Image
@@ -106,14 +110,14 @@ export const HomeTemplate: React.FC<
                 className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
                 quality={100}
               />
-              <section className="px-5 pt-20">
-                <div className="grid gap-40 lg:flex lg:gap-8 xl:gap-16">
+              <section className="pt-32">
+                <div className="flex flex-col-reverse gap-40 lg:flex lg:flex-row lg:gap-0">
                   {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
                   {sortedProductsByName?.map((product, i) => {
                     const isFirst = products.length > 1 && i === 0
                     const isLast =
                       products.length > 1 && i === products.length - 1
-                    const isPro = !isFirst && !isLast
+                    const isPro = !isFirst && isLast
 
                     return (
                       <PriceCheckProvider
@@ -123,13 +127,9 @@ export const HomeTemplate: React.FC<
                         <div
                           key={product.name}
                           className={cx('transition hover:opacity-100', {
-                            'mx-auto max-w-sm origin-top-right opacity-90 lg:mt-16 lg:scale-95':
+                            'mx-auto max-w-sm origin-top-left opacity-80 lg:mt-28 lg:scale-[90%]':
                               isFirst,
-                            'mx-auto max-w-sm origin-top-left opacity-80 lg:mt-28 lg:scale-[80%]':
-                              isLast,
-                            // switch up order when stacked vertically
-                            'row-start-1 origin-top xl:scale-105': isPro,
-                            'row-start-3': isLast,
+                            'origin-top lg:scale-105': isPro,
                           })}
                         >
                           <Element name="buy" aria-hidden="true" />
@@ -163,7 +163,7 @@ export const HomeTemplate: React.FC<
                 priority
               />
             </div>
-          </MDXComponents.Section>
+          </div>
         ) : (
           <SubscribeToNewsletter level={skillLevel} />
         )}
