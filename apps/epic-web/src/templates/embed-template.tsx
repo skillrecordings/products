@@ -39,6 +39,8 @@ export type VideoEmbedPageProps = {
   }
   convertkitSubscriber?: Subscriber
   abilityRules: any
+  isSolution?: boolean
+  solution?: Lesson
 }
 
 const EmbedTemplate: React.FC<VideoEmbedPageProps> = ({
@@ -51,6 +53,8 @@ const EmbedTemplate: React.FC<VideoEmbedPageProps> = ({
   login,
   abilityRules,
   convertkitSubscriber,
+  isSolution = false,
+  solution,
 }) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const router = useRouter()
@@ -77,7 +81,11 @@ const EmbedTemplate: React.FC<VideoEmbedPageProps> = ({
         }}
       />
       <ModuleProgressProvider moduleSlug={module.slug.current}>
-        <LessonProvider lesson={lesson} module={module} section={section}>
+        <LessonProvider
+          lesson={isSolution ? {...solution, slug: lesson.slug} : lesson}
+          module={module}
+          section={section}
+        >
           <VideoResourceProvider videoResourceId={videoResourceId}>
             <VideoProvider
               muxPlayerRef={muxPlayerRef}
