@@ -65,6 +65,7 @@ import {Icon} from '@skillrecordings/skill-lesson/icons'
 import ReactMarkdown from 'react-markdown'
 import Image from 'next/image'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import {AccountDropdown} from '@/components/app/navigation'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
@@ -208,7 +209,7 @@ const BookChapterRoute: React.FC<{
   const [sidebarPlacement, setSidebarPlacement] = React.useState('right')
 
   const chapterNavMaxWidth = useChapterNavMaxWidth(articleRef, sidebarPlacement)
-
+  const {status: sessionStatus} = useSession()
   return (
     <Layout
       meta={{
@@ -228,14 +229,40 @@ const BookChapterRoute: React.FC<{
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
       />
-      <header className="fixed left-0 top-0 z-20 h-10 w-full border-b border-gray-800 bg-background p-2 px-3 sm:px-5 lg:border-none">
-        <nav className="flex items-center justify-between gap-5">
+      <header className="fixed left-0 top-0 z-20 h-10 w-full border-b border-gray-800 bg-background px-3 sm:px-5 lg:border-none">
+        <nav className="flex h-10 items-center justify-between gap-5">
           <Link
             href={`/books/${book.slug.current}`}
             className="flex flex-shrink-0 items-center justify-center font-heading text-base font-medium text-foreground transition ease-in-out hover:text-primary"
           >
-            <span className="hidden sm:inline-block">{book.title}</span>
-            <svg
+            <span className="hidden items-center lg:flex">
+              <Image
+                src={require('../../../../../public/assets/ts-essentials-desktop-logo-bg@2x.png')}
+                width={118}
+                priority
+                quality={100}
+                className="pointer-events-none absolute left-0 top-0 z-50"
+                alt={''}
+                aria-hidden="true"
+              />
+              <Image
+                src={require('../../../../../public/assets/ts-essentials-desktop-logo@2x.png')}
+                width={158}
+                priority
+                quality={100}
+                className="absolute left-5"
+                alt={book.title}
+              />
+            </span>
+            <Image
+              src={require('../../../../../public/assets/ts-essentials-mobile-logo@2x.png')}
+              width={158}
+              priority
+              quality={100}
+              className="absolute left-0 top-0 inline-block lg:hidden"
+              alt={book.title}
+            />
+            {/* <svg
               className="inline-block w-5 sm:hidden"
               viewBox="0 0 16 16"
               fill="none"
@@ -252,247 +279,261 @@ const BookChapterRoute: React.FC<{
                 d="M5.98567 10.0333C5.70553 10.0333 5.53545 9.85326 5.53545 9.55311V6.20479H4.57164C4.3482 6.20479 4.18478 6.04471 4.18478 5.82794C4.18478 5.60783 4.3482 5.44775 4.57164 5.44775H7.40304C7.62982 5.44775 7.7899 5.6045 7.7899 5.82794C7.7899 6.04805 7.62982 6.20479 7.40304 6.20479H6.43589V9.55311C6.43589 9.84993 6.26248 10.0333 5.98567 10.0333ZM8.04335 9.06287C8.04335 8.83609 8.2001 8.67601 8.40353 8.67601C8.55361 8.67601 8.677 8.73938 8.83708 8.9128C9.09387 9.20961 9.43404 9.36302 9.8309 9.36302C10.3645 9.36302 10.668 9.14958 10.668 8.7794C10.668 8.47258 10.4545 8.28249 9.96097 8.16576L9.28063 7.99901C8.49691 7.81892 8.10672 7.40205 8.10672 6.74172C8.10672 5.90464 8.76705 5.36104 9.78088 5.36104C10.3245 5.36104 10.8114 5.51779 11.1115 5.79459C11.3183 5.98135 11.4284 6.19479 11.4284 6.40489C11.4284 6.61499 11.2816 6.7584 11.0648 6.7584C10.9248 6.7584 10.8047 6.69837 10.698 6.56497C10.4946 6.26149 10.1877 6.0914 9.79422 6.0914C9.32065 6.0914 9.01717 6.31818 9.01717 6.67169C9.01717 6.95516 9.22394 7.15526 9.64748 7.25198L10.3312 7.41539C11.1649 7.60548 11.5584 8.00902 11.5584 8.67935C11.5584 9.54644 10.8681 10.0967 9.78088 10.0967C9.19059 10.0967 8.667 9.9333 8.36685 9.64983C8.15674 9.4564 8.04335 9.25296 8.04335 9.06287Z"
                 fill="white"
               />
-            </svg>
+            </svg> */}
           </Link>
-          <motion.div
-            className="hidden truncate overflow-ellipsis font-sans text-sm font-medium sm:block"
-            initial={{
-              opacity: 0,
-              y: -10,
-            }}
-            animate={{
-              opacity: isScrolledPastHero ? 1 : 0,
-              y: isScrolledPastHero ? 0 : -10,
-            }}
-          >
-            <Link
-              href={`/books/${book.slug.current}/${chapter.slug}`}
-              className="transition ease-in-out hover:text-primary"
+          <div className="pointer-events-none absolute left-0 top-2.5 flex w-full items-center justify-center">
+            <motion.div
+              className="hidden truncate overflow-ellipsis text-center font-sans text-sm font-medium sm:block"
+              initial={{
+                opacity: 0,
+                y: -10,
+              }}
+              animate={{
+                opacity: isScrolledPastHero ? 1 : 0,
+                y: isScrolledPastHero ? 0 : -10,
+              }}
             >
-              {chapter.title}
-            </Link>
-          </motion.div>
-          <div className="flex items-center gap-5">
-            <div className="flex items-stretch">
-              <TooltipProvider>
-                <Tooltip delayDuration={0}>
-                  <Popover>
-                    <TooltipTrigger asChild>
-                      <PopoverTrigger className="group flex h-full items-stretch justify-center p-1 transition ease-in-out hover:text-primary">
-                        <svg
-                          className="transition duration-500 ease-in-out group-hover:rotate-90"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                        >
-                          <g
-                            strokeWidth="1"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeMiterlimit="10"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <circle
-                              cx="8"
-                              cy="8"
-                              r="2.5"
-                              stroke="currentColor"
-                            />
-                            <path d="M13.5,8 c0-0.465-0.064-0.913-0.172-1.344l1.917-1.107l-1.5-2.598L11.83,4.057c-0.644-0.626-1.441-1.093-2.33-1.344V0.5h-3v2.212 C5.612,2.964,4.815,3.431,4.17,4.057L2.255,2.951l-1.5,2.598l1.917,1.107C2.564,7.087,2.5,7.535,2.5,8 c0,0.464,0.064,0.913,0.172,1.344l-1.917,1.107l1.5,2.598l1.916-1.106c0.644,0.626,1.441,1.093,2.33,1.344V15.5h3v-2.212 c0.889-0.252,1.685-0.719,2.33-1.344l1.916,1.106l1.5-2.598l-1.917-1.107C13.436,8.913,13.5,8.464,13.5,8z"></path>{' '}
-                          </g>
-                        </svg>
-                      </PopoverTrigger>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-background text-foreground">
-                      Text{' '}
-                      <span className="hidden lg:inline-block">& Layout</span>{' '}
-                      options
-                    </TooltipContent>
-                    <PopoverContent className="flex w-auto flex-col items-start gap-2 bg-background text-foreground">
-                      <div className="flex flex-col">
-                        <label
-                          htmlFor="font-size-slider"
-                          className="mb-1 text-sm text-opacity-75"
-                        >
-                          Text size
-                        </label>
-                        <div className="flex items-center gap-2">
-                          <button
-                            disabled={fontSizeIndex === 0}
-                            type="button"
-                            className={cn('opacity-70 transition ', {
-                              'hover:opacity-100': fontSizeIndex !== 0,
-                            })}
-                            onClick={() => {
-                              if (fontSizeIndex !== 0) {
-                                setFontSizeIndex(fontSizeIndex - 1)
-                              }
-                            }}
-                          >
-                            <AArrowDown className="w-4" />
-                          </button>
-                          <Slider
-                            id="font-size-slider"
-                            className="w-24 transition hover:brightness-125"
-                            value={[fontSizeIndex]}
-                            min={0}
-                            max={FONT_SIZES.length - 1}
-                            onValueChange={(value) => {
-                              setFontSizeIndex(value[0])
-                            }}
-                          />
-                          <button
-                            disabled={fontSizeIndex === FONT_SIZES.length - 1}
-                            type="button"
-                            className={cn('opacity-70 transition ', {
-                              'hover:opacity-100':
-                                fontSizeIndex < FONT_SIZES.length - 1,
-                            })}
-                            onClick={() => {
-                              if (fontSizeIndex < FONT_SIZES.length - 1) {
-                                setFontSizeIndex(fontSizeIndex + 1)
-                              }
-                            }}
-                          >
-                            <AArrowUp className="w-4" />
-                          </button>
-                        </div>
-                      </div>
-                      <div className="hidden flex-col lg:flex">
-                        <label
-                          htmlFor="sidebar-position"
-                          className="mb-1 text-sm text-opacity-75"
-                        >
-                          Table of contents position
-                        </label>
-                        <div className="flex items-center">
-                          {SIDEBAR_PLACEMENTS.map((placement, i) => (
-                            <button
-                              id="sidebar-position"
-                              key={placement}
-                              type="button"
-                              aria-selected={sidebarPlacement === placement}
-                              onClick={() => setSidebarPlacement(placement)}
-                              className={cn(
-                                'border p-2 transition ease-in-out',
-                                {
-                                  'border-primary bg-primary text-background':
-                                    placement === sidebarPlacement,
-                                  'border-gray-700 bg-white/10 text-foreground transition hover:bg-white/20':
-                                    placement !== sidebarPlacement,
-                                  'rounded-l': i === 0,
-                                  'rounded-r':
-                                    i === SIDEBAR_PLACEMENTS.length - 1,
-                                },
-                              )}
+              <Link
+                href={`/books/${book.slug.current}/${chapter.slug}`}
+                className="transition ease-in-out hover:text-primary"
+              >
+                {chapter.title}
+              </Link>
+            </motion.div>
+          </div>
+          <div className="flex items-center gap-3">
+            {sessionStatus === 'loading' ? null : (
+              <>
+                <div className="flex items-stretch">
+                  <TooltipProvider>
+                    <Tooltip delayDuration={0}>
+                      <Popover>
+                        <TooltipTrigger asChild>
+                          <PopoverTrigger className="group flex h-full items-stretch justify-center p-1 transition ease-in-out hover:text-primary">
+                            <svg
+                              className="transition duration-500 ease-in-out group-hover:rotate-90"
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 16 16"
                             >
-                              <span className="sr-only">{placement}</span>
-                              {placement === 'left' ? (
-                                <svg
-                                  aria-hidden="true"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="17"
-                                  height="14"
-                                  fill="none"
-                                  viewBox="0 0 17 14"
+                              <g
+                                strokeWidth="1"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeMiterlimit="10"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <circle
+                                  cx="8"
+                                  cy="8"
+                                  r="2.5"
+                                  stroke="currentColor"
+                                />
+                                <path d="M13.5,8 c0-0.465-0.064-0.913-0.172-1.344l1.917-1.107l-1.5-2.598L11.83,4.057c-0.644-0.626-1.441-1.093-2.33-1.344V0.5h-3v2.212 C5.612,2.964,4.815,3.431,4.17,4.057L2.255,2.951l-1.5,2.598l1.917,1.107C2.564,7.087,2.5,7.535,2.5,8 c0,0.464,0.064,0.913,0.172,1.344l-1.917,1.107l1.5,2.598l1.916-1.106c0.644,0.626,1.441,1.093,2.33,1.344V15.5h3v-2.212 c0.889-0.252,1.685-0.719,2.33-1.344l1.916,1.106l1.5-2.598l-1.917-1.107C13.436,8.913,13.5,8.464,13.5,8z"></path>{' '}
+                              </g>
+                            </svg>
+                          </PopoverTrigger>
+                        </TooltipTrigger>
+                        <TooltipContent className="bg-background text-foreground">
+                          Text{' '}
+                          <span className="hidden lg:inline-block">
+                            & Layout
+                          </span>{' '}
+                          options
+                        </TooltipContent>
+                        <PopoverContent className="flex w-auto flex-col items-start gap-2 bg-background text-foreground">
+                          <div className="flex flex-col">
+                            <label
+                              htmlFor="font-size-slider"
+                              className="mb-1 text-sm text-opacity-75"
+                            >
+                              Text size
+                            </label>
+                            <div className="flex items-center gap-2">
+                              <button
+                                disabled={fontSizeIndex === 0}
+                                type="button"
+                                className={cn('opacity-70 transition ', {
+                                  'hover:opacity-100': fontSizeIndex !== 0,
+                                })}
+                                onClick={() => {
+                                  if (fontSizeIndex !== 0) {
+                                    setFontSizeIndex(fontSizeIndex - 1)
+                                  }
+                                }}
+                              >
+                                <AArrowDown className="w-4" />
+                              </button>
+                              <Slider
+                                id="font-size-slider"
+                                className="w-24 transition hover:brightness-125"
+                                value={[fontSizeIndex]}
+                                min={0}
+                                max={FONT_SIZES.length - 1}
+                                onValueChange={(value) => {
+                                  setFontSizeIndex(value[0])
+                                }}
+                              />
+                              <button
+                                disabled={
+                                  fontSizeIndex === FONT_SIZES.length - 1
+                                }
+                                type="button"
+                                className={cn('opacity-70 transition ', {
+                                  'hover:opacity-100':
+                                    fontSizeIndex < FONT_SIZES.length - 1,
+                                })}
+                                onClick={() => {
+                                  if (fontSizeIndex < FONT_SIZES.length - 1) {
+                                    setFontSizeIndex(fontSizeIndex + 1)
+                                  }
+                                }}
+                              >
+                                <AArrowUp className="w-4" />
+                              </button>
+                            </div>
+                          </div>
+                          <div className="hidden flex-col lg:flex">
+                            <label
+                              htmlFor="sidebar-position"
+                              className="mb-1 text-sm text-opacity-75"
+                            >
+                              Table of contents position
+                            </label>
+                            <div className="flex items-center">
+                              {SIDEBAR_PLACEMENTS.map((placement, i) => (
+                                <button
+                                  id="sidebar-position"
+                                  key={placement}
+                                  type="button"
+                                  aria-selected={sidebarPlacement === placement}
+                                  onClick={() => setSidebarPlacement(placement)}
+                                  className={cn(
+                                    'border p-2 transition ease-in-out',
+                                    {
+                                      'border-primary bg-primary text-background':
+                                        placement === sidebarPlacement,
+                                      'border-gray-700 bg-white/10 text-foreground transition hover:bg-white/20':
+                                        placement !== sidebarPlacement,
+                                      'rounded-l': i === 0,
+                                      'rounded-r':
+                                        i === SIDEBAR_PLACEMENTS.length - 1,
+                                    },
+                                  )}
                                 >
-                                  <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M14.5.5h-12A1.5 1.5 0 0 0 1 2v10a1.5 1.5 0 0 0 1.5 1.5h12A1.5 1.5 0 0 0 16 12V2A1.5 1.5 0 0 0 14.5.5ZM5 .5v13M1 7h2M1 4h2m-2 6h2"
-                                  />
-                                </svg>
-                              ) : (
-                                <svg
-                                  aria-hidden="true"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="14"
-                                  fill="none"
-                                  viewBox="0 0 16 14"
-                                >
-                                  <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M14 .5H2A1.5 1.5 0 0 0 .5 2v10A1.5 1.5 0 0 0 2 13.5h12a1.5 1.5 0 0 0 1.5-1.5V2A1.5 1.5 0 0 0 14 .5ZM8.5.5v13M11 7h2m-2-3h2m-2 6h2"
-                                  />
-                                </svg>
-                              )}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-            <div className="relative h-3 w-16 border border-white/10">
+                                  <span className="sr-only">{placement}</span>
+                                  {placement === 'left' ? (
+                                    <svg
+                                      aria-hidden="true"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="17"
+                                      height="14"
+                                      fill="none"
+                                      viewBox="0 0 17 14"
+                                    >
+                                      <path
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M14.5.5h-12A1.5 1.5 0 0 0 1 2v10a1.5 1.5 0 0 0 1.5 1.5h12A1.5 1.5 0 0 0 16 12V2A1.5 1.5 0 0 0 14.5.5ZM5 .5v13M1 7h2M1 4h2m-2 6h2"
+                                      />
+                                    </svg>
+                                  ) : (
+                                    <svg
+                                      aria-hidden="true"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="16"
+                                      height="14"
+                                      fill="none"
+                                      viewBox="0 0 16 14"
+                                    >
+                                      <path
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M14 .5H2A1.5 1.5 0 0 0 .5 2v10A1.5 1.5 0 0 0 2 13.5h12a1.5 1.5 0 0 0 1.5-1.5V2A1.5 1.5 0 0 0 14 .5ZM8.5.5v13M11 7h2m-2-3h2m-2 6h2"
+                                      />
+                                    </svg>
+                                  )}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                {/* <div className="relative h-3 w-16 border border-white/10">
               <motion.div
                 className="absolute left-0 top-0 h-full w-full origin-left bg-primary"
                 style={{
                   scaleX: scrollYProgress,
                 }}
               />
-            </div>
-            <TooltipProvider>
-              <Tooltip delayDuration={0}>
-                <TooltipTrigger asChild>
-                  <button
-                    type="button"
-                    aria-expanded={isMenuOpen}
-                    aria-label="Book chapters"
-                    className="flex items-center gap-2 p-1 text-sm text-foreground transition hover:text-primary"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  >
-                    <svg
-                      className="w-4"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4.5 3.5H11.5"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M4.5 6.5H11.5"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M4.5 9.5H7.5"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M13.5 0.5H2.5C1.94772 0.5 1.5 0.947715 1.5 1.5V14.5C1.5 15.0523 1.94772 15.5 2.5 15.5H13.5C14.0523 15.5 14.5 15.0523 14.5 14.5V1.5C14.5 0.947715 14.0523 0.5 13.5 0.5Z"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M1.5 12.5H14.5"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>{' '}
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent className="z-50 bg-background text-foreground">
-                  Chapters Index
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            </div> */}
+                <TooltipProvider>
+                  <Tooltip delayDuration={0}>
+                    <TooltipTrigger asChild>
+                      <button
+                        type="button"
+                        aria-expanded={isMenuOpen}
+                        aria-label="Book chapters"
+                        className="flex items-center gap-2 p-1 text-sm text-foreground transition hover:text-primary"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-4"
+                          viewBox="0 0 16 16"
+                          aria-hidden="true"
+                        >
+                          <g
+                            strokeWidth="1"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <line x1=".5" y1="2.5" x2="15.5" y2="2.5" />
+                            <line
+                              x1=".5"
+                              y1="8"
+                              x2="15.5"
+                              y2="8"
+                              stroke="currentColor"
+                            />
+                            <line
+                              data-animate=""
+                              stroke="currentColor"
+                              x1=".5"
+                              y1="13.5"
+                              x2="8.5"
+                              y2="13.5"
+                            />
+                          </g>
+                        </svg>
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="z-50 bg-background text-foreground">
+                      Chapters Index
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+                {sessionStatus === 'unauthenticated' ? (
+                  <Link className="text-sm" href="/login">
+                    Login
+                  </Link>
+                ) : (
+                  <ul>
+                    <AccountDropdown className="[&_button[data-radix-collection-item]]:h-6 [&_button[data-radix-collection-item]]:bg-transparent [&_button[data-radix-collection-item]]:px-1 [&_button[data-radix-collection-item]]:hover:bg-transparent [&_button[data-radix-collection-item]]:hover:radix-state-closed:bg-transparent [&_button[data-radix-collection-item]]:radix-state-open:bg-transparent [&_div[data-state='open']]:top-[30px] [&_img]:h-6 [&_img]:w-6 [&_ul]:text-sm" />
+                  </ul>
+                )}
+              </>
+            )}
           </div>
         </nav>
       </header>
@@ -843,15 +884,24 @@ const ChaptersMenu: React.FC<{
             variants={container}
             initial="hidden"
             animate="show"
-            className="fixed left-0 top-0 flex h-screen w-full flex-col items-center justify-start overflow-y-auto bg-background py-5 text-foreground scrollbar-none sm:py-8"
+            className="fixed left-0 top-0 flex h-screen w-full flex-col items-center justify-start overflow-y-auto bg-gradient-to-b from-background to-gray-800 py-5 text-foreground scrollbar-none sm:py-8"
           >
             <DialogHeader className="mx-auto w-full max-w-4xl border-b border-gray-800 p-5 pb-8 sm:p-10 sm:pb-5">
-              <DialogTitle className="flex w-full flex-col">
-                <motion.span className="text-2xl font-semibold sm:text-3xl">
+              <DialogTitle className="flex w-full flex-col items-center justify-between sm:flex-row">
+                <motion.span className="text-2xl font-semibold sm:text-3xl lg:text-4xl">
                   <Link href={`/books/${book.slug.current}`}>{book.title}</Link>
                 </motion.span>
+                {!canViewTypeScriptProEssentials &&
+                  abilityRulesStatus === 'success' && (
+                    <motion.li
+                      variants={item}
+                      className="hidden flex-shrink-0 px-5 sm:flex"
+                    >
+                      <ProEssentialsBanner />
+                    </motion.li>
+                  )}
               </DialogTitle>
-              <p className="sm:text-lefttext-center font-sans text-lg font-normal opacity-75 sm:pt-16">
+              <p className="sm:text-lefttext-center font-sans text-lg font-normal opacity-75 sm:pt-5">
                 Chapters Index
               </p>
             </DialogHeader>
@@ -863,7 +913,7 @@ const ChaptersMenu: React.FC<{
                   <motion.li variants={item} key={chapter._id}>
                     <Link
                       className={cn(
-                        'flex items-center gap-5 rounded px-5 py-3 font-text text-xl font-semibold transition duration-300 hover:bg-primary hover:text-background sm:gap-10 sm:px-10 sm:py-5 sm:text-3xl sm:italic',
+                        'flex items-center gap-5 rounded px-5 py-3 font-text text-xl font-semibold transition duration-150 hover:bg-white/5 sm:gap-10 sm:px-10 sm:py-5 sm:text-3xl sm:italic',
                         {
                           'bg-gray-800 text-primary hover:brightness-110':
                             isCurrentChapter,
@@ -884,12 +934,12 @@ const ChaptersMenu: React.FC<{
                   </motion.li>
                 )
               })}
-              <DialogClose className="fixed right-2 top-0.5 rounded-full bg-gray-800 p-3 transition ease-in-out hover:bg-gray-700 active:bg-gray-700 sm:right-5">
+              <DialogClose className="fixed right-3 top-3 rounded-full bg-gray-800 p-3 transition ease-in-out hover:bg-gray-700 active:bg-gray-700 sm:right-5">
                 <XIcon className="h-5 w-5" />
               </DialogClose>
               {!canViewTypeScriptProEssentials &&
                 abilityRulesStatus === 'success' && (
-                  <motion.li variants={item} className="px-5">
+                  <motion.li variants={item} className="flex px-5 sm:hidden">
                     <ProEssentialsBanner />
                   </motion.li>
                 )}
