@@ -40,7 +40,7 @@ export type VideoEmbedPageProps = {
   convertkitSubscriber?: Subscriber
   abilityRules: any
   isSolution?: boolean
-  solution?: Lesson
+  solution?: any
 }
 
 const EmbedTemplate: React.FC<VideoEmbedPageProps> = ({
