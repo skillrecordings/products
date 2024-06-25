@@ -1,5 +1,5 @@
 import {defineConfig} from 'sanity'
-import {deskTool} from 'sanity/desk'
+import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
 import deskStructure from './schemas/deskStructure'
@@ -14,7 +14,7 @@ export default defineConfig({
   projectId: 'i1a93n76',
   dataset: 'production',
   plugins: [
-    deskTool({structure: deskStructure}),
+    structureTool({structure: deskStructure}),
     visionTool(),
     codeInput(),
     cloudinarySchemaPlugin(),
