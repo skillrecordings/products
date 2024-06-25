@@ -102,14 +102,6 @@ export const HomeTemplate: React.FC<
               className="flex w-full flex-col items-center px-5 pb-0 pt-12 sm:pb-24"
               id="buy"
             >
-              <Image
-                src={require('../../public/assets/landing/bg-divider-5.png')}
-                alt=""
-                aria-hidden="true"
-                fill
-                className="pointer-events-none z-0 translate-y-80 select-none object-contain object-top"
-                quality={100}
-              />
               <section className="pt-32">
                 <div className="flex flex-col-reverse gap-40 lg:flex lg:flex-row lg:gap-0">
                   {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
