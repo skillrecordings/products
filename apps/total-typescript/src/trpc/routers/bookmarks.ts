@@ -2,11 +2,14 @@ import {
   addBookmark,
   BookmarkInputSchema,
   ReturnedBookmarkSchema,
+  BookmarkForBook,
+  ReturnedBookmarkForBookSchema,
   deleteBookmark,
   getBookmarksForUser,
   getBookmarkByResourceId,
-  getLastBookmarkedResource,
+  getLastestBookmarkedResources,
 } from '@/lib/bookmarks'
+import {TRPCError} from '@trpc/server'
 import {publicProcedure, router} from '@skillrecordings/skill-lesson'
 import {getToken} from 'next-auth/jwt'
 import {z} from 'zod'
@@ -17,7 +20,10 @@ export const bookmarksRouter = router({
     .query(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
       if (!token) {
-        throw new Error('Unauthorized')
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'User not logged in',
+        })
       }
 
       const bookmark = await getBookmarkByResourceId({
@@ -30,7 +36,10 @@ export const bookmarksRouter = router({
   getBookmarksForUser: publicProcedure.query(async ({ctx}) => {
     const token = await getToken({req: ctx.req})
     if (!token) {
-      throw new Error('Unauthorized')
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'User not logged in',
+      })
     }
 
     const bookmarks = await getBookmarksForUser(token.id as string)
@@ -38,18 +47,35 @@ export const bookmarksRouter = router({
     return bookmarks.map((bookmark) => ReturnedBookmarkSchema.parse(bookmark))
   }),
   lastBookmarkedResource: publicProcedure
-    .input(z.object({bookSlug: z.string()}))
+    .input(
+      z.object({
+        type: z.string(),
+        sectionSlugs: z.array(z.string()).optional(),
+      }),
+    )
     .query(async ({ctx, input}) => {
+      const {type, sectionSlugs} = input
       const token = await getToken({req: ctx.req})
       if (!token) {
         throw new Error('Unauthorized')
       }
-      const bookmark = await getLastBookmarkedResource({
+      const bookmarks = await getLastestBookmarkedResources({
         userId: token.id as string,
-        bookSlug: input.bookSlug,
+        type: type,
       })
 
-      return ReturnedBookmarkSchema.parse(bookmark)
+      if (type === 'book' && sectionSlugs) {
+        const bookmarkForBooks = bookmarks.map((bookmark) =>
+          ReturnedBookmarkForBookSchema.parse(bookmark),
+        )
+        return bookmarkForBooks
+          ?.filter((bookmark) => {
+            return sectionSlugs.includes(bookmark?.fields?.chapterSlug ?? '')
+          })
+          .shift()
+      } else {
+        return ReturnedBookmarkSchema.parse(bookmarks.shift())
+      }
     }),
   addBookmark: publicProcedure
     .input(
@@ -60,7 +86,10 @@ export const bookmarksRouter = router({
     .mutation(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
       if (!token) {
-        throw new Error('Unauthorized')
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'User not logged in',
+        })
       }
 
       return await addBookmark({
@@ -73,7 +102,10 @@ export const bookmarksRouter = router({
     .mutation(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
       if (!token) {
-        throw new Error('Unauthorized')
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'User not logged in',
+        })
       }
 
       return await deleteBookmark({

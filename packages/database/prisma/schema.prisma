@@ -333,8 +333,8 @@ model Bookmark {
   id            String                    @id @default(uuid())
   userId        String 
   user          User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  module        String
-  section       Json                      @default("{}")
-  resource      Json                      @default("{}")
+  resourceId    String
+  type          String
+  fields        Json                      @default("{}")
   createdAt     DateTime                  @default(now())
 }

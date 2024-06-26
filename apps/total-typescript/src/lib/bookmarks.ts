@@ -2,32 +2,32 @@ import {z} from 'zod'
 import {prisma} from '@skillrecordings/database'
 
 export const BookmarkInputSchema = z.object({
-  module: z.string(),
-  section: z.object({
-    title: z.string(),
-    slug: z.string(),
-  }),
-  resource: z.object({
-    id: z.string(),
-    children: z.string(),
-  }),
   userId: z.string(),
+  resourceId: z.string(),
+  type: z.string(),
+  fields: z.record(z.string().nullable()).optional(),
 })
 
 export const ReturnedBookmarkSchema = z.object({
   id: z.string(),
-  module: z.string(),
-  section: z.object({
-    title: z.string(),
-    slug: z.string(),
-  }),
-  resource: z.object({
-    id: z.string(),
-    children: z.string(),
+  resourceId: z.string(),
+  type: z.string(),
+  fields: z.record(z.string().nullable()).optional(),
+})
+
+export const ReturnedBookmarkForBookSchema = z.object({
+  id: z.string(),
+  resourceId: z.string(),
+  type: z.string(),
+  fields: z.object({
+    chapterSlug: z.string(),
+    chapterTitle: z.string(),
+    resourceTitle: z.string(),
   }),
 })
 
 export type Bookmark = z.infer<typeof ReturnedBookmarkSchema>
+export type BookmarkForBook = z.infer<typeof ReturnedBookmarkForBookSchema>
 export type BookmarkInput = z.infer<typeof BookmarkInputSchema>
 
 export async function getBookmarksForUser(userId: string) {
@@ -35,9 +35,9 @@ export async function getBookmarksForUser(userId: string) {
     const bookmarks = await prisma.bookmark.findMany({
       select: {
         id: true,
-        module: true,
-        section: true,
-        resource: true,
+        resourceId: true,
+        type: true,
+        fields: true,
       },
       where: {
         userId,
@@ -61,16 +61,13 @@ export async function getBookmarkByResourceId({
     const bookmark = await prisma.bookmark.findFirst({
       select: {
         id: true,
-        module: true,
-        section: true,
-        resource: true,
+        resourceId: true,
+        type: true,
+        fields: true,
       },
       where: {
         userId,
-        resource: {
-          path: '$.id',
-          equals: resourceId,
-        },
+        resourceId,
       },
     })
     return bookmark
@@ -80,30 +77,30 @@ export async function getBookmarkByResourceId({
   }
 }
 
-export async function getLastBookmarkedResource({
+export async function getLastestBookmarkedResources({
   userId,
-  bookSlug,
+  type,
 }: {
   userId: string
-  bookSlug: string
+  type: string
 }) {
   try {
-    const lastBookmarkedResource = await prisma.bookmark.findFirst({
+    const latestBookmarkResources = await prisma.bookmark.findMany({
       select: {
         id: true,
-        module: true,
-        section: true,
-        resource: true,
+        resourceId: true,
+        type: true,
+        fields: true,
       },
       where: {
-        module: bookSlug,
+        type,
         userId,
       },
       orderBy: {
         createdAt: 'desc',
       },
     })
-    return lastBookmarkedResource
+    return latestBookmarkResources
   } catch (error) {
     console.error('Error getting last bookmarked resource', error)
     throw new Error('Error getting last bookmarked resource')
@@ -112,27 +109,24 @@ export async function getLastBookmarkedResource({
 
 export async function addBookmark({
   userId,
-  module,
-  section,
-  resource,
+  type,
+  resourceId,
+  fields,
 }: BookmarkInput) {
   try {
-    console.log('Adding bookmark to user', {userId, module, section, resource})
+    console.log('Adding bookmark to user', {userId, resourceId})
     const bookmark = await prisma.bookmark.create({
       select: {
         id: true,
-        module: true,
-        section: true,
-        resource: true,
+        type: true,
+        resourceId: true,
+        fields: true,
       },
       data: {
-        module,
-        section: {
-          title: section.title,
-          slug: section.slug,
-        },
-        resource,
+        type,
+        resourceId,
         userId,
+        fields: {...fields},
       },
     })
     return bookmark

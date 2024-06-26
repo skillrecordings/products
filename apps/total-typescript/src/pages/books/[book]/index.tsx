@@ -63,9 +63,15 @@ const BookRoute: React.FC<{
 }> = ({book, bookBody}) => {
   const {data: lastBookmarkedResource} =
     trpc.bookmarks.lastBookmarkedResource.useQuery({
-      bookSlug: book.slug.current,
+      type: 'book',
     })
+
+  const chaptersSlugs = book.chapters.map((chapter) => chapter.slug)
   const {data: bookmarks} = trpc.bookmarks.getBookmarksForUser.useQuery()
+
+  const bookmarksForBook = bookmarks?.filter((bookmark) => {
+    return chaptersSlugs.includes(bookmark?.fields?.chapterSlug ?? '')
+  })
 
   return (
     <Layout
@@ -121,7 +127,7 @@ const BookRoute: React.FC<{
             {lastBookmarkedResource ? (
               <Link
                 className="mt-10 rounded-sm font-semibold"
-                href={`/books/${book.slug.current}/${lastBookmarkedResource.section.slug}#${lastBookmarkedResource.resource.id}`}
+                href={`/books/${book.slug.current}/${lastBookmarkedResource?.fields?.chapterSlug}#${lastBookmarkedResource.resourceId}`}
               >
                 Continue Reading <span className="ml-2">→</span>
               </Link>
@@ -181,10 +187,10 @@ const BookRoute: React.FC<{
                 <BookmarkIcon className="h-4 w-4 text-foreground opacity-75" />{' '}
                 Bookmarks
               </strong>
-              {bookmarks && bookmarks.length > 0 ? (
+              {bookmarksForBook && bookmarksForBook.length > 0 ? (
                 <>
                   <ol className="overflow-hidden rounded border border-white/10">
-                    {bookmarks.map((bookmark) => {
+                    {bookmarksForBook.map((bookmark) => {
                       return (
                         <BookmarkItem
                           key={bookmark.id}
@@ -213,7 +219,7 @@ export default BookRoute
 
 const BookmarkItem = ({bookmark, book}: {bookmark: Bookmark; book: Book}) => {
   const {data: resourceBookmarked} = trpc.bookmarks.getBookmark.useQuery({
-    id: bookmark.resource.id as string,
+    id: bookmark.resourceId,
   })
   const deleteBookmarkMutation = trpc.bookmarks.deleteBookmark.useMutation({
     onSuccess: () => {
@@ -225,15 +231,17 @@ const BookmarkItem = ({bookmark, book}: {bookmark: Bookmark; book: Book}) => {
   })
   return (
     <li
-      key={bookmark.resource.id}
+      key={bookmark.resourceId}
       className="group relative flex w-full items-center"
     >
       <Link
         className="flex w-full flex-col items-baseline bg-white/5 px-3 py-2 transition hover:bg-white/10 hover:text-primary focus:bg-white/10"
-        href={`/books/${book.slug.current}/${bookmark.section.slug}#${bookmark.resource.id}`}
+        href={`/books/${book.slug.current}/${bookmark?.fields?.chapterSlug}#${bookmark.resourceId}`}
       >
-        <span>{bookmark.resource.children}</span>
-        <span className="text-sm opacity-75">{bookmark.section.title}</span>
+        <span>{bookmark?.fields?.resourceTitle}</span>
+        <span className="text-sm opacity-75">
+          {bookmark?.fields?.chapterTitle}
+        </span>
       </Link>
       {resourceBookmarked && (
         <Button

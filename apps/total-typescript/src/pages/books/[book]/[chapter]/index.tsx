@@ -165,7 +165,11 @@ const BookChapterRoute: React.FC<{
       toast.success('Bookmark added')
     },
     onError: (error) => {
-      toast.error('Error adding bookmark')
+      if (error?.data?.httpStatus === 401) {
+        toast.error('Please log in to save bookmarks')
+      } else {
+        toast.error('Error adding bookmark')
+      }
     },
   })
 
@@ -177,12 +181,13 @@ const BookChapterRoute: React.FC<{
 
   const handleAddBookmark = async (heading: {id: string; children: string}) => {
     addBookmarkMutation.mutate({
-      module: book.slug.current,
-      section: {
-        title: chapter.title,
-        slug: chapter.slug,
+      type: 'book',
+      resourceId: heading.id,
+      fields: {
+        chapterSlug: chapter.slug,
+        chapterTitle: chapter.title,
+        resourceTitle: heading.children,
       },
-      resource: heading,
     })
   }
 
