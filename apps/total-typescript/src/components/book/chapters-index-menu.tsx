@@ -40,7 +40,6 @@ export const ChaptersIndexMenu: React.FC<{
   }
 
   const {ability, abilityRulesStatus} = useAbilities()
-
   const canViewTypeScriptProEssentials = ability.can('view', 'Content')
 
   return (

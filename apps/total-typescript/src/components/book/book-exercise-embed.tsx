@@ -194,8 +194,14 @@ export const ExerciseEmbed = ({
                           isDialogOpen={isPrefsDialogOpen}
                         >
                           <DialogTrigger asChild>
-                            <Button className="gap-1 rounded-l-none bg-primary/80 px-2.5">
-                              <CogIcon className="h-4 w-4" />
+                            <Button
+                              aria-label="Configure local development settings"
+                              className="gap-1 rounded-l-none bg-primary/80 px-2.5"
+                            >
+                              <CogIcon className="h-4 w-4" aria-hidden="true" />
+                              <span className="sr-only">
+                                Configure local development settings
+                              </span>
                             </Button>
                           </DialogTrigger>
                         </SetLocalDevPrefsDialog>
@@ -213,8 +219,8 @@ export const ExerciseEmbed = ({
                             variant="secondary"
                             className="gap-2 border border-white/5 bg-white/5 text-white hover:bg-white/10"
                           >
-                            <CogIcon className="h-4 w-4" /> Configure Local
-                            Development
+                            <CogIcon className="h-4 w-4" aria-hidden="true" />{' '}
+                            Configure Local Development
                           </Button>
                         </DialogTrigger>
                       </SetLocalDevPrefsDialog>
@@ -318,8 +324,14 @@ export const ExerciseEmbed = ({
                       isDialogOpen={isPrefsDialogOpen}
                     >
                       <DialogTrigger asChild>
-                        <Button className="gap-1 rounded-l-none bg-primary/80 px-2.5">
-                          <CogIcon className="h-4 w-4" />
+                        <Button
+                          aria-label="Configure local development settings"
+                          className="gap-1 rounded-l-none bg-primary/80 px-2.5"
+                        >
+                          <CogIcon className="h-4 w-4" aria-hidden="true" />
+                          <span className="sr-only">
+                            Configure local development settings
+                          </span>
                         </Button>
                       </DialogTrigger>
                     </SetLocalDevPrefsDialog>

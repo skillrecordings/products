@@ -539,6 +539,7 @@ export const AccountDropdown = ({className}: {className?: string}) => {
         <NavigationMenu.List className="flex h-full items-center justify-center">
           <NavigationMenu.Item className="">
             <NavigationMenu.Trigger
+              aria-label="Account dropdown"
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
               onClick={() => {

@@ -116,13 +116,17 @@ export const ChapterHeaderNav = ({
                     <Tooltip delayDuration={0}>
                       <Popover>
                         <TooltipTrigger asChild>
-                          <PopoverTrigger className="group flex h-full items-stretch justify-center p-1 transition ease-in-out hover:text-primary">
+                          <PopoverTrigger
+                            aria-label={'Text & Layout Options'}
+                            className="group flex h-full items-stretch justify-center p-1 transition ease-in-out hover:text-primary"
+                          >
                             <svg
                               className="transition duration-500 ease-in-out group-hover:rotate-90"
                               xmlns="http://www.w3.org/2000/svg"
                               width="16"
                               height="16"
                               viewBox="0 0 16 16"
+                              aria-hidden="true"
                             >
                               <g
                                 strokeWidth="1"
@@ -141,6 +145,9 @@ export const ChapterHeaderNav = ({
                                 <path d="M13.5,8 c0-0.465-0.064-0.913-0.172-1.344l1.917-1.107l-1.5-2.598L11.83,4.057c-0.644-0.626-1.441-1.093-2.33-1.344V0.5h-3v2.212 C5.612,2.964,4.815,3.431,4.17,4.057L2.255,2.951l-1.5,2.598l1.917,1.107C2.564,7.087,2.5,7.535,2.5,8 c0,0.464,0.064,0.913,0.172,1.344l-1.917,1.107l1.5,2.598l1.916-1.106c0.644,0.626,1.441,1.093,2.33,1.344V15.5h3v-2.212 c0.889-0.252,1.685-0.719,2.33-1.344l1.916,1.106l1.5-2.598l-1.917-1.107C13.436,8.913,13.5,8.464,13.5,8z"></path>{' '}
                               </g>
                             </svg>
+                            <span className="sr-only">
+                              Text & Layout Options
+                            </span>
                           </PopoverTrigger>
                         </TooltipTrigger>
                         <TooltipContent className="bg-background text-foreground">
@@ -160,6 +167,7 @@ export const ChapterHeaderNav = ({
                             </label>
                             <div className="flex items-center gap-2">
                               <button
+                                aria-label="Decrease font size"
                                 disabled={fontSizeIndex === 0}
                                 type="button"
                                 className={cn('opacity-70 transition ', {
@@ -174,6 +182,7 @@ export const ChapterHeaderNav = ({
                                 <AArrowDown className="w-4" />
                               </button>
                               <Slider
+                                aria-label="Font size slider"
                                 id="font-size-slider"
                                 className="w-24 transition hover:brightness-125"
                                 value={[fontSizeIndex]}
@@ -184,6 +193,7 @@ export const ChapterHeaderNav = ({
                                 }}
                               />
                               <button
+                                aria-label="Increase font size"
                                 disabled={
                                   fontSizeIndex === FONT_SIZES.length - 1
                                 }
@@ -215,6 +225,7 @@ export const ChapterHeaderNav = ({
                                   id="sidebar-position"
                                   key={placement}
                                   type="button"
+                                  aria-label={`Table of contents position: ${placement}`}
                                   aria-selected={sidebarPlacement === placement}
                                   onClick={() => setSidebarPlacement(placement)}
                                   className={cn(
@@ -287,7 +298,7 @@ export const ChapterHeaderNav = ({
                       <button
                         type="button"
                         aria-expanded={isChaptersMenuOpen}
-                        aria-label="Book chapters"
+                        aria-label="Chapters Index"
                         className="flex items-center gap-2 p-1 text-sm text-foreground transition hover:text-primary"
                         onClick={() =>
                           setIsChaptersMenuOpen(!isChaptersMenuOpen)
@@ -323,6 +334,7 @@ export const ChapterHeaderNav = ({
                             />
                           </g>
                         </svg>
+                        <span className="sr-only">Chapters Index</span>
                       </button>
                     </TooltipTrigger>
                     <TooltipContent className="z-50 bg-background text-foreground">
