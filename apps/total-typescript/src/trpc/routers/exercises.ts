@@ -29,7 +29,8 @@ export const exercisesRouter = router({
                 _id,
                 "slug": slug.current,
                 "workshop": *[_type == 'module' && references(^._id)][0]{
-                    title
+                    title,
+                    "slug": slug.current,
                 },
             },
             "solution": resources[@._type == 'solution'][0]{

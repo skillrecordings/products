@@ -171,7 +171,13 @@ const BookChapterTemplate = ({
                     )
                   },
                   h4: (props: any) => {
-                    return <h4 {...props} />
+                    return (
+                      <BookmarkableMarkdownHeading
+                        onAddBookmark={handleAddBookmark}
+                        as="h4"
+                        {...props}
+                      />
+                    )
                   },
                 }}
               />
