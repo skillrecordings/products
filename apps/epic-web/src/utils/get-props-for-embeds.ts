@@ -49,7 +49,6 @@ export const getPropsForEmbed = async (
     return null
   }
 
-  // @ts-ignore
   const solution = lesson.solution || lesson
   const videoResourceId = isSolution
     ? solution.videoResourceId
@@ -82,10 +81,10 @@ export const getPropsForEmbed = async (
     }),
     country,
     module,
-    lesson: isSolution ? solution : lesson,
+    lesson,
     section,
     purchasedModules,
-    isSolution: isSolution,
+    isSolution,
   })
 
   const ability = createAppAbility(abilityRules || [])
@@ -107,7 +106,9 @@ export const getPropsForEmbed = async (
   return {
     module,
     section,
-    lesson: isSolution ? lesson.solution : lesson,
+    lesson,
+    isSolution,
+    solution,
     videoResourceId,
     videoResource,
     theme,
