@@ -36,6 +36,7 @@ export const ModuleSchema = z
     github: z
       .object({
         repo: z.string().nullish(),
+        title: z.string().optional().nullable(),
       })
       .nullish(),
     slug: z.object({

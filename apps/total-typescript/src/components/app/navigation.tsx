@@ -517,7 +517,7 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
   )
 }
 
-const AccountDropdown = () => {
+export const AccountDropdown = ({className}: {className?: string}) => {
   const ability = useAbilities()
   const canViewTeam = ability.can('view', 'Team')
   const canViewInvoice = ability.can('view', 'Invoice')
@@ -530,7 +530,7 @@ const AccountDropdown = () => {
   }
 
   return (
-    <li className="relative h-full">
+    <li className={cn('relative h-full', className)}>
       <NavigationMenu.Root
         aria-label="Account"
         delayDuration={0}
@@ -539,12 +539,15 @@ const AccountDropdown = () => {
         <NavigationMenu.List className="flex h-full items-center justify-center">
           <NavigationMenu.Item className="">
             <NavigationMenu.Trigger
+              aria-label="Account dropdown"
               onPointerMove={preventHover}
               onPointerLeave={preventHover}
               onClick={() => {
                 track('clicked account dropdown in nav')
               }}
-              className="flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium hover:radix-state-closed:bg-white/5 radix-state-open:bg-[#1F2735] sm:gap-1 sm:px-3 lg:text-sm"
+              className={cn(
+                'flex h-full items-center gap-0.5 rounded-md px-2 py-2 text-sm font-medium hover:radix-state-closed:bg-white/5 radix-state-open:bg-[#1F2735] sm:gap-1 sm:px-3 lg:text-sm',
+              )}
             >
               <Gravatar
                 className="h-7 w-7 rounded-full"
