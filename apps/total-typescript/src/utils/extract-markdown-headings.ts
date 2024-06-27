@@ -9,6 +9,7 @@ export type MarkdownHeading = {
 
 export const extractMarkdownHeadings = (
   markdown: string,
+  chapterTitle: string,
 ): MarkdownHeading[] => {
   const headingRegex = /(^#{1,6}) (.+)/gm
   let match
@@ -23,6 +24,7 @@ export const extractMarkdownHeadings = (
       customReplacements: [
         ['&', ''],
         ['.', ''],
+        ['/', ''],
       ],
     })
 
@@ -30,7 +32,11 @@ export const extractMarkdownHeadings = (
     if (slugMap.has(slug)) {
       const currentIndex = slugMap.get(slug)!
       slugMap.set(slug, currentIndex + 1)
-      slug = `${slug}-${currentIndex}`
+      if (slug === 'exercises') {
+        slug = `${slug}-${currentIndex}-for-${slugify(chapterTitle)}`
+      } else {
+        slug = `${slug}-${currentIndex}`
+      }
     } else {
       slugMap.set(slug, 1)
     }

@@ -20,16 +20,22 @@ interface LinkedHeadingProps extends React.HTMLProps<HTMLHeadingElement> {
     'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   >
   onAddBookmark?: (heading: {id: string; children: string}) => Promise<void>
+  appendValueForRepeatedIds?: string
 }
 
 export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
   as = 'h2',
+  appendValueForRepeatedIds,
   onAddBookmark,
   ...props
 }) => {
+  let id = props.id as string
+  if (id.startsWith('exercises-') && appendValueForRepeatedIds) {
+    id = `${id}${appendValueForRepeatedIds}`
+  }
   const [state, copyToClipboard] = useCopyToClipboard()
-  const linkToTitle = `#${props.id}`
-  const {resourceBookmarked, refetch} = useBookmark(props.id as string)
+  const linkToTitle = `#${id}`
+  const {resourceBookmarked, refetch} = useBookmark(id as string)
   const handleOnClick = () => {
     if (isBrowser()) {
       const url = window.location.href
@@ -49,7 +55,7 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
         onClick: handleOnClick,
         ...props,
         // rehypeSlug treats ampersands as invalid characters so this is a workaround for that
-        id: props?.id?.replaceAll('--', '-'),
+        id: id.replaceAll('--', '-'),
       },
       props.children,
     )

@@ -24,21 +24,33 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
   const chapter = await getBookChapter(params?.chapter as string)
 
-  if (!chapter || !book) {
+  if (!chapter || !book || !chapter.resources) {
     return {
       notFound: true,
     }
   }
 
+  const chapterResources = chapter.resources
+  // concat chapterResource bodies into a single string
+  const body = chapterResources
+    .map((r) =>
+      r.title === `Intro to ${chapter.title}`
+        ? r.body
+        : `## ${r.title}\n\n${r.body}`,
+    )
+    .join('\n\n')
+  const chapterWithBody = {...chapter, body}
   const chapters = book && book.chapters
   const currentChapterIndex =
     chapters?.findIndex((c) => c._id === chapter._id) || 0
   const nextChapter = chapters?.[currentChapterIndex + 1] || null
   const prevChapter = chapters?.[currentChapterIndex - 1] || null
-  const toc = chapter.body && extractMarkdownHeadings(chapter.body)
+  const toc =
+    chapterWithBody.body &&
+    extractMarkdownHeadings(chapterWithBody.body, chapter.title)
   const bodyWithParsedComments =
-    chapter.body &&
-    chapter.body.replaceAll('<!--', '`{/*').replaceAll('-->', '*/}`')
+    chapterWithBody.body &&
+    chapterWithBody.body.replaceAll('<!--', '`{/*').replaceAll('-->', '*/}`')
 
   const chapterBody =
     bodyWithParsedComments &&
