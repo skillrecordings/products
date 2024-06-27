@@ -22,6 +22,7 @@ import {ChapterHero, useIsScrolledPast} from '@/components/book/chapter-hero'
 import {ChapterPagination} from '@/components/book/chapter-pagination'
 import {MobileChapterToC} from '@/components/book/mobile-chapter-toc'
 import {trpc} from '@/trpc/trpc.client'
+import slugify from '@sindresorhus/slugify'
 
 const BookChapterTemplate = ({
   chapter,
@@ -164,6 +165,9 @@ const BookChapterTemplate = ({
                     return (
                       <BookmarkableMarkdownHeading
                         onAddBookmark={handleAddBookmark}
+                        appendValueForRepeatedIds={`-for-${slugify(
+                          chapter.title,
+                        )}`}
                         as="h2"
                         {...props}
                       />
@@ -173,6 +177,9 @@ const BookChapterTemplate = ({
                     return (
                       <BookmarkableMarkdownHeading
                         onAddBookmark={handleAddBookmark}
+                        appendValueForRepeatedIds={`-for-${slugify(
+                          chapter.title,
+                        )}`}
                         as="h3"
                         {...props}
                       />
@@ -182,6 +189,9 @@ const BookChapterTemplate = ({
                     return (
                       <BookmarkableMarkdownHeading
                         onAddBookmark={handleAddBookmark}
+                        appendValueForRepeatedIds={`-for-${slugify(
+                          chapter.title,
+                        )}`}
                         as="h4"
                         {...props}
                       />

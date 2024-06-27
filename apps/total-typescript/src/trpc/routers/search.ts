@@ -18,7 +18,7 @@ export const searchRouter = router({
         `  *[_type in [${
           resourceType
             ? `"${resourceType}"`
-            : `"article", "tip", "module", "exercise", "explainer"`
+            : `"article", "tip", "module", "exercise", "explainer", "chapterResource"`
         }] && state == "published" && moduleType != 'chapter' && moduleType != 'book']
     | score(
       title match $searchQuery 
@@ -45,7 +45,6 @@ export const searchRouter = router({
         "slug": slug.current,
         title
       }
-      
     } | {
       ...,
       "module": *[_type in ['module'] && references(^.section._id)][0] {
@@ -54,6 +53,20 @@ export const searchRouter = router({
         title,
         moduleType
       }
+    } | {
+      ...,
+      "chapter": *[_type == 'module' && moduleType == 'chapter' && references(^._id)][0] { 
+        _id,
+        title,
+        slug
+      }
+    } | {
+      ...,
+      "book": *[_type == 'module' && moduleType == 'book' && references(^.chapter._id)][0] {
+        _id,
+        title,
+        slug
+      } 
     }
     [_score > 0][0..${input.numResults}]`,
         {searchQuery: input.query},
