@@ -14,6 +14,7 @@
 import fs from 'fs'
 import {z} from 'zod'
 import chunk from 'lodash/chunk'
+import toLower from 'lodash/toLower'
 import {prisma} from '@skillrecordings/database'
 
 import {chain} from 'stream-chain'
@@ -204,6 +205,30 @@ const importPurchaseData = async () => {
       }
     }
 
+    const existingUsers = await prisma.user.findMany({
+      select: {id: true, email: true},
+    })
+
+    const existingUsersEmailMapping = existingUsers.reduce<
+      Record<string, string>
+    >((acc, user) => {
+      acc[toLower(user.email)] = user.id
+      return acc
+    }, {})
+
+    const userIdMapping: Record<string, string> = {}
+
+    const usersWithCorrectIds = users.map((user) => {
+      const existingUserId = existingUsersEmailMapping[toLower(user.email)]
+
+      userIdMapping[user.id] = existingUserId || user.id
+
+      return {
+        ...user,
+        id: existingUserId || user.id,
+      }
+    })
+
     // These UUIDs have no significance and aren't related to existing data. They
     // were generated to be used as a consistent ID value for the User and
     // Customer records.
@@ -236,8 +261,11 @@ const importPurchaseData = async () => {
       },
     })
 
-    for (const userChunk of chunkData(users)) {
-      await prisma.user.createMany({data: userChunk, skipDuplicates: true})
+    for (const userChunk of chunkData(usersWithCorrectIds)) {
+      await prisma.user.createMany({
+        data: userChunk,
+        skipDuplicates: true,
+      })
     }
 
     for (const couponChunk of chunkData(coupons)) {
@@ -245,8 +273,17 @@ const importPurchaseData = async () => {
     }
 
     for (const merchantCustomerChunk of chunkData(merchantCustomers)) {
+      const cleanedMerchantCustomerChunk = merchantCustomerChunk.map(
+        (merchantCustomer) => {
+          return {
+            ...merchantCustomer,
+            userId: userIdMapping[merchantCustomer.userId],
+          }
+        },
+      )
+
       await prisma.merchantCustomer.createMany({
-        data: merchantCustomerChunk,
+        data: cleanedMerchantCustomerChunk,
         skipDuplicates: true,
       })
     }
@@ -260,6 +297,7 @@ const importPurchaseData = async () => {
 
         return {
           ...merchantCharge,
+          userId: userIdMapping[merchantCharge.userId],
           merchantCustomerId: validCustomerId,
         }
       }
@@ -274,8 +312,15 @@ const importPurchaseData = async () => {
     }
 
     for (const purchaseChunk of chunkData(purchases)) {
+      const cleanedPurchaseChunk = purchaseChunk.map((purchase) => {
+        return {
+          ...purchase,
+          userId: userIdMapping[purchase.userId],
+        }
+      })
+
       await prisma.purchase.createMany({
-        data: purchaseChunk,
+        data: cleanedPurchaseChunk,
         skipDuplicates: true,
       })
     }
