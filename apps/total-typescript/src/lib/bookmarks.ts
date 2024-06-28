@@ -115,7 +115,6 @@ export async function addBookmark({
   fields,
 }: BookmarkInput) {
   try {
-    console.log('Adding bookmark to user', {userId, resourceId})
     const bookmark = await prisma.bookmark.create({
       select: {
         id: true,
@@ -145,7 +144,6 @@ export async function deleteBookmark({
   bookmarkId: string
 }) {
   try {
-    console.log('Deleting bookmark', {bookmarkId})
     await prisma.bookmark.delete({
       where: {
         userId,

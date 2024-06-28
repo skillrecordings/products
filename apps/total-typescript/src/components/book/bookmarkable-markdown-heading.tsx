@@ -99,7 +99,6 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
           className="absolute right-0 flex h-8 w-8 translate-y-2 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 group-hover:bg-amber-300/20 hover:bg-amber-300/20 sm:translate-y-3"
           type="button"
           onClick={async () => {
-            console.log({resourceBookmarked})
             if (resourceBookmarked) {
               deleteBookmarkMutation.mutate({id: resourceBookmarked.id})
             } else {
