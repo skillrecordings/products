@@ -86,6 +86,7 @@ export const HomeTemplate: React.FC<
         {isSellingLive ? (
           <div
             className="flex flex-col items-center pb-16 pt-24 sm:pt-32"
+            id="buy"
             // slot={null}
           >
             <Image
@@ -98,10 +99,7 @@ export const HomeTemplate: React.FC<
             <h2 className="mx-auto max-w-screen-lg text-balance px-3 text-center font-heading text-3xl font-bold sm:text-5xl lg:text-6xl xl:text-6xl">
               Your Total TypeScript Adventure Starts Now
             </h2>
-            <div
-              className="flex w-full flex-col items-center px-5 pb-0 pt-12 sm:pb-24"
-              id="buy"
-            >
+            <div className="flex w-full flex-col items-center px-5 pb-0 pt-12 sm:pb-24">
               <section className="pt-32">
                 <div className="flex flex-col-reverse gap-40 lg:flex lg:flex-row lg:gap-0">
                   {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
