@@ -23,6 +23,7 @@ export const ReturnedBookmarkForBookSchema = z.object({
     chapterSlug: z.string(),
     chapterTitle: z.string(),
     resourceTitle: z.string(),
+    resourceSlug: z.string(),
   }),
 })
 

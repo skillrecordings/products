@@ -64,6 +64,10 @@ export const bookmarksRouter = router({
         type: type,
       })
 
+      if (!bookmarks.length) {
+        return null
+      }
+
       if (type === 'book' && sectionSlugs) {
         const bookmarkForBooks = bookmarks.map((bookmark) =>
           ReturnedBookmarkForBookSchema.parse(bookmark),

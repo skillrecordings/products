@@ -18,14 +18,24 @@ interface LinkedHeadingProps extends React.HTMLProps<HTMLHeadingElement> {
     keyof JSX.IntrinsicElements,
     'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   >
-  onAddBookmark?: (heading: {id: string; children: string}) => Promise<void>
+  onAddBookmark?: ({
+    resourceId,
+    resourceTitle,
+    resourceSlug,
+  }: {
+    resourceId: string
+    resourceTitle: string
+    resourceSlug: string
+  }) => Promise<void>
   appendValueForRepeatedIds?: string
+  resourceId?: string
 }
 
 export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
   as = 'h2',
   appendValueForRepeatedIds,
   onAddBookmark,
+  resourceId,
   ...props
 }) => {
   let id = props.id as string
@@ -33,9 +43,12 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
     id = `${id}${appendValueForRepeatedIds}`
   }
   const [state, copyToClipboard] = useCopyToClipboard()
-  const {data: resourceBookmarked} = trpc.bookmarks.getBookmark.useQuery({
-    id: props.id as string,
-  })
+  const {data: resourceBookmarked} = resourceId
+    ? trpc.bookmarks.getBookmark.useQuery({
+        id: resourceId,
+      })
+    : {data: undefined}
+
   const deleteBookmarkMutation = trpc.bookmarks.deleteBookmark.useMutation({
     onSuccess: () => {
       toast.success('Bookmark removed')
@@ -81,17 +94,19 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
         </a>
         <H />
       </span>
-      {onAddBookmark && (
+      {onAddBookmark && resourceId && (
         <button
           className="absolute right-0 flex h-8 w-8 translate-y-2 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 group-hover:bg-amber-300/20 hover:bg-amber-300/20 sm:translate-y-3"
           type="button"
           onClick={async () => {
+            console.log({resourceBookmarked})
             if (resourceBookmarked) {
               deleteBookmarkMutation.mutate({id: resourceBookmarked.id})
             } else {
               await onAddBookmark({
-                id: props.id as string,
-                children: childrenToString(props.children),
+                resourceId,
+                resourceTitle: childrenToString(props.children),
+                resourceSlug: props.id as string,
               })
             }
           }}

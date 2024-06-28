@@ -34,6 +34,7 @@ const BookChapterTemplate = ({
 }: BookChapterProps) => {
   const chapterIndex = book.chapters.findIndex((c) => c._id === chapter._id)
   const headings = flattenMarkdownHeadings(toc)
+  const resources = chapter.resources
 
   const visibleHeadingId = useVisibleMarkdownHeading(headings, {
     rootMargin: '0% 0% -80% 0%',
@@ -55,14 +56,23 @@ const BookChapterTemplate = ({
 
   const articleRef = React.useRef<HTMLDivElement>(null)
 
-  const handleAddBookmark = async (heading: {id: string; children: string}) => {
+  const handleAddBookmark = async ({
+    resourceId,
+    resourceTitle,
+    resourceSlug,
+  }: {
+    resourceId: string
+    resourceTitle: string
+    resourceSlug: string
+  }) => {
     addBookmarkMutation.mutate({
       type: 'book',
-      resourceId: heading.id,
+      resourceId,
       fields: {
         chapterSlug: chapter.slug,
         chapterTitle: chapter.title,
-        resourceTitle: heading.children,
+        resourceTitle,
+        resourceSlug,
       },
     })
   }
@@ -162,6 +172,9 @@ const BookChapterTemplate = ({
                     )
                   },
                   h2: (props: any) => {
+                    const resourceId = resources?.find(
+                      (r) => r.slug === props.id,
+                    )?._id
                     return (
                       <BookmarkableMarkdownHeading
                         onAddBookmark={handleAddBookmark}
@@ -169,6 +182,7 @@ const BookChapterTemplate = ({
                           chapter.title,
                         )}`}
                         as="h2"
+                        resourceId={resourceId}
                         {...props}
                       />
                     )
@@ -176,7 +190,6 @@ const BookChapterTemplate = ({
                   h3: (props: any) => {
                     return (
                       <BookmarkableMarkdownHeading
-                        onAddBookmark={handleAddBookmark}
                         appendValueForRepeatedIds={`-for-${slugify(
                           chapter.title,
                         )}`}
@@ -188,7 +201,6 @@ const BookChapterTemplate = ({
                   h4: (props: any) => {
                     return (
                       <BookmarkableMarkdownHeading
-                        onAddBookmark={handleAddBookmark}
                         appendValueForRepeatedIds={`-for-${slugify(
                           chapter.title,
                         )}`}

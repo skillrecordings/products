@@ -65,12 +65,13 @@ const BookRoute: React.FC<{
     trpc.bookmarks.lastBookmarkedResource.useQuery({
       type: 'book',
     })
-
-  const chaptersSlugs = book.chapters.map((chapter) => chapter.slug)
+  const resourceIds = book.chapters.flatMap((chapter) => {
+    return chapter.resources?.map((resource) => resource._id) ?? []
+  })
   const {data: bookmarks} = trpc.bookmarks.getBookmarksForUser.useQuery()
 
   const bookmarksForBook = bookmarks?.filter((bookmark) => {
-    return chaptersSlugs.includes(bookmark?.fields?.chapterSlug ?? '')
+    return resourceIds.includes(bookmark.resourceId)
   })
 
   return (
@@ -127,7 +128,7 @@ const BookRoute: React.FC<{
             {lastBookmarkedResource ? (
               <Link
                 className="mt-10 rounded-sm font-semibold"
-                href={`/books/${book.slug.current}/${lastBookmarkedResource?.fields?.chapterSlug}#${lastBookmarkedResource.resourceId}`}
+                href={`/books/${book.slug.current}/${lastBookmarkedResource?.fields?.chapterSlug}#${lastBookmarkedResource?.fields?.resourceSlug}`}
               >
                 Continue Reading <span className="ml-2">→</span>
               </Link>
@@ -236,7 +237,7 @@ const BookmarkItem = ({bookmark, book}: {bookmark: Bookmark; book: Book}) => {
     >
       <Link
         className="flex w-full flex-col items-baseline bg-white/5 px-3 py-2 transition hover:bg-white/10 hover:text-primary focus:bg-white/10"
-        href={`/books/${book.slug.current}/${bookmark?.fields?.chapterSlug}#${bookmark.resourceId}`}
+        href={`/books/${book.slug.current}/${bookmark.fields?.chapterSlug}#${bookmark.fields?.resourceSlug}`}
       >
         <span>{bookmark?.fields?.resourceTitle}</span>
         <span className="text-sm opacity-75">
