@@ -33,19 +33,28 @@ export const bookmarksRouter = router({
 
       return ReturnedBookmarkSchema.nullable().parse(bookmark)
     }),
-  getBookmarksForUser: publicProcedure.query(async ({ctx}) => {
-    const token = await getToken({req: ctx.req})
-    if (!token) {
-      throw new TRPCError({
-        code: 'UNAUTHORIZED',
-        message: 'User not logged in',
-      })
-    }
+  getBookmarksForUser: publicProcedure
+    .input(
+      z.object({
+        resourceIds: z.array(z.string()).optional(),
+      }),
+    )
+    .query(async ({ctx, input}) => {
+      const token = await getToken({req: ctx.req})
+      if (!token) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'User not logged in',
+        })
+      }
 
-    const bookmarks = await getBookmarksForUser(token.id as string)
+      const bookmarks = await getBookmarksForUser(
+        token.id as string,
+        input.resourceIds,
+      )
 
-    return bookmarks.map((bookmark) => ReturnedBookmarkSchema.parse(bookmark))
-  }),
+      return bookmarks.map((bookmark) => ReturnedBookmarkSchema.parse(bookmark))
+    }),
   lastBookmarkedResource: publicProcedure
     .input(
       z.object({

@@ -31,7 +31,10 @@ export type Bookmark = z.infer<typeof ReturnedBookmarkSchema>
 export type BookmarkForBook = z.infer<typeof ReturnedBookmarkForBookSchema>
 export type BookmarkInput = z.infer<typeof BookmarkInputSchema>
 
-export async function getBookmarksForUser(userId: string) {
+export async function getBookmarksForUser(
+  userId: string,
+  resourceIds?: string[],
+) {
   try {
     const bookmarks = await prisma.bookmark.findMany({
       select: {
@@ -42,6 +45,13 @@ export async function getBookmarksForUser(userId: string) {
       },
       where: {
         userId,
+        ...(resourceIds
+          ? {
+              resourceId: {
+                in: resourceIds,
+              },
+            }
+          : {}),
       },
     })
     return bookmarks

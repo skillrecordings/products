@@ -68,10 +68,8 @@ const BookRoute: React.FC<{
   const resourceIds = book.chapters.flatMap((chapter) => {
     return chapter.resources?.map((resource) => resource._id) ?? []
   })
-  const {data: bookmarks} = trpc.bookmarks.getBookmarksForUser.useQuery()
-
-  const bookmarksForBook = bookmarks?.filter((bookmark) => {
-    return resourceIds.includes(bookmark.resourceId)
+  const {data: bookmarks} = trpc.bookmarks.getBookmarksForUser.useQuery({
+    resourceIds,
   })
 
   return (
@@ -188,10 +186,10 @@ const BookRoute: React.FC<{
                 <BookmarkIcon className="h-4 w-4 text-foreground opacity-75" />{' '}
                 Bookmarks
               </strong>
-              {bookmarksForBook && bookmarksForBook.length > 0 ? (
+              {bookmarks && bookmarks.length > 0 ? (
                 <>
                   <ol className="overflow-hidden rounded border border-white/10">
-                    {bookmarksForBook.map((bookmark) => {
+                    {bookmarks.map((bookmark) => {
                       return (
                         <BookmarkItem
                           key={bookmark.id}
