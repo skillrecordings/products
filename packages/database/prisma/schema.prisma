@@ -338,4 +338,6 @@ model Bookmark {
   fields        Json                      @default("{}")
   createdAt     DateTime                  @default(now())
   updatedAt    DateTime                   @updatedAt() @default(now())
+
+  @@index([userId, resourceId])
 }
