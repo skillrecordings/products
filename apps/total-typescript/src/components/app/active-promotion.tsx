@@ -7,6 +7,7 @@ import {Button} from '@skillrecordings/ui'
 import {XIcon} from 'lucide-react'
 import Image from 'next/image'
 import {isBefore, subDays} from 'date-fns'
+import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 
 const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
   className,
@@ -22,17 +23,21 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
     new Date(),
     DAYS_TO_WAIT_BETWEEN_SHOWING_DISMISSED_PROMOTION,
   )
-  const lastDissmissed = getCookie()?.dismissed_on
+  const lastDismissed = getCookie()?.dismissed_on
 
   React.useEffect(() => {
-    if (!lastDissmissed) {
+    if (!lastDismissed) {
       setShouldDisplayPromotion(
-        activePromotion ? (getCookie()?.state === 1 ? true : false) : false,
+        activePromotion && getCookie()
+          ? getCookie()?.state === 1
+            ? true
+            : false
+          : true,
       )
     } else {
       setShouldDisplayPromotion(
         activePromotion
-          ? isBefore(new Date(lastDissmissed), thresholdDays)
+          ? isBefore(new Date(lastDismissed), thresholdDays)
             ? true
             : getCookie()?.state === 1
           : false,
@@ -52,6 +57,12 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
           className,
         )}
         href={buyUrl}
+        onClick={() => {
+          track('active_promotion_cta_clicked', {
+            promotion_id: activePromotion.id,
+            location: 'nav',
+          })
+        }}
       >
         <span className="absolute left-[-52px] top-0 origin-top-right scale-75 bg-primary px-1 font-sans text-xs font-semibold uppercase text-black">
           Sale
@@ -81,7 +92,7 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
     return shouldDisplayPromotion && activePromotion ? (
       <div
         className={cn(
-          'fixed bottom-5 right-5 z-50 flex w-full max-w-[200px] flex-col items-start rounded border bg-card p-5 pt-0 text-sm shadow-xl duration-500 ease-in-out',
+          'fixed bottom-5 right-5 z-30 flex w-full max-w-[200px] origin-bottom-right scale-90 flex-col items-center rounded border bg-card p-5 pt-0 text-center text-sm shadow-xl duration-500 ease-in-out sm:z-50 sm:scale-100',
 
           {
             'flex xl:hidden': !isMinified,
@@ -105,17 +116,27 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
         >
           <XIcon className="h-4 w-4" />
         </Button>
-        <span className="inline-flex rounded-b-sm bg-primary px-1 font-sans text-xs font-semibold uppercase text-black">
+        <span className="inline-flex rounded-b-sm border-x border-b bg-transparent px-2 py-0.5 font-sans text-xs font-semibold uppercase text-black text-primary">
           Save {Number(activePromotion.percentageDiscount) * 100}%
         </span>
-        <div className="flex flex-col pt-3 text-[13px]">
+        <div className="flex w-full flex-col items-center pt-3 text-[13px]">
           {activePromotion?.product?.image?.url && (
-            <Image
-              src={activePromotion.product.image.url}
-              width={100}
-              height={100}
-              alt={activePromotion?.product?.title}
-            />
+            <Link
+              href={buyUrl}
+              onClick={() => {
+                track('active_promotion_cta_clicked', {
+                  promotion_id: activePromotion.id,
+                  location: 'popup_image',
+                })
+              }}
+            >
+              <Image
+                src={activePromotion.product.image.url}
+                width={120}
+                height={120}
+                alt={activePromotion?.product?.title}
+              />
+            </Link>
           )}
           <span className="text-balance text-lg font-semibold text-white">
             {activePromotion?.product?.title
@@ -123,7 +144,7 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
               : process.env.NEXT_PUBLIC_SITE_TITLE}{' '}
           </span>{' '}
           <span>
-            Special offer ends in{' '}
+            Special offer ends in:{' '}
             {activePromotion?.expires && (
               <Countdown
                 date={new Date(activePromotion.expires).toISOString()}
@@ -134,13 +155,13 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
                   days,
                 }: CountdownRenderProps) => {
                   return (
-                    <div className="tabular-numbs flex flex-wrap items-center font-mono">
+                    <div className="tabular-numbs flex flex-wrap items-center justify-center gap-1.5 font-mono text-xs">
                       <span>{days}d</span>
-                      <span className="px-1 opacity-50">:</span>
+                      {/* <span className="px-1 opacity-50">:</span> */}
                       <span>{hours}h</span>
-                      <span className="px-1 opacity-50">:</span>
+                      {/* <span className="px-1 opacity-50">:</span> */}
                       <span>{zeroPad(minutes)}m</span>
-                      <span className="px-1 opacity-50">:</span>
+                      {/* <span className="px-1 opacity-50">:</span> */}
                       <span>{zeroPad(seconds, 2)}s</span>
                     </div>
                   )
@@ -151,7 +172,13 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
           <Button asChild size="sm" className="mt-4">
             <Link
               href={buyUrl}
-              className="bg-gradient-to-tr from-[#4BCCE5] to-[#8AF7F1] font-semibold"
+              onClick={() => {
+                track('active_promotion_cta_clicked', {
+                  promotion_id: activePromotion.id,
+                  location: 'popup_button',
+                })
+              }}
+              className="bg-gradient-to-tr from-[#4BCCE5] to-[#8AF7F1] px-5 font-semibold"
             >
               Level Up Now
             </Link>
