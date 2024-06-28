@@ -18,6 +18,7 @@ import * as amplitude from '@amplitude/analytics-browser'
 import {FeedbackProvider} from '@/feedback-widget/feedback-context'
 import {trpc} from '@/trpc/trpc.next.pages'
 import {SearchProvider} from '@/search-bar/use-search-bar'
+import {ActivePromotionProvider} from '@/hooks/use-active-promotion'
 
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
   amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
@@ -30,18 +31,20 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   return (
     <>
       <DefaultSeo {...config} />
-      <FeedbackProvider>
-        <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <ConvertkitProvider>
-            <MDXProvider components={MDXComponents}>
-              <SearchProvider>
-                <Component {...pageProps} />
-              </SearchProvider>
-            </MDXProvider>
-          </ConvertkitProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </SessionProvider>
-      </FeedbackProvider>
+      <ActivePromotionProvider>
+        <FeedbackProvider>
+          <SessionProvider session={pageProps.session} refetchInterval={0}>
+            <ConvertkitProvider>
+              <MDXProvider components={MDXComponents}>
+                <SearchProvider>
+                  <Component {...pageProps} />
+                </SearchProvider>
+              </MDXProvider>
+            </ConvertkitProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </SessionProvider>
+        </FeedbackProvider>
+      </ActivePromotionProvider>
       {process.env.NODE_ENV !== 'development' && (
         <>
           <Script

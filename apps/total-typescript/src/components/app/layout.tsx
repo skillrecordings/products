@@ -100,7 +100,6 @@ const Layout: FunctionComponent<LayoutProps> = ({
         {children}
       </div>
       {footer ? footer : isNull(footer) ? null : <Footer />}
-
       <Survey />
     </div>
   )

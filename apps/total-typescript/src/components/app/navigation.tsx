@@ -16,9 +16,10 @@ import {useFeedback} from '@/feedback-widget/feedback-context'
 import {useSearchBar} from '@/search-bar/use-search-bar'
 import {motion, AnimationControls, useAnimationControls} from 'framer-motion'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import SaleMessageBar from './message-bar'
+import ActivePromotion from './active-promotion'
 import Gravatar from 'react-gravatar'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import {useActivePromotion} from '@/hooks/use-active-promotion'
 
 type Props = {
   className?: string
@@ -31,29 +32,17 @@ const Navigation: React.FC<React.PropsWithChildren<Props>> = ({
   containerClassName = 'flex items-stretch justify-between w-full h-full',
   isMinified = false,
 }) => {
-  const {data: defaultCouponData, status: defaultCouponStatus} =
-    trpc.pricing.defaultCoupon.useQuery()
-
   return (
     <>
-      <SaleMessageBar
-        className={cn(
-          'absolute left-0 top-0 z-30 flex h-14 w-full flex-row justify-center space-x-2 space-y-2 bg-gradient-to-r from-amber-300 to-amber-400 px-2 py-2 text-black sm:h-8 sm:flex-row sm:items-center sm:space-y-0 print:hidden',
-          {
-            'lg:pl-[calc(280px+20px)] xl:pl-[calc(320px)]': isMinified,
-          },
-        )}
-      />
+      <ActivePromotion isMinified={isMinified} />
       <nav
         aria-label="top"
         className={cx(
-          'dark z-30 flex h-14 w-full flex-col items-center justify-center border-b bg-background pl-3 pr-0 text-foreground sm:h-16 sm:pl-4 md:pr-3 print:hidden',
+          'dark top-0 z-30 flex h-14 w-full flex-col items-center justify-center border-b bg-background pl-3 pr-0 text-foreground sm:h-16 sm:pl-4 md:pr-3 print:hidden',
           className,
           {
             fixed: !isMinified,
             absolute: isMinified,
-            'top-0': !defaultCouponData,
-            'top-14 sm:top-8': defaultCouponData,
           },
         )}
       >
@@ -112,14 +101,15 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
           label={
             <>
               <span
-                className={cx('hidden ', {
+                className={cx('hidden', {
                   'xl:inline-block': isMinified,
                   'lg:inline-block': !isMinified,
                 })}
               >
                 Pro
               </span>{' '}
-              Workshops
+              Workshops {/* NEW INDICATOR */}
+              {/* <div className="absolute right-1 h-1 w-1 -translate-y-5 animate-pulse rounded-full bg-primary" /> */}
             </>
           }
           // icon={KeyIcon}
@@ -156,6 +146,18 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
           className="font-medium text-white"
           // icon={BookIcon}
         />
+        {/* <NavLink
+          path="/books/total-typescript-essentials"
+          label={
+            <>
+              Book{' '}
+              <span className="absolute inline-block -translate-y-1 scale-75 rounded bg-white/5 px-1 py-0.5 text-xs font-semibold uppercase tracking-wide text-primary">
+                New
+              </span>
+            </>
+          }
+          className="font-medium text-white"
+        /> */}
       </ul>
       <ul className="flex h-full flex-shrink-0 items-center justify-center">
         {status === 'loading' ? null : <SearchBar isMinified={isMinified} />}
@@ -475,45 +477,55 @@ export const NavLogo: React.FC<{className?: string; isMinified?: boolean}> = ({
 }) => {
   const router = useRouter()
   const pathname = usePathname()
+  const activePromotion = useActivePromotion()
+
   return (
-    <NextLink
-      href="/"
-      passHref
-      aria-label={`${config.title} Home`}
-      className={cx(
-        'group group relative z-10 flex h-full flex-shrink-0 items-center font-text text-base font-semibold text-white md:text-lg lg:text-xl',
-        className,
-      )}
-      tabIndex={pathname === '/' ? -1 : 0}
+    <motion.span
+      // animate={{translateY: activePromotion ? -5 : 0}}
+      transition={{
+        duration: 0.5,
+        ease: 'easeInOut',
+      }}
     >
-      <span
-        aria-hidden={!isMinified}
-        className={cx('text-base', {
-          'hidden md:block lg:hidden': !isMinified,
-          'hidden sm:hidden md:block 2xl:hidden': isMinified,
-        })}
+      <NextLink
+        href="/"
+        passHref
+        aria-label={`${config.title} Home`}
+        className={cx(
+          'group group relative z-10 flex h-full flex-shrink-0 items-center font-text text-base font-semibold text-white md:text-lg lg:text-xl',
+          className,
+        )}
+        tabIndex={pathname === '/' ? -1 : 0}
       >
-        TT.
-      </span>
-      <span
-        aria-hidden={isMinified}
-        className={cx('mr-0.5 font-light opacity-90', {
-          'block md:hidden lg:block': !isMinified,
-          'md:hidden xl:hidden 2xl:block': isMinified,
-        })}
-      >
-        Total
-      </span>
-      <span
-        aria-hidden={isMinified}
-        className={cx({
-          'block md:hidden lg:block': !isMinified,
-          'md:hidden xl:hidden 2xl:block': isMinified,
-        })}
-      >
-        TypeScript
-      </span>
-    </NextLink>
+        <span
+          aria-hidden={!isMinified}
+          className={cx('text-base', {
+            'hidden md:block lg:hidden': !isMinified,
+            'hidden sm:hidden md:block 2xl:hidden': isMinified,
+          })}
+        >
+          TT.
+        </span>
+        <span
+          aria-hidden={isMinified}
+          className={cx('mr-0.5 font-light opacity-90', {
+            'block md:hidden lg:block': !isMinified,
+            'md:hidden xl:hidden 2xl:block': isMinified,
+          })}
+        >
+          Total
+        </span>
+        <span
+          aria-hidden={isMinified}
+          className={cx({
+            'block md:hidden lg:block': !isMinified,
+            'md:hidden xl:hidden 2xl:block': isMinified,
+          })}
+        >
+          TypeScript
+        </span>
+      </NextLink>
+    </motion.span>
   )
 }
 
