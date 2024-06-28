@@ -337,4 +337,5 @@ model Bookmark {
   type          String
   fields        Json                      @default("{}")
   createdAt     DateTime                  @default(now())
+  updatedAt    DateTime                   @updatedAt() @default(now())
 }
