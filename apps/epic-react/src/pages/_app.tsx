@@ -16,6 +16,7 @@ import {trpc} from '@/trpc/trpc.client'
 import Script from 'next/script'
 import {Session} from 'next-auth'
 import {ThemeProvider} from '@/components/app/theme-provider'
+import mdxComponents from '@/components/mdx-components'
 
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
   amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
@@ -34,7 +35,7 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
       <FeedbackProvider>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <ConvertkitProvider>
-            <MDXProvider>
+            <MDXProvider components={mdxComponents}>
               <ThemeProvider
                 attribute="class"
                 defaultTheme="system"
