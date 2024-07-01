@@ -36,7 +36,8 @@ export const ProductSchema = z.object({
         value: z.string(),
         icon: z.string().optional().nullable(),
       })
-      .optional(),
+      .optional()
+      .nullable(),
   ),
 })
 
@@ -84,7 +85,11 @@ export async function getProduct(slugOrId: string): Promise<Product> {
               }, 
               "slug": slug.current,
           },
-        }
+        },
+        "features": features[]{
+        ...
+      },
+        
   }`,
     {slugOrId},
   )
