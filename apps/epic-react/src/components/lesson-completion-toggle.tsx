@@ -21,6 +21,12 @@ const LessonCompleteToggle = () => {
   })
   const moduleCompleted = moduleProgress?.moduleCompleted
 
+  const {data: nextLesson} =
+    trpcSkillLessons.lessons.getNextLessonAndSkipPreviousLessons.useQuery({
+      lessonSlug: lessonSlug as string,
+      module: module.slug.current,
+    })
+
   const toggleProgressMutation = trpcSkillLessons.progress.toggle.useMutation()
   const completedLessons = moduleProgress?.lessons.filter(
     (l: any) => l.lessonCompleted,
@@ -45,9 +51,10 @@ const LessonCompleteToggle = () => {
       router.push(`/modules/${module.slug.current}/completed`)
     } else if (toggleClicked && optimisticallyToggled) {
       reward()
-      router.push(
-        `/modules/${module.slug.current}/${moduleProgress?.nextLesson?.slug}`,
-      )
+
+      if (nextLesson && 'slug' in nextLesson) {
+        router.push(`/modules/${module.slug.current}/${nextLesson.slug}`)
+      }
     }
   }, [toggleClicked, moduleProgress, optimisticallyToggled])
 
