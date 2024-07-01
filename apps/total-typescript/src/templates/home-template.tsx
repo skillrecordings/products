@@ -81,7 +81,7 @@ export const HomeTemplate: React.FC<
       }}
     >
       <Header level={skillLevel} />
-      <main>
+      <main className="overflow-x-hidden">
         <Copy level={skillLevel} />
         {isSellingLive ? (
           <div

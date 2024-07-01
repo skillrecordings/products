@@ -18,13 +18,16 @@ const TypeScriptLearningPath = () => {
       }}
     >
       <header className="mx-auto flex w-full max-w-4xl flex-col-reverse items-center justify-between px-8 md:flex-row md:pt-0">
-        <div className="text-center md:text-left">
-          <h1 className="w-full font-text text-4xl font-bold leading-tight md:mt-0 lg:-mt-16 lg:text-5xl">
-            <span className="block font-mono text-base font-semibold uppercase text-cyan-300">
+        <div className="text-center md:-mr-16">
+          <h1 className="mb-4 w-full font-text text-4xl font-bold leading-tight md:mt-0 lg:-mt-16 lg:text-6xl">
+            <span className="block pb-2 font-text text-base font-medium text-cyan-300  sm:text-xl">
               Total TypeScript
             </span>{' '}
-            Learning Path
+            <span className="sm:text-nowrap">Learning Path</span>
           </h1>
+          <p className="font-text text-base font-normal opacity-75 sm:text-xl">
+            From Beginner To Wizard
+          </p>
         </div>
         <div className="flex items-center justify-center md:-mr-48">
           <Image
@@ -51,7 +54,7 @@ const TypeScriptLearningPath = () => {
               <ul>
                 <li>Basic knowledge of JavaScript</li>
                 <li>Internet Access</li>
-                <li>Access to the Core Volume of Total TypeScript</li>
+                <li>Access to the Complete Volume of Total TypeScript</li>
               </ul>
             </div>
             <div>
@@ -60,7 +63,7 @@ const TypeScriptLearningPath = () => {
             </div>
           </div>
           <h2>Curriculum</h2>
-          <CoreVolume />
+          <CompleteVolume />
           <h2>Background</h2>
           <p>
             The tutorials and workshops were designed and tested as half-day
@@ -80,6 +83,16 @@ const TypeScriptLearningPath = () => {
           </p>
           {/* <Skip /> */}
         </article>
+        {/* <Section week="1—2">
+          <Module
+            slug="/workshops/typescript-pro-essentials"
+            type="workshop"
+            title="Pro Essentials"
+            image="https://cdn.sanity.io/images/z9io1e0u/production/80da574ffbb12904f823723d5ea0a8e20add0270-1200x1200.png"
+            meta="200+ lessons"
+            weeks={[]}
+          />
+        </Section> */}
         <Section week="1—2">
           <Module
             slug="/tutorials/beginners-typescript"
@@ -550,42 +563,44 @@ const Skip = () => {
   )
 }
 
-const CoreVolume = () => {
+const CompleteVolume = () => {
   return (
-    <div className="not-prose -mx-5 flex flex-col items-center justify-center gap-10 border-y border-gray-800 p-8 py-10 sm:rounded-lg sm:border md:-mx-8 md:flex-row md:p-5">
+    <div className="not-prose -mx-5 flex flex-col items-center justify-center gap-10 border-y border-gray-800 bg-card p-8 py-10 sm:rounded-lg sm:border md:-mx-10 md:flex-row md:p-5">
       <Image
-        src="https://res.cloudinary.com/total-typescript/image/upload/v1689196988/Bundle_eus1ua.png"
+        src="https://res.cloudinary.com/total-typescript/image/upload/v1676015688/core-volume_2x_wt7jnc.png"
         aria-hidden="true"
         alt=""
-        width={900}
-        height={900}
+        width={240}
+        height={240}
       />
-
-      <div className="flex w-full flex-col items-center text-center md:items-start md:text-left">
+      <div className="flex w-full flex-col items-center py-5 text-center md:items-start md:text-left">
         <div className="font-mono text-sm font-semibold uppercase text-cyan-300">
           Total TypeScript
         </div>
-        <h3 className="font-text text-4xl font-bold">Bundle</h3>
+        <h3 className="font-text text-4xl font-bold">Complete Volume</h3>
         <ul className="flex w-full flex-col gap-1.5 pt-10 text-lg text-gray-200 sm:text-base md:w-auto md:pt-5">
-          <li className='inline-flex items-center gap-1 before:text-cyan-300 before:content-["✓"]'>
+          <li className='inline-flex items-center gap-2 before:text-cyan-300 before:content-["✓"]'>
+            Pro Essentials
+          </li>
+          <li className='inline-flex items-center gap-2 before:text-cyan-300 before:content-["✓"]'>
             Type Transformations
           </li>
-          <li className='inline-flex items-center gap-1 before:text-cyan-300 before:content-["✓"]'>
+          <li className='inline-flex items-center gap-2 before:text-cyan-300 before:content-["✓"]'>
             TypeScript Generics
           </li>
-          <li className='inline-flex items-center gap-1 before:text-cyan-300 before:content-["✓"]'>
+          <li className='inline-flex items-center gap-2 before:text-cyan-300 before:content-["✓"]'>
             Advanced TypeScript Patterns
           </li>
-          <li className='inline-flex items-center gap-1 before:text-cyan-300 before:content-["✓"]'>
+          <li className='inline-flex items-center gap-2 before:text-cyan-300 before:content-["✓"]'>
             TypeScript Expert Interviews
           </li>
-          <li className='inline-flex items-center gap-1 before:text-cyan-300 before:content-["✓"]'>
+          <li className='inline-flex items-center gap-2 before:text-cyan-300 before:content-["✓"]'>
             Advanced React with TypeScript
           </li>
         </ul>
         <Link
-          href="/buy"
-          className="mt-8 inline-block w-full rounded bg-gradient-to-t from-cyan-400 to-cyan-300 px-4 py-3 font-medium text-black transition hover:brightness-110 md:mt-5 md:w-auto md:py-2"
+          href="/#buy"
+          className="mt-8 flex w-full rounded bg-gradient-to-t from-cyan-400 to-cyan-300 px-4 py-3 font-semibold text-black transition hover:brightness-110 md:mt-10 md:w-auto md:py-2"
         >
           Be a TypeScript Wizard →
         </Link>

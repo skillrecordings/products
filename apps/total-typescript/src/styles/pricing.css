@@ -255,6 +255,9 @@
           }
 
           [data-workshops] {
+            [data-description] > p {
+              @apply text-balance pt-1 text-xs font-normal text-foreground;
+            }
             strong {
               @apply pb-4;
             }

@@ -30,15 +30,23 @@ export const ProductSchema = z.object({
       poster: z.string().optional().nullable(),
     })
     .nullable(),
+  features: z.array(
+    z
+      .object({
+        value: z.string(),
+        icon: z.string().optional().nullable(),
+      })
+      .optional(),
+  ),
 })
 
 export const ProductsSchema = z.array(ProductSchema)
 
 export type Product = z.infer<typeof ProductSchema>
 
-export async function getProduct(productId: string): Promise<Product> {
+export async function getProduct(slugOrId: string): Promise<Product> {
   const product = await sanityClient.fetch(
-    groq`*[_type == "product" && productId == $productId][0] {
+    groq`*[_type == "product" && productId == $slugOrId || slug.current == $slugOrId][0] {
         _id,
         _type,
         _updatedAt,
@@ -65,6 +73,8 @@ export async function getProduct(productId: string): Promise<Product> {
         },
         modules[]->{
           ...,
+          "totalLessons": count(resources[@->._type in ['section']]->resources[@->._type in ['exercise', 'explainer', 'lesson', 'interview']]),
+          "totalInterviews": count(resources[@->._type in ['interview']]),
           "image": image.asset->{url},
           "instructors": contributors[@.role == 'instructor'].contributor->{
               ...,
@@ -76,7 +86,7 @@ export async function getProduct(productId: string): Promise<Product> {
           },
         }
   }`,
-    {productId},
+    {slugOrId},
   )
 
   return ProductSchema.parse(product)
