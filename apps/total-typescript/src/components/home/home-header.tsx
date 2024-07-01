@@ -30,12 +30,20 @@ export const Header = ({level}: {level?: SkillLevel}) => {
           <h1 className="mt-16 w-full max-w-[14ch] font-heading text-4xl font-normal leading-[1.25] sm:mt-0 sm:text-5xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.15] xl:text-6xl xl:leading-[1.15]">
             <Title />
           </h1>
-          <h2 className="max-w-[28ch] bg-gradient-to-bl from-teal-200 to-cyan-200 bg-clip-text pt-8 font-text text-lg font-normal text-transparent sm:text-2xl">
-            A comprehensive production-grade TypeScript training by{' '}
-            <span className="inline-flex items-baseline gap-2 text-white">
-              Matt Pocock
-            </span>
+          <h2 className="max-w-[28ch] text-balance bg-gradient-to-bl from-teal-200 to-cyan-200 bg-clip-text pb-8 pt-2 font-text text-lg font-normal text-transparent sm:text-2xl">
+            A comprehensive production-grade TypeScript training
           </h2>
+          <div className="flex items-center gap-3">
+            <Image
+              src={require('../../../public/matt-pocock.jpg')}
+              alt="Matt Pocock"
+              width={40}
+              height={40}
+              className="flex-shrink-0 rounded-full"
+              priority
+            />
+            Matt Pocock
+          </div>
         </div>
         <div className="pointer-events-none -right-40 flex-shrink-0 scale-150 select-none sm:scale-100 lg:absolute">
           <Image

@@ -385,7 +385,7 @@ const Features = () => {
         </ul>
       </div>
       <div className="relative z-10 -mt-5 rounded-lg bg-gray-50 px-10 py-8 text-gray-900 shadow-2xl shadow-gray-950 md:mt-5 md:translate-x-[18%] md:rotate-2">
-        <h3 className="absolute left-0 top-0 -translate-y-2/3 rounded-t-lg bg-gray-50 px-5 py-3 text-sm font-medium uppercase">
+        <h3 className="absolute left-0 top-0 -translate-y-2/3 rounded-t-lg bg-gray-50 px-5 py-3 text-sm font-medium uppercase text-background">
           with ts-reset
         </h3>
         <ul className="flex flex-col space-y-2 text-lg text-gray-700">

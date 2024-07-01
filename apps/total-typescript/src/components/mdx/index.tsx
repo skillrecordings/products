@@ -35,7 +35,7 @@ type TypeErrorProps = {
 
 const TypeError: React.FC<TypeErrorProps> = ({children, header}) => {
   return (
-    <div className="mx-auto max-w-2xl border-y-2 border-[#E11D48] border-opacity-20 bg-[#1C1427] font-mono text-sm leading-relaxed prose-p:max-w-none first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0 sm:rounded-md sm:border-2">
+    <div className="mx-auto max-w-2xl border-y-2 border-[#E11D48] border-opacity-20 bg-[#1C1427] font-mono text-sm leading-relaxed text-white prose-p:max-w-none first-of-type:prose-p:mt-0 last-of-type:prose-p:mb-0 sm:rounded-md sm:border-2">
       {header && (
         <div className="border-b border-gray-800/50 px-5 py-3">{header}</div>
       )}
@@ -77,7 +77,7 @@ const SectionHeading: React.FC<any> = ({
 }) => {
   return (
     <div className="not-prose flex flex-col items-center px-5 pb-5 sm:pb-16">
-      {dividerTop && (
+      {/* {dividerTop && (
         <DecorativeImage
           alt=""
           src={dividerTop}
@@ -85,7 +85,7 @@ const SectionHeading: React.FC<any> = ({
           height={217 / 2}
           className="pointer-events-none select-none"
         />
-      )}
+      )} */}
       <h2
         className={cx(
           'mx-auto text-balance py-12 text-center font-heading text-4xl font-bold md:text-5xl',
@@ -94,7 +94,7 @@ const SectionHeading: React.FC<any> = ({
       >
         {children}
       </h2>
-      {dividerBottom && (
+      {/* {dividerBottom && (
         <DecorativeImage
           alt=""
           src={dividerBottom}
@@ -102,7 +102,7 @@ const SectionHeading: React.FC<any> = ({
           height={217 / 2}
           className="pointer-events-none select-none"
         />
-      )}
+      )} */}
     </div>
   )
 }
@@ -117,7 +117,7 @@ const Section: React.FC<any> = ({
     <section className={twMerge('relative w-full overflow-hidden', className)}>
       {slot}
       <div className={cx('relative z-10')}>{children}</div>
-      {backgroundImage && (
+      {/* {backgroundImage && (
         <DecorativeImage
           src={backgroundImage}
           fill
@@ -127,14 +127,14 @@ const Section: React.FC<any> = ({
           }}
           className="pointer-events-none z-0 mt-0 select-none object-cover object-top lg:object-contain"
         />
-      )}
+      )} */}
     </section>
   )
 }
 
 const ErrorFromHell: React.FC<any> = ({children}) => {
   return (
-    <div className="relative mx-auto mt-16 max-w-3xl rounded-md border-2 border-[#E11D48] border-opacity-20 bg-[#1C1427] px-12 py-10 text-left font-mono text-sm leading-relaxed">
+    <div className="relative mx-auto mt-10 max-w-3xl rounded-md border-2 border-[#E11D48] border-opacity-20 bg-[#1C1427] px-12 py-10 text-left font-mono text-sm leading-relaxed text-[#E7DFEB] text-white">
       <div className="relative z-10">{children}</div>
       <div className="pointer-events-none absolute left-[-85px] top-[-206px] select-none">
         <DecorativeImage
@@ -161,12 +161,23 @@ const DecorativeImage: React.FC<ImageProps> = (props) => {
 }
 
 const Testimonial: React.FC<
-  React.PropsWithChildren<{author: {name: string; image?: string}}>
-> = ({children, author}) => {
+  React.PropsWithChildren<{
+    author: {name: string; image?: string}
+    className?: string
+  }>
+> = ({children, className, author}) => {
   return (
-    <div className="not-prose">
-      <blockquote className="relative flex h-full flex-col justify-between rounded-md border border-gray-800 p-5 sm:p-8">
-        <div className="font-normal before:absolute before:bottom-9 before:right-8 before:flex before:items-center before:justify-center before:font-heading before:text-3xl before:font-extrabold before:leading-none before:text-cyan-300 before:content-['”']">
+    <div
+      className={cn(
+        'not-prose -mx-5 border-t px-5 py-5 sm:border-0 sm:py-0',
+        className,
+      )}
+    >
+      <blockquote className="relative flex h-full flex-col justify-between">
+        <div
+          className="text-base font-normal sm:text-balance sm:text-lg"
+          // before:absolute before:bottom-9 before:right-8 before:flex before:items-center before:justify-center before:font-heading before:text-3xl before:font-extrabold before:leading-none before:text-cyan-300 before:content-['”']
+        >
           {children}
         </div>
         {author?.name && (
@@ -174,13 +185,13 @@ const Testimonial: React.FC<
             {author.image && (
               <Image
                 src={author.image}
-                width={50}
-                height={50}
+                width={40}
+                height={40}
                 alt={author.name}
                 className="rounded-full"
               />
             )}
-            <span className="">{author.name}</span>
+            <span className="font-heading text-sm">{author.name}</span>
           </div>
         )}
       </blockquote>
@@ -190,24 +201,32 @@ const Testimonial: React.FC<
 
 const Module: React.FC<React.PropsWithChildren<any>> = ({
   title,
+  slug,
   sub,
   image,
+  metaLabel,
   children,
 }) => {
   return (
     <div className="not-prose">
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-5 md:flex-row">
-        <div className="flex flex-shrink-0 items-center justify-center md:items-start">
-          <Image src={image} alt={title} width={280} height={280} />
-        </div>
+      <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center gap-5 md:flex-row">
+        <Link
+          href={`/workshops/${slug}`}
+          className="flex flex-shrink-0 items-center justify-center md:items-start"
+        >
+          <Image src={image} alt={title} width={400} height={400} />
+        </Link>
         <div className="px-5">
-          <h3 className="text-center font-text text-3xl font-bold sm:text-4xl md:text-left">
-            {title}
-          </h3>
-          <h4 className="pt-2 text-center text-xl font-medium text-cyan-200 sm:text-2xl md:pt-5 md:text-left">
-            <Balancer>{sub}</Balancer>
+          <Link href={`/workshops/${slug}`}>
+            <h3 className="text-center font-text text-3xl font-semibold sm:text-4xl md:text-left">
+              {title}
+            </h3>
+          </Link>
+          {/* {metaLabel && <p className="text-center md:text-left">{metaLabel}</p>} */}
+          <h4 className="pt-2 text-center text-lg font-normal text-primary sm:text-xl sm:font-medium md:pt-3 md:text-left">
+            {sub}
           </h4>
-          <div className="flex flex-col space-y-3 pt-8 text-gray-200 md:pt-5">
+          <div className="flex flex-col space-y-3 pt-5 text-foreground sm:text-lg md:pt-8">
             {children}
           </div>
         </div>
