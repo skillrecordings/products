@@ -201,10 +201,12 @@ const Skeleton = () => {
 }
 
 export const getResourceSlug = (result: any) => {
-  let resourceSlug = ''
+  let resourceSlug = null
   switch (result._type) {
     case 'chapterResource':
-      resourceSlug = `/books/${result.book.slug.current}/${result.chapter.slug.current}#${result.slug.current}`
+      resourceSlug = result?.book?.slug?.current
+        ? `/books/${result?.book?.slug?.current}/${result?.chapter?.slug?.current}#${result?.slug?.current}`
+        : null
       break
     case 'tip':
       resourceSlug = `/tips/${result.slug.current}`

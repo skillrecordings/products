@@ -2,6 +2,7 @@ import {publicProcedure, router} from '@skillrecordings/skill-lesson'
 import {z} from 'zod'
 import {NextApiRequest} from 'next'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+import groq from 'groq'
 
 export const searchRouter = router({
   resultsForQuery: publicProcedure
@@ -15,7 +16,7 @@ export const searchRouter = router({
     .query(async ({ctx, input}) => {
       const {resourceType} = input
       const results = await sanityClient.fetch(
-        `  *[_type in [${
+        groq`*[_type in [${
           resourceType
             ? `"${resourceType}"`
             : `"article", "tip", "module", "exercise", "explainer", "chapterResource"`
