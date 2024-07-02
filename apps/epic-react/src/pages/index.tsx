@@ -233,7 +233,7 @@ const Home: React.FC<{modules: any[]; commerceProps: CommerceProps}> = ({
         <div className="my-16 bg-er-gray-100 pb-16 pt-8">
           <div className="py-12 lg:py-16">
             <div className="px-5 text-center">
-              <h1 className="py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
+              <h1 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
                 Join over 7000 Developers and Get Really Good At React
               </h1>
               <p className="mx-auto mt-5 max-w-4xl text-xl text-react sm:text-2xl">
