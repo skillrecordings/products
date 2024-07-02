@@ -315,7 +315,7 @@ const Header: React.FC<{
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-5 sm:pt-8 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-5 sm:pt-16 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
             href="/workshops"

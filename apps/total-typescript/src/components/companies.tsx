@@ -1,10 +1,10 @@
 export const Companies = () => {
   return (
-    <section className="not-prose mx-auto mb-0 flex w-full flex-col items-center justify-center pt-10 md:pb-16 md:pt-16 lg:-mt-24">
+    <section className="not-prose mx-auto mb-0 flex w-full flex-col items-center justify-center bg-gradient-to-b from-background to-[#191427] pt-10 md:pb-16 md:pt-16 lg:-mt-24">
       <h2 className="font-text text-lg text-foreground opacity-75">
         Trusted by developers from
       </h2>
-      <div className="grid w-full max-w-screen-xl scale-75 grid-cols-2 flex-wrap place-items-center items-center justify-center gap-x-10 gap-y-12 sm:flex sm:gap-x-16 sm:gap-y-16 md:mt-10  [&_svg]:max-w-[150px] [&_svg]:opacity-75 [&_svg]:sm:max-w-full">
+      <div className="mt-16 grid w-full max-w-screen-xl origin-top scale-[0.6] grid-cols-2 flex-wrap place-items-center items-center justify-center gap-x-10 gap-y-12 sm:flex sm:scale-75 sm:gap-x-16 sm:gap-y-16 md:mt-10  [&_svg]:max-w-[150px] [&_svg]:opacity-75 [&_svg]:sm:max-w-full">
         <Webflow />
         <Stripe />
         <Shopify />
