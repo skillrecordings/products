@@ -127,13 +127,13 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
     })
   }
 
-  const isBookmarkingDisabled =
-    !session?.user ||
+  const isLoading =
     status === 'loading' ||
     isRefetching ||
     isFetching ||
     addBookmarkMutation.isLoading ||
     deleteBookmarkMutation.isLoading
+  const isBookmarkingDisabled = !session?.user || isLoading
 
   const H = () =>
     React.createElement(
@@ -165,7 +165,7 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
           className={cn(
             'absolute right-0 flex h-8 w-8 translate-y-2 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 sm:translate-y-3',
             {
-              'cursor-wait': isBookmarkingDisabled,
+              'cursor-wait': isLoading,
               'group-hover:bg-amber-300/20 hover:bg-amber-300/20':
                 !isBookmarkingDisabled,
             },
