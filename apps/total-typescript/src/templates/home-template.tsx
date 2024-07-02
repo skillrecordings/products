@@ -16,6 +16,7 @@ import cx from 'classnames'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {trpc} from '@/trpc/trpc.client'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {Companies} from '@/components/companies'
 
 export const HomeTemplate: React.FC<
   React.PropsWithChildren<CommerceProps & {level?: string}>
@@ -81,6 +82,7 @@ export const HomeTemplate: React.FC<
       }}
     >
       <Header level={skillLevel} />
+      <Companies />
       <main className="overflow-x-hidden">
         <Copy level={skillLevel} />
         {isSellingLive ? (
