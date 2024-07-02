@@ -12,6 +12,8 @@ import {
 } from '@skillrecordings/ui'
 import {childrenToString} from '@/utils/children-to-string'
 import {trpc} from '@/trpc/trpc.client'
+import {useSession} from 'next-auth/react'
+import Link from 'next/link'
 
 interface LinkedHeadingProps extends React.HTMLProps<HTMLHeadingElement> {
   as?: Extract<
@@ -42,6 +44,7 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
   if (id.startsWith('exercises-') && appendValueForRepeatedIds) {
     id = `${id}${appendValueForRepeatedIds}`
   }
+  const {data: session} = useSession()
   const [state, copyToClipboard] = useCopyToClipboard()
   const {data: resourceBookmarked} = resourceId
     ? trpc.bookmarks.getBookmark.useQuery({
@@ -98,7 +101,10 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
         <button
           className="absolute right-0 flex h-8 w-8 translate-y-2 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 group-hover:bg-amber-300/20 hover:bg-amber-300/20 sm:translate-y-3"
           type="button"
+          disabled={!session?.user}
           onClick={async () => {
+            if (!session?.user) return
+
             if (resourceBookmarked) {
               deleteBookmarkMutation.mutate({id: resourceBookmarked.id})
             } else {
@@ -120,7 +126,17 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
                 )}
               </TooltipTrigger>
               <TooltipContent className="bg-background text-foreground">
-                {resourceBookmarked ? 'Remove bookmark' : 'Add bookmark'}
+                {session?.user ? (
+                  resourceBookmarked ? (
+                    'Remove bookmark'
+                  ) : (
+                    'Add bookmark'
+                  )
+                ) : (
+                  <span>
+                    <Link href="/login">Log in</Link> to bookmark
+                  </span>
+                )}
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
