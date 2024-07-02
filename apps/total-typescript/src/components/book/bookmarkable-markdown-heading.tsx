@@ -14,21 +14,15 @@ import {childrenToString} from '@/utils/children-to-string'
 import {trpc} from '@/trpc/trpc.client'
 import {useSession} from 'next-auth/react'
 import Link from 'next/link'
+import type {BookChapter} from '@/lib/book'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 interface LinkedHeadingProps extends React.HTMLProps<HTMLHeadingElement> {
   as?: Extract<
     keyof JSX.IntrinsicElements,
     'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   >
-  onAddBookmark?: ({
-    resourceId,
-    resourceTitle,
-    resourceSlug,
-  }: {
-    resourceId: string
-    resourceTitle: string
-    resourceSlug: string
-  }) => Promise<void>
+  chapter?: BookChapter
   appendValueForRepeatedIds?: string
   resourceId?: string
 }
@@ -36,7 +30,8 @@ interface LinkedHeadingProps extends React.HTMLProps<HTMLHeadingElement> {
 export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
   as = 'h2',
   appendValueForRepeatedIds,
-  onAddBookmark,
+  chapter,
+  onChangeCapture,
   resourceId,
   ...props
 }) => {
@@ -46,20 +41,42 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
   }
   const {data: session} = useSession()
   const [state, copyToClipboard] = useCopyToClipboard()
-  const {data: resourceBookmarked} = resourceId
-    ? trpc.bookmarks.getBookmark.useQuery({
-        id: resourceId,
-      })
-    : {data: undefined}
+  const {
+    data: resourceBookmarked,
+    status,
+    isRefetching,
+    isFetching,
+  } = trpc.bookmarks.getBookmark.useQuery(
+    {
+      id: resourceId as string,
+    },
+    {
+      enabled: Boolean(resourceId),
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      onSuccess: (data) => {
+        if (data) {
+          setOptimisticallyBookmarked(true)
+        }
+      },
+    },
+  )
+  const [optimisticallyBookmarked, setOptimisticallyBookmarked] =
+    React.useState(false)
 
   const deleteBookmarkMutation = trpc.bookmarks.deleteBookmark.useMutation({
+    onMutate: async (fields) => {
+      setOptimisticallyBookmarked(false)
+    },
     onSuccess: () => {
       toast.success('Bookmark removed')
     },
     onError: (error) => {
+      setOptimisticallyBookmarked(true)
       toast.error('Error removing bookmark')
     },
   })
+
   const linkToTitle = `#${id}`
   const handleOnClick = () => {
     if (isBrowser()) {
@@ -71,6 +88,52 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
       toast.success('Link copied')
     }
   }
+
+  const addBookmarkMutation = trpc.bookmarks.addBookmark.useMutation({
+    onMutate: async (fields) => {
+      setOptimisticallyBookmarked(true)
+    },
+    onSuccess: (data) => {
+      toast.success('Bookmark added')
+    },
+    onError: (error) => {
+      setOptimisticallyBookmarked(false)
+      if (error?.data?.httpStatus === 401) {
+        toast.error('Please log in to save bookmarks')
+      } else {
+        toast.error('Error adding bookmark')
+      }
+    },
+  })
+
+  const handleAddBookmark = async ({
+    resourceId,
+    resourceTitle,
+    resourceSlug,
+  }: {
+    resourceId: string
+    resourceTitle: string
+    resourceSlug: string
+  }) => {
+    return await addBookmarkMutation.mutateAsync({
+      type: 'book',
+      resourceId,
+      fields: {
+        chapterSlug: chapter?.slug as string,
+        chapterTitle: chapter?.title as string,
+        resourceTitle,
+        resourceSlug,
+      },
+    })
+  }
+
+  const isBookmarkingDisabled =
+    !session?.user ||
+    status === 'loading' ||
+    isRefetching ||
+    isFetching ||
+    addBookmarkMutation.isLoading ||
+    deleteBookmarkMutation.isLoading
 
   const H = () =>
     React.createElement(
@@ -97,18 +160,25 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
         </a>
         <H />
       </span>
-      {onAddBookmark && resourceId && (
+      {resourceId && (
         <button
-          className="absolute right-0 flex h-8 w-8 translate-y-2 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 group-hover:bg-amber-300/20 hover:bg-amber-300/20 sm:translate-y-3"
+          className={cn(
+            'absolute right-0 flex h-8 w-8 translate-y-2 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 sm:translate-y-3',
+            {
+              'cursor-wait': isBookmarkingDisabled,
+              'group-hover:bg-amber-300/20 hover:bg-amber-300/20':
+                !isBookmarkingDisabled,
+            },
+          )}
           type="button"
-          disabled={!session?.user}
+          disabled={isBookmarkingDisabled}
           onClick={async () => {
             if (!session?.user) return
 
             if (resourceBookmarked) {
               deleteBookmarkMutation.mutate({id: resourceBookmarked.id})
             } else {
-              await onAddBookmark({
+              await handleAddBookmark({
                 resourceId,
                 resourceTitle: childrenToString(props.children),
                 resourceSlug: props.id as string,
@@ -119,7 +189,7 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger asChild>
-                {resourceBookmarked ? (
+                {optimisticallyBookmarked ? (
                   <BookmarkIconSolid className="h-5 w-5 text-amber-200" />
                 ) : (
                   <BookmarkIcon className="h-5 w-5 text-amber-200" />

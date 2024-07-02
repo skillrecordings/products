@@ -68,9 +68,10 @@ const BookRoute: React.FC<{
   const resourceIds = book.chapters.flatMap((chapter) => {
     return chapter.resources?.map((resource) => resource._id) ?? []
   })
-  const {data: bookmarks} = trpc.bookmarks.getBookmarksForUser.useQuery({
-    resourceIds,
-  })
+  const {data: bookmarks, status: bookmarksStatus} =
+    trpc.bookmarks.getBookmarksForUser.useQuery({
+      resourceIds,
+    })
 
   return (
     <Layout
@@ -186,25 +187,31 @@ const BookRoute: React.FC<{
                 <BookmarkIcon className="h-4 w-4 text-foreground opacity-75" />{' '}
                 Bookmarks
               </strong>
-              {bookmarks && bookmarks.length > 0 ? (
-                <>
-                  <ol className="overflow-hidden rounded border border-white/10">
-                    {bookmarks.map((bookmark) => {
-                      return (
-                        <BookmarkItem
-                          key={bookmark.id}
-                          book={book}
-                          bookmark={bookmark}
-                        />
-                      )
-                    })}
-                  </ol>
-                </>
+              {bookmarksStatus === 'loading' ? (
+                <p>Loading...</p>
               ) : (
-                <p className="opacity-75">
-                  Your bookmarks will appear here. To add a bookmark, click the
-                  bookmark icon next to a heading in any chapter.
-                </p>
+                <>
+                  {bookmarks && bookmarks.length > 0 ? (
+                    <>
+                      <ol className="overflow-hidden rounded border border-white/10">
+                        {bookmarks.map((bookmark) => {
+                          return (
+                            <BookmarkItem
+                              key={bookmark.id}
+                              book={book}
+                              bookmark={bookmark}
+                            />
+                          )
+                        })}
+                      </ol>
+                    </>
+                  ) : (
+                    <p className="opacity-75">
+                      Your bookmarks will appear here. To add a bookmark, click
+                      the bookmark icon next to a heading in any chapter.
+                    </p>
+                  )}
+                </>
               )}
             </nav>
           </aside>
@@ -247,7 +254,7 @@ const BookmarkItem = ({bookmark, book}: {bookmark: Bookmark; book: Book}) => {
           size="icon"
           type="button"
           variant="destructive"
-          className="absolute right-3 h-6 w-6 bg-background text-foreground opacity-0 transition ease-in-out group-hover:opacity-100 group-focus-visible:opacity-100 focus:opacity-100"
+          className="right-3 h-6 w-6 bg-background text-foreground transition ease-in-out group-hover:opacity-100 group-focus-visible:opacity-100 focus:opacity-100 lg:absolute lg:opacity-0"
           onClick={async () => {
             deleteBookmarkMutation.mutate({id: resourceBookmarked.id})
           }}

@@ -41,41 +41,7 @@ const BookChapterTemplate = ({
     threshold: 0.5,
   })
 
-  const addBookmarkMutation = trpc.bookmarks.addBookmark.useMutation({
-    onSuccess: (data) => {
-      toast.success('Bookmark added')
-    },
-    onError: (error) => {
-      if (error?.data?.httpStatus === 401) {
-        toast.error('Please log in to save bookmarks')
-      } else {
-        toast.error('Error adding bookmark')
-      }
-    },
-  })
-
   const articleRef = React.useRef<HTMLDivElement>(null)
-
-  const handleAddBookmark = async ({
-    resourceId,
-    resourceTitle,
-    resourceSlug,
-  }: {
-    resourceId: string
-    resourceTitle: string
-    resourceSlug: string
-  }) => {
-    addBookmarkMutation.mutate({
-      type: 'book',
-      resourceId,
-      fields: {
-        chapterSlug: chapter.slug,
-        chapterTitle: chapter.title,
-        resourceTitle,
-        resourceSlug,
-      },
-    })
-  }
 
   const heroRef = React.useRef<HTMLDivElement>(null)
   const isScrolledPastHero = useIsScrolledPast({ref: heroRef})
@@ -177,7 +143,7 @@ const BookChapterTemplate = ({
                     )?._id
                     return (
                       <BookmarkableMarkdownHeading
-                        onAddBookmark={handleAddBookmark}
+                        chapter={chapter}
                         appendValueForRepeatedIds={`-for-${slugify(
                           chapter.title,
                         )}`}
