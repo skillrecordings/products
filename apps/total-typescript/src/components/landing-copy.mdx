@@ -11,12 +11,12 @@ import FiveStarRating from '../../public/assets/landing/5-star-rating@2x.png'
 import Shine from '../../public/assets/landing/shine@2x.png'
 import MattPocock from '../../public/assets/landing/matt-pocock@2x.png'
 import {motion} from 'framer-motion'
-import {Companies} from '@/components/companies'
 
-<div className='md:h-80 h-20 bg-gradient-to-b from-background to-[#191427] w-full' />
+{/* <div className='md:h-32 h-20 bg-gradient-to-b from-background to-[#191427] w-full' /> */}
+
 <section className="bg-gradient-to-t from-background selection:bg-[#CC5344] selection:text-white to-[#191427] via-[#191427] relative">
 <div className="relative z-10 overflow-x-hidden">
-  <div className="md:pb-64 py-20">
+  <div className="md:pt-32 md:pb-64 pt-0 pb-16">
     <div  className="not-prose md:scale-150 flex flex-col gap-8 text-center font-heading font-normal text-transparent bg-clip-text bg-gradient-to-b from-[#866583] to-white">
     <p className="text-lg">The feature’s working.</p>
     <p className="text-xl">The tests are passing.</p>
@@ -85,11 +85,11 @@ Ultimately…
 **You never learned the underlying principles and patterns of being an effective TypeScript engineer.**
 
 </div>
-  <Image src={SeaOfRedLines} fill className="object-top object-contain mix-blend-lighten z-0" />
+  <Image alt="sea of red lines" aria-hidden="true" src={SeaOfRedLines} fill className="object-top object-contain mix-blend-lighten z-0" />
 </section>
 <section className='bg-background pb-24' id="approach" aria-label="approach">
 <div className='not-prose flex w-full flex-col items-center'>
-  <Image src={HandPointingDownSparkles} alt="" width={512} height={633} className="mx-auto -mt-10" />
+  <Image aria-hidden="true" src={HandPointingDownSparkles} alt="hand pointing down with sparkles" width={512} height={633} className="mx-auto -mt-10" />
   <h2 className='text-center max-w-screen-lg text-balance font-heading md:text-6xl sm:text-5xl text-4xl font-normal pb-5'>An exercise-driven approach for learning TypeScript</h2>
   <h3 className='text-center text-primary max-w-screen-lg text-balance font-text text-xl font-normal'>Total TypeScript's approach is different than what you'll find in other online courses.</h3>
   <Image src={ExerciseScreenshots} className="flex sm:min-w-full min-w-[550px] sm:rotate-0 -rotate-6" width={1276} height={913} alt="Total TypeScript screenshots" />
@@ -106,7 +106,7 @@ The exercises build upon another, demonstrating the most important TypeScript co
 </section>
 <section className='bg-[#07090F] flex items-center'>
 <div className="max-w-screen-lg sm:py-24 py-16 md:flex-row flex-col flex w-full mx-auto relative">
-<Image src={Cauldron} alt="" width={400} height={400} aria-hidden="true" className="md:absolute md:mt-0 -mt-48 xl:max-w-full sm:max-w-[300px] mx-auto max-w-[300px] right-0 xl:-top-40 sm:-top-32 md:-rotate-12" />
+<Image src={Cauldron} alt="a cauldron with TS written on it" width={400} height={400} aria-hidden="true" className="md:absolute md:mt-0 -mt-48 xl:max-w-full sm:max-w-[300px] mx-auto max-w-[300px] right-0 xl:-top-40 sm:-top-32 md:-rotate-12" />
 <div className=''>
 <h2 className='px-5 mb-12 not-prose md:text-left text-center md:text-5xl sm:text-4xl text-3xl font-medium font-heading flex flex-col'><span>Make TypeScript work </span><span className='italic'>for you, not against you</span></h2>
 
@@ -166,7 +166,7 @@ Check out the free [Beginner's Tutorial](/tutorials/beginners-typescript) to set
 </div>
 <Image
   src={Wand}
-  alt=""
+  alt="a wand"
   width={444}
   height={586}
   className="relative md:-translate-y-28 md:mt-0 -mt-16"
@@ -264,7 +264,7 @@ Check out the free [Beginner's Tutorial](/tutorials/beginners-typescript) to set
 <div className='absolute w-1/2 h-px top-px bg-gradient-to-r from-transparent via-black to-transparent opacity-75' aria-hidden="true" />
   <Image
     src={Shine}
-    alt=""
+    alt="shine"
     width={1006}
     height={588}
     aria-hidden="true"
@@ -279,13 +279,15 @@ Check out the free [Beginner's Tutorial](/tutorials/beginners-typescript) to set
 
 Total TypeScript contains five professional-grade workshops for you to achieve TypeScript Wizardry:
 
-- Type Transformations (7 sections, 50+ exercises)
+- TypeScript Pro Essentials (200+ exercises, 17 sections)
 
-- TypeScript Generics (6 sections, 40+ exercises)
+- Type Transformations (50+ exercises, 7 sections)
 
-- Advanced TypeScript Patterns (7 sections, 40+ exercises)
+- TypeScript Generics (40+ exercises, 6 sections)
 
-- Advanced React with TypeScript (6 sections, 50+ exercises)
+- Advanced TypeScript Patterns (40+ exercises, 7 sections)
+
+- Advanced React with TypeScript (50+ exercises, 6 sections)
 
 Each workshop contains dozens of exercises designed to put your problem solving skills to the test.
 
@@ -314,8 +316,6 @@ I built Total TypeScript to make the secrets of open-source maintainers and indu
 <section id="workshops" className='bg-gradient-to-b from-background to-black/40 border-b border-white/5 w-full flex flex-col'>
 <h3 className='font-medium not-prose text-2xl pb-10 px-5 text-center max-w-screen-lg mx-auto text-foreground w-full'>Workshops Include</h3>
 <div className="flex flex-col gap-20 pb-24">
-
-{/* <Module title="Typescript Pro Essentials" slug="typescript-pro-essentials" metaLabel="over 200 lessons" sub="Learn TypeScript by setting up a pro environment, using advanced IDE features, and mastering type annotations, unions, object types, inference, and generics." image="https://cdn.sanity.io/images/z9io1e0u/production/80da574ffbb12904f823723d5ea0a8e20add0270-1200x1200.png"> Learn TypeScript by setting up a pro environment, using advanced IDE features, and mastering type annotations, unions, object types, inference, and generics.</Module> */}
 
 <Module title="Type Transformations" slug="type-transformations" metaLabel="over 50 lessons" sub="Wield the power of transformation to move from one type to another with ease" image="https://cdn.sanity.io/images/z9io1e0u/production/8d26aee5def2397f419bb038fd8879286fd41bda-768x768.png">
 
@@ -350,6 +350,11 @@ Using TypeScript with React can be tricky, requiring flexible, type-safe, and st
 This workshop empowers developers to combine React and TypeScript effectively. It covers advanced props handling, leveraging TypeScript generics for components and hooks, safer React hooks using types, understanding the TypeScript type system, recognizing industry-standard patterns, and safely integrating external libraries into React components.
 
 </Module>
+
+<Module title="TypeScript Pro Essentials" slug="typescript-pro-essentials" metaLabel="200 lessons" sub="Elevate your TypeScript proficiency with precision, clean coding practices, error prevention, and scalable project development" image="https://cdn.sanity.io/images/z9io1e0u/production/80da574ffbb12904f823723d5ea0a8e20add0270-1200x1200.png">
+
+Whether you're new to TypeScript or looking to refine your skills, this workshop covers over 200 lessons across 17 sections. From essential IDE setup and TypeScript fundamentals to advanced type manipulation and best practices for scalable application development, gain the knowledge and confidence to write cleaner code, preempt errors, and elevate your projects effectively. Explore the nuances of TypeScript configuration, enhance your understanding of object-oriented principles, and optimize your development environment with industry-leading insights.
+
+</Module>
 </div>
 </section>
-{/* <Companies /> */}

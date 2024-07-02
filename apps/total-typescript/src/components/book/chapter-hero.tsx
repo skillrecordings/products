@@ -18,7 +18,7 @@ export const ChapterHero = forwardRef<
           Chapter {chapterIndex + 1}{' '}
           {/* <span className="h-px w-10 bg-gray-800" aria-hidden="true" /> */}
         </p>
-        <h1 className="relative z-10 text-balance bg-gradient-to-b from-white to-foreground bg-clip-text font-heading text-4xl font-bold italic text-transparent drop-shadow-xl sm:text-6xl lg:text-8xl">
+        <h1 className="relative z-10 text-balance bg-gradient-to-b from-white to-foreground bg-clip-text py-3 font-heading text-4xl font-bold italic text-transparent drop-shadow-xl sm:text-6xl lg:text-8xl">
           {chapter.title}
         </h1>
         <p className="relative z-10 max-w-md text-balance text-center font-text text-base sm:text-xl">
