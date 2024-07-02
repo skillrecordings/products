@@ -20,6 +20,34 @@ model Comment {
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model ContentResource {
+  id          String    @id @default(uuid())
+  type        String
+  createdById String
+  fields      Json      @default("{}")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+  deletedAt   DateTime?
+
+  @@index([type])
+  @@index([createdById])
+  @@index([createdAt])
+}
+
+model ContentResourceResource {
+  resourceOfId String
+  resourceId   String
+  position     Float     @default(0)
+  metadata     Json      @default("{}")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now())
+  deletedAt    DateTime?
+
+  @@id([resourceOfId, resourceId])
+  @@index([resourceOfId])
+  @@index([resourceId])
+}
+
 model LessonProgress {
   id            String    @id @default(uuid())
   userId        String
