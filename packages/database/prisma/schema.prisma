@@ -130,6 +130,8 @@ model MerchantCustomer {
   merchantAccount   MerchantAccount  @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
   user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   merchantCharges   MerchantCharge[]
+
+  @@index ([userId])
 }
 
 model MerchantPrice {
@@ -232,6 +234,7 @@ model Purchase {
   purchaseUserTransfers PurchaseUserTransfer[]
 
   @@index([userId])
+  @@index([merchantChargeId])
 }
 
 model Session {
