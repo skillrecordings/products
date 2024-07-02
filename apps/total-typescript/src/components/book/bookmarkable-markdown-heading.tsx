@@ -1,11 +1,9 @@
-import {useBookmark} from '@/hooks/use-bookmark'
 import {useCopyToClipboard} from 'react-use'
 import {BookmarkIcon as BookmarkIconSolid} from '@heroicons/react/solid'
 import {BookmarkIcon} from '@heroicons/react/outline'
 import {isBrowser} from '@/utils/is-browser'
 import toast from 'react-hot-toast'
 import React from 'react'
-import {localBookDb} from '@/utils/dexie'
 import {
   Tooltip,
   TooltipContent,
@@ -13,20 +11,31 @@ import {
   TooltipTrigger,
 } from '@skillrecordings/ui'
 import {childrenToString} from '@/utils/children-to-string'
+import {trpc} from '@/trpc/trpc.client'
 
 interface LinkedHeadingProps extends React.HTMLProps<HTMLHeadingElement> {
   as?: Extract<
     keyof JSX.IntrinsicElements,
     'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   >
-  onAddBookmark?: (heading: {id: string; children: string}) => Promise<void>
+  onAddBookmark?: ({
+    resourceId,
+    resourceTitle,
+    resourceSlug,
+  }: {
+    resourceId: string
+    resourceTitle: string
+    resourceSlug: string
+  }) => Promise<void>
   appendValueForRepeatedIds?: string
+  resourceId?: string
 }
 
 export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
   as = 'h2',
   appendValueForRepeatedIds,
   onAddBookmark,
+  resourceId,
   ...props
 }) => {
   let id = props.id as string
@@ -34,8 +43,21 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
     id = `${id}${appendValueForRepeatedIds}`
   }
   const [state, copyToClipboard] = useCopyToClipboard()
+  const {data: resourceBookmarked} = resourceId
+    ? trpc.bookmarks.getBookmark.useQuery({
+        id: resourceId,
+      })
+    : {data: undefined}
+
+  const deleteBookmarkMutation = trpc.bookmarks.deleteBookmark.useMutation({
+    onSuccess: () => {
+      toast.success('Bookmark removed')
+    },
+    onError: (error) => {
+      toast.error('Error removing bookmark')
+    },
+  })
   const linkToTitle = `#${id}`
-  const {resourceBookmarked, refetch} = useBookmark(id as string)
   const handleOnClick = () => {
     if (isBrowser()) {
       const url = window.location.href
@@ -72,24 +94,19 @@ export const BookmarkableMarkdownHeading: React.FC<LinkedHeadingProps> = ({
         </a>
         <H />
       </span>
-      {onAddBookmark && (
+      {onAddBookmark && resourceId && (
         <button
           className="absolute right-0 flex h-8 w-8 translate-y-2 items-center justify-center rounded-full bg-amber-300/10 p-2 transition duration-300 group-hover:bg-amber-300/20 hover:bg-amber-300/20 sm:translate-y-3"
           type="button"
           onClick={async () => {
             if (resourceBookmarked) {
-              await localBookDb.bookmarks
-                .delete(resourceBookmarked.id as number)
-                .then(() => {
-                  toast.success('Bookmark removed')
-                })
-              await refetch()
+              deleteBookmarkMutation.mutate({id: resourceBookmarked.id})
             } else {
               await onAddBookmark({
-                id: props.id as string,
-                children: childrenToString(props.children),
+                resourceId,
+                resourceTitle: childrenToString(props.children),
+                resourceSlug: props.id as string,
               })
-              await refetch()
             }
           }}
         >
