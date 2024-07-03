@@ -10,9 +10,6 @@ import {
   SolutionResourceSchema,
   LessonResourceSchema,
 } from '../../schemas/lesson'
-import {getToken} from 'next-auth/jwt'
-import {TRPCError} from '@trpc/server'
-import {getModuleProgress} from '../../lib/module-progress'
 
 export const lessonsRouter = router({
   getNextLesson: publicProcedure
@@ -70,38 +67,5 @@ export const lessonsRouter = router({
       }
 
       return null
-    }),
-  getNextLessonAndSkipPreviousLessons: publicProcedure
-    .input(
-      z.object({
-        lessonSlug: z.string(),
-        module: z.string(),
-      }),
-    )
-    .query(async ({ctx, input}) => {
-      const token = await getToken({req: ctx.req})
-      if (!token?.sub) {
-        return new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'User not logged in',
-        })
-      }
-
-      const progress = await getModuleProgress({
-        moduleSlug: input.module,
-        userId: token.sub,
-      })
-      const currentLessonIndex = progress?.lessons.findIndex(
-        (lesson) => lesson.slug === input.lessonSlug,
-      )
-      const nextLesson = progress.lessons
-        .slice(currentLessonIndex + 1)
-        .find((lesson) => !lesson.lessonCompleted)
-
-      const firstUncompletedLesson = progress.lessons.find(
-        (lesson) => !lesson.lessonCompleted,
-      )
-
-      return nextLesson ? nextLesson : firstUncompletedLesson
     }),
 })
