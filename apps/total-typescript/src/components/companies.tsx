@@ -1,10 +1,10 @@
 export const Companies = () => {
   return (
-    <section className="not-prose mx-auto mb-0 flex w-full flex-col items-center justify-center bg-gradient-to-b from-background to-[#191427] pt-10 md:pb-16 md:pt-16 lg:-mt-24">
+    <section className="not-prose mx-auto mb-0 flex w-full flex-col items-center justify-center bg-transparent px-5 pt-10 md:pt-16">
       <h2 className="font-text text-lg text-foreground opacity-75">
         Trusted by developers from
       </h2>
-      <div className="mt-16 grid w-full max-w-[1300px] origin-top scale-[0.6] grid-cols-2 flex-wrap place-items-center items-center justify-center gap-x-10 gap-y-12 sm:flex sm:scale-75 sm:gap-x-16 sm:gap-y-16 md:mt-10  [&_svg]:max-w-[150px] [&_svg]:opacity-75 [&_svg]:sm:max-w-full">
+      <div className="mt-10 grid w-full max-w-screen-lg origin-top grid-cols-3 flex-wrap place-items-center items-center justify-center gap-x-5 gap-y-12 sm:mt-16 sm:flex sm:scale-100 sm:grid-cols-2 sm:gap-x-16 sm:gap-y-16 md:mt-10 [&_svg]:max-h-[20px] [&_svg]:w-[75px] [&_svg]:opacity-100 sm:[&_svg]:max-h-[35px] sm:[&_svg]:w-[100px] [&_svg]:sm:max-w-full">
         <Webflow />
         <Stripe />
         <Microsoft />
@@ -96,26 +96,14 @@ const Wix = () => (
     xmlns="http://www.w3.org/2000/svg"
     width="95"
     height="37"
+    className="h-[20px]"
     fill="none"
     viewBox="0 0 95 37"
   >
-    <mask
-      id="a"
-      width="95"
-      height="37"
-      x="0"
-      y="0"
-      maskUnits="userSpaceOnUse"
-      style={{maskType: 'luminance'}}
-    >
-      <path fill="currentColor" d="M0 0h94.695v36.662H0V0Z" />
-    </mask>
-    <g mask="url(#a)">
-      <path
-        fill="currentColor"
-        d="M94.693 0h-5.231a4.375 4.375 0 0 0-3.622 1.92l-6.996 10.32a.469.469 0 0 1-.776 0L71.072 1.92A4.373 4.373 0 0 0 67.45 0h-5.23l12.46 18.383-12.392 18.28h5.231a4.375 4.375 0 0 0 3.622-1.92l6.926-10.218a.468.468 0 0 1 .777 0l6.927 10.217a4.375 4.375 0 0 0 3.622 1.92h5.231l-12.393-18.28L94.693 0ZM51.458 3.75v32.912h2.5a3.75 3.75 0 0 0 3.75-3.75V0h-2.5a3.75 3.75 0 0 0-3.75 3.75ZM46.876 0h-2.225a5.244 5.244 0 0 0-5.115 4.082L34.56 25.96 30.203 5.537c-.805-3.774-4.678-6.32-8.642-5.225-2.524.697-4.395 2.83-4.942 5.39l-4.311 20.23L7.34 4.084A5.248 5.248 0 0 0 2.224 0H0l8.338 36.66h3.16a6.076 6.076 0 0 0 5.94-4.807L22.77 6.84a.678.678 0 0 1 .66-.535c.317 0 .595.224.661.535l5.334 25.015a6.074 6.074 0 0 0 5.943 4.806h3.17L46.876 0Z"
-      />
-    </g>
+    <path
+      fill="currentColor"
+      d="M94.693 0h-5.231a4.375 4.375 0 0 0-3.622 1.92l-6.996 10.32a.469.469 0 0 1-.776 0L71.072 1.92A4.373 4.373 0 0 0 67.45 0h-5.23l12.46 18.383-12.392 18.28h5.231a4.375 4.375 0 0 0 3.622-1.92l6.926-10.218a.468.468 0 0 1 .777 0l6.927 10.217a4.375 4.375 0 0 0 3.622 1.92h5.231l-12.393-18.28L94.693 0ZM51.458 3.75v32.912h2.5a3.75 3.75 0 0 0 3.75-3.75V0h-2.5a3.75 3.75 0 0 0-3.75 3.75ZM46.876 0h-2.225a5.244 5.244 0 0 0-5.115 4.082L34.56 25.96 30.203 5.537c-.805-3.774-4.678-6.32-8.642-5.225-2.524.697-4.395 2.83-4.942 5.39l-4.311 20.23L7.34 4.084A5.248 5.248 0 0 0 2.224 0H0l8.338 36.66h3.16a6.076 6.076 0 0 0 5.94-4.807L22.77 6.84a.678.678 0 0 1 .66-.535c.317 0 .595.224.661.535l5.334 25.015a6.074 6.074 0 0 0 5.943 4.806h3.17L46.876 0Z"
+    />
   </svg>
 )
 

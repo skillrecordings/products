@@ -219,7 +219,10 @@ export const PrimaryChapterToC = ({
         </div>
         {!canViewTypeScriptProEssentials &&
           abilityRulesStatus === 'success' && (
-            <ProEssentialsBanner ref={bannerRef} />
+            <ProEssentialsBanner
+              location="chapter_sidebar_toc"
+              ref={bannerRef}
+            />
           )}
       </div>
     </aside>
