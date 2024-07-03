@@ -115,8 +115,6 @@ const ExerciseTemplate: React.FC<{
     module,
   })
 
-  const {data: defaultCouponData} = trpc.pricing.defaultCoupon.useQuery()
-
   return (
     <VideoProvider
       accentColor="#0ea5e9"
