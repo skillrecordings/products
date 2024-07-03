@@ -208,7 +208,7 @@ const ExerciseTemplate: React.FC<{
           url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${lesson.slug}`}
           title={lesson.title}
           images={[
-            `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
+            `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
           ]}
           datePublished={lesson._updatedAt || new Date().toISOString()}
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
