@@ -22,7 +22,7 @@ const ActivePromotionSchema = z.object({
   merchantCouponId: z.string().nullable(),
   status: z.number(),
   usedCount: z.number(),
-  percentageDiscount: z.string().or(z.number()),
+  percentageDiscount: z.any(),
   restrictedToProductId: z.string().nullable(),
   bulkPurchaseId: z.string().nullable(),
   product: ProductSchema.nullable(),
@@ -126,6 +126,7 @@ export const ctaRouter = router({
       products.map((product: {productId: string}) => product.productId),
     )
     const defaultCoupon = defaultCoupons?.defaultCoupon
+    console.log({defaultCoupon})
     if (DEBUG_MODE) {
       return {
         id: 'dummy',

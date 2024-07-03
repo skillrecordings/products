@@ -7,6 +7,7 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Layout from '../../components/app/layout'
 import {useRouter, type NextRouter} from 'next/router'
 import Image from 'next/image'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 const handleOnSubscribe = (
   router: NextRouter,
@@ -133,9 +134,14 @@ const IconSecure = () => {
   )
 }
 
-export const Testimonials = () => {
+export const Testimonials = ({className}: {className?: string}) => {
   return (
-    <section className="mx-auto flex w-full max-w-screen-lg gap-10 border-t px-5 py-16 sm:py-24">
+    <section
+      className={cn(
+        'mx-auto flex w-full max-w-screen-lg gap-10 border-t px-5 py-16 sm:py-24',
+        className,
+      )}
+    >
       <div className="flex flex-col gap-12 md:flex-row">
         {testimonials.map(({body, name, image}, i) => {
           return (

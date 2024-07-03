@@ -1493,6 +1493,9 @@ importers:
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
+      prism-react-renderer:
+        specifier: ^2.3.1
+        version: 2.3.1(react@18.3.0-canary-a870b2d54-20240314)
       react:
         specifier: 18.3.0-canary-a870b2d54-20240314
         version: 18.3.0-canary-a870b2d54-20240314
@@ -22836,6 +22839,11 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
+    engines: {node: '>=6'}
+    dev: false
+
   /cmdk@0.2.0(@types/react@18.2.48)(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314):
     resolution: {integrity: sha512-JQpKvEOb86SnvMZbYaFKYhvzFntWBeSZdyii0rZPhKJj9uwJBxu4DaVYDrRN7r3mPop56oPhRw+JYWTKs66TYw==}
     peerDependencies:
@@ -35805,6 +35813,16 @@ packages:
     peerDependencies:
       react: '>=0.14.9'
     dependencies:
+      react: 18.3.0-canary-a870b2d54-20240314
+    dev: false
+
+  /prism-react-renderer@2.3.1(react@18.3.0-canary-a870b2d54-20240314):
+    resolution: {integrity: sha512-Rdf+HzBLR7KYjzpJ1rSoxT9ioO85nZngQEoFIhL07XhtJHlCU3SOz0GJ6+qvMyQe0Se+BV3qpe6Yd/NmQF5Juw==}
+    peerDependencies:
+      react: '>=16.0.0'
+    dependencies:
+      '@types/prismjs': 1.26.3
+      clsx: 2.1.1
       react: 18.3.0-canary-a870b2d54-20240314
     dev: false
 

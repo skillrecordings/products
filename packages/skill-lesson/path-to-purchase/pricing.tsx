@@ -76,6 +76,7 @@ type PricingProps = {
   ) => React.ReactNode
   options?: {
     withImage?: boolean
+    withDescription?: boolean
     withGuaranteeBadge?: boolean
     isLiveEvent?: boolean
     isPPPEnabled?: boolean
@@ -132,6 +133,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   },
   options = {
     withImage: true,
+    withDescription: true,
     isPPPEnabled: true,
     withGuaranteeBadge: true,
     isLiveEvent: false,
@@ -259,7 +261,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     (module) => module.moduleType === 'workshop',
   )
   const moduleBonuses = modules?.filter(
-    (module) => module.moduleType === 'bonus' && module.state === 'published',
+    (module) => module.moduleType === 'bonus',
   )
 
   function getUnitPrice(formattedPrice: FormattedPrice) {
@@ -614,6 +616,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             )}
           <div data-pricing-footer="">
             {product.description &&
+              options.withDescription &&
               (isSellingLive || allowPurchase) &&
               !purchased && (
                 <div
@@ -693,7 +696,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   <div data-bonuses="">
                     <ul role="list">
                       {moduleBonuses.map((module) => {
-                        return purchased ? (
+                        return purchased && module.state === 'published' ? (
                           <li key={module.slug}>
                             <Link
                               href={{
@@ -703,15 +706,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                                 },
                               }}
                             >
-                              <WorkshopListItem module={module} />
+                              <BonusListItem module={module} />
                             </Link>
                           </li>
                         ) : (
                           <li key={module.slug}>
-                            <WorkshopListItem
-                              module={module}
-                              key={module.slug}
-                            />
+                            <BonusListItem module={module} key={module.slug} />
                           </li>
                         )
                       })}
@@ -811,6 +811,42 @@ const WorkshopListItem: React.FC<{
         {module.state && (
           <div data-state={module.state}>{getLabelForState(module.state)}</div>
         )}
+        {module?.description && (
+          <div data-description="">
+            <ReactMarkdown
+              components={{
+                a: (props) => <a {...props} target="_blank" rel="noopener" />,
+              }}
+            >
+              {module.description}
+            </ReactMarkdown>
+          </div>
+        )}
+      </div>
+    </>
+  )
+}
+
+const BonusListItem: React.FC<{
+  module: SanityProductModule
+}> = ({module}) => {
+  return (
+    <>
+      {module.image?.url && (
+        <div data-image="" aria-hidden="true">
+          <Image
+            src={module.image.url}
+            layout="fill"
+            alt={module.title}
+            aria-hidden="true"
+          />
+        </div>
+      )}
+      <div>
+        <p>
+          {module.moduleType === 'bonus' && <strong>Bonus</strong>}
+          {module.title}
+        </p>
         {module?.description && (
           <div data-description="">
             <ReactMarkdown

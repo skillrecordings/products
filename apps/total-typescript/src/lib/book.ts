@@ -96,7 +96,12 @@ export async function getBook(slugOrId: string) {
           moduleType,
           title,
           "slug": slug.current,
-
+          resources[]->{
+            _id,
+            title,
+            "slug": slug.current,
+            body,
+          }
         }
       }`,
     {slugOrId: `${slugOrId}`},

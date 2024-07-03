@@ -33,8 +33,14 @@ import {portableTextComponents} from '../portable-text'
 import Spinner from '../spinner'
 import {isNextSectionEmpty} from '../utils/get-next-section'
 import {type ModuleProgress, useModuleProgress} from './module-progress'
-import {Button} from '@skillrecordings/ui'
+import {
+  Button,
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@skillrecordings/ui'
 import {Progress} from '@skillrecordings/ui'
+import {TooltipContent} from '@radix-ui/react-tooltip'
 
 const OverlayWrapper: React.FC<
   React.PropsWithChildren<{dismissable?: boolean}>
@@ -619,51 +625,84 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
               )}
             </div>
             <div data-modules="">
-              {workshops.map((module) => {
-                return (
-                  <Link
-                    key={module.slug}
-                    data-type={module.moduleType}
-                    href={`/workshops/${module.slug}`}
-                    target="_blank"
-                  >
-                    {module?.image?.url || module?.image ? (
-                      <Image
-                        src={module.image?.url ?? module.image}
-                        alt={`${module.title} workshop`}
-                        width={60}
-                        height={60}
-                      />
-                    ) : (
-                      module.title
-                    )}
-                  </Link>
-                )
-              })}
-              {showBonuses ? (
-                <>
-                  <span>+</span>
-                  {bonuses.map((module) => {
-                    return (
-                      <Link
-                        key={module.slug}
-                        data-type={module.moduleType}
-                        href={`/bonuses/${module.slug}`}
-                        target="_blank"
-                      >
-                        {(module.image?.url || module.image) && (
-                          <Image
-                            src={module.image?.url ?? module.image}
-                            alt={`${module.title} workshop`}
-                            width={60}
-                            height={60}
-                          />
-                        )}
-                      </Link>
-                    )
-                  })}
-                </>
-              ) : null}
+              <TooltipProvider delayDuration={0}>
+                {workshops.map((module) => {
+                  return (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link
+                          key={module.slug}
+                          data-type={module.moduleType}
+                          href={`/workshops/${module.slug}`}
+                          target="_blank"
+                        >
+                          {module?.image?.url || module?.image ? (
+                            <Image
+                              src={module.image?.url ?? module.image}
+                              alt={`${module.title} workshop`}
+                              width={60}
+                              height={60}
+                            />
+                          ) : (
+                            module.title
+                          )}
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent className="text-sm bg-background">
+                        {module.title}
+                      </TooltipContent>
+                    </Tooltip>
+                  )
+                })}
+                {showBonuses ? (
+                  <>
+                    <span>+</span>
+                    {bonuses.map((module) => {
+                      return module.state === 'published' ? (
+                        <Tooltip key={module.slug}>
+                          <TooltipTrigger asChild>
+                            <Link
+                              key={module.slug}
+                              data-type={module.moduleType}
+                              href={`/bonuses/${module.slug}`}
+                              target="_blank"
+                            >
+                              {(module.image?.url || module.image) && (
+                                <img
+                                  src={module.image?.url ?? module.image}
+                                  alt={`${module.title} workshop`}
+                                  width={60}
+                                  height={60}
+                                />
+                              )}
+                            </Link>
+                          </TooltipTrigger>
+                          <TooltipContent className="text-sm bg-background">
+                            {module.title}
+                          </TooltipContent>
+                        </Tooltip>
+                      ) : (
+                        <Tooltip key={module.slug}>
+                          <TooltipTrigger asChild>
+                            {(module.image?.url || module.image) && (
+                              <img
+                                data-type={module.moduleType}
+                                src={module.image?.url ?? module.image}
+                                alt={`${module.title} workshop`}
+                                width={60}
+                                height={60}
+                              />
+                            )}
+                          </TooltipTrigger>
+                          <TooltipContent className="text-sm bg-background">
+                            {module.title}
+                          </TooltipContent>
+                        </Tooltip>
+                      )
+                    })}
+                  </>
+                ) : null}
+              </TooltipProvider>
             </div>
           </>
         )}
@@ -743,7 +782,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   loadingIndicator = null,
 }) => {
   const {videoResourceId} = useVideoResource()
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
+  const thumbnail = `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`
 
   return (
     <OverlayWrapper data-video-overlay="loading" dismissable={false}>

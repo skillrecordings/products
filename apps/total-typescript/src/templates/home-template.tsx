@@ -4,18 +4,20 @@ import {Copy} from '@/components/home/home-body-copy'
 import React from 'react'
 import {useSkillLevel} from '@/components/home/use-skill-level'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
-import {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
+import {
+  CommerceProps,
+  type SanityProduct,
+} from '@skillrecordings/commerce-server/dist/@types'
 import {Element} from 'react-scroll'
 import Image from 'next/image'
-import {MDXComponents} from '../components/mdx'
 import {isSellingLive} from '@/utils/is-selling-live'
 import {SubscribeToNewsletter} from '@/components/home/home-newsletter-cta'
-import Balancer from 'react-wrap-balancer'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import cx from 'classnames'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {trpc} from '@/trpc/trpc.client'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {Companies} from '@/components/companies'
 
 export const HomeTemplate: React.FC<
   React.PropsWithChildren<CommerceProps & {level?: string}>
@@ -81,13 +83,13 @@ export const HomeTemplate: React.FC<
       }}
     >
       <Header level={skillLevel} />
+      <Companies />
       <main className="overflow-x-hidden">
         <Copy level={skillLevel} />
         {isSellingLive ? (
           <div
-            className="flex flex-col items-center pb-16 pt-24 sm:pt-32"
+            className="flex flex-col items-center pb-16 pt-16 sm:pt-24"
             id="buy"
-            // slot={null}
           >
             <Image
               width={300}
@@ -157,18 +159,8 @@ export const HomeTemplate: React.FC<
         ) : (
           <SubscribeToNewsletter level={skillLevel} />
         )}
-        {/* <div className="pointer-events-none select-none">
-          <Image
-            aria-hidden="true"
-            alt=""
-            src={require('../../public/assets/landing/bg-divider-4.png')}
-            fill
-            className="rotate-180 select-none object-contain object-top"
-            quality={100}
-          />
-        </div> */}
-
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+        <Companies />
       </main>
     </Layout>
   )

@@ -115,8 +115,6 @@ const ExerciseTemplate: React.FC<{
     module,
   })
 
-  const {data: defaultCouponData} = trpc.pricing.defaultCoupon.useQuery()
-
   return (
     <VideoProvider
       accentColor="#0ea5e9"
@@ -179,11 +177,7 @@ const ExerciseTemplate: React.FC<{
           />
           <main
             className={cn(
-              'relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent 2xl:flex 2xl:max-w-none 2xl:border-gray-800',
-              {
-                'lg:mt-24': defaultCouponData,
-                'lg:mt-16': !defaultCouponData,
-              },
+              'relative mx-auto w-full max-w-[1480px] items-start border-t border-transparent lg:mt-16 2xl:flex 2xl:max-w-none 2xl:border-gray-800',
             )}
           >
             <div className="flex flex-col border-gray-800 2xl:relative 2xl:h-full 2xl:w-full 2xl:border-r">
