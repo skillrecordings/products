@@ -8,6 +8,8 @@ import {getAllBonuses} from '@/lib/bonuses'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Balancer from 'react-wrap-balancer'
 import Heading from '@/components/heading'
+import Sparkle from 'react-sparkle'
+import {useActivePromotion} from '@/hooks/use-active-promotion'
 
 const CLOUDINARY_FETCH_BASE_URL = `https://res.cloudinary.com/total-typescript/image/fetch/dpr_auto,f_auto,q_auto:good/`
 
@@ -30,6 +32,7 @@ const WorkshopsPage: React.FC<{
       ({slug}: {slug: string}) => slug === 'core-volume-react-bundle',
     ),
   )
+  const {activePromotion, buyUrl, getCookie, setCookie} = useActivePromotion()
 
   const standaloneWorkshops = modules.filter((module) => {
     // filter out core-volume product
@@ -52,10 +55,34 @@ const WorkshopsPage: React.FC<{
       <Heading
         title="Professional TypeScript Workshops"
         description="A collection of professional, exercise-driven, in-depth, self-paced TypeScript workshops for you to achieve TypeScript wizardry."
-      />
+      >
+        {activePromotion ? (
+          <h2 className="mt-8">
+            <Link
+              href="/#buy"
+              className="relative inline-block max-w-screen-sm text-balance text-lg text-white"
+            >
+              Become a TypeScript Wizard —{' '}
+              <span className="font-semibold text-yellow-300 underline">
+                Get Access Today
+              </span>
+              <Sparkle
+                flickerSpeed="slowest"
+                count={10}
+                color="rgb(253, 224, 71)"
+                flicker={false}
+                fadeOutSpeed={10}
+                overflowPx={15}
+              />
+            </Link>
+          </h2>
+        ) : (
+          <div aria-hidden="true" className="flex h-[60px] w-full" />
+        )}
+      </Heading>
       <main className="relative z-10 flex flex-col items-center justify-center">
         {modules && (
-          <ul className="flex max-w-screen-lg flex-col px-5 py-10 sm:py-20">
+          <ul className="flex max-w-screen-lg flex-col px-5 py-10 sm:py-10">
             <div className="space-y-14">
               {standaloneWorkshops.map((module, i) => (
                 <WorkshopTeaser
