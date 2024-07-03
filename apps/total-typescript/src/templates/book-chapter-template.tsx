@@ -3,7 +3,6 @@ import '@/styles/shiki-twoslash.css'
 import Layout from '@/components/app/layout'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import toast from 'react-hot-toast'
 import type {BookChapterProps} from '../pages/books/[book]/[chapter]'
 import {flattenMarkdownHeadings} from '@/utils/extract-markdown-headings'
 import {ExerciseEmbed} from '@/components/book/book-exercise-embed'
@@ -21,8 +20,8 @@ import {
 import {ChapterHero, useIsScrolledPast} from '@/components/book/chapter-hero'
 import {ChapterPagination} from '@/components/book/chapter-pagination'
 import {MobileChapterToC} from '@/components/book/mobile-chapter-toc'
-import {trpc} from '@/trpc/trpc.client'
 import slugify from '@sindresorhus/slugify'
+import {InlineProEssentialsBanner} from '@/components/book/pro-essentials-banner'
 
 const BookChapterTemplate = ({
   chapter,
@@ -178,6 +177,7 @@ const BookChapterTemplate = ({
                 }}
               />
             </div>
+            <InlineProEssentialsBanner className="flex lg:hidden" />
           </article>
           {toc && sidebarPlacement === 'right' && (
             <PrimaryChapterToC

@@ -71,7 +71,7 @@ export const ChaptersIndexMenu: React.FC<{
                       variants={item}
                       className="hidden flex-shrink-0 px-5 sm:flex"
                     >
-                      <ProEssentialsBanner />
+                      <ProEssentialsBanner location="chapters_index_menu" />
                     </motion.li>
                   )}
               </DialogTitle>
