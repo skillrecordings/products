@@ -50,12 +50,19 @@ const LessonCompleteToggle = () => {
     return await toggleProgressMutation.mutateAsync(
       {
         lessonSlug: lessonSlug as string,
+        moduleId: module._id,
       },
       {
         onSuccess: (data) => {
+          const {progress, moduleProgress: moduleProgressLessonComplete} = data
           if (
-            'completedAt' in data &&
-            data?.completedAt &&
+            moduleProgressLessonComplete &&
+            'moduleCompleted' in moduleProgressLessonComplete &&
+            moduleProgressLessonComplete.moduleCompleted
+          ) {
+            router.push(`/modules/${module.slug.current}/completed`)
+          } else if (
+            progress?.completedAt &&
             flattenedLessons &&
             flattenedLessons[currentLessonIndex + 1]
           ) {
@@ -65,17 +72,9 @@ const LessonCompleteToggle = () => {
                 flattenedLessons[currentLessonIndex + 1]?.slug
               }`,
             )
-          } else if (moduleCompleted) {
-            router.push(`/modules/${module.slug.current}/completed`)
-          } else if ((data && !('completedAt' in data)) || !data?.completedAt) {
+          } else if (!progress?.completedAt) {
           } else {
             reward()
-            toast.success(
-              "You have more lessons in this module before it's fully completed",
-              {
-                duration: 5000,
-              },
-            )
           }
         },
         onError: (error: any) => {
