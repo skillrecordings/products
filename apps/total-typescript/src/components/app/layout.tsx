@@ -92,7 +92,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         className={cn(
           'flex h-full min-h-screen flex-grow flex-col',
           {
-            'md:pt-19 pt-14 sm:pt-8 lg:pt-0': defaultCouponData,
+            // 'md:pt-19 pt-14 sm:pt-8 lg:pt-0': defaultCouponData,
           },
           className,
         )}
