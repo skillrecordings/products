@@ -171,6 +171,7 @@ export const HomeTemplate: React.FC<
         </div> */}
 
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
+        <Companies />
       </main>
     </Layout>
   )
