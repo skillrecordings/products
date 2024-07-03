@@ -1,0 +1,232 @@
+So, you've got some code in `React.useEffect` and you want to know how to test
+it. This is a pretty common question. The answer is kinda anti-climatic and
+general. Here's how you think about testing _anything_:
+
+> How does the user make that code run? Make your test do that.
+
+That's it. That's the secret. The trick is discovering what constitutes a
+"user." Your React components actually have 2 users: the developer who renders
+it and the end-user who interacts with it. Generally, your tests should do no
+more or less than what these users do. For more on this, read
+[Avoid the Test User](https://kentcdodds.com/blog/avoid-the-test-user).
+
+So, let's take a look at an example. I'll grab some code from one of the
+exercises in [EpicReact.dev/app](https://epicreact.dev/app) (it's a pretty long
+example, feel free to scan it quickly):
+
+```javascript
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
+
+import * as React from 'react'
+import Tooltip from '@reach/tooltip'
+import {FaSearch, FaTimes} from 'react-icons/fa'
+import {Input, BookListUL, Spinner} from './components/lib'
+import {BookRow} from './components/book-row'
+import {client} from './utils/api-client'
+import * as colors from './styles/colors'
+
+function DiscoverBooksScreen() {
+  const [status, setStatus] = React.useState('idle')
+  const [data, setData] = React.useState()
+  const [error, setError] = React.useState()
+  const [query, setQuery] = React.useState()
+  const [queried, setQueried] = React.useState(false)
+
+  const isLoading = status === 'loading'
+  const isSuccess = status === 'success'
+  const isError = status === 'error'
+
+  React.useEffect(() => {
+    if (!queried) {
+      return
+    }
+    setStatus('loading')
+    client(`books?query=${encodeURIComponent(query)}`).then(
+      (responseData) => {
+        setData(responseData)
+        setStatus('success')
+      },
+      (errorData) => {
+        setError(errorData)
+        setStatus('error')
+      },
+    )
+  }, [query, queried])
+
+  function handleSearchSubmit(event) {
+    event.preventDefault()
+    setQueried(true)
+    setQuery(event.target.elements.search.value)
+  }
+
+  return (
+    <div
+      css={{maxWidth: 800, margin: 'auto', width: '90vw', padding: '40px 0'}}
+    >
+      <form onSubmit={handleSearchSubmit}>
+        <Input
+          placeholder="Search books..."
+          id="search"
+          css={{width: '100%'}}
+        />
+        <Tooltip label="Search Books">
+          <label htmlFor="search">
+            <button
+              type="submit"
+              css={{
+                border: '0',
+                position: 'relative',
+                marginLeft: '-35px',
+                background: 'transparent',
+              }}
+            >
+              {isLoading ? (
+                <Spinner />
+              ) : isError ? (
+                <FaTimes aria-label="error" css={{color: colors.danger}} />
+              ) : (
+                <FaSearch aria-label="search" />
+              )}
+            </button>
+          </label>
+        </Tooltip>
+      </form>
+
+      {isError ? (
+        <div css={{color: colors.danger}}>
+          <p>There was an error:</p>
+          <pre>{error.message}</pre>
+        </div>
+      ) : null}
+
+      {isSuccess ? (
+        data?.books?.length ? (
+          <BookListUL css={{marginTop: 20}}>
+            {data.books.map((book) => (
+              <li key={book.id} aria-label={book.title}>
+                <BookRow key={book.id} book={book} />
+              </li>
+            ))}
+          </BookListUL>
+        ) : (
+          <p>No books found. Try another search.</p>
+        )
+      ) : null}
+    </div>
+  )
+}
+
+export {DiscoverBooksScreen}
+```
+
+> Keep in mind that the above example would be better with `useReducer` and we
+> get to improving this later in the workshop exercises.
+
+Let's look at this bit specifically:
+
+```javascript
+React.useEffect(() => {
+  if (!queried) {
+    return
+  }
+  setStatus('loading')
+  client(`books?query=${encodeURIComponent(query)}`).then(
+    (responseData) => {
+      setData(responseData)
+      setStatus('success')
+    },
+    (errorData) => {
+      setError(errorData)
+      setStatus('error')
+    },
+  )
+}, [query, queried])
+
+function handleSearchSubmit(event) {
+  event.preventDefault()
+  setQueried(true)
+  setQuery(event.target.elements.search.value)
+}
+```
+
+Because we've properly mocked our backend using [MSW](https://mswjs.io/) (learn
+more about that in
+[Stop Mocking Fetch](https://kentcdodds.com/blog/stop-mocking-fetch)), we can
+actually make that request and get results. So let's interact with this
+component just the same way the end user would. Here's a test that actually
+works with this code:
+
+```javascript
+import * as React from 'react'
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+  within,
+} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import {DiscoverBooksScreen} from '../discover.extra-1'
+
+// Learn more: https://kentcdodds.com/blog/stop-mocking-fetch
+import {server} from 'test/server'
+beforeAll(() => server.listen())
+afterAll(() => server.close())
+afterEach(() => server.resetHandlers())
+
+test('queries for books', async () => {
+  // 🤓 this is what developer users do
+  render(<DiscoverBooksScreen />)
+
+  // 🤠 this is what end users do
+  userEvent.type(
+    screen.getByRole('textbox', {name: /search/i}),
+    'Sanderson{enter}',
+  )
+  // 🤠 end users will also note the presence of the loading indicator
+  // and wait until it's gone before making som assertions
+  await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
+
+  // 🤠 end users will look at all the items in the list to see the book titles
+  // Also, assistive technologies will take advantage of the implicit "listitem"
+  // ARIA role of our `li` elements.
+  const results = screen.getAllByRole('listitem').map((listItem) => {
+    return within(listItem).getByRole('heading', {level: 2}).textContent
+  })
+  // I rarely use snapshots, but this seemed like a pretty good application:
+  // https://kcd.im/snapshots
+  expect(results).toMatchInlineSnapshot(`
+    Array [
+      "The Way of Kings (Book 1 of the Stormlight Archive)",
+      "Words of Radiance (Book 2 of the Stormlight Archive)",
+      "Oathbringer (Book 3 of the Stormlight Archive)",
+    ]
+  `)
+})
+```
+
+There are other ways I could write this test (there are some important things
+that happen in that `test/server` module that we don't have time to cover in
+this post), but the principles are all the same:
+
+> How does the user make that code run? Make your test do that.
+
+Stated differently:
+
+> The more your tests resemble the way your software is used, the more
+> confidence they can give you.
+> [– me](https://twitter.com/kentcdodds/status/977018512689455106)
+
+So don't try mocking `useEffect` or `useState` or whatever. Stay away from that
+third user (the dreaded test user). The only thing that user is good for is
+turning you into a glorified test babysitter. And I don't know about you, but
+I'd rather ship awesome stuff to real people.
+
+import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
+
+export default ({children}) => (
+  <ArticleTemplate meta={articles['how-to-test-react-use-effect']}>
+    {children}
+  </ArticleTemplate>
+)

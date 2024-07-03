@@ -14,11 +14,15 @@ import {
 } from '@skillrecordings/ui'
 import {Sun, Moon} from '@/components/icons'
 
-export default ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
+const ThemeToggleButton = ({
+  handlerCloseMenu,
+}: {
+  handlerCloseMenu: () => void
+}) => {
   const {theme, setTheme} = useTheme()
   const isTablet = useMedia('(max-width: 920px)', false)
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
@@ -55,3 +59,5 @@ export default ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
     </TooltipProvider>
   )
 }
+
+export default ThemeToggleButton

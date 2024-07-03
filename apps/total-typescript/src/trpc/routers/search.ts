@@ -2,6 +2,7 @@ import {publicProcedure, router} from '@skillrecordings/skill-lesson'
 import {z} from 'zod'
 import {NextApiRequest} from 'next'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
+import groq from 'groq'
 
 export const searchRouter = router({
   resultsForQuery: publicProcedure
@@ -15,10 +16,10 @@ export const searchRouter = router({
     .query(async ({ctx, input}) => {
       const {resourceType} = input
       const results = await sanityClient.fetch(
-        `  *[_type in [${
+        groq`*[_type in [${
           resourceType
             ? `"${resourceType}"`
-            : `"article", "tip", "module", "exercise", "explainer"`
+            : `"article", "tip", "module", "exercise", "explainer", "chapterResource"`
         }] && state == "published" && moduleType != 'chapter' && moduleType != 'book']
     | score(
       title match $searchQuery 
@@ -45,7 +46,6 @@ export const searchRouter = router({
         "slug": slug.current,
         title
       }
-      
     } | {
       ...,
       "module": *[_type in ['module'] && references(^.section._id)][0] {
@@ -54,6 +54,20 @@ export const searchRouter = router({
         title,
         moduleType
       }
+    } | {
+      ...,
+      "chapter": *[_type == 'module' && moduleType == 'chapter' && references(^._id)][0] { 
+        _id,
+        title,
+        slug
+      }
+    } | {
+      ...,
+      "book": *[_type == 'module' && moduleType == 'book' && references(^.chapter._id)][0] {
+        _id,
+        title,
+        slug
+      } 
     }
     [_score > 0][0..${input.numResults}]`,
         {searchQuery: input.query},

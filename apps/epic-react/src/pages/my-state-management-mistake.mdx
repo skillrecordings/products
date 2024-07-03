@@ -1,0 +1,66 @@
+When I started at PayPal, the app I started with used Redux for its state
+management (like pretty much every other React app at the time). This was the
+first React product I'd ever worked on and I was excited to use the latest and
+greatest tools for state management. Unfortunately it wasn't long before I
+realized that Redux had some serious shortcomings and I haven't used it since.
+
+However, this blog post isn't about Redux.
+
+After working on that app, I had the privilege to work on the team that would
+rewrite [paypal.me](https://paypal.me/kentcdodds/💰) (🤑) from the ground up. As
+a team we knew we didn't want to use Redux, but we automatically assumed we
+would need _something_ to manage state, so we began the search. We eventually
+found a library that we thought would work out pretty well.
+
+It did not.
+
+I mean, it wasn't a disaster or anything, but unfortunately after a while, it
+was difficult for any of us to make sense of the app state. And it wasn't the
+fault of the library we chose. Frankly, what happened was we decided to avoid
+Redux, but then grabbed another library and made the same mistakes that made
+Redux such a problem: **Almost all state was globally managed by the library.**
+
+So what should we have done? If I could go back in time and could only say one
+thing, here's what I would say:
+
+> Server cache is not the same as UI state, and should be handled differently.
+
+What happened to me for pretty much every app I wrote up until even this year
+was that I would take the data I got from the server and treat it like it was UI
+state. I would mix it in with the actual UI state (stuff that's not persisted.
+You know, the stuff that goes away when you refresh the page), and this resulted
+in making _both_ more complex. I would try and fail at state synchronization.
+Found myself in "impossible" states that were difficult to debug.
+
+## So what now?
+
+Honestly, if I really could go back in time and meet myself, in addition to the
+one thing I said, I would hand myself a flash drive with a copy of
+https://github.com/tannerlinsley/react-query on it (with instructions to give it
+to [Tanner](https://twitter.com/tannerlinsley) along with a thank you note).
+[React Query](https://react-query.tanstack.com/) is simply the perfect
+abstraction that can handle the server cache for me. It gives me all the right
+knobs to twist to set my caching strategy up just right.
+
+And once my server cache is handled so perfectly by react-query, I don't have
+enough state left to feel like I need a library for the rest of it. React is a
+state management solution and it's a really good one when you componentize your
+state like you do your UI.
+
+Honestly, paypal.me was a small enough app that I wish we had embraced that
+(given react-query didn't exist). I think the state would have been easier to
+maintain had we colocated our state a little better.
+
+Luckily, now we have react-query, React hooks, and a brilliant context API and
+that's all most applications will ever need for server cache and UI state
+management. I love it. And I'll teach you all about it on
+[EpicReact.Dev](https://epicreact.dev) 🚀
+
+import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
+
+export default ({children}) => (
+  <ArticleTemplate meta={articles['my-state-management-mistake']}>
+    {children}
+  </ArticleTemplate>
+)

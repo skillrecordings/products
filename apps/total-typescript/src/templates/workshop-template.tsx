@@ -10,12 +10,9 @@ import {isBrowser} from '@/utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import first from 'lodash/first'
 import {LockClosedIcon} from '@heroicons/react/solid'
-import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {Section} from '@skillrecordings/skill-lesson/schemas/section'
 import * as process from 'process'
 import {trpc} from '../trpc/trpc.client'
-import Balancer from 'react-wrap-balancer'
 import ModuleCertificate from '@/certificate/module-certificate'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import Testimonials from '@/testimonials'
@@ -23,23 +20,30 @@ import pluralize from 'pluralize'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {
+  PriceCheckProvider,
+  usePriceCheck,
+} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {useRouter} from 'next/router'
 import {Skeleton} from '@skillrecordings/ui'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import type {Workshop} from '@/lib/workshops'
 
 const WorkshopTemplate: React.FC<{
-  workshop: Module
+  workshop: Workshop
   workshopBodySerialized: MDXRemoteSerializeResult
-  product?: SanityProduct
 }> = ({workshop, workshopBodySerialized}) => {
   const product = workshop.product
   const {title, ogImage, testimonials, description, slug} = workshop
   const pageTitle = `${title} Workshop`
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({productId: product?.productId})
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
+    commerceProps?.couponFromCode,
+  )
   const router = useRouter()
 
   const useAbilities = () => {
@@ -59,8 +63,16 @@ const WorkshopTemplate: React.FC<{
     trpc.moduleProgress.bySlug.useQuery({
       slug: workshop.slug.current,
     })
-  const {data: defaultCouponData, status: defaultCouponStatus} =
-    trpc.pricing.defaultCoupon.useQuery()
+
+  const upgradableTo = product?.upgradableTo
+  const purchases = commerceProps?.purchases || []
+  const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+  const ALLOW_PURCHASE =
+    router.query.allowPurchase === 'true' || product?.state === 'active'
+  const ALLOW_UPGRADE =
+    router.query.allowPurchase === 'true' || upgradableTo?.state === 'active'
+  const hasPurchasedUpgrade =
+    upgradableTo && purchasedProductIds.includes(upgradableTo.productId)
 
   return (
     <Layout
@@ -76,6 +88,7 @@ const WorkshopTemplate: React.FC<{
         },
       }}
     >
+      {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       <CourseMeta title={pageTitle} description={description} />
       <Header
         module={workshop}
@@ -100,34 +113,76 @@ const WorkshopTemplate: React.FC<{
             <Testimonials testimonials={testimonials} />
           )}
         </div>
-        <div className="flex w-full flex-col px-5 pt-8 lg:max-w-sm lg:px-0 lg:pt-0">
+        <aside className="flex w-full flex-col px-5 pt-8 lg:max-w-sm lg:px-0 lg:pt-0">
           {product && commercePropsStatus === 'loading' ? (
             <div className="mb-8 flex flex-col space-y-2" role="status">
               <div className="sr-only">Loading commerce details</div>
-              {new Array(8).fill(null).map((_, i) => (
-                <Skeleton key={i} className="h-3 w-full bg-gray-800" />
+              {new Array(1).fill(null).map((_, i) => (
+                <Skeleton key={i} className="h-48 w-full bg-gray-800 md:h-80" />
               ))}
             </div>
           ) : (
             <>
-              {!canView && product && (
-                <PriceCheckProvider
-                  purchasedProductIds={commerceProps?.purchases?.map(
-                    (p) => p.id,
+              {product &&
+                ALLOW_PURCHASE &&
+                ALLOW_UPGRADE &&
+                upgradableTo &&
+                !hasPurchasedUpgrade && (
+                  <>
+                    <h3 className="text-xl font-medium">Bundle & Save</h3>
+                    <Link
+                      target="_blank"
+                      href={`/products/${upgradableTo.slug}`}
+                      className="group relative mb-8 mt-3 flex w-full rounded-lg border bg-card p-5 shadow-2xl shadow-gray-500/10 transition hover:brightness-95 dark:hover:brightness-125"
+                    >
+                      <div className="absolute -top-3 right-4 flex h-6 items-center rounded bg-amber-300 px-2 text-xs font-bold uppercase text-black">
+                        Best Value
+                      </div>
+                      <div className="flex items-center gap-5">
+                        {upgradableTo?.image?.url && (
+                          <Image
+                            src={upgradableTo.image.url}
+                            alt=""
+                            aria-hidden="true"
+                            className="rounded-full"
+                            width={100}
+                            height={100}
+                          />
+                        )}
+                        <div>
+                          <h4 className="text-lg font-semibold">
+                            {upgradableTo.title}
+                          </h4>
+                          <p>
+                            Includes{' '}
+                            {
+                              upgradableTo.modules.filter(
+                                ({moduleType}: {moduleType: string}) =>
+                                  moduleType === 'workshop',
+                              ).length
+                            }{' '}
+                            workshops.
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  </>
+                )}
+              {!canView && product && ALLOW_PURCHASE && (
+                <>
+                  {upgradableTo && (
+                    <h3 className="mb-3 text-xl font-medium">
+                      Individual Workshop
+                    </h3>
                   )}
-                >
-                  <Pricing
-                    canViewRegionRestriction={canViewRegionRestriction}
-                    product={product as SanityProduct}
-                    allowPurchase={commerceProps?.allowPurchase}
-                    cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
-                    userId={commerceProps?.userId}
-                    options={{
-                      withGuaranteeBadge: true,
-                      withImage: true,
-                    }}
-                  />
-                </PriceCheckProvider>
+                  <PriceCheckProvider
+                    purchasedProductIds={commerceProps?.purchases?.map(
+                      (p) => p.id,
+                    )}
+                  >
+                    <WorkshopPricingWidget product={product as SanityProduct} />
+                  </PriceCheckProvider>
+                </>
               )}
               {canView && product && (
                 <div className="mb-8 flex w-full items-center justify-center gap-2 rounded-lg bg-gray-800 p-5 text-lg text-cyan-300">
@@ -137,7 +192,7 @@ const WorkshopTemplate: React.FC<{
               )}
               {workshop && (
                 <Collection.Root
-                  module={workshop}
+                  module={workshop as unknown as Module}
                   lockIconRenderer={() => {
                     return (
                       <LockClosedIcon
@@ -175,9 +230,9 @@ const WorkshopTemplate: React.FC<{
               )}
             </>
           )}
-          <ResetProgress module={workshop} />
-          <ModuleCertificate module={workshop} />
-        </div>
+          <ResetProgress module={workshop as unknown as Module} />
+          <ModuleCertificate module={workshop as unknown as Module} />
+        </aside>
       </main>
     </Layout>
   )
@@ -186,7 +241,7 @@ const WorkshopTemplate: React.FC<{
 export default WorkshopTemplate
 
 const RegionRestrictedBanner: React.FC<{
-  workshop: Module
+  workshop: Workshop
   productId: string
 }> = ({workshop, productId}) => {
   const useAbilities = () => {
@@ -241,7 +296,7 @@ const RegionRestrictedBanner: React.FC<{
 }
 
 const Header: React.FC<{
-  module: Module
+  module: Workshop
   product?: SanityProduct
   hasPurchased: boolean
 }> = ({module, product, hasPurchased = false}) => {
@@ -255,12 +310,12 @@ const Header: React.FC<{
   const nextSection = moduleProgress?.nextSection
   const nextLesson = moduleProgress?.nextLesson
 
-  const firstSection = first<Section>(sections)
-  const firstLesson = first<Lesson>(firstSection?.lessons)
+  const firstSection = sections && first(sections)
+  const firstLesson = first(firstSection?.lessons)
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-5 sm:pt-8 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-5 sm:pt-16 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
             href="/workshops"
@@ -405,3 +460,68 @@ const CourseMeta = ({
     }}
   />
 )
+
+const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
+  product,
+}) => {
+  const router = useRouter()
+
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({
+      productId: product.productId,
+      code: router.query.code as string,
+    })
+  const couponFromCode = commerceProps?.couponFromCode
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
+    commerceProps?.couponFromCode,
+  )
+  const couponId =
+    commerceProps?.couponIdFromCoupon ||
+    (validCoupon ? couponFromCode?.id : undefined)
+  console.log({couponFromCode, couponId, commerceProps})
+  const purchases = commerceProps?.purchases || []
+  const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+  const ALLOW_PURCHASE =
+    router.query.allowPurchase === 'true' || product.state === 'active'
+  const {merchantCoupon, setMerchantCoupon, quantity} = usePriceCheck()
+  const upgradableTo = product?.upgradableTo
+  const hasPurchasedUpgrade =
+    upgradableTo && purchasedProductIds.includes(upgradableTo.productId)
+  const ALLOW_UPGRADE =
+    router.query.allowPurchase === 'true' || upgradableTo?.state === 'active'
+
+  return (
+    <div id="buy" key={product.name}>
+      <Pricing
+        // id="workshop-pricing"
+        // bonuses={bonuses}
+        allowPurchase={ALLOW_PURCHASE}
+        userId={commerceProps?.userId}
+        product={product}
+        options={{
+          withImage: true,
+          withGuaranteeBadge: true,
+        }}
+        purchaseButtonRenderer={
+          upgradableTo && !hasPurchasedUpgrade && ALLOW_UPGRADE
+            ? (commerceProps, product) => {
+                return (
+                  <Link
+                    href={`/purchase?productId=${product.productId}&ppp=${
+                      merchantCoupon?.type === 'ppp'
+                    }&quantity=${quantity}&code=${couponId ?? false}`}
+                    data-pricing-product-checkout-button=""
+                  >
+                    <span>{product?.action || 'Buy Now'}</span>
+                  </Link>
+                )
+              }
+            : undefined
+        }
+        purchased={purchasedProductIds.includes(product.productId)}
+        couponId={couponId}
+        couponFromCode={couponFromCode}
+      />
+    </div>
+  )
+}

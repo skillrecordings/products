@@ -17,6 +17,7 @@ export const ProductSchema = z.object({
     })
     .optional(),
   ogImage: z.string().optional().nullable(),
+  action: z.string().optional().nullable(),
   productId: z.string().optional(),
   body: z.nullable(z.string()).optional(),
   type: z.enum(['live', 'self-paced']),
@@ -47,6 +48,7 @@ export async function getProduct(productId: string): Promise<Product> {
         description,
         type,
         image,
+        action,
         ogImage,
         state,
         type,
@@ -66,6 +68,10 @@ export async function getProduct(productId: string): Promise<Product> {
           "image": image.asset->{url},
           "instructors": contributors[@.role == 'instructor'].contributor->{
               ...,
+              picture {
+                "url": asset->url,
+                alt
+              }, 
               "slug": slug.current,
           },
         }

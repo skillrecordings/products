@@ -429,6 +429,7 @@ export function getSdk(
                   productType: true,
                 },
               },
+              upgradedFromId: true,
             },
           })
         : []
@@ -899,13 +900,25 @@ export function getSdk(
         },
       })
 
-      const purchasesMade = purchases.map((purchase) => {
-        return purchase.productId
-      })
+      const alreadyUpgradedPurchaseIds = purchases
+        .map((purchase) => {
+          return purchase.upgradedFromId
+        })
+        .filter((id): id is string => Boolean(id))
+
+      const purchasesNotAlreadyUpgraded = purchases.filter(
+        (purchase) => !alreadyUpgradedPurchaseIds.includes(purchase.id),
+      )
+
+      const purchasedProductIds = purchasesNotAlreadyUpgraded.map(
+        (purchase) => {
+          return purchase.productId
+        },
+      )
 
       const prices = await ctx.prisma.price.findMany({
         where: {
-          productId: {in: purchasesMade},
+          productId: {in: purchasedProductIds},
         },
       })
 

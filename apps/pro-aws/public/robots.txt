@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://proaws.dev
+
+# Sitemaps
+Sitemap: https://proaws.dev/sitemap.xml
+Sitemap: https://proaws.dev/server-sitemap.xml

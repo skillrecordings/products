@@ -1,4 +1,3 @@
-import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getVideoResource} from '@skillrecordings/skill-lesson/lib/video-resources'
 
@@ -41,9 +40,4 @@ const videoThumb = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default withSentry(videoThumb)
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export default videoThumb

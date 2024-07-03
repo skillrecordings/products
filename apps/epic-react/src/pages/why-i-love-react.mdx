@@ -1,0 +1,160 @@
+I still remember when I first heard about React. It was January 2014. I was
+listening to a podcast. Pete Hunt and Jordan Walke were on talking about this
+framework they created at Facebook with no support for two way
+data-binding, no built-in HTTP library, no dependency injection, and in place of
+templates it had this weird XML-like syntax for the UI. And to top it all off, I
+was listening to it while driving to the first ever ng-conf. I was so hyped on
+Angular.js that I didn't really give React.js more thought than: "Huh."
+
+However, a few months later I started seeing some of my friends and co-workers
+try it out and share why they thought it was interesting. They encouraged me to
+give it a solid shake. I put it off for a while.
+
+I was busy.
+
+I felt like my current tools were good enough.
+
+But finally, I gave it 5 minutes and that was all it took. I instantly knew that
+React was an upgrade on my current tools. Unfortunately I couldn't just switch
+my work project from Angular.js to React. But I started working on side-projects
+and open source libraries with React. I was living two lives. Angular.js expert
+during the day, React padawan at night.
+
+Eventually I decided I wanted to spend my work time working with React and got a
+job at PayPal working with React full-time where I was super happy.
+
+So what was it that hooked me on React (no pun intended... hooks weren't a thing
+back then) so strong? Honestly, it was a few things, but if I had to summarize
+it to one thing it was this:
+
+**React is simple.**
+
+I didn't say "easy" because it's not easy for everyone ("easy" is relative to
+each individual). But it _is_ simple. It is simpler than my former tools, and
+that's what hooked me.
+
+For more on the distinction between easy and simple, watch
+[Simplicity Matters](https://www.youtube.com/watch?v=rI8tNMsozo0)
+[Rich Hickey](https://twitter.com/richhickey) which is a fantastic talk.
+
+## What makes React simple?
+
+### Explicit state updates
+
+The fact that React shuns mutation as an API for changing state and instead
+state updates are explicit function calls was a huge improvement for me. I can't
+tell you how much time I spent wondering what was causing my state to change
+incorrectly. My software was complected by the "ease" of state updates.
+
+Yes, if you compare "two-way data binding" in Angular.js to what it takes to
+wire up a controlled input with React, you'll find Angular.js takes less code.
+And that demos incredibly well. But I've learned that what "demos" well and what
+is maintainable in a real-world scenario are not always correlated. React's
+choice to go with "one-way data flow" was a good one. It is simple, sensible,
+flexible, and powerful. I don't care how much code I have to write. I care about
+how much work it takes for me or my co-workers to change that code in the future
+without causing any bugs.
+
+### JSX over templates
+
+Using JSX syntax (aka `React.createElement` syntax sugar) instead of string
+templates meant that I could leverage (and improve) my knowledge of the
+JavaScript language features rather than learning and being limited by template
+syntax and struggling with the global namespace/registry of Angular.js
+directives. I spent a lot of time trying to figure out what I messed up in my
+template. It's a DSL (domain-specific language) with an enormous amount of
+complexity.
+
+On top of that, all the time I invested in learning that syntax is now wasted.
+It's completely inapplicable to anything else I work on (even if I had decided
+to move on to Angular 2 instead of React). However, by using JSX and
+understanding the basic syntax sugar, I'm able to use what I learn in non-React
+code all the time.
+
+### Hooks
+
+React hooks weren't available when I started using React, but React hooks is
+definitely another thing that makes React simple:
+
+- `useState` when you need to manage state.
+- `useEffect` when you need to synchronize something outside of React with your
+  app's state.
+
+There are certainly some things to _familiarize_ yourself about these hooks, and
+there are some other hooks to help with other use cases, but these things are
+conceptually simple (again, not necessarily "easy").
+
+My favorite part of hooks is how relatively easy it is to share code in a way
+that is also simple. To share a chunk of hooks logic between components you
+apply the same techniques you would when sharing non-hooks code: make a function
+and call it where you want to use the logic.
+
+On top of that, it's all functions, so you can compose things together. You can
+combine these hooks into a single custom hook, and then you can combine other
+custom hooks into yet another custom hook. It's incredibly powerful and doing it
+is also still simple. For more on this, watch
+[Custom Hooks in React: The Ultimate UI Abstraction Layer](https://www.youtube.com/watch?v=J-g9ZJha8FE)
+by [Tanner Linsley](https://twitter.com/tannerlinsley).
+
+### React for everything
+
+I had great success using React to build applications used by millions of PayPal
+users all over the world. I love it for that scale. And what's awesome about
+React is that it's not limited to Facebook-scale problems. I've used it
+successfully to handle my small side-projects to great success. So another thing
+I love about React and its simplicity is how well it handles challenges,
+whatever the scale. I recently had a side-project I needed built fast and I was
+able to build the whole thing in a single `index.html` file using
+[this approach](https://kentcdodds.com/blog/super-simple-start-to-react). No
+tooling necessary.
+
+On top of that, React also supports really any platform with a UI. React Native,
+React VR, even interactive CLIs with Ink. React's simple component-based model
+and the power of hooks can reach anywhere. Big or small.
+
+Once you learn React, you can build UIs anywhere.
+
+## Community
+
+Aside from the simplicity of the framework, another thing that I love about
+React is that by any metric, it's the most popular and widely used tool for
+building frontend applications in the world.
+
+By a huge margin.
+
+This kind of thing is hard to get real metrics on, but the best metric I can
+find to determine relative popularity is the number of users of the Developer
+Tools browser extension. In the Chrome DevTools, there are 2+ million users,
+which is twice the next most popular framework's DevTools.
+
+However you slice it, React is extremely popular. And this has some extremely
+nice side-effects. In addition to React being worked on by some of the smartest
+engineers in the world, the size of the community means that many of the
+smartest engineers in the world are participating in creating and contributing
+to the surrounding ecosystem of libraries and tools.
+
+This is not to suggest other frameworks don't have this (they do), but React's
+dominate size means that the number of people experiencing problems and solving
+them increases the likelihood that any problem you face has been faced and
+solved by someone in the community already. And if you're hiring, it's also more
+likely that someone is looking for a job too.
+
+## Conclusion
+
+Betting on React was a big leap for me. I loved Angular.js and I built some
+awesome applications, libraries, and tools with it. But I'm so glad that I gave
+React some of my time because it's paid me back in productivity and velocity that I
+didn't even realize was possible before. If you'd like that in your life and you
+haven't jumped onboard with React, then I definitely suggest you give it a try.
+
+And I've been working hard on [something](https://EpicReact.Dev) that will
+really help you with that 😉
+
+import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
+
+export default ({children}) => (
+  <ArticleTemplate meta={articles['why-i-love-react']}>
+    {children}
+  </ArticleTemplate>
+)

@@ -1,0 +1,166 @@
+When was the last time you saw an error and had _no idea_ what it meant (and
+therefore no idea what to do about it)? Today? Yeah, you're not alone... Let's
+talk about how to fix that.
+
+## A story
+
+A while ago, I got a new faucet. It's one of those cool ones where the head of
+the faucet could come off so we could direct the water's flow and would
+automatically retract back into the neck when you're done. Unfortunately, it
+wasn't long before we had a problem:
+
+![Faucet with the head not retracting into the neck](/articles-images/requisite-react/broken-faucet.png)
+
+The head of the faucet wouldn't automatically go back into the neck! And we
+couldn't even push it back in. It just hung there. Like a sad flower 🥀
+
+So we called the plumber who had installed it for us to have them come look at
+it and see if they could fix it or give us a replacement. A few days later was
+the day of our appointment. A few hours before he arrived, I looked
+frustratingly at the faucet and wondered... So I looked under the sink, and this
+is what I saw:
+
+![Under a sink a faucet hose is tangled in itself](/articles-images/requisite-react/tangled-hose.png)
+
+That's the hose for our faucet. It turns out there's a simple weight that goes
+on the hose and that weight is what pulls the head of the faucet into the neck.
+Because it was tangled in itself, the weight wasn't pulling the hose down. So I
+reached in and untangled the hose:
+
+![Under a sink a faucet hose is untangled](/articles-images/requisite-react/untangled-hose.png)
+
+And like a miracle, it suddenly worked! I called the plumber to cancel as
+quickly as I could to avoid revealing my shame. Can you imagine if I hadn't
+discovered the problem and they came over, untangled the hose, and gave me an
+invoice for their trouble. I don't know if I could have taken that hit to my
+ego. The embarrassment would have been too much 🙈
+
+So what does a faucet problem have to do with React? A faucet is an abstraction.
+We don't have to have faucets. We could just pull the hose straight out of the
+wall and use that instead, but we put the faucet in place because it makes the
+water more useful. Normally it works fine, but when there's a problem, if you
+don't understand how the abstraction works, it's difficult to figure out what
+went wrong and how to resolve the problem.
+
+## A universal truth
+
+React is an abstraction too. And here's a universal truth about abstractions:
+
+https://twitter.com/kentcdodds/status/1074724545003581440
+
+Abstractions are all around us. Your phone is an abstraction. Your car is an
+abstraction. And the better we understand how those things work, the better we
+are able to use them. And that's not to say that you _can't_ use the abstraction
+if you don't know how they work. I drive my car all the time and I have no idea
+how it works. But whenever something goes wrong with it, I'm at a total loss
+(and that's just the way my mechanic likes it 🤑).
+
+You can use React without a good foundation in the fundamentals and that's
+totally fine. You can ship really amazing things without a solid foundation. But
+if you'd like to level-up on your capabilities and productivity with React, then
+digging in and gaining an understanding in how they work is the way to do it.
+
+## A simple example
+
+There's a fun site
+[YouMightNotNeedjQuery.com](http://youmightnotneedjquery.com/) which shows
+common jQuery functions and the code needed for that same functionality based on
+the browser support you have (up to IE10).
+
+So let's imagine that you needed
+[jQuery's `toggleClass` functionality](https://api.jquery.com/toggleclass/) so
+you copy/pasted the code from YouMightNotNeedjQuery.com and built this function
+so you don't have to bring all of jQuery into your app:
+
+```javascript
+function toggleClass(el, className) {
+  if (el.classList) {
+    el.classList.toggle(className)
+  } else {
+    var classes = el.className.split(' ')
+    var existingIndex = -1
+    for (var i = classes.length; i--; ) {
+      if (classes[i] === className) existingIndex = i
+    }
+
+    if (existingIndex >= 0) classes.splice(existingIndex, 1)
+    else classes.push(className)
+
+    el.className = classes.join(' ')
+  }
+}
+```
+
+What you've created is your own little abstraction. But actually, you're also
+_using_ an abstraction: the DOM. And if you knew a little bit more about that
+abstraction, you'd know that browsers (including IE10) have support for this
+built-in. So that function could be simplified... a lot:
+
+```javascript
+function toggleClass(el, className) {
+  el.classList.toggle(className)
+}
+```
+
+So by understanding the abstraction we're using (the DOM in this case), we're
+able to drastically simplify our code which ultimately
+[impacts our users](https://kentcdodds.com/blog/why-users-care-about-how-you-write-code).
+
+## A problem with learning abstractions
+
+These days not many people build an application without using a soup of tools
+and libraries to do so. Unfortunately, if you skip over the fundamentals of each
+tool, it's easy for your understanding of each to become muddled. Is React
+managing my state or React Query? Is Babel compiling my JSX or React? Do I need
+PropTypes if I'm using TypeScript? Isn't redux required if you're building a
+React app? (That last one is a definite no).
+
+One of the biggest causes for people's struggle at understanding abstractions is
+they struggle to draw lines around the abstractions. When you're not sure which
+abstraction should do which job, it's very easy to use the wrong tool for the
+job. Sure you can get it working eventually, but you may be left with a solution
+that causes you and ultimately your users some real pain.
+
+So a great first step to understanding your abstractions better is to learn them
+in isolation from one another and only add them to your learning when you run
+into the problem they actually solve.
+
+Too many people start learning and using React with Webpack, Babel, React
+Router, Redux, Jest, React Testing Library, Material UI, etc. etc. This makes it
+really difficult to draw lines around these abstractions and really understand
+the purpose of each.
+
+## A different approach
+
+This is why [EpicReact.Dev](https://epicreact.dev) introduces one concept at a
+time. And we don't skip anything. As you just get started, we literally write
+JavaScript in a script tag of an HTML file. We don't even write React first. We
+start with regular DOM nodes. Then we add `React.createElement`. Then we add
+JSX. And we methodically add more and more concepts over time so you get a good
+idea of what tools are responsible for what so you can use each as effectively
+as possible.
+
+This is why people who have been using React for _years_ tell me that they
+_still_ learn new things from my beginner material. Because we so often skip
+over that methodical approach when we're in a rush to ship something.
+
+## Time to level-up
+
+If you're tired of seeing errors pop up in your console and not understanding
+what to do about them, then gaining a deeper understanding of the fundamentals
+of how things work is the best thing you can do to get over that. If you're
+tired of fumbling around with wiring things together and praying that nobody
+blows your house of cards over, then taking a bit to sharpen your understanding
+of your primary abstractions (like React) will go a long way.
+
+And this is exactly why I created [EpicReact.Dev](https://epicreact.dev): To
+help you level-up your professional React knowledge and productivity.
+
+import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
+
+export default ({children}) => (
+  <ArticleTemplate meta={articles['requisite-react']}>
+    {children}
+  </ArticleTemplate>
+)

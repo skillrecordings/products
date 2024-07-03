@@ -46,7 +46,7 @@ const Testimonials = () => {
         return (
           <article
             key={testimonial.title}
-            className="group relative flex h-full flex-col justify-between rounded-lg border border-er-gray-200 bg-background px-5 pb-5 pt-4 duration-150 hover:scale-105 md:px-8 md:pb-8"
+            className="group relative flex h-full cursor-default flex-col justify-between rounded-lg border border-er-gray-200 bg-background px-5 pb-5 pt-4 md:px-8 md:pb-8"
           >
             <section>
               <p className="text-base leading-normal sm:text-lg">

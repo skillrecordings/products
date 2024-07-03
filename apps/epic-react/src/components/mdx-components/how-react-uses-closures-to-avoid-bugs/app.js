@@ -17,7 +17,7 @@ function Posts({Post, currentPost, onPostClick}) {
             className={`px-3 py-1 ${
               p.id === currentPost?.id
                 ? 'bg-blue-500 text-white'
-                : 'bg-background hover:bg-gray-200'
+                : 'bg-background hover:bg-er-gray-200'
             } transition-all duration-150 ease-in-out`}
           >
             {p.title}
@@ -41,7 +41,7 @@ function App() {
           </a>
         </div>
       </div>
-      <div className="prose prose-sm mt-4 grid w-full max-w-none grid-cols-1 gap-4 rounded-lg bg-gray-100 px-5 pb-5 sm:grid-cols-2 sm:gap-8 sm:px-8 sm:pb-8">
+      <div className="prose prose-sm mt-4 grid w-full max-w-none grid-cols-1 gap-4 rounded-lg bg-er-gray-100 px-5 pb-5 sm:grid-cols-2 sm:gap-8 sm:px-8 sm:pb-8">
         <div>
           <h3>
             <span role="img" aria-label="x">

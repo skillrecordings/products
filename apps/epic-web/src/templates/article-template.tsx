@@ -3,7 +3,6 @@ import Layout from 'components/app/layout'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 import {useRouter} from 'next/router'
 import {type Article} from 'lib/articles'
-import Starfield from 'components/starfield'
 import {track} from 'utils/analytics'
 import {format} from 'date-fns'
 import Image from 'next/image'
@@ -16,6 +15,8 @@ import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import removeMarkdown from 'remove-markdown'
 import ResourceContributor from 'components/resource-contributor'
 import Head from 'next/head'
+import {getOgImage} from 'utils/get-og-image'
+import {ResourceCTA} from 'components/cta/resource-cta'
 
 const ArticleTemplate: React.FC<{
   article: Article
@@ -33,7 +34,11 @@ const ArticleTemplate: React.FC<{
     ogImage: _ogImage,
   } = article
   const image = article?.image?.secure_url
-  const ogImage = {url: _ogImage?.secure_url, alt: title}
+  const ogImage = getOgImage({
+    title,
+    authorName: author?.name,
+    authorImage: author?.picture?.url,
+  })
   const pageDescription =
     description || `${removeMarkdown(body).substring(0, 157)}...`
   const authorName =
@@ -62,6 +67,7 @@ const ArticleTemplate: React.FC<{
       <main className="invert-svg prose mx-auto w-full max-w-3xl px-5 py-8 dark:prose-invert md:prose-xl prose-code:break-words prose-pre:bg-gray-900 prose-pre:leading-relaxed md:py-16 md:prose-code:break-normal">
         <MDX contents={articleBodySerialized} />
       </main>
+      {subscriber && <ResourceCTA resourceIdOrSlug={article._id} />}
       <Share contributor={author} title={title} />
       <AuthorBio
         slug={author?.slug}
@@ -77,7 +83,7 @@ const ArticleTemplate: React.FC<{
         className="sm:py-10"
       />
 
-      {!subscriber && <CTA article={article} />}
+      <NewsletterCTA article={article} />
     </Layout>
   )
 }
@@ -97,7 +103,7 @@ const Header: React.FC<HeaderProps> = ({article, estimatedReadingTime}) => {
       <header className="relative mx-auto w-full max-w-screen-lg">
         <div className="relative flex w-full flex-col items-center justify-center pb-14 pt-24 sm:pb-24 sm:pt-32">
           <div className="flex flex-grow items-center justify-center">
-            <h1 className="w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight fluid-3xl sm:fluid-3xl md:font-bold">
+            <h1 className="w-full max-w-screen-xl text-balance px-5 text-center font-semibold tracking-tight fluid-3xl sm:fluid-3xl md:font-bold">
               {title}
             </h1>
           </div>
@@ -146,18 +152,22 @@ const Header: React.FC<HeaderProps> = ({article, estimatedReadingTime}) => {
   )
 }
 
-const CTA: React.FC<{article: Article}> = ({article}) => {
+const NewsletterCTA: React.FC<{article: Article}> = ({article}) => {
   const {slug} = article
+
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
     <section className="pt-16">
-      <PrimaryNewsletterCta
-        onSubmit={() => {
-          track('subscribed from article', {
-            article: slug,
-          })
-        }}
-      />
+      {subscriber ? null : (
+        <PrimaryNewsletterCta
+          onSubmit={() => {
+            track('subscribed from article', {
+              article: slug,
+            })
+          }}
+        />
+      )}
     </section>
   )
 }

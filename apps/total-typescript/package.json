@@ -163,6 +163,7 @@
     "react-markdown": "^8.0.4",
     "react-rewards": "^2.0.3",
     "react-scroll": "^1.8.6",
+    "react-sparkle": "^2.0.0",
     "react-use": "^17.3.2",
     "react-use-clipboard": "^1.0.7",
     "react-wrap-balancer": "^0.2.4",
@@ -227,7 +228,7 @@
     "shiki": "1.1.7",
     "tailwind-scrollbar": "^3.0.0",
     "tailwindcss": "^3.4.1",
-    "typescript": "5.1.6",
+    "typescript": "^5.4.5",
     "webpack": "^5.73.0"
   },
   "prisma": {

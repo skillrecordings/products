@@ -47,6 +47,7 @@ export default {
       name: 'convertkitPurchasedTagId',
       title: 'Convertkit Purchase Tag ID',
       type: 'string',
+      readOnly: true,
     },
     {
       name: 'slug',
@@ -71,6 +72,17 @@ export default {
           {title: 'unavailable', value: 'unavailable'},
         ],
       },
+    },
+    {
+      name: 'upgradableTo',
+      title: 'Upgradable To',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'product'}],
+        },
+      ],
     },
     {
       name: 'description',

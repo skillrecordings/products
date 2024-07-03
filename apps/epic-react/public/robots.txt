@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://epicreact.dev
+
+# Sitemaps
+Sitemap: https://epicreact.dev/sitemap.xml
+Sitemap: https://epicreact.dev/server-sitemap.xml

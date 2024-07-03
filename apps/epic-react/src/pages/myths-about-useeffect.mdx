@@ -1,0 +1,368 @@
+I've taught React to tens of thousands of developers. Before and after hooks
+were released. One thing I've observed is people tend to struggle with the
+`useEffect` hook and there are some common hang-ups for them that I'd like to
+address here.
+
+## ❌ Lifecycles ❌ ✅ Synchronize Side Effects ✅
+
+The biggest struggle I've observed is developers who have experience with React
+class components and lifecycle hooks like `constructor`, `componentDidMount`,
+`componentDidUpdate`, and `componentWillUnmount`. You can definitely map these
+to function components with hooks, but that's a big mistake. Allow me to
+illustrate. Here's an example of some fun UI:
+
+![User clicks "Bernedoodle" link and information about a Bernedoodle shows up, then the user clicks "Poodle" and poodle info shows up. Then back to "Bernedoodle", then "Bernese Mountain Dog", then "return to list"](/articles-images/myths-about-useeffect/dogs.gif)
+
+Here's a class component implementation of that `DogInfo` component:
+
+```javascript
+class DogInfo extends React.Component {
+  controller = null
+  state = {dog: null}
+  // we'll ignore error/loading states for brevity
+  fetchDog() {
+    this.controller?.abort()
+
+    this.controller = new AbortController()
+    getDog(this.props.dogId, {signal: this.controller.signal}).then(
+      (dog) => {
+        this.setState({dog})
+      },
+      (error) => {
+        // handle the error
+      },
+    )
+  }
+  componentDidMount() {
+    this.fetchDog()
+  }
+  componentDidUpdate(prevProps) {
+    // handle the dogId change
+    if (prevProps.dogId !== this.props.dogId) {
+      this.fetchDog()
+    }
+  }
+  componentWillUnmount() {
+    // cancel the request on unmount
+    this.controller?.abort()
+  }
+  render() {
+    return <div>{/* render dog's info */}</div>
+  }
+}
+```
+
+That's a pretty standard class component for this type of interaction. It's
+using the `constructor`, `componentDidMount`, `componentDidUpdate`, and
+`componentWillUnmount` lifecycle hooks. If we naively mapped those lifecycles to
+hooks, here's how it might look:
+
+```javascript
+function DogInfo({dogId}) {
+  const controllerRef = React.useRef(null)
+  const [dog, setDog] = React.useState(null)
+  function fetchDog() {
+    controllerRef.current?.abort()
+
+    controllerRef.current = new AbortController()
+    getDog(dogId, {signal: controllerRef.current.signal}).then(
+      (d) => setDog(d),
+      (error) => {
+        // handle the error
+      },
+    )
+  }
+
+  // didMount
+  React.useEffect(() => {
+    fetchDog()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // didUpdate
+  const previousDogId = usePrevious(dogId)
+  useUpdate(() => {
+    if (previousDogId !== dogId) {
+      fetchDog()
+    }
+  })
+
+  // willUnmount
+  React.useEffect(() => {
+    return () => {
+      controllerRef.current?.abort()
+    }
+  }, [])
+
+  return <div>{/* render dog's info */}</div>
+}
+
+function usePrevious(value) {
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = value
+  }, [value])
+  return ref.current
+}
+```
+
+There are still some holdouts on hooks. If this is what I thought hooks meant,
+then I would be a hooks holdout too.
+
+Here's the crux of the issue: **`useEffect` is _not_ a lifecycle hook. It's a
+mechanism for synchronizing side effects with the state of your app.**
+
+So, in our example, all we care about is: "When the `dogId` changes, fetch the
+new dog's information." With that as our goal, `useEffect` becomes _much_
+simpler for this case:
+
+```javascript
+function DogInfo({dogId}) {
+  const [dog, setDog] = React.useState(null)
+
+  React.useEffect(() => {
+    const controller = new AbortController()
+    getDog(dogId, {signal: controller.signal}).then(
+      (d) => setDog(d),
+      (error) => {
+        // handle the error
+      },
+    )
+    return () => controller.abort()
+  }, [dogId])
+
+  return <div>{/* render dog's info */}</div>
+}
+```
+
+🤯 Oh snap. That's _way_ better right?! When the React team introduced hooks,
+their goal wasn't to simply add lifecycles to function components. Their goal
+was to fundamentally improve the mental model for application side-effects. And
+they did.
+
+Big time.
+
+So remember this gem by
+[Ryan Florence](https://twitter.com/ryanflorence/status/1125041041063665666):
+
+> The question is not "when does this effect run" the question is "with which
+> state does this effect synchronize with"
+>
+> useEffect(fn) // all state
+>
+> useEffect(fn, []) // no state
+>
+> useEffect(fn, [these, states])
+
+## I can ignore eslint-plugin-react-hooks/exhaustive-deps ❌
+
+Well, technically you can. And _sometimes_ there's a good reason to. But most of
+the time it's a bad idea and ignoring that rule will lead to bugs. I see this
+concern come up often when people say: "But I only want this to run on mount!"
+Again. That's thinking in lifecycles and is wrong. If your `useEffect` callback
+has dependencies, then you need to make sure that your effect callback is re-run
+anytime those dependencies change. Otherwise your side-effects will fall out of
+sync with the state of the app.
+
+Long story short, you'll have bugs. Don't ignore this rule.
+
+## One giant useEffect ❌
+
+Honestly, I don't see this one a whole lot, but I want to include it just in
+case. No shame if this is you. It happens.
+
+One of the things I love about `useEffect` over lifecycles is it allows me to
+_really_ separate concerns. Here's a quick example:
+
+![A geochat app showing location based chat, autoscroll, and unread count in the document title](/articles-images/myths-about-useeffect/geo-chat.gif)
+
+Here's some pseudocode for that demo:
+
+```javascript
+class ChatFeed extends React.Component {
+  componentDidMount() {
+    this.subscribeToFeed()
+    this.setDocumentTitle()
+    this.subscribeToOnlineStatus()
+    this.subscribeToGeoLocation()
+  }
+  componentWillUnmount() {
+    this.unsubscribeFromFeed()
+    this.restoreDocumentTitle()
+    this.unsubscribeFromOnlineStatus()
+    this.unsubscribeFromGeoLocation()
+  }
+  componentDidUpdate(prevProps, prevState) {
+    // ... compare props and re-subscribe etc.
+  }
+  render() {
+    return <div>{/* chat app UI */}</div>
+  }
+}
+```
+
+See those four concerns? They're all mixed up. If we wanted to share that code
+with anything else, it would be a mess. I mean, render props were awesome, but
+hooks are _way_ better.
+
+I've seen some people create a monster `useEffect` hook that does all the
+things:
+
+```javascript
+function ChatFeed() {
+  React.useEffect(() => {
+    // subscribe to feed
+    // set document title
+    // subscribe to online status
+    // subscribe to geo location
+    return () => {
+      // unsubscribe from feed
+      // restore document title
+      // unsubscribe from online status
+      // unsubscribe from geo location
+    }
+  })
+
+  return <div>{/* chat app UI */}</div>
+}
+```
+
+But this makes that individual callback pretty complicated. I'd suggest a
+different approach. Don't forget that you can separate logical concerns into
+individual hooks:
+
+```javascript
+function ChatFeed() {
+  React.useEffect(() => {
+    // subscribe to feed
+    return () => {
+      // unsubscribe from feed
+    }
+  })
+
+  React.useEffect(() => {
+    // set document title
+    return () => {
+      // restore document title
+    }
+  })
+
+  React.useEffect(() => {
+    // subscribe to online status
+    return () => {
+      // unsubscribe from online status
+    }
+  })
+
+  React.useEffect(() => {
+    // subscribe to geo location
+    return () => {
+      // unsubscribe from geo location
+    }
+  })
+
+  return <div>{/* chat app UI */}</div>
+}
+```
+
+And with this approach, it's _much_ easier to extract this code into a custom
+hook for each individual concern if that's what you need or want to do:
+
+```javascript
+function ChatFeed() {
+  // NOTE: this is pseudo-code,
+  // you'd likely need to pass values and assign return values
+  useFeedSubscription()
+  useDocumentTitle()
+  useOnlineStatus()
+  useGeoLocation()
+  return <div>{/* chat app UI */}</div>
+}
+```
+
+The self-encapsulation of hooks in general is a huge win. Let's make sure we
+take advantage of that.
+
+## Needlessly externally defined functions ❌
+
+I've seen this one a few times as well. Let me just give you a before/after:
+
+```javascript
+// before. Don't do this!
+function DogInfo({dogId}) {
+  const [dog, setDog] = React.useState(null)
+  const controllerRef = React.useRef(null)
+
+  const fetchDog = React.useCallback((dogId) => {
+    controllerRef.current?.abort()
+    controllerRef.current = new AbortController()
+    return getDog(dogId, {signal: controllerRef.signal}).then(
+      (d) => setDog(d),
+      (error) => {
+        // handle the error
+      },
+    )
+  }, [])
+
+  React.useEffect(() => {
+    fetchDog(dogId)
+    return () => controller.current?.abort()
+  }, [dogId, fetchDog])
+
+  return <div>{/* render dog's info */}</div>
+}
+```
+
+We already saw how simple the above code can be in our earlier example, but let
+me show that to you again:
+
+```javascript
+function DogInfo({dogId}) {
+  const [dog, setDog] = React.useState(null)
+
+  React.useEffect(() => {
+    const controller = new AbortController()
+    getDog(dogId, {signal: controller.signal}).then(
+      (d) => setDog(d),
+      (error) => {
+        // handle the error
+      },
+    )
+    return () => controller.abort()
+  }, [dogId])
+
+  return <div>{/* render dog's info */}</div>
+}
+```
+
+The specific thing I'm trying to call out here is the idea of defining a
+function like `fetchDog` outside of the `useEffect` callback. Because it's
+external, you have to list it in the dependencies array to avoid stale closures.
+And because of _that_ you also have to memoize it to avoid infinite loops. Oh,
+and then we had to create a `ref` for our abort controller.
+
+Phew, seems like a lot of work. If you _must_ define a function for your effect
+to call, then do it _inside_ the effect callback, not outside.
+
+## Conclusion
+
+When Dan Abramov introduced hooks like `useEffect`, he compared React components
+to atoms and hooks to electrons. They're a pretty low-level primitive, and
+that's what makes them so powerful. The beauty of this primitive is that nicer
+abstractions can be built on top of these hooks which is frankly something we
+struggled with before hooks. Since the release of hooks, we've seen an explosion
+of innovation and progress of good ideas and libraries built on top of this
+primitive which ultimately helps us develop better apps.
+
+I love it. And I want to teach you all about these primitives as well as
+abstractions built on top of them in [EpicReact.Dev](https://epicreact.dev) 🚀
+Join me.
+
+import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
+
+export default ({children}) => (
+  <ArticleTemplate meta={articles['myths-about-useeffect']}>
+    {children}
+  </ArticleTemplate>
+)

@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useDeviceDetect} from '@/hooks/use-device-detect'
 import {useRouter} from 'next/router'
@@ -10,7 +11,17 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import Link from 'next/link'
-import {Button} from '@skillrecordings/ui'
+import {Button, Skeleton} from '@skillrecordings/ui'
+import SetLocalDevPrefsDialog from '@/exercise/local-dev-prefs/dialog'
+import {
+  DialogClose,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@skillrecordings/ui/primitives/dialog'
+import {CogIcon} from 'lucide-react'
+import {useSession} from 'next-auth/react'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 const ExerciseOverlay = () => {
   const {lesson, module} = useLesson()
@@ -36,11 +47,13 @@ const ExerciseOverlay = () => {
     <div className=" bg-black/30 ">
       {isStackblitzSuitable ? (
         <>
-          <div className="hidden w-full items-center justify-between p-3 pl-5 font-medium sm:flex sm:text-lg">
-            <div className="flex flex-col">
+          <div className="hidden w-full items-center justify-between p-3 pl-5 font-medium sm:flex xl:text-lg">
+            <div className="">
               <div>Now it's your turn! Try solving this exercise.</div>
             </div>
-            <div className="flex justify-center gap-2">
+            <div className="flex items-center justify-center gap-2">
+              {github && <LocalDevActions location="secondary" />}
+              <hr className="mx-2 h-8 w-px bg-white/10" />
               <Actions />
             </div>
           </div>
@@ -109,33 +122,17 @@ const ExerciseOverlay = () => {
       ) : (
         <div className="aspect-video">
           <div className="relative flex h-full w-full flex-col items-center justify-center gap-3 px-5 pb-10 pt-20 text-center md:pb-24 md:pt-16">
-            <div className="pb-8">
-              <p className="text-2xl font-semibold">
+            <div className="pb-4">
+              <p className="text-2xl font-semibold text-white">
                 Now it’s your turn! Try solving this exercise.{' '}
               </p>
-              <p className="text-xl">This exercise needs to be run locally</p>
+              <p className="pt-2 text-xl">
+                This exercise needs to be run locally.
+              </p>
             </div>
-            <div>
-              {module.github && (
-                <Button
-                  asChild
-                  className="group relative flex flex-col items-center rounded-l bg-transparent pl-0 pr-0 sm:flex-row"
-                  size="lg"
-                >
-                  <Link href={exerciseGitHubUrl} target="_blank">
-                    <span className="flex h-full flex-shrink-0 items-center rounded bg-primary pl-7 pr-7 sm:rounded-l sm:rounded-r-none sm:pr-2">
-                      <Icon name="Github" size="20" className="mr-2" />
-                      Exercise Files
-                    </span>
-                    <span className="-ml-px hidden h-full flex-shrink-0 items-center justify-center rounded-r bg-primary pr-7 text-sm  transition sm:flex">
-                      /{stackblitz}
-                    </span>
-                  </Link>
-                </Button>
-              )}
-            </div>
+            <div>{module.github && <LocalDevActions />}</div>
             {module?.github?.repo && (
-              <p className="pt-3 text-sm text-gray-200 sm:pt-2">
+              <p className="pt-3 text-sm text-foreground sm:pt-2">
                 Start by cloning the{' '}
                 <a
                   className="underline"
@@ -198,8 +195,9 @@ const Actions = () => {
 
   return (
     <>
-      <button
-        className="rounded bg-gray-800 px-3 py-1 text-lg font-semibold transition hover:bg-gray-700 sm:px-5 sm:py-2"
+      <Button
+        variant="secondary"
+        className="gap-2 border border-white/5 bg-white/5 text-white hover:bg-white/10"
         onClick={() => {
           track('clicked replay', {
             lesson: lesson.slug,
@@ -218,10 +216,11 @@ const Actions = () => {
         }}
       >
         <span aria-hidden="true">↺</span> Replay
-      </button>
+      </Button>
       {nextExercise && (
-        <button
-          className="rounded bg-primary px-3 py-1 text-lg font-semibold text-primary-foreground transition hover:brightness-105 sm:px-5 sm:py-2"
+        <Button
+          variant="outline"
+          className="gap-2 border-primary bg-transparent font-semibold text-primary hover:bg-primary/10 hover:text-primary"
           onClick={() => {
             track('clicked continue to solution', {
               lesson: lesson.slug,
@@ -241,8 +240,127 @@ const Actions = () => {
           }}
         >
           Solution <span aria-hidden="true">→</span>
-        </button>
+        </Button>
       )}
+    </>
+  )
+}
+
+const LocalDevActions = ({
+  location = 'default',
+}: {
+  location?: 'default' | 'secondary'
+}) => {
+  const {lesson, module} = useLesson()
+  const [isPrefsDialogOpen, setIsPrefsDialogOpen] = React.useState(false)
+  const router = useRouter()
+  const {data: session, status: sessionStatus} = useSession()
+  const {data: userPrefs, status: userPrefsStatus} =
+    trpc.userPrefs.getLocal.useQuery(
+      {
+        resourceId: module._id,
+      },
+      {
+        enabled: Boolean(session?.user && module),
+      },
+    )
+  const {data: stackblitz, status: stackblitzStatus} =
+    trpc.stackblitz.byExerciseSlug.useQuery({
+      slug: router.query.lesson as string,
+      type: lesson._type,
+    })
+  const canOpenExerciseInLocalEditor = Boolean(userPrefs)
+  const openInLocalEditorUrl = `${userPrefs?.editorLaunchProtocol}${
+    userPrefs?.localDirectoryPath
+  }/${stackblitz?.split(',')[0]}`
+  const {exerciseGitHubUrl} = getExerciseGitHubUrl({stackblitz, module})
+
+  return (
+    <>
+      <div className="flex w-full gap-1">
+        {userPrefsStatus === 'loading' ||
+        stackblitzStatus === 'loading' ||
+        sessionStatus === 'loading' ? (
+          <Skeleton className="flex h-10 w-full min-w-[250px] rounded-lg bg-white/10" />
+        ) : session?.user ? (
+          <>
+            {canOpenExerciseInLocalEditor ? (
+              <div className="flex items-center">
+                <Button
+                  asChild
+                  disabled={!canOpenExerciseInLocalEditor}
+                  className="rounded-r-none font-semibold"
+                >
+                  <Link href={openInLocalEditorUrl}>Open in Editor</Link>
+                </Button>
+                <SetLocalDevPrefsDialog
+                  resourceId={module._id}
+                  resourceTitle={module.title}
+                  githubRepositoryName={module.github?.title as string}
+                  githubRepositoryUrl={`https://github.com/total-typescript/${module.github?.repo}`}
+                  isDialogOpen={isPrefsDialogOpen}
+                >
+                  <DialogTrigger asChild>
+                    <Button className="gap-1 rounded-l-none bg-primary/80 px-2.5">
+                      <CogIcon className="h-4 w-4" />
+                    </Button>
+                  </DialogTrigger>
+                </SetLocalDevPrefsDialog>
+              </div>
+            ) : (
+              <SetLocalDevPrefsDialog
+                resourceId={module._id}
+                resourceTitle={module.title}
+                githubRepositoryName={module.github?.title as string}
+                githubRepositoryUrl={`https://github.com/total-typescript/${module.github?.repo}`}
+                isDialogOpen={isPrefsDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <Button
+                    variant={location}
+                    className={cn('gap-2', {
+                      'border border-white/5 bg-white/5 text-white hover:bg-white/10':
+                        location === 'secondary',
+                      'bg-primary font-semibold': location === 'default',
+                    })}
+                  >
+                    <CogIcon className="h-4 w-4" /> Configure Local Development
+                  </Button>
+                </DialogTrigger>
+              </SetLocalDevPrefsDialog>
+            )}
+            {/* <Button
+              variant="secondary"
+              asChild
+              className="gap-2 border border-white/5 bg-white/5 text-white hover:bg-white/10"
+            >
+              <Link href={exerciseGitHubUrl} target="_blank">
+                <Icon name="Github" size="16" />
+                GitHub
+              </Link>
+            </Button> */}
+          </>
+        ) : (
+          <div className="flex items-center gap-4">
+            <p className="text-sm">
+              <Link href="/login" className="text-primary underline">
+                Log in
+              </Link>{' '}
+              to open in your editor
+            </p>
+            {/* <Button
+              variant="secondary"
+              asChild
+              className="gap-2 border border-white/5 bg-white/5 text-white hover:bg-white/10"
+            >
+              <Link href={exerciseGitHubUrl} target="_blank">
+                <Icon name="Github" size="16" />
+                GitHub
+              </Link>
+            </Button> */}
+          </div>
+        )}
+      </div>
     </>
   )
 }

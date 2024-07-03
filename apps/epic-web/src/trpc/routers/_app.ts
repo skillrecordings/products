@@ -13,6 +13,8 @@ import {searchRouter} from './search'
 import {unsubscribeRouter} from 'trpc/routers/unsubscribe'
 import {bonusesRouter} from 'trpc/routers/bonuses'
 import {confRouter} from './conf'
+import {epicProductsRouter} from './epic-products'
+import {ctaRouter} from './cta'
 
 export const appRouter = mergeRouters(
   router({
@@ -26,6 +28,8 @@ export const appRouter = mergeRouters(
     unsubscribe: unsubscribeRouter,
     bonuses: bonusesRouter,
     conf: confRouter,
+    epicProducts: epicProductsRouter,
+    cta: ctaRouter,
   }),
   skillLessonRouter,
 )

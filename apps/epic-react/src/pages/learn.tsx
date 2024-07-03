@@ -6,6 +6,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'
 import * as Dialog from '@radix-ui/react-dialog'
+import {isEmpty} from 'lodash'
 
 import {
   ModuleProgressProvider,
@@ -145,7 +146,7 @@ const WorkshopItem = ({
     <div
       className={twMerge(
         cx(
-          "relative w-full before:absolute before:left-4 before:top-0 before:z-[-1] before:h-[calc(100%+8rem)] before:w-px before:bg-er-gray-300 before:content-[''] sm:before:bg-er-gray-200",
+          "relative w-full before:absolute before:left-4 before:top-0 before:z-[-1] before:h-[calc(100%+8rem)] before:w-0 before:bg-er-gray-300 before:content-[''] sm:before:w-px sm:before:bg-er-gray-200",
           {'before:top-[-3rem]': isBonusModule},
         ),
       )}
@@ -325,7 +326,7 @@ const Learn: React.FC<{
           priority
         />
       </section>
-      {isMounted && commerceProps?.purchases && (
+      {isMounted && !isEmpty(commerceProps?.purchases) && (
         <WelcomeBanner purchases={commerceProps.purchases} />
       )}
       <main className="mx-auto w-full max-w-screen-lg px-4 pb-20 pt-4 sm:px-8 sm:pt-20">

@@ -104,7 +104,7 @@
     @apply text-gray-300 opacity-90 hover:text-gray-100 hover:opacity-100;
   }
   [data-lesson][data-is-expanded='true'] {
-    @apply bg-gray-700/20;
+    @apply bg-gray-800 text-white;
   }
   [data-lesson] {
     [data-lesson-title] {

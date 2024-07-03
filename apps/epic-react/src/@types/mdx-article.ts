@@ -1,4 +1,4 @@
-export interface ArticleFrontMatter {
+export interface Article {
   title: string
   slug: string
   date: string
@@ -6,14 +6,4 @@ export interface ArticleFrontMatter {
   socialImage: string
   imageAlt: string
   excerpt: string
-  keywords?: string[] | null
-}
-
-export interface Article {
-  title: string
-  slug: string
-  date: string
-  excerpt: string
-  image: string
-  imageAlt: string
 }

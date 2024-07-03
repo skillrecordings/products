@@ -1,9 +1,7 @@
 import React from 'react'
-import {type Testimonial} from '@skillrecordings/skill-lesson/schemas/testimonial'
-import {portableTextComponents} from '@skillrecordings/skill-lesson/portable-text'
-import {PortableText} from '@portabletext/react'
 import Image from 'next/image'
-import Spinner from '@/components/spinner'
+import type {Testimonial} from '@/lib/workshops'
+import ReactMarkdown from 'react-markdown'
 
 type TestimonialsProps = {
   testimonials: Testimonial[]
@@ -35,10 +33,7 @@ const Testimonial: React.FC<{testimonial: Testimonial}> = ({testimonial}) => {
         ”
       </div>
       <blockquote className="prose my-0 italic prose-p:last-of-type:my-0 prose-p:last-of-type:py-0 prose-a:text-cyan-300">
-        <PortableText
-          value={body}
-          components={portableTextComponents({loadingIndicator: <Spinner />})}
-        />
+        <ReactMarkdown>{body}</ReactMarkdown>
       </blockquote>
       <div className="mt-5 inline-flex items-center gap-2">
         {author.image ? (

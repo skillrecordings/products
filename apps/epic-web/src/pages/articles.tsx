@@ -26,6 +26,9 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
     process.env.NODE_ENV === 'development'
       ? articles
       : articles.filter(({state}) => state === 'published')
+  const latestArticle = publishedArticles[0]
+  const restArticles = publishedArticles.slice(1)
+
   const {subscriber} = useConvertkit()
 
   return (
@@ -40,11 +43,55 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
       }}
     >
       <header className="mx-auto w-full max-w-screen-lg px-5 pb-3 pt-5 sm:pb-5 sm:pt-8">
-        <h1 className="text-lg font-semibold">{title}</h1>
+        <h1 className="text-lg font-light">{title}</h1>
       </header>
       <main className="mx-auto w-full max-w-screen-lg">
-        <div className="grid w-full grid-cols-1 flex-col gap-5 px-5 pb-10 sm:grid-cols-2 lg:gap-10">
-          {publishedArticles.map((article) => {
+        {latestArticle && (
+          <article className="mb-5 px-5">
+            <Link
+              href={latestArticle.slug}
+              passHref
+              onClick={() => {
+                track('clicked start reading article', {
+                  article: latestArticle.slug,
+                })
+              }}
+              className="group relative flex h-full w-full flex-col overflow-hidden rounded-lg bg-gradient-to-tr from-primary to-indigo-500 text-white shadow-2xl shadow-gray-500/20 transition hover:bg-gray-50 dark:shadow-none dark:hover:bg-gray-900/40 md:aspect-[16/6]"
+            >
+              <div className="flex h-full flex-col justify-between rounded-lg border border-transparent px-5 py-8 dark:border-gray-900 md:px-8">
+                <div className="relative z-10">
+                  <h2 className="text-balance text-2xl font-bold sm:text-3xl">
+                    {latestArticle.title}
+                  </h2>
+                  {latestArticle.description && (
+                    <p className="line-clamp-3 w-full pt-3 opacity-80">
+                      {latestArticle.description}
+                    </p>
+                  )}
+                </div>
+                <div className="relative z-10 flex w-full flex-col items-start justify-between space-y-10 pt-8 md:flex-row md:items-center md:space-y-0">
+                  <div className="flex w-full items-center gap-10 text-sm">
+                    <ResourceContributor
+                      as="div"
+                      name={latestArticle.author?.name}
+                      slug={latestArticle.author?.slug}
+                      image={latestArticle.author?.picture?.url}
+                      byline="Written by"
+                      className="text-sm font-normal text-white [&_span]:font-bold"
+                    />
+                    <div>
+                      <div className="block font-bold">Time to read</div>~{' '}
+                      {readingTime(latestArticle.body).minutes.toFixed(0)}{' '}
+                      minutes
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </article>
+        )}
+        <div className="grid w-full grid-cols-1 flex-col gap-5 px-5 pb-10 sm:grid-cols-2 lg:gap-5">
+          {restArticles.map((article) => {
             const {title, image, slug, description, body, author} = article
             const estimatedReadingTime = readingTime(body)
             return (
@@ -59,21 +106,11 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
                   }}
                   className="group relative flex h-full w-full flex-col overflow-hidden rounded-lg bg-white shadow-2xl shadow-gray-500/20 transition hover:bg-gray-50 dark:bg-background dark:shadow-none dark:hover:bg-gray-900/40"
                 >
-                  {image?.secure_url && (
-                    <div className="relative aspect-video h-full">
-                      <Image
-                        src={image.secure_url}
-                        className="object-cover"
-                        alt=""
-                        fill
-                        priority
-                        sizes="(max-width: 768px) 418px, (max-width: 1200px) 418px, 280px"
-                      />
-                    </div>
-                  )}
-                  <div className="flex h-full flex-col justify-between rounded-b-lg border-x border-b border-transparent px-5 py-8 dark:border-gray-900 md:px-8">
+                  <div className="flex h-full flex-col justify-between rounded-lg border border-transparent px-5 py-8 dark:border-gray-900 md:px-8">
                     <div className="relative z-10">
-                      <h2 className="text-2xl font-bold">{title}</h2>
+                      <h2 className="text-balance text-2xl font-bold">
+                        {title}
+                      </h2>
                       {description && (
                         <p className="line-clamp-3 w-full pt-3 text-gray-600 dark:text-gray-400">
                           {description}

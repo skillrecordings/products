@@ -10,7 +10,10 @@ import pluralize from 'pluralize'
 
 import {cn} from '@skillrecordings/ui/utils/cn'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
-import {VideoProvider} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
+import {
+  VideoProvider,
+  useMuxPlayer,
+} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {ArticleJsonLd, CourseJsonLd} from '@skillrecordings/next-seo'
 import {Video} from '@skillrecordings/skill-lesson/video/video'
 import {getBaseUrl} from '@skillrecordings/skill-lesson/utils/get-base-url'
@@ -84,6 +87,33 @@ const NavigationProgressModule: React.FC<{
   ) : null
 }
 
+const ConditionallyDisplayLessonCompletionToggle: React.FC<{
+  lesson: {_type: string}
+}> = ({lesson}) => {
+  const {data: session, status: sessionStatus} = useSession()
+
+  const loggedIn = sessionStatus === 'authenticated' && session
+
+  const {canShowVideo} = useMuxPlayer()
+
+  const displayLessonCompletionToggle =
+    lesson._type === 'solution' ||
+    lesson._type === 'explainer' ||
+    lesson._type === 'exercise' ||
+    lesson._type === 'lesson' ||
+    lesson._type === 'interview'
+
+  if (loggedIn && canShowVideo && displayLessonCompletionToggle) {
+    return (
+      <section aria-label="track progress" className="group">
+        <LessonCompleteToggle />
+      </section>
+    )
+  } else {
+    return null
+  }
+}
+
 const ExerciseTemplate: React.FC<{
   transcript: any[]
   lessonBodySerialized: MDXRemoteSerializeResult
@@ -110,7 +140,6 @@ const ExerciseTemplate: React.FC<{
   const pageTitle = title
   const pageDescription = exerciseDescription || moduleDescription
   const path = `/${pluralize('module')}`
-  const {data: session, status: sessionStatus} = useSession()
 
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
@@ -124,14 +153,6 @@ const ExerciseTemplate: React.FC<{
   const exerciseCount = section
     ? section.lessons && section.lessons.length
     : module.lessons && module.lessons.length
-
-  const displayLessonCompletionToggle =
-    (lesson._type === 'solution' ||
-      lesson._type === 'explainer' ||
-      lesson._type === 'exercise' ||
-      lesson._type === 'lesson' ||
-      lesson._type === 'interview') &&
-    session
 
   const epicReactModule = {...module, moduleType: 'module'}
 
@@ -187,7 +208,7 @@ const ExerciseTemplate: React.FC<{
           url={`${process.env.NEXT_PUBLIC_URL}/${module.slug.current}/${lesson.slug}`}
           title={lesson.title}
           images={[
-            `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`,
+            `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
           ]}
           datePublished={lesson._updatedAt || new Date().toISOString()}
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
@@ -227,11 +248,9 @@ const ExerciseTemplate: React.FC<{
                     ) : (
                       <div />
                     )}
-                    {displayLessonCompletionToggle && (
-                      <section aria-label="track progress" className="group">
-                        <LessonCompleteToggle />
-                      </section>
-                    )}
+                    <ConditionallyDisplayLessonCompletionToggle
+                      lesson={lesson}
+                    />
                   </div>
                   <hr className="border-er-gray-300 opacity-50" />
                   <div className="md:prose-md prose mx-auto mt-8 max-w-none pb-12 sm:pb-16 md:mt-10 lg:mt-12">

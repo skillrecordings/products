@@ -26,13 +26,15 @@ const WorkshopsPage: React.FC<{
   bonuses: SanityDocument[]
 }> = ({modules, bonuses}) => {
   const coreVolumeWorkshops = modules.filter((module) =>
-    module.product.find(({slug}: {slug: string}) => slug === 'core-volume'),
+    module.product.find(
+      ({slug}: {slug: string}) => slug === 'core-volume-react-bundle',
+    ),
   )
 
   const standaloneWorkshops = modules.filter((module) => {
     // filter out core-volume product
     const coreVolume = module.product.find(
-      ({slug}: {slug: string}) => slug === 'core-volume',
+      ({slug}: {slug: string}) => slug === 'core-volume-react-bundle',
     )
     if (coreVolume) {
       return false

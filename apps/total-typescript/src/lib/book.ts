@@ -14,6 +14,17 @@ export const BookChapterSchema = z.object({
   moduleType: z.literal('chapter'),
   body: z.string().optional().nullable(),
   description: z.string().optional().nullable(),
+  resources: z
+    .array(
+      z.object({
+        _id: z.string(),
+        title: z.string(),
+        slug: z.string(),
+        body: z.string().optional().nullable(),
+      }),
+    )
+    .optional()
+    .nullable(),
   github: z
     .object({
       _type: z.literal('github'),
@@ -36,6 +47,7 @@ export const BookSchema = z.object({
   body: z.string().optional().nullable(),
   ogImage: z.string().optional().nullable(),
   image: z.string().optional().nullable(),
+  description: z.string().optional().nullable(),
   github: z
     .object({
       _type: z.literal('github'),
@@ -74,6 +86,7 @@ export async function getBook(slugOrId: string) {
         body,
         github,
         ogImage,
+        description,
         "image": image.asset->url,
         'chapters': resources[]->{
           _id,
@@ -83,7 +96,12 @@ export async function getBook(slugOrId: string) {
           moduleType,
           title,
           "slug": slug.current,
-
+          resources[]->{
+            _id,
+            title,
+            "slug": slug.current,
+            body,
+          }
         }
       }`,
     {slugOrId: `${slugOrId}`},
@@ -113,7 +131,12 @@ export async function getBookChapter(chapterSlugOrId: string) {
         "slug": slug.current,
         'github': github,
         body,
-
+        resources[]->{
+          _id,
+          title,
+          "slug": slug.current,
+          body,
+        },
       }`,
     {
       chapterSlugOrId: `${chapterSlugOrId}`,

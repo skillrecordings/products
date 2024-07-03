@@ -15,6 +15,7 @@ import {
 } from '@heroicons/react/solid'
 import {} from '@heroicons/react/outline'
 import {useRouter} from 'next/router'
+import {BookA} from 'lucide-react'
 
 const Search: React.FC = () => {
   const [query, setQuery] = React.useState('')
@@ -93,9 +94,7 @@ const Search: React.FC = () => {
                     <Balancer>{result.title} </Balancer>
                   </div>
                   <div className="w-16 justify-self-end font-mono text-xs font-normal uppercase text-gray-400 sm:w-24">
-                    {result._type === 'module'
-                      ? `${result.moduleType}`
-                      : `${result._type}`}
+                    {getTypeLabel(result)}
                   </div>
                 </Link>
               </li>
@@ -130,8 +129,21 @@ export function useDebounce(value: string = '', delay: number) {
   return debouncedValue
 }
 
+export const getTypeLabel = (result: {moduleType: string; _type: string}) => {
+  switch (result._type) {
+    case 'module':
+      return result.moduleType
+    case 'chapterResource':
+      return 'Book'
+    default:
+      return result._type
+  }
+}
+
 export const getIcon = (_type: string) => {
   switch (_type) {
+    case 'chapterResource':
+      return <BookA className="h-4 w-4 text-primary" aria-hidden="true" />
     case 'tip':
       return <FireIcon className="h-5 w-5 text-orange-400" aria-hidden="true" />
       break
@@ -189,8 +201,13 @@ const Skeleton = () => {
 }
 
 export const getResourceSlug = (result: any) => {
-  let resourceSlug = ''
+  let resourceSlug = null
   switch (result._type) {
+    case 'chapterResource':
+      resourceSlug = result?.book?.slug?.current
+        ? `/books/${result?.book?.slug?.current}/${result?.chapter?.slug?.current}#${result?.slug?.current}`
+        : null
+      break
     case 'tip':
       resourceSlug = `/tips/${result.slug.current}`
       break

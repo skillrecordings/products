@@ -1,7 +1,12 @@
 import React from 'react'
 import {Command} from 'cmdk'
 import Balancer from 'react-wrap-balancer'
-import {getIcon, getResourceSlug, useDebounce} from '@/pages/search'
+import {
+  getIcon,
+  getResourceSlug,
+  getTypeLabel,
+  useDebounce,
+} from '@/pages/search'
 import {trpc} from '@/trpc/trpc.client'
 import {useRouter} from 'next/router'
 import {SearchIcon} from '@heroicons/react/solid'
@@ -112,9 +117,7 @@ const GlobalSearchBar = () => {
                 <Balancer>{result.title} </Balancer>
               </div>
               <div className="w-16 justify-self-end font-mono text-xs font-normal uppercase text-gray-400 sm:w-24">
-                {result._type === 'module'
-                  ? `${result.moduleType}`
-                  : `${result._type}`}
+                {getTypeLabel(result)}
               </div>
             </Command.Item>
           ) : null

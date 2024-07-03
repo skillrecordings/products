@@ -36,7 +36,8 @@ export const userPrefsRouter = router({
     .query(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
       if (!token) {
-        throw new Error('Unauthorized')
+        console.debug('Unathenticated')
+        return null
       }
 
       return await getLocalUserPrefs({

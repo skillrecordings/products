@@ -46,6 +46,7 @@ import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import ResourceContributor from 'components/resource-contributor'
 import Link from 'next/link'
+import {ResourceCTA} from 'components/cta/resource-cta'
 
 const TipTemplate: React.FC<{
   tip: Tip
@@ -173,6 +174,7 @@ const TipTemplate: React.FC<{
                       </div>
                     </>
                   )}
+                  <ResourceCTA resourceIdOrSlug={tip._id} />
                   {tip.transcript && (
                     <div className="w-full max-w-2xl pt-5">
                       <VideoTranscript transcript={tip.transcript} />

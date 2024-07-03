@@ -35,7 +35,7 @@
     [data-pricing-product='1'] {
       article {
         [data-pricing-product-header] {
-          @apply pt-12;
+          @apply pt-20;
         }
       }
     }
@@ -81,7 +81,7 @@
           }
 
           [data-price] {
-            @apply flex;
+            @apply flex text-white;
           }
 
           [data-price-discounted] {
@@ -255,6 +255,9 @@
           }
 
           [data-workshops] {
+            [data-description] > p {
+              @apply hidden text-balance pt-1 text-xs font-normal text-foreground;
+            }
             strong {
               @apply pb-4;
             }
@@ -298,6 +301,9 @@
             }
             a {
               @apply hover:underline;
+            }
+            [data-description] > p {
+              @apply text-sm font-normal text-foreground;
             }
             li,
             a {
@@ -385,9 +391,9 @@
         article {
           @apply w-full pt-40;
           [data-pricing-product-header] {
-            @apply pt-5;
+            @apply pt-12;
             [data-name-badge] {
-              /* @apply hidden; */
+              @apply block;
             }
           }
           [data-purchase-container] {

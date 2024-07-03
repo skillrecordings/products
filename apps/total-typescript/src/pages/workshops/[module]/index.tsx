@@ -4,7 +4,11 @@ import {User} from '@skillrecordings/database'
 import {SanityDocument} from '@sanity/client'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import WorkshopTemplate from '../../../templates/workshop-template'
-import {getAllWorkshops, getWorkshop} from '../../../lib/workshops'
+import {
+  getAllWorkshops,
+  getWorkshop,
+  type Workshop,
+} from '../../../lib/workshops'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
@@ -17,10 +21,9 @@ export const USER_ID_QUERY_PARAM_KEY = 'learner'
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const workshop = await getWorkshop(params?.module as string)
   const workshopBodySerialized = await serializeMDX(workshop.body)
-  const product = await getProductBySlug(params?.module as string)
 
   return {
-    props: {workshop, workshopBodySerialized, product},
+    props: {workshop, workshopBodySerialized},
     revalidate: 10,
   }
 }
@@ -36,15 +39,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 const WorkshopPage: React.FC<{
-  workshop: Module
+  workshop: Workshop
   workshopBodySerialized: MDXRemoteSerializeResult
-  product: SanityProduct
-}> = ({workshop, workshopBodySerialized, product}) => {
+}> = ({workshop, workshopBodySerialized}) => {
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
   return (
     <ModuleProgressProvider moduleSlug={workshop.slug.current}>
       <WorkshopTemplate
-        product={product}
         workshop={workshop}
         workshopBodySerialized={workshopBodySerialized}
       />

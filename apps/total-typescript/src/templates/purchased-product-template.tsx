@@ -28,6 +28,7 @@ import {usePriceCheck} from '@skillrecordings/skill-lesson/path-to-purchase/pric
 import {PriceDisplay} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {QueryStatus} from '@tanstack/react-query'
 import {buildStripeCheckoutPath} from '@skillrecordings/skill-lesson/utils/build-stripe-checkout-path'
+import type {Product} from '@/lib/products'
 
 const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   purchases = [],
@@ -71,29 +72,48 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   const isRestrictedUpgrade = purchaseToUpgrade?.status === 'Restricted'
 
   return (
-    <Layout meta={{title: product.name}}>
+    <Layout
+      meta={{
+        title: product.title,
+        description: product.description,
+        ogImage: {
+          url: `${
+            process.env.NEXT_PUBLIC_URL
+          }/api/og/og-product?title=${encodeURIComponent(
+            product.title || product.title,
+          )}&image=${product?.image?.url}`,
+          alt: product.title,
+        },
+      }}
+    >
       <main
         data-product-page=""
         className="mx-auto flex w-full flex-col-reverse gap-10 lg:flex-row"
       >
         <aside className="-mb-16 flex flex-shrink-0 flex-col items-center border-t border-gray-900 bg-black/30 py-10 pl-5 pr-5 md:mb-0 lg:mt-16 lg:min-h-screen lg:w-4/12 lg:items-end lg:pl-8 lg:pr-16">
-          <Image
-            src={product.image.url}
-            alt={product.name}
-            width={300}
-            height={300}
-          />
+          {product?.image?.url && (
+            <Image
+              src={product.image.url}
+              alt={product.title}
+              width={300}
+              height={300}
+            />
+          )}
           <div>
             <span className="block pb-4 text-sm font-semibold uppercase">
               Contents
             </span>
-            {product.modules.map((module) => {
-              return (
-                <ModuleProgressProvider moduleSlug={module.slug}>
-                  <ModuleItem module={module} />
-                </ModuleProgressProvider>
-              )
-            })}
+            {product?.modules
+              ?.filter((module) => {
+                return module.state === 'published'
+              })
+              .map((module) => {
+                return (
+                  <ModuleProgressProvider moduleSlug={module.slug.current}>
+                    <ModuleItem module={module} />
+                  </ModuleProgressProvider>
+                )
+              })}
           </div>
         </aside>
         <article className="w-full max-w-4xl px-5 pt-20 lg:pb-28 lg:pr-10 lg:pt-28">
@@ -106,11 +126,11 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
           </Link>
           <header className="pb-5">
             <h1 className="font-text text-4xl font-semibold sm:text-5xl">
-              {product.name}
+              {product.title}
             </h1>
             <p className="pt-4 text-gray-300 sm:text-lg">
               You've purchased {process.env.NEXT_PUBLIC_SITE_TITLE}{' '}
-              {product.name} on{' '}
+              {product.title} on{' '}
               {format(new Date(purchase.createdAt), 'MMMM dd, y')}.
             </p>
           </header>
@@ -150,7 +170,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                   purchaseToUpgrade={purchaseToUpgrade}
                   formattedPrice={formattedPrice}
                   formattedPriceStatus={status}
-                  product={product}
+                  product={product as unknown as SanityProduct}
                   purchase={purchase}
                   userId={purchase.userId}
                 />

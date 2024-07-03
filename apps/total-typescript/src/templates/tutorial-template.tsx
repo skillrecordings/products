@@ -22,6 +22,7 @@ import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import {Skeleton} from '@skillrecordings/ui'
 import {LockClosedIcon, PlayIcon} from '@heroicons/react/solid'
 import {ChevronLeftIcon} from '@heroicons/react/outline'
+import type {Testimonial} from '@/lib/workshops'
 
 const TutorialTemplate: React.FC<{
   tutorial: Module
@@ -56,7 +57,9 @@ const TutorialTemplate: React.FC<{
             <MDX contents={tutorialBodySerialized} />
           </article>
           {testimonials && testimonials?.length > 0 && (
-            <Testimonials testimonials={testimonials} />
+            <Testimonials
+              testimonials={testimonials as unknown as Testimonial[]}
+            />
           )}
         </div>
         <div className="flex w-full flex-col px-5 lg:max-w-sm lg:px-0">
@@ -126,7 +129,7 @@ const Header: React.FC<{tutorial: Module}> = ({tutorial}) => {
 
   return (
     <>
-      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-5 sm:pt-8 md:flex-row">
+      <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-16 pt-0 sm:pb-5 sm:pt-16 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
             href="/tutorials"

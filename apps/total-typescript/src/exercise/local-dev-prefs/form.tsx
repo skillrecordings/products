@@ -23,28 +23,44 @@ import {
 } from '@skillrecordings/ui'
 import {trpc} from '@/trpc/trpc.client'
 import {AlertCircle} from 'lucide-react'
+import slugify from '@sindresorhus/slugify'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import toast from 'react-hot-toast'
 
 export default function LocalDevPrefsForm({
   resourceId,
   githubRepositoryName,
+  className,
 }: {
   resourceId: string
   githubRepositoryName: string
+  className?: string
 }) {
   const {mutateAsync: setLocalPrefs} = trpc.userPrefs.setLocal.useMutation()
-
+  const {data: userPrefs} = trpc.userPrefs.getLocal.useQuery({
+    resourceId,
+  })
   const form = useForm<z.infer<typeof localPrefsFieldsSchema>>({
     resolver: zodResolver(localPrefsFieldsSchema),
     defaultValues: {
-      editorLaunchProtocol: 'vscode://file/',
-      localDirectoryPath: '',
+      editorLaunchProtocol: userPrefs?.editorLaunchProtocol || 'vscode://file/',
+      localDirectoryPath: userPrefs?.localDirectoryPath || '',
     },
   })
 
+  const [loading, setLoading] = React.useState(false)
+
   async function onSubmit(values: z.infer<typeof localPrefsFieldsSchema>) {
-    return await setLocalPrefs({
+    setLoading(true)
+    await setLocalPrefs({
       resourceId,
-      fields: values,
+      fields: {
+        editorLaunchProtocol: values.editorLaunchProtocol,
+        localDirectoryPath: values.localDirectoryPath.trim(),
+      },
+    }).then(() => {
+      toast.success('Local development preferences saved!')
+      return setLoading(false)
     })
   }
 
@@ -57,14 +73,17 @@ export default function LocalDevPrefsForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 [&_button[role='combobox']]:border-white/20 [&_input]:border-white/20"
+        className={cn(
+          "space-y-5 text-left [&_button[role='combobox']]:border-white/20 [&_input]:border-white/20",
+          className,
+        )}
       >
         <FormField
           control={form.control}
           name="editorLaunchProtocol"
           render={({field}) => (
             <FormItem>
-              <FormLabel>IDE (Code Editor)</FormLabel>
+              <FormLabel>IDE (Code Editor) to use:</FormLabel>
               <Select
                 onValueChange={(value) => {
                   if (value === 'custom') {
@@ -123,8 +142,13 @@ export default function LocalDevPrefsForm({
           render={({field}) => (
             <FormItem>
               <FormLabel>
-                Full path to <code>{githubRepositoryName || 'project'}</code>{' '}
-                directory on your computer
+                Full path to{' '}
+                <code>
+                  {slugify(githubRepositoryName, {
+                    customReplacements: [['TypeScript', 'typescript']],
+                  }) || 'project'}
+                </code>{' '}
+                directory on your computer:
               </FormLabel>
               <FormControl>
                 <Input {...field} required />
@@ -132,25 +156,29 @@ export default function LocalDevPrefsForm({
               <FormDescription>
                 Example:{' '}
                 <code>
-                  /Users/username/learning/total-typescript/
-                  {githubRepositoryName}
+                  /Users/Jane/learning/total-typescript/
+                  {slugify(githubRepositoryName, {
+                    customReplacements: [['TypeScript', 'typescript']],
+                  })}
                 </code>
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <DialogFooter>
+        <DialogFooter className="gap-2 sm:gap-0">
           <DialogTrigger asChild>
             <Button
               className="bg-white/10 text-white hover:bg-white/20"
               type="button"
               variant="secondary"
             >
-              Cancel
+              Close
             </Button>
           </DialogTrigger>
-          <Button type="submit">Save</Button>
+          <Button className="font-semibold" type="submit" disabled={loading}>
+            {loading ? 'Saving...' : 'Save'}
+          </Button>
         </DialogFooter>
       </form>
     </Form>

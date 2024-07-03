@@ -35,7 +35,7 @@ const MobileNavigation: React.FC<
   return (
     <div
       ref={menuHolderRef}
-      className="navigation absolute left-0 top-[3.25rem] mt-1 grid w-full grid-flow-row justify-start p-3"
+      className="navigation absolute left-0 top-[3.25rem] mt-1 grid w-full grid-flow-row justify-start border-b border-er-gray-300 p-3"
     >
       {children}
     </div>

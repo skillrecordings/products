@@ -1,0 +1,301 @@
+import Demo from '@/components/mdx-components/how-react-uses-closures-to-avoid-bugs'
+
+When the world moved from React class components and lifecycle methods to React
+function components and hooks, we left behind a bug that many of us didn't even
+know was plaguing our class-based codebases. This bug was sneaky, hard to
+identify and reproduce, and it would pop up in places due to seemingly harmless
+changes over time. To make matters worse, the situations where it pops up are
+not always bugs, sometimes it's an intended behavior. So you can't even lint
+against it.
+
+The bug has to do with the mutability of `this.props`. I'm not talking about
+_you_ the developer mutating `this.props` (you shouldn't do that). I'm talking
+about when the parent component re-renders and passes new props, `this.props`
+suddenly points to completely new values. This is by design. I mean, when your
+`render` method re-runs due to an update in the props, you don't want to render
+the old props. You want the latest values so the React elements you return shows
+the right information.
+
+The problem is actually pretty simple. It typically crops up when you have an
+event handler or lifecycle method that does something asynchronous. Imagine, you
+start the async thing, then props change while that is in flight, when your code
+continues `this.props` has the latest values rather than the values that existed
+at the time the function started running.
+
+Let's add some clarity to this. I've put together
+[a little demo](https://react-and-stale-closures.netlify.app) which you can play
+with below. When you click on the ❤️ button, that'll toggle the liked state, but
+it has to do an async check to determine whether you're permitted to like/unlike
+the post. That's hard-coded to take 3 seconds to give you time to experience the
+problem. The specific use case is irrelevant. What matters more is the fact that
+`this.props` gets changed from beneath you during that async operation.
+
+So, in the demo below, try this:
+
+1. Click the ❤️ button
+2. Before the 3 seconds time is up, change the post selection
+3. Observe differences
+
+<Demo />
+
+You should observe that with the broken examples (like "The Old Default with
+Classes"), the post that's updated is the currently active post.
+
+Here's the code for that post (structured to optimize for minimizing
+distraction):
+
+```javascript
+import * as React from 'react'
+import {AppContext} from './provider'
+import {canLike} from './utils'
+import {PostView} from './post-view'
+
+class Post extends React.Component {
+  static contextType = AppContext
+  handleLikeClick = async () => {
+    if (!(await canLike(this.props.post, this.context.user))) return
+
+    this.context.toggleLike(this.props.post)
+  }
+  render() {
+    return (
+      <PostView post={this.props.post} onLikeClick={this.handleLikeClick} />
+    )
+  }
+}
+
+export {Post}
+```
+
+The important bit here is the `canLike` utility that takes a while to run. So
+when you click on ❤️, the code execution "pauses" for a little while before
+continuing to the `this.context.toggleLike(this.props.post)` call. This means
+that when you change the active post, `this.props.post` is pointing to the wrong
+thing and the `toggleLike` call goes to the new post, not the one we were trying
+to like.
+
+This is easily solved, as demonstrated in the "Simulating The New Default with
+Classes" example:
+
+```javascript
+handleLikeClick = async () => {
+  const {post} = this.props
+  const {user, toggleLike} = this.context
+  if (!(await canLike(post, user))) return
+
+  toggleLike(post)
+}
+```
+
+Basically, we create a variable for everything our function is going to need
+before we call the async `canLike` function. That way it doesn't matter what
+happens with `this.props`, we're always referencing what `this.props.post` was
+at the time ❤️ was clicked, which is what the user intended.
+
+Oh, and did you notice the other potential bug that the refactor avoided? No?
+Well you may have noticed that I _also_ destructure `user` and `toggleLike` from
+`this.context`. This isn't just because I like the convention of destructuring
+things at the top of the function. It's because if the `toggleLike` function
+were to change on us during that async call then we may be calling a new version
+of that function which references a different `user` resulting in that _new_
+user liking the post instead of the one who clicked the button.
+
+This bug bit me a few times with class components, so much that I created a
+convention for myself to always destructure everything I needed from `this.` in
+a function at the top of the function (like in the solution above).
+
+But wouldn't it be better if we just changed the default? Yup! And that's what
+hooks did for us!
+
+Here's the code for "The New Default with Hooks" example:
+
+```javascript
+import * as React from 'react'
+import {useApp} from './provider'
+import {canLike} from './utils'
+import {PostView} from './post-view'
+
+function Post(props) {
+  const {user, toggleLike} = useApp()
+
+  async function handleLikeClick() {
+    if (!(await canLike(props.post, user))) return
+
+    toggleLike(props.post)
+  }
+
+  return <PostView post={props.post} onLikeClick={handleLikeClick} />
+}
+
+export {Post}
+```
+
+In this case, we don't need to worry because the `props` our component is called
+with each render will _never_ change for all functions in the component. This is
+because each render, all functions are created as brand-new functions. And when
+a function is created, it grabs a reference to all variables outside of itself
+and hangs onto it for as long as that function exists.
+
+When a re-render is triggered, a new `props` object is created and passed to our
+function component. At that time a _brand new_ `handleLikeClick` is created
+which has reference to the latest version of `props`. But if an old version of
+that function is still running, it's fine because it still has access to the
+version of props it was called with to begin with. (If this concept is not
+sinking in, you can learn more about
+[how closures work here](https://whatthefork.is/closure)).
+
+One interesting observation is that this example actually has nothing to do with
+classes vs hooks, but really classes vs function components. But the same could
+be said of `componentDidMount` vs `useEffect`.
+
+Function components flip the default, and I would argue that it's a good trade
+that helps us avoid that surreptitious bug.
+
+## Simulate the old default
+
+Just like it's possible to simulate the hooks default behavior with class
+components, it's possible to simulate the classes default behavior with function
+components. Here's the code for that example:
+
+```javascript
+import * as React from 'react'
+import {useApp} from './provider'
+import {canLike} from './utils'
+import {PostView} from './post-view'
+
+function Post(props) {
+  const {user, toggleLike} = useApp()
+
+  const postRef = React.useRef(props.post)
+  React.useEffect(() => {
+    postRef.current = props.post
+  })
+
+  async function handleLikeClick() {
+    if (!(await canLike(postRef.current, user))) return
+
+    toggleLike(postRef.current)
+  }
+
+  return <PostView post={props.post} onLikeClick={handleLikeClick} />
+}
+
+export {Post}
+```
+
+Refs allow you to update a value without trigger re-renders. It gives you a
+similar mutable API to `this.` (when refactoring class components, `useRef` is
+my go-to for any instance values if I can't simplify things as variables within
+a single `useEffect`).
+
+Of course, the above example is buggy, so you wouldn't do that. But are there
+situations where the old default was a good idea? Most certainly! A good example
+of such a case is a `debounce` function like this one
+[Yago](https://twitter.com/yagopereiraaz) shared with me during my office hours
+recently.
+
+Here's a naive implementation of `debounce`:
+
+```javascript
+function debounce(fn, delay) {
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      fn(...args)
+    }, delay)
+  }
+}
+```
+
+And here's a naive implementation of a `useDebounce` hook:
+
+```javascript
+function useDebounce(callback, delay) {
+  return debounce(callback, delay)
+}
+```
+
+Unfortunately, that won't work because you be creating a brand new `debounce`ed
+version of your function every render which results in the `debounce` `timer`
+variable being different for each one so the debounce is actually just a `delay`
+and doesn't actually debounce anything. So let's memoize that:
+
+```javascript
+function useDebounce(callback, delay) {
+  return React.useMemo(() => debounce(callback, delay), [callback, delay])
+}
+```
+
+The `callback` and `delay` are required, otherwise you'd end up with a debounce
+function that can't react to changes in the `delay` and it would always call an
+old version of the `callback` which would have access to old variables and
+likely result in bugs.
+
+However, this API means that someone would have to memoize the `callback`
+otherwise you'd get a new debounce function every render which brings us back to
+the problem that lead to use memoizing this in the first place:
+
+```javascript
+const myFn = React.useCallback(() => {
+  // do debounced stuff
+}, [vars, i, need])
+const debouncedMyFn = useDebounce(myFn, 500)
+```
+
+But that's not a great API. This is one situation where the new default as
+described above doesn't work very well. But we can use refs to get around the
+problem!
+
+```javascript
+function useDebounce(callback, delay) {
+  const callbackRef = React.useRef(callback)
+  // Why useLayoutEffect? -> https://kcd.im/uselayouteffect
+  React.useLayoutEffect(() => {
+    callbackRef.current = callback
+  })
+
+  return React.useMemo(
+    () => debounce((...args) => callbackRef.current(...args), delay),
+    [delay],
+  )
+}
+```
+
+Sweet, so now people don't need to worry about memoizing their callback:
+
+```javascript
+const myFn = () => {
+  // do debounced stuff
+}
+const debouncedMyFn = useDebounce(myFn, 500)
+```
+
+For this kind of use case, we should be safe from the aforementioned bug _and_
+we have a nice API to boot. I'm satisfied.
+
+If you're curious of real-world scenarios where people have done this to
+simulate the old default, we actually build something like this in
+[EpicReact.Dev's Advanced React Hooks Workshop](https://epicreact.dev/modules/advanced-react-hooks/usecallback-custom-hooks-intro)
+with a custom `useAsync` hook. Dan Abramov's
+[`useInterval` blog post](https://overreacted.io/making-setinterval-declarative-with-react-hooks/)
+does this as well. And [`react-query`](https://react-query.tanstack.com/) does
+this for your `queryFn`s.
+
+## Conclusion
+
+React made the decision to flip the default from things changing out from under
+you to relying on closures to preserve the value of variables at the time a
+function is defined. This helps us avoid non-obvious bugs and instead forces us
+to confront issues before we ship to production. It can definitely be a little
+confusing until you have a solid grasp on how closures work. Despite that, this
+is a good change, and our apps are more bug-free thanks to it. 🚫🐛🚫
+
+import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
+
+export default ({children}) => (
+  <ArticleTemplate meta={articles['how-react-uses-closures-to-avoid-bugs']}>
+    {children}
+  </ArticleTemplate>
+)

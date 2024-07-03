@@ -1,27 +1,23 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import {useRouter} from 'next/router'
-import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import Balancer from 'react-wrap-balancer'
-import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
 
 import {getIsoDate} from '@/utils/get-iso-date'
 import config from '@/config'
-import {type ArticleFrontMatter, type Article} from '@/@types/mdx-article'
+import {type Article} from '@/@types/mdx-article'
 import Layout from '@/components/app/layout'
 import Divider from '@/components/divider'
-import mdxComponents from '@/components/mdx-components'
 import ShareCta from '@/components/share-cta'
 import SubscribeToReactEmailCourseCta from '@/components/subscribe-react-email-course-cta'
 import {truncate} from 'lodash'
+import articlesObj from '@/content/articles'
 
 interface ArticleTemplateProps {
-  allArticles: Article[]
-  mdx: MDXRemoteSerializeResult
-  frontMatter: ArticleFrontMatter
+  meta: Article
+  children: any
 }
 
 const YouMightAlsoLike: React.FC<{articles: Article[]}> = ({articles}) => {
@@ -61,27 +57,19 @@ const YouMightAlsoLike: React.FC<{articles: Article[]}> = ({articles}) => {
   )
 }
 
-const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
-  allArticles,
-  frontMatter,
-  mdx,
-}) => {
-  const router = useRouter()
-  const {
-    title,
-    excerpt,
-    socialImage,
-    image,
-    imageAlt = '',
-    date,
-    slug,
-  } = frontMatter
+const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
+  const {title, slug, date, image, socialImage, imageAlt, excerpt} = meta
   const isoDate = getIsoDate(date)
   const pageDescription = excerpt
   const author = config.author
-  const url = `${process.env.NEXT_PUBLIC_URL}${router.asPath}`
+  const url = `${process.env.NEXT_PUBLIC_URL}/${slug}`
   const {subscriber, loadingSubscriber} = useConvertkit()
-  const restArticles = allArticles.filter((article) => article.slug !== slug)
+  const restArticles: Article[] = Object.values(articlesObj)
+    .sort(
+      (a: Article, b: Article) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime(),
+    )
+    .filter((article) => article.slug !== slug)
 
   return (
     <Layout
@@ -119,7 +107,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
           />
         </div>
         <div className="prose mx-auto mt-8 pb-24 md:prose-lg lg:prose-xl sm:pb-32 md:mt-16 md:px-8 lg:mt-24">
-          <MDX contents={mdx} components={{...mdxComponents}} />
+          {children}
         </div>
         <Divider />
         {subscriber ? (
