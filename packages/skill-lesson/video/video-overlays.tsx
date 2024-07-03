@@ -743,7 +743,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   loadingIndicator = null,
 }) => {
   const {videoResourceId} = useVideoResource()
-  const thumbnail = `${getBaseUrl()}/api/video-thumb?videoResourceId=${videoResourceId}`
+  const thumbnail = `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`
 
   return (
     <OverlayWrapper data-video-overlay="loading" dismissable={false}>
