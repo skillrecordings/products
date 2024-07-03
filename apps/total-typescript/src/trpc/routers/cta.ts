@@ -185,7 +185,7 @@ export const ctaRouter = router({
           }
         }
       }
-      console.log({CURRENT_ACTIVE_PROMOTION})
+
       return CURRENT_ACTIVE_PROMOTION
     }
   }),

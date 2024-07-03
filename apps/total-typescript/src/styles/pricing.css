@@ -302,6 +302,9 @@
             a {
               @apply hover:underline;
             }
+            [data-description] > p {
+              @apply text-base font-normal text-foreground;
+            }
             li,
             a {
               @apply flex items-center;

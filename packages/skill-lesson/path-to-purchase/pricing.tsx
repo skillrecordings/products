@@ -76,6 +76,7 @@ type PricingProps = {
   ) => React.ReactNode
   options?: {
     withImage?: boolean
+    withDescription?: boolean
     withGuaranteeBadge?: boolean
     isLiveEvent?: boolean
     isPPPEnabled?: boolean
@@ -132,6 +133,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   },
   options = {
     withImage: true,
+    withDescription: true,
     isPPPEnabled: true,
     withGuaranteeBadge: true,
     isLiveEvent: false,
@@ -614,6 +616,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             )}
           <div data-pricing-footer="">
             {product.description &&
+              options.withDescription &&
               (isSellingLive || allowPurchase) &&
               !purchased && (
                 <div

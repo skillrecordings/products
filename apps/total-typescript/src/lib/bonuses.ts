@@ -1,7 +1,7 @@
 import groq from 'groq'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 
-const tutorialsQuery = groq`*[_type == "module" && moduleType == 'bonus' && state == 'published'] | order(_createdAt desc) {
+const bonusesQuery = groq`*[_type == "module" && moduleType == 'bonus' && state == 'published'] | order(_createdAt desc) {
   _id,
   _type,
   title,
@@ -20,8 +20,7 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'bonus' && stat
     }
 }`
 
-export const getAllBonuses = async () =>
-  await sanityClient.fetch(tutorialsQuery)
+export const getAllBonuses = async () => await sanityClient.fetch(bonusesQuery)
 
 export const getBonus = async (slug: string) =>
   await sanityClient.fetch(
