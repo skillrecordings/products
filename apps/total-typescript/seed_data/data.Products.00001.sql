@@ -1,6 +1,8 @@
 INSERT INTO MerchantAccount (id, status, identifier, label) VALUES
 ('tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, 'acct_1LFP5yAozSgJZBRP', 'stripe');
 
+-- Core Volume
+
 INSERT INTO Product (id, name, productType, status) VALUES
 ('tt_00c02ac7-6f95-4ad4-8aac-999b243df6c1', 'Core Volume', 'self-paced', 1);
 
@@ -12,6 +14,8 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('tt_a3c78294-84ea-4e6c-b0dd-798f84da982c', 'tt_61b88dc4-8004-487b-81b3-0a35d88c02e1', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, 'tt_c68ae76b-3579-4a56-8417-32de56e54fd8', 'price_1MVib6AozSgJZBRPdB5txBl5');
+
+-- Advanced Patterns Workshop
 
 INSERT INTO Product (id, name, productType, status) VALUES
 ('tt_c5e2d746-d95d-4f94-8609-7149cc62c667', 'Advanced Patterns Workshop', 'self-paced', 1);
@@ -25,6 +29,8 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('tt_c333ec1a-88e6-47ec-a913-e0c8dd0d67e5', 'tt_0614e8f9-0dea-4c4a-8193-7151462e74f1', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, 'tt_24a6e6be-1668-4f0f-a723-ccd076c6f78f', 'price_1MVeuXAozSgJZBRPigmVNj02');
 
+-- Generics Workshop
+
 INSERT INTO Product (id, name, productType, status) VALUES
 ('tt_89661c99-6fa2-4b97-912a-7ac415eae606', 'Generics Workshop','self-paced',  1);
 
@@ -37,6 +43,8 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('tt_1bd7dfac-a40a-453f-a39f-1389c7b3acfe', 'tt_01a85f33-532f-4c66-a1da-515e0fb555e2', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, 'tt_a7a11412-3712-4b4b-944e-bffcedc88ea6', 'price_1MVeuXAozSgJZBRPrxFrf1hq');
 
+-- Type Transforms Workshop
+
 INSERT INTO Product (id, name, productType, status) VALUES
 ('tt_63500c2e-c1db-4a07-95e5-7018fd71a295', 'Type Transforms Workshop', 'self-paced', 1);
 
@@ -48,6 +56,22 @@ INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
 
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
 ('tt_7914c0cd-bb8d-4732-891c-244182e14a6a', 'tt_e21bb064-dc5d-4916-aab2-928775a30bc9', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, 'tt_7f4ac3a4-c6a1-4a03-8a8e-0dba3f83109a', 'price_1MVeuWAozSgJZBRPMpFxeS10');
+
+-- Complete Volume
+
+INSERT INTO Product (id, name, productType, status) VALUES
+('tt_product_clxjgl7fg000108l8eifn69dt', 'Complete Volume', 'self-paced', 1);
+
+INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifier) VALUES
+('tt_merchant_product_clxjgkeaj000008l8ho3t6xos', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 'tt_product_clxjgl7fg000108l8eifn69dt', 1, 'prod_QJkqxmPdPLIdG8');
+
+INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
+('tt_price_clxjgnv6h000308l81g9chb9n', 'tt_product_clxjgl7fg000108l8eifn69dt', 'Complete Volume', 1, 990);
+
+INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
+('tt_merchant_price_clxjgp7ra000408l8ebjcaz4w', 'tt_merchant_product_clxjgkeaj000008l8ho3t6xos', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, 'tt_price_clxjgnv6h000308l81g9chb9n', 'price_1PT7KgAozSgJZBRPRiwuUOUB');
+
+-- Coupons
 
 INSERT INTO MerchantCoupon (id, merchantAccountId, status, identifier, percentageDiscount, type) VALUES
 ('tt_33d9422e-5fb4-4323-bf34-3e57b4a77429', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, '8M0LQt2k', '0.45', 'bulk');
