@@ -14,10 +14,10 @@ import {
   TooltipTrigger,
 } from '@skillrecordings/ui'
 
-export default ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
+const LogoutButton = ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
   const isTablet = useMedia('(max-width: 920px)', false)
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
@@ -50,3 +50,5 @@ export default ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
     </TooltipProvider>
   )
 }
+
+export default LogoutButton

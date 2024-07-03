@@ -14,11 +14,11 @@ import {
 } from '@skillrecordings/ui'
 import {useFeedback} from '@/components/feedback-widget/feedback-context'
 
-export default ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
+const FeedbackButton = ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
   const {setIsFeedbackDialogOpen} = useFeedback()
   const isTablet = useMedia('(max-width: 920px)', false)
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
@@ -46,3 +46,5 @@ export default ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
     </TooltipProvider>
   )
 }
+
+export default FeedbackButton
