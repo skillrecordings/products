@@ -1,4 +1,3 @@
-import {withSentry} from '@sentry/nextjs'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getVideoResource} from '@skillrecordings/skill-lesson/lib/video-resources'
 
@@ -6,7 +5,9 @@ const videoThumb = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     const videoResourceId = req.query.videoResourceId as string
     const videoResource = await getVideoResource(videoResourceId)
-    const url = `https://image.mux.com/${videoResource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve`
+    const url = videoResource?.poster
+      ? videoResource.poster
+      : `https://image.mux.com/${videoResource.muxPlaybackId}/thumbnail.png?width=480&height=384&fit_mode=preserve&time=0`
 
     // load an image binary via fetch
     const response = await fetch(url)
@@ -41,9 +42,4 @@ const videoThumb = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default withSentry(videoThumb)
-export const config = {
-  api: {
-    externalResolver: true,
-  },
-}
+export default videoThumb
