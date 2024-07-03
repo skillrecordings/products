@@ -77,6 +77,7 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
       <main id="buy">
         {mdx && (
           <article className="mx-auto w-full max-w-screen-md px-10 py-8 md:py-10">
+            <h1 className="text-7xl">HHHHHHH</h1>
             <Body mdx={mdx} />
           </article>
         )}
@@ -212,46 +213,46 @@ const Body: React.FC<{mdx: MDXRemoteSerializeResult}> = ({mdx}) => {
   )
 }
 
-export const useWorkshopCta = () => {
-  const router = useRouter()
-  const expiresAt = new Date(1689624000000)
-  const now = new Date()
-  const {data: commerceProps, status: commercePropsStatus} =
-    trpc.pricing.propsForCommerce.useQuery({
-      ...router.query,
-    })
+// export const useWorkshopCta = () => {
+//   const router = useRouter()
+//   const expiresAt = new Date(1689624000000)
+//   const now = new Date()
+//   const {data: commerceProps, status: commercePropsStatus} =
+//     trpc.pricing.propsForCommerce.useQuery({
+//       ...router.query,
+//     })
 
-  const purchasedProductIds =
-    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+//   const purchasedProductIds =
+//     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
 
-  const hasPurchased = purchasedProductIds.includes(
-    'kcd_product-f000186d-78c2-4b02-a763-85b2e5feec7b',
-  )
-  return !(now > expiresAt || hasPurchased)
-}
+//   const hasPurchased = purchasedProductIds.includes(
+//     'kcd_product-f000186d-78c2-4b02-a763-85b2e5feec7b',
+//   )
+//   return !(now > expiresAt || hasPurchased)
+// }
 
-export const WorkshopSeriesNavCta = () => {
-  const isCtaActive = useWorkshopCta()
-  if (!isCtaActive) return null
+// export const WorkshopSeriesNavCta = () => {
+//   const isCtaActive = useWorkshopCta()
+//   if (!isCtaActive) return null
 
-  return (
-    <Link
-      href="/full-stack-workshop-series-vol-1"
-      className="flex w-full bg-primary px-3 py-1.5 text-white"
-      onClick={() => {
-        track('clicked workshop series cta', {
-          location: 'nav',
-        })
-      }}
-    >
-      <div className="mx-auto flex w-full max-w-screen-lg items-center justify-center space-x-2 px-0 text-xs font-medium sm:space-x-4 sm:px-3 sm:text-sm">
-        <p className="w-full sm:w-auto">
-          {/* <Balancer> */}
-          <strong>Full Stack Workshop Series Vol 1.</strong> now scheduled!
-          {/* </Balancer> */}
-        </p>
-        <div className="flex-shrink-0 underline">Grab your ticket</div>
-      </div>
-    </Link>
-  )
-}
+//   return (
+//     <Link
+//       href="/full-stack-workshop-series-vol-1"
+//       className="flex w-full bg-primary px-3 py-1.5 text-white"
+//       onClick={() => {
+//         track('clicked workshop series cta', {
+//           location: 'nav',
+//         })
+//       }}
+//     >
+//       <div className="mx-auto flex w-full max-w-screen-lg items-center justify-center space-x-2 px-0 text-xs font-medium sm:space-x-4 sm:px-3 sm:text-sm">
+//         <p className="w-full sm:w-auto">
+//           {/* <Balancer> */}
+//           <strong>Full Stack Workshop Series Vol 1.</strong> now scheduled!
+//           {/* </Balancer> */}
+//         </p>
+//         <div className="flex-shrink-0 underline">Grab your ticket</div>
+//       </div>
+//     </Link>
+//   )
+// }

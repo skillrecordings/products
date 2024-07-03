@@ -192,6 +192,9 @@ const StateFilter = ({
     useProductIndex(products, purchases)
   const {data: sessionData, status: sessionStatus} = useSession()
 
+  console.log('purchasedProducts:', purchasedProducts)
+  console.log('products:', products)
+
   const handleValueChange = (value: string) => {
     if (value === 'all') {
       router.push('/products', undefined, {shallow: true})
