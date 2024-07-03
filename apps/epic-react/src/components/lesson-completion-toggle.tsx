@@ -53,7 +53,6 @@ const LessonCompleteToggle = () => {
       },
       {
         onSuccess: (data) => {
-          console.log({data})
           if (
             'completedAt' in data &&
             data?.completedAt &&
