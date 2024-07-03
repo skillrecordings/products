@@ -119,20 +119,8 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
           path="/tutorials"
           title="Tutorials"
           className="font-medium text-white"
-          labelString="Free Tutorials"
-          label={
-            <>
-              <span
-                className={cx('hidden ', {
-                  'xl:inline-block': isMinified,
-                  'lg:inline-block': !isMinified,
-                })}
-              >
-                Free
-              </span>{' '}
-              Tutorials
-            </>
-          }
+          labelString="Tutorials"
+          label="Tutorials"
           // icon={PlayIcon}
         />
         <NavLink
@@ -279,7 +267,7 @@ const MobileNav = () => {
               />
               <MobileNavLink
                 path="/tutorials"
-                label="Free Tutorials"
+                label="Tutorials"
                 icon={<PlayIcon />}
               />
               <MobileNavLink
@@ -302,7 +290,7 @@ const MobileNav = () => {
                 labelString="Book"
                 label={
                   <span className="relative">
-                    Free Book{' '}
+                    Book{' '}
                     <span className="absolute -right-9 inline-block -translate-y-1 scale-75 rounded bg-white/5 px-1 py-0.5 text-xs font-semibold uppercase tracking-wide text-primary">
                       New
                     </span>
