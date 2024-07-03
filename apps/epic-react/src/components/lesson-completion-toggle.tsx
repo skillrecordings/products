@@ -7,10 +7,14 @@ import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-l
 import toast from 'react-hot-toast'
 
 const LessonCompleteToggle = () => {
-  const {module} = useLesson()
+  const {module, lesson} = useLesson()
+  const flattenedLessons = module.sections?.flatMap(
+    (section) => section.lessons,
+  )
+  const currentLessonIndex =
+    flattenedLessons?.findIndex((l) => l?.slug === lesson.slug) ?? 0
   const router = useRouter()
-  const {reward, isAnimating} = useReward('rewardId', 'confetti')
-  const [toggleClicked, setToggleClicked] = React.useState(false)
+  const {reward} = useReward('rewardId', 'confetti')
   const lessonSlug = router.query.lesson
   const {
     data: moduleProgress,
@@ -20,12 +24,6 @@ const LessonCompleteToggle = () => {
     slug: module.slug.current,
   })
   const moduleCompleted = moduleProgress?.moduleCompleted
-
-  const {data: nextLesson} =
-    trpcSkillLessons.lessons.getNextLessonAndSkipPreviousLessons.useQuery({
-      lessonSlug: lessonSlug as string,
-      module: module.slug.current,
-    })
 
   const toggleProgressMutation = trpcSkillLessons.progress.toggle.useMutation()
   const completedLessons = moduleProgress?.lessons.filter(
@@ -46,20 +44,7 @@ const LessonCompleteToggle = () => {
       setOptimisticallyToggled(isLessonCompleted)
   }, [moduleProgressStatus, isLessonCompleted])
 
-  React.useEffect(() => {
-    if (toggleClicked && moduleCompleted) {
-      router.push(`/modules/${module.slug.current}/completed`)
-    } else if (toggleClicked && optimisticallyToggled) {
-      reward()
-
-      if (nextLesson && 'slug' in nextLesson) {
-        router.push(`/modules/${module.slug.current}/${nextLesson.slug}`)
-      }
-    }
-  }, [toggleClicked, moduleProgress, optimisticallyToggled])
-
   const handleToggleLessonProgress = async () => {
-    setToggleClicked(true)
     setOptimisticallyToggled(!optimisticallyToggled)
 
     return await toggleProgressMutation.mutateAsync(
@@ -67,6 +52,33 @@ const LessonCompleteToggle = () => {
         lessonSlug: lessonSlug as string,
       },
       {
+        onSuccess: (data) => {
+          console.log({data})
+          if (
+            'completedAt' in data &&
+            data?.completedAt &&
+            flattenedLessons &&
+            flattenedLessons[currentLessonIndex + 1]
+          ) {
+            reward()
+            router.push(
+              `/modules/${module.slug.current}/${
+                flattenedLessons[currentLessonIndex + 1]?.slug
+              }`,
+            )
+          } else if (moduleCompleted) {
+            router.push(`/modules/${module.slug.current}/completed`)
+          } else if ((data && !('completedAt' in data)) || !data?.completedAt) {
+          } else {
+            reward()
+            toast.success(
+              "You have more lessons in this module before it's fully completed",
+              {
+                duration: 5000,
+              },
+            )
+          }
+        },
         onError: (error: any) => {
           setOptimisticallyToggled((value) => !value)
           toast.error(`Error setting lesson progress.`)
@@ -126,9 +138,9 @@ const LessonCompleteToggle = () => {
               }}
               initial={false}
             >
-              Complete
+              Complete and Continue
               {/* prettier-ignore */}
-              {/* <svg className="ml-2" width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></g></svg> */}
+              <svg className="ml-2" width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></g></svg>
             </motion.div>
           </div>
         </motion.button>
