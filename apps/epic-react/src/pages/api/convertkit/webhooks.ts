@@ -12,7 +12,7 @@ import {v4} from 'uuid'
 import {updateSubscriber} from '@skillrecordings/convertkit-sdk'
 import format from 'date-fns/format'
 
-const FORTY_PERCENT_OFF_COUPON_ID = 'kcd_73aa8f63-fd91-407c-b3f2-c270542bb945'
+const FORTY_PERCENT_OFF_COUPON_ID = 'kcd_d9993875-b6e4-4e67-9a09-0949f6b3b042'
 const EPIC_REACT_PRO_PRODUCT_ID = 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38'
 
 const convertkitWebhooks = async (
