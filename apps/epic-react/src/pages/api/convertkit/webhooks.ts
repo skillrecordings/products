@@ -24,6 +24,7 @@ const convertkitWebhooks = async (
   }
 
   if (req.method === 'POST') {
+    console.log({body: req.body})
     const {subscriber} = req.body
 
     const now = new Date()
