@@ -19,7 +19,8 @@ const convertkitWebhooks = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  if (req.query.api_key === process.env.SKILL_CONVERTKIT_SECRET) {
+  if (req.query.api_key !== process.env.SKILL_CONVERTKIT_SECRET) {
+    console.log('convertkit api secret does not match', req.query, req.body)
     return res.status(200).end()
   }
 
