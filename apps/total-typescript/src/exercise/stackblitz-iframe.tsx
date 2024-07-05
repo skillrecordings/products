@@ -115,12 +115,8 @@ export const getStackblitzUrl = ({
   stackblitz,
   isEmbed = Number(true),
 }: {
-  module: {
-    github?: {
-      repo?: string | null
-    }
-  }
-  exercise: {_type: string}
+  module: Module
+  exercise: Lesson
   stackblitz: string | null | undefined
   isEmbed?: number
 }) => {
