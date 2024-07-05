@@ -1,4 +1,8 @@
-import {getStartCommand} from './stackblitz-iframe'
+import {
+  SECTION_NOT_DETECTED,
+  getSectionNumFromPath,
+  getStartCommand,
+} from './stackblitz-iframe'
 
 describe('getStartCommand', () => {
   it.each([
@@ -40,4 +44,19 @@ describe('getStartCommand', () => {
       expect(getStartCommand({_type}, stackblitz)).toEqual(result)
     },
   )
+})
+
+describe('getSectionNumFromPath', () => {
+  it.each([
+    ['src/02-unions-and-indexing/05-terminology.problem.ts', '02'],
+    ['src/05-terminology.problem.ts', SECTION_NOT_DETECTED],
+    ['src/something.ts', SECTION_NOT_DETECTED],
+    ['src/05-terminology', SECTION_NOT_DETECTED],
+    ['src/02-wonderful/05-terminology', '02'],
+    ['src/010-something-else/02-wonderful/05-terminology', '02'],
+    ['src/010-something-else/040-wonderful/05-terminology', '040'],
+    ['src/040-wonderful-520/05-terminology', '040'],
+  ])(`Should calculate the right section number`, (type, result) => {
+    expect(getSectionNumFromPath(type)).toEqual(result)
+  })
 })

@@ -53,13 +53,19 @@ export const StackBlitzIframe: React.FC<{
   )
 }
 
-const findLastPathPartStartingWithANumber = (path: string) => {
+const findAllPathPartsStartingWithANumber = (path: string) => {
   const split = path.split('/')
 
-  return split.findLast((part) => {
+  return split.filter((part) => {
     const firstChar = part[0]
     return !isNaN(Number(firstChar))
   })
+}
+
+const findLastPathPartStartingWithANumber = (path: string) => {
+  const parts = findAllPathPartsStartingWithANumber(path)
+
+  return parts[parts.length - 1]
 }
 
 const DEFAULT = 'e-01'
@@ -67,13 +73,13 @@ const DEFAULT = 'e-01'
 // Figures out start command: e.g. s-01, e-02, etc
 export const getStartCommand = (
   exercise: {_type: string},
-  stackblitz: string | null | undefined,
+  fileUrl: string | null | undefined,
 ) => {
   // Reasonably sensbile fallback, not sure
   // what we should do when Stacblitz is not defined
-  if (!stackblitz) return DEFAULT
+  if (!fileUrl) return DEFAULT
 
-  const pathPart = findLastPathPartStartingWithANumber(stackblitz)
+  const pathPart = findLastPathPartStartingWithANumber(fileUrl)
 
   if (!pathPart) return DEFAULT
 
@@ -84,19 +90,58 @@ export const getStartCommand = (
   return startCommand
 }
 
+export const SECTION_NOT_DETECTED = Symbol('SECTION_NOT_DETECTED')
+
+export const getSectionNumFromPath = (path: string | null | undefined) => {
+  if (!path) return SECTION_NOT_DETECTED
+
+  const pathPartsStartingWithNumber = findAllPathPartsStartingWithANumber(path)
+  const secondToLastPart =
+    pathPartsStartingWithNumber[pathPartsStartingWithNumber.length - 2]
+
+  if (!secondToLastPart) return SECTION_NOT_DETECTED
+
+  const sectionNum = secondToLastPart.split('-')[0]!
+
+  return sectionNum
+}
+
+// TODO - delete once all repos have section repo creation set up
+export const REPOS_WITH_SECTIONS = ['pro-essentials-workshop']
+
 export const getStackblitzUrl = ({
   module,
   exercise,
   stackblitz,
   isEmbed = Number(true),
 }: {
-  module: Module
-  exercise: Lesson
+  module: {
+    github?: {
+      repo?: string | null
+    }
+  }
+  exercise: {_type: string}
   stackblitz: string | null | undefined
   isEmbed?: number
 }) => {
-  const githubOrg = 'total-typescript'
-  const githubRepo = module.github?.repo
+  const sectionNum = getSectionNumFromPath(stackblitz)
+  /**
+   * If the repo uses sections (not all of them do), then
+   * we need to append the section number to the repo name
+   * and grab them from the mattpocock github user.
+   *
+   * This is because sections are being created as separate
+   * repos in the mattpocock github account to save on
+   * Stackblitz loading time.
+   */
+  const usesSections =
+    sectionNum !== SECTION_NOT_DETECTED &&
+    REPOS_WITH_SECTIONS.includes(module.github?.repo!!!)
+
+  const githubOrg = usesSections ? 'mattpocock' : 'total-typescript'
+  const githubRepo = usesSections
+    ? `${module.github?.repo}-${sectionNum}`
+    : module.github?.repo
   const clickToLoad = Number(false)
   const startCommand = getStartCommand(exercise, stackblitz)
   const embedUrl = `https://stackblitz.com/github/${githubOrg}/${githubRepo}?file=${stackblitz}&embed=${isEmbed}&view=editor&hideExplorer=1&ctl=${clickToLoad}&terminal=${startCommand}`
