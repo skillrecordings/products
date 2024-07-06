@@ -107,7 +107,10 @@ export const getSectionNumFromPath = (path: string | null | undefined) => {
 }
 
 // TODO - delete once all repos have section repo creation set up
-export const REPOS_WITH_SECTIONS = ['pro-essentials-workshop']
+export const REPOS_WITH_SECTIONS = [
+  'pro-essentials-workshop',
+  'react-typescript-tutorial',
+]
 
 export const getStackblitzUrl = ({
   module,
