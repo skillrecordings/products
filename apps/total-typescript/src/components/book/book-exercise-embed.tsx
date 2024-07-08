@@ -275,7 +275,7 @@ export const ExerciseEmbed = ({
     )
   }
 
-  return resourceId ? (
+  return resourceId && exercise ? (
     <WithVideo />
   ) : (
     <div className="not-prose relative mt-10 flex flex-col items-center gap-5 rounded-lg bg-[#1B222F] px-5 pb-8 pt-2 sm:px-6">
