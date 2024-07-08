@@ -198,6 +198,12 @@ const articles = {
     excerpt:
       'I still remember when I first heard about React. It was January 2014. I was listening to a podcast. Pete Hunt and Jordan Walke were on talking about this framework they created at Facebook that with no support for two way data-binding, no built-in HTTP library, no dependency injection, and in place of templates it had this weird XML-like syntax for the UI. And to top it all off, I was listening to it while driving to the first ever ng-conf.',
   },
+  'what-is-react': {
+    title: 'What is React?',
+    slug: 'what-is-react',
+    date: '2024-07-08',
+    excerpt: `Let's contextualize the most widely used UI framework in the world: React.`
+  }
 }
 
 export default articles
