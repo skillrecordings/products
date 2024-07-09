@@ -30,7 +30,7 @@ const MoreArticles: React.FC<{articles: Article[]}> = ({articles}) => {
         </h2>
         <ul className="grid gap-5 leading-relaxed md:grid-cols-2">
           {articles.map((article) => (
-            <li className="flex w-full">
+            <li className="flex w-full" key={article._id}>
               <ArticleTeaser article={article} />
             </li>
           ))}
