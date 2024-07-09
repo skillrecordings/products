@@ -46,7 +46,7 @@ for (const databaseName of Object.keys(databases)) {
 const writeStringToFile = (path: string, data: string) => {
   try {
     fs.writeFileSync(path, data, 'utf8')
-    console.log('Data successfully saved to disk')
+    console.log(`Data successfully saved to disk -- ./${path}`)
   } catch (error) {
     console.log('An error has occurred ', error)
   }
