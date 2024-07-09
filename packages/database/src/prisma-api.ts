@@ -280,10 +280,12 @@ export function getSdk(
       userId,
       lessonId,
       lessonSlug,
+      moduleId,
     }: {
       userId: string
       lessonId?: string
       lessonSlug?: string
+      moduleId?: string
     }) {
       let lessonProgress = await ctx.prisma.lessonProgress.findFirst({
         where: {
@@ -319,6 +321,7 @@ export function getSdk(
             userId,
             lessonId,
             lessonSlug,
+            moduleId,
             completedAt: now,
             updatedAt: now,
           },

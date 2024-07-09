@@ -43,7 +43,7 @@ const lessonStructureSubQuery = `resources[@->._type in [${toQuotedList(
   "slug": slug.current,
 }`
 
-const moduleStructureQuery = groq`*[_type == "module" && slug.current == $slug][0]{
+const moduleStructureQuery = groq`*[_type == "module" && (slug.current == $slug || _id == $id)][0]{
   _id,
   title,
   "slug": slug.current,
@@ -71,8 +71,14 @@ const moduleStructureQuery = groq`*[_type == "module" && slug.current == $slug][
   }
 }`
 
-export const getModuleStructure = async (slug: string) => {
-  const result = await sanityClient.fetch(moduleStructureQuery, {slug})
+export const getModuleStructure = async ({
+  id = '',
+  slug = '',
+}: {
+  id?: string
+  slug?: string
+}) => {
+  const result = await sanityClient.fetch(moduleStructureQuery, {slug, id})
 
   return ModuleSchema.parse(result)
 }

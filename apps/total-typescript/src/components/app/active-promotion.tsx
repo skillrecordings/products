@@ -9,6 +9,7 @@ import Image from 'next/image'
 import {isBefore, subDays} from 'date-fns'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Sparkle from 'react-sparkle'
+import {useReducedMotion} from 'framer-motion'
 
 const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
   className,
@@ -25,6 +26,7 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
     DAYS_TO_WAIT_BETWEEN_SHOWING_DISMISSED_PROMOTION,
   )
   const lastDismissed = getCookie()?.dismissed_on
+  const shouldReduceMotion = useReducedMotion()
 
   React.useEffect(() => {
     if (!lastDismissed) {
@@ -67,14 +69,16 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
       >
         <span className="absolute left-[-52px] top-0 origin-top-right scale-75 bg-yellow-300 px-1 font-sans text-xs font-semibold uppercase text-black">
           Sale
-          <Sparkle
-            flickerSpeed="slowest"
-            count={10}
-            color="rgb(253, 224, 71)"
-            flicker={false}
-            fadeOutSpeed={10}
-            overflowPx={15}
-          />
+          {!shouldReduceMotion && (
+            <Sparkle
+              flickerSpeed="slowest"
+              count={10}
+              color="rgb(253, 224, 71)"
+              flicker={false}
+              fadeOutSpeed={10}
+              overflowPx={15}
+            />
+          )}
         </span>
         <div className="flex flex-col text-[13px] transition hover:text-primary">
           <span className="text-balance font-semibold text-white">
@@ -127,14 +131,16 @@ const ActivePromotion: React.FC<{className?: string; isMinified: boolean}> = ({
         </Button>
         <span className="relative inline-flex rounded-b-sm bg-yellow-300 px-2 py-0.5 font-sans text-xs font-semibold uppercase text-black">
           Save {Number(activePromotion.percentageDiscount) * 100}%
-          <Sparkle
-            flickerSpeed="slowest"
-            count={10}
-            color="rgb(253, 224, 71)"
-            flicker={false}
-            fadeOutSpeed={10}
-            overflowPx={15}
-          />
+          {!shouldReduceMotion && (
+            <Sparkle
+              flickerSpeed="slowest"
+              count={10}
+              color="rgb(253, 224, 71)"
+              flicker={false}
+              fadeOutSpeed={10}
+              overflowPx={15}
+            />
+          )}
         </span>
         <div className="flex w-full flex-col items-center pt-3 text-[13px]">
           {activePromotion?.product?.image?.url && (
