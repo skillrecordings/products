@@ -9,12 +9,14 @@ function sortByUpdatedAt(lessons: LessonProgress[]) {
 
 export async function getModuleProgress({
   moduleSlug,
+  moduleId,
   userId,
 }: {
-  moduleSlug: string
+  moduleSlug?: string
+  moduleId?: string
   userId: string
 }) {
-  const module = await getModuleStructure(moduleSlug)
+  const module = await getModuleStructure({id: moduleId, slug: moduleSlug})
 
   type LessonStructure = NonNullable<ResourceStructure['resources']>[0]
 
