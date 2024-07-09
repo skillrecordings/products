@@ -83,7 +83,6 @@ export const HomeTemplate: React.FC<
       }}
     >
       <Header level={skillLevel} />
-      <Companies />
       <main className="overflow-x-hidden">
         <Copy level={skillLevel} />
         {isSellingLive ? (
@@ -96,11 +95,12 @@ export const HomeTemplate: React.FC<
               src={require('../../public/assets/feather@2x.png')}
               alt=""
               aria-hidden="true"
-              className="mb-16 max-w-[300px] -rotate-12 sm:max-w-full"
+              className="-mt-24 mb-16 max-w-[300px] -rotate-12 sm:-mt-32 sm:mb-24 sm:max-w-full"
             />
             <h2 className="mx-auto max-w-screen-lg text-balance px-3 text-center font-heading text-3xl font-bold sm:text-5xl lg:text-6xl xl:text-6xl">
               Your Total TypeScript Adventure Starts Now
             </h2>
+            <Companies />
             <div className="flex w-full flex-col items-center px-5 pb-0 pt-12 sm:pb-24">
               <section className="pt-32">
                 <div className="flex flex-col-reverse gap-40 lg:flex lg:flex-row lg:gap-0">
@@ -160,7 +160,6 @@ export const HomeTemplate: React.FC<
           <SubscribeToNewsletter level={skillLevel} />
         )}
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-        <Companies />
       </main>
     </Layout>
   )

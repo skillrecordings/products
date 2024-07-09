@@ -1,4 +1,8 @@
 import React from 'react'
+import Prism from 'prismjs'
+import 'prismjs/components/prism-bash'
+import 'prismjs/components/prism-jsx'
+import 'prismjs/components/prism-tsx'
 import {
   Highlight,
   themes,
@@ -8,6 +12,8 @@ import {
   TokenInputProps,
 } from 'prism-react-renderer'
 
+type ExtendedLanguage = Language | 'bash'
+
 interface CodeBlockProps {
   children: React.ReactNode
   className?: string
@@ -15,8 +21,8 @@ interface CodeBlockProps {
 
 const CodeBlock: React.FC<CodeBlockProps> = ({children, className}) => {
   const language = className
-    ? (className.replace(/language-/, '') as Language)
-    : 'typescript'
+    ? (className.replace(/language-/, '') as ExtendedLanguage)
+    : 'tsx'
 
   const code = React.isValidElement(children)
     ? children.props.children
@@ -31,6 +37,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({children, className}) => {
       theme={themes.nightOwl as PrismTheme}
       code={code.trim()}
       language={language}
+      prism={Prism as any}
     >
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <pre

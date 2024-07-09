@@ -32,7 +32,7 @@ const ArticlesPage: NextPage<ArticlesPageProps> = ({articles}) => {
           Epic React Articles
         </h1>
         <Divider className="mb-16 mt-10" />
-        <ul className="grid gap-5 sm:gap-8 md:grid-cols-2">
+        <ul className="grid gap-5 pb-16 sm:gap-8 md:grid-cols-2">
           {articles.map((article, index) => (
             <li key={index} className="flex">
               <article>

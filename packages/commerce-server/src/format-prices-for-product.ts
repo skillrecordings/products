@@ -206,7 +206,7 @@ export async function formatPricesForProduct(
     throw new PriceFormattingError(`no-product-found`, noContextOptions)
   }
 
-  const price = await getPrice({where: {productId}})
+  const price = await getPrice({where: {productId, status: 1}})
 
   if (!price) throw new PriceFormattingError(`no-price-found`, noContextOptions)
 
@@ -234,15 +234,22 @@ export async function formatPricesForProduct(
     })
   }
 
+  const unitPrice: number = price.unitAmount.toNumber()
+
+  const maxFixedDiscount = unitPrice * quantity
+
   // Right now, we have fixed discounts to apply to upgrades for indvidual
   // purchases. If it is a bulk purchase, a fixed discount shouldn't be
   // applied. It's likely this will change in the future, so this allows us
   // to handle both and distinguishes them as two different flows.
-  const fixedDiscountForUpgrade = result.bulk
+  const initialFixedDiscountForUpgrade = result.bulk
     ? 0
     : await fireFixedDiscountForIndividualUpgrade()
+  const fixedDiscountForUpgrade = Math.min(
+    initialFixedDiscountForUpgrade,
+    maxFixedDiscount,
+  )
 
-  const unitPrice: number = price.unitAmount.toNumber()
   const fullPrice: number = unitPrice * quantity - fixedDiscountForUpgrade
 
   const percentOfDiscount = appliedMerchantCoupon?.percentageDiscount.toNumber()

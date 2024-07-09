@@ -786,15 +786,13 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
 
   return (
     <OverlayWrapper data-video-overlay="loading" dismissable={false}>
-      <div>
+      <div className="w-full h-full">
         <>
           {videoResourceId && (
-            <Image
-              data-image=""
+            <img
               src={thumbnail}
-              fill
+              className="object-cover h-full w-full"
               alt=""
-              aria-hidden="true"
             />
           )}
           {loadingIndicator}
