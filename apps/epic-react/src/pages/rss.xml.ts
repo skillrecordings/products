@@ -1,6 +1,7 @@
 import {GetServerSideProps} from 'next'
 import {Feed} from 'feed'
 import config from '../config'
+import {getAllArticles} from '@/lib/articles'
 
 const hostUrl = process.env.NEXT_PUBLIC_URL
 
@@ -28,7 +29,7 @@ const buildFeed = (items: any) => {
     title: process.env.NEXT_PUBLIC_SITE_TITLE,
     description: config.description,
     copyright: 'Copyright © ' + new Date().getFullYear() + ' ' + config.author,
-    updated: new Date(items[0].date),
+    updated: new Date(items[0]._createdAt),
     author: {
       name: config.author,
       link: hostUrl,
@@ -39,7 +40,7 @@ const buildFeed = (items: any) => {
     feed.addItem({
       title: item.title,
       link: `${hostUrl}/${item.slug}`,
-      description: blocksToText(item.preview),
+      description: item.summary || item.description,
       date: new Date(item.date),
     })
   })
@@ -51,9 +52,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (context && context.res) {
     const {res} = context
 
-    // const articles = await getAllArticles()
+    const articles = await getAllArticles()
 
-    const feed = buildFeed([] /* replace with articles etc */)
+    const feed = buildFeed([...articles] /* replace with articles etc */)
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
     res.setHeader('content-type', 'text/xml')
     res.write(feed.rss2()) // NOTE: You can also use feed.atom1() or feed.json1() for other feed formats

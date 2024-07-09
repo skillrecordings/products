@@ -38,14 +38,16 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'resources',
-      title: 'Resources',
-      type: 'array',
-      of: [
-        defineArrayMember({type: 'linkResource'}),
-        defineArrayMember({type: 'tweet'}),
-        defineArrayMember({type: 'reference', to: [{type: 'article'}]}),
-      ],
+      name: 'date',
+      title: 'Date',
+      type: 'datetime',
+      initialValue: () => new Date().toISOString(),
+    }),
+    defineField({
+      name: 'summary',
+      title: 'Summary',
+      description: 'Used in teaser card on Articles index page.',
+      type: 'markdown',
     }),
     defineField({
       name: 'body',
@@ -55,10 +57,21 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'summary',
-      title: 'Summary',
-      description: 'Used in teaser card on Articles index page.',
-      type: 'markdown',
+      name: 'description',
+      title: 'Short Description',
+      description: 'Used as a short "SEO" summary on Twitter cards etc.',
+      type: 'text',
+      validation: (Rule) => Rule.max(160),
+    }),
+    defineField({
+      name: 'resources',
+      title: 'Resources',
+      type: 'array',
+      of: [
+        defineArrayMember({type: 'linkResource'}),
+        defineArrayMember({type: 'tweet'}),
+        defineArrayMember({type: 'reference', to: [{type: 'article'}]}),
+      ],
     }),
     defineField({
       name: 'image',
@@ -73,13 +86,6 @@ export default defineType({
       description:
         'Used as a preview image on Twitter cards etc. Size should be 1200×630.',
       type: 'cloudinary.asset',
-    }),
-    defineField({
-      name: 'description',
-      title: 'Short Description',
-      description: 'Used as a short "SEO" summary on Twitter cards etc.',
-      type: 'text',
-      validation: (Rule) => Rule.max(160),
     }),
   ],
   preview: {
