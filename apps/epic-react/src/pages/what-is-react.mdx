@@ -17,12 +17,12 @@ Let’s go a little deeper and look at the pieces that make up React.
 The foundational component of user interfaces built with React are elements:
 
 ```tsx
-import { createElement } from 'react'
+import {createElement} from 'react'
 
 const element = createElement(
-	'button',
-	{ onClick: () => console.log('clicked!') },
-	'Click me!',
+  'button',
+  {onClick: () => console.log('clicked!')},
+  'Click me!',
 )
 ```
 
@@ -61,7 +61,7 @@ create that same button like this
 
 ```tsx
 const element = (
-	<button onClick={() => console.log('clicked!')}>Click me!</button>
+  <button onClick={() => console.log('clicked!')}>Click me!</button>
 )
 ```
 
@@ -91,7 +91,7 @@ is an object received by your component:
 
 ```tsx
 function ClickMeButton(props) {
-	return <button onClick={props.onClick}>Click me!</button>
+  return <button onClick={props.onClick}>Click me!</button>
 }
 ```
 
@@ -128,12 +128,12 @@ together and offer something like this:
 
 ```tsx
 <Tabs defaultValue="account">
-	<TabsList>
-		<TabsTrigger value="account">Account</TabsTrigger>
-		<TabsTrigger value="password">Password</TabsTrigger>
-	</TabsList>
-	<TabsContent value="account">Make changes to your account here.</TabsContent>
-	<TabsContent value="password">Change your password here.</TabsContent>
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">Make changes to your account here.</TabsContent>
+  <TabsContent value="password">Change your password here.</TabsContent>
 </Tabs>
 ```
 
@@ -156,9 +156,9 @@ changes:
 
 ```tsx
 function Counter() {
-	const [count, setCount] = useState(0)
-	const increment = () => setCount((c) => c + 1)
-	return <button onClick={increment}>Current Count: {count}</button>
+  const [count, setCount] = useState(0)
+  const increment = () => setCount((c) => c + 1)
+  return <button onClick={increment}>Current Count: {count}</button>
 }
 ```
 
@@ -192,7 +192,5 @@ import ArticleTemplate from '@/templates/article-template'
 import articles from '@/content/articles'
 
 export default ({children}) => (
-  <ArticleTemplate meta={articles['what-is-react']}>
-    {children}
-  </ArticleTemplate>
+  <ArticleTemplate meta={articles['what-is-react']}>{children}</ArticleTemplate>
 )
