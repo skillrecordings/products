@@ -1,13 +1,9 @@
 import * as React from 'react'
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
-
-import {type PodcastFrontMatter} from '@/@types/mdx-podcast'
+import {PodcastFrontMatter} from '@/@types/mdx-podcast'
 import PodcastTemplate from '@/templates/podcast-template'
+import {getPodcastData, getAllPodcasts} from '@/utils/get-podcasts'
 
 export interface PodcastPageProps {
   allPodcasts: PodcastFrontMatter[]
@@ -17,39 +13,15 @@ export interface PodcastPageProps {
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   try {
-    const slug = params?.podcast
-    const directory = path.join(process.cwd(), 'src/content/podcast')
-    const subfolder = fs
-      .readdirSync(directory)
-      .find((dir) => dir.endsWith(slug as string))
-    if (!subfolder) throw new Error('Podcast not found')
-
-    const filePath = path.join(directory, subfolder, 'index.mdx')
-    const fileContents = fs.readFileSync(filePath, 'utf8')
-    const {content, data} = matter(fileContents)
-    const mdxSource = await serializeMDX(content, {scope: data})
-
-    const allPodcasts = fs.readdirSync(directory).map((subfolder) => {
-      const file = fs.readFileSync(
-        path.join(directory, subfolder, 'index.mdx'),
-        'utf8',
-      )
-      const {data} = matter(file)
-      return {
-        title: data.title,
-        slug: subfolder.replace(/^\d{2}-/, ''),
-        number: data.number,
-        description: data.description,
-        simplecastId: data.simplecastId,
-        image: data.image,
-      }
-    })
+    const slug = params?.podcast as string
+    const {mdxSource, frontMatter} = await getPodcastData(slug)
+    const allPodcasts = getAllPodcasts()
 
     return {
       props: {
         allPodcasts,
         mdx: mdxSource,
-        frontMatter: data,
+        frontMatter,
       },
     }
   } catch (error) {
@@ -59,13 +31,10 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const directory = path.join(process.cwd(), 'src/content/podcast')
-  const subfolders = fs.readdirSync(directory)
-
-  const paths = subfolders.map((subfolder) => {
-    const slug = subfolder.replace(/^\d{2}-/, '')
-    return {params: {podcast: slug}}
-  })
+  const allPodcasts = getAllPodcasts()
+  const paths = allPodcasts.map((podcast) => ({
+    params: {podcast: podcast.slug},
+  }))
 
   return {paths, fallback: 'blocking'}
 }
