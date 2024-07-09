@@ -25,7 +25,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({children, className}) => {
     : 'tsx'
 
   const code = React.isValidElement(children)
-    ? children?.props?.children
+    ? children.props.children
     : children
 
   if (typeof code !== 'string') {
