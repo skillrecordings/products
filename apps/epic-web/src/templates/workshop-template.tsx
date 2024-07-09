@@ -306,7 +306,7 @@ const Header: React.FC<{module: Workshop; canView: boolean}> = ({
               Pro Workshop
             </Link>
           )}
-          <h1 className="font-text text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
+          <h1 className="font-text max-w-[632px] break-words text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
             <Balancer>{title}</Balancer>
           </h1>
           <div className="w-full pt-8 text-lg">
