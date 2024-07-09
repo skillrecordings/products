@@ -16,7 +16,6 @@ const branchName = process.argv[2] || 'preview'
 const databases: {[key: string]: string} = {
   'total-typescript': 'total-typescript',
   'kcd-products': 'epic-web',
-  'pro-nextjs': 'pro-nextjs',
   'colt-steele': 'colt-steele',
   'devrel-fyi': 'devrel-fyi',
 }
