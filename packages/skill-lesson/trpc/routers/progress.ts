@@ -118,7 +118,7 @@ export const progressRouter = router({
           })
 
           const moduleProgress = await getModuleProgress({
-            moduleId: progress.moduleId ?? '',
+            moduleId: input.moduleId ?? '',
             userId: token.sub,
           })
 
