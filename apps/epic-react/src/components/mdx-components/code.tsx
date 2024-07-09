@@ -1,6 +1,8 @@
 import React from 'react'
 import Prism from 'prismjs'
 import 'prismjs/components/prism-bash'
+import 'prismjs/components/prism-jsx'
+import 'prismjs/components/prism-tsx'
 import {
   Highlight,
   themes,
@@ -20,10 +22,10 @@ interface CodeBlockProps {
 const CodeBlock: React.FC<CodeBlockProps> = ({children, className}) => {
   const language = className
     ? (className.replace(/language-/, '') as ExtendedLanguage)
-    : 'typescript'
+    : 'tsx'
 
   const code = React.isValidElement(children)
-    ? children.props.children
+    ? children?.props?.children
     : children
 
   if (typeof code !== 'string') {

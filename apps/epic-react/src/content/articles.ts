@@ -1,4 +1,13 @@
 const articles = {
+  'what-is-react': {
+    title: 'What is React?',
+    slug: 'what-is-react',
+    date: '2024-07-08',
+    image: '/what-is-react/image@2x.png',
+    socialImage: '/articles-images/what-is-react/card@2x.png',
+    imageAlt: '3d react.js logo',
+    excerpt: `Let's contextualize the most widely used UI framework in the world: React.`,
+  },
   'improve-the-performance-of-your-react-forms': {
     title: 'Improve the Performance of your React Forms',
     slug: 'improve-the-performance-of-your-react-forms',

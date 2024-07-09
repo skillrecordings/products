@@ -1,0 +1,196 @@
+React is a JavaScript library for creating user interfaces and managing user
+interactions. React is used primarily for building web applications in browsers,
+but the component model is so powerful that it can be used to create native
+mobile and desktop applications, images, PDFs, terminal applications, and much
+more.
+
+As a result of React’s success with the component-based model of interface
+composition, many other UI libraries and frameworks have adopted this approach
+with their own flare. However, React has been _(by a large margin)_ **the
+dominant way** to build user interfaces for many years now and will likely
+remain that way as long as you or I continue to develop software on the web.
+
+Let’s go a little deeper and look at the pieces that make up React.
+
+## React’s core building block
+
+The foundational component of user interfaces built with React are elements:
+
+```tsx
+import {createElement} from 'react'
+
+const element = createElement(
+  'button',
+  {onClick: () => console.log('clicked!')},
+  'Click me!',
+)
+```
+
+If we inspect the element that React’s created, it looks like this:
+
+```tsx
+{
+  "$$typeof": Symbol(react.element),
+  "type": "button",
+  "key": null,
+  "ref": null,
+  "props": {
+    "onClick": () => console.log('clicked!'),
+    "children": "Click me!"
+  },
+  "_owner": null,
+  "_store": {}
+}
+```
+
+This object (which I call a “UI descriptor”) is used to generated UI that’s
+native to the environment it’s rendered in. In our case we want to generate UI
+for the browser, so we use the React DOM package to convert this UI into DOM
+nodes that the browser can understand.
+
+This separation between React elements and DOM elements is part of what makes
+your React knowledge (or even code) portable to environments other than the
+browser.
+
+## JSX
+
+Using the `createElement` API directly is not very ergonomic, so when React was
+initially announced it came with a special lightweight syntax addition to
+JavaScript to make it easier to create elements. With that syntax, you can
+create that same button like this
+
+```tsx
+const element = (
+  <button onClick={() => console.log('clicked!')}>Click me!</button>
+)
+```
+
+Because this is a syntax addition that browsers don’t natively run, you need to
+compile your code before the browser can interpret it. You can technically do
+this right in the browser (I built an app I used daily for years that did things
+this way actually), but it’s not optimal.
+
+In most apps, you’ll be using a tool to convert your JavaScript anyway. You’ll
+at least want a minifier to reduce the amount of text you send over the network
+and likely a bundler to reduce the number of files the browser has to load. On
+top of this, especially in anything serious, you’ll want to use TypeScript which
+supports JSX natively.
+
+Writing UI in this way is delightful. It takes most developers just a few hours
+of study and practice to understand how JSX translates to regular JavaScript,
+then you can be highly effective working in the syntax because it’s basically
+just JavaScript anyway.
+
+## Reusable elements: Components
+
+As React is written in JavaScript, you can of course create parameterized
+functions which return React elements. React has formalized this in something
+called a component and it’s how you can create custom React elements. To top it
+off, you can parameterize these components using something called “props” which
+is an object received by your component:
+
+```tsx
+function ClickMeButton(props) {
+  return <button onClick={props.onClick}>Click me!</button>
+}
+```
+
+You can then create that element like other elements:
+
+```tsx
+const element = <ClickMeButton onClick={() => console.log('clicked!')} />
+```
+
+Here’s what that element object looks like:
+
+```tsx
+{
+  "$$typeof": Symbol(react.element),
+  "type": ClickMeButton,
+  "key": null,
+  "ref": null,
+  "props": {
+    "onClick": () => console.log('clicked!')
+  },
+  "_owner": null,
+  "_store": {}
+}
+```
+
+When React is ready to render this UI, it will call your function with the props
+to retrieve the other elements it needs to render.
+
+This API enables React components to compose together in beautifully powerful
+ways that a decade later we’re still benefitting from. It enables us to build
+highly reusable abstractions. For example, you could package up all the
+accessibility requirements for a tabs UI in a couple components that work
+together and offer something like this:
+
+```tsx
+<Tabs defaultValue="account">
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">Make changes to your account here.</TabsContent>
+  <TabsContent value="password">Change your password here.</TabsContent>
+</Tabs>
+```
+
+Composition is the name of the game when it comes to React, even between
+server-only code which generates the UI and client-side code which makes the UI
+interactive. Speaking of making the UI interactive…
+
+## Updating UIs with React
+
+React not only helps you generate the initial UI, but also manage changes to
+that UI over time. Whether you’re building an interactive experience for users,
+or a dashboard that updates in the background, React will help you keep your UI
+up-to-date.
+
+Data is used to generate the UI. When that data can change over time, we call it
+state. In React, you can manage this state a number of ways, but the primary
+mechanism is via a function called `useState` . This function can only be used
+within custom components so React knows what UI to update when the state
+changes:
+
+```tsx
+function Counter() {
+  const [count, setCount] = useState(0)
+  const increment = () => setCount((c) => c + 1)
+  return <button onClick={increment}>Current Count: {count}</button>
+}
+```
+
+Whenever the user clicks the button, `setCount` is called which notifies React
+that the state value needs to be changed and React needs to retrieve the new
+elements based on that new value.
+
+As mentioned, there are several ways to manage state built-into React, but the
+basic idea is always the same: an update happens, React calls the component
+again with the updated value, React compares what you return this time with what
+was returned last time and updates the DOM accordingly. In our case the
+`textContent` of the `button` will be updated each time the button is clicked.
+
+## So, what is React?
+
+Like I said at the start, React is a JavaScript library for creating user
+interfaces and managing user interactions. There are of course more things to
+talk about when it comes to building web applications with the most widely used
+tool in the business with the biggest ecosystem, but this is as far as we’ll
+take it today.
+
+I’m going to be publishing a lot of articles diving deeper in these aspects and
+others (so sign up to be notified when they become available!).
+
+React has evolved over the last more than decade since its original release, but
+the core concept of composability has remained and been pushed further and
+further over the years. I’ve never been more excited about building applications
+with React and it just keeps getting better. Thanks for joining me for the ride!
+
+import ArticleTemplate from '@/templates/article-template'
+import articles from '@/content/articles'
+
+export default ({children}) => (
+  <ArticleTemplate meta={articles['what-is-react']}>{children}</ArticleTemplate>
+)
