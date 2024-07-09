@@ -18,6 +18,7 @@
 @import './transcript.css';
 @import './team.css';
 @import '../../node_modules/simplebar-react/dist/simplebar.min.css';
+@import './redeem-dialog.css';
 
 @layer base {
   :root {

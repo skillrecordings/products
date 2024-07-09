@@ -74,8 +74,11 @@ const PricingSection: React.FC<{
   })
 
   return (
-    <div className="relative z-0">
-      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+    <div className="relative z-30">
+      <div
+        className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8"
+        id="pricing-tiers"
+      >
         <PricingTiers
           products={productsWithOptions}
           userId={userId}
