@@ -2,74 +2,59 @@ import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Balancer from 'react-wrap-balancer'
+import {type ArticlePageProps} from '../pages/[article]'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {ArticleJsonLd} from '@skillrecordings/next-seo'
-
+import ReactAndStaleClosuresDemo from '@/components/mdx-components/how-react-uses-closures-to-avoid-bugs'
 import {getIsoDate} from '@/utils/get-iso-date'
 import config from '@/config'
-import {type Article} from '@/@types/mdx-article'
+import {type Article} from '@/lib/articles'
 import Layout from '@/components/app/layout'
 import Divider from '@/components/divider'
 import ShareCta from '@/components/share-cta'
 import SubscribeToReactEmailCourseCta from '@/components/subscribe-react-email-course-cta'
 import {truncate} from 'lodash'
 import articlesObj from '@/content/articles'
+import {MDXRemote, type MDXRemoteSerializeResult} from 'next-mdx-remote'
+import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
+import ResourceContributor from '@/components/resource-contributor'
+import {ChevronLeftIcon} from '@heroicons/react/outline'
+import {ArticleTeaser} from '@/pages/articles'
 
-interface ArticleTemplateProps {
-  meta: Article
-  children: any
-}
-
-const YouMightAlsoLike: React.FC<{articles: Article[]}> = ({articles}) => {
+const MoreArticles: React.FC<{articles: Article[]}> = ({articles}) => {
   return (
-    <section className="mx-auto max-w-screen-lg pb-24">
-      <h2 className="mb-8 text-sm uppercase text-er-gray-700 opacity-75">
-        Additional Articles You Might Also Like
-      </h2>
-      <ul className="grid gap-8 leading-relaxed md:grid-cols-2">
-        {articles.map((article: Article) => {
-          return (
-            <li key={article.slug}>
-              <Link
-                href={`/${article.slug}`}
-                className="flex transform flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-er-gray-200 text-center transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-xl sm:flex-row sm:text-left"
-              >
-                <div className="relative aspect-[350/166] h-full w-full shrink-0 overflow-hidden sm:aspect-[auto] sm:min-h-[120px] sm:w-56 md:w-[45%]">
-                  <Image
-                    src={`/articles-images${article.image}`}
-                    alt={article.imageAlt}
-                    fill
-                    sizes="(max-width: 768px) 690px, 460px"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="w-full p-6 sm:p-5">
-                  <h3 className="line-clamp-3 text-xl font-semibold leading-tight">
-                    {article.title}
-                  </h3>
-                </div>
-              </Link>
+    <section className="flex w-full flex-col items-center justify-center bg-gray-50 py-10 dark:bg-gray-950/50 sm:py-24">
+      <div className="w-full max-w-screen-lg px-5">
+        <h2 className="mb-8 text-sm uppercase text-er-gray-700 opacity-75">
+          More Articles
+        </h2>
+        <ul className="grid gap-5 leading-relaxed md:grid-cols-2">
+          {articles.map((article) => (
+            <li className="flex w-full">
+              <ArticleTeaser article={article} />
             </li>
-          )
-        })}
-      </ul>
+          ))}
+        </ul>
+      </div>
     </section>
   )
 }
 
-const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
-  const {title, slug, date, image, socialImage, imageAlt, excerpt} = meta
-  const isoDate = getIsoDate(date)
-  const pageDescription = excerpt
+const ArticleTemplate: React.FC<ArticlePageProps> = ({
+  article,
+  articleBodySerialized,
+  articles,
+  estimatedReadingTime,
+}) => {
+  const {title, slug, image, summary, ogImage} = article
+  const date = article.date || article._createdAt
+  const pageDescription = summary || ''
   const author = config.author
   const url = `${process.env.NEXT_PUBLIC_URL}/${slug}`
   const {subscriber, loadingSubscriber} = useConvertkit()
-  const restArticles: Article[] = Object.values(articlesObj)
-    .sort(
-      (a: Article, b: Article) =>
-        new Date(b.date).getTime() - new Date(a.date).getTime(),
-    )
-    .filter((article) => article.slug !== slug)
+  const allButCurrentArticles = articles.filter(
+    (article) => article.slug !== slug,
+  )
 
   return (
     <Layout
@@ -78,42 +63,50 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
         description: truncate(pageDescription, {length: 155}),
         url,
         ogImage: {
-          url: `${process.env.NEXT_PUBLIC_URL}${socialImage}`,
+          url: ogImage?.secure_url
+            ? ogImage.secure_url
+            : `${process.env.NEXT_PUBLIC_URL}/api/og/article?title=${encodeURI(
+                title,
+              )}`,
           alt: title,
         },
       }}
     >
       <ArticleJsonLd
         title={title}
-        images={image ? [image] : []}
+        images={[]}
         authorName={author}
-        datePublished={isoDate}
-        dateModified={isoDate}
+        datePublished={date}
+        dateModified={date}
         description={pageDescription}
         url={url}
       />
-      <main className="mx-auto w-full px-5 py-8 md:pb-16 md:pt-[19px]">
-        <h1 className="mx-auto mb-4 mt-[68px] max-w-screen-md px-5 text-center text-4xl font-bold leading-tight sm:mt-24 sm:px-0 sm:text-[44px]">
-          <Balancer>{title}</Balancer>
+      <main className="mx-auto flex w-full flex-col items-center px-5 py-10 sm:py-16">
+        <Link
+          href="/articles"
+          className="mb-8 inline-flex items-center gap-1 text-center text-sm opacity-50 transition hover:opacity-75"
+        >
+          <ChevronLeftIcon className="h-3 w-3 transition" /> Articles
+        </Link>
+        <h1 className="mx-auto mb-8 w-full max-w-screen-lg text-balance px-5 text-center text-4xl font-bold leading-tight sm:px-0 sm:text-5xl">
+          {title}
         </h1>
-        <h3 className="mb-10 text-center opacity-75">by {author}</h3>
-        <Divider />
-        <div className="-mx-5 mt-16 max-w-screen-lg overflow-hidden rounded-none lg:mx-auto lg:rounded-lg">
-          <Image
-            src={`/articles-images${image}`}
-            alt={imageAlt}
-            width={2280}
-            height={1080}
+        <ResourceContributor as="div" className="mx-auto" />
+        {/* <Divider /> */}
+        <div className="prose mt-8 w-full max-w-4xl pb-24 md:prose-lg lg:prose-xl sm:pb-32 md:mt-16 md:px-8 lg:mt-16">
+          <MDX
+            contents={articleBodySerialized}
+            components={{
+              ReactAndStaleClosuresDemo,
+            }}
           />
-        </div>
-        <div className="prose mx-auto mt-8 pb-24 md:prose-lg lg:prose-xl sm:pb-32 md:mt-16 md:px-8 lg:mt-24">
-          {children}
+          {/* {children} */}
         </div>
         <Divider />
         {subscriber ? (
-          <ShareCta title={title} slug={slug} />
+          <ShareCta className="mb-0 py-16" title={title} slug={slug} />
         ) : (
-          <div className="py-24 sm:py-32">
+          <div className="py-16">
             <SubscribeToReactEmailCourseCta>
               <h2 className="mb-2 text-center text-2xl font-bold leading-tight sm:text-3xl">
                 Get my free 7-part email course on React!
@@ -124,8 +117,8 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({meta, children}) => {
             </SubscribeToReactEmailCourseCta>
           </div>
         )}
-        <YouMightAlsoLike articles={restArticles} />
       </main>
+      <MoreArticles articles={articles} />
     </Layout>
   )
 }

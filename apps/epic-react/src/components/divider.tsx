@@ -1,9 +1,13 @@
+import {cn} from '@skillrecordings/ui/utils/cn'
 import {motion} from 'framer-motion'
 
 const Divider = ({className = ''}: {className?: string}) => (
   <>
     <motion.div
-      className={`mx-auto w-10 overflow-hidden rounded-lg ${className}`}
+      className={cn(
+        `mx-auto w-10 overflow-hidden rounded-lg text-react`,
+        className,
+      )}
       initial={{opacity: 0, y: 0}}
       animate={{opacity: 1, y: 0}}
       transition={{type: 'spring', mass: 0.2, damping: 80, delay: 0.2}}
@@ -16,7 +20,7 @@ const Divider = ({className = ''}: {className?: string}) => (
           duration: 1.5,
           ease: 'linear',
         }}
-        className="mx-auto w-24 text-react"
+        className="mx-auto w-24"
         width="123"
         height="16"
         viewBox="0 0 123 16"
