@@ -214,16 +214,16 @@ const ExerciseTemplate: React.FC<{
           authorName={`${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`}
           description={pageDescription || ''}
         />
-        <div className="mx-auto mt-5 w-full max-w-7xl px-5 sm:px-6">
+        <div className="mt-5">
           {/* <AnimateSharedLayout> */}
-          <div className="mx-auto grid grid-cols-1 pb-5 sm:pb-16 md:grid-cols-6 md:gap-4">
+          <div className="mx-auto grid grid-cols-1 px-5 pb-5 sm:pb-16 md:grid-cols-6 md:gap-4 xl:px-8">
             <motion.div
               className={isTheaterMode ? ' col-span-6' : 'col-span-4'}
             >
               <div className="-mx-5 md:mx-0">
                 <motion.div
                   layout
-                  className="relative overflow-hidden rounded-none bg-gray-100 md:rounded-md"
+                  className="relative overflow-hidden rounded-none border border-transparent bg-er-gray-100 md:rounded-md md:border-er-gray-200"
                 >
                   <Video
                     product={module?.product as SanityProduct}
@@ -253,7 +253,7 @@ const ExerciseTemplate: React.FC<{
                     />
                   </div>
                   <hr className="border-er-gray-300 opacity-50" />
-                  <div className="md:prose-md prose mx-auto mt-8 max-w-none pb-12 sm:pb-16 md:mt-10 lg:mt-12">
+                  <div className="prose my-8 max-w-none lg:prose-lg">
                     <MDX contents={lessonBodySerialized} />
                     <VideoTranscript transcript={transcript} />
                   </div>
