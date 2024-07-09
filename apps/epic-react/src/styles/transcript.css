@@ -1,7 +1,7 @@
 [data-video-transcript] {
-  @apply [&:not(:last-child)]:mt-12 [&:not(:last-child)]:border-t [&:not(:last-child)]:pt-10;
+  @apply mt-8 border-opacity-50 [&:not(:first-child)]:border-t [&:not(:last-child)]:mt-12 [&:not(:last-child)]:border-t [&:not(:last-child)]:pt-10;
   [data-title] {
-    @apply mt-0;
+    @apply my-8 text-lg font-semibold uppercase tracking-wider;
   }
   [data-timestamp] {
     @apply text-er-primary no-underline hover:underline;

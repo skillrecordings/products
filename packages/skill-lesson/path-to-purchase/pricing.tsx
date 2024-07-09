@@ -31,9 +31,9 @@ import first from 'lodash/first'
 import {AnimatePresence, motion} from 'framer-motion'
 import {buildStripeCheckoutPath} from '../utils/build-stripe-checkout-path'
 import Countdown from 'react-countdown'
-import {get, snakeCase} from 'lodash'
-import {setConvertkitSubscriberFields} from '@skillrecordings/convertkit-sdk'
+import {snakeCase} from 'lodash'
 import pluralize from 'pluralize'
+import isNumber from 'lodash/isNumber'
 
 const getNumericValue = (
   value: string | number | Decimal | undefined,
@@ -944,10 +944,10 @@ export const PriceDisplay = ({
         <>
           <sup aria-hidden="true">US</sup>
           <div aria-live="polite" data-price="">
-            {formattedPrice?.calculatedPrice &&
+            {isNumber(formattedPrice?.calculatedPrice) &&
               formatUsd(formattedPrice?.calculatedPrice).dollars}
             <span className="sup text-sm" aria-hidden="true">
-              {formattedPrice?.calculatedPrice &&
+              {isNumber(formattedPrice?.calculatedPrice) &&
                 formatUsd(formattedPrice?.calculatedPrice).cents}
             </span>
             {Boolean(appliedMerchantCoupon || isDiscount(formattedPrice)) && (

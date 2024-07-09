@@ -9,6 +9,7 @@ export const ArticleSchema = z.object({
   _createdAt: z.string(),
   title: z.string(),
   slug: z.string(),
+  date: z.string().optional().nullable(),
   description: z.nullable(z.string()).optional(),
   summary: z.nullable(z.string()).optional(),
   body: z.string(),
@@ -38,13 +39,14 @@ export type Article = z.infer<typeof ArticleSchema>
 
 export const getAllArticles = async (): Promise<Article[]> => {
   const articles =
-    await sanityClient.fetch(groq`*[_type == "article"] | order(_createdAt asc) {
+    await sanityClient.fetch(groq`*[_type == "article" && state == 'published'] | order(date desc) {
         _id,
         _type,
         _updatedAt,
         _createdAt,
         title,
         state,
+        date,
         "slug": slug.current,
         description,
         summary,
@@ -59,7 +61,7 @@ export const getAllArticles = async (): Promise<Article[]> => {
   return ArticlesSchema.parse(articles)
 }
 
-export const getArticle = async (slug: string): Promise<Article> => {
+export const getArticle = async (slug: string): Promise<Article | null> => {
   const article = await sanityClient.fetch(
     groq`*[_type == "article" && slug.current == $slug][0] {
         _id,
@@ -80,6 +82,10 @@ export const getArticle = async (slug: string): Promise<Article> => {
     }`,
     {slug: `${slug}`},
   )
+
+  if (!article) {
+    return null
+  }
 
   return ArticleSchema.parse(article)
 }

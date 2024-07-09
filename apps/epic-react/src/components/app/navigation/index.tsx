@@ -50,7 +50,7 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
   // TODO: probably additional conditions required
   const showDiscountBar =
     currentSale?.percentageDiscount &&
-    !location.includes('modules') &&
+    !location?.includes('modules') &&
     isAuthenticated
   const purchasedOnlyTeam = isOnlyTeamPurchaser(sessionData?.user)
 
@@ -85,7 +85,7 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
                   cx(
                     'rounded-md px-3 py-2 text-text transition-opacity duration-150 ease-in-out hover:opacity-100 sm:opacity-75',
                     {
-                      'bg-er-gray-200 sm:opacity-100': location.startsWith(
+                      'bg-er-gray-200 sm:opacity-100': location?.startsWith(
                         item.slug,
                       ),
                     },

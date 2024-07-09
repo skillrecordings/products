@@ -6,6 +6,8 @@ import {getToken} from 'next-auth/jwt'
 import {getLesson} from '../../lib/lesson-resource'
 import {LESSON_COMPLETED_EVENT} from '../../inngest/events'
 import {Inngest} from 'inngest'
+import {getModuleProgress} from '../../lib/module-progress'
+import {ModuleProgress} from '../../video/module-progress'
 
 async function sendInngestProgressEvent({
   user,
@@ -100,6 +102,7 @@ export const progressRouter = router({
     .input(
       z.object({
         lessonSlug: z.string(),
+        moduleId: z.string().optional(),
       }),
     )
     .mutation(async ({ctx, input}) => {
@@ -107,10 +110,16 @@ export const progressRouter = router({
       const {findOrCreateUser, toggleLessonProgressForUser} = getSdk()
       try {
         const lesson = await getLesson(input.lessonSlug)
-        if (token) {
+        if (token && token?.sub) {
           const progress = await toggleLessonProgressForUser({
             userId: token.id as string,
             lessonId: lesson._id as string,
+            moduleId: input.moduleId,
+          })
+
+          const moduleProgress = await getModuleProgress({
+            moduleId: progress.moduleId ?? '',
+            userId: token.sub,
           })
 
           if (progress.completedAt) {
@@ -121,7 +130,7 @@ export const progressRouter = router({
             })
           }
 
-          return progress
+          return {progress, moduleProgress}
         } else {
           const subscriberCookie = ctx.req.cookies['ck_subscriber']
 
@@ -144,7 +153,15 @@ export const progressRouter = router({
           const progress = await toggleLessonProgressForUser({
             userId: user.id,
             lessonId: lesson._id as string,
+            moduleId: input.moduleId,
           })
+
+          const moduleProgress: ModuleProgress | {} = progress.moduleId
+            ? await getModuleProgress({
+                moduleSlug: progress.moduleId,
+                userId: user.id,
+              })
+            : {}
 
           if (progress.completedAt) {
             await sendInngestProgressEvent({
@@ -154,7 +171,7 @@ export const progressRouter = router({
             })
           }
 
-          return progress
+          return {progress, moduleProgress}
         }
       } catch (error) {
         console.error(error)

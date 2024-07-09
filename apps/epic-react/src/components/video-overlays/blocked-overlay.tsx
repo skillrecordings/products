@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 const BlockedOverlay = () => (
-  <div className="flex aspect-video w-full flex-col items-center justify-center space-y-6 border border-transparent bg-er-gray-100 p-4 md:rounded-md md:border-er-gray-200">
+  <div className="flex aspect-video w-full flex-col items-center justify-center space-y-6 bg-er-gray-100 p-4 md:rounded-md">
     <h3 className="text-center text-xl leading-tight md:text-2xl">
       You must be logged in to view videos.
     </h3>
