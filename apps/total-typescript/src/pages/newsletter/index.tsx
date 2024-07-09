@@ -7,6 +7,7 @@ import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import Layout from '../../components/app/layout'
 import {useRouter, type NextRouter} from 'next/router'
 import Image from 'next/image'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 const handleOnSubscribe = (
   router: NextRouter,
@@ -92,48 +93,7 @@ const NewsletterPage = () => {
             </span>
           </div>
         </section>
-        <section className="mx-auto flex w-full max-w-screen-lg gap-10 border-t px-5 py-16 sm:py-24">
-          <div className="flex flex-col gap-12 md:flex-row">
-            {testimonials.map(({body, name, image}, i) => {
-              return (
-                <blockquote
-                  key={name}
-                  className="relative flex gap-5 sm:gap-10"
-                >
-                  <div
-                    className="select-none font-heading text-4xl font-bold text-slate-600 sm:text-5xl"
-                    aria-hidden="true"
-                  >
-                    {'”'}
-                  </div>
-                  <div className="relative flex flex-col gap-3">
-                    <p className="text-balance font-normal text-slate-100 sm:text-lg">
-                      <span>"</span>
-                      {body}
-                      <span>"</span>
-                    </p>
-
-                    <footer className="flex items-center gap-2">
-                      <Image
-                        src={image}
-                        alt=""
-                        aria-hidden="true"
-                        className="rounded-full"
-                        priority
-                        quality={100}
-                        width={30}
-                        height={30}
-                      />
-                      <cite className="text-sm not-italic text-slate-300 sm:text-base">
-                        {name}
-                      </cite>
-                    </footer>
-                  </div>
-                </blockquote>
-              )
-            })}
-          </div>
-        </section>
+        <Testimonials />
         {/* <PrimaryNewsletterCta /> */}
       </main>
     </Layout>
@@ -171,5 +131,54 @@ const IconSecure = () => {
         strokeLinejoin="round"
       />
     </svg>
+  )
+}
+
+export const Testimonials = ({className}: {className?: string}) => {
+  return (
+    <section
+      className={cn(
+        'mx-auto flex w-full max-w-screen-lg gap-10 border-t px-5 py-16 sm:py-24',
+        className,
+      )}
+    >
+      <div className="flex flex-col gap-12 md:flex-row">
+        {testimonials.map(({body, name, image}, i) => {
+          return (
+            <blockquote key={name} className="relative flex gap-5 sm:gap-10">
+              <div
+                className="select-none font-heading text-4xl font-bold text-slate-600 sm:text-5xl"
+                aria-hidden="true"
+              >
+                {'”'}
+              </div>
+              <div className="relative flex flex-col gap-3">
+                <p className="text-balance font-normal text-slate-100 sm:text-lg">
+                  <span>"</span>
+                  {body}
+                  <span>"</span>
+                </p>
+
+                <footer className="flex items-center gap-2">
+                  <Image
+                    src={image}
+                    alt=""
+                    aria-hidden="true"
+                    className="rounded-full"
+                    priority
+                    quality={100}
+                    width={30}
+                    height={30}
+                  />
+                  <cite className="text-sm not-italic text-slate-300 sm:text-base">
+                    {name}
+                  </cite>
+                </footer>
+              </div>
+            </blockquote>
+          )
+        })}
+      </div>
+    </section>
   )
 }

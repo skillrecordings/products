@@ -7,10 +7,14 @@ import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-l
 import toast from 'react-hot-toast'
 
 const LessonCompleteToggle = () => {
-  const {module} = useLesson()
+  const {module, lesson} = useLesson()
+  const flattenedLessons = module.sections?.flatMap(
+    (section) => section.lessons,
+  )
+  const currentLessonIndex =
+    flattenedLessons?.findIndex((l) => l?.slug === lesson.slug) ?? 0
   const router = useRouter()
-  const {reward, isAnimating} = useReward('rewardId', 'confetti')
-  const [toggleClicked, setToggleClicked] = React.useState(false)
+  const {reward} = useReward('rewardId', 'confetti')
   const lessonSlug = router.query.lesson
   const {
     data: moduleProgress,
@@ -40,26 +44,39 @@ const LessonCompleteToggle = () => {
       setOptimisticallyToggled(isLessonCompleted)
   }, [moduleProgressStatus, isLessonCompleted])
 
-  React.useEffect(() => {
-    if (toggleClicked && moduleCompleted) {
-      router.push(`/modules/${module.slug.current}/completed`)
-    } else if (toggleClicked && optimisticallyToggled) {
-      reward()
-      router.push(
-        `/modules/${module.slug.current}/${moduleProgress?.nextLesson?.slug}`,
-      )
-    }
-  }, [toggleClicked, moduleProgress, optimisticallyToggled])
-
   const handleToggleLessonProgress = async () => {
-    setToggleClicked(true)
     setOptimisticallyToggled(!optimisticallyToggled)
 
     return await toggleProgressMutation.mutateAsync(
       {
         lessonSlug: lessonSlug as string,
+        moduleId: module._id,
       },
       {
+        onSuccess: (data) => {
+          const {progress, moduleProgress: moduleProgressLessonComplete} = data
+          if (
+            moduleProgressLessonComplete &&
+            'moduleCompleted' in moduleProgressLessonComplete &&
+            moduleProgressLessonComplete.moduleCompleted
+          ) {
+            router.push(`/modules/${module.slug.current}/completed`)
+          } else if (
+            progress?.completedAt &&
+            flattenedLessons &&
+            flattenedLessons[currentLessonIndex + 1]
+          ) {
+            reward()
+            router.push(
+              `/modules/${module.slug.current}/${
+                flattenedLessons[currentLessonIndex + 1]?.slug
+              }`,
+            )
+          } else if (!progress?.completedAt) {
+          } else {
+            reward()
+          }
+        },
         onError: (error: any) => {
           setOptimisticallyToggled((value) => !value)
           toast.error(`Error setting lesson progress.`)

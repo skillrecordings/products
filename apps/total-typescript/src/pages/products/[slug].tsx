@@ -16,13 +16,14 @@ import {getSdk} from '@skillrecordings/database'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {getWorkshop} from '@/lib/workshops'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import {getProduct, type Product} from '@/lib/products'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
   const {getPurchaseDetails} = getSdk()
 
   const token = await getToken({req})
-  const product = await getProductBySlug(params?.slug as string)
+  const product = await getProduct(params?.slug as string)
   const workshop = await getWorkshop(params?.slug as string)
 
   if (!product) {
@@ -34,11 +35,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const commerceProps = await propsForCommerce({
     query,
     token,
-    products: [product],
+    products: [product as any],
   })
 
   if (!token?.sub) {
-    return {props: {...commerceProps.props, workshop}}
+    return {props: {...commerceProps.props, workshop, product}}
   }
 
   const purchaseForProduct = commerceProps.props.purchases?.find(
@@ -48,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   )
 
   if (!purchaseForProduct) {
-    return {props: {...commerceProps.props, workshop}}
+    return {props: {...commerceProps.props, workshop, product}}
   }
 
   const {purchase, existingPurchase} = await getPurchaseDetails(
@@ -81,7 +82,7 @@ export type Purchase = {
 
 export type ProductPageProps = {
   userId: string
-  product: SanityProduct
+  product: Product
   existingPurchase: {id: string; product: {id: string; name: string}}
   purchases: Purchase[]
   hasPurchasedCurrentProduct: boolean

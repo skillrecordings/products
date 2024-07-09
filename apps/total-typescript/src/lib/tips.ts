@@ -16,6 +16,7 @@ export const TipSchema = z.object({
   muxPlaybackId: z.nullable(z.string()).optional(),
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.string()).optional(),
+  duration: z.nullable(z.number()).optional(),
   tweetId: z.string(),
 })
 
@@ -25,7 +26,7 @@ export type Tip = z.infer<typeof TipSchema>
 
 export const getAllTips = async (): Promise<Tip[]> => {
   const tips =
-    await sanityClient.fetch(groq`*[_type == "tip"] | order(_createdAt asc) {
+    await sanityClient.fetch(groq`*[_type == "tip"] | order(_createdAt desc) {
         _id,
         _type,
         _createdAt,
@@ -38,7 +39,8 @@ export const getAllTips = async (): Promise<Tip[]> => {
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
         "slug": slug.current,
         "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
-        "tweetId":  resources[@._type == 'tweet'][0].tweetId
+        "tweetId":  resources[@._type == 'tweet'][0].tweetId,
+        "duration": resources[@->._type == 'videoResource'][0]-> duration,
   }`)
 
   return TipsSchema.parse(tips)

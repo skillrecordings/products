@@ -20,6 +20,7 @@ import ActivePromotion from './active-promotion'
 import Gravatar from 'react-gravatar'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {useActivePromotion} from '@/hooks/use-active-promotion'
+import {EyeIcon, TextIcon} from 'lucide-react'
 
 type Props = {
   className?: string
@@ -118,20 +119,8 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
           path="/tutorials"
           title="Tutorials"
           className="font-medium text-white"
-          labelString="Free Tutorials"
-          label={
-            <>
-              <span
-                className={cx('hidden ', {
-                  'xl:inline-block': isMinified,
-                  'lg:inline-block': !isMinified,
-                })}
-              >
-                Free
-              </span>{' '}
-              Tutorials
-            </>
-          }
+          labelString="Tutorials"
+          label="Tutorials"
           // icon={PlayIcon}
         />
         <NavLink
@@ -146,8 +135,9 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
           className="font-medium text-white"
           // icon={BookIcon}
         />
-        {/* <NavLink
+        <NavLink
           path="/books/total-typescript-essentials"
+          labelString="Book"
           label={
             <>
               Book{' '}
@@ -157,7 +147,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
             </>
           }
           className="font-medium text-white"
-        /> */}
+        />
       </ul>
       <ul className="flex h-full flex-shrink-0 items-center justify-center">
         {status === 'loading' ? null : <SearchBar isMinified={isMinified} />}
@@ -277,7 +267,7 @@ const MobileNav = () => {
               />
               <MobileNavLink
                 path="/tutorials"
-                label="Free Tutorials"
+                label="Tutorials"
                 icon={<PlayIcon />}
               />
               <MobileNavLink
@@ -288,7 +278,25 @@ const MobileNav = () => {
               <MobileNavLink
                 path="/articles"
                 label="Articles"
-                icon={<BookIcon />}
+                icon={
+                  <EyeIcon
+                    className="h-4 w-4 text-purple-300"
+                    aria-hidden="true"
+                  />
+                }
+              />
+              <MobileNavLink
+                path="/books/total-typescript-essentials"
+                labelString="Book"
+                label={
+                  <span className="relative">
+                    Book{' '}
+                    <span className="absolute -right-9 inline-block -translate-y-1 scale-75 rounded bg-white/5 px-1 py-0.5 text-xs font-semibold uppercase tracking-wide text-primary">
+                      New
+                    </span>
+                  </span>
+                }
+                icon={<BookIcon className="text-teal-300" />}
               />
               <MobileNavLink path="/faq" label="FAQ" />
               {status === 'unauthenticated' && (
@@ -398,13 +406,14 @@ const NavLink: React.FC<
 
 const MobileNavLink: React.FC<
   React.PropsWithChildren<{
-    label: string
+    label: string | React.ReactElement
+    labelString?: string
     icon?: React.ReactElement
     path?: string
     className?: string
     onClick?: () => void
   }>
-> = ({onClick, label, icon, path, className}) => {
+> = ({onClick, label, icon, path, labelString, className}) => {
   const item = {
     hidden: {opacity: 0, x: -20},
     show: {opacity: 1, x: 0},
@@ -436,7 +445,7 @@ const MobileNavLink: React.FC<
           className,
         )}
         onClick={() => {
-          track(`clicked ${label} link in nav`)
+          track(`clicked ${labelString || label} link in nav`)
         }}
       >
         {icon ? icon : null}

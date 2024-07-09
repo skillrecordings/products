@@ -55,6 +55,17 @@ const nextConfig = {
   async redirects() {
     return []
   },
+  webpack: (config, {isServer}) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        module: false,
+      }
+    }
+    config.externals = [...(config.externals || []), 'fsevents']
+    return config
+  },
 }
 
 const configWithPlugins = withMDX(nextConfig)

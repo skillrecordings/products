@@ -38,7 +38,7 @@ export const PricingTiers: React.FC<
             const {options, ...product} = productWithOptions
             return (
               <Pricing
-                key={product.name}
+                key={product.productId}
                 userId={userId}
                 product={product}
                 purchased={purchasedProductIds.includes(product.productId)}

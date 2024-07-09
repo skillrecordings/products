@@ -255,6 +255,9 @@
           }
 
           [data-workshops] {
+            [data-description] > p {
+              @apply hidden text-balance pt-1 text-xs font-normal text-foreground;
+            }
             strong {
               @apply pb-4;
             }
@@ -298,6 +301,9 @@
             }
             a {
               @apply hover:underline;
+            }
+            [data-description] > p {
+              @apply text-sm font-normal text-foreground;
             }
             li,
             a {

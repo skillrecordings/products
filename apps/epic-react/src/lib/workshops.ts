@@ -182,21 +182,34 @@ export const getWorkshop = async (slug: string) => {
             "image": image.asset->url
           }
         },
-        "sections": resources[@->._type == 'section']->{
+        "sections": resources[@->._type in ['section', 'explainer']]->{
           _id,
           _type,
           _updatedAt,
           title,
           description,
           "slug": slug.current,
-          "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson']]->{
-            _id,
-            _type,
-            _updatedAt,
-            title,
-            description,
-            workshopApp,
-            "slug": slug.current
+          (_type == 'section') => {
+            "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson']]->{
+              _id,
+              _type,
+              _updatedAt,
+              title,
+              description,
+              workshopApp,
+              "slug": slug.current
+            },
+          },
+          (_type == 'explainer') => {
+            "lessons": [{
+              _id,
+              _type,
+              _updatedAt,
+              title,
+              description,
+              workshopApp,
+              "slug": slug.current
+            }]
           },
           "resources": resources[@->._type in ['linkResource']]->
         },

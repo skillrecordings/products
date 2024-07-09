@@ -32,11 +32,6 @@ const Layout: FunctionComponent<LayoutProps> = ({
   const router = useRouter()
   const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
 
-  const {data: defaultCouponData, status: defaultCouponStatus} =
-    trpc.pricing.defaultCoupon.useQuery()
-
-  const percentageDiscount = defaultCouponData?.percentageDiscount
-
   const {
     title,
     description,
@@ -91,9 +86,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
       <div
         className={cn(
           'flex h-full min-h-screen flex-grow flex-col',
-          {
-            'md:pt-19 pt-14 sm:pt-8 lg:pt-0': defaultCouponData,
-          },
+
           className,
         )}
       >

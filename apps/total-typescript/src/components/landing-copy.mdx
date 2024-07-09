@@ -1,15 +1,39 @@
 import {isSellingLive} from '@/utils/is-selling-live'
 import Balancer from 'react-wrap-balancer'
+import SeaOfRedLines from '../../public/assets/landing/bg-sea-of-red-lines@2x.png'
+import TSErrors from '../../public/assets/landing/ts-errors@2x.png'
+import HandPointingDownSparkles from '../../public/assets/landing/hand-pointing-down-sparkles@2x.png'
+import ExerciseScreenshots from '../../public/assets/landing/exercise-screenshots@2x.png'
+import Cauldron from '../../public/assets/landing/cauldron@2x.png'
+import Compass from '../../public/assets/landing/compass@2x.png'
+import Wand from '../../public/assets/landing/wand@2x.png'
+import FiveStarRating from '../../public/assets/landing/5-star-rating@2x.png'
+import Shine from '../../public/assets/landing/shine@2x.png'
+import MattPocock from '../../public/assets/landing/matt-pocock@2x.png'
+import {motion} from 'framer-motion'
 
-<Section className="text-center pt-48 pb-24 prose-p:max-w-lg" backgroundImage="/assets/landing/bg-sea-of-red-lines@2x.png">
+<div
+  className="h-20 w-full bg-gradient-to-b from-background to-[#191427] md:h-24"
+  aria-hidden="true"
+/>
 
-The feature’s working. The tests are passing. <br className="md:block hidden" />But your IDE is a sea of red lines. TypeScript’s not happy again.
-
-You move on to the next error:
-
-<p className="font-heading text-4xl">“What on earth is this?”</p>
-
-you think to yourself.
+<section className="bg-gradient-to-t from-background selection:bg-[#CC5344] selection:text-white to-[#191427] via-[#191427] relative">
+<div className="relative z-10 overflow-x-hidden">
+  <div className="md:pt-32 md:pb-64 pt-0 pb-16">
+    <div  className="not-prose md:scale-150 flex flex-col gap-8 text-center font-heading font-normal text-transparent bg-clip-text bg-gradient-to-b from-[#866583] to-white">
+    <p className="text-lg">The feature’s working.</p>
+    <p className="text-xl">The tests are passing.</p>
+    <p className="text-2xl">But your IDE is a sea of red lines.</p>
+    <p className="text-3xl font-semibold text-balance">TypeScript’s not happy again.</p>
+    </div>
+  </div>
+{<div className='flex text-[#CCC4E0] flex-col items-center text-center not-prose gap-5'>
+<p>You move on to the next error:</p>
+<p className="font-heading md:text-5xl text-balance text-3xl font-semibold text-white">
+  “What on earth is this?”
+</p>
+<p>you think to yourself.</p>
+</div>}
 
 <ErrorFromHell>
   {`Element implicitly has an ‘any’ type because expression of type ‘string’ can’t be used to index type ‘{ string: string | undefined; }’`}
@@ -18,37 +42,32 @@ you think to yourself.
   {`No index signature with a parameter of type ‘string’ was found on type ‘{ string: string | undefined; }’`}
 </ErrorFromHell>
 
-</Section>
+{<div className="not-prose flex flex-col w-full items-center gap-5 text-center justify-center mt-16 text-white mx-auto">
 
-<Section className="bg-gradient-to-b from-transparent to-[#081021]" backgroundImage="/assets/landing/5-red stars.png">
+  <p className="text-balance max-w-2xl [&_strong]:font-semibold">
+    <strong>It’s impossible to Google.</strong> Every search result is either{' '}
+    <strong>"here’s 100 lines of complex code"</strong> or{' '}
+    <strong>"here's a solution that doesn't work”</strong>
+  </p>
+  <p className="text-[#CCC4E0] text-balance py-3 italic">
+    You contemplate the absurd amount of hours you spend solving these problems.
+  </p>
+  <p className="">You'd rather give up than deal with another:</p>
+</div>}
 
-It’s impossible to Google. Every search result is either "here’s 100 lines of complex code" or "here's a solution that doesn't work”
+<Image
+  src={TSErrors}
+  width={756}
+  height={483}
+  className="relative mx-auto mb-0 -translate-y-10 md:-translate-y-16"
+  alt="TypeScript Error: The intersection 'User & PublicUser' was reduced to 'never' because property 'email' has conflicting types in some constituents."
+/>
 
-You contemplate the absurd amount of hours you spend solving these problems.
+{<h2 className="not-prose mb-16 flex flex-col text-center font-heading md:text-5xl text-4xl font-normal leading-tight">
 
-You'd rather give up than deal with another:
-
-<TypeError>
-
-`The intersection 'User & PublicUser' was reduced to 'never' because property 'email' has conflicting types in some constituents.`
-
-</TypeError>
-
-<p className="text-center">or</p>
-
-<TypeError>
-
-`Return type of exported function has or is using name 'User' from external module 'sdk' but cannot be named. `
-
-</TypeError>
-
-</Section>
-
-<Section className="bg-[#081021] pb-16 sm:pt-24 pt-10">
-
-<SectionHeading className="max-w-2xl">
-  Your time is precious. You have bigger fish to fry.
-</SectionHeading>
+  <i className="text-[#CCC4E0] scale-75 pb-2">Your time is precious.</i>
+  <strong className="font-semibold text-balance">You have bigger fish to fry.</strong>
+</h2>}
 
 You could spend that time building new features or bugfixes. You could be providing value. Instead, you're fighting TypeScript.
 
@@ -66,21 +85,18 @@ You never understood the power of generics.
 
 Ultimately…
 
-### You never learned the underlying principles and patterns of being an effective TypeScript engineer.
+**You never learned the underlying principles and patterns of being an effective TypeScript engineer.**
 
-</Section>
-
-<Section className="pt-10 bg-[#081021]" slot={<Image
-  src="/assets/landing/bg-divider-3.png"
-  fill
-  className="pointer-events-none object-contain select-none !mt-0 object-top"
-  
-/>}>
-<SectionHeading className="max-w-2xl" dividerTop="/assets/landing/divider-8@2x.png" dividerBottom="/assets/landing/divider-7@2x.png">
-An exercise-driven approach for learning TypeScript
-</SectionHeading>
-
-Total TypeScript's approach is different than what you'll find in other online courses.
+</div>
+  <Image alt="sea of red lines" aria-hidden="true" src={SeaOfRedLines} fill className="object-top object-contain mix-blend-lighten z-0" />
+</section>
+<section className='bg-background pb-24' id="approach" aria-label="approach">
+<div className='not-prose flex w-full flex-col items-center'>
+  <Image aria-hidden="true" src={HandPointingDownSparkles} alt="hand pointing down with sparkles" width={512} height={633} className="mx-auto -mt-10" />
+  <h2 className='text-center max-w-screen-lg text-balance font-heading md:text-6xl sm:text-5xl text-4xl font-normal pb-5'>An exercise-driven approach for learning TypeScript</h2>
+  <h3 className='text-center text-primary max-w-screen-lg text-balance font-text text-xl font-normal'>Total TypeScript's approach is different than what you'll find in other online courses.</h3>
+  <Image src={ExerciseScreenshots} className="flex sm:min-w-full min-w-[550px] sm:rotate-0 -rotate-6" width={1276} height={913} alt="Total TypeScript screenshots" />
+</div>
 
 Instead of sitting through hours of lectures, you'll be presented with problematic code and a concise explanation of what needs to be done.
 
@@ -90,31 +106,12 @@ When you're ready, you can watch how a true TypeScript Wizard approaches solving
 
 The exercises build upon another, demonstrating the most important TypeScript concepts in a variety different contexts so you can build understanding of when, where, and how to best apply them in your own application and library code.
 
-<div className="grid md:grid-cols-2 grid-cols-1 gap-5 max-w-screen-lg w-full mx-auto px-5">
-<Testimonial author={{name: '— Andrew C.'}}>
-
-"The challenges were not too easy, and some of them took me a fair amount of time to find a working solution. This ultimately helped me to better understand TypeScript!"
-
-</Testimonial>
-
-<Testimonial author={{name: 'Tomasz Łakomy', image: require('../../public/testimonials/tomasz-lakomy.jpg')}}>
-
-"Total TypeScript by Matt Pocock is a masterpiece, 100% worth the money."
-
-</Testimonial>
-
-</div>
-
-</Section>
-
-<Section className="py-24 bg-[#081021]" slot={<Image
-  src="/assets/landing/bg-divider-3.png"
-  fill
-  className="pointer-events-none object-contain select-none object-top !mt-0"
-/>}>
-<SectionHeading className="max-w-2xl" dividerTop="/assets/landing/divider-5@2x.png" dividerBottom="/assets/landing/divider-4@2x.png">
-Make TypeScript work for you, not against you
-</SectionHeading>
+</section>
+<section className='bg-[#07090F] flex items-center'>
+<div className="max-w-screen-lg sm:py-24 py-16 md:flex-row flex-col flex w-full mx-auto relative">
+<Image src={Cauldron} alt="a cauldron with TS written on it" width={400} height={400} aria-hidden="true" className="md:absolute md:mt-0 -mt-48 xl:max-w-full sm:max-w-[300px] mx-auto max-w-[300px] right-0 xl:-top-40 sm:-top-32 md:-rotate-12" />
+<div className=''>
+<h2 className='px-5 mb-12 not-prose md:text-left text-center md:text-5xl sm:text-4xl text-3xl font-medium font-heading flex flex-col'><span>Make TypeScript work </span><span className='italic'>for you, not against you</span></h2>
 
 What’s the thing that separates TypeScript wizards from the rest?
 
@@ -130,16 +127,15 @@ When you’ve completed the exercises, you’ll reach a point of mastery where v
 
 You’ll have less fear when approaching nasty TypeScript errors, more confidence when typing dynamic signatures, gain velocity by cutting lines of code, and so much more.
 
-</Section>
+</div>
 
-<Section className="" slot={<Image
-  src="/assets/landing/bg-divider-3.png"
-  fill
-  className="pointer-events-none object-contain select-none !mt-0 object-top"
-/>}>
-<SectionHeading className="max-w-sm" dividerTop="/assets/landing/divider-1@2x.png" dividerBottom="/assets/landing/divider-2@2x.png">
-You deserve so much better
-</SectionHeading>
+</div>
+</section>
+<section className='bg-[#180F24] px-3 flex flex-col justify-center relative items-center'>
+<div className="max-w-screen-lg sm:py-24 pb-16 flex md:flex-row flex-col w-full mx-auto items-start relative">
+<Image src={Compass} alt="" width={540} height={540} className="relative sm:-translate-y-32 sm:mt-10 mb-0 -mt-24" />
+<div className='md:pr-10'>
+<h2 className='px-5 text-balance mb-12 not-prose md:text-left text-center sm:text-5xl text-4xl font-medium font-heading'>**You deserve** so much better</h2>
 
 You deserve a practical, systematic approach to learning TypeScript in depth.
 
@@ -151,18 +147,16 @@ Become your company’s resident TypeScript Wizard.
 - You will be the one to unblock others and raise their velocity.
 - You will be the one who knows instinctively what TypeScript is doing.
 
-**You are indispensable.**
+You are indispensable.
 
-</Section>
-
-<Section className="py-24 bg-[#081021]" slot={<Image
-  src="/assets/landing/bg-divider-4.png"
-  fill
-  className="pointer-events-none object-contain select-none object-top !mt-0"
-/>}>
-<SectionHeading className="max-w-xl" dividerTop="/assets/landing/divider-4@2x.png" dividerBottom="/assets/landing/divider-3@2x.png">
-Who is Total TypeScript for?
-</SectionHeading>
+</div>
+</div>
+<div className="bg-gradient-to-t from-white/5 to-white/10 border-t border-x rounded-t-lg border-white/10 sm:px-10 px-2 sm:pb-16 pb-24">
+<div className="flex md:flex-row flex-col-reverse max-w-screen-lg mx-auto w-full items-start">
+<div>
+<h3 className="not-prose mb-8 text-balance px-5 md:pt-20 pt-0 md:mt-0 -mt-48 text-center font-heading text-4xl font-semibold md:text-left">
+  Who is Total TypeScript for?
+</h3>
 
 Total TypeScript is suitable for any developer who is ready to work at becoming a wizard, though some basic familiarity with TypeScript is recommended.
 
@@ -170,101 +164,148 @@ The Type Transformations workshop begins by warming you up with exercises on bas
 
 Then nearly 150 exercises later, the Advanced TypeScript Patterns workshop will have you creating chainable method abstractions with generics and the builder pattern.
 
-Check out the free [Beginner's Tutorial](https://totaltypescript.com/tutorials/beginners-typescript) to set a foundation and get an idea for the workshop's teaching approach.
-
-</Section>
-
-<Section className="" slot={<Image
-  src="/assets/landing/bg-divider-3.png"
-  fill
-  className="pointer-events-none object-contain select-none object-top !mt-0"
-/>}>
-
-<SectionHeading className="max-w-2xl pt-0">
-  Feedback for Total TypeScript
-</SectionHeading>
-
-<div className="grid md:grid-cols-2 grid-cols-1 gap-5 max-w-screen-lg w-full mx-auto px-5">
-
-<Testimonial author={{name: 'John D. Jameson', image: require('../../public/testimonials/john-d-jameson.jpg')}}>
-
-I’m really digging Total TypeScript by Matt Pocock. It’s taking all the random TypeScript knowledge I’ve found in docs and Stack Overflow over the years and showing how it all works under the hood. Highly recommended!
-
-</Testimonial>
-
-<Testimonial author={{name: 'Adam Rackis', image: require('../../public/testimonials/adam-rackis.jpg')}}>
-
-You know those kung fu movies where the hero has a training montage beating the shit out of a tree so he can get good & murder his enemy?
-
-That's what Matt Pocock's Total TypeScript is like. Except TS instead of Kung Fu. And Jira tickets instead of your enemy
-
-Anyway it's great
-
-</Testimonial>
-
-<Testimonial author={{name: 'Alex Tana', image: require('../../public/testimonials/alex-tana.jpg')}}>
-
-Total TypeScript is hands down the best course out there, and the format is the best I've seen. It feels like you're doing a 1 on 1 with Matt Pocock.
-
-</Testimonial>
-
-<Testimonial author={{name: 'Mr. Steal Your Code', image: require('../../public/testimonials/mr-steal-your-code.jpg')}}>
-
-Matt Pocock is saving my life with his Total TypeScript course. Can't tell you how many other videos I've watched that didn't click as much as his have. Looking forward to the more advanced courses.
-
-</Testimonial>
-
-<Testimonial author={{name: 'Christopher Almeida-Symons', image: require('../../public/testimonials/christopher-almeida-symons.jpg')}}>
-
-After finishing the Total Typescript course by Matt Pocock: I love the UI and how he encourages something a lot of developers are not taught...reading docs. They are a powerful tool and should be encouraged to be used more.
-
-</Testimonial>
-
-<Testimonial author={{name: 'Sebastian Kasanzew', image: require('../../public/testimonials/sebastian-kasanzew.jpg')}}>
-
-These videos and exercises really helped me to get to the next level in TS. I could improve types in some projects at work right on the next day.
-
-</Testimonial>
+Check out the free [Beginner's Tutorial](/tutorials/beginners-typescript) to set a foundation and get an idea for the workshop's teaching approach.
 
 </div>
-
-<div className="pb-24 pt-5 max-w-screen-lg w-full mx-auto px-5">
-
-<Testimonial author={{name: 'David Stinemetze', image: require('../../public/testimonials/david-stinemetze.png')}}>
-
-I’ve just completed the Type Transformations, Generics and Advanced Patterns workshops, and I can say TotalTypeScript is worth every penny. Matt’s mastery of the subject and ability to explain the more complex parts of TypeScript in an understandable way have fundamentally changed and expanded my understanding of the language. While I do think it will take a bit of time to fully process everything I’ve just learned, I definitely feel armed with the knowledge and resources I need to solve <code className="!bg-gray-700 rounded !px-1 py-0.5">any</code> TypeScript problem in front of me. Thank you, Matt for all of the work you put into this!
-
-</Testimonial>
-
+<Image
+  src={Wand}
+  alt="a wand"
+  width={444}
+  height={586}
+  className="relative md:-translate-y-28 md:mt-0 -mt-16"
+/>
 </div>
+</div>
+</section>
+<section id="feedback" className='bg-gradient-to-b from-black relative to-background w-full sm:pb-24 pb-5 pt-10 border-x'>
+  <div className='not-prose flex flex-col items-center w-full'>
+    <svg className='absolute top-[-60px]' width="1550" height="61" viewBox="0 0 1550 61" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 60.35L775 0L1550 60.35H0Z" fill="#000"/>
+    </svg>
+    <Image src={FiveStarRating} alt="5-star rating" width={110} height={37} className="sm:mb-16 mb-10" />
+    <h2 className='px-5 text-balance sm:mb-24 mb-16 text-center lg:text-5xl sm:text-4xl text-3xl font-medium font-heading'>Feedback for Total TypeScript</h2>
+    <div className="grid origin-top md:grid-cols-2 grid-cols-1 md:gap-16 sm:gap-10 gap-0 max-w-screen-lg w-full mx-auto px-5">
 
-<SectionHeading
-  className="max-w-sm pb-0"
-  dividerTop="/assets/landing/divider-3@2x.png"
+    <Testimonial author={{name: 'Tomasz Łakomy', image: require('../../public/testimonials/tomasz-lakomy.jpg')}}>
+
+    Total TypeScript by Matt Pocock is a masterpiece, 100% worth the money.
+
+    </Testimonial>
+
+    <Testimonial author={{name: 'Alex Tana', image: require('../../public/testimonials/alex-tana.jpg')}}>
+
+    Total TypeScript is hands down the best course out there, and the format is the best I've seen. It feels like you're doing a 1 on 1 with Matt Pocock.
+
+    </Testimonial>
+
+    <Testimonial author={{name: 'John D. Jameson', image: require('../../public/testimonials/john-d-jameson.jpg')}}>
+
+    I’m really digging Total TypeScript by Matt Pocock. It’s taking all the random TypeScript knowledge I’ve found in docs and Stack Overflow over the years and showing how it all works under the hood. Highly recommended!
+
+    </Testimonial>
+
+    <Testimonial author={{name: 'Adam Rackis', image: require('../../public/testimonials/adam-rackis.jpg')}}>
+
+    You know those kung fu movies where the hero has a training montage beating the shit out of a tree so he can get good & murder his enemy?
+
+    That's what Matt Pocock's Total TypeScript is like. Except TS instead of Kung Fu. And Jira tickets instead of your enemy. Anyway it's great
+
+    </Testimonial>
+
+    <Testimonial author={{name: 'Andrew C.', image: require('../../public/testimonials/andrew-cherniavskii.jpeg')}}>
+
+    The challenges were not too easy, and some of them took me a fair amount of time to find a working solution. This ultimately helped me to better understand TypeScript!
+
+    </Testimonial>
+
+    <Testimonial author={{name: 'Mr. Steal Your Code', image: require('../../public/testimonials/mr-steal-your-code.jpg')}}>
+
+    Matt Pocock is saving my life with his Total TypeScript course. Can't tell you how many other videos I've watched that didn't click as much as his have. Looking forward to the more advanced courses.
+
+    </Testimonial>
+
+    <Testimonial author={{name: 'Christopher Almeida-Symons', image: require('../../public/testimonials/christopher-almeida-symons.jpg')}}>
+
+    After finishing the Total Typescript course by Matt Pocock: I love the UI and how he encourages something a lot of developers are not taught...reading docs. They are a powerful tool and should be encouraged to be used more.
+
+    </Testimonial>
+
+    <Testimonial author={{name: 'Sebastian Kasanzew', image: require('../../public/testimonials/sebastian-kasanzew.jpg')}}>
+
+    These videos and exercises really helped me to get to the next level in TS. I could improve types in some projects at work right on the next day.
+
+    </Testimonial>
+
+    <Testimonial className="md:col-span-2" author={{name: 'David Stinemetze', image: require('../../public/testimonials/david-stinemetze.png')}}>
+
+    I’ve just completed the Type Transformations, Generics and Advanced Patterns workshops, and I can say TotalTypeScript is worth every penny. Matt’s mastery of the subject and ability to explain the more complex parts of TypeScript in an understandable way have fundamentally changed and expanded my understanding of the language. While I do think it will take a bit of time to fully process everything I’ve just learned, I definitely feel armed with the knowledge and resources I need to solve <code className="!bg-gray-700 rounded !px-1 py-0.5">any</code> TypeScript problem in front of me. Thank you, Matt for all of the work you put into this!
+
+    </Testimonial>
+
+    <Testimonial author={{name: 'Jökull Sólberg', image: require('../../public/testimonials/jokull-solberg.jpg')}}>
+
+    The content itself was incredible. Videos are superb. Delivery, pacing, tone, everything- wow. I feel like I have superpowers. I’ve Already made one library available!
+
+    </Testimonial>
+
+    <Testimonial author={{name: 'Rares Golea', image: require('../../public/testimonials/rares-golea.jpg')}}>
+
+    I truly feel like a wizard and I can’t stop recommending it!
+
+    </Testimonial>
+
+    </div>
+
+  </div>
+</section>
+
+<section
+  id="about"
+  className="sm:text-lg text-base relative flex flex-col items-center border-t border-white/5 bg-background pt-24"
 >
-  Total TypeScript
-</SectionHeading>
+<div className='absolute w-1/2 h-px top-0 bg-gradient-to-r from-transparent via-primary to-transparent opacity-20' aria-hidden="true" />
+<div className='absolute w-1/2 h-px top-px bg-gradient-to-r from-transparent via-black to-transparent opacity-75' aria-hidden="true" />
+  <Image
+    src={Shine}
+    alt="shine"
+    width={1006}
+    height={588}
+    aria-hidden="true"
+    className="not-prose absolute top-0 pointer-events-none select-none"
+  />
+  <h2 className="not-prose flex flex-col items-center font-heading md:text-6xl text-5xl text-white">
+    <span className="text-3xl text-primary">Total</span>
+    <span className='font-medium'>TypeScript</span>
+  </h2>
+  <div className="sm:py-24 py-10 flex md:flex-row flex-col max-w-screen-lg gap-5">
+  <div className='[&_li>p]:pl-0'>
 
-Total TypeScript contains Four professional-grade workshops for you to achieve TypeScript Wizardry:
+Total TypeScript contains five professional-grade workshops for you to achieve TypeScript Wizardry:
 
-- Type Transformations (7 sections, 50+ exercises)
-- TypeScript Generics (6 sections, 40+ exercises)
-- Advanced TypeScript Patterns (7 sections, 40+ exercises)
-- Advanced React with TypeScript (6 sections, 50+ exercises)
+- TypeScript Pro Essentials (200+ exercises, 17 sections)
+
+- Type Transformations (50+ exercises, 7 sections)
+
+- TypeScript Generics (40+ exercises, 6 sections)
+
+- Advanced TypeScript Patterns (40+ exercises, 7 sections)
+
+- Advanced React with TypeScript (50+ exercises, 6 sections)
 
 Each workshop contains dozens of exercises designed to put your problem solving skills to the test.
 
-<div className="flex items-center justify-center not-prose flex-col pt-16 pb-5 px-5 text-center">
-  <Image
-    src={require('../../public/matt-pocock.jpg')}
-    alt="Matt Pocock"
-    width={140}
-    height={140}
-    className="flex rounded-full"
-  />
-
-<h2 className="sm:text-4xl text-3xl font-text font-bold pt-5">Hi, I'm Matt Pocock</h2>
-</div>
+  </div>
+  <div>
+    <div className="flex items-center gap-5 px-5">
+      <Image
+        src={MattPocock}
+        className="flex-shrink-0 rounded sm:my-0 my-0"
+        alt="Matt Pocock"
+        width={139}
+        height={116}
+      />
+      <span className="text-balance font-text md:text-4xl text-3xl text-white">Hi, I’m Matt Pocock</span>
+    </div>
 
 Before creating Total TypeScript, I was a member of the XState core team and worked as a developer advocate at Vercel.
 
@@ -272,20 +313,14 @@ I've worked with TypeScript as a lead fullstack dev, a library maintainer, and n
 
 I built Total TypeScript to make the secrets of open-source maintainers and industry experts available to everyone.
 
-</Section>
+  </div>
+  </div>
+</section>
+<section id="workshops" className='bg-gradient-to-b from-background to-black/40 border-b border-white/5 w-full flex flex-col'>
+<h3 className='font-medium not-prose text-2xl pb-10 px-5 text-center max-w-screen-lg mx-auto text-foreground w-full'>Workshops Include</h3>
+<div className="flex flex-col gap-20 pb-24">
 
-<Section className="py-16">
-
-<SectionHeading
-  className="w-full pb-10"
-  dividerTop="/assets/landing/divider-5@2x.png"
->
-  Workshops Include
-</SectionHeading>
-
-<div className="flex flex-col gap-20">
-
-<Module title="Type Transformations" sub="Wield the power of transformation to move from one type to another with ease" image="https://cdn.sanity.io/images/z9io1e0u/production/8d26aee5def2397f419bb038fd8879286fd41bda-768x768.png">
+<Module title="Type Transformations" slug="type-transformations" metaLabel="over 50 lessons" sub="Wield the power of transformation to move from one type to another with ease" image="https://cdn.sanity.io/images/z9io1e0u/production/8d26aee5def2397f419bb038fd8879286fd41bda-768x768.png">
 
 Many problems in TypeScript come down to transforming types into other types.
 
@@ -293,7 +328,7 @@ This workshop is your first step on the path to wizardry with topics including u
 
 </Module>
 
-<Module title="TypeScript Generics" sub="Unlock amazing inference in the functions you create and the abstractions you build" image="https://cdn.sanity.io/images/z9io1e0u/production/12ef51ed533404ccf132765c75be8b6fe600bcda-769x769.png">
+<Module title="TypeScript Generics" slug="typescript-generics" metaLabel="49 lessons" sub="Unlock amazing inference in the functions you create and the abstractions you build" image="https://cdn.sanity.io/images/z9io1e0u/production/12ef51ed533404ccf132765c75be8b6fe600bcda-769x769.png">
 
 Generics are one of TypeScript's most complex and intimidating features.
 
@@ -303,7 +338,7 @@ You'll practice with using generics in a variety of situations, as well as how t
 
 </Module>
 
-<Module title="Advanced TypeScript Patterns" sub="Become fluent in TypeScript's undocumented patterns" image="https://cdn.sanity.io/images/z9io1e0u/production/ce94d457bbfa7580dd803aaa5630a7c6ebed9fee-927x927.png">
+<Module title="Advanced TypeScript Patterns" slug="advanced-typescript-patterns" metaLabel="45 lessons" sub="Become fluent in TypeScript's undocumented patterns" image="https://cdn.sanity.io/images/z9io1e0u/production/ce94d457bbfa7580dd803aaa5630a7c6ebed9fee-927x927.png">
 
 The TypeScript community has discovered and iterated upon several patterns that build on the type transformation and generics techniques explored in the earlier workshops.
 
@@ -311,42 +346,20 @@ Here you'll grow more powerful through practice with branded types and the build
 
 </Module>
 
-<Module title="Advanced React with TypeScript" sub="Expert-level knowledge for typing your React apps with TypeScript" image="https://cdn.sanity.io/images/z9io1e0u/production/bb6a657e3e8d8a8dc4d66783d23a56797b22b882-1200x1200.png">
+<Module title="Advanced React with TypeScript" slug="advanced-react-with-typescript" metaLabel="57 lessons" sub="Expert-level knowledge for typing your React apps with TypeScript" image="https://cdn.sanity.io/images/z9io1e0u/production/bb6a657e3e8d8a8dc4d66783d23a56797b22b882-1200x1200.png">
 
 Using TypeScript with React can be tricky, requiring flexible, type-safe, and structured components.
 
 This workshop empowers developers to combine React and TypeScript effectively. It covers advanced props handling, leveraging TypeScript generics for components and hooks, safer React hooks using types, understanding the TypeScript type system, recognizing industry-standard patterns, and safely integrating external libraries into React components.
 
 </Module>
+
+<Module title="TypeScript Pro Essentials" slug="typescript-pro-essentials" metaLabel="220 lessons" sub="Everything you need from setup to application development patterns" image="https://cdn.sanity.io/images/z9io1e0u/production/80da574ffbb12904f823723d5ea0a8e20add0270-1200x1200.png">
+
+Whether you're new to the language or looking to reenforce your foundation, this workshop covers all of the essential TypeScript knowledge and skills you need.
+
+From setting up your dev environment through best practices for designing types, this workshop bridges the gap between TypeScript theory and practice with type manipulation techniques, OOP with classes, annotations, assertions, and more!
+
+</Module>
 </div>
-
-</Section>
-
-<Section className="pt-10">
-
-<SectionHeading
-  className="max-w-sm pb-8 sm:pb-0"
-  dividerTop="/assets/landing/divider-8@2x.png"
->
-  Developers Like You Are Saying…
-</SectionHeading>
-
-<div className="flex flex-col gap-10 max-w-xl mx-auto w-full not-prose px-5 sm:pl-5 pl-12">
-<blockquote className="before:pt-1 before:text-cyan-300 before:content-['”'] before:-left-8 before:absolute relative before:text-3xl before:font-heading before:font-extrabold">
-
-The content itself was incredible. Videos are superb. Delivery, pacing, tone, everything- wow. I feel like I have superpowers. I’ve Already made one library available!
-
-</blockquote>
-<blockquote className="before:pt-1 before:text-cyan-300 before:content-['”'] before:-left-8 before:absolute relative before:text-3xl before:font-heading before:font-extrabold">
-
-Your dedication to educating the community on TypeScript is remarkable, and your passion for the subject is evident in the quality of your content.
-
-</blockquote>
-<blockquote className="before:pt-1 before:text-cyan-300 before:content-['”'] before:-left-8 before:absolute relative before:text-3xl before:font-heading before:font-extrabold">
-
-I truly feel like a wizard and I can’t stop recommending it!
-
-</blockquote>
-</div>
-
-</Section>
+</section>

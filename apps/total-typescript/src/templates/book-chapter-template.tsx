@@ -3,8 +3,6 @@ import '@/styles/shiki-twoslash.css'
 import Layout from '@/components/app/layout'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import toast from 'react-hot-toast'
-import {localBookDb} from '@/utils/dexie'
 import type {BookChapterProps} from '../pages/books/[book]/[chapter]'
 import {flattenMarkdownHeadings} from '@/utils/extract-markdown-headings'
 import {ExerciseEmbed} from '@/components/book/book-exercise-embed'
@@ -23,6 +21,7 @@ import {ChapterHero, useIsScrolledPast} from '@/components/book/chapter-hero'
 import {ChapterPagination} from '@/components/book/chapter-pagination'
 import {MobileChapterToC} from '@/components/book/mobile-chapter-toc'
 import slugify from '@sindresorhus/slugify'
+import {InlineProEssentialsBanner} from '@/components/book/pro-essentials-banner'
 
 const BookChapterTemplate = ({
   chapter,
@@ -34,6 +33,7 @@ const BookChapterTemplate = ({
 }: BookChapterProps) => {
   const chapterIndex = book.chapters.findIndex((c) => c._id === chapter._id)
   const headings = flattenMarkdownHeadings(toc)
+  const resources = chapter.resources
 
   const visibleHeadingId = useVisibleMarkdownHeading(headings, {
     rootMargin: '0% 0% -80% 0%',
@@ -41,23 +41,6 @@ const BookChapterTemplate = ({
   })
 
   const articleRef = React.useRef<HTMLDivElement>(null)
-
-  const handleAddBookmark = async (heading: {id: string; children: string}) => {
-    await localBookDb.bookmarks
-      .add({
-        eventName: 'bookmark',
-        module: book.slug.current,
-        section: {
-          title: chapter.title,
-          slug: chapter.slug,
-        },
-        resource: heading,
-        createdOn: new Date(),
-      })
-      .then(() => {
-        toast.success('Bookmark added')
-      })
-  }
 
   const heroRef = React.useRef<HTMLDivElement>(null)
   const isScrolledPastHero = useIsScrolledPast({ref: heroRef})
@@ -154,13 +137,17 @@ const BookChapterTemplate = ({
                     )
                   },
                   h2: (props: any) => {
+                    const resourceId = resources?.find(
+                      (r) => r.slug === props.id,
+                    )?._id
                     return (
                       <BookmarkableMarkdownHeading
-                        onAddBookmark={handleAddBookmark}
+                        chapter={chapter}
                         appendValueForRepeatedIds={`-for-${slugify(
                           chapter.title,
                         )}`}
                         as="h2"
+                        resourceId={resourceId}
                         {...props}
                       />
                     )
@@ -168,7 +155,6 @@ const BookChapterTemplate = ({
                   h3: (props: any) => {
                     return (
                       <BookmarkableMarkdownHeading
-                        onAddBookmark={handleAddBookmark}
                         appendValueForRepeatedIds={`-for-${slugify(
                           chapter.title,
                         )}`}
@@ -180,7 +166,6 @@ const BookChapterTemplate = ({
                   h4: (props: any) => {
                     return (
                       <BookmarkableMarkdownHeading
-                        onAddBookmark={handleAddBookmark}
                         appendValueForRepeatedIds={`-for-${slugify(
                           chapter.title,
                         )}`}
@@ -192,6 +177,7 @@ const BookChapterTemplate = ({
                 }}
               />
             </div>
+            <InlineProEssentialsBanner className="flex lg:hidden" />
           </article>
           {toc && sidebarPlacement === 'right' && (
             <PrimaryChapterToC

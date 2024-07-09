@@ -248,6 +248,7 @@ const SearchBar: React.FC<{totalCount: number}> = ({totalCount}) => {
       className="group relative mx-auto flex w-full max-w-sm items-center justify-between rounded-md border border-gray-800 bg-gray-950 px-4 py-3 before:absolute before:-top-px before:left-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-red-300 before:to-transparent before:opacity-50 before:content-['']"
       onClick={() => {
         setOpenSearchBar(!isSearchBarOpen)
+        setResourceType('article')
       }}
     >
       <div className="flex items-center gap-2">

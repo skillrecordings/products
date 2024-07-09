@@ -265,6 +265,7 @@ model User {
   roles                   String                 @default("User")
   fields                  Json?                  @default("{}")
   prefs                   UserPrefs[]
+  bookmarks               Bookmark[]
 }
 
 model UserPrefs {
@@ -328,4 +329,18 @@ model PurchaseUserTransfer {
   canceledAt    DateTime?
   confirmedAt   DateTime?
   completedAt   DateTime?
+}
+
+
+model Bookmark {
+  id            String                    @id @default(uuid())
+  userId        String 
+  user          User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resourceId    String
+  type          String
+  fields        Json                      @default("{}")
+  createdAt     DateTime                  @default(now())
+  updatedAt    DateTime                   @updatedAt() @default(now())
+
+  @@index([userId, resourceId])
 }

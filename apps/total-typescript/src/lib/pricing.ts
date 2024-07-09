@@ -42,6 +42,7 @@ export const getPricing = async (slug: string = 'primary') => {
         "slug": slug.current,
         "image": image.asset->{url},
         state,
+        description
       },
       "bonuses": *[_type == 'bonus'][]{...},
       "features": features[]{

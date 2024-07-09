@@ -10,19 +10,14 @@ import groq from 'groq'
 import type {GetStaticPaths, GetStaticProps} from 'next'
 import type {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import Link from 'next/link'
-import {
-  useBookProgress,
-  useBookmark,
-  useBookmarks,
-  type BookmarkEvent,
-} from '@/hooks/use-bookmark'
+import type {Bookmark} from '@/lib/bookmarks'
 import Heading from '@/components/heading'
 import {Trash, BookText} from 'lucide-react'
-import {localBookDb} from '@/utils/dexie'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {trpc} from '@/trpc/trpc.client'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const book = await getBook(params?.book as string)
@@ -66,8 +61,17 @@ const BookRoute: React.FC<{
   book: Book
   bookBody: MDXRemoteSerializeResult | null
 }> = ({book, bookBody}) => {
-  const {lastBookmarkedResource} = useBookProgress(book.slug.current)
-  const {bookmarks, refetch: refetchBookmarks} = useBookmarks(book.slug.current)
+  const {data: lastBookmarkedResource} =
+    trpc.bookmarks.lastBookmarkedResource.useQuery({
+      type: 'book',
+    })
+  const resourceIds = book.chapters.flatMap((chapter) => {
+    return chapter.resources?.map((resource) => resource._id) ?? []
+  })
+  const {data: bookmarks, status: bookmarksStatus} =
+    trpc.bookmarks.getBookmarksForUser.useQuery({
+      resourceIds,
+    })
 
   return (
     <Layout
@@ -123,7 +127,7 @@ const BookRoute: React.FC<{
             {lastBookmarkedResource ? (
               <Link
                 className="mt-10 rounded-sm font-semibold"
-                href={`/books/${book.slug.current}/${lastBookmarkedResource.section.slug}#${lastBookmarkedResource.resource.id}`}
+                href={`/books/${book.slug.current}/${lastBookmarkedResource?.fields?.chapterSlug}#${lastBookmarkedResource?.fields?.resourceSlug}`}
               >
                 Continue Reading <span className="ml-2">→</span>
               </Link>
@@ -183,26 +187,31 @@ const BookRoute: React.FC<{
                 <BookmarkIcon className="h-4 w-4 text-foreground opacity-75" />{' '}
                 Bookmarks
               </strong>
-              {bookmarks && bookmarks.length > 0 ? (
-                <>
-                  <ol className="overflow-hidden rounded border border-white/10">
-                    {bookmarks.map((bookmark) => {
-                      return (
-                        <BookmarkItem
-                          key={bookmark.id}
-                          book={book}
-                          bookmark={bookmark}
-                          refetch={refetchBookmarks}
-                        />
-                      )
-                    })}
-                  </ol>
-                </>
+              {bookmarksStatus === 'loading' ? (
+                <p>Loading...</p>
               ) : (
-                <p className="opacity-75">
-                  Your bookmarks will appear here. To add a bookmark, click the
-                  bookmark icon next to a heading in any chapter.
-                </p>
+                <>
+                  {bookmarks && bookmarks.length > 0 ? (
+                    <>
+                      <ol className="overflow-hidden rounded border border-white/10">
+                        {bookmarks.map((bookmark) => {
+                          return (
+                            <BookmarkItem
+                              key={bookmark.id}
+                              book={book}
+                              bookmark={bookmark}
+                            />
+                          )
+                        })}
+                      </ol>
+                    </>
+                  ) : (
+                    <p className="opacity-75">
+                      Your bookmarks will appear here. To add a bookmark, click
+                      the bookmark icon next to a heading in any chapter.
+                    </p>
+                  )}
+                </>
               )}
             </nav>
           </aside>
@@ -214,42 +223,40 @@ const BookRoute: React.FC<{
 
 export default BookRoute
 
-const BookmarkItem = ({
-  bookmark,
-  book,
-  refetch,
-}: {
-  bookmark: BookmarkEvent
-  book: Book
-  refetch: () => void
-}) => {
-  const {resourceBookmarked} = useBookmark(bookmark.resource.id as string)
-
+const BookmarkItem = ({bookmark, book}: {bookmark: Bookmark; book: Book}) => {
+  const {data: resourceBookmarked} = trpc.bookmarks.getBookmark.useQuery({
+    id: bookmark.resourceId,
+  })
+  const deleteBookmarkMutation = trpc.bookmarks.deleteBookmark.useMutation({
+    onSuccess: () => {
+      toast.success('Bookmark removed')
+    },
+    onError: (error) => {
+      toast.error('Error removing bookmark')
+    },
+  })
   return (
     <li
-      key={bookmark.resource.id}
+      key={bookmark.resourceId}
       className="group relative flex w-full items-center"
     >
       <Link
         className="flex w-full flex-col items-baseline bg-white/5 px-3 py-2 transition hover:bg-white/10 hover:text-primary focus:bg-white/10"
-        href={`/books/${book.slug.current}/${bookmark.section.slug}#${bookmark.resource.id}`}
+        href={`/books/${book.slug.current}/${bookmark.fields?.chapterSlug}#${bookmark.fields?.resourceSlug}`}
       >
-        <span>{bookmark.resource.children}</span>
-        <span className="text-sm opacity-75">{bookmark.section.title}</span>
+        <span>{bookmark?.fields?.resourceTitle}</span>
+        <span className="text-sm opacity-75">
+          {bookmark?.fields?.chapterTitle}
+        </span>
       </Link>
       {resourceBookmarked && (
         <Button
           size="icon"
           type="button"
           variant="destructive"
-          className="absolute right-3 h-6 w-6 bg-background text-foreground opacity-0 transition ease-in-out group-hover:opacity-100 group-focus-visible:opacity-100 focus:opacity-100"
+          className="right-3 h-6 w-6 bg-background text-foreground transition ease-in-out group-hover:opacity-100 group-focus-visible:opacity-100 focus:opacity-100 lg:absolute lg:opacity-0"
           onClick={async () => {
-            await localBookDb.bookmarks
-              .delete(resourceBookmarked.id as number)
-              .then(() => {
-                toast.success('Bookmark removed')
-                refetch()
-              })
+            deleteBookmarkMutation.mutate({id: resourceBookmarked.id})
           }}
         >
           <Trash className="h-3 w-3" />

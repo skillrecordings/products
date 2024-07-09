@@ -142,7 +142,7 @@ const UpsellPricingWidget: React.FC<{
   const router = useRouter()
 
   return (
-    <div>
+    <div className="pt-16">
       <div className="flex items-center gap-3 border-b pb-3">
         {individualProduct?.image?.url && (
           <Image
