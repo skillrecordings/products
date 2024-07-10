@@ -67,6 +67,11 @@ export async function receiveInternalStripeWebhooks({
       }
     }
 
+    console.log(
+      'stripe webhook (internal) received for ',
+      process.env.NEXT_PUBLIC_APP_NAME,
+    )
+
     const _paymentOptions =
       paymentOptions || constructFallbackStripePaymentOptions(defaultStripe)
 
@@ -253,9 +258,21 @@ export const processStripeWebhook = async (
     )
   }
 
+  console.log(
+    'processing stripe webhook for ',
+    process.env.NEXT_PUBLIC_APP_NAME,
+  )
+  console.log('paymentOptions', paymentOptions)
+
   const eventType: string = event.type
   const stripeIdentifier: string = event.data.object.id
   const eventObject = event.data.object
+
+  console.log('eventType', eventType)
+  console.log('stripeIdentifier', stripeIdentifier)
+  console.log('eventObject', eventObject)
+
+  console.log('------')
 
   const {
     updatePurchaseStatusForCharge,

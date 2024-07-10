@@ -32,6 +32,12 @@ export const stripeCheckoutCompleted = inngest.createFunction(
   async ({event, step}) => {
     const {quantity, created, purchaseId, productId} = event.data
 
+    console.log('inngest handle stripe checkout completed')
+    console.log('quantity', quantity)
+    console.log('created', created)
+    console.log('purchaseId', purchaseId)
+    console.log('productId', productId)
+
     const teamPurchase = quantity > 1
 
     const purchase = await step.run('load purchase', async () => {
