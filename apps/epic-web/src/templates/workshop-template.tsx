@@ -484,7 +484,7 @@ const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
   const couponId =
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? couponFromCode?.id : undefined)
-  console.log({couponFromCode, couponId, commerceProps})
+
   const purchases = commerceProps?.purchases || []
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   const ALLOW_PURCHASE =
@@ -506,6 +506,7 @@ const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
           withImage: true,
           withGuaranteeBadge: true,
         }}
+        cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
         purchaseButtonRenderer={
           upgradableTo && !hasPurchasedUpgrade
             ? (commerceProps, product) => {
