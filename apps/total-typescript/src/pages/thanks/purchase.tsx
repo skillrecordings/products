@@ -76,9 +76,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const InlineTeamInvite = ({
   bulkCouponId,
   seatsPurchased,
+  productSlug,
+  productActive,
 }: {
   bulkCouponId?: string
   seatsPurchased: number
+  productSlug: string
+  productActive: boolean
 }) => {
   if (!bulkCouponId) return null
 
@@ -103,7 +107,11 @@ const InlineTeamInvite = ({
           </a>{' '}
           once you sign in.
         </p>
-        <CopyInviteLink bulkCouponId={bulkCouponId} />
+        <CopyInviteLink
+          bulkCouponId={bulkCouponId}
+          productSlug={productSlug}
+          productActive={productActive}
+        />
       </div>
     </div>
   )
@@ -226,10 +234,14 @@ const ThanksVerify: React.FC<
   let byline = null
   let title = `Thank you for purchasing Total TypeScript ${stripeProductName}`
   let loginLink = null
+  const isProductActive: boolean = product.status === 1
+
   let inviteTeam = (
     <InlineTeamInvite
       bulkCouponId={bulkCouponId}
       seatsPurchased={seatsPurchased}
+      productSlug={product.slug}
+      productActive={isProductActive}
     />
   )
 
