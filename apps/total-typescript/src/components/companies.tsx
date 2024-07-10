@@ -4,10 +4,11 @@ export const Companies = () => {
       <h2 className="font-text text-lg text-foreground opacity-75">
         Trusted by developers from
       </h2>
-      <div className="mt-10 grid w-full max-w-screen-lg origin-top grid-cols-3 flex-wrap place-items-center items-center justify-center gap-x-5 gap-y-12 sm:mt-16 sm:flex sm:scale-100 sm:grid-cols-2 sm:gap-x-16 sm:gap-y-16 md:mt-10 [&_svg]:max-h-[20px] [&_svg]:w-[75px] [&_svg]:opacity-100 sm:[&_svg]:max-h-[35px] sm:[&_svg]:w-[100px] [&_svg]:sm:max-w-full">
+      <div className="mt-10 grid w-full max-w-screen-lg origin-top grid-cols-3 flex-wrap place-items-center items-center justify-center gap-x-3 gap-y-8 sm:mt-16 sm:flex sm:scale-100 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-10 md:mt-10 [&_svg]:max-h-[20px] [&_svg]:w-[75px] [&_svg]:opacity-100 sm:[&_svg]:max-h-[35px] sm:[&_svg]:w-[100px] [&_svg]:sm:max-w-full">
         <Webflow />
         <Stripe />
         <Microsoft />
+        <Netflix />
         <Shopify />
         <Rakuten />
         <Fastly />
@@ -303,6 +304,21 @@ const Microsoft = () => (
     <path d="M22.1248 24.4551H0V46.5798H22.1248V24.4551Z" fill="currentColor" />
     <path
       d="M46.5789 24.4551H24.4541V46.5798H46.5789V24.4551Z"
+      fill="currentColor"
+    />
+  </svg>
+)
+
+const Netflix = () => (
+  <svg
+    width="159"
+    height="43"
+    viewBox="0 0 159 43"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M21.863 40.2283C19.4711 40.6486 17.0372 40.7747 14.5195 41.1103L6.83995 18.6026V42.0763C4.44812 42.3281 2.26606 42.6641 0 43V0H6.37863L15.1069 24.3978V0H21.863V40.2283ZM35.0815 15.7471C37.6835 15.7471 41.67 15.6211 44.0618 15.6211V22.3397C41.0822 22.3397 37.5995 22.3397 35.0815 22.4657V32.46C39.0263 32.2081 42.9708 31.8719 46.9572 31.7459V38.2123L28.3672 39.6823V0H46.9572V6.71876H35.0815V15.7471ZM71.9254 6.71891H64.9596V37.6251C62.6935 37.6251 60.4275 37.6251 58.2457 37.7089V6.71891H51.2798V0H71.9258L71.9254 6.71891ZM82.8359 15.2853H92.0261V22.0039H82.8359V37.2472H76.2472V0H95.0055V6.71876H82.8359V15.2853ZM105.916 31.3681C109.735 31.4519 113.595 31.7463 117.33 31.9559V38.5908C111.329 38.2126 105.328 37.8352 99.2019 37.7089V0H105.916V31.3681ZM122.995 39.0527C125.135 39.1789 127.401 39.3049 129.583 39.5565V0H122.995V39.0527ZM159 0L150.481 20.4503L159 43C156.482 42.6641 153.964 42.2021 151.446 41.7821L146.621 29.3527L141.711 40.7747C139.277 40.3544 136.927 40.2283 134.494 39.8924L143.138 20.1981L135.333 0H142.55L146.956 11.2959L151.656 0L159 0Z"
       fill="currentColor"
     />
   </svg>
