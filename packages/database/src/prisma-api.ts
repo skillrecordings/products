@@ -304,6 +304,7 @@ export function getSdk(
             data: {
               completedAt: null,
               updatedAt: now,
+              moduleId,
             },
           })
         } else {
@@ -312,6 +313,7 @@ export function getSdk(
             data: {
               completedAt: now,
               updatedAt: now,
+              moduleId,
             },
           })
         }
