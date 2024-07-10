@@ -174,12 +174,6 @@ module.exports = {
             'blockquote > p::after': {
               color: theme('colors.white'),
             },
-            tr: {
-              borderBottomColor: theme('colors.border'),
-            },
-            thead: {
-              borderBottomColor: theme('colors.gray.700'),
-            },
             strong: {
               color: theme('colors.gray.200'),
             },
