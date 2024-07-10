@@ -8,7 +8,7 @@ type InviteTeamProps = {
   purchase: {
     merchantChargeId: string | null
     bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
-    product: {id: string; name: string; status: number}
+    product: {id: string; name: string; status?: number}
   }
   existingPurchase: {
     id: string
