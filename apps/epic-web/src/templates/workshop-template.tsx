@@ -306,7 +306,7 @@ const Header: React.FC<{module: Workshop; canView: boolean}> = ({
               Pro Workshop
             </Link>
           )}
-          <h1 className="font-text text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
+          <h1 className="font-text max-w-[632px] break-words text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
             <Balancer>{title}</Balancer>
           </h1>
           <div className="w-full pt-8 text-lg">
@@ -484,7 +484,7 @@ const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
   const couponId =
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? couponFromCode?.id : undefined)
-  console.log({couponFromCode, couponId, commerceProps})
+
   const purchases = commerceProps?.purchases || []
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   const ALLOW_PURCHASE =
@@ -506,6 +506,7 @@ const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
           withImage: true,
           withGuaranteeBadge: true,
         }}
+        cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
         purchaseButtonRenderer={
           upgradableTo && !hasPurchasedUpgrade
             ? (commerceProps, product) => {

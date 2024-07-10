@@ -16,7 +16,6 @@ const branchName = process.argv[2] || 'preview'
 const databases: {[key: string]: string} = {
   'total-typescript': 'total-typescript',
   'kcd-products': 'epic-web',
-  'pro-nextjs': 'pro-nextjs',
   'colt-steele': 'colt-steele',
   'devrel-fyi': 'devrel-fyi',
 }
@@ -47,7 +46,7 @@ for (const databaseName of Object.keys(databases)) {
 const writeStringToFile = (path: string, data: string) => {
   try {
     fs.writeFileSync(path, data, 'utf8')
-    console.log('Data successfully saved to disk')
+    console.log(`Data successfully saved to disk -- ./${path}`)
   } catch (error) {
     console.log('An error has occurred ', error)
   }

@@ -10,6 +10,8 @@ import {
   SanityWebhookEvent,
 } from './functions/sanity/sanity-inngest-events'
 import {
+  LESSON_COMPLETED_EVENT,
+  type LessonCompleted,
   PURCHASE_TRANSFERRED_EVENT,
   PurchaseTransferred,
 } from '@skillrecordings/skill-lesson/inngest/events'
@@ -19,6 +21,7 @@ export type IngestEvents = {
   [STRIPE_WEBHOOK_RECEIVED_EVENT]: StripeWebhookReceived
   [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
   [PURCHASE_TRANSFERRED_EVENT]: PurchaseTransferred
+  [LESSON_COMPLETED_EVENT]: LessonCompleted
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,
