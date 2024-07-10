@@ -21,8 +21,28 @@ export const PricingTiers: React.FC<
   couponIdFromCoupon,
   allowPurchase,
 }) => {
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} =
-    useCoupon(couponFromCode)
+  const restrictedToProduct = couponFromCode?.restrictedToProductId
+    ? products.find(
+        (product) => product.productId === couponFromCode.restrictedToProductId,
+      )
+    : undefined
+
+  const productMetadata = restrictedToProduct
+    ? {
+        ...restrictedToProduct,
+        id: restrictedToProduct.productId,
+        image: {
+          ...restrictedToProduct.image,
+          width: 132,
+          height: 112,
+        },
+      }
+    : undefined
+
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
+    couponFromCode,
+    productMetadata,
+  )
 
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)

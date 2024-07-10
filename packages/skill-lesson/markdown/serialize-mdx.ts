@@ -8,6 +8,7 @@ import {
   shikiTwoslashPlugin,
 } from './shiki-twoslash-plugin'
 import rehypeSlug from 'rehype-slug'
+import remarkGfm from 'remark-gfm'
 
 /**
  * Serialize MDX with next-mdx-remote. Uses remark-code-hike for syntax highlighting.
@@ -64,6 +65,7 @@ const serializeMDX = async (
               shikiTwoslashPlugin,
               syntaxHighlighterOptions satisfies ShikiTwoslashPluginOptions,
             ],
+            remarkGfm,
           ],
         },
       }),

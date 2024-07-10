@@ -1,12 +1,12 @@
-import Layout from 'components/app/layout'
 import {motion} from 'framer-motion'
 import {useRouter} from 'next/router'
 import {GetServerSideProps} from 'next'
 import * as React from 'react'
-import {trpc} from 'trpc/trpc.client'
 import {getToken} from 'next-auth/jwt'
 import {Button} from '@skillrecordings/ui'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import Layout from '@/components/app/layout'
+import {trpc} from '@/trpc/trpc.client'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const sessionToken = await getToken({req})
@@ -48,7 +48,7 @@ export default function Activate({userCode}: {userCode: string}) {
           <p className="py-4 text-gray-600 dark:text-gray-400">
             Please confirm this is the code displayed in your Workshop App
           </p>
-          <div className="w-full rounded-md border px-5 py-3 text-lg font-semibold dark:border-transparent dark:bg-black/75">
+          <div className="dark:bg-black/75 w-full rounded-md border px-5 py-3 text-lg font-semibold dark:border-transparent">
             {userCode}
           </div>
           <Button
