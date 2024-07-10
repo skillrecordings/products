@@ -50,7 +50,7 @@ export const SecondaryChapterToC: React.FC<{
                   {item.text.replace(/`/g, '')}
                 </span>
               </Link>
-              {item.items.length > 0 && (
+              {item.text.trim() !== 'Exercises' && item.items.length > 0 && (
                 <ol>
                   {item.items
                     .filter(({level}) => level < 4)
