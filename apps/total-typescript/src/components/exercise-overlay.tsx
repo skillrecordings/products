@@ -270,9 +270,16 @@ const LocalDevActions = ({
       type: lesson._type,
     })
   const canOpenExerciseInLocalEditor = Boolean(userPrefs)
-  const openInLocalEditorUrl = `${userPrefs?.editorLaunchProtocol}${
-    userPrefs?.localDirectoryPath
-  }/${stackblitz?.split(',')[0]}`
+  const openInLocalEditorUrl = userPrefs?.editorLaunchProtocol.includes(
+    'jetbrains',
+  )
+    ? `jetbrains://web-storm/navigate/reference?project=${
+        module?.github?.repo
+      }&path=${stackblitz?.split(',')[0]}`
+    : `${userPrefs?.editorLaunchProtocol}${userPrefs?.localDirectoryPath}/${
+        stackblitz?.split(',')[0]
+      }`
+
   const {exerciseGitHubUrl} = getExerciseGitHubUrl({stackblitz, module})
 
   return (

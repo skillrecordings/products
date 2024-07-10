@@ -53,7 +53,9 @@ export const ExerciseEmbed = ({
   const localFileDeepLink =
     session?.user &&
     canOpenExerciseInLocalEditor &&
-    `${userPrefs?.editorLaunchProtocol}${userPrefs?.localDirectoryPath}${filePath}`
+    userPrefs?.editorLaunchProtocol.includes('jetbrains')
+      ? `jetbrains://web-storm/navigate/reference?project=${book?.github?.repo}&path=${filePath}`
+      : `${userPrefs?.editorLaunchProtocol}${userPrefs?.localDirectoryPath}${filePath}`
   const {ability, abilityRulesStatus} = useAbilities()
   const canViewTypeScriptProEssentials = ability.can('view', 'Content')
 
