@@ -116,6 +116,7 @@
     "remark-gfm": "^3.0.1",
     "shiki": "1.6.2",
     "shortid": "^2.2.16",
+    "slugify": "^1.6.2",
     "speakingurl": "^14.0.1",
     "styled-jsx": "5.1.1",
     "superjson": "=1.11.0",

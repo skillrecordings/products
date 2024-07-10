@@ -40,6 +40,7 @@ export function getSdk(
             select: {
               id: true,
               name: true,
+              status: true,
             },
           },
           status: true,
