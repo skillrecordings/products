@@ -81,9 +81,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const InlineTeamInvite = ({
   bulkCouponId,
   seatsPurchased,
+  productSlug,
+  productActive,
 }: {
   bulkCouponId?: string
   seatsPurchased: number
+  productSlug: string
+  productActive: boolean
 }) => {
   if (!bulkCouponId) return null
 
@@ -109,6 +113,8 @@ const InlineTeamInvite = ({
         <CopyInviteLink
           className="[&_[data-sr-button]]:bg-gray-900/75 [&_[data-sr-button]]:text-primary [&_[data-sr-button]]:text-white [&_[data-sr-button]]:hover:bg-gray-900 [&_[data-sr-button]]:dark:bg-gray-900/75 [&_[data-sr-button]]:dark:text-white [&_[data-sr-button]]:dark:hover:bg-gray-900  [&_input]:border-transparent [&_input]:bg-gray-900 [&_input]:text-sm [&_input]:font-medium [&_input]:dark:bg-gray-900"
           bulkCouponId={bulkCouponId}
+          productSlug={productSlug}
+          productActive={productActive}
         />
       </div>
     </div>
@@ -199,10 +205,13 @@ const ThanksVerify: React.FC<
   let byline = null
   let title = `Thank you for purchasing ${stripeProductName}`
   let loginLink = null
+  const isProductActive: boolean = product.status === 1
   let inviteTeam = (
     <InlineTeamInvite
       bulkCouponId={bulkCouponId}
       seatsPurchased={seatsPurchased}
+      productSlug={product.slug}
+      productActive={isProductActive}
     />
   )
 
