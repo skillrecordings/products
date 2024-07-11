@@ -56,7 +56,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     purchaseForProduct.id,
     token.sub,
   )
-  console.log('is this what Im missing?----', purchase, existingPurchase)
 
   return {
     props: {
