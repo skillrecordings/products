@@ -1,15 +1,15 @@
 import React from 'react'
-import ExerciseTemplate from 'templates/exercise-template'
+import ExerciseTemplate from '@/templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getExercise} from 'lib/exercises'
+import {getExercise} from '@/lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
-import {getSection} from 'lib/sections'
-import {getAllWorkshops, getWorkshop} from 'lib/workshops'
+import {getSection} from '@/lib/sections'
+import {getAllTutorials, getTutorial} from '@/lib/tutorials'
 import {serialize} from 'next-mdx-remote/serialize'
-import {remarkCodeBlocksShiki} from '@kentcdodds/md-temp'
-import {removePreContainerDivs, trimCodeBlocks} from 'utils/mdx'
+// import {remarkCodeBlocksShiki} from '@kentcdodds/md-temp'
+import {removePreContainerDivs, trimCodeBlocks} from '@/utils/mdx'
 import * as Sentry from '@sentry/nextjs'
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -17,7 +17,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const lessonSlug = params?.lesson as string
   const sectionSlug = params?.section as string
 
-  const module = await getWorkshop(params?.module as string)
+  const module = await getTutorial(params?.module as string)
   const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSlug, false)
 
@@ -36,7 +36,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       mdxOptions: {
         rehypePlugins: [
           trimCodeBlocks,
-          remarkCodeBlocksShiki,
+          // remarkCodeBlocksShiki,
           removePreContainerDivs,
         ],
       },
@@ -57,7 +57,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-  const tutorials = await getAllWorkshops()
+  const tutorials = await getAllTutorials()
 
   const paths = tutorials.flatMap((tutorial: any) => {
     return (

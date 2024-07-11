@@ -1,6 +1,6 @@
 import React from 'react'
-import Layout from 'components/app/layout'
-import Spinner from 'components/spinner'
+import Layout from '@/components/app/layout'
+import Spinner from '@/components/spinner'
 import queryString from 'query-string'
 import toast from 'react-hot-toast'
 import Image from 'next/legacy/image'
@@ -9,10 +9,10 @@ import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-serve
 import {getSdk, User} from '@skillrecordings/database'
 import {SanityDocument} from '@sanity/client'
 import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
-import {getTutorial} from 'lib/tutorials'
+import {getTutorial} from '@/lib/tutorials'
 import {GetServerSideProps} from 'next'
 import {get, isEmpty} from 'lodash'
-import {trpc} from 'trpc/trpc.client'
+import {trpc} from '@/trpc/trpc.client'
 import {
   FieldValues,
   SubmitHandler,
