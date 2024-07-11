@@ -11,6 +11,7 @@ import {first, isString} from 'lodash'
 import InviteTeam from '@skillrecordings/skill-lesson/team'
 import {InvoiceCard} from '@/pages/invoices'
 import {getAllProducts} from '@/lib/products'
+import {getWorkshop, Workshop} from '@/lib/workshops'
 import Image from 'next/legacy/image'
 import {trpc} from '@/trpc/trpc.client'
 import {Transfer} from '@/purchase-transfer/purchase-transfer'
@@ -64,7 +65,8 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
         products.filter(
           (product: SanityProduct) => product.productId === purchase.product.id,
         ),
-      )
+      ) as SanityProduct
+      const firstWorkshop = await getWorkshop(purchasedProduct.modules[0].slug)
 
       return {
         props: {
@@ -73,6 +75,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
           existingPurchase,
           availableUpgrades,
           upgrade: upgrade === 'true',
+          firstWorkshop,
         },
       }
     } else {
@@ -119,6 +122,7 @@ const Welcome: React.FC<
     availableUpgrades: {upgradableTo: {id: string; name: string}}[]
     upgrade: boolean
     product?: SanityProduct
+    firstWorkshop?: Workshop
   }>
 > = ({
   upgrade,
@@ -127,6 +131,7 @@ const Welcome: React.FC<
   existingPurchase,
   availableUpgrades,
   product,
+  firstWorkshop,
 }) => {
   const {data: session, status} = useSession()
   const [personalPurchase, setPersonalPurchase] = React.useState<
@@ -169,6 +174,7 @@ const Welcome: React.FC<
             upgrade={upgrade}
             purchase={purchase}
             personalPurchase={personalPurchase}
+            firstWorkshop={firstWorkshop}
           />
           <div className="flex flex-col gap-10">
             <div>
@@ -222,8 +228,9 @@ const Header: React.FC<
     purchase: Purchase
     personalPurchase?: PersonalPurchase | Purchase
     product?: SanityProduct
+    firstWorkshop?: Workshop
   }>
-> = ({upgrade, purchase, product, personalPurchase}) => {
+> = ({upgrade, purchase, product, personalPurchase, firstWorkshop}) => {
   return (
     <header>
       <div className="flex flex-col items-center gap-10 pb-8 sm:flex-row">
@@ -244,10 +251,10 @@ const Header: React.FC<
             </span>
             {purchase.product.name}
           </h1>
-          {personalPurchase && product && (
+          {personalPurchase && product && firstWorkshop && (
             <FancyButton
               tag="link"
-              href={`/playlists/${product.modules[0].slug}`}
+              href={`/modules/${firstWorkshop.slug.current}/${firstWorkshop.resources[0].slug}`}
             >
               Start Learning
             </FancyButton>
