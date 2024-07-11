@@ -109,16 +109,19 @@ export const ArticleTeaser = ({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const articles = await getAllArticles()
-  // const articles: Article[] = Object.values(articlesObj).sort(
-  //   (a: Article, b: Article) =>
-  //     new Date(b.date).getTime() - new Date(a.date).getTime(),
-  // )
+  const allArticles = await getAllArticles()
+
+  const articles = [...allArticles].sort((a: Article, b: Article) => {
+    const dateA = a.date ? new Date(a.date).getTime() : 0
+    const dateB = b.date ? new Date(b.date).getTime() : 0
+    return dateB - dateA
+  })
 
   return {
     props: {
       articles,
     },
+    revalidate: 10,
   }
 }
 
