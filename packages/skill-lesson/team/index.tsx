@@ -35,7 +35,6 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
   })
 
   const isProductActive: boolean = purchase.product.status === 1
-  console.log(isProductActive)
 
   const bulkCouponSchema = z
     .object({id: z.string(), maxUses: z.number(), usedCount: z.number()})
