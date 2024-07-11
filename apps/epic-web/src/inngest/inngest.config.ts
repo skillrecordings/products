@@ -7,6 +7,7 @@ import {writeAnEmail} from 'inngest/functions/ai-email/write-an-email'
 import {purchaseTransferComplete} from 'inngest/functions/purchase/purchase-transfer-complete'
 import {sanityProductFunctions} from 'inngest/functions/sanity/product'
 import {stripeWebhookReceived} from 'inngest/functions/stripe/webhook-received'
+import {sendWelcomeEmail} from 'inngest/functions/post-purchase-automation/send-welcome-email'
 
 export const inngestConfig = {
   client: inngest,
@@ -20,6 +21,7 @@ export const inngestConfig = {
     lessonCompleted,
     writeAnEmail,
     purchaseTransferComplete,
+    sendWelcomeEmail,
     ...sanityProductFunctions,
   ],
 }
