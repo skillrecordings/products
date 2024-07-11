@@ -80,7 +80,7 @@ export type Purchase = {
   status: 'Valid' | 'Refunded' | 'Disputed' | 'Pending' | 'Restricted'
   merchantChargeId: string | null
   bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
-  product: {id: string; name: string}
+  product: {id: string; name: string; status: number}
   productId: string
   userId: string
   createdAt: string
@@ -90,7 +90,10 @@ export type Purchase = {
 export type ProductPageProps = {
   userId: string
   product: SanityProduct
-  existingPurchase: {id: string; product: {id: string; name: string}}
+  existingPurchase: {
+    id: string
+    product: {id: string; name: string}
+  }
   purchases: Purchase[]
   hasPurchasedCurrentProduct: boolean
   workshop?: Module

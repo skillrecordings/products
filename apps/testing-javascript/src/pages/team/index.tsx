@@ -61,7 +61,7 @@ type TeamPageProps = {
   purchase: {
     merchantChargeId: string | null
     bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
-    product: {id: string; name: string}
+    product: {id: string; name: string; status: number}
     totalAmount: number
   }
   existingPurchase: {
