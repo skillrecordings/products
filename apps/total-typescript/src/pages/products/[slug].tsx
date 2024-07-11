@@ -56,6 +56,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     purchaseForProduct.id,
     token.sub,
   )
+  console.log('is this what Im missing?----', purchase, existingPurchase)
 
   return {
     props: {
@@ -73,7 +74,7 @@ export type Purchase = {
   status: 'Valid' | 'Refunded' | 'Disputed' | 'Pending' | 'Restricted'
   merchantChargeId: string | null
   bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
-  product: {id: string; name: string}
+  product: {id: string; name: string; status: number}
   productId: string
   userId: string
   createdAt: string

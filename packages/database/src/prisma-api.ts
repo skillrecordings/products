@@ -433,6 +433,7 @@ export function getSdk(
                   id: true,
                   name: true,
                   productType: true,
+                  status: true,
                 },
               },
               upgradedFromId: true,
