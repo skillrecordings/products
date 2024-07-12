@@ -14,6 +14,7 @@ type Solution = Omit<Lesson, '_id'>
 
 export const UserSchema = z.object({
   role: z.string().optional(),
+  roles: z.string().optional(),
   purchases: z.array(z.any()).optional(),
   id: z.string().optional(),
   name: z.nullable(z.string().optional()),
@@ -249,7 +250,11 @@ export function defineRulesForPurchases(
     can('view', 'Content')
   }
 
-  if (['ADMIN', 'SUPERADMIN', 'Contributor'].includes(user?.role as string)) {
+  if (
+    ['ADMIN', 'SUPERADMIN', 'Contributor'].includes(
+      (user?.role as string) || (user?.roles as string),
+    )
+  ) {
     can('create', 'Content')
     can('view', 'Content')
   }
