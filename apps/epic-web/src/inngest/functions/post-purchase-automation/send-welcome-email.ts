@@ -20,7 +20,7 @@ export const sendWelcomeEmail = inngest.createFunction(
         },
       })
 
-      if (Boolean(!purchase)) throw new Error('Purchase not found')
+      if (!purchase) throw new Error('Purchase not found')
 
       return purchase
     })
@@ -35,28 +35,39 @@ export const sendWelcomeEmail = inngest.createFunction(
         },
       })
 
-      if (Boolean(!product)) throw new Error(`Product ${productId} not found`)
+      if (!product) throw new Error(`Product ${productId} not found`)
 
       return product
     })
 
-    await step.run('send welcome email to user', async () => {
-      // TODO: Make this dynamic. Write welcome emails for other workshops
-      if (productId !== process.env.PIXEL_PERFECT_PRODUCT_ID) return
+    try {
+      const response = await step.run(
+        'send welcome email to user',
+        async () => {
+          if (productId !== '1b6e7ed6-8a15-48f1-8dd7-e76612581ee8') {
+            return
+          }
 
-      let userEmail = purchase?.user?.email
-      if (!userEmail) throw new Error('User not found')
+          let userEmail = purchase?.user?.email
+          if (!userEmail) throw new Error('User not found')
 
-      const subject = `Welcome to ${product?.name}`
+          const subject = `Welcome to ${product?.name}, Figma Invite for DevMode`
 
-      return await sendTheEmail({
-        Subject: subject,
-        Component: WelcomeEmail,
-        To: 'cree@egghead.io',
-        componentProps: {
-          name: purchase?.user?.name,
+          return await sendTheEmail({
+            Subject: subject,
+            Component: WelcomeEmail,
+            To: userEmail,
+            componentProps: {
+              name: purchase?.user?.name,
+            },
+          })
         },
-      })
-    })
+      )
+
+      return response
+    } catch (error) {
+      console.error('Error sending welcome email:', error)
+      throw error
+    }
   },
 )
