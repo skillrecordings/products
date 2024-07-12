@@ -11,13 +11,20 @@ import * as React from 'react'
 import {Markdown} from '@react-email/markdown'
 
 let body = `
-# test email
 
-lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Thank you for purchasing the Pixel Perfect Figma to Tailwind Workshop!
 
-## Section Two
+To get started, please join our Figma team for access to DevMode. Use the invite link below:
 
-lorem ipsum dolor sit amet, consectetur
+[Join Figma Team](https://www.figma.com/team_invite/redeem/v4PpiqlduwfG4Q7VbVjIJ0)
+
+When accepting the invite, make sure to enroll as "bootcamp" if prompted. Please keep this link confidential as it is meant exclusively for you.
+
+PS: For the best experience, we highly recommend using the Epic Web workshop application on your local machine. This will allow you to authenticate and work through the material at your own pace, ensuring you get the most out of the workshop.
+
+Happy designing!
+
+-  Kody the Koala 🐨
 `
 
 export const WelcomeEmail = ({name}: {name: string | null | undefined}) => {
@@ -44,7 +51,7 @@ export default WelcomeEmail
 const fontFamily = 'HelveticaNeue,Helvetica,Arial,sans-serif'
 
 const main = {
-  backgroundColor: '#efeef1',
+  backgroundColor: '#ffffff',
   fontFamily,
 }
 
@@ -55,10 +62,9 @@ const paragraph = {
 
 const container = {
   width: '580px',
-  margin: '30px auto',
   backgroundColor: '#ffffff',
 }
 
 const content = {
-  padding: '5px 50px 10px 60px',
+  padding: '5px 20px 10px 20px',
 }
