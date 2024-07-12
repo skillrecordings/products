@@ -98,7 +98,7 @@ const Invoice: React.FC<
       meta={{title: `Invoice ${merchantChargeId}`}}
       className="print:bg-white print:text-black"
     >
-      <main className="mx-auto max-w-screen-md">
+      <main className="mx-auto flex w-full max-w-screen-md grow flex-col justify-center gap-y-16 py-16 lg:py-20">
         {purchaseDetails && purchaseDetails.purchase && (
           <Card
             title={{as: 'h1', content: 'Invite your team'}}
@@ -114,7 +114,7 @@ const Invoice: React.FC<
             />
           </Card>
         )}
-        <div className="flex flex-col justify-between pb-5 pt-12 print:hidden">
+        <div className="flex flex-col justify-between print:hidden">
           <h1 className="font-text text-lg font-bold leading-tight sm:text-xl">
             Your Invoice for {process.env.NEXT_PUBLIC_SITE_TITLE}
           </h1>
@@ -123,7 +123,7 @@ const Invoice: React.FC<
               onClick={() => {
                 window.print()
               }}
-              className="flex items-center rounded-md bg-primary px-3 py-2 text-sm font-semibold leading-6 text-white transition-colors duration-200 ease-in-out"
+              className="flex items-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold leading-6 text-white transition-colors duration-100 ease-in-out hover:bg-blue-600"
             >
               <span className="pr-2">Download PDF or Print</span>
               <DownloadIcon aria-hidden="true" className="w-5" />
@@ -131,7 +131,7 @@ const Invoice: React.FC<
             {emailData && (
               <a
                 href={emailData}
-                className="flex items-center rounded-md bg-gray-200 px-3 py-2 text-sm font-semibold leading-6 transition-colors duration-200 ease-in-out dark:bg-gray-800"
+                className="flex items-center rounded-md bg-er-gray-200 px-3 py-2 text-sm font-semibold leading-6 transition-colors duration-100 ease-in-out hover:bg-er-gray-300 dark:bg-er-gray-300 dark:hover:bg-er-gray-400"
               >
                 <span className="pr-2">Send via email</span>
                 <MailIcon aria-hidden="true" className="w-5" />
@@ -139,7 +139,7 @@ const Invoice: React.FC<
             )}
           </div>
         </div>
-        <div className="rounded-t-md bg-white pr-12 text-gray-900 shadow-xl print:shadow-none">
+        <div className="rounded-md border border-er-gray-100 bg-white pr-12 text-black">
           <div className="px-10 py-16">
             <div className="grid w-full grid-cols-3 items-start justify-between ">
               <div className="col-span-2 flex items-center">
