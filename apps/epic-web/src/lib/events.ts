@@ -17,6 +17,19 @@ export const EventSchema = z.object({
   body: z.nullable(z.string()).optional(),
   state: z.enum(['published', 'draft']),
   timezone: z.nullable(z.string().url()).optional(),
+  resources: z
+    .array(
+      z.object({
+        _id: z.string(),
+        _type: z.string(),
+        moduleType: z.string(),
+        title: z.string(),
+        description: z.string(),
+        slug: z.string(),
+      }),
+    )
+    .nullable()
+    .optional(),
   events: z
     .array(
       z.object({
@@ -130,6 +143,14 @@ export const getEvent = async (slug: string): Promise<Event | null> => {
         title,
         state,
         "slug": slug.current,
+        "resources": resources[]->{
+          _id,
+          _type,
+          moduleType,
+          title,
+          description,
+          "slug": slug.current,
+        },
         startsAt,
         endsAt,
         description,
