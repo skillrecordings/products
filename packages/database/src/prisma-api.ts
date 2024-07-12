@@ -404,7 +404,7 @@ export function getSdk(
       const purchases = userId
         ? await ctx.prisma.purchase.findMany({
             orderBy: {
-              createdAt: 'asc',
+              createdAt: 'desc',
             },
             where: {
               userId,

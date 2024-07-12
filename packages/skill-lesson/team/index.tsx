@@ -13,7 +13,7 @@ type InviteTeamProps = {
   existingPurchase: {
     id: string
     product: {id: string; name: string}
-  }
+  } | null
   session: any
   setPersonalPurchase: (props: any) => void
   className?: string
@@ -33,6 +33,8 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
     strict: true,
     replacement: '-',
   })
+
+  console.log('purchase', purchase)
 
   const isProductActive: boolean = purchase.product.status === 1
 

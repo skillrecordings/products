@@ -23,7 +23,9 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     const purchases = await getPurchasesForUser(sessionToken?.sub)
     return {
       props: {
-        purchases: purchases.map(convertToSerializeForNextResponse),
+        purchases: purchases
+          ?.sort((a: any, b: any) => b.createdAt - a.createdAt)
+          .map(convertToSerializeForNextResponse),
       },
     }
   }
