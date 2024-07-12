@@ -21,6 +21,20 @@ export const purchasesRouter = router({
           })
         : null
     }),
+  getPurchaseDetailsById: publicProcedure
+    .input(
+      z.object({
+        purchaseId: z.string().nullish(),
+      }),
+    )
+    .query(async ({input: {purchaseId}, ctx}) => {
+      const token = await getToken({req: ctx.req})
+      const {getPurchaseDetails} = getSdk()
+
+      return purchaseId && token && token.sub
+        ? await getPurchaseDetails(purchaseId as string, token.sub)
+        : null
+    }),
   getLastPurchase: publicProcedure.query(async ({ctx}) => {
     const token = await getToken({req: ctx.req})
     const {getPurchaseDetails, getPurchasesForUser} = getSdk()
