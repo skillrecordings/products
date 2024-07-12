@@ -32,11 +32,7 @@ const WelcomeBanner: React.FC<{purchases: any}> = ({purchases}) => {
               <div className="my-5 grid w-full grid-flow-row gap-3 sm:w-auto sm:grid-flow-col-dense">
                 <div className="rounded-md shadow-sm">
                   <Link
-                    href={`/invoices/${
-                      purchases?.sort(
-                        (a: any, b: any) => b.createdAt - a.createdAt,
-                      )[0]?.merchantChargeId
-                    }`}
+                    href={`/invoices/${purchases[0]?.merchantChargeId}`}
                     className="flex items-center justify-center rounded-md border border-transparent bg-indigo-800 px-4 py-2 text-base font-semibold leading-6 text-white transition duration-150 ease-in-out hover:bg-indigo-900 focus:shadow-outline focus:outline-none"
                   >
                     {hasTeamPurchase ? 'Invite Your Team' : 'View Invoice'}
