@@ -9,7 +9,7 @@ export const ArticleSchema = z.object({
   _createdAt: z.string(),
   title: z.string(),
   slug: z.string(),
-  date: z.string().optional().nullable(),
+  date: z.string().datetime().nullable().optional(),
   description: z.nullable(z.string()).optional(),
   summary: z.nullable(z.string()).optional(),
   body: z.string(),
