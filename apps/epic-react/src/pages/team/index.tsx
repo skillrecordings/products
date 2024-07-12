@@ -28,10 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     console.log('purchases', purchases)
 
     const purchaseId = get(
-      find(
-        purchases?.sort((a: any, b: any) => b.createdAt - a.createdAt),
-        (purchase: any) => !isNull(purchase.bulkCoupon),
-      ),
+      find(purchases, (purchase: any) => !isNull(purchase.bulkCoupon)),
       'id',
     )
 

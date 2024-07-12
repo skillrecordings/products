@@ -8,10 +8,7 @@ import {isEmpty} from 'lodash'
 const WelcomeBanner: React.FC<{purchases: any}> = ({purchases}) => {
   console.log('purchases', purchases)
   const [isOn, setOn] = useLocalStorage('welcome-banner', true)
-  const hasTeamPurchase = !isEmpty(
-    purchases?.sort((a: any, b: any) => b.createdAt - a.createdAt)[0]
-      ?.bulkCoupon,
-  )
+  const hasTeamPurchase = !isEmpty(purchases[0]?.bulkCoupon)
   if (!isOn) return null
 
   return (
