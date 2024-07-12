@@ -43,7 +43,17 @@ export const purchasesRouter = router({
       const purchases = (await getPurchasesForUser(token.id as string)) || []
 
       if (!isEmpty(purchases)) {
-        const purchaseId = get(last(purchases), 'id')
+        const purchaseId = get(
+          last(
+            purchases.sort(
+              (a: any, b: any) =>
+                new Date(a.createdAt).getTime() -
+                new Date(b.createdAt).getTime(),
+            ),
+          ),
+          'id',
+        )
+
         const purchaseDetails = await getPurchaseDetails(
           purchaseId as string,
           token.sub,
