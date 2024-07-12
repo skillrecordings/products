@@ -1,7 +1,7 @@
 import React from 'react'
 import {GetServerSideProps} from 'next'
-import EmbedTemplate, {VideoEmbedPageProps} from 'templates/embed-template'
-import {getPropsForEmbed} from 'utils/get-props-for-embeds'
+import EmbedTemplate, {VideoEmbedPageProps} from '@/templates/embed-template'
+import {getPropsForEmbed} from '@/utils/get-props-for-embeds'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const props = await getPropsForEmbed(context, 'workshop', false)
