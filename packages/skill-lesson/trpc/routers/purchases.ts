@@ -52,7 +52,7 @@ export const purchasesRouter = router({
           purchaseDetails.purchase?.product.id as string,
         )
 
-        return {...purchaseDetails, slug: product.slug.current}
+        return {...purchaseDetails, slug: product?.slug?.current || 'unknown'}
       }
     }
     return false
