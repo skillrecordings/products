@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {DownloadIcon} from '@heroicons/react/outline'
+import {DownloadIcon, UserGroupIcon} from '@heroicons/react/outline'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import {useLocalStorage} from 'react-use'
 import {GetServerSideProps} from 'next'
@@ -13,6 +13,9 @@ import {Transfer} from '../../purchase-transfer/purchase-transfer'
 import {MailIcon} from '@heroicons/react/solid'
 import {z} from 'zod'
 import {useRouter} from 'next/router'
+import InviteTeam from '@skillrecordings/skill-lesson/team'
+import Card from '@skillrecordings/skill-lesson/team/card'
+import {useSession} from 'next-auth/react'
 
 export const getServerSideProps: GetServerSideProps = async ({query}) => {
   const {merchantChargeId} = z
@@ -31,6 +34,7 @@ const Invoice: React.FC<
     merchantChargeId: string
   }>
 > = ({merchantChargeId}) => {
+  const {data: session} = useSession()
   const [invoiceMetadata, setInvoiceMetadata] = useLocalStorage(
     'invoice-metadata',
     '',
@@ -48,6 +52,11 @@ const Invoice: React.FC<
       merchantChargeId,
     },
   )
+
+  const {data: purchaseDetails} =
+    trpc.purchases.getPurchaseDetailsById.useQuery({
+      purchaseId: chargeDetails?.result?.purchaseId,
+    })
 
   React.useEffect(() => {
     if (chargeDetails?.state !== 'SUCCESS' && status !== 'loading') {
@@ -90,6 +99,21 @@ const Invoice: React.FC<
       className="print:bg-white print:text-black"
     >
       <main className="mx-auto max-w-screen-md">
+        {purchaseDetails && purchaseDetails.purchase && (
+          <Card
+            title={{as: 'h1', content: 'Invite your team'}}
+            icon={
+              <UserGroupIcon className="w-5 text-cyan-500" aria-hidden="true" />
+            }
+          >
+            <InviteTeam
+              session={session}
+              purchase={purchaseDetails.purchase}
+              existingPurchase={purchaseDetails.existingPurchase}
+              setPersonalPurchase={() => {}}
+            />
+          </Card>
+        )}
         <div className="flex flex-col justify-between pb-5 pt-12 print:hidden">
           <h1 className="font-text text-lg font-bold leading-tight sm:text-xl">
             Your Invoice for {process.env.NEXT_PUBLIC_SITE_TITLE}
