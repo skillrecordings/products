@@ -168,7 +168,7 @@ const EventTemplate: React.FC<
           {selfPacedWorkshop && (
             <div className="mt-5 flex flex-col items-start gap-5 border-t pt-8 md:hidden">
               <p className="text-balance text-center text-xl font-medium">
-                Self-Paced Workshop Now Avaialble!
+                Self-Paced Workshop Now Available!
               </p>
               <Button asChild className="font-semibold" size="lg">
                 <Link href={`/workshops/${selfPacedWorkshop.slug}`}>
@@ -200,7 +200,7 @@ const EventTemplate: React.FC<
             {selfPacedWorkshop && (
               <div className="flex flex-col items-center gap-5 px-5">
                 <p className="text-balance text-center text-lg font-semibold">
-                  Self-Paced Workshop Now Avaialble!
+                  Self-Paced Workshop Now Available!
                 </p>
                 <Button asChild className="font-semibold" size="lg">
                   <Link href={`/workshops/${selfPacedWorkshop.slug}`}>
