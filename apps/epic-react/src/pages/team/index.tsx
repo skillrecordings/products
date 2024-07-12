@@ -22,17 +22,12 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   const {getPurchaseDetails} = getSdk()
 
   if (ability.can('view', 'Team')) {
-    console.log('CAN VIEW TEAM')
     const {purchases} = await getPurchasedProduct(req)
-
-    console.log('purchases', purchases)
 
     const purchaseId = get(
       find(purchases, (purchase: any) => !isNull(purchase.bulkCoupon)),
       'id',
     )
-
-    console.log('purchaseId', purchaseId)
 
     if (token && isString(purchaseId) && isString(token?.sub)) {
       const {purchase, existingPurchase, availableUpgrades} =

@@ -58,10 +58,6 @@ const Invoice: React.FC<
       purchaseId: chargeDetails?.result?.purchaseId,
     })
 
-  console.log('purchaseDetails', purchaseDetails)
-
-  console.log('chargeDetails', chargeDetails)
-
   React.useEffect(() => {
     if (chargeDetails?.state !== 'SUCCESS' && status !== 'loading') {
       router.push('/invoices')

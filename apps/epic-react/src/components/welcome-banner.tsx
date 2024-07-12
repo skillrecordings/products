@@ -6,7 +6,6 @@ import Image from 'next/image'
 import {isEmpty} from 'lodash'
 
 const WelcomeBanner: React.FC<{purchases: any}> = ({purchases}) => {
-  console.log('purchases', purchases)
   const [isOn, setOn] = useLocalStorage('welcome-banner', true)
   const hasTeamPurchase = !isEmpty(purchases[0]?.bulkCoupon)
   if (!isOn) return null
