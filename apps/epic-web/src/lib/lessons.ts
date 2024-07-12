@@ -3,7 +3,7 @@ import {getModule} from '@skillrecordings/skill-lesson/lib/modules'
 import {getSection} from 'lib/sections'
 import {getExercise} from 'lib/exercises'
 import {getProducts} from '@skillrecordings/skill-lesson/lib/products'
-import {getCurrentAbility} from '@skillrecordings/skill-lesson'
+import {AppAbility, getCurrentAbility} from '@skillrecordings/skill-lesson'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import groq from 'groq'
@@ -22,6 +22,7 @@ type Error = {
     | 'unauthorized-to-view-lesson'
     | 'region-restricted'
     | 'lesson-not-found'
+  ability?: AppAbility
 }
 
 type GetLessonProps = {

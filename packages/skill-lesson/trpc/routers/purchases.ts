@@ -21,6 +21,20 @@ export const purchasesRouter = router({
           })
         : null
     }),
+  getPurchaseDetailsById: publicProcedure
+    .input(
+      z.object({
+        purchaseId: z.string().nullish(),
+      }),
+    )
+    .query(async ({input: {purchaseId}, ctx}) => {
+      const token = await getToken({req: ctx.req})
+      const {getPurchaseDetails} = getSdk()
+
+      return purchaseId && token && token.sub
+        ? await getPurchaseDetails(purchaseId as string, token.sub)
+        : null
+    }),
   getLastPurchase: publicProcedure.query(async ({ctx}) => {
     const token = await getToken({req: ctx.req})
     const {getPurchaseDetails, getPurchasesForUser} = getSdk()
@@ -29,7 +43,17 @@ export const purchasesRouter = router({
       const purchases = (await getPurchasesForUser(token.id as string)) || []
 
       if (!isEmpty(purchases)) {
-        const purchaseId = get(last(purchases), 'id')
+        const purchaseId = get(
+          last(
+            purchases.sort(
+              (a: any, b: any) =>
+                new Date(a.createdAt).getTime() -
+                new Date(b.createdAt).getTime(),
+            ),
+          ),
+          'id',
+        )
+
         const purchaseDetails = await getPurchaseDetails(
           purchaseId as string,
           token.sub,
@@ -38,7 +62,7 @@ export const purchasesRouter = router({
           purchaseDetails.purchase?.product.id as string,
         )
 
-        return {...purchaseDetails, slug: product.slug.current}
+        return {...purchaseDetails, slug: product?.slug?.current || 'unknown'}
       }
     }
     return false

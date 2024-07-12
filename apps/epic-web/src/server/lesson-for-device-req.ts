@@ -39,8 +39,13 @@ export async function lessonForDeviceReq({
       ) {
         res.status(404).end()
       } else if (lessonForDevice.error === 'unauthorized-to-view-lesson') {
+        console.info(
+          `unauthorized to view lesson: ${user?.email}`,
+          lessonForDevice,
+          user,
+        )
         // unauthorized
-        res.status(401).end()
+        res.status(401).json(lessonForDevice)
       } else if (user) {
         if (lessonForDevice?.error === 'region-restricted') {
           const requestCountry = req.headers['x-vercel-ip-country'] as string
