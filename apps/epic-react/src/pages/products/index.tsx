@@ -18,7 +18,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@skillrecordings/ui'
@@ -148,7 +147,6 @@ const ProductCard: React.FC<{
   product: SanityProduct
   purchase: PurchaseWithProduct | undefined
 }> = ({product, purchase}) => {
-  const router = useRouter()
   const {data: formattedPrice, status: formattedPriceStatus} =
     trpc.pricing.formatted.useQuery({
       productId: product.productId as string,
@@ -241,7 +239,6 @@ const ProductCard: React.FC<{
                       </Button>
                     )}
                     {purchase ? null : (
-                      // <Price amount={Number(purchase.totalAmount)} />
                       <div className="flex items-center space-x-3 pt-2 text-sm text-muted-foreground">
                         <>
                           <PriceDisplay

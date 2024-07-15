@@ -15,11 +15,6 @@ import PurchasedProductTemplate from '@/templates/purchased-product-template'
 import {getSdk} from '@skillrecordings/database'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import {getWorkshopsForProduct} from '@/lib/workshops'
-
-// import {getWorkshop} from '@/lib/workshops'
-import {getProduct} from '@/lib/products'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
@@ -27,10 +22,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const token = await getToken({req})
   const product = await getProductBySlug(params?.slug as string)
-  // const workshops = await getWorkshopsForProduct({
-  //   productId: product.productId as string,
-  // })
-  // const workshop = await getWorkshop(params?.slug as string)
 
   if (!product) {
     return {
@@ -69,16 +60,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       hasPurchasedCurrentProduct: Boolean(purchase),
       existingPurchase: convertToSerializeForNextResponse(existingPurchase),
       product,
-      // workshops,
-      // workshop,
     },
-    // props: {
-    //   ...commerceProps.props,
-    //   hasPurchasedCurrentProduct: Boolean(purchase),
-    //   existingPurchase: convertToSerializeForNextResponse(existingPurchase),
-    //   product,
-    //   workshop,
-    // },
   }
 }
 
@@ -103,7 +85,6 @@ export type ProductPageProps = {
   }
   purchases: Purchase[]
   hasPurchasedCurrentProduct: boolean
-  // workshop?: Module
   mdx?: MDXRemoteSerializeResult
   availableBonuses?: any[]
 } & CommerceProps
