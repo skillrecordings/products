@@ -105,6 +105,7 @@
     "pluralize": "^8.0.0",
     "prism-react-renderer": "^2.3.1",
     "prismjs": "^1.29.0",
+    "query-string": "^7.1.1",
     "react": "18.3.0-canary-a870b2d54-20240314",
     "react-confetti": "^6.1.0",
     "react-countdown": "^2.3.5",

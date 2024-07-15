@@ -1,10 +1,11 @@
 import React from 'react'
 import {GetServerSideProps, NextApiRequest} from 'next'
-import EmbedTemplate, {VideoEmbedPageProps} from 'templates/embed-template'
-import {getPropsForEmbed} from 'utils/get-props-for-embeds'
+import EmbedTemplate, {VideoEmbedPageProps} from '@/templates/embed-template'
+import {getPropsForEmbed} from '@/utils/get-props-for-embeds'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const props = await getPropsForEmbed(context, 'workshop', true)
+  const isSolution = true
+  const props = await getPropsForEmbed(context, 'tutorial', isSolution)
 
   if (!props) {
     return {
@@ -22,7 +23,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     login: {providers, csrfToken},
     convertkitSubscriber,
     abilityRules,
-    isSolution,
   } = props
 
   return {
@@ -30,9 +30,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       module,
       section,
       lesson,
-      ...(isSolution && {
-        solution: lesson.solution,
-      }),
       videoResourceId,
       videoResource,
       theme,
