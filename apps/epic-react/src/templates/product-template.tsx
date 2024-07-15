@@ -69,12 +69,21 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
         },
       }}
     >
+      <div className="flex justify-center pt-16">
+        <Link
+          href="/products"
+          className="group mb-10 inline-flex gap-1 text-sm opacity-75 transition hover:opacity-100"
+        >
+          <span className="transition group-hover:-translate-x-1">←</span>{' '}
+          <span>All Products</span>
+        </Link>
+      </div>
       <Header
         product={product as any}
         title={title}
         hasPurchased={hasPurchased}
       />
-      <main id="buy">
+      <main id="buy" data-not-purchased-product="">
         {mdx && (
           <article className="mx-auto w-full max-w-screen-md px-10 py-8 md:py-10">
             <h1 className="text-7xl">HHHHHHH</h1>
@@ -98,7 +107,7 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
           </PriceCheckProvider>
         </div>
         <Image
-          className="mx-auto -mt-24 mb-16"
+          className="mx-auto mb-16"
           src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
           width={130}
           height={130}
@@ -116,6 +125,7 @@ type HeaderProps = {
 }
 
 const Header: React.FC<HeaderProps> = ({title, hasPurchased, product}) => {
+  console.log({product})
   const {scrollY} = useScroll()
   const headerScrollRotation = useTransform(
     scrollY,
@@ -138,16 +148,22 @@ const Header: React.FC<HeaderProps> = ({title, hasPurchased, product}) => {
               Purchased
             </Link>
           )}
+          {product?.image?.url && (
+            <Image
+              className="rounded-full"
+              src={product.image.url}
+              alt={product.name}
+              width={200}
+              height={200}
+            />
+          )}
           <h1
-            className={cx(
-              'fluid-2xl sm:fluid-3xl w-full max-w-screen-xl px-5 text-center font-semibold tracking-tight',
-              {
-                'pt-8': !hasPurchased,
-                'pt-5': hasPurchased,
-              },
-            )}
+            className={cx('font-text pt-5 text-3xl font-semibold sm:text-4xl', {
+              'pt-8': !hasPurchased,
+              'pt-5': hasPurchased,
+            })}
           >
-            <Balancer>{title}</Balancer>
+            {title}
           </h1>
         </div>
       </div>

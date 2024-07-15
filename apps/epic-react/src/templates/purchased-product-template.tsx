@@ -44,7 +44,10 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   product,
   existingPurchase,
   userId,
+  // workshops,
 }) => {
+  console.log('PRODUCT:', product)
+  // console.log('WORKSHOPS:', workshops)
   const router = useRouter()
   const {data: session, status: sessionStatus} = useSession()
 
@@ -469,8 +472,11 @@ const ModuleItem: React.FC<{
   module: SanityProductModule
 }> = ({module}) => {
   const moduleProgress = useModuleProgress()
+  console.log('moduleProgress:', moduleProgress)
   const {sections, slug} = module
-  const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
+  const isModuleInProgress =
+    (moduleProgress?.completedLessonCount || 0) > 0 ||
+    moduleProgress?.moduleCompleted
   const nextSection = moduleProgress?.nextSection
   const nextLesson = moduleProgress?.nextLesson
 
@@ -484,19 +490,20 @@ const ModuleItem: React.FC<{
     module?.sections &&
     module?.lessons &&
     (sectionsFlatMap(module?.sections).length || module?.lessons.length)
+
   return (
     <div className="flex items-center gap-3 py-2">
       {module?.image?.url && (
         <Image
           src={module.image.url}
-          alt={module.title}
-          width={80}
-          height={80}
+          alt={module.image.alt}
+          width={60}
+          height={60}
         />
       )}
       <div className="flex flex-col">
         <Link
-          href={`/${pluralize(module.moduleType)}/${module.slug}`}
+          href={`/modules/${module.slug}/${module.lessons?.[0]?.slug}`}
           className="font-semibold hover:underline"
         >
           {module.title}
@@ -517,44 +524,44 @@ const ModuleItem: React.FC<{
         <div className="pt-0.5">
           {isModuleInProgress && (
             <>
-              <Link
-                href={
-                  firstSection && sections
-                    ? {
-                        pathname: `/${pluralize(
-                          module.moduleType,
-                        )}/[module]/[section]/[lesson]`,
-                        query: {
-                          module: slug,
-                          section: isModuleInProgress
-                            ? nextSection?.slug
-                            : firstSection.slug,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
-                        },
-                      }
-                    : {
-                        pathname: `/${pluralize(
-                          module.moduleType,
-                        )}/[module]/[lesson]`,
-                        query: {
-                          module: slug,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
-                        },
-                      }
-                }
-                className={cx(
-                  'flex font-medium text-blue-600 hover:underline dark:text-blue-300',
-                )}
-                onClick={() => {
-                  track('clicked start learning', {module: slug})
-                }}
-              >
-                {isModuleInProgress ? 'Continue' : 'Start'}
-              </Link>
+              {!moduleProgress?.moduleCompleted && (
+                <Link
+                  href={
+                    firstSection && sections
+                      ? {
+                          pathname: `/modules/[module]/[lesson]`,
+                          query: {
+                            module: slug,
+                            // section: isModuleInProgress
+                            //   ? nextSection?.slug
+                            //   : firstSection.slug,
+                            lesson: isModuleInProgress
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
+                          },
+                        }
+                      : {
+                          pathname: `/${pluralize(
+                            module.moduleType,
+                          )}/[module]/[lesson]`,
+                          query: {
+                            module: slug,
+                            lesson: isModuleInProgress
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
+                          },
+                        }
+                  }
+                  className={cx(
+                    'flex font-medium text-blue-600 hover:underline dark:text-blue-300',
+                  )}
+                  onClick={() => {
+                    track('clicked start learning', {module: slug})
+                  }}
+                >
+                  Continue
+                </Link>
+              )}
               <div className="relative flex w-full items-center justify-between gap-1">
                 <div className="pr-1 text-xs font-semibold text-gray-600 dark:text-gray-300">
                   {moduleProgress?.percentComplete}%
