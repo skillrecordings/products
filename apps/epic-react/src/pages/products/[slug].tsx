@@ -9,12 +9,13 @@ import {
   propsForCommerce,
 } from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
-import {getProductBySlug} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
+import {getProductBySlug} from '@/lib/products'
 import ProductTemplate from '@/templates/product-template'
 import PurchasedProductTemplate from '@/templates/purchased-product-template'
 import {getSdk} from '@skillrecordings/database'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {getWorkshopsForProduct} from '@/lib/workshops'
 
 // import {getWorkshop} from '@/lib/workshops'
 import {getProduct} from '@/lib/products'
@@ -26,6 +27,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const token = await getToken({req})
   const product = await getProductBySlug(params?.slug as string)
+  // const workshops = await getWorkshopsForProduct({
+  //   productId: product.productId as string,
+  // })
   // const workshop = await getWorkshop(params?.slug as string)
 
   if (!product) {
@@ -65,6 +69,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       hasPurchasedCurrentProduct: Boolean(purchase),
       existingPurchase: convertToSerializeForNextResponse(existingPurchase),
       product,
+      // workshops,
       // workshop,
     },
     // props: {
