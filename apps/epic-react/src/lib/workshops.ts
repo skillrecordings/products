@@ -123,6 +123,23 @@ export const WorkshopSchema = z.object({
   description: z.string().nullable(),
   body: z.string().nullable(),
   state: z.union([z.literal('published'), z.literal('draft')]),
+  workshopApp: z
+    .nullable(
+      z.object({
+        path: z.string().optional(),
+        localhost: z
+          .object({
+            port: z.string().optional(),
+          })
+          .optional(),
+        external: z
+          .object({
+            url: z.string().optional(),
+          })
+          .optional(),
+      }),
+    )
+    .optional(),
   github: z.object({repo: z.string()}).nullable().optional(),
   resources: z.array(
     z.object({

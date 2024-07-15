@@ -10,7 +10,23 @@ export const ExerciseSchema = z
     github: z.nullable(z.string()).optional(),
     videoResourceId: z.nullable(z.string()).optional(),
     transcript: z.nullable(z.string()).optional(),
-    // legacyTranscript: z.nullable(z.string()).optional(),
+    workshopApp: z
+      .nullable(
+        z.object({
+          path: z.string().optional(),
+          localhost: z
+            .object({
+              port: z.string().optional(),
+            })
+            .optional(),
+          external: z
+            .object({
+              url: z.string().optional(),
+            })
+            .optional(),
+        }),
+      )
+      .optional(),
     solution: z.nullable(
       z
         .object({
@@ -46,6 +62,9 @@ export const getExerciseMedia = async (exerciseSlug: string) => {
       body,
       "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
       "transcript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      "workshopApp": resources[@._type == 'workshopApp'][0]{
+          path
+        },
       "solution": resources[@._type == 'solution'][0]{
         body,
         "muxPlaybackId": resources[@->._type == 'videoResource'][0]-> muxAsset.muxPlaybackId,
@@ -76,6 +95,9 @@ export const getExercise = async (
       "videoResourceId": resources[@->._type == 'videoResource'][0]->_id,
       "transcript": resources[@->._type == 'videoResource'][0]-> transcript.text,
       "legacyTranscript": resources[@->._type == 'videoResource'][0]-> castingwords.transcript,
+      "workshopApp": resources[@._type == 'workshopApp'][0]{
+        path
+      },
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,

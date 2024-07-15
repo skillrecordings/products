@@ -36,6 +36,7 @@ import bodyTestimonial from './objects/bodyTestimonial'
 import feature from './objects/feature'
 import github from './objects/resources/github'
 import transcript from './objects/transcript'
+import workshopApp from './objects/workshop-app'
 
 export const schemaTypes = [
   // —— documents
@@ -76,4 +77,5 @@ export const schemaTypes = [
   bodyTestimonial,
   feature,
   transcript,
+  workshopApp,
 ]
