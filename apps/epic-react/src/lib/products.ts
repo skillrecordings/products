@@ -99,7 +99,6 @@ export const getProductBySlug = async (productSlug: string) => {
       "slug": slug.current,
       title,
       description,
-      // "slug": slug.current,
       "solution": resources[@._type == 'solution'][0]{
         _key,
         _type,

@@ -44,7 +44,6 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
   product,
   existingPurchase,
   userId,
-  // workshops,
 }) => {
   const router = useRouter()
   const {data: session, status: sessionStatus} = useSession()
@@ -466,7 +465,6 @@ const ModuleItem: React.FC<{
   module: SanityProductModule
 }> = ({module}) => {
   const moduleProgress = useModuleProgress()
-  console.log('moduleProgress:', moduleProgress)
   const {sections, slug} = module
   const isModuleInProgress =
     (moduleProgress?.completedLessonCount || 0) > 0 ||

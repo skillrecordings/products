@@ -67,7 +67,7 @@
     [data-product-description] {
       @apply max-w-none px-0 pb-6 pt-2 text-lg;
       p {
-        @apply text-text;
+        @apply max-w-2xl text-text;
       }
     }
     [data-header] {
