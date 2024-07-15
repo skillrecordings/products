@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Layout from '@/components/app/layout'
 import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
@@ -162,69 +163,103 @@ const ProductCard: React.FC<{
   }
 
   return (
-    <Card className="relative">
-      <CardHeader className="flex w-full flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">
-        <CardTitle className="w-full text-xl hover:underline">
-          <Link href={purchase ? purchasedHref : `/products/${product.slug}`}>
-            {product.title}
-          </Link>
-        </CardTitle>
-        <div className="flex items-center gap-3">
-          {purchase ? <PurchasedBadge /> : null}
+    <Card className="relative border-er-gray-200 bg-transparent">
+      <div className="flex">
+        <div className="grid w-[100px] place-items-center py-5 pl-5 md:w-[120px]">
+          {product?.image?.url && (
+            <Image
+              className="rounded-full"
+              src={product.image.url}
+              alt={product.name}
+              width={200}
+              height={200}
+            />
+          )}
         </div>
-      </CardHeader>
-      <CardFooter className="space-x-2">
-        {purchase ? (
-          <>
-            <Button variant="secondary" size="sm" asChild>
-              <Link href={purchasedHref}>
-                {purchase.bulkCoupon ? 'Manage & Details' : 'Manage & Details'}
+        <div className="grow">
+          <CardHeader className="flex w-full flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">
+            <CardTitle className="w-full text-xl hover:underline">
+              <Link
+                href={purchase ? purchasedHref : `/products/${product.slug}`}
+                className="whitespace-nowrap"
+              >
+                {product.title}
               </Link>
-            </Button>
-            {purchase.merchantChargeId && (
-              <Button variant="outline" asChild size="sm">
-                <Link
-                  href={{
-                    pathname: '/invoices/[merchantChargeId]',
-                    query: {
-                      merchantChargeId: purchase.merchantChargeId,
-                    },
-                  }}
-                >
-                  Invoice
-                </Link>
-              </Button>
-            )}
-          </>
-        ) : (
-          <>
-            {product.state === 'unavailable' ? (
-              'Unavailable'
-            ) : (
+            </CardTitle>
+            <div className="flex items-center gap-3">
+              {purchase ? <PurchasedBadge /> : null}
+            </div>
+          </CardHeader>
+          <CardFooter className="space-x-2">
+            {purchase ? (
               <>
-                {product.slug && (
-                  <Button size="sm" asChild>
-                    <Link href={buyHref}>Buy</Link>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  asChild
+                  className="bg-blue-500 hover:bg-blue-600"
+                >
+                  <Link href={purchasedHref}>
+                    {purchase.bulkCoupon
+                      ? 'Manage & Details'
+                      : 'Manage & Details'}
+                  </Link>
+                </Button>
+                {purchase.merchantChargeId && (
+                  <Button
+                    variant="outline"
+                    asChild
+                    size="sm"
+                    className="bg-gray-500 hover:bg-gray-600"
+                  >
+                    <Link
+                      href={{
+                        pathname: '/invoices/[merchantChargeId]',
+                        query: {
+                          merchantChargeId: purchase.merchantChargeId,
+                        },
+                      }}
+                    >
+                      Invoice
+                    </Link>
                   </Button>
                 )}
-                {purchase ? null : (
-                  // <Price amount={Number(purchase.totalAmount)} />
-                  <div className="flex items-center space-x-3 pt-2 text-sm text-muted-foreground">
-                    <>
-                      <PriceDisplay
-                        formattedPrice={formattedPrice}
-                        status={formattedPriceStatus}
-                      />
-                    </>
-                  </div>
+              </>
+            ) : (
+              <>
+                {product.state === 'unavailable' ? (
+                  'Unavailable'
+                ) : (
+                  <>
+                    {product.slug && (
+                      <Button
+                        size="sm"
+                        asChild
+                        className="border border-yellow-300 text-text hover:bg-yellow-300"
+                      >
+                        <Link href={buyHref}>Buy</Link>
+                      </Button>
+                    )}
+                    {purchase ? null : (
+                      // <Price amount={Number(purchase.totalAmount)} />
+                      <div className="flex items-center space-x-3 pt-2 text-sm text-muted-foreground">
+                        <>
+                          <PriceDisplay
+                            formattedPrice={formattedPrice}
+                            status={formattedPriceStatus}
+                          />
+                        </>
+                      </div>
+                    )}
+                  </>
                 )}
               </>
             )}
-          </>
-        )}
-      </CardFooter>
-      <div className="px-5 [&_h2]:mt-0 [&_h2]:pb-4 [&_h2]:pt-2 [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:uppercase [&_h2]:tracking-wide [&_h2]:opacity-90 [&_ul]:pb-5">
-        <Bonuses purchase={purchase as any} />
+          </CardFooter>
+          <div className="px-5 [&_h2]:mt-0 [&_h2]:pb-4 [&_h2]:pt-2 [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:uppercase [&_h2]:tracking-wide [&_h2]:opacity-90 [&_ul]:pb-5">
+            <Bonuses purchase={purchase as any} />
+          </div>
+        </div>
       </div>
     </Card>
   )
