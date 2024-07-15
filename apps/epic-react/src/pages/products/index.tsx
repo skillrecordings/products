@@ -64,31 +64,78 @@ type ProductsIndexProps = {
   products: SanityProduct[]
 }
 
-const ProductsIndex: React.FC<ProductsIndexProps> = ({purchases, products}) => {
-  const {displayedProducts, purchasedProductIds} = useProductIndex(
-    products,
+const Products: React.FC<ProductsIndexProps> = ({products}) => {
+  const {
     purchases,
-  )
+    displayedProducts,
+    purchasedProductIds,
+    purchasedProducts,
+    setDisplayedProducts,
+    setDefaultFilterValue,
+  } = useProductsIndex()
+  const router = useRouter()
 
   return (
-    <Layout meta={{title: 'Products'}}>
-      <header className="flex items-center justify-center py-16 text-center">
-        <h1 className="text-2xl font-bold">Products</h1>
-      </header>
-      <main className="mx-auto w-full max-w-screen-md space-y-4 px-5">
-        <StateFilter products={products} purchases={purchases} />
-        {displayedProducts.length &&
-          displayedProducts.map((product) => {
+    <>
+      {displayedProducts &&
+        displayedProducts.length > 0 &&
+        displayedProducts
+          .sort((product) => {
+            const purchase = purchases?.find(
+              (p) => p.productId === product.productId,
+            )
+            if (purchase) {
+              return -1
+            } else {
+              return 1
+            }
+          })
+          .map((product) => {
             const purchase = purchases?.find(
               (p) => p.productId === product.productId,
             )
 
             return (
-              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+              <PriceCheckProvider
+                key={product.slug}
+                purchasedProductIds={purchasedProductIds}
+              >
                 <ProductCard product={product} purchase={purchase} />
               </PriceCheckProvider>
             )
           })}
+      {purchasedProducts.length === 0 ? (
+        <div>
+          You haven't purchased any Epic Web products yet.{' '}
+          {products && (
+            <button
+              onClick={() => {
+                router.push('/products', undefined, {shallow: true})
+                setDefaultFilterValue({state: 'all'})
+                setDisplayedProducts(products)
+              }}
+              className="text-primary underline"
+            >
+              Browse
+            </button>
+          )}
+        </div>
+      ) : null}
+    </>
+  )
+}
+
+const ProductsIndex: React.FC<ProductsIndexProps> = ({purchases, products}) => {
+  return (
+    <Layout meta={{title: 'Products'}}>
+      <header className="flex items-center justify-center py-16 text-center">
+        <h1 className="text-2xl font-bold">Products</h1>
+      </header>
+      <main className="mx-auto w-full max-w-screen-md space-y-4 px-5 pb-16">
+        <ProductsIndexProvider products={products} purchases={purchases}>
+          <StateFilter />
+          <Products purchases={purchases} products={products} />
+        </ProductsIndexProvider>
       </main>
     </Layout>
   )
@@ -183,74 +230,54 @@ const ProductCard: React.FC<{
   )
 }
 
-const StateFilter = ({
-  products,
-  purchases,
-}: Pick<ProductsIndexProps, 'products' | 'purchases'>) => {
+const StateFilter = () => {
   const router = useRouter()
-  const {purchasedProducts, defaultFilterValue, setDisplayedProducts} =
-    useProductIndex(products, purchases)
-  const {data: sessionData, status: sessionStatus} = useSession()
+  const {
+    products,
+    purchasedProducts,
+    defaultFilterValue,
+    setDisplayedProducts,
+    setDefaultFilterValue,
+  } = useProductsIndex()
 
-  console.log('purchasedProducts:', purchasedProducts)
-  console.log('products:', products)
+  const {data: sessionData} = useSession()
 
   const handleValueChange = (value: string) => {
     if (value === 'all') {
       router.push('/products', undefined, {shallow: true})
       setDisplayedProducts(products)
+      setDefaultFilterValue({state: 'all'})
     } else {
       router.push('/products?s=' + value, undefined, {shallow: true})
       setDisplayedProducts(purchasedProducts)
+      setDefaultFilterValue({state: value})
     }
   }
 
   return (
     <>
-      {sessionData?.user ? (
-        <SelectGroup>
-          <Select
-            onValueChange={handleValueChange}
-            defaultValue={defaultFilterValue.state}
-          >
-            <SelectTrigger className="h-8 w-[180px]">
-              <SelectValue placeholder="Products" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              {sessionData?.user && (
-                <SelectItem value="purchased">Purchased</SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-        </SelectGroup>
-      ) : null}
+      <SelectGroup>
+        <Select
+          onValueChange={handleValueChange}
+          value={defaultFilterValue.state}
+          defaultValue={defaultFilterValue.state}
+        >
+          <SelectTrigger className="h-8 w-[180px]">
+            <SelectValue placeholder="Products" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            {sessionData?.user && (
+              <SelectItem value="purchased">Purchased</SelectItem>
+            )}
+          </SelectContent>
+        </Select>
+      </SelectGroup>
     </>
   )
 }
-const useProductIndex = (
-  products: SanityProduct[],
-  purchases: Purchase[] | undefined,
-) => {
-  const router = useRouter()
-  const [defaultFilterValue, setDefaultFilterValue] = React.useState({
-    state: (router.query.s as string) || 'all',
-  })
-  const [displayedProducts, setDisplayedProducts] =
-    React.useState<SanityProduct[]>(products)
-  const purchasedProductIds = purchases?.map((purchase) => purchase.productId)
-  const purchasedProducts = products.filter((product) =>
-    purchasedProductIds?.includes(product.productId),
-  )
-
-  return {
-    defaultFilterValue,
-    purchasedProductIds,
-    setDefaultFilterValue,
-    setDisplayedProducts,
-    displayedProducts,
-    purchasedProducts,
-  }
+const useProductsIndex = () => {
+  return React.useContext(ProductsIndexContext)
 }
 
 const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
@@ -309,5 +336,71 @@ const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
         </>
       )}
     </div>
+  )
+}
+
+const defaultProductsIndexContext = {
+  purchases: [],
+  products: [],
+  defaultFilterValue: {state: 'all'},
+  purchasedProductIds: [],
+  setDefaultFilterValue: () => {},
+  setDisplayedProducts: () => {},
+  displayedProducts: [],
+  purchasedProducts: [],
+}
+
+const ProductsIndexContext = React.createContext<{
+  purchases: PurchaseWithProduct[]
+  products: SanityProduct[]
+  defaultFilterValue: {state: string}
+  purchasedProductIds: string[]
+  setDefaultFilterValue: (value: {state: string}) => void
+  setDisplayedProducts: (products: SanityProduct[]) => void
+  displayedProducts?: SanityProduct[]
+  purchasedProducts: SanityProduct[]
+}>(defaultProductsIndexContext)
+
+const ProductsIndexProvider: React.FC<
+  React.PropsWithChildren<{
+    purchases: PurchaseWithProduct[]
+    products: SanityProduct[]
+  }>
+> = ({purchases, products, children}) => {
+  const router = useRouter()
+  const [defaultFilterValue, setDefaultFilterValue] = React.useState({
+    state: (router.query.s as string) || 'all',
+  })
+  const purchasedProductIds = purchases?.map((purchase) => purchase.productId)
+  const purchasedProducts = products.filter((product) =>
+    purchasedProductIds?.includes(product.productId),
+  )
+
+  const initialProducts = React.useMemo(() => {
+    if (defaultFilterValue.state === 'all') {
+      return products
+    } else {
+      return purchasedProducts
+    }
+  }, [defaultFilterValue, products, purchasedProducts])
+
+  const [displayedProducts, setDisplayedProducts] =
+    React.useState<SanityProduct[]>(initialProducts)
+
+  return (
+    <ProductsIndexContext.Provider
+      value={{
+        purchases,
+        products,
+        defaultFilterValue,
+        purchasedProductIds,
+        setDefaultFilterValue,
+        setDisplayedProducts,
+        displayedProducts,
+        purchasedProducts,
+      }}
+    >
+      {children}
+    </ProductsIndexContext.Provider>
   )
 }
