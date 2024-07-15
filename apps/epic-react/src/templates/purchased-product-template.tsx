@@ -307,7 +307,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
           )}
           <div className="pt-10">
             <span className="block pb-4 text-sm font-semibold uppercase">
-              Workshops
+              Modules
             </span>
             {product?.modules?.map((module) => {
               return (

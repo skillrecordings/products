@@ -106,7 +106,7 @@ const Products: React.FC<ProductsIndexProps> = ({products}) => {
           })}
       {purchasedProducts.length === 0 ? (
         <div>
-          You haven't purchased any Epic Web products yet.{' '}
+          You haven't purchased any Epic React products yet.{' '}
           {products && (
             <button
               onClick={() => {
