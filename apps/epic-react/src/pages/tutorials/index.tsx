@@ -6,12 +6,9 @@ import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
 import pluralize from 'pluralize'
 import {useRouter} from 'next/router'
-// import {getAllWorkshops} from 'lib/workshops'
+import {SanityDocument} from '@sanity/client'
 import {getAllTutorials} from '@/lib/tutorials'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-// import {WorkshopAppBanner} from 'components/workshop-app'
-// import {ProductCTA} from 'components/product-cta'
-// import {Product, getProduct} from 'lib/products'
 import {
   ModuleProgressProvider,
   useModuleProgress,
@@ -21,32 +18,14 @@ import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {Progress, Skeleton} from '@skillrecordings/ui'
 // import {getAllBonuses} from 'lib/bonuses'
 import {cn} from '@skillrecordings/ui/utils/cn'
-
-// import type {Workshop} from 'lib/workshops'
-// import {getFullStackVol1Workshops} from '../../lib/workshops'
+import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 export async function getStaticProps() {
-  // const workshops = await getAllWorkshops()
-  // const fullStackVol1Workshops = await getFullStackVol1Workshops()
-  // // const bonuses = await getAllBonuses()
-  // const fullStackWorkshopSeriesProduct = await getProduct(
-  //   process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
-  // )
   const tutorials = await getAllTutorials()
 
   return {
     props: {
       tutorials,
-      // workshops: workshops.filter((workshop) => {
-      //   return !fullStackVol1Workshops.some((fullStackWorkshop) => {
-      //     return workshop.slug.current === fullStackWorkshop.slug.current
-      //   })
-      // }),
-      // fullStackVol1Workshops: fullStackVol1Workshops.filter((workshop) => {
-      //   return workshop.moduleType !== 'bonus'
-      // }),
-      // fullStackWorkshopSeriesProduct,
-      // bonuses,
     },
     revalidate: 10,
   }
@@ -61,32 +40,12 @@ const sectionsFlatMap = (sections: any[]) => {
   return map
 }
 
-const WorkshopsPage: React.FC<{
-  // workshops: Workshop[]
-  // fullStackVol1Workshops: Workshop[]
-  // bonuses?: Module[]
-  // fullStackWorkshopSeriesProduct: Product
-  tutorials: any
-}> = ({
-  tutorials,
-  // workshops,
-  // fullStackWorkshopSeriesProduct,
-  // bonuses,
-  // fullStackVol1Workshops,
-}) => {
+const TutorialsPage: React.FC<{
+  tutorials: SanityDocument[]
+}> = ({tutorials}) => {
   console.log('tutorials:', tutorials)
-  // const useAbilities = () => {
-  //   const {data: abilityRules, status: abilityRulesStatus} =
-  //     trpc.modules.rules.useQuery({
-  //       moduleSlug: fullStackVol1Workshops?.[0]?.slug.current,
-  //       moduleType: 'workshop',
-  //     })
-  //   return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
-  // }
-  // const {ability, abilityRulesStatus} = useAbilities()
-
-  // const canViewContent = ability.can('view', 'Content')
-  // const isRestricted = ability.can('view', 'RegionRestriction')
+  const router = useRouter()
+  const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
     <Layout
@@ -206,7 +165,7 @@ const WorkshopsPage: React.FC<{
   )
 }
 
-export default WorkshopsPage
+export default TutorialsPage
 
 const Teaser: React.FC<{
   tutorial: any

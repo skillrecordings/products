@@ -47,11 +47,12 @@ const ExerciseTemplate: React.FC<{
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const router = useRouter()
   const {lesson, section, module} = useLesson()
+
   const {videoResourceId, videoResource} = useVideoResource()
   const {title, description: exerciseDescription} = lesson
   const ogImage = getOgImage({
     title,
-    // type: 'video',
+    type: 'video',
     image: videoResource?.poster
       ? videoResource.poster
       : `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
@@ -60,7 +61,7 @@ const ExerciseTemplate: React.FC<{
   const pageTitle = `${title}`
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? ogImage : {url: moduleOGImage}
-  //TODO path here could also include module slug and section (as appropriate)
+
   const path = `/${pluralize(module.moduleType)}`
   const {data: session} = useSession()
 
@@ -94,6 +95,10 @@ const ExerciseTemplate: React.FC<{
       lesson._type === 'interview') &&
     session
 
+  console.log('%%%module info', module)
+  console.log('%%%lesson info', lesson)
+  console.log('%%%%path?', path)
+
   // const displayWorkshopAppBanner =
   //   canViewContent && module.moduleType === 'workshop'
   // const {isShowingSiteBanner} = useGlobalBanner()
@@ -111,14 +116,13 @@ const ExerciseTemplate: React.FC<{
       <Layout
         meta={{
           title: pageTitle,
-          ogImage: {...shareCard},
+          ogImage: {
+            url: ogImage.url,
+            alt: ogImage.alt,
+          },
           description: pageDescription || '',
         }}
-        navigationClassName="w-full max-w-none"
-        enableScrollAnimation={false}
-        globalBannerClassName="absolute"
-        navigationContainerClassName={'relative'}
-        className="pt-0 sm:pt-0"
+        className="w-full max-w-none pt-0 sm:pt-0"
       >
         <CourseJsonLd
           courseName={title}
@@ -275,6 +279,7 @@ const LessonList: React.FC<{
     })
 
   const [ref, {height}] = useMeasure<HTMLDivElement>()
+  console.log('this is module ---------', module)
 
   return (
     <div className="sticky top-0 border-r">
@@ -328,6 +333,7 @@ const LessonList: React.FC<{
           <Collection.Root
             module={module}
             resourcesRenderer={(type) => {
+              console.log('this is the type?^^^', type)
               return (
                 <>
                   {(type === 'exercise' || type === 'solution') && (
@@ -349,11 +355,7 @@ const LessonList: React.FC<{
                       </Collection.Resource>
                     </>
                   )}
-                  {/* {type === 'explainer' && (
-                    <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
-                      Explainer
-                    </Collection.Resource>
-                  )} */}
+                  {console.log('type:******', type)}
                 </>
               )
             }}

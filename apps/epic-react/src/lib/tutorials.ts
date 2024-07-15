@@ -148,7 +148,7 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] | o
     title,
     description,
     "slug": slug.current,
-    "lessons": resources[@->._type in ['exercise', 'explainer']]->{
+    "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson']]->{
       _id,
       _type,
       _updatedAt,
@@ -168,90 +168,6 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] | o
   }
 }`
 
-// const fullStackVol1WorkshopsQuery = groq`*[_type == "product" && slug.current == 'full-stack-vol-1'][0] {
-//   modules[]->{
-//     _id,
-//     _type,
-//     title,
-//     slug,
-//     moduleType,
-//     "image": image.asset->url,
-//     _updatedAt,
-//     _createdAt,
-//     description,
-//     state,
-//     "instructor": contributors[@.role == 'instructor'][0].contributor->{
-//         _id,
-//         _type,
-//         _updatedAt,
-//         _createdAt,
-//         name,
-//         bio,
-//         links[] {
-//           url, label
-//         },
-//         picture {
-//             "url": asset->url,
-//             alt
-//         },
-//         "slug": slug.current,
-//       },
-//     'product': *[_type=='product' && references(^._id)][]{
-//       _id,
-//       _type,
-//       _updatedAt,
-//       _createdAt,
-//       productId,
-//       title,
-//       description,
-//       type,
-//       image,
-//       state,
-//       type,
-//       "slug": slug.current,
-//       body,
-//       "welcomeVideo": welcomeVideo->{"muxPlaybackId":muxAsset.muxPlaybackId, poster},
-//       upgradableTo[]->{
-//         ...,
-//         modules[]->{
-//           ...,
-//           "description": "",
-//           "image": image.asset->{url},
-//         }
-//       },
-//       modules[]->{
-//         ...,
-//         "image": image.asset->{url},
-//       }
-//     },
-//     "sections": resources[@->._type == 'section']->{
-//       _id,
-//       _type,
-//       _updatedAt,
-//       title,
-//       description,
-//       "slug": slug.current,
-//       "lessons": resources[@->._type in ['exercise', 'explainer']]->{
-//         _id,
-//         _type,
-//         _updatedAt,
-//         title,
-//         description,
-//         "slug": slug.current,
-//         "solution": resources[@._type == 'solution'][0]{
-//           _key,
-//           _type,
-//           "_updatedAt": ^._updatedAt,
-//           title,
-//           description,
-//           "slug": slug.current,
-//         }
-//       },
-//       "resources": resources[@->._type in ['linkResource']]->
-//     }
-//   }
-// }`
-
 export const getAllTutorials = async () => {
   const tutorials = await sanityClient.fetch(tutorialsQuery)
   const parsedTutorials = TutorialsSchema.safeParse(tutorials)
@@ -264,20 +180,6 @@ export const getAllTutorials = async () => {
     return parsedTutorials.data
   }
 }
-
-// export const getFullStackVol1Workshops = async () => {
-//   const product = await sanityClient.fetch(fullStackVol1WorkshopsQuery)
-//   const workshops = product.modules
-//   const parsedWorkshops = WorkshopsSchema.safeParse(workshops)
-
-//   if (!parsedWorkshops.success) {
-//     console.error('Error parsing workshops')
-//     console.error(parsedWorkshops.error)
-//     return []
-//   } else {
-//     return parsedWorkshops.data
-//   }
-// }
 
 export const getTutorial = async (slug: string) =>
   await sanityClient.fetch(
@@ -380,103 +282,3 @@ export const getTutorial = async (slug: string) =>
     }`,
     {slug: `${slug}`},
   )
-
-// import groq from 'groq'
-// import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
-
-// // const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && state == 'published'] | order(_createdAt desc) {
-// const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] | order(_createdAt desc) {
-//   _id,
-//   _type,
-//   title,
-//   slug,
-//   moduleType,
-//   "image": image.secure_url,
-//   _updatedAt,
-//   _createdAt,
-//   description,
-//   state,
-//   "sections": resources[@->._type == 'section']->{
-//     _id,
-//     _type,
-//     _updatedAt,
-//     title,
-//     description,
-//     "slug": slug.current,
-//     "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson']]->{
-//       _id,
-//       _type,
-//       _updatedAt,
-//       title,
-//       description,
-//       "slug": slug.current,
-//       "solution": resources[@._type == 'solution'][0]{
-//         _key,
-//         _type,
-//         "_updatedAt": ^._updatedAt,
-//         title,
-//         description,
-//         "slug": slug.current,
-//       }
-//     },
-//     "resources": resources[@->._type in ['linkResource']]->
-//   }
-// }`
-
-// export const getAllTutorials = async () =>
-//   await sanityClient.fetch(tutorialsQuery)
-
-// export const getTutorial = async (slug: string) =>
-//   await sanityClient.fetch(
-//     groq`*[_type == "module" && moduleType == 'tutorial' && slug.current == $slug][0]{
-//       "id": _id,
-//       _type,
-//       title,
-//       state,
-//       slug,
-//       moduleType,
-//       _id,
-//       github,
-//       "ogImage": ogImage.secure_url,
-//       description,
-//       _updatedAt,
-//       "image": image.secure_url,
-//       body,
-//       "testimonials": resources[@->._type == 'testimonial']->{
-//         _id,
-//         _type,
-//         _updatedAt,
-//         body,
-//         author {
-//           name,
-//           "image": image.asset->url
-//         }
-//       },
-//       "sections": resources[@->._type == 'section']->{
-//         _id,
-//         _type,
-//         _updatedAt,
-//         title,
-//         description,
-//         "slug": slug.current,
-//         "lessons": resources[@->._type in ['exercise', 'explainer', 'lesson']]->{
-//           _id,
-//           _type,
-//           _updatedAt,
-//           title,
-//           description,
-//           "slug": slug.current,
-//           "solution": resources[@._type == 'solution'][0]{
-//             _key,
-//             _type,
-//             "_updatedAt": ^._updatedAt,
-//             title,
-//             description,
-//             "slug": slug.current,
-//           }
-//         },
-//         "resources": resources[@->._type in ['linkResource']]->
-//       }
-//     }`,
-//     {slug: `${slug}`},
-//   )
