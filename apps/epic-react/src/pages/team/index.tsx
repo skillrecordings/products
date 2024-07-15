@@ -88,12 +88,12 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
     <Layout meta={{title: 'Invite your team to Epic React'}}>
       <main
         data-team-page=""
-        className="mx-auto flex w-full max-w-xl flex-grow flex-col items-center justify-center gap-3 p-5 pb-16 pt-28"
+        className="mx-auto flex w-full max-w-screen-md grow flex-col justify-center gap-y-16 px-5 py-16 lg:py-20"
       >
         <Card
           title={{as: 'h1', content: 'Invite your team'}}
           icon={
-            <UserGroupIcon className="w-5 text-cyan-500" aria-hidden="true" />
+            <UserGroupIcon className="w-6 text-cyan-500" aria-hidden="true" />
           }
         >
           <InviteTeam
@@ -105,7 +105,7 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
         </Card>
         <Card
           title={{content: 'Get more seats', as: 'h2'}}
-          icon={<TicketIcon className="w-5" aria-hidden="true" />}
+          icon={<TicketIcon className="w-6 text-cyan-500" aria-hidden="true" />}
         >
           <BuyMoreSeats productId={purchase.product.id} userId={userId} />
         </Card>
@@ -114,17 +114,17 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
             <div>
               <div className="flex w-full gap-2 pb-4">
                 <div>
-                  <DocumentTextIcon aria-hidden className="w-6" />
+                  <DocumentTextIcon aria-hidden className="w-6 text-cyan-500" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold leading-tight">
+                  <h2 className="text-lg font-semibold leading-tight sm:text-xl">
                     Invoices
                   </h2>
                 </div>
               </div>
               <Link
                 href={`/invoices`}
-                className="flex flex-shrink-0 items-center justify-center rounded-md bg-blue-300/20 px-4 py-2.5 text-base font-medium text-blue-300 transition hover:bg-cyan-300/30 sm:ml-0 sm:mt-0 sm:justify-center"
+                className="flex items-center justify-center rounded-md bg-er-gray-200 px-4 py-2.5 text-base font-semibold leading-6 transition-colors duration-100 ease-in-out hover:bg-er-gray-300 dark:bg-er-gray-300 dark:hover:bg-er-gray-400"
               >
                 <span className="pr-0.5">View Invoices</span>
                 <ChevronRightIcon aria-hidden="true" className="w-4" />
@@ -134,7 +134,7 @@ const TeamPage: React.FC<React.PropsWithChildren<TeamPageProps>> = ({
         )}
         <Card
           title={{content: 'Claimed seats', as: 'h2'}}
-          icon={<UserIcon className="w-5" aria-hidden="true" />}
+          icon={<UserIcon className="w-6 text-cyan-500" aria-hidden="true" />}
         >
           <ClaimedTeamSeats
             session={session}
