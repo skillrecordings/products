@@ -50,7 +50,8 @@
 }
 
 /* Team card */
-[data-team-card] {
+[data-team-card],
+[data-product-buy-more-seats] {
   @apply flex flex-col gap-4;
   & > [data-title] {
     @apply flex gap-2;
