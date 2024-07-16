@@ -2,17 +2,18 @@ import React from 'react'
 import SelfRedeemButton from './self-redeem-button'
 import CopyInviteLink from './copy-invite-link'
 import {z} from 'zod'
+import slugify from 'slugify'
 
 type InviteTeamProps = {
   purchase: {
     merchantChargeId: string | null
     bulkCoupon: {id: string; maxUses: number; usedCount: number} | null
-    product: {id: string; name: string}
+    product: {id: string; name: string; status: number}
   }
   existingPurchase: {
     id: string
     product: {id: string; name: string}
-  }
+  } | null
   session: any
   setPersonalPurchase: (props: any) => void
   className?: string
@@ -27,6 +28,15 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
 }) => {
   const [selfRedemptionSucceeded, setSelfRedemptionSucceeded] =
     React.useState<boolean>(false)
+  const productSlug = slugify(purchase.product.name, {
+    lower: true,
+    strict: true,
+    replacement: '-',
+  })
+
+  console.log('purchase', purchase)
+
+  const isProductActive: boolean = purchase.product.status === 1
 
   const bulkCouponSchema = z
     .object({id: z.string(), maxUses: z.number(), usedCount: z.number()})
@@ -84,6 +94,8 @@ const InviteTeam: React.FC<React.PropsWithChildren<InviteTeamProps>> = ({
             <CopyInviteLink
               bulkCouponId={bulkCouponId}
               disabled={!hasRedemptionsLeft}
+              productSlug={productSlug}
+              productActive={isProductActive}
             />
           </div>
           {canRedeem && (

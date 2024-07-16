@@ -40,6 +40,7 @@ export function getSdk(
             select: {
               id: true,
               name: true,
+              status: true,
             },
           },
           status: true,
@@ -304,6 +305,7 @@ export function getSdk(
             data: {
               completedAt: null,
               updatedAt: now,
+              moduleId,
             },
           })
         } else {
@@ -312,6 +314,7 @@ export function getSdk(
             data: {
               completedAt: now,
               updatedAt: now,
+              moduleId,
             },
           })
         }
@@ -401,7 +404,7 @@ export function getSdk(
       const purchases = userId
         ? await ctx.prisma.purchase.findMany({
             orderBy: {
-              createdAt: 'asc',
+              createdAt: 'desc',
             },
             where: {
               userId,
@@ -430,6 +433,7 @@ export function getSdk(
                   id: true,
                   name: true,
                   productType: true,
+                  status: true,
                 },
               },
               upgradedFromId: true,

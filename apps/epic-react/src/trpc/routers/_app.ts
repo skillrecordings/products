@@ -9,6 +9,7 @@ import {tipsRouter} from './tips'
 import {abilitiesRouter} from './abilities'
 import {moduleResourcesRouter} from './module-resources'
 import {searchRouter} from './search'
+import {deviceVerificationRouter} from '@/trpc/routers/device-verification'
 // import {unsubscribeRouter} from './unsubscribe'
 // import {bonusesRouter} from './bonuses'
 
@@ -22,6 +23,7 @@ export const appRouter = mergeRouters(
     search: searchRouter,
     // unsubscribe: unsubscribeRouter,
     // bonuses: bonusesRouter,
+    deviceVerification: deviceVerificationRouter,
   }),
   skillLessonRouter,
 )

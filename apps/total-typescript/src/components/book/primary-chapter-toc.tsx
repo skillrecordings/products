@@ -174,44 +174,45 @@ export const PrimaryChapterToC = ({
                       {item.text.replace(/`/g, '')}
                     </span>
                   </Link>
-                  {item.items.length > 0 && (
-                    <ol>
-                      {item.items
-                        .filter(({level}) => level < 4)
-                        .map((subItem) => (
-                          <li
-                            key={subItem.slug}
-                            data-active={visibleHeadingId === subItem.slug}
-                          >
-                            <Link
-                              className="relative inline-flex min-h-3 items-center gap-2 py-1"
-                              href={`#${subItem.slug}`}
+                  {item.text.trim() !== 'Exercises' &&
+                    item.items.length > 0 && (
+                      <ol>
+                        {item.items
+                          .filter(({level}) => level < 4)
+                          .map((subItem) => (
+                            <li
+                              key={subItem.slug}
+                              data-active={visibleHeadingId === subItem.slug}
                             >
-                              <div
-                                className={cn(
-                                  'absolute left-1 top-0 h-full w-[2px] bg-white/10',
-                                  {
-                                    'bg-primary':
-                                      visibleHeadingId === subItem.slug,
-                                  },
-                                )}
-                              />
-                              <span
-                                className={cn(
-                                  'relative pl-5 transition hover:text-primary',
-                                  {
-                                    'text-[#ADF2F2] group-hover:opacity-100':
-                                      visibleHeadingId === subItem.slug,
-                                  },
-                                )}
+                              <Link
+                                className="relative inline-flex min-h-3 items-center gap-2 py-1"
+                                href={`#${subItem.slug}`}
                               >
-                                {subItem.text.replace(/`/g, '')}
-                              </span>
-                            </Link>
-                          </li>
-                        ))}
-                    </ol>
-                  )}
+                                <div
+                                  className={cn(
+                                    'absolute left-1 top-0 h-full w-[2px] bg-white/10',
+                                    {
+                                      'bg-primary':
+                                        visibleHeadingId === subItem.slug,
+                                    },
+                                  )}
+                                />
+                                <span
+                                  className={cn(
+                                    'relative pl-5 transition hover:text-primary',
+                                    {
+                                      'text-[#ADF2F2] group-hover:opacity-100':
+                                        visibleHeadingId === subItem.slug,
+                                    },
+                                  )}
+                                >
+                                  {subItem.text.replace(/`/g, '')}
+                                </span>
+                              </Link>
+                            </li>
+                          ))}
+                      </ol>
+                    )}
                 </li>
               ))}
             </ol>

@@ -24,6 +24,19 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'resources',
+      title: 'Resources',
+      description:
+        'Used to attach self-paced workshops (when available) or other resources',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'module'}],
+        },
+      ],
+    }),
+    defineField({
       name: 'contributors',
       type: 'contributors',
       title: 'Contributors',

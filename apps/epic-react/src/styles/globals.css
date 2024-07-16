@@ -310,6 +310,7 @@
 }
 .ch-codeblock {
   @apply overflow-visible shadow-none;
+  tab-size: 2;
 }
 
 .ch-code-scroll-parent {

@@ -72,7 +72,7 @@ export const InlineProEssentialsBanner = React.forwardRef<
       <div className="flex h-full flex-col items-start justify-between py-4 pl-4">
         <h3 className="text-left">
           <div className="text-balance text-lg font-semibold leading-tight text-white">
-            Want to see the weird parts of TypeScript?
+            Want to become a TypeScript wizard?
           </div>
         </h3>
         <div className="mt-5 inline-flex items-center justify-center rounded bg-primary px-4 py-2 text-center text-sm font-semibold text-black transition duration-300 ease-in-out group-hover:brightness-125">

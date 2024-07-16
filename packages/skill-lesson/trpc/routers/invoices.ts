@@ -18,46 +18,57 @@ export const invoicesRouter = router({
 
       const merchantCharge = await getMerchantCharge(merchantChargeId)
 
-      if (merchantCharge && merchantCharge.identifier) {
-        const charge = await stripe.charges.retrieve(
-          merchantCharge.identifier,
-          {
-            expand: ['customer'],
-          },
-        )
-
-        const purchase = await getPurchaseForStripeCharge(
-          merchantCharge.identifier,
-        )
-        const bulkCoupon = purchase && purchase.bulkCoupon
-
-        let quantity = 1
-        if (purchase?.merchantSession?.identifier) {
-          const checkoutSession = await stripe.checkout.sessions.retrieve(
-            purchase?.merchantSession?.identifier,
-            {expand: ['line_items']},
+      try {
+        if (merchantCharge && merchantCharge.identifier) {
+          const charge = await stripe.charges.retrieve(
+            merchantCharge.identifier,
+            {
+              expand: ['customer'],
+            },
           )
 
-          quantity = checkoutSession.line_items?.data[0].quantity || 1
-        } else if (bulkCoupon) {
-          quantity = bulkCoupon.maxUses
-        }
+          const purchase = await getPurchaseForStripeCharge(
+            merchantCharge.identifier,
+          )
+          const bulkCoupon = purchase && purchase.bulkCoupon
 
-        const product = await getProduct({
-          where: {id: purchase?.productId},
-        })
+          let quantity = 1
+          if (purchase?.merchantSession?.identifier) {
+            const checkoutSession = await stripe.checkout.sessions.retrieve(
+              purchase?.merchantSession?.identifier,
+              {expand: ['line_items']},
+            )
 
-        if (product && charge && purchase) {
-          return {
-            state: 'SUCCESS' as const,
-            result: {
-              product,
-              charge,
-              quantity,
-              bulkCoupon,
-              purchaseId: purchase?.id,
-            },
+            quantity = checkoutSession.line_items?.data[0].quantity || 1
+          } else if (bulkCoupon) {
+            quantity = bulkCoupon.maxUses
           }
+
+          const product = await getProduct({
+            where: {id: purchase?.productId},
+          })
+
+          if (product && charge && purchase) {
+            return {
+              state: 'SUCCESS' as const,
+              result: {
+                product,
+                charge,
+                quantity,
+                bulkCoupon,
+                purchaseId: purchase?.id,
+                purchase,
+              },
+            }
+          }
+        }
+      } catch (error) {
+        console.error(error)
+        return {
+          state: 'FAILED' as const,
+          error:
+            'Unable to lookup the charge and related entities' +
+            (error as any).message,
         }
       }
 

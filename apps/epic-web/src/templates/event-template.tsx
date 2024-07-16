@@ -26,6 +26,7 @@ import type {
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import Link from 'next/link'
 import pluralize from 'pluralize'
+import {Button} from '@skillrecordings/ui'
 
 const EventTemplate: React.FC<
   {
@@ -101,6 +102,11 @@ const EventTemplate: React.FC<
     ? new Date(event.events[0].startsAt) > new Date()
     : false
 
+  const selfPacedWorkshop =
+    event.resources &&
+    event.resources.length > 0 &&
+    event.resources.filter((r) => r.moduleType === 'workshop')?.[0]
+
   return (
     <Layout meta={{title, description: pageDescription, ogImage}}>
       {redeemableCoupon && <RedeemDialogForCoupon />}
@@ -159,6 +165,18 @@ const EventTemplate: React.FC<
               {hostName}
             </Link>
           </h2>
+          {selfPacedWorkshop && (
+            <div className="mt-5 flex flex-col items-start gap-5 border-t pt-8 md:hidden">
+              <p className="text-balance text-center text-xl font-medium">
+                Self-Paced Workshop Now Available!
+              </p>
+              <Button asChild className="font-semibold" size="lg">
+                <Link href={`/workshops/${selfPacedWorkshop.slug}`}>
+                  Start Learning
+                </Link>
+              </Button>
+            </div>
+          )}
           <hr className="my-10 flex h-px w-full bg-border" />
           <article className="invert-svg prose mx-auto w-full max-w-none dark:prose-invert md:prose-xl prose-code:break-words md:prose-code:break-normal">
             <MDX components={{Image, MuxPlayer}} contents={mdx} />
@@ -177,6 +195,18 @@ const EventTemplate: React.FC<
                   aria-hidden="true"
                   quality={100}
                 />
+              </div>
+            )}
+            {selfPacedWorkshop && (
+              <div className="flex flex-col items-center gap-5 px-5">
+                <p className="text-balance text-center text-lg font-semibold">
+                  Self-Paced Workshop Now Available!
+                </p>
+                <Button asChild className="font-semibold" size="lg">
+                  <Link href={`/workshops/${selfPacedWorkshop.slug}`}>
+                    Start Learning
+                  </Link>
+                </Button>
               </div>
             )}
             {product && product.state !== 'unavailable' && isUpcoming && (

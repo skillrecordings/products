@@ -1714,7 +1714,7 @@ importers:
         specifier: ^0.2.5
         version: 0.2.8(prettier@2.8.8)
       slugify:
-        specifier: ^1.6.2
+        specifier: ^1.6.6
         version: 1.6.6
       stream-chain:
         specifier: ^2.2.5
@@ -5778,12 +5778,18 @@ importers:
       rehype-slug:
         specifier: ^5.1.0
         version: 5.1.0
+      remark-gfm:
+        specifier: ^3.0.1
+        version: 3.0.1
       shiki:
         specifier: 1.6.2
         version: 1.6.2
       shortid:
         specifier: ^2.2.16
         version: 2.2.16
+      slugify:
+        specifier: ^1.6.2
+        version: 1.6.6
       speakingurl:
         specifier: ^14.0.1
         version: 14.0.1
@@ -39267,7 +39273,6 @@ packages:
   /slugify@1.6.6:
     resolution: {integrity: sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw==}
     engines: {node: '>=8.0.0'}
-    dev: true
 
   /smartwrap@2.0.2:
     resolution: {integrity: sha512-vCsKNQxb7PnCNd2wY1WClWifAc2lwqsG8OaswpJkVJsvMGcnEntdTCDajZCkk93Ay1U3t/9puJmb525Rg5MZBA==}

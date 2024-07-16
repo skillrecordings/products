@@ -36,7 +36,7 @@ export default function Activate({userCode}: {userCode: string}) {
   return (
     <Layout
       meta={{
-        title: 'Device Actiation',
+        title: 'Device Activation',
       }}
     >
       <main className="mx-auto flex w-full max-w-lg flex-grow flex-col items-center justify-center pb-24 pt-16">
