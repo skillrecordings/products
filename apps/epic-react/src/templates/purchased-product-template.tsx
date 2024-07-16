@@ -606,7 +606,7 @@ const Purchases: React.FC<{purchasesForCurrentProduct: Purchase[]}> = ({
           </th>
           <th
             scope="col"
-            className="px-3 py-3.5 text-left text-sm font-semibold uppercase"
+            className="px-3 py-3.5 text-left text-right text-sm font-semibold uppercase"
           >
             Invoice
           </th>
@@ -647,16 +647,15 @@ const PurchaseRow: React.FC<{purchase: Purchase}> = ({purchase}) => {
           : purchase.status}
       </td>
       <td
-        className={cn(
-          'flex justify-end whitespace-nowrap py-4 pl-3 text-base',
-          {
-            'justify-end': purchase.merchantChargeId,
-            'justify-start': !purchase.merchantChargeId,
-          },
-        )}
+        className={cn('flex justify-end whitespace-nowrap py-4 pl-3 text-base')}
       >
         {purchase.merchantChargeId ? (
-          <Button size="sm" asChild variant="secondary" className="w-full">
+          <Button
+            size="sm"
+            asChild
+            variant="secondary"
+            className="bg-gray-500 font-semibold text-white hover:bg-gray-600 hover:text-white"
+          >
             <Link href={`/invoices/${purchase.merchantChargeId}`}>View</Link>
           </Button>
         ) : (

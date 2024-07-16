@@ -1,5 +1,5 @@
 [data-invite-team] {
-  @apply flex flex-col rounded-lg border border-er-gray-100 bg-background p-5 dark:border-er-gray-200;
+  @apply flex flex-col rounded-lg border border-er-gray-200 bg-background p-5 dark:border-er-gray-200;
   [data-title] {
     @apply py-3;
     /* 3 seats left */
@@ -76,7 +76,7 @@
   }
   [data-buy-more-seats-form] {
     fieldset {
-      @apply flex flex-col items-center rounded-lg border border-er-gray-100 p-5 dark:border-er-gray-200;
+      @apply flex flex-col items-center rounded-lg border border-er-gray-200 p-5 dark:border-er-gray-200;
     }
     button[type='submit'] {
       @apply mt-12 block w-full transform rounded-lg border border-transparent bg-yellow-400 px-6 py-5 text-center text-lg font-semibold leading-none text-white transition-all duration-150 ease-in-out hover:scale-105 focus:border-yellow-600 focus:outline-none sm:text-xl sm:leading-none md:max-w-sm;
