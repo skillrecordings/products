@@ -105,8 +105,6 @@ export const getExercise = async (
       {slug},
     )
 
-    console.log('Fetched exercise:', exercise)
-
     return ExerciseSchema.parse(exercise)
   } catch (error) {
     console.error('Error fetching or parsing exercise:', error)
@@ -140,8 +138,6 @@ export const getAllExercises = async (): Promise<Exercise[]> => {
         }
       }`,
     )
-
-    console.log('Fetched lessons:', lessons)
 
     return z.array(ExerciseSchema).parse(lessons)
   } catch (error) {

@@ -19,6 +19,15 @@
 @import './team.css';
 @import '../../node_modules/simplebar-react/dist/simplebar.min.css';
 @import './redeem-dialog.css';
+@import './video/module-lesson-list.css';
+@import './video/github-link.css';
+@import './video/lesson-completion-toggle.css';
+@import './video/lesson-description.css';
+@import './video/lesson-title.css';
+@import './video/module-lesson-list.css';
+@import './video/video-overlays.css';
+@import './video/video-transcript.css';
+@import './video/reset-progress.css';
 
 @layer base {
   :root {
