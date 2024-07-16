@@ -95,10 +95,6 @@ const ExerciseTemplate: React.FC<{
       lesson._type === 'interview') &&
     session
 
-  console.log('%%%module info', module)
-  console.log('%%%lesson info', lesson)
-  console.log('%%%%path?', path)
-
   // const displayWorkshopAppBanner =
   //   canViewContent && module.moduleType === 'workshop'
   // const {isShowingSiteBanner} = useGlobalBanner()
@@ -279,7 +275,6 @@ const LessonList: React.FC<{
     })
 
   const [ref, {height}] = useMeasure<HTMLDivElement>()
-  console.log('this is module ---------', module)
 
   return (
     <div className="sticky top-0 border-r">
@@ -333,7 +328,6 @@ const LessonList: React.FC<{
           <Collection.Root
             module={module}
             resourcesRenderer={(type) => {
-              console.log('this is the type?^^^', type)
               return (
                 <>
                   {(type === 'exercise' || type === 'solution') && (
@@ -355,7 +349,6 @@ const LessonList: React.FC<{
                       </Collection.Resource>
                     </>
                   )}
-                  {console.log('type:******', type)}
                 </>
               )
             }}

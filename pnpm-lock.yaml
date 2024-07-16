@@ -1259,6 +1259,9 @@ importers:
       '@heroicons/react':
         specifier: ^1.0.6
         version: 1.0.6(react@18.3.0-canary-a870b2d54-20240314)
+      '@kentcdodds/md-temp':
+        specifier: ^5.0.0
+        version: 5.0.0
       '@mdx-js/loader':
         specifier: ^2.3.0
         version: 2.3.0(webpack@5.90.0)

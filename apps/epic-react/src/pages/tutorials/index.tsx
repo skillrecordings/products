@@ -50,8 +50,8 @@ const TutorialsPage: React.FC<{
   return (
     <Layout
       meta={{
-        title: `Professional Web Development Workshops from Kent C. Dodds`,
-        description: `Professional Web Development workshops by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
+        title: `Professional Web Development Tutorials from Kent C. Dodds`,
+        description: `Professional Web Development tutorials by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
         // ogImage: {
         //   url: 'https://res.cloudinary.com/epic-web/image/upload/v1694113076/card-workshops_2x.png',
         // },
