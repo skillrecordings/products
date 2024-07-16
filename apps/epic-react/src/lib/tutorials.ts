@@ -91,7 +91,7 @@ const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] | o
   title,
   slug,
   moduleType,
-  "image": image.asset->url,
+  "image": image.secure_url,
   _updatedAt,
   _createdAt,
   description,
@@ -173,7 +173,7 @@ export const getAllTutorials = async () => {
   const parsedTutorials = TutorialsSchema.safeParse(tutorials)
 
   if (!parsedTutorials.success) {
-    console.error('Error parsing workshops')
+    console.error('Error parsing tutorials')
     console.error(parsedTutorials.error)
     return []
   } else {
@@ -249,7 +249,7 @@ export const getTutorial = async (slug: string) =>
           },
           "resources": resources[@->._type in ['linkResource']]->
         },
-        "image": image.asset->url, 
+        "image": image.secure_url, 
         // get product that includes current workshop and has
         // the largest number of modules so we can assume it's a bundle
         'product': *[_type == 'product' && references(^._id)] | order(count(modules) asc)[0]{
