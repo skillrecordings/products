@@ -195,7 +195,7 @@ const ProductCard: React.FC<{
                   variant="secondary"
                   size="sm"
                   asChild
-                  className="bg-blue-500 hover:bg-blue-600"
+                  className="bg-blue-500 font-semibold text-white hover:bg-blue-600"
                 >
                   <Link href={purchasedHref}>
                     {purchase.bulkCoupon
@@ -208,7 +208,7 @@ const ProductCard: React.FC<{
                     variant="outline"
                     asChild
                     size="sm"
-                    className="bg-gray-500 hover:bg-gray-600"
+                    className="bg-gray-500 font-semibold text-white hover:bg-gray-600 hover:text-white"
                   >
                     <Link
                       href={{
@@ -233,7 +233,7 @@ const ProductCard: React.FC<{
                       <Button
                         size="sm"
                         asChild
-                        className="border border-yellow-300 text-text hover:bg-yellow-300"
+                        className="border border-yellow-300 bg-transparent font-semibold text-text hover:bg-yellow-400 hover:text-white"
                       >
                         <Link href={buyHref}>Buy</Link>
                       </Button>
