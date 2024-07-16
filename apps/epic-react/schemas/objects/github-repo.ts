@@ -8,9 +8,14 @@ export default defineType({
   icon: FaGithub,
   fields: [
     defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+    }),
+    defineField({
       name: 'repo',
-      title: 'Repository link',
-      type: 'url',
+      title: 'Repository',
+      type: 'string',
     }),
   ],
 })

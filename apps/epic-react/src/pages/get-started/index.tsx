@@ -24,13 +24,13 @@ export const getStaticProps = async () => {
   const product = await getProduct(
     process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID || '',
   )
-  const workshops = await getAllTutorials()
+  const tutorials = await getAllTutorials()
 
   return {
     props: {
       page,
       body: bodyMdx,
-      workshops,
+      tutorials,
     },
     revalidate: 10,
   }
@@ -39,18 +39,18 @@ export const getStaticProps = async () => {
 const GetStartedPage: React.FC<{
   page: Page
   body: MDXRemoteSerializeResult
-  workshops: {
+  tutorials: {
     title: string
     slug: {current: string}
     image?: string
     github?: {repo: string}
   }[]
-}> = ({page, body, workshops}) => {
+}> = ({page, body, tutorials}) => {
   const router = useRouter()
   const [mounted, setMounted] = React.useState(false)
   const moduleSlug = router.query.module
-  const currentModule = workshops.find(
-    (workshop) => workshop.slug.current === moduleSlug,
+  const currentModule = tutorials.find(
+    (tutorial) => tutorial.slug.current === moduleSlug,
   )
   const githubUrlForCurrentModule = currentModule?.github?.repo
 
@@ -106,7 +106,7 @@ const GetStartedPage: React.FC<{
             components={{
               ...linkedHeadingComponents,
               AppTourVideo,
-              Workshops: () => <Workshops workshops={workshops} />,
+              Workshops: () => <Workshops tutorials={tutorials} />,
               Image: ({src, light, dark, alt = ''}: any) => {
                 const {theme} = useTheme()
 
@@ -140,32 +140,32 @@ const GetStartedPage: React.FC<{
 
 export default GetStartedPage
 
-const Workshops: React.FC<{workshops: any[]}> = ({workshops}) => {
+const Workshops: React.FC<{tutorials: any[]}> = ({tutorials}) => {
   return (
     <div className="not-prose my-8 flex flex-col items-center justify-center text-lg sm:gap-4 md:text-lg">
       <ul className="w-full divide-y">
-        {workshops.map((workshop) => {
-          if (!workshop?.github?.repo) return null
-          const deployedUrl = getDeployedWorkshopAppUrl(workshop.github.repo)
+        {tutorials.map((tutorial) => {
+          if (!tutorial?.github?.repo) return null
+          const deployedUrl = getDeployedWorkshopAppUrl(tutorial.github.repo)
 
           return (
             <li className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2">
               <div className="flex items-center gap-3">
-                {workshop.image ? (
+                {tutorial.image ? (
                   <Image
-                    src={workshop.image}
+                    src={tutorial.image}
                     width={50}
                     height={50}
-                    alt={workshop.title}
+                    alt={tutorial.title}
                     aria-hidden
                   />
                 ) : null}
                 <Link
-                  href={workshop.github.repo}
+                  href={tutorial.github.repo}
                   target="_blank"
                   className="group leading-tight hover:underline"
                 >
-                  {workshop.title}{' '}
+                  {tutorial.title}{' '}
                   <span className="opacity-50 transition group-hover:opacity-100">
                     ↗︎
                   </span>
@@ -184,7 +184,7 @@ const Workshops: React.FC<{workshops: any[]}> = ({workshops}) => {
                   </Link>
                 )}
                 <Link
-                  href={workshop.github.repo + '?tab=readme-ov-file#setup'}
+                  href={tutorial.github.repo + '?tab=readme-ov-file#setup'}
                   target="_blank"
                   rel="noopener"
                   className="inline-flex items-center gap-1.5 hover:underline"
@@ -247,18 +247,8 @@ const WorkshopAppScreenshot = () => {
 
 export const getDeployedWorkshopAppUrl = (repo: string) => {
   switch (repo) {
-    case 'https://github.com/epicweb-dev/full-stack-foundations':
+    case 'https://github.com/epicweb-dev/build-react-hooks':
       return 'https://foundations.epicweb.dev'
-    case 'https://github.com/epicweb-dev/web-forms':
-      return 'https://forms.epicweb.dev'
-    case 'https://github.com/epicweb-dev/data-modeling':
-      return 'https://data.epicweb.dev'
-    case 'https://github.com/epicweb-dev/web-auth':
-      return 'https://auth.epicweb.dev'
-    case 'https://github.com/epicweb-dev/full-stack-testing':
-      return 'https://testing.epicweb.dev'
-    case 'https://github.com/epicweb-dev/testing-fundamentals':
-      return 'https://epicweb-dev-testing-fundamentals.fly.dev'
   }
 }
 
