@@ -7,7 +7,6 @@ import type {
 import {
   convertToSerializeForNextResponse,
   propsForCommerce,
-  getValidPurchases,
 } from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
 import {getProductBySlug} from '@/lib/products'
@@ -19,59 +18,10 @@ import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
-  const {getPurchaseDetails, getPurchasesForUser, availableUpgradesForProduct} =
-    getSdk()
+  const {getPurchaseDetails} = getSdk()
 
   const token = await getToken({req})
   const product = await getProductBySlug(params?.slug as string)
-
-  const verifiedUserId = token?.sub
-  const purchases = getValidPurchases(await getPurchasesForUser(verifiedUserId))
-  const validPurchases = getValidPurchases(purchases)
-  const productIdsAlreadyPurchased = validPurchases.map(
-    (purchase) => purchase.productId,
-  )
-  const potentialUpgrades = await availableUpgradesForProduct(
-    validPurchases,
-    product.productId,
-  )
-  const productsAlreadyUpgradedFrom = validPurchases
-    .map((purchase) => {
-      if (!purchase.upgradedFromId) return null
-
-      const upgradedFromPurchase = validPurchases.find(
-        (innerPurchase) => innerPurchase.id === purchase.upgradedFromId,
-      )
-      if (!upgradedFromPurchase) return null
-
-      return upgradedFromPurchase.productId
-    })
-    .filter((id): id is string => Boolean(id))
-  type AvailableUpgrade = Awaited<
-    ReturnType<typeof availableUpgradesForProduct>
-  >[0]
-  const availableUpgrades = potentialUpgrades.filter<AvailableUpgrade>(
-    (
-      availableUpgrade: AvailableUpgrade,
-    ): availableUpgrade is AvailableUpgrade => {
-      const alreadyPurchased = productIdsAlreadyPurchased.includes(
-        availableUpgrade.upgradableTo.id,
-      )
-
-      // filter out upgrade paths that are no longer available.
-      //
-      // for instance, if a user has already done an upgrade purchase from
-      // `Basic` to `Standard`, then we would no longer want to offer the
-      // `Basic` to `Pro` upgrade path. Only the `Standard` to `Pro` should
-      // be available at that point.
-      const alreadyUpgradedFrom = productsAlreadyUpgradedFrom.includes(
-        availableUpgrade.upgradableFrom.id,
-      )
-
-      return !alreadyPurchased && !alreadyUpgradedFrom
-    },
-  )
-  console.log('availableUpgrades:', availableUpgrades)
 
   if (!product) {
     return {
