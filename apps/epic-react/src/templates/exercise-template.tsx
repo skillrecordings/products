@@ -117,6 +117,7 @@ const ExerciseTemplate: React.FC<{
           },
           description: pageDescription || '',
         }}
+        isNavigationFixed={false}
         className="w-full max-w-none pt-0 sm:pt-0"
       >
         <CourseJsonLd

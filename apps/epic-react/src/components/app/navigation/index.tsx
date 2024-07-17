@@ -22,11 +22,15 @@ import Skeleton from '@/components/skeleton'
 type NavigationProps = {
   navChildren?: React.ReactNode
   className?: string
+  isNavigationFixed: boolean
 }
 
 const sellingLive = process.env.NEXT_PUBLIC_SELLING_LIVE
 
-const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
+const Navigation: React.FC<NavigationProps> = ({
+  navChildren,
+  isNavigationFixed,
+}) => {
   const {data: sessionData, status: sessionStatus} = useSession()
   const [isOpen, setOpen] = React.useState<boolean>(false)
   const [hasMounted, setMounted] = React.useState(false)
@@ -134,7 +138,11 @@ const Navigation: React.FC<NavigationProps> = ({navChildren}) => {
   }
 
   return hasMounted ? (
-    <header className="fixed top-0 z-30 mx-auto w-full print:hidden">
+    <header
+      className={cx('top-0 z-30 mx-auto w-full print:hidden', {
+        fixed: isNavigationFixed,
+      })}
+    >
       {showDiscountBar && (
         <motion.div style={{y: dismissMessageBar}}>
           <MessageBar
