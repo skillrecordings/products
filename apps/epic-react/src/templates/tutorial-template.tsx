@@ -70,11 +70,11 @@ const TutorialTemplate: React.FC<{
                 )}
                 <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
               </div>
-              <Collection.Sections>
+              <Collection.Sections className="space-y-0 rounded-md border border-er-gray-200 bg-er-gray-100 [&_[data-state]]:animate-none">
                 {moduleProgressStatus === 'success' ? (
-                  <Collection.Section>
-                    <Collection.Lessons>
-                      <Collection.Lesson />
+                  <Collection.Section className="border-er-gray-200 bg-transparent font-semibold leading-tight transition data-[state='open']:rounded-none data-[state]:rounded-none data-[state='closed']:border-b hover:bg-er-gray-300 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-emerald-600 dark:[&>[data-check-icon]]:text-emerald-600 [&>[data-progress]]:h-[2px] [&>[data-progress]]:bg-primary dark:[&>[data-progress]]:bg-primary">
+                    <Collection.Lessons className="border-none bg-transparent py-0">
+                      <Collection.Lesson className='pl-4 transition before:hidden data-[active="true"]:bg-white hover:bg-er-gray-300 dark:data-[active="true"]:bg-er-gray-200 dark:hover:data-[active="true"]:bg-er-gray-300 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-emerald-600 [&_[data-check-icon]]:opacity-100 dark:[&_[data-check-icon]]:text-emerald-600 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:transition [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500' />
                     </Collection.Lessons>
                   </Collection.Section>
                 ) : (
