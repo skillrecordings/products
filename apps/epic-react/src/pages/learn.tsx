@@ -8,11 +8,9 @@ import {twMerge} from 'tailwind-merge'
 import * as Dialog from '@radix-ui/react-dialog'
 import {isEmpty} from 'lodash'
 import {motion} from 'framer-motion'
+import {trpc} from '@/trpc/trpc.client'
 
-import {
-  ModuleProgressProvider,
-  useModuleProgress,
-} from '@skillrecordings/skill-lesson/video/module-progress'
+import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {getWorkshopsForProduct, Workshop, WorkshopSchema} from '@/lib/workshops'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
@@ -21,7 +19,7 @@ import {Bonus, BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
 import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
-import ProgressBar from '@/components/progress-bar'
+import {Skeleton} from '@skillrecordings/ui'
 import WelcomeBanner from '@/components/welcome-banner'
 import CertificateForm from '@/certificate/certificate-form'
 
@@ -137,14 +135,19 @@ type Module = {
 const WorkshopItem = ({
   module,
   isMounted,
+  hasPurchases,
 }: {
   module: Module
   isMounted?: boolean
+  hasPurchases: boolean
 }) => {
   const isBonusModule = module.moduleType === 'bonus'
 
-  const moduleProgress = useModuleProgress()
-  console.log('moduleProgress:', moduleProgress)
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: module.slug.current,
+    })
+
   return (
     <div
       className={twMerge(
@@ -181,22 +184,27 @@ const WorkshopItem = ({
             </Link>
           </div>
         )}
-        {moduleProgress && (
+        {hasPurchases && (
           <div className="mt-8">
-            <div className="flex items-center space-x-3">
-              <div className="whitespace-nowrap text-xs font-semibold uppercase">
-                {moduleProgress.completedLessonCount}/
-                {moduleProgress.lessonCount} completed
+            {moduleProgressStatus === 'loading' && (
+              <Skeleton className="h-4 w-full max-w-60 rounded-md bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
+            )}
+            {moduleProgressStatus === 'success' && moduleProgress && (
+              <div className="flex items-center space-x-3">
+                <div className="whitespace-nowrap text-xs font-semibold uppercase">
+                  {moduleProgress.completedLessonCount}/
+                  {moduleProgress.lessonCount} completed
+                </div>
+                <div className="relative h-1.5 w-full max-w-60 overflow-hidden rounded-full bg-gray-300">
+                  <motion.div
+                    animate={{width: `${moduleProgress.percentComplete}%`}}
+                    initial={{width: `${moduleProgress.percentComplete}%`}}
+                    transition={{duration: 0.5, type: 'spring', mass: 0.5}}
+                    className="h-1.5 bg-blue-500 transition-transform duration-75 ease-in-out"
+                  />
+                </div>
               </div>
-              <div className="relative h-1.5 w-full max-w-60 overflow-hidden rounded-full bg-gray-300">
-                <motion.div
-                  animate={{width: `${moduleProgress.percentComplete}%`}}
-                  initial={{width: `${moduleProgress.percentComplete}%`}}
-                  transition={{duration: 0.5, type: 'spring', mass: 0.5}}
-                  className="h-1.5 bg-blue-500 transition-transform duration-75 ease-in-out"
-                />
-              </div>
-            </div>
+            )}
           </div>
         )}
       </div>
@@ -283,6 +291,7 @@ const Learn: React.FC<{
 
   const workshops = WorkshopSchema.array().parse(unparsedWorkshops)
   const bonuses = BonusSchema.array().parse(unparsedBonuses)
+  const hasPurchases = !isEmpty(commerceProps?.purchases)
 
   React.useEffect(() => {
     setIsMounted(true)
@@ -367,7 +376,11 @@ const Learn: React.FC<{
                       height={256}
                     />
                   </div>
-                  <WorkshopItem module={workshop} isMounted={isMounted} />
+                  <WorkshopItem
+                    module={workshop}
+                    isMounted={isMounted}
+                    hasPurchases={hasPurchases}
+                  />
                 </li>
               </ModuleProgressProvider>
             )
@@ -382,7 +395,7 @@ const Learn: React.FC<{
                   <div className="mb-4 mr-0 w-full max-w-xs p-8 sm:mb-0 sm:mr-8">
                     <Image src={bonus.image} alt="" width={200} height={200} />
                   </div>
-                  <WorkshopItem module={bonus} />
+                  <WorkshopItem module={bonus} hasPurchases={hasPurchases} />
                 </li>
               </ModuleProgressProvider>
             )
