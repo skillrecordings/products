@@ -135,6 +135,8 @@ mux-player::part(vertical-layer) {
     --ring: 215 20.2% 65.1%;
 
     --radius: 0.5rem;
+
+    --brand-green: 155 100% 68%;
   }
 
   .dark {
@@ -168,6 +170,8 @@ mux-player::part(vertical-layer) {
     --ring: 227 100% 65.5%;
 
     --radius: 0.5rem;
+
+    --brand-green: 155 100% 68%;
   }
 }
 
