@@ -163,7 +163,7 @@ const ProductCard: React.FC<{
             <Image
               className="rounded-full"
               src={product.image.url}
-              alt={product.name}
+              alt={product.title || product.name}
               width={200}
               height={200}
             />
