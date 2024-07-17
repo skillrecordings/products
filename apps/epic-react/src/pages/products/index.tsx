@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Layout from '@/components/app/layout'
 import {getAllProducts} from '@skillrecordings/skill-lesson/lib/products'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
@@ -17,7 +18,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@skillrecordings/ui'
@@ -64,31 +64,73 @@ type ProductsIndexProps = {
   products: SanityProduct[]
 }
 
-const ProductsIndex: React.FC<ProductsIndexProps> = ({purchases, products}) => {
-  const {displayedProducts, purchasedProductIds} = useProductIndex(
-    products,
+const Products: React.FC<ProductsIndexProps> = ({products}) => {
+  const {
     purchases,
-  )
+    displayedProducts,
+    purchasedProductIds,
+    purchasedProducts,
+    setDisplayedProducts,
+    setDefaultFilterValue,
+  } = useProductsIndex()
+  const router = useRouter()
 
   return (
-    <Layout meta={{title: 'Products'}}>
-      <header className="flex items-center justify-center py-16 text-center">
-        <h1 className="text-2xl font-bold">Products</h1>
-      </header>
-      <main className="mx-auto w-full max-w-screen-md space-y-4 px-5">
-        <StateFilter products={products} purchases={purchases} />
-        {displayedProducts.length &&
-          displayedProducts.map((product) => {
+    <>
+      {displayedProducts &&
+        displayedProducts.length > 0 &&
+        displayedProducts
+          .sort((a, b) => {
+            const modulesLengthA = a.modules ? a.modules.length : 0
+            const modulesLengthB = b.modules ? b.modules.length : 0
+            return modulesLengthB - modulesLengthA
+          })
+          .map((product) => {
             const purchase = purchases?.find(
               (p) => p.productId === product.productId,
             )
 
             return (
-              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+              <PriceCheckProvider
+                key={product.slug}
+                purchasedProductIds={purchasedProductIds}
+              >
                 <ProductCard product={product} purchase={purchase} />
               </PriceCheckProvider>
             )
           })}
+      {purchasedProducts.length === 0 ? (
+        <div>
+          You haven't purchased any Epic React products yet.{' '}
+          {products && (
+            <button
+              onClick={() => {
+                router.push('/products', undefined, {shallow: true})
+                setDefaultFilterValue({state: 'all'})
+                setDisplayedProducts(products)
+              }}
+              className="text-primary underline"
+            >
+              Browse
+            </button>
+          )}
+        </div>
+      ) : null}
+    </>
+  )
+}
+
+const ProductsIndex: React.FC<ProductsIndexProps> = ({purchases, products}) => {
+  return (
+    <Layout meta={{title: 'Products'}}>
+      <header className="flex items-center justify-center py-16 text-center">
+        <h1 className="text-2xl font-bold">Products</h1>
+      </header>
+      <main className="mx-auto w-full max-w-screen-md space-y-4 px-5 pb-16">
+        <ProductsIndexProvider products={products} purchases={purchases}>
+          <StateFilter />
+          <Products purchases={purchases} products={products} />
+        </ProductsIndexProvider>
       </main>
     </Layout>
   )
@@ -100,7 +142,6 @@ const ProductCard: React.FC<{
   product: SanityProduct
   purchase: PurchaseWithProduct | undefined
 }> = ({product, purchase}) => {
-  const router = useRouter()
   const {data: formattedPrice, status: formattedPriceStatus} =
     trpc.pricing.formatted.useQuery({
       productId: product.productId as string,
@@ -115,139 +156,155 @@ const ProductCard: React.FC<{
   }
 
   return (
-    <Card className="relative">
-      <CardHeader className="flex w-full flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">
-        <CardTitle className="w-full text-xl hover:underline">
-          <Link href={purchase ? purchasedHref : `/products/${product.slug}`}>
-            {product.title}
-          </Link>
-        </CardTitle>
-        <div className="flex items-center gap-3">
-          {purchase ? <PurchasedBadge /> : null}
+    <Card className="relative border-er-gray-200 bg-transparent">
+      <div className="flex">
+        <div className="grid w-[100px] place-items-center py-5 pl-5 md:w-[120px]">
+          {product?.image?.url && (
+            <Image
+              className="rounded-full"
+              src={product.image.url}
+              alt={product.title || product.name}
+              width={200}
+              height={200}
+            />
+          )}
         </div>
-      </CardHeader>
-      <CardFooter className="space-x-2">
-        {purchase ? (
-          <>
-            <Button variant="secondary" size="sm" asChild>
-              <Link href={purchasedHref}>
-                {purchase.bulkCoupon ? 'Manage & Details' : 'Manage & Details'}
+        <div className="grow">
+          <CardHeader className="flex w-full flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">
+            <CardTitle className="w-full text-xl hover:underline">
+              <Link
+                href={purchase ? purchasedHref : `/products/${product.slug}`}
+                className="whitespace-nowrap"
+              >
+                {product.title}
               </Link>
-            </Button>
-            {purchase.merchantChargeId && (
-              <Button variant="outline" asChild size="sm">
-                <Link
-                  href={{
-                    pathname: '/invoices/[merchantChargeId]',
-                    query: {
-                      merchantChargeId: purchase.merchantChargeId,
-                    },
-                  }}
-                >
-                  Invoice
-                </Link>
-              </Button>
-            )}
-          </>
-        ) : (
-          <>
-            {product.state === 'unavailable' ? (
-              'Unavailable'
-            ) : (
+            </CardTitle>
+            <div className="flex items-center gap-3">
+              {purchase ? <PurchasedBadge /> : null}
+            </div>
+          </CardHeader>
+          <CardFooter className="space-x-2">
+            {purchase ? (
               <>
-                {product.slug && (
-                  <Button size="sm" asChild>
-                    <Link href={buyHref}>Buy</Link>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  asChild
+                  className="bg-blue-500 font-semibold text-white hover:bg-blue-600"
+                >
+                  <Link href={purchasedHref}>
+                    {purchase.bulkCoupon
+                      ? 'Manage & Details'
+                      : 'Manage & Details'}
+                  </Link>
+                </Button>
+                {purchase.merchantChargeId && (
+                  <Button
+                    variant="outline"
+                    asChild
+                    size="sm"
+                    className="bg-gray-500 font-semibold text-white hover:bg-gray-600 hover:text-white"
+                  >
+                    <Link
+                      href={{
+                        pathname: '/invoices/[merchantChargeId]',
+                        query: {
+                          merchantChargeId: purchase.merchantChargeId,
+                        },
+                      }}
+                    >
+                      Invoice
+                    </Link>
                   </Button>
                 )}
-                {purchase ? null : (
-                  // <Price amount={Number(purchase.totalAmount)} />
-                  <div className="flex items-center space-x-3 pt-2 text-sm text-muted-foreground">
-                    <>
-                      <PriceDisplay
-                        formattedPrice={formattedPrice}
-                        status={formattedPriceStatus}
-                      />
-                    </>
-                  </div>
+              </>
+            ) : (
+              <>
+                {product.state === 'unavailable' ? (
+                  'Unavailable'
+                ) : (
+                  <>
+                    {product.slug && (
+                      <Button
+                        size="sm"
+                        asChild
+                        className="border border-yellow-300 bg-transparent font-semibold text-text hover:bg-yellow-400 hover:text-white"
+                      >
+                        <Link href={buyHref}>Buy</Link>
+                      </Button>
+                    )}
+                    {purchase ? null : (
+                      <div className="flex items-center space-x-3 pt-2 text-sm text-muted-foreground">
+                        <>
+                          <PriceDisplay
+                            formattedPrice={formattedPrice}
+                            status={formattedPriceStatus}
+                          />
+                        </>
+                      </div>
+                    )}
+                  </>
                 )}
               </>
             )}
-          </>
-        )}
-      </CardFooter>
-      <div className="px-5 [&_h2]:mt-0 [&_h2]:pb-4 [&_h2]:pt-2 [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:uppercase [&_h2]:tracking-wide [&_h2]:opacity-90 [&_ul]:pb-5">
-        <Bonuses purchase={purchase as any} />
+          </CardFooter>
+          <div className="px-5 [&_h2]:mt-0 [&_h2]:pb-4 [&_h2]:pt-2 [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:uppercase [&_h2]:tracking-wide [&_h2]:opacity-90 [&_ul]:pb-5">
+            <Bonuses purchase={purchase as any} />
+          </div>
+        </div>
       </div>
     </Card>
   )
 }
 
-const StateFilter = ({
-  products,
-  purchases,
-}: Pick<ProductsIndexProps, 'products' | 'purchases'>) => {
+const StateFilter = () => {
   const router = useRouter()
-  const {purchasedProducts, defaultFilterValue, setDisplayedProducts} =
-    useProductIndex(products, purchases)
-  const {data: sessionData, status: sessionStatus} = useSession()
+  const {
+    products,
+    purchasedProducts,
+    defaultFilterValue,
+    setDisplayedProducts,
+    setDefaultFilterValue,
+  } = useProductsIndex()
+
+  const {data: sessionData} = useSession()
 
   const handleValueChange = (value: string) => {
     if (value === 'all') {
       router.push('/products', undefined, {shallow: true})
       setDisplayedProducts(products)
+      setDefaultFilterValue({state: 'all'})
     } else {
       router.push('/products?s=' + value, undefined, {shallow: true})
       setDisplayedProducts(purchasedProducts)
+      setDefaultFilterValue({state: value})
     }
   }
 
   return (
     <>
-      {sessionData?.user ? (
-        <SelectGroup>
-          <Select
-            onValueChange={handleValueChange}
-            defaultValue={defaultFilterValue.state}
-          >
-            <SelectTrigger className="h-8 w-[180px]">
-              <SelectValue placeholder="Products" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              {sessionData?.user && (
-                <SelectItem value="purchased">Purchased</SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-        </SelectGroup>
-      ) : null}
+      <SelectGroup>
+        <Select
+          onValueChange={handleValueChange}
+          value={defaultFilterValue.state}
+          defaultValue={defaultFilterValue.state}
+        >
+          <SelectTrigger className="h-8 w-[180px]">
+            <SelectValue placeholder="Products" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            {sessionData?.user && (
+              <SelectItem value="purchased">Purchased</SelectItem>
+            )}
+          </SelectContent>
+        </Select>
+      </SelectGroup>
     </>
   )
 }
-const useProductIndex = (
-  products: SanityProduct[],
-  purchases: Purchase[] | undefined,
-) => {
-  const router = useRouter()
-  const [defaultFilterValue, setDefaultFilterValue] = React.useState({
-    state: (router.query.s as string) || 'all',
-  })
-  const [displayedProducts, setDisplayedProducts] =
-    React.useState<SanityProduct[]>(products)
-  const purchasedProductIds = purchases?.map((purchase) => purchase.productId)
-  const purchasedProducts = products.filter((product) =>
-    purchasedProductIds?.includes(product.productId),
-  )
-
-  return {
-    defaultFilterValue,
-    purchasedProductIds,
-    setDefaultFilterValue,
-    setDisplayedProducts,
-    displayedProducts,
-    purchasedProducts,
-  }
+const useProductsIndex = () => {
+  return React.useContext(ProductsIndexContext)
 }
 
 const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
@@ -306,5 +363,71 @@ const PriceDisplay = ({status, formattedPrice}: PriceDisplayProps) => {
         </>
       )}
     </div>
+  )
+}
+
+const defaultProductsIndexContext = {
+  purchases: [],
+  products: [],
+  defaultFilterValue: {state: 'all'},
+  purchasedProductIds: [],
+  setDefaultFilterValue: () => {},
+  setDisplayedProducts: () => {},
+  displayedProducts: [],
+  purchasedProducts: [],
+}
+
+const ProductsIndexContext = React.createContext<{
+  purchases: PurchaseWithProduct[]
+  products: SanityProduct[]
+  defaultFilterValue: {state: string}
+  purchasedProductIds: string[]
+  setDefaultFilterValue: (value: {state: string}) => void
+  setDisplayedProducts: (products: SanityProduct[]) => void
+  displayedProducts?: SanityProduct[]
+  purchasedProducts: SanityProduct[]
+}>(defaultProductsIndexContext)
+
+const ProductsIndexProvider: React.FC<
+  React.PropsWithChildren<{
+    purchases: PurchaseWithProduct[]
+    products: SanityProduct[]
+  }>
+> = ({purchases, products, children}) => {
+  const router = useRouter()
+  const [defaultFilterValue, setDefaultFilterValue] = React.useState({
+    state: (router.query.s as string) || 'all',
+  })
+  const purchasedProductIds = purchases?.map((purchase) => purchase.productId)
+  const purchasedProducts = products.filter((product) =>
+    purchasedProductIds?.includes(product.productId),
+  )
+
+  const initialProducts = React.useMemo(() => {
+    if (defaultFilterValue.state === 'all') {
+      return products
+    } else {
+      return purchasedProducts
+    }
+  }, [defaultFilterValue, products, purchasedProducts])
+
+  const [displayedProducts, setDisplayedProducts] =
+    React.useState<SanityProduct[]>(initialProducts)
+
+  return (
+    <ProductsIndexContext.Provider
+      value={{
+        purchases,
+        products,
+        defaultFilterValue,
+        purchasedProductIds,
+        setDefaultFilterValue,
+        setDisplayedProducts,
+        displayedProducts,
+        purchasedProducts,
+      }}
+    >
+      {children}
+    </ProductsIndexContext.Provider>
   )
 }

@@ -67,7 +67,7 @@
     [data-product-description] {
       @apply max-w-none px-0 pb-6 pt-2 text-lg;
       p {
-        @apply text-text;
+        @apply max-w-2xl text-text;
       }
     }
     [data-header] {
@@ -245,5 +245,17 @@
   }
   & + label {
     @apply mt-4 inline-flex cursor-pointer items-center space-x-2 rounded-md  border border-er-gray-300 bg-background px-4 py-3 font-semibold duration-150 hover:bg-blue-300 hover:bg-opacity-25;
+  }
+}
+
+[data-not-purchased-product] {
+  [data-pricing-container] {
+    @apply grid-cols-none;
+    & > div:nth-child(1) {
+      @apply opacity-100;
+    }
+  }
+  #main-pricing {
+    @apply translate-y-0;
   }
 }

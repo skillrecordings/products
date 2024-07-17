@@ -284,18 +284,14 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
                 />
               </>
             ) : (
-              <>
+              <div data-product-buy-more-seats="">
                 <H2>Buy more seats</H2>
                 <p className="pb-5">
                   Want to get the rest of your team onboard and learning? You
                   can always buy more seats and receive a cumulative discount.
                 </p>
-                <BuyMoreSeats
-                  className="flex [&>fieldset]:flex-col [&>fieldset]:sm:flex-row [&_[data-full-price]]:line-through [&_[data-percent-off]]:text-primary dark:[&_[data-percent-off]]:text-blue-300 [&_[data-price-container]]:!flex [&_[data-price-container]]:!w-full [&_[data-price-discounted]]:flex [&_[data-price-discounted]]:items-center [&_[data-price-discounted]]:gap-2 [&_[data-price-discounted]]:pl-3 [&_[data-price-discounted]]:text-base [&_[data-price-discounted]]:font-medium [&_[data-price]]:flex [&_[data-price]]:text-2xl [&_[data-price]]:font-bold [&_[data-pricing-product-header]]:w-full [&_[data-pricing-product]]:w-full [&_button]:!bg-primary [&_button]:!px-4 [&_button]:!py-1.5 [&_button]:!font-medium [&_button]:!text-primary-foreground [&_input]:text-sm [&_sup]:top-2.5 [&_sup]:pr-1 [&_sup]:opacity-75"
-                  productId={purchase.productId}
-                  userId={userId}
-                />
-              </>
+                <BuyMoreSeats productId={purchase.productId} userId={userId} />
+              </div>
             )}
           </div>
         </article>
@@ -311,7 +307,7 @@ const PurchasedProductTemplate: React.FC<ProductPageProps> = ({
           )}
           <div className="pt-10">
             <span className="block pb-4 text-sm font-semibold uppercase">
-              Workshops
+              Modules
             </span>
             {product?.modules?.map((module) => {
               return (
@@ -470,7 +466,9 @@ const ModuleItem: React.FC<{
 }> = ({module}) => {
   const moduleProgress = useModuleProgress()
   const {sections, slug} = module
-  const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
+  const isModuleInProgress =
+    (moduleProgress?.completedLessonCount || 0) > 0 ||
+    moduleProgress?.moduleCompleted
   const nextSection = moduleProgress?.nextSection
   const nextLesson = moduleProgress?.nextLesson
 
@@ -484,19 +482,20 @@ const ModuleItem: React.FC<{
     module?.sections &&
     module?.lessons &&
     (sectionsFlatMap(module?.sections).length || module?.lessons.length)
+
   return (
     <div className="flex items-center gap-3 py-2">
       {module?.image?.url && (
         <Image
           src={module.image.url}
-          alt={module.title}
-          width={80}
-          height={80}
+          alt={module.image.alt}
+          width={60}
+          height={60}
         />
       )}
       <div className="flex flex-col">
         <Link
-          href={`/${pluralize(module.moduleType)}/${module.slug}`}
+          href={`/modules/${module.slug}/${module.lessons?.[0]?.slug}`}
           className="font-semibold hover:underline"
         >
           {module.title}
@@ -517,44 +516,44 @@ const ModuleItem: React.FC<{
         <div className="pt-0.5">
           {isModuleInProgress && (
             <>
-              <Link
-                href={
-                  firstSection && sections
-                    ? {
-                        pathname: `/${pluralize(
-                          module.moduleType,
-                        )}/[module]/[section]/[lesson]`,
-                        query: {
-                          module: slug,
-                          section: isModuleInProgress
-                            ? nextSection?.slug
-                            : firstSection.slug,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
-                        },
-                      }
-                    : {
-                        pathname: `/${pluralize(
-                          module.moduleType,
-                        )}/[module]/[lesson]`,
-                        query: {
-                          module: slug,
-                          lesson: isModuleInProgress
-                            ? nextLesson?.slug
-                            : firstLesson?.slug,
-                        },
-                      }
-                }
-                className={cx(
-                  'flex font-medium text-blue-600 hover:underline dark:text-blue-300',
-                )}
-                onClick={() => {
-                  track('clicked start learning', {module: slug})
-                }}
-              >
-                {isModuleInProgress ? 'Continue' : 'Start'}
-              </Link>
+              {!moduleProgress?.moduleCompleted && (
+                <Link
+                  href={
+                    firstSection && sections
+                      ? {
+                          pathname: `/modules/[module]/[lesson]`,
+                          query: {
+                            module: slug,
+                            // section: isModuleInProgress
+                            //   ? nextSection?.slug
+                            //   : firstSection.slug,
+                            lesson: isModuleInProgress
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
+                          },
+                        }
+                      : {
+                          pathname: `/${pluralize(
+                            module.moduleType,
+                          )}/[module]/[lesson]`,
+                          query: {
+                            module: slug,
+                            lesson: isModuleInProgress
+                              ? nextLesson?.slug
+                              : firstLesson?.slug,
+                          },
+                        }
+                  }
+                  className={cx(
+                    'flex font-medium text-blue-600 hover:underline dark:text-blue-300',
+                  )}
+                  onClick={() => {
+                    track('clicked start learning', {module: slug})
+                  }}
+                >
+                  Continue
+                </Link>
+              )}
               <div className="relative flex w-full items-center justify-between gap-1">
                 <div className="pr-1 text-xs font-semibold text-gray-600 dark:text-gray-300">
                   {moduleProgress?.percentComplete}%
@@ -607,7 +606,7 @@ const Purchases: React.FC<{purchasesForCurrentProduct: Purchase[]}> = ({
           </th>
           <th
             scope="col"
-            className="px-3 py-3.5 text-left text-sm font-semibold uppercase"
+            className="px-3 py-3.5 text-left text-right text-sm font-semibold uppercase"
           >
             Invoice
           </th>
@@ -648,16 +647,15 @@ const PurchaseRow: React.FC<{purchase: Purchase}> = ({purchase}) => {
           : purchase.status}
       </td>
       <td
-        className={cn(
-          'flex justify-end whitespace-nowrap py-4 pl-3 text-base',
-          {
-            'justify-end': purchase.merchantChargeId,
-            'justify-start': !purchase.merchantChargeId,
-          },
-        )}
+        className={cn('flex justify-end whitespace-nowrap py-4 pl-3 text-base')}
       >
         {purchase.merchantChargeId ? (
-          <Button size="sm" asChild variant="secondary" className="w-full">
+          <Button
+            size="sm"
+            asChild
+            variant="secondary"
+            className="bg-gray-500 font-semibold text-white hover:bg-gray-600 hover:text-white"
+          >
             <Link href={`/invoices/${purchase.merchantChargeId}`}>View</Link>
           </Button>
         ) : (

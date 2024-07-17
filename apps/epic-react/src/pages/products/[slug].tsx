@@ -9,25 +9,19 @@ import {
   propsForCommerce,
 } from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
-import {getProductBySlug} from '@skillrecordings/skill-lesson/path-to-purchase/products.server'
+import {getProductBySlug} from '@/lib/products'
+import ProductTemplate from '@/templates/product-template'
 import PurchasedProductTemplate from '@/templates/purchased-product-template'
 import {getSdk} from '@skillrecordings/database'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
-import {getWorkshop} from '@/lib/workshops'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import ProductTemplate from '@/templates/product-template'
-import {getAvailableBonuses} from '@/lib/available-bonuses'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query, params} = context
   const {getPurchaseDetails} = getSdk()
-  const availableBonuses = await getAvailableBonuses()
+
   const token = await getToken({req})
   const product = await getProductBySlug(params?.slug as string)
-  const workshop = await getWorkshop(params?.slug as string)
-  const mdx = product.body && (await serializeMDX(product.body))
 
   if (!product) {
     return {
@@ -42,9 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   })
 
   if (!token?.sub) {
-    return {
-      props: {...commerceProps.props, workshop, product, mdx, availableBonuses},
-    }
+    return {props: {...commerceProps.props, product}}
   }
 
   const purchaseForProduct = commerceProps.props.purchases?.find(
@@ -54,9 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   )
 
   if (!purchaseForProduct) {
-    return {
-      props: {...commerceProps.props, workshop, product, mdx, availableBonuses},
-    }
+    return {props: {...commerceProps.props, product}}
   }
 
   const {purchase, existingPurchase} = await getPurchaseDetails(
@@ -70,7 +60,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       hasPurchasedCurrentProduct: Boolean(purchase),
       existingPurchase: convertToSerializeForNextResponse(existingPurchase),
       product,
-      workshop,
     },
   }
 }
@@ -96,13 +85,12 @@ export type ProductPageProps = {
   }
   purchases: Purchase[]
   hasPurchasedCurrentProduct: boolean
-  workshop?: Module
   mdx?: MDXRemoteSerializeResult
   availableBonuses?: any[]
 } & CommerceProps
 
 const ProductPage: React.FC<ProductPageProps> = (props) => {
-  const {workshop, hasPurchasedCurrentProduct} = props
+  const {hasPurchasedCurrentProduct} = props
 
   return (
     <>
@@ -111,10 +99,13 @@ const ProductPage: React.FC<ProductPageProps> = (props) => {
           <PurchasedProductTemplate {...props} />
         </PriceCheckProvider>
       ) : (
-        <ProductTemplate
-          mdx={props.mdx as MDXRemoteSerializeResult}
-          {...props}
-        />
+        <PriceCheckProvider
+          purchasedProductIds={[
+            ...props.purchases.map((purchase) => purchase.productId),
+          ]}
+        >
+          <ProductTemplate {...props} />
+        </PriceCheckProvider>
       )}
     </>
   )
