@@ -34,10 +34,8 @@ import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {getOgImage} from '@/utils/get-og-image'
 import {PreWithButtons} from '@/utils/mdx'
 import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
-// import {WorkshopAppBanner} from 'components/workshop-app'
+import {WorkshopAppBanner} from '@/components/workshop-app'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
-// import {useGlobalBanner} from 'hooks/use-global-banner'
-// import {ResourceCTA} from 'components/cta/resource-cta'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -95,9 +93,10 @@ const ExerciseTemplate: React.FC<{
       lesson._type === 'interview') &&
     session
 
-  // const displayWorkshopAppBanner =
-  //   canViewContent && module.moduleType === 'workshop'
-  // const {isShowingSiteBanner} = useGlobalBanner()
+  const displayWorkshopAppBanner =
+    canViewContent &&
+    (module.moduleType === 'workshop' || module.moduleType === 'tutorial')
+
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -188,12 +187,14 @@ const ExerciseTemplate: React.FC<{
                     repository="Code"
                   />
                 )}
-                {/* {displayWorkshopAppBanner && !displayLessonCompletionToggle && (
+
+                {displayWorkshopAppBanner && !displayLessonCompletionToggle && (
                   <WorkshopAppBanner
                     moduleSlug={module.slug.current || ''}
                     className="mt-3 rounded-lg border p-5"
                   />
-                )} */}
+                )}
+
                 {(lessonBodySerialized || lessonBodyPreviewSerialized) && (
                   <LessonDescription
                     mdxComponents={{
@@ -238,18 +239,15 @@ const ExerciseTemplate: React.FC<{
                   />
                 )}
                 {displayLessonCompletionToggle && <LessonCompletionToggle />}
-                {/* {displayWorkshopAppBanner && displayLessonCompletionToggle && (
+                {displayWorkshopAppBanner && displayLessonCompletionToggle && (
                   <WorkshopAppBanner
                     description={`The best way to experience ${module.title} workshop is in accompanying Workshop App.`}
                     className="mt-5 rounded-lg border p-5"
                   />
-                )} */}
+                )}
               </div>
               <div className="relative z-10 block flex-grow 2xl:hidden">
                 <VideoTranscript transcript={transcript} />
-                {/* {module.moduleType === 'tutorial' && (
-                  <ResourceCTA resourceIdOrSlug={module._id} />
-                )} */}
               </div>
             </article>
           </main>
@@ -299,7 +297,7 @@ const LessonList: React.FC<{
               <Button
                 asChild
                 size="sm"
-                className="mt-2 inline-flex h-auto items-center space-x-1 px-1.5 py-1 text-xs font-semibold uppercase leading-none"
+                className="mt-2 inline-flex h-auto items-center space-x-1 bg-blue-500 px-1.5 py-1 text-xs font-semibold uppercase leading-none text-white"
               >
                 <Link href={module?.github?.repo + '#setup'} target="_blank">
                   <Icon name="Github" size="16" />
@@ -318,7 +316,7 @@ const LessonList: React.FC<{
         style={scrollAreaClassName ? {} : {height: `calc(100vh - ${height}px)`}}
       >
         <div
-          className="pointer-events-none absolute bottom-0 left-0 z-10 h-24 w-full bg-gradient-to-t from-background to-transparent"
+          className="pointer-events-none absolute bottom-0 left-0 z-10 h-24 w-full  bg-gradient-to-t from-background to-transparent"
           aria-hidden
         />
         <ScrollAreaPrimitive.Viewport

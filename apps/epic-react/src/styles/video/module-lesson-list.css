@@ -1,19 +1,22 @@
 /* module lesson list */
 [data-module-lesson-list-header] {
-  @apply relative z-50 hidden w-full flex-shrink-0 border-r border-gray-200 lg:block lg:max-w-[280px] xl:max-w-xs;
+  @apply relative z-50 hidden w-full flex-shrink-0 border-r border-gray-800 lg:block lg:max-w-[280px] xl:max-w-xs;
   [data-sticky-container] {
     @apply top-0 lg:sticky;
     [data-content-wrapper] {
-      @apply top-0 z-10 bg-white lg:sticky;
+      @apply top-0 z-10 bg-gradient-to-t from-transparent via-gray-900 to-gray-900 lg:sticky;
       [data-content] {
-        @apply relative flex items-center gap-5 border-b border-gray-200 bg-gray-100 p-3;
+        @apply relative flex items-center gap-3 border-b border-gray-800 bg-gray-900 px-3 py-1;
+        background-image: url('/assets/landing/bg-divider-6.png');
+        background-position: center;
+        background-size: cover;
         [data-image] {
-          @apply relative z-10;
+          @apply relative z-10 flex max-w-[100px] items-center justify-center;
         }
         [data-title] {
           @apply relative z-10 -translate-y-0.5;
           [data-type] {
-            @apply font-mono text-xs font-semibold uppercase text-gray-500 hover:underline;
+            @apply font-mono text-xs font-semibold uppercase text-gray-300 hover:underline;
           }
           span {
             @apply pl-1 text-xs text-gray-400;
@@ -28,19 +31,19 @@
       }
     }
     [data-fadeout] {
-      @apply pointer-events-none absolute bottom-0 left-0 z-20 h-16 w-full bg-gradient-to-t from-gray-100 to-transparent;
+      @apply pointer-events-none absolute bottom-0 left-0 z-20 h-16 w-full bg-gradient-to-t from-gray-900 to-transparent;
     }
   }
 }
 [data-mobile-module-lesson-list] {
-  @apply block border-t-2 border-gray-200 lg:hidden;
+  @apply block border-t-2 border-gray-900 lg:hidden;
   ::-webkit-details-marker {
     display: none;
   }
   summary {
-    @apply flex w-full cursor-pointer items-center justify-between gap-1 border-b border-gray-200 bg-white py-3 pl-4 pr-12 font-semibold leading-tight transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:bg-gray-200 after:text-lg after:content-['↑'] hover:bg-gray-100;
+    @apply flex w-full cursor-pointer items-center justify-between gap-1 bg-gray-800 py-3 pl-4 pr-12 font-semibold leading-tight shadow-2xl shadow-black/40 transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:bg-gray-700 after:text-lg after:content-['↑'] hover:bg-gray-800;
     [data-byline] {
-      @apply text-sm font-normal text-gray-600 opacity-80;
+      @apply text-sm font-normal text-gray-300 opacity-80;
     }
   }
   [data-module-lesson-list-header] {
@@ -48,14 +51,14 @@
   }
 }
 [data-module-lesson-list] {
-  @apply relative h-[400px] overflow-y-auto bg-gray-100 pb-16 scrollbar-thin scrollbar-thumb-gray-800/70 hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-116px)];
+  @apply relative h-[400px] overflow-y-auto pb-16 scrollbar-thin scrollbar-thumb-gray-800/70 hover:scrollbar-thumb-gray-700 lg:h-[calc(100vh-121px)];
   /* sections */
   [data-sections] {
     @apply relative;
     [data-accordion-header] {
-      @apply sticky top-0 z-10 overflow-hidden bg-white;
+      @apply sticky top-0 z-10 overflow-hidden bg-gray-900 shadow-xl shadow-black/20;
       [data-accordion-trigger] {
-        @apply relative z-10 flex w-full items-center justify-between border-b border-gray-100 bg-white py-3 pl-3 pr-4 text-left text-lg font-semibold leading-tight transition hover:bg-gray-50;
+        @apply relative z-10 flex w-full items-center justify-between border-b border-white/5 bg-gray-800/20 py-3 pl-3 pr-4 text-left text-lg font-semibold leading-tight transition hover:bg-gray-800/40;
         [data-icons] {
           @apply flex items-center;
         }
@@ -66,7 +69,7 @@
           @apply relative h-3 w-3 opacity-50 transition group-radix-state-open:rotate-180;
         }
         [data-active-section-indicator] {
-          @apply mr-3 h-1 w-1 animate-pulse rounded-full bg-primary opacity-75 duration-1000;
+          @apply mr-3 h-1 w-1 animate-pulse rounded-full bg-cyan-500 opacity-75 duration-1000;
         }
       }
       [data-accordion-trigger][data-state='open'] {
@@ -91,33 +94,30 @@
   }
   /* single section */
   [data-single-section] {
-    @apply flex flex-col divide-y divide-gray-800/0 text-base;
-    [data-lesson][data-is-expanded='true'] {
-      @apply bg-white;
-    }
+    @apply flex flex-col divide-y divide-gray-800/0 text-lg;
   }
   /* lesson */
   [data-lesson][data-is-lesson-completed='true'][data-is-expanded='false'] {
-    @apply text-gray-600 opacity-80 hover:text-black hover:opacity-100;
+    @apply text-gray-300 opacity-80 hover:text-gray-100 hover:opacity-100;
   }
   [data-lesson][data-is-expanded='false'] {
-    @apply text-gray-600 opacity-90 hover:text-black hover:opacity-100;
+    @apply text-gray-300 opacity-90 hover:text-gray-100 hover:opacity-100;
   }
   [data-lesson][data-is-expanded='true'] {
-    @apply bg-gray-200/70;
+    @apply bg-gray-800 text-white;
   }
   [data-lesson] {
     [data-lesson-title] {
-      @apply flex items-center px-4 py-2.5 font-semibold leading-tight;
+      @apply flex items-center px-4 py-2.5 font-semibold leading-tight hover:bg-gray-800/50;
       [data-check-icon] {
-        @apply -ml-1.5 mr-[7.5px] h-4 w-4 flex-shrink-0 text-emerald-600;
+        @apply -ml-1.5 mr-[8px] h-4 w-4 flex-shrink-0 text-cyan-400;
       }
       [data-index] {
-        @apply pr-3 font-mono text-xs opacity-50;
+        @apply -ml-1.5 mr-[8px] w-[16px] text-sm opacity-50;
       }
     }
     ul {
-      @apply text-gray-600;
+      @apply text-gray-300;
       /* problem */
       [data-problem] {
         a {
@@ -173,7 +173,7 @@
   }
   /* section resources */
   [data-section-resources] {
-    @apply bg-black pb-8 pt-1;
+    @apply bg-black/30 pb-8 pt-1;
     [data-label] {
       @apply px-5 pb-2 pt-4 text-xs font-medium uppercase tracking-wide text-gray-300;
     }
