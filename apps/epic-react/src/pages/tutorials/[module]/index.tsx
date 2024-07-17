@@ -33,7 +33,6 @@ const TutorialPage: React.FC<{
   tutorial: Tutorial
   tutorialBodySerialized: MDXRemoteSerializeResult
 }> = ({tutorial, tutorialBodySerialized}) => {
-  console.log('tutorial:', tutorial)
   return (
     <ModuleProgressProvider moduleSlug={tutorial.slug.current}>
       <TutorialTemplate

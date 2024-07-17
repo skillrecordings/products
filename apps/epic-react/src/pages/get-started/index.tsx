@@ -68,8 +68,8 @@ const GetStartedPage: React.FC<{
       meta={{
         title: pageTitle,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1696931328/get-started-card_2x.png',
-          alt: '',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1721253718/epicreact-skill-stack/ogImage-er-get-started.png',
+          alt: 'Get started Epic React',
         },
       }}
     >

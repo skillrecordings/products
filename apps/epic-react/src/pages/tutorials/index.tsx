@@ -43,17 +43,16 @@ const sectionsFlatMap = (sections: any[]) => {
 const TutorialsPage: React.FC<{
   tutorials: Tutorial[]
 }> = ({tutorials}) => {
-  console.log('tutorials:', tutorials)
   const router = useRouter()
   const {subscriber, loadingSubscriber} = useConvertkit()
 
   return (
     <Layout
       meta={{
-        title: `Professional Web Development Tutorials from Kent C. Dodds`,
-        description: `Professional Web Development tutorials by Kent C. Dodds that will help you learn professional web developer through exercise driven examples.`,
+        title: `Professional React Tutorials from Kent C. Dodds`,
+        description: `Professional React tutorials by Kent C. Dodds that will help you learn professional web development through exercise driven examples.`,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1694113076/card-workshops_2x.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1721252858/epicreact-skill-stack/ogImage-tutorials.png',
           alt: 'Epic React Tutorials',
         },
       }}
