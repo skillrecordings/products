@@ -188,7 +188,7 @@ const WorkshopItem = ({
                 {moduleProgress.completedLessonCount}/
                 {moduleProgress.lessonCount} completed
               </div>
-              <div className="relative h-1.5 w-full max-w-xs overflow-hidden rounded-full bg-gray-300">
+              <div className="relative h-1.5 w-full max-w-60 overflow-hidden rounded-full bg-gray-300">
                 <motion.div
                   animate={{width: `${moduleProgress.percentComplete}%`}}
                   initial={{width: `${moduleProgress.percentComplete}%`}}
