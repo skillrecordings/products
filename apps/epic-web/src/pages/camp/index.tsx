@@ -54,6 +54,8 @@ const EpicWebCampPage = () => {
               height={441}
               placeholder="blur"
               src={require('../../../public/assets/camp/epic-web-camp-24.jpg')}
+              quality={100}
+              priority
               alt="Epic Web Camp 2024"
               className=""
             />
