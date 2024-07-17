@@ -32,12 +32,16 @@ module.exports = {
         orig: defaultTheme.fontFamily.sans,
       },
       colors: {
-        brand: 'hsl(var(--primary))',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        // brand: 'hsl(var(--primary))',
+        brand: {
+          green: 'hsl(var(--brand-green))',
+          DEFAULT: 'hsl(var(--primary))',
+        },
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
