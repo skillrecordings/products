@@ -80,15 +80,10 @@ const Products: React.FC<ProductsIndexProps> = ({products}) => {
       {displayedProducts &&
         displayedProducts.length > 0 &&
         displayedProducts
-          .sort((product) => {
-            const purchase = purchases?.find(
-              (p) => p.productId === product.productId,
-            )
-            if (purchase) {
-              return -1
-            } else {
-              return 1
-            }
+          .sort((a, b) => {
+            const modulesLengthA = a.modules ? a.modules.length : 0
+            const modulesLengthB = b.modules ? b.modules.length : 0
+            return modulesLengthB - modulesLengthA
           })
           .map((product) => {
             const purchase = purchases?.find(
