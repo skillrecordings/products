@@ -8,7 +8,7 @@
     a {
       @apply inline-flex items-center gap-4 rounded-md border border-gray-700/50 bg-gray-800/50 px-4 py-3 text-lg font-medium text-white transition hover:bg-slate-800/90;
       svg {
-        @apply h-14 w-14 flex-shrink-0 rounded-full bg-black/30 p-2;
+        @apply h-14 w-14 flex-shrink-0 rounded-full bg-black p-2;
       }
       div {
       }

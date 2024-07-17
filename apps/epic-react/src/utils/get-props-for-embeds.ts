@@ -100,7 +100,8 @@ export const getPropsForEmbed = async (
   return {
     module,
     section,
-    lesson: isSolution ? lesson.solution : lesson,
+    lesson,
+    isSolution,
     videoResourceId,
     videoResource,
     theme,

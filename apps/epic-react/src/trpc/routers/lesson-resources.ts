@@ -13,7 +13,8 @@ export const lessonResourcesRouter = router({
       const lesson = await getExercise(input.slug)
 
       const github = lesson.github
+      const workshopApp = lesson?.workshopApp || undefined
 
-      return {github}
+      return {github, workshopApp}
     }),
 })

@@ -1,5 +1,6 @@
 import {NextSeo, type NextSeoProps} from '@skillrecordings/next-seo'
 import {twMerge} from 'tailwind-merge'
+import cx from 'classnames'
 import Navigation from './navigation'
 import {Inter} from 'next/font/google'
 import {Toaster} from 'react-hot-toast'
@@ -31,6 +32,7 @@ type LayoutProps = {
     className?: string
     navChildren: React.ReactNode
   }
+  isNavigationFixed?: boolean
   footerProps?: {
     className?: string
   }
@@ -43,6 +45,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   noIndex,
   withNavigation = true,
   navigationProps,
+  isNavigationFixed = true,
 }) => {
   const {
     title,
@@ -83,11 +86,19 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
       />
       <Toaster position="top-center" />
       {isFeedbackDialogOpen && feedbackComponent}
-      {withNavigation && <Navigation {...navigationProps} />}
+      {withNavigation && (
+        <Navigation
+          {...navigationProps}
+          isNavigationFixed={isNavigationFixed}
+        />
+      )}
       <div
         className={twMerge(
-          'mt-[57px] flex min-h-[calc(100svh-57px)] flex-grow flex-col sm:mt-[61px] sm:min-h-[calc(100svh-61px)]',
-          className,
+          cx(
+            'flex min-h-[calc(100svh-57px)] flex-grow flex-col sm:min-h-[calc(100svh-61px)]',
+            {'mt-[57px] sm:mt-[61px]': isNavigationFixed},
+            className,
+          ),
         )}
       >
         {children}

@@ -52,6 +52,7 @@ export default defineType({
         }),
         defineArrayMember({type: 'stackblitz'}),
         defineArrayMember({type: 'githubRepo'}),
+        defineArrayMember({type: 'workshopApp'}),
       ],
     }),
     defineField({

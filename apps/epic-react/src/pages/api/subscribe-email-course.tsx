@@ -21,7 +21,7 @@ export default async function handler(
     try {
       const subscription = await ckAxios
         .post(`/forms/${ckFormId}/subscribe`, {
-          api_key: process.env.NEXT_CONVERTKIT_TOKEN,
+          api_key: process.env.NEXT_PUBLIC_CONVERTKIT_TOKEN,
           email: email_address,
           first_name,
         })

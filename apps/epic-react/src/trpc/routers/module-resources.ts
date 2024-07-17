@@ -1,6 +1,6 @@
 import {publicProcedure, router} from '@skillrecordings/skill-lesson'
 import {z} from 'zod'
-import {getWorkshop} from '@/lib/workshops'
+import {getTutorial} from '@/lib/tutorials'
 
 export const moduleResourcesRouter = router({
   byModuleSlug: publicProcedure
@@ -10,10 +10,11 @@ export const moduleResourcesRouter = router({
       }),
     )
     .query(async ({ctx, input}) => {
-      const module = await getWorkshop(input.slug)
+      const module = await getTutorial(input.slug)
 
       const github = module.github
+      const workshopApp = module.workshopApp
 
-      return {github}
+      return {github, workshopApp}
     }),
 })
