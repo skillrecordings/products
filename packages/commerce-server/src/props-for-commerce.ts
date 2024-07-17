@@ -14,10 +14,10 @@ export async function propsForCommerce({
   products: SanityProduct[]
 }) {
   const productIds = products.map((product) => product.productId)
-  const couponFromCode = await getCouponForCode(
-    query.code as string,
-    productIds,
-  )
+
+  const codeFromQueryParams = (query.code as string) || (query.coupon as string)
+  const couponFromCode = await getCouponForCode(codeFromQueryParams, productIds)
+
   const allowPurchase =
     Boolean(process.env.NEXT_PUBLIC_SELLING_LIVE === 'true') ||
     Boolean(query.allowPurchase)
