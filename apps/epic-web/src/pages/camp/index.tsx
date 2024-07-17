@@ -5,20 +5,31 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
+const TICKETS_URL = '/'
+
 const EpicWebCampPage = () => {
   return (
-    <Layout className="bg-[#080E16] text-[#DDD8DB]">
+    <Layout
+      className="bg-[#080E16] text-[#DDD8DB]"
+      meta={{
+        title: 'Epic Web Camp 2024',
+        description: 'Epic connections with Epic people in Epic mountains.',
+        ogImage: {
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1721234903/epic-web-camp-24-card_2x.png',
+        },
+      }}
+    >
       <main className="">
-        <header className="relative mx-auto flex w-full max-w-screen-lg items-center justify-between px-3 pb-10 pt-16">
-          <div>
+        <header className="relative z-0 mx-auto flex w-full max-w-screen-lg flex-col-reverse items-center justify-between px-0 pb-10 pt-0 sm:flex-row sm:px-3 sm:pt-16">
+          <div className="flex flex-col items-center sm:items-start">
             <h1 className="mb-3 flex flex-col items-center text-center md:items-start md:text-left">
               <span className="text-3xl text-brand-green">Epic Web</span>
               <span className="text-5xl font-semibold">Camp 2024</span>
             </h1>
-            <h2 className="mb-10 text-balance text-xl">
+            <h2 className="mb-10 text-balance text-center text-xl sm:text-left">
               Epic connections with Epic people in Epic mountains.
             </h2>
-            <ul className="mb-10 flex flex-col gap-2">
+            <ul className="mb-10 flex flex-col items-center gap-2 sm:items-start">
               <li className="inline-flex items-center gap-2">
                 <CalendarFold className="text-[#93D7A6]" /> September 11th—12th
                 2024
@@ -27,28 +38,9 @@ const EpicWebCampPage = () => {
                 <MountainSnow className="text-[#93D7A6]" /> Aspen Grove, Utah
               </li>
             </ul>
-            <Link
-              href="/"
-              className="relative inline-flex items-center justify-center rounded bg-brand-green px-10 py-3 pr-12 font-semibold text-black"
-            >
-              Book Now{' '}
-              <svg
-                aria-hidden="true"
-                className="absolute -right-px top-0"
-                width="37"
-                height="52"
-                viewBox="0 0 37 52"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M36.44 0L21.49 14.95H29.18L13.98 30.14H21.23L0 51.37H36.44V0Z"
-                  fill="#080E16"
-                />
-              </svg>
-            </Link>
+            <BookNowButton />
           </div>
-          <div className="relative overflow-hidden ">
+          <div className="relative mb-10 flex h-64 items-end justify-center overflow-hidden sm:mb-0 sm:h-auto sm:items-center">
             <div
               className='absolute h-full w-full before:absolute before:-left-2.5 before:-top-2.5 before:h-5 before:w-5 before:rotate-45 before:bg-[#080E16] before:content-[""] after:absolute after:-left-0.5 after:-top-0.5 after:h-1 after:w-1 after:rotate-45 after:bg-brand-green'
               aria-hidden="true"
@@ -70,9 +62,9 @@ const EpicWebCampPage = () => {
         <section
           aria-label="You are invited!"
           id="about"
-          className="mx-auto flex w-full max-w-screen-lg items-center justify-center px-3 "
+          className="mx-auto flex w-full max-w-screen-lg items-center justify-center sm:px-3"
         >
-          <div className="relative flex w-full items-center justify-center overflow-hidden bg-[#141A22] py-20">
+          <div className="relative flex w-full items-center justify-center overflow-hidden bg-[#141A22] px-6 py-16 sm:py-20">
             <div
               className='absolute h-full w-full before:absolute before:-left-2.5 before:-top-2.5 before:h-5 before:w-5 before:rotate-45 before:bg-[#080E16] before:content-[""] after:absolute after:-left-0.5 after:-top-0.5 after:h-1 after:w-1 after:rotate-45 after:bg-brand-green'
               aria-hidden="true"
@@ -104,9 +96,9 @@ const EpicWebCampPage = () => {
         <section
           aria-label="Location"
           id="location"
-          className="relative mx-auto flex w-full max-w-screen-lg items-start justify-between gap-8 px-3 py-16"
+          className="relative mx-auto flex w-full max-w-screen-lg flex-col items-start justify-between gap-8 px-5 py-10 sm:flex-row sm:px-3 sm:py-16"
         >
-          <h2 className="sticky top-20 text-3xl font-semibold text-brand-green">
+          <h2 className="top-20 text-3xl font-semibold text-brand-green sm:sticky">
             Location
           </h2>
           <div className="prose w-full max-w-xl dark:prose-invert sm:prose-lg">
@@ -148,7 +140,7 @@ const EpicWebCampPage = () => {
         <section
           aria-label="Sponsors"
           id="sponsors"
-          className="mx-auto w-full max-w-screen-lg px-3 py-16"
+          className="mx-auto w-full max-w-screen-lg px-5 py-16 sm:px-3"
         >
           <h2 className="mb-10 text-3xl font-semibold text-brand-green">
             Sponsors
@@ -162,11 +154,11 @@ const EpicWebCampPage = () => {
         <section
           aria-label="Workshop"
           id="workshop"
-          className="mx-auto w-full max-w-screen-lg px-3 py-16"
+          className="mx-auto w-full max-w-screen-lg px-5 py-10 sm:px-3 sm:py-16"
         >
-          <div className="flex items-start justify-between gap-10">
+          <div className="flex flex-col-reverse items-start justify-between gap-10 sm:flex-row">
             <div className="prose max-w-xl dark:prose-invert sm:prose-lg prose-a:text-foreground prose-a:underline dark:prose-a:text-foreground">
-              <h2 className="not-prose mb-10 text-3xl text-brand-green">
+              <h2 className="not-prose mb-10 text-3xl font-semibold text-brand-green">
                 Workshop
               </h2>
               <p>
@@ -235,7 +227,7 @@ const EpicWebCampPage = () => {
                 constraints and questions asked.
               </p>
             </div>
-            <div className="sticky top-20 border-t-2 border-brand-green bg-white/5">
+            <div className="top-20 border-t-2 border-brand-green bg-white/5 sm:sticky">
               <div className="flex items-center gap-5 p-8 pt-6">
                 <svg
                   width="72"
@@ -263,7 +255,7 @@ const EpicWebCampPage = () => {
                   />
                 </svg>
 
-                <h3 className="text-2xl font-semibold text-foreground">
+                <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
                   Advanced React Patterns Workshop
                 </h3>
               </div>
@@ -282,9 +274,9 @@ const EpicWebCampPage = () => {
         <section
           aria-label="Activities"
           id="activities"
-          className="relative mx-auto flex w-full max-w-screen-lg items-start justify-between px-3 py-16"
+          className="relative mx-auto flex w-full max-w-screen-lg flex-col items-start justify-between gap-10 px-5 py-10 sm:flex-row sm:px-3 sm:py-16"
         >
-          <h2 className="sticky top-24 text-3xl font-semibold text-brand-green">
+          <h2 className="top-24 text-3xl font-semibold text-brand-green sm:sticky">
             Activities
           </h2>
           <div className="prose max-w-xl dark:prose-invert sm:prose-lg prose-a:text-foreground prose-a:underline dark:prose-a:text-foreground">
@@ -342,9 +334,9 @@ const EpicWebCampPage = () => {
         <section
           aria-label="Schedule"
           id="schedule"
-          className="mx-auto w-full max-w-screen-lg px-3 py-16"
+          className="mx-auto w-full max-w-screen-lg px-5 py-10 sm:px-3 sm:py-16"
         >
-          <div className="flex w-full items-start justify-between">
+          <div className="flex w-full flex-col items-start justify-between gap-5 sm:flex-row">
             <h2 className="text-3xl font-semibold text-brand-green">
               Schedule
             </h2>
@@ -355,13 +347,15 @@ const EpicWebCampPage = () => {
               </p>
             </div>
           </div>
-          <div className="mt-16 flex flex-col divide-y divide-border border-t">
+          <div className="mt-10 flex flex-col divide-y divide-border border-t sm:mt-16">
             {schedule.map(({date, events}) => (
               <div
                 key={date}
-                className="relative grid grid-cols-12 items-start justify-between py-16"
+                className="relative flex grid-cols-12 flex-col items-start justify-between py-10 sm:grid sm:py-16"
               >
-                <h3 className="col-span-5 text-2xl font-semibold">{date}</h3>
+                <h3 className="col-span-5 mb-5 text-2xl font-semibold sm:mb-0">
+                  {date}
+                </h3>
                 <ul className="col-span-7 flex w-full flex-col text-base sm:text-lg lg:text-xl">
                   {events.map(({time, activity}) => {
                     return (
@@ -387,7 +381,7 @@ const EpicWebCampPage = () => {
         <section
           aria-label="Accommodations and meals"
           id="accommodation"
-          className="mx-auto flex w-full max-w-screen-lg items-center justify-between px-3 py-16"
+          className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-between gap-5 px-5 py-10 sm:flex-row sm:px-3 sm:py-16"
         >
           <div className="prose flex max-w-lg flex-col dark:prose-invert sm:prose-xl">
             <h2 className="not-prose mb-5 text-3xl font-semibold text-brand-green">
@@ -422,15 +416,26 @@ const EpicWebCampPage = () => {
         <section
           aria-label="Book Epic Web Camp"
           id="book"
-          className="mx-auto flex w-full max-w-screen-lg items-center justify-center px-3 py-16"
+          className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center gap-5 px-3 py-16 sm:py-24"
         >
           <h3 className="mb-3 flex flex-col items-center text-center">
             <span className="text-3xl text-brand-green">Epic Web</span>
             <span className="text-5xl font-semibold">Camp 2024</span>
           </h3>
+          <BookNowButton>Join Us</BookNowButton>
         </section>
-        <section aria-label="Code of Conduct" id="code-of-conduct">
-          https://www.epicweb.dev/conf/code-of-conduct
+        <section
+          aria-label="Code of Conduct"
+          id="code-of-conduct"
+          className="mx-auto flex w-full max-w-screen-lg items-center justify-center border-t px-3 py-16"
+        >
+          <div />
+          <Link
+            href="/conf/code-of-conduct"
+            className="text-sm transition hover:text-brand-green"
+          >
+            Code of Conduct
+          </Link>
         </section>
       </main>
     </Layout>
@@ -521,3 +526,30 @@ const schedule = [
     ],
   },
 ]
+
+const BookNowButton: React.FC<React.PropsWithChildren> = ({
+  children = 'Book Now',
+}) => {
+  return (
+    <Link
+      href={TICKETS_URL}
+      className="relative inline-flex items-center justify-center rounded bg-brand-green px-10 py-3 pr-12 font-semibold text-black"
+    >
+      {children}
+      <svg
+        aria-hidden="true"
+        className="absolute -right-px top-0"
+        width="37"
+        height="52"
+        viewBox="0 0 37 52"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M36.44 0L21.49 14.95H29.18L13.98 30.14H21.23L0 51.37H36.44V0Z"
+          fill="#080E16"
+        />
+      </svg>
+    </Link>
+  )
+}
