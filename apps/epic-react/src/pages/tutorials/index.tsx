@@ -81,7 +81,10 @@ const TutorialsPage: React.FC<{
           <ul className="flex flex-col gap-5">
             {tutorials.map((tutorial, i) => {
               return (
-                <ModuleProgressProvider moduleSlug={tutorial.slug.current}>
+                <ModuleProgressProvider
+                  key={tutorial._id}
+                  moduleSlug={tutorial.slug.current}
+                >
                   <Teaser
                     tutorial={tutorial}
                     key={tutorial.slug.current}
