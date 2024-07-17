@@ -266,10 +266,10 @@ const menuItems = [
     label: 'Articles',
     slug: '/articles',
   },
-  {
-    label: 'Tutorials',
-    slug: '/tutorials',
-  },
+  // {
+  //   label: 'Tutorials',
+  //   slug: '/tutorials',
+  // },
   {
     label: 'Livestreams',
     slug: '/livestreams',
