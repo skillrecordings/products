@@ -5,7 +5,10 @@ import Image from 'next/image'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {trpc} from '@/trpc/trpc.client'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
-import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {
+  PriceCheckProvider,
+  usePriceCheck,
+} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
 import cx from 'classnames'
 import {CheckCircleIcon} from '@heroicons/react/solid'
@@ -26,11 +29,26 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
   const router = useRouter()
   const title = product?.title || product?.name || 'Product Title'
 
+  const {addPrice} = usePriceCheck()
+
   const {data: commerceProps, status: commercePropsStatus} =
-    trpc.pricing.propsForCommerce.useQuery({
-      ...router.query,
-      productId: product.productId,
-    })
+    trpc.pricing.propsForCommerce.useQuery(
+      {
+        ...router.query,
+        productId: product.productId,
+      },
+      {
+        onSuccess: (commerceProps) => {
+          if (!commerceProps.purchases) return
+          commerceProps.purchases.map((purchase) => {
+            addPrice(
+              {...purchase.product, unitPrice: purchase.totalAmount},
+              purchase.productId,
+            )
+          })
+        },
+      },
+    )
 
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
@@ -83,19 +101,17 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
         )}
         {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
         <div className="mt-10 flex w-full items-center justify-center pb-16">
-          <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-            <div data-pricing-container="">
-              <Pricing
-                bonuses={availableBonuses}
-                allowPurchase={product.state === 'active'}
-                userId={userId}
-                product={{...product, name: undefined, title: undefined} as any}
-                purchased={purchasedProductIds.includes(product.productId)}
-                couponId={couponId}
-                couponFromCode={couponFromCode}
-              />
-            </div>
-          </PriceCheckProvider>
+          <div data-pricing-container="">
+            <Pricing
+              bonuses={availableBonuses}
+              allowPurchase={product.state === 'active'}
+              userId={userId}
+              product={{...product, name: undefined, title: undefined} as any}
+              purchased={purchasedProductIds.includes(product.productId)}
+              couponId={couponId}
+              couponFromCode={couponFromCode}
+            />
+          </div>
         </div>
         <Image
           className="mx-auto mb-16"
