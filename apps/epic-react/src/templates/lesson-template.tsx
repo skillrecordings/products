@@ -46,14 +46,6 @@ const NavigationProgressModule: React.FC<{
   moduleProgress: ModuleProgress
   moduleProgressStatus: 'error' | 'loading' | 'success'
 }> = ({module, moduleProgress, moduleProgressStatus}) => {
-  const percentComplete = moduleProgress
-    ? Number(
-        (
-          (100 * moduleProgress.completedLessonCount) /
-          moduleProgress.lessonCount
-        ).toFixed(0),
-      )
-    : 0
   return moduleProgress ? (
     moduleProgressStatus === 'loading' ? (
       <Skeleton className="h-10 w-[220px] rounded-md bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
@@ -80,7 +72,7 @@ const NavigationProgressModule: React.FC<{
               </Link>
             </h4>
           )}
-          <ProgressBar percentComplete={percentComplete} />
+          <ProgressBar percentComplete={moduleProgress.percentComplete} />
         </div>
       </div>
     )
