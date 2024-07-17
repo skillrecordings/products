@@ -1,5 +1,5 @@
 [data-lesson-completion-toggle] {
-  @apply mt-8 flex w-full items-center justify-center rounded bg-card px-5 shadow-xl shadow-foreground/5 dark:shadow-none;
+  @apply mt-8 flex w-full items-center justify-center rounded-md border bg-white shadow-2xl shadow-gray-500/20 transition dark:bg-white/5 dark:shadow-none dark:hover:bg-gray-800;
   form {
     @apply inline-flex flex-col items-center justify-center gap-3 rounded-md py-10 sm:flex-row;
     [data-title] {
@@ -28,7 +28,7 @@
       @apply hover:cursor-pointer;
     }
     button {
-      @apply relative h-5 w-10 rounded-full border border-gray-300/50 bg-gray-200 shadow-md shadow-black/5 radix-state-checked:border-indigo-400 radix-state-checked:bg-indigo-500 dark:border-gray-700/50 dark:bg-gray-800 dark:shadow-black/50 dark:radix-state-checked:bg-indigo-500;
+      @apply relative h-5 w-10 rounded-full border border-gray-300/50 bg-gray-200 shadow-md shadow-black/5 radix-state-checked:border-blue-400 radix-state-checked:bg-blue-500 dark:border-gray-700/50 dark:bg-gray-800 dark:shadow-black/50 dark:radix-state-checked:bg-blue-500;
       span {
         @apply block h-4 w-4 translate-x-0.5 rounded-full bg-white shadow-sm shadow-black/10 transition-all ease-out radix-state-checked:translate-x-5 radix-state-checked:bg-white dark:bg-gray-200 dark:shadow-black/50;
       }

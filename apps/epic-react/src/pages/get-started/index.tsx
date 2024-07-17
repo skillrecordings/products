@@ -79,7 +79,7 @@ const GetStartedPage: React.FC<{
         </h1>
         {githubUrlForCurrentModule ? (
           <Link
-            className="mt-10 flex items-center gap-3 rounded-md bg-primary px-5 py-1 font-semibold text-primary-foreground transition"
+            className="mt-10 flex items-center gap-3 rounded-md bg-blue-500 px-5 py-1 font-semibold text-white transition"
             href={`${githubUrlForCurrentModule}?tab=readme-ov-file#setup`}
             target="_blank"
           >

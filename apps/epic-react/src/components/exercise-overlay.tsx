@@ -41,7 +41,7 @@ const ExerciseOverlay = () => {
           <div className="flex w-full max-w-xs flex-col space-y-3 pt-2">
             <Button
               asChild
-              className="w-full font-semibold"
+              className="w-full bg-blue-500 font-semibold hover:bg-blue-400"
               size="lg"
               onClick={() => {
                 track('clicked get started', {
@@ -65,7 +65,7 @@ const ExerciseOverlay = () => {
                 <Button
                   asChild
                   variant="secondary"
-                  className="gap-2"
+                  className="gap-2 bg-gray-800 hover:bg-gray-700"
                   size={'lg'}
                 >
                   <a
@@ -94,31 +94,6 @@ const ExerciseOverlay = () => {
               </div>
             )}
           </div>
-          {github?.repo && (
-            <div className="mx-auto flex w-full max-w-lg flex-col space-y-5 pt-4">
-              {/* <p>
-              Start by cloning{' '}
-              <a
-                className="underline"
-                href={github.repo}
-                target="_blank"
-                rel="noreferrer"
-              >
-                workshop repository
-              </a>{' '}
-              and follow instructions in the{' '}
-              <a
-                className="underline"
-                href={`${github.repo}#setup`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                README
-              </a>{' '}
-              to complete the exercise.
-            </p> */}
-            </div>
-          )}
         </div>
       </div>
       <div className="flex items-center justify-center gap-3 pt-2">
@@ -270,7 +245,7 @@ const Actions = () => {
       {nextExercise && (
         <Button
           variant="secondary"
-          className="flex gap-1"
+          className="flex gap-1 bg-gray-800  hover:bg-gray-700"
           onClick={() => {
             track('clicked continue to solution', {
               lesson: lesson.slug,
