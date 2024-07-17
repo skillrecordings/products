@@ -7,6 +7,7 @@ import cx from 'classnames'
 import {twMerge} from 'tailwind-merge'
 import * as Dialog from '@radix-ui/react-dialog'
 import {isEmpty} from 'lodash'
+import {motion} from 'framer-motion'
 
 import {
   ModuleProgressProvider,
@@ -20,6 +21,7 @@ import {Bonus, BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
 import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
+import ProgressBar from '@/components/progress-bar'
 import WelcomeBanner from '@/components/welcome-banner'
 import CertificateForm from '@/certificate/certificate-form'
 
@@ -142,6 +144,7 @@ const WorkshopItem = ({
   const isBonusModule = module.moduleType === 'bonus'
 
   const moduleProgress = useModuleProgress()
+  console.log('moduleProgress:', moduleProgress)
   return (
     <div
       className={twMerge(
@@ -176,6 +179,24 @@ const WorkshopItem = ({
               </svg>
               Repository
             </Link>
+          </div>
+        )}
+        {moduleProgress && (
+          <div className="mt-6">
+            <div className="flex items-center space-x-3">
+              <div className="whitespace-nowrap text-xs font-semibold uppercase">
+                {moduleProgress.completedLessonCount}/
+                {moduleProgress.lessonCount} completed
+              </div>
+              <div className="relative h-1.5 w-full max-w-xs overflow-hidden rounded-full bg-gray-300">
+                <motion.div
+                  animate={{width: `${moduleProgress.percentComplete}%`}}
+                  initial={{width: `${moduleProgress.percentComplete}%`}}
+                  transition={{duration: 0.5, type: 'spring', mass: 0.5}}
+                  className="h-1.5 bg-blue-500 transition-transform duration-75 ease-in-out"
+                />
+              </div>
+            </div>
           </div>
         )}
       </div>
