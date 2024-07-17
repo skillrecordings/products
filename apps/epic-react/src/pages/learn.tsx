@@ -182,7 +182,7 @@ const WorkshopItem = ({
           </div>
         )}
         {moduleProgress && (
-          <div className="mt-6">
+          <div className="mt-8">
             <div className="flex items-center space-x-3">
               <div className="whitespace-nowrap text-xs font-semibold uppercase">
                 {moduleProgress.completedLessonCount}/
