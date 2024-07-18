@@ -22,6 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     login: {providers, csrfToken},
     convertkitSubscriber,
     abilityRules,
+    product,
   } = props
 
   return {
@@ -29,6 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       module,
       section,
       lesson,
+      product,
       videoResourceId,
       videoResource,
       theme,
