@@ -10,7 +10,7 @@ const TICKETS_URL = '/'
 const EpicWebCampPage = () => {
   return (
     <Layout
-      className="bg-[#080E16] text-[#DDD8DB]"
+      className="dark:bg-[#080E16] dark:text-[#DDD8DB]"
       meta={{
         title: 'Epic Web Camp 2024',
         description: 'Epic connections with Epic people in Epic mountains.',
@@ -31,22 +31,23 @@ const EpicWebCampPage = () => {
             </h2>
             <ul className="mb-10 flex flex-col items-center gap-2 sm:items-start">
               <li className="inline-flex items-center gap-2">
-                <CalendarFold className="text-[#93D7A6]" /> September 11th—12th
-                2024
+                <CalendarFold className="text-brand-green dark:text-[#93D7A6]" />{' '}
+                September 11th—12th 2024
               </li>
               <li className="inline-flex items-center gap-2">
-                <MountainSnow className="text-[#93D7A6]" /> Aspen Grove, Utah
+                <MountainSnow className="text-brand-green dark:text-[#93D7A6]" />{' '}
+                Aspen Grove, Utah
               </li>
             </ul>
             <BookNowButton />
           </div>
           <div className="relative mb-10 flex h-64 items-end justify-center overflow-hidden sm:mb-0 sm:h-auto sm:items-center">
             <div
-              className='absolute h-full w-full before:absolute before:-left-2.5 before:-top-2.5 before:h-5 before:w-5 before:rotate-45 before:bg-[#080E16] before:content-[""] after:absolute after:-left-0.5 after:-top-0.5 after:h-1 after:w-1 after:rotate-45 after:bg-brand-green'
+              className='absolute h-full w-full before:absolute before:-left-2.5 before:-top-2.5 before:h-5 before:w-5 before:rotate-45 before:bg-background before:content-[""] after:absolute after:-left-0.5 after:-top-0.5 after:h-1 after:w-1 after:rotate-45 after:bg-brand-green dark:before:bg-[#080E16]'
               aria-hidden="true"
             />
             <div
-              className='absolute h-full w-full before:absolute before:-bottom-2.5 before:-right-2.5 before:h-5 before:w-5 before:rotate-45 before:bg-[#080E16] before:content-[""] after:absolute after:-bottom-0.5 after:-right-0.5 after:h-1 after:w-1 after:rotate-45 after:bg-brand-green'
+              className='absolute h-full w-full before:absolute before:-bottom-2.5 before:-right-2.5 before:h-5 before:w-5 before:rotate-45 before:bg-background before:content-[""] after:absolute after:-bottom-0.5 after:-right-0.5 after:h-1 after:w-1 after:rotate-45 after:bg-brand-green dark:before:bg-[#080E16]'
               aria-hidden="true"
             />
             <Image
@@ -66,9 +67,9 @@ const EpicWebCampPage = () => {
           id="about"
           className="mx-auto flex w-full max-w-screen-lg items-center justify-center sm:px-3"
         >
-          <div className="relative flex w-full items-center justify-center overflow-hidden bg-[#141A22] px-6 py-16 sm:py-20">
+          <div className="relative flex w-full items-center justify-center overflow-hidden bg-white px-6 py-16 dark:bg-[#141A22] sm:py-20">
             <div
-              className='absolute h-full w-full before:absolute before:-left-2.5 before:-top-2.5 before:h-5 before:w-5 before:rotate-45 before:bg-[#080E16] before:content-[""] after:absolute after:-left-0.5 after:-top-0.5 after:h-1 after:w-1 after:rotate-45 after:bg-brand-green'
+              className='absolute h-full w-full before:absolute before:-left-2.5 before:-top-2.5 before:h-5 before:w-5 before:rotate-45 before:bg-background before:content-[""] after:absolute after:-left-0.5 after:-top-0.5 after:h-1 after:w-1 after:rotate-45 after:bg-brand-green dark:before:bg-[#080E16]'
               aria-hidden="true"
             />
             <div className="flex max-w-2xl flex-col">
@@ -106,11 +107,11 @@ const EpicWebCampPage = () => {
           <div className="prose w-full max-w-xl dark:prose-invert sm:prose-lg">
             <div className="not-prose relative overflow-hidden">
               <div
-                className='absolute h-full w-full before:absolute before:-left-2.5 before:-top-2.5 before:h-5 before:w-5 before:rotate-45 before:bg-[#080E16] before:content-[""] after:absolute after:-left-0.5 after:-top-0.5 after:h-1 after:w-1 after:rotate-45 after:bg-brand-green'
+                className='darl:before:bg-[#080E16] absolute h-full w-full before:absolute before:-left-2.5 before:-top-2.5 before:h-5 before:w-5 before:rotate-45 before:bg-background before:content-[""] after:absolute after:-left-0.5 after:-top-0.5 after:h-1 after:w-1 after:rotate-45 after:bg-brand-green'
                 aria-hidden="true"
               />
               <div
-                className='absolute h-full w-full before:absolute before:-bottom-2.5 before:-right-2.5 before:h-5 before:w-5 before:rotate-45 before:bg-[#080E16] before:content-[""] after:absolute after:-bottom-0.5 after:-right-0.5 after:h-1 after:w-1 after:rotate-45 after:bg-brand-green'
+                className='absolute h-full w-full before:absolute before:-bottom-2.5 before:-right-2.5 before:h-5 before:w-5 before:rotate-45 before:bg-background before:content-[""] after:absolute after:-bottom-0.5 after:-right-0.5 after:h-1 after:w-1 after:rotate-45 after:bg-brand-green dark:before:bg-[#080E16]'
                 aria-hidden="true"
               />
               <Image
@@ -149,7 +150,7 @@ const EpicWebCampPage = () => {
           </h2>
           <div className="flex items-center gap-5">
             {new Array(7).fill({}).map(() => (
-              <div className="h-12 w-32 bg-white/5" />
+              <div className="h-12 w-32 bg-gray-100 dark:bg-white/5" />
             ))}
           </div>
         </section>
@@ -229,7 +230,7 @@ const EpicWebCampPage = () => {
                 constraints and questions asked.
               </p>
             </div>
-            <div className="top-20 border-t-2 border-brand-green bg-white/5 sm:sticky">
+            <div className="top-20 border-t-2 border-brand-green bg-white dark:bg-white/5 sm:sticky">
               <div className="flex items-center gap-5 p-8 pt-6">
                 <svg
                   width="72"
@@ -535,12 +536,12 @@ const BookNowButton: React.FC<React.PropsWithChildren> = ({
   return (
     <Link
       href={TICKETS_URL}
-      className="relative inline-flex items-center justify-center rounded bg-brand-green px-10 py-3 pr-12 font-semibold text-black"
+      className="relative inline-flex items-center justify-center rounded bg-brand-green px-10 py-3 pr-12 font-semibold text-white dark:text-black"
     >
       {children}
       <svg
         aria-hidden="true"
-        className="absolute -right-px top-0"
+        className="absolute -right-px top-0 text-background dark:text-[#080E16]"
         width="37"
         height="52"
         viewBox="0 0 37 52"
@@ -549,7 +550,7 @@ const BookNowButton: React.FC<React.PropsWithChildren> = ({
       >
         <path
           d="M36.44 0L21.49 14.95H29.18L13.98 30.14H21.23L0 51.37H36.44V0Z"
-          fill="#080E16"
+          fill="currentColor"
         />
       </svg>
     </Link>
