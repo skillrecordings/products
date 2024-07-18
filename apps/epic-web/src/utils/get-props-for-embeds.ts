@@ -19,6 +19,7 @@ import {getTip} from 'lib/tips'
 import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
 import {getBonus} from 'lib/bonuses'
 import {getTalk} from 'lib/talks'
+import {getProduct} from 'lib/products'
 
 export const getPropsForEmbed = async (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
@@ -53,6 +54,10 @@ export const getPropsForEmbed = async (
   const videoResourceId = isSolution
     ? solution.videoResourceId
     : lesson.videoResourceId
+
+  // product
+  const product =
+    module?.product?.productId && (await getProduct(module.product.productId))
 
   // ability rules
   const country =
@@ -107,6 +112,7 @@ export const getPropsForEmbed = async (
     module,
     section,
     lesson,
+    product,
     isSolution,
     solution,
     videoResourceId,
