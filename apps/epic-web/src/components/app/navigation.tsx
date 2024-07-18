@@ -31,13 +31,8 @@ import {
 import {LogoutIcon} from '@heroicons/react/solid'
 import {ChevronDownIcon} from '@heroicons/react/outline'
 import Countdown, {zeroPad} from 'react-countdown'
-import {
-  useActiveLiveEvent,
-  useAvailableSale,
-  useGlobalBanner,
-} from 'hooks/use-global-banner'
+import {useGlobalBanner} from 'hooks/use-global-banner'
 import pluralize from 'pluralize'
-import type {Product} from 'lib/products'
 
 type NavigationProps = {
   className?: string
@@ -226,7 +221,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     {icon(
                       (hoveredNavItemIndex === i ||
                         asPath === href ||
-                        asPath.includes(href)) &&
+                        asPath.includes(`${href}/`)) &&
                         !isOvershadowed,
                     )}{' '}
                     {label}
@@ -990,9 +985,11 @@ export const Banner: React.FC<{
   className?: string
   enableScrollAnimation?: boolean
 }> = ({className, enableScrollAnimation}) => {
+  const {data: cta, status} = trpc.cta.forResource.useQuery()
+
   const router = useRouter()
-  const currentSale = useAvailableSale()
-  const activeEvent = useActiveLiveEvent()
+  const currentSale = cta?.CURRENT_ACTIVE_PROMOTION
+  const activeEvent = cta?.CURRENT_ACTIVE_LIVE_EVENT
   const {bannerHeight, scrollDirection} = useGlobalBanner()
   const code = router.query.code
   const productOnSale = currentSale?.product
@@ -1054,7 +1051,7 @@ export const Banner: React.FC<{
         </Link>
       ) : activeEvent ? (
         <Link
-          href={`/events/${activeEvent.event.slug}${
+          href={`/events/${activeEvent.product?.event?.slug}${
             code ? '?code=' + code : ''
           }`}
           className={cn(`flex h-full w-full bg-primary py-1.5 text-white`)}
@@ -1062,7 +1059,7 @@ export const Banner: React.FC<{
             track('clicked banner cta', {
               location: 'nav',
               type: 'event',
-              title: activeEvent.event.title,
+              title: activeEvent.product?.event?.title,
             })
           }}
         >
@@ -1073,7 +1070,7 @@ export const Banner: React.FC<{
               </strong>{' '}
               <span>
                 {pluralize('spot', activeEvent.quantityAvailable, true)} left
-                for {activeEvent.event.title} workshop.
+                for {activeEvent.product?.event?.title} workshop.
               </span>
             </p>
             <div className="flex-shrink-0 rounded bg-white px-2 py-0.5 font-semibold text-primary shadow-md">
