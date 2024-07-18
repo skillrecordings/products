@@ -23,6 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     convertkitSubscriber,
     abilityRules,
     isSolution,
+    product,
   } = props
 
   return {
@@ -33,6 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       ...(isSolution && {
         solution: lesson.solution,
       }),
+      product,
       videoResourceId,
       videoResource,
       theme,

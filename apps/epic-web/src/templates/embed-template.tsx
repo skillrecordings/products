@@ -24,6 +24,7 @@ import {Button} from '@skillrecordings/ui'
 import Link from 'next/link'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {Subscriber} from 'schemas/subscriber'
+import type {Product} from 'lib/products'
 
 export type VideoEmbedPageProps = {
   module: Module
@@ -41,12 +42,14 @@ export type VideoEmbedPageProps = {
   abilityRules: any
   isSolution?: boolean
   solution?: any
+  product?: Product
 }
 
 const EmbedTemplate: React.FC<VideoEmbedPageProps> = ({
   module,
   section,
   lesson,
+  product,
   videoResourceId,
   videoResource,
   theme,
@@ -61,9 +64,11 @@ const EmbedTemplate: React.FC<VideoEmbedPageProps> = ({
   const path = `/${pluralize(module.moduleType)}`
   const addProgressMutation = trpc.progress.add.useMutation()
   const {setTheme} = useTheme()
+
   React.useEffect(() => {
     setTheme(theme)
   }, [theme])
+
   const thumbnail = `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`
 
   return (
@@ -107,6 +112,7 @@ const EmbedTemplate: React.FC<VideoEmbedPageProps> = ({
                 section={section}
                 subscriber={convertkitSubscriber}
                 abilityRules={abilityRules}
+                product={product}
               />
             </VideoProvider>
           </VideoResourceProvider>
@@ -128,6 +134,7 @@ type VideoProps = Pick<VideoEmbedPageProps, 'theme'> & {
     muxPlaybackId?: string
     transcript?: string | null | any
   }
+  product?: Product
 }
 
 const Video: React.FC<
@@ -145,6 +152,7 @@ const Video: React.FC<
       lesson,
       abilityRules: initialAbilityRules,
       subscriber,
+      product,
     },
     ref,
   ) => {
@@ -194,6 +202,14 @@ const Video: React.FC<
 
     const {data: session} = useSession()
 
+    const getAccessUrl = product
+      ? `${process.env.NEXT_PUBLIC_URL}/${pluralize(module.moduleType)}/${
+          module.slug.current
+        }`
+      : `${process.env.NEXT_PUBLIC_URL}/${pluralize(module.moduleType)}/${
+          module.slug.current
+        }${section ? `/${section.slug}` : ''}/${lesson.slug}`
+
     return abilityRulesStatus !== 'success' ? (
       <Spinner className="h-8 w-8 sm:h-10 sm:w-10" />
     ) : (
@@ -240,27 +256,32 @@ const Video: React.FC<
                     <h1 className="pb-2 pt-4 text-2xl font-bold sm:text-3xl">
                       Get access to{' '}
                       <a
-                        href="https://epicweb.dev"
+                        href={getAccessUrl}
                         className="decoration-primary underline-offset-2 hover:underline"
                         target="_blank"
                         rel="noreferrer"
                       >
-                        EpicWeb.dev
+                        {product?.title
+                          ? product.title
+                          : module?.title
+                          ? module.title
+                          : 'EpicWeb.dev'}
                       </a>
                     </h1>
                     <h2 className="opacity-80 sm:text-lg">
                       And continue watching this video
                     </h2>
                   </div>
+                  {/* {JSON.stringify({product})} */}
                   <div className="mx-auto mt-5 flex w-full max-w-[250px] flex-col space-y-3">
                     <Button asChild>
                       <a
-                        href="https://epicweb.dev"
+                        href={getAccessUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-semibold"
                       >
-                        Buy Epic Web
+                        Get Access
                       </a>
                     </Button>
                     <Button variant="outline" asChild>
