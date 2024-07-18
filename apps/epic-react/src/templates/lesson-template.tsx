@@ -41,6 +41,8 @@ import Layout from '@/components/app/layout'
 import ProgressBar from '@/components/progress-bar'
 import RepositoryLink from '@/components/repository-link'
 
+import {DefaultOverlay} from '@/components/video-overlays/lesson-complete-overlay'
+
 const NavigationProgressModule: React.FC<{
   module: Module
   moduleProgress: ModuleProgress
@@ -221,6 +223,7 @@ const ExerciseTemplate: React.FC<{
                     product={module?.product as SanityProduct}
                     ref={muxPlayerRef}
                     exerciseOverlayRenderer={() => <div>TODO</div>}
+                    defaultOverlayRenderer={() => <DefaultOverlay />}
                     blockedOverlayRenderer={BlockedOverlay}
                     loadingIndicator={<Spinner />}
                   />
