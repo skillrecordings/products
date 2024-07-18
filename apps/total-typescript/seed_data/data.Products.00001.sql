@@ -66,10 +66,10 @@ INSERT INTO MerchantProduct (id, merchantAccountId, productId, status, identifie
 ('tt_merchant_product_clxjgkeaj000008l8ho3t6xos', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 'tt_product_clxjgl7fg000108l8eifn69dt', 1, 'prod_QJkqxmPdPLIdG8');
 
 INSERT INTO Price (id, productId, nickname, status, unitAmount ) VALUES
-('tt_price_clxjgnv6h000308l81g9chb9n', 'tt_product_clxjgl7fg000108l8eifn69dt', 'Complete Volume', 1, 990);
+('tt_price_clxjgnv6h000308l81g9chb9n', 'tt_product_clxjgl7fg000108l8eifn69dt', 'Complete Volume', 1, 499);
 
 INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, priceId, identifier ) VALUES
-('tt_merchant_price_clxjgp7ra000408l8ebjcaz4w', 'tt_merchant_product_clxjgkeaj000008l8ho3t6xos', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, 'tt_price_clxjgnv6h000308l81g9chb9n', 'price_1PT7KgAozSgJZBRPRiwuUOUB');
+('tt_merchant_price_clxjgp7ra000408l8ebjcaz4w', 'tt_merchant_product_clxjgkeaj000008l8ho3t6xos', 'tt_cc7acfa7-f60b-4315-ae51-3cbd305e23ae', 1, 'tt_price_clxjgnv6h000308l81g9chb9n', 'price_1PYVMpAozSgJZBRPBMF58hSS');
 
 -- Coupons
 
