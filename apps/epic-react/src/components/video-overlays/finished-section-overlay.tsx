@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
 import Image from 'next/image'
+import first from 'lodash/first'
 import {useMuxPlayer} from '@skillrecordings/skill-lesson/hooks/use-mux-player'
 import {CodeIcon} from '@heroicons/react/solid'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
@@ -17,13 +18,14 @@ import {
 } from '@skillrecordings/skill-lesson/video/video-overlays'
 import {useModuleProgress} from '@skillrecordings/skill-lesson/video/module-progress'
 import LessonCompleteToggle from '@/components/lesson-completion-toggle'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 
-export const DefaultOverlay: React.FC = () => {
-  const {nextExercise, handlePlay, setDisplayOverlay} = useMuxPlayer()
+export const FinishedSectionOverlay = () => {
+  const {nextSection, handlePlay, setDisplayOverlay} = useMuxPlayer()
   const {lesson, module} = useLesson()
   const router = useRouter()
   const {image} = module
-
+  const nextExercise = first(nextSection?.lessons) as Lesson
   const moduleProgress = useModuleProgress()
 
   const [completedLessonCount, setCompletedLessonCount] =
@@ -32,6 +34,7 @@ export const DefaultOverlay: React.FC = () => {
   const session = useSession()
 
   return (
+    // keeping "default" variant here so we don't have to style it twice
     <OverlayWrapper data-video-overlay="default">
       <ModuleCtaProvider>
         {image && (
@@ -47,14 +50,14 @@ export const DefaultOverlay: React.FC = () => {
         )}
         <p data-title="">
           <Balancer>
-            <span data-byline="">Up next:</span> {nextExercise?.title}
+            <span data-byline="">Up next:</span> {nextSection?.title}
           </Balancer>
         </p>
         {moduleProgress && session.status === 'authenticated' && (
           <div data-progress="">
             <Progress
               value={(completedLessonCount / moduleProgress?.lessonCount) * 100}
-              className="h-2"
+              className="h-2 bg-blue-500"
             />
             <div data-lessons-completed="">
               {completedLessonCount} / {moduleProgress?.lessonCount} lessons
@@ -65,9 +68,8 @@ export const DefaultOverlay: React.FC = () => {
         <div>
           <LessonCompleteToggle className="text-md my-4 bg-white text-white hover:bg-er-gray-300 disabled:pointer-events-none disabled:opacity-50 dark:bg-er-gray-200 dark:hover:bg-er-gray-300" />
           <div>
-            <Button
+            {/* <button
               data-action="replay"
-              variant="ghost"
               onClick={() => {
                 track('clicked replay', {
                   lesson: lesson.slug,
@@ -80,11 +82,11 @@ export const DefaultOverlay: React.FC = () => {
                 handlePlay()
               }}
             >
-              <span data-icon="" aria-hidden="true" className="mr-2">
+              <span data-icon="" aria-hidden="true">
                 ↺
               </span>{' '}
-              <span>Replay Video</span>
-            </Button>
+              Replay Video
+            </button> */}
             {lesson._type === 'solution' && (
               <Link
                 data-action="try-again"
