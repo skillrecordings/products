@@ -7,6 +7,7 @@ import Footer from './footer'
 import GlobalSearchBar from 'search-bar'
 import '../../search-bar/cmdk.css'
 import {useGlobalBanner} from 'hooks/use-global-banner'
+import {useGoldenTicket} from 'hooks/use-golden-ticket'
 
 type LayoutProps = {
   meta?: any
@@ -44,6 +45,8 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   } = meta || {}
   const {isShowingSiteBanner, bannerHeight} = useGlobalBanner()
 
+  const {RedeemDialogForCoupon} = useGoldenTicket()
+
   return (
     <>
       <NextSeo
@@ -68,6 +71,7 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
         noindex={noIndex}
       />
       <GlobalSearchBar />
+      <RedeemDialogForCoupon />
       <Toaster
         position="top-center"
         toastOptions={{

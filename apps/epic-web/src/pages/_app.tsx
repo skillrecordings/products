@@ -14,6 +14,7 @@ import {ThemeProvider} from 'next-themes'
 import {DM_Sans, JetBrains_Mono} from 'next/font/google'
 import {SearchProvider} from 'search-bar/use-search-bar'
 import * as amplitude from '@amplitude/analytics-browser'
+import {GoldenTicketProvider} from 'hooks/use-golden-ticket'
 
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
   amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
@@ -52,7 +53,9 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
                 className={`${dmSans.variable} ${jetBransMono.variable} font-sans antialiased`}
               >
                 <SearchProvider>
-                  <Component {...pageProps} />
+                  <GoldenTicketProvider>
+                    <Component {...pageProps} />
+                  </GoldenTicketProvider>
                 </SearchProvider>
               </div>
             </ConvertkitProvider>
