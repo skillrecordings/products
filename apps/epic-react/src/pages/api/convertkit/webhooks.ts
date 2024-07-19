@@ -24,9 +24,9 @@ const convertkitWebhooks = async (
         subscriber,
       }),
     })
-  } else {
-    res.status(200).end()
   }
+
+  res.status(200).end()
 }
 
 export default convertkitWebhooks
