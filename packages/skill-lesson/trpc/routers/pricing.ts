@@ -154,7 +154,6 @@ export const pricing = router({
       }),
     )
     .query(async ({ctx, input}) => {
-      console.log({input})
       const token = await getToken({req: ctx.req})
       const coupon = await prisma.coupon.findFirst({
         where: {
@@ -171,24 +170,15 @@ export const pricing = router({
           restrictedToProductId: true,
         },
       })
+      // this doesn't really return "active" products at all
       const {products} = await getActiveProducts()
-
-      console.log({
-        products,
-        coupon,
-        blah: input.productId
-          ? [{productId: input.productId}]
-          : coupon?.restrictedToProductId
-          ? [{productId: coupon.restrictedToProductId}]
-          : products,
-      })
 
       const {props} = await propsForCommerce({
         query: input,
         token,
         products: input.productId
           ? [{productId: input.productId}]
-          : coupon?.restrictedToProductId
+          : coupon?.restrictedToProductId // if there is a coupon and its restricted to the product, that's the product
           ? [{productId: coupon.restrictedToProductId}]
           : products,
       })
