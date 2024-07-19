@@ -18,6 +18,7 @@ export function useCoupon(
     }
     title?: string
     description?: string
+    instructors?: string[]
   },
 ) {
   const [validCoupon, setValidCoupon] = React.useState(false)
