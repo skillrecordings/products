@@ -4,7 +4,7 @@ import EmbedTemplate, {VideoEmbedPageProps} from '@/templates/embed-template'
 import {getPropsForEmbed} from '@/utils/get-props-for-embeds'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const props = await getPropsForEmbed(context, 'workshop', false)
+  const props = await getPropsForEmbed(context, 'tutorial', false)
 
   if (!props) {
     return {

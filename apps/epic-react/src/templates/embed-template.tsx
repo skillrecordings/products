@@ -2,7 +2,6 @@ import React from 'react'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {type Section} from '@skillrecordings/skill-lesson/schemas/section'
 import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-// import {useTheme} from 'next-themes'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {
   VideoProvider,
@@ -23,6 +22,8 @@ import Spinner from '@/components/spinner'
 import {Button} from '@skillrecordings/ui'
 import Link from 'next/link'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import {useTheme} from 'next-themes'
+import Image from 'next/image'
 
 export type VideoEmbedPageProps = {
   module: Module
@@ -55,10 +56,10 @@ const EmbedTemplate: React.FC<VideoEmbedPageProps> = ({
   const router = useRouter()
   const path = `/${pluralize(module.moduleType)}`
   const addProgressMutation = trpc.progress.add.useMutation()
-  // const {setTheme} = useTheme()
-  // React.useEffect(() => {
-  //   setTheme(theme)
-  // }, [theme])
+  const {setTheme} = useTheme()
+  React.useEffect(() => {
+    setTheme(theme)
+  }, [theme])
   const thumbnail = `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`
 
   return (
@@ -200,11 +201,12 @@ const Video: React.FC<
           <div className="flex w-full max-w-lg flex-col px-5">
             <div>
               <Logo />
+
               {session ? (
                 <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
                   <h1 className="py-4 text-2xl font-bold">
-                    You're logged in to {process.env.NEXT_PUBLIC_PRODUCT_NAME}{' '}
-                    but don't have access to this video.
+                    You're logged in to {process.env.NEXT_PUBLIC_SITE_TITLE} but
+                    don't have access to this video.
                   </h1>
                   <div className="flex w-full max-w-xs flex-col space-y-2">
                     <Button className="w-full" asChild>
@@ -232,11 +234,11 @@ const Video: React.FC<
                       Get access to{' '}
                       <a
                         href={process.env.NEXT_PUBLIC_URL}
-                        className="decoration-primary underline-offset-2 hover:underline"
+                        className=" underline-offset-2 hover:underline"
                         target="_blank"
                         rel="noreferrer"
                       >
-                        {process.env.NEXT_PUBLIC_PRODUCT_NAME}
+                        {process.env.NEXT_PUBLIC_SITE_TITLE}
                       </a>
                     </h1>
                     <h2 className="opacity-80 sm:text-lg">
@@ -244,21 +246,22 @@ const Video: React.FC<
                     </h2>
                   </div>
                   <div className="mx-auto mt-5 flex w-full max-w-[250px] flex-col space-y-3">
-                    <Button asChild>
+                    <Button variant="outline" asChild>
                       <a
-                        href="https://epicweb.dev"
+                        href="https://epicreact.dev"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-semibold"
+                        className="bg-blue-500 font-semibold text-white hover:bg-blue-400"
                       >
-                        Buy {process.env.NEXT_PUBLIC_PRODUCT_NAME}
+                        Buy {process.env.NEXT_PUBLIC_SITE_TITLE}
                       </a>
                     </Button>
                     <Button variant="outline" asChild>
                       <a
-                        href="https://epicweb.dev/login"
+                        href="https://epicreact.dev/login"
                         target="_blank"
                         rel="noopener noreferrer"
+                        // className="bg-blue-500"
                       >
                         Log in (Restore purchases)
                       </a>
@@ -277,7 +280,16 @@ const Video: React.FC<
 export default EmbedTemplate
 
 const Logo = () => {
-  return <div>{process.env.NEXT_PUBLIC_PRODUCT_NAME}</div>
+  return (
+    <Image
+      src="/assets/flying-rocket-light-sm@2x.webp"
+      alt=""
+      width={1600}
+      height={273}
+      className="hidden w-full dark:xl:block"
+      priority
+    />
+  )
 }
 
 function stripAfterLastSlash(input: string): string {
