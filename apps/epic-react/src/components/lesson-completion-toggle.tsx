@@ -93,9 +93,9 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
       <div
         className={twMerge(
           cx(
-            'flex items-center rounded-lg bg-emerald-600 px-5 py-2 text-sm hover:bg-emerald-600',
+            'mx-auto flex items-center rounded-lg bg-emerald-600 px-5 py-2 text-sm hover:bg-emerald-600',
             {
-              ['bg-emerald-600 px-3 py-2 hover:bg-emerald-700']:
+              ['w-fit rounded-full bg-emerald-600 p-1 hover:bg-emerald-700 sm:px-2 sm:py-2']:
                 isLessonCompleted,
             },
             className,
@@ -104,7 +104,7 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
       >
         <motion.button
           type="button"
-          className={`relative flex h-[46px] cursor-pointer items-center justify-center overflow-hidden leading-7 transition-colors duration-200 ease-in-out`}
+          className={`relative m-0 flex h-[46px] cursor-pointer items-center justify-center overflow-hidden leading-7 transition-colors duration-200 ease-in-out`}
           animate={{
             width: isLessonCompleted ? 46 : '100%',
             borderRadius: isLessonCompleted ? 23 : 8,
@@ -113,7 +113,7 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
           id="rewardId"
           onClick={handleToggleLessonProgress}
         >
-          <div className="m-0 flex w-full cursor-pointer items-center justify-center font-semibold text-white">
+          <div className="mt-0 flex w-full cursor-pointer items-center justify-center font-semibold text-white">
             {isLessonCompleted && (
               <motion.svg
                 width="20"
@@ -138,7 +138,7 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
               </motion.svg>
             )}
             <motion.div
-              className="whitespace-no-wrap m-0 flex shrink-0 cursor-pointer items-center justify-center"
+              className=" text-md whitespace-no-wrap mt-0 flex shrink-0 cursor-pointer items-center justify-center"
               animate={{
                 y: isLessonCompleted ? -70 : 0,
                 opacity: isLessonCompleted ? 0 : 1,
