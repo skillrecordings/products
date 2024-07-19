@@ -15,6 +15,7 @@
     "db:start": "docker compose up -d"
   },
   "dependencies": {
+
     "@amplitude/analytics-browser": "^1.3.0",
     "@code-hike/mdx": "^0.9.0",
     "@headlessui/react": "^1.6.1",
@@ -75,6 +76,7 @@
     "@upstash/redis": "^1.23.3",
     "@vercel/og": "^0.5.4",
     "axios": "^1.4.0",
+    "chart.js": "^4.4.0",
     "class-variance-authority": "^0.6.0",
     "classnames": "^2.3.1",
     "clsx": "^1.2.1",
@@ -109,6 +111,7 @@
     "query-string": "^7.1.1",
     "react": "18.3.0-canary-a870b2d54-20240314",
     "react-confetti": "^6.1.0",
+    "react-chartjs-2": "^5.2.0",
     "react-countdown": "^2.3.5",
     "react-dom": "18.3.0-canary-a870b2d54-20240314",
     "react-gravatar": "^2.6.3",
