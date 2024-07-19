@@ -54,7 +54,7 @@ const convertkitWebhooks = async (
       fields: {
         er_coupon_code: coupon.id,
         er_coupon_expires: pacificTime.getTime().toString(),
-        er_discount_url: `https://epicreact.dev?coupon=${coupon.id}&utm_source=convertkit&utm_medium=email&utm_campaign=react_course`,
+        er_discount_url: `https://epicreact.dev/buy?coupon=${coupon.id}&utm_source=convertkit&utm_medium=email&utm_campaign=react_course`,
         er_pitch_deadline: format(
           pacificTime,
           "EEEE MMMM d yyyy 'at' h:mm a 'Pacific'",
