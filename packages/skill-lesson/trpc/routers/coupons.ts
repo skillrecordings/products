@@ -45,6 +45,7 @@ export const couponsRouter = router({
       orderBy: {
         createdAt: 'desc',
       },
+      take: 300,
     })
     return coupons
   }),
