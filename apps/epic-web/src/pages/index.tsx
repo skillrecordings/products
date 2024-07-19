@@ -73,10 +73,12 @@ const Index: NextPage<{
     productId: commerceProps?.products[0]?.productId,
   })
 
+  console.log({commercePropsProduct})
+
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
     {
-      id: product.productId,
+      id: commerceProps?.products[0]?.productId || product.productId,
       image: {
         url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
         width: 132,
