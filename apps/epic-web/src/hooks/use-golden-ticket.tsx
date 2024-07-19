@@ -35,8 +35,6 @@ export const GoldenTicketProvider = ({
     productId: couponData?.restrictedToProductId as string,
   })
 
-  console.log({couponData})
-
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     couponData,
     {
@@ -51,7 +49,6 @@ export const GoldenTicketProvider = ({
     },
   )
 
-  console.log({redeemableCoupon, RedeemDialogForCoupon, validCoupon})
   return (
     <GoldenTicketContext.Provider
       value={{redeemableCoupon, RedeemDialogForCoupon, validCoupon}}

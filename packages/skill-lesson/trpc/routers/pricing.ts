@@ -1,19 +1,14 @@
 import {z} from 'zod'
-import {getSdk, prisma} from '@skillrecordings/database'
+import {getSdk} from '@skillrecordings/database'
 import {
   formatPricesForProduct,
   getActiveMerchantCoupon,
-  getCouponForCode,
   getValidPurchases,
   propsForCommerce,
 } from '@skillrecordings/commerce-server'
 import {find} from 'lodash'
 import {publicProcedure, router} from '../trpc.server'
-import {
-  getActiveProducts,
-  getAllActiveProducts,
-  getAllProducts,
-} from '../../lib/products'
+import {getActiveProducts, getAllProducts} from '../../lib/products'
 import {getToken} from 'next-auth/jwt'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 
@@ -155,32 +150,12 @@ export const pricing = router({
     )
     .query(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
-      const coupon = await prisma.coupon.findFirst({
-        where: {
-          OR: [
-            {
-              code: input.code || input.coupon,
-            },
-            {
-              id: input.code || input.coupon,
-            },
-          ],
-        },
-        select: {
-          restrictedToProductId: true,
-        },
-      })
-      // this doesn't really return "active" products at all
       const {products} = await getActiveProducts()
 
       const {props} = await propsForCommerce({
         query: input,
         token,
-        products: input.productId
-          ? [{productId: input.productId}]
-          : coupon?.restrictedToProductId // if there is a coupon and its restricted to the product, that's the product
-          ? [{productId: coupon.restrictedToProductId}]
-          : products,
+        products: input.productId ? [{productId: input.productId}] : products,
       })
       return props
     }),

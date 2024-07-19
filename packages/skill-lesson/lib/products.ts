@@ -24,32 +24,6 @@ const productsQuery = groq`*[_type == "pricing"][0] {
   }
 }`
 
-const allProductsQuery = groq`*[_type == "pricing"] {
-  title,
-  subtitle,
-  "products": products[]->{
-  "name": title,
-  productId,
-  description,
-  action,
-  image {
-    url,
-    alt
-  },
-  modules[]->{
-    title,
-    "image": image.asset->{url, alt},
-    state
-  },
-  features[]{
-    value
-  }
-  }
-}`
-
-export const getAllActiveProducts = async () =>
-  (await sanityClient.fetch(allProductsQuery)) || []
-
 export const getActiveProducts = async () =>
   (await sanityClient.fetch(productsQuery)) || {
     products: [

@@ -63,27 +63,19 @@ const Index: NextPage<{
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
       ...router.query,
-      productId:
-        router.query.code || router.query.coupon
-          ? undefined
-          : product.productId,
+      productId: product.productId,
     })
-
-  const {data: commercePropsProduct} = trpc.products.getProductById.useQuery({
-    productId: commerceProps?.products[0]?.productId,
-  })
-
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
     {
-      id: commerceProps?.products[0]?.productId || product.productId,
+      id: product.productId,
       image: {
         url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
         width: 132,
         height: 112,
       },
-      title: commercePropsProduct?.name as string,
-      description: commercePropsProduct?.description,
+      title: product.title as string,
+      description: product?.description,
     },
   )
 
