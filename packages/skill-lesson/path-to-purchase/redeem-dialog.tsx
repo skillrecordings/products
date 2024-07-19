@@ -74,11 +74,7 @@ const RedeemDialog = ({open = false, couponId, product}: RedeemDialogProps) => {
             )}
             {title ? (
               <div className="text-lg pt-5 font-medium">
-                <Balancer>
-                  Coupon for {title} by{' '}
-                  {process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME}{' '}
-                  {process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}
-                </Balancer>
+                <Balancer>Coupon for {title}</Balancer>
               </div>
             ) : null}
           </div>

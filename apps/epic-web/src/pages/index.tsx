@@ -63,8 +63,19 @@ const Index: NextPage<{
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
       ...router.query,
-      productId: product.productId,
+      productId:
+        router.query.code || router.query.coupon
+          ? undefined
+          : product.productId,
     })
+
+  const {data: commercePropsProduct} = trpc.products.getProductById.useQuery({
+    productId: commerceProps?.products[0]?.productId,
+  })
+
+  console.log(commerceProps?.products[0]?.productId)
+
+  console.log({commerceProps})
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
     {
@@ -74,8 +85,8 @@ const Index: NextPage<{
         width: 132,
         height: 112,
       },
-      title: product.title as string,
-      description: product?.description,
+      title: commercePropsProduct?.name as string,
+      description: commercePropsProduct?.description,
     },
   )
 
