@@ -53,7 +53,16 @@ const nextConfig = {
     ],
   },
   async redirects() {
-    return []
+    return [
+      { source: '/fundamentals', destination: '/modules/react-fundamentals/react-fundamentals-welcome' },
+      { source: '/hooks', destination: '/modules/react-hooks/react-hooks-welcome' },
+      { source: '/advanced-hooks', destination: '/modules/advanced-react-hooks/advanced-react-hooks-welcome' },
+      { source: '/patterns', destination: '/modules/advanced-react-patterns/advanced-react-patterns-welcome' },
+      { source: '/performance', destination: '/modules/react-performance/react-performance-welcome' },
+      { source: '/testing', destination: '/modules/testing-react-apps/testing-react-apps-welcome' },
+      { source: '/suspense', destination: '/modules/react-suspense/react-suspense-welcome' },
+      { source: '/app', destination: '/modules/build-an-epic-react-app/build-an-epic-react-app-welcome' },
+    ]
   },
   webpack: (config, {isServer}) => {
     if (!isServer) {
