@@ -57,7 +57,7 @@ async function updateSubscriber(subscriber: {
 }
 
 export const convertkitWebhookHandler = inngest.createFunction(
-  {id: `convertkit-webhook`, name: 'Create Product in Database'},
+  {id: `convertkit-webhook`, name: 'Convertkit Subscriber Webhook'},
   {
     event: CONVERTKIT_WEBHOOK_EVENT,
   },
