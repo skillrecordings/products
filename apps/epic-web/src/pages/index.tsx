@@ -73,8 +73,6 @@ const Index: NextPage<{
     productId: commerceProps?.products[0]?.productId,
   })
 
-  console.log({commercePropsProduct})
-
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
     {
