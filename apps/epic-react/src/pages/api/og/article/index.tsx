@@ -6,16 +6,21 @@ export const config = {
   runtime: 'edge',
 }
 
-// Fonts
-const fontRegulardData = await fetch(
-  new URL('../../../../../public/fonts/inter-regular.woff', import.meta.url),
-).then((res) => res.arrayBuffer())
-const fontSemiboldData = await fetch(
-  new URL('../../../../../public/fonts/inter-semibold.woff', import.meta.url),
-).then((res) => res.arrayBuffer())
-
 export default async function handler(req: NextRequest) {
   try {
+    // Fonts
+    const fontRegulardData = await fetch(
+      new URL(
+        '../../../../../public/fonts/inter-regular.woff',
+        import.meta.url,
+      ),
+    ).then((res) => res.arrayBuffer())
+    const fontSemiboldData = await fetch(
+      new URL(
+        '../../../../../public/fonts/inter-semibold.woff',
+        import.meta.url,
+      ),
+    ).then((res) => res.arrayBuffer())
     const {searchParams} = new URL(req.url)
     const hasTitle = searchParams.has('title')
     const title = hasTitle ? searchParams.get('title') : 'Article Title'
