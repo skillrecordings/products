@@ -12,6 +12,21 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
 })
 
+function formatNames(names: string[]): string | undefined {
+  switch (names.length) {
+    case 0:
+      return undefined
+    case 1:
+      return names[0]
+    case 2:
+      return `${names[0]} and ${names[1]}`
+    default:
+      const allButLast = names.slice(0, -1)
+      const last = names[names.length - 1]
+      return `${allButLast.join(', ')}, and ${last}`
+  }
+}
+
 interface RedeemDialogProps {
   open: boolean
   couponId: string
@@ -24,6 +39,7 @@ interface RedeemDialogProps {
     }
     title?: string
     description?: string
+    instructors?: string[]
   }
 }
 
@@ -32,6 +48,12 @@ const RedeemDialog = ({open = false, couponId, product}: RedeemDialogProps) => {
   const router = useRouter()
 
   const productIds: string[] = product?.id ? [product.id] : []
+
+  const fallbackInstructorName = [
+    process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME,
+    process.env.NEXT_PUBLIC_PARTNER_LAST_NAME,
+  ].join(' ')
+  const byline = formatNames(product?.instructors || [fallbackInstructorName])
 
   const formik = useFormik({
     initialValues: {
@@ -75,9 +97,8 @@ const RedeemDialog = ({open = false, couponId, product}: RedeemDialogProps) => {
             {title ? (
               <div className="text-lg pt-5 font-medium">
                 <Balancer>
-                  Coupon for {title} by{' '}
-                  {process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME}{' '}
-                  {process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}
+                  Coupon for {title}
+                  {byline ? ` by ${byline}` : ''}
                 </Balancer>
               </div>
             ) : null}

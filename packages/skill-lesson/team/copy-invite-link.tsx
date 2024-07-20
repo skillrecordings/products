@@ -22,11 +22,7 @@ const CopyInviteLink: React.FC<
 
   let inviteLink: string
 
-  if (productActive) {
-    inviteLink = `${process.env.NEXT_PUBLIC_URL}?code=${bulkCouponId}`
-  } else {
-    inviteLink = `${process.env.NEXT_PUBLIC_URL}/products/${productSlug}?code=${bulkCouponId}`
-  }
+  inviteLink = `${process.env.NEXT_PUBLIC_URL}/products/${productSlug}?code=${bulkCouponId}`
 
   return (
     <div data-copy-invite-link="" className={className}>

@@ -15,6 +15,10 @@ import {
   PURCHASE_TRANSFERRED_EVENT,
   PurchaseTransferred,
 } from '@skillrecordings/skill-lesson/inngest/events'
+import {
+  CONVERTKIT_WEBHOOK_EVENT,
+  ConvertkitWebhookEvent,
+} from '@/inngest/functions/create-custom-coupon'
 
 export type IngestEvents = {
   [STRIPE_CHECKOUT_COMPLETED_EVENT]: StripeCheckoutCompleted
@@ -22,6 +26,7 @@ export type IngestEvents = {
   [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
   [PURCHASE_TRANSFERRED_EVENT]: PurchaseTransferred
   [LESSON_COMPLETED_EVENT]: LessonCompleted
+  [CONVERTKIT_WEBHOOK_EVENT]: ConvertkitWebhookEvent
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,
