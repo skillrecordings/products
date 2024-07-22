@@ -53,19 +53,16 @@ const BuyPage: React.FC<
   allowPurchase,
   bonuses,
 }) => {
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    couponFromCode,
-    {
-      id: products[0].productId,
-      image: {
-        url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
-        width: 132,
-        height: 112,
-      },
-      title: products[0].title as string,
-      description: products[0]?.description,
+  const {validCoupon} = useCoupon(couponFromCode, {
+    id: products[0].productId,
+    image: {
+      url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
+      width: 132,
+      height: 112,
     },
-  )
+    title: products[0].title as string,
+    description: products[0]?.description,
+  })
   const router = useRouter()
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
@@ -87,7 +84,6 @@ const BuyPage: React.FC<
           : undefined,
       }}
     >
-      {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       <header className="flex w-full flex-col items-center justify-center px-5 py-16 text-center">
         <h1 className="max-w-lg text-2xl font-bold sm:text-3xl lg:text-4xl">
           <Balancer>Become a Professional Full Stack Web Developer</Balancer>

@@ -8,11 +8,12 @@ export const productsRouter = router({
   getProductById: publicProcedure
     .input(
       z.object({
-        productId: z.string(),
+        productId: z.string().optional(),
       }),
     )
     .query(async ({ctx, input}) => {
       const {productId} = input
+      if (!productId) return null
       const product = await getProduct(productId)
 
       return product

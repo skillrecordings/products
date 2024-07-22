@@ -49,10 +49,7 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
 
   const {title, ogImage} = product
 
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    couponFromCode,
-    productMetadata,
-  )
+  const {validCoupon} = useCoupon(couponFromCode, productMetadata)
 
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
@@ -108,7 +105,6 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
             </div>
           </PriceCheckProvider>
         </div>
-        {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
 
         <Image
           className="mx-auto -mt-24 mb-16"
