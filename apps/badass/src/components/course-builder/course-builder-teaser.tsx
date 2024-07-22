@@ -32,8 +32,8 @@ export const CourseBuilderTeaser: React.FC = () => {
               href="https://coursebuilder.dev"
               className="h-14 min-w-max px-10 text-lg inline-flex items-center gap-2"
             >
-              Visit CourseBuilder.dev{' '}
-              <Icon name="arrow-top-right" className="w-5" />
+              <span className="sm:inline-block hidden">Visit</span>{' '}
+              CourseBuilder.dev <Icon name="arrow-top-right" className="w-5" />
             </ButtonSecondary>
           </div>
         </div>
