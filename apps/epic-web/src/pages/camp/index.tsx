@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
-const TICKETS_URL = '/'
+const TICKETS_URL = 'https://ti.to/epicweb/epicwebcamp24'
 
 const EpicWebCampPage = () => {
   return (
@@ -155,126 +155,6 @@ const EpicWebCampPage = () => {
           </div>
         </section>
         <section
-          aria-label="Workshop"
-          id="workshop"
-          className="mx-auto w-full max-w-screen-lg px-5 py-10 sm:px-3 sm:py-16"
-        >
-          <div className="flex flex-col-reverse items-start justify-between gap-10 sm:flex-row">
-            <div className="prose max-w-xl dark:prose-invert sm:prose-lg prose-a:text-foreground prose-a:underline dark:prose-a:text-foreground">
-              <h2 className="not-prose mb-10 text-3xl font-semibold text-brand-green">
-                Workshop
-              </h2>
-              <p>
-                As an optional add-on, join Kent C. Dodds for 6 hours of his{' '}
-                <a
-                  target="_blank"
-                  rel="noopener"
-                  href="https://advanced-react-patterns.epicweb.dev/"
-                >
-                  Advanced React Patterns workshop
-                </a>
-                .
-              </p>
-              <p>
-                You’re at the stage in your React experience where people turn
-                to you for the abstractions you need in your application. You’ve
-                got a set of UI elements in your designs that are unique to your
-                application and you either need to build it or customize an off
-                the shelf UI library. You may think you’re free and clear if you
-                just customize a UI library, but just like with everything, if
-                you don’t understand how it works, you’re doomed to “hold it
-                wrong.”
-              </p>
-              <p>
-                And if you can’t find something that fits your use case, I’m
-                afraid to say you’re doomed to make a lot of mistakes without
-                the right tools and patterns.
-              </p>
-              <p>
-                And you’ll likely have a chance to do a bit of both building and
-                customizing in your apps. So this workshop will be invaluable to
-                you.
-              </p>
-              <p>
-                Oh, and this isn’t just about abstractions either. We’ll also
-                cover good patterns you can use in your regular app code as
-                well.
-              </p>
-              <p>In this workshop we’ll cover topics like:</p>
-              <ul>
-                <li>Improve perf and reduce prop drilling with composition</li>
-                <li>Managing user focus with flushSync</li>
-                <li>Make components work together with compound components</li>
-                <li>Handle common use cases for hooks with prop getters</li>
-                <li>Invert control with state reducers and control props</li>
-                <li>
-                  Granting ultimate layout flexibility and behavior reuse with
-                  slots
-                </li>
-              </ul>
-              <h3>Prerequisites:</h3>
-              <ul>
-                <li>
-                  Read my blog post{' '}
-                  <a
-                    target="_blank"
-                    rel="noopener"
-                    href="https://kentcdodds.com/blog/inversion-of-control"
-                  >
-                    Inversion of Control
-                  </a>
-                </li>
-              </ul>
-              <p>
-                Note: actual covered material may vary depending on time
-                constraints and questions asked.
-              </p>
-            </div>
-            <div className="top-20 border-t-2 border-brand-green bg-white dark:bg-white/5 sm:sticky">
-              <div className="flex items-center gap-5 p-8 pt-6">
-                <svg
-                  width="72"
-                  height="76"
-                  className="flex-shrink-0"
-                  viewBox="0 0 72 76"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M36 44.9272C39.6024 44.9272 42.5227 41.9773 42.5227 38.3384C42.5227 34.6995 39.6024 31.7495 36 31.7495C32.3976 31.7495 29.4772 34.6995 29.4772 38.3384C29.4772 41.9773 32.3976 44.9272 36 44.9272Z"
-                    fill="#61DAFB"
-                  />
-                  <path
-                    d="M36 51.8377C55.33 51.8377 71 45.7939 71 38.3386C71 30.8833 55.33 24.8395 36 24.8395C16.67 24.8395 1 30.8833 1 38.3386C1 45.7939 16.67 51.8377 36 51.8377Z"
-                    stroke="#61DAFB"
-                  />
-                  <path
-                    d="M24.4267 45.0881C34.0917 61.998 47.1083 72.6844 53.5 68.9567C59.8917 65.229 57.2382 48.499 47.5732 31.5891C37.9083 14.6791 24.8917 3.99282 18.5 7.72049C12.1083 11.4482 14.7618 28.1782 24.4267 45.0881Z"
-                    stroke="#61DAFB"
-                  />
-                  <path
-                    d="M24.4267 31.5891C14.7618 48.499 12.1083 65.229 18.5 68.9567C24.8917 72.6844 37.9083 61.998 47.5732 45.0881C57.2382 28.1782 59.8917 11.4482 53.5 7.72049C47.1083 3.99282 34.0917 14.6791 24.4267 31.5891Z"
-                    stroke="#61DAFB"
-                  />
-                </svg>
-
-                <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
-                  Advanced React Patterns Workshop
-                </h3>
-              </div>
-              <div className="pr-8">
-                <Image
-                  src={require('../../../public/assets/camp/kent-workshop.jpg')}
-                  width={381}
-                  height={508}
-                  alt="Kent C. Dodds"
-                  className="rounded-none"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-        <section
           aria-label="Activities"
           id="activities"
           className="relative mx-auto flex w-full max-w-screen-lg flex-col items-start justify-between gap-10 px-5 py-10 sm:flex-row sm:px-3 sm:py-16"
@@ -318,13 +198,18 @@ const EpicWebCampPage = () => {
               with *informal talks you can sign up for and sharing of
               professional and personal experiences*.
             </p>
+            <p>
+              The professional relationships you build and connections you make
+              through the course of these activities (both formal and informal) is
+              the primary objective of Epic Web Camp.
+            </p>
             <h3>UtahJS Conf</h3>
             <p>
               Another optional add-on is a discounted ticket to{' '}
               <a
                 target="_blank"
                 rel="noopener"
-                href="https://advanced-react-patterns.epicweb.dev/"
+                href="https://utahjs.com/conference"
               >
                 UtahJS Conf
               </a>{' '}
@@ -457,7 +342,7 @@ const schedule = [
       },
       {
         time: '10:00am-12:00pm',
-        activity: 'Activities until lunch',
+        activity: 'Activities',
       },
       {
         time: '12:00pm',
@@ -465,7 +350,7 @@ const schedule = [
       },
       {
         time: '1:00pm-4:00pm',
-        activity: 'Workshop part 1 / Activities',
+        activity: 'Activities',
       },
       {
         time: '5:00pm',
@@ -490,7 +375,7 @@ const schedule = [
       },
       {
         time: '9:00am-12:00pm',
-        activity: 'Workshop part 2 / Activities',
+        activity: 'Activities',
       },
       {
         time: '12:00pm',
@@ -498,7 +383,7 @@ const schedule = [
       },
       {
         time: '12:00pm-4:00pm',
-        activity: 'Activities until checkout',
+        activity: 'Activities',
       },
       {
         time: '4:00pm',
