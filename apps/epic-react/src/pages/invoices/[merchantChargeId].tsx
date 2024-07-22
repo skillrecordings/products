@@ -99,21 +99,26 @@ const Invoice: React.FC<
       className="print:bg-white print:text-black"
     >
       <main className="mx-auto flex w-full max-w-screen-md grow flex-col justify-center gap-y-16 py-16 lg:py-20">
-        {purchaseDetails && purchaseDetails.purchase && (
-          <Card
-            title={{as: 'h1', content: 'Invite your team'}}
-            icon={
-              <UserGroupIcon className="w-5 text-cyan-500" aria-hidden="true" />
-            }
-          >
-            <InviteTeam
-              session={session}
-              purchase={purchaseDetails.purchase}
-              existingPurchase={purchaseDetails.existingPurchase}
-              setPersonalPurchase={() => {}}
-            />
-          </Card>
-        )}
+        {purchaseDetails &&
+          purchaseDetails.purchase &&
+          purchaseDetails.purchase.bulkCoupon && (
+            <Card
+              title={{as: 'h1', content: 'Invite your team'}}
+              icon={
+                <UserGroupIcon
+                  className="w-5 text-cyan-500"
+                  aria-hidden="true"
+                />
+              }
+            >
+              <InviteTeam
+                session={session}
+                purchase={purchaseDetails.purchase}
+                existingPurchase={purchaseDetails.existingPurchase}
+                setPersonalPurchase={() => {}}
+              />
+            </Card>
+          )}
         <div className="flex flex-col justify-between print:hidden">
           <h1 className="font-text text-lg font-bold leading-tight sm:text-xl">
             Your Invoice for {process.env.NEXT_PUBLIC_SITE_TITLE}

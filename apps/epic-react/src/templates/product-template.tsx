@@ -99,8 +99,12 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
             <Body mdx={mdx} />
           </article>
         )}
-        {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
-        <div className="mt-10 flex w-full items-center justify-center pb-16">
+
+        <div
+          id="pricing-tiers"
+          className="mt-10 flex w-full items-center justify-center pb-16"
+        >
+          {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
           <div data-pricing-container="">
             <Pricing
               bonuses={availableBonuses}

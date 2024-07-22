@@ -35,10 +35,12 @@ export const GoldenTicketProvider = ({
     productId: couponData?.restrictedToProductId as string,
   })
 
+  console.log({couponData, product})
+
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     couponData,
     {
-      id: product?.id,
+      id: couponData?.restrictedToProductId as string,
       image: {
         url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
         width: 132,
