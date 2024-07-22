@@ -99,7 +99,6 @@ const Index: NextPage<{
       >
         <Header />
         <main className="">
-          {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
           <Article
             workshops={product.modules}
             interviewImages={interviewImages}

@@ -80,21 +80,6 @@ const EventTemplate: React.FC<
 
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
-  const hasPurchase = purchasedProductIds.length > 0
-
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    commerceProps.couponFromCode,
-    {
-      id: product?.productId,
-      image: {
-        url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
-        width: 132,
-        height: 112,
-      },
-      title: product?.title as string,
-      description: product?.description,
-    },
-  )
 
   const isUpcoming = event.startsAt
     ? new Date(event.startsAt) > new Date()
@@ -109,7 +94,6 @@ const EventTemplate: React.FC<
 
   return (
     <Layout meta={{title, description: pageDescription, ogImage}}>
-      {redeemableCoupon && <RedeemDialogForCoupon />}
       <EventJsonLd
         name={title}
         startDate={startsAt as string}
