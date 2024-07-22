@@ -24,6 +24,14 @@ import Link from 'next/link'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {useTheme} from 'next-themes'
 import Image from 'next/image'
+import {
+  SubscribeToConvertkitForm,
+  redirectUrlBuilder,
+} from '@skillrecordings/skill-lesson/convertkit'
+import SubscribeToReactEmailCourseCta from '@/components/subscribe-react-email-course-cta'
+import groq from 'groq'
+import {PortableText} from '@portabletext/react'
+import ReactMarkdown from 'react-markdown'
 
 export type VideoEmbedPageProps = {
   module: Module
@@ -185,6 +193,7 @@ const Video: React.FC<
     )
 
     const {data: session} = useSession()
+    const isTutorial = module.moduleType === 'tutorial'
 
     return abilityRulesStatus !== 'success' ? (
       <Spinner className="h-8 w-8 sm:h-10 sm:w-10" />
@@ -198,10 +207,9 @@ const Video: React.FC<
             playbackId={videoResource.muxPlaybackId}
           />
         ) : (
-          <div className="flex w-full max-w-lg flex-col px-5">
+          <div className="flex w-full max-w-fit flex-col px-5">
             <div>
               <Logo />
-
               {session ? (
                 <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
                   <h1 className="py-4 text-2xl font-bold">
@@ -229,44 +237,72 @@ const Video: React.FC<
                 </div>
               ) : (
                 <>
-                  <div className="flex flex-col items-center text-center">
-                    <h1 className="pb-2 pt-4 text-2xl font-bold sm:text-3xl">
-                      Get access to{' '}
-                      <a
-                        href={process.env.NEXT_PUBLIC_URL}
-                        className=" underline-offset-2 hover:underline"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {process.env.NEXT_PUBLIC_SITE_TITLE}
-                      </a>
-                    </h1>
-                    <h2 className="opacity-80 sm:text-lg">
-                      And continue watching this video
-                    </h2>
-                  </div>
-                  <div className="mx-auto mt-5 flex w-full max-w-[250px] flex-col space-y-3">
-                    <Button variant="outline" asChild>
-                      <a
-                        href="https://epicreact.dev"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-blue-500 font-semibold text-white hover:bg-blue-400"
-                      >
-                        Buy {process.env.NEXT_PUBLIC_SITE_TITLE}
-                      </a>
-                    </Button>
-                    <Button variant="outline" asChild>
-                      <a
-                        href="https://epicreact.dev/login"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        // className="bg-blue-500"
-                      >
-                        Log in (Restore purchases)
-                      </a>
-                    </Button>
-                  </div>
+                  {isTutorial && !canShowVideo && (
+                    <div className="relative flex w-full flex-col items-center justify-center  text-white  xl:aspect-video xl:flex-row">
+                      <div className="flex w-full items-center justify-center gap-2">
+                        <SubscribeToConvertkitForm />
+                      </div>
+
+                      <div className="w-full max-w-full sm:pr-5">
+                        <div className="prose relative flex w-full max-w-full flex-col border-white/10  p-5 text-white before:absolute before:left-1/2 before:top-[-8px] before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50  prose-p:mb-0 prose-p:text-gray-300 sm:rounded-lg sm:border xl:max-w-full xl:before:hidden xl:prose-p:mb-0 2xl:prose-p:mb-0">
+                          <ReactMarkdown
+                            className=""
+                            components={{
+                              p: ({children}) => (
+                                <p style={{marginBottom: '1.0em'}}>
+                                  {children}
+                                </p>
+                              ),
+                            }}
+                          >
+                            {ctaText}
+                          </ReactMarkdown>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {!isTutorial && !canShowVideo && (
+                    <>
+                      <div className="flex flex-col items-center text-center">
+                        <h1 className="pb-2 pt-4 text-2xl font-bold sm:text-3xl">
+                          Get access to{' '}
+                          <a
+                            href={process.env.NEXT_PUBLIC_URL}
+                            className=" underline-offset-2 hover:underline"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {process.env.NEXT_PUBLIC_SITE_TITLE}
+                          </a>
+                        </h1>
+                        <h2 className="opacity-80 sm:text-lg">
+                          And continue watching this video
+                        </h2>
+                      </div>
+                      <div className="mx-auto mt-5 flex w-full max-w-[250px] flex-col space-y-3">
+                        <Button variant="outline" asChild>
+                          <a
+                            href="https://epicreact.dev"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-blue-500 font-semibold text-white hover:bg-blue-400"
+                          >
+                            Buy {process.env.NEXT_PUBLIC_SITE_TITLE}
+                          </a>
+                        </Button>
+                        <Button variant="outline" asChild>
+                          <a
+                            href="https://epicreact.dev/login"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Log in (Restore purchases)
+                          </a>
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </div>
@@ -281,22 +317,29 @@ export default EmbedTemplate
 
 const Logo = () => {
   return (
-    <Image
-      src="/assets/flying-rocket-light-sm@2x.webp"
-      alt=""
-      width={1600}
-      height={273}
-      className="hidden w-full dark:xl:block"
-      priority
-    />
+    <div className="pt-15 mx-auto flex items-center justify-center">
+      <Image
+        src="/assets/flying-rocket-light-sm@2x.webp"
+        alt=""
+        width={300}
+        height={273}
+        className="mx-auto"
+        priority
+      />
+    </div>
   )
 }
 
-function stripAfterLastSlash(input: string): string {
-  const lastSlashIndex = input.lastIndexOf('/')
-  if (lastSlashIndex !== -1) {
-    return input.substring(0, lastSlashIndex)
-  }
-  // If there is no slash in the string, return the original string
-  return input
-}
+const ctaText = `
+## This is a free tutorial
+
+In exchange for your email address, you'll get full access to this and other free Epic React tutorials.  
+
+Why? First and foremost, your inbox allows us to directly communicate about the latest Epic React material. This includes free tutorials, tips, and periodic updates about trends, tools, and React happenings that I'm excited about.  
+
+In addition to the piles of free Epic React content, you'll get the earliest access and best discounts to the paid courses when they launch.  
+
+There won't be any spam, and every email you get will have an unsubscribe link.  
+
+If this sounds like a fair trade, let's go!  
+`
