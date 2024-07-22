@@ -101,7 +101,9 @@ const ProductPage: React.FC<ProductPageProps> = (props) => {
       ) : (
         <PriceCheckProvider
           purchasedProductIds={[
-            ...props.purchases.map((purchase) => purchase.productId),
+            ...(props.purchases
+              ? props.purchases.map((purchase) => purchase.productId)
+              : []),
           ]}
         >
           <ProductTemplate {...props} />
