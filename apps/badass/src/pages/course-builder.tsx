@@ -17,6 +17,7 @@ const CourseBuilderPage = () => {
           url: 'https://res.cloudinary.com/badass-courses/image/upload/v1721643966/card-course-builder-on-badass_2x_b6jpzf.jpg',
         },
       }}
+      className="overflow-hidden"
     >
       <header className="container">
         <div className="flex items-center md:flex-row flex-col gap-16 w-full justify-center">
