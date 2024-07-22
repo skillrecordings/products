@@ -12,7 +12,7 @@
       @apply pb-2;
     }
     [data-sr-button] {
-      @apply w-full font-semibold sm:w-auto;
+      @apply w-full bg-blue-500 font-semibold sm:w-auto;
       svg {
         @apply h-5 w-5;
       }
@@ -28,6 +28,39 @@
 }
 
 #video-overlay {
+  [data-sr-convertkit-subscribe-form] {
+    @apply flex w-full max-w-sm flex-col gap-4 text-left;
+    [data-sr-input] {
+      @apply w-full rounded-md border bg-gray-600 px-3 py-3 text-base;
+    }
+    [data-sr-input-label] {
+      @apply inline-block w-full pb-1 text-base text-gray-300;
+    }
+    [data-sr-button] {
+      @apply relative mt-2 flex items-center justify-center rounded-md bg-blue-500 px-5 py-7 text-lg font-semibold text-white shadow-2xl  transition hover:bg-blue-400;
+      svg {
+        @apply h-7 w-7;
+      }
+    }
+    [data-sr-button][disabled] {
+    }
+  }
+  [data-sr-convertkit-subscribe-form='success'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-sr-convertkit-subscribe-form='error'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-nospam] {
+    @apply text-sm text-white;
+  }
+}
+
+#subscribe-embed {
   [data-sr-convertkit-subscribe-form] {
     @apply flex w-full max-w-sm flex-col gap-4 text-left;
     [data-sr-input] {

@@ -207,105 +207,101 @@ const Video: React.FC<
             playbackId={videoResource.muxPlaybackId}
           />
         ) : (
-          <div className="flex w-full max-w-fit flex-col px-5">
-            <div>
-              <Logo />
-              {session ? (
-                <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
-                  <h1 className="py-4 text-2xl font-bold">
-                    You're logged in to {process.env.NEXT_PUBLIC_SITE_TITLE} but
-                    don't have access to this video.
-                  </h1>
-                  <div className="flex w-full max-w-xs flex-col space-y-2">
-                    <Button className="w-full" asChild>
-                      <Link
-                        href={process.env.NEXT_PUBLIC_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Get Access
-                      </Link>
-                    </Button>
-                    <Button className="w-full" asChild variant="ghost">
-                      <a
-                        href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
-                      >
-                        Contact Support
-                      </a>
-                    </Button>
-                  </div>
+          <div className="w-full max-w-fit px-5">
+            <Logo />
+            {session ? (
+              <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
+                <h1 className="py-4 text-2xl font-bold">
+                  You're logged in to {process.env.NEXT_PUBLIC_SITE_TITLE} but
+                  don't have access to this video.
+                </h1>
+                <div className="flex w-full max-w-xs flex-col space-y-2">
+                  <Button className="w-full" asChild>
+                    <Link
+                      href={process.env.NEXT_PUBLIC_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Get Access
+                    </Link>
+                  </Button>
+                  <Button className="w-full" asChild variant="ghost">
+                    <a href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}>
+                      Contact Support
+                    </a>
+                  </Button>
                 </div>
-              ) : (
-                <>
-                  {isTutorial && !canShowVideo && (
-                    <div className="relative flex w-full flex-col items-center justify-center  text-white  xl:aspect-video xl:flex-row">
-                      <div className="flex w-full items-center justify-center gap-2">
-                        <SubscribeToConvertkitForm />
-                      </div>
-
-                      <div className="w-full max-w-full sm:pr-5">
-                        <div className="prose relative flex w-full max-w-full flex-col border-white/10  p-5 text-white before:absolute before:left-1/2 before:top-[-8px] before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50  prose-p:mb-0 prose-p:text-gray-300 sm:rounded-lg sm:border xl:max-w-full xl:before:hidden xl:prose-p:mb-0 2xl:prose-p:mb-0">
-                          <ReactMarkdown
-                            className=""
-                            components={{
-                              p: ({children}) => (
-                                <p style={{marginBottom: '1.0em'}}>
-                                  {children}
-                                </p>
-                              ),
-                            }}
-                          >
-                            {ctaText}
-                          </ReactMarkdown>
-                        </div>
-                      </div>
+              </div>
+            ) : (
+              <>
+                {isTutorial && !canShowVideo && (
+                  <div className="flex flex-col sm:flex-row">
+                    <div
+                      id="subscribe-embed"
+                      className="flex w-full flex-col items-center justify-center p-4 sm:w-1/2"
+                    >
+                      <h2 className="text-center font-mono text-xl font-semibold sm:text-3xl">
+                        Level up with "{module.title}"
+                      </h2>
+                      <h3 className="pb-5 text-center font-mono text-xl text-blue-300">
+                        Access all lessons in this {module.moduleType}.
+                      </h3>
+                      <SubscribeToConvertkitForm />
+                      <p className="pt-2 text-center font-mono text-sm text-white">
+                        No spam, unsubscribe at any time.
+                      </p>
                     </div>
-                  )}
+                    <div id="cta-copy" className="w-full p-4 sm:w-1/2">
+                      <ReactMarkdown className="prose relative flex w-full max-w-4xl flex-col border-white/10 bg-gray-800 p-5 font-mono text-white before:absolute before:left-1/2 before:top-[-8px] before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50 before:bg-gray-800 before:content-[''] prose-p:mb-0 prose-p:text-gray-300 sm:rounded-lg sm:border xl:bg-transparent xl:before:hidden xl:prose-p:mb-0 2xl:prose-p:mb-0">
+                        {ctaText}
+                      </ReactMarkdown>
+                    </div>
+                  </div>
+                )}
 
-                  {!isTutorial && !canShowVideo && (
-                    <>
-                      <div className="flex flex-col items-center text-center">
-                        <h1 className="pb-2 pt-4 text-2xl font-bold sm:text-3xl">
-                          Get access to{' '}
-                          <a
-                            href={process.env.NEXT_PUBLIC_URL}
-                            className=" underline-offset-2 hover:underline"
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {process.env.NEXT_PUBLIC_SITE_TITLE}
-                          </a>
-                        </h1>
-                        <h2 className="opacity-80 sm:text-lg">
-                          And continue watching this video
-                        </h2>
-                      </div>
-                      <div className="mx-auto mt-5 flex w-full max-w-[250px] flex-col space-y-3">
-                        <Button variant="outline" asChild>
-                          <a
-                            href="https://epicreact.dev"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-blue-500 font-semibold text-white hover:bg-blue-400"
-                          >
-                            Buy {process.env.NEXT_PUBLIC_SITE_TITLE}
-                          </a>
-                        </Button>
-                        <Button variant="outline" asChild>
-                          <a
-                            href="https://epicreact.dev/login"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Log in (Restore purchases)
-                          </a>
-                        </Button>
-                      </div>
-                    </>
-                  )}
-                </>
-              )}
-            </div>
+                {!isTutorial && !canShowVideo && (
+                  <>
+                    <div className="flex flex-col items-center text-center">
+                      <h1 className="pb-2 pt-4 text-2xl font-bold sm:text-3xl">
+                        Get access to{' '}
+                        <a
+                          href={process.env.NEXT_PUBLIC_URL}
+                          className=" underline-offset-2 hover:underline"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {process.env.NEXT_PUBLIC_SITE_TITLE}
+                        </a>
+                      </h1>
+                      <h2 className="opacity-80 sm:text-lg">
+                        And continue watching this video
+                      </h2>
+                    </div>
+                    <div className="mx-auto mt-5 flex w-full max-w-[250px] flex-col space-y-3">
+                      <Button variant="outline" asChild>
+                        <a
+                          href="https://epicreact.dev"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-blue-500 font-semibold text-white hover:bg-blue-400"
+                        >
+                          Buy {process.env.NEXT_PUBLIC_SITE_TITLE}
+                        </a>
+                      </Button>
+                      <Button variant="outline" asChild>
+                        <a
+                          href="https://epicreact.dev/login"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Log in (Restore purchases)
+                        </a>
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </>
+            )}
           </div>
         )}
       </>
