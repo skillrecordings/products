@@ -7,6 +7,7 @@ import CaseStudyTemplate from 'templates/case-study-template'
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const caseStudy = await getCaseStudy(params?.slug as string)
+
   const caseStudyBodySerialized = await serializeMdx(caseStudy.markdownBody, {
     syntaxHighlighterOptions: {
       theme: 'one-dark-pro',

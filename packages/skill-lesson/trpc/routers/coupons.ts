@@ -2,8 +2,42 @@ import {prisma} from '@skillrecordings/database'
 import {adminProcedure, publicProcedure, router} from '../trpc.server'
 import {getToken} from 'next-auth/jwt'
 import {z} from 'zod'
+import {getCouponForCode} from '@skillrecordings/commerce-server'
 
 export const couponsRouter = router({
+  getForCodeOrCoupon: publicProcedure
+    .input(
+      z.object({
+        code: z.string().optional(),
+        coupon: z.string().optional(),
+      }),
+    )
+    .query(async ({ctx, input}) => {
+      const coupon = await prisma.coupon.findFirst({
+        where: {
+          OR: [
+            {
+              code: input.code || input.coupon,
+            },
+            {
+              id: input.code || input.coupon,
+            },
+          ],
+        },
+      })
+
+      if (!coupon) {
+        return null
+      }
+
+      return getCouponForCode(
+        coupon.id,
+        coupon.restrictedToProductId
+          ? [coupon.restrictedToProductId]
+          : undefined,
+      )
+    }),
+
   claimedBy: publicProcedure
     .input(
       z.object({

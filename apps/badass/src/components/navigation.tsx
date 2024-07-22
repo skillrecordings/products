@@ -22,20 +22,27 @@ const Navigation = () => {
 const NavLogo = () => {
   const router = useRouter()
   return (
-    <Link
-      href="/"
-      aria-label="Badass Dev Home"
-      passHref
-      className="flex items-center w-[176px] sm:w-[194px] shrink-0"
-      tabIndex={router.pathname === '/' ? -1 : 0}
+    <div
+      onContextMenu={(e) => {
+        e.preventDefault()
+        router.push('/brand')
+      }}
     >
-      <Image
-        src="/assets/logo-skull@2x.png"
-        alt="Badass Skull Logo"
-        width={194}
-        height={70}
-      />
-    </Link>
+      <Link
+        href="/"
+        aria-label="Badass Dev Home"
+        passHref
+        className="flex items-center w-[176px] sm:w-[194px] shrink-0"
+        tabIndex={router.pathname === '/' ? -1 : 0}
+      >
+        <Image
+          src="/assets/logo-skull@2x.png"
+          alt="Badass Skull Logo"
+          width={194}
+          height={70}
+        />
+      </Link>
+    </div>
   )
 }
 
@@ -67,6 +74,14 @@ const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
         >
           Articles
         </NavLink>
+        <NavLink
+          href="/course-builder"
+          iconName="coursebuilder"
+          iconColorClass="text-badass-pink-500"
+          iconColorHoverClass="group-hover:text-badass-pink-500"
+        >
+          Course Builder
+        </NavLink>
       </NavSlots>
     </div>
   )
@@ -97,7 +112,7 @@ const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
             leaveTo="transform opacity-0 scale-95"
           >
             <Menu.Items className="absolute right-0 w-full bg-black ring-1 ring-black ring-opacity-5 focus:outline-none left-0 border-b border-badass-gray-300/50">
-              <div className="px-6 py-12 space-y-12 bg-black">
+              <div className="px-6 py-12 space-y-8 bg-black">
                 <Menu.Item>
                   {(props) => (
                     <MenuLink href="/partners" {...props}>
@@ -131,6 +146,18 @@ const MobileNav: React.FC<React.PropsWithChildren<unknown>> = () => {
                         className="w-8 h-8 shrink-0 text-badass-pink-500 mr-1.5"
                       />
                       Articles
+                    </MenuLink>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {(props) => (
+                    <MenuLink href="/course-builder" {...props}>
+                      <Icon
+                        aria-hidden="true"
+                        name="coursebuilder"
+                        className="w-8 h-8 shrink-0 mr-1.5"
+                      />
+                      Course Builder
                     </MenuLink>
                   )}
                 </Menu.Item>
@@ -176,9 +203,7 @@ const NavLink: React.FC<
       aria-current={isActive ? 'page' : undefined}
       className={cx(
         'relative h-full font-heading flex items-center justify-center group transition outline-none group',
-        isActive
-          ? 'text-white'
-          : 'text-badass-gray-300 hover:opacity-100 opacity-90',
+        isActive ? 'opacity-100' : 'hover:opacity-100 opacity-90',
       )}
       {...props}
     >
@@ -187,7 +212,7 @@ const NavLink: React.FC<
         name={iconName}
         className={cx(
           `w-6 h-6 shrink-0 mr-1.5 duration-150`,
-          isActive ? iconColorClass : iconColorHoverClass,
+          // isActive ? iconColorClass : iconColorHoverClass,
         )}
       />
       {children}

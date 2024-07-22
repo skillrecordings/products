@@ -8,7 +8,7 @@ type CouponValidator = {
 }
 
 export function useCoupon(
-  coupon?: CouponValidator,
+  coupon?: CouponValidator | null,
   product?: {
     id: string
     image?: {
@@ -18,6 +18,7 @@ export function useCoupon(
     }
     title?: string
     description?: string
+    instructors?: string[]
   },
 ) {
   const [validCoupon, setValidCoupon] = React.useState(false)
@@ -31,7 +32,7 @@ export function useCoupon(
     validCoupon,
     redeemableCoupon: validCoupon && coupon?.isRedeemable,
     RedeemDialogForCoupon: () => {
-      return coupon ? (
+      return coupon && validCoupon && coupon?.isRedeemable ? (
         <RedeemDialog
           product={product}
           open={validCoupon}

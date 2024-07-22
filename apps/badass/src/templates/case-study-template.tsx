@@ -58,12 +58,14 @@ const CaseStudyTemplate: React.FC<
       <main data-template-case-study={slug} className="pb-10">
         <div className="container">
           <div className="max-w-screen-md mx-auto md:pt-16 pt-10 pb-16">
+            {/* {caseStudyBodySerialized && ( */}
             <article className="prose lg:prose-xl sm:prose-lg md:prose-code:text-sm max-w-none prose-p:text-neutral-200 prose-pre:prose-code:bg-transparent prose-code:bg-white/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded lg:prose-code:text-[78%] sm:prose-code:text-[80%] mb-2 font-medium">
               <MDX
                 components={mdxComponents}
                 contents={caseStudyBodySerialized}
               />
             </article>
+            {/* )} */}
             <div className="flex justify-center mt-28">
               <div className="max-w-[9rem]">
                 <Image

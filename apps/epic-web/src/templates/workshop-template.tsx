@@ -62,9 +62,7 @@ const WorkshopTemplate: React.FC<{
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({})
 
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    commerceProps?.couponFromCode,
-  )
+  const {validCoupon} = useCoupon(commerceProps?.couponFromCode)
   const product = workshop?.product as unknown as SanityProduct
 
   const canView = ability.can('view', 'Content')
@@ -92,7 +90,6 @@ const WorkshopTemplate: React.FC<{
         },
       }}
     >
-      {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       <CourseMeta product={product} />
       {workshop.state === 'draft' && (
         <div className="sm:px-3">
@@ -478,9 +475,7 @@ const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
       code: router.query.code as string,
     })
   const couponFromCode = commerceProps?.couponFromCode
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    commerceProps?.couponFromCode,
-  )
+  const {validCoupon} = useCoupon(commerceProps?.couponFromCode)
   const couponId =
     commerceProps?.couponIdFromCoupon ||
     (validCoupon ? couponFromCode?.id : undefined)
