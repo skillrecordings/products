@@ -8,6 +8,7 @@ import {
 import * as Yup from 'yup'
 
 import LevelUp from '../../public/assets/level-up@2x.png'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email address').required('Required'),
@@ -16,20 +17,25 @@ const validationSchema = Yup.object().shape({
     .required('Required'),
 })
 
-export const CallToActionForm: React.FC<React.PropsWithChildren<any>> = ({
-  content,
-}) => {
+export const CallToActionForm: React.FC<
+  React.PropsWithChildren<{className?: string; content?: any}>
+> = ({content, className}) => {
   const router = useRouter()
 
   return (
-    <section className="bg-badass-neutral-500 pt-52 md:pt-12 lg:pt-[7.5rem] pb-11 md:pb-10 lg:pb-[8.5rem] mt-[150px] md:mt-28 lg:mt-44 relative">
+    <section
+      className={cn(
+        'bg-badass-neutral-500 pt-52 md:pt-12 lg:pt-[7.5rem] pb-11 md:pb-10 lg:pb-[8.5rem] mt-[150px] md:mt-28 lg:mt-44 relative',
+        className,
+      )}
+    >
       <div className="max-w-[1158px] px-6 mx-auto">
         <div className="flex flex-col md:flex-row md:gap-x-6 lg:gap-x-0">
           <div className="md:w-1/2 lg:grow">
             <h2 className="font-heading lg:text-[2rem] lg:leading-tight text-2xl leading-[1.333] md:max-w-[300px] lg:max-w-none">
               {content.heading}
             </h2>
-            <div className="mt-5 md:mt-11 space-y-8 md:space-y-10 text-lg sm:text-xl leading-[1.75] text-[#e5e5e5]">
+            <div className="mt-5 md:mt-11 space-y-4 md:space-y-5 text-lg sm:text-xl leading-[1.75] text-[#e5e5e5]">
               {content.description}
             </div>
           </div>

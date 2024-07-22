@@ -902,6 +902,7 @@ export {
   BlockedOverlay,
   LoadingOverlay,
   OverlayWrapper,
+  ModuleCtaProvider,
 }
 
 const Subscribe: React.FC<{actionLabel?: string}> = ({

@@ -14,20 +14,43 @@ import {getModuleProgress} from '@skillrecordings/skill-lesson/lib/module-progre
 import ModuleCertificate from '@/certificate/module-certificate'
 import {MODULES_WITH_NO_CERTIFICATE} from '@/pages/learn'
 
+const modulesOrderedBySlug = {
+  'welcome-to-epic-react': 0,
+  'react-fundamentals': 1,
+  'react-hooks': 2,
+  'advanced-react-hooks': 3,
+  'advanced-react-patterns': 4,
+  'react-performance': 5,
+  'testing-react-apps': 6,
+  'react-suspense': 7,
+  'build-an-epic-react-app': 8,
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {params, req} = context
   const token = await getToken({req})
 
   const moduleSlug = params?.module as string
   const allModules = await getAllWorkshops()
+  const allModulesOrderedBySlug = [...allModules].sort((a, b) => {
+    return (
+      (modulesOrderedBySlug[
+        a.slug.current as keyof typeof modulesOrderedBySlug
+      ] as number) -
+      (modulesOrderedBySlug[
+        b.slug.current as keyof typeof modulesOrderedBySlug
+      ] as number)
+    )
+  })
+
   const module = find(
-    allModules,
+    allModulesOrderedBySlug,
     (module) => module.slug.current === moduleSlug,
   )
-  const moduleIndex = findIndex(allModules, (module, i) => {
+  const moduleIndex = findIndex(allModulesOrderedBySlug, (module, i) => {
     return module.slug.current === moduleSlug
   })
-  const nextModule = allModules[moduleIndex + 1]
+  const nextModule = allModulesOrderedBySlug?.[moduleIndex + 1]
 
   const moduleWithSectionsAndLessons = {
     ...module,

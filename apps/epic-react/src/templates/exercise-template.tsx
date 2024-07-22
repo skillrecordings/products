@@ -36,6 +36,8 @@ import {PreWithButtons} from '@/utils/mdx'
 import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 import {WorkshopAppBanner} from '@/components/workshop-app'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import {DefaultOverlay} from '@/components/video-overlays/lesson-complete-overlay'
+import {FinishedSectionOverlay} from '@/components/video-overlays/finished-section-overlay'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -152,6 +154,10 @@ const ExerciseTemplate: React.FC<{
                   product={module?.product as SanityProduct}
                   ref={muxPlayerRef}
                   exerciseOverlayRenderer={() => <ExerciseOverlay />}
+                  defaultOverlayRenderer={() => <DefaultOverlay />}
+                  finishedSectionOverlayRenderer={() => (
+                    <FinishedSectionOverlay />
+                  )}
                   loadingIndicator={<Spinner />}
                 />
               </div>

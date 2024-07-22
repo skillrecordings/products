@@ -41,6 +41,9 @@ import Layout from '@/components/app/layout'
 import ProgressBar from '@/components/progress-bar'
 import RepositoryLink from '@/components/repository-link'
 
+import {DefaultOverlay} from '@/components/video-overlays/lesson-complete-overlay'
+import {FinishedSectionOverlay} from '@/components/video-overlays/finished-section-overlay'
+
 const NavigationProgressModule: React.FC<{
   module: Module
   moduleProgress: ModuleProgress
@@ -221,6 +224,10 @@ const ExerciseTemplate: React.FC<{
                     product={module?.product as SanityProduct}
                     ref={muxPlayerRef}
                     exerciseOverlayRenderer={() => <div>TODO</div>}
+                    defaultOverlayRenderer={() => <DefaultOverlay />}
+                    finishedSectionOverlayRenderer={() => (
+                      <FinishedSectionOverlay />
+                    )}
                     blockedOverlayRenderer={BlockedOverlay}
                     loadingIndicator={<Spinner />}
                   />
@@ -234,7 +241,7 @@ const ExerciseTemplate: React.FC<{
                 }
               >
                 <div className={isTheaterMode ? 'col-span-4' : ''}>
-                  <div className="flex w-full items-center justify-between py-5 sm:py-6">
+                  <div className="flex w-full flex-wrap items-center gap-4 py-5 sm:justify-between sm:py-6">
                     {epicReactModule.github?.repo ? (
                       <RepositoryLink codeUrl={epicReactModule.github.repo} />
                     ) : (

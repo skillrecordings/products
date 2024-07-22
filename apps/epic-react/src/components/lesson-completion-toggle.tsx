@@ -5,8 +5,10 @@ import {useLesson} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {useRouter} from 'next/router'
 import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
 import toast from 'react-hot-toast'
+import {twMerge} from 'tailwind-merge'
+import cx from 'classnames'
 
-const LessonCompleteToggle = () => {
+const LessonCompleteToggle = ({className}: {className?: string}) => {
   const {module, lesson} = useLesson()
   const flattenedLessons = module.sections?.flatMap(
     (section) => section.lessons,
@@ -88,14 +90,21 @@ const LessonCompleteToggle = () => {
 
   return (
     <div>
-      <div className="flex items-center">
+      <div
+        className={twMerge(
+          cx(
+            'mx-auto flex items-center rounded-lg bg-emerald-600 px-5 py-2 text-sm hover:bg-emerald-600',
+            {
+              ['w-fit rounded-full bg-emerald-600 p-1 hover:bg-emerald-700 sm:px-2 sm:py-2']:
+                isLessonCompleted,
+            },
+            className,
+          ),
+        )}
+      >
         <motion.button
           type="button"
-          className={`relative flex h-[46px] cursor-pointer items-center justify-center overflow-hidden rounded-lg leading-7 transition-colors duration-200 ease-in-out ${
-            isLessonCompleted
-              ? 'bg-emerald-600 px-3 py-2 hover:bg-emerald-700 '
-              : 'bg-emerald-600 px-5 py-2 hover:bg-emerald-600'
-          }`}
+          className={`relative m-0 flex h-[46px] cursor-pointer items-center justify-center overflow-hidden leading-7 transition-colors duration-200 ease-in-out`}
           animate={{
             width: isLessonCompleted ? 46 : '100%',
             borderRadius: isLessonCompleted ? 23 : 8,
@@ -104,7 +113,7 @@ const LessonCompleteToggle = () => {
           id="rewardId"
           onClick={handleToggleLessonProgress}
         >
-          <div className="flex w-full cursor-pointer items-center justify-center text-sm font-semibold text-white">
+          <div className="mt-0 flex w-full cursor-pointer items-center justify-center font-semibold text-white">
             {isLessonCompleted && (
               <motion.svg
                 width="20"
@@ -129,7 +138,7 @@ const LessonCompleteToggle = () => {
               </motion.svg>
             )}
             <motion.div
-              className="whitespace-no-wrap flex shrink-0 cursor-pointer items-center justify-center"
+              className=" text-md whitespace-no-wrap mt-0 flex shrink-0 cursor-pointer items-center justify-center"
               animate={{
                 y: isLessonCompleted ? -70 : 0,
                 opacity: isLessonCompleted ? 0 : 1,
