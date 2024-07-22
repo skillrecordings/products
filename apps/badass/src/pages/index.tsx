@@ -18,6 +18,7 @@ import CaseStudies from 'components/landing/case-studies'
 import OtherProducts from 'components/landing/other-products'
 import Podcasts from 'components/landing/podcasts'
 import Articles from 'components/landing/articles'
+import {CourseBuilderTeaser} from 'components/course-builder/course-builder-teaser'
 
 type LandingPageProps = {
   caseStudies: CaseStudy[]
@@ -38,7 +39,8 @@ const LandingPage: React.FC<LandingPageProps> = ({
         <section className="flex flex-col items-center justify-center py-16 mt-14 md:mt-0 md:pt-1 lg:pt-14">
           <CaseStudies caseStudies={caseStudies} />
           <OtherProducts />
-          <Podcasts podcasts={podcasts} className="mt-14 md:mt-16 lg:mt-36" />
+          <CourseBuilderTeaser />
+          <Podcasts podcasts={podcasts} className="mt-20" />
           <Articles
             articles={articles}
             className="mt-14 md:mt-[60px] lg:mt-36"

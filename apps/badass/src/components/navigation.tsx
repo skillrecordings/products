@@ -22,20 +22,27 @@ const Navigation = () => {
 const NavLogo = () => {
   const router = useRouter()
   return (
-    <Link
-      href="/"
-      aria-label="Badass Dev Home"
-      passHref
-      className="flex items-center w-[176px] sm:w-[194px] shrink-0"
-      tabIndex={router.pathname === '/' ? -1 : 0}
+    <div
+      onContextMenu={(e) => {
+        e.preventDefault()
+        router.push('/brand')
+      }}
     >
-      <Image
-        src="/assets/logo-skull@2x.png"
-        alt="Badass Skull Logo"
-        width={194}
-        height={70}
-      />
-    </Link>
+      <Link
+        href="/"
+        aria-label="Badass Dev Home"
+        passHref
+        className="flex items-center w-[176px] sm:w-[194px] shrink-0"
+        tabIndex={router.pathname === '/' ? -1 : 0}
+      >
+        <Image
+          src="/assets/logo-skull@2x.png"
+          alt="Badass Skull Logo"
+          width={194}
+          height={70}
+        />
+      </Link>
+    </div>
   )
 }
 
@@ -66,6 +73,14 @@ const DesktopNav: React.FC<React.PropsWithChildren<unknown>> = () => {
           iconColorHoverClass="group-hover:text-badass-pink-500"
         >
           Articles
+        </NavLink>
+        <NavLink
+          href="/course-builder"
+          iconName="coursebuilder"
+          iconColorClass="text-badass-pink-500"
+          iconColorHoverClass="group-hover:text-badass-pink-500"
+        >
+          Course Builder
         </NavLink>
       </NavSlots>
     </div>
@@ -176,9 +191,7 @@ const NavLink: React.FC<
       aria-current={isActive ? 'page' : undefined}
       className={cx(
         'relative h-full font-heading flex items-center justify-center group transition outline-none group',
-        isActive
-          ? 'text-white'
-          : 'text-badass-gray-300 hover:opacity-100 opacity-90',
+        isActive ? 'opacity-100' : 'hover:opacity-100 opacity-90',
       )}
       {...props}
     >
@@ -187,7 +200,7 @@ const NavLink: React.FC<
         name={iconName}
         className={cx(
           `w-6 h-6 shrink-0 mr-1.5 duration-150`,
-          isActive ? iconColorClass : iconColorHoverClass,
+          // isActive ? iconColorClass : iconColorHoverClass,
         )}
       />
       {children}
