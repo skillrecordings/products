@@ -385,7 +385,9 @@ export async function stripeCheckout({
             stripeCouponPercentOff,
           )
 
-          const amount_off_in_cents = (fullPrice - calculatedPrice) * 100
+          const amount_off_in_cents = Math.round(
+            (fullPrice - calculatedPrice) * 100,
+          )
 
           const coupon = await stripe.coupons.create({
             amount_off: amount_off_in_cents,
