@@ -7,6 +7,7 @@ import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-l
 import toast from 'react-hot-toast'
 import {twMerge} from 'tailwind-merge'
 import cx from 'classnames'
+import Spinner from '@/components/spinner'
 
 const LessonCompleteToggle = ({className}: {className?: string}) => {
   const {module, lesson} = useLesson()
@@ -33,21 +34,33 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
   )
 
   // cannot use id because lesson from useLesson returns solution resource when on solution page
-  const isLessonCompleted = Boolean(
-    completedLessons?.find(({id, slug}: any) => slug === lessonSlug),
-  )
+
+  const [isLessonCompleted, setIsLessonCompleted] = React.useState(false)
+
+  const [isProgressSaving, setIsProgressSaving] = React.useState(false)
 
   const [optimisticallyToggled, setOptimisticallyToggled] = React.useState(
     isLessonCompleted || false,
   )
 
   React.useEffect(() => {
+    setIsLessonCompleted(
+      Boolean(
+        completedLessons?.find(({id, slug}: any) => slug === lessonSlug),
+      ) || optimisticallyToggled,
+    )
+  }, [completedLessons, lessonSlug, optimisticallyToggled])
+
+  React.useEffect(() => {
     moduleProgressStatus === 'success' &&
       setOptimisticallyToggled(isLessonCompleted)
-  }, [moduleProgressStatus, isLessonCompleted])
+  }, [moduleProgressStatus, isLessonCompleted, lessonSlug])
 
   const handleToggleLessonProgress = async () => {
     setOptimisticallyToggled(!optimisticallyToggled)
+    setIsProgressSaving(true)
+
+    if (!optimisticallyToggled && !isLessonCompleted) reward()
 
     return await toggleProgressMutation.mutateAsync(
       {
@@ -56,6 +69,9 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
       },
       {
         onSuccess: (data) => {
+          setIsProgressSaving(false)
+          setOptimisticallyToggled(false)
+
           const {progress, moduleProgress: moduleProgressLessonComplete} = data
           if (
             moduleProgressLessonComplete &&
@@ -80,6 +96,7 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
           }
         },
         onError: (error: any) => {
+          setIsProgressSaving(false)
           setOptimisticallyToggled((value) => !value)
           toast.error(`Error setting lesson progress.`)
           console.debug(error.message)
@@ -112,9 +129,12 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
           initial={false}
           id="rewardId"
           onClick={handleToggleLessonProgress}
+          disabled={isProgressSaving}
         >
           <div className="mt-0 flex w-full cursor-pointer items-center justify-center font-semibold text-white">
-            {isLessonCompleted && (
+            {isLessonCompleted && isProgressSaving ? (
+              <Spinner className="absolute h-5 w-5 text-white" />
+            ) : (
               <motion.svg
                 width="20"
                 height="20"

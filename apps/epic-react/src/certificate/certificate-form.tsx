@@ -160,7 +160,7 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
                   className="text-white hover:bg-primary/80 sm:text-base"
                 >
                   <DownloadIcon className="w-4" />
-                  Get Your Sertificate
+                  Get Your Certificate
                 </a>
               </Button>
               <div className="flex w-full flex-col border-t border-gray-100 pt-5 dark:border-gray-700">
