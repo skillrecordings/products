@@ -207,7 +207,7 @@ const Video: React.FC<
             playbackId={videoResource.muxPlaybackId}
           />
         ) : (
-          <div className="w-full max-w-lg px-5">
+          <div className="w-full max-w-3xl px-5">
             {session ? (
               <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
                 <h1 className="py-4 text-2xl font-bold">
@@ -239,11 +239,8 @@ const Video: React.FC<
                       id="subscribe-embed"
                       className="flex w-full flex-col items-center justify-center p-4"
                     >
-                      <h2 className="text-center font-mono text-xl  font-semibold sm:text-3xl">
-                        This is a free tutorial
-                      </h2>
                       <h3 className="pb-5 text-center font-mono  text-sm text-blue-500 dark:text-blue-300 sm:text-base">
-                        Access all lessons in this {module.moduleType} by
+                        Access all free videos in this {module.moduleType} by
                         subscribing
                       </h3>
                       <SubscribeToConvertkitForm />
@@ -251,9 +248,16 @@ const Video: React.FC<
                         No spam, unsubscribe at any time.
                       </p>
                     </div>
+                    <div
+                      id="cta-copy"
+                      className="flex items-center justify-center"
+                    >
+                      <ReactMarkdown className="prose relative flex w-full max-w-4xl flex-col rounded-lg bg-gray-100 p-3 font-mono text-xs prose-p:mb-0 dark:border-white/10 dark:bg-gray-800 dark:text-white">
+                        {ctaText}
+                      </ReactMarkdown>
+                    </div>
                   </div>
                 )}
-
                 {!isTutorial && !canShowVideo && (
                   <>
                     <div className="flex flex-col items-center text-center">
@@ -305,3 +309,11 @@ const Video: React.FC<
 )
 
 export default EmbedTemplate
+
+const ctaText = `
+In exchange for your email address, you'll get full access to this and other free Epic React tutorials.
+
+Why? First and foremost, your inbox allows us to directly communicate about the latest Epic React material. This includes free tutorials, tips, and periodic updates about trends, tools, and React happenings that I'm excited about.
+
+In addition to the piles of free Epic React content, you'll get the earliest access and best discounts to the paid courses when they launch. There won't be any spam, and every email you get will have an unsubscribe link.
+`
