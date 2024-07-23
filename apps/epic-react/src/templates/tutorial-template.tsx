@@ -20,6 +20,7 @@ import {Skeleton} from '@skillrecordings/ui'
 import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import {CogIcon} from '@heroicons/react/outline'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {WorkshopAppBanner} from '@/components/workshop-app'
 
 const TutorialTemplate: React.FC<{
   tutorial: any
@@ -91,6 +92,10 @@ const TutorialTemplate: React.FC<{
               </Collection.Lessons>
             </Collection.Root>
           )}
+          <WorkshopAppBanner
+            moduleSlug={tutorial.slug.current || ''}
+            className="mt-3 rounded-lg border p-5"
+          />
         </div>
       </main>
     </Layout>
