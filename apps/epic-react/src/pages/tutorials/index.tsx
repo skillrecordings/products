@@ -18,7 +18,6 @@ import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {Progress, Skeleton} from '@skillrecordings/ui'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import {WorkshopAppBanner} from '@/components/workshop-app'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -57,13 +56,13 @@ const TutorialsPage: React.FC<{
         },
       }}
     >
-      <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-between px-5 pt-16 lg:flex-row lg:items-start">
-        <div className="flex flex-col items-center space-y-3 text-center lg:items-start lg:text-left">
+      <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 pt-16">
+        <div className="flex flex-col items-center space-y-3 text-center">
           <h1 className="flex flex-col text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-            <span className="mb-2 inline-block bg-gradient-to-r from-blue-500 to-fuchsia-600 bg-clip-text text-sm uppercase tracking-widest text-transparent dark:from-blue-300 dark:to-fuchsia-400">
+            <span className="mb-2 inline-block bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-xl uppercase tracking-widest text-transparent dark:from-blue-300 dark:to-blue-500">
               Free
             </span>{' '}
-            Epic Tutorials
+            Epic React Tutorials
           </h1>
           <h2 className="w-full max-w-md text-base text-gray-600 dark:text-gray-400">
             <Balancer>
@@ -71,10 +70,8 @@ const TutorialsPage: React.FC<{
             </Balancer>
           </h2>
         </div>
-        <div className="flex w-full max-w-md items-center justify-center pt-16 lg:min-h-[204px] lg:justify-end lg:pl-8 lg:pt-0">
-          <WorkshopAppBanner />
-        </div>
       </header>
+
       <main className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col justify-center gap-5 px-5 pb-24 pt-16">
         {tutorials && (
           <ul className="flex flex-col gap-5">
