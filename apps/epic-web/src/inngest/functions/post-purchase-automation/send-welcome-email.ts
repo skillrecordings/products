@@ -2,7 +2,10 @@ import {inngest} from 'inngest/inngest.server'
 import {STRIPE_CHECKOUT_COMPLETED_EVENT} from '@skillrecordings/inngest'
 import {prisma} from '@skillrecordings/database'
 import {sendTheEmail} from 'server/send-the-email'
-import {WelcomeEmail} from 'emails/pixel-perfect-workshop-welcome-email'
+import {WelcomeEmail} from 'emails/post-purchase-workshop-welcome-email'
+import groq from 'groq'
+import {z} from 'zod'
+import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 
 export const sendWelcomeEmail = inngest.createFunction(
   {id: 'send-welcome-email', name: 'Post-Purchase - Send Welcome Email'},
@@ -26,32 +29,32 @@ export const sendWelcomeEmail = inngest.createFunction(
     })
 
     const product = await step.run('load product', async () => {
-      const product = await prisma.product.findUnique({
-        where: {
-          id: productId,
-        },
-        select: {
-          name: true,
-        },
-      })
+      const productToAnnounce = await sanityClient.fetch(
+        groq`*[_type == "product" && productId == $productId][0] {
+        title,
+        productId,
+        "slug": slug.current,
+      }`,
+        {productId},
+      )
 
-      if (!product) throw new Error(`Product ${productId} not found`)
-
-      return product
+      return z
+        .object({
+          title: z.string(),
+          productId: z.string(),
+          slug: z.string(),
+        })
+        .parse(productToAnnounce)
     })
 
     try {
       const response = await step.run(
         'send welcome email to user',
         async () => {
-          if (productId !== '1b6e7ed6-8a15-48f1-8dd7-e76612581ee8') {
-            return
-          }
-
           let userEmail = purchase?.user?.email
           if (!userEmail) throw new Error('User not found')
 
-          const subject = `Welcome to ${product?.name}, Figma Invite for DevMode`
+          const subject = `Welcome to ${product?.title} Workshop 🚀`
 
           return await sendTheEmail({
             Subject: subject,
@@ -59,6 +62,7 @@ export const sendWelcomeEmail = inngest.createFunction(
             To: userEmail,
             componentProps: {
               name: purchase?.user?.name,
+              product: [product],
             },
           })
         },
