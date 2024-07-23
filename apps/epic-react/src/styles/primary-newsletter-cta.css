@@ -62,15 +62,15 @@
 
 #subscribe-embed {
   [data-sr-convertkit-subscribe-form] {
-    @apply flex w-full max-w-sm flex-col gap-4 text-left;
+    @apply flex  w-full max-w-sm flex-col gap-2 text-left;
     [data-sr-input] {
-      @apply w-full rounded-md border bg-gray-600 px-3 py-3 text-base;
+      @apply h-8 w-full rounded-md border text-base dark:bg-gray-600 sm:h-11;
     }
     [data-sr-input-label] {
-      @apply inline-block w-full pb-1 text-base text-gray-300;
+      @apply inline-block w-full text-base dark:text-gray-300;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex items-center justify-center rounded-md bg-blue-500 px-5 py-7 text-lg font-semibold text-white shadow-2xl  transition hover:bg-blue-400;
+      @apply relative mt-2 flex h-8 items-center justify-center rounded-md bg-blue-500 text-base font-semibold text-white shadow-2xl transition hover:bg-blue-400 sm:h-11;
       svg {
         @apply h-7 w-7;
       }
