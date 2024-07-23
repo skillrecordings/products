@@ -72,9 +72,9 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
     setOptimisticallyToggled(!optimisticallyToggled)
     setIsProgressSaving(true)
 
-    console.log({optimisticallyToggled})
+    console.log({optimisticallyToggled, isLessonCompleted})
 
-    if (!optimisticallyToggled) reward()
+    if (!optimisticallyToggled && !isLessonCompleted) reward()
 
     return await toggleProgressMutation.mutateAsync(
       {
@@ -85,7 +85,9 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
         onSuccess: (data) => {
           setIsProgressSaving(false)
           setOptimisticallyToggled(false)
+
           const {progress, moduleProgress: moduleProgressLessonComplete} = data
+          console.log({moduleProgressLessonComplete})
           if (
             moduleProgressLessonComplete &&
             'moduleCompleted' in moduleProgressLessonComplete &&

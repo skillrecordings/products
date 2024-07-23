@@ -13,6 +13,7 @@ import {getToken} from 'next-auth/jwt'
 import {getModuleProgress} from '@skillrecordings/skill-lesson/lib/module-progress'
 import ModuleCertificate from '@/certificate/module-certificate'
 import {MODULES_WITH_NO_CERTIFICATE} from '@/pages/learn'
+import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 
 const modulesOrderedBySlug = {
   'welcome-to-epic-react': 0,
@@ -81,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       module: moduleWithSectionsAndLessons,
-      nextModule,
+      ...(nextModule && {nextModule}),
     },
   }
 }
