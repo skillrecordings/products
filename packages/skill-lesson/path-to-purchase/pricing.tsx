@@ -106,7 +106,7 @@ type PricingProps = {
  */
 export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   product,
-  purchased = false,
+  purchased: _purchased = false,
   userId,
   index = 0,
   bonuses,
@@ -186,6 +186,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     trpcSkillLessons.purchases.getPurchaseById.useQuery({
       purchaseId: formattedPrice?.upgradeFromPurchaseId,
     })
+
+  const allowPurchaseOfPPPUpgrade =
+    purchaseToUpgrade?.productId === productId &&
+    purchaseToUpgrade?.status === 'Restricted'
+  const purchased = allowPurchaseOfPPPUpgrade ? false : _purchased
 
   const {data: availability, status: availabilityStatus} =
     trpcSkillLessons.products.getQuantityAvailableById.useQuery(
