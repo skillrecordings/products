@@ -21,7 +21,7 @@
   [data-pricing-product-header] {
     @apply px-4 pb-6 pt-16 md:px-6;
     [data-byline] {
-      @apply hidden;
+      @apply mt-3 text-center font-semibold;
     }
   }
   [data-purchase-container] {
