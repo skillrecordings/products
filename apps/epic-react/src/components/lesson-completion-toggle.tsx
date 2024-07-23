@@ -43,19 +43,7 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
     isLessonCompleted || false,
   )
 
-  console.log({
-    isLessonCompleted,
-    optimisticallyToggled,
-    lessonSlug,
-    lesson,
-    completedLessons,
-  })
-
   React.useEffect(() => {
-    console.log(
-      'running effect',
-      completedLessons?.find(({id, slug}: any) => slug === lessonSlug),
-    )
     setIsLessonCompleted(
       Boolean(
         completedLessons?.find(({id, slug}: any) => slug === lessonSlug),
@@ -72,8 +60,6 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
     setOptimisticallyToggled(!optimisticallyToggled)
     setIsProgressSaving(true)
 
-    console.log({optimisticallyToggled, isLessonCompleted})
-
     if (!optimisticallyToggled && !isLessonCompleted) reward()
 
     return await toggleProgressMutation.mutateAsync(
@@ -87,7 +73,6 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
           setOptimisticallyToggled(false)
 
           const {progress, moduleProgress: moduleProgressLessonComplete} = data
-          console.log({moduleProgressLessonComplete})
           if (
             moduleProgressLessonComplete &&
             'moduleCompleted' in moduleProgressLessonComplete &&
