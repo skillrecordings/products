@@ -207,8 +207,7 @@ const Video: React.FC<
             playbackId={videoResource.muxPlaybackId}
           />
         ) : (
-          <div className="w-full max-w-fit px-5">
-            <Logo />
+          <div className="w-full max-w-lg px-5">
             {session ? (
               <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
                 <h1 className="py-4 text-2xl font-bold">
@@ -238,23 +237,19 @@ const Video: React.FC<
                   <div className="flex flex-col sm:flex-row">
                     <div
                       id="subscribe-embed"
-                      className="flex w-full flex-col items-center justify-center p-4 sm:w-1/2"
+                      className="flex w-full flex-col items-center justify-center p-4"
                     >
-                      <h2 className="text-center font-mono text-xl font-semibold sm:text-3xl">
-                        Level up with "{module.title}"
+                      <h2 className="text-center font-mono text-xl  font-semibold sm:text-3xl">
+                        This is a free tutorial
                       </h2>
-                      <h3 className="pb-5 text-center font-mono text-xl text-blue-300">
-                        Access all lessons in this {module.moduleType}.
+                      <h3 className="pb-5 text-center font-mono  text-sm text-blue-500 dark:text-blue-300 sm:text-base">
+                        Access all lessons in this {module.moduleType} by
+                        subscribing
                       </h3>
                       <SubscribeToConvertkitForm />
-                      <p className="pt-2 text-center font-mono text-sm text-white">
+                      <p className="pt-2 text-center font-mono text-xs text-white">
                         No spam, unsubscribe at any time.
                       </p>
-                    </div>
-                    <div id="cta-copy" className="w-full p-4 sm:w-1/2">
-                      <ReactMarkdown className="prose relative flex w-full max-w-4xl flex-col border-white/10 bg-gray-800 p-5 font-mono text-white before:absolute before:left-1/2 before:top-[-8px] before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50 before:bg-gray-800 before:content-[''] prose-p:mb-0 prose-p:text-gray-300 sm:rounded-lg sm:border xl:bg-transparent xl:before:hidden xl:prose-p:mb-0 2xl:prose-p:mb-0">
-                        {ctaText}
-                      </ReactMarkdown>
                     </div>
                   </div>
                 )}
@@ -310,32 +305,3 @@ const Video: React.FC<
 )
 
 export default EmbedTemplate
-
-const Logo = () => {
-  return (
-    <div className="pt-15 mx-auto flex items-center justify-center">
-      <Image
-        src="/assets/flying-rocket-light-sm@2x.webp"
-        alt=""
-        width={300}
-        height={273}
-        className="mx-auto"
-        priority
-      />
-    </div>
-  )
-}
-
-const ctaText = `
-## This is a free tutorial
-
-In exchange for your email address, you'll get full access to this and other free Epic React tutorials.  
-
-Why? First and foremost, your inbox allows us to directly communicate about the latest Epic React material. This includes free tutorials, tips, and periodic updates about trends, tools, and React happenings that I'm excited about.  
-
-In addition to the piles of free Epic React content, you'll get the earliest access and best discounts to the paid courses when they launch.  
-
-There won't be any spam, and every email you get will have an unsubscribe link.  
-
-If this sounds like a fair trade, let's go!  
-`
