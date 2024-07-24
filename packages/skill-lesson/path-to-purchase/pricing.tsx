@@ -187,9 +187,14 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
       purchaseId: formattedPrice?.upgradeFromPurchaseId,
     })
 
+  const defaultCoupon = formattedPrice?.defaultCoupon
+  const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
+
   const allowPurchaseOfPPPUpgrade =
     purchaseToUpgrade?.productId === productId &&
-    purchaseToUpgrade?.status === 'Restricted'
+    purchaseToUpgrade?.status === 'Restricted' &&
+    appliedMerchantCoupon?.type !== 'ppp'
+
   const purchased = allowPurchaseOfPPPUpgrade ? false : _purchased
 
   const {data: availability, status: availabilityStatus} =
@@ -202,9 +207,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         refetchInterval: 30000, // 30 seconds
       },
     )
-
-  const defaultCoupon = formattedPrice?.defaultCoupon
-  const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
   const allowPurchaseWithSpecialCoupon = Boolean(
     appliedMerchantCoupon &&
