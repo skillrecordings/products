@@ -13,6 +13,12 @@ const productsQuery = groq`*[_type == "pricing"][0] {
     url,
     alt
   },
+  "instructors": array::unique(modules[]->.contributors[@.role == 'instructor'].contributor->{ 
+    _id,
+    name,
+    "slug": slug.current,
+    image
+  }),
   modules[]->{
     moduleType,
     "slug": slug.current,
@@ -55,6 +61,12 @@ export const getProductBySlug = async (productSlug: string) => {
     alt
   },
   ogImage,
+  "instructors": array::unique(modules[]->.contributors[@.role == 'instructor'].contributor->{ 
+    _id,
+    name,
+    "slug": slug.current,
+    image
+  }),
   modules[]->{
     "slug": slug.current,
     "instructors": contributors[@.role == 'instructor'].contributor->{
@@ -115,6 +127,12 @@ export const getProduct = async (productId: string) => {
      image {
       url
      },
+  "instructors": array::unique(modules[]->.contributors[@.role == 'instructor'].contributor->{ 
+    _id,
+    name,
+    "slug": slug.current,
+    picture
+  }),
      modules[]->{
       moduleType,
       slug
@@ -124,5 +142,6 @@ export const getProduct = async (productId: string) => {
       productId,
     },
   )
+
   return product
 }

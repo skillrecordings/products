@@ -35,8 +35,6 @@ export const GoldenTicketProvider = ({
     productId: couponData?.restrictedToProductId as string,
   })
 
-  console.log({couponData, product})
-
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     couponData,
     {
@@ -48,6 +46,9 @@ export const GoldenTicketProvider = ({
       },
       title: product?.name as string,
       description: product?.description,
+      instructors: product?.instructors.map(
+        (instructor: {name: string}) => instructor.name,
+      ),
     },
   )
 
