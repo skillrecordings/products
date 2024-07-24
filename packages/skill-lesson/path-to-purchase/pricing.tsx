@@ -359,7 +359,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     status={status}
                     formattedPrice={formattedPrice}
                   />
-                  {isRestrictedUpgrade ? (
+                  {isDowngrade(formattedPrice) ? null : isRestrictedUpgrade ? (
                     <div data-byline="">All region access</div>
                   ) : (
                     <div data-byline="">
