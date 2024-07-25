@@ -246,7 +246,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   // do not show the box if it's a downgrade
   const showPPPBox =
     isPPPEnabled &&
-    !purchaseToUpgrade &&
     Boolean(availablePPPCoupon || appliedPPPCoupon) &&
     !purchased &&
     !isDowngrade(formattedPrice) &&
