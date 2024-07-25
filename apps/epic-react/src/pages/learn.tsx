@@ -357,7 +357,11 @@ const Learn: React.FC<{
         />
       </section>
       {isMounted && !isEmpty(commerceProps?.purchases) && (
-        <WelcomeBanner purchases={commerceProps.purchases} />
+        <WelcomeBanner
+          purchases={commerceProps.purchases?.filter((purchase: any) =>
+            purchase.product.name.includes('Epic React'),
+          )}
+        />
       )}
       <main className="mx-auto w-full max-w-screen-lg px-4 pb-20 pt-4 sm:px-8 sm:pt-20">
         <ul className="grid grid-cols-1 gap-4 sm:gap-16">
