@@ -106,7 +106,7 @@ type PricingProps = {
  */
 export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   product,
-  purchased = false,
+  purchased: _purchased = false,
   userId,
   index = 0,
   bonuses,
@@ -187,6 +187,16 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
       purchaseId: formattedPrice?.upgradeFromPurchaseId,
     })
 
+  const defaultCoupon = formattedPrice?.defaultCoupon
+  const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
+
+  const allowPurchaseOfPPPUpgrade =
+    purchaseToUpgrade?.productId === productId &&
+    purchaseToUpgrade?.status === 'Restricted' &&
+    appliedMerchantCoupon?.type !== 'ppp'
+
+  const purchased = allowPurchaseOfPPPUpgrade ? false : _purchased
+
   const {data: availability, status: availabilityStatus} =
     trpcSkillLessons.products.getQuantityAvailableById.useQuery(
       {
@@ -197,9 +207,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         refetchInterval: 30000, // 30 seconds
       },
     )
-
-  const defaultCoupon = formattedPrice?.defaultCoupon
-  const appliedMerchantCoupon = formattedPrice?.appliedMerchantCoupon
 
   const allowPurchaseWithSpecialCoupon = Boolean(
     appliedMerchantCoupon &&
@@ -352,7 +359,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     status={status}
                     formattedPrice={formattedPrice}
                   />
-                  {isRestrictedUpgrade ? (
+                  {isDowngrade(formattedPrice) ? null : isRestrictedUpgrade ? (
                     <div data-byline="">All region access</div>
                   ) : (
                     <div data-byline="">
