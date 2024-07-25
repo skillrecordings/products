@@ -83,6 +83,7 @@ type PricingProps = {
     teamQuantityLimit?: number
     saleCountdownRenderer?: ({coupon}: {coupon: any}) => React.ReactNode
     allowTeamPurchase?: boolean
+    showAllContent?: boolean
   }
   id?: string
 }
@@ -140,6 +141,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     saleCountdownRenderer: () => null,
     teamQuantityLimit: 100,
     allowTeamPurchase: true,
+    showAllContent: true,
   },
 }) => {
   const {
@@ -149,6 +151,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     isLiveEvent = false,
     teamQuantityLimit = 100,
     allowTeamPurchase = true,
+    showAllContent = true,
   } = options
   const {
     addPrice,
@@ -646,7 +649,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                   />
                 </div>
               )}
-            {modules || features ? (
+            {showAllContent && Boolean(modules || features) ? (
               <div data-header="">
                 <div>
                   <span>includes</span>
@@ -654,7 +657,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               </div>
             ) : null}
             <div data-main="">
-              {bonuses &&
+              {showAllContent &&
+                bonuses &&
                 bonuses.length > 0 &&
                 bonuses[0].expiresAt &&
                 quantity === 1 &&
@@ -698,7 +702,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     }}
                   />
                 )}
-              {moduleBonuses &&
+              {showAllContent &&
+                moduleBonuses &&
                 moduleBonuses.length > 0 &&
                 !Boolean(merchantCoupon) && (
                   <div data-bonuses="">
@@ -726,7 +731,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     </ul>
                   </div>
                 )}
-              {workshops && (
+              {showAllContent && workshops && (
                 <div data-workshops="">
                   <strong>Workshops</strong>
                   <ul role="list">
@@ -754,7 +759,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 </div>
               )}
 
-              {features && (
+              {showAllContent && features && (
                 <div data-features="">
                   <strong>Features</strong>
                   <ul role="list">
