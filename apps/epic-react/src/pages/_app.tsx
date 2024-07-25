@@ -17,6 +17,7 @@ import Script from 'next/script'
 import {Session} from 'next-auth'
 import {ThemeProvider} from '@/components/app/theme-provider'
 import mdxComponents from '@/components/mdx-components'
+import {Inter} from 'next/font/google'
 
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
   amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
@@ -25,6 +26,13 @@ if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
 const isGoogleAnalyticsAvailable =
   process.env.NODE_ENV !== 'development' &&
   process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sans',
+  weight: ['400', '600', '800'],
+})
 
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()
@@ -35,16 +43,21 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
       <FeedbackProvider>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <ConvertkitProvider>
-            <MDXProvider components={mdxComponents}>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-                disableTransitionOnChange
-              >
-                <Component {...pageProps} />
-              </ThemeProvider>
-            </MDXProvider>
+            <div
+              id="app"
+              className={`relative ${inter.variable} font-sans text-text antialiased`}
+            >
+              <MDXProvider components={mdxComponents}>
+                <ThemeProvider
+                  attribute="class"
+                  defaultTheme="system"
+                  enableSystem
+                  disableTransitionOnChange
+                >
+                  <Component {...pageProps} />
+                </ThemeProvider>
+              </MDXProvider>
+            </div>
           </ConvertkitProvider>
           <ReactQueryDevtools initialIsOpen={false} />
         </SessionProvider>

@@ -64,13 +64,13 @@
   [data-sr-convertkit-subscribe-form] {
     @apply flex  w-full max-w-sm flex-col gap-2 text-left;
     [data-sr-input] {
-      @apply h-8 w-full rounded-md border text-base dark:bg-gray-600 sm:h-11;
+      @apply h-6 w-full rounded-md border text-xs dark:bg-gray-600 sm:h-11 sm:text-base;
     }
     [data-sr-input-label] {
-      @apply inline-block w-full text-base dark:text-gray-300;
+      @apply inline-block w-full text-xs dark:text-gray-300 sm:text-base;
     }
     [data-sr-button] {
-      @apply relative mt-2 flex h-8 items-center justify-center rounded-md bg-blue-500 text-base font-semibold text-white shadow-2xl transition hover:bg-blue-400 sm:h-11;
+      @apply relative mt-2 flex h-6 items-center justify-center rounded-md bg-blue-500 text-sm font-semibold text-white shadow-2xl transition hover:bg-blue-400 sm:h-11 sm:text-base;
       svg {
         @apply h-7 w-7;
       }

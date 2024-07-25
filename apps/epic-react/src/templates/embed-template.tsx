@@ -207,7 +207,7 @@ const Video: React.FC<
             playbackId={videoResource.muxPlaybackId}
           />
         ) : (
-          <div className="w-full max-w-3xl px-5">
+          <div className="flex w-full max-w-3xl flex-col px-5">
             {session ? (
               <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
                 <h1 className="py-4 text-2xl font-bold">
@@ -234,30 +234,31 @@ const Video: React.FC<
             ) : (
               <>
                 {isTutorial && !canShowVideo && (
-                  <div className="flex flex-col sm:flex-row">
+                  <div className="flex flex-col items-center sm:flex-row">
                     <div
                       id="subscribe-embed"
                       className="flex w-full flex-col items-center justify-center p-4"
                     >
-                      <h3 className="pb-5 text-center font-mono  text-sm text-blue-500 dark:text-blue-300 sm:text-base">
+                      <h3 className="pt-3 text-center text-base font-semibold text-blue-500 dark:text-blue-300 sm:pb-4 sm:pt-1 sm:text-xl">
                         Access all free videos in this {module.moduleType} by
                         subscribing
                       </h3>
                       <SubscribeToConvertkitForm />
-                      <p className="pt-2 text-center font-mono text-xs text-white">
+                      <p className="pt-2 text-center  text-xs text-white">
                         No spam, unsubscribe at any time.
                       </p>
                     </div>
                     <div
                       id="cta-copy"
-                      className="flex items-center justify-center"
+                      className="hidden items-center justify-center sm:flex"
                     >
-                      <ReactMarkdown className="prose relative flex w-full max-w-4xl flex-col rounded-lg bg-gray-100 p-3 font-mono text-xs prose-p:mb-0 dark:border-white/10 dark:bg-gray-800 dark:text-white">
+                      <ReactMarkdown className="prose relative flex w-full max-w-4xl flex-col rounded-lg bg-gray-100 p-3 text-base prose-p:mb-0 dark:border-white/10 dark:bg-gray-800 dark:text-white">
                         {ctaText}
                       </ReactMarkdown>
                     </div>
                   </div>
                 )}
+
                 {!isTutorial && !canShowVideo && (
                   <>
                     <div className="flex flex-col items-center text-center">
