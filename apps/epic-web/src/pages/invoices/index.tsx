@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
   }
 }
 
-const Learn: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
+const Invoices: React.FC<React.PropsWithChildren<{purchases: Purchase[]}>> = ({
   purchases = [],
 }) => {
   return (
@@ -102,4 +102,4 @@ export const InvoiceCard: React.FC<{
   )
 }
 
-export default Learn
+export default Invoices
