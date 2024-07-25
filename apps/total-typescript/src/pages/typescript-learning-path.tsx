@@ -83,17 +83,186 @@ const TypeScriptLearningPath = () => {
           </p>
           {/* <Skip /> */}
         </article>
-        {/* <Section week="1—2">
+        <Section week="1—9">
           <Module
             slug="/workshops/typescript-pro-essentials"
             type="workshop"
             title="Pro Essentials"
             image="https://cdn.sanity.io/images/z9io1e0u/production/80da574ffbb12904f823723d5ea0a8e20add0270-1200x1200.png"
             meta="200+ lessons"
-            weeks={[]}
+            weeks={[
+              {
+                index: 1,
+                title: (
+                  <>
+                    <Link
+                      href="/workshops/typescript-pro-essentials/kickstart-your-typescript-set-up/typescripts-relationship-with-javascript"
+                      className="text-cyan-300 underline"
+                    >
+                      Section Kickstart Your TypeScript Setup & IDE Superpowers
+                    </Link>
+                  </>
+                ),
+                topics: [
+                  'TypeScritp setup',
+                  'Error checking',
+                  'Tools for TS development',
+                ],
+              },
+              {
+                index: 2,
+                title: (
+                  <>
+                    <Link
+                      href="/workshops/typescript-pro-essentials/kickstart-your-typescript-set-up/typescripts-relationship-with-javascript"
+                      className="text-cyan-300 underline"
+                    >
+                      Section TypeScript In The Development Pipeline & Essential
+                      Types and Annotations
+                    </Link>
+                  </>
+                ),
+                topics: [
+                  'Arrays and Tuples',
+                  'Type aliases',
+                  'Basic annotations',
+                ],
+              },
+              {
+                index: 3,
+                title: (
+                  <>
+                    <Link
+                      href="/workshops/typescript-pro-essentials/unions-and-narrowing/handling-null-values-in-typescript"
+                      className="text-cyan-300 underline"
+                    >
+                      Section Unions, Literals, and Narrowing & Objects{' '}
+                    </Link>
+                  </>
+                ),
+                topics: [
+                  'Unions and Literals',
+                  'Discriminated Unions',
+                  'Extending Objects',
+                  'Dynamic Object Keys',
+                ],
+              },
+              {
+                index: 4,
+                title: (
+                  <>
+                    <Link
+                      href="workshops/typescript-pro-essentials/mutability/fixing-a-type-assignment-inference-error"
+                      className="text-cyan-300 underline"
+                    >
+                      Section Mutability & Classes{' '}
+                    </Link>
+                  </>
+                ),
+                topics: [
+                  'Mutability and Inference',
+                  'Properties in Classes',
+                  'Class Inheritance',
+                  'Deep Immutability with as const',
+                ],
+              },
+              {
+                index: 5,
+                title: (
+                  <>
+                    <Link
+                      href="/workshops/typescript-pro-essentials/typescript-only-features/intro-to-typescript-only-features"
+                      className="text-cyan-300 underline"
+                    >
+                      Section TypeScript-only Features & Deriving Types{' '}
+                    </Link>
+                  </>
+                ),
+                topics: [
+                  'Derived Types',
+                  'Indexed Access Types',
+                  'Enums & Namespaces',
+                  'keyof & typeof Operators',
+                ],
+              },
+              {
+                index: 6,
+                title: (
+                  <>
+                    <Link
+                      href="/workshops/typescript-pro-essentials/annotations-and-assertions/required-vs-unnecessary-annotations"
+                      className="text-cyan-300 underline"
+                    >
+                      Section Annotations and Assertions & The Weird Parts{' '}
+                    </Link>
+                  </>
+                ),
+                topics: [
+                  'Annotating Variables vs Values',
+                  'Error Suppression Directives',
+                  'Function Assignability',
+                ],
+              },
+              {
+                index: 7,
+                title: (
+                  <>
+                    <Link
+                      href="/workshops/typescript-pro-essentials/modules-scripts-and-declaration-files/understanding-modules-and-scripts-in-typescript"
+                      className="text-cyan-300 underline"
+                    >
+                      Section Modules, Scripts, and Declaration Files & Types
+                      You Don't Control{' '}
+                    </Link>
+                  </>
+                ),
+                topics: [
+                  'Declaration Files',
+                  'DOM Typing Configuration in TypeScript',
+                  'TSConfig Options',
+                ],
+              },
+              {
+                index: 8,
+                title: (
+                  <>
+                    <Link
+                      href="/workshops/typescript-pro-essentials/configuring-typescript/recommended-base-configuration"
+                      className="text-cyan-300 underline"
+                    >
+                      Section Configuring TypeScript & Designing Your Types{' '}
+                    </Link>
+                  </>
+                ),
+                topics: [
+                  'Base Options & Strictness',
+                  'Source Maps',
+                  'Generic, Conditional, & Mapped Types',
+                ],
+              },
+              {
+                index: 9,
+                title: (
+                  <>
+                    <Link
+                      href="/workshops/typescript-pro-essentials/the-utils-folder/introduction-to-the-utilities-folder"
+                      className="text-cyan-300 underline"
+                    >
+                      Section Utils Folder{' '}
+                    </Link>
+                  </>
+                ),
+                topics: [
+                  'Generic Functions',
+                  'Type Predicates',
+                  'Assertion Functions',
+                  'Function Overloads',
+                ],
+              },
+            ]}
           />
-        </Section> */}
-        <Section week="1—2">
+        </Section>
+        <Section week="10—11">
           <Module
             slug="/tutorials/beginners-typescript"
             type="tutorial"
@@ -102,7 +271,7 @@ const TypeScriptLearningPath = () => {
             meta="18 exercises"
             weeks={[
               {
-                index: 1,
+                index: 10,
                 title: (
                   <Link
                     href="/tutorials/beginners-typescript/beginner-s-typescript-section/implicit-any-type-error"
@@ -114,7 +283,7 @@ const TypeScriptLearningPath = () => {
                 topics: ['Basic types', 'Basic annotations', 'Arrays'],
               },
               {
-                index: 2,
+                index: 11,
                 title: (
                   <Link
                     href="/tutorials/beginners-typescript/beginner-s-typescript-section/passing-type-arguments"
@@ -133,7 +302,7 @@ const TypeScriptLearningPath = () => {
             ]}
           />
         </Section>
-        <Section week="3—5" align="start">
+        <Section week="12-14" align="start">
           <Module
             slug="/workshops/type-transformations"
             title="Type Transformations"
@@ -141,7 +310,7 @@ const TypeScriptLearningPath = () => {
             meta="7 sections, 55 exercises"
             weeks={[
               {
-                index: 3,
+                index: 12,
                 title: (
                   <>
                     Type Transformations <br />
@@ -161,7 +330,7 @@ const TypeScriptLearningPath = () => {
                 ],
               },
               {
-                index: 4,
+                index: 13,
                 title: (
                   <>
                     Type Transformations <br />
@@ -180,7 +349,7 @@ const TypeScriptLearningPath = () => {
                 ],
               },
               {
-                index: 5,
+                index: 14,
                 title: (
                   <>
                     Type Transformations <br />
@@ -202,7 +371,7 @@ const TypeScriptLearningPath = () => {
             ]}
           />
         </Section>
-        <Section week="6—8" align="end">
+        <Section week="14—16" align="end">
           <Module
             slug="/workshops/typescript-generics"
             title="TypeScript Generics"
@@ -210,7 +379,7 @@ const TypeScriptLearningPath = () => {
             meta="6 sections, 49 exercises"
             weeks={[
               {
-                index: 6,
+                index: 14,
                 title: (
                   <>
                     TypeScript Generics <br />
@@ -228,7 +397,7 @@ const TypeScriptLearningPath = () => {
                 ],
               },
               {
-                index: 7,
+                index: 15,
                 title: (
                   <>
                     TypeScript Generics <br />
@@ -246,7 +415,7 @@ const TypeScriptLearningPath = () => {
                 ],
               },
               {
-                index: 8,
+                index: 16,
                 title: (
                   <>
                     TypeScript Generics <br />
@@ -263,7 +432,7 @@ const TypeScriptLearningPath = () => {
             ]}
           />
         </Section>
-        <Section week="9—12" align="start">
+        <Section week="17—20" align="start">
           <Module
             slug="/workshops/advanced-typescript-patterns"
             title="Advanced TypeScript Patterns"
@@ -271,7 +440,7 @@ const TypeScriptLearningPath = () => {
             meta="7 sections, 45 exercises"
             weeks={[
               {
-                index: 9,
+                index: 17,
                 title: (
                   <>
                     Advanced Patterns{' '}
@@ -286,7 +455,7 @@ const TypeScriptLearningPath = () => {
                 topics: ['Branded types', 'Understanding globals'],
               },
               {
-                index: 10,
+                index: 18,
                 title: (
                   <>
                     Advanced Patterns{' '}
@@ -301,7 +470,7 @@ const TypeScriptLearningPath = () => {
                 topics: ['Type predicates', 'Assertion functions', 'Classes'],
               },
               {
-                index: 11,
+                index: 19,
                 title: (
                   <>
                     Advanced Patterns{' '}
@@ -319,7 +488,7 @@ const TypeScriptLearningPath = () => {
                 ],
               },
               {
-                index: 12,
+                index: 20,
                 title: (
                   <>
                     <Link
@@ -345,7 +514,7 @@ const TypeScriptLearningPath = () => {
             ]}
           />
         </Section>
-        <Section week="13" align="end">
+        <Section week="21" align="end">
           <Module
             slug="/tutorials/zod"
             type="tutorial"
@@ -354,7 +523,7 @@ const TypeScriptLearningPath = () => {
             meta="10 exercises"
             weeks={[
               {
-                index: '13',
+                index: '21',
                 title: (
                   <Link
                     href="/tutorials/zod"
@@ -368,7 +537,7 @@ const TypeScriptLearningPath = () => {
             ]}
           />
         </Section>
-        <Section week="14-15" align="start">
+        <Section week="22-23" align="start">
           <Module
             slug="/tutorials/react-with-typescript"
             type="tutorial"
@@ -377,7 +546,7 @@ const TypeScriptLearningPath = () => {
             meta="21 exercises"
             weeks={[
               {
-                index: 14,
+                index: 22,
                 title: (
                   <Link
                     href="tutorials/react-with-typescript/introduction/adding-react-to-a-typescript-project"
@@ -393,7 +562,7 @@ const TypeScriptLearningPath = () => {
                 ],
               },
               {
-                index: 15,
+                index: 23,
                 title: (
                   <Link
                     href="/ttutorials/react-with-typescript/hooks/properly-typing-usestate"
@@ -407,7 +576,7 @@ const TypeScriptLearningPath = () => {
             ]}
           />
         </Section>
-        <Section week="16-18" align="end">
+        <Section week="24-26" align="end">
           <Module
             slug="/workshops/advanced-react-with-typescript"
             type="workshop"
@@ -416,7 +585,7 @@ const TypeScriptLearningPath = () => {
             meta="55 exercises"
             weeks={[
               {
-                index: 16,
+                index: 24,
                 title: (
                   <Link
                     href="/workshops/advanced-react-with-typescript/advanced-props/type-checking-react-props-with-discriminated-unions"
@@ -428,10 +597,10 @@ const TypeScriptLearningPath = () => {
                 topics: ['Advanced Props', 'Using Generics with Components'],
               },
               {
-                index: 17,
+                index: 25,
                 title: (
                   <Link
-                    href="/tutorials/zod"
+                    href="/workshops/advanced-react-with-typescript/advanced-hooks/fixing-type-inference-in-a-custom-react-hook"
                     className="text-cyan-300 underline"
                   >
                     Section 3 & 4
@@ -440,10 +609,10 @@ const TypeScriptLearningPath = () => {
                 topics: ['Advanced Hooks', 'Types'],
               },
               {
-                index: 18,
+                index: 26,
                 title: (
                   <Link
-                    href="/tutorials/zod"
+                    href="/workshops/advanced-react-with-typescript/advanced-patterns/strongly-typed-lazy-loading"
                     className="text-cyan-300 underline"
                   >
                     Section 5 & 6
