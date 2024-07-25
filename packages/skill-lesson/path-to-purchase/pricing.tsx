@@ -1025,38 +1025,51 @@ const RegionalPricingBox: React.FC<
 
   return (
     <div data-ppp-container={index}>
-      <div data-ppp-header="">
-        <strong>
-          We noticed that you're from{' '}
-          <img
-            src={`https://hardcore-golick-433858.netlify.app/image?code=${countryCode}`}
-            alt={`${country} flag`}
-          />{' '}
-          {country}. To help facilitate global learning, we are offering
-          purchasing power parity pricing.
-        </strong>
-        <p>
-          Please note that you will only be able to view content from within{' '}
-          {country}, and no bonuses will be provided.
-        </p>
-        {!hideCheckbox && <p>If that is something that you need:</p>}
-      </div>
-      {!hideCheckbox && (
-        <label>
-          <input
-            type="checkbox"
-            checked={Boolean(appliedPPPCoupon)}
-            onChange={() => {
-              setAutoApplyPPP(false)
-              if (appliedPPPCoupon) {
-                setMerchantCoupon(undefined)
-              } else {
-                setMerchantCoupon(availablePPPCoupon as any)
-              }
-            }}
-          />
-          <span>Activate {percentOff}% off with regional pricing</span>
-        </label>
+      {hideCheckbox ? (
+        <div data-ppp-header="">
+          <strong>
+            To help facilitate global learning, we are offer purchasing power
+            parity pricing.
+          </strong>
+          <p>
+            You are only be able to view content from within {country}, and no
+            bonuses are provided.
+          </p>
+        </div>
+      ) : (
+        <>
+          <div data-ppp-header="">
+            <strong>
+              We noticed that you're from{' '}
+              <img
+                src={`https://hardcore-golick-433858.netlify.app/image?code=${countryCode}`}
+                alt={`${country} flag`}
+              />{' '}
+              {country}. To help facilitate global learning, we are offering
+              purchasing power parity pricing.
+            </strong>
+            <p>
+              Please note that you will only be able to view content from within{' '}
+              {country}, and no bonuses will be provided.
+            </p>
+            {!hideCheckbox && <p>If that is something that you need:</p>}
+          </div>
+          <label>
+            <input
+              type="checkbox"
+              checked={Boolean(appliedPPPCoupon)}
+              onChange={() => {
+                setAutoApplyPPP(false)
+                if (appliedPPPCoupon) {
+                  setMerchantCoupon(undefined)
+                } else {
+                  setMerchantCoupon(availablePPPCoupon as any)
+                }
+              }}
+            />
+            <span>Activate {percentOff}% off with regional pricing</span>
+          </label>
+        </>
       )}
     </div>
   )
