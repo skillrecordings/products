@@ -532,7 +532,7 @@ const sponsors = {
     },
     {
       name: 'Convex',
-      url: 'https://www.convex.dev',
+      url: 'https://convex.dev/c/epicwebcamp',
       logo: (
         <svg
           className="w-full max-w-[180px]"
