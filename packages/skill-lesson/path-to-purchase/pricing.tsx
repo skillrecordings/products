@@ -624,167 +624,181 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 purchaseToUpgradeExists={Boolean(purchaseToUpgrade)}
               />
             )}
-          <div data-pricing-footer="">
-            {product.description &&
-              options.withDescription &&
-              (isSellingLive || allowPurchase) &&
-              !purchased && (
-                <div
-                  data-product-description=""
-                  className="prose prose-sm mx-auto max-w-sm px-5 sm:prose-base prose-p:text-gray-200"
-                >
-                  <ReactMarkdown>{product.description}</ReactMarkdown>
-                </div>
-              )}
-            {(isSellingLive || allowPurchase) &&
-              !purchased &&
-              withGuaranteeBadge && (
-                <div data-guarantee-image="">
-                  <Image
-                    src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
-                    width={130}
-                    height={130}
-                    alt="Money Back Guarantee"
-                  />
-                </div>
-              )}
-            {showAllContent && Boolean(modules || features) ? (
-              <div data-header="">
-                <div>
-                  <span>includes</span>
-                </div>
-              </div>
-            ) : null}
-            <div data-main="">
-              {showAllContent &&
-                bonuses &&
-                bonuses.length > 0 &&
-                bonuses[0].expiresAt &&
-                quantity === 1 &&
-                !Boolean(merchantCoupon?.type === 'ppp') && (
-                  <Countdown
-                    date={bonuses[0].expiresAt}
-                    renderer={({days, hours, minutes, seconds, completed}) => {
-                      return completed ? null : (
-                        <>
-                          <div data-limited-bonuses="">
-                            <strong>limited offer</strong>
-                            <ul role="list">
-                              {bonuses.map((bonus) => {
-                                return (
-                                  <li key={bonus.slug}>
-                                    <LimitedBonusItem
-                                      module={bonus as any}
-                                      key={bonus.slug}
-                                    />
-                                  </li>
-                                )
-                              })}
-                              <div data-expires-at="">
-                                {mounted ? (
-                                  <span>
-                                    expires in: {days}d : {hours}h : {minutes}m
-                                    : {seconds}s
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div data-disclaimer="">
-                                Offer available for new purchases only. If
-                                you've already purchased both of the courses
-                                this offer does not apply. If you've purchased 1
-                                of the courses, you'll receive the other.
-                              </div>
-                            </ul>
-                          </div>
-                        </>
-                      )
-                    }}
-                  />
+          {showAllContent && (
+            <div data-pricing-footer="">
+              {product.description &&
+                options.withDescription &&
+                (isSellingLive || allowPurchase) &&
+                !purchased && (
+                  <div
+                    data-product-description=""
+                    className="prose prose-sm mx-auto max-w-sm px-5 sm:prose-base prose-p:text-gray-200"
+                  >
+                    <ReactMarkdown>{product.description}</ReactMarkdown>
+                  </div>
                 )}
-              {showAllContent &&
-                moduleBonuses &&
-                moduleBonuses.length > 0 &&
-                !Boolean(merchantCoupon) && (
-                  <div data-bonuses="">
+              {(isSellingLive || allowPurchase) &&
+                !purchased &&
+                withGuaranteeBadge && (
+                  <div data-guarantee-image="">
+                    <Image
+                      src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+                      width={130}
+                      height={130}
+                      alt="Money Back Guarantee"
+                    />
+                  </div>
+                )}
+              {Boolean(modules || features) ? (
+                <div data-header="">
+                  <div>
+                    <span>includes</span>
+                  </div>
+                </div>
+              ) : null}
+              <div data-main="">
+                {bonuses &&
+                  bonuses.length > 0 &&
+                  bonuses[0].expiresAt &&
+                  quantity === 1 &&
+                  !Boolean(merchantCoupon?.type === 'ppp') && (
+                    <Countdown
+                      date={bonuses[0].expiresAt}
+                      renderer={({
+                        days,
+                        hours,
+                        minutes,
+                        seconds,
+                        completed,
+                      }) => {
+                        return completed ? null : (
+                          <>
+                            <div data-limited-bonuses="">
+                              <strong>limited offer</strong>
+                              <ul role="list">
+                                {bonuses.map((bonus) => {
+                                  return (
+                                    <li key={bonus.slug}>
+                                      <LimitedBonusItem
+                                        module={bonus as any}
+                                        key={bonus.slug}
+                                      />
+                                    </li>
+                                  )
+                                })}
+                                <div data-expires-at="">
+                                  {mounted ? (
+                                    <span>
+                                      expires in: {days}d : {hours}h : {minutes}
+                                      m : {seconds}s
+                                    </span>
+                                  ) : null}
+                                </div>
+                                <div data-disclaimer="">
+                                  Offer available for new purchases only. If
+                                  you've already purchased both of the courses
+                                  this offer does not apply. If you've purchased
+                                  1 of the courses, you'll receive the other.
+                                </div>
+                              </ul>
+                            </div>
+                          </>
+                        )
+                      }}
+                    />
+                  )}
+                {moduleBonuses &&
+                  moduleBonuses.length > 0 &&
+                  !Boolean(merchantCoupon) && (
+                    <div data-bonuses="">
+                      <ul role="list">
+                        {moduleBonuses.map((module) => {
+                          return purchased && module.state === 'published' ? (
+                            <li key={module.slug}>
+                              <Link
+                                href={{
+                                  pathname: `/bonuses/[slug]`,
+                                  query: {
+                                    slug: module.slug,
+                                  },
+                                }}
+                              >
+                                <BonusListItem module={module} />
+                              </Link>
+                            </li>
+                          ) : (
+                            <li key={module.slug}>
+                              <BonusListItem
+                                module={module}
+                                key={module.slug}
+                              />
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                {workshops && (
+                  <div data-workshops="">
+                    <strong>Workshops</strong>
                     <ul role="list">
-                      {moduleBonuses.map((module) => {
-                        return purchased && module.state === 'published' ? (
+                      {workshops.map((module) => {
+                        return purchased ? (
                           <li key={module.slug}>
                             <Link
                               href={{
-                                pathname: `/bonuses/[slug]`,
+                                pathname: `/workshops/[slug]`,
                                 query: {
                                   slug: module.slug,
                                 },
                               }}
                             >
-                              <BonusListItem module={module} />
+                              <WorkshopListItem module={module} />
                             </Link>
                           </li>
                         ) : (
                           <li key={module.slug}>
-                            <BonusListItem module={module} key={module.slug} />
+                            <WorkshopListItem
+                              module={module}
+                              key={module.slug}
+                            />
                           </li>
                         )
                       })}
                     </ul>
                   </div>
                 )}
-              {showAllContent && workshops && (
-                <div data-workshops="">
-                  <strong>Workshops</strong>
-                  <ul role="list">
-                    {workshops.map((module) => {
-                      return purchased ? (
-                        <li key={module.slug}>
-                          <Link
-                            href={{
-                              pathname: `/workshops/[slug]`,
-                              query: {
-                                slug: module.slug,
-                              },
-                            }}
-                          >
-                            <WorkshopListItem module={module} />
-                          </Link>
-                        </li>
-                      ) : (
-                        <li key={module.slug}>
-                          <WorkshopListItem module={module} key={module.slug} />
-                        </li>
-                      )
-                    })}
-                  </ul>
-                </div>
-              )}
 
-              {showAllContent && features && (
-                <div data-features="">
-                  <strong>Features</strong>
-                  <ul role="list">
-                    {features.map((feature: {value: string; icon?: string}) => (
-                      <li key={feature.value}>
-                        {feature.icon && (
-                          <span
-                            dangerouslySetInnerHTML={{__html: feature.icon}}
-                          />
-                        )}
-                        <p>{feature.value}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {product.slug && lessons && (
-                <div data-contents="">
-                  {lessons ? `${lessons?.length} lessons` : null}
-                  <Link href={`/workshops/${product.slug}`}>
-                    View contents <span aria-hidden="true">→</span>
-                  </Link>
-                </div>
-              )}
+                {features && (
+                  <div data-features="">
+                    <strong>Features</strong>
+                    <ul role="list">
+                      {features.map(
+                        (feature: {value: string; icon?: string}) => (
+                          <li key={feature.value}>
+                            {feature.icon && (
+                              <span
+                                dangerouslySetInnerHTML={{__html: feature.icon}}
+                              />
+                            )}
+                            <p>{feature.value}</p>
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                )}
+                {product.slug && lessons && (
+                  <div data-contents="">
+                    {lessons ? `${lessons?.length} lessons` : null}
+                    <Link href={`/workshops/${product.slug}`}>
+                      View contents <span aria-hidden="true">→</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </article>
       </div>
     </div>
