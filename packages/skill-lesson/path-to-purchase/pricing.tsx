@@ -164,7 +164,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     product
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
-  const [autoApplyPPP, setAutoApplyPPP] = React.useState<boolean>(true)
+  const [autoApplyPPP, setAutoApplyPPP] = React.useState<boolean>(false)
 
   const {data: formattedPrice, status} =
     trpcSkillLessons.pricing.formatted.useQuery(
@@ -243,6 +243,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   // do not show the box if it's a downgrade
   const showPPPBox =
     isPPPEnabled &&
+    !purchaseToUpgrade &&
     Boolean(availablePPPCoupon || appliedPPPCoupon) &&
     !purchased &&
     !isDowngrade(formattedPrice) &&
