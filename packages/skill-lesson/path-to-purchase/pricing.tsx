@@ -83,6 +83,7 @@ type PricingProps = {
     teamQuantityLimit?: number
     saleCountdownRenderer?: ({coupon}: {coupon: any}) => React.ReactNode
     allowTeamPurchase?: boolean
+    showAllContent?: boolean
   }
   id?: string
 }
@@ -140,6 +141,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     saleCountdownRenderer: () => null,
     teamQuantityLimit: 100,
     allowTeamPurchase: true,
+    showAllContent: true,
   },
 }) => {
   const {
@@ -149,6 +151,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     isLiveEvent = false,
     teamQuantityLimit = 100,
     allowTeamPurchase = true,
+    showAllContent = true,
   } = options
   const {
     addPrice,
@@ -164,7 +167,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     product
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
-  const [autoApplyPPP, setAutoApplyPPP] = React.useState<boolean>(true)
+  const [autoApplyPPP, setAutoApplyPPP] = React.useState<boolean>(false)
 
   const {data: formattedPrice, status} =
     trpcSkillLessons.pricing.formatted.useQuery(
@@ -621,165 +624,181 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                 purchaseToUpgradeExists={Boolean(purchaseToUpgrade)}
               />
             )}
-          <div data-pricing-footer="">
-            {product.description &&
-              options.withDescription &&
-              (isSellingLive || allowPurchase) &&
-              !purchased && (
-                <div
-                  data-product-description=""
-                  className="prose prose-sm mx-auto max-w-sm px-5 sm:prose-base prose-p:text-gray-200"
-                >
-                  <ReactMarkdown>{product.description}</ReactMarkdown>
-                </div>
-              )}
-            {(isSellingLive || allowPurchase) &&
-              !purchased &&
-              withGuaranteeBadge && (
-                <div data-guarantee-image="">
-                  <Image
-                    src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
-                    width={130}
-                    height={130}
-                    alt="Money Back Guarantee"
-                  />
-                </div>
-              )}
-            {modules || features ? (
-              <div data-header="">
-                <div>
-                  <span>includes</span>
-                </div>
-              </div>
-            ) : null}
-            <div data-main="">
-              {bonuses &&
-                bonuses.length > 0 &&
-                bonuses[0].expiresAt &&
-                quantity === 1 &&
-                !Boolean(merchantCoupon?.type === 'ppp') && (
-                  <Countdown
-                    date={bonuses[0].expiresAt}
-                    renderer={({days, hours, minutes, seconds, completed}) => {
-                      return completed ? null : (
-                        <>
-                          <div data-limited-bonuses="">
-                            <strong>limited offer</strong>
-                            <ul role="list">
-                              {bonuses.map((bonus) => {
-                                return (
-                                  <li key={bonus.slug}>
-                                    <LimitedBonusItem
-                                      module={bonus as any}
-                                      key={bonus.slug}
-                                    />
-                                  </li>
-                                )
-                              })}
-                              <div data-expires-at="">
-                                {mounted ? (
-                                  <span>
-                                    expires in: {days}d : {hours}h : {minutes}m
-                                    : {seconds}s
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div data-disclaimer="">
-                                Offer available for new purchases only. If
-                                you've already purchased both of the courses
-                                this offer does not apply. If you've purchased 1
-                                of the courses, you'll receive the other.
-                              </div>
-                            </ul>
-                          </div>
-                        </>
-                      )
-                    }}
-                  />
+          {showAllContent && (
+            <div data-pricing-footer="">
+              {product.description &&
+                options.withDescription &&
+                (isSellingLive || allowPurchase) &&
+                !purchased && (
+                  <div
+                    data-product-description=""
+                    className="prose prose-sm mx-auto max-w-sm px-5 sm:prose-base prose-p:text-gray-200"
+                  >
+                    <ReactMarkdown>{product.description}</ReactMarkdown>
+                  </div>
                 )}
-              {moduleBonuses &&
-                moduleBonuses.length > 0 &&
-                !Boolean(merchantCoupon) && (
-                  <div data-bonuses="">
+              {(isSellingLive || allowPurchase) &&
+                !purchased &&
+                withGuaranteeBadge && (
+                  <div data-guarantee-image="">
+                    <Image
+                      src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+                      width={130}
+                      height={130}
+                      alt="Money Back Guarantee"
+                    />
+                  </div>
+                )}
+              {Boolean(modules || features) ? (
+                <div data-header="">
+                  <div>
+                    <span>includes</span>
+                  </div>
+                </div>
+              ) : null}
+              <div data-main="">
+                {bonuses &&
+                  bonuses.length > 0 &&
+                  bonuses[0].expiresAt &&
+                  quantity === 1 &&
+                  !Boolean(merchantCoupon?.type === 'ppp') && (
+                    <Countdown
+                      date={bonuses[0].expiresAt}
+                      renderer={({
+                        days,
+                        hours,
+                        minutes,
+                        seconds,
+                        completed,
+                      }) => {
+                        return completed ? null : (
+                          <>
+                            <div data-limited-bonuses="">
+                              <strong>limited offer</strong>
+                              <ul role="list">
+                                {bonuses.map((bonus) => {
+                                  return (
+                                    <li key={bonus.slug}>
+                                      <LimitedBonusItem
+                                        module={bonus as any}
+                                        key={bonus.slug}
+                                      />
+                                    </li>
+                                  )
+                                })}
+                                <div data-expires-at="">
+                                  {mounted ? (
+                                    <span>
+                                      expires in: {days}d : {hours}h : {minutes}
+                                      m : {seconds}s
+                                    </span>
+                                  ) : null}
+                                </div>
+                                <div data-disclaimer="">
+                                  Offer available for new purchases only. If
+                                  you've already purchased both of the courses
+                                  this offer does not apply. If you've purchased
+                                  1 of the courses, you'll receive the other.
+                                </div>
+                              </ul>
+                            </div>
+                          </>
+                        )
+                      }}
+                    />
+                  )}
+                {moduleBonuses &&
+                  moduleBonuses.length > 0 &&
+                  !Boolean(merchantCoupon) && (
+                    <div data-bonuses="">
+                      <ul role="list">
+                        {moduleBonuses.map((module) => {
+                          return purchased && module.state === 'published' ? (
+                            <li key={module.slug}>
+                              <Link
+                                href={{
+                                  pathname: `/bonuses/[slug]`,
+                                  query: {
+                                    slug: module.slug,
+                                  },
+                                }}
+                              >
+                                <BonusListItem module={module} />
+                              </Link>
+                            </li>
+                          ) : (
+                            <li key={module.slug}>
+                              <BonusListItem
+                                module={module}
+                                key={module.slug}
+                              />
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                {workshops && (
+                  <div data-workshops="">
+                    <strong>Workshops</strong>
                     <ul role="list">
-                      {moduleBonuses.map((module) => {
-                        return purchased && module.state === 'published' ? (
+                      {workshops.map((module) => {
+                        return purchased ? (
                           <li key={module.slug}>
                             <Link
                               href={{
-                                pathname: `/bonuses/[slug]`,
+                                pathname: `/workshops/[slug]`,
                                 query: {
                                   slug: module.slug,
                                 },
                               }}
                             >
-                              <BonusListItem module={module} />
+                              <WorkshopListItem module={module} />
                             </Link>
                           </li>
                         ) : (
                           <li key={module.slug}>
-                            <BonusListItem module={module} key={module.slug} />
+                            <WorkshopListItem
+                              module={module}
+                              key={module.slug}
+                            />
                           </li>
                         )
                       })}
                     </ul>
                   </div>
                 )}
-              {workshops && (
-                <div data-workshops="">
-                  <strong>Workshops</strong>
-                  <ul role="list">
-                    {workshops.map((module) => {
-                      return purchased ? (
-                        <li key={module.slug}>
-                          <Link
-                            href={{
-                              pathname: `/workshops/[slug]`,
-                              query: {
-                                slug: module.slug,
-                              },
-                            }}
-                          >
-                            <WorkshopListItem module={module} />
-                          </Link>
-                        </li>
-                      ) : (
-                        <li key={module.slug}>
-                          <WorkshopListItem module={module} key={module.slug} />
-                        </li>
-                      )
-                    })}
-                  </ul>
-                </div>
-              )}
 
-              {features && (
-                <div data-features="">
-                  <strong>Features</strong>
-                  <ul role="list">
-                    {features.map((feature: {value: string; icon?: string}) => (
-                      <li key={feature.value}>
-                        {feature.icon && (
-                          <span
-                            dangerouslySetInnerHTML={{__html: feature.icon}}
-                          />
-                        )}
-                        <p>{feature.value}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {product.slug && lessons && (
-                <div data-contents="">
-                  {lessons ? `${lessons?.length} lessons` : null}
-                  <Link href={`/workshops/${product.slug}`}>
-                    View contents <span aria-hidden="true">→</span>
-                  </Link>
-                </div>
-              )}
+                {features && (
+                  <div data-features="">
+                    <strong>Features</strong>
+                    <ul role="list">
+                      {features.map(
+                        (feature: {value: string; icon?: string}) => (
+                          <li key={feature.value}>
+                            {feature.icon && (
+                              <span
+                                dangerouslySetInnerHTML={{__html: feature.icon}}
+                              />
+                            )}
+                            <p>{feature.value}</p>
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                )}
+                {product.slug && lessons && (
+                  <div data-contents="">
+                    {lessons ? `${lessons?.length} lessons` : null}
+                    <Link href={`/workshops/${product.slug}`}>
+                      View contents <span aria-hidden="true">→</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </article>
       </div>
     </div>
@@ -1020,38 +1039,51 @@ const RegionalPricingBox: React.FC<
 
   return (
     <div data-ppp-container={index}>
-      <div data-ppp-header="">
-        <strong>
-          We noticed that you're from{' '}
-          <img
-            src={`https://hardcore-golick-433858.netlify.app/image?code=${countryCode}`}
-            alt={`${country} flag`}
-          />{' '}
-          {country}. To help facilitate global learning, we are offering
-          purchasing power parity pricing.
-        </strong>
-        <p>
-          Please note that you will only be able to view content from within{' '}
-          {country}, and no bonuses will be provided.
-        </p>
-        {!hideCheckbox && <p>If that is something that you need:</p>}
-      </div>
-      {!hideCheckbox && (
-        <label>
-          <input
-            type="checkbox"
-            checked={Boolean(appliedPPPCoupon)}
-            onChange={() => {
-              setAutoApplyPPP(false)
-              if (appliedPPPCoupon) {
-                setMerchantCoupon(undefined)
-              } else {
-                setMerchantCoupon(availablePPPCoupon as any)
-              }
-            }}
-          />
-          <span>Activate {percentOff}% off with regional pricing</span>
-        </label>
+      {hideCheckbox ? (
+        <div data-ppp-header="">
+          <strong>
+            To help facilitate global learning, we are offer purchasing power
+            parity pricing.
+          </strong>
+          <p>
+            You are only be able to view content from within {country}, and no
+            bonuses are provided.
+          </p>
+        </div>
+      ) : (
+        <>
+          <div data-ppp-header="">
+            <strong>
+              We noticed that you're from{' '}
+              <img
+                src={`https://hardcore-golick-433858.netlify.app/image?code=${countryCode}`}
+                alt={`${country} flag`}
+              />{' '}
+              {country}. To help facilitate global learning, we are offering
+              purchasing power parity pricing.
+            </strong>
+            <p>
+              Please note that you will only be able to view content from within{' '}
+              {country}, and no bonuses will be provided.
+            </p>
+            {!hideCheckbox && <p>If that is something that you need:</p>}
+          </div>
+          <label>
+            <input
+              type="checkbox"
+              checked={Boolean(appliedPPPCoupon)}
+              onChange={() => {
+                setAutoApplyPPP(false)
+                if (appliedPPPCoupon) {
+                  setMerchantCoupon(undefined)
+                } else {
+                  setMerchantCoupon(availablePPPCoupon as any)
+                }
+              }}
+            />
+            <span>Activate {percentOff}% off with regional pricing</span>
+          </label>
+        </>
       )}
     </div>
   )

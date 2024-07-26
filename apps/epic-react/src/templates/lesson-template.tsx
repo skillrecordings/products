@@ -228,7 +228,11 @@ const ExerciseTemplate: React.FC<{
                     finishedSectionOverlayRenderer={() => (
                       <FinishedSectionOverlay />
                     )}
-                    blockedOverlayRenderer={BlockedOverlay}
+                    blockedOverlayRenderer={() => (
+                      <BlockedOverlay
+                        product={module?.product as SanityProduct}
+                      />
+                    )}
                     loadingIndicator={<Spinner />}
                   />
                 </motion.div>

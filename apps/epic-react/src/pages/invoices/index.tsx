@@ -23,7 +23,11 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
     const purchases = await getPurchasesForUser(sessionToken?.sub)
     return {
       props: {
-        purchases: purchases.map(convertToSerializeForNextResponse),
+        purchases: purchases
+          .filter((purchase: any) =>
+            purchase.product.name.includes('Epic React'),
+          )
+          .map(convertToSerializeForNextResponse),
       },
     }
   }
