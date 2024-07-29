@@ -90,6 +90,8 @@ const TSResetLandingPage: React.FC<PageProps> = ({content}) => {
 export default TSResetLandingPage
 
 const GetStarted = React.forwardRef<HTMLDivElement>((props, ref) => {
+  const shouldReduceMotion = useReducedMotion()
+
   const container = {
     hidden: {
       opacity: 0,
@@ -118,8 +120,6 @@ const GetStarted = React.forwardRef<HTMLDivElement>((props, ref) => {
     },
   }
 
-  const shouldReduceMotion = useReducedMotion()
-
   return (
     <section
       ref={ref}
@@ -132,7 +132,7 @@ const GetStarted = React.forwardRef<HTMLDivElement>((props, ref) => {
       <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center sm:pl-32">
         <motion.ul
           variants={!shouldReduceMotion ? container : undefined}
-          initial="hidden"
+          initial={shouldReduceMotion ? 'show' : 'hidden'}
           whileInView="show"
           viewport={{once: true}}
           className="relative space-y-16 from-gray-800 via-gray-800 to-emerald-300 px-5 before:absolute before:h-full before:bg-gradient-to-b before:content-[''] sm:px-0 sm:before:-ml-20 sm:before:w-px"
@@ -281,7 +281,9 @@ const Header: React.FC<{getStartedRef: any}> = ({getStartedRef}) => {
     <header className="relative mx-auto flex w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-gray-900 to-gray-950 px-5 pt-24 md:flex-row md:px-16 lg:px-0 lg:pl-32">
       <div className="relative z-10 flex w-full flex-col pb-16 text-center sm:text-left lg:w-auto">
         <motion.h1
-          initial={!shouldReduceMotion ? {opacity: 0, x: -30} : undefined}
+          initial={
+            !shouldReduceMotion ? {opacity: 0, x: -30} : {opacity: 1, x: 0}
+          }
           animate={!shouldReduceMotion ? {opacity: 1, x: 0} : undefined}
           transition={{
             type: 'spring',
@@ -293,7 +295,9 @@ const Header: React.FC<{getStartedRef: any}> = ({getStartedRef}) => {
           TS Reset
         </motion.h1>
         <motion.h2
-          initial={!shouldReduceMotion ? {opacity: 0, x: -30} : undefined}
+          initial={
+            !shouldReduceMotion ? {opacity: 0, x: -30} : {opacity: 1, x: 0}
+          }
           animate={!shouldReduceMotion ? {opacity: 1, x: 0} : undefined}
           transition={{
             type: 'spring',
@@ -308,7 +312,9 @@ const Header: React.FC<{getStartedRef: any}> = ({getStartedRef}) => {
           Typings, Improved
         </motion.h2>
         <motion.div
-          initial={{opacity: 0, x: -30}}
+          initial={
+            !shouldReduceMotion ? {opacity: 0, x: -30} : {opacity: 1, x: 0}
+          }
           animate={{opacity: 1, x: 0}}
           transition={{
             type: 'spring',
@@ -484,7 +490,7 @@ const CTA = () => {
 }
 
 const Examples = () => {
-  const shouldReduceMotion = useReducedMotion()
+  const shouldReduceMotion = true //useReducedMotion()
   return (
     <section className="w-full bg-gray-950/50 py-0 sm:py-16">
       <motion.div
