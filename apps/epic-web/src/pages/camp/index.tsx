@@ -15,7 +15,7 @@ const EpicWebCampPage = () => {
         title: 'Epic Web Camp 2024',
         description: 'Epic connections with Epic people in Epic mountains.',
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1721234903/epic-web-camp-24-card_2x.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1722259847/epic-web-camp-24-card_2x.png',
         },
       }}
     >
