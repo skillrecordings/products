@@ -6,6 +6,7 @@ const CoreResourceSchema = z.object({
   _id: z.string(),
   slug: z.string(),
   title: z.string(),
+  moduleType: z.string().optional(),
 })
 const LessonSchema = CoreResourceSchema
 const SectionSchema = CoreResourceSchema.merge(
@@ -46,6 +47,7 @@ const lessonStructureSubQuery = `resources[@->._type in [${toQuotedList(
 const moduleStructureQuery = groq`*[_type == "module" && (slug.current == $slug || _id == $id)][0]{
   _id,
   title,
+  moduleType,
   "slug": slug.current,
   "sections": resources[@->._type == 'section']->{
     _id,

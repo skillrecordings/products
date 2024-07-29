@@ -120,6 +120,7 @@ export async function getModuleProgress({
 
   return ModuleProgressSchema.parse({
     moduleId: module._id,
+    moduleType: module.moduleType,
     nextLesson:
       moduleProgressLessons.find((lesson) => !lesson.lessonCompleted) || null,
     nextSection:
