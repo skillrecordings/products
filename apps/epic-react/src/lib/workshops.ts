@@ -280,7 +280,7 @@ export const getWorkshop = async (slug: string) => {
     {slug: `${slug}`},
   )
 
-  return WorkshopSchema.passthrough().parse(result)
+  return WorkshopSchema.passthrough().nullable().parse(result)
 }
 
 export type Workshop = z.infer<typeof WorkshopSchema>
