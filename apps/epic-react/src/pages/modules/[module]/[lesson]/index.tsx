@@ -61,6 +61,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
     ? await getBonus(moduleSlug)
     : await getWorkshop(moduleSlug)
 
+  if (!module) {
+    return {
+      notFound: true,
+    }
+  }
+
   const moduleWithSectionsAndLessons = {
     ...module,
     useResourcesInsteadOfSections: true,
