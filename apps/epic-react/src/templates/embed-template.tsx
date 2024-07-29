@@ -1,6 +1,7 @@
 import React from 'react'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import {type Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {setUserId} from '@amplitude/analytics-browser'
 import {type Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {
@@ -28,10 +29,13 @@ import {
   SubscribeToConvertkitForm,
   redirectUrlBuilder,
 } from '@skillrecordings/skill-lesson/convertkit'
-import SubscribeToReactEmailCourseCta from '@/components/subscribe-react-email-course-cta'
-import groq from 'groq'
-import {PortableText} from '@portabletext/react'
 import ReactMarkdown from 'react-markdown'
+import {
+  confirmSubscriptionToast,
+  useConvertkit,
+} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import {track} from '@/utils/analytics'
+import {snakeCase} from 'lodash'
 
 export type VideoEmbedPageProps = {
   module: Module
@@ -195,6 +199,28 @@ const Video: React.FC<
     const {data: session} = useSession()
     const isTutorial = module.moduleType === 'tutorial'
 
+    const {refetch: refetchSubscriber} = useConvertkit()
+    const handleOnSuccess = async (subscriber: any, email?: string) => {
+      if (subscriber) {
+        email && setUserId(email)
+        refetchSubscriber()
+        track('subscribed to email list', {
+          lesson: lesson.slug,
+          module: module.slug.current,
+          location: 'exercise',
+          moduleType: module.moduleType,
+          lessonType: lesson._type,
+        })
+        confirmSubscriptionToast()
+      }
+    }
+    const startedLearningField = {
+      // ex: started_zod_tutorial: 2022-09-02
+      [`started_${snakeCase(module.slug.current as string)}_${
+        module.moduleType
+      }`.toLowerCase()]: new Date().toISOString().slice(0, 10),
+    }
+
     return abilityRulesStatus !== 'success' ? (
       <Spinner className="h-8 w-8 sm:h-10 sm:w-10" />
     ) : (
@@ -207,7 +233,7 @@ const Video: React.FC<
             playbackId={videoResource.muxPlaybackId}
           />
         ) : (
-          <div className="w-full max-w-3xl px-5">
+          <div className="flex w-full max-w-3xl flex-col px-5">
             {session ? (
               <div className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
                 <h1 className="py-4 text-2xl font-bold">
@@ -234,30 +260,39 @@ const Video: React.FC<
             ) : (
               <>
                 {isTutorial && !canShowVideo && (
-                  <div className="flex flex-col sm:flex-row">
+                  <div className="flex flex-col items-center gap-5 sm:flex-row">
                     <div
                       id="subscribe-embed"
-                      className="flex w-full flex-col items-center justify-center p-4"
+                      className="flex w-full flex-col items-center justify-center"
                     >
-                      <h3 className="pb-5 text-center font-mono  text-sm text-blue-500 dark:text-blue-300 sm:text-base">
-                        Access all free videos in this {module.moduleType} by
-                        subscribing
+                      <h3 className="mb-4 text-balance text-center text-base font-semibold sm:pb-4 sm:pt-1 sm:text-xl">
+                        Subscribe to access all videos in this{' '}
+                        {module.moduleType}
                       </h3>
-                      <SubscribeToConvertkitForm />
-                      <p className="pt-2 text-center font-mono text-xs text-white">
+                      <SubscribeToConvertkitForm
+                        subscribeApiURL={
+                          process.env.NEXT_PUBLIC_CONVERTKIT_SUBSCRIBE_URL
+                        }
+                        fields={startedLearningField}
+                        onSuccess={(subscriber, email) => {
+                          return handleOnSuccess(subscriber, email)
+                        }}
+                      />
+                      <p className="pt-2 text-center text-xs text-black/60 dark:text-white/80">
                         No spam, unsubscribe at any time.
                       </p>
                     </div>
                     <div
                       id="cta-copy"
-                      className="flex items-center justify-center"
+                      className="hidden items-center justify-center sm:flex"
                     >
-                      <ReactMarkdown className="prose relative flex w-full max-w-4xl flex-col rounded-lg bg-gray-100 p-3 font-mono text-xs prose-p:mb-0 dark:border-white/10 dark:bg-gray-800 dark:text-white">
+                      <ReactMarkdown className="prose relative flex w-full max-w-4xl flex-col rounded-lg bg-gray-100 p-5 text-sm prose-p:mb-0 dark:border-white/10 dark:bg-gray-800 dark:text-white">
                         {ctaText}
                       </ReactMarkdown>
                     </div>
                   </div>
                 )}
+
                 {!isTutorial && !canShowVideo && (
                   <>
                     <div className="flex flex-col items-center text-center">
