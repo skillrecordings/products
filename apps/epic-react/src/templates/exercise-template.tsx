@@ -36,8 +36,6 @@ import {PreWithButtons} from '@/utils/mdx'
 import {ScrollAreaPrimitive} from '@skillrecordings/ui/primitives/scroll-area'
 import {WorkshopAppBanner} from '@/components/workshop-app'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
-import {DefaultOverlay} from '@/components/video-overlays/lesson-complete-overlay'
-import {FinishedSectionOverlay} from '@/components/video-overlays/finished-section-overlay'
 
 const ExerciseTemplate: React.FC<{
   transcript: any[]
@@ -47,7 +45,6 @@ const ExerciseTemplate: React.FC<{
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const router = useRouter()
   const {lesson, section, module} = useLesson()
-
   const {videoResourceId, videoResource} = useVideoResource()
   const {title, description: exerciseDescription} = lesson
   const ogImage = getOgImage({
@@ -61,7 +58,6 @@ const ExerciseTemplate: React.FC<{
   const pageTitle = `${title}`
   const pageDescription = exerciseDescription || moduleDescription
   const shareCard = ogImage ? ogImage : {url: moduleOGImage}
-
   const path = `/${pluralize(module.moduleType)}`
   const {data: session} = useSession()
 
@@ -98,7 +94,6 @@ const ExerciseTemplate: React.FC<{
   const displayWorkshopAppBanner =
     canViewContent &&
     (module.moduleType === 'workshop' || module.moduleType === 'tutorial')
-
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -154,10 +149,6 @@ const ExerciseTemplate: React.FC<{
                   product={module?.product as SanityProduct}
                   ref={muxPlayerRef}
                   exerciseOverlayRenderer={() => <ExerciseOverlay />}
-                  defaultOverlayRenderer={() => <DefaultOverlay />}
-                  finishedSectionOverlayRenderer={() => (
-                    <FinishedSectionOverlay />
-                  )}
                   loadingIndicator={<Spinner />}
                 />
               </div>
@@ -194,14 +185,12 @@ const ExerciseTemplate: React.FC<{
                     repository="Code"
                   />
                 )}
-
                 {displayWorkshopAppBanner && !displayLessonCompletionToggle && (
                   <WorkshopAppBanner
                     moduleSlug={module.slug.current || ''}
                     className="mt-3 rounded-lg border p-5"
                   />
                 )}
-
                 {(lessonBodySerialized || lessonBodyPreviewSerialized) && (
                   <LessonDescription
                     mdxComponents={{
