@@ -131,14 +131,14 @@ const GetStarted = React.forwardRef<HTMLDivElement>((props, ref) => {
       </h2>
       <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center sm:pl-32">
         <motion.ul
-          variants={!shouldReduceMotion ? container : undefined}
+          variants={container}
           initial={shouldReduceMotion ? 'show' : 'hidden'}
           whileInView="show"
           viewport={{once: true}}
           className="relative space-y-16 from-gray-800 via-gray-800 to-emerald-300 px-5 before:absolute before:h-full before:bg-gradient-to-b before:content-[''] sm:px-0 sm:before:-ml-20 sm:before:w-px"
         >
           <motion.li
-            variants={!shouldReduceMotion ? item : undefined}
+            variants={item}
             className="group relative flex flex-col items-center space-y-2 sm:items-start"
           >
             <div className="relative flex h-16 w-16 items-center justify-center rounded-full border border-gray-800 bg-gray-950 text-2xl font-light text-gray-500 transition group-hover:text-cyan-300 sm:absolute sm:-ml-28">
@@ -150,7 +150,7 @@ const GetStarted = React.forwardRef<HTMLDivElement>((props, ref) => {
             </pre>
           </motion.li>
           <motion.li
-            variants={!shouldReduceMotion ? item : undefined}
+            variants={item}
             className="group relative flex flex-col items-center space-y-2 sm:items-start"
           >
             <div className="relative flex h-16 w-16 items-center justify-center rounded-full border border-gray-800 bg-gray-950 text-2xl font-light text-gray-500 transition group-hover:text-cyan-300 sm:absolute sm:-ml-28">
@@ -173,7 +173,7 @@ const GetStarted = React.forwardRef<HTMLDivElement>((props, ref) => {
             </div>
           </motion.li>
           <motion.li
-            variants={!shouldReduceMotion ? item : undefined}
+            variants={item}
             className="group relative flex flex-col items-center justify-center space-y-2 sm:items-start"
           >
             <div className="relative flex h-16 w-16 items-center justify-center rounded-full border border-gray-800 bg-gray-950 text-2xl font-light text-gray-500 transition group-hover:text-cyan-300 sm:absolute sm:-ml-28">
@@ -521,7 +521,9 @@ const Rules = () => {
   return (
     <section className="w-full bg-gray-950/50 px-5 pb-16 pt-10 lg:px-0">
       <motion.div
-        initial={!shouldReduceMotion ? {y: -50, opacity: 0} : undefined}
+        initial={
+          !shouldReduceMotion ? {y: -50, opacity: 0} : {y: 0, opacity: 100}
+        }
         viewport={{once: true}}
         whileInView={
           !shouldReduceMotion
