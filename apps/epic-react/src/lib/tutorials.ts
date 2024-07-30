@@ -194,7 +194,7 @@ export const getTutorial = async (slug: string) =>
         _id,
         github,
         workshopApp,
-        ogImage,
+        "ogImage": ogImage.secure_url,
         description,
         _updatedAt,
         "instructor": contributors[@.role == 'instructor'][0].contributor->{
