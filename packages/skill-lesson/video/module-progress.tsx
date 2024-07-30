@@ -28,6 +28,7 @@ export const ModuleProgressProvider: React.FC<React.PropsWithChildren<any>> = ({
 
 export const ModuleProgressSchema = z.object({
   moduleId: z.string(),
+  moduleType: z.string().optional(),
   moduleCompleted: z.boolean(),
   percentComplete: z.number(),
   lessonCount: z.number(),

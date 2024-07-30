@@ -29,6 +29,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
       },
     }))
 
+  if (!module) {
+    return {
+      notFound: true,
+    }
+  }
+
   return {
     props: {
       lesson,

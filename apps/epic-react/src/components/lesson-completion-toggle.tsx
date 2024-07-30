@@ -10,7 +10,7 @@ import cx from 'classnames'
 import Spinner from '@/components/spinner'
 
 const LessonCompleteToggle = ({className}: {className?: string}) => {
-  const {module, lesson} = useLesson()
+  const {module, section, lesson} = useLesson()
   const flattenedLessons = module.sections?.flatMap(
     (section) => section.lessons,
   )
@@ -84,15 +84,19 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
             flattenedLessons &&
             flattenedLessons[currentLessonIndex + 1]
           ) {
-            reward()
-            router.push(
-              `/modules/${module.slug.current}/${
-                flattenedLessons[currentLessonIndex + 1]?.slug
-              }`,
-            )
-          } else if (!progress?.completedAt) {
-          } else {
-            reward()
+            if (moduleProgress?.moduleType === 'tutorial') {
+              router.push(
+                `/${moduleProgress?.moduleType}s/${module.slug.current}/${
+                  section?.slug
+                }/${flattenedLessons[currentLessonIndex + 1]?.slug}`,
+              )
+            } else {
+              router.push(
+                `/modules/${module.slug.current}/${
+                  flattenedLessons[currentLessonIndex + 1]?.slug
+                }`,
+              )
+            }
           }
         },
         onError: (error: any) => {

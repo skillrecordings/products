@@ -64,7 +64,7 @@ export const DefaultOverlay: React.FC = () => {
         )}
         <div>
           <LessonCompleteToggle className="text-md my-4 bg-white text-white hover:bg-er-gray-300 disabled:pointer-events-none disabled:opacity-50 dark:bg-er-gray-200 dark:hover:bg-er-gray-300" />
-          <div>
+          <div className="space-y-2">
             <Button
               data-action="replay"
               variant="ghost"
@@ -88,9 +88,14 @@ export const DefaultOverlay: React.FC = () => {
             {lesson._type === 'solution' && (
               <Link
                 data-action="try-again"
+                className="mx-auto flex h-10 w-fit items-center justify-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                 href={router.asPath.replace('solution', 'exercise')}
               >
-                <CodeIcon data-icon="" aria-hidden="true" />
+                <CodeIcon
+                  data-icon=""
+                  aria-hidden="true"
+                  className="w-5 font-normal"
+                />
                 Back to Exercise
               </Link>
             )}
