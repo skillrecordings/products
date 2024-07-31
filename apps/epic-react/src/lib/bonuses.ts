@@ -134,7 +134,7 @@ export const getBonus = async (slug: string) => {
     {slug: `${slug}`},
   )
 
-  return BonusSchema.parse(result)
+  return BonusSchema.passthrough().nullable().parse(result)
 }
 
 export type Bonus = z.infer<typeof BonusSchema>
