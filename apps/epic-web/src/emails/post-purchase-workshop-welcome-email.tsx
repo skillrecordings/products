@@ -24,15 +24,13 @@ export const WelcomeEmail = ({
   purchaseStatus: string
   bulkCouponId: string | null
   merchantChargeId: string | null
-  teamOwnerHasAccessToContent: boolean
-  liveEventDetails:
-    | {
-        events: {title: string; startsAt: string; endsAt: string}[] | null
-        startsAt: string | null
-        endsAt: string | null
-        timezone: string | null
-      }[]
-    | null
+  teamOwnerHasAccessToContent: boolean | null
+  liveEventDetails: {
+    events: {title: string; startsAt: string; endsAt: string}[] | null
+    startsAt: string | null
+    endsAt: string | null
+    timezone: string | null
+  } | null
 }) => {
   const isBulk = bulkCouponId !== null
 
@@ -147,31 +145,109 @@ ${
 }
   `
 
-  const nextStepsSelfPaced = `
-${
-  product[0].type === 'self-paced' &&
+  const processEventDetails = (eventDetails: typeof liveEventDetails) => {
+    if (!eventDetails) {
+      return ''
+    }
+
+    const formatDate = (dateString: string) => {
+      const date = new Date(dateString)
+      return date.toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      })
+    }
+
+    const formatTime = (dateString: string) => {
+      return new Date(dateString).toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZone: 'America/Los_Angeles',
+      })
+    }
+
+    const timezoneInfo = eventDetails.timezone
+      ? `[Click here for timezones](${eventDetails.timezone})`
+      : ''
+
+    const calendarInvite = `
+Event details, including the Zoom link, Google Calendar invite, and other relevant information, will be emailed to you a few days before the workshop.
+
+Please note:
+
+- No recording of this live event will be provided, but you will get access to the self-paced version of the workshop.
+- Tickets are non-refundable but transferable.
   `
+
+    if (eventDetails.events === null) {
+      // Single-day event
+      if (!eventDetails.startsAt || !eventDetails.endsAt) {
+        return 'Event details are incomplete.'
+      }
+
+      const date = formatDate(eventDetails.startsAt)
+      const startTime = formatTime(eventDetails.startsAt)
+      const endTime = formatTime(eventDetails.endsAt)
+
+      return `This event will occur on ${date} (Pacific time) from 
+${startTime} to ${endTime} (Pacific time). ${timezoneInfo}
+
+${calendarInvite}
+`
+    } else if (
+      Array.isArray(eventDetails.events) &&
+      eventDetails.events.length > 0
+    ) {
+      // Multi-day event
+      const dates = eventDetails.events.map((event) =>
+        formatDate(event.startsAt),
+      )
+      const timeRange = `${formatTime(
+        eventDetails.events[0].startsAt,
+      )} - ${formatTime(eventDetails.events[0].endsAt)}`
+
+      return `The event will occur on ${dates.join(' & ')} (Pacific time) at
+${timeRange} (Pacific time). ${timezoneInfo}
+
+${calendarInvite}
+`
+    } else {
+      return ''
+    }
+  }
+
+  const liveEventContent = liveEventDetails
+    ? processEventDetails(liveEventDetails)
+    : ''
+
+  const nextStepsSelfPaced =
+    product[0].type === 'self-paced'
+      ? `
 - **Workshop App:** For the best experience we highly recommend you use the Epic Web workshop application on your local machine. It allows you to authenticate and work through the material as intended at your own pace, ensuring you get the most out of the workshop. To learn how to set up the Epic Web workshop application, visit the following link: [Epic Web Get Started Workshop Setup](https://www.epicweb.dev/get-started?module=${product[0].slug})
 
 - **Need help?:** If you ever get stuck or have code questions, you can ask them in the community Discord channel we've set up [here](https://discord.com/invite/pKfP6kY). 
   `
-}
-  `
+      : ''
 
-  const thankYou = `
-${
-  product[0].type === 'self-paced' &&
-  product[0].productId !== 'kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002'
-    ? `Thank you for purchasing the [${
-        product[0].title
-      }](https://www.epicweb.dev/workshops/${product[0].slug}) Workshop${
-        isBulk ? ' for your team!' : '!'
-      }`
-    : `Thank you for purchasing the ${product[0].title} Bundle${
-        isBulk ? ' for your team!' : '!'
-      }`
-}
-`
+  const thankYou = (() => {
+    const forTeam = isBulk ? ' for your team' : ''
+
+    if (product[0].type === 'self-paced') {
+      if (
+        product[0].productId ===
+        'kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002'
+      ) {
+        return `Thank you for purchasing the ${product[0].title} Bundle${forTeam}!`
+      } else {
+        return `Thank you for purchasing the [${product[0].title}](https://www.epicweb.dev/workshops/${product[0].slug}) Workshop${forTeam}!`
+      }
+    } else if (product[0].type === 'live') {
+      return `Thank you for purchasing the [${product[0].title}](https://www.epicweb.dev/events/${product[0].slug}) Live Workshop${forTeam}!`
+    } else {
+      return `Thank you for purchasing the [${product[0].title}](https://www.epicweb.dev/events/${product[0].slug})${forTeam}!`
+    }
+  })()
 
   const body = `
 
@@ -179,8 +255,9 @@ ${thankYou}
 
 ${isBulk ? emailContentBulk : emailContentIndividual}
 
+${liveEventContent}
 
-Here are a couple of things to keep in mind:
+**Important Information:**
 
 ${isBulk ? '' : nextStepsSelfPaced}
 
