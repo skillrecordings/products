@@ -10,6 +10,54 @@ const redis = new Redis({
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 })
 
+async function createBonusPurchase({
+  userId,
+  productId,
+}: {
+  userId: string
+  productId: string
+}) {
+  return z
+    .object({
+      id: z.string(),
+      userId: z.string(),
+      createdAt: z.string(),
+      totalAmount: z.number(),
+      city: z.string().nullable(),
+      state: z.string().nullable(),
+      country: z.string().nullable(),
+      ip_address: z.string().nullable(),
+      status: z.union([
+        z.literal('Valid'),
+        z.literal('Refunded'),
+        z.literal('Banned'),
+      ]),
+      productId: z.string(),
+      couponId: z.string().nullable(),
+      merchantChargeId: z.string().nullable(),
+      upgradedFromId: z.string().nullable(),
+      bulkCouponId: z.string().nullable(),
+      redeemedBulkCouponId: z.string().nullable(),
+    })
+    .parse({
+      id: v4(),
+      userId,
+      createdAt: new Date().toISOString(),
+      totalAmount: 0,
+      city: null,
+      state: null,
+      country: null,
+      ip_address: null,
+      status: 'Valid',
+      productId,
+      couponId: null,
+      merchantChargeId: null,
+      upgradedFromId: null,
+      bulkCouponId: null,
+      redeemedBulkCouponId: null,
+    })
+}
+
 export const bonusesRouter = router({
   availableBonusesForPurchase: publicProcedure
     .input(
@@ -56,83 +104,21 @@ export const bonusesRouter = router({
       const bonusSlugs = availableBonuses?.split(',') || []
 
       if (bonusSlugs.includes(input.bonusSlug)) {
-        let json, sellableId, clientId, productId
-
-        if (input.bonusSlug === 'testing-javascript') {
-          // Write purchase to kcd-products
-          productId = 'kcd_4f0b26ee-d61d-4245-a204-26f5774355a5'
-
-          const purchaseData = z
-            .object({
-              id: z.string(),
-              userId: z.string(),
-              createdAt: z.string(),
-              totalAmount: z.number(),
-              city: z.string().nullable(),
-              state: z.string().nullable(),
-              country: z.string().nullable(),
-              ip_address: z.string().nullable(),
-              status: z.union([
-                z.literal('Valid'),
-                z.literal('Refunded'),
-                z.literal('Banned'),
-              ]),
-              productId: z.string(),
-              couponId: z.string().nullable(),
-              merchantChargeId: z.string().nullable(),
-              upgradedFromId: z.string().nullable(),
-              bulkCouponId: z.string().nullable(),
-              redeemedBulkCouponId: z.string().nullable(),
-            })
-            .parse({
-              id: v4(),
-              userId: token?.sub,
-              createdAt: new Date().toISOString(),
-              totalAmount: 0,
-              city: null,
-              state: null,
-              country: null,
-              ip_address: null,
-              status: 'Valid',
-              productId,
-              couponId: null,
-              merchantChargeId: null,
-              upgradedFromId: null,
-              bulkCouponId: null,
-              redeemedBulkCouponId: null,
-            })
-
-          json = await ctx.prisma.purchase.create({data: purchaseData})
-        } else if (input.bonusSlug === 'epic-react') {
-          // TODO: write to kcd-products database after cutting over ER site.
-          sellableId = 385975
-          clientId = process.env.EPIC_REACT_CLIENT_ID
-
-          const response = await fetch(
-            `${process.env.EGGHEAD_API_URL}/api/v1/sellable_purchases/redeem_partner_coupon`,
-            {
-              method: 'POST',
-              body: JSON.stringify({
-                sellable: 'playlist',
-                sellable_id: sellableId,
-                email: token.email,
-                client_id: clientId,
-              }),
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${process.env.EGGHEAD_EPIC_WEB_BOT_TOKEN}`,
-              },
-            },
-          )
-
-          json = await response.json()
-        } else {
-          throw new Error('No sellableId found for bonus slug')
+        const productForSlug: Record<string, string> = {
+          'testing-javascript': 'kcd_4f0b26ee-d61d-4245-a204-26f5774355a5',
+          'epic-react': 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38',
         }
 
-        const newBonuses = bonusSlugs.filter((slug) => slug !== input.bonusSlug)
+        const productId = productForSlug[input.bonusSlug]
+        if (!productId) throw new Error('No productId found for bonus slug')
+        const purchaseData = await createBonusPurchase({
+          userId: token.sub as string,
+          productId,
+        })
 
-        console.log(json)
+        const json = await ctx.prisma.purchase.create({data: purchaseData})
+
+        const newBonuses = bonusSlugs.filter((slug) => slug !== input.bonusSlug)
 
         if (newBonuses.length === 0) {
           await redis.del(`bonus::available::${token.id}::${input.purchaseId}`)
