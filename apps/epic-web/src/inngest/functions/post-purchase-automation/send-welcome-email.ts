@@ -12,7 +12,6 @@ export const sendWelcomeEmail = inngest.createFunction(
   {event: STRIPE_CHECKOUT_COMPLETED_EVENT},
   async ({event, step}) => {
     const {purchaseId, productId} = event.data
-
     const purchase = await step.run('load purchase', async () => {
       const purchase = await prisma.purchase.findUnique({
         where: {
@@ -28,12 +27,32 @@ export const sendWelcomeEmail = inngest.createFunction(
       return purchase
     })
 
+    let teamOwnerPurchases = []
+    if (purchase.bulkCouponId !== null) {
+      teamOwnerPurchases = await step.run(
+        'load team owner purchases',
+        async () => {
+          const teamOwnerPurchases = await prisma.purchase.findMany({
+            where: {
+              userId: purchase.userId,
+              productId: purchase.productId,
+            },
+          })
+
+          return teamOwnerPurchases
+        },
+      )
+    }
+
+    const teamOwnerHasAccessToContent = teamOwnerPurchases.length > 1
+
     const product = await step.run('load product', async () => {
-      const productToAnnounce = await sanityClient.fetch(
+      const product = await sanityClient.fetch(
         groq`*[_type == "product" && productId == $productId][0] {
         title,
         productId,
         "slug": slug.current,
+        type,
       }`,
         {productId},
       )
@@ -43,9 +62,43 @@ export const sendWelcomeEmail = inngest.createFunction(
           title: z.string(),
           productId: z.string(),
           slug: z.string(),
+          type: z.string(),
         })
-        .parse(productToAnnounce)
+        .parse(product)
     })
+
+    let liveEventDetails: any = null
+    if (product.type == 'live') {
+      liveEventDetails = await step.run('load live event details', async () => {
+        const liveEventDetails = (await sanityClient.fetch(
+          groq`*[_type == "event" && slug.current == $slug][0] {
+            events[]{...},
+            startsAt,
+            endsAt,
+            timezone,
+          }`,
+          {slug: `${product.slug}`},
+        )) as any[]
+
+        return z
+          .object({
+            events: z
+              .array(
+                z.object({
+                  title: z.string(),
+                  startsAt: z.string(),
+                  endsAt: z.string(),
+                }),
+              )
+              .nullable()
+              .optional(),
+            startsAt: z.string().nullable(),
+            endsAt: z.string().nullable(),
+            timezone: z.nullable(z.string().url()).optional(),
+          })
+          .parse(liveEventDetails)
+      })
+    }
 
     try {
       const response = await step.run(
@@ -54,7 +107,7 @@ export const sendWelcomeEmail = inngest.createFunction(
           let userEmail = purchase?.user?.email
           if (!userEmail) throw new Error('User not found')
 
-          const subject = `Welcome to ${product?.title} Workshop 🚀`
+          const subject = `Welcome to ${product?.title} 🚀`
 
           return await sendTheEmail({
             Subject: subject,
@@ -63,6 +116,11 @@ export const sendWelcomeEmail = inngest.createFunction(
             componentProps: {
               name: purchase?.user?.name,
               product: [product],
+              purchaseStatus: purchase?.status,
+              bulkCouponId: purchase?.bulkCouponId,
+              merchantChargeId: purchase?.merchantChargeId,
+              teamOwnerHasAccessToContent: teamOwnerHasAccessToContent,
+              liveEventDetails: liveEventDetails,
             },
           })
         },
