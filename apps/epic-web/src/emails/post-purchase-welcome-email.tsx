@@ -109,13 +109,14 @@ The workshops are designed to be completed in a linear fashion. Starting from th
 For each of our Epic Web workshops, there's a corresponding Workshop App repository available for you to clone and run on your own computer.
 
 ${
-  purchaseStatus === 'Valid' &&
-  `
+  purchaseStatus === 'Valid'
+    ? `
 Don’t forget to check out our exclusive podcast series. These aren’t just any tech podcasts—they’re insights into real-world techniques, leadership, and the future of web development. Whether you're starting out or a seasoned pro, these discussions will enrich your understanding and inspire you to push the boundaries of what’s possible.
+
 [Interviews with Experts](https://www.epicweb.dev/bonuses/interviews-with-experts) 🎤
-  `
-}
-          
+    `
+    : ''
+}   
             `
         default:
           return ''
