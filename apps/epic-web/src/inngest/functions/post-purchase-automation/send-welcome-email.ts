@@ -115,7 +115,7 @@ export const sendWelcomeEmail = inngest.createFunction(
             To: userEmail,
             componentProps: {
               name: purchase?.user?.name,
-              product: [product],
+              product: product,
               purchaseStatus: purchase?.status,
               bulkCouponId: purchase?.bulkCouponId,
               merchantChargeId: purchase?.merchantChargeId,

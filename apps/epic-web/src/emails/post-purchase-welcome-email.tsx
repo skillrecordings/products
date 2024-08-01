@@ -20,7 +20,7 @@ export const WelcomeEmail = ({
   liveEventDetails,
 }: {
   name: string | null | undefined
-  product: {title: string; productId: string; slug: string; type: string}[]
+  product: {title: string; productId: string; slug: string; type: string}
   purchaseStatus: string
   bulkCouponId: string | null
   merchantChargeId: string | null
@@ -126,17 +126,17 @@ Don’t forget to check out our exclusive podcast series. These aren’t just an
   }
 
   const emailContentIndividual = getEmailContent(
-    product[0].productId,
+    product.productId,
     purchaseStatus,
   )()
 
   const emailContentBulk = `
 You are the account owner of your team. Here's the code to share with your teammates to claim a seat:
 
-https://www.epicweb.dev/products/${product[0].slug}?code=${bulkCouponId}
+https://www.epicweb.dev/products/${product.slug}?code=${bulkCouponId}
 
 Once logged in, visit [this page](https://www.epicweb.dev/products/${
-    product[0].slug
+    product.slug
   }) to manage your team, find the shareable code, and track claimed seats. We recommend using personal emails as licenses are non-transferable.
 
 ${
@@ -223,9 +223,9 @@ ${calendarInvite}
     : ''
 
   const nextStepsSelfPaced =
-    product[0].type === 'self-paced'
+    product.type === 'self-paced'
       ? `
-- **Workshop App:** For the best experience we highly recommend you use the Epic Web workshop application on your local machine. It allows you to authenticate and work through the material as intended at your own pace, ensuring you get the most out of the workshop. To learn how to set up the Epic Web workshop application, visit the following link: [Epic Web Get Started Workshop Setup](https://www.epicweb.dev/get-started?module=${product[0].slug})
+- **Workshop App:** For the best experience we highly recommend you use the Epic Web workshop application on your local machine. It allows you to authenticate and work through the material as intended at your own pace, ensuring you get the most out of the workshop. To learn how to set up the Epic Web workshop application, visit the following link: [Epic Web Get Started Workshop Setup](https://www.epicweb.dev/get-started?module=${product.slug})
 
 - **Need help?:** If you ever get stuck or have code questions, you can ask them in the community Discord channel we've set up [here](https://discord.com/invite/pKfP6kY). 
   `
@@ -234,19 +234,18 @@ ${calendarInvite}
   const thankYou = (() => {
     const forTeam = isBulk ? ' for your team' : ''
 
-    if (product[0].type === 'self-paced') {
+    if (product.type === 'self-paced') {
       if (
-        product[0].productId ===
-        'kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002'
+        product.productId === 'kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002'
       ) {
-        return `Thank you for purchasing the ${product[0].title} Bundle${forTeam}!`
+        return `Thank you for purchasing the ${product.title} Bundle${forTeam}!`
       } else {
-        return `Thank you for purchasing the [${product[0].title}](https://www.epicweb.dev/workshops/${product[0].slug}) Workshop${forTeam}!`
+        return `Thank you for purchasing the [${product.title}](https://www.epicweb.dev/workshops/${product.slug}) Workshop${forTeam}!`
       }
-    } else if (product[0].type === 'live') {
-      return `Thank you for purchasing the [${product[0].title}](https://www.epicweb.dev/events/${product[0].slug}) Live Workshop${forTeam}!`
+    } else if (product.type === 'live') {
+      return `Thank you for purchasing the [${product.title}](https://www.epicweb.dev/events/${product.slug}) Live Workshop${forTeam}!`
     } else {
-      return `Thank you for purchasing the [${product[0].title}](https://www.epicweb.dev/events/${product[0].slug})${forTeam}!`
+      return `Thank you for purchasing the [${product.title}](https://www.epicweb.dev/events/${product.slug})${forTeam}!`
     }
   })()
 
