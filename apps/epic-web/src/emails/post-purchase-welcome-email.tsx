@@ -254,9 +254,9 @@ ${calendarInvite}
 
 ${thankYou}
 
-${isBulk ? emailContentBulk : emailContentIndividual}
-
 ${liveEventContent}
+
+${isBulk ? emailContentBulk : emailContentIndividual}
 
 **Important Information:**
 
