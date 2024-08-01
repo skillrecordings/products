@@ -131,6 +131,6 @@ export const bonusesRouter = router({
 
         return json
       }
-      return true
+      return {status: 'error'}
     }),
 })
