@@ -95,7 +95,7 @@ export const bonusesRouter = router({
     )
     .mutation(async ({ctx, input}) => {
       const token = await getToken({req: ctx.req})
-      if (!token || !input.purchaseId) return false
+      if (!token || !input.purchaseId) return {status: "error"}
 
       const availableBonuses: string | null = await redis.get(
         `bonus::available::${token.id}::${input.purchaseId}`,
@@ -131,6 +131,6 @@ export const bonusesRouter = router({
 
         return json
       }
-      return true
+      return {status: 'error'}
     }),
 })
