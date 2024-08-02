@@ -20,16 +20,44 @@ import {ProductPageProps} from '@/pages/products/[slug]'
 
 const ProductTemplate: React.FC<ProductPageProps> = ({
   product,
+  products,
   mdx,
   allowPurchase,
   userId,
   couponFromCode,
+  couponIdFromCoupon,
   availableBonuses,
 }) => {
   const router = useRouter()
   const title = product?.title || product?.name || 'Product Title'
 
   const {addPrice} = usePriceCheck()
+
+  const restrictedToProduct = couponFromCode?.restrictedToProductId
+    ? products.find(
+        (product) => product.productId === couponFromCode.restrictedToProductId,
+      )
+    : undefined
+
+  const productMetadata = restrictedToProduct
+    ? {
+        ...restrictedToProduct,
+        id: restrictedToProduct.productId,
+        image: {
+          ...restrictedToProduct.image,
+          width: 132,
+          height: 112,
+        },
+      }
+    : undefined
+
+  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
+    couponFromCode,
+    productMetadata,
+  )
+
+  const couponId =
+    couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
 
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery(
@@ -52,14 +80,6 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
 
   const purchasedProductIds =
     commerceProps?.purchases?.map((purchase) => purchase.productId) || []
-
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    commerceProps?.couponFromCode,
-  )
-
-  const couponId =
-    commerceProps?.couponIdFromCoupon ||
-    (validCoupon ? commerceProps?.couponFromCode?.id : undefined)
 
   const hasPurchased = purchasedProductIds.includes(product.productId)
 
@@ -110,7 +130,7 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
               bonuses={availableBonuses}
               allowPurchase={product.state === 'active'}
               userId={userId}
-              product={{...product, name: undefined, title: undefined} as any}
+              product={product as unknown as SanityProduct}
               purchased={purchasedProductIds.includes(product.productId)}
               couponId={couponId}
               couponFromCode={couponFromCode}
