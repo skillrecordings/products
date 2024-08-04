@@ -66,7 +66,7 @@
     "react-dom": "18.3.0-canary-a870b2d54-20240314",
     "react-test-renderer": "^18.2.0",
     "sass": "^1.43.4",
-    "typescript": "5.1.6",
+    "typescript": "5.5.4",
     "xstate": "=4.23.1"
   },
   "peerDependencies": {

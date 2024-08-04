@@ -52,7 +52,7 @@
     "next": "14.2.0-canary.30",
     "react": "18.3.0-canary-a870b2d54-20240314",
     "react-dom": "18.3.0-canary-a870b2d54-20240314",
-    "typescript": "5.1.6"
+    "typescript": "5.5.4"
   },
   "peerDependencies": {
     "lodash": "^4.17.21",
