@@ -105,7 +105,7 @@
     "postcss-cli": "^9.0.2",
     "react": "18.3.0-canary-a870b2d54-20240314",
     "react-dom": "18.3.0-canary-a870b2d54-20240314",
-    "typescript": "5.1.6",
+    "typescript": "5.5.4",
     "whatwg-fetch": "^3.6.2"
   },
   "peerDependencies": {

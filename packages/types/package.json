@@ -27,7 +27,7 @@
     "@types/react-dom": "^18.2.4",
     "eslint": "^8.19.0",
     "eslint-config-skill-recordings": "workspace:*",
-    "typescript": "5.1.6"
+    "typescript": "5.5.4"
   },
   "gitHead": "3398ceeb143d5fddcf11268741c2747856814119"
 }
