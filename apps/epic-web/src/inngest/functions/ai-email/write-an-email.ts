@@ -120,7 +120,7 @@ export const writeAnEmail = inngest.createFunction(
             {role: 'system', content: singleline(systemPrompt)},
             {role: 'user', content: singleline(primarySystemWriterPrompt)},
           ],
-          model: 'gpt-4',
+          model: 'gpt-4o-2024-08-06',
         })
       },
     )
@@ -151,7 +151,7 @@ export const writeAnEmail = inngest.createFunction(
             {role: 'assistant', content: aiResponse.choices[0].message.content},
             {role: 'user', content: singleline(editorPrompt)},
           ],
-          model: 'gpt-4',
+          model: 'gpt-4o-2024-08-06',
         })
       },
     )
@@ -179,7 +179,7 @@ export const writeAnEmail = inngest.createFunction(
             },
             {role: 'user', content: singleline(aiWriterRevisionsPrompt)},
           ],
-          model: 'gpt-4',
+          model: 'gpt-4o-2024-08-06',
         })
       },
     )
@@ -222,7 +222,7 @@ export const writeAnEmail = inngest.createFunction(
       async () => {
         return openai.chat.completions.create({
           messages: fullPrompt as OpenAI.ChatCompletionMessage[],
-          model: 'gpt-4',
+          model: 'gpt-4o-2024-08-06',
         })
       },
     )
@@ -244,7 +244,7 @@ export const writeAnEmail = inngest.createFunction(
         ${aiBossEditorResponse.choices[0].message.content}`,
             },
           ],
-          model: 'gpt-4',
+          model: 'gpt-4o-2024-08-06',
         })
       },
     )
