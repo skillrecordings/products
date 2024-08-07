@@ -23,6 +23,7 @@ export default defineType({
       options: {
         list: [
           {title: 'Workshop', value: 'workshop'},
+          {title: 'Workshop V2', value: 'workshop-v2'},
           {title: 'Tutorial', value: 'tutorial'},
           {title: 'Bonus', value: 'bonus'},
         ],

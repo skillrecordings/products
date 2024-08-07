@@ -1,9 +1,9 @@
-import {MdOutlineRowing} from 'react-icons/md'
+import {MdArchive} from 'react-icons/md'
 
 const workshops = (S) =>
   S.listItem()
     .title('Workshops')
-    .icon(MdOutlineRowing)
+    .icon(MdArchive)
     .child(
       S.documentTypeList('module')
         .filter('moduleType == "workshop"')
