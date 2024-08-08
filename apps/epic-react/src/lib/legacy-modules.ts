@@ -2,8 +2,8 @@ import groq from 'groq'
 import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import {z} from 'zod'
 
-const workshopsForProductQuery = groq`*[_type == "product" && productId == $productId][0]{
-  "workshops": modules[@->._type == "module" && @->.moduleType == 'workshop']->{
+const legacyModulesForProductQuery = groq`*[_type == "product" && productId == $productId][0]{
+  "modules": modules[@->._type == "module" && @->.moduleType == 'legacy-module']->{
     _id,
     _type,
     title,
@@ -42,17 +42,19 @@ const workshopsForProductQuery = groq`*[_type == "product" && productId == $prod
   }
 }`
 
-export const getWorkshopsForProduct = async ({
+export const getLegacyModulesForProduct = async ({
   productId,
 }: {
   productId: string
 }) => {
-  const result = await sanityClient.fetch(workshopsForProductQuery, {productId})
-
-  return WorkshopSchema.array().parse(result.workshops)
+  const result = await sanityClient.fetch(legacyModulesForProductQuery, {
+    productId,
+  })
+  console.log(result)
+  return LegacyModuleSchema.array().parse(result.modules)
 }
 
-const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | order(_createdAt asc) {
+const legacyModuleQuery = groq`*[_type == "module" && moduleType == 'legacy-module'] | order(_createdAt asc) {
   _id,
   _type,
   title,
@@ -111,12 +113,12 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   }
 }`
 
-export const WorkshopSchema = z.object({
+export const LegacyModuleSchema = z.object({
   _id: z.string(),
-  _type: z.string(),
+  _type: z.literal('module'),
   title: z.string(),
   slug: z.object({current: z.string()}),
-  moduleType: z.string(),
+  moduleType: z.literal('legacy-module'),
   image: z.string(),
   _updatedAt: z.string(),
   _createdAt: z.string(),
@@ -166,15 +168,15 @@ export const WorkshopSchema = z.object({
   ),
 })
 
-export const getAllWorkshops = async () => {
-  const result = await sanityClient.fetch(workshopsQuery)
+export const getAllLegacyModules = async () => {
+  const result = await sanityClient.fetch(legacyModuleQuery)
 
-  return WorkshopSchema.array().parse(result)
+  return LegacyModuleSchema.array().parse(result)
 }
 
-export const getWorkshop = async (slug: string) => {
+export const getLegacyModule = async (slug: string) => {
   const result = await sanityClient.fetch(
-    groq`*[_type == "module" && moduleType == 'workshop' && slug.current == $slug][0]{
+    groq`*[_type == "module" && moduleType == 'legacy-module' && slug.current == $slug][0]{
         "id": _id,
         _type,
         title,
@@ -280,7 +282,7 @@ export const getWorkshop = async (slug: string) => {
     {slug: `${slug}`},
   )
 
-  return WorkshopSchema.passthrough().nullable().parse(result)
+  return LegacyModuleSchema.passthrough().nullable().parse(result)
 }
 
-export type Workshop = z.infer<typeof WorkshopSchema>
+export type LegacyModule = z.infer<typeof LegacyModuleSchema>

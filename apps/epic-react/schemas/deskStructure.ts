@@ -2,6 +2,7 @@ import articles from './structure/articles'
 import tips from './structure/tips'
 import tutorials from './structure/tutorials'
 import workshops from './structure/workshops'
+import legacyModules from './structure/legacy-modules'
 import pricing from './structure/pricing'
 import products from './structure/products'
 import pages from './structure/pages'
@@ -39,6 +40,7 @@ export default (S: any) =>
       S.divider(),
       workshops(S),
       tutorials(S),
+      legacyModules(S),
       articles(S),
       bonuses(S),
       pages(S),

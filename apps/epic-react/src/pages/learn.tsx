@@ -12,7 +12,11 @@ import {trpc} from '@/trpc/trpc.client'
 
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
-import {getWorkshopsForProduct, Workshop, WorkshopSchema} from '@/lib/workshops'
+import {
+  getLegacyModulesForProduct,
+  LegacyModule,
+  LegacyModuleSchema,
+} from '@/lib/legacy-modules'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {getAllProducts} from '@/lib/products'
 import {Bonus, BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
@@ -35,12 +39,12 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
     products,
   })
   const productId = 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38'
-  const workshops = await getWorkshopsForProduct({productId})
+  const legacyModules = await getLegacyModulesForProduct({productId})
   const bonuses = await getBonusesForProduct({productId})
 
   return {
     props: {
-      workshops,
+      legacyModules,
       bonuses,
       commerceProps,
     },
@@ -49,18 +53,18 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
 
 const ResourceLink: React.FC<{
   title: string
-  workshopSlug: string
+  legacyModuleSlug: string
   resourceSlug: string
   isCompleted: boolean
   isBonusModule?: boolean
-}> = ({title, workshopSlug, resourceSlug, isCompleted, isBonusModule}) => {
+}> = ({title, legacyModuleSlug, resourceSlug, isCompleted, isBonusModule}) => {
   const [isHovered, setHovered] = React.useState<Boolean>(false)
   return (
     <li>
       <Link
         onMouseOver={() => setHovered(true)}
         onMouseOut={() => setHovered(false)}
-        href={`/modules/${workshopSlug}/${resourceSlug}`}
+        href={`/modules/${legacyModuleSlug}/${resourceSlug}`}
         className="-mx-3 flex w-full items-center rounded-lg p-3 transition-colors duration-75 ease-in-out hover:bg-er-gray-100"
       >
         {/* {isCompleted && '✅'}
@@ -84,7 +88,7 @@ const ResourceLink: React.FC<{
           )}
         </div>
         <h4 className="ml-3 flex w-full flex-wrap items-center text-base leading-tight sm:text-xl sm:font-medium">
-          {workshopSlug === 'welcome-to-epic-react' &&
+          {legacyModuleSlug === 'welcome-to-epic-react' &&
             resourceSlug === 'welcome-to-epic-react' && (
               <span className="my-1 mr-2 flex items-center rounded-full bg-yellow-300 px-2 py-1 text-xs font-semibold uppercase leading-none text-yellow-800">
                 Start here
@@ -114,7 +118,7 @@ const isResourceCompleted = (
     : false
 }
 
-type WorkshopResource = Workshop['resources'][0]
+type LegacyModuleResource = LegacyModule['resources'][0]
 type BonusResource = Bonus['resources'][0]
 
 type Module = {
@@ -129,10 +133,10 @@ type Module = {
   github?: {
     repo: string
   } | null
-  resources: Array<WorkshopResource | BonusResource>
+  resources: Array<LegacyModuleResource | BonusResource>
 }
 
-const WorkshopItem = ({
+const LegacyModuleItem = ({
   module,
   isMounted,
   hasPurchases,
@@ -226,7 +230,7 @@ const WorkshopItem = ({
               <ResourceLink
                 key={resource._id}
                 title={resource.title}
-                workshopSlug={module.slug.current}
+                legacyModuleSlug={module.slug.current}
                 resourceSlug={resource.slug}
                 isCompleted={isCompleted}
                 isBonusModule={isBonusModule}
@@ -247,7 +251,7 @@ const WorkshopItem = ({
               <ResourceLink
                 key={resource._id}
                 title={resource.title}
-                workshopSlug={module.slug.current}
+                legacyModuleSlug={module.slug.current}
                 resourceSlug={resource.lessons[0].slug}
                 isCompleted={isCompleted}
               />
@@ -278,18 +282,18 @@ const WorkshopItem = ({
 }
 
 const Learn: React.FC<{
-  workshops: any[]
+  legacyModules: any[]
   bonuses: any[]
   commerceProps: CommerceProps
 }> = ({
-  workshops: unparsedWorkshops,
+  legacyModules: unparsedLegacyModules,
   bonuses: unparsedBonuses,
   commerceProps,
 }) => {
   const [isMounted, setIsMounted] = React.useState(false)
   const title = 'Learn'
 
-  const workshops = WorkshopSchema.array().parse(unparsedWorkshops)
+  const legacyModules = LegacyModuleSchema.array().parse(unparsedLegacyModules)
   const bonuses = BonusSchema.array().parse(unparsedBonuses)
   const hasPurchases = !isEmpty(commerceProps?.purchases)
 
@@ -365,23 +369,23 @@ const Learn: React.FC<{
       )}
       <main className="mx-auto w-full max-w-screen-lg px-4 pb-20 pt-4 sm:px-8 sm:pt-20">
         <ul className="grid grid-cols-1 gap-4 sm:gap-16">
-          {workshops.map((workshop) => {
+          {legacyModules.map((legacyModule) => {
             return (
               <ModuleProgressProvider
-                moduleSlug={workshop.slug.current}
-                key={workshop._id}
+                moduleSlug={legacyModule.slug.current}
+                key={legacyModule._id}
               >
                 <li className="flex flex-col items-center rounded-lg bg-er-gray-100 p-8 sm:flex-row sm:items-start sm:bg-transparent sm:p-0">
                   <div className="mb-4 mr-0 w-full max-w-xs p-8 sm:mb-0 sm:mr-8">
                     <Image
-                      src={workshop.image}
+                      src={legacyModule.image}
                       alt=""
                       width={256}
                       height={256}
                     />
                   </div>
-                  <WorkshopItem
-                    module={workshop}
+                  <LegacyModuleItem
+                    module={legacyModule}
                     isMounted={isMounted}
                     hasPurchases={hasPurchases}
                   />
@@ -399,7 +403,10 @@ const Learn: React.FC<{
                   <div className="mb-4 mr-0 w-full max-w-xs p-8 sm:mb-0 sm:mr-8">
                     <Image src={bonus.image} alt="" width={200} height={200} />
                   </div>
-                  <WorkshopItem module={bonus} hasPurchases={hasPurchases} />
+                  <LegacyModuleItem
+                    module={bonus}
+                    hasPurchases={hasPurchases}
+                  />
                 </li>
               </ModuleProgressProvider>
             )

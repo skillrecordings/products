@@ -6,7 +6,7 @@ import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-vid
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from '@/lib/sections'
-import {getAllWorkshops, getWorkshop} from '@/lib/workshops'
+import {getAllLegacyModules, getLegacyModule} from '@/lib/legacy-modules'
 import {serialize} from 'next-mdx-remote/serialize'
 import {getAllBonuses, getBonus} from '@/lib/bonuses'
 import {Section} from '@skillrecordings/skill-lesson/schemas/section'
@@ -59,7 +59,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const isBonusModule = moduleSlug === 'epic-react-expert-interviews'
   const module = isBonusModule
     ? await getBonus(moduleSlug)
-    : await getWorkshop(moduleSlug)
+    : await getLegacyModule(moduleSlug)
 
   if (!module) {
     return {
@@ -99,7 +99,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-  const tutorials = await getAllWorkshops()
+  const tutorials = await getAllLegacyModules()
   const bonuses = await getAllBonuses()
 
   const paths = [...tutorials, ...bonuses].flatMap((tutorial: any) => {
