@@ -149,7 +149,7 @@ const isFreelyVisible = ({
     (lesson?._type === 'exercise' ||
       lesson?._type === 'explainer' ||
       lesson?._type === 'lesson') &&
-    lesson._id === lessons[0]._id
+    lesson._id === lessons[0]?._id
 
   return isFirstLesson && lesson && !isSolution
 }
