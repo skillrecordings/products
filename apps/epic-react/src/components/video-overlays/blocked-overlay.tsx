@@ -115,9 +115,9 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
   const {module} = useLesson()
   const productImage = product?.image?.url || product?.image || module?.image
   const canViewRegionRestriction = ability.can('view', 'RegionRestriction')
-  const workshops =
+  const legacyModules =
     product?.modules &&
-    product.modules.filter(({moduleType}) => moduleType === 'workshop')
+    product.modules.filter(({moduleType}) => moduleType === 'legacy-module')
   const bonuses =
     product?.modules &&
     product.modules.filter(({moduleType}) => moduleType === 'bonus')
@@ -161,11 +161,12 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
             )}
           </Balancer>
         </h3>
-        {workshops && (
+        {legacyModules && (
           <>
             <div data-includes="">
-              Includes {workshops.length > 1 && 'all'} {workshops.length}{' '}
-              {pluralize('workshop', workshops.length)}
+              Includes {legacyModules.length > 1 && 'all'}{' '}
+              {legacyModules.length}{' '}
+              {pluralize('workshop', legacyModules.length)}
               {showBonuses ? (
                 <span data-bonus="">
                   {' '}

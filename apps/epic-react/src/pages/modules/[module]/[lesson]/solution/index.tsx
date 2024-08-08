@@ -2,13 +2,12 @@ import React from 'react'
 import ExerciseTemplate from '@/templates/lesson-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {getAllWorkshops, getWorkshop} from '@/lib/workshops'
+import {getAllLegacyModules, getLegacyModule} from '@/lib/legacy-modules'
 import {getExercise, Exercise} from '@/lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from '@/lib/sections'
-import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {serialize} from 'next-mdx-remote/serialize'
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -16,7 +15,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const exerciseSlug = params?.lesson as string
   const sectionSlug = params?.section as string
 
-  const module = await getWorkshop(params?.module as string)
+  const module = await getLegacyModule(params?.module as string)
   const section = await getSection(sectionSlug)
   const exercise = await getExercise(exerciseSlug)
   const solution = exercise.solution
@@ -51,7 +50,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-  const tutorials = await getAllWorkshops()
+  const tutorials = await getAllLegacyModules()
 
   const paths = tutorials.flatMap((tutorial: any) => {
     return (

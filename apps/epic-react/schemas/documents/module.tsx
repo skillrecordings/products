@@ -22,6 +22,7 @@ export default defineType({
       validation: (Rule) => Rule.required(),
       options: {
         list: [
+          {title: 'Module (Legacy)', value: 'legacy-module'},
           {title: 'Workshop', value: 'workshop'},
           {title: 'Tutorial', value: 'tutorial'},
           {title: 'Bonus', value: 'bonus'},

@@ -18,7 +18,7 @@ import {getToken} from 'next-auth/jwt'
 import {getSubscriberFromCookie} from '@skillrecordings/skill-lesson/utils/ck-subscriber-from-cookie'
 import {getProducts} from '@skillrecordings/skill-lesson/lib/products'
 import {getVideoResource} from '@skillrecordings/skill-lesson/lib/video-resources'
-import {getWorkshop} from '@/lib/workshops'
+import {getLegacyModule} from '@/lib/legacy-modules'
 import {ParsedUrlQuery} from 'querystring'
 import {getTutorial} from '@/lib/tutorials'
 import {getTip} from '@/lib/tips'
@@ -27,7 +27,7 @@ import {getBonus} from '@/lib/bonuses'
 
 export const getPropsForEmbed = async (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
-  resourceType: 'tutorial' | 'workshop' | 'tip' | 'bonus',
+  resourceType: 'tutorial' | 'workshop' | 'tip' | 'bonus' | 'legacy-module',
   isSolution?: boolean,
 ) => {
   // resource
@@ -115,14 +115,14 @@ export const getPropsForEmbed = async (
 }
 
 const getModule = async (
-  type: 'tutorial' | 'workshop' | 'tip' | 'bonus',
+  type: 'tutorial' | 'workshop' | 'tip' | 'bonus' | 'legacy-module',
   slug: string,
 ) => {
   switch (type) {
     case 'tutorial':
       return await getTutorial(slug)
-    case 'workshop':
-      return await getWorkshop(slug)
+    case 'legacy-module':
+      return await getLegacyModule(slug)
     case 'bonus':
       return await getBonus(slug)
     case 'tip':
