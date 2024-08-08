@@ -125,7 +125,7 @@ export const getProductBySlug = async (productSlug: string) => {
 
 export const getAllProducts = async () => {
   const products = await sanityClient.fetch(
-    groq`*[_type == 'product'][]{
+    groq`*[_type == 'product' && state == 'active'][]{
     _id,
     title,
     description,
