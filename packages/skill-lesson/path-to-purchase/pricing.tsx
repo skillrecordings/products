@@ -268,7 +268,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   }
 
   const workshops = modules?.filter(
-    (module) => module.moduleType === 'workshop',
+    (module) =>
+      module.moduleType === 'workshop' || module.moduleType === 'legacy-module',
   )
   const moduleBonuses = modules?.filter(
     (module) => module.moduleType === 'bonus',
