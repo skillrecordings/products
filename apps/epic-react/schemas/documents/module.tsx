@@ -66,7 +66,6 @@ export default defineType({
       name: 'duration',
       title: 'Duration',
       type: 'string',
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'resources',
