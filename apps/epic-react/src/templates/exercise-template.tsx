@@ -41,7 +41,13 @@ const ExerciseTemplate: React.FC<{
   transcript: any[]
   lessonBodySerialized: MDXRemoteSerializeResult
   lessonBodyPreviewSerialized: MDXRemoteSerializeResult
-}> = ({transcript, lessonBodySerialized, lessonBodyPreviewSerialized}) => {
+  lessonPathBuilder?: any
+}> = ({
+  transcript,
+  lessonBodySerialized,
+  lessonBodyPreviewSerialized,
+  lessonPathBuilder,
+}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const router = useRouter()
   const {lesson, section, module} = useLesson()
@@ -140,7 +146,11 @@ const ExerciseTemplate: React.FC<{
         />
         <div className="relative flex flex-grow flex-col lg:flex-row 2xl:h-[calc(100vh-49px)] 2xl:overflow-y-hidden">
           <div className="relative z-40 hidden w-full lg:block lg:max-w-[330px]">
-            <LessonList module={module} path={path} />
+            <LessonList
+              module={module}
+              path={path}
+              lessonPathBuilder={lessonPathBuilder}
+            />
           </div>
           <main className="relative mx-auto w-full max-w-[1480px] items-start border-gray-200 dark:border-gray-900 2xl:flex 2xl:max-w-none">
             <div className="flex flex-col border-gray-200 scrollbar-thin scrollbar-thumb-foreground/10 dark:border-gray-800 2xl:relative 2xl:h-[calc(100vh)] 2xl:w-full 2xl:overflow-y-scroll 2xl:border-r">
@@ -260,7 +270,8 @@ const LessonList: React.FC<{
   className?: string
   scrollAreaClassName?: string
   path: string
-}> = ({module, className, scrollAreaClassName, path}) => {
+  lessonPathBuilder?: any
+}> = ({module, className, scrollAreaClassName, path, lessonPathBuilder}) => {
   const scrollContainerRef = React.useRef<any>(null)
 
   const {data: moduleProgress, status: moduleProgressStatus} =
@@ -321,6 +332,7 @@ const LessonList: React.FC<{
         >
           <Collection.Root
             module={module}
+            lessonPathBuilder={lessonPathBuilder}
             resourcesRenderer={(type) => {
               return (
                 <>
