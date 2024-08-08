@@ -144,7 +144,7 @@ const isFreelyVisible = ({
     return false
   }
 
-  const lessons = section ? section.lessons : module?.lessons || []
+  const lessons = module?.lessons || []
   const isFirstLesson =
     (lesson?._type === 'exercise' ||
       lesson?._type === 'explainer' ||
