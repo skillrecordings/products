@@ -68,7 +68,9 @@ export const WorkshopTemplate: React.FC<{
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="w-full px-5">
           <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
-            <MDX contents={workshopBodySerialized} />
+            {workshopBodySerialized && (
+              <MDX contents={workshopBodySerialized} />
+            )}
           </article>
         </div>
         <div className="w-full px-5 lg:max-w-sm xl:px-0">
