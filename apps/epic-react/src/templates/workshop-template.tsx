@@ -6,10 +6,16 @@ import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
+import {
+  type Lesson as LessonType,
+  Lesson,
+} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {trpc} from '@/trpc/trpc.client'
 import {capitalize, first} from 'lodash'
-import {Section} from '@skillrecordings/skill-lesson/schemas/section'
+import {
+  type Section as SectionType,
+  Section,
+} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import Balancer from 'react-wrap-balancer'
@@ -19,17 +25,20 @@ import {Skeleton} from '@skillrecordings/ui'
 import {CogIcon} from '@heroicons/react/outline'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {WorkshopAppBanner} from '@/components/workshop-app'
+import type {Module} from '@skillrecordings/skill-lesson/schemas/module'
+import pluralize from 'pluralize'
+import {getModuleLessonPath} from '@/lib/workshops'
 
-const TutorialTemplate: React.FC<{
-  tutorial: any
-  tutorialBodySerialized: MDXRemoteSerializeResult
-}> = ({tutorial, tutorialBodySerialized}) => {
-  const {title, ogImage, description} = tutorial
-  const pageTitle = `${title} Tutorial`
+export const WorkshopTemplate: React.FC<{
+  workshop: any
+  workshopBodySerialized: MDXRemoteSerializeResult
+}> = ({workshop, workshopBodySerialized}) => {
+  const {title, ogImage, description} = workshop
+  const pageTitle = `${title} Workshop`
 
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
-      slug: tutorial.slug.current,
+      slug: workshop.slug.current,
     })
 
   return (
@@ -37,34 +46,41 @@ const TutorialTemplate: React.FC<{
       className="mx-auto w-full max-w-screen-lg lg:pb-24"
       meta={{
         title: pageTitle,
-        description,
-        ogImage: {
-          url: ogImage,
-          alt: pageTitle,
-        },
+        description: workshop.description || '',
+        ...(ogImage && {
+          ogImage: {
+            url: ogImage,
+            alt: pageTitle,
+          },
+        }),
       }}
     >
       {/* <CourseMeta title={pageTitle} description={description} /> */}
-      {tutorial.state === 'draft' && (
+      {workshop.state === 'draft' && (
         <div className="sm:px-3">
           <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded sm:text-base">
-            <CogIcon className="h-4 w-4" /> {capitalize(tutorial.moduleType)}{' '}
+            <CogIcon className="h-4 w-4" /> {capitalize(workshop.moduleType)}{' '}
             under development — you're viewing a draft version.
           </div>
         </div>
       )}
-      <Header tutorial={tutorial} />
+      <Header workshop={workshop} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="w-full px-5">
           <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
-            <MDX contents={tutorialBodySerialized} />
+            {workshopBodySerialized && (
+              <MDX contents={workshopBodySerialized} />
+            )}
           </article>
         </div>
         <div className="w-full px-5 lg:max-w-sm xl:px-0">
-          {tutorial && (
-            <Collection.Root module={tutorial}>
+          {workshop && (
+            <Collection.Root
+              module={workshop}
+              lessonPathBuilder={getModuleLessonPath}
+            >
               <div className="flex w-full items-center justify-between pb-3">
-                {(tutorial.lessons || tutorial.sections) && (
+                {(workshop.lessons || workshop.sections) && (
                   <h3 className="text-xl font-bold">Contents</h3>
                 )}
                 <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
@@ -91,7 +107,7 @@ const TutorialTemplate: React.FC<{
             </Collection.Root>
           )}
           <WorkshopAppBanner
-            moduleSlug={tutorial.slug.current || ''}
+            moduleSlug={workshop.slug.current || ''}
             className="mt-3 rounded-lg border p-5"
           />
         </div>
@@ -100,13 +116,11 @@ const TutorialTemplate: React.FC<{
   )
 }
 
-export default TutorialTemplate
-
-const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
-  const {title, slug, sections, image, github, instructor} = tutorial
+const Header: React.FC<{workshop: any}> = ({workshop}) => {
+  const {title, slug, sections, image, github, instructor} = workshop
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
-      slug: tutorial.slug.current,
+      slug: workshop.slug.current,
     })
 
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
@@ -114,17 +128,17 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
   const nextLesson = moduleProgress?.nextLesson
 
   const firstSection = first<Section>(sections)
-  const firstLesson = first<Lesson>(firstSection?.lessons || tutorial.lessons)
+  const firstLesson = first<Lesson>(firstSection?.lessons || workshop.lessons)
 
   return (
     <>
       <header className="relative z-10 flex flex-col-reverse items-center justify-between px-5 pb-10 pt-8 sm:pb-16 sm:pt-12 md:flex-row">
         <div className="w-full text-center md:text-left">
           <Link
-            href="/tutorials"
+            href="/workshops"
             className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-blue-500 dark:text-blue-400 "
           >
-            Free Tutorial
+            Pro Workshop
           </Link>
           <h1 className="font-text text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-left lg:text-5xl">
             <Balancer>{title}</Balancer>
@@ -132,12 +146,12 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start"></div>
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
-              {(tutorial.lessons || tutorial.sections) && (
+              {(workshop.lessons || workshop.sections) && (
                 <Link
                   href={
                     firstSection && sections
                       ? {
-                          pathname: '/tutorials/[module]/[section]/[lesson]',
+                          pathname: '/workshops/[module]/[section]/[lesson]',
                           query: {
                             module: slug.current,
                             section: isModuleInProgress
@@ -149,7 +163,7 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
                           },
                         }
                       : {
-                          pathname: '/tutorials/[module]/[lesson]',
+                          pathname: '/workshops/[module]/[lesson]',
                           query: {
                             module: slug.current,
                             lesson: isModuleInProgress
