@@ -109,6 +109,7 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
     })
 
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
+  const isModuleCompleted = moduleProgress?.moduleCompleted
   const nextSection = moduleProgress?.nextSection
   const nextLesson = moduleProgress?.nextLesson
 
@@ -145,10 +146,14 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
                           pathname: '/tutorials/[module]/[section]/[lesson]',
                           query: {
                             module: slug.current,
-                            section: isModuleInProgress
+                            section: isModuleCompleted
+                              ? firstSection.slug
+                              : isModuleInProgress
                               ? nextSection?.slug
                               : firstSection.slug,
-                            lesson: isModuleInProgress
+                            lesson: isModuleCompleted
+                              ? firstLesson?.slug
+                              : isModuleInProgress
                               ? nextLesson?.slug
                               : firstLesson?.slug,
                           },
@@ -157,7 +162,9 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
                           pathname: '/tutorials/[module]/[lesson]',
                           query: {
                             module: slug.current,
-                            lesson: isModuleInProgress
+                            lesson: isModuleCompleted
+                              ? firstLesson?.slug
+                              : isModuleInProgress
                               ? nextLesson?.slug
                               : firstLesson?.slug,
                           },
