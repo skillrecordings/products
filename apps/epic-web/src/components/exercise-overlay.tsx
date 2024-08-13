@@ -227,7 +227,9 @@ const GetStartedVideo: React.FC<{module: Workshop}> = ({module}) => {
           playbackId="xSI7201jJf6lumgc9Kxwd5C65Rg8kLa94CcYzifZaL4U"
           accentColor="#3b82f6"
           className="h-full w-full rounded"
-          poster="https://res.cloudinary.com/epic-web/image/upload/v1697795383/workshop-app-video-poster.jpg"
+          poster={getWorkshopAppVideoPosterForContributor(
+            module?.instructor?.slug,
+          )}
         />
       </div>
     </>
@@ -235,6 +237,26 @@ const GetStartedVideo: React.FC<{module: Workshop}> = ({module}) => {
 }
 
 export default ExerciseOverlay
+
+function getWorkshopAppVideoPosterForContributor(slug?: string) {
+  if (!slug) {
+    return 'https://res.cloudinary.com/epic-web/image/upload/v1723540723/workshop-app/workshop-app-video-poster-generic.jpg'
+  }
+
+  if (slug.includes('kent')) {
+    return 'https://res.cloudinary.com/epic-web/image/upload/v1697795383/workshop-app-video-poster.jpg'
+  }
+
+  if (slug.includes('simon')) {
+    return 'https://res.cloudinary.com/epic-web/image/upload/v1723540723/workshop-app/workshop-app-video-poster-simon.jpg'
+  }
+
+  if (slug.includes('artem')) {
+    return 'https://res.cloudinary.com/epic-web/image/upload/v1723540723/workshop-app/workshop-app-video-poster-artem.jpg'
+  }
+
+  return 'https://res.cloudinary.com/epic-web/image/upload/v1723540723/workshop-app/workshop-app-video-poster-generic.jpg'
+}
 
 const Actions = () => {
   const {nextExercise, path, handlePlay, muxPlayerRef, handleContinue} =
