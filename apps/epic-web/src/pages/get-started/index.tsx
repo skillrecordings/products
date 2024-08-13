@@ -7,8 +7,7 @@ import Icon from 'components/icons'
 import {linkedHeadingComponents} from 'components/mdx'
 import {motion, useScroll, useTransform} from 'framer-motion'
 import {Page, getPage} from 'lib/pages'
-import {getProduct} from 'lib/products'
-import {getAllWorkshops} from 'lib/workshops'
+import {getAllWorkshops, type Workshop} from 'lib/workshops'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {useTheme} from 'next-themes'
 import Image from 'next/image'
@@ -20,7 +19,6 @@ import Balancer from 'react-wrap-balancer'
 export const getStaticProps = async () => {
   const page = await getPage('get-started')
   const bodyMdx = page.body && (await serializeMDX(page.body))
-  const product = await getProduct(process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID)
   const workshops = await getAllWorkshops()
 
   return {
@@ -36,12 +34,7 @@ export const getStaticProps = async () => {
 const GetStartedPage: React.FC<{
   page: Page
   body: MDXRemoteSerializeResult
-  workshops: {
-    title: string
-    slug: {current: string}
-    image?: string
-    github?: {repo: string}
-  }[]
+  workshops: Workshop[]
 }> = ({page, body, workshops}) => {
   const router = useRouter()
   const [mounted, setMounted] = React.useState(false)
@@ -136,13 +129,13 @@ const GetStartedPage: React.FC<{
 
 export default GetStartedPage
 
-const Workshops: React.FC<{workshops: any[]}> = ({workshops}) => {
+const Workshops: React.FC<{workshops: Workshop[]}> = ({workshops}) => {
   return (
     <div className="not-prose my-8 flex flex-col items-center justify-center text-lg sm:gap-4 md:text-lg">
       <ul className="w-full divide-y">
         {workshops.map((workshop) => {
           if (!workshop?.github?.repo) return null
-          const deployedUrl = getDeployedWorkshopAppUrl(workshop.github.repo)
+          const deployedUrl = workshop?.workshopApp?.external?.url
 
           return (
             <li className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2">
@@ -239,23 +232,6 @@ const WorkshopAppScreenshot = () => {
       ) : null}
     </motion.div>
   )
-}
-
-export const getDeployedWorkshopAppUrl = (repo: string) => {
-  switch (repo) {
-    case 'https://github.com/epicweb-dev/full-stack-foundations':
-      return 'https://foundations.epicweb.dev'
-    case 'https://github.com/epicweb-dev/web-forms':
-      return 'https://forms.epicweb.dev'
-    case 'https://github.com/epicweb-dev/data-modeling':
-      return 'https://data.epicweb.dev'
-    case 'https://github.com/epicweb-dev/web-auth':
-      return 'https://auth.epicweb.dev'
-    case 'https://github.com/epicweb-dev/full-stack-testing':
-      return 'https://testing.epicweb.dev'
-    case 'https://github.com/epicweb-dev/testing-fundamentals':
-      return 'https://epicweb-dev-testing-fundamentals.fly.dev'
-  }
 }
 
 const AppTourVideo = () => {

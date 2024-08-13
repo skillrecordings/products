@@ -9,8 +9,7 @@ import {Button} from '@skillrecordings/ui'
 import {ExternalLinkIcon} from '@heroicons/react/outline'
 import {trpc} from 'trpc/trpc.client'
 import MuxPlayer, {MuxPlayerRefAttributes} from '@mux/mux-player-react'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {getDeployedWorkshopAppUrl} from 'pages/get-started'
+import type {Workshop} from 'lib/workshops'
 
 const ExerciseOverlay = () => {
   const {module, lesson} = useLesson()
@@ -28,7 +27,7 @@ const ExerciseOverlay = () => {
   return (
     <div className="flex aspect-video flex-col items-center justify-center gap-16 bg-gray-950 py-0 pb-8 text-white dark:bg-black/20 sm:py-10 sm:pb-10">
       <div className="flex w-full flex-col items-center gap-8 p-5">
-        <GetStartedVideo module={module} />
+        <GetStartedVideo module={module as Workshop} />
         <div className="flex max-w-lg flex-col items-center space-y-5 text-center">
           <p className="font-text text-2xl font-bold sm:text-3xl">
             Stop! 😅 This is not a video course.
@@ -128,7 +127,7 @@ const ExerciseOverlay = () => {
   )
 }
 
-const GetStartedVideo: React.FC<{module: Module}> = ({module}) => {
+const GetStartedVideo: React.FC<{module: Workshop}> = ({module}) => {
   const [cuePoint, setCuePoint] = React.useState<{
     href: string
     label: string
@@ -159,8 +158,8 @@ const GetStartedVideo: React.FC<{module: Module}> = ({module}) => {
     {
       time: 60,
       value: {
-        href: module.github?.repo
-          ? getDeployedWorkshopAppUrl(module.github.repo)
+        href: module?.workshopApp?.external?.url
+          ? module?.workshopApp?.external?.url
           : '',
         label: `${module.title} (Deployed Workshop App)`,
       },

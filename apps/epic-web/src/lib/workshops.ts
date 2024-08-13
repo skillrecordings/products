@@ -23,12 +23,12 @@ const WorkshopSchema = z.object({
   workshopApp: z
     .nullable(
       z.object({
-        path: z.string().nullable(),
+        path: z.string().nullable().optional(),
         localhost: z.object({
-          path: z.string(),
+          path: z.string().optional(),
         }),
         external: z.object({
-          url: z.string(),
+          url: z.string().optional(),
         }),
       }),
     )
@@ -96,6 +96,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop' && s
   description,
   state,
   github,
+  workshopApp,
   "instructor": contributors[@.role == 'instructor'][0].contributor->{
       _id,
       _type,
