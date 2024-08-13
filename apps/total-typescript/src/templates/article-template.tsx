@@ -28,6 +28,7 @@ import {
 } from '@skillrecordings/skill-lesson/convertkit'
 import {setUserId} from '@amplitude/analytics-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
+import {Button} from '@skillrecordings/ui'
 
 type ArticleTemplateProps = {
   article: Article
@@ -305,9 +306,10 @@ const BookTeaserCTA: React.FC<{withImage?: boolean; className?: string}> = ({
   }
 
   return (
-    <div
+    <Link
+      href="/books/total-typescript-essentials"
       className={cn(
-        'mx-auto flex w-full max-w-3xl flex-col items-center gap-0 rounded-lg border bg-card md:flex-row',
+        'mx-auto flex w-full max-w-3xl flex-col items-center gap-0 rounded-lg border bg-card py-5 transition duration-300 ease-in-out hover:bg-white/5 md:flex-row',
         className,
       )}
     >
@@ -327,44 +329,30 @@ const BookTeaserCTA: React.FC<{withImage?: boolean; className?: string}> = ({
       )}
       <div
         className={cn(
-          'flex w-full flex-col gap-2 text-xl leading-relaxed text-gray-200',
+          'flex w-full flex-col items-start gap-2 text-xl leading-relaxed text-gray-200',
           {
             '-mt-10 p-5 md:mt-0 md:py-0 md:pl-0 md:pr-10': withImage,
             'p-5 sm:p-10': !withImage,
           },
         )}
       >
-        <p className="text-center text-2xl font-semibold md:text-left">
-          This is a preview from my upcoming book.
+        <p className=" text-balance pb-3 font-heading text-5xl font-bold text-white md:text-5xl lg:text-6xl">
+          <div className="text-2xl font-normal text-primary">
+            Total TypeScript
+          </div>
+          <div>Essentials</div>
         </p>
-        {!subscriber && (
-          <>
-            <p className="text-balance text-center text-sm text-slate-400 sm:text-base md:text-left">
-              If you’d like to receive updates about the book and all things
-              TypeScript, subscribe below:
-            </p>
-            <div className="flex w-full pt-3">
-              <SubscribeToConvertkitForm
-                fields={ckBookInterest}
-                onSuccess={(subscriber, email) => {
-                  if (subscriber) {
-                    email && setUserId(email)
-                    track('subscribed to email list', {
-                      location: 'home',
-                    })
-                    const redirectUrl = redirectUrlBuilder(
-                      subscriber,
-                      '/confirm',
-                    )
-                    router.push(redirectUrl)
-                  }
-                }}
-                className="flex w-full max-w-none flex-col gap-5 md:flex-row md:items-end [&_button]:h-12 [&_button]:text-base [&_button]:font-semibold [&_input]:h-12 [&_input]:border-white/10 [&_input]:bg-background [&_input]:bg-gray-900 [&_input]:text-base"
-              />
-            </div>
-          </>
-        )}
+        <div>
+          <p className="text-balance text-base text-gray-300">
+            Check out my free book for devs of all levels to learn advanced type
+            manipulation and real-world application development patterns in
+            TypeScript.
+          </p>
+        </div>
+        <Button asChild className="mt-5">
+          <div>Continue Reading</div>
+        </Button>
       </div>
-    </div>
+    </Link>
   )
 }
