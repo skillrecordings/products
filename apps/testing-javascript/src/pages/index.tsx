@@ -162,11 +162,6 @@ const Home: React.FC<
       }
     : undefined
 
-  const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(
-    couponFromCode,
-    productMetadata,
-  )
-
   return (
     <Layout>
       <main>
@@ -180,7 +175,6 @@ const Home: React.FC<
           commerceProps={commerceProps}
           mostValuedProduct={mostValuedProduct}
         />
-        {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       </main>
     </Layout>
   )

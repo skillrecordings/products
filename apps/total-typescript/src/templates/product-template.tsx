@@ -45,10 +45,7 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
       }
     : undefined
 
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    couponFromCode,
-    productMetadata,
-  )
+  const {validCoupon} = useCoupon(couponFromCode, productMetadata)
 
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
@@ -175,7 +172,6 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
               />
             </PriceCheckProvider>
           </div>
-          {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
           <div className="flex w-full items-center justify-center py-16">
             <Image
               src="https://res.cloudinary.com/total-typescript/image/upload/v1689864739/money-back-guarantee-large_l3sikc.png"

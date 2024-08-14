@@ -9,8 +9,8 @@ import {useFeedback} from '../../feedback-widget/feedback-context'
 import Footer from '@/components/app/footer'
 import GlobalSearchBar from '@/search-bar'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import {trpc} from '@/trpc/trpc.client'
 import {larsseit, magnatHead, magnatText} from '@/utils/load-fonts'
+import {useGoldenTicket} from '@skillrecordings/skill-lesson/hooks/use-golden-ticket'
 
 type LayoutProps = {
   meta?: any
@@ -31,6 +31,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
 }) => {
   const router = useRouter()
   const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
+  const {RedeemDialogForCoupon} = useGoldenTicket()
 
   const {
     title,
@@ -80,6 +81,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         noindex={noIndex}
       />
       <GlobalSearchBar />
+      <RedeemDialogForCoupon />
       <Toaster position="top-center" />
       {isFeedbackDialogOpen && feedbackComponent}
       {nav ? nav : isNull(nav) ? null : <Navigation />}

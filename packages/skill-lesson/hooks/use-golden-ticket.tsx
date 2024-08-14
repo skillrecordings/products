@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
-import {trpc} from 'trpc/trpc.client'
-import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import {useCoupon} from '../path-to-purchase/use-coupon'
+import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
 
 export type GoldenTicketContextType = {
   redeemableCoupon?: boolean
@@ -20,18 +20,21 @@ export const GoldenTicketContext = React.createContext(
 )
 
 export const GoldenTicketProvider = ({
+  couponImageUrl,
   children,
 }: {
+  couponImageUrl?: string
   children: React.ReactNode
 }) => {
   const router = useRouter()
 
-  const {data: couponData} = trpc.coupons.getForCodeOrCoupon.useQuery({
-    code: router.query.code ? (router.query.code as string) : undefined,
-    coupon: router.query.coupon ? (router.query.coupon as string) : undefined,
-  })
+  const {data: couponData} =
+    trpcSkillLessons.coupons.getForCodeOrCoupon.useQuery({
+      code: router.query.code ? (router.query.code as string) : undefined,
+      coupon: router.query.coupon ? (router.query.coupon as string) : undefined,
+    })
 
-  const {data: product} = trpc.products.getProductById.useQuery({
+  const {data: product} = trpcSkillLessons.products.getProductById.useQuery({
     productId: couponData?.restrictedToProductId as string,
   })
 
@@ -39,11 +42,13 @@ export const GoldenTicketProvider = ({
     couponData,
     {
       id: couponData?.restrictedToProductId as string,
-      image: {
-        url: 'https://res.cloudinary.com/epic-web/image/upload/v1695972887/coupon_2x.png',
-        width: 132,
-        height: 112,
-      },
+      ...(couponImageUrl && {
+        image: {
+          url: couponImageUrl,
+          width: 132,
+          height: 112,
+        },
+      }),
       title: product?.name as string,
       description: product?.description,
       instructors: product?.instructors.map(

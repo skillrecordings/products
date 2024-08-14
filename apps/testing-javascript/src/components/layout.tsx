@@ -5,6 +5,7 @@ import cx from 'classnames'
 import {Toaster} from 'react-hot-toast'
 import Navigation from './navigation'
 import type {LayoutProps} from '@/@types/'
+import {useGoldenTicket} from '@skillrecordings/skill-lesson/hooks/use-golden-ticket'
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   children,
@@ -24,8 +25,11 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
     date,
   } = meta || {}
 
+  const {RedeemDialogForCoupon} = useGoldenTicket()
+
   return (
     <div className="relative bg-white">
+      <RedeemDialogForCoupon />
       <Toaster
         position="top-center"
         containerStyle={{background: 'transparent'}}
