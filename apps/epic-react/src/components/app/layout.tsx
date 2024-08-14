@@ -63,7 +63,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
     useGoldenTicket()
 
   React.useEffect(() => {
-    if (couponData && !validCoupon) {
+    if (couponData && !couponData.isValid && invalidReason) {
       toast.error(invalidReason)
     }
   }, [couponData, invalidReason, validCoupon])
