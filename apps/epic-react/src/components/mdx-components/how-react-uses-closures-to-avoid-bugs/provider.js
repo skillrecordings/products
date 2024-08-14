@@ -18,7 +18,6 @@ function AppProvider(props) {
   }
 
   function likePost(post) {
-    console.log('liking', post.title)
     setLikes([
       ...likes,
       {id: `l${likes.length + 1}`, ownerId: user.id, postId: post.id},
@@ -26,7 +25,6 @@ function AppProvider(props) {
   }
 
   function unlikePost(post) {
-    console.log('unliking', post.title)
     setLikes(
       likes.filter((l) => !(l.ownerId === user.id && l.postId === post.id)),
     )

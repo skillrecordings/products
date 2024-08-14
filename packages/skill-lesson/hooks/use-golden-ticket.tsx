@@ -38,13 +38,9 @@ export const GoldenTicketProvider = ({
       coupon: router.query.coupon ? (router.query.coupon as string) : undefined,
     })
 
-  console.log({couponData})
-
   const {data: product} = trpcSkillLessons.products.getProductById.useQuery({
     productId: couponData?.restrictedToProductId as string,
   })
-
-  console.log('couponData', couponData)
 
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     couponData,
@@ -64,8 +60,6 @@ export const GoldenTicketProvider = ({
       ),
     },
   )
-
-  console.log('validCoupon', validCoupon)
 
   let invalidReason = null
 
