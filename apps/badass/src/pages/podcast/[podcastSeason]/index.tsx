@@ -9,7 +9,7 @@ import {useScroll, motion, useTransform} from 'framer-motion'
 import {
   getAllPodcastSeasons,
   getPodcastSeason,
-  PodcastSeason,
+  type PodcastSeason,
 } from 'lib/podcast'
 import Layout from 'components/layout'
 import PodcastParallaxImages from 'components/podcast-parallax-images'
@@ -48,7 +48,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
+const PodcastSeasonPage: React.FC<{season: PodcastSeason}> = ({season}) => {
   const ref = React.useRef(null)
   const {scrollYProgress} = useScroll({
     target: ref,
@@ -177,7 +177,7 @@ const PodcastSeason: React.FC<{season: PodcastSeason}> = ({season}) => {
   )
 }
 
-export default PodcastSeason
+export default PodcastSeasonPage
 
 const Providers = () => {
   return (
