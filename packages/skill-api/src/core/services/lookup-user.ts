@@ -60,6 +60,7 @@ export async function lookupUser({
               select: {
                 id: true,
                 name: true,
+                key: true,
               },
             },
           },
