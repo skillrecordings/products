@@ -4,7 +4,7 @@ import PodcastEpisodeTemplate from 'templates/podcast-episode-template'
 import {
   getAllPodcastSeasons,
   getPodcastEpisode,
-  PodcastEpisode,
+  type PodcastEpisode,
 } from 'lib/podcast'
 
 import serializeMdx from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
@@ -53,7 +53,7 @@ type PodcastEpisodeProps = {
   episodeTranscriptSerialized: MDXRemoteSerializeResult
 }
 
-const PodcastEpisode: React.FC<PodcastEpisodeProps> = ({
+const PodcastEpisodePage: React.FC<PodcastEpisodeProps> = ({
   episode,
   episodeDescriptionSerialized,
   episodeTranscriptSerialized,
@@ -67,4 +67,4 @@ const PodcastEpisode: React.FC<PodcastEpisodeProps> = ({
   )
 }
 
-export default PodcastEpisode
+export default PodcastEpisodePage

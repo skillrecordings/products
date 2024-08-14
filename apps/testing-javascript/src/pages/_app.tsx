@@ -12,6 +12,7 @@ import config from '../config'
 
 import {trpc} from '@/trpc/trpc.client'
 import {initNProgress} from '@skillrecordings/skill-lesson/utils/init-nprogess'
+import {GoldenTicketProvider} from '@skillrecordings/skill-lesson/hooks/use-golden-ticket'
 
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
   usePageview()
@@ -21,7 +22,9 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
       <DefaultSeo {...config} />
       <SessionProvider session={pageProps.session} refetchInterval={0}>
         <ConvertkitProvider>
-          <Component {...pageProps} />
+          <GoldenTicketProvider>
+            <Component {...pageProps} />
+          </GoldenTicketProvider>
         </ConvertkitProvider>
       </SessionProvider>
     </>

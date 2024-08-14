@@ -47,10 +47,7 @@ const PricingSection: React.FC<{
       }
     : undefined
 
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    couponFromCode,
-    productMetadata,
-  )
+  const {validCoupon} = useCoupon(couponFromCode, productMetadata)
 
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
@@ -75,7 +72,6 @@ const PricingSection: React.FC<{
           </h3>
         </header>
         <PriceCheckProvider purchasedProductsIds={purchasedProductsIds}>
-          {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
           <div className="flex flex-col items-center lg:flex-row justify-center gap-6 mt-24 md:mt-28 lg:mt-32 lg:items-start">
             {products.map((product, i) => {
               const productRank =

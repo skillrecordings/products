@@ -59,10 +59,7 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
       }
     : undefined
 
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    couponFromCode,
-    productMetadata,
-  )
+  const {validCoupon} = useCoupon(couponFromCode, productMetadata)
 
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
@@ -116,7 +113,6 @@ const Buy: React.FC<React.PropsWithChildren<CommerceProps>> = ({
         </motion.div>
         <section className="px-5 pt-24">
           <div className="flex flex-col-reverse gap-40 lg:flex lg:flex-row lg:gap-0">
-            {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
             {sortedProductsByName?.map((product, i) => {
               const isFirst = products.length > 1 && i === 0
               const isLast = products.length > 1 && i === products.length - 1

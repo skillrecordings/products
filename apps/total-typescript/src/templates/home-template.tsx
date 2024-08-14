@@ -50,10 +50,7 @@ export const HomeTemplate: React.FC<
       }
     : undefined
 
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    couponFromCode,
-    productMetadata,
-  )
+  const {validCoupon} = useCoupon(couponFromCode, productMetadata)
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
   const sortedProductsByName = products.sort((a, b) => {
@@ -104,7 +101,6 @@ export const HomeTemplate: React.FC<
             <div className="flex w-full flex-col items-center px-5 pb-0 pt-12 sm:pb-24">
               <section className="pt-32">
                 <div className="flex flex-col-reverse gap-40 lg:flex lg:flex-row lg:gap-0">
-                  {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
                   {sortedProductsByName?.map((product, i) => {
                     const isFirst = products.length > 1 && i === 0
                     const isLast =
@@ -159,7 +155,6 @@ export const HomeTemplate: React.FC<
         ) : (
           <SubscribeToNewsletter level={skillLevel} />
         )}
-        {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       </main>
     </Layout>
   )

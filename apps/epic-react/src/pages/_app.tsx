@@ -18,6 +18,7 @@ import {Session} from 'next-auth'
 import {ThemeProvider} from '@/components/app/theme-provider'
 import mdxComponents from '@/components/mdx-components'
 import {Inter} from 'next/font/google'
+import {GoldenTicketProvider} from '@skillrecordings/skill-lesson/hooks/use-golden-ticket'
 
 if (process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
   amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY)
@@ -54,7 +55,9 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
                   enableSystem
                   disableTransitionOnChange
                 >
-                  <Component {...pageProps} />
+                  <GoldenTicketProvider>
+                    <Component {...pageProps} />
+                  </GoldenTicketProvider>
                 </ThemeProvider>
               </MDXProvider>
             </div>

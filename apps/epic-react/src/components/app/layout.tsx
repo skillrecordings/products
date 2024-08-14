@@ -1,11 +1,13 @@
+import * as React from 'react'
 import {NextSeo, type NextSeoProps} from '@skillrecordings/next-seo'
 import {twMerge} from 'tailwind-merge'
 import cx from 'classnames'
 import Navigation from './navigation'
 import {Inter} from 'next/font/google'
-import {Toaster} from 'react-hot-toast'
+import toast, {Toaster} from 'react-hot-toast'
 
 import {useFeedback} from '@/components/feedback-widget/feedback-context'
+import {useGoldenTicket} from '@skillrecordings/skill-lesson/hooks/use-golden-ticket'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -57,6 +59,14 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
     date,
   } = meta || {}
   const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
+  const {RedeemDialogForCoupon, couponData, invalidReason, validCoupon} =
+    useGoldenTicket()
+
+  React.useEffect(() => {
+    if (couponData && !validCoupon) {
+      toast.error(invalidReason)
+    }
+  }, [couponData, invalidReason, validCoupon])
 
   return (
     <div
@@ -85,6 +95,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
         noindex={noIndex}
       />
       <Toaster position="top-center" />
+      <RedeemDialogForCoupon />
       {isFeedbackDialogOpen && feedbackComponent}
       {withNavigation && (
         <Navigation
