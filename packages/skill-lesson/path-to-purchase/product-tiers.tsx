@@ -39,10 +39,7 @@ export const PricingTiers: React.FC<
       }
     : undefined
 
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    couponFromCode,
-    productMetadata,
-  )
+  const {validCoupon} = useCoupon(couponFromCode, productMetadata)
 
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
@@ -51,7 +48,6 @@ export const PricingTiers: React.FC<
 
   return (
     <>
-      {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       <div data-pricing-container="">
         <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
           {products?.map((productWithOptions, i) => {

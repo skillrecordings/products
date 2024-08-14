@@ -1,5 +1,5 @@
 /* Redeem dialog */
-#pricing-tiers [data-redeem-dialog-content] {
+[data-redeem-dialog-content] {
   @apply fixed left-1/2 top-1/2 z-[100] w-full max-w-[95%] -translate-x-1/2 -translate-y-1/2 rounded-md bg-white text-[#212732] shadow-xl sm:max-w-md;
   [data-title] {
     @apply px-8 pt-8 text-2xl font-bold;
