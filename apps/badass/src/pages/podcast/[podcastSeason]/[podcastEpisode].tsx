@@ -4,7 +4,7 @@ import PodcastEpisodeTemplate from 'templates/podcast-episode-template'
 import {
   getAllPodcastSeasons,
   getPodcastEpisode,
-  PodcastEpisode,
+  type PodcastEpisode,
 } from 'lib/podcast'
 
 import serializeMdx from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
