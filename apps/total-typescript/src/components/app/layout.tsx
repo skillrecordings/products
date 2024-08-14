@@ -2,15 +2,15 @@ import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
 import Navigation from '@/components/app/navigation'
 import isNull from 'lodash/isNull'
-import {Toaster} from 'react-hot-toast'
+import toast, {Toaster} from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import {Survey} from '../../offer/survey'
 import {useFeedback} from '../../feedback-widget/feedback-context'
 import Footer from '@/components/app/footer'
 import GlobalSearchBar from '@/search-bar'
 import {cn} from '@skillrecordings/ui/utils/cn'
-import {trpc} from '@/trpc/trpc.client'
 import {larsseit, magnatHead, magnatText} from '@/utils/load-fonts'
+import {useGoldenTicket} from '@skillrecordings/skill-lesson/hooks/use-golden-ticket'
 
 type LayoutProps = {
   meta?: any
@@ -31,6 +31,15 @@ const Layout: FunctionComponent<LayoutProps> = ({
 }) => {
   const router = useRouter()
   const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
+
+  const {RedeemDialogForCoupon, couponData, invalidReason, validCoupon} =
+    useGoldenTicket()
+
+  React.useEffect(() => {
+    if (couponData && !validCoupon) {
+      toast.error(invalidReason)
+    }
+  }, [couponData, invalidReason, validCoupon])
 
   const {
     title,
@@ -80,6 +89,7 @@ const Layout: FunctionComponent<LayoutProps> = ({
         noindex={noIndex}
       />
       <GlobalSearchBar />
+      <RedeemDialogForCoupon />
       <Toaster position="top-center" />
       {isFeedbackDialogOpen && feedbackComponent}
       {nav ? nav : isNull(nav) ? null : <Navigation />}

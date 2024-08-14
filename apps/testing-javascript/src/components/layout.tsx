@@ -2,9 +2,10 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
 import cx from 'classnames'
-import {Toaster} from 'react-hot-toast'
+import toast, {Toaster} from 'react-hot-toast'
 import Navigation from './navigation'
 import type {LayoutProps} from '@/@types/'
+import {useGoldenTicket} from '@skillrecordings/skill-lesson/hooks/use-golden-ticket'
 
 const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   children,
@@ -24,8 +25,18 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
     date,
   } = meta || {}
 
+  const {RedeemDialogForCoupon, couponData, invalidReason, validCoupon} =
+    useGoldenTicket()
+
+  React.useEffect(() => {
+    if (couponData && !validCoupon) {
+      toast.error(invalidReason)
+    }
+  }, [couponData, invalidReason, validCoupon])
+
   return (
     <div className="relative bg-white">
+      <RedeemDialogForCoupon />
       <Toaster
         position="top-center"
         containerStyle={{background: 'transparent'}}

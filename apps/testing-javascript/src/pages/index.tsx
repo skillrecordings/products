@@ -36,13 +36,12 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const playlists = await getAllPlaylists()
   const interviews = await getAllInterviews()
 
-  const ability = getCurrentAbility(sessionToken as any)
-  const canViewContent = ability.can('view', 'Content')
-  const hasChargesForPurchases = ability.can('view', 'Invoice')
-  const hasBulkPurchase = ability.can('view', 'Team')
-  const hasAvailableSeats = ability.can('invite', 'Team')
-
   const products = await getAllProducts()
+
+  const ability = getCurrentAbility(sessionToken as any)
+
+  const hasChargesForPurchases = ability.can('view', 'Invoice')
+
   const {props: commerceProps} = await propsForCommerce({
     query,
     token: sessionToken,
@@ -54,6 +53,15 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
       ?.filter((productId) =>
         testingJavaScriptProductIds.includes(productId),
       ) || []
+
+  const hasBoughtTestingJavaScript = purchasedProductsIds.length > 0
+
+  const canViewContent =
+    ability.can('view', 'Content') && hasBoughtTestingJavaScript
+  const hasBulkPurchase =
+    ability.can('view', 'Team') && hasBoughtTestingJavaScript
+  const hasAvailableSeats =
+    ability.can('invite', 'Team') && hasBoughtTestingJavaScript
 
   // `mostValuedProduct` is the product among the user's purchases that has
   // the most modules. E.g. if they original purchased the Standard and have
@@ -162,11 +170,6 @@ const Home: React.FC<
       }
     : undefined
 
-  const {redeemableCoupon, RedeemDialogForCoupon} = useCoupon(
-    couponFromCode,
-    productMetadata,
-  )
-
   return (
     <Layout>
       <main>
@@ -180,7 +183,6 @@ const Home: React.FC<
           commerceProps={commerceProps}
           mostValuedProduct={mostValuedProduct}
         />
-        {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       </main>
     </Layout>
   )

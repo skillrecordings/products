@@ -1,13 +1,13 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
-import {Toaster} from 'react-hot-toast'
+import toast, {Toaster} from 'react-hot-toast'
 import Navigation from 'components/app/navigation'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Footer from './footer'
 import GlobalSearchBar from 'search-bar'
 import '../../search-bar/cmdk.css'
 import {useGlobalBanner} from 'hooks/use-global-banner'
-import {useGoldenTicket} from 'hooks/use-golden-ticket'
+import {useGoldenTicket} from '@skillrecordings/skill-lesson/hooks/use-golden-ticket'
 
 type LayoutProps = {
   meta?: any
@@ -45,7 +45,14 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
   } = meta || {}
   const {isShowingSiteBanner, bannerHeight} = useGlobalBanner()
 
-  const {RedeemDialogForCoupon} = useGoldenTicket()
+  const {RedeemDialogForCoupon, couponData, invalidReason, validCoupon} =
+    useGoldenTicket()
+
+  React.useEffect(() => {
+    if (couponData && !validCoupon) {
+      toast.error(invalidReason)
+    }
+  }, [couponData, invalidReason, validCoupon])
 
   return (
     <>

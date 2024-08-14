@@ -44,11 +44,15 @@ export function getCurrentAbility(
  * otherwise, use the purchases and create rules
  * @see {@link https://casl.js.org/v5/en/guide/define-rules#ability-builder-class|AbilityBuilder}
  * @param viewerAbilityInput
+ * @param products
  */
-export function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
+export function defineAbilityFor(
+  viewerAbilityInput: ViewerAbilityInput,
+  products: any[] = [],
+) {
   const rules = Boolean(viewerAbilityInput?.rules)
     ? viewerAbilityInput.rules
-    : defineRulesForPurchases(viewerAbilityInput?.purchases || [])
+    : defineRulesForPurchases(viewerAbilityInput?.purchases || [], products)
 
   return new AppAbility(rules)
 }
@@ -57,8 +61,12 @@ export function defineAbilityFor(viewerAbilityInput: ViewerAbilityInput) {
  * Creates a structure of rules to use in the ability from list of purchases
  *
  * @param purchases
+ * @param products
  */
-export function defineRulesForPurchases(purchases: any[]) {
+export function defineRulesForPurchases(
+  purchases: any[],
+  products: any[] = [],
+) {
   const {can, rules} = new AbilityBuilder(AppAbility)
 
   if (hasAvailableSeats(purchases)) {

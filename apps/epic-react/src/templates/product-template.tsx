@@ -51,10 +51,7 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
       }
     : undefined
 
-  const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
-    couponFromCode,
-    productMetadata,
-  )
+  const {validCoupon} = useCoupon(couponFromCode, productMetadata)
 
   const couponId =
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
@@ -124,7 +121,6 @@ const ProductTemplate: React.FC<ProductPageProps> = ({
           id="pricing-tiers"
           className="mt-10 flex w-full items-center justify-center pb-16"
         >
-          {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
           <div data-pricing-container="">
             <Pricing
               bonuses={availableBonuses}
