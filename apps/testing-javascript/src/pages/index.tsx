@@ -36,10 +36,9 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const playlists = await getAllPlaylists()
   const interviews = await getAllInterviews()
 
-  console.log({sessionToken}, sessionToken.purchases)
   const products = await getAllProducts()
 
-  const ability = getCurrentAbility(sessionToken as any, products)
+  const ability = getCurrentAbility(sessionToken as any)
 
   const hasChargesForPurchases = ability.can('view', 'Invoice')
 
