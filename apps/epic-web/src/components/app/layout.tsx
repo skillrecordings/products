@@ -7,7 +7,7 @@ import Footer from './footer'
 import GlobalSearchBar from 'search-bar'
 import '../../search-bar/cmdk.css'
 import {useGlobalBanner} from 'hooks/use-global-banner'
-import {useGoldenTicket} from 'hooks/use-golden-ticket'
+import {useGoldenTicket} from '@skillrecordings/skill-lesson/hooks/use-golden-ticket'
 
 type LayoutProps = {
   meta?: any
