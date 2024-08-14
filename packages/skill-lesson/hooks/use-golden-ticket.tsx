@@ -2,17 +2,61 @@ import * as React from 'react'
 import {useRouter} from 'next/router'
 import {useCoupon} from '../path-to-purchase/use-coupon'
 import {trpcSkillLessons} from '../utils/trpc-skill-lessons'
+import {Decimal} from '@skillrecordings/database'
+import * as _skillrecordings_database from '@skillrecordings/database'
 
 export type GoldenTicketContextType = {
   redeemableCoupon?: boolean
   RedeemDialogForCoupon: () => React.JSX.Element | null
   validCoupon: boolean
+  invalidReason: string
+  couponData?:
+    | {
+        isValid: boolean
+        isRedeemable: boolean
+        error: string
+        isExpired?: undefined
+        isUsedUp?: undefined
+        id: string
+        code: string | null
+        createdAt: Date
+        expires: Date | null
+        maxUses: number
+        default: boolean
+        merchantCouponId: string | null
+        status: number
+        usedCount: number
+        percentageDiscount: Decimal
+        restrictedToProductId: string | null
+        bulkPurchaseId: string | null
+      }
+    | {
+        isExpired: boolean
+        isUsedUp: boolean
+        isRedeemable: boolean
+        isValid: boolean
+        error?: undefined
+        id: string
+        code: string | null
+        createdAt: Date
+        expires: Date | null
+        maxUses: number
+        default: boolean
+        merchantCouponId: string | null
+        status: number
+        usedCount: number
+        percentageDiscount: Decimal
+        restrictedToProductId: string | null
+        bulkPurchaseId: string | null
+      }
+    | null
 }
 
 const defaultGoldenTicketContext: GoldenTicketContextType = {
   redeemableCoupon: false,
   RedeemDialogForCoupon: () => null,
   validCoupon: false,
+  invalidReason: 'No Coupon',
 }
 
 export const GoldenTicketContext = React.createContext(
@@ -59,9 +103,30 @@ export const GoldenTicketProvider = ({
     },
   )
 
+  let invalidReason = couponData ? 'Coupon is Valid' : 'No Coupon'
+
+  switch (true) {
+    case couponData && couponData.isUsedUp:
+      invalidReason =
+        'Coupon is out of seats. Please contact us to purchase more seats.'
+      break
+    case couponData && couponData.isExpired:
+      invalidReason = 'Coupon has expired.'
+      break
+    case couponData && !couponData.isValid:
+      invalidReason = 'Coupon is not valid.'
+      break
+  }
+
   return (
     <GoldenTicketContext.Provider
-      value={{redeemableCoupon, RedeemDialogForCoupon, validCoupon}}
+      value={{
+        redeemableCoupon,
+        RedeemDialogForCoupon,
+        validCoupon,
+        invalidReason,
+        couponData,
+      }}
     >
       {children}
     </GoldenTicketContext.Provider>

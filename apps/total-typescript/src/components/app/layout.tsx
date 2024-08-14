@@ -2,7 +2,7 @@ import React, {FunctionComponent} from 'react'
 import {NextSeo} from '@skillrecordings/next-seo'
 import Navigation from '@/components/app/navigation'
 import isNull from 'lodash/isNull'
-import {Toaster} from 'react-hot-toast'
+import toast, {Toaster} from 'react-hot-toast'
 import {useRouter} from 'next/router'
 import {Survey} from '../../offer/survey'
 import {useFeedback} from '../../feedback-widget/feedback-context'
@@ -31,7 +31,15 @@ const Layout: FunctionComponent<LayoutProps> = ({
 }) => {
   const router = useRouter()
   const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
-  const {RedeemDialogForCoupon} = useGoldenTicket()
+
+  const {RedeemDialogForCoupon, couponData, invalidReason, validCoupon} =
+    useGoldenTicket()
+
+  React.useEffect(() => {
+    if (couponData && !validCoupon) {
+      toast.error(invalidReason)
+    }
+  }, [couponData, invalidReason, validCoupon])
 
   const {
     title,
