@@ -18,8 +18,8 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 }
 
-const Podcast: React.FC<{podcast: Podcast}> = ({podcast}) => {
+const PodcastPage: React.FC<{podcast: Podcast}> = ({podcast}) => {
   return <Layout>Ih oh! We shouldn't see this.</Layout>
 }
 
-export default Podcast
+export default PodcastPage
