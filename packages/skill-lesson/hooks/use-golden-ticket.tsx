@@ -34,6 +34,8 @@ export const GoldenTicketProvider = ({
       coupon: router.query.coupon ? (router.query.coupon as string) : undefined,
     })
 
+  console.log({couponData})
+
   const {data: product} = trpcSkillLessons.products.getProductById.useQuery({
     productId: couponData?.restrictedToProductId as string,
   })
@@ -52,7 +54,7 @@ export const GoldenTicketProvider = ({
       title: product?.name as string,
       description: product?.description,
       instructors: product?.instructors.map(
-        (instructor: {name: string}) => instructor.name,
+        (instructor: {name: string}) => instructor?.name,
       ),
     },
   )
