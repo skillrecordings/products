@@ -4,7 +4,7 @@ import PodcastEpisodeTemplate from 'templates/podcast-episode-template'
 import {
   getAllPodcastSeasons,
   getPodcastEpisode,
-  type PodcastEpisode,
+  type PodcastEpisode as PodcastEpisodeType,
 } from 'lib/podcast'
 
 import serializeMdx from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
@@ -48,7 +48,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 }
 
 type PodcastEpisodeProps = {
-  episode: PodcastEpisode
+  episode: PodcastEpisodeType
   episodeDescriptionSerialized: MDXRemoteSerializeResult
   episodeTranscriptSerialized: MDXRemoteSerializeResult
 }
