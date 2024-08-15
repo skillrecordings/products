@@ -52,7 +52,7 @@ const WorkshopsPage: React.FC<{
         <div className="flex flex-col items-center space-y-3 text-center">
           <h1 className="flex flex-col text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
             <span className="mb-2 inline-block bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-xl uppercase tracking-widest text-transparent dark:from-blue-300 dark:to-blue-500">
-              Free
+              Professional
             </span>{' '}
             Epic React Workshops
           </h1>
