@@ -96,7 +96,7 @@ export const WorkshopsSchema = z.array(WorkshopSchema)
 export type Workshop = z.infer<typeof WorkshopSchema>
 
 // const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop' && state == 'published'] | order(_createdAt asc) {
-const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | order(_createdAt desc) {
+const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | order(_createdAt asc) {
   _id,
   _type,
   title,

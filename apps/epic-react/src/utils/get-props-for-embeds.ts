@@ -24,6 +24,7 @@ import {getTutorial} from '@/lib/tutorials'
 import {getTip} from '@/lib/tips'
 import {Exercise} from '@skillrecordings/skill-lesson/schemas/exercise'
 import {getBonus} from '@/lib/bonuses'
+import {getWorkshop} from '@/lib/workshops'
 
 export const getPropsForEmbed = async (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
@@ -123,6 +124,8 @@ const getModule = async (
       return await getTutorial(slug)
     case 'legacy-module':
       return await getLegacyModule(slug)
+    case 'workshop':
+      return await getWorkshop(slug)
     case 'bonus':
       return await getBonus(slug)
     case 'tip':

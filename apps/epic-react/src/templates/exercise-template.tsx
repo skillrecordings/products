@@ -79,7 +79,7 @@ const ExerciseTemplate: React.FC<{
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
         moduleSlug: module.slug.current,
-        moduleType: 'legacy-module',
+        moduleType: 'legacy-module' || 'workshop',
         lessonSlug: lesson.slug,
         isSolution: lesson._type === 'solution',
         sectionSlug: section?.slug,
@@ -99,7 +99,9 @@ const ExerciseTemplate: React.FC<{
 
   const displayWorkshopAppBanner =
     canViewContent &&
-    (module.moduleType === 'legacy-module' || module.moduleType === 'tutorial')
+    (module.moduleType === 'legacy-module' ||
+      module.moduleType === 'tutorial' ||
+      module.moduleType === 'workshop')
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
