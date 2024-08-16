@@ -45,7 +45,7 @@ const NewsletterPage = () => {
       meta={{
         title,
         ogImage: {
-          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1709220896/card--newsletter_2x_hzzwge.jpg',
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1723733494/card--newsletter_2x_rwq7lk.jpg',
         },
         titleAppendSiteName: false,
       }}
@@ -62,7 +62,7 @@ const NewsletterPage = () => {
         >
           <div className="flex max-w-xl flex-col items-center gap-7 text-center">
             <h1 className="text-balance text-3xl font-medium sm:text-4xl">
-              Join over 30,000 developers on their journey to TypeScript mastery
+              Join over 40,000 developers on their journey to TypeScript mastery
             </h1>
             <h2 className="text-balance text-lg font-normal text-slate-300 sm:text-xl">
               A comprehensive production-grade TypeScript training by{' '}
