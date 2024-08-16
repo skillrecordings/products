@@ -25,6 +25,28 @@ const WorkshopSchema = z.object({
   slug: z.object({
     current: z.string(),
   }),
+  resources: z.array(
+    z.object({
+      _id: z.string(),
+      _type: z.string(),
+      _updatedAt: z.string().optional(),
+      title: z.string(),
+      description: z.string().optional().nullable(),
+      slug: z.string(),
+      solution: z
+        .nullable(
+          z.object({
+            _key: z.string(),
+            _type: z.string(),
+            _updatedAt: z.string().optional(),
+            title: z.string(),
+            description: z.string().optional().nullable(),
+            slug: z.string(),
+          }),
+        )
+        .optional(),
+    }),
+  ),
   description: z.nullable(z.string()).optional(),
   body: z.string().optional().nullable(),
   moduleType: z.enum(['workshop', 'bonus']),
@@ -232,6 +254,37 @@ export const getWorkshop = async (slug: string) =>
           author {
             name,
             "image": image.asset->url
+          }
+        },
+        "resources": resources[@->._type in ['section', 'explainer', 'lesson', 'exercise']]->{
+          _id,
+          _type,
+          _updatedAt,
+          title,
+          "slug": slug.current,
+          (_type == 'explainer') => {
+            explainerType
+          },
+          (_type == 'section') => {
+            "lessons": resources[@->._type in ['explainer', 'exercise', 'lesson']]->{
+              _id,
+              _type,
+              _updatedAt,
+              title,
+              "slug": slug.current,
+              description,
+              (_type == 'explainer') => {
+                explainerType
+              },
+              "solution": resources[@._type == 'solution'][0]{
+                _key,
+                _type,
+                "_updatedAt": ^._updatedAt,
+                title,
+                description,
+                "slug": slug.current,
+              }
+            }
           }
         },
         "sections": resources[@->._type == 'section']->{

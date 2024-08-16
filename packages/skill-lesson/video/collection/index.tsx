@@ -556,18 +556,34 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
 
     const router = useRouter()
 
+    const hasSectionInUrl = Boolean(router.query.section)
     // Check if this Lesson matches the one referenced by the current URL
     const pathElementsFromUrl = pick(router.query, [
       'module',
       'section',
       'lesson',
     ])
-    const pathElementsFromCurrentLesson = {
-      module: module.slug.current,
-      section: section?.slug,
-      lesson: lesson?.slug,
-    }
-    const isActive = isEqual(pathElementsFromUrl, pathElementsFromCurrentLesson)
+
+    const pathElementsFromCurrentLesson = section
+      ? {
+          module: module.slug.current,
+          section: section?.slug,
+          lesson: lesson?.slug,
+        }
+      : {
+          module: module.slug.current,
+          lesson: lesson?.slug,
+        }
+
+    const isActive = isEqual(
+      hasSectionInUrl
+        ? pathElementsFromUrl
+        : {
+            ...pathElementsFromUrl,
+            section: section?.slug,
+          },
+      pathElementsFromCurrentLesson,
+    )
 
     const {lesson: activeLesson} = useLesson()
     const isLessonActive = activeLesson?.slug === lesson?.slug
@@ -683,6 +699,7 @@ const Resources = React.forwardRef<ResourcesElement, ResourcesProps>(
   (props: ScopedProps<ResourcesProps>, forwardedRef) => {
     const {__scopeCollection, children, ...resourcesProps} = props
     const {lesson} = useLesson()
+
     const {resourcesRenderer} = useCollectionContext(
       COLLECTION_NAME,
       __scopeCollection,
