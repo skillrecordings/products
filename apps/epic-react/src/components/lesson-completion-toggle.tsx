@@ -135,7 +135,7 @@ const LessonCompleteToggle = ({className}: {className?: string}) => {
           onClick={handleToggleLessonProgress}
           disabled={isProgressSaving}
         >
-          <div className="mt-0 flex w-full cursor-pointer items-center justify-center font-semibold text-white">
+          <div className="mt-0 flex w-full cursor-pointer items-center justify-center font-semibold">
             {isLessonCompleted && isProgressSaving ? (
               <Spinner className="absolute h-5 w-5 text-white" />
             ) : (
