@@ -63,7 +63,7 @@ export const DefaultOverlay: React.FC = () => {
           </div>
         )}
         <div>
-          <LessonCompleteToggle className="text-md my-4 bg-white text-white hover:bg-er-gray-300 disabled:pointer-events-none disabled:opacity-50 dark:bg-er-gray-200 dark:hover:bg-er-gray-300" />
+          <LessonCompleteToggle className="text-md my-4 bg-er-gray-200 text-er-gray-800 hover:bg-er-gray-300 disabled:pointer-events-none disabled:opacity-50" />
           <div className="space-y-2">
             <Button
               data-action="replay"
