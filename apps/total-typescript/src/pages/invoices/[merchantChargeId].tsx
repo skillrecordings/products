@@ -173,12 +173,11 @@ const Invoice: React.FC<
                   <>
                     <textarea
                       aria-label="Invoice notes"
-                      className="form-textarea mt-4 h-full w-full rounded-md border-2 border-cyan-500 bg-gray-50 p-3 placeholder-gray-700 print:hidden print:border-none print:bg-transparent print:p-0"
+                      className="form-textarea mt-4 h-full w-full rounded-md border-2 border-cyan-500 bg-gray-50 p-3 placeholder-gray-700 print:mt-0 print:resize-none print:border-none print:bg-transparent print:p-0"
                       value={invoiceMetadata}
                       onChange={(e) => setInvoiceMetadata(e.target.value)}
                       placeholder="Enter additional info here (optional)"
                     />
-                    <div className="hidden print:block">{invoiceMetadata}</div>
                   </>
                 )}
               </div>
