@@ -79,7 +79,7 @@ const ExerciseTemplate: React.FC<{
     const {data: abilityRules, status: abilityRulesStatus} =
       trpc.modules.rules.useQuery({
         moduleSlug: module.slug.current,
-        moduleType: 'legacy-module',
+        moduleType: 'legacy-module' || 'workshop',
         lessonSlug: lesson.slug,
         isSolution: lesson._type === 'solution',
         sectionSlug: section?.slug,
@@ -99,7 +99,9 @@ const ExerciseTemplate: React.FC<{
 
   const displayWorkshopAppBanner =
     canViewContent &&
-    (module.moduleType === 'legacy-module' || module.moduleType === 'tutorial')
+    (module.moduleType === 'legacy-module' ||
+      module.moduleType === 'tutorial' ||
+      module.moduleType === 'workshop')
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -281,6 +283,11 @@ const LessonList: React.FC<{
 
   const [ref, {height}] = useMeasure<HTMLDivElement>()
 
+  const moduleWithSectionsAndLessons = {
+    ...module,
+    useResourcesInsteadOfSections: true,
+  }
+
   return (
     <div className="sticky top-0 border-r">
       <div ref={ref}>
@@ -331,7 +338,11 @@ const LessonList: React.FC<{
           ref={scrollContainerRef}
         >
           <Collection.Root
-            module={module}
+            module={
+              module._type === 'workshop'
+                ? moduleWithSectionsAndLessons
+                : module
+            }
             lessonPathBuilder={lessonPathBuilder}
             resourcesRenderer={(type) => {
               return (
@@ -366,7 +377,7 @@ const LessonList: React.FC<{
                 <Collection.Section className="border-er-gray-200 bg-transparent font-semibold leading-tight transition data-[state='open']:rounded-none data-[state]:rounded-none data-[state='closed']:border-b hover:bg-er-gray-300 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-emerald-600 dark:[&>[data-check-icon]]:text-emerald-600 [&>[data-progress='100']]:bg-transparent [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-emerald-500 [&_[data-progress]]:dark:bg-emerald-400">
                   <Collection.Lessons className="py-0">
                     <Collection.Lesson
-                      className='font-semibold transition before:hidden data-[active="true"]:bg-er-gray-100 hover:bg-er-gray-300 dark:data-[active="true"]:bg-er-gray-200 dark:hover:data-[active="true"]:bg-er-gray-300 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-emerald-600 [&_[data-check-icon]]:opacity-100 dark:[&_[data-check-icon]]:text-emerald-600 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:transition [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
+                      className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-emerald-500  dark:[&_[data-check-icon]]:text-emerald-300 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
                       scrollContainerRef={scrollContainerRef}
                     >
                       <Collection.Resources />

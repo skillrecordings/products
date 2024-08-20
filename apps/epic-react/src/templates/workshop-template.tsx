@@ -6,16 +6,9 @@ import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
-import {
-  type Lesson as LessonType,
-  Lesson,
-} from '@skillrecordings/skill-lesson/schemas/lesson'
+import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {trpc} from '@/trpc/trpc.client'
 import {capitalize, first} from 'lodash'
-import {
-  type Section as SectionType,
-  Section,
-} from '@skillrecordings/skill-lesson/schemas/section'
 import cx from 'classnames'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import Balancer from 'react-wrap-balancer'
@@ -23,10 +16,7 @@ import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {Skeleton} from '@skillrecordings/ui'
 import {CogIcon} from '@heroicons/react/outline'
-import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {WorkshopAppBanner} from '@/components/workshop-app'
-import type {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import pluralize from 'pluralize'
 import {getModuleLessonPath} from '@/lib/workshops'
 
 export const WorkshopTemplate: React.FC<{
@@ -55,7 +45,7 @@ export const WorkshopTemplate: React.FC<{
         }),
       }}
     >
-      {/* <CourseMeta title={pageTitle} description={description} /> */}
+      <CourseMeta title={pageTitle} description={description} />
       {workshop.state === 'draft' && (
         <div className="sm:px-3">
           <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded sm:text-base">
@@ -123,12 +113,26 @@ const Header: React.FC<{workshop: any}> = ({workshop}) => {
       slug: workshop.slug.current,
     })
 
+  const getAllLessons = (array: any) =>
+    array.flatMap((item: any) => {
+      if (item._type === 'lesson' || item._type === 'exercise') {
+        return [item]
+      } else if (item._type === 'section' && Array.isArray(item.lessons)) {
+        return item.lessons.filter(
+          (lesson: any) =>
+            lesson._type === 'lesson' || lesson._type === 'exercise',
+        )
+      } else {
+        return []
+      }
+    })
+
+  const allLessons = getAllLessons(sections)
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
   const nextSection = moduleProgress?.nextSection
   const nextLesson = moduleProgress?.nextLesson
 
-  const firstSection = first<Section>(sections)
-  const firstLesson = first<Lesson>(firstSection?.lessons || workshop.lessons)
+  const firstLesson = first<Lesson>(allLessons)
 
   return (
     <>
@@ -148,30 +152,15 @@ const Header: React.FC<{workshop: any}> = ({workshop}) => {
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
               {(workshop.lessons || workshop.sections) && (
                 <Link
-                  href={
-                    firstSection && sections
-                      ? {
-                          pathname: '/workshops/[module]/[section]/[lesson]',
-                          query: {
-                            module: slug.current,
-                            section: isModuleInProgress
-                              ? nextSection?.slug
-                              : firstSection.slug,
-                            lesson: isModuleInProgress
-                              ? nextLesson?.slug
-                              : firstLesson?.slug,
-                          },
-                        }
-                      : {
-                          pathname: '/workshops/[module]/[lesson]',
-                          query: {
-                            module: slug.current,
-                            lesson: isModuleInProgress
-                              ? nextLesson?.slug
-                              : firstLesson?.slug,
-                          },
-                        }
-                  }
+                  href={{
+                    pathname: '/workshops/[module]/[lesson]',
+                    query: {
+                      module: slug.current,
+                      lesson: isModuleInProgress
+                        ? nextLesson?.slug
+                        : firstLesson?.slug,
+                    },
+                  }}
                   className={cx(
                     'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
                     {
@@ -221,33 +210,20 @@ const Header: React.FC<{workshop: any}> = ({workshop}) => {
   )
 }
 
-const CourseMeta = ({product}: {product: SanityProduct}) => (
+const CourseMeta = ({
+  title,
+  description,
+}: {
+  title: string
+  description?: string | null | undefined
+}) => (
   <CourseJsonLd
-    courseName={product.title || ''}
-    description={product.description || ''}
+    courseName={title}
+    description={description || ''}
     provider={{
       name: `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
       type: 'Person',
       url: isBrowser() ? document.location.href : process.env.NEXT_PUBLIC_URL,
     }}
-    offers={[
-      {
-        price: product.unitAmount,
-        priceCurrency: 'USD',
-        category: 'Paid',
-      },
-    ]}
-    hasCourseInstance={[
-      {
-        courseMode: 'Online',
-        courseWorkload: 'PT22H',
-        instructor: [
-          {
-            type: 'Person',
-            name: `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
-          },
-        ],
-      },
-    ]}
   />
 )

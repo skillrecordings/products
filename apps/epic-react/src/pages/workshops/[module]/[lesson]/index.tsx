@@ -5,8 +5,6 @@ import {getExercise} from '@/lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
-import {getSection} from '@/lib/sections'
-import {getAllTutorials, getTutorial} from '@/lib/tutorials'
 import {serialize} from 'next-mdx-remote/serialize'
 import {removePreContainerDivs, trimCodeBlocks} from '@/utils/mdx'
 import * as Sentry from '@sentry/nextjs'
@@ -15,6 +13,8 @@ import {
   getModuleLessonPath,
   getWorkshop,
 } from '@/lib/workshops'
+import {remarkCodeBlocksShiki} from '@kentcdodds/md-temp'
+import {getSection} from '@/lib/sections'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
@@ -22,6 +22,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const sectionSlug = params?.section as string
 
   const module = await getWorkshop(params?.module as string)
+  const section = await getSection(sectionSlug)
   const lesson = await getExercise(lessonSlug, false)
 
   if (!lesson) {
@@ -39,8 +40,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
       mdxOptions: {
         rehypePlugins: [
           trimCodeBlocks,
-          // remarkCodeBlocksShiki,
           removePreContainerDivs,
+          remarkCodeBlocksShiki,
         ],
       },
     }))
@@ -51,6 +52,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       lessonBodySerialized,
       lessonBodyPreviewSerialized: lessonBodySerialized,
       module,
+      section,
       transcript: lesson.transcript,
       videoResourceId: lesson.videoResourceId,
     },
@@ -85,12 +87,13 @@ const ExercisePage: React.FC<any> = ({
   lessonBodySerialized,
   lessonBodyPreviewSerialized,
   module,
+  section,
   transcript,
   videoResourceId,
 }) => {
   return (
     <ModuleProgressProvider moduleSlug={module.slug.current}>
-      <LessonProvider lesson={lesson} module={module}>
+      <LessonProvider lesson={lesson} module={module} section={section}>
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <ExerciseTemplate
             transcript={transcript}

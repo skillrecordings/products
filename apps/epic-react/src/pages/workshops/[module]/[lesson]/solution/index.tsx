@@ -2,28 +2,32 @@ import React from 'react'
 import ExerciseTemplate from '@/templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {getAllTutorials, getTutorial} from '@/lib/tutorials'
 import {getExercise, Exercise} from '@/lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
-import {getSection} from '@/lib/sections'
 import {serialize} from 'next-mdx-remote/serialize'
 import {remarkCodeBlocksShiki} from '@kentcdodds/md-temp'
 import {removePreContainerDivs, trimCodeBlocks} from '@/utils/mdx'
 import * as Sentry from '@sentry/nextjs'
+import {
+  getAllWorkshops,
+  getModuleLessonPath,
+  getWorkshop,
+} from '@/lib/workshops'
+import {getSection} from '@/lib/sections'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const exerciseSlug = params?.lesson as string
   const sectionSlug = params?.section as string
 
-  const module = await getTutorial(params?.module as string)
-  const section = await getSection(sectionSlug)
+  const module = await getWorkshop(params?.module as string)
   const exercise = await getExercise(exerciseSlug)
+  const section = await getSection(sectionSlug)
 
   if (!exercise) {
-    const msg = `Unable to find Exercise for slug (${exerciseSlug}). Context: module (${params?.module}) and section (${sectionSlug})`
+    const msg = `Unable to find Exercise for slug (${exerciseSlug}). Context: module (${params?.module}))`
     Sentry.captureMessage(msg)
 
     return {
@@ -33,6 +37,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const solution = exercise.solution
   const lesson = exercise
+
   const solutionBodySerialized =
     typeof solution?.body === 'string' &&
     (await serialize(solution.body, {
@@ -61,9 +66,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-  const tutorials = await getAllTutorials()
+  const workshops = await getAllWorkshops()
 
-  const paths = tutorials.flatMap((tutorial: any) => {
+  const paths = workshops.flatMap((tutorial: any) => {
     return (
       tutorial.sections?.flatMap((section: any) => {
         return (
@@ -106,6 +111,7 @@ const ExerciseSolution: React.FC<any> = ({
             transcript={transcript}
             lessonBodySerialized={solutionBodySerialized}
             lessonBodyPreviewSerialized={solutionBodyPreviewSerialized}
+            lessonPathBuilder={getModuleLessonPath}
           />
         </VideoResourceProvider>
       </LessonProvider>
