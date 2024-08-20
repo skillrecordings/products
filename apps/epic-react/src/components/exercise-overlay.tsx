@@ -14,7 +14,6 @@ import {getDeployedWorkshopAppUrl} from '@/pages/get-started'
 
 const ExerciseOverlay = () => {
   const {module, lesson} = useLesson()
-
   const {github} = module
 
   const {data: lessonResources, status: lessonResourcesStatus} =
@@ -22,7 +21,10 @@ const ExerciseOverlay = () => {
   const workshopAppDetailsPath = lessonResources?.workshopApp?.path
 
   const {data: moduleResources, status: moduleResourcesStatus} =
-    trpc.moduleResources.byModuleSlug.useQuery({slug: module.slug.current})
+    trpc.moduleResources.byModuleSlug.useQuery({
+      slug: module.slug.current,
+      moduleType: module.moduleType as 'tutorial' | 'workshop',
+    })
   const workshopApp = moduleResources && moduleResources.workshopApp
 
   return (
