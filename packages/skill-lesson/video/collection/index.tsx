@@ -53,8 +53,10 @@ type CollectionContextValue = {
     lesson: LessonType,
     module: Module,
     section?: SectionType,
+    ignoreSections?: boolean,
   ) => {pathname: string; query: {[key: string]: string}}
   path?: string
+  ignoreSections?: boolean
 }
 const [CollectionProvider, useCollectionContext] =
   createCollectionContext<CollectionContextValue>(COLLECTION_NAME)
@@ -73,7 +75,9 @@ interface CollectionProps extends PrimitiveDivProps {
     lesson: LessonType,
     module: Module,
     section?: SectionType,
+    ignoreSections?: boolean,
   ) => {pathname: string; query: {[key: string]: string}}
+  ignoreSections?: boolean
 }
 
 const Collection = React.forwardRef<CollectionElement, CollectionProps>(
@@ -82,6 +86,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       __scopeCollection,
       module,
       children,
+      ignoreSections = false,
       checkIconRenderer = () => (
         <CheckIcon
           className="relative z-10 flex-shrink-0"
@@ -179,6 +184,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
         scope={__scopeCollection}
         resourcesRenderer={resourcesRenderer}
         lessonPathBuilder={lessonPathBuilder}
+        ignoreSections={ignoreSections}
       >
         <TooltipProvider>
           {children ? (
@@ -515,6 +521,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
       path,
       openedSections,
       lessonPathBuilder,
+      ignoreSections,
     } = useCollectionContext(COLLECTION_NAME, __scopeCollection)
     const moduleProgress = useModuleProgress()
 
@@ -595,7 +602,12 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
 
     if (!lesson) return null
 
-    const lessonPath = lessonPathBuilder(lesson, module, section)
+    const lessonPath = lessonPathBuilder(
+      lesson,
+      module,
+      section,
+      ignoreSections,
+    )
 
     return (
       <Primitive.li
@@ -733,13 +745,19 @@ interface ResourceProps extends PrimitiveLiProps {
   type?: string
 }
 
-const useResourceLinkBuilder = (modulePath?: string, resourcePath?: string) => {
+const useResourceLinkBuilder = (
+  modulePath?: string,
+  resourcePath?: string,
+  ignoreSections?: boolean,
+) => {
   const {section, module, lesson} = useLesson()
 
-  const pathname = `/[module]/${section ? `[section]/` : ``}[lesson]`
-  const href = `/${module.slug.current}/${section ? `${section.slug}/` : ``}${
-    lesson.slug
-  }`
+  const pathname = `/[module]/${
+    section && !ignoreSections ? `[section]/` : ``
+  }[lesson]`
+  const href = `/${module.slug.current}/${
+    section && !ignoreSections ? `${section.slug}/` : ``
+  }${lesson.slug}`
 
   return {
     resourcePathname:
@@ -764,16 +782,18 @@ const Resource = React.forwardRef<ResourceElement, ResourceProps>(
   (props: ScopedProps<ResourceProps>, forwardedRef) => {
     const {__scopeCollection, path, children, ...resourceProps} = props
     const {lesson, section} = useLesson()
-    const {module, path: modulePath} = useCollectionContext(
-      COLLECTION_NAME,
-      __scopeCollection,
-    )
+    const {
+      module,
+      path: modulePath,
+      ignoreSections,
+    } = useCollectionContext(COLLECTION_NAME, __scopeCollection)
 
     const router = useRouter()
 
     const {resourcePathname, resourceHref} = useResourceLinkBuilder(
       modulePath,
       path,
+      ignoreSections,
     )
     const isActive = router.asPath === resourceHref
 
@@ -790,7 +810,7 @@ const Resource = React.forwardRef<ResourceElement, ResourceProps>(
             query: {
               module: module.slug.current,
               lesson: lesson.slug,
-              ...(section && {section: section.slug}),
+              ...(section && !ignoreSections && {section: section.slug}),
             },
           }}
           passHref
@@ -822,9 +842,10 @@ const getLessonHref = (
   lesson: LessonType,
   module: Module,
   section?: SectionType,
+  ignoreSections?: boolean,
 ) => {
   const pathname = `/${pluralize(module.moduleType)}/[module]/${
-    section ? '[section]/' : ''
+    section && !ignoreSections ? '[section]/' : ''
   }[lesson]`
   const query = {
     lesson: lesson.slug,
