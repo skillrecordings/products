@@ -112,7 +112,7 @@
     [data-team-purchase] {
       @apply flex w-full flex-col items-center justify-center gap-2;
       [data-image] {
-        @apply relative -mb-5;
+        @apply relative mb-5;
       }
       [data-title] {
         @apply text-3xl font-semibold sm:text-4xl;
@@ -134,7 +134,7 @@
       [data-col='1'] {
         @apply flex w-full max-w-[420px] flex-col items-center;
         [data-image] {
-          @apply relative -mb-5;
+          @apply relative mb-5;
         }
         [data-title] {
           @apply text-3xl font-semibold;
@@ -152,10 +152,10 @@
           }
         }
         [data-modules] {
+          @apply flex items-center justify-center gap-3 pt-3;
           span {
             @apply pointer-events-none text-gray-400;
           }
-          @apply flex items-center justify-center gap-3 pt-3;
           a {
             @apply transition hover:scale-105;
           }

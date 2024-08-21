@@ -174,7 +174,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
     },
     modules[]->{
       ...,
-      "image": image.asset->{url},
+      "image": image.secure_url,
     }
   },
   "sections": resources[@->._type == 'section']->{
@@ -338,7 +338,7 @@ export const getWorkshop = async (slug: string) =>
             "slug": slug.current,
             moduleType,
             title,
-            "image": image.asset->{url, alt},
+            "image": image.secure_url,
             state,
           },
           features[]{
