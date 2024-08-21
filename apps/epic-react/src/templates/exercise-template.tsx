@@ -108,7 +108,7 @@ const ExerciseTemplate: React.FC<{
     module,
   }: {
     lesson: {slug: string} | null
-    module: {slug: {current: string}}
+    module: {slug: {current: string}; moduleType: string}
   }) => {
     return {
       query: {lesson: lesson?.slug, module: module.slug.current},
