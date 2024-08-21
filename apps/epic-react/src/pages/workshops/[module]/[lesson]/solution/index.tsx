@@ -24,8 +24,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const module = await getWorkshop(params?.module as string)
   // if sectionSlug does not exist in url but is still present in data structure, we need to get current lesson by filtering through all sections
-  const currentLessonSection = module.sections.find((section) => {
-    return section.lessons.find((lesson) => lesson.slug === exerciseSlug)
+  const currentLessonSection = module.sections.find((section: any) => {
+    return section.lessons.find((lesson: any) => lesson.slug === exerciseSlug)
   })
 
   const section = await getSection(sectionSlug || currentLessonSection?.slug)
