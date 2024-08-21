@@ -34,7 +34,9 @@ export const lessonsRouter = router({
         return SolutionResourceSchema.parse(lesson.solution)
       }
 
-      const lessons = section ? section?.lessons : module?.lessons
+      const lessons = section
+        ? section?.lessons
+        : module?.lessons || module?.resources
 
       if (!lessons) return null
 

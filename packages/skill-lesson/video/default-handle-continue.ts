@@ -22,6 +22,7 @@ export const defaultHandleContinue = async ({
   handlePlay,
   path,
   nextPathBuilder,
+  ignoreSections = false,
 }: {
   router: NextRouter
   module: Module
@@ -30,6 +31,7 @@ export const defaultHandleContinue = async ({
   handlePlay: () => void
   path: string
   nextPathBuilder?: NextPathBuilder
+  ignoreSections?: boolean
 }) => {
   if (nextPathBuilder) {
     const routerOptions = nextPathBuilder({
@@ -42,6 +44,28 @@ export const defaultHandleContinue = async ({
   }
 
   if (nextExercise?._type === 'solution') {
+    if (ignoreSections && section) {
+      const exercise =
+        section.lessons &&
+        section.lessons.find((exercise: Exercise) => {
+          const solution = exercise.solution
+          return solution?._key === nextExercise._key
+        })
+
+      return (
+        exercise &&
+        (await router
+          .push({
+            query: {
+              module: module.slug.current,
+              lesson: exercise.slug,
+            },
+
+            pathname: `${path}/[module]/[lesson]/solution`,
+          })
+          .then(() => handlePlay()))
+      )
+    }
     if (section) {
       const exercise =
         section.lessons &&

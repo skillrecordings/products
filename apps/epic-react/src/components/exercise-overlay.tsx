@@ -261,6 +261,7 @@ const Actions = () => {
               handlePlay,
               path,
               section,
+              ignoreSections: true,
             })
           }}
         >

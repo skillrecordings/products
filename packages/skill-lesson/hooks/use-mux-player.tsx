@@ -60,6 +60,7 @@ type VideoContextType = {
     handlePlay: () => void
     path: string
     nextPathBuilder?: NextPathBuilder
+    ignoreSections?: boolean
   }) => Promise<any>
   handlePlayFromBeginning: (options: {
     router: NextRouter
@@ -92,6 +93,7 @@ type VideoProviderProps = {
     handlePlay: () => void
     path: string
     nextPathBuilder?: NextPathBuilder
+    ignoreSections?: boolean
   }) => Promise<any>
   handlePlayFromBeginning?: (options: {
     router: NextRouter
