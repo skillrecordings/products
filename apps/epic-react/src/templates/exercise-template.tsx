@@ -102,6 +102,20 @@ const ExerciseTemplate: React.FC<{
     (module.moduleType === 'legacy-module' ||
       module.moduleType === 'tutorial' ||
       module.moduleType === 'workshop')
+
+  const nextLessonPath = ({
+    lesson,
+    module,
+  }: {
+    lesson: {slug: string} | null
+    module: {slug: {current: string}; moduleType: string}
+  }) => {
+    return {
+      query: {lesson: lesson?.slug, module: module.slug.current},
+      pathname: `/${pluralize(module.moduleType)}/[module]/[lesson]`,
+    }
+  }
+
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -110,6 +124,7 @@ const ExerciseTemplate: React.FC<{
       onModuleEnded={async () => {
         addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
       }}
+      nextPathBuilder={nextLessonPath}
       // @ts-expect-error
       inviteTeamPagePath={`/products/${module.product?.slug}`}
     >
@@ -338,6 +353,7 @@ const LessonList: React.FC<{
           ref={scrollContainerRef}
         >
           <Collection.Root
+            ignoreSections={true}
             module={
               module._type === 'workshop'
                 ? moduleWithSectionsAndLessons

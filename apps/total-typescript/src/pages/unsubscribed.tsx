@@ -8,6 +8,8 @@ const Unsubscribed = () => {
     switch (tagId) {
       case 3320688: // unsubscribed: live workshop info
         return 'Total TypeScript Workshops'
+      case 3298110:
+        return 'Total TypeScript Tuesday Tips'
       default:
         return 'Total TypeScript email list'
     }
