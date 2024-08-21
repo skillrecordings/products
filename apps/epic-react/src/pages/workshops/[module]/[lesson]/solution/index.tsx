@@ -27,7 +27,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const currentLessonSection = module.sections.find((section) => {
     return section.lessons.find((lesson) => lesson.slug === exerciseSlug)
   })
-  console.log({currentLessonSection})
+
   const section = await getSection(sectionSlug || currentLessonSection?.slug)
   const exercise = await getExercise(exerciseSlug)
 
