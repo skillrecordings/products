@@ -720,7 +720,7 @@ const sponsors = {
     },
     {
       name: 'Sanity',
-      url: 'https://www.sanity.io/',
+      url: 'https://www.sanity.io/?utm_source=event-sponsorship&utm_medium=live-event&utm_campaign=epicwebcamp',
       logo: (
         <svg
           className="w-40"
