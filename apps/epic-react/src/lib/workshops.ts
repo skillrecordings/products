@@ -57,17 +57,22 @@ const WorkshopSchema = z.object({
   image: z.nullable(z.string()).optional(),
   ogImage: z.nullable(z.string()).optional(),
   workshopApp: z
-    .nullable(
-      z.object({
-        path: z.string().nullable(),
-        localhost: z.object({
-          path: z.string(),
-        }),
-        external: z.object({
-          url: z.string(),
-        }),
-      }),
-    )
+    .object({
+      path: z.string().nullable().optional(),
+      localhost: z
+        .object({
+          path: z.string().nullable().optional(),
+        })
+        .nullable()
+        .optional(),
+      external: z
+        .object({
+          url: z.string().nullable().optional(),
+        })
+        .nullable()
+        .optional(),
+    })
+    .nullable()
     .optional(),
   github: z
     .nullable(
@@ -132,6 +137,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   _createdAt,
   description,
   state,
+  workshopApp,
   github,
   "instructor": contributors[@.role == 'instructor'][0].contributor->{
       _id,
