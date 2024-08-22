@@ -52,9 +52,6 @@ const GetStartedPage: React.FC<{
     )
   }, [tutorials, workshops, moduleSlug])
 
-  console.log('workshops**', workshops)
-  console.log('*** tutorials', tutorials)
-
   const githubUrlForCurrentModule = currentModule?.github?.repo
 
   React.useEffect(() => {
