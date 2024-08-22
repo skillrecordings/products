@@ -8,8 +8,7 @@ import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {linkedHeadingComponents} from '@/components/mdx'
 import {motion, useScroll, useTransform} from 'framer-motion'
 import {Page, getPage} from '@/lib/pages'
-import {getProduct} from '@/lib/products'
-import {getAllTutorials} from '@/lib/tutorials'
+import {getAllTutorials, type Tutorial} from '@/lib/tutorials'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {useTheme} from 'next-themes'
 import Image from 'next/image'
@@ -17,20 +16,20 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import React from 'react'
 import Balancer from 'react-wrap-balancer'
+import {getAllWorkshops, type Workshop} from '@/lib/workshops'
 
 export const getStaticProps = async () => {
   const page = await getPage('get-started')
   const bodyMdx = page?.body && (await serializeMDX(page.body))
-  const product = await getProduct(
-    process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID || '',
-  )
   const tutorials = await getAllTutorials()
+  const workshops = await getAllWorkshops()
 
   return {
     props: {
       page,
       body: bodyMdx,
       tutorials,
+      workshops,
     },
     revalidate: 10,
   }
@@ -39,19 +38,23 @@ export const getStaticProps = async () => {
 const GetStartedPage: React.FC<{
   page: Page
   body: MDXRemoteSerializeResult
-  tutorials: {
-    title: string
-    slug: {current: string}
-    image?: string
-    github?: {repo: string}
-  }[]
-}> = ({page, body, tutorials}) => {
+  tutorials: Tutorial[]
+  workshops: Workshop[]
+}> = ({page, body, tutorials, workshops}) => {
   const router = useRouter()
   const [mounted, setMounted] = React.useState(false)
   const moduleSlug = router.query.module
-  const currentModule = tutorials.find(
-    (tutorial) => tutorial.slug.current === moduleSlug,
-  )
+
+  const currentModule = React.useMemo(() => {
+    return (
+      tutorials.find((tutorial) => tutorial.slug.current === moduleSlug) ||
+      workshops.find((workshop) => workshop.slug.current === moduleSlug)
+    )
+  }, [tutorials, workshops, moduleSlug])
+
+  console.log('workshops**', workshops)
+  console.log('*** tutorials', tutorials)
+
   const githubUrlForCurrentModule = currentModule?.github?.repo
 
   React.useEffect(() => {
@@ -106,7 +109,9 @@ const GetStartedPage: React.FC<{
             components={{
               ...linkedHeadingComponents,
               AppTourVideo,
-              Workshops: () => <Workshops tutorials={tutorials} />,
+              Workshops: () => (
+                <Workshops tutorials={tutorials} workshops={workshops} />
+              ),
               Image: ({src, light, dark, alt = ''}: any) => {
                 const {theme} = useTheme()
 
@@ -140,13 +145,16 @@ const GetStartedPage: React.FC<{
 
 export default GetStartedPage
 
-const Workshops: React.FC<{tutorials: any[]}> = ({tutorials}) => {
+const Workshops: React.FC<{tutorials: any[]; workshops: any[]}> = ({
+  tutorials,
+  workshops,
+}) => {
   return (
     <div className="not-prose my-8 flex flex-col items-center justify-center text-lg sm:gap-4 md:text-lg">
       <ul className="w-full divide-y">
         {tutorials.map((tutorial) => {
           if (!tutorial?.github?.repo) return null
-          const deployedUrl = getDeployedWorkshopAppUrl(tutorial.github.repo)
+          const deployedUrl = tutorial?.workshopApp?.external?.url
 
           return (
             <li className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2">
@@ -185,6 +193,58 @@ const Workshops: React.FC<{tutorials: any[]}> = ({tutorials}) => {
                 )}
                 <Link
                   href={tutorial.github.repo + '?tab=readme-ov-file#setup'}
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-flex items-center gap-1.5 hover:underline"
+                >
+                  <Icon name="Github" size="16" className="opacity-75" />
+                  Setup
+                </Link>
+              </div>
+            </li>
+          )
+        })}
+        {workshops.map((workshop) => {
+          if (!workshop?.github?.repo) return null
+          const deployedUrl = workshop?.workshopApp?.external?.url
+
+          return (
+            <li className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2">
+              <div className="flex items-center gap-3">
+                {workshop.image ? (
+                  <Image
+                    src={workshop.image}
+                    width={50}
+                    height={50}
+                    alt={workshop.title}
+                    aria-hidden
+                  />
+                ) : null}
+                <Link
+                  href={workshop.github.repo}
+                  target="_blank"
+                  className="group leading-tight hover:underline"
+                >
+                  {workshop.title}{' '}
+                  <span className="opacity-50 transition group-hover:opacity-100">
+                    ↗︎
+                  </span>
+                </Link>
+              </div>
+              <div className="flex flex-shrink-0 items-center justify-end gap-5 pr-5 text-sm font-medium">
+                {deployedUrl && (
+                  <Link
+                    target="_blank"
+                    rel="noopener"
+                    className="inline-flex items-center gap-1.5 hover:underline"
+                    href={deployedUrl}
+                  >
+                    <GlobeIcon className="h-4 w-4 opacity-75" />
+                    Deployed Version
+                  </Link>
+                )}
+                <Link
+                  href={workshop.github.repo + '?tab=readme-ov-file#setup'}
                   target="_blank"
                   rel="noopener"
                   className="inline-flex items-center gap-1.5 hover:underline"
@@ -243,13 +303,6 @@ const WorkshopAppScreenshot = () => {
       ) : null}
     </motion.div>
   )
-}
-
-export const getDeployedWorkshopAppUrl = (repo: string) => {
-  switch (repo) {
-    case 'https://github.com/epicweb-dev/build-react-hooks':
-      return 'https://foundations.epicweb.dev'
-  }
 }
 
 const AppTourVideo = () => {
