@@ -116,6 +116,14 @@ const ExerciseTemplate: React.FC<{
     }
   }
 
+  const workshopSpecificProps =
+    module.moduleType === 'workshop'
+      ? {
+          nextPathBuilder: nextLessonPath,
+          isModuleWithResources: true,
+        }
+      : {}
+
   return (
     <VideoProvider
       muxPlayerRef={muxPlayerRef}
@@ -124,8 +132,7 @@ const ExerciseTemplate: React.FC<{
       onModuleEnded={async () => {
         addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
       }}
-      nextPathBuilder={nextLessonPath}
-      isModuleWithResources={true}
+      // {...workshopSpecificProps}
       // @ts-expect-error
       inviteTeamPagePath={`/products/${module.product?.slug}`}
     >
@@ -299,11 +306,6 @@ const LessonList: React.FC<{
 
   const [ref, {height}] = useMeasure<HTMLDivElement>()
 
-  const moduleWithSectionsAndLessons = {
-    ...module,
-    useResourcesInsteadOfSections: true,
-  }
-
   return (
     <div className="sticky top-0 border-r">
       <div ref={ref}>
@@ -354,12 +356,8 @@ const LessonList: React.FC<{
           ref={scrollContainerRef}
         >
           <Collection.Root
-            ignoreSections={true}
-            module={
-              module._type === 'workshop'
-                ? moduleWithSectionsAndLessons
-                : module
-            }
+            ignoreSections={module.moduleType === 'workshop' ? true : false}
+            module={module}
             lessonPathBuilder={lessonPathBuilder}
             resourcesRenderer={(type) => {
               return (
