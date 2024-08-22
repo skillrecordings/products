@@ -125,6 +125,7 @@ const ExerciseTemplate: React.FC<{
         addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
       }}
       nextPathBuilder={nextLessonPath}
+      isModuleWithResources={true}
       // @ts-expect-error
       inviteTeamPagePath={`/products/${module.product?.slug}`}
     >
