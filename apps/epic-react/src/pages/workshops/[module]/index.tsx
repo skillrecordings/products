@@ -34,7 +34,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {paths, fallback: 'blocking'}
 }
 
-const TutorialPage: React.FC<{
+const WorkshopPage: React.FC<{
   workshop: Workshop
   workshopBodySerialized: MDXRemoteSerializeResult
 }> = ({workshop, workshopBodySerialized}) => {
@@ -48,4 +48,4 @@ const TutorialPage: React.FC<{
   )
 }
 
-export default TutorialPage
+export default WorkshopPage
