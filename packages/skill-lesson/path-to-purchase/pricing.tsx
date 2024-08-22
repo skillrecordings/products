@@ -34,6 +34,8 @@ import Countdown from 'react-countdown'
 import {snakeCase} from 'lodash'
 import pluralize from 'pluralize'
 import isNumber from 'lodash/isNumber'
+import * as Dialog from '@radix-ui/react-dialog'
+import {Cross2Icon} from '@radix-ui/react-icons'
 
 const getNumericValue = (
   value: string | number | Decimal | undefined,
@@ -73,6 +75,7 @@ type PricingProps = {
     formattedPrice: any,
     product: SanityProduct,
     status: QueryStatus,
+    quantity: number,
   ) => React.ReactNode
   options?: {
     withImage?: boolean
@@ -117,21 +120,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   canViewRegionRestriction = false,
   cancelUrl,
   id = 'main-pricing',
-  purchaseButtonRenderer = (formattedPrice, product, status) => {
-    return (
-      <button
-        data-pricing-product-checkout-button=""
-        type="submit"
-        disabled={status === 'loading' || status === 'error'}
-      >
-        <span>
-          {formattedPrice?.upgradeFromPurchaseId
-            ? `Upgrade Now`
-            : product?.action || `Buy Now`}
-        </span>
-      </button>
-    )
-  },
+  purchaseButtonRenderer,
   options = {
     withImage: true,
     withDescription: true,
@@ -161,6 +150,41 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     quantity,
     setQuantity,
   } = usePriceCheck()
+
+  const [isContactDialogOpen, setIsContactDialogOpen] = React.useState(false)
+
+  const defaultPurchaseButtonRenderer = (
+    formattedPrice: any,
+    product: SanityProduct,
+    status: QueryStatus,
+    quantity: number,
+  ) => {
+    const isContactUs = quantity >= 50
+    return (
+      <button
+        data-pricing-product-checkout-button=""
+        type={isContactUs ? 'button' : 'submit'}
+        disabled={status === 'loading' || status === 'error'}
+        onClick={() => {
+          if (isContactUs) {
+            setIsContactDialogOpen(true)
+          }
+        }}
+      >
+        <span>
+          {isContactUs
+            ? 'Contact Us'
+            : formattedPrice?.upgradeFromPurchaseId
+            ? `Upgrade Now`
+            : product?.action || `Buy Now`}
+        </span>
+      </button>
+    )
+  }
+
+  const renderedPurchaseButton =
+    purchaseButtonRenderer || defaultPurchaseButtonRenderer
+
   const [isBuyingForTeam, setIsBuyingForTeam] = React.useState(false)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, lessons, action, title} =
@@ -563,7 +587,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       </div>
                     )}
 
-                    {purchaseButtonRenderer(formattedPrice, product, status)}
+                    {renderedPurchaseButton(
+                      formattedPrice,
+                      product,
+                      status,
+                      quantity,
+                    )}
                     {withGuaranteeBadge && (
                       <span data-guarantee="">30-Day Money-Back Guarantee</span>
                     )}
@@ -577,6 +606,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     )}
                   </fieldset>
                 </form>
+                <ContactUsDialog
+                  isOpen={isContactDialogOpen}
+                  onOpenChange={setIsContactDialogOpen}
+                />
               </div>
             )
           ) : (
@@ -1184,4 +1217,41 @@ export const formatUsd = (amount: number = 0) => {
   const formattedPrice = formatter.format(amount).split('.')
 
   return {dollars: formattedPrice[0], cents: formattedPrice[1]}
+}
+
+const ContactUsDialog: React.FC<{
+  isOpen: boolean
+  onOpenChange: (open: boolean) => void
+}> = ({isOpen, onOpenChange}) => {
+  return (
+    <Dialog.Root open={isOpen} onOpenChange={onOpenChange}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+        <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-6 shadow-xl max-w-md w-full">
+          <Dialog.Title className="text-xl font-bold mb-4">
+            Contact Us for a Quote
+          </Dialog.Title>
+          <Dialog.Description className="mb-6">
+            For orders of 50 or more seats, please contact our sales team for a
+            custom quote. We'll be happy to assist you with your bulk purchase.
+          </Dialog.Description>
+          <div className="flex justify-end">
+            <Dialog.Close asChild>
+              <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                Close
+              </button>
+            </Dialog.Close>
+          </div>
+          <Dialog.Close asChild>
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+              aria-label="Close"
+            >
+              <Cross2Icon />
+            </button>
+          </Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
 }
