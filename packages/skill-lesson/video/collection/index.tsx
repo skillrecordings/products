@@ -620,7 +620,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
             'before:content-["continue"] before:mt-2 before:-mb-1 before:text-xs before:font-semibold before:pl-10 before:text-primary before:uppercase before:block':
               showContinue,
             '[&_[data-item]:px-2': section,
-            'bg-card [&>div]:px-2.5': !section,
+            'bg-card [&>div]:px-2.5 border-b py-1.5 font-semibold': !section,
           },
           lessonProps.className,
         )}
