@@ -20,6 +20,7 @@ import {WorkshopAppBanner} from '@/components/workshop-app'
 import {getModuleLessonPath} from '@/lib/workshops'
 import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
+import ModuleCertificate from '@/certificate/module-certificate'
 
 export const WorkshopTemplate: React.FC<{
   workshop: any
@@ -103,6 +104,9 @@ export const WorkshopTemplate: React.FC<{
             className="mt-3 rounded-lg border p-5"
           />
           <ResetProgress module={workshop as Module} />
+          {workshop.moduleType === 'workshop' && (
+            <ModuleCertificate module={workshop as Module} />
+          )}
         </div>
       </main>
     </Layout>
