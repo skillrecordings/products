@@ -69,6 +69,7 @@ type VideoContextType = {
     path: string
     handlePlay: () => void
   }) => Promise<any>
+  isModuleWithResources: boolean
 }
 
 export const VideoContext = React.createContext({} as VideoContextType)
@@ -102,6 +103,7 @@ type VideoProviderProps = {
     path: string
     handlePlay: () => void
   }) => Promise<any>
+  isModuleWithResources?: boolean
 }
 
 export const VideoProvider: React.FC<
@@ -121,6 +123,7 @@ export const VideoProvider: React.FC<
   handlePlayFromBeginning = defaultHandlePlayFromBeginning,
   exerciseSlug,
   inviteTeamPagePath,
+  isModuleWithResources = false,
 }) => {
   const router = useRouter()
 
@@ -136,6 +139,7 @@ export const VideoProvider: React.FC<
     lesson,
     module,
     section,
+    isModuleWithResources,
   )
 
   const nextSection = section
@@ -306,6 +310,7 @@ export const VideoProvider: React.FC<
     handleContinue,
     handlePlayFromBeginning,
     inviteTeamPagePath,
+    isModuleWithResources,
   }
   return (
     <VideoContext.Provider value={context}>{children}</VideoContext.Provider>

@@ -10,6 +10,7 @@ export const useNextLesson = (
   lesson: Lesson,
   module: Module,
   section?: Section,
+  isModuleWithResources?: boolean,
 ) => {
   const router = useRouter()
 
@@ -25,6 +26,7 @@ export const useNextLesson = (
       slug,
       module: module.slug.current,
       section: section?.slug,
+      isModuleWithResources,
     })
 
   return {nextExercise, nextExerciseStatus}

@@ -12,12 +12,16 @@ export const USER_ID_QUERY_PARAM_KEY = 'learner'
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const workshop = await getWorkshop(params?.module as string)
 
+  const moduleWithSectionsAndLessons = {
+    ...workshop,
+    useResourcesInsteadOfSections: true,
+  }
   const workshopBodySerialized = workshop.body
     ? await serializeMDX(workshop.body)
     : null
 
   return {
-    props: {workshop, workshopBodySerialized},
+    props: {workshop: moduleWithSectionsAndLessons, workshopBodySerialized},
     revalidate: 10,
   }
 }

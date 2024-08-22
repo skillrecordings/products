@@ -196,3 +196,64 @@ export const getModuleById = async (id: string) =>
     }`,
     {id: `${id}`},
   )
+
+export const getModuleWithResources = async (slug: string) =>
+  await sanityClient.fetch(
+    groq`*[_type == "module" && slug.current == $slug][0]{
+        "id": _id,
+        _type,
+        title,
+        state,
+        slug,
+        body[]{
+          ...,
+          _type == "bodyTestimonial" => {
+            "body": testimonial->body,
+            "author": testimonial->author {
+              "image": image.asset->url,
+              name
+            }
+        }
+        },
+        moduleType,
+        _id,
+        github,
+        ogImage,
+        description,
+        _updatedAt,
+        "image": image.asset->url,
+        "product": resources[@._type == 'product'][0]{productId},
+       "resources": resources[@->._type in ['section', 'explainer', 'lesson', 'exercise']]->{
+          _id,
+          _type,
+          _updatedAt,
+          title,
+          "slug": slug.current,
+          (_type == 'explainer') => {
+            explainerType
+          },
+          (_type == 'section') => {
+            "lessons": resources[@->._type in ['explainer', 'exercise', 'lesson']]->{
+              _id,
+              _type,
+              _updatedAt,
+              title,
+              "slug": slug.current,
+              description,
+              (_type == 'explainer') => {
+                explainerType
+              },
+              "solution": resources[@._type == 'solution'][0]{
+                _key,
+                _type,
+                "_updatedAt": ^._updatedAt,
+                title,
+                description,
+                "slug": slug.current,
+              }
+            }
+          }
+        },
+    }`,
+    {slug: `${slug}`},
+  )

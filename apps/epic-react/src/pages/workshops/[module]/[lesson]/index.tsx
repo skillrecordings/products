@@ -16,19 +16,60 @@ import {
 import {remarkCodeBlocksShiki} from '@kentcdodds/md-temp'
 import {getSection} from '@/lib/sections'
 
+type ModuleWithResources = {
+  slug: {current: string}
+  resources: {
+    _type: 'lesson' | 'exercise' | 'explainer' | 'interview' | 'section'
+    slug: string
+    lessons?: {_type: string; slug: string}[]
+  }[]
+}
+
+const getSectionForLesson = (
+  module: ModuleWithResources,
+  lessonSlug: string,
+) => {
+  const lessonIsTopLevel = Boolean(
+    module.resources.find((resource) => {
+      return resource._type !== 'section' && resource.slug === lessonSlug
+    }),
+  )
+
+  if (lessonIsTopLevel) {
+    return null
+  } else {
+    const section = module.resources.find((resource) => {
+      if (
+        resource._type === 'section' &&
+        'lessons' in resource &&
+        resource.lessons
+      ) {
+        return resource.lessons.some((lesson) => {
+          return lesson.slug === lessonSlug
+        })
+      }
+
+      return false
+    })
+
+    return section || null
+  }
+}
+
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const lessonSlug = params?.lesson as string
   const sectionSlug = params?.section as string
 
   const module = await getWorkshop(params?.module as string)
-  // if sectionSlug does not exist in url but is still present in data structure, we need to get current lesson by filtering through all sections
-  const currentLessonSection = module.sections.find((section: any) => {
-    return section.lessons.find((lesson: any) => lesson.slug === lessonSlug)
-  })
-  const section = await getSection(sectionSlug || currentLessonSection?.slug)
-  const lesson = await getExercise(lessonSlug, false)
 
+  const _section = getSectionForLesson(module, lessonSlug)
+  const section = _section ? await getSection(_section?.slug) : null
+  const lesson = await getExercise(lessonSlug, false)
+  const moduleWithSectionsAndLessons = {
+    ...module,
+    useResourcesInsteadOfSections: true,
+  }
   if (!lesson) {
     const msg = `Unable to find Exercise for slug (${lessonSlug}). Context: module (${params?.module}) and section (${sectionSlug})`
     Sentry.captureMessage(msg)
@@ -55,7 +96,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       lesson,
       lessonBodySerialized,
       lessonBodyPreviewSerialized: lessonBodySerialized,
-      module,
+      module: moduleWithSectionsAndLessons,
       section,
       transcript: lesson.transcript,
       videoResourceId: lesson.videoResourceId,
