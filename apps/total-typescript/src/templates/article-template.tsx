@@ -6,7 +6,6 @@ import Image from 'next/image'
 import Share from '@/components/share'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {ArticleNewsletterCta} from '@/components/primary-newsletter-cta'
-import {format} from 'date-fns'
 import {ArticleTeaser} from '@/pages/articles'
 import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
@@ -22,24 +21,27 @@ import {trpc} from '@/trpc/trpc.client'
 import Link from 'next/link'
 import config from '@/config'
 import {useRouter} from 'next/router'
-import {
-  redirectUrlBuilder,
-  SubscribeToConvertkitForm,
-} from '@skillrecordings/skill-lesson/convertkit'
-import {setUserId} from '@amplitude/analytics-browser'
-import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Button} from '@skillrecordings/ui'
+import {ArticleToC} from '@/components/articles/article-toc'
+import {
+  flattenMarkdownHeadings,
+  type MarkdownHeading,
+} from '@/utils/extract-markdown-headings'
+import {useVisibleMarkdownHeading} from '@/components/book/use-visible-markdown-heading'
+import {MobileArticleToC} from '@/components/articles/mobile-article-toc'
 
 type ArticleTemplateProps = {
   article: Article
   articles: Article[]
   articleBody: MDXRemoteSerializeResult
+  toc: MarkdownHeading[]
 }
 
 const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   article,
   articleBody,
   articles,
+  toc,
 }) => {
   const {body, title, slug, _createdAt, _updatedAt, image, description} =
     article
@@ -55,6 +57,11 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
 
   const isBookTeaser = article.articleType === 'bookTeaser'
   const shouldReduceMotion = useReducedMotion()
+  const headings = toc ? flattenMarkdownHeadings(toc) : []
+  const visibleHeadingId = useVisibleMarkdownHeading(headings, {
+    rootMargin: '0% 0% -80% 0%',
+    threshold: 0.5,
+  })
 
   return (
     <Layout
@@ -161,52 +168,39 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
             />
           </div>
         )}
-        {/* {image && !isBookTeaser && (
-          <div
-            className={cn(
-              'relative flex h-full w-full flex-col items-end lg:-ml-24 lg:translate-y-16 lg:brightness-125',
-            )}
-          >
-            <Image
-              className="scale-[1] rounded-lg sm:scale-100"
-              src={image}
-              alt=""
-              aria-hidden="true"
-              width={1920 / 2}
-              height={1080 / 2}
-              quality={100}
-              priority
-            />
-            <time dateTime={_createdAt} className="pt-3 text-sm text-slate-600">
-              Published on {format(new Date(_createdAt), 'MMM dd, y')}
-            </time>
-          </div>
-        )} */}
       </header>
       <main className="relative z-10 px-5 pt-10">
-        <div className="prose relative z-10 mx-auto w-full max-w-3xl sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
-          {articleBody && (
-            <MDX
-              contents={articleBody}
-              components={{
-                ShareImage: ShareImageMDX,
-                ArticleBodyCTA: ({children, ...props}) => (
-                  <ArticleBodyCTA {...props}>{children}</ArticleBodyCTA>
-                ),
-                ...linkedHeadingComponents,
-                hr: () => <hr className="border-gray-700" />,
-                FeedbackFormButton: (props) => (
-                  <FeedbackFormButton {...props} />
-                ),
-              }}
-            />
-          )}
-          <div className="mx-auto flex w-32 -rotate-6 items-center gap-2 text-slate-500">
-            <Image
-              src={require('../../public/assets/signature.svg')}
-              alt="Matt's signature"
-            />
+        <div
+          className={cn('', {
+            'mx-auto flex h-full w-full max-w-screen-xl justify-center gap-5':
+              toc,
+          })}
+        >
+          <div className="prose relative z-10 mx-auto w-full max-w-3xl sm:prose-lg md:prose-xl prose-p:text-gray-300 prose-a:text-cyan-300 prose-a:transition hover:prose-a:text-cyan-200 sm:prose-pre:-mx-5">
+            {articleBody && (
+              <MDX
+                contents={articleBody}
+                components={{
+                  ShareImage: ShareImageMDX,
+                  ArticleBodyCTA: ({children, ...props}) => (
+                    <ArticleBodyCTA {...props}>{children}</ArticleBodyCTA>
+                  ),
+                  ...linkedHeadingComponents,
+                  hr: () => <hr className="border-gray-700" />,
+                  FeedbackFormButton: (props) => (
+                    <FeedbackFormButton {...props} />
+                  ),
+                }}
+              />
+            )}
+            <div className="mx-auto flex w-32 -rotate-6 items-center gap-2 text-slate-500">
+              <Image
+                src={require('../../public/assets/signature.svg')}
+                alt="Matt's signature"
+              />
+            </div>
           </div>
+          {toc && <ArticleToC toc={toc} visibleHeadingId={visibleHeadingId} />}
         </div>
         <section className="relative z-10 overflow-hidden px-5 pb-24 pt-16">
           <ArticleCTA article={article} />
@@ -225,6 +219,14 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
             })}
         </section>
       </main>
+      {toc && (
+        <MobileArticleToC
+          toc={toc}
+          article={article}
+          className="flex lg:hidden"
+          visibleHeadingId={visibleHeadingId}
+        />
+      )}
     </Layout>
   )
 }
