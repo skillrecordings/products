@@ -9,22 +9,19 @@ import {Button} from '@skillrecordings/ui'
 import {ExternalLinkIcon} from '@heroicons/react/outline'
 import {trpc} from '@/trpc/trpc.client'
 import MuxPlayer, {MuxPlayerRefAttributes} from '@mux/mux-player-react'
-import type {Workshop} from '@/lib/workshops'
 
 const ExerciseOverlay = () => {
   const {module, lesson} = useLesson()
 
-  const {github} = module
-
-  const {data: lessonResources, status: lessonResourcesStatus} =
-    trpc.lessonResources.byLessonSlug.useQuery({slug: lesson.slug})
+  const {data: lessonResources} = trpc.lessonResources.byLessonSlug.useQuery({
+    slug: lesson.slug,
+  })
   const workshopAppDetailsPath = lessonResources?.workshopApp?.path
 
-  const {data: moduleResources, status: moduleResourcesStatus} =
-    trpc.moduleResources.byModuleSlug.useQuery({
-      slug: module.slug.current,
-      moduleType: module.moduleType as 'tutorial' | 'workshop',
-    })
+  const {data: moduleResources} = trpc.moduleResources.byModuleSlug.useQuery({
+    slug: module.slug.current,
+    moduleType: module.moduleType as 'tutorial' | 'workshop',
+  })
   const workshopApp = moduleResources && moduleResources.workshopApp
 
   return (
@@ -41,9 +38,9 @@ const ExerciseOverlay = () => {
             Stop! 😅 This is not a video course.
           </p>
           <p className="text-lg text-gray-300">
-            This workshop is intended to be worked through by completing hands
-            on exercises in your local development environment. It's not meant
-            for passive consumption.
+            This {module.moduleType} is intended to be worked through by
+            completing hands on exercises in your local development environment.
+            It's not meant for passive consumption.
           </p>
           <div className="flex w-full max-w-xs flex-col space-y-3 pt-2">
             <Button

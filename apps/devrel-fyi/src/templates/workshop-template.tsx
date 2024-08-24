@@ -26,7 +26,7 @@ import {CogIcon} from '@heroicons/react/outline'
 const WorkshopTemplate: React.FC<{
   workshop: Module
   workshopBodySerialized: MDXRemoteSerializeResult
-}> = ({workshop, workshopBodySerialized}) => {
+}> = ({module, workshopBodySerialized}) => {
   const {title, ogImage, description, testimonials} = workshop
   const pageTitle = `${title} ${capitalize(workshop.moduleType)}`
   const {data: moduleProgress, status: moduleProgressStatus} =

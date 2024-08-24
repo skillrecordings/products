@@ -32,7 +32,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const WorkshopPage: React.FC<{
   workshop: Module
   workshopBodySerialized: MDXRemoteSerializeResult
-}> = ({workshop, workshopBodySerialized}) => {
+}> = ({module, workshopBodySerialized}) => {
   // TODO: Load subscriber, find user via Prisma/api using USER_ID_QUERY_PARAM_KEY
   return (
     <ModuleProgressProvider moduleSlug={workshop.slug.current}>
