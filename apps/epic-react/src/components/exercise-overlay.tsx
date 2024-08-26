@@ -9,36 +9,38 @@ import {Button} from '@skillrecordings/ui'
 import {ExternalLinkIcon} from '@heroicons/react/outline'
 import {trpc} from '@/trpc/trpc.client'
 import MuxPlayer, {MuxPlayerRefAttributes} from '@mux/mux-player-react'
-import type {Workshop} from '@/lib/workshops'
 
 const ExerciseOverlay = () => {
   const {module, lesson} = useLesson()
 
-  const {github} = module
-
-  const {data: lessonResources, status: lessonResourcesStatus} =
-    trpc.lessonResources.byLessonSlug.useQuery({slug: lesson.slug})
+  const {data: lessonResources} = trpc.lessonResources.byLessonSlug.useQuery({
+    slug: lesson.slug,
+  })
   const workshopAppDetailsPath = lessonResources?.workshopApp?.path
 
-  const {data: moduleResources, status: moduleResourcesStatus} =
-    trpc.moduleResources.byModuleSlug.useQuery({
-      slug: module.slug.current,
-      moduleType: module.moduleType as 'tutorial' | 'workshop',
-    })
+  const {data: moduleResources} = trpc.moduleResources.byModuleSlug.useQuery({
+    slug: module.slug.current,
+    moduleType: module.moduleType as 'tutorial' | 'workshop',
+  })
   const workshopApp = moduleResources && moduleResources.workshopApp
 
   return (
     <div className="dark:bg-black/20 flex aspect-video flex-col items-center justify-center gap-16 bg-gray-950 py-0 pb-8 text-white sm:py-10 sm:pb-10">
       <div className="flex w-full flex-col items-center gap-8 p-5">
-        <GetStartedVideo module={module as Workshop} />
+        <GetStartedVideo
+          title={module.title}
+          moduleSlug={module.slug.current}
+          workshopAppUrl={workshopApp?.external?.url}
+          githubRepositoryUrl={module.github?.repo}
+        />
         <div className="flex max-w-lg flex-col items-center space-y-5 text-center">
           <p className="font-text text-2xl font-bold sm:text-3xl">
             Stop! 😅 This is not a video course.
           </p>
           <p className="text-lg text-gray-300">
-            This workshop is intended to be worked through by completing hands
-            on exercises in your local development environment. It's not meant
-            for passive consumption.
+            This {module.moduleType} is intended to be worked through by
+            completing hands on exercises in your local development environment.
+            It's not meant for passive consumption.
           </p>
           <div className="flex w-full max-w-xs flex-col space-y-3 pt-2">
             <Button
@@ -105,7 +107,12 @@ const ExerciseOverlay = () => {
   )
 }
 
-const GetStartedVideo: React.FC<{module: Workshop}> = ({module}) => {
+const GetStartedVideo: React.FC<{
+  workshopAppUrl?: string
+  title: string
+  moduleSlug: string
+  githubRepositoryUrl?: string | null
+}> = ({workshopAppUrl, title, moduleSlug, githubRepositoryUrl}) => {
   const [cuePoint, setCuePoint] = React.useState<{
     href: string
     label: string
@@ -116,7 +123,7 @@ const GetStartedVideo: React.FC<{module: Workshop}> = ({module}) => {
     {
       time: 22,
       value: {
-        href: `/get-started?module=${module.slug.current}`,
+        href: `/get-started?module=${moduleSlug}`,
         label: 'Get Started',
       },
       duration: 8,
@@ -135,10 +142,8 @@ const GetStartedVideo: React.FC<{module: Workshop}> = ({module}) => {
     },
     {
       value: {
-        href: module?.workshopApp?.external?.url
-          ? module?.workshopApp?.external?.url
-          : '',
-        label: `${module.title} (Deployed Workshop App)`,
+        href: workshopAppUrl ? workshopAppUrl : '',
+        label: `${title} (Deployed Workshop App)`,
       },
     },
     {
@@ -148,8 +153,8 @@ const GetStartedVideo: React.FC<{module: Workshop}> = ({module}) => {
     {
       time: 117,
       value: {
-        href: module.github?.repo
-          ? `${module.github.repo}?tab=readme-ov-file#setup`
+        href: githubRepositoryUrl
+          ? `${githubRepositoryUrl}?tab=readme-ov-file#setup`
           : 'https://github.com/epicweb-dev/full-stack-foundations?tab=readme-ov-file#setup',
         label: 'Setup',
       },

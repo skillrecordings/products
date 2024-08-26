@@ -24,14 +24,14 @@ import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import {CogIcon} from '@heroicons/react/outline'
 
 const WorkshopTemplate: React.FC<{
-  workshop: Module
+  module: Module
   workshopBodySerialized: MDXRemoteSerializeResult
-}> = ({workshop, workshopBodySerialized}) => {
-  const {title, ogImage, description, testimonials} = workshop
-  const pageTitle = `${title} ${capitalize(workshop.moduleType)}`
+}> = ({module, workshopBodySerialized}) => {
+  const {title, ogImage, description, testimonials} = module
+  const pageTitle = `${title} ${capitalize(module.moduleType)}`
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
-      slug: workshop.slug.current,
+      slug: module.slug.current,
     })
 
   const {data: commerceProps, status: commercePropsStatus} =
@@ -54,15 +54,15 @@ const WorkshopTemplate: React.FC<{
     >
       {redeemableCoupon ? <RedeemDialogForCoupon /> : null}
       <CourseMeta title={pageTitle} description={description} />
-      {workshop.state === 'draft' && (
+      {module.state === 'draft' && (
         <div className="sm:px-3">
           <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded sm:text-base">
-            <CogIcon className="h-4 w-4" /> {capitalize(workshop.moduleType)}{' '}
+            <CogIcon className="h-4 w-4" /> {capitalize(module.moduleType)}{' '}
             under development — you're viewing a draft version.
           </div>
         </div>
       )}
-      <Header tutorial={workshop} />
+      <Header tutorial={module} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="w-full flex-grow px-5">
           <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
@@ -93,8 +93,8 @@ const WorkshopTemplate: React.FC<{
           )} */}
         </div>
         <div className="w-full px-5 lg:max-w-sm lg:px-0">
-          {workshop && (
-            <Collection.Root module={workshop}>
+          {module && (
+            <Collection.Root module={module}>
               <div className="flex w-full items-center justify-between pb-3">
                 <h3 className="text-xl font-bold">Contents</h3>
                 <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
@@ -120,9 +120,9 @@ const WorkshopTemplate: React.FC<{
               </Collection.Lessons>
             </Collection.Root>
           )}
-          <ResetProgress module={workshop} />
-          {workshop.moduleType === 'workshop' && (
-            <ModuleCertificate module={workshop} />
+          <ResetProgress module={module} />
+          {module.moduleType === 'workshop' && (
+            <ModuleCertificate module={module} />
           )}
         </div>
       </main>

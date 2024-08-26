@@ -22,16 +22,16 @@ import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import ModuleCertificate from '@/certificate/module-certificate'
 
-export const WorkshopTemplate: React.FC<{
-  workshop: any
-  workshopBodySerialized: MDXRemoteSerializeResult
-}> = ({workshop, workshopBodySerialized}) => {
-  const {title, ogImage, description} = workshop
-  const pageTitle = `${title} Workshop`
+export const ModuleTemplate: React.FC<{
+  module: Module
+  moduleBodySerialized: MDXRemoteSerializeResult
+}> = ({module, moduleBodySerialized}) => {
+  const {title, ogImage, description} = module
+  const pageTitle = `${title} ${capitalize(module.moduleType)}`
 
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
-      slug: workshop.slug.current,
+      slug: module.slug.current,
     })
 
   return (
@@ -39,7 +39,7 @@ export const WorkshopTemplate: React.FC<{
       className="mx-auto w-full max-w-screen-lg lg:pb-24"
       meta={{
         title: pageTitle,
-        description: workshop.description || '',
+        description: module.description || '',
         ...(ogImage && {
           ogImage: {
             url: ogImage,
@@ -49,31 +49,29 @@ export const WorkshopTemplate: React.FC<{
       }}
     >
       <CourseMeta title={pageTitle} description={description} />
-      {workshop.state === 'draft' && (
+      {module.state === 'draft' && (
         <div className="sm:px-3">
           <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded sm:text-base">
-            <CogIcon className="h-4 w-4" /> {capitalize(workshop.moduleType)}{' '}
+            <CogIcon className="h-4 w-4" /> {capitalize(module.moduleType)}{' '}
             under development — you're viewing a draft version.
           </div>
         </div>
       )}
-      <Header workshop={workshop} />
+      <Header module={module} />
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="w-full px-5">
           <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
-            {workshopBodySerialized && (
-              <MDX contents={workshopBodySerialized} />
-            )}
+            {moduleBodySerialized && <MDX contents={moduleBodySerialized} />}
           </article>
         </div>
         <div className="w-full px-5 lg:max-w-sm xl:px-0">
-          {workshop && (
+          {module && (
             <Collection.Root
-              module={workshop}
+              module={module}
               lessonPathBuilder={getModuleLessonPath}
             >
               <div className="flex w-full items-center justify-between pb-3">
-                {(workshop.lessons || workshop.sections) && (
+                {(module.lessons || module.sections) && (
                   <h3 className="text-xl font-bold">Contents</h3>
                 )}
                 <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
@@ -100,12 +98,12 @@ export const WorkshopTemplate: React.FC<{
             </Collection.Root>
           )}
           <WorkshopAppBanner
-            moduleSlug={workshop.slug.current || ''}
+            moduleSlug={module.slug.current || ''}
             className="mt-3 rounded-lg border p-5"
           />
-          <ResetProgress module={workshop as Module} />
-          {workshop.moduleType === 'workshop' && (
-            <ModuleCertificate module={workshop as Module} />
+          <ResetProgress module={module} />
+          {module.moduleType === 'workshop' && (
+            <ModuleCertificate module={module} />
           )}
         </div>
       </main>
@@ -113,11 +111,11 @@ export const WorkshopTemplate: React.FC<{
   )
 }
 
-const Header: React.FC<{workshop: any}> = ({workshop}) => {
-  const {title, slug, sections, image, github, instructor} = workshop
+const Header: React.FC<{module: Module}> = ({module}) => {
+  const {title, slug, sections, image, github} = module
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
-      slug: workshop.slug.current,
+      slug: module.slug.current,
     })
 
   const getAllLessons = (array: any) =>
@@ -157,7 +155,7 @@ const Header: React.FC<{workshop: any}> = ({workshop}) => {
           <div className="w-full pt-8 text-lg">
             <div className="flex items-center justify-center gap-3 md:justify-start"></div>
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
-              {(workshop.lessons || workshop.sections) && (
+              {(module.lessons || module.sections) && (
                 <Link
                   href={{
                     pathname: '/workshops/[module]/[lesson]',
