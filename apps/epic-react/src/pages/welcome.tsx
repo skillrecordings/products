@@ -10,7 +10,7 @@ import Link from 'next/link'
 import {first, isString} from 'lodash'
 import InviteTeam from '@skillrecordings/skill-lesson/team'
 import {InvoiceCard} from '@/pages/invoices'
-import {getAllProducts} from '@/lib/products'
+import {getAllActiveProducts, getAllProducts} from '@/lib/products'
 import {getLegacyModule, LegacyModule} from '@/lib/legacy-modules'
 import Image from 'next/legacy/image'
 import {trpc} from '@/trpc/trpc.client'
@@ -66,9 +66,10 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
           (product: SanityProduct) => product.productId === purchase.product.id,
         ),
       ) as SanityProduct
-      const firstLegacyModule = await getLegacyModule(
-        purchasedProduct.modules[0].slug,
-      )
+
+      const firstLegacyModule = purchasedProduct.modules
+        ? await getLegacyModule(purchasedProduct.modules[0].slug)
+        : null
 
       return {
         props: {

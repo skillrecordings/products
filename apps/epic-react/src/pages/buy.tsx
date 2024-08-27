@@ -5,14 +5,14 @@ import {getToken} from 'next-auth/jwt'
 import Balancer from 'react-wrap-balancer'
 
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
-import {getAllProducts} from '@/lib/products'
+import {getAllActiveProducts} from '@/lib/products'
 import Layout from '@/components/app/layout'
 import PricingSection from '@/components/pricing-section'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, query} = context
   const token = await getToken({req})
-  const products = await getAllProducts()
+  const products = await getAllActiveProducts()
   const {props: commerceProps} = await propsForCommerce({
     query,
     token,

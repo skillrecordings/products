@@ -12,7 +12,7 @@ import {InView} from 'react-intersection-observer'
 
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
-import {getProduct, getAllProducts} from '@/lib/products'
+import {getProduct, getAllActiveProducts} from '@/lib/products'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
 import LandingCopy from '@/components/landing-copy.mdx'
@@ -29,7 +29,7 @@ const DEFAULT_PRODUCT_ID = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
-  const products = await getAllProducts()
+  const products = await getAllActiveProducts()
   const {props: commerceProps} = await propsForCommerce({
     query,
     token,

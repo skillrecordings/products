@@ -18,7 +18,7 @@ import {
   LegacyModuleSchema,
 } from '@/lib/legacy-modules'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
-import {getAllProducts} from '@/lib/products'
+import {getAllActiveProducts} from '@/lib/products'
 import {Bonus, BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
 import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
@@ -32,7 +32,7 @@ export const MODULES_WITH_NO_CERTIFICATE = ['welcome-to-epic-react']
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   // TODO: load the user's purchases and figure out what product they should have access to
   const token = await getToken({req})
-  const products = await getAllProducts()
+  const products = await getAllActiveProducts()
   const {props: commerceProps} = await propsForCommerce({
     query,
     token,
