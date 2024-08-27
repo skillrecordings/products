@@ -27,6 +27,7 @@ import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {useSession} from 'next-auth/react'
 import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
 import SelfRedeemButton from '@skillrecordings/skill-lesson/team/self-redeem-button'
+import {VersionTwoCta} from '@/components/version-two-cta'
 
 const BlockedOverlay: React.FC<{
   product?: SanityProduct
@@ -100,7 +101,11 @@ const BlockedOverlay: React.FC<{
           {canViewTeam ? (
             <InviteTeam product={product} />
           ) : (
-            <BuyProduct product={product} />
+            <VersionTwoCta
+              title="Epic React is not Available"
+              byline="Want to be the first to know when it goes back on sale? Sign up here and we'll let you know!"
+              actionLabel="Keep me posted"
+            />
           )}
         </div>
       ) : null}
