@@ -66,7 +66,15 @@ const CreateTipForm: React.FC = () => {
           {
             onSettled: (data) => {
               console.log('tip creation settled', data)
-              router.push(`/creator/tips/${data?.slug}`)
+              if (data?.slug) {
+                router.push(`/creator/tips/${data?.slug}`)
+              }
+            },
+            onError: (error) => {
+              console.log('tip creation error', error)
+            },
+            onSuccess: (data) => {
+              console.log('tip creation success', data)
             },
           },
         )
