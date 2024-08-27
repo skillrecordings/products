@@ -3,7 +3,6 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-import TutorialTemplate from '@/templates/tutorial-template'
 import {getAllWorkshops, getWorkshop, Workshop} from '@/lib/workshops'
 import {WorkshopTemplate} from '@/templates/workshop-template'
 

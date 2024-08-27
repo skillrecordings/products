@@ -44,6 +44,31 @@ const TutorialSchema = z.object({
   instructor: ContributorSchema.optional().nullable(),
   product: z.array(ProductSchema).optional().nullable(),
   lessons: z.array(z.any()).optional().nullable(),
+  resources: z
+    .array(
+      z.object({
+        _id: z.string(),
+        _type: z.string(),
+        _updatedAt: z.string().optional(),
+        title: z.string(),
+        description: z.string().optional().nullable(),
+        slug: z.string(),
+        solution: z
+          .nullable(
+            z.object({
+              _key: z.string(),
+              _type: z.string(),
+              _updatedAt: z.string().optional(),
+              title: z.string(),
+              description: z.string().optional().nullable(),
+              slug: z.string(),
+            }),
+          )
+          .optional(),
+      }),
+    )
+    .nullable()
+    .optional(),
   sections: z
     .array(
       z.object({
@@ -85,7 +110,7 @@ export const TutorialsSchema = z.array(TutorialSchema)
 export type Tutorial = z.infer<typeof TutorialSchema>
 
 // const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && state == 'published'] | order(_createdAt asc) {
-const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial'] | order(_createdAt desc) {
+const tutorialsQuery = groq`*[_type == "module" && moduleType == 'tutorial' && state == 'published' ] | order(_createdAt desc) {
   _id,
   _type,
   title,
@@ -221,6 +246,37 @@ export const getTutorial = async (slug: string) =>
           author {
             name,
             "image": image.asset->url
+          }
+        },
+        "resources": resources[@->._type in ['section', 'explainer', 'lesson', 'exercise']]->{
+          _id,
+          _type,
+          _updatedAt,
+          title,
+          "slug": slug.current,
+          (_type == 'explainer') => {
+            explainerType
+          },
+          (_type == 'section') => {
+            "lessons": resources[@->._type in ['explainer', 'exercise', 'lesson']]->{
+              _id,
+              _type,
+              _updatedAt,
+              title,
+              "slug": slug.current,
+              description,
+              (_type == 'explainer') => {
+                explainerType
+              },
+              "solution": resources[@._type == 'solution'][0]{
+                _key,
+                _type,
+                "_updatedAt": ^._updatedAt,
+                title,
+                description,
+                "slug": slug.current,
+              }
+            }
           }
         },
         "sections": resources[@->._type == 'section']->{

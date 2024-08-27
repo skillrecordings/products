@@ -11,12 +11,17 @@ export const USER_ID_QUERY_PARAM_KEY = 'learner'
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const tutorial = await getTutorial(params?.module as string)
 
+  const moduleWithSectionsAndLessons = {
+    ...tutorial,
+    useResourcesInsteadOfSections: true,
+  }
+
   const tutorialBodySerialized = tutorial.body
     ? await serializeMDX(tutorial.body)
     : null
 
   return {
-    props: {tutorial, tutorialBodySerialized},
+    props: {tutorial: moduleWithSectionsAndLessons, tutorialBodySerialized},
     revalidate: 10,
   }
 }

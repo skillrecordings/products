@@ -19,6 +19,7 @@ import {Skeleton} from '@skillrecordings/ui'
 import {CogIcon} from '@heroicons/react/outline'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {WorkshopAppBanner} from '@/components/workshop-app'
+import {lessonPathBuilder} from '@/utils/lesson-path-builder'
 
 const TutorialTemplate: React.FC<{
   tutorial: any
@@ -44,7 +45,7 @@ const TutorialTemplate: React.FC<{
         },
       }}
     >
-      {/* <CourseMeta title={pageTitle} description={description} /> */}
+      <CourseMeta title={pageTitle} description={description} />
       {tutorial.state === 'draft' && (
         <div className="sm:px-3">
           <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded sm:text-base">
@@ -62,7 +63,10 @@ const TutorialTemplate: React.FC<{
         </div>
         <div className="w-full px-5 lg:max-w-sm xl:px-0">
           {tutorial && (
-            <Collection.Root module={tutorial}>
+            <Collection.Root
+              module={tutorial}
+              lessonPathBuilder={lessonPathBuilder}
+            >
               <div className="flex w-full items-center justify-between pb-3">
                 {(tutorial.lessons || tutorial.sections) && (
                   <h3 className="text-xl font-bold">Contents</h3>
@@ -134,30 +138,15 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
             <div className="flex w-full flex-col items-center justify-center gap-3 pt-8 md:flex-row md:justify-start">
               {(tutorial.lessons || tutorial.sections) && (
                 <Link
-                  href={
-                    firstSection && sections
-                      ? {
-                          pathname: '/tutorials/[module]/[section]/[lesson]',
-                          query: {
-                            module: slug.current,
-                            section: isModuleInProgress
-                              ? nextSection?.slug
-                              : firstSection.slug,
-                            lesson: isModuleInProgress
-                              ? nextLesson?.slug
-                              : firstLesson?.slug,
-                          },
-                        }
-                      : {
-                          pathname: '/tutorials/[module]/[lesson]',
-                          query: {
-                            module: slug.current,
-                            lesson: isModuleInProgress
-                              ? nextLesson?.slug
-                              : firstLesson?.slug,
-                          },
-                        }
-                  }
+                  href={{
+                    pathname: '/tutorials/[module]/[lesson]',
+                    query: {
+                      module: slug.current,
+                      lesson: isModuleInProgress
+                        ? nextLesson?.slug
+                        : firstLesson?.slug,
+                    },
+                  }}
                   className={cx(
                     'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
                     {
@@ -207,33 +196,20 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
   )
 }
 
-const CourseMeta = ({product}: {product: SanityProduct}) => (
+const CourseMeta = ({
+  title,
+  description,
+}: {
+  title: string
+  description?: string | null | undefined
+}) => (
   <CourseJsonLd
-    courseName={product.title || ''}
-    description={product.description || ''}
+    courseName={title}
+    description={description || ''}
     provider={{
       name: `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
       type: 'Person',
       url: isBrowser() ? document.location.href : process.env.NEXT_PUBLIC_URL,
     }}
-    offers={[
-      {
-        price: product.unitAmount,
-        priceCurrency: 'USD',
-        category: 'Paid',
-      },
-    ]}
-    hasCourseInstance={[
-      {
-        courseMode: 'Online',
-        courseWorkload: 'PT22H',
-        instructor: [
-          {
-            type: 'Person',
-            name: `${process.env.NEXT_PUBLIC_PARTNER_FIRST_NAME} ${process.env.NEXT_PUBLIC_PARTNER_LAST_NAME}`,
-          },
-        ],
-      },
-    ]}
   />
 )
