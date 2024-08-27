@@ -13,10 +13,6 @@ import {
   ModuleProgressProvider,
   useModuleProgress,
 } from '@skillrecordings/skill-lesson/video/module-progress'
-import {trpc} from '@/trpc/trpc.client'
-import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
-import {Progress, Skeleton} from '@skillrecordings/ui'
-import {cn} from '@skillrecordings/ui/utils/cn'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 
 export async function getStaticProps() {
