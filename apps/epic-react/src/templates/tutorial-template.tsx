@@ -17,9 +17,9 @@ import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {Skeleton} from '@skillrecordings/ui'
 import {CogIcon} from '@heroicons/react/outline'
-import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
 import {WorkshopAppBanner} from '@/components/workshop-app'
 import {lessonPathBuilder} from '@/utils/lesson-path-builder'
+import {MdOutlineRocketLaunch} from 'react-icons/md'
 
 const TutorialTemplate: React.FC<{
   tutorial: any
@@ -58,7 +58,37 @@ const TutorialTemplate: React.FC<{
       <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
         <div className="w-full px-5">
           <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
-            <MDX contents={tutorialBodySerialized} />
+            <MDX
+              contents={tutorialBodySerialized}
+              components={{
+                Callout: ({children, ctaLink}) => {
+                  return (
+                    <div className="rounded-lg border-l-4 border-blue-500 bg-blue-50 px-4 pb-4 shadow-sm dark:bg-gray-700">
+                      <div className="flex space-x-3">
+                        <span className="flex-shrink-0 pt-5 text-blue-500">
+                          <MdOutlineRocketLaunch className="h-5 w-5" />
+                        </span>
+                        <div className="flex-1">
+                          <div>
+                            <p className="text-base font-medium leading-none text-blue-700 dark:text-white">
+                              {children}
+                            </p>
+                          </div>
+                          {ctaLink && (
+                            <Link
+                              href={ctaLink}
+                              className="block text-base font-semibold text-blue-500 no-underline hover:text-blue-800"
+                            >
+                              To Continue Learning Go Pro →
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )
+                },
+              }}
+            />
           </article>
         </div>
         <div className="w-full px-5 lg:max-w-sm xl:px-0">
