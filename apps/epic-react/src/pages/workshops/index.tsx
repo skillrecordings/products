@@ -4,9 +4,7 @@ import {motion} from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
-import {useRouter} from 'next/router'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
 import {getAllWorkshops, Workshop} from '@/lib/workshops'
 
 export async function getStaticProps() {

@@ -16,10 +16,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
   const lessonSlug = params?.lesson as string
   const sectionSlug = params?.section as string
-
   const module = await getTutorial(params?.module as string)
-  const section = await getSection(sectionSlug)
+
+  const currentLessonSection = module.sections.find((section: any) => {
+    return section.lessons.find((lesson: any) => lesson.slug === lessonSlug)
+  })
+  const section = await getSection(sectionSlug || currentLessonSection?.slug)
   const lesson = await getExercise(lessonSlug, false)
+  // if sectionSlug does not exist in url but is still present in data structure, we need to get current lesson by filtering through all sections
+
   const moduleWithSectionsAndLessons = {
     ...module,
     useResourcesInsteadOfSections: true,
@@ -65,7 +70,6 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
           section.lessons?.map((lesson: any) => ({
             params: {
               module: tutorial.slug.current,
-              section: section.slug,
               lesson: lesson.slug,
             },
           })) || []

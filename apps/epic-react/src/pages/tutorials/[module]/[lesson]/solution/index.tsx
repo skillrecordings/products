@@ -20,7 +20,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const sectionSlug = params?.section as string
 
   const module = await getTutorial(params?.module as string)
-  const section = await getSection(sectionSlug)
+
+  // if sectionSlug does not exist in url but is still present in data structure, we need to get current lesson by filtering through all sections
+  const currentLessonSection = module.sections.find((section: any) => {
+    return section.lessons.find((lesson: any) => lesson.slug === exerciseSlug)
+  })
+
+  const section = await getSection(sectionSlug || currentLessonSection?.slug)
   const exercise = await getExercise(exerciseSlug)
 
   if (!exercise) {
@@ -34,6 +40,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const solution = exercise.solution
   const lesson = exercise
+
+  const moduleWithSectionsAndLessons = {
+    ...module,
+    useResourcesInsteadOfSections: true,
+  }
   const solutionBodySerialized =
     typeof solution?.body === 'string' &&
     (await serialize(solution.body, {
@@ -52,7 +63,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       solution,
       solutionBodySerialized,
       solutionBodyPreviewSerialized: solutionBodySerialized,
-      module,
+      module: moduleWithSectionsAndLessons,
       section,
       transcript: solution?.transcript,
       videoResourceId: solution?.videoResourceId,

@@ -116,8 +116,8 @@ const ExerciseTemplate: React.FC<{
     }
   }
 
-  const workshopSpecificProps =
-    module.moduleType === 'workshop'
+  const moduleSpecificProps =
+    module.moduleType === 'workshop' || module.moduleType === 'tutorial'
       ? {
           nextPathBuilder: nextLessonPath,
           isModuleWithResources: true,
@@ -132,7 +132,7 @@ const ExerciseTemplate: React.FC<{
       onModuleEnded={async () => {
         addProgressMutation.mutate({lessonSlug: router.query.lesson as string})
       }}
-      {...workshopSpecificProps}
+      {...moduleSpecificProps}
       // @ts-expect-error
       inviteTeamPagePath={`/products/${module.product?.slug}`}
     >
