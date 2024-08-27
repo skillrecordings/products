@@ -4,7 +4,8 @@ import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {getAllWorkshops, getWorkshop, Workshop} from '@/lib/workshops'
-import {WorkshopTemplate} from '@/templates/workshop-template'
+import {ModuleTemplate} from '@/templates/module-template'
+import {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 export const USER_ID_QUERY_PARAM_KEY = 'learner'
 
@@ -15,12 +16,12 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     ...workshop,
     useResourcesInsteadOfSections: true,
   }
-  const workshopBodySerialized = workshop.body
+  const moduleBodySerialized = workshop.body
     ? await serializeMDX(workshop.body)
     : null
 
   return {
-    props: {workshop: moduleWithSectionsAndLessons, workshopBodySerialized},
+    props: {module: moduleWithSectionsAndLessons, moduleBodySerialized},
     revalidate: 10,
   }
 }
@@ -34,14 +35,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 const WorkshopPage: React.FC<{
-  workshop: Workshop
-  workshopBodySerialized: MDXRemoteSerializeResult
-}> = ({workshop, workshopBodySerialized}) => {
+  module: Module
+  moduleBodySerialized: MDXRemoteSerializeResult
+}> = ({module, moduleBodySerialized}) => {
   return (
-    <ModuleProgressProvider moduleSlug={workshop.slug.current}>
-      <WorkshopTemplate
-        workshop={workshop}
-        workshopBodySerialized={workshopBodySerialized}
+    <ModuleProgressProvider moduleSlug={module.slug.current}>
+      <ModuleTemplate
+        module={module}
+        moduleBodySerialized={moduleBodySerialized}
       />
     </ModuleProgressProvider>
   )

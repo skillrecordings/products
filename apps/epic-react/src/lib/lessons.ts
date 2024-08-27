@@ -24,9 +24,13 @@ export async function getLessonVideoForDevice({
   user,
   country,
 }: GetLessonProps) {
+  const isSectionLesson = Boolean(sectionSlug && !lessonSlug)
+
   const module = await getModule(moduleSlug)
-  const section = await getSection(sectionSlug)
-  const lessonData = await getExercise(lessonSlug, false)
+  const section = isSectionLesson ? null : await getSection(sectionSlug)
+  const lessonData = isSectionLesson
+    ? await getExercise(sectionSlug, false)
+    : await getExercise(lessonSlug, false)
 
   const lesson = useSolution ? (lessonData.solution as Lesson) : lessonData
 

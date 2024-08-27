@@ -181,7 +181,7 @@ const Welcome: React.FC<
           <div className="flex flex-col gap-10">
             <div>
               <h2 className="font-heading pb-2 text-sm font-black uppercase">
-                Share Testing Javascript
+                Share {purchase.product.name}
               </h2>
               <Share productName={purchase.product.name} />
             </div>
@@ -289,7 +289,7 @@ const Invite: React.FC<React.PropsWithChildren<any>> = ({
 const Share: React.FC<React.PropsWithChildren<{productName: string}>> = ({
   productName,
 }) => {
-  const tweet = `https://twitter.com/intent/tweet/?text=Testing Javascript by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.testingjavascript.com%2F`
+  const tweet = `https://twitter.com/intent/tweet/?text=${productName} by @${process.env.NEXT_PUBLIC_PARTNER_TWITTER} 🧙 https%3A%2F%2Fwww.epicreact.dev%2F`
   return (
     <div className="flex flex-col justify-between gap-5 rounded-lg border border-er-gray-100 bg-background px-5 py-6 text-text dark:border-er-gray-200 sm:flex-row sm:items-center">
       <p>
