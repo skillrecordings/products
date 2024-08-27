@@ -356,7 +356,7 @@ const LessonList: React.FC<{
           ref={scrollContainerRef}
         >
           <Collection.Root
-            ignoreSections={module.moduleType === 'workshop' ? true : false}
+            ignoreSections={true}
             module={module}
             lessonPathBuilder={lessonPathBuilder}
             resourcesRenderer={(type) => {

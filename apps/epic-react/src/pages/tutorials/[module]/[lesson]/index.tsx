@@ -1,29 +1,31 @@
 import React from 'react'
 import ExerciseTemplate from '@/templates/exercise-template'
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
-import {getAllTutorials, getTutorial} from '@/lib/tutorials'
-import {getExercise, Exercise} from '@/lib/exercises'
+import {getExercise} from '@/lib/exercises'
 import {VideoResourceProvider} from '@skillrecordings/skill-lesson/hooks/use-video-resource'
 import {LessonProvider} from '@skillrecordings/skill-lesson/hooks/use-lesson'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getSection} from '@/lib/sections'
+import {getAllTutorials, getTutorial} from '@/lib/tutorials'
 import {serialize} from 'next-mdx-remote/serialize'
-import {remarkCodeBlocksShiki} from '@kentcdodds/md-temp'
 import {removePreContainerDivs, trimCodeBlocks} from '@/utils/mdx'
 import * as Sentry from '@sentry/nextjs'
+import {lessonPathBuilder} from '@/utils/lesson-path-builder'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context
-  const exerciseSlug = params?.lesson as string
+  const lessonSlug = params?.lesson as string
   const sectionSlug = params?.section as string
 
   const module = await getTutorial(params?.module as string)
   const section = await getSection(sectionSlug)
-  const exercise = await getExercise(exerciseSlug)
-
-  if (!exercise) {
-    const msg = `Unable to find Exercise for slug (${exerciseSlug}). Context: module (${params?.module}) and section (${sectionSlug})`
+  const lesson = await getExercise(lessonSlug, false)
+  const moduleWithSectionsAndLessons = {
+    ...module,
+    useResourcesInsteadOfSections: true,
+  }
+  if (!lesson) {
+    const msg = `Unable to find Exercise for slug (${lessonSlug}). Context: module (${params?.module}) and section (${sectionSlug})`
     Sentry.captureMessage(msg)
 
     return {
@@ -31,30 +33,23 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }
   }
 
-  const solution = exercise.solution
-  const lesson = exercise
-  const solutionBodySerialized =
-    typeof solution?.body === 'string' &&
-    (await serialize(solution.body, {
+  const lessonBodySerialized =
+    typeof lesson.body === 'string' &&
+    (await serialize(lesson.body, {
       mdxOptions: {
-        rehypePlugins: [
-          trimCodeBlocks,
-          remarkCodeBlocksShiki,
-          removePreContainerDivs,
-        ],
+        rehypePlugins: [trimCodeBlocks, removePreContainerDivs],
       },
     }))
 
   return {
     props: {
       lesson,
-      solution,
-      solutionBodySerialized,
-      solutionBodyPreviewSerialized: solutionBodySerialized,
-      module,
+      lessonBodySerialized,
+      lessonBodyPreviewSerialized: lessonBodySerialized,
+      module: moduleWithSectionsAndLessons,
       section,
-      transcript: solution?.transcript,
-      videoResourceId: solution?.videoResourceId,
+      transcript: lesson.transcript,
+      videoResourceId: lesson.videoResourceId,
     },
     revalidate: 10,
   }
@@ -67,15 +62,13 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
     return (
       tutorial.sections?.flatMap((section: any) => {
         return (
-          section.lessons
-            ?.filter(({_type}: Lesson) => _type === 'exercise')
-            .map((exercise: Exercise) => ({
-              params: {
-                module: tutorial.slug.current,
-                section: section.slug,
-                lesson: exercise.slug,
-              },
-            })) || []
+          section.lessons?.map((lesson: any) => ({
+            params: {
+              module: tutorial.slug.current,
+              section: section.slug,
+              lesson: lesson.slug,
+            },
+          })) || []
         )
       }) || []
     )
@@ -84,11 +77,10 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   return {paths, fallback: 'blocking'}
 }
 
-const ExerciseSolution: React.FC<any> = ({
+const ExercisePage: React.FC<any> = ({
   lesson,
-  solution,
-  solutionBodySerialized,
-  solutionBodyPreviewSerialized,
+  lessonBodySerialized,
+  lessonBodyPreviewSerialized,
   module,
   section,
   transcript,
@@ -96,16 +88,13 @@ const ExerciseSolution: React.FC<any> = ({
 }) => {
   return (
     <ModuleProgressProvider moduleSlug={module.slug.current}>
-      <LessonProvider
-        lesson={{...solution, slug: lesson.slug}}
-        module={module}
-        section={section}
-      >
+      <LessonProvider lesson={lesson} module={module} section={section}>
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <ExerciseTemplate
             transcript={transcript}
-            lessonBodySerialized={solutionBodySerialized}
-            lessonBodyPreviewSerialized={solutionBodyPreviewSerialized}
+            lessonBodySerialized={lessonBodySerialized}
+            lessonBodyPreviewSerialized={lessonBodyPreviewSerialized}
+            lessonPathBuilder={lessonPathBuilder}
           />
         </VideoResourceProvider>
       </LessonProvider>
@@ -113,4 +102,4 @@ const ExerciseSolution: React.FC<any> = ({
   )
 }
 
-export default ExerciseSolution
+export default ExercisePage
