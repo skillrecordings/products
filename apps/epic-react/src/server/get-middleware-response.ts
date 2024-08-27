@@ -43,44 +43,33 @@ export async function getMiddlewareResponse(req: NextRequest) {
     }
   }
 
-  // New dynamic redirect for tutorials
+  const sectionsToRedirect = [
+    'introduction-build-react-hooks',
+    'use-state',
+    'multiple-hooks',
+    'use-effect',
+    'outro-build-react-hooks',
+  ]
+
   if (req.nextUrl.pathname.startsWith('/tutorials/build-react-hooks/')) {
-    const segments = req.nextUrl.pathname.split('/')
-    const filteredSegments = segments.filter((segment) => segment !== '')
+    const segments = req.nextUrl.pathname
+      .split('/')
+      .filter((segment) => segment !== '')
 
-    // Find the index of 'build-react-hooks'
-    const buildReactHooksIndex = filteredSegments.findIndex(
-      (segment) => segment === 'build-react-hooks',
-    )
-
-    // Check if there's a segment after 'build-react-hooks' to remove
-    if (
-      buildReactHooksIndex !== -1 &&
-      filteredSegments.length > buildReactHooksIndex + 3
-    ) {
-      // Remove the segment immediately after 'build-react-hooks'
-      const newSegments = [
-        ...filteredSegments.slice(0, buildReactHooksIndex + 1),
-        ...filteredSegments.slice(buildReactHooksIndex + 2),
-      ]
+    if (segments.length >= 4 && sectionsToRedirect.includes(segments[2])) {
+      const newSegments = [...segments.slice(0, 2), ...segments.slice(3)]
 
       const newPath = '/' + newSegments.join('/')
 
-      // Only redirect if the path has changed
-      if (req.nextUrl.pathname !== newPath) {
+      if (newPath !== req.nextUrl.pathname) {
         try {
           return redirectToPath(newPath, req)
         } catch (error) {
+          console.error('Redirect failed:', error)
           return response
         }
-      } else {
-        console.log('URL already in correct format, no redirect needed')
       }
-    } else {
-      console.log('No segment to remove or URL already in correct format')
     }
-
-    return response
   }
 
   return response
