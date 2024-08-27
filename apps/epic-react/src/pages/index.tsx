@@ -24,6 +24,8 @@ import imgBigPlanet from '../../public/assets/big-planet@2x.png'
 import imgRingPlanet from '../../public/assets/ring-planet@2x.png'
 import imgMoon from '../../public/assets/moon@2x.png'
 import imgLandingRocket from '../../public/assets/landing-rocket@2x.png'
+import {VersionTwoCta} from '@/components/version-two-cta'
+import * as React from 'react'
 
 const DEFAULT_PRODUCT_ID = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -125,8 +127,7 @@ const Home: React.FC<{modules: any[]; commerceProps: CommerceProps}> = ({
                 </div>
                 <div className="min-h-[173px]">
                   <h1 className="px-5 pt-8 text-2xl font-semibold leading-normal text-white transition-opacity sm:pt-0 sm:leading-tight md:max-w-3xl md:text-4xl lg:text-[2.75rem] lg:leading-tight">
-                    Confidently Ship Well-Architected Production Ready React
-                    Apps Like a Pro
+                    Get Extremely Good at React
                   </h1>
                 </div>
               </div>
@@ -231,31 +232,43 @@ const Home: React.FC<{modules: any[]; commerceProps: CommerceProps}> = ({
           </ul>
         </div>
         <div className="my-16 bg-er-gray-100 pb-16 pt-8">
-          <div className="py-12 lg:py-16">
-            <div className="px-5 text-center">
-              <h1 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
-                Join over 7000 Developers and Get Really Good At React
-              </h1>
-              <p className="mx-auto mt-5 max-w-4xl text-xl text-react sm:text-2xl">
-                The beautiful thing about learning is that nobody can take it
-                away from you.
-              </p>
-            </div>
-            <div className="mt-16 lg:mt-32">
-              <PricingSection
-                commerceProps={commerceProps}
-                className="mb-28 mt-12 md:mt-14 lg:mb-32 lg:mt-16"
+          {commerceProps.products?.length > 0 ? (
+            <>
+              <div className="py-12 lg:py-16">
+                <div className="px-5 text-center">
+                  <h1 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
+                    Join over 7000 Developers and Get Really Good At React
+                  </h1>
+                  <p className="mx-auto mt-5 max-w-4xl text-xl text-react sm:text-2xl">
+                    The beautiful thing about learning is that nobody can take
+                    it away from you.
+                  </p>
+                </div>
+                <div className="mt-16 lg:mt-32">
+                  <PricingSection
+                    commerceProps={commerceProps}
+                    className="mb-28 mt-12 md:mt-14 lg:mb-32 lg:mt-16"
+                  />
+                </div>
+              </div>
+              <div className="mx-auto h-48 w-48">
+                <Image
+                  src="/assets/money-back-guarantee-badge.svg"
+                  alt="30 day money back guarantee"
+                  width={192}
+                  height={192}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="mx-auto max-w-screen-lg px-5 pb-16 pt-8 sm:px-8">
+              <VersionTwoCta
+                title="Epic React is not Available"
+                byline="Want to be the first to know when it goes back on sale? Sign up here and we'll let you know!"
+                actionLabel="Keep me posted"
               />
             </div>
-          </div>
-          <div className="mx-auto h-48 w-48">
-            <Image
-              src="/assets/money-back-guarantee-badge.svg"
-              alt="30 day money back guarantee"
-              width={192}
-              height={192}
-            />
-          </div>
+          )}
         </div>
       </main>
       <Footer />
