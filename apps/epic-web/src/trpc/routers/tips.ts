@@ -34,13 +34,18 @@ export const tipsRouter = router({
       // use CASL rbac to check if the user can create content
       if (ability.can('create', 'Content')) {
         // create the video resource object in Sanity
-        const newVideoResource = await sanityWriteClient.create({
-          _id: `videoResource-${v4()}`,
-          _type: 'videoResource',
-          state: 'new',
-          title: input.fileName,
-          originalMediaUrl: input.s3Url,
-        })
+        const newVideoResource = await sanityWriteClient
+          .create({
+            _id: `videoResource-${v4()}`,
+            _type: 'videoResource',
+            state: 'new',
+            title: input.fileName,
+            originalMediaUrl: input.s3Url,
+          })
+          .catch((err) => {
+            console.log('error creating video resource', err)
+            throw err
+          })
 
         if (newVideoResource._id) {
           // control the id that is used so we can reference it immediately
@@ -147,8 +152,6 @@ export const tipsRouter = router({
       }),
     )
     .query(async ({ctx, input}) => {
-      const lesson = await getTip(input.slug)
-
-      return lesson
+      return await getTip(input.slug)
     }),
 })

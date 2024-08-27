@@ -68,8 +68,18 @@ export const VersionTwoCta: React.FC<
         actionLabel={actionLabel}
       />
       <div className="h-10 w-10" />
-      <p data-nospam="" className="pt-8 text-center text-sm opacity-80">
+      <p data-nospam="" className="pb-8 text-center text-sm opacity-80">
         We respect your privacy. Unsubscribe at any time.
+      </p>
+      <p data-nospam="" className="max-w-96 py-1 text-center text-sm">
+        Want early access to Epic React for your team? Send us an email at{' '}
+        <a
+          className="font-semibold underline"
+          href="mailto:team@epicreact.dev?subject=Epic%20React%20v2%20for%20my%20Team&body=Our%20team%20has%20__%20members%20and%20we'd%20like%20to%20get%20them%20access%20to%20Epic%20React%20v2."
+        >
+          team@epicreact.dev
+        </a>{' '}
+        to discuss your needs.
       </p>
     </section>
   )
