@@ -206,7 +206,7 @@ const GetStartedVideo: React.FC<{
           }}
           ref={muxPlayerRef}
           startTime={19}
-          playbackId="xSI7201jJf6lumgc9Kxwd5C65Rg8kLa94CcYzifZaL4U"
+          playbackId="zd6jycd4fMq4EB702BpGbimsyj00idemYohCOEopQYe01k"
           accentColor="#3b82f6"
           className="h-full w-full rounded"
           poster="https://res.cloudinary.com/epic-web/image/upload/v1697795383/workshop-app-video-poster.jpg"
