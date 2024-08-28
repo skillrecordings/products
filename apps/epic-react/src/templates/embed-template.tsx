@@ -348,7 +348,7 @@ export default EmbedTemplate
 const ctaText = `
 In exchange for your email address, you'll get full access to this and other free Epic React tutorials.
 
-Why? First and foremost, your inbox allows us to directly communicate about the latest Epic React material. This includes free tutorials, tips, and periodic updates about trends, tools, and React happenings that I'm excited about.
+Why? You'll get updates about the latest Epic React material. This includes free tutorials, tips, and periodic updates about trends, tools, and React happenings that I'm excited about.
 
 In addition to the piles of free Epic React content, you'll get the earliest access and best discounts to the paid courses when they launch. There won't be any spam, and every email you get will have an unsubscribe link.
 `

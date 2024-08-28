@@ -4,16 +4,8 @@ import {motion} from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
-import pluralize from 'pluralize'
-import {useRouter} from 'next/router'
-import {SanityDocument} from '@sanity/client'
 import {getAllTutorials, Tutorial} from '@/lib/tutorials'
-import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {
-  ModuleProgressProvider,
-  useModuleProgress,
-} from '@skillrecordings/skill-lesson/video/module-progress'
-import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
+import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
@@ -38,9 +30,6 @@ const sectionsFlatMap = (sections: any[]) => {
 const TutorialsPage: React.FC<{
   tutorials: Tutorial[]
 }> = ({tutorials}) => {
-  const router = useRouter()
-  const {subscriber, loadingSubscriber} = useConvertkit()
-
   return (
     <Layout
       meta={{
