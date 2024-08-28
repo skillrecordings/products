@@ -13,7 +13,14 @@ import {
   type MarkdownHeading,
 } from '@/utils/extract-markdown-headings'
 
-const ARTICLES_WITH_TOC = ['how-to-create-an-npm-package']
+const ARTICLES_WITH_TOC = [
+  'how-to-create-an-npm-package',
+  'typescript-utility-types',
+  'typescript-and-node',
+  'build-a-node-app-with-typescript-and-esbuild',
+  'tsconfig-cheat-sheet',
+  'type-vs-interface-which-should-you-use',
+]
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const article = await getArticle(params?.article as string)
