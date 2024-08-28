@@ -16,15 +16,15 @@ import {MODULES_WITH_NO_CERTIFICATE} from '@/pages/learn'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 
 const modulesOrderedBySlug = {
-  'welcome-to-epic-react': 0,
-  'react-fundamentals': 1,
-  'react-hooks': 2,
-  'advanced-react-hooks': 3,
-  'advanced-react-patterns': 4,
-  'react-performance': 5,
-  'testing-react-apps': 6,
-  'react-suspense': 7,
-  'build-an-epic-react-app': 8,
+  'welcome-to-epic-react-v1': 0,
+  'react-fundamentals-v1': 1,
+  'react-hooks-v1': 2,
+  'advanced-react-hooks-v1': 3,
+  'advanced-react-patterns-v1': 4,
+  'react-performance-v1': 5,
+  'testing-react-apps-v1': 6,
+  'react-suspense-v1': 7,
+  'build-an-epic-react-app-v1': 8,
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
