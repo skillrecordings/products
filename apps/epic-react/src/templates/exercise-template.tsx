@@ -71,9 +71,15 @@ const ExerciseTemplate: React.FC<{
   const {data: lessonResources, status: lessonResourcesStatus} =
     trpc.lessonResources.byLessonSlug.useQuery({slug: lesson.slug})
 
-  const exerciseCount = section
-    ? section.lessons && section.lessons.length
-    : module.lessons && module.lessons.length
+  const exerciseCount =
+    module.sections?.reduce((acc: number, resource: any) => {
+      if (resource._type === 'section' && Array.isArray(resource.lessons)) {
+        return acc + resource.lessons.length
+      } else if (resource._type === 'lesson' || resource._type === 'exercise') {
+        return acc + 1
+      }
+      return acc
+    }, 0) ?? 0
 
   const useAbilities = () => {
     const {data: abilityRules, status: abilityRulesStatus} =
