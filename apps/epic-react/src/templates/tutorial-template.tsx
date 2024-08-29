@@ -69,15 +69,13 @@ const TutorialTemplate: React.FC<{
                           <MdOutlineRocketLaunch className="h-5 w-5" />
                         </span>
                         <div className="flex-1">
-                          <div>
-                            <p className="text-base font-medium leading-none text-blue-700 dark:text-white">
-                              {children}
-                            </p>
+                          <div className="text-base font-medium leading-none text-blue-700 dark:text-white">
+                            {children}
                           </div>
                           {ctaLink && (
                             <Link
                               href={ctaLink}
-                              className="block text-base font-semibold text-blue-500 no-underline hover:text-blue-800"
+                              className="block text-base font-semibold text-blue-500 no-underline hover:text-blue-400"
                             >
                               To Continue Learning Go Pro →
                             </Link>
