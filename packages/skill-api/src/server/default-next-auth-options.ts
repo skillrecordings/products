@@ -71,7 +71,6 @@ export function defaultNextAuthOptions(options: {
     providers = [],
     skillCookieDomain,
   } = options
-  console.log(req)
   return {
     secret: process.env.NEXTAUTH_SECRET,
     events: {
