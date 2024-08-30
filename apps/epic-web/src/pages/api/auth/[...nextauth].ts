@@ -68,11 +68,14 @@ export default async function NextAuthEndpoint(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  NextAuth(
+  return NextAuth(
     req,
     res,
     createOptions({
       req,
+      res,
+      skillCookieDomain:
+        process.env.NODE_ENV === 'production' ? '.epicweb.dev' : 'localhost',
       theme: productTheme,
       providers,
       cookies,

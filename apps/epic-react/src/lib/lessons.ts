@@ -68,6 +68,10 @@ export async function getLessonVideoForDevice({
     return {
       error: 'region-restricted',
     }
+  } else {
+    return {
+      error: 'unauthorized-to-view-lesson',
+    }
   }
 }
 
