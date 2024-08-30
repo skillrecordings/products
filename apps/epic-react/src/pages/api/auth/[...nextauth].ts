@@ -53,6 +53,9 @@ export default async function NextAuthEndpoint(
     res,
     createOptions({
       req,
+      res,
+      skillCookieDomain:
+        process.env.NODE_ENV === 'production' ? '.epicreact.dev' : 'localhost',
       theme: productTheme,
       cookies,
     }),

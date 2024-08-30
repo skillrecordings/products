@@ -3,7 +3,7 @@ import {PrismaAdapter} from './skill-next-auth-prisma-adapter'
 import {sendVerificationRequest} from './send-verification-request'
 import {prisma} from '@skillrecordings/database'
 import EmailProvider from 'next-auth/providers/email'
-import {NextApiRequest} from 'next'
+import {NextApiRequest, NextApiResponse} from 'next'
 import {Inngest} from 'inngest'
 
 async function getUser(userId: string) {
@@ -43,10 +43,12 @@ async function getUser(userId: string) {
 
 export const createOptions = (config: {
   req?: NextApiRequest
+  res?: NextApiResponse
   theme: Theme
   providers?: any[]
   debug?: boolean
   cookies?: Partial<CookiesOptions>
+  skillCookieDomain?: string
 }) => {
   return defaultNextAuthOptions(config)
 }
@@ -55,13 +57,43 @@ export function defaultNextAuthOptions(options: {
   theme: Theme
   debug?: boolean
   req?: NextApiRequest
+  res?: NextApiResponse
   providers?: any[]
   cookies?: Partial<CookiesOptions>
+  skillCookieDomain?: string
 }): NextAuthOptions {
-  const {theme, debug, req, cookies, providers = []} = options
+  const {
+    theme,
+    debug,
+    req,
+    res,
+    cookies,
+    providers = [],
+    skillCookieDomain,
+  } = options
   return {
     secret: process.env.NEXTAUTH_SECRET,
     events: {
+      signIn: async ({user}) => {
+        if (res) {
+          res.setHeader(
+            'Set-Cookie',
+            `skill=1; Path=/; SameSite=Lax ${
+              skillCookieDomain ? `; Domain=${skillCookieDomain}` : ''
+            }`,
+          )
+        }
+      },
+      signOut: async () => {
+        if (res) {
+          res.setHeader(
+            'Set-Cookie',
+            `skill=0; Path=/; SameSite=Lax; Expires=Thu, 01 Jan 1970 00:00:00 GMT${
+              skillCookieDomain ? `; Domain=${skillCookieDomain}` : ''
+            }`,
+          )
+        }
+      },
       createUser: async ({user}) => {
         if (process.env.INNGEST_EVENT_KEY) {
           const inngest = new Inngest({
