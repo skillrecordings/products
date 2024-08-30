@@ -78,7 +78,7 @@ export function defaultNextAuthOptions(options: {
         if (res) {
           res.setHeader(
             'Set-Cookie',
-            `skill=${user.id}; Path=/; SameSite=Lax ${
+            `skill=1; Path=/; SameSite=Lax ${
               skillCookieDomain ? `; Domain=${skillCookieDomain}` : ''
             }`,
           )
