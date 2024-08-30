@@ -46,6 +46,10 @@ import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcript'
 import Link from 'next/link'
 
+const Hr: React.FC<{className?: string}> = ({className}) => {
+  return <hr className={cx('my-8 w-10', className)} aria-hidden="true" />
+}
+
 const TipTemplate: React.FC<{
   tip: Tip
   tipBodySerialized: MDXRemoteSerializeResult
@@ -155,9 +159,16 @@ const TipTemplate: React.FC<{
 
                   {tip.body && (
                     <>
-                      <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert lg:prose-lg">
+                      <div className="prose w-full max-w-none pb-5 pt-5 lg:prose-lg prose-headings:font-medium prose-p:text-gray-200">
                         <MDX contents={tipBodySerialized} />
                       </div>
+                      <Hr
+                        className={
+                          resourceCompleted
+                            ? 'border-blue-500'
+                            : 'border-blue-300'
+                        }
+                      />
                     </>
                   )}
                   {tip.transcript && (
@@ -168,7 +179,6 @@ const TipTemplate: React.FC<{
                 </div>
                 <div className="col-span-3">
                   <RelatedTips currentTip={tip} tips={tips} />
-                  {/* {tweet && <ReplyOnTwitter tweet={tweet} />} */}
                 </div>
               </div>
             </div>
@@ -218,7 +228,7 @@ const RelatedTips: React.FC<{tips: Tip[]; currentTip: Tip}> = ({
   )
 
   return (
-    <section className="mx-auto mt-8 h-full w-full border-t pt-8 md:pl-3">
+    <section className="mx-auto h-full w-full md:pl-3">
       <Link href="/tips" className="font-heading pt-2 text-2xl font-black">
         More Tips
       </Link>
@@ -342,26 +352,6 @@ const VideoOverlayTipCard: React.FC<{suggestedTip: Tip}> = ({suggestedTip}) => {
         </div>
       </button>
     </div>
-  )
-}
-
-const ReplyOnTwitter: React.FC<{tweet: string}> = ({tweet}) => {
-  return (
-    <a
-      href={`https://twitter.com/i/status/${tweet}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="relative mb-5 mt-2 inline-flex flex-shrink-0 items-center justify-center space-x-2 bg-gray-700 px-5 py-4 font-semibold text-white transition-all duration-300 ease-in-out before:absolute before:left-0 before:top-0 before:z-[-1] before:h-full before:w-0 before:bg-gray-600 before:transition-all before:duration-300 before:ease-in-out  hover:brightness-110 hover:before:w-full focus-visible:ring-white"
-      onClick={() => {
-        track('clicked reply on twitter')
-      }}
-    >
-      <ChatAltIcon
-        aria-hidden="true"
-        className="relative h-5 w-5 text-sky-500"
-      />
-      <span>Discuss on Twitter</span>
-    </a>
   )
 }
 

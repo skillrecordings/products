@@ -10,3 +10,9 @@
     }
   }
 }
+
+#tip {
+  [data-video-transcript] {
+    @apply p-0;
+  }
+}
