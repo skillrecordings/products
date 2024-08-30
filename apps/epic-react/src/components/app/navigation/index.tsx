@@ -271,6 +271,10 @@ const menuItems = [
     slug: '/tutorials',
   },
   {
+    label: 'Tips',
+    slug: '/tips',
+  },
+  {
     label: 'Livestreams',
     slug: '/livestreams',
   },
