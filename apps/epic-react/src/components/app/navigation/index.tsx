@@ -107,7 +107,7 @@ const Navigation: React.FC<NavigationProps> = ({
               className="rounded-lg px-3 py-2 text-text transition-all duration-150 ease-in-out lg:bg-blue-500 lg:text-white lg:hover:bg-blue-600"
               data-navi-item=""
             >
-              Restore Purchases
+              Sign In
             </Link>
           ) : null}
           <div
@@ -267,8 +267,8 @@ const menuItems = [
     slug: '/articles',
   },
   {
-     label: 'Tutorials',
-     slug: '/tutorials',
+    label: 'Tutorials',
+    slug: '/tutorials',
   },
   {
     label: 'Livestreams',

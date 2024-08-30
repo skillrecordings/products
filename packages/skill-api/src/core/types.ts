@@ -3,6 +3,7 @@ import {SkillRecordingsOptions} from '../next'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {IncomingRequest} from './index'
 import type {CookieSerializeOptions} from 'cookie'
+import {User} from '@skillrecordings/database'
 
 export interface SkillRecordingsHeader {
   key: string
@@ -11,7 +12,7 @@ export interface SkillRecordingsHeader {
 
 export interface SkillRecordingsHandlerParams {
   req: IncomingRequest
-  token: JWT | null
+  token: User | JWT | null
   options: SkillRecordingsOptions
   rawReq?: NextApiRequest
 }
@@ -45,7 +46,7 @@ export interface SkillRecordingsRequest extends NextApiRequest {
 export type SkillRecordingsResponse<T = any> = NextApiResponse<T>
 
 export type SendFeedbackFromUserOptions = {
-  emailAddress?: string
+  emailAddress?: string | null
   feedbackText: string
   context?: FeedbackContext
   config: SkillRecordingsOptions
