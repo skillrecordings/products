@@ -148,13 +148,23 @@ const Workshops: React.FC<{tutorials: any[]; workshops: any[]}> = ({
 }) => {
   return (
     <div className="not-prose my-8 flex flex-col items-center justify-center text-lg sm:gap-4 md:text-lg">
+      <h3 className="text-center text-xl font-semibold sm:text-2xl">
+        Pro Workshops
+      </h3>
+      <WorkshopList workshops={workshops} />
+      <h3 className="text-center text-xl font-semibold sm:text-2xl">
+        Free Tutorials
+      </h3>
       <ul className="w-full divide-y">
         {tutorials.map((tutorial) => {
           if (!tutorial?.github?.repo) return null
           const deployedUrl = tutorial?.workshopApp?.external?.url
 
           return (
-            <li className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2">
+            <li
+              key={tutorial._id}
+              className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2"
+            >
               <div className="flex items-center gap-3">
                 {tutorial.image ? (
                   <Image
@@ -201,60 +211,73 @@ const Workshops: React.FC<{tutorials: any[]; workshops: any[]}> = ({
             </li>
           )
         })}
-        {workshops.map((workshop) => {
-          if (!workshop?.github?.repo) return null
-          const deployedUrl = workshop?.workshopApp?.external?.url
-
-          return (
-            <li className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2">
-              <div className="flex items-center gap-3">
-                {workshop.image ? (
-                  <Image
-                    src={workshop.image}
-                    width={50}
-                    height={50}
-                    alt={workshop.title}
-                    aria-hidden
-                  />
-                ) : null}
-                <Link
-                  href={workshop.github.repo}
-                  target="_blank"
-                  className="group leading-tight hover:underline"
-                >
-                  {workshop.title}{' '}
-                  <span className="opacity-50 transition group-hover:opacity-100">
-                    ↗︎
-                  </span>
-                </Link>
-              </div>
-              <div className="flex flex-shrink-0 items-center justify-end gap-5 pr-5 text-sm font-medium">
-                {deployedUrl && (
-                  <Link
-                    target="_blank"
-                    rel="noopener"
-                    className="inline-flex items-center gap-1.5 hover:underline"
-                    href={deployedUrl}
-                  >
-                    <GlobeIcon className="h-4 w-4 opacity-75" />
-                    Deployed Version
-                  </Link>
-                )}
-                <Link
-                  href={workshop.github.repo + '?tab=readme-ov-file#setup'}
-                  target="_blank"
-                  rel="noopener"
-                  className="inline-flex items-center gap-1.5 hover:underline"
-                >
-                  <Icon name="Github" size="16" className="opacity-75" />
-                  Setup
-                </Link>
-              </div>
-            </li>
-          )
-        })}
       </ul>
     </div>
+  )
+}
+
+function WorkshopList({workshops}: {workshops: Workshop[]}) {
+  return (
+    <ul className="w-full divide-y">
+      {workshops.map((workshop) => (
+        <WorkshopListItem workshop={workshop} />
+      ))}
+    </ul>
+  )
+}
+
+function WorkshopListItem({workshop}: {workshop: Workshop}) {
+  if (!workshop?.github?.repo) return null
+  const deployedUrl = workshop?.workshopApp?.external?.url
+  return (
+    <li
+      key={workshop._id}
+      className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2"
+    >
+      <div className="flex items-center gap-3">
+        {workshop.image ? (
+          <Image
+            src={workshop.image}
+            width={50}
+            height={50}
+            alt={workshop.title}
+            aria-hidden
+          />
+        ) : null}
+        <Link
+          href={workshop.github.repo}
+          target="_blank"
+          className="group leading-tight hover:underline"
+        >
+          {workshop.title}{' '}
+          <span className="opacity-50 transition group-hover:opacity-100">
+            ↗︎
+          </span>
+        </Link>
+      </div>
+      <div className="flex flex-shrink-0 items-center justify-end gap-5 pr-5 text-sm font-medium">
+        {deployedUrl && (
+          <Link
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-1.5 hover:underline"
+            href={deployedUrl}
+          >
+            <GlobeIcon className="h-4 w-4 opacity-75" />
+            Deployed Version
+          </Link>
+        )}
+        <Link
+          href={workshop.github.repo + '?tab=readme-ov-file#setup'}
+          target="_blank"
+          rel="noopener"
+          className="inline-flex items-center gap-1.5 hover:underline"
+        >
+          <Icon name="Github" size="16" className="opacity-75" />
+          Setup
+        </Link>
+      </div>
+    </li>
   )
 }
 

@@ -19,6 +19,12 @@ export function detectHost(forwardedHost: any) {
   return process.env.NEXTAUTH_URL
 }
 
+function getDeviceToken(req: NextApiRequest) {
+  const splitAuthHeader = req.headers.authorization?.split(' ')
+  if (!splitAuthHeader || splitAuthHeader?.length !== 2) return undefined
+  return splitAuthHeader[1]
+}
+
 async function SkillRecordingsNextHandler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -36,7 +42,9 @@ async function SkillRecordingsNextHandler(
   )
   const body =
     isWebhook || req.method === 'GET' ? req.body : await parseBody(req, '1mb')
-  const token = await getDecodedToken({req})
+
+  const token = await getDecodedToken({req}, getDeviceToken(req))
+
   const handler = await SkillRecordingsHandler({
     req: {
       host: detectHost(req.headers['x-forwarded-host']),
