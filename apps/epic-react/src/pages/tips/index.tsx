@@ -26,7 +26,8 @@ type TipsIndex = {
   tips: Tip[]
 }
 
-const pageDescription = 'A collection of valuable Web Development tips.'
+const pageDescription =
+  'A collection of useful tips that you wish you knew when you started using React.'
 
 const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
   const {subscriber} = useConvertkit()
@@ -42,10 +43,17 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
       }}
     >
       <header className="mx-auto flex w-full max-w-4xl flex-col items-center space-y-3 px-5 py-16 text-center">
-        <h1 className="mx-auto text-center text-4xl font-semibold">Tips</h1>
-        <h2 className="w-full max-w-md text-base text-gray-600 dark:text-indigo-200/60">
-          <Balancer>{pageDescription}</Balancer>
-        </h2>
+        <div className="flex flex-col items-center space-y-3 text-center">
+          <h1 className="flex flex-col text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+            <span className="mb-2 inline-block bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-xl uppercase tracking-widest text-transparent dark:from-blue-300 dark:to-blue-500">
+              Free
+            </span>{' '}
+            Epic React Tips
+          </h1>
+          <h2 className="w-full max-w-md text-base text-gray-600 dark:text-gray-400">
+            <Balancer>{pageDescription}</Balancer>
+          </h2>
+        </div>
       </header>
       <main className="relative z-10 flex flex-col items-center justify-center">
         <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-0 sm:gap-3 sm:px-5">
@@ -76,7 +84,8 @@ const TipCard: React.FC<{tip: Tip; i: number}> = ({tip, i}) => {
       className={cn(
         'group relative flex flex-row items-center overflow-hidden rounded',
         {
-          'bg-card': i % 2 === 0,
+          'rounded-md border bg-white shadow-2xl shadow-gray-500/20 transition dark:bg-card dark:shadow-none':
+            i % 2 === 0,
         },
       )}
       href={{
@@ -106,7 +115,7 @@ const TipCard: React.FC<{tip: Tip; i: number}> = ({tip, i}) => {
             className="absolute flex items-center justify-center rounded-full text-white opacity-100 drop-shadow-xl duration-500 ease-in-out group-hover:opacity-100"
             aria-hidden="true"
           >
-            {/* <Icon className="h-6 w-6" name="Playmark" /> */}
+            <Icon className="h-6 w-6" name="Playmark" />
           </div>
         </div>
       </CardHeader>
@@ -161,7 +170,7 @@ export const TipTeaser: React.FC<{tip: Tip}> = ({tip}) => {
             />
           </div>
           <div
-            className="absolute flex scale-50 items-center justify-center rounded-full bg-background p-4 text-foreground opacity-100 transition"
+            className="absolute flex scale-50 items-center justify-center rounded-full bg-white p-4 text-foreground opacity-100 transition dark:bg-background"
             aria-hidden="true"
           >
             {resourceCompleted ? (
