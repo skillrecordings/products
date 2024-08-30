@@ -1,7 +1,6 @@
 import NextAuth, {NextAuthOptions, Theme, type CookiesOptions} from 'next-auth'
 import {createOptions} from '@skillrecordings/skill-api'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {withSentry} from '@sentry/nextjs'
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL
 
@@ -54,8 +53,7 @@ export default async function NextAuthEndpoint(
     createOptions({
       req,
       res,
-      skillCookieDomain:
-        process.env.NODE_ENV === 'production' ? '.epicreact.dev' : 'localhost',
+      skillCookieDomain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
       theme: productTheme,
       cookies,
     }),
