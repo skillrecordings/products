@@ -92,3 +92,40 @@
     @apply text-sm text-white;
   }
 }
+
+#tip {
+  [data-sr-convertkit-subscribe-form] {
+    @apply flex w-full flex-col gap-2 text-left lg:flex-row;
+    [data-sr-input-wrapper] {
+      @apply w-full;
+    }
+    [data-sr-input-wrapper]:first-of-type {
+      @apply lg:w-2/3;
+    }
+    [data-sr-input] {
+      @apply w-full rounded-md border border-gray-300/75 bg-gray-100 px-3 py-2 text-base shadow-inner dark:border-gray-800 dark:bg-gray-800/50;
+    }
+
+    [data-sr-input-label] {
+      @apply sr-only;
+    }
+    [data-sr-button] {
+      @apply relative flex flex-shrink-0 items-center justify-center rounded-md border border-blue-700/30 bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-2 text-base font-semibold text-white transition hover:brightness-110 focus-visible:ring-white;
+      svg {
+        @apply h-7 w-7;
+      }
+    }
+    [data-sr-button][disabled] {
+    }
+  }
+  [data-sr-convertkit-subscribe-form='success'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+  [data-sr-convertkit-subscribe-form='error'] {
+    p {
+      @apply py-2 text-center;
+    }
+  }
+}
