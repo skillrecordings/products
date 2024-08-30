@@ -20,6 +20,8 @@ import {stripeRefund} from './core/services/process-refund'
 import {processSanityWebhooks} from './core/services/process-sanity-webhooks'
 import {createMagicLink} from './core/services/create-magic-link'
 import {SkillRecordingsOptions} from './next'
+import {JWT} from 'next-auth/jwt'
+import {User} from '@skillrecordings/database'
 
 export type SkillRecordingsAction =
   | 'send-feedback'
@@ -60,7 +62,7 @@ export async function actionRouter({
   providerId?: SkillRecordingsProvider
   params: any
   userOptions: SkillRecordingsOptions
-  token: any
+  token: JWT | User | null
 }) {
   const stripe = userOptions.paymentOptions?.providers.stripe?.paymentClient
   const paymentOptions = stripe ? {stripeCtx: {stripe}} : undefined
@@ -76,7 +78,7 @@ export async function actionRouter({
     switch (action) {
       case 'send-feedback':
         return await sendFeedbackFromUser({
-          emailAddress: req?.body?.email || token?.email,
+          emailAddress: token?.email,
           feedbackText: req?.body?.text,
           context: req?.body?.context,
           config: userOptions,

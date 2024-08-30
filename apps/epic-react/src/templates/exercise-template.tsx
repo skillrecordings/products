@@ -275,7 +275,6 @@ const ExerciseTemplate: React.FC<{
                     loadingIndicator={<Spinner />}
                   />
                 )}
-                {displayLessonCompletionToggle && <LessonCompletionToggle />}
                 {displayWorkshopAppBanner && displayLessonCompletionToggle && (
                   <WorkshopAppBanner
                     description={`The best way to experience ${module.title} workshop is in accompanying Workshop App.`}

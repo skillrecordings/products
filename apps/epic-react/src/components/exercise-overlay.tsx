@@ -199,7 +199,13 @@ const GetStartedVideo: React.FC<{
         )}
         <MuxPlayer
           onLoadedData={(e) => {
-            muxPlayerRef.current?.addCuePoints(cuePoints)
+            // sometimes teh time was missing so parsing it so it won't crash
+            muxPlayerRef.current?.addCuePoints(
+              cuePoints.map((cuePoint: any) => ({
+                ...cuePoint,
+                time: parseFloat(cuePoint.time) || 0,
+              })),
+            )
           }}
           onCuePointChange={(e) => {
             setCuePoint(e.detail.value)
