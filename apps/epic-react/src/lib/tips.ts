@@ -17,6 +17,7 @@ export const TipSchema = z.object({
   state: z.enum(['new', 'processing', 'reviewing', 'published', 'retired']),
   videoResourceId: z.nullable(z.string()).optional(),
   transcript: z.nullable(z.string()),
+  tweetId: z.nullable(z.string()).optional(),
 })
 
 export const TipsSchema = z.array(TipSchema)

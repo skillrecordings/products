@@ -61,8 +61,6 @@ const TipTemplate: React.FC<{
     slug: tip.slug,
   })
 
-  const tweet = tipResources?.tweetId
-
   const handleOnSuccess = (subscriber: any, email?: string) => {
     if (subscriber) {
       const redirectUrl = redirectUrlBuilder(subscriber, router.asPath, {
