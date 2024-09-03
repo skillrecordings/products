@@ -261,8 +261,10 @@ const Home: React.FC<{modules: any[]; commerceProps: CommerceProps}> = ({
               </div>
             </>
           ) : (
-            <div className="mx-auto max-w-screen-lg px-5 pb-16 pt-8 sm:px-8">
+            <div className="mx-auto max-w-screen-lg px-5 py-16 sm:px-8">
               <VersionTwoCta
+                className="[&_[data-sr-button]]:text-white [&_[data-sr-input]]:border-gray-300 dark:[&_[data-sr-input]]:border-white/10"
+                id="primary-newsletter-cta"
                 title="Epic React is not Available"
                 byline="Want to be the first to know when it goes back on sale? Sign up here and we'll let you know!"
                 actionLabel="Keep me posted"
