@@ -118,6 +118,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   cancelUrl,
   id = 'main-pricing',
   purchaseButtonRenderer = (formattedPrice, product, status) => {
+    const isRestrictedUpgrade =
+      formattedPrice?.purchaseToUpgrade?.status === 'Restricted' &&
+      formattedPrice?.appliedMerchantCoupon &&
+      formattedPrice?.appliedMerchantCoupon.type !== 'ppp'
+    const fixedDiscount = formattedPrice?.fixedDiscountForUpgrade || 0
+
     return (
       <button
         data-pricing-product-checkout-button=""
@@ -125,7 +131,11 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         disabled={status === 'loading' || status === 'error'}
       >
         <span>
-          {formattedPrice?.upgradeFromPurchaseId
+          {formattedPrice?.upgradeFromPurchaseId &&
+          !isRestrictedUpgrade &&
+          fixedDiscount > 0
+            ? 'Remove Region Restriction'
+            : formattedPrice?.upgradeFromPurchaseId
             ? `Upgrade Now`
             : product?.action || `Buy Now`}
         </span>
