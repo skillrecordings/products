@@ -1,0 +1,67 @@
+/* Bulk Form */
+[data-bulk-form] {
+  @apply overflow-y-scroll;
+}
+[data-bulk-form-content] {
+  @apply fixed left-1/2 top-1/2 z-[60] max-h-[90vh] w-full max-w-[95%] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-md bg-background shadow-xl dark:bg-secondary sm:max-w-md;
+  [data-bulk-form-title] {
+    @apply px-8 pt-8 text-xl font-bold;
+  }
+  [data-bulk-form-description] {
+    @apply px-8 pt-4 opacity-80;
+  }
+  form {
+    @apply px-8 py-4;
+    [data-bulk-form-name] {
+      @apply mt-2 flex flex-col;
+      label {
+        @apply pb-1;
+      }
+      input {
+        @apply rounded border border-gray-300 bg-gray-200 px-4 py-2 dark:border-gray-900 dark:bg-background;
+      }
+    }
+    [data-bulk-form-email] {
+      @apply mt-2 flex flex-col;
+      label {
+        @apply pb-1;
+      }
+      input {
+        @apply rounded border border-gray-300 bg-gray-200 px-4 py-2 dark:border-gray-900 dark:bg-background;
+      }
+    }
+    [data-bulk-form-num-seats] {
+      @apply mt-2 flex flex-col;
+      label {
+        @apply pb-1;
+      }
+      input {
+        @apply rounded border border-gray-300 bg-gray-200 px-4 py-2 dark:border-gray-900 dark:bg-background;
+      }
+    }
+    [data-bulk-form-message] {
+      @apply mt-2 flex flex-col;
+      label {
+        @apply pb-1;
+      }
+      textarea {
+        @apply rounded border border-gray-300 bg-gray-200 px-4 py-2 dark:border-gray-900 dark:bg-background;
+      }
+    }
+    [data-bulk-form-actions] {
+      @apply flex w-full justify-end gap-3 py-8;
+      [data-bulk-form-button-cancel] {
+        @apply flex rounded bg-gray-200 px-4 py-2 text-sm font-medium dark:bg-background;
+      }
+      [data-bulk-form-submit] {
+        @apply flex rounded border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition;
+      }
+      [data-submit]:hover {
+        @apply brightness-105;
+      }
+    }
+  }
+}
+[data-bulk-form-overlay] {
+  @apply fixed inset-0 z-50 bg-black bg-opacity-30 backdrop-blur-sm;
+}

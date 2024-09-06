@@ -140,3 +140,51 @@ export async function postSaleToSlack(
     return false
   }
 }
+
+export async function postBulkFormDetailsToSlack(
+  postBulkFormDetails: {
+    name: string
+    email: string
+    seats: string
+    message: string
+  },
+  productName: string,
+) {
+  try {
+    if (process.env.SLACK_TOKEN) {
+      return await postToSlack({
+        webClient: new WebClient(process.env.SLACK_TOKEN),
+        channel: process.env.SLACK_ANNOUNCE_CHANNEL_ID,
+        username: 'Bulk Purchase Inquiry Bot',
+        text:
+          process.env.NODE_ENV === 'production'
+            ? `Bulk Quote Requested for ${productName || 'product'}`
+            : `Bulk Quote Requested for ${productName || 'product'} in ${
+                process.env.NODE_ENV
+              }`,
+        attachments: [
+          {
+            fallback: `Bulk Quote Request: ${postBulkFormDetails.seats} seats`,
+            text: `${postBulkFormDetails.name} (${
+              postBulkFormDetails.email
+            }) requested a  quote for ${postBulkFormDetails.seats} seats of ${
+              productName || 'product'
+            }. ${
+              postBulkFormDetails.message
+                ? `The user added some additional details: ${postBulkFormDetails.message}`
+                : 'No additional details provided.'
+            }`,
+            color:
+              process.env.NODE_ENV === 'production' ? '#eba234' : '#5ceb34',
+            title: `Quote Requested for ${postBulkFormDetails.seats} seats of ${
+              productName || 'product'
+            }`,
+          },
+        ],
+      })
+    }
+  } catch (e) {
+    console.log(e)
+    return false
+  }
+}

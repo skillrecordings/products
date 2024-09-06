@@ -36,6 +36,7 @@ import pluralize from 'pluralize'
 import isNumber from 'lodash/isNumber'
 import * as Dialog from '@radix-ui/react-dialog'
 import {Cross2Icon} from '@radix-ui/react-icons'
+import BulkForm from './bulk-form'
 
 const getNumericValue = (
   value: string | number | Decimal | undefined,
@@ -189,6 +190,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, lessons, action, title} =
     product
+
   const {subscriber, loadingSubscriber} = useConvertkit()
   const router = useRouter()
   const [autoApplyPPP, setAutoApplyPPP] = React.useState<boolean>(false)
@@ -606,9 +608,10 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     )}
                   </fieldset>
                 </form>
-                <ContactUsDialog
+                <BulkForm
                   isOpen={isContactDialogOpen}
                   onOpenChange={setIsContactDialogOpen}
+                  productName={title}
                 />
               </div>
             )
@@ -1217,41 +1220,4 @@ export const formatUsd = (amount: number = 0) => {
   const formattedPrice = formatter.format(amount).split('.')
 
   return {dollars: formattedPrice[0], cents: formattedPrice[1]}
-}
-
-const ContactUsDialog: React.FC<{
-  isOpen: boolean
-  onOpenChange: (open: boolean) => void
-}> = ({isOpen, onOpenChange}) => {
-  return (
-    <Dialog.Root open={isOpen} onOpenChange={onOpenChange}>
-      <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-        <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-6 shadow-xl max-w-md w-full">
-          <Dialog.Title className="text-xl font-bold mb-4">
-            Contact Us for a Quote
-          </Dialog.Title>
-          <Dialog.Description className="mb-6">
-            For orders of 50 or more seats, please contact our sales team for a
-            custom quote. We'll be happy to assist you with your bulk purchase.
-          </Dialog.Description>
-          <div className="flex justify-end">
-            <Dialog.Close asChild>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                Close
-              </button>
-            </Dialog.Close>
-          </div>
-          <Dialog.Close asChild>
-            <button
-              className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
-              aria-label="Close"
-            >
-              <Cross2Icon />
-            </button>
-          </Dialog.Close>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
-  )
 }
