@@ -65,7 +65,7 @@ for (const quantity of [7, 13, 26, 42]) {
     ])
 
     mockCtx.prisma.merchantCoupon.findFirst.mockResolvedValue(
-      MOCK_SITE_SALE_COUPON,
+      MOCK_LARGE_SITE_SALE_COUPON,
     )
 
     const {expectedPrice, calculatedPrice} =
@@ -145,7 +145,7 @@ test('does not apply restricted coupon to other product', async () => {
 
 test('product with quantity 5 calculatedPrice to have discount applied', async () => {
   mockCtx.prisma.merchantCoupon.findMany.mockResolvedValue([
-    getMockCoupon('bulk', 0.05),
+    getMockCoupon('bulk', 0.15),
   ])
   const quantity = 5
   const product = await formatPricesForProduct({
@@ -153,7 +153,7 @@ test('product with quantity 5 calculatedPrice to have discount applied', async (
     quantity,
     ctx,
   })
-  const expectedPrice = 475
+  const expectedPrice = 425 // discounted 15% on 500
 
   expect(expectedPrice).toBe(product?.calculatedPrice)
 })
@@ -161,7 +161,7 @@ test('product with quantity 5 calculatedPrice to have discount applied', async (
 test('multiple purchases meeting quantity threshold have bulk discount applied', async () => {
   const userId = 'user-123'
   mockCtx.prisma.merchantCoupon.findMany.mockResolvedValue([
-    getMockCoupon('bulk', 0.05),
+    getMockCoupon('bulk', 0.15),
   ])
   mockCtx.prisma.purchase.findMany.mockResolvedValue([
     getMockExistingBulkPurchase(userId, DEFAULT_PRODUCT_ID, 3),
@@ -173,7 +173,7 @@ test('multiple purchases meeting quantity threshold have bulk discount applied',
     quantity,
     ctx,
   })
-  const expectedPrice = 190 // discounted 5% on 200
+  const expectedPrice = 170 // discounted 5% on 200
 
   expect(expectedPrice).toBe(product?.calculatedPrice)
 })
