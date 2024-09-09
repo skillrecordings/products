@@ -52,21 +52,60 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
       })
   }
 
-  const imagePath = process.env.NEXT_PUBLIC_URL + watch().certificateUrl
+  const imagePath = 'https://epicreact.dev' + watch().certificateUrl
 
   React.useEffect(() => {
     if (userStatus === 'success' && userData?.id) {
       form.setValue(
         'certificateUrl',
-        `${process.env.NEXT_PUBLIC_URL}/api/certificate?moduleId=${module._id}&userId=${userData?.id}&name=${session?.user?.name}`,
+        `/api/certificate?moduleId=${module._id}&userId=${userData?.id}&name=${session?.user?.name}`,
       )
     }
   }, [userData, userStatus])
 
-  const certUrl = `${process.env.NEXT_PUBLIC_URL}/api/certificate?moduleId=${module._id}&userId=${userData?.id}&name=${session?.user?.name}`
-
   const urlInputRef = React.useRef<HTMLInputElement>(null)
   const isSubmitting = form.formState.isSubmitting
+
+  const uploadCertificate = trpc.certificate.upload.useMutation()
+  const {data: clCert, status: clCertStatus} = trpc.certificate.get.useQuery({
+    moduleSlug: module.slug.current as string,
+    imagePath,
+  })
+  const copyCertUrlRef = React.useRef<HTMLButtonElement>(null)
+  const [certUrl, setCertUrl] = React.useState(clCert?.secure_url)
+  React.useEffect(() => {
+    if (clCertStatus === 'success' && clCert?.secure_url) {
+      setCertUrl(clCert.secure_url)
+    }
+  }, [clCert, clCertStatus])
+  // const certUrl = `${process.env.NEXT_PUBLIC_URL}/api/certificate?moduleId=${module._id}&userId=${userData?.id}&name=${session?.user?.name}`
+  const [isLoading, setIsLoading] = React.useState(false)
+  const handleGenerateCertUrl = async () => {
+    setIsLoading(true)
+    await uploadCertificate.mutateAsync(
+      {
+        imagePath, // : 'https://epicreact.dev' + watch().certificateUrl,
+        moduleSlug: module.slug.current as string,
+      },
+      {
+        onSuccess: (data) => {
+          console.log({data})
+          setCertUrl(data.secure_url)
+          setIsLoading(false)
+          toast.success('Certificate URL generated')
+          urlInputRef?.current?.select()
+        },
+        onError: (error) => {
+          console.log(error)
+          toast.error('Error: ' + error.message)
+        },
+      },
+    )
+
+    track('clicked use certificate url', {
+      module: module.slug.current,
+    })
+  }
   return (
     <Dialog.Portal container={window.document.getElementById('layout')}>
       <Dialog.Overlay className="bg-black/20 fixed inset-0 z-30 backdrop-blur-sm" />
@@ -171,12 +210,38 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
                 </h3>
                 <div className="flex w-full items-center">
                   <div className="relative flex w-full items-center">
+                    {!certUrl && (
+                      <Button
+                        type="button"
+                        variant={certUrl ? 'outline' : 'ghost'}
+                        disabled={isLoading || certUrl || clCert?.secure_url}
+                        ref={copyCertUrlRef}
+                        className={cn(
+                          ' flex-shrink-0 border-gray-600 px-2 font-semibold',
+                          {
+                            'min-w-[110px] rounded-r-none': certUrl,
+                            'w-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600':
+                              !certUrl,
+                          },
+                        )}
+                        onClick={handleGenerateCertUrl}
+                      >
+                        {isLoading ? (
+                          <Spinner className="h-5 w-5" />
+                        ) : certUrl ? (
+                          'Generate'
+                        ) : (
+                          'Generate link to certificate'
+                        )}
+                      </Button>
+                    )}
                     {certUrl ? (
                       <Input
-                        disabled={isSubmitting}
                         ref={urlInputRef}
                         readOnly
-                        className="flex w-full flex-grow rounded border-none bg-gray-100 px-3 py-2 text-sm font-medium shadow-inner dark:bg-gray-700"
+                        className={cn('border-border', {
+                          'rounded-l-none border-l-transparent': !certUrl,
+                        })}
                         onClick={() => {
                           if (certUrl) {
                             track('copied certificate url')
@@ -184,13 +249,13 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
                           } else {
                           }
                         }}
-                        value={certUrl}
+                        value={certUrl || ''}
                       />
                     ) : null}
                     {certUrl ? (
                       <button
                         type="button"
-                        className="absolute right-1 rounded bg-white p-1 shadow transition hover:brightness-110 dark:bg-gray-600"
+                        className="absolute right-1 rounded bg-gray-200 p-1 dark:bg-gray-800"
                         onClick={() => {
                           navigator.clipboard.writeText(certUrl)
                           toast.success('Copied to clipboard')
