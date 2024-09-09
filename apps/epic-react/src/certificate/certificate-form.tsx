@@ -93,8 +93,10 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
           )}
           <div className="absolute flex flex-col items-center text-center">
             <div className="mt-16">
-              <div className="text-xl font-bold">{form.watch('name')}</div>
-              <div className="pt-1 text-[0.5rem] text-gray-300">
+              <div className="text-xl font-bold text-gray-900">
+                {form.watch('name')}
+              </div>
+              <div className="pt-1 text-[0.5rem] text-gray-900">
                 Has successfully completed the {module.title}{' '}
                 {module.moduleType}.
               </div>

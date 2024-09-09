@@ -76,11 +76,11 @@ export const ModuleTemplate: React.FC<{
                 )}
                 <Collection.Metadata className="font-mono text-xs font-medium uppercase" />
               </div>
-              <Collection.Sections className="space-y-0 rounded-md border border-er-gray-200 bg-er-gray-100 [&_[data-state]]:animate-none">
+              <Collection.Sections className="space-y-0 overflow-hidden rounded-md border border-er-gray-200 [&_[data-state]]:animate-none">
                 {moduleProgressStatus === 'success' ? (
-                  <Collection.Section className="border-er-gray-200 bg-transparent font-semibold leading-tight transition data-[state='open']:rounded-none data-[state]:rounded-none data-[state='closed']:border-b hover:bg-er-gray-300 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-emerald-600 dark:[&>[data-check-icon]]:text-emerald-600 [&>[data-progress='100']]:bg-transparent [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-emerald-500 [&_[data-progress]]:dark:bg-emerald-400">
-                    <Collection.Lessons className="border-none bg-transparent py-0">
-                      <Collection.Lesson className='pl-4 transition before:hidden data-[active="true"]:bg-white hover:bg-er-gray-300 dark:data-[active="true"]:bg-er-gray-200 dark:hover:data-[active="true"]:bg-er-gray-300 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-emerald-600 [&_[data-check-icon]]:opacity-100 dark:[&_[data-check-icon]]:text-emerald-600 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:transition [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500' />
+                  <Collection.Section className="border-er-gray-200 bg-transparent font-semibold leading-tight transition data-[state='open']:rounded-none data-[state]:rounded-none data-[state='closed']:border-b hover:bg-er-gray-100 dark:hover:bg-er-gray-100 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-emerald-600 dark:[&>[data-check-icon]]:text-emerald-600 [&>[data-progress='100']]:bg-transparent [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-emerald-500 [&_[data-progress]]:dark:bg-emerald-400">
+                    <Collection.Lessons className="rounded-none border-x-0 border-b border-border bg-transparent py-0">
+                      <Collection.Lesson className='bg-transparent pl-1 transition before:hidden data-[active="true"]:bg-white hover:bg-er-gray-100 dark:data-[active="true"]:bg-er-gray-200 dark:hover:bg-er-gray-100 dark:hover:data-[active="true"]:bg-er-gray-300 [&_[data-check-icon]]:mr-[3px] [&_[data-check-icon]]:w-3 [&_[data-check-icon]]:text-emerald-600 [&_[data-check-icon]]:opacity-100 dark:[&_[data-check-icon]]:text-emerald-600 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:transition [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:mr-[3px] [&_[data-lock-icon]]:w-3  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500' />
                     </Collection.Lessons>
                   </Collection.Section>
                 ) : (
@@ -90,7 +90,7 @@ export const ModuleTemplate: React.FC<{
               {/* Used if module has either none or single section so they can be styled differently */}
               <Collection.Lessons>
                 {moduleProgressStatus === 'success' ? (
-                  <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
+                  <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:bg-er-gray-300 hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
                 ) : (
                   <Skeleton className="my-2 border bg-background py-5" />
                 )}

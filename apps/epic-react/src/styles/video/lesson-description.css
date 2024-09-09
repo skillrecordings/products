@@ -3,33 +3,33 @@
     @apply prose relative max-w-none;
   }
   [data-content-visible='false'] {
-    @apply after:absolute after:bottom-0 after:left-0 after:h-1/2 after:w-full after:bg-gradient-to-b after:from-transparent after:via-white after:to-white after:content-[""];
+    @apply after:absolute after:bottom-0 after:left-0 after:h-1/2 after:w-full after:bg-gradient-to-b after:from-transparent after:via-background after:to-background after:content-[""];
   }
   div[role='status'] {
-    @apply flex w-full -translate-y-5 animate-pulse flex-col gap-3;
+    @apply flex w-full animate-pulse flex-col gap-3;
     div:nth-child(1) {
-      @apply h-3 w-2/3 rounded-full bg-gray-200;
+      @apply h-3 w-2/3 rounded-full bg-foreground/20;
     }
     div:nth-child(2) {
-      @apply h-3 rounded-full bg-gray-200;
+      @apply h-3 rounded-full bg-foreground/20;
     }
     div:nth-child(3) {
-      @apply h-3 w-1/2 rounded-full bg-gray-200;
+      @apply h-3 w-1/2 rounded-full bg-foreground/20;
     }
     div:nth-child(4) {
-      @apply h-3 w-5/6 rounded-full bg-gray-200;
+      @apply h-3 w-5/6 rounded-full bg-foreground/20;
     }
     div:nth-child(5) {
-      @apply h-3 w-2/5 rounded-full bg-gray-200;
+      @apply h-3 w-2/5 rounded-full bg-foreground/20;
     }
     div:nth-child(6) {
-      @apply h-3 w-1/3 rounded-full bg-gray-200;
+      @apply h-3 w-1/3 rounded-full bg-foreground/20;
     }
   }
   [data-cta] {
     @apply relative flex items-center justify-center rounded border border-gray-100 bg-white p-5 shadow-2xl shadow-black/10 before:absolute before:top-[-8px] before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-100 before:bg-white before:content-[''] dark:border-gray-700/50 dark:bg-gray-800 dark:shadow-black/50 dark:before:border-gray-700/50 dark:before:bg-gray-800;
     p {
-      @apply prose max-w-none text-gray-800 sm:prose-lg prose-a:text-indigo-600 dark:text-gray-200 dark:prose-a:text-indigo-300;
+      @apply prose max-w-none text-gray-800 sm:prose-lg prose-a:text-primary dark:text-gray-200;
     }
     [data-ppp-container] {
       @apply hidden;

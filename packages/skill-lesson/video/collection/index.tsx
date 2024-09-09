@@ -347,7 +347,20 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
                 )
               )
             } else {
-              return <Lesson lesson={resource} />
+              const nestedLessonChildren = React.Children.map(
+                children,
+                (child: any) => {
+                  const l = child?.props?.children?.props?.children
+                  if (React.isValidElement<LessonProps>(l)) {
+                    return React.cloneElement(l, {
+                      key: resource._id,
+                      lesson: resource,
+                      className: `${l.props.className} pl-0`,
+                    })
+                  }
+                },
+              )
+              return nestedLessonChildren || <Lesson lesson={resource} />
             }
           })}
         </Primitive.ul>

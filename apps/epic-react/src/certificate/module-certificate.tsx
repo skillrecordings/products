@@ -34,8 +34,8 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
                 src={module.image}
                 alt=""
                 aria-hidden="true"
-                width={110}
-                height={110}
+                width={80}
+                height={80}
                 className="absolute top-5"
               />
             )}
@@ -44,7 +44,7 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
             <>
               <Dialog.Trigger
                 className={cx(
-                  'group absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center rounded border border-gray-400/10 bg-gray-900/0',
+                  'bg-background/0 group absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center rounded border border-border',
                 )}
               >
                 {isModuleCompleted && (
@@ -53,7 +53,7 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
                     <div className="h-1 w-1 animate-pulse rounded-full bg-rose-600" />
                   </div>
                 )}
-                <div className="mt-16 rounded bg-primary px-4 py-2 font-semibold text-primary-foreground shadow transition group-hover:scale-105 group-hover:brightness-110 dark:bg-primary dark:text-white">
+                <div className="mt-20 rounded bg-primary px-4 py-2 font-semibold text-primary-foreground shadow transition group-hover:scale-105 group-hover:brightness-110 dark:bg-primary dark:text-white">
                   Get Certificate
                 </div>
               </Dialog.Trigger>
@@ -62,14 +62,14 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
           ) : (
             <div
               className={cx(
-                'absolute left-0 top-0 z-10 flex h-full w-full flex-col items-center justify-center rounded border border-gray-400/10 bg-gray-900/80 backdrop-blur-[2px]',
+                'absolute left-0 top-0 z-10 flex h-full w-full flex-col items-center justify-center rounded border border-border bg-white/80 backdrop-blur-[2px] dark:bg-gray-900/80',
               )}
             >
-              <div className="rounded-full border border-white/40 bg-white/5 p-2.5">
-                <LockClosedIcon className="w-6" />
+              <div className="rounded-full border border-foreground/40 bg-foreground/5 p-2.5">
+                <LockClosedIcon className="w-6 text-foreground" />
               </div>
               {!isModuleCompleted && (
-                <div className="w-full px-5 pt-3 text-center leading-tight text-gray-300">
+                <div className="w-full px-5 pt-3 text-center leading-tight text-foreground">
                   <Balancer>
                     Complete all lessons to unlock this certificate.
                   </Balancer>
