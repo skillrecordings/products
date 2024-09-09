@@ -1,11 +1,14 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getModule} from '@skillrecordings/skill-lesson/lib/modules'
+import {
+  getModule,
+  getModuleWithResources,
+} from '@skillrecordings/skill-lesson/lib/modules'
 
 const module = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     const moduleSlug = req.query.module as string
 
-    const module = await getModule(moduleSlug)
+    const module = await getModuleWithResources(moduleSlug)
 
     if (module) {
       res.status(200).json(module)
