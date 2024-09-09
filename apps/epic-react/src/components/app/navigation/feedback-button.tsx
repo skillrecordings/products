@@ -35,8 +35,7 @@ const FeedbackButton = ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
               setIsFeedbackDialogOpen(true)
             }}
           >
-            {isTablet ? 'Send Feedback' : <Message />}
-            <span className="sr-only">Send Feedback</span>
+            Send Feedback
           </Button>
         </TooltipTrigger>
         <TooltipContent>

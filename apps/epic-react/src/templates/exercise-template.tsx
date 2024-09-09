@@ -275,7 +275,6 @@ const ExerciseTemplate: React.FC<{
                     loadingIndicator={<Spinner />}
                   />
                 )}
-                {displayLessonCompletionToggle && <LessonCompletionToggle />}
                 {displayWorkshopAppBanner && displayLessonCompletionToggle && (
                   <WorkshopAppBanner
                     description={`The best way to experience ${module.title} workshop is in accompanying Workshop App.`}
@@ -370,18 +369,18 @@ const LessonList: React.FC<{
                 <>
                   {(type === 'exercise' || type === 'solution') && (
                     <>
-                      <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-orange-400 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent">
+                      <Collection.Resource className="text-sm font-medium [&>a[data-active='true']]:border-primary [&>a[data-active='true']]:bg-er-gray-200 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent [&>a]:transition [&>a]:hover:bg-er-gray-200">
                         Problem
                       </Collection.Resource>
                       <Collection.Resource
                         path="exercise"
-                        className="text-sm font-medium [&>a[data-active='true']]:border-indigo-400 [&>a[data-active='true']]:bg-purple-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
+                        className="text-sm font-medium [&>a[data-active='true']]:border-primary  [&>a[data-active='true']]:bg-er-gray-200 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent [&>a]:transition [&>a]:hover:bg-er-gray-200"
                       >
                         Exercise
                       </Collection.Resource>
                       <Collection.Resource
                         path="solution"
-                        className="text-sm font-medium [&>a[data-active='true']]:border-cyan-400 [&>a[data-active='true']]:bg-teal-500 [&>a[data-active='true']]:bg-white/5 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent"
+                        className="text-sm font-medium [&>a[data-active='true']]:border-primary  [&>a[data-active='true']]:bg-er-gray-200 [&>a]:flex [&>a]:border-l-2 [&>a]:border-transparent [&>a]:transition [&>a]:hover:bg-er-gray-200"
                       >
                         Solution
                       </Collection.Resource>
@@ -395,13 +394,13 @@ const LessonList: React.FC<{
               {moduleProgressStatus === 'loading' ? (
                 <Skeleton className="h-14 rounded-none bg-gradient-to-br from-gray-200 to-white opacity-100 dark:from-gray-700 dark:to-gray-800 dark:opacity-40" />
               ) : (
-                <Collection.Section className="border-er-gray-200 bg-transparent font-semibold leading-tight transition data-[state='open']:rounded-none data-[state]:rounded-none data-[state='closed']:border-b hover:bg-er-gray-300 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-emerald-600 dark:[&>[data-check-icon]]:text-emerald-600 [&>[data-progress='100']]:bg-transparent [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-emerald-500 [&_[data-progress]]:dark:bg-emerald-400">
-                  <Collection.Lessons className="py-0">
+                <Collection.Section className="border-er-gray-200 bg-transparent font-semibold leading-tight transition data-[state='open']:rounded-none data-[state]:rounded-none data-[state='closed']:border-b hover:bg-er-gray-100 [&>[data-check-icon]]:w-3.5 [&>[data-check-icon]]:text-emerald-600 dark:[&>[data-check-icon]]:text-emerald-600 [&>[data-progress='100']]:bg-transparent [&_[data-progress]]:h-[2px] [&_[data-progress]]:bg-emerald-500 [&_[data-progress]]:dark:bg-emerald-400">
+                  <Collection.Lessons className="border-b border-border py-0">
                     <Collection.Lesson
-                      className='font-semibold transition before:hidden data-[active="true"]:bg-white data-[active="true"]:opacity-100 data-[active="true"]:shadow-lg data-[active="true"]:shadow-gray-500/10 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 [&_[data-check-icon]]:w-3.5 [&_[data-check-icon]]:text-emerald-500  dark:[&_[data-check-icon]]:text-emerald-300 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:w-3.5  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
+                      className='bg-transparent font-semibold transition before:hidden data-[active="true"]:bg-er-gray-100 data-[active="true"]:opacity-100 hover:bg-er-gray-100 dark:data-[active="true"]:bg-gray-800/60 dark:data-[active="true"]:shadow-black/10 dark:hover:bg-er-gray-100 [&_[data-check-icon]]:mr-[3px] [&_[data-check-icon]]:w-3 [&_[data-check-icon]]:text-emerald-500  dark:[&_[data-check-icon]]:text-emerald-300 [&_[data-item]:has(span)]:items-center [&_[data-item]>div]:leading-tight [&_[data-item]>div]:opacity-90 [&_[data-item]>div]:transition hover:[&_[data-item]>div]:opacity-100 [&_[data-item]]:min-h-[44px] [&_[data-item]]:items-center [&_[data-lock-icon]]:mr-[3px] [&_[data-lock-icon]]:w-3  [&_[data-lock-icon]]:text-gray-400 dark:[&_[data-lock-icon]]:text-gray-500'
                       scrollContainerRef={scrollContainerRef}
                     >
-                      <Collection.Resources />
+                      <Collection.Resources className="divide-y divide-border" />
                     </Collection.Lesson>
                   </Collection.Lessons>
                 </Collection.Section>

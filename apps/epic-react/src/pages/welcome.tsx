@@ -234,6 +234,18 @@ const Header: React.FC<
     firstLegacyModule?: LegacyModule
   }>
 > = ({upgrade, purchase, product, personalPurchase, firstLegacyModule}) => {
+  const moduleSlug = firstLegacyModule?.slug?.current
+    ? firstLegacyModule.slug.current
+    : product?.modules[0].slug
+
+  const {data: moduleProgress, status: moduleProgressStatus} =
+    trpc.moduleProgress.bySlug.useQuery({
+      slug: moduleSlug,
+    })
+
+  const firstLessonUrl = firstLegacyModule
+    ? `/modules/${firstLegacyModule.slug.current}/${firstLegacyModule.resources[0].slug}`
+    : `/workshops/${moduleSlug}/${moduleProgress?.nextLesson?.slug}`
   return (
     <header>
       <div className="flex flex-col items-center gap-10 pb-8 sm:flex-row">
@@ -254,11 +266,8 @@ const Header: React.FC<
             </span>
             {purchase.product.name}
           </h1>
-          {personalPurchase && product && firstLegacyModule && (
-            <FancyButton
-              tag="link"
-              href={`/modules/${firstLegacyModule.slug.current}/${firstLegacyModule.resources[0].slug}`}
-            >
+          {personalPurchase && product && (
+            <FancyButton tag="link" href={firstLessonUrl}>
               Start Learning
             </FancyButton>
           )}

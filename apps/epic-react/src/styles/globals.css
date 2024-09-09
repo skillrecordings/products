@@ -70,7 +70,7 @@
     --color-cool-gray: #64748b;
   }
   .dark {
-    --background: 219, 50%, 11%;
+    --background: 219 50% 11%;
     --foreground: 213 31% 91%;
     --muted: 223 47% 11%;
     --muted-foreground: 215.4 16.3% 56.9%;

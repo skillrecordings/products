@@ -21,7 +21,7 @@ type LayoutProps = {
     titleAppendSiteName?: boolean
     url?: string
     type?: string
-    ogImage?: {url: string; alt: string}
+    ogImage?: {url: string; alt?: string}
     date?: string
   }
   noIndex?: boolean

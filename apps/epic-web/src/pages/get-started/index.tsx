@@ -138,7 +138,10 @@ const Workshops: React.FC<{workshops: Workshop[]}> = ({workshops}) => {
           const deployedUrl = workshop?.workshopApp?.external?.url
 
           return (
-            <li className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2">
+            <li
+              key={workshop._id}
+              className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2"
+            >
               <div className="flex items-center gap-3">
                 {workshop.image ? (
                   <Image

@@ -7,6 +7,7 @@ import {useRouter} from 'next/router'
 import {redeemFullPriceCoupon} from './redeem-full-price-coupon'
 import {useSession} from 'next-auth/react'
 import Image from 'next/image'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -72,9 +73,9 @@ const RedeemDialog = ({open = false, couponId, product}: RedeemDialogProps) => {
       } else {
         if (redeemingForCurrentUser) {
           await fetch('/api/auth/session?update')
-          router.push(`/welcome?purchaseId=${purchase?.id}`)
+          await router.push(`/welcome?purchaseId=${purchase?.id}`)
         } else {
-          router.push(`/thanks/redeem?purchaseId=${purchase?.id}`)
+          await router.push(`/thanks/redeem?purchaseId=${purchase?.id}`)
         }
       }
     },
@@ -122,24 +123,36 @@ const RedeemDialog = ({open = false, couponId, product}: RedeemDialogProps) => {
               onChange={formik.handleChange}
               value={formik.values.email}
               placeholder="you@example.com"
+              disabled={formik.isSubmitting}
             />
           </div>
           <div data-actions="">
             <AlertDialogPrimitive.Cancel asChild>
               <button
+                className={cn({
+                  'opacity-50': formik.isSubmitting,
+                })}
                 onClick={(e) => {
                   const code = router.query.code
                   const pathname = router.asPath.replace(`?code=${code}`, '')
                   router.push(pathname)
                 }}
                 data-cancel=""
+                disabled={formik.isSubmitting}
               >
                 Cancel
               </button>
             </AlertDialogPrimitive.Cancel>
             <AlertDialogPrimitive.Action asChild>
-              <button data-submit="" type="submit">
-                Yes, Claim License
+              <button
+                className={cn({
+                  'opacity-50': formik.isSubmitting,
+                })}
+                data-submit=""
+                type="submit"
+                disabled={formik.isSubmitting}
+              >
+                {formik.isSubmitting ? 'Claiming...' : 'Yes, Claim License'}
               </button>
             </AlertDialogPrimitive.Action>
           </div>
