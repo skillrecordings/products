@@ -8,7 +8,7 @@ import {PricingTiers} from '@skillrecordings/skill-lesson/path-to-purchase/produ
 
 const PRODUCT_BASIC_ID = 'kcd_910c9191-5a69-4019-ad1d-c55bea7e9714'
 const PRODUCT_STANDARD_ID = 'kcd_8acc60f1-8c3f-4093-b20d-f60fc6e0cf61'
-const PRODUCT_PRO_ID = 'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38'
+const PRODUCT_PRO_ID = 'kcd_product-clzlrf0g5000008jm0czdanmz'
 
 const productsSortOrder: {[key: string]: number} = {
   [PRODUCT_BASIC_ID]: 1,
@@ -64,7 +64,7 @@ const PricingSection: React.FC<{
   const filteredProducts = removeModuleBySlug(
     sortedProducts,
     'welcome-to-epic-react',
-  )
+  ).filter(({state}) => state !== 'unavailable')
 
   const productsWithOptions = filteredProducts.map((product) => {
     return {

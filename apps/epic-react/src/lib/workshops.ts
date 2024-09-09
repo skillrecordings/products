@@ -25,6 +25,7 @@ const WorkshopSchema = z.object({
   slug: z.object({
     current: z.string(),
   }),
+  tagline: z.string().optional().nullable(),
   resources: z
     .array(
       z.object({
@@ -139,6 +140,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
   state,
   workshopApp,
   github,
+  tagline,
   "instructor": contributors[@.role == 'instructor'][0].contributor->{
       _id,
       _type,
