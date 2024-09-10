@@ -13,6 +13,7 @@ export async function sendFeedbackFromUser({
   feedbackText,
   context,
   config,
+  numberOfSeats,
 }: SendFeedbackFromUserOptions): Promise<OutgoingResponse> {
   const {slack, site} = config
 
@@ -42,17 +43,43 @@ export async function sendFeedbackFromUser({
       })
     }
 
-    const html = `${sanitizeHtml(feedbackText)} <i>${
-      context?.url ? context.url : ''
-    }</i>`
+    let from: string
+    let emailSubject: string
+    let html: string
+
+    if (context?.location === 'bulk-form') {
+      from = `${site.title} Quote Requested <${site.supportEmail}>`
+      emailSubject = `${
+        context?.emotion ? `${getEmoji(context?.emotion).image} ` : ''
+      } Quote Requested from ${user.name ? user.name : user.email} about ${
+        site.title
+      }`
+      html = `
+    <p>${user.name ? user.name : user.email} requested a quote for ${
+        site.title
+      } for ${numberOfSeats} seats.</p>
+    ${
+      feedbackText
+        ? `<p>Additional Text: ${sanitizeHtml(feedbackText)}</p>`
+        : ''
+    }
+    ${context?.url ? `<i>${context.url}</i>` : ''}
+  `
+    } else {
+      from = `${site.title} Feedback <${site.supportEmail}>`
+      emailSubject = `${
+        context?.emotion ? `${getEmoji(context?.emotion).image} ` : ''
+      } Feedback from ${user.name ? user.name : user.email} about ${site.title}`
+      html = `${sanitizeHtml(feedbackText)} <i>${
+        context?.url ? context.url : ''
+      }</i>`
+    }
 
     const info = await sendPostmarkEmail({
-      from: `${site.title} Feedback <${site.supportEmail}>`,
+      from,
       to: site.supportEmail,
       replyTo: user.email,
-      subject: `${
-        context?.emotion ? `${getEmoji(context?.emotion).image} ` : ''
-      }Feedback from ${user.name ? user.name : user.email} about ${site.title}`,
+      subject: emailSubject,
       text: htmlToText(feedbackText),
       html,
     })

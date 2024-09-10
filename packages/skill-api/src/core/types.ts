@@ -50,6 +50,7 @@ export type SendFeedbackFromUserOptions = {
   feedbackText: string
   context?: FeedbackContext
   config: SkillRecordingsOptions
+  numberOfSeats?: number
 }
 
 export type FeedbackContext = {
