@@ -69,11 +69,13 @@ const PurchaseTransferForm = ({
 export const Transfer = ({
   purchaseUserTransfers,
   className = '',
+  withTitle = true,
   refetch,
 }: {
   purchaseUserTransfers: PurchaseUserTransfer[]
   refetch: () => Promise<any>
   className?: string
+  withTitle?: boolean
 }) => {
   const cancelMutation = trpc.purchaseUserTransfer.cancel.useMutation({
     onSuccess: async (input) => {
@@ -94,9 +96,11 @@ export const Transfer = ({
           >
             {STATE === 'AVAILABLE' && (
               <>
-                <h2 className="text-2xl font-bold">
-                  Transfer this purchase to another email address
-                </h2>
+                {withTitle && (
+                  <h2 className="text-2xl font-bold">
+                    Transfer this purchase to another email address
+                  </h2>
+                )}
                 <p>
                   You can transfer your purchase to another email address. We
                   recommend using a personal/permanent email address. Once the

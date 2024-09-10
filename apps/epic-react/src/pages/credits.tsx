@@ -59,7 +59,7 @@ const CreditsPage = () => {
             >
               <div className="w-48 overflow-hidden rounded-lg sm:w-64">
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_URL}/assets/team${person.avatar}`}
+                  src={`/assets/team${person.avatar}`}
                   alt={person.name}
                   width={256}
                   height={256}
