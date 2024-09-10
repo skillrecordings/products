@@ -73,6 +73,7 @@ type PricingProps = {
     formattedPrice: any,
     product: SanityProduct,
     status: QueryStatus,
+    quantity: number,
   ) => React.ReactNode
   options?: {
     withImage?: boolean
@@ -117,21 +118,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   canViewRegionRestriction = false,
   cancelUrl,
   id = 'main-pricing',
-  purchaseButtonRenderer = (formattedPrice, product, status) => {
-    return (
-      <button
-        data-pricing-product-checkout-button=""
-        type="submit"
-        disabled={status === 'loading' || status === 'error'}
-      >
-        <span>
-          {formattedPrice?.upgradeFromPurchaseId
-            ? `Upgrade Now`
-            : product?.action || `Buy Now`}
-        </span>
-      </button>
-    )
-  },
+  purchaseButtonRenderer,
   options = {
     withImage: true,
     withDescription: true,
@@ -161,6 +148,38 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     quantity,
     setQuantity,
   } = usePriceCheck()
+
+  const defaultPurchaseButtonRenderer = (
+    formattedPrice: any,
+    product: SanityProduct,
+    status: QueryStatus,
+    quantity: number,
+  ) => {
+    const isContactUs = quantity >= 30
+    return (
+      <button
+        data-pricing-product-checkout-button=""
+        type={isContactUs ? 'button' : 'submit'}
+        disabled={status === 'loading' || status === 'error'}
+        onClick={() => {
+          if (isContactUs) {
+            router.push('/for-teams')
+          }
+        }}
+      >
+        <span>
+          {isContactUs
+            ? 'Contact Us'
+            : formattedPrice?.upgradeFromPurchaseId
+            ? `Upgrade Now`
+            : product?.action || `Buy Now`}
+        </span>
+      </button>
+    )
+  }
+
+  const renderedPurchaseButton =
+    purchaseButtonRenderer || defaultPurchaseButtonRenderer
   const [isBuyingForTeam, setIsBuyingForTeam] = React.useState(false)
   const debouncedQuantity: number = useDebounce<number>(quantity, 250)
   const {productId, name, image, modules, features, lessons, action, title} =
@@ -563,7 +582,12 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       </div>
                     )}
 
-                    {purchaseButtonRenderer(formattedPrice, product, status)}
+                    {renderedPurchaseButton(
+                      formattedPrice,
+                      product,
+                      status,
+                      quantity,
+                    )}
                     {withGuaranteeBadge && (
                       <span data-guarantee="">30-Day Money-Back Guarantee</span>
                     )}
