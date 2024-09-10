@@ -7,6 +7,7 @@
     "dev:stripe": "echo 'Run epic-web `pnpm dev` to handle stripe webhooks for kcd-products' && exit 1",
     "build": "next build",
     "postbuild": "NODE_ENV=production next-sitemap",
+    "dev:inngest": "pnpx inngest-cli@latest dev -u http://localhost:3024/api/inngest",
     "start": "next start -p 3024",
     "lint": "eslint src/**/*.{ts,tsx} --fix && tsc --noEmit",
     "db:studio": "prisma studio",

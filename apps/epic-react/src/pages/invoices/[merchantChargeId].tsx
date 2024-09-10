@@ -98,7 +98,7 @@ const Invoice: React.FC<
       meta={{title: `Invoice ${merchantChargeId}`}}
       className="print:bg-white print:text-black"
     >
-      <main className="mx-auto flex w-full max-w-screen-md grow flex-col justify-center gap-y-16 py-16 lg:py-20">
+      <main className="mx-auto flex w-full max-w-screen-md grow flex-col justify-center gap-y-5 py-16 lg:py-16">
         {purchaseDetails &&
           purchaseDetails.purchase &&
           purchaseDetails.purchase.bulkCoupon && (
@@ -120,7 +120,7 @@ const Invoice: React.FC<
             </Card>
           )}
         <div className="flex flex-col justify-between print:hidden">
-          <h1 className="font-text text-lg font-bold leading-tight sm:text-xl">
+          <h1 className="font-text text-lg font-bold leading-tight sm:text-xl lg:text-2xl">
             Your Invoice for {process.env.NEXT_PUBLIC_SITE_TITLE}
           </h1>
           <div className="flex flex-col items-center gap-2 pt-3 sm:flex-row">
@@ -146,7 +146,7 @@ const Invoice: React.FC<
         </div>
         <div className="rounded-md border border-er-gray-100 bg-white pr-12 text-black">
           <div className="px-10 py-16">
-            <div className="grid w-full grid-cols-3 items-start justify-between ">
+            <div className="grid w-full grid-cols-3 items-start justify-between gap-3">
               <div className="col-span-2 flex items-center">
                 <span className="font-text pl-2 text-2xl font-bold">
                   {process.env.NEXT_PUBLIC_SITE_TITLE}
@@ -167,10 +167,11 @@ const Invoice: React.FC<
                 972-992-5951
               </div>
             </div>
-            <div className="grid grid-cols-3 pb-64">
+            <div className="grid grid-cols-3 gap-3 pb-64">
               <div className="col-span-2">
                 <p className="mb-2 text-2xl font-bold">Invoice</p>
-                Invoice ID: <strong>{merchantChargeId}</strong>
+                Invoice ID:{' '}
+                <strong className="text-wrap">{merchantChargeId}</strong>
                 <br />
                 Created: <strong>{date}</strong>
                 <br />
@@ -202,12 +203,12 @@ const Invoice: React.FC<
                   <>
                     <textarea
                       aria-label="Invoice notes"
-                      className="form-textarea mt-4 h-full w-full rounded-md border-2 border-primary bg-gray-50 p-3 placeholder-gray-700 print:hidden print:border-none print:bg-transparent print:p-0"
+                      className="form-textarea mt-4 h-full w-full rounded-md border-2 border-primary bg-gray-50 p-3 placeholder-gray-700 print:mt-0 print:resize-none print:border-0 print:border-none print:bg-transparent print:p-0"
                       value={invoiceMetadata}
                       onChange={(e) => setInvoiceMetadata(e.target.value)}
                       placeholder="Enter additional info here (optional)"
                     />
-                    <div className="hidden print:block">{invoiceMetadata}</div>
+                    {/* <div className="hidden print:block">{invoiceMetadata}</div> */}
                   </>
                 )}
               </div>

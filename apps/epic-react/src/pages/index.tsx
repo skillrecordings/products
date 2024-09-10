@@ -1,18 +1,12 @@
 import type {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import {getToken} from 'next-auth/jwt'
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  useReducedMotion,
-} from 'framer-motion'
+import {motion, useReducedMotion} from 'framer-motion'
 import {InView} from 'react-intersection-observer'
 
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
-import {getProduct, getAllActiveProducts} from '@/lib/products'
+import {getAllActiveProducts} from '@/lib/products'
 import Layout from '@/components/app/layout'
 import Footer from '@/components/app/footer'
 import LandingCopy from '@/components/landing-copy.mdx'
@@ -28,15 +22,12 @@ const DEFAULT_PRODUCT_ID = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const token = await getToken({req})
   const products = await getAllActiveProducts()
+
   const {props: commerceProps} = await propsForCommerce({
     query,
     token,
     products,
   })
-  const defaultProduct = await getProduct(DEFAULT_PRODUCT_ID as string)
-  const modules = defaultProduct?.modules
-    ? defaultProduct.modules.slice(1, -1)
-    : []
 
   const v2Modules = await getAllWorkshops()
 
