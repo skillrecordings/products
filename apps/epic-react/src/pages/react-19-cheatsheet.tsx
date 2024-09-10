@@ -4,6 +4,7 @@ import Image from 'next/image'
 import {Button} from '@skillrecordings/ui'
 import Share from '@/components/share'
 import {HeartIcon} from '@heroicons/react/solid'
+import {track} from '@/utils/analytics'
 
 const CheatSheetPage = () => {
   return (
@@ -24,14 +25,25 @@ const CheatSheetPage = () => {
           </h1>
           <Button className="font-semibold" asChild>
             <a
+              onClick={() => {
+                track('clicked download pdf', {
+                  location: 'react 19 cheat sheet',
+                })
+              }}
+              target="_blank"
+              rel="noopener noreferrer"
               href="https://res.cloudinary.com/epic-web/image/upload/v1725974609/react-19-cheat-sheet.pdf"
-              download="react-19-cheat-sheet.pdf"
             >
               Download PDF
             </a>
           </Button>
         </div>
         <a
+          onClick={() => {
+            track('clicked cheat sheet image', {
+              location: 'react 19 cheat sheet',
+            })
+          }}
           href="https://res.cloudinary.com/epic-web/image/upload/v1725974609/react-19-cheat-sheet.pdf"
           target="_blank"
           rel="noopener noreferrer"
