@@ -10,6 +10,8 @@ import {Form, Formik} from 'formik'
 import {
   OptionalTextField,
   SeatSelectionField,
+  EmotionField,
+  CategoryField,
 } from '@skillrecordings/feedback-widget/dist/fields'
 import ContactEmailField from './contact-email-field'
 import {useFeedbackWidget} from '@skillrecordings/feedback-widget/dist/use-feedback-widget'
@@ -44,7 +46,7 @@ const BulkForm = () => {
       onSubmit={submitFeedbackForm}
       enableReinitialize
     >
-      {({errors, touched, isSubmitting, values}) => (
+      {({errors, touched, isSubmitting}) => (
         <Form className="flex w-full flex-col space-y-5" placeholder="">
           <ContactEmailField errors={errors} touched={touched} />
           <SeatSelectionField
@@ -58,6 +60,18 @@ const BulkForm = () => {
             errors={errors}
             touched={touched}
             isSubmitted={isSubmitted}
+          />
+          <EmotionField
+            name="context.emotion"
+            id="context.emotion"
+            isHidden={true}
+            customEmoji=":moneybag:"
+          />
+          <CategoryField
+            name="context.category"
+            id="context.category"
+            isHidden={true}
+            customCategory="quote requested"
           />
           <SubmitButton isSubmitting={isSubmitting}>
             Request Quote!

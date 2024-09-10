@@ -8,6 +8,8 @@ export const getEmoji = (emotion?: string) => {
       return {image: '🦄', label: 'unicorn'}
     case ':wave:':
       return {image: '👋', label: 'wave hello'}
+    case ':moneybag:':
+      return {image: '💸', label: 'money bag'}
     default:
       return {image: '😐', label: 'neutral face'}
   }
