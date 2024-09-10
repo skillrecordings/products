@@ -82,6 +82,7 @@ export async function actionRouter({
           feedbackText: req?.body?.text,
           context: req?.body?.context,
           config: userOptions,
+          numberOfSeats: req?.body?.numberOfSeats,
         })
       case 'redeem':
         return await redeemGoldenTicket({params, token})
