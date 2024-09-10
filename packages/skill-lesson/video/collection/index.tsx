@@ -622,6 +622,8 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
       ignoreSections,
     )
 
+    console.log({lesson, section, module})
+
     return (
       <Primitive.li
         data-active={isLessonActive.toString()}
@@ -661,7 +663,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                             data-index={`${index}`}
                             aria-hidden="true"
                           >
-                            {Number(index) + 1}
+                            •
                           </span>
                         )}
                       </>
@@ -693,7 +695,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                         data-index={`${index}`}
                         aria-hidden="true"
                       >
-                        {Number(index) + 1}
+                        •
                       </span>
                     )}
                   </>
