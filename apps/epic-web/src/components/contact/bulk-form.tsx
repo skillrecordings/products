@@ -21,7 +21,7 @@ export const ContactValidationSchema = Yup.object().shape({
   email: Yup.string()
     .email('Must be a valid email address')
     .required('Email is required'),
-  seats: Yup.number().required('Number of seats is required'),
+  numberOfSeats: Yup.number().required('Number of seats is required'),
 })
 
 const BulkForm = () => {
@@ -31,12 +31,17 @@ const BulkForm = () => {
     isSubmitted,
     error,
   } = useFeedbackWidget({
-    location: 'contact',
+    location: 'bulk-form',
   })
   const {data: user} = useSession()
   const initialValues: FeedbackFormValues = {
     email: user?.user?.email || '',
     ...initialFeedbackFormValues,
+    context: {
+      ...initialFeedbackFormValues.context,
+      emotion: ':moneybag:',
+      category: 'quote requested',
+    },
   }
 
   return (
@@ -49,29 +54,12 @@ const BulkForm = () => {
       {({errors, touched, isSubmitting}) => (
         <Form className="flex w-full flex-col space-y-5" placeholder="">
           <ContactEmailField errors={errors} touched={touched} />
-          <SeatSelectionField
-            label="Number of Seats"
-            errors={errors}
-            touched={touched}
-            isSubmitted={isSubmitted}
-          />
+          <SeatSelectionField />
           <OptionalTextField
             label="Additional Information"
             errors={errors}
             touched={touched}
             isSubmitted={isSubmitted}
-          />
-          <EmotionField
-            name="context.emotion"
-            id="context.emotion"
-            isHidden={true}
-            customEmoji=":moneybag:"
-          />
-          <CategoryField
-            name="context.category"
-            id="context.category"
-            isHidden={true}
-            customCategory="quote requested"
           />
           <SubmitButton isSubmitting={isSubmitting}>
             Request Quote!

@@ -86,29 +86,20 @@
   @apply after:pr-1 after:text-gray-600 after:content-['✓'] dark:after:text-gray-400;
 }
 
-/* seats */
+/* seat selection field */
 
-[data-sr-seat-selection-field] {
-  @apply w-full;
+[data-sr-feedback-widget-seat-selection-field] {
+  @apply flex flex-col space-y-2;
 }
-[data-sr-seat-selection-field-header] {
-  @apply flex w-full items-center justify-between pb-2 pt-2;
+[data-sr-feedback-widget-seat-selection-field] label {
+  @apply inline-flex font-semibold;
 }
-[data-sr-seat-selection-field-header] label {
-  @apply inline-block flex-shrink-0 font-semibold;
+[data-sr-feedback-widget-seat-selection-field] label span {
+  @apply ml-2 font-normal text-gray-500;
 }
-[data-sr-seat-selection-field-header] label span {
-  @apply font-normal text-gray-500;
+[data-sr-feedback-widget-seat-selection-field-input] {
+  @apply w-full rounded-md border border-gray-200 bg-gray-100 p-3 text-foreground shadow focus:ring-sky-500 dark:border-gray-700 dark:bg-gray-900;
 }
-[data-sr-seat-selection-field-header] div {
-  @apply inline-block text-xs font-medium leading-tight text-pink-500 sm:text-sm;
-}
-[data-sr-seat-selection-field='error'] {
-  @apply rounded-md ring ring-pink-300 ring-opacity-80 ring-offset-background;
-}
-[data-sr-seat-selection-field] input {
-  @apply block w-full rounded-md border border-gray-200 bg-gray-100 p-3 text-foreground shadow focus:ring-sky-500 dark:border-gray-700 dark:bg-gray-900;
-}
-[data-sr-seat-selection-field] small {
-  @apply block pt-2 text-sm text-gray-400;
+[data-sr-feedback-widget-seat-selection-field-error] {
+  @apply text-xs font-medium text-pink-500 sm:text-sm;
 }
