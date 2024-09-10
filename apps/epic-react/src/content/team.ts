@@ -37,7 +37,7 @@ export default [
     description:
       'Nicoll lead the content migration into the course infrastructure and did QA reviews to identify fixes needed ahead of launch. She also provided platform development support.',
     link: {url: 'https://x.com/guarnizonicoll', label: 'Twitter'},
-    image: '/nicoll-guarnizo.jpg',
+    avatar: '/nicoll-guarnizo.jpg',
   },
   {
     name: 'Zac Jones',

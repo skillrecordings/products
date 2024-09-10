@@ -88,7 +88,7 @@ export const InvoiceCard: React.FC<{
         >
           <div className="font-semibold group-hover:underline">
             Invoice:{' '}
-            <span className="font-medium text-er-gray-700 group-hover:underline dark:text-er-gray-500">
+            <span className="font-medium group-hover:underline">
               <Balancer>{purchase?.product?.name}</Balancer>
             </span>
           </div>
