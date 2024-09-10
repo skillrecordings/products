@@ -9,19 +9,31 @@ import {
 } from '@skillrecordings/react'
 import {useRouter} from 'next/router'
 import toast from 'react-hot-toast'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 const Share: React.FC<{
   title: string
   contentType?: string
   children?: React.ReactNode
-}> = ({title, contentType = 'article', children}) => {
+  shareButtonClassName?: string
+  className?: string
+}> = ({
+  title,
+  contentType = 'article',
+  children,
+  shareButtonClassName = 'w-full flex items-center justify-center h-full px-7 py-7 dark:hover:bg-white/5 hover:bg-gray-900/5 transition',
+  className,
+}) => {
   const router = useRouter()
   const url = process.env.NEXT_PUBLIC_URL + router.asPath
-  const shareButtonClassName =
-    'w-full flex items-center justify-center h-full px-7 py-7 dark:hover:bg-white/5 hover:bg-gray-900/5 transition'
 
   return (
-    <section className="mx-auto flex w-full max-w-screen-md items-center justify-center overflow-hidden border border-gray-200 bg-transparent pt-5 dark:border-white/10 sm:pl-5 sm:pt-0 md:rounded-lg">
+    <section
+      className={cn(
+        'mx-auto flex w-full max-w-screen-md items-center justify-center overflow-hidden border border-gray-200 bg-transparent pt-5 dark:border-white/10 sm:pl-5 sm:pt-0 md:rounded-lg',
+        className,
+      )}
+    >
       <div className="mx-auto flex w-full max-w-screen-md flex-col items-center justify-between gap-5 sm:flex-row">
         {children ? (
           children

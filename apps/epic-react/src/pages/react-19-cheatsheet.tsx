@@ -20,23 +20,38 @@ const CheatSheetPage = () => {
     >
       <main className="mx-auto flex max-w-screen-xl flex-col items-center justify-center p-5 py-10">
         <div className="mb-4 flex w-full flex-col items-center justify-between gap-5 md:flex-row">
-          <h1 className="text-center text-2xl font-semibold sm:text-4xl">
+          <h1 className="text-center text-3xl font-semibold tracking-tight sm:text-left sm:text-2xl lg:text-4xl">
             React 19 Cheat Sheet
           </h1>
-          <Button className="font-semibold" asChild>
-            <a
-              onClick={() => {
-                track('clicked download pdf', {
-                  location: 'react 19 cheat sheet',
-                })
-              }}
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://res.cloudinary.com/epic-web/image/upload/v1725974609/react-19-cheat-sheet.pdf"
+          <div className="flex items-center gap-3">
+            <Share
+              className="hidden lg:flex"
+              title="React 19 Cheat Sheet"
+              shareButtonClassName="w-full flex items-center justify-center h-full px-3 py-3 dark:hover:bg-white/5 hover:bg-gray-900/5 transition"
             >
-              Download PDF
-            </a>
-          </Button>
+              <div className="flex items-center gap-1 text-sm">
+                <HeartIcon
+                  aria-hidden="true"
+                  className="inline-block h-5 w-5 flex-shrink-0 animate-pulse text-rose-400/90"
+                />
+                Share with your friends
+              </div>
+            </Share>
+            <Button className="font-semibold" asChild>
+              <a
+                onClick={() => {
+                  track('clicked download pdf', {
+                    location: 'react 19 cheat sheet',
+                  })
+                }}
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://res.cloudinary.com/epic-web/image/upload/v1725974609/react-19-cheat-sheet.pdf"
+              >
+                Download PDF
+              </a>
+            </Button>
+          </div>
         </div>
         <a
           onClick={() => {
@@ -57,7 +72,7 @@ const CheatSheetPage = () => {
             alt="React 19 Cheat Sheet"
           />
         </a>
-        <div className="w-full pt-5">
+        <div className="flex w-full pt-5 lg:hidden">
           <Share title="React 19 Cheat Sheet">
             <div className="flex items-center gap-1">
               <HeartIcon
