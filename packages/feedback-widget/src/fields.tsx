@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {useEditor, EditorContent} from '@tiptap/react'
 import {CheckIcon} from '@heroicons/react/solid'
 import * as RadioGroup from '@radix-ui/react-radio-group'
@@ -69,8 +69,22 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
   )
 }
 
+const predefinedEmotions = [':heart_eyes:', ':wave:', ':sob:']
+
 export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
   const [field] = useField({name: props.name})
+  const predefinedEmotions = [':heart_eyes:', ':wave:', ':sob:']
+  const allEmotions = props.customEmoji
+    ? [...predefinedEmotions, props.customEmoji]
+    : predefinedEmotions
+
+  if (props.isHidden) {
+    return null
+  }
+
+  console.log('EmotionField Props:', props)
+  console.log('EmotionField Field:', field)
+
   return (
     <div data-sr-feedback-widget-emotion-field="">
       <label htmlFor="context.emotion">Emotion</label>
@@ -78,19 +92,17 @@ export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
         {...props}
         loop
         data-sr-feedback-widget-emotion-field-buttons=""
-        value={field.value}
+        value={props.customEmoji || field.value}
         aria-label="Pick an emotion"
         onValueChange={(value) =>
           field.onChange({target: {value, name: props.name}})
         }
       >
-        {[':heart_eyes:', ':wave:', ':sob:'].map((emotion) => (
-          <>
-            <RadioGroup.Item value={emotion} key={emotion}>
-              {getEmoji(emotion).image}
-              <RadioGroup.Indicator />
-            </RadioGroup.Item>
-          </>
+        {allEmotions.map((emotion) => (
+          <RadioGroup.Item value={emotion} key={emotion}>
+            {getEmoji(emotion).image}
+            <RadioGroup.Indicator />
+          </RadioGroup.Item>
         ))}
       </RadioGroup.Root>
     </div>
@@ -101,26 +113,37 @@ export const CategoryField: React.FC<React.PropsWithChildren<any>> = (
   props,
 ) => {
   const [field] = useField({name: props.name})
+  const predefinedCategories = ['general', 'help']
+  const allCategories = props.customCategory
+    ? [...predefinedCategories, props.customCategory]
+    : predefinedCategories
+
+  if (props.isHidden) {
+    return null
+  }
+
   return (
     <div data-sr-feedback-widget-category-field="">
-      <label htmlFor="context.emotion">Category</label>
+      <label htmlFor="context.category">Category</label>
       <RadioGroup.Root
         {...props}
         data-sr-feedback-widget-category-field-buttons=""
-        value={field.value}
+        value={props.customCategory || field.value}
         aria-label="Pick a category"
         onValueChange={(value) =>
           field.onChange({target: {value, name: props.name}})
         }
         loop
       >
-        {['general', 'help'].map((category) => (
-          <>
-            <RadioGroup.Item value={category} key={category} id="r1">
-              <RadioGroup.Indicator />
-              {category}
-            </RadioGroup.Item>
-          </>
+        {allCategories.map((category) => (
+          <RadioGroup.Item
+            value={category}
+            key={category}
+            id={`category-${category}`}
+          >
+            <RadioGroup.Indicator />
+            {category}
+          </RadioGroup.Item>
         ))}
       </RadioGroup.Root>
     </div>
