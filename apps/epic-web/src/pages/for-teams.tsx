@@ -1,6 +1,6 @@
 import Layout from 'components/app/layout'
 import React from 'react'
-import ContactForm from 'components/contact/contact-form'
+import BulkForm from 'components/contact/bulk-form'
 import ForTeams from 'components/for-teams-copy.mdx'
 import {Companies} from 'components/companies'
 
@@ -8,7 +8,12 @@ const ForTeamsPage = () => {
   return (
     <Layout
       meta={{
-        title: 'For Teams',
+        title: 'Epic Web For Teams',
+        description:
+          'Improve the skills of your team with Epic Web. Get a quote today and see how we can help you.',
+        ogImage: {
+          url: '',
+        },
       }}
     >
       <header className="mx-auto w-full max-w-screen-md px-5 pt-16 text-center text-2xl font-bold">
@@ -30,7 +35,7 @@ const ForTeamsPage = () => {
           </p>
         </div>
         <div className="mx-auto flex w-full max-w-lg items-center justify-center px-5 pb-16">
-          <ContactForm />
+          <BulkForm />
         </div>
       </main>
     </Layout>

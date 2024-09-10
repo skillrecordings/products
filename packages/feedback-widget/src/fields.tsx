@@ -126,3 +126,110 @@ export const CategoryField: React.FC<React.PropsWithChildren<any>> = (
     </div>
   )
 }
+
+export const OptionalTextField: React.FC<React.PropsWithChildren<any>> = ({
+  label = 'Additional Information',
+  errors,
+  touched,
+  isSubmitted,
+}) => {
+  const [field] = useField({name: 'text'})
+  const editor = useEditor({
+    // @ts-ignore
+    extensions: [StarterKit, Highlight, Typography, Link],
+    content: field.value,
+    onUpdate: ({editor}) => {
+      field.onChange({target: {value: editor.getHTML(), name: 'text'}})
+    },
+    onBlur: ({event}) => {
+      field.onBlur(event)
+    },
+    editorProps: {
+      attributes: {
+        id: 'text',
+        name: 'text',
+      },
+    },
+  })
+  const isEmpty = editor?.isEmpty
+
+  React.useEffect(() => {
+    if (isEmpty) {
+      field.onChange({target: {value: '', name: 'text'}})
+    }
+    if (isSubmitted) {
+      editor?.commands?.clearContent()
+    }
+  }, [isEmpty, isSubmitted])
+
+  return (
+    <div data-sr-feedback-widget-feedback-field="">
+      <div data-sr-feedback-widget-feedback-field-header="">
+        <label htmlFor="text">
+          {label} <span>(optional)</span>
+        </label>
+        {errors.text && touched.text ? (
+          <div aria-live="polite">{errors.text}</div>
+        ) : null}
+      </div>
+      <div
+        data-sr-feedback-widget-feedback-field={
+          errors.text && touched.text ? 'error' : ''
+        }
+      >
+        <EditorContent editor={editor} name="text" id="text" />
+      </div>
+    </div>
+  )
+}
+
+export const SeatSelectionField: React.FC<React.PropsWithChildren<any>> = ({
+  label = 'Number of seats',
+  min = 2,
+  errors,
+  touched,
+  isSubmitted,
+}) => {
+  const [field] = useField({name: 'seats'})
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value, 10)
+    if (value >= min) {
+      field.onChange({target: {value, name: 'seats'}})
+    }
+  }
+
+  React.useEffect(() => {
+    if (isSubmitted) {
+      field.onChange({target: {value: min, name: 'seats'}})
+    }
+  }, [isSubmitted, min, field])
+
+  return (
+    <div data-sr-seat-selection-field="">
+      <div data-sr-seat-selection-field-header="">
+        <label htmlFor="seats">
+          {label} <span>(required)</span>
+        </label>
+        {errors.seats && touched.seats ? (
+          <div aria-live="polite">{errors.seats}</div>
+        ) : null}
+      </div>
+      <div
+        data-sr-seat-selection-field={
+          errors.seats && touched.seats ? 'error' : ''
+        }
+      >
+        <input
+          type="number"
+          id="seats"
+          name="seats"
+          value={field.value}
+          onChange={handleChange}
+          onBlur={field.onBlur}
+          min={min}
+        />
+      </div>
+    </div>
+  )
+}
