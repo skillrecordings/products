@@ -361,6 +361,7 @@ const LessonList: React.FC<{
           ref={scrollContainerRef}
         >
           <Collection.Root
+            withNumbers={false}
             ignoreSections={true}
             module={module}
             lessonPathBuilder={lessonPathBuilder}

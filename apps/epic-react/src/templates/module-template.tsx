@@ -69,6 +69,7 @@ export const ModuleTemplate: React.FC<{
             <Collection.Root
               module={module}
               lessonPathBuilder={getModuleLessonPath}
+              withNumbers={false}
             >
               <div className="flex w-full items-center justify-between pb-3">
                 {(module.lessons || module.sections) && (
