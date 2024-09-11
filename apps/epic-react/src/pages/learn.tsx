@@ -413,7 +413,6 @@ const Learn: React.FC<{
           })}
         </ul>
       </main>
-      <Footer />
     </Layout>
   )
 }

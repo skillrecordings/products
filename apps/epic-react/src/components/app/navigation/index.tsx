@@ -34,7 +34,6 @@ import Countdown, {zeroPad} from 'react-countdown'
 import {useGlobalBanner} from '@/hooks/use-global-banner'
 import pluralize from 'pluralize'
 import {useFeedback} from '@/feedback-widget/feedback-context'
-import Spinner from '@skillrecordings/skill-lesson/spinner'
 
 type NavigationProps = {
   className?: string
@@ -95,11 +94,12 @@ export const useNavigationLinks = () => {
           ) : null} */}
         </>
       ),
-      href: !allPurchases
-        ? '/workshops'
-        : hasLegacyPurchase && !hasV2Purchase
-        ? '/learn'
-        : '/workshops',
+      href: '/workshops',
+      // href: !allPurchases
+      //   ? '/workshops'
+      //   : hasLegacyPurchase && !hasV2Purchase
+      //   ? '/learn'
+      //   : '/workshops',
     },
     {
       label: 'Tutorials',
@@ -121,14 +121,21 @@ export const useNavigationLinks = () => {
       label: 'FAQ',
       href: '/faq',
     },
-    // ...(hasLegacyPurchase
-    //   ? [
-    //       {
-    //         label: 'Modules',
-    //         href: '/learn',
-    //       },
-    //     ]
-    //   : []),
+    ...(hasLegacyPurchase
+      ? [
+          {
+            label: (
+              <>
+                Modules{' '}
+                <sup className="relative font-mono text-sm font-bold opacity-80 sm:-mr-1 sm:text-[10px]">
+                  v1
+                </sup>
+              </>
+            ),
+            href: '/learn',
+          },
+        ]
+      : []),
   ]
 }
 
@@ -214,7 +221,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     key={href}
                     href={href}
                     className={cx(
-                      'group relative flex items-center gap-1 border-b px-1.5 py-1 transition ease-in-out lg:px-3',
+                      'group relative flex items-center gap-1 border-b px-2.5 py-1 transition ease-in-out lg:px-3',
                       {
                         'border-primary': isCurrent,
                         'border-transparent hover:bg-gray-100 dark:hover:bg-gray-800/30':
@@ -289,14 +296,14 @@ const Navigation: React.FC<NavigationProps> = ({
                   type: 'spring',
                   duration: 0.5,
                 }}
-                className="dark:bg-black/90 absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-border bg-background px-2 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:shadow-black/60 md:hidden"
+                className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-border bg-background px-2 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-black/90 dark:shadow-black/60 md:hidden"
               >
                 {navigationLinks.map(({label, href}) => {
                   return (
                     <Link
                       key={href}
                       href={href}
-                      className="flex items-center gap-4 rounded-md px-3 py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
+                      className="flex items-center gap-1 rounded-md px-3 py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
                       passHref
                       onClick={() => {
                         track(`clicked ${label} from navigation`, {

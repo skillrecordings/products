@@ -188,7 +188,6 @@ const Home: React.FC<{modules: Workshop[]; commerceProps: CommerceProps}> = ({
           )}
         </div>
       </main>
-      <Footer />
     </Layout>
   )
 }

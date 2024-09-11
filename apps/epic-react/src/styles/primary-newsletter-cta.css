@@ -1,3 +1,20 @@
+#newsletter {
+  #primary-newsletter-cta {
+    [data-sr-convertkit-subscribe-form] {
+      @apply mx-auto flex w-full max-w-none flex-col items-center justify-center gap-3 px-3 sm:max-w-[360px];
+    }
+    [data-sr-fieldset] {
+      @apply w-full sm:max-w-[360px];
+    }
+    [data-sr-input] {
+      @apply h-12 border border-gray-200 bg-gray-100 shadow-inner dark:border-gray-800 dark:bg-black/30;
+    }
+    [data-sr-button] {
+      @apply mt-3 h-14 w-full;
+    }
+  }
+}
+
 #primary-newsletter-cta {
   @apply w-full;
   [data-sr-convertkit-subscribe-form] {
