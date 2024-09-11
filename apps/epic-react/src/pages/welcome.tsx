@@ -181,14 +181,14 @@ const Welcome: React.FC<
           />
           <div className="flex flex-col gap-10">
             <div>
-              <h2 className="font-heading pb-2 text-sm font-black uppercase">
+              <h2 className="pb-2 text-lg font-semibold tracking-tight">
                 Share {purchase.product.name}
               </h2>
               <Share productName={purchase.product.name} />
             </div>
             {redemptionsLeft && (
               <div>
-                <h2 className="font-heading pb-2 text-sm font-black uppercase">
+                <h2 className="pb-2 text-lg font-semibold tracking-tight">
                   Invite your team
                 </h2>
                 <Invite
@@ -201,7 +201,7 @@ const Welcome: React.FC<
             )}
             {hasCharge && (
               <div>
-                <h2 className="font-heading pb-2 text-sm font-black uppercase">
+                <h2 className="pb-2 text-lg font-semibold tracking-tight">
                   Get your invoice
                 </h2>
                 <InvoiceCard purchase={purchase} />
@@ -209,12 +209,13 @@ const Welcome: React.FC<
             )}
             {isTransferAvailable && purchaseUserTransfers && (
               <div>
-                <h2 className="font-heading pb-2 text-sm font-black uppercase">
+                <h2 className="pb-2 text-lg font-semibold tracking-tight">
                   Transfer this purchase to another email address
                 </h2>
                 <Transfer
                   purchaseUserTransfers={purchaseUserTransfers}
                   refetch={refetch}
+                  withTitle={false}
                 />
               </div>
             )}

@@ -221,7 +221,7 @@ export const getModuleWithResources = async (slug: string) =>
         ogImage,
         description,
         _updatedAt,
-        "image": image.asset->url,
+        "image": select(image.asset->url != null => image.asset->url, image.secure_url),
         "product": resources[@._type == 'product'][0]{productId},
        "resources": resources[@->._type in ['section', 'explainer', 'lesson', 'exercise']]->{
           _id,
@@ -252,6 +252,47 @@ export const getModuleWithResources = async (slug: string) =>
                 "slug": slug.current,
               }
             }
+          }
+        },
+         "sections": resources[@->._type == 'section']->{
+          _id,
+          _type,
+          _updatedAt,
+          title,
+          description,
+          "slug": slug.current,
+          "lessons": resources[@->._type in ['lesson', 'exercise', 'explainer']]->{
+            _id,
+            _type,
+            _updatedAt,
+            title,
+            description,
+            "slug": slug.current,
+            "solution": resources[@._type == 'solution'][0]{
+              _key,
+              _type,
+              "_updatedAt": ^._updatedAt,
+              title,
+              description,
+              "slug": slug.current,
+            }
+          },
+          "resources": resources[@->._type in ['linkResource']]->
+        },
+        "lessons": resources[@->._type in ['lesson', 'exercise', 'explainer', 'interview']]->{
+          _id,
+          _type,
+          _updatedAt,
+          title,
+          description,
+          "slug": slug.current,
+          "solution": resources[@._type == 'solution'][0]{
+            _key,
+            _type,
+            "_updatedAt": ^._updatedAt,
+            title,
+            description,
+            "slug": slug.current,
           }
         },
     }`,

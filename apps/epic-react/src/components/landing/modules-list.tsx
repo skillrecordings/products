@@ -2,45 +2,50 @@ import Image from 'next/image'
 
 const data = [
   {
-    img: '/modules-images/01-react-fundamentals.webp',
+    img: '/modules-images/React_Fundamentals.png',
     title: 'React Fundamentals',
-    duration: '1h 51m',
+    duration: '10 sections, 56 lessons',
   },
   {
-    img: '/modules-images/02-react-hooks.webp',
+    img: '/modules-images/React_Hooks.png',
     title: 'React Hooks',
-    duration: '2h 24m',
+    duration: '6 sections, 29 lessons',
   },
   {
-    img: '/modules-images/03-advanced-react-hooks.webp',
-    title: 'Advanced React Hooks',
-    duration: '1h 14m',
+    img: '/modules-images/Advenced_React_Hooks.png',
+    title: 'Advanced React APIs',
+    duration: '9 sections, 36 lessons',
   },
   {
-    img: '/modules-images/04-advanced-react-patterns.webp',
-    title: 'Advanced React Patterns',
-    duration: '1h 19m',
-  },
-  {
-    img: '/modules-images/05-react-perfomance.webp',
-    title: 'React Perfomance',
-    duration: '2h 14m',
-  },
-  {
-    img: '/modules-images/06-testing-react-apps.webp',
-    title: 'Testing React Apps',
-    duration: '2h 1m',
-  },
-  {
-    img: '/modules-images/07-react-suspense.webp',
+    img: '/modules-images/React_Suspense.png',
     title: 'React Suspense',
-    duration: '1h 34m',
+    duration: '6 sections, 29 lessons',
   },
   {
-    img: '/modules-images/08-build-an-epic-react-app.webp',
-    title: 'Build an Epic React App',
-    duration: '7h 7m',
+    img: '/modules-images/Advanced_React_Patterns.png',
+    title: 'Advanced React Patterns',
+    duration: '8 sections, 30 lessons',
   },
+  {
+    img: '/modules-images/React_Performance.png',
+    title: 'React Perfomance',
+    duration: '8 sections, 33 lessons',
+  },
+  {
+    img: '/modules-images/React_Server_Components.png',
+    title: 'React Server Components',
+    duration: '5 sections, 27 lessons',
+  },
+  // {
+  //   img: '/modules-images/06-testing-react-apps.webp',
+  //   title: 'Testing React Apps',
+  //   duration: '2h 1m',
+  // },
+  // {
+  //   img: '/modules-images/08-build-an-epic-react-app.webp',
+  //   title: 'Build an Epic React App',
+  //   duration: '7h 7m',
+  // },
 ]
 
 const ModulesList = () => {

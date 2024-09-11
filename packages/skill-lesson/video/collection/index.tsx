@@ -57,6 +57,7 @@ type CollectionContextValue = {
   ) => {pathname: string; query: {[key: string]: string}}
   path?: string
   ignoreSections?: boolean
+  withNumbers?: boolean
 }
 const [CollectionProvider, useCollectionContext] =
   createCollectionContext<CollectionContextValue>(COLLECTION_NAME)
@@ -78,6 +79,7 @@ interface CollectionProps extends PrimitiveDivProps {
     ignoreSections?: boolean,
   ) => {pathname: string; query: {[key: string]: string}}
   ignoreSections?: boolean
+  withNumbers?: boolean
 }
 
 const Collection = React.forwardRef<CollectionElement, CollectionProps>(
@@ -87,6 +89,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
       module,
       children,
       ignoreSections = false,
+      withNumbers = true,
       checkIconRenderer = () => (
         <CheckIcon
           className="relative z-10 flex-shrink-0"
@@ -185,6 +188,7 @@ const Collection = React.forwardRef<CollectionElement, CollectionProps>(
         resourcesRenderer={resourcesRenderer}
         lessonPathBuilder={lessonPathBuilder}
         ignoreSections={ignoreSections}
+        withNumbers={withNumbers}
       >
         <TooltipProvider>
           {children ? (
@@ -347,7 +351,23 @@ const Sections = React.forwardRef<SectionsElement, SectionsProps>(
                 )
               )
             } else {
-              return <Lesson lesson={resource} />
+              const nestedLessonChildren = React.Children.map(
+                children,
+                (child: any) => {
+                  const l = child?.props?.children?.props?.children
+                  if (React.isValidElement<LessonProps>(l)) {
+                    return React.cloneElement(l, {
+                      key: resource._id,
+                      lesson: resource,
+                      className: `${l.props.className} pl-1`,
+                      index: -1,
+                    })
+                  }
+                },
+              )
+              return (
+                nestedLessonChildren || <Lesson lesson={resource} index={-1} />
+              )
             }
           })}
         </Primitive.ul>
@@ -522,6 +542,7 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
       openedSections,
       lessonPathBuilder,
       ignoreSections,
+      withNumbers,
     } = useCollectionContext(COLLECTION_NAME, __scopeCollection)
     const moduleProgress = useModuleProgress()
 
@@ -642,15 +663,15 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                       <>
                         {isLessonCompleted ? (
                           checkIconRenderer()
-                        ) : (
+                        ) : index !== -1 ? (
                           <span
                             className="w-4 h-4 flex items-center justify-center"
                             data-index={`${index}`}
                             aria-hidden="true"
                           >
-                            {Number(index) + 1}
+                            {withNumbers ? <>{Number(index) + 1}</> : '•'}
                           </span>
-                        )}
+                        ) : null}
                       </>
                     ) : (
                       lockIconRenderer()
@@ -674,15 +695,15 @@ const Lesson = React.forwardRef<LessonElement, LessonProps>(
                   <>
                     {isLessonCompleted ? (
                       checkIconRenderer()
-                    ) : (
+                    ) : index !== -1 ? (
                       <span
                         className="w-4 h-4 flex items-center justify-center"
                         data-index={`${index}`}
                         aria-hidden="true"
                       >
-                        {Number(index) + 1}
+                        {withNumbers ? <>{Number(index) + 1}</> : '•'}
                       </span>
-                    )}
+                    ) : null}
                   </>
                 ) : (
                   lockIconRenderer()
