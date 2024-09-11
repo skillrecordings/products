@@ -27,7 +27,7 @@ module.exports = {
         react: 'var(--color-react)',
       },
       backgroundColor: {
-        background: 'var(--color-bg-background)',
+        background: 'hsl(var(--background))',
         navigation: 'var(--color-bg-navigation)',
         black: 'var(--color-bg-black)',
       },

@@ -709,12 +709,21 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
       </div>
       <div data-col="2">
         {product && (
-          <Pricing
-            allowPurchase={product.state === 'active'}
-            product={product}
-            canViewRegionRestriction={canViewRegionRestriction}
-            cancelUrl={window.location.toString()}
-          />
+          <>
+            {product.state === 'active' ? (
+              <Pricing
+                allowPurchase={product.state === 'active'}
+                product={product}
+                canViewRegionRestriction={canViewRegionRestriction}
+                cancelUrl={window.location.toString()}
+              />
+            ) : (
+              <div className="prose">
+                <h2>Coming Soon!</h2>
+                <p>This product is currently unavailable.</p>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
