@@ -2,6 +2,7 @@ import React from 'react'
 import Layout from '@/components/app/layout'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
+import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {CourseJsonLd} from '@skillrecordings/next-seo'
 import {Icon} from '@skillrecordings/skill-lesson/icons'
 import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
@@ -21,12 +22,22 @@ import {getModuleLessonPath} from '@/lib/workshops'
 import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import ModuleCertificate from '@/certificate/module-certificate'
+import {useCoupon} from '@skillrecordings/skill-lesson/path-to-purchase/use-coupon'
+import type {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
+import {useRouter} from 'next/router'
+import {
+  PriceCheckProvider,
+  usePriceCheck,
+} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 export const ModuleTemplate: React.FC<{
   module: Module
   moduleBodySerialized: MDXRemoteSerializeResult
 }> = ({module, moduleBodySerialized}) => {
   const {title, ogImage, description} = module
+  const router = useRouter()
   const pageTitle = `${title} ${capitalize(module.moduleType)}`
 
   const {data: moduleProgress, status: moduleProgressStatus} =
@@ -34,9 +45,33 @@ export const ModuleTemplate: React.FC<{
       slug: module.slug.current,
     })
 
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({})
+
+  const useAbilities = () => {
+    const {data: abilityRules, status: abilityRulesStatus} =
+      trpc.modules.rules.useQuery({
+        moduleSlug: module.slug.current,
+        moduleType: module.moduleType,
+      })
+    return {
+      ability: createAppAbility(abilityRules || []),
+      status: abilityRulesStatus,
+    }
+  }
+  const {ability, status: abilityRulesStatus} = useAbilities()
+
+  const {validCoupon} = useCoupon(commerceProps?.couponFromCode)
+  const product = module?.product as unknown as SanityProduct
+  const canView = ability.can('view', 'Content')
+  const purchases = commerceProps?.purchases || []
+  const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+  const ALLOW_PURCHASE =
+    router.query.allowPurchase === 'true' || product.state === 'active'
+
   return (
     <Layout
-      className="mx-auto w-full max-w-screen-lg lg:pb-24"
+      className="mx-auto w-full max-w-screen-xl lg:pb-24"
       meta={{
         title: pageTitle,
         description: module.description || '',
@@ -51,20 +86,27 @@ export const ModuleTemplate: React.FC<{
       <CourseMeta title={pageTitle} description={description} />
       {module.state === 'draft' && (
         <div className="sm:px-3">
-          <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded sm:text-base">
+          <div className="mt-2 flex w-full items-center justify-center gap-2 bg-orange-500/10 px-5 py-3 text-sm leading-tight text-amber-600 dark:bg-orange-400/10 dark:text-orange-300 sm:mt-0 sm:rounded-b sm:text-base">
             <CogIcon className="h-4 w-4" /> {capitalize(module.moduleType)}{' '}
             under development — you're viewing a draft version.
           </div>
         </div>
       )}
-      <Header module={module} />
-      <main className="relative z-10 flex flex-col gap-5 lg:flex-row">
-        <div className="w-full px-5">
-          <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-xl">
+      <Header canView={canView} module={module} />
+      <main className="relative z-10 flex flex-col gap-5 px-5 lg:flex-row">
+        <div className="w-full">
+          <article className="prose prose-lg w-full max-w-none dark:prose-invert lg:max-w-3xl">
             {moduleBodySerialized && <MDX contents={moduleBodySerialized} />}
           </article>
         </div>
-        <div className="w-full px-5 lg:max-w-sm xl:px-0">
+        <aside data-workshop="" className="w-full lg:max-w-sm">
+          {product && ALLOW_PURCHASE && !canView ? (
+            <>
+              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
+                <WorkshopPricingWidget product={product} />
+              </PriceCheckProvider>
+            </>
+          ) : null}
           {module && (
             <Collection.Root
               module={module}
@@ -100,19 +142,22 @@ export const ModuleTemplate: React.FC<{
           )}
           <WorkshopAppBanner
             moduleSlug={module.slug.current || ''}
-            className="mt-3 rounded-lg border p-5"
+            className="mt-3 rounded border sm:p-5"
           />
           <ResetProgress module={module} />
           {module.moduleType === 'workshop' && (
             <ModuleCertificate module={module} />
           )}
-        </div>
+        </aside>
       </main>
     </Layout>
   )
 }
 
-const Header: React.FC<{module: Module}> = ({module}) => {
+const Header: React.FC<{module: Module; canView?: boolean}> = ({
+  module,
+  canView,
+}) => {
   const {title, slug, sections, image, github} = module
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
@@ -146,7 +191,7 @@ const Header: React.FC<{module: Module}> = ({module}) => {
         <div className="w-full text-center md:text-left">
           <Link
             href="/workshops"
-            className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-blue-500 dark:text-blue-400 "
+            className="dark:text-blue-400s inline-block pb-4 text-xs font-semibold uppercase tracking-wide text-blue-500"
           >
             Pro Workshop
           </Link>
@@ -167,25 +212,31 @@ const Header: React.FC<{module: Module}> = ({module}) => {
                         : firstLesson?.slug,
                     },
                   }}
-                  className={cx(
-                    'relative flex w-full items-center justify-center rounded-md bg-gradient-to-b from-blue-500 to-blue-600 px-5 py-4 text-lg font-semibold text-white transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
+                  className={cn(
+                    'relative flex w-full items-center justify-center rounded-md border px-5 py-4 text-lg font-semibold capitalize transition hover:brightness-110 focus-visible:ring-white md:max-w-[240px]',
                     {
                       'animate-pulse': moduleProgressStatus === 'loading',
+                      'border-transparent bg-gradient-to-b from-blue-500 to-blue-600 text-primary-foreground':
+                        canView,
+                      'border-foreground/10 bg-foreground/5 text-foreground':
+                        !canView,
                     },
                   )}
                   onClick={() => {
                     track('clicked start learning', {module: slug.current})
                   }}
                 >
-                  {isModuleInProgress ? 'Continue' : 'Start'} Learning
-                  <span className="pl-2" aria-hidden="true">
-                    →
-                  </span>
+                  <Icon name="Playmark" aria-hidden="true" className="mr-1.5" />
+                  {canView ? (
+                    <>{isModuleInProgress ? 'Continue' : 'Start'} Learning</>
+                  ) : (
+                    <>Preview {module.moduleType}</>
+                  )}
                 </Link>
               )}
               {github?.repo && (
                 <a
-                  className="flex w-full items-center justify-center gap-2 rounded-md border border-gray-300 px-5 py-4 font-medium leading-tight transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 md:w-auto"
+                  className="flex w-full items-center justify-center gap-2 rounded-md border-none border-gray-300 px-5 py-4 font-medium leading-tight transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-900 md:w-auto"
                   href={github.repo}
                   onClick={() => {
                     track('clicked github code link', {module: slug.current})
@@ -193,14 +244,14 @@ const Header: React.FC<{module: Module}> = ({module}) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Icon name="Github" size="24" /> Code
+                  <Icon name="Github" size="24" /> Workshop App & Code
                 </a>
               )}
             </div>
           </div>
         </div>
         {image && (
-          <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0 lg:-mr-5">
+          <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0">
             <Image
               priority
               src={image}
@@ -233,3 +284,66 @@ const CourseMeta = ({
     }}
   />
 )
+
+const WorkshopPricingWidget: React.FC<{product: SanityProduct}> = ({
+  product,
+}) => {
+  const router = useRouter()
+
+  const {data: commerceProps, status: commercePropsStatus} =
+    trpc.pricing.propsForCommerce.useQuery({
+      productId: product.productId,
+      code: router.query.code as string,
+    })
+  const couponFromCode = commerceProps?.couponFromCode
+  const {validCoupon} = useCoupon(commerceProps?.couponFromCode)
+  const couponId =
+    commerceProps?.couponIdFromCoupon ||
+    (validCoupon ? couponFromCode?.id : undefined)
+
+  const purchases = commerceProps?.purchases || []
+  const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+  const ALLOW_PURCHASE =
+    router.query.allowPurchase === 'true' || product.state === 'active'
+  const {merchantCoupon, setMerchantCoupon, quantity} = usePriceCheck()
+  const upgradableTo = product?.upgradableTo
+  const hasPurchasedUpgrade =
+    upgradableTo && purchasedProductIds.includes(upgradableTo.productId)
+
+  return (
+    <div id="buy" className="mb-5 rounded-lg border pt-8" key={product.name}>
+      <Pricing
+        id="workshop-pricing"
+        // bonuses={bonuses}
+        allowPurchase={ALLOW_PURCHASE}
+        userId={commerceProps?.userId}
+        product={product}
+        options={{
+          withImage: true,
+          withGuaranteeBadge: true,
+        }}
+        index={1}
+        cancelUrl={process.env.NEXT_PUBLIC_URL + router.asPath}
+        purchaseButtonRenderer={
+          upgradableTo && !hasPurchasedUpgrade
+            ? (commerceProps, product) => {
+                return (
+                  <Link
+                    href={`/purchase?productId=${product.productId}&ppp=${
+                      merchantCoupon?.type === 'ppp'
+                    }&quantity=${quantity}&code=${couponId ?? false}`}
+                    data-pricing-product-checkout-button=""
+                  >
+                    <span>{product?.action || 'Buy Now'}</span>
+                  </Link>
+                )
+              }
+            : undefined
+        }
+        purchased={purchasedProductIds.includes(product.productId)}
+        couponId={couponId}
+        couponFromCode={couponFromCode}
+      />
+    </div>
+  )
+}

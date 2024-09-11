@@ -168,7 +168,6 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
     type,
     image,
     state,
-    type,
     "slug": slug.current,
     body,
     "welcomeVideo": welcomeVideo->{"muxPlaybackId":muxAsset.muxPlaybackId, poster},
@@ -335,6 +334,7 @@ export const getWorkshop = async (slug: string) =>
           description,
           action,
           image,
+          type,
           unitAmount,
           upgradableTo[0]->{
             ...,
@@ -346,7 +346,7 @@ export const getWorkshop = async (slug: string) =>
             "slug": slug.current,
             moduleType,
             title,
-            "image": image.secure_url,
+            "image": {"url":image.secure_url},
             state,
           },
           features[]{

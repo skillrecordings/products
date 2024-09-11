@@ -153,6 +153,7 @@ const ExerciseTemplate: React.FC<{
         }}
         isNavigationFixed={false}
         className="w-full max-w-none pt-0 sm:pt-0"
+        navigationClassName="w-full max-w-none"
       >
         <CourseJsonLd
           courseName={title}

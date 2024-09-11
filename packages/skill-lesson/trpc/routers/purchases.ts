@@ -94,4 +94,12 @@ export const purchasesRouter = router({
         }
       }
     }),
+  getAllPurchasesForUser: publicProcedure.query(async ({ctx}) => {
+    const token = await getToken({req: ctx.req})
+    const {getPurchasesForUser} = getSdk()
+
+    if (token && token.sub) {
+      return await getPurchasesForUser(token.id as string)
+    }
+  }),
 })
