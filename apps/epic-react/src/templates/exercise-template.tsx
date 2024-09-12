@@ -132,6 +132,7 @@ const ExerciseTemplate: React.FC<{
 
   return (
     <VideoProvider
+      className="overflow-hidden"
       muxPlayerRef={muxPlayerRef}
       exerciseSlug={router.query.lesson as string}
       path={path}

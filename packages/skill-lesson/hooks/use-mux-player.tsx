@@ -104,6 +104,7 @@ type VideoProviderProps = {
     handlePlay: () => void
   }) => Promise<any>
   isModuleWithResources?: boolean
+  className?: string
 }
 
 export const VideoProvider: React.FC<
@@ -114,6 +115,7 @@ export const VideoProvider: React.FC<
   accentColor = '#3b82f6',
   theme,
   path = '',
+  className,
   nextPathBuilder,
   onEnded = async () => {},
   onModuleEnded = async () => {},
@@ -290,6 +292,7 @@ export const VideoProvider: React.FC<
       maxResolution: '2160p',
       theme,
       minResolution: '540p',
+      className,
     } as MuxPlayerProps,
     setPlayerPrefs,
     setDisplayOverlay: setDisplayOverlayCallback,
