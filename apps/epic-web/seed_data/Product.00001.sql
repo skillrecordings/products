@@ -244,3 +244,45 @@ INSERT INTO MerchantPrice (id, merchantProductId, merchantAccountId, status, pri
 INSERT INTO MerchantCoupon (id, identifier, status, merchantAccountId, percentageDiscount, type) VALUES ('kcd_826d7635-0d9c-4f90-9199-6090ef5c4b1a', 'WqPGPHsJ', 1, 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 0.20, 'special');
 
 INSERT INTO MerchantCoupon (id, identifier, status, merchantAccountId, percentageDiscount, type) VALUES ('kcd_487a9d2c-09e0-4bce-b436-ce3c69c4ea05', 'Xi9nwKG6', 1, 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 0.30, 'special');
+
+---- Epic React Standard V2
+
+insert into `Product` (`createdAt`, `id`, `key`, `name`, `productType`, `quantityAvailable`, `status`)
+values ('2024-09-11 12:12:28.000', 'kcd_product_15d22ad4-b668-4e81-bb5a', 'sks_a78639fc-e944-431d-847a-486623f00666', 'Epic React Standard', 'self-paced', -1, 1)
+
+insert into `Price` (`createdAt`, `id`, `nickname`, `productId`, `status`, `unitAmount`) 
+values ('2024-09-11 12:12:28.000', 'kcd_price_2c1a3d0c-57b4-4fef-869c', 'Epic React Standard', 'kcd_product_15d22ad4-b668-4e81-bb5a', 1, '365.00')
+
+insert into `MerchantProduct` (`createdAt`, `id`, `identifier`, `merchantAccountId`, `productId`, `status`) 
+values ('2024-09-11 12:12:28.000', 'kcd_merchant_product_f1d200dc-4218-4b0c-b1aa', 'prod_QpxOG0dAUSwIWV', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 'kcd_product_15d22ad4-b668-4e81-bb5a', 1)
+
+insert into `MerchantPrice` (`createdAt`, `id`, `identifier`, `merchantAccountId`, `merchantProductId`, `priceId`, `status`) 
+values ('2024-09-11 12:12:28.000', 'kcd_merchant_price_c695a748-0205-434f-b5cb', 'price_1PyHU7IugVgg5liQH5NlqvNn', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 'kcd_merchant_product_f1d200dc-4218-4b0c-b1aa', 'kcd_price_2c1a3d0c-57b4-4fef-869c', 1)
+
+------ Epic React Basic V2 
+
+insert into `Product` (`createdAt`, `id`, `key`, `name`, `productType`, `quantityAvailable`, `status`) 
+values ('2024-09-11 12:12:28.000', 'kcd_product_b394271c-d6d6-4403', 'sks_a78639fc-e944-431d-847a-486623f00666', 'Epic React Basic', 'self-paced', -1, 1)
+
+insert into `Price` (`createdAt`, `id`, `nickname`, `productId`, `status`, `unitAmount`) 
+values ('2024-09-11 12:12:28.000', 'kcd_price_8994834c-1672-407c-b14d', 'Epic React Basic', 'kcd_product_b394271c-d6d6-4403', 1, '220.00')
+
+insert into `MerchantProduct` (`createdAt`, `id`, `identifier`, `merchantAccountId`, `productId`, `status`) 
+values ('2024-09-11 12:12:28.000', 'kcd_merchant_product_f043d0e3-4195-4705', 'prod_QpxMoOnIY3cGkq', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 'kcd_product_b394271c-d6d6-4403', 1)
+
+insert into `MerchantPrice` (`createdAt`, `id`, `identifier`, `merchantAccountId`, `merchantProductId`, `priceId`, `status`) 
+values ('2024-09-11 12:12:28.000', 'kcd_merchant_price_63bb95af-9e2e-4f45-9b89', 'price_1PyHS0IugVgg5liQxMJKmegW', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 'kcd_merchant_product_f043d0e3-4195-4705', 'kcd_price_8994834c-1672-407c-b14d', 1)
+
+------ Epic React Pro V2
+
+insert into `Product` (`createdAt`, `id`, `key`, `name`, `productType`, `quantityAvailable`, `status`) 
+values ('2024-08-08 21:01:13.289', 'kcd_product-clzlrf0g5000008jm0czdanmz', 'sks_a78639fc-e944-431d-847a-486623f00666', 'Epic React Pro', 'self-paced', -1, 1)
+
+insert into `Price` (`createdAt`, `id`, `nickname`, `productId`, `status`, `unitAmount`) 
+values ('2024-08-08 21:01:13.202', 'kcd_price_clzlrh8x4000208jm1fsrbi9p', 'Epic React Pro', 'kcd_product-clzlrf0g5000008jm0czdanmz', 1, '695.00')
+
+insert into `MerchantProduct` (`createdAt`, `id`, `identifier`, `merchantAccountId`, `productId`, `status`) 
+values ('2024-08-08 21:01:13.113', 'kcd_merchant_product_clzlrgbay000108jm34nb60ih', 'prod_QonQDYrA4Yg5F8', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 'kcd_product-clzlrf0g5000008jm0czdanmz', 1)
+
+insert into `MerchantPrice` (`createdAt`, `id`, `identifier`, `merchantAccountId`, `merchantProductId`, `priceId`, `status`) 
+values ('2024-08-08 21:01:13.018', 'kcd_merchant_price_clzlripet000308jmaz3e48do', 'price_1Px9pFIugVgg5liQ3NBpqL6y', 'kcd_ff532118-69fe-4263-85a5-50b7b03a4b1e', 'kcd_merchant_product_clzlrgbay000108jm34nb60ih', 'kcd_price_clzlrh8x4000208jm1fsrbi9p', 1)
