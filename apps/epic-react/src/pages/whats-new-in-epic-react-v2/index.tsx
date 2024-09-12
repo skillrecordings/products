@@ -47,12 +47,26 @@ const WhatsNewPage = ({
         },
       }}
     >
-      <main className="mx-auto w-full max-w-4xl px-5 py-16">
+      <main className="mx-auto w-full max-w-4xl px-5 py-8 sm:py-16">
         <h1 className="mb-10 border-b pb-3 text-3xl font-bold sm:text-4xl">
           {page.title}
         </h1>
         <article className="prose max-w-none dark:prose-invert sm:prose-lg">
-          <MDX contents={pageBodySerialized} />
+          <MDX
+            components={{
+              table: (props) => {
+                return (
+                  <div className="overflow-x-auto">
+                    <table
+                      className="mt-0 w-full table-auto [&_td]:whitespace-nowrap [&_td]:p-2 sm:[&_td]:whitespace-normal [&_th]:whitespace-nowrap [&_th]:p-2 sm:[&_th]:whitespace-normal"
+                      {...props}
+                    />
+                  </div>
+                )
+              },
+            }}
+            contents={pageBodySerialized}
+          />
         </article>
       </main>
     </Layout>
