@@ -144,14 +144,19 @@ const isFreelyVisible = ({
     return false
   }
 
-  const lessons = module?.lessons || []
+  const lessons = module?.lessons || module?.resources || []
   const isFirstLesson =
     (lesson?._type === 'exercise' ||
       lesson?._type === 'explainer' ||
       lesson?._type === 'lesson') &&
     lesson._id === lessons[0]?._id
 
-  return isFirstLesson && lesson && !isSolution
+  // const isFirstLessonInSection = section?.lessons[0]?._id === lesson._id
+
+  const isFirstLessonInFirstSection =
+    module?.sections[0]?.lessons[0]?._id === lesson._id
+
+  return (isFirstLesson || isFirstLessonInFirstSection) && lesson && !isSolution
 }
 
 export function hasChargesForPurchases(purchases?: any[]) {
