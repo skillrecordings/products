@@ -154,7 +154,7 @@ const isFreelyVisible = ({
   // const isFirstLessonInSection = section?.lessons[0]?._id === lesson._id
 
   const isFirstLessonInFirstSection =
-    module?.sections[0]?.lessons[0]?._id === lesson._id
+    module?.sections?.[0]?.lessons?.[0]?._id === lesson._id
 
   return (isFirstLesson || isFirstLessonInFirstSection) && lesson && !isSolution
 }
