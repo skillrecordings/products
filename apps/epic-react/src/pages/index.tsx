@@ -151,7 +151,7 @@ const Home: React.FC<{modules: Workshop[]; commerceProps: CommerceProps}> = ({
         <div className="bg-er-gray-100 pb-16 pt-8" id="buy">
           {commerceProps.products?.length > 0 ? (
             <>
-              <div className="py-12 lg:py-16">
+              <div className="py-8 lg:py-16">
                 <div className="mx-auto w-full max-w-screen-lg px-5 text-center">
                   <h1 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
                     Join over 7,000 Developers and Get Extremely Good At React
