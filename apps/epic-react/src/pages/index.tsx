@@ -8,7 +8,6 @@ import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {getAllActiveProducts} from '@/lib/products'
 import Layout from '@/components/app/layout'
-import Footer from '@/components/app/footer'
 import LandingCopy from '@/components/landing-copy.mdx'
 import Divider from '@/components/divider'
 import PricingSection from '@/components/pricing-section'
@@ -16,13 +15,19 @@ import PricingSection from '@/components/pricing-section'
 import {VersionTwoCta} from '@/components/version-two-cta'
 import * as React from 'react'
 import {getAllWorkshops, type Workshop} from '@/lib/workshops'
-import {getOgImage} from '@/utils/get-og-image'
+import {getUserAndSubscriber} from '@/lib/users'
+import {User} from '@skillrecordings/skill-lesson'
+import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 
 const DEFAULT_PRODUCT_ID = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
-export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  query,
+}) => {
   const token = await getToken({req})
-
+  const {user, subscriber} = await getUserAndSubscriber({req, res, query})
   const allowPurchase = query?.allowPurchase === 'true'
   const products = await getAllActiveProducts(!allowPurchase)
 
@@ -35,13 +40,20 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const v2Modules = await getAllWorkshops()
 
   return {
-    props: {modules: v2Modules, commerceProps},
+    props: {
+      modules: v2Modules,
+      commerceProps,
+      user,
+      subscriber,
+    },
   }
 }
-const Home: React.FC<{modules: Workshop[]; commerceProps: CommerceProps}> = ({
-  modules,
-  commerceProps,
-}) => {
+const Home: React.FC<{
+  modules: Workshop[]
+  commerceProps: CommerceProps
+  user: User | null
+  subscriber: Subscriber | null
+}> = ({modules, commerceProps, user, subscriber}) => {
   const shouldReduceMotion = useReducedMotion()
 
   const moduleImageVariants = {
@@ -66,11 +78,12 @@ const Home: React.FC<{modules: Workshop[]; commerceProps: CommerceProps}> = ({
             />
           </div>
           <h1 className="text-balance px-5 pt-8 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:pt-0 sm:leading-tight md:max-w-3xl md:text-4xl lg:text-5xl">
-            Get Extremely Good at React
+            Get Extremely Good at React Quickly and Efficiently
           </h1>
           <h2 className="mt-3 inline-flex flex-wrap items-center justify-center text-balance px-5 text-center text-blue-200 sm:text-xl">
             <span>
-              Self-Paced React Training for Professional Developers by{' '}
+              Self-Paced Code-First Hands-on React Training for Professional Web
+              Developers by{' '}
             </span>
             <span className="inline-flex items-center">
               <Image
