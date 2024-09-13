@@ -124,10 +124,7 @@ const TipTemplate: React.FC<{
       <Layout
         meta={{
           title: tip.title,
-          ogImage: {
-            url: `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
-            alt: tip.title || 'tip',
-          },
+          ogImage: getOgImage({title: tip.title}),
           description: tip.description ?? '',
         }}
       >
@@ -252,7 +249,7 @@ const TipOverlay: React.FC<{tips: Tip[]}> = ({tips}) => {
   return (
     <div
       id="video-overlay"
-      className="dark:bg-black/40 relative left-0 top-0 flex w-full items-center justify-center bg-gray-950 lg:aspect-video xl:rounded-md"
+      className="relative left-0 top-0 flex w-full items-center justify-center bg-gray-950 dark:bg-black/40 lg:aspect-video xl:rounded-md"
     >
       <div className="absolute right-8 top-8 z-50 flex items-center justify-center gap-3">
         <button className={buttonStyles} onClick={handlePlay}>

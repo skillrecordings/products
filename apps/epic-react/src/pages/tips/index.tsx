@@ -37,7 +37,7 @@ const TipsIndex: React.FC<TipsIndex> = ({tips}) => {
         title: `Epic React Dev Tips`,
         description: pageDescription,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1704808424/card-tips_2x.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1726226118/epic-react-v2-workshops-card_2x.jpg',
           alt: 'Epic React Dev Tips',
         },
       }}

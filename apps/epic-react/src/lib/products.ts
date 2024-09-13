@@ -134,9 +134,11 @@ export const getProductBySlug = async (productSlug: string) => {
   return product
 }
 
-export const getAllActiveProducts = async () => {
+export const getAllActiveProducts = async (activeOnly: boolean = true) => {
   const products = await sanityClient.fetch(
-    groq`*[_type == 'product' && state == 'active'][]{
+    groq`*[_type == 'product'${
+      activeOnly ? "&& state == 'active'" : "&& state != 'unavailable'"
+    }][]{
     _id,
     title,
     description,
@@ -157,9 +159,10 @@ export const getAllActiveProducts = async () => {
     },
     "bonuses": *[_type == 'bonus'][]{...},
     "features" : features[]{
-    value
-   }
-    }`,
+      value,
+      icon
+    }
+  }`,
   )
   return products
 }
@@ -187,9 +190,10 @@ export const getAllProducts = async () => {
     },
     "bonuses": *[_type == 'bonus'][]{...},
     "features" : features[]{
-    value
-   }
-    }`,
+      value,
+      icon
+    }
+  }`,
   )
   return products
 }
