@@ -18,7 +18,7 @@ import {
   LegacyModuleSchema,
 } from '@/lib/legacy-modules'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
-import {getAllActiveProducts, getAllProducts} from '@/lib/products'
+import {getAllProducts} from '@/lib/products'
 import {Bonus, BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
 import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
