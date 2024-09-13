@@ -731,10 +731,43 @@ export function getSdk(
 
       return {user, isNewUser}
     },
-    async getUserByEmail(email: string) {
+    async getUserByEmail(email?: string | null) {
+      if (!email) return null
       const user = await ctx.prisma.user.findUnique({
         where: {
           email,
+        },
+        select: {
+          roles: true,
+          id: true,
+          name: true,
+          image: true,
+          email: true,
+          emailVerified: true,
+          purchases: {
+            select: {
+              id: true,
+              status: true,
+              country: true,
+              merchantChargeId: true,
+              productId: true,
+              createdAt: true,
+              totalAmount: true,
+              bulkCouponId: true,
+              bulkCoupon: {
+                select: {
+                  maxUses: true,
+                  usedCount: true,
+                },
+              },
+              product: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
         },
       })
 

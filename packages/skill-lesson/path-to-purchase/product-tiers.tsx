@@ -49,10 +49,13 @@ export const PricingTiers: React.FC<
   return (
     <>
       <div data-pricing-container="">
-        <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-          {products?.map((productWithOptions, i) => {
-            const {options, ...product} = productWithOptions
-            return (
+        {products?.map((productWithOptions, i) => {
+          const {options, ...product} = productWithOptions
+          return (
+            <PriceCheckProvider
+              key={product.productId}
+              purchasedProductIds={purchasedProductIds}
+            >
               <Pricing
                 key={product.productId}
                 userId={userId}
@@ -63,9 +66,9 @@ export const PricingTiers: React.FC<
                 allowPurchase={allowPurchase}
                 options={options}
               />
-            )
-          })}
-        </PriceCheckProvider>
+            </PriceCheckProvider>
+          )
+        })}
       </div>
     </>
   )

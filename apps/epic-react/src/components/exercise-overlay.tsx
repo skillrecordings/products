@@ -25,7 +25,7 @@ const ExerciseOverlay = () => {
   const workshopApp = moduleResources && moduleResources.workshopApp
 
   return (
-    <div className="dark:bg-black/20 flex aspect-video flex-col items-center justify-center gap-16 bg-gray-950 py-0 pb-8 text-white sm:py-10 sm:pb-10">
+    <div className="flex aspect-video flex-col items-center justify-center gap-16 bg-gray-950 py-0 pb-8 text-white dark:bg-black/20 sm:py-10 sm:pb-10">
       <div className="flex w-full flex-col items-center gap-8 p-5">
         <GetStartedVideo
           title={module.title}
@@ -121,37 +121,34 @@ const GetStartedVideo: React.FC<{
 
   const cuePoints: any = [
     {
-      time: 22,
+      time: 0,
+      value: {},
+      duration: 12,
+    },
+    {
+      time: 12,
       value: {
         href: `/get-started?module=${moduleSlug}`,
         label: 'Get Started',
       },
-      duration: 8,
+      duration: 17,
     },
     {
-      time: 33,
-      value: {
-        href: '/faq',
-        label: 'FAQ',
-        duration: 5,
-      },
-    },
-    {
-      time: 33 + 10,
+      time: 12 + 17,
+      duration: 20,
       value: {},
     },
     {
+      time: 49,
+      duration: 18,
       value: {
         href: workshopAppUrl ? workshopAppUrl : '',
-        label: `${title} (Deployed Workshop App)`,
+        label: `Deployed Workshop App (${title})`,
       },
     },
     {
-      time: 60 + 30,
-      value: {},
-    },
-    {
-      time: 117,
+      time: 91,
+      duration: 20,
       value: {
         href: githubRepositoryUrl
           ? `${githubRepositoryUrl}?tab=readme-ov-file#setup`
@@ -160,7 +157,31 @@ const GetStartedVideo: React.FC<{
       },
     },
     {
-      time: 117 + 20,
+      time: 91 + 20,
+      value: {},
+    },
+    {
+      time: 1641,
+      value: {
+        href: '/faq',
+        label: 'FAQ',
+        duration: 5,
+      },
+    },
+    {
+      time: 1641 + 5,
+      value: {},
+    },
+    {
+      time: 1655,
+      value: {
+        href: `/get-started?module=${moduleSlug}`,
+        label: 'Get Started',
+      },
+      duration: 5,
+    },
+    {
+      time: 1655 + 5,
       value: {},
     },
   ]
@@ -211,7 +232,7 @@ const GetStartedVideo: React.FC<{
             setCuePoint(e.detail.value)
           }}
           ref={muxPlayerRef}
-          startTime={19}
+          startTime={0}
           playbackId="zd6jycd4fMq4EB702BpGbimsyj00idemYohCOEopQYe01k"
           accentColor="#3b82f6"
           className="h-full w-full rounded"

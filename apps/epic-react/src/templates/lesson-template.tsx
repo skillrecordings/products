@@ -284,7 +284,7 @@ const ExerciseTemplate: React.FC<{
               <div className="mt-6 w-full sm:mt-0 sm:pb-5 md:col-span-2 md:pl-2">
                 <motion.div
                   layoutId="list"
-                  className="sm:sticky sm:top-[81px]"
+                  className="sm:sticky sm:top-[70px]"
                   style={{maxHeight: 'calc(100dvh - 300px)'}}
                 >
                   <LessonList

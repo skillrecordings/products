@@ -8,6 +8,7 @@ export const ProductSchema = z.object({
   _updatedAt: z.string(),
   _createdAt: z.string(),
   title: z.string(),
+  description: z.string().nullable().optional(),
   slug: z.string(),
   image: z
     .object({
@@ -16,10 +17,17 @@ export const ProductSchema = z.object({
     })
     .optional()
     .nullable(),
+  ogImage: z.string().optional().nullable(),
+  action: z.string().optional().nullable(),
   productId: z.string().optional(),
   body: z.nullable(z.string()).optional(),
-  state: z.enum(['draft', 'active', 'unavailable']),
-  modules: z.array(z.any()).optional().nullable(),
+  state: z.enum(['draft', 'active', 'unavailable', 'archived']),
+  type: z
+    .enum(['live', 'self-paced'])
+    .default('self-paced')
+    .optional()
+    .nullable(),
+  modules: z.array(z.any()).optional(),
 })
 
 export const ProductsSchema = z.array(ProductSchema)
@@ -35,6 +43,9 @@ export async function getProduct(productId: string): Promise<Product | null> {
         _createdAt,
         productId,
         title,
+        description,
+        action,
+        type,
         "image": image.asset->{url, alt},
         state,
         "slug": slug.current,
@@ -123,9 +134,11 @@ export const getProductBySlug = async (productSlug: string) => {
   return product
 }
 
-export const getAllActiveProducts = async () => {
+export const getAllActiveProducts = async (activeOnly: boolean = true) => {
   const products = await sanityClient.fetch(
-    groq`*[_type == 'product' && state == 'active'][]{
+    groq`*[_type == 'product'${
+      activeOnly ? "&& state == 'active'" : "&& state != 'unavailable'"
+    }][]{
     _id,
     title,
     description,
@@ -146,9 +159,10 @@ export const getAllActiveProducts = async () => {
     },
     "bonuses": *[_type == 'bonus'][]{...},
     "features" : features[]{
-    value
-   }
-    }`,
+      value,
+      icon
+    }
+  }`,
   )
   return products
 }
@@ -176,9 +190,10 @@ export const getAllProducts = async () => {
     },
     "bonuses": *[_type == 'bonus'][]{...},
     "features" : features[]{
-    value
-   }
-    }`,
+      value,
+      icon
+    }
+  }`,
   )
   return products
 }

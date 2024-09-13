@@ -6,14 +6,17 @@ import Navigation from './navigation'
 import {Inter} from 'next/font/google'
 import toast, {Toaster} from 'react-hot-toast'
 
-import {useFeedback} from '@/components/feedback-widget/feedback-context'
+import {useFeedback} from '@/feedback-widget/feedback-context'
 import {useGoldenTicket} from '@skillrecordings/skill-lesson/hooks/use-golden-ticket'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {useGlobalBanner} from '@/hooks/use-global-banner'
+import Footer from './footer'
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-sans',
-  weight: ['400', '600', '800'],
+  weight: ['400', '500', '600', '700', '800'],
 })
 
 type LayoutProps = {
@@ -38,6 +41,8 @@ type LayoutProps = {
   footerProps?: {
     className?: string
   }
+  navigationClassName?: string
+  withFooter?: boolean
 }
 
 const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
@@ -46,8 +51,10 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   meta,
   noIndex,
   withNavigation = true,
+  withFooter = true,
   navigationProps,
   isNavigationFixed = true,
+  navigationClassName,
 }) => {
   const {
     title,
@@ -61,7 +68,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
   const {RedeemDialogForCoupon, couponData, invalidReason, validCoupon} =
     useGoldenTicket()
-
+  const {isShowingSiteBanner, bannerHeight} = useGlobalBanner()
   React.useEffect(() => {
     if (couponData && !couponData.isValid && invalidReason) {
       toast.error(invalidReason)
@@ -100,20 +107,23 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
       {withNavigation && (
         <Navigation
           {...navigationProps}
+          className={navigationClassName}
           isNavigationFixed={isNavigationFixed}
         />
       )}
       <div
-        className={twMerge(
-          cx(
-            'flex min-h-[calc(100svh-57px)] flex-grow flex-col sm:min-h-[calc(100svh-61px)]',
-            {'mt-[57px] sm:mt-[61px]': isNavigationFixed},
-            className,
-          ),
+        id="layout"
+        style={{
+          marginTop: isShowingSiteBanner ? bannerHeight : '0',
+        }}
+        className={cn(
+          `relative flex h-full min-h-screen flex-grow flex-col pt-[48px] sm:pt-12`,
+          className,
         )}
       >
         {children}
       </div>
+      {withFooter ? <Footer /> : null}
     </div>
   )
 }

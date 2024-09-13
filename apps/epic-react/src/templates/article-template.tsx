@@ -17,6 +17,7 @@ import ResourceContributor from '@/components/resource-contributor'
 import {ChevronLeftIcon} from '@heroicons/react/outline'
 import {ArticleTeaser} from '@/pages/articles'
 import ReactAndStaleClosuresDemo from '@/components/mdx-components/how-react-uses-closures-to-avoid-bugs'
+import {getOgImage} from '@/utils/get-og-image'
 
 const MoreArticles: React.FC<{articles: Article[]}> = ({articles}) => {
   return (
@@ -59,14 +60,11 @@ const ArticleTemplate: React.FC<ArticlePageProps> = ({
         title: truncate(title, {length: 75}),
         description: truncate(pageDescription, {length: 155}),
         url,
-        ogImage: {
-          url: ogImage?.secure_url
-            ? ogImage.secure_url
-            : `${process.env.NEXT_PUBLIC_URL}/api/og/article?title=${encodeURI(
-                title,
-              )}`,
-          alt: title,
-        },
+        ogImage: ogImage?.secure_url
+          ? {url: ogImage?.secure_url}
+          : getOgImage({
+              title: title,
+            }),
       }}
     >
       <ArticleJsonLd

@@ -68,8 +68,8 @@ const GetStartedPage: React.FC<{
       meta={{
         title: pageTitle,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1721253718/epicreact-skill-stack/ogImage-er-get-started.png',
-          alt: 'Get started Epic React',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1726226289/epic-react-v2-get-started-card_2x.jpg',
+          alt: 'Launch your Workshop App Experience',
         },
       }}
     >
@@ -147,12 +147,10 @@ const Workshops: React.FC<{tutorials: any[]; workshops: any[]}> = ({
   workshops,
 }) => {
   return (
-    <div className="not-prose my-8 flex flex-col items-center justify-center text-lg sm:gap-4 md:text-lg">
-      <h3 className="text-center text-xl font-semibold sm:text-2xl">
-        Pro Workshops
-      </h3>
+    <div className="not-prose my-8 flex flex-col justify-center text-lg sm:gap-4 md:text-lg">
+      <h3 className="text-lg font-semibold sm:text-xl">Workshops</h3>
       <WorkshopList workshops={workshops} />
-      <h3 className="text-center text-xl font-semibold sm:text-2xl">
+      <h3 className="mt-5 block text-lg font-semibold sm:text-xl">
         Free Tutorials
       </h3>
       <ul className="w-full divide-y">

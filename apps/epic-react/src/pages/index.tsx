@@ -8,7 +8,6 @@ import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {getAllActiveProducts} from '@/lib/products'
 import Layout from '@/components/app/layout'
-import Footer from '@/components/app/footer'
 import LandingCopy from '@/components/landing-copy.mdx'
 import Divider from '@/components/divider'
 import PricingSection from '@/components/pricing-section'
@@ -16,12 +15,21 @@ import PricingSection from '@/components/pricing-section'
 import {VersionTwoCta} from '@/components/version-two-cta'
 import * as React from 'react'
 import {getAllWorkshops, type Workshop} from '@/lib/workshops'
+import {getUserAndSubscriber} from '@/lib/users'
+import {User} from '@skillrecordings/skill-lesson'
+import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 
 const DEFAULT_PRODUCT_ID = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
-export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  query,
+}) => {
   const token = await getToken({req})
-  const products = await getAllActiveProducts()
+  const {user, subscriber} = await getUserAndSubscriber({req, res, query})
+  const allowPurchase = query?.allowPurchase === 'true'
+  const products = await getAllActiveProducts(!allowPurchase)
 
   const {props: commerceProps} = await propsForCommerce({
     query,
@@ -32,13 +40,20 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const v2Modules = await getAllWorkshops()
 
   return {
-    props: {modules: v2Modules, commerceProps},
+    props: {
+      modules: v2Modules,
+      commerceProps,
+      user,
+      subscriber,
+    },
   }
 }
-const Home: React.FC<{modules: Workshop[]; commerceProps: CommerceProps}> = ({
-  modules,
-  commerceProps,
-}) => {
+const Home: React.FC<{
+  modules: Workshop[]
+  commerceProps: CommerceProps
+  user: User | null
+  subscriber: Subscriber | null
+}> = ({modules, commerceProps, user, subscriber}) => {
   const shouldReduceMotion = useReducedMotion()
 
   const moduleImageVariants = {
@@ -63,11 +78,12 @@ const Home: React.FC<{modules: Workshop[]; commerceProps: CommerceProps}> = ({
             />
           </div>
           <h1 className="text-balance px-5 pt-8 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:pt-0 sm:leading-tight md:max-w-3xl md:text-4xl lg:text-5xl">
-            Get Extremely Good at React
+            Get Extremely Good at React Quickly and Efficiently
           </h1>
           <h2 className="mt-3 inline-flex flex-wrap items-center justify-center text-balance px-5 text-center text-blue-200 sm:text-xl">
             <span>
-              Self-Paced React Training for Professional Developers by{' '}
+              Self-Paced Code-First Hands-on React Training for Professional Web
+              Developers by{' '}
             </span>
             <span className="inline-flex items-center">
               <Image
@@ -146,11 +162,11 @@ const Home: React.FC<{modules: Workshop[]; commerceProps: CommerceProps}> = ({
             })}
           </ul>
         </div>
-        <div className="my-16 bg-er-gray-100 pb-16 pt-8">
+        <div className="bg-er-gray-100 pb-16 pt-8" id="buy">
           {commerceProps.products?.length > 0 ? (
             <>
-              <div className="py-12 lg:py-16">
-                <div className="px-5 text-center">
+              <div className="py-8 lg:py-16">
+                <div className="mx-auto w-full max-w-screen-lg px-5 text-center">
                   <h1 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
                     Join over 7,000 Developers and Get Extremely Good At React
                   </h1>
@@ -166,7 +182,7 @@ const Home: React.FC<{modules: Workshop[]; commerceProps: CommerceProps}> = ({
                   />
                 </div>
               </div>
-              <div className="mx-auto h-48 w-48">
+              <div className="mx-auto h-40 w-40">
                 <Image
                   src="/assets/money-back-guarantee-badge.svg"
                   alt="30 day money back guarantee"
@@ -188,7 +204,6 @@ const Home: React.FC<{modules: Workshop[]; commerceProps: CommerceProps}> = ({
           )}
         </div>
       </main>
-      <Footer />
     </Layout>
   )
 }
