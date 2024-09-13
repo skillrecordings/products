@@ -16,6 +16,7 @@ import PricingSection from '@/components/pricing-section'
 import {VersionTwoCta} from '@/components/version-two-cta'
 import * as React from 'react'
 import {getAllWorkshops, type Workshop} from '@/lib/workshops'
+import {getOgImage} from '@/utils/get-og-image'
 
 const DEFAULT_PRODUCT_ID = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 

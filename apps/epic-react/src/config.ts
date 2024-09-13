@@ -66,7 +66,7 @@ const config: DefaultSeoProps & {author: string} = {
     },
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_URL}/og-images/og-image@2x.jpg`,
+        url: `${process.env.NEXT_PUBLIC_URL}/api/og/og-root`,
         width: 1200,
         height: 630,
       },
