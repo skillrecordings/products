@@ -19,6 +19,7 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
 }) => {
   const [field] = useField({name: 'text'})
   const editor = useEditor({
+    // @ts-ignore
     extensions: [StarterKit, Highlight, Typography, Link],
     content: field.value,
     onUpdate: ({editor}) => {
@@ -198,6 +199,109 @@ export const CategoryField: React.FC<
           ))}
         </div>
       </RadioGroup>
+    </div>
+  )
+}
+
+export const OptionalTextField: React.FC<React.PropsWithChildren<any>> = ({
+  label = 'Additional Information',
+  errors,
+  touched,
+  isSubmitted,
+}) => {
+  const [field] = useField({name: 'text'})
+  const editor = useEditor({
+    // @ts-ignore
+    extensions: [StarterKit, Highlight, Typography, Link],
+    content: field.value,
+    onUpdate: ({editor}) => {
+      field.onChange({target: {value: editor.getHTML(), name: 'text'}})
+    },
+    onBlur: ({event}) => {
+      field.onBlur(event)
+    },
+    editorProps: {
+      attributes: {
+        id: 'text',
+        name: 'text',
+        class:
+          'prose min-h-[150px] max-h-[250px] overflow-y-auto bg-input p-3 focus:ring-ring block w-full border border-border rounded-md dark:text-white',
+      },
+    },
+  })
+  const isEmpty = editor?.isEmpty
+
+  React.useEffect(() => {
+    if (isEmpty) {
+      field.onChange({target: {value: '', name: 'text'}})
+    }
+    if (isSubmitted) {
+      editor?.commands?.clearContent()
+    }
+  }, [isEmpty, isSubmitted])
+
+  return (
+    <div>
+      <div className="flex w-full items-center justify-between">
+        <label
+          className="inline-block flex-shrink-0 pb-1 font-semibold"
+          htmlFor="text"
+        >
+          {label} <span className="font-normal opacity-50">(optional)</span>
+        </label>
+        {errors.text && touched.text ? (
+          <div
+            aria-live="polite"
+            className="text-text inline-block pb-1 text-xs font-medium leading-tight opacity-50 sm:text-sm"
+          >
+            {errors.text}
+          </div>
+        ) : null}
+      </div>
+      <div
+        className={cx({
+          'rounded-md ring ring-pink-300 ring-opacity-80 ring-offset-background':
+            errors.text && touched.text,
+        })}
+      >
+        <EditorContent editor={editor} name="text" id="text" />
+      </div>
+    </div>
+  )
+}
+
+export const SeatSelectionField: React.FC<React.PropsWithChildren<any>> = (
+  props,
+) => {
+  const [field, meta, helpers] = useField({name: 'numberOfSeats'})
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.max(5, parseInt(event.target.value, 10) || 5)
+    if (value !== field.value) {
+      helpers.setValue(value)
+    }
+  }
+
+  return (
+    <div className="flex flex-col space-y-2">
+      <label htmlFor="numberOfSeats" className="inline-flex font-semibold">
+        Number of Seats{' '}
+        <span className="ml-2 font-normal text-gray-500">(required)</span>
+      </label>
+      <input
+        {...field}
+        {...props}
+        type="number"
+        min="5"
+        onChange={handleChange}
+        value={field.value || 5}
+        className="w-full rounded-md border border-gray-200 bg-gray-100 p-3 text-foreground shadow focus:ring-sky-500 dark:border-gray-700 dark:bg-gray-900"
+      />
+      {meta.touched && meta.error ? (
+        <div className="text-xs font-medium text-pink-500 sm:text-sm">
+          {meta.error}
+        </div>
+      ) : null}
     </div>
   )
 }
