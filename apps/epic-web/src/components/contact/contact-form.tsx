@@ -1,20 +1,23 @@
 import * as React from 'react'
 import * as Yup from 'yup'
-import {
-  ConfirmationMessage,
-  ErrorMessage,
-  FeedbackFormValues,
-  SubmitButton,
-} from '@skillrecordings/feedback-widget/dist/form'
+
 import {Form, Formik} from 'formik'
+
+import ContactEmailField from './contact-email-field'
+
+import {useSession} from 'next-auth/react'
+import type {FeedbackFormValues} from '../feedback-widget/form'
+import {useFeedbackForm} from '../feedback-widget/use-feedback-form'
 import {
   CategoryField,
   EmotionField,
   FeedbackField,
-} from '@skillrecordings/feedback-widget/dist/fields'
-import ContactEmailField from './contact-email-field'
-import {useFeedbackWidget} from '@skillrecordings/feedback-widget/dist/use-feedback-widget'
-import {useSession} from 'next-auth/react'
+} from '../feedback-widget/fields'
+import {
+  ConfirmationMessage,
+  ErrorMessage,
+  SubmitButton,
+} from '../feedback-widget/form'
 
 export const ContactValidationSchema = Yup.object().shape({
   email: Yup.string()
@@ -29,7 +32,7 @@ const ContactForm = () => {
     submitFeedbackForm,
     isSubmitted,
     error,
-  } = useFeedbackWidget({
+  } = useFeedbackForm({
     location: 'contact',
   })
   const {data: user} = useSession()
