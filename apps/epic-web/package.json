@@ -94,7 +94,7 @@
     "@tiptap/extension-link": "^2.6.6",
     "@tiptap/extension-typography": "^2.6.6",
     "@tiptap/react": "^2.6.6",
-    "@tiptap/starter-kit": "^2.1.12",
+    "@tiptap/starter-kit": "^2.6.6",
     "@trpc/client": "10.45.0",
     "@trpc/next": "10.45.0",
     "@trpc/react-query": "10.45.0",
