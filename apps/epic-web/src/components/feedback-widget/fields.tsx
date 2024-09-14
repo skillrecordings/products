@@ -19,12 +19,7 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
 }) => {
   const [field] = useField({name: 'text'})
   const editor = useEditor({
-    extensions: [
-      StarterKit as AnyExtension,
-      Highlight as AnyExtension,
-      Typography as AnyExtension,
-      Link as AnyExtension,
-    ],
+    extensions: [StarterKit, Highlight, Typography, Link],
     content: field.value,
     onUpdate: ({editor}) => {
       field.onChange({target: {value: editor.getHTML(), name: 'text'}})
