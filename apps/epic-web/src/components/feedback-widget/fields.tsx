@@ -1,5 +1,5 @@
 import React from 'react'
-import {useEditor, EditorContent} from '@tiptap/react'
+import {useEditor, EditorContent, AnyExtension} from '@tiptap/react'
 import {CheckIcon} from '@heroicons/react/solid'
 import {RadioGroup} from '@headlessui/react'
 import {useField} from 'formik'
@@ -19,8 +19,12 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
 }) => {
   const [field] = useField({name: 'text'})
   const editor = useEditor({
-    // @ts-ignore
-    extensions: [StarterKit, Highlight, Typography, Link],
+    extensions: [
+      StarterKit as AnyExtension,
+      Highlight as AnyExtension,
+      Typography as AnyExtension,
+      Link as AnyExtension,
+    ],
     content: field.value,
     onUpdate: ({editor}) => {
       field.onChange({target: {value: editor.getHTML(), name: 'text'}})
@@ -211,7 +215,6 @@ export const OptionalTextField: React.FC<React.PropsWithChildren<any>> = ({
 }) => {
   const [field] = useField({name: 'text'})
   const editor = useEditor({
-    // @ts-ignore
     extensions: [StarterKit, Highlight, Typography, Link],
     content: field.value,
     onUpdate: ({editor}) => {
