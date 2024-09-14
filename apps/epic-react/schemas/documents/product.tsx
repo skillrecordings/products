@@ -63,6 +63,18 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'allowTeamPurchase',
+      title: 'Allow Team Purchase',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'gridSortOrder',
+      title: 'Sort Order',
+      type: 'number',
+      initialValue: -1,
+    }),
+    defineField({
       name: 'merchantPrice',
       title: 'Merchant Price',
       type: 'object',
