@@ -1,43 +1,36 @@
 type OgImageUrlOptions = {
   title: string
+  type?: 'root' | 'default' | 'article'
   image?: string | null
-  byline?: string
-  type?: string
-  path?: string
-  authorName?: string
-  authorImage?: string
-  muxPlaybackId?: string
-  bgImage?: string
 }
 
 export const getOgImage = (options: OgImageUrlOptions) => {
-  const {
-    title,
-    image,
-    byline,
-    type,
-    path = '',
-    authorImage,
-    authorName,
-    muxPlaybackId,
-    bgImage,
-  } = options
+  const {title, type = 'default', image} = options
 
   const query = new URLSearchParams({
-    ...(image && {image}),
-    ...(muxPlaybackId && {muxPlaybackId}),
-    ...(byline && {byline}),
-    ...(type && {type}),
-    ...(authorImage && {authorImage}),
-    ...(authorName && {authorName}),
-    ...(bgImage && {bgImage}),
     title: title,
+    ...(image && {image: image}),
   })
+
+  const path = getPathForType(type)
   const url =
-    `${process.env.NEXT_PUBLIC_URL}/api/og` + path + `?${query.toString()}`
+    `${process.env.NEXT_PUBLIC_URL}/api/og/` + path + `?${query.toString()}`
 
   return {
     url,
     alt: title,
+  }
+}
+
+const getPathForType = (type: string) => {
+  switch (type) {
+    case 'article':
+      return 'article'
+    case 'default':
+      return 'og-default'
+    case 'root':
+      return 'og-root'
+    default:
+      return 'og-root'
   }
 }

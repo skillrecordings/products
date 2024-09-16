@@ -101,5 +101,7 @@ export const purchasesRouter = router({
     if (token && token.sub) {
       return await getPurchasesForUser(token.id as string)
     }
+
+    return []
   }),
 })
