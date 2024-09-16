@@ -1,12 +1,12 @@
 import * as React from 'react'
-import MuxPlayer from '@mux/mux-player-react'
+import MuxPlayer, {type MuxPlayerProps} from '@mux/mux-player-react'
 import {useTheme} from 'next-themes'
 
 const TOUR_VIDEO_ID = '02pm13UEJQ4M9Xkc9kIjX6E6gvnZ4ELM5GG57IN2UV3E'
 
 const IntroTourVideo = () => {
   const {theme} = useTheme()
-  const playerRef = React.useRef(null)
+  const playerRef = React.useRef<any>(null)
   const poster =
     theme === 'light'
       ? `https://res.cloudinary.com/epic-web/image/upload/v1726494776/tour-of-epic-react-v2-thumbnail--light_2x.jpg`
