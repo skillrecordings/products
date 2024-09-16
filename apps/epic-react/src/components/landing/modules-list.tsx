@@ -50,7 +50,7 @@ const data = [
 
 const ModulesList = () => {
   return (
-    <div>
+    <div className="not-prose mx-auto w-full max-w-3xl">
       {data.map((module) => {
         return (
           <div key={module.title} className="flex items-center">
@@ -71,6 +71,41 @@ const ModulesList = () => {
         )
       })}
     </div>
+  )
+}
+
+export const ModulesListWithDescriptions = ({
+  modules,
+}: {
+  modules: Workshop[]
+}) => {
+  return (
+    <ul className="not-prose mx-auto my-16 flex w-full max-w-4xl flex-col gap-10">
+      {modules.map((module, index) => {
+        return (
+          <li className="flex flex-col items-center gap-10 sm:items-start md:flex-row">
+            <Image
+              src={module.image}
+              alt={module.title}
+              width={200}
+              height={200}
+            />
+            <div>
+              <h3 className="mb-3 text-balance text-center text-3xl font-semibold leading-tight sm:text-left">
+                {module.title}
+              </h3>
+              <h4 className="mb-5 text-balance text-center text-lg font-medium leading-normal text-react sm:text-left lg:text-xl">
+                {data[index].duration} {module.tagline && '• '}
+                {module.tagline}
+              </h4>
+              <div className="mb-5 text-balance text-center text-lg font-medium leading-normal sm:text-left lg:text-lg lg:leading-[1.77]">
+                {module.description}
+              </div>
+            </div>
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 

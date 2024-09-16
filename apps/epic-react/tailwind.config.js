@@ -138,6 +138,11 @@ module.exports = {
             pre: {margin: '0px'},
           },
         },
+        invert: {
+          css: {
+            color: '#E3EBFF', // '#CFDBFC',
+          },
+        },
       }),
     },
   },
