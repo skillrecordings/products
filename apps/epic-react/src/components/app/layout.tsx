@@ -10,12 +10,13 @@ import {useFeedback} from '@/feedback-widget/feedback-context'
 import {useGoldenTicket} from '@skillrecordings/skill-lesson/hooks/use-golden-ticket'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {useGlobalBanner} from '@/hooks/use-global-banner'
+import Footer from './footer'
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-sans',
-  weight: ['400', '600', '800'],
+  weight: ['400', '500', '600', '700', '800'],
 })
 
 type LayoutProps = {
@@ -41,6 +42,7 @@ type LayoutProps = {
     className?: string
   }
   navigationClassName?: string
+  withFooter?: boolean
 }
 
 const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
@@ -49,6 +51,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   meta,
   noIndex,
   withNavigation = true,
+  withFooter = true,
   navigationProps,
   isNavigationFixed = true,
   navigationClassName,
@@ -120,6 +123,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
       >
         {children}
       </div>
+      {withFooter ? <Footer /> : null}
     </div>
   )
 }

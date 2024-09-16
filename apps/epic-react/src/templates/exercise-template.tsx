@@ -55,10 +55,7 @@ const ExerciseTemplate: React.FC<{
   const {title, description: exerciseDescription} = lesson
   const ogImage = getOgImage({
     title,
-    type: 'video',
-    image: videoResource?.poster
-      ? videoResource.poster
-      : `${process.env.NEXT_PUBLIC_URL}/api/video-thumb?videoResourceId=${videoResourceId}`,
+    image: module.image,
   })
   const {ogImage: moduleOGImage, description: moduleDescription} = module
   const pageTitle = `${title}`
@@ -132,6 +129,7 @@ const ExerciseTemplate: React.FC<{
 
   return (
     <VideoProvider
+      className="overflow-hidden"
       muxPlayerRef={muxPlayerRef}
       exerciseSlug={router.query.lesson as string}
       path={path}

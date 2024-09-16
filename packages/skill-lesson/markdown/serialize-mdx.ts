@@ -96,6 +96,7 @@ const serializeMDX = async (
         rehypePlugins: [rehypeSlug],
         remarkPlugins: [
           [
+            remarkGfm,
             remarkCodeHike,
             {
               theme: theme || 'dark-plus',

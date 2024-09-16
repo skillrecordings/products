@@ -799,6 +799,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
         <>
           {videoResourceId && (
             <img
+              data-image=""
               src={thumbnail}
               className="object-cover h-full w-full"
               alt=""

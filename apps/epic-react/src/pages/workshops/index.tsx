@@ -27,7 +27,7 @@ const WorkshopsPage: React.FC<{
         title: `Professional React Workshops from Kent C. Dodds`,
         description: `Professional React workshops by Kent C. Dodds that will help you learn professional web development through exercise driven examples.`,
         ogImage: {
-          url: 'https://res.cloudinary.com/epic-web/image/upload/v1721252858/epicreact-skill-stack/ogImage-workshops.png',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1726226118/epic-react-v2-workshops-card_2x.jpg',
           alt: 'Epic React Workshops',
         },
       }}

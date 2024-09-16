@@ -56,8 +56,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
   }
 
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-
   return {
     props: {
       tutorial,
@@ -255,7 +253,7 @@ const CertificateShare: React.FC<{shareUrl: string}> = ({shareUrl}) => {
   const shareButtonStyles =
     'gap-2 flex items-center justify-center rounded-md px-4 py-2 hover:brightness-125 transition'
   return (
-    <div className="sm:bg-black/50 mb-8 flex w-full -translate-y-px flex-col items-center justify-center gap-3 border-gray-800 p-4 text-gray-200 sm:mb-16 sm:w-auto sm:rounded-b-xl sm:border md:flex-row ">
+    <div className="mb-8 flex w-full -translate-y-px flex-col items-center justify-center gap-3 border-gray-800 p-4 text-gray-200 sm:mb-16 sm:w-auto sm:rounded-b-xl sm:border sm:bg-black/50 md:flex-row ">
       <h1 className="px-2">Share on:</h1>
       <div className="relative z-10 grid grid-cols-2 flex-wrap items-center justify-center gap-2 text-center font-medium shadow-xl sm:flex">
         <Twitter

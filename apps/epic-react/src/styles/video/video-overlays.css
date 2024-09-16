@@ -175,7 +175,7 @@
     @apply flex items-center justify-center;
   }
   [data-image] {
-    @apply opacity-50 blur-sm contrast-125;
+    @apply opacity-50 contrast-125;
   }
   svg {
     @apply absolute h-8 w-8 text-white;

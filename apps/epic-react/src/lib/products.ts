@@ -8,6 +8,8 @@ export const ProductSchema = z.object({
   _updatedAt: z.string(),
   _createdAt: z.string(),
   title: z.string(),
+  allowTeamPurchase: z.boolean().default(true),
+  sortOrder: z.number().default(-1),
   description: z.string().nullable().optional(),
   slug: z.string(),
   image: z
@@ -46,6 +48,7 @@ export async function getProduct(productId: string): Promise<Product | null> {
         description,
         action,
         type,
+        allowTeamPurchase,
         "image": image.asset->{url, alt},
         state,
         "slug": slug.current,
@@ -71,6 +74,7 @@ export const getProductBySlug = async (productSlug: string) => {
   productId,
   description,
   state,
+  allowTeamPurchase,
   type,
   title,
   body,
@@ -134,14 +138,17 @@ export const getProductBySlug = async (productSlug: string) => {
   return product
 }
 
-export const getAllActiveProducts = async () => {
+export const getAllActiveProducts = async (activeOnly: boolean = true) => {
   const products = await sanityClient.fetch(
-    groq`*[_type == 'product' && state == 'active'][]{
+    groq`*[_type == 'product'${
+      activeOnly ? "&& state == 'active'" : "&& state != 'unavailable'"
+    }][]{
     _id,
     title,
     description,
     productId,
     state,
+    allowTeamPurchase,
     "slug": slug.current,
     _id,
     image {
@@ -157,9 +164,10 @@ export const getAllActiveProducts = async () => {
     },
     "bonuses": *[_type == 'bonus'][]{...},
     "features" : features[]{
-    value
-   }
-    }`,
+      value,
+      icon
+    }
+  }`,
   )
   return products
 }
@@ -172,6 +180,7 @@ export const getAllProducts = async () => {
     description,
     productId,
     state,
+    allowTeamPurchase,
     "slug": slug.current,
     _id,
     image {
@@ -187,9 +196,10 @@ export const getAllProducts = async () => {
     },
     "bonuses": *[_type == 'bonus'][]{...},
     "features" : features[]{
-    value
-   }
-    }`,
+      value,
+      icon
+    }
+  }`,
   )
   return products
 }
@@ -207,6 +217,7 @@ export const getPricing = async (slug: string = 'primary') => {
       description,
       productId,
       state,
+      allowTeamPurchase,
       "slug": slug.current,
       _id,
       image {

@@ -7,14 +7,14 @@ const ConfirmSubscriptionPage = () => {
     <Layout meta={{title: 'Confirm your subscription'}}>
       <main className="flex flex-grow flex-col items-center justify-center px-5">
         <Image />
-        <div className="max-w-screen-sm text-center font-light">
+        <div className="max-w-lg text-center font-light">
           {/* <p className="sm:text-xl">
             Thanks so much for signing up! There’s one last step.
           </p> */}
-          <h1 className="py-8 text-4xl font-bold lg:text-5xl">
+          <h1 className="text-balance py-8 text-2xl font-bold lg:text-3xl">
             Please check your inbox for an email that just got sent.
           </h1>
-          <p className="mx-auto pb-8 leading-relaxed sm:text-xl">
+          <p className="mx-auto text-balance pb-8 text-sm leading-relaxed opacity-80 sm:text-base">
             You'll need to click the confirmation link to receive any further
             emails. If you don't see the email after a few minutes, you might
             check your spam folder or other filters and add{' '}

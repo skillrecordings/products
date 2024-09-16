@@ -27,9 +27,9 @@ module.exports = {
         react: 'var(--color-react)',
       },
       backgroundColor: {
-        background: 'hsl(var(--background))',
+        // background: 'hsl(var(--background))',
         navigation: 'var(--color-bg-navigation)',
-        black: 'var(--color-bg-black)',
+        // black: 'var(--color-bg-black)',
       },
       boxShadow: {
         outline: '0 0 0 3px var(--color-text-primary)',
