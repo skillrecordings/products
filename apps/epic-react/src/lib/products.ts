@@ -204,12 +204,13 @@ export const getAllProducts = async () => {
   return products
 }
 
-export const getPricing = async (slug: string = 'primary') => {
+export const getPricing = async (slug: string = 'epic-react-v2') => {
   const pricing = await sanityClient.fetch(
     groq`*[_type == 'pricing' && slug.current == $slug][0]{
     _id,
     title,
     subtitle,
+    active,
     slug,
     "products": products[]->{
       _id,

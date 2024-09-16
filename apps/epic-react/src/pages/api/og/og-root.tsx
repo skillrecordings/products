@@ -5,12 +5,15 @@ import {
   getAllProducts,
 } from '@skillrecordings/skill-lesson/lib/products'
 import type {NextRequest} from 'next/server'
+import {getPricing} from '@/lib/products'
 
 const couponAwareShareCard = async (req: NextRequest, res: NextApiResponse) => {
   try {
     const {getDefaultCoupon} = getSdk()
     // const products = await getActiveProducts()
     const products = await getAllProducts()
+    const pricing = await getPricing()
+
     const defaultCoupons = await getDefaultCoupon(
       products?.map((product: any) => product.productId),
     )
@@ -20,15 +23,16 @@ const couponAwareShareCard = async (req: NextRequest, res: NextApiResponse) => {
     // }
     const defaultCoupon = defaultCoupons?.defaultCoupon
 
-    const url = defaultCoupon
-      ? (
-          defaultCoupon?.expires
-            ? new Date(defaultCoupon.expires) > new Date()
-            : true
-        )
-        ? `${process.env.NEXT_PUBLIC_URL}/api/og/og-sale?discount=${defaultCoupon.percentageDiscount}`
+    const url =
+      defaultCoupon && pricing.active
+        ? (
+            defaultCoupon?.expires
+              ? new Date(defaultCoupon.expires) > new Date()
+              : true
+          )
+          ? `${process.env.NEXT_PUBLIC_URL}/api/og/og-sale?discount=${defaultCoupon.percentageDiscount}`
+          : `${process.env.NEXT_PUBLIC_URL}/epic-react-v2-default-card@2x.jpg`
         : `${process.env.NEXT_PUBLIC_URL}/epic-react-v2-default-card@2x.jpg`
-      : `${process.env.NEXT_PUBLIC_URL}/epic-react-v2-default-card@2x.jpg`
 
     const response = await fetch(url, {
       method: 'GET',
