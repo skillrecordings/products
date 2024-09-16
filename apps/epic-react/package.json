@@ -142,6 +142,7 @@
     "tailwindcss-animate": "^1.0.5",
     "tailwindcss-group-modifier-plugin": "^0.1.1",
     "tailwindcss-radix": "^2.8.0",
+    "uglify-js": "^3.19.3",
     "unist-util-visit": "^5.0.0",
     "uuid": "^9.0.0",
     "yup": "^0.32.11",
