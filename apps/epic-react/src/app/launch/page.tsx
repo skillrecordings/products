@@ -21,7 +21,7 @@ export default async function LaunchPage() {
   }
 
   return (
-    <div className="bg-orange-200">
+    <div>
       <form action={launch}>
         <RedButton />
       </form>
