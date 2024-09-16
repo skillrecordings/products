@@ -2,18 +2,21 @@
 
 import {useState, useEffect} from 'react'
 import Confetti from 'react-confetti'
+import Starfield from './starfield'
 
 export default function RedButton() {
   const [isConfetti, setIsConfetti] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
   const [shake, setShake] = useState(false)
   const [confettiKey, setConfettiKey] = useState(0)
+  const [starfieldSpeed, setStarfieldSpeed] = useState(0.5)
 
   const handleClick = () => {
     setIsPressed(true)
     setShake(true)
     setIsConfetti(true)
     setConfettiKey((prevKey) => prevKey + 1) // Force confetti re-render
+    setStarfieldSpeed(20)
 
     // Sequence of animations
     setTimeout(() => setShake(false), 500) // Stop shaking after 500ms
@@ -35,46 +38,53 @@ export default function RedButton() {
 
   return (
     <div
-      className={`flex min-h-screen items-center justify-center bg-gray-900 ${
+      className={`flex min-h-screen w-full items-center justify-center bg-gray-900 ${
         shake ? 'animate-shake' : ''
       }`}
+      style={{
+        perspective: '1000px',
+      }}
     >
+      <Starfield speed={starfieldSpeed} />
       <button
         onClick={handleClick}
         className={`
-relative
-          flex h-80 
-          w-80 items-center justify-center 
+          relative
+          flex size-80
+          items-center justify-center 
           overflow-hidden rounded-full bg-gradient-to-br
           from-red-500 
           to-red-700 text-4xl font-bold
-          text-white shadow-[0_10px_0_0_#7f1d1d,0_15px_20px_-5px_rgba(0,0,0,0.5)] transition-all
-          duration-300 ease-in-out focus:outline-none
-          focus:ring-4
-          focus:ring-red-300
-          active:shadow-[0_5px_0_0_#7f1d1d,0_10px_10px_-5px_rgba(0,0,0,0.3)]
+          text-white
           ${
             isPressed
-              ? 'translate-y-2 rotate-3 scale-95'
-              : 'translate-y-0 rotate-0 scale-100'
+              ? 'shadow-[0_5px_0_0_#7f1d1d,0_15px_30px_-5px_rgba(0,0,0,0.5)]'
+              : 'shadow-[0_17px_0_0_#7f1d1d,0_15px_30px_-5px_rgba(0,0,0,0.5)]'
           }
-        `}
+          transition-all 
+          duration-300 ease-in-out hover:brightness-110
+          focus:outline-none active:shadow-[0_17px_0_0_#7f1d1d,0_15px_30px_-5px_rgba(0,0,0,0.5)]
+          
+          `}
       >
-        <span className="relative z-10 translate-y-[-4px]">Launch! 🚀</span>
+        <span className="relative z-10 translate-y-[5px] uppercase drop-shadow-lg">
+          Launch
+        </span>
         <div
           className={`
           absolute inset-0 bg-gradient-to-br from-yellow-400 to-red-600
           transition-opacity duration-300
           ${isPressed ? 'opacity-80' : 'opacity-0'}
         `}
-        ></div>
+        />
         <div
           className={`
           absolute inset-0 rounded-full 
           ${isPressed ? 'animate-pulse-glow' : 'animate-subtle-pulse-glow'}
         `}
-        ></div>
+        />
       </button>
+
       {isConfetti && (
         <Confetti
           key={confettiKey}
@@ -88,6 +98,11 @@ relative
         />
       )}
       <style jsx global>{`
+        button {
+          transform-style: preserve-3d;
+          transform: rotateX(40deg) rotateY(0) rotateZ(0);
+        }
+
         @keyframes pulse-glow {
           0%,
           100% {
