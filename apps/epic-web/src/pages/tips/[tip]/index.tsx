@@ -23,7 +23,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     return {
       props: {
         tip,
-        tipBodySerialized,
+        tipBodySerialized: tipBodySerialized || null,
         tips,
         ...(tip.transcript && {transcript: tip.transcript}),
         videoResourceId: tip.videoResourceId,
@@ -48,7 +48,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export type TipPageProps = {
   tip: Tip
-  tipBodySerialized: MDXRemoteSerializeResult
+  tipBodySerialized: MDXRemoteSerializeResult | null
   tips: Tip[]
   transcript: any[]
   videoResourceId: string
