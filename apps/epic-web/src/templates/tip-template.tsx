@@ -50,7 +50,7 @@ import {ResourceCTA} from 'components/cta/resource-cta'
 
 const TipTemplate: React.FC<{
   tip: Tip
-  tipBodySerialized: MDXRemoteSerializeResult
+  tipBodySerialized: MDXRemoteSerializeResult | null
   tips: Tip[]
   transcript: any[]
 }> = ({tip, tipBodySerialized, tips}) => {
@@ -167,7 +167,7 @@ const TipTemplate: React.FC<{
                     image={tip?.instructor?.picture?.url}
                     className="inline-flex py-2 text-base font-semibold text-gray-700 dark:text-gray-300 lg:hidden [&_span]:font-bold"
                   />
-                  {tip.body && (
+                  {tipBodySerialized && (
                     <>
                       <div className="prose w-full max-w-none pb-5 pt-5 dark:prose-invert lg:prose-lg">
                         <MDX contents={tipBodySerialized} />

@@ -279,7 +279,6 @@ export const getSubscriberByEmail = async <T = {email: string}>(
 }
 
 export async function fetchSubscriber(convertkitId: string | number) {
-  console.log('fetching subscriber', {convertkitId})
   if (!process.env.CONVERTKIT_API_SECRET) {
     console.warn('set CONVERTKIT_API_SECRET')
     return
@@ -289,13 +288,10 @@ export async function fetchSubscriber(convertkitId: string | number) {
 
   if (convertkitId) {
     const subscriberUrl = `${convertkitBaseUrl}/subscribers/${convertkitId}?api_secret=${process.env.CONVERTKIT_API_SECRET}`
-    console.log({subscriberUrl})
     subscriber = await fetch(subscriberUrl)
       .then((res) => res.json())
       .then((res: any) => {
-        console.log('res', {res})
         const subscriber = res.subscriber
-        console.log('subscriber', {subscriber})
         return subscriber
       })
   }

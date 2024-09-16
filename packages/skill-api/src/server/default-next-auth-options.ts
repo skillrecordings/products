@@ -5,6 +5,7 @@ import {prisma} from '@skillrecordings/database'
 import EmailProvider from 'next-auth/providers/email'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {Inngest} from 'inngest'
+import {sanityClient} from '../lib/sanity-client'
 
 async function getUser(userId: string) {
   return prisma.user.findUnique({
@@ -74,16 +75,6 @@ export function defaultNextAuthOptions(options: {
   return {
     secret: process.env.NEXTAUTH_SECRET,
     events: {
-      signIn: async ({user}) => {
-        if (res) {
-          res.setHeader(
-            'Set-Cookie',
-            `skill=1; Path=/; SameSite=Lax ${
-              skillCookieDomain ? `; Domain=${skillCookieDomain}` : ''
-            }`,
-          )
-        }
-      },
       signOut: async () => {
         if (res) {
           res.setHeader(
@@ -141,6 +132,26 @@ export function defaultNextAuthOptions(options: {
       async session({session, token}) {
         if (token?.id) {
           const user = await getUser(token.id as string)
+
+          const dbProducts =
+            user?.purchases.map((purchase) => purchase.product) || []
+
+          const moduleSlugs = await sanityClient.fetch(
+            `array::unique(*[_type == 'product' && productId in $productIds].modules[]->slug.current)`,
+            {
+              productIds: dbProducts.map((product) => product.id),
+            },
+          )
+
+          if (res) {
+            res.setHeader(
+              'Set-Cookie',
+              `skill=${moduleSlugs.join(',')}; Path=/; SameSite=Lax ${
+                skillCookieDomain ? `; Domain=${skillCookieDomain}` : ''
+              }`,
+            )
+          }
+
           if (user && session.user) {
             const {roles, purchases} = user
             session.user.purchases = purchases

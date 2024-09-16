@@ -21,7 +21,7 @@ const ActivePromotionSchema = z.object({
   merchantCouponId: z.string().nullable(),
   status: z.number(),
   usedCount: z.number(),
-  percentageDiscount: z.string().or(z.number()),
+  percentageDiscount: z.string().or(z.coerce.number()),
   restrictedToProductId: z.string().nullable(),
   bulkPurchaseId: z.string().nullable(),
   product: ProductSchema.nullable(),
