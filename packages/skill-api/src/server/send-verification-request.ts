@@ -2,8 +2,6 @@ import {getSdk} from '@skillrecordings/database'
 import mjml2html from 'mjml'
 import {Theme} from 'next-auth'
 import {SendVerificationRequestParams} from 'next-auth/providers/email'
-import {createTransport} from 'nodemailer'
-import process from 'process'
 
 export type MagicLinkEmailType =
   | 'login'
@@ -88,16 +86,31 @@ export const sendVerificationRequest = async (
     isValidateEmailServerConfig(server) &&
     process.env.SKIP_EMAIL !== 'true'
   ) {
-    const transport = createTransport(server)
+    if (!process.env.POSTMARK_API_TOKEN! && !process.env.POSTMARK_KEY!) {
+      throw new Error('Missing Postmark API Key')
+    }
 
-    const result = await transport.sendMail({
-      to: email,
-      from,
-      subject,
-      text: text({url, host, expires}),
-      html: html({url, host, email, expires}, theme),
+    const res = await fetch('https://api.postmarkapp.com/email', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-Postmark-Server-Token': (process.env.POSTMARK_API_TOKEN ||
+          process.env.POSTMARK_KEY) as string,
+      },
+      body: JSON.stringify({
+        From: from,
+        To: email,
+        Subject: subject,
+        TextBody: text({url, host, expires}),
+        HtmlBody: html({url, host, email, expires}, theme),
+        MessageStream: 'outbound',
+      }),
     })
-    console.debug(`📧 Email sent to ${email}! [${result.response}]`)
+
+    if (!res.ok)
+      throw new Error('Postmark error: ' + JSON.stringify(await res.json()))
+    console.debug(`📧 Email sent to ${email}! [${res.status}]`)
   } else if (process.env.SKIP_EMAIL === 'true') {
     console.warn(`🚫 email sending is disabled.`)
   } else {
