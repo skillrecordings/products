@@ -18,6 +18,8 @@ import {getAllWorkshops, type Workshop} from '@/lib/workshops'
 import {getUserAndSubscriber} from '@/lib/users'
 import {User} from '@skillrecordings/skill-lesson'
 import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
+import groq from 'groq'
+import {sanityClientNoCdn} from '@/utils/sanity-client'
 
 const DEFAULT_PRODUCT_ID = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -28,7 +30,11 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const token = await getToken({req})
   const {user, subscriber} = await getUserAndSubscriber({req, res, query})
-  const allowPurchase = query?.allowPurchase === 'true'
+  const pricingActive = await sanityClientNoCdn.fetch(
+    groq`*[_type == 'pricing' && active == true][0]`,
+  )
+
+  const allowPurchase = pricingActive || query?.allowPurchase === 'true'
   const products = await getAllActiveProducts(!allowPurchase)
 
   const {props: commerceProps} = await propsForCommerce({

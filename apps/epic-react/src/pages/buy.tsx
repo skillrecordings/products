@@ -16,6 +16,8 @@ import Image from 'next/image'
 import {User} from '@skillrecordings/skill-lesson'
 import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import {getUserAndSubscriber} from '@/lib/users'
+import groq from 'groq'
+import {sanityClientNoCdn} from '@/utils/sanity-client'
 
 type DynamicHeadlines = {
   mainTitle: string
@@ -26,8 +28,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, res, query} = context
   const token = await getToken({req})
   const {user, subscriber} = await getUserAndSubscriber({req, res, query})
+  const pricingActive = await sanityClientNoCdn.fetch(
+    groq`*[_type == 'pricing' && active == true][0]`,
+  )
 
-  const allowPurchase = query?.allowPurchase === 'true'
+  const allowPurchase = pricingActive || query?.allowPurchase === 'true'
   const products = await getAllActiveProducts(!allowPurchase)
 
   const {props: commerceProps} = await propsForCommerce({
