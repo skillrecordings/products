@@ -1,3 +1,4 @@
+import type {Workshop} from '@/lib/workshops'
 import Image from 'next/image'
 
 const data = [
@@ -84,12 +85,14 @@ export const ModulesListWithDescriptions = ({
       {modules.map((module, index) => {
         return (
           <li className="flex flex-col items-center gap-10 sm:items-start md:flex-row">
-            <Image
-              src={module.image}
-              alt={module.title}
-              width={200}
-              height={200}
-            />
+            {module.image && (
+              <Image
+                src={module.image}
+                alt={module.title}
+                width={200}
+                height={200}
+              />
+            )}
             <div>
               <h3 className="mb-3 text-balance text-center text-3xl font-semibold leading-tight sm:text-left">
                 {module.title}
