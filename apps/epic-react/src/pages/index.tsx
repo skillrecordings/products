@@ -8,7 +8,7 @@ import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {getAllActiveProducts} from '@/lib/products'
 import Layout from '@/components/app/layout'
-import LandingCopy from '@/components/landing-copy.mdx'
+import LandingCopy from '@/components/landing-copy-v2.mdx'
 import Divider from '@/components/divider'
 import PricingSection from '@/components/pricing-section'
 
@@ -20,6 +20,7 @@ import {User} from '@skillrecordings/skill-lesson'
 import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import groq from 'groq'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
+import {ModulesListWithDescriptions} from '@/components/landing/modules-list'
 
 const DEFAULT_PRODUCT_ID = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -74,19 +75,19 @@ const Home: React.FC<{
   return (
     <Layout>
       <main>
-        <section className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-gray-900 pt-10 sm:pt-24">
-          <div className="mb-0 w-32 sm:mb-10 sm:w-40">
-            <Image
-              src="/assets/five-stars@2x.png"
-              alt="5 out of 5 stars"
-              width={210}
-              height={33}
-            />
+        <section className="sm:pt-26 relative flex w-full flex-col items-center justify-center overflow-hidden bg-gray-900 pt-16">
+          <div className="mb-8 flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F2BA24] to-[#FFA721] text-xs font-bold uppercase text-[#442D00]">
+            <span className="flex items-center justify-center border-r border-black/10 bg-white/10 px-3 py-1.5 pr-2">
+              new
+            </span>
+            <span className="flex items-center justify-center px-3 py-1.5 pl-2">
+              updated for react 19
+            </span>
           </div>
-          <h1 className="text-balance px-5 pt-8 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:pt-0 sm:leading-tight md:max-w-3xl md:text-4xl lg:text-5xl">
+          <h1 className="text-balance px-5 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:leading-tight md:max-w-3xl md:text-4xl lg:text-5xl">
             Get Extremely Good at React Quickly and Efficiently
           </h1>
-          <h2 className="mt-3 inline-flex flex-wrap items-center justify-center text-balance px-5 text-center text-blue-200 sm:text-xl">
+          <h2 className="mt-5 inline-flex flex-wrap items-center justify-center text-balance px-5 text-center text-blue-200 sm:text-xl">
             <span>
               Self-Paced Code-First Hands-on React Training for Professional Web
               Developers by{' '}
@@ -103,6 +104,29 @@ const Home: React.FC<{
               Kent C. Dodds
             </span>
           </h2>
+          <div className="mt-14 grid w-full max-w-xl scale-75 grid-cols-2 items-start justify-center gap-5 sm:scale-100 sm:gap-16">
+            <div className="flex flex-col items-center justify-center gap-3 text-center">
+              <Image
+                src={require('../../public/assets/five-stars@2x.png')}
+                alt="5 out of 5 stars"
+                width={104}
+              />
+              <p className="italic leading-[1] text-blue-200 sm:text-lg">
+                Epic React is a goldmine, years of experience put into minutes.
+                I'm blown away.
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center gap-3 text-center">
+              <Image
+                src={require('../../public/assets/five-stars@2x.png')}
+                alt="5 out of 5 stars"
+                width={104}
+              />
+              <p className="italic leading-[1] text-blue-200 sm:text-lg">
+                30 minutes in I'm hooked.
+              </p>
+            </div>
+          </div>
           <Image
             className="mt-14 w-full max-w-[1440px] scale-150 sm:mt-0 sm:scale-100"
             src={require('../../public/assets/hero.png')}
@@ -114,61 +138,23 @@ const Home: React.FC<{
             priority
           />
         </section>
-        <section className="mx-auto mt-12 w-full max-w-screen-lg px-4 py-8 sm:mt-0 sm:px-8">
-          <div className="prose mx-auto lg:prose-xl">
-            <LandingCopy components={{Image}} />
+        <section className="mx-auto mt-12 w-full max-w-screen-xl px-4 py-8 sm:mt-10 sm:px-8">
+          <div className="prose mx-auto max-w-none dark:prose-invert lg:prose-xl prose-headings:mx-auto prose-headings:max-w-3xl prose-headings:text-balance prose-p:mx-auto prose-p:max-w-3xl prose-ol:mx-auto prose-ol:max-w-3xl prose-ul:mx-auto prose-ul:max-w-3xl">
+            <LandingCopy
+              components={{
+                Image,
+                ModulesListWithDescriptions: () => (
+                  <ModulesListWithDescriptions modules={modules} />
+                ),
+              }}
+            />
           </div>
         </section>
-        <div className="mx-auto max-w-screen-lg px-5 sm:px-8">
-          <h2 className="mt-20 text-center text-4xl font-semibold">
-            The Workshops in Epic React Include:
-          </h2>
-          <Divider className="mb-16 mt-8" />
-          <ul>
-            {modules.map((module, i) => {
-              return (
-                <InView key={module.slug.current} threshold={0.2}>
-                  {({inView, ref, entry}) => {
-                    return (
-                      <li
-                        ref={ref}
-                        className="my-5 grid grid-cols-1 items-center gap-8 rounded-lg px-5 py-10 sm:my-32 sm:grid-cols-3 sm:grid-rows-1 sm:px-0 sm:py-0"
-                      >
-                        <motion.div
-                          animate={inView ? 'visible' : 'hidden'}
-                          variants={moduleImageVariants}
-                          transition={{mass: 0.7, type: 'spring'}}
-                          className="mx-auto flex w-full items-center justify-center px-20 sm:col-span-1 sm:row-start-1 sm:px-5"
-                        >
-                          {module?.image && module?.slug?.current && (
-                            <Image
-                              src={module.image}
-                              alt={module.slug.current}
-                              width={512}
-                              height={512}
-                            />
-                          )}
-                        </motion.div>
-                        <div className="sm:col-span-2 sm:row-start-1">
-                          <h2 className="mb-3 text-center text-4xl font-semibold leading-tight sm:text-left">
-                            {module.title}
-                          </h2>
-                          <h3 className="mb-5 text-center text-lg font-medium leading-normal text-react sm:text-left lg:text-xl">
-                            {module.tagline}
-                          </h3>
-                          <div className="mb-5 text-center text-lg font-medium leading-normal sm:text-left lg:text-lg lg:leading-[1.77]">
-                            {module.description}
-                          </div>
-                        </div>
-                      </li>
-                    )
-                  }}
-                </InView>
-              )
-            })}
-          </ul>
-        </div>
-        <div className="bg-er-gray-100 pb-16 pt-8" id="buy">
+        <section
+          className="bg-er-gray-100 pb-16 pt-8"
+          aria-label="Enroll in Epic React"
+          id="buy"
+        >
           {commerceProps.products?.length > 0 ? (
             <>
               <div className="py-8 lg:py-16">
@@ -208,7 +194,7 @@ const Home: React.FC<{
               />
             </div>
           )}
-        </div>
+        </section>
       </main>
     </Layout>
   )
