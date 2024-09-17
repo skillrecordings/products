@@ -68,6 +68,7 @@ type DesktopNavProps = {
 }
 
 const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
+  const ability = useAbilities()
   const {status} = useSession()
   const {setIsFeedbackDialogOpen} = useFeedback()
   const {data: commerceProps, status: commercePropsStatus} =
@@ -161,13 +162,15 @@ const DesktopNav: React.FC<DesktopNavProps> = ({isMinified}) => {
 
         {status === 'authenticated' ? (
           <>
-            <NavLink
-              className="lg:text-sm"
-              label="Feedback"
-              onClick={() => {
-                setIsFeedbackDialogOpen(true, 'header')
-              }}
-            />
+            {ability.can('view', 'Content') ? (
+              <NavLink
+                className="lg:text-sm"
+                label="Feedback"
+                onClick={() => {
+                  setIsFeedbackDialogOpen(true, 'header')
+                }}
+              />
+            ) : null}
             <AccountDropdown />
             {/* {purchasedProductIds.length > 0 ? null : (
               <NavLink
