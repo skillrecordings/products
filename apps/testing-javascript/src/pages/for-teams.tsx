@@ -12,8 +12,8 @@ const ForTeamsPage = () => {
         description:
           'Improve the skills of your team with Testing JavaScript. Get a quote today and see how we can help you.',
         ogImage: {
-          url: '',
-          alt: '',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1726611827/ogImages/og-image-default_1.png',
+          alt: 'for teams ogimage',
         },
       }}
     >

@@ -12,7 +12,7 @@ const ForTeamsPage = () => {
         description:
           'Improve the skills of your team with Epic Web. Get a quote today and see how we can help you.',
         ogImage: {
-          url: '',
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1726604272/ogImages/card-for-teams_2x.png',
         },
       }}
     >
