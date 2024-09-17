@@ -78,7 +78,7 @@ export async function actionRouter({
     switch (action) {
       case 'send-feedback':
         return await sendFeedbackFromUser({
-          emailAddress: token?.email,
+          emailAddress: req?.body?.email || token?.email,
           feedbackText: req?.body?.text,
           context: req?.body?.context,
           config: userOptions,
