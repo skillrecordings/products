@@ -126,3 +126,94 @@ export const CategoryField: React.FC<React.PropsWithChildren<any>> = (
     </div>
   )
 }
+
+export const OptionalTextField: React.FC<React.PropsWithChildren<any>> = ({
+  label = 'Additional Information',
+  errors,
+  touched,
+  isSubmitted,
+}) => {
+  const [field] = useField({name: 'text'})
+  const editor = useEditor({
+    // @ts-ignore
+    extensions: [StarterKit, Highlight, Typography, Link],
+    content: field.value,
+    onUpdate: ({editor}) => {
+      field.onChange({target: {value: editor.getHTML(), name: 'text'}})
+    },
+    onBlur: ({event}) => {
+      field.onBlur(event)
+    },
+    editorProps: {
+      attributes: {
+        id: 'text',
+        name: 'text',
+      },
+    },
+  })
+  const isEmpty = editor?.isEmpty
+
+  React.useEffect(() => {
+    if (isEmpty) {
+      field.onChange({target: {value: '', name: 'text'}})
+    }
+    if (isSubmitted) {
+      editor?.commands?.clearContent()
+    }
+  }, [isEmpty, isSubmitted])
+
+  return (
+    <div data-sr-feedback-widget-feedback-field="">
+      <div data-sr-feedback-widget-feedback-field-header="">
+        <label htmlFor="text">
+          {label} <span>(optional)</span>
+        </label>
+        {errors.text && touched.text ? (
+          <div aria-live="polite">{errors.text}</div>
+        ) : null}
+      </div>
+      <div
+        data-sr-feedback-widget-feedback-field={
+          errors.text && touched.text ? 'error' : ''
+        }
+      >
+        <EditorContent editor={editor} name="text" id="text" />
+      </div>
+    </div>
+  )
+}
+
+export const SeatSelectionField: React.FC<React.PropsWithChildren<any>> = (
+  props,
+) => {
+  const [field, meta, helpers] = useField({name: 'numberOfSeats'})
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.max(5, parseInt(event.target.value, 10) || 5)
+    if (value !== field.value) {
+      helpers.setValue(value)
+    }
+  }
+
+  return (
+    <div data-sr-feedback-widget-seat-selection-field="">
+      <label htmlFor="numberOfSeats">
+        Number of Seats <span>(required)</span>
+      </label>
+      <input
+        {...field}
+        {...props}
+        type="number"
+        min="5"
+        onChange={handleChange}
+        value={field.value || 5}
+        data-sr-feedback-widget-seat-selection-field-input=""
+      />
+      {meta.touched && meta.error ? (
+        <div data-sr-feedback-widget-seat-selection-field-error="">
+          {meta.error}
+        </div>
+      ) : null}
+    </div>
+  )
+}

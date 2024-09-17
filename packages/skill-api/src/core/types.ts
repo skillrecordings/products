@@ -50,11 +50,12 @@ export type SendFeedbackFromUserOptions = {
   feedbackText: string
   context?: FeedbackContext
   config: SkillRecordingsOptions
+  numberOfSeats?: number
 }
 
 export type FeedbackContext = {
   url?: string
-  category?: 'general' | 'help' | 'code'
+  category?: 'general' | 'help' | 'code' | 'quote requested'
   emotion?:
     | ':heart_eyes:'
     | ':unicorn_face:'
@@ -62,6 +63,7 @@ export type FeedbackContext = {
     | ':neutral_face:'
     | ':wave:'
     | ':smiley:'
+    | ':moneybag:'
   location?: string
 }
 

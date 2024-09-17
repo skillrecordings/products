@@ -1,5 +1,5 @@
 import React from 'react'
-import {useEditor, EditorContent} from '@tiptap/react'
+import {useEditor, EditorContent, AnyExtension} from '@tiptap/react'
 import {CheckIcon} from '@heroicons/react/solid'
 import {RadioGroup} from '@headlessui/react'
 import {useField} from 'formik'
@@ -32,7 +32,7 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
         id: 'text',
         name: 'text',
         class:
-          'prose min-h-[150px] max-h-[250px] overflow-y-auto shadow-md shadow-black/50 bg-gray-800 p-3 focus:ring-cyan-300 block w-full border border-gray-700 rounded-md',
+          'prose min-h-[150px] max-h-[250px] overflow-y-auto bg-input p-3 focus:ring-ring block w-full border border-border rounded-md dark:text-white',
       },
     },
   })
@@ -54,12 +54,12 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
           className="inline-block flex-shrink-0 pb-1 font-semibold"
           htmlFor="text"
         >
-          {label} <span className="font-normal text-gray-300">(required)</span>
+          {label} <span className="font-normal opacity-50">(required)</span>
         </label>
         {errors.text && touched.text ? (
           <div
             aria-live="polite"
-            className="inline-block pb-1 text-xs font-medium leading-tight text-pink-300 sm:text-sm"
+            className="text-text inline-block pb-1 text-xs font-medium leading-tight opacity-50 sm:text-sm"
           >
             {errors.text}
           </div>
@@ -67,7 +67,7 @@ export const FeedbackField: React.FC<React.PropsWithChildren<any>> = ({
       </div>
       <div
         className={cx({
-          'rounded-md ring ring-pink-300 ring-opacity-80 ring-offset-gray-900':
+          'rounded-md ring ring-pink-300 ring-opacity-80 ring-offset-background':
             errors.text && touched.text,
         })}
       >
@@ -107,16 +107,14 @@ export const EmotionField: React.FC<React.PropsWithChildren<any>> = (props) => {
               value={emotion}
               className={({active, checked}) =>
                 `${
-                  active
-                    ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-gray-900'
-                    : ''
+                  active ? 'ring-2 ring-ring ring-opacity-60 ring-offset-2' : ''
                 }
               ${
                 checked
-                  ? 'bg-gray-600 bg-opacity-75 text-white shadow-inner hover:bg-gray-600'
-                  : 'bg-gray-800 hover:bg-gray-700/80'
+                  ? 'bg-input bg-opacity-75 text-secondary-foreground shadow-inner'
+                  : 'bg-background'
               }
-                relative flex cursor-pointer rounded-lg border border-gray-700 px-4 py-3 transition focus:outline-none`
+                relative flex cursor-pointer rounded-lg border border-border px-4 py-3 transition focus:outline-none`
               }
             >
               {({checked}) => (
@@ -176,25 +174,19 @@ export const CategoryField: React.FC<
               value={category}
               className={({active, checked}) =>
                 `${
-                  active
-                    ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-gray-900'
-                    : ''
+                  active ? 'ring-2 ring-ring ring-opacity-60 ring-offset-2' : ''
                 }
               ${
                 checked
-                  ? 'bg-gray-600 bg-opacity-75 text-white shadow-inner hover:bg-gray-600'
-                  : 'bg-gray-800 hover:bg-gray-700/80'
+                  ? 'bg-input bg-opacity-75 shadow-inner'
+                  : 'bg-background'
               }
-              relative flex cursor-pointer rounded-lg border border-gray-700 px-4 py-3.5 transition focus:outline-none`
+              text-text relative flex cursor-pointer rounded-lg border border-border px-4 py-3.5 transition focus:outline-none`
               }
             >
               {({checked}) => (
                 <>
-                  <RadioGroup.Label
-                    className={`cursor-pointer font-medium ${
-                      checked ? 'text-gray-100' : 'text-gray-100'
-                    }`}
-                  >
+                  <RadioGroup.Label className={`cursor-pointer font-medium `}>
                     {category}
                   </RadioGroup.Label>
                   {checked && (

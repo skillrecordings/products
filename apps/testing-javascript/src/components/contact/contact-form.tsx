@@ -6,18 +6,18 @@ import {Form, Formik} from 'formik'
 import ContactEmailField from './contact-email-field'
 
 import {useSession} from 'next-auth/react'
-import type {FeedbackFormValues} from '../feedback-widget/form'
-import {useFeedbackForm} from '../feedback-widget/use-feedback-form'
+import type {FeedbackFormValues} from '@/feedback-widget/form'
+import {useFeedbackForm} from '@/feedback-widget/use-feedback-form'
 import {
   CategoryField,
   EmotionField,
   FeedbackField,
-} from '../feedback-widget/fields'
+} from '@/feedback-widget/fields'
 import {
   ConfirmationMessage,
   ErrorMessage,
   SubmitButton,
-} from '../feedback-widget/form'
+} from '@/feedback-widget/form'
 
 export const ContactValidationSchema = Yup.object().shape({
   email: Yup.string()

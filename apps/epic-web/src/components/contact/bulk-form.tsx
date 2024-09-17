@@ -1,44 +1,42 @@
 import * as React from 'react'
 import * as Yup from 'yup'
-
-import {Form, Formik} from 'formik'
-
-import ContactEmailField from './contact-email-field'
-
-import {useSession} from 'next-auth/react'
-import type {FeedbackFormValues} from '../feedback-widget/form'
-import {useFeedbackForm} from '../feedback-widget/use-feedback-form'
-import {
-  CategoryField,
-  EmotionField,
-  FeedbackField,
-} from '../feedback-widget/fields'
 import {
   ConfirmationMessage,
   ErrorMessage,
+  FeedbackFormValues,
   SubmitButton,
 } from '../feedback-widget/form'
+import {Form, Formik} from 'formik'
+import {OptionalTextField, SeatSelectionField} from '../feedback-widget/fields'
+import ContactEmailField from './contact-email-field'
+import {useFeedbackForm} from '../feedback-widget/use-feedback-form'
+import {useSession} from 'next-auth/react'
 
 export const ContactValidationSchema = Yup.object().shape({
   email: Yup.string()
     .email('Must be a valid email address')
     .required('Email is required'),
-  text: Yup.string().required('Feedback field is required'),
+  numberOfSeats: Yup.number().required('Number of seats is required'),
 })
 
-const ContactForm = () => {
+const BulkForm = () => {
   const {
     initialValues: initialFeedbackFormValues,
     submitFeedbackForm,
     isSubmitted,
     error,
   } = useFeedbackForm({
-    location: 'contact',
+    location: 'bulk-form',
   })
   const {data: user} = useSession()
   const initialValues: FeedbackFormValues = {
     email: user?.user?.email || '',
     ...initialFeedbackFormValues,
+    context: {
+      ...initialFeedbackFormValues.context,
+      emotion: ':moneybag:',
+      category: 'quote requested',
+    },
   }
 
   return (
@@ -48,28 +46,22 @@ const ContactForm = () => {
       onSubmit={submitFeedbackForm}
       enableReinitialize
     >
-      {({errors, touched, isSubmitting, values}) => (
+      {({errors, touched, isSubmitting}) => (
         <Form className="flex w-full flex-col space-y-5" placeholder="">
           <ContactEmailField errors={errors} touched={touched} />
-          <FeedbackField
-            label="Your message"
+          <SeatSelectionField />
+          <OptionalTextField
+            label="Additional Information"
             errors={errors}
             touched={touched}
             isSubmitted={isSubmitted}
-            showMarkdown={false}
           />
-          <div className="flex w-full flex-col space-y-5 md:flex-row md:space-x-10 md:space-y-0">
-            <EmotionField name="context.emotion" id="context.emotion" />
-            <CategoryField
-              categories={['general', 'help']}
-              name="context.category"
-              id="context.category"
-            />
-          </div>
-          <SubmitButton isSubmitting={isSubmitting}>Send message</SubmitButton>
+          <SubmitButton isSubmitting={isSubmitting}>
+            Request Quote!
+          </SubmitButton>
           {isSubmitted && (
             <ConfirmationMessage
-              message="We've received your message. Thanks!"
+              message="We've received your message, we will follow up with you in the next couple of days. Thanks!"
               isModal={false}
             />
           )}
@@ -80,4 +72,4 @@ const ContactForm = () => {
   )
 }
 
-export default ContactForm
+export default BulkForm

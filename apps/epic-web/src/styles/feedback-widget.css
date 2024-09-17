@@ -11,7 +11,7 @@
   @apply absolute right-2 top-2;
 }
 [data-sr-feedback-widget-close] button {
-  @apply inline-flex items-center justify-center rounded-full border border-transparent bg-gray-100 p-2 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 hover:bg-gray-200 hover:shadow-inner;
+  @apply inline-flex items-center justify-center rounded-full border border-transparent bg-gray-100 p-2 text-sm font-medium transition hover:bg-gray-200 hover:shadow-inner focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900;
 }
 
 [data-sr-feedback-widget-close] button svg {
@@ -27,7 +27,7 @@
   @apply rounded-md ring ring-pink-300 ring-opacity-80 ring-offset-background;
 }
 [data-sr-feedback-widget-feedback-field] #text div {
-  @apply prose prose-base block max-h-[250px] min-h-[150px] w-full overflow-y-auto rounded-md border border-gray-200 bg-gray-100 p-3 text-foreground shadow focus:ring-sky-500 prose-p:first-of-type:mt-0 dark:border-gray-700 dark:bg-gray-900;
+  @apply prose prose-base block max-h-[250px] min-h-[150px] w-full overflow-y-auto rounded-md border border-gray-200 bg-gray-100 p-3 text-foreground shadow prose-p:first-of-type:mt-0 focus:ring-sky-500 dark:border-gray-700 dark:bg-gray-900;
 }
 [data-sr-feedback-widget-feedback-field] small {
   @apply block pt-2 text-sm text-gray-400;
@@ -84,4 +84,22 @@
 }
 [data-sr-feedback-widget-category-field-buttons] button span {
   @apply after:pr-1 after:text-gray-600 after:content-['✓'] dark:after:text-gray-400;
+}
+
+/* seat selection field */
+
+[data-sr-feedback-widget-seat-selection-field] {
+  @apply flex flex-col space-y-2;
+}
+[data-sr-feedback-widget-seat-selection-field] label {
+  @apply inline-flex font-semibold;
+}
+[data-sr-feedback-widget-seat-selection-field] label span {
+  @apply ml-2 font-normal text-gray-500;
+}
+[data-sr-feedback-widget-seat-selection-field-input] {
+  @apply w-full rounded-md border border-gray-200 bg-gray-100 p-3 text-foreground shadow focus:ring-sky-500 dark:border-gray-700 dark:bg-gray-900;
+}
+[data-sr-feedback-widget-seat-selection-field-error] {
+  @apply text-xs font-medium text-pink-500 sm:text-sm;
 }
