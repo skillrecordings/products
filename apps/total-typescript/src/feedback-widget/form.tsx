@@ -10,6 +10,8 @@ import Spinner from '@/components/spinner'
 import {FeedbackContext} from '@skillrecordings/skill-api'
 import {useFeedbackForm} from './use-feedback-form'
 import Link from 'next/link'
+import ContactEmailField from '@/components/contact/contact-email-field'
+import {useSession} from 'next-auth/react'
 
 export type FeedbackFormValues = {
   text: string
@@ -26,6 +28,8 @@ export const FeedbackForm: React.FC<
 > = ({location}) => {
   const {initialValues, submitFeedbackForm, isSubmitted, error} =
     useFeedbackForm({location})
+  const {status} = useSession()
+
   return (
     <Formik
       initialValues={initialValues}
@@ -37,6 +41,9 @@ export const FeedbackForm: React.FC<
 
         return (
           <Form className="flex flex-col space-y-5" placeholder="">
+            {status === 'unauthenticated' && (
+              <ContactEmailField errors={errors} touched={touched} />
+            )}
             <div
               className={cx({'pointer-events-none blur-sm': isCodeQuestion})}
             >
