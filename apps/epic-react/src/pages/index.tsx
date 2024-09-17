@@ -19,6 +19,7 @@ import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import groq from 'groq'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
 import {ModulesListWithDescriptions} from '@/components/landing/modules-list'
+import Sparkle from 'react-sparkle'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -76,13 +77,25 @@ const Home: React.FC<{
     <Layout>
       <main>
         <section className="sm:pt-26 relative flex w-full flex-col items-center justify-center overflow-hidden bg-gray-900 pt-16">
-          <div className="mb-8 flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F2BA24] to-[#FFA721] text-xs font-bold uppercase text-[#442D00]">
-            <span className="flex items-center justify-center border-r border-black/10 bg-white/10 px-3 py-1.5 pr-2">
-              new
-            </span>
-            <span className="flex items-center justify-center px-3 py-1.5 pl-2">
-              updated for react 19
-            </span>
+          <div className="relative mb-8 flex items-center justify-center rounded-full">
+            <div className="flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F2BA24] to-[#FFA721] text-xs font-bold uppercase text-[#442D00]">
+              <span className="flex items-center justify-center border-r border-black/10 bg-white/10 px-3 py-1.5 pr-2">
+                new
+              </span>
+              <span className="flex items-center justify-center px-3 py-1.5 pl-2">
+                updated for react 19
+              </span>
+            </div>
+            {!shouldReduceMotion && (
+              <Sparkle
+                flickerSpeed="slowest"
+                count={10}
+                color="rgb(253, 224, 71)"
+                flicker={false}
+                fadeOutSpeed={20}
+                overflowPx={15}
+              />
+            )}
           </div>
           <h1 className="text-balance px-5 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:leading-tight md:max-w-3xl md:text-4xl lg:text-5xl">
             Get Extremely Good at React Quickly and Efficiently
