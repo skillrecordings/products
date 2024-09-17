@@ -36,18 +36,18 @@
   }
 }
 [data-mobile-module-lesson-list] {
-  @apply block border-t-2 border-gray-900 lg:hidden;
+  @apply block border-t-2 border-gray-200 dark:border-gray-900 lg:hidden;
   ::-webkit-details-marker {
     display: none;
   }
   summary {
-    @apply flex w-full cursor-pointer items-center justify-between gap-1 bg-gray-800 py-3 pl-4 pr-12 font-semibold leading-tight shadow-2xl shadow-black/40 transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:bg-gray-700 after:text-lg after:content-['↑'] hover:bg-gray-800;
+    @apply flex w-full cursor-pointer items-center justify-between gap-1 bg-gray-200 py-3 pl-4 pr-12 font-semibold leading-tight shadow-2xl shadow-black/40 transition marker:content-[''] after:absolute after:right-3 after:flex after:h-6 after:w-6 after:rotate-180 after:items-center after:justify-center after:rounded-full after:bg-gray-300 after:text-lg after:content-['↑'] hover:bg-gray-100 dark:bg-gray-800 dark:after:bg-gray-700 dark:hover:bg-gray-800;
     [data-byline] {
-      @apply text-sm font-normal text-gray-300 opacity-80;
+      @apply text-sm font-normal text-gray-700 opacity-80 dark:text-gray-300;
     }
   }
   [data-module-lesson-list-header] {
-    @apply relative z-50 block w-full flex-shrink-0 border-r border-gray-800 lg:hidden lg:max-w-[280px] xl:max-w-xs;
+    @apply relative z-50 block w-full flex-shrink-0 border-r border-gray-200 dark:border-gray-800 lg:hidden lg:max-w-[280px] xl:max-w-xs;
   }
 }
 [data-module-lesson-list] {

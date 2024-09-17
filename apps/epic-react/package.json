@@ -126,6 +126,7 @@
     "react-markdown": "^8.0.6",
     "react-rewards": "^2.0.4",
     "react-scroll": "^1.8.6",
+    "react-sparkle": "^2.0.0",
     "react-use": "^17.4.0",
     "react-use-clipboard": "^1.0.7",
     "react-wrap-balancer": "^0.2.4",

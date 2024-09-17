@@ -1,17 +1,15 @@
 import type {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import {getToken} from 'next-auth/jwt'
-import {motion, useReducedMotion} from 'framer-motion'
-import {InView} from 'react-intersection-observer'
-
+import {Companies} from '@/components/landing/companies'
+import FiveStarsRatingImage from '../../public/assets/five-stars@2x.png'
+import {useReducedMotion} from 'framer-motion'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {getAllActiveProducts} from '@/lib/products'
 import Layout from '@/components/app/layout'
 import LandingCopy from '@/components/landing-copy-v2.mdx'
-import Divider from '@/components/divider'
 import PricingSection from '@/components/pricing-section'
-
 import {VersionTwoCta} from '@/components/version-two-cta'
 import * as React from 'react'
 import {getAllWorkshops, type Workshop} from '@/lib/workshops'
@@ -21,8 +19,7 @@ import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import groq from 'groq'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
 import {ModulesListWithDescriptions} from '@/components/landing/modules-list'
-
-const DEFAULT_PRODUCT_ID = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
+import Sparkle from 'react-sparkle'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -35,7 +32,11 @@ export const getServerSideProps: GetServerSideProps = async ({
     groq`*[_type == 'pricing' && active == true][0]`,
   )
 
-  const allowPurchase = pricingActive || query?.allowPurchase === 'true'
+  const allowPurchase =
+    pricingActive ||
+    query?.allowPurchase === 'true' ||
+    query?.coupon ||
+    query?.code
   const products = await getAllActiveProducts(!allowPurchase)
 
   const {props: commerceProps} = await propsForCommerce({
@@ -76,13 +77,25 @@ const Home: React.FC<{
     <Layout>
       <main>
         <section className="sm:pt-26 relative flex w-full flex-col items-center justify-center overflow-hidden bg-gray-900 pt-16">
-          <div className="mb-8 flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F2BA24] to-[#FFA721] text-xs font-bold uppercase text-[#442D00]">
-            <span className="flex items-center justify-center border-r border-black/10 bg-white/10 px-3 py-1.5 pr-2">
-              new
-            </span>
-            <span className="flex items-center justify-center px-3 py-1.5 pl-2">
-              updated for react 19
-            </span>
+          <div className="relative mb-8 flex items-center justify-center rounded-full">
+            <div className="flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F2BA24] to-[#FFA721] text-xs font-bold uppercase text-[#442D00]">
+              <span className="flex items-center justify-center border-r border-black/10 bg-white/10 px-3 py-1.5 pr-2">
+                new
+              </span>
+              <span className="flex items-center justify-center px-3 py-1.5 pl-2">
+                updated for react 19
+              </span>
+            </div>
+            {!shouldReduceMotion && (
+              <Sparkle
+                flickerSpeed="slowest"
+                count={10}
+                color="rgb(253, 224, 71)"
+                flicker={false}
+                fadeOutSpeed={20}
+                overflowPx={15}
+              />
+            )}
           </div>
           <h1 className="text-balance px-5 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:leading-tight md:max-w-3xl md:text-4xl lg:text-5xl">
             Get Extremely Good at React Quickly and Efficiently
@@ -94,6 +107,7 @@ const Home: React.FC<{
             </span>
             <span className="inline-flex items-center">
               <Image
+                priority
                 src={require('../../public/kent-c-dodds.png')}
                 alt=""
                 aria-hidden="true"
@@ -107,7 +121,8 @@ const Home: React.FC<{
           <div className="mt-14 grid w-full max-w-xl scale-75 grid-cols-2 items-start justify-center gap-5 sm:scale-100 sm:gap-16">
             <div className="flex flex-col items-center justify-center gap-3 text-center">
               <Image
-                src={require('../../public/assets/five-stars@2x.png')}
+                priority
+                src={FiveStarsRatingImage}
                 alt="5 out of 5 stars"
                 width={104}
               />
@@ -118,7 +133,8 @@ const Home: React.FC<{
             </div>
             <div className="flex flex-col items-center justify-center gap-3 text-center">
               <Image
-                src={require('../../public/assets/five-stars@2x.png')}
+                priority
+                src={FiveStarsRatingImage}
                 alt="5 out of 5 stars"
                 width={104}
               />
@@ -159,14 +175,15 @@ const Home: React.FC<{
             <>
               <div className="py-8 lg:py-16">
                 <div className="mx-auto w-full max-w-screen-lg px-5 text-center">
-                  <h1 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
+                  <h2 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
                     Join over 7,000 Developers and Get Extremely Good At React
-                  </h1>
+                  </h2>
                   <p className="mx-auto mt-5 max-w-4xl text-xl text-react sm:text-2xl">
                     The beautiful thing about learning is that nobody can take
                     it away from you.
                   </p>
                 </div>
+                <Companies />
                 <div className="mt-16 lg:mt-32">
                   <PricingSection
                     commerceProps={commerceProps}

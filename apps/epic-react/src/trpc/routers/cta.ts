@@ -315,7 +315,7 @@ export const ctaRouter = router({
             console.error('Error parsing active promotion')
             console.error(activePromotion.error)
           } else {
-            CURRENT_ACTIVE_PROMOTION = pricing.active
+            CURRENT_ACTIVE_PROMOTION = pricing?.active
               ? activePromotion.data
               : null
           }

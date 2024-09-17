@@ -5,6 +5,7 @@ import type {
   SanityProductModule,
 } from '@skillrecordings/commerce-server/dist/@types'
 import {PricingTiers} from '@skillrecordings/skill-lesson/path-to-purchase/product-tiers'
+import SaleCountdown from '@skillrecordings/skill-lesson/path-to-purchase/sale-countdown'
 
 const removeModuleBySlug = (
   products: any[],
@@ -45,7 +46,6 @@ const PricingSection: React.FC<{
   ).filter(({state}) => state !== 'unavailable')
 
   const productsWithOptions = filteredProducts.map((product) => {
-    console.log({product})
     return {
       ...product,
       options: {
@@ -53,6 +53,15 @@ const PricingSection: React.FC<{
           'allowTeamPurchase' in product
             ? Boolean(product.allowTeamPurchase)
             : true,
+        saleCountdownRenderer: (props: any) => {
+          return (
+            <SaleCountdown
+              data-pricing-product-sale-countdown=""
+              size="lg"
+              {...props}
+            />
+          )
+        },
       },
     }
   })
