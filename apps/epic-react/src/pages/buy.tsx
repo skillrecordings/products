@@ -32,7 +32,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     groq`*[_type == 'pricing' && active == true][0]`,
   )
 
-  const allowPurchase = pricingActive || query?.allowPurchase === 'true'
+  const allowPurchase =
+    pricingActive ||
+    query?.allowPurchase === 'true' ||
+    query?.coupon ||
+    query?.code
+
   const products = await getAllActiveProducts(!allowPurchase)
 
   const {props: commerceProps} = await propsForCommerce({

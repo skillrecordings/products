@@ -63,6 +63,13 @@ export const PricingTiers: React.FC<
                 purchased={purchasedProductIds.includes(product.productId)}
                 index={i}
                 couponId={couponId}
+                couponFromCode={
+                  couponFromCode &&
+                  (!couponFromCode.restrictedToProductId ||
+                    couponFromCode.restrictedToProductId === product.productId)
+                    ? couponFromCode
+                    : undefined
+                }
                 allowPurchase={allowPurchase}
                 options={options}
               />
