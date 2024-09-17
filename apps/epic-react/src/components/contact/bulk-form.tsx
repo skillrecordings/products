@@ -9,7 +9,7 @@ import {
 import {Form, Formik} from 'formik'
 import {OptionalTextField, SeatSelectionField} from '@/feedback-widget/fields'
 import ContactEmailField from './contact-email-field'
-import {useFeedbackForm} from '../feedback-widget/use-feedback-form'
+import {useFeedbackForm} from '@/feedback-widget/use-feedback-form'
 import {useSession} from 'next-auth/react'
 
 export const ContactValidationSchema = Yup.object().shape({
