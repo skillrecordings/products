@@ -200,6 +200,9 @@ const AccountDropdown = () => {
                 </li>
               )}
               <li className="w-full">
+                <DropdownLink href="/contact">Contact Us</DropdownLink>
+              </li>
+              <li className="w-full">
                 <LogOutButton />
               </li>
             </ul>
