@@ -114,6 +114,7 @@
     "nodemailer-postmark-transport": "^5.2.1",
     "openai": "^4.12.1",
     "pluralize": "^8.0.0",
+    "postmark": "^3.1.1",
     "prism-react-renderer": "^2.3.1",
     "prismjs": "^1.29.0",
     "query-string": "^7.1.1",
