@@ -1,6 +1,7 @@
 import type {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import {getToken} from 'next-auth/jwt'
+import {Companies} from '@/components/landing/companies'
 import FiveStarsRatingImage from '../../public/assets/five-stars@2x.png'
 import {useReducedMotion} from 'framer-motion'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
@@ -157,14 +158,15 @@ const Home: React.FC<{
             <>
               <div className="py-8 lg:py-16">
                 <div className="mx-auto w-full max-w-screen-lg px-5 text-center">
-                  <h1 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
+                  <h2 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
                     Join over 7,000 Developers and Get Extremely Good At React
-                  </h1>
+                  </h2>
                   <p className="mx-auto mt-5 max-w-4xl text-xl text-react sm:text-2xl">
                     The beautiful thing about learning is that nobody can take
                     it away from you.
                   </p>
                 </div>
+                <Companies />
                 <div className="mt-16 lg:mt-32">
                   <PricingSection
                     commerceProps={commerceProps}
