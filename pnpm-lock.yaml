@@ -1589,6 +1589,9 @@ importers:
       react-scroll:
         specifier: ^1.8.6
         version: 1.9.0(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
+      react-sparkle:
+        specifier: ^2.0.0
+        version: 2.0.0(react@18.3.0-canary-a870b2d54-20240314)
       react-use:
         specifier: ^17.4.0
         version: 17.5.0(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
@@ -1619,6 +1622,9 @@ importers:
       singleline:
         specifier: ^2.0.0
         version: 2.0.0
+      starfield-react:
+        specifier: 3.1.0-dev-5
+        version: 3.1.0-dev-5(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
       styled-components:
         specifier: 6.1.12
         version: 6.1.12(react-dom@18.3.0-canary-a870b2d54-20240314)(react@18.3.0-canary-a870b2d54-20240314)
@@ -1637,6 +1643,9 @@ importers:
       tailwindcss-radix:
         specifier: ^2.8.0
         version: 2.8.0
+      uglify-js:
+        specifier: ^3.19.3
+        version: 3.19.3
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
@@ -1781,7 +1790,7 @@ importers:
         version: 5.5.4
       webpack:
         specifier: ^5.73.0
-        version: 5.90.0(esbuild@0.21.5)
+        version: 5.90.0(esbuild@0.21.5)(uglify-js@3.19.3)
 
   apps/epic-web:
     dependencies:
@@ -39936,6 +39945,32 @@ packages:
       ansi-escapes: 4.3.2
       supports-hyperlinks: 2.3.0
 
+  /terser-webpack-plugin@5.3.10(esbuild@0.21.5)(uglify-js@3.19.3)(webpack@5.90.0):
+    resolution: {integrity: sha512-BKFPWlPDndPs+NGGCr1U59t0XScL5317Y0UReNrHaw9/FwhPENlq6bfgs+4yPfyP51vqC1bQ4rp1EfXW5ZSH9w==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      '@swc/core': '*'
+      esbuild: '*'
+      uglify-js: '*'
+      webpack: ^5.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      esbuild:
+        optional: true
+      uglify-js:
+        optional: true
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.22
+      esbuild: 0.21.5
+      jest-worker: 27.5.1
+      schema-utils: 3.3.0
+      serialize-javascript: 6.0.2
+      terser: 5.27.0
+      uglify-js: 3.19.3
+      webpack: 5.90.0(esbuild@0.21.5)(uglify-js@3.19.3)
+    dev: true
+
   /terser-webpack-plugin@5.3.10(esbuild@0.21.5)(webpack@5.90.0):
     resolution: {integrity: sha512-BKFPWlPDndPs+NGGCr1U59t0XScL5317Y0UReNrHaw9/FwhPENlq6bfgs+4yPfyP51vqC1bQ4rp1EfXW5ZSH9w==}
     engines: {node: '>= 10.13.0'}
@@ -41258,7 +41293,6 @@ packages:
     resolution: {integrity: sha512-v3Xu+yuwBXisp6QYTcH4UbH+xYJXqnq2m/LtQVWKWzYc1iehYnLixoQDN9FH6/j9/oybfd6W9Ghwkl8+UMKTKQ==}
     engines: {node: '>=0.8.0'}
     hasBin: true
-    dev: false
 
   /unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
@@ -42244,6 +42278,46 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
+
+  /webpack@5.90.0(esbuild@0.21.5)(uglify-js@3.19.3):
+    resolution: {integrity: sha512-bdmyXRCXeeNIePv6R6tGPyy20aUobw4Zy8r0LUS2EWO+U+Ke/gYDgsCh7bl5rB6jPpr4r0SZa6dPxBxLooDT3w==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    peerDependencies:
+      webpack-cli: '*'
+    peerDependenciesMeta:
+      webpack-cli:
+        optional: true
+    dependencies:
+      '@types/eslint-scope': 3.7.7
+      '@types/estree': 1.0.5
+      '@webassemblyjs/ast': 1.11.6
+      '@webassemblyjs/wasm-edit': 1.11.6
+      '@webassemblyjs/wasm-parser': 1.11.6
+      acorn: 8.11.3
+      acorn-import-assertions: 1.9.0(acorn@8.11.3)
+      browserslist: 4.22.3
+      chrome-trace-event: 1.0.3
+      enhanced-resolve: 5.15.0
+      es-module-lexer: 1.4.1
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.3.0
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.10(esbuild@0.21.5)(uglify-js@3.19.3)(webpack@5.90.0)
+      watchpack: 2.4.0
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+    dev: true
 
   /whatwg-encoding@1.0.5:
     resolution: {integrity: sha512-b5lim54JOPN9HtzvK9HFXvBma/rnfFeqsic0hSpjtDbVxR3dJKLc+KB4V6GgiGOvl7CY/KNh8rxSo9DKQrnUEw==}

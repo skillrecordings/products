@@ -3,7 +3,14 @@ import Layout from '@/components/app/layout'
 
 export default function Discord() {
   return (
-    <Layout>
+    <Layout
+      meta={{
+        title: 'Join Discord',
+        ogImage: {
+          url: 'https://res.cloudinary.com/epic-web/image/upload/v1726500778/epic-react-discord-card_2x.jpg',
+        },
+      }}
+    >
       <div className="container">
         <div
           className="absolute left-0 top-0 mx-auto flex min-h-screen w-screen max-w-full flex-col justify-center px-5 text-text sm:px-6 lg:px-8"

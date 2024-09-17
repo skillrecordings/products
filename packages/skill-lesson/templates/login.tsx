@@ -148,6 +148,11 @@ const LoginTemplate: React.FC<React.PropsWithChildren<LoginTemplateProps>> = ({
             Log in with {discordProvider.name}
           </Button>
         ) : null}
+
+        <p className="pt-3 text-xs">
+          Please note that if your Github or Discord use a different email
+          address it might not match the one you used to sign up.
+        </p>
       </div>
     </main>
   )

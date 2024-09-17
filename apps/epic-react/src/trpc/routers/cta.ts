@@ -8,7 +8,7 @@ import {
 } from '@skillrecordings/commerce-server'
 import {getSdk, prisma} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
-import {ProductSchema, getProduct} from '@/lib/products'
+import {ProductSchema, getProduct, getPricing} from '@/lib/products'
 import {subDays} from 'date-fns'
 
 const ActivePromotionSchema = z.object({
@@ -21,7 +21,7 @@ const ActivePromotionSchema = z.object({
   merchantCouponId: z.string().nullable(),
   status: z.number(),
   usedCount: z.number(),
-  percentageDiscount: z.string().or(z.number()),
+  percentageDiscount: z.string().or(z.coerce.number()),
   restrictedToProductId: z.string().nullable(),
   bulkPurchaseId: z.string().nullable(),
   product: ProductSchema.nullable(),
@@ -152,6 +152,13 @@ export const ctaRouter = router({
       if (!contributor) {
         // console.debug('No contributor found')
       }
+
+      const pricing = z
+        .object({
+          active: z.boolean(),
+        })
+        .nullable()
+        .parse(await getPricing())
 
       const selfPacedProducts =
         await sanityClient.fetch(groq`*[_type == 'product' && type == 'self-paced' && state == 'active'] | order(_createdAt desc) {
@@ -296,7 +303,8 @@ export const ctaRouter = router({
 
         if (!hasPurchasedProductFromDefaultCoupon) {
           const product = await getProduct(
-            defaultCoupon.restrictedToProductId as string,
+            (defaultCoupon.restrictedToProductId as string) ||
+              `kcd_product-clzlrf0g5000008jm0czdanmz`,
           )
           const activePromotion = ActivePromotionSchema.safeParse({
             ...defaultCoupon,
@@ -307,7 +315,9 @@ export const ctaRouter = router({
             console.error('Error parsing active promotion')
             console.error(activePromotion.error)
           } else {
-            CURRENT_ACTIVE_PROMOTION = activePromotion.data
+            CURRENT_ACTIVE_PROMOTION = pricing?.active
+              ? activePromotion.data
+              : null
           }
         }
       }

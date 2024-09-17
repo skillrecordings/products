@@ -25,5 +25,9 @@ declare namespace NodeJS {
     CASTINGWORDS_API_TOKEN: string
     SANITY_WEBHOOK_SECRET: string
     INNGEST_APP_NAME: string
+    GITHUB_SECRET: string
+    GITHUB_ID: string
+    DISCORD_CLIENT_ID: string
+    DISCORD_CLIENT_SECRET: string
   }
 }

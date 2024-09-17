@@ -33,8 +33,7 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx}": [
-      "pnpm run format",
-      "pnpm run lint"
+      "prettier --write --list-different"
     ]
   },
   "prettier": {

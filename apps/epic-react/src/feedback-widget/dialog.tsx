@@ -26,11 +26,11 @@ const DialogComp: React.FC<React.PropsWithChildren<DialogProps>> = ({
             : undefined
         }
       >
-        <Dialog.Overlay className="bg-black/40 fixed inset-0 z-40 backdrop-blur" />
+        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/40 backdrop-blur" />
         <Dialog.Content
           // onPointerDownOutside={handleCloseDialog}
           onEscapeKeyDown={handleCloseDialog}
-          className="fixed left-1/2 top-1/2 z-50 max-h-[85vh] w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border bg-card p-5 shadow-2xl shadow-black/50"
+          className="fixed left-1/2 top-1/2 z-50 max-h-screen w-full max-w-lg -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg border bg-card p-5 shadow-2xl shadow-black/50 sm:max-h-[85vh]"
         >
           <CloseButton
             ref={closeButtonRef}

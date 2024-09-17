@@ -8,6 +8,8 @@ export const ProductSchema = z.object({
   _updatedAt: z.string(),
   _createdAt: z.string(),
   title: z.string(),
+  allowTeamPurchase: z.boolean().default(true),
+  sortOrder: z.number().default(-1),
   description: z.string().nullable().optional(),
   slug: z.string(),
   image: z
@@ -46,6 +48,7 @@ export async function getProduct(productId: string): Promise<Product | null> {
         description,
         action,
         type,
+        allowTeamPurchase,
         "image": image.asset->{url, alt},
         state,
         "slug": slug.current,
@@ -71,6 +74,7 @@ export const getProductBySlug = async (productSlug: string) => {
   productId,
   description,
   state,
+  allowTeamPurchase,
   type,
   title,
   body,
@@ -144,6 +148,7 @@ export const getAllActiveProducts = async (activeOnly: boolean = true) => {
     description,
     productId,
     state,
+    allowTeamPurchase,
     "slug": slug.current,
     _id,
     image {
@@ -175,6 +180,7 @@ export const getAllProducts = async () => {
     description,
     productId,
     state,
+    allowTeamPurchase,
     "slug": slug.current,
     _id,
     image {
@@ -198,12 +204,13 @@ export const getAllProducts = async () => {
   return products
 }
 
-export const getPricing = async (slug: string = 'primary') => {
+export const getPricing = async (slug: string = 'epic-react-v2') => {
   const pricing = await sanityClient.fetch(
     groq`*[_type == 'pricing' && slug.current == $slug][0]{
     _id,
     title,
     subtitle,
+    active,
     slug,
     "products": products[]->{
       _id,
@@ -211,6 +218,7 @@ export const getPricing = async (slug: string = 'primary') => {
       description,
       productId,
       state,
+      allowTeamPurchase,
       "slug": slug.current,
       _id,
       image {

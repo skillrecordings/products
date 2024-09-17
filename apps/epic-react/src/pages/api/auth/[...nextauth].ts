@@ -1,6 +1,8 @@
 import NextAuth, {NextAuthOptions, Theme, type CookiesOptions} from 'next-auth'
 import {createOptions} from '@skillrecordings/skill-api'
 import {NextApiRequest, NextApiResponse} from 'next'
+import Github from 'next-auth/providers/github'
+import Discord from 'next-auth/providers/discord'
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL
 
@@ -38,9 +40,25 @@ const cookies: Partial<CookiesOptions> = {
   },
 }
 
+const providers = [
+  Github({
+    clientId: process.env.GITHUB_ID,
+    clientSecret: process.env.GITHUB_SECRET,
+    allowDangerousEmailAccountLinking: true,
+  }),
+  Discord({
+    clientId: process.env.DISCORD_CLIENT_ID,
+    clientSecret: process.env.DISCORD_CLIENT_SECRET,
+    allowDangerousEmailAccountLinking: true,
+    authorization:
+      'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds.join+guilds',
+  }),
+]
+
 export const nextAuthOptions: NextAuthOptions = createOptions({
   theme: productTheme,
   cookies,
+  providers,
 })
 
 export default async function NextAuthEndpoint(
@@ -56,6 +74,7 @@ export default async function NextAuthEndpoint(
       skillCookieDomain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
       theme: productTheme,
       cookies,
+      providers,
     }),
   )
 }

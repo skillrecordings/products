@@ -99,14 +99,39 @@ export const ModuleTemplate: React.FC<{
             {moduleBodySerialized && <MDX contents={moduleBodySerialized} />}
           </article>
         </div>
-        <aside data-workshop="" className="w-full lg:max-w-sm">
-          {product && ALLOW_PURCHASE && !canView ? (
+        <aside data-workshop="" className="relative h-full w-full lg:max-w-sm">
+          {ALLOW_PURCHASE && (
             <>
-              <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-                <WorkshopPricingWidget product={product} />
-              </PriceCheckProvider>
+              {abilityRulesStatus === 'loading' ? (
+                <>
+                  <Skeleton className="mb-5 flex h-full w-full flex-col items-center gap-3 rounded-lg border bg-transparent p-5">
+                    <Skeleton className="mb-5 flex h-5 w-1/2 rounded-md border bg-foreground/5 delay-75" />
+                    <Skeleton className="flex h-10 w-2/3 rounded-md border bg-foreground/5 delay-75" />
+                    <Skeleton className="flex h-8 w-full rounded-md bg-transparent delay-75" />
+                    <Skeleton className="flex h-14 w-full rounded-md border bg-foreground/5 delay-75" />
+                    <Skeleton className="flex h-10 w-full rounded-md border bg-foreground/5 delay-75" />
+                    <Skeleton className="flex h-8 w-full rounded-md bg-transparent delay-75" />
+                    <Skeleton className="flex h-10 w-full rounded-md border bg-foreground/5 delay-75" />
+                    <Skeleton className="flex h-10 w-full rounded-md border bg-foreground/5 delay-75" />
+                    <Skeleton className="flex h-10 w-full rounded-md border bg-foreground/5 delay-75" />
+                    <Skeleton className="flex h-10 w-full rounded-md border bg-foreground/5 delay-75" />
+                  </Skeleton>
+                </>
+              ) : (
+                <>
+                  {product && !canView ? (
+                    <>
+                      <PriceCheckProvider
+                        purchasedProductIds={purchasedProductIds}
+                      >
+                        <WorkshopPricingWidget product={product} />
+                      </PriceCheckProvider>
+                    </>
+                  ) : null}
+                </>
+              )}
             </>
-          ) : null}
+          )}
           {module && (
             <Collection.Root
               module={module}
@@ -127,7 +152,7 @@ export const ModuleTemplate: React.FC<{
                     </Collection.Lessons>
                   </Collection.Section>
                 ) : (
-                  <Skeleton className="border bg-background py-6" />
+                  <Skeleton className="rounded-none border bg-foreground/5 py-6" />
                 )}
               </Collection.Sections>
               {/* Used if module has either none or single section so they can be styled differently */}
@@ -135,7 +160,7 @@ export const ModuleTemplate: React.FC<{
                 {moduleProgressStatus === 'success' ? (
                   <Collection.Lesson className="group opacity-80 transition before:pl-9 before:text-primary hover:bg-er-gray-300 hover:opacity-100 dark:opacity-90 dark:before:text-teal-300 dark:hover:opacity-100 [&>[data-check-icon]]:text-red-500 [&>div>svg]:text-primary [&>div>svg]:opacity-100 dark:[&>div>svg]:text-teal-300" />
                 ) : (
-                  <Skeleton className="my-2 border bg-background py-5" />
+                  <Skeleton className="my-2 rounded-none border bg-foreground/5 py-5" />
                 )}
               </Collection.Lessons>
             </Collection.Root>
@@ -191,7 +216,7 @@ const Header: React.FC<{module: Module; canView?: boolean}> = ({
         <div className="w-full text-center md:text-left">
           <Link
             href="/workshops"
-            className="dark:text-blue-400s inline-block pb-4 text-xs font-semibold uppercase tracking-wide text-blue-500"
+            className="inline-block pb-4 text-xs font-semibold uppercase tracking-wide text-blue-500 dark:text-blue-400"
           >
             Pro Workshop
           </Link>

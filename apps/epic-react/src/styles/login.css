@@ -21,6 +21,15 @@
       @apply mt-6 w-full rounded-lg bg-blue-500 px-5 py-3 font-semibold text-white shadow-sm transition duration-150 ease-in-out hover:bg-blue-700;
     }
   }
+  [data-separator] {
+    @apply py-3 text-center text-sm opacity-60;
+  }
+  [data-providers-container] {
+    @apply w-full space-y-2;
+    [data-button] {
+      @apply w-full gap-2;
+    }
+  }
 }
 
 [data-check-your-email] {

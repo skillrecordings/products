@@ -6,7 +6,7 @@ import {Form, Formik} from 'formik'
 import ContactEmailField from './contact-email-field'
 
 import {useSession} from 'next-auth/react'
-import type {FeedbackFormValues} from '../feedback-widget/form'
+import type {FeedbackFormValues} from '@/feedback-widget/form'
 import {useFeedbackForm} from '@/feedback-widget/use-feedback-form'
 import {
   CategoryField,

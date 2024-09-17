@@ -179,7 +179,10 @@ const Navigation: React.FC<NavigationProps> = ({
         className={cn(
           'z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md transition dark:bg-background/90 dark:shadow-xl dark:shadow-black/20 print:hidden',
           navigationContainerClassName,
-          {'fixed left-0 top-0': isNavigationFixed},
+          {
+            'fixed left-0 top-0': isNavigationFixed,
+            relative: !isNavigationFixed,
+          },
         )}
         style={{
           translateY: isShowingSiteBanner
@@ -296,7 +299,7 @@ const Navigation: React.FC<NavigationProps> = ({
                   type: 'spring',
                   duration: 0.5,
                 }}
-                className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-border bg-background px-2 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-black/90 dark:shadow-black/60 md:hidden"
+                className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-border bg-background px-2 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-gray-950 dark:shadow-black/60 md:hidden"
               >
                 {navigationLinks.map(({label, href}) => {
                   return (
@@ -762,7 +765,7 @@ export const productOnSalePathBuilder = (product: {
   if (product.type === 'live') {
     return `/events/${product.slug}`
   } else if (product.modules && product.modules.length > 1) {
-    return `/products/${product.slug}`
+    return '/#buy' // `/products/${product.slug}`
   } else {
     return `/workshops/${product?.modules?.[0]?.slug?.current}`
   }
