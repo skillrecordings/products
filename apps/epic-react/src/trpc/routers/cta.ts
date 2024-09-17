@@ -160,8 +160,6 @@ export const ctaRouter = router({
         .nullable()
         .parse(await getPricing())
 
-      console.log({pricing})
-
       const selfPacedProducts =
         await sanityClient.fetch(groq`*[_type == 'product' && type == 'self-paced' && state == 'active'] | order(_createdAt desc) {
             _id,
@@ -313,7 +311,6 @@ export const ctaRouter = router({
             product,
           })
 
-          console.log({pricing})
           if (!activePromotion.success) {
             console.error('Error parsing active promotion')
             console.error(activePromotion.error)
@@ -361,12 +358,6 @@ export const ctaRouter = router({
           }
         }
       }
-
-      console.log({
-        CURRENT_ACTIVE_LIVE_EVENT,
-        CURRENT_ACTIVE_PROMOTION,
-        HAS_PRODUCT,
-      })
 
       return {
         CURRENT_ACTIVE_LIVE_EVENT,
