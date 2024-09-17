@@ -4,6 +4,8 @@ import {stripeCheckoutCompleted} from '@/inngest/functions/stripe/checkout-compl
 import {sanityProductFunctions} from '@/inngest/functions/sanity/product'
 import {stripeWebhookReceived} from '@/inngest/functions/stripe/webhook-received'
 import {convertkitWebhookHandler} from '@/inngest/functions/create-custom-coupon'
+import {writeAnEmail} from '@/inngest/functions/ai-email/write-an-email'
+import {lessonCompleted} from '@/inngest/functions/progress/lesson-completed'
 
 export const inngestConfig = {
   client: inngest,
@@ -12,6 +14,8 @@ export const inngestConfig = {
     stripeWebhookReceived,
     purchaseTransferComplete,
     convertkitWebhookHandler,
+    writeAnEmail,
+    lessonCompleted,
     ...sanityProductFunctions,
   ],
 }
