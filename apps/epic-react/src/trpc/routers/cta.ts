@@ -8,7 +8,7 @@ import {
 } from '@skillrecordings/commerce-server'
 import {getSdk, prisma} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
-import {ProductSchema, getProduct} from '@/lib/products'
+import {ProductSchema, getProduct, getPricing} from '@/lib/products'
 import {subDays} from 'date-fns'
 
 const ActivePromotionSchema = z.object({
@@ -153,6 +153,15 @@ export const ctaRouter = router({
         // console.debug('No contributor found')
       }
 
+      const pricing = z
+        .object({
+          active: z.boolean(),
+        })
+        .nullable()
+        .parse(await getPricing())
+
+      console.log({pricing})
+
       const selfPacedProducts =
         await sanityClient.fetch(groq`*[_type == 'product' && type == 'self-paced' && state == 'active'] | order(_createdAt desc) {
             _id,
@@ -296,18 +305,22 @@ export const ctaRouter = router({
 
         if (!hasPurchasedProductFromDefaultCoupon) {
           const product = await getProduct(
-            defaultCoupon.restrictedToProductId as string,
+            (defaultCoupon.restrictedToProductId as string) ||
+              `kcd_product-clzlrf0g5000008jm0czdanmz`,
           )
           const activePromotion = ActivePromotionSchema.safeParse({
             ...defaultCoupon,
             product,
           })
 
+          console.log({pricing})
           if (!activePromotion.success) {
             console.error('Error parsing active promotion')
             console.error(activePromotion.error)
           } else {
-            CURRENT_ACTIVE_PROMOTION = activePromotion.data
+            CURRENT_ACTIVE_PROMOTION = pricing.active
+              ? activePromotion.data
+              : null
           }
         }
       }
@@ -348,6 +361,12 @@ export const ctaRouter = router({
           }
         }
       }
+
+      console.log({
+        CURRENT_ACTIVE_LIVE_EVENT,
+        CURRENT_ACTIVE_PROMOTION,
+        HAS_PRODUCT,
+      })
 
       return {
         CURRENT_ACTIVE_LIVE_EVENT,

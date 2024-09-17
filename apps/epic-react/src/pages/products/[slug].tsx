@@ -36,7 +36,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   })
 
   if (!token?.sub) {
-    return {props: {...commerceProps.props, product}}
+    // return {props: {...commerceProps.props, product}}
+    return {
+      redirect: {
+        destination: `/buy`,
+        permanent: false,
+      },
+    }
   }
 
   const purchaseForProduct = commerceProps.props.purchases?.find(
@@ -53,6 +59,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     purchaseForProduct.id,
     token.sub,
   )
+
+  if (!purchase) {
+    return {
+      redirect: {
+        destination: `/buy`,
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: {
