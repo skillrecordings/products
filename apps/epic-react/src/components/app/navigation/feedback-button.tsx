@@ -12,7 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@skillrecordings/ui'
-import {useFeedback} from '@/components/feedback-widget/feedback-context'
+import {useFeedback} from '@/feedback-widget/feedback-context'
 
 const FeedbackButton = ({handlerCloseMenu}: {handlerCloseMenu: () => void}) => {
   const {setIsFeedbackDialogOpen} = useFeedback()
