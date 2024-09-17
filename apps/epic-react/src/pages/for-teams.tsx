@@ -2,7 +2,7 @@ import Layout from '@/components/app/layout'
 import React from 'react'
 import BulkForm from '@/components/contact/bulk-form'
 import ForTeams from '@/components/for-teams-copy.mdx'
-import {Companies} from '@/components/companies'
+import {Companies} from '@/components/landing/companies'
 
 const ForTeamsPage = () => {
   return (
