@@ -137,32 +137,34 @@ export function defaultNextAuthOptions(options: {
           const dbProducts =
             user?.purchases.map((purchase) => purchase.product) || []
 
-          // const parsedModules = z
-          //   .object({
-          //     free: z.array(z.string()).default([]),
-          //     paid: z.array(z.string()).default([]),
-          //   })
-          //   .safeParse(
-          //     await sanityClient.fetch(
-          //       `{
-          //     "free": *[_type == 'module' && moduleType == 'tutorial']slug.current,
-          //     "paid": array::unique(*[_type == 'product' && productId in $productIds].modules[]->slug.current)
-          //   }`,
-          //       {
-          //         productIds: dbProducts.map((product) => product.id),
-          //       },
-          //     ),
-          //   )
-          //
-          // if (res && parsedModules.success) {
-          //   const {free, paid} = parsedModules.data
-          //   res.setHeader(
-          //     'Set-Cookie',
-          //     `skill=${[...free, ...paid].join(',')}; Path=/; SameSite=Lax ${
-          //       skillCookieDomain ? `; Domain=${skillCookieDomain}` : ''
-          //     }`,
-          //   )
-          // }
+          console.log(dbProducts.map((product) => product.id))
+
+          const parsedModules = z
+            .object({
+              free: z.array(z.string()).default([]),
+              paid: z.array(z.string()).default([]),
+            })
+            .safeParse(
+              await sanityClient.fetch(
+                `{
+              "free": *[_type == 'module' && moduleType == 'tutorial'].slug.current,
+              "paid": array::unique(*[_type == 'product' && productId in $productIds].modules[]->slug.current)
+            }`,
+                {
+                  productIds: dbProducts.map((product) => product.id),
+                },
+              ),
+            )
+
+          if (res && parsedModules.success) {
+            const {free, paid} = parsedModules.data
+            res.setHeader(
+              'Set-Cookie',
+              `skill=${[...free, ...paid].join(',')}; Path=/; SameSite=Lax ${
+                skillCookieDomain ? `; Domain=${skillCookieDomain}` : ''
+              }`,
+            )
+          }
 
           if (user && session.user) {
             const {roles, purchases} = user
