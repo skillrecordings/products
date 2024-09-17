@@ -1,17 +1,14 @@
 import type {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import {getToken} from 'next-auth/jwt'
-import {motion, useReducedMotion} from 'framer-motion'
-import {InView} from 'react-intersection-observer'
-
+import FiveStarsRatingImage from '../../public/assets/five-stars@2x.png'
+import {useReducedMotion} from 'framer-motion'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {propsForCommerce} from '@skillrecordings/commerce-server'
 import {getAllActiveProducts} from '@/lib/products'
 import Layout from '@/components/app/layout'
 import LandingCopy from '@/components/landing-copy-v2.mdx'
-import Divider from '@/components/divider'
 import PricingSection from '@/components/pricing-section'
-
 import {VersionTwoCta} from '@/components/version-two-cta'
 import * as React from 'react'
 import {getAllWorkshops, type Workshop} from '@/lib/workshops'
@@ -21,8 +18,6 @@ import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import groq from 'groq'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
 import {ModulesListWithDescriptions} from '@/components/landing/modules-list'
-
-const DEFAULT_PRODUCT_ID = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -98,6 +93,7 @@ const Home: React.FC<{
             </span>
             <span className="inline-flex items-center">
               <Image
+                priority
                 src={require('../../public/kent-c-dodds.png')}
                 alt=""
                 aria-hidden="true"
@@ -111,7 +107,8 @@ const Home: React.FC<{
           <div className="mt-14 grid w-full max-w-xl scale-75 grid-cols-2 items-start justify-center gap-5 sm:scale-100 sm:gap-16">
             <div className="flex flex-col items-center justify-center gap-3 text-center">
               <Image
-                src={require('../../public/assets/five-stars@2x.png')}
+                priority
+                src={FiveStarsRatingImage}
                 alt="5 out of 5 stars"
                 width={104}
               />
@@ -122,7 +119,8 @@ const Home: React.FC<{
             </div>
             <div className="flex flex-col items-center justify-center gap-3 text-center">
               <Image
-                src={require('../../public/assets/five-stars@2x.png')}
+                priority
+                src={FiveStarsRatingImage}
                 alt="5 out of 5 stars"
                 width={104}
               />
