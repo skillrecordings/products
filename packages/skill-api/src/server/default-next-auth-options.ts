@@ -137,6 +137,8 @@ export function defaultNextAuthOptions(options: {
           const dbProducts =
             user?.purchases.map((purchase) => purchase.product) || []
 
+          console.log(dbProducts.map((product) => product.id))
+
           const parsedModules = z
             .object({
               free: z.array(z.string()).default([]),
@@ -145,7 +147,7 @@ export function defaultNextAuthOptions(options: {
             .safeParse(
               await sanityClient.fetch(
                 `{
-              "free": *[_type == 'module' && moduleType == 'tutorial']slug.current
+              "free": *[_type == 'module' && moduleType == 'tutorial'].slug.current,
               "paid": array::unique(*[_type == 'product' && productId in $productIds].modules[]->slug.current)
             }`,
                 {
