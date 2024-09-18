@@ -137,8 +137,6 @@ export function defaultNextAuthOptions(options: {
           const dbProducts =
             user?.purchases.map((purchase) => purchase.product) || []
 
-          console.log(dbProducts.map((product) => product.id))
-
           const parsedModules = z
             .object({
               free: z.array(z.string()).default([]),

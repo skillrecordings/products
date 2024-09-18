@@ -242,6 +242,13 @@ export const writeAnEmail = inngest.createFunction(
               for long strings that need to be a single line but do not escape 
               the newline character. it should NOT be markdown fenced code. just json.
         
+              here's the zod schema for the json:
+              
+              z.object({
+                subject: z.string(),
+                body: z.string(),
+              })
+              
         ${aiBossEditorResponse.choices[0].message.content}`,
             },
           ],

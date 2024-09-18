@@ -240,11 +240,21 @@ export const writeAnEmail = inngest.createFunction(
               the corrected json ready to be parsed. use newline character 
               for long strings that need to be a single line but do not escape 
               the newline character.
+              
+              here's the zod schema for the json:
+              
+              z.object({
+                subject: z.string(),
+                body: z.string(),
+              })
         
         ${aiBossEditorResponse.choices[0].message.content}`,
             },
           ],
           model: 'gpt-4o-2024-08-06',
+          response_format: {
+            type: 'json_object',
+          },
         })
       },
     )
