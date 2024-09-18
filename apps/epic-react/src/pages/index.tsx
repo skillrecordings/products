@@ -83,7 +83,7 @@ const Home: React.FC<{
   return (
     <Layout>
       <main>
-        <section className="sm:pt-26 relative flex w-full flex-col items-center justify-center overflow-hidden bg-gray-900 pt-16">
+        <section className="sm:pt-26 relative flex w-full flex-col items-center justify-center overflow-hidden bg-gray-900 pt-12">
           <div className="relative mb-8 flex items-center justify-center rounded-full">
             <div className="flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F2BA24] to-[#FFA721] text-xs font-bold uppercase text-[#442D00]">
               <span className="flex items-center justify-center border-r border-black/10 bg-white/10 px-3 py-1.5 pr-2">
@@ -107,7 +107,7 @@ const Home: React.FC<{
           <h1 className="text-balance px-5 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:leading-tight md:max-w-3xl md:text-4xl lg:text-5xl">
             Get Extremely Good at React Quickly and Efficiently
           </h1>
-          <h2 className="mt-5 inline-flex flex-wrap items-center justify-center text-balance px-5 text-center text-blue-200 sm:text-xl">
+          <h2 className="mt-5 inline-flex flex-wrap items-center justify-center gap-x-3 text-balance px-5 text-center text-blue-200 sm:text-xl">
             <span>
               Self-Paced Code-First Hands-on React Training for Professional Web
               Developers by{' '}
@@ -120,32 +120,32 @@ const Home: React.FC<{
                 aria-hidden="true"
                 width={40}
                 height={40}
-                className="ml-3 mr-1.5 size-8 rounded-full bg-gray-800 sm:size-10"
+                className="mr-1.5 size-8 rounded-full bg-gray-800 sm:size-10"
               />{' '}
               Kent C. Dodds
             </span>
           </h2>
-          <div className="mt-14 grid w-full max-w-xl scale-75 grid-cols-2 items-start justify-center gap-5 sm:scale-100 sm:gap-16">
-            <div className="flex flex-col items-center justify-center gap-3 text-center">
+          <div className="mt-10 grid w-full scale-[0.8] grid-cols-2 items-start justify-center gap-5 sm:mt-14 sm:max-w-xl sm:scale-100 sm:gap-16">
+            <div className="flex w-full flex-col items-center justify-center gap-3 text-center">
               <Image
                 priority
                 src={FiveStarsRatingImage}
                 alt="5 out of 5 stars"
                 width={104}
               />
-              <p className="italic leading-[1] text-blue-200 sm:text-lg">
+              <p className="text-balance text-sm italic leading-[1.1] text-blue-200 sm:text-lg sm:leading-[1.2]">
                 Epic React is a goldmine, years of experience put into minutes.
                 I'm blown away.
               </p>
             </div>
-            <div className="flex flex-col items-center justify-center gap-3 text-center">
+            <div className="flex w-full flex-col items-center justify-center gap-3 text-center">
               <Image
                 priority
                 src={FiveStarsRatingImage}
                 alt="5 out of 5 stars"
                 width={104}
               />
-              <p className="italic leading-[1] text-blue-200 sm:text-lg">
+              <p className="text-balance text-sm italic leading-[1.1] text-blue-200 sm:text-lg sm:leading-[1.2]">
                 30 minutes in I'm hooked.
               </p>
             </div>
