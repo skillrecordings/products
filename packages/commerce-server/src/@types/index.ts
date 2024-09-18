@@ -59,6 +59,7 @@ export type SanityProduct = {
   allowTeamPurchase?: boolean
   sortOrder?: number
   type?: 'self-paced' | 'live'
+  active?: boolean
   description?: string
   slug?: string
   image: {
