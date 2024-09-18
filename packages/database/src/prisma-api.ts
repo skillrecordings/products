@@ -1,6 +1,8 @@
 import {Context, defaultContext} from './context'
 import {v4 as uuidv4} from 'uuid'
 import {Prisma, Purchase, PurchaseUserTransferState, User} from '@prisma/client'
+import {Inngest} from 'inngest'
+import {PURCHASE_STATUS_UPDATED_EVENT} from '@skillrecordings/inngest'
 
 type SDKOptions = {ctx?: Context}
 
@@ -146,7 +148,7 @@ export function getSdk(
       })
 
       if (purchase) {
-        return await ctx.prisma.purchase.update({
+        const updatedPurchase = await ctx.prisma.purchase.update({
           where: {
             id: purchase.id,
           },
@@ -154,6 +156,23 @@ export function getSdk(
             status: status,
           },
         })
+        if (process.env.INNGEST_EVENT_KEY) {
+          const inngest = new Inngest({
+            id:
+              process.env.INNGEST_APP_NAME ||
+              process.env.NEXT_PUBLIC_SITE_TITLE ||
+              'Stripe Handler',
+            eventKey: process.env.INNGEST_EVENT_KEY,
+          })
+          await inngest.send({
+            name: PURCHASE_STATUS_UPDATED_EVENT,
+            data: {
+              stripeChargeId: chargeId,
+              status,
+            },
+          })
+        }
+        return updatedPurchase
       } else {
         throw new Error(`no-purchase-found-for-charge ${chargeId}`)
       }

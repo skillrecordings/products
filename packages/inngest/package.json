@@ -14,12 +14,10 @@
     "lint": "eslint ./src --fix"
   },
   "dependencies": {
-    "inngest": "3.1.1"
+    "inngest": "3.22.13"
   },
   "devDependencies": {
     "@skillrecordings/tsconfig": "workspace:*",
-    "@skillrecordings/commerce-server": "workspace:*",
-    "@skillrecordings/database": "workspace:*",
     "@types/node": "^18.16.13",
     "@sanity/client": "^6.1.1",
     "@sanity/types": "^2.29.5",

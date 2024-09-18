@@ -26,12 +26,12 @@ export const purchaseTransferComplete = inngest.createFunction(
       return 'invalid purchase id'
     }
 
-    const availableBonuses: string | null = await step.run(
+    const availableBonuses: string | null = (await step.run(
       'get available bonuses',
       async () => {
         return redis.get(`bonus::available::${sourceUserId}::${purchaseId}`)
       },
-    )
+    )) as string | null
 
     if (availableBonuses) {
       await step.run('transfer available bonuses', async () => {

@@ -4,6 +4,10 @@ import {
   STRIPE_WEBHOOK_RECEIVED_EVENT,
   type StripeCheckoutCompleted,
   type StripeWebhookReceived,
+  NEW_PURCHASE_CREATED_EVENT,
+  type NewPurchaseCreated,
+  PURCHASE_STATUS_UPDATED_EVENT,
+  PurchaseStatusUpdated,
 } from '@skillrecordings/inngest'
 import {
   SANITY_WEBHOOK_EVENT,
@@ -24,17 +28,22 @@ import {
   EMAIL_WRITING_REQUESTED_EVENT,
   EmailWritingRequestCompleted,
   EmailWritingRequested,
+  OAUTH_PROVIDER_ACCOUNT_LINKED_EVENT,
+  OauthProviderAccountLinked,
 } from '@/inngest/events'
 
 export type IngestEvents = {
-  [STRIPE_CHECKOUT_COMPLETED_EVENT]: StripeCheckoutCompleted
-  [STRIPE_WEBHOOK_RECEIVED_EVENT]: StripeWebhookReceived
-  [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
-  [PURCHASE_TRANSFERRED_EVENT]: PurchaseTransferred
-  [LESSON_COMPLETED_EVENT]: LessonCompleted
+  [CONVERTKIT_WEBHOOK_EVENT]: ConvertkitWebhookEvent
   [EMAIL_WRITING_REQUESTED_EVENT]: EmailWritingRequested
   [EMAIL_WRITING_REQUEST_COMPLETED_EVENT]: EmailWritingRequestCompleted
-  [CONVERTKIT_WEBHOOK_EVENT]: ConvertkitWebhookEvent
+  [LESSON_COMPLETED_EVENT]: LessonCompleted
+  [NEW_PURCHASE_CREATED_EVENT]: NewPurchaseCreated
+  [OAUTH_PROVIDER_ACCOUNT_LINKED_EVENT]: OauthProviderAccountLinked
+  [PURCHASE_STATUS_UPDATED_EVENT]: PurchaseStatusUpdated
+  [PURCHASE_TRANSFERRED_EVENT]: PurchaseTransferred
+  [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
+  [STRIPE_CHECKOUT_COMPLETED_EVENT]: StripeCheckoutCompleted
+  [STRIPE_WEBHOOK_RECEIVED_EVENT]: StripeWebhookReceived
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,

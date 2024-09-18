@@ -13,6 +13,8 @@ import type {PaymentOptions} from '@skillrecordings/commerce-server'
 import {convertkitTagPurchase} from './convertkit'
 import {Inngest} from 'inngest'
 import {
+  NEW_PURCHASE_CREATED_EVENT,
+  NewPurchaseCreated,
   STRIPE_CHECKOUT_COMPLETED_EVENT,
   STRIPE_WEBHOOK_RECEIVED_EVENT,
 } from '@skillrecordings/inngest'
@@ -284,6 +286,14 @@ export const processStripeWebhook = async (
         eventKey: process.env.INNGEST_EVENT_KEY,
       })
       console.log('sending inngest event')
+      await inngest.send({
+        name: NEW_PURCHASE_CREATED_EVENT,
+        data: {
+          purchaseId: purchase.id,
+          checkoutSessionId: stripeIdentifier,
+        },
+        user,
+      })
       await inngest.send({
         name: STRIPE_CHECKOUT_COMPLETED_EVENT,
         user,

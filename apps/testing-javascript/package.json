@@ -68,7 +68,7 @@
     "formik": "2.2.9",
     "framer-motion": "^10.12.4",
     "groq": "^2.15.0",
-    "inngest": "3.1.1",
+    "inngest": "3.22.13",
     "lodash": "^4.17.21",
     "micromark": "^3.1.0",
     "mjml": "^4.12.0",
