@@ -81,6 +81,7 @@ export const getLessonWithModule = async (id: string): Promise<any> => {
       _id,
       title,
       description,
+      resources,
       "solution": resources[@._type == 'solution'][0]{
         _key,
       },
@@ -90,7 +91,7 @@ export const getLessonWithModule = async (id: string): Promise<any> => {
       },
     } | {
       ...,
-      "module": *[_type in ['module'] && references(^.section._id)][0] {
+      "module": *[_type in ['module'] && moduleType == 'workshop' && (references(^.section._id) || references(^._id))][0] {
         _type,
         title,
         slug,

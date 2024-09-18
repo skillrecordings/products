@@ -1,10 +1,10 @@
-import {inngest} from 'inngest/inngest.server'
+import OpenAI from 'openai'
+import singleline from 'singleline'
+import {inngest} from '@/inngest/inngest.server'
 import {
   EMAIL_WRITING_REQUEST_COMPLETED_EVENT,
   EMAIL_WRITING_REQUESTED_EVENT,
-} from 'inngest/events'
-import OpenAI from 'openai'
-import singleline from 'singleline'
+} from '@/inngest/events'
 
 const openai = new OpenAI()
 
@@ -40,12 +40,12 @@ export const writeAnEmail = inngest.createFunction(
         }),
     }
 
-    const systemPrompt = `Epic Web Dev, taught by Kent C. Dodds, 
-    offers a comprehensive journey through full-stack development, emphasizing hands-on 
-    learning to build sustainable user experiences. It hosts workshops like Full Stack Foundations, 
-    Professional Web Forms, Data Modeling Deep Dive, Web Authentication, and Full Stack Testing, 
-    each meticulously crafted for skill enhancement. Unlike passive learning, participants engage 
-    with a bespoke local web app, melding with their local dev setups for real-time code execution 
+    const systemPrompt = `Epic React, taught by Kent C. Dodds, 
+    offers a comprehensive journey through React development, emphasizing hands-on 
+    learning to build quality user experiences with React 19. Epic React hosts workshops like React Fundamentals
+    React Hooks, Advanced React APIs, React Suspense, Advanced React Patterns, React Performance,
+    and React Server Components each meticulously crafted for skill enhancement. Unlike passive learning, participants engage 
+    with a bespoke local React based workshop app, melding with their local dev setups for real-time code execution 
     and testing.`
 
     const primarySystemWriterPrompt = `You are Kody the Koala, a friendly mascot 
@@ -53,7 +53,7 @@ export const writeAnEmail = inngest.createFunction(
     with his signature at the end of the email.
     
     Task:
-    Your job is to write email subjects and bodies for the "Epic Web" developer education course
+    Your job is to write email subjects and bodies for the "Epic React" developer education course
     that are sent to learners after they complete a lesson.
     
     Motivation:
@@ -87,8 +87,8 @@ export const writeAnEmail = inngest.createFunction(
     - when it makes sense, don't focus on Remix, focus on the broader universal skills of a web developer
     - No additional "meta" text or commentary is necessary. 
     - editor feedback is a priority unless you think it is wrong, then you can ignore it.
-    - do not link to lessons
-    - do not guess lesson or workshop titles, use the progress data below only
+    - **do not** link to lessons
+    - **do not** guess lesson or workshop titles, use the progress data below only
     - keep the exposition and flowery language to a minimum
 
     Structured Progress Data:
@@ -133,12 +133,12 @@ export const writeAnEmail = inngest.createFunction(
         applied to the next draft.
         
         - be professional
+        - you are honestly harsh, but always fair and never mean
         - remember that developers HATE robots
         - don't hold back on criticism
         - the audience is professional web developers, so don't be corny or pandering
         - watch out for repetitiveness
         - watch out for ai jank and hallucinations
-        - if you see direct references to Remix, suggest changes to broader web development concepts
         - check the new line characters and make sure they use a single slash and not a double slash or more like this \n NOT like this \\n or this \\\n or this \\\\\n
     `
     const aiEditorResponse = await step.run(
@@ -161,7 +161,8 @@ export const writeAnEmail = inngest.createFunction(
     into something useful. don't explain it please, just return the revised subject and email 
     in the same json format as before. use newline character for long strings that need to be
     a single line but do not escape the newline character. prefer full text titles over slugs.
-    deliver the best email a koala could possibly imagine.
+    deliver the best email a koala could possibly imagine. take a minute to really consider
+    the feedback and make sure it's not just a fluke. you should be proud of the final result.
     `
 
     const aiFinalResponse = await step.run(
@@ -185,8 +186,8 @@ export const writeAnEmail = inngest.createFunction(
     )
     const bossEditorPrompt = `
     you are the Editor in Chief and you won't accept anything less than perfection.
-    give the writer the business and make sure that this subject and email are great
-    without cruft or repetition. don't explain it please, just return your version of 
+    give the writer sharp critique and make sure that this subject and email are great
+    without cruft or repetition. don't explain the process please, just return your version of 
     the subject and email in the same json format as before. use newline character for
     long strings that need to be a single line but do not escape the newline character.
     
@@ -239,12 +240,15 @@ export const writeAnEmail = inngest.createFunction(
               explain it please, just return the corrected json and only 
               the corrected json ready to be parsed. use newline character 
               for long strings that need to be a single line but do not escape 
-              the newline character.
+              the newline character. it should NOT be markdown fenced code. just json.
         
         ${aiBossEditorResponse.choices[0].message.content}`,
             },
           ],
           model: 'gpt-4o-2024-08-06',
+          response_format: {
+            type: 'json_object',
+          },
         })
       },
     )

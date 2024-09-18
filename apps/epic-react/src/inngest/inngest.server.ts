@@ -19,6 +19,12 @@ import {
   CONVERTKIT_WEBHOOK_EVENT,
   ConvertkitWebhookEvent,
 } from '@/inngest/functions/create-custom-coupon'
+import {
+  EMAIL_WRITING_REQUEST_COMPLETED_EVENT,
+  EMAIL_WRITING_REQUESTED_EVENT,
+  EmailWritingRequestCompleted,
+  EmailWritingRequested,
+} from '@/inngest/events'
 
 export type IngestEvents = {
   [STRIPE_CHECKOUT_COMPLETED_EVENT]: StripeCheckoutCompleted
@@ -26,6 +32,8 @@ export type IngestEvents = {
   [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
   [PURCHASE_TRANSFERRED_EVENT]: PurchaseTransferred
   [LESSON_COMPLETED_EVENT]: LessonCompleted
+  [EMAIL_WRITING_REQUESTED_EVENT]: EmailWritingRequested
+  [EMAIL_WRITING_REQUEST_COMPLETED_EVENT]: EmailWritingRequestCompleted
   [CONVERTKIT_WEBHOOK_EVENT]: ConvertkitWebhookEvent
 }
 export const inngest = new Inngest({

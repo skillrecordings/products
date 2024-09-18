@@ -12,7 +12,7 @@ import {searchRouter} from './search'
 import {certificateRouter} from './certificate'
 import {deviceVerificationRouter} from '@/trpc/routers/device-verification'
 import {ctaRouter} from '@/trpc/routers/cta'
-// import {unsubscribeRouter} from './unsubscribe'
+import {unsubscribeRouter} from './unsubscribe'
 // import {bonusesRouter} from './bonuses'
 
 export const appRouter = mergeRouters(
@@ -23,7 +23,7 @@ export const appRouter = mergeRouters(
     tips: tipsRouter,
     abilities: abilitiesRouter,
     search: searchRouter,
-    // unsubscribe: unsubscribeRouter,
+    unsubscribe: unsubscribeRouter,
     // bonuses: bonusesRouter,
     deviceVerification: deviceVerificationRouter,
     certificate: certificateRouter,

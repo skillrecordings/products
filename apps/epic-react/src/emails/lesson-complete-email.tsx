@@ -12,8 +12,8 @@ import {Markdown} from '@react-email/markdown'
 
 export type LessonCompleteEmailProps = {
   user: {
-    name: string
-    email: string
+    name?: string | null
+    email?: string | null
     id: string
   }
   hasAuthedLocally: boolean
@@ -29,7 +29,7 @@ export const LessonCompleteEmail = ({
   const disclaimer = `These messages are generated using gpt-4o and are not monitored. If
             they are not helpful, you can [unsubscribe](${process.env.NEXT_PUBLIC_URL}/unsubscribed?from=kody-the-encouragement-bot&userId=${user.id}). If you'd
             like to see the code that generates these messages, you can find it
-            [here on GitHub](https://github.com/skillrecordings/products/blob/main/apps/epic-web/src/inngest/functions/ai-email/write-an-email.ts).`
+            [here on GitHub](https://github.com/skillrecordings/products/blob/main/apps/epic-react/src/inngest/functions/ai-email/write-an-email.ts).`
   return (
     <Html>
       <Head />
@@ -42,7 +42,7 @@ export const LessonCompleteEmail = ({
           {hasAuthedLocally ? null : (
             <Markdown>
               PS For the best experience, we highly recommend you use the Epic
-              Web workshop application on your local machine. It allows you to
+              React workshop application on your local machine. It allows you to
               authenticate and work through the material as intended at your own
               pace.
             </Markdown>
