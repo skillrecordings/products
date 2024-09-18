@@ -67,7 +67,9 @@ export const ModuleTemplate: React.FC<{
   const purchases = commerceProps?.purchases || []
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
   const ALLOW_PURCHASE =
-    router.query.allowPurchase === 'true' || product.state === 'active'
+    router.query.allowPurchase === 'true' ||
+    product.state === 'active' ||
+    Boolean(product.active)
 
   return (
     <Layout
