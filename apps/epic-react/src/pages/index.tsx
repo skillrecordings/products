@@ -75,6 +75,10 @@ const Home: React.FC<{
   }
 
   const {theme} = useTheme()
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   return (
     <Layout>
@@ -166,18 +170,20 @@ const Home: React.FC<{
                   <ModulesListWithDescriptions modules={modules} />
                 ),
                 RocketFlyBy: () => {
-                  return (
+                  return isMounted ? (
                     <Image
                       className="mx-auto !-mt-10 w-full max-w-3xl"
-                      src={require(`../../public/assets/rocket-flyby-${
-                        theme || 'dark'
-                      }@2x.png`)}
+                      src={
+                        theme === 'light'
+                          ? require(`../../public/assets/rocket-flyby-light@2x.png`)
+                          : require(`../../public/assets/rocket-flyby-dark@2x.png`)
+                      }
                       alt=""
                       aria-hidden="true"
                       quality={100}
                       loading="eager"
                     />
-                  )
+                  ) : null
                 },
               }}
             />
