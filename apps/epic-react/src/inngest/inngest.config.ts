@@ -6,6 +6,8 @@ import {stripeWebhookReceived} from '@/inngest/functions/stripe/webhook-received
 import {convertkitWebhookHandler} from '@/inngest/functions/create-custom-coupon'
 import {writeAnEmail} from '@/inngest/functions/ai-email/write-an-email'
 import {lessonCompleted} from '@/inngest/functions/progress/lesson-completed'
+import {syncDiscordRoles} from '@/inngest/functions/discord/sync-discord-roles'
+import {discordAccountLinked} from '@/inngest/functions/discord/discord-account-linked'
 
 export const inngestConfig = {
   client: inngest,
@@ -16,6 +18,8 @@ export const inngestConfig = {
     convertkitWebhookHandler,
     writeAnEmail,
     lessonCompleted,
+    syncDiscordRoles,
+    discordAccountLinked,
     ...sanityProductFunctions,
   ],
 }

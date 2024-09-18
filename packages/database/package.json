@@ -22,12 +22,14 @@
     "validate": "DATABASE_URL=\"mysql://root@127.0.0.1:3306/turborepo\" npx prisma validate"
   },
   "dependencies": {
+    "inngest": "3.22.13",
     "@prisma/client": "5.2.0",
     "decimal.js": "^10.4.3",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@skillrecordings/tsconfig": "workspace:*",
+    "@skillrecordings/inngest": "workspace:*",
     "@types/node": "^18.16.13",
     "@types/uuid": "^9.0.2",
     "eslint": "^8.12.0",

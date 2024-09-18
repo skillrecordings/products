@@ -98,7 +98,7 @@
     "groq": "^2.15.0",
     "hast": "^1.0.0",
     "human-readable-ids": "^1.0.4",
-    "inngest": "3.1.1",
+    "inngest": "3.22.13",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.378.0",
