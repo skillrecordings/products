@@ -20,11 +20,18 @@ const IntroTourVideo = () => {
   return (
     <div className="mx-auto mb-10 max-w-4xl overflow-hidden rounded-lg border border-transparent sm:overflow-hidden sm:rounded-md sm:border-er-gray-100">
       <MuxPlayer
+        accentColor="#3b82f6"
         streamType="on-demand"
         playbackId={TOUR_VIDEO_ID}
         className="block"
         ref={playerRef}
         poster={poster}
+        style={
+          {
+            '--seek-backward-button': 'none',
+            '--seek-forward-button': 'none',
+          } as any
+        }
       />
     </div>
   )

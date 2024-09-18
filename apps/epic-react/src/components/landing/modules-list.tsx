@@ -84,7 +84,10 @@ export const ModulesListWithDescriptions = ({
     <ul className="not-prose mx-auto my-16 flex w-full max-w-4xl flex-col gap-10">
       {modules.map((module, index) => {
         return (
-          <li className="flex flex-col items-center gap-10 sm:items-start md:flex-row">
+          <li
+            key={module.title}
+            className="flex flex-col items-center gap-10 sm:items-start md:flex-row"
+          >
             {module.image && (
               <Image
                 src={module.image}

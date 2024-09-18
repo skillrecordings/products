@@ -2,80 +2,159 @@ import Image from 'next/image'
 
 const data = [
   {
-    img: '/testimonials-images/01-ruslan-shtyk.jpeg',
-    quote:
-      "I was just about to start preparing the app we're working on for general availability, which includes solving a lot of performance issues. This workshop delivers knowledge that is applicable to the real world issues right away.",
-    title: 'Ruslan Shtyk about React Performance workshop',
+    name: 'Christian Moen',
+    avatar: require('../../../public/testimonials-images/christian-moen.jpg'),
+    quote: (
+      <>
+        I'm using React every day at work, and{' '}
+        <strong>I've picked up things I didn't know already!</strong> Great
+        purchase!
+      </>
+    ),
   },
   {
-    img: '/testimonials-images/02-mike-schutte.jpeg',
-    quote:
-      "This has been my favorite of the masterclass series. Especially compound components! I find I'm at a point in my career where I want to write better APIs for components both for others and for resilience.",
-    title: 'Mike Schutte about Advanced React Patterns workshop',
+    name: 'Luis Güette',
+    avatar: require('../../../public/testimonials-images/luis-guette.png'),
+    quote: (
+      <>
+        It is totally different of what you have seen before. I started
+        yesterday, <strong>and it’s amazing!</strong>
+      </>
+    ),
   },
   {
-    img: '/testimonials-images/03-lindsey-gillaspie.jpeg',
-    quote:
-      "I typically work on smaller apps, so since I don't get exposure to React performance tips and tricks, I found this extremely helpful. I appreciate how much effort you have put into the materials and schedule because this was the smoothest workshop I have EVER attended!",
-    title: 'Lindsey Gillaspie',
+    name: 'Aaron McAdam',
+    avatar: require('../../../public/testimonials-images/aaron-mcadam.jpg'),
+    quote: (
+      <>
+        The workshop format really works for knowledge retention.{' '}
+        <strong>
+          I learned a lot and I've been doing React for about 5 years!
+        </strong>
+      </>
+    ),
   },
   {
-    img: '/testimonials-images/04-jacob-m-g-evans.jpeg',
-    quote:
-      'This workshop/video/bonanza is nothing like what egghead has on their normal website, honestly this feels like a React Bootcamp/Coding School on a more digestable platform and delivery.',
-    title: 'Jacob M-G Evans',
+    name: 'imyjimmy',
+    avatar: require('../../../public/testimonials-images/imyjimmy.jpg'),
+    quote: (
+      <>
+        Since taking Kent's Epic React course, I've introduced exactly{' '}
+        <strong>zero bugs</strong> to prod 👍
+      </>
+    ),
   },
   {
-    img: '/testimonials-images/05-andrew-li.jpeg',
-    quote:
-      'I bought the workshop bundle because I felt my knowledge of React was very lacking. At the time, I had worked with React for half a year and always had a lot of unanswered questions. I feel way more confident in my React abilities now. The workshops cover almost everything you need to know in React. Nowadays whenever I find myself unfamiliar with a concept in React, I just refer back to the notes and exercises. The other day, I was looking at some production level React code that I have never seen before and I did not feel overwhelmed at all.',
-    title: 'Andrew Li',
+    name: 'Tiger Abrodi',
+    avatar: require('../../../public/testimonials-images/tiger-abrodi.jpg'),
+    quote: (
+      <>
+        Yep, just like you mentioned and promised in your podcast, most of the
+        time was spent on the keyboard! ❤️{' '}
+        <strong>
+          Epic React is just hands-down the best React resource out there.
+        </strong>{' '}
+        🎉
+      </>
+    ),
   },
   {
-    img: '/testimonials-images/06-steven-hofheins.jpeg',
-    quote:
-      "I'm always looking to level up my skills and I wanted to get a stronger knowledge of React. Before Epic React, I was good at React. After, I feel like a superhero and have super powers with React. I've been able to solve some harder problems with simpler solutions. I'm working on an internal tool for the company I work for and I've been able to create some incredible advanced functionality with the added knowledge from Kent's course.",
-    title: 'Steven Hofheins',
+    name: 'Dan Goodwin',
+    avatar: require('../../../public/testimonials-images/dan-goodwin.jpg'),
+    quote: (
+      <>
+        This course has been <strong>fantastic</strong> so far. I love the{' '}
+        <strong>hands-on format</strong> and the way the lessons really try to
+        explain what React's abstractions are doing under the hood instead of
+        just showing you the syntax is a huge plus for me.
+      </>
+    ),
+  },
+  {
+    name: 'Mihai',
+    avatar: require('../../../public/testimonials-images/mihai.jpg'),
+    quote: (
+      <>
+        It's awesome!! Very detailed but clear.{' '}
+        <strong>
+          No matter your React experience you'll have a lot to learn from it.
+        </strong>{' '}
+        They made a pretty powerful framework for exercising/learning so it's
+        not just copy-the-instructor type of tutorials.
+      </>
+    ),
+  },
+  {
+    name: 'Ian Svoboda',
+    avatar: require('../../../public/testimonials-images/ian-svoboda.jpg'),
+    quote: (
+      <>
+        Been enjoying the Epic React course. Specifically I think this is quite
+        possibly{' '}
+        <strong>the most polished UX for a code-along course I’ve used</strong>{' '}
+        in awhile. Thanks Kent the effort you put into this shows.
+      </>
+    ),
+  },
+  {
+    name: 'Shivayan Bora',
+    avatar: require('../../../public/testimonials-images/shivayan-bora.jpg'),
+    quote: (
+      <>
+        Can't thank Kent enough for the Epic React course. I have been learning
+        so much and the best part is,{' '}
+        <strong>
+          I'm able to apply my learnings directly to a critical project I am
+          working on over at the office.
+        </strong>
+      </>
+    ),
+  },
+  {
+    name: 'Richard Bagshaw',
+    avatar: require('../../../public/testimonials-images/richard-bagshaw.jpg'),
+    quote: (
+      <>
+        Epic React from Kent C. Dodds takes a different approach. Instead of
+        just being fed video after video the path here is: "This is the goal,
+        here are some tips, have a go".{' '}
+        <strong>This is great for memory, I have to actually think,</strong> and
+        then I can learn the details in a follow up video.
+      </>
+    ),
   },
 ]
 
 const Testimonials = () => {
   return (
-    <div className="grid grid-cols-1 gap-4 py-5 md:grid-cols-2 md:py-10 lg:-mx-24">
-      {data.map((testimonial) => {
+    <section
+      id="testimonials"
+      className="not-prose relative mx-auto grid w-full max-w-4xl grid-cols-1 gap-4 pb-10 pt-16 md:grid-cols-2"
+    >
+      <div
+        className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
+        aria-hidden="true"
+      />
+      {data.map(({name, avatar, quote}) => {
         return (
-          <article
-            key={testimonial.title}
-            className="group relative flex h-full cursor-default flex-col justify-between rounded-lg border border-er-gray-200 bg-background px-5 pb-5 pt-4 md:px-8 md:pb-8"
-          >
-            <section>
-              <p className="text-base leading-normal sm:text-lg">
-                {testimonial.quote}”
-              </p>
-            </section>
-            <footer className="font-mono text-sm leading-normal text-er-gray-600">
-              <div className="flex items-center">
-                <div className="mr-3 w-[44px] shrink-0 flex-grow overflow-hidden rounded-full grayscale duration-150 group-hover:grayscale-0">
-                  <Image
-                    src={testimonial.img}
-                    alt={testimonial.title}
-                    width={100}
-                    height={100}
-                    className="!m-0"
-                  />
-                </div>
-                <div className="w-full">
-                  <span>{testimonial.title}</span>
-                </div>
-              </div>
-            </footer>
-            <div className="absolute left-4 top-4 font-serif text-5xl leading-none text-er-gray-300">
-              “
+          <blockquote key={name} className="px-5 py-3 sm:px-5 sm:py-5">
+            <p className="text-balance text-sm leading-normal sm:text-base">
+              {quote}
+            </p>
+            <div className="mt-4 flex items-center gap-2">
+              <Image
+                src={avatar}
+                alt={name}
+                width={32}
+                height={32}
+                className="rounded-full"
+              />
+              <span className="text-sm">{name}</span>
             </div>
-          </article>
+          </blockquote>
         )
       })}
-    </div>
+    </section>
   )
 }
 

@@ -20,6 +20,7 @@ import groq from 'groq'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
 import {ModulesListWithDescriptions} from '@/components/landing/modules-list'
 import Sparkle from 'react-sparkle'
+import {useTheme} from 'next-themes'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -72,6 +73,8 @@ const Home: React.FC<{
       y: 50,
     },
   }
+
+  const {theme} = useTheme()
 
   return (
     <Layout>
@@ -162,6 +165,20 @@ const Home: React.FC<{
                 ModulesListWithDescriptions: () => (
                   <ModulesListWithDescriptions modules={modules} />
                 ),
+                RocketFlyBy: () => {
+                  return (
+                    <Image
+                      className="mx-auto !-mt-10 w-full max-w-3xl"
+                      src={require(`../../public/assets/rocket-flyby-${
+                        theme || 'dark'
+                      }@2x.png`)}
+                      alt=""
+                      aria-hidden="true"
+                      quality={100}
+                      loading="eager"
+                    />
+                  )
+                },
               }}
             />
           </div>

@@ -32,7 +32,7 @@ const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-sans',
-  weight: ['400', '600', '800'],
+  weight: ['400', '500', '600', '700', '800'],
 })
 
 function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
