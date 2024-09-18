@@ -178,7 +178,7 @@ const Home: React.FC<{
                   <h2 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
                     Join over 7,000 Developers and Get Extremely Good At React
                   </h2>
-                  <p className="mx-auto mt-5 max-w-4xl text-xl text-react sm:text-2xl">
+                  <p className="mx-auto mt-5 max-w-4xl text-balance text-xl text-react sm:text-2xl">
                     The beautiful thing about learning is that nobody can take
                     it away from you.
                   </p>
