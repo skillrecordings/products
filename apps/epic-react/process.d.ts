@@ -13,6 +13,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_CONVERTKIT_SIGNUP_FORM: string
     NEXT_PUBLIC_CONVERTKIT_TOKEN: string
     NEXT_PUBLIC_CONVERTKIT_SUBSCRIBER_KEY: string
+    NEXT_PUBLIC_DISCORD_INVITE_URL: string
     NEXT_PUBLIC_SUPPORT_EMAIL: string
     CONVERTKIT_BASE_URL: string
     NEXT_PUBLIC_GOOGLE_ANALYTICS: string
@@ -29,5 +30,8 @@ declare namespace NodeJS {
     GITHUB_ID: string
     DISCORD_CLIENT_ID: string
     DISCORD_CLIENT_SECRET: string
+    DISCORD_ROLE_ER_V1: string
+    DISCORD_ROLE_ER_V2: string
+    DISCORD_GUILD_ID: string
   }
 }

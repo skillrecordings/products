@@ -103,6 +103,23 @@ export function defaultNextAuthOptions(options: {
           })
         }
       },
+      linkAccount: async ({user, account, profile}) => {
+        if (process.env.INNGEST_EVENT_KEY) {
+          const inngest = new Inngest({
+            id:
+              process.env.INNGEST_APP_NAME ||
+              process.env.NEXT_PUBLIC_SITE_TITLE ||
+              'Skill Recordings Product',
+            eventKey: process.env.INNGEST_EVENT_KEY,
+          })
+
+          await inngest.send({
+            name: 'user/oauth-provider-account-linked',
+            data: {account, profile},
+            user,
+          })
+        }
+      },
     },
     session: {
       strategy: 'jwt',

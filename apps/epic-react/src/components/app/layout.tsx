@@ -1,7 +1,5 @@
 import * as React from 'react'
 import {NextSeo, type NextSeoProps} from '@skillrecordings/next-seo'
-import {twMerge} from 'tailwind-merge'
-import cx from 'classnames'
 import Navigation from './navigation'
 import {Inter} from 'next/font/google'
 import toast, {Toaster} from 'react-hot-toast'
