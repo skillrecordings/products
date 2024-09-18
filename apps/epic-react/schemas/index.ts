@@ -2,6 +2,7 @@
 import cta from './documents/cta'
 import exercise from './documents/exercise'
 import explainer from './documents/explainer'
+import contributor from './documents/contributor'
 import section from './documents/section'
 import module from './documents/module'
 import videoResource from './documents/videoResource'
@@ -37,6 +38,7 @@ import feature from './objects/feature'
 import github from './objects/resources/github'
 import transcript from './objects/transcript'
 import workshopApp from './objects/workshop-app'
+import contributors from './objects/contributors'
 
 export const schemaTypes = [
   // —— documents
@@ -44,6 +46,7 @@ export const schemaTypes = [
   module,
   exercise,
   explainer,
+  contributor,
   videoResource,
   linkResource,
   tip,
@@ -78,4 +81,5 @@ export const schemaTypes = [
   feature,
   transcript,
   workshopApp,
+  contributors,
 ]

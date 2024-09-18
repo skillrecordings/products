@@ -68,6 +68,11 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'contributors',
+      type: 'contributors',
+      title: 'Contributors',
+    }),
+    defineField({
       name: 'resources',
       title: 'Resources',
       description: 'Exercises, Sections, or Explainers in the Module',

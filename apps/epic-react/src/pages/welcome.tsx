@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {convertToSerializeForNextResponse} from '@skillrecordings/commerce-server'
 import type {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
-import {useSession} from 'next-auth/react'
+import {signIn, useSession} from 'next-auth/react'
 import {type GetServerSideProps} from 'next'
 import {getToken} from 'next-auth/jwt'
 import Layout from '@/components/app/layout'
@@ -17,6 +17,7 @@ import {trpc} from '@/trpc/trpc.client'
 import {Transfer} from '@/purchase-transfer/purchase-transfer'
 import {paymentOptions} from './api/skill/[...skillRecordings]'
 import FancyButton from '@/components/fancy-button'
+import {Icon} from '@skillrecordings/skill-lesson/icons'
 
 export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
   const {purchaseId: purchaseQueryParam, upgrade} = query
@@ -267,11 +268,24 @@ const Header: React.FC<
             </span>
             {purchase.product.name}
           </h1>
-          {personalPurchase && product && (
-            <FancyButton tag="link" href={firstLessonUrl}>
-              Start Learning
-            </FancyButton>
-          )}
+          <div className="flex items-center space-x-4">
+            {personalPurchase && product && (
+              <>
+                <FancyButton tag="link" href={firstLessonUrl}>
+                  Start Learning
+                </FancyButton>
+                <button
+                  className={
+                    'relative mt-8 flex transform items-center space-x-1 overflow-hidden rounded-lg bg-blue-500 px-5 py-3 align-middle font-bold text-white transition-all duration-150 ease-in-out hover:scale-110 hover:bg-blue-600 hover:shadow-lg'
+                  }
+                  onClick={() => signIn('discord')}
+                >
+                  <Icon name="Discord" size="20" />
+                  <span>Connect to Discord</span>
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
       {/* {purchase.bulkCoupon

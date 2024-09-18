@@ -1,6 +1,5 @@
 import {inngest} from '@/inngest/inngest.server'
 import {STRIPE_CHECKOUT_COMPLETED_EVENT} from '@skillrecordings/inngest'
-import {sanityClient} from '@skillrecordings/skill-lesson/utils/sanity-client'
 import * as yaml from 'js-yaml'
 import {prisma} from '@skillrecordings/database'
 import {z} from 'zod'
@@ -10,6 +9,7 @@ import {WebClient} from '@slack/web-api'
 import pluralize from 'pluralize'
 import {isEmpty} from 'lodash'
 import {postToSlack} from '@skillrecordings/skill-api'
+import {sanityWriteClient} from '@skillrecordings/skill-lesson/utils/sanity-server'
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
@@ -50,7 +50,7 @@ export const stripeCheckoutCompleted = inngest.createFunction(
     }
 
     const product = await step.run('load product', async () => {
-      const productToAnnounce = await sanityClient.fetch(
+      const productToAnnounce = await sanityWriteClient.fetch(
         groq`*[_type == "product" && productId == $productId][0] {
         title,
         productId,
@@ -74,12 +74,14 @@ export const stripeCheckoutCompleted = inngest.createFunction(
           modules: z.array(
             z.object({
               slug: z.string(),
-              instructors: z.array(
-                z.object({
-                  saleAnnounceChannel: z.string(),
-                  slug: z.string(),
-                }),
-              ),
+              instructors: z
+                .array(
+                  z.object({
+                    saleAnnounceChannel: z.string(),
+                    slug: z.string(),
+                  }),
+                )
+                .default([]),
             }),
           ),
         })
@@ -140,7 +142,7 @@ export const stripeCheckoutCompleted = inngest.createFunction(
               description,
               expiresAt
             }`
-        return sanityClient.fetch(query, {
+        return sanityWriteClient.fetch(query, {
           date,
           validFrom: new Date().toISOString(),
         })

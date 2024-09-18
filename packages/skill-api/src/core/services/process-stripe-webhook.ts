@@ -93,7 +93,7 @@ const determineEventProcessor = (siteName: string) => {
       .parse(process.env.TESTING_JAVASCRIPT_INTERNAL_STRIPE_URL)
     const skillSecret = z
       .string({
-        required_error: 'TJS_SKILL_SECRET must be set in this environemnt',
+        required_error: 'TJS_SKILL_SECRET must be set in this environment',
       })
       .parse(process.env.TJS_SKILL_SECRET)
 
@@ -106,11 +106,15 @@ const determineEventProcessor = (siteName: string) => {
     }
   } else if (siteName === 'epic-react') {
     const internalStripeWebhookEndpoint = z
-      .string()
+      .string({
+        description:
+          'The internal stripe webhook endpoint for the Epic React site',
+      })
       .parse(process.env.EPIC_REACT_INTERNAL_STRIPE_URL)
     const skillSecret = z
       .string({
-        required_error: 'ER_SKILL_SECRET must be set in this environemnt',
+        required_error: 'ER_SKILL_SECRET must be set in this environment',
+        description: 'The skill secret for the Epic React site',
       })
       .parse(process.env.ER_SKILL_SECRET)
 
