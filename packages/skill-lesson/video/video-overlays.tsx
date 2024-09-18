@@ -710,9 +710,9 @@ const BuyProduct: React.FC<{product?: SanityProduct}> = ({product}) => {
       <div data-col="2">
         {product && (
           <>
-            {product.state === 'active' ? (
+            {product?.active || product?.state === 'active' ? (
               <Pricing
-                allowPurchase={product.state === 'active'}
+                allowPurchase={product?.active || product?.state === 'active'}
                 product={product}
                 canViewRegionRestriction={canViewRegionRestriction}
                 cancelUrl={window.location.toString()}

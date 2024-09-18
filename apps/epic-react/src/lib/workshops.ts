@@ -331,6 +331,7 @@ export const getWorkshop = async (slug: string) =>
           "slug": slug.current,
           productId,
           state,
+          'active': *[_type == 'pricing' && slug.current == 'epic-react-v2'][0].active,
           description,
           action,
           image,

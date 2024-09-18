@@ -12,6 +12,7 @@ export const ProductSchema = z.object({
   sortOrder: z.number().default(-1),
   description: z.string().nullable().optional(),
   slug: z.string(),
+  active: z.boolean().default(false).optional(),
   image: z
     .object({
       url: z.string(),

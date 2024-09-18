@@ -112,22 +112,33 @@ export const getBonus = async (slug: string) => {
         "image": image.url,
         // get product that includes current workshop and has
         // the largest number of modules so we can assume it's a bundle
-        'product': *[_type == 'product' && references(^._id)] | order(count(modules) desc)[0]{
+         'product': *[_type == 'product' && references(^._id)] | order(count(modules) desc) | order(_createdAt desc)[0]{
           "name": title,
           "slug": slug.current,
           productId,
+          state,
+          'active': *[_type == 'pricing' && slug.current == 'epic-react-v2'][0].active,
           description,
           action,
-          "image": image.asset->{url, alt},
+          image,
+          type,
+          unitAmount,
+          upgradableTo[0]->{
+            ...,
+            productId,
+            "slug": slug.current,
+            modules[]->{moduleType},
+          },
           modules[]->{
             "slug": slug.current,
             moduleType,
             title,
-            "image": image.asset->{url, alt},
+            "image": {"url":image.secure_url},
             state,
           },
           features[]{
-            value
+            value,
+            icon
           }
         },
     }`,
