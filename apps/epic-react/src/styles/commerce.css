@@ -947,3 +947,80 @@
     }
   }
 }
+
+[data-buy-more-seats-form] {
+  @apply px-0 pb-5 pt-0;
+  #team-upgrade-pricing-inline {
+    @apply mt-4 flex w-full flex-col justify-center space-y-3;
+    [data-pricing-product] {
+      @apply w-full border-none bg-transparent shadow-none;
+      [data-pricing-product-header] {
+        @apply w-full pt-0;
+        [data-price-container] {
+          @apply w-full;
+        }
+        [data-price-container='loading'] {
+          @apply flex h-[56px] items-center justify-center !important;
+        }
+        button[type='submit'] {
+          @apply w-full border-none bg-primary py-4 text-lg text-primary-foreground no-underline;
+        }
+      }
+    }
+  }
+  [data-pricing-product-header] {
+    [data-byline] {
+      @apply hidden;
+    }
+    [data-name-badge] {
+      @apply pb-4 text-center text-sm font-extrabold uppercase opacity-75;
+    }
+    [data-title] {
+      @apply hidden px-5 text-center text-xl font-black sm:text-2xl;
+    }
+    [data-instructor] {
+      @apply flex items-center justify-center gap-2 pt-3;
+      [data-instructor-image] {
+        @apply flex h-11 w-11 items-center justify-center overflow-hidden rounded-full;
+      }
+      span {
+        @apply text-base font-semibold;
+      }
+    }
+    [data-price-container] {
+      @apply flex items-center justify-center gap-0.5 px-5;
+      sup {
+        @apply align-sub text-base font-bold opacity-75;
+      }
+      [data-price] {
+        @apply flex text-4xl font-bold;
+      }
+      span {
+        @apply pl-0.5 align-super opacity-75;
+      }
+      [data-price-discounted] {
+        @apply flex flex-col items-start pl-3 font-sans text-lg font-semibold;
+
+        [data-full-price] {
+          @apply relative flex text-lg leading-none opacity-75 before:absolute before:left-0 before:top-1/2 before:h-0.5 before:w-full before:bg-foreground;
+
+          span {
+            @apply translate-y-0.5 text-xs leading-none;
+          }
+        }
+        [data-percent-off] {
+          @apply -mt-1 text-base text-amber-500 dark:text-amber-300;
+        }
+      }
+    }
+    [data-price-container='loading'] {
+      @apply flex items-center justify-center;
+    }
+    [data-loading-price] {
+      @apply flex h-10 items-center justify-center;
+    }
+    [data-price-container='error'] {
+      @apply hidden;
+    }
+  }
+}
