@@ -13,7 +13,7 @@ const ForTeamsPage = () => {
         description:
           'Improve the skills of your team with Total TypeScript. Get a quote today and see how we can help you.',
         ogImage: {
-          url: '',
+          url: 'https://res.cloudinary.com/total-typescript/image/upload/v1726688975/card--for-teams_2x_wc6mmj.jpg',
         },
       }}
     >
