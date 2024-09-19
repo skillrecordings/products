@@ -483,6 +483,11 @@ const ModuleItem: React.FC<{
     module?.lessons &&
     (sectionsFlatMap(module?.sections).length || module?.lessons.length)
 
+  const modulePath =
+    module.moduleType === 'legacy-module'
+      ? 'modules'
+      : pluralize(module.moduleType)
+
   return (
     <div className="flex items-center gap-3 py-2">
       {module?.image?.url && (
@@ -495,7 +500,7 @@ const ModuleItem: React.FC<{
       )}
       <div className="flex flex-col">
         <Link
-          href={`/modules/${module.slug}/${module.lessons?.[0]?.slug}`}
+          href={`/${modulePath}/${module.slug}/${module.lessons?.[0]?.slug}`}
           className="font-semibold hover:underline"
         >
           {module.title}
@@ -521,7 +526,7 @@ const ModuleItem: React.FC<{
                   href={
                     firstSection && sections
                       ? {
-                          pathname: `/modules/[module]/[lesson]`,
+                          pathname: `/${modulePath}/[module]/[lesson]`,
                           query: {
                             module: slug,
                             // section: isModuleInProgress
@@ -533,9 +538,7 @@ const ModuleItem: React.FC<{
                           },
                         }
                       : {
-                          pathname: `/${pluralize(
-                            module.moduleType,
-                          )}/[module]/[lesson]`,
+                          pathname: `/${modulePath}/[module]/[lesson]`,
                           query: {
                             module: slug,
                             lesson: isModuleInProgress

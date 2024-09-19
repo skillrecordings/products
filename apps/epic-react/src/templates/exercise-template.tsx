@@ -276,6 +276,7 @@ const ExerciseTemplate: React.FC<{
                 )}
                 {displayWorkshopAppBanner && displayLessonCompletionToggle && (
                   <WorkshopAppBanner
+                    moduleSlug={module.slug.current || ''}
                     description={`The best way to experience ${module.title} workshop is in accompanying Workshop App.`}
                     className="mt-5 rounded-lg border p-5"
                   />
