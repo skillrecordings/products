@@ -18,6 +18,10 @@ async function sendInngestProgressEvent({
   lessonId: any
   lessonSlug: any
 }) {
+  if (!user.id) {
+    console.error(`user id not found ${JSON.stringify(user)}`)
+    return
+  }
   if (process.env.INNGEST_EVENT_KEY) {
     const inngest = new Inngest({
       id:
@@ -78,6 +82,11 @@ export const progressRouter = router({
           }
 
           const {user} = await findOrCreateUser(subscriber.email_address)
+
+          if (!user.id) {
+            console.error(`user id not found ${JSON.stringify(user)}`)
+            return
+          }
 
           completeLessonProgressForUser({
             userId: user.id,
@@ -165,7 +174,7 @@ export const progressRouter = router({
 
           if (progress.completedAt) {
             await sendInngestProgressEvent({
-              user: token,
+              user: user,
               lessonId: lesson._id,
               lessonSlug: lesson.slug,
             })
