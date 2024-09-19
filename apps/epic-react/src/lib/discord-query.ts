@@ -70,7 +70,7 @@ export async function fetchAsDiscordBot(
   })
 }
 
-export async function getDiscordUser(accountId: string) {
+export async function getDiscordUser(accountId?: string | null) {
   if (!accountId) return null
   return fetchJsonAsDiscordBot<DiscordMember | DiscordError>(
     `guilds/${process.env.DISCORD_GUILD_ID}/members/${accountId}`,

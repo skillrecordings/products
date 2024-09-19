@@ -96,7 +96,7 @@ export const syncDiscordRoles = inngest.createFunction(
           productRoles.push(process.env.DISCORD_ROLE_ER_V2)
         }
 
-        if ('user' in discordMember) {
+        if (discordMember && 'user' in discordMember) {
           const currentRoles = discordMember.roles.filter(
             (role) =>
               role !== process.env.DISCORD_ROLE_ER_V1 &&
