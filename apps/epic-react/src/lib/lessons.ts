@@ -16,6 +16,7 @@ type GetLessonProps = {
   country: string
   user?: User & {purchases: Purchase[]}
 }
+
 export async function getLessonVideoForDevice({
   useSolution = false,
   lessonSlug,
@@ -75,7 +76,10 @@ export async function getLessonVideoForDevice({
   }
 }
 
-export const getLessonWithModule = async (id: string): Promise<any> => {
+async function loadLessonWithModule(
+  id: string,
+  moduleType: 'workshop' | 'tutorial' = 'workshop',
+) {
   return await sanityClient.fetch(
     `*[_id == $id][0]{
       _id,
@@ -91,7 +95,7 @@ export const getLessonWithModule = async (id: string): Promise<any> => {
       },
     } | {
       ...,
-      "module": *[_type in ['module'] && moduleType == 'workshop' && (references(^.section._id) || references(^._id))][0] {
+      "module": *[_type in ['module'] && moduleType == '${moduleType}' && (references(^.section._id) || references(^._id))][0] {
         _type,
         title,
         slug,
@@ -120,4 +124,14 @@ export const getLessonWithModule = async (id: string): Promise<any> => {
     }`,
     {id},
   )
+}
+
+export const getLessonWithModule = async (id: string): Promise<any> => {
+  const workshopModule = await loadLessonWithModule(id, 'workshop')
+
+  if (workshopModule.module) {
+    return workshopModule
+  }
+
+  await loadLessonWithModule(id, 'tutorial')
 }

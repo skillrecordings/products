@@ -33,14 +33,17 @@ export const lessonCompleted = inngest.createFunction(
   {event: LESSON_COMPLETED_EVENT},
   async ({event, step}) => {
     const user = await step.run('get user', async () => {
-      return event.user.id ? prisma.user.findUnique({
-        where: {
-          id: event.user.id,
-        },
-      }) : null
+      return event.user.id
+        ? prisma.user.findUnique({
+            where: {
+              id: event.user.id,
+            },
+          })
+        : null
     })
 
-    if (!user) throw new Error(`user not found: ${event.user.id}:${event.user.email}`)
+    if (!user)
+      throw new Error(`user not found: ${event.user.id}:${event.user.email}`)
 
     const UNSUBSCRIBED_KEY = `unsubscribed:${user.id}:kody-the-encouragement-bot`
 
