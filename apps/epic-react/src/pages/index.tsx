@@ -21,6 +21,7 @@ import {sanityClientNoCdn} from '@/utils/sanity-client'
 import {ModulesListWithDescriptions} from '@/components/landing/modules-list'
 import Sparkle from 'react-sparkle'
 import {useTheme} from 'next-themes'
+import Testimonials from '@/components/landing/testimonials'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -228,12 +229,13 @@ const Home: React.FC<{
               <VersionTwoCta
                 className="[&_[data-sr-button]]:text-white [&_[data-sr-input]]:border-gray-300 dark:[&_[data-sr-input]]:border-white/10"
                 id="primary-newsletter-cta"
-                title="Epic React is not Available"
-                byline="Want to be the first to know when it goes back on sale? Sign up here and we'll let you know!"
+                title="Epic React v2 is Almost Here!"
+                byline="It is launching September 23rd at 9am Pacific. Sign up for more details!"
                 actionLabel="Keep me posted"
               />
             </div>
           )}
+          <Testimonials />
         </section>
       </main>
     </Layout>

@@ -53,15 +53,33 @@ export const VersionTwoCta: React.FC<
       {children ? (
         children
       ) : (
-        <div className="space-y-5 pb-16 text-center">
-          <h1 className="pb-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
+        <div className="space-y-5 pb-8 text-center">
+          <h1 className="pb-4 text-6xl font-extrabold leading-9 text-text  lg:leading-none">
             <Balancer>{title}</Balancer>
           </h1>
+          <p className="pb-8 text-center ">
+            Join the live stream event! Hit the{' '}
+            <a
+              className="underline"
+              href="https://www.youtube.com/watch?v=H5V9P4_vxvU"
+            >
+              🔔 here on Youtube
+            </a>{' '}
+            or{' '}
+            <a
+              className="underline"
+              href="http://www.google.com/calendar/event?action=TEMPLATE&dates=20240923T160000Z%2F20240923T170000Z&text=Epic%20React%20v2%20Live%20Stream%20with%20Kent%20C.%20Dodds&location=https%3A%2F%2Fkcd.im%2Flive&details=Join%20Kent%20for%20an%20Epic%20Event%20https%3A%2F%2Fkcd.im%2Flive"
+            >
+              add it to your calendar
+            </a>
+            .
+          </p>
           <h2 className="mx-auto max-w-4xl text-xl text-react sm:text-2xl">
             <Balancer>{byline}</Balancer>
           </h2>
         </div>
       )}
+
       <SubscribeToConvertkitForm
         formId="7017246"
         onSuccess={onSuccess ? onSuccess : handleOnSuccess}
@@ -70,16 +88,6 @@ export const VersionTwoCta: React.FC<
       <div className="h-10 w-10" />
       <p data-nospam="" className="pb-8 text-center text-sm opacity-80">
         We respect your privacy. Unsubscribe at any time.
-      </p>
-      <p data-nospam="" className="max-w-96 py-1 text-center text-sm">
-        Want early access to Epic React for your team? Send us an email at{' '}
-        <a
-          className="font-semibold underline"
-          href="mailto:team@epicreact.dev?subject=Epic%20React%20v2%20for%20my%20Team&body=Our%20team%20has%20__%20members%20and%20we'd%20like%20to%20get%20them%20access%20to%20Epic%20React%20v2."
-        >
-          team@epicreact.dev
-        </a>{' '}
-        to discuss your needs.
       </p>
     </section>
   )

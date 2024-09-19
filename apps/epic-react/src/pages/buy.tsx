@@ -93,8 +93,8 @@ const Buy: React.FC<{
           </>
         ) : (
           <VersionTwoCta
-            title="Epic React is not Available"
-            byline="Want to be the first to know when it goes back on sale? Sign up here and we'll let you know!"
+            title="Epic React v2 is Almost Here!"
+            byline="It is launching September 23rd at 9am Pacific. Sign up for more details!"
             actionLabel="Keep me posted"
           />
         )}
