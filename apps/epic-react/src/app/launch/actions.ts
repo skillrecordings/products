@@ -3,8 +3,25 @@
 import {sanityWriteClient} from '@/utils/sanity-server'
 import groq from 'groq'
 import 'server-only'
+import {getServerSession} from 'next-auth/next'
 
 export async function launch() {
+  const session = await getServerSession({
+    callbacks: {
+      session: async ({session, token}) => {
+        if (token?.id && session.user) {
+          // @ts-ignore
+          session.user.role = token.role
+        }
+        return session
+      },
+    },
+  })
+
+  if (!['ADMIN', 'SUPERADMIN'].includes(session?.user?.role || '')) {
+    return {error: 'not authorized'}
+  }
+
   const prices = await sanityWriteClient.fetch(groq`
     *[_type == "pricing" && slug.current == "epic-react-v2"][0]`)
 
@@ -29,4 +46,6 @@ export async function launch() {
       active: true,
     })
     .commit()
+
+  return {success: 'LAUNCH!'}
 }

@@ -62,6 +62,8 @@ model LessonProgress {
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index(fields: [userId, lessonId])
+  @@index([userId])
+  @@index([lessonId])
   @@index([completedAt(sort: Desc)])
 }
 

@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react'
 import Confetti from 'react-confetti'
 import Starfield from './starfield'
 
-export default function RedButton() {
+export default function RedButton({canPress}: {canPress: boolean}) {
   const [isConfetti, setIsConfetti] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
   const [shake, setShake] = useState(false)
@@ -12,6 +12,7 @@ export default function RedButton() {
   const [starfieldSpeed, setStarfieldSpeed] = useState(0.5)
 
   const handleClick = () => {
+    if (!canPress) return
     setIsPressed(true)
     setShake(true)
     setIsConfetti(true)
