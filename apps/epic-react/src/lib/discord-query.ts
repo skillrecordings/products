@@ -1,6 +1,7 @@
 'use server'
 
 import {prisma} from '@skillrecordings/database'
+import {DiscordError, DiscordMember} from '@/lib/discord'
 
 export async function getDiscordAccount(userId: string) {
   return prisma.account.findFirst({
@@ -67,4 +68,11 @@ export async function fetchAsDiscordBot(
       ...config?.headers,
     },
   })
+}
+
+export async function getDiscordUser(accountId: string) {
+  if (!accountId) return null
+  return fetchJsonAsDiscordBot<DiscordMember | DiscordError>(
+    `guilds/${process.env.DISCORD_GUILD_ID}/members/${accountId}`,
+  )
 }
