@@ -2,6 +2,7 @@ import {prisma} from '@skillrecordings/database'
 import {NextResponse} from 'next/server'
 import {headers} from 'next/headers'
 import {getUser} from './get-user'
+import {getDiscordUser} from '@/lib/discord-query'
 
 export async function GET(request: Request) {
   const headersList = headers()
@@ -19,7 +20,13 @@ export async function GET(request: Request) {
 
     if (token?.userId) {
       const user = await getUser(token.userId)
-      return NextResponse.json(user)
+      const discordAccountId = user?.accounts?.find(
+        (account) => account.provider === 'discord',
+      )?.providerAccountId
+
+      const discordProfile = await getDiscordUser(discordAccountId)
+
+      return NextResponse.json({...user, discordProfile})
     } else {
       return NextResponse.json(
         {

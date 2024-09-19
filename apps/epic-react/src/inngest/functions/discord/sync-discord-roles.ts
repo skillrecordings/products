@@ -1,6 +1,10 @@
 import {inngest} from '@/inngest/inngest.server'
 import {DiscordError, DiscordMember} from '@/lib/discord'
-import {fetchAsDiscordBot, fetchJsonAsDiscordBot} from '@/lib/discord-query'
+import {
+  fetchAsDiscordBot,
+  fetchJsonAsDiscordBot,
+  getDiscordUser,
+} from '@/lib/discord-query'
 import {
   NEW_PURCHASE_CREATED_EVENT,
   PURCHASE_STATUS_UPDATED_EVENT,
@@ -65,9 +69,7 @@ export const syncDiscordRoles = inngest.createFunction(
 
     if (discordAccount) {
       let discordMember = await step.run('get discord member', async () => {
-        return await fetchJsonAsDiscordBot<DiscordMember | DiscordError>(
-          `guilds/${process.env.DISCORD_GUILD_ID}/members/${discordAccount.providerAccountId}`,
-        )
+        return await getDiscordUser(discordAccount.providerAccountId)
       })
 
       await step.run('update discord roles for user', async () => {
@@ -94,7 +96,7 @@ export const syncDiscordRoles = inngest.createFunction(
           productRoles.push(process.env.DISCORD_ROLE_ER_V2)
         }
 
-        if ('user' in discordMember) {
+        if (discordMember && 'user' in discordMember) {
           const currentRoles = discordMember.roles.filter(
             (role) =>
               role !== process.env.DISCORD_ROLE_ER_V1 &&
