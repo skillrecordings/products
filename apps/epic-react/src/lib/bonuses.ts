@@ -22,7 +22,7 @@ export const BonusSchema = z.object({
   _createdAt: z.string(),
   _updatedAt: z.string(),
   resources: z.array(ResourceSchema),
-  image: z.string(),
+  image: z.string().nullable(),
   body: z.string().nullable(),
 })
 
