@@ -321,15 +321,6 @@ const Navigation: React.FC<NavigationProps> = ({
                     </Link>
                   )
                 })}
-                {commercePropsStatus === 'success' &&
-                  purchasedProductIds.length > 0 && (
-                    <Link
-                      href="/products?s=purchased"
-                      className="flex items-center gap-4 rounded-md px-3 py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
-                    >
-                      My Products
-                    </Link>
-                  )}
                 {sessionData?.user && (
                   <button
                     className="flex items-center gap-4 rounded-md px-3 py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
@@ -339,6 +330,35 @@ const Navigation: React.FC<NavigationProps> = ({
                   >
                     Feedback
                   </button>
+                )}
+                {commercePropsStatus === 'success' && hasPurchase && (
+                  <>
+                    {canInviteTeam && lastPurchase ? (
+                      <Link
+                        href={`/products/${lastPurchase.slug}`}
+                        className="flex items-center gap-1 rounded-md px-3 py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
+                        onClick={() => {
+                          track(`clicked Invite Team from navigation`, {
+                            page: asPath,
+                          })
+                        }}
+                      >
+                        Invite Team
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/products?s=purchased"
+                        onClick={() => {
+                          track(`clicked My Products from navigation`, {
+                            page: asPath,
+                          })
+                        }}
+                        className="flex items-center gap-1 rounded-md px-3 py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
+                      >
+                        My Products
+                      </Link>
+                    )}
+                  </>
                 )}
                 <div className="flex w-full items-center justify-between px-3 pt-5 text-lg">
                   <Login />
@@ -374,6 +394,10 @@ const User: React.FC<{className?: string}> = ({className}) => {
   const ability = useAbilities()
   const canCreateContent = ability.can('create', 'Content')
   const {setIsFeedbackDialogOpen} = useFeedback()
+  const hasPurchase = purchasedProductIds.length > 0
+  const canInviteTeam = ability.can('invite', 'Team')
+  const {data: lastPurchase, status: lastPurchaseStatus} =
+    trpc.purchases.getLastPurchase.useQuery()
 
   return (
     <>
@@ -414,6 +438,18 @@ const User: React.FC<{className?: string}> = ({className}) => {
                 Profile
               </Link>
             </DropdownMenuItem>
+            {canInviteTeam &&
+              lastPurchaseStatus === 'success' &&
+              lastPurchase && (
+                <DropdownMenuItem
+                  className="flex items-center justify-between"
+                  asChild
+                >
+                  <Link href={`/products/${lastPurchase.slug}`}>
+                    Invite Team
+                  </Link>
+                </DropdownMenuItem>
+              )}
             {purchasedProductIds.length > 0 && (
               <DropdownMenuItem
                 className="flex items-center justify-between"
