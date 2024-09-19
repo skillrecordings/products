@@ -406,7 +406,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               )}
             </div>
           ) : null}
-          {options.saleCountdownRenderer
+          {options.saleCountdownRenderer && !purchased
             ? options.saleCountdownRenderer({
                 coupon: defaultCoupon
                   ? Number(couponFromCode?.percentageDiscount) >=

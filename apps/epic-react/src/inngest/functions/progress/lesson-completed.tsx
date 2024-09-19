@@ -161,104 +161,106 @@ export const lessonCompleted = inngest.createFunction(
       }
     }
 
-    const MODULE_COMPLETE_KEY = `module-complete:${user.id}:${lessonWithModule.module.slug.current}`
+    if (lessonWithModule.module) {
+      const MODULE_COMPLETE_KEY = `module-complete:${user.id}:${lessonWithModule.module.slug.current}`
 
-    const hasReceivedModuleCompleteEmail = await step.run(
-      'Check if Received ModuleComplete Email',
-      async () => {
-        return await redis.get(MODULE_COMPLETE_KEY)
-      },
-    )
+      const hasReceivedModuleCompleteEmail = await step.run(
+        'Check if Received ModuleComplete Email',
+        async () => {
+          return await redis.get(MODULE_COMPLETE_KEY)
+        },
+      )
 
-    const moduleProgress = await step.run('Get Module Progress', async () => {
-      return await getModuleProgress({
-        userId: user.id,
-        moduleSlug: lessonWithModule.module.slug.current,
+      const moduleProgress = await step.run('Get Module Progress', async () => {
+        return await getModuleProgress({
+          userId: user.id,
+          moduleSlug: lessonWithModule.module.slug.current,
+        })
       })
-    })
 
-    if (!hasReceivedModuleCompleteEmail && moduleProgress.moduleCompleted) {
-      const hasAuthedLocally = await step.run(
-        'Check if Locally Authenticated',
-        async () => {
-          const deviceToken = await prisma.deviceAccessToken.findFirst({
-            where: {
-              userId: user.id,
-            },
-          })
-
-          return Boolean(deviceToken)
-        },
-      )
-
-      await step.run(
-        'send module complete email to ai writer loop',
-        async () => {
-          await inngest.send({
-            name: EMAIL_WRITING_REQUESTED_EVENT,
-            data: {
-              currentLesson: lessonWithModule,
-              moduleProgress,
-              currentModuleSlug: lessonWithModule.module.current,
-              currentLessonSlug: event.data.lessonSlug,
-              currentSectionSlug: lessonWithModule.section.slug,
-            },
-            user: user,
-          })
-        },
-      )
-
-      const aiEmail = await step.waitForEvent(
-        'ai writer loop completed for module',
-        {
-          event: EMAIL_WRITING_REQUEST_COMPLETED_EVENT,
-          timeout: '15m',
-          if: 'event.user.id == async.user.id && async.data.lessonId == event.data.lessonSanityId',
-        },
-      )
-
-      const defaultSubject = `You finished ${lessonWithModule.module.title}`
-      const defaultBody = `You completed ${lessonWithModule.module.title}! That's awesome.`
-
-      const emailOptions = getLessonCompleteEmailOptions(
-        event,
-        defaultSubject,
-        hasAuthedLocally,
-        lessonWithModule,
-        defaultBody,
-        aiEmail,
-      )
-
-      const emailSendResponse = await step.run(
-        'send module completed email',
-        async () => {
-          return await sendTheEmail<LessonCompleteEmailProps>(emailOptions)
-        },
-      )
-
-      if (emailSendResponse.ErrorCode === 0) {
-        await step.run('set module complete email sent', async () => {
-          return await redis.set(
-            MODULE_COMPLETE_KEY,
-            emailSendResponse.MessageID,
-          )
-        })
-
-        await step.run('post module email to slack', async () => {
-          return await postToSlack({
-            webClient: new WebClient(process.env.SLACK_TOKEN),
-            channel: process.env.SLACK_EMAIL_POST_CHANNEL!,
-            username: 'Kody the Encouragement Bot',
-            text: `${user.email} was sent:`,
-            attachments: [
-              {
-                text: emailOptions.componentProps.body,
-                color: '#4893c9',
-                title: emailOptions.Subject,
+      if (!hasReceivedModuleCompleteEmail && moduleProgress.moduleCompleted) {
+        const hasAuthedLocally = await step.run(
+          'Check if Locally Authenticated',
+          async () => {
+            const deviceToken = await prisma.deviceAccessToken.findFirst({
+              where: {
+                userId: user.id,
               },
-            ],
+            })
+
+            return Boolean(deviceToken)
+          },
+        )
+
+        await step.run(
+          'send module complete email to ai writer loop',
+          async () => {
+            await inngest.send({
+              name: EMAIL_WRITING_REQUESTED_EVENT,
+              data: {
+                currentLesson: lessonWithModule,
+                moduleProgress,
+                currentModuleSlug: lessonWithModule.module.current,
+                currentLessonSlug: event.data.lessonSlug,
+                currentSectionSlug: lessonWithModule.section.slug,
+              },
+              user: user,
+            })
+          },
+        )
+
+        const aiEmail = await step.waitForEvent(
+          'ai writer loop completed for module',
+          {
+            event: EMAIL_WRITING_REQUEST_COMPLETED_EVENT,
+            timeout: '15m',
+            if: 'event.user.id == async.user.id && async.data.lessonId == event.data.lessonSanityId',
+          },
+        )
+
+        const defaultSubject = `You finished ${lessonWithModule.module.title}`
+        const defaultBody = `You completed ${lessonWithModule.module.title}! That's awesome.`
+
+        const emailOptions = getLessonCompleteEmailOptions(
+          event,
+          defaultSubject,
+          hasAuthedLocally,
+          lessonWithModule,
+          defaultBody,
+          aiEmail,
+        )
+
+        const emailSendResponse = await step.run(
+          'send module completed email',
+          async () => {
+            return await sendTheEmail<LessonCompleteEmailProps>(emailOptions)
+          },
+        )
+
+        if (emailSendResponse.ErrorCode === 0) {
+          await step.run('set module complete email sent', async () => {
+            return await redis.set(
+              MODULE_COMPLETE_KEY,
+              emailSendResponse.MessageID,
+            )
           })
-        })
+
+          await step.run('post module email to slack', async () => {
+            return await postToSlack({
+              webClient: new WebClient(process.env.SLACK_TOKEN),
+              channel: process.env.SLACK_EMAIL_POST_CHANNEL!,
+              username: 'Kody the Encouragement Bot',
+              text: `${user.email} was sent:`,
+              attachments: [
+                {
+                  text: emailOptions.componentProps.body,
+                  color: '#4893c9',
+                  title: emailOptions.Subject,
+                },
+              ],
+            })
+          })
+        }
       }
     }
 
