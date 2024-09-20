@@ -26,6 +26,7 @@ import {PlayIcon} from '@heroicons/react/solid'
 import {GrPlayFill} from 'react-icons/gr'
 import Link from 'next/link'
 import {track} from '@/utils/analytics'
+import {getAllBonuses, type Bonus} from '@/lib/bonuses'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -52,10 +53,12 @@ export const getServerSideProps: GetServerSideProps = async ({
   })
 
   const v2Modules = await getAllWorkshops()
+  const bonuses = await getAllBonuses()
 
   return {
     props: {
       modules: v2Modules,
+      bonuses,
       commerceProps,
       user,
       subscriber,
@@ -64,10 +67,11 @@ export const getServerSideProps: GetServerSideProps = async ({
 }
 const Home: React.FC<{
   modules: Workshop[]
+  bonuses: Bonus[]
   commerceProps: CommerceProps
   user: User | null
   subscriber: Subscriber | null
-}> = ({modules, commerceProps, user, subscriber}) => {
+}> = ({modules, commerceProps, bonuses, user, subscriber}) => {
   const shouldReduceMotion = useReducedMotion()
 
   const moduleImageVariants = {
@@ -172,7 +176,9 @@ const Home: React.FC<{
               components={{
                 Image,
                 ModulesListWithDescriptions: () => (
-                  <ModulesListWithDescriptions modules={modules} />
+                  <ModulesListWithDescriptions
+                    modules={[...modules, ...bonuses]}
+                  />
                 ),
                 RocketFlyBy: () => {
                   return isMounted ? (

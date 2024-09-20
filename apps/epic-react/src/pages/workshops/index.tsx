@@ -6,13 +6,17 @@ import Image from 'next/legacy/image'
 import Balancer from 'react-wrap-balancer'
 import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
 import {getAllWorkshops, Workshop} from '@/lib/workshops'
+import {SanityDocument} from '@sanity/client'
+import {getAllBonuses} from '@/lib/bonuses'
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
+  const bonuses = await getAllBonuses()
 
   return {
     props: {
       workshops,
+      bonuses,
     },
     revalidate: 10,
   }
@@ -20,7 +24,8 @@ export async function getStaticProps() {
 
 const WorkshopsPage: React.FC<{
   workshops: Workshop[]
-}> = ({workshops}) => {
+  bonuses: SanityDocument[]
+}> = ({workshops, bonuses}) => {
   return (
     <Layout
       meta={{
@@ -49,24 +54,29 @@ const WorkshopsPage: React.FC<{
       </header>
 
       <main className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col justify-center gap-5 px-5 pb-24 pt-16">
-        {workshops && (
-          <ul className="flex flex-col gap-5">
-            {workshops.map((workshop, i) => {
-              return (
-                <ModuleProgressProvider
-                  key={workshop._id}
-                  moduleSlug={workshop.slug.current}
-                >
-                  <Teaser
-                    workshop={workshop}
-                    key={workshop.slug.current}
-                    index={i}
-                  />
-                </ModuleProgressProvider>
-              )
+        <ul className="flex flex-col gap-5">
+          {workshops.map((workshop, i) => {
+            return (
+              <ModuleProgressProvider
+                key={workshop._id}
+                moduleSlug={workshop.slug.current}
+              >
+                <Teaser
+                  workshop={workshop}
+                  key={workshop.slug.current}
+                  index={i}
+                />
+              </ModuleProgressProvider>
+            )
+          })}
+          {bonuses
+            .filter(
+              (module) => module.slug.current === 'interviews-with-experts',
+            )
+            .map((module, i) => {
+              return <BonusTeaser key={module._id} module={module} />
             })}
-          </ul>
-        )}
+        </ul>
       </main>
     </Layout>
   )
@@ -138,5 +148,55 @@ const Teaser: React.FC<{
         )}
       </div>
     </Link>
+  )
+}
+
+const BonusTeaser: React.FC<{module: SanityDocument}> = ({module}) => {
+  const {title, slug, image, description, resources, state} = module
+  if (state === 'draft') return null
+
+  return (
+    <>
+      <Link
+        href={{
+          pathname: '/bonuses/[module]',
+          query: {
+            module: slug.current,
+          },
+        }}
+        className="relative flex w-full flex-col items-center gap-10 overflow-hidden rounded-md border bg-white p-5 shadow-2xl shadow-gray-500/20 transition dark:bg-white/5 dark:shadow-none dark:hover:bg-gray-800 md:flex-row md:p-10 md:pl-16"
+      >
+        <div className="flex items-center justify-center lg:flex-shrink-0">
+          <Image
+            src={image}
+            alt={title}
+            width={300}
+            quality={100}
+            height={300}
+            priority
+          />
+        </div>
+        <div className="flex w-full flex-col items-start text-left">
+          <span className="mb-3 inline-flex rounded-full  bg-gradient-to-b from-[#F2BA24]   to-[#FFA721] px-2.5 py-0.5 text-sm font-bold uppercase tracking-wide text-[#442D00] ">
+            Bonus
+          </span>
+          <div className="flex w-full items-center gap-3">
+            <h3 className="w-full max-w-xl text-2xl font-semibold leading-tight sm:text-3xl">
+              <Balancer>{title}</Balancer>
+            </h3>
+          </div>
+          <div className="mt-3 pb-3 font-mono text-xs font-semibold uppercase text-blue-400">
+            {resources.length} Interviews
+          </div>
+          {description && (
+            <div className="w-full pt-3">
+              <p className="text-gray-600 dark:text-gray-300">
+                <Balancer>{description}</Balancer>
+              </p>
+            </div>
+          )}
+        </div>
+      </Link>
+    </>
   )
 }
