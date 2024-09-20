@@ -27,6 +27,7 @@ import {GrPlayFill} from 'react-icons/gr'
 import Link from 'next/link'
 import {track} from '@/utils/analytics'
 import {getAllBonuses, type Bonus} from '@/lib/bonuses'
+import Faq from '@/pages/faq'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -247,6 +248,7 @@ const Home: React.FC<{
             </div>
           )}
           <Testimonials />
+          <Faq />
         </section>
       </main>
     </Layout>
