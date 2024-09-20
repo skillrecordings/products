@@ -49,6 +49,51 @@ const data = [
   // },
 ]
 
+const bonuses = [
+  {
+    img: 'https://res.cloudinary.com/epic-web/image/upload/v1726742096/interviews-er2_2x.png',
+    title: 'Interviews with Experts',
+    duration: '16 Interviews',
+    description:
+      'Explore React 19 features, server components, and accessibility. Industry leaders share insights on modern web development, open-source, and emerging trends, offering valuable knowledge for React developers of all levels.',
+  },
+]
+
+export const BonusTeaser = () => {
+  return (
+    <ul className="not-prose mx-auto my-16 flex w-full max-w-4xl flex-col gap-10">
+      {bonuses.map((module) => {
+        return (
+          <li
+            key={module.title}
+            className="flex flex-col items-center gap-10 sm:items-start md:flex-row"
+          >
+            {module.img && (
+              <Image
+                src={module.img}
+                alt={module.title}
+                width={200}
+                height={200}
+              />
+            )}
+            <div>
+              <h3 className="mb-3 text-balance text-center text-3xl font-semibold leading-tight sm:text-left">
+                {module.title}
+              </h3>
+              <h4 className="mb-5 text-balance text-center text-lg font-medium leading-normal text-react sm:text-left lg:text-xl">
+                {module.duration}
+              </h4>
+              <div className="mb-5 text-balance text-center text-lg font-medium leading-normal sm:text-left lg:text-lg lg:leading-[1.77]">
+                {module.description}
+              </div>
+            </div>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
 const ModulesList = () => {
   return (
     <div className="not-prose mx-auto w-full max-w-3xl">
