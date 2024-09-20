@@ -16,6 +16,7 @@ type PrimaryNewsletterCtaProps = {
   actionLabel?: string
   id?: string
   className?: string
+  formId?: string
   trackProps?: {
     event?: string
     params?: Record<string, string>
@@ -33,6 +34,7 @@ export const PrimaryNewsletterCta: React.FC<
   actionLabel = common['primary-newsletter-button-cta-label'],
   trackProps = {event: 'subscribed', params: {}},
   onSuccess,
+  formId,
 }) => {
   const router = useRouter()
   const handleOnSuccess = (subscriber: Subscriber | undefined) => {
@@ -57,6 +59,7 @@ export const PrimaryNewsletterCta: React.FC<
         </div>
       )}
       <SubscribeToConvertkitForm
+        formId={formId}
         onSuccess={onSuccess ? onSuccess : handleOnSuccess}
         actionLabel={actionLabel}
       />

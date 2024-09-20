@@ -27,6 +27,10 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         >
           {children}
         </ThemeProvider>
+        <script
+          async
+          src="https://cursor-party.skillrecordings.partykit.dev/cursors.js"
+        ></script>
       </body>
     </html>
   )
