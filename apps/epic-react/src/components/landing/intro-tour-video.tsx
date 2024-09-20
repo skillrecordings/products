@@ -2,7 +2,7 @@ import * as React from 'react'
 import MuxPlayer, {type MuxPlayerProps} from '@mux/mux-player-react'
 import {useTheme} from 'next-themes'
 
-const TOUR_VIDEO_ID = '02pm13UEJQ4M9Xkc9kIjX6E6gvnZ4ELM5GG57IN2UV3E'
+const TOUR_VIDEO_ID = 'RitXuCPqgo701RU200vr97b6Y01bPEdGNcvOggxJ4v02xX00'
 
 const IntroTourVideo = () => {
   const {theme} = useTheme()
