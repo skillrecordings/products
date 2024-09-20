@@ -211,12 +211,16 @@ const Home: React.FC<{
             <>
               <div className="py-8 lg:py-16">
                 <div className="mx-auto w-full max-w-screen-lg px-5 text-center">
-                  <h2 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
-                    Join over 7,000 Developers and Get Extremely Good At React
+                  <h2 className="text-balance py-4 text-4xl leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
+                    Join over 30,000+ Developers and{' '}
+                    <span className="font-extrabold">
+                      Get Extremely Freaking Good
+                    </span>{' '}
+                    At React
                   </h2>
                   <p className="mx-auto mt-5 max-w-4xl text-balance text-xl text-react sm:text-2xl">
-                    The beautiful thing about learning is that nobody can take
-                    it away from you.
+                    Epic React is your hands-on code-first at the keyboard cheat
+                    code to becoming the best React developer you can be.
                   </p>
                 </div>
                 <Companies />
