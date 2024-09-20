@@ -64,30 +64,35 @@ export const BonusTeaser = () => {
     <ul className="not-prose mx-auto my-16 flex w-full max-w-4xl flex-col gap-10">
       {bonuses.map((module) => {
         return (
-          <li
-            key={module.title}
-            className="flex flex-col items-center gap-10 sm:items-start md:flex-row"
-          >
-            {module.img && (
-              <Image
-                src={module.img}
-                alt={module.title}
-                width={200}
-                height={200}
-              />
-            )}
-            <div>
-              <h3 className="mb-3 text-balance text-center text-3xl font-semibold leading-tight sm:text-left">
-                {module.title}
-              </h3>
-              <h4 className="mb-5 text-balance text-center text-lg font-medium leading-normal text-react sm:text-left lg:text-xl">
-                {module.duration}
-              </h4>
-              <div className="mb-5 text-balance text-center text-lg font-medium leading-normal sm:text-left lg:text-lg lg:leading-[1.77]">
-                {module.description}
+          <>
+            <li
+              key={module.title}
+              className="flex flex-col items-center gap-10 sm:items-start md:flex-row"
+            >
+              {module.img && (
+                <Image
+                  src={module.img}
+                  alt={module.title}
+                  width={250}
+                  height={250}
+                />
+              )}
+              <div>
+                <span className="mb-3 inline-flex rounded-full  bg-gradient-to-b from-[#F2BA24]   to-[#FFA721] px-2.5 py-0.5 text-sm font-bold uppercase tracking-wide text-[#442D00] ">
+                  Bonus
+                </span>
+                <h3 className="mb-3 text-balance text-center text-3xl font-semibold leading-tight sm:text-left">
+                  {module.title}
+                </h3>
+                <h4 className="mb-5 text-balance text-center text-lg font-medium leading-normal text-react sm:text-left lg:text-xl">
+                  {module.duration}
+                </h4>
+                <div className="mb-5 text-balance text-center text-lg font-medium leading-normal sm:text-left lg:text-lg lg:leading-[1.77]">
+                  {module.description}
+                </div>
               </div>
-            </div>
-          </li>
+            </li>
+          </>
         )
       })}
     </ul>
@@ -137,8 +142,8 @@ export const ModulesListWithDescriptions = ({
               <Image
                 src={module.image}
                 alt={module.title}
-                width={200}
-                height={200}
+                width={250}
+                height={250}
               />
             )}
             <div>
