@@ -60,6 +60,7 @@ export const PricingTiers: React.FC<
                 key={product.productId}
                 userId={userId}
                 product={product}
+                purchasedProductIds={purchasedProductIds}
                 purchased={purchasedProductIds.includes(product.productId)}
                 index={i}
                 couponId={couponId}
