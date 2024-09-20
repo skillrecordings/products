@@ -48,7 +48,7 @@ const CountdownRendererLg: React.FC<
 
   return completed ? null : (
     <>
-      <div className="w-full px-10 pb-7" {...rest}>
+      <div className="w-full" {...rest}>
         <div className="w-full rounded-lg text-center">
           <p className="pb-5 font-medium">Hurry! Price goes up in:</p>
           <div

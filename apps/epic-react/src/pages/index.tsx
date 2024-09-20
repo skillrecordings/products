@@ -25,6 +25,10 @@ import {
 import Sparkle from 'react-sparkle'
 import {useTheme} from 'next-themes'
 import Testimonials from '@/components/landing/testimonials'
+import {PlayIcon} from '@heroicons/react/solid'
+import {GrPlayFill} from 'react-icons/gr'
+import Link from 'next/link'
+import {track} from '@/utils/analytics'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -165,7 +169,7 @@ const Home: React.FC<{
             priority
           />
         </section>
-        <section className="mx-auto mt-12 w-full max-w-screen-xl px-4 py-8 sm:mt-10 sm:px-8">
+        <section className="mx-auto mt-12 w-full max-w-screen-xl px-4 py-8 pb-16 sm:mt-10 sm:px-8 sm:pb-24">
           <div className="prose mx-auto max-w-none dark:prose-invert lg:prose-xl prose-headings:mx-auto prose-headings:max-w-3xl prose-headings:text-balance prose-p:mx-auto prose-p:max-w-3xl prose-ol:mx-auto prose-ol:max-w-3xl prose-ul:mx-auto prose-ul:max-w-3xl">
             <LandingCopy
               components={{
@@ -190,6 +194,7 @@ const Home: React.FC<{
                     />
                   ) : null
                 },
+                TutorialWidget,
               }}
             />
           </div>
@@ -229,7 +234,7 @@ const Home: React.FC<{
               </div>
             </>
           ) : (
-            <div className="mx-auto max-w-screen-lg px-5 py-16 sm:px-8">
+            <div className="mx-auto max-w-screen-lg px-5 py-10">
               <VersionTwoCta
                 className="[&_[data-sr-button]]:text-white [&_[data-sr-input]]:border-gray-300 dark:[&_[data-sr-input]]:border-white/10"
                 id="primary-newsletter-cta"
@@ -247,3 +252,42 @@ const Home: React.FC<{
 }
 
 export default Home
+
+const TutorialWidget = () => {
+  return (
+    <div className="not-prose block sm:my-10">
+      <Link
+        href="/tutorials/get-started-with-react/get-started-with-react-intro"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => {
+          track('clicked free preview', {
+            location: 'home page',
+            tutorial: 'get started with react',
+          })
+        }}
+        id="free-preview"
+        className="not-prose mx-auto flex w-full max-w-lg flex-col items-center overflow-hidden rounded border transition ease-in-out hover:bg-gray-100 dark:hover:bg-card sm:flex-row"
+      >
+        <div className="relative flex aspect-video h-full max-h-[200px] w-full items-center justify-center overflow-hidden border-r ">
+          <Image
+            src="https://res.cloudinary.com/epic-web/image/upload/v1726811725/free-preview-thumbnail_2x.jpg"
+            className="object-cover opacity-75"
+            fill
+            // width={340}
+            // height={190}
+            alt="Get Started With React"
+          />
+          <GrPlayFill className="absolute h-5 w-5 text-foreground drop-shadow-md" />
+        </div>
+        <div className="w-full p-5 pt-3">
+          <div className="inline-flex items-center justify-center rounded-full bg-blue-400/10 px-3 py-1 text-xs font-semibold uppercase text-react">
+            Free Preview
+          </div>
+          <h3 className="mt-1 text-xl font-semibold">Get Started With React</h3>
+          <p className="mt-1 text-sm opacity-75">20 lessons</p>
+        </div>
+      </Link>
+    </div>
+  )
+}

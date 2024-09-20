@@ -406,16 +406,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
               )}
             </div>
           ) : null}
-          {options.saleCountdownRenderer && !purchased
-            ? options.saleCountdownRenderer({
-                coupon: defaultCoupon
-                  ? Number(couponFromCode?.percentageDiscount) >=
-                    Number(defaultCoupon?.percentageDiscount)
-                    ? couponFromCode
-                    : defaultCoupon
-                  : couponFromCode,
-              })
-            : null}
+
           {purchased ? (
             <>
               <div data-pricing-product-header="">
@@ -599,6 +590,16 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                         </Balancer>
                       </span>
                     )}
+                    {options.saleCountdownRenderer && !purchased
+                      ? options.saleCountdownRenderer({
+                          coupon: defaultCoupon
+                            ? Number(couponFromCode?.percentageDiscount) >=
+                              Number(defaultCoupon?.percentageDiscount)
+                              ? couponFromCode
+                              : defaultCoupon
+                            : couponFromCode,
+                        })
+                      : null}
                   </fieldset>
                 </form>
               </div>
@@ -732,6 +733,37 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       }}
                     />
                   )}
+
+                {workshops && (
+                  <div data-workshops="">
+                    <strong>Workshops</strong>
+                    <ul role="list">
+                      {workshops.map((module) => {
+                        return purchased ? (
+                          <li key={module.slug}>
+                            <Link
+                              href={{
+                                pathname: `/workshops/[slug]`,
+                                query: {
+                                  slug: module.slug,
+                                },
+                              }}
+                            >
+                              <WorkshopListItem module={module} />
+                            </Link>
+                          </li>
+                        ) : (
+                          <li key={module.slug}>
+                            <WorkshopListItem
+                              module={module}
+                              key={module.slug}
+                            />
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </div>
+                )}
                 {moduleBonuses &&
                   moduleBonuses.length > 0 &&
                   !Boolean(merchantCoupon) && (
@@ -763,37 +795,6 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       </ul>
                     </div>
                   )}
-                {workshops && (
-                  <div data-workshops="">
-                    <strong>Workshops</strong>
-                    <ul role="list">
-                      {workshops.map((module) => {
-                        return purchased ? (
-                          <li key={module.slug}>
-                            <Link
-                              href={{
-                                pathname: `/workshops/[slug]`,
-                                query: {
-                                  slug: module.slug,
-                                },
-                              }}
-                            >
-                              <WorkshopListItem module={module} />
-                            </Link>
-                          </li>
-                        ) : (
-                          <li key={module.slug}>
-                            <WorkshopListItem
-                              module={module}
-                              key={module.slug}
-                            />
-                          </li>
-                        )
-                      })}
-                    </ul>
-                  </div>
-                )}
-
                 {features && (
                   <div data-features="">
                     <strong>Features</strong>
