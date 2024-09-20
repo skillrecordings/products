@@ -84,15 +84,12 @@ const Buy: React.FC<{
         {commerceProps.products?.length > 0 ? (
           <>
             <div className="mx-auto max-w-screen-lg space-y-5 px-5 text-center">
-              <h1 className="mb-2 text-balance text-3xl font-extrabold leading-9 text-text sm:mb-4 sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
-                Join 30,000+ Epic Developers and Get Extremely Freaking Good At
-                React
+              <h1 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
+                Get Started in Less Than 10 Minutes and Master React
               </h1>
-              <h2 className="mx-auto max-w-4xl text-lg text-react sm:text-2xl">
-                <Balancer>
-                  Master React through self-paced, fully-guided, interactive,
-                  in-depth code-first workshops.
-                </Balancer>
+              <h2 className="mx-auto mt-5 max-w-4xl text-balance text-xl font-extrabold text-react sm:text-2xl">
+                Epic React is your hands-on code-first at the keyboard cheat
+                code to becoming the best React developer you can be.
               </h2>
             </div>
             <div className="mt-16 lg:mt-32">

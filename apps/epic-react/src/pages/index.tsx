@@ -134,14 +134,14 @@ const Home: React.FC<{
             )}
           </div>
           <h1 className="text-balance px-5 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:leading-tight md:max-w-3xl md:text-4xl lg:text-5xl">
-            Get Extremely Good at React Quickly and Efficiently
+            Master React with Code Focused Workshops
           </h1>
-          <h2 className="mt-5 inline-flex flex-wrap items-center justify-center gap-x-3 text-balance px-5 text-center text-blue-200 sm:text-xl">
+          <h2 className="mt-5 inline-flex max-w-2xl flex-wrap items-center justify-center gap-x-3 text-balance px-5 text-center font-bold text-blue-200 sm:text-xl">
             <span>
-              Self-Paced Code-First Hands-on React Training for Professional Web
-              Developers by{' '}
+              Self-paced, code-first hands-on React training for professional
+              web developers by{' '}
             </span>
-            <span className="inline-flex items-center">
+            <span className="inline-flex items-center font-normal">
               <Image
                 priority
                 src={require('../../public/kent-c-dodds.png')}
@@ -191,7 +191,7 @@ const Home: React.FC<{
           />
         </section>
         <section className="mx-auto mt-12 w-full max-w-screen-xl px-4 py-8 pb-16 sm:mt-10 sm:px-8 sm:pb-24">
-          <div className="prose mx-auto max-w-none dark:prose-invert lg:prose-xl prose-headings:mx-auto prose-headings:max-w-3xl prose-headings:text-balance prose-p:mx-auto prose-p:max-w-3xl prose-ol:mx-auto prose-ol:max-w-3xl prose-ul:mx-auto prose-ul:max-w-3xl">
+          <div className="prose mx-auto max-w-none dark:prose-invert lg:prose-xl prose-headings:mx-auto prose-headings:max-w-3xl prose-h3:text-2xl  prose-p:mx-auto prose-p:max-w-3xl prose-ol:mx-auto prose-ol:max-w-3xl prose-ul:mx-auto prose-ul:max-w-3xl">
             <LandingCopy
               components={{
                 Image,
@@ -230,17 +230,13 @@ const Home: React.FC<{
             <>
               <div className="py-8 lg:py-16">
                 <div className="mx-auto w-full max-w-screen-lg px-5 text-center">
-                  <h2 className="text-balance py-4 text-4xl leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
-                    Join over 30,000+ Developers and{' '}
-                    <span className="font-extrabold">
-                      Get Extremely Freaking Good
-                    </span>{' '}
-                    At React
+                  <h2 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
+                    Get Started in Less Than 10 Minutes and Master React
                   </h2>
-                  <p className="mx-auto mt-5 max-w-4xl text-balance text-xl text-react sm:text-2xl">
+                  <h3 className="mx-auto mt-5 max-w-4xl text-balance text-xl font-extrabold text-react sm:text-2xl">
                     Epic React is your hands-on code-first at the keyboard cheat
                     code to becoming the best React developer you can be.
-                  </p>
+                  </h3>
                 </div>
                 <Companies />
                 <div className="mt-16 lg:mt-32">
