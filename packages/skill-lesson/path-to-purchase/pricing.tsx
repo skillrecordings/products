@@ -52,6 +52,7 @@ const getNumericValue = (
 type PricingProps = {
   product: SanityProduct
   purchased?: boolean
+  purchasedProductIds?: string[]
   userId?: string
   index?: number
   couponId?: string
@@ -108,6 +109,7 @@ type PricingProps = {
  */
 export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
   product,
+  purchasedProductIds,
   purchased: _purchased = false,
   userId,
   index = 0,
@@ -149,18 +151,35 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     setQuantity,
   } = usePriceCheck()
 
+  const canPurchaseTier: boolean = (() => {
+    if (purchasedProductIds == null || !Array.isArray(purchasedProductIds)) {
+      return true
+    }
+
+    const upgradeProductId = product.upgradableTo?.productId
+    if (upgradeProductId == null) {
+      return true
+    }
+
+    return !purchasedProductIds.includes(upgradeProductId)
+  })()
+
   const defaultPurchaseButtonRenderer = (
     formattedPrice: any,
     product: SanityProduct,
     status: QueryStatus,
     quantity: number,
+    canPurchaseTier: boolean,
   ) => {
     const isContactUs = quantity >= 30
+
     return (
       <button
         data-pricing-product-checkout-button=""
         type={isContactUs ? 'button' : 'submit'}
-        disabled={status === 'loading' || status === 'error'}
+        disabled={
+          status === 'loading' || status === 'error' || !canPurchaseTier
+        }
         onClick={() => {
           if (isContactUs) {
             router.push('/for-teams')
@@ -168,11 +187,13 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
         }}
       >
         <span>
-          {isContactUs
+          {!canPurchaseTier
+            ? 'Not Available'
+            : isContactUs
             ? 'Contact Us'
             : formattedPrice?.upgradeFromPurchaseId
-            ? `Upgrade Now`
-            : product?.action || `Buy Now`}
+            ? 'Upgrade Now'
+            : product?.action || 'Buy Now'}
         </span>
       </button>
     )
@@ -578,6 +599,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                       product,
                       status,
                       quantity,
+                      canPurchaseTier,
                     )}
                     {withGuaranteeBadge && (
                       <span data-guarantee="">30-Day Money-Back Guarantee</span>

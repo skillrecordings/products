@@ -164,6 +164,9 @@ export const getAllActiveProducts = async (activeOnly: boolean = true) => {
       state,
     },
     "bonuses": *[_type == 'bonus'][]{...},
+    "upgradableTo": upgradableTo[0]->{
+      productId
+    },
     "features" : features[]{
       value,
       icon
