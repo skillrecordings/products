@@ -42,6 +42,7 @@ const BonusTemplate: React.FC<{
         description,
         ogImage: getOgImage({
           title: title,
+          image: bonus.image,
         }),
       }}
     >

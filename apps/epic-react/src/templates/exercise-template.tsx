@@ -55,7 +55,7 @@ const ExerciseTemplate: React.FC<{
   const {title, description: exerciseDescription} = lesson
   const ogImage = getOgImage({
     title,
-    image: module.image,
+    // image: module.image,
   })
   const {ogImage: moduleOGImage, description: moduleDescription} = module
   const pageTitle = `${title}`
