@@ -27,7 +27,8 @@ import {GrPlayFill} from 'react-icons/gr'
 import Link from 'next/link'
 import {track} from '@/utils/analytics'
 import {getAllBonuses, type Bonus} from '@/lib/bonuses'
-import Faq from '@/pages/faq'
+import Faq, {FaqBody} from '@/pages/faq'
+import Balancer from 'react-wrap-balancer'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -91,7 +92,11 @@ const Home: React.FC<{
   }, [])
 
   return (
-    <Layout>
+    <Layout
+      meta={{
+        title: 'Learn React 19 with Epic React by Kent C. Dodds',
+      }}
+    >
       <main>
         <section className="sm:pt-26 relative flex w-full flex-col items-center justify-center overflow-hidden bg-gray-900 pt-12">
           <div className="relative mb-8 flex items-center justify-center rounded-full">
@@ -211,12 +216,16 @@ const Home: React.FC<{
             <>
               <div className="py-8 lg:py-16">
                 <div className="mx-auto w-full max-w-screen-lg px-5 text-center">
-                  <h2 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
-                    Join over 7,000 Developers and Get Extremely Good At React
+                  <h2 className="text-balance py-4 text-4xl leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
+                    Join over 30,000+ Developers and{' '}
+                    <span className="font-extrabold">
+                      Get Extremely Freaking Good
+                    </span>{' '}
+                    At React
                   </h2>
                   <p className="mx-auto mt-5 max-w-4xl text-balance text-xl text-react sm:text-2xl">
-                    The beautiful thing about learning is that nobody can take
-                    it away from you.
+                    Epic React is your hands-on code-first at the keyboard cheat
+                    code to becoming the best React developer you can be.
                   </p>
                 </div>
                 <Companies />
@@ -248,7 +257,14 @@ const Home: React.FC<{
             </div>
           )}
           <Testimonials />
-          <Faq />
+          <header className="flex items-center justify-center px-5 pt-20">
+            <h1 className="w-full text-center text-3xl font-bold sm:text-3xl lg:text-4xl">
+              <Balancer>Frequently Asked Questions</Balancer>
+            </h1>
+          </header>
+          <main className="mx-auto w-full max-w-screen-lg px-5 py-16 lg:py-20">
+            <FaqBody />
+          </main>
         </section>
       </main>
     </Layout>
