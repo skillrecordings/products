@@ -55,7 +55,7 @@ function MyApp({Component, pageProps}: AppProps<{session: Session}>) {
                   enableSystem
                   disableTransitionOnChange
                 >
-                  <GoldenTicketProvider>
+                  <GoldenTicketProvider couponImageUrl="https://res.cloudinary.com/epic-web/image/upload/v1726823090/epic-react-golden-ticket_2x.jpg">
                     <Component {...pageProps} />
                   </GoldenTicketProvider>
                 </ThemeProvider>
