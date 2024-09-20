@@ -86,7 +86,7 @@ const ModulesList = () => {
 export const ModulesListWithDescriptions = ({
   modules,
 }: {
-  modules: Workshop[] | Bonus[]
+  modules: Array<Workshop | Bonus>
 }) => {
   return (
     <ul className="not-prose mx-auto my-16 flex w-full max-w-4xl flex-col gap-10">

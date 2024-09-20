@@ -18,10 +18,7 @@ import {User} from '@skillrecordings/skill-lesson'
 import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import groq from 'groq'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
-import {
-  ModulesListWithDescriptions,
-  BonusTeaser,
-} from '@/components/landing/modules-list'
+import {ModulesListWithDescriptions} from '@/components/landing/modules-list'
 import Sparkle from 'react-sparkle'
 import {useTheme} from 'next-themes'
 import Testimonials from '@/components/landing/testimonials'
@@ -183,7 +180,6 @@ const Home: React.FC<{
                     modules={[...modules, ...bonuses]}
                   />
                 ),
-                BonusTeaser: () => <BonusTeaser />,
                 RocketFlyBy: () => {
                   return isMounted ? (
                     <Image
