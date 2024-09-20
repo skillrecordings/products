@@ -8,6 +8,7 @@ const log = (...args: any) => enableLog && console.log(...args)
 
 const DISCORD_API_BASE = 'https://discord.com/api'
 const DISCORD_EPIC_REACT_ROLE_ID = process.env.DISCORD_EPIC_REACT_ROLE_ID ?? ''
+const DISCORD_MEMBER_ROLE_ID = process.env.DISCORD_MEMBER_ROLE_ID ?? ''
 const DISCORD_GUILD_ID = process.env.DISCORD_GUILD_ID ?? ''
 const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET ?? ''
 const DISCORD_SCOPES = process.env.DISCORD_SCOPES ?? ''
@@ -117,17 +118,24 @@ async function updateDiscordRolesForEpicReactUser({
     const epicReactRole = discordRoles.find(
       (r: any) => r.id === DISCORD_EPIC_REACT_ROLE_ID,
     )
+    const memberRole = discordRoles.find(
+      (r: any) => r.id === DISCORD_MEMBER_ROLE_ID,
+    )
 
-    if (!epicReactRole) {
+    if (!epicReactRole || !memberRole) {
       throw new Error(
-        'requires DISCORD_EPIC_REACT_ROLE_ID within the DISCORD_GUILD_ID to add the role to the user',
+        'requires DISCORD_EPIC_REACT_ROLE_ID and DISCORD_MEMBER_ROLE_ID within the DISCORD_GUILD_ID to add the role to the user',
       )
     }
 
     const previousNickname = discordMember.nick || discordMember.user.username
     const previousRoles = discordMember.roles
     let newRoles = Array.from(
-      new Set([...discordMember.roles, DISCORD_EPIC_REACT_ROLE_ID]),
+      new Set([
+        ...discordMember.roles,
+        DISCORD_EPIC_REACT_ROLE_ID,
+        DISCORD_MEMBER_ROLE_ID,
+      ]),
     )
     let newNickname = previousNickname.includes('🚀')
       ? previousNickname
