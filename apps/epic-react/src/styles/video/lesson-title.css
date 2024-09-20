@@ -15,7 +15,7 @@ h1[data-lesson-title] {
   @apply bg-blue-400/10 text-blue-500 dark:text-blue-400;
 }
 [data-lesson-badge='interview'] {
-  @apply bg-sky-500/20 text-sky-200;
+  @apply bg-sky-500/10 text-blue-500 dark:text-blue-400;
 }
 [data-lesson-badge='lesson'] {
   @apply bg-blue-400/10 text-blue-500 dark:text-blue-400;
