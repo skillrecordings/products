@@ -129,7 +129,7 @@ const Testimonials = () => {
   return (
     <section
       id="testimonials"
-      className="not-prose relative mx-auto grid w-full max-w-4xl grid-cols-1 gap-4 pb-10 pt-16 md:grid-cols-2"
+      className="not-prose relative mx-auto mt-16 grid w-full max-w-4xl grid-cols-1 gap-4 pb-10 pt-16 md:grid-cols-2"
     >
       <div
         className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"

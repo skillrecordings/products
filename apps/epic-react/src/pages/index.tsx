@@ -208,7 +208,7 @@ const Home: React.FC<{
           </div>
         </section>
         <section
-          className="bg-er-gray-100 pb-16 pt-8"
+          className="bg-er-gray-100 pb-24 pt-8"
           aria-label="Enroll in Epic React"
           id="buy"
         >

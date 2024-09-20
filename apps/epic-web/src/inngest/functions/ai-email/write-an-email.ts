@@ -81,14 +81,15 @@ export const writeAnEmail = inngest.createFunction(
     - if there is any previous commentary from the editor, please use it as a basis to improve the email and subject that you write.
     - prefer full text titles over slugs
     - don't guess at titles, use the provided data only
-    - if you talk about the next lesson make sure it comes after the current lesson
+    - next lessons ONLY come after the current lesson!
     - keep the exposition to a minimum
     - developers hate when ai writes for them, don't sound like an ai, sound human
     - when it makes sense, don't focus on Remix, focus on the broader universal skills of a web developer
     - No additional "meta" text or commentary is necessary. 
     - editor feedback is a priority unless you think it is wrong, then you can ignore it.
-    - do not link to lessons
-    - do not guess lesson or workshop titles, use the progress data below only
+    - **do not** link to lessons
+    - **do not** guess lesson or workshop titles, use the progress data below only
+    - **only** suggest next lessons, not previous incomplete lessons
     - keep the exposition and flowery language to a minimum
 
     Structured Progress Data:
