@@ -1,3 +1,4 @@
+import type {Bonus} from '@/lib/bonuses'
 import type {Workshop} from '@/lib/workshops'
 import Image from 'next/image'
 
@@ -37,6 +38,13 @@ const data = [
     title: 'React Server Components',
     duration: '5 sections, 27 lessons',
   },
+  {
+    img: 'https://res.cloudinary.com/epic-web/image/upload/v1726742096/interviews-er2_2x.png',
+    title: 'Interviews with Experts',
+    duration: '16 Interviews',
+    description:
+      'Explore React 19 features, server components, and accessibility. Industry leaders share insights on modern web development, open-source, and emerging trends, offering valuable knowledge for React developers of all levels.',
+  },
   // {
   //   img: '/modules-images/06-testing-react-apps.webp',
   //   title: 'Testing React Apps',
@@ -48,56 +56,6 @@ const data = [
   //   duration: '7h 7m',
   // },
 ]
-
-const bonuses = [
-  {
-    img: 'https://res.cloudinary.com/epic-web/image/upload/v1726742096/interviews-er2_2x.png',
-    title: 'Interviews with Experts',
-    duration: '16 Interviews',
-    description:
-      'Explore React 19 features, server components, and accessibility. Industry leaders share insights on modern web development, open-source, and emerging trends, offering valuable knowledge for React developers of all levels.',
-  },
-]
-
-export const BonusTeaser = () => {
-  return (
-    <ul className="not-prose mx-auto my-16 flex w-full max-w-4xl flex-col gap-10">
-      {bonuses.map((module) => {
-        return (
-          <>
-            <li
-              key={module.title}
-              className="flex flex-col items-center gap-10 sm:items-start md:flex-row"
-            >
-              {module.img && (
-                <Image
-                  src={module.img}
-                  alt={module.title}
-                  width={250}
-                  height={250}
-                />
-              )}
-              <div>
-                <span className="mb-3 inline-flex rounded-full  bg-gradient-to-b from-[#F2BA24]   to-[#FFA721] px-2.5 py-0.5 text-sm font-bold uppercase tracking-wide text-[#442D00] ">
-                  Bonus
-                </span>
-                <h3 className="mb-3 text-balance text-center text-3xl font-semibold leading-tight sm:text-left">
-                  {module.title}
-                </h3>
-                <h4 className="mb-5 text-balance text-center text-lg font-medium leading-normal text-react sm:text-left lg:text-xl">
-                  {module.duration}
-                </h4>
-                <div className="mb-5 text-balance text-center text-lg font-medium leading-normal sm:text-left lg:text-lg lg:leading-[1.77]">
-                  {module.description}
-                </div>
-              </div>
-            </li>
-          </>
-        )
-      })}
-    </ul>
-  )
-}
 
 const ModulesList = () => {
   return (
@@ -128,11 +86,17 @@ const ModulesList = () => {
 export const ModulesListWithDescriptions = ({
   modules,
 }: {
-  modules: Workshop[]
+  modules: Workshop[] | Bonus[]
 }) => {
   return (
     <ul className="not-prose mx-auto my-16 flex w-full max-w-4xl flex-col gap-10">
       {modules.map((module, index) => {
+        const hasTagline = 'tagline' in module
+        const hasDuration = data[index]?.duration
+        const isBonus = module.moduleType === 'bonus'
+
+        if (isBonus && !hasDuration) return null
+
         return (
           <li
             key={module.title}
@@ -142,17 +106,22 @@ export const ModulesListWithDescriptions = ({
               <Image
                 src={module.image}
                 alt={module.title}
-                width={250}
-                height={250}
+                width={200}
+                height={200}
               />
             )}
-            <div>
+            <div className="flex flex-col items-center sm:items-start">
+              {isBonus && (
+                <div className="mb-3 inline-flex items-center justify-center rounded-full bg-amber-300 px-3 py-1 text-xs font-semibold uppercase text-amber-900">
+                  Bonus
+                </div>
+              )}
               <h3 className="mb-3 text-balance text-center text-2xl font-semibold leading-tight text-foreground dark:text-white sm:text-left sm:text-3xl">
                 {module.title}
               </h3>
               <h4 className="mb-5 text-balance text-center font-medium leading-normal text-react sm:text-left sm:text-lg lg:text-xl">
-                {data[index].duration} {module.tagline && '• '}
-                {module.tagline}
+                {data[index]?.duration} {hasTagline && module.tagline && '• '}
+                {hasTagline && module.tagline}
               </h4>
               <div className="mb-5 text-balance text-center leading-normal sm:text-left sm:text-lg sm:font-medium lg:text-lg lg:leading-[1.77]">
                 {module.description}
