@@ -54,10 +54,10 @@ export const VersionTwoCta: React.FC<
         children
       ) : (
         <div className="space-y-5 pb-8 text-center">
-          <h1 className="pb-4 text-6xl font-extrabold leading-9 text-text  lg:leading-none">
-            <Balancer>{title}</Balancer>
+          <h1 className="text-balance pb-4 text-3xl font-extrabold leading-9 text-text sm:text-4xl lg:text-5xl">
+            {title}
           </h1>
-          <p className="pb-8 text-center ">
+          <p className="text-balance text-center text-lg text-foreground sm:text-xl">
             Join the live stream event! Hit the{' '}
             <a
               className="underline"
@@ -74,8 +74,8 @@ export const VersionTwoCta: React.FC<
             </a>
             .
           </p>
-          <h2 className="mx-auto max-w-4xl text-xl text-react sm:text-2xl">
-            <Balancer>{byline}</Balancer>
+          <h2 className="mx-auto max-w-4xl text-balance text-lg text-foreground sm:text-xl">
+            {byline}
           </h2>
         </div>
       )}

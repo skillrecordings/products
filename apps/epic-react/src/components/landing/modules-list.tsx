@@ -97,7 +97,7 @@ export const ModulesListWithDescriptions = ({
               />
             )}
             <div>
-              <h3 className="mb-3 text-balance text-center text-3xl font-semibold leading-tight sm:text-left">
+              <h3 className="mb-3 text-balance text-center text-3xl font-semibold leading-tight text-foreground dark:text-white sm:text-left">
                 {module.title}
               </h3>
               <h4 className="mb-5 text-balance text-center text-lg font-medium leading-normal text-react sm:text-left lg:text-xl">
