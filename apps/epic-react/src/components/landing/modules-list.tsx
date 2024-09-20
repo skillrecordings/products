@@ -86,7 +86,7 @@ export const ModulesListWithDescriptions = ({
         return (
           <li
             key={module.title}
-            className="flex flex-col items-center gap-10 sm:items-start md:flex-row"
+            className="flex flex-col items-center gap-5 sm:items-start sm:gap-10 md:flex-row"
           >
             {module.image && (
               <Image
@@ -97,14 +97,14 @@ export const ModulesListWithDescriptions = ({
               />
             )}
             <div>
-              <h3 className="mb-3 text-balance text-center text-3xl font-semibold leading-tight text-foreground dark:text-white sm:text-left">
+              <h3 className="mb-3 text-balance text-center text-2xl font-semibold leading-tight text-foreground dark:text-white sm:text-left sm:text-3xl">
                 {module.title}
               </h3>
-              <h4 className="mb-5 text-balance text-center text-lg font-medium leading-normal text-react sm:text-left lg:text-xl">
+              <h4 className="mb-5 text-balance text-center font-medium leading-normal text-react sm:text-left sm:text-lg lg:text-xl">
                 {data[index].duration} {module.tagline && '• '}
                 {module.tagline}
               </h4>
-              <div className="mb-5 text-balance text-center text-lg font-medium leading-normal sm:text-left lg:text-lg lg:leading-[1.77]">
+              <div className="mb-5 text-balance text-center leading-normal sm:text-left sm:text-lg sm:font-medium lg:text-lg lg:leading-[1.77]">
                 {module.description}
               </div>
             </div>
