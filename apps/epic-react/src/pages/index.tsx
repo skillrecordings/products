@@ -29,6 +29,7 @@ import {track} from '@/utils/analytics'
 import {getAllBonuses, type Bonus} from '@/lib/bonuses'
 import Faq, {FaqBody} from '@/pages/faq'
 import Balancer from 'react-wrap-balancer'
+import {couponForPurchases} from '@/lib/purchases'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -41,21 +42,32 @@ export const getServerSideProps: GetServerSideProps = async ({
     groq`*[_type == 'pricing' && active == true][0]`,
   )
 
+  const coupon = (await couponForPurchases(user?.purchases)) || query?.coupon
+
   const allowPurchase =
     pricingActive ||
     query?.allowPurchase === 'true' ||
     query?.coupon ||
     query?.code
+
   const products = await getAllActiveProducts(!allowPurchase)
 
   const {props: commerceProps} = await propsForCommerce({
-    query,
+    query: {
+      ...query,
+      coupon,
+    },
     token,
     products,
   })
 
   const v2Modules = await getAllWorkshops()
   const bonuses = await getAllBonuses()
+  const productLabels = coupon
+    ? {
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Discount',
+      }
+    : {}
 
   return {
     props: {
@@ -64,6 +76,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       commerceProps,
       user,
       subscriber,
+      productLabels,
     },
   }
 }
@@ -73,7 +86,8 @@ const Home: React.FC<{
   commerceProps: CommerceProps
   user: User | null
   subscriber: Subscriber | null
-}> = ({modules, commerceProps, bonuses, user, subscriber}) => {
+  productLabels?: {[productId: string]: string}
+}> = ({modules, commerceProps, bonuses, user, subscriber, productLabels}) => {
   const shouldReduceMotion = useReducedMotion()
 
   const moduleImageVariants = {
@@ -233,6 +247,7 @@ const Home: React.FC<{
                   <PricingSection
                     commerceProps={commerceProps}
                     className="mb-28 mt-12 md:mt-14 lg:mb-32 lg:mt-16"
+                    productLabels={productLabels}
                   />
                 </div>
               </div>

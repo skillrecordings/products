@@ -9,6 +9,7 @@ import {PriceCheckProvider} from './pricing-check-context'
 
 type EnhancedCommerceProps = Omit<CommerceProps, 'products'> & {
   products: Array<SanityProduct & {options?: {allowTeamPurchase: boolean}}>
+  productLabels?: {[productId: string]: string}
 }
 
 export const PricingTiers: React.FC<
@@ -20,6 +21,7 @@ export const PricingTiers: React.FC<
   purchases = [],
   couponIdFromCoupon,
   allowPurchase,
+  productLabels,
 }) => {
   const restrictedToProduct = couponFromCode?.restrictedToProductId
     ? products.find(
@@ -45,6 +47,8 @@ export const PricingTiers: React.FC<
     couponIdFromCoupon || (validCoupon ? couponFromCode?.id : undefined)
 
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
+
+  console.log(productLabels)
 
   return (
     <>

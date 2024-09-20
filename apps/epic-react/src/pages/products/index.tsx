@@ -35,19 +35,44 @@ import {
 } from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import Spinner from '@/components/spinner'
 import {Bonuses, PurchasedBadge} from '@/templates/purchased-product-template'
+import {getUserAndSubscriber} from '@/lib/users'
+import {sanityClientNoCdn} from '@/utils/sanity-client'
+import groq from 'groq'
+import {couponForPurchases} from '@/lib/purchases'
+import {getAllActiveProducts} from '@/lib/products'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const products = await getAllProducts()
-  const {req, query} = context
+  const {req, res, query} = context
   const token = await getToken({req})
+  const {user, subscriber} = await getUserAndSubscriber({req, res, query})
+  const pricingActive = await sanityClientNoCdn.fetch(
+    groq`*[_type == 'pricing' && active == true][0]`,
+  )
 
-  const commerceProps = await propsForCommerce({
-    query,
+  const coupon = (await couponForPurchases(user?.purchases)) || query?.coupon
+
+  const allowPurchase =
+    pricingActive ||
+    query?.allowPurchase === 'true' ||
+    query?.coupon ||
+    query?.code
+
+  const products = await getAllActiveProducts(!allowPurchase)
+
+  const {props: commerceProps} = await propsForCommerce({
+    query: {
+      ...query,
+      coupon,
+    },
     token,
     products,
   })
-
-  return commerceProps
+  const productLabels = coupon
+    ? {
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Discount',
+      }
+    : {}
+  return {props: {...commerceProps, productLabels}}
 }
 
 type PurchaseWithProduct = Purchase & {
@@ -62,9 +87,10 @@ type PurchaseWithProduct = Purchase & {
 type ProductsIndexProps = {
   purchases: PurchaseWithProduct[]
   products: SanityProduct[]
+  productLabels?: {[productId: string]: string}
 }
 
-const Products: React.FC<ProductsIndexProps> = ({products}) => {
+const Products: React.FC<ProductsIndexProps> = ({products, productLabels}) => {
   const {
     purchases,
     displayedProducts,

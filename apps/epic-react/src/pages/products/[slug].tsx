@@ -9,17 +9,24 @@ import {
   propsForCommerce,
 } from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
-import {getProductBySlug} from '@/lib/products'
+import {getAllActiveProducts, getProductBySlug} from '@/lib/products'
 import ProductTemplate from '@/templates/product-template'
 import PurchasedProductTemplate from '@/templates/purchased-product-template'
 import {getSdk} from '@skillrecordings/database'
 import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
+import {couponForPurchases} from '@/lib/purchases'
+import {sanityClientNoCdn} from '@/utils/sanity-client'
+import groq from 'groq'
+import {getUserAndSubscriber} from '@/lib/users'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {req, query, params} = context
+  const {req, res, query, params} = context
   const {getPurchaseDetails} = getSdk()
-
+  const {user, subscriber} = await getUserAndSubscriber({req, res, query})
+  const pricingActive = await sanityClientNoCdn.fetch(
+    groq`*[_type == 'pricing' && active == true][0]`,
+  )
   const token = await getToken({req})
   const product = await getProductBySlug(params?.slug as string)
 
@@ -29,10 +36,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  const commerceProps = await propsForCommerce({
-    query,
+  const coupon = (await couponForPurchases(user?.purchases)) || query?.coupon
+
+  const allowPurchase =
+    pricingActive ||
+    query?.allowPurchase === 'true' ||
+    query?.coupon ||
+    query?.code
+
+  const products = await getAllActiveProducts(!allowPurchase)
+
+  const {props: commerceProps} = await propsForCommerce({
+    query: {
+      ...query,
+      coupon,
+    },
     token,
-    products: [product],
+    products,
   })
 
   if (!token?.sub) {
@@ -45,14 +65,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  const purchaseForProduct = commerceProps.props.purchases?.find(
+  const purchaseForProduct = commerceProps.purchases?.find(
     (purchase: Purchase) => {
       return purchase.productId === product.productId
     },
   )
 
   if (!purchaseForProduct) {
-    return {props: {...commerceProps.props, product}}
+    return {props: {...commerceProps, product}}
   }
 
   const {purchase, existingPurchase} = await getPurchaseDetails(
@@ -68,13 +88,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   }
-
+  const productLabels = coupon
+    ? {
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Discount',
+      }
+    : {}
   return {
     props: {
-      ...commerceProps.props,
+      ...commerceProps,
       hasPurchasedCurrentProduct: Boolean(purchase),
       existingPurchase: convertToSerializeForNextResponse(existingPurchase),
       product,
+      productLabels,
     },
   }
 }

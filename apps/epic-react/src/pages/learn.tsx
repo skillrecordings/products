@@ -18,7 +18,7 @@ import {
   LegacyModuleSchema,
 } from '@/lib/legacy-modules'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
-import {getAllProducts} from '@/lib/products'
+import {getAllActiveProducts, getAllProducts} from '@/lib/products'
 import {Bonus, BonusSchema, getBonusesForProduct} from '@/lib/bonuses'
 import {getOgImage} from '@/utils/get-og-image'
 import Layout from '@/components/app/layout'
@@ -26,15 +26,45 @@ import Footer from '@/components/app/footer'
 import {Skeleton} from '@skillrecordings/ui'
 import WelcomeBanner from '@/components/welcome-banner'
 import CertificateForm from '@/certificate/certificate-form'
+import {couponForPurchases} from '@/lib/purchases'
+import {getUserAndSubscriber} from '@/lib/users'
+import {sanityClientNoCdn} from '@/utils/sanity-client'
+import groq from 'groq'
 
 export const MODULES_WITH_NO_CERTIFICATE = ['welcome-to-epic-react']
 
-export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  query,
+}) => {
   // TODO: load the user's purchases and figure out what product they should have access to
   const token = await getToken({req})
-  const products = await getAllProducts()
+  const {user, subscriber} = await getUserAndSubscriber({req, res, query})
+  const pricingActive = await sanityClientNoCdn.fetch(
+    groq`*[_type == 'pricing' && active == true][0]`,
+  )
+  const coupon = (await couponForPurchases(user?.purchases)) || query?.coupon
+
+  const allowPurchase =
+    pricingActive ||
+    query?.allowPurchase === 'true' ||
+    query?.coupon ||
+    query?.code
+
+  const productLabels = coupon
+    ? {
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Discount',
+      }
+    : {}
+
+  const products = await getAllActiveProducts(!allowPurchase)
+
   const {props: commerceProps} = await propsForCommerce({
-    query,
+    query: {
+      ...query,
+      coupon,
+    },
     token,
     products,
   })
@@ -47,6 +77,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
       legacyModules,
       bonuses,
       commerceProps,
+      productLabels,
     },
   }
 }

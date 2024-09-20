@@ -1,4 +1,47 @@
 import {prisma} from '@skillrecordings/database'
+import {isAfter, isBefore, isEqual, parse} from 'date-fns'
+
+export async function couponForPurchases(
+  purchases: {productId: string; createdAt: string}[] = [],
+) {
+  const ER_v1_PRODUCT_IDS = [
+    'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38',
+    'kcd_910c9191-5a69-4019-ad1d-c55bea7e9714',
+    'kcd_8acc60f1-8c3f-4093-b20d-f60fc6e0cf61',
+  ]
+
+  const purchasedOnDate =
+    purchases.find((purchase: any) =>
+      ER_v1_PRODUCT_IDS.includes(purchase.productId),
+    )?.createdAt || null
+
+  if (!purchasedOnDate) {
+    return null
+  }
+
+  const selectedDate = new Date(purchasedOnDate)
+  const lessThanDate = parse('2024-03-23', 'yyyy-MM-dd', new Date())
+  const comparisonDate = parse('2023-09-23', 'yyyy-MM-dd', new Date())
+  const isLessThan = isBefore(selectedDate, lessThanDate)
+  const isGreaterOrEqual =
+    isAfter(selectedDate, comparisonDate) ||
+    isEqual(selectedDate, comparisonDate)
+  let merchantCouponId: string | null =
+    isGreaterOrEqual && isLessThan
+      ? `er-v1-upgrade-75-6ab7`
+      : `er-v1-upgrade-50-2dg1`
+
+  if (
+    !purchasedOnDate &&
+    ['er-v1-upgrade-75-6ab7', 'er-v1-upgrade-50-2dg1'].includes(
+      merchantCouponId,
+    )
+  ) {
+    merchantCouponId = null
+  }
+
+  return merchantCouponId
+}
 
 export async function getPurchaseDetails(purchaseId: string, userId: string) {
   const allPurchases = await prisma.purchase.findMany({

@@ -6,6 +6,7 @@ import {
 } from '@skillrecordings/commerce-server'
 import {getToken} from 'next-auth/jwt'
 import Balancer from 'react-wrap-balancer'
+import {isAfter, isBefore, isEqual, parse} from 'date-fns'
 
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {getAllActiveProducts} from '@/lib/products'
@@ -18,6 +19,10 @@ import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import {getUserAndSubscriber} from '@/lib/users'
 import groq from 'groq'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
+import {couponForPurchases} from '@/lib/purchases'
+import Testimonials from '@/components/landing/testimonials'
+import {FaqBody} from '@/pages/faq'
+import {Companies} from '@/components/landing/companies'
 
 type DynamicHeadlines = {
   mainTitle: string
@@ -32,16 +37,27 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     groq`*[_type == 'pricing' && active == true][0]`,
   )
 
+  const coupon = (await couponForPurchases(user?.purchases)) || query?.coupon
+
   const allowPurchase =
     pricingActive ||
     query?.allowPurchase === 'true' ||
     query?.coupon ||
     query?.code
 
+  const productLabels = coupon
+    ? {
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Discount',
+      }
+    : {}
+
   const products = await getAllActiveProducts(!allowPurchase)
 
   const {props: commerceProps} = await propsForCommerce({
-    query,
+    query: {
+      ...query,
+      coupon,
+    },
     token,
     products,
   })
@@ -51,6 +67,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       commerceProps,
       user,
       subscriber,
+      productLabels,
     },
   }
 }
@@ -59,7 +76,8 @@ const Buy: React.FC<{
   commerceProps: CommerceProps
   user: User | null
   subscriber: Subscriber | null
-}> = ({commerceProps, user, subscriber}) => {
+  productLabels?: {[productId: string]: string}
+}> = ({commerceProps, user, subscriber, productLabels}) => {
   return (
     <Layout meta={{title: 'Buy'}}>
       <main className="flex-grow bg-er-gray-100 pb-24 pt-14 sm:pt-20">
@@ -67,7 +85,8 @@ const Buy: React.FC<{
           <>
             <div className="mx-auto max-w-screen-lg space-y-5 px-5 text-center">
               <h1 className="mb-2 text-balance text-3xl font-extrabold leading-9 text-text sm:mb-4 sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
-                Join 30,000+ Epic Developers and Get Extremely Good At React
+                Join 30,000+ Epic Developers and Get Extremely Freaking Good At
+                React
               </h1>
               <h2 className="mx-auto max-w-4xl text-lg text-react sm:text-2xl">
                 <Balancer>
@@ -80,6 +99,7 @@ const Buy: React.FC<{
               <PricingSection
                 commerceProps={commerceProps}
                 className="mb-28 mt-12 md:mt-14 lg:mb-32 lg:mt-16"
+                productLabels={productLabels}
               />
             </div>
             <div className="mx-auto mt-16 h-40 w-40">
@@ -98,6 +118,16 @@ const Buy: React.FC<{
             actionLabel="Keep me posted"
           />
         )}
+        <Companies />
+        <Testimonials />
+        <header className="flex items-center justify-center px-5 pt-20">
+          <h1 className="w-full text-center text-3xl font-bold sm:text-3xl lg:text-4xl">
+            <Balancer>Frequently Asked Questions</Balancer>
+          </h1>
+        </header>
+        <main className="mx-auto w-full max-w-screen-lg px-5 py-16 lg:py-20">
+          <FaqBody />
+        </main>
       </main>
     </Layout>
   )

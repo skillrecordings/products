@@ -86,6 +86,8 @@ type PricingProps = {
     saleCountdownRenderer?: ({coupon}: {coupon: any}) => React.ReactNode
     allowTeamPurchase?: boolean
     showAllContent?: boolean
+    buttonCtaLabel?: string
+    specialPricingLabel?: string
   }
   id?: string
 }
@@ -131,6 +133,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     teamQuantityLimit: 100,
     allowTeamPurchase: true,
     showAllContent: true,
+    buttonCtaLabel: 'Buy Now',
+    specialPricingLabel: 'Full access',
   },
 }) => {
   const {
@@ -141,6 +145,8 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     teamQuantityLimit = 100,
     allowTeamPurchase = true,
     showAllContent = true,
+    buttonCtaLabel = 'Buy Now',
+    specialPricingLabel = 'Full access',
   } = options
   const {
     addPrice,
@@ -193,7 +199,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             ? 'Contact Us'
             : formattedPrice?.upgradeFromPurchaseId
             ? 'Upgrade Now'
-            : product?.action || 'Buy Now'}
+            : product?.action || buttonCtaLabel}
         </span>
       </button>
     )
@@ -411,7 +417,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                         ? 'Regional access'
                         : formattedPrice?.upgradeFromPurchaseId
                         ? `Upgrade Pricing`
-                        : 'Full access'}
+                        : specialPricingLabel}
                     </div>
                   )}
                   {formattedPrice?.upgradeFromPurchaseId &&

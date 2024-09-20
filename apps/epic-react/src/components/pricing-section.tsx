@@ -26,6 +26,7 @@ const removeModuleBySlug = (
 const PricingSection: React.FC<{
   commerceProps: CommerceProps
   className?: string
+  productLabels?: {[productId: string]: string}
 }> = ({
   commerceProps: {
     couponFromCode,
@@ -36,6 +37,7 @@ const PricingSection: React.FC<{
     allowPurchase,
   },
   className,
+  productLabels,
 }) => {
   const sortedProducts = [...products].sort(
     (a, b) => Number(a.sortOrder) - Number(b.sortOrder),
@@ -49,6 +51,7 @@ const PricingSection: React.FC<{
     return {
       ...product,
       options: {
+        specialPricingLabel: productLabels?.[product.productId],
         allowTeamPurchase:
           'allowTeamPurchase' in product
             ? Boolean(product.allowTeamPurchase)
@@ -79,6 +82,7 @@ const PricingSection: React.FC<{
           couponIdFromCoupon={couponIdFromCoupon}
           couponFromCode={couponFromCode}
           allowPurchase={allowPurchase}
+          productLabels={productLabels}
         />
       </div>
     </div>
