@@ -12,15 +12,6 @@ import ReactMarkdown from 'react-markdown'
 import Balancer from 'react-wrap-balancer'
 
 const FAQPage = () => {
-  const questions = markdownContent
-    .split('## ')
-    .filter((item) => item.trim() !== '')
-  const formattedQuestions = questions.map((question) => {
-    const parts = question.split('\n')
-    const title = parts[0].trim()
-    const body = parts.slice(1).join('\n').trim()
-    return {title, body}
-  })
   return (
     <Layout
       meta={{
@@ -37,27 +28,42 @@ const FAQPage = () => {
         </h1>
       </header>
       <main className="mx-auto w-full max-w-screen-lg px-5 py-16 lg:py-20">
-        <Accordion
-          type="multiple"
-          className="flex w-full flex-col gap-x-3 gap-y-3 md:grid md:grid-cols-2 md:gap-y-0"
-        >
-          <ul className="flex flex-col gap-3">
-            {take(formattedQuestions, formattedQuestions.length / 2).map(
-              ({title, body}) => (
-                <Question title={title} body={body} key={title} />
-              ),
-            )}
-          </ul>
-          <ul className="flex flex-col gap-3">
-            {drop(formattedQuestions, formattedQuestions.length / 2).map(
-              ({title, body}) => (
-                <Question title={title} body={body} key={title} />
-              ),
-            )}
-          </ul>
-        </Accordion>
+        <FaqBody />
       </main>
     </Layout>
+  )
+}
+
+export function FaqBody() {
+  const questions = markdownContent
+    .split('## ')
+    .filter((item) => item.trim() !== '')
+  const formattedQuestions = questions.map((question) => {
+    const parts = question.split('\n')
+    const title = parts[0].trim()
+    const body = parts.slice(1).join('\n').trim()
+    return {title, body}
+  })
+  return (
+    <Accordion
+      type="multiple"
+      className="flex w-full flex-col gap-x-3 gap-y-3 md:grid md:grid-cols-2 md:gap-y-0"
+    >
+      <ul className="flex flex-col gap-3">
+        {take(formattedQuestions, formattedQuestions.length / 2).map(
+          ({title, body}) => (
+            <Question title={title} body={body} key={title} />
+          ),
+        )}
+      </ul>
+      <ul className="flex flex-col gap-3">
+        {drop(formattedQuestions, formattedQuestions.length / 2).map(
+          ({title, body}) => (
+            <Question title={title} body={body} key={title} />
+          ),
+        )}
+      </ul>
+    </Accordion>
   )
 }
 
