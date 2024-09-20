@@ -17,6 +17,7 @@ import {useRouter} from 'next/router'
 import React from 'react'
 import Balancer from 'react-wrap-balancer'
 import {getAllWorkshops, type Workshop} from '@/lib/workshops'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 export const getStaticProps = async () => {
   const page = await getPage('get-started')
@@ -279,7 +280,7 @@ function WorkshopListItem({workshop}: {workshop: Workshop}) {
   )
 }
 
-const WorkshopAppScreenshot = () => {
+export const WorkshopAppScreenshot = ({className}: {className?: string}) => {
   const {scrollY} = useScroll()
   const welcomeBannerScrollAnimation = useTransform(
     scrollY,
@@ -302,7 +303,7 @@ const WorkshopAppScreenshot = () => {
         transformPerspective: 300,
         rotateX: welcomeBannerScrollAnimation,
       }}
-      className="aspect-[1520/1090] h-full w-full"
+      className={cn('aspect-[1520/1090] h-full w-full', className)}
     >
       {mounted ? (
         <Image

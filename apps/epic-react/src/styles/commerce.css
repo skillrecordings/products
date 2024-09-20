@@ -2,12 +2,24 @@
   @apply relative grid grid-flow-row-dense grid-cols-1 gap-5 lg:grid-cols-7 lg:grid-rows-1 lg:gap-0;
   & > div:nth-child(1) {
     @apply row-start-3 mx-auto w-full transform transition-opacity duration-200  ease-in-out hover:opacity-100 sm:max-w-md lg:col-start-1 lg:col-end-3 lg:row-start-1 lg:mx-0 lg:max-w-none lg:translate-y-56 lg:opacity-50;
+    [data-pricing-product-sale-countdown] {
+      @apply hidden;
+    }
+    [data-pricing-product-checkout-button] {
+      @apply !mt-0;
+    }
   }
   & > div:nth-child(2) {
     @apply row-start-1 mx-auto mt-10 w-full max-w-lg shadow-xl lg:col-start-3 lg:col-end-6 lg:row-start-1 lg:mx-0 lg:mt-0 lg:max-w-none;
   }
   & > div:nth-child(3) {
     @apply row-start-2 mx-auto w-full transform transition-opacity duration-200 ease-in-out hover:opacity-100 sm:max-w-md lg:col-start-6 lg:col-end-8 lg:row-start-1 lg:max-w-none lg:translate-y-32 lg:opacity-75;
+    [data-pricing-product-sale-countdown] {
+      @apply hidden;
+    }
+    [data-pricing-product-checkout-button] {
+      @apply !mt-0;
+    }
   }
 }
 #main-pricing {
@@ -104,7 +116,7 @@
     [data-bonuses] {
       @apply mb-10;
       strong {
-        @apply mb-2;
+        @apply font-bold text-foreground dark:text-amber-300;
       }
     }
     [data-features] {
@@ -123,6 +135,7 @@
     }
     [data-workshops] {
       @apply mb-10;
+
       strong {
         @apply mb-3 block;
       }
@@ -141,7 +154,7 @@
           @apply flex items-center space-x-4;
         }
         p {
-          @apply text-lg text-er-gray-700;
+          @apply text-lg font-semibold leading-tight text-foreground;
         }
       }
       [data-image] {
@@ -177,6 +190,10 @@
     }
   }
   [data-purchase-container] {
+    [data-pricing-product-sale-countdown] {
+      @apply mt-5;
+    }
+
     [data-quantity-input] {
       @apply mb-5 flex w-full flex-col items-center justify-center px-5 xl:px-12;
 
@@ -243,7 +260,7 @@
       }
     }
     [data-pricing-product-checkout-button] {
-      @apply mt-5 block w-full transform rounded-lg border border-yellow-500 bg-yellow-400 px-6 py-5 text-center text-lg font-semibold leading-none text-black transition-all duration-150 ease-in-out hover:scale-105 focus:border-yellow-600 focus:outline-none sm:text-xl sm:leading-none;
+      @apply mt-5 block w-full transform rounded-lg border border-yellow-400 bg-yellow-300 px-6 py-5 text-center text-lg font-semibold leading-none text-black transition-all duration-150 ease-in-out hover:scale-105 focus:border-yellow-600 focus:outline-none sm:text-xl sm:leading-none;
     }
 
     [data-ppp-header] {
@@ -802,7 +819,7 @@
           @apply inline-flex pb-3 text-lg font-medium;
         }
         [data-workshops] {
-          /* @apply hidden; */
+          @apply pb-5;
           strong {
             @apply pb-4;
           }
