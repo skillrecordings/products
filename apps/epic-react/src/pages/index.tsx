@@ -277,7 +277,7 @@ const Home: React.FC<{
             <>
               <div className="pt-8 lg:pt-16">
                 <div className="mx-auto w-full max-w-screen-lg px-5 text-center">
-                  <h2 className="max-w-6xl text-balance px-5 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:leading-tight md:text-5xl lg:text-6xl">
+                  <h2 className="max-w-6xl text-balance px-5 text-center text-3xl font-bold leading-tight transition-opacity sm:leading-tight md:text-5xl lg:text-6xl">
                     {hasPurchasedV1
                       ? 'Upgrade to Epic React v2 for React 19 and TypeScript with an All New Learning Experience'
                       : 'Code Your Way to React Mastery'}
