@@ -139,7 +139,7 @@ const Home: React.FC<{
             href="/buy"
             className="relative mb-8 flex items-center justify-center rounded-full"
           >
-            <div className="flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F2BA24] to-[#FFA721] text-xs font-bold uppercase text-[#442D00]">
+            <div className="flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F2BA24] to-[#FFA721] text-xs font-bold uppercase text-[#442D00] hover:bg-gradient-to-b hover:from-[#FFA721] hover:to-[#F2BA24]">
               <span className="flex items-center justify-center border-r border-black/10 bg-white/10 px-3 py-1.5 pr-2">
                 new
               </span>
