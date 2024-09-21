@@ -11,6 +11,10 @@ import {publicProcedure, router} from '../trpc.server'
 import {getActiveProducts, getAllProducts} from '../../lib/products'
 import {getToken} from 'next-auth/jwt'
 import {SanityProduct} from '@skillrecordings/commerce-server/dist/@types'
+import {User, UserSchema} from '../../utils/ability'
+import {Subscriber, SubscriberSchema} from '../../schemas/subscriber'
+import {fetchSubscriber} from '@skillrecordings/convertkit-sdk'
+import {serialize} from 'cookie'
 
 const merchantCouponSchema = z.object({
   id: z.string(),
@@ -170,15 +174,55 @@ export const pricing = router({
         upgradeFromPurchaseId: _upgradeFromPurchaseId,
         autoApplyPPP,
       } = input
-
+      const {getPurchasesForUser, getUserByEmail} = getSdk()
       const token = await getToken({req: ctx.req})
+
+      const parsedToken = token && UserSchema.safeParse(token)
+
+      let user: User | null = null
+      let subscriber: Subscriber | null = null
+
+      if (parsedToken?.success) {
+        user = await getUserByEmail(parsedToken.data.email)
+      }
+
+      let rawSubscriber = null
+
+      if (ctx.req.cookies['ck_subscriber']) {
+        try {
+          rawSubscriber = JSON.parse(ctx.req.cookies['ck_subscriber'])
+        } catch (e) {
+          console.log('error parsing ck_subscriber cookie', e)
+        }
+      }
+
+      if (rawSubscriber && rawSubscriber.id) {
+        try {
+          rawSubscriber = await fetchSubscriber(rawSubscriber.id as string)
+        } catch (e) {
+          console.log('error fetching ck_subscriber cookie', e)
+        }
+      }
+
+      const parsedSubscriber = SubscriberSchema.safeParse(rawSubscriber)
+
+      if (parsedSubscriber.success) {
+        subscriber = parsedSubscriber.data
+        user = user ? user : await getUserByEmail(subscriber.email_address)
+        ctx.res.setHeader(
+          'Set-Cookie',
+          serialize('ck_subscriber', JSON.stringify(subscriber), {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            path: '/',
+            maxAge: 31556952,
+          }),
+        )
+      }
 
       const verifiedUserId = token?.sub
 
-      const {getPurchasesForUser} = getSdk()
-      const purchases = getValidPurchases(
-        await getPurchasesForUser(verifiedUserId),
-      )
+      const purchases = getValidPurchases(await getPurchasesForUser(user?.id))
 
       if (!productId) throw new Error('productId is required')
 
@@ -223,7 +267,7 @@ export const pricing = router({
         quantity,
         merchantCouponId: activeMerchantCoupon?.id,
         ...(upgradeFromPurchaseId && {upgradeFromPurchaseId}),
-        userId: verifiedUserId,
+        userId: user?.id,
         autoApplyPPP,
         usedCouponId,
       })

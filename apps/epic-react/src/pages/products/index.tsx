@@ -39,7 +39,6 @@ import {getUserAndSubscriber} from '@/lib/users'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
 import groq from 'groq'
 import {couponForPurchases} from '@/lib/purchases'
-import {getAllActiveProducts} from '@/lib/products'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, res, query} = context
@@ -57,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     query?.coupon ||
     query?.code
 
-  const products = await getAllActiveProducts(!allowPurchase)
+  const products = await getAllProducts()
 
   const {props: commerceProps} = await propsForCommerce({
     query: {
@@ -147,6 +146,7 @@ const Products: React.FC<ProductsIndexProps> = ({products, productLabels}) => {
 }
 
 const ProductsIndex: React.FC<ProductsIndexProps> = ({purchases, products}) => {
+  console.log({purchases, products})
   return (
     <Layout meta={{title: 'Products'}}>
       <header className="flex items-center justify-center py-16 text-center">

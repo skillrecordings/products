@@ -48,8 +48,6 @@ export const PricingTiers: React.FC<
 
   const purchasedProductIds = purchases.map((purchase) => purchase.productId)
 
-  console.log(productLabels)
-
   return (
     <>
       <div data-pricing-container="">
