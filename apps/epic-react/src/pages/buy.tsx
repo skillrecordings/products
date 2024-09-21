@@ -53,6 +53,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     : {}
 
+  const buttonCtaLabels = Boolean(erV1PurchasedOnDate)
+    ? {
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Upgrade to Epic React v2',
+      }
+    : {}
+
   const products = await getAllActiveProducts(!allowPurchase)
 
   const {props: commerceProps} = await propsForCommerce({
@@ -70,6 +76,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       user,
       subscriber,
       productLabels,
+      buttonCtaLabels,
       hasPurchasedV1: Boolean(erV1PurchasedOnDate),
     },
   }
@@ -80,12 +87,14 @@ const Buy: React.FC<{
   user: User | null
   subscriber: Subscriber | null
   productLabels?: {[productId: string]: string}
+  buttonCtaLabels?: {[productId: string]: string}
   hasPurchasedV1?: boolean
 }> = ({
   commerceProps,
   user,
   subscriber,
   productLabels,
+  buttonCtaLabels,
   hasPurchasedV1 = false,
 }) => {
   return (
@@ -109,6 +118,7 @@ const Buy: React.FC<{
                 commerceProps={commerceProps}
                 className="mb-28 mt-12 md:mt-14 lg:mb-32 lg:mt-16"
                 productLabels={productLabels}
+                buttonCtaLabels={buttonCtaLabels}
               />
             </div>
             <div className="mx-auto mt-16 h-40 w-40">

@@ -72,6 +72,11 @@ export const getServerSideProps: GetServerSideProps = async ({
         'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
       }
     : {}
+  const buttonCtaLabels = Boolean(erV1PurchasedOnDate)
+    ? {
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Upgrade to Epic React v2',
+      }
+    : {}
 
   return {
     props: {
@@ -81,6 +86,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       user,
       subscriber,
       productLabels,
+      buttonCtaLabels,
       hasPurchasedV1: Boolean(erV1PurchasedOnDate),
     },
   }
@@ -92,6 +98,7 @@ const Home: React.FC<{
   user: User | null
   subscriber: Subscriber | null
   productLabels?: {[productId: string]: string}
+  buttonCtaLabels?: {[productId: string]: string}
   hasPurchasedV1?: boolean
 }> = ({
   modules,
@@ -100,6 +107,7 @@ const Home: React.FC<{
   user,
   subscriber,
   productLabels,
+  buttonCtaLabels,
   hasPurchasedV1 = false,
 }) => {
   const shouldReduceMotion = useReducedMotion()
@@ -127,13 +135,16 @@ const Home: React.FC<{
     >
       <main>
         <section className="sm:pt-26 relative flex w-full flex-col items-center justify-center overflow-hidden bg-gray-900 pt-12">
-          <div className="relative mb-8 flex items-center justify-center rounded-full">
+          <a
+            href="/buy"
+            className="relative mb-8 flex items-center justify-center rounded-full"
+          >
             <div className="flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F2BA24] to-[#FFA721] text-xs font-bold uppercase text-[#442D00]">
               <span className="flex items-center justify-center border-r border-black/10 bg-white/10 px-3 py-1.5 pr-2">
                 new
               </span>
               <span className="flex items-center justify-center px-3 py-1.5 pl-2">
-                {hasPurchasedV1 ? 'upgraded' : 'updated'} for react 19
+                {hasPurchasedV1 ? 'upgrade' : 'updated'} for react 19
               </span>
             </div>
             {!shouldReduceMotion && (
@@ -146,7 +157,7 @@ const Home: React.FC<{
                 overflowPx={15}
               />
             )}
-          </div>
+          </a>
           <h1 className="max-w-6xl text-balance px-5 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:leading-tight md:text-5xl lg:text-6xl">
             {hasPurchasedV1
               ? 'Master React 19 with Fully Updated TypeScript Code Focused Workshops'
@@ -281,6 +292,7 @@ const Home: React.FC<{
                     commerceProps={commerceProps}
                     className="mb-28 mt-12 md:mt-14 lg:mb-32 lg:mt-16"
                     productLabels={productLabels}
+                    buttonCtaLabels={buttonCtaLabels}
                   />
                 </div>
               </div>
