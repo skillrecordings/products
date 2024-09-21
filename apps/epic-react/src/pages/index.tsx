@@ -248,7 +248,7 @@ const Home: React.FC<{
                 Projects,
                 AboutKent: ({children}: any) => {
                   return (
-                    <div className="px-8 sm:px-10">
+                    <div className="mx-auto max-w-3xl">
                       <Image
                         src={KentImage}
                         width={150}
@@ -259,7 +259,7 @@ const Home: React.FC<{
                           shapeOutside: 'circle()',
                         }}
                       />
-                      <div className="pt-2">{children}</div>
+                      <div>{children}</div>
                     </div>
                   )
                 },
