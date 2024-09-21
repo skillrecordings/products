@@ -233,7 +233,7 @@ const Home: React.FC<{
               <div className="py-8 lg:py-16">
                 <div className="mx-auto w-full max-w-screen-lg px-5 text-center">
                   <h2 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
-                    Get Started in Less Than 10 Minutes and Master React
+                    Code Your Way to React Mastery
                   </h2>
                   <h3 className="mx-auto mt-5 max-w-4xl text-balance text-xl font-extrabold text-react sm:text-2xl">
                     Epic React is your hands-on code-first at the keyboard cheat
