@@ -71,6 +71,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Discount',
       }
     : {}
+
   return {props: {...commerceProps, productLabels}}
 }
 
@@ -87,9 +88,14 @@ type ProductsIndexProps = {
   purchases: PurchaseWithProduct[]
   products: SanityProduct[]
   productLabels?: {[productId: string]: string}
+  couponIdFromCoupon?: string
 }
 
-const Products: React.FC<ProductsIndexProps> = ({products, productLabels}) => {
+const Products: React.FC<ProductsIndexProps> = ({
+  products,
+  productLabels,
+  couponIdFromCoupon,
+}) => {
   const {
     purchases,
     displayedProducts,
@@ -120,7 +126,11 @@ const Products: React.FC<ProductsIndexProps> = ({products, productLabels}) => {
                 key={product.slug}
                 purchasedProductIds={purchasedProductIds}
               >
-                <ProductCard product={product} purchase={purchase} />
+                <ProductCard
+                  product={product}
+                  purchase={purchase}
+                  couponId={couponIdFromCoupon}
+                />
               </PriceCheckProvider>
             )
           })}
@@ -145,7 +155,11 @@ const Products: React.FC<ProductsIndexProps> = ({products, productLabels}) => {
   )
 }
 
-const ProductsIndex: React.FC<ProductsIndexProps> = ({purchases, products}) => {
+const ProductsIndex: React.FC<ProductsIndexProps> = ({
+  purchases,
+  products,
+  couponIdFromCoupon,
+}) => {
   console.log({purchases, products})
   return (
     <Layout meta={{title: 'Products'}}>
@@ -155,7 +169,11 @@ const ProductsIndex: React.FC<ProductsIndexProps> = ({purchases, products}) => {
       <main className="mx-auto w-full max-w-screen-md space-y-4 px-5 pb-16">
         <ProductsIndexProvider products={products} purchases={purchases}>
           <StateFilter />
-          <Products purchases={purchases} products={products} />
+          <Products
+            purchases={purchases}
+            products={products}
+            couponIdFromCoupon={couponIdFromCoupon}
+          />
         </ProductsIndexProvider>
       </main>
     </Layout>
@@ -167,11 +185,13 @@ export default ProductsIndex
 const ProductCard: React.FC<{
   product: SanityProduct
   purchase: PurchaseWithProduct | undefined
-}> = ({product, purchase}) => {
+  couponId?: string
+}> = ({product, purchase, couponId}) => {
   const {data: formattedPrice, status: formattedPriceStatus} =
     trpc.pricing.formatted.useQuery({
       productId: product.productId as string,
       quantity: 1,
+      couponId,
     })
 
   const buyHref = `/buy`
