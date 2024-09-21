@@ -316,6 +316,27 @@ const Home: React.FC<{
               />
             </div>
           )}
+          <section className="prose relative mx-auto mb-16 mt-16 w-full max-w-3xl pb-8 pt-8">
+            {' '}
+            <div
+              className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
+              aria-hidden="true"
+            />
+            {
+              <h2 className="">
+                {hasPurchasedV1
+                  ? `Ready to experience what's new in the upgraded Epic React v2?`
+                  : `Ready to experience Epic React for
+    yourself?`}
+              </h2>
+            }
+            The Get Started with React tutorial includes the first 4 workshop
+            sections from the full course:
+            {<TutorialWidget />}
+            The Get Started with React 19 tutorial is a great introduction to
+            React 19 and will let you explore the workshop app in your local
+            environment to see for yourself how awesome it is.
+          </section>
           <Testimonials />
           <header className="flex items-center justify-center px-5 pt-20">
             <h1 className="w-full text-center text-3xl font-bold sm:text-3xl lg:text-4xl">
