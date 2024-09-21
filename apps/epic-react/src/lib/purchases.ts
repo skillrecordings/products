@@ -1,20 +1,23 @@
 import {prisma} from '@skillrecordings/database'
 import {isAfter, isBefore, isEqual, parse} from 'date-fns'
 
-export async function couponForPurchases(
-  purchases: {productId: string; createdAt: string}[] = [],
-) {
-  const ER_v1_PRODUCT_IDS = [
-    'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38',
-    'kcd_910c9191-5a69-4019-ad1d-c55bea7e9714',
-    'kcd_8acc60f1-8c3f-4093-b20d-f60fc6e0cf61',
-  ]
+const ER_v1_PRODUCT_IDS = [
+  'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38',
+  'kcd_910c9191-5a69-4019-ad1d-c55bea7e9714',
+  'kcd_8acc60f1-8c3f-4093-b20d-f60fc6e0cf61',
+]
 
-  const purchasedOnDate =
+export const eRv1PurchasedOnDate = (
+  purchases: {productId: string; createdAt: string}[] = [],
+) => {
+  return (
     purchases.find((purchase: any) =>
       ER_v1_PRODUCT_IDS.includes(purchase.productId),
     )?.createdAt || null
+  )
+}
 
+export async function couponForPurchases(purchasedOnDate?: string | null) {
   if (!purchasedOnDate) {
     return null
   }
@@ -40,7 +43,21 @@ export async function couponForPurchases(
     merchantCouponId = null
   }
 
-  return merchantCouponId
+  const coupon = merchantCouponId
+    ? await prisma.coupon.findFirst({
+        where: {
+          id: merchantCouponId,
+          expires: {
+            gte: new Date(),
+          },
+        },
+        select: {
+          id: true,
+        },
+      })
+    : null
+
+  return coupon ? coupon.id : null
 }
 
 export async function getPurchaseDetails(purchaseId: string, userId: string) {

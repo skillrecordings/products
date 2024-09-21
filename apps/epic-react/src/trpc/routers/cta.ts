@@ -10,7 +10,7 @@ import {getSdk, prisma} from '@skillrecordings/database'
 import {getToken} from 'next-auth/jwt'
 import {ProductSchema, getProduct, getPricing} from '@/lib/products'
 import {subDays} from 'date-fns'
-import {couponForPurchases} from '@/lib/purchases'
+import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 import {getUserAndSubscriber} from '@/lib/users'
 
 const ActivePromotionSchema = z.object({
@@ -261,8 +261,9 @@ export const ctaRouter = router({
               productWithQuantityAvailable?.quantityAvailable || -1
             const quantityAvailable = quantityTotal - purchaseCount
 
+            const erV1PurchasedOnDate = eRv1PurchasedOnDate(user?.purchases)
             const coupon =
-              (await couponForPurchases(user?.purchases)) ||
+              (await couponForPurchases(erV1PurchasedOnDate)) ||
               ctx.req.query?.coupon
 
             const {props: commerceProps} = await propsForCommerce({
