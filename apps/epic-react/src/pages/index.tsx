@@ -28,6 +28,7 @@ import Link from 'next/link'
 import {track} from '@/utils/analytics'
 import {getAllBonuses, type Bonus} from '@/lib/bonuses'
 import Faq, {FaqBody} from '@/pages/faq'
+import {Projects} from '@/components/landing/projects'
 import Balancer from 'react-wrap-balancer'
 import {couponForPurchases} from '@/lib/purchases'
 
@@ -217,6 +218,7 @@ const Home: React.FC<{
                   ) : null
                 },
                 TutorialWidget,
+                Projects,
               }}
             />
           </div>
