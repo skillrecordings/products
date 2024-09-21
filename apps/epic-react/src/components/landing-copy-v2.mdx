@@ -87,7 +87,7 @@ alt="Steven Hogheins"
 
 <RocketFlyBy />
 
-{<h2 className="!-mt-10 !pt-7 text-center !pb-10">Epic React will take you from "what's JSX?" to developing a complete, professional-grade, scalable application in a teamwork environment.</h2>}
+{<h2 className="!-mt-10 !pt-7 text-center !pb-5">Epic React will take you from "what's JSX?" to developing a complete, professional-grade, scalable application in a teamwork environment.</h2>}
 
 When you enroll in Epic React, you'll get instant access to **7 workshops with 240 bite-sized lessons — all new, all React 19, and 100% TypeScript.** All you have to do is sign up and get started coding on your very first exercise in just 10 minutes.
 
@@ -98,6 +98,11 @@ You'll learn every part of React 19 — all the classic stuff, and all the new �
 Each new lesson will build on the one you did before.
 
 {/* By the end, you'll develop @TODOFinalAppProjects. */}
+{/* Projects: Calculator, Forms, Blog Search, Animated Tilt, Tic Tac Toe, Counter, Performant Globe, Searchable List of Cities, RSC Shipyard */}
+
+By the end, you'll develop projects such as a blog search, animated tilt, tic-tac-toe, new user form, performant globe, calculator, counter, searchable list of cities, and RSC Shipyard.
+
+<Projects />
 
 ### Along the way, you'll learn professional coding practices
 
@@ -151,12 +156,10 @@ With Epic React you’ll be working on practical problem-solving skills in the s
 
 Finally, you can watch Kent code the solution and talk about the decision-making process that went into solving it.
 
-
 ### Get your hands on that keyboard ASAP with Epic React
 
 Getting started is always the hardest part of learning something new, and React is no exception. With Epic React, you can get over that hump quickly and start learning immediately.
 It’s crucial to get your fingers on the keyboard with a proper development environment setup, and Epic React takes the struggle out of getting started by making the “Hello World” easy and fun.
-
 
 {<WorkshopAppScreenshot className="max-w-3xl mx-auto w-full" />}
 
@@ -164,45 +167,47 @@ Increasing your time at the keyboard makes sure you aren’t passively learning 
 
 <section className="relative max-w-3xl mb-16 mt-16 pt-8 pb-8 mx-auto w-full">
 
-  <div
-    className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
-    aria-hidden="true"
-  />
+{' '}
 
-  {<h2 className="text-center">Ready to experience Epic React for
-    yourself?</h2>}
+<div
+  className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
+  aria-hidden="true"
+/>
 
-  The Get Started with React
-  tutorial includes the first 4 workshop sections from the full course:
+{<h2 className="text-center">Ready to experience Epic React for
+yourself?</h2>}
 
-  {<TutorialWidget />}
+The Get Started with React
+tutorial includes the first 4 workshop sections from the full course:
 
-  The Get Started with React tutorial is a great introduction to React 19 and
-  will let you explore the workshop app in your local environment to see for
-  yourself how awesome it is.
+{<TutorialWidget />}
+
+The Get Started with React tutorial is a great introduction to React 19 and
+will let you explore the workshop app in your local environment to see for
+yourself how awesome it is.
+
 </section>
-
 
 <section className="relative max-w-4xl mt-16 pt-5 mx-auto w-full">
 
-  <div
-    className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
-    aria-hidden="true"
-  />
+{' '}
 
-  {<h2 className="text-center text-balance">Everything you get with Epic
-    React
-    v2</h2>}
+<div
+  className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
+  aria-hidden="true"
+/>
 
-  Starting with the fundamentals all the way through the latest in React Server
-  Components, you'll learn everything you need to know to build
-  production-ready React applications.
+{<h2 className="text-center text-balance">Everything you get with Epic
+React
+v2</h2>}
 
-  {<ModulesListWithDescriptions />}
+Starting with the fundamentals all the way through the latest in React Server
+Components, you'll learn everything you need to know to build
+production-ready React applications.
+
+{<ModulesListWithDescriptions />}
 
 </section>
-
-
 
 ### There’s nothing like this level of training available anywhere else at any price.
 
@@ -214,14 +219,9 @@ Epic React is 7 complete workshops. You don't have to leave your house to master
 
 Epic React is a serious bargain for the highest level of professional developer training.
 
-
 import IntroTourVideo from '@/components/landing/intro-tour-video'
-import {
-  React19FeaturesStack
-} from '@/components/landing/react-19-features-stack'
-import {
-  CodebaseTransformation
-} from '@/components/landing/codebase-transformation'
+import {React19FeaturesStack} from '@/components/landing/react-19-features-stack'
+import {CodebaseTransformation} from '@/components/landing/codebase-transformation'
 import {WorkshopAppScreenshot} from '@/pages/get-started'
 
 export default ({children}) => {
