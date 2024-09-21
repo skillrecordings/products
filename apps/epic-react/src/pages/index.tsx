@@ -32,6 +32,7 @@ import {Projects} from '@/components/landing/projects'
 import Balancer from 'react-wrap-balancer'
 import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 import KentImage from '../../public/kent-c-dodds.png'
+import {PoweredByStripe} from '@/components/powered-by-stripe'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -274,7 +275,7 @@ const Home: React.FC<{
         >
           {commerceProps.products?.length > 0 ? (
             <>
-              <div className="py-8 lg:py-16">
+              <div className="pt-8 lg:pt-16">
                 <div className="mx-auto w-full max-w-screen-lg px-5 text-center">
                   <h2 className="max-w-6xl text-balance px-5 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:leading-tight md:text-5xl lg:text-6xl">
                     {hasPurchasedV1
@@ -296,6 +297,9 @@ const Home: React.FC<{
                   />
                 </div>
               </div>
+              <div className="mx-auto flex items-center justify-center py-8">
+                <PoweredByStripe />
+              </div>
               <div className="mx-auto h-40 w-40">
                 <Image
                   src="/assets/money-back-guarantee-badge.svg"
@@ -316,7 +320,7 @@ const Home: React.FC<{
               />
             </div>
           )}
-          <section className="prose relative mx-auto mb-16 mt-16 w-full max-w-3xl pb-8 pt-8">
+          <section className="prose relative mx-auto mb-16 mt-16 w-full max-w-3xl px-8 pt-10">
             {' '}
             <div
               className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
@@ -325,7 +329,7 @@ const Home: React.FC<{
             {
               <h2 className="">
                 {hasPurchasedV1
-                  ? `Ready to experience what's new in the upgraded Epic React v2?`
+                  ? `Ready to experience what's new in the upgraded Epic React v2 for yourself?`
                   : `Ready to experience Epic React for
     yourself?`}
               </h2>

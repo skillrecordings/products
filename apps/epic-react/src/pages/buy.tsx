@@ -23,6 +23,7 @@ import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 import Testimonials from '@/components/landing/testimonials'
 import {FaqBody} from '@/pages/faq'
 import {Companies} from '@/components/landing/companies'
+import {PoweredByStripe} from '@/components/powered-by-stripe'
 
 type DynamicHeadlines = {
   mainTitle: string
@@ -121,7 +122,10 @@ const Buy: React.FC<{
                 buttonCtaLabels={buttonCtaLabels}
               />
             </div>
-            <div className="mx-auto mt-16 h-40 w-40">
+            <div className="mx-auto mt-8 flex items-center justify-center pb-8">
+              <PoweredByStripe />
+            </div>
+            <div className="mx-auto  h-40 w-40">
               <Image
                 src="/assets/money-back-guarantee-badge.svg"
                 alt="30 day money back guarantee"
