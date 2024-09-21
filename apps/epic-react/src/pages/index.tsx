@@ -87,7 +87,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       subscriber,
       productLabels,
       buttonCtaLabels,
-      hasPurchasedV1: Boolean(erV1PurchasedOnDate),
+      hasPurchasedV1: Boolean(erV1PurchasedOnDate || query?.asPurchasedV1),
     },
   }
 }
