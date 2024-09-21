@@ -72,7 +72,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
       }
     : {}
-  const buttonCtaLabels = Boolean(erV1PurchasedOnDate)
+  const buttonCtaLabels = Boolean(erV1PurchasedOnDate || query?.asPurchasedV1)
     ? {
         'kcd_product-clzlrf0g5000008jm0czdanmz': 'Upgrade to Epic React v2',
       }
