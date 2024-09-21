@@ -38,7 +38,7 @@ import {Bonuses, PurchasedBadge} from '@/templates/purchased-product-template'
 import {getUserAndSubscriber} from '@/lib/users'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
 import groq from 'groq'
-import {couponForPurchases} from '@/lib/purchases'
+import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, res, query} = context
@@ -48,7 +48,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     groq`*[_type == 'pricing' && active == true][0]`,
   )
 
-  const coupon = (await couponForPurchases(user?.purchases)) || query?.coupon
+  const erV1PurchasedOnDate = eRv1PurchasedOnDate(user?.purchases)
+  const coupon =
+    (await couponForPurchases(erV1PurchasedOnDate)) || query?.coupon
 
   const allowPurchase =
     pricingActive ||
@@ -68,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   })
   const productLabels = coupon
     ? {
-        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Discount',
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
       }
     : {}
 

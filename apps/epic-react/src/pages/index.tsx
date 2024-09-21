@@ -30,7 +30,9 @@ import {getAllBonuses, type Bonus} from '@/lib/bonuses'
 import Faq, {FaqBody} from '@/pages/faq'
 import {Projects} from '@/components/landing/projects'
 import Balancer from 'react-wrap-balancer'
-import {couponForPurchases} from '@/lib/purchases'
+import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
+import KentImage from '../../public/kent-c-dodds.png'
+import {PoweredByStripe} from '@/components/powered-by-stripe'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -43,7 +45,9 @@ export const getServerSideProps: GetServerSideProps = async ({
     groq`*[_type == 'pricing' && active == true][0]`,
   )
 
-  const coupon = (await couponForPurchases(user?.purchases)) || query?.coupon
+  const erV1PurchasedOnDate = eRv1PurchasedOnDate(user?.purchases)
+  const coupon =
+    (await couponForPurchases(erV1PurchasedOnDate)) || query?.coupon
 
   const allowPurchase =
     pricingActive ||
@@ -66,7 +70,12 @@ export const getServerSideProps: GetServerSideProps = async ({
   const bonuses = await getAllBonuses()
   const productLabels = coupon
     ? {
-        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Discount',
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
+      }
+    : {}
+  const buttonCtaLabels = Boolean(erV1PurchasedOnDate || query?.asPurchasedV1)
+    ? {
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Upgrade to Epic React v2',
       }
     : {}
 
@@ -78,6 +87,8 @@ export const getServerSideProps: GetServerSideProps = async ({
       user,
       subscriber,
       productLabels,
+      buttonCtaLabels,
+      hasPurchasedV1: Boolean(erV1PurchasedOnDate || query?.asPurchasedV1),
     },
   }
 }
@@ -88,7 +99,18 @@ const Home: React.FC<{
   user: User | null
   subscriber: Subscriber | null
   productLabels?: {[productId: string]: string}
-}> = ({modules, commerceProps, bonuses, user, subscriber, productLabels}) => {
+  buttonCtaLabels?: {[productId: string]: string}
+  hasPurchasedV1?: boolean
+}> = ({
+  modules,
+  commerceProps,
+  bonuses,
+  user,
+  subscriber,
+  productLabels,
+  buttonCtaLabels,
+  hasPurchasedV1 = false,
+}) => {
   const shouldReduceMotion = useReducedMotion()
 
   const moduleImageVariants = {
@@ -114,13 +136,16 @@ const Home: React.FC<{
     >
       <main>
         <section className="sm:pt-26 relative flex w-full flex-col items-center justify-center overflow-hidden bg-gray-900 pt-12">
-          <div className="relative mb-8 flex items-center justify-center rounded-full">
-            <div className="flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F2BA24] to-[#FFA721] text-xs font-bold uppercase text-[#442D00]">
+          <a
+            href="/buy"
+            className="relative mb-8 flex items-center justify-center rounded-full"
+          >
+            <div className="flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F2BA24] to-[#FFA721] text-xs font-bold uppercase text-[#442D00] hover:bg-gradient-to-b hover:from-[#FFA721] hover:to-[#F2BA24]">
               <span className="flex items-center justify-center border-r border-black/10 bg-white/10 px-3 py-1.5 pr-2">
                 new
               </span>
               <span className="flex items-center justify-center px-3 py-1.5 pl-2">
-                updated for react 19
+                {hasPurchasedV1 ? 'upgrade' : 'updated'} for react 19
               </span>
             </div>
             {!shouldReduceMotion && (
@@ -133,13 +158,15 @@ const Home: React.FC<{
                 overflowPx={15}
               />
             )}
-          </div>
-          <h1 className="text-balance px-5 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:leading-tight md:max-w-3xl md:text-4xl lg:text-5xl">
-            Master React with Code Focused Workshops
+          </a>
+          <h1 className="max-w-6xl text-balance px-5 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:leading-tight md:text-5xl lg:text-6xl">
+            {hasPurchasedV1
+              ? 'Master React 19 with Fully Updated TypeScript Code Focused Workshops'
+              : 'Master React 19 with Code Focused Workshops'}
           </h1>
           <h2 className="mt-5 inline-flex max-w-2xl flex-wrap items-center justify-center gap-x-3 text-balance px-5 text-center font-bold text-blue-200 sm:text-xl">
             <span>
-              Self-paced, code-first hands-on React training for professional
+              Self-paced, code-first, hands-on, React training for professional
               web developers by{' '}
             </span>
             <span className="inline-flex items-center font-normal">
@@ -194,6 +221,7 @@ const Home: React.FC<{
         <section className="mx-auto mt-12 w-full max-w-screen-xl px-4 py-8 pb-16 sm:mt-10 sm:px-8 sm:pb-24">
           <div className="prose mx-auto max-w-none dark:prose-invert lg:prose-xl prose-headings:mx-auto prose-headings:max-w-3xl prose-h3:text-2xl  prose-p:mx-auto prose-p:max-w-3xl prose-ol:mx-auto prose-ol:max-w-3xl prose-ul:mx-auto prose-ul:max-w-3xl">
             <LandingCopy
+              hasPurchasedV1={hasPurchasedV1}
               components={{
                 Image,
                 ModulesListWithDescriptions: () => (
@@ -219,6 +247,23 @@ const Home: React.FC<{
                 },
                 TutorialWidget,
                 Projects,
+                AboutKent: ({children}: any) => {
+                  return (
+                    <div className="mx-auto max-w-3xl">
+                      <Image
+                        src={KentImage}
+                        width={150}
+                        height={150}
+                        alt="Kent C. Dodds"
+                        className="float-right ml-5 aspect-square w-32 rounded-full bg-white/5 sm:ml-10 sm:w-auto"
+                        style={{
+                          shapeOutside: 'circle()',
+                        }}
+                      />
+                      <div>{children}</div>
+                    </div>
+                  )
+                },
               }}
             />
           </div>
@@ -230,14 +275,16 @@ const Home: React.FC<{
         >
           {commerceProps.products?.length > 0 ? (
             <>
-              <div className="py-8 lg:py-16">
+              <div className="pt-8 lg:pt-16">
                 <div className="mx-auto w-full max-w-screen-lg px-5 text-center">
-                  <h2 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
-                    Get Started in Less Than 10 Minutes and Master React
+                  <h2 className="max-w-6xl text-balance px-5 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:leading-tight md:text-5xl lg:text-6xl">
+                    {hasPurchasedV1
+                      ? 'Upgrade to Epic React v2 for React 19 and TypeScript with an All New Learning Experience'
+                      : 'Code Your Way to React Mastery'}
                   </h2>
                   <h3 className="mx-auto mt-5 max-w-4xl text-balance text-xl font-extrabold text-react sm:text-2xl">
-                    Epic React is your hands-on code-first at the keyboard cheat
-                    code to becoming the best React developer you can be.
+                    Epic React is your hands-on, code-first, at the keyboard,
+                    cheat code to becoming the best React developer you can be.
                   </h3>
                 </div>
                 <Companies />
@@ -246,8 +293,12 @@ const Home: React.FC<{
                     commerceProps={commerceProps}
                     className="mb-28 mt-12 md:mt-14 lg:mb-32 lg:mt-16"
                     productLabels={productLabels}
+                    buttonCtaLabels={buttonCtaLabels}
                   />
                 </div>
+              </div>
+              <div className="mx-auto flex items-center justify-center py-8">
+                <PoweredByStripe />
               </div>
               <div className="mx-auto h-40 w-40">
                 <Image
@@ -269,6 +320,27 @@ const Home: React.FC<{
               />
             </div>
           )}
+          <section className="prose relative mx-auto mb-16 mt-16 w-full max-w-3xl px-8 pt-10">
+            {' '}
+            <div
+              className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
+              aria-hidden="true"
+            />
+            {
+              <h2 className="">
+                {hasPurchasedV1
+                  ? `Ready to experience what's new in the upgraded Epic React v2 for yourself?`
+                  : `Ready to experience Epic React for
+    yourself?`}
+              </h2>
+            }
+            The Get Started with React tutorial includes the first 4 workshop
+            sections from the full course:
+            {<TutorialWidget />}
+            The Get Started with React 19 tutorial is a great introduction to
+            React 19 and will let you explore the workshop app in your local
+            environment to see for yourself how awesome it is.
+          </section>
           <Testimonials />
           <header className="flex items-center justify-center px-5 pt-20">
             <h1 className="w-full text-center text-3xl font-bold sm:text-3xl lg:text-4xl">

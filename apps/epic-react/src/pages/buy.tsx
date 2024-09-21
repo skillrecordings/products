@@ -19,10 +19,11 @@ import {Subscriber} from '@skillrecordings/skill-lesson/schemas/subscriber'
 import {getUserAndSubscriber} from '@/lib/users'
 import groq from 'groq'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
-import {couponForPurchases} from '@/lib/purchases'
+import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 import Testimonials from '@/components/landing/testimonials'
 import {FaqBody} from '@/pages/faq'
 import {Companies} from '@/components/landing/companies'
+import {PoweredByStripe} from '@/components/powered-by-stripe'
 
 type DynamicHeadlines = {
   mainTitle: string
@@ -37,7 +38,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     groq`*[_type == 'pricing' && active == true][0]`,
   )
 
-  const coupon = (await couponForPurchases(user?.purchases)) || query?.coupon
+  const erV1PurchasedOnDate = eRv1PurchasedOnDate(user?.purchases)
+  const coupon =
+    (await couponForPurchases(erV1PurchasedOnDate)) || query?.coupon
 
   const allowPurchase =
     pricingActive ||
@@ -47,7 +50,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const productLabels = coupon
     ? {
-        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Discount',
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
+      }
+    : {}
+
+  const buttonCtaLabels = Boolean(erV1PurchasedOnDate)
+    ? {
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Upgrade to Epic React v2',
       }
     : {}
 
@@ -68,6 +77,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       user,
       subscriber,
       productLabels,
+      buttonCtaLabels,
+      hasPurchasedV1: Boolean(erV1PurchasedOnDate),
     },
   }
 }
@@ -77,29 +88,44 @@ const Buy: React.FC<{
   user: User | null
   subscriber: Subscriber | null
   productLabels?: {[productId: string]: string}
-}> = ({commerceProps, user, subscriber, productLabels}) => {
+  buttonCtaLabels?: {[productId: string]: string}
+  hasPurchasedV1?: boolean
+}> = ({
+  commerceProps,
+  user,
+  subscriber,
+  productLabels,
+  buttonCtaLabels,
+  hasPurchasedV1 = false,
+}) => {
   return (
     <Layout meta={{title: 'Buy'}}>
       <main className="flex-grow bg-er-gray-100 pb-24 pt-14 sm:pt-20">
         {commerceProps.products?.length > 0 ? (
           <>
             <div className="mx-auto max-w-screen-lg space-y-5 px-5 text-center">
-              <h1 className="text-balance py-4 text-4xl font-extrabold leading-9 text-text sm:text-[2.75rem] sm:leading-10 lg:text-[3.5rem] lg:leading-none">
-                Get Started in Less Than 10 Minutes and Master React
-              </h1>
-              <h2 className="mx-auto mt-5 max-w-4xl text-balance text-xl font-extrabold text-react sm:text-2xl">
+              <h2 className="max-w-6xl text-balance px-5 text-center text-3xl font-bold leading-tight text-white transition-opacity sm:leading-tight md:text-5xl lg:text-6xl">
+                {hasPurchasedV1
+                  ? 'Upgrade to Epic React v2 for React 19 and TypeScript with an All New Learning Experience'
+                  : 'Code Your Way to React Mastery'}
+              </h2>
+              <h3 className="mx-auto mt-5 max-w-4xl text-balance text-xl font-extrabold text-react sm:text-2xl">
                 Epic React is your hands-on code-first at the keyboard cheat
                 code to becoming the best React developer you can be.
-              </h2>
+              </h3>
             </div>
             <div className="mt-16 lg:mt-32">
               <PricingSection
                 commerceProps={commerceProps}
                 className="mb-28 mt-12 md:mt-14 lg:mb-32 lg:mt-16"
                 productLabels={productLabels}
+                buttonCtaLabels={buttonCtaLabels}
               />
             </div>
-            <div className="mx-auto mt-16 h-40 w-40">
+            <div className="mx-auto mt-8 flex items-center justify-center pb-8">
+              <PoweredByStripe />
+            </div>
+            <div className="mx-auto  h-40 w-40">
               <Image
                 src="/assets/money-back-guarantee-badge.svg"
                 alt="30 day money back guarantee"

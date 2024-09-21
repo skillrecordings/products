@@ -10,6 +10,7 @@ export const Projects = () => {
       {new Array(12).fill({}).map((_, index) => {
         return (
           <Image
+            key={index}
             src={require(`../../../public/assets/projects/${index + 1}@2x.png`)}
             alt=""
             className="max-h-[140px] w-auto sm:max-h-[190px]"

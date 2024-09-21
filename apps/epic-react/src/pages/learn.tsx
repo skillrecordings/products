@@ -26,7 +26,7 @@ import Footer from '@/components/app/footer'
 import {Skeleton} from '@skillrecordings/ui'
 import WelcomeBanner from '@/components/welcome-banner'
 import CertificateForm from '@/certificate/certificate-form'
-import {couponForPurchases} from '@/lib/purchases'
+import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 import {getUserAndSubscriber} from '@/lib/users'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
 import groq from 'groq'
@@ -44,7 +44,9 @@ export const getServerSideProps: GetServerSideProps = async ({
   const pricingActive = await sanityClientNoCdn.fetch(
     groq`*[_type == 'pricing' && active == true][0]`,
   )
-  const coupon = (await couponForPurchases(user?.purchases)) || query?.coupon
+  const erV1PurchasedOnDate = eRv1PurchasedOnDate(user?.purchases)
+  const coupon =
+    (await couponForPurchases(erV1PurchasedOnDate)) || query?.coupon
 
   const allowPurchase =
     pricingActive ||
@@ -54,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const productLabels = coupon
     ? {
-        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Discount',
+        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
       }
     : {}
 

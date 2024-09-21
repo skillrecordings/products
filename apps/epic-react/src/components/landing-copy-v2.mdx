@@ -3,7 +3,7 @@
 
 <React19FeaturesStack />
 
-There are 3 huge paradigm shifts that'll change your code (and maybe your life):
+{props.hasPurchasedV1 ? `You're not new to React, but with React 19 there` : 'There'} are 3 huge paradigm shifts that'll change your code (and maybe your life):
 
 1. **React Suspense and Transitions:** cut out the kludges & take complete control over how you load data, sync & async, for the sleekest user experience
 2. **Form and Server Actions:** ditch useEffect hacks forever (finally!) while delivering the exact data entry experience you want for SSR, SSG, and SPA apps
@@ -23,17 +23,23 @@ Now — experienced or newbie alike — you face a critical question:
 
 **How will you master React 19?**
 
-## Hi there, I'm Kent C. Dodds and I've taught React to over 30,000 people
+## {props.hasPurchasedV1 ? `I've taught React to over 30,000 people` : `Hi there, I'm Kent C. Dodds and I've taught React to over 30,000 people`}
 
-My first Epic React course has helped so many people start new careers in React, and grow their existing ones. But I knew it could be even better… so when I set out to create all-new material for React 19, I also radically redesigned the entire experience.
+<AboutKent>
+  {props.hasPurchasedV1 ? `Epic React v1` : `My first Epic React course`} has
+  helped so many people start new careers in React, and grow their existing
+  ones. But I knew it could be even better… so when I set out to create all-new
+  material for React 19, I also radically redesigned the entire experience.
 
-And I'll tell you all about that in a little bit.
+  And I'll tell you all about that in a little bit.
 
-But first, there's something you should know about the practice of learning React, regardless of when, where, or how you want to learn it.
+  But first, there's something you should know about the practice of learning
+  React, regardless of when, where, or how you want to learn it.
 
-Over the past 10 years, I've learned a lot about learning.
+  Over the past 10 years, I've learned a lot about learning.
 
-And the biggest lesson of all?
+  And the biggest lesson of all?
+</AboutKent>
 
 ### Not all learning is created equal.
 
@@ -57,11 +63,13 @@ That's what creates true confidence.
 
 But when you go "fast" by rushing to the end result, dutifully re-typing code you don't yet understand, you speed past the very thing that will help you most. You miss the fundamentals you'll need every day in your career: planning, designing, debugging, maintaining, scaling. You cheat yourself out of future growth. You undermine your own confidence.
 
+Luckily there's a better way.
+
 ### Here's how you become an _expert_
 
 Based on observation, experiments, study, hundreds of hours of live teaching, and feedback from tens of thousands using my self-guided courses…
 
-**Here's the path to true expertise:**
+**This is the path to true expertise:**
 
 - Master one concept at a time
 - Start with the simplest version possible
@@ -76,7 +84,7 @@ But if you're willing to commit, learning the right way will pay dividends forev
 
 You'll be the expert.
 
-And you can do it with Epic React 2.0.
+And you can do it with {props.hasPurchasedV1 ? `Epic React v2` : `Epic React`}.
 
 {<blockquote className="not-prose mx-auto w-full mt-16 max-w-3xl py-8 flex flex-col items-center justify-center relative"><div aria-hidden="true" className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent absolute top-0 left-0" /><p className='italic font-medium text-balance text-center'>Before Epic React, I was good at React. After, I feel like a superhero and have super powers with React.</p><div className="mt-4 flex items-center gap-2 text-base"><Image src={require('../../public/testimonials-images/06-steven-hofheins.jpeg')}
 width={40}
@@ -87,143 +95,174 @@ alt="Steven Hogheins"
 
 <RocketFlyBy />
 
-{<h2 className="!-mt-10 !pt-7 text-center !pb-5">Epic React will take you from "what's JSX?" to developing a complete, professional-grade, scalable application in a teamwork environment.</h2>}
+{<h2 className="!-mt-10 !pt-7 text-center !pb-5">{props.hasPurchasedV1 ? `Epic React v2` : `Epic React`} will take you from "what's JSX?" to developing a complete, professional-grade, scalable application in a teamwork environment.</h2>}
 
-When you enroll in Epic React, you'll get instant access to **7 workshops with 240 bite-sized lessons — all new, all React 19, and 100% TypeScript.** All you have to do is sign up and get started coding on your very first exercise in just 10 minutes.
+{props.hasPurchasedV1 ? `When you upgrade to Epic React v2` : `When you enroll in Epic React`}, you'll get instant access to **7 workshops with 240 bite-sized lessons — all new, all React 19, and 100% TypeScript.** All you have to do is {props.hasPurchasedV1 ? `sign in` : `sign up`} and get started coding your very first exercise.
 
-You'll start at the very beginning: with a DOM node.
+<p>{props.hasPurchasedV1 ? `You'll start by reviewing the fundamentals: a DOM node.` : `You'll start at the very beginning: with a DOM node.`}</p>
 
-You'll learn every part of React 19 — all the classic stuff, and all the new — separately and in concert.
+You'll {props.hasPurchasedV1 ? `learn and review` : `learn`} every part of React 19 — all the classic stuff, and all the new — separately and in concert.
 
 Each new lesson will build on the one you did before.
 
 {/* By the end, you'll develop @TODOFinalAppProjects. */}
 {/* Projects: Calculator, Forms, Blog Search, Animated Tilt, Tic Tac Toe, Counter, Performant Globe, Searchable List of Cities, RSC Shipyard */}
 
-By the end, you'll develop projects such as a blog search, animated tilt, tic-tac-toe, new user form, performant globe, calculator, counter, searchable list of cities, and RSC Shipyard.
-
 <Projects />
 
-### Along the way, you'll learn professional coding practices
+By the end, you'll develop projects such as a blog search, animated tilt, tic-tac-toe, new user form, performant globe, calculator, counter, searchable list of cities, and RSC Shipyard.
 
-You'll learn a lot about form handling, which is tricky in and out of React.
+### Along the way, you'll {props.hasPurchasedV1 ? `reinforce` : `learn`} professional coding practices
 
-You'll learn how to optimize for performance for all of your apps, not just React.
+You'll **master form handling**, one of the trickiest (and most powerful) parts of interactive web development.
 
-You'll learn how AI coding assistants are a massive productivity boost for you. All the demonstrations in Epic React are built with them turned on, so you'll see it in action. You're still the one doing the coding, but having AI tools giving you feedback and suggestions is a huge help.
+You'll learn how to **develop for performance**, and optimize your existing code. (Bonus: these same techniques apply to non-React apps, too!)
 
-All this while practicing React development with a simulated coworker and project manager. Just like real-life we need to be able to collaborate with others, and Epic React is no different.
+You'll learn how to **use AI coding assistants** for a massive productivity boost. I use mine in every Epic React video lesson. (They don't do the work for you, of course, but they sure can help!)
 
-**And you don't have to do it alone**: when you're learning, you'll see the shining faces of fellow students working on that same lesson… and when you enroll in the Pro package, you'll get lifetime access to our Epic React Discord.
+All while you practice developing React 19 apps within your virtual team. Your simulated guides, Peter the Project Manager and Kellie the Coworker, set specifications, provide suggestions and even code for you to build on, (almost) just like real life.
 
-So, whether you're an intermediate dev looking to learn React for the first time (lucky you!)…
+**And you don't have to do it alone**: every time you sit down to learn, you'll see the shining faces of your fellow students working on that same exact lesson at the same exact time… and you'll get lifetime access to our Epic React Discord channels.
 
-…or an experienced React developer looking to level up…
+So, whether you're an intermediate dev looking to {props.hasPurchasedV1 ? `review the fundamentals` : `learn React for the first time (lucky you!)`}…
 
-**If you've been looking for your pathway to true React mastery? You've found it.**
+…or an experienced React developer looking to {props.hasPurchasedV1 ? `learn whats new in React 19` : `level up`}…
 
-Let's take a tour.
+### If you've been looking for a path to true React 19 mastery? You've found it with {props.hasPurchasedV1 ? `Epic React v2` : `Epic React`}.
+
+Let's take a {props.hasPurchasedV1 ? `tour to see what's in the brand-new upgraded Epic React v2!` : `tour!`}
+
 
 <IntroTourVideo />
 
-### You are going to love learning with Epic React
+### You are going to love learning with {props.hasPurchasedV1 ? `Epic React v2 more than ever.` : `Epic React.`}
 
-You'll build expertise and master React while avoiding learning fatigue through fund and rewarding coding exercises. At every step you'll be encouraged and challenged while working at a sustainable pace.
+A lot of programming courses are, when you get right down to it, a pile of videos and written tutorials with a table of contents. The material just kinda… sits there. When it comes to actually learning, all the work is left to you.
 
-When you're ready to study React, you won't waste time figuring out what to do next. Your progress is tracked and the next step is always clear.
+_You_ have to track where you left off.
 
-You won't waste time watching video after video.
+_You_ have to set up your dev environment for each exercise.
 
-**You'll spend your time coding.**
+_You_ have to manually check your work, flipping between a stack of tabs to compare. That's a lot of cognitive overhead!
 
-With every exercise you'll be fully supported with before and after code diffs and tests that let you know with confidence that your expertise is growing as you put in the work.
+The worst part is, all that extra work doesn't do anything for _you_ (except drive procrastination).
 
-**With Epic React, you’re never alone.**
+That's exactly why I took my years of teaching — and feedback from tens of thousands of students — and designed a custom, interactive workshop experience for you.
 
-As you learn you’ll be working with your peers with the shared presence feature and on the very active Epic Discord server is always a click away if you get stuck, have questions, or want to share what you’ve built.
+### Because it's not just what you learn, it's how you learn.
 
-### Here’s how it works
+When you learn with {props.hasPurchasedV1 ? `Epic React v2` : `Epic React`}, you'll be able to sit down and start learning right away, whether it's your first day or your final lesson.
 
-Epic React is divided into 7 complete self-paced workshops. The workshops have an introduction, and are further divided into sections that contain the exercises that you will be working on (and the occasional dad joke break).
+It's so much more fun and motivating to learn when…
 
-You’ll clone the workshop app for each individual workshop when you are ready to work on it. With just a few clicks you’ll be up and running and watching the intro video for the workshop through the app on your `localhost`.
+* you can always pick up exactly where you left off because {props.hasPurchasedV1 ? `Epic React v2` : `Epic React`} tracks your progress for you, and automatically opens to your latest lesson
+* you can jump right into the code because, with a click of a button, {props.hasPurchasedV1 ? `Epic React v2` : `Epic React`} sets up a fresh development playground for you (for your favorite IDE!)
+* you can maximize your keyboard time, because every lesson is short, sweet, and actionable
+* you can check your work instantly (one click!) with diffs for ideal solutions and built-in tests
+* you can trust an expert teacher (me!) to handle pacing and breaks for you (plus bonus dad jokes)
+* you can get help when you're stuck, because you're part of a global community all working towards the same goal
 
-For the exercises you’ll be working in your IDE of choice, coding as you would on the job. As you make changes for your solution to the exercises, the workshop app will update providing you with a full code diff from your solution and the suggested solutions. You’ll also get another tab that provides tests for most exercises, so you can run those tests with confidence that your solution worked.
+In other words, when you can use 100% of your brain to do what it does best: learn.
 
-### Practice professional skills
+That's the experience you get with {props.hasPurchasedV1 ? `Epic React v2` : `Epic React`}.
 
-With Epic React you’ll be working on practical problem-solving skills in the same way you do as a professional developer. These workshops simulate a real-world team environment and give you the feel of what it’s like to ship React apps in production.
-
-Finally, you can watch Kent code the solution and talk about the decision-making process that went into solving it.
-
-### Get your hands on that keyboard ASAP with Epic React
-
-Getting started is always the hardest part of learning something new, and React is no exception. With Epic React, you can get over that hump quickly and start learning immediately.
-It’s crucial to get your fingers on the keyboard with a proper development environment setup, and Epic React takes the struggle out of getting started by making the “Hello World” easy and fun.
+<p className="text-center">(Which, by the way, I built in React!)</p>
 
 {<WorkshopAppScreenshot className="max-w-3xl mx-auto w-full" />}
 
-Increasing your time at the keyboard makes sure you aren’t passively learning while an instructor drones on. Instead, you’ll be actively doing the job of a React developer as you learn the concepts that you need inside and out.
+## What it's like to learn with {props.hasPurchasedV1 ? `the all new, upgraded Epic React v2` : `Epic React`}
 
-<section className="relative max-w-3xl mb-16 mt-16 pt-8 pb-8 mx-auto w-full">
+Epic React {props.hasPurchasedV1 ? `v2 is divided into 7 complete, new` : `is divided into 7 complete`}, self-paced interactive workshops, which run as React apps on your local dev machine.
 
-{' '}
+Here's what it's like, from your perspective as a learner:
 
-<div
-  className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
-  aria-hidden="true"
-/>
+1. To get started, you simply `git clone` the workshop you want. .
+2. Just a few clicks and you'll be  watching  that workshop's intro  on `localhost`.
+3. After the short & sweet lesson, you're ready to code! Click set as playground, and you can open your freshly generated project files in your favorite IDE.
 
-{<h2 className="text-center">Ready to experience Epic React for
-yourself?</h2>}
+While you hammer away at your exercise, {props.hasPurchasedV1 ? `Epic React v2` : `Epic React`} automatically update with your code in progress… and so will the  automatic full-code diff comparing your code with my suggested solution.
 
-The Get Started with React
-tutorial includes the first 4 workshop sections from the full course:
+And, for most exercises, you can run tests against your code with a single click. ou’ll also get another tab that provides tests for most exercises.
 
-{<TutorialWidget />}
+Once you've finished your exercise, you can watch a video on how and why I wrote the solution.
 
-The Get Started with React tutorial is a great introduction to React 19 and
-will let you explore the workshop app in your local environment to see for
-yourself how awesome it is.
+Then you click Next!
 
-</section>
+Your exercise will be marked as completed, and you'll be moved forward to a new lesson, new exercise, new `set as playground`.
+
+### At any time, in any lesson, you can reach out to the Epic Discord for help (or simply fellow feeling).
+
+And we don't want you burning out, so every few lessons you'll be encouraged to take a break! Stretch, walk, have a hot beverage, letting the lessons sink in. I'll even tell you a little Dad joke (groaning is good for the brain).
+
+You're supported at every step and in every way. So you can put all your time and energy into excelling at React 19.
+
+
+## Why your learning sticks with {props.hasPurchasedV1 ? `Epic React v2` : `Epic React`}
+
+Have you ever left a lesson — text, video, even in-person — feeling buoyant and confident, but a week later, when you try to apply it in the real world, it's all foggy and vague?
+
+There are two reasons for this:
+
+- The learning wasn't active
+- The learning wasn't connected to your real life
+
+The first one's obvious: **Just watching someone else code won't teach you to code effectively; you need to do it yourself**.
+
+The second problem is all about context: When you practice a new skill in a clean-room environment, and then try to apply it in the real, messy, complicated world… well, things will be missing. You won't get the full value of your practice.
+
+That's why I designed {props.hasPurchasedV1 ? `the upgraded Epic React v2` : `Epic React`} to ensure your learning is fun, effective, and sticky:
+
+✅ Learn actively, not passively — you'll get lots of keyboard time to form new pathways in your brain
+
+✅ Learn real-world skills in context — you'll get your directions from a virtual project manager, you'll get tips from helpful teammates, and you'll even get helped out by a wonderful coworker who provides code for you to work with, all while you build projects that grow and evolve just like they do in the real world
+
+Bottom line: _Your new React skills will stick because you’ll practice the job of a React developer while you learn React 19 concepts inside and out._
+
 
 <section className="relative max-w-4xl mt-16 pt-5 mx-auto w-full">
 
-{' '}
+  {' '}
 
-<div
-  className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
-  aria-hidden="true"
-/>
+  <div
+    className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
+    aria-hidden="true"
+  />
 
-{<h2 className="text-center text-balance">Everything you get with Epic
-React
-v2</h2>}
+  {<h2
+    className="text-center text-balance">{props.hasPurchasedV1 ? `Everything you learn when you upgrade to Epic React v2` : `Everything you learn with Epic React`}</h2>}
 
-Starting with the fundamentals all the way through the latest in React Server
-Components, you'll learn everything you need to know to build
-production-ready React applications.
+  Starting with the fundamentals all the way through the latest in React Server
+  Components, you'll learn everything you need to know to build
+  production-ready React applications.
 
-{<ModulesListWithDescriptions />}
+  {<ModulesListWithDescriptions />}
 
 </section>
 
-### There’s nothing like this level of training available anywhere else at any price.
+## You can't get this level of training anywhere else at any price.
 
-Training is expensive. Live workshops cost hundreds of dollars per workshop. That's not including the travel costs and the time away from how.
+Live workshops can be effective, but they're not easy. Each workshop costs hundreds (or thousands) of dollars apiece — not to mention the travel costs — and chomps days or even weeks out of your life.
 
-Epic React is 7 complete workshops. You don't have to leave your house to master React. You can learn it in your own time and at your own pace.
+Plus there's the intensity (exhausting) and pressure (enormous).
 
-**For a fraction of the cost of live training.**
+**The all-new {props.hasPurchasedV1 ? `is 7 complete
+brand-new updated workshops` : `is 7 complete
+workshops`} in one, with a guided, interactive, contextual experience you won't get anywhere else.** You'll learn everything in your own time, at your own pace. And you can do it all in your pajamas in your own home, or even at the office with your whole team.
 
-Epic React is a serious bargain for the highest level of professional developer training.
+All for less than the cost of a cheap flight and mid-range hotel for a single night in a mid-tier city.
+
+<p>{props.hasPurchasedV1 ? `Epic React v2` : `Epic React`} is a bargain you
+  can't afford to miss!</p>
 
 import IntroTourVideo from '@/components/landing/intro-tour-video'
-import {React19FeaturesStack} from '@/components/landing/react-19-features-stack'
-import {CodebaseTransformation} from '@/components/landing/codebase-transformation'
+import {
+  React19FeaturesStack
+} from '@/components/landing/react-19-features-stack'
+import {
+  CodebaseTransformation
+} from '@/components/landing/codebase-transformation'
 import {WorkshopAppScreenshot} from '@/pages/get-started'
 
-export default ({children}) => {
-  return children
+export default (props) => {
+  return props.children
 }

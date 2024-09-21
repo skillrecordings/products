@@ -91,6 +91,7 @@ export const writeAnEmail = inngest.createFunction(
     - **do not** guess lesson or workshop titles, use the progress data below only
     - **only** suggest next lessons, not previous incomplete lessons
     - keep the exposition and flowery language to a minimum
+    - do not suggest intro lessons
 
     Structured Progress Data:
     ${JSON.stringify(currentProgress, null, 2)}
@@ -141,6 +142,7 @@ export const writeAnEmail = inngest.createFunction(
         - watch out for ai jank and hallucinations
         - if you see direct references to Remix, suggest changes to broader web development concepts
         - check the new line characters and make sure they use a single slash and not a double slash or more like this \n NOT like this \\n or this \\\n or this \\\\\n
+        - do not suggest intro lessons
     `
     const aiEditorResponse = await step.run(
       'send to editor for suggestions',
@@ -163,6 +165,8 @@ export const writeAnEmail = inngest.createFunction(
     in the same json format as before. use newline character for long strings that need to be
     a single line but do not escape the newline character. prefer full text titles over slugs.
     deliver the best email a koala could possibly imagine.
+    
+    - do not suggest intro lessons
     `
 
     const aiFinalResponse = await step.run(
@@ -200,6 +204,7 @@ export const writeAnEmail = inngest.createFunction(
     - remove any direct name references to the learner from the subject
     - make sure the body is properly formatted and structured markdown
     - make sure the email has soul
+    - do not suggest intro lessons
     `
 
     const fullPrompt = [
@@ -235,7 +240,7 @@ export const writeAnEmail = inngest.createFunction(
           messages: [
             {
               role: 'user',
-              content: `Please check the following JSON and correct any errors 
+              content: `check the following JSON and correct any errors 
               in the structure so it will parse with JSON.parse. don't 
               explain it please, just return the corrected json and only 
               the corrected json ready to be parsed. use newline character 
