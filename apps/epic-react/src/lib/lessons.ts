@@ -80,7 +80,7 @@ async function loadLessonWithModule(
   id: string,
   moduleType: 'workshop' | 'tutorial' = 'workshop',
 ) {
-  return await sanityClient.fetch(
+  const lessonWithModule = await sanityClient.fetch(
     `*[_id == $id][0]{
       _id,
       title,
@@ -124,6 +124,15 @@ async function loadLessonWithModule(
     }`,
     {id},
   )
+
+  // if there wasn't a workshop module, try to load a tutorial module
+  // this makes sure workshops always load first when a lesson
+  // exists in both
+  if (!lessonWithModule && moduleType === 'workshop') {
+    return await loadLessonWithModule(id, 'tutorial')
+  }
+
+  return lessonWithModule
 }
 
 export const getLessonWithModule = async (id: string): Promise<any> => {
