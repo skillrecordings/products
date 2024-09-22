@@ -70,20 +70,20 @@ const data = [
       </>
     ),
   },
-  {
-    name: 'Mihai',
-    avatar: require('../../../public/testimonials-images/mihai.jpg'),
-    quote: (
-      <>
-        It's awesome!! Very detailed but clear.{' '}
-        <strong>
-          No matter your React experience you'll have a lot to learn from it.
-        </strong>{' '}
-        They made a pretty powerful framework for exercising/learning so it's
-        not just copy-the-instructor type of tutorials.
-      </>
-    ),
-  },
+  // {
+  //   name: 'Mihai',
+  //   avatar: require('../../../public/testimonials-images/mihai.jpg'),
+  //   quote: (
+  //     <>
+  //       It's awesome!! Very detailed but clear.{' '}
+  //       <strong>
+  //         No matter your React experience you'll have a lot to learn from it.
+  //       </strong>{' '}
+  //       They made a pretty powerful framework for exercising/learning so it's
+  //       not just copy-the-instructor type of tutorials.
+  //     </>
+  //   ),
+  // },
   {
     name: 'Ian Svoboda',
     avatar: require('../../../public/testimonials-images/ian-svoboda.jpg'),
@@ -110,19 +110,19 @@ const data = [
       </>
     ),
   },
-  {
-    name: 'Richard Bagshaw',
-    avatar: require('../../../public/testimonials-images/richard-bagshaw.jpg'),
-    quote: (
-      <>
-        Epic React from Kent C. Dodds takes a different approach. Instead of
-        just being fed video after video the path here is: "This is the goal,
-        here are some tips, have a go".{' '}
-        <strong>This is great for memory, I have to actually think,</strong> and
-        then I can learn the details in a follow up video.
-      </>
-    ),
-  },
+  // {
+  //   name: 'Richard Bagshaw',
+  //   avatar: require('../../../public/testimonials-images/richard-bagshaw.jpg'),
+  //   quote: (
+  //     <>
+  //       Epic React from Kent C. Dodds takes a different approach. Instead of
+  //       just being fed video after video the path here is: "This is the goal,
+  //       here are some tips, have a go".{' '}
+  //       <strong>This is great for memory, I have to actually think,</strong> and
+  //       then I can learn the details in a follow up video.
+  //     </>
+  //   ),
+  // },
 ]
 
 const Testimonials = () => {
