@@ -1,33 +1,12 @@
 [data-pricing-container] {
     @apply relative grid grid-flow-row-dense grid-cols-1 gap-5 lg:grid-cols-7 lg:grid-rows-1 lg:gap-0;
 
-    & > div:nth-child(2) {
-        @apply row-start-3 mx-auto w-full transform transition-opacity duration-200  ease-in-out hover:opacity-100 sm:max-w-md lg:col-start-1 lg:col-end-3 lg:row-start-1 lg:mx-0 lg:max-w-none lg:translate-y-56 lg:opacity-50;
-
-        [data-pricing-product-sale-countdown] {
-            @apply hidden;
-        }
-
-        [data-pricing-product-checkout-button] {
-            @apply !mt-0;
-        }
-    }
 
     & > div:nth-child(1) {
         @apply row-start-1 mx-auto mt-10 w-full max-w-lg shadow-xl lg:col-start-3 lg:col-end-6 lg:row-start-1 lg:mx-0 lg:mt-0 lg:max-w-none;
     }
 
-    & > div:nth-child(3) {
-        @apply row-start-2 mx-auto w-full transform transition-opacity duration-200 ease-in-out hover:opacity-100 sm:max-w-md lg:col-start-6 lg:col-end-8 lg:row-start-1 lg:max-w-none lg:translate-y-32 lg:opacity-75;
 
-        [data-pricing-product-sale-countdown] {
-            @apply hidden;
-        }
-
-        [data-pricing-product-checkout-button] {
-            @apply !mt-0;
-        }
-    }
 }
 
 #main-pricing {
@@ -272,17 +251,6 @@
         }
     }
 
-    [data-pricing-product='1'],
-    [data-pricing-product='2'] {
-        [data-pricing-product-image] {
-            @apply hidden;
-        }
-
-        [data-pricing-product-checkout-button] {
-            @apply mt-5  block w-full rounded-lg border border-indigo-300 border-opacity-25 bg-indigo-200 bg-opacity-25 px-6 py-3 text-center text-lg font-semibold leading-normal text-text transition duration-150 ease-in-out hover:bg-indigo-300 hover:bg-opacity-50 focus:shadow-outline focus:outline-none;
-        }
-    }
-
     [data-pricing-product='0'] {
         @apply relative border-2 border-yellow-300;
 
@@ -350,41 +318,6 @@
         }
     }
 
-    [data-pricing-product='2'] {
-        [data-ppp-header] {
-            @apply space-y-4 text-sm;
-
-            strong {
-                @apply block text-base font-semibold leading-normal;
-
-                img {
-                    @apply inline-block;
-                }
-            }
-
-            & + label {
-                @apply mt-4 inline-flex cursor-pointer items-center space-x-2 rounded-md border  border-er-gray-300 bg-background px-4 py-3 text-sm font-semibold duration-150 hover:bg-blue-300 hover:bg-opacity-25;
-            }
-        }
-    }
-
-    [data-pricing-product='0'] {
-        [data-ppp-header] {
-            @apply space-y-4 text-sm;
-
-            strong {
-                @apply block text-base font-semibold leading-normal;
-
-                img {
-                    @apply inline-block;
-                }
-            }
-
-            & + label {
-                @apply mt-4 inline-flex cursor-pointer items-center space-x-2 rounded-md border  border-er-gray-300 bg-background px-4 py-3 text-sm font-semibold duration-150 hover:bg-blue-300 hover:bg-opacity-25;
-            }
-        }
-    }
 
     /* PPP */
 

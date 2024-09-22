@@ -99,7 +99,7 @@ const Buy: React.FC<{
   hasPurchasedV1 = false,
 }) => {
   return (
-    <Layout meta={{title: 'Buy'}}>
+    <Layout meta={{title: 'Buy'}} withFooter={false} withNavigation={false}>
       <main className="flex-grow bg-er-gray-100 pb-24 pt-14 sm:pt-20">
         {commerceProps.products?.length > 0 ? (
           <>
