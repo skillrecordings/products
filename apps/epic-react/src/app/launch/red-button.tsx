@@ -3,6 +3,7 @@
 import {useState, useEffect} from 'react'
 import Confetti from 'react-confetti'
 import Starfield from './starfield'
+import {useSocket} from '@/hooks/useSocket'
 
 export default function RedButton({canPress}: {canPress: boolean}) {
   const [isConfetti, setIsConfetti] = useState(false)
@@ -11,8 +12,7 @@ export default function RedButton({canPress}: {canPress: boolean}) {
   const [confettiKey, setConfettiKey] = useState(0)
   const [starfieldSpeed, setStarfieldSpeed] = useState(0.5)
 
-  const handleClick = () => {
-    if (!canPress) return
+  function letItRip() {
     setIsPressed(true)
     setShake(true)
     setIsConfetti(true)
@@ -21,8 +21,23 @@ export default function RedButton({canPress}: {canPress: boolean}) {
 
     // Sequence of animations
     setTimeout(() => setShake(false), 500) // Stop shaking after 500ms
-    setTimeout(() => setIsPressed(false), 250) // Return to normal size after 800ms
-    // setTimeout(() => setIsConfetti(false), 12000) // Stop confetti after 8 seconds
+    setTimeout(() => setIsPressed(false), 250)
+  }
+
+  useSocket({
+    onMessage: async (messageEvent) => {
+      const data = JSON.parse(messageEvent.data)
+      const invalidateOn = ['launch.initiated']
+
+      if (invalidateOn.includes(data.name)) {
+        letItRip()
+      }
+    },
+  })
+
+  const handleClick = () => {
+    if (!canPress) return
+    letItRip()
   }
 
   useEffect(() => {
@@ -47,7 +62,7 @@ export default function RedButton({canPress}: {canPress: boolean}) {
       }}
     >
       <Starfield speed={starfieldSpeed} />
-      <h1 className="left-.5 absolute top-7 z-10 text-5xl font-bold opacity-10">
+      <h1 className="left-.5 absolute top-7 z-10 text-5xl font-bold opacity-50">
         epicreact.dev/launch
       </h1>
       <button

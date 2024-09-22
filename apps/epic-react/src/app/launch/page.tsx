@@ -20,7 +20,12 @@ export default async function LaunchPage() {
 
   return (
     <div>
-      <form action={launch}>
+      <form
+        action={async () => {
+          'use server'
+          launch()
+        }}
+      >
         <RedButton canPress={canPress} />
       </form>
     </div>

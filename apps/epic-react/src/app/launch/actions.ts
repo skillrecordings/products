@@ -22,6 +22,22 @@ export async function launch() {
     return {error: 'not authorized'}
   }
 
+  await fetch(
+    `${process.env.NEXT_PUBLIC_PARTY_KIT_URL}/party/${process.env.NEXT_PUBLIC_PARTYKIT_ROOM_NAME}`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        name: 'launch.initiated',
+      }),
+    },
+  )
+    .then((res) => {
+      return res.text()
+    })
+    .catch((e) => {
+      console.error(e)
+    })
+
   const prices = await sanityWriteClient.fetch(groq`
     *[_type == "pricing" && slug.current == "epic-react-v2"][0]`)
 
