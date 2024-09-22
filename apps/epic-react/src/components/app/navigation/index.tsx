@@ -85,14 +85,22 @@ export const useNavigationLinks = () => {
   )
 
   return [
+    ...(hasV2Purchase
+      ? [
+          {
+            label: 'Your Workshops',
+            href: '/workshops',
+            // href: !allPurchases
+            //   ? '/workshops'
+            //   : hasLegacyPurchase && !hasV2Purchase
+            //   ? '/learn'
+            //   : '/workshops',
+          },
+        ]
+      : []),
     {
       label: 'Workshops',
       href: '/workshops',
-      // href: !allPurchases
-      //   ? '/workshops'
-      //   : hasLegacyPurchase && !hasV2Purchase
-      //   ? '/learn'
-      //   : '/workshops',
     },
     {
       label: 'Free Tutorials',
