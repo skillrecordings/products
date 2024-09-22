@@ -15,6 +15,7 @@ import {
 import {LessonCompleteEmailProps} from '@/emails/lesson-complete-email'
 import {getLessonCompleteEmailOptions} from '@/server/get-email-options'
 import {sendTheEmail} from '@/server/send-the-email'
+import {NonRetriableError} from 'inngest'
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
@@ -64,6 +65,11 @@ export const lessonCompleted = inngest.createFunction(
         return await getLessonWithModule(event.data.lessonSanityId as string)
       },
     )
+
+    if (!lessonWithModule)
+      throw new NonRetriableError(
+        `Lesson not found for ${event.data.lessonSanityId}`,
+      )
 
     if (lessonWithModule.solution) {
       const FIRST_LESSON_KEY = `first-lesson:${user.id}:${lessonWithModule.module.slug.current}`
