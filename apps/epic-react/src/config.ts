@@ -50,7 +50,7 @@ const config: DefaultSeoProps & {author: string} = {
     },
     {
       name: 'theme-color',
-      content: '#ffffff',
+      content: '#0f172a',
     },
   ],
   twitter: {

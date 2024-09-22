@@ -9,6 +9,8 @@ import {useGoldenTicket} from '@skillrecordings/skill-lesson/hooks/use-golden-ti
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {useGlobalBanner} from '@/hooks/use-global-banner'
 import Footer from './footer'
+import config from '@/config'
+import {useTheme} from 'next-themes'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -73,6 +75,8 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
     }
   }, [couponData, invalidReason, validCoupon])
 
+  const {theme} = useTheme()
+
   return (
     <div
       className={`relative ${inter.variable} font-sans text-text antialiased`}
@@ -98,6 +102,15 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
         }}
         canonical={url}
         noindex={noIndex}
+        additionalMetaTags={[
+          ...(config.additionalMetaTags?.filter(
+            (meta) => meta.property !== 'theme-color',
+          ) || []),
+          {
+            name: 'theme-color',
+            content: theme === 'light' ? '#ffffff' : '#0f172a',
+          },
+        ]}
       />
       <Toaster position="top-center" />
       <RedeemDialogForCoupon />
