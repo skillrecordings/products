@@ -9,7 +9,7 @@ import {SearchIcon} from '@heroicons/react/outline'
 const Footer = () => {
   const primaryNavLinks = useNavigationLinks()
   const footerNavLinks = [
-    ...primaryNavLinks.filter(({label}) => label !== 'FAQ'),
+    ...primaryNavLinks.filter(({label}) => !['FAQ'].includes(label)),
     {
       label: 'Livestreams',
       href: '/livestreams',

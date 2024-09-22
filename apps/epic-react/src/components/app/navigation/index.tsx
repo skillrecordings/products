@@ -86,14 +86,7 @@ export const useNavigationLinks = () => {
 
   return [
     {
-      label: (
-        <>
-          Workshops
-          {/* {status === 'loading' ? (
-            <Spinner className="absolute right-1 top-2.5 h-2 w-2" />
-          ) : null} */}
-        </>
-      ),
+      label: 'Workshops',
       href: '/workshops',
       // href: !allPurchases
       //   ? '/workshops'
@@ -102,7 +95,7 @@ export const useNavigationLinks = () => {
       //   : '/workshops',
     },
     {
-      label: 'Tutorials',
+      label: 'Free Tutorials',
       href: '/tutorials',
     },
     {
@@ -136,9 +129,15 @@ const Navigation: React.FC<NavigationProps> = ({
   const {pathname, asPath, push} = useRouter()
   const isRoot = pathname === '/'
   const [menuOpen, setMenuOpen] = React.useState(false)
-  const navigationLinks = useNavigationLinks()
+  const allNavigationLinks = useNavigationLinks()
   const {isShowingSiteBanner, bannerHeight, scrollDirection} = useGlobalBanner()
 
+  const navigationLinks = allNavigationLinks.filter(
+    ({label}) =>
+      !['FAQ', 'Podcast', 'Articles', 'Free Tutorials', 'Workshops'].includes(
+        label,
+      ),
+  )
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
       productId: process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
