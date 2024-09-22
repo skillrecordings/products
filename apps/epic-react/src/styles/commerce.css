@@ -1,7 +1,7 @@
 [data-pricing-container] {
     @apply relative grid grid-flow-row-dense grid-cols-1 gap-5 lg:grid-cols-7 lg:grid-rows-1 lg:gap-0;
 
-    & > div:nth-child(1) {
+    & > div:nth-child(2) {
         @apply row-start-3 mx-auto w-full transform transition-opacity duration-200  ease-in-out hover:opacity-100 sm:max-w-md lg:col-start-1 lg:col-end-3 lg:row-start-1 lg:mx-0 lg:max-w-none lg:translate-y-56 lg:opacity-50;
 
         [data-pricing-product-sale-countdown] {
@@ -13,7 +13,7 @@
         }
     }
 
-    & > div:nth-child(2) {
+    & > div:nth-child(1) {
         @apply row-start-1 mx-auto mt-10 w-full max-w-lg shadow-xl lg:col-start-3 lg:col-end-6 lg:row-start-1 lg:mx-0 lg:mt-0 lg:max-w-none;
     }
 
@@ -272,7 +272,7 @@
         }
     }
 
-    [data-pricing-product='0'],
+    [data-pricing-product='1'],
     [data-pricing-product='2'] {
         [data-pricing-product-image] {
             @apply hidden;
@@ -283,7 +283,7 @@
         }
     }
 
-    [data-pricing-product='1'] {
+    [data-pricing-product='0'] {
         @apply relative border-2 border-yellow-300;
 
         [data-pricing-product-image] {
