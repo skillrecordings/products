@@ -132,13 +132,16 @@ const Testimonials = () => {
       className="not-prose relative mx-auto mt-16 grid w-full max-w-4xl grid-cols-1 gap-4 pb-10 pt-16 md:grid-cols-2"
     >
       <div
-        className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
+        className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-border"
         aria-hidden="true"
       />
       {data.map(({name, avatar, quote}) => {
         return (
-          <blockquote key={name} className="px-5 py-3 sm:px-5 sm:py-5">
-            <p className="text-balance text-sm leading-normal sm:text-base">
+          <blockquote
+            key={name}
+            className="flex flex-col items-center px-5 py-3 sm:block sm:px-5 sm:py-5"
+          >
+            <p className="text-balance text-center text-sm leading-normal sm:text-left sm:text-base">
               {quote}
             </p>
             <div className="mt-4 flex items-center gap-2">

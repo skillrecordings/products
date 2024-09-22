@@ -115,9 +115,10 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
           marginTop: isShowingSiteBanner ? bannerHeight : '0',
         }}
         className={cn(
-          `relative flex h-full min-h-screen flex-grow flex-col ${
-            withNavigation ? 'pt-[48px] sm:pt-12' : ''
-          }`,
+          `relative flex h-full min-h-screen flex-grow flex-col`,
+          {
+            'pt-[48px] sm:pt-12': withNavigation,
+          },
           className,
         )}
       >

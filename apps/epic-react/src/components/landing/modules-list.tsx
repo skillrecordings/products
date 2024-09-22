@@ -89,7 +89,7 @@ export const ModulesListWithDescriptions = ({
   modules: Array<Workshop | Bonus>
 }) => {
   return (
-    <ul className="not-prose mx-auto my-16 flex w-full max-w-4xl flex-col gap-10">
+    <ul className="not-prose mx-auto mb-10 mt-16 flex w-full max-w-4xl flex-col gap-10">
       {modules.map((module, index) => {
         const hasTagline = 'tagline' in module
         const hasDuration = data[index]?.duration

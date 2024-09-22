@@ -189,9 +189,7 @@ Here's what it's like, from your perspective as a learner:
 
 You're supported at every step and in every way. So you can put all your time and energy into getting freaking excellent at React 19.
 
-<section className="relative max-w-4xl mt-16 pt-5 mx-auto w-full">
-
-  {' '}
+<section className="relative max-w-4xl mt-16 pt-5 mb-5 pb-2 mx-auto w-full">
 
   <div
     className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
@@ -207,6 +205,11 @@ You're supported at every step and in every way. So you can put all your time an
 
   {<ModulesListWithDescriptions />}
 
+    <div
+    className="absolute left-0 bottom-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
+    aria-hidden="true"
+  />
+
 </section>
 
 ## Why your learning sticks with {props.hasPurchasedV1 ? `Epic React v2` : `Epic React`}
@@ -215,9 +218,9 @@ Have you ever left a lesson — text, video, even in-person — feeling buoyant 
 
 There are two reasons for this:
 
-❌ The learning wasn't active
+<X className="sm:w-7 sm:h-7 w-5 h-5 inline-block dark:text-red-500 text-red-500 relative -translate-y-0.5" /> The learning wasn't active
 
-❌ The learning wasn't connected to your real life
+<X className="sm:w-7 sm:h-7 w-5 h-5 inline-block dark:text-red-500 text-red-500 relative -translate-y-0.5" /> The learning wasn't connected to your real life
 
 The first one's obvious: **Just watching someone else code won't teach you to code effectively; you need to do it yourself**.
 
@@ -225,9 +228,9 @@ The second problem is all about context: When you practice a new skill in a clea
 
 That's why I designed {props.hasPurchasedV1 ? `the upgraded Epic React v2` : `Epic React`} to ensure your learning is fun, effective, and sticky:
 
-✅ Learn actively, not passively — you'll get lots of keyboard time to form new pathways in your brain
+<Check className="sm:w-7 sm:h-7 w-5 h-5 inline-block dark:text-teal-500 text-teal-500 relative -translate-y-0.5" /> Learn actively, not passively — you'll get lots of keyboard time to form new pathways in your brain
 
-✅ Learn real-world skills in context — you'll get your directions from a virtual project manager, you'll get tips from helpful teammates, and you'll even get helped out by a wonderful coworker who provides code for you to work with, all while you build projects that grow and evolve just like they do in the real world
+<Check className="sm:w-7 sm:h-7 w-5 h-5 inline-block dark:text-teal-500 text-teal-500 relative -translate-y-0.5" /> Learn real-world skills in context — you'll get your directions from a virtual project manager, you'll get tips from helpful teammates, and you'll even get helped out by a wonderful coworker who provides code for you to work with, all while you build projects that grow and evolve just like they do in the real world
 
 Bottom line: _Your new React skills will stick because you’ll practice the job of a React developer while you learn React 19 concepts inside and out._
 
@@ -256,6 +259,7 @@ import {
   CodebaseTransformation
 } from '@/components/landing/codebase-transformation'
 import {WorkshopAppScreenshot} from '@/pages/get-started'
+import {X, Check} from 'lucide-react'
 
 export default (props) => {
   return props.children

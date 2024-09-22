@@ -1,3 +1,4 @@
+import * as React from 'react'
 import type {GetServerSideProps} from 'next'
 import Image from 'next/image'
 import {getToken} from 'next-auth/jwt'
@@ -11,7 +12,6 @@ import Layout from '@/components/app/layout'
 import LandingCopy from '@/components/landing-copy-v2.mdx'
 import PricingSection from '@/components/pricing-section'
 import {VersionTwoCta} from '@/components/version-two-cta'
-import * as React from 'react'
 import {getAllWorkshops, type Workshop} from '@/lib/workshops'
 import {getUserAndSubscriber} from '@/lib/users'
 import {User} from '@skillrecordings/skill-lesson'
@@ -22,14 +22,12 @@ import {ModulesListWithDescriptions} from '@/components/landing/modules-list'
 import Sparkle from 'react-sparkle'
 import {useTheme} from 'next-themes'
 import Testimonials from '@/components/landing/testimonials'
-import {PlayIcon} from '@heroicons/react/solid'
 import {GrPlayFill} from 'react-icons/gr'
 import Link from 'next/link'
 import {track} from '@/utils/analytics'
 import {getAllBonuses, type Bonus} from '@/lib/bonuses'
-import Faq, {FaqBody} from '@/pages/faq'
+import {FaqBody} from '@/pages/faq'
 import {Projects} from '@/components/landing/projects'
-import Balancer from 'react-wrap-balancer'
 import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 import KentImage from '../../public/kent-c-dodds.png'
 import {PoweredByStripe} from '@/components/powered-by-stripe'
@@ -164,12 +162,10 @@ const Home: React.FC<{
               ? 'Master React 19 with Fully Updated TypeScript Code Focused Workshops'
               : 'Master React 19 with Code Focused Workshops'}
           </h1>
-          <h2 className="mt-5 inline-flex max-w-2xl flex-wrap items-center justify-center gap-x-3 text-balance px-5 text-center font-bold text-blue-200 sm:text-xl">
-            <span>
-              Self-paced, code-first, hands-on, React training for professional
-              web developers by{' '}
-            </span>
-            <span className="inline-flex items-center font-normal">
+          <h2 className="mt-5 inline-flex max-w-3xl flex-wrap items-center justify-center gap-x-3 text-balance px-5 text-center font-semibold text-blue-200 sm:text-xl">
+            Self-paced, code-first, hands-on, React training for professional
+            web developers by{' '}
+            <span className="inline-flex items-center font-semibold">
               <Image
                 priority
                 src={require('../../public/kent-c-dodds.png')}
@@ -221,6 +217,7 @@ const Home: React.FC<{
         <section className="mx-auto mt-12 w-full max-w-screen-xl px-4 py-8 pb-16 sm:mt-10 sm:px-8 sm:pb-24">
           <div className="prose mx-auto max-w-none dark:prose-invert lg:prose-xl prose-headings:mx-auto prose-headings:max-w-3xl prose-h3:text-2xl  prose-p:mx-auto prose-p:max-w-3xl prose-ol:mx-auto prose-ol:max-w-3xl prose-ul:mx-auto prose-ul:max-w-3xl">
             <LandingCopy
+              // @ts-ignore
               hasPurchasedV1={hasPurchasedV1}
               components={{
                 Image,
@@ -255,10 +252,8 @@ const Home: React.FC<{
                         width={150}
                         height={150}
                         alt="Kent C. Dodds"
-                        className="float-right ml-5 aspect-square w-32 rounded-full bg-white/5 sm:ml-10 sm:w-auto"
-                        style={{
-                          shapeOutside: 'circle()',
-                        }}
+                        loading="eager"
+                        className="not-prose float-right ml-5 aspect-square w-32 rounded-lg bg-gray-100 dark:bg-white/5 sm:ml-10 sm:w-auto"
                       />
                       <div>{children}</div>
                     </div>
@@ -269,7 +264,7 @@ const Home: React.FC<{
           </div>
         </section>
         <section
-          className="bg-er-gray-100 pb-24 pt-8"
+          className="bg-er-gray-100 pb-10 pt-8"
           aria-label="Enroll in Epic React"
           id="buy"
         >
@@ -277,12 +272,12 @@ const Home: React.FC<{
             <>
               <div className="pt-8 lg:pt-16">
                 <div className="mx-auto w-full max-w-screen-lg px-5 text-center">
-                  <h2 className="max-w-6xl text-balance px-5 text-center text-3xl font-bold leading-tight transition-opacity sm:leading-tight md:text-5xl lg:text-6xl">
+                  <h2 className="max-w-6xl text-balance px-5 text-center text-3xl font-extrabold leading-tight transition-opacity sm:leading-tight md:text-5xl lg:text-6xl">
                     {hasPurchasedV1
                       ? 'Upgrade to Epic React v2 for React 19 and TypeScript with an All New Learning Experience'
                       : 'Code Your Way to React Mastery'}
                   </h2>
-                  <h3 className="mx-auto mt-5 max-w-4xl text-balance text-xl font-extrabold text-react sm:text-2xl">
+                  <h3 className="mx-auto mt-5 max-w-4xl text-balance text-xl font-semibold text-react sm:text-2xl">
                     Epic React is your hands-on, code-first, at the keyboard,
                     cheat code to becoming the best React developer you can be.
                   </h3>
@@ -320,36 +315,41 @@ const Home: React.FC<{
               />
             </div>
           )}
-          <section className="prose relative mx-auto mb-16 mt-16 w-full max-w-3xl px-8 pt-10">
-            {' '}
+          <div className="prose relative mx-auto mb-16 mt-16 w-full max-w-3xl px-8 pt-10">
             <div
-              className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"
+              className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-800"
               aria-hidden="true"
             />
             {
-              <h2 className="">
+              <h2 className="text-balance text-center text-xl font-semibold sm:text-2xl">
                 {hasPurchasedV1
                   ? `Ready to experience what's new in the upgraded Epic React v2 for yourself?`
                   : `Ready to experience Epic React for
     yourself?`}
               </h2>
             }
-            The Get Started with React tutorial includes the first 4 workshop
-            sections from the full course:
+            <p className="text-balance text-center opacity-90">
+              The Get Started with React tutorial includes the first 4 workshop
+              sections from the full course:
+            </p>
             {<TutorialWidget />}
-            The Get Started with React 19 tutorial is a great introduction to
-            React 19 and will let you explore the workshop app in your local
-            environment to see for yourself how awesome it is.
-          </section>
+            <p className="text-balance text-center opacity-90">
+              The Get Started with React 19 tutorial is a great introduction to
+              React 19 and will let you explore the workshop app in your local
+              environment to see for yourself how awesome it is.
+            </p>
+          </div>
           <Testimonials />
-          <header className="flex items-center justify-center px-5 pt-20">
-            <h1 className="w-full text-center text-3xl font-bold sm:text-3xl lg:text-4xl">
-              <Balancer>Frequently Asked Questions</Balancer>
-            </h1>
-          </header>
-          <main className="mx-auto w-full max-w-screen-lg px-5 py-16 lg:py-20">
+          <div className="relative mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center px-5 py-16 lg:py-20">
+            <div
+              className="absolute top-0 h-px w-full max-w-3xl bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-800"
+              aria-hidden="true"
+            />
+            <h2 className="w-full text-balance pb-20 text-center text-3xl font-bold sm:text-3xl lg:text-4xl">
+              Frequently Asked Questions
+            </h2>
             <FaqBody />
-          </main>
+          </div>
         </section>
       </main>
     </Layout>
@@ -360,7 +360,7 @@ export default Home
 
 const TutorialWidget = () => {
   return (
-    <div className="not-prose block sm:my-10">
+    <div className="not-prose block sm:mb-10 sm:mt-6">
       <Link
         href="/tutorials/get-started-with-react/get-started-with-react-intro"
         target="_blank"
@@ -372,9 +372,9 @@ const TutorialWidget = () => {
           })
         }}
         id="free-preview"
-        className="not-prose mx-auto flex w-full max-w-lg flex-col items-center overflow-hidden rounded border transition ease-in-out hover:bg-gray-100 dark:hover:bg-card sm:flex-row"
+        className="not-prose mx-auto flex w-full max-w-lg flex-col items-center overflow-hidden rounded border border-gray-200 bg-white/50 shadow-lg transition ease-in-out hover:bg-white/75 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-800 sm:flex-row"
       >
-        <div className="relative flex aspect-video h-full max-h-[200px] w-full items-center justify-center overflow-hidden border-r ">
+        <div className="relative flex aspect-video h-full max-h-[200px] w-full items-center justify-center overflow-hidden border-b sm:border-b-0 sm:border-r">
           <Image
             src="https://res.cloudinary.com/epic-web/image/upload/v1726811725/free-preview-thumbnail_2x.jpg"
             className="object-cover opacity-75"

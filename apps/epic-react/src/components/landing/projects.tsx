@@ -20,10 +20,10 @@ export const Projects = () => {
           />
         )
       })}
-      {/* <div
-        className="pointer-events-none absolute left-0 top-0 z-10 h-full w-full bg-[linear-gradient(270deg,_hsl(var(--background))_0%,_hsl(var(--background))_5%,_rgba(17,_23,_41,_0.00)_50%,_hsl(var(--background))_95%,_hsl(var(--background))_100%)] sm:bg-[linear-gradient(270deg,_hsl(var(--background))_0%,_hsl(var(--background))_10%,_rgba(17,_23,_41,_0.00)_30%,_rgba(17,_23,_41,_0.00)_70%,_hsl(var(--background))_90%,_hsl(var(--background))_100%)]" // bg-gradient-to-r from-background via-transparent to-background
+      <div
+        className="pointer-events-none absolute left-0 top-0 z-10 h-full w-full sm:bg-[linear-gradient(270deg,_hsl(var(--background))_0%,_hsl(var(--background))_10%,_rgba(17,_23,_41,_0.00)_30%,_rgba(17,_23,_41,_0.00)_70%,_hsl(var(--background))_90%,_hsl(var(--background))_100%)]"
         aria-hidden="true"
-      /> */}
+      />
     </div>
   )
 }

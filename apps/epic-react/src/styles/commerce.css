@@ -10,6 +10,7 @@
 }
 
 #main-pricing {
+  @apply rounded-lg;
     [data-pricing-product] {
         [data-title] {
             @apply text-center text-lg font-medium leading-8 text-er-gray-900;
