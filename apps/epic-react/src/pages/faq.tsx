@@ -97,6 +97,18 @@ const Question: React.FC<{title: string; body: string}> = ({title, body}) => {
 }
 
 const markdownContent = `
+## How long do I have access to the course?
+
+You have lifetime access to your purchased course. You can access it at any time.
+
+## Is there a money-back guarantee?
+
+Yes! We offer a 30-day, no-questions-asked refund policy. If you're not satisfied with your purchase, we'll refund you within 30 days of purchase.
+
+## Can we share a single account with the entire team?
+
+No. Each team member will have their own account and will be able to access the course independently.
+
 ## What discounts are available?
 
 There are no special discounts available.

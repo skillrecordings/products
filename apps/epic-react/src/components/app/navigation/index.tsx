@@ -121,21 +121,6 @@ export const useNavigationLinks = () => {
       label: 'FAQ',
       href: '/faq',
     },
-    ...(hasLegacyPurchase
-      ? [
-          {
-            label: (
-              <>
-                Legacy{' '}
-                <sup className="relative font-mono text-sm font-bold opacity-80 sm:-mr-1 sm:text-[10px]">
-                  v1
-                </sup>
-              </>
-            ),
-            href: '/learn',
-          },
-        ]
-      : []),
   ]
 }
 
