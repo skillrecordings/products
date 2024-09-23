@@ -78,7 +78,7 @@ export async function getLessonVideoForDevice({
 
 async function loadLessonWithModule(
   id: string,
-  moduleType: 'workshop' | 'tutorial' = 'workshop',
+  moduleType: 'workshop' | 'tutorial' | 'legacy-module' = 'workshop',
 ) {
   const lessonWithModule = await sanityClient.fetch(
     `*[_id == $id][0]{
@@ -142,5 +142,11 @@ export const getLessonWithModule = async (id: string): Promise<any> => {
     return workshopModule
   }
 
-  await loadLessonWithModule(id, 'tutorial')
+  const tutorialModule = await loadLessonWithModule(id, 'tutorial')
+
+  if (tutorialModule.module) {
+    return tutorialModule
+  }
+
+  return await loadLessonWithModule(id, 'legacy-module')
 }
