@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {motion} from 'framer-motion'
 import type {
   CommerceProps,
   SanityProduct,
@@ -53,6 +54,7 @@ const PricingSection: React.FC<{
     return {
       ...product,
       options: {
+        specialEffectRenderer: () => <AnimatedTierHeaderEffect />,
         buttonCtaLabel: buttonCtaLabels?.[product.productId] || 'Enroll Now',
         specialPricingLabel: productLabels?.[product.productId],
         allowTeamPurchase:
@@ -93,3 +95,80 @@ const PricingSection: React.FC<{
 }
 
 export default PricingSection
+
+const AnimatedTierHeaderEffect = () => {
+  return (
+    <div
+      data-pricing-header-effect=""
+      className="absolute left-0 top-[-1px] z-10 flex w-full items-center justify-center"
+    >
+      {new Array(2).fill(null).map((_, i) => {
+        const duration = 3.5
+        const ease = 'easeOut'
+        return (
+          <>
+            {/* LEFT */}
+            <motion.div
+              animate={{
+                left: ['55%', '0%'],
+                opacity: [1, 1, 0],
+                width: [50, 16],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration,
+                ease,
+                delay: i * 1,
+              }}
+              className="absolute h-[2px] bg-gradient-to-r from-transparent via-white to-transparent"
+            />
+            <motion.div
+              animate={{
+                left: ['55%', '0%'],
+                opacity: [1, 0],
+                scale: [1.5, 1],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration,
+                ease,
+                delay: i * 1,
+              }}
+              className="absolute h-2 w-4 bg-amber-400/75 blur-lg"
+            />
+
+            {/* RIGHT */}
+            <motion.div
+              animate={{
+                right: ['55%', '0%'],
+                opacity: [1, 1, 0],
+                width: [50, 16],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration,
+                ease,
+                delay: i * 1,
+              }}
+              className="absolute h-[2px] bg-gradient-to-r from-transparent via-white to-transparent"
+            />
+            <motion.div
+              animate={{
+                right: ['55%', '0%'],
+                opacity: [1, 0],
+                scale: [1.5, 1],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration,
+                ease,
+                delay: i * 1,
+              }}
+              className="absolute h-2 w-4 bg-amber-400/75 blur-lg"
+            />
+          </>
+        )
+      })}
+    </div>
+  )
+}

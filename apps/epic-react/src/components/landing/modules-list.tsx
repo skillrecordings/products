@@ -114,7 +114,7 @@ export const ModulesListWithDescriptions = ({
               <div className="group grid max-w-[200px] grid-cols-4 gap-1">
                 {interviewImages.map((image) => {
                   return (
-                    <TooltipProvider delayDuration={0}>
+                    <TooltipProvider delayDuration={0} key={image}>
                       <Tooltip>
                         <TooltipTrigger className="cursor-default">
                           <Image

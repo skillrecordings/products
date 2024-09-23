@@ -88,6 +88,7 @@ type PricingProps = {
     showAllContent?: boolean
     buttonCtaLabel?: string
     specialPricingLabel?: string
+    specialEffectRenderer?: () => React.ReactNode
   }
   id?: string
 }
@@ -135,6 +136,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
     showAllContent: true,
     buttonCtaLabel: 'Buy Now',
     specialPricingLabel: 'Full access',
+    specialEffectRenderer: () => null,
   },
 }) => {
   const {
@@ -361,7 +363,7 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
             />
           </div>
         )}
-
+        {options.specialEffectRenderer && options.specialEffectRenderer()}
         <article>
           {(isSellingLive || allowPurchase) && !purchased ? (
             <div data-pricing-product-header="">
