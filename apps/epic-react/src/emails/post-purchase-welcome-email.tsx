@@ -47,9 +47,13 @@ export const WelcomeEmail = ({
             process.env.NEXT_PUBLIC_URL
           }/get-started?module=react-fundamentals}) for getting started right away.
 
-[![full instructions video thumbnail](https://res.cloudinary.com/epic-web/image/upload/dpr_auto,f_auto,q_auto/v1727102348/workshop-app-intro-video.png)](${
-            process.env.NEXT_PUBLIC_URL
-          }/get-started?module=react-fundamentals})
+<div>
+  <a href="${
+    process.env.NEXT_PUBLIC_URL
+  }/get-started?module=react-fundamentals">
+    <img width='400' alt="full instructions video thumbnail" src="https://res.cloudinary.com/epic-web/image/upload/dpr_auto,f_auto,q_auto/v1727102348/workshop-app-intro-video.png"/>
+  </a>
+</div>
 
 For the best experience, use the Epic workshop application on your local machine. Clone and run the Workshop App repository on your computer. Workshops build upon each other linearly.
 
