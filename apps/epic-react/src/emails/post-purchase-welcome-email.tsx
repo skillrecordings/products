@@ -264,7 +264,7 @@ Happy learning!
       <Preview>...</Preview>
       <Body style={main}>
         <Section style={content}>
-          <Text style={paragraph}>
+          <Text>
             <Markdown>{body}</Markdown>
           </Text>
         </Section>
