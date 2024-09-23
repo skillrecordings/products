@@ -109,10 +109,11 @@ const AnimatedTierHeaderEffect = () => {
           <>
             {/* LEFT */}
             <motion.div
+              initial={{left: '55%', opacity: 0, width: 100}}
               animate={{
                 left: ['55%', '0%'],
-                opacity: [1, 1, 0],
-                width: [50, 16],
+                opacity: [0, 1, 0],
+                width: [100, 30],
               }}
               transition={{
                 repeat: Infinity,
@@ -120,13 +121,15 @@ const AnimatedTierHeaderEffect = () => {
                 ease,
                 delay: i * 1,
               }}
-              className="absolute h-[2px] bg-gradient-to-r from-transparent via-white to-transparent"
+              className="absolute h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent dark:via-white"
             />
             <motion.div
+              initial={{left: '55%', opacity: 0, width: 10}}
               animate={{
                 left: ['55%', '0%'],
-                opacity: [1, 0],
+                opacity: [0, 1, 0],
                 scale: [1.5, 1],
+                width: [10, 32, 10],
               }}
               transition={{
                 repeat: Infinity,
@@ -134,15 +137,16 @@ const AnimatedTierHeaderEffect = () => {
                 ease,
                 delay: i * 1,
               }}
-              className="absolute h-2 w-4 bg-amber-400/75 blur-lg"
+              className="absolute h-2 bg-amber-300/50 blur-lg"
             />
 
             {/* RIGHT */}
             <motion.div
+              initial={{right: '55%', opacity: 0, width: 100}}
               animate={{
                 right: ['55%', '0%'],
-                opacity: [1, 1, 0],
-                width: [50, 16],
+                opacity: [0, 1, 0],
+                width: [100, 30],
               }}
               transition={{
                 repeat: Infinity,
@@ -150,13 +154,15 @@ const AnimatedTierHeaderEffect = () => {
                 ease,
                 delay: i * 1,
               }}
-              className="absolute h-[2px] bg-gradient-to-r from-transparent via-white to-transparent"
+              className="absolute h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent dark:via-white"
             />
             <motion.div
+              initial={{right: '55%', opacity: 0, width: 10}}
               animate={{
                 right: ['55%', '0%'],
-                opacity: [1, 0],
+                opacity: [0, 1, 0],
                 scale: [1.5, 1],
+                width: [10, 32, 10],
               }}
               transition={{
                 repeat: Infinity,
@@ -164,7 +170,7 @@ const AnimatedTierHeaderEffect = () => {
                 ease,
                 delay: i * 1,
               }}
-              className="absolute h-2 w-4 bg-amber-400/75 blur-lg"
+              className="absolute h-2 bg-amber-300/50 blur-lg"
             />
           </>
         )
