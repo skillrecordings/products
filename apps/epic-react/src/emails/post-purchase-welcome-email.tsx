@@ -20,7 +20,12 @@ export const WelcomeEmail = ({
   liveEventDetails,
 }: {
   name: string | null | undefined
-  product: {title: string; productId: string; slug: string; type: string}
+  product: {
+    title: string
+    productId: string
+    slug: string
+    type?: string | null
+  }
   purchaseStatus: string
   bulkCouponId: string | null
   merchantChargeId: string | null
@@ -184,7 +189,7 @@ ${calendarInvite}
     : ''
 
   const nextStepsSelfPaced =
-    product.type === 'self-paced'
+    product?.type === 'self-paced'
       ? `
 - **Workshop App:** For the best experience we highly recommend you 
 use the ${process.env.NEXT_PUBLIC_SITE_TITLE} workshop application on your local machine. 
@@ -201,13 +206,13 @@ the community Discord channel we've set up [here](${process.env.NEXT_PUBLIC_URL}
   const thankYou = (() => {
     const forTeam = isBulk ? ' for your team' : ''
 
-    if (product.type === 'self-paced') {
+    if (product?.type === 'self-paced') {
       if (product.productId === 'kcd_product-clzlrf0g5000008jm0czdanmz') {
         return `Thank you for purchasing [${product.title}](${process.env.NEXT_PUBLIC_URL}/products/${product.slug})${forTeam}!`
       } else {
         return `Thank you for purchasing [${product.title}](${process.env.NEXT_PUBLIC_URL}/workshops/${product.slug})${forTeam}!`
       }
-    } else if (product.type === 'live') {
+    } else if (product?.type === 'live') {
       return `Thank you for purchasing the [${product.title}](${process.env.NEXT_PUBLIC_URL}/events/${product.slug}) Live Workshop${forTeam}!`
     } else {
       return `Thank you for purchasing the [${product.title}](${process.env.NEXT_PUBLIC_URL}/events/${product.slug})${forTeam}!`
