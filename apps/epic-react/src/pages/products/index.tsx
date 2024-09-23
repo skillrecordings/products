@@ -135,7 +135,8 @@ const Products: React.FC<ProductsIndexProps> = ({
                 />
               </PriceCheckProvider>
             )
-          })}
+          })
+          .reverse()}
       {purchasedProducts.length === 0 ? (
         <div>
           You haven't purchased any Epic React products yet.{' '}
