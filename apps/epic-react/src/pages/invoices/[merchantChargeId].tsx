@@ -103,6 +103,7 @@ const Invoice: React.FC<
           purchaseDetails.purchase &&
           purchaseDetails.purchase.bulkCoupon && (
             <Card
+              className="print:hidden"
               title={{as: 'h1', content: 'Invite your team'}}
               icon={
                 <UserGroupIcon
