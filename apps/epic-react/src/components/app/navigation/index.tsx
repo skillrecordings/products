@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Suspense, useMemo} from 'react'
 import {useTheme} from 'next-themes'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
@@ -34,6 +34,7 @@ import Countdown, {zeroPad} from 'react-countdown'
 import {useGlobalBanner} from '@/hooks/use-global-banner'
 import pluralize from 'pluralize'
 import {useFeedback} from '@/feedback-widget/feedback-context'
+import {type CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 
 type NavigationProps = {
   className?: string
@@ -42,6 +43,7 @@ type NavigationProps = {
   enableScrollAnimation?: boolean
   enableGlobalBanner?: boolean
   isNavigationFixed?: boolean
+  commerceProps?: CommerceProps
 }
 
 const useAbilities = () => {
@@ -132,6 +134,7 @@ const Navigation: React.FC<NavigationProps> = ({
   navigationContainerClassName,
   enableScrollAnimation = true,
   isNavigationFixed = true,
+  commerceProps: initialCommerceProps,
 }) => {
   const {data: sessionData, status: sessionStatus} = useSession()
   const {pathname, asPath, push} = useRouter()
@@ -154,8 +157,11 @@ const Navigation: React.FC<NavigationProps> = ({
   const {data: lastPurchase, status: lastPurchaseStatus} =
     trpc.purchases.getLastPurchase.useQuery()
 
+  const purchases =
+    commerceProps?.purchases || initialCommerceProps?.purchases || []
+
   const purchasedProductIds =
-    commerceProps?.purchases?.map((purchase) => purchase.productId) || []
+    purchases.map((purchase) => purchase.productId) || []
   const hasPurchase = purchasedProductIds.length > 0
   const ability = useAbilities()
   const canInviteTeam = ability.can('invite', 'Team')
@@ -805,6 +811,11 @@ export const Banner: React.FC<{
 }> = ({className, enableScrollAnimation}) => {
   const {data: cta, status} = trpc.cta.forResource.useQuery()
 
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
   const router = useRouter()
   const currentSale = cta?.CURRENT_ACTIVE_PROMOTION
   const activeEvent = cta?.CURRENT_ACTIVE_LIVE_EVENT
@@ -812,8 +823,10 @@ export const Banner: React.FC<{
   const code = router.query.code
   const productOnSale = currentSale?.product
   const productPath = productOnSale && productOnSalePathBuilder(productOnSale)
+  const staticDate = useMemo(() => currentSale?.expires?.toString(), [])
 
   if (!currentSale && !activeEvent) return null
+
   return (
     <div
       style={{
@@ -847,7 +860,15 @@ export const Banner: React.FC<{
               </strong>
               <Countdown
                 date={currentSale.expires?.toString()}
-                renderer={({days, hours, minutes, seconds}) => {
+                renderer={(time) => {
+                  const {days, hours, minutes, seconds} = mounted
+                    ? time
+                    : {
+                        days: '00',
+                        hours: '00',
+                        minutes: '00',
+                        seconds: '00',
+                      }
                   return (
                     <div className="flex space-x-1">
                       <span>Price goes up in:</span>

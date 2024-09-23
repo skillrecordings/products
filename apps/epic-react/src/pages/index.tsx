@@ -6,8 +6,12 @@ import {Companies} from '@/components/landing/companies'
 import FiveStarsRatingImage from '../../public/assets/five-stars@2x.png'
 import {useReducedMotion} from 'framer-motion'
 import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
-import {propsForCommerce} from '@skillrecordings/commerce-server'
-import {getAllActiveProducts} from '@/lib/products'
+import {
+  convertToSerializeForNextResponse,
+  getValidPurchases,
+  propsForCommerce,
+} from '@skillrecordings/commerce-server'
+import {getAllActiveProducts, getProduct} from '@/lib/products'
 import Layout from '@/components/app/layout'
 import LandingCopy from '@/components/landing-copy-v2.mdx'
 import PricingSection from '@/components/pricing-section'
@@ -32,6 +36,8 @@ import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 import KentImage from '../../public/kent-c-dodds.png'
 import {PoweredByStripe} from '@/components/powered-by-stripe'
 import {readDirectoryContents} from '../utils/read-directory-content'
+import {getSdk} from '@skillrecordings/database'
+import {ActivePromotion, ActivePromotionSchema} from '@/trpc/routers/cta'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -39,6 +45,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
 }) => {
   const token = await getToken({req})
+  const {getDefaultCoupon, getPurchasesForUser} = getSdk()
   const {user, subscriber} = await getUserAndSubscriber({req, res, query})
   const pricingActive = await sanityClientNoCdn.fetch(
     groq`*[_type == 'pricing' && active == true][0]`,
@@ -65,6 +72,40 @@ export const getServerSideProps: GetServerSideProps = async ({
     products,
   })
 
+  const defaultCoupons = await getDefaultCoupon(
+    products.map((product: {productId: string}) => product.productId),
+  )
+  const defaultCoupon = defaultCoupons?.defaultCoupon
+
+  let activePromotion = null
+
+  if (defaultCoupon) {
+    const purchases = getValidPurchases(await getPurchasesForUser(token?.sub))
+    const hasPurchasedProductFromDefaultCoupon =
+      defaultCoupon &&
+      purchases.some((purchase) => {
+        return purchase.productId === defaultCoupon.product?.id
+      })
+
+    if (!hasPurchasedProductFromDefaultCoupon) {
+      const product = await getProduct(
+        (defaultCoupon.restrictedToProductId as string) ||
+          `kcd_product-clzlrf0g5000008jm0czdanmz`,
+      )
+      activePromotion = ActivePromotionSchema.safeParse({
+        ...defaultCoupon,
+        product,
+      })
+
+      if (!activePromotion.success) {
+        console.error('Error parsing active promotion')
+        console.error(activePromotion.error)
+      } else {
+        activePromotion = allowPurchase ? activePromotion.data : null
+      }
+    }
+  }
+
   const v2Modules = await getAllWorkshops()
   const bonuses = await getAllBonuses()
   const productLabels = coupon
@@ -89,6 +130,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       productLabels,
       buttonCtaLabels,
       hasPurchasedV1: Boolean(erV1PurchasedOnDate || query?.asPurchasedV1),
+      activePromotion: convertToSerializeForNextResponse(activePromotion),
     },
   }
 }
@@ -102,6 +144,7 @@ const Home: React.FC<{
   buttonCtaLabels?: {[productId: string]: string}
   hasPurchasedV1?: boolean
   interviewImages: string[]
+  activePromotion: ActivePromotion | null
 }> = ({
   modules,
   commerceProps,
@@ -112,6 +155,7 @@ const Home: React.FC<{
   buttonCtaLabels,
   hasPurchasedV1 = false,
   interviewImages,
+  activePromotion,
 }) => {
   const shouldReduceMotion = useReducedMotion()
 
@@ -135,6 +179,8 @@ const Home: React.FC<{
       meta={{
         title: 'Learn React 19 with Epic React by Kent C. Dodds',
       }}
+      commerceProps={commerceProps}
+      activePromotion={activePromotion}
     >
       <main>
         <section className="sm:pt-26 relative flex w-full flex-col items-center justify-center overflow-hidden bg-gray-900 pt-12">

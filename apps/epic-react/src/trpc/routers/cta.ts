@@ -13,7 +13,7 @@ import {subDays} from 'date-fns'
 import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 import {getUserAndSubscriber} from '@/lib/users'
 
-const ActivePromotionSchema = z.object({
+export const ActivePromotionSchema = z.object({
   id: z.string(),
   code: z.string().nullable(),
   createdAt: z.date(),
@@ -29,7 +29,7 @@ const ActivePromotionSchema = z.object({
   product: ProductSchema.nullable(),
 })
 
-export type CTA_ActivePromotion = z.infer<typeof ActivePromotionSchema>
+export type ActivePromotion = z.infer<typeof ActivePromotionSchema>
 
 const LiveProductSchema = z.object({
   _id: z.string(),

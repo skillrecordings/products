@@ -4,6 +4,7 @@ import Navigation from './navigation'
 import {Inter} from 'next/font/google'
 import toast, {Toaster} from 'react-hot-toast'
 
+import type {CommerceProps} from '@skillrecordings/commerce-server/dist/@types'
 import {useFeedback} from '@/feedback-widget/feedback-context'
 import {useGoldenTicket} from '@skillrecordings/skill-lesson/hooks/use-golden-ticket'
 import {cn} from '@skillrecordings/ui/utils/cn'
@@ -11,6 +12,7 @@ import {useGlobalBanner} from '@/hooks/use-global-banner'
 import Footer from './footer'
 import config from '@/config'
 import {useTheme} from 'next-themes'
+import {ActivePromotion} from '@/trpc/routers/cta'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -43,6 +45,8 @@ type LayoutProps = {
   }
   navigationClassName?: string
   withFooter?: boolean
+  commerceProps?: CommerceProps
+  activePromotion?: ActivePromotion | null
 }
 
 const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
@@ -55,6 +59,8 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   navigationProps,
   isNavigationFixed = true,
   navigationClassName,
+  commerceProps,
+  activePromotion,
 }) => {
   const {
     title,
@@ -68,7 +74,10 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
   const {RedeemDialogForCoupon, couponData, invalidReason, validCoupon} =
     useGoldenTicket()
-  const {isShowingSiteBanner, bannerHeight} = useGlobalBanner(withNavigation)
+  const {isShowingSiteBanner, bannerHeight} = useGlobalBanner(
+    withNavigation,
+    activePromotion,
+  )
   React.useEffect(() => {
     if (couponData && !couponData.isValid && invalidReason) {
       toast.error(invalidReason)
@@ -120,6 +129,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
           {...navigationProps}
           className={navigationClassName}
           isNavigationFixed={isNavigationFixed}
+          commerceProps={commerceProps}
         />
       )}
       <div

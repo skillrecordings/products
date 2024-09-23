@@ -9,6 +9,7 @@ import {lessonCompleted} from '@/inngest/functions/progress/lesson-completed'
 import {syncDiscordRoles} from '@/inngest/functions/discord/sync-discord-roles'
 import {discordAccountLinked} from '@/inngest/functions/discord/discord-account-linked'
 import {sendWelcomeEmail} from '@/inngest/functions/post-purchase-automation/send-welcome-email'
+import {v2FreePurchases} from '@/inngest/functions/v2-free-purchases'
 
 export const inngestConfig = {
   client: inngest,
@@ -22,6 +23,7 @@ export const inngestConfig = {
     syncDiscordRoles,
     discordAccountLinked,
     sendWelcomeEmail,
+    v2FreePurchases,
     ...sanityProductFunctions,
   ],
 }
