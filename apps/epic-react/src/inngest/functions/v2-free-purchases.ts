@@ -1,7 +1,6 @@
 import {inngest} from '@/inngest/inngest.server'
 import {prisma} from '@skillrecordings/database'
 import {find, isEmpty} from 'lodash'
-import format from 'date-fns/format'
 
 export const SYNC_FREE_V2_PURCHASE_TAGS_EVENT = 'purchase/sync-free-v2'
 
@@ -11,14 +10,11 @@ export type SyncFreeV2PurchaseTags = {
     offset: number
   }
 }
-
 const EPIC_REACT_PRO_V2_PRODUCT_ID = 'kcd_product-clzlrf0g5000008jm0czdanmz'
 
 const ER_v1_PRODUCT_IDS = ['cbffba30-0d05-4376-9d95-3f906ae272b9']
 
-import free from './free_upgrade.json'
 import {v4} from 'uuid'
-import {SYNC_PURCHASE_TAGS_EVENT} from '@/inngest/functions/sync-purchases'
 
 export const v2FreePurchases = inngest.createFunction(
   {id: `sync-free-v2-purchase-tags`, name: `Sync Free V2 Purchase`},
