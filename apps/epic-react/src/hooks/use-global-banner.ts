@@ -2,10 +2,10 @@ import React from 'react'
 import {useScroll} from 'framer-motion'
 import {trpc} from '@/trpc/trpc.client'
 
-export const useGlobalBanner = () => {
+export const useGlobalBanner = (enabled: boolean = true) => {
   const {data: cta, status} = trpc.cta.forResource.useQuery()
-  const activeSale = cta?.CURRENT_ACTIVE_PROMOTION
-  const activeEvent = cta?.CURRENT_ACTIVE_LIVE_EVENT
+  const activeSale = enabled && cta?.CURRENT_ACTIVE_PROMOTION
+  const activeEvent = enabled && cta?.CURRENT_ACTIVE_LIVE_EVENT
   const {scrollYProgress} = useScroll()
   const [scrollDirection, setScrollDirection] = React.useState<
     'up' | 'down' | null

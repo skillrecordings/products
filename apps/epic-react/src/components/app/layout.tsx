@@ -68,7 +68,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
   const {isFeedbackDialogOpen, feedbackComponent} = useFeedback()
   const {RedeemDialogForCoupon, couponData, invalidReason, validCoupon} =
     useGoldenTicket()
-  const {isShowingSiteBanner, bannerHeight} = useGlobalBanner()
+  const {isShowingSiteBanner, bannerHeight} = useGlobalBanner(withNavigation)
   React.useEffect(() => {
     if (couponData && !couponData.isValid && invalidReason) {
       toast.error(invalidReason)
@@ -125,7 +125,7 @@ const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
       <div
         id="layout"
         style={{
-          marginTop: isShowingSiteBanner ? bannerHeight : '0',
+          marginTop: withNavigation && isShowingSiteBanner ? bannerHeight : '0',
         }}
         className={cn(
           `relative flex h-full min-h-screen flex-grow flex-col`,
