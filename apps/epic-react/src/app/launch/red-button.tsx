@@ -62,7 +62,7 @@ export default function RedButton({canPress}: {canPress: boolean}) {
       }}
     >
       <Starfield speed={starfieldSpeed} />
-      <h1 className="left-.5 absolute top-7 z-10 text-5xl font-bold opacity-50">
+      <h1 className="left-.5 absolute top-7 z-10 text-5xl font-bold text-white opacity-50">
         epicreact.dev/launch
       </h1>
       <button
