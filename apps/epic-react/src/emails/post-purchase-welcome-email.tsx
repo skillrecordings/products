@@ -47,7 +47,11 @@ export const WelcomeEmail = ({
             process.env.NEXT_PUBLIC_URL
           }/get-started?module=react-fundamentals}) for getting started right away.
 
-For the best experience, use the Epic workshop application on your local machine. Clone and run the Module App repository on your computer. Workshops build upon each other linearly.
+[![full instructions video thumbnail](https://res.cloudinary.com/epic-web/image/upload/dpr_auto,f_auto,q_auto/v1727102348/workshop-app-intro-video.png)](${
+            process.env.NEXT_PUBLIC_URL
+          }/get-started?module=react-fundamentals})
+
+For the best experience, use the Epic workshop application on your local machine. Clone and run the Workshop App repository on your computer. Workshops build upon each other linearly.
 
 **All Epic React workshops:**
 
@@ -196,7 +200,7 @@ use the ${process.env.NEXT_PUBLIC_SITE_TITLE} workshop application on your local
 It allows you to authenticate and work through the material as intended at your own pace, 
 ensuring you get the most out of the workshop. To learn how to set up the 
 ${process.env.NEXT_PUBLIC_SITE_TITLE} workshop application, visit the following 
-link: [${process.env.NEXT_PUBLIC_SITE_TITLE} Get Started Workshop Guide](${process.env.NEXT_PUBLIC_URL}/get-started?module=${product.slug})
+link: [${process.env.NEXT_PUBLIC_SITE_TITLE} Epic React Workshop Get Started Guide](${process.env.NEXT_PUBLIC_URL}/get-started?module=${product.slug})
 
 - **Need help?:** If you ever get stuck or have code questions, you can ask them in 
 the community Discord channel we've set up [here](${process.env.NEXT_PUBLIC_URL}/discord). 
@@ -245,7 +249,7 @@ the platform, please email the ${
 
 Happy learning!
 
-<p>- Kody the Koala 🐨</p>
+<p>- Kent C. Dodds</p>
   `
 
   return (
