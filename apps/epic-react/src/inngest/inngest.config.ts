@@ -23,7 +23,6 @@ export const inngestConfig = {
     syncDiscordRoles,
     discordAccountLinked,
     sendWelcomeEmail,
-    v2FreePurchases,
     ...sanityProductFunctions,
   ],
 }
