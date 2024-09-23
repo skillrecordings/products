@@ -1,5 +1,11 @@
 import type {Bonus} from '@/lib/bonuses'
 import type {Workshop} from '@/lib/workshops'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@skillrecordings/ui'
 import Image from 'next/image'
 
 const data = [
@@ -85,8 +91,10 @@ const ModulesList = () => {
 
 export const ModulesListWithDescriptions = ({
   modules,
+  interviewImages,
 }: {
   modules: Array<Workshop | Bonus>
+  interviewImages: string[]
 }) => {
   return (
     <ul className="not-prose mx-auto mb-10 mt-16 flex w-full max-w-4xl flex-col gap-10">
@@ -102,13 +110,40 @@ export const ModulesListWithDescriptions = ({
             key={module.title}
             className="flex flex-col items-center gap-5 sm:items-start sm:gap-10 md:flex-row"
           >
-            {module.image && (
-              <Image
-                src={module.image}
-                alt={module.title}
-                width={200}
-                height={200}
-              />
+            {isBonus ? (
+              <div className="group grid max-w-[200px] grid-cols-4 gap-1">
+                {interviewImages.map((image) => {
+                  return (
+                    <TooltipProvider delayDuration={0}>
+                      <Tooltip>
+                        <TooltipTrigger className="cursor-default">
+                          <Image
+                            className="rounded opacity-75 transition hover:opacity-100"
+                            src={require(`../../../public/assets/interviews/${image}`)}
+                            alt=""
+                            aria-hidden
+                            width={100}
+                            height={100}
+                            placeholder="blur"
+                          />
+                        </TooltipTrigger>
+                        <TooltipContent className="pointer-events-none">
+                          {image.replace('-', ' ').replace('.png', '')}
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )
+                })}
+              </div>
+            ) : (
+              module.image && (
+                <Image
+                  src={module.image}
+                  alt={module.title}
+                  width={200}
+                  height={200}
+                />
+              )
             )}
             <div className="flex flex-col items-center sm:items-start">
               {isBonus && (

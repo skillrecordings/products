@@ -31,6 +31,7 @@ import {Projects} from '@/components/landing/projects'
 import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 import KentImage from '../../public/kent-c-dodds.png'
 import {PoweredByStripe} from '@/components/powered-by-stripe'
+import {readDirectoryContents} from '../utils/read-directory-content'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -46,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const erV1PurchasedOnDate = eRv1PurchasedOnDate(user?.purchases)
   const coupon =
     (await couponForPurchases(erV1PurchasedOnDate)) || query?.coupon
-
+  const interviewImages = await readDirectoryContents('assets/interviews')
   const allowPurchase =
     pricingActive ||
     query?.allowPurchase === 'true' ||
@@ -79,6 +80,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
+      interviewImages,
       modules: v2Modules,
       bonuses,
       commerceProps,
@@ -99,6 +101,7 @@ const Home: React.FC<{
   productLabels?: {[productId: string]: string}
   buttonCtaLabels?: {[productId: string]: string}
   hasPurchasedV1?: boolean
+  interviewImages: string[]
 }> = ({
   modules,
   commerceProps,
@@ -108,6 +111,7 @@ const Home: React.FC<{
   productLabels,
   buttonCtaLabels,
   hasPurchasedV1 = false,
+  interviewImages,
 }) => {
   const shouldReduceMotion = useReducedMotion()
 
@@ -224,6 +228,7 @@ const Home: React.FC<{
                 ModulesListWithDescriptions: () => (
                   <ModulesListWithDescriptions
                     modules={[...modules, ...bonuses]}
+                    interviewImages={interviewImages}
                   />
                 ),
                 RocketFlyBy: () => {
