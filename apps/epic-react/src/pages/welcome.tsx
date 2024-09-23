@@ -240,14 +240,9 @@ const Header: React.FC<
     ? firstLegacyModule.slug.current
     : product?.modules[0].slug
 
-  const {data: moduleProgress, status: moduleProgressStatus} =
-    trpc.moduleProgress.bySlug.useQuery({
-      slug: moduleSlug,
-    })
-
   const firstLessonUrl = firstLegacyModule
     ? `/modules/${firstLegacyModule.slug.current}/${firstLegacyModule.resources[0].slug}`
-    : `/workshops/${moduleSlug}/${moduleProgress?.nextLesson?.slug}`
+    : `/get-started?module=${moduleSlug}`
   return (
     <header>
       <div className="flex flex-col items-center gap-10 pb-8 sm:flex-row">

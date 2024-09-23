@@ -18,6 +18,8 @@ import React from 'react'
 import Balancer from 'react-wrap-balancer'
 import {getAllWorkshops, type Workshop} from '@/lib/workshops'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import {trpc} from '@/trpc/trpc.client'
+import FancyButton from '@/components/fancy-button'
 
 export const getStaticProps = async () => {
   const page = await getPage('get-started')

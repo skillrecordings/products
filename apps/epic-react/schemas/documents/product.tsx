@@ -63,6 +63,19 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'type',
+      title: 'Product Type',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      initialValue: 'self-paced',
+      options: {
+        list: [
+          {title: 'self-paced', value: 'self-paced'},
+          {title: 'live', value: 'live'},
+        ],
+      },
+    }),
+    defineField({
       name: 'allowTeamPurchase',
       title: 'Allow Team Purchase',
       type: 'boolean',

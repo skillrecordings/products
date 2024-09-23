@@ -81,6 +81,7 @@ export const stripeCheckoutCompleted = inngest.createFunction(
                     slug: z.string(),
                   }),
                 )
+                .nullish()
                 .default([]),
             }),
           ),
