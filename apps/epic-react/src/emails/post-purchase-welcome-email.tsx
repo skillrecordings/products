@@ -83,7 +83,7 @@ For the best experience, use the Epic workshop application on your local machine
 
 ${
   purchaseStatus === 'Valid'
-    ? `You also have access to these [interviews with React community experts](http://localhost:3024/bonuses/interviews-with-experts).`
+    ? `You also have access to these [interviews with React community experts](${process.env.NEXT_PUBLIC_URL}/bonuses/interviews-with-experts).`
     : ''
 }`
         default:
