@@ -90,6 +90,9 @@ export const stripeCheckoutCompleted = inngest.createFunction(
     })
 
     for (const module of product.modules) {
+      if (!module.instructors) {
+        continue
+      }
       for (const instructor of module.instructors) {
         if (
           instructor.saleAnnounceChannel &&
