@@ -204,7 +204,7 @@ use the ${process.env.NEXT_PUBLIC_SITE_TITLE} workshop application on your local
 It allows you to authenticate and work through the material as intended at your own pace, 
 ensuring you get the most out of the workshop. To learn how to set up the 
 ${process.env.NEXT_PUBLIC_SITE_TITLE} workshop application, visit the following 
-link: [${process.env.NEXT_PUBLIC_SITE_TITLE} Epic React Workshop Get Started Guide](${process.env.NEXT_PUBLIC_URL}/get-started?module=${product.slug})
+link: [${process.env.NEXT_PUBLIC_SITE_TITLE} Workshop Get Started Guide](${process.env.NEXT_PUBLIC_URL}/get-started?module=${product.slug})
 
 - **Need help?:** If you ever get stuck or have code questions, you can ask them in 
 the community Discord channel we've set up [here](${process.env.NEXT_PUBLIC_URL}/discord). 
