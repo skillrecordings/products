@@ -211,7 +211,7 @@ export const lessonCompleted = inngest.createFunction(
                 moduleProgress,
                 currentModuleSlug: lessonWithModule.module.current,
                 currentLessonSlug: event.data.lessonSlug,
-                currentSectionSlug: lessonWithModule.section.slug,
+                currentSectionSlug: lessonWithModule.section?.slug,
               },
               user: user,
             })
