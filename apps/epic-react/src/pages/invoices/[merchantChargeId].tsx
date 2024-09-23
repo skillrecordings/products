@@ -106,23 +106,24 @@ const Invoice: React.FC<
         {purchaseDetails &&
           purchaseDetails.purchase &&
           purchaseDetails.purchase.bulkCoupon && (
-            <Card
-              className="print:hidden"
-              title={{as: 'h1', content: 'Invite your team'}}
-              icon={
-                <UserGroupIcon
-                  className="w-5 text-cyan-500"
-                  aria-hidden="true"
+            <div className="print:hidden">
+              <Card
+                title={{as: 'h1', content: 'Invite your team'}}
+                icon={
+                  <UserGroupIcon
+                    className="w-5 text-cyan-500"
+                    aria-hidden="true"
+                  />
+                }
+              >
+                <InviteTeam
+                  session={session}
+                  purchase={purchaseDetails.purchase}
+                  existingPurchase={purchaseDetails.existingPurchase}
+                  setPersonalPurchase={() => {}}
                 />
-              }
-            >
-              <InviteTeam
-                session={session}
-                purchase={purchaseDetails.purchase}
-                existingPurchase={purchaseDetails.existingPurchase}
-                setPersonalPurchase={() => {}}
-              />
-            </Card>
+              </Card>
+            </div>
           )}
         <div className="flex flex-col justify-between print:hidden">
           <h1 className="font-text text-lg font-bold leading-tight sm:text-xl lg:text-2xl">
