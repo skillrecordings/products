@@ -4,6 +4,7 @@ import {useState, useEffect} from 'react'
 import Confetti from 'react-confetti'
 import Starfield from './starfield'
 import {useSocket} from '@/hooks/useSocket'
+import {useRouter} from 'next/navigation'
 
 export default function RedButton({canPress}: {canPress: boolean}) {
   const [isConfetti, setIsConfetti] = useState(false)
@@ -11,6 +12,7 @@ export default function RedButton({canPress}: {canPress: boolean}) {
   const [shake, setShake] = useState(false)
   const [confettiKey, setConfettiKey] = useState(0)
   const [starfieldSpeed, setStarfieldSpeed] = useState(0.5)
+  const router = useRouter()
 
   function letItRip() {
     setIsPressed(true)
@@ -36,8 +38,11 @@ export default function RedButton({canPress}: {canPress: boolean}) {
   })
 
   const handleClick = () => {
-    if (!canPress) return
     letItRip()
+
+    setTimeout(() => {
+      router.push('/buy')
+    }, 3000)
   }
 
   useEffect(() => {
