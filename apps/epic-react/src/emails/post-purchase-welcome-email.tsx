@@ -227,7 +227,9 @@ the community Discord channel we've set up [here](${process.env.NEXT_PUBLIC_URL}
     }
   })()
 
-  const body = `${thankYou}
+  const body = `Hi ${name ? name : 'there'},
+
+${thankYou}
 
 ${liveEventContent}
 
@@ -261,14 +263,11 @@ Happy learning!
       <Head />
       <Preview>...</Preview>
       <Body style={main}>
-        <Container style={container}>
-          <Section style={content}>
-            <Text style={paragraph}>{name ? `Hi ${name},` : 'Hi,'}</Text>
-            <Text style={paragraph}>
-              <Markdown>{body}</Markdown>
-            </Text>
-          </Section>
-        </Container>
+        <Section style={content}>
+          <Text style={paragraph}>
+            <Markdown>{body}</Markdown>
+          </Text>
+        </Section>
       </Body>
     </Html>
   )
@@ -279,18 +278,9 @@ export default WelcomeEmail
 const fontFamily = 'HelveticaNeue,Helvetica,Arial,sans-serif'
 
 const main = {
-  backgroundColor: '#ffffff',
   fontFamily,
-}
-
-const paragraph = {
-  lineHeight: 1.5,
   fontSize: 14,
-}
-
-const container = {
-  width: '580px',
-  backgroundColor: '#ffffff',
+  lineHeight: 1.5,
 }
 
 const content = {
