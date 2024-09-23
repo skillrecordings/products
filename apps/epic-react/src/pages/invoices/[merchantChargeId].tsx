@@ -95,7 +95,11 @@ const Invoice: React.FC<
 
   return (
     <Layout
-      meta={{title: `Invoice ${merchantChargeId}`}}
+      meta={{
+        title: `Invoice ${merchantChargeId}`,
+        noindex: true,
+        nofollow: true,
+      }}
       className="print:bg-white print:text-black"
     >
       <main className="mx-auto flex w-full max-w-screen-md grow flex-col justify-center gap-y-5 py-16 lg:py-16">
