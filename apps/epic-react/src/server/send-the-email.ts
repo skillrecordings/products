@@ -8,7 +8,7 @@ export async function sendTheEmail<ComponentPropsType>({
   componentProps,
   Subject,
   To,
-  From = `Kent C. Dodds <kent@epicreact.dev>`,
+  From = `Kent C. Dodds <kent@epicweb.dev>`,
 }: {
   Component: (props: ComponentPropsType) => React.JSX.Element
   componentProps: ComponentPropsType
