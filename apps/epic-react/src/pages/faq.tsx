@@ -97,6 +97,10 @@ const Question: React.FC<{title: string; body: string}> = ({title, body}) => {
 }
 
 const markdownContent = `
+## Does Epic React cover Remix,Next.js or OTHER_FRAMEWORK?
+
+No, Epic React is fully and completely focused on React. It's pure React and no other framework.
+
 ## How long do I have access to the course?
 
 You have lifetime access to your purchased course. You can access it at any time.
@@ -117,6 +121,10 @@ We support purchase power parity. This is automated based on IP address of the c
 
 Note that if you use the PPP discount your purchase will be restricted to the country you purchased it from.
 
+## Can I use multiple discounts?
+
+No, discounts do not stack so choose the best one for you?
+
 ## How do the “team” seats work? What is a “seat” in this context
 
 When you buy a team seat, you receive a link that can be used to register for the number of accounts you have purchased. The license is non-transferable (you cannot reassign a license from one person to another).
@@ -131,7 +139,11 @@ Purchasing Power Parity - a lower price for users in certain countries; content 
 
 ## Can I gift a license to someone else?
 
-Yes, you can! Simply enter their email address instead of your own. There might be a verification code they receive that you’ll have to request from them. Also, if you buy a PPP license, then make sure you’re both in the same country otherwise they won’t be able to access the content in their country.
+Yes, you can! Simply enter their email address instead of your own. 
+
+Or you can purchase a team license with 1 seat and send them the code. 
+
+There might be a verification code they receive that you’ll have to request from them. Also, if you buy a PPP license, then make sure you’re both in the same country otherwise they won’t be able to access the content in their country.
 
 ## Is it possible to buy the course some other way? Installments? PayPal/etc?
 
@@ -181,7 +193,7 @@ It is all self-paced but Kent holds [office hours](https://kcd.im/office-hours) 
 
 You can join a learning club to check-in with other students live, learn more at https://kcd.im/clubs
 
-In addition, [the Discord Community](https://kcd.im/discord) is very active.
+In addition, [the Discord Community](https://epicreact.dev/discord) is very active.
 
 ## How can I join a learning club to study with other users?
 
