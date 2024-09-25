@@ -21,13 +21,10 @@ import {SubscribeToConvertkitForm} from '@skillrecordings/skill-lesson/convertki
 import {usePriceCheck} from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import ReactMarkdown from 'react-markdown'
 import pluralize from 'pluralize'
-import {Tooltip, TooltipProvider, TooltipTrigger} from '@skillrecordings/ui'
-import {TooltipContent} from '@radix-ui/react-tooltip'
 import {Pricing} from '@skillrecordings/skill-lesson/path-to-purchase/pricing'
 import {useSession} from 'next-auth/react'
 import {trpcSkillLessons} from '@skillrecordings/skill-lesson/utils/trpc-skill-lessons'
 import SelfRedeemButton from '@skillrecordings/skill-lesson/team/self-redeem-button'
-import {VersionTwoCta} from '@/components/version-two-cta'
 
 const BlockedOverlay: React.FC<{
   product?: SanityProduct
@@ -101,11 +98,7 @@ const BlockedOverlay: React.FC<{
           {canViewTeam ? (
             <InviteTeam product={product} />
           ) : (
-            <VersionTwoCta
-              title="Epic React v2 is Almost Here!"
-              byline="It is launching September 23rd at 9am Pacific. Sign up for more details!"
-              actionLabel="Keep me posted"
-            />
+            <BuyProduct product={product} />
           )}
         </div>
       ) : null}

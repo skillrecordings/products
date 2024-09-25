@@ -15,7 +15,6 @@ import {getAllActiveProducts, getProduct} from '@/lib/products'
 import Layout from '@/components/app/layout'
 import LandingCopy from '@/components/landing-copy-v2.mdx'
 import PricingSection from '@/components/pricing-section'
-import {VersionTwoCta} from '@/components/version-two-cta'
 import {getAllWorkshops, type Workshop} from '@/lib/workshops'
 import {getUserAndSubscriber} from '@/lib/users'
 import {User} from '@skillrecordings/skill-lesson'
@@ -355,17 +354,7 @@ const Home: React.FC<{
                 />
               </div>
             </>
-          ) : (
-            <div className="mx-auto max-w-screen-lg px-5 py-10">
-              <VersionTwoCta
-                className="[&_[data-sr-button]]:text-white [&_[data-sr-input]]:border-gray-300 dark:[&_[data-sr-input]]:border-white/10"
-                id="primary-newsletter-cta"
-                title="Epic React v2 is Almost Here!"
-                byline="It is launching September 23rd at 9am Pacific. Sign up for more details!"
-                actionLabel="Keep me posted"
-              />
-            </div>
-          )}
+          ) : null}
           <div className="prose relative mx-auto mb-16 mt-16 w-full max-w-3xl px-8 pt-10">
             <div
               className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-800"
