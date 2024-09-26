@@ -32,8 +32,6 @@ export async function couponForPurchases(
       ])
     : null
 
-  console.log({incomingCoupon})
-
   const selectedDate = new Date(purchasedOnDate)
   const lessThanDate = parse('2024-03-23', 'yyyy-MM-dd', new Date())
   const comparisonDate = parse('2023-09-23', 'yyyy-MM-dd', new Date())
@@ -70,11 +68,10 @@ export async function couponForPurchases(
       })
     : null
 
-  console.log({coupon})
-
   if (
     incomingCoupon &&
-    incomingCoupon.percentageDiscount > coupon?.percentageDiscount
+    coupon &&
+    incomingCoupon.percentageDiscount > coupon.percentageDiscount
   ) {
     return incomingCoupon.id
   }
