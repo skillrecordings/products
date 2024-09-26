@@ -50,8 +50,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const erV1PurchasedOnDate = eRv1PurchasedOnDate(user?.purchases)
   const coupon =
-    (await couponForPurchases(erV1PurchasedOnDate, query?.coupon)) ||
-    query?.coupon
+    (await couponForPurchases(
+      erV1PurchasedOnDate,
+      query?.coupon || query?.code,
+    )) || query?.coupon
 
   const allowPurchase =
     pricingActive ||
