@@ -39,7 +39,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const erV1PurchasedOnDate = eRv1PurchasedOnDate(user?.purchases)
   const coupon =
-    (await couponForPurchases(erV1PurchasedOnDate)) || query?.coupon
+    (await couponForPurchases(erV1PurchasedOnDate, query?.coupon)) ||
+    query?.coupon
 
   const allowPurchase =
     pricingActive ||
@@ -47,7 +48,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     query?.coupon ||
     query?.code
 
-  const productLabels = coupon
+  const productLabels = [
+    'er-v1-upgrade-75-6ab7',
+    'er-v1-upgrade-50-2dg1',
+  ].includes(coupon?.id)
     ? {
         'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
       }

@@ -1,5 +1,6 @@
 import {prisma} from '@skillrecordings/database'
 import {isAfter, isBefore, isEqual, parse} from 'date-fns'
+import {getCouponForCode} from '@skillrecordings/commerce-server'
 
 const ER_v1_PRODUCT_IDS = [
   'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38',
@@ -17,10 +18,21 @@ export const eRv1PurchasedOnDate = (
   )
 }
 
-export async function couponForPurchases(purchasedOnDate?: string | null) {
+export async function couponForPurchases(
+  purchasedOnDate?: string | null,
+  couponId?: string,
+) {
   if (!purchasedOnDate) {
     return null
   }
+
+  const incomingCoupon = couponId
+    ? await getCouponForCode(couponId, [
+        'kcd_product-clzlrf0g5000008jm0czdanmz',
+      ])
+    : null
+
+  console.log({incomingCoupon})
 
   const selectedDate = new Date(purchasedOnDate)
   const lessThanDate = parse('2024-03-23', 'yyyy-MM-dd', new Date())
@@ -53,9 +65,19 @@ export async function couponForPurchases(purchasedOnDate?: string | null) {
         },
         select: {
           id: true,
+          percentageDiscount: true,
         },
       })
     : null
+
+  console.log({coupon})
+
+  if (
+    incomingCoupon &&
+    incomingCoupon.percentageDiscount > coupon?.percentageDiscount
+  ) {
+    return incomingCoupon.id
+  }
 
   return coupon ? coupon.id : null
 }
