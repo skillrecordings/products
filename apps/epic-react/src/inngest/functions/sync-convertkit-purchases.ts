@@ -63,7 +63,9 @@ export const syncConvertkitPurchases = inngest.createFunction(
 
     for (const purchase of listOfPurchases) {
       await step.run('tag purchase in convertkit', async () => {
-        return convertkitTagPurchase(purchase.user.email, purchase)
+        return purchase.user
+          ? await convertkitTagPurchase(purchase.user.email, purchase)
+          : null
       })
 
       await step.sleep('wait 1 second', '300ms')
