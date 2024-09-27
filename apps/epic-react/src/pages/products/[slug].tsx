@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         .string()
         .optional()
         .parse(query?.coupon || query?.code),
-    )) || query?.coupon
+    )) || (query?.coupon as string)
 
   const allowPurchase =
     pricingActive ||
