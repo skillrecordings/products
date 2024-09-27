@@ -113,14 +113,13 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const v2Modules = await getAllWorkshops()
   const bonuses = await getAllBonuses()
-  const productLabels = [
-    'er-v1-upgrade-75-6ab7',
-    'er-v1-upgrade-50-2dg1',
-  ].includes(coupon?.id)
-    ? {
-        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
-      }
-    : {}
+  const productLabels =
+    coupon &&
+    ['er-v1-upgrade-75-6ab7', 'er-v1-upgrade-50-2dg1'].includes(coupon)
+      ? {
+          'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
+        }
+      : {}
   const buttonCtaLabels = Boolean(erV1PurchasedOnDate || query?.asPurchasedV1)
     ? {
         'kcd_product-clzlrf0g5000008jm0czdanmz': 'Upgrade to Epic React v2',
