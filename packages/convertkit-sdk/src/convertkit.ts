@@ -19,7 +19,7 @@ export function formatDate(date: Date) {
 const TagSubscriberResponseSchema = z.object({
   subscription: z.object({
     subscriber: z.object({
-      id: z.string(),
+      id: z.coerce.string(),
       fields: z.record(z.string().nullable()).optional(),
     }),
   }),
@@ -110,13 +110,23 @@ export async function tagSubscriber(email: string, tagId: string) {
         process.env.CONVERTKIT_PUBLIC_TOKEN,
     }),
   })
-    .then((res) => res.json())
+    .then((res) => {
+      return res.ok ? res.json() : res.text()
+    })
     .then((jsonRes: any) => {
+      if (jsonRes === 'Retry Later') {
+        throw new Error('convertkit-rate-limited')
+      }
       const result = TagSubscriberResponseSchema.safeParse(jsonRes)
       if (!result.success) {
+        console.error('CONVERTKIT_TAG_SUBSCRIBER_RESPONSE_ERROR', result.error)
         return undefined
       }
       return result.data.subscription.subscriber
+    })
+    .catch((e) => {
+      console.error('CONVERTKIT_TAG_SUBSCRIBER_ERROR', e)
+      return undefined
     })
 }
 
@@ -289,10 +299,19 @@ export async function fetchSubscriber(convertkitId: string | number) {
   if (convertkitId) {
     const subscriberUrl = `${convertkitBaseUrl}/subscribers/${convertkitId}?api_secret=${process.env.CONVERTKIT_API_SECRET}`
     subscriber = await fetch(subscriberUrl)
-      .then((res) => res.json())
+      .then((res) => {
+        return res.ok ? res.json() : res.text()
+      })
       .then((res: any) => {
+        if (res === 'Retry Later') {
+          throw new Error('convertkit-rate-limited')
+        }
         const subscriber = res.subscriber
         return subscriber
+      })
+      .catch((e) => {
+        console.error('CONVERTKIT_FETCH_SUBSCRIBER_ERROR', e)
+        return undefined
       })
   }
 

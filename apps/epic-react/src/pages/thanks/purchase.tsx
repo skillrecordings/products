@@ -266,7 +266,11 @@ const ThanksVerify: React.FC<
 
   return (
     <>
-      <Layout meta={{title: 'Purchase Successful'}}>
+      <Layout
+        meta={{title: 'Purchase Successful'}}
+        withNavigation={false}
+        withFooter={false}
+      >
         <main className="mx-auto flex w-full max-w-screen-lg flex-col-reverse sm:flex-grow lg:grid lg:grid-cols-9 lg:py-8">
           <div className="col-span-4 flex w-full flex-col items-center justify-center px-5 pb-16 pt-10 sm:px-10 lg:py-16">
             <ThankYou

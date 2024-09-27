@@ -74,12 +74,19 @@ export async function convertkitTagPurchase(email: string, purchase: Purchase) {
     let subscriber = await tagSubscriber(email, convertkitPurchasedTagId)
 
     if (subscriber) {
-      const purchasedOnFieldName = sanityProduct
-        ? `purchased_${sanityProduct.slug.current.replace(/-/gi, '_')}_on`
+      const productSlug =
+        sanityProduct?.slug.current === 'epic-react-pro'
+          ? 'epic_react-pro-v2'
+          : sanityProduct?.slug.current
+      const purchasedOnFieldName = productSlug
+        ? `purchased_${productSlug.replace(/-/gi, '_')}_on`
         : process.env.CONVERTKIT_PURCHASED_ON_FIELD_NAME || 'purchased_on'
 
       await setConvertkitSubscriberFields(subscriber, {
-        [purchasedOnFieldName]: format(new Date(), 'yyyy-MM-dd HH:mm:ss z'),
+        [purchasedOnFieldName]: format(
+          new Date(purchase.createdAt),
+          'yyyy-MM-dd HH:mm:ss z',
+        ),
       })
 
       return {
@@ -101,6 +108,4 @@ export async function convertkitTagPurchase(email: string, purchase: Purchase) {
 
     return {tagged: false, reason: `error: ${e}`}
   }
-
-  return true
 }

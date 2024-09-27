@@ -74,6 +74,8 @@ export async function receiveInternalStripeWebhooks({
 
     const event = req.body.event
 
+    console.log('internal event', event.data.object.object)
+
     return await processStripeWebhook(event, {
       nextAuthOptions,
       paymentOptions: _paymentOptions,
@@ -183,11 +185,32 @@ export async function receiveStripeWebhooks({
         })
       }
 
-      const {siteName: targetSiteName} = z
-        .object({siteName: z.string().default(METADATA_MISSING_SITE_NAME)})
-        .parse(event.data.object.metadata)
+      console.log('checkout metadata', event.data.object.metadata)
+
+      let targetSiteName = process.env.NEXT_PUBLIC_APP_NAME
+
+      if (event.data.object.metadata) {
+        const parsedMetadata = z
+          .object({
+            siteName: z
+              .string()
+              .default(METADATA_MISSING_SITE_NAME)
+              .describe('The site name of the target site'),
+          })
+          .describe('The metadata of the checkout event')
+          .safeParse(event.data.object.metadata)
+
+        if (parsedMetadata.success) {
+          targetSiteName = parsedMetadata.data.siteName
+        } else {
+          console.error('Error parsing checkout metadata', parsedMetadata.error)
+        }
+      }
 
       const {handler, details} = determineEventProcessor(targetSiteName)
+
+      console.log('handler', handler)
+      console.log('details', details)
 
       if (handler !== 'self') {
         const {skillSecret, webhookEndpoint} = details
@@ -321,11 +344,15 @@ export const processStripeWebhook = async (
       console.warn('⛔️ not sending email: no nextAuthOptions found')
     }
 
-    if (process.env.NODE_ENV === 'production') {
-      await convertkitTagPurchase(email, purchase)
+    if (process.env.SKIP_CK_TAGGING !== 'true') {
+      console.log(await convertkitTagPurchase(email, purchase))
+    } else {
+      console.log('SKIPPING CONVERTKIT TAGGING')
     }
 
-    await postSaleToSlack(purchaseInfo, purchase)
+    if (process.env.SLACK_ANNOUNCE_CHANNEL_ID) {
+      await postSaleToSlack(purchaseInfo, purchase)
+    }
 
     return {
       status: 200,
