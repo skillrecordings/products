@@ -37,6 +37,7 @@ import {PoweredByStripe} from '@/components/powered-by-stripe'
 import {readDirectoryContents} from '../utils/read-directory-content'
 import {getSdk} from '@skillrecordings/database'
 import {ActivePromotion, ActivePromotionSchema} from '@/trpc/routers/cta'
+import {z} from 'zod'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,

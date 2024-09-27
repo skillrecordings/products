@@ -23,6 +23,7 @@ import Testimonials from '@/components/landing/testimonials'
 import {FaqBody} from '@/pages/faq'
 import {Companies} from '@/components/landing/companies'
 import {PoweredByStripe} from '@/components/powered-by-stripe'
+import {z} from 'zod'
 
 type DynamicHeadlines = {
   mainTitle: string

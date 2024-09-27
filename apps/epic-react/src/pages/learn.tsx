@@ -30,6 +30,7 @@ import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 import {getUserAndSubscriber} from '@/lib/users'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
 import groq from 'groq'
+import {z} from 'zod'
 
 export const MODULES_WITH_NO_CERTIFICATE = ['welcome-to-epic-react']
 
