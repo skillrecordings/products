@@ -41,7 +41,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const coupon =
     (await couponForPurchases(
       erV1PurchasedOnDate,
-      query?.coupon || query?.code,
+      z
+        .string()
+        .optional()
+        .parse(query?.coupon || query?.code),
     )) || query?.coupon
 
   const allowPurchase =

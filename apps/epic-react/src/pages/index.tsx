@@ -54,7 +54,10 @@ export const getServerSideProps: GetServerSideProps = async ({
   const coupon =
     (await couponForPurchases(
       erV1PurchasedOnDate,
-      query?.coupon || query?.code,
+      z
+        .string()
+        .optional()
+        .parse(query?.coupon || query?.code),
     )) || query?.coupon
   const interviewImages = await readDirectoryContents('assets/interviews')
   const allowPurchase =
