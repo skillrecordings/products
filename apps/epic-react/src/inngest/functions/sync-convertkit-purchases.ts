@@ -45,7 +45,6 @@ export const syncConvertkitPurchases = inngest.createFunction(
             status: true,
             country: true,
             productId: true,
-            productId: true,
             redeemedBulkCoupon: {
               select: {
                 bulkPurchase: {
