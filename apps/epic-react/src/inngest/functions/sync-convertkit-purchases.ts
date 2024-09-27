@@ -32,28 +32,8 @@ export const syncConvertkitPurchases = inngest.createFunction(
               in: ['Valid', 'Restricted'],
             },
           },
-          select: {
-            id: true,
-            userId: true,
-            user: {
-              select: {
-                id: true,
-                email: true,
-              },
-            },
-            createdAt: true,
-            status: true,
-            country: true,
-            productId: true,
-            redeemedBulkCoupon: {
-              select: {
-                bulkPurchase: {
-                  select: {
-                    createdAt: true,
-                  },
-                },
-              },
-            },
+          include: {
+            user: true,
           },
           take: BATCH_SIZE,
           skip: event.data.offset || 0,
@@ -63,8 +43,8 @@ export const syncConvertkitPurchases = inngest.createFunction(
 
     for (const purchase of listOfPurchases) {
       await step.run('tag purchase in convertkit', async () => {
-        return purchase.user
-          ? await convertkitTagPurchase(purchase.user.email, purchase)
+        return purchase?.user?.email
+          ? await convertkitTagPurchase(purchase.user.email, purchase as any)
           : null
       })
 
