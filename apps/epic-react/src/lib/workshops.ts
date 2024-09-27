@@ -26,6 +26,7 @@ const WorkshopSchema = z.object({
     current: z.string(),
   }),
   tagline: z.string().optional().nullable(),
+  lessonCount: z.number().optional().nullable(),
   resources: z
     .array(
       z.object({
@@ -184,6 +185,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop'] | o
       "image": image.secure_url,
     }
   },
+  "lessonCount": count(resources[@->._type in ['lesson', 'exercise', 'explainer']] + resources[@->._type == 'section']->resources[@->._type in ['lesson', 'exercise', 'explainer']]),
   "sections": resources[@->._type == 'section']->{
     _id,
     _type,
