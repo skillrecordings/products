@@ -59,7 +59,10 @@ const AdminPage: React.FC<{progressData: ProgressData}> = ({progressData}) => {
         </h2>
         <section className="mx-auto w-full max-w-screen-lg space-y-5 px-5 py-8">
           <h3 className="text-2xl font-medium">Create new</h3>
-          <CouponGeneratorForm />
+          <CouponGeneratorForm
+            buyUrl={`${process.env.NEXT_PUBLIC_URL}/buy`}
+            queryParam={'coupon'}
+          />
         </section>
         <section className="mx-auto w-full max-w-screen-lg border-t px-5 pt-10">
           <h3 className="text-2xl font-medium">History</h3>

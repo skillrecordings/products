@@ -41,7 +41,13 @@ const formSchema = z.object({
   percentOff: z.string(),
 })
 
-const CouponGeneratorForm = () => {
+const CouponGeneratorForm = ({
+  buyUrl = process.env.NEXT_PUBLIC_URL,
+  queryParam = 'code',
+}: {
+  buyUrl?: string
+  queryParam?: string
+}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,17 +63,24 @@ const CouponGeneratorForm = () => {
   const expiresAtDateTime = form.watch('expires')?.setHours(23, 59, 0, 0)
   const createCouponsMutation = trpcSkillLessons.coupons.create.useMutation()
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    createCouponsMutation.mutate(values, {
-      onSuccess: ({codes}) => {
-        setCodes(codes)
-        if (codes.length > 1) {
-          downloadTextFile(codes.join('\n'))
-        } else {
-          navigator.clipboard.writeText(codes.join('\n'))
-          toast.success('Copied to clipboard')
-        }
+    createCouponsMutation.mutate(
+      {
+        ...values,
+        buyUrl,
+        queryParam,
       },
-    })
+      {
+        onSuccess: ({codes}) => {
+          setCodes(codes)
+          if (codes.length > 1) {
+            downloadTextFile(codes.join('\n'))
+          } else {
+            navigator.clipboard.writeText(codes.join('\n'))
+            toast.success('Copied to clipboard')
+          }
+        },
+      },
+    )
   }
 
   return (

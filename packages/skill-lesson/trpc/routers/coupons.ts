@@ -104,6 +104,8 @@ export const couponsRouter = router({
         expires: z.date().optional(),
         restrictedToProductId: z.string().optional(),
         percentOff: z.string(),
+        buyUrl: z.string().optional(),
+        queryParam: z.string().optional(),
       }),
     )
     .mutation(async ({ctx, input}) => {
@@ -137,8 +139,14 @@ export const couponsRouter = router({
             default: !restrictedToProductId,
           },
         })
-        codes += `${process.env.NEXT_PUBLIC_URL}?code=${coupon.id}\n`
-        codesArray.push(`${process.env.NEXT_PUBLIC_URL}?code=${coupon.id}`)
+        codes += `${input.buyUrl || process.env.NEXT_PUBLIC_URL}?${
+          input.queryParam || 'code'
+        }=${coupon.id}\n`
+        codesArray.push(
+          `${input.buyUrl || process.env.NEXT_PUBLIC_URL}?${
+            input.queryParam || 'code'
+          }=${coupon.id}`,
+        )
       }
 
       return {codes: codesArray}
