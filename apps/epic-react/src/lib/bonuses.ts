@@ -24,6 +24,7 @@ export const BonusSchema = z.object({
   resources: z.array(ResourceSchema),
   image: z.string().nullable(),
   body: z.string().nullable(),
+  lessonCount: z.number().optional().nullable(),
 })
 
 const bonusesForProductQuery = groq`*[_type == "product" && productId == $productId][0]{
@@ -72,6 +73,7 @@ const bonusesQuery = groq`*[_type == "module" && moduleType == 'bonus'] | order(
   description,
   state,
   body,
+  "lessonCount": count(resources[@->._type in ['interview']]),
   "resources": resources[@->._type in ['interview']]->{
     _id,
     _type,
