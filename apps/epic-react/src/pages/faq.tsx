@@ -209,6 +209,8 @@ The course is up to date and compatible with React v19.x.
 
 Kent plans on keeping the material up-to-date and labeling anything that changes in a way that would require code changes.
 
+Major changes or updates may require an upgrade fee or additional purchase.
+
 ## Can I change my email address with which I bought the course?
 
 Yes. Contact the support team at [${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}](mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}?subject=Epic%20React:%20Email%20Change%20Request). Note that you cannot transfer your license to another person.
