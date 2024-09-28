@@ -30,6 +30,7 @@ import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
 import {getUserAndSubscriber} from '@/lib/users'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
 import groq from 'groq'
+import {z} from 'zod'
 
 export const MODULES_WITH_NO_CERTIFICATE = ['welcome-to-epic-react']
 
@@ -48,8 +49,11 @@ export const getServerSideProps: GetServerSideProps = async ({
   const coupon =
     (await couponForPurchases(
       erV1PurchasedOnDate,
-      query?.coupon || query?.code,
-    )) || query?.coupon
+      z
+        .string()
+        .optional()
+        .parse(query?.coupon || query?.code),
+    )) || (query?.coupon as string)
 
   const allowPurchase =
     pricingActive ||
@@ -57,14 +61,13 @@ export const getServerSideProps: GetServerSideProps = async ({
     query?.coupon ||
     query?.code
 
-  const productLabels = [
-    'er-v1-upgrade-75-6ab7',
-    'er-v1-upgrade-50-2dg1',
-  ].includes(coupon?.id)
-    ? {
-        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
-      }
-    : {}
+  const productLabels =
+    coupon &&
+    ['er-v1-upgrade-75-6ab7', 'er-v1-upgrade-50-2dg1'].includes(coupon)
+      ? {
+          'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
+        }
+      : {}
 
   const products = await getAllActiveProducts(!allowPurchase)
 

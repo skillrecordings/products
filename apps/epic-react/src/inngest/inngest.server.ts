@@ -31,6 +31,10 @@ import {
   OAUTH_PROVIDER_ACCOUNT_LINKED_EVENT,
   OauthProviderAccountLinked,
 } from '@/inngest/events'
+import {
+  SYNC_CONVERTKIT_PURCHASE_TAGS_EVENT,
+  SyncConvertkitPurchaseTags,
+} from '@/inngest/functions/sync-convertkit-purchases'
 
 export type IngestEvents = {
   [CONVERTKIT_WEBHOOK_EVENT]: ConvertkitWebhookEvent
@@ -44,6 +48,7 @@ export type IngestEvents = {
   [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
   [STRIPE_CHECKOUT_COMPLETED_EVENT]: StripeCheckoutCompleted
   [STRIPE_WEBHOOK_RECEIVED_EVENT]: StripeWebhookReceived
+  [SYNC_CONVERTKIT_PURCHASE_TAGS_EVENT]: SyncConvertkitPurchaseTags
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,

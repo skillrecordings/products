@@ -23,6 +23,7 @@ import Testimonials from '@/components/landing/testimonials'
 import {FaqBody} from '@/pages/faq'
 import {Companies} from '@/components/landing/companies'
 import {PoweredByStripe} from '@/components/powered-by-stripe'
+import {z} from 'zod'
 
 type DynamicHeadlines = {
   mainTitle: string
@@ -41,8 +42,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const coupon =
     (await couponForPurchases(
       erV1PurchasedOnDate,
-      query?.coupon || query?.code,
-    )) || query?.coupon
+      z
+        .string()
+        .optional()
+        .parse(query?.coupon || query?.code),
+    )) || (query?.coupon as string)
 
   const allowPurchase =
     pricingActive ||
@@ -50,14 +54,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     query?.coupon ||
     query?.code
 
-  const productLabels = [
-    'er-v1-upgrade-75-6ab7',
-    'er-v1-upgrade-50-2dg1',
-  ].includes(coupon?.id)
-    ? {
-        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
-      }
-    : {}
+  const productLabels =
+    coupon &&
+    ['er-v1-upgrade-75-6ab7', 'er-v1-upgrade-50-2dg1'].includes(coupon)
+      ? {
+          'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
+        }
+      : {}
 
   const buttonCtaLabels = Boolean(erV1PurchasedOnDate)
     ? {

@@ -39,6 +39,7 @@ import {getUserAndSubscriber} from '@/lib/users'
 import {sanityClientNoCdn} from '@/utils/sanity-client'
 import groq from 'groq'
 import {couponForPurchases, eRv1PurchasedOnDate} from '@/lib/purchases'
+import {z} from 'zod'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {req, res, query} = context
@@ -52,8 +53,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const coupon =
     (await couponForPurchases(
       erV1PurchasedOnDate,
-      query?.coupon || query?.code,
-    )) || query?.coupon
+      z
+        .string()
+        .optional()
+        .parse(query?.coupon || query?.code),
+    )) || (query?.coupon as string)
 
   const allowPurchase =
     pricingActive ||
@@ -71,14 +75,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     token,
     products,
   })
-  const productLabels = [
-    'er-v1-upgrade-75-6ab7',
-    'er-v1-upgrade-50-2dg1',
-  ].includes(coupon?.id)
-    ? {
-        'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
-      }
-    : {}
+  const productLabels =
+    coupon &&
+    ['er-v1-upgrade-75-6ab7', 'er-v1-upgrade-50-2dg1'].includes(coupon)
+      ? {
+          'kcd_product-clzlrf0g5000008jm0czdanmz': 'Exclusive Upgrade Discount',
+        }
+      : {}
 
   return {props: {...commerceProps, productLabels}}
 }

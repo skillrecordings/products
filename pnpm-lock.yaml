@@ -5135,8 +5135,8 @@ importers:
         specifier: ^3.4.1
         version: 3.4.1(ts-node@10.9.2)
       twoslash-cdn:
-        specifier: ^0.2.6
-        version: 0.2.6(typescript@5.5.4)
+        specifier: ^0.2.11
+        version: 0.2.11(typescript@5.5.4)
       typescript:
         specifier: 5.5.4
         version: 5.5.4
@@ -20901,6 +20901,17 @@ packages:
     resolution: {integrity: sha512-AJS307bPgbsZZ9ggCT3wwpg3VbTKMFNHfaY/uF0ahSkYYrPF2dSSKDNIDIQAHm9qJqbLvCsSJH7yN4Vs/CsMMg==}
     dependencies:
       debug: 4.3.7
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@typescript/vfs@1.6.0(typescript@5.5.4):
+    resolution: {integrity: sha512-hvJUjNVeBMp77qPINuUvYXj4FyWeeMMKZkxEATEU3hqBAQ7qdTBCUFT7Sp0Zu0faeEtFf+ldXxMEDr/bk73ISg==}
+    peerDependencies:
+      typescript: '*'
+    dependencies:
+      debug: 4.3.7
+      typescript: 5.5.4
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -41123,19 +41134,35 @@ packages:
   /tweetnacl@0.14.5:
     resolution: {integrity: sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==}
 
-  /twoslash-cdn@0.2.6(typescript@5.5.4):
-    resolution: {integrity: sha512-x5Pwytp2a9g4YKSRZGOixizHX0fkTM5M0HRHvL18Xlhcpl7+0LG+avhCybDQuNNwgs5sVRtmwaKnFob1QQ6sog==}
+  /twoslash-cdn@0.2.11(typescript@5.5.4):
+    resolution: {integrity: sha512-SXu16YRmr4CABiO08jOa6VtmnUVyw+rSFAH6VX8SmJF2emm2Mn00vWc725149lmkiiG5J0lI2CrFTAzunQJ/BQ==}
     peerDependencies:
       typescript: '*'
     dependencies:
-      twoslash: 0.2.6(typescript@5.5.4)
+      twoslash: 0.2.11(typescript@5.5.4)
       typescript: 5.5.4
     transitivePeerDependencies:
       - supports-color
     dev: false
 
+  /twoslash-protocol@0.2.11:
+    resolution: {integrity: sha512-rp+nkOWbKfJnBTDZtnIaBGjnU+4CaMhqu6db2UU7byU96rH8X4hao4BOxYw6jdZc85Lhv5pOfcjgfHeQyLzndQ==}
+    dev: false
+
   /twoslash-protocol@0.2.6:
     resolution: {integrity: sha512-8NbJlYeRdBcCTQ7ui7pdRPC1NL16aOnoYNz06oBW+W0qWNuiQXHgE8UeNvbA038aDd6ZPuuD5WedsBIESocB4g==}
+    dev: false
+
+  /twoslash@0.2.11(typescript@5.5.4):
+    resolution: {integrity: sha512-392Qkcu5sD2hROLZ+XPywChreDGJ8Yu5nnK/Moxfti/R39q0Q39MaV7iHjz92B5qucyjsQFnKMdYIzafX5T8dg==}
+    peerDependencies:
+      typescript: '*'
+    dependencies:
+      '@typescript/vfs': 1.6.0(typescript@5.5.4)
+      twoslash-protocol: 0.2.11
+      typescript: 5.5.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /twoslash@0.2.6(typescript@5.5.4):
