@@ -4,7 +4,6 @@ import {type Article, getAllArticles, getArticle} from '@/lib/articles'
 import ArticleTemplate from '../templates/article-template'
 import serializeMDX from '@skillrecordings/skill-lesson/markdown/serialize-mdx'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
-// import readingTime from 'reading-time'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context

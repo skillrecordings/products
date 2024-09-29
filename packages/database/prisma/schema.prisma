@@ -5,8 +5,8 @@ generator client {
 }
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -29,6 +29,9 @@ model ContentResource {
   updatedAt   DateTime  @default(now())
   deletedAt   DateTime?
 
+  resourceOf ContentResourceResource[] @relation("ResourceOf")
+  resources  ContentResourceResource[] @relation("Resources")
+
   @@index([type])
   @@index([createdById])
   @@index([createdAt])
@@ -42,6 +45,9 @@ model ContentResourceResource {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @default(now())
   deletedAt    DateTime?
+
+  resourceOf ContentResource @relation("ResourceOf", fields: [resourceOfId], references: [id])
+  resource   ContentResource @relation("Resources", fields: [resourceId], references: [id])
 
   @@id([resourceOfId, resourceId])
   @@index([resourceOfId])
@@ -124,18 +130,18 @@ model MerchantAccount {
 }
 
 model MerchantCharge {
-  id                 String            @id @default(uuid())
-  status             Int               @default(0)
-  identifier         String            @unique
+  id                 String           @id @default(uuid())
+  status             Int              @default(0)
+  identifier         String           @unique
   userId             String
   merchantAccountId  String
   merchantProductId  String
-  createdAt          DateTime          @default(now())
+  createdAt          DateTime         @default(now())
   merchantCustomerId String
-  merchantAccount    MerchantAccount   @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
+  merchantAccount    MerchantAccount  @relation(fields: [merchantAccountId], references: [id], onDelete: Cascade)
   merchantCustomer   MerchantCustomer @relation(fields: [merchantCustomerId], references: [id], onDelete: Cascade)
-  merchantProduct    MerchantProduct   @relation(fields: [merchantProductId], references: [id], onDelete: Cascade)
-  user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  merchantProduct    MerchantProduct  @relation(fields: [merchantProductId], references: [id], onDelete: Cascade)
+  user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   purchase           Purchase[]
 }
 
@@ -161,7 +167,7 @@ model MerchantCustomer {
   user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   merchantCharges   MerchantCharge[]
 
-  @@index ([userId])
+  @@index([userId])
 }
 
 model MerchantPrice {
@@ -210,19 +216,19 @@ model Price {
 }
 
 model Product {
-  id               String               @id @default(uuid())
-  name             String
-  productType      String?
-  key              String?
-  createdAt        DateTime             @default(now())
-  status           Int                  @default(0)
-  coupons          Coupon[]
-  merchantProducts MerchantProduct[]
-  prices           Price[]
-  purchases        Purchase[]
-  quantityAvailable Int                @default(-1)
-  upgradableTo     UpgradableProducts[] @relation("UpgradeToProduct")
-  upgradableFrom   UpgradableProducts[] @relation("UpgradeFromProduct")
+  id                String               @id @default(uuid())
+  name              String
+  productType       String?
+  key               String?
+  createdAt         DateTime             @default(now())
+  status            Int                  @default(0)
+  coupons           Coupon[]
+  merchantProducts  MerchantProduct[]
+  prices            Price[]
+  purchases         Purchase[]
+  quantityAvailable Int                  @default(-1)
+  upgradableTo      UpgradableProducts[] @relation("UpgradeToProduct")
+  upgradableFrom    UpgradableProducts[] @relation("UpgradeFromProduct")
 }
 
 model UpgradableProducts {
@@ -299,13 +305,13 @@ model User {
 }
 
 model UserPrefs {
-  id          String       @id @default(uuid())
-  userId      String
-  type        String       @default("Global")
-  fields      Json?        @default("{}")
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime?
+  id        String    @id @default(uuid())
+  userId    String
+  type      String    @default("Global")
+  fields    Json?     @default("{}")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
 }
 
 model VerificationToken {
@@ -318,21 +324,22 @@ model VerificationToken {
 }
 
 model DeviceVerification {
-  deviceCode String @id @default(uuid())
-  userCode   String
-  expires    DateTime
-  createdAt  DateTime? @default(now())
-  verifiedAt DateTime?
-  verifiedBy User?   @relation("VerifiedByUser", fields: [verifiedByUserId], references: [id], onDelete: Cascade)
-  verifiedByUserId  String?
+  deviceCode       String    @id @default(uuid())
+  userCode         String
+  expires          DateTime
+  createdAt        DateTime? @default(now())
+  verifiedAt       DateTime?
+  verifiedBy       User?     @relation("VerifiedByUser", fields: [verifiedByUserId], references: [id], onDelete: Cascade)
+  verifiedByUserId String?
+
   @@unique([deviceCode])
 }
 
 model DeviceAccessToken {
-  token      String    @id @default(uuid())
-  user       User      @relation("User", fields: [userId], references: [id], onDelete: Cascade)
-  createdAt  DateTime? @default(now())
-  userId     String
+  token     String    @id @default(uuid())
+  user      User      @relation("User", fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime? @default(now())
+  userId    String
 }
 
 enum PurchaseUserTransferState {
@@ -361,16 +368,15 @@ model PurchaseUserTransfer {
   completedAt   DateTime?
 }
 
-
 model Bookmark {
-  id            String                    @id @default(uuid())
-  userId        String 
-  user          User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  resourceId    String
-  type          String
-  fields        Json                      @default("{}")
-  createdAt     DateTime                  @default(now())
-  updatedAt    DateTime                   @updatedAt() @default(now())
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resourceId String
+  type       String
+  fields     Json     @default("{}")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt()
 
   @@index([userId, resourceId])
 }
