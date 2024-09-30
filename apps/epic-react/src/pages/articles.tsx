@@ -111,11 +111,15 @@ export const ArticleTeaser = ({
 export const getStaticProps: GetStaticProps = async () => {
   const allArticles = await getAllArticles()
 
-  const articles = [...allArticles].sort((a: Article, b: Article) => {
-    const dateA = a.date ? new Date(a.date).getTime() : 0
-    const dateB = b.date ? new Date(b.date).getTime() : 0
-    return dateB - dateA
-  })
+  const articles = [...allArticles]
+    .sort((a: Article, b: Article) => {
+      const dateA = a.date ? new Date(a.date).getTime() : 0
+      const dateB = b.date ? new Date(b.date).getTime() : 0
+      return dateB - dateA
+    })
+    .filter(({state}) => {
+      return state === 'published'
+    })
 
   return {
     props: {

@@ -6,7 +6,7 @@ const PostSchema = z.object({
   id: z.string(),
   updatedAt: z.date(),
   createdAt: z.date(),
-  resources: z.any().array().nullable(),
+  resources: z.any().array().nullable().optional(),
   fields: z.object({
     title: z.string(),
     slug: z.string(),
@@ -104,6 +104,9 @@ export const getAllArticles = async (): Promise<Article[]> => {
       },
     })
     .then((posts) => {
+      if (!posts) {
+        return []
+      }
       return z.array(PostSchema).parse(posts).map(convertPostToArticle)
     })
 
@@ -113,6 +116,9 @@ export const getAllArticles = async (): Promise<Article[]> => {
 }
 
 function convertPostToArticle(post: any) {
+  if (!post) {
+    return null
+  }
   const parsedArticle = ArticleSchema.safeParse({
     _id: post?.id,
     _type: 'article',
@@ -120,7 +126,10 @@ function convertPostToArticle(post: any) {
     _createdAt: post?.createdAt,
     date: post?.updatedAt.toISOString(),
     title: post?.fields.title,
-    state: 'published',
+    state:
+      post?.fields.state === 'published' && post?.fields.visibility === 'public'
+        ? 'published'
+        : 'draft',
     slug: post?.fields.slug,
     description: post?.fields.description,
     summary: post?.fields.summary || post?.fields.description,
