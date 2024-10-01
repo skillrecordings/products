@@ -12,7 +12,7 @@ const PostSchema = z.object({
     slug: z.string(),
     description: z.string().optional(),
     summary: z.string().optional(),
-    body: z.string(),
+    body: z.string().optional().default(''),
     state: z.string(),
     image: z
       .object({
@@ -95,6 +95,10 @@ export const getAllArticles = async (): Promise<Article[]> => {
     .findMany({
       where: {
         type: 'post',
+        fields: {
+          path: '$.state',
+          string_contains: 'published',
+        },
       },
       include: {
         resources: true,
