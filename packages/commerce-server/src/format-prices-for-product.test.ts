@@ -283,8 +283,6 @@ test('PPP discount not available if less than sale price', async () => {
     ctx,
   })
 
-  console.log({availableCoupons})
-
   expect(availableCoupons.length).toBe(0)
 })
 
