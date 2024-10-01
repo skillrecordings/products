@@ -201,10 +201,7 @@ const getPPPDetails = async ({
     expectedPPPDiscountPercent
 
   const pppConditionsMet =
-    expectedPPPDiscountPercent > 0 &&
-    quantity === 1 &&
-    hasOnlyPPPDiscountedPurchases &&
-    pppDiscountIsBetter
+    expectedPPPDiscountPercent > 0 && quantity === 1 && pppDiscountIsBetter
 
   // Build `details` with all kinds of intermediate stuff as part of this refactoring
   const pppApplied =

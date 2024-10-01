@@ -152,7 +152,7 @@ export async function formatPricesForProduct(
     merchantCouponId,
     upgradeFromPurchaseId,
     userId,
-    autoApplyPPP = true,
+    autoApplyPPP = false,
     usedCouponId,
   } = noContextOptions
 

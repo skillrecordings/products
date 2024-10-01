@@ -283,6 +283,8 @@ test('PPP discount not available if less than sale price', async () => {
     ctx,
   })
 
+  console.log({availableCoupons})
+
   expect(availableCoupons.length).toBe(0)
 })
 
@@ -452,7 +454,7 @@ test('applies previous-purchase fixed discount and site-wide discount', async ()
   expect(product.calculatedPrice).toBe(64)
 })
 
-test('PPP is auto-applied to upgrade when original purchase was PPP', async () => {
+test('PPP is NOT auto-applied to upgrade when original purchase was PPP', async () => {
   const userId = 'user-123'
   mockPPPPurchaseAndUpgradeProduct()
 
@@ -464,7 +466,7 @@ test('PPP is auto-applied to upgrade when original purchase was PPP', async () =
     ctx,
   })
 
-  expect(product.calculatedPrice).toBe(20)
+  expect(product.calculatedPrice).toBe(155)
 })
 
 test('PPP can be forced to not auto-apply for upgrade', async () => {
@@ -484,7 +486,7 @@ test('PPP can be forced to not auto-apply for upgrade', async () => {
   expect(product.calculatedPrice).toBe(155)
 })
 
-test('PPP coupon not available if user has a self-paced valid purchase', async () => {
+test('PPP coupon available even if user has a self-paced valid purchase', async () => {
   const mockAnotherSelfPacedProduct = {
     id: 'product-self-paced2',
     name: 'self paced workshop',
@@ -560,7 +562,7 @@ test('PPP coupon not available if user has a self-paced valid purchase', async (
     ctx,
   })
 
-  expect(availableCoupons.length).toBe(0)
+  expect(availableCoupons.length).toBe(1)
 })
 
 test('PPP available for self-paced workshop having a valid live-event purchase', async () => {
