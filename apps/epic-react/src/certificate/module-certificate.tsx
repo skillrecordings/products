@@ -7,8 +7,12 @@ import cx from 'classnames'
 import Balancer from 'react-wrap-balancer'
 import * as Dialog from '@radix-ui/react-dialog'
 import CertificateForm from './certificate-form'
+import type {Workshop} from '@/lib/workshops'
+import type {Tutorial} from '@/lib/tutorials'
 
-const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
+const ModuleCertificate: React.FC<{module: Workshop | Tutorial}> = ({
+  module,
+}) => {
   const {data: moduleProgress, status: moduleProgressStatus} =
     trpc.moduleProgress.bySlug.useQuery({
       slug: module.slug.current,
@@ -44,7 +48,7 @@ const ModuleCertificate: React.FC<{module: Module}> = ({module}) => {
             <>
               <Dialog.Trigger
                 className={cx(
-                  'bg-background/0 group absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center rounded border border-border',
+                  'group absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center rounded border border-border bg-background/0',
                 )}
               >
                 {isModuleCompleted && (

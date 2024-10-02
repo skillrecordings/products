@@ -9,8 +9,7 @@ import {isBrowser} from '@skillrecordings/skill-lesson/utils/is-browser'
 import {track} from '@skillrecordings/skill-lesson/utils/analytics'
 import {Lesson} from '@skillrecordings/skill-lesson/schemas/lesson'
 import {trpc} from '@/trpc/trpc.client'
-import {capitalize, first} from 'lodash'
-import cx from 'classnames'
+import {capitalize} from 'lodash'
 import * as Collection from '@skillrecordings/skill-lesson/video/collection'
 import Balancer from 'react-wrap-balancer'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
@@ -18,7 +17,7 @@ import MDX from '@skillrecordings/skill-lesson/markdown/mdx'
 import {Skeleton} from '@skillrecordings/ui'
 import {CogIcon} from '@heroicons/react/outline'
 import {WorkshopAppBanner} from '@/components/workshop-app'
-import {getModuleLessonPath} from '@/lib/workshops'
+import {getModuleLessonPath, type Workshop} from '@/lib/workshops'
 import ResetProgress from '@skillrecordings/skill-lesson/video/reset-progress'
 import {type Module} from '@skillrecordings/skill-lesson/schemas/module'
 import ModuleCertificate from '@/certificate/module-certificate'
@@ -31,9 +30,10 @@ import {
   usePriceCheck,
 } from '@skillrecordings/skill-lesson/path-to-purchase/pricing-check-context'
 import {cn} from '@skillrecordings/ui/utils/cn'
+import type {Tutorial} from '@/lib/tutorials'
 
 export const ModuleTemplate: React.FC<{
-  module: Module
+  module: Workshop | Tutorial
   moduleBodySerialized: MDXRemoteSerializeResult
 }> = ({module, moduleBodySerialized}) => {
   const {title, ogImage, description} = module
@@ -136,7 +136,7 @@ export const ModuleTemplate: React.FC<{
           )}
           {module && (
             <Collection.Root
-              module={module}
+              module={module as Module}
               lessonPathBuilder={getModuleLessonPath}
               withNumbers={false}
             >
@@ -171,7 +171,7 @@ export const ModuleTemplate: React.FC<{
             moduleSlug={module.slug.current || ''}
             className="mt-3 rounded border sm:p-5"
           />
-          <ResetProgress module={module} />
+          <ResetProgress module={module as Module} />
           {module.moduleType === 'workshop' && (
             <ModuleCertificate module={module} />
           )}
@@ -181,7 +181,7 @@ export const ModuleTemplate: React.FC<{
   )
 }
 
-const Header: React.FC<{module: Module; canView?: boolean}> = ({
+const Header: React.FC<{module: Workshop | Tutorial; canView?: boolean}> = ({
   module,
   canView,
 }) => {
@@ -191,26 +191,35 @@ const Header: React.FC<{module: Module; canView?: boolean}> = ({
       slug: module.slug.current,
     })
 
-  const getAllLessons = (array: any) =>
-    array.flatMap((item: any) => {
-      if (item._type === 'lesson' || item._type === 'exercise') {
-        return [item]
-      } else if (item._type === 'section' && Array.isArray(item.lessons)) {
-        return item.lessons.filter(
-          (lesson: any) =>
-            lesson._type === 'lesson' || lesson._type === 'exercise',
-        )
-      } else {
-        return []
+  const getAllLessons = (module: Workshop | Tutorial) => {
+    const lessons: {
+      title: string
+      slug: string
+      _type: string
+    }[] = []
+    if (module.resources) {
+      for (const resource of module.resources) {
+        if (resource._type === 'section') {
+          if (resource.lessons) {
+            for (const lesson of resource.lessons) {
+              lessons.push(lesson)
+            }
+          }
+        } else {
+          lessons.push(resource)
+        }
       }
-    })
+    }
+    return lessons
+  }
 
-  const allLessons = getAllLessons(sections)
+  const allLessons = getAllLessons(module)
+
   const isModuleInProgress = (moduleProgress?.completedLessonCount || 0) > 0
   const nextSection = moduleProgress?.nextSection
   const nextLesson = moduleProgress?.nextLesson
 
-  const firstLesson = first<Lesson>(allLessons)
+  const firstLesson = allLessons?.[0]
 
   return (
     <>

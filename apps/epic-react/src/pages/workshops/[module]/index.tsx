@@ -35,7 +35,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 const WorkshopPage: React.FC<{
-  module: Module
+  module: Workshop
   moduleBodySerialized: MDXRemoteSerializeResult
 }> = ({module, moduleBodySerialized}) => {
   return (

@@ -36,6 +36,31 @@ const WorkshopSchema = z.object({
         title: z.string(),
         description: z.string().optional().nullable(),
         slug: z.string(),
+        lessons: z
+          .array(
+            z.object({
+              _id: z.string(),
+              _type: z.string(),
+              _updatedAt: z.string().optional(),
+              title: z.string(),
+              description: z.string().optional().nullable(),
+              slug: z.string(),
+              solution: z
+                .nullable(
+                  z.object({
+                    _key: z.string(),
+                    _type: z.string(),
+                    _updatedAt: z.string().optional(),
+                    title: z.string(),
+                    description: z.string().optional().nullable(),
+                    slug: z.string(),
+                  }),
+                )
+                .optional(),
+            }),
+          )
+          .optional()
+          .nullable(),
         solution: z
           .nullable(
             z.object({

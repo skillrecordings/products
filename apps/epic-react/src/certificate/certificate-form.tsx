@@ -12,10 +12,12 @@ import Spinner from '@/components/spinner'
 import {ClipboardCopyIcon} from '@heroicons/react/outline'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Image from 'next/image'
+import type {Workshop} from '@/lib/workshops'
+import type {Tutorial} from '@/lib/tutorials'
 
-const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
-  module,
-}) => {
+const CertificateForm: React.FC<
+  React.PropsWithChildren<{module: Workshop | Tutorial | Module}>
+> = ({module}) => {
   const {data: session, update: updateSession} = useSession()
   const {data: userData, status: userStatus} = trpc.user.currentUser.useQuery()
 
@@ -108,7 +110,7 @@ const CertificateForm: React.FC<React.PropsWithChildren<{module: Module}>> = ({
   }
   return (
     <Dialog.Portal container={window.document.getElementById('layout')}>
-      <Dialog.Overlay className="bg-black/20 fixed inset-0 z-30 backdrop-blur-sm" />
+      <Dialog.Overlay className="fixed inset-0 z-30 bg-black/20 backdrop-blur-sm" />
       <Dialog.Content className="fixed left-[50%] top-[50%] z-50 max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] border border-gray-100 bg-white p-[25px] shadow-2xl shadow-black/20 focus:outline-none dark:border-gray-700/50 dark:bg-gray-800 dark:shadow-black/40">
         <Dialog.Title className=" pb-3 text-xl font-semibold dark:border-gray-700">
           Your Certificate of Completion
