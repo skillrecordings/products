@@ -44,6 +44,16 @@ export async function transferPurchase({
       (req.query?.targetUserEmail as string) ||
       (req.body?.targetUserEmail as string)
 
+    if (!purchaseId || !sourceUserId || !targetUserEmail) {
+      return {
+        status: 400,
+        body: {
+          error: true,
+          message: 'Missing required parameters',
+        },
+      }
+    }
+
     // looks for the id of the target email
 
     let targetUserId = await prisma.user.findUnique({
@@ -80,11 +90,22 @@ export async function transferPurchase({
       },
     })
 
+    if (!createTransfer) {
+      return {
+        status: 500,
+        body: {
+          error: true,
+          message: 'Error creating transfer',
+        },
+      }
+    }
+
     // updates purchase table with targetUserId
 
     const updatePurchase = await prisma.purchase.update({
       where: {
         id: purchaseId,
+        userId: sourceUserId,
       },
       data: {
         userId: targetUserId.id,
