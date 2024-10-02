@@ -20,9 +20,12 @@ import {CogIcon} from '@heroicons/react/outline'
 import {WorkshopAppBanner} from '@/components/workshop-app'
 import {lessonPathBuilder} from '@/utils/lesson-path-builder'
 import {MdOutlineRocketLaunch} from 'react-icons/md'
+import type {Tutorial} from '@/lib/tutorials'
+import {getOgImage} from '@/utils/get-og-image'
+import type {Module} from '@skillrecordings/skill-lesson/schemas/module'
 
 const TutorialTemplate: React.FC<{
-  tutorial: any
+  tutorial: Tutorial
   tutorialBodySerialized: MDXRemoteSerializeResult
 }> = ({tutorial, tutorialBodySerialized}) => {
   const {title, ogImage, description} = tutorial
@@ -38,11 +41,13 @@ const TutorialTemplate: React.FC<{
       className="mx-auto w-full max-w-screen-lg lg:pb-24"
       meta={{
         title: pageTitle,
-        description,
-        ogImage: {
-          url: ogImage,
-          alt: pageTitle,
-        },
+        description: description || '',
+        ogImage: ogImage
+          ? {
+              url: ogImage,
+              alt: pageTitle,
+            }
+          : getOgImage({title: title}),
       }}
     >
       <CourseMeta title={pageTitle} description={description} />
@@ -92,7 +97,7 @@ const TutorialTemplate: React.FC<{
         <div className="w-full px-5 lg:max-w-sm xl:px-0">
           {tutorial && (
             <Collection.Root
-              module={tutorial}
+              module={tutorial as Module}
               lessonPathBuilder={lessonPathBuilder}
             >
               <div className="flex w-full items-center justify-between pb-3">
