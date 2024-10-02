@@ -39,11 +39,28 @@ export async function stripeRefund({
       (req.query?.merchantChargeId as string) ||
       (req.body?.merchantChargeId as string)
 
+    if (!merchantChargeId) {
+      return {
+        status: 400,
+        body: {
+          error: true,
+          message: 'Missing required parameter: merchantChargeId',
+        },
+      }
+    }
+
     const processRefund = await stripe.refunds.create({
       charge: merchantChargeId,
     })
 
-    await updatePurchaseStatusForCharge(merchantChargeId, 'Refunded')
+    const updateResult = await updatePurchaseStatusForCharge(
+      merchantChargeId,
+      'Refunded',
+    )
+
+    if (!updateResult) {
+      throw new Error('Failed to update purchase status')
+    }
 
     return {
       status: 200,
