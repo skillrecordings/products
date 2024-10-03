@@ -40,16 +40,20 @@ export async function propsForCommerce({
       ...(couponIdFromCoupon && {couponIdFromCoupon}),
       ...(purchases && {
         purchases: [
-          ...purchases.map((purchase) =>
-            convertToSerializeForNextResponse({
-              ...purchase,
-              totalAmount:
-                // because serializer doesnt handle 0.00
-                typeof purchase.totalAmount === 'object'
-                  ? purchase.totalAmount.toNumber()
-                  : purchase.totalAmount,
-            }),
-          ),
+          ...purchases
+            .filter((purchase) =>
+              ['Valid', 'Restricted'].includes(purchase.status),
+            )
+            .map((purchase) =>
+              convertToSerializeForNextResponse({
+                ...purchase,
+                totalAmount:
+                  // because serializer doesnt handle 0.00
+                  typeof purchase.totalAmount === 'object'
+                    ? purchase.totalAmount.toNumber()
+                    : purchase.totalAmount,
+              }),
+            ),
         ],
       }),
       products,
