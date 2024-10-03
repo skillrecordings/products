@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 const data = [
   {
@@ -110,6 +111,19 @@ const data = [
       </>
     ),
   },
+  {
+    name: 'Filip Dukat',
+    avatar: require('../../../public/testimonials-images/filip-dukat.png'),
+    quote: (
+      <>
+        <strong>The new Epic React is absolutely mind-blowing!</strong> I'm
+        genuinely impressed by the amount of work you've put into the course,
+        the simplicity of its design, and the whole interactive ecosystem you've
+        built around it. I love it! I believe this course will be{' '}
+        <strong>one of the best investments in my tech career.</strong>
+      </>
+    ),
+  },
   // {
   //   name: 'Richard Bagshaw',
   //   avatar: require('../../../public/testimonials-images/richard-bagshaw.jpg'),
@@ -139,7 +153,12 @@ const Testimonials = () => {
         return (
           <blockquote
             key={name}
-            className="flex flex-col items-center px-5 py-3 sm:block sm:px-5 sm:py-5"
+            className={cn(
+              'flex flex-col items-center px-5 py-3 sm:block sm:px-5 sm:py-5',
+              {
+                'md:last-of-type:col-span-2': data.length % 2 === 1,
+              },
+            )}
           >
             <p className="text-balance text-center text-sm leading-normal sm:text-left sm:text-base">
               {quote}

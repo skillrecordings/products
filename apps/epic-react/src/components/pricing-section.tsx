@@ -109,6 +109,7 @@ const AnimatedTierHeaderEffect = () => {
           <>
             {/* LEFT */}
             <motion.div
+              key={`left-${i}`}
               initial={{left: '55%', opacity: 0, width: 100}}
               animate={{
                 left: ['55%', '0%'],
@@ -124,6 +125,7 @@ const AnimatedTierHeaderEffect = () => {
               className="absolute h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent dark:via-white"
             />
             <motion.div
+              key={`left-2-${i}`}
               initial={{left: '55%', opacity: 0, width: 10}}
               animate={{
                 left: ['55%', '0%'],
@@ -142,6 +144,7 @@ const AnimatedTierHeaderEffect = () => {
 
             {/* RIGHT */}
             <motion.div
+              key={`right-${i}`}
               initial={{right: '55%', opacity: 0, width: 100}}
               animate={{
                 right: ['55%', '0%'],
@@ -157,6 +160,7 @@ const AnimatedTierHeaderEffect = () => {
               className="absolute h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent dark:via-white"
             />
             <motion.div
+              key={`right-2-${i}`}
               initial={{right: '55%', opacity: 0, width: 10}}
               animate={{
                 right: ['55%', '0%'],
