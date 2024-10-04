@@ -61,7 +61,11 @@ async function findOrCreateStripeCustomerId(userId: string, stripe: Stripe) {
   if (user) {
     const customerId =
       user && user.merchantCustomers
-        ? first(user.merchantCustomers)?.identifier
+        ? first(
+            user.merchantCustomers.filter(
+              (mc) => !mc.identifier.startsWith('no_stripe_customer_id'),
+            ),
+          )?.identifier
         : false
 
     if (customerId) {

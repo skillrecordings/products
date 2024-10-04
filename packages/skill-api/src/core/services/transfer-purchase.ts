@@ -229,7 +229,7 @@ export async function transferPurchase({
     //   },
     // })
 
-    console.log(`update purchase ${purchase.id} to ${targetUser.id}`)
+    console.log(`update purchase [${purchase.id}] to ${targetUser.email}`)
 
     // const updatePurchase = prisma.purchase.update({
     //   where: {
