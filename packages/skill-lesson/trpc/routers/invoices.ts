@@ -1,9 +1,10 @@
 import {z} from 'zod'
 import {publicProcedure, router} from '../trpc.server'
 import {getSdk} from '@skillrecordings/database'
-import {defaultContext as defaultStripeContext} from '@skillrecordings/stripe-sdk'
-
-const {stripe} = defaultStripeContext
+import {
+  defaultContext as defaultStripeContext,
+  eggheadReadOnlyContext,
+} from '@skillrecordings/stripe-sdk'
 
 export const invoicesRouter = router({
   getChargeDetails: publicProcedure
@@ -20,6 +21,12 @@ export const invoicesRouter = router({
 
       try {
         if (merchantCharge && merchantCharge.identifier) {
+          const {stripe} =
+            merchantCharge.merchantAccount.label === 'egghead-stripe' &&
+            eggheadReadOnlyContext
+              ? eggheadReadOnlyContext
+              : defaultStripeContext
+
           const charge = await stripe.charges.retrieve(
             merchantCharge.identifier,
             {

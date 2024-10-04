@@ -478,6 +478,12 @@ export function getSdk(
           id: true,
           identifier: true,
           merchantProductId: true,
+          merchantAccount: {
+            select: {
+              id: true,
+              label: true,
+            },
+          },
         },
       })
     },
