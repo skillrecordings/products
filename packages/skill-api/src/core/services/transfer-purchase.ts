@@ -40,11 +40,56 @@ export async function transferPurchase({
     const sourceUserId =
       (req.query?.sourceUserId as string) || (req.body?.sourceUserId as string)
 
+    const sourceUser = await prisma.user.findUnique({
+      where: {
+        id: sourceUserId,
+      },
+      select: {
+        id: true,
+      },
+    })
+
+    if (!sourceUser) {
+      return {
+        status: 404,
+        body: {
+          error: true,
+          message: 'Source user not found',
+        },
+      }
+    }
+
+    const purchase = await prisma.purchase.findUnique({
+      where: {
+        id: purchaseId,
+        userId: sourceUser.id,
+      },
+      select: {
+        id: true,
+        merchantCharge: {
+          select: {
+            id: true,
+            merchantCustomer: true,
+          },
+        },
+      },
+    })
+
+    if (!purchase) {
+      return {
+        status: 404,
+        body: {
+          error: true,
+          message: 'Purchase not found',
+        },
+      }
+    }
+
     const targetUserEmail =
       (req.query?.targetUserEmail as string) ||
       (req.body?.targetUserEmail as string)
 
-    if (!purchaseId || !sourceUserId || !targetUserEmail) {
+    if (!targetUserEmail) {
       return {
         status: 400,
         body: {
@@ -56,95 +101,117 @@ export async function transferPurchase({
 
     // looks for the id of the target email
 
-    let targetUserId = await prisma.user.findUnique({
+    let targetUser = await prisma.user.findUnique({
       where: {
         email: targetUserEmail,
       },
       select: {
         id: true,
+        email: true,
+        name: true,
       },
     })
 
     // If the target user doesn't exist, create a new user.
 
-    if (!targetUserId) {
+    if (!targetUser) {
       const createUser = await prisma.user.create({
         data: {
           email: targetUserEmail,
           roles: 'User',
-          emailVerified: new Date(),
         },
       })
-      targetUserId = {id: createUser.id}
+
+      targetUser = await prisma.user.findUnique({
+        where: {
+          id: createUser.id,
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+        },
+      })
     }
 
-    // creates a transfer record
-
-    const createTransfer = await prisma.purchaseUserTransfer.create({
-      data: {
-        purchaseId: purchaseId,
-        transferState: 'COMPLETED',
-        sourceUserId: sourceUserId,
-        targetUserId: targetUserId?.id,
-        completedAt: new Date(),
-      },
-    })
-
-    if (!createTransfer) {
+    if (!targetUser) {
       return {
-        status: 500,
+        status: 404,
         body: {
           error: true,
-          message: 'Error creating transfer',
+          message: 'Target user not found',
         },
       }
     }
 
-    // updates purchase table with targetUserId
+    // creates a transfer record
+    // update merchant records if the purchase involved stripe
 
-    const updatePurchase = await prisma.purchase.update({
-      where: {
-        id: purchaseId,
-        userId: sourceUserId,
-      },
+    if (purchase?.merchantCharge?.merchantCustomer) {
+      const {identifier} = purchase.merchantCharge.merchantCustomer
+
+      try {
+        const existingCustomer = (await stripe.customers.retrieve(
+          identifier,
+        )) as Stripe.Response<Stripe.Customer>
+
+        await stripe.customers.update(identifier, {
+          email: targetUser.email,
+          name: targetUser.name || existingCustomer.name || targetUser.email,
+        })
+      } catch (error) {
+        console.error('Error updating stripe customer', error)
+      }
+
+      const updateMerchantCharge = prisma.merchantCharge.update({
+        where: {
+          id: purchase.merchantCharge.id,
+        },
+        data: {
+          userId: targetUser.id,
+        },
+      })
+
+      const updateMerchantCustomer = prisma.merchantCustomer.update({
+        where: {
+          id: purchase.merchantCharge.merchantCustomer.id,
+        },
+        data: {
+          userId: targetUser.id,
+        },
+      })
+
+      await prisma.$transaction([updateMerchantCharge, updateMerchantCustomer])
+    }
+
+    const createTransfer = prisma.purchaseUserTransfer.create({
       data: {
-        userId: targetUserId.id,
+        purchaseId: purchase.id,
+        transferState: 'COMPLETED',
+        sourceUserId: sourceUser.id,
+        targetUserId: targetUser.id,
+        completedAt: new Date(),
       },
     })
 
-    // update merchant records if the purchase involved stripe
+    const updatePurchase = prisma.purchase.update({
+      where: {
+        id: purchase.id,
+        userId: sourceUser.id,
+      },
+      data: {
+        userId: targetUser.id,
+      },
+    })
 
-    if (updatePurchase.merchantChargeId) {
-      const updateMerchantCharge = await prisma.merchantCharge.update({
-        where: {
-          id: updatePurchase.merchantChargeId,
-        },
-        data: {
-          userId: targetUserId.id,
-        },
-      })
-      const updateMerchantCustomer = await prisma.merchantCustomer.update({
-        where: {
-          id: updateMerchantCharge.merchantCustomerId,
-        },
-        data: {
-          userId: targetUserId.id,
-        },
-      })
-      const updateStripeCostumer = await stripe.customers.update(
-        updateMerchantCustomer.identifier,
-        {
-          email: targetUserEmail,
-          metadata: {
-            siteName: process.env.NEXT_PUBLIC_APP_NAME,
-          },
-        },
-      )
-    }
+    const [updatedPurchase] = await prisma.$transaction([
+      updatePurchase,
+      createTransfer,
+    ])
 
     return {
       status: 200,
-      body: updatePurchase,
+      body: updatedPurchase,
     }
   } catch (error: any) {
     return {
