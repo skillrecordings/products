@@ -4,6 +4,7 @@ import {prisma} from '@skillrecordings/database'
 import {
   defaultContext as defaultStripeContext,
   Stripe,
+  eggheadReadOnlyContext,
 } from '@skillrecordings/stripe-sdk'
 
 const {stripe: defaultStripe} = defaultStripeContext
@@ -47,6 +48,7 @@ export async function transferPurchase({
       select: {
         id: true,
         email: true,
+        name: true,
         merchantCharges: {
           select: {
             id: true,
@@ -82,6 +84,7 @@ export async function transferPurchase({
           select: {
             id: true,
             merchantCustomer: true,
+            merchantAccount: true,
           },
         },
       },
@@ -163,92 +166,100 @@ export async function transferPurchase({
     // creates a transfer record
     // update merchant records if the purchase involved stripe
 
-    if (purchase?.merchantCharge?.merchantCustomer) {
-      console.log(
-        `stripe customer ${purchase.merchantCharge.merchantCustomer.identifier}`,
-      )
-      const {identifier} = purchase.merchantCharge.merchantCustomer
+    const updates = []
 
-      // try {
-      //   const existingCustomer = (await stripe.customers.retrieve(
-      //     identifier,
-      //   )) as Stripe.Response<Stripe.Customer>
-
-      //   await stripe.customers.update(identifier, {
-      //     email: targetUser.email,
-      //     name: targetUser.name || existingCustomer.name || targetUser.email,
-      //   })
-      // } catch (error) {
-      //   console.error('Error updating stripe customer', error)
-      // }
-
+    if (purchase?.merchantCharge) {
       console.log(
         `update ${purchase.merchantCharge.id} user to ${targetUser.id}`,
       )
 
-      // const updateMerchantCharge = prisma.merchantCharge.update({
-      //   where: {
-      //     id: purchase.merchantCharge.id,
-      //   },
-      //   data: {
-      //     userId: targetUser.id,
-      //   },
-      // })
+      const updateMerchantCharge = prisma.merchantCharge.update({
+        where: {
+          id: purchase.merchantCharge.id,
+          userId: sourceUser.id,
+        },
+        data: {
+          userId: targetUser.id,
+        },
+      })
+
+      updates.push(updateMerchantCharge)
+    }
+
+    if (purchase?.merchantCharge?.merchantCustomer) {
+      console.log(
+        `stripe customer ${purchase.merchantCharge.merchantCustomer.identifier}`,
+      )
+
+      const {identifier} = purchase.merchantCharge.merchantCustomer
+      const isCustomer =
+        purchase.merchantCharge.merchantAccount.label !== 'egghead-stripe' &&
+        identifier &&
+        !identifier.startsWith('no_stripe_customer_id')
+
+      if (isCustomer) {
+        try {
+          const existingCustomer = (await stripe.customers.retrieve(
+            identifier,
+          )) as Stripe.Response<Stripe.Customer>
+
+          await stripe.customers.update(identifier, {
+            email: targetUser.email,
+            name: targetUser.name || existingCustomer.name || targetUser.email,
+          })
+        } catch (error) {
+          console.error('Error updating stripe customer', error)
+        }
+      }
 
       console.log(
         `update ${purchase.merchantCharge.merchantCustomer.id} user to ${targetUser.id}`,
       )
 
-      // const updateMerchantCustomer = prisma.merchantCustomer.update({
-      //   where: {
-      //     id: purchase.merchantCharge.merchantCustomer.id,
-      //   },
-      //   data: {
-      //     userId: targetUser.id,
-      //   },
-      // })
+      const updateMerchantCustomer = prisma.merchantCustomer.update({
+        where: {
+          id: purchase.merchantCharge.merchantCustomer.id,
+          userId: sourceUser.id,
+        },
+        data: {
+          userId: targetUser.id,
+        },
+      })
 
-      // await prisma.$transaction([updateMerchantCharge, updateMerchantCustomer])
+      updates.push(updateMerchantCustomer)
     }
 
-    console.log(`transfer`, {
-      purchaseId: purchase.id,
-      transferState: 'COMPLETED',
-      sourceUserId: sourceUser.id,
-      targetUserId: targetUser.id,
-      completedAt: new Date(),
+    const createTransfer = prisma.purchaseUserTransfer.create({
+      data: {
+        purchaseId: purchase.id,
+        transferState: 'COMPLETED',
+        sourceUserId: sourceUser.id,
+        targetUserId: targetUser.id,
+        completedAt: new Date(),
+      },
     })
-
-    // const createTransfer = prisma.purchaseUserTransfer.create({
-    //   data: {
-    //     purchaseId: purchase.id,
-    //     transferState: 'COMPLETED',
-    //     sourceUserId: sourceUser.id,
-    //     targetUserId: targetUser.id,
-    //     completedAt: new Date(),
-    //   },
-    // })
 
     console.log(`update purchase [${purchase.id}] to ${targetUser.email}`)
 
-    // const updatePurchase = prisma.purchase.update({
-    //   where: {
-    //     id: purchase.id,
-    //     userId: sourceUser.id,
-    //   },
-    //   data: {
-    //     userId: targetUser.id,
-    //   },
-    // })
+    const updatePurchase = prisma.purchase.update({
+      where: {
+        id: purchase.id,
+        userId: sourceUser.id,
+      },
+      data: {
+        userId: targetUser.id,
+      },
+    })
 
-    // const [updatedPurchase] = await prisma.$transaction([
-    //   updatePurchase,
-    //   createTransfer,
-    // ])
+    const [updatedPurchase] = await prisma.$transaction([
+      updatePurchase,
+      createTransfer,
+      ...updates,
+    ])
 
     return {
       status: 200,
-      body: 'updatedPurchase',
+      body: updatedPurchase,
     }
   } catch (error: any) {
     return {
