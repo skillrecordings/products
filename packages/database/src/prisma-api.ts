@@ -877,21 +877,21 @@ export function getSdk(
       }
     },
     async transferPurchasesToNewUser({
-      merchantCustomerId,
+      fromUserId,
       userId,
     }: {
-      merchantCustomerId: string
+      fromUserId: string
       userId: string
     }) {
       const chargesToUpdate = await ctx.prisma.merchantCharge.findMany({
         where: {
-          merchantCustomerId: merchantCustomerId,
+          userId: fromUserId,
         },
       })
 
       const chargeUpdates = ctx.prisma.merchantCharge.updateMany({
         where: {
-          merchantCustomerId: merchantCustomerId,
+          userId: fromUserId,
         },
         data: {
           userId: userId,
@@ -909,7 +909,7 @@ export function getSdk(
         },
       })
 
-      return await ctx.prisma.$transaction([chargeUpdates, purchaseUpdates])
+      return ctx.prisma.$transaction([chargeUpdates, purchaseUpdates])
     },
     async getPurchaseUserTransferById({id}: {id: string}) {
       return await ctx.prisma.purchaseUserTransfer.findUnique({

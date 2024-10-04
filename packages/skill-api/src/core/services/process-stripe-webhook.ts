@@ -406,12 +406,17 @@ export const processStripeWebhook = async (
         ? targetEmail.toLowerCase() !== previousEmail.toLowerCase()
         : false
 
+      const {user: fromUser} = previousEmail
+        ? await findOrCreateUser(previousEmail)
+        : {user: null}
       const {user: updateUser} = await findOrCreateUser(targetEmail, name)
 
-      await transferPurchasesToNewUser({
-        merchantCustomerId: merchantCustomer.id,
-        userId: updateUser.id,
-      })
+      transferringToDifferentUser &&
+        fromUser &&
+        (await transferPurchasesToNewUser({
+          fromUserId: fromUser.id,
+          userId: updateUser.id,
+        }))
 
       if (transferringToDifferentUser && nextAuthOptions) {
         await sendServerEmail({
