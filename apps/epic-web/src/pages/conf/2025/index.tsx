@@ -3,119 +3,20 @@ import Layout from 'components/app/layout'
 import Image from 'next/image'
 import Link from 'next/link'
 import HeroPlanetImage from '../../../../public/assets/conf/conf-hero.jpg'
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  PlayIcon,
-} from '@heroicons/react/solid'
-import {AnimatePresence, motion} from 'framer-motion'
-import {format, parseISO} from 'date-fns'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  Button,
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from '@skillrecordings/ui'
-import {GetStaticProps} from 'next'
-import {useKey} from 'react-use'
-import {
-  SubscribeToConvertkitForm,
-  redirectUrlBuilder,
-} from '@skillrecordings/skill-lesson/convertkit'
-import {useRouter} from 'next/router'
-import {shuffle} from 'lodash'
+import {ChevronRightIcon, PlayIcon} from '@heroicons/react/solid'
+import {Button} from '@skillrecordings/ui'
 import {track} from 'utils/analytics'
-import {cn} from '@skillrecordings/ui/utils/cn'
 import {DocumentIcon, StarIcon} from '@heroicons/react/outline'
-import {DialogTrigger} from '@radix-ui/react-dialog'
-import {EventJsonLd} from '@skillrecordings/next-seo'
-import Balancer from 'react-wrap-balancer'
-import {sanityClient} from 'utils/sanity-client'
-import groq from 'groq'
-import slugify from '@sindresorhus/slugify'
-import {
-  getAllConf24Talks,
-  getConfTalkBySpeaker,
-  getConfTalkByTitle,
-  type Talk,
-} from 'lib/talks'
-import {trpc} from 'trpc/trpc.client'
-import Icon from 'components/icons'
+import {type Talk} from 'lib/talks'
 
-export const IS_PAST_CONF_24 = true
-export const CONF_24_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2024'
+export const IS_PAST_CONF_25 = false
+const CONF_25_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2025'
+const CONF_25_SESSIONIZE_URL = 'https://sessionize.com/epicweb-conf-2025/'
 
-const CK_CONF_2024_FIELD = {
-  [`conf_2024`]: new Date().toISOString().slice(0, 10),
+const CK_CONF_2025_FIELD = {
+  [`conf_2025`]: new Date().toISOString().slice(0, 10),
 }
-const HOTEL_PROMO_CODE = 'W14'
-
-export const getStaticProps: GetStaticProps = async () => {
-  const speakers = await fetch(
-    'https://sessionize.com/api/v2/epg94f49/view/Speakers',
-  ).then((res) => res.json())
-  const schedule: Schedule = await fetch(
-    'https://sessionize.com/api/v2/epg94f49/view/GridSmart',
-  ).then((res) => res.json())
-  const talks = await getAllConf24Talks(4)
-  const scheduleWithTalks = await Promise.all(
-    schedule.map(async (day) => {
-      const rooms = await Promise.all(
-        day.rooms.map(async (room) => {
-          const sessions = await Promise.all(
-            room.sessions.map(async (session) => {
-              const speakerName = session.speakers[0]?.name
-              const talkByTitle = session.title
-                ? await getConfTalkByTitle(session.title)
-                : null
-              const talkBySpeaker = speakerName
-                ? await getConfTalkBySpeaker(speakerName)
-                : null
-              return {...session, talk: talkByTitle || talkBySpeaker || null}
-            }),
-          )
-          return {...room, sessions}
-        }),
-      )
-      return {...day, rooms}
-    }),
-  )
-  let speakersWithVideos = []
-  for (const speaker of speakers) {
-    const video = await sanityClient.fetch(groq`
-    *[_type == "videoResource" && slug.current == 'conf-interview-${slugify(
-      speaker.fullName,
-    )}'][0] {
-      _id,
-      "_type": "tip",
-      "slug": slug.current,
-      "muxPlaybackId": muxAsset.muxPlaybackId,
-      transcript { text },
-      "videoResourceId": _id,
-      poster,
-    }
-  `)
-    const newSpeaker = {...speaker, video}
-    speakersWithVideos.push(newSpeaker)
-  }
-
-  return {
-    props: {
-      speakers: speakersWithVideos.filter(
-        (speaker) => !speaker.fullName.includes('DevTools'),
-      ),
-      schedule: scheduleWithTalks,
-      talks,
-    },
-    revalidate: IS_PAST_CONF_24 ? false : 60 * 5,
-  }
-}
+// const HOTEL_PROMO_CODE = 'W14'
 
 export type Speaker = {
   video?: {
@@ -164,23 +65,7 @@ type Day = {
 
 export type Schedule = Day[]
 
-const ConfPage: React.FC<{
-  speakers: Speaker[]
-  schedule: Schedule
-  talks: Talk[]
-}> = ({speakers, schedule, talks}) => {
-  const [showingSpeakerDetail, setShowingSpeakerDetail] = React.useState<
-    boolean | Speaker
-  >(false)
-  const router = useRouter()
-  const [shuffledSpeakers, setShuffledSpeakers] = React.useState<Speaker[]>([])
-  React.useEffect(() => {
-    setShuffledSpeakers(shuffle(speakers))
-  }, [])
-
-  const {data: livestreamData, status: livestreamStatus} =
-    trpc.conf.livestream.useQuery()
-
+const ConfPage: React.FC = () => {
   return (
     <Layout
       className="bg-foreground pt-16 text-background dark:bg-background dark:text-foreground"
@@ -227,16 +112,140 @@ const ConfPage: React.FC<{
         description="The Full Stack Web Development Conference of Epic proportions."
       /> */}
       <Header />
+
+      <Body />
+
+      <Footer />
     </Layout>
   )
 }
 
 export default ConfPage
 
-const Header = () => {
-  const {data: livestreamData, status: livestreamStatus} =
-    trpc.conf.livestream.useQuery()
+const Body = () => {
+  let epicTalkIdeas = [
+    'Blow our minds with cool demos',
+    'Show off what you’ve learned at scale',
+    'Help us be better professionals, team mates, and community members',
+    'Help us find a job or build our own company',
+    'Show us how you made something fast',
+    'Inspire us to do more with AI than build a chatbot',
+  ]
+  return (
+    <div className="mx-auto w-full max-w-screen-lg space-y-10">
+      <div>
+        <h2 className="text-2xl font-semibold sm:text-3xl">
+          Become an Attendee
+        </h2>
 
+        <p className="my-4 ml-4 text-base text-white">
+          Epic Web Conf is your opportunity to join other full stack web
+          developers from all over the world to collaborate on the present and
+          future state of the art of building the absolute best user and
+          developer experiences possible.
+        </p>
+        <p className="my-4 ml-4 text-base text-white">
+          Right now we are offering super early bird tickets, this is the
+          cheapest the price will be and the price goes up soon.
+        </p>
+        <Button
+          asChild
+          className="ml-4 h-12 rounded-sm bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:text-base"
+          size="lg"
+        >
+          <Link
+            href={CONF_25_TITO_URL}
+            rel="noopener noreferrer"
+            target="_blank"
+            onClick={() => {
+              track('clicked buy tickets', {
+                title: 'conf2025',
+                type: 'event',
+                location: 'bottom',
+              })
+            }}
+          >
+            Buy Early Bird Tickets{' '}
+            <ChevronRightIcon className="-mr-2 ml-2 w-4" />
+          </Link>
+        </Button>
+      </div>
+      <div className="space-y-4">
+        <h2 className="text-2xl font-semibold sm:text-3xl ">
+          Become a Speaker
+        </h2>
+        <p className="ml-4 text-base text-white">
+          We want to see how you are making the web{' '}
+          <span className="font-bold text-[#93A1D7]">EPIC</span>. This
+          conference is about inspiring us to do and be more.
+        </p>
+        <p className="ml-4 text-base text-white">
+          Here are some general categories of what would make a great talk at
+          Epic Web Conf 2025:
+        </p>
+        <ol className="ml-4 list-inside list-decimal text-base text-white">
+          {epicTalkIdeas.map((idea, index) => (
+            <li key={index}>{idea}</li>
+          ))}
+        </ol>
+        <Button
+          asChild
+          className="ml-4 h-12 rounded-sm bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:text-base"
+          size="lg"
+        >
+          <Link
+            href={CONF_25_SESSIONIZE_URL}
+            rel="noopener noreferrer"
+            target="_blank"
+            onClick={() => {
+              track('clicked submit a talk', {
+                title: 'conf2025',
+                type: 'event',
+                location: 'bottom',
+              })
+            }}
+          >
+            Submit a Talk <ChevronRightIcon className="-mr-2 ml-2 w-4" />
+          </Link>
+        </Button>
+      </div>
+
+      <div className="space-y-4">
+        <h2 className="text-2xl font-semibold sm:text-3xl">Become a Sponsor</h2>
+        <p className="ml-4 text-base text-white">
+          Epic Web Conf is made possible by the support of our sponsors.
+        </p>
+        <p className="ml-4 text-base text-white">
+          Last year was EPIC and we'd love to parter with you to make 2025 even
+          better.
+        </p>
+        <Button
+          asChild
+          className="ml-4 h-12 rounded-sm bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:text-base"
+          size="lg"
+        >
+          <Link
+            href="mailto:conf@epicweb.dev?subject=Sponsoring Epic Web Conf 2025"
+            rel="noopener noreferrer"
+            target="_blank"
+            onClick={() => {
+              track('clicked become a sponsor', {
+                title: 'conf2025',
+                type: 'event',
+                location: 'bottom',
+              })
+            }}
+          >
+            Sponsor Epic Web Conf
+            <ChevronRightIcon className="-mr-2 ml-2 w-4" />
+          </Link>
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+const Header = () => {
   return (
     <header className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#080B16]">
       <div className="relative z-10 mx-auto w-full max-w-screen-lg px-5 pb-16 pt-16 sm:pb-48 sm:pt-48">
@@ -247,6 +256,26 @@ const Header = () => {
           The Full Stack Web Development Conference of Epic proportions
         </h2>
         <hr className="relative z-0 mb-5 mt-12 max-w-[200px] border-[#202537] sm:max-w-lg lg:max-w-xl" />
+        <div className="grid max-w-sm grid-cols-1 items-center gap-5 sm:grid-cols-2 lg:flex lg:max-w-lg lg:gap-14">
+          <div>
+            <div className="font-mono text-sm uppercase tracking-wide text-[#93A1D7]">
+              Conference Day
+            </div>
+            <div className="text-lg text-[#D6DEFF]">Feb/March 2025</div>
+          </div>
+          {/* <div>
+            <div className="font-mono text-sm uppercase tracking-wide text-[#93A1D7]">
+              Workshop Day
+            </div>
+            <div className="text-lg text-[#D6DEFF]">Feb/Mar 2025</div>
+          </div> */}
+          <div>
+            <div className="font-mono text-sm uppercase tracking-wide text-[#93A1D7]">
+              Location
+            </div>
+            <div className="text-lg text-[#D6DEFF]">Utah</div>
+          </div>
+        </div>
       </div>
       <div className="absolute bottom-0 right-[-370px] flex items-center justify-center sm:bottom-auto sm:right-[-690px] xl:right-[-600px] 2xl:right-[-370px]">
         <Image
@@ -277,212 +306,56 @@ const Header = () => {
   )
 }
 
-export const Schedule: React.FC<{
-  schedule: Schedule
-  speakers: Speaker[]
-  title?: string
-}> = ({schedule, speakers, title = 'Schedule'}) => {
+const Footer = () => {
   return (
-    <section
-      id="schedule"
-      aria-label="schedule"
-      className="mx-auto w-full max-w-screen-lg sm:p-4"
-    >
-      <div className="item-scenter flex w-full flex-col justify-between gap-5 md:flex-row">
-        <h2 className="px-4 pb-10 text-4xl font-bold sm:px-0 sm:text-5xl print:hidden">
-          {title}
-        </h2>
-        <button
-          type="button"
-          className="hidden h-10 items-center justify-center whitespace-nowrap rounded-md border border-white/10 bg-foreground px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:border-input dark:bg-background dark:hover:bg-white/5 md:inline-flex print:hidden"
-          onClick={() => {
-            const scheduleRoute = window.open('/conf/schedule', '_blank')
-            scheduleRoute?.print()
-          }}
-        >
-          Save as PDF
-        </button>
-      </div>
-      {schedule.map((day) => (
-        <div key={day.date} className="mb-8">
-          <h2 className="mb-4 px-4 text-2xl font-bold sm:px-0 print:text-black">
-            {format(parseISO(day.date), 'EEEE, dd/MM/yyyy')}
-          </h2>
-          {day.rooms.map((room) => (
-            <div key={room.id} className="mb-6">
-              <h3 className="mb-2 px-4 text-lg font-semibold sm:px-0 print:text-black">
-                Room: {room.name}
-              </h3>
-              <Accordion type="multiple" className="w-full">
-                <ul className="flex flex-col divide-y divide-white/10">
-                  {room.sessions.map((session) => {
-                    const hasMultipleSpeakers = session?.speakers?.length > 1
-                    const speaker = session?.speakers[0]?.name
-                    const talk = session?.talk
-
-                    const Speaker: React.FC<{
-                      className?: string
-                      speaker: string
-                    }> = ({className, speaker}) => {
-                      return (
-                        <div className={cn('items-center gap-2', className)}>
-                          {getProfilePictureForWorkshopInstructor(
-                            speaker,
-                            speakers,
-                          ) && (
-                            <Image
-                              alt=""
-                              aria-hidden="true"
-                              src={getProfilePictureForWorkshopInstructor(
-                                speaker,
-                                speakers,
-                              )}
-                              width={40}
-                              height={40}
-                              className="w-8 rounded-full md:w-auto"
-                            />
-                          )}
-                          <span className="text-sm leading-tight">
-                            {speaker}
-                          </span>
-                        </div>
-                      )
-                    }
-
-                    const AccordionTriggerComp = talk
-                      ? 'div'
-                      : session.description
-                      ? AccordionTrigger
-                      : 'div'
-
-                    return (
-                      <AccordionItem
-                        value={session.id}
-                        key={session.id}
-                        className="border-b-0"
-                        asChild
-                      >
-                        <li>
-                          <AccordionTriggerComp
-                            className={cn(
-                              'w-full px-2 [&_[data-chevron]]:print:hidden',
-                              {
-                                'transition hover:bg-white/5':
-                                  session.description,
-                                'pr-6': !session.description,
-                              },
-                            )}
-                          >
-                            <div
-                              className={cn(
-                                'md:group flex w-full items-start gap-3 py-2 md:items-center',
-                                {
-                                  '': session.title === 'Break',
-                                },
-                              )}
-                            >
-                              <div className="flex w-full max-w-[80px] items-center pt-2 text-[#D6DEFF] md:max-w-[160px] md:pt-0 print:text-black">
-                                <p className="whitespace-nowrap text-left text-xs font-semibold tabular-nums leading-none md:text-sm md:font-medium">
-                                  {format(
-                                    parseISO(session.startsAt),
-                                    'hh:mm a',
-                                  )}{' '}
-                                  {'–'} <br className="block md:hidden" />
-                                  {format(
-                                    parseISO(session.endsAt),
-
-                                    'hh:mm a',
-                                  )}
-                                </p>
-                              </div>
-                              <div className="col-span-4 w-full md:col-span-3">
-                                <div className="flex w-full flex-col items-start gap-2 text-left md:flex-row md:items-center">
-                                  <h4 className="w-full font-semibold leading-tight sm:text-lg print:text-black">
-                                    {session.title}
-                                  </h4>
-                                  {talk &&
-                                    !session.title.includes(
-                                      'OPTIONAL WORKSHOP REQUIRES A SEPARATE TICKET',
-                                    ) && (
-                                      <Button
-                                        asChild
-                                        size="sm"
-                                        variant="secondary"
-                                        className="inline-flex font-semibold"
-                                      >
-                                        <Link href={`/talks/${talk.slug}`}>
-                                          Watch{' '}
-                                          <Icon
-                                            name="Playmark"
-                                            className="ml-2 h-3 w-3"
-                                          />
-                                        </Link>
-                                      </Button>
-                                    )}
-                                  {hasMultipleSpeakers ? (
-                                    <div className="flex w-full items-center gap-2 md:hidden">
-                                      {session?.speakers?.map((speaker) => {
-                                        return (
-                                          <Speaker
-                                            key={speaker.name}
-                                            speaker={speaker.name}
-                                            className="mt-2 flex w-full max-w-none md:hidden print:text-black"
-                                          />
-                                        )
-                                      })}
-                                    </div>
-                                  ) : (
-                                    <>
-                                      {speaker && (
-                                        <Speaker
-                                          speaker={speaker}
-                                          className="mt-2 flex md:hidden print:text-black"
-                                        />
-                                      )}
-                                    </>
-                                  )}
-                                </div>
-                                {/* <p className="text-sm">{session.description}</p> */}
-                              </div>
-                              {hasMultipleSpeakers ? (
-                                <div className="hidden w-full items-center gap-2 md:flex">
-                                  {session?.speakers?.map((speaker) => {
-                                    return (
-                                      <Speaker
-                                        key={speaker.name}
-                                        speaker={speaker.name}
-                                        className="hidden w-full max-w-[200px] md:flex"
-                                      />
-                                    )
-                                  })}
-                                </div>
-                              ) : (
-                                <>
-                                  {speaker && (
-                                    <Speaker
-                                      speaker={speaker}
-                                      className="hidden w-full max-w-[200px] md:flex"
-                                    />
-                                  )}
-                                </>
-                              )}
-                            </div>
-                          </AccordionTriggerComp>
-                          <AccordionContent>
-                            <p className="px-4 pb-5 text-left text-sm leading-relaxed text-[#D6DEFF] md:ml-[160px] md:px-5 md:text-base print:text-black">
-                              {session.description}
-                            </p>
-                          </AccordionContent>
-                        </li>
-                      </AccordionItem>
-                    )
-                  })}
-                </ul>
-              </Accordion>
-            </div>
-          ))}
+    <section className="mt-20">
+      <Link
+        href="/conf/code-of-conduct"
+        className="inline-flex w-full items-center justify-center gap-1 text-center text-[#93A1D7] transition hover:brightness-125"
+      >
+        <DocumentIcon
+          className="w-4"
+          stroke="currentColor"
+          aria-hidden="true"
+        />
+        Code of Conduct
+      </Link>
+      <div className=" relative flex w-full flex-col items-center justify-center overflow-hidden px-5 pb-16">
+        <div className="relative z-10 mx-auto flex h-[240px] w-full max-w-screen-lg flex-col items-center justify-center sm:h-[320px]">
+          <Image
+            loading="eager"
+            src={require('../../../../public/assets/conf/big-planet-bottom@2x.png')}
+            alt=""
+            aria-hidden="true"
+            className="absolute bottom-0 sm:bottom-auto"
+            quality={100}
+          />
+          <Image
+            loading="eager"
+            width={153}
+            height={102}
+            src={require('../../../../public/assets/conf/ship2@2x.png')}
+            alt=""
+            aria-hidden="true"
+            className="absolute bottom-24 translate-x-96"
+            quality={100}
+          />
+          <Image
+            loading="eager"
+            width={255}
+            height={170}
+            src={require('../../../../public/assets/conf/ship3@2x.png')}
+            alt=""
+            aria-hidden="true"
+            className="absolute bottom-0 -translate-x-96"
+            quality={100}
+          />
+          <div
+            className="absolute bottom-0 left-0 z-10 h-px w-full bg-gradient-to-r from-transparent via-cyan-300 to-transparent opacity-20"
+            aria-hidden="true"
+          />
         </div>
-      ))}
+      </div>
     </section>
   )
 }
