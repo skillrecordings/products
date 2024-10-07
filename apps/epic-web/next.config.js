@@ -66,6 +66,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/conf/:path((?!2024|2025).*)',
+        destination: '/conf/2025/:path*',
+        permanent: true,
+      },
+      {
         source: '/conf/:year((?!2024|2025).*)/:path*',
         destination: '/conf/2025/:path*',
         permanent: true,
