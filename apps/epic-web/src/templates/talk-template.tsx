@@ -42,7 +42,7 @@ import {VideoTranscript} from '@skillrecordings/skill-lesson/video/video-transcr
 import {Talk} from 'lib/talks'
 import Link from 'next/link'
 import ResourceContributor from 'components/resource-contributor'
-import {ConfLogo} from 'pages/conf'
+import {ConfLogo} from 'components/conf/conference-logo'
 import {CheckIcon, ChevronLeftIcon} from '@heroicons/react/outline'
 import ReactMarkdown from 'react-markdown'
 import {getTranscriptComponents} from '@skillrecordings/skill-lesson/markdown/transcript-components'
