@@ -63,7 +63,7 @@ const nextConfig = {
       {
         source: '/conf',
         destination: '/conf/2025',
-        permanent: true,
+        permanent: false,
       },
       {
         source: '/conf/:path((?!2024|2025).*)',
