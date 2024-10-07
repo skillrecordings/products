@@ -2,12 +2,8 @@ import React from 'react'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import slugify from '@sindresorhus/slugify'
 import Layout from 'components/app/layout'
-import {
-  BuyTicketsCTA,
-  CONF_24_TITO_URL,
-  IS_PAST_CONF_24,
-  type Speaker,
-} from './index'
+import {CONF_24_TITO_URL, IS_PAST_CONF_24, type Speaker} from './index'
+import BuyTicketsCTA from 'components/conf/buy-tickets-cta'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import formatInTimeZone from 'date-fns-tz/formatInTimeZone'
 import ReactMarkdown from 'react-markdown'
