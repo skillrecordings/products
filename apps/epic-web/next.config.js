@@ -60,6 +60,16 @@ const nextConfig = {
         destination: '/contributors/:slug*',
         permanent: true,
       },
+      {
+        source: '/conf',
+        destination: '/conf/2025',
+        permanent: true,
+      },
+      {
+        source: '/conf/:year((?!2024|2025).*)/:path*',
+        destination: '/conf/2025/:path*',
+        permanent: true,
+      },
     ]
   },
   sentry: {

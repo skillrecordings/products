@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from 'components/app/layout'
 import Image from 'next/image'
 import Link from 'next/link'
-import HeroPlanetImage from '../../../public/assets/conf/conf-hero.jpg'
+import HeroPlanetImage from '../../../../public/assets/conf/conf-hero.jpg'
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -531,7 +531,7 @@ const Header = () => {
         />
         <Image
           priority
-          src={require('../../../public/assets/conf/ship@2x.png')}
+          src={require('../../../../public/assets/conf/ship@2x.png')}
           alt=""
           aria-hidden="true"
           quality={100}
@@ -2298,7 +2298,7 @@ const HotelSection = () => {
           <div className="flex items-center justify-center rounded-t border border-[#313646] bg-[#1E212C]">
             <div className="flex items-center justify-center overflow-hidden rounded-tl">
               <Image
-                src={require('../../../public/assets/conf/sheraton-park-city-hotel@2x.jpg')}
+                src={require('../../../../public/assets/conf/sheraton-park-city-hotel@2x.jpg')}
                 alt="Sheraton Park City Hotel"
                 width={152}
                 height={152}
@@ -2391,7 +2391,7 @@ const HotelSection = () => {
                 >
                   <Image
                     className="mt-3 rounded"
-                    src={require('../../../public/assets/conf/hotel-promo-code.jpg')}
+                    src={require('../../../../public/assets/conf/hotel-promo-code.jpg')}
                     alt="Hotel promo code instructions"
                     width={978 / 2}
                     height={864 / 2}
@@ -2440,7 +2440,7 @@ export const BuyTicketsCTA = () => {
       </div>
       <Image
         loading="eager"
-        src={require('../../../public/assets/conf/big-planet-bottom@2x.png')}
+        src={require('../../../../public/assets/conf/big-planet-bottom@2x.png')}
         alt=""
         aria-hidden="true"
         className="absolute bottom-0 sm:bottom-auto"
@@ -2450,7 +2450,7 @@ export const BuyTicketsCTA = () => {
         loading="eager"
         width={153}
         height={102}
-        src={require('../../../public/assets/conf/ship2@2x.png')}
+        src={require('../../../../public/assets/conf/ship2@2x.png')}
         alt=""
         aria-hidden="true"
         className="absolute bottom-24 translate-x-96"
@@ -2460,7 +2460,7 @@ export const BuyTicketsCTA = () => {
         loading="eager"
         width={255}
         height={170}
-        src={require('../../../public/assets/conf/ship3@2x.png')}
+        src={require('../../../../public/assets/conf/ship3@2x.png')}
         alt=""
         aria-hidden="true"
         className="absolute bottom-0 -translate-x-96"
@@ -2636,7 +2636,7 @@ const Location = () => {
             <Image
               width={554}
               height={424}
-              src={require('../../../public/assets/conf/venue-map-2.png')}
+              src={require('../../../../public/assets/conf/venue-map-2.png')}
               loading="eager"
               alt=""
               aria-hidden="true"
@@ -2658,7 +2658,7 @@ const Location = () => {
           >
             <div className="overflow-hidden rounded-l">
               <Image
-                src={require('../../../public/assets/conf/venue-photo-2.jpg')}
+                src={require('../../../../public/assets/conf/venue-photo-2.jpg')}
                 alt="Prospector Square Theatre"
                 width={152}
                 height={152}
