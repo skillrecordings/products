@@ -16,7 +16,7 @@ import {trpc} from 'trpc/trpc.client'
 import Spinner from 'components/spinner'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import Icon from 'components/icons'
-import {IS_PAST_CONF_24} from 'pages/conf'
+import {IS_PAST_CONF_24} from 'pages/conf/2024'
 import {formatInTimeZone} from 'date-fns-tz'
 import pluralize from 'pluralize'
 
