@@ -133,8 +133,8 @@ const Body = () => {
   ]
   return (
     <div className="mx-auto w-full max-w-screen-lg space-y-10">
-      <div>
-        <h2 className="text-2xl font-semibold sm:text-3xl">
+      <div className="p-4">
+        <h2 className="text-center text-2xl font-semibold sm:text-left sm:text-3xl">
           Become an Attendee
         </h2>
 
@@ -150,7 +150,7 @@ const Body = () => {
         </p>
         <Button
           asChild
-          className="ml-4 h-12 rounded-sm bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:text-base"
+          className="h-12 w-full rounded-sm  bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:ml-4 sm:w-fit sm:text-base"
           size="lg"
         >
           <Link
@@ -170,8 +170,8 @@ const Body = () => {
           </Link>
         </Button>
       </div>
-      <div className="space-y-4">
-        <h2 className="text-2xl font-semibold sm:text-3xl ">
+      <div className="space-y-4 p-4">
+        <h2 className="text-center text-2xl font-semibold sm:text-left sm:text-3xl">
           Become a Speaker
         </h2>
         <p className="ml-4 text-base text-white">
@@ -190,7 +190,7 @@ const Body = () => {
         </ol>
         <Button
           asChild
-          className="ml-4 h-12 rounded-sm bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:text-base"
+          className="h-12 w-full rounded-sm bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:ml-4 sm:w-fit sm:text-base"
           size="lg"
         >
           <Link
@@ -210,8 +210,10 @@ const Body = () => {
         </Button>
       </div>
 
-      <div className="space-y-4">
-        <h2 className="text-2xl font-semibold sm:text-3xl">Become a Sponsor</h2>
+      <div className="space-y-4 p-4">
+        <h2 className="text-center text-2xl font-semibold sm:text-left sm:text-3xl">
+          Become a Sponsor
+        </h2>
         <p className="ml-4 text-base text-white">
           Epic Web Conf is made possible by the support of our sponsors.
         </p>
@@ -221,7 +223,7 @@ const Body = () => {
         </p>
         <Button
           asChild
-          className="ml-4 h-12 rounded-sm bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:text-base"
+          className="h-12 w-full rounded-sm bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:ml-4 sm:w-fit sm:text-base"
           size="lg"
         >
           <Link
