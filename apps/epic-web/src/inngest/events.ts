@@ -72,3 +72,11 @@ export type LLMSuggestionsCreated = {
     videoResourceId: string
   }
 }
+
+export const GENERATE_DAILY_STRIPE_REPORT_EVENT = 'generate.stripe.report'
+
+export type GenerateDailyStripeReport = {
+  data: {
+    date?: string
+  }
+}

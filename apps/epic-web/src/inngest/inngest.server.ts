@@ -13,6 +13,8 @@ import {
   TIP_VIDEO_TRANSCRIPT_CREATED_EVENT,
   TIP_VIDEO_UPLOADED_EVENT,
   EmailWritingRequestCompleted,
+  GENERATE_DAILY_STRIPE_REPORT_EVENT,
+  GenerateDailyStripeReport,
 } from 'inngest/events'
 import {
   STRIPE_CHECKOUT_COMPLETED_EVENT,
@@ -43,6 +45,7 @@ export type IngestEvents = {
   [EMAIL_WRITING_REQUEST_COMPLETED_EVENT]: EmailWritingRequestCompleted
   [PURCHASE_TRANSFERRED_EVENT]: PurchaseTransferred
   [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
+  [GENERATE_DAILY_STRIPE_REPORT_EVENT]: GenerateDailyStripeReport
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,
