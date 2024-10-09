@@ -1,5 +1,6 @@
 import React from 'react'
 import Layout from 'components/app/layout'
+import {motion, useReducedMotion} from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import HeroPlanetImage from '../../../../public/assets/conf/conf-hero.jpg'
@@ -8,6 +9,8 @@ import {Button} from '@skillrecordings/ui'
 import {track} from 'utils/analytics'
 import {DocumentIcon, StarIcon} from '@heroicons/react/outline'
 import {type Talk} from 'lib/talks'
+import {useMeasure} from 'react-use'
+import {cn} from '@skillrecordings/ui/utils/cn'
 
 export const IS_PAST_CONF_25 = false
 const CONF_25_TITO_URL = 'https://ti.to/epicweb/epicweb-conf-2025'
@@ -111,8 +114,8 @@ const ConfPage: React.FC = () => {
         image="https://res.cloudinary.com/epic-web/image/upload/v1705997895/conf-card_2x.jpg"
         description="The Full Stack Web Development Conference of Epic proportions."
       /> */}
+      <EarlyBirdMarquee />
       <Header />
-
       <Body />
 
       <Footer />
@@ -131,118 +134,139 @@ const Body = () => {
     'Show us how you made something fast',
     'Inspire us to do more with AI than build a chatbot',
   ]
-  return (
-    <div className="mx-auto w-full max-w-screen-lg space-y-10">
-      <div className="p-4">
-        <h2 className="text-center text-2xl font-semibold sm:text-left sm:text-3xl">
-          Become an Attendee
-        </h2>
 
-        <p className="my-4 ml-4 text-base text-white">
+  const Section = ({
+    title,
+    children,
+    cta,
+    position = 0,
+    image,
+  }: {
+    title: string
+    children: React.ReactNode
+    position?: number
+    image?: string
+    cta?: {
+      href: string
+      label: React.ReactNode
+      track?: string
+    }
+  }) => {
+    return (
+      <section aria-label={title} className="relative px-5">
+        <div
+          className={cn('flex flex-col items-start sm:flex-row sm:gap-16', {
+            'sm:flex-row-reverse': position % 2 === 1,
+          })}
+        >
+          {image && (
+            <div className="mx-auto flex w-full flex-shrink-0 items-center sm:mx-0 sm:max-w-[400px]">
+              <Image
+                src={image}
+                width={500}
+                height={500}
+                quality={100}
+                className="rounded-lg"
+                alt=""
+                aria-hidden="true"
+              />
+            </div>
+          )}
+          <div className="-mt-10 sm:mt-0">
+            <h2 className="mb-6 text-balance text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              {title}
+            </h2>
+            <div className="prose prose-invert w-full max-w-none sm:prose-lg prose-p:text-[#D6DEFF] prose-li:text-[#D6DEFF] sm:prose-p:text-balance">
+              {children}
+            </div>
+            {cta && (
+              <Button
+                asChild
+                className="group relative mt-8 inline-flex h-12 items-center justify-center overflow-hidden border border-white/10 bg-white/10 text-base font-medium shadow-soft-lg transition duration-300 ease-in-out"
+                size="lg"
+              >
+                <Link
+                  href={cta.href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  onClick={() => {
+                    track(`clicked ${cta.track || cta.label}`, {
+                      title: 'conf2025',
+                      type: 'event',
+                      location: 'body',
+                    })
+                  }}
+                >
+                  {cta.label}
+                  <ChevronRightIcon className="-mr-2 ml-2 w-4 text-gray-500 transition duration-300 ease-in-out group-hover:text-white" />
+                </Link>
+              </Button>
+            )}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-16 sm:gap-32">
+      <Section
+        position={0}
+        title="Become a Speaker"
+        image="https://res.cloudinary.com/epic-web/image/upload/v1728472122/conf25/speaker_2x.jpg"
+        cta={{href: CONF_25_SESSIONIZE_URL, label: 'Submit a Talk'}}
+      >
+        <p>
+          We want to see how you are making the web{' '}
+          <span className="font-bold">EPIC</span>. This conference is about
+          inspiring us to do and be more.
+        </p>
+        <p>
+          Here are some general categories of what would make a great talk at
+          Epic Web Conf 2025:
+        </p>
+        <ol className=" ">
+          {epicTalkIdeas.map((idea, index) => (
+            <li key={index}>{idea}</li>
+          ))}
+        </ol>
+      </Section>
+      <Section
+        position={1}
+        title="Become an Attendee"
+        image="https://res.cloudinary.com/epic-web/image/upload/v1728471924/conf25/attendee_2x.jpg"
+        cta={{href: CONF_25_TITO_URL, label: 'Buy Early Bird Tickets'}}
+      >
+        <p>
           Epic Web Conf is your opportunity to join other full stack web
           developers from all over the world to collaborate on the present and
           future state of the art of building the absolute best user and
           developer experiences possible.
         </p>
-        <p className="my-4 ml-4 text-base text-white">
-          Right now we are offering super early bird tickets, this is the
-          cheapest the price will be and the price goes up soon.
+        <p>
+          Right now we are offering super early bird tickets, this is{' '}
+          <strong>the cheapest</strong> the price will be and the price goes up
+          soon.
         </p>
-        <Button
-          asChild
-          className="h-12 w-full rounded-sm  bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:ml-4 sm:w-fit sm:text-base"
-          size="lg"
-        >
-          <Link
-            href={CONF_25_TITO_URL}
-            rel="noopener noreferrer"
-            target="_blank"
-            onClick={() => {
-              track('clicked buy tickets', {
-                title: 'conf2025',
-                type: 'event',
-                location: 'bottom',
-              })
-            }}
-          >
-            Buy Early Bird Tickets{' '}
-            <ChevronRightIcon className="-mr-2 ml-2 w-4" />
-          </Link>
-        </Button>
-      </div>
-      <div className="space-y-4 p-4">
-        <h2 className="text-center text-2xl font-semibold sm:text-left sm:text-3xl">
-          Become a Speaker
-        </h2>
-        <p className="ml-4 text-base text-white">
-          We want to see how you are making the web{' '}
-          <span className="font-bold text-[#93A1D7]">EPIC</span>. This
-          conference is about inspiring us to do and be more.
+      </Section>
+      <Section
+        position={2}
+        title="Become a Sponsor"
+        image="https://res.cloudinary.com/epic-web/image/upload/v1728472065/conf25/sponsors_2x.jpg"
+        cta={{
+          href: 'mailto:conf@epicweb.dev?subject=Sponsoring Epic Web Conf 2025',
+          label: 'Sponsor Epic Web Conf 2025',
+          track: 'become a sponsor',
+        }}
+      >
+        <p>Epic Web Conf is made possible by the support of our sponsors.</p>
+        <p>
+          <Link href="/conf/2024" target="_blank">
+            Last year
+          </Link>{' '}
+          was EPIC and we'd love to parter with you to make 2025 even better.
         </p>
-        <p className="ml-4 text-base text-white">
-          Here are some general categories of what would make a great talk at
-          Epic Web Conf 2025:
-        </p>
-        <ol className="ml-4 list-inside list-decimal text-base text-white">
-          {epicTalkIdeas.map((idea, index) => (
-            <li key={index}>{idea}</li>
-          ))}
-        </ol>
-        <Button
-          asChild
-          className="h-12 w-full rounded-sm bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:ml-4 sm:w-fit sm:text-base"
-          size="lg"
-        >
-          <Link
-            href={CONF_25_SESSIONIZE_URL}
-            rel="noopener noreferrer"
-            target="_blank"
-            onClick={() => {
-              track('clicked submit a talk', {
-                title: 'conf2025',
-                type: 'event',
-                location: 'bottom',
-              })
-            }}
-          >
-            Submit a Talk <ChevronRightIcon className="-mr-2 ml-2 w-4" />
-          </Link>
-        </Button>
-      </div>
-
-      <div className="space-y-4 p-4">
-        <h2 className="text-center text-2xl font-semibold sm:text-left sm:text-3xl">
-          Become a Sponsor
-        </h2>
-        <p className="ml-4 text-base text-white">
-          Epic Web Conf is made possible by the support of our sponsors.
-        </p>
-        <p className="ml-4 text-base text-white">
-          Last year was EPIC and we'd love to parter with you to make 2025 even
-          better.
-        </p>
-        <Button
-          asChild
-          className="h-12 w-full rounded-sm bg-gradient-to-tr from-gray-50 to-gray-100 font-mono text-sm font-bold uppercase tracking-wide text-gray-950 shadow-soft-2xl transition hover:brightness-110 sm:ml-4 sm:w-fit sm:text-base"
-          size="lg"
-        >
-          <Link
-            href="mailto:conf@epicweb.dev?subject=Sponsoring Epic Web Conf 2025"
-            rel="noopener noreferrer"
-            target="_blank"
-            onClick={() => {
-              track('clicked become a sponsor', {
-                title: 'conf2025',
-                type: 'event',
-                location: 'bottom',
-              })
-            }}
-          >
-            Sponsor Epic Web Conf
-            <ChevronRightIcon className="-mr-2 ml-2 w-4" />
-          </Link>
-        </Button>
-      </div>
+      </Section>
     </div>
   )
 }
@@ -250,8 +274,8 @@ const Body = () => {
 const Header = () => {
   return (
     <header className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#080B16]">
-      <div className="relative z-10 mx-auto w-full max-w-screen-lg px-5 pb-16 pt-16 sm:pb-48 sm:pt-48">
-        <h1 className="max-w-xl text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+      <div className="relative z-10 mx-auto w-full max-w-screen-lg px-5 pb-16 pt-16 sm:pb-32 sm:pt-40">
+        <h1 className="max-w-xl text-balance text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
           <span className="font-normal">Epic Web</span> Conference 2025
         </h1>
         <h2 className="max-w-sm pt-5 text-xl text-[#93A1D7] lg:max-w-full">
@@ -278,8 +302,46 @@ const Header = () => {
             <div className="text-lg text-[#D6DEFF]">Utah</div>
           </div>
         </div>
+        <Button
+          asChild
+          className="relative mt-10 h-12 overflow-hidden rounded-sm bg-gradient-to-b from-amber-500 to-amber-600 text-base font-semibold tracking-tight text-amber-950 shadow-lg shadow-amber-500/20 brightness-125 transition duration-300 hover:brightness-110"
+          size="lg"
+        >
+          {CONF_25_TITO_URL && (
+            <Link
+              href={CONF_25_TITO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                track('clicked buy early bird tickets', {
+                  title: 'conf2024',
+                  type: 'event',
+                  location: 'top',
+                })
+              }}
+            >
+              Buy Early Bird Tickets
+              <div
+                className="absolute left-0 top-0 h-full w-full"
+                aria-hidden="true"
+              >
+                <motion.div
+                  className="absolute left-0 top-0 h-full w-5 -skew-x-12 bg-white/20 blur-sm"
+                  animate={{left: ['-10%', '110%'], opacity: [0, 1, 0]}}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    // type: 'spring',
+                    // make it feel like racing stripe
+                    ease: 'circInOut',
+                  }}
+                />
+              </div>
+            </Link>
+          )}
+        </Button>
       </div>
-      <div className="absolute bottom-0 right-[-370px] flex items-center justify-center sm:bottom-auto sm:right-[-690px] xl:right-[-600px] 2xl:right-[-370px]">
+      <div className="absolute -bottom-16 right-[-370px] flex items-center justify-center sm:bottom-auto sm:right-[-690px] xl:right-[-600px] 2xl:right-[-370px]">
         <Image
           priority
           src={HeroPlanetImage}
@@ -310,8 +372,46 @@ const Header = () => {
 
 const Footer = () => {
   return (
-    <section className="mt-20">
-      <Link
+    <section className="flex flex-col items-center justify-center pt-16 sm:pt-0">
+      <Button
+        asChild
+        className="relative z-20 mx-auto h-12 overflow-hidden rounded-sm bg-gradient-to-b from-amber-500 to-amber-600 text-base font-semibold tracking-tight text-amber-950 shadow-lg shadow-amber-500/20 brightness-125 transition duration-300 hover:brightness-110"
+        size="lg"
+      >
+        {CONF_25_TITO_URL && (
+          <Link
+            href={CONF_25_TITO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+              track('clicked buy early bird tickets', {
+                title: 'conf2024',
+                type: 'event',
+                location: 'top',
+              })
+            }}
+          >
+            Buy Early Bird Tickets
+            <div
+              className="absolute left-0 top-0 h-full w-full"
+              aria-hidden="true"
+            >
+              <motion.div
+                className="absolute left-0 top-0 h-full w-5 -skew-x-12 bg-white/20 blur-sm"
+                animate={{left: ['-10%', '110%'], opacity: [0, 1, 0]}}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  // type: 'spring',
+                  // make it feel like racing stripe
+                  ease: 'circInOut',
+                }}
+              />
+            </div>
+          </Link>
+        )}
+      </Button>
+      {/* <Link
         href="/conf/code-of-conduct"
         className="inline-flex w-full items-center justify-center gap-1 text-center text-[#93A1D7] transition hover:brightness-125"
       >
@@ -321,8 +421,8 @@ const Footer = () => {
           aria-hidden="true"
         />
         Code of Conduct
-      </Link>
-      <div className=" relative flex w-full flex-col items-center justify-center overflow-hidden px-5 pb-16">
+      </Link> */}
+      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden px-5 sm:-mt-16 sm:pb-16 lg:-mt-24">
         <div className="relative z-10 mx-auto flex h-[240px] w-full max-w-screen-lg flex-col items-center justify-center sm:h-[320px]">
           <Image
             loading="eager"
@@ -352,10 +452,10 @@ const Footer = () => {
             className="absolute bottom-0 -translate-x-96"
             quality={100}
           />
-          <div
+          {/* <div
             className="absolute bottom-0 left-0 z-10 h-px w-full bg-gradient-to-r from-transparent via-cyan-300 to-transparent opacity-20"
             aria-hidden="true"
-          />
+          /> */}
         </div>
       </div>
     </section>
@@ -368,4 +468,58 @@ const getProfilePictureForWorkshopInstructor = (
 ) => {
   const speaker = speakers.find((s) => s.fullName === name)
   return speaker?.profilePicture as string
+}
+
+const EarlyBirdMarquee = () => {
+  const GAP = 8
+
+  const [textRef, {x, y, width: textWidth, height, top, right, bottom, left}] =
+    useMeasure()
+
+  const shouldReduceMotion = useReducedMotion()
+
+  return (
+    <Link
+      href={CONF_25_TITO_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => {
+        track('clicked early bird marquee', {
+          title: 'conf2025',
+          type: 'event',
+          location: 'top',
+        })
+      }}
+      aria-hidden="true"
+      className="absolute top-12 z-20 flex w-full items-center justify-center overflow-hidden bg-gray-200 sm:top-12"
+    >
+      <motion.div
+        className=""
+        animate={!shouldReduceMotion && {x: [0, -(GAP + textWidth)]}}
+        transition={{
+          repeat: Infinity,
+          duration: 5,
+          repeatType: 'loop',
+          ease: 'linear',
+        }}
+      >
+        <div
+          className={`pointer-events-none flex justify-center space-x-2 py-2 text-xs font-semibold uppercase text-gray-900`}
+        >
+          {new Array(13)
+            .fill('Super Early Bird Tickets OUT NOW')
+            .map((text, index) => (
+              <div
+                ref={textRef as any}
+                className="flex flex-shrink-0 items-center gap-2"
+                key={index}
+              >
+                {text}
+                <span className="text-gray-500">✦</span>
+              </div>
+            ))}
+        </div>
+      </motion.div>
+    </Link>
+  )
 }
