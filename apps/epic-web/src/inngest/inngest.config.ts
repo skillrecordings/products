@@ -8,6 +8,7 @@ import {purchaseTransferComplete} from 'inngest/functions/purchase/purchase-tran
 import {sanityProductFunctions} from 'inngest/functions/sanity/product'
 import {stripeWebhookReceived} from 'inngest/functions/stripe/webhook-received'
 import {sendWelcomeEmail} from 'inngest/functions/post-purchase-automation/send-welcome-email'
+import {generateStripeReport} from 'inngest/functions/financial-reports/request-report-in-stripe'
 
 export const inngestConfig = {
   client: inngest,
@@ -23,5 +24,6 @@ export const inngestConfig = {
     purchaseTransferComplete,
     sendWelcomeEmail,
     ...sanityProductFunctions,
+    generateStripeReport,
   ],
 }
