@@ -10,23 +10,16 @@ import {
   PURCHASE_STATUS_UPDATED_EVENT,
 } from '@skillrecordings/inngest'
 import {prisma} from '@skillrecordings/database'
-import {PurchaseStatusUpdatedEvent} from '@skillrecordings/inngest/src'
 
 // @ts-ignore
 BigInt.prototype.toJSON = function () {
   return this.toString()
 }
 
-const EPIC_REACT_V1_PRODUCT_IDS = [
-  'kcd_910c9191-5a69-4019-ad1d-c55bea7e9714',
-  'kcd_8acc60f1-8c3f-4093-b20d-f60fc6e0cf61',
-  'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38',
-]
-
-const EPIC_REACT_V2_PRODUCT_IDS = [
-  'kcd_product-clzlrf0g5000008jm0czdanmz',
-  'kcd_product_b394271c-d6d6-4403',
-  'kcd_product_15d22ad4-b668-4e81-bb5a',
+const TESTING_JAVASCRIPT_PRODUCT_IDS = [
+  'kcd_4f0b26ee-d61d-4245-a204-26f5774355a5',
+  'kcd_da6ab36c-b091-4f6f-90aa-d7db2fc798ff',
+  'kcd_fb976b99-0633-4329-bbfb-f5f76dc278b3',
 ]
 
 export const syncDiscordRoles = inngest.createFunction(
@@ -83,26 +76,16 @@ export const syncDiscordRoles = inngest.createFunction(
         const productRoles = []
 
         if (
-          EPIC_REACT_V1_PRODUCT_IDS.some((productId) =>
+          TESTING_JAVASCRIPT_PRODUCT_IDS.some((productId) =>
             purchasedProductIds.includes(productId),
           )
         ) {
-          productRoles.push(process.env.DISCORD_ROLE_ER_V1)
-        }
-
-        if (
-          EPIC_REACT_V2_PRODUCT_IDS.some((productId) =>
-            purchasedProductIds.includes(productId),
-          )
-        ) {
-          productRoles.push(process.env.DISCORD_ROLE_ER_V2)
+          productRoles.push(process.env.DISCORD_ROLE_TESTING_JAVASCRIPT)
         }
 
         if (discordMember && 'user' in discordMember) {
           const currentRoles = discordMember.roles.filter(
-            (role) =>
-              role !== process.env.DISCORD_ROLE_ER_V1 &&
-              role !== process.env.DISCORD_ROLE_ER_V2,
+            (role) => role !== process.env.DISCORD_ROLE_TESTING_JAVASCRIPT,
           )
           const roles = Array.from(new Set([...currentRoles, ...productRoles]))
 

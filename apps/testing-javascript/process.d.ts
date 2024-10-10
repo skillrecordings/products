@@ -30,6 +30,11 @@ const envVariables = z.object({
   STRIPE_SECRET_TOKEN: z.string(),
   NEXT_PUBLIC_DEFAULT_PRODUCT_ID: z.string(),
   INNGEST_APP_NAME: z.string(),
+  DISCORD_CLIENT_ID: z.string(),
+  DISCORD_CLIENT_SECRET: z.string(),
+  DISCORD_ROLE_ER_V1: z.string(),
+  DISCORD_ROLE_ER_V2: z.string(),
+  DISCORD_GUILD_ID: z.string(),
 })
 
 envVariables.parse(process.env)

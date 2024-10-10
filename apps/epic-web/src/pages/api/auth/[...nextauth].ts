@@ -7,6 +7,7 @@ import {createOptions} from '@skillrecordings/skill-api'
 import {NextApiRequest, NextApiResponse} from 'next'
 import GitHubProvider from 'next-auth/providers/github'
 import DiscordProvider from 'next-auth/providers/discord'
+import Discord from 'next-auth/providers/discord'
 
 const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL
 
@@ -22,10 +23,12 @@ const providers = [
     clientSecret: process.env.GITHUB_SECRET,
     allowDangerousEmailAccountLinking: true,
   }),
-  DiscordProvider({
+  Discord({
     clientId: process.env.DISCORD_CLIENT_ID,
     clientSecret: process.env.DISCORD_CLIENT_SECRET,
     allowDangerousEmailAccountLinking: true,
+    authorization:
+      'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds.join+guilds',
   }),
 ]
 

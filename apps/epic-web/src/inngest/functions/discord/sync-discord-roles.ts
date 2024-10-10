@@ -1,32 +1,34 @@
-import {inngest} from '@/inngest/inngest.server'
-import {DiscordError, DiscordMember} from '@/lib/discord'
-import {
-  fetchAsDiscordBot,
-  fetchJsonAsDiscordBot,
-  getDiscordUser,
-} from '@/lib/discord-query'
 import {
   NEW_PURCHASE_CREATED_EVENT,
   PURCHASE_STATUS_UPDATED_EVENT,
 } from '@skillrecordings/inngest'
 import {prisma} from '@skillrecordings/database'
-import {PurchaseStatusUpdatedEvent} from '@skillrecordings/inngest/src'
+import {inngest} from 'inngest/inngest.server'
+import {
+  fetchAsDiscordBot,
+  fetchJsonAsDiscordBot,
+  getDiscordUser,
+} from 'lib/discord-query'
+import {DiscordError, DiscordMember} from 'lib/discord'
 
 // @ts-ignore
 BigInt.prototype.toJSON = function () {
   return this.toString()
 }
 
-const EPIC_REACT_V1_PRODUCT_IDS = [
-  'kcd_910c9191-5a69-4019-ad1d-c55bea7e9714',
-  'kcd_8acc60f1-8c3f-4093-b20d-f60fc6e0cf61',
-  'kcd_2b4f4080-4ff1-45e7-b825-7d0fff266e38',
-]
-
-const EPIC_REACT_V2_PRODUCT_IDS = [
-  'kcd_product-clzlrf0g5000008jm0czdanmz',
-  'kcd_product_b394271c-d6d6-4403',
-  'kcd_product_15d22ad4-b668-4e81-bb5a',
+const EPIC_WEB_PRODUCT_IDS = [
+  '0143b3f6-d5dd-4f20-9898-38da609799ca',
+  '172870b5-73ef-4551-b3f5-93f90a2cd93b',
+  '1b6e7ed6-8a15-48f1-8dd7-e76612581ee8',
+  '2267e543-51fa-4d71-a02f-ad9ba71a1f8e',
+  '2e5b2993-d069-4e43-a7f1-24cffa83f7ac',
+  '5ffdd0ef-a7a3-431e-b36b-f4232da7e454',
+  '776463e4-7758-494d-b0f5-eb7cbd62e518',
+  '7872d512-ba34-4108-b510-7db9cbcee98c',
+  'dc9b750c-e3bc-4b0a-b7d2-d04a481afa0d',
+  'f3f85931-e67e-456f-85c4-eec95a0e4ddd',
+  'kcd_product_dbf94bf0-66b0-11ee-8c99-0242ac120002',
+  'kcd_product-f000186d-78c2-4b02-a763-85b2e5feec7b',
 ]
 
 export const syncDiscordRoles = inngest.createFunction(
@@ -83,26 +85,16 @@ export const syncDiscordRoles = inngest.createFunction(
         const productRoles = []
 
         if (
-          EPIC_REACT_V1_PRODUCT_IDS.some((productId) =>
+          EPIC_WEB_PRODUCT_IDS.some((productId) =>
             purchasedProductIds.includes(productId),
           )
         ) {
-          productRoles.push(process.env.DISCORD_ROLE_ER_V1)
-        }
-
-        if (
-          EPIC_REACT_V2_PRODUCT_IDS.some((productId) =>
-            purchasedProductIds.includes(productId),
-          )
-        ) {
-          productRoles.push(process.env.DISCORD_ROLE_ER_V2)
+          productRoles.push(process.env.DISCORD_ROLE_EPIC_WEB)
         }
 
         if (discordMember && 'user' in discordMember) {
           const currentRoles = discordMember.roles.filter(
-            (role) =>
-              role !== process.env.DISCORD_ROLE_ER_V1 &&
-              role !== process.env.DISCORD_ROLE_ER_V2,
+            (role) => role !== process.env.DISCORD_ROLE_EPIC_WEB,
           )
           const roles = Array.from(new Set([...currentRoles, ...productRoles]))
 

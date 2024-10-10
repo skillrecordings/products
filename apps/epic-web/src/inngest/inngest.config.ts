@@ -8,6 +8,8 @@ import {purchaseTransferComplete} from 'inngest/functions/purchase/purchase-tran
 import {sanityProductFunctions} from 'inngest/functions/sanity/product'
 import {stripeWebhookReceived} from 'inngest/functions/stripe/webhook-received'
 import {sendWelcomeEmail} from 'inngest/functions/post-purchase-automation/send-welcome-email'
+import {discordAccountLinked} from 'inngest/functions/discord/discord-account-linked'
+import {syncDiscordRoles} from 'inngest/functions/discord/sync-discord-roles'
 
 export const inngestConfig = {
   client: inngest,
@@ -22,6 +24,8 @@ export const inngestConfig = {
     writeAnEmail,
     purchaseTransferComplete,
     sendWelcomeEmail,
+    discordAccountLinked,
+    syncDiscordRoles,
     ...sanityProductFunctions,
   ],
 }

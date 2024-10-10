@@ -13,8 +13,14 @@ import {
   TIP_VIDEO_TRANSCRIPT_CREATED_EVENT,
   TIP_VIDEO_UPLOADED_EVENT,
   EmailWritingRequestCompleted,
+  OAUTH_PROVIDER_ACCOUNT_LINKED_EVENT,
+  OauthProviderAccountLinked,
 } from 'inngest/events'
 import {
+  NEW_PURCHASE_CREATED_EVENT,
+  NewPurchaseCreated,
+  PURCHASE_STATUS_UPDATED_EVENT,
+  PurchaseStatusUpdated,
   STRIPE_CHECKOUT_COMPLETED_EVENT,
   STRIPE_WEBHOOK_RECEIVED_EVENT,
   type StripeCheckoutCompleted,
@@ -43,6 +49,11 @@ export type IngestEvents = {
   [EMAIL_WRITING_REQUEST_COMPLETED_EVENT]: EmailWritingRequestCompleted
   [PURCHASE_TRANSFERRED_EVENT]: PurchaseTransferred
   [SANITY_WEBHOOK_EVENT]: SanityWebhookEvent
+  [OAUTH_PROVIDER_ACCOUNT_LINKED_EVENT]: OauthProviderAccountLinked
+  [NEW_PURCHASE_CREATED_EVENT]: NewPurchaseCreated
+  [PURCHASE_STATUS_UPDATED_EVENT]: PurchaseStatusUpdated
+  'user/login': {}
+  'user/created': {}
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,
