@@ -288,8 +288,8 @@
             }
           }
           [data-guarantee-image] {
-            @apply mx-auto flex w-28 items-center justify-center pt-8;
-            /* @apply hidden; */
+            /* @apply mx-auto flex w-28 items-center justify-center pt-8; */
+            @apply hidden;
           }
           [data-main] {
             @apply px-5 py-5 text-base;
