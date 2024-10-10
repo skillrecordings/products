@@ -11,7 +11,7 @@ const BossLetterPage = () => {
         },
       }}
     >
-      <main className="prose prose-lg mx-auto w-full max-w-2xl px-5 py-16 dark:prose-invert">
+      <main className="prose prose-lg mx-auto w-full max-w-2xl px-5 py-16">
         <BossLetter />
       </main>
     </Layout>

@@ -9,7 +9,8 @@ import Icon from 'components/icons'
 import Balancer from 'react-wrap-balancer'
 import {getAllConf24Talks, getAllTalks, Talk} from 'lib/talks'
 import ResourceContributor from 'components/resource-contributor'
-import {ConfLogo, IS_PAST_CONF_24} from 'pages/conf'
+import {ConfLogo} from 'components/conf/conference-logo'
+import {IS_PAST_CONF_24} from 'pages/conf/2024'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
 export async function getStaticProps() {
