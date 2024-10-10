@@ -27,7 +27,7 @@ const PricingFormattedInputSchema = z.object({
   couponId: z.string().optional(),
   merchantCoupon: merchantCouponSchema.optional(),
   upgradeFromPurchaseId: z.string().optional(),
-  autoApplyPPP: z.boolean().default(true),
+  autoApplyPPP: z.boolean().default(false),
 })
 
 const checkForAnyAvailableUpgrades = async ({
