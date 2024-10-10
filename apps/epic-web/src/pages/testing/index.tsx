@@ -11,7 +11,7 @@ import TestingLandingCopy from 'components/testing-landing-copy.mdx'
 import Particles, {initParticlesEngine} from '@tsparticles/react'
 import type {Engine} from '@tsparticles/engine'
 import {loadSlim} from '@tsparticles/slim'
-import ArtemImage from '../../../public/assets/interviews/Artem-Zakharchenko.png'
+import ArtemImage from '../../../public/artem.jpg'
 import {loadStarsPreset} from 'tsparticles-preset-stars'
 import fs from 'fs'
 import {
@@ -343,7 +343,7 @@ function useParallax(value: MotionValue<number>, distance: number) {
 const Header = () => {
   return (
     <header className="relative flex min-h-[48vh] flex-col items-center justify-start overflow-hidden bg-black">
-      <div className="absolute top-[120px] z-40 mx-auto text-center sm:top-[14vh] xl:top-[16vh]">
+      <div className="absolute  z-40 mx-auto text-center sm:top-[14vh] xl:top-[16vh]">
         <h1 className="max-w-3xl px-5 font-bold text-white shadow-black drop-shadow-lg fluid-2xl sm:leading-tight sm:fluid-3xl lg:px-16">
           <span className="inline-flex pb-4 font-sans text-sm font-semibold uppercase tracking-wider text-orange-300 shadow-black drop-shadow-md">
             Everything You Need to Know to
@@ -358,11 +358,13 @@ const Header = () => {
       <div
         className="absolute left-0 top-0 z-20 h-full w-full"
         style={{
-          backgroundImage:
-            'radial-gradient(transparent, transparent, black, black)',
+          backgroundImage: 'radial-gradient(transparent, transparent)',
         }}
       />
 
+      <div className="absolute bottom-[25%] z-20 mx-auto w-[130px] sm:w-[180px] lg:w-[200px]" />
+
+      <div className="absolute bottom-0 left-0 z-30 h-32 w-full bg-gradient-to-b from-transparent dark:to-background" />
       <ParticlesHeroEffect />
     </header>
   )
@@ -481,7 +483,7 @@ export const ParticlesHeroEffect = () => {
               enable: true,
             },
             number: {
-              value: 50,
+              value: 150,
             },
             size: {
               value: {min: 1, max: 5},
@@ -534,7 +536,7 @@ export const ParticlesHeroEffect = () => {
           zLayers: 10,
           particles: {
             number: {
-              value: 300,
+              value: 400,
             },
             zIndex: {
               value: {
