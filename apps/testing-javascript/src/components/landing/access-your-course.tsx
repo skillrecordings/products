@@ -87,26 +87,14 @@ const AccessYourCourse: React.FunctionComponent<{
                   If you want to chat with other people taking this course, or
                   have content questions, please head on over to the{' '}
                   <a
-                    href="https://kcd.im/discord"
+                    href="/discord"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="border-b-2  border-tjs-yellow hover:bg-tjs-yellow duration-200"
                   >
                     <b>Epic Web discord server</b>
                   </a>
-                  .{' '}
-                  <a
-                    href="https://discord.com/api/oauth2/authorize?client_id=738096608440483870&redirect_uri=https%3A%2F%2Ftestingjavascript.com%2F.netlify%2Ffunctions%2Fdiscord&response_type=code&scope=identify%20email%20guilds%20guilds.join"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="border-b-2  border-tjs-yellow hover:bg-tjs-yellow duration-200"
-                  >
-                    <b>
-                      Click here if you have not yet connected your TestingJS
-                      account to Discord
-                    </b>
-                  </a>
-                  .
+                  . .
                 </p>
                 <p>
                   Also, don't miss{' '}
