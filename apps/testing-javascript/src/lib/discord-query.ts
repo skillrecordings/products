@@ -1,3 +1,5 @@
+'use server'
+
 import {prisma} from '@skillrecordings/database'
 import {DiscordError, DiscordMember} from '@/lib/discord'
 
