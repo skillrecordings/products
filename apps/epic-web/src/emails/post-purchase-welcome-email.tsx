@@ -118,6 +118,22 @@ Don’t forget to check out our exclusive podcast series. These aren’t just an
     : ''
 }   
             `
+        case '5809fd2e-8072-42eb-afa2-aff7c9999d0c':
+          return `
+This bundle is your key to transforming testing from a frustrating chore into a powerful tool that gives you confidence in every line of code.
+
+We know testing can often feel like a battle, leaving you with unreliable test suites and countless questions about what’s truly valuable. But that’s about to change.
+
+In this bundle, you’ll dive deep into testing fundamentals, mocking strategies, and will learn advanced techniques that will make writing tests something you look forward to. You'll gain practical experience through real-world examples, so you can start shipping high-quality TypeScript code with ease.
+
+**Here's what’s included:**
+
+- **[Mocking Techniques in Vitest](https://www.epicweb.dev/workshops/mocking-techniques-in-vitest)**: Learn when and what to mock, maintain effective mocks, and explore strategies for type safety.
+
+- **[Testing Fundamentals](https://www.epicweb.dev/workshops/testing-fundamentals)**: Build a solid foundation of testing principles and mental models, write resilient tests that stand up to changes in your code, and create your own testing functions and configure environments.
+
+For each of our Epic Web workshops, there's a corresponding Workshop App repository available for you to clone and run on your own computer.
+          `
         default:
           return ''
       }
