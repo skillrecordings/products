@@ -76,6 +76,25 @@ export function defaultNextAuthOptions(options: {
   return {
     secret: process.env.NEXTAUTH_SECRET,
     events: {
+      signIn: async ({user, account, profile}) => {
+        if (process.env.INNGEST_EVENT_KEY) {
+          const inngest = new Inngest({
+            id:
+              process.env.INNGEST_APP_NAME ||
+              process.env.NEXT_PUBLIC_SITE_TITLE ||
+              'Sanity Products Webhook',
+            eventKey: process.env.INNGEST_EVENT_KEY,
+          })
+
+          console.log('user', user)
+
+          await inngest.send({
+            name: 'user/login',
+            data: {account, profile, user},
+            user,
+          })
+        }
+      },
       signOut: async () => {
         if (res) {
           res.setHeader(
@@ -98,7 +117,7 @@ export function defaultNextAuthOptions(options: {
 
           await inngest.send({
             name: 'user/created',
-            data: {},
+            data: {user},
             user,
           })
         }

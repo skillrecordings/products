@@ -49,6 +49,8 @@ export type IngestEvents = {
   [STRIPE_CHECKOUT_COMPLETED_EVENT]: StripeCheckoutCompleted
   [STRIPE_WEBHOOK_RECEIVED_EVENT]: StripeWebhookReceived
   [SYNC_CONVERTKIT_PURCHASE_TAGS_EVENT]: SyncConvertkitPurchaseTags
+  'user/login': {}
+  'user/created': {}
 }
 export const inngest = new Inngest({
   id: process.env.INNGEST_APP_NAME || process.env.NEXT_PUBLIC_SITE_TITLE,

@@ -34,6 +34,9 @@ declare namespace NodeJS {
     GITHUB_ID: string
     DISCORD_CLIENT_ID: string
     DISCORD_CLIENT_SECRET: string
+    DISCORD_ROLE_ER_V1: string
+    DISCORD_ROLE_ER_V2: string
+    DISCORD_GUILD_ID: string
     NEXT_PUBLIC_DEFAULT_PRODUCT_ID: string
     SLACK_EMAIL_POST_CHANNEL: string
     SLACK_INVOICE_POST_CHANNEL: string
