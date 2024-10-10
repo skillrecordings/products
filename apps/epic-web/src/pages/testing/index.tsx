@@ -13,7 +13,7 @@ import type {Engine} from '@tsparticles/engine'
 import {loadSlim} from '@tsparticles/slim'
 import ArtemImage from '../../../public/artem.jpg'
 import {loadStarsPreset} from 'tsparticles-preset-stars'
-import fs from 'fs'
+
 import {
   motion,
   MotionValue,
@@ -57,15 +57,12 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const products = pricing && pricing.products
   const availableBonuses = await getAvailableBonuses()
-  // get images from public folder
-  const interviewImages = await readDirectoryContents('assets/interviews')
 
   return {
     props: {
       product: sanityProduct,
       products,
       bonuses: availableBonuses,
-      interviewImages,
     },
     revalidate: 10,
   }
@@ -75,8 +72,7 @@ const Index: NextPage<{
   product: SanityProduct
   products: SanityProduct[]
   bonuses: any[]
-  interviewImages: string[]
-}> = ({product, products, bonuses, interviewImages}) => {
+}> = ({product, products, bonuses}) => {
   const router = useRouter()
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
@@ -86,6 +82,8 @@ const Index: NextPage<{
       ...router.query,
       productId: product.productId,
     })
+
+  console.log('commerceProps', commerceProps)
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
     {
@@ -120,10 +118,7 @@ const Index: NextPage<{
       >
         <Header />
         <main className="">
-          <Article
-            workshops={product.modules}
-            interviewImages={interviewImages}
-          />
+          <Article workshops={product.modules} />
 
           <section className="relative mt-16 flex flex-col items-center justify-start dark:bg-black/30">
             <div className="flex flex-col items-center justify-center py-16">
@@ -187,8 +182,7 @@ const Index: NextPage<{
 
 const Article: React.FC<{
   workshops: SanityProductModule[]
-  interviewImages: string[]
-}> = ({workshops, interviewImages}) => {
+}> = ({workshops}) => {
   return (
     <article className="prose mx-auto max-w-3xl px-5 pt-0 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-5">
       <TestingLandingCopy

@@ -411,26 +411,32 @@ export const Pricing: React.FC<React.PropsWithChildren<PricingProps>> = ({
                     status={status}
                     formattedPrice={formattedPrice}
                   />
-                  {isDowngrade(formattedPrice) ? null : isRestrictedUpgrade ? (
-                    <div data-byline="">All region access</div>
-                  ) : (
-                    <div data-byline="">
-                      {appliedMerchantCoupon?.type === 'ppp'
-                        ? 'Regional access'
-                        : formattedPrice?.upgradeFromPurchaseId
-                        ? `Upgrade Pricing`
-                        : specialPricingLabel}
-                    </div>
+                  {status === 'success' && (
+                    <>
+                      {isDowngrade(
+                        formattedPrice,
+                      ) ? null : isRestrictedUpgrade ? (
+                        <div data-byline="">All region access</div>
+                      ) : (
+                        <div data-byline="">
+                          {appliedMerchantCoupon?.type === 'ppp'
+                            ? 'Regional access'
+                            : formattedPrice?.upgradeFromPurchaseId
+                            ? `Upgrade Pricing`
+                            : specialPricingLabel}
+                        </div>
+                      )}
+                      {formattedPrice?.upgradeFromPurchaseId &&
+                        !isRestrictedUpgrade &&
+                        fixedDiscount > 0 && (
+                          <div data-byline="">
+                            {`${formatUsd(fixedDiscount).dollars}.${
+                              formatUsd(fixedDiscount).cents
+                            } credit applied`}
+                          </div>
+                        )}
+                    </>
                   )}
-                  {formattedPrice?.upgradeFromPurchaseId &&
-                    !isRestrictedUpgrade &&
-                    fixedDiscount > 0 && (
-                      <div data-byline="">
-                        {`${formatUsd(fixedDiscount).dollars}.${
-                          formatUsd(fixedDiscount).cents
-                        } credit applied`}
-                      </div>
-                    )}
                 </>
               )}
             </div>
