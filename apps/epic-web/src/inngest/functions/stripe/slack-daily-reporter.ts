@@ -2,6 +2,8 @@ import {postToSlack} from '@skillrecordings/skill-api'
 import {WebClient} from '@slack/web-api'
 import {inngest} from 'inngest/inngest.server'
 import {fetchCharges, SimplifiedCharge} from 'lib/transactions'
+import D3Node from 'd3-node'
+import * as d3 from 'd3'
 
 const ANNOUNCE_CHANNEL = 'C03QFFWHT7D'
 
@@ -37,7 +39,12 @@ export const slackDailyReporter = inngest.createFunction(
 
     await step.run('announce in slack', async () => {
       const totalAmount = allCharges.reduce(
-        (sum, charge) => sum + charge.amount,
+        (sum, charge) =>
+          sum + charge.amount - charge.amountRefunded - charge.fee,
+        0,
+      )
+      const totalRefunded = allCharges.reduce(
+        (sum, charge) => sum + charge.amountRefunded,
         0,
       )
       const totalNet = allCharges.reduce((sum, charge) => sum + charge.net, 0)
@@ -47,43 +54,41 @@ export const slackDailyReporter = inngest.createFunction(
       const productGroups = allCharges.reduce((groups, charge) => {
         const product = charge.product || 'Unknown Product'
         if (!groups[product]) {
-          groups[product] = {count: 0, amount: 0, net: 0, fee: 0}
+          groups[product] = {count: 0, amount: 0, net: 0, fee: 0, refunded: 0}
         }
         groups[product].count++
-        groups[product].amount += charge.amount
-        groups[product].net += charge.net
+        groups[product].amount +=
+          charge.amount - charge.amountRefunded - charge.fee
+        groups[product].net += charge.net - charge.amountRefunded
         groups[product].fee += charge.fee
+        groups[product].refunded += charge.amountRefunded
         return groups
-      }, {} as Record<string, {count: number; amount: number; net: number; fee: number}>)
+      }, {} as Record<string, {count: number; amount: number; net: number; fee: number; refunded: number}>)
 
-      const productSummaries = Object.entries(productGroups)
+      const summaryAttachment = {
+        mrkdwn_in: ['text'],
+        color: process.env.NODE_ENV === 'production' ? '#4893c9' : '#c97948',
+        title: `Daily Charge Report - ${new Date(
+          Date.now() - 86400000,
+        ).toLocaleDateString()}`,
+        text: `*${allCharges.length}* sales for *$${(totalAmount / 100).toFixed(
+          2,
+        )}*`,
+      }
+
+      const productAttachments = Object.entries(productGroups)
+        .filter(([_, stats]) => stats.amount > 0)
         .sort(([, a], [, b]) => b.amount - a.amount)
-        .map(
-          ([product, stats]) =>
-            `• *${product}*: ${stats.count} charge${
-              stats.count !== 1 ? 's' : ''
-            }, $${(stats.amount / 100).toFixed(2)} total ($${(
-              stats.net / 100
-            ).toFixed(2)} net)`,
-        )
-        .join('\n')
-
-      const attachments = [
-        {
+        .map(([product, stats]) => ({
           mrkdwn_in: ['text'],
-          color: process.env.NODE_ENV === 'production' ? '#4893c9' : '#c97948',
-          title: `Daily Charge Report - ${new Date(
-            Date.UTC(new Date().getUTCDate() - 1),
-          ).toLocaleDateString()}`,
-          text: `*Summary*\n• Total Charges: ${
-            allCharges.length
-          }\n• Total Amount: $${(totalAmount / 100).toFixed(
+          color: '#36a64f',
+          title: product,
+          text: `• ${stats.count} sold for *$${(stats.amount / 100).toFixed(
             2,
-          )}\n• Total Net: $${(totalNet / 100).toFixed(2)}\n• Total Fees: $${(
-            totalFee / 100
-          ).toFixed(2)}\n\n*Product Breakdown*\n${productSummaries}`,
-        },
-      ]
+          )}*`,
+        }))
+
+      const attachments = [summaryAttachment, ...productAttachments]
 
       return postToSlack({
         channel: ANNOUNCE_CHANNEL,
@@ -95,3 +100,55 @@ export const slackDailyReporter = inngest.createFunction(
     })
   },
 )
+
+function generateProductChart(
+  productGroups: Record<
+    string,
+    {count: number; amount: number; net: number; fee: number}
+  >,
+): string {
+  const d3n = new D3Node()
+  const svg = d3n.createSVG(600, 400)
+
+  const margin = {top: 20, right: 30, bottom: 40, left: 90}
+  const width = 600 - margin.left - margin.right
+  const height = 400 - margin.top - margin.bottom
+
+  const g = svg
+    .append('g')
+    .attr('transform', `translate(${margin.left},${margin.top})`)
+
+  const products = Object.keys(productGroups)
+  const amounts = products.map((p) => productGroups[p].amount / 100)
+
+  const y = d3.scaleBand().range([height, 0]).domain(products).padding(0.1)
+
+  const x = d3
+    .scaleLinear()
+    .range([0, width])
+    .domain([0, d3.max(amounts) as number])
+
+  g.append('g')
+    .attr('transform', `translate(0,${height})`)
+    .call(
+      d3
+        .axisBottom(x)
+        .ticks(5)
+        .tickFormat((d) => `$${d}`),
+    )
+
+  g.append('g').call(d3.axisLeft(y))
+
+  g.selectAll('.bar')
+    .data(products)
+    .enter()
+    .append('rect')
+    .attr('class', 'bar')
+    .attr('y', (d) => y(d) as number)
+    .attr('height', y.bandwidth())
+    .attr('x', 0)
+    .attr('width', (d) => x(productGroups[d].amount / 100))
+    .attr('fill', '#4893c9')
+
+  return d3n.svgString()
+}

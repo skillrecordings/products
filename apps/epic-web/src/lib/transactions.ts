@@ -7,6 +7,7 @@ const stripe = paymentOptions.providers.stripe?.paymentClient as Stripe
 export const SimplifiedChargeSchema = z.object({
   id: z.string(),
   amount: z.number(),
+  amountRefunded: z.number(),
   currency: z.string(),
   created: z.number(),
   status: z.string(),
@@ -26,6 +27,7 @@ function simplifyCharge(charge: Stripe.Charge): SimplifiedCharge {
   return SimplifiedChargeSchema.parse({
     id: charge.id,
     amount: charge.amount,
+    amountRefunded: charge.amount_refunded,
     currency: charge.currency,
     created: charge.created,
     status: charge.status,
@@ -189,7 +191,9 @@ export async function fetchCharges({
 
   console.log(`Fetched ${charges.data.length} charges`)
 
-  const simplifiedCharges = charges.data.map(simplifyCharge)
+  const simplifiedCharges = charges.data
+    .filter((charge) => charge.status === 'succeeded')
+    .map(simplifyCharge)
 
   console.log(
     `Fetched ${
