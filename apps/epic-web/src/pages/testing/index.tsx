@@ -114,7 +114,7 @@ const Index: NextPage<{
           description:
             'Learn from the creator and maintainer of Mock Service Worker, Artem Zakharchenko.',
           ogImage: {
-            url: 'https://res.cloudinary.com/epic-web/image/upload/v1728638370/master-mocking-for-better-web-applications-using-vitest_2x.jpg',
+            url: 'https://res.cloudinary.com/epic-web/image/upload/v1728673723/master-mocking-for-better-web-applications-using-vitest_2x.jpg',
           },
         }}
         navigationClassName=""
