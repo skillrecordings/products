@@ -133,6 +133,11 @@ model MerchantCharge {
   id                 String           @id @default(uuid())
   status             Int              @default(0)
   identifier         String           @unique
+  amount             Int              @default(0)
+  fee                Int              @default(0)
+  refundAmount       Int              @default(0)
+  net                Int              @default(0)
+  metadata           Json?            @default("{}")
   userId             String
   merchantAccountId  String
   merchantProductId  String
@@ -216,19 +221,32 @@ model Price {
 }
 
 model Product {
-  id                String               @id @default(uuid())
-  name              String
-  productType       String?
-  key               String?
-  createdAt         DateTime             @default(now())
-  status            Int                  @default(0)
-  coupons           Coupon[]
-  merchantProducts  MerchantProduct[]
-  prices            Price[]
-  purchases         Purchase[]
-  quantityAvailable Int                  @default(-1)
-  upgradableTo      UpgradableProducts[] @relation("UpgradeToProduct")
-  upgradableFrom    UpgradableProducts[] @relation("UpgradeFromProduct")
+  id                  String                @id @default(uuid())
+  name                String
+  productType         String?
+  key                 String?
+  createdAt           DateTime              @default(now())
+  status              Int                   @default(0)
+  coupons             Coupon[]
+  merchantProducts    MerchantProduct[]
+  prices              Price[]
+  purchases           Purchase[]
+  quantityAvailable   Int                   @default(-1)
+  upgradableTo        UpgradableProducts[]  @relation("UpgradeToProduct")
+  upgradableFrom      UpgradableProducts[]  @relation("UpgradeFromProduct")
+  ProductRevenueSplit ProductRevenueSplit[]
+}
+
+model ProductRevenueSplit {
+  id        String   @id @default(uuid())
+  type      String
+  productId String
+  percent   Float
+  userId    String?
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user    User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model UpgradableProducts {
@@ -302,6 +320,7 @@ model User {
   fields                  Json?                  @default("{}")
   prefs                   UserPrefs[]
   bookmarks               Bookmark[]
+  ProductRevenueSplit     ProductRevenueSplit[]
 }
 
 model UserPrefs {

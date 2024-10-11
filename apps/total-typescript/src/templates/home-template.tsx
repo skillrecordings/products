@@ -18,6 +18,7 @@ import {PriceCheckProvider} from '@skillrecordings/skill-lesson/path-to-purchase
 import {trpc} from '@/trpc/trpc.client'
 import {cn} from '@skillrecordings/ui/utils/cn'
 import {Companies} from '@/components/companies'
+import Head from 'next/head'
 
 export const HomeTemplate: React.FC<
   React.PropsWithChildren<CommerceProps & {level?: string}>
@@ -79,6 +80,14 @@ export const HomeTemplate: React.FC<
         },
       }}
     >
+      <Head>
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`RSS feed for ${process.env.NEXT_PUBLIC_SITE_TITLE}`}
+          href="/rss.xml"
+        />
+      </Head>
       <Header level={skillLevel} />
       <main className="overflow-x-hidden">
         <Copy level={skillLevel} />

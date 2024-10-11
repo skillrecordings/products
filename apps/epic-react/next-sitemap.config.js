@@ -20,6 +20,11 @@ module.exports = {
     '/team',
     '/error',
     '/check-your-email',
+    '/activate',
+    '/admin',
+    '/discord',
+    '/invoices',
+    '/oauth',
   ],
   robotsTxtOptions: {
     additionalSitemaps: [`${process.env.NEXT_PUBLIC_URL}/server-sitemap.xml`],
