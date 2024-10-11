@@ -459,7 +459,7 @@ const Header = () => {
         />
       </div>
       <div className="absolute bottom-0 left-0 z-30 h-32 w-full bg-gradient-to-b from-transparent dark:to-background" />
-      <ParticlesHeroEffect />
+      {/* <ParticlesHeroEffect /> */}
     </header>
   )
 }
