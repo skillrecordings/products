@@ -117,8 +117,8 @@ const Index: NextPage<{
         <Header />
         <main className="">
           <Article workshops={product.modules} />
-          <section className="relative mt-16 flex flex-col items-center justify-start dark:bg-black/30">
-            <div className="flex flex-col items-center justify-center px-5 pb-0 pt-16">
+          <section className="relative mt-16 flex flex-col items-center justify-start ">
+            <div className="flex flex-col items-center justify-center px-5 pb-0 pt-0">
               <h2 className="max-w-xl text-balance text-center text-3xl font-bold sm:text-3xl lg:text-4xl">
                 Master Mocking for Better Web Applications using Vitest
               </h2>
@@ -257,11 +257,11 @@ const Article: React.FC<{
             return (
               <div className="not-prose relative mx-auto flex max-w-3xl flex-col items-center gap-10 px-5 py-16 sm:flex-row">
                 <div
-                  className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-gray-800 to-transparent"
+                  className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-800"
                   aria-hidden="true"
                 />
                 <div
-                  className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-gray-800 to-transparent"
+                  className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent dark:via-gray-800"
                   aria-hidden="true"
                 />
                 <Image
