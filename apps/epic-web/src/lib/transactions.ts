@@ -45,6 +45,7 @@ async function fetchChargesWithRetry(
   let retries = 0
   while (retries < maxRetries) {
     try {
+      console.log(`Fetching charges with params: ${JSON.stringify(params)}`)
       return await stripe.charges.list(params)
     } catch (error) {
       if (error instanceof Stripe.errors.StripeRateLimitError) {
@@ -136,13 +137,23 @@ export const FetchChargesSchema = z.object({
   range: z.string().optional(),
   start: z.string().optional(),
   end: z.string().optional(),
+  limit: z.number().optional(),
+  starting_after: z.string().optional(),
 })
+
+export interface PaginatedCharges {
+  charges: SimplifiedCharge[]
+  has_more: boolean
+  next_page_cursor: string | null
+}
 
 export async function fetchCharges({
   range,
   start,
   end,
-}: z.infer<typeof FetchChargesSchema>): Promise<SimplifiedCharge[]> {
+  limit = 100,
+  starting_after,
+}: z.infer<typeof FetchChargesSchema>): Promise<PaginatedCharges> {
   let startDate: Date
   let endDate: Date
 
@@ -162,32 +173,33 @@ export async function fetchCharges({
     endDate = dateRange.end
   }
 
-  let allCharges: SimplifiedCharge[] = []
-  let hasMore = true
-  let startingAfter: string | undefined = undefined
+  console.log(
+    `Fetching charges for ${startDate.toISOString()} to ${endDate.toISOString()}`,
+  )
 
-  while (hasMore) {
-    const charges: Stripe.ApiList<Stripe.Charge> = await fetchChargesWithRetry({
-      created: {
-        gte: Math.floor(startDate.getTime() / 1000),
-        lte: Math.floor(endDate.getTime() / 1000),
-      },
-      expand: ['data.balance_transaction'],
-      limit: 100,
-      starting_after: startingAfter,
-    })
+  const charges: Stripe.ApiList<Stripe.Charge> = await fetchChargesWithRetry({
+    created: {
+      gte: Math.floor(startDate.getTime() / 1000),
+      lte: Math.floor(endDate.getTime() / 1000),
+    },
+    expand: ['data.balance_transaction'],
+    limit,
+    ...(starting_after ? {starting_after} : {}),
+  })
 
-    const simplifiedCharges = charges.data.map(simplifyCharge)
-    allCharges = allCharges.concat(simplifiedCharges)
-    hasMore = charges.has_more
-    startingAfter = charges.data[charges.data.length - 1]?.id
-  }
+  console.log(`Fetched ${charges.data.length} charges`)
+
+  const simplifiedCharges = charges.data.map(simplifyCharge)
 
   console.log(
     `Fetched ${
-      allCharges.length
+      simplifiedCharges.length
     } succeeded charges for ${startDate.toISOString()} to ${endDate.toISOString()}`,
   )
 
-  return allCharges
+  return {
+    charges: simplifiedCharges,
+    has_more: charges.has_more,
+    next_page_cursor: charges.data[charges.data.length - 1]?.id || null,
+  }
 }

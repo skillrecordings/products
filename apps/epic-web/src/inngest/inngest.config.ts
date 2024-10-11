@@ -10,6 +10,7 @@ import {stripeWebhookReceived} from 'inngest/functions/stripe/webhook-received'
 import {sendWelcomeEmail} from 'inngest/functions/post-purchase-automation/send-welcome-email'
 import {discordAccountLinked} from 'inngest/functions/discord/discord-account-linked'
 import {syncDiscordRoles} from 'inngest/functions/discord/sync-discord-roles'
+import {slackDailyReporter} from './functions/stripe/slack-daily-reporter'
 
 export const inngestConfig = {
   client: inngest,
@@ -26,6 +27,7 @@ export const inngestConfig = {
     sendWelcomeEmail,
     discordAccountLinked,
     syncDiscordRoles,
+    slackDailyReporter,
     ...sanityProductFunctions,
   ],
 }
