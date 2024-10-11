@@ -42,6 +42,7 @@ import github from './objects/resources/github'
 import transcript from './objects/transcript'
 import workshopApp from './objects/workshop-app'
 import contributors from './objects/contributors'
+import productRevenueSplit from './objects/productRevenueSplit'
 
 export const schemaTypes = [
   // —— documents
@@ -88,4 +89,5 @@ export const schemaTypes = [
   feature,
   workshopApp,
   contributors,
+  productRevenueSplit,
 ]
