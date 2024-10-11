@@ -361,9 +361,14 @@ export const getWorkshop = async (slug: string) =>
           unitAmount,
           upgradableTo[0]->{
             ...,
+            "name": title,
             productId,
             "slug": slug.current,
-            modules[]->{moduleType},
+            modules[]->{
+            ...,
+            "description": "",
+            "image": image.asset->{url},
+          }
           },
           modules[]->{
             "slug": slug.current,

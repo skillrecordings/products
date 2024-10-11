@@ -125,9 +125,6 @@ const WorkshopTemplate: React.FC<{
               <p className="opacity-75">No description found.</p>
             )}
           </article>
-          {/* {testimonials && testimonials?.length > 0 && (
-            <Testimonials testimonials={testimonials} />
-          )} */}
         </div>
         <aside
           className={cn(
@@ -149,77 +146,42 @@ const WorkshopTemplate: React.FC<{
             </>
           ) : (
             <>
-              {product &&
-                ALLOW_PURCHASE &&
-                upgradableTo &&
-                !hasPurchasedUpgrade && (
-                  <>
-                    <h3 className="text-xl font-bold">Bundle & Save</h3>
-                    <Link
-                      target="_blank"
-                      href={`/products/${upgradableTo.slug}`}
-                      className="group relative mb-8 mt-3 flex w-full rounded-lg border bg-card p-5 shadow-2xl shadow-gray-500/10 transition hover:brightness-95 dark:hover:brightness-125"
-                    >
-                      <div className="absolute -top-3 right-4 flex h-6 items-center rounded bg-amber-300 px-2 text-xs font-bold uppercase text-black">
-                        Best Value
-                      </div>
-                      <div className="flex items-center gap-5">
-                        {upgradableTo.image && (
-                          <Image
-                            src={upgradableTo.image.url}
-                            alt=""
-                            aria-hidden="true"
-                            className="rounded-full"
-                            width={100}
-                            height={100}
-                          />
-                        )}
-                        <div>
-                          <h4 className="text-lg font-semibold">
-                            {upgradableTo.title}
-                          </h4>
-                          <p>
-                            Includes{' '}
-                            {
-                              upgradableTo.modules.filter(
-                                ({moduleType}: {moduleType: string}) =>
-                                  moduleType === 'workshop',
-                              ).length
-                            }{' '}
-                            workshops.
-                          </p>
-                          {/* <span className="group-hover:underline">View more</span> */}
-                        </div>
-                      </div>
-                    </Link>
-                  </>
-                )}
-              {product && ALLOW_PURCHASE && !canView ? (
+              {product && ALLOW_PURCHASE && !canView && (
                 <>
-                  {upgradableTo && (
-                    <h3 className="mb-3 text-xl font-bold">
-                      Individual Workshop
-                    </h3>
-                  )}
-                  <PriceCheckProvider purchasedProductIds={purchasedProductIds}>
-                    <WorkshopPricingWidget product={product} />
-                  </PriceCheckProvider>
-                </>
-              ) : (
-                <>
-                  {workshop.image && (
-                    <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0">
-                      <Image
-                        priority
-                        src={workshop.image}
-                        alt={title}
-                        width={320}
-                        height={320}
-                        quality={100}
-                      />
-                    </div>
+                  {upgradableTo ? (
+                    <>
+                      <PriceCheckProvider
+                        purchasedProductIds={purchasedProductIds}
+                      >
+                        <WorkshopPricingWidget product={upgradableTo} />
+                      </PriceCheckProvider>
+                    </>
+                  ) : (
+                    <>
+                      <h3 className="mb-3 text-xl font-bold">
+                        Individual Workshop
+                      </h3>
+                      <PriceCheckProvider
+                        purchasedProductIds={purchasedProductIds}
+                      >
+                        <WorkshopPricingWidget product={product} />
+                      </PriceCheckProvider>
+                    </>
                   )}
                 </>
+              )}
+
+              {canView && workshop.image && (
+                <div className="mb-10 flex flex-shrink-0 items-center justify-center md:mb-0">
+                  <Image
+                    priority
+                    src={workshop.image}
+                    alt={title}
+                    width={320}
+                    height={320}
+                    quality={100}
+                  />
+                </div>
               )}
 
               {workshop && (
