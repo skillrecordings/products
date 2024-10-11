@@ -112,7 +112,7 @@ const Index: NextPage<{
           titleAppendSiteName: false,
           title: 'Master Mocking for Better Web Applications using Vitest',
           description:
-            'Learn from the creator and maintainer of Mock Service Workers Artem Zakharchenko.',
+            'Learn from the creator and maintainer of Mock Service Worker, Artem Zakharchenko.',
           ogImage: {
             url: 'https://res.cloudinary.com/epic-web/image/upload/v1728638370/master-mocking-for-better-web-applications-using-vitest_2x.jpg',
           },
@@ -128,7 +128,7 @@ const Index: NextPage<{
                 Master Mocking for Better Web Applications using Vitest
               </h2>
               <h3 className="max-w-lg text-balance pt-5 text-center text-lg text-blue-600 dark:text-blue-300">
-                Learn from the creator and maintainer of Mock Service Workers
+                Learn from the creator and maintainer of Mock Service Worker,
                 Artem Zakharchenko.
               </h3>
             </div>
@@ -278,22 +278,27 @@ const Article: React.FC<{
                   alt="Artem Zakharchenko"
                   className="rounded-lg"
                 />
-                <div className="space-y-5 text-center text-gray-700 dark:text-gray-300 sm:text-left">
+                <div className="space-y-5 text-center text-gray-700 dark:text-gray-300 sm:text-left [&_p]:text-base">
                   <h3 className="text-center text-2xl font-semibold sm:text-left sm:text-2xl lg:text-3xl">
                     Your Instructor
                   </h3>
                   <p>
-                    Hi, I’m Artem{' '}
-                    <span role="img" aria-label="waving hand">
-                      👋
-                    </span>{' '}
-                    and I’m a software engineer passionate about API design,
-                    testing, and open source.
+                    Hi! My name is Artem, and I love automated testing. So much
+                    so that I’ve built open-source software to promote the
+                    testing practices I believe in that’s now used in Google,
+                    Microsoft, Amazon, Netflix, and by hundreds of thousands of
+                    developers out there.
                   </p>
                   <p>
-                    I’m the author of Mock Service Worker, and technical writer.
-                    Oh, and I love coffee! I’m so excited you’re here to start
-                    your journey in mastering testing.{' '}
+                    But it wasn’t always like that. I used to be afraid of
+                    testing. I didn’t know if the tests I was writing made any
+                    sense. Until pattern after pattern, concept after concept,
+                    things “clicked”. Almost a decade later, I am here to make
+                    testing click for you.
+                  </p>
+                  <p>
+                    I am honored to be your guide in the vast land of automated
+                    testing. Let’s go!
                   </p>
                 </div>
               </div>
@@ -401,7 +406,7 @@ const Header = () => {
           Everything You Need to Know to
         </span>
         <div className="text-balance text-gray-900 dark:text-white">
-          Master Mocking for Better Web Applications using{' '}
+          Master Mocking for Better Web Application Testing with{' '}
           <svg
             className="inline-block w-12"
             xmlns="http://www.w3.org/2000/svg"
