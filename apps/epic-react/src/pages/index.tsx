@@ -38,7 +38,7 @@ import {readDirectoryContents} from '../utils/read-directory-content'
 import {getSdk} from '@skillrecordings/database'
 import {ActivePromotion, ActivePromotionSchema} from '@/trpc/routers/cta'
 import {z} from 'zod'
-import {Head} from 'next/document'
+import Head from 'next/head'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,

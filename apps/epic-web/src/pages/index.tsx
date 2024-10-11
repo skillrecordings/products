@@ -47,7 +47,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@skillrecordings/ui'
-import {Head} from 'next/document'
+import Head from 'next/head'
 
 const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
