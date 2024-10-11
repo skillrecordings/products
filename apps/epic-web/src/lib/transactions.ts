@@ -148,9 +148,7 @@ export async function fetchCharges({
       starting_after: startingAfter,
     })
 
-    const simplifiedCharges = charges.data
-      .filter((charge) => charge.status === 'succeeded')
-      .map(simplifyCharge)
+    const simplifiedCharges = charges.data.map(simplifyCharge)
     allCharges = allCharges.concat(simplifiedCharges)
     hasMore = charges.has_more
     startingAfter = charges.data[charges.data.length - 1]?.id
