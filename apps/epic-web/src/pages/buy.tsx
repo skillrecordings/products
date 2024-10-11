@@ -187,11 +187,11 @@ const BuyPage: React.FC<
 
 export default BuyPage
 
-export const Sparkles = () => {
+export const Sparkles = ({className}: {className?: string}) => {
   const shouldReduceMotion = useReducedMotion()
 
   return shouldReduceMotion ? null : (
-    <div className="absolute top-24 z-10" aria-hidden>
+    <div className={cn('absolute top-24 z-10', className)} aria-hidden>
       <motion.div
         className={cn(
           'absolute left-1 mt-0 text-yellow-300 opacity-75 blur-[2px]',

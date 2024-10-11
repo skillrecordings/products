@@ -11,7 +11,6 @@ import TestingLandingCopy from 'components/testing-landing-copy.mdx'
 import Particles, {initParticlesEngine} from '@tsparticles/react'
 import type {Engine} from '@tsparticles/engine'
 import {loadSlim} from '@tsparticles/slim'
-import ArtemImage from '../../../public/artem.jpg'
 import {loadStarsPreset} from 'tsparticles-preset-stars'
 
 import {
@@ -83,7 +82,6 @@ const Index: NextPage<{
       productId: product.productId,
     })
 
-  console.log('commerceProps', commerceProps)
   const {redeemableCoupon, RedeemDialogForCoupon, validCoupon} = useCoupon(
     commerceProps?.couponFromCode,
     {
@@ -119,26 +117,20 @@ const Index: NextPage<{
         <Header />
         <main className="">
           <Article workshops={product.modules} />
-
           <section className="relative mt-16 flex flex-col items-center justify-start dark:bg-black/30">
-            <div className="flex flex-col items-center justify-center py-16">
-              <h2 className="max-w-lg text-center text-2xl font-bold sm:text-3xl lg:text-4xl">
-                <Balancer>
-                  Master Mocking for Better Web Applications using Vitest
-                </Balancer>
+            <div className="flex flex-col items-center justify-center px-5 pb-0 pt-16">
+              <h2 className="max-w-xl text-balance text-center text-3xl font-bold sm:text-3xl lg:text-4xl">
+                Master Mocking for Better Web Applications using Vitest
               </h2>
-              <h3 className="max-w-lg pt-5 text-center text-lg text-gray-600 dark:text-gray-400">
-                <Balancer>
-                  Learn from the creator and maintainer of Mock Service Workers
-                  Artem Zakharchenko.
-                </Balancer>
+              <h3 className="max-w-lg text-balance pt-5 text-center text-lg text-blue-600 dark:text-blue-300">
+                Learn from the creator and maintainer of Mock Service Workers
+                Artem Zakharchenko.
               </h3>
             </div>
             <div
               id="buy"
               className="relative flex flex-col items-center justify-start"
             >
-              <Sparkles />
               {products
                 ?.filter((product: any) => product.state !== 'unavailable')
                 .map((product, i) => {
@@ -147,7 +139,11 @@ const Index: NextPage<{
                       key={product.slug}
                       purchasedProductIds={purchasedProductIds}
                     >
-                      <div data-pricing-container="" key={product.name}>
+                      <div
+                        id="testing-bundle"
+                        data-pricing-container=""
+                        key={product.name}
+                      >
                         <Pricing
                           bonuses={bonuses}
                           allowPurchase={ALLOW_PURCHASE}
@@ -164,20 +160,20 @@ const Index: NextPage<{
                   )
                 })}
             </div>
-            {ALLOW_PURCHASE ? (
-              <>
-                <Image
-                  className="-mt-16 mb-8 "
-                  src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
-                  width={130}
-                  height={130}
-                  alt="30-Day Money Back Guarantee"
-                />
-                <div className="mb-16 flex w-full items-center justify-center pt-3 text-gray-600 dark:text-gray-400">
-                  <PoweredByStripe />
-                </div>
-              </>
-            ) : null}
+            {/* {ALLOW_PURCHASE ? ( */}
+            <>
+              <Image
+                className="-mt-16 mb-8 "
+                src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+                width={130}
+                height={130}
+                alt="30-Day Money Back Guarantee"
+              />
+              <div className="mb-16 flex w-full items-center justify-center pt-3 text-gray-600 dark:text-gray-400">
+                <PoweredByStripe />
+              </div>
+            </>
+            {/* ) : null} */}
           </section>
         </main>
       </Layout>
@@ -207,24 +203,23 @@ const Article: React.FC<{
   workshops: SanityProductModule[]
 }> = ({workshops}) => {
   return (
-    <article className="prose mx-auto max-w-3xl px-5 pt-0 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-5">
+    <article className="prose prose-lg mx-auto max-w-none pt-0 dark:prose-invert lg:prose-xl prose-headings:mx-auto prose-headings:max-w-3xl prose-headings:font-bold prose-p:mx-auto prose-p:max-w-3xl prose-p:text-gray-900 prose-ul:mx-auto prose-ul:max-w-3xl prose-ul:pl-0 prose-li:text-gray-900 dark:prose-p:text-gray-300 dark:prose-li:text-gray-300 sm:pt-5">
       <TestingLandingCopy
         components={{
           // ...linkedHeadingComponents,
+          Image,
           Testimonial: ({children, author, url}: any) => {
             return (
-              <blockquote className="relative !my-0 flex flex-col justify-between rounded-md border-l-0 bg-white !p-5 not-italic text-foreground dark:bg-white/5 lg:!p-8">
-                <div className="prose dark:prose-invert sm:prose-lg prose-p:font-medium">
-                  {children}
-                </div>
-                <div className="mt-8 flex w-full items-center justify-between gap-1.5 text-base">
+              <blockquote className="!mt-0 flex h-full flex-col border-l-0 !p-0 not-italic">
+                <div className="text-lg font-normal">{children}</div>
+                <div className="mt-5 flex w-full items-center justify-between gap-1.5 text-base">
                   <div className="flex items-center gap-2">
                     {author.image ? (
                       <Image
                         src={author.image}
                         alt={author.name}
-                        width={48}
-                        height={48}
+                        width={40}
+                        height={40}
                         className="!my-0 rounded-full"
                       />
                     ) : (
@@ -232,7 +227,7 @@ const Article: React.FC<{
                     )}
                     <span className="opacity-75">{author.name}</span>
                   </div>
-                  {url && (
+                  {/* {url && (
                     <a
                       href={url}
                       className=""
@@ -241,7 +236,7 @@ const Article: React.FC<{
                     >
                       <XIconTwitter className="h-5 w-5 text-foreground opacity-50 transition hover:opacity-100" />
                     </a>
-                  )}
+                  )} */}
                 </div>
               </blockquote>
             )
@@ -260,22 +255,45 @@ const Article: React.FC<{
           WorkshopAppScreenshot,
           AboutArtem: ({children}: any) => {
             return (
-              <div className="rounded-lg border bg-white px-8 py-3 dark:bg-white/5 sm:px-10 sm:py-5">
-                <Image
-                  src={ArtemImage}
-                  width={150}
-                  height={150}
-                  alt="Artem Zakharchenko"
-                  className="float-right ml-5 aspect-square w-32 rounded-full bg-white/5 sm:ml-10 sm:w-auto"
-                  style={{
-                    shapeOutside: 'circle()',
-                  }}
+              <div className="not-prose relative mx-auto flex max-w-3xl flex-col items-center gap-10 px-5 py-16 sm:flex-row">
+                <div
+                  className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-gray-800 to-transparent"
+                  aria-hidden="true"
                 />
-                <div className="pt-2">{children}</div>
+                <div
+                  className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-gray-800 to-transparent"
+                  aria-hidden="true"
+                />
+                <Image
+                  src={
+                    'https://cdn.sanity.io/images/i1a93n76/production/0755d7dcfea0aae93b123d1687d02ee05af13dbe-1149x1149.jpg'
+                  }
+                  width={300}
+                  height={300}
+                  alt="Artem Zakharchenko"
+                  className="rounded-lg"
+                />
+                <div className="space-y-5 text-center text-gray-700 dark:text-gray-300 sm:text-left">
+                  <h3 className="text-center text-2xl font-semibold sm:text-left sm:text-2xl lg:text-3xl">
+                    Your Instructor
+                  </h3>
+                  <p>
+                    Hi, I’m Artem{' '}
+                    <span role="img" aria-label="waving hand">
+                      👋
+                    </span>{' '}
+                    and I’m a software engineer passionate about API design,
+                    testing, and open source.
+                  </p>
+                  <p>
+                    I’m the author of Mock Service Worker, and technical writer.
+                    Oh, and I love coffee! I’m so excited you’re here to start
+                    your journey in mastering testing.{' '}
+                  </p>
+                </div>
               </div>
             )
           },
-
           Workshop: ({
             slug,
             title,
@@ -288,13 +306,13 @@ const Article: React.FC<{
               <li
                 id={slug}
                 key={slug}
-                className="not-prose flex flex-col items-center gap-8 pb-16 sm:-mx-10 lg:-mx-16 lg:flex-row lg:items-start"
+                className="not-prose flex flex-col items-center gap-0 px-5 pb-16 sm:gap-10 lg:flex-row lg:items-start"
               >
                 {image && (
                   <Link
                     href={`/${path}/${slug}`}
                     target="_blank"
-                    className="flex-shrink-0"
+                    className="flex-shrink-0 sm:-mt-8"
                   >
                     <Image src={image} width={300} height={300} alt={title} />
                   </Link>
@@ -309,7 +327,7 @@ const Article: React.FC<{
                       {title}
                     </Link>
                   </h3>
-                  <p className="pt-2 text-center font-mono text-sm uppercase lg:text-left ">
+                  <p className="pt-2 text-center opacity-80 lg:text-left ">
                     {meta}
                   </p>
                   <ul className="pt-8">
@@ -332,19 +350,26 @@ const Article: React.FC<{
                   <Link
                     href={`/workshops/${slug}`}
                     target="_blank"
-                    className="mt-3 inline-flex gap-1 py-2 text-base opacity-75 transition hover:opacity-100"
+                    className="mt-3 inline-flex w-full gap-1 py-2 pl-8 text-lg font-medium text-emerald-600 transition hover:underline hover:opacity-100 dark:text-emerald-300"
                   >
-                    Read more <span aria-hidden>↗︎</span>
+                    Learn more
                   </Link>
                 </div>
               </li>
             )
           },
-          li: ({children}: any) => {
+          CheckList: ({children}: any) => {
             return (
-              <li className='list-none py-1 pl-7 before:-ml-7 before:pr-3 before:text-emerald-500 before:content-["✓"] dark:before:text-emerald-300 sm:before:-ml-2'>
+              <ul className=' pl-0 [&_li]:relative [&_li]:list-none [&_li]:pl-9 [&_li]:font-medium [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-1.5 [&_li]:before:flex [&_li]:before:h-6 [&_li]:before:w-6 [&_li]:before:items-center [&_li]:before:justify-center [&_li]:before:rounded-full [&_li]:before:bg-emerald-300/20 [&_li]:before:text-xs [&_li]:before:font-bold [&_li]:before:text-emerald-500 [&_li]:before:content-["✓"] [&_li]:dark:before:text-emerald-300 '>
                 {children}
-              </li>
+              </ul>
+            )
+          },
+          CrossList: ({children}: any) => {
+            return (
+              <ul className=' pl-0 [&_li]:relative [&_li]:list-none [&_li]:pl-9 [&_li]:font-medium [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-1.5 [&_li]:before:flex [&_li]:before:h-6 [&_li]:before:w-6 [&_li]:before:items-center [&_li]:before:justify-center [&_li]:before:rounded-full [&_li]:before:bg-rose-300/20 [&_li]:before:pb-0.5 [&_li]:before:text-xl [&_li]:before:font-medium [&_li]:before:text-rose-500 [&_li]:before:content-["×"] [&_li]:dark:before:text-rose-300 '>
+                {children}
+              </ul>
             )
           },
         }}
@@ -353,63 +378,49 @@ const Article: React.FC<{
   )
 }
 
-function useParallax(value: MotionValue<number>, distance: number) {
-  return useTransform(value, [0, 1], [-distance, distance])
-}
-
 const Header = () => {
   return (
-    <header className="relative flex min-h-[58vh] flex-col items-center justify-start overflow-hidden bg-black">
-      <div className="absolute  z-40 mx-auto text-center sm:top-[14vh] xl:top-[16vh]">
-        <h1 className="max-w-3xl px-5 font-bold text-white shadow-black drop-shadow-lg fluid-2xl sm:leading-tight sm:fluid-3xl lg:px-16">
-          <span className="inline-flex pb-4 font-sans text-sm font-semibold uppercase tracking-wider text-orange-300 shadow-black drop-shadow-md">
-            Everything You Need to Know to
-          </span>
-          <div className="shadow-black drop-shadow-lg">
-            <Balancer>
-              Master Mocking for Better Web Applications using Vitest
-            </Balancer>
-          </div>
-        </h1>
-      </div>
-      <div
-        className="absolute left-0 top-0 z-20 h-full w-full"
-        style={{
-          backgroundImage: 'radial-gradient(transparent, transparent)',
-        }}
-      />
-
-      <div className="absolute bottom-[25%] z-20 mx-auto w-[130px] sm:w-[180px] lg:w-[200px]" />
-
-      <div className="absolute bottom-0 left-0 z-30 h-32 w-full bg-gradient-to-b from-transparent dark:to-background" />
-      <ParticlesHeroEffect />
-    </header>
-  )
-}
-
-type SubscribeProps = {
-  subscriber: any
-}
-
-const Subscribe: React.FC<SubscribeProps> = ({subscriber}) => {
-  return (
-    <section
-      aria-label="Newsletter sign-up"
-      className="px-5 pb-32 pt-10"
-      id="primary-newsletter-cta"
-    >
-      {!subscriber ? (
-        <PrimaryNewsletterCta
-          onSubmit={() => {
-            track('subscribed from landing page')
-          }}
+    <header className="relative mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,#FFF6E7_0%,transparent_65%)] px-5 pb-16 pt-5 text-center dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)]">
+      <div className="relative flex items-center justify-center">
+        <Image
+          src="https://res.cloudinary.com/epic-web/image/upload/v1728625797/vitest_2x.png"
+          alt=""
+          aria-hidden="true"
+          width={200}
+          height={200}
         />
-      ) : (
-        <div className="text-center text-2xl font-bold sm:text-3xl lg:text-4xl">
-          You're subscribed <span aria-hidden="true">✧</span> Thanks!
+        <Sparkles className="left-1/3 top-3" />
+      </div>
+      <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
+        <span className="inline-flex pb-4 text-xs font-semibold uppercase tracking-wider text-amber-600  dark:text-orange-300 sm:text-sm">
+          Everything You Need to Know to
+        </span>
+        <div className="text-balance text-gray-900 dark:text-white">
+          Master Mocking for Better Web Applications using{' '}
+          <svg
+            className="inline-block w-12"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 165 165"
+            fill="none"
+          >
+            <path
+              d="M120.831 57.2543L84.693 109.505C84.3099 110.059 83.7558 110.474 83.1148 110.687C82.4738 110.9 81.7809 110.898 81.1412 110.684C80.5015 110.469 79.95 110.052 79.5702 109.497C79.1905 108.941 79.0032 108.277 79.037 107.606L80.4833 78.7582L57.1343 73.8064C56.6353 73.7007 56.1704 73.474 55.7807 73.1465C55.391 72.8191 55.0885 72.4009 54.9001 71.929C54.7117 71.4571 54.6432 70.9461 54.7006 70.4412C54.758 69.9364 54.9395 69.4532 55.2291 69.0345L91.3675 16.7837C91.7507 16.2294 92.3048 15.8145 92.9458 15.6018C93.5869 15.3891 94.2798 15.3902 94.9196 15.6051C95.5593 15.8199 96.1109 16.2367 96.4906 16.7923C96.8703 17.3478 97.0575 18.0117 97.0236 18.6833L95.5773 47.5314L118.926 52.4828C119.425 52.5885 119.89 52.8152 120.28 53.1426C120.67 53.4701 120.972 53.8883 121.16 54.3602C121.349 54.8321 121.417 55.3431 121.36 55.8479C121.303 56.3528 121.121 56.836 120.831 57.2547L120.831 57.2543Z"
+              fill="#FCC72B"
+            />
+            <path
+              d="M82.9866 153.343C82.0254 153.344 81.0735 153.156 80.1855 152.788C79.2975 152.42 78.4909 151.88 77.8122 151.2L43.6658 117.056C42.2998 115.683 41.5341 113.824 41.5366 111.887C41.5392 109.95 42.3098 108.092 43.6796 106.723C45.0493 105.353 46.9064 104.582 48.8435 104.579C50.7807 104.577 52.6399 105.342 54.0134 106.708L82.9866 135.678L146.105 72.5626C147.481 71.2088 149.336 70.4536 151.266 70.4615C153.197 70.4693 155.046 71.2396 156.41 72.6045C157.775 73.9695 158.546 75.8184 158.554 77.7487C158.561 79.679 157.806 81.5342 156.452 82.9101L88.1597 151.2C87.4811 151.881 86.6747 152.42 85.7869 152.788C84.8992 153.156 83.9475 153.344 82.9866 153.343Z"
+              fill="#929292"
+            />
+            <path
+              d="M82.9572 153.343C83.9184 153.344 84.8703 153.156 85.7583 152.788C86.6463 152.42 87.4528 151.88 88.1316 151.2L122.278 117.056C123.644 115.683 124.41 113.824 124.407 111.887C124.405 109.95 123.634 108.092 122.264 106.723C120.894 105.353 119.037 104.582 117.1 104.579C115.163 104.577 113.304 105.342 111.93 106.708L82.9572 135.678L19.8389 72.5626C18.4629 71.2088 16.6077 70.4536 14.6775 70.4615C12.7472 70.4693 10.8982 71.2396 9.53331 72.6045C8.16839 73.9695 7.39811 75.8184 7.39025 77.7487C7.38239 79.679 8.13759 81.5342 9.49135 82.9101L77.784 151.2C78.4627 151.881 79.2691 152.42 80.1568 152.788C81.0446 153.156 81.9963 153.344 82.9572 153.343Z"
+              fill="#A1A1A1"
+              fill-opacity="0.5"
+            />
+          </svg>
+          Vitest
         </div>
-      )}
-    </section>
+      </h1>
+    </header>
   )
 }
 
@@ -423,17 +434,17 @@ const WorkshopAppScreenshot = () => {
   }, [])
 
   return (
-    <div className="aspect-[1520/1090] h-full w-full">
+    <div className="mx-auto aspect-[1060/617] h-full w-full max-w-3xl">
       {mounted ? (
         <Image
           src={
             theme === 'light'
-              ? 'https://res.cloudinary.com/epic-web/image/upload/v1696929540/workshop-app-screenshot-light-1_2x.png'
-              : 'https://res.cloudinary.com/epic-web/image/upload/v1696929542/workshop-app-screenshot-1_2x.png'
+              ? 'https://res.cloudinary.com/epic-web/image/upload/v1728627998/artem-workshop-app-video-poster-light.png'
+              : 'https://res.cloudinary.com/epic-web/image/upload/v1728627998/artem-workshop-app-video-poster.png'
           }
-          width={1520}
+          width={1060}
+          height={617}
           quality={100}
-          height={1090}
           alt=""
           aria-hidden
           priority
@@ -441,147 +452,4 @@ const WorkshopAppScreenshot = () => {
       ) : null}
     </div>
   )
-}
-
-export const ParticlesHeroEffect = () => {
-  const [init, setInit] = React.useState(false)
-  React.useEffect(() => {
-    initParticlesEngine(async (engine: Engine) => {
-      await loadSlim(engine)
-      await loadStarsPreset(engine as any)
-    }).then(() => {
-      const timeout = setTimeout(() => {
-        setInit(true)
-      }, 750)
-      return () => {
-        clearTimeout(timeout)
-      }
-    })
-  }, [])
-
-  const particlesLoaded = (container: any) => {
-    return container
-  }
-
-  return init ? (
-    <>
-      <Particles
-        id="redParticles"
-        particlesLoaded={particlesLoaded}
-        className="absolute top-0 z-10 h-full w-full"
-        options={{
-          name: 'red',
-          fullScreen: {
-            enable: false,
-          },
-          preset: 'stars',
-          retina_detect: true,
-          background: {
-            opacity: 0,
-          },
-          pauseOnOutsideViewport: true,
-          zLayers: 1,
-          particles: {
-            shadow: {
-              blur: 20,
-              color: '#F85C1F',
-              enable: true,
-            },
-            number: {
-              value: 100,
-            },
-            size: {
-              value: {min: 1, max: 5},
-            },
-            opacity: {
-              value: {
-                min: 0.1,
-                max: 0.5,
-              },
-              animation: {
-                enable: true,
-                speed: 0.2,
-              },
-            },
-            color: {
-              value: '#F85C1F',
-            },
-            move: {
-              direction: 'outside',
-              center: {
-                x: 50,
-                y: 5,
-              },
-              enable: true,
-              speed: {
-                max: 0.6,
-                min: 0.1,
-              },
-              straight: false,
-              random: true,
-            },
-          },
-        }}
-      />
-      <Particles
-        id="blueParticles"
-        particlesLoaded={particlesLoaded}
-        className="absolute left-0 top-0 z-0 h-full w-full"
-        options={{
-          name: 'blue',
-          fullScreen: {
-            enable: false,
-          },
-          preset: 'stars',
-          detectRetina: true,
-          background: {
-            opacity: 0,
-          },
-          pauseOnOutsideViewport: true,
-          zLayers: 10,
-          particles: {
-            number: {
-              value: 200,
-            },
-            zIndex: {
-              value: {
-                min: 1,
-                max: 5,
-              },
-            },
-            shadow: {
-              blur: 20,
-              color: '#67CBEB',
-              enable: true,
-            },
-            size: {
-              value: {min: 1, max: 3.2},
-            },
-            color: {
-              value: '#67CBEB',
-            },
-            opacity: {
-              value: {
-                min: 0.1,
-                max: 0.95,
-              },
-            },
-            move: {
-              direction: 'outside',
-              center: {
-                x: 50,
-                y: 200,
-              },
-              enable: true,
-              speed: {
-                max: 0.7,
-                min: 0.2,
-              },
-              straight: true,
-            },
-          },
-        }}
-      />
-    </>
-  ) : null
 }
