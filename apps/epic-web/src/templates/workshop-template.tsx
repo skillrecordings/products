@@ -61,10 +61,8 @@ const WorkshopTemplate: React.FC<{
 
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({})
-
   const {validCoupon} = useCoupon(commerceProps?.couponFromCode)
   const product = workshop?.product as unknown as SanityProduct
-
   const canView = ability.can('view', 'Content')
   const router = useRouter()
   const upgradableTo = product?.upgradableTo
