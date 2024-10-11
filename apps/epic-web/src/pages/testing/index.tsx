@@ -111,6 +111,11 @@ const Index: NextPage<{
         meta={{
           titleAppendSiteName: false,
           title: 'Master Mocking for Better Web Applications using Vitest',
+          description:
+            'Learn from the creator and maintainer of Mock Service Workers Artem Zakharchenko.',
+          ogImage: {
+            url: 'https://res.cloudinary.com/epic-web/image/upload/v1728638370/master-mocking-for-better-web-applications-using-vitest_2x.jpg',
+          },
         }}
         navigationClassName=""
       >
