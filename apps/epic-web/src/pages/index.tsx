@@ -47,6 +47,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@skillrecordings/ui'
+import {Head} from 'next/document'
 
 const productId = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID
 
@@ -97,6 +98,14 @@ const Index: NextPage<{
         }}
         navigationClassName=""
       >
+        <Head>
+          <link
+            rel="alternate"
+            type="application/rss+xml"
+            title={`RSS feed for ${process.env.NEXT_PUBLIC_SITE_TITLE}`}
+            href="/rss.xml"
+          />
+        </Head>
         <Header />
         <main className="">
           <Article

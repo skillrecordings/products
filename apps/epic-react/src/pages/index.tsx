@@ -38,6 +38,7 @@ import {readDirectoryContents} from '../utils/read-directory-content'
 import {getSdk} from '@skillrecordings/database'
 import {ActivePromotion, ActivePromotionSchema} from '@/trpc/routers/cta'
 import {z} from 'zod'
+import {Head} from 'next/document'
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -190,6 +191,14 @@ const Home: React.FC<{
       commerceProps={commerceProps}
       activePromotion={activePromotion}
     >
+      <Head>
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`RSS feed for ${process.env.NEXT_PUBLIC_SITE_TITLE}`}
+          href="/rss.xml"
+        />
+      </Head>
       <main>
         <section className="sm:pt-26 relative flex w-full flex-col items-center justify-center overflow-hidden bg-gray-900 pt-12">
           <a
