@@ -85,9 +85,12 @@ function getDateRange(range: string): {start: Date; end: Date} {
       start.setUTCDate(start.getUTCDate() - 1)
       end.setUTCDate(end.getUTCDate() - 1)
       break
+    case 'this-week':
+      start.setUTCDate(start.getUTCDate() - start.getUTCDay())
+      break
     case 'last-week':
-      start.setUTCDate(start.getUTCDate() - 7)
-      end.setUTCDate(end.getUTCDate() - 1)
+      start.setUTCDate(start.getUTCDate() - 7 - start.getUTCDay())
+      end.setUTCDate(end.getUTCDate() - 1 - end.getUTCDay())
       break
     case 'month-so-far':
       start.setUTCDate(1)
@@ -95,6 +98,32 @@ function getDateRange(range: string): {start: Date; end: Date} {
     case 'last-month':
       start.setUTCMonth(start.getUTCMonth() - 1, 1)
       end.setUTCDate(0)
+      break
+    case 'this-month':
+      start.setUTCDate(1)
+      end.setUTCMonth(end.getUTCMonth() + 1, 0)
+      break
+    case 'last-30-days':
+      start.setUTCDate(start.getUTCDate() - 29)
+      break
+    case 'last-90-days':
+      start.setUTCDate(start.getUTCDate() - 89)
+      break
+    case 'this-quarter':
+      start.setUTCMonth(Math.floor(start.getUTCMonth() / 3) * 3, 1)
+      end.setUTCMonth(Math.floor(end.getUTCMonth() / 3) * 3 + 3, 0)
+      break
+    case 'last-quarter':
+      start.setUTCMonth(Math.floor(start.getUTCMonth() / 3) * 3 - 3, 1)
+      end.setUTCMonth(Math.floor(end.getUTCMonth() / 3) * 3, 0)
+      break
+    case 'this-year':
+      start.setUTCMonth(0, 1)
+      end.setUTCMonth(11, 31)
+      break
+    case 'last-year':
+      start.setUTCFullYear(start.getUTCFullYear() - 1, 0, 1)
+      end.setUTCFullYear(end.getUTCFullYear() - 1, 11, 31)
       break
     default:
     // Default to today
