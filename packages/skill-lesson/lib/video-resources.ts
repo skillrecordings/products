@@ -11,6 +11,7 @@ export const getVideoResource = async (id: string): Promise<VideoResource> => {
       _id,
       "transcript": castingwords.transcript,
       "muxPlaybackId": muxAsset.muxPlaybackId,
+      "duration": duration,
       poster,
     }`,
     {id},
