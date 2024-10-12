@@ -5,6 +5,7 @@ export const VideoResourceSchema = z.object({
   muxPlaybackId: z.string().optional(),
   transcript: z.nullable(z.any().array().or(z.string())).optional(),
   poster: z.string().optional().nullable(),
+  duration: z.number().optional().nullable(),
 })
 
 export type VideoResource = z.infer<typeof VideoResourceSchema>

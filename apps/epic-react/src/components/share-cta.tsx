@@ -53,7 +53,7 @@ const ShareCta = ({
           <span>{isCopiedToClipboard ? 'Copied!' : 'Copy link'}</span>
         </button>
         <a
-          className="m-1 flex items-center rounded-lg bg-blue-500 px-3 py-2 leading-6 transition-all duration-200 ease-in-out hover:bg-blue-600"
+          className="m-1 flex items-center rounded-lg bg-blue-500 px-3 py-2 leading-6 text-white transition-all duration-200 ease-in-out hover:bg-blue-600"
           href={`https://twitter.com/intent/tweet/?text=${encodeURIComponent(
             title + ', article by @kentcdodds',
           )}&url=${encodeURIComponent(`https://epicreact.dev/${slug}`)}`}

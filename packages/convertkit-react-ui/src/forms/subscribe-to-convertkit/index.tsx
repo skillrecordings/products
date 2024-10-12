@@ -1,7 +1,7 @@
 import * as React from 'react'
-import {Input, Button} from '@skillrecordings/react/dist/components'
 import {ConvertkitSubscriber} from '../../types'
 import {useConvertkitForm} from '../../hooks/use-convertkit-form'
+import {Button, Input} from '@skillrecordings/react'
 
 export type SubscribeFormProps = {
   actionLabel?: string

@@ -52,7 +52,8 @@ export async function getLessonVideoForDevice({
     const videoResource = await sanityClient.fetch(
       groq`*[_type in ['videoResource'] && _id == $id][0]{
       "transcript": transcript.text,
-      "muxPlaybackId": muxAsset.muxPlaybackId
+      "muxPlaybackId": muxAsset.muxPlaybackId,
+      "duration": duration
     }`,
       {id: lesson.videoResourceId as string},
     )
