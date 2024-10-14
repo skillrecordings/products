@@ -24,9 +24,11 @@ const WorkshopSchema = z.object({
     .nullable(
       z.object({
         path: z.string().nullable().optional(),
-        localhost: z.object({
-          path: z.string().optional(),
-        }),
+        localhost: z
+          .object({
+            path: z.string().optional(),
+          })
+          .optional(),
         external: z.object({
           url: z.string().optional(),
         }),
@@ -84,7 +86,7 @@ const WorkshopSchema = z.object({
 export const WorkshopsSchema = z.array(WorkshopSchema)
 export type Workshop = z.infer<typeof WorkshopSchema>
 
-const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop' && state == 'published'] | order(_createdAt asc) {
+const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop' && state == 'published'] | order(_createdAt desc) {
   _id,
   _type,
   title,
