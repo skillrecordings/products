@@ -7,6 +7,7 @@ import Icon from 'components/icons'
 import {linkedHeadingComponents} from 'components/mdx'
 import {motion, useScroll, useTransform} from 'framer-motion'
 import {Page, getPage} from 'lib/pages'
+import {getAllTutorials} from 'lib/tutorials'
 import {getAllWorkshops, type Workshop} from 'lib/workshops'
 import {MDXRemoteSerializeResult} from 'next-mdx-remote'
 import {useTheme} from 'next-themes'
@@ -20,12 +21,17 @@ export const getStaticProps = async () => {
   const page = await getPage('get-started')
   const bodyMdx = page.body && (await serializeMDX(page.body))
   const workshops = await getAllWorkshops()
+  const tutorials = await getAllTutorials()
 
   return {
     props: {
       page,
       body: bodyMdx,
       workshops,
+      tutorials: tutorials.filter(
+        ({workshopApp}: {workshopApp: {external: {url: string}}}) =>
+          workshopApp,
+      ),
     },
     revalidate: 10,
   }
@@ -35,12 +41,13 @@ const GetStartedPage: React.FC<{
   page: Page
   body: MDXRemoteSerializeResult
   workshops: Workshop[]
-}> = ({page, body, workshops}) => {
+  tutorials: Workshop[]
+}> = ({page, body, workshops, tutorials}) => {
   const router = useRouter()
   const [mounted, setMounted] = React.useState(false)
   const moduleSlug = router.query.module
-  const currentModule = workshops.find(
-    (workshop) => workshop.slug.current === moduleSlug,
+  const currentModule = [...workshops, ...tutorials].find(
+    (module) => module.slug.current === moduleSlug,
   )
   const githubUrlForCurrentModule = currentModule?.github?.repo
 
@@ -95,7 +102,9 @@ const GetStartedPage: React.FC<{
             components={{
               ...linkedHeadingComponents,
               AppTourVideo,
-              Workshops: () => <Workshops workshops={workshops} />,
+              Workshops: () => (
+                <Workshops workshops={workshops} tutorials={tutorials} />
+              ),
               Image: ({src, light, dark, alt = ''}: any) => {
                 const {theme} = useTheme()
 
@@ -129,66 +138,86 @@ const GetStartedPage: React.FC<{
 
 export default GetStartedPage
 
-const Workshops: React.FC<{workshops: Workshop[]}> = ({workshops}) => {
+const Workshops: React.FC<{workshops: Workshop[]; tutorials: Workshop[]}> = ({
+  workshops,
+  tutorials,
+}) => {
+  const ModuleWorkshopAppItem = ({module}: {module: Workshop}) => {
+    if (!module?.github?.repo) return null
+
+    const deployedUrl = module?.workshopApp?.external?.url
+
+    return (
+      <li
+        key={module._id}
+        className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2"
+      >
+        <div className="flex items-center gap-3">
+          {module.image ? (
+            <Image
+              src={module.image}
+              width={50}
+              height={50}
+              alt={module.title}
+              aria-hidden
+            />
+          ) : null}
+          <Link
+            href={module.github.repo}
+            target="_blank"
+            className="group leading-tight hover:underline"
+          >
+            {module.title}{' '}
+            <span className="opacity-50 transition group-hover:opacity-100">
+              ↗︎
+            </span>
+          </Link>
+        </div>
+        <div className="flex flex-shrink-0 items-center justify-end gap-5 pr-5 text-sm font-medium">
+          {deployedUrl && (
+            <Link
+              target="_blank"
+              rel="noopener"
+              className="inline-flex items-center gap-1.5 hover:underline"
+              href={deployedUrl}
+            >
+              <GlobeIcon className="h-4 w-4 opacity-75" />
+              Deployed Version
+            </Link>
+          )}
+          <Link
+            href={module.github.repo + '?tab=readme-ov-file#setup'}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-1.5 hover:underline"
+          >
+            <Icon name="Github" size="16" className="opacity-75" />
+            Setup
+          </Link>
+        </div>
+      </li>
+    )
+  }
   return (
     <div className="not-prose my-8 flex flex-col items-center justify-center text-lg sm:gap-4 md:text-lg">
-      <ul className="w-full divide-y">
+      <strong className="flex w-full">Workshops</strong>
+      <ul className="w-full divide-y pb-5">
         {workshops.map((workshop) => {
-          if (!workshop?.github?.repo) return null
-          const deployedUrl = workshop?.workshopApp?.external?.url
-
-          return (
-            <li
-              key={workshop._id}
-              className="flex min-h-[56px] w-full flex-col justify-between gap-2 py-4 font-semibold sm:flex-row sm:items-center sm:gap-5 sm:py-2"
-            >
-              <div className="flex items-center gap-3">
-                {workshop.image ? (
-                  <Image
-                    src={workshop.image}
-                    width={50}
-                    height={50}
-                    alt={workshop.title}
-                    aria-hidden
-                  />
-                ) : null}
-                <Link
-                  href={workshop.github.repo}
-                  target="_blank"
-                  className="group leading-tight hover:underline"
-                >
-                  {workshop.title}{' '}
-                  <span className="opacity-50 transition group-hover:opacity-100">
-                    ↗︎
-                  </span>
-                </Link>
-              </div>
-              <div className="flex flex-shrink-0 items-center justify-end gap-5 pr-5 text-sm font-medium">
-                {deployedUrl && (
-                  <Link
-                    target="_blank"
-                    rel="noopener"
-                    className="inline-flex items-center gap-1.5 hover:underline"
-                    href={deployedUrl}
-                  >
-                    <GlobeIcon className="h-4 w-4 opacity-75" />
-                    Deployed Version
-                  </Link>
-                )}
-                <Link
-                  href={workshop.github.repo + '?tab=readme-ov-file#setup'}
-                  target="_blank"
-                  rel="noopener"
-                  className="inline-flex items-center gap-1.5 hover:underline"
-                >
-                  <Icon name="Github" size="16" className="opacity-75" />
-                  Setup
-                </Link>
-              </div>
-            </li>
-          )
+          return <ModuleWorkshopAppItem key={workshop._id} module={workshop} />
         })}
       </ul>
+      {tutorials.length > 0 && (
+        <>
+          <strong className="flex w-full">Tutorials</strong>
+          <ul className="w-full divide-y">
+            {tutorials.map((tutorial) => {
+              return (
+                <ModuleWorkshopAppItem key={tutorial._id} module={tutorial} />
+              )
+            })}
+          </ul>
+        </>
+      )}
     </div>
   )
 }

@@ -94,6 +94,7 @@ const ExercisePage: React.FC<any> = ({
       <LessonProvider lesson={lesson} module={module} section={section}>
         <VideoResourceProvider videoResourceId={videoResourceId}>
           <ExerciseTemplate
+            workshopApp={module.workshopApp}
             transcript={transcript}
             lessonBodySerialized={lessonBodySerialized}
             lessonBodyPreviewSerialized={lessonBodyPreviewSerialized}

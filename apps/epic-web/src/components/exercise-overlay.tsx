@@ -21,7 +21,10 @@ const ExerciseOverlay = () => {
   const workshopAppDetailsPath = lessonResources?.workshopApp?.path
 
   const {data: moduleResources, status: moduleResourcesStatus} =
-    trpc.moduleResources.byModuleSlug.useQuery({slug: module.slug.current})
+    trpc.moduleResources.byModuleSlug.useQuery({
+      slug: module.slug.current,
+      moduleType: module.moduleType,
+    })
   const workshopApp = moduleResources && moduleResources.workshopApp
 
   return (
@@ -33,9 +36,9 @@ const ExerciseOverlay = () => {
             Stop! 😅 This is not a video course.
           </p>
           <p className="text-lg text-gray-300">
-            This workshop is intended to be worked through by completing hands
-            on exercises in your local development environment. It's not meant
-            for passive consumption.
+            This {module.moduleType} is intended to be worked through by
+            completing hands on exercises in your local development environment.
+            It's not meant for passive consumption.
           </p>
           <div className="flex w-full max-w-xs flex-col space-y-3 pt-2">
             <Button

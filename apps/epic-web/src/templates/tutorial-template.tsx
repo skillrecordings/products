@@ -196,7 +196,8 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Icon name="Github" size="24" /> Code
+                  <Icon name="Github" size="24" />{' '}
+                  {tutorial.workshopApp && 'Workshop App &'} Code
                 </a>
               )}
             </div>
