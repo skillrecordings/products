@@ -46,7 +46,7 @@ const Index: NextPage = () => {
           <Article />
         </div>
 
-        <main className="mx-auto flex w-full max-w-screen-2xl grid-cols-4 flex-col items-center justify-center md:grid md:min-h-[calc(100vh-49px)]">
+        <main className="mx-auto flex w-full max-w-screen-2xl grid-cols-4 flex-col items-center justify-center md:grid md:min-h-[calc(80vh-49px)]">
           <Link
             href="/full-stack"
             className="group h-full w-full md:col-span-2"
@@ -57,8 +57,7 @@ const Index: NextPage = () => {
                   Production Ready Full Stack Web Development Masterclass
                 </h2>
                 <h3 className="text-balance text-lg opacity-80">
-                  The most comprehensive guide to professional web development
-                  by{' '}
+                  An epic guide to professional web development by{' '}
                   <Image
                     src={require('../../public/kent-c-dodds.png')}
                     width={28}
@@ -167,15 +166,6 @@ export default Index
 const Header = () => {
   return (
     <header className="relative mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,#FFF6E7_0%,transparent_65%)] px-5 pb-16 pt-5 text-center dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)]">
-      <div className="relative flex items-center justify-center">
-        <Image
-          src={require('../../public/assets/hero/small-planet-compressed.png')}
-          alt=""
-          aria-hidden="true"
-          width={200}
-          height={200}
-        />
-      </div>
       <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
         <span className="inline-flex pb-4 text-xs font-semibold uppercase tracking-wider text-amber-600  dark:text-orange-300 sm:text-sm">
           Start your journey to becoming an Epic Web Developer
