@@ -46,7 +46,36 @@ const Index: NextPage = () => {
           <Article />
         </div>
 
-        <main className="mx-auto flex w-full max-w-screen-2xl grid-cols-4 flex-col items-center justify-center md:grid md:min-h-[calc(80vh-49px)]">
+        <div className="col-span-1 mx-auto flex w-full flex-col  items-center">
+          {!subscriber && <PrimaryNewsletterCta className="mt-32 sm:mt-48" />}
+        </div>
+      </Layout>
+    </>
+  )
+}
+
+export default Index
+
+const Header = () => {
+  return (
+    <header className="relative mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,#FFF6E7_0%,transparent_65%)] px-5 pb-16 pt-48 pt-5 text-center dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)]">
+      <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
+        <span className="inline-flex pb-4 text-xs font-semibold uppercase tracking-wider text-amber-600  dark:text-orange-300 sm:text-sm">
+          Start your journey to becoming an Epic Web Developer
+        </span>
+        <div className="text-balance text-gray-900 dark:text-white">
+          Full Stack Workshop Training for Professional Web Developers
+        </div>
+      </h1>
+    </header>
+  )
+}
+
+function BundleGrid() {
+  return (
+    <div className="relative left-[50%] right-[50%] mx-[-50vw] my-16 w-screen">
+      <div className="mx-auto max-w-[2000px] px-5">
+        <main className="not-prose grid w-full grid-cols-1 md:min-h-[calc(80vh-49px)] md:grid-cols-4">
           <Link
             href="/full-stack"
             className="group h-full w-full md:col-span-2"
@@ -153,28 +182,8 @@ const Index: NextPage = () => {
             </Link>
           </div>
         </main>
-        <div className="col-span-1 mx-auto flex w-full flex-col  items-center">
-          {!subscriber && <PrimaryNewsletterCta className="mt-32 sm:mt-48" />}
-        </div>
-      </Layout>
-    </>
-  )
-}
-
-export default Index
-
-const Header = () => {
-  return (
-    <header className="relative mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_top,#FFF6E7_0%,transparent_65%)] px-5 pb-16 pt-5 text-center dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_65%)]">
-      <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
-        <span className="inline-flex pb-4 text-xs font-semibold uppercase tracking-wider text-amber-600  dark:text-orange-300 sm:text-sm">
-          Start your journey to becoming an Epic Web Developer
-        </span>
-        <div className="text-balance text-gray-900 dark:text-white">
-          Full Stack Workshop Training for Professional Web Developers
-        </div>
-      </h1>
-    </header>
+      </div>
+    </div>
   )
 }
 
@@ -183,6 +192,11 @@ const Article = () => {
     <article className="prose mx-auto max-w-3xl px-5 pt-0 dark:prose-invert sm:prose-lg prose-headings:pt-8 prose-headings:font-bold prose-p:max-w-2xl prose-ul:pl-0 sm:pt-5">
       <HomepageCopy
         components={{
+          BundleGrid: () => (
+            <div className="-mx-5">
+              <BundleGrid />
+            </div>
+          ),
           AboutKent: ({children}: any) => {
             return (
               <div className="rounded-lg border bg-white px-8 py-3 dark:bg-white/5 sm:px-10 sm:py-5">
