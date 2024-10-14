@@ -20,6 +20,7 @@ const WorkshopSchema = z.object({
   state: z.enum(['draft', 'published']),
   image: z.nullable(z.string()).optional(),
   ogImage: z.nullable(z.string()).optional(),
+  lessonCount: z.number().optional().nullable(),
   workshopApp: z
     .nullable(
       z.object({
@@ -99,6 +100,7 @@ const workshopsQuery = groq`*[_type == "module" && moduleType == 'workshop' && s
   state,
   github,
   workshopApp,
+  "lessonCount": count(resources[@->._type in ['lesson', 'exercise', 'explainer']] + resources[@->._type == 'section']->resources[@->._type in ['lesson', 'exercise', 'explainer']]),
   "instructor": contributors[@.role == 'instructor'][0].contributor->{
       _id,
       _type,
