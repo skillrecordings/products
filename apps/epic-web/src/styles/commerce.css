@@ -723,6 +723,7 @@
           img {
           }
         }
+
         article {
           @apply w-full;
         }
@@ -743,7 +744,7 @@
         }
         [data-pricing-product-header] {
           [data-byline] {
-            @apply mt-3 text-center opacity-75;
+            @apply mt-2 text-center opacity-75;
           }
           [data-name-badge] {
             @apply pb-4 text-center text-sm font-extrabold uppercase opacity-75;
@@ -790,7 +791,7 @@
             @apply flex items-center justify-center;
           }
           [data-loading-price] {
-            @apply flex h-10 items-center justify-center;
+            @apply flex h-[72px] items-center justify-center;
           }
           [data-price-container='error'] {
             @apply hidden;
@@ -1001,8 +1002,7 @@
             }
           }
           [data-guarantee-image] {
-            @apply mx-auto flex w-28 items-center justify-center pt-8;
-            /* @apply hidden; */
+            @apply hidden;
           }
           [data-main] {
             @apply px-5 py-5 text-base;
