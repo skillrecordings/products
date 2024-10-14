@@ -28,7 +28,6 @@ import {getAllBonuses} from 'lib/bonuses'
 import {cn} from '@skillrecordings/ui/utils/cn'
 
 import type {Workshop} from 'lib/workshops'
-import {getFullStackVol1Workshops} from '../../lib/workshops'
 import {useDebounce} from 'pages/search'
 import type {Contributor} from 'lib/contributors'
 import groq from 'groq'
@@ -121,29 +120,6 @@ const WorkshopsPage: React.FC<{
             A collection of exercise-driven, in-depth Web Development workshops.
           </h2>
         </div>
-        {/* <div className="flex w-full max-w-md items-center justify-center pt-16 lg:min-h-[204px] lg:justify-end lg:pl-8 lg:pt-0">
-          {abilityRulesStatus === 'loading' ? (
-            <div className="relative">
-              <ProductCTA
-                product={fullStackWorkshopSeriesProduct}
-                className="pointer-events-none w-full select-none opacity-0"
-              />
-              <Skeleton className="absolute left-0 top-0 h-full w-full rounded-md bg-foreground/5" />
-            </div>
-          ) : (
-            <>
-              {canViewContent ? (
-                <WorkshopAppBanner />
-              ) : (
-                <ProductCTA
-                  restricted={isRestricted}
-                  className="w-full"
-                  product={fullStackWorkshopSeriesProduct}
-                />
-              )}
-            </>
-          )}
-        </div> */}
       </header>
       <main className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col justify-center gap-5 px-5 pb-24 pt-8">
         <div className="flex w-full items-center justify-center gap-10 sm:justify-between">
@@ -235,50 +211,6 @@ const WorkshopsPage: React.FC<{
             })}
           </ul>
         )}
-        {/* {fullStackVol1Workshops && (
-          <ul className="flex flex-col gap-5">
-            <div className="relative flex items-center justify-center py-5">
-              <h3 className="relative z-10 bg-background px-3 py-1 text-center font-mono text-sm font-medium uppercase">
-                Full Stack Volume 1
-              </h3>
-              <div
-                className="absolute h-px w-full bg-foreground/5"
-                aria-hidden
-              />
-            </div>
-            {fullStackVol1Workshops.map((workshop, i) => {
-              return (
-                <ModuleProgressProvider moduleSlug={workshop.slug.current}>
-                  <Teaser
-                    module={workshop}
-                    key={workshop.slug.current}
-                    index={i}
-                  />
-                </ModuleProgressProvider>
-              )
-            })}
-          </ul>
-        )}
-        {bonuses && bonuses.some((bonus) => bonus.state === 'published') && (
-          <ul className="flex flex-col gap-5">
-            <div className="relative flex items-center justify-center py-5">
-              <h3 className="relative z-10 bg-background px-3 py-1 text-center font-mono text-sm font-medium uppercase">
-                Bonuses
-              </h3>
-              <div
-                className="absolute h-px w-full bg-foreground/5"
-                aria-hidden
-              />
-            </div>
-            {bonuses.map((bonus, i) => {
-              return (
-                <ModuleProgressProvider moduleSlug={bonus.slug.current}>
-                  <Teaser module={bonus} key={bonus.slug.current} index={i} />
-                </ModuleProgressProvider>
-              )
-            })}
-          </ul>
-        )} */}
       </main>
     </Layout>
   )
