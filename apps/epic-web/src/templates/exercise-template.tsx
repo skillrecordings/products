@@ -41,7 +41,7 @@ import {ResourceCTA} from 'components/cta/resource-cta'
 import type {Workshop} from 'lib/workshops'
 
 const ExerciseTemplate: React.FC<{
-  workshopApp: Workshop['workshopApp']
+  workshopApp?: Workshop['workshopApp']
   transcript: any[]
   lessonBodySerialized: MDXRemoteSerializeResult
   lessonBodyPreviewSerialized: MDXRemoteSerializeResult
