@@ -14,7 +14,7 @@ function getOrder(orderBy: (typeof searchQuerySchema)['_output']['orderBy']) {
 const searchQuerySchema = z.object({
   query: z.string(),
   resourceType: z.string().optional(),
-  moduleType: z.string().optional(),
+  moduleTypes: z.array(z.string()).optional(),
   numResults: z.number().default(20),
   orderBy: z.enum(['newest']).optional().default('newest'),
   contributor: z.string().optional(),
@@ -24,13 +24,19 @@ export const searchRouter = router({
   resultsForQuery: publicProcedure
     .input(searchQuerySchema)
     .query(async ({ctx, input}) => {
-      const {resourceType, moduleType, orderBy, contributor} = input
+      const {resourceType, moduleTypes, orderBy, contributor} = input
       const results = await sanityClient.fetch(
         `  *[_type in [${
           resourceType
             ? `"${resourceType}"`
             : '"article", "tip", "module", "exercise", "explainer", "talk"'
-        }]${moduleType ? ` && moduleType == "${moduleType}"` : ''}${
+        }]${
+          moduleTypes
+            ? ` && moduleType in [${moduleTypes.map(
+                (moduleType) => `"${moduleType}"`,
+              )}]`
+            : ''
+        }${
           contributor
             ? ` && contributors[@.role == 'instructor'][0].contributor->slug.current == "${contributor}"`
             : ''
@@ -55,7 +61,7 @@ export const searchRouter = router({
       slug,
       _type,
       "image": image.asset->url,
-      "lessonCount": count(resources[@->._type in ['lesson', 'exercise', 'explainer']] + resources[@->._type == 'section']->resources[@->._type in ['lesson', 'exercise', 'explainer']]),
+      "lessonCount": count(resources[@->._type in ['lesson', 'exercise', 'explainer', 'interview']] + resources[@->._type == 'section']->resources[@->._type in ['lesson', 'exercise', 'explainer']]),
       "instructor": contributors[@.role == 'instructor'][0].contributor->{
         _id,
         _type,

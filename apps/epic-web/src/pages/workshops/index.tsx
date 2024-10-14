@@ -3,14 +3,10 @@ import Layout from 'components/app/layout'
 import {motion} from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/legacy/image'
-import Balancer from 'react-wrap-balancer'
 import pluralize from 'pluralize'
 import {useRouter} from 'next/router'
 import {getAllWorkshops} from 'lib/workshops'
 import {Module} from '@skillrecordings/skill-lesson/schemas/module'
-import {WorkshopAppBanner} from 'components/workshop-app'
-import {ProductCTA} from 'components/product-cta'
-import {Product, getProduct} from 'lib/products'
 import {
   ModuleProgressProvider,
   useModuleProgress,
@@ -43,11 +39,8 @@ import type {SearchResult} from 'trpc/routers/search'
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
-  const fullStackVol1Workshops = await getFullStackVol1Workshops()
   const bonuses = await getAllBonuses()
-  const fullStackWorkshopSeriesProduct = await getProduct(
-    process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_ID,
-  )
+
   const contributors = await sanityClient.fetch(groq`
   *[_type == 'contributor'] {
     _id,
@@ -70,55 +63,17 @@ export async function getStaticProps() {
     props: {
       workshops,
       contributors: contributorsWithWorkshops,
-      // workshops: workshops.filter((workshop) => {
-      //   return !fullStackVol1Workshops.some((fullStackWorkshop) => {
-      //     return workshop.slug.current === fullStackWorkshop.slug.current
-      //   })
-      // }),
-      fullStackVol1Workshops: fullStackVol1Workshops.filter((workshop) => {
-        return workshop.moduleType !== 'bonus'
-      }),
-      fullStackWorkshopSeriesProduct,
       bonuses,
     },
     revalidate: 10,
   }
 }
 
-// There are multiple sections containing arrays of lessons. I'd like to flat map them into a single array of lessons.
-const sectionsFlatMap = (sections: any[]) => {
-  const map = sections.flatMap((section) => {
-    return section.lessons || []
-  })
-
-  return map
-}
-
 const WorkshopsPage: React.FC<{
   workshops: Workshop[]
   contributors: Contributor[]
-  fullStackVol1Workshops: Workshop[]
   bonuses?: Module[]
-  fullStackWorkshopSeriesProduct: Product
-}> = ({
-  contributors,
-  workshops,
-  fullStackWorkshopSeriesProduct,
-  bonuses,
-  fullStackVol1Workshops,
-}) => {
-  const useAbilities = () => {
-    const {data: abilityRules, status: abilityRulesStatus} =
-      trpc.modules.rules.useQuery({
-        moduleSlug: fullStackVol1Workshops?.[0]?.slug.current,
-        moduleType: 'workshop',
-      })
-    return {ability: createAppAbility(abilityRules || []), abilityRulesStatus}
-  }
-  const {ability, abilityRulesStatus} = useAbilities()
-
-  const canViewContent = ability.can('view', 'Content')
-  const isRestricted = ability.can('view', 'RegionRestriction')
+}> = ({contributors, workshops, bonuses}) => {
   const [query, setQuery] = React.useState('')
   const [contributor, setContributor] = React.useState('')
 
@@ -135,7 +90,7 @@ const WorkshopsPage: React.FC<{
       {
         query: debouncedQuery,
         resourceType: 'module',
-        moduleType: 'workshop',
+        moduleTypes: ['workshop', 'bonus'],
         orderBy: 'newest',
         contributor,
       },
@@ -336,7 +291,6 @@ const Teaser: React.FC<{
   index?: number
 }> = ({module, index}) => {
   let {title, slug, image, description} = module
-  let content = 'lessons' in module ? module.lessons : module.sections
   let instructor = 'instructor' in module ? module.instructor : null
 
   const moduleProgress = useModuleProgress()
@@ -354,7 +308,8 @@ const Teaser: React.FC<{
 
   const canViewContent = ability.can('view', 'Content')
   const ref = React.useRef(null)
-  const lessonType = 'lesson'
+  const isBonus = module.moduleType === 'bonus'
+  const lessonType = isBonus ? 'interview' : 'lesson'
   const lessonCount = module.lessonCount
   // content &&
   // (content?.[0]?._type === 'section'
