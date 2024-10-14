@@ -3,6 +3,8 @@ import {v4 as uuidv4} from 'uuid'
 import {Prisma, Purchase, PurchaseUserTransferState, User} from '@prisma/client'
 import {Inngest} from 'inngest'
 import {PURCHASE_STATUS_UPDATED_EVENT} from '@skillrecordings/inngest'
+import {defaultContext as stripeContext} from '@skillrecordings/stripe-sdk'
+import Stripe from 'stripe'
 
 type SDKOptions = {ctx?: Context}
 
@@ -148,6 +150,24 @@ export function getSdk(
       })
 
       if (purchase) {
+        const charge = (await stripeContext.stripe.charges.retrieve(chargeId, {
+          expand: ['data.balance_transaction'],
+        })) as Stripe.Charge & {
+          balance_transaction: Stripe.BalanceTransaction
+        }
+
+        await ctx.prisma.merchantCharge.update({
+          where: {
+            identifier: chargeId,
+          },
+          data: {
+            amount: charge.amount,
+            net: charge.balance_transaction.net,
+            fee: charge.balance_transaction.fee,
+            refundAmount: charge.amount_refunded,
+          },
+        })
+
         const updatedPurchase = await ctx.prisma.purchase.update({
           where: {
             id: purchase.id,
@@ -548,6 +568,15 @@ export function getSdk(
       const merchantChargeId = uuidv4()
       const purchaseId = uuidv4()
 
+      const charge = (await stripeContext.stripe.charges.retrieve(
+        stripeChargeId,
+        {
+          expand: ['data.balance_transaction'],
+        },
+      )) as Stripe.Charge & {
+        balance_transaction: Stripe.BalanceTransaction
+      }
+
       const merchantCharge = ctx.prisma.merchantCharge.create({
         data: {
           id: merchantChargeId,
@@ -556,6 +585,10 @@ export function getSdk(
           merchantAccountId,
           merchantProductId,
           merchantCustomerId,
+          amount: charge.amount,
+          net: charge.balance_transaction.net,
+          fee: charge.balance_transaction.fee,
+          refundAmount: charge.amount_refunded,
         },
       })
 

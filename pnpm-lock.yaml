@@ -2929,12 +2929,18 @@ importers:
       '@prisma/client':
         specifier: 5.2.0
         version: 5.2.0(prisma@5.8.1)
+      '@skillrecordings/stripe-sdk':
+        specifier: workspace:*
+        version: link:../stripe-sdk
       decimal.js:
         specifier: ^10.4.3
         version: 10.4.3
       inngest:
         specifier: 3.22.13
         version: 3.22.13(next@14.2.0-canary.30)(typescript@5.5.4)
+      stripe:
+        specifier: ^8.186.1
+        version: 8.222.0
       uuid:
         specifier: ^9.0.0
         version: 9.0.1
@@ -12299,7 +12305,7 @@ packages:
     dependencies:
       '@mdx-js/mdx': 2.3.0
       source-map: 0.7.4
-      webpack: 5.90.0(esbuild@0.21.5)
+      webpack: 5.90.0(esbuild@0.21.5)(uglify-js@3.19.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -16476,7 +16482,7 @@ packages:
       resolve: 1.22.8
       rollup: 2.78.0
       stacktrace-parser: 0.1.10
-      webpack: 5.90.0(esbuild@0.21.5)
+      webpack: 5.90.0(esbuild@0.21.5)(uglify-js@3.19.3)
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -38701,7 +38707,6 @@ packages:
       terser: 5.27.0
       uglify-js: 3.19.3
       webpack: 5.90.0(esbuild@0.21.5)(uglify-js@3.19.3)
-    dev: true
 
   /terser-webpack-plugin@5.3.10(esbuild@0.21.5)(webpack@5.90.0):
     resolution: {integrity: sha512-BKFPWlPDndPs+NGGCr1U59t0XScL5317Y0UReNrHaw9/FwhPENlq6bfgs+4yPfyP51vqC1bQ4rp1EfXW5ZSH9w==}
@@ -40940,7 +40945,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-    dev: true
 
   /whatwg-encoding@1.0.5:
     resolution: {integrity: sha512-b5lim54JOPN9HtzvK9HFXvBma/rnfFeqsic0hSpjtDbVxR3dJKLc+KB4V6GgiGOvl7CY/KNh8rxSo9DKQrnUEw==}
