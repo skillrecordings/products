@@ -52,7 +52,7 @@ const Index: NextPage = () => {
                   // href="/full-stack"
                   className="mt-8 flex items-center justify-center rounded bg-[linear-gradient(81deg,_#1F8AEB_9.18%,_#224BFF_115.75%)] px-7 py-3 text-center font-semibold text-white shadow-soft-lg transition duration-300 ease-in-out group-hover:brightness-110"
                 >
-                  Become Epic Web Dev
+                  Become an Epic Web Dev
                 </div>
               </div>
               <Image
@@ -81,12 +81,11 @@ const Index: NextPage = () => {
                   className=""
                 />
                 <div className="flex max-w-sm flex-col items-center xl:items-start">
-                  <h1 className="mb-3 text-3xl font-bold">
-                    Application Testing
-                  </h1>
-                  <h2 className="max-w-xl text-balance text-base opacity-80">
-                    Learn from the creator and maintainer of Mock Service Worker
-                    ,{' '}
+                  <h2 className="mb-3 text-3xl font-bold">
+                    Professional Web Application Testing with Vitest
+                  </h2>
+                  <h3 className="max-w-xl text-balance text-base opacity-80">
+                    Learn from the creator and maintainer of Mock Service Worker{' '}
                     <Image
                       src={require('../../public/artem.jpg')}
                       width={28}
@@ -96,7 +95,7 @@ const Index: NextPage = () => {
                       className="inline-block rounded-full"
                     />{' '}
                     Artem Zakharchenko.
-                  </h2>
+                  </h3>
                   <div className="mt-8 flex items-center justify-center rounded bg-white px-10 py-3 text-center font-semibold shadow-soft-lg transition duration-300 ease-in-out group-hover:bg-gray-100 dark:bg-[#272B40] dark:group-hover:bg-[#3C415B]">
                     Learn more
                   </div>
@@ -120,10 +119,12 @@ const Index: NextPage = () => {
                   className=""
                 />
                 <div className="flex max-w-sm flex-col items-center xl:items-start">
-                  <h1 className="mb-3 text-3xl font-bold">Styling</h1>
-                  <h2 className="max-w-xl text-balance text-base opacity-80">
-                    Make pixel-perfect design implementations with Tailwind.
+                  <h2 className="mb-3 text-3xl font-bold">
+                    Layout and Styling with Tailwind
                   </h2>
+                  <h3 className="max-w-xl text-balance text-base opacity-80">
+                    Make pixel-perfect design implementations with Tailwind.
+                  </h3>
                   <div className="mt-8 flex items-center justify-center rounded bg-white px-10 py-3 text-center font-semibold shadow-soft-lg transition duration-300 ease-in-out group-hover:bg-gray-100 dark:bg-[#272B40] dark:group-hover:bg-[#3C415B]">
                     Learn more
                   </div>
