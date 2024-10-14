@@ -128,6 +128,10 @@ function getDateRange(range: string): {start: Date; end: Date} {
       start.setUTCFullYear(start.getUTCFullYear() - 1, 0, 1)
       end.setUTCFullYear(end.getUTCFullYear() - 1, 11, 31)
       break
+    case 'october-10':
+      start.setUTCMonth(9, 10) // October is month 9 (0-indexed)
+      end.setUTCMonth(9, 10)
+      break
     default:
     // Default to today
   }
