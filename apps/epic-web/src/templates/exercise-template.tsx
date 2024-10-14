@@ -38,12 +38,19 @@ import {WorkshopAppBanner} from 'components/workshop-app'
 import {createAppAbility} from '@skillrecordings/skill-lesson/utils/ability'
 import {useGlobalBanner} from 'hooks/use-global-banner'
 import {ResourceCTA} from 'components/cta/resource-cta'
+import type {Workshop} from 'lib/workshops'
 
 const ExerciseTemplate: React.FC<{
+  workshopApp: Workshop['workshopApp']
   transcript: any[]
   lessonBodySerialized: MDXRemoteSerializeResult
   lessonBodyPreviewSerialized: MDXRemoteSerializeResult
-}> = ({transcript, lessonBodySerialized, lessonBodyPreviewSerialized}) => {
+}> = ({
+  workshopApp,
+  transcript,
+  lessonBodySerialized,
+  lessonBodyPreviewSerialized,
+}) => {
   const muxPlayerRef = React.useRef<MuxPlayerRefAttributes>(null)
   const router = useRouter()
   const {lesson, section, module} = useLesson()
@@ -95,7 +102,8 @@ const ExerciseTemplate: React.FC<{
     session
 
   const displayWorkshopAppBanner =
-    canViewContent && module.moduleType === 'workshop'
+    canViewContent && (module.moduleType === 'workshop' || workshopApp)
+
   const {isShowingSiteBanner} = useGlobalBanner()
   return (
     <VideoProvider
