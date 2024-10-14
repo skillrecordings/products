@@ -62,6 +62,15 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'visibility',
+      title: 'Visibility State',
+      type: 'string',
+      options: {
+        list: ['public', 'paid', 'subscribed'],
+        layout: 'radio',
+      },
+    }),
+    defineField({
       name: 'resources',
       title: 'Resources',
       type: 'array',

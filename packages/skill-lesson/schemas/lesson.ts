@@ -7,6 +7,7 @@ export const LessonResourceSchema = z
     _id: z.string().optional(),
     _key: z.string().optional(),
     resources: z.array(ResourceSchema).nullish(),
+    visibility: z.enum(['public', 'paid', 'subscribed']).optional().nullable(),
   })
   .merge(ResourceSchema)
 

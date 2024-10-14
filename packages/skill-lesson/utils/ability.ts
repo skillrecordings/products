@@ -139,6 +139,10 @@ const isFreelyVisible = ({
 }: ViewerAbilityInput) => {
   const hasId = lesson && '_id' in lesson
 
+  if (lesson?.visibility === 'public') {
+    return true
+  }
+
   // return false if it is a 'Solution'
   if (isSolution || lesson?._type === 'solution' || !hasId) {
     return false
