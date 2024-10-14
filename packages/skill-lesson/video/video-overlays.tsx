@@ -550,7 +550,9 @@ const BlockedOverlay: React.FC<{
           {canViewTeam ? (
             <InviteTeam product={product} />
           ) : (
-            <BuyProduct product={product} />
+            <BuyProduct
+              product={product.upgradableTo ? product.upgradableTo : product}
+            />
           )}
         </div>
       ) : null}
