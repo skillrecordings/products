@@ -60,7 +60,7 @@ const Index: NextPage<{
   const router = useRouter()
   const ALLOW_PURCHASE =
     router.query.allowPurchase === 'true' || product.state === 'active'
-  const {subscriber, loadingSubscriber} = useConvertkit()
+
   const {data: commerceProps, status: commercePropsStatus} =
     trpc.pricing.propsForCommerce.useQuery({
       ...router.query,
@@ -112,67 +112,61 @@ const Index: NextPage<{
             workshops={product.modules}
             interviewImages={interviewImages}
           />
+          <section className="relative mt-16 flex flex-col items-center justify-start dark:bg-black/30">
+            <div className="flex flex-col items-center justify-center py-16">
+              <h2 className="max-w-lg text-center text-2xl font-bold sm:text-3xl lg:text-4xl">
+                <Balancer>
+                  Become a Professional Full Stack Web Developer
+                </Balancer>
+              </h2>
+              <h3 className="max-w-lg pt-5 text-center text-lg text-gray-600 dark:text-gray-400">
+                <Balancer>
+                  The most comprehensive guide to professional web development
+                  by Kent C. Dodds.
+                </Balancer>
+              </h3>
+            </div>
+            <div
+              id="buy"
+              className="relative flex flex-col items-center justify-start"
+            >
+              <Sparkles />
+              {products
+                ?.filter((product: any) => product.state !== 'unavailable')
+                .map((product, i) => {
+                  return (
+                    <PriceCheckProvider
+                      key={product.slug}
+                      purchasedProductIds={purchasedProductIds}
+                    >
+                      <div data-pricing-container="" key={product.name}>
+                        <Pricing
+                          bonuses={bonuses}
+                          allowPurchase={ALLOW_PURCHASE}
+                          userId={commerceProps?.userId}
+                          product={product}
+                          purchased={purchasedProductIds.includes(
+                            product.productId,
+                          )}
+                          index={i}
+                          couponId={couponId}
+                        />
+                      </div>
+                    </PriceCheckProvider>
+                  )
+                })}
+            </div>
+            {ALLOW_PURCHASE ? (
+              <Image
+                className="-mt-16 mb-16"
+                src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
+                width={130}
+                height={130}
+                alt="30-Day Money Back Guarantee"
+              />
+            ) : null}
+          </section>
 
-          {subscriber ? (
-            <>
-              <section className="relative mt-16 flex flex-col items-center justify-start dark:bg-black/30">
-                <div className="flex flex-col items-center justify-center py-16">
-                  <h2 className="max-w-lg text-center text-2xl font-bold sm:text-3xl lg:text-4xl">
-                    <Balancer>
-                      Become a Professional Full Stack Web Developer
-                    </Balancer>
-                  </h2>
-                  <h3 className="max-w-lg pt-5 text-center text-lg text-gray-600 dark:text-gray-400">
-                    <Balancer>
-                      The most comprehensive guide to professional web
-                      development by Kent C. Dodds.
-                    </Balancer>
-                  </h3>
-                </div>
-                <div
-                  id="buy"
-                  className="relative flex flex-col items-center justify-start"
-                >
-                  <Sparkles />
-                  {products
-                    ?.filter((product: any) => product.state !== 'unavailable')
-                    .map((product, i) => {
-                      return (
-                        <PriceCheckProvider
-                          key={product.slug}
-                          purchasedProductIds={purchasedProductIds}
-                        >
-                          <div data-pricing-container="" key={product.name}>
-                            <Pricing
-                              bonuses={bonuses}
-                              allowPurchase={ALLOW_PURCHASE}
-                              userId={commerceProps?.userId}
-                              product={product}
-                              purchased={purchasedProductIds.includes(
-                                product.productId,
-                              )}
-                              index={i}
-                              couponId={couponId}
-                            />
-                          </div>
-                        </PriceCheckProvider>
-                      )
-                    })}
-                </div>
-                {ALLOW_PURCHASE ? (
-                  <Image
-                    className="-mt-16 mb-16"
-                    src="https://res.cloudinary.com/total-typescript/image/upload/v1669928567/money-back-guarantee-badge-16137430586cd8f5ec2a096bb1b1e4cf_o5teov.svg"
-                    width={130}
-                    height={130}
-                    alt="30-Day Money Back Guarantee"
-                  />
-                ) : null}
-              </section>
-            </>
-          ) : (
-            <PrimaryNewsletterCta className="mt-32 sm:mt-48" />
-          )}
           <AboutKent />
         </main>
       </Layout>

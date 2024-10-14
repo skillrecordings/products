@@ -55,7 +55,7 @@ export const PrimaryNewsletterCta: React.FC<
         )}
       </div>
       <h2 className="text-center text-3xl font-bold sm:text-4xl">
-        Follow EpicWeb.dev
+        Join 40,000+ developers in the Epic Web community
       </h2>
       <h3 className="pb-8 pt-3 text-center text-lg opacity-75 sm:text-xl">
         <Balancer>
