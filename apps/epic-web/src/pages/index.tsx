@@ -7,20 +7,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import {Sparkles} from 'pages/buy'
-import path from 'path'
-import {SanityProductModule} from '@skillrecordings/commerce-server/dist/@types'
 import HomepageCopy from 'components/homepage-copy.mdx'
-import {XIconTwitter} from 'components/x-icon'
-import MuxPlayer from '@mux/mux-player-react'
 import KentImage from '../../public/kent-c-dodds.png'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@skillrecordings/ui'
-import ReactMarkdown from 'react-markdown'
 
 const Index: NextPage = () => {
   const {subscriber, loadingSubscriber} = useConvertkit()
