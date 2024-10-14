@@ -40,6 +40,60 @@ function simplifyCharge(charge: Stripe.Charge): SimplifiedCharge {
   })
 }
 
+const SimplifiedRefundSchema = z.object({
+  id: z.string(),
+  amount: z.number(),
+  created: z.number(),
+  currency: z.string(),
+  chargeId: z.string(),
+  receiptNumber: z.string().nullable(),
+  status: z.string(),
+  metadata: z.record(z.string(), z.string()).nullable(),
+  product: z.string(),
+  productId: z.string().nullable(),
+})
+
+export type SimplifiedRefund = z.infer<typeof SimplifiedRefundSchema>
+
+function simplifyRefund(refund: Stripe.Refund): SimplifiedRefund {
+  let product = 'Unknown Product'
+  let productId = null
+
+  console.log('Refund ID:', refund.id)
+  console.log('Refund Metadata:', JSON.stringify(refund.metadata))
+
+  if (refund.charge && typeof refund.charge !== 'string') {
+    console.log('Charge Metadata:', JSON.stringify(refund.charge.metadata))
+    product = refund.charge.metadata.product || product
+    productId = refund.charge.metadata.productId || productId
+  } else {
+    console.log('Charge is not expanded or is a string:', refund.charge)
+  }
+
+  // If product is still unknown, check refund metadata
+  if (product === 'Unknown Product') {
+    product = refund.metadata?.product || product
+    productId = refund.metadata?.productId || productId
+  }
+
+  console.log('Final Product:', product)
+  console.log('Final ProductId:', productId)
+
+  return SimplifiedRefundSchema.parse({
+    id: refund.id,
+    amount: refund.amount,
+    currency: refund.currency,
+    created: refund.created,
+    status: refund.status,
+    chargeId:
+      typeof refund.charge === 'string' ? refund.charge : refund.charge?.id,
+    receiptNumber: refund.receipt_number || null,
+    metadata: refund.metadata || null,
+    product,
+    productId,
+  })
+}
+
 async function fetchChargesWithRetry(
   params: Stripe.ChargeListParams,
   maxRetries = 3,
@@ -62,6 +116,30 @@ async function fetchChargesWithRetry(
     }
   }
   throw new Error('Max retries reached when fetching charges')
+}
+
+async function fetchRefundsWithRetry(
+  params: Stripe.RefundListParams,
+  maxRetries = 3,
+): Promise<Stripe.ApiList<Stripe.Refund>> {
+  let retries = 0
+  while (retries < maxRetries) {
+    try {
+      console.log(`Fetching refunds with params: ${JSON.stringify(params)}`)
+      return await stripe.refunds.list(params)
+    } catch (error) {
+      if (error instanceof Stripe.errors.StripeRateLimitError) {
+        retries++
+        console.log(`Rate limit hit, retrying (${retries}/${maxRetries})...`)
+        await new Promise((resolve) =>
+          setTimeout(resolve, Math.pow(2, retries) * 1000),
+        )
+      } else {
+        throw error
+      }
+    }
+  }
+  throw new Error('Max retries reached when fetching refunds')
 }
 
 function getDateRange(range: string): {start: Date; end: Date} {
@@ -139,7 +217,7 @@ function getDateRange(range: string): {start: Date; end: Date} {
   return {start, end}
 }
 
-export const FetchChargesSchema = z.object({
+export const FetchChargesOrRefundsSchema = z.object({
   range: z.string().optional(),
   start: z.string().optional(),
   end: z.string().optional(),
@@ -159,14 +237,13 @@ export async function fetchCharges({
   end,
   limit = 100,
   starting_after,
-}: z.infer<typeof FetchChargesSchema>): Promise<PaginatedCharges> {
+}: z.infer<typeof FetchChargesOrRefundsSchema>): Promise<PaginatedCharges> {
   let startDate: Date
   let endDate: Date
 
   if (start && end) {
     startDate = new Date(start)
     endDate = new Date(end)
-    // Ensure the provided dates are interpreted as UTC
     startDate.setUTCHours(0, 0, 0, 0)
     endDate.setUTCHours(23, 59, 59, 999)
   } else if (range) {
@@ -209,5 +286,63 @@ export async function fetchCharges({
     charges: simplifiedCharges,
     has_more: charges.has_more,
     next_page_cursor: charges.data[charges.data.length - 1]?.id || null,
+  }
+}
+
+export interface PaginatedRefunds {
+  refunds: SimplifiedRefund[]
+  has_more: boolean
+  next_page_cursor: string | null
+}
+
+export async function fetchRefunds({
+  range,
+  start,
+  end,
+  limit = 100,
+  starting_after,
+}: z.infer<typeof FetchChargesOrRefundsSchema>): Promise<PaginatedRefunds> {
+  let startDate: Date
+  let endDate: Date
+
+  if (start && end) {
+    startDate = new Date(start)
+    endDate = new Date(end)
+    startDate.setUTCHours(0, 0, 0, 0)
+    endDate.setUTCHours(23, 59, 59, 999)
+  } else if (range) {
+    const dateRange = getDateRange(range)
+    startDate = dateRange.start
+    endDate = dateRange.end
+  } else {
+    const dateRange = getDateRange('today')
+    startDate = dateRange.start
+    endDate = dateRange.end
+  }
+
+  console.log(
+    `Fetching refunds for ${startDate.toISOString()} to ${endDate.toISOString()}`,
+  )
+
+  const refunds: Stripe.ApiList<Stripe.Refund> = await fetchRefundsWithRetry({
+    created: {
+      gte: Math.floor(startDate.getTime() / 1000),
+      lte: Math.floor(endDate.getTime() / 1000),
+    },
+    expand: ['data.charge'],
+    limit,
+    ...(starting_after ? {starting_after} : {}),
+  })
+
+  console.log(`Fetched ${refunds.data.length} refunds`)
+
+  const simplifiedRefunds = refunds.data.map(simplifyRefund)
+
+  return {
+    refunds: simplifiedRefunds,
+    has_more: refunds.has_more,
+    next_page_cursor: refunds.data.length
+      ? refunds.data[refunds.data.length - 1].id
+      : null,
   }
 }

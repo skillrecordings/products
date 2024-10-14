@@ -1,7 +1,12 @@
 import {postToSlack} from '@skillrecordings/skill-api'
 import {WebClient} from '@slack/web-api'
 import {inngest} from 'inngest/inngest.server'
-import {fetchCharges, SimplifiedCharge} from 'lib/transactions'
+import {
+  fetchCharges,
+  fetchRefunds,
+  SimplifiedCharge,
+  SimplifiedRefund,
+} from 'lib/transactions'
 import {prisma} from '@skillrecordings/database'
 
 const ANNOUNCE_CHANNEL = 'C07RDAMQ7PG'
@@ -15,7 +20,6 @@ const formatCurrency = (amount: number) => {
   }).format(amount / 100)
 }
 
-// Define types for our data structures
 type SplitData = {
   percent: number
   userId: string | null
@@ -46,6 +50,18 @@ type Totals = {
   productGroups: Record<string, ProductGroup>
 }
 
+type RefundTotals = {
+  totalRefundAmount: number
+  refundCount: number
+  refundsByProduct: Record<
+    string,
+    {
+      count: number
+      amount: number
+    }
+  >
+}
+
 export const slackDailyReporter = inngest.createFunction(
   {
     id: 'stripe/slack-daily-reporter',
@@ -56,6 +72,7 @@ export const slackDailyReporter = inngest.createFunction(
   },
   async ({step}) => {
     const allCharges: SimplifiedCharge[] = []
+    const allRefunds: SimplifiedRefund[] = []
     let hasMore = true
     let startingAfter: string | undefined = undefined
 
@@ -76,53 +93,118 @@ export const slackDailyReporter = inngest.createFunction(
       startingAfter = fetchChargePage.next_page_cursor || undefined
     }
 
-    const totals: Totals = await step.run('calculate-totals', async () => {
-      const totalAmount = allCharges.reduce(
-        (sum, charge) => sum + charge.amount - charge.amountRefunded,
-        0,
-      )
-      const totalRefunded = allCharges.reduce(
-        (sum, charge) => sum + charge.amountRefunded,
-        0,
-      )
-      const totalNet = allCharges.reduce((sum, charge) => sum + charge.net, 0)
-      const totalFee = allCharges.reduce((sum, charge) => sum + charge.fee, 0)
+    // Fetch refunds
+    hasMore = true
+    startingAfter = undefined
+    while (hasMore) {
+      const fetchRefundPage: Awaited<ReturnType<typeof fetchRefunds>> =
+        await step.run(
+          `fetch-refunds${startingAfter ? `-${startingAfter}` : ''}`,
+          async () => {
+            return fetchRefunds({
+              range: 'october-10',
+              starting_after: startingAfter,
+            })
+          },
+        )
+      allRefunds.push(...fetchRefundPage.refunds)
+      hasMore = fetchRefundPage.has_more
+      startingAfter = fetchRefundPage.next_page_cursor || undefined
+    }
 
-      // Group charges by product
-      const productGroups = allCharges.reduce((groups, charge) => {
-        const product = charge.product || 'Unknown Product'
-        const productId = charge.productId || 'unknown-id'
-        if (!groups[product]) {
-          groups[product] = {
-            productName: product,
-            productId: productId,
-            count: 0,
-            amount: 0,
-            net: 0,
-            fee: 0,
-            refunded: 0,
-          }
+    const {totals, refundTotals} = await step.run(
+      'calculate-totals',
+      async () => {
+        const totalGross = allCharges.reduce(
+          (sum, charge) => sum + charge.amount,
+          0,
+        )
+        const totalFee = allCharges.reduce((sum, charge) => sum + charge.fee, 0)
+
+        const refundTotals: RefundTotals = {
+          totalRefundAmount: allRefunds.reduce(
+            (sum, refund) => sum + refund.amount,
+            0,
+          ),
+          refundCount: allRefunds.length,
+          refundsByProduct: allRefunds.reduce((acc, refund) => {
+            console.log('Processing refund:', JSON.stringify(refund))
+            if (!acc[refund.product]) {
+              acc[refund.product] = {count: 0, amount: 0}
+            }
+            acc[refund.product].count++
+            acc[refund.product].amount += refund.amount
+            return acc
+          }, {} as Record<string, {count: number; amount: number}>),
         }
-        groups[product].count++
-        groups[product].amount +=
-          charge.amount - charge.amountRefunded - charge.fee
-        groups[product].net += charge.net - charge.amountRefunded
-        groups[product].fee += charge.fee
-        groups[product].refunded += charge.amountRefunded
-        return groups
-      }, {} as Record<string, ProductGroup>)
 
-      return {
-        totalAmount,
-        totalRefunded,
-        totalNet,
-        totalFee,
-        productGroups,
-      }
-    })
+        console.log(
+          'Refunds by Product:',
+          JSON.stringify(refundTotals.refundsByProduct),
+        )
+
+        const totalNet = totalGross - refundTotals.totalRefundAmount - totalFee
+
+        const productGroups = allCharges.reduce((groups, charge) => {
+          const product = charge.product || 'Unknown Product'
+          const productId = charge.productId || 'unknown-id'
+          if (!groups[product]) {
+            groups[product] = {
+              productName: product,
+              productId: productId,
+              count: 0,
+              amount: 0,
+              net: 0,
+              fee: 0,
+              refunded: 0,
+            }
+          }
+          groups[product].count++
+          groups[product].amount += charge.amount
+          groups[product].fee += charge.fee
+          return groups
+        }, {} as Record<string, ProductGroup>)
+
+        // Adjust product groups with refund data
+        Object.entries(refundTotals.refundsByProduct).forEach(
+          ([product, {amount}]) => {
+            if (productGroups[product]) {
+              productGroups[product].refunded += amount
+            } else {
+              // Handle refunds for products not in charges
+              productGroups[product] = {
+                productName: product,
+                productId: 'unknown-id',
+                count: 0,
+                amount: 0,
+                net: 0,
+                fee: 0,
+                refunded: amount,
+              }
+            }
+          },
+        )
+
+        // Calculate net for each product
+        Object.values(productGroups).forEach((group) => {
+          group.net = group.amount - group.refunded - group.fee
+        })
+
+        return {
+          totals: {
+            totalGross,
+            totalRefunded: refundTotals.totalRefundAmount,
+            totalNet,
+            totalFee,
+            productGroups,
+          },
+          refundTotals,
+        }
+      },
+    )
 
     const splits: Splits = await step.run('load splits', async () => {
-      const dbSplits = await prisma.ProductRevenueSplit.findMany({
+      const dbSplits = await prisma.productRevenueSplit.findMany({
         where: {
           productId: {
             in: Object.values(totals.productGroups).map(
@@ -172,7 +254,7 @@ export const slackDailyReporter = inngest.createFunction(
     })
 
     await step.run('announce in slack', async () => {
-      const {totalAmount, totalRefunded, totalNet, totalFee, productGroups} =
+      const {totalGross, totalRefunded, totalNet, totalFee, productGroups} =
         totals
 
       let totalSplits: Record<string, number> = {}
@@ -181,9 +263,8 @@ export const slackDailyReporter = inngest.createFunction(
         .filter(([_, stats]) => stats.amount > 0)
         .sort(([, a], [, b]) => b.amount - a.amount)
         .map(([key, stats]) => {
-          const productGrossTotal = stats.amount + stats.fee
-
-          const productNetTotal = stats.amount
+          const productGrossTotal = stats.amount
+          const productNetTotal = stats.net
 
           let splitInfo = 'No split information available'
 
@@ -191,7 +272,6 @@ export const slackDailyReporter = inngest.createFunction(
             let skillFee = 0
             let ownerShare = 0
 
-            // First, calculate the skill fee
             const skillSplit = Object.values(splits[stats.productId]).find(
               (split) => split.type === 'skill' && !split.userId,
             )
@@ -199,7 +279,6 @@ export const slackDailyReporter = inngest.createFunction(
               skillFee = Math.round(productGrossTotal * skillSplit.percent)
             }
 
-            // Then, calculate the owner's share and generate split info
             splitInfo = Object.values(splits[stats.productId])
               .map((splitData: SplitData) => {
                 let amount = 0
@@ -212,8 +291,7 @@ export const slackDailyReporter = inngest.createFunction(
                   userName =
                     users[splitData.userId] ||
                     `Unknown User (ID: ${splitData.userId})`
-                  // Owner share is gross - fees - skillFee
-                  amount = productGrossTotal - stats.fee - skillFee
+                  amount = productNetTotal - skillFee
                   ownerShare = amount
                 }
 
@@ -233,7 +311,7 @@ export const slackDailyReporter = inngest.createFunction(
 Gross: *${formatCurrency(productGrossTotal)}*
 Refunded: *${formatCurrency(stats.refunded)}*
 Fees: *${formatCurrency(stats.fee)}*
-Net (Stripe): *${formatCurrency(productNetTotal)}*
+Net: *${formatCurrency(productNetTotal)}*
 ${splitInfo}`,
           }
         })
@@ -241,12 +319,30 @@ ${splitInfo}`,
       const totalSplitsInfo = Object.entries(totalSplits)
         .sort(([, a], [, b]) => b - a)
         .map(([name, amount]) => {
-          const percentage = (amount / totalAmount) * 100
+          const percentage = (amount / totalNet) * 100
           return `${name}: *${formatCurrency(amount)}* (${percentage.toFixed(
             1,
-          )}% of Gross)`
+          )}% of Net)`
         })
         .join('\n')
+
+      //       const refundAttachment = {
+      //         mrkdwn_in: ['text'],
+      //         color: '#FF0000',
+      //         title: 'Refund Summary',
+      //         text: `Total Refunds: *${refundTotals.refundCount}*
+      // Total Refund Amount: *${formatCurrency(refundTotals.totalRefundAmount)}*
+
+      // Refunds by Product:
+      // ${Object.entries(refundTotals.refundsByProduct)
+      //   .map(
+      //     ([product, {count, amount}]) =>
+      //       `• ${product}: ${count} refund${
+      //         count !== 1 ? 's' : ''
+      //       }, *${formatCurrency(amount)}*`,
+      //   )
+      //   .join('\n')}`,
+      //       }
 
       const summaryAttachment = {
         mrkdwn_in: ['text'],
@@ -255,21 +351,29 @@ ${splitInfo}`,
           Date.now() - 86400000,
         ).toLocaleDateString()}`,
         text: `*${allCharges.length}* transactions
-Total Gross: *${formatCurrency(totalAmount)}*
+Total Gross: *${formatCurrency(totalGross)}*
 Total Refunded: *${formatCurrency(totalRefunded)}*
 Total Fees: *${formatCurrency(totalFee)}*
-Total Net (Stripe): *${formatCurrency(totalNet)}*
+Total Net: *${formatCurrency(totalNet)}*
 
 Revenue Splits Summary:
-${totalSplitsInfo}`,
+${totalSplitsInfo}
+
+Refund Summary:
+Total Refunds: *${refundTotals.refundCount}*
+Total Refund Amount: *${formatCurrency(refundTotals.totalRefundAmount)}*`,
       }
 
-      const attachments = [summaryAttachment, ...productAttachments]
+      const attachments = [
+        summaryAttachment,
+        // refundAttachment,
+        ...productAttachments,
+      ]
 
       return postToSlack({
         channel: ANNOUNCE_CHANNEL,
         webClient: new WebClient(process.env.SLACK_TOKEN),
-        text: `Yesterday's Charge Report`,
+        text: `Yesterday's Charge and Refund Report`,
         // @ts-ignore
         attachments,
       })
