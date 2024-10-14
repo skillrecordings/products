@@ -99,16 +99,19 @@
     }
   }
   [data-col='2'] {
-    @apply w-full max-w-lg sm:pr-5;
+    @apply w-full max-w-lg prose-headings:text-white prose-p:text-white sm:pr-5;
     [data-markdown] {
       @apply prose relative flex w-full max-w-2xl flex-col border-white/10 bg-gray-800 p-5 text-white before:absolute before:left-1/2 before:top-[-8px] before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-700/50 before:bg-gray-800 before:content-[''] prose-p:mb-0 prose-p:text-gray-300 sm:rounded-lg sm:border xl:max-w-lg xl:bg-transparent xl:before:hidden xl:prose-p:mb-0 2xl:prose-p:mb-0;
       [data-title] {
         @apply mt-0 text-xl font-semibold text-white sm:text-2xl;
       }
     }
+    #main-pricing {
+      @apply flex w-full flex-col items-center justify-center;
+    }
   }
   [data-buy] {
-    @apply z-20 flex h-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 text-center text-lg leading-relaxed;
+    @apply z-20 flex h-full w-full flex-shrink-0 flex-col items-center justify-center gap-5 p-5 text-center text-lg leading-relaxed;
     [data-team-purchase] {
       @apply flex w-full flex-col items-center justify-center gap-2;
       [data-image] {

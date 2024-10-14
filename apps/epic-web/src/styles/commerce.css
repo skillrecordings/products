@@ -1159,19 +1159,21 @@
 
   #video-overlay {
     [data-pricing-product] {
-      @apply min-h-[280px] w-full max-w-[350px];
+      @apply min-h-[280px] w-full max-w-[400px];
       [data-pricing-product-image] {
         @apply hidden;
       }
       article {
+        @apply w-full;
         /* @apply rounded-lg border border-gray-200/40 bg-white p-7 shadow-2xl shadow-gray-400/20; */
       }
 
       [data-pricing-product-header] {
         [data-byline] {
-          @apply hidden;
+          @apply pt-2 text-sm opacity-75;
         }
         [data-name-badge] {
+          @apply hidden;
         }
         [data-price-container] {
           @apply flex items-center justify-center gap-0.5;
@@ -1217,7 +1219,7 @@
         }
       }
       [data-price-container='loading'] {
-        @apply flex items-center py-3;
+        @apply flex h-[76px] items-center py-3;
         svg {
           @apply text-white;
         }
