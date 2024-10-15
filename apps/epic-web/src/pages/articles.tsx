@@ -42,7 +42,7 @@ const Articles: React.FC<{articles: Article[]}> = ({articles}) => {
         },
       }}
     >
-      <header className="mx-auto w-full max-w-screen-lg px-5 pb-3 pt-5 sm:pb-5 sm:pt-8">
+      <header className="mx-auto w-full max-w-screen-lg px-5 pb-3 pt-12 sm:pb-5 sm:pt-14">
         <h1 className="text-lg font-light">{title}</h1>
       </header>
       <main className="mx-auto w-full max-w-screen-lg">

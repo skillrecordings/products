@@ -127,10 +127,6 @@ const Navigation: React.FC<NavigationProps> = ({
   const isRoot = pathname === '/'
   const [menuOpen, setMenuOpen] = React.useState(false)
   const navigationLinks = useNavigationLinks()
-  const {isShowingSiteBanner, bannerHeight, scrollDirection} = useGlobalBanner()
-  // const {scrollY} = useScroll()
-
-  // const isSmScreen = useMedia('(max-width: 640px)', false)
 
   const [hoveredNavItemIndex, setHoveredNavItemIndex] = React.useState(-1)
 
@@ -162,18 +158,9 @@ const Navigation: React.FC<NavigationProps> = ({
       <motion.div
         ref={navRef}
         className={cn(
-          'fixed left-0 top-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md transition dark:bg-background/90 dark:shadow-xl dark:shadow-black/20 print:hidden',
+          'fixed left-0 top-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white shadow shadow-gray-300/20 transition dark:bg-background dark:shadow-xl dark:shadow-black/20 print:hidden',
           navigationContainerClassName,
         )}
-        style={{
-          translateY: isShowingSiteBanner
-            ? enableScrollAnimation
-              ? scrollDirection === 'up' || !scrollDirection
-                ? bannerHeight
-                : 0
-              : bannerHeight
-            : 0,
-        }}
       >
         <motion.nav
           aria-label="top"
@@ -199,7 +186,6 @@ const Navigation: React.FC<NavigationProps> = ({
             <div className="hidden items-center justify-start gap-2 font-medium md:flex lg:pl-2">
               {navigationLinks.map(({label, href, icon}, i) => {
                 const isOvershadowed = false
-                // (hoveredNavItemIndex !== i && hoveredNavItemIndex !== -1)
 
                 return (
                   <Link
@@ -304,12 +290,9 @@ const Navigation: React.FC<NavigationProps> = ({
                       purchasedProductIds.length > 0 && (
                         <Link
                           href="/products?s=purchased"
-                          className={cx(
-                            // 'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
-                            {
-                              underline: pathname === '/products',
-                            },
-                          )}
+                          className={cx({
+                            underline: pathname === '/products',
+                          })}
                         >
                           My Products
                         </Link>
@@ -1001,9 +984,10 @@ export const Banner: React.FC<{
   enableScrollAnimation?: boolean
 }> = ({className, enableScrollAnimation}) => {
   const {data: cta, status} = trpc.cta.forResource.useQuery()
-
   const router = useRouter()
+
   const currentSale = cta?.CURRENT_ACTIVE_PROMOTION
+
   const activeEvent = cta?.CURRENT_ACTIVE_LIVE_EVENT
   const {bannerHeight, scrollDirection} = useGlobalBanner()
   const code = router.query.code
@@ -1011,16 +995,30 @@ export const Banner: React.FC<{
   const productPath = productOnSale && productOnSalePathBuilder(productOnSale)
 
   if (!currentSale && !activeEvent) return null
+
+  // Don't show the banner on lesson pages
+  if (router.query.lesson) {
+    return null
+  }
+  // Don't show the banner on product page
+  if (router.query.slug === productOnSale?.slug) {
+    return null
+  }
+
   return (
     <div
       style={{
         height: bannerHeight,
       }}
-      className={cn(`fixed left-0 top-0 z-[60] w-full transition`, className, {
-        '-translate-y-full':
-          scrollDirection === 'down' && enableScrollAnimation,
-        'translate-y-0': scrollDirection === 'up' && enableScrollAnimation,
-      })}
+      className={cn(
+        `fixed left-0 top-[49px] z-40 w-full transition`,
+        className,
+        {
+          '-translate-y-full':
+            scrollDirection === 'down' && enableScrollAnimation,
+          'translate-y-0': scrollDirection === 'up' && enableScrollAnimation,
+        },
+      )}
     >
       {currentSale && productOnSale ? (
         <Link

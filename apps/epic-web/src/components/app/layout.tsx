@@ -101,9 +101,6 @@ const Layout: FunctionComponent<React.PropsWithChildren<LayoutProps>> = ({
       />
       <div
         id="layout"
-        style={{
-          marginTop: isShowingSiteBanner ? bannerHeight : '0',
-        }}
         className={cn(
           `relative flex h-full min-h-screen flex-grow flex-col pt-[48px] sm:pt-12`,
           className,
