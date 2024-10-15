@@ -1,44 +1,87 @@
 import React from 'react'
 import Layout from 'components/app/layout'
-import {SanityDocument} from '@sanity/client'
-import {getAllTutorials} from 'lib/tutorials'
-import Link from 'next/link'
 import Image from 'next/legacy/image'
-import Balancer from 'react-wrap-balancer'
-import pluralize from 'pluralize'
-import {
-  redirectUrlBuilder,
-  SubscribeToConvertkitForm,
-} from '@skillrecordings/convertkit-react-ui'
 import {useRouter} from 'next/router'
+import {ModuleProgressProvider} from '@skillrecordings/skill-lesson/video/module-progress'
+import {trpc} from 'trpc/trpc.client'
+import {
+  Input,
+  Label,
+  Progress,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@skillrecordings/ui'
+import {cn} from '@skillrecordings/ui/utils/cn'
+import {useDebounce} from 'pages/search'
+import type {Contributor} from 'lib/contributors'
+import groq from 'groq'
+import {sanityClient} from 'utils/sanity-client'
+import {Search} from 'lucide-react'
+import Spinner from 'components/spinner'
+import type {SearchResult} from 'trpc/routers/search'
 import {useConvertkit} from '@skillrecordings/skill-lesson/hooks/use-convertkit'
-import ResourceContributor from 'components/resource-contributor'
+import {getAllTutorials} from 'lib/tutorials'
+import {Teaser} from 'pages/workshops'
 import {PrimaryNewsletterCta} from 'components/primary-newsletter-cta'
 
 export async function getStaticProps() {
   const tutorials = await getAllTutorials()
 
+  const contributors = await sanityClient.fetch(groq`
+    *[_type == 'contributor'] {
+      _id,
+      name,
+      "slug": slug.current,
+      picture {
+        "url": asset->url,
+        alt
+      },
+      'tutorials': *[_type == 'module' && moduleType == 'tutorial' && references(^._id)] {
+        _id,
+      }
+    }`)
+
+  const contributorsWithTutorials = contributors.filter(({tutorials}: any) => {
+    return tutorials.length > 0
+  })
+
   return {
-    props: {tutorials},
+    props: {tutorials, contributors: contributorsWithTutorials},
     revalidate: 10,
   }
 }
 
-// There are multiple sections containing arrays of lessons. I'd like to flat map them into a single array of lessons.
-const sectionsFlatMap = (sections: any[]) => {
-  const map = sections?.flatMap((section) => {
-    return section.lessons || []
-  })
-
-  return map
-}
-
-const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
-  tutorials,
-}) => {
+const TutorialsPage: React.FC<{
+  tutorials: any[]
+  contributors: Contributor[]
+}> = ({tutorials, contributors}) => {
   const router = useRouter()
   const {subscriber, loadingSubscriber} = useConvertkit()
+  const [query, setQuery] = React.useState('')
+  const [contributor, setContributor] = React.useState('')
 
+  React.useEffect(() => {
+    router.query.q && setQuery(router.query.q.toString())
+    router.query.c && setContributor(router.query.c.toString())
+  }, [router])
+
+  const debouncedQuery = useDebounce(query, 500)
+  const {data: resultsForQuery, isFetching} =
+    trpc.search.resultsForQuery.useQuery(
+      {
+        query: debouncedQuery,
+        resourceType: 'module',
+        moduleTypes: ['tutorial'],
+        orderBy: 'newest',
+        contributor,
+      },
+      {
+        initialData: tutorials,
+      },
+    )
   return (
     <Layout
       meta={{
@@ -49,113 +92,112 @@ const TutorialsPage: React.FC<{tutorials: SanityDocument[]}> = ({
         },
       }}
     >
-      {' '}
-      <header className="mx-auto flex w-full max-w-4xl flex-col items-center space-y-3 px-5 pt-16 text-center">
-        <h1 className="mx-auto text-center text-4xl font-semibold">
-          <span className="block text-xs uppercase tracking-widest text-gray-500">
-            Free
-          </span>{' '}
-          Web Development Tutorials
-        </h1>
-        <h2 className="w-full max-w-md text-base text-gray-600 dark:text-gray-400">
-          <Balancer>
+      <header className="mx-auto flex w-full max-w-screen-lg flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,#EAEBFF_0%,transparent_65%)] px-5 pt-12 dark:bg-[radial-gradient(ellipse_at_top,#1a1e2c_0%,transparent_80%)] sm:pt-16 lg:flex-row lg:items-start">
+        <div className="flex flex-col items-center space-y-5 text-center lg:items-center lg:text-center">
+          <h1 className="flex flex-col text-3xl font-semibold sm:text-4xl lg:text-5xl">
+            <span className="mx-auto mb-4 inline-flex bg-gradient-to-r from-emerald-500 to-cyan-600 bg-clip-text text-sm uppercase tracking-widest text-transparent dark:from-emerald-200 dark:to-cyan-300">
+              Free
+            </span>{' '}
+            Web Development Tutorials
+          </h1>
+          <h2 className="w-full max-w-lg text-balance text-gray-600 dark:text-gray-400 sm:text-lg">
             A collection of exercise-driven, in-depth Web Development tutorials.
-          </Balancer>
-        </h2>
+          </h2>
+        </div>
       </header>
-      <main className="relative z-10 flex flex-col items-center justify-center pt-16">
-        {tutorials && (
-          <ul className="grid w-full max-w-screen-lg grid-cols-1 flex-col gap-5 px-5 sm:gap-8 lg:grid-cols-2">
-            {tutorials.map(
-              ({title, slug, image, description, sections, instructor}, i) => {
-                return (
-                  <li key={slug.current}>
-                    <Link
-                      className="relative flex h-full flex-col items-center gap-10 overflow-hidden rounded bg-white p-10 shadow-2xl shadow-gray-500/20 transition hover:bg-gray-50 dark:border-transparent dark:bg-gray-900 dark:shadow-none dark:hover:brightness-110"
-                      href={{
-                        pathname: '/tutorials/[module]',
-                        query: {
-                          module: slug.current,
-                        },
-                      }}
-                    >
-                      {image && (
-                        <div className="flex flex-shrink-0 items-center justify-center">
+      <main className="relative z-10 mx-auto flex w-full max-w-screen-lg flex-col justify-center gap-5 px-5 pb-24 pt-8">
+        <div className="flex w-full items-center justify-center gap-10 sm:justify-between">
+          <div className="flex w-full flex-col items-end gap-2 sm:flex-row">
+            <div className="relative flex w-full items-center">
+              <Search className="absolute left-3 h-4 w-4 text-gray-500" />
+              <Input
+                className="w-full pl-9"
+                type="search"
+                placeholder="Search tutorials"
+                value={query}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    router.push(
+                      router.pathname,
+                      {
+                        query: {q: e.target.value},
+                      },
+                      {
+                        shallow: true,
+                      },
+                    )
+                  } else {
+                    router.push(
+                      router.pathname,
+                      {
+                        query: {},
+                      },
+                      {
+                        shallow: true,
+                      },
+                    )
+                  }
+                  return setQuery(e.target.value)
+                }}
+              />
+              <div className="absolute right-1 flex h-full w-8 items-center justify-center sm:hidden">
+                {isFetching && <Spinner className="h-4 w-4" />}
+              </div>
+            </div>
+            <Label htmlFor="contributor" className="w-full sm:max-w-[220px]">
+              <span className="pb-2 text-sm opacity-90">Instructor</span>
+              <Select
+                defaultValue={contributor}
+                onValueChange={(value) => {
+                  return setContributor(value)
+                }}
+              >
+                <SelectTrigger className="w-full [&_span]:flex [&_span]:items-center [&_span]:gap-1 [&_span]:pr-3">
+                  <SelectValue placeholder="Instructor" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={''}>All</SelectItem>
+                  {contributors.map(({slug, name, picture}) => {
+                    return (
+                      <SelectItem
+                        className="[&_span]:flex [&_span]:items-center [&_span]:gap-1"
+                        value={slug}
+                      >
+                        {picture?.url && (
                           <Image
-                            src={image}
-                            alt={title}
-                            width={240}
-                            quality={100}
-                            height={240}
-                            priority
+                            src={picture?.url}
+                            alt={name}
+                            className="mr-2 rounded-full"
+                            width={24}
+                            height={24}
                           />
-                        </div>
-                      )}{' '}
-                      <div className="w-full">
-                        {' '}
-                        {i === 0 && (
-                          <span className="absolute right-5 top-5 rounded-full border border-gray-200 bg-transparent px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:border-transparent dark:bg-amber-400/20 dark:text-amber-300">
-                            New
-                          </span>
                         )}
-                        <h3 className="mt-3 w-full max-w-xl text-2xl font-semibold sm:text-3xl">
-                          <Balancer>{title}</Balancer>
-                        </h3>
-                        <div className="flex items-center gap-3 pt-4 text-gray-600 dark:text-gray-400">
-                          <div className="flex items-center justify-center gap-2 overflow-hidden rounded-full">
-                            <ResourceContributor
-                              name={instructor?.name}
-                              slug={instructor?.slug}
-                              image={instructor?.picture?.url}
-                              as="div"
-                            />
-                          </div>
-                          {sectionsFlatMap(sections) && (
-                            <>
-                              {'・'}
-                              <div>
-                                {sectionsFlatMap(sections)?.length}{' '}
-                                {pluralize(
-                                  sectionsFlatMap(sections)[0]._type,
-                                  sectionsFlatMap(sections)?.length,
-                                )}
-                              </div>
-                            </>
-                          )}
-                        </div>
-                        {description && (
-                          <p className="text-gray-300">{description}</p>
-                        )}
-                      </div>
-                    </Link>
-                  </li>
-                )
-              },
-            )}
-            {/* <li
-              id="tutorials-index"
-              className="relative flex flex-col items-center justify-center gap-10 overflow-hidden rounded-xl border-2 border-dashed p-10 text-xl text-gray-600 transition dark:border-white/5 dark:text-gray-400"
-            >
-              <h3>More tutorials coming soon!</h3>
-              {!subscriber && (
-                <SubscribeToConvertkitForm
-                  onSuccess={(subscriber: any) => {
-                    if (subscriber) {
-                      const redirectUrl = redirectUrlBuilder(
-                        subscriber,
-                        '/confirm',
-                      )
-                      router.push(redirectUrl)
-                    }
-                  }}
-                />
-              )}
-            </li> */}
+                        {name}
+                      </SelectItem>
+                    )
+                  })}
+                </SelectContent>
+              </Select>
+            </Label>
+          </div>
+          <div className="hidden h-full w-8 items-center justify-center sm:flex">
+            {isFetching && <Spinner className="-mb-5 h-5 w-5" />}
+          </div>
+        </div>
+        {resultsForQuery && (
+          <ul className={cn('grid grid-cols-1 gap-5 md:grid-cols-2', {})}>
+            {resultsForQuery.map((workshop: SearchResult) => {
+              return (
+                <ModuleProgressProvider moduleSlug={workshop.slug.current}>
+                  <Teaser module={workshop} key={workshop.slug.current} />
+                </ModuleProgressProvider>
+              )
+            })}
           </ul>
         )}
-
-        {!subscriber && <PrimaryNewsletterCta className="mt-20" />}
       </main>
+
+      {!subscriber && <PrimaryNewsletterCta className="mt-20" />}
     </Layout>
   )
 }

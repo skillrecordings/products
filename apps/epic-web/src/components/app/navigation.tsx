@@ -33,6 +33,7 @@ import {ChevronDownIcon} from '@heroicons/react/outline'
 import Countdown, {zeroPad} from 'react-countdown'
 import {useGlobalBanner} from 'hooks/use-global-banner'
 import pluralize from 'pluralize'
+import {useClickAway} from 'react-use'
 
 type NavigationProps = {
   className?: string
@@ -126,10 +127,6 @@ const Navigation: React.FC<NavigationProps> = ({
   const isRoot = pathname === '/'
   const [menuOpen, setMenuOpen] = React.useState(false)
   const navigationLinks = useNavigationLinks()
-  const {isShowingSiteBanner, bannerHeight, scrollDirection} = useGlobalBanner()
-  const {scrollY} = useScroll()
-
-  const isSmScreen = useMedia('(max-width: 640px)', false)
 
   const [hoveredNavItemIndex, setHoveredNavItemIndex] = React.useState(-1)
 
@@ -146,6 +143,11 @@ const Navigation: React.FC<NavigationProps> = ({
   const hasPurchase = purchasedProductIds.length > 0
   const ability = useAbilities()
   const canInviteTeam = ability.can('invite', 'Team')
+  const navRef = React.useRef(null)
+
+  useClickAway(navRef, () => {
+    setMenuOpen(false)
+  })
 
   return (
     <>
@@ -154,19 +156,11 @@ const Navigation: React.FC<NavigationProps> = ({
         enableScrollAnimation={enableScrollAnimation}
       />
       <motion.div
+        ref={navRef}
         className={cn(
-          'fixed left-0 top-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white/95 shadow shadow-gray-300/20 backdrop-blur-md transition dark:bg-background/90 dark:shadow-xl dark:shadow-black/20 print:hidden',
+          'fixed left-0 top-0 z-50 flex w-full flex-col items-center justify-center border-b border-foreground/5 bg-white shadow shadow-gray-300/20 transition dark:bg-background dark:shadow-xl dark:shadow-black/20 print:hidden',
           navigationContainerClassName,
         )}
-        style={{
-          translateY: isShowingSiteBanner
-            ? enableScrollAnimation
-              ? scrollDirection === 'up' || !scrollDirection
-                ? bannerHeight
-                : 0
-              : bannerHeight
-            : 0,
-        }}
       >
         <motion.nav
           aria-label="top"
@@ -192,7 +186,6 @@ const Navigation: React.FC<NavigationProps> = ({
             <div className="hidden items-center justify-start gap-2 font-medium md:flex lg:pl-2">
               {navigationLinks.map(({label, href, icon}, i) => {
                 const isOvershadowed = false
-                // (hoveredNavItemIndex !== i && hoveredNavItemIndex !== -1)
 
                 return (
                   <Link
@@ -261,61 +254,63 @@ const Navigation: React.FC<NavigationProps> = ({
           </div>
           <AnimatePresence>
             {menuOpen && (
-              <motion.div
-                initial={{y: -30, opacity: 0, scale: 0.9}}
-                animate={{y: 0, opacity: 1, scale: 1}}
-                exit={{y: -30, opacity: 0, scale: 0.9}}
-                transition={{
-                  type: 'spring',
-                  duration: 0.5,
-                }}
-                className="absolute left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100 bg-white px-2 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 backdrop-blur-md dark:border-gray-900 dark:bg-black/90 dark:shadow-black/60 md:hidden"
-              >
-                {navigationLinks.map(({label, href, icon}) => {
-                  return (
-                    <Link
-                      key={href}
-                      href={href}
-                      className="flex items-center gap-4 rounded-md px-3 py-2 transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
-                      passHref
-                      onClick={() => {
-                        track(`clicked ${label} from navigation`, {
-                          page: asPath,
-                        })
-                      }}
-                    >
-                      <span className="flex w-5 items-center justify-center">
-                        {icon(true)}
-                      </span>{' '}
-                      {label}
-                    </Link>
-                  )
-                })}
-
-                <div className="flex w-full items-center justify-between px-3 pt-5 text-lg">
-                  <Login />
-                  <User />
-                  {commercePropsStatus === 'success' &&
-                    purchasedProductIds.length > 0 && (
+              <>
+                <motion.div
+                  initial={{y: -30, opacity: 0, scale: 0.9}}
+                  animate={{y: 0, opacity: 1, scale: 1}}
+                  exit={{y: -30, opacity: 0, scale: 0.9}}
+                  transition={{
+                    type: 'spring',
+                    duration: 0.5,
+                  }}
+                  className="absolute left-0 top-0 flex w-full flex-col border-b border-gray-100 bg-white px-2 pb-5 pt-16 text-2xl font-medium shadow-2xl shadow-black/20 dark:border-gray-900 dark:bg-gray-950 dark:shadow-black/60 md:hidden"
+                >
+                  {navigationLinks.map(({label, href, icon}) => {
+                    return (
                       <Link
-                        href="/products?s=purchased"
-                        className={cx(
-                          // 'text-xs font-medium opacity-75 hover:underline hover:opacity-100',
-                          {
-                            underline: pathname === '/products',
-                          },
-                        )}
+                        key={href}
+                        href={href}
+                        className="flex items-center gap-1.5 rounded-md px-3 py-2 text-lg transition hover:bg-indigo-300/10 dark:hover:bg-white/5"
+                        passHref
+                        onClick={() => {
+                          track(`clicked ${label} from navigation`, {
+                            page: asPath,
+                          })
+                        }}
                       >
-                        My Products
+                        {label}
                       </Link>
-                    )}
-                  <ColorModeToggle />
-                </div>
-              </motion.div>
+                    )
+                  })}
+
+                  <div className="flex w-full items-center justify-between px-3 pt-5 text-lg">
+                    <Login className="bg-gray-200 dark:bg-white/5" />
+                    <User />
+                    {commercePropsStatus === 'success' &&
+                      purchasedProductIds.length > 0 && (
+                        <Link
+                          href="/products?s=purchased"
+                          className={cx({
+                            underline: pathname === '/products',
+                          })}
+                        >
+                          My Products
+                        </Link>
+                      )}
+                    <ColorModeToggle />
+                  </div>
+                </motion.div>
+              </>
             )}
           </AnimatePresence>
         </motion.nav>
       </motion.div>
+      {menuOpen && (
+        <div
+          className="fixed left-0 top-0 z-20 h-full w-full bg-background/20 backdrop-blur-md md:hidden"
+          aria-hidden="true"
+        />
+      )}
     </>
   )
 }
@@ -636,21 +631,24 @@ const NavToggle: React.FC<NavToggleProps> = ({
   const path01Controls = useAnimationControls()
   const path02Controls = useAnimationControls()
 
+  React.useEffect(() => {
+    if (isMenuOpened) {
+      path02Controls.start(path02Variants.moving)
+      path01Controls.start(path01Variants.open)
+      path02Controls.start(path02Variants.open)
+    } else {
+      path01Controls.start(path01Variants.closed)
+      path02Controls.start(path02Variants.moving)
+      path02Controls.start(path02Variants.closed)
+    }
+  }, [isMenuOpened])
+
   return (
     <button
       className="absolute z-10 flex h-12 w-12 items-center justify-center p-1 md:hidden"
       onClick={async () => {
         // menuControls.start(isMenuOpened ? 'close' : 'open')
         setMenuOpened(!isMenuOpened)
-        if (!isMenuOpened) {
-          await path02Controls.start(path02Variants.moving)
-          path01Controls.start(path01Variants.open)
-          path02Controls.start(path02Variants.open)
-        } else {
-          path01Controls.start(path01Variants.closed)
-          await path02Controls.start(path02Variants.moving)
-          path02Controls.start(path02Variants.closed)
-        }
       }}
     >
       <svg width="24" height="24" viewBox="0 0 24 24">
@@ -986,9 +984,10 @@ export const Banner: React.FC<{
   enableScrollAnimation?: boolean
 }> = ({className, enableScrollAnimation}) => {
   const {data: cta, status} = trpc.cta.forResource.useQuery()
-
   const router = useRouter()
+
   const currentSale = cta?.CURRENT_ACTIVE_PROMOTION
+
   const activeEvent = cta?.CURRENT_ACTIVE_LIVE_EVENT
   const {bannerHeight, scrollDirection} = useGlobalBanner()
   const code = router.query.code
@@ -996,16 +995,30 @@ export const Banner: React.FC<{
   const productPath = productOnSale && productOnSalePathBuilder(productOnSale)
 
   if (!currentSale && !activeEvent) return null
+
+  // Don't show the banner on lesson pages
+  if (router.query.lesson) {
+    return null
+  }
+  // Don't show the banner on product page
+  if (router.query.slug === productOnSale?.slug) {
+    return null
+  }
+
   return (
     <div
       style={{
         height: bannerHeight,
       }}
-      className={cn(`fixed left-0 top-0 z-[60] w-full transition`, className, {
-        '-translate-y-full':
-          scrollDirection === 'down' && enableScrollAnimation,
-        'translate-y-0': scrollDirection === 'up' && enableScrollAnimation,
-      })}
+      className={cn(
+        `fixed left-0 top-[49px] z-40 w-full transition`,
+        className,
+        {
+          '-translate-y-full':
+            scrollDirection === 'down' && enableScrollAnimation,
+          'translate-y-0': scrollDirection === 'up' && enableScrollAnimation,
+        },
+      )}
     >
       {currentSale && productOnSale ? (
         <Link
