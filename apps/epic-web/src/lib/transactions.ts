@@ -207,8 +207,8 @@ function getDateRange(range: string): {start: Date; end: Date} {
       end.setUTCFullYear(end.getUTCFullYear() - 1, 11, 31)
       break
     case 'october-10':
-      start.setUTCMonth(9, 10) // October is month 9 (0-indexed)
-      end.setUTCMonth(9, 10)
+      start.setUTCMonth(8, 1) // October is month 9 (0-indexed)
+      end.setUTCMonth(8, 30)
       break
     default:
     // Default to today
@@ -257,7 +257,7 @@ export async function fetchCharges({
   }
 
   console.log(
-    `Fetching charges for ${startDate.toISOString()} to ${endDate.toISOString()}`,
+    `dateeee!!! Fetching charges for ${startDate.toISOString()} to ${endDate.toISOString()}`,
   )
 
   const charges: Stripe.ApiList<Stripe.Charge> = await fetchChargesWithRetry({

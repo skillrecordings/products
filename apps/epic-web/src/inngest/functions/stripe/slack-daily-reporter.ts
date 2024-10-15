@@ -62,6 +62,14 @@ type RefundTotals = {
   >
 }
 
+function getWebsiteGroup(
+  productName: string,
+): 'Epic React' | 'Testing JavaScript' | 'Epic Web' {
+  if (productName.includes('Epic React')) return 'Epic React'
+  if (productName.includes('Testing JavaScript')) return 'Testing JavaScript'
+  return 'Epic Web'
+}
+
 export const slackDailyReporter = inngest.createFunction(
   {
     id: 'stripe/slack-daily-reporter',
@@ -260,142 +268,173 @@ export const slackDailyReporter = inngest.createFunction(
     })
 
     const calculatedSplits = await step.run('calculate splits', async () => {
+      type ProductSplit = {
+        skillFee: number
+        subtotal: number
+        creatorSplits: Record<string, number>
+      }
+
+      type SplitTotals = ProductSplit & {
+        products: Record<string, ProductSplit>
+      }
+
+      type GroupSplits = Record<string, SplitTotals>
+
       let totalSplits: Record<string, number> = {}
+      let groupSplits: GroupSplits = {
+        'Epic React': {
+          skillFee: 0,
+          subtotal: 0,
+          creatorSplits: {},
+          products: {},
+        },
+        'Testing JavaScript': {
+          skillFee: 0,
+          subtotal: 0,
+          creatorSplits: {},
+          products: {},
+        },
+        'Epic Web': {skillFee: 0, subtotal: 0, creatorSplits: {}, products: {}},
+      }
 
       Object.entries(totals.productGroups).forEach(([key, stats]) => {
-        console.log('========================')
         const productGrossTotal = stats.amount
-        const productNetTotal = stats.net
-
-        console.log(`Processing product: ${key}`)
-        console.log(
-          `Gross Total: ${productGrossTotal}, Net Total: ${productNetTotal}`,
-        )
+        const websiteGroup = getWebsiteGroup(stats.productName)
+        const groupSplit = groupSplits[websiteGroup]
 
         if (splits[stats.productId]) {
           let skillFee = 0
-          let creatorSplit = 0
+          let subtotal = 0
 
           const skillSplit = Object.values(splits[stats.productId]).find(
             (split) => split.type === 'skill' && !split.userId,
           )
           if (skillSplit) {
             skillFee = Math.round(productGrossTotal * skillSplit.percent)
-            console.log(`Skill Fee for ${key}: ${skillFee}`)
           }
 
-          const creatorSplitData = Object.values(splits[stats.productId]).find(
-            (split) => split.userId,
-          )
-          if (creatorSplitData) {
-            creatorSplit = Math.round(
-              productNetTotal * creatorSplitData.percent,
-            )
-            console.log(`Creator Split for ${key}: ${creatorSplit}`)
+          // Calculate subtotal using the corrected formula
+          subtotal = productGrossTotal - skillFee - stats.fee
+
+          groupSplit.skillFee += skillFee
+          groupSplit.subtotal += subtotal
+
+          if (!totalSplits['Skill Fee']) totalSplits['Skill Fee'] = 0
+          totalSplits['Skill Fee'] += skillFee
+
+          if (!totalSplits['Subtotal']) totalSplits['Subtotal'] = 0
+          totalSplits['Subtotal'] += subtotal
+
+          const productSplit: ProductSplit = {
+            skillFee,
+            subtotal,
+            creatorSplits: {},
           }
 
           Object.values(splits[stats.productId]).forEach(
             (splitData: SplitData) => {
-              let amount = 0
-              let userName = 'Unknown User'
-
-              if (splitData.type === 'skill' && !splitData.userId) {
-                userName = 'Skill Fee'
-                amount = skillFee
-              } else if (splitData.userId) {
-                userName =
+              if (splitData.userId) {
+                const userName =
                   users[splitData.userId] ||
                   `Unknown User (ID: ${splitData.userId})`
-                amount = creatorSplit
+                const creatorSplit = Math.round(subtotal * splitData.percent)
+
+                productSplit.creatorSplits[userName] = creatorSplit
+
+                if (!groupSplit.creatorSplits[userName]) {
+                  groupSplit.creatorSplits[userName] = 0
+                }
+                groupSplit.creatorSplits[userName] += creatorSplit
+
+                if (!totalSplits[userName]) totalSplits[userName] = 0
+                totalSplits[userName] += creatorSplit
               }
-
-              console.log(`Split Data for ${userName}: ${amount}`)
-
-              if (!totalSplits[userName]) totalSplits[userName] = 0
-              totalSplits[userName] += amount
-              console.log(
-                `Total Splits for ${userName}: ${totalSplits[userName]}`,
-              )
             },
           )
-        } else {
-          console.log(`No splits found for product: ${key}`)
+
+          groupSplit.products[key] = productSplit
         }
       })
 
-      console.log('Final calculated splits:', totalSplits)
-      return totalSplits
+      return {totalSplits, groupSplits}
     })
 
     await step.run('announce in slack', async () => {
       const {totalGross, totalRefunded, totalNet, totalFee, productGroups} =
         totals
+      const {totalSplits, groupSplits} = calculatedSplits
 
-      function getWebsiteGroup(
-        productName: string,
-      ): 'Epic React' | 'Testing JavaScript' | 'Epic Web' {
-        if (productName.includes('Epic React')) return 'Epic React'
-        if (productName.includes('Testing JavaScript'))
-          return 'Testing JavaScript'
-        return 'Epic Web'
-      }
-
-      const websiteGroups: Record<
-        'Epic React' | 'Testing JavaScript' | 'Epic Web',
-        any[]
-      > = {
-        'Epic React': [],
-        'Testing JavaScript': [],
-        'Epic Web': [],
-      }
-
-      // Group existing product data into website categories
-      Object.entries(productGroups).forEach(([key, stats]) => {
-        const websiteGroup = getWebsiteGroup(stats.productName)
-        websiteGroups[websiteGroup].push({key, stats})
-      })
-
-      const websiteAttachments = Object.entries(websiteGroups).map(
-        ([groupName, products]) => ({
+      const websiteAttachments = Object.entries(groupSplits).map(
+        ([groupName, groupSplit]) => ({
           mrkdwn_in: ['text'],
           color: '#4893c9',
-          title: groupName,
-          text: products
-            .map(({key, stats}) => {
-              const productGrossTotal = stats.amount
-              const productNetTotal = stats.net
+          title: `${groupName}\n${'-'.repeat(groupName.length + 5)}`,
+          text: `*Group Totals:*
+Gross: *${formatCurrency(
+            Object.values(productGroups).reduce(
+              (sum, stats) =>
+                sum +
+                (getWebsiteGroup(stats.productName) === groupName
+                  ? stats.amount
+                  : 0),
+              0,
+            ),
+          )}*
+Refunded: *${formatCurrency(
+            Object.values(productGroups).reduce(
+              (sum, stats) =>
+                sum +
+                (getWebsiteGroup(stats.productName) === groupName
+                  ? stats.refunded
+                  : 0),
+              0,
+            ),
+          )}*
+Fees: *${formatCurrency(
+            Object.values(productGroups).reduce(
+              (sum, stats) =>
+                sum +
+                (getWebsiteGroup(stats.productName) === groupName
+                  ? stats.fee
+                  : 0),
+              0,
+            ),
+          )}*
+Net: *${formatCurrency(
+            Object.values(productGroups).reduce(
+              (sum, stats) =>
+                sum +
+                (getWebsiteGroup(stats.productName) === groupName
+                  ? stats.net
+                  : 0),
+              0,
+            ),
+          )}*
+Skill Fee: *${formatCurrency(groupSplit.skillFee)}*
+Subtotal: *${formatCurrency(groupSplit.subtotal)}*
 
-              let splitInfo = 'No split information available'
-              if (splits[stats.productId]) {
-                splitInfo = Object.values(splits[stats.productId])
-                  .map((splitData: SplitData) => {
-                    let amount = 0
-                    let userName = 'Unknown User'
+*Split Totals:*
+${Object.entries(groupSplit.creatorSplits)
+  .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
+  .join('\n')}
 
-                    if (splitData.type === 'skill' && !splitData.userId) {
-                      userName = 'Skill Fee'
-                      amount = Math.round(productGrossTotal * splitData.percent)
-                    } else if (splitData.userId) {
-                      userName =
-                        users[splitData.userId] ||
-                        `Unknown User (ID: ${splitData.userId})`
-                      amount = Math.round(productNetTotal * splitData.percent)
-                    }
-
-                    return `${userName}: *${formatCurrency(amount)}*`
-                  })
-                  .join('\n')
-              }
-
-              return `*${stats.productName} (ID: ${stats.productId})*
-• ${stats.count} transactions
-Gross: *${formatCurrency(productGrossTotal)}*
+*Individual Products:*
+${Object.entries(groupSplit.products)
+  .map(([key, productSplit]) => {
+    const stats = productGroups[key]
+    return `• *${stats.productName} (ID: ${stats.productId})*
+${stats.count} transactions
+Gross: *${formatCurrency(stats.amount)}*
 Refunded: *${formatCurrency(stats.refunded)}*
 Fees: *${formatCurrency(stats.fee)}*
-Net: *${formatCurrency(productNetTotal)}*
-${splitInfo}`
-            })
-            .join('\n\n'),
+Skill Fee: *${formatCurrency(productSplit.skillFee)}*
+Subtotal: *${formatCurrency(productSplit.subtotal)}*
+${Object.entries(productSplit.creatorSplits)
+  .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
+  .join('\n')}
+Skill Fee: *${formatCurrency(productSplit.skillFee)}*`
+  })
+  .join('\n\n')}`,
         }),
       )
 
@@ -416,7 +455,7 @@ Total Refunds: *${refundTotals.refundCount}*
 Total Refund Amount: *${formatCurrency(refundTotals.totalRefundAmount)}*
 
 Revenue Splits Summary:
-${Object.entries(calculatedSplits)
+${Object.entries(totalSplits)
   .sort(([, a], [, b]) => b - a)
   .map(([name, amount]) => {
     const percentage = (amount / totalNet) * 100
