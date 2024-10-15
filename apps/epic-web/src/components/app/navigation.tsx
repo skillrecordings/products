@@ -1034,7 +1034,7 @@ export const Banner: React.FC<{
             })
           }}
         >
-          <div className="mx-auto flex w-full max-w-screen-lg items-center justify-center space-x-2 px-2 text-[10px] font-medium sm:space-x-4 sm:text-sm">
+          <div className="mx-auto flex w-full max-w-screen-lg items-center justify-center space-x-2 px-2 text-[9px] font-medium sm:space-x-4 sm:text-sm">
             <div className="flex w-full flex-col sm:w-auto sm:flex-row sm:items-center sm:space-x-2">
               <strong>
                 Save {(Number(currentSale.percentageDiscount) * 100).toString()}
