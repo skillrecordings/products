@@ -35,6 +35,7 @@ import {sanityClient} from 'utils/sanity-client'
 import {Search} from 'lucide-react'
 import Spinner from 'components/spinner'
 import type {SearchResult} from 'trpc/routers/search'
+import {track} from 'utils/analytics'
 
 export async function getStaticProps() {
   const workshops = await getAllWorkshops()
@@ -218,7 +219,7 @@ const WorkshopsPage: React.FC<{
 
 export default WorkshopsPage
 
-const Teaser: React.FC<{
+export const Teaser: React.FC<{
   module: SearchResult
   index?: number
 }> = ({module, index}) => {
@@ -253,13 +254,17 @@ const Teaser: React.FC<{
       <Link
         className="relative flex h-full w-full flex-col items-center gap-5 overflow-hidden rounded-md border border-gray-100 bg-white bg-gradient-to-tr from-transparent to-white/50 p-5 px-8 pb-8 shadow-soft-xl transition before:absolute before:left-0 before:top-0 before:h-px before:w-full before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:content-[''] dark:border-transparent dark:from-gray-900 dark:to-gray-800 dark:hover:brightness-110 md:flex-col"
         href={{
-          pathname:
-            module.moduleType === 'bonus'
-              ? '/bonuses/[module]'
-              : '/workshops/[module]',
+          pathname: `/${pluralize(module.moduleType)}/[module]`,
           query: {
             module: slug.current,
           },
+        }}
+        onClick={() => {
+          track(`clicked ${module.moduleType} card`, {
+            title,
+            module: slug.current,
+            location: pluralize(module.moduleType),
+          })
         }}
       >
         {module.moduleType === 'bonus' ? (
