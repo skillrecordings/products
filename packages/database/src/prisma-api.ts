@@ -151,7 +151,7 @@ export function getSdk(
 
       if (purchase) {
         const charge = (await stripeContext.stripe.charges.retrieve(chargeId, {
-          expand: ['data.balance_transaction'],
+          expand: ['balance_transaction'],
         })) as Stripe.Charge & {
           balance_transaction: Stripe.BalanceTransaction
         }
@@ -571,7 +571,7 @@ export function getSdk(
       const charge = (await stripeContext.stripe.charges.retrieve(
         stripeChargeId,
         {
-          expand: ['data.balance_transaction'],
+          expand: ['balance_transaction'],
         },
       )) as Stripe.Charge & {
         balance_transaction: Stripe.BalanceTransaction
