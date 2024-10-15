@@ -130,6 +130,7 @@ export interface SkillRecordingsOptions {
   nextAuthOptions?: NextAuthOptions
   paymentOptions?: PaymentOptions
   getAbility?: (req: IncomingRequest) => any
+  onPurchase?: (purchaseId: string) => any
 }
 
 export default SkillRecordings
