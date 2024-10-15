@@ -210,7 +210,15 @@ function getDateRange(range: string): {start: Date; end: Date} {
   return {start, end}
 }
 
-export const FetchChargesOrRefundsSchema = z.object({
+export const FetchChargesSchema = z.object({
+  range: z.string().optional(),
+  start: z.string().optional(),
+  end: z.string().optional(),
+  limit: z.number().optional(),
+  starting_after: z.string().optional(),
+})
+
+export const FetchRefundsSchema = z.object({
   range: z.string().optional(),
   start: z.string().optional(),
   end: z.string().optional(),
@@ -230,7 +238,7 @@ export async function fetchCharges({
   end,
   limit = 100,
   starting_after,
-}: z.infer<typeof FetchChargesOrRefundsSchema>): Promise<PaginatedCharges> {
+}: z.infer<typeof FetchChargesSchema>): Promise<PaginatedCharges> {
   let startDate: Date
   let endDate: Date
 
@@ -294,7 +302,7 @@ export async function fetchRefunds({
   end,
   limit = 100,
   starting_after,
-}: z.infer<typeof FetchChargesOrRefundsSchema>): Promise<PaginatedRefunds> {
+}: z.infer<typeof FetchRefundsSchema>): Promise<PaginatedRefunds> {
   let startDate: Date
   let endDate: Date
 
