@@ -986,11 +986,6 @@ export const Banner: React.FC<{
   const {data: cta, status} = trpc.cta.forResource.useQuery()
   const router = useRouter()
 
-  // Don't show the banner on lesson pages
-  if (router.query.lesson) {
-    return null
-  }
-
   const currentSale = cta?.CURRENT_ACTIVE_PROMOTION
 
   const activeEvent = cta?.CURRENT_ACTIVE_LIVE_EVENT
@@ -1001,6 +996,10 @@ export const Banner: React.FC<{
 
   if (!currentSale && !activeEvent) return null
 
+  // Don't show the banner on lesson pages
+  if (router.query.lesson) {
+    return null
+  }
   // Don't show the banner on product page
   if (router.query.slug === productOnSale?.slug) {
     return null
