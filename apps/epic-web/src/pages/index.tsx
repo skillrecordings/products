@@ -87,7 +87,7 @@ function BundleGrid() {
         className="group h-full w-full overflow-hidden rounded-lg md:col-span-2"
       >
         <article className="relative flex h-full flex-col items-center justify-start overflow-hidden bg-gradient-to-b from-[#23378E] to-[#08195F] text-white transition-all duration-300 ease-in-out group-hover:from-[#273E9F] group-hover:to-[#0A1E73]">
-          <div className="relative z-10 flex h-1/2 flex-col items-center justify-center px-10 pb-16 pt-16 text-center md:pb-0 md:pt-0 2xl:h-1/3">
+          <div className="relative z-10 flex h-1/2 flex-col items-center justify-center px-10 pb-16 pt-16 text-center md:pb-0 md:pt-0">
             <h2 className="mb-3 text-balance text-xl font-bold">
               Production Ready Full Stack Web Development Masterclass
             </h2>
