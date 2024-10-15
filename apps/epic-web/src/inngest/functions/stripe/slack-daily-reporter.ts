@@ -90,7 +90,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-charges${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchCharges({
-              range: 'october-10',
+              range: 'yesterday',
               starting_after: startingAfter,
             })
           },
@@ -110,7 +110,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-refunds${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchRefunds({
-              range: 'october-10',
+              range: 'yesterday',
               starting_after: startingAfter,
             })
           },
@@ -406,7 +406,6 @@ export const slackDailyReporter = inngest.createFunction(
         return 'Epic Web'
       }
 
-      // Create a map to group products by website group
       const groupedProducts = Object.entries(productGroups).reduce(
         (acc, [key, product]) => {
           const group = getWebsiteGroup(product.productName)
@@ -423,20 +422,13 @@ export const slackDailyReporter = inngest.createFunction(
       const websiteAttachments = Object.entries(groupedProducts).map(
         ([groupName, products]) => {
           const groupProducts = Object.entries(products)
-          const groupSplit = groupSplits[groupName] || {
-            skillFee: 0,
-            creatorSplits: {},
-          }
+          const groupSplit = groupSplits[groupName]
 
           let groupText
           if (groupProducts.length === 1) {
-            // Only show individual product details when there's just one product
             const [key, stats] = groupProducts[0]
-            const productSplit = groupSplit.products?.[key] || {
-              skillFee: 0,
-              creatorSplits: {},
-            }
-            groupText = `• *${stats.productName} (ID: ${stats.productId})*
+            const productSplit = groupSplit?.products?.[key]
+            groupText = `• *${stats.productName}*
 ${stats.count} transactions
 Gross: *${formatCurrency(stats.amount)}*
 Refunded: *${formatCurrency(stats.refunded)}*
@@ -444,12 +436,15 @@ Fees: *${formatCurrency(stats.fee)}*
 Net: *${formatCurrency(stats.net)}*
 
 Split Totals:
-Skill Fee: *${formatCurrency(productSplit.skillFee)}*
+${
+  productSplit
+    ? `Skill Fee: *${formatCurrency(productSplit.skillFee)}*
 ${Object.entries(productSplit.creatorSplits)
   .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
   .join('\n')}`
+    : 'Splits not found for this product'
+}`
           } else {
-            // Show group totals, split totals, and individual products when there's more than one product
             const groupTotals = groupProducts.reduce(
               (totals, [_, stats]) => ({
                 gross: totals.gross + stats.amount,
@@ -466,19 +461,20 @@ Refunded: *${formatCurrency(groupTotals.refunded)}*
 Fees: *${formatCurrency(groupTotals.fees)}*
 Net: *${formatCurrency(groupTotals.net)}*
 
-*Split Totals:*
+${
+  groupSplit
+    ? `*Split Totals:*
 Skill Fee: *${formatCurrency(groupSplit.skillFee)}*
 ${Object.entries(groupSplit.creatorSplits)
   .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
-  .join('\n')}
+  .join('\n')}`
+    : '*Splits not found for this group*'
+}
 
 *Individual Products:*
 ${groupProducts
   .map(([key, stats]) => {
-    const productSplit = groupSplit.products?.[key] || {
-      skillFee: 0,
-      creatorSplits: {},
-    }
+    const productSplit = groupSplit?.products?.[key]
     return `• *${stats.productName} (ID: ${stats.productId})*
 ${stats.count} transactions
 Gross: *${formatCurrency(stats.amount)}*
@@ -487,10 +483,14 @@ Fees: *${formatCurrency(stats.fee)}*
 Net: *${formatCurrency(stats.net)}*
 
 Split Totals:
-Skill Fee: *${formatCurrency(productSplit.skillFee)}*
+${
+  productSplit
+    ? `Skill Fee: *${formatCurrency(productSplit.skillFee)}*
 ${Object.entries(productSplit.creatorSplits)
   .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
   .join('\n')}`
+    : 'Splits not found for this product'
+}`
   })
   .join('\n\n')}`
           }
