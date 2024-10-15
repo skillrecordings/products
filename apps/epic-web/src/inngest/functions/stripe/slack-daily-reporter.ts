@@ -187,8 +187,8 @@ export const slackDailyReporter = inngest.createFunction(
 
         // Calculate net and adjust gross for each product
         Object.values(productGroups).forEach((group) => {
-          group.amount -= group.refunded // Adjust gross amount
-          group.net = group.amount - group.fee // Recalculate net
+          group.amount -= group.refunded
+          group.net = group.amount - group.fee
         })
 
         const totalGross = Object.values(productGroups).reduce(
@@ -398,15 +398,44 @@ export const slackDailyReporter = inngest.createFunction(
         totals
       const {totalSplits, groupSplits} = calculatedSplits
 
-      const websiteAttachments = Object.entries(groupSplits).map(
-        ([groupName, groupSplit]) => {
-          const groupProducts = Object.entries(groupSplit.products)
+      function getWebsiteGroup(productName: string): string {
+        if (productName.includes('Epic React')) return 'Epic React'
+        if (productName.includes('Testing JavaScript'))
+          return 'Testing JavaScript'
+        if (productName === 'Unknown Product') return 'Other Products'
+        return 'Epic Web'
+      }
+
+      // Create a map to group products by website group
+      const groupedProducts = Object.entries(productGroups).reduce(
+        (acc, [key, product]) => {
+          const group = getWebsiteGroup(product.productName)
+          if (!acc[group]) acc[group] = {}
+          acc[group][key] = product
+          return acc
+        },
+        {} as Record<
+          string,
+          Record<string, (typeof productGroups)[keyof typeof productGroups]>
+        >,
+      )
+
+      const websiteAttachments = Object.entries(groupedProducts).map(
+        ([groupName, products]) => {
+          const groupProducts = Object.entries(products)
+          const groupSplit = groupSplits[groupName] || {
+            skillFee: 0,
+            creatorSplits: {},
+          }
 
           let groupText
           if (groupProducts.length === 1) {
             // Only show individual product details when there's just one product
-            const [key, productSplit] = groupProducts[0]
-            const stats = productGroups[key]
+            const [key, stats] = groupProducts[0]
+            const productSplit = groupSplit.products?.[key] || {
+              skillFee: 0,
+              creatorSplits: {},
+            }
             groupText = `• *${stats.productName} (ID: ${stats.productId})*
 ${stats.count} transactions
 Gross: *${formatCurrency(stats.amount)}*
@@ -420,48 +449,22 @@ ${Object.entries(productSplit.creatorSplits)
   .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
   .join('\n')}`
           } else {
-            // Show group totals and individual products when there's more than one product
+            // Show group totals, split totals, and individual products when there's more than one product
+            const groupTotals = groupProducts.reduce(
+              (totals, [_, stats]) => ({
+                gross: totals.gross + stats.amount,
+                refunded: totals.refunded + stats.refunded,
+                fees: totals.fees + stats.fee,
+                net: totals.net + stats.net,
+              }),
+              {gross: 0, refunded: 0, fees: 0, net: 0},
+            )
+
             groupText = `*Group Totals:*
-Gross: *${formatCurrency(
-              Object.values(productGroups).reduce(
-                (sum, stats) =>
-                  sum +
-                  (getWebsiteGroup(stats.productName) === groupName
-                    ? stats.amount
-                    : 0),
-                0,
-              ),
-            )}*
-Refunded: *${formatCurrency(
-              Object.values(productGroups).reduce(
-                (sum, stats) =>
-                  sum +
-                  (getWebsiteGroup(stats.productName) === groupName
-                    ? stats.refunded
-                    : 0),
-                0,
-              ),
-            )}*
-Fees: *${formatCurrency(
-              Object.values(productGroups).reduce(
-                (sum, stats) =>
-                  sum +
-                  (getWebsiteGroup(stats.productName) === groupName
-                    ? stats.fee
-                    : 0),
-                0,
-              ),
-            )}*
-Net: *${formatCurrency(
-              Object.values(productGroups).reduce(
-                (sum, stats) =>
-                  sum +
-                  (getWebsiteGroup(stats.productName) === groupName
-                    ? stats.net
-                    : 0),
-                0,
-              ),
-            )}*
+Gross: *${formatCurrency(groupTotals.gross)}*
+Refunded: *${formatCurrency(groupTotals.refunded)}*
+Fees: *${formatCurrency(groupTotals.fees)}*
+Net: *${formatCurrency(groupTotals.net)}*
 
 *Split Totals:*
 Skill Fee: *${formatCurrency(groupSplit.skillFee)}*
@@ -471,8 +474,11 @@ ${Object.entries(groupSplit.creatorSplits)
 
 *Individual Products:*
 ${groupProducts
-  .map(([key, productSplit]) => {
-    const stats = productGroups[key]
+  .map(([key, stats]) => {
+    const productSplit = groupSplit.products?.[key] || {
+      skillFee: 0,
+      creatorSplits: {},
+    }
     return `• *${stats.productName} (ID: ${stats.productId})*
 ${stats.count} transactions
 Gross: *${formatCurrency(stats.amount)}*
