@@ -122,7 +122,7 @@ const Header: React.FC<{tutorial: any}> = ({tutorial}) => {
         <div className="w-full text-center md:text-left">
           <Link
             href="/tutorials"
-            className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-rose-500 dark:text-rose-400"
+            className="inline-block pb-4 text-xs font-bold uppercase tracking-wide text-emerald-500 dark:text-emerald-300"
           >
             Free Tutorial
           </Link>
