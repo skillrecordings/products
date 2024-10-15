@@ -40,7 +40,6 @@ type SplitTotals = ProductSplit & {
 
 type GroupSplits = Record<string, SplitTotals>
 
-// Helper function
 function getWebsiteGroup(
   productName: string,
 ): 'Epic React' | 'Testing JavaScript' | 'Epic Web' {
@@ -49,7 +48,6 @@ function getWebsiteGroup(
   return 'Epic Web'
 }
 
-// Main function
 export function calculateSplits(
   totals: Totals,
   splits: Splits,

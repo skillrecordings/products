@@ -54,7 +54,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-charges${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchCharges({
-              range: 'last-month',
+              range: 'yesterday',
               starting_after: startingAfter,
             })
           },
@@ -74,7 +74,7 @@ export const slackDailyReporter = inngest.createFunction(
           `fetch-refunds${startingAfter ? `-${startingAfter}` : ''}`,
           async () => {
             return fetchRefunds({
-              range: 'last-month',
+              range: 'yesterday',
               starting_after: startingAfter,
             })
           },
@@ -180,12 +180,7 @@ export const slackDailyReporter = inngest.createFunction(
             const productSplit = groupSplit?.products?.[key]
             groupText = `• *${stats.productName}*
 ${stats.count} transactions
-Gross: *${formatCurrency(stats.amount)}*
-Refunded: *${formatCurrency(stats.refunded)}*
-Fees: *${formatCurrency(stats.fee)}*
-Net: *${formatCurrency(stats.net)}*
 
-Split Totals:
 ${
   productSplit
     ? `Skill Fee: *${formatCurrency(productSplit.skillFee)}*
@@ -205,15 +200,10 @@ ${Object.entries(productSplit.creatorSplits)
               {gross: 0, refunded: 0, fees: 0, net: 0},
             )
 
-            groupText = `*Group Totals:*
-Gross: *${formatCurrency(groupTotals.gross)}*
-Refunded: *${formatCurrency(groupTotals.refunded)}*
-Fees: *${formatCurrency(groupTotals.fees)}*
-Net: *${formatCurrency(groupTotals.net)}*
-
+            groupText = `
 ${
   groupSplit
-    ? `*Split Totals:*
+    ? `
 Skill Fee: *${formatCurrency(groupSplit.skillFee)}*
 ${Object.entries(groupSplit.creatorSplits)
   .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
@@ -227,12 +217,7 @@ ${groupProducts
     const productSplit = groupSplit?.products?.[key]
     return `• *${stats.productName}*
 ${stats.count} transactions
-Gross: *${formatCurrency(stats.amount)}*
-Refunded: *${formatCurrency(stats.refunded)}*
-Fees: *${formatCurrency(stats.fee)}*
-Net: *${formatCurrency(stats.net)}*
 
-Split Totals:
 ${
   productSplit
     ? `Skill Fee: *${formatCurrency(productSplit.skillFee)}*
@@ -261,15 +246,6 @@ ${Object.entries(productSplit.creatorSplits)
           Date.now() - 86400000,
         ).toLocaleDateString()}`,
         text: `*${allCharges.length}* transactions
-Total Gross: *${formatCurrency(totalGross)}*
-Total Refunded: *${formatCurrency(totalRefunded)}*
-Total Fees: *${formatCurrency(totalFee)}*
-Total Net: *${formatCurrency(totalNet)}*
-
-Refund Summary:
-Total Refunds: *${refundTotals.refundCount}*
-Total Refund Amount: *${formatCurrency(refundTotals.totalRefundAmount)}*
-
 Revenue Splits Summary:
 ${Object.entries(totalSplits)
   .filter(([name]) => name !== 'Subtotal')
