@@ -444,10 +444,9 @@ Net: *${formatCurrency(
               0,
             ),
           )}*
-Skill Fee: *${formatCurrency(groupSplit.skillFee)}*
-Subtotal: *${formatCurrency(groupSplit.subtotal)}*
 
 *Split Totals:*
+Skill Fee: *${formatCurrency(groupSplit.skillFee)}*
 ${Object.entries(groupSplit.creatorSplits)
   .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
   .join('\n')}
@@ -461,12 +460,13 @@ ${stats.count} transactions
 Gross: *${formatCurrency(stats.amount)}*
 Refunded: *${formatCurrency(stats.refunded)}*
 Fees: *${formatCurrency(stats.fee)}*
+Net: *${formatCurrency(stats.net)}*
+
+*Split Totals:*
 Skill Fee: *${formatCurrency(productSplit.skillFee)}*
-Subtotal: *${formatCurrency(productSplit.subtotal)}*
 ${Object.entries(productSplit.creatorSplits)
   .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
-  .join('\n')}
-Skill Fee: *${formatCurrency(productSplit.skillFee)}*`
+  .join('\n')}`
   })
   .join('\n\n')}`,
         }),
@@ -490,12 +490,11 @@ Total Refund Amount: *${formatCurrency(refundTotals.totalRefundAmount)}*
 
 Revenue Splits Summary:
 ${Object.entries(totalSplits)
+  .filter(([name]) => name !== 'Subtotal')
   .sort(([, a], [, b]) => b - a)
   .map(([name, amount]) => {
     const percentage = (amount / totalNet) * 100
-    return `${name}: *${formatCurrency(amount)}* (${percentage.toFixed(
-      1,
-    )}% of Net)`
+    return `${name}: *${formatCurrency(amount)}*`
   })
   .join('\n')}`,
       }
