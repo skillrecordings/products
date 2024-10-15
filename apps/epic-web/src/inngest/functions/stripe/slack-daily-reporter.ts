@@ -399,51 +399,69 @@ export const slackDailyReporter = inngest.createFunction(
       const {totalSplits, groupSplits} = calculatedSplits
 
       const websiteAttachments = Object.entries(groupSplits).map(
-        ([groupName, groupSplit]) => ({
-          mrkdwn_in: ['text'],
-          color: '#4893c9',
-          title: `${groupName}\n${'-'.repeat(groupName.length + 5)}`,
-          text: `*Group Totals:*
+        ([groupName, groupSplit]) => {
+          const groupProducts = Object.entries(groupSplit.products)
+
+          let groupText
+          if (groupProducts.length === 1) {
+            // Only show individual product details when there's just one product
+            const [key, productSplit] = groupProducts[0]
+            const stats = productGroups[key]
+            groupText = `• *${stats.productName} (ID: ${stats.productId})*
+${stats.count} transactions
+Gross: *${formatCurrency(stats.amount)}*
+Refunded: *${formatCurrency(stats.refunded)}*
+Fees: *${formatCurrency(stats.fee)}*
+Net: *${formatCurrency(stats.net)}*
+
+Split Totals:
+Skill Fee: *${formatCurrency(productSplit.skillFee)}*
+${Object.entries(productSplit.creatorSplits)
+  .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
+  .join('\n')}`
+          } else {
+            // Show group totals and individual products when there's more than one product
+            groupText = `*Group Totals:*
 Gross: *${formatCurrency(
-            Object.values(productGroups).reduce(
-              (sum, stats) =>
-                sum +
-                (getWebsiteGroup(stats.productName) === groupName
-                  ? stats.amount
-                  : 0),
-              0,
-            ),
-          )}*
+              Object.values(productGroups).reduce(
+                (sum, stats) =>
+                  sum +
+                  (getWebsiteGroup(stats.productName) === groupName
+                    ? stats.amount
+                    : 0),
+                0,
+              ),
+            )}*
 Refunded: *${formatCurrency(
-            Object.values(productGroups).reduce(
-              (sum, stats) =>
-                sum +
-                (getWebsiteGroup(stats.productName) === groupName
-                  ? stats.refunded
-                  : 0),
-              0,
-            ),
-          )}*
+              Object.values(productGroups).reduce(
+                (sum, stats) =>
+                  sum +
+                  (getWebsiteGroup(stats.productName) === groupName
+                    ? stats.refunded
+                    : 0),
+                0,
+              ),
+            )}*
 Fees: *${formatCurrency(
-            Object.values(productGroups).reduce(
-              (sum, stats) =>
-                sum +
-                (getWebsiteGroup(stats.productName) === groupName
-                  ? stats.fee
-                  : 0),
-              0,
-            ),
-          )}*
+              Object.values(productGroups).reduce(
+                (sum, stats) =>
+                  sum +
+                  (getWebsiteGroup(stats.productName) === groupName
+                    ? stats.fee
+                    : 0),
+                0,
+              ),
+            )}*
 Net: *${formatCurrency(
-            Object.values(productGroups).reduce(
-              (sum, stats) =>
-                sum +
-                (getWebsiteGroup(stats.productName) === groupName
-                  ? stats.net
-                  : 0),
-              0,
-            ),
-          )}*
+              Object.values(productGroups).reduce(
+                (sum, stats) =>
+                  sum +
+                  (getWebsiteGroup(stats.productName) === groupName
+                    ? stats.net
+                    : 0),
+                0,
+              ),
+            )}*
 
 *Split Totals:*
 Skill Fee: *${formatCurrency(groupSplit.skillFee)}*
@@ -452,7 +470,7 @@ ${Object.entries(groupSplit.creatorSplits)
   .join('\n')}
 
 *Individual Products:*
-${Object.entries(groupSplit.products)
+${groupProducts
   .map(([key, productSplit]) => {
     const stats = productGroups[key]
     return `• *${stats.productName} (ID: ${stats.productId})*
@@ -462,14 +480,22 @@ Refunded: *${formatCurrency(stats.refunded)}*
 Fees: *${formatCurrency(stats.fee)}*
 Net: *${formatCurrency(stats.net)}*
 
-*Split Totals:*
+Split Totals:
 Skill Fee: *${formatCurrency(productSplit.skillFee)}*
 ${Object.entries(productSplit.creatorSplits)
   .map(([name, amount]) => `${name}: *${formatCurrency(amount)}*`)
   .join('\n')}`
   })
-  .join('\n\n')}`,
-        }),
+  .join('\n\n')}`
+          }
+
+          return {
+            mrkdwn_in: ['text'],
+            color: '#4893c9',
+            title: `${groupName}\n${'-'.repeat(groupName.length + 5)}`,
+            text: groupText,
+          }
+        },
       )
 
       const summaryAttachment = {
