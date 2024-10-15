@@ -20,6 +20,7 @@ const Index: NextPage = () => {
           titleAppendSiteName: false,
           title: 'Ship Modern Full-Stack Web Applications',
         }}
+        className="bg-gradient-to-b from-white to-background dark:from-background dark:to-background"
       >
         <Head>
           <link
