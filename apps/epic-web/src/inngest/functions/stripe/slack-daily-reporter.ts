@@ -305,15 +305,17 @@ export const slackDailyReporter = inngest.createFunction(
         if (splits[stats.productId]) {
           let skillFee = 0
           let subtotal = 0
+          const productSplits = splits[stats.productId]
 
-          const skillSplit = Object.values(splits[stats.productId]).find(
+          // Calculate skill fee
+          const skillSplit = Object.values(productSplits).find(
             (split) => split.type === 'skill' && !split.userId,
           )
           if (skillSplit) {
             skillFee = Math.round(productGrossTotal * skillSplit.percent)
           }
 
-          // Calculate subtotal using the corrected formula
+          // Calculate subtotal
           subtotal = productGrossTotal - skillFee - stats.fee
 
           groupSplit.skillFee += skillFee
@@ -331,26 +333,58 @@ export const slackDailyReporter = inngest.createFunction(
             creatorSplits: {},
           }
 
-          Object.values(splits[stats.productId]).forEach(
-            (splitData: SplitData) => {
+          // Check if there's a contributor
+          const hasContributor = Object.values(productSplits).some(
+            (split) => split.type === 'contributor',
+          )
+
+          if (hasContributor) {
+            // Calculate the total percentage for non-skill splits
+            const totalNonSkillPercent = Object.values(productSplits)
+              .filter((split) => split.type !== 'skill')
+              .reduce((sum, split) => sum + split.percent, 0)
+
+            // Distribute the subtotal based on adjusted percentages
+            Object.values(productSplits).forEach((splitData: SplitData) => {
               if (splitData.userId) {
                 const userName =
                   users[splitData.userId] ||
                   `Unknown User (ID: ${splitData.userId})`
-                const creatorSplit = Math.round(subtotal * splitData.percent)
+                // Adjust the percentage relative to the non-skill total
+                const adjustedPercent = splitData.percent / totalNonSkillPercent
+                const splitAmount = Math.round(subtotal * adjustedPercent)
 
-                productSplit.creatorSplits[userName] = creatorSplit
+                productSplit.creatorSplits[userName] = splitAmount
 
                 if (!groupSplit.creatorSplits[userName]) {
                   groupSplit.creatorSplits[userName] = 0
                 }
-                groupSplit.creatorSplits[userName] += creatorSplit
+                groupSplit.creatorSplits[userName] += splitAmount
 
                 if (!totalSplits[userName]) totalSplits[userName] = 0
-                totalSplits[userName] += creatorSplit
+                totalSplits[userName] += splitAmount
               }
-            },
-          )
+            })
+          } else {
+            // If no contributor, give 100% of subtotal to the owner
+            const ownerSplit = Object.values(productSplits).find(
+              (split) => split.type === 'owner',
+            )
+            if (ownerSplit && ownerSplit.userId) {
+              const userName =
+                users[ownerSplit.userId] ||
+                `Unknown User (ID: ${ownerSplit.userId})`
+              productSplit.creatorSplits[userName] = subtotal
+
+              if (!groupSplit.creatorSplits[userName]) {
+                groupSplit.creatorSplits[userName] = 0
+              }
+              groupSplit.creatorSplits[userName] += subtotal
+
+              if (!totalSplits[userName]) totalSplits[userName] = 0
+              totalSplits[userName] += subtotal
+            }
+          }
 
           groupSplit.products[key] = productSplit
         }
